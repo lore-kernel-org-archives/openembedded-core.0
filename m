@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C549CCD1AA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C506CCD1A4
 	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 20:40:14 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web11.3152.1760733609053131522
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.3153.1760733611037057431
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Oct 2025 13:40:09 -0700
+ Fri, 17 Oct 2025 13:40:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=E8fDRYIq;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-77f5d497692so3082778b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 13:40:09 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yxq7Q+Gf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so2294759b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 13:40:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760733608; x=1761338408; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760733610; x=1761338410; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=r2IjBpU+VClWguoJitDRTCK9CcCWwZEXgcZsmc8BvWg=;
-        b=E8fDRYIqyG4WO+n0BCJ1oeq5OcmGDXJgM7lq6W6vc7it9F2FJoyEYbaydcSUxXYJ/w
-         h2vbTJo8H9gwuBR3lSjzy91WlNiFJ30uHxpa34OPcXhfCb4lPxsNCOXcVI15f0XBpj28
-         tqKJcnEojsK8AA+mNi+Kh2MBr259MRyywUP6We3P7m6iQAfrrNGJeqMmI1VIZvg+8wGY
-         3bU9tiAg4s4EAm7eVwTwWTDoduRPVfQuyM4A/k9t/+S5sb60haH+pjc/OwNaVWXejOh4
-         ZkA5A7Zbp0BO4ycHoPEGrjphKQTyRiTKE0wqMw5aiifYo/tSBY19aJI5cNVaBsWupHx0
-         E62g==
+        bh=vL0KRka7xId/ZynaqQAT7PQv6mQwDjZ7A+7+GF4/Au4=;
+        b=yxq7Q+GfOM6sipKI8unf0WNGcXpjfobRaT3y+QmkzpC2fXpU2IOVNiqSyp27oabLj3
+         aWJW1rGYjB6n2bw8/HD+XfZ93V13pfgDKAPVzv1n74vHwTJerPkqIG+cNRvEf+68rbTW
+         BXh59fNbVP0wDvy0Tj14K0yuwkivwp747XNXAZbZhxQlMf/eyGptbQ6TtOxOUMD/Zjdj
+         QBMzR6INOsZkeOzHVHqiQrynNn1J3dlRzr3VaPGb5bWMndZ2Q+cdPtRX2AzHNh0GBgal
+         9hF7EE7et1GYtwxg/ITFTDGxQfA0UPdYz1b3TEUIqk2mZZXM8iYT6A+59JIR5Ve4HNmU
+         EsoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760733608; x=1761338408;
+        d=1e100.net; s=20230601; t=1760733610; x=1761338410;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=r2IjBpU+VClWguoJitDRTCK9CcCWwZEXgcZsmc8BvWg=;
-        b=QJs6+9HQ5YjoxeHzflOdPRClEj5GLW8Cl9J74+W/5rZJ7nXpu7Gy8Af2jfiuyE9fZm
-         zLOHwlUHqq24M2oDYDf2NAduB8QTdShWA3pexf5nqXS4JxddsK75a13Lfv8ftnXL0TMI
-         jSi6KehQlIN9eslUNDpsBlI1swZ9ELTBBv+9InduqTtMczCcXdtHBO/PhemBPAwCTkpf
-         fhjYJSv/BSp57spLd5D1vV2Driv6C3bzCIwlZHKw/Ms4qNXwm9T4QR/9uf9c/aKUhjDF
-         wUptpIgxNV0gCRaoEXxrQNCPPyW5m2BDkI6PwmzF9S+to5sRg+Zz+0UTdFmuUY+WlXvQ
-         MVWw==
-X-Gm-Message-State: AOJu0YziaasTBMXkLBl8rbuSDYOrv364lVdV7nOTqEMlpbXbqSpsDJPe
-	W+4OgTypYJLXsZ4crExhbc4SAGD0UBFvhq0FZP25tGLLlFKDg6LsXRdRNe8c9j85hZaIo98IAnv
-	Q+B8/uUc=
-X-Gm-Gg: ASbGncvAi/ysvI5hlEVAjIUAfRaanTLfx237n0f4sgI3QpCdLjbdvw+PUbnmxRYnT4w
-	W0zOrR3qRjeo1upefvFUdaaNyrtye2xdWs3R0A7+rO3KJ1q7vcGOf0CINPklSe94NjVpiTpJ0ue
-	fU1hdiLX1bpAlopJHn3OjkgwRgSUYvm+V0tpy4/X0Asv42BOvWrcIbcBhHcTFuhGUod6fgxruKZ
-	TCBk5cQWrCuADcvSmQhSucv7lXv/jkaqTj7DYVhhJde3lIgBMaGsIIDhAIQDJAEeK2qA4DdMbi2
-	CyDcDSWkONv80xnhtV09M5o4ZUTYL0wQxUmPl5KaPIFDu5rGX/1wdFr5qCf4qa3FvRQ1RlLZgxu
-	YJjE8mNosP6xOkgV3yunqXFVqS4BIiRxdgM5xT9BHml7BGu7usQAaJWH8b7OGL8PXDA==
-X-Google-Smtp-Source: AGHT+IG6neDjHCC8rcjX7shHtUGJN+9kEoF74Ln5Nk6eldQa5iVVhBBDV63Yc8a3G3y6oDs69eXw2g==
-X-Received: by 2002:a05:6a00:21c4:b0:781:2290:e7e7 with SMTP id d2e1a72fcca58-7a220adb22bmr7231922b3a.18.1760733608230;
-        Fri, 17 Oct 2025 13:40:08 -0700 (PDT)
+        bh=vL0KRka7xId/ZynaqQAT7PQv6mQwDjZ7A+7+GF4/Au4=;
+        b=VkTESMru5wgLtu0TuJzMED6rscGvhZN11dtV3C4eTZU50tUhGXcJi2vM6mgosUfWFL
+         bhUPtdMehF1pZHIn1rn5/Dw5Gj0dnEseJFw3Le7P4Umw8NgUiHrGloPRAJV2gNiTtaBx
+         E8aqLbSDkKa8+lLYVVDA7ls52Jinc+T3JMwl4aMsKLKfklJHrtwaLrn19SGps4H2RqSr
+         wrMMfK1LJAhR78TuVkk02ZQPYihdHf68MF88++RUFfJ1WRJOr12u0jYLscEU3WPCyWjE
+         ZgodtE2uPGs9+ogi+APMLS2myB3G67QpIyz/vwdt1xosNrvsi51CuLMzWpMwVDdS2oeV
+         ib8A==
+X-Gm-Message-State: AOJu0Ywk5NG7d3VnxlNKKdH+/s4dLiClwooqB4R13jq+f/Wzq28MC9wB
+	5rXVki2AJflK6cue5eEpkvR/lP+HtwPOu/j3no7+ABvhu7R8vvpvZ2i8wXsvaDQVCD2koeGj1P9
+	yv9gH9YY=
+X-Gm-Gg: ASbGnctxKrkJ3fe3wNHqNyq6TH7RRj2A2PPkQYE65g2lt81FQYASVunm82w6l5/k738
+	PA37hprU6/lqTp5Bl2wh7P8EiiusN4Cf6xsjxVMGgYyezDfVAvjDKcTwPJ1RLwJjtgdh8l3HF3O
+	IOoNBmFup1egDNB0/P1lpcO8magh7EGmXK89UL0kmVcFQiqcnEsLKusfvXEG5YQQqt2e2yBE3jq
+	OtkuwWLw3KbW+qXKxV+k7+UQCQZ8KZ+kQW3nIoVyITQE6qLOR9Ba6YApQpmcoCG7NaYP6+Oax2k
+	DOmDmnSkLa3g/K0U8iX3wh3va/sVP7g+YqvRXkx+yMIICkRxje65kl6DY78Ze6jXieQCrAKE3KI
+	K3D7cIrWP633uyVGr0wvnBqC71G3ph2o3KDf6EP9Rzf6UVjHlj/i7SJ3qpRqljG1QgHGNrSoH9q
+	oq
+X-Google-Smtp-Source: AGHT+IEbS3faaVm0OsswlrUz9NxdICsp3s9qWIULzwGI5E4tr7PoEHBW5W1MzNBojYLirktqkpGmzA==
+X-Received: by 2002:a05:6a00:b8f:b0:77e:4534:7f1c with SMTP id d2e1a72fcca58-7a21f76888amr6424302b3a.0.1760733610164;
+        Fri, 17 Oct 2025 13:40:10 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:aaee:e640:34cd:6f2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a2300f254esm477061b3a.45.2025.10.17.13.40.07
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a2300f254esm477061b3a.45.2025.10.17.13.40.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 13:40:07 -0700 (PDT)
+        Fri, 17 Oct 2025 13:40:09 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 23/26] linux-yocto/6.6: update to v6.6.111
-Date: Fri, 17 Oct 2025 13:39:06 -0700
-Message-ID: <2a947cb13d0d46747f14aa6a1aa39a486459ee8a.1760733431.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 24/26] python3: upgrade 3.12.11 -> 3.12.12
+Date: Fri, 17 Oct 2025 13:39:07 -0700
+Message-ID: <f1234b8451ba843b5f9ec1d2066c21f54d6bc3b8.1760733431.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1760733431.git.steve@sakoman.com>
 References: <cover.1760733431.git.steve@sakoman.com>
@@ -68,148 +69,290 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 20:40:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225057
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225058
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Updating linux-yocto/6.6 to the latest korg -stable release that comprises
-the following commits:
+Drop upstreamed patch and refresh remaining patches.
 
-    655054d2c3c1 Linux 6.6.111
-    3d3abf3f7e8b KVM: x86: Don't (re)check L1 intercepts when completing userspace I/O
-    284e67a93b8c net/9p: fix double req put in p9_fd_cancelled
-    ab172f4f4262 crypto: rng - Ensure set_ent is always present
-    f5f235be7612 riscv: mm: Do not restrict mmap address based on hint
-    1602c9b4578a riscv: mm: Use hint address in mmap if available
-    e242e52fdfe4 driver core/PM: Set power.no_callbacks along with power.no_pm
-    e857421992ce staging: axis-fifo: flush RX FIFO on read errors
-    a3c71d6c8332 staging: axis-fifo: fix TX handling on copy_from_user() failure
-    6d953e9d3981 staging: axis-fifo: fix maximum TX packet length check
-    bfeea103cad9 serial: stm32: allow selecting console when the driver is module
-    cb7630e714d6 hid: fix I2C read buffer overflow in raw_event() for mcp2221
-    dc4874366cf6 ALSA: usb-audio: fix race condition to UAF in snd_usbmidi_free
-    647410a7da46 ALSA: usb-audio: Kill timer properly at removal
-    97e87f367c91 platform/x86/amd/pmc: Add Stellaris Slim Gen6 AMD to spurious 8042 quirks list
-    bf28f5db40d5 can: rcar_canfd: Fix controller mode setting
-    e93af787187e can: hi311x: fix null pointer dereference when resuming from sleep before interface was enabled
-    03510f5fce33 btrfs: ref-verify: handle damaged extent root tree
-    bcccd0220751 ASoC: rt5682s: Adjust SAR ADC button mode to fix noise issue
-    081f14b9a3eb perf subcmd: avoid crash in exclude_cmds when excludes is empty
-    6d59f7467f83 platform/x86/amd/pmc: Add MECHREVO Yilong15Pro to spurious_8042 list
-    4b91d0c5781a dm-integrity: limit MAX_TAG_SIZE to 255
-    7f7187118bb5 ASoC: amd: acp: Adjust pdm gain value
-    8281c2a63bbc wifi: rtlwifi: rtl8192cu: Don't claim USB ID 07b8:8188
-    96dc17ae64b1 USB: serial: option: add SIMCom 8230C compositions
-    228d06c4cbfc media: i2c: tc358743: Fix use-after-free bugs caused by orphan timer in probe
-    71ed8b81a490 media: tuner: xc5000: Fix use-after-free in xc5000_release
-    f82dc869220d media: tunner: xc5000: Refactor firmware load
-    250b6e009ff9 KVM: arm64: Fix softirq masking in FPSIMD register saving sequence
+Release information:
+* https://www.python.org/downloads/release/python-31212/
+* The release you're looking at is Python 3.12.12, a security bugfix
+  release for the legacy 3.12 series.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Handles CVE-2025-59375.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
- .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ ...e-treat-overflow-in-UID-GID-as-failu.patch |   2 +-
+ .../python/python3/CVE-2025-8194.patch        | 219 ------------------
+ ...{python3_3.12.11.bb => python3_3.12.12.bb} |   3 +-
+ 3 files changed, 2 insertions(+), 222 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/CVE-2025-8194.patch
+ rename meta/recipes-devtools/python/{python3_3.12.11.bb => python3_3.12.12.bb} (99%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-index 7652e03569..1179c03a00 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-@@ -14,13 +14,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
+index 1cffdd6e05..98b3aa42d2 100644
+--- a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
++++ b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
+@@ -16,7 +16,7 @@ diff --git a/Lib/tarfile.py b/Lib/tarfile.py
+ index 0a0f31e..4dfb67d 100755
+ --- a/Lib/tarfile.py
+ +++ b/Lib/tarfile.py
+-@@ -2685,7 +2685,8 @@ class TarFile(object):
++@@ -2688,7 +2688,8 @@ class TarFile(object):
+                      os.lchown(targetpath, u, g)
+                  else:
+                      os.chown(targetpath, u, g)
+diff --git a/meta/recipes-devtools/python/python3/CVE-2025-8194.patch b/meta/recipes-devtools/python/python3/CVE-2025-8194.patch
+deleted file mode 100644
+index b8243a67f6..0000000000
+--- a/meta/recipes-devtools/python/python3/CVE-2025-8194.patch
++++ /dev/null
+@@ -1,219 +0,0 @@
+-From c9d9f78feb1467e73fd29356c040bde1c104f29f Mon Sep 17 00:00:00 2001
+-From: "Miss Islington (bot)"
+- <31488909+miss-islington@users.noreply.github.com>
+-Date: Mon, 4 Aug 2025 13:45:06 +0200
+-Subject: [PATCH] [3.12] gh-130577: tarfile now validates archives to ensure
+- member offsets are non-negative (GH-137027) (#137171)
+-
+-(cherry picked from commit 7040aa54f14676938970e10c5f74ea93cd56aa38)
+-
+-Co-authored-by: Alexander Urieles <aeurielesn@users.noreply.github.com>
+-Co-authored-by: Gregory P. Smith <greg@krypto.org>
+-
+-CVE: CVE-2025-8194
+-Upstream-Status: Backport [https://github.com/python/cpython/commit/c9d9f78feb1467e73fd29356c040bde1c104f29f]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- Lib/tarfile.py                                |   3 +
+- Lib/test/test_tarfile.py                      | 156 ++++++++++++++++++
+- ...-07-23-00-35-29.gh-issue-130577.c7EITy.rst |   3 +
+- 3 files changed, 162 insertions(+)
+- create mode 100644 Misc/NEWS.d/next/Library/2025-07-23-00-35-29.gh-issue-130577.c7EITy.rst
+-
+-diff --git a/Lib/tarfile.py b/Lib/tarfile.py
+-index 9999a99d54..59d3f6e5cc 100755
+---- a/Lib/tarfile.py
+-+++ b/Lib/tarfile.py
+-@@ -1615,6 +1615,9 @@ class TarInfo(object):
+-         """Round up a byte count by BLOCKSIZE and return it,
+-            e.g. _block(834) => 1024.
+-         """
+-+        # Only non-negative offsets are allowed
+-+        if count < 0:
+-+            raise InvalidHeaderError("invalid offset")
+-         blocks, remainder = divmod(count, BLOCKSIZE)
+-         if remainder:
+-             blocks += 1
+-diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
+-index a184ba75a8..759fa03ead 100644
+---- a/Lib/test/test_tarfile.py
+-+++ b/Lib/test/test_tarfile.py
+-@@ -50,6 +50,7 @@ bz2name = os.path.join(TEMPDIR, "testtar.tar.bz2")
+- xzname = os.path.join(TEMPDIR, "testtar.tar.xz")
+- tmpname = os.path.join(TEMPDIR, "tmp.tar")
+- dotlessname = os.path.join(TEMPDIR, "testtar")
+-+SPACE = b" "
+- 
+- sha256_regtype = (
+-     "e09e4bc8b3c9d9177e77256353b36c159f5f040531bbd4b024a8f9b9196c71ce"
+-@@ -4488,6 +4489,161 @@ class OverwriteTests(archiver_tests.OverwriteTests, unittest.TestCase):
+-         ar.extractall(self.testdir, filter='fully_trusted')
+- 
+- 
+-+class OffsetValidationTests(unittest.TestCase):
+-+    tarname = tmpname
+-+    invalid_posix_header = (
+-+        # name: 100 bytes
+-+        tarfile.NUL * tarfile.LENGTH_NAME
+-+        # mode, space, null terminator: 8 bytes
+-+        + b"000755" + SPACE + tarfile.NUL
+-+        # uid, space, null terminator: 8 bytes
+-+        + b"000001" + SPACE + tarfile.NUL
+-+        # gid, space, null terminator: 8 bytes
+-+        + b"000001" + SPACE + tarfile.NUL
+-+        # size, space: 12 bytes
+-+        + b"\xff" * 11 + SPACE
+-+        # mtime, space: 12 bytes
+-+        + tarfile.NUL * 11 + SPACE
+-+        # chksum: 8 bytes
+-+        + b"0011407" + tarfile.NUL
+-+        # type: 1 byte
+-+        + tarfile.REGTYPE
+-+        # linkname: 100 bytes
+-+        + tarfile.NUL * tarfile.LENGTH_LINK
+-+        # magic: 6 bytes, version: 2 bytes
+-+        + tarfile.POSIX_MAGIC
+-+        # uname: 32 bytes
+-+        + tarfile.NUL * 32
+-+        # gname: 32 bytes
+-+        + tarfile.NUL * 32
+-+        # devmajor, space, null terminator: 8 bytes
+-+        + tarfile.NUL * 6 + SPACE + tarfile.NUL
+-+        # devminor, space, null terminator: 8 bytes
+-+        + tarfile.NUL * 6 + SPACE + tarfile.NUL
+-+        # prefix: 155 bytes
+-+        + tarfile.NUL * tarfile.LENGTH_PREFIX
+-+        # padding: 12 bytes
+-+        + tarfile.NUL * 12
+-+    )
+-+    invalid_gnu_header = (
+-+        # name: 100 bytes
+-+        tarfile.NUL * tarfile.LENGTH_NAME
+-+        # mode, null terminator: 8 bytes
+-+        + b"0000755" + tarfile.NUL
+-+        # uid, null terminator: 8 bytes
+-+        + b"0000001" + tarfile.NUL
+-+        # gid, space, null terminator: 8 bytes
+-+        + b"0000001" + tarfile.NUL
+-+        # size, space: 12 bytes
+-+        + b"\xff" * 11 + SPACE
+-+        # mtime, space: 12 bytes
+-+        + tarfile.NUL * 11 + SPACE
+-+        # chksum: 8 bytes
+-+        + b"0011327" + tarfile.NUL
+-+        # type: 1 byte
+-+        + tarfile.REGTYPE
+-+        # linkname: 100 bytes
+-+        + tarfile.NUL * tarfile.LENGTH_LINK
+-+        # magic: 8 bytes
+-+        + tarfile.GNU_MAGIC
+-+        # uname: 32 bytes
+-+        + tarfile.NUL * 32
+-+        # gname: 32 bytes
+-+        + tarfile.NUL * 32
+-+        # devmajor, null terminator: 8 bytes
+-+        + tarfile.NUL * 8
+-+        # devminor, null terminator: 8 bytes
+-+        + tarfile.NUL * 8
+-+        # padding: 167 bytes
+-+        + tarfile.NUL * 167
+-+    )
+-+    invalid_v7_header = (
+-+        # name: 100 bytes
+-+        tarfile.NUL * tarfile.LENGTH_NAME
+-+        # mode, space, null terminator: 8 bytes
+-+        + b"000755" + SPACE + tarfile.NUL
+-+        # uid, space, null terminator: 8 bytes
+-+        + b"000001" + SPACE + tarfile.NUL
+-+        # gid, space, null terminator: 8 bytes
+-+        + b"000001" + SPACE + tarfile.NUL
+-+        # size, space: 12 bytes
+-+        + b"\xff" * 11 + SPACE
+-+        # mtime, space: 12 bytes
+-+        + tarfile.NUL * 11 + SPACE
+-+        # chksum: 8 bytes
+-+        + b"0010070" + tarfile.NUL
+-+        # type: 1 byte
+-+        + tarfile.REGTYPE
+-+        # linkname: 100 bytes
+-+        + tarfile.NUL * tarfile.LENGTH_LINK
+-+        # padding: 255 bytes
+-+        + tarfile.NUL * 255
+-+    )
+-+    valid_gnu_header = tarfile.TarInfo("filename").tobuf(tarfile.GNU_FORMAT)
+-+    data_block = b"\xff" * tarfile.BLOCKSIZE
+-+
+-+    def _write_buffer(self, buffer):
+-+        with open(self.tarname, "wb") as f:
+-+            f.write(buffer)
+-+
+-+    def _get_members(self, ignore_zeros=None):
+-+        with open(self.tarname, "rb") as f:
+-+            with tarfile.open(
+-+                mode="r", fileobj=f, ignore_zeros=ignore_zeros
+-+            ) as tar:
+-+                return tar.getmembers()
+-+
+-+    def _assert_raises_read_error_exception(self):
+-+        with self.assertRaisesRegex(
+-+            tarfile.ReadError, "file could not be opened successfully"
+-+        ):
+-+            self._get_members()
+-+
+-+    def test_invalid_offset_header_validations(self):
+-+        for tar_format, invalid_header in (
+-+            ("posix", self.invalid_posix_header),
+-+            ("gnu", self.invalid_gnu_header),
+-+            ("v7", self.invalid_v7_header),
+-+        ):
+-+            with self.subTest(format=tar_format):
+-+                self._write_buffer(invalid_header)
+-+                self._assert_raises_read_error_exception()
+-+
+-+    def test_early_stop_at_invalid_offset_header(self):
+-+        buffer = self.valid_gnu_header + self.invalid_gnu_header + self.valid_gnu_header
+-+        self._write_buffer(buffer)
+-+        members = self._get_members()
+-+        self.assertEqual(len(members), 1)
+-+        self.assertEqual(members[0].name, "filename")
+-+        self.assertEqual(members[0].offset, 0)
+-+
+-+    def test_ignore_invalid_archive(self):
+-+        # 3 invalid headers with their respective data
+-+        buffer = (self.invalid_gnu_header + self.data_block) * 3
+-+        self._write_buffer(buffer)
+-+        members = self._get_members(ignore_zeros=True)
+-+        self.assertEqual(len(members), 0)
+-+
+-+    def test_ignore_invalid_offset_headers(self):
+-+        for first_block, second_block, expected_offset in (
+-+            (
+-+                (self.valid_gnu_header),
+-+                (self.invalid_gnu_header + self.data_block),
+-+                0,
+-+            ),
+-+            (
+-+                (self.invalid_gnu_header + self.data_block),
+-+                (self.valid_gnu_header),
+-+                1024,
+-+            ),
+-+        ):
+-+            self._write_buffer(first_block + second_block)
+-+            members = self._get_members(ignore_zeros=True)
+-+            self.assertEqual(len(members), 1)
+-+            self.assertEqual(members[0].name, "filename")
+-+            self.assertEqual(members[0].offset, expected_offset)
+-+
+-+
+- def setUpModule():
+-     os_helper.unlink(TEMPDIR)
+-     os.makedirs(TEMPDIR)
+-diff --git a/Misc/NEWS.d/next/Library/2025-07-23-00-35-29.gh-issue-130577.c7EITy.rst b/Misc/NEWS.d/next/Library/2025-07-23-00-35-29.gh-issue-130577.c7EITy.rst
+-new file mode 100644
+-index 0000000000..342cabbc86
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Library/2025-07-23-00-35-29.gh-issue-130577.c7EITy.rst
+-@@ -0,0 +1,3 @@
+-+:mod:`tarfile` now validates archives to ensure member offsets are
+-+non-negative.  (Contributed by Alexander Enrique Urieles Nieto in
+-+:gh:`130577`.)
+diff --git a/meta/recipes-devtools/python/python3_3.12.11.bb b/meta/recipes-devtools/python/python3_3.12.12.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.12.11.bb
+rename to meta/recipes-devtools/python/python3_3.12.12.bb
+index 1c31077320..9a957c59bc 100644
+--- a/meta/recipes-devtools/python/python3_3.12.11.bb
++++ b/meta/recipes-devtools/python/python3_3.12.12.bb
+@@ -34,14 +34,13 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+ 	   file://0001-test_deadlock-skip-problematic-test.patch \
+ 	   file://0001-test_active_children-skip-problematic-test.patch \
+            file://0001-test_readline-skip-limited-history-test.patch \
+-           file://CVE-2025-8194.patch \
+            "
  
--SRCREV_machine ?= "07bc1b79b450a91fa9ed645a4c6c77332f6c7fd3"
--SRCREV_meta ?= "46ee47b6ee7ce2b3cef51844d7a7e82c6c2daf5d"
-+SRCREV_machine ?= "30009325411827c48a376212ef00a5637f67b914"
-+SRCREV_meta ?= "50530c858c90f124629dadce78f696b590747ea5"
+ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+            "
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
+-SRC_URI[sha256sum] = "c30bb24b7f1e9a19b11b55a546434f74e739bb4c271a3e3a80ff4380d49f7adb"
++SRC_URI[sha256sum] = "fb85a13414b028c49ba18bbd523c2d055a30b56b18b92ce454ea2c51edc656c4"
  
--LINUX_VERSION ?= "6.6.110"
-+LINUX_VERSION ?= "6.6.111"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-index 33eafc2f6d..eb906bad17 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.6.inc
- 
--LINUX_VERSION ?= "6.6.110"
-+LINUX_VERSION ?= "6.6.111"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "0381ada6e1fee2c488a718f82ed83f0435a950c2"
--SRCREV_meta ?= "46ee47b6ee7ce2b3cef51844d7a7e82c6c2daf5d"
-+SRCREV_machine ?= "529f5ce5c38c39bc1fe4022f499ee718bff0cb8b"
-+SRCREV_meta ?= "50530c858c90f124629dadce78f696b590747ea5"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-index c75094dc59..070342f5b7 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.6/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.6/standard/base"
- KBRANCH:qemumips64 ?= "v6.6/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "2a0fa5ba202ff49a42a8f1c5e36ed1a2d7dc9b91"
--SRCREV_machine:qemuarm64 ?= "0974351ebdd700bc59eb25d7144e96c34cc28751"
--SRCREV_machine:qemuloongarch64 ?= "272bf113897632849f52e9dfc1bb990daa566375"
--SRCREV_machine:qemumips ?= "4b003154faca105c81dcfaebfe4e753b378eddde"
--SRCREV_machine:qemuppc ?= "b1416ec0248422122027ab9cee287d7c86e5cf77"
--SRCREV_machine:qemuriscv64 ?= "272bf113897632849f52e9dfc1bb990daa566375"
--SRCREV_machine:qemuriscv32 ?= "272bf113897632849f52e9dfc1bb990daa566375"
--SRCREV_machine:qemux86 ?= "272bf113897632849f52e9dfc1bb990daa566375"
--SRCREV_machine:qemux86-64 ?= "272bf113897632849f52e9dfc1bb990daa566375"
--SRCREV_machine:qemumips64 ?= "4b0c928fbc6df11ad63d99b006a8448597ccdd7d"
--SRCREV_machine ?= "272bf113897632849f52e9dfc1bb990daa566375"
--SRCREV_meta ?= "46ee47b6ee7ce2b3cef51844d7a7e82c6c2daf5d"
-+SRCREV_machine:qemuarm ?= "f864fe79b2b8052e10bbe3ae443941ccefa5a951"
-+SRCREV_machine:qemuarm64 ?= "cdd229fbaaa25d5d9eb055477af8c2b82238763b"
-+SRCREV_machine:qemuloongarch64 ?= "2a17dc587afe4e133deef4d8c9ec98724aee785b"
-+SRCREV_machine:qemumips ?= "2f5bef5596eeb6ac65023cfeb1a6402efcdc965f"
-+SRCREV_machine:qemuppc ?= "be45c09ed7f4b5a09f95cd90484ef083c8552344"
-+SRCREV_machine:qemuriscv64 ?= "2a17dc587afe4e133deef4d8c9ec98724aee785b"
-+SRCREV_machine:qemuriscv32 ?= "2a17dc587afe4e133deef4d8c9ec98724aee785b"
-+SRCREV_machine:qemux86 ?= "2a17dc587afe4e133deef4d8c9ec98724aee785b"
-+SRCREV_machine:qemux86-64 ?= "2a17dc587afe4e133deef4d8c9ec98724aee785b"
-+SRCREV_machine:qemumips64 ?= "130d3c48ab3b914907b88ff240463b4e5718d526"
-+SRCREV_machine ?= "2a17dc587afe4e133deef4d8c9ec98724aee785b"
-+SRCREV_meta ?= "50530c858c90f124629dadce78f696b590747ea5"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "e617101e562654c7d59ed5cfcd30f610f1f64411"
-+SRCREV_machine:class-devupstream ?= "655054d2c3c184875f95646abd828b5dfc027d5e"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.6/base"
- 
-@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.6.110"
-+LINUX_VERSION ?= "6.6.111"
- 
- PV = "${LINUX_VERSION}+git"
- 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.43.0
 
