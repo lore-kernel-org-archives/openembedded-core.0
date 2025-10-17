@@ -1,144 +1,155 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C5E4CCD195
-	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 09:34:59 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.11609.1760693679698086354
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B6CCCD195
+	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 10:41:49 +0000 (UTC)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web11.12356.1760697706882277902
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Oct 2025 02:34:39 -0700
+ Fri, 17 Oct 2025 03:41:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 36E781595
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 02:34:31 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B80973F66E
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 02:34:38 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SPTL47zY;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: zboszor@gmail.com)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6399328ff1fso3099731a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 03:41:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760697705; x=1761302505; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rlnZg/nx7IFF53NNI35WuWp4qj9SUmwgLhGxJ4fkOuc=;
+        b=SPTL47zYAXhEHuEYI3wnaSmxgjpHHULuBNYc8JP0mZxuwyH7vqlm0bSIrhnXOaij36
+         O+h26QirCOnLBLqtdY7pxvDmVxA8+4GERF1U3Z6UAzOqYTJFBM0fqPCm5qnMKK0IR3Ej
+         ITg8ESkLVp6XOBcqb7GjXN5vLfVvIYD3fYLg1RUMJRqf2D+WBteJn5RP4beQk3Vsd5MF
+         UQH5hHQHUXDdT22CDppW/i67pCCLkBgwW/+sik58Qa8QIkRR790lNir0teaNZL1rpcoB
+         CC9i5MCOW4ebHUAinIMc25IPZELv30aM+ucwS7/4bJ1gxodc+44nV4cqjT5y3A0UqBsn
+         L1JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760697705; x=1761302505;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rlnZg/nx7IFF53NNI35WuWp4qj9SUmwgLhGxJ4fkOuc=;
+        b=LHZ6IYpV4fAdSiXW8k5qpvgre6rD3rTi1FQy09N7iZlZjALnvZ3kIdcQU/RZSO3dzM
+         ZG0sFSmtJQ4TC1vgJJ5pZ4U1IjPnun96tRzUmiuo6prj1mLIoJPC0e5XmxJLhCtRP0n8
+         o+wAea0Ppb4CyE5mLKhhJH6doIN0uP+LtBxGgAa6VXeBIMpmlYb5n+J3n9FHblBX8fqJ
+         Qw6ntl5yasFb9A9p+FD80cVeI6f4F3hEdaTcAvHjZyE8fYXnV6KqLDi4x9EYXAGWiVSZ
+         r/gg1cio3GmD2dosauzNXyMA7CrOl1dFMjI7pmz3J4dNx3r9/oI3ys2QpZowuZaZYb3N
+         W9TA==
+X-Gm-Message-State: AOJu0YwR9M9I5DoOlC/jK0onu2yRdHUJzpKJMsBF4uvF0COvl5yHL5JD
+	ihDAPxN3EAFX719T47vBgUy8AXtH+WqkS9c3h7zcBXiR4fHmFbfCjKaBh0Hhf/J0
+X-Gm-Gg: ASbGncsHP5UIowK32z7gNV9SHDSJ2/Pu0+ElU8IEjMv/1NNEnPf8khYafQcrvpcbMmZ
+	QrnaRCgtEuM3xW8RDq3xOR4cL8Ev+VsqmA2XWF3i8ekjIcPHqf+ZKOFc+5dv2J1/jtX8FeYSDYH
+	Br6JosoxDuoL6f4HQ8DeRsQbO7PCh+TXT76YV8sqySBCta2y+YO1pVAkOGwdnrVLqGZzT2Brd/W
+	2lOvgjmAAttOpZfoL8+GJqB3gMjdt/XawVpR//JTa68IOdbVMoxczJb52fOnRoQvPWZXT9sMaBO
+	YN5qD3lhrO+1QD1/z0xLLY37vgZaVvKAVqtAQIiM9962RM+lPF5SgyRdANH/8ofP5Y1U0+SKXyi
+	1p357JQtvkeOICxUNLAVTL+M934bngrzQJafGufk7dNqC5YQ7TZjsKjbH9mNLB415tRx/yatZZ2
+	yqYJOvFFL9ES8uW2oQg1A9l4FbIfvoNC8x
+X-Google-Smtp-Source: AGHT+IHvb9c0gATA8gjdbi7VufYkVpH+Wf5hOqbf3o+bXcp0+lOmbMuX87MfsVjQ4c6Q97aXGwsLIQ==
+X-Received: by 2002:a05:6402:1446:b0:63c:2d72:56e3 with SMTP id 4fb4d7f45d1cf-63c2d725884mr1344987a12.23.1760697704840;
+        Fri, 17 Oct 2025 03:41:44 -0700 (PDT)
+Received: from fedora (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63bea024febsm6836119a12.4.2025.10.17.03.41.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Oct 2025 03:41:44 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] build-appliance-image: install bitbake+oe-core+meta-yocto, not poky
-Date: Fri, 17 Oct 2025 10:34:30 +0100
-Message-ID: <20251017093430.4120018-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH] mesa: update 25.2.4 -> 25.2.5
+Date: Fri, 17 Oct 2025 12:41:35 +0200
+Message-ID: <20251017104135.2635981-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 09:34:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225004
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 10:41:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225005
 
-Change the build-appliance image to include current git trees of the
-separate bitbake/openembedded-core/meta-yocto repositories, instead of
-the merged poky repository as that is being discontinued.
+Announcement:
+https://lists.freedesktop.org/archives/mesa-dev/2025-October/226555.html
 
-[ YOCTO #16002 ]
+Remove 0001-glx-provide-glx.pc.patch because it's merged into
+this release.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- .../images/build-appliance-image_15.0.0.bb    | 34 ++++++++++++-------
- 1 file changed, 21 insertions(+), 13 deletions(-)
+ .../mesa/files/0001-glx-provide-glx.pc.patch  | 41 -------------------
+ meta/recipes-graphics/mesa/mesa.inc           |  5 +--
+ 2 files changed, 2 insertions(+), 44 deletions(-)
+ delete mode 100644 meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch
 
-diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/m=
-eta/recipes-core/images/build-appliance-image_15.0.0.bb
-index 7f68d3396ca..74883870b70 100644
---- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-@@ -26,8 +26,14 @@ inherit core-image setuptools3 features_check
-=20
- REQUIRED_DISTRO_FEATURES +=3D "xattr"
-=20
--SRCREV ?=3D "cb478c6228f0654ded5ac19a8a8d2f8ba9a717af"
--SRC_URI =3D "git://git.yoctoproject.org/poky;branch=3Dmaster;destsuffix=3D=
-poky \
-+SRCREV_bitbake ?=3D "8b582ef8dd0cef0192d4c0104bcd9b5d642d132c"
-+SRCREV_oe-core ?=3D "5298d01663f897e38380116edf23973d2a156cbc"
-+SRCREV_yocto ?=3D "fe65e142d0d9ba0e51ff9175ffa82e902f982a20"
-+SRCREV_FORMAT =3D "bitbake_oe-core_yocto"
-+
-+SRC_URI =3D "git://git.openembedded.org/bitbake;name=3Dbitbake;branch=3D=
-master;destsuffix=3Dbitbake \
-+           git://git.openembedded.org/openembedded-core;name=3Doe-core;b=
-ranch=3Dmaster;destsuffix=3Dopenembedded-core \
-+           git://git.yoctoproject.org/meta-yocto;name=3Dyocto;branch=3Dm=
-aster;destsuffix=3Dmeta-yocto \
-            file://Yocto_Build_Appliance.vmx \
-            file://Yocto_Build_Appliance.vmxf \
-            file://README_VirtualBox_Guest_Additions.txt \
-@@ -44,17 +50,20 @@ IMAGE_CMD:ext4:append () {
- fakeroot do_populate_poky_src () {
- 	# Because fetch2's git's unpack uses -s cloneflag, the unpacked git rep=
-o
- 	# will become invalid in the target.
--	rm -rf ${UNPACKDIR}/poky/.git
--	rm -f ${UNPACKDIR}/poky/.gitignore
-+	for d in bitbake openembedded-core meta-yocto; do
-+		rm -rf ${UNPACKDIR}/$d/.git
-+		rm -f ${UNPACKDIR}/$d/.gitignore
-+		cp -R ${UNPACKDIR}/$d ${IMAGE_ROOTFS}/home/builder/
-+	done
-=20
--	cp -R ${UNPACKDIR}/poky ${IMAGE_ROOTFS}/home/builder/poky
-+	mkdir -p ${IMAGE_ROOTFS}/home/builder/openembedded-core/build/conf
-+	echo "INHERIT +=3D \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/openemb=
-edded-core/build/conf/auto.conf
-=20
--	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/conf
--	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/downloads
- 	if [ ${BA_INCLUDE_SOURCES} !=3D 0 ]; then
--		cp -RpL ${DL_DIR}/* ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/
-+		mkdir -p ${IMAGE_ROOTFS}/home/builder/openembedded-core/build/download=
-s
-+		cp -RpL ${DL_DIR}/* ${IMAGE_ROOTFS}/home/builder/openembedded-core/bui=
-ld/downloads/
- 		# Remove the git2_* tarballs -- this is ok since we still have the git=
-2/.
--		rm -rf ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/git2_*
-+		rm -rf ${IMAGE_ROOTFS}/home/builder/openembedded-core/build/downloads/=
-git2_*
- 	fi
-=20
- 	# Place the README_VirtualBox_Guest_Additions file in builders home fol=
-der.
-@@ -63,7 +72,6 @@ fakeroot do_populate_poky_src () {
- 	# Place the README_VirtualBox_Toaster file in builders home folder.
- 	cp ${UNPACKDIR}/README_VirtualBox_Toaster.txt ${IMAGE_ROOTFS}/home/buil=
-der/
-=20
--	echo "INHERIT +=3D \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/bu=
-ild/conf/auto.conf
- 	echo "export LC_ALL=3Den_US.utf8" >> ${IMAGE_ROOTFS}/home/builder/.bash=
-rc
- 	echo "export TERM=3Dxterm-color" >> ${IMAGE_ROOTFS}/home/builder/.bashr=
-c
-=20
-@@ -79,8 +87,8 @@ fakeroot do_populate_poky_src () {
- 	echo "# export ALL_PROXY=3Dhttps://proxy.example.com:8080" >> ${IMAGE_R=
-OOTFS}/home/builder/.bashrc
- 	echo "# export ALL_PROXY=3Dsocks://socks.example.com:1080" >> ${IMAGE_R=
-OOTFS}/home/builder/.bashrc
-=20
--	chown -R builder:builder ${IMAGE_ROOTFS}/home/builder/poky
--	chmod -R ug+rw ${IMAGE_ROOTFS}/home/builder/poky
-+	chown -R builder:builder ${IMAGE_ROOTFS}/home/builder/
-+	chmod -R ug+rw ${IMAGE_ROOTFS}/home/builder/
-=20
- 	# Assume we will need CDROM to install guest additions
- 	mkdir -p ${IMAGE_ROOTFS}/media/cdrom
-@@ -102,7 +110,7 @@ fakeroot do_populate_poky_src () {
- 	export STAGING_INCDIR=3D${STAGING_INCDIR_NATIVE}
- 	export HOME=3D${IMAGE_ROOTFS}/home/builder
- 	mkdir -p ${IMAGE_ROOTFS}/home/builder/.cache/pip
--	pip3_install_params=3D"--user -I -U -v -r ${IMAGE_ROOTFS}/home/builder/=
-poky/bitbake/toaster-requirements.txt"
-+	pip3_install_params=3D"--user -I -U -v -r ${IMAGE_ROOTFS}/home/builder/=
-bitbake/toaster-requirements.txt"
- 	if [ -n "${http_proxy}" ]; then
- 	   pip3_install_params=3D"${pip3_install_params} --proxy ${http_proxy}"
- 	fi
---=20
-2.43.0
+diff --git a/meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch b/meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch
+deleted file mode 100644
+index dbe58fcc89..0000000000
+--- a/meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From 4fed044aaed5911fdc58d2a634f34a7186836935 Mon Sep 17 00:00:00 2001
+-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+-Date: Sun, 12 Oct 2025 23:54:25 +0300
+-Subject: [PATCH] glx: provide glx.pc
+-
+-New Vulkan CTS 1.4.4 started requiring glx.pc pkg-config file. Provide
+-one if GLVND is not used in order to let VK CTS and other programs find
+-Mesa GLX implementation.
+-
+-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/37834]
+----
+- src/glx/meson.build | 12 ++++++++++++
+- 1 file changed, 12 insertions(+)
+-
+-diff --git a/src/glx/meson.build b/src/glx/meson.build
+-index 04fdf26ba6a2..28313f83a783 100644
+---- a/src/glx/meson.build
+-+++ b/src/glx/meson.build
+-@@ -134,6 +134,18 @@ libgl = shared_library(
+-   install : true,
+- )
+- 
+-+if not with_glvnd
+-+  pkg.generate(
+-+    name : 'glx',
+-+    description : 'Mesa GLX Library',
+-+    version : meson.project_version(),
+-+    libraries : libgl,
+-+    libraries_private : gl_priv_libs,
+-+    requires_private : gl_priv_reqs,
+-+    variables : ['glx_tls=yes'],
+-+  )
+-+endif
+-+
+- if with_symbols_check
+-   libgl_symbols_file = with_glvnd ? 'glvnd-symbols.txt' : 'libgl-symbols.txt'
+- 
+--- 
+-2.51.0
+-
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 1485e0b727..6a36aea259 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -17,11 +17,10 @@ PE = "2"
+ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
+-           file://0001-glx-provide-glx.pc.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "a370b4c549cbfbe646b319e34d73edb50ed883978f5e95133f282f0eae39ab52"
+-PV = "25.2.4"
++SRC_URI[sha256sum] = "bb6243e7a6f525febfa1e6ab50827ca4d4bfdad73812377b0ca9b6c50998b03e"
++PV = "25.2.5"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+-- 
+2.51.0
 
 
