@@ -1,107 +1,90 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33D52CCD19A
-	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 11:29:30 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web11.12989.1760700561607275177
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3424CCCD19A
+	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 11:31:20 +0000 (UTC)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web11.12853.1760700012946554560
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Oct 2025 04:29:21 -0700
+ Fri, 17 Oct 2025 04:20:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JQalETQA;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: zboszor@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-63bfbbbdd0bso3565183a12.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 04:29:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lrJi0ve7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: dani.barra25@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-63c12ff0c5eso3337528a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 04:20:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760700560; x=1761305360; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=u1KrIqGEttHNEsA1RJtnnBdMqykOpOwR+DPyRJZ7OIM=;
-        b=JQalETQAAFd9C6ABP6XLDg+lq6IwlFfIvF7PE+4zMR8JF00X8jST02yYVO0NnJfofh
-         WRPdgMzpWbT2zpeimeTZJDxOSJ9tjk16eHYqObPXUGBSHaC0tuqs1Uj5bKP/CEeNLXfp
-         zxMmsg0lUtvjueTu5akdr70OJTzU4uciYOteSssXxu4+5tdQuLweRoFkDqxtQx4C56pZ
-         r+pxIxBLWUZ2pJbboqJP5dEmuWGuA17RFKfy01/j08djPq8VwcIEwMuboiI6yKmK3nzM
-         T+WVKXj+UZI0N4JICgmrl7LwTH3oyaeqqC9U1ghl++kHZqTZvzauOexuhuWRLUHBbp3U
-         oHqw==
+        d=gmail.com; s=20230601; t=1760700011; x=1761304811; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2vxBFTyJ0sU0Drs0rn99UdEoKSgv//Kc4MnZENqgg6U=;
+        b=lrJi0ve7EVkafxLlsGDW6bRZuHh1Zj7yQnDCqTwxA+Oe6hiLTSMhZRs/wkYA3p8S+G
+         VA3+2FIjTrhLE/px5W4NU2dx3g0zAZ5ASKaoVhYSoX0qSIz5iTkb+Gfrq+86kPHKfaA8
+         0NEGybcmmM3QhUGq132UxIb9st3UjufjmHqiVqEaCbfYWUbecyI6HYb+Yu+ivVpBpnoc
+         +gYtk29EoE4Cw3eEBmd3RSQGdQYyPDv3peUH7XvrKfROyy51cR/DPNN3CFr1ijGB35qG
+         w8pS0oPCO4a8BIdzJc3LVAzMPWc6BFwtzWsdfED0SpEgqSk7zL3xqStlOoY7cHEjDxPF
+         MVkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760700560; x=1761305360;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u1KrIqGEttHNEsA1RJtnnBdMqykOpOwR+DPyRJZ7OIM=;
-        b=SmW0wz4Z8Ho7W11MRvQC0lsALn5Vhm6os+o5pHai8wn9RNO4I7TQcyaJa+v5xnmTw3
-         eB5cwEhldyuY4tFHNlby8+BPG4lf6g0aVxfb60qHICVUKTgR6oUT0N5fNMGLR313LJ3M
-         6kll0Irfvy4oK8JS1nulm1kd5++AbYanSljbHhTkrg4uP+ju9PkF/BiGUvN6Xqx3kFaa
-         v/L516smo1W8xg93bLwvzEzHwt38gZqLlZk8LQ3++Pgw50Wqvk7DDyQ1vYFbFi7didLg
-         Ns87d1Z6Qh3lSUfurGI5LIUXAg/KuchGWVQNSG6LhNrkjnyoHPXe8liiSxRZCne42pcJ
-         2q7w==
-X-Forwarded-Encrypted: i=1; AJvYcCUd9drdNSKOPfaZ25c0h2Q2jmQEVjTH2Qn2sS5GIG1uLoy6hvxd/CocCihjvomd5ochm2FoUEdclZ7tn2/12W23vA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzV8aereZYDTyik11SyuTViMkNhn7AD5yja3wizf466at9XBLjv
-	iFOsfdFUfK4nwrSN3VRuaAcW7gecNUuBbNmIk3olnCAQkj4pmftrHyer
-X-Gm-Gg: ASbGnctPEts4PiRDhxbHRosiGxsQyj9mCcIvqH+4GsnnZRCoQBCmthRKAInzermaSgT
-	hy9VVEDSddNkClhDVjHEoXZKhu5OgmvzVvWApqUx7F/aBZYorz33riCqz2A3M4BixFky7h8aBV8
-	uPWT4iRby9SA5fh0hFIPBO22KLKUZo3gk/L2j29dEsg3UIQBU+SkQ38KzhtBkH8fVJYyANAYSDq
-	YUQ5dTZB2bFP9gbZXc1o2GFMzoDhlOuayeo1CAX/V+u4vl54iNumOaCDlKKWr39Gvtln8uFjb9O
-	Mxiyd9Fc2EGiNMwFUlQcYSqP3cgVCP9MZyOaCpbYk9rCKxKAFlfP09zebq+g8UOHeW+PY28go5K
-	wtpU/ZQQbgCrICecIeuJZ1gVwy1XQErDNrbFy/FVNXpm1HoilDQRvKUWAcX0/6YZQ76jzUSkh7+
-	ZD3glozkvyHDAIO0GdW+/N5CMgeglBuqQcCzeJEVRpCMTRgo0kROzfikI=
-X-Google-Smtp-Source: AGHT+IG3RmJz0Z+nO53FYNQ/3WWDHb48dfImwEPzQQVK708vqhqmfEofhkuOROAMgovlSbhnpPXrIw==
-X-Received: by 2002:a17:907:9718:b0:b2b:5b40:1cb1 with SMTP id a640c23a62f3a-b646fc94a79mr365479566b.0.1760700559603;
-        Fri, 17 Oct 2025 04:29:19 -0700 (PDT)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63c2813641fsm1454867a12.23.2025.10.17.04.29.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Oct 2025 04:29:19 -0700 (PDT)
-Message-ID: <06c5101b-634e-427a-8f41-593e3fe72f43@gmail.com>
-Date: Fri, 17 Oct 2025 13:29:18 +0200
+        d=1e100.net; s=20230601; t=1760700011; x=1761304811;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2vxBFTyJ0sU0Drs0rn99UdEoKSgv//Kc4MnZENqgg6U=;
+        b=gitu0q0tFrLJkxZIEnohFzLIcbY31oVq9VZAoWAgctlb/HTU0LTuia7jWjC+BNLOIw
+         cSyuxt7Gh5mc8fu9ZOC2tsBU8pN+DRFFcU0eO9qn50OoVrN6o8kjLB1DeBg6S9XsH54l
+         U3cI1wV3wBgpidal0csXcku6dPct9bxStkPTRAK1hpIBd22TTH852qdpcuqM51R0mf2w
+         p7suAmD0IYC7jEnVgZVysIKCLS2GNZ13B7HXktidLOIe7mFQ+nZedYS6Z5t3SEcSe3nA
+         SRBehItbG5yf6gQ24OyibeURWQUwDRs3dAu3VdkIvetzEm4Ecroa3kosqo0g++cZMsZH
+         CLWA==
+X-Gm-Message-State: AOJu0YwLs/hef3f2RgTFk7wne3wP110cMqbeoA7ZFJS+KtTHxdcQIwC2
+	/oRLBHrAGZb8pr2r9aqyAGsK86t/ZCF5kGx30o7+Yxj1MScT+Y7JWcNUXBoMYA==
+X-Gm-Gg: ASbGncsmu0cG4+fF38jAQiuEQ2j/zbR0BEgClwcbAm4WladqtpwhNuWGJwLy7drp3/N
+	wTPrRw5qDtiOjUZusUzlEBQXsRrdJ3DGH4lO+7ABg5NHAnkErMHNAuiDWJX3UU1UCieSCq5vpRi
+	+LVtAGvp9BAdE4UCEelJSDaBzqUnPbWPQqfzvtFHqoN+Btrnc04X24m4ZaobDCWCWQTIE3r9Uxw
+	84Z0BAIyrUWa94JrEtBb0hhhhLtL4mwPK9Ms2rWmf9RkBwH9TzC8zCEqV+T8grM0viKDuXv3NMG
+	gOejGvJAPwawOzEa2sBcOXsarXS7QNoXlMMdKgMI0n6SXkFWFDjVzGkCT4pOfd7Fqb9AOhV4f4T
+	+27wCJfCexTlPXgeK95/WaPckgg5WWk9/22+2qCql8EP1PDjXNr0ubEmQeCmYb8yGN7wZ8pMU6c
+	ahS+ZeBvIjD7tVvwqPIZT4F1pjesTZZRdppBbGpCg=
+X-Google-Smtp-Source: AGHT+IFZTqPBVkPCvtdseWF6hF1XYF0/UW+Nmlo844ua+u8O0LuFbZXA4RNytx1x44P/TEbtJGY24w==
+X-Received: by 2002:a05:600c:c083:b0:471:611:c1e2 with SMTP id 5b1f17b1804b1-471098fe59dmr44783735e9.3.1760699553283;
+        Fri, 17 Oct 2025 04:12:33 -0700 (PDT)
+Received: from dani.lan (a81-84-220-145.cpe.netcabo.pt. [81.84.220.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426e50ef821sm25855028f8f.38.2025.10.17.04.12.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Oct 2025 04:12:32 -0700 (PDT)
+From: dani.barra25@gmail.com
+To: openembedded-core@lists.openembedded.org,
+	mathieu.dubois-briand@bootlin.com
+Subject: Re: [OE-core] [PATCH 1/1] wic: Content of the temporary updated fstab should be copied into the original not replacing it entirely.
+Date: Fri, 17 Oct 2025 12:04:15 +0100
+Message-ID: <20251017111210.501333-1-dani.barra25@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <DDFITTM4J8SO.13FKL48ZAQCD0@bootlin.com>
+References: <DDFITTM4J8SO.13FKL48ZAQCD0@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] mesa: update 25.2.4 -> 25.2.5
-To: Quentin Schulz <quentin.schulz@cherry.de>,
- openembedded-core@lists.openembedded.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20251017104135.2635981-1-zboszor@gmail.com>
- <92173122-0c41-4739-b5e9-eb10e20b92b4@cherry.de>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <92173122-0c41-4739-b5e9-eb10e20b92b4@cherry.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 11:29:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225009
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 11:31:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225010
 
-2025. 10. 17. 13:23 keltezéssel, Quentin Schulz írta:
-> Hi Zoltan,
->
-> On 10/17/25 12:41 PM, Zoltan Boszormenyi via lists.openembedded.org wrote:
->> Announcement:
->> https://lists.freedesktop.org/archives/mesa-dev/2025-October/226555.html
->>
->> Remove 0001-glx-provide-glx.pc.patch because it's merged into
->> this release.
->>
->
-> Thanks for the patch, see 
-> https://lore.kernel.org/openembedded-core/20251016-mesa-25-2-5-v1-1-08035df5e74e@cherry.de/ 
-> which I sent yesterday :)
->
-> Considering it's the same patch, maybe you can give your Reviewed-by/Tested-by there?
 
-Done.
+Hi Mathieu,
 
-> I've been told this will probably not make the cut to Yocto 5.3 but it'll probably end 
-> up being backported (though it remains to be seen whether I/someone needs to explicitly 
-> ask for it).
+Thank you for the you time testing this thoroughly.
+After some test, I was able to provide a new alternative (attached to this message if everything goes well).
 
-Pity. Some people use meta-intel and there are
-crucial fixes for Intel GPUs in the new version.
-Anyway, I can use my local bbappend.
+For the performance part of ext* and msdos fstype I have nothing to counter argument. I did not find a way to add xattrs using those methods and, according to what seemed to be the natural way of
+the code design of wic, I let all the fstype flal under rootfs.py.  Any other solution is welcome!
 
+For the second part, this time, instead of using cp, I let the install be like it was before. However, instead of running it under the pseudo environment, I executed it as the host machine.
+This way, I was able to recheck the database using pseudo, which will fail and therefore led the files.db to be rebuilt. This happens because he is able to detect the inodes of fstab entry on all
+the tables do not match and update them accordingly. This way we don't run the risk of modifying the original content of fstab under the normal yocto output files because the file is actually not the same.
+
+I also ran oe-selftest -r wic.Wic.test_no_fstab_update on a core-image-minimal image with the patch and it seemed to have passed.
+
+Best Regards,
+Daniel
 
