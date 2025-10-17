@@ -1,155 +1,149 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B6CCCD195
-	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 10:41:49 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web11.12356.1760697706882277902
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14E9DCCD19A
+	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 11:19:20 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web11.12823.1760699907974442897
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Oct 2025 03:41:47 -0700
+ Fri, 17 Oct 2025 04:18:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SPTL47zY;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: zboszor@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6399328ff1fso3099731a12.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 03:41:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DgJU5gwb;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: dani.barra25@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b4539dddd99so307039966b.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 04:18:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760697705; x=1761302505; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rlnZg/nx7IFF53NNI35WuWp4qj9SUmwgLhGxJ4fkOuc=;
-        b=SPTL47zYAXhEHuEYI3wnaSmxgjpHHULuBNYc8JP0mZxuwyH7vqlm0bSIrhnXOaij36
-         O+h26QirCOnLBLqtdY7pxvDmVxA8+4GERF1U3Z6UAzOqYTJFBM0fqPCm5qnMKK0IR3Ej
-         ITg8ESkLVp6XOBcqb7GjXN5vLfVvIYD3fYLg1RUMJRqf2D+WBteJn5RP4beQk3Vsd5MF
-         UQH5hHQHUXDdT22CDppW/i67pCCLkBgwW/+sik58Qa8QIkRR790lNir0teaNZL1rpcoB
-         CC9i5MCOW4ebHUAinIMc25IPZELv30aM+ucwS7/4bJ1gxodc+44nV4cqjT5y3A0UqBsn
-         L1JA==
+        d=gmail.com; s=20230601; t=1760699906; x=1761304706; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lW/Z9UXrHf1RnxTK40Lc9/EHLMKq3zTg6veCwMonHSM=;
+        b=DgJU5gwbzok5v2/1RK8LNyABUAqzEmkihVRxYfA/dloXAS0t+YEHvdnxipX1lvTM6b
+         S8VI4e7ck8UNs/Wz70cOJgbum4e8fZZotCqTESTnxFC24dGFO0wYWXemI0KzP4T9ziUh
+         dC9X1SBZEJ5c3WlITjPi3OqYvqgjX3tSfNtYKVIJO/00CtLkmchx1aZBtKfcaiuaBxGx
+         ahEC4xa8ArwCAeTSOX9bfg5wZpHYedA1Opav894Y1fHqbZh/ACwRCXr6oaeGYEQ9uaDK
+         VFRt4ZsKv2XnUk+NE58E6H1j/GoanaDEuUyMM6Q95uI1E56Xhuty9FWTcyKKBeDB82Bu
+         OH8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760697705; x=1761302505;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rlnZg/nx7IFF53NNI35WuWp4qj9SUmwgLhGxJ4fkOuc=;
-        b=LHZ6IYpV4fAdSiXW8k5qpvgre6rD3rTi1FQy09N7iZlZjALnvZ3kIdcQU/RZSO3dzM
-         ZG0sFSmtJQ4TC1vgJJ5pZ4U1IjPnun96tRzUmiuo6prj1mLIoJPC0e5XmxJLhCtRP0n8
-         o+wAea0Ppb4CyE5mLKhhJH6doIN0uP+LtBxGgAa6VXeBIMpmlYb5n+J3n9FHblBX8fqJ
-         Qw6ntl5yasFb9A9p+FD80cVeI6f4F3hEdaTcAvHjZyE8fYXnV6KqLDi4x9EYXAGWiVSZ
-         r/gg1cio3GmD2dosauzNXyMA7CrOl1dFMjI7pmz3J4dNx3r9/oI3ys2QpZowuZaZYb3N
-         W9TA==
-X-Gm-Message-State: AOJu0YwR9M9I5DoOlC/jK0onu2yRdHUJzpKJMsBF4uvF0COvl5yHL5JD
-	ihDAPxN3EAFX719T47vBgUy8AXtH+WqkS9c3h7zcBXiR4fHmFbfCjKaBh0Hhf/J0
-X-Gm-Gg: ASbGncsHP5UIowK32z7gNV9SHDSJ2/Pu0+ElU8IEjMv/1NNEnPf8khYafQcrvpcbMmZ
-	QrnaRCgtEuM3xW8RDq3xOR4cL8Ev+VsqmA2XWF3i8ekjIcPHqf+ZKOFc+5dv2J1/jtX8FeYSDYH
-	Br6JosoxDuoL6f4HQ8DeRsQbO7PCh+TXT76YV8sqySBCta2y+YO1pVAkOGwdnrVLqGZzT2Brd/W
-	2lOvgjmAAttOpZfoL8+GJqB3gMjdt/XawVpR//JTa68IOdbVMoxczJb52fOnRoQvPWZXT9sMaBO
-	YN5qD3lhrO+1QD1/z0xLLY37vgZaVvKAVqtAQIiM9962RM+lPF5SgyRdANH/8ofP5Y1U0+SKXyi
-	1p357JQtvkeOICxUNLAVTL+M934bngrzQJafGufk7dNqC5YQ7TZjsKjbH9mNLB415tRx/yatZZ2
-	yqYJOvFFL9ES8uW2oQg1A9l4FbIfvoNC8x
-X-Google-Smtp-Source: AGHT+IHvb9c0gATA8gjdbi7VufYkVpH+Wf5hOqbf3o+bXcp0+lOmbMuX87MfsVjQ4c6Q97aXGwsLIQ==
-X-Received: by 2002:a05:6402:1446:b0:63c:2d72:56e3 with SMTP id 4fb4d7f45d1cf-63c2d725884mr1344987a12.23.1760697704840;
-        Fri, 17 Oct 2025 03:41:44 -0700 (PDT)
-Received: from fedora (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63bea024febsm6836119a12.4.2025.10.17.03.41.44
+        d=1e100.net; s=20230601; t=1760699906; x=1761304706;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lW/Z9UXrHf1RnxTK40Lc9/EHLMKq3zTg6veCwMonHSM=;
+        b=pL8W8swbRhVzRDM0yyVX/xm6xMt1OyvYTxskH/bUzGGXIw0GknsV0p4H3voATbG8l4
+         gz0LRRlk4gcr3iESCKrZnvbOPAve6Uepp5Bh87cFcw25nWwLbtLs11bsvaspaEiG0xeB
+         5XVFaFWE6f5NU/hpFRkRUHURnKn9cnKPspBE9P5e38VLTIdLZmeZJaY4UlvOi2y/hbme
+         jRg76KfNekFvqEStDQFxb3tyZhYasm/KYO7RGWbv3UaDm2H/Or2EEep+zFrWRVNdKycn
+         DMCaFKqj8XjagX2DZ4wZ08DhmuCL7GmRi9b7dFxDnAAREP/FAl4AUqT44JSqb8uPMW5z
+         GvCg==
+X-Gm-Message-State: AOJu0YywSectpki5eMijARCeE57ym757iFxFf9kl/HlceY84eyOPgUv3
+	I0NqfStPtB2BCzSKvmF0TEH5LecD4eysaKBaIm0vmCQajshssLLjfRM0z+muOHjM
+X-Gm-Gg: ASbGncuKAiJS9HwTWrhhjfYx+XpiACwsJAHVoetn9hxqOSuLoJI1Y1JUwM2HC/2jO+X
+	LROVcu58+CzX5LsHLwuaLN5mEvN6KKwg4c099BYuFoWOmVjElMV2viYTclihkdvcv+2hq0RIYw5
+	i1TJzepT7xrmyDGljRlML5zDIGA0Z3BAy2TmVLbXffI2flK4I3mvPKIBoh0pJjNOvbJdCN+s+um
+	hQVVbU6ROt58FKAIYLLMxg6g4vK0pRukvaeORc5yS+ZKIC5OoehE+JjFV+QoiYmH1dxpdLjG/6u
+	6i6isDrUnTpGeuzIyzD3hIoLFvBxfm/MlRVBTu62Hp3LHcbkyO1AOlvaO5VmnkkTfJOWL1B0go6
+	S1MXMIig4eY1n8mXLe/gPk007pF8ZB1KPG+VGUhxovkAdhXLUMgfpaI1OgRLTu3f+4CIvyLc7Jo
+	spcXHatE0omgdNMMNKxLTc3xhL/q1csz7Joo+Psa9+G3WiEKgFsQ==
+X-Google-Smtp-Source: AGHT+IH2Lm2UWOmp4z8VB9tclE63fM1dGzWvSnlVSXm4qTmKPaX3LpMyLOWViCJ/mH6svIGeg8YxuQ==
+X-Received: by 2002:a05:6000:2087:b0:427:921:8985 with SMTP id ffacd0b85a97d-42709218a51mr769437f8f.40.1760699574406;
+        Fri, 17 Oct 2025 04:12:54 -0700 (PDT)
+Received: from dani.lan (a81-84-220-145.cpe.netcabo.pt. [81.84.220.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426e50ef821sm25855028f8f.38.2025.10.17.04.12.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 03:41:44 -0700 (PDT)
-From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH] mesa: update 25.2.4 -> 25.2.5
-Date: Fri, 17 Oct 2025 12:41:35 +0200
-Message-ID: <20251017104135.2635981-1-zboszor@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        Fri, 17 Oct 2025 04:12:54 -0700 (PDT)
+From: dani.barra25@gmail.com
+To: openembedded-core@lists.openembedded.org,
+	mathieu.dubois-briand@bootlin.com
+Cc: Daniel Andrade <dani.barra25@gmail.com>
+Subject: [PATCH 1/1] Fstab: Fix xattrs not being maintained on fstab file when using wic fstab update funtionalities
+Date: Fri, 17 Oct 2025 12:04:16 +0100
+Message-ID: <20251017111210.501333-2-dani.barra25@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251017111210.501333-1-dani.barra25@gmail.com>
+References: <DDFITTM4J8SO.13FKL48ZAQCD0@bootlin.com>
+ <20251017111210.501333-1-dani.barra25@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 10:41:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225005
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 11:19:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225006
 
-Announcement:
-https://lists.freedesktop.org/archives/mesa-dev/2025-October/226555.html
+From: Daniel Andrade <dani.barra25@gmail.com>
 
-Remove 0001-glx-provide-glx.pc.patch because it's merged into
-this release.
+The wic fstab generation capability was removing the xattrs of the /etc/fstab, possibly rendering the produced image unusable in some case (e.g.: SELinux enforced on a read-only rootfs).
+The file appears as unlabeled no matter the fstype chosen.
+To bypass this, some late procedures done on ext* and msdos fstype have been removed and all the fstab logic was passed to rootfs.py.
+On this one, the idea is to still use the install command, but in this case, executed outside the pseudo environment. After the file as sucessfully been place, the idea was to check again for inconsistencies
+in the database (now the fstab inode is different) and force it to rebuild with the correct inode, ensure fstab inode is correctly set on all the tables, including the xattrs one.
 
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+Signed-off-by: Daniel Andrade <dani.barra25@gmail.com>
 ---
- .../mesa/files/0001-glx-provide-glx.pc.patch  | 41 -------------------
- meta/recipes-graphics/mesa/mesa.inc           |  5 +--
- 2 files changed, 2 insertions(+), 44 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch
+ scripts/lib/wic/partition.py             | 15 +--------------
+ scripts/lib/wic/plugins/source/rootfs.py |  8 ++++----
+ 2 files changed, 5 insertions(+), 18 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch b/meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch
-deleted file mode 100644
-index dbe58fcc89..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From 4fed044aaed5911fdc58d2a634f34a7186836935 Mon Sep 17 00:00:00 2001
--From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
--Date: Sun, 12 Oct 2025 23:54:25 +0300
--Subject: [PATCH] glx: provide glx.pc
--
--New Vulkan CTS 1.4.4 started requiring glx.pc pkg-config file. Provide
--one if GLVND is not used in order to let VK CTS and other programs find
--Mesa GLX implementation.
--
--Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/37834]
-----
-- src/glx/meson.build | 12 ++++++++++++
-- 1 file changed, 12 insertions(+)
--
--diff --git a/src/glx/meson.build b/src/glx/meson.build
--index 04fdf26ba6a2..28313f83a783 100644
----- a/src/glx/meson.build
--+++ b/src/glx/meson.build
--@@ -134,6 +134,18 @@ libgl = shared_library(
--   install : true,
-- )
-- 
--+if not with_glvnd
--+  pkg.generate(
--+    name : 'glx',
--+    description : 'Mesa GLX Library',
--+    version : meson.project_version(),
--+    libraries : libgl,
--+    libraries_private : gl_priv_libs,
--+    requires_private : gl_priv_reqs,
--+    variables : ['glx_tls=yes'],
--+  )
--+endif
--+
-- if with_symbols_check
--   libgl_symbols_file = with_glvnd ? 'glvnd-symbols.txt' : 'libgl-symbols.txt'
-- 
---- 
--2.51.0
--
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 1485e0b727..6a36aea259 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -17,11 +17,10 @@ PE = "2"
- SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
--           file://0001-glx-provide-glx.pc.patch \
- "
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index bf2c34d594..82d754835c 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -131,7 +131,7 @@ class Partition():
+         partition command parameters.
+         """
+         self.updated_fstab_path = updated_fstab_path
+-        if self.updated_fstab_path and not (self.fstype.startswith("ext") or self.fstype == "msdos"):
++        if self.updated_fstab_path:
+             self.update_fstab_in_rootfs = True
  
--SRC_URI[sha256sum] = "a370b4c549cbfbe646b319e34d73edb50ed883978f5e95133f282f0eae39ab52"
--PV = "25.2.4"
-+SRC_URI[sha256sum] = "bb6243e7a6f525febfa1e6ab50827ca4d4bfdad73812377b0ca9b6c50998b03e"
-+PV = "25.2.5"
+         if not self.source:
+@@ -295,15 +295,6 @@ class Partition():
+             (self.fstype, extraopts, rootfs, label_str, self.fsuuid, rootfs_dir)
+         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+-        if self.updated_fstab_path and self.has_fstab and not self.no_fstab_update:
+-            debugfs_script_path = os.path.join(cr_workdir, "debugfs_script")
+-            with open(debugfs_script_path, "w") as f:
+-                f.write("cd etc\n")
+-                f.write("rm fstab\n")
+-                f.write("write %s fstab\n" % (self.updated_fstab_path))
+-            debugfs_cmd = "debugfs -w -f %s %s" % (debugfs_script_path, rootfs)
+-            exec_native_cmd(debugfs_cmd, native_sysroot)
+-
+         mkfs_cmd = "fsck.%s -pvfD %s" % (self.fstype, rootfs)
+         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
  
--- 
-2.51.0
-
+@@ -400,10 +391,6 @@ class Partition():
+         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
+         exec_native_cmd(mcopy_cmd, native_sysroot)
+ 
+-        if self.updated_fstab_path and self.has_fstab and not self.no_fstab_update:
+-            mcopy_cmd = "mcopy -m -i %s %s ::/etc/fstab" % (rootfs, self.updated_fstab_path)
+-            exec_native_cmd(mcopy_cmd, native_sysroot)
+-
+         chmod_cmd = "chmod 644 %s" % rootfs
+         exec_cmd(chmod_cmd)
+ 
+diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
+index e29f3a4c2f..c0d9a28b91 100644
+--- a/scripts/lib/wic/plugins/source/rootfs.py
++++ b/scripts/lib/wic/plugins/source/rootfs.py
+@@ -225,11 +225,11 @@ class RootfsPlugin(SourcePlugin):
+                 fstab_path = os.path.join(new_rootfs, "etc/fstab")
+                 # Assume that fstab should always be owned by root with fixed permissions
+                 install_cmd = "install -m 0644 -p %s %s" % (part.updated_fstab_path, fstab_path)
++                exec_native_cmd(install_cmd, native_sysroot)
+                 if new_pseudo:
+-                    pseudo = cls.__get_pseudo(native_sysroot, new_rootfs, new_pseudo)
+-                else:
+-                    pseudo = None
+-                exec_native_cmd(install_cmd, native_sysroot, pseudo)
++                    pseudo_cmd = "%s -B " % (cls.__get_pseudo(native_sysroot, new_rootfs, new_pseudo))
++                    exec_native_cmd(pseudo_cmd, native_sysroot)
++
+ 
+         part.prepare_rootfs(cr_workdir, oe_builddir,
+                             new_rootfs or part.rootfs_dir, native_sysroot,
 
