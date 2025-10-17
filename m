@@ -2,64 +2,64 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B8FECCD1A2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 848C5CCD1A7
 	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 12:27:30 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web10.14209.1760704045776483115
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web10.14208.1760704044472436939
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Oct 2025 05:27:26 -0700
+ Fri, 17 Oct 2025 05:27:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=l51wzJuw;
- spf=pass (domain: linaro.org, ip: 209.85.167.46, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5797c8612b4so2720925e87.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 05:27:25 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=RrJ5c1wX;
+ spf=pass (domain: linaro.org, ip: 209.85.208.169, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-363f137bbf8so15862491fa.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 05:27:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760704044; x=1761308844; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1760704043; x=1761308843; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MGOhKf8bAWQ25ZIuQhoqD1gi/4MHO8cN2QfNI/ZZpN0=;
-        b=l51wzJuwFiPWttUygm57WRkuVrDPod6VgAJFVJ14dY6RWOQsEm3i7yA5kg2OtDQ3c0
-         MnFJyBVdmzxaX7OUniGZH68BA7LkIDDLkMCxPMS4V/0HyqKccERb8dstvFkOnkrfHias
-         FnJM62vezXEhG35k8kR7dMvfluHaJP0nm5rLD32PKW/fyfjKsMyHhAMSbOUyGvxRHmAL
-         Bm0tmrhqbXmkTkF4ckH0bhkzhcykEI5lbJJe+maxl/+JqTSAFJlG0Ooe7FQiXwb8R/eN
-         1H0PsgM6FB48jf3LVerFVAJMu8wYwsSynu5XoqmDWJ0zlEv5p4MDS8ZlhDQBQKH2Sn4b
-         Unvw==
+        bh=1Xprd5mVKnHoxDDFRsqvVXBc72Pkhcq0PQgfW1raUyY=;
+        b=RrJ5c1wXzHLNlOOxAVWA0ewJFrbIKw2JDCk39fz4HI+GKSgiHj1sdwBeRMmcMRY/JF
+         wtkktXdvevA+pxYOFgzvq4KDX5cCWDPYFhJo5K0E7qqkQdc9QOTemfxKNG2kHilg03a+
+         8Itcd0ZyKut2nSEpbz9QCxzn95fwbhkp62fJfm5DmAiIG5TRCWlKCRayes+iHcdaFUAq
+         d0KHlXj9xUFpfaQNU/vDXUygdkn3VFRxOUV37b4pRzX0dnyjR1Aucak4RY7K6YBkpGmy
+         zU4BEASz/D51kG3oE29EhWJp29SGFXE5ZvqkhcXoF5UGGXChEKcEphP9Tu9yCinWWVYB
+         7WnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760704044; x=1761308844;
+        d=1e100.net; s=20230601; t=1760704043; x=1761308843;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MGOhKf8bAWQ25ZIuQhoqD1gi/4MHO8cN2QfNI/ZZpN0=;
-        b=J7ME9oMRNUTV7kcCx/1qncDe07G7iGK5ae361wD9x1XyKZg/QI31kDaHz2ajxzTNMi
-         3f8MzO0bXaK3gI+06jwB2p27f26FvYxK/0Lmllt3HsQZa/d5FJGF1owj9sPJ9MRfYdIC
-         sqkIYfZe3zf5LoawVRxrJtVaIcwPdAfdHd5Z02njE4vPD3ngJKZB+NdF7l+LibJjTlE/
-         tugIWL2qQlTjxXjOc67sP97fHbChDa9HUq7sOrfoYhjMuEm7jmqhLGNUkYZR1u25CxY0
-         8eal4HzdEjLDFT3cIT58wjKLQhxWHF61yLB2karSzZsWNw3l1DB+XVLhxosSbxBrIoER
-         oXVA==
-X-Gm-Message-State: AOJu0YxDtydH5EaDvdxD4yNZ65txtISgbvVVXyleqTazj8UMy4EUlSRD
-	jc3/HnZGkNKTZ49y8lWctNgNL6pXWvbHdJxT2xNbjWAu1w1Ecksj2Pa6T4v5NyCHhOA1JScK7Je
-	rPkYD/U4=
-X-Gm-Gg: ASbGncvfcBVIoQ1+hZgvplSp61ama2MBkHYnyItbfCeUZkDkyQ2Tw8/Or5ibSzPWJow
-	WChmzQLJetOuT/JyKjtD9RCK0Boi/vZd7EjuSgewELKGm6Td6P1LdjO3YmySNfstq3IXj3LTrd5
-	q0LEYSSNQK6XrQKeHPqg5JUexuCw/l0drSIJR3JRY3dAUSNk6BbbzzP/TygP+bX1xif7wxOZ8MY
-	pRId78r67W5oYB3dbAqba/BlgtCtaXaOy8GyVJK4WugzggniFHpJGIDpJWtGgHvEKZlIBl3tDXH
-	Uj+5UbWkHLMtehmC1cYP2RVm0cLFXV+Nrsta/CwHU91CzID4ZPo7fZ6FApJMKfxvIgyJvC6IhxZ
-	2iFe6/Zzw2fKK0h6oXVLZi8AOcD+wLSySYlu0WPc4HED6E5x/9owht1zpDJdbS9u/3w3kfIRfFf
-	XUPiTbkIhRpI0Stfi8wycLLw9nFjPqV/qVXA==
-X-Google-Smtp-Source: AGHT+IEI0soL/Fm7tFfu08hhD4UxTtA3Ys9lMmxU39ahK1WIvHNN5nKCkR6+C/lXa/zSoafnvnT8vQ==
-X-Received: by 2002:a2e:bcc2:0:b0:375:ffc2:1b1d with SMTP id 38308e7fff4ca-3779783a3bbmr11092681fa.4.1760704043873;
-        Fri, 17 Oct 2025 05:27:23 -0700 (PDT)
+        bh=1Xprd5mVKnHoxDDFRsqvVXBc72Pkhcq0PQgfW1raUyY=;
+        b=OyQM1k4vmjTIEezx4G70Ia3rKyjyKzJoGtCMkFPB9nbhVuXVhxt96k8pFJm/chLhES
+         yytRFqh+oCqS+1WtA6GolnA7XStsVzzY8JyTHqeMPDdn8V0YkinFlx+ft5maESCPJ2RP
+         KlvmUuKl05ETmTPm9SydmujugbmPN3/G7CcXB04OXnM/C7oBAeEpjnXUA0ke8TRLvurY
+         uHWZPDsP+aeped3Ww57hV99kAXKLpFJMUj7nXJdZt02kU3laIPdXEdDDcfrSqBSkR0VP
+         QMCTbQZLcsOn9NVY1xkxFJOx8xoMklT31ognMAezPuiykoVZtQWrvu7jFinZQB0S/qMA
+         jzcQ==
+X-Gm-Message-State: AOJu0YxOMqMfgaJH6DyrvsMMG8CNL6r8I3uJ8DeKq5OfI7Te5JWaI9Ui
+	eKnaaDwd05Xhdme5lBhYH9E8xUloMJ/c/BM3drAoVtcnUaIRFd6oc4Q+rynVdiXtGflFXBqZX0x
+	+4I4Zr9w=
+X-Gm-Gg: ASbGncvwjWo7B4KN26crjzidFx3OCmY4ALIrD0LSX+jet+ULPFxJg7fETaNiQojf4wP
+	36sbQy46nKQ7y6Lgn4PsORNrNqB+KUlK2AHkH0EEy4ixnE9v5n41N9/xxmLpjwvd4Vsi0HFYWdj
+	r/T6DEkbUy8gtaAoRdCDd4aA4X5RR5bsJMxYPjIruqkvDzXY0PnT56Z4WpkRG6ygkGbLKqFsJ42
+	Gi5XaRqQEYlVQdYFsu/e73m8UR4eXNICe3/2ey5aGh+WwgJbX+4VTw0ZP0IXs3qxbw1sSDoFEmP
+	CWrFkkjhdOc3p9LBqPFgh82q+fICaQ/FT7d0CTiVhw9ZGhkX9XzfoeVkfHfSsb6A8gcnyi7t+6A
+	1pLNErrYoQV4y3wnRwijnRMfbZYSXOOFi5A2zZWsQJEFxclJYav7IbSjbRhbiqt+Vjm9oo/MFUs
+	Az8dz+fgPT7KxIXjRMNXoN3BJEe9g0iUc9zmu92BHBf9Wd9AE1VVq/oIk=
+X-Google-Smtp-Source: AGHT+IEzBG0c9u+0PIBThaLhR5c+EmbGavY9EzzgSVi/1nnJkxNyo9OrPK5krNLOvAEODM+xFEGeIw==
+X-Received: by 2002:a2e:a99d:0:b0:372:80ac:a33a with SMTP id 38308e7fff4ca-37797a3b204mr12802311fa.28.1760704042563;
+        Fri, 17 Oct 2025 05:27:22 -0700 (PDT)
 Received: from nuoska (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3762ea3ab05sm61421371fa.44.2025.10.17.05.27.23
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3762ea3ab05sm61421371fa.44.2025.10.17.05.27.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 05:27:23 -0700 (PDT)
+        Fri, 17 Oct 2025 05:27:22 -0700 (PDT)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH 5/5] selftest runtime_test.py: disable qemu graphics
-Date: Fri, 17 Oct 2025 15:26:49 +0300
-Message-ID: <20251017122649.493701-6-mikko.rapeli@linaro.org>
+Subject: [PATCH 4/5] selftest package.py: disable qemu graphics
+Date: Fri, 17 Oct 2025 15:26:48 +0300
+Message-ID: <20251017122649.493701-5-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251017122649.493701-1-mikko.rapeli@linaro.org>
 References: <20251017122649.493701-1-mikko.rapeli@linaro.org>
@@ -69,73 +69,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 12:27:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225017
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225016
 
-Tests don't need it and graphics can cause boot failures.
+Test does not need it and graphics can cause boot failures.
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/lib/oeqa/selftest/cases/runtime_test.py | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/lib/oeqa/selftest/cases/package.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index d58ffa80f5..8f99bcd4cb 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -42,7 +42,7 @@ class TestExport(OESelftestTestCase):
-         isdir = os.path.isdir(testexport_dir)
-         self.assertEqual(True, isdir, 'Failed to create testexport dir: %s' % testexport_dir)
+diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
+index 38ed7173fe..fdf7ad0879 100644
+--- a/meta/lib/oeqa/selftest/cases/package.py
++++ b/meta/lib/oeqa/selftest/cases/package.py
+@@ -177,7 +177,7 @@ class PackageTests(OESelftestTestCase):
+             self.logger.error("GDB result:\n%d: %s", status, output)
+             return False
  
 -        with runqemu('core-image-minimal') as qemu:
 +        with runqemu('core-image-minimal', runqemuparams='nographic') as qemu:
-             # Attempt to run runexported.py to perform ping test
-             test_path = os.path.join(testexport_dir, "oe-test")
-             data_file = os.path.join(testexport_dir, 'data', 'testdata.json')
-@@ -318,7 +318,7 @@ class Postinst(OESelftestTestCase):
-                 self.assertTrue(os.path.isfile(os.path.join(hosttestdir, "rootfs")),
-                                 "rootfs state file was not created")
+             for binary in ['/usr/bin/hello1',
+                            '/usr/bin/hello2',
+                            '/usr/libexec/hello3',
+@@ -202,7 +202,7 @@ class PackageTests(OESelftestTestCase):
+                 self.fail("Cannot parse output: " + output)
  
--                with runqemu('core-image-minimal') as qemu:
-+                with runqemu('core-image-minimal', runqemuparams='nographic') as qemu:
-                     # Make the test echo a string and search for that as
-                     # run_serial()'s status code is useless.'
-                     for filename in ("rootfs", "delayed-a", "delayed-b"):
-@@ -441,7 +441,7 @@ IMAGE_INSTALL:append = " systemtap-runtime"
-             systemtap_examples = os.path.join(get_bb_var("WORKDIR","systemtap-native"), "usr/share/systemtap/examples")
-             bitbake(self.image)
- 
--            with runqemu(self.image) as qemu:
-+            with runqemu(self.image, runqemuparams='nographic') as qemu:
-                 cmd = "crosstap -r root@192.168.7.2 -s %s/general/helloworld.stp " % systemtap_examples 
-                 result = runCmd(cmd)
-                 self.assertEqual(0, result.status, 'crosstap helloworld returned a non 0 status:%s' % result.output)
-@@ -453,7 +453,7 @@ IMAGE_INSTALL:append = " systemtap-runtime"
-             systemtap_examples = os.path.join(get_bb_var("WORKDIR","systemtap-native"), "usr/share/systemtap/examples")
-             bitbake(self.image)
- 
--            with runqemu(self.image) as qemu:
-+            with runqemu(self.image, runqemuparams='nographic') as qemu:
-                 cmd = "crosstap -r root@192.168.7.2 -s %s/process/pstree.stp" % systemtap_examples
-                 result = runCmd(cmd)
-                 self.assertEqual(0, result.status, 'crosstap pstree returned a non 0 status:%s' % result.output)
-@@ -465,7 +465,7 @@ IMAGE_INSTALL:append = " systemtap-runtime"
-             systemtap_examples = os.path.join(get_bb_var("WORKDIR","systemtap-native"), "usr/share/systemtap/examples")
-             bitbake(self.image)
- 
--            with runqemu(self.image) as qemu:
-+            with runqemu(self.image, runqemuparams='nographic') as qemu:
-                 cmd = "crosstap -r root@192.168.7.2 -s %s/process/ syscalls_by_proc.stp" % systemtap_examples
-                 result = runCmd(cmd)
-                 self.assertEqual(0, result.status, 'crosstap  syscalls_by_proc returned a non 0 status:%s' % result.output)
-@@ -477,7 +477,7 @@ IMAGE_INSTALL:append = " systemtap-runtime"
-             systemtap_examples = os.path.join(get_bb_var("WORKDIR","systemtap-native"), "usr/share/systemtap/examples")
-             bitbake(self.image)
- 
--            with runqemu(self.image) as qemu:
-+            with runqemu(self.image, runqemuparams='nographic') as qemu:
-                 cmd = "crosstap -r root@192.168.7.2 -s %s/process/ syscalls_by_pid.stp" % systemtap_examples
-                 result = runCmd(cmd)
-                 self.assertEqual(0, result.status, 'crosstap  syscalls_by_pid returned a non 0 status:%s' % result.output)
+         sysconfdir = get_bb_var('sysconfdir', 'selftest-chown')
+-        with runqemu('core-image-minimal') as qemu:
++        with runqemu('core-image-minimal', runqemuparams='nographic') as qemu:
+             for path in [ sysconfdir + "/selftest-chown/file",
+                           sysconfdir + "/selftest-chown/dir",
+                           sysconfdir + "/selftest-chown/symlink",
 -- 
 2.34.1
 
