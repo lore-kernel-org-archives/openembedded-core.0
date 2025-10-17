@@ -1,208 +1,193 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <petr.vorel@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BBB8CCD199
-	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 16:54:42 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.6])
- by mx.groups.io with SMTP id smtpd.web10.21600.1760720077798751028
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24E91CCD199
+	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 17:05:22 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.21923.1760720714752760982
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Oct 2025 09:54:38 -0700
+ Fri, 17 Oct 2025 10:05:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=AAwhOift;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=AAwhOift;
- spf=pass (domain: arm.com, ip: 40.107.162.6, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=A/QJZWEqckTxLQI4IUpO53SEDhx2eeed9rJxBKS1Mx8LkBOKQDmGYQi2ex3BL5gRk86CHqU5jhvR59nCogLfwewyrINhDOHJiMld096BFmIur0gtPhsuOeF/LjPTN9AtaD+xrUhx36wDhlyL9CDNo058P3Y1R45PKoeq5CIxEWTKqYRUv6y/q9uHOw7UOpwAi2/SnvNlIPFxS/UX5ksDTaC1zB+Q1nX71VKoj+x9F+ors+KV50cWSZIPq4k/aozU+vKHeBiqptPn+pnIWx7oALHyVI/bnBeV+ICr1BDtaP9zaCwmBe+yBpR7ENIO9BbuKeMiBScGjmXQkOLKsDUxEA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f0XhjPFyM1H79UfFyZWPfr0+Wz5oWOs+bveH33EPVXQ=;
- b=HN+4mcS7BCA6EpNNJ8CL650UXwqoOYgCbXXX0+9t3ksPCKxuFRhsmHW320cmnmagEFyGhHLprDls7yTKqJH6kkOTp4FdBG5+gunHMbLQ5x8xhrFe8PJGjeO4qljutEZjUoZLAhhSQ8J9PJMGcvccIwqdh0aH9ynikgwnQGh31nJaKG0Cyz9cDSwHzl/AwpmVHc2/sXth6M3BNUWYmWEzvavvBsJqcjLNoiY3w7gQuBMvZLXfobh8QbvZYtJnCNj/+GfqvuYHr9vcvWNPZu9pyBHhX54fiuLj0LZzGchYi/dXfuum80OBM87PoesQZnRYtPcCPd/6ypGMwBw0RpsyHA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=windriver.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f0XhjPFyM1H79UfFyZWPfr0+Wz5oWOs+bveH33EPVXQ=;
- b=AAwhOiftMXNAZIbwJ+w34DUpQKz/CV7EsbdNzCIDYKYwVC9SR3tjicu3e6U8e+92Hg8n5vFcuermWTXELDBc3C4OG0MxThpYBvLscuWCSnYCBzAFEWcf1uJqxiceDE345Q6rl6yCBQ8ZjbxyUsG55mWAjsbd2MLqoXLnIB+CrTQ=
-Received: from AM0PR04CA0067.eurprd04.prod.outlook.com (2603:10a6:208:1::44)
- by GV2PR08MB9325.eurprd08.prod.outlook.com (2603:10a6:150:d5::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.12; Fri, 17 Oct
- 2025 16:54:29 +0000
-Received: from AM3PEPF0000A78F.eurprd04.prod.outlook.com
- (2603:10a6:208:1:cafe::cc) by AM0PR04CA0067.outlook.office365.com
- (2603:10a6:208:1::44) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9228.13 via Frontend Transport; Fri,
- 17 Oct 2025 16:54:30 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM3PEPF0000A78F.mail.protection.outlook.com (10.167.16.118) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9228.7
- via Frontend Transport; Fri, 17 Oct 2025 16:54:27 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=okLnDfzBD47QBaxU4yE3nMGfiDSOeAL4Ro8jfZG0iesqQnet1bfFl20rJZ9+OuwqytF5xuCfVrQWze14nmmbiypDjE52M0WjDVWjVdq9E1WghNMDfGUy6T+d9i1WPgqDbUqnyiY0fXIeuNdC7yZgEym5uq3hirRrXNkHjCzmTgSEOYtkdoCGD9zxSr83Z+imyviKo2RzmKf44nQvGRl5Jr9FqKhBSEU69rIVF3REaS8a5u+WJRwwy32si4LM2LnzLTov4bUo6xeL4vK/pvoGD6Wx8fnObIVyfumwIO8MnvSnDpNHUYcvEFAxuZ1KpXnaANo86lPPrid9gT5YU65l+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f0XhjPFyM1H79UfFyZWPfr0+Wz5oWOs+bveH33EPVXQ=;
- b=IotyLWMz8+kub2gIjs8JcXvjrgjUx33wjXsGFTwDWcL/po0Uufhv+tDO8BDPvTFS2lDIE2W0YL9BZITMKAoPMpI6TaQgatRLOrVI9ICxdZSUeJEC8+4Ua2PGovS1pI/CfA5QthfL8S6cMH7Oogi5RpDYiLOqfs7TVVnQx7yjb1wcCRGR2Ay83fdz4FGKnQ7Xz80VT9hYia5T/KrzQPyNUNJAmtj9NBxyTCg3XLxIgG0zvPrEryOFMfg9LEF1uThYyWaPCe5+sIdppV9ALdaoziQGw6x9hqEMZoljphTt4x6Uv7BHeQLPGvH60Fpp/hX0oDmY8chO3uunbdtBRfAj7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f0XhjPFyM1H79UfFyZWPfr0+Wz5oWOs+bveH33EPVXQ=;
- b=AAwhOiftMXNAZIbwJ+w34DUpQKz/CV7EsbdNzCIDYKYwVC9SR3tjicu3e6U8e+92Hg8n5vFcuermWTXELDBc3C4OG0MxThpYBvLscuWCSnYCBzAFEWcf1uJqxiceDE345Q6rl6yCBQ8ZjbxyUsG55mWAjsbd2MLqoXLnIB+CrTQ=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS8PR08MB9767.eurprd08.prod.outlook.com (2603:10a6:20b:614::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.12; Fri, 17 Oct
- 2025 16:53:54 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9228.012; Fri, 17 Oct 2025
- 16:53:53 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-CC: "hongxu.jia@eng.windriver.com" <hongxu.jia@eng.windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] xcb-util-errors: fix racing on out of source
- tree build
-Thread-Topic: [OE-core] [PATCH] xcb-util-errors: fix racing on out of source
- tree build
-Thread-Index: AQHcLfIUzKD9rraIwUyBc1ye2+rfybSqY8gAgBCUUoCAC7kxAA==
-Date: Fri, 17 Oct 2025 16:53:53 +0000
-Message-ID: <15E4C68D-5818-4F8C-857E-4B08D98A2AA0@arm.com>
-References: <20250925075646.1146511-1-hongxu.jia@windriver.com>
- <A5A09505-7119-485C-A0C6-C88DE980263C@arm.com>
- <566d1cf5-7390-4817-aa19-edb28cca82f4@windriver.com>
-In-Reply-To: <566d1cf5-7390-4817-aa19-edb28cca82f4@windriver.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS8PR08MB9767:EE_|AM3PEPF0000A78F:EE_|GV2PR08MB9325:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6f25c532-4212-42e7-6f91-08de0d9dd580
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|366016|1800799024|376014|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?us-ascii?Q?biUROqjwe5IqEWVx0vt4ArBTK4i1Ewn1/2TSX4VZDBlJzWsO1lgD1hemm1VF?=
- =?us-ascii?Q?3tzc1S0OVUx+uz3a20jMEPwMFZWu4QQlslxsaHHuArV3wrFPGFAOf53OpauP?=
- =?us-ascii?Q?3WbqR+ZQuHq5PFQFiX6xGevebx7Iv7qCwur1BmU5DGqR8Fmgn75CuDSVIliM?=
- =?us-ascii?Q?n2CNGkyx838nRAs7e9LMre72t7qM3nx24O0nM8zHzcfNLXQI0jYRQRkWLP/P?=
- =?us-ascii?Q?Ck5RxSEmE6T3lXIGyP8t1Y7HuTWJzgkIaqnyU2A1ZiJZiGfhh4iJqfhgrVJ/?=
- =?us-ascii?Q?+MD/grK6yTuwxQH1daRst6x7vxJVYgBOdVC+t2lHF1Vu+vrl2NdZL0a2DHgE?=
- =?us-ascii?Q?DHpdsKz5Scn+FbrQw+C3Im6KObO3kJGh2fpZ1LckEJTQn5+npTcTh/Fcqk0X?=
- =?us-ascii?Q?A+vf1LLLr3ettXOtxgYlGjAg0900S4xtQopyT+ULeRLJY4RiOeGNuhkAkpCA?=
- =?us-ascii?Q?ZWGRZlLebyIPwqUZcHbtodOPrlHzxbvmvLAIJpVQ3r7Apzqy4Vo4DgIEF7jp?=
- =?us-ascii?Q?aF1Tz36rzDxMJNLL8qshDeiOPsR7ywxzg8ILl8z2os0qB+sc3DvfLjLAHnBl?=
- =?us-ascii?Q?VhnUyaFYguXAjl76MiP7s0xw6VY9OI+m9nkkC2yKbY7PqzgWvXoov4cEeBja?=
- =?us-ascii?Q?zM6+Uv+GpvpZDscNd9DJCvYQD4ebMDJRnEjd4THOH6gAy0pM+AmZGPgp91d5?=
- =?us-ascii?Q?udZ/bCdCJY8lRcNd2U4O5m4bRDCmFq0EB+Ql6OvBir1JcjJQwLYYn1xKPppT?=
- =?us-ascii?Q?SfqRrsYvJxioqQ5F0ocP2uXSUWNbDwmUampKkRJPB7ztQyhrFjz9b2SZDOpQ?=
- =?us-ascii?Q?TZgcno0o8BaOk+sJuDoVd/IRovqHatXA9g9IuR9ZKxsCpi00unqbeOun2YPk?=
- =?us-ascii?Q?xoJA6YnjdBOtauG/XA5DrxOcQb4LUZfDWI0E1aCVJRB2UHWhfzpdK4qjelU4?=
- =?us-ascii?Q?AavdGFSyyNFnpprn86pAiR9API5rP7KUQ6ERHAhWGeLm139liuw4cQKUGrIL?=
- =?us-ascii?Q?ifA7lHy08cjJ0jSDlwaWs6Pdm0L6qWod4L2CvypFU6WsDWEDODKYt0HZmP7b?=
- =?us-ascii?Q?LwllkkU0L9+B1TIfAscl+isxQIq7IhtSTQzAEwPFb2MdF6q7oZuOzgcboJRD?=
- =?us-ascii?Q?O66/8+XtqWXdziQLN6bUPbASvnJp7fQnqWP00mJ4oGhMfvJX4u8+hOlloD2M?=
- =?us-ascii?Q?4eF15fpHxsT2lFEvPfm4LvKxRDcfbrXxLWIAJiHSJYQRN6j7QvLsoV46rMZW?=
- =?us-ascii?Q?CrhAXvIEDI71BZcaHeFDrXW0YpiF1NY7KuyujYlV3yakrd1t2OYl9Vzuqlfh?=
- =?us-ascii?Q?/pakbxaB18fCmVjhnZUzOxsF6fG1/q9ME5exRMnchimX2LKODxCDcpj7hfLq?=
- =?us-ascii?Q?oW2D5Het526NO28As1KI8CB4IpBeDQ1Yy8Y2d4+xOKbDHmxPDJGYJb7Yxr6e?=
- =?us-ascii?Q?3JkPX3e7kGFwAisUsfJz3rzoYvWzOtrjNFkk3DntcGu1DyGKfwIMfg=3D=3D?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <65E974882AB14A43BF9FEC75DD0A5A11@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y2oCcUtr;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: petr.vorel@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-471076f819bso18044785e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 10:05:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760720713; x=1761325513; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=11WXCmAr2J4Q1VKOSE4Feuiuoee/FnM9Wk5Ls9V39FY=;
+        b=Y2oCcUtrD2NBFpC6+032RFqIe0MLTI0QEQtx23VB5eYfYRoE3IJzdEio8EevDJqbVd
+         YOnW8cGG7R7C2tw3KWvKvPZ3axIO3LOD5lwa7J4Q7Trods9zLVQAFLOdRhItgEtAh5xe
+         F4x9MvavwgJxHz8EOLbo4mMOC35ae4rhgvrBubOTy4MEjRCk95h6m39gdHGnG2cZ87Y8
+         CfuYotVgyK9BTF4Wsm+LNtvdswytGMoWvo0nRHEn8UNrPYg/UAsPtSffyF2xRLiFBI1l
+         rWreTG56YCiCCB/MVQZHjmbnGkkZ20mvZq8/R/Ej2/oq3z1AxJ9LLEdfgHBcORFtawOD
+         HIHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760720713; x=1761325513;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=11WXCmAr2J4Q1VKOSE4Feuiuoee/FnM9Wk5Ls9V39FY=;
+        b=HwpSZPCf4w+gw4Zy/h2fVrfMYV9Oc7hKOuodWmqet2eoe1a42m/I87PwAEAk+4EB3w
+         sibtlH4Z/dlsDPc1oFu71+FpSBRQyxSZ3i0u0Eef+qUPEXtu/3tlIWc36YIpYW7IOIb4
+         /nc9ZyCHaBfW6s/JDtqjbLbibdygZhcunKrBIFN0kcZLMmhEdYZMss2+Cd82keWOhWFZ
+         0dr5odBJggSLFkREC019DxF5WvXEcrrX2aZhwjlKZhQw/xYACl+LEOJaEsYBBj9tSIFd
+         G6NrkMXfEYsNqzGmE8OHrwyIeq+S1j2WVMaOebS8HExGWk2RZkESpA0Xy2+qWMYeOBgN
+         SuWQ==
+X-Gm-Message-State: AOJu0YxyGnzLZZaWtGWBwhacEHfqSvhiwL/i3dzzGNsYg6FnAzYPe44u
+	Nmjta2KpMQf8jqT0YWKthk7+XIVh694XXTMLxdgCwEpWaqis6TbzMUND
+X-Gm-Gg: ASbGnctRD7ZJcN5qeJwd23QBbGnIDlznOoTFbc17+3g29L7gAgsmOh+i3/LoSEOkKDX
+	WG9cjwHBP3lTToOL8bMG5qcFg4zCLuvfJHZV0liFc6hfkdaNQIsqgVm9ObHlBHZvt+3jFYgtZgt
+	rYv0wkvJfeUwuOMq/u28AnHuaKIWGX0qiXcDbRaGv/AlWk9MoGoyKV8+yZp9iLv4/SQg0Qr+Pup
+	YG3dNec5qfrjKekEINc/toO5jkQHSSLMGV22/xY7ns/GfCtmsoCzUVdcUPElMSPwCYayNK6F80F
+	lQRxghtE/43vIHJVBjc51liG2Tdv+wiclxG0yC3pFvpAQ7SjOBA6dqsxzf8y8LGPqUAym2ewxuz
+	H6+2nEitKOUh9KiVtleDe1w3/HGguLzx2ydCwUHsob1c+YTcEtRirc5ht5oDIY4/t43PC1Kyp6G
+	DKllc0oqci4nN50AI=
+X-Google-Smtp-Source: AGHT+IGmY1UFJJXlxSAy1D+FcDBKqk5RvLkJlbVAX+ARs5FazO+BieJylSPAz9qCZ5mit8NuAkM7hA==
+X-Received: by 2002:a05:600c:444d:b0:45b:79fd:cb3d with SMTP id 5b1f17b1804b1-471179202famr33603235e9.36.1760720712471;
+        Fri, 17 Oct 2025 10:05:12 -0700 (PDT)
+Received: from pevik (gw1.ms-free.net. [185.243.124.10])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4715520dd65sm3782745e9.15.2025.10.17.10.05.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Oct 2025 10:05:11 -0700 (PDT)
+Date: Fri, 17 Oct 2025 19:05:09 +0200
+From: Petr Vorel <petr.vorel@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org,
+	Yi Zhao <yi.zhao@eng.windriver.com>, Khem Raj <raj.khem@gmail.com>,
+	Hui Min Mina Chou <minachou@andestech.com>,
+	Cyril Hrubis <chrubis@suse.cz>,
+	Andrea Cervesato <andrea.cervesato@suse.de>,
+	LTP List <ltp@lists.linux.it>
+Subject: Re: [PATCH 1/1] ltp: upgrade 20250530 -> 20250930
+Message-ID: <20251017170509.GB355538@pevik>
+Reply-To: Petr Vorel <petr.vorel@gmail.com>
+References: <20251013185934.GA114595@pevik>
+ <59f5af6c290efef806b73ba905cbfc412c290109.camel@linuxfoundation.org>
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9767
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM3PEPF0000A78F.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	bd7a8f08-8fb2-4b95-7981-08de0d9dc145
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|14060799003|36860700013|35042699022|7053199007|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?+NHeqlj+yUdNWpKQFST1b1Ew4zn5c3kiKtXgm7rQhsKouAmX7HGW9WMRZUfF?=
- =?us-ascii?Q?q2nTxMYlmWJyt8LrL9kVeN26xUibApHLiKnDYeZcESTHf6lJMFheiBg+y4H/?=
- =?us-ascii?Q?+9/FTcRCe2uNlApx+dxWKcsyejkCRXf0TbuwoosshqoaWg1I0aexPidZECXp?=
- =?us-ascii?Q?NJ/15vaKUmw99eA4uFeTK58ol0yefaSumrYUdN/ldIPy+EcYD6jd4YT+X5ZL?=
- =?us-ascii?Q?lqST/i3riqtQH5ve0zXQF1KZTVSrbBi6pegZwucoJVDBao/1EPI6BoLge1/0?=
- =?us-ascii?Q?wS4RyupcoKVPC+hYHY7AWYkZp1bsQmT7BePeEWcfBtnT8G8qmShWNwRbNmLu?=
- =?us-ascii?Q?n6F4MSbSY9udH+v3q42Is5XmLAtoo9SShZ76Xxc+TJP+vNAMr3sBCTQK7mOW?=
- =?us-ascii?Q?Q3zAkaEFjUuE6bdPmSMd29mZyJIdsLDTNcDRXp4IOz92c1Ipr0pUA346M7Kl?=
- =?us-ascii?Q?YILAJut40RxJzVK6F54hZDqNuW8HHiNI9nfBRNA2rmRmgQeT7y3+BPfxY43N?=
- =?us-ascii?Q?j64kN3wXy0wI6X6Rl3C0Uc5cmbPXYdYDtc5yDhgq6KChwLeCctM6PIL+jkVz?=
- =?us-ascii?Q?Cnl+dduJWJm1Op4/BISFNeMgj2/zoxwGVXrzX8Ah1M5ju8OYu9Ljgxg1yfNq?=
- =?us-ascii?Q?AATb4XmYoZzYDYU/aDw/3No3zmhvULK6oe1w2fyCuh14bpEtkKbHCMAlNSTb?=
- =?us-ascii?Q?MFXucovbGlkQFCbc8oqkPYM9Wk9ZTjQNfu7AHjSl2irdXENIFBu0gNdhKdPu?=
- =?us-ascii?Q?RDsoXVNlwTFYyoO5tuDcm1LpOHyvaUtuM19aturG/20o8zghi9kUPzUyxNJr?=
- =?us-ascii?Q?eFMVH40R3orcWFlOZ2D1Bp/Y+NCo0vmKY1DNJ8kiSDeI3XE4sGtGlEh4rW4I?=
- =?us-ascii?Q?xsSeW++7k3neslg7bQMLR8LzflN/W8C4WKIjvLSnLLqC14J2Fst7s+CCqgAt?=
- =?us-ascii?Q?gXN7O+hVW+Qnl73kQb83AU1Lvb4Ps1Fy1YABUfn7hvfWC8Sz/st2Web0wmfi?=
- =?us-ascii?Q?RE+2WI7p5TNycQZQIIzJiHgOI0qZpz8+QsjHMV4N3J47VmrHEjKrwUIFzElH?=
- =?us-ascii?Q?JD0/GxSbWL21yB2IoiMG8VoVPvM0fI9fGAfoKZlp+QPXfHLK3wBszeujDrSR?=
- =?us-ascii?Q?Ui9qlid/IUbq1q77ZcTtycRpqpdmmChRMX/jETKxkDEsCXg+tmmYQU4UijJO?=
- =?us-ascii?Q?nUwTn4rBcKiZQGqdPHwzEtZlJiBnzzrGaPb3ZrQ+A1Cm14PgkanftUMfxAB4?=
- =?us-ascii?Q?hf4uTpxr8aILZGX5U/d9mh7tA0aLVdCLOffai/AFV16HGymDKSIfX0kKNEjt?=
- =?us-ascii?Q?eQUtX68p8siwpBBjyPcuvE0H9zQ53mYtA2oHr2/ShD4cIT+rhJYz8Y7dTGNm?=
- =?us-ascii?Q?QX2Ewk2VqW4dGl1YP6PeO9ZSdKgjt5w1qH2FEFi7WW76r6MhASHfFxHC77Eh?=
- =?us-ascii?Q?ltWMJhVor9RfWx3gRK4xH0VmQEHzgw6yuVrDow8R21iJFwHCToUgkhvxH9R3?=
- =?us-ascii?Q?zeu1aJiYRBCttiA=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(14060799003)(36860700013)(35042699022)(7053199007)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2025 16:54:27.5207
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f25c532-4212-42e7-6f91-08de0d9dd580
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM3PEPF0000A78F.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB9325
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <59f5af6c290efef806b73ba905cbfc412c290109.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 16:54:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225027
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 17:05:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225028
 
-On 10 Oct 2025, at 06:52, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->=20
-> I do not have permission (no new accounts) to submit a pull request, the =
-message from https://gitlab.freedesktop.org/xorg/lib/libxcb-errors
-> ...
-> Due to an influx of spam, we have had to impose restrictions on new accou=
-nts. Please see this wiki page for instructions on how to get full permissi=
-ons. Sorry for the inconvenience.
+Hi Richard, all,
 
-The wiki page has instructions to get full permissions, did you do that so =
-you can file a pull request?
+[ I realized that we went quite far to kirk topic, which would be interesting to
+Cyril, Andrea and possible other people developers or users, therefore Cc them.
+Replying to this thread:
+https://lists.openembedded.org/g/openembedded-core/message/224816
++ links to replies from Richardo previously in LTP ML
+https://lore.kernel.org/ltp/c8d4ee181809c4bbf5e21bf355c241eeb540e9a5.camel@linuxfoundation.org/
+https://lore.kernel.org/ltp/8043628a6eed94e788f9fedbf6c8b264ebfbae15.camel@linuxfoundation.org/
+NOTE: Cc requires subscription.
+]
 
-Ross
+I added few final points below.
 
+> On Mon, 2025-10-13 at 20:59 +0200, Petr Vorel wrote:
+
+...
+> > > I did send some questions and had some discussion on kirk a while ago.
+> > > Quite simply, it isn't useful/interesting to Yocto Project.
+
+> > I see your points [2] [3].
+
+> > > What we want to test with is our images and our kernel, as we build it.
+> > > kirk, as far as I understand it has gone a different route where there
+> > > isn't really any userspace left and it simply tests against a kernel
+> > > binary. We'd no longer be testing our build artefacts but some more
+> > > artificial construct.
+
+> > I don't understand "any userspace left and it simply tests against a kernel
+> > binary". LTP tests are mostly focused on the kernel (+ it's modules). And you
+> > can run individual tests by just executing them (+ handle environment variables)
+> > or use runltp or use kirk. The executor does not matter that much. In the end we
+> > at SUSE also test with LTP our built image :). (LTP is used by mainline folks
+> > and by distro folks).
+
+> Sorry, I'm not really being clear. The Yocto Project is in the middle
+> of some huge changes and I'm struggling with those. Equally, I did want
+> to at least given some response to your upgrade which is appreciated.
+
+> I guess we're one of the few ltp users with a cross environment. We
+> have a way to launch target images under emulation and our own methods
+> for controlling them and transferring files. We do all this without
+> special permissions or access other than ability to use kvm. As such we
+> liked being able to just run runltp on the target in the environment we
+> already have.
+
+> kirk, at least as I understand it, wants to do much of this for itself.
+> That means we end up with two ways of running the target emulation
+> which may or may not match. We'd much prefer just having one so we
+> either have issues there or we do not but our test environment is
+> consistent across all tests.
+
+> > FYI although kirk is meant to be run on the host, doing a different connections,
+> > it can also be run on SUT. Sure, there is then python3 dependency on SUT
+> > (heavier than shell + it's dependencies), but still kind of runltp replacement.
+
+
+> > > We're trying to test what we build. You're trying to test the kernel
+> > > for regressions. They're two different things.
+
+> > > I totally understand why you've gone that direction with kirk but I
+> > > also did spell out at the time that it wasn't something which really
+> > > fits in with the way we run tests, or what we actually aim to test. I
+> > > was told at the time that basically, nobody is interested in what we
+> > > want/do.
+
+> > ...
+> > > > I see in meta/lib/oeqa/runtime/cases/ltp.py the deprecated
+> > > > /opt/ltp/runltp is still being used. We want to remove it (not sure
+> > > > when, but it will happen sooner or later). Any change somebody would
+> > > > submit a patch to switch to kirk?
+
+> > > It is more likely that when you drop runltp, we'll just have to drop
+> > > ltp. Sorry :(. I did explain this at while ago :/.
+
+> > It's a question if any of the users really need LTP. If yes, you could vendor
+> > runltp.
+
+> > Or, write a simple script which parses the content of the runtest files and
+> > execute them. FYI for part of openSUSE testing we still use our custom openQA
+> > runner which does exactly this. It would be very light: -d and -r can be
+> > replaced by TMPDIR and LTPROOT, -I is supported by all tests. The only missing
+> > thing will be generating of results (if you really need it, I'd recommend kirk
+> > and it's JSON output).
+
+> We'd appreciate and be able to use the json output, we already have
+> json output for most of our other tests. Beyond that, as you say, we
+> don't really need much beyond what runltp does though. kirk brings with
+> it a number of things we definitely do not want (as mentioned above). I
+> don't know if we can avoid those or not.
+
+As I wrote previously, kirk is possible to be used as nearly drop-in runltp
+replacement run on the SUT. It's not the intended use-case (we aim it to be run
+on host), but still supported use case.
+
+> > The reason we go to kirk + ltx is that in the future we plan to get rid of
+> > runtests, replace them with metadata info (that will allow many things [4],
+> > but you were Cc at the discussion [5]). Once this happen, runltp (or any custom
+> > script / framework runner) will be broken. But this likely take long time.
+
+> Right, using a vendored runltp would just buy us a small amount of time
+> so likely isn't a long term viable solution sadly. I'd consider it if
+> it were but it doesn't seem a good investment of time.
+
+I would say adopting kirk in minimalistic way (or identify what you need and
+it's still missing) would be sure safer in a long term.
+
+Kind regards,
+Petr
+
+> Cheers,
+
+> Richard
 
