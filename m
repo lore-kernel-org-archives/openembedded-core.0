@@ -2,100 +2,98 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E69ACCCD195
-	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 18:18:52 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.web10.432.1760725123275740985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC6B9CCD195
+	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 18:22:52 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.web11.492.1760725369163521103
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Oct 2025 11:18:43 -0700
+ Fri, 17 Oct 2025 11:22:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cuo6AnTo;
- spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-78f75b0a058so29346176d6.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 11:18:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JfmiJZAn;
+ spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-87c148fb575so35496556d6.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 11:22:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760725122; x=1761329922; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1760725368; x=1761330168; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kl1A+Hor4KPKouJogGf+dkZAaXVVTYL6DRr+XX2lZ7g=;
-        b=cuo6AnTot9ckgPcRo/HWAonefNf8QAi8Z3Mot8ZH62NRhw5KgBXCavdjz8hlNoqz/y
-         adr4mRqir/RGX2k0pfMIJxUuBHvbrwcE4R179UQa9DBSL5jrC5Ka5QewZxyU9gAjbPN5
-         rfm4mBJVjoDFXV/7jJWFUmitX8KpCtNsOwsbIsumw4juPW2Uds3Y/zGowrfXVzioN11c
-         Tykjs1pvShoo1fys91UUu8EJCNLUYrxM6rKF7GAoJ3TldJEf++UcddUKIYjvA0/9TsLr
-         yzJzQ2SZ5r+z366rEOhr+8l6qBJaHeOzptNjceqMvTqiE3nEV86af5/SuKTdzL7mNuVN
-         U0Jg==
+        bh=d5E1APJ8ZMQBhk60NimHCi8NgcIZ47SKNHz7pTr0qpE=;
+        b=JfmiJZAnqEXyDkzwcQehZzA5II2E8trRyAYTDIQomatog+G89zxVMpBlGx2ZqMRtH0
+         bP9xVI4KOMnt3Ko47agNoxfXn9nIbOHzrJs846RNpSAImtsO1eWkvtyiu3pVnbhxUEBY
+         zDUZG+7OdAoy2AIr/Ow8OcyJXmw8IWdoNuLwJFTCjKkcO7MDzoC6UQprYFjpkh5rVtjc
+         ZpsLNHysxX+8uvNmvooWjECN3AFdDcywmwi2Z9Kfq4p+KJQ1Vm0shrLKOw33PPl1sZ+y
+         O9U62Sq5FOwtouM6wuVGtDb4ujKJ6p5qMuHVVzN1Ke3Iib8cNOAebdvqBb8FFEBxjUeK
+         5tfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760725122; x=1761329922;
+        d=1e100.net; s=20230601; t=1760725368; x=1761330168;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kl1A+Hor4KPKouJogGf+dkZAaXVVTYL6DRr+XX2lZ7g=;
-        b=NkUaM0+qrM8b8IIb7pkhGts97GlHi0nZDeNnOuXUI1oyzp9pxwNsRDI0TvC+Qyb730
-         pmBwhBgRvq3q8qR7iG8SbpiRMKjc08+YpWt33a5iOtAUwxReT+iEdZiQvMvGuGYeL6QF
-         vvrl0E1gDEeg+Y4ycerI/Zc6Vx30tx3qseObthgFKeQhkxlt2inIzC3rtZB5U2Vvfdkp
-         kmc5FXvIXc6y7PfFAZwqlYwOTaVMizNWVI1turZTj2ViCirA7qUPcqjk8mqzLyVkOTZq
-         H0BxMZ5ze8QUa/NIT3i+sF2ttdIQ5QH1G3+4B2yU5nzgLYomzehcf0yw8y0n5wYp810R
-         YReQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWCBgcNvji43cPChuN0crhcBjMUaF1zyMhfaSB8aJxaY3vUgNdBkB0A0VPGbK++3kcQsgkxchNSeBO0aHpI75YLIQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwEQSJrbrKx9IqZsb16Hsx0+UzfJ4VhkB8+WsvRmje5Czy3+Vku
-	vubuJwubjdi5NRewOHVcr6+Z/BN5K3N6H2BsAGWaxW557p8ZfH4ZrCJZUnNVCGOllemfKVGvN9n
-	sV/cjM/ECs2i3vmcUfZIRhBFBNpaOFvI=
-X-Gm-Gg: ASbGncstKmdT6iZwyhX++OMDnrnfscQTunNYuyqQxtCdXrDI650bbNlUOiqCflBcWnx
-	5AmOVlZ1Kd/KPJ5GJ0IjfvFwgi0DbL1K1Y/WyVKVMcD2UYOe4phhevJn3Mm/XwJeH9EHzmDv9qb
-	Vavt+3lBNi5i5KoUxl0TW/AE+SuzNSpAyQyPygg8RR89K2D3gmi1gLcV68WvzPY7LWwVZK0pVHN
-	fX4etkgR7DRQXnTGsUNa9EO2VejEbGceJmuDmxnLHwhy3SbIHd/sfXYZRpLPsbS5Gh59jVZpHfb
-	gNgVWtQ7lbzydFtgWu9M5g3y6G/qoy6EEIb97Tp2PAkX7z9/M2UjWPwdLcdr
-X-Google-Smtp-Source: AGHT+IGJxA+ldDjM/uLndIQaymEzt7N6exKD34bcXwYGsOgShbjTBjUxZOPUdZRW/vnWYFhnlp5aPN46NokNI9rNgZM=
-X-Received: by 2002:a05:6214:212d:b0:87c:8e4:3375 with SMTP id
- 6a1803df08f44-87c2061dadfmr80243306d6.31.1760725122229; Fri, 17 Oct 2025
- 11:18:42 -0700 (PDT)
+        bh=d5E1APJ8ZMQBhk60NimHCi8NgcIZ47SKNHz7pTr0qpE=;
+        b=KjaCuZYZJvurA0RdnvMu4tXqwmh90eGccaISaRvInelNX/ezvZNCPfH47carP6OLur
+         ZE/RbEIjXMVlc8aQv1K2czYNZ0M41h2V8yZW1+DpgUOhKWzSNAwa9edie2Yp89bFvq3t
+         OTe7VgJ/eSnZD47SJBvss3RLnuj5WEQu8UyEWU1LK06tVXy8OE5Gjm1w5sqDrwclRUp5
+         svcb0cjHAMI0LAK8Wu1k4RSKtPk8nJt92Q190Ov+U1iv8XSdmG9GBQS4MrP5tQy0Gd9W
+         ozeaapMiwlSNxN/FC7Nuv82Lfz0WjQgyPAyiyOhRhzY6ocmhei5PAbOC72Jq21njSi1g
+         Q31A==
+X-Forwarded-Encrypted: i=1; AJvYcCW939Eu36zTX31OSZKSl7IL+Yuelgmii27suGjvEsflD1U0V2hWauMnp2ltWYKYu8i3Fo74jGbOU8yb1cMhUYenGA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxRdCJV5BdOzghyABy9VtPU3A680/XsTrV+Wv1RRxuQRZU2J6E8
+	PAvRfxPKGwr7JXjkZEaLJ7/4p54XHCtFUfQ1svG4mAWTrueYwH6f/KpCHO00SfN5oVaRdQ/auQD
+	d+/hiuuVIWYP7o4Ah6vUCHUM60/D7rblG2Q==
+X-Gm-Gg: ASbGncuUSFm3feI2dSfTIi0r+LDZ7J2GVvAUMeIW/4J+5aCejQdJF2d9ELOgSSbrFUX
+	tgxOacInBhV67csMIAJet+JAs3/04UI+B2QSjOfQaLzUSFzG8X9vxTsPT1m3o3ee3qGd09zNsgw
+	UueE+YokB0Us9lbpRkfZITcDaqRPEQ3oYpUSG/cBkm6/CB2jJy1odOWTcfkwodC1vNzEBEpG3ba
+	twQYawgyaIwdLLOk/5nejDJvZUHn1YZBD1N7aXIw8OPHO7KUyLW85xa7kmNGxyanSrhuC9HQD+B
+	/SfGPns5C68crmK6EkRTrirH5ou4EUkcJu67Zq5lTjpCZWZn8VFTmhcbJdl8
+X-Google-Smtp-Source: AGHT+IE63Etvs6o5JlVclSxWX56bVLJo15LqijnRoNP2ngk5LdzFIsJJ5AlXWSif3wOGnr5lNi52XLFOfc5mE0rc3PE=
+X-Received: by 2002:a05:6214:e43:b0:87c:67a:ca69 with SMTP id
+ 6a1803df08f44-87c2063c1camr85827356d6.61.1760725368014; Fri, 17 Oct 2025
+ 11:22:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251013185934.GA114595@pevik> <59f5af6c290efef806b73ba905cbfc412c290109.camel@linuxfoundation.org>
- <20251017164332.GA355538@pevik>
-In-Reply-To: <20251017164332.GA355538@pevik>
+References: <20251016084700.1537381-1-Qi.Chen@windriver.com>
+ <DB5PR02MB102130824E86A46D0A830FB03EFE9A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <a7d6a359-5a4d-4314-939f-3fa97627bdc2@windriver.com>
+In-Reply-To: <a7d6a359-5a4d-4314-939f-3fa97627bdc2@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 17 Oct 2025 20:18:33 +0200
-X-Gm-Features: AS18NWAbHqrQ5GktiFwEIDpoE_I95gCu76Y_b8lKCPZlY_WHZbPHT4tCR1tM4TY
-Message-ID: <CANNYZj-6s0z-VgsONFkD-BW-kimhJ1R7bRLsXTJ2NQ7ANjfi4Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] ltp: upgrade 20250530 -> 20250930
-To: petr.vorel@gmail.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org, Yi Zhao <yi.zhao@eng.windriver.com>, 
-	Khem Raj <raj.khem@gmail.com>, Hui Min Mina Chou <minachou@andestech.com>
+Date: Fri, 17 Oct 2025 20:22:39 +0200
+X-Gm-Features: AS18NWCP98JLrq4glvTSKr2OBWXkrOG4-LLF1gmyrPA6TiZ1th742bbdfzgGA2Q
+Message-ID: <CANNYZj8i4ksk_8kmDjswjA_pvQw-cCg_jOOCh47PYDu3TXw6Bw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH V3 1/2] base-passwd: add clock group
+To: Qi.Chen@windriver.com
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 18:18:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225030
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 18:22:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225031
 
-On Fri, 17 Oct 2025 at 18:43, Petr Vorel via lists.openembedded.org
-<petr.vorel=gmail.com@lists.openembedded.org> wrote:
-> Master branch from my fork [1] do:
+On Fri, 17 Oct 2025 at 04:56, Chen Qi via lists.openembedded.org
+<Qi.Chen=windriver.com@lists.openembedded.org> wrote:
+> > Why does this have to go here. Why can't you just update the
+> > GROUPADD_PARAM:${PN} in the systemd recipe to create the clock group:
+> >
+> > GROUPADD_PARAM:${PN} = "-r systemd-journal; -r clock;"
+> >
+> > That way it is only created if systemd is actually used.
 >
-> ... $ . oe-init-build-env
-> ./build $ bitbake ltp
+> I consider this clock similar to the 'wheel' and 'kvm' groups. 'wheel'
+> and 'kvm' groups are added here, so I put 'clock' group here.
 >
-> ERROR: Error importing OE modules: module 'bb.parse' has no attribute 'vardepsexclude'
-> ERROR: Unable to parse /home/pvorel/install/src/openembedded/bitbake/lib/bb/parse/ast.py
-> Traceback (most recent call last):
->   File "/home/pvorel/install/src/openembedded/bitbake/lib/bb/parse/ast.py", line 372, in eval
->     layerid, fragment_name = f.split('/', 1)
->     ^^^^^^^^^^^^^^^^^^^^^^
-> ValueError: not enough values to unpack (expected 2, got 1)
+>  From my understanding, such groups are likely to be used by other
+> applications (recipes). You can see this from the original commit:
+> https://github.com/systemd/systemd/commit/af96ccfc24bc4803078a46b4ef2cdeb
 >
-> Kind regards,
-> Petr
->
-> [1] https://github.com/pevik/openembedded-core
+> It's possible that applications such as linuxptp will use this clock
+> group. What systemd (udev) does is to change the device's group to
+> 'clock'. This means applications using those devices could be put in
+> 'clock' group to be granted access.
 
-Which revision/branch of bitbake repo are you using? Note that bitbake
-and oe-core repositories are tightly coupled, and if branches are
-different, or branches are same but one is behind the other, you will
-get errors such as above, e.g. "ERROR: Error importing OE modules:
-module 'bb.parse' has no attribute 'vardepsexclude'" is pretty much
-saying that oe-core is expecting something bitbake on your machine
-doesn't have.
+But how do classic binary distributions handle this? Can you research
+where e.g. Fedora or Debian create this group? We could probably
+follow that, and avoid having to carry an Inappropriate patch. Maybe
+base-passwd upstream already has a fix?
 
 Alex
 
