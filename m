@@ -1,96 +1,116 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93274CCD184
-	for <webhook@archiver.kernel.org>; Sat, 18 Oct 2025 07:06:35 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.1621.1760771185612579799
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 858C3CCD184
+	for <webhook@archiver.kernel.org>; Sat, 18 Oct 2025 10:06:06 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.3110.1760781962191900738
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Oct 2025 00:06:25 -0700
+ Sat, 18 Oct 2025 03:06:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=O1ivBmXF;
- spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-78118e163e5so3213667b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Oct 2025 00:06:25 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=J7BGZq/a;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-46b303f755aso27402685e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Oct 2025 03:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760771184; x=1761375984; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9zwrNWIkVhMLz3JEvADfUNq5Z7W8kPxp6AtUCyZr0GQ=;
-        b=O1ivBmXFnhyxqHtfrQEUN71V2YRLX82zKFL+t2XtzSvbtjv6SwZlEhr/bzPJs9TgF4
-         LdZf2oF1tGYpDyt4MF0HzKOvEkuhwDyhQxPCZ6PZlICQROpDHA4rT/Tx0B0o2y1gf3ae
-         HcNLYbbB3Jv2KlIqGXC1Og2wDXBQGj9bQJCjwBJWTqi6aZzFLzpqsOWhIFGXPkRTZ5nJ
-         15AXNpZ3IZmerTlKG5gLcd9D1M4i/S8/VkUFNu/KojlYXoGP2W+DN6FV0v5kAtELzJD9
-         Abxt6YyoHssersBmj5bU3ajEkdXu4MDjG3NRp9JzWa130dM5j6/3l39zkVXvK0w8AZp8
-         vM+A==
+        d=linuxfoundation.org; s=google; t=1760781960; x=1761386760; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=3S3MLP1yFPZjwWfn5cPd/QzeI0LIfP2LpjxcNmdIUeg=;
+        b=J7BGZq/aHrcS57J4/UCTQM4xnw+aU7GiPXDHgttbxl4SJEj92nzVqugnJkI5MUnhDd
+         SX2hULrWqomTwcPJMd6xTf9Oh/RRp3jOuKyO8EQw+auX63q/yx2tD4j7EcuWMv//vHeY
+         g6RIycrrEArP4H7LTfAedCW7jmaMKLTEBiy4I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760771184; x=1761375984;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9zwrNWIkVhMLz3JEvADfUNq5Z7W8kPxp6AtUCyZr0GQ=;
-        b=VVbWyo5aqmzAoebQ3xvOnZ7TWEeCrZj1OeFMxvdovHnrKBoLdNxo4CnhcEKvu4Sc1W
-         3iPhDK57vtj4fZx4b/kHBIWMHXIqd42bQ8uyBlGDrqe3ghMLDqebe1t1YXkvKZtm82aV
-         SI93Ucv8QTkx3diiSpnURJLko46PMX2GVj0H3M035G0QMggsa6j9T8W3yJL0sSMdNBP3
-         ZU2QbjyTU/mVIE57QziwT4VVdQF6vdAHvB5EyFNxyii7ki2ncyJcI6VFN3MpH0EcfBJ1
-         a3GJL/ZuFfHupnrTkHAlFKU6kfg9+nVh/ChIXkz8Rbhp7JfAZRTE7eDxGAT3cSAEX1J9
-         CYTg==
-X-Gm-Message-State: AOJu0YyAL/Tx1NXPAY00oEpz2y2XZw+awNFwHMlNJFqN9VL8NJwvRN4t
-	V+HmwgU6Qpq7PgL/fKzoue29BYtRXZ+WxV8NNWXjdixKQCIhdxxNPrrBXfY8OKtf
-X-Gm-Gg: ASbGncuCNXGvTC5bAdRRb8Pmufoe89ptbhB+EjRLtXczdprCGU8qHeY/3dUq+szbvS3
-	K6cxEufUC00z2V97SbxJCNsy6OZS7bq9eUOn0tQyAkK4mpHOqDF/Bgx7Njj3kwvcXW4r6v7rbXv
-	hy3aFCINwcOSp7Z8bDPTeee6nXINs74RjirAndx3CYS/zVQb4x/8c5Ks1hOTRzpyne+SRDtHzFC
-	Xtpjbj0pmknIa3BvUQNXpXDQ3qLRsHtHFUn96slj4xHoc4Mve8eWhdNYWLdLAMbShBtioGCJ1AK
-	pggXhjh1uzvC1x9ZX/x6KvVkKexPBg+nlAwmlhBIxhPxcv+2uxHfezHiJcUh8cOWFv9o5pzMehC
-	1wrBJ7uAnX1RNQ1mp8ZoZGvP1tZizKQebdSmzwyt3BLDI6oIXYvLumuuNjSGnZbsLXpvwXSEmLF
-	PKdi0Be5HMAk7a9gpwZvLxs4psknaQKduRtETjdKmMhqL9PpkGfCVmfwVsj/nbnbg9kJfAoN4D
-X-Google-Smtp-Source: AGHT+IHdVjTwt/nPpniXS1BZVVAlCnuX2hJDE7myrhWS7A7dH8AtXjrjUcyfJbrPeHfaiKlBraqMng==
-X-Received: by 2002:a05:6a20:9149:b0:309:48d8:cf1d with SMTP id adf61e73a8af0-334a78fdda8mr9108721637.18.1760771184384;
-        Sat, 18 Oct 2025 00:06:24 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::a529])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a23011088fsm1752792b3a.65.2025.10.18.00.06.23
+        d=1e100.net; s=20230601; t=1760781960; x=1761386760;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3S3MLP1yFPZjwWfn5cPd/QzeI0LIfP2LpjxcNmdIUeg=;
+        b=o36+zwuMycH1/tC+iAsHt778hrH/7/AEgPvRTuWleGmt42OOMh6IgknIRdVXz3EDgw
+         7MOxRi2HQEPoIVSwHYf0cT1MrKXJtvQdQYKAWU84H2XKMyuimBomXSxC0IQ/szadT0iP
+         1zWbyGbUES9HYfx+jfowCSylFrzJ8NOhh3aNE7J3pctXC7Nqu6OVnRHWezGUQ/Xyqmdb
+         sk7Gt0j43X+waRqej8g51yk60usVNiO7Djhj427wb3TbfFDK8rbBzyBjbGV3OeZIcfK7
+         EdHXEdKdczarZmGvLY97ahCu09ldsBdqN1ymzXh28O3UFOZwCmmOHVXQRfZ519Gt/sgn
+         kX7A==
+X-Gm-Message-State: AOJu0YyJxpXWusvAIETS4wNLTtTYypV/Fl5FvJsNiNaTTGeqBw8BXow5
+	itCdSqXJywU6pqT7KgNNDznhIFzLlXiQkyqyJjzuer1AArEhG9gzQbzJP6ECR4fPWls=
+X-Gm-Gg: ASbGnctr/SrH707GrY9QYyde7Netn31kkLfsFQv8fE4lINgHw/86m7sdICAzE779W/2
+	IHnNy0lwVzdcgMlHtPPmLtDbiHW07CHXtaE8W1qmYvotKQJIAI/H4snRRDLDF6mdY48FNE7LZwI
+	do+n36kbXxJJltui9aIatrzxk8DuAquIFWDpKi5+hMqMtCXGccij5kYoLq7Y/XoHq1ge61jhMBa
+	2BGYHiUrIeoPsKIQyENg2xL81gAmIegmTrLm0iz9plqZDQrp0NJpr81qifx+7rIVviMFjmOoRk1
+	XOpvWt0v0+etmzATdD3j4rowKtq/rtNkwQQtJXw8WYOayrLbD3d2CWCVy+c5WMG1n6h+IeCuHfx
+	C5RUcHMw7YbSUf7eN0nVXCBg7SOo0fXy/c3tdtVfMdTJz5aZbEIBc7QxYpSxv1bkcrgE2z57TFG
+	93nhcmuN8TxBWHS3z66yQ4svaqTTSOsjQ5UB9Ch5wCvsifGKvuzRlw2+eyJQnWUHKf
+X-Google-Smtp-Source: AGHT+IHWu97x5rjEKpiNRdb2HHGU66IpVu8sAyEz5NjM1lfW2ZEkcFwI7yNuHSr8yvdYT2bEShWUNA==
+X-Received: by 2002:a05:600c:4ec6:b0:46f:b327:ecfb with SMTP id 5b1f17b1804b1-4711787bfe8mr50323595e9.9.1760781960518;
+        Sat, 18 Oct 2025 03:06:00 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f6eb:655d:8fc8:b6f0? ([2001:8b0:aba:5f3c:f6eb:655d:8fc8:b6f0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4710eeaa236sm65577555e9.4.2025.10.18.03.05.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Oct 2025 00:06:23 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] classes/toolchain/clang: Add placeholder for dynamic linker in cross-canadian packages
-Date: Sat, 18 Oct 2025 00:06:21 -0700
-Message-ID: <20251018070621.3456800-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.51.1.dirty
+        Sat, 18 Oct 2025 03:05:58 -0700 (PDT)
+Message-ID: <3065c655cb09c8934022b9e9295620024eb3f94c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/1] ltp: upgrade 20250530 -> 20250930
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, petr.vorel@gmail.com
+Cc: openembedded-core@lists.openembedded.org, Yi Zhao	
+ <yi.zhao@eng.windriver.com>, Khem Raj <raj.khem@gmail.com>, Hui Min Mina
+ Chou	 <minachou@andestech.com>
+Date: Sat, 18 Oct 2025 11:05:57 +0100
+In-Reply-To: <CANNYZj-6s0z-VgsONFkD-BW-kimhJ1R7bRLsXTJ2NQ7ANjfi4Q@mail.gmail.com>
+References: <20251013185934.GA114595@pevik>
+	 <59f5af6c290efef806b73ba905cbfc412c290109.camel@linuxfoundation.org>
+	 <20251017164332.GA355538@pevik>
+	 <CANNYZj-6s0z-VgsONFkD-BW-kimhJ1R7bRLsXTJ2NQ7ANjfi4Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 Oct 2025 07:06:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225072
+ <openembedded-core@lists.openembedded.org>; Sat, 18 Oct 2025 10:06:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225073
 
-clang-cross-canadian is just symlinking into nativesdk-clang unlike gcc which
-has separate binaries and they have inbuilt dynamic linker specs. To help clang
-built cross-canadian binaries add it via cmdline option here, cross-canadian
-binaries are only usable on installed SDKs, and these paths get re-written with
-correct SDK specific linker during SDK install relocation process.
+On Fri, 2025-10-17 at 20:18 +0200, Alexander Kanavin wrote:
+> On Fri, 17 Oct 2025 at 18:43, Petr Vorel via lists.openembedded.org
+> <petr.vorel=3Dgmail.com@lists.openembedded.org> wrote:
+> > Master branch from my fork [1] do:
+> >=20
+> > ... $ . oe-init-build-env
+> > ./build $ bitbake ltp
+> >=20
+> > ERROR: Error importing OE modules: module 'bb.parse' has no attribute '=
+vardepsexclude'
+> > ERROR: Unable to parse /home/pvorel/install/src/openembedded/bitbake/li=
+b/bb/parse/ast.py
+> > Traceback (most recent call last):
+> > =C2=A0 File "/home/pvorel/install/src/openembedded/bitbake/lib/bb/parse=
+/ast.py", line 372, in eval
+> > =C2=A0=C2=A0=C2=A0 layerid, fragment_name =3D f.split('/', 1)
+> > =C2=A0=C2=A0=C2=A0 ^^^^^^^^^^^^^^^^^^^^^^
+> > ValueError: not enough values to unpack (expected 2, got 1)
+> >=20
+> > Kind regards,
+> > Petr
+> >=20
+> > [1] https://github.com/pevik/openembedded-core
+>=20
+> Which revision/branch of bitbake repo are you using? Note that bitbake
+> and oe-core repositories are tightly coupled, and if branches are
+> different, or branches are same but one is behind the other, you will
+> get errors such as above, e.g. "ERROR: Error importing OE modules:
+> module 'bb.parse' has no attribute 'vardepsexclude'" is pretty much
+> saying that oe-core is expecting something bitbake on your machine
+> doesn't have.
 
-This helps clang built cross-canadian tools e.g. from binutils-cross-canadian
-be relocated correctly on SDK install.
+Just to be clear, try cloning git://git.yoctoproject.org/poky which
+contains both OE-Core and bitbake. This does look like a bitbake/oecore
+version mismatch. I am curious which bitbake version that is? Was it
+distro provided?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/toolchain/clang.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+Cheers,
 
-diff --git a/meta/classes/toolchain/clang.bbclass b/meta/classes/toolchain/clang.bbclass
-index b4a1c180f6a..9c1204171fe 100644
---- a/meta/classes/toolchain/clang.bbclass
-+++ b/meta/classes/toolchain/clang.bbclass
-@@ -32,6 +32,7 @@ TUNE_CCARGS += "${@bb.utils.contains("DISTRO_FEATURES", "usrmerge", " --dyld-pre
- 
- LDFLAGS:append:class-nativesdk:x86-64 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-x86-64.so.2"
- LDFLAGS:append:class-nativesdk:aarch64 = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-aarch64.so.1"
-+LDFLAGS:append:class-cross-canadian = " -Wl,-dynamic-linker,${base_libdir}/ld-linux-x86-64.so.2"
- 
- # do_populate_sysroot needs STRIP, do_package_qa needs OBJDUMP
- POPULATESYSROOTDEPS:append:class-target = " llvm-native:do_populate_sysroot"
+Richard
 
