@@ -1,116 +1,132 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 858C3CCD184
-	for <webhook@archiver.kernel.org>; Sat, 18 Oct 2025 10:06:06 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.3110.1760781962191900738
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00B3DCCD193
+	for <webhook@archiver.kernel.org>; Sat, 18 Oct 2025 11:35:56 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.3948.1760787347349144961
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Oct 2025 03:06:02 -0700
+ Sat, 18 Oct 2025 04:35:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=J7BGZq/a;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-46b303f755aso27402685e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Oct 2025 03:06:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VtjBs7h1;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: skandigraun@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-427084a641aso935527f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Oct 2025 04:35:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1760781960; x=1761386760; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=3S3MLP1yFPZjwWfn5cPd/QzeI0LIfP2LpjxcNmdIUeg=;
-        b=J7BGZq/aHrcS57J4/UCTQM4xnw+aU7GiPXDHgttbxl4SJEj92nzVqugnJkI5MUnhDd
-         SX2hULrWqomTwcPJMd6xTf9Oh/RRp3jOuKyO8EQw+auX63q/yx2tD4j7EcuWMv//vHeY
-         g6RIycrrEArP4H7LTfAedCW7jmaMKLTEBiy4I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760781960; x=1761386760;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=gmail.com; s=20230601; t=1760787346; x=1761392146; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=3S3MLP1yFPZjwWfn5cPd/QzeI0LIfP2LpjxcNmdIUeg=;
-        b=o36+zwuMycH1/tC+iAsHt778hrH/7/AEgPvRTuWleGmt42OOMh6IgknIRdVXz3EDgw
-         7MOxRi2HQEPoIVSwHYf0cT1MrKXJtvQdQYKAWU84H2XKMyuimBomXSxC0IQ/szadT0iP
-         1zWbyGbUES9HYfx+jfowCSylFrzJ8NOhh3aNE7J3pctXC7Nqu6OVnRHWezGUQ/Xyqmdb
-         sk7Gt0j43X+waRqej8g51yk60usVNiO7Djhj427wb3TbfFDK8rbBzyBjbGV3OeZIcfK7
-         EdHXEdKdczarZmGvLY97ahCu09ldsBdqN1ymzXh28O3UFOZwCmmOHVXQRfZ519Gt/sgn
-         kX7A==
-X-Gm-Message-State: AOJu0YyJxpXWusvAIETS4wNLTtTYypV/Fl5FvJsNiNaTTGeqBw8BXow5
-	itCdSqXJywU6pqT7KgNNDznhIFzLlXiQkyqyJjzuer1AArEhG9gzQbzJP6ECR4fPWls=
-X-Gm-Gg: ASbGnctr/SrH707GrY9QYyde7Netn31kkLfsFQv8fE4lINgHw/86m7sdICAzE779W/2
-	IHnNy0lwVzdcgMlHtPPmLtDbiHW07CHXtaE8W1qmYvotKQJIAI/H4snRRDLDF6mdY48FNE7LZwI
-	do+n36kbXxJJltui9aIatrzxk8DuAquIFWDpKi5+hMqMtCXGccij5kYoLq7Y/XoHq1ge61jhMBa
-	2BGYHiUrIeoPsKIQyENg2xL81gAmIegmTrLm0iz9plqZDQrp0NJpr81qifx+7rIVviMFjmOoRk1
-	XOpvWt0v0+etmzATdD3j4rowKtq/rtNkwQQtJXw8WYOayrLbD3d2CWCVy+c5WMG1n6h+IeCuHfx
-	C5RUcHMw7YbSUf7eN0nVXCBg7SOo0fXy/c3tdtVfMdTJz5aZbEIBc7QxYpSxv1bkcrgE2z57TFG
-	93nhcmuN8TxBWHS3z66yQ4svaqTTSOsjQ5UB9Ch5wCvsifGKvuzRlw2+eyJQnWUHKf
-X-Google-Smtp-Source: AGHT+IHWu97x5rjEKpiNRdb2HHGU66IpVu8sAyEz5NjM1lfW2ZEkcFwI7yNuHSr8yvdYT2bEShWUNA==
-X-Received: by 2002:a05:600c:4ec6:b0:46f:b327:ecfb with SMTP id 5b1f17b1804b1-4711787bfe8mr50323595e9.9.1760781960518;
-        Sat, 18 Oct 2025 03:06:00 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f6eb:655d:8fc8:b6f0? ([2001:8b0:aba:5f3c:f6eb:655d:8fc8:b6f0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4710eeaa236sm65577555e9.4.2025.10.18.03.05.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Oct 2025 03:05:58 -0700 (PDT)
-Message-ID: <3065c655cb09c8934022b9e9295620024eb3f94c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/1] ltp: upgrade 20250530 -> 20250930
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, petr.vorel@gmail.com
-Cc: openembedded-core@lists.openembedded.org, Yi Zhao	
- <yi.zhao@eng.windriver.com>, Khem Raj <raj.khem@gmail.com>, Hui Min Mina
- Chou	 <minachou@andestech.com>
-Date: Sat, 18 Oct 2025 11:05:57 +0100
-In-Reply-To: <CANNYZj-6s0z-VgsONFkD-BW-kimhJ1R7bRLsXTJ2NQ7ANjfi4Q@mail.gmail.com>
-References: <20251013185934.GA114595@pevik>
-	 <59f5af6c290efef806b73ba905cbfc412c290109.camel@linuxfoundation.org>
-	 <20251017164332.GA355538@pevik>
-	 <CANNYZj-6s0z-VgsONFkD-BW-kimhJ1R7bRLsXTJ2NQ7ANjfi4Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        bh=TQOF7K9X+SpwyYL83gdrHa/3UD5kLHW43EpmzQUfemw=;
+        b=VtjBs7h11ZfjSrnOhQOoFgt4cyaBoPYHkP7BnPn1jbkKCLu6GMtzMoxLoLQkGFuM6l
+         EbLhQBQt4IyqZNBQFys0B/pThkGyUvZM0hYpHmpkd8vEQF0xZBnzQYAAbYf4aQbcFDR8
+         ZSR2tCGv7lSXiZaGxdi/kpgJCQYNyV8I/yJ0bWf6lVi6b9jVDhu1r1W8ORMABXxni51t
+         kM4LmesSMezf4qjhyVA8b5UZHIhcPpSJSGd1JqULvE7fOOHiiqMUUea9q+sV/61WWx2d
+         CT81al4DQDu5TEIpZvMbheJXuwyN/HvrRIsrCyWXLYU0wm4d0QQxtDamK9xKCp+v61FK
+         L2iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760787346; x=1761392146;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TQOF7K9X+SpwyYL83gdrHa/3UD5kLHW43EpmzQUfemw=;
+        b=kbs2gFrq2FeJCs7NaarxAhKYuaLUsS7tjdaAHSp24aMoyeJl+CXZvXsunU/bRfSx2B
+         tyvlIq5UjAwmJj9pF5tjMfihLBU5Drb+glNNgAa6fAqWBp2PbchBZVwP/39NK98kZquh
+         G5p1uB3Zv3nI1NSQLGUgloOWnlxNoJ0/NBYYUdMlSyJ3E36FkX7FNULd8kyofwev8NeQ
+         4N1/EEfymwwSUrLI1JR2PgkWCZjL7WveRVgeCBXs0DrRtRR8rFvec0feRWtzfK8IDmwe
+         QQ8fv4Trk9WhdrAIwsrm2CgFsBiOiyBnyJ0gDdqz6sacqTDMX55UY+xt+m0M9t7d/xMj
+         /vdw==
+X-Forwarded-Encrypted: i=1; AJvYcCWXjaCB9UDc1uE6TfkRjUjEtId8WuA28PxIPxQ1e2PAGVAo+56HLkquC/XR+bwf0H9OOnbZUEYeWTGR1Xt6PymjOQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw29jAPpCxjgSpO80JEpcjuCcWR6/YECK3hRlgvoeOtTuhuQNa3
+	lHZViEQkRdiR1I6q5RqwD7NhjYZP/K9h8/nrXjXaKx6LfFxDEBjyBmHC
+X-Gm-Gg: ASbGncv6sKAc1BFK6InKFJRq6ZrCUKeJQxGrHgFMV3n/AC3KBIFbTWUmCdYCy6DPDiu
+	M6cBBj1c0avInCjPOG/xg5tm/q0Snb9/gDMLcNzZkMJJlkpdi2u9Yjx8ckixmNPRD9YGz/Rm0cv
+	h/ObKFp4JCzJYsglwKswEnCcgAmPCUHM5i86Z6sih1sOC6sr8jB3n2Jrz9RoBF3dI+V3cODElP+
+	6oisPxVZq4EccGI/VyBEHBof+HPVgt8kjg+TcpG2ZYdaE7AEAJFsm9Am/lVF3N52WYlUOY5NQt3
+	hyMpiIG1rBTEkZRRTr7wOhsWPJTeOsZI+/hCHN80y/xcNAI6nDnbZ9fd/vbmGfmkE1ldBXrGkda
+	tRVWP8fI6lt4NZUuF7NMYe/PexrqvoHQjri5+rP8xczUsLoK0mQsVOpcmmjKXT+o7DMHS8muoXu
+	sUQ3OgV4PDDQNgWsZYZtl26uHp98wr7g==
+X-Google-Smtp-Source: AGHT+IGHbshj3mK/bFqiCHO0bAkNY4iO2AaDMU7s4fu0KfT2cciigo9QoCKCzkiH/Z9PC9N5G4CLEw==
+X-Received: by 2002:a05:6000:428a:b0:428:3cd7:a336 with SMTP id ffacd0b85a97d-4283cd7a3a7mr1260537f8f.63.1760787345515;
+        Sat, 18 Oct 2025 04:35:45 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f00b97f8sm4427261f8f.36.2025.10.18.04.35.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 18 Oct 2025 04:35:45 -0700 (PDT)
+Message-ID: <808cc282-e13e-446a-a79d-aa39c2cb55f1@gmail.com>
+Date: Sat, 18 Oct 2025 13:35:44 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] pseudo: Add hard sstate dependencies for
+ pseudo-native
+To: paul@pbarker.dev, openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20251016-fix-pseudo-native-v1-1-7c42af094122@pbarker.dev>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <20251016-fix-pseudo-native-v1-1-7c42af094122@pbarker.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 Oct 2025 10:06:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225073
+ <openembedded-core@lists.openembedded.org>; Sat, 18 Oct 2025 11:35:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225074
 
-On Fri, 2025-10-17 at 20:18 +0200, Alexander Kanavin wrote:
-> On Fri, 17 Oct 2025 at 18:43, Petr Vorel via lists.openembedded.org
-> <petr.vorel=3Dgmail.com@lists.openembedded.org> wrote:
-> > Master branch from my fork [1] do:
-> >=20
-> > ... $ . oe-init-build-env
-> > ./build $ bitbake ltp
-> >=20
-> > ERROR: Error importing OE modules: module 'bb.parse' has no attribute '=
-vardepsexclude'
-> > ERROR: Unable to parse /home/pvorel/install/src/openembedded/bitbake/li=
-b/bb/parse/ast.py
-> > Traceback (most recent call last):
-> > =C2=A0 File "/home/pvorel/install/src/openembedded/bitbake/lib/bb/parse=
-/ast.py", line 372, in eval
-> > =C2=A0=C2=A0=C2=A0 layerid, fragment_name =3D f.split('/', 1)
-> > =C2=A0=C2=A0=C2=A0 ^^^^^^^^^^^^^^^^^^^^^^
-> > ValueError: not enough values to unpack (expected 2, got 1)
-> >=20
-> > Kind regards,
-> > Petr
-> >=20
-> > [1] https://github.com/pevik/openembedded-core
->=20
-> Which revision/branch of bitbake repo are you using? Note that bitbake
-> and oe-core repositories are tightly coupled, and if branches are
-> different, or branches are same but one is behind the other, you will
-> get errors such as above, e.g. "ERROR: Error importing OE modules:
-> module 'bb.parse' has no attribute 'vardepsexclude'" is pretty much
-> saying that oe-core is expecting something bitbake on your machine
-> doesn't have.
+Tested-by: Gyorgy Sarvari <skandigraun@gmail.com>
 
-Just to be clear, try cloning git://git.yoctoproject.org/poky which
-contains both OE-Core and bitbake. This does look like a bitbake/oecore
-version mismatch. I am curious which bitbake version that is? Was it
-distro provided?
+On 10/16/25 21:11, Paul Barker via lists.openembedded.org wrote:
+> Where a task (such as do_package) runs under fakeroot, the corresponding
+> setscene task (do_package_setscene) will also run under fakeroot when
+> restoring from sstate. Assuming pseudo is used as the fakeroot
+> implementation, we need pseudo-native and all its runtime dependencies
+> to be available in the sysroot before running any setscene tasks under
+> fakeroot.
+>
+> We already add a hard dependency from all do_package_setscene tasks to
+> virtual/fakeroot-native:do_populate_sysroot in base.bbclass, but this
+> does not cover transitive dependencies. So, extend the dependencies of
+> pseudo-native:do_populate_sysroot_setscene to ensure that the sqlite3
+> library and attr binaries are also available in the sysroot before
+> running fakeroot setscene tasks.
+>
+> [YOCTO #15963]
+>
+> Signed-off-by: Paul Barker <paul@pbarker.dev>
+> ---
+>  meta/recipes-devtools/pseudo/pseudo.inc | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
+> index 22c934977d9b..82499cdd74da 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo.inc
+> +++ b/meta/recipes-devtools/pseudo/pseudo.inc
+> @@ -155,3 +155,10 @@ do_install:append:class-nativesdk () {
+>  }
+>  
+>  BBCLASSEXTEND = "native nativesdk"
+> +
+> +# Setscene tasks which run under fakeroot must not be executed before
+> +# pseudo-native and *all* its runtime dependencies are available in the
+> +# sysroot.
+> +PSEUDO_SETSCENE_DEPS = ""
+> +PSEUDO_SETSCENE_DEPS:class-native = "sqlite3-native:do_populate_sysroot attr-native:do_populate_sysroot"
+> +do_populate_sysroot_setscene[depends] += "${PSEUDO_SETSCENE_DEPS}"
+>
+> ---
+> base-commit: 58558b97c157469f060bb2ad59a40254fb6181e4
+> change-id: 20251016-fix-pseudo-native-221fe3fceea4
+>
+> Best regards,
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#224980): https://lists.openembedded.org/g/openembedded-core/message/224980
+> Mute This Topic: https://lists.openembedded.org/mt/115795308/6084445
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
-Cheers,
-
-Richard
 
