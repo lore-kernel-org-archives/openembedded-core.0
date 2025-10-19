@@ -1,134 +1,121 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93BBACCD183
-	for <webhook@archiver.kernel.org>; Sun, 19 Oct 2025 10:03:04 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web11.22106.1760868179937507289
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9654CCD183
+	for <webhook@archiver.kernel.org>; Sun, 19 Oct 2025 11:04:14 +0000 (UTC)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web10.22321.1760871854361510863
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Oct 2025 03:03:01 -0700
+ Sun, 19 Oct 2025 04:04:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=zgqAQ/1L;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id D4F724E411A3
-	for <openembedded-core@lists.openembedded.org>; Sun, 19 Oct 2025 10:02:57 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8EA21606D5;
-	Sun, 19 Oct 2025 10:02:57 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 29583102F238D;
-	Sun, 19 Oct 2025 12:02:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760868173; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=+r9QeDIfP9SRKgv1guGgg/SnxnklZxFQ2cW0Egsn1jk=;
-	b=zgqAQ/1Lv6G4GKPPF9SkLm7sMMjAYTmt8ENFOplecXK0KI7IFpRRxDs0FLWyEl84uiRZiL
-	le+OhRJwWstJHG6G7fQv9tJ/We236MQJnNJ6CtLxMx7qLu5or69ir4PWJUqqp6ZyzneYwW
-	SYEBI2HMKUCG9OIsGMKweS4BajhysJfMAQoyX0lHX7P2pwTtSVkIPVofUFtp0Fh7w9xire
-	j3xvr41EzAaLGzUB2xb9H5Oda8spJxVEZPPGnxPpuVfXsyK+lTB71aAgsCvoJtBXbqzxPv
-	UdJN/HxUVwH5iM1gT0Vf7OKhylRjDroxcVS/1StmDNHN4azBnP3ahINTbgJYPw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 19 Oct 2025 12:02:47 +0200
-Message-Id: <DDM7O4JOPS0Y.1YQP1AS47WNL7@bootlin.com>
-Subject: Re: [PATCH 1/1] Fstab: Fix xattrs not being maintained on fstab
- file when using wic fstab update funtionalities
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <dani.barra25@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <DDFITTM4J8SO.13FKL48ZAQCD0@bootlin.com>
- <20251017111210.501333-1-dani.barra25@gmail.com>
- <20251017111210.501333-2-dani.barra25@gmail.com>
-In-Reply-To: <20251017111210.501333-2-dani.barra25@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TFSR4OzB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b633b54d05dso2394613a12.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Oct 2025 04:04:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760871853; x=1761476653; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IKRnUOox4Yv0ofo024invbMStMcPTLUx8jZ96aqPzdw=;
+        b=TFSR4OzBIbOaImiG6NEA1BEzomWJs/Y56spWTlj7mL5reGjhWh1Q94GDQ1nxfXwffw
+         XVVgZPUOP1at6cE86G/LwwsoHtS8XeLM1nsNaoy84wpLWe7JHwbzb77ODr/RAcJBB2RD
+         a4BEBc+VfONVU9F7ghHDodSVVglPK9OQvTPyUdE/7u7/fpCRSOcm2fG8Pidq0pA67myO
+         P1M34ivITrqUkDjujtUoNGQ/sKkx+qsLKhoV7p9qa/vMqqplVfhkL3DP7jJaBfuGX0jM
+         2w1BYAv8mq8lQPj5e5cA5vXul1biJYBafj7oJfzlIoMFpT8uP53/oVG0j6xRTYIwpme3
+         CjYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760871853; x=1761476653;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IKRnUOox4Yv0ofo024invbMStMcPTLUx8jZ96aqPzdw=;
+        b=G7D4YSSLljCUXnsBS2l4la4wxKmThbnhSyWFULF1xl1zE2cZskBrXg3wRWsOWe/9Rc
+         mA1DNMlQt6OtSKXblYFkO0XdP0dPUNiZ7+2zwhcA7irOLGNkUo68e2NEg4hh1Jtoz8nh
+         0sdLSpJILAfB1R+yTqVyC0n93i1Upxhb3BRSkXOeO1grdOXv4mBoG9Sy0DposAosVJPn
+         sr74TvEwljqmrjX5QUlWCiVG7jaaqCTD2Kj3QNJYx9gS6QBdDRbSSMgqTF+Ph9EPFHa+
+         J2I9mCVQelvyaszUjXV3yslcyB7nmCAwgENanA+bdqfsmTAXl3bWHQ7OZTd6D2gVimZ4
+         sINw==
+X-Gm-Message-State: AOJu0Yze3928H1OFP9r0rAuBolOCz27BXSu9m/RFA5QE7gyFLLaFqXLe
+	7wyQKgVLruZiH5MU/ynarF3ty3yyV4fPijF7H+lNiHjK+ryo+9TErkRQTujTKJzrS4xxdP6C06Y
+	JAkE8
+X-Gm-Gg: ASbGncuOrx7L9PCZHimon43R7s1WDvI9fJOO6zi//U98C3b4+aew5MKmUrTgllpgMmK
+	Wjt0uUC4AMA7fv1xe+qH/W9o3KrxXl7dUnl9xE5yMMIrkwwswsr1+X7A2e+ZF1W/PXsfUk0GFai
+	3iLYCtZbxQJV1bfXhvkzl857b0bjhcNm4C1bzV0DPN3RSOGvFPGKEOi8Q5YUGGkNoq+9hbjIriS
+	PnrOzf7hn4CZP6Y0ZiYhm1rAVc5dkAhGfQTyZ1GfR0JN6FWs5S1y+Ho43CHtKmXgfFLMnHib9Tr
+	Z/ol2SiYRdZgCYAMBHZptpuCrPqv/kFgCJ3SP7buvn1UDXGTBBG14vDhhda59vpaDnAcQjsELfE
+	U2iJ5bUCd4mcnJ7AVUAp3rE8BEfgZFhUszSrPMpZyH8QqXMP8qF8FxlE93xsRoXf2HScRZeymjP
+	Btoz5fsD6g2sjLYtDLm6xcJ6hs/g==
+X-Google-Smtp-Source: AGHT+IFAPa8L0RO2/h+EwbmaJXio2yuvWC06xZFY6TIW1+uLA7YNg7QdYkKt41PzIfH+yK6s35pTmQ==
+X-Received: by 2002:a17:902:f642:b0:269:9a8f:a4ab with SMTP id d9443c01a7336-290cb94ca6fmr109828405ad.60.1760871853209;
+        Sun, 19 Oct 2025 04:04:13 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29246ebcde4sm50670665ad.5.2025.10.19.04.04.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Oct 2025 04:04:12 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 670C71003F0; Sun, 19 Oct 2025 01:04:12 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 19 Oct 2025 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 19 Oct 2025 01:04:12 -1000
+Message-Id: <20251019110412.670C71003F0@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Oct 2025 10:03:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225079
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Oct 2025 11:04:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225080
 
-On Fri Oct 17, 2025 at 1:04 PM CEST, dani.barra25 wrote:
-> From: Daniel Andrade <dani.barra25@gmail.com>
->
-> The wic fstab generation capability was removing the xattrs of the /etc/f=
-stab, possibly rendering the produced image unusable in some case (e.g.: SE=
-Linux enforced on a read-only rootfs).
-> The file appears as unlabeled no matter the fstype chosen.
-> To bypass this, some late procedures done on ext* and msdos fstype have b=
-een removed and all the fstab logic was passed to rootfs.py.
-> On this one, the idea is to still use the install command, but in this ca=
-se, executed outside the pseudo environment. After the file as sucessfully =
-been place, the idea was to check again for inconsistencies
-> in the database (now the fstab inode is different) and force it to rebuil=
-d with the correct inode, ensure fstab inode is correctly set on all the ta=
-bles, including the xattrs one.
->
-> Signed-off-by: Daniel Andrade <dani.barra25@gmail.com>
-> ---
+Branch: master
 
-Hi Daniel,
+New this week: 5 CVEs
+CVE-2025-11412 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11412 *
+CVE-2025-11413 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11413 *
+CVE-2025-11414 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11414 *
+CVE-2025-11494 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11494 *
+CVE-2025-11495 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11495 *
 
-Thanks for the new version. It looks like this one is now breaking
-wic.Wic.test_exclude_path and wic.Wic.test_include_path tests:
+Removed this week: 3 CVEs
+CVE-2025-11081 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11081 *
+CVE-2025-11082 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11082 *
+CVE-2025-11083 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11083 *
 
-2025-10-19 07:55:18,010 - oe-selftest - INFO - wic.Wic.test_exclude_path (s=
-ubunit.RemotedTestCase)
-2025-10-19 07:55:18,011 - oe-selftest - INFO -  ... FAIL
-...
-AssertionError: Command 'wic create temp.wks -e core-image-minimal -o /srv/=
-pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3133304/wic-tmp' r=
-eturned non-zero exit status 1:
-...
-ERROR: _exec_cmd: export PATH=3D/srv/pokybuild/yocto-worker/oe-selftest-deb=
-ian/build/build-st-3133304/tmp/work/x86-64-v3-poky-linux/wic-tools/1.0/reci=
-pe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/oe-selftest-debian/build=
-/build-st-3133304/tmp/work/x86-64-v3-poky-linux/wic-tools/1.0/recipe-sysroo=
-t-native/usr/sbin:/srv/pokybuild/yocto-worker/oe-selftest-debian/build/buil=
-d-st-3133304/tmp/work/x86-64-v3-poky-linux/wic-tools/1.0/recipe-sysroot-nat=
-ive/usr/bin:/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3=
-133304/tmp/work/x86-64-v3-poky-linux/wic-tools/1.0/recipe-sysroot-native/us=
-r/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/oe-selftest-debian/buil=
-d/build-st-3133304/tmp/work/x86-64-v3-poky-linux/wic-tools/1.0/recipe-sysro=
-ot-native/bin:/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st=
--3133304/tmp/hosttools:$PATH;export PSEUDO_PREFIX=3D/srv/pokybuild/yocto-wo=
-rker/oe-selftest-debian/build/build-st-3133304/tmp/work/x86-64-v3-poky-linu=
-x/wic-tools/1.0/recipe-sysroot-native/usr;export PSEUDO_LOCALSTATEDIR=3D/sr=
-v/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-3133304/wic-tmp/=
-tmp.wic.dhlnwwia/pseudo1;export PSEUDO_PASSWD=3D/srv/pokybuild/yocto-worker=
-/oe-selftest-debian/build/build-st-3133304/wic-tmp/tmp.wic.dhlnwwia/rootfs1=
-;export PSEUDO_NOSYMLINKEXP=3D1;/srv/pokybuild/yocto-worker/oe-selftest-deb=
-ian/build/build-st-3133304/tmp/sysroots-components/x86_64/pseudo-native/usr=
-/bin/pseudo  -B  returned '1' instead of 0
-output: PRAGMA journal_mode =3D OFF;: database is locked
-PRAGMA synchronous =3D OFF;: database is locked
-Failed: database is locked
-Error getting 'logs.db' database.
-PRAGMA journal_mode =3D OFF;: database is locked
-PRAGMA synchronous =3D OFF;: database is locked
-Failed: database is locked
-Error getting 'files.db' database.
-error during load from disk: database is locked
-pdb_files: database error.
-Couldn't start file list, can't scan.
-db cleanup for server shutdown, 07:55:17.956
-memory-to-file backup complete, 07:55:17.956.
-db cleanup finished, 07:55:17.956
-considering table files
-considering table xattrs
-considering table migrations
+Full list:  Found 28 unpatched CVEs
+CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
+CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
+CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
+CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
+CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
+CVE-2025-11412 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11412 *
+CVE-2025-11413 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11413 *
+CVE-2025-11414 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11414 *
+CVE-2025-11494 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11494 *
+CVE-2025-11495 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11495 *
+CVE-2025-29087 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-29087 *
+CVE-2025-3277 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-3277 *
+CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
+CVE-2025-6965 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-6965 *
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2574
+Summary of CVE counts by recipe:
+  linux-yocto: 16
+  binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite: 5
+  sqlite3:sqlite3-native: 3
+  libsndfile1: 2
+  qemu:qemu-native:qemu-system-native: 2
 
-Can you have a look at these errors?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
 
