@@ -2,32 +2,32 @@ Return-Path: <kamel.bouhara@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42C3DCCD199
-	for <webhook@archiver.kernel.org>; Mon, 20 Oct 2025 07:10:54 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.web10.12249.1760944251120522159
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42AC6CCD1A4
+	for <webhook@archiver.kernel.org>; Mon, 20 Oct 2025 07:11:14 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.web10.12265.1760944265225703718
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Oct 2025 00:10:51 -0700
+ Mon, 20 Oct 2025 00:11:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=ewLZ7LEs;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: kamel.bouhara@bootlin.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=iSPu2oAL;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: kamel.bouhara@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 44075C0AFCE;
-	Mon, 20 Oct 2025 07:10:30 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id E5A781A13A6
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Oct 2025 07:11:03 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C75D9606DC;
-	Mon, 20 Oct 2025 07:10:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DB517102F23C7;
-	Mon, 20 Oct 2025 09:10:40 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B6E0A606D5;
+	Mon, 20 Oct 2025 07:11:03 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B77AF102F2390;
+	Mon, 20 Oct 2025 09:10:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760944242; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1760944259; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=yWNSG6l39T5mtQP8vMOyQmkoy1rqOh1HU/n15tN4Dh8=;
-	b=ewLZ7LEseAEdp7I6NiM1ZGnOBUAt7QvquY+ge2STIsJW0wylgDikprqz0eQNMOlCOlws8U
-	+L0ODAUUnffsZonTYvlM9z0+yuV09Q+KP3IHFmBHGXsG+xn3DII9TspC2nnPWw1QHs/iyh
-	1cwbhDPMHyaMZk5obhDYaJzG6RmhkemLK+NVt8cHUT3tjfjRz3GvKCXlL9lGtBA6sPMAz/
-	bTIG/H5nbP8H7PEnU7xTQIo6qKRQLsZ7gdcjpTZqxvIQHJvgapzupQaOv/5XD8iyHG+tk6
-	hHsiCf7sOnHolTd6PXBIYsxqa3Gx1uC77pb/XcC+PR3gpjQiDv/3mc3kAJDXsg==
+	bh=YxALgVy8rKHFgBFEeSKZvlGSyBREbvnto5fWm9djciU=;
+	b=iSPu2oAL2b7nM9f435PP19lV88+v0LuBEUDxW11kFYtE2RMD8e/xoQPVQlNGVT3iZOXKNq
+	yzrCtWP3Y6kOm7B4fmDC5Pe9ZE3Y0CLzdgzEs9jiq7Ay7S9aOTAC5jIk6Y9Y7qUPmSa9B0
+	/Kd0LC0FdU7xlxrO2iEDMs+0QVcVD9OubRF3tgD2lNkrgYlEUkwznkPBTwp8U/7I0JAymd
+	OnMKpykUbFSXj29ppp1HS7oUc20yfb4qOCnKvtZ8cBpMw/uRKKqxeOfCBdtnI9eg4oqpuD
+	L/5YJvXw72Hm4vFCLh8IFNaZOQigDgwkL4lsUp0z+RvTuTcm6eAGKAllOf+Xew==
 From: Kamel Bouhara <kamel.bouhara@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: JPEWhacker@gmail.com,
@@ -36,11 +36,11 @@ Cc: JPEWhacker@gmail.com,
 	mathieu.dubois-briand@bootlin.com,
 	antonin.godard@bootlin.com,
 	Pascal Eberhard <pascal.eberhard@se.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"Kamel Bouhara (Schneider Electric)" <kamel.bouhara@bootlin.com>
-Subject: [scarthgap v2 07/11] selftest: spdx: Add SPDX 3.0 test cases
-Date: Mon, 20 Oct 2025 09:09:47 +0200
-Message-ID: <20251020070952.942165-8-kamel.bouhara@bootlin.com>
+	Hongxu Jia <hongxu.jia@windriver.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [scarthgap v2 08/11] oeqa/selftest: Add SPDX 3.0 include source case for work-share
+Date: Mon, 20 Oct 2025 09:09:48 +0200
+Message-ID: <20251020070952.942165-9-kamel.bouhara@bootlin.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251020070952.942165-1-kamel.bouhara@bootlin.com>
 References: <20251020070952.942165-1-kamel.bouhara@bootlin.com>
@@ -50,207 +50,96 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Oct 2025 07:10:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225105
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Oct 2025 07:11:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225106
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-Adds test cases for SPDX 3.0. Reworks the SPDX 2.2 test setup so it can
-also be run even if the default is SPDX 3.0
+Build gcc and check gcc-14.2.0/README in objset is available
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+$ oe-selftest -r spdx.SPDX30Check.test_gcc_include_source
+...
+2024-10-26 01:24:57,063 - oe-selftest - INFO - test_gcc_include_source (s=
+pdx.SPDX30Check.test_gcc_include_source)
+2024-10-26 01:28:24,204 - oe-selftest - INFO - The spdxId of gcc-14.2.0/R=
+EADME in gcc.spdx.json is http://spdx.org/spdxdocs/gcc-f2eaeb0d-b54b-53ba=
+-899a-8c36c21139bf/88d5068ffd41e5ea6b4e0dd390b23bf499bb2b6674a41e09eaf2a8=
+87eced16c8/sourcefile/42
+2024-10-26 01:28:26,369 - oe-selftest - INFO -  ... ok
+2024-10-26 01:28:33,315 - oe-selftest - INFO - --------------------------=
+--------------------------------------------
+2024-10-26 01:28:33,316 - oe-selftest - INFO - Ran 1 test in 216.457s
+2024-10-26 01:28:33,316 - oe-selftest - INFO - OK
+2024-10-26 01:28:45,254 - oe-selftest - INFO - RESULTS:
+2024-10-26 01:28:45,254 - oe-selftest - INFO - RESULTS - spdx.SPDX30Check=
+.test_gcc_include_source: PASSED (209.31s)
+2024-10-26 01:28:45,260 - oe-selftest - INFO - SUMMARY:
+2024-10-26 01:28:45,260 - oe-selftest - INFO - oe-selftest () - Ran 1 tes=
+t in 216.457s
+2024-10-26 01:28:45,260 - oe-selftest - INFO - oe-selftest - OK - All req=
+uired tests passed (successes=3D1, skipped=3D0, failures=3D0, errors=3D0)
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b1d2309b3ab0fd8b0d8c4dfa59f50c85074bbd3b)
-Signed-off-by: Kamel Bouhara (Schneider Electric) <kamel.bouhara@bootlin.=
-com>
+(cherry picked from commit ccd6dde301dc8c45c8f901ebd4676b488d638b08)
 ---
- meta/lib/oeqa/selftest/cases/spdx.py | 133 +++++++++++++++++++++++++--
- 1 file changed, 124 insertions(+), 9 deletions(-)
+ meta/lib/oeqa/selftest/cases/spdx.py | 29 ++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
 diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftes=
 t/cases/spdx.py
-index 05fc4e390b..eb4c6aee62 100644
+index eb4c6aee62..db124f4b93 100644
 --- a/meta/lib/oeqa/selftest/cases/spdx.py
 +++ b/meta/lib/oeqa/selftest/cases/spdx.py
-@@ -6,21 +6,26 @@
+@@ -109,6 +109,7 @@ class SPDX3CheckBase(object):
+                     "SDKMACHINE",
+                     "SDK_DEPLOY",
+                     "SPDX_VERSION",
++                    "SSTATE_PKGARCH",
+                     "TOOLCHAIN_OUTPUTNAME",
+                 ],
+                 target_name,
+@@ -135,6 +136,34 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase=
+):
+             "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/packages/base-files.spdx.j=
+son",
+         )
 =20
- import json
- import os
-+import textwrap
-+from pathlib import Path
- from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import bitbake, get_bb_var, runCmd
-+from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runCmd
-=20
--class SPDXCheck(OESelftestTestCase):
-=20
-+class SPDX22Check(OESelftestTestCase):
-     @classmethod
-     def setUpClass(cls):
--        super(SPDXCheck, cls).setUpClass()
-+        super().setUpClass()
-         bitbake("python3-spdx-tools-native")
-         bitbake("-c addto_recipe_sysroot python3-spdx-tools-native")
-=20
-     def check_recipe_spdx(self, high_level_dir, spdx_file, target_name):
--        config =3D """
--INHERIT +=3D "create-spdx"
--"""
-+        config =3D textwrap.dedent(
-+            """\
-+            INHERIT:remove =3D "create-spdx"
-+            INHERIT +=3D "create-spdx-2.2"
-+            """
-+        )
-         self.write_config(config)
-=20
-         deploy_dir =3D get_bb_var("DEPLOY_DIR")
-@@ -28,7 +33,9 @@ INHERIT +=3D "create-spdx"
-         # qemux86-64 creates the directory qemux86_64
-         machine_dir =3D machine_var.replace("-", "_")
-=20
--        full_file_path =3D os.path.join(deploy_dir, "spdx", machine_dir,=
- high_level_dir, spdx_file)
-+        full_file_path =3D os.path.join(
-+            deploy_dir, "spdx", spdx_version, machine_dir, high_level_di=
-r, spdx_file
-+        )
-=20
-         try:
-             os.remove(full_file_path)
-@@ -43,8 +50,13 @@ INHERIT +=3D "create-spdx"
-                 self.assertNotEqual(report, None)
-                 self.assertNotEqual(report["SPDXID"], None)
-=20
--            python =3D os.path.join(get_bb_var('STAGING_BINDIR', 'python=
-3-spdx-tools-native'), 'nativepython3')
--            validator =3D os.path.join(get_bb_var('STAGING_BINDIR', 'pyt=
-hon3-spdx-tools-native'), 'pyspdxtools')
-+            python =3D os.path.join(
-+                get_bb_var("STAGING_BINDIR", "python3-spdx-tools-native"=
-),
-+                "nativepython3",
-+            )
-+            validator =3D os.path.join(
-+                get_bb_var("STAGING_BINDIR", "python3-spdx-tools-native"=
-), "pyspdxtools"
-+            )
-             result =3D runCmd("{} {} -i {}".format(python, validator, fi=
-lename))
-=20
-         self.assertExists(full_file_path)
-@@ -52,3 +64,106 @@ INHERIT +=3D "create-spdx"
-=20
-     def test_spdx_base_files(self):
-         self.check_recipe_spdx("packages", "base-files.spdx.json", "base=
--files")
 +
-+
-+class SPDX3CheckBase(object):
-+    """
-+    Base class for checking SPDX 3 based tests
-+    """
-+
-+    def check_spdx_file(self, filename):
++    def test_gcc_include_source(self):
 +        import oe.spdx30
 +
-+        self.assertExists(filename)
-+
-+        # Read the file
-+        objset =3D oe.spdx30.SHACLObjectSet()
-+        with open(filename, "r") as f:
-+            d =3D oe.spdx30.JSONLDDeserializer()
-+            d.read(f, objset)
-+
-+        return objset
-+
-+    def check_recipe_spdx(self, target_name, spdx_path, *, task=3DNone, =
-extraconf=3D""):
-+        config =3D textwrap.dedent(
-+            f"""\
-+            INHERIT:remove =3D "create-spdx"
-+            INHERIT +=3D "{self.SPDX_CLASS}"
-+            {extraconf}
-+            """
-+        )
-+        self.write_config(config)
-+
-+        if task:
-+            bitbake(f"-c {task} {target_name}")
-+        else:
-+            bitbake(target_name)
-+
-+        filename =3D spdx_path.format(
-+            **get_bb_vars(
-+                [
-+                    "DEPLOY_DIR_IMAGE",
-+                    "DEPLOY_DIR_SPDX",
-+                    "MACHINE",
-+                    "MACHINE_ARCH",
-+                    "SDKMACHINE",
-+                    "SDK_DEPLOY",
-+                    "SPDX_VERSION",
-+                    "TOOLCHAIN_OUTPUTNAME",
-+                ],
-+                target_name,
-+            )
-+        )
-+
-+        return self.check_spdx_file(filename)
-+
-+    def check_objset_missing_ids(self, objset):
-+        if objset.missing_ids:
-+            self.assertTrue(
-+                False,
-+                "The following SPDXIDs are unresolved:\n  "
-+                + "\n  ".join(objset.missing_ids),
-+            )
-+
-+
-+class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-+    SPDX_CLASS =3D "create-spdx-3.0"
-+
-+    def test_base_files(self):
-+        self.check_recipe_spdx(
-+            "base-files",
-+            "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/packages/base-files.spdx.j=
-son",
-+        )
-+
-+    def test_core_image_minimal(self):
 +        objset =3D self.check_recipe_spdx(
-+            "core-image-minimal",
-+            "{DEPLOY_DIR_IMAGE}/core-image-minimal-{MACHINE}.rootfs.spdx=
-.json",
-+        )
-+
-+        # Document should be fully linked
-+        self.check_objset_missing_ids(objset)
-+
-+    def test_core_image_minimal_sdk(self):
-+        objset =3D self.check_recipe_spdx(
-+            "core-image-minimal",
-+            "{SDK_DEPLOY}/{TOOLCHAIN_OUTPUTNAME}.spdx.json",
-+            task=3D"populate_sdk",
-+        )
-+
-+        # Document should be fully linked
-+        self.check_objset_missing_ids(objset)
-+
-+    def test_baremetal_helloworld(self):
-+        objset =3D self.check_recipe_spdx(
-+            "baremetal-helloworld",
-+            "{DEPLOY_DIR_IMAGE}/baremetal-helloworld-image-{MACHINE}.spd=
-x.json",
++            "gcc",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/gcc.spdx.json",
 +            extraconf=3Dtextwrap.dedent(
 +                """\
-+                TCLIBC =3D "baremetal"
++                SPDX_INCLUDE_SOURCES =3D "1"
 +                """
 +            ),
 +        )
 +
-+        # Document should be fully linked
-+        self.check_objset_missing_ids(objset)
++        gcc_pv =3D get_bb_var("PV", "gcc")
++        filename =3D f'gcc-{gcc_pv}/README'
++        found =3D False
++        for software_file in objset.foreach_type(oe.spdx30.software_File=
+):
++            if software_file.name =3D=3D filename:
++                found =3D True
++                self.logger.info(f"The spdxId of {filename} in gcc.spdx.=
+json is {software_file.spdxId}")
++                break
++
++        self.assertTrue(
++            found,
++            f"Not found source file {filename} in gcc.spdx.json\n"
++        )
++
+     def test_core_image_minimal(self):
+         objset =3D self.check_recipe_spdx(
+             "core-image-minimal",
 --=20
 2.43.0
 
