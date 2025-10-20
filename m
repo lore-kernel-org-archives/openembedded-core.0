@@ -1,132 +1,153 @@
-Return-Path: <rs@ti.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56F2ACCD1A2
-	for <webhook@archiver.kernel.org>; Mon, 20 Oct 2025 21:30:44 +0000 (UTC)
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by mx.groups.io with SMTP id smtpd.web10.4026.1760995842131725807
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84731CCD1A2
+	for <webhook@archiver.kernel.org>; Mon, 20 Oct 2025 22:09:34 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web10.4882.1760998166653454265
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Oct 2025 14:30:42 -0700
+ Mon, 20 Oct 2025 15:09:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=pHxkrdQo;
- spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: rs@ti.com)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59KLUccv995482;
-	Mon, 20 Oct 2025 16:30:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1760995838;
-	bh=TqrIu6uKBAhq/toGIjgh3G9wYs9yNoMTRLKlJO5ACzY=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=pHxkrdQoeyglFki+BmOfz5Y73C0azoltOIoWE/LUsxKGqYUk54Xd6NBh2sI3ERep1
-	 QfxqkxymyNj+ellnYg7IB8MKE6QYNanvgSwvW4McOa7SwF9oKwBRp/xGYGokAWPf3d
-	 AgOiL7sfgRg0GulnU1pXzDm0qyq3+ThWNrFe5ogw=
-Received: from DLEE215.ent.ti.com (dlee215.ent.ti.com [157.170.170.118])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59KLUckK726830
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 20 Oct 2025 16:30:38 -0500
-Received: from DLEE201.ent.ti.com (157.170.170.76) by DLEE215.ent.ti.com
- (157.170.170.118) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 20 Oct
- 2025 16:30:37 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE201.ent.ti.com
- (157.170.170.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 20 Oct 2025 16:30:37 -0500
-Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59KLUb9W2644173;
-	Mon, 20 Oct 2025 16:30:37 -0500
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=hCZMACgh;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2025102022092024b1f9180100020755-fqlqwt@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2025102022092024b1f9180100020755
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 21 Oct 2025 00:09:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=q/qP2esf9vs6dC7a1q81RvnyqX2yqC0WE60BfS4AdRM=;
+ b=hCZMACgh2AUzASjniL+qJePDjTihEWC1J9aWax7J0mDwHYo+AHvHinDeGfZOo80hHUG4L3
+ rsUVrtqYC86I+TDjeMDZLhQ0a90KelQ8Fd54S87/+MDUz/f4hx3oMZfC5GS61ALeXekaR4w3
+ y6LSIzfxc5pwhmjhE50bv9IlFFxHp/0yJHFlbtgQSKXLpYXEhUDGG8OfmD8wm+nqdj8dzwrh
+ M6UOm4wAL10l1c5ZqXZLUNA3PJYXvHnQAQtwCt2zMysLRsEB3IutgJkiRW5ZuofT4oYSqjou
+ 5TDYybFFr5dFKv+Pb4z58apst34z3v/cLQKNkJkcPWjJFBSAuH4egzzQ==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH 1/5] binutils: patch CVE-2025-11414
+Date: Tue, 21 Oct 2025 00:09:08 +0200
+Message-Id: <20251020220912.483748-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Mon, 20 Oct 2025 16:30:37 -0500
-Message-ID: <DDNGXBPJ11C6.3UNJJ4FUT0JBG@ti.com>
-From: Randolph Sapp <rs@ti.com>
-To: <rs@ti.com>, Ross Burton <Ross.Burton@arm.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-core][PATCH] sysvinit: create tmpfile dir for x11 domain
- socket
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20251007234809.435300-2-rs@ti.com>
- <FA907A20-0CE7-47B3-B38D-A627F8A96D2F@arm.com>
- <186EB9ECC2726DB8.13861@lists.openembedded.org>
- <186F6CDD2E45611C.1873@lists.openembedded.org>
-In-Reply-To: <186F6CDD2E45611C.1873@lists.openembedded.org>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Oct 2025 21:30:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225134
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Oct 2025 22:09:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225135
 
-On Fri Oct 17, 2025 at 7:01 PM CDT, Randolph Sapp via lists.openembedded.or=
-g wrote:
-> On Wed Oct 15, 2025 at 12:22 PM CDT, Randolph Sapp via lists.openembedded=
-.org wrote:
->> On Wed Oct 15, 2025 at 9:37 AM CDT, Ross Burton wrote:
->>> On 8 Oct 2025, at 00:48, rs@ti.com wrote:
->>>>=20
->>>> From: Randolph Sapp <rs@ti.com>
->>>>=20
->>>> Register a volatile directory entry for the x11 domain socket when not
->>>> using systemd. This will make sure the directory is always created wit=
-h
->>>> the correct permissions. Systemd already provides their own tmpfile.d
->>>> entry for the same behavior.
->>>
->>> We discussed this in the patch review call on Monday and concluded that=
- it
->>> definitely felt like it should be in the xserver recipe.
->>
->> Sure.
->>
->
-> I am a little bummed that we don't want to have symmetry between init sys=
-tem
-> packages though. Gonna need a gross "VIRTUAL-RUNTIME_init_manager" check
-> to make sure we don't clash with tmpfiles.d entry.
->
->>>> Currently some x11 related applications will create this directory if =
-it
->>>> doesn't already exist, but this is not true for everything. In additio=
-n,
->>>> if the application in question isn't started as root, it's possible th=
-is
->>>> directory can be owned by a non-root user. This isn't an issue by
->>>> itself, but it can potentially lead to problems in a multi-user
->>>> environment.
->>>
->>> Can you clarify what applications will create this directory and which =
-will
->>> not? Surely it=E2=80=99s the responsibility for the xserver to create t=
-he sockets?
->>>
->>> Ross
->>
->> Forgive me, as it's been quite some time since I initially tested this. =
-I
->> believe during testing with the current default xsession managers will c=
-reate it
->> but xwayland sessions will not. Given that systemd has determined they n=
-eed to
->> ship this as a global tmpfiles.d entry I assume there is more nuance to =
-this
->> than what I have outlined.
->>
->> - Randolph
->
-> Ah, now I remember, all rootless X sessions also have the capability of
-> generating this socket directory with the wrong owner, given that the ser=
-ver may
-> try to make the directory after it's already dropped to user permissions.=
- It's
-> normally fine because they throw 777 at it. Not great, but whatever.
->
-> - Randolph
+From: Peter Marko <peter.marko@siemens.com>
 
-Are we still dead set on splitting this into both xwayland and xorg-xserver=
- and
-conditionally masking it based on whether or not systemd is selected? Feels=
- odd.
+Pick commit per NVD CVE report.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../binutils/binutils-2.45.inc                |  1 +
+ .../binutils/binutils/CVE-2025-11414.patch    | 84 +++++++++++++++++++
+ 2 files changed, 85 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-11414.patch
+
+diff --git a/meta/recipes-devtools/binutils/binutils-2.45.inc b/meta/recipes-devtools/binutils/binutils-2.45.inc
+index 391b0157d3a..2adff3c4562 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.45.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.45.inc
+@@ -39,4 +39,5 @@ SRC_URI = "\
+      file://0015-CVE-2025-11081.patch \
+      file://0016-CVE-2025-11082.patch \
+      file://0017-CVE-2025-11083.patch \
++     file://CVE-2025-11414.patch \
+ "
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-11414.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-11414.patch
+new file mode 100644
+index 00000000000..21f98f075ed
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-11414.patch
+@@ -0,0 +1,84 @@
++From aeaaa9af6359c8e394ce9cf24911fec4f4d23703 Mon Sep 17 00:00:00 2001
++From: "H.J. Lu" <hjl.tools@gmail.com>
++Date: Tue, 23 Sep 2025 08:52:26 +0800
++Subject: [PATCH] elf: Return error on unsorted symbol table if not allowed
++
++Normally ELF symbol table should be sorted, i.e., local symbols precede
++global symbols.  Irix 6 is an exception and its elf_bad_symtab is set
++to true.  Issue an error if elf_bad_symtab is false and symbol table is
++unsorted.
++
++	PR ld/33450
++	* elflink.c (set_symbol_value): Change return type to bool and
++	return false on error.  Issue an error on unsorted symbol table
++	if not allowed.
++	(elf_link_input_bfd): Return false if set_symbol_value reurns
++	false.
++
++Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
++
++CVE: CVE-2025-11414
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=aeaaa9af6359c8e394ce9cf24911fec4f4d23703]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ bfd/elflink.c | 21 +++++++++++++++------
++ 1 file changed, 15 insertions(+), 6 deletions(-)
++
++diff --git a/bfd/elflink.c b/bfd/elflink.c
++index 66982f82b94..54f0d6e957e 100644
++--- a/bfd/elflink.c
+++++ b/bfd/elflink.c
++@@ -9127,7 +9127,7 @@ struct elf_outext_info
++    <binary-operator> := as in C
++    <unary-operator> := as in C, plus "0-" for unambiguous negation.  */
++ 
++-static void
+++static bool
++ set_symbol_value (bfd *bfd_with_globals,
++ 		  Elf_Internal_Sym *isymbuf,
++ 		  size_t locsymcount,
++@@ -9148,9 +9148,15 @@ set_symbol_value (bfd *bfd_with_globals,
++ 	     "absolute" section and give it a value.  */
++ 	  sym->st_shndx = SHN_ABS;
++ 	  sym->st_value = val;
++-	  return;
+++	  return true;
+++	}
+++      if (!elf_bad_symtab (bfd_with_globals))
+++	{
+++	  _bfd_error_handler (_("%pB: corrupt symbol table"),
+++			      bfd_with_globals);
+++	  bfd_set_error (bfd_error_bad_value);
+++	  return false;
++ 	}
++-      BFD_ASSERT (elf_bad_symtab (bfd_with_globals));
++       extsymoff = 0;
++     }
++ 
++@@ -9160,11 +9166,12 @@ set_symbol_value (bfd *bfd_with_globals,
++   if (h == NULL)
++     {
++       /* FIXMEL What should we do ?  */
++-      return;
+++      return false;
++     }
++   h->root.type = bfd_link_hash_defined;
++   h->root.u.def.value = val;
++   h->root.u.def.section = bfd_abs_section_ptr;
+++  return true;
++ }
++ 
++ static bool
++@@ -11862,8 +11869,10 @@ elf_link_input_bfd (struct elf_final_link_info *flinfo, bfd *input_bfd)
++ 		    return false;
++ 
++ 		  /* Symbol evaluated OK.  Update to absolute value.  */
++-		  set_symbol_value (input_bfd, isymbuf, locsymcount,
++-				    r_symndx, val);
+++		  if (!set_symbol_value (input_bfd, isymbuf, locsymcount, r_symndx,
+++					 val))
+++		    return false;
+++
++ 		  continue;
++ 		}
++ 
 
