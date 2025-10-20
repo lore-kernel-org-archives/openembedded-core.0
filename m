@@ -2,216 +2,254 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 255CACCD199
-	for <webhook@archiver.kernel.org>; Mon, 20 Oct 2025 06:28:44 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.12080.1760941709804633139
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30830CCD199
+	for <webhook@archiver.kernel.org>; Mon, 20 Oct 2025 06:40:04 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.12163.1760942397748147943
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Oct 2025 23:28:30 -0700
+ Sun, 19 Oct 2025 23:39:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SRWLYWjm;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3ed20bdfdffso3774867f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Oct 2025 23:28:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=U7e0hBQT;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47100eae3e5so36929315e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Oct 2025 23:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760941708; x=1761546508; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1760942396; x=1761547196; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yn9xhKmIU9UGk11NuRgqdnLnKR0fbzS+EZBLxel6AXQ=;
-        b=SRWLYWjmUrVkXx8U5eYZ9253/DY3wqw3WzoBp20UNjbGY/1jhSRnm9IHdFIfhfmbwL
-         0wEYNpPl0pCvkbRpDIewDqNZesekY/UGRe91/1U/RG8cm05bFI4IeCUjftWHiml7bLkD
-         KoWW4EIrSBNhVCMhTdHqCEIKNa890raTe5VL99tLIMA2H7Y9BzUJXiMRfSenmC9RQkfH
-         tyi9aZwovColEyw2L6y0zSQx1Geus5mKtZZtGa8zOcf6ML/s8ciMZ+yDHbBJFXVsFJD/
-         JqCrlbIYavwnHm6wc2XEZAVJN0UjBNByZjDKRQayVOgp2PNRh0rhAyDuC0p8GlHyERkz
-         t29g==
+        bh=NKlK15GH8k1FoRhSs+A8Fh3ClnNy6U/AIJhT3pWolQQ=;
+        b=U7e0hBQTlFsJlGX7r400ked23Z2XhReGv+5Q5ddCMuI50LYshRf5Y8Q0cwlnm9nbFD
+         fAfFCL1y9bxhFkItX6a/0tjNuXcNVO5s+xia7m5OFHW6A8RU4CBG1U59WbIzl8aUwBJu
+         hOPD39eMaAsB+EQa8gn6TQvkA6wcuqlyHlglKjMswxAcxpWYhCZPZA480vWw+rYr9UQx
+         bI0/OsRpQRRil+IbZQDamqUqLvRpmvp4XVgSTp4lUv85003Joql1592waBo43FkwtNx6
+         Vr+uVyacUWdwAqWQu5JtGYP2D7EuWpLiB4jHtF/EkXr9vYea4iqhrAqN8wikqDKs8ZIZ
+         DlSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760941708; x=1761546508;
+        d=1e100.net; s=20230601; t=1760942396; x=1761547196;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Yn9xhKmIU9UGk11NuRgqdnLnKR0fbzS+EZBLxel6AXQ=;
-        b=Jdmge7vI1fJVOxWQch/b4KTIAdX6m4rnunnWHbRnicZ09MJ3vFFVlsn/nIY6CD7adm
-         8iADZUgsr6SRK3/usjpOuJ/VL8YCfnz3AB14B75ibRCI3p5y5aVQ0pkObVURnfDyimce
-         vSGdsCdcM7wdYu035RtUGFWon7ntR8ra+eHyC1ktMx2S++PiYaEVvGTTfHz9yUJG/HvB
-         DYj6Q6r14VnWoXXjHrinGsAOLxQJuGATKdKJzt5TrAhzb34iCjnsmH/LqFiiJ0SSkH2u
-         Enem9szZBOucaQUeFo05XLUspMGf8KZZ8Zj6GzqX+srq8xPQ+UDiv0rlsVKgPuw5SYif
-         AK8Q==
-X-Gm-Message-State: AOJu0Yx/nQYq3c8Nev5OxQk4G2wCOeTBomf+VhFG754kMqby23NIv38M
-	vS64PAIHZvgUKwPEStyslaFVzt+qMcY8tUcek0sPfaeWPKpOfA6xMPfkijd9RyICDfWzMpSAcbT
-	NVYD2sOFL1Hk/sY8YcOUEh8P4BDAfZEI=
-X-Gm-Gg: ASbGncsw1KWUHxgoMHfY26eHydvAOl8Huf7ScqzRybD2TLyobAxaQn4J/5MwFvA0Jnk
-	z/Vajp1a+vd5h0TAQ4v2FDTP+iV2Xl6dgaVd/M3eCMaQPP7F29lhdz1w6Uu2O87lOQKmk3LyyCm
-	+mRT8AvpA3cPB2IvNa9prNzJLbsHLcAbCf4f+Za4NQHvrNRfVp322+eVRP7eWy4Tz6/ow3gnt/N
-	I/UmbpSWigtj9vUamu7IzF9L+9cxAdO9EiVT6orimvfF3+tN/QLhSRj0n8snSOKtwjyRrOy/1lJ
-	3wvlCqwKtBsnlL+Vek06sUX4
-X-Google-Smtp-Source: AGHT+IFtRvvszTPvHnvJth2AC+8ptZz3Xgd3+RsKO+gxgmhGHFN4JWgXVKdJUYqTEUvCg0dfPzhq2261pEuMn5SPvYs=
-X-Received: by 2002:a05:6000:22c6:b0:3ec:db18:1695 with SMTP id
- ffacd0b85a97d-42704dc9395mr8227532f8f.45.1760941707896; Sun, 19 Oct 2025
- 23:28:27 -0700 (PDT)
+        bh=NKlK15GH8k1FoRhSs+A8Fh3ClnNy6U/AIJhT3pWolQQ=;
+        b=L2qBHH4DT4MfCIFIbGJsIKQ9yh1eAQoXl2FXSVWKguF92xJKOEDxE6PRolPtamuVoW
+         XeMNbh7/j444MXFgk3I3UBMqLZBlExYt7ShzjXePAYPeM9SNcAeCVljVLz8W+aUZ+lEl
+         QKghnpDdlTbQQQH5UFVX00+OoxMO+RG7sjVg+um9rEmK0nqrKJA0EhR091uvVGa4KE5K
+         AkbQVyfaeKQPOIM21twWiLtz48RFRHhsmO+m0BNisZDp+15oH7Gxi8Ro99oOWxy6cwWV
+         ZLLNL9zYXA5nY8SyWu+LkvHjNDTmrruqDAgbQAFGQFYc5e5rDLDqVgF3qNnG7JNzIATf
+         9NZA==
+X-Gm-Message-State: AOJu0Yyjr6MTt9llg4VxYAOVLAT9hvKMh3e1Q5JV7q7B2xbboSgRzMVj
+	6DrzQCZ6Og0hKHn1KewvcYIFAtXwxxJAQPUwcMfCn/TWxN3fwlDmy4QD1u0HXsUrB66NXkfxtt4
+	/kwWVqv/jGaQjXHZskFPrJ1FYu5Nq2t0=
+X-Gm-Gg: ASbGncumaoUEOt5d5aRPY44YCunn+nvAW4RKCeT9pwulhIzWnKo6f8Qkfn36T573xfr
+	7hff1FtrjfQLsgZEAHcuPD6pFXzBxKCJO1BcpBM4ataTVYh7AdOO1OHNSvFgjg8Scp0VDUwfKR2
+	M16aG6/snvPH9cpUTv1IPC7d8Fo811OLpALsv4EWFwc+e+Q5FlpZUZowEcU3jpYeyS8K+5x3SZ8
+	QaXOu/Cp1xonu7tiRPzPAyOGCRvG/p4To+b4JjSn8TNn0eSRGcCsyZbz1ir6DRBMV/EVWImHpCZ
+	RlqHbh5b3L64+A==
+X-Google-Smtp-Source: AGHT+IFDl2LbevJA3MVHvLajkptpW6cMPaCqD/8WhRBokCSvQTKOomaQnP13V4cRh09YxuMx4lWkneD9dvq8DyLRelA=
+X-Received: by 2002:a05:6000:2586:b0:426:d81f:483c with SMTP id
+ ffacd0b85a97d-42704daed1amr8498954f8f.33.1760942396025; Sun, 19 Oct 2025
+ 23:39:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAB3asfhhUoscOusRRkjWavdC3QvqROuo4WvZnVH2O0sCsuB1oA@mail.gmail.com>
- <774.1760628588661308317@lists.openembedded.org>
-In-Reply-To: <774.1760628588661308317@lists.openembedded.org>
+References: <20251016135758.32738-1-reatmon@ti.com>
+In-Reply-To: <20251016135758.32738-1-reatmon@ti.com>
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
-Date: Mon, 20 Oct 2025 08:28:16 +0200
-X-Gm-Features: AS18NWAXaTjf-yWAjxEcexHNXH10NaTFYRjww0iqa-hmIyFUZko59UQDfbX4BKo
-Message-ID: <CAB3asfj-fTNZiOpsysPcLGGB2X-SbLW95gVWqym_7zf4DCJQBQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v7] kernel-fit-image: allow overriding DTB
- compatible string
-To: kavinaya@qti.qualcomm.com
+Date: Mon, 20 Oct 2025 08:39:44 +0200
+X-Gm-Features: AS18NWCwOPT9bfqQdFQa4mWz06ShZCz_o9pJkpOx0lelTWR7bfKOh4-WPdQtXLo
+Message-ID: <CAB3asfjtYEyO5MSjJx6DZ+5Z8SZ95DCmk_RLz48v=-utKy_W0A@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] kernel-fit-image: Split signing variables
+To: reatmon@ti.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f82ccf0641913021"
+Content-Type: multipart/alternative; boundary="000000000000fc2de60641915946"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Oct 2025 06:28:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225096
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Oct 2025 06:40:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225097
 
---000000000000f82ccf0641913021
+--000000000000fc2de60641915946
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Kavinaya
+Am Do., 16. Okt. 2025 um 15:58 Uhr schrieb Ryan Eatmon via
+lists.openembedded.org <reatmon=ti.com@lists.openembedded.org>:
 
-It would be valuable to understand what gaps exist or what doesn't align
-with Qualcomm's requirements. Perhaps others have encountered similar
-issues, and we should consider improving the core functionality.
-Here I attempted to organize the patches and prepare some test
-improvements:
-https://git.yoctoproject.org/poky-contrib/log/?h=3Dadrianf/fitimage-improve=
-ments
-I'm curious to hear whether your final solution will be a combination of
-UKI and FIT images, or if that approach proved to be the wrong direction
-entirely.
+> Right now all signing is done with a single variable: UBOOT_SIGN_ENABLE.
+> This has the side effect of not allowing for signing the fitImage while
+> not signing the uboot files.
+>
+> This patch creates three new variables specific to KERNEL_FITIMAGE and
+> defaults them to the corresponding UBOOT variables.  That way all
+> existing code will remain the same, but we can selectively control just
+> signing the fitImage without also signing the uboot files.
+>
+> Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+> ---
+>  meta/classes-recipe/kernel-fit-image.bbclass | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes-recipe/kernel-fit-image.bbclass
+> b/meta/classes-recipe/kernel-fit-image.bbclass
+> index f04aee1807..29f4098ccc 100644
+> --- a/meta/classes-recipe/kernel-fit-image.bbclass
+> +++ b/meta/classes-recipe/kernel-fit-image.bbclass
+> @@ -35,6 +35,10 @@ do_configure[noexec] = "1"
+>  UBOOT_MKIMAGE_KERNEL_TYPE ?= "kernel"
+>  KERNEL_IMAGEDEST ?= "/boot"
+>
+> +KERNEL_FITIMAGE_SIGN_ENABLE ?= "${UBOOT_SIGN_ENABLE}"
+> +KERNEL_FITIMAGE_SIGN_KEYNAME ?= "${UBOOT_SIGN_KEYNAME}"
+> +KERNEL_FITIMAGE_SIGN_KEYDIR ?= "${UBOOT_SIGN_KEYDIR}"
+> +
+>
 
-Thank you and regards,
+This kind of introduces a new namespace KERNEL_FITIMAGE_.
+However, there are already namespaces which we could re-use.
+Would that be better?
+
+FIT_KERNEL_SIGN_ENABLE ?= "${UBOOT_SIGN_ENABLE}"
+FIT_KERNEL_SIGN_KEYNAME ?= "${UBOOT_SIGN_KEYNAME}"
+FIT_KERNEL_SIGN_KEYDIR ?= "${UBOOT_SIGN_KEYDIR}"
+
+It would also be interesting to understand your use case, because signing
+the FIT
+image usually requires a bootloader which can verify the signature at
+run-time.
+Your patch basically removes the deployment of the public key into
+u-boot's DTB.
+Do you use a different bootloader?
+
+Regards
 Adrian
 
 
 
-
-Am Do., 16. Okt. 2025 um 17:29 Uhr schrieb Kavinaya S via
-lists.openembedded.org <kavinaya=3Dqti.qualcomm.com@lists.openembedded.org>=
-:
-
-> On Wed, Oct 15, 2025 at 10:43 PM, Adrian Freihofer wrote:
+>  python do_compile() {
+>      import shutil
+>      import oe.fitimage
+> @@ -50,11 +54,11 @@ python do_compile() {
+>      root_node = oe.fitimage.ItsNodeRootKernel(
+>          d.getVar("FIT_DESC"), d.getVar("FIT_ADDRESS_CELLS"),
+>          d.getVar('HOST_PREFIX'), d.getVar('UBOOT_ARCH'),
+> d.getVar("FIT_CONF_PREFIX"),
+> -        oe.types.boolean(d.getVar('UBOOT_SIGN_ENABLE')),
+> d.getVar("UBOOT_SIGN_KEYDIR"),
+> +        oe.types.boolean(d.getVar('KERNEL_FITIMAGE_SIGN_ENABLE')),
+> d.getVar("KERNEL_FITIMAGE_SIGN_KEYDIR"),
+>          d.getVar("UBOOT_MKIMAGE"), d.getVar("UBOOT_MKIMAGE_DTCOPTS"),
+>          d.getVar("UBOOT_MKIMAGE_SIGN"),
+> d.getVar("UBOOT_MKIMAGE_SIGN_ARGS"),
+>          d.getVar('FIT_HASH_ALG'), d.getVar('FIT_SIGN_ALG'),
+> d.getVar('FIT_PAD_ALG'),
+> -        d.getVar('UBOOT_SIGN_KEYNAME'),
+> +        d.getVar('KERNEL_FITIMAGE_SIGN_KEYNAME'),
+>          oe.types.boolean(d.getVar('FIT_SIGN_INDIVIDUAL')),
+> d.getVar('UBOOT_SIGN_IMG_KEYNAME')
+>      )
 >
-> >
-> > What I don't quite understand yet is: Does this make sense from the
-> kernel or
-> > DTB perspective? Or are we circumventing problems that should be fixed
-> on the
-> > kernel or DTB side instead of overriding them on the Yocto side? I mean=
-,
-> > wouldn't it make more sense to assign a compatible string that is usefu=
-l
-> for
-> > u-boot in the DTB without requiring FIT_DTB_COMPATIBLE_OVERRIDE?
-> > >
-> > >
-> > >
-> >
+> --
+> 2.17.1
 >
-> Hi Adrian,
 >
-> Thank you for all your valuable reviews and inputs. After an internal
-> discussion with our colleagues, we feel that the proposed change does not
-> fully align with Qualcomm=E2=80=99s current approach to implementing DTB-=
-only FIT
-> in the format expected by our UEFI bootloader. Given this, we=E2=80=99ve =
-decided to
-> hold off on upstreaming the change for now. Our plan is to first implemen=
-t
-> the DTB-only FIT support within our meta layer, refine it further, and th=
-en
-> propose a solution to oe-core that support both kernel+DTB FIT and DTB-on=
-ly
-> FIT formats effectively.
->
-
-
-> Thanks,
-> Kavinaya
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#224972):
-> https://lists.openembedded.org/g/openembedded-core/message/224972
-> Mute This Topic: https://lists.openembedded.org/mt/115767371/4454582
+> View/Reply Online (#224965):
+> https://lists.openembedded.org/g/openembedded-core/message/224965
+> Mute This Topic: https://lists.openembedded.org/mt/115789309/4454582
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
 > adrian.freihofer@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 >
 
---000000000000f82ccf0641913021
+--000000000000fc2de60641915946
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
-=3D"ltr" class=3D"gmail_attr"><div>Hi=C2=A0Kavinaya</div><div><br></div><di=
-v>It would be valuable to understand what gaps exist=20
-or what doesn&#39;t align with Qualcomm&#39;s requirements. Perhaps others =
-have=20
-encountered similar issues, and we should consider improving the core=20
-functionality.<br>Here I attempted to organize the patches and=20
-prepare some test improvements:=20
-<a href=3D"https://git.yoctoproject.org/poky-contrib/log/?h=3Dadrianf/fitim=
-age-improvements">https://git.yoctoproject.org/poky-contrib/log/?h=3Dadrian=
-f/fitimage-improvements</a><br>I&#39;m
- curious to hear whether your final solution will be a combination of=20
-UKI and FIT images, or if that approach proved to be the wrong direction
- entirely.</div><div><br></div><div>Thank you and regards,</div><div>Adrian=
-</div><br></div><div dir=3D"ltr" class=3D"gmail_attr"><br></div><div dir=3D=
-"ltr" class=3D"gmail_attr"><br></div><div dir=3D"ltr" class=3D"gmail_attr">=
-<br></div><div dir=3D"ltr" class=3D"gmail_attr">Am Do., 16. Okt. 2025 um 17=
-:29=C2=A0Uhr schrieb Kavinaya S via <a href=3D"http://lists.openembedded.or=
-g">lists.openembedded.org</a> &lt;kavinaya=3D<a href=3D"mailto:qti.qualcomm=
-.com@lists.openembedded.org">qti.qualcomm.com@lists.openembedded.org</a>&gt=
-;:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, Oct 1=
-5, 2025 at 10:43 PM, Adrian Freihofer wrote:<br>
+=3D"ltr" class=3D"gmail_attr">Am Do., 16. Okt. 2025 um 15:58=C2=A0Uhr schri=
+eb Ryan Eatmon via <a href=3D"http://lists.openembedded.org">lists.openembe=
+dded.org</a> &lt;reatmon=3D<a href=3D"mailto:ti.com@lists.openembedded.org"=
+>ti.com@lists.openembedded.org</a>&gt;:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">Right now all signing is done with a single variabl=
+e: UBOOT_SIGN_ENABLE.<br>
+This has the side effect of not allowing for signing the fitImage while<br>
+not signing the uboot files.<br>
 <br>
-&gt;<br>
-&gt; What I don&#39;t quite understand yet is: Does this make sense from th=
-e kernel or<br>
-&gt; DTB perspective? Or are we circumventing problems that should be fixed=
- on the<br>
-&gt; kernel or DTB side instead of overriding them on the Yocto side? I mea=
-n,<br>
-&gt; wouldn&#39;t it make more sense to assign a compatible string that is =
-useful for<br>
-&gt; u-boot in the DTB without requiring FIT_DTB_COMPATIBLE_OVERRIDE?<br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt;<br>
-&gt;<br>
+This patch creates three new variables specific to KERNEL_FITIMAGE and<br>
+defaults them to the corresponding UBOOT variables.=C2=A0 That way all<br>
+existing code will remain the same, but we can selectively control just<br>
+signing the fitImage without also signing the uboot files.<br>
 <br>
-Hi Adrian,<br>
+Signed-off-by: Ryan Eatmon &lt;<a href=3D"mailto:reatmon@ti.com" target=3D"=
+_blank">reatmon@ti.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes-recipe/kernel-fit-image.bbclass | 8 ++++++--<br>
+=C2=A01 file changed, 6 insertions(+), 2 deletions(-)<br>
 <br>
-Thank you for all your valuable reviews and inputs. After an internal discu=
-ssion with our colleagues, we feel that the proposed change does not fully =
-align with Qualcomm=E2=80=99s current approach to implementing DTB-only FIT=
- in the format expected by our UEFI bootloader. Given this, we=E2=80=99ve d=
-ecided to hold off on upstreaming the change for now. Our plan is to first =
-implement the DTB-only FIT support within our meta layer, refine it further=
-, and then propose a solution to oe-core that support both kernel+DTB FIT a=
-nd DTB-only FIT formats effectively.<br></blockquote><div><br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-re=
+cipe/kernel-fit-image.bbclass<br>
+index f04aee1807..29f4098ccc 100644<br>
+--- a/meta/classes-recipe/kernel-fit-image.bbclass<br>
++++ b/meta/classes-recipe/kernel-fit-image.bbclass<br>
+@@ -35,6 +35,10 @@ do_configure[noexec] =3D &quot;1&quot;<br>
+=C2=A0UBOOT_MKIMAGE_KERNEL_TYPE ?=3D &quot;kernel&quot;<br>
+=C2=A0KERNEL_IMAGEDEST ?=3D &quot;/boot&quot;<br>
 <br>
-Thanks,<br>
-Kavinaya<br>
++KERNEL_FITIMAGE_SIGN_ENABLE ?=3D &quot;${UBOOT_SIGN_ENABLE}&quot;<br>
++KERNEL_FITIMAGE_SIGN_KEYNAME ?=3D &quot;${UBOOT_SIGN_KEYNAME}&quot;<br>
++KERNEL_FITIMAGE_SIGN_KEYDIR ?=3D &quot;${UBOOT_SIGN_KEYDIR}&quot;<br>
++<br></blockquote><div><br></div><div>This kind of introduces a new namespa=
+ce=C2=A0KERNEL_FITIMAGE_.</div><div>However, there are already namespaces w=
+hich we could re-use.</div><div>Would that be better?</div><div><br></div><=
+div>FIT_KERNEL_SIGN_ENABLE ?=3D &quot;${UBOOT_SIGN_ENABLE}&quot;<br>FIT_KER=
+NEL_SIGN_KEYNAME ?=3D &quot;${UBOOT_SIGN_KEYNAME}&quot;<br>FIT_KERNEL_SIGN_=
+KEYDIR ?=3D &quot;${UBOOT_SIGN_KEYDIR}&quot;</div><div><br></div><div>It wo=
+uld also be interesting to understand your use case, because signing the FI=
+T</div><div>image usually requires a bootloader which can verify the signat=
+ure at run-time.</div><div>Your patch basically removes the deployment of t=
+he public key into u-boot&#39;s=C2=A0DTB.</div><div>Do you use a different =
+bootloader?</div><div></div><div><br></div><div>Regards</div><div>Adrian</d=
+iv><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+=C2=A0python do_compile() {<br>
+=C2=A0 =C2=A0 =C2=A0import shutil<br>
+=C2=A0 =C2=A0 =C2=A0import oe.fitimage<br>
+@@ -50,11 +54,11 @@ python do_compile() {<br>
+=C2=A0 =C2=A0 =C2=A0root_node =3D oe.fitimage.ItsNodeRootKernel(<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.getVar(&quot;FIT_DESC&quot;), d.getVar(=
+&quot;FIT_ADDRESS_CELLS&quot;),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.getVar(&#39;HOST_PREFIX&#39;), d.getVar=
+(&#39;UBOOT_ARCH&#39;),=C2=A0 d.getVar(&quot;FIT_CONF_PREFIX&quot;),<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.types.boolean(d.getVar(&#39;UBOOT_SIGN_ENAB=
+LE&#39;)), d.getVar(&quot;UBOOT_SIGN_KEYDIR&quot;),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.types.boolean(d.getVar(&#39;KERNEL_FITIMAGE=
+_SIGN_ENABLE&#39;)), d.getVar(&quot;KERNEL_FITIMAGE_SIGN_KEYDIR&quot;),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.getVar(&quot;UBOOT_MKIMAGE&quot;), d.ge=
+tVar(&quot;UBOOT_MKIMAGE_DTCOPTS&quot;),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.getVar(&quot;UBOOT_MKIMAGE_SIGN&quot;),=
+ d.getVar(&quot;UBOOT_MKIMAGE_SIGN_ARGS&quot;),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.getVar(&#39;FIT_HASH_ALG&#39;), d.getVa=
+r(&#39;FIT_SIGN_ALG&#39;), d.getVar(&#39;FIT_PAD_ALG&#39;),<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.getVar(&#39;UBOOT_SIGN_KEYNAME&#39;),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.getVar(&#39;KERNEL_FITIMAGE_SIGN_KEYNAME&#39=
+;),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe.types.boolean(d.getVar(&#39;FIT_SIGN_I=
+NDIVIDUAL&#39;)), d.getVar(&#39;UBOOT_SIGN_IMG_KEYNAME&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0)<br>
+<br>
+-- <br>
+2.17.1<br>
+<br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#224972): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/224972" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/224972</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/115767371/445=
+View/Reply Online (#224965): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/224965" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/224965</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/115789309/445=
 4582" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/115767371/4454582</a><br>
+t/115789309/4454582</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
@@ -223,5 +261,5 @@ g/openembedded-core/unsub</a> [<a href=3D"mailto:adrian.freihofer@gmail.com=
 <br>
 </blockquote></div></div>
 
---000000000000f82ccf0641913021--
+--000000000000fc2de60641915946--
 
