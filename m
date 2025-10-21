@@ -1,246 +1,81 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <schonm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73385CCD184
-	for <webhook@archiver.kernel.org>; Tue, 21 Oct 2025 17:20:06 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web11.18819.1761067201447652988
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79F9CCCD184
+	for <webhook@archiver.kernel.org>; Tue, 21 Oct 2025 17:27:46 +0000 (UTC)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+ by mx.groups.io with SMTP id smtpd.web11.19057.1761067665324268932
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Oct 2025 10:20:01 -0700
+ Tue, 21 Oct 2025 10:27:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=P5TTzQk4;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b3b3a6f4dd4so1113264166b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Oct 2025 10:20:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cIT18qqZ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.176, mailfrom: schonm@gmail.com)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-7814273415aso64168187b3.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Oct 2025 10:27:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761067200; x=1761672000; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VzpI5BMt2K2T9incoiniUoFohOc/DiSTsINMe2n3hkE=;
-        b=P5TTzQk4li+Ih/w742t0DFIVMaoZ7mWFEvr5gw1g62uMLlGBQ2jNU7h5CT+3IPalEI
-         QQidJIQcwJVbY2AJM060+rfDSeHXpyEPyQ3FQO2q1y0024N8ufzngHIE6IH/HyCMntGV
-         dkNgbTYETYtccBOdXMKPpAU7SnB0ODehoD1+UApai/EyfbVRXkmUrDmMY1xZ11kTFLf8
-         JMz6YNXEa+Bb54ukhppkFTwuwICwg899sq9fjeSt2rNqzqLCPpF9qyWJaisUtKScHnPi
-         WIYMmRF0nVbW2xss9hUlr1Q2IczwZKQcXy41fxO9DekH2SypbGKpphnyAtx6YYaDKawK
-         M17w==
+        d=gmail.com; s=20230601; t=1761067664; x=1761672464; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3C02YxoqG5HvVxLErADLPyLKErQx8rhvRbhMm+AkwKE=;
+        b=cIT18qqZ6JWmdanxIlUZMQPEKtb5rMb11968IHaysnPUF0C9bq0SHhnAZ9psquIUjD
+         W7KXOLMsiSzPo+SHfcZAxtyJfOMbr3tOCsIP/X0jo6Q6O54KN7+qM1FY/tMwJcTvsKXe
+         O9Ne6EDn15cIdkJMtm5RW/Ha0RUYlx6GdHXeEZU6ZFtjvUE9Gm/eXkjQqd3UUu8h4BJe
+         W0b5Ll7T8LUTOHjJ+nP8J8njLUOIxHYbd9VG0/uyWqGuMJbYrUCVLLwEmnfaZQ6v7miu
+         AQ/P7M/OQoHrPprK/49Aw14D9N33Hmx40gbs4bx5zHm7On2p7MB4Hl4iTO3VnMl00w0P
+         w73w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761067200; x=1761672000;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VzpI5BMt2K2T9incoiniUoFohOc/DiSTsINMe2n3hkE=;
-        b=eh9yBC/U7VbijXJ4R0YZi8sW059LwjBJl11H/hbvI2q4gEDa94fq0nNliJ7SUMRFth
-         LLwUzvp806Lktm6MKXJOcxCySPvxNMpxhQi4OyrTwzeLiqkVKDSbgKy+Z9VAlC8ZpuaL
-         blhf7gbRSkadKlvpZxvulhuZeoxaHMD7jPKSVKpKmDPK+jgyGb8nomn1gHAxvQ73d+Tp
-         tEaFCPm6TVpi6VGypw/PdA0TniZMSD97sZlz9POQyl5GaM+Csl2Rijozn9u5dKS1H3AQ
-         mTixyljKvdvVEtkOO6bH+9VRiHZ2TmFkjjvhvzRNL1sJ0QpCD8V3NOH4ArgmfwR3i+rR
-         4/zQ==
-X-Gm-Message-State: AOJu0YwNp+8matEt29vsdhEjjXpKJ3wyxhHfKPtVMRnsx08NwzpgCtB8
-	WfhYkEvf6Wtbi2P4P/POYaVEHKSo82C40xORcLgWcB1xpZSq6ufNGNsS+WphJlJJfFR30Sc2Q93
-	RtDRPNVFq4989hiiX3wG4gXw1cb1Wmfo=
-X-Gm-Gg: ASbGncubSSXHxa0SPetjHILgC2CBVKIxPJ/N7VSmLApmYQKnc2+8MtXbVR8kUfDpdZ2
-	zQKvtwLzOxjCMRqDejUX4sDa551Z9Sn6R5uNF0K+Qf10CSMhwKMlXUxk6RPRzV8jXIM8QuGA4jX
-	tGev5hJ4S1UYhUkVcZO5J/fEVNyd7kDI1vELMd7S13Xj8mi+00rNdmG20C4KyMbQjWwe56JlDkD
-	3U69kuO53MzkHgn6mbTA9cHOCznf6vd4C7m3JhJ0k8lwc7VQ21Iq4527ScPX805D2ONPNWf
-X-Google-Smtp-Source: AGHT+IGxNhY2s8xoPPaWfipXBNE0Gl7DklOe7wPTcbe0Xs79kROaNwCAxEiNG3vuZn+zX5o/8TfuU92qYtqiGIv5pb8=
-X-Received: by 2002:a17:907:3ccb:b0:aff:fe6:78f0 with SMTP id
- a640c23a62f3a-b64764e4b6bmr2187724566b.54.1761067199646; Tue, 21 Oct 2025
- 10:19:59 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761067664; x=1761672464;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3C02YxoqG5HvVxLErADLPyLKErQx8rhvRbhMm+AkwKE=;
+        b=odM5cvLKS7BsSUb9S2CtNgTjaJjFHphhMSrhQ4ZBQ7mCCReyRCmFZGq7clSfUgeW4Q
+         3flLNdxNS33Uerj/OXa85qjvus14XRYoTytY5e53lGJ0RGJHVBYZLd89X0fNb8Ec4NKm
+         1yB8uofTbHMTV+wjiVuKH/gfOe1pN0rSxyKTuAACywzPv7Msv0SRCNDgdIaE+l69bH5g
+         wn5ZURMxleyqoVyOK/oObNW95/44SiHU8xmkXkXDfKrh91JUnpG1JdaiRB4BuhZ98VFZ
+         fU2n1BBGXlBn0itsgK90yKIQZD2sWeeb7UP2ZBFE1YX0xsy4jXyfGMS3GUH3DOlEiSNj
+         YG0A==
+X-Forwarded-Encrypted: i=1; AJvYcCU7sdi89qwqEk6gZOdiw5rbPQjIUZVKHuizMEfYJSkFsIXPw/ifV2cRdHFQqrlUhtK5eTOLGt6u0+1Uth+GO6DBsg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx+FdF2aM/ud0+iDBnnzNUFFv4sdEckdnewR6Qq/3G3+hupbjOP
+	ps8Fh718DGTWR5jDOCVogqKjsrXEdeSK7ETcsjq2iVcujJI/pBk8Pv1Y
+X-Gm-Gg: ASbGncsfR4ABtw3P3pBihaeUY0d+F8LUiHxXG3pl9IEou2ld0qyU/eUTC03em3Vd++9
+	nVJVouEWpn1Jw6V12jZkUwmVHOgA3z3czk0ojgaolp/4XCeCZV3Zn1FeVOT1ajJHPQiNodiq96Q
+	HoXI/zp9iTe4tp7Wtljyhe1RJmriglEIfZxCw1uWTunXV6fZpzr1LOKUjgno+WzJ3+0lHGpgXkH
+	VuP3f31uiuHuAkR3dNmPLQ+Q3eEKBPiLjfeV4/y6DbU+Kxb0ay+fADRFBPAairFkhHXGvl/cJ+m
+	zgCu28ZqT1tarMYjASX5EXuTAn+7Uh4uyvA6TY9b5VZvkuVpLgAgrRYi4fEDrledXx9bczgOJYU
+	JF3bWanzE4KIX91JHkKVE9XKE01Gh19xfVrqPKnlVr16xsIGaWrTQvaXUJqzCVVYd2/x5akfVEq
+	UCI9ULvZddtpiweoEboponOrCikvfTW/02ITyLZVYmFw==
+X-Google-Smtp-Source: AGHT+IFkiixDYs6FFdO8tOw2g+9OpTXO6ZWB2o8/Cocu4DsJMf75rEHyRCJNpRpJYMNOyspjMukDMg==
+X-Received: by 2002:a05:690e:400d:b0:63e:11fb:9807 with SMTP id 956f58d0204a3-63e1603b28cmr12485789d50.0.1761067663993;
+        Tue, 21 Oct 2025 10:27:43 -0700 (PDT)
+Received: from localhost.localdomain (71-208-0-23.ftmy.qwest.net. [71.208.0.23])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-63e267c610asm3375061d50.13.2025.10.21.10.27.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 10:27:43 -0700 (PDT)
+From: Jason Schonberg <schonm@gmail.com>
+To: joerg.sommer@navimatix.de
+Cc: f_l_k@t-online.de,
+	openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] gtk4: update 4.18.6 -> 4.20.2
+Date: Tue, 21 Oct 2025 13:27:41 -0400
+Message-ID: <20251021172741.21873-1-schonm@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <39074fba3e5a332212bab55f1cc6bcd8f925dee4.1761066338.git.joerg.sommer@navimatix.de>
+References: <39074fba3e5a332212bab55f1cc6bcd8f925dee4.1761066338.git.joerg.sommer@navimatix.de>
 MIME-Version: 1.0
-References: <1870903CFB689BF6.21259@lists.openembedded.org>
-In-Reply-To: <1870903CFB689BF6.21259@lists.openembedded.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Tue, 21 Oct 2025 18:19:48 +0100
-X-Gm-Features: AS18NWB58kZ2UUXHeilukbucxK2m6VQZJ0MhCEvGkZakc4hfhUGxWcc1Ztyc9zY
-Message-ID: <CANPvuRkyia3sBZjbyzF4hsHD_GXStcVip9GriA_-9utPpKYAbQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] spdx-common: load_spdx_license_data depends on
- the SPDX_LICENSES content
-To: quaresma.jose@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-Content-Type: multipart/alternative; boundary="000000000000dc4f5c0641ae68f7"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Oct 2025 17:20:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225157
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Oct 2025 17:27:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225158
 
---000000000000dc4f5c0641ae68f7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ "https://download.gnome.org/sources" --> "${GNOME_MIRROR}"
 
-Hi,
+If you are looking for the definition, it's defined in bitbake.conf
 
-Please discard this patch as it is not fully functional.
-I will send a v2 after testing it a bit more.
-
-Jose
-
-Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
-gmail.com@lists.openembedded.org> escreveu (ter=C3=A7a, 21/10/2025 =C3=A0(s=
-) 18:00):
-
-> If we have changes on SPDX_LICENSES content we ended up building invalid
-> sstate-cache archives.
-> The default value for the SPDX_LICENSES is the file
-> meta/files/spdx-licenses.json but this file
-> don't use the bitbake fetcher and because of this their checksum is not
-> validated.
-> So we need to add this file to the build dependency chain of the SPDX.
->
-> For example, currently we have bump from 3.24.0 to 3.27.0 on master-next
-> for the file
-> meta/files/spdx-licenses.json. Since the file content is not taken into
-> account, we end
-> up creating invalid sstate-cache artifacts on the autobuilder on
-> master-next builds.
-> This created sstate-cache artifacts will also be available to master
-> branch users
-> that are using the upstream sstate-cache mirror.
->
-> If someone is using the public mirror but still following the master bran=
-ch
-> they will encounter something like the following error which this change
-> aims to resolve.
->
-> | ERROR: initramfs-rootfs-image-1.0-r0 do_create_image_sbom_spdx:
-> http://spdxdocs.org/openembedded-alias/by-doc-hash/57301e8063a8bf25308226=
-271627db2b78675cda9f648c5c6c14a2b9c18f48dc/zlib/UNIHASH/license/3_27_0/Zlib
-> not found in
-> /work/build/tmp/deploy/spdx/3.0.1/armv8a/by-spdxid-hash/57/57301e8063a8bf=
-25308226271627db2b78675cda9f648c5c6c14a2b9c18f48dc.spdx.json
->
-> Signed-off-by: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-> ---
->  meta/classes/spdx-common.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes/spdx-common.bbclass
-> b/meta/classes/spdx-common.bbclass
-> index ca0416d1c7..69ced76150 100644
-> --- a/meta/classes/spdx-common.bbclass
-> +++ b/meta/classes/spdx-common.bbclass
-> @@ -105,3 +105,4 @@ oe.spdx_common.collect_direct_deps[vardepsexclude] +=
-=3D
-> "BB_TASKDEPDATA"
->  oe.spdx_common.collect_direct_deps[vardeps] +=3D "DEPENDS"
->  oe.spdx_common.collect_package_providers[vardepsexclude] +=3D
-> "BB_TASKDEPDATA"
->  oe.spdx_common.get_patched_src[vardepsexclude] +=3D "STAGING_KERNEL_DIR"
-> +oe.spdx_common.load_spdx_license_data[file-checksums] +=3D
-> "${SPDX_LICENSES}:True"
-> --
-> 2.51.1.dirty
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#225154):
-> https://lists.openembedded.org/g/openembedded-core/message/225154
-> Mute This Topic: https://lists.openembedded.org/mt/115877012/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000dc4f5c0641ae68f7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi,<br><br>Please discard this patch as it is not ful=
-ly functional.</div><div>I will send a v2 after testing it a bit more.<br><=
-br>Jose</div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=
-=3D"ltr" class=3D"gmail_attr">Jose Quaresma via <a href=3D"http://lists.ope=
-nembedded.org">lists.openembedded.org</a> &lt;quaresma.jose=3D<a href=3D"ma=
-ilto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>=
-&gt; escreveu (ter=C3=A7a, 21/10/2025 =C3=A0(s) 18:00):<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">If we have changes on SPDX_LICENSES=
- content we ended up building invalid sstate-cache archives.<br>
-The default value for the SPDX_LICENSES is the file meta/files/spdx-license=
-s.json but this file<br>
-don&#39;t use the bitbake fetcher and because of this their checksum is not=
- validated.<br>
-So we need to add this file to the build dependency chain of the SPDX.<br>
-<br>
-For example, currently we have bump from 3.24.0 to 3.27.0 on master-next fo=
-r the file<br>
-meta/files/spdx-licenses.json. Since the file content is not taken into acc=
-ount, we end<br>
-up creating invalid sstate-cache artifacts on the autobuilder on master-nex=
-t builds.<br>
-This created sstate-cache artifacts will also be available to master branch=
- users<br>
-that are using the upstream sstate-cache mirror.<br>
-<br>
-If someone is using the public mirror but still following the master branch=
-<br>
-they will encounter something like the following error which this change ai=
-ms to resolve.<br>
-<br>
-| ERROR: initramfs-rootfs-image-1.0-r0 do_create_image_sbom_spdx: <a href=
-=3D"http://spdxdocs.org/openembedded-alias/by-doc-hash/57301e8063a8bf253082=
-26271627db2b78675cda9f648c5c6c14a2b9c18f48dc/zlib/UNIHASH/license/3_27_0/Zl=
-ib" rel=3D"noreferrer" target=3D"_blank">http://spdxdocs.org/openembedded-a=
-lias/by-doc-hash/57301e8063a8bf25308226271627db2b78675cda9f648c5c6c14a2b9c1=
-8f48dc/zlib/UNIHASH/license/3_27_0/Zlib</a> not found in /work/build/tmp/de=
-ploy/spdx/3.0.1/armv8a/by-spdxid-hash/57/57301e8063a8bf25308226271627db2b78=
-675cda9f648c5c6c14a2b9c18f48dc.spdx.json<br>
-<br>
-Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@oss.qualco=
-mm.com" target=3D"_blank">jose.quaresma@oss.qualcomm.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/spdx-common.bbclass | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bb=
-class<br>
-index ca0416d1c7..69ced76150 100644<br>
---- a/meta/classes/spdx-common.bbclass<br>
-+++ b/meta/classes/spdx-common.bbclass<br>
-@@ -105,3 +105,4 @@ oe.spdx_common.collect_direct_deps[vardepsexclude] +=3D=
- &quot;BB_TASKDEPDATA&quot;<br>
-=C2=A0oe.spdx_common.collect_direct_deps[vardeps] +=3D &quot;DEPENDS&quot;<=
-br>
-=C2=A0oe.spdx_common.collect_package_providers[vardepsexclude] +=3D &quot;B=
-B_TASKDEPDATA&quot;<br>
-=C2=A0oe.spdx_common.get_patched_src[vardepsexclude] +=3D &quot;STAGING_KER=
-NEL_DIR&quot;<br>
-+oe.spdx_common.load_spdx_license_data[file-checksums] +=3D &quot;${SPDX_LI=
-CENSES}:True&quot;<br>
--- <br>
-2.51.1.dirty<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#225154): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/225154" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/225154</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/115877012/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/115877012/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
-div></div></div>
-
---000000000000dc4f5c0641ae68f7--
+Cheers,
+Jason Schonberg
 
