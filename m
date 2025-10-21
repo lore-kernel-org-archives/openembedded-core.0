@@ -1,197 +1,126 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <sgreber@lilafast.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7970CCD184
-	for <webhook@archiver.kernel.org>; Tue, 21 Oct 2025 09:43:23 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.10])
- by mx.groups.io with SMTP id smtpd.web10.7339.1761039801851494549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94DB6CCD184
+	for <webhook@archiver.kernel.org>; Tue, 21 Oct 2025 09:47:53 +0000 (UTC)
+Received: from 16.mo561.mail-out.ovh.net (16.mo561.mail-out.ovh.net [188.165.56.217])
+ by mx.groups.io with SMTP id smtpd.web11.7525.1761040064088338361
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Oct 2025 02:43:22 -0700
+ Tue, 21 Oct 2025 02:47:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=S4JRpSvj;
- spf=pass (domain: cherry.de, ip: 52.101.83.10, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LyidkSXwj4Bf3wRuHP3fbx7vth4Is4+xzRaN2hDA8Y3yomsw8CzX0V/Qjma+hBsmZDlKv35gfqPC8cCs8v0dCW64BOfvUC61hr6QdRRRIx1wW1olQ4u9N1LvffPFZCeFQGKxU+mcdDh9MfHRpk4Y3DJHI1yK4MNYEsH9YjyTRMzh4y8Ns+RANviczX+ai4ak9CY5l8GCnxxNtAeP7wDMTXqxdaU56myS9bMESDZxXfC2UPy9Wl4eQAXmaraE1ckK09L6e3MAOk8Dod0fG7sld5mySbRCMwjkOgHLGL9HezHqA9/h1iJxGUrlP38p0Iz/JWLBr/4dMQC0S2kR2/B1lQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9aUndza2NXje8utys1nf5t/Ax1VgVQLHOvs+yr4t5TA=;
- b=y88SE4q3iKlBzVot/KYOdCNSHjBlvB73rkr33rEl+PcSg6gopCimekqrlBEWYHAyC28ohu3lxR22Wf0UZroXpuhWcXzGSBVfBdriwi/3203FWfZGwjbk2SkgQFgDjC+ammMc6kbAcrqD/kpU2Yjohmrbv7wVSJL834TZV7h3f8Dxhn5I+CYZsJXvzpYKEcZZIfHhTTQjYcXhfVdiamK5q06mjRfYv2ZnIqOYwBT56lwzkmHUTzn6GKvwsoyK8hqADQgH4G0cTLtp2H7Zb9UDMDIJx2XESE2QKcXVyjZDpO8HMFGm5HSI+OzqRaSbPAgpxz3S8LFk9Zgt3hdVXtXOgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9aUndza2NXje8utys1nf5t/Ax1VgVQLHOvs+yr4t5TA=;
- b=S4JRpSvjQOwNfce9PG4V6gb9oGrReP3OzuvrV68520GYMS0by4BJLwL7DieUMkEOoZcq+E/si/e1xTusHmoCHqFaQHtpqpFA7iSykWkTsklmmCcAe1ElFagDj5ZPByQB80bkw2AhvTXNIb35BhC6u/QLyZ+SOBF0E3/sAqDWl9U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
- by AS5PR04MB9875.eurprd04.prod.outlook.com (2603:10a6:20b:652::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Tue, 21 Oct
- 2025 09:43:17 +0000
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::5ee:7297:93b4:a8d1%6]) with mapi id 15.20.9228.016; Tue, 21 Oct 2025
- 09:43:17 +0000
-Message-ID: <968c2772-4289-44ab-ade0-c11cd52cb832@cherry.de>
-Date: Tue, 21 Oct 2025 11:43:16 +0200
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOWbnuWkjTogW09FLWNvcmVdW1BBVENIIDEvMl0ga2VhOiBmaXgg?=
- =?UTF-8?Q?EXTRA=5FOE_config_to_EXTRA=5FOEMESON?=
-To: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20251020023955.2962-1-liuyd.fnst@fujitsu.com>
- <20251020023955.2962-2-liuyd.fnst@fujitsu.com>
- <4ded0bd1-425a-4434-955b-c8ce480a01bd@cherry.de>
- <OSRPR01MB1159720651684F40F7339218E9BF2A@OSRPR01MB11597.jpnprd01.prod.outlook.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <OSRPR01MB1159720651684F40F7339218E9BF2A@OSRPR01MB11597.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0160.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:99::9) To AS8PR04MB8897.eurprd04.prod.outlook.com
- (2603:10a6:20b:42c::20)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@lilafast.org header.s=ovhmo5359723-selector1 header.b=OHd6wtDN;
+ spf=permerror, err=too many SPF records (domain: lilafast.org, ip: 188.165.56.217, mailfrom: sgreber@lilafast.org)
+Received: from director10.ghost.mail-out.ovh.net (unknown [10.109.254.116])
+	by mo561.mail-out.ovh.net (Postfix) with ESMTP id 4crSC212GJz6XC8
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Oct 2025 09:47:41 +0000 (UTC)
+Received: from ghost-submission-7d8d68f679-rgt88 (unknown [10.110.118.160])
+	by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 8A9C5C154C;
+	Tue, 21 Oct 2025 09:47:41 +0000 (UTC)
+Received: from lilafast.org ([37.59.142.99])
+	by ghost-submission-7d8d68f679-rgt88 with ESMTPSA
+	id k3VhCb1W92hLjQQABisz1A
+	(envelope-from <sgreber@lilafast.org>); Tue, 21 Oct 2025 09:47:41 +0000
+Authentication-Results: garm.ovh; auth=pass (GARM-99G003f2b4db82-8e6f-4e08-a04d-e1f7cfbcb46e,
+                    7C9AB429209E025C099E29F777304FB41B477A26) smtp.auth=sgreber@lilafast.org
+X-OVh-ClientIp: 46.183.102.211
+From: Steffen Greber <sgreber@lilafast.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Steffen Greber <sgreber@lilafast.org>
+Subject: [PATCH] wic: add option to specify the diskid
+Date: Tue, 21 Oct 2025 09:47:38 +0000
+Message-ID: <20251021094738.4037-1-sgreber@lilafast.org>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|AS5PR04MB9875:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8a546b00-b5ac-4f91-a41f-08de10864327
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?SzB2RWpUTDB4dzJEMHRkVHQ3NTY2RHVxMHRsZjN6VEZwQVNQcFVZdmRmdHBm?=
- =?utf-8?B?QzdsQUdKMGdxVkpzK2NpVmFJbEYvb3R3eXhNUmExT3BrUlJQK2pFUE5ESTl2?=
- =?utf-8?B?OHpKS1cvejJlS0ZhRVBjUzA5MVRKVHJJZGdpZ0dUWW44MVJCYmJncDRvS2dK?=
- =?utf-8?B?UDZHTmxCc2c4YWJmdm5pRW5mVHRNWTNuSVVHVG1ObmZSVFpoME85M2J4ZEtY?=
- =?utf-8?B?UlVZSzZ2OFRBWmFrMksvMXk5enYvdjlJUmxMbTlGc2w3NlVzTFg5VGlqRFJw?=
- =?utf-8?B?b2lacUx2RXo2RzFObjMxWUxnVEVMZktqQy9aMGx3MFBFeVdHazNqYWRlOGZI?=
- =?utf-8?B?bWZCRDVZSXJlZFdZZHV6Z09YWmFHd2k3Rys0R3hYVjY5TU9LWDBrdUFEWGxn?=
- =?utf-8?B?dE5wMG1DcVQ4R3RsNy9VbzN6QzVUTGRzaVJOcCtPaWtKS2RSK1FSL3FyaUxQ?=
- =?utf-8?B?enUyWjJ5UVgvUkV4M1NGelRXdkdjSDZHc0M2MDVpaWFaaFFUZTI2dElXTEti?=
- =?utf-8?B?Z0k2Z3dFMkoyMnBtYkNxaVowQTZ5TStoSjh3eE1tZ2dqeEVOQjJWNkY4S3I4?=
- =?utf-8?B?MUxpcUtDUzlkSXpudTVLaFdLbG1YQ0dWNEFKdStDMDlTQTdNbXZaR2dBa2RV?=
- =?utf-8?B?bGJRalU4dHRyTlBVWkgrK0ZqZC82cjQ2aUVmTklRR0ltL3grb204aG1BWGJF?=
- =?utf-8?B?c2drTU9SOUZrRTVpbjAwbERkSEJkVUVmVmpZaUZ5UVo4WEN0NnEwTXZxZjV6?=
- =?utf-8?B?SXdXNmRIUnFnWkJwNUlnTW9YQlhteEI1S1hlRERSSTBFdmM4czRXdkRvTVJW?=
- =?utf-8?B?QnhPVUxBemJuUXBncmJTSjZUeDlUMzc4QndZckNWek9ST0dLaUt5RTV3WnVv?=
- =?utf-8?B?Sjljbytqckh2ekJiak5oUTZtSHRoVUtaOXZEY0pSbzVLdUFUeTEybFZFc3JD?=
- =?utf-8?B?cEtOZ25VWS9YMW9Gdm5aRUYraXBSUm5OalptZ21uOHNzYTE1U3Z2NGhsaWli?=
- =?utf-8?B?NzBINU8rNnh4d2VFZTcrWUE4Uldab0tvMUQzUHJTL0hXcGQyZ2dKbFZJU1Vm?=
- =?utf-8?B?N0xoSkx4alJzYmVBb05XVVdhdVZlY0pnamFvM0tXeUhpQWpKaXZSYmhaOHBQ?=
- =?utf-8?B?aW02V1RjZDZiVU9iQnJNalNEdjZhWlN4b29BS3kwQVB3TjFtR2lNckhpRUlF?=
- =?utf-8?B?dk5qZE0zZWh4TVBZd2RRdVFGZzZhWDRyVU1EcGlIMkdNaGIwb0Z5MkR1ekgx?=
- =?utf-8?B?RFFYcVNlSk11QkNYS3daSE9LbXJRQWpscHBZYUZuT0s0NDN3b3FTUmxReDdr?=
- =?utf-8?B?b2xNVGlNR0YyMUMrazVhVmRlbXladXZiWmVGN1pYR25UTm1kYVNlbTBHMkdJ?=
- =?utf-8?B?a0VDayt0M2h3NDZmWDVjaGJBTEpOMUIveGw5VUpTU0Q3dFh6YnpYMjhucmt5?=
- =?utf-8?B?bjF6Q0FCZnNNcDdXbzFIeTVJYlRpNGExdEFvbHZ5SlBHYVp1MHhPRndJbWgr?=
- =?utf-8?B?N1I5Ykg0TUpvYmpZVjFkaWlWL3FGMDNqWVVURDQxSktrRE4reXZhbWl5M1pR?=
- =?utf-8?B?TUI3ODBhYnk5RFcvS1lVREFOVlFDR0Yvdkt6dDJ1aHY5MWVWRnZKZy9uWjhi?=
- =?utf-8?B?MkZ4YTcwV2hBMFNsVmd6bjhZTUhJSFpUcll6dlZTYnl3dDB5RFBMTk1lcjB0?=
- =?utf-8?B?Vnc4NWkyM2JsU1d1VjJFbDlwOENuakxGUERrTHdzS3RPLzlMWU9YZGx4eFN5?=
- =?utf-8?B?MkRSdlRpNXlzUE9ldEpUWjF2MitYRUliWE5mNERaMld1d2FlWGdLaGZoS2Rx?=
- =?utf-8?B?UVN5dzNsM3FmcTcrMVRlaTBKZndGQjNPYnlTTEdzM0l1dmFMVVZXL0tKQVpt?=
- =?utf-8?B?b2JDNmp3M3FyNkF6aGNiMVc3c0U3c3ZUd3pUeVBURUEyNGc9PQ==?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?NU84ZU1TbEg4SnNzMyszeUZXVHVVZmlaNGVSOGovbTJlcHI5dW9qSEp0TTdC?=
- =?utf-8?B?eTBsQXdsa2VmSHF2aUJmRzhVODZDZlJOM0QxVlV4eVV0R1JHdzlzYXVwZUpV?=
- =?utf-8?B?bnZaN0duMUFPZ3h0TVVPdGhrc1B4SnlZT1gwR0srL2lNYUpmckVPRG54cnFU?=
- =?utf-8?B?ejNwcDVtQmJLbUZ5eWFHSGxHOTV0VnVzVTNCQWo2b0MyWFRxb2Y4dkg0V043?=
- =?utf-8?B?N1BIM3g3NG9iNWhNMHRWelliQ2V5QkdFNzJ0dGVUWGRTLzVJMm5MK2piSDRk?=
- =?utf-8?B?U0UwbXF1aktJbnBxeDlhb005OHJ5TUlMZ1BnMGdBN1hEaUlRUTVKdmR6aUpi?=
- =?utf-8?B?TU9BYjRTU0dWZVJrSVlWQWhySWpsbGFDbEZSeHgzUmF4dVI4Vy92MHFqKzRI?=
- =?utf-8?B?Y2hLTG8xTzVHM1kreHpKa1hXT3ltQnozblZ3T2ZtNmo1Q29tYmFDVGtXNjdo?=
- =?utf-8?B?S25xazZ3bW9WWWl6eWRUR1dZV0N3RFZBZDhkNGJrTDV4WkdxQU56MDlnYWlu?=
- =?utf-8?B?TW43T1RQbmFmb2FUclk2NC9wdTdrV1pWbTlTYmhQQ0U2ek1mRzVYMWFYazlr?=
- =?utf-8?B?RldBSmliUEJDMkFwYmpYdDRiUE9KT3FBTWszNmtocVRKcEdIUHRZYTczNks5?=
- =?utf-8?B?ZzkrcjZPSWdpTy9QL3BlRTM2WjU5VGQyd2VnMW5rOE5zY0pxdTBvMU03SnBu?=
- =?utf-8?B?RThjdFdTZ3pZZmVFUmtHelR1cXZqSmNqRGJmblhpYkxDd2pzd2IxNTZQL1Bi?=
- =?utf-8?B?NktjcHpnQkVpcXRjYWJvcEY2WWRpUFY0OXJaQUV5eitjVk9hSFhIODZXR2VJ?=
- =?utf-8?B?NjF2cDB4VDNUREM3dzgreHVVSHF4b080UHluSGk2aFI0K2F1aFZGU3cxUDk4?=
- =?utf-8?B?WFFWQUVqQXV2Vm1FOGI0RUQzM3dnWVZJSnBKcHBMQmVuZkt2eVVTVXc3RURh?=
- =?utf-8?B?cm9OQmtGUDJOaVlQamxjckpqQUpFblpUNEhmNlNxeEQyZzQ2b0U1Q2kwODl1?=
- =?utf-8?B?OWwza0tVajlOb2JCUmhEQzN1eE5BTXQxSCtYR0RCcVU1QzlyblVuSzBjR0dT?=
- =?utf-8?B?NEgrdVZhOVJmVVNudlBZTHRTVHk5Zk0zMXFyZnlkdlNBTFhxeXcrMjNqdTA5?=
- =?utf-8?B?bWV4NzBLOHhkTE9EU1o1TXBIZXhodDN0UnJNU1FNeUZzbDM3S1VDR1lIMzVU?=
- =?utf-8?B?MEpVRm9RSGhoajF6Q3hqV3lJeWdtVTVab1RBVmNkY2dLaDdvODFZb3hMYXJm?=
- =?utf-8?B?UDAwemp0UGdpeFlTdXVHcXpMTjB4RFM5RjBwZjN5M05SWStoNVEzeWl0Nm5I?=
- =?utf-8?B?OVkxcGdrOEZ2clBROS9JQlJQYjZYLzFPQ28vVkh5aEJDbHgyTGlVblM4eFB2?=
- =?utf-8?B?Sjl2VFJqa1diZVc0N3RHNmJPQldIYmxIS1RJVHVPZG5uQm9ueEVlZExzbVpH?=
- =?utf-8?B?RW1haXozeVdGYXNjNG54R3RvWEhvekdHcGpiTHlocUJ2aE9oUlA4SmJwbmZL?=
- =?utf-8?B?RC9URk9DZ1VaY0crYVczUTJSejFQaVA0aTV1bmMybk9iN29VTXgzd1NaMWIz?=
- =?utf-8?B?S0g4aU52M3dZeFVoa21PWWlsdDliWG1LYjJQL0x0bHRYMEd4QU9Uc28zMzZC?=
- =?utf-8?B?M2tjQjJXWnlFTTE1MDNJOHB3R2pWUFZxbFdaSmltelpGMGR6Q0FrK2twYXY2?=
- =?utf-8?B?NEpTVW4vcDNMeXNlY0dqN1pBdTdCa2o1QzUyUjhJSXlIOE82NkJlVk1FOUxZ?=
- =?utf-8?B?M2RWazd2SWkwVCt5KyticXREdE5xN0dhT2NKekkyaHBFZ3FTVlErbkdQMDJI?=
- =?utf-8?B?R0dOZm1kbmdSZyt5U1F6QUNQeDNSdnk3dkgvTlJhMC9tRGZabnlDMmNZWjlx?=
- =?utf-8?B?bTlETG00WEdBTXFEVmp0a0RpN2RvbmJubEpuVVY0ZzRVWGdweXlyUGVidXRu?=
- =?utf-8?B?c2xndWpWU2pNYU1lZ2RkM21lUEp5TWRFUVY4RWQvMlQ5U01pY1k2R01kb0tm?=
- =?utf-8?B?U0ZLaUFRZnRLOFExWnZDL0t6VENIY3FlQ1czb0JKVGdBU1BiUTBEcHFkNGR4?=
- =?utf-8?B?MjZVc1I0T0hzSGZTa1NDRlpLcVE0UWFLbFNFekxJc2ZOdnp3Ui9MS0dhZ1lu?=
- =?utf-8?B?VkhsWmdueDBGMk8zeFhNeDIzVzNsbHp5NTBkV1lwemx0d2txeDVaZVIxQ3RK?=
- =?utf-8?B?b0E9PQ==?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a546b00-b5ac-4f91-a41f-08de10864327
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2025 09:43:17.3526
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JXZ6fco1e2Y+9mi0gkXLXTUroBJh/7yHZOOAR69AsF7pYCfbFFXz8NQ19KTuOhrUMnLeJeHTcgGJa49Ep1x/J7+FtlMjLyBfpzhciJml5i4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR04MB9875
+X-Ovh-Tracer-Id: 6250151859129701460
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: dmFkZTFHz7TQofY2UVciaXA8Uh1jzu0v4KxAsA9wFjBEflCJfPG45lA38I172spDrI547BuloY/CovVDUwVQuxweSXFoh8AIucgqXIbqiIxxcSjD/5hsLSvps2NQK9neF1RG8MRKhFcW4CoglGj6kPzsZgh0Fa3f76s/tVt/mepmx9F7GWsTORuUQtPWiRQlbb1+2SCkByDEjYc65SiX0tMb6uea2V9JQyPIsa1S4thYTbQavGE+F4QdchiLlwVwaJxy6KxRKD94yz6/ZafC8pkPBZm2Oo8dWGP00197E5SsDlrC5NGOHNN27PjTpAG9ZpiQNcH2gYGGdd5aVbtiDmze+4dzAQGtBna9lZVVwtfnDT1eA30dkcH06AqehVqUbGsIGCoHsb7KXAIHoCul4xT57Ci19Ag6cugE4zXd06CdJX6JZebx+TULZxvNhQYdH3MaLMY6H2UvUkg9/VHb6v2vL1rumSC3cWfokdt/BvWDNJ/iV0IsiK0NVChrGzsHUoVn0lRPny2OGLDs1/0FrSW2jJzH30+UmuufB9ORHtrbYNYG+MKmaRU2Pw5PUksL/1oAJsd7/65gOn609atKzfwxGNle2hUa9Z3L+b5CufXPXOnXNxtXbu5fgUrXS7idy6AISag6DWPkGwOSfLMP/UHH2iR5x16GRaRwAujxfZNhc1dD3g
+DKIM-Signature: a=rsa-sha256; bh=0VRbzzYz/H0riBBJOuZ9kKoZaWU7GZknJTrL76owRjQ=;
+ c=relaxed/relaxed; d=lilafast.org; h=From; s=ovhmo5359723-selector1;
+ t=1761040062; v=1;
+ b=OHd6wtDNVQ8kjFCALUaIuLDqTkpgGo2LYmFF+LHjl8MYV9xmDb534skpAGppB3iF0KGn2AFB
+ uQSIFNYHEcFgVInwK6/ioOcmSPxtQFnARRs0InGORA67LW+tVnykQaBpHsHb+i4V1uiroKc9wrG
+ tjS9R4KosoYr+ZMNp4Y8R2ZXeCMPWFmoU3nOq1jA8CgK9J4k1CDtDQ2Io3Ue1RoOECkfk7LBrul
+ t6QRhLxC0FTU8ePkJWC/DFmFNra3QwYUw+VWHfd7zboHcx2NyZy47hBcUhmmFZSBf4Yqv8Vd1SA
+ lnP4dcMt/I8Sy75k2FbvKH+SUz23tQA0N5jmMkwUPP31Q==
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Oct 2025 09:43:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225146
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Oct 2025 09:47:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225147
 
-Hi Yiding Liu,
+This adds a feature to specify the disk ID when creating a disk with
+the wic tool. This is useful when using the DOS partition scheme and
+booting with root=3DPARTUUID=3D<partuuid>. In DOS partitions, the partiti=
+on
+ID is <diskid>-<partition-number>, so it makes sense to let the user
+define the disk ID.
 
-On 10/21/25 8:46 AM, Yiding Liu (Fujitsu) wrote:
-> Hi Cheers
->      When I changed to EXTRA_OEMESON, -Drunstatedir=${runtimedir} will be enabled,
-> and  it will produce /run directory which will cause do_package QA Error as follows:
-> ERROR: kea-3.0.1-r0 do_package: QA Issue: kea: Files/directories were installed but not shipped in any package:
->    /run
->    /run/kea
-> 
-> So I remove ${runtimedir} before do_package.
-> 
+You can specify it in the kickstart file using the --diskid argument
+to the bootloader command. The value can be given in decimal or
+hexadecimal format (e.g. 3735928559 or 0xdeadbeef). If omitted, the
+previous behaviour does not change.
 
-runstatedir is "The directory for installing data files which the 
-programs modify while they run". Looking quickly in the source code, it 
-seems this is used mainly for control sockets or PID files. Which is 
-confirmed by 
-https://www.gnu.org/prep/standards/html_node/Directory-Variables.html 
-which is pointing at by 
-https://github.com/isc-projects/kea/blob/master/ChangeLog#L211-L217.
+Signed-off-by: Steffen Greber <sgreber@lilafast.org>
+---
+ scripts/lib/wic/ksparser.py              | 1 +
+ scripts/lib/wic/plugins/imager/direct.py | 8 +++++---
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-kea's meson explicitly generates an empty directory for this path, 
-hinting that this is necessary for the programs to function correctly.
-
-We have another recipe removing runtimedir which is dbus and it's 
-removed because "Remove /run as it is created on startup".
-
-Does kea work properly if the directory pointed at by runtimedir doesn't 
-exist? (Note that kea's meson creates a subdirectory named "kea" in the 
-runtimedir directory). 
-https://kea.readthedocs.io/en/latest/arm/security.html#securing-kea-administrative-access 
-seems to indicate that CONTROL_SOCKET_DIR/KEA_CONTROL_SOCKET_DIR is used 
-for the control channel which is disabled by default but notes "however, 
-many configuration examples have it enabled, as it is a very popular 
-feature.". SO I'm wondering if we should not rather *add* runtimedir to 
-the package if it's actually necessary?
-
-Cheers,
-Quentin
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index a762d3b6cf..48b5b09ddd 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -196,6 +196,7 @@ class KickStart():
+         bootloader.add_argument('--configfile')
+         bootloader.add_argument('--ptable', choices=3D('msdos', 'gpt', '=
+gpt-hybrid'),
+                                 default=3D'msdos')
++        bootloader.add_argument('--diskid', type=3Dlambda x: int(x, 0))
+         bootloader.add_argument('--timeout', type=3Dint)
+         bootloader.add_argument('--source')
+=20
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/p=
+lugins/imager/direct.py
+index 6e1f1c8cba..f40f033a3d 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -76,7 +76,7 @@ class DirectPlugin(ImagerPlugin):
+                 break
+=20
+         image_path =3D self._full_path(self.workdir, self.parts[0].disk,=
+ "direct")
+-        self._image =3D PartitionedImage(image_path, self.ptable_format,
++        self._image =3D PartitionedImage(image_path, self.ptable_format,=
+ self.ks.bootloader.diskid,
+                                        self.parts, self.native_sysroot,
+                                        options.extra_space)
+=20
+@@ -302,7 +302,7 @@ class PartitionedImage():
+     Partitioned image in a file.
+     """
+=20
+-    def __init__(self, path, ptable_format, partitions, native_sysroot=3D=
+None, extra_space=3D0):
++    def __init__(self, path, ptable_format, disk_id, partitions, native_=
+sysroot=3DNone, extra_space=3D0):
+         self.path =3D path  # Path to the image file
+         self.numpart =3D 0  # Number of allocated partitions
+         self.realpart =3D 0 # Number of partitions in the partition tabl=
+e
+@@ -315,7 +315,9 @@ class PartitionedImage():
+                           # all partitions (in bytes)
+         self.ptable_format =3D ptable_format  # Partition table format
+         # Disk system identifier
+-        if os.getenv('SOURCE_DATE_EPOCH'):
++        if disk_id:
++            self.identifier =3D disk_id
++        elif os.getenv('SOURCE_DATE_EPOCH'):
+             self.identifier =3D random.Random(int(os.getenv('SOURCE_DATE=
+_EPOCH'))).randint(1, 0xffffffff)
+         else:
+             self.identifier =3D random.SystemRandom().randint(1, 0xfffff=
+fff)
 
