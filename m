@@ -1,123 +1,157 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <fbberton@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44DD2CCD1AB
-	for <webhook@archiver.kernel.org>; Wed, 22 Oct 2025 12:14:35 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web11.7365.1761135273247375036
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5170FCCD1BB
+	for <webhook@archiver.kernel.org>; Wed, 22 Oct 2025 12:31:55 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.7823.1761136310602328871
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Oct 2025 05:14:33 -0700
+ Wed, 22 Oct 2025 05:31:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hz5+T99R;
- spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-791fd6bffbaso102643296d6.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 05:14:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PYCbDQkg;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: fbberton@gmail.com)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3ecde0be34eso590910f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 05:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761135272; x=1761740072; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UJgBNHGW2TbiOessG9p8vM/CNV1GVj+qMWQ63jIipHE=;
-        b=hz5+T99RPeeuWoRiXEt+XRC29MIxosNNjjlZzo6HEsAxutJqo4z4cJbLcS1iCbniLG
-         uSKzZufCGgb3fn3mA1uLzAKzLXedfZcBBVhmAukMpExLj1qboeYf5aEeEYJ8JY8l4LFG
-         tVOfuojmWmjnw4FDlrWHz5Xf6xGILZfV4ushu6QgVfu/1aAbZDejKrXqwND09kWfi6VM
-         63UksgecHk6xP6CuU4aJuoZkJNigu9R4v1RSgR1tzttN18se3I7JjgLLCmviE/7xe8c2
-         iZKCttatlfH3Qh7/CiZwsssV17vfPC4VVs9Nc980UMpmN49zZj1eKO8KMEs28c2/vh8e
-         ouYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761135272; x=1761740072;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=gmail.com; s=20230601; t=1761136308; x=1761741108; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:cc:from:content-language
+         :references:to:subject:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UJgBNHGW2TbiOessG9p8vM/CNV1GVj+qMWQ63jIipHE=;
-        b=jvPzQhv8m08/gtsDJzK37/cFSKHfummuULVTXEYpJ00q6CfdeFfH2PFRgU8ir3NeuV
-         hPsISlIE9VAc/BkDov7gz1AY/RWJG+GjUNaZODpBfa23qq9S8h6C+KrPwlYIEXE3WRFY
-         t7THJJM+X/zejXdR4CHbPUSN/jjoimjdcGIg7H2wCe3SaWqBqdfImsvydFu6JsYr5y2T
-         tRjSO/p/v6qjkQpT/zrLhM1J8oyIwBcWtZw2TQ/aLA5wWRrKSNAWVen9+vLvU/PnISU4
-         QnGDifrWvyT1S3ncO5gQCUIxXNW3ZHUMaCxbSgz+zvlsEmC1V7SA+2sgXM5aNAFGDeJs
-         +Iew==
-X-Gm-Message-State: AOJu0YwcyNdN23XbUxJP08bwwPXBmFeWoBxUWF61khdN8jC229VjfMrX
-	QY4g1Eo10/kpZFVLRKgj9svOBSprPVhG5p9+cXpvJcgY0rqUEPp51qkF+L+hsq/gswRbQNsIw8c
-	L3eGYqPFgPkZcJnnZ+ttM/uBR64duZeE=
-X-Gm-Gg: ASbGncsbwwFFH7xgial8ToBg23ZUKu0NGaElAJ2O45WL2VnYYKxYGXhOSW8pmMBgudd
-	duq5hI0/rvwNR+TczmiSafhrLdFIt/RY8wJX3gv4Drm8dAGPAlm0oVPpNEbA5sVjjZ68yZUFIfv
-	7/9M4XjrpC1iN8S8Ju8Ff30t28ysm/ZgycpHfo+ZYPl9ngVDVg6o3moHTUukqesOWWQLvZdRMBW
-	UXGQq7iZnQO0YVuzw3fBspnBPEj1z9SBghv+SrWdRHQgNPRvFRNC9v/OuxexoeNvcOO9BkHtZjK
-	2PfUevuBJhJLDxKOJFlUnBc7u9uuu3IuKV6uyWvxkoU09k33HbABZ8dCBFZ+yvfKXttgQrHtiOw
-	1UHmMhzBHz1FjKvbpA/VZpTU8hzFagczjZC1s14w=
-X-Google-Smtp-Source: AGHT+IH/t19/NBFXMJ21Vz78ZVgcfElzWhGF8QDjI8fp+QWhi6NYODw9rvbA0W90gV4vDreMUYAHPRV2GHZv0TLCqUU=
-X-Received: by 2002:a05:6214:4012:b0:87d:8fa7:d29e with SMTP id
- 6a1803df08f44-87d8fa7d3a7mr196532596d6.35.1761135272202; Wed, 22 Oct 2025
- 05:14:32 -0700 (PDT)
+        bh=QyDpWWBgDTCtCl+3EIfRbNALUKD/v61ZJw5936vHVKM=;
+        b=PYCbDQkgCiR3DLwTYAa1bx0AGDviYSyWCHL+QjNLcN55PqlE2Xx3i1QRQOKT6DSaZe
+         khMvc2GuQgxVVwbCGF4JAjvLBi8r3uwua0eVsBPQdDjYpraiU16u1y21kBv4B9/g0sMj
+         arIW7biBI9XeHsogNWgU3P8y7VKPFcUP+fJvqgPamcGn9lqTBIckVFjNin+/h6DZIvaj
+         Ic6JAEJnc3Ef2zoeoKiZ2zHybjaD7rbQ2d2BO43D4UzTPdkvTQsad05XMPdgyVYB31Xj
+         iiQONsd2/IO+OLSq0AUVEl0hnvru+oCHTv/vSOnRQ6BPTe5hr1+L2gYgwjdhYmeUwhSU
+         xhpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761136309; x=1761741109;
+        h=content-transfer-encoding:in-reply-to:cc:from:content-language
+         :references:to:subject:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QyDpWWBgDTCtCl+3EIfRbNALUKD/v61ZJw5936vHVKM=;
+        b=aLBt8pgDKVm0G7axMrneeCzhRQo6s7yba5j3i/r4cS+gQVK4EhVMWI/PZCdzs/16my
+         zSYFsYmPNm3qEl76GJePE+CSszzalvqilYHd1lVPC3d3bKEIgax4L8K/+vFZXtZoqIQ8
+         ylniGyoQ8iwZtbn8y4kvXF8gGqUsYESU/RPtdJwv7XylUDEv/cSgOwC/L/caPYOp4eTC
+         fmeKHNKe2Xdf4B8xf9K6R2N4uWrqp0tzdJFqiSTLmPkZ97vNexhQ2EnN97UGIDsj4g3E
+         l9GTza5RshtIDjB3Lv4Q8UUyuIEb0geOYBtprS3ojee64RMiBXmWJ6tve+cIeHpS3d6V
+         60/Q==
+X-Gm-Message-State: AOJu0Yxj/1+MRl1o0mZfVnXigR6qXN/ZwkT5zqPHHg5XQ7lamC0Bap5q
+	yM4DzvRy75S5+BHaF24sQzTiYHCVpBf7jml2H1kSDHwDvbvigJY4BFyjiGEXaQ==
+X-Gm-Gg: ASbGnctLcjdwh860TkiH/V44WiH5MzJw8U0YAFwc9ogvR2vGVel1rsk/9RdMmyV+2D9
+	kwFxDbXqq0MlBRofRxfNNkQvAT41HYjQbkBUlzhWtOMtw0srR9LQVaTe3QFuxwoxAJLU7dDe7O2
+	gOI5QtVLuwR5xFLSv1eGnJGAGDw1em7/seA07I58liGY1zZstXdverscAHDcqtjNMCJmT6SoL1t
+	ROqM2JijOs1L7jBIgQGa1+SzOof5JnJvM0hh7UulbNCt9/QIUdvuGnzCHhIKnexqbtGUmt0Bjir
+	71vlaeAOpx3buPhQ+kNkINtGLz89haYCGyT4DvTURrVE4di6eIorjGcnhoqb92zxCJGQtowISje
+	GN/HQaNvPRvIVZAFvwYVEnG6jPjLo6mKWUnvQfZjjcL/7Ld4W3IoPfkdvHbS9zXgwlIIIN4WW
+X-Google-Smtp-Source: AGHT+IG2VUzDOMfUSrS+eLJxKUCmTnPjupJ2E1s4LT3+ruAFcRvF4GCLkjKpBa5ArRb4o92DQxyh9w==
+X-Received: by 2002:a05:6000:603:b0:425:70cb:9ba8 with SMTP id ffacd0b85a97d-4285324d1d5mr2247762f8f.1.1761136308302;
+        Wed, 22 Oct 2025 05:31:48 -0700 (PDT)
+Received: from localhost ([213.205.68.220])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-428567cd83csm2236970f8f.14.2025.10.22.05.31.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Oct 2025 05:31:47 -0700 (PDT)
+Message-ID: <5c301f98-9ceb-403c-b23e-f0c8006c5740@gmail.com>
+Date: Wed, 22 Oct 2025 13:31:47 +0100
 MIME-Version: 1.0
-References: <20251022113212.3220395-1-alex.kanavin@gmail.com> <a39c0819-945f-43a7-8b25-8fc5d00d8230@cherry.de>
-In-Reply-To: <a39c0819-945f-43a7-8b25-8fc5d00d8230@cherry.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 22 Oct 2025 14:14:20 +0200
-X-Gm-Features: AS18NWC-T95TiB4_JmXDBADOHQhoKpN-tE4El9nfdsIkc_B-IZzTRKOrIUU7das
-Message-ID: <CANNYZj9-37415LXhP7jnNSqOynuxZVtoEo5rdQOEg-_0rirQpg@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH] layer.conf: add a bb_min_version statement
- to perform an early bitbake version check
-To: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [OE-core] [scarthgap v2 00/11] backport: SPDX 3.0 support to
+ Scarthgap
+To: openembedded-core@lists.openembedded.org
+References: <20251020070952.942165-1-kamel.bouhara@bootlin.com>
+Content-Language: en-US
+From: Fabio Berton <fbberton@gmail.com>
+Cc: kamel.bouhara@bootlin.com
+In-Reply-To: <20251020070952.942165-1-kamel.bouhara@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 12:14:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225188
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 12:31:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225189
 
-On Wed, 22 Oct 2025 at 13:56, Quentin Schulz <quentin.schulz@cherry.de> wro=
-te:
-> Does the sanity check still make sense if it simply cannot be triggered
-> anymore?
->
-> In other words, should we remove BB_MIN_VERSION variable and its check
-> in meta/classes-global/sanity.bbclass? My worry is that we forget to
-> keep them in sync. If we need to keep it, do you think it'd make sense
-> to move BB_MIN_VERSION to this file here too? And if possible use it as
-> argument to bitbake_min_version so we only have one place to modify for
-> bumping the variable.
+Hi Kamel,
 
-I think the existing sanity check could be dropped, yes. I tried
-defining BB_MIN_VERSION here, and using it as an argument to
-bitbake_min_version, but at this point the datastore doesn't seem to
-be ready, and variable expansion doesn't work. Or maybe I did
-something incorrectly. Can you try it on your side?
+We spoke on IRC when I was testing v1 of this bundle, and I suggested backporting this change [1]. I have now tested the v2 bundle with the projects I am working on and encountered the same errors related to the populate_sysroot task. When I applied [1] on top of the v2 bundle, everything worked as expected.  
+Could you please consider backporting patch [1] and including it in this bundle?
 
-> Another question is whether we should backport this to earlier releases.
+Regards,  
+Fabio
 
-Probably not. It's a new feature, and the issue is most pressing when
-people move on from integrated poky into separate bitbake/core
-checkouts.
+[1] https://git.openembedded.org/openembedded-core/commit/?id=8b506f327838b885bfeb2cf144f43c8be68b8591
 
-> Another question is whether we can use a newer bitbake with older
-> releases, which this wouldn't help with. E.g. what happens if I use
-> bitbake 2.15.2 with scarthgap layers for example. Should we force the
-> version to be MAJOR.MINOR and ignore any patch if not specified? e.g.
->
-> bitbake_expect_version 2.15
->
-> would match anything from 2.15 to 2.15.999
->
-> bitbake_expect_version 2.15.2
->
-> would match anything from 2.15.2 to 2.15.999.
->
-> =C3=A0-la Rust version resolver, c.f.
-> https://doc.rust-lang.org/cargo/reference/resolver.html#version-requireme=
-nts
->
-> Should we rather have an explicit max version (but ok if not defined for
-> e.g. the master branch)?
+On 10/20/25 08:09, Kamel Bouhara via lists.openembedded.org wrote:
+> Hello,
+> 
+> This v2 series backports SPDX 3.0 support from the upstream Walnascar
+> branch to Scarthgap (Yocto Project 5.0 LTS), including the corresponding
+> test suite and fixes for integration issues found during testing.
+> 
+> The motivation remains the same as in v1, to bring complete SPDX 3.0
+> support to the latest LTS release, ensuring that long-term supported
+> builds benefit SBOM generation capabilities. Scarthgap is under
+> maintenance until 2028, and SPDX 3.0 is now an essential part of
+> compliance workflows.
+> 
+> Kamel
+> 
+> Hongxu Jia (1):
+>   oeqa/selftest: Add SPDX 3.0 include source case for work-share
+> 
+> Joshua Watt (7):
+>   classes-global/license: Move functions to library code
+>   lib/license: Move package license skip to library
+>   lib: oe: license: Add missing import
+>   classes-recipe/image: Add image file manifest
+>   selftest: spdx: Add SPDX 3.0 test cases
+>   lib: oeqa: spdx: Add tests for extra options
+>   spdx 3.0: Rework how SPDX aliases are linked
+> 
+> Kamel Bouhara (Schneider Electric) (3):
+>   backport: SPDX 3.0 fixes and tasks from upstream version Walnascar
+>   spdx30_tasks: fix FetchData attribute in add_download_files
+>   spdx30_tasks: adapt CVE handling to new cve-check API
+> 
+>  meta/classes-global/base.bbclass              |   41 +-
+>  meta/classes-global/license.bbclass           |  165 -
+>  .../create-spdx-image-3.0.bbclass             |   85 +
+>  .../create-spdx-sdk-3.0.bbclass               |   74 +
+>  meta/classes-recipe/image.bbclass             |   58 +
+>  meta/classes-recipe/license_image.bbclass     |   14 +-
+>  meta/classes-recipe/nospdx.bbclass            |   13 +
+>  meta/classes/create-spdx-3.0.bbclass          |  200 +
+>  meta/classes/spdx-common.bbclass              |   99 +
+>  meta/lib/oe/__init__.py                       |    2 +-
+>  meta/lib/oe/license.py                        |  203 +
+>  meta/lib/oe/sbom30.py                         | 1096 ++++
+>  meta/lib/oe/spdx30.py                         | 5593 +++++++++++++++++
+>  meta/lib/oe/spdx30_tasks.py                   | 1343 ++++
+>  meta/lib/oe/spdx_common.py                    |  244 +
+>  meta/lib/oeqa/selftest/cases/spdx.py          |  248 +-
+>  16 files changed, 9262 insertions(+), 216 deletions(-)
+>  create mode 100644 meta/classes-recipe/create-spdx-image-3.0.bbclass
+>  create mode 100644 meta/classes-recipe/create-spdx-sdk-3.0.bbclass
+>  create mode 100644 meta/classes-recipe/nospdx.bbclass
+>  create mode 100644 meta/classes/create-spdx-3.0.bbclass
+>  create mode 100644 meta/classes/spdx-common.bbclass
+>  create mode 100644 meta/lib/oe/sbom30.py
+>  create mode 100644 meta/lib/oe/spdx30.py
+>  create mode 100644 meta/lib/oe/spdx30_tasks.py
+>  create mode 100644 meta/lib/oe/spdx_common.py
+> 
+> --
+> 2.43.0
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#225098): https://lists.openembedded.org/g/openembedded-core/message/225098
+> Mute This Topic: https://lists.openembedded.org/mt/115849813/6083838
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [fbberton@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-I don't know. Enforcing a minimum version is straightforward, but what
-the maximum version should be is more complicated to define and
-maintain. It's probably a separate issue; this change simply moves an
-existing check earlier in bitbake invocations.
-
-Alex
 
