@@ -2,97 +2,92 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D428BCCD1BB
-	for <webhook@archiver.kernel.org>; Wed, 22 Oct 2025 11:12:04 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web10.6275.1761131523571007335
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D71E6CCD1BB
+	for <webhook@archiver.kernel.org>; Wed, 22 Oct 2025 11:32:24 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.6620.1761132740303390590
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Oct 2025 04:12:03 -0700
+ Wed, 22 Oct 2025 04:32:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=i0MAap0r;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-879b99b7ca8so92192196d6.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 04:12:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dmScE+xP;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-426ff694c1fso1748877f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 04:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761131522; x=1761736322; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BtHz7bAAlLfNVJt5oN6WzKDbgCzsYm1hUv5V7e49iTU=;
-        b=i0MAap0rR1fiX2KkJOI0e6ArrN9aGL9riOJfjFkgQUw8l0ulZ4sVDJvHvVV8K76u2o
-         o+YTJaniPnb/kZuvp74A43jtdg7k+WpGyTsSwvdy7t4YdZ9ZUUp8KY2PoOPu9EEYkNVv
-         oOt+vQcfWKUiAvm6VenH5MA/AGpEY10nG/KNou8GjspQ5bCA8+uWRKFqVAeEQPWtAySy
-         8oc41oToULxJ3noEg/CNnusFOcSx2F4Ot702JIE4unhGZvzb6RSy8+UOyCMCIpSMcVqC
-         WJII6tyKPGeZ+7rptLSKcBa0DAKNvmAoqR7GEKrUYS81VqqigjlVJsJTiSfJC2xxYl7H
-         tmig==
+        d=gmail.com; s=20230601; t=1761132738; x=1761737538; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7jvH1nBmiJDjDN7rcDA2l2uNL3oaMtSCIAzuFlfDZ+o=;
+        b=dmScE+xPKSTJOE1Ju3k9F3HKoNFux30hjy1aCB2AVC7hiWNarjJOH117jz3S7muanP
+         MYlwW9xkfcPDH7BzTlraMFQtVcouSsv8hDaHPjcHBKjdivWrHpr0JXHap+pSplHXU7NH
+         ruk8pBb5ewRxmKNjZEP/3dxrbbEEueTmc7Ib2ySPcSpYmSwNfvEDzRxQrlAAv8ETrrTa
+         rXvQUCajCSXmyPjYzY9nHrVOM5xx1mSlD4NhYVnHqe+XXSXH9qnZKt4RJ4+GdSNG9cib
+         ohPAr5cvjnOyAKuxotsmjNvboL0p+XvQxLoQ3AChbih+LfSZCuJ5c0dJoS6FTtmtFb30
+         EOZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761131522; x=1761736322;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1761132738; x=1761737538;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BtHz7bAAlLfNVJt5oN6WzKDbgCzsYm1hUv5V7e49iTU=;
-        b=jwG4Kr03mDCIkrtBW/MvgKpgTS73bkrfZi5jczIHsDdpG4zgQC9pTLlOHM2GInocXC
-         s1Cpotm9D9ZEEVotz6CFDrmAee3lvxsXhUJ/C19+utfvpLF6nns16YC425L86E9PwKux
-         xouIdzH3TirAuSN+EZH4TNsjgKpnr7L9rNaIzYgbkIXDCA/dQj+QSJrOIZl5LjFz5KUT
-         Uk99ZyhNoFNcm5rcOJJfxXnt1tTs6uC9hcrsdUgJYqRRF1C9QVmMARCM9XEsVQC72o2Z
-         jai863Smrsjgr8MISj65N2LHIJVUHntqhMN2EQONAVKRAzUQOIVjcJ0tayzYA1j+9tXj
-         S9Cw==
-X-Gm-Message-State: AOJu0YxTAosSL1NGhS2nKgr3BYn8iEIwdorESo2VoPQGq0qKhRe7ADyP
-	hOxNMCCczM6M2ylkxJEen1ew3lb7pc5KmArih9jkKNlXYvk9cXKGlql7X+lm5qD2yc+UAwmEdY3
-	Gm8hpzDo/dsGvzMg6sbSZvBlTAEGqDiFayQ==
-X-Gm-Gg: ASbGncsbGRKsvjIc2XJmylZIKIwfS0GBzcJWCXlR9l1h82sw4xou6pFVsjkUnAz4Wsf
-	e2FB+KDhKDCVVHxGUY80yMYeOaPVKF/WH8XlkZo/Gs2QaKS8z1pn4AohcJQDMvDDJrKsG9LO+8R
-	VHgS2YJ5m3Hpwuelr5HslBf6pRny67MqXEPX51Cyzex+DPNinKsDNCqfOMjNpi+2bGnCXZI6G+e
-	NDk0FPJBPVg2Gu29tZ+OjxErVj+j4Ppeq8lJv7t25M5vs7KqHXM2+5n1POZhqO/EgS8xC70nV6Y
-	Hr2fhAJVJwjJsn5OpaiMmWxtvR1ISzxfeC8fxRuVNCd1/azdnGWE/5pCW3whO4GeIoUY
-X-Google-Smtp-Source: AGHT+IEW4MAuxhtpgsKsGy0HIxw1GvSEmwZBROlF36Bp1XD2c3y9TjM4Osysz4D316PVCHwPbci0R8s1rEYMOFLE+6E=
-X-Received: by 2002:a05:6214:2529:b0:879:b99b:993c with SMTP id
- 6a1803df08f44-87c20745387mr256512776d6.18.1761131522483; Wed, 22 Oct 2025
- 04:12:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <567bf317-620c-4f00-827c-50a511d431c7@munisense.com>
-In-Reply-To: <567bf317-620c-4f00-827c-50a511d431c7@munisense.com>
+        bh=7jvH1nBmiJDjDN7rcDA2l2uNL3oaMtSCIAzuFlfDZ+o=;
+        b=vw2o+9qrxwXn5rClyEOEgyIP5uVAPc7kdZNFjKZUc0B3uUOrmt6B7ul4BBew/o3DIo
+         +A+0HnNQufXeqyJWnRiVo9Oxw1U4WN5aHDvUfxz8OLFCrqBw2t+Ou7f7lHdmC0HhcZsi
+         P0n7TH/h/3PXMm05Bm3dC/vcj4z2DKMJhcKiZEEGMRiwuRZOSCwlDIfGezIRSG1n0TaX
+         rSGlE4jnE5yCAVeabvPzhe70sMl79saMqu7P8klP/85CylrI3dgEuMyn03pqWE+2Q7Ba
+         ZXRi5fW4A+WCi8zdsATkhT+zCYjsCTr2lhjcWcodIyzmwxaIjByCmB3lCY4vYn3urjfO
+         Fzzg==
+X-Gm-Message-State: AOJu0Yxgye2afDTFfsvmtOCCqoEZxCx86hF2JmAmTBGhBI2wlizEsdyW
+	6F9y4vy+PFMRSZ2mBBeImpcbyVHOwDO8DY/Pdu1fzN/9BIPJoh5JK89GYoHcfg==
+X-Gm-Gg: ASbGncvfCFwZTrxuURwSclpwKvsbvQ3pdleUWLeC8oDV9EsImAIBXiwtajKw+Ewz9DE
+	GlBD2p68lG7gz9B5sG7QQyYlSybbx4h+jL62xxBW5US3JsI4CUqqxxFjmLV5bzJbimA524mSOiF
+	6oS4uCHAH77fO6UI0wGjM7BHe1rdRwxJL8INjvvvjOBgT64rLbHKCewo9eSl2QlueFdxgyRsnT+
+	Wgp6s3C48wthqJd8Jgovpwp2LCxfy8qkGXSV+207Mt+eqnpJbN3sit6GgG89nq6/ybDVLacRzuG
+	odK+YZN/AMMQdJtjR6hm+m1LfXNIlBuCjz+/CHUI2o3OuFmX8Goai3OLxXT44qbj8dzPwU36eUS
+	HEWb4hoBeN9pd3c2Ozshr74l1LkxyHEYgfZz65uF5FDQGI49EluoWWQeyJlH+eYvB2DcqMH2+Rb
+	587Qei54C4ykN9xltAS40RIi3khy8rWBZfqCylLvlva6+4VINx3fx7/5Xa7nKnJ6OuwHeUQJDuB
+	ru/5VJ3+9KCQV3ZOfiouZT28xgY83f1zUH+Fd0=
+X-Google-Smtp-Source: AGHT+IEf+nttqIRsPlsuM9H+mzcZwXogkOFtS2Zqprp1BfELKW4xsH6LaUAJaqGtO0LTpdCgpOn8yw==
+X-Received: by 2002:a05:6000:26d2:b0:3e6:f91e:fa72 with SMTP id ffacd0b85a97d-42704d83dfdmr12156686f8f.7.1761132738404;
+        Wed, 22 Oct 2025 04:32:18 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5a0f7dsm24380087f8f.4.2025.10.22.04.32.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Oct 2025 04:32:18 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 22 Oct 2025 13:11:51 +0200
-X-Gm-Features: AS18NWA3J5WVqSoB8OE2APCpO9W4dDn2TEAjVG1Hlb4XMxpmCxXThtWQdTi9VP8
-Message-ID: <CANNYZj8WZ+hx_OvO+=m_JsayTZEB9GmC6ma4xEp-qPqXso=aog@mail.gmail.com>
-Subject: Re: [OE-core] Ubuntu 25.10: base-passwd fails to chown. (pseudo issue)
-To: gijs.peskens@munisense.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [RFC PATCH] layer.conf: add a bb_min_version statement to perform an early bitbake version check
+Date: Wed, 22 Oct 2025 13:32:12 +0200
+Message-Id: <20251022113212.3220395-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 11:12:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225185
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 11:32:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225186
 
-On Wed, 22 Oct 2025 at 11:56, Gijs Peskens via lists.openembedded.org
-<gijs.peskens=munisense.com@lists.openembedded.org> wrote:
-> I'm just posting this here as a reference so others who run into this
-> can hopefully find it, as it took me a while to figure out what was
-> happening ;)
->
-> Ubuntu 25.10 obviously isn't supported, so I'm aware I'm on my own....
->
-> On Ubuntu 25.10 packages will fail to chown, this is due to Ubuntu
-> having moved away from gnu coreutils to the rust based uutils coreutils.
-> I'm presuming that Pseudo works by overriding libC provided functions,
-> and thus intercepting the syscalls, and that the rust based coreutils do
-> their syscalls directly (without a libC), which breaks pseudo and will
-> result in failure to chown errors (and possibly other errors as well).
->
-> As a work-around, on 25.10, it's still possible to switch back to
-> gnu-coreutils:
-> sudo apt-get remove --allow-remove-essential coreutils-from-uutils
->
-> (at your own risk)
+From: Alexander Kanavin <alex@linutronix.de>
 
-Thanks for the report. I was dreading the day this happens, and I'm
-sure others as well. Chances are, other distros will follow, and then
-Yocto project has a problem.
+Please see the corresponding change in bitbake for the rationale.
 
-Should we build C based native coreutils as early as possible, and
-then use only that? That might buy some time, but isn't a real
-solution, if GNU stops their development.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/conf/layer.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Alex
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 54fa04e213e..6c05c0e1934 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -1,3 +1,5 @@
++bitbake_min_version 2.15.2
++
+ # We have a conf and classes directory, add to BBPATH
+ BBPATH .= ":${LAYERDIR}"
+ # We have recipes-* directories, add to BBFILES
+-- 
+2.39.5
+
 
