@@ -2,92 +2,138 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59B2DCCD1BF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58A0DCCD1AB
 	for <webhook@archiver.kernel.org>; Wed, 22 Oct 2025 05:08:22 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web11.1762.1761109695171711219
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web10.1797.1761109693911170523
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Oct 2025 22:08:15 -0700
+ Tue, 21 Oct 2025 22:08:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dzQgAmFD;
- spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7811a02316bso4497830b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Oct 2025 22:08:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QnxTkPmH;
+ spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-781ea2cee3fso5725221b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Oct 2025 22:08:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761109694; x=1761714494; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BJJPhw3KF9hkInkYXmj1Iy5+j0DfxFQT31/UUauB430=;
-        b=dzQgAmFDRoMIbT5MU3+As7F0QCzDYTN7z3a4FEHZyj3k/7ajBJlchRRJAYmRaV7u/t
-         aHjWIUD2j4LS2ZQRh44/EBNrS7aZ+0ZROJoSvonXBrVQ41TZ24vXX4BJGuJFkpZvO95H
-         Gh0qfMY8UnqiAbfHF4pWArKDHli0KYog70SasjeFJaS+EgzJBmACyUJOD4pWstyBoqf3
-         bopXufLhdYhV63bRmTwCo0DTMCSolUjoTIsjn3Mkj35TNa0VKeH/wbcvLUukbsCepfM+
-         0b/4i32PJyQrKfAHlcgwcGMZr/CmjMbnlEdxFRdlZk0Ur2uUW0fWm+/Xi7yi++jMcL+P
-         Ug6g==
+        d=gmail.com; s=20230601; t=1761109693; x=1761714493; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VApsIA+qpjEEBCDwAEWDL81w+lF8gkBCZsRIWzKNI+I=;
+        b=QnxTkPmHRRB0vz6EY/Nhsd6/iJdk79JDc6OoTKYAy48BvJbHAvn9DgqucPvFQYDDmr
+         CvlYIT/d6h1iihy8dCljJVDxeoMGMBQ9tYExQsZbm25LDgoAAzBmRlQsQTfXm6B2LVMa
+         NgCOnEpJvnI52kIQDgJjIIkDntTnCDSYL9Rfkd6hBlYqA8mngbPRLFyowDDeNMzwHVfU
+         I7p9MRDrviC80s9UlnPB6tngNbAM0MJXyiz4m6T7+Sn5ELVeuNwrIkw/VNF6fuEGXeL8
+         tNCoGxREDbwtNFKfErd0m0xgqH9Rmf9neYooKP/f7lb3Jl5ffNcvLOBixcJzfGPgLfHT
+         Rk0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761109694; x=1761714494;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BJJPhw3KF9hkInkYXmj1Iy5+j0DfxFQT31/UUauB430=;
-        b=m9wIMjDnVSwIQMeUP6ehKGMMCX3Ch0rvtewAKf2zJyd0mGrxeFG8GH8I07Srbkj1Ii
-         2FAyTObONUfZBDrQeQS+LmFyKCiIv8M879lnzrWJjxhOsQ9iqM/n/O/I4R8bFSCYPnut
-         yeau4qweWC0b76KkUJ7TSqu7bwE6W3wt+s9qZgOlThCibcufn1u1mPBBG3C4IUfsS8jL
-         sL2s0NTtY014HUGjTqdIXQM0JwOo53aK0549hcZpUvGekBlleAvpgFVNA+mekI9gpKZM
-         K89viSRgMr5uT5aP/b8m9g3RSHYp62O4h6bG9tmKLucUgVahY3B8BsEcWaFcwBM0m7lL
-         M7RQ==
-X-Gm-Message-State: AOJu0YyDazODR1b65kVZ66Hmcf9fyPOLuNUJyMVE425AYCz54WHfNhn1
-	wNlIl8QU9OPV8Dz1AvPp6tQMtFlUqr+Qbc/6zD31ROtbgw4Us3njmDCvQ6zbFiy4
-X-Gm-Gg: ASbGncvXgpS1zvtGD4HCUrhuDRbHzudrmMq+RpCrdYMbBvjkdX4VMPiTBFKZi0T/Mpr
-	jdXVeIPlNYcYCP6I5F7C8yR59VHBqPzrX9Zm3PJcBCV5uB6rny52y1xtkEFM2RtTJGzedvwrGpa
-	/qLKGjEdYFf2uWzu933Ah0tEhgLGFcWnvba+q48y7Xw6A/RV8G9o/M/dizw57G2tDBWPQwp1nhi
-	N7H43YUKIwnssY5CzZwZ5NJxjiTxHUOKYwsJLsEs2XlQAuBJDoGY6TDL04mNDbr8t9lioAK+lef
-	MoG61mslCT+JP3T/EsFm99hEsCr8ax6SnFDvbW64pJEwM8gl0ZugzRlsXtc9AlrBh9cyzJ0+FJW
-	d6eNmDvg52CZLbJqEuiZ2lwUGBfSE5vfLmiWzVIPGfIKT5gLs1bFWx9EchezQNQ6io1fuY4GBdr
-	RrFn9bPVNE6ooXE7kF4ZJ58VL4w5+omYeJ6/X11mRLJ4j5tghTxvXJi7K0mUKbzZ7+mawIHwZA
-X-Google-Smtp-Source: AGHT+IHU9geyJX6HdQbe7y5LApmKA3yUwdSg7jXeLuA8/m/nIHK1KjSFy1l4DoYObiiaB9ySnpPh0w==
-X-Received: by 2002:a05:6a00:94ce:b0:771:fa65:ae6e with SMTP id d2e1a72fcca58-7a220a99177mr27899046b3a.17.1761109693924;
-        Tue, 21 Oct 2025 22:08:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761109693; x=1761714493;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VApsIA+qpjEEBCDwAEWDL81w+lF8gkBCZsRIWzKNI+I=;
+        b=JzID/HNNwzumJyNW5mH35YHNwZo5khE0qVBG8EFipxg641Rg4wSn+GByqRLO5XDDmY
+         QCmfTu0Rn5PlmsukzQJl7JGVCEjBEypoSaAuldkbcyssHY+8SnovjZlZS0k6w06S4if/
+         K7w6bvOKP2tcBJq3am1ae4LAj6spMTpusCg1DyvWUYY0R/olQYKpP90pYZCQGH4URhcl
+         NvALhCTNKbT6SQx4OudL8ccQmysWHNLLC+hsGais46B+3l3StN8nAxaMnN5FqepyniZb
+         +dszPZt4HQRQtR0Neh85ZeIs1odnZqaappcAtXKOoarX4JyzUjR2RmCwlr9XcKlz+vU5
+         CCOg==
+X-Gm-Message-State: AOJu0Yy08/zDgnfCJRBVWnUaMkog76MJbgzhCaRAg29E0n4xxgSwMpoN
+	4QcETh/BUcKhXmMyzuA+RuTUVFb1O1kna4pek2PAKEb0SdxRb8l3OnrAFHwOly51
+X-Gm-Gg: ASbGncvIoZqKYmDLNuhCwrZohaTitdZ+vIsiDc+wdtKg0Cc9QrOmJQybicL8unrR9M5
+	fHo5YdwhPWNvIX96WJE6lQKpMCU9CwzU/K2QJMHCiafmrfmrJCnDtNWuF0Wcja2BsiXCkh5X4i7
+	pNDv5Jci2kmYqoHjZCjrKDNqmhMVj0XiKH0Om6WZa07+CGT/Nr0/pNUjPkFA6qlJEHADwbQAbVL
+	MOUjI0jLTDET1qxUHC92GZ3phnY6Zf44D1mX44Qzeesfay6rXoPv2UyK7yaR5yvVsvWAHALTr/x
+	cWH7z5TBCPiEvvHpbVOcTV5sennPaj02dSkgQVsUnvXNv1Ayc7zmyRe0EB/ydVt/6A6yqrY1nOE
+	yBg11FozM4ASC5Io+pWHEW5wjmWlmo8wm/JXEb5GsUt8lX5NseTZN7ohu1cPPhOidmuink0XlC0
+	d2nTb0xhATbb/r+jeTU7WLriE5E5TzET0EfOZufqPr3ujsEKLJY+Js9w5z/LIGRdilSo1uQDLx
+X-Google-Smtp-Source: AGHT+IFIjYhiVmSg7YfwBXxjsnHkFE7wbm45NrQQGFhevF1ctaPUpBfo28OA/E+0mXYXBmNxbTjGww==
+X-Received: by 2002:a05:6a00:1884:b0:781:156b:425b with SMTP id d2e1a72fcca58-7a220ae0ff9mr23226870b3a.27.1761109692929;
+        Tue, 21 Oct 2025 22:08:12 -0700 (PDT)
 Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::b6ef])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a22ff157f4sm13328563b3a.6.2025.10.21.22.08.13
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a22ff157f4sm13328563b3a.6.2025.10.21.22.08.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Oct 2025 22:08:13 -0700 (PDT)
+        Tue, 21 Oct 2025 22:08:12 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/5] gcc: Pin native toolchain to GCC as well
-Date: Tue, 21 Oct 2025 22:08:07 -0700
-Message-ID: <20251022050810.1572184-2-raj.khem@gmail.com>
+Subject: [PATCH 1/5] libcap: Pass OE defined BUILD_CC and BUILD_LDFLAGS
+Date: Tue, 21 Oct 2025 22:08:06 -0700
+Message-ID: <20251022050810.1572184-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251022050810.1572184-1-raj.khem@gmail.com>
-References: <20251022050810.1572184-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 05:08:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225172
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225171
 
-GCC is not buildable with clang and when using clang
-for native compiler this fails to build native parts
+This ensures that, native pieces in target builds
+are build with correct flags to be able to run on build host
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-15.2.inc | 1 +
- 1 file changed, 1 insertion(+)
+ ...Add-build-ldflags-to-_makenames-rule.patch | 29 +++++++++++++++++++
+ meta/recipes-support/libcap/libcap_2.76.bb    |  6 +++-
+ 2 files changed, 34 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libcap/files/0001-libcap-Add-build-ldflags-to-_makenames-rule.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-15.2.inc b/meta/recipes-devtools/gcc/gcc-15.2.inc
-index 575987b6433..d178b254878 100644
---- a/meta/recipes-devtools/gcc/gcc-15.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-15.2.inc
-@@ -11,6 +11,7 @@ BINV = "15.2.0"
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
+diff --git a/meta/recipes-support/libcap/files/0001-libcap-Add-build-ldflags-to-_makenames-rule.patch b/meta/recipes-support/libcap/files/0001-libcap-Add-build-ldflags-to-_makenames-rule.patch
+new file mode 100644
+index 00000000000..10ddf649359
+--- /dev/null
++++ b/meta/recipes-support/libcap/files/0001-libcap-Add-build-ldflags-to-_makenames-rule.patch
+@@ -0,0 +1,29 @@
++From e52d3232882c263f5bd4b1980195ac633d706a53 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 21 Oct 2025 18:27:51 -0700
++Subject: [PATCH] libcap: Add build ldflags to _makenames rule
++
++its calling compiler and linker in single step
++ensure that build ldflags are respected as it
++might have important information like which runtime
++to use.
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=c3ddf45d9afaab85d3b7db0dc7bfd1aafb8fde50]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ libcap/Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libcap/Makefile b/libcap/Makefile
++index e90a950..f0eb87e 100644
++--- a/libcap/Makefile
+++++ b/libcap/Makefile
++@@ -80,7 +80,7 @@ $(PSXTITLE).pc: $(PSXTITLE).pc.in
++ 		$< >$@
++
++ _makenames: _makenames.c cap_names.list.h
++-	$(BUILD_CC) $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $< -o $@
+++	$(BUILD_CC) $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $< -o $@ $(BUILD_LDFLAGS)
++
++ cap_names.h: _makenames
++ 	./_makenames > cap_names.h
+diff --git a/meta/recipes-support/libcap/libcap_2.76.bb b/meta/recipes-support/libcap/libcap_2.76.bb
+index c842246fc09..27093ff3e72 100644
+--- a/meta/recipes-support/libcap/libcap_2.76.bb
++++ b/meta/recipes-support/libcap/libcap_2.76.bb
+@@ -12,7 +12,9 @@ LIC_FILES_CHKSUM = "file://License;md5=2965a646645b72ecee859b43c592dcaa \
  
- TOOLCHAIN = "gcc"
-+TOOLCHAIN_NATIVE = "gcc"
+ DEPENDS = "hostperl-runtime-native gperf-native"
  
- DEPENDS =+ "mpfr gmp libmpc zlib zstd flex-native"
- NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native zstd-native"
+-SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz"
++SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
++           file://0001-libcap-Add-build-ldflags-to-_makenames-rule.patch \
++		   "
+ SRC_URI:append:class-nativesdk = " \
+            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
+            "
+@@ -37,6 +39,8 @@ EXTRA_OEMAKE = " \
+ do_compile() {
+ 	oe_runmake \
+ 		AR="${AR}" \
++		BUILD_CC="${BUILD_CC}" \
++		BUILD_LDFLAGS="${BUILD_LDFLAGS}" \
+ 		CC="${CC}" \
+ 		RANLIB="${RANLIB}" \
+ 		OBJCOPY="${OBJCOPY}"
 
