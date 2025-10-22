@@ -1,198 +1,157 @@
-Return-Path: <viswanath.kraleti@oss.qualcomm.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70180CCD1AB
-	for <webhook@archiver.kernel.org>; Wed, 22 Oct 2025 12:47:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78331CCF9E0
+	for <webhook@archiver.kernel.org>; Wed, 22 Oct 2025 13:13:35 +0000 (UTC)
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web10.8142.1761137227590980386
+ by mx.groups.io with SMTP id smtpd.web11.8998.1761138805609135590
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Oct 2025 05:47:07 -0700
+ Wed, 22 Oct 2025 06:13:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Ughj/339;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: viswanath.kraleti@oss.qualcomm.com)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59MB0X2U029817
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 12:47:06 GMT
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=dGElHlpw;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59MA3Dia024550
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 13:13:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	OxxQ3Dkcf/BZjHpL7AEhKim+bTXDd5uf1P3B1tDwNMs=; b=Ughj/3397CN0k+Uu
-	Y+zVlYZXt8uu2Fsi/MYI6NH5gDTFZOlyHwPKBE2w/3pr23ul0pCG6ur4KEE7bxqD
-	DADJ19eIopKdmxVmgrV28c6aeOnBie1hW8uIdXbsDOoOkUiHZ8ZsKoaOZHiW9TlD
-	5wfKDGBFnLEiXwxap6q+V3SVSnJv+JL21hmVikfqxwBYNYld7D+2GxhyrFtuJQC2
-	1VAk5Ge8UxpeB2xHLbL7eqUAfncqvsPMEOvH6w1ygOXSADVGKxOVSN1aZ3hytEI1
-	0Nn1KzKJhhPcdXsZgPWWHrNUOdfDYV0CKsCZ0ZDcV3p9189rkj91Cg09FIv6u5PU
-	Dic6pQ==
-Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com [74.125.224.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v2ge4m9h-1
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=uoWK/IpwMazvr/3t0GJ3uRxrYvWqtI7AjCW
+	N3gVfH/o=; b=dGElHlpw72crPkZMIas8soJa+IH39Cx7ycoqys63mnDdjLN7X63
+	eFHzk9Ngdbz4SWD2LfjrX0G8SecdoPoxElrilRitGbNEfdFpI0HvQzTWX1c/XZGW
+	p3HtFA+zDU9WnZdj6AMmJPExqJj2qZX2r4V9h6dJo8xCQT6BmDEZPBKhnY0Zi/IP
+	P/dUoYw14VagxUZOjjWAtTKzJ/R91MmYgL/4vwe5XAlCbgiZZKURaEsPLHVCexgt
+	CZkBvNQD8KBJSUrChtcIEYUgLPuQxRKgRPr2PJppJxjgm7GdIV9ooxcNi/b2IMEI
+	FZ0rsDyFn2+AmAkgySayQDiJjHfoD455/mw==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49wsws740v-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 12:47:06 +0000 (GMT)
-Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-63e2d3351abso5070189d50.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 05:47:06 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 13:13:24 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4e89265668fso30087041cf.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 06:13:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761137226; x=1761742026;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OxxQ3Dkcf/BZjHpL7AEhKim+bTXDd5uf1P3B1tDwNMs=;
-        b=enfa4ijDaONkxj2gU37V3NBftUwPpiMpw079BUh/VW8vCPf5OZvhfisHqjHT1sV39V
-         0jJj8s/QzzJbJlO7fpH6wQDkgWlB0E7Y8jBxcsAg3b6xxcJ7jR3PhpZX0HVFSV/Q+lgn
-         7HYyjhpB5ISuPqiz8QmmczxgYV8tXu8N+zG1xs5cCBSAGzJ45tdos5Fv07arwBgunwXo
-         IhNGkFRRdoOQHsE60tCoW9rt6pPKcXzHgRAW+2mwvPRp68qLVuSgiCKMN3tLMD3eZ2vJ
-         Mq6PkK3n/+ZHh2PJwh13wBn0/2Hw4iyL89Bl7ljuDiLyVrQxtlY2MJA1wkdS1bnTc3Qn
-         pGBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXtWbe6iSwkogglWwJfMviG/olbzvictQJeB3TG1fw0JZSiM4lAQ/lMIefRE4vT9i9A1sFpVID6x6i4LIXxF9GwKw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Ywp5qANNB+K8c+6leXwrjEtR2JthFlqIjV3d6xuC0gEYbW3tOIv
-	/jKzFw46X2CC6chCIQjRh+tVRlACzMxVcBInJiVCDg1b2L1W9ZncZALDuZWLaGvJTlb31Z8OIEx
-	g/WIWb4gNv5HUYe15nRnKvupK3SujzwTTqr5vdqjvPVqMh35Ag5/jIveiaJXPjp+/HuHhXJSUKa
-	+zjsm5+cSUSjqbKmcVegEHGmomo/Or5RBsCB6DjB9J5G+4qXktGI0BfSD1NQ==
-X-Gm-Gg: ASbGncuBLJ/0fVPr/q9OwW70UQJng6nY5jdi+lWYJQr1efYfbCgGsBPJHVKcXgtRMqI
-	riQX4dkN+87doDcF3Xvsdhf3WdPSJ2cjLrDjuDl8sCFbYeIJxAk8aK/KdFEM6hiTOxEUxg1gyOX
-	WJMxyE0lgC2dOSYLkZU1Q34hWScAa0okQKFuqoJ4STPh1jdamhdajm4eZG
-X-Received: by 2002:a05:690c:25c6:b0:780:fdbb:5265 with SMTP id 00721157ae682-7836d1c62b1mr318131677b3.19.1761137225834;
-        Wed, 22 Oct 2025 05:47:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEjRmROtT3gDHBZ+3/rji2zXDsl5G1cVTi92pYHF5vb+W4R+dfM3Im24mFCahuBooU4LAWcWAomdx7OOoOq6+I=
-X-Received: by 2002:a05:690c:25c6:b0:780:fdbb:5265 with SMTP id
- 00721157ae682-7836d1c62b1mr318131447b3.19.1761137225382; Wed, 22 Oct 2025
- 05:47:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761138803; x=1761743603;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uoWK/IpwMazvr/3t0GJ3uRxrYvWqtI7AjCWN3gVfH/o=;
+        b=EHB0Cn5kOW2JoVUjl9QbFkRdH3X2RTJjZZ9UXn+izNTqzyf+A9hmUuULOmVvBn9mGv
+         FM5RTdvqly+l0n5FJ+qbl9ESq/48WQKHRukcUH4uKnBopG/ALhDVGqrbJATVVhGtvc3r
+         4PqJQK/jXm4tV1WFFOoFCCyByfN9+yodzAciKmr078iTRlx16xqkKDx/JQ7t6nhoEkeF
+         zWrOsikuGzDei7mpxbGDK0xSlNFd/YNgXEVE0mhCzN6w+w2EFEMMjbqGRzkFN/NTH2pQ
+         C4D1KOUReX1YlBNRb8oYzFZy0NGLgVN221cVYo+49Ph8FagVOZzRuxBcYPMDrYgioxGa
+         9B0w==
+X-Gm-Message-State: AOJu0YyEHwgqi95zpjtuxJcA1FdzncDk++L8wDxipNybTAtXf0NgtxoY
+	NOwgfHKYj0t4DNgSE1f3bUGimLOcyuCtKcBKauoS01Sb3xEjV9ZaymfJB1XZ7HDjPJkYu8iFscD
+	aH2V/8cGRCrfC0gOLtMtviSTZR6SUjgUT3X4M8MC5zdQ4cyta6r2mGF/cP8hfIWzYiY3mYcFXpf
+	eKzDnfKse3aIUS3Ic=
+X-Gm-Gg: ASbGnct7ttkmKRyAIivQwxhW57MXzYyytAaTkV/d2TUMocdp556TLuEucw7bWlSF5ZK
+	RoW9xIfkdJtwP8xUisHJ2Bzmkp8JPyvec9d0Iv61ZKwqu4IQp+aVW3s2CdxAFJHgh1e9pEUmygT
+	dl17Rmv3Nzv8t+wq+t1k26/o/r+0leGJZ8d4wZVX8hhW/8MmVlnCF5srJQZWZ9CwFY0G9eaOC9H
+	eMvqOQztu/1BDIQkrpC+/sOF8lpaWCeu8pc1VaZq5gj6kLZgUe/6SCVgjAIjmdWXgGYzKkvBvru
+	xxmYA2JYOtgv1b7EPX+XyRWn9Gp9QlWieR7Sufh2xcqqZv2a8EW57WgE2BIZm1AMuZQ75VL558u
+	8oRJmQ7+1WGfeWTpXYKEfOxsNTvzwmm2L5vZS9UR6vwdlOaV8BzP0ww1fcDhkayXM5N6vKRl8jq
+	NQQXLrD2VI/6A=
+X-Received: by 2002:a05:622a:18a0:b0:4e2:ea31:1a with SMTP id d75a77b69052e-4e89d39ab6dmr237662231cf.68.1761138803136;
+        Wed, 22 Oct 2025 06:13:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGkSy2EEU1Ayuz4SNy/qjysH3cpiqrfPy0fmwvoKta0808HOa2tZeZlOkn8WYJ46yCFaamxBg==
+X-Received: by 2002:a05:622a:18a0:b0:4e2:ea31:1a with SMTP id d75a77b69052e-4e89d39ab6dmr237661481cf.68.1761138802481;
+        Wed, 22 Oct 2025 06:13:22 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-592eea72368sm730630e87.111.2025.10.22.06.13.21
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Oct 2025 06:13:21 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-firmware: upgrade 20251011 -> 20251021
+Date: Wed, 22 Oct 2025 16:13:20 +0300
+Message-ID: <20251022131320.596070-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-References: <CAB3asfhhUoscOusRRkjWavdC3QvqROuo4WvZnVH2O0sCsuB1oA@mail.gmail.com>
- <774.1760628588661308317@lists.openembedded.org> <CAB3asfj-fTNZiOpsysPcLGGB2X-SbLW95gVWqym_7zf4DCJQBQ@mail.gmail.com>
-In-Reply-To: <CAB3asfj-fTNZiOpsysPcLGGB2X-SbLW95gVWqym_7zf4DCJQBQ@mail.gmail.com>
-From: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
-Date: Wed, 22 Oct 2025 18:16:54 +0530
-X-Gm-Features: AS18NWCjyc5Jkuj1if7SmPQHPpYP5JFAFzRr2nkLMZ-OKc9_IRstvENBy-MPOPo
-Message-ID: <CAHyS93oYYkpK3mQzOPbStBR3h_s-0m20HuL8q_QAyagQZUGy8w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v7] kernel-fit-image: allow overriding DTB
- compatible string
-To: adrian.freihofer@gmail.com
-Cc: kavinaya@qti.qualcomm.com, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMCBTYWx0ZWRfX/dEf46IOZbgb
- ZFHWncPszC17K6XiV7iXT0mCForOtoVbJn6VpK97D3oAagh/BChifNlJ5Pb69r/DxSV0pWpV5Bn
- aTD99Xi1Yv3mA8pQYTJpCShGuH1h/yhPyUWTLQCF9ohPm+QC39U2GKF0VNzzXorgwDME2sbJBK0
- rDS0ZpIPdsJYR9aNioDaEusYzJ1Sp1MGkKLGlXuHvtW8LsO3hqz91jOgNK4BTR/9+LK9+u79d87
- Qs/JxSN5W5i73uQv6BLDzFP8Z2SQTEjVEfvtkvf8m6+zkcacs2mApdeHdvcizRvTDcJcfqZy3E6
- AZ0dnFER4VpsyiUJHzhUSUOQUeh9cbgpUEFS1q3BHtkq2jco4iPY2sE+bV9EDXkhpxuMqiNFC2z
- rEaPK1fe2xrqvCm4k/IsBwkm3jK5Pw==
-X-Authority-Analysis: v=2.4 cv=KqFAGGWN c=1 sm=1 tr=0 ts=68f8d24a cx=c_pps
- a=VEzVgl358Dq0xwHDEbsOzA==:117 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iGHA9ds3AAAA:8 a=Q4-j1AaZAAAA:8 a=EUspDBNiAAAA:8
- a=TUU-_lIqmEzkpNw5IfgA:9 a=QEXdDO2ut3YA:10 a=uujmmnXaIg8lM0-o0HFK:22
- a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-GUID: P7dH-DqA5IyXVJJJy369HzOymFXT9BBS
-X-Proofpoint-ORIG-GUID: P7dH-DqA5IyXVJJJy369HzOymFXT9BBS
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIwMDE0OCBTYWx0ZWRfX/b0BSxpwSSNA
+ SVSIHhfiSZPvzERf4CCeQI2XlcsL4T/OnTLIO0ygKVfj6Y7C3Zos7bVpTJnchhxsO4/DGCn8SBA
+ lzsPYUqWosTFZHhR4bomASLHfIfU1hOSQcoUB2YkjWcsdjXWMXTwGBjSxf1TBKCZ7VnISOk4W7w
+ anfhEcps0NHFuyBamI8f/vkRqsXBTfFLO/jo6DrzZdp3rWTAWjy09jPJHUFyYwmP/QKFx7E4IKR
+ jsFV2aUffwfyML5s1mcTLzhjVfgmq2Q9QgB7k2Qbh667+NjMz/HEOPMlD5uWBhgSuJywlAOSiNV
+ dUO8JsyKIvpWWpd/YjgFXt+X7Fe7nYoDVU1GOzL0O+6NMmdZCFsfgKXsYEVc4MzKj2hdkKlUxEx
+ 8ZkTaKF5mVSDlVkVY8oon4gdLvoeaw==
+X-Proofpoint-GUID: 7xgvErzbDt6frIsCfN-MLEY3O0EWY6EA
+X-Proofpoint-ORIG-GUID: 7xgvErzbDt6frIsCfN-MLEY3O0EWY6EA
+X-Authority-Analysis: v=2.4 cv=a+E9NESF c=1 sm=1 tr=0 ts=68f8d874 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=x6icFKpwvdMA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
+ a=PAcHF1l5oVdxH6VbDgEA:9 a=uxP6HrT_eTzRwkO_Te1X:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-22_04,2025-10-13_01,2025-03-28_01
+ definitions=2025-10-22_05,2025-10-13_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 phishscore=0 malwarescore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 spamscore=0 suspectscore=0
+ lowpriorityscore=0 spamscore=0 clxscore=1015 priorityscore=1501 phishscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 impostorscore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180020
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510200148
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 12:47:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225191
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 13:13:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225192
 
-Hi Adrian,
-          Thank you so much for being so accommodating.
+Upgrade the firmware package, add new package for Intel Sensor Hub on
+Pather Lake platforms.
 
-After posting the initial set of patches, we at Qualcomm realized that
-our case may not have been presented in a sufficiently generic manner.
-The current changes don=E2=80=99t fully capture our needs and expectations.=
- We
-also felt the idea of modifying the kernel-fit-image implementation to
-make it a dtb-only-fit-image, may not be the most appropriate
-approach. It might be better for OE to support both options as
-separate classes.
+License-Update: new and updated firmware
 
-As we=E2=80=99re still finalizing the details, to avoid unnecessary
-back-and-forth, we plan to share the following in the coming weeks,
-which should help
-ensure the right changes are made in the OE-Core layer:
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ ...x-firmware_20251011.bb => linux-firmware_20251021.bb} | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20251011.bb => linux-firmware_20251021.bb} (99%)
 
-1. Clear specification document outlining our requirements
-2. Sample .its file
-3. Reference implementation from the Qualcomm BSP layer
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20251011.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20251021.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20251011.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20251021.bb
+index ea8fac79be5c..66d3be90e7f1 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20251011.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20251021.bb
+@@ -312,7 +312,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "585c66ed89dcbaacae7023deb32b6bd2"
++WHENCE_CHKSUM  = "aa7f40acde3418d9125fbb933ba2d9f9"
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -449,7 +449,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+ 
+-SRC_URI[sha256sum] = "b6c9a9c112b88417d985b87d6521b677fa2fa0d5d7ee5219c76dc8ca66945ad3"
++SRC_URI[sha256sum] = "fa6130988ecd7968602938c77dd6f8d2dace4e03ba0da4c0e9624dfed657e6cf"
+ 
+ inherit allarch
+ 
+@@ -755,6 +755,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-dell-license ${PN}-ish-lnlm-39ceeaf8 \
+              ${PN}-hp-license ${PN}-ish-lnlm-dba6b120-152c3222 \
+              ${PN}-lenovo-license ${PN}-ish-lnlm-53c4ffad-2a17559f \
++             ${PN}-ish-ptl \
+              ${PN}-advansys-license ${PN}-advansys \
+              ${PN}-aeonsemi-license ${PN}-as21xxx \
+              ${PN}-agere-license ${PN}-orinoco \
+@@ -2617,6 +2618,10 @@ FILES:${PN}-ish-lnlm-53c4ffad-2a17559f = "\
+ "
+ RDEPENDS:${PN}-ish-lnlm-53c4ffad-2a17559f = "${PN}-lenovo-license"
+ 
++LICENSE:${PN}-ish-ptl = "Firmware-intel"
++FILES:${PN}-ish-ptl = "${nonarch_base_libdir}/firmware/intel/ish/ish_ptl.bin*"
++RDEPENDS:${PN}-ish-ptl = "${PN}-intel-license"
++
+ # For advansys - AdvanSys SCSI
+ LICENSE:${PN}-advansys-license = "Firmware-advansys"
+ FILES:${PN}-advansys-license = "${nonarch_base_libdir}/firmware/LICENCE.advansys"
+-- 
+2.47.3
 
-Thanks again for your support!
-
-Best regards,
-Viswanath
-
-On Mon, Oct 20, 2025 at 11:58=E2=80=AFAM Adrian Freihofer via
-lists.openembedded.org
-<adrian.freihofer=3Dgmail.com@lists.openembedded.org> wrote:
->
-> Hi Kavinaya
->
-> It would be valuable to understand what gaps exist or what doesn't align =
-with Qualcomm's requirements. Perhaps others have encountered similar issue=
-s, and we should consider improving the core functionality.
-> Here I attempted to organize the patches and prepare some test improvemen=
-ts: https://git.yoctoproject.org/poky-contrib/log/?h=3Dadrianf/fitimage-imp=
-rovements
-> I'm curious to hear whether your final solution will be a combination of =
-UKI and FIT images, or if that approach proved to be the wrong direction en=
-tirely.
->
-> Thank you and regards,
-> Adrian
->
->
->
->
-> Am Do., 16. Okt. 2025 um 17:29 Uhr schrieb Kavinaya S via lists.openembed=
-ded.org <kavinaya=3Dqti.qualcomm.com@lists.openembedded.org>:
->>
->> On Wed, Oct 15, 2025 at 10:43 PM, Adrian Freihofer wrote:
->>
->> >
->> > What I don't quite understand yet is: Does this make sense from the ke=
-rnel or
->> > DTB perspective? Or are we circumventing problems that should be fixed=
- on the
->> > kernel or DTB side instead of overriding them on the Yocto side? I mea=
-n,
->> > wouldn't it make more sense to assign a compatible string that is usef=
-ul for
->> > u-boot in the DTB without requiring FIT_DTB_COMPATIBLE_OVERRIDE?
->> > >
->> > >
->> > >
->> >
->>
->> Hi Adrian,
->>
->> Thank you for all your valuable reviews and inputs. After an internal di=
-scussion with our colleagues, we feel that the proposed change does not ful=
-ly align with Qualcomm=E2=80=99s current approach to implementing DTB-only =
-FIT in the format expected by our UEFI bootloader. Given this, we=E2=80=99v=
-e decided to hold off on upstreaming the change for now. Our plan is to fir=
-st implement the DTB-only FIT support within our meta layer, refine it furt=
-her, and then propose a solution to oe-core that support both kernel+DTB FI=
-T and DTB-only FIT formats effectively.
->
->
->>
->> Thanks,
->> Kavinaya
->>
->>
->>
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#225096): https://lists.openembedded.org/g/openembedde=
-d-core/message/225096
-> Mute This Topic: https://lists.openembedded.org/mt/115767371/5192326
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [vi=
-swanath.kraleti@oss.qualcomm.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
