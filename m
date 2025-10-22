@@ -1,100 +1,87 @@
-Return-Path: <gijs.peskens@munisense.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BDB1CCD1AB
-	for <webhook@archiver.kernel.org>; Wed, 22 Oct 2025 09:56:24 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.5113.1761126978362090930
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E21CCD195
+	for <webhook@archiver.kernel.org>; Wed, 22 Oct 2025 10:23:34 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.web10.5402.1761128609877274061
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Oct 2025 02:56:19 -0700
+ Wed, 22 Oct 2025 03:23:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@munisense.com header.s=c12e0d22-ac12-44f1-aa93-b49ab5265a0e header.b=AM1Y7ywu;
- spf=pass (domain: munisense.com, ip: 209.85.218.41, mailfrom: gijs.peskens@munisense.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b3c2db014easo1451584366b.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 02:56:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=munisense.com; s=c12e0d22-ac12-44f1-aa93-b49ab5265a0e; t=1761126976; x=1761731776; darn=lists.openembedded.org;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0LkOHcQV2liV/BM05mxtnEjNTOp31HtDAGyhnxINStg=;
-        b=AM1Y7ywu8Rz20XkapVDoUZfhfELS9g81QmH+ZbYxpxAXen8mRs+grgo9CA+elfZEoz
-         AQnaW1ze2S9GkJA0YWwN0OJS0XQiuZe1ChOfgwA5WzcVDwDFnZaEifbU0PsCt1yS7Vx8
-         Dsk2coOKjaHg+zlq0+p/oy8J1LwDfqhuXxqNfQxFWAYFWpQM7/TWk0075SiC1ipoelM6
-         NGbZK58AIC1SBdjWs+hDRkqgQYmnxALMxEusoDMRRGYcn8dBtrbtWcHcmXz+tGC6Gs2Y
-         Ym65PMNIvpR/yQmnfIGMGcyD41UmX87W4q5MgtzSkgvTlVlmHWW2BxR8k7ZLdNzMuE4a
-         E9zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761126976; x=1761731776;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0LkOHcQV2liV/BM05mxtnEjNTOp31HtDAGyhnxINStg=;
-        b=I0wNIO88jYRlCwdfBI9PShthlIY9GIJp6w8Fyt+8wj+FX1igisdREIAKFbD0GOOYpw
-         ZqGrYT79matRKsPnfaNYSsgu/+9fcbp08YMXFnwwsHw8gN3z+m9FkIdYfALplNahTAOe
-         891MLaohmRS7wvUCyXEx00GDvsn+b3ylH7mtpw8EBDrr5TFa+RVsHMlP3RQI4ZEI6BZr
-         D8WDtXsj/1lhGoYw+rCMNXZLqYdl0YjUujF3lnbkC5p7Q0uNvK1dr7STamikumWFZf3w
-         Bbw3yMAQ5ustXdcbkSEoZD7Vjl0wjmF58Lrp+/orJG5tn5phw2Fy81551bJr/aKJcXyE
-         DZsA==
-X-Gm-Message-State: AOJu0YyotFyBt6qeInMQMcUMrYTYQyF/TXHDUIw+OebokZ9sXqVguscH
-	Yw7bC84yCLjpOuMBiKWNJn5rcSABwW2u+nvkXP1tsGTqt+I8lo74KRwn4ajSQ1PsOlxcQ8nmIdI
-	/7KLeXU8=
-X-Gm-Gg: ASbGnctzCj0x+uy2BtJUzrxICkXKV7YrXjnNkO7KrkMMSHtCSzOS0N5RoSSiTa2eXW5
-	rW1dyi5s9sN6MOXr4ja66sq2lHohSj8knSqh9uWeRfdhqcS2TT9HBLGaTbGC3qqN++KWXxxB8gk
-	G6WiEANMNhptftare1YjLD5UBIbAlJUX+h+jzAa1PjglndxTWet4vHuNDnF/rZ2afpRvkwIIvb0
-	StUoXfZ5/jv3mK32DjsjvFZRCbbB6uqAa/LTeRtA+M+su40wDrk+w8RRpuPBymKkMt+Cd78u5g3
-	4VN+zOBfX0yWUaigFSx+J9hue5UwQ5CuKrV/kUthPlRxfjTxCcYZ8sxG8cRCncIDIa+8F0K4PWT
-	0WndsREpn4lhHqekfnSrmVUGHq9Pp6Q9haJGM48CbIAaeRCop3mo6lEzQGuCh3rsYwgSHtrlgZ6
-	vj01dbXash6sMl/Z50nNSVHByVoo9cl+RUGzCvoolvl4A98EGgWG/RT9p4
-X-Google-Smtp-Source: AGHT+IEST2GYp9L1hib9XOLfs7uTMBJgook7rnI8aIm3Mjsd893iteuAgLXQrZ0MhpZjm+1sSshZDQ==
-X-Received: by 2002:a17:906:7f93:b0:b5b:3ab0:a5b4 with SMTP id a640c23a62f3a-b6474f18313mr1781954566b.49.1761126976133;
-        Wed, 22 Oct 2025 02:56:16 -0700 (PDT)
-Received: from [10.0.1.30] (154-25-172-82.ftth.glasoperator.nl. [82.172.25.154])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b65eb52603fsm1315025166b.57.2025.10.22.02.56.15
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Oct 2025 02:56:15 -0700 (PDT)
-Message-ID: <567bf317-620c-4f00-827c-50a511d431c7@munisense.com>
-Date: Wed, 22 Oct 2025 11:57:08 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org
-From: Gijs Peskens <gijs.peskens@munisense.com>
-Subject: Ubuntu 25.10: base-passwd fails to chown. (pseudo issue)
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=kbV2unXR;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 52A341A15CE
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 10:23:28 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 2A51B606DC;
+	Wed, 22 Oct 2025 10:23:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E741D102F23A9;
+	Wed, 22 Oct 2025 12:23:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761128607; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=/T3GNARzCDlXiAwuMx4ZJ40mXqeck4B71yCGHEq+ChE=;
+	b=kbV2unXRUwI5Tjzqofi6lEutxdafxdQjSr8Iizt0GUQ0Bbky6uQebuUnqlLoSSX8FtiClY
+	mPIrSqgefcfni5GLOtRhW3nvjoaF5yuU9gUIMf/aaSCAl+LvQZDt3EQrxxPLPimqZKShXu
+	byo89bGprVlJq3nmpcbVzjoQTouFUUz1O8dDO561R19a+sQqqnevpBJqJJDmE+20PGE2Y8
+	JcekyreWvFDyq/HUdZCsvykMNDPlVnobFRi0S7ccVFd0QC7cg8l6DkMMGyT/zI+pAdseo8
+	FBaVhxbQBIPG22umZKiDEDE4QyfQWRufe/5gzdqPjcuL6bMmFLmUY4N6Dx1ijg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 22 Oct 2025 12:23:19 +0200
+Message-Id: <DDORZHMNHUIA.19MW98T9MIS1M@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <peter.marko@siemens.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH 5/5] binutils: patch CVE-2025-11494
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20251020220912.483748-1-peter.marko@siemens.com>
+ <20251020220912.483748-5-peter.marko@siemens.com>
+In-Reply-To: <20251020220912.483748-5-peter.marko@siemens.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 09:56:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225182
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 10:23:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225183
 
-I'm just posting this here as a reference so others who run into this 
-can hopefully find it, as it took me a while to figure out what was 
-happening ;)
+On Tue Oct 21, 2025 at 12:09 AM CEST, Peter Marko via lists.openembedded.or=
+g wrote:
+> From: Peter Marko <peter.marko@siemens.com>
+>
+> Pick commit per NVD CVE report.
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
 
-Ubuntu 25.10 obviously isn't supported, so I'm aware I'm on my own....
+Hi Peter,
 
-On Ubuntu 25.10 packages will fail to chown, this is due to Ubuntu 
-having moved away from gnu coreutils to the rust based uutils coreutils. 
-I'm presuming that Pseudo works by overriding libC provided functions, 
-and thus intercepting the syscalls, and that the rust based coreutils do 
-their syscalls directly (without a libC), which breaks pseudo and will 
-result in failure to chown errors (and possibly other errors as well).
+Thanks for your patch. I suspect the last one is responsible of a
+reproducibility issue in gnu-efi:
 
-As a work-around, on 25.10, it's still possible to switch back to 
-gnu-coreutils:
-sudo apt-get remove --allow-remove-essential coreutils-from-uutils
+AssertionError: The following deb packages are different and not in exclusi=
+on list:
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/deb/./x86-64-v3/gnu-efi_4.0.2-r0_amd64.deb
+The following ipk packages are different and not in exclusion list:
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/ipk/./x86-64-v3/gnu-efi_4.0.2-r0_x86-64-v3.ipk
+The following rpm packages are different and not in exclusion list:
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/rpm/./x86_64_v3/gnu-efi-4.0.2-r0.x86_64_v3.rpm
 
-(at your own risk)
+https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20251021-u0jap9k2/
 
-Hope it helps others who run into this! :)
+Can you have a look at these?
 
-(and perhaps some thought must be given to this before 26.04 comes out, 
-if the intention is to support that LTS).
+Thanks,
+Mathieu
 
-Gijs Peskens
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
