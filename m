@@ -1,125 +1,127 @@
-Return-Path: <jason.m.bills@linux.intel.com>
+Return-Path: <anders.heimer@runbox.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE33ACCD1AB
-	for <webhook@archiver.kernel.org>; Wed, 22 Oct 2025 13:46:15 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by mx.groups.io with SMTP id smtpd.web10.9856.1761140773861519742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED1FCCD1BB
+	for <webhook@archiver.kernel.org>; Wed, 22 Oct 2025 14:47:06 +0000 (UTC)
+Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
+ by mx.groups.io with SMTP id smtpd.web11.11412.1761144418494564394
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Oct 2025 06:46:13 -0700
+ Wed, 22 Oct 2025 07:46:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=arfs4Hvb;
- spf=pass (domain: linux.intel.com, ip: 192.198.163.16, mailfrom: jason.m.bills@linux.intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761140774; x=1792676774;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=6jA7T16q4tVQMc02z8Pc//3xdxPxbVgGEFN+kxf+nqY=;
-  b=arfs4Hvbps94Chjik2TTlrJV8ALf0hGGRiXO5F5lF50ylf64fqKsToVn
-   x2du/LE8eon7+oEUJJitsvetVpnwrU9wHr6z4cs3TCpUmPTuBPeyr567i
-   ADNAIVUXT4R0lncrcpvxUbtf0uk4ygMd3fC4WLLtHCMaxPVf5swgvwqAx
-   ot5MP7gBGNTwSu+ATJ21WBCmk0MPUUdP1N7BuTy9IMeEax30PkRfSidb2
-   inQg2NI1l28Va2ikyoaGr5Qpy1fZjMraAKBEQ+KxLlLa0FozYu1JB2QMb
-   guGUdSyjvMlbqbm8w/JjOaLqoXAMKVeqCBNMtzpOElmca+aYRW+zxFHdH
-   A==;
-X-CSE-ConnectionGUID: +vvK98JKSBSc4xVU/06C3A==
-X-CSE-MsgGUID: cUWbDCqNTW+9UiTEAj3ZCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="50863516"
-X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="50863516"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 06:46:14 -0700
-X-CSE-ConnectionGUID: PeZKax8zS2CUM5qOz6/E+A==
-X-CSE-MsgGUID: CeaR7R5gTLWeVOI3T8faww==
-X-ExtLoop1: 1
-Received: from linux.intel.com ([10.54.29.200])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 06:46:14 -0700
-Received: from [10.124.122.91] (jmbills-mobl1.amr.corp.intel.com [10.124.122.91])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id 42D3F20B5713;
-	Wed, 22 Oct 2025 06:46:13 -0700 (PDT)
-Message-ID: <53820a85-7956-44f5-9f00-4fa147c59511@linux.intel.com>
-Date: Wed, 22 Oct 2025 07:46:12 -0600
+ dkim=pass header.i=@runbox.com header.s=selector1 header.b=DaVwTK1Q;
+ spf=pass (domain: runbox.com, ip: 185.226.149.37, mailfrom: anders.heimer@runbox.com)
+Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
+	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <anders.heimer@runbox.com>)
+	id 1vBa74-00EDcg-28; Wed, 22 Oct 2025 16:46:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
+	 s=selector1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:To:Subject:MIME-Version:Date:Message-ID;
+	bh=4R7s5x0tb/CN860kzK10txfa4GUL9w1fDsh2ZeWsCvI=; b=DaVwTK1QFuFYoQDocMVvpgXzHD
+	GoNz3PltDp3LDfNn6zjZEox6rkvo0c1rKjsGksdGjMxlUyGb+TadnX3jvfwouI9q6tfQA0ZEnsXc+
+	xu3Xe/tDrzJNwEVSIoxViy5oVNN1xVenPaUfrhV/bV7sSG557gfUvwPKQTzAJ/DJ8DGSHbKg4fQ+T
+	+EXiUThBiqb0oxK//ZuMVWEx2k3XF94i3NT+DYPVZBMSSnIZ0vL+Q0b/oTgbFLKADIue2p+73JiM7
+	Gnj1goibNZ4XqH0OSU2D8e4KhPEsGqvKXnObyKTel8t0QyUzkdI2KOiSgJW/an9DsP8SWiJyO3KXZ
+	FOS0VFPQ==;
+Received: from [10.9.9.73] (helo=submission02.runbox)
+	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+	(envelope-from <anders.heimer@runbox.com>)
+	id 1vBa73-0006OF-9C; Wed, 22 Oct 2025 16:46:53 +0200
+Received: by submission02.runbox with esmtpsa  [Authenticated ID (926809)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.93)
+	id 1vBa6j-000g7C-5c; Wed, 22 Oct 2025 16:46:33 +0200
+Message-ID: <406bd5ae-0bd5-439c-8eac-1433657f8605@runbox.com>
+Date: Wed, 22 Oct 2025 16:46:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] systemd.bbclass: support template files with
- dots
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
+Subject: Re: [OE-core][PATCH] libpam: mark CVE-2025-6018 as not applicable
+To: peter.marko@siemens.com, Anders Heimer <anders.heimer@est.tech>,
+ "openembedded-core@lists.openembedded.org"
  <openembedded-core@lists.openembedded.org>
-References: <20251015145936.857490-1-jason.m.bills@linux.intel.com>
- <3FAF0AA8-5867-4822-9D3F-BFA43D40EA4C@arm.com>
+References: <20251021135907.17684-1-anders.heimer@est.tech>
+ <AS1PR10MB56975C5F92A56C6F1B7BF094FDF2A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 Content-Language: en-US
-From: "Bills, Jason M" <jason.m.bills@linux.intel.com>
-In-Reply-To: <3FAF0AA8-5867-4822-9D3F-BFA43D40EA4C@arm.com>
+From: Anders Heimer <anders.heimer@runbox.com>
+In-Reply-To: <AS1PR10MB56975C5F92A56C6F1B7BF094FDF2A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 13:46:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225195
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 14:47:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225196
 
+On 10/21/25 16:15, Peter Marko via lists.openembedded.org wrote:
+> NVD shows following CPE for this CVE:
+> cpe:2.3:a:suse:pam-config:1.1.8-24.71.1:*:*:*:*:*:*:*
+>
+> So we don't need to ignore it as it won't show up in Yocto CVE reports.
+> Next time I'd search for obsolete CVE_STATUS entries I'd erase this commit.
+> What's the reason for this patch?
 
+Thanks for the clarification.
 
-On 10/22/2025 4:40 AM, Ross Burton wrote:
-> On 15 Oct 2025, at 15:59, Bills, Jason M via lists.openembedded.org <jason.m.bills=linux.intel.com@lists.openembedded.org> wrote:
+I agree, CVE-2025-6018 doesn’t hit Yocto’s libpam.
+
+My patch came from our internal scanner flagging the CVE; it doesn’t use 
+Yocto’s product mapping and raised a false positive.
+
+Br, Anders
+>
+> What would be worth investigating is CVE-2024-10041 which is reported for libpam recipe.
+> Unfortunately not reported on autobuilder as it's not using systemd+pam distro config.
+>
+> Peter
+>
+>> -----Original Message-----
+>> From: openembedded-core@lists.openembedded.org <openembedded-
+>> core@lists.openembedded.org> On Behalf Of Anders Heimer
+>> Sent: Tuesday, October 21, 2025 15:59
+>> To: openembedded-core@lists.openembedded.org
+>> Cc: Anders Heimer <anders.heimer@est.tech>
+>> Subject: [OE-core][PATCH] libpam: mark CVE-2025-6018 as not applicable
 >>
->> If the SYSTEMD_SERVICE variable contains a template instance that has
->> dots in the name such as "xyz.openbmc_project.my@instance.service", the
->> regex splits on all the dots resulting in the following python
->> exception:
+>> CVE-2025-6018 is a local privilege escalation in PAM that requires
+>> `user_readenv=1` to be enabled in the PAM configuration. The default
+>> configuration does not enable reading user environment files (user_readenv
+>> is 0 by default). Hence this vulnerability cannot be exploited using the
+>> default configuration.
 >>
->> Exception: ValueError: too many values to unpack (expected 3)
->>
->> To continue to support service files with dots in the name, this changes
->> to first split only on the '@' to isolate the name, then split the
->> second half on the dot to get the remaining two parameters.
->>
->> Confirmed when building that the three parameters for template instances
->> without dots came out the same and that template instances with dots
->> include the full name with dots in the first parameter.
->>
->> Signed-off-by: Jason M. Bills <jason.m.bills@linux.intel.com>
+>> Signed-off-by: Anders Heimer <anders.heimer@est.tech>
 >> ---
->> meta/classes-recipe/systemd.bbclass | 3 ++-
->> 1 file changed, 2 insertions(+), 1 deletion(-)
+>>   meta/recipes-extended/pam/libpam_1.7.1.bb | 2 ++
+>>   1 file changed, 2 insertions(+)
 >>
->> diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
->> index 5a0550b287..fcd47809b2 100644
->> --- a/meta/classes-recipe/systemd.bbclass
->> +++ b/meta/classes-recipe/systemd.bbclass
->> @@ -247,7 +247,8 @@ python systemd_populate_packages() {
->>                  if not systemd_service_exists(service, user, d):
->>                      continue
->>                  if '@' in service and '@.' not in service:
->> -                    (servicename, instance, service_type) = re.split('[@.]', service)
->> +                    (servicename, postfix) = service.split('@')
->> +                    (instance, service_type) = postfix.split('.')
-> 
-> The assumption here is that the service name only contains a single dot and the instance isn’t something like foo.bar, right?  Are we certain that is the case?
-> 
-> Ross
-> 
-
-This splits first on the '@', so the assumption is the whole thing 
-contains only one '@' and the service name can have many dots.  But the 
-instance is assumed to have no dots which is currently the case in 
-OpenBMC, but I don't know is guaranteed in systemd.
-
-The documentation ([1]) isn't explicit, but assuming "instance name" 
-allows the same characters as "unit name prefix", then it looks like 
-it's possible.
-
-I will rework the second split to split on the last dot to allow for the 
-case where someone may use an instance with dots.
-
-[1]: 
-https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html
-
--Jason
+>> diff --git a/meta/recipes-extended/pam/libpam_1.7.1.bb b/meta/recipes-
+>> extended/pam/libpam_1.7.1.bb
+>> index 8d9ea27028..42b50a8c22 100644
+>> --- a/meta/recipes-extended/pam/libpam_1.7.1.bb
+>> +++ b/meta/recipes-extended/pam/libpam_1.7.1.bb
+>> @@ -26,6 +26,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/Linux-
+>> PAM-${PV}.tar.xz \
+>>
+>>   SRC_URI[sha256sum] =
+>> "21dbcec6e01dd578f14789eac9024a18941e6f2702a05cf91b28c232eeb26ab0"
+>>
+>> +CVE_STATUS[CVE-2025-6018] = "not-applicable-config: Default PAM config
+>> does not use user_readenv=1"
+>> +
+>>   DEPENDS = "bison-native flex-native libxml2-native virtual/crypt"
+>>
+>>   EXTRA_OEMESON = "-Ddocs=disabled -Dsecuredir=${base_libdir}/security"
+>>
+>> base-commit: 416731b8756cd2689055ada2deaff48c7751d3b9
+>> --
+>> 2.34.1
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#225151): https://lists.openembedded.org/g/openembedded-core/message/225151
+> Mute This Topic: https://lists.openembedded.org/mt/115873392/7170510
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [anders.heimer@runbox.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
