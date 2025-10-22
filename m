@@ -1,127 +1,125 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <jason.m.bills@linux.intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8242CCD1AB
-	for <webhook@archiver.kernel.org>; Wed, 22 Oct 2025 13:43:55 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.web10.9811.1761140630971593709
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE33ACCD1AB
+	for <webhook@archiver.kernel.org>; Wed, 22 Oct 2025 13:46:15 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by mx.groups.io with SMTP id smtpd.web10.9856.1761140773861519742
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Oct 2025 06:43:51 -0700
+ Wed, 22 Oct 2025 06:46:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=mL7DFd/h;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id E8B9AC0AFF6
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 13:43:28 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AD486606DC
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 13:43:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DD542102F242F;
-	Wed, 22 Oct 2025 15:43:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761140628; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=dlZQImflgUHpw8eDuRnkVvwSMACGDLcDxa9EHfXNiuI=;
-	b=mL7DFd/h+PpBbw4d1/wgOUAKQtewtY0bva2DW5LGMwHGlpdSdTv0MfgbilIhInWugglPSm
-	UxhaWrGEhpB+SIraEYSLWjO3xcbtqLkuShl0rDxBr+6lfeafEepFJXJHQDKRmZDU3mzANF
-	iyxRUbML40cnfD4dTSvRpy3hR3PVrV666jFFjgWKCiioemtiHvtdyNhLJqJU+rB2dpDmn3
-	CGVCEEl4z3Ffc2wB9hv2ewcYHcAr/VoUeDns9OUsiCv8ej3Zr7maMKvhZsl+lxPmPKWuuW
-	aGYN2KdHV7mAWFplV8CtLPtmvUH6fpu5U5OxVfPW6RhxsGSmYqu0uAP/8gcnmw==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Wed, 22 Oct 2025 15:43:15 +0200
-Subject: [PATCH] oe-build-perf-report: filter used measurements for each
- commit
+ dkim=pass header.i=@intel.com header.s=Intel header.b=arfs4Hvb;
+ spf=pass (domain: linux.intel.com, ip: 192.198.163.16, mailfrom: jason.m.bills@linux.intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761140774; x=1792676774;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=6jA7T16q4tVQMc02z8Pc//3xdxPxbVgGEFN+kxf+nqY=;
+  b=arfs4Hvbps94Chjik2TTlrJV8ALf0hGGRiXO5F5lF50ylf64fqKsToVn
+   x2du/LE8eon7+oEUJJitsvetVpnwrU9wHr6z4cs3TCpUmPTuBPeyr567i
+   ADNAIVUXT4R0lncrcpvxUbtf0uk4ygMd3fC4WLLtHCMaxPVf5swgvwqAx
+   ot5MP7gBGNTwSu+ATJ21WBCmk0MPUUdP1N7BuTy9IMeEax30PkRfSidb2
+   inQg2NI1l28Va2ikyoaGr5Qpy1fZjMraAKBEQ+KxLlLa0FozYu1JB2QMb
+   guGUdSyjvMlbqbm8w/JjOaLqoXAMKVeqCBNMtzpOElmca+aYRW+zxFHdH
+   A==;
+X-CSE-ConnectionGUID: +vvK98JKSBSc4xVU/06C3A==
+X-CSE-MsgGUID: cUWbDCqNTW+9UiTEAj3ZCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="50863516"
+X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
+   d="scan'208";a="50863516"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 06:46:14 -0700
+X-CSE-ConnectionGUID: PeZKax8zS2CUM5qOz6/E+A==
+X-CSE-MsgGUID: CeaR7R5gTLWeVOI3T8faww==
+X-ExtLoop1: 1
+Received: from linux.intel.com ([10.54.29.200])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 06:46:14 -0700
+Received: from [10.124.122.91] (jmbills-mobl1.amr.corp.intel.com [10.124.122.91])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 42D3F20B5713;
+	Wed, 22 Oct 2025 06:46:13 -0700 (PDT)
+Message-ID: <53820a85-7956-44f5-9f00-4fa147c59511@linux.intel.com>
+Date: Wed, 22 Oct 2025 07:46:12 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251022-mathieu-buildperf-multi-bitbake-commits-v1-1-180328529ea5@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAHLf+GgC/x3NSwrCMBRG4a2UO/ZCGiwatyIO8ri1PzZtyUOE0
- r0bOvwm5+yUJUEyPbqdknyRsS4N/aUjP9nlLYzQTFrpoVdac7RlglR2FXPYJI0c61zADsXZj7B
- fY0TJ7OzNKBPu5ho8tdqWZMTvPD1fx/EHnitNAHkAAAA=
-X-Change-ID: 20251022-mathieu-buildperf-multi-bitbake-commits-ba7909d894dc
-To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761140626; l=2979;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=wc4Jx2LB2yTjEej6q+p/sSwNL2xRrV/qNEAe7O0m2KQ=;
- b=R/U68aneMGfbcKA5fnNfTYOA7ozIqSnKuVEfpiytmW+t9cAC8l7VLQkx6HptNrrNxteu6vwW7
- cRTbzj8akouCGSXZ6y2GsqXCRzKu+HbE4Q9wHUXbvsTPHQWXWlh+jCP
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] systemd.bbclass: support template files with
+ dots
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20251015145936.857490-1-jason.m.bills@linux.intel.com>
+ <3FAF0AA8-5867-4822-9D3F-BFA43D40EA4C@arm.com>
+Content-Language: en-US
+From: "Bills, Jason M" <jason.m.bills@linux.intel.com>
+In-Reply-To: <3FAF0AA8-5867-4822-9D3F-BFA43D40EA4C@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 13:43:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225194
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 13:46:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225195
 
-As the poky repository is no longer used, measurements are indexed using
-the oe-core commit. But as bitbake, oe-core and meta-yocto are now
-retrieved from separate gits, while measuring performances for a given branch
-at some time interval, we can get the same commit for oe-core but
-different ones for bitbake or meta-yocto. As a consequence, metadata
-associated with the same index (oe-core commit) might differ.
 
-Today this is not supported, as we do expect all metadata for a given
-version remain the same.
 
-For each oe-core commit, filter the measurements, in order to only keep
-the ones with the metadata matching the last measurement found for the
-said commit.
+On 10/22/2025 4:40 AM, Ross Burton wrote:
+> On 15 Oct 2025, at 15:59, Bills, Jason M via lists.openembedded.org <jason.m.bills=linux.intel.com@lists.openembedded.org> wrote:
+>>
+>> If the SYSTEMD_SERVICE variable contains a template instance that has
+>> dots in the name such as "xyz.openbmc_project.my@instance.service", the
+>> regex splits on all the dots resulting in the following python
+>> exception:
+>>
+>> Exception: ValueError: too many values to unpack (expected 3)
+>>
+>> To continue to support service files with dots in the name, this changes
+>> to first split only on the '@' to isolate the name, then split the
+>> second half on the dot to get the remaining two parameters.
+>>
+>> Confirmed when building that the three parameters for template instances
+>> without dots came out the same and that template instances with dots
+>> include the full name with dots in the first parameter.
+>>
+>> Signed-off-by: Jason M. Bills <jason.m.bills@linux.intel.com>
+>> ---
+>> meta/classes-recipe/systemd.bbclass | 3 ++-
+>> 1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
+>> index 5a0550b287..fcd47809b2 100644
+>> --- a/meta/classes-recipe/systemd.bbclass
+>> +++ b/meta/classes-recipe/systemd.bbclass
+>> @@ -247,7 +247,8 @@ python systemd_populate_packages() {
+>>                  if not systemd_service_exists(service, user, d):
+>>                      continue
+>>                  if '@' in service and '@.' not in service:
+>> -                    (servicename, instance, service_type) = re.split('[@.]', service)
+>> +                    (servicename, postfix) = service.split('@')
+>> +                    (instance, service_type) = postfix.split('.')
+> 
+> The assumption here is that the service name only contains a single dot and the instance isn’t something like foo.bar, right?  Are we certain that is the case?
+> 
+> Ross
+> 
 
-Fixes [YOCTO #16014]
+This splits first on the '@', so the assumption is the whole thing 
+contains only one '@' and the service name can have many dots.  But the 
+instance is assumed to have no dots which is currently the case in 
+OpenBMC, but I don't know is guaranteed in systemd.
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
----
-Fixing some buildperf issue [1] occurring after the bitbake-setup
-switch.
+The documentation ([1]) isn't explicit, but assuming "instance name" 
+allows the same characters as "unit name prefix", then it looks like 
+it's possible.
 
-I was tempted to send this as an RFC, as I'm not really sure if this the
-best solution here. I decided to filter-out the entries with different
-metadata, but we could also want to merge them or integrate them as
-different results.
+I will rework the second split to split on the last dot to allow for the 
+case where someone may use an instance with dots.
 
-[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=16014
----
- scripts/oe-build-perf-report | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+[1]: 
+https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html
 
-diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
-index a36f3c1bca34..2d51e84444ba 100755
---- a/scripts/oe-build-perf-report
-+++ b/scripts/oe-build-perf-report
-@@ -133,12 +133,19 @@ def read_results(repo, tags, xml=True):
-     if xml:
-         git_objs = [tag + ':metadata.xml' for tag in tags] + [tag + ':results.xml' for tag in tags]
-         data = parse_xml_stream(repo.run_cmd(['show'] + git_objs + ['--']))
--        return ([metadata_xml_to_json(e) for e in data[0:num_revs]],
--                [results_xml_to_json(e) for e in data[num_revs:]])
-+        metadata, results = ([metadata_xml_to_json(e) for e in data[0:num_revs]],
-+                             [results_xml_to_json(e) for e in data[num_revs:]])
-     else:
-         git_objs = [tag + ':metadata.json' for tag in tags] + [tag + ':results.json' for tag in tags]
-         data = parse_json_stream(repo.run_cmd(['show'] + git_objs + ['--']))
--        return data[0:num_revs], data[num_revs:]
-+        metadata, results = data[0:num_revs], data[num_revs:]
-+
-+    # Filter on results with version matching the last one
-+    valid_bitbake = metadata[-1]['bitbake']['commit']
-+    valid_meta_yocto = metadata[-1]['layers']['meta-poky']['commit']
-+    return zip(*[(m, r) for m, r in zip(metadata, results)
-+                 if m['bitbake']['commit'] == valid_bitbake
-+                 and m['layers']['meta-poky']['commit'] == valid_meta_yocto])
- 
- 
- def get_data_item(data, key):
-
----
-base-commit: 7a900ff52d76490f42236f9dd898ded0da77058e
-change-id: 20251022-mathieu-buildperf-multi-bitbake-commits-ba7909d894dc
-
-Best regards,
--- 
-Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-
+-Jason
 
