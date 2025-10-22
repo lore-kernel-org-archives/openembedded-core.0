@@ -1,97 +1,147 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C656CCD1A5
-	for <webhook@archiver.kernel.org>; Fri, 24 Oct 2025 11:30:40 +0000 (UTC)
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web10.8055.1761305437055495314
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B31CCD1AB
+	for <webhook@archiver.kernel.org>; Fri, 24 Oct 2025 11:33:50 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web10.4596.1761099114532199252
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Oct 2025 04:30:37 -0700
+ Tue, 21 Oct 2025 19:11:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dbKMNsgw;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-88fa5974432so212943785a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Oct 2025 04:30:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761305436; x=1761910236; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xVEAo5UxGmIy3cG2FpvUng+5Ti2nW9I0hVU5bm2i3PA=;
-        b=dbKMNsgwC/3sbc2qtdBZf0DXuxIiBMT+GL3FADI0ORzBGlu+osRfeKcD2ZZm0Xj6mf
-         VUIuypDRvmyAh/QNvYFsfMthPYT61Crr7zlNrek99GwfwaVveLUmBxWkoj2jtDX6xJqw
-         u3W1TndimGL7QJSNORNkWGatVK6ChQSryOjtjNQuX6eU6G+t2F6h3mlCjFeUt9oqMozD
-         aFzmSnZo/MJHQq/GpJc7cliSwJC59z4zGCxnQiaKeU8QsPCsomVRTWvdrw80i4qHJHS8
-         QMfTq4fb3M/S63NfvxCFQN22GL7sngHMQd6blOTW8OftnpMRVc95mIkfemaeyejuw3Rb
-         sCkA==
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=macllwT/;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: miaoqing.pan@oss.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59LF7WvW000310
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 01:45:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	TNxNmYgAanD/FsECV+JOR/Hl+tQASvEhDgeR759AUxU=; b=macllwT/3ES9n5Av
+	3t2bKO0jtpnHWhtZIuJRsQfGqqKAz/+tSPrr+OxcMj2W+YAA10Y3RklPnp+O+Utj
+	cX1rLvYcU5KVH4TSAVK2p0ZJ4sEc/NDB8mLZh9oz6uDuz9Oul02n0yuIn8svOuxy
+	qtEVQEMa3EhrvF4Sox8oQE9+52aOZEvCfCVQRtUWMf65S2GMGNjdyn3uR32hFhm2
+	lqqF5P90J1jzXg+wFKkDOc+4E4qCJfxcp2uPYU471JytjkZlJx7hQxy3V1Hr/bLu
+	ScRE7aHBi04oxjXkRGoI6riUqwjFKA8ly0smOb4w5xe2OFV99p5PNtuL5C89heZC
+	K06BWA==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49w08w8da7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Oct 2025 01:45:43 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-77e7808cf4bso4029526b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Oct 2025 18:45:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761305436; x=1761910236;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xVEAo5UxGmIy3cG2FpvUng+5Ti2nW9I0hVU5bm2i3PA=;
-        b=frAqR3iCLhbsxNRCE2ukVhrJAad9Vj2DEuDcB3lgBmJGTI9lqSwOf6HeUtwLMn6LQA
-         Q8W0fVJwCU6z/qdKc9gMG+Yo8e39HgHZ/rg93WqeVqLX1mTQ9pvM5UNXaJays0NpVi8v
-         xLAd4bx2oWACfWiAcug5F18kk09bh00N0TPP0UErgFAKrMWhguEM/sopYbo4HJFqRwMk
-         GSqzMgKLT2kE808te7ANX/tZhEdO99u6a2Jnr+UDVQURqiKPCsX0wqQ50ppFeW3pF8pH
-         omIL8tdTnXXVqsS2ptMQ0xqPP6qHL9dY73Q//gz5+t5iqVmVjU46c7BQdr1gf8+OUi6b
-         xo4A==
-X-Gm-Message-State: AOJu0YzXExeqsZ6g3Qo54Jiacast9YWQe9w98Xwykz4r6kfgOCIVxEBU
-	oOS6YpWBFvHANqOpDKsD/0nacofQHVvqSSH3F6M8jByJv4MLOKPVAWEWtwwifVpcNUtR1MU43iT
-	IUK/fij/Aa4QYvX6MHqQdTvtT4xdWvLa9Wg==
-X-Gm-Gg: ASbGncviu+BvNKqZ2nIyKaNTqLAGrA1pCI5+2xrGTgfPIGQNvXxNGDKANlSwwLLh5DF
-	Z1a63kEMh4jLkAWJsmZFmgnRiKbaHX3Z9cZKJzkQ8S4U8Y4RqnYPb7t0CmNSOhHmpE2X5G2GHQN
-	GYxnY9/lebtAXOnG1iiGob6S6Rj8Ab1lgz7XqGGYmDHPAH3zflWJvoHk5sK5xXjh9gm0OgAAjeW
-	gXzK+tlajVtV+odgz1l1MjD45i4nUz0aeuqI3LbJw8okkMq1JOyWmWRzfcP/yIjQpUSP4ngGnM4
-	lJxgpwajgOLy6wA0dDjMJntIu5nwM9pJTYZB4tehVlg8hrUOsWwhD93P6s3fCdzHptWXmw2t3G+
-	pZ9SrecImlb2q3vkw9jfHRAOSPpD6MsdkPpv7SPs=
-X-Google-Smtp-Source: AGHT+IGMmmrBx3m2qf30wOt4dfZRRS76ifMrsB2Ut9IgWT6HECO2AtoADDsVjJm/FK5ZiVW+gGNHRRepTvCbwDlScWU=
-X-Received: by 2002:ad4:5dc1:0:b0:879:b99b:993c with SMTP id
- 6a1803df08f44-87fb63af56dmr18234996d6.18.1761305435945; Fri, 24 Oct 2025
- 04:30:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761097543; x=1761702343;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TNxNmYgAanD/FsECV+JOR/Hl+tQASvEhDgeR759AUxU=;
+        b=hfd8olupi3MMx1TFPlXDKvzQ3UjIFOPvug6tSspFqGnjXU24t8zf7a7ah/LdDYt5si
+         zoUE4AvP6dSTU3G4xZfZ6QXgQUhwHeTBqOtn/KaYzuj0APMtcpctBpWWAd+wU4upG2fk
+         Dz5gxg1ITCajD9TjxsNdkEM1HhNbZm9fR90KLnN4hVgEXI3tuVaKo5bRy/rAuNhFsMGe
+         MWsFZKzU3hbgPG8mDKOvBn3XyIcuhWyCD04HYpnHt6wB5HoSbCc25qRS2iJwvcmDxhSl
+         oNSDzr4qttK2e///4KeSWDTpf/XAKj+qjWMBLrxyJUHkGg5TClDiKafyvtGXEDoPJUYY
+         8f9g==
+X-Gm-Message-State: AOJu0Yx40JJSizuPy5vCrdnxKCMFTJ34wuVHGTqCVtZDPmSkUbLDEvjW
+	IMMtKMGtfsOoBj6ZiclJ3nit4T+D/IA+p8li/kI0gnnIXVsTpUMagAcClgul0vO5iXLe55bXDiJ
+	BRte1508GhNlcoJI1dWWdPJGc83U/tjs7oTppwaPxu7k/4cqTqDTwrOakhK9Xrdb2D7xirVOcD2
+	nHpqI3ISY=
+X-Gm-Gg: ASbGncv/pv3ehL2Bg8xKuwk63AZ0EZznlYVsex2lnq5BYuCiJ7cxpxRN3g48hHZ/MUm
+	Ma1qNGxJKVetuk6GqiY+cmavoG3Wj5Db92G4z73/nxKOae2E1k9ptegHgik48nIxYESP91VAHHo
+	DYbb443MidNZtp/OMjQbFADKbWiZV96iekkP1vKxv/ULY2sH/FYRhRA36tRSm61QhvtrgMXaAXr
+	xgt2wxffEvID95hPcay+o67114SH0Fa2oVF86+UF6IlQO/f8Jk3gkoBIYrPpD+sIQ8ljLIMBh8a
+	nETk3ZwjJQAGf+U+TrIlhsoKLnKBmVLA8Jp1m9qYjN07FnYemgZ8WQ69JMc+HQ6QrLpI6SKiVLU
+	GA+q4k9EWZpLamjxgylAcjdYucYCOKQqJLhgDP0fQ/EB2/cYTiFrw4wSprXr0trKpn89d3ls=
+X-Received: by 2002:a05:6a00:1a90:b0:783:c2c4:9aa5 with SMTP id d2e1a72fcca58-7a220b10802mr28185360b3a.32.1761097542597;
+        Tue, 21 Oct 2025 18:45:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFM9t1CMM3RC5NYA7hj7XUtGziYhgoFn/ybGO9Ty1sLSMslPrb3fkAwzSq3WLmrPSertHkk2g==
+X-Received: by 2002:a05:6a00:1a90:b0:783:c2c4:9aa5 with SMTP id d2e1a72fcca58-7a220b10802mr28185328b3a.32.1761097542097;
+        Tue, 21 Oct 2025 18:45:42 -0700 (PDT)
+Received: from [10.133.33.129] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a23010d818sm12754602b3a.53.2025.10.21.18.45.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Oct 2025 18:45:41 -0700 (PDT)
+Message-ID: <714beff3-b3a7-4d7c-8f7a-7337644d22ab@oss.qualcomm.com>
+Date: Wed, 22 Oct 2025 09:45:37 +0800
 MIME-Version: 1.0
-References: <20251024072750.2756709-1-jiaying.song.cn@windriver.com>
-In-Reply-To: <20251024072750.2756709-1-jiaying.song.cn@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 24 Oct 2025 13:30:24 +0200
-X-Gm-Features: AWmQ_blr6yFEc3ek_gLVL75P9aaId_J6Q7OOKHHmEnwqMcfPC33A_9w-t8Erz5I
-Message-ID: <CANNYZj_8wwBWhU5Aogn+cZ=ShtprSn-Faajkj+xJ8rD16AqX5A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] icu: use automake ptest output format
-To: Jiaying.Song.CN@windriver.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] wpa-supplicant: enable 802.11be, MBO, OWE, and SuiteB support
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20250718030452.3459203-1-miaoqing.pan@oss.qualcomm.com>
+ <aPQV4Qy78RWUnImJ@umbar.lan>
+From: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+In-Reply-To: <aPQV4Qy78RWUnImJ@umbar.lan>
+X-Proofpoint-ORIG-GUID: 72KcsmaAFuqK36vKoXVTxmX3Gq7cN7sD
+X-Proofpoint-GUID: 72KcsmaAFuqK36vKoXVTxmX3Gq7cN7sD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE5MDA5MCBTYWx0ZWRfXwAX54G7v+4+L
+ /5MfDACmZQVIYLg4Uda9eT2YmiyldVpWcSTnfRGqbIOISuvSIgB/ioeBvsj5FjbafI33ggjBoqj
+ m3SAZlEN+JRL+kCJU8kQjFO2bPjAXcT7yKW2vGfkTLE60sKcItQkUy5D+buTvQqa+ZQaYGVBwvF
+ xEGFszP2LMP0k05LJSJbZPcFK9CyyhqA2Q3Z69hWV+ZtjgD1kd9cbwvgNhN8AiMgKo7nbFTlB2J
+ QJM60MFpN8/Z8yCKL55c0Lo/8sr7PVzcuZkNnWBQoTd18iKuxLTDGEcwbEPgA+o32q/MRNrAorl
+ B80gKp4oNjJ5XUgwrLp0YzxohPVAIXQS7E6X3f/H86O7RofZxX7vdE+zaiOZTy4ah5FxYgUurIg
+ pQ+IgYbwoEMCHROsJnPJHhnH9vZeAw==
+X-Authority-Analysis: v=2.4 cv=V5NwEOni c=1 sm=1 tr=0 ts=68f83747 cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=BFbBklBsiq3ZtazxafgA:9 a=QEXdDO2ut3YA:10
+ a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-22_01,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0
+ spamscore=0 suspectscore=0 clxscore=1015 phishscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510190090
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Oct 2025 11:30:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225290
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Oct 2025 11:33:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225291
 
-On Fri, 24 Oct 2025 at 09:27, Song, Jiaying (CN) via
-lists.openembedded.org
-<Jiaying.Song.CN=windriver.com@lists.openembedded.org> wrote:
-> -       ./$t
-> -       if [ "$?" = "0" ]; then
-> -               echo "PASS: $t"
-> -       else
-> -               echo "FAIL: $t"
-> -       fi
-> +    ./"$t" 2>&1 | sed -e '/---\[OK\]/ s/^/PASS: /' \
-> +                      -e '/} OK:/ s/^/PASS: /' \
-> +                      -e '/---\[[0-9]* ERRORS in / s/^/FAIL: /' \
-> +                      -e '/} ERRORS/ s/^/FAIL: /' | tee -a "${LOG}"
 
-This sed expression is both hard to read and brittle: if upstream
-subtly changes the output, will it still capture the results
-correctly?
 
-If any of $t fails but prints nothing, will this be reported as a
-failure? This changes the logic that is based on return codes into
-logic that relies on correct and useful output by any individual test,
-and I think the new approach is less reliable.
+On 10/19/2025 6:34 AM, Dmitry Baryshkov wrote:
+> On Fri, Jul 18, 2025 at 11:04:52AM +0800, Miaoqing Pan wrote:
+>> wpa_supplicant has supported IEEE 802.11be (Wi-Fi 7) for over three
+>> years. With growing market demand for Wi-Fi 7, it is now an
+>> appropriate time to enable IEEE 802.11be Extremely High Throughput
+>> (EHT) support - mainly for AP mode.
+>>
+>> This patch also enables the following features in defconfig:
+>> Opportunistic Wireless Encryption (OWE)
+>> Suite B and Suite B 192
+>> Multi Band Operation (MBO)
+>>
+>> Signed-off-by: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+>> ---
+>> v2: update prefix and commit message.
+>> ---
+>>   .../wpa-supplicant/wpa-supplicant_2.11.bb                   | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+>> index 6dc76494f7..440d3a5c94 100644
+>> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+>> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+>> @@ -37,6 +37,12 @@ do_configure () {
+>>   	${MAKE} -C wpa_supplicant clean
+>>   	sed -e '/^CONFIG_TLS=/d' <wpa_supplicant/defconfig >wpa_supplicant/.config
+>>   
+>> +	sed -i -e 's/^#\(CONFIG_IEEE80211BE=y\)/\1/' \
+>> +	       -e 's/^#\(CONFIG_MBO=y\)/\1/' \
+>> +	       -e 's/^#\(CONFIG_OWE=y\)/\1/' \
+>> +	       -e 's/^#\(CONFIG_SUITEB=y\)/\1/' \
+>> +	       -e 's/^#\(CONFIG_SUITEB192=y\)/\1/' wpa_supplicant/.config
+> 
+> I was pointed out to this patch. Is there any reason why you don't
+> extend the previous line, which also patches the .config file?
+> 
 
-I'd rather change the icu code itself to produce the needed output
-(perhaps subject to a command line option), and offer that patch
-upstream.
+Will update in v3.
 
-Alex
 
