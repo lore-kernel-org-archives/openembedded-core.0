@@ -1,212 +1,164 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB922CCD1BC
-	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 08:30:10 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.web11.15493.1761208200718482979
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12F1ECCD193
+	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 08:58:11 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.42])
+ by mx.groups.io with SMTP id smtpd.web10.15711.1761209882276369891
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Oct 2025 01:30:01 -0700
+ Thu, 23 Oct 2025 01:58:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=LO8UeIoe;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 7942AC0C408
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 08:29:38 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 5285D6062C;
-	Thu, 23 Oct 2025 08:29:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 02D29102F245C;
-	Thu, 23 Oct 2025 10:29:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761208198; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=cGyyTOkecs5w556p/3R0mk0Gg1f5+1IRV7kQdG72cqI=;
-	b=LO8UeIoerdKTb7PjtfOo20+qMax9Xf2G0BsO1uQfX636duMHP82CZIhFYav/qcEEGfBiij
-	DLQzGeWfoPfc77Vt/4uixDMKU/maBJ/YZeedzLp3DLEJvlasHoYP3gdxjfwhugChWVxISe
-	Pxwlxdf5PjAvaOyj9Qd+8IYHMrSlt3NR7RmTdggit4U4gpmz9GSTWzcoWKg5ObprgV17yF
-	Ab0VbERb6TU/1IxSfax8PVIlAhZl6GyToCf5Tpsy+HRjEsmp+IX+9j+NP5yupE2Z3f4KW2
-	moTuI2ErTsLnonjRliFni7h0M8eQHx0XaJHhT9j5yIHzj5eyjqqB6AG5NM4cug==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 23 Oct 2025 10:29:52 +0200
-Message-Id: <DDPK75TGYZRT.1S800P1553LE3@bootlin.com>
-Subject: Re: [OE-core][PATCH V3 2/2] systemd: upgrade from 257.8 to 258
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20251016084700.1537381-1-Qi.Chen@windriver.com>
- <20251016084700.1537381-2-Qi.Chen@windriver.com>
- <DDKQEKP5R8RA.185ZCAGQ6EA07@bootlin.com>
- <DDLHVDCXIV53.3EI69FW87CCB8@bootlin.com>
- <20c03386-14b5-46d6-b72b-24a1957ee15b@windriver.com>
-In-Reply-To: <20c03386-14b5-46d6-b72b-24a1957ee15b@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=Ip/V3z0L;
+ spf=pass (domain: cherry.de, ip: 52.101.69.42, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hVct/R2BvYiHCTILU0X0zK2E51CkDxvcwriCUb8baxh5b7Dl32EaiWKl35purppErcbIpQICZxP3AJ+SDx8XEfAeYqiF8RynWmhSs+OnXLXrgu7o/Gk8HrOE6kxfN1eVkOphEgbtiUgw0cvV2h0Mx4eITGfKIvtdQ119d3OtE14t9UVEobOyNI5ojW+EvWJXc1CmhWhaTl0N4u6d7XdyXCzi61bPNk72gdbQ59XG1ZUd/GuIv9HarL+0F8NlTnQC302fAuPGnN/1C5KNNoH/Y6/0G0SqglUu1qnBDqsGbh/jWETewXFKQmLLtzcbUuYPV1RnYDv14jKBkPXuo7jRZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ix92Ms84sBkspxYtp44sywnVkXp2Czdf9/tW4J2tg3g=;
+ b=Dxc4vW7nghMpEkTUhvJZg48zU9is81JFmp24gjj11kyysmsF2K9HzG7K8b82yW//v4fu4PATz+ZBDiADbKHUoTCCSLmkMcVuUGt18eFI2P1iUQ4nDt44dhi7s8QdfVgXCMrdCHDCy0MsFMc7GTHTExeU8A3uFQD6NlRqxv7fbPoOxuav1mBe3zGEhVhzywH0wu7klGp6HMN+zSK9E6sf4wUt9TrDZGeIqIJ2+Fp/kPGnAIjv6yi0zx541Zj46PgRj5/36eu3WIuCzS+T3Gxel9qGLJem5JKxFlAESq93aj/s/i8jUUC6Xdmw2RvhIUVxQd4Ge2rdP8PRTdgARFPmZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ix92Ms84sBkspxYtp44sywnVkXp2Czdf9/tW4J2tg3g=;
+ b=Ip/V3z0LNpBwnw/7R9x1zXSCI4UbRHae8er+enudnZ7akUmdDE5kDOf2AulnMR/no5ufjB12TCoSYGIB2nkL5GxUUKDYXD6pgYzBhMeCYHTT2l/QSsPwq7CZ5KSfIR6bH/AK4ADKOieyK+kyedtkIZ9gjGMQN2g0Iswc5j/AIbE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
+ by DU0PR04MB9635.eurprd04.prod.outlook.com (2603:10a6:10:31f::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Thu, 23 Oct
+ 2025 08:57:58 +0000
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1%6]) with mapi id 15.20.9253.011; Thu, 23 Oct 2025
+ 08:57:56 +0000
+Message-ID: <4ee61501-6bd8-402d-96e0-411b7fb6b618@cherry.de>
+Date: Thu, 23 Oct 2025 10:57:55 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH 1/2] kea: fix EXTRA_OE config to EXTRA_OEMESON
+To: liuyd.fnst@fujitsu.com, openembedded-core@lists.openembedded.org
+References: <20251023020636.2817-1-liuyd.fnst@fujitsu.com>
+ <20251023020636.2817-2-liuyd.fnst@fujitsu.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20251023020636.2817-2-liuyd.fnst@fujitsu.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0141.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:96::12) To AS8PR04MB8897.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42c::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|DU0PR04MB9635:EE_
+X-MS-Office365-Filtering-Correlation-Id: fc7678a9-e62e-4e3c-172b-08de1212421c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?NnprRE9acFhHRDRRTjlzdTJTODBYRGhjN3ppM2VScGJYaHNEZlQwWUx3SElp?=
+ =?utf-8?B?WndvcitkUkRNa3hhanZjemM2WGxSbzlQeDRSMndxUUxndTlGaWdBQ1poZnhw?=
+ =?utf-8?B?MExybUI1MVpEY3ArS0ZuNGF5YlNiRWRVc2N5eUpoeGpuNXpKbkljTjFydndH?=
+ =?utf-8?B?VnhpQmNrKytyYUZkZXZCdGtDVzNIL2F5UGdsaUVwRGpFQ1J1TnhrblphNit0?=
+ =?utf-8?B?NGZ1R0d1WVkrTDZybS9lelZvUUhUSTVRYzhEQnNBcVNWejhVM3VvTXA4V29L?=
+ =?utf-8?B?enFtWlVJbkR3RnExbWxScm9vZlFMKzFFREdCV0hSZ0QrVHFHQWxHRlh4ZnFL?=
+ =?utf-8?B?VkRGNUVMRFc5RWVSbTFQUmVlZXV2QmMxK0pxYlZQdlVOMzRVOGFGaGhHZnVv?=
+ =?utf-8?B?S3d6NlpHL0paeC9ZOHMwdk5jS2tIMTVhd0VtUHVuYkhLWTlkV2w5eW9TdEdk?=
+ =?utf-8?B?a0RCZDRhY1VIMjdISStEQmR1dVVXbGw4L0IxME01VHVzbC9kaFovY0VHZVRG?=
+ =?utf-8?B?dEE4SjcvVGw2UW1oSVRFZGhDUGUvaTNPdERtMmttNmtCSSsvVmNKNFE1bWJD?=
+ =?utf-8?B?TUZLNktaOUwrUmZFSmdIeW11d01iaHEweVZESXZJWFdRY0cxbWE0UVVkbUx2?=
+ =?utf-8?B?RllydHJqWERad2drRU5OV0xVSkM1b0ZPY2xvMlh0TmEvQWJocFpwM3o1djVH?=
+ =?utf-8?B?Sm9helQrYUQ1YUtnSGlIWEZGTGREZkVUZkFJWHZhYVQybmVkWGdhVzhjME9B?=
+ =?utf-8?B?bXBqUU0vQXpsQ2FZYzVDeWEvMlNYRWhVT2lOVFhVYUpXY1BLNTBDQ29pcWZ2?=
+ =?utf-8?B?M3J6UGZRQnF4cTdwWHRyZ1BnL1EzVXpHNVNhN2RQMnN2RTQrbjM4MFNITnY5?=
+ =?utf-8?B?WExJSUZpTDRlL2MyZW80V2pMakZEeDdpWXIwUys4NEF1RnZrRlc0ZUlPdjhG?=
+ =?utf-8?B?SENwQjcrRjJtTTdHdkJya0I4bFJobmp5VGNpeUdyWXYzWUlIMEpRTTdxTVNv?=
+ =?utf-8?B?ZWU3ZmNLVFBONFZlSkVxWkRRbVlTYmljMGhpWU5LQk5tckQrR1RZK0R2akR1?=
+ =?utf-8?B?WkdkckorZnUxajNsZ0VNSm1lMzVXV09pODZKLzlvbGRJeHNKY3N4QXk2ZzNm?=
+ =?utf-8?B?MndGamR6QkFCYzZnZnZpNUpHR1ZmUy9qeW1tYkJleWNqWWxvNFVLcCs1Qm1R?=
+ =?utf-8?B?K3ZTTzNxSU5rQ0kyNVZEV2hTbzg1MExlZTcvN3REUUE1dlltNG9USmFqa3Rm?=
+ =?utf-8?B?akJyTG9pMFc5SXQ3MkIvRzVYSkhvNUErUFpLWVFWdVl3RGN2TzB5aCtrcmlP?=
+ =?utf-8?B?VWkyRDRxZEQvWkZVMldoWWovMVBvWkdJME8xNkFSemdKbUdkaHZmcVh5cEFs?=
+ =?utf-8?B?TnR1dEVmV2JvTkFRS2hLbmpsaUV3RlhWeUVFbWRCbmg1TklhNHdreWpDa2xJ?=
+ =?utf-8?B?Nk1LNTR2S2pBcHBBQU5TNEFWWUlJdldmYUs4NDdVL1ZkR3hueGw3Q1hkV0sz?=
+ =?utf-8?B?ZTZSMyt5bHBuWXNScUhadW5LaGU4YjFPcW9HekgydE1DMWJvTWd4VFp4SEVD?=
+ =?utf-8?B?ZmF4K0VFeWhqN2srNGhOd0pxSENQckhrYzZDSVYxUG81NzFQYUhJekQybkxr?=
+ =?utf-8?B?THhMZ2tJejhrcklMTXJnM0YyZHorZHpZaWVCM085SVNFMlpsb0VaN2s4UHlW?=
+ =?utf-8?B?MWVDZWZYTE5LY2YzZDVIeE5KN1dneFlkYjJtTUkzQlZGcDR6anEybEJzQlBV?=
+ =?utf-8?B?a0VnWUF2QU1MaGE1NFZkdStHQzcyanI2SWJuYVdoMFhPQ1FlVHZVMHBGeFhp?=
+ =?utf-8?B?L0tPczMydnFoS2JlVkkzbElGcjFvRmJMbWRoSnVPY2dwU0FscGVwZkFDLzdY?=
+ =?utf-8?B?SWV2MUdwOXdDRmtsUTcwMTJTUnZCbEgwcGU4SFd0RDg4QlRRdzRaNHAvbncy?=
+ =?utf-8?Q?o78C6pyWKYYX99oE2i6CLSDueNGUDIRq?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?U2Z2NHBhK21EaFROV0d5aFYxQjNZdGZrQVk1L0phMGl2Z283eDBabGJieFBU?=
+ =?utf-8?B?ZXVjdXhQZUNJeFRBZFRQZTJEZjA4ZzlHbWJ4WW1VaEZGTUozenpMdURuS1Zt?=
+ =?utf-8?B?dS93SEFPUHRyWG5NRFQxR3dBNG9aZ1pUM29nZ20zdlFsVys2T25zTVlIUXlJ?=
+ =?utf-8?B?MmkxRXhLRU5ObjFaRnZXTFpHZU9SZUEzVUlVS0pKOG16b2lla0Z1UVN4L1pO?=
+ =?utf-8?B?ZExUb2RSZ213RUI1NlpZWjZNbEVPY25ubFcwdmlQa3RybDlhbXE3TDVpcjdt?=
+ =?utf-8?B?ZnRtWHIwTjFhWE5aWDRWVnpLTjBzdFV2YXBUZjRXd2RzUXlYTkFUbWVYQ3Jp?=
+ =?utf-8?B?Ukptcmpib3YvOFltWXBEdXBzVmV2VmlhVVIrZ0FjTWtjUEdMMVd5VStIWFpY?=
+ =?utf-8?B?MWdlL21qZ2VaWUMyaDZlcXg1UHdnRmZGVVQ3blcvSWdnYURjcEZUdVpaWkFO?=
+ =?utf-8?B?d2w4V0pWM0JQTDQ5UGhOZTRhWU55eUZSVVJ1ZFpxTXYvR3h5VXpUbzd1akdP?=
+ =?utf-8?B?ZHMweStNLzI0Q0szclB0YTJUN1FkSG9yVElvaXNVWU4xUDZFeWlOaHEzVWt2?=
+ =?utf-8?B?OGM5Q25kNVJUSVBySzVlMnllYktjdzhUQmlQTjNRWkJkMHpTNTFGb0xwWFFt?=
+ =?utf-8?B?eUY4RzFDa3BVMnNkNnFFSGNDT0tNOEhlT1ZYdi8vTThDeEozMCtadUZVNDN4?=
+ =?utf-8?B?RGRad2lCM21ySzFTa3JiWlV0YldhbjZaa2RCMExzNVdWRWp0M0dtSElrbFhi?=
+ =?utf-8?B?ZTRrdVFzK3RrajBWaEllZnMzMld5aC84aG9EZnA4UUdJNG14NXBaOG1vbVZo?=
+ =?utf-8?B?amFVN1dZSjI0NE4zL3o4eW9VQTV2OFdVWmVrU3lmK3I5emRZYTQ2eUE0Wkh4?=
+ =?utf-8?B?cjZtTDJhZVJLMGcvby9udDdxUUVoWm1SWWFpdW0xSEhUcVBsUTBKKytRVTBT?=
+ =?utf-8?B?ZXRQZjFLSmhYZVRjU3FTdkVHTDFrNHNiQzlmR2NEakRPVG1ERnN3SXhwVEY3?=
+ =?utf-8?B?MGhCT3Q0Nzk2b0dxZTlCdW8zb0tsQnFxemFWS2FwQ0ZzaFRoMkVSYlN4Q3Vn?=
+ =?utf-8?B?MVVXNVk2Z1ptQjdXeU1NMzF1K1JGdlZmM2o1Si9hbS9CNUViOWQrUFlScXRV?=
+ =?utf-8?B?YjJZT3RZRlFXb3ptUW1nd2xmeHJPck8zWElaOWNnVUlUNlRzRTVTN1dxdS8z?=
+ =?utf-8?B?YnFtdUpwUE1nN1BWdjJIYTdVZVZ6V1VmWEVZdFJybGZaYU9rbTFTU2xVeHJl?=
+ =?utf-8?B?MUd5QlZGdkNjVzI5ODI0T00wMTduWnRhUG5vOWc0Wm5kVlZUeEFxSDRUUkdU?=
+ =?utf-8?B?Mks2ZHJpNlJyMFhxRWFFSVlVdEdQNVMrUVFDNkZkdEphNjBEODJBSHdWTlli?=
+ =?utf-8?B?eVpmZGQrUUFPWFFrMkE3U3orOEtQcmlIQjhjaFpLV1JCT3hwaUc5TE0yOGJa?=
+ =?utf-8?B?OVd6Y0FwZUpDU2FPYUdlSm1SeldSampzcXFuTmJ2dkxzRGZQNzBpMDBuQ1RV?=
+ =?utf-8?B?cGJCRlNldFNGVWo2NTVaek5VejcwRWZjUEE2YVpyY1J6VEYyOHBVeGtZY09G?=
+ =?utf-8?B?RzBveGNYWHUzQWhqVXZXaE0xZkozbVBMQUt2YnNIdmZBczBrQUNHcExQRHNh?=
+ =?utf-8?B?Y3BrWHI1RnBEZUhMNVZmMmFYZFMzTUs3aWZXeUlBQ2NQTzlJM2lRK1QvcTFm?=
+ =?utf-8?B?ZS82SGN1Y2xvZXlERUpTa3lxSTRmTFhic0lmandubHRHbTd5SVRYeW1yM0hW?=
+ =?utf-8?B?NzBKaWJuSEZQMnNtZ0JmajVHL0U4U0RPcm9TcG91U0hTK1lNZ2hoM1F0czNR?=
+ =?utf-8?B?SEVHK3ZiSVlaQXBvT0x6a2J0Zm1kV1RCVCtyRGNlcElpR1BXUlZjcnZiMHVw?=
+ =?utf-8?B?dW14a25hRS9iZTF4SURVVmg4NTRCdG5BQ1B4S2laSFFVOXUvUFlOYUNVWkta?=
+ =?utf-8?B?RkFXQ2hEbXV0c0VWVXBuZXBkK2lZRlpUUy9MTk55dzV1cU10ZHdpNFlkZXpa?=
+ =?utf-8?B?TkRtcWV1YkpzeVdETklpQkM3anM4ZXlGeEJnZlVtMFBHaGZKRzdoWDUySm0y?=
+ =?utf-8?B?eWlxM0Rma0Y2aExVMmJTenhPb3QyQVdTSEZuWXAra01HZlQrbm4zK1NRT2xV?=
+ =?utf-8?B?K3pqeSt6SmtmUFJqdUdNQzVSenU5UjJSQWp2ZWloc2lLN3dMSEE2T0VrbERs?=
+ =?utf-8?B?WHc9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc7678a9-e62e-4e3c-172b-08de1212421c
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2025 08:57:56.3566
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cnHa14Ac7HSeJGZF0D8lPdOY10Tl1f89gH3saAQg5RS3hmKO+cNVkYPqqQ4MlJjLDrrGhbLzOsprtTaFjZImyBR687ny/wKF0dKQYCkLEcQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR04MB9635
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 08:30:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225224
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 08:58:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225225
 
-On Wed Oct 22, 2025 at 5:28 AM CEST, Chen Qi via lists.openembedded.org wro=
-te:
-> On 10/18/25 21:49, Mathieu Dubois-Briand via lists.openembedded.org wrote=
-:
->> On Fri Oct 17, 2025 at 6:18 PM CEST, Mathieu Dubois-Briand wrote:
->>> On Thu Oct 16, 2025 at 10:47 AM CEST, Chen Qi via lists.openembedded.or=
-g wrote:
->>>> From: Chen Qi <Qi.Chen@windriver.com>
->>>>
->>>> 258 Release Changes:
->>>> https://github.com/systemd/systemd/releases/tag/v258
->>>>
->>>> The 'runlevel', 'initctl', 'telinit' related contents are removed
->>>> because they are offically removed in v258.
->>>>
->>>> Disable tests explicitly. This is because we're not installing any
->>>> tests. There's no point building them out. And this puts extra burden
->>>> on making things compile for musl.
->>>>
->>>> gcrypt and gnutls PACKAGECONFIGs are removed as "OpenSSL is now the on=
-ly
->>>> supported cryptography backend for systemd-resolved and systemd-import=
-d."
->>>>
->>>> musl changes:
->>>> 1. This version has big changes in musl patches. The goal is to
->>>>     help maintenance. I want patches to be more easily applied
->>>>     to new versions. The count of files modified by musl specific
->>>>     patches decreased from 113 (v257) to 34 (v258).
->>>> 2. All patches are re-evaluated.
->>>>     This version of systemd introduces big changes in header
->>>>     files and other places. So the previous musl patches are
->>>>     re-evaluated one by one. Those that are dropped are considered not
->>>>     needed. A few new ones are added. There are some notable ones.
->>>>     0012-do-not-disable-buffer-in-writing-files.patch is dropped becau=
-se
->>>>     there is not runtime error.
->>>>     0016-Fix-the-segfault-for-glob-related-codes-and-define-d.patch is
->>>>     added because this version of systemd uses strv_free to free gl_pa=
-thv
->>>>     instead of relying on globfree provided by libc.
->>>>
->>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>>> ---
->>> Hi Chen,
->>>
->>> Thanks for the new version. Still, we get some errors with post install
->>> scripts:
->>>
->>> ERROR: core-image-sato-1.0-r0 do_rootfs: Postinstall scriptlets of ['bl=
-uez5', 'ofono', 'connman', 'xserver-nodm-init', 'avahi-daemon', 'rpcbind', =
-'run-postinsts'] have failed. If the intention is to defer them to first bo=
-ot,
->>> then please place them into pkg_postinst_ontarget:${PN} ().
->>> Deferring to first boot via 'exit 1' is no longer supported.
->>> Details of the failure are in /srv/pokybuild/yocto-worker/qa-extras2/bu=
-ild/build/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0/temp/log.do_ro=
-otfs.
->>> ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/qa-ext=
-ras2/build/build/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0/temp/lo=
-g.do_rootfs.2882514
->>> NOTE: recipe core-image-sato-1.0-r0: task do_rootfs: Failed
->>> ERROR: Task (/srv/pokybuild/yocto-worker/qa-extras2/build/layers/openem=
-bedded-core/meta/recipes-sato/images/core-image-sato.bb:do_rootfs) failed w=
-ith exit code '1'
->>>
->>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/26/builds/2590
->>>
->>> Can you have a look at these, please?
->>>
->>> Thanks,
->>> Mathieu
->> Sorry, another issue that I've just identified, during image tests:
->>
->> Traceback (most recent call last):
->>    File "/srv/pokybuild/yocto-worker/qemuarm-alt/build/layers/openembedd=
-ed-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
->>      return func(*args, **kwargs)
->>             ^^^^^^^^^^^^^^^^^^^^^
->>    File "/srv/pokybuild/yocto-worker/qemuarm-alt/build/layers/openembedd=
-ed-core/meta/lib/oeqa/runtime/cases/parselogs.py", line 185, in test_parsel=
-ogs
->>      self.assertEqual(errcount, 0, msg=3Dself.msg)
->> AssertionError: 1 !=3D 0 : Log: /srv/pokybuild/yocto-worker/qemuarm-alt/=
-build/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato/1.0/target_=
-logs/Xorg.0.log
->> -----------------------
->> Central error: [    27.402] failed to find screen to remove
->> ***********************
->> [    26.897] (**) Option "Device" "/dev/input/event1"
->> [    26.955] (II) event1  - QEMU QEMU USB Keyboard: is tagged by udev as=
-: Keyboard
->> [    26.956] (II) event1  - QEMU QEMU USB Keyboard: device is a keyboard
->> [    26.959] (II) event1  - QEMU QEMU USB Keyboard: device removed
->> [    26.991] (**) Option "config_info" "udev:/sys/devices/platform/3f000=
-000.pcie/pci0000:00/0000:00:02.0/usb1/1-2/1-2:1.0/0003:0627:0001.0002/input=
-/input1/event1"
->> [    26.991] (II) XINPUT: Adding extended input device "QEMU QEMU USB Ke=
-yboard" (type: KEYBOARD, id 7)
->> [    27.049] (II) event1  - QEMU QEMU USB Keyboard: is tagged by udev as=
-: Keyboard
->> [    27.051] (II) event1  - QEMU QEMU USB Keyboard: device is a keyboard
->> [    27.401] (II) config/udev: removing GPU device /sys/devices/platform=
-/3f000000.pcie/pci0000:00/0000:00:03.0/drm/card0 /dev/dri/card0
->> [    27.402] xf86: remove device 0 /sys/devices/platform/3f000000.pcie/p=
-ci0000:00/0000:00:03.0/drm/card0
->> [    27.402] failed to find screen to remove
->> [    27.428] (II) config/udev: removing device QEMU QEMU USB Keyboard
->> [    27.431] (II) event1  - QEMU QEMU USB Keyboard: device removed
->> [    27.472] (II) UnloadModule: "libinput"
->> [    27.508] (II) config/udev: Adding input device QEMU QEMU USB Keyboar=
-d (/dev/input/event1)
->> [    27.509] (**) QEMU QEMU USB Keyboard: Applying InputClass "libinput =
-keyboard catchall"
->> [    27.509] (II) Using input driver 'libinput' for 'QEMU QEMU USB Keybo=
-ard'
->> [    27.509] (**) QEMU QEMU USB Keyboard: always reports core events
->> [    27.509] (**) Option "Device" "/dev/input/event1"
->> [    27.567] (II) event1  - QEMU QEMU USB Keyboard: is tagged by udev as=
-: Keyboard
->> [    27.568] (II) event1  - QEMU QEMU USB Keyboard: device is a keyboard
->>
->> ***********************
->> 1 errors found in logs.
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/74/builds/2588
->>
->> Thanks,
->> Mathieu
->
-> Hi Mathieu,
->
-> I reproduced the postinstall error you mentioned in another email.
->
-> But I cannot reproduce this one. I used 'poky-altfcfg + qemuarm' as in=20
-> the above link. Is there any other config I need to use? I referred to=20
-> the 'Write config' step.
->
-> Regards,
-> Qi
->
->>
->>=20
->>
+Hi Yiding Liu,
 
-Yes, that should be all you need. In the write config step there is a
-bit more than that, but it should not impact the test result.
+On 10/23/25 4:06 AM, Yiding Liu (Fujitsu) via lists.openembedded.org wrote:
+> After kea has been upgrade to 3.0.1,the build system changed to meson,but the config of build system is still be EXTRA_OECONF. So this commit fix it.
+> 
 
-I will try to play a bit with it locally, to see if I manage to
-reproduce this.
+Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
 
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Thanks!
+Quentin
 
