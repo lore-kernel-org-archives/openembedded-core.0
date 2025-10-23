@@ -2,82 +2,82 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD3A2CCD1BE
-	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 10:30:51 +0000 (UTC)
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
- by mx.groups.io with SMTP id smtpd.web11.17105.1761215442385362168
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F3BCCD1BE
+	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 10:49:42 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web11.17314.1761216572949329670
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Oct 2025 03:30:42 -0700
+ Thu, 23 Oct 2025 03:49:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dafRzDuC;
- spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4eb7f0b9041so4914421cf.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 03:30:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jG5XYk71;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-79a7d439efbso5432046d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 03:49:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761215441; x=1761820241; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1761216572; x=1761821372; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hCAz3A7HRjn6zuUNkVEPaPiCdWO/sR2QTSMxYm9IGSo=;
-        b=dafRzDuCxqFBvck8iyUi0BdwYQSF7q78+Y9x45Vh94/nIqLa8gbaZBWhg9T2bvztro
-         w4iMdHNsQ7eygzOwYN/kYmCDguwCAeTZ9zleBDqLxZjydN9a2Iusap/OY3Zc60uzVwtY
-         BwGcgD9VGuMBQybfhNsCwRVEJnhSsnyUMzPF2sSDn/uuJzT4zXr9qhs7Jd0n8tQxKfcL
-         xYpYH0DatfbqVhc+yHZkWdNyzmQoEod3D27BgtvwlhZrurKUiL/9vWxi5V141AAHAwMG
-         BdA38EQIxidT7BvdhbUBxoqD6/FIqpzv1cIw7YNTcTv3se+Se7R8LID6uw7om9DfRgnE
-         AI/w==
+        bh=EGX485ujgrozMm/BrmAqNGVMDDyPZ4dmz3d6roEbm+c=;
+        b=jG5XYk71RfXGXiuLILu4m/PRQzeJpMpDOLOp5s/Mq0cPzkovR5pJ4HwBbw9q21bYon
+         hmUtKjAoxGUFrQ0DGk2XxRzkTSVG8VYlaW00X/9ov/PxUOfyukwNbgBMAHFGVQQOVERm
+         bbpVVq7IQNTBusarRkGUpb6MUaB2TFgyEI7SUr6JxnrUbXX3F+XoxQbC7PyDKpyrklMJ
+         Iq2o5BTS+D/nhpJAZl72FJXoprubku6Adm6qFNMW7bUTEyGfAq7JzzGy+wfe0+TSmQnN
+         ++IJ4Uzhi291HjoTLfZbQSWET4tw8TVo+3/E1czWxKROh04mlGZ7PR4bstrVO8JmMjTu
+         KiDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761215441; x=1761820241;
+        d=1e100.net; s=20230601; t=1761216572; x=1761821372;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hCAz3A7HRjn6zuUNkVEPaPiCdWO/sR2QTSMxYm9IGSo=;
-        b=G4fx4DVPwFHRivK5l9BlKzyW0TpxtUKTTrG55YLNCcxruRW2FCKpMMirr7UGMhXLJt
-         BBz8gd1tGvUNpWTwUZTOcYmylj4hNsRDLnEfB1zQntN2I5ITVXdmQ0jbknOxLYBVCTo1
-         IuMA+olCNuV3afWECtti2SzX4Hn75LVn9aVn669zqHCUVc8Iv4d1Iq8RpMITslDUsKKo
-         KA0QuDzO5u/hV8jbtle0f35kxI7K8KTxDZD1EzocwBQc98LTBrTL/+1Pbga9NW56/5Ts
-         Ze/FsjUawy/0UpCfw2BiqL9CPHVd0+J7Bi7co+MU+oTDTFztRrf4ccbbUb/4X/en1YHS
-         h3XA==
-X-Gm-Message-State: AOJu0Yy4puYw7PB9jy26VXgg8PeAdYo4TLNmdHQ+pb8M2RtMR8oXSyap
-	sHWc/lO3K1ddQXvB98qULGkSwrEH2lLDLU5fjKMPx3gvgbvob8LI2ePvYAy8VHZEXV0eTTFng1E
-	hqkujmgE+3MMdi5amkg31Eivz/4t1mQs=
-X-Gm-Gg: ASbGncstfDm8vEKwkfRfKnmpsoUN6VrNzVm51fCKcrERXWbU/DZEr9dnhitkzQAbBfh
-	gHs9uMJ8R+tm6Haw8O91668qUzhYxrfmOCJyI74SYUBGAegAZef7fYn/0UCweI1mH8+pKzZIhYZ
-	Y92TWMXj51qtUng/Bmw1XaqkOsWmHqPl+J9GVj+1mY/kFE2v/p/0kl/7OX0De6JBVMVCKYPzVpQ
-	UDuAFPbMATkf00EAK9rnP2FrXOOUKU4uUbcjTEy5/4AecDcbxf0nFUYc3hliPKFn7vydZTbI4OU
-	uVxj8WRKeqDd2Mbn2Mr9nL06uM+rwQDr3pqS0/jpzdtwL21kIaUrxTopcbxLaHIuyD3pmdJdI39
-	zofGy5B9klK/DTG4lBQ==
-X-Google-Smtp-Source: AGHT+IF5ZnAEo3W74jsLGEVvy0HAsH/Oo2PibHYHFzoq5068SIbd3oZOHzJkZRdzff7yfzGB/OIEdaFTCbX4UnUoYiw=
-X-Received: by 2002:a05:622a:15d0:b0:4eb:7dac:7b99 with SMTP id
- d75a77b69052e-4eb7dacbae4mr52038831cf.39.1761215441294; Thu, 23 Oct 2025
- 03:30:41 -0700 (PDT)
+        bh=EGX485ujgrozMm/BrmAqNGVMDDyPZ4dmz3d6roEbm+c=;
+        b=uimgCipG/Hsqyqu+PpLsZ6ppJaMVWeBkDXekIX1RoCsn6jjAVh7VQHSBbaacqzXFBl
+         W24j3roY8kRXpEUBgjvLGmjO7moMuq+no7OLxoHOTVljS/iGaepB+E2NeAk3u7JMf53R
+         xK7Vf5IRxoc/k1jAM74Ou1mgkarUgMYDMz3J4ekIs363TAXUJjYpalgFWycx0d5XBd8R
+         /dIQHXXk7pqFdzCiQpHQQAPZKCuUm48xSHVnboK579p1FxuRjz6rd8ZjHv9AOj3bj+h1
+         gFhXHFL9XgoVDAU18nAo04uooXgVZSi5fniELbFuYN+zzIk7UjOjDVw2jAJvzQLQj7Y2
+         YZTA==
+X-Gm-Message-State: AOJu0YwzED5/O/x6vtj+eO20N+HjxVy6gmGeKkJIkKSqK2gongMcPtuX
+	cogxrjQgoY8XjokVd+8eXJidcHLAAb0woJ3WAC/9ISbKo4nHFNjujJ0vWV5knCvbnoxvOHDxymK
+	oczqA4CtGomfi0Bgc+1jWXfTBTInUHnk=
+X-Gm-Gg: ASbGncuArFASkWKIdKrkyIaAuBXyNuYu4k7WwPl2o+0co4Ot/ci8W+me44VGJYwa/p0
+	w2ZTTm7n1Dx2RHd37yGzIl6KA1qu+E9g6RRs3hNOwzlxiSu6plFZp32ZE9qyVnAAi1fRSxWxWH8
+	vxqpRmDWYTPT+eVsqEZtwOm9hmJ8tCisJdawZ7YPppXlBHIz1qWp98JJeOV7eLogx8FqDOubN0O
+	LOn0MtrdvZVe9+PWrn88b615g7uoyKM3KqkHSkSNvHwT5RXOrj9vYy7kPNfJzw1FoElNkdO9bzR
+	7OnKLQx83U0xHeY2DCQZfuRPah4iFxqYr5vHI0SP+fpKRHv37VGJiSJ2cPO0rd3FH295
+X-Google-Smtp-Source: AGHT+IHGRZcJcNvRQJ3tuSPq0GnqnHcfPc8PUB4IGoFag3TzSgIdCSVXabCTFtnVUpvDqqjlAmvgs0hRPclLqH8mi4I=
+X-Received: by 2002:a05:6214:260b:b0:87b:f40c:4854 with SMTP id
+ 6a1803df08f44-87f9ee78b1bmr20165526d6.43.1761216571958; Thu, 23 Oct 2025
+ 03:49:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251023102236.4184982-1-skandigraun@gmail.com>
-In-Reply-To: <20251023102236.4184982-1-skandigraun@gmail.com>
+References: <20251020171026.2965650-1-ecordonnier@snap.com> <20251020171026.2965650-2-ecordonnier@snap.com>
+In-Reply-To: <20251020171026.2965650-2-ecordonnier@snap.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 23 Oct 2025 12:30:29 +0200
-X-Gm-Features: AWmQ_bkUyk1_tuvc1ftNYGiLy4L4kCmfN5QEsTaAmGfIRbCpMD7vUM-ONnIVl98
-Message-ID: <CANNYZj9+JktmaAf=iKEgcrNFjx3xS3fQv2bHQDxY2r+DKgeMAA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] openssl: extend check_cwm test timeout
-To: skandigraun@gmail.com
+Date: Thu, 23 Oct 2025 12:49:21 +0200
+X-Gm-Features: AWmQ_bnqtYdSZnAUq4v4LNKwc9L1P2LkuAgCLt1KkqpT1-wZf2Mjz4gXCRl4BJY
+Message-ID: <CANNYZj-Prjhs710rHr1S4L4682Ta_=ADVgaFOqPTpNnR9QwPtg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v3 2/2] opkg: upgrade 0.8.0 -> 0.9.0
+To: ecordonnier@snap.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 10:30:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225229
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 10:49:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225230
 
-On Thu, 23 Oct 2025 at 12:23, Gyorgy Sarvari via
-lists.openembedded.org <skandigraun=gmail.com@lists.openembedded.org>
+On Mon, 20 Oct 2025 at 19:10, Etienne Cordonnier via
+lists.openembedded.org <ecordonnier=snap.com@lists.openembedded.org>
 wrote:
-> +The default, 3s long test timeout isn't always enough for this
-> +particular test in case there is a high load on the host machine
-> +(assuming it is running in qemu). Extend the default timeout to 6s
-> +for the check_cwm test to avoid timeouts.
+> +From: Etienne Cordonnier <ecordonnier@snap.com>
+> +Date: Mon, 20 Oct 2025 18:57:56 +0200
+> +Subject: [PATCH] config.h.in: fix typo
 > +
-> +Upstream-Status: Inappropriate [oe-specific: qemu on AB doesn't always get enough CPU]
+> +Upstream-Status: Pending
 
-I think this does merit at least a ticket upstream, or actual patch
-submission. High CPU load is not at all an oe-specific problem.
+Pending without any reason == grumpy Alex.
+
+This is actually a backport, please update the status:
+https://git.yoctoproject.org/opkg/commit/?id=d723a90bfe6409c7ad983ed911225d4aefbfd09e
 
 Alex
 
