@@ -1,197 +1,123 @@
-Return-Path: <kamel.bouhara@bootlin.com>
+Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 128F0CCD193
-	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 09:00:51 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web10.15763.1761210040115807955
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B4A2CCD1BC
+	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 09:29:41 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.web10.16117.1761211776570037406
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Oct 2025 02:00:41 -0700
+ Thu, 23 Oct 2025 02:29:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=UWORB/OW;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: kamel.bouhara@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=IivI9hu7;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: antonin.godard@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 20ACC4E4129D
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 09:00:38 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 6BA2EC0C40D
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 09:29:14 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E245F6062C;
-	Thu, 23 Oct 2025 09:00:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E976F102F2460;
-	Thu, 23 Oct 2025 11:00:31 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 327366062C;
+	Thu, 23 Oct 2025 09:29:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 92130102F2459;
+	Thu, 23 Oct 2025 11:29:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761210036; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1761211773; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=ehWE5Tr6OyDj1SqTTaVhoDHD9oJQ9v0AFczThznCXOs=;
-	b=UWORB/OWGjlxuTH6IBg2gwEiA3ZNpMoGvjzBHl8EPLCaoA1jH3q3d61J+9IpTOPrYRH3tz
-	Ri+tbDWvUhDMnL/n0wJYp3w4/fCbUDRPxhwL59VOGh0FIoboZj1dqfWFZnR47MvhXSeqlj
-	zyN6lC8YvCJKxBM9WgndX4dzA8R6huipw6NNfIBnc7EeJyeU4VldT7b2M4b2ARnITv8jd+
-	TBAfyK1fBO6P5lQh6pUovOdlunqcn+rra1HvtNwxQGfBmuepAQC7lye7Ni1BCAZklHuguK
-	rE1mAoOR8yZRW0JZKLBqJuwDp+6yoOcHUfrQ5egR35lLbmyM9F3ZWR1X/8ScJw==
-Date: Thu, 23 Oct 2025 11:00:30 +0200
-From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-To: peter.marko@siemens.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap v2 00/11] backport: SPDX 3.0 support to
- Scarthgap
-Message-ID: <cfzugo6hqsd2u4qnkoruql7hzg5zexrjnpyx3dex3zx3y7oxic@5yek6wcaxixx>
-References: <20251020070952.942165-1-kamel.bouhara@bootlin.com>
- <AS1PR10MB5697986A426B5C628C2930F7FDF3A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <AS1PR10MB5697986A426B5C628C2930F7FDF3A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-X-Last-TLS-Session-Version: TLSv1.3
+	bh=7qy8uhfp83RNjH7Z/1t9V2RF39gx8xaC5FZuhG8A9rU=;
+	b=IivI9hu7rYFUScpql0xojvcRHmMbEFr16JtQyEbGm9ng/UBs9IR/jN9N7nFjsmCl290BoX
+	OmLkyz4sl3nQUjYn3Bcz4L3P9VKhHQnh1metf2ju7y6P0h4SDxkVCiuZmisGqK1fLYKma9
+	0RiGiRAGFhfWz1Jv8w0pfVnIqT3Og1NNLsg9Jn6ITvyAYHPREHi3n4XvcxzM8+7ZzHLazh
+	KZUCi6HamUwH8dsYgEhKGwXFYElkia6r437on3wpZwz/gjuyAZWN6J+B7gUEf+OyMsL/Ny
+	1n+i7qa8Juyq0o+Ek9Mn3jIcZlWYTlhqCCzJ5LWCbILqQ5We1TdY3pjrw3gnJA==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 23 Oct 2025 11:29:28 +0200
+Message-Id: <DDPLGSYQI5FH.36Z3B285WOQTG@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2] kernel-fit-image: enable compatible string
+ for kernel built-in DTBs
+From: "Antonin Godard" <antonin.godard@bootlin.com>
+To: <kavinaya@qti.qualcomm.com>, <openembedded-core@lists.openembedded.org>
+References: <20251013055300.2425913-1-kavinaya@qti.qualcomm.com>
+In-Reply-To: <20251013055300.2425913-1-kavinaya@qti.qualcomm.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 09:00:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225226
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 09:29:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225227
 
-On Wed, Oct 22, 2025 at 12:43:22PM +0000, Peter Marko via lists.openembed=
-ded.org wrote:
-> Hello,
+On Mon Oct 13, 2025 at 7:53 AM CEST, Kavinaya S via lists.openembedded.org =
+wrote:
+> At present, the kernel-fit-image bbclass is adding compatible strings onl=
+y
+> for external DTBs, omitting them for DTBs built from the kernel tree. Thi=
+s
+> behavior is limiting the ability to clearly identify the DTBs in FIT imag=
+e
+> that includes multiple kernel built-in DTBs and possibly mix of in tree a=
+nd
+> external ones, due to lack of consistent compatible strings.
 >
-
-Hello Peter,
-
-> I have tried this patch serias and I see ton of "missing or unknown CVE=
- status" warnings.
-> Example for curl recipe:
-> WARNING: curl-8.7.1-r0 do_create_spdx: Skipping CVE-2024-11053 - missin=
-g or unknown CVE status
-> WARNING: curl-8.7.1-r0 do_create_spdx: Skipping CVE-2024-7264 - missing=
- or unknown CVE status
-> WARNING: curl-8.7.1-r0 do_create_spdx: Skipping CVE-2024-8096 - missing=
- or unknown CVE status
-> WARNING: curl-8.7.1-r0 do_create_spdx: Skipping CVE-2025-0167 - missing=
- or unknown CVE status
-> WARNING: curl-8.7.1-r0 do_create_spdx: Skipping CVE-2024-6197 - missing=
- or unknown CVE status
-> WARNING: curl-8.7.1-r0 do_create_spdx: Skipping CVE-2024-9681 - missing=
- or unknown CVE status
-> Looks like it is generated for every CVE patch in every recipe built.
+> To fix this, introduce a new BitBake variable, FIT_DTB_ADD_COMPATIBLE
+> when set to "True", the bbclass will extract and include the compatible
+> string from kernel-built DTBs also in the .its file, just like it does
+> for external DTBs.
 >
-> What I did is cherry-picking this series and adding following to my dis=
-tro config and building my image:
-> INHERIT_DISTRO:remove =3D "create-spdx"
-> INHERIT_DISTRO:append =3D " create-spdx-3.0"
-> When trying with pure poky, I added following to local.conf:
-> INHERIT:remove =3D "create-spdx"
-> INHERIT:append =3D " create-spdx-3.0"
+> Signed-off-by: Kavinaya S <kavinaya@qti.qualcomm.com>
+> ---
+>  meta/classes-recipe/kernel-fit-image.bbclass | 3 ++-
+>  meta/conf/image-fitimage.conf                | 3 +++
+>  2 files changed, 5 insertions(+), 1 deletion(-)
 >
+> diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-=
+recipe/kernel-fit-image.bbclass
+> index f04aee1807..3aa7a2e75a 100644
+> --- a/meta/classes-recipe/kernel-fit-image.bbclass
+> +++ b/meta/classes-recipe/kernel-fit-image.bbclass
+> @@ -85,7 +85,8 @@ python do_compile() {
+>              # Copy the dtb or dtbo file into the FIT image assembly dire=
+ctory
+>              shutil.copyfile(os.path.join(kernel_deploydir, dtb_name), dt=
+b_name)
+>              root_node.fitimage_emit_section_dtb(dtb_name, dtb_name,
+> -                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_=
+LOADADDRESS"))
+> +                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_=
+LOADADDRESS"),
+> +                add_compatible =3D bb.utils.to_boolean(d.getVar("FIT_DTB=
+_ADD_COMPATIBLE"), False))
+> =20
+>      if external_kernel_devicetree:
+>          # iterate over all .dtb and .dtbo files in the external kernel d=
+evicetree directory
+> diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.con=
+f
+> index 090ee148f4..35e0459d09 100644
+> --- a/meta/conf/image-fitimage.conf
+> +++ b/meta/conf/image-fitimage.conf
+> @@ -47,6 +47,9 @@ FIT_LINUX_BIN ?=3D "linux.bin"
+>  # Allow user to select the default DTB for FIT image when multiple dtb's=
+ exists.
+>  FIT_CONF_DEFAULT_DTB ?=3D ""
+> =20
+> +# Allow user to choose if DTB in FIT image can have compatible strings.
+> +FIT_DTB_ADD_COMPATIBLE ?=3D "False"
 
-Thanks for testing and for the detailed feedback.
+Hi,
 
-I haven=E2=80=99t yet tested this backport series with a pure Poky setup,=
- so
-I=E2=80=99ll start there to reproduce the warnings you=E2=80=99re seeing.
-Once I confirm how the CVE decoding behaves in that environment,
-I=E2=80=99ll follow up with a fix or updated guidance.
+If this is merged can you please send a patch documenting this variable, on
+docs@lists.yoctoproject.org?
 
-Thanks again for pointing this out.
+This should be added to the glossary:
+https://git.yoctoproject.org/yocto-docs/tree/documentation/ref-manual/varia=
+bles.rst
 
-Kamel
+Thanks!
+Antonin
 
-> Inheriting cve-check did not help.
-> When building oe-core master, I don't experience such warnings.
-> So it looks like something is missing in this backport series.
->
-> Peter
->
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Kamel Bouhara via
-> > lists.openembedded.org
-> > Sent: Monday, October 20, 2025 9:10
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: JPEWhacker@gmail.com; thomas.petazzoni@bootlin.com; Miquel Raynal
-> > <miquel.raynal@bootlin.com>; mathieu.dubois-briand@bootlin.com;
-> > antonin.godard@bootlin.com; Pascal Eberhard <pascal.eberhard@se.com>;
-> > Kamel Bouhara <kamel.bouhara@bootlin.com>
-> > Subject: [OE-core] [scarthgap v2 00/11] backport: SPDX 3.0 support to=
- Scarthgap
-> >
-> > Hello,
-> >
-> > This v2 series backports SPDX 3.0 support from the upstream Walnascar
-> > branch to Scarthgap (Yocto Project 5.0 LTS), including the correspond=
-ing
-> > test suite and fixes for integration issues found during testing.
-> >
-> > The motivation remains the same as in v1, to bring complete SPDX 3.0
-> > support to the latest LTS release, ensuring that long-term supported
-> > builds benefit SBOM generation capabilities. Scarthgap is under
-> > maintenance until 2028, and SPDX 3.0 is now an essential part of
-> > compliance workflows.
-> >
-> > Kamel
-> >
-> > Hongxu Jia (1):
-> >   oeqa/selftest: Add SPDX 3.0 include source case for work-share
-> >
-> > Joshua Watt (7):
-> >   classes-global/license: Move functions to library code
-> >   lib/license: Move package license skip to library
-> >   lib: oe: license: Add missing import
-> >   classes-recipe/image: Add image file manifest
-> >   selftest: spdx: Add SPDX 3.0 test cases
-> >   lib: oeqa: spdx: Add tests for extra options
-> >   spdx 3.0: Rework how SPDX aliases are linked
-> >
-> > Kamel Bouhara (Schneider Electric) (3):
-> >   backport: SPDX 3.0 fixes and tasks from upstream version Walnascar
-> >   spdx30_tasks: fix FetchData attribute in add_download_files
-> >   spdx30_tasks: adapt CVE handling to new cve-check API
-> >
-> >  meta/classes-global/base.bbclass              |   41 +-
-> >  meta/classes-global/license.bbclass           |  165 -
-> >  .../create-spdx-image-3.0.bbclass             |   85 +
-> >  .../create-spdx-sdk-3.0.bbclass               |   74 +
-> >  meta/classes-recipe/image.bbclass             |   58 +
-> >  meta/classes-recipe/license_image.bbclass     |   14 +-
-> >  meta/classes-recipe/nospdx.bbclass            |   13 +
-> >  meta/classes/create-spdx-3.0.bbclass          |  200 +
-> >  meta/classes/spdx-common.bbclass              |   99 +
-> >  meta/lib/oe/__init__.py                       |    2 +-
-> >  meta/lib/oe/license.py                        |  203 +
-> >  meta/lib/oe/sbom30.py                         | 1096 ++++
-> >  meta/lib/oe/spdx30.py                         | 5593 +++++++++++++++=
-++
-> >  meta/lib/oe/spdx30_tasks.py                   | 1343 ++++
-> >  meta/lib/oe/spdx_common.py                    |  244 +
-> >  meta/lib/oeqa/selftest/cases/spdx.py          |  248 +-
-> >  16 files changed, 9262 insertions(+), 216 deletions(-)
-> >  create mode 100644 meta/classes-recipe/create-spdx-image-3.0.bbclass
-> >  create mode 100644 meta/classes-recipe/create-spdx-sdk-3.0.bbclass
-> >  create mode 100644 meta/classes-recipe/nospdx.bbclass
-> >  create mode 100644 meta/classes/create-spdx-3.0.bbclass
-> >  create mode 100644 meta/classes/spdx-common.bbclass
-> >  create mode 100644 meta/lib/oe/sbom30.py
-> >  create mode 100644 meta/lib/oe/spdx30.py
-> >  create mode 100644 meta/lib/oe/spdx30_tasks.py
-> >  create mode 100644 meta/lib/oe/spdx_common.py
-> >
-> > --
-> > 2.43.0
->
-
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#225190): https://lists.openembedded.org/g/openembed=
-ded-core/message/225190
-> Mute This Topic: https://lists.openembedded.org/mt/115849813/5236779
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-kamel.bouhara@bootlin.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
+--=20
+Antonin Godard, Bootlin
+Embedded Linux and Kernel engineering
 https://bootlin.com
+
 
