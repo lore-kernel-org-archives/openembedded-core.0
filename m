@@ -2,334 +2,154 @@ Return-Path: <elmehdi.younes@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BCEBCCD1BE
-	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 14:57:33 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.23544.1761231450325899165
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E59CCD1BC
+	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 15:10:13 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.23953.1761232203377266716
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Oct 2025 07:57:30 -0700
+ Thu, 23 Oct 2025 08:10:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=IOUTvBEr;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: elmehdi.younes@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3f99ac9acc4so911594f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 07:57:30 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=HB9D4kCX;
+ spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: elmehdi.younes@smile.fr)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-46e6ba26c50so8005455e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 08:10:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1761231449; x=1761836249; darn=lists.openembedded.org;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q28v5yQNnM1ml/N1XAJADpdpjPkkoD2IQx4Z541PAgE=;
-        b=IOUTvBErRad+sXnNn03KpXL34XYikvPsg/aVqr/mWtKzni6lMJOwxW7u29n5f8fqrT
-         Z685Qo5TtK4vpE9gwMyX0hVNiAoUHZnhEGblx0O2EOK1wBXt3BSGeRIZq4dgY97sAeF2
-         WmY/V1c8nkBH5kr354u4TS6UwGRUnonQMEV1M=
+        d=smile.fr; s=google; t=1761232202; x=1761837002; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aP/VcoDyaMAp66iJ4dJDJOJat6j23Jk01Pba+Km9Bcg=;
+        b=HB9D4kCXAYgP22R3YedmEmYSSt3ZP37j6EVXAZzhH0ZjHwp+P+yxqIqqGFSTnNXERv
+         ECukAm1Me+PHXWkt5GXMO9nQPx3vYA8HnzQtjh3gUEvPqObFiudgDCE0vuNHhz2AxqGG
+         t6iEcFkxglLz0qVrZyegVNsDsbrQsarKiqCWY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761231449; x=1761836249;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Q28v5yQNnM1ml/N1XAJADpdpjPkkoD2IQx4Z541PAgE=;
-        b=m7++26Bx31iRmqEpvuhlboVvoocW/MyUKJR2Gn1n84VHJ7qKsARJafv04tCwMjLxxP
-         6Eq0nghwoClnFWeEZAHQv7Ak4uWapUVVZB5SsWf1nQ8gdITw4Xc/YvL2heUObVnKqXI5
-         4Dp7bKA6w2iS5mrXRFyeOAeBzETvs8ThiDc5o0BjFGOk5DSn5IwGdqJY7ANczI0Qu8jZ
-         sgPI/qXB/jge94nrePs8MkQcSanJDxbBvZkf0a7SNLal1jneh0O6Fl4HYmviA89cYVSy
-         kPXkT5V9ZBJUVBVq4b80k0ry59xpWmibfCp4K9CpxGT6odpDENySqzBag7E0c6IoELXV
-         H6ug==
-X-Forwarded-Encrypted: i=1; AJvYcCWORBP6Npu0RGSIkYfoS/+3ZAlE2zBbfRE36AOFo4hP4Xndqe7HE2hC/XSynlTMevlmOApE5cWPxzd+x+KlXRd9Zg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyUJ5dM4YXVKXQrLOA1ae5sRlph9rAN60Zkyu6iUsNnk11S6MoZ
-	zk9toXXdgPtHNDcfj0B+JTmMrz6aLtAKB2c/tJ5J8GlmP+/0qy5BhFMIlo3uqPjXUpOA3qMcN/c
-	0xuIQDcI=
-X-Gm-Gg: ASbGncvQmsYUx1gkdgsDpZT8+9XDOLc+CyePFpTHkfwqcn3f2TRNPDY6msV5A806UL/
-	EV+1SNqB52zr77ZC57TXCtaLIxSKngpCAScs/SKOZ37W8wN8FPEd5Uvk/UVGKNZ2GmA+5CXODOa
-	20TjGYMTgbw9Tmt8zGHnhyPDpDaDmmzHylSEfykXHzrcp/L9wECXEKFgfpQTfSNFdtjvpG/vf9v
-	ls8JlzR40rBY30I304XjaQWi0j8zET4wvIdvuAfaQURQ3L35x6D7WH2y3J/3AhVd0++8BtGdVIT
-	HTVzyFplAoQql0SGuWMGS9DBR3l/pMRybIZgxaZm0eUSVSvliMnZsV8nf9j4t27Uvz5Uqwn25K1
-	XEaHaYjthkeiC2HIOYb1xZMcYeD00GV2x3O8HBHXSmPHimWitV1wAfuDPTIpXsfGroEJvbDVAfQ
-	5nEj0nyFHLHAvk/VNKoUrNqboewlb4eNZxnTzHwO7UYXxwaeSEmBce0IBkuxmqQRgUzr9CFphk/
-	iv4
-X-Google-Smtp-Source: AGHT+IGKe9HSwfTcd5blXI+ahyaWdNmKpquwqOPXNzj08XqJOSazHEC1KYwh/UB/apb5kuJvTVUUQQ==
-X-Received: by 2002:a05:6000:2911:b0:426:ffaa:8e9c with SMTP id ffacd0b85a97d-42704d83d30mr18518011f8f.13.1761231448402;
-        Thu, 23 Oct 2025 07:57:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761232202; x=1761837002;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aP/VcoDyaMAp66iJ4dJDJOJat6j23Jk01Pba+Km9Bcg=;
+        b=iR9n4d5WB782OLyyYwqh/Vn9bTTwlPA4EHMQaBUuybqyk9fXWXq+hE+X3KlKwT1Ccn
+         HkplrFFP4189EQ10IvR+Hgm/aYTORhFIArD78DsAqbgPdxfL14i1Yf/gDnnIzn+tN5XK
+         HIg0UuvgOZLX9UVflL8oG6i/5rhU6QAWtwj/vWKciN1vjCFmwAxnA/zjxIK/3YL5kGIg
+         O6syPSQz/rXDzAHmEYpiZksJgY3dNqVfMx7uOuRun576wdwVjXLjBvf9DHW57R2tMww7
+         EyK93zE45JlgaStqpLY1MIfSXJ21o9hKsDiBY4UcSjJOLs1Cct2SSZfxzLmr7zGeHFwk
+         s3cQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXzW/O5OrSz8AjrWWvPjikl/oyp+v9ezwhNu6uwVXDnY+c0iefrn2TApGhlc5WmS0mpZLfksL3h7g9NqBJswXW/Cw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwLLHyoxI/ycu50CrienAYGps0t1M12XuSnhfjZy4elG3K/rdB4
+	CjruieGFcJ9c+sP5+OLJKadZoWvtLlRbRvq1XXkPYAeoKx0JLA81qfPeBmC5LjArH1g=
+X-Gm-Gg: ASbGncuypuHHTEotD5JOv2ig+KaTtnEeD9xCG5CpKq08n7VwiZPedJ2PolyUhPRFs+U
+	qYqlK0ILE1s2cf8wBdcaFsVv6b+mKcRfEPtSkF5ZTNRBd8zl4e+s/Jl0KsP7vzyB6YnYBiAdj6K
+	FsfKjxw4AUe3h98vklIwjBDnVmOQqhrDogbM2ojUf1KwvKT+LULJiINLz0CssZsageuAR9lZGZ9
+	w74ziocvlZ8tZS709qgXFHwgRFNM5JpQFx59ABkVpvJNRBRCnzoA2/kecP+hZxrQEEGTtAl5dAB
+	0ek0R7Exyug2Q2OuJdXnC/Uf/t92rVqnhvUdCae8+G1uFb+23/i2MjrBpw9aYmctRBDXdmWq+7M
+	Q11Z/1BRZ+YpWYH/YH7QZggZiM2WQKNZO/yPrxNa0RtornJzQs7fJ/5k4WCk1r2SjDHAx19TaXh
+	VGgOIPThxaVxV6nDcE/ctiKS8CjtrXoMeLxVInhcyJ4CeNWS1FfUCiFiHpzOZCM5369g==
+X-Google-Smtp-Source: AGHT+IFxCZHWxMLV6i9LfV3MuRN/BOAh1iYzIIFS4hCZaeVlUDh12kuOT2lrY0I/werALc/F+Xdd9A==
+X-Received: by 2002:a05:600c:34d0:b0:470:fe41:a93d with SMTP id 5b1f17b1804b1-47117874cffmr182673305e9.4.1761232201627;
+        Thu, 23 Oct 2025 08:10:01 -0700 (PDT)
 Received: from [10.5.90.33] (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429898ccd70sm5587735f8f.35.2025.10.23.07.57.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475c4342946sm101949695e9.10.2025.10.23.08.10.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Oct 2025 07:57:28 -0700 (PDT)
-Content-Type: multipart/alternative;
- boundary="------------6LQCYzY0tmMES5zi7yyshh8r"
-Message-ID: <97d63ff9-d1ee-4599-9f4e-0a3aa01beac9@smile.fr>
-Date: Thu, 23 Oct 2025 16:57:27 +0200
+        Thu, 23 Oct 2025 08:10:01 -0700 (PDT)
+Message-ID: <eeffe2cc-51b7-441f-a362-bdb7cea00a84@smile.fr>
+Date: Thu, 23 Oct 2025 17:10:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/7] Enable rust support for linux kernel
+Subject: Re: [RFC PATCH 6/7] linux-yocto: enable Rust support in kernel
+ configuration
 To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
 Cc: Sundeep.Kokkonda@windriver.com
 References: <20251023112547.4044904-1-Harish.Sadineni@windriver.com>
+ <20251023112547.4044904-7-Harish.Sadineni@windriver.com>
 Content-Language: en-US
 From: El Mehdi YOUNES <elmehdi.younes@smile.fr>
-In-Reply-To: <20251023112547.4044904-1-Harish.Sadineni@windriver.com>
+In-Reply-To: <20251023112547.4044904-7-Harish.Sadineni@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 14:57:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225267
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 15:10:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225268
 
-This is a multi-part message in MIME format.
---------------6LQCYzY0tmMES5zi7yyshh8r
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Hi Harish, Hi All,
-
-Sorry this message was first sent in private by mistake.
+Hi Harish,
 
 Le 23/10/2025 à 13:25, Harish.Sadineni@windriver.com a écrit :
-> From: Harish Sadineni<Harish.Sadineni@windriver.com>
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
 >
-> This patch series introduces Rust support into the linux-yocto kernel recipe
-> and related build infrastructure in the Yocto Project. The goal is to enable
-> building the Linux kernel with Rust components and provide support for
-> building kernel module which is written in rust inside sdk.
-
-Thanks for this patch series and your work on this topic! I've also been 
-working
-on enabling Rust in the Yocto kernel recently and have some ideas I'd 
-like to share.
-Overall, your approach seems to be heading in the same direction as mine.
-However, my main general comment is that these changes don't appear to
-be optional. In my view, all these additions (dependencies, build flags,
-source installation) should only take effect if the user explicitly wants
-to enable Rust support in the kernel.
-To achieve this, I've made all my modifications conditional using
-bb.utils.contains('DISTRO_FEATURES', 'rust-kernel', ...) checks in the
-relevant recipes and classes. This way, a user only needs to add
-DISTRO_FEATURES:append = " rust-kernel" to their configuration, and
-everything needed for Rust kernel support is automatically enabled. This
-avoids adding unnecessary dependencies or build steps for users who don't
-need Rust
+> Add initial support for building the Linux kernel with Rust enabled:
 >
-> Summary of changes:
+> - Introduce `rust.cfg` to set Rust-related kernel config options, including:
+>    - `CONFIG_RUST`, `CONFIG_HAVE_RUST`, and `CONFIG_RUST_IS_AVAILABLE`
+>    - Rust sample modules and developer checks (overflow/debug assertions)
+>    - Disable BTF and module versioning for compatibility
 >
-> - Patch 1: Extend 'bindgen-cli' to support 'nativesdk', allowing it to be available in the SDK environment.
-> - Patch 2: Add required dependencies ('clang-native', 'bindgen-cli-native') to the kernel to support Rust binding generation.
-> - Patch 3: Install the Rust standard library source ('library/') into `work-shared` and which will be later copied to
->             linux-yocto recipe-sysroot-native.
-> - Patch 4: Stage the Rust sources into `recipe-sysroot-native` for kernel build compatibility, making them visible during native builds.
-> - Patch 5: Update `kernel-yocto.bbclass` to invoke `make rustavailable` during 'do_kernel_configme', ensuring Rust readiness.
-> - Patch 6: Add kernel configuration support for Rust (via 'rust.cfg' and 'rust.scc'), enabling the Rust build options in kernel config.
-> - patch 7: Copy Rust kernel sources into kernel-devsrc build directory which will be required while runnig 'make prepare' in sdk.
+> - Add `rust.scc` to include `rust.cfg` via `kconf` in the kernel feature stack
 >
-> WIP - need inputs:
-> 1. In patch-3, rust sources are copied from ${RUSTSRC} to ${TMPDIR}/work-shared, which is redundant and improving it in
->   more optimized way by extracting rust directly into ${TMPDIR}/work-shared and then use it for both rust & linux-yocto recipes.
-
-Regarding WIP point 1 about copying the Rust sources: I agree the 
-current mechanism
-seems a bit confusing. I'll provide more detailed feedback on the 
-specific response after test,
-but my initial thought is that we should only need to copy the sources once.
-Perhaps we can ensure they are placed in the correct final location and 
-then point
-the kernel build system to it using the RUST_LIB_SRC variable passed via 
-EXTRA_OEMAKE.
->   
-> 2. In patch-6, We've suppressed a few build path QA issues with INSANE_SKIP.
-> We have tried fixing those using DEBUG_PREFIX_MAP & --remap-path-prefix but unable to resolve it.
-> Are there any flags for kernel or any other inputs?
-
-For the 'buildpaths' QA issue, I solved it without INSANE_SKIP by :
-- Inherit rust-common in kernel-yocto.bbclass.
-- Append --remap-path-prefix for ${S}, ${B}, and ${STAGING_DIR_NATIVE}
-   to RUST_DEBUG_REMAP.
-- Pass ${RUST_DEBUG_REMAP} via KRUSTFLAGS in EXTRA_OEMAKE.
-And of course, all these additions in the recipes/classes are conditional
-   on bb.utils.contains('DISTRO_FEATURES', 'rust-kernel', ...)
->   
-> 3. If rust.cfg & rust.scc changes are ok, we will send kernel configuration fragment to yocto-kernel-cache.
+> - Update `linux-yocto_${PV}.bb` to:
+>    - Append `rust.scc` to `SRC_URI` and `KERNEL_FEATURES`
+>    - Suppress `buildpaths` QA warning due to Rust path inclusion during builds
 >
-> With above considerations, We did a successful build of Enabling rust in linux kernel and
-> Tested a rust-out-of-tree kernel module in sdk for x86-64 & arm64 architectures.
-
-Thanks again for sharing this work! I'll provide more detailed comments 
-and ideas
-on the individual patches, and potentially more after testing, but this 
-is definitely a very good start.
-Best regards
-El Mehdi
->
-> Harish Sadineni (7):
->    bindgen-cli: extend BBCLASSEXTEND to include nativesdk
->    linux-yocto: add clang-native and bindgen-cli-native to DEPENDS
->    rust: install Rust standard library sources for make rustavailable
->      support
->    rust: stage rustlib sources for linux-yocto make rustavailable support
->    kernel-yocto: add rust support via make rustavailable in
->      do_kernel_configme
->    linux-yocto: enable Rust support in kernel configuration
->    kernel-devsrc: copying rust-kernel soucre  to $kerneldir/build
->
->   meta/classes-recipe/kernel-yocto.bbclass      |  4 ++++
->   .../bindgen-cli/bindgen-cli_0.72.1.bb         |  2 +-
->   meta/recipes-devtools/rust/rust_1.90.0.bb     | 13 +++++++++++-
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
 >   meta/recipes-kernel/linux/files/rust.cfg      | 20 +++++++++++++++++++
 >   meta/recipes-kernel/linux/files/rust.scc      |  1 +
->   meta/recipes-kernel/linux/kernel-devsrc.bb    |  1 +
->   meta/recipes-kernel/linux/linux-yocto.inc     |  7 +++++++
 >   meta/recipes-kernel/linux/linux-yocto_6.16.bb |  4 ++++
->   8 files changed, 50 insertions(+), 2 deletions(-)
+>   3 files changed, 25 insertions(+)
 >   create mode 100644 meta/recipes-kernel/linux/files/rust.cfg
 >   create mode 100644 meta/recipes-kernel/linux/files/rust.scc
---------------6LQCYzY0tmMES5zi7yyshh8r
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+>
+> diff --git a/meta/recipes-kernel/linux/files/rust.cfg b/meta/recipes-kernel/linux/files/rust.cfg
+> new file mode 100644
+> index 0000000000..293438e8e0
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/files/rust.cfg
+> @@ -0,0 +1,20 @@
+> +CONFIG_RUST=y
+> +CONFIG_SAMPLES_RUST=y
+> +CONFIG_SAMPLE_RUST_MINIMAL=y
+> +CONFIG_SAMPLE_RUST_PRINT=y
+> +CONFIG_SAMPLE_RUST_HOSTPROGS=y
+> +CONFIG_RUST_DEBUG_ASSERTIONS=y
+> +CONFIG_RUST_OVERFLOW_CHECKS=y
+> +CONFIG_RUST_BUILD_ASSERT_ALLOW=y
+> +# Disable module versioning
+> +CONFIG_MODVERSIONS=n
+> +
+> +# Disable BTF debug info
+> +CONFIG_DEBUG_INFO_BTF=n
+> +
+> +# Rust availability
+> +CONFIG_RUST_IS_AVAILABLE=y
+> +
+> +# Indicate Rust support present
+> +CONFIG_HAVE_RUST=y
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><font face="monospace">Hi Harish, Hi All</font>,</p>
-    <p><font face="monospace">Sorry this message was first sent in
-        private by mistake.</font></p>
-    <div class="moz-cite-prefix">Le 23/10/2025 à 13:25,
-      <a class="moz-txt-link-abbreviated" href="mailto:Harish.Sadineni@windriver.com">Harish.Sadineni@windriver.com</a> a écrit :<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20251023112547.4044904-1-Harish.Sadineni@windriver.com">
-      <pre wrap="" class="moz-quote-pre">From: Harish Sadineni <a class="moz-txt-link-rfc2396E" href="mailto:Harish.Sadineni@windriver.com">&lt;Harish.Sadineni@windriver.com&gt;</a>
+Since Patch 5 correctly adds the 'make rustavailable' check
 
-This patch series introduces Rust support into the linux-yocto kernel recipe
-and related build infrastructure in the Yocto Project. The goal is to enable
-building the Linux kernel with Rust components and provide support for
-building kernel module which is written in rust inside sdk. </pre>
-    </blockquote>
-    <br>
-    <div><font face="monospace">Thanks for this patch series and your
-        work on this topic! I've also been working</font></div>
-    <div><font face="monospace">on enabling Rust in the Yocto kernel
-        recently and have some ideas I'd like to share.</font></div>
-    <div>
-      <div><font face="monospace">Overall, your approach seems to be
-          heading in the same direction as mine.<br>
-          However, my main general comment is that these changes don't
-          appear to<br>
-          be optional. In my view, all these additions (dependencies,
-          build flags,<br>
-          source installation) should only take effect if the user
-          explicitly wants<br>
-          to enable Rust support in the kernel.</font></div>
-      <div><font face="monospace">To achieve this, I've made all my
-          modifications conditional using<br>
-          bb.utils.contains('DISTRO_</font><wbr><font face="monospace">FEATURES',
-          'rust-kernel', ...) checks in the<br>
-          relevant recipes and classes. This way, a user only needs to
-          add<br>
-          DISTRO_FEATURES:append = " rust-kernel" to their
-          configuration, and<br>
-          everything needed for Rust kernel support is automatically
-          enabled. This<br>
-          avoids adding unnecessary dependencies or build steps for
-          users who don't<br>
-          need Rust</font></div>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20251023112547.4044904-1-Harish.Sadineni@windriver.com">
-      <pre wrap="" class="moz-quote-pre">
+during 'do_kernel_configme', shouldn't we let the kernel's build system
 
-Summary of changes:
+determine these values automatically based on the actual toolchain 
+readiness?
 
-- Patch 1: Extend 'bindgen-cli' to support 'nativesdk', allowing it to be available in the SDK environment.
-- Patch 2: Add required dependencies ('clang-native', 'bindgen-cli-native') to the kernel to support Rust binding generation.
-- Patch 3: Install the Rust standard library source ('library/') into `work-shared` and which will be later copied to 
-           linux-yocto recipe-sysroot-native.
-- Patch 4: Stage the Rust sources into `recipe-sysroot-native` for kernel build compatibility, making them visible during native builds.
-- Patch 5: Update `kernel-yocto.bbclass` to invoke `make rustavailable` during 'do_kernel_configme', ensuring Rust readiness.
-- Patch 6: Add kernel configuration support for Rust (via 'rust.cfg' and 'rust.scc'), enabling the Rust build options in kernel config.
-- patch 7: Copy Rust kernel sources into kernel-devsrc build directory which will be required while runnig 'make prepare' in sdk.
-
-WIP - need inputs:
-1. In patch-3, rust sources are copied from ${RUSTSRC} to ${TMPDIR}/work-shared, which is redundant and improving it in
- more optimized way by extracting rust directly into ${TMPDIR}/work-shared and then use it for both rust &amp; linux-yocto recipes.</pre>
-    </blockquote>
-    <font face="monospace"><br>
-    </font>
-    <div><font face="monospace">Regarding WIP point 1 about copying the
-        Rust sources: I agree the current mechanism</font></div>
-    <div><font face="monospace">seems a bit confusing. I'll provide more
-        detailed feedback on the specific response after test,</font></div>
-    <div><font face="monospace">but my initial thought is that we should
-        only need to copy the sources once.</font></div>
-    <div><font face="monospace">Perhaps we can ensure they are placed in
-        the correct final location and then point</font></div>
-    <div><font face="monospace">the kernel build system to it using the
-        RUST_LIB_SRC variable passed via EXTRA_OEMAKE.</font></div>
-    <blockquote type="cite"
-      cite="mid:20251023112547.4044904-1-Harish.Sadineni@windriver.com">
-      <pre wrap="" class="moz-quote-pre">
- 
-2. In patch-6, We've suppressed a few build path QA issues with INSANE_SKIP.
-We have tried fixing those using DEBUG_PREFIX_MAP &amp; --remap-path-prefix but unable to resolve it.
-Are there any flags for kernel or any other inputs?</pre>
-    </blockquote>
-    <br>
-    <div><font face="monospace">For the 'buildpaths' QA issue, I solved
-        it without INSANE_SKIP by :<br>
-        - Inherit rust-common in kernel-yocto.bbclass.<br>
-        - Append --remap-path-prefix for ${S}, ${B}, and
-        ${STAGING_DIR_NATIVE}<br>
-          to RUST_DEBUG_REMAP.<br>
-        - Pass ${RUST_DEBUG_REMAP} via KRUSTFLAGS in EXTRA_OEMAKE.</font></div>
-    <div><font face="monospace">And of course, all these additions in
-        the recipes/classes are conditional<br>
-          on bb.utils.contains('DISTRO_</font><wbr><font
-        face="monospace">FEATURES', 'rust-kernel', ...)</font></div>
-    <blockquote type="cite"
-      cite="mid:20251023112547.4044904-1-Harish.Sadineni@windriver.com">
-      <pre wrap="" class="moz-quote-pre">
- 
-3. If rust.cfg &amp; rust.scc changes are ok, we will send kernel configuration fragment to yocto-kernel-cache.
-
-With above considerations, We did a successful build of Enabling rust in linux kernel and 
-Tested a rust-out-of-tree kernel module in sdk for x86-64 &amp; arm64 architectures.</pre>
-    </blockquote>
-    <br>
-    <div><font face="monospace">Thanks again for sharing this work! I'll
-        provide more detailed comments and ideas</font></div>
-    <div><font face="monospace">on the individual patches, and
-        potentially more after testing, but this is definitely a very
-        good start.</font></div>
-    <div><font face="monospace"> </font></div>
-    <div><font face="monospace">Best regards </font></div>
-    <div><font face="monospace">El Mehdi </font></div>
-    <blockquote type="cite"
-      cite="mid:20251023112547.4044904-1-Harish.Sadineni@windriver.com">
-      <pre wrap="" class="moz-quote-pre">
-
-Harish Sadineni (7):
-  bindgen-cli: extend BBCLASSEXTEND to include nativesdk
-  linux-yocto: add clang-native and bindgen-cli-native to DEPENDS
-  rust: install Rust standard library sources for make rustavailable
-    support
-  rust: stage rustlib sources for linux-yocto make rustavailable support
-  kernel-yocto: add rust support via make rustavailable in
-    do_kernel_configme
-  linux-yocto: enable Rust support in kernel configuration
-  kernel-devsrc: copying rust-kernel soucre  to $kerneldir/build
-
- meta/classes-recipe/kernel-yocto.bbclass      |  4 ++++
- .../bindgen-cli/bindgen-cli_0.72.1.bb         |  2 +-
- meta/recipes-devtools/rust/rust_1.90.0.bb     | 13 +++++++++++-
- meta/recipes-kernel/linux/files/rust.cfg      | 20 +++++++++++++++++++
- meta/recipes-kernel/linux/files/rust.scc      |  1 +
- meta/recipes-kernel/linux/kernel-devsrc.bb    |  1 +
- meta/recipes-kernel/linux/linux-yocto.inc     |  7 +++++++
- meta/recipes-kernel/linux/linux-yocto_6.16.bb |  4 ++++
- 8 files changed, 50 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-kernel/linux/files/rust.cfg
- create mode 100644 meta/recipes-kernel/linux/files/rust.scc
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------6LQCYzY0tmMES5zi7yyshh8r--
+> +
+> diff --git a/meta/recipes-kernel/linux/files/rust.scc b/meta/recipes-kernel/linux/files/rust.scc
+> new file mode 100644
+> index 0000000000..4686d9ce5e
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/files/rust.scc
+> @@ -0,0 +1 @@
+> +kconf hardware rust.cfg
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.16.bb b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+> index 2188c7fed2..fda964e78d 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+> @@ -77,3 +77,7 @@ KERNEL_FEATURES:append:powerpc64le = " arch/powerpc/powerpc-debug.scc"
+>   # Check again during next major version upgrade
+>   KERNEL_FEATURES:remove:riscv32 = "features/debug/debug-kernel.scc"
+>   INSANE_SKIP:kernel-vmlinux:qemuppc64 = "textrel"
+> +INSANE_SKIP:kernel-vmlinux = "buildpaths"
+> +INSANE_SKIP:kernel-dbg = "buildpaths"
+> +SRC_URI += "file://rust.scc"
+> +KERNEL_FEATURES += "rust.scc"
 
