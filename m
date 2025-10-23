@@ -1,231 +1,269 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78E4FCCD1BE
-	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 12:27:12 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.8])
- by mx.groups.io with SMTP id smtpd.web10.18879.1761222425721664529
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A381ACCD1BC
+	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 12:42:32 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.web11.19284.1761223346915634174
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Oct 2025 05:27:06 -0700
+ Thu, 23 Oct 2025 05:42:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=NibxJ601;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=NibxJ601;
- spf=pass (domain: arm.com, ip: 52.101.83.8, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=fVi+7XH/uuqir84Uz6fAmdaeuDh393ShPuZ+zvX1yV5e8xy37RLPr8Zr+lKlChNBq1/9FPNPMBYrR7GQh+DAXFfKCc1CmYJyA8frb2Y8RGugqjcsRh1mHYlSftfKtQS/iP9TjWjqE5RqtWlewu7fUHg1AEf8pKqZylf2P+i5pHqC+PmXTcUyq+Y9Eu7FrMpDyJXqyrES3Ic4fxRyWpnrTaO4JEpCaemGI1ZzdohU9+6RsBAyXdxceB7xhSJWb7Mwm5tkMLSCpeYPu0nC3CjVOW9dvwq7u0xxsQoHAQ0D4mJqM8Ci90MXmCCRBjP/syRddkRRxDBv667pD/xUdEIMhw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vt3WBxrkB3njZobp0LZo5yiJd7tnbUzZcLRhdvfCMP0=;
- b=DeBFalWvSJih/RSXh4tXf6vKcdwh9Y54drhHfvgFxnitgMcDN4Zi93y8sK2S5yU5p9DXcCuFXK8zkaA9lrx2aWBlIb7wsW4NPIoKOXZVpAAa/tC2TGliLQgCw1mBZ/lYgElwcSRtc9u75MWvOz9X9pgDHUs8NI8lgfVHakwOsmmWj+CEQgkGNHT/8I3OwV3SeY6p1xrlZAnSQc3WxOukqycpEFrh+lTsDTlqrSkNzpIv6ikf+y1NmbtrYTp06msmgPtL0NiwBC1sSi+dfvBmRf3+s40G806Kju7X7DLgZjXlO1vKwWgP0/2mK/fXRDuD5a9efZKBC8SCpoIAp6VHmw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=eng.windriver.com smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vt3WBxrkB3njZobp0LZo5yiJd7tnbUzZcLRhdvfCMP0=;
- b=NibxJ601SPZjDzQTVKvgi5kVn7ckSgzRkhfUl7OqfsOExN9cCB00dM7nKcWVhnhASbvraC7S6R0WdGUGP5yjzRh0WBkfSzC4cZF5JL6/mgaWJzIBIoXft/mPXqxa3UxnjW/z1aCSBGsIrADzCPXcF/Pa/3Z/t5XdfA9BZAzslMg=
-Received: from PR1P264CA0039.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:2cb::15)
- by AM9PR08MB6114.eurprd08.prod.outlook.com (2603:10a6:20b:287::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Thu, 23 Oct
- 2025 12:27:02 +0000
-Received: from AM4PEPF00025F98.EURPRD83.prod.outlook.com
- (2603:10a6:102:2cb:cafe::56) by PR1P264CA0039.outlook.office365.com
- (2603:10a6:102:2cb::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.13 via Frontend Transport; Thu,
- 23 Oct 2025 12:27:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM4PEPF00025F98.mail.protection.outlook.com (10.167.16.7) with Microsoft SMTP
- Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.0 via
- Frontend Transport; Thu, 23 Oct 2025 12:27:01 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Z4jpw3CYzo2OHISA5gYnvq50ZW5FHs+c4gcL54vl58m22vQPy5F2oc6cqRxLOLZG3vnxcKvYvBaJItsdBOVxVxLXzxJK3MGBwh4nkXSXhIHaBn9rltlTKoY0h889L5VJqBm1tnFTmGpquTxeyUNh3VbgcUHZxZdy0LOb8p6LBmK+nWBYQ2uAthNt8Ks2n7QQfCIjSJP8BRDcN2ZHjpGuy3vylw8MYb7ObFekMgtzK6/9MWBdGR5NqRfQ0lyXoE8P8+jL56yKQoBKYhyWLDlTrKys1YJZneSC0ousElS05FwApMDcPPTMdQ0LqvB6jGmr3Ywf8z+RA3lT6IgtCPtHnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vt3WBxrkB3njZobp0LZo5yiJd7tnbUzZcLRhdvfCMP0=;
- b=Vbr5vpJUWkmsl3fADrgC1jm8C/dpkK+6d3yzDVIsGfueDOXEj06rZa4uH5V3v94UuKu8b/yXnYQuAWSgzk2iwoVRl72ux18c88eqN0bprYZ1R0fwtR1IGmRWfVyrpelj8Zo3iuEkYLYI2HkmyQ4UTO4+eMuRwzKcBHwBxqxNoWNtHnq6vKvWDKXzGJO25ZqP4fbR1aRyDsWAPos/8tm7os1OWsSbDpp82qhCyXzZCNnN0xIqmn3fy4FJImeOrmLue7HRf9AOXwmzIeN0Aiut/GzRKJsPz/Wq+XFwaWWJ9D3b+sKhrqdzLDclNv9ychoDdw22bRZgWEDTesjTEdB/iA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vt3WBxrkB3njZobp0LZo5yiJd7tnbUzZcLRhdvfCMP0=;
- b=NibxJ601SPZjDzQTVKvgi5kVn7ckSgzRkhfUl7OqfsOExN9cCB00dM7nKcWVhnhASbvraC7S6R0WdGUGP5yjzRh0WBkfSzC4cZF5JL6/mgaWJzIBIoXft/mPXqxa3UxnjW/z1aCSBGsIrADzCPXcF/Pa/3Z/t5XdfA9BZAzslMg=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by GV2PR08MB11348.eurprd08.prod.outlook.com (2603:10a6:150:2a6::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Thu, 23 Oct
- 2025 12:26:29 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9253.011; Thu, 23 Oct 2025
- 12:26:29 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "hongxu.jia@eng.windriver.com" <hongxu.jia@eng.windriver.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] systemd: serial-getty@.service: allow device to
- fast fail if it does not exist
-Thread-Topic: [OE-core] [PATCH] systemd: serial-getty@.service: allow device
- to fast fail if it does not exist
-Thread-Index: AQHcQX365WcBbN4ai0GadIegvE3k57TPrXoA
-Date: Thu, 23 Oct 2025 12:26:29 +0000
-Message-ID: <41E90E41-92BD-4007-948A-41C7D0DBDE62@arm.com>
-References: <20251020045650.3251326-1-hongxu.jia@windriver.com>
-In-Reply-To: <20251020045650.3251326-1-hongxu.jia@windriver.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|GV2PR08MB11348:EE_|AM4PEPF00025F98:EE_|AM9PR08MB6114:EE_
-X-MS-Office365-Filtering-Correlation-Id: 623a4126-0be1-48d7-ef0f-08de122f77ad
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|366016|1800799024|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?utf-8?B?S2h2Si9hRmpJUks4QlkwdGFCV0liN1MyZVVPc3pEa01henpSYjNBK0t5TnZo?=
- =?utf-8?B?eTdxcmtTVkNuZjJRd3lMcmhzSHBEZlAwSHMwSVJtZFhLVlVrd3RINVk5d0Rw?=
- =?utf-8?B?OFNLbEhDZ1NQNFdacE15djJDcEdRZDh2MWZYMHl5Y2Q4TFRFNHlMejNNQlJU?=
- =?utf-8?B?RGJFSGFZaHBQWHFBT3FEc1FDNTdrcUFTWjBHUGgzc0tCWWFjYkRzMUdaNU50?=
- =?utf-8?B?YWpUMnRKNTFmY1RtV25Cc040Rk1EeGd4bDY4STZQVU5sN0N2cEdqUTVNcE1u?=
- =?utf-8?B?aXhCZXR1R3dxZ3ZLa1UwdCtGVzl5MHU1SXVrakFmc3NNWnVJejU2U1lNeUlz?=
- =?utf-8?B?Y29zTHpzNE41QU90SzhpcStmMGNiYVpDUVdjNitoekFnMDVIZGFqcHpHMm5B?=
- =?utf-8?B?bUJZN2RtN1I3aWFoZEExZWlnK3VIc3NWOVNnTTZmemJ6T1BtQkNscEJOU2o0?=
- =?utf-8?B?NHdLZmMrakdFQjhsMFdwMHhzY0Mrakl5RGs4THFvanNYUWxaSFFWYjUwOFhO?=
- =?utf-8?B?WDdFMFdnVk4rV2JKQ1ZTRkdXUm1vZnMvbTNWZWVNZmFYOHVJQkZHWmNZejQ2?=
- =?utf-8?B?N3NlbFJzTmVEdjlKVmxOczhnL2NyN1NOOW1SWHZsdFduSXFsbUF0ZitndkpP?=
- =?utf-8?B?TFloZnV5V3dtSjIxTmF2VVI1U0JkUXEzR1g4c2RHSGswcGZlaEMrdklTOUto?=
- =?utf-8?B?bGJFWjJ5bE0rYUFZK09OamsycW8weFZxdWFWMGRzcGZyaWNCN3NYTC9Qek9r?=
- =?utf-8?B?dW1TbkZ6ZUFGa0FRVWJTN3ZCU2RLOENJa25CUko4N1FybS9XTzUzd0pKUGhJ?=
- =?utf-8?B?cUlYYWFUWUNRYVU3SjJsK2JCeHdhbTFIUmZmUXltbGowdlhwcnBPOW9qMUFS?=
- =?utf-8?B?a2IxdUZPNzR2TU1XNC9yRzFYYit3YW9CMlZyNjhrcXFqM2poNUYydUFJdnBQ?=
- =?utf-8?B?anBQV2VYeXlkTEtTNHljVXkzemJOQUZCbVZnZ0hnK2tXTUQ2N1hIYmQybkJW?=
- =?utf-8?B?OEYxaDdsWkxUai9nRDJUWnZ6cE5Cb1JjemVaeVZWQi9aMUVlMzY4VVYrOWQw?=
- =?utf-8?B?VTFPeGd0ZmRnOXV6cVFHWlg5QjBveDg1QVdmcVMxbjYrMFpDcERVaTg5NXpF?=
- =?utf-8?B?bDcxcmtDVzhaMDc4V0VOL0E0M3lwL2ZndjQzTEVIM2htWklOU1lyR05TdDhW?=
- =?utf-8?B?NE1IdmhGTU95ZktoY2paQTBjM1pRNW0rTWNqNk1oanE5aUJSd1NaRVRuWlZI?=
- =?utf-8?B?QksyTkFvTEdzMXkwUytOQUdYWGw0TkQ0NFFRVEdQdEpsN0dmbHBNODdPU2sv?=
- =?utf-8?B?c2JVNFZjb28vaFc3cE1mUjBVVEJHd3IzQnU3VFJhMGVIa2VKUDRyTXUvOXVr?=
- =?utf-8?B?aCt3d1A5MVVOeTVDQUY0RnAwMGFjY2lrVktiK2dBNENlK0duME5UZkF2eWVP?=
- =?utf-8?B?TkdpSjN5b2NtYmdkTXU0R1kwdzJsSnVmL2pjOUpFT1ZnRjlLSS8xMVN2ajhO?=
- =?utf-8?B?eEFVRWJJT01ZQTNqY0UrV2pWcTJLR0c2M3U3WElYUlREWk9HeWZrTkZFRGlW?=
- =?utf-8?B?cmdQeldKWUhDanJJdmZNaVdXQ0FBTGNBdVJNVzVmL2kyRnhDTVI1Y2FpWlBX?=
- =?utf-8?B?ckpDVDBzcHNTazBqVFpWOGRJaGhTeUVPWm4wYUtRYTVoMHdMTnRLU2N1UEJP?=
- =?utf-8?B?bE9heUtuOXMrVGtYZ0ZHL0RrTzkzams5bWd4TXBBYVhPWkQxWjNoUUxsdWR3?=
- =?utf-8?B?cXByZmN6QXlnWVkzeGNKMTBBME5oS0JpOFhuWFJ5Q2tMSk04cjJhVzBUN01X?=
- =?utf-8?B?SGNJaU9LWkFCNmtwSEwyUUpEd2VxdlR2aHp4bjJqdjBNUVcyQVR1SGRhZkxs?=
- =?utf-8?B?MXBEdlFPNCttak0vR3ZER3EvUXc4VXdmK1p6KzRmS1lPVHZ0QVRoMlBPazF1?=
- =?utf-8?B?WlNNZVZ2bjVuZlNQUUE3anBEZklmUkxyYnVPT1pEUjg0UTdLdDZMbmxIK1hC?=
- =?utf-8?B?V3pCQ0wvb0dBNC9DN3JoaUtPRjNMUlJVU0VacEdxZXVBODF5alF5dVV6Z3oz?=
- =?utf-8?Q?Y1gFMb?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9C17E6675C6F8049B0B9477006F3C63C@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ICT3N/ik;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-791fd6bffbaso9191726d6.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 05:42:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761223346; x=1761828146; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q0aeWdD1ld8lYVQ7SU+4N7HJwd/lW+ULr053QgaWsSo=;
+        b=ICT3N/ikSm10BMZmr6X9WlZ8G/9Qq6uWnHxzz5frHgz5kCrg5LwDDZeWHODcDM3CEP
+         ztMfnSmsf8Qwt+vkrDjr5PBDN8lBDwzJigpK+m5vcE/uUhSpm7b0RtKlx8Da5O2j392n
+         OEPpLzWHIbDd/ezT2p/8hGJgD6z3QloKUTA9LYctUSZKzV5DTYw5lqfRKmYddksU4QUf
+         GIZEVvaWllGK2VZQzhflO/2OR548nSqyHSuf5me9ajqjDkL6sVldmRQg0zVCMTa9MG+T
+         hkUv8cWA7UGpDc34P67N659nXwsJvO3tJehbiUXYmufdOAUnU3VRdyvw8wpnua4QGWOb
+         l2Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761223346; x=1761828146;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q0aeWdD1ld8lYVQ7SU+4N7HJwd/lW+ULr053QgaWsSo=;
+        b=u+fK1EApoFGjv5ipaod0GouFR63CSpCWVNVSpNcl7mkO9UfLrHOfoNK8HsDGUuQBdr
+         blq/At/DooNu65f0b1IGONQ+G7GTY9FQMp3aHabw3UnVyA347jCo9Smb9p1hE+d5GCXY
+         DFRMg63OVorexjXUGmkKxnG0OzY8ww/eV15triy5Io6nrz7zib1D0gbld3DIzDI/YeCL
+         R8m2UVXWE09Ymm6ZLM3Kz1VFiXNbHPXGLYlHak2BbU3Za5WWYY8hXHyeaXvyzPez3Ua7
+         5jsCZGQdJ321IuBx1t/DBmZ/UttuwMYk0d/RVZwvk1T0SxYLgWbFBAP3u8a09UpJUgxb
+         ypsw==
+X-Forwarded-Encrypted: i=1; AJvYcCUdGP292X+HGzf9t67uW2dadESW8yisQMfyBcop+J40Hp3q260bI81jSG2BsKCvhVs3FWmePrf7TT/rAO3N67IjDQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyHdgm9qBaczfjoHyFScMd396NslruQFG6v35bWD3SWywY0d+PO
+	qq0DboGWo2/EtLkZ0gNhbpvRu9wJukgiZV1QEdGtL278f/zQuMzsR0W78eMaux2bQ5Tzaje11AU
+	ucADei6RO4JUymd+em4/wfEzCy2Q7WueJKA==
+X-Gm-Gg: ASbGnctwiZzCBmuR+MGmG2y/hOuVZB7yIPoP17nDpshivgtM3yDkgYXcqXmUe8at3Il
+	bW/pu4A0fPsepdwMNY1dIVFxNYWdTw53pdAsuMo62fQO11OasVxTozt5uklKbBMZOFm8I4BuhNb
+	qydj6VmuJqa2oh8FTA72GQyah+56A5wnFLgd+ZpCnSaXJ/IA8L1wWKsrpX3CJ61cmAmvRPEBAZU
+	urp689dDzjH5ZGoWWp+9fv/lI3dASpzUNEWjMqES0NY7d7mn/avFyWgB/5LbRKoN6g+/V7KpS3p
+	El78pHXDucsUYJTWGcPNDz06GrrTlsfiLcNxec9tvli5jZ+Xb5ND9j3eafjC3/2mL6JBnSDE5v2
+	cdNZ3Gf35lWOLQieqa+ZyvD1C
+X-Google-Smtp-Source: AGHT+IGN9iOUyjXVy//IBWyWQKBqLwtidoHBe/8ehNVGW+SQwJhH/TLMNW8XInUU03LNok/Bq08ncDOmXWrm/UC7ywQ=
+X-Received: by 2002:a05:6214:c8e:b0:87c:1a11:18f4 with SMTP id
+ 6a1803df08f44-87c2055e675mr352416456d6.14.1761223345861; Thu, 23 Oct 2025
+ 05:42:25 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB11348
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM4PEPF00025F98.EURPRD83.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	a195592d-3b49-466c-15cc-08de122f647d
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|14060799003|35042699022|82310400026|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?Tyt4elNSekNkdEs3VVRXdTd0Q0FTdlByclZVekRpVVpINGZ5cFVER3RNMU50?=
- =?utf-8?B?QTlaOVVDTkhleFRkQithS1dKMDJHVDgvYXhOZ1hMdGZZb21ucXBCSDNVaVhN?=
- =?utf-8?B?Y2p5Ull4VGZFVHpqaEhxYW9Hb2VrS2QzWGQzUDFyMzczM1kwenFDRmpTZWtR?=
- =?utf-8?B?bVBjcjBpRmdDRnZteTA3RkdOampSR245QUZRc0xmQnc5UXd1TVhyQXJjQith?=
- =?utf-8?B?N3RTY2kxcmZJTDNsSzdiOWF6VHFJS2tldXd4ejlKYUsxemFoQmoxUXdpQTZP?=
- =?utf-8?B?ZDYrVXlScUxmTlpKZ3hUNHhTSlhHZkpCWWN0dWJKMXh3S3dONGpudDNDbHox?=
- =?utf-8?B?akJkRXpEMGc0QWxJK3QzeWRreTBtUGlhZmtPSnN6eUhhYWs3bWxmZVA2LzNh?=
- =?utf-8?B?MTZITVBKZ25yZFZnWklGaEx3SWVHdDFxYkx1NzcrdE1aTTZDUWVIZllOcEZt?=
- =?utf-8?B?N2ZrWG15VW1YSjJ5N3NpOTd5RzVncVdjU2s3ZXdIcmdUY2xLanl6UFNCNW1X?=
- =?utf-8?B?YmI5UFVhYVB3ZzhBb0lGdVZTMHdjYXN5Q0xTK01LeHU3dkZZSnhzN0tQcDdP?=
- =?utf-8?B?K2RrQ3hZaldWUEg0alJGZGxrTnVrOUdvUDlINUp0UnFmbW5sdUo4S05qcldo?=
- =?utf-8?B?WVBZT3ljZml1bWRYNllUNHVLYUM1bTVFR0tnTHk4UmdrSXNQcmFDQjdCREFk?=
- =?utf-8?B?a1pWZXcwOXBOODA5Qjl2K2xPdDFIWEtkYkwwcjloaEN4RUxzVURBa0tvZUs4?=
- =?utf-8?B?ZlZSN2trQzJqK3p1N1ZzUWVPZzFqdkFkMGlkZkZXU1ZhUitvcjhoL2lIT090?=
- =?utf-8?B?T2syVlRaNGgzUmpIMVZLVzBNSjdrM1ZiVGo4VWhBNGtScjNRU2V5TEV3UTN0?=
- =?utf-8?B?aGpBMHgycWUxbFd4WEs3MmgrVDdRNFRwdm1EdTBJK3ppTGppSnJvbmpkWjZQ?=
- =?utf-8?B?dm0xS0gyYWhvcWZReXlncWEzSDFzZ3JpdWZlc3NlM3BTbVhsNXJEZForQzZB?=
- =?utf-8?B?L2FPUHNxc3RUTGtpTk0vdTQ0RUFmVWIvcWJzQlFwaFUwSjhPNGIybEdicjZQ?=
- =?utf-8?B?N0xNbFcyV3N2WncrK1M0MGlFSW0zWmRwRG5FM3c4ODdkNGJLRG9oV1phMDZl?=
- =?utf-8?B?SG5WZnJRc2JBZExybytCOXJzelM1NGI1M0dXUm84Qjlnb21wL2tKRTJndE80?=
- =?utf-8?B?MlVPQ0J5b0UrQWNnSnE0VEk4L1duYUtXODJpRHR2YTM5L0FuQ3dBS1JXdVh0?=
- =?utf-8?B?ZHBBR1huc1VSckxMeGxDdDA5RlRxSzhTMG4ydW1jS2pIQkk5ZERUbVVBdUNm?=
- =?utf-8?B?Y3lQbkV6RC9wWEczWXdoODhzTGVtaUhBL1Q3cGxCV1RVZXV0RTNTVUhMQ1JB?=
- =?utf-8?B?bEYxY01NOUE3bENxVERtNGR4NTZNd041VEZSMTFFVHlNdFM5YWVwNWJrL2Iz?=
- =?utf-8?B?OHRPR3pjWGZOb3FwVXcwMlFMZ2xHS0Z0S0tKVnFoTHcyU3lDck5lYzc4cUxo?=
- =?utf-8?B?QS9nMGlBNnd1NkZOZ1I2ZUNTd1VuZU02QTFaSnNPVzh6WDM2bm1hNzE4SjB0?=
- =?utf-8?B?MU1Ja2hadUxvczVwVm92T1Y3Zk5iOHU4SEFRMURGajlWMXhBMUwzYStsRFhp?=
- =?utf-8?B?K3pudG5hMGNZTkRYekRaZGFUQ2V5emU2b3Q1eWVCTURSbjM2SHJYMldHNEk3?=
- =?utf-8?B?N2JLQkNUeDd0dVYzeUswMUVWYkdYQS8vRmJhUGxoMGhXaWRoT0grOGdsOUoz?=
- =?utf-8?B?R0hZbVpNcGhYVWJLOVVZMEtCWFRPWW9NOEVtQzd6cWdrbERnOXlSRVlLM3Fx?=
- =?utf-8?B?N3ZITXpzSmRpb05tS3JwU1Q2TUM2Tmh0dE85TXVtcVNPVEJET2d5cy9DZGpy?=
- =?utf-8?B?QWtJVUhFZVRGVWp5cmZzUzF1K3pVRXZFb1dESG5BL3h4ZzRGRDUxM0NTWktn?=
- =?utf-8?B?SkZSbXBEdUtqOTE4NUllckZod2VEZ3kxcTMzeENJZG9FN3c2czhwd3dzRXdD?=
- =?utf-8?B?R2hHQlJDWk9IZFpRMXRxc1lFVVN4Mjl1YVdLV1VUSldtUGpNNkovMTE0OEpH?=
- =?utf-8?B?eG45S043Vm10bkRSdkZhUHZNamp4VlhuOUhNYnMyZ3IzeUdzOFZOdTlCRDd4?=
- =?utf-8?Q?GmLM=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(14060799003)(35042699022)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2025 12:27:01.3445
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 623a4126-0be1-48d7-ef0f-08de122f77ad
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM4PEPF00025F98.EURPRD83.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6114
+References: <20251023113444.882980-1-Deepesh.Varatharajan@windriver.com> <DB5PR02MB10213E4328893EEA9261CDC5BEFF0A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <DB5PR02MB10213E4328893EEA9261CDC5BEFF0A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 23 Oct 2025 14:41:55 +0200
+X-Gm-Features: AWmQ_bkavl1rUxvMBcopve26QQW9smM4Kt7G99zkrAjfeI82A-kqUD-acwmdfX8
+Message-ID: <CANNYZj-mn6jTeUV4Q+vRk_Nrpo0A2ob5qywceU5o=d0dGH-8Mg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] conf/bitbake.conf: Remove debug flags for
+ native and nativesdk builds
+To: peter.kjellerstedt@axis.com
+Cc: "deepesh.varatharajan@windriver.com" <deepesh.varatharajan@windriver.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"Sundeep.Kokkonda@windriver.com" <Sundeep.Kokkonda@windriver.com>
+Content-Type: multipart/alternative; boundary="000000000000e677e60641d2c30d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 12:27:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225253
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 12:42:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225254
 
-T24gMjAgT2N0IDIwMjUsIGF0IDA1OjU2LCBob25neHUgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcgPGhvbmd4dS5qaWE9ZW5nLndpbmRyaXZlci5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4g
-d3JvdGU6DQo+IA0KPiBEdWUgdG8gc2VyaWFsLWdldHR5QC5zZXJ2aWNlIGlzIGRlbGV0ZWQgYW5k
-IHVzZSBleGlzdGluZyB1bml0DQo+IGZpbGVzIGluIHN5c3RlbWQgWzFdLCBwb3J0IGEgcGF0Y2gg
-ZnJvbSBzeXN0ZW1kLXNlcmlhbGdldHR5IFsyXQ0KPiBhbmQgYXBwbHkgaXQgdG8gc3lzdGVtZCB0
-byBhbGxvdyBkZXZpY2UgdG8gZmFzdCBmYWlsIGlmIGl0IGRvZXMNCj4gbm90IGV4aXN0DQoNCldl
-IGRpc2N1c3NlZCB0aGlzIG9uIHRoZSBwYXRjaCByZXZpZXcgY2FsbCB0aGlzIG1vcm5pbmcgYW5k
-IGNvbmNsdWRlZCB0aGF0IHVwc3RyZWFtcyBwb3NpdGlvbiBpcyByZWFzb25hYmxlOiBzb21lIHNl
-cmlhbCBkZXZpY2VzIGRvIG5vdCBhcHBlYXIgaW5zdGFudGx5LCBzbyBhIHRpbWVvdXQgaXMgdXNl
-ZnVsLg0KDQpTZXJpYWwgY29uc29sZXMgcmVtYWluIHNvbWV3aGF0IGFubm95aW5nLCBidXQgdGhl
-IGFuc3dlciBoZXJlIGlzIHRvIHR5cGljYWxseSB1c2UgdGhlIGdldHR5IGdlbmVyYXRvciAod2hp
-Y2ggaXMgZGVmYXVsdCkgYW5kIHNldCBTRVJJQUxfQ09OU09MRVMgdG8gc29tZXRoaW5nIGFjY3Vy
-YXRlLg0KDQpXaGF0IHdhcyB0aGUgdXNlIGNhc2UgdGhhdCB0cmlnZ2VyZWQgdGhpcz8gVGhlcmUg
-X2lzXyBhIGtub3duIHByb2JsZW0gd2l0aCBnZW5lcmljYXJtNjQgd2hlcmUgU0VSSUFMX0NPTlNP
-TEVTIGlzIHNldCB0byBhIG51bWJlciBvZiBwb3RlbnRpYWwgY29uc29sZXMgZm9yIHN5c3Zpbml0
-IHdoaWNoIGludGVyYWN0cyBiYWRseSB3aXRoIHN5c3RlbWTigJlzIGdldHR5IGdlbmVyYXRvci4g
-IFdlIGNvdWxkIHNldCBTRVJJQUxfQ09OU09MRVMgaW4gZ2VuZXJpY2FybTY0LmNvbmYgYmFzZWQg
-b24gdGhlIHZhbHVlIG9mIFZJUlRVQUwtUlVOVElNRV9pbml0X21hbmFnZXIuICjigJzigJ0gaWYg
-c3lzdGVtZCBlbHNlIOKApikgSeKAmW0gdW5kZWNpZGVkIG9uIHdoZXRoZXIgdGhhdOKAmXMgYSBu
-ZWF0IHdvcmthcm91bmQsIG9yIGEgaG9ycmlibGUgaGFjayAob3IgYm90aCkuDQoNClJvc3M=
+--000000000000e677e60641d2c30d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Yes, absolutely. You=E2=80=99d be surprised how often something native cras=
+hes or
+exhibits unusual behaviour and then debugging it in gdb is absolutely
+essential.
+
+Alex
+
+On Thu 23. Oct 2025 at 14.00, Peter Kjellerstedt via lists.openembedded.org
+<peter.kjellerstedt=3Daxis.com@lists.openembedded.org> wrote:
+
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org> On Behalf Of Varatharajan,
+> Deepesh via lists.openembedded.org
+> > Sent: den 23 oktober 2025 13:35
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: Sundeep.Kokkonda@windriver.com; Deepesh.Varatharajan@windriver.com
+> > Subject: [OE-core] [PATCH] conf/bitbake.conf: Remove debug flags for
+> native and nativesdk builds
+> >
+> > From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+> >
+> > The native and nativesdk builds were previously using the '-Og -g' flag=
+s
+> > during debug builds. This resulted in increased disk usage and few link=
+er
+> > memory issues due to the large debug information generated.
+> >
+> > Since native and nativesdk components do not require debug symbols,
+> > update the build flags to use '-O2' instead of '-Og -g' for these build=
+s.
+> > This reduces build size and avoids memory-related issues during linking=
+.
+> >
+> > Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com=
+>
+> > ---
+> >  meta/conf/bitbake.conf | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index 5406e542db..d8f9f6c312 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -663,7 +663,7 @@ DEBUG_OPTIMIZATION =3D "-Og ${DEBUG_LEVELFLAG}"
+> >  SELECTED_OPTIMIZATION =3D "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD',
+> 'DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}"
+> >  SELECTED_OPTIMIZATION[vardeps] +=3D "FULL_OPTIMIZATION DEBUG_OPTIMIZAT=
+ION
+> DEBUG_BUILD"
+> >  # compiler flags for native/nativesdk
+> > -BUILD_OPTIMIZATION =3D "${@oe.utils.vartrue('DEBUG_BUILD', '-Og -g',
+> '-O2', d)}"
+> > +BUILD_OPTIMIZATION =3D '-O2'
+> >  BUILD_OPTIMIZATION[vardeps] +=3D "DEBUG_BUILD"
+> >
+> >  ##################################################################
+> > --
+> > 2.49.0
+>
+> I am sorry, but I must be missing something. If I enable DEBUG_BUILD for
+> a native recipe, I definitely expect it to be compiled with -Og so I can
+> debug it in gdb.
+>
+> If what you really want to do is enable debug for all target recipes,
+> then use DEBUG_BUILD:class-target =3D "1" in your local.conf instead.
+>
+> //Peter
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#225247):
+> https://lists.openembedded.org/g/openembedded-core/message/225247
+> Mute This Topic: https://lists.openembedded.org/mt/115908796/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000e677e60641d2c30d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Yes, absolutely. You=E2=80=99d be surprised how often som=
+ething native crashes or exhibits unusual behaviour and then debugging it i=
+n gdb is absolutely essential.</div><div dir=3D"auto"><br></div><div dir=3D=
+"auto">Alex</div><div><br><div class=3D"gmail_quote gmail_quote_container">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu 23. Oct 2025 at 14.00, Peter K=
+jellerstedt via <a href=3D"http://lists.openembedded.org">lists.openembedde=
+d.org</a> &lt;peter.kjellerstedt=3D<a href=3D"mailto:axis.com@lists.openemb=
+edded.org">axis.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-wid=
+th:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,2=
+04,204)">&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"m=
+ailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembed=
+ded-core@lists.openembedded.org</a>&gt; On Behalf Of Varatharajan, Deepesh =
+via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"=
+_blank">lists.openembedded.org</a><br>
+&gt; Sent: den 23 oktober 2025 13:35<br>
+&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Cc: <a href=3D"mailto:Sundeep.Kokkonda@windriver.com" target=3D"_blank=
+">Sundeep.Kokkonda@windriver.com</a>; <a href=3D"mailto:Deepesh.Varatharaja=
+n@windriver.com" target=3D"_blank">Deepesh.Varatharajan@windriver.com</a><b=
+r>
+&gt; Subject: [OE-core] [PATCH] conf/bitbake.conf: Remove debug flags for n=
+ative and nativesdk builds<br>
+&gt; <br>
+&gt; From: Deepesh Varatharajan &lt;<a href=3D"mailto:Deepesh.Varatharajan@=
+windriver.com" target=3D"_blank">Deepesh.Varatharajan@windriver.com</a>&gt;=
+<br>
+&gt; <br>
+&gt; The native and nativesdk builds were previously using the &#39;-Og -g&=
+#39; flags<br>
+&gt; during debug builds. This resulted in increased disk usage and few lin=
+ker<br>
+&gt; memory issues due to the large debug information generated.<br>
+&gt; <br>
+&gt; Since native and nativesdk components do not require debug symbols,<br=
+>
+&gt; update the build flags to use &#39;-O2&#39; instead of &#39;-Og -g&#39=
+; for these builds.<br>
+&gt; This reduces build size and avoids memory-related issues during linkin=
+g.<br>
+&gt; <br>
+&gt; Signed-off-by: Deepesh Varatharajan &lt;<a href=3D"mailto:Deepesh.Vara=
+tharajan@windriver.com" target=3D"_blank">Deepesh.Varatharajan@windriver.co=
+m</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/conf/bitbake.conf | 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
+&gt; index 5406e542db..d8f9f6c312 100644<br>
+&gt; --- a/meta/conf/bitbake.conf<br>
+&gt; +++ b/meta/conf/bitbake.conf<br>
+&gt; @@ -663,7 +663,7 @@ DEBUG_OPTIMIZATION =3D &quot;-Og ${DEBUG_LEVELFLAG=
+}&quot;<br>
+&gt;=C2=A0 SELECTED_OPTIMIZATION =3D &quot;${@d.getVar(oe.utils.vartrue(&#3=
+9;DEBUG_BUILD&#39;, &#39;DEBUG_OPTIMIZATION&#39;, &#39;FULL_OPTIMIZATION&#3=
+9;, d))}&quot;<br>
+&gt;=C2=A0 SELECTED_OPTIMIZATION[vardeps] +=3D &quot;FULL_OPTIMIZATION DEBU=
+G_OPTIMIZATION DEBUG_BUILD&quot;<br>
+&gt;=C2=A0 # compiler flags for native/nativesdk<br>
+&gt; -BUILD_OPTIMIZATION =3D &quot;${@oe.utils.vartrue(&#39;DEBUG_BUILD&#39=
+;, &#39;-Og -g&#39;, &#39;-O2&#39;, d)}&quot;<br>
+&gt; +BUILD_OPTIMIZATION =3D &#39;-O2&#39;<br>
+&gt;=C2=A0 BUILD_OPTIMIZATION[vardeps] +=3D &quot;DEBUG_BUILD&quot;<br>
+&gt; <br>
+&gt;=C2=A0 ################################################################=
+##<br>
+&gt; --<br>
+&gt; 2.49.0<br>
+<br>
+I am sorry, but I must be missing something. If I enable DEBUG_BUILD for <b=
+r>
+a native recipe, I definitely expect it to be compiled with -Og so I can <b=
+r>
+debug it in gdb.<br>
+<br>
+If what you really want to do is enable debug for all target recipes, <br>
+then use DEBUG_BUILD:class-target =3D &quot;1&quot; in your local.conf inst=
+ead.<br>
+<br>
+//Peter<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#225247): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/225247" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/225247</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/115908796/168=
+6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/115908796/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000e677e60641d2c30d--
 
