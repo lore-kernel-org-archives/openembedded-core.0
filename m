@@ -1,339 +1,228 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCE55CCD1BC
-	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 13:00:22 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web11.19858.1761224416230834728
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C771BCCD1BC
+	for <webhook@archiver.kernel.org>; Thu, 23 Oct 2025 13:05:32 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.22])
+ by mx.groups.io with SMTP id smtpd.web10.19893.1761224726274196618
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Oct 2025 06:00:16 -0700
+ Thu, 23 Oct 2025 06:05:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DgR5jTmJ;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-33bc2178d6aso626918a91.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 06:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761224416; x=1761829216; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0mJFGc+NZWnr3T3KtupQWdYQ1P2ax/1/2ixrDAQi/XU=;
-        b=DgR5jTmJVK6AwBzLVrg9hnJPlvie+KRWwtn3ruQhsAcYNmwLDnQn2XNw2E25ssfrjU
-         Klt04F3utuv/y7dML51uc3A0QL77Zq0XXuwXQa7hRsxOmfv3sFpmYTWOcsKpIVa+7Rej
-         syG2a9GHKfd0G/kjmd7RvEwQei7AIx1vNgCkc75tsHuAi8XBNrZwGpWFagVyzKr/8meU
-         ui6ych6z6nZ8esiPm6ZmpO5cir0csVNGE8BBlnLHXpFEgpv5XpCTVgk/hAfIN0vYPClk
-         tXmqQFCoL+seLFzpcXuxjDmrZ/wkKatlN3GLWe5H+racWAr2B3sLyc8YiFwDN74WPnRt
-         dgow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761224416; x=1761829216;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0mJFGc+NZWnr3T3KtupQWdYQ1P2ax/1/2ixrDAQi/XU=;
-        b=jJhROWh5XTePNHfULIXJdTrJ5Piz3FvWewN2BKx/Ks9sdlO3UedMRkAQYELuFK1GJq
-         uHRVsPbbqlEPrqftpcbnPUPpi6pBhQEBDCs69b7STUG7EMQPT4GczgALF3Y45kugVHrL
-         HQnLHPSJUXMOSzpJXSHNRqU3TKzwc+zSJG1cLMAu2DWClSAGytliywSgpKhBsdDthprv
-         C3vLpZsInbHpB9Nu/Z6zwKERgk/fs25GqVwN93uTP9RV39KMAMRBzBBfOAzG3LU61r7e
-         G8+VEWm9WwBrKH4WgYn+/bL75+mwzaEBiJUPFd+dSwyDA0D+Z/SyysaGJNZ3duhK/+T+
-         7/EQ==
-X-Gm-Message-State: AOJu0YwoYS98fD2eI3JDmNXk0xFuBKizAsktF7nIV0FF4l1X8dmM+rfD
-	EL9QaxwlzUf5e459BQ0bbhsVWZ6EEBAAI4GYFgE5JGk6C4eOYYAhop9tkHQHaJjkXgSJe93lkdH
-	hcJ/lnDmYaapjaFfxyqs9vHhyz9EDKMk=
-X-Gm-Gg: ASbGncuAOtWaxWKqNc0BUkCpod9bG3e9am9HNxvDcS2j+79TMgkAaOTKbxQzYNz6m6i
-	NELR2Zs/0Ri5fVcfl+Y/QjWf05IGHX/z4y9QLVeocwkV5rRjnlgUTbZK1FFa8wfdqHneyiSTPS5
-	YdFECj3es4wYOz2ugRPo9vUvUHCxJEaAek8jkewdb+LJAjKHfEWvCMqZW03wjjprmY6Df9VDpfT
-	kgAWUMRpDJ/Rqtw48Uqdd67L0MrL8UdogkVOvNHKjFbWiPdvxYdHE5EkkoMbQ0qe9wyqkvx
-X-Google-Smtp-Source: AGHT+IF7m4SvLLn8Jo9f49YKfkprlJKyeCDB+7U12Rcp4Av7N/Mbwzi8Jsp5FoOm9a96amNkKx94GmxFVkagoVpO3M4=
-X-Received: by 2002:a17:90b:2fd0:b0:332:8491:ec2 with SMTP id
- 98e67ed59e1d1-33bcf87b30cmr34295999a91.16.1761224413787; Thu, 23 Oct 2025
- 06:00:13 -0700 (PDT)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=GZmUiHOD;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=GZmUiHOD;
+ spf=pass (domain: arm.com, ip: 52.101.65.22, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=nmXVYUcREkNtiEJuHKcKCFILz8rsf0pz5Czic/jsy7/LFmyB+uXmSwfSBl2VAqWcL/Z3zzQnHZiOD4nwjvk/Qcm+KKtZxzeJkg3GaGh7DIsI4ceKV/k2/5VvjXhJsPl8X3ALS/OohFj3qaQgZz9Id0bEfCtmajxxSslHKeF5H8Fjr3I9ybQ+uUzHnMK4eIIsA9Jx5yHUoy7NUtg8ewQGu885UqTmsHd5D1d9fTNFXATxL5AeK0INVeguSo8VE/6mWLPfvz99I3ZlqeaiWNCdyckBOkH7YADYcIpf1vGif3WlTznonllztxHXa1wDrCSh0apTAABmzzHIpKCKBNi9wg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p2y+2A29lQNGGqRrou1DmW54QGJtoKpfKByEedLaGMo=;
+ b=O33ojZHHf2Arfg8N55LI9D5aZ0DECT9YbUEu/VhEJLUR+DRWFGzmSPiynIbw8F9wUJBzjYgZ7jOnoUBLKCEo/ydoApw2VFL5VMrCZcbEqZiT3rHJdUKZZD2SoXGqHFy76EHteT45THFBaWUNDhiQoz+BnxmKEqKOVyAuz7xsYuJ9+tlIPH1pjiASjIK2WZZ0o/K9Sb4u+C/dk8UKQje1rY3KZggQL9w1XUcVhQisUvmDuxjckyBaBLFv3xwXVwomOQP2Rnm8mq9Nf5gTpMXljgwjtl7WO8DTGMc1O6v50KKCIj8O0EeYYcik4r4DQ0SNMtJGtAuGXlW1wuQ2tsBO1Q==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p2y+2A29lQNGGqRrou1DmW54QGJtoKpfKByEedLaGMo=;
+ b=GZmUiHODB5Ughc27P/dxmq5a6f5Krl6EI05K08ZTXHZYIBPsyClltaJBjVSc5zHQXdJkDz1+vQZmP68i7oTkXcxdV9NrlwfN6FCPk39MG+1jLsrw4ZPTyDe9HLGrAvsw/9x4zcaK5Z/ewxHDgWIYnisQdhaxFk9H3H1ztgLeG5I=
+Received: from DUZPR01CA0098.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4bb::29) by DB3PR08MB10336.eurprd08.prod.outlook.com
+ (2603:10a6:10:43b::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Thu, 23 Oct
+ 2025 13:05:22 +0000
+Received: from DB5PEPF00014B93.eurprd02.prod.outlook.com
+ (2603:10a6:10:4bb:cafe::a) by DUZPR01CA0098.outlook.office365.com
+ (2603:10a6:10:4bb::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.13 via Frontend Transport; Thu,
+ 23 Oct 2025 13:05:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB5PEPF00014B93.mail.protection.outlook.com (10.167.8.231) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.7
+ via Frontend Transport; Thu, 23 Oct 2025 13:05:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AeyfntWjzg0QDIjrewEEqLV6pbx87F3E+bWq74E6vj19nqGCbAmRNx4TjLlMQ4RksDB1F/Vw/vYKoLUi/i/A1ocMLosBcweU43XxG1Y/Gw3L8ota5D9Q1m/qL6DXpY2CxXRPBLJ56QOJ4hgyal9Hd6JTe2D3+e3wJ9NU977dsgtkHU2dg7lKbefvu3vMVMeQ6eb7EMaIWE5s83NjAG8KCae/wNa/+9M/Bbkp+Nv+T1HCKsuH/hNdSeVMbWFwrMgx1y3KGIik1tLGUQ32gV7cTdcRh9Zx6BvBzjAXftPkcFEpd0AwUJ0oI/u3Sml9MBg18OmGUTuGxcNniqtLHtzWMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p2y+2A29lQNGGqRrou1DmW54QGJtoKpfKByEedLaGMo=;
+ b=ThCBNKVChG6rVNFUXeYLFZ9NeY43deCmSHIcDeE/zETfecC000JN0mc77fgDE15GNYSB6TF5t7UpHtE6zGRiFmx/an826I5uMYwI17KmE/BFTkMRIhwrun3UgcLhQAdIPIydnJuE3N64e/7bmJl7h2/D2+/UbgkeFw7y4nFifuT/wvPw1dM9x0s+Wv44ZCdAy3KP85tdLkZ261+Yi1jXdv39jBf3t+5jfv5uq2H5X9CiM5bkGpF+NQJ23gwGDaKs2LCav/o/jke0XduYzPPX8BYzVftq0Xtdvw/GsDQ/FmDWUeo+RvGoKmZEHtmPfkgSOifMGMTw+zGKpPZkuTmmvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p2y+2A29lQNGGqRrou1DmW54QGJtoKpfKByEedLaGMo=;
+ b=GZmUiHODB5Ughc27P/dxmq5a6f5Krl6EI05K08ZTXHZYIBPsyClltaJBjVSc5zHQXdJkDz1+vQZmP68i7oTkXcxdV9NrlwfN6FCPk39MG+1jLsrw4ZPTyDe9HLGrAvsw/9x4zcaK5Z/ewxHDgWIYnisQdhaxFk9H3H1ztgLeG5I=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by GVXPR08MB7800.eurprd08.prod.outlook.com (2603:10a6:150:2::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Thu, 23 Oct
+ 2025 13:04:48 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9253.011; Thu, 23 Oct 2025
+ 13:04:48 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "dani.barra25@gmail.com" <dani.barra25@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
+	<alex.kanavin@gmail.com>
+Subject: Re: [OE-core] [PATCH] Fstab xattrs: This update ensures that fstab
+ xattrs are correctly updated without adding a lock to the database.
+Thread-Topic: [OE-core] [PATCH] Fstab xattrs: This update ensures that fstab
+ xattrs are correctly updated without adding a lock to the database.
+Thread-Index: AQHcQUGuf4q9eKcde06MFbRngzG+6rTK8i6AgATGeYA=
+Date: Thu, 23 Oct 2025 13:04:48 +0000
+Message-ID: <0843A567-F194-4B13-B248-A1DAEA0A85E9@arm.com>
+References: <DDM7O4JOPS0Y.1YQP1AS47WNL7@bootlin.com>
+ <20251019153922.27208-1-dani.barra25@gmail.com>
+ <20251019153922.27208-2-dani.barra25@gmail.com>
+ <CANNYZj_MZwiUEYPJ2XpMeKpKPm0rDMNguDn+7RnW10H3Z=xuxQ@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj_MZwiUEYPJ2XpMeKpKPm0rDMNguDn+7RnW10H3Z=xuxQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.700.81)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|GVXPR08MB7800:EE_|DB5PEPF00014B93:EE_|DB3PR08MB10336:EE_
+X-MS-Office365-Filtering-Correlation-Id: 312ec83c-531a-472c-2b33-08de1234d332
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|38070700021;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?TklqbG1qSnE2UCtqRkxlYlpjVlBJMnlXci8rWk9OWkt4TlgvQWVYeGVhakQ0?=
+ =?utf-8?B?dFhqYnhhVGM2eTI5aG1NMEZHcmNURW04QiswNWh4MTdIMXVHbWtKbE9wMlFT?=
+ =?utf-8?B?aDFlMWJVa2wycCtUZXJoNWVOakdORGxweGMvVVhIakthKy8rb1JLdWVjSWs4?=
+ =?utf-8?B?WnJNRW8vVkpybmM0R3dQMFJmOXR4RzNYNG1LNS95RGpDOTNiRzlBdmNkdUNB?=
+ =?utf-8?B?OHVzY2tMRWdldnkwUkp3Y0NaaFVmWU9RQStRT0l5bmdxSUpYTmZ3V2FzbTdW?=
+ =?utf-8?B?d0dQZGRwRXducUNMWWVWR2RkWXRvVk5mS0VUS2hiMGhkKzdYb3dZWFpDalZz?=
+ =?utf-8?B?L0E0dWlBYlVqNnNQbHlvajZIRmc4Ykdvd3JXYkhuNCttWkt1R2ljTzVjNXFL?=
+ =?utf-8?B?OUVORTc4cE0vcWpxUTRqcTJCaDRrSnlKVW90MHQ5VHI2MklKT1d0aXVqRHcy?=
+ =?utf-8?B?Q0VCa0trWWlKSm5HTXNidW1Jb05ya0hvZVlsSjVmdWJaRW1zS3lVTFFlSHZR?=
+ =?utf-8?B?a3FXdnFzdTc5elhyREN3cVBTRXdob1RPYVdpQXcxTytrUytTQlB1U21sd2Zp?=
+ =?utf-8?B?QmNyV2RpLzdSMWhDYTRYcXVHeHA4OUJQazdQZ2xSdWZkYUZlTHBWRjVOK3dF?=
+ =?utf-8?B?RUJSNXducGh3T2Z2WTl0NmVCUkwxS1lITndiS21vUm5rU2VQNjNmNFFCalJS?=
+ =?utf-8?B?MDBFZkVZNjRCRXFOZmh3S2o1WVRvYzBadVM2dUFsWENqb2lSY05iOUJ4dWht?=
+ =?utf-8?B?RFlIeGhPaGhxVGxGekZPUlRIdEZZRnRpbmxRMTRLM2lmakxBR2JLZFljUmI1?=
+ =?utf-8?B?Ukh0VzhkMU0zbWhTZnNPZVhwMkRtbVc1SnBjVlVtNm82VXpVdWtxMU1rQURI?=
+ =?utf-8?B?OTBvQ294TXQzaDl3c0ZPZVBWYTBjTGFzNjF3MWxFMXRFQjBocUtYelNtYmFh?=
+ =?utf-8?B?Y2p6MHFLZ0hxQTF3SXc0U3ZUZUNhR3pBQ2JZWFVDUFpZQ1ZDU2dGUkxXRHg1?=
+ =?utf-8?B?WVA5NUdmdlJJV2xFdHhHZHdpSzdWRUdGTG1JWkdYSk8xRUt4ZjlQa1FWb2ov?=
+ =?utf-8?B?dUtjRHppb0N2d2xEOVJiQmErVGpFRWdxZ0t3RFlRaHhGM21sMnpEc1R4V1pC?=
+ =?utf-8?B?aEVISGV1dG5meGt4L1NMMkNUOUNYR0cySVY2WklsSllRdXp0aXdLck85QzM3?=
+ =?utf-8?B?REN4QlZSaXFpbEtZZ2RsZUdNMFc0Z3JTZzZGTUJuTGlSOFpDZGFkOWFaWWtw?=
+ =?utf-8?B?VEVsK1U0YXk2Si85UzNpa290bjJsRE1zTTNKSXVSYzdGWkVGelZPRXFiNGNT?=
+ =?utf-8?B?YmRhdzFXMmZta3ZhRDZCa016ZUd3NG0vajQxZlZOdjVGRlFiczdZaUZ3M2pi?=
+ =?utf-8?B?YnF3NDF1bnVjcDVZYU93Tmh5bTkxLzRyTnQzTkNuM0dMMVVwMVdBNU1vay9u?=
+ =?utf-8?B?dXEvUGhvQ3FscWdyVE95QjRpeVQrcjZBMi9TL1lIZi9NNGVVNXFtMFY0eDRt?=
+ =?utf-8?B?MjNwMUxnWmlWTnRnQVJ1R0lsaDIrdGtNcFp2dVBaajc2QzRkVEtFRlJ5cHJq?=
+ =?utf-8?B?cjc2SVhTbHZYekRmN1ZYNzI0T2NXRFE2NkhqajBocnRrWVdtSnNWRk9GZmJU?=
+ =?utf-8?B?SHFkWWtwSW1jN2k3WmhGMGZyUEtXRnY0OGJaUFdxSEFYWERGZEo4RmJXWWRz?=
+ =?utf-8?B?V0RFUjFIckVjcXZEb2pKdWFFUVZidEVySWJGUXdKVDdLQ3Y0dDhobHlCSllY?=
+ =?utf-8?B?cXp2b3JmSTNvY3lkYUxNOEV1NEM2MXdBVjdlMVJhMWFwaE43MzZ6ZlpkK0E1?=
+ =?utf-8?B?alRyOHMzZWdJSHo5ZklmNkpmZlJ6VzJadENKR3JIdVh0TGxlT2VZcDE4ak9u?=
+ =?utf-8?B?WDJNWkZEU1EwaUJvU2F0Y2N0Q1RsVERDRUZLM2RLZmdaaTg3RW1aQjJkNTdo?=
+ =?utf-8?B?bnN4MjNLbC9rVnB6T0lscm1WdG5kOFdrV1g1bENpcUh0bTdVQm5kVmRKMnFX?=
+ =?utf-8?B?WkxBWDNxS0c5Nk5qbEFldTFVbGhRYWxJVThsUTJicnJSZDBoVmFYR0VEM3dt?=
+ =?utf-8?Q?EQxEtD?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <38F73E9856F2814D9AB36EF50EC65E13@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20251023112547.4044904-1-Harish.Sadineni@windriver.com>
-In-Reply-To: <20251023112547.4044904-1-Harish.Sadineni@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 23 Oct 2025 09:00:02 -0400
-X-Gm-Features: AS18NWCWDF5j0HZ2bKsGa_QgCnYgApGqEX694LAfTThNsKwxrbLXyuYGqUKht1w
-Message-ID: <CADkTA4PMoKfNhFKz433ACKZwP_dgnC19wttJqw_nrTEE1GPrcw@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 0/7] Enable rust support for linux kernel
-To: Harish.Sadineni@windriver.com
-Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
-Content-Type: multipart/alternative; boundary="0000000000008db9210641d30346"
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB7800
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5PEPF00014B93.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	d8c0dc1e-2d81-459a-f3f8-08de1234bee5
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|14060799003|35042699022|82310400026|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?QjhRZytPSFI5WkZnNDE2VTI1QnkzbFN5bGhVZHh6NGp4UW8xNFd3Sk13OWdG?=
+ =?utf-8?B?SnJ4WFNMaVRLWi9ObWxMR3VyM2JuYzdJaW42dC96MnlHM25tUVR6Q0RCSndv?=
+ =?utf-8?B?Vnd0bGIwZEdZL3pqTEEzeXdPWUNuR2o2STFzR2ZxdVRpOXk2ejYvM3p1YjVM?=
+ =?utf-8?B?TlUyd2pieXZhbTZEaWhWeFRXWUdKaldWYmRxUlk2N0EzWFdtbjE4VUNXZVB3?=
+ =?utf-8?B?MXREdGtwUklneHYydnhHTnp5UHZJemd4WjFVRXpTSzByZTg0Q0l3MUlPYjFD?=
+ =?utf-8?B?SEI5Wk1zTHNEZXJQa1huVm5JWHc2RWQxTkhQN1BWVEZoVjl0ZWxMSjBNa3ow?=
+ =?utf-8?B?RkpkK3NZOE8rTHFtbVNkQi93RmFTWlNiT3pOaUY4TjY1c1dvamQ1VzRvbCtk?=
+ =?utf-8?B?ZVUyQzVPdGJNd0REK3FZMHgybUlZY1ZtaXVtUG1NM1g3Zjl5ajYzRS9udWdX?=
+ =?utf-8?B?Y1RXRHdsQnBGUVB5UmtOUGdlQ0kyTmRBeUd4blM0aWQ0OG01Y3c2NThhQ3dB?=
+ =?utf-8?B?U28xOENGRGN0TGlJQnZEUDhVbk1YYnAvM2hGNS8xYlQ0TFhLS0Rxbzd0Rmd2?=
+ =?utf-8?B?a2hCSHN4cWpCaCtIdE8wNlJkNDlVL09sdWp3STBuTFQ1dlMzbWZiaWY4ZmhC?=
+ =?utf-8?B?SUx4dTVlWElBa01kUXNMQnJCTGliQkk2dXUwMnV3R1Mza2hmaElXaW10TThv?=
+ =?utf-8?B?cm5QeGY1b3R3TVpwQ1Q3c1pjQkRaS1Q4OWpIR3dacjAxaEtZM2g5bE12R3dm?=
+ =?utf-8?B?cnp1azZZRnozQW9QcEdkZ3ZmcC9yWmF3UTYyckVxbEhSenZHcndsZCtENVNF?=
+ =?utf-8?B?akJ4VFhoc3pGY3BmaFFzVUZEallYTG5peFdnODFJSkU4QzBMS0JNRVpZRG13?=
+ =?utf-8?B?NGtMNU9mTWVlRG1pZVd2QjNlUmppRXI3RThnTkpmTndXaEVJOEJjMGpMQVl5?=
+ =?utf-8?B?aXc4K2Qrd3g5M1FtRmpJb043S3NCMXlVZC8zaVBWZGVOZDlTZFpkWm9HRVIx?=
+ =?utf-8?B?WmdIYVRlZ0RIQWNyV3RFTGVhWC9Rdk4wckF6UUtKbUN2dVQ0UTJ0YmlmOGw5?=
+ =?utf-8?B?K3BFcDFIZEhhMjlEQmV4OGtBTG54Q2RoRG1FQTI5RndMVGhndmx5a3drOW53?=
+ =?utf-8?B?MndVZDVZMTdTUm8wTHJRNGd5QnpxR1R4eTIyYjI3eGp3Uk5BSTBiOEt0MFRW?=
+ =?utf-8?B?MWRNeU5lVTlpRTZJR1ZvV3paYW9oNmpPVnQ4b05oS0VKTFhjYlg5YTcwVzhR?=
+ =?utf-8?B?VG1QcHNQbXArUTBmWXMybGtsWk1lMEdIaDVnM3p4Y1Y3dEEwWGFzZTI4Rjcr?=
+ =?utf-8?B?blpqeTJJN0gzNFcwaEMzQ3BjRm4zV0pUZWkvbXNrNUJnTGE1NXVNWlhIN3dW?=
+ =?utf-8?B?a2NmV0JxNm5qelZFZTY5UmpodlUyYVhFWkJxZWFPL0I5NzBROHA2dFFvK3Iv?=
+ =?utf-8?B?bms3enhVMW1Ec3lzYS9wZjJ0REJheVlkcThXejBGWk94SW1TeVJJWldENi9K?=
+ =?utf-8?B?ZlM2bm5aS0lmeUx3NDlCMllZaDJ5ZVVxeVVjM3UyRUxYNHM2SHNZL1FXUjBw?=
+ =?utf-8?B?UGhMMTVHaUJMUWtlM09rNUNLbXhUQnpCaGJvOG9pcDU5ZWVoMWpVMDdVQVFk?=
+ =?utf-8?B?cm11aWlyK3AxVjloemhqdGZiOVkwcmhvZVNWUmo1bVpPSlJUd0pMQndBd2lB?=
+ =?utf-8?B?THRqVlNobmlzNW5QZXcxL0tyWHh6NkRyMHY1NDhtSmtzbU9oc1NYb21aNTZR?=
+ =?utf-8?B?QXRFWjRpYzhoT1haOVpWNG1vMWE3WXg2ZjhaMmlWek80aldiUXA5c1pOZnRI?=
+ =?utf-8?B?aGJYMDFjWUE0UXVPc1hmOXVXSGpOV0lWVm51T2Mzem1DbE9BTm1oQjYxMHl1?=
+ =?utf-8?B?K3dDdVJ0UFFZcy9uSkxBbHhRamRBdUxMRHFJbEYwbUVCZitqb0piYXNpZzls?=
+ =?utf-8?B?eDVBZWRTbFBhNk9ucURuN0FCM014RmdQbjlBTmt4OUEybXZBakZETjg1WDNk?=
+ =?utf-8?B?K3lIMVpZZFE2Uk5iUGEvWVFHamNleitzN1ZFV3lSOVovUkRxVjJ5azFiL243?=
+ =?utf-8?B?andDYkU3Z1lUMW5pam9ZWC82WFFZcVFGRlRtN3liazcwajFoZ2NOVWVYWDh3?=
+ =?utf-8?Q?mg40=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(14060799003)(35042699022)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2025 13:05:22.3050
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 312ec83c-531a-472c-2b33-08de1234d332
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B93.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR08MB10336
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 13:00:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225256
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Oct 2025 13:05:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225257
 
---0000000000008db9210641d30346
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Oct 23, 2025 at 7:27=E2=80=AFAM Sadineni, Harish via lists.openembe=
-dded.org
-<Harish.Sadineni=3Dwindriver.com@lists.openembedded.org> wrote:
-
-> From: Harish Sadineni <Harish.Sadineni@windriver.com>
->
-> This patch series introduces Rust support into the linux-yocto kernel
-> recipe
-> and related build infrastructure in the Yocto Project. The goal is to
-> enable
-> building the Linux kernel with Rust components and provide support for
-> building kernel module which is written in rust inside sdk.
->
-> Summary of changes:
->
-> - Patch 1: Extend 'bindgen-cli' to support 'nativesdk', allowing it to be
-> available in the SDK environment.
-> - Patch 2: Add required dependencies ('clang-native',
-> 'bindgen-cli-native') to the kernel to support Rust binding generation.
-> - Patch 3: Install the Rust standard library source ('library/') into
-> `work-shared` and which will be later copied to
->            linux-yocto recipe-sysroot-native.
-> - Patch 4: Stage the Rust sources into `recipe-sysroot-native` for kernel
-> build compatibility, making them visible during native builds.
-> - Patch 5: Update `kernel-yocto.bbclass` to invoke `make rustavailable`
-> during 'do_kernel_configme', ensuring Rust readiness.
-> - Patch 6: Add kernel configuration support for Rust (via 'rust.cfg' and
-> 'rust.scc'), enabling the Rust build options in kernel config.
-> - patch 7: Copy Rust kernel sources into kernel-devsrc build directory
-> which will be required while runnig 'make prepare' in sdk.
->
->
-On my first pass through, things look to be in reasonable shape with
-respect to patch
-splitting, and clarity.
-
-But the number one item is: this cannot be default, it must be opt-in and
-controlled via
-a distro feature.
-
-When we get to the point that the kernel cannot be built and functional
-without rust,
-then of course we'll revisit. But we aren't to that point now.
-
-Before we inflict the overhead and dependencies of rust and related tools
-on the kernel,
-we have to have binary / prebuilt components available.
-
-Cheers,
-
-Bruce
-
-
-
-> WIP - need inputs:
-> 1. In patch-3, rust sources are copied from ${RUSTSRC} to
-> ${TMPDIR}/work-shared, which is redundant and improving it in
->  more optimized way by extracting rust directly into ${TMPDIR}/work-share=
-d
-> and then use it for both rust & linux-yocto recipes.
->
-> 2. In patch-6, We've suppressed a few build path QA issues with
-> INSANE_SKIP.
-> We have tried fixing those using DEBUG_PREFIX_MAP & --remap-path-prefix
-> but unable to resolve it.
-> Are there any flags for kernel or any other inputs?
->
-> 3. If rust.cfg & rust.scc changes are ok, we will send kernel
-> configuration fragment to yocto-kernel-cache.
->
-> With above considerations, We did a successful build of Enabling rust in
-> linux kernel and
-> Tested a rust-out-of-tree kernel module in sdk for x86-64 & arm64
-> architectures.
->
-> Harish Sadineni (7):
->   bindgen-cli: extend BBCLASSEXTEND to include nativesdk
->   linux-yocto: add clang-native and bindgen-cli-native to DEPENDS
->   rust: install Rust standard library sources for make rustavailable
->     support
->   rust: stage rustlib sources for linux-yocto make rustavailable support
->   kernel-yocto: add rust support via make rustavailable in
->     do_kernel_configme
->   linux-yocto: enable Rust support in kernel configuration
->   kernel-devsrc: copying rust-kernel soucre  to $kerneldir/build
->
->  meta/classes-recipe/kernel-yocto.bbclass      |  4 ++++
->  .../bindgen-cli/bindgen-cli_0.72.1.bb         |  2 +-
->  meta/recipes-devtools/rust/rust_1.90.0.bb     | 13 +++++++++++-
->  meta/recipes-kernel/linux/files/rust.cfg      | 20 +++++++++++++++++++
->  meta/recipes-kernel/linux/files/rust.scc      |  1 +
->  meta/recipes-kernel/linux/kernel-devsrc.bb    |  1 +
->  meta/recipes-kernel/linux/linux-yocto.inc     |  7 +++++++
->  meta/recipes-kernel/linux/linux-yocto_6.16.bb |  4 ++++
->  8 files changed, 50 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-kernel/linux/files/rust.cfg
->  create mode 100644 meta/recipes-kernel/linux/files/rust.scc
->
-> --
-> 2.49.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#225236):
-> https://lists.openembedded.org/g/openembedded-core/message/225236
-> Mute This Topic: https://lists.openembedded.org/mt/115908706/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---0000000000008db9210641d30346
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 23, 2025 at 7:27=
-=E2=80=AFAM Sadineni, Harish via <a href=3D"http://lists.openembedded.org">=
-lists.openembedded.org</a> &lt;Harish.Sadineni=3D<a href=3D"mailto:windrive=
-r.com@lists.openembedded.org">windriver.com@lists.openembedded.org</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Har=
-ish Sadineni &lt;<a href=3D"mailto:Harish.Sadineni@windriver.com" target=3D=
-"_blank">Harish.Sadineni@windriver.com</a>&gt;<br>
-<br>
-This patch series introduces Rust support into the linux-yocto kernel recip=
-e<br>
-and related build infrastructure in the Yocto Project. The goal is to enabl=
-e<br>
-building the Linux kernel with Rust components and provide support for<br>
-building kernel module which is written in rust inside sdk. <br>
-<br>
-Summary of changes:<br>
-<br>
-- Patch 1: Extend &#39;bindgen-cli&#39; to support &#39;nativesdk&#39;, all=
-owing it to be available in the SDK environment.<br>
-- Patch 2: Add required dependencies (&#39;clang-native&#39;, &#39;bindgen-=
-cli-native&#39;) to the kernel to support Rust binding generation.<br>
-- Patch 3: Install the Rust standard library source (&#39;library/&#39;) in=
-to `work-shared` and which will be later copied to <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux-yocto recipe-sysroot-native.=
-<br>
-- Patch 4: Stage the Rust sources into `recipe-sysroot-native` for kernel b=
-uild compatibility, making them visible during native builds.<br>
-- Patch 5: Update `kernel-yocto.bbclass` to invoke `make rustavailable` dur=
-ing &#39;do_kernel_configme&#39;, ensuring Rust readiness.<br>
-- Patch 6: Add kernel configuration support for Rust (via &#39;rust.cfg&#39=
-; and &#39;rust.scc&#39;), enabling the Rust build options in kernel config=
-.<br>
-- patch 7: Copy Rust kernel sources into kernel-devsrc build directory whic=
-h will be required while runnig &#39;make prepare&#39; in sdk.<br>
-<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
-font-size:small">On my first pass through, things look to be in reasonable =
-shape with respect to patch</div><div class=3D"gmail_default" style=3D"font=
--size:small">splitting, and clarity.</div><div class=3D"gmail_default" styl=
-e=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-=
-size:small">But the number one item is: this cannot be default, it must be =
-opt-in and controlled via</div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">a distro feature.</div><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll">When we get to the point that the kernel cannot be built and functional=
- without rust,</div><div class=3D"gmail_default" style=3D"font-size:small">=
-then of course we&#39;ll revisit. But we aren&#39;t to that point now.</div=
-><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div clas=
-s=3D"gmail_default" style=3D"font-size:small">Before we inflict the overhea=
-d and dependencies of rust and related tools on the kernel,</div><div class=
-=3D"gmail_default" style=3D"font-size:small">we have to have binary / prebu=
-ilt components available.</div><div class=3D"gmail_default" style=3D"font-s=
-ize:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small"=
->Cheers,</div><div class=3D"gmail_default" style=3D"font-size:small"><br></=
-div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br><=
-/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-WIP - need inputs:<br>
-1. In patch-3, rust sources are copied from ${RUSTSRC} to ${TMPDIR}/work-sh=
-ared, which is redundant and improving it in<br>
-=C2=A0more optimized way by extracting rust directly into ${TMPDIR}/work-sh=
-ared and then use it for both rust &amp; linux-yocto recipes.<br>
-<br>
-2. In patch-6, We&#39;ve suppressed a few build path QA issues with INSANE_=
-SKIP.<br>
-We have tried fixing those using DEBUG_PREFIX_MAP &amp; --remap-path-prefix=
- but unable to resolve it.<br>
-Are there any flags for kernel or any other inputs?<br>
-<br>
-3. If rust.cfg &amp; rust.scc changes are ok, we will send kernel configura=
-tion fragment to yocto-kernel-cache.<br>
-<br>
-With above considerations, We did a successful build of Enabling rust in li=
-nux kernel and <br>
-Tested a rust-out-of-tree kernel module in sdk for x86-64 &amp; arm64 archi=
-tectures.<br>
-<br>
-Harish Sadineni (7):<br>
-=C2=A0 bindgen-cli: extend BBCLASSEXTEND to include nativesdk<br>
-=C2=A0 linux-yocto: add clang-native and bindgen-cli-native to DEPENDS<br>
-=C2=A0 rust: install Rust standard library sources for make rustavailable<b=
-r>
-=C2=A0 =C2=A0 support<br>
-=C2=A0 rust: stage rustlib sources for linux-yocto make rustavailable suppo=
-rt<br>
-=C2=A0 kernel-yocto: add rust support via make rustavailable in<br>
-=C2=A0 =C2=A0 do_kernel_configme<br>
-=C2=A0 linux-yocto: enable Rust support in kernel configuration<br>
-=C2=A0 kernel-devsrc: copying rust-kernel soucre=C2=A0 to $kerneldir/build<=
-br>
-<br>
-=C2=A0meta/classes-recipe/kernel-yocto.bbclass=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-4 ++++<br>
-=C2=A0.../bindgen-cli/<a href=3D"http://bindgen-cli_0.72.1.bb" rel=3D"noref=
-errer" target=3D"_blank">bindgen-cli_0.72.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 2 +-<br>
-=C2=A0meta/recipes-devtools/rust/<a href=3D"http://rust_1.90.0.bb" rel=3D"n=
-oreferrer" target=3D"_blank">rust_1.90.0.bb</a>=C2=A0 =C2=A0 =C2=A0| 13 +++=
-++++++++-<br>
-=C2=A0meta/recipes-kernel/linux/files/rust.cfg=C2=A0 =C2=A0 =C2=A0 | 20 +++=
-++++++++++++++++<br>
-=C2=A0meta/recipes-kernel/linux/files/rust.scc=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-1 +<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
-noreferrer" target=3D"_blank">kernel-devsrc.bb</a>=C2=A0 =C2=A0 |=C2=A0 1 +=
-<br>
-=C2=A0meta/recipes-kernel/linux/linux-yocto.inc=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
-7 +++++++<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.16.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.16.bb</a> |=C2=A0 4 ++++<br=
->
-=C2=A08 files changed, 50 insertions(+), 2 deletions(-)<br>
-=C2=A0create mode 100644 meta/recipes-kernel/linux/files/rust.cfg<br>
-=C2=A0create mode 100644 meta/recipes-kernel/linux/files/rust.scc<br>
-<br>
--- <br>
-2.49.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#225236): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/225236" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/225236</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/115908706/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/115908706/1050810</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---0000000000008db9210641d30346--
+T24gMjAgT2N0IDIwMjUsIGF0IDEzOjA5LCBBbGV4YW5kZXIgS2FuYXZpbiB2aWEgbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZyA8YWxleC5rYW5hdmluPWdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnPiB3cm90ZToNCj4gDQo+IElzIGl0IHBvc3NpYmxlIHRvIGRlc2NyaWJlIGhvdyB0byByZXBy
+b2R1Y2UgYW5kIG9ic2VydmUgdGhlIGlzc3VlIHRoYXQNCj4gdGhpcyBwYXRjaCBhaW1zIHRvIGZp
+eD8gVGhpcyBzbmlwcGV0IG1ha2VzIG1lICp2ZXJ5KiBuZXJ2b3VzIGFzIHBzZXVkbw0KPiBpcyB1
+c2VkIGJ5IG11bGl0cGxlIGJpdGJha2UgdGFza3MgaW4gcGFyYWxsZWwsIGFuZCBkb2luZyBzaHV0
+ZG93bnMgYW5kDQo+IHJlcGFpcnMgaW4gdGhlIG1pZGRsZSBvZiBpdCBjYW4gYmxvdyB1cCBzcGVj
+dGFjdWxhcmx5Lg0KDQpBZ3JlZWQuICBJZiB5b3XigJlyZSBidWlsZGluZyBhIHNpbmdsZSBpbWFn
+ZSB0aGVuIHllcywgdGhlIHdpYyB0YXNrcyB3aWxsIHR5cGljYWxseSBoYXBwZW4gYXQgdGhlIGVu
+ZCB3aXRoIG5vdGhpbmcgZWxzZSBpbiBwYXJhbGxlbC4gQnV0IHRoaXMgaXMgbm90IGEgZ3VhcmFu
+dGVlIGFuZCBraWxsaW5nIHBzZXVkbyB3aGlsc3Qgb3RoZXIgcmVjaXBlcyBtaWdodCBiZSBtaWQt
+YnVpbGQgaXMgbm90IGFjY2VwdGFibGUuDQoNClJvc3M=
 
