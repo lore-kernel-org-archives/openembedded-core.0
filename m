@@ -1,94 +1,117 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <Jiaying.Song.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DFBBCCD1A5
-	for <webhook@archiver.kernel.org>; Fri, 24 Oct 2025 07:13:18 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.web11.3885.1761289996290329637
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A941CCD1A5
+	for <webhook@archiver.kernel.org>; Fri, 24 Oct 2025 07:27:58 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.3957.1761290874272966661
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Oct 2025 00:13:17 -0700
+ Fri, 24 Oct 2025 00:27:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=xyF494xG;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 9B8E91A1637
-	for <openembedded-core@lists.openembedded.org>; Fri, 24 Oct 2025 07:13:14 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 661CF60703;
-	Fri, 24 Oct 2025 07:13:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F2460102F244A;
-	Fri, 24 Oct 2025 09:13:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761289993; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=j+C4SHkMuu/vaf4Ro1dnqoyiJGqqWXxH9TN5cYfNYxs=;
-	b=xyF494xG6Kyj+hd5Jc784N4i87YvyQFhlg3hwZr0hWYBfEL//KJ9J3JX90jSL+e8hnhYB3
-	Y7t2uYsFLv+axAMULyXHegJMUrUchhkdIeh4d7W7/TyUY8jvWjtzow49xyd+O/+so9N0u3
-	1jxpAURmHIxdauRR3F5fCezAo43OlOCVFWb+WHeDqq7WPCJ3edqL12fiDHHOcYiCQjuPvg
-	rbfw5QsjSMrwM9+Fc/doy16DMpqOgV5DLlE+9apd1xl8MKcOLVD4LJNoJCEiVAMzQnJKsj
-	+yM81Yi/XhZQQ2SmUIMy2/f/PL8UstpzwiKofwtr0cImyNX3Po3YtM56ziSj1Q==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 24 Oct 2025 09:13:10 +0200
-Message-Id: <DDQD6ZQW6X13.2QOQXBOQK8M2S@bootlin.com>
-Subject: Re: [OE-core] [PATCH 2/3] selftest/bblayers: Refactor JSON schema
- validation
-Cc: "Patches and discussions about the oe-core layer"
- <openembedded-core@lists.openembedded.org>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <yoann.congal@smile.fr>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20251023072513.280477-1-yoann.congal@smile.fr>
- <20251023072513.280477-2-yoann.congal@smile.fr>
- <DDQCC5ASH6VD.3LTKDQYDDCFKP@bootlin.com>
- <CAMSfU+4RASuj7X43ped+ZtiLVM_gKsehh9t2WSksNDuDbBp1SA@mail.gmail.com>
-In-Reply-To: <CAMSfU+4RASuj7X43ped+ZtiLVM_gKsehh9t2WSksNDuDbBp1SA@mail.gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=CUmfqD1U;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2392952f88=jiaying.song.cn@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59O6RiDE2935316
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Oct 2025 07:27:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=RF4zWCXnX/emxr1sjIl6
+	DlInzI/njjCFiucVWPGycLg=; b=CUmfqD1USThJvJ96+3abiTUabO+wtm5BqS6F
+	XMtvcKocq36xCt9RMJHcdoO9wJciq7XqkOfD/AuMHZzK8u3URsFVI4pmalH/HN+V
+	DntpTx4/bUlwo4x/YqPp2c2jA0ovn/L+HqkCWSJnJmdqpbTOzQqc4Wmmce110FWN
+	h8KePOxjfoJL973927snnfZ9isQaBK0yT9UyGTobeT7yZcVj3hwqw1K4O5U4wASw
+	kKlKsnHjqgB0Lo45yvRISCxhZyzVR1rO7att1MsXWx2Mguy/MUH7iG6kNM9DKhlO
+	2Tq7XXykHkIiWLBGMSAISUx7seqQ3rvMuvCU0ChHbB8EXlk7Mg==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49y8athmbw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Oct 2025 07:27:53 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.59; Fri, 24 Oct 2025 00:27:51 -0700
+Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.59 via Frontend Transport; Fri, 24 Oct 2025 00:27:51 -0700
+From: <jiaying.song.cn@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] icu: use automake ptest output format
+Date: Fri, 24 Oct 2025 15:27:50 +0800
+Message-ID: <20251024072750.2756709-1-jiaying.song.cn@windriver.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=N9ck1m9B c=1 sm=1 tr=0 ts=68fb2a79 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
+ a=VZQq0FBjEc4MNpIfLM4A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI0MDA2NCBTYWx0ZWRfXzREqs1ZCaaLn
+ k3uv6UcWXw1PcR2Z62UhijPW/rMrVbRZ1oDIrARU8DtgdAgw1H8yWwnYsipPE5bGzkM9HzM6gpG
+ vrDxTn7kigP915jso/JejfgzqT7JYvT4J+eTMKJEF90H/wAFMzQAcc8yX+4cyBHGPgngfhGofaP
+ 9k6xfYxYUM3ntSwUyVaaln1H/q4ADwKipNadKkS4tVmdBAX87I20jtQ8EgKb0oKsoWC7ijl82i6
+ IYyPhbCEQtitgF1FD+gs9dh21hP/wKQZLafLIqlLFrGQZXXiK4+aT237Ozfv5dsjASjDUAEzKyk
+ uNOATawc80TT5lWkbmTSQjngISSpCIb2UeB/y6jhkSyapZRqmz3i+J0PRlewaOrh+VrCUZLFUKa
+ JlmN5XDB/FEAo+hmwisl0S4bD+PV8Q==
+X-Proofpoint-ORIG-GUID: QBPce-mSZ6JPH4eoce4mZ868c1NBRixQ
+X-Proofpoint-GUID: QBPce-mSZ6JPH4eoce4mZ868c1NBRixQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-23_03,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0 adultscore=0
+ phishscore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510240064
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Oct 2025 07:13:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225285
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Oct 2025 07:27:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225286
 
-On Fri Oct 24, 2025 at 8:47 AM CEST, Yoann Congal via lists.openembedded.or=
-g wrote:
-> Le ven. 24 oct. 2025 =C3=A0 08:32, Mathieu Dubois-Briand <
-> mathieu.dubois-briand@bootlin.com> a =C3=A9crit :
->
-> Yes I did in v1.
->
->
->> 2025-10-23 14:30:16,772 - oe-selftest - INFO -
->> testtools.testresult.real._StringException: Traceback (most recent call
->> last):
->>   File
->> "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/layers/openembedde=
-d-core/meta/lib/oeqa/selftest/cases/bblayers.py",
->> line 175, in test_bitbakelayers_setup
->>     self.validate_layersjson(jsonfile)
->>     ^^^^^^^^^^^^^^^^^^^^^^^^
->> AttributeError: 'BitbakeLayers' object has no attribute
->> 'validate_layersjson'
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/2499
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2589
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/2737
->>
->> I had a quick look at the v2 and I believe we have the same issue.
->>
->
-> I think I fixed that in v2 by keeping validate_layersjson() but changing =
-it
-> to use the refactored function. Can you test this?
->
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-Sure, I will test it in my next run!
+Make ICU ptest output compatible with the Automake format, and log the
+ICU test output to a date-stamped file with a test summary appended.
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+---
+ meta/recipes-support/icu/icu/run-ptest | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-support/icu/icu/run-ptest b/meta/recipes-support/icu/icu/run-ptest
+index e5bf27a822..0c845f2be7 100755
+--- a/meta/recipes-support/icu/icu/run-ptest
++++ b/meta/recipes-support/icu/icu/run-ptest
+@@ -2,12 +2,20 @@
+ 
+ TOPDIR=$(dirname "$(realpath $0)")
+ cd ${TOPDIR}/test/tests
++LOG="${TOPDIR}/ptest_$(date +%Y%m%d-%H%M%S).log"
+ TESTS=$(find . -executable -type f)
+ for t in ${TESTS}; do
+-	./$t
+-	if [ "$?" = "0" ]; then
+-		echo "PASS: $t"
+-	else
+-		echo "FAIL: $t"
+-	fi
++    ./"$t" 2>&1 | sed -e '/---\[OK\]/ s/^/PASS: /' \
++                      -e '/} OK:/ s/^/PASS: /' \
++                      -e '/---\[[0-9]* ERRORS in / s/^/FAIL: /' \
++                      -e '/} ERRORS/ s/^/FAIL: /' | tee -a "${LOG}"
+ done
++
++passed=$(grep '^PASS:' "${LOG}" | wc -l)
++failed=$(grep '^FAIL:' "${LOG}" | wc -l)
++total=$((passed + failed))
++
++echo "=== Test Summary ===" | tee -a "${LOG}"
++echo "TOTAL: ${total}" | tee -a "${LOG}"
++echo "PASSED: ${passed}" | tee -a "${LOG}"
++echo "FAILED: ${failed}" | tee -a "${LOG}"
+-- 
+2.34.1
 
 
