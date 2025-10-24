@@ -2,94 +2,96 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EA7CCCD1AB
-	for <webhook@archiver.kernel.org>; Fri, 24 Oct 2025 11:23:00 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web10.7783.1761304978381521534
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C656CCD1A5
+	for <webhook@archiver.kernel.org>; Fri, 24 Oct 2025 11:30:40 +0000 (UTC)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web10.8055.1761305437055495314
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Oct 2025 04:22:58 -0700
+ Fri, 24 Oct 2025 04:30:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gE1Tai6Y;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4e89ac45e61so18939671cf.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Oct 2025 04:22:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dbKMNsgw;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-88fa5974432so212943785a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Oct 2025 04:30:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761304977; x=1761909777; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4xENpFhdm3tX2svjjBCpkdD5EFJVJ3cSr/qlGqMEskM=;
-        b=gE1Tai6YskZX5D07TC95IRN4FphlHT66X8k2GGP/rP8Ud588I9oqoT5LO5C0sS58dZ
-         7dsedupvv2LmQEx5y8PeqPsgP+MMSFybdkAOWCoLNfJnOLkJWGMuGBZtPPan+y33D+z2
-         yJlM2T/kJSDJHR5VmGB43DGKV9pCrUG7HbmYc7xYPWlKRawWTlsnygRgFt6rFFxVApzU
-         /AWWtLkDNcXhT3WcSvvUeNsaULMn+D2p5exJ7sEjht7o7oOsM+0sa8EERL+QOEPzHa8H
-         mbPyJ3CEyLaSCbpzNJDAdV2pUa+gClFr3BrUeknh7EGOdGjZhMhNS9zfzGXqMSEf9xGa
-         iypw==
+        d=gmail.com; s=20230601; t=1761305436; x=1761910236; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=xVEAo5UxGmIy3cG2FpvUng+5Ti2nW9I0hVU5bm2i3PA=;
+        b=dbKMNsgwC/3sbc2qtdBZf0DXuxIiBMT+GL3FADI0ORzBGlu+osRfeKcD2ZZm0Xj6mf
+         VUIuypDRvmyAh/QNvYFsfMthPYT61Crr7zlNrek99GwfwaVveLUmBxWkoj2jtDX6xJqw
+         u3W1TndimGL7QJSNORNkWGatVK6ChQSryOjtjNQuX6eU6G+t2F6h3mlCjFeUt9oqMozD
+         aFzmSnZo/MJHQq/GpJc7cliSwJC59z4zGCxnQiaKeU8QsPCsomVRTWvdrw80i4qHJHS8
+         QMfTq4fb3M/S63NfvxCFQN22GL7sngHMQd6blOTW8OftnpMRVc95mIkfemaeyejuw3Rb
+         sCkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761304977; x=1761909777;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4xENpFhdm3tX2svjjBCpkdD5EFJVJ3cSr/qlGqMEskM=;
-        b=fcAnpnAlVOAIaz7n5nmxY9tZFPVgVwbWDNaFS7RxXMHn4aK/P/JS/PIHY1dkZ0Px4y
-         /kEXq7gwYNlAACVEjAw3/jPFVxQUDEuLEGdCOTW/GQfK6QSnavxNlw5vewCjHezT7zxZ
-         jpaK3+udg7ODldfMVKdWGO0x+36Xu34S5BJvf1WL4InpkBXRDz3NFLzY1eWgETguhqu0
-         1kLhlhJtc+B/ElaXDTmV2q29lH9NbS27N4kImFo5xXTrnSujlYp5Mexk7H6EmtapkhFj
-         9f9Iu5Sp9WqTFgVuYT+P/uFGLq3DPFC65+6xLVP35p9ywesqM//tm519z5WiRPipTO6R
-         bXzw==
-X-Gm-Message-State: AOJu0Yz6P4Ln8PQ3q7OJbiZHLTK4YYQcCVbR21YBWYgzm8M5l/k8eyud
-	0/tTrIVOq0UtVS7z3GbXHpaI7kUvZmemla0stWCe8YNkCzbs/gYf08DNTuhxQxSFQpiPamPqGBm
-	ZyFcEWAj72yb7+vEZ5LA7WHq7dhVm5DTWNA==
-X-Gm-Gg: ASbGncvuhj/qnVb8aQe4Ca/TRGMUhgnTLrt5+HUyxy0ppIM1oObhEEudFJoaq1SKrdy
-	RFye2vey4JOcGj/JUgX/MS3PtrQW7R9fgipNyDfeuagfZXiC1Yp929MwEMFKVPGtpyFtY8iJ2xt
-	JY6Md3kRPyRpXz51fB4yNXsD7bpNIcOgnmR4uIDWpbTb70DZG8kfxgRuY+uR0rj/JWkoBNtrSIT
-	RQdfQJGmkAHEk/bOcidkeN9GXA9zd+A8aT1MaT/Avukr9ER2HE2mMumFcmf1XejPkZHIUO/rx31
-	KKpqeDyxLBCpXicT/IRLCz1m9y8aeKEadrOhj4kfHZcEEEfdXLt94Toh9bQrIuHBN4/orDIzv/5
-	5iAD9VAzlF+exLeY12pEXXlU3wr7Tf3jmWMmldLk=
-X-Google-Smtp-Source: AGHT+IE8qKVvEDODwvdnxnfowwSLaAlNyJgAx1m+g784rqmJxpfLVH9amnVzd6qbV+VqDwR6hUtnTwDdQfO5kxSl58o=
-X-Received: by 2002:a05:622a:1826:b0:4e7:28b5:86b0 with SMTP id
- d75a77b69052e-4eb8109cd38mr70068181cf.35.1761304977420; Fri, 24 Oct 2025
- 04:22:57 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761305436; x=1761910236;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xVEAo5UxGmIy3cG2FpvUng+5Ti2nW9I0hVU5bm2i3PA=;
+        b=frAqR3iCLhbsxNRCE2ukVhrJAad9Vj2DEuDcB3lgBmJGTI9lqSwOf6HeUtwLMn6LQA
+         Q8W0fVJwCU6z/qdKc9gMG+Yo8e39HgHZ/rg93WqeVqLX1mTQ9pvM5UNXaJays0NpVi8v
+         xLAd4bx2oWACfWiAcug5F18kk09bh00N0TPP0UErgFAKrMWhguEM/sopYbo4HJFqRwMk
+         GSqzMgKLT2kE808te7ANX/tZhEdO99u6a2Jnr+UDVQURqiKPCsX0wqQ50ppFeW3pF8pH
+         omIL8tdTnXXVqsS2ptMQ0xqPP6qHL9dY73Q//gz5+t5iqVmVjU46c7BQdr1gf8+OUi6b
+         xo4A==
+X-Gm-Message-State: AOJu0YzXExeqsZ6g3Qo54Jiacast9YWQe9w98Xwykz4r6kfgOCIVxEBU
+	oOS6YpWBFvHANqOpDKsD/0nacofQHVvqSSH3F6M8jByJv4MLOKPVAWEWtwwifVpcNUtR1MU43iT
+	IUK/fij/Aa4QYvX6MHqQdTvtT4xdWvLa9Wg==
+X-Gm-Gg: ASbGncviu+BvNKqZ2nIyKaNTqLAGrA1pCI5+2xrGTgfPIGQNvXxNGDKANlSwwLLh5DF
+	Z1a63kEMh4jLkAWJsmZFmgnRiKbaHX3Z9cZKJzkQ8S4U8Y4RqnYPb7t0CmNSOhHmpE2X5G2GHQN
+	GYxnY9/lebtAXOnG1iiGob6S6Rj8Ab1lgz7XqGGYmDHPAH3zflWJvoHk5sK5xXjh9gm0OgAAjeW
+	gXzK+tlajVtV+odgz1l1MjD45i4nUz0aeuqI3LbJw8okkMq1JOyWmWRzfcP/yIjQpUSP4ngGnM4
+	lJxgpwajgOLy6wA0dDjMJntIu5nwM9pJTYZB4tehVlg8hrUOsWwhD93P6s3fCdzHptWXmw2t3G+
+	pZ9SrecImlb2q3vkw9jfHRAOSPpD6MsdkPpv7SPs=
+X-Google-Smtp-Source: AGHT+IGMmmrBx3m2qf30wOt4dfZRRS76ifMrsB2Ut9IgWT6HECO2AtoADDsVjJm/FK5ZiVW+gGNHRRepTvCbwDlScWU=
+X-Received: by 2002:ad4:5dc1:0:b0:879:b99b:993c with SMTP id
+ 6a1803df08f44-87fb63af56dmr18234996d6.18.1761305435945; Fri, 24 Oct 2025
+ 04:30:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <c9b01153cce85ee303c68507f6afcc74903dc3de.1761070660.git.joerg.sommer@navimatix.de>
- <CANNYZj8Dm2f=XC8sKcKq0c_1emmVtjS52bX7_N1Yp4cFG86eQg@mail.gmail.com> <ypksivfvbqelvf5s2btkdecctrxqk4qjp2ipr7ykz7yqe3q6oi@zpjhqtabnokz>
-In-Reply-To: <ypksivfvbqelvf5s2btkdecctrxqk4qjp2ipr7ykz7yqe3q6oi@zpjhqtabnokz>
+References: <20251024072750.2756709-1-jiaying.song.cn@windriver.com>
+In-Reply-To: <20251024072750.2756709-1-jiaying.song.cn@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 24 Oct 2025 13:22:46 +0200
-X-Gm-Features: AWmQ_bm3HbfqR4gp3JxY8dqZUekr5RDo4R0MkTfeA6Qvn4odIxxWDhIbhI7tC18
-Message-ID: <CANNYZj_OBSfiXm5dfyphE64TB1xbVTrkRp99FO6AofAaZKFdfA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] gtk+3: Update 3.24.43 -> 3.24.51
-To: =?UTF-8?B?SsO2cmcgU29tbWVy?= <joerg.sommer@navimatix.de>
-Cc: openembedded-core@lists.openembedded.org, 
-	Ross Burton <ross.burton@arm.com>
+Date: Fri, 24 Oct 2025 13:30:24 +0200
+X-Gm-Features: AWmQ_blr6yFEc3ek_gLVL75P9aaId_J6Q7OOKHHmEnwqMcfPC33A_9w-t8Erz5I
+Message-ID: <CANNYZj_8wwBWhU5Aogn+cZ=ShtprSn-Faajkj+xJ8rD16AqX5A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] icu: use automake ptest output format
+To: Jiaying.Song.CN@windriver.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Oct 2025 11:23:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225289
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Oct 2025 11:30:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225290
 
-On Fri, 24 Oct 2025 at 07:34, J=C3=B6rg Sommer <joerg.sommer@navimatix.de> =
-wrote:
-> > "Let's change the name of the project in the middle of LTS cycle, and
-> > hope downstreams magically find it".
->
-> Yes, that's ugly, but on the other side when should have been a better
-> moment? As far as I saw they unified the deployment system with 3.24.48.
+On Fri, 24 Oct 2025 at 09:27, Song, Jiaying (CN) via
+lists.openembedded.org
+<Jiaying.Song.CN=windriver.com@lists.openembedded.org> wrote:
+> -       ./$t
+> -       if [ "$?" = "0" ]; then
+> -               echo "PASS: $t"
+> -       else
+> -               echo "FAIL: $t"
+> -       fi
+> +    ./"$t" 2>&1 | sed -e '/---\[OK\]/ s/^/PASS: /' \
+> +                      -e '/} OK:/ s/^/PASS: /' \
+> +                      -e '/---\[[0-9]* ERRORS in / s/^/FAIL: /' \
+> +                      -e '/} ERRORS/ s/^/FAIL: /' | tee -a "${LOG}"
 
-Not that it matters, now that it's already done, but for gtk 3.x there
-was no need to do the renaming at all. Gtk4 has dropped the '+' in
-2019, and it should've stayed that way.
+This sed expression is both hard to read and brittle: if upstream
+subtly changes the output, will it still capture the results
+correctly?
 
-> > Anyway, there's a number of other recipes in core that use
-> > ftp.gnome.org, can you update their SRC_URIs in a separate patch
-> > please?
->
-> Yes, I'll do. How about the gnomebase class. Might it be a good point to
-> start using it or is it meant for other things?
+If any of $t fails but prints nothing, will this be reported as a
+failure? This changes the logic that is based on return codes into
+logic that relies on correct and useful output by any individual test,
+and I think the new approach is less reliable.
 
-Yep, converting more recipes to it where possible would be great!
+I'd rather change the icu code itself to produce the needed output
+(perhaps subject to a command line option), and offer that patch
+upstream.
 
 Alex
 
