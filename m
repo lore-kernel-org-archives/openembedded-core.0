@@ -2,304 +2,390 @@ Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD053CCD1BF
-	for <webhook@archiver.kernel.org>; Sat, 25 Oct 2025 13:21:35 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.1])
- by mx.groups.io with SMTP id smtpd.web11.5415.1761398484994054767
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4CE5CCD1BF
+	for <webhook@archiver.kernel.org>; Sat, 25 Oct 2025 13:24:25 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.9])
+ by mx.groups.io with SMTP id smtpd.web10.5463.1761398662273163382
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Oct 2025 06:21:25 -0700
+ Sat, 25 Oct 2025 06:24:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=LDo4np++;
- spf=pass (domain: est.tech, ip: 52.101.83.1, mailfrom: pratik.farkase@est.tech)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=PUHDCkrf;
+ spf=pass (domain: est.tech, ip: 52.101.66.9, mailfrom: pratik.farkase@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l9XZAOvzPWOzSLMM7NOSo4xG8bRkq3Tgni/MlQZmzkovObOBUXsZ4Ar82H6FngGoXJ7Dud78Sc/yGCyfHw3LqtoBlK5XuG8fdcSyC6cJx7tbGmU2jDEi5FPUyxniMhIrLVncH1bck27nl4bixBAxGrn1AJQFajLDrrpC8+3L4SnPtaTDb1VWwEVUNtaHPtkUVMkG69gclEk90X3HncerUbdyg3rscyh8shfnd4NM9xKDBXUhJIf7HZTmQdA070f7nOmbweRJygA5biMUlECDs19J/UnMGrcxHL3zaeSFfheWastfRugH6ZPIV9tzXHJ9toeFo+N2h6MUBsk7bzuxXQ==
+ b=gYfv3fbSaqJQUCZaaSYeIQtGzjg8odygNlxos8jrddo8rNGDmcqx8FFpgUuyMUgMX7dGdR66MVDtOfXNPlULrLg2wXQcECIplkq7tskUw4ua7NqBaTD5aqRYLTRDhUWpWpP8R2bO3FiOOKvbfdSXul3yAPxWKPeSCHM8HOVlxBrY5F7af2kT6Iy6e0slTCnBTpM2wMeMwITR96zwsdTtq7tVXymVoZA0l1IAcAXVKVySNLKS1uZzD6WK/VS96Ppho/JyICPElTg9tYyCbFrP4jL0SLwtWJekMjXvzy9SQF6GPdtRZOnQnV9Yx/HKtamQT+6X+sqXuzvy/tvwOoKucg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NfOdCMTAlXrTuF2f1cgETJOi1uscHgh88bssBDfHgYM=;
- b=u5w4T2ngwDYmJ4wZUeXFUbbZ6HdkWFpNiwtxlySGVAtRPLR5xmG2O0bORC8OJPuStKf8hhe2JClmRJTBEL3gf1+WG07d/u4Jh2AkTxORAATOil4Q+NCnqzU/aXNJj3Jlcphw7TZ9kU5RJ2b1Ot6Em6e3NLgysSp5/KFHo5MTX0n/BuTt3wB4yrbHZ3Hkj4LWuT6VbV4t95LWC24xDTq7VGZDJLm7LIE6wJlR7Y2RUYWYsPTWjfF+jCsN0a7b3egAhk/DSCkn3CpO8jkuEm538BMi1P5xJ/P4mv9sWZomQsnm1Hi6sazfgVCV00C7+YTmui5CqVoZlo8dNPCMn5rMFA==
+ bh=f4o+eK+UEMfcKg+xanN6jw1y1xV1iT90+AqAyXaY5C4=;
+ b=q+qqalEBEGruNK9peFFAbAvJmc3K2ZuW/eh7GHu5x/5AJxSE9+5HTa3iRIZSKqg0W73VPjOq8NJ6OA6KV5RDxSVLTLzCEZkNx+QPlRWG8VCUVs0sin70w0hSxWbxJBioeo7nrZTYTHT1G/WkKJl1muiC3Ug1ide6HGAPE8O/b7O+PyXPjHjSXwoIiWSXmBVTyic8rjKbkUxSUZlILELLa2kBRmH+ZLf6hGy57CPLUJR+ZvTKu8UdnZP0dZhUGEzTxOMDT18WLG+YPGfNq9CLcZG7gRxzQeFoHM+YVAkvY5RgC39nm7MBRWSfzkOzepw+bLQkzBsbR49OnTRndOlCPA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NfOdCMTAlXrTuF2f1cgETJOi1uscHgh88bssBDfHgYM=;
- b=LDo4np++blnbuAYQFdI/tvcypAruIliudEUqT5uGCZ7FvRkoVmgnw85yGGIslLEERY2AzNrjArscub25bHv0+B6rqAOhXQNwyTyCMAMyaNZIO/VgVgVKox4l+1V1vLgpT87glXMgwgCD3blRuLi/7fS5GL6vNHR94wQhpcCFEm3RWztxx/qhpW6X3/1CKluYal5mtm9OCMTIRr2/JjHQkYgRXIRfMzACj4XAk+fY8B8IE9b1+64GkS4FrEpAUnICrrzianxYrNyiQfW7Rx6XIzYT22CS1XBIx+/FLnqXkiaPeasmND2vRe38qPIqlEuhT9mPQsZZgbDKmE54A6MkuA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
+ bh=f4o+eK+UEMfcKg+xanN6jw1y1xV1iT90+AqAyXaY5C4=;
+ b=PUHDCkrf3bQ3VRw9mSIOIA6NFrDILak5eQ7MVBXtJgRd8fef76UhLuGjdhL3NPg6hZYnM24wvFMsI144JdU1qUIFZK4ciY40HPlGrGz9GZJnQ1QPnBmKiRcni0v7iVAI3SUv/BQ8VpseWuLqZrlat7poN5/rdiik2H3K5Yg/nhotmWbo9/1+3W2r3IH+WaoKENeASNWI1RikNgiCCqrH0ZETStfn6dYOoPwVHKvb+ZebKUDkTmqupcE7MJ6KLrxgjJTw8IZi3A9SptvS1AWU81yODxCwuR34LdqBfD2mYXrqiJADaDRdE3kLQI/tewwbu4f+xegTUg+K0GTBo+8sxA==
 Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
- by AS8P189MB2047.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:524::6) with
+ by GV1P189MB2084.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:57::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.15; Sat, 25 Oct
- 2025 13:21:20 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Sat, 25 Oct
+ 2025 13:24:17 +0000
 Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
  ([fe80::c13f:ef4:ecf2:85af]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
  ([fe80::c13f:ef4:ecf2:85af%6]) with mapi id 15.20.9253.011; Sat, 25 Oct 2025
- 13:21:20 +0000
+ 13:24:16 +0000
 From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: Pratik Farkase <pratik.farkase@est.tech>
-Subject: [PATCH v5] libxslt: add ptest support
-Date: Sat, 25 Oct 2025 15:21:07 +0200
-Message-ID: <20251025132107.9296-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251023153459.49699-1-pratik.farkase@est.tech>
-References: <20251023153459.49699-1-pratik.farkase@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0094.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:191::9) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:150:26e::16)
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v4] libxslt: add ptest support
+Thread-Topic: [OE-core] [PATCH v4] libxslt: add ptest support
+Thread-Index: AQHcRDKbTsq1BPO6TU2gmFluOzD2EbTSr6oAgAAsx88=
+Date: Sat, 25 Oct 2025 13:24:16 +0000
+Message-ID: 
+ <GV2P189MB3005C4B5FDBBEBAACAE67302FEFEA@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
+References: <20251022204136.8276-1-pratik.farkase@est.tech>
+ <20251023153459.49699-1-pratik.farkase@est.tech>
+ <DDRC9MRK2AIG.3678WEEWAGRAT@bootlin.com>
+In-Reply-To: <DDRC9MRK2AIG.3678WEEWAGRAT@bootlin.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: GV2P189MB3005:EE_|GV1P189MB2084:EE_
+x-ms-office365-filtering-correlation-id: dfc078c0-906a-4b40-1f7e-08de13c9cc3f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|38070700021|13003099007|8096899003|7053199007;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?/CC7Gcr28pIFBAv2IT4MHV6JjqRLtiBiYhuEFkeR3jg0Yrn1G17brLJ4khlW?=
+ =?us-ascii?Q?q4cwRkBvM/QhzQG2yJv8Hisa5q1Tu8ucdsUNnjGE7zNzDlceDvHJwNj/dpsP?=
+ =?us-ascii?Q?U4bxCbGlIUcTg9CSHXE2gWaoaQDtGBfHnsiTi4RdWzUzicIiG1TB5+Jf7czf?=
+ =?us-ascii?Q?QBUJ6OlqlpgOZefGmsLUYdcGynz+Ma5b+nDzKkW4c1dXeQQqpiueeMyIdxZS?=
+ =?us-ascii?Q?+KJSAiu8jyoaVGqymO+LIWZVyPeZcZh2vLRcHzRia652CsaS1GqVs887JP/T?=
+ =?us-ascii?Q?p2ey1OUqazm2K+P9NdKcGN/JleIZKWQRB+rcLGSIy66+ciY2+REzVR+yDuvX?=
+ =?us-ascii?Q?pkSucvn/UIFbyGBzmG9lwPp7EPI/bjKkMhGA2Q1JQHzWY8jom4SrsTZ8kBfv?=
+ =?us-ascii?Q?obvoYJTOgwrbf4q2KiblTFMLTfrE54HbwGaZP7xLXS2RZFAfDZFRKjJjzOT0?=
+ =?us-ascii?Q?075vEqoU/KczYLQkTvGWC1Ghm4ehEBl4mO8fs4oSIGZvxwn/nt9CoDoqQhYg?=
+ =?us-ascii?Q?eO6DJPymDdO471PWpH8lm5JHnXjeXEU8UEIEiIGehxDpMMwMq4w9C+cPYdnO?=
+ =?us-ascii?Q?rgZmd3Rx5Ye8T5+ylT+YZy3+fBh2R0ujuDwFGyspj/JXyEjs1bde5frKtYT2?=
+ =?us-ascii?Q?IhPr7QPw2JzockcS7uY7oCV8F9OJCFEo1kuTihUrDpSiQTH26XMyrSvkA4qJ?=
+ =?us-ascii?Q?snrQh48L12X2L49aRvcQtd3Xld0q/UUk4xrpUAgTp4xTtXZXyLitOjkby/J8?=
+ =?us-ascii?Q?or4S0j36qNka65bteSLV94xdl/GL7chDC3ZhMyBSqerT6W8zGfuSofogVB3D?=
+ =?us-ascii?Q?94xnpZqoaVRl0n1hCR79Myn18x7V0lLCfAwYQTlw3QPpmMdAa5+HApofu8gi?=
+ =?us-ascii?Q?K5bs83ge6EV9FsrXK1ZSIS+00dGPfLX48k7jC3HnXmHJygdC+tU8ZJHy/tc/?=
+ =?us-ascii?Q?zCay2a/H/3yATTAIZYeSPk4T7jW/RejT844y2GFiVNympBv3aBDVnpunRuWI?=
+ =?us-ascii?Q?2cdp1T3HRIc8s/3X9tqM2istMrOX6IlIToiW5p8pv5fhx8aOqGteC4Lv6D2u?=
+ =?us-ascii?Q?jLh4TCDEeo5LH/eoYrWSoOg+pe6abYM5PbhDyvqko8EO7cOCeX0t/vxcnYQo?=
+ =?us-ascii?Q?203jbXHxXfJ9vfBr2PYinHQFtJtjal49FNKPLRkz1AHcQHv4YHsPl8kBzrp2?=
+ =?us-ascii?Q?LUSXrhUF/CCro9mCWv9aur9Crj9wDDU+xZDHcjG9ynsLaiHHWdV1MYGOiOFl?=
+ =?us-ascii?Q?4k0UAhrPLoHbKMqXyk20JLzNFZxDs/8Iq7IZ8vPvJ7zIx4fZPxAiDl5/cmjI?=
+ =?us-ascii?Q?PG1+NSS3FZZEbK3XUZ/0t97lsp/SpS8Tp7eqN88vrjK3bN2K3u4bJxtL5elP?=
+ =?us-ascii?Q?BKLnThYVXb0SkpBYw4MZ4S7W1I5ffSygkHfdG/3+25yAMFezpS6Z12R2JtSB?=
+ =?us-ascii?Q?jNcRRr9XmpapNze2egb+2pHP1X8qnQst?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021)(13003099007)(8096899003)(7053199007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?6/QOzXDcLnukE4T+8S00stKJjWJc9g06L6+R++i7/im+l8d+PPL4PzX1Hclr?=
+ =?us-ascii?Q?OQ1dDHNVGUfgeOr/fkcyN3aGuOZ3M9Fajee7ortupAMkyeBC+CsGalpaj6ve?=
+ =?us-ascii?Q?tH3Z6Ql4Gy7XQfs2gBOMdDvagYMvpmDQ8IsxCj+iExv6TZaDBFBpYENPcfPr?=
+ =?us-ascii?Q?jj9Oe5nHzdKB83NyhjtoBlhQrO/+obFfeikNJGDQAVl69OmK3Btr1fagcBG6?=
+ =?us-ascii?Q?vodyMuOwFh2HG9BsWqVFfbhXW4yVF2nUVZ6hE4DVitoxjSDe+P3zo5rhOgTg?=
+ =?us-ascii?Q?8MqJj2O9D9JNOGcBYQG2/Bd1zG/3jxs/AxsoYgCd5HFjqRnkchLhYKn9DsYq?=
+ =?us-ascii?Q?GFxP2INxHDfJb5BCcl/RpVuwYpT74yochL/901ucQU5zPahQ+ImD9lQPzC9v?=
+ =?us-ascii?Q?Sww/J3+JF3/Z4G6UOuV4ydOyrfcbhJyhPnV1wcLsvaZcsstuQnGPR8S4WwBf?=
+ =?us-ascii?Q?BT6w3kzuVika1H29/eYwuWcy3l5tV9vVlQ0I21Jdm8xZa6Ewj1wOArY6zDvL?=
+ =?us-ascii?Q?JhN/KEYk8/8HMLwLQecMcQhgVG7kndsaTekwbXyy+VPSUFmGd8M4lbiGksff?=
+ =?us-ascii?Q?0Dsc08oQ5cMP2jU4cuYnJmJ30tT31TelXiiNOERwjOwqjHqH60gkXJoiAW41?=
+ =?us-ascii?Q?eb+P+x8WTjXPmCuhND5my0dPWnT9DS3Dwod58/ThyBMRwvYWATUFqUGKj5By?=
+ =?us-ascii?Q?w9I4bmFdytWNs0ybY83YOm9aQXU85HcGBsUXhfk4/NWM51jrcZ/N0vlyUZHM?=
+ =?us-ascii?Q?vbtLifhdjFYsP6yG+iO+6fLyvz8i94EZCR+TWYH4uSfHeSlhbmxs3nROIHiH?=
+ =?us-ascii?Q?qiwoYIxWYW1g8+4+JUFrP8iZvCApIOFBFp5I0Vy0lv55YZ52/f0T7qbVuZho?=
+ =?us-ascii?Q?pUznxxJ9/fs5TAxm+nJyQW23GW/huKSQxfgactzkfApQVhDTGIIp6Pj1zt0s?=
+ =?us-ascii?Q?/guPm+sbCGZMo/KrVTBRxgC3XSlUK7YUqCOp44CRPPwl7K1lU3FfrrQomn+a?=
+ =?us-ascii?Q?tZDr5JtVoZpOn2Y8Fb06/NjZwzUhXVeGQC6sv0QFL84KgweasHeR2+qd90pn?=
+ =?us-ascii?Q?wHn4ysmkaj3BGhFBPwFZTuQV0a3/uEb+UaE5jxCHPXDN/llrou4mp/d5D9Ro?=
+ =?us-ascii?Q?bAGFV03AQmOXUqcxa6wfPE3Bq54iJOHpxGM9KOwQawyBCwT2jrziM+3y5xLP?=
+ =?us-ascii?Q?FvzCGAT4CTTM9QvfZiPMYlu/7r1QUQnRxz70/uxXoAuzaF02W6AVqI5J+5m+?=
+ =?us-ascii?Q?1QcVa9v+Zz1jEgGngdD4g7bxMXUNoT7n/4pGiag1fAsvirdFt/I9IY/CpfAF?=
+ =?us-ascii?Q?C930a27RCnnkoAUAZ5UUP/s8IzjZtBGJ8UZHMnHkLkXhP6SdDCbSsX+Zx0LT?=
+ =?us-ascii?Q?6/0BNZQi84ypcuJfXuILT1NZPlOd37W7HNoxLP0iJj7OHn1xXsMGeJaghAM3?=
+ =?us-ascii?Q?aobgWgtcX/ZAkdmLjJZA55SoAXOzw0+jSSqo+7CJW8KcDABWM1fd29DJavwV?=
+ =?us-ascii?Q?VMDMj8fG6/lsiGvnh/rdZYDSS0Gvom3mZvxplgLR5Z9U+S5v+8ExhFek0Wze?=
+ =?us-ascii?Q?sfpJNXfU5Xc2iN5mYAhtfC1FQ9zeCrT79UHDtBw1?=
+Content-Type: multipart/alternative;
+	boundary="_000_GV2P189MB3005C4B5FDBBEBAACAE67302FEFEAGV2P189MB3005EURP_"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|AS8P189MB2047:EE_
-X-MS-Office365-Filtering-Correlation-Id: 002bba3c-3218-46b6-5aa0-08de13c962aa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?E2xgT2ES0qN1zrHipthLtuS/5jQRPWKy1y457/VExVnEJtWJqTuX3uAPvao4?=
- =?us-ascii?Q?H2ya+WhX9apsebu68RPux35J5P5u37TVJUj1rExGCbOok5t6KzZq7u3bNGqB?=
- =?us-ascii?Q?9BbZVcnFAMEZ9fpXBt3VwRT6yXqoFSw24cbnGywxo2tkBYJICBJyRMvEZ2y5?=
- =?us-ascii?Q?6d6Enq5XytSA+5wSZB2opnDDcHIjUZy+6apxgcpt+fHRLz30dLmyBSH47sYb?=
- =?us-ascii?Q?8XwmqQuC2sWADTlofstehayvpA+NifuarCw0j+zrxvtf3xyyOBhm+sFP7yxP?=
- =?us-ascii?Q?tXCwaGUhzo765Ck3gqHavmNuBCc2amgcxJFfGMgkoD4h/imWai6ptm5XYBjY?=
- =?us-ascii?Q?LW4/2g6i4TyMvgWO76c73HJlcjYUYTInSvup64BnQeVFhJpTZmr36VCzN5VM?=
- =?us-ascii?Q?hYns1ORNuYpojSDbbi4xuediyeyniH05p2mJDZqmKxzdDThqh4UNnRBBBG5M?=
- =?us-ascii?Q?x4GNR+s+IJhFXFxiwsv/bDVQ1iVsr31odocA6Osui9lidmrELkuNR0budD8N?=
- =?us-ascii?Q?9JJ2ys0iAbIoQ03u5n2r0VWMduzOE/DJbZ4CpjtCUHEyJ6lhRirc23pWM2xa?=
- =?us-ascii?Q?dDnEonJAyRJSqHSc2Mdafm2NmGHbDUD7+WxmpJbhWIf/CYyZtmOpKauHCwf7?=
- =?us-ascii?Q?Wb0D+wGYa8Bi3T+ASxJa4Ytu3+XznGeomuZajRCfu8t9e9+Jg9GAk/gD0dVT?=
- =?us-ascii?Q?bjMpXGM6PBkp7fwz8OHSqB0rTz238/q4quyQfhmzAhJqeq+BEnSigFd8eicv?=
- =?us-ascii?Q?BUecY1bmf74NP3ENXi6Qq8J2HchVv03faaWKA9eeEkJpN01Oe3vc+1l7Bc11?=
- =?us-ascii?Q?GTGmZG+ZTEmFfHel8FIWDtc8A1HhUjRIxHWILHUfEB/qYg7I2wDXnfOrK8c6?=
- =?us-ascii?Q?iiYrkFyzPGcGRgkMO5TF7bTE+JKzfgwNgjFyOCSwK4cdOHSnmUyIvd0FWxTv?=
- =?us-ascii?Q?3p346ycJxdBmmeGX91X10AbLoZFO/CFmLHDf7pgP4qo0Jjj/gBK89HqSEUPH?=
- =?us-ascii?Q?8ZA1awqXuWrDJy+xtBtUlv1cM29F1KN+ILadZqLkV9extcfCQV8009xPFiyC?=
- =?us-ascii?Q?BZTpiuEpG9jfa9GRbXgcWDVzUkOqgLAQd/ORHvS9SA5pdXYor0Vf/wQTCrpI?=
- =?us-ascii?Q?MKLI7rLlTrCib1F/1u7O6kvGCQtSWPFNeRFFC6e3Mzr5zxBj1Va9oiWhwoIa?=
- =?us-ascii?Q?3q7/DbGyLlib+iY4yIL7goFfOTqPPPPxnd6lDr9yLroFh2oawdO+Hx01I1A2?=
- =?us-ascii?Q?HlD4jJAWy9b9uDItIR8UZNiqmt8NeNZ85OmNsc5MbnkSl/jWY6LEmFzc5Afh?=
- =?us-ascii?Q?+jqZ1THgB2XX4toY6sl45ct8eh4+PlS7E09grImc4yBrnt94ri5u+vC3AOSn?=
- =?us-ascii?Q?FnwAwzMkK0qRspjc8nBs1kVqdIAMOA/QOSb4CL5McbEl4oRmOfT3RcQoK9fM?=
- =?us-ascii?Q?TWFRZeb8QtdBh4agoyKOc4qzGRBQgUxUzSt9GQPQQcOU99ImYQOYrQ=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?y6YjhGlmKu2gflSVs6noDe5x5MlOFx1VcnINVU6dMs5dZRpAoa/aFxSmJyNP?=
- =?us-ascii?Q?YtKCNvw4ORlXl78DK5DjxMJdEBDlJewkdbuY9UddfQ6peQv8uGNjTHqFhS1r?=
- =?us-ascii?Q?LQrkbE1IVHdTq6J30xylPaZR7lJPirQUEHZCAFazOMTuozi1NLTay/Olkmha?=
- =?us-ascii?Q?AzJ2+I3NHIjyzHFxLWA6SuVMBjsU6uG/bzBo8k/QSpIWOn87DP0ARNpmzQP6?=
- =?us-ascii?Q?GAx2QQuDHwFUkeiXedtbNSbNBs+fiU7mL1jj+4zLAPVmRtTIb083V1h7LJw2?=
- =?us-ascii?Q?4Ve0Rb5apOhI03NvdjW6F+4TFDLwl7O2cuhdvyq6/I60NF9n+dWAR9lp2HJ4?=
- =?us-ascii?Q?ZLuknFTTDbFdt952EhLo0aswQnvk/8G/humBH71iyJtoRJ5YUu7GjJetou/q?=
- =?us-ascii?Q?6Q62wbmhoXtaNd2UUP77rR0QgA3nZVqk9vI7xoCErNLTvAhYkdgUNCRBHq7w?=
- =?us-ascii?Q?sJxc5eKWowWPpzw4QKa3bDKzV4QQKmtWzNOZ1RxdQ9WYFc1pF7FQCrLP1ThS?=
- =?us-ascii?Q?i6IvwE6p/pZ42zLW1ugritqjRd5LY7f9djJRgoDea89i27ABPLVsv/zqELrV?=
- =?us-ascii?Q?NMdVRVyAmDpXCRP1gkXr9OfLxoGR3LIdOYrNxm5EoNtSeaBFIrancrjSB8Pn?=
- =?us-ascii?Q?tn4YHdcYBE2/zxzlDzBAZLNcFMPRygdQseVRrFczYW3nb4HdgHWPk6gqhIN2?=
- =?us-ascii?Q?UTP8qufBgtbEKJYPPAIC0Ju+p5OXFjzIonkfxH0exvSyDHb6RinDQyfOwF1v?=
- =?us-ascii?Q?SKxt9rMidFQt10VEWjrO7AmBU2Lm/SYsSepLGY25VF0LVlzEDRFeBgmDLF+t?=
- =?us-ascii?Q?EsO0TPUJ9Gp3+erQLh+IrEBkXrAfFhxvu9MeDAP9Jt9uPTROGWTAGYaSaB44?=
- =?us-ascii?Q?421r2vq9kCwpUeLRYcpaoJ5YEBcxmxkVZHMpGbwL4QpihiWbS8ZP9z9zKmGg?=
- =?us-ascii?Q?bWGPp2fWJ8Ttz0VkX92wES5Gj8TdbYnneDRmsNrNWFCbVmZ9U4AgKvwma2JJ?=
- =?us-ascii?Q?G9OkwtlPbz/kJUoOnroRKMonVn4XxPTnuaCnpadEVTwWVF05QIS9e7VriU1x?=
- =?us-ascii?Q?z457RyEmk8tmdwNjWVr8tcmn/i2tV2Kz3dXo+KzCXmvKHVyr4JChCnzF9LSN?=
- =?us-ascii?Q?Tdg09/VLbkuCO8UH7yhWsuEmtZ0+zbbiHpIWq3Om8ePikY6l860qg0KmHts5?=
- =?us-ascii?Q?x1aQFIYrjwtmBDO0hE9qT/TSRSlq71x31IjjMJxJNkQDvm1NVKm6xeYO503z?=
- =?us-ascii?Q?Cz43vjiPD3AvAUTa9RkCk8lpvTWzNLNG3tDJ+JDBTtwM7BXohmIX1qWoDuwy?=
- =?us-ascii?Q?4IY1EIHMwpUVP4cMrZnYvvBA+YB64rrRROAzg+GaWQZw/VOhQeGiEKD4R0ve?=
- =?us-ascii?Q?sOCABShjgN7Ft5WwJRvHmsUBzKxkW4K0kgSlZHFZ5euDadf9G5G2wEu5zByh?=
- =?us-ascii?Q?2fZCC8yvXgIiaIZgc77gjNlnPNaG8t2+T/HmeKyrLrmY3QCHWUtvTaYciG3X?=
- =?us-ascii?Q?lPBOVq9CEhNT11GTF22k8rATU1Snxyr520zSjQbKOFOiQbAGeZD3aQDepGpi?=
- =?us-ascii?Q?NQUMNgXM4S23bDPaGhIgpKQfefGATlZ6FVoxLhik5sKkkL9JZardZnvSF9KE?=
- =?us-ascii?Q?Jw=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 002bba3c-3218-46b6-5aa0-08de13c962aa
-X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2025 13:21:20.1026
+X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfc078c0-906a-4b40-1f7e-08de13c9cc3f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Oct 2025 13:24:16.9095
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qCJ2WwxmNe/XO1u5xxEObe7Qy8UIYE8gY2eSJghBtAMSSRSNIYdymJ5NsybEdS+49sfmRmw2PFlpc2MbdJa8ig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB2047
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Q8dJd4qDtrKo1nHV3f3PzM4jYm178wsyhWZJh3cEEKStJecCa0LfWpYvEYMM+kxgy4MBZ+KLffpzJ1xC+GGV5g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB2084
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Oct 2025 13:21:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225307
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Oct 2025 13:24:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225308
 
-Add ptest support for libxslt 1.1.43 including:
-- do_compile_ptest and do_install_ptest
-- test data installation
-- cleanup of buildpath references
-- added run-ptest installation
+--_000_GV2P189MB3005C4B5FDBBEBAACAE67302FEFEAGV2P189MB3005EURP_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Enable --with-plugins only when ptest is enabled, per review feedback.
+Hi Mathieu,
 
-v3:
-- Remove unconditional --with-plugins (leftover from v2)
+The v5 patch has propsed fix for ptest installation issue in libxslt that w=
+as caught by
+the autobuilder when running multilib configurations (e.g., x86-64-v3).
+The problem was caused by the ptest installation step trying to access
+`${WORKDIR}/run-ptest` when the file was not visible in some variants.
 
-v4:
-- adapt run-ptest to emit PASS: or FAIL: lines for each test
-- run-ptest installation with proper permissions
+I have added the following changes in v5 patch :
+ - Uses `FILESEXTRAPATHS` with `${BPN}` instead of `${PN}` so that
+   both `libxslt` and `lib32-libxslt` can find the same `run-ptest`.
+ - Guards the `install` call in `do_install_ptest()` to avoid fatal
+   errors if `run-ptest` is missing.
 
-v5:
-- Added FILESEXTRAPATHS using ${BPN} for multilib-safe lookup of run-ptest
-- Guarded run-ptest install in do_install_ptest() to avoid autobuilder fail=
-ures.
+Let me know if this works!
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
----
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-support/libxslt/files/run-ptest  | 38 +++++++++++++++
- .../recipes-support/libxslt/libxslt_1.1.43.bb | 46 +++++++++++++++++--
- 3 files changed, 82 insertions(+), 3 deletions(-)
- create mode 100755 meta/recipes-support/libxslt/files/run-ptest
+Best Regards,
+Pratik
+________________________________
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Sent: 25 October 2025 12:42 PM
+To: Pratik Farkase <pratik.farkase@est.tech>; openembedded-core@lists.opene=
+mbedded.org <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v4] libxslt: add ptest support
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index 9950e46776..b295e0049f 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -47,6 +47,7 @@ PTESTS_FAST =3D "\
-     libxml-simple-perl \
-     libxml2 \
-     libxmlb \
-+    libxslt \
-     logrotate \
-     lua \
-     lzo \
-diff --git a/meta/recipes-support/libxslt/files/run-ptest b/meta/recipes-su=
-pport/libxslt/files/run-ptest
-new file mode 100755
-index 0000000000..1673f933e5
---- /dev/null
-+++ b/meta/recipes-support/libxslt/files/run-ptest
-@@ -0,0 +1,38 @@
-+#!/bin/sh
-+set -eu
-+
-+PT_DIR=3D"$(dirname "$0")"
-+cd "$PT_DIR/tests"
-+
-+echo "=3D=3D=3D Running libxslt ptests =3D=3D=3D"
-+
-+RESULT=3D0
-+
-+if [ -x .libs/runtest ]; then
-+    echo "Running .libs/runtest"
-+    ./.libs/runtest --verbose --timing 2>&1 | tee runtest.log
-+    RT_RET=3D${PIPESTATUS[0]:-0} || RT_RET=3D$?
-+elif [ -x ./runtest ]; then
-+    echo "Running runtest"
-+    ./runtest --verbose --timing 2>&1 | tee runtest.log
-+    RT_RET=3D${PIPESTATUS[0]:-0} || RT_RET=3D$?
-+else
-+    echo "FAIL: runtest binary not found"
-+    exit 1
-+fi
-+
-+if [ "$RT_RET" -ne 0 ]; then
-+    echo "FAIL: runtest returned $RT_RET"
-+    RESULT=3D1
-+else
-+    echo "PASS: runtest"
-+fi
-+
-+if [ "$RESULT" -eq 0 ]; then
-+    echo "PASS: all libxslt tests passed"
-+else
-+    echo "FAIL: some libxslt tests failed"
-+fi
-+
-+echo "Finished libxslt ptests"
-+exit "$RESULT"
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.43.bb b/meta/recipes-=
-support/libxslt/libxslt_1.1.43.bb
-index e08e92085d..e82db99f83 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.43.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.43.bb
-@@ -11,10 +11,11 @@ LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://Copyright;md5=3D0cd9a07afbeb24026c9b03aecfeba=
-458"
-=20
- SECTION =3D "libs"
--DEPENDS =3D "libxml2"
-+DEPENDS =3D "libxml2 libxslt-native"
-=20
- SRC_URI =3D "https://download.gnome.org/sources/libxslt/1.1/libxslt-${PV}.=
-tar.xz \
--           file://gnome-libxslt-bug-139-apple-fix.diff"
-+           file://gnome-libxslt-bug-139-apple-fix.diff \
-+	    file://run-ptest"
-=20
- SRC_URI[sha256sum] =3D "5a3d6b383ca5afc235b171118e90f5ff6aa27e9fea33030652=
-31a6d403f0183a"
-=20
-@@ -26,7 +27,45 @@ S =3D "${WORKDIR}/libxslt-${PV}"
-=20
- BINCONFIG =3D "${bindir}/xslt-config"
-=20
--inherit autotools pkgconfig binconfig-disabled lib_package multilib_header
-+inherit autotools pkgconfig binconfig-disabled lib_package multilib_header=
- ptest
-+
-+FILESEXTRAPATHS:prepend :=3D "${THISDIR}/${BPN}:"
-+
-+RDEPENDS:${PN}-ptest +=3D "${PN}-bin make libxslt-utils libxml2-utils xmlt=
-o coreutils sed grep diffutils bash libxml2-utils perl"
-+
-+do_compile_ptest() {
-+    cp -r ${S}/tests ${B}/
-+    oe_runmake -C ${B}/tests runtest || true
-+    if grep -q "run-threads" ${B}/tests/Makefile; then
-+        oe_runmake -C ${B}/tests run-threads || true
-+    fi
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+
-+    if [ -d ${B}/tests/.libs ]; then
-+        cp -a ${B}/tests/.libs ${D}${PTEST_PATH}/tests/
-+    fi
-+
-+    for f in runtest run-threads; do
-+        if [ -f ${B}/tests/$f ]; then
-+            install -m 0755 ${B}/tests/$f ${D}${PTEST_PATH}/tests/
-+            sed -i -e "s#${TMPDIR}##g" \
-+                   -e "s#${B}##g" \
-+                   -e "s#${S}##g" \
-+                   ${D}${PTEST_PATH}/tests/$f || true
-+        fi
-+    done
-+
-+    cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests/ || true
-+    find ${D}${PTEST_PATH}/tests -name 'Makefile*' -delete || true
-+    find ${D}${PTEST_PATH}/tests -name '.deps' -type d -exec rm -rf {} + |=
-| true
-+
-+    if [ -f ${WORKDIR}/run-ptest ]; then
-+        install -m 0755 ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/
-+    fi
-+}
-=20
- do_configure:prepend () {
- 	# We don't DEPEND on binutils for ansidecl.h so ensure we don't use the h=
-eader.
-@@ -39,6 +78,7 @@ do_configure:prepend () {
- }
-=20
- EXTRA_OECONF =3D "--without-python --without-debug --without-crypto"
-+EXTRA_OECONF:append:ptest =3D " --with-plugins"
- # older versions of this recipe had ${PN}-utils
- RPROVIDES:${PN}-bin +=3D "${PN}-utils"
- RCONFLICTS:${PN}-bin +=3D "${PN}-utils"
---=20
-2.43.0
+On Thu Oct 23, 2025 at 5:34 PM CEST, Pratik Farkase wrote:
+> Add ptest support for libxslt 1.1.43 including:
+> - do_compile_ptest and do_install_ptest
+> - test data installation
+> - cleanup of buildpath references
+> - added run-ptest installation
+>
+> Enable --with-plugins only when ptest is enabled, per review feedback.
+>
+> v3:
+> - Remove unconditional --with-plugins (leftover from v2)
+>
+> v4:
+> - adapt run-ptest to emit PASS: or FAIL: lines for each test
+> - run-ptest installation with proper permissions
+>
+> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+> ---
 
+Hi Pratik,
+
+Thanks for the new version.
+
+It looks like we got another issue now:
+
+ERROR: libxslt-1.1.43-r0 do_install_ptest_base: Execution of '/srv/pokybuil=
+d/yocto-worker/qemux86-world/build/build/tmp/work/x86-64-v3-poky-linux/libx=
+slt/1.1.43/temp/run.do_install_ptest_base.9881' failed with exit code 1
+...
+| install: cannot stat '/srv/pokybuild/yocto-worker/qemux86-world/build/bui=
+ld/tmp/work/x86-64-v3-poky-linux/libxslt/1.1.43/run-ptest': No such file or=
+ directory
+| WARNING: /srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x=
+86-64-v3-poky-linux/libxslt/1.1.43/temp/run.do_install_ptest_base.9881:209 =
+exit 1 from 'install -m 0755 /srv/pokybuild/yocto-worker/qemux86-world/buil=
+d/build/tmp/work/x86-64-v3-poky-linux/libxslt/1.1.43/run-ptest /srv/pokybui=
+ld/yocto-worker/qemux86-world/build/build/tmp/work/x86-64-v3-poky-linux/lib=
+xslt/1.1.43/image/usr/lib64/libxslt/ptest/'
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/2636
+
+Can you have a look at this error?
+
+Thanks,
+Mathieu
+
+--
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+
+--_000_GV2P189MB3005C4B5FDBBEBAACAE67302FEFEAGV2P189MB3005EURP_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Hi Mathieu,</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+The v5 patch has propsed fix for ptest installation issue in libxslt that w=
+as caught by</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+the autobuilder when running multilib configurations (e.g., x86-64-v3).</di=
+v>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+The problem was caused by the ptest installation step trying to access</div=
+>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+`${WORKDIR}/run-ptest` when the file was not visible in some variants.</div=
+>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+I have added the following changes in v5 patch :&nbsp;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+&nbsp;- Uses `FILESEXTRAPATHS` with `${BPN}` instead of `${PN}` so that</di=
+v>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+&nbsp; &nbsp;both `libxslt` and `lib32-libxslt` can find the same `run-ptes=
+t`.</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+&nbsp;- Guards the `install` call in `do_install_ptest()` to avoid fatal</d=
+iv>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+&nbsp; &nbsp;errors if `run-ptest` is missing.</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Let me know if this works!</div>
+<div class=3D"elementToProof" id=3D"Signature">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Best Regards,</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Pratik</div>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Mathieu Dubois-Briand=
+ &lt;mathieu.dubois-briand@bootlin.com&gt;<br>
+<b>Sent:</b> 25 October 2025 12:42 PM<br>
+<b>To:</b> Pratik Farkase &lt;pratik.farkase@est.tech&gt;; openembedded-cor=
+e@lists.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<b=
+r>
+<b>Subject:</b> Re: [OE-core] [PATCH v4] libxslt: add ptest support</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Thu Oct 23, 2025 at 5:34 PM CEST, Pratik Farkas=
+e wrote:<br>
+&gt; Add ptest support for libxslt 1.1.43 including:<br>
+&gt; - do_compile_ptest and do_install_ptest<br>
+&gt; - test data installation<br>
+&gt; - cleanup of buildpath references<br>
+&gt; - added run-ptest installation<br>
+&gt;<br>
+&gt; Enable --with-plugins only when ptest is enabled, per review feedback.=
+<br>
+&gt;<br>
+&gt; v3:<br>
+&gt; - Remove unconditional --with-plugins (leftover from v2)<br>
+&gt;<br>
+&gt; v4:<br>
+&gt; - adapt run-ptest to emit PASS: or FAIL: lines for each test<br>
+&gt; - run-ptest installation with proper permissions<br>
+&gt;<br>
+&gt; Signed-off-by: Pratik Farkase &lt;pratik.farkase@est.tech&gt;<br>
+&gt; ---<br>
+<br>
+Hi Pratik,<br>
+<br>
+Thanks for the new version.<br>
+<br>
+It looks like we got another issue now:<br>
+<br>
+ERROR: libxslt-1.1.43-r0 do_install_ptest_base: Execution of '/srv/pokybuil=
+d/yocto-worker/qemux86-world/build/build/tmp/work/x86-64-v3-poky-linux/libx=
+slt/1.1.43/temp/run.do_install_ptest_base.9881' failed with exit code 1<br>
+...<br>
+| install: cannot stat '/srv/pokybuild/yocto-worker/qemux86-world/build/bui=
+ld/tmp/work/x86-64-v3-poky-linux/libxslt/1.1.43/run-ptest': No such file or=
+ directory<br>
+| WARNING: /srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x=
+86-64-v3-poky-linux/libxslt/1.1.43/temp/run.do_install_ptest_base.9881:209 =
+exit 1 from 'install -m 0755 /srv/pokybuild/yocto-worker/qemux86-world/buil=
+d/build/tmp/work/x86-64-v3-poky-linux/libxslt/1.1.43/run-ptest
+ /srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-64-v3-p=
+oky-linux/libxslt/1.1.43/image/usr/lib64/libxslt/ptest/'<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/buil=
+ds/2636">https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds=
+/2636</a><br>
+<br>
+Can you have a look at this error?<br>
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com">https://bootlin.com</a><br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_GV2P189MB3005C4B5FDBBEBAACAE67302FEFEAGV2P189MB3005EURP_--
 
