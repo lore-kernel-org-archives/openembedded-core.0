@@ -1,119 +1,113 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E61ACCCF9E5
-	for <webhook@archiver.kernel.org>; Sun, 26 Oct 2025 13:23:15 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.web10.10218.1761484993565053410
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72471CCF9E5
+	for <webhook@archiver.kernel.org>; Sun, 26 Oct 2025 18:07:57 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.15393.1761502073196012067
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Oct 2025 06:23:14 -0700
+ Sun, 26 Oct 2025 11:07:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=b61ZGo6I;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id C20EF1A169C;
-	Sun, 26 Oct 2025 13:23:11 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 885F3606E7;
-	Sun, 26 Oct 2025 13:23:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D916A102F24B6;
-	Sun, 26 Oct 2025 14:23:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761484990; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=JjsLv+w37aTL+ZgzOGY5K290QU/9CrVfWWiYNv5Efp0=;
-	b=b61ZGo6IJ3cywHZZm2POTFNWyDgfHf9V1wPBuOdDosRQnzJtj7FxIba+5/c9gNUOLOZcD1
-	T3QWzbHjoglC9SWMdl9BZmW1CLjiP0sfEbTYNhc3wZz5SKdkHbPSlcDu3Tm2fb/2iV5Pvk
-	/cZH2XvxzfuQZmBuo4X14p2Mxa9uMeZtNmp2fjbn/lD1F1YXrRVMG9ivoKtLER4dLnL+MG
-	uHRVSv6E4i/x+z1yJ8NdzC1vhA44DjtAqgpcpbEnaS/WkXMYItGcrixl+4w9z4+eV/SX/R
-	BM9pvaxoxjZICVMGmQi+Se+tvK0oDL3BWhD1DazWhL8FKtePKRK7sWZLZXkgAw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 26 Oct 2025 14:23:04 +0100
-Message-Id: <DDSABAGDJDZ8.O3KH5LWYYAAW@bootlin.com>
-Subject: Re: [OE-core] [PATCH] rust-target-config: Set elfv2 ABI for
- powerpc64 when using ppc64p9le tune
-Cc: <Sundeep.Kokkonda@windriver.com>, <Deepesh.Varatharajan@windriver.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <deepesh.varatharajan@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20251023161522.994070-1-Deepesh.Varatharajan@windriver.com>
-In-Reply-To: <20251023161522.994070-1-Deepesh.Varatharajan@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PLXlH3a4;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b6329b6e3b0so4048191a12.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Oct 2025 11:07:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761502072; x=1762106872; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6WcaBR5sXZqsA8KkRi2DD3Ahm0QMMTHBjL/2KCXh670=;
+        b=PLXlH3a4CiFYxwo4GkAlhBKjPJYA3kX5SWz4bKPqx/wzftRYTbpo92Pem2KyOXT19V
+         DW2QJ20iqEOpbN2voes8yKlNP9KpmzfCWKzMofQjfjYDkj4JwPhxD4pg5phvMUMy++ed
+         eeozMc0s68kw16D3Eaj+pnCP+hovwg6CcAeDIuPOPyewz3xqCvW9KTXHybJAh0SynMYW
+         5yGCh7eKIm32Uqlj2OKHyURD0bxfTvShh5PiSCAjaXZWgT8gWIavshrDVg1x0UY5IFTP
+         Yczx1VT+1W9/2mm+SHJtVeMWLxRm3y3yQMzefsBG5vEOfH5lEaW2GOkyzxpNG9CyZce7
+         rDsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761502072; x=1762106872;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6WcaBR5sXZqsA8KkRi2DD3Ahm0QMMTHBjL/2KCXh670=;
+        b=p05/cw0YciQ7B5QGaUipHG8KbM2WgrYlxSGyJdxNnK6wcOOcQF8A8YCL9T0d/3Uoq+
+         P1IjdL04F7INkVgVeAaQh2sIgdmvYvToBBUwn0JVsCKhrsLKf68uTS4X8lJ30nnWFk+U
+         zT8UZt1Dzitnmpr9Rg81XwiSQ5GwaTNXSEvObUbDWRQTUNgBDlhTJ21BYfE2/dKvDUvZ
+         hKAEjoYLY8m3fhFEY5c181d3d6WlRtcd0FKFl8m9vUnwmeoL8WyqKw+zBd1sE4plPmli
+         BQsTo950mYWnY+nbR5JmrHcDbkte8rn/ctgHHRvsBN8w1GAV1h/8dyu147a0a6+xqtJm
+         avQw==
+X-Gm-Message-State: AOJu0YzxuonPb4uaJTq5vQQsLvtc1/FtO0eK1drKnfsCPqCtd1SogmPt
+	ysCuYBy6ZI5RJ77lsaH336h5KSHzknhr7PijIgsKhXPgaspu3gvxsBt9tNz/9p9H
+X-Gm-Gg: ASbGncvVcKD5agc99e+ndyPAQJWE0aX+H8oOU2WYDBiaM/B844PF0HAky2IAYThd+hW
+	Y4z14tefJrMa5Kd1pNHGMh+Mxu8bQk+IOcl4Yu0P8NDbEHoOAdFONjg7QOv96BG1QqPnUIvPKf7
+	Z5XNehEoTx+wTITZP3TmcqyFKSfxDM4re2LJZdp3iQizyDRiSJJWrXs6dZm0vUUvvR+HJ9BFAUu
+	Wcj5oHRyzlkcT6MqNEMW9JE6qH10wm1gaAxhC0mDUV8HwaC12UtVXjadm56gacaacTF5BAWa/Hr
+	1TYWfu0hlKlnSIUp0+y6K7EgUi3Q0gFDEL4C68HCmK7QhOZoDdb1xyF4/FfIa27PdBvb1fa440b
+	xeY2UTQ5UUilXnsePRDb6k+3Gdc6a3uRrJQpVTHElJy0zjLRzFUUtqP5c2/qz0Gsu7o39gFxFPf
+	2cuPesYVLSk6RDmbMEhcdi3CEBnd+xnpmFVcp4CAsbFgTzhuXz1WQFgJoK8G/H+Q==
+X-Google-Smtp-Source: AGHT+IH9dSsbuZZosaKQLtI/IoGj/hf9YYOS+R4J3tSBql4yXGzi2t7i+QIH2f/VDM6ltOGYD7XiEw==
+X-Received: by 2002:a17:903:944:b0:292:b0d0:2ef1 with SMTP id d9443c01a7336-29489e10dd5mr116065185ad.18.1761502072175;
+        Sun, 26 Oct 2025 11:07:52 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::9dbe])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498e4113fsm54871745ad.90.2025.10.26.11.07.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Oct 2025 11:07:51 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2 2/2] elfutils: Do not suppress stringop-overflow warning on build hosts
+Date: Sun, 26 Oct 2025 11:07:48 -0700
+Message-ID: <20251026180748.2624488-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.51.1
+In-Reply-To: <20251026180748.2624488-1-raj.khem@gmail.com>
+References: <20251026180748.2624488-1-raj.khem@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 Oct 2025 13:23:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225315
+ <openembedded-core@lists.openembedded.org>; Sun, 26 Oct 2025 18:07:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225317
 
-On Thu Oct 23, 2025 at 6:15 PM CEST, Deepesh via lists.openembedded.org Var=
-atharajan wrote:
-> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
->
-> For the powerpc64 machine with ppc64p9le tune, the supported ABI is elfv2
-> but the default elfv1 ABI is used and this causes link-time errors such a=
-s:
->
->     ABI version 1 is not compatible with ABI version 2 output
->
-> To resolve this, the powerpc64 machine with ppc64p9le tune is updated
-> with elfv2 ABI otherwise, default to elfv1 ABI. This change ensures
-> consistent ABI behavior across LLVM and Rust builds.
->
-> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-> ---
+stringop-overflow is a gcc specific option and when we try to use non-gcc
+compiler as host compiler e.g. clang, this causes several configure tests to fail
+because clang reports this as an option it does not understand and bails out
 
-Hi Deepesh,
+error: unknown warning option '-Werror=stringop-overflow'; did you mean '-Werror=shift-overflow'? [-Werror,-Wunknown-warning-option]
 
-It looks like this is making the
-sstatetests.SStateHashSameSigs2.test_sstate_nativesdk_samesigs_multilib
-test fail:
+One of the failing tests is the check for PIC support in compiler and results
+in errors during compilation like
 
-2025-10-26 08:51:57,797 - oe-selftest - INFO - sstatetests.SStateHashSameSi=
-gs2.test_sstate_nativesdk_samesigs_multilib (subunit.RemotedTestCase)
-2025-10-26 08:51:57,797 - oe-selftest - INFO -  ... FAIL
-...
-AssertionError: {'nat[45104 chars]o/do_fetch': 'bdd296fda030801a2ec723f040e=
-d3f24[267479 chars]6d3'} !=3D {'nat[45104 chars]o/do_install': 'ef30ed01cb1=
-6a4f54ae283891c27ba[267479 chars]6d3'}
-- {'adwaita-icon-theme/do_collect_spdx_deps': 'e9c8aa9cb0da1323bf4df9c65737=
-8e80fea1073a8965b8a3a93d343cb1682b32',
--  'adwaita-icon-theme/do_compile': 'c77f720ad728595247f0191ce3f416d1bbb294=
-52cb6ddd29abcf4ef5b7d5675c',
--  'adwaita-icon-theme/do_configure': 'c42cce9d1f3dfc4af7d4ee6896de1148dea9=
-2979785fc33826d877747b2d07e5',
--  'adwaita-icon-theme/do_create_package_spdx': '701aeb10f9e4da9c6d1ab2c1d9=
-7d2b43c621b5cbd5b90c89cfc4f49123ed28fb',
--  'adwaita-icon-theme/do_create_spdx': 'c7b48fa5ee7aa7e2183567d8eecf53bd1e=
-f32266d89c55b05a75f1e2e91a0f54',
-+ {'adwaita-icon-theme/do_collect_spdx_deps': '26bf70dce8eafe543e4577a0a25c=
-e6c70f70a8c43413115a7e428c2fd00e2242',
-+  'adwaita-icon-theme/do_compile': 'b83691bddde426f52318e31a2fab6e17807abe=
-ceb5ccc7441f1008f6c77e5291',
-+  'adwaita-icon-theme/do_configure': '6e38f74c8d0a14e3229cdf96058639c1f926=
-9bf34e035c83874a0713256b6dd9',
-+  'adwaita-icon-theme/do_create_package_spdx': '57a8b2eee13c7e4df83c7c88cf=
-b2f0acd479f072c11a082a14acc5345fcf8228',
-+  'adwaita-icon-theme/do_create_spdx': '72ee25314fee38c71794368ce1030dc9ce=
-103a5e10ca09c3412066effad6e684',
+/usr/bin/ld: libelf_pic.a(elf_error.os): relocation R_X86_64_TPOFF32 against `global_error' can not be used when making a shared object; recompile with -fPIC
 
-...
+and elfutils-native failing to build with clang as host compiler
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/2744
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2596
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/2506
+This patch was added to support version of fedora in 2022 and the error
+has since been addressed in glibc [1]
 
-Can you have look at these errors?
+This is effectively reverting bb76fe2baf00b0874d221445c9fba4481740024f
 
-Thanks,
-Mathieu
+[1] https://sourceware.org/bugzilla/show_bug.cgi?id=29141
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Fix the problem by removing offending option
+
+ meta/recipes-devtools/elfutils/elfutils_0.193.bb | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.193.bb b/meta/recipes-devtools/elfutils/elfutils_0.193.bb
+index 29a8ee5af63..85aef7881b4 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.193.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.193.bb
+@@ -33,8 +33,6 @@ EXTRA_OECONF = "--program-prefix=eu-"
+ # Only used at runtime for make check but we want deterministic makefiles for ptest so hardcode
+ CACHED_CONFIGUREVARS += "ac_cv_prog_HAVE_BUNZIP2=yes"
+
+-BUILD_CFLAGS += "-Wno-error=stringop-overflow"
+-
+ DEPENDS_BZIP2 = "bzip2-replacement-native"
+ DEPENDS_BZIP2:class-target = "bzip2"
 
 
