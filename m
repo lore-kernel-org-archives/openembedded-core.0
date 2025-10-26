@@ -1,124 +1,119 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FB94CCF9E5
-	for <webhook@archiver.kernel.org>; Sun, 26 Oct 2025 11:47:55 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.8790.1761479272112421563
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E61ACCCF9E5
+	for <webhook@archiver.kernel.org>; Sun, 26 Oct 2025 13:23:15 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.web10.10218.1761484993565053410
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Oct 2025 04:47:52 -0700
+ Sun, 26 Oct 2025 06:23:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=NyWA1i9J;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-290d14e5c9aso50801625ad.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Oct 2025 04:47:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761479271; x=1762084071; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZscNweptAk5i94Bu5nR0sz5qgS8R8rXo8HBKMFXTx8g=;
-        b=NyWA1i9JL3P49JC7j6P/zMgahbOj8dIZSaNAb7KE222FU72nQLVnMfZmvwEj4LW7+F
-         ArKaOSMWKpAosoQqc5pDiHpc1vGsq8M0g9LlZlAGcFLEhwS2vbaS7aJ1QUv8JdiqKfiS
-         4qgZMVV9TllPcWSuSzBWyzX2vgkst+EU2ITycPV/uFS9ej6gjHyie0gQg+lVnXhKtdHh
-         hPRAu7iFOdFlglgEAaHiLP5KVyQdUQxaHP8BUb1kbdJNKpcsves6epyRCZNJUMadUl1F
-         N+psjs7dOrFnWPsn/bbeAYojYPXOsAa7uZM36f6dQN5KwMYRWplvbk6xsJ1PgkPavCzC
-         5i5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761479271; x=1762084071;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZscNweptAk5i94Bu5nR0sz5qgS8R8rXo8HBKMFXTx8g=;
-        b=t5Oxv5EwP+NqJKOMoKaN3alXLjhcRFLw/iDNZB6tkzH2pKREhwksqcU+TVIjK/7EjZ
-         Rv4pkjHyAKRXLnMzJweNMNlkGwPLDh5K4HbWQYPZLx2CHXQVjaGrjVXUff0RbSS+2RFd
-         f4IY2QGftkSouoaZNWpCqSWsK65CLuEg73Kru9+BHwhNrwt/obi1ev8eJ+ZGloK77smq
-         ZM8WJluiAPpazG4gHiJnwcTMfrbaRjtlV+Lmq6+j3qdmIxcT/68k8nBVk9wla7gIgX34
-         ahGEBUzSa12XK4romDkVZva74c9Q1rVUqrnfqQ3klZ1kJDkJw+dWZlrJMGdgaDl06jKO
-         /nlQ==
-X-Gm-Message-State: AOJu0Ywg/RxUWUaUO2H3XqlV1cUG6oyoPCh0kUq5Okhd5VkGW4szAO/N
-	UUXph7IECEdhf77dXRBKaKBsz3C5dflwbLRNS9WBX3W2nmCWpE8NU3lkUAG+OVGyf8j60nZUN9Z
-	R0R2LDKg=
-X-Gm-Gg: ASbGncs5TuerkQ4gn+VKFm1g2IWUvVugKNqjOr8z3ibdHRxcPy4UWVPwdCd2hjnaxKO
-	Yy3PeFzexlrj09pbzsDcd+RPhxtuGXK3hiVRIioRF5cwE1QqfbtJ0dp7o1b+BlgjVPb4poeWYoP
-	VjaETbZrHZ+hpJwIzJEE7sAIN2GvesbHkewYFS226i+9QHv6OHGz6OTciVjRMh2UkE1xCgGbSvs
-	gAmTrijUdEFlna7efD4JoRudHaU4tSsmqwQXEpSNGNtYGRG/8BSql5NBoUi1vIS4KuiAS61XTG9
-	IlIjYG1dMbqNgrzQ4zmfpFceWmg18WP3n/CrVKI0dqlmQwUnWQs9YX24Y52Am+4BM4DyM0rJgFS
-	GgvxAsWxcfwMOP3C4o+SoqUJttgURiLuzr7uJWXMF829aTy99nrsNZ0yO5McLfFF1f8d5EGs8ra
-	FeVaI9XyEjR7gxbJc=
-X-Google-Smtp-Source: AGHT+IE1hWJIbIA4mzoz6uHMg4YLA94Q8ePN/iwsGB8RwjiM2VQUoIaB/NhFWymekfocIvDFm/OUlA==
-X-Received: by 2002:a17:902:dad2:b0:293:e5f:85b7 with SMTP id d9443c01a7336-2930e5f9113mr199136045ad.11.1761479271230;
-        Sun, 26 Oct 2025 04:47:51 -0700 (PDT)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fee41ede9sm2485007a91.5.2025.10.26.04.47.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Oct 2025 04:47:50 -0700 (PDT)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 5C78B100417; Sun, 26 Oct 2025 01:47:50 -1000 (HST)
-Subject: OE-core CVE metrics for walnascar on Sun 26 Oct 2025 01:45:25 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 26 Oct 2025 01:47:50 -1000
-Message-Id: <20251026114750.5C78B100417@builder.sakoman.com>
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=b61ZGo6I;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id C20EF1A169C;
+	Sun, 26 Oct 2025 13:23:11 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 885F3606E7;
+	Sun, 26 Oct 2025 13:23:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D916A102F24B6;
+	Sun, 26 Oct 2025 14:23:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761484990; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=JjsLv+w37aTL+ZgzOGY5K290QU/9CrVfWWiYNv5Efp0=;
+	b=b61ZGo6IJ3cywHZZm2POTFNWyDgfHf9V1wPBuOdDosRQnzJtj7FxIba+5/c9gNUOLOZcD1
+	T3QWzbHjoglC9SWMdl9BZmW1CLjiP0sfEbTYNhc3wZz5SKdkHbPSlcDu3Tm2fb/2iV5Pvk
+	/cZH2XvxzfuQZmBuo4X14p2Mxa9uMeZtNmp2fjbn/lD1F1YXrRVMG9ivoKtLER4dLnL+MG
+	uHRVSv6E4i/x+z1yJ8NdzC1vhA44DjtAqgpcpbEnaS/WkXMYItGcrixl+4w9z4+eV/SX/R
+	BM9pvaxoxjZICVMGmQi+Se+tvK0oDL3BWhD1DazWhL8FKtePKRK7sWZLZXkgAw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 26 Oct 2025 14:23:04 +0100
+Message-Id: <DDSABAGDJDZ8.O3KH5LWYYAAW@bootlin.com>
+Subject: Re: [OE-core] [PATCH] rust-target-config: Set elfv2 ABI for
+ powerpc64 when using ppc64p9le tune
+Cc: <Sundeep.Kokkonda@windriver.com>, <Deepesh.Varatharajan@windriver.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <deepesh.varatharajan@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20251023161522.994070-1-Deepesh.Varatharajan@windriver.com>
+In-Reply-To: <20251023161522.994070-1-Deepesh.Varatharajan@windriver.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 Oct 2025 11:47:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225314
+ <openembedded-core@lists.openembedded.org>; Sun, 26 Oct 2025 13:23:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225315
 
-Branch: walnascar
+On Thu Oct 23, 2025 at 6:15 PM CEST, Deepesh via lists.openembedded.org Var=
+atharajan wrote:
+> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+>
+> For the powerpc64 machine with ppc64p9le tune, the supported ABI is elfv2
+> but the default elfv1 ABI is used and this causes link-time errors such a=
+s:
+>
+>     ABI version 1 is not compatible with ABI version 2 output
+>
+> To resolve this, the powerpc64 machine with ppc64p9le tune is updated
+> with elfv2 ABI otherwise, default to elfv1 ABI. This change ensures
+> consistent ABI behavior across LLVM and Rust builds.
+>
+> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+> ---
 
-New this week: 3 CVEs
-CVE-2024-52560 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-52560 *
-CVE-2024-58015 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58015 *
-CVE-2025-21709 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21709 *
+Hi Deepesh,
 
-Removed this week: 0 CVEs
+It looks like this is making the
+sstatetests.SStateHashSameSigs2.test_sstate_nativesdk_samesigs_multilib
+test fail:
 
-Full list:  Found 36 unpatched CVEs
-CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
-CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
-CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
-CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
-CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
-CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
-CVE-2024-52560 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-52560 *
-CVE-2024-57995 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57995 *
-CVE-2024-58015 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58015 *
-CVE-2024-58097 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58097 *
-CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
-CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
-CVE-2025-21709 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21709 *
-CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
-CVE-2025-21833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21833 *
-CVE-2025-21949 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21949 *
-CVE-2025-37803 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37803 *
-CVE-2025-37860 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37860 *
-CVE-2025-40014 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-40014 *
-CVE-2025-4598 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-4598 *
-CVE-2025-46394 (CVSS3: N/A): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-46394 *
-CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
-CVE-2025-59798 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59798 *
-CVE-2025-59799 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59799 *
-CVE-2025-59800 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59800 *
+2025-10-26 08:51:57,797 - oe-selftest - INFO - sstatetests.SStateHashSameSi=
+gs2.test_sstate_nativesdk_samesigs_multilib (subunit.RemotedTestCase)
+2025-10-26 08:51:57,797 - oe-selftest - INFO -  ... FAIL
+...
+AssertionError: {'nat[45104 chars]o/do_fetch': 'bdd296fda030801a2ec723f040e=
+d3f24[267479 chars]6d3'} !=3D {'nat[45104 chars]o/do_install': 'ef30ed01cb1=
+6a4f54ae283891c27ba[267479 chars]6d3'}
+- {'adwaita-icon-theme/do_collect_spdx_deps': 'e9c8aa9cb0da1323bf4df9c65737=
+8e80fea1073a8965b8a3a93d343cb1682b32',
+-  'adwaita-icon-theme/do_compile': 'c77f720ad728595247f0191ce3f416d1bbb294=
+52cb6ddd29abcf4ef5b7d5675c',
+-  'adwaita-icon-theme/do_configure': 'c42cce9d1f3dfc4af7d4ee6896de1148dea9=
+2979785fc33826d877747b2d07e5',
+-  'adwaita-icon-theme/do_create_package_spdx': '701aeb10f9e4da9c6d1ab2c1d9=
+7d2b43c621b5cbd5b90c89cfc4f49123ed28fb',
+-  'adwaita-icon-theme/do_create_spdx': 'c7b48fa5ee7aa7e2183567d8eecf53bd1e=
+f32266d89c55b05a75f1e2e91a0f54',
++ {'adwaita-icon-theme/do_collect_spdx_deps': '26bf70dce8eafe543e4577a0a25c=
+e6c70f70a8c43413115a7e428c2fd00e2242',
++  'adwaita-icon-theme/do_compile': 'b83691bddde426f52318e31a2fab6e17807abe=
+ceb5ccc7441f1008f6c77e5291',
++  'adwaita-icon-theme/do_configure': '6e38f74c8d0a14e3229cdf96058639c1f926=
+9bf34e035c83874a0713256b6dd9',
++  'adwaita-icon-theme/do_create_package_spdx': '57a8b2eee13c7e4df83c7c88cf=
+b2f0acd479f072c11a082a14acc5345fcf8228',
++  'adwaita-icon-theme/do_create_spdx': '72ee25314fee38c71794368ce1030dc9ce=
+103a5e10ca09c3412066effad6e684',
 
-Summary of CVE counts by recipe:
-  linux-yocto: 28
-  ghostscript: 3
-  libsndfile1: 2
-  qemu:qemu-native:qemu-system-native: 2
-  busybox: 1
+...
 
-For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/2744
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2596
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/2506
+
+Can you have look at these errors?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
