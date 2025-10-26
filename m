@@ -1,114 +1,117 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12419CCF9E3
-	for <webhook@archiver.kernel.org>; Sat, 25 Oct 2025 17:16:07 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web11.10045.1761412561460682532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15A23CCF9E5
+	for <webhook@archiver.kernel.org>; Sun, 26 Oct 2025 11:02:35 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web10.8214.1761476552726783323
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Oct 2025 10:16:01 -0700
+ Sun, 26 Oct 2025 04:02:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UWQLYlFp;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-89ead335934so139133085a.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 25 Oct 2025 10:16:01 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LD4iA69C;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7810289cd4bso3622477b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Oct 2025 04:02:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761412560; x=1762017360; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kN6oVxzKAXPTu+TFVhroKQwhww2n3VGJj6KBcSDnWKk=;
-        b=UWQLYlFpJnfP/W2QbJ345GaZ9ZXDW6R0SGpoYTmwM+2CsTfRzpjF8zh6DfR2ocBgGn
-         1mnM/HG4MH7ihFv1zsaQKvRbBa6g1ABWYk5MI90JZBsSuW2z1+xqaeFop4M/LXeptAHT
-         zfKIdFfZ/t1VfEmjTLikn3rdnadgr+dpj/goTE5H3QI7FKzIXZP/F0kdqyOWf4OngxdF
-         WO5ET/nP2I7EOHFoyD02CAFLrK+B8VZUl0uUAc1ui0U4+GcXHfssQh5BA519tdHzmKZE
-         aXI+nanGVeeGPLSbTUQy2UTJ2mUs472zWbjTJI6hJx2Ld5TlMl8EA2yj8S73LvvxfVUj
-         CS2w==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761476552; x=1762081352; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zG/Efp2hp9zQ5QDsZwV2GEZA0OiW8A4zHaCZkMdrA+4=;
+        b=LD4iA69CEc8AngoPFhsMq4oPdL88GMWC+SYaEqCMh2rI9l55ReyvYMvDnWc69CfWZZ
+         zOx30ifv1v/UpnnZLCvI9G6uE/bzG9QPL1Wq4/S6H4h6xKnkoWXRN9H/L48R9AzY7b12
+         bZcPp0al9oDT0njHpnFJKjlToKnU4oj0lBOt24P18dewcxoUbuInFW+17fXY120fTrgv
+         8Hq/0hUfzTSEiw+Gm7wbOvGnKAxypuT5DpuwZh82AgGsThfXElN0O+17gjICW5Mljhu7
+         jiq0//G9rw84LlKsqId9zI6XSA+vj3qNWQp/RpoBnJnRJyLd0/aHfn7BIYFHgmU2ahv0
+         hasw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761412560; x=1762017360;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kN6oVxzKAXPTu+TFVhroKQwhww2n3VGJj6KBcSDnWKk=;
-        b=sOb6XKD/Z2k2EA288mO0D2eci2kWvFwx1ISeTOwuA5liGGOQgFC6/vNvexJeTBK45/
-         B/iZtq0hpwzkFuCzln4aaIA6NJ+YNvlxIT+y4Fiz3zB1lKdvy7GzFovZJsd0Dj8RJNUn
-         OCV6TcWXxEgKDrglCg33SSM9epXdxkutRflh9x76KTDjNA19eCnbLEVEg/OeGbA2gpGt
-         BoKlvZSI/TFnWGJmqpMypOJVXPtQWxxL9b7tSuCbUCUB6dcVQ4M432j8w5IGdi4hb4lc
-         kzr3Rhe2knmpRcRFkiEocujZIaihKCJLh1BrMilO2KT3FLQ96Fnm7q5fyHJjgGsbI+c1
-         u1DQ==
-X-Gm-Message-State: AOJu0YyaBUGt8ofap+sPG9pTdMrAcpf4h4kJSszN+u/v/elD9qOV5ng9
-	cfSEggp8e5zzZHKnlDJmrdH5mrsTbVQedxJoefrTcXvul8tvZEivWLoz
-X-Gm-Gg: ASbGncuRI3OoWJzNyqMicUuZZWLaZ6xN/V7nUzoyDU4PXDYEJQIZ6WMayoIbq5tro0N
-	tYFKyuG790gOBLLanhtNqBT3CESxWz1Uzc1DioKwQMhBpIf8mA1u7E/4VoxRE6ohjqKR87obZln
-	J1kQ0rFwHhwVqmDc2zGjq+TveYQ42tWDSC1gqtjQmgPtCgLsPCNXL9GrgjuUWhV3ySu3hQNn0Yg
-	ANoyudk0JodfrnhMCrL3e3dSudDIOjtaXDI1LsUGg4XPO5LVCSuNYuZ7arD+YZMyvKyWADFgHrt
-	AL2CrcSBB2dZiRPGdxbjl2l1nK058wQBs4vUm8yfY3wlVQLYQGa77D5P9lpowvNHQMOO/BF5bcC
-	nXyJfNAesTH7RHjQDfYSaUKKKuyVLOdtwSQPCSrbcLlJ2rK5AQwSHDdJxU/2PHmjBdq9rV/d20B
-	sBMBprz53LwEZOTWf87a2vCM+uSb7AtgZK8WR1qdDUYGkH0UgZx9D3cbkbeErIUhwrGIL1SwTyu
-	e9ErhAcVXQUDLI=
-X-Google-Smtp-Source: AGHT+IH5rC/lGRSgvpqB69MLeCMfgw5SGTZxc4iO5RIIYCoqyoTWhvoAfy3rQCHz5xjTAxgwf+1wlw==
-X-Received: by 2002:a05:620a:4145:b0:891:89a7:d7cb with SMTP id af79cd13be357-89c105a8833mr1411756685a.38.1761412560300;
-        Sat, 25 Oct 2025 10:16:00 -0700 (PDT)
-Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-89f262716efsm177769885a.59.2025.10.25.10.15.59
+        d=1e100.net; s=20230601; t=1761476552; x=1762081352;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zG/Efp2hp9zQ5QDsZwV2GEZA0OiW8A4zHaCZkMdrA+4=;
+        b=L5DRpAAxL4qmT/VT1F6EIZAOhVPbZHSq0iI7EJjW8rFkkh1IOdLls6LOOW0kXx8xZA
+         +dsauRtTdASZ/cU/OcPiMXFOVD26C20ImJ/D6hwTxDsnDaGebOunw5fEqtj0M2IxDtuy
+         HfQcyx51Pe3/P1DgqPDDqE0Ro6X44HwHQgxFfS7idQ/WHfoRKco3EUK7GpHAT7QloexK
+         6cra5wcPXPHeQCMZgruQzP0kpTTK4rMRkOVhpD5yOERFs0n148GhFPTr/lV7via38AdE
+         RKivIFJZr09im0mWHe9k7kAvLXfoMPK5+l+GWwMMG0uGvmd+zgYPiLaeM/UG2IJ7E3U3
+         jurA==
+X-Gm-Message-State: AOJu0Yyq+8YeW6X+ZF7hZqugCLdJcu+xcv+Y1Irr8pWawHGw4ClL6Atp
+	zouAPS0bt+prsXOdz+nDPE4lDlz+BmGemX7QpJoMFdiwVstZKa27GyuKDla7r6RFFUJHQxKwx2V
+	rHIQg
+X-Gm-Gg: ASbGncs9Q1YLjAvhq3FgegYg3RmCLvl4mcb5ISUPU+Qgx7MU8lUgFE9L3rSZgrFillH
+	YWikM3Mr5IUyjRIAhfaAz1JMid4LPvCS7bL5SfL8tfqeH/mhBmBzqBzcFN98GgywgbACBfExQAE
+	rdRYLbvO0y5za5440JrmmBK5PdRqrf94dS+oivGsjNw/Jepc4fhZiimdM+VCUURJF+LSRBiXTKY
+	Muiq9GL0ggwoRExbCpedn2RCQKdaFUPST7AeJfu5P1p7TT3OxRTP9YJciL5Pqbja4xMH3rRjtGW
+	ER4w/wKHQRr2B14ke0gWFfWZKRU5BX5jHcoFM57t60ycfBd6/MEhQONGvdNOaGKtsr9imCBm0n4
+	J6+R5seSQ1KqcQw6Bs+YKmsgpTawgS7PmAxZS5xMAM6OK2Tdw0cLy0G40X2tWEbC/a3tuYyYCrD
+	xZN0y2
+X-Google-Smtp-Source: AGHT+IFQBMrMzY1LBtiTz71hMj9ITkwxJEh6ICkX5TJEobQqYfvGAthJNSLqZf5zdZUrS++D0QFSNA==
+X-Received: by 2002:aa7:888e:0:b0:780:f6db:b1bd with SMTP id d2e1a72fcca58-7a220a43782mr43426493b3a.4.1761476551504;
+        Sun, 26 Oct 2025 04:02:31 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a41402e554sm4680368b3a.18.2025.10.26.04.02.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Oct 2025 10:15:59 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/6.17: unify qemumips (malta) branches
-Date: Sat, 25 Oct 2025 13:15:58 -0400
-Message-Id: <20251025171558.2831684-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 26 Oct 2025 04:02:30 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 8A6B6100417; Sun, 26 Oct 2025 01:02:30 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 26 Oct 2025 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 26 Oct 2025 01:02:30 -1000
+Message-Id: <20251026110230.8A6B6100417@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Oct 2025 17:16:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225310
+ <openembedded-core@lists.openembedded.org>; Sun, 26 Oct 2025 11:02:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225311
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Branch: master
 
-The 6.17+ kernel cache is using a single branch for the mti malta
-machines, which are what qemumips* emulate. We update our branch
-specification to make them buildable.
+New this week: 2 CVEs
+CVE-2025-11839 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11839 *
+CVE-2025-11840 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11840 *
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
+Removed this week: 0 CVEs
 
-When I created the initial 6.17 kernel recipes they were based
-off work I was doing on kernel-cache master (6.18+) .. and I
-completely forgot that I've reduced the amount of branching, so
-we need to adjust the mips branches to make them buildable.
+Full list:  Found 30 unpatched CVEs
+CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
+CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
+CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
+CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
+CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
+CVE-2025-11412 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11412 *
+CVE-2025-11413 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11413 *
+CVE-2025-11414 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11414 *
+CVE-2025-11494 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11494 *
+CVE-2025-11495 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11495 *
+CVE-2025-11839 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11839 *
+CVE-2025-11840 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11840 *
+CVE-2025-29087 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-29087 *
+CVE-2025-3277 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-3277 *
+CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
+CVE-2025-6965 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-6965 *
 
-Bruce
+Summary of CVE counts by recipe:
+  linux-yocto: 16
+  binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite: 7
+  sqlite3:sqlite3-native: 3
+  libsndfile1: 2
+  qemu:qemu-native:qemu-system-native: 2
 
- meta/recipes-kernel/linux/linux-yocto_6.17.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.17.bb b/meta/recipes-kernel/linux/linux-yocto_6.17.bb
-index 2180f0f36f..9d2f51ad41 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.17.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.17.bb
-@@ -9,14 +9,14 @@ include recipes-kernel/linux/cve-exclusion_6.17.inc
- # board specific branches
- KBRANCH:qemuarm  ?= "v6.17/standard/arm-versatile-926ejs"
- KBRANCH:qemuarm64 ?= "v6.17/standard/base"
--KBRANCH:qemumips ?= "v6.17/standard/mti-malta32"
-+KBRANCH:qemumips ?= "v6.17/standard/mti-malta"
- KBRANCH:qemuppc  ?= "v6.17/standard/qemuppc"
- KBRANCH:qemuriscv64  ?= "v6.17/standard/base"
- KBRANCH:qemuriscv32  ?= "v6.17/standard/base"
- KBRANCH:qemux86  ?= "v6.17/standard/base"
- KBRANCH:qemux86-64 ?= "v6.17/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.17/standard/base"
--KBRANCH:qemumips64 ?= "v6.17/standard/mti-malta64"
-+KBRANCH:qemumips64 ?= "v6.17/standard/mti-malta"
- 
- SRCREV_machine:qemuarm ?= "23c78022fc97ea5ebc19ea8fb86d324c23a6fbaa"
- SRCREV_machine:qemuarm64 ?= "d76cb43db46c5d45e25df34484c87f5e545bf4c5"
--- 
-2.39.2
-
+For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
 
