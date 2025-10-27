@@ -1,102 +1,90 @@
-Return-Path: <contact@schnwalter.eu>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A42F4CCF9EB
-	for <webhook@archiver.kernel.org>; Mon, 27 Oct 2025 16:43:36 +0000 (UTC)
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
- by mx.groups.io with SMTP id smtpd.web10.38134.1761583408475478162
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7726CCF9E0
+	for <webhook@archiver.kernel.org>; Mon, 27 Oct 2025 17:10:16 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.web11.38473.1761585006901797199
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Oct 2025 09:43:28 -0700
+ Mon, 27 Oct 2025 10:10:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@schnwalter.eu header.s=fm1 header.b=e1PuPv3N;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=axqznspI;
- spf=pass (domain: schnwalter.eu, ip: 103.168.172.154, mailfrom: contact@schnwalter.eu)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id BB4FA1400197;
-	Mon, 27 Oct 2025 12:43:27 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Mon, 27 Oct 2025 12:43:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=schnwalter.eu;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm1; t=1761583407; x=1761669807; bh=6z353+fUYF
-	gl7AhnYKDoLgir7bRj1MHYQVqLi7oxnzI=; b=e1PuPv3Ndkr6WzjkbbA+cT+K3J
-	2FBioDUk/DL/SGDB6jmYsUu8E2nz1u8DGDSCDuFpNH4SdFtkKttC9vbt7qQgnSAl
-	Nv2hQrEd1Z+ndfOI8070RjOL/2HAvSswBVGCEFRiAWEI/L1XT1dpvLob40pERJiz
-	xECkBppGBZXDpqJE//REpFbRpFlyj7fMTa2Hcuk5z9popIg8TYjTYfagm0G9Vcjw
-	MNukf461h44avertFW9WZN9EpHknEU7WZRRcm8JafR0BFT8mI/ZrlJAxuVBq58kD
-	JgqddGC+rMNpFYKsL4ewnXd3Ds53ar2/L6g7bIe6OSIlctNoobnQzNHooEaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1761583407; x=1761669807; bh=6z353+fUYFgl7AhnYKDoLgir7bRj1MHYQVq
-	Li7oxnzI=; b=axqznspIhY5rp5KKNATGfgFTHg8pbSQG3O2I2BAgan7qZfjtG8V
-	9ncNZxl5MWSQuhS7ri8Wy9MG3+nW9MZG/xVzPWcpP2RJ2EPCeKPu5pkoAExBd7Rs
-	Evuc692P4jH1qHi1ZTram8dNr4P8EGyEKebrCJ00wH7I9oUN4dtex5usTcNjIA2s
-	bbAFIFPgzI5DUAbbMq+cmirZMvAYALD6fOx315t5pfxEj8scGLk2FQ+XrzJwNC2w
-	mX52KWOVG8BI3Q+vOcsJuwT9ON0vrai1zPYPDRR9G3C75gqSe417rdsllOx3av4t
-	BUAeB9rbZqqXDrWAo4n2EpQeeIxLcG6S87w==
-X-ME-Sender: <xms:L6H_aKTTKar7InHlpxz7ZUinF6zwQcZcYGhqclzpW9WgRw4S9u_U2w>
-    <xme:L6H_aFwUuDNHrImHnqEbvZuD3AWccdITGKcGJ22gqBf6sB634aVtKcfGeKPutqIve
-    Yyu49GQUbfqj9_8ImkHg4k8caARRKWWIdCDwxZK3_eVwKxDyy5xrQ>
-X-ME-Received: <xmr:L6H_aFdJxCgeLvDF22Y18AqQhVVSJW6WwMOFvbmi54IdM1VHsLTNYzi_>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduheekgeejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertd
-    dtnecuhfhrohhmpeghrghlthgvrhcuhggvrhhnvghrucfuvefjpffgkfffgfftuceotgho
-    nhhtrggtthesshgthhhnfigrlhhtvghrrdgvuheqnecuggftrfgrthhtvghrnhepgfevje
-    etveeiieekgeettdfgkedthfffkedtudelveekgeektdffveefvdffieeknecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghonhhtrggtthessh
-    gthhhnfigrlhhtvghrrdgvuhdpnhgspghrtghpthhtohepvddpmhhouggvpehsmhhtphho
-    uhhtpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdroh
-    hpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtoheptghonhhtrggtthesshgthhhn
-    figrlhhtvghrrdgvuh
-X-ME-Proxy: <xmx:L6H_aBKthetQZZqlDTXA4tUIA1JGZy9ZrS6Oz29-dEQ1ImRBWg99NA>
-    <xmx:L6H_aGFax3O-ghZwz3Qnd2Jrbyl61Rso0ziG2PPfq_s0_aELTL66IA>
-    <xmx:L6H_aLqMGHQjATV5O5YZ30yiv-gbh2DEk6cJi7ZCJkc6thBsgKfYRw>
-    <xmx:L6H_aPS5718c-_5ZAY1ZnU7VnhEr8DkJAeu9kELHUUKhpv5N8a8UsQ>
-    <xmx:L6H_aIXxtxT3EXiWsjegl8MclLdhbz8HFZ7qpJ_B5JeXI0wpi1vvTkQn>
-Feedback-ID: i455149b6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Oct 2025 12:43:21 -0400 (EDT)
-From: Walter Werner SCHNEIDER <contact@schnwalter.eu>
-To: openembedded-core@lists.openembedded.org
-Cc: Walter Werner SCHNEIDER <contact@schnwalter.eu>
-Subject: [PATCH] core-image-weston: Add wayland as required feature.
-Date: Mon, 27 Oct 2025 18:42:28 +0200
-Message-ID: <20251027164236.2324092-1-contact@schnwalter.eu>
-X-Mailer: git-send-email 2.51.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=itaunE5j;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 2CE8C4E41373
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 17:10:05 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E12736062C;
+	Mon, 27 Oct 2025 17:10:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 41E21102F250C;
+	Mon, 27 Oct 2025 18:10:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761585004; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=4GQkDuk2P8HMeRwCm/oneK/AZAAQFq/cNhW+VcJ85sw=;
+	b=itaunE5jdLqx4raPd2sne665M+gyhYwxfIdJDtnZw+I+O0GTJA3Irs6MAPBaEAoG/Sj9pu
+	BZYao20/pScugsCDoszJtzHjPwsyPECFin84Vm1QqVjLDXAt/DCCQIc9gZAZmbMeOrcJ4D
+	TmbgSs3wVl5A6fddvadj88+Rgu5LEH3Jv7n8UHzgkGAPTv2/Uw3kbNvlNicr4oPdXidypf
+	/Ug5x6gp4iMwb1VowIWOhQmuf5Y72Mgv/MQT7CzSO+G5M+Cp6AX+Kx1H0kg6CBuU831w9H
+	uUjyFEF7N8RbgqyJeGrbLLh0HPlLCTByWPTisiW9D5i4P5boTregjWaopXdKqw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 27 Oct 2025 18:09:59 +0100
+Message-Id: <DDT9RKMCRMIH.1SD6UWN350K3R@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2] wic: add option to specify the diskid
+Cc: "Ross Burton" <Ross.Burton@arm.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Steffen Greber" <sgreber@lilafast.org>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20251027144643.102409-1-sgreber@lilafast.org>
+In-Reply-To: <20251027144643.102409-1-sgreber@lilafast.org>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 16:43:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225338
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 17:10:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225339
 
-Signed-off-by: Walter Werner SCHNEIDER <contact@schnwalter.eu>
----
- meta/recipes-graphics/images/core-image-weston.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On Mon Oct 27, 2025 at 3:46 PM CET, Steffen Greber wrote:
+> This adds a feature to specify the disk ID when creating a disk with
+> the wic tool. This is useful when using the DOS partition scheme and
+> booting with root=3DPARTUUID=3D<partuuid>. In DOS partitions, the partiti=
+on
+> ID is <diskid>-<partition-number>, so it makes sense to let the user
+> define the disk ID.
+>
+> You can specify it in the kickstart file using the --diskid argument
+> to the bootloader command. The value can be given in decimal or
+> hexadecimal format (e.g. 3735928559 or 0xdeadbeef). If omitted, the
+> previous behaviour does not change.
+>
+> Signed-off-by: Steffen Greber <sgreber@lilafast.org>
+>
+> Add WIC tests and support setting GPT diskid
+>
+> Add unit tests for wic.py to cover previous patch review.
+> Also extend implementation to allow defining the diskid for GPT partition=
+s.
+>
+> CC: Ross Burton <Ross.Burton@arm.com>
+> Signed-off-by: Steffen Greber <sgreber@lilafast.org>
+> ---
 
-diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
-index 62305cc1ce..96d9c34bfa 100644
---- a/meta/recipes-graphics/images/core-image-weston.bb
-+++ b/meta/recipes-graphics/images/core-image-weston.bb
-@@ -4,9 +4,11 @@ IMAGE_FEATURES += "splash package-management ssh-server-dropbear hwcodecs weston
- 
- LICENSE = "MIT"
- 
--inherit core-image
-+inherit core-image features_check
- 
- CORE_IMAGE_BASE_INSTALL += "gtk+3-demo"
- CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'weston-xwayland matchbox-terminal', '', d)}"
- 
- QB_MEM = "-m 512"
-+
-+REQUIRED_DISTRO_FEATURES = "wayland"
+Hi Steffen,
+
+Thanks for the v2, but it looks like the v1 was merged. Can you rebase
+on master and make a separate patch for tests and GPT partitions
+handling?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
