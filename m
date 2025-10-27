@@ -1,67 +1,95 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8B21CCF9EA
-	for <webhook@archiver.kernel.org>; Mon, 27 Oct 2025 21:53:54 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web10.3685.1761602031630290429
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DF5ACCF9EA
+	for <webhook@archiver.kernel.org>; Mon, 27 Oct 2025 22:49:15 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.4851.1761605350531899559
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Oct 2025 14:53:51 -0700
+ Mon, 27 Oct 2025 15:49:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=T63JXDy0;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-2025102721534989c6f593c200020740-cayg_v@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 2025102721534989c6f593c200020740
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 27 Oct 2025 22:53:49 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=vvc9JC5ZqgjYxp2uW+wkaGLk0/7CRvY4nusraEedGb0=;
- b=T63JXDy0l2KQbci7XQhmMomrTFVPsGrwBnX4LEmr/1YioR06uf5Xgc7JT9U0Fp1u9sbVC+
- axOnCf0B94wV+uxPKnskk1GikQnIr6iJLFabH8SsXguzUGunsw1C8nSvsAIGRavUZbizZWTj
- 6TtNXb5WvoWAI0IYErOhByKzPn+mUwCUl76QbL1X7I2ZwTuflx8lY2Dhhyf15yp0d2ad+M5w
- z0JpDTouvCEnNC8uSYrdW9qB/2eF3pmbfm/RJjmnaxupoEdD0aseQbRgHZyh0fG7xKLphT9O
- QUqV4bN7Mnd0Oo9M6aU1mEjVzK6cZJL3JEYaCPvAbdb1S4oG62s7A+ww==;
-From: AdrianF <adrian.freihofer@siemens.com>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35DF61C14
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 15:49:02 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9867F3F63F
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 15:49:09 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH] uboot-config.bbclass: fix obsolete comment
-Date: Mon, 27 Oct 2025 22:53:34 +0100
-Message-ID: <20251027215334.2458150-1-adrian.freihofer@siemens.com>
+Subject: [PATCH] python3-urllib3: remove rust dependency
+Date: Mon, 27 Oct 2025 22:49:05 +0000
+Message-ID: <20251027224905.3530383-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 21:53:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225367
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 22:49:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225368
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+python3-cryptography (and thus, rust-native) is only needed by the
+urllib3.contrib.pyopenssl module, which is not recommended for use up
+the urllib3 upstream maintainers:
 
-fitImage is no longer a supported KERNEL_IMAGETYPE. The comment is wrong.
+  Module for using pyOpenSSL as a TLS backend. This module was relevant
+  before the standard library ssl module supported SNI, but now that
+  we've dropped support for Python 2.7 all relevant Python versions
+  support SNI so **this module is no longer recommended**.
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Add a PACKAGECONFIG to control whether this module is shipped, and
+disable it by default.
+
+This removes rust-native from the default build of urllib3, which is in
+the dependencies of other common modules such as requests and sphinx.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-recipe/uboot-config.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../python/python3-urllib3_2.5.0.bb           | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes-recipe/uboot-config.bbclass b/meta/classes-recipe/uboot-config.bbclass
-index eb82dd3583b..fd6c0451426 100644
---- a/meta/classes-recipe/uboot-config.bbclass
-+++ b/meta/classes-recipe/uboot-config.bbclass
-@@ -85,7 +85,7 @@ SPL_MKIMAGE_DTCOPTS ??= ""
- UBOOT_MKIMAGE ?= "uboot-mkimage"
- UBOOT_MKIMAGE_SIGN ?= "${UBOOT_MKIMAGE}"
- 
--# Signature activation - this requires KERNEL_IMAGETYPE = "fitImage"
-+# Signature activation
- UBOOT_SIGN_ENABLE ?= "0"
- 
- # Arguments passed to mkimage for signing
--- 
-2.51.0
+diff --git a/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb b/meta=
+/recipes-devtools/python/python3-urllib3_2.5.0.bb
+index a4f39957309..62fdf8e345a 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
+@@ -7,18 +7,23 @@ SRC_URI[sha256sum] =3D "3fc47733c7e419d4bc3f6b3dc2b4f89=
+0bb743906a30d56ba4a5bfa4bbf
+=20
+ inherit pypi python_hatchling
+=20
+-DEPENDS +=3D " \
+-    python3-hatch-vcs-native \
+-"
++DEPENDS +=3D "python3-hatch-vcs-native"
++
++PACKAGECONFIG ??=3D ""
++# This is not recommended for use upstream, and has large dependencies
++PACKAGECONFIG[openssl] =3D ",,,python3-cryptography python3-pyopenssl"
++
++do_install:append() {
++    if ! ${@bb.utils.contains("PACKAGECONFIG", "openssl", "true", "false=
+", d)}; then
++        rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/urllib3/contrib/pyopenssl.p=
+y
++    fi
++}
+=20
+ RDEPENDS:${PN} +=3D "\
+-    python3-certifi \
+-    python3-cryptography \
+-    python3-email \
+     python3-idna \
++    python3-email \
+     python3-json \
+     python3-netclient \
+-    python3-pyopenssl \
+     python3-threading \
+     python3-logging \
+ "
+--=20
+2.43.0
 
 
