@@ -1,109 +1,112 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23347CCF9EE
-	for <webhook@archiver.kernel.org>; Mon, 27 Oct 2025 20:02:54 +0000 (UTC)
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web11.1069.1761595366152345622
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6429CCCF9EB
+	for <webhook@archiver.kernel.org>; Mon, 27 Oct 2025 20:22:44 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.1528.1761596563014025732
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Oct 2025 13:02:46 -0700
+ Mon, 27 Oct 2025 13:22:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Oe+auzU4;
- spf=pass (domain: baylibre.com, ip: 209.85.222.178, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-89048f76ec2so576377085a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 13:02:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=D932nc01;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47118259fd8so38890365e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 13:22:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1761595364; x=1762200164; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4Z3SwCl/pN4oezS6vPjMzMIF6TxzR8BsyrRisMNsocw=;
-        b=Oe+auzU48h4jzeXyw+WaDQ30Ell8F1+HPcj6IqAhqZauKRLhYvAgPvqnHzofaizD5I
-         VIHleiMhBj9aKMgMO53VaTfA8SCnIF3f/EcMHuDMSd1r4tqP8l6/q7RoanBF4Eqj00Ht
-         VuHAMFYTmwzTkZefqR7I65almb7gZl667QWhDWeSK6r4Gj71DiG5F0Bp4gFQzkJAKfQW
-         Su3LB3klNIFHVFRWVjxqKBKPSpgZQfrmuduXi1rtYVhJaPqROKuETyekpwPGTQtNkHPD
-         TAHsuygKOitPg825z+/Ilh+3mJUc0ZgPV70rz673j3x/aRlAfr9gOlZhCg3H4wEvAn3y
-         Kzng==
+        d=gmail.com; s=20230601; t=1761596561; x=1762201361; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=khqToh7EKIg+nIQBhTzvy8QwXicGWABSud6BWiH7M4Q=;
+        b=D932nc013qG7pQJ2Bh4iBkp34Fvziu6LOX9tZa0tvQzYxv0xkegIT9U8z9t7IdkDaM
+         0fWUZd1YTuk/jBRobtvkQG3x5n1DsqRyIFg5e2sdnhTkoqr1tVMHZrQPFnKCifHF/GFw
+         A6H5hQkN0Njb8rzBGoeBhbZEfVj0fHFa0OwwSF+Dc4NalHivJCnmI7GqO90zAhg+mROA
+         Ovzs83Vy8G5iT5m6Xs+ncvVx4TO2UigOwfKepJbGTce3NQZDDASE7Wx5Qo/xhVOfcPtX
+         AXaWh2YP0rtkll90+lXRbSRgIoLEx6nsE2sDvwW2JzsJeHj4HTiX0ABUYgMfFmLk/E9D
+         ZhvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761595364; x=1762200164;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4Z3SwCl/pN4oezS6vPjMzMIF6TxzR8BsyrRisMNsocw=;
-        b=oceVTBj/gY+32J6jhEWJTAhS5xHaDz2uPPWqngYN/EUeHsjuXrPZgvxfJeWk9TBfwu
-         p5BUihdF+xYidPilsOBkeEYCB1/2Y1aBjrMRBAoDy/M3OqLgwZ2oZmK109TZCilAItad
-         /RZL6P5Fn+c9G2eKHvZXV05kO3+9YMT069Bvcnktvdtj9hjR5aZeOIVg9dsCIjvQ/OEx
-         h+ZwgoaCuD8KRkGLhiT6C5/xzZq2VbFru6vQwWWXK2eiDPMEKRXdgRZOCQ2Kl7iNAOwi
-         Zd9j/xBSntz7KFjwjvGaVgsrY2U33StqyL6Xx83IzASP0xFBasFEXyPwvq2jXbEHQwZA
-         V6+A==
-X-Gm-Message-State: AOJu0YzeAoXr+FpWCUD/dUVavEmi6mbEmVCiHONZPJKzSat3I28ITMWJ
-	epoZKVXOFG82Niz1HZoqYivgJ4lZFhhPjL7Jdl8EeCIw1TciGcm4LESmmJTCJamnSEuR1+55D2v
-	GFq50jUE=
-X-Gm-Gg: ASbGncvB3Kt4tSjJiP95aPh/glMaBxgsdR7WpKfEhTbCbTej+8NoO7AkOqi67UEvnrJ
-	33744zwXh81bdNOPSfHTdIYKF72stpBT1a3YRf74bY3b/BzaurNeBXZslqjHQYFukga8d7tnrji
-	vUcV+/MyOmXR4ayFqZ92TnzY9mX1MxlKU4HWdQO+AEiKmDiIoZIG5vrXMZO9MrzF8LNn398Zjxt
-	qjj/sfsI33Og51RPvP6WrzC6nEwvlsrHcZ5RhX+EHWCUwAfSo3BZoodJ5H9sOI5BWADtPP3b6oO
-	L8y6qI+v8a7wa/SEt3BrjQzpjm3bHMGs1oW0ySSjyDmQC1QQvAf1rBum07ZgVWsDEFdPMYksOce
-	PYou+4n1tADLIBXuw4EqiJ5qQtWuL8o9ThaBSSNSxQbe7hQW9h0M2zRJ3msz7j7gh36xHOJvl2c
-	RL30E6AVn8xj9OewA=
-X-Google-Smtp-Source: AGHT+IHBeMDlfBOKn732m6NR/HJ7aB/0xQcFswJOsfLABTW9Dt4SI8MVEv4S1Oz9ywpFQrjn5Lhndg==
-X-Received: by 2002:a05:620a:1a95:b0:892:9838:b17a with SMTP id af79cd13be357-8a6f3c36254mr146857185a.3.1761595364138;
-        Mon, 27 Oct 2025 13:02:44 -0700 (PDT)
-Received: from localhost ([2001:1970:3847:e000:8598:5636:16ad:2a8f])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-89f31bd2613sm645941085a.11.2025.10.27.13.02.43
+        d=1e100.net; s=20230601; t=1761596561; x=1762201361;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=khqToh7EKIg+nIQBhTzvy8QwXicGWABSud6BWiH7M4Q=;
+        b=XPgAFbhMk75KZQgZyP1S9NZ3CrRS87h2gobbDjkkNPgL48xUrGCTin/DNWA4a3cPRD
+         bR/dX4igsRlfXM1sgFsk1lFJ18g8QxQGlKTwNMhg5+OldISYoPs+PZwAYYccXIkYxIVt
+         bfJsWLrm187mT/v92BsEHJa5Xlbo3wgB+vP37FLLUIVWc3aawlmMaQmiD91DOG8YSn2a
+         doNjYdjlBWblDq9mdd7BgN5G20OZ1XSOZFxDyi+QcrFNdPfbdU1o9SOK1PXuaaG22BnV
+         Z4fFUmJOxMlS3e0Da37KB48IIT2ncpVShh+YbDXb9xevl3tnprKTi/P7JiDccYdZCNho
+         FPKw==
+X-Gm-Message-State: AOJu0YylB0TZTGcrRwtO/LXHqJyTntRuc2V/6teAHTXzWqxE/PIF6oTL
+	dqNAVYVBORVZUPYCKltNw+Ob8tPtj9ukytdraiPA5WonEAKUDzas9o6Bt7CJ6A==
+X-Gm-Gg: ASbGncsE3ce6dW/xHgCuWcr4ALQRUAGNbXwoKlVweFpVutDbVQPibl9jYD3E3UOA8eq
+	3MVqjPK9dCrkR2W0Eo++7Ifl8fZcTzVf+HO1v2Xvso2rr5YMbH9zSDFOYTrikJHb2AAYmXi+Nbp
+	z4F0vbS+AMGkFeq1ALeg0Mg3o5k3gURDgs5I0jXSa5S3IYM8/1Ufcrhuzy4co4nwOtQ0b/VAz31
+	/1Y1bV55/JjjqgSWwTlEvW/XsJNbgs9xSGjbXiCZaSvp3n8ikJ55wbPkGkn9m1hcwmsIwZxGXWz
+	MC8zreERoIDsKPL2kbIFKaAZY2dAaXSAJgNQBDsb5ivXDJJOVvJyc62IXDcqpV8YS6hq112aa2Y
+	4naVDctfAp1u81Eg7KQWiEVdUuUdDsPXQq/Dk4KZof3RbBfoWjDNEOtMQQWTqEo5ZUpWBTnYcNk
+	KIr6Qbr9vcwC7lvKowAe4=
+X-Google-Smtp-Source: AGHT+IHaOBFQnLHyeyvE4XFXXlr+EWCHX8L1n2/hF06iMIn1q2zDAH3+tJkggLS4rxRoYdPAYMzO1w==
+X-Received: by 2002:a05:600c:3b14:b0:46e:4329:a4d1 with SMTP id 5b1f17b1804b1-47717def6f8mr9469925e9.4.1761596561163;
+        Mon, 27 Oct 2025 13:22:41 -0700 (PDT)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952db9d1sm15890557f8f.35.2025.10.27.13.22.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Oct 2025 13:02:43 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
+        Mon, 27 Oct 2025 13:22:40 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 2/2] python3-referencing: upgrade 0.36.2 -> 0.37.0
-Date: Mon, 27 Oct 2025 16:02:38 -0400
-Message-ID: <20251027200238.751241-2-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251027200238.751241-1-tgamblin@baylibre.com>
-References: <20251027200238.751241-1-tgamblin@baylibre.com>
+Subject: [PATCH v2] tar: use diffutils for ptest instead of busybox
+Date: Mon, 27 Oct 2025 21:22:39 +0100
+Message-ID: <20251027202240.4100310-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 20:02:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225355
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 20:22:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225356
 
-Changelog
-(https://github.com/python-jsonschema/referencing/blob/main/docs/changes.rst):
+A testcase (sparse03) sometimes times out on the AB, in qemu (without kvm):
+the test generates an 8GB sparse file, tars it, untars it, and then
+it compares the two versions with cmp.
 
-- Declare support for Python 3.14.
-- Drop support for Python 3.9 which is near EOL.
+This process, going through 16GB of data (using one thread, with cmp) takes some
+time anyway, but when there is extra load on the host machine, and qemu
+can't use its core exclusively, then it can take more than 5 minutes easily
+(which is the default ptest timeout).
 
-Reproducibility OK.
+However the full version of cmp from diffutils seems to be more efficient than
+the busybox version:
 
-Builds OK. No ptests.
+When using busybox on my idle machine (w/ qemuriscv64) the test case execution
+takes 150s, and it almost always times out when there is extra load.
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Using diffutils, my idle machine executes the same testcase in 55s, and it
+never times out even if there is high load on the host system (execution
+always stayed under 3 minutes).
+
+Due to this switch to diffutils when running ptest.
+
+Fixes [YOCTO 15884]
+
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- ...hon3-referencing_0.36.2.bb => python3-referencing_0.37.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-referencing_0.36.2.bb => python3-referencing_0.37.0.bb} (81%)
 
-diff --git a/meta/recipes-devtools/python/python3-referencing_0.36.2.bb b/meta/recipes-devtools/python/python3-referencing_0.37.0.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-referencing_0.36.2.bb
-rename to meta/recipes-devtools/python/python3-referencing_0.37.0.bb
-index 388c1887fb..a75f5f80d4 100644
---- a/meta/recipes-devtools/python/python3-referencing_0.36.2.bb
-+++ b/meta/recipes-devtools/python/python3-referencing_0.37.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/python-jsonschema/referencing"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=93eb9740964b59e9ba30281255b044e2"
- 
--SRC_URI[sha256sum] = "df2e89862cd09deabbdba16944cc3f10feb6b3e6f18e902f7cc25609a34775aa"
-+SRC_URI[sha256sum] = "44aefc3142c5b842538163acb373e24cce6632bd54bdb01b21ad5863489f50d8"
- 
- inherit pypi python_hatchling
- 
--- 
-2.51.0
+v2: add a comment in the recipe
 
+ meta/recipes-extended/tar/tar_1.35.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-extended/tar/tar_1.35.bb b/meta/recipes-extended/tar/tar_1.35.bb
+index ea0993a909..d463eff97d 100644
+--- a/meta/recipes-extended/tar/tar_1.35.bb
++++ b/meta/recipes-extended/tar/tar_1.35.bb
+@@ -94,3 +94,7 @@ BBCLASSEXTEND = "native nativesdk"
+ # Avoid false positives from CVEs in node-tar package
+ # For example CVE-2021-{32803,32804,37701,37712,37713}
+ CVE_PRODUCT = "gnu:tar"
++
++# A test uses cmp to compare two 8GB files. Busybox's cmp does the job usually, but it is much slower than
++# diffutils' cmp, and the test times out when there is a high load on the host machine.
++RDEPENDS:${PN}-ptest += "diffutils"
 
