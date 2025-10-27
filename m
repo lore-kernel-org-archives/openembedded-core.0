@@ -2,111 +2,102 @@ Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6429CCCF9EB
-	for <webhook@archiver.kernel.org>; Mon, 27 Oct 2025 20:22:44 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.1528.1761596563014025732
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 579C7CCF9E5
+	for <webhook@archiver.kernel.org>; Mon, 27 Oct 2025 20:31:34 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.1729.1761597087675735859
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Oct 2025 13:22:43 -0700
+ Mon, 27 Oct 2025 13:31:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=D932nc01;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: skandigraun@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47118259fd8so38890365e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 13:22:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cAP4EchT;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-475dd559b0bso34716175e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 13:31:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761596561; x=1762201361; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1761597086; x=1762201886; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=khqToh7EKIg+nIQBhTzvy8QwXicGWABSud6BWiH7M4Q=;
-        b=D932nc013qG7pQJ2Bh4iBkp34Fvziu6LOX9tZa0tvQzYxv0xkegIT9U8z9t7IdkDaM
-         0fWUZd1YTuk/jBRobtvkQG3x5n1DsqRyIFg5e2sdnhTkoqr1tVMHZrQPFnKCifHF/GFw
-         A6H5hQkN0Njb8rzBGoeBhbZEfVj0fHFa0OwwSF+Dc4NalHivJCnmI7GqO90zAhg+mROA
-         Ovzs83Vy8G5iT5m6Xs+ncvVx4TO2UigOwfKepJbGTce3NQZDDASE7Wx5Qo/xhVOfcPtX
-         AXaWh2YP0rtkll90+lXRbSRgIoLEx6nsE2sDvwW2JzsJeHj4HTiX0ABUYgMfFmLk/E9D
-         ZhvQ==
+        bh=hXOFhHI8sQCt2CK1pDY8ppazmIF7+c97N1B49vdSIyU=;
+        b=cAP4EchT8YfAnhEj06VM+a6K0GYOnLhLlnxA/VqhMl8wRgwdNTrctjllW5zbIlGsrA
+         U/ed4b1ONGK+SYa7vDqh0JrzUAYB2wuldHRT5t+lBDGbGm8Dy1t+Obkmn6/qKR7UexnY
+         WhdQ26Nb0j+Hxu5n4jwjUXoIUpCAg+kd6eFrGyX6jZCT0LeDSy34JLYAQmktzbXoX44O
+         j9RzSACih5Rm16JoX2Fx6L/wJE3doWBccgpu0yfz5yIJk10ZQ4VV2Vui4zEKAmXpCwQK
+         q9dSwoEfO0UxKNBfg444lXMg5I0GvVJwMPmzxt1XU2Koqwebgs1QtpA5F7rZsg1EO54/
+         3vDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761596561; x=1762201361;
+        d=1e100.net; s=20230601; t=1761597086; x=1762201886;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=khqToh7EKIg+nIQBhTzvy8QwXicGWABSud6BWiH7M4Q=;
-        b=XPgAFbhMk75KZQgZyP1S9NZ3CrRS87h2gobbDjkkNPgL48xUrGCTin/DNWA4a3cPRD
-         bR/dX4igsRlfXM1sgFsk1lFJ18g8QxQGlKTwNMhg5+OldISYoPs+PZwAYYccXIkYxIVt
-         bfJsWLrm187mT/v92BsEHJa5Xlbo3wgB+vP37FLLUIVWc3aawlmMaQmiD91DOG8YSn2a
-         doNjYdjlBWblDq9mdd7BgN5G20OZ1XSOZFxDyi+QcrFNdPfbdU1o9SOK1PXuaaG22BnV
-         Z4fFUmJOxMlS3e0Da37KB48IIT2ncpVShh+YbDXb9xevl3tnprKTi/P7JiDccYdZCNho
-         FPKw==
-X-Gm-Message-State: AOJu0YylB0TZTGcrRwtO/LXHqJyTntRuc2V/6teAHTXzWqxE/PIF6oTL
-	dqNAVYVBORVZUPYCKltNw+Ob8tPtj9ukytdraiPA5WonEAKUDzas9o6Bt7CJ6A==
-X-Gm-Gg: ASbGncsE3ce6dW/xHgCuWcr4ALQRUAGNbXwoKlVweFpVutDbVQPibl9jYD3E3UOA8eq
-	3MVqjPK9dCrkR2W0Eo++7Ifl8fZcTzVf+HO1v2Xvso2rr5YMbH9zSDFOYTrikJHb2AAYmXi+Nbp
-	z4F0vbS+AMGkFeq1ALeg0Mg3o5k3gURDgs5I0jXSa5S3IYM8/1Ufcrhuzy4co4nwOtQ0b/VAz31
-	/1Y1bV55/JjjqgSWwTlEvW/XsJNbgs9xSGjbXiCZaSvp3n8ikJ55wbPkGkn9m1hcwmsIwZxGXWz
-	MC8zreERoIDsKPL2kbIFKaAZY2dAaXSAJgNQBDsb5ivXDJJOVvJyc62IXDcqpV8YS6hq112aa2Y
-	4naVDctfAp1u81Eg7KQWiEVdUuUdDsPXQq/Dk4KZof3RbBfoWjDNEOtMQQWTqEo5ZUpWBTnYcNk
-	KIr6Qbr9vcwC7lvKowAe4=
-X-Google-Smtp-Source: AGHT+IHaOBFQnLHyeyvE4XFXXlr+EWCHX8L1n2/hF06iMIn1q2zDAH3+tJkggLS4rxRoYdPAYMzO1w==
-X-Received: by 2002:a05:600c:3b14:b0:46e:4329:a4d1 with SMTP id 5b1f17b1804b1-47717def6f8mr9469925e9.4.1761596561163;
-        Mon, 27 Oct 2025 13:22:41 -0700 (PDT)
+        bh=hXOFhHI8sQCt2CK1pDY8ppazmIF7+c97N1B49vdSIyU=;
+        b=PYc8i3BFrU95nTnDuk1KP4tTI56r+mLvlg6Jacx+Fpb2OPuCtkj//xyZTpIKc+mhuF
+         B3BdjE2+0x8jU0kqel9oGvQfVuOONAxGqi4yGFZbS0qFy+VmbMHfhdcRhimfcgOevnsm
+         GxZ64S7bAPHWltfleuNF8Ix+xvozJw5bONUMrmTvnn1+xRckA4DVBOR6RNvt6rqg935H
+         hul3jf9/iKuMnnFDVa/AnapgiZdyrxVWe3w7DnEVT+IcbjJ0bgkEO+9y6Avr+FEu+jD4
+         ePyMajF9sUpuoadxwN73ug5nVFV1IeYsUWLlhWYlBsqki70upaqRqmzHVXSQmS9p+AGB
+         afzg==
+X-Gm-Message-State: AOJu0YxzUlAC0aTsA+LIdISNEHxx5LIxGxr1H5BZ9eFcdJNAAO/cZmK6
+	xJrETdSfPM5zcX+J459qcfcuLJJmp9cxWzEnk3hCZ++wr9rzRTH7EJpSJthShA==
+X-Gm-Gg: ASbGnctph0hhClLMsKGGwgcAET7RuSIB3YLWbbpZYD9jCSSJYmTtCsPtPtNKomm2Pdg
+	8w4stXA/21d+LnCbK5LAGDMca7KzNfCFVsTVOzJLzsADqIV8f/vlnWcMBR6j3h/fFIPvJII63rJ
+	FgUPpqqCbtw84zan/miW0D2c/0WY0Zr63dJGiLFKTMYCVfW+OTlfJyoIZ22Gg08I0Tj/KaY+i8d
+	1wUlHGfzwmHea2pkcIIB13x33EU9emg2lAZDs2UvC2YyfrbYbBq3HyNfRZE+DnIMcL2JY8T5wwN
+	zmKOLRToynwHiqLPf7rkbypgdpRQ/gOHwvLWaRAQ4zcNnP4FLafazFoXZZacaEDLgnYGYmSVFmT
+	Ze89f60lQSfear2HRv4YIMiYW7xXrfAPhx2KZWZzLAMtU+hILeucmegLwZ+JACbIg77ASXpCe47
+	9giGB7eemo
+X-Google-Smtp-Source: AGHT+IFbayei8q7SA0G3wqtDVMe5oiVmO0xc7uU0DsrsGpUz6BMD6hglgcDTIdwqdufOcOiTV70kQQ==
+X-Received: by 2002:a05:600c:348f:b0:46e:35a0:3587 with SMTP id 5b1f17b1804b1-47717e6f34dmr8854095e9.27.1761597085705;
+        Mon, 27 Oct 2025 13:31:25 -0700 (PDT)
 Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952db9d1sm15890557f8f.35.2025.10.27.13.22.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd4783b8sm155044925e9.15.2025.10.27.13.31.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Oct 2025 13:22:40 -0700 (PDT)
+        Mon, 27 Oct 2025 13:31:24 -0700 (PDT)
 From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] tar: use diffutils for ptest instead of busybox
-Date: Mon, 27 Oct 2025 21:22:39 +0100
-Message-ID: <20251027202240.4100310-1-skandigraun@gmail.com>
+Subject: [PATCH] fmt: make ptest installation and execution more posix compliant
+Date: Mon, 27 Oct 2025 21:31:22 +0100
+Message-ID: <20251027203122.4120798-1-skandigraun@gmail.com>
 X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 20:22:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225356
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 20:31:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225357
 
-A testcase (sparse03) sometimes times out on the AB, in qemu (without kvm):
-the test generates an 8GB sparse file, tars it, untars it, and then
-it compares the two versions with cmp.
+Instead of using `ls...` just enumerate the folder content with an asterisk.
 
-This process, going through 16GB of data (using one thread, with cmp) takes some
-time anyway, but when there is extra load on the host machine, and qemu
-can't use its core exclusively, then it can take more than 5 minutes easily
-(which is the default ptest timeout).
-
-However the full version of cmp from diffutils seems to be more efficient than
-the busybox version:
-
-When using busybox on my idle machine (w/ qemuriscv64) the test case execution
-takes 150s, and it almost always times out when there is extra load.
-
-Using diffutils, my idle machine executes the same testcase in 55s, and it
-never times out even if there is high load on the host system (execution
-always stayed under 3 minutes).
-
-Due to this switch to diffutils when running ptest.
-
-Fixes [YOCTO 15884]
+No behavior change should come from this patch.
 
 Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
+ meta/recipes-devtools/fmt/fmt/run-ptest | 2 +-
+ meta/recipes-devtools/fmt/fmt_11.2.0.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-v2: add a comment in the recipe
-
- meta/recipes-extended/tar/tar_1.35.bb | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-extended/tar/tar_1.35.bb b/meta/recipes-extended/tar/tar_1.35.bb
-index ea0993a909..d463eff97d 100644
---- a/meta/recipes-extended/tar/tar_1.35.bb
-+++ b/meta/recipes-extended/tar/tar_1.35.bb
-@@ -94,3 +94,7 @@ BBCLASSEXTEND = "native nativesdk"
- # Avoid false positives from CVEs in node-tar package
- # For example CVE-2021-{32803,32804,37701,37712,37713}
- CVE_PRODUCT = "gnu:tar"
-+
-+# A test uses cmp to compare two 8GB files. Busybox's cmp does the job usually, but it is much slower than
-+# diffutils' cmp, and the test times out when there is a high load on the host machine.
-+RDEPENDS:${PN}-ptest += "diffutils"
+diff --git a/meta/recipes-devtools/fmt/fmt/run-ptest b/meta/recipes-devtools/fmt/fmt/run-ptest
+index a069e4543c..ba1e9fc51f 100644
+--- a/meta/recipes-devtools/fmt/fmt/run-ptest
++++ b/meta/recipes-devtools/fmt/fmt/run-ptest
+@@ -1,5 +1,5 @@
+ #!/bin/sh
+ 
+-for t in `ls ./*-test`; do
++for t in *-test; do
+ 	./$t && echo PASS: $t || echo FAIL: $t
+ done
+diff --git a/meta/recipes-devtools/fmt/fmt_11.2.0.bb b/meta/recipes-devtools/fmt/fmt_11.2.0.bb
+index 06ba523ada..133e1ae77d 100644
+--- a/meta/recipes-devtools/fmt/fmt_11.2.0.bb
++++ b/meta/recipes-devtools/fmt/fmt_11.2.0.bb
+@@ -17,7 +17,7 @@ EXTRA_OECMAKE += "-DBUILD_SHARED_LIBS=ON"
+ EXTRA_OECMAKE += "${@bb.utils.contains('PTEST_ENABLED', '1', '-DFMT_TEST=ON', '', d)}"
+ 
+ do_install_ptest(){
+-	for t in `ls ${B}/bin/*-test`; do
++	for t in ${B}/bin/*-test; do
+ 		install $t ${D}${PTEST_PATH}/
+ 	done
+ }
 
