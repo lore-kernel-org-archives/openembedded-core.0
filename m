@@ -2,76 +2,128 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18168CCF9E5
-	for <webhook@archiver.kernel.org>; Mon, 27 Oct 2025 18:05:57 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web11.39830.1761588350589091484
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0515DCCF9EE
+	for <webhook@archiver.kernel.org>; Mon, 27 Oct 2025 18:12:47 +0000 (UTC)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web10.40359.1761588764503916002
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Oct 2025 11:05:50 -0700
+ Mon, 27 Oct 2025 11:12:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gTmvk7YE;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-87c148fb575so52584076d6.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 11:05:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z97mphFH;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b5b823b4f3dso644837066b.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 11:12:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761588349; x=1762193149; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7OMgmtiWZ0+UOH2Fqs8z9+US6Lvhc51hbtgm1kwuN8c=;
-        b=gTmvk7YEHjcHuyr3dJbV+f44Z2aZiNU8UNkyL38ZNrdkiLlUyutk5vYsEiLyUBqGDQ
-         Wcrb7ZdkJaVMXiXVmMAMjjMdDT92f3/XtWgrulAuC815IVmgl/l4GnW00FCS4+ttYy8U
-         Shm6/FDag/uNcWrMna4bamthqfbv/yUX/EZFy2Ej+2Ft5ep1X4Zh/knJ7oRQPDUGdbYZ
-         fzYXyr434D06pU2APx6qTGKWPFJleSTzEllqOa+yMonz0Nf57vieqHHwaUm0ZiGd+8XO
-         GSHNCf+6eCwDhfNe3XY56bI6g1E8eJJdYMt/i+vv1pOzWw/66xGNZrxMXQ8gCoUXWerO
-         ND3A==
+        d=gmail.com; s=20230601; t=1761588763; x=1762193563; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FOHxa/sjOkla9FLYE7vMztSEan6eGTQh2QuIWh5V/oA=;
+        b=Z97mphFHUkBCnVPqX+egkvTqfX0W2gBpFV/TatUm537sQ5/xUD5+CmbW37p+eBUf17
+         YW0QlfWVM5qTlY9y6Xn7MDslUDdkdjKDYQrAWz4meKHGbg/bnC3bCv7HSgp/HRnAKsWi
+         mEyErC4v4hTwnie8tCPmL6ZMdaTvngz9kvezym/+FWbRBTCgwgbaJB1vujRdXEr9W8jT
+         egt25BcGnpOYo6exMOCwqCKRXaM9LgFLD4VdkJNJB7Om+lpADcupWntwNlKwzN18Ibnx
+         GtPXe25raBkGyPcTWvJaf+l+b7jLTuh0JPCBSj2ReDCBvufWhm5UWNbmLWI4kbQNlyUM
+         +OEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761588349; x=1762193149;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1761588763; x=1762193563;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7OMgmtiWZ0+UOH2Fqs8z9+US6Lvhc51hbtgm1kwuN8c=;
-        b=HysAVTD2/tqJusm6Kf/4JAXM4CdubqJZIloB70LJeOqXqkQD2nbJ6QqIwVZ3QJZZHN
-         DK7Vqf8jjEliRcUgvau5+PQ9fgtdn8xSS+CgO34rS1A+YaVZTe6ztO+0bDBJRL/J/oAg
-         WqdjGEZ0ty/BCF7nwvRlQRBLlz5MKNX5zj0PHy31LiZOA+dsIdEO9OQrbGj8SX8SQiMS
-         66vjKAkCvlqTImGfBmLBAPZooPlACjJkncMBfK3gLSSIQ4zRBcyZQYlf13DmZPhug7Hq
-         quQ0cjoCmRx/VNgSsPy6a7ejHXfCjcFRgJIGUcQpPAFp9jfjw0+WvxcC3ZTnspnusCM4
-         WeoQ==
-X-Gm-Message-State: AOJu0YyDSJXrkmRQZC9Vjz68vrOq21pzgJBbis53TKdTpkmUyl9ousvN
-	yktUcRWyMOoOJ53ywxaF5MS4BAYuG52TXzsgS3x02znSKr/B3g5Qmzn9thi6kc66Obj5OS4F+eo
-	18lTtCatcyK9uLogUJvN0pukpw7auZA6Isw==
-X-Gm-Gg: ASbGncsd6Bot0UY4MC+k3dZwB81LlAz2+l1pP9/haS3Y728Fz9jMv3g8bsawOq+ljnn
-	IQlgDAxFw42KENdixcM8KdkODViempOSBuWC+/kXzqv+3T5QvMiHy1Q357x3gL3AHqao8GLELPm
-	E0UvKuD7NRb+U/SX49IMLfItULK4ut76L+fwq1AEwoZSKczz0WDk4CDbQ0m6shFaN/iz2MSiBZb
-	aRMeniO1DhUWJ3NrN/C8F3c3hjtyprLuZEfcJKWKPjjDB+xFZK0LbK/i6E0rnrz3jqVIet/hpvF
-	shNxDOqeK9lXaKijoBGQu/guTIAotp8Yrm58OCDbWree967Heire0RRGYA+4uv4SAzGPC8v04j+
-	vew9F3I64PgnpgcPunI9sHEv9MMDL
-X-Google-Smtp-Source: AGHT+IGB5mR/FaGQMVS+fmfn5xjdlzvqM/53w9ADAApiTH5C8TU7ZKc8OUNL+A36MoubC9ea+HT6wvu07RJxmAZ5/58=
-X-Received: by 2002:ad4:5caa:0:b0:78d:a236:7fcf with SMTP id
- 6a1803df08f44-87ffb0c80f2mr8376896d6.48.1761588349507; Mon, 27 Oct 2025
- 11:05:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <DDT9RKMCRMIH.1SD6UWN350K3R@bootlin.com> <17005.1761587902608957463@lists.openembedded.org>
-In-Reply-To: <17005.1761587902608957463@lists.openembedded.org>
+        bh=FOHxa/sjOkla9FLYE7vMztSEan6eGTQh2QuIWh5V/oA=;
+        b=YzbIu8xe5atd/Ajf4vZWXmXY6Kv+nRJKGrtg4xVhkDOHpBuch8+5oNjsq4CrJdYlmC
+         Ix+x8Kg4P12OlEvTivEWTOqUUdDbRUieejpEVkmTHP8smkuTvi6teYL6mclPxXVtZHl/
+         Ds6nlDOOYH2SfI93SCxqKZzL3afbDX76WIDtB10E176cmCYntM9JszqSnBsazHJM2OBc
+         YLpfwvMHKyt4MixDMomDIGIn0dSiaNnRAU6jSJ+A/nP7Cfsd09k2IpF8K+cy6vvzKeRt
+         dh9ZprzOjQ8BvArukcWk4ic+67WNdOVwL7YthdnB7r8GpnNkhtIVP2F/sFgnEbCKRHjK
+         FFww==
+X-Gm-Message-State: AOJu0Yw2t8h8hVLoe/evd0ECBlTZU2JUYSjtiLZzN2A/zN6jKBWRjs2Z
+	F1QzvqsZzF7Fd3Nh2RfAkIdvKtQcntKg4iZs9gtd8BqrVZms8t846fC+ddEnLA==
+X-Gm-Gg: ASbGncvjiwvKY2Kn2mSKahCyeXSpSk2dsMVtgynq75tYxWU22GCxN+5K0qlAUFG48uA
+	rLdMGV3SoYbnsI1VC9CZk8KiYhtFpb2kWyMRs85GzZgHQ6xjDGgHTspIWMzbkV5MUZP8ov54QIo
+	uHdORow8fPRyQqGCg1hiP7U8ffxK7hdSX/wXmzo8VCMqOhHWlQLhit2cIPKJhGJrNxiq68cpOgW
+	fhjX00CDSbEoPqlNj5gxj9YEWQjX4+UNzaUm2EVkRibQ7FPMD6eyZwUYb/rSnCl2BP22OMgBCJ1
+	MvEfPOcJJxpkZRk3ndovNP2J9GGhln8sOKr4z2NDCYxuhX8LpTn1Y6sMUy+ICxfvX5aRRJz+E/Q
+	mf+/AsAiAfhq/ZU83mTCrPhpSJDgpst3sGTfdkNld7Mir4+lnOTUF0H7gYLfcOVPV1GjAYaXW3g
+	YPFrvg8rmfMa9aFD1trrU/HhZhocMA41FfK0eH+oEyARZerAe/59HuqsqqQWnQmJwlFQH1BBduc
+	VPth18cb+qcoaGJgBJvxqE0X7c0feZ5Mf37bDVv/qXVFuj5g2sxb9kMxRJc
+X-Google-Smtp-Source: AGHT+IFnTTzKQiDblJFwKX2foF89+Fy2m9r6SCwwGrqcIGuh2tbwgMY2ZlgYnSbdIV7zw7IPP9v//g==
+X-Received: by 2002:a17:907:1b1a:b0:b3d:9c3c:9ab6 with SMTP id a640c23a62f3a-b6dba4a69e6mr69881166b.29.1761588762699;
+        Mon, 27 Oct 2025 11:12:42 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d854430dbsm824723066b.63.2025.10.27.11.12.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Oct 2025 11:12:42 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 27 Oct 2025 19:05:37 +0100
-X-Gm-Features: AWmQ_bna65cB_hkVcYTUbJM3G0P9Som8J6MtlFAx-k6IaAS-dkt3PcyCgBLsGJ0
-Message-ID: <CANNYZj9xkMGyQ-TPTnA-i5A8K6QFLgNAE6SZ7FQkHh+h=oEcgQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] wic: add option to specify the diskid
-To: sgreber@lilafast.org
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] layer.conf: add a bb_min_version statement to perform an early bitbake version check
+Date: Mon, 27 Oct 2025 19:12:38 +0100
+Message-Id: <20251027181238.3798758-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 18:05:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225345
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 18:12:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225346
 
-On Mon, 27 Oct 2025 at 18:58, Steffen Greber via
-lists.openembedded.org <sgreber=lilafast.org@lists.openembedded.org>
-wrote:
-> Sure, I can do. Btw I am asking myself if I should also add some documentation? Or will this be done by someone else?
+From: Alexander Kanavin <alex@linutronix.de>
 
-It's better if you can send a patch for the docs as well.
+Please see the corresponding change in bitbake for the rationale:
+https://lists.openembedded.org/g/bitbake-devel/message/18223
 
-Alex
+This change also means the identical later check in sanity will never fail, and so
+that can be removed.
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/classes-global/sanity.bbclass | 5 -----
+ meta/conf/layer.conf               | 3 +++
+ meta/conf/sanity.conf              | 2 --
+ 3 files changed, 3 insertions(+), 7 deletions(-)
+
+diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
+index 6934e071a3d..bdd4d1474ef 100644
+--- a/meta/classes-global/sanity.bbclass
++++ b/meta/classes-global/sanity.bbclass
+@@ -845,11 +845,6 @@ def check_sanity_everybuild(status, d):
+     if sys.hexversion < 0x030900F0:
+         status.addresult('The system requires at least Python 3.9 to run. Please update your Python interpreter.\n')
+ 
+-    # Check the bitbake version meets minimum requirements
+-    minversion = d.getVar('BB_MIN_VERSION')
+-    if bb.utils.vercmp_string_op(bb.__version__, minversion, "<"):
+-        status.addresult('Bitbake version %s is required and version %s was found\n' % (minversion, bb.__version__))
+-
+     sanity_check_locale(d)
+ 
+     paths = d.getVar('PATH').split(":")
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 54fa04e213e..d6dbad040c2 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -1,3 +1,6 @@
++BB_MIN_VERSION = "2.15.2"
++bitbake_min_version ${BB_MIN_VERSION}
++
+ # We have a conf and classes directory, add to BBPATH
+ BBPATH .= ":${LAYERDIR}"
+ # We have recipes-* directories, add to BBFILES
+diff --git a/meta/conf/sanity.conf b/meta/conf/sanity.conf
+index 71828542748..602a7701f4c 100644
+--- a/meta/conf/sanity.conf
++++ b/meta/conf/sanity.conf
+@@ -3,8 +3,6 @@
+ # See sanity.bbclass
+ #
+ # Expert users can confirm their sanity with "touch conf/sanity.conf"
+-BB_MIN_VERSION = "2.15.2"
+-
+ SANITY_ABIFILE = "${TMPDIR}/abi_version"
+ 
+ SANITY_VERSION ?= "1"
+-- 
+2.39.5
+
 
