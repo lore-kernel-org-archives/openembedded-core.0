@@ -1,181 +1,173 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56F41CCF9EB
-	for <webhook@archiver.kernel.org>; Mon, 27 Oct 2025 19:13:57 +0000 (UTC)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
- by mx.groups.io with SMTP id smtpd.web10.41888.1761592430182074988
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57A48CCF9EB
+	for <webhook@archiver.kernel.org>; Mon, 27 Oct 2025 19:14:37 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.71])
+ by mx.groups.io with SMTP id smtpd.web10.41902.1761592471176454491
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Oct 2025 12:13:50 -0700
+ Mon, 27 Oct 2025 12:14:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I/I/0PnX;
- spf=pass (domain: gmail.com, ip: 209.85.128.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-78619d34979so1039377b3.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 12:13:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761592429; x=1762197229; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6KkVuTRycuXJt7nAVr6APJ56fNegPDcEBHfDwxJEPGo=;
-        b=I/I/0PnXTlhDdE/EymGQUw+9KrmR5BNYdRjsVCyZ8IXxpd2xGU7dio2JgAbJYqdrS4
-         35DzQhYt1LKmP1BrXEbI6GyjaoTPX487KOGZiEXhNwJ5Vm/3ComEwnFmUPMdS9hjuHCa
-         y5e5vD8xUmgQNohmv8J3MrGH2OTSUoMGrcrFWZ8OeESnfyc+DiSTTer6XsquUd2Jc5LC
-         9NPrYq9TDut8759PK5i9Jif+J0y569KXAlplS845n/9yLIYP3+GOeDtPGbK8TuZAw7Iz
-         1/t88BA7AtG6NUtEuRduio1uI+PRNhywrq5LLrNGmbvYdT+21++VCtk9AlGtK29iDAtr
-         9GXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761592429; x=1762197229;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6KkVuTRycuXJt7nAVr6APJ56fNegPDcEBHfDwxJEPGo=;
-        b=CGLw05PYa9BYxlDhenp3J+hct8CtxwjDTEw5L1LS+/qk89kSXvefeKYAdetro2VNOP
-         /+kAKnE+z84uRYgTx+FEfDpVxmY5GJbfq+wyKZ7782738B9RZXD8FD+cXRia9FRNaBM+
-         9cEFNFiDeNkRHAfwnehB2pWv8c91sWe3VJCyKN8FjuTlZsDf+0GyuxxRKdac1gD0eJJg
-         85QrgQzTJ+lH9pwI5v9bT667OUpI1EtsiSPvp3L551m/WieZ3LfU1flfj+tCutTrXNYy
-         GySPDjr6h7xI/cD93Wl5VZMV+/rYRMDMMx/kXUrP2RaXY0UoYb7L7BP4GPSpBB+Pl57v
-         iyVg==
-X-Gm-Message-State: AOJu0YyG+EqVDOuH8P+/KJgN+tC7j4tw45IC8v4gYvIsrUpnJcDXaPKY
-	3Smhv+ym1ENWLbc7BONH1MkCb3Zp/C/ZarB8g2BQFs0CBtXiMrYywkgnctQOWdeZ4WrkPBoBSwF
-	bHay5tz2y/sOV2DkHzCdIjCQrtWnlONU=
-X-Gm-Gg: ASbGncss6PHqxAQ4km13FpRFsFasnNPUe1GiECgDfputW3bzFh2Ek9xG5hoNoQ7IDvq
-	OI5RXq/sqCk/N8PBe1SeMFma9SX5NujHY5kd4FFwXSKx/4+tGcVHtxUmY9UGkZORrRcqasErgST
-	STofKFS1vslejdmcYFosn5TE3MJI8LcnWviA5nMtxH5cU6OSv/OqPG/daATzxwT7TCK8xcn7Dt8
-	s1mBvrWD5DE3o8AXByNHlNGw1UzCK9ybnKHzy627OtTDV6epDiEkYgiHffvKHGuGeC6D8Sm9SAZ
-	dNqswNUqNBo+OnDpvXRpjkrBFHhKZXzvhcchK+oqXdIOJg==
-X-Google-Smtp-Source: AGHT+IEtF0EkUxG+LBqzna5Kqw70cvX0oC0MBRwqLjTT7GYusz5nyZ7lpwJmo+HkVVUkIFYdx3nA45AEk2nU9OjOVZo=
-X-Received: by 2002:a05:690c:498a:b0:783:70f1:3084 with SMTP id
- 00721157ae682-78617fcf554mr10032377b3.49.1761592429254; Mon, 27 Oct 2025
- 12:13:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20251027084704.3219220-1-Deepesh.Varatharajan@windriver.com>
-In-Reply-To: <20251027084704.3219220-1-Deepesh.Varatharajan@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 27 Oct 2025 12:13:22 -0700
-X-Gm-Features: AWmQ_bmpfZO0ewwWO6z9vgfAqBjQCf-YGyfkBF1sA_YtpzQhAmB7H6zqlDFlMpw
-Message-ID: <CAMKF1sqBvR+BmO2XLKK2=mOP-CLCtrijRPWCggMTO4=Z=ymPDw@mail.gmail.com>
-Subject: Re: [OE-core] [walnascar][PATCH] glibc: stable 2.41 branch updates
-To: deepesh.varatharajan@windriver.com
-Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=r5GIzInZ;
+ spf=pass (domain: siemens.com, ip: 52.101.69.71, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GNy84f3xk7ye/VMUFQVURsXdYrUyuEehqVcYqZO6c+oBfbAF9Ov8s9X1akEacuvw89E47yleOcDMupknT12NP9w5LMN3WlVmbV0GVouGMu4Uwm9hrQzjH9E3JPATgzUNS/+8uRn5cDiy1bvNdXs1PeR6ZAsGoakRRyTUGCVYq87HGJ1JWNYOXPkZ4l9y5w6AsUf+PWfyt2SS+oqwpu2E/pKZrQKwjdSIyRBg5Pa/SqwkmVMOVS8hf3Mpx5oIwr5pJqCzYlvnW4nOHWuUFt7OCIp0XFN7A7ybeiS68nPOedNRzlKkg86rAeGs+r2u7eTzqtEAA7lI0UThVZaAue2kcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KcZsFLfWh6NQ0lzjCUKllW306iuPIEiECLn+sGJJ1Qo=;
+ b=FB+df/0RovS5ngssKZyLlHFnmcyWPNoUaRVCeb3dfxyupZX1tZvkq5aBlKPkJstes5IIWJftWFdbotUcRq+rF+01AI0xw9FZBiwvNRrHtlMhjegFwbr3qKBp0Pf34VtJjRlF/jTI2OzC0fWQOQWcKPUMyguT30CLZ4I4bdZsIP2kfuV8jQOV76vrRq0A+j6j83kO/mAu5QzNeJe9CwcMvJ3SMWGnTXSbUZ3i7Jr8QXpSoZ2bkvOjRlg+S6I1rThQfWg2SbmGHu7ZRTrn/9CtBTJCbEnY13YcMcgFkSwKx2tm2gYA/Vra4X2UZMlFtDCs9zt5HtoFaxjnYUwhxec8qg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KcZsFLfWh6NQ0lzjCUKllW306iuPIEiECLn+sGJJ1Qo=;
+ b=r5GIzInZ9gMMGxIfJnpR7rhR9Y+WihyohdqYM0UzCYSuhFhVrY5RYSbqM+FhisZfyYc+eCnn7pOdpqaVt4vVqVuZXor3SUvrLjPCm89FgxUwbxlAS7x2xGJnFEnrNkgvDNE18bYchi5TG8P87jxtIUs3nzzXuczb7H/pTpMFAcepHyBCyzSO1U3iam6L4FUtd/MsG9G4oaIGIa0to6yyMDVRj0hsZQG39QLp2M+OR+uCxVTMlB/1OrsQ7oALP9IlfI7tYsOfycLK0url6XtxtBYp/xAqTmrr1aLHHFxR5EVi0j5Qzxeaa4ucO4An9VqWhWyeK4Op9cnJ49qLqo925A==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by GV1PR10MB6327.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:5f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.18; Mon, 27 Oct
+ 2025 19:14:19 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.9253.013; Mon, 27 Oct 2025
+ 19:14:19 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Ross Burton <Ross.Burton@arm.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH] qemu: upgrade 10.0.2 -> 10.0.5
+Thread-Topic: [OE-core][PATCH] qemu: upgrade 10.0.2 -> 10.0.5
+Thread-Index: AQHcPT6IGhIKMD8zAEa9VVb/Z/6gdbTWVWyAgAAbrwA=
+Date: Mon, 27 Oct 2025 19:14:19 +0000
+Message-ID: 
+ <AS1PR10MB5697D5AD87C6A4A685B71410FDFCA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20251014191245.581962-1-peter.marko@siemens.com>
+ <2E417004-B05C-47A6-AB28-4F4F218491C4@arm.com>
+In-Reply-To: <2E417004-B05C-47A6-AB28-4F4F218491C4@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=71e364e5-3e45-4fe6-ad60-4d23f39c02ed;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-10-27T19:13:37Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GV1PR10MB6327:EE_
+x-ms-office365-filtering-correlation-id: 9862ada9-e043-4947-09e2-08de158d0769
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700021;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?OHLAmVU/Eje0WRVMtJSyFmCmaqp47fPT6mUH3hrZv3d3mUVAEKfHE3q/L3bM?=
+ =?us-ascii?Q?UD9tB9GdPGzqRH7HGNf0KiI9CSwG4PdCQdZtXeCipQBKKq7F2aZkmX3PWr5Z?=
+ =?us-ascii?Q?TKn9GphC8axwz/AQZj4dJszLCP5yKITsRvPIThY9VZWXt2Fz4nmswAUWrsGG?=
+ =?us-ascii?Q?eJy7t1F8qkAZF5mvKGkfjsaeeZNW2/78IPwGV8MJaR2aKVclof4OS5PYFhwH?=
+ =?us-ascii?Q?3RtF7PUSgl1AkthcdMgTYtAwJrgxFvK45vVeSf9MgBxEJs/1SauaI9JfGGph?=
+ =?us-ascii?Q?v5TISDK8Rq2hk3kxPeWbgT4td6ozlw5WMunXyD+pDd8ts8R4eYvkJrkdgIBR?=
+ =?us-ascii?Q?FzHkk8lK+RueZs8iqN697riRS6zgftm3aAvHMGjSy1WLnLwUEb8uz1XZX/F2?=
+ =?us-ascii?Q?kvgaD8RvVNmnU1M3tER5zALON5N6rccl2tPoSuGdOBo5DYfUfDZetKMuKe0t?=
+ =?us-ascii?Q?0+xYDm53zLxmbn8hBVNF82R3sAZBsOY3li3QGOUsLLLuCyGqVgp8YCl22fAx?=
+ =?us-ascii?Q?8PQGvNbafpSZIs1mN2H/tUFg0liNGU8ZbXNyLZzNB/Ja5CyyaILw7WWG/hNw?=
+ =?us-ascii?Q?t5i2vrKHtNgZA6E3GR+oWS0eIaeJaDGJNZimDE3czVPJ9OfotAqWLvxszrqk?=
+ =?us-ascii?Q?xCjzMOs9Nbey2nPYcihnZwlrrcTaTiRV6LmhApfU3lSICRfFU8SIVCtc221A?=
+ =?us-ascii?Q?Xg8BB3Rzr0L3SaB2SL5zSF9N1fjdP7najJk1E7mbXKHONWAjClKi0PX2NABN?=
+ =?us-ascii?Q?gmb7jH4f/39Y5vBjYkk3M/FzSYMDPMZ5m9Y3sSsY/U1tfE7D0Ckc3053JN2e?=
+ =?us-ascii?Q?tofOuKddpzdyNaPFTVbB9TJ/OdyIJMuQB5L3ywAYARrAvbe/RXNK0kdaFYtv?=
+ =?us-ascii?Q?P6U0ZceG4+uoXMdf8Y6AjmQGWRduoIoao28xXvOiDeBfm+D2AacXbz0x/vH3?=
+ =?us-ascii?Q?E91Ckbv41hXe6QnhWn7yAXgS4XLysHjFhOcL/Zj5SQXOhBTGd7+UIevKylVx?=
+ =?us-ascii?Q?JhnoqnbTFWN0Jpt1uvf2/1U8PNr/f3wXjtQ4RfcQZoRe0w3+DPKhtuVyeAjB?=
+ =?us-ascii?Q?PHxG7sY6YNFvyEdc6pHsU+wQ5cC9d61K12tfI89yXkmZBKlrRp8/OFJlrRrN?=
+ =?us-ascii?Q?lyx+iXFBz5jwGz0aqi/YS+AHiSf7IHJpE+9c0YWoWwDspslfzHtRVoZNA4PV?=
+ =?us-ascii?Q?PX4T5gA7vqL+SsFwBBLhWueB5wROpgZzjc2iSacgnmi4F99Yc4lBxVDDRW7K?=
+ =?us-ascii?Q?bijaLdOJGigxc+DS//Pa+zMOHHLE6I8Nw4/lqaycvIS/evPEFjL12NUtJePs?=
+ =?us-ascii?Q?10X4F6z6N/mFUnHXS85WHoHdJ4R/IIYwBkPe8hjWYaA5KG9qA2sq8VxGBM4d?=
+ =?us-ascii?Q?41LDxfLxpEf5lKK7f0qoeDcyOGx5bdgf0+fzeBOVdn0Y9nR3wtJrv7hn9/fw?=
+ =?us-ascii?Q?hPBcJfOFTVdNlTvT6dBBdFcsb3mynsAWRKB2GqqMsoJnrpKgeBEztA=3D=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?4uLmonFF8dXsYbpCgNlPO3qpn4mbiAyr/tx4spZ0wgtX4K3FxPhBeJiKKquP?=
+ =?us-ascii?Q?IDi2Nao2oR/R37MzgClBNDW8BljZsGew23/9TuStWfuHa0zydYlBRrK3wRVJ?=
+ =?us-ascii?Q?mrSzxmQm8Ptskr/PJUqsgGzI4areuj2p2Ya5Q+OLpc7tN3F0rXGNuM13VQlu?=
+ =?us-ascii?Q?i8v8h8p7x3FGm8A/8E8F1AdZm28aHRfYxBRP/ugdULvZ8lmpRFC5unD7+ROI?=
+ =?us-ascii?Q?skw9oK/W1s8pJOzPz6MKZAhC9p5EDmXi2HkqHs+UBd9ELmoXC7pXVUhrORcT?=
+ =?us-ascii?Q?Ia1CoiRIok+6CFo7Cuuv/su7EuYL8rhVkJn1FURTH1FO64/SYjAWRsprbpbe?=
+ =?us-ascii?Q?rE5lARXaZHxFXS7EZ6xWslDqXJ/CsDuJnBXcyndIGMoVXOikahcvMDEe1UR/?=
+ =?us-ascii?Q?t1ksagWYsBQU9u+G1PnXbsGyz0SPhbIeKdaG9xs76duSKoqdtETXJ1OS4Nih?=
+ =?us-ascii?Q?nrDhBDTtFSY1UKYubAasQOK3eMpm2lsl3uNpc/nfH6qW4ZodysyWN9fZDd8f?=
+ =?us-ascii?Q?MGpm2rIxQ0KnU4d7SuNlJ1tTtlc2rZhGzoL/ZFGPmvAKbS/OTru4Oya34pMF?=
+ =?us-ascii?Q?RMVgFoLG9HYgCHs95sDB+eia2rxmiwqvHleHaESpc9ZgumxA6Ju4ZbQydjIx?=
+ =?us-ascii?Q?8dCgraZ7PTFiglp2OGatCffW2QU7EIomyTRET9SFTXGt4MhklO/BH/jADrf3?=
+ =?us-ascii?Q?U9EGTYjtCa871T137J20gOXF8OGPTXUyoQuQYKjSFFPSXKFLzRvdEtsOS0sX?=
+ =?us-ascii?Q?gKwN75pNgtkQg9AchKdZQYgBvQ0WCQXh7e/e0acYIDKQxFzKwAqKUXG1LX4l?=
+ =?us-ascii?Q?f7FgNiCm0dVKsG2VcnTyRcMmNJJDrGkJPVmicT/NMWGymApqa4zHWHdGym+B?=
+ =?us-ascii?Q?b0RYiH7lsQ+EeJsplzt8DEQCTsJFK2M7a6MCOiQTgVeNgKWIY+M8NuAf4oQX?=
+ =?us-ascii?Q?kT9PYKbX/Q8HE6qfX8fK3MRKWXWVeUwC/3bkUQZqFIy8Y1wxpcsnEjeFhU5e?=
+ =?us-ascii?Q?/mlVMdcBM25RELw7tskutTk8XSHSGR3Tz6Uqq9h4CtOdXCIN+BThSTeNmhcs?=
+ =?us-ascii?Q?O1c8ehdknH4++mCUFyySZu3J1McnzgOsBPsN4SdBquDle119NxbaQyXeFMa0?=
+ =?us-ascii?Q?EiM6D6XbjEBKTCK2nb8rKyvnBdOVGIIewfCBM1nzs1U8QqpVfyCLlZ9gNKGR?=
+ =?us-ascii?Q?g/rQX4IPXn0I+AY1MpeiPZC74vCeHBR555P0a9u3VkmIdVdJkmAd0GUOfsSS?=
+ =?us-ascii?Q?Q+KOel1KTR88SgOzNTZDQmOWjJHSh+XX7aMpOwq0r44mGDNBvRqfrjoTUgl8?=
+ =?us-ascii?Q?f+2CxvEFYR/sDDvgbMT5mxLf6mbFlmtzEnKr1mfTDViLOxwmJ4jVWhgF7wo1?=
+ =?us-ascii?Q?AewcJN8tsKVuIN04Nz29a/vGFMvXTm4EbxgWmyL/vgK+Bw32RoIqZVfUoWyK?=
+ =?us-ascii?Q?wAQQeVn+zw6EImACvzLjBT4ulK8k3tBgTIExOj5RSvYMOWqNQvaeLNv66zF2?=
+ =?us-ascii?Q?BggfX+PfwoPjmVrnrE4wM35aGw/QvIsxiKEfZQCLlssS30N8xyrCkBtkrsIB?=
+ =?us-ascii?Q?PaqWc86c02Bu9fFyZmX3Y61HXkj9rMj/4CdXvtXc?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9862ada9-e043-4947-09e2-08de158d0769
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2025 19:14:19.2061
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: X5N4JyyK04t6RfTrzOJBqcM9u/HW8h9veR3q5kRP16QKsfP1/CJS/EzJDZNQVVgKH6ymQ+nwXxCG8xCcNjkiZw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB6327
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 19:13:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225349
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Oct 2025 19:14:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225350
 
-On Mon, Oct 27, 2025 at 1:47=E2=80=AFAM Varatharajan, Deepesh via
-lists.openembedded.org
-<deepesh.varatharajan=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
->
-> git log --oneline e7c419a2957590fb657900fc92a89708f41abd9d..cf926cd7fb950=
-0035be19bca90ba9c855dcfcf92
->
-> cf926cd7fb (HEAD, origin/release/2.41/master) nss: Group merge does not r=
-eact to ERANGE during merge (bug 33361)
-> 9867e44cdc AArch64: Fix SVE powf routine [BZ #33299]
-> a52c9b75c7 Optimize __libc_tsd_* thread variable access
-> ed4672abb5 i386: Add GLIBC_ABI_GNU_TLS version [BZ #33221]
-> 7aa907241c i386: Also add GLIBC_ABI_GNU2_TLS version [BZ #33129]
-> c1bec0b52d i386: Update ___tls_get_addr to preserve vector registers
-> aa5dbd5332 elf: Preserve _rtld_global layout for the release branch
-> 42f9c70ac2 elf: Test dlopen (NULL, RTLD_LAZY) from an ELF constructor
-> 3f3b4fdd0b elf: Fix handling of symbol versions which hash to zero (bug 2=
-9190)
-> e2d9e9eb26 x86-64: Add GLIBC_ABI_DT_X86_64_PLT [BZ #33212]
-> dd87fcda43 x86-64: Add GLIBC_ABI_GNU2_TLS version [BZ #33129]
-> 85780b6055 elf: Compile _dl_debug_state separately (bug 33224)
-> b05ce0de3d elf: Restore support for _r_debug interpositions and copy relo=
-cations
-> 9d6577fdff elf: Introduce _dl_debug_change_state
-> 4a3e5f1e4c elf: Introduce separate _r_debug_array variable
-> 940d821afb Use TLS initial-exec model for __libc_tsd_CTYPE_* thread varia=
-bles [BZ #33234]
-> 5d8614b284 ctype: Fallback initialization of TLS using relocations (bug 1=
-9341, bug 32483)
-> f409ec073f Use proper extern declaration for _nl_C_LC_CTYPE_{class,touppe=
-r,tolower}
-> 330cd035df Remove <libc-tsd.h>
-> c467918138 AArch64: Improve codegen SVE log1p helper
-> 6db0f659c8 AArch64: Optimise SVE FP64 Hyperbolics
-> 503f7a7d33 AArch64: Optimize SVE exp functions
-> 307a8a4434 AArch64: Improve codegen in SVE log1p
-> 2a0b52fdd6 AArch64: Optimize inverse trig functions
-> 0bb6dad5af AArch64: Optimize algorithm in users of SVE expf helper
-> daa4de5253 AArch64: Avoid memset ifunc in cpu-features.c [BZ #33112]
-> 1502c248d5 nptl: Fix SYSCALL_CANCEL for return values larger than INT_MAX=
- (BZ 33245)
-> 513629b14d elf: Handle ld.so with LOAD segment gaps in _dl_find_object (b=
-ug 31943)
-> f48de98bce elf: Extract rtld_setup_phdr function from dl_main
-> 62928cf7d8 elf: Do not add a copy of _dl_find_object to libc.so
-> 373408c19f stdlib: resolve a double lock init issue after fork [BZ #32994=
-]
->
-> Testing Results:
->              Before     After    Diff
-> PASS         5829       5837      +8
-> XPASS        4          4          0
-> FAIL         240        242       +2
-> XFAIL        16         16         0
-> UNSUPPORTED  161        161        0
->
-> Testcases changes
->
-> testcase-name                            before           after
-> elf/check-dt-x86-64-plt(new)               -               PASS
-> elf/check-gnu2-tls(new)                    -               PASS
-> elf/tst-dlmopen4-nonpic(new)               -               PASS
-> elf/tst-dlmopen4-pic(new)                  -               PASS
-> elf/tst-dlopen-constructor-null(new)       -               PASS
-> elf/tst-link-map-contiguous-ldso(new)      -               PASS
-> elf/tst-link-map-contiguous-libc(new)      -               PASS
-> elf/tst-tls23(new)                         -               PASS
-> elf/tst-version-hash-zero(new)             -               PASS
-> ctype/tst-ctype-tls-dlmopen(new)           -               FAIL
-> ctype/tst-ctype-tls-dlopen-static(new)     -               FAIL
-> elf/ifuncmain8                            PASS              -
->
-> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-> ---
->  meta/recipes-core/glibc/glibc-version.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-cor=
-e/glibc/glibc-version.inc
-> index 881a9cce2c..b3a66f0a40 100644
-> --- a/meta/recipes-core/glibc/glibc-version.inc
-> +++ b/meta/recipes-core/glibc/glibc-version.inc
-> @@ -1,7 +1,7 @@
->  SRCBRANCH ?=3D "release/2.41/master"
->  PV =3D "2.41+git"
-> -SRCREV_glibc ?=3D "e7c419a2957590fb657900fc92a89708f41abd9d"
-> -SRCREV_localedef ?=3D "fab74f31b3811df543e24b6de47efdf45b538abc"
-> +SRCREV_glibc ?=3D "cf926cd7fb9500035be19bca90ba9c855dcfcf92"
-> +SRCREV_localedef ?=3D "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
+Sure, I have done a quick test send sent-out upgrade to 10.0.6.
+Peter
 
-What does localedef bump bring ? Do we need it ?
-
->
->  GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git;protocol=3Dhttps"
->
-> --
-> 2.49.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#225324): https://lists.openembedded.org/g/openembedde=
-d-core/message/225324
-> Mute This Topic: https://lists.openembedded.org/mt/115971173/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> -----Original Message-----
+> From: Ross Burton <Ross.Burton@arm.com>
+> Sent: Monday, October 27, 2025 18:35
+> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core][PATCH] qemu: upgrade 10.0.2 -> 10.0.5
+>=20
+> On 14 Oct 2025, at 20:12, Peter Marko via lists.openembedded.org
+> <peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+> >
+> > From: Peter Marko <peter.marko@siemens.com>
+> >
+> > Handles CVE-2024-8354.
+> > Drop patch included in (backported to) this release.
+> >
+> > Reference:
+> > * https://security-tracker.debian.org/tracker/CVE-2024-8354
+>=20
+> 10.0.6 was released last week, with a number of potentially relevant chan=
+ges
+> given how this fared on the AB. Would you be able to upgrade to that rele=
+ase
+> instead?
+>=20
+> Thanks,
+> Ross
 
