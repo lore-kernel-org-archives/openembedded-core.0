@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0974CCF9F0
-	for <webhook@archiver.kernel.org>; Tue, 28 Oct 2025 13:46:38 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web10.12196.1761659194742036198
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07DB3CCF9F4
+	for <webhook@archiver.kernel.org>; Tue, 28 Oct 2025 13:46:39 +0000 (UTC)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web10.12198.1761659198116625990
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Oct 2025 06:46:34 -0700
+ Tue, 28 Oct 2025 06:46:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SxSGMXU+;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b6cea7c527bso5839215a12.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 06:46:34 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sMC0ukgv;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b6cf1a9527fso3150550a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 06:46:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761659194; x=1762263994; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761659197; x=1762263997; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vtBBpd63X0+tV2ApqJLqYTGy27BXdj7CbLrnde/NV8o=;
-        b=SxSGMXU+ApbGxT2FytG9SrgmEzqMLV2MzgUohUZI7yTI03its51O99SdJAEdijUdD0
-         8nWtRVxQ1pTtElxFkzBhFPC/xSoT6meOgG26WKkJLhLa595jlkLaXVWHh+i1gzog7k3C
-         fcvy1hQU3BIw962UnMwFebAT65BW43PAYLqMrcAy8ybf7124ZF+ugFGbzq0zoRlh/S0b
-         QwRtXriBKz9D18728NzfFcPw94XzhYR9dOEYeKja0BJJyGPF5RC3MZOfF9FZxBmrMibS
-         J1meueTyWDP6TQI3C6ROsyA+4k/SGzXJI4C6gzE2Pv2wAyz4yXYIi7qBO0lfex3U0OSv
-         n7nQ==
+        bh=jU/HWeoN20d4gDolMMEvRt5eLM7PgXLmntE10pD+eIY=;
+        b=sMC0ukgvukaW5NTuoBo3n5qpqVuH8bm82wWrIj10UzF6IvfqX9DxVDWPjKLLJpeWyz
+         c1/T5o1Z8wYkBPMfL7xmy+FQNMAtJY88sJG0oeHXaAAbaG8m4JxAeRUgshB0fvxFHgHh
+         pc+bsychq4aTGVHtjcNdOutt94ewww8dXkYEvtMjtI6S/uMlGzx0okyFE8aqOvKTiwqP
+         bnOVem8+TpZQElFHSflUVydGGWRWYuBL3KCjYsoKmvSqZ+qZYgRpzVAbXYaAtUcsDAZp
+         CI2lYzxpCD2wbVi6zd24ZKI5sCEPrxHTU467VqmVYW6oKmyxwHC2VGXlle0xfZi7efje
+         Hpwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761659194; x=1762263994;
+        d=1e100.net; s=20230601; t=1761659197; x=1762263997;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vtBBpd63X0+tV2ApqJLqYTGy27BXdj7CbLrnde/NV8o=;
-        b=cikAalXShQQhDNkujW68b9LF5bnRbk12Jv4KnPA+CT89y3SrzKM1e0GNUyEP9NN3J5
-         UCkWKezJ/+aYpxHa/GccEmVeb7jR7r3MavIOesPjdqdonzOMmP6qGyndy1t3aePDQXdA
-         eM9LDaSGrKNaO04WHG6/2Mbhclgx3mXZ0C6UdlcuPliPhdib6n0PDgDXoeQmlAGd7bN6
-         pM56APfU8p3B63JY29Yt7WGrBIei6nSk2rDB8dFuU2k+woysOWuRjmwVDFw7xJrFRbar
-         g6+JPQAw11oFH8tQuJDyHSNcG88V/sQRNbCq87Ad1zNcHf7jlKuy3ht8cBhEhdW2DrcO
-         S7zw==
-X-Gm-Message-State: AOJu0YxuaQmBT///JthEmsKKN74Bo5v6X1iJ0bH1A+w92f2uulk0isV1
-	hjhtLAdjJYDPE5266BllCYnifznGAgOJcNXzKd5jQA6yOjWDUlLAC4NVIpeMofru40J9AhDWcvh
-	e9+iqKDk=
-X-Gm-Gg: ASbGncuQbczuRTchV4KHp1u1GhgKUzHRYupJp8a5+IkAOn9iiO5l12jaxclekN5iI2m
-	7loW8AGWjwGpa08SYGDxoln1BcxEA5ZVpEct1lXitKKNB4baPpgh7nIM7zSdvBG3a9g5iP8AJyT
-	HxYlPCNyvqy1MRMlVHrR8QxkStJvBaplK44pRFHitEXpSDJ+oD/d/MU6cU5fnl9KsIZuE1FSWJh
-	3lPAlebnPdlGQpSKHpLRUS5IEudtDDdlQhdV0iwTH4nXG6sGwj/py8SlA2PnRdIqafcql+DHrQn
-	xelyizLkZfo+AAhm7oOlSyVKz44lllnw65XWi8eV+HloB97+8xvkDmZchq+wFQ8SV6Q28Pc7FWe
-	/1N9g8hMgOab7/b7pW4gC5ct5EVQ6NHED21zLO6edu1LXvuYVYUpIxIbu1krdXq+9wLs=
-X-Google-Smtp-Source: AGHT+IEbb3QC7EdBxvMXHdgZ1kgiiQ9/4LkgMw3OoC/S5Ujnubyjw0ZXKKeMPbKOn/3jXemH7QnP9A==
-X-Received: by 2002:a17:902:c94d:b0:25e:37ed:d15d with SMTP id d9443c01a7336-294cac97ed3mr43219075ad.0.1761659193927;
-        Tue, 28 Oct 2025 06:46:33 -0700 (PDT)
+        bh=jU/HWeoN20d4gDolMMEvRt5eLM7PgXLmntE10pD+eIY=;
+        b=oQkgOkKdIv066wxV3WUZs64Zw7uPeZgzHSKvyEcsXHRvsMz9qdzugQb3BozTY1Di5m
+         WJFeT1qdB5y4rpJRf7hFOhKHUxek1QXpuCYzav36mdGhE5tTy3qJeVM3tCd2K5+ntopu
+         NXWw569JXCBgIIF/RWFq51Pim8ey5sJAQZLC5Qyqlv0ePx61nPq5WFL2VTj7Ok4gE0so
+         WUVPtRe1PP/Y+TTDoRv7oYOnYqN5KjUacp1scAQi8AVlBfo86MGsAzJJckCgBzX2MIlJ
+         5q/k6e95HDCAhtAip50ivvI3TGCEKyUB5l6wDkhIVSxy7I4w5iVjob0GfvagH+uSfZg0
+         DkTg==
+X-Gm-Message-State: AOJu0YzklpWDrcQ5/NK9VS3GWpZMwaFN0JpgAcv2N3RDK4w7orMIMsIo
+	q+aPmklUVGV8vLP5fp+XUiipBBXpD5KvO4N166G8bFR9Ji3qnze3pukOvWJ1bG/RercJ69Iczaz
+	0Qo9l7jw=
+X-Gm-Gg: ASbGncu7uqqL0eLBzg3kMo9u6zEzah3IYlJl6i/vNjJ22UAa4f1IrdfB4YnulcIirWb
+	s8bkzfq7C0eCyS7DP9gb4cku1r8Ifbkx8ACFhBCxYLt/FDcA/k55c+QJBKAGO0Bbu4OSt0ql0PG
+	Y9o9MUJj9ScmITLDAPavZJmAz4BFGxZ/zl3+YageEOy34SCGlvcPLpaS3129Sk8vGMKu/BR/vrP
+	Ilm5HixdtCvcqWgPgxBariQLGkuVnq/YeIKQjEs0g87+btFyFUY0m60d5LpgwXrrf0d692C3tNm
+	2kpSd77SvezzDHqaJpB7G5FoalQ0KFEzFUGuzxDihokf3DuXQ7z3Qpkwlnxfcng8OHbh83vC118
+	qD2AO9mdLgtkAFKZWxwioZjUVPIlxrmYitjCEqmGqXzXCjv/N6K086HGqO/IcwUcZVaU=
+X-Google-Smtp-Source: AGHT+IGp+iwiuu1W/cdBB1qlV3xdzZVt4QC8+uUe0Cc9u30ew5dZT7LFwQFMSyyEE2eTMOd7L8ABKw==
+X-Received: by 2002:a17:902:e544:b0:24c:db7c:bc34 with SMTP id d9443c01a7336-294cc70b369mr37471795ad.13.1761659196972;
+        Tue, 28 Oct 2025 06:46:36 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:2bae:51f5:3bdc:4c68])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d40a7esm119894605ad.70.2025.10.28.06.46.33
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d40a7esm119894605ad.70.2025.10.28.06.46.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 06:46:33 -0700 (PDT)
+        Tue, 28 Oct 2025 06:46:36 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 5/8] flex: fix build with gcc-15 on host
-Date: Tue, 28 Oct 2025 06:46:15 -0700
-Message-ID: <c13635db898146de4935c8c1c5e61cd732fa694e.1761596406.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 7/8] iptables: remove /etc/ethertypes
+Date: Tue, 28 Oct 2025 06:46:17 -0700
+Message-ID: <a970b6c927fb4c04473484f6e4b0a9853c8a5896.1761596406.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1761596406.git.steve@sakoman.com>
 References: <cover.1761596406.git.steve@sakoman.com>
@@ -68,82 +68,53 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 13:46:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225405
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 13:46:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225407
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 
-* fixes:
-  http://errors.yoctoproject.org/Errors/Details/853017/
+When building an image including iptable built with the libnftnl
+PACKAGECONFIG, one hits
 
-../../flex-2.6.4/src/../lib/malloc.c:6:12: warning: conflicting types for built-in function ‘malloc’; expected ‘void *(long unsigned int)’ [-Wbuiltin-declaration-mismatch]
-    6 |      void *malloc ();
-      |            ^~~~~~
-../../flex-2.6.4/src/../lib/malloc.c:5:1: note: ‘malloc’ is declared in header ‘<stdlib.h>’
-    4 |      #include <sys/types.h>
-  +++ |+#include <stdlib.h>
-    5 |
-../../flex-2.6.4/src/../lib/malloc.c: In function ‘rpl_malloc’:
-../../flex-2.6.4/src/../lib/malloc.c:16:15: error: too many arguments to function ‘malloc’; expected 0, have 1
-   16 |        return malloc (n);
-      |               ^~~~~~  ~
-../../flex-2.6.4/src/../lib/malloc.c:6:12: note: declared here
-    6 |      void *malloc ();
-      |            ^~~~~~
-make[2]: *** [Makefile:1431: ../lib/stage1flex-malloc.o] Error 1
+Downloading file:.../oe-rootfs-repo/armv8a/libkmod2 * check_data_file_clashes: Package iptables wants to install file .../rootfs/etc/ethertypes
+        But that file is already provided by package  * netbase
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+This used to be handled by
+0003-Makefile.am-do-not-install-etc-ethertypes.patch, but that patch
+got removed with the 1.8.9->1.8.10 upgrade (commit 4616ada82e70).
+
+I think the rationale for dropping the patch was wrong; the commit log
+talks about xtables.conf, which is indeed gone from upstream, but said
+patch didn't change anything about xtables.conf, it did
+
+-dist_conf_DATA        = etc/ethertypes etc/xtables.conf
++dist_conf_DATA        = etc/xtables.conf
+
+However, instead of patching iptables to not install ethertypes, and
+having to forward-port that patch, it is much simpler to just remove
+the file in this do_install:append.
+
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...01-Match-malloc-signature-to-its-use.patch | 25 +++++++++++++++++++
- meta/recipes-devtools/flex/flex_2.6.4.bb      |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-devtools/flex/flex/0001-Match-malloc-signature-to-its-use.patch
+ meta/recipes-extended/iptables/iptables_1.8.10.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/flex/flex/0001-Match-malloc-signature-to-its-use.patch b/meta/recipes-devtools/flex/flex/0001-Match-malloc-signature-to-its-use.patch
-new file mode 100644
-index 0000000000..fc3b8c563d
---- /dev/null
-+++ b/meta/recipes-devtools/flex/flex/0001-Match-malloc-signature-to-its-use.patch
-@@ -0,0 +1,25 @@
-+From cec508013706ef06dbac036905a90cbe075fa03d Mon Sep 17 00:00:00 2001
-+From: Richard Barnes <rbarnes@umn.edu>
-+Date: Wed, 2 Oct 2024 10:35:09 -0700
-+Subject: [PATCH] Match `malloc` signature to its use
-+
-+Upstream-Status: Submitted [https://github.com/westes/flex/pull/674]
-+
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+---
-+ lib/malloc.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/malloc.c b/lib/malloc.c
-+index 75e8ef9..701b9b3 100755
-+--- a/lib/malloc.c
-++++ b/lib/malloc.c
-+@@ -3,7 +3,7 @@
-+      
-+      #include <sys/types.h>
-+      
-+-     void *malloc ();
-++     void *malloc (size_t n);
-+      
-+      /* Allocate an N-byte block of memory from the heap.
-+         If N is zero, allocate a 1-byte block.  */
-diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
-index f7d4ef1f08..52543b6e02 100644
---- a/meta/recipes-devtools/flex/flex_2.6.4.bb
-+++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/flex-${PV}.tar.gz \
-            file://0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch \
-            file://check-funcs.patch \
-            file://0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch \
-+           file://0001-Match-malloc-signature-to-its-use.patch \
-            "
+diff --git a/meta/recipes-extended/iptables/iptables_1.8.10.bb b/meta/recipes-extended/iptables/iptables_1.8.10.bb
+index f1ee1efe28..8a1f823dc1 100644
+--- a/meta/recipes-extended/iptables/iptables_1.8.10.bb
++++ b/meta/recipes-extended/iptables/iptables_1.8.10.bb
+@@ -78,6 +78,8 @@ do_install:append() {
+         ln -sf ${sbindir}/xtables-nft-multi ${D}${sbindir}/iptables 
+         ln -sf ${sbindir}/xtables-nft-multi ${D}${sbindir}/iptables-save
+         ln -sf ${sbindir}/xtables-nft-multi ${D}${sbindir}/iptables-restore
++        # ethertypes is provided by the netbase package
++        rm -f ${D}${sysconfdir}/ethertypes
+     fi
+ }
  
- SRC_URI[md5sum] = "2882e3179748cc9f9c23ec593d6adc8d"
 -- 
 2.43.0
 
