@@ -2,119 +2,208 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07DB3CCF9F4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06E97CCF9F2
 	for <webhook@archiver.kernel.org>; Tue, 28 Oct 2025 13:46:39 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web10.12198.1761659198116625990
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.9356.1761659196419614970
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Oct 2025 06:46:38 -0700
+ Tue, 28 Oct 2025 06:46:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sMC0ukgv;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b6cf1a9527fso3150550a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 06:46:38 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=q9UT37/y;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-29490944023so41954695ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 06:46:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761659197; x=1762263997; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761659196; x=1762263996; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jU/HWeoN20d4gDolMMEvRt5eLM7PgXLmntE10pD+eIY=;
-        b=sMC0ukgvukaW5NTuoBo3n5qpqVuH8bm82wWrIj10UzF6IvfqX9DxVDWPjKLLJpeWyz
-         c1/T5o1Z8wYkBPMfL7xmy+FQNMAtJY88sJG0oeHXaAAbaG8m4JxAeRUgshB0fvxFHgHh
-         pc+bsychq4aTGVHtjcNdOutt94ewww8dXkYEvtMjtI6S/uMlGzx0okyFE8aqOvKTiwqP
-         bnOVem8+TpZQElFHSflUVydGGWRWYuBL3KCjYsoKmvSqZ+qZYgRpzVAbXYaAtUcsDAZp
-         CI2lYzxpCD2wbVi6zd24ZKI5sCEPrxHTU467VqmVYW6oKmyxwHC2VGXlle0xfZi7efje
-         Hpwg==
+        bh=e80B4dowYD7M/NSiNQSgZHNH4A798avMYirIYBmLw04=;
+        b=q9UT37/ygPG3DYm1neTugibEzx2gahb1HTvUgi1s7xVh9ksWekHSeEeAuljutqI4A4
+         rtm2nzUOX20314CAaPKuxzjLwvjtxrthA8GKNyTHHLHyIToN3UMZPgh7hDPwubBhOJws
+         R8zOnBXtEA//eFEbpJqlm56cqoNSud+i2RI0k0WZX444QpzlqZHAnHTIv6u813W2AlU8
+         KCR1Nu/5RLD9lKvT5dVZquRIRBc1crckqPa/9p1ptscpfvrxT5HMgsiRT4W1KXXf5z98
+         A429wTczw8vp5P4HrN4xo7jU6N/pxvp0biNOtEaf/858RlseQOwN84kYul+3bvzwh9pi
+         OWBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761659197; x=1762263997;
+        d=1e100.net; s=20230601; t=1761659196; x=1762263996;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jU/HWeoN20d4gDolMMEvRt5eLM7PgXLmntE10pD+eIY=;
-        b=oQkgOkKdIv066wxV3WUZs64Zw7uPeZgzHSKvyEcsXHRvsMz9qdzugQb3BozTY1Di5m
-         WJFeT1qdB5y4rpJRf7hFOhKHUxek1QXpuCYzav36mdGhE5tTy3qJeVM3tCd2K5+ntopu
-         NXWw569JXCBgIIF/RWFq51Pim8ey5sJAQZLC5Qyqlv0ePx61nPq5WFL2VTj7Ok4gE0so
-         WUVPtRe1PP/Y+TTDoRv7oYOnYqN5KjUacp1scAQi8AVlBfo86MGsAzJJckCgBzX2MIlJ
-         5q/k6e95HDCAhtAip50ivvI3TGCEKyUB5l6wDkhIVSxy7I4w5iVjob0GfvagH+uSfZg0
-         DkTg==
-X-Gm-Message-State: AOJu0YzklpWDrcQ5/NK9VS3GWpZMwaFN0JpgAcv2N3RDK4w7orMIMsIo
-	q+aPmklUVGV8vLP5fp+XUiipBBXpD5KvO4N166G8bFR9Ji3qnze3pukOvWJ1bG/RercJ69Iczaz
-	0Qo9l7jw=
-X-Gm-Gg: ASbGncu7uqqL0eLBzg3kMo9u6zEzah3IYlJl6i/vNjJ22UAa4f1IrdfB4YnulcIirWb
-	s8bkzfq7C0eCyS7DP9gb4cku1r8Ifbkx8ACFhBCxYLt/FDcA/k55c+QJBKAGO0Bbu4OSt0ql0PG
-	Y9o9MUJj9ScmITLDAPavZJmAz4BFGxZ/zl3+YageEOy34SCGlvcPLpaS3129Sk8vGMKu/BR/vrP
-	Ilm5HixdtCvcqWgPgxBariQLGkuVnq/YeIKQjEs0g87+btFyFUY0m60d5LpgwXrrf0d692C3tNm
-	2kpSd77SvezzDHqaJpB7G5FoalQ0KFEzFUGuzxDihokf3DuXQ7z3Qpkwlnxfcng8OHbh83vC118
-	qD2AO9mdLgtkAFKZWxwioZjUVPIlxrmYitjCEqmGqXzXCjv/N6K086HGqO/IcwUcZVaU=
-X-Google-Smtp-Source: AGHT+IGp+iwiuu1W/cdBB1qlV3xdzZVt4QC8+uUe0Cc9u30ew5dZT7LFwQFMSyyEE2eTMOd7L8ABKw==
-X-Received: by 2002:a17:902:e544:b0:24c:db7c:bc34 with SMTP id d9443c01a7336-294cc70b369mr37471795ad.13.1761659196972;
-        Tue, 28 Oct 2025 06:46:36 -0700 (PDT)
+        bh=e80B4dowYD7M/NSiNQSgZHNH4A798avMYirIYBmLw04=;
+        b=p5fMqiy8AS3wzCK1ncLhOeDZEV4/HygHPKfXImu+DmgUJh0Bs+MAIrVJjSJnYSNc+h
+         JhxvGLjb/8H+eT40qgULYMzuXYyC8in0pdyKgHiuVmnyV8PFjXD8MneCjF7PQ1ctvRt8
+         dTsMHQeqTr8mGs26vUWCETtL1Tj9c9eF5AwYA5Zis3OpuLGsSR0g7SGINxRVtYLGcbCy
+         p1KQ8MTjKZGHaC/XJ7n/pj38f8+KgkR3I4oTF2+UqV5Sp8oLZVXjgV1BAKn99F/h7eyx
+         EY639HcCZmpobwgGXframJ9SyF7ZpOpU7pjWU+FcCsz38aDmQ6HBhFUZka2MG5GKOTNc
+         Ok6w==
+X-Gm-Message-State: AOJu0YzNUR6LVShIwlDy6upXpcPsnW3tgMRJRBimVey0cSzdwf/X7Vqt
+	kIuuT4i+AfbujLCANP2kNFmKi+LCxMJTSsWZJhLWCtYSFvhBuCeIPCkxGIHivt4zZRn2dyiigp8
+	N6LO7GIY=
+X-Gm-Gg: ASbGncvvV+85qa1bWBI+IEhaPlnygxbhWukCCw+3wf/rBrbwp/0/iQNPbVM3mhAoOuL
+	zjpUpOGVKMMBjysIIsW181BurxTN7UhHdUiDCTNoftqDnmUEp6XmwQIsAh8I6q803186RVL8UGH
+	vJlBkqiuKuh51IIgTxVTMBTsLQdBIvOcck30aYB4lJPoqc46eWkAJGLI7ZJTG6Lq/WbMFZp45/Y
+	glfFnyC4oUPOfai2oCDdVwOLPWiNtxg2kcYFQxv3GR/8kek6PnX1swIEAicpHjcNfvbYzUXh6cs
+	+8l5DvcrF3wGedt/47pwSiqnIsEs6sqQHeug2HgOFYi6A1eY6bgnY6MHy59UJPNtSmYFWItOJ/L
+	Y65DvbRqHAm+sniT8xsHJouO+r6r2PNTqWs3BFCa+50baWV37KcPU/+yxGJsyge/jWqQ=
+X-Google-Smtp-Source: AGHT+IGUt+qcHW0Osc0o0PLKZgTM6xvuJugOJveUpU1yV0/Y5GzLxYXec3OYFbYYSerfb+16nwXS2Q==
+X-Received: by 2002:a17:902:cec2:b0:290:ac36:2ece with SMTP id d9443c01a7336-294cb3c8f9amr50294475ad.18.1761659195616;
+        Tue, 28 Oct 2025 06:46:35 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:2bae:51f5:3bdc:4c68])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d40a7esm119894605ad.70.2025.10.28.06.46.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d40a7esm119894605ad.70.2025.10.28.06.46.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 06:46:36 -0700 (PDT)
+        Tue, 28 Oct 2025 06:46:35 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 7/8] iptables: remove /etc/ethertypes
-Date: Tue, 28 Oct 2025 06:46:17 -0700
-Message-ID: <a970b6c927fb4c04473484f6e4b0a9853c8a5896.1761596406.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 6/8] gstreamer1.0-plugins-bad: fix buffer allocation fail for v4l2codecs
+Date: Tue, 28 Oct 2025 06:46:16 -0700
+Message-ID: <1be0de000bb852f1acc9644c1cb702336d7fdd61.1761596406.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1761596406.git.steve@sakoman.com>
 References: <cover.1761596406.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 13:46:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225407
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225406
 
-From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+From: Daniel Semkowicz <dse@thaumatec.com>
 
-When building an image including iptable built with the libnftnl
-PACKAGECONFIG, one hits
+There is a bug in GStreamer 1.22 that prevents video playback when
+some of the v4l2codecs are paired with sinks that do not support
+GstVideoMeta. This is the case of the Qt 6.9 sink used by some
+of the Qt components.
 
-Downloading file:.../oe-rootfs-repo/armv8a/libkmod2 * check_data_file_clashes: Package iptables wants to install file .../rootfs/etc/ethertypes
-        But that file is already provided by package  * netbase
+For example, when the v4l2codecs-vp8dec decoder is paired with
+QMediaPlayer, video playback fails to start with the following error:
 
-This used to be handled by
-0003-Makefile.am-do-not-install-etc-ethertypes.patch, but that patch
-got removed with the 1.8.9->1.8.10 upgrade (commit 4616ada82e70).
+  WARN   videodecoder gstvideodecoder.c:4409:gst_video_decoder_negotiate_pool: Subclass failed to decide allocation
+  ERROR  videodecoder gstvideodecoder.c:4635:gst_video_decoder_allocate_output_buffer: Failed to allocate the buffer..
+  WARN   videodecoder gstvideodecoder.c:4409:gst_video_decoder_negotiate_pool: Subclass failed to decide allocation
+  WARN  matroskademux matroska-demux.c:6131:gst_matroska_demux_loop: error: Internal data stream error.
+  WARN  matroskademux matroska-demux.c:6131:gst_matroska_demux_loop: error: streaming stopped, reason not-negotiated (-4)
 
-I think the rationale for dropping the patch was wrong; the commit log
-talks about xtables.conf, which is indeed gone from upstream, but said
-patch didn't change anything about xtables.conf, it did
+This problem is already fixed in GStreamer 1.24, so backport the fix.
+This fixes the buffer allocation failure for H.264, H.265, and VP8.
 
--dist_conf_DATA        = etc/ethertypes etc/xtables.conf
-+dist_conf_DATA        = etc/xtables.conf
-
-However, instead of patching iptables to not install ethertypes, and
-having to forward-port that patch, it is much simpler to just remove
-the file in this do_install:append.
-
-Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+CC: Steve Sakoman <steve@sakoman.com>
+CC: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Daniel Semkowicz <dse@thaumatec.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/iptables/iptables_1.8.10.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ ...s-chain-up-to-parent-decide_allocati.patch | 87 +++++++++++++++++++
+ .../gstreamer1.0-plugins-bad_1.22.12.bb       |  1 +
+ 2 files changed, 88 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-v4l2codecs-Always-chain-up-to-parent-decide_allocati.patch
 
-diff --git a/meta/recipes-extended/iptables/iptables_1.8.10.bb b/meta/recipes-extended/iptables/iptables_1.8.10.bb
-index f1ee1efe28..8a1f823dc1 100644
---- a/meta/recipes-extended/iptables/iptables_1.8.10.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.8.10.bb
-@@ -78,6 +78,8 @@ do_install:append() {
-         ln -sf ${sbindir}/xtables-nft-multi ${D}${sbindir}/iptables 
-         ln -sf ${sbindir}/xtables-nft-multi ${D}${sbindir}/iptables-save
-         ln -sf ${sbindir}/xtables-nft-multi ${D}${sbindir}/iptables-restore
-+        # ethertypes is provided by the netbase package
-+        rm -f ${D}${sysconfdir}/ethertypes
-     fi
- }
- 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-v4l2codecs-Always-chain-up-to-parent-decide_allocati.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-v4l2codecs-Always-chain-up-to-parent-decide_allocati.patch
+new file mode 100644
+index 0000000000..8906b55082
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-v4l2codecs-Always-chain-up-to-parent-decide_allocati.patch
+@@ -0,0 +1,87 @@
++From 4e96cc4df0b6807cb487368afca64e022078ed6a Mon Sep 17 00:00:00 2001
++From: James Cowgill <james.cowgill@blaize.com>
++Date: Sun, 14 May 2023 13:23:17 +0100
++Subject: [PATCH] v4l2codecs: Always chain up to parent decide_allocation
++ function
++
++The `gst_video_decoder_negotiate_pool` function expects the
++`decide_allocation` function to always provide a pool and will fail to
++negotiate if the pool is missing. If we return immediately (even if we
++don't need to do anything special) negotiation will fail if the
++downstream element does not propose a pool.
++
++Fix by chaining up to the default `decide_allocation` function which
++adds a fallback pool if one was not already proposed.
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/4630>
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/70ff80a873d8202329df1731c06f1bfed464ad2a]
++Signed-off-by: Daniel Semkowicz <dse@thaumatec.com>
++---
++ sys/v4l2codecs/gstv4l2codech264dec.c | 3 ++-
++ sys/v4l2codecs/gstv4l2codech265dec.c | 3 ++-
++ sys/v4l2codecs/gstv4l2codecvp8dec.c  | 3 ++-
++ 3 files changed, 6 insertions(+), 3 deletions(-)
++
++diff --git a/sys/v4l2codecs/gstv4l2codech264dec.c b/sys/v4l2codecs/gstv4l2codech264dec.c
++index 1a6b144e9b..bd9041533b 100644
++--- a/sys/v4l2codecs/gstv4l2codech264dec.c
+++++ b/sys/v4l2codecs/gstv4l2codech264dec.c
++@@ -417,7 +417,7 @@ gst_v4l2_codec_h264_dec_decide_allocation (GstVideoDecoder * decoder,
++   /* If we are streaming here, then it means there is nothing allocation
++    * related in the new state and allocation can be ignored */
++   if (self->streaming)
++-    return TRUE;
+++    goto no_internal_changes;
++ 
++   self->has_videometa = gst_query_find_allocation_meta (query,
++       GST_VIDEO_META_API_TYPE, NULL);
++@@ -452,6 +452,7 @@ gst_v4l2_codec_h264_dec_decide_allocation (GstVideoDecoder * decoder,
++ 
++   self->src_pool = gst_v4l2_codec_pool_new (self->src_allocator, &self->vinfo);
++ 
+++no_internal_changes:
++   /* Our buffer pool is internal, we will let the base class create a video
++    * pool, and use it if we are running out of buffers or if downstream does
++    * not support GstVideoMeta */
++diff --git a/sys/v4l2codecs/gstv4l2codech265dec.c b/sys/v4l2codecs/gstv4l2codech265dec.c
++index 8d70d05220..3f0c08d6a4 100644
++--- a/sys/v4l2codecs/gstv4l2codech265dec.c
+++++ b/sys/v4l2codecs/gstv4l2codech265dec.c
++@@ -446,7 +446,7 @@ gst_v4l2_codec_h265_dec_decide_allocation (GstVideoDecoder * decoder,
++   guint min = 0;
++ 
++   if (self->streaming)
++-    return TRUE;
+++    goto no_internal_changes;
++ 
++   self->has_videometa = gst_query_find_allocation_meta (query,
++       GST_VIDEO_META_API_TYPE, NULL);
++@@ -465,6 +465,7 @@ gst_v4l2_codec_h265_dec_decide_allocation (GstVideoDecoder * decoder,
++       GST_PAD_SRC, self->min_pool_size + min + 1);
++   self->src_pool = gst_v4l2_codec_pool_new (self->src_allocator, &self->vinfo);
++ 
+++no_internal_changes:
++   /* Our buffer pool is internal, we will let the base class create a video
++    * pool, and use it if we are running out of buffers or if downstream does
++    * not support GstVideoMeta */
++diff --git a/sys/v4l2codecs/gstv4l2codecvp8dec.c b/sys/v4l2codecs/gstv4l2codecvp8dec.c
++index ba63a029df..bdea1fdf76 100644
++--- a/sys/v4l2codecs/gstv4l2codecvp8dec.c
+++++ b/sys/v4l2codecs/gstv4l2codecvp8dec.c
++@@ -284,7 +284,7 @@ gst_v4l2_codec_vp8_dec_decide_allocation (GstVideoDecoder * decoder,
++   guint num_bitstream;
++ 
++   if (self->streaming)
++-    return TRUE;
+++    goto no_internal_changes;
++ 
++   self->has_videometa = gst_query_find_allocation_meta (query,
++       GST_VIDEO_META_API_TYPE, NULL);
++@@ -319,6 +319,7 @@ gst_v4l2_codec_vp8_dec_decide_allocation (GstVideoDecoder * decoder,
++ 
++   self->src_pool = gst_v4l2_codec_pool_new (self->src_allocator, &self->vinfo);
++ 
+++no_internal_changes:
++   /* Our buffer pool is internal, we will let the base class create a video
++    * pool, and use it if we are running out of buffers or if downstream does
++    * not support GstVideoMeta */
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb
+index e4fa2a412f..f6d0711bd8 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb
+@@ -9,6 +9,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch \
+            file://0002-avoid-including-sys-poll.h-directly.patch \
+            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
++           file://0005-v4l2codecs-Always-chain-up-to-parent-decide_allocati.patch \
+            file://CVE-2025-3887-1.patch \
+            file://CVE-2025-3887-2.patch \
+            "
 -- 
 2.43.0
 
