@@ -1,115 +1,105 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0899FCCD1BF
-	for <webhook@archiver.kernel.org>; Tue, 28 Oct 2025 13:46:49 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.9358.1761659199739649849
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33CCECCD1BF
+	for <webhook@archiver.kernel.org>; Tue, 28 Oct 2025 14:00:19 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.12531.1761660014927210463
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Oct 2025 06:46:39 -0700
+ Tue, 28 Oct 2025 07:00:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=NRXjU0BU;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-29488933a91so58099355ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 06:46:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761659199; x=1762263999; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w5YJsPVDkT7YGM55xn4pxXDPwHhaNPrD4RW0JoBO8D0=;
-        b=NRXjU0BUq/Kba3Gptk2bSo0+MdzlCIjdmaTKqRF2Xb9k3XWGCyOvzVxnk30JP5zx1a
-         KN9j9XSoOSW5LQCfVeiouwDvLYkfMCbqB+Q5QeMQlJ0b4zlAoo7a8G/YmbYHOQdTh4pZ
-         f10in/CgnZFridMY4EndHCv5EmMWo4rUCFBvCExJiM9fQgJs0po1plPOTTslgf/qeuHq
-         7ZG3OMHclyjYHmCvukCB9QnhV9beD6BB4AH3pNpxQ19BZjYEXCFkULH3DcYqnCfwVBw4
-         V56cunR+56aAmADNG0ZOPFrHHqMjGFAp2jpv8SKMk4t9ejRAuN61M8BPF5B0nK7hz0ts
-         vTUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761659199; x=1762263999;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w5YJsPVDkT7YGM55xn4pxXDPwHhaNPrD4RW0JoBO8D0=;
-        b=sQq6a7yJLOavJe29+Y0pLDlTpgv4ypgZUVDUEhlGtnuZu8X3yh6WZUBLOzGNaYjwUE
-         W068rdRJF0iD5S+GypU9+Er2UnlwonH89cDoGq6JkzOzL/SKnRp06LWWABkESxK0BbU3
-         p1Hq03yex208H4Qm2YDFNJ0wrv8skUkDUisq6x7wtlGtiYptpAFPjUzy217h8Jb6gkrL
-         06pTszmhjr2KAWUHiy50OLb5+2yfY9pMf6cRnF6W7ZZ8dt/G8cH83t9uFeRA01sMJQlv
-         ppl+oHPBZ5pLOh7lYY9dTmsQafZe7ADJqqDK/adCTpOM/5GjbUyPH2oISy46Kjw1G4CL
-         81tg==
-X-Gm-Message-State: AOJu0Yzocw4oVGxV/Rgbm6nKATxAuCK3IGt3/2wQABCWYWLtItQOQrmM
-	FGdxq4aJEbgQUhUPYKWC93kolM8Mp28xtdrZ3QVgc372rvoAnycPQ6nhSqBjcNXD+akYovHgxm1
-	0CLdXKRc=
-X-Gm-Gg: ASbGncvNhaej+QaVnbTjR30V6Y7ht74ItEhvQ2C4+AZQAIw37m1nNAV3FuLVCo6/WRX
-	mBy1FtDi7DVfz/wWt3wM+8D8TwuDOnFmEgQVpO0x1knWKdFbjNt14pUY2wD3P3S4bzYQxOA88Hw
-	iYRI9Z5SMSWnDk6EhlSDQYIGWdanOtjAIbohgkc9j/VUZfwQhakJF2BrusmhLCdppZJsi2el5gu
-	D4BaEOACAJDY0cTNOMPNxFur2chRf1trL1w3z/7NWee2JwhGTBdYAhO+45mFSW+Qf8AEXS5C3ph
-	mTidn9oUbJYnUD5SJLP6cpBG148dLU90TO5qWpdvj70O3MnaC1/Xwk8eDpCqbBb5+uFBgZmPSfB
-	LSfSBqhsfuiWqEy8WDdbCpCrN2lTXXMQpXiEolwHfWqNMy84s0qlAeA072c8kT8meVxw=
-X-Google-Smtp-Source: AGHT+IHkXZEFaLWkkfDivruooTVZJrBQygZU7UjAesVnX/ZoQ2y771RySZiG2q1GmcrWf6t5uICzsw==
-X-Received: by 2002:a17:902:ce8d:b0:276:d3e:6844 with SMTP id d9443c01a7336-294cb510d0amr45487705ad.33.1761659198565;
-        Tue, 28 Oct 2025 06:46:38 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:2bae:51f5:3bdc:4c68])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d40a7esm119894605ad.70.2025.10.28.06.46.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 06:46:38 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 8/8] curl: only set CA bundle in target build
-Date: Tue, 28 Oct 2025 06:46:18 -0700
-Message-ID: <0f98fecda8a0436f760e6fd9f3b7eb510e5258b8.1761596406.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1761596406.git.steve@sakoman.com>
-References: <cover.1761596406.git.steve@sakoman.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=qKJuMx57;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=339608d990=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59SA3QWv984637
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 14:00:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=cxJYvfx2ZxCK1vd91Kik
+	nT2nptMAIAsNs42BQRkSEiM=; b=qKJuMx57zSAceq78MQEitY/ahZDm+oKOmF9J
+	MSaj8H6v/RIZFnFenfHKIXoSwXF5kLwPB95TmAUNSIxzlY8lt2gYUyvFqBCuU76j
+	X+2t276dmOjTGaPc7xj1sV3jAKXQsOZLS+InEKsrQeefeMvW+hFgL0ABM8wJjujs
+	wD7VgufkbVK97CcrHqI/29EGm/EErV9XTe+gdtJ5kcUQNIIC+6xGencjuq9lIjoa
+	cg8SkwpogFh0f3gZA/6ns/qEnnyV+a2XwaE5IjacpRsC3b8zBzx3tV7Z57d9pCcK
+	NMMLfBq40NQB4yVai/Yrt8RRKxjXeAiAy1Ask3OGfAOoNJd1aQ==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a0ks03arn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 14:00:13 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 28 Oct 2025 07:00:12 -0700
+Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 28 Oct 2025 07:00:11 -0700
+From: <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][PATCH  1/1] openssh: Upgrade 10.0p1 -> 10.1p1
+Date: Tue, 28 Oct 2025 19:30:09 +0530
+Message-ID: <20251028140009.2164260-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: sT98drgcV0ePgZEYmpAlxY2Jyemibt8j
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDExNyBTYWx0ZWRfX7WI7txY6rUHz
+ ejhVpmmRs/C9UD5+lDWui2ggOiGzjtDS0TwH2Sj6LJjXNQQjitw51KtMY5GDiXcouW6PdsPjoUv
+ YIeMNHtndqCFDc5IJWxX6OIz42B3m8vCOCYYp8WJdA/LPyAqJb9/OEHwM/lH3o3nie9Bb8ZpU5Q
+ Jd1Sf6wWtgTzcj7RaJn9EwFCoZRn4SryFOL9wE6MzHfsuvNVdIndEOyKV4x0LmkuG2ttHaGOtYT
+ krlke5OlLu/xAGkv3ZLhhmb5kt5g7I4BbmeaJbGIpMSb1avKP6pyDj8KJRHvVUybbFNSJzNK5F9
+ Jufaynh5ST+GdxetqBlHl/QVLfqjhxEvLAv0SPEl5+WUe7vMVjab5Vd2hZZGvHYbVxl8idTXECy
+ rc9ZSLWdT8cPNrdSW9a2gWFuUZfhUw==
+X-Authority-Analysis: v=2.4 cv=CIknnBrD c=1 sm=1 tr=0 ts=6900cc6d cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t68Z-ez5AAAA:8 a=3tcz3bTJAAAA:8
+ a=t7CeM3EgAAAA:8 a=kTnlsyndWIyZE_n75wQA:9 a=nYJUwS0ZycoIGgkYIbvB:22
+ a=4EbjBm0RLgFgoQzmu6QD:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: sT98drgcV0ePgZEYmpAlxY2Jyemibt8j
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-28_05,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 suspectscore=0 phishscore=0 adultscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
+ definitions=main-2510280117
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 13:46:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225408
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 14:00:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225409
 
-From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-In native/nativesdk builds, sysconfdir refers to a recipe sysroot
-directory, which will disappear once the workdir is cleaned up, breaking
-libcurl's HTTPS connections.
+Changelog:
+https://www.openssh.org/txt/release-10.1
 
-By simply not setting --with-ca-bundle at all in non-target builds, curl
-defaults to the host system's CA certificates, which is desirable anyways
-to allow builds in environments that require local CA certificates.
-
-(From OE-Core rev: 4909a46e93ba774c960c3d3c277e2a669af3fea6)
-
-Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- meta/recipes-support/curl/curl_8.7.1.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../openssh/{openssh_10.0p1.bb => openssh_10.1p1.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/openssh/{openssh_10.0p1.bb => openssh_10.1p1.bb} (99%)
 
-diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
-index 6ed3d6e84d..713d90a378 100644
---- a/meta/recipes-support/curl/curl_8.7.1.bb
-+++ b/meta/recipes-support/curl/curl_8.7.1.bb
-@@ -94,11 +94,13 @@ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
- EXTRA_OECONF = " \
-     --disable-libcurl-option \
-     --disable-ntlm-wb \
--    --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
-     --without-libpsl \
-     --enable-optimize \
-     ${@'--without-ssl' if (bb.utils.filter('PACKAGECONFIG', 'gnutls mbedtls openssl', d) == '') else ''} \
- "
-+EXTRA_OECONF:append:class-target = " \
-+    --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
-+"
+diff --git a/meta/recipes-connectivity/openssh/openssh_10.0p1.bb b/meta/recipes-connectivity/openssh/openssh_10.1p1.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssh/openssh_10.0p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_10.1p1.bb
+index 2f446b5540..83b6183858 100644
+--- a/meta/recipes-connectivity/openssh/openssh_10.0p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_10.1p1.bb
+@@ -26,7 +26,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
+            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
+            file://0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch \
+            "
+-SRC_URI[sha256sum] = "021a2e709a0edf4250b1256bd5a9e500411a90dddabea830ed59cef90eb9d85c"
++SRC_URI[sha256sum] = "b9fc7a2b82579467a6f2f43e4a81c8e1dfda614ddb4f9b255aafd7020bbf0758"
  
- fix_absolute_paths () {
- 	# cleanup buildpaths from curl-config
+ CVE_STATUS[CVE-2007-2768] = "not-applicable-config: This CVE is specific to OpenSSH with the pam opie which we don't build/use here."
+ 
 -- 
-2.43.0
+2.40.0
 
 
