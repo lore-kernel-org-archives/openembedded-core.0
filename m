@@ -2,185 +2,148 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E46A3CCF9EE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0974CCF9F0
 	for <webhook@archiver.kernel.org>; Tue, 28 Oct 2025 13:46:38 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.9354.1761659193136208852
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web10.12196.1761659194742036198
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Oct 2025 06:46:33 -0700
+ Tue, 28 Oct 2025 06:46:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zyfpYkBb;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-26e68904f0eso64631375ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 06:46:33 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SxSGMXU+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b6cea7c527bso5839215a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 06:46:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761659192; x=1762263992; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761659194; x=1762263994; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jBxWFGkS0l0lhN6tGr++gCo5vVTFWdqpxlJ7/HD9sNI=;
-        b=zyfpYkBbncIwVZeFrTN2Q0MQkQwp1Qc2ghgTZhpHStcuv50HLDdK0XK+EYaaoJG4s2
-         QGrBOLCsypvVcN8iQzreqqQR4VNQAvk8C3sZBGUY64wuWswUk4dGJAs2ET16/+nVcR0o
-         yE2mFc2T3HDwNNcw01A0+aVxFu0jhMl7wY7r05eIYXFEwxOSjXMwgEb1pT4jdgepi7hi
-         9VKB3mIMIxs69zM3BQvK6+6wtGFVP5SbYTunPwryBAu+LLk0ULHkT2siEiDHV/yOo8AH
-         fcO8SKNV21/xeDs3M3bnSFqjCB/KJtdgZ4KeR7VgfSwossho3z5NXR2MYXJlRyn/3QQs
-         Solg==
+        bh=vtBBpd63X0+tV2ApqJLqYTGy27BXdj7CbLrnde/NV8o=;
+        b=SxSGMXU+ApbGxT2FytG9SrgmEzqMLV2MzgUohUZI7yTI03its51O99SdJAEdijUdD0
+         8nWtRVxQ1pTtElxFkzBhFPC/xSoT6meOgG26WKkJLhLa595jlkLaXVWHh+i1gzog7k3C
+         fcvy1hQU3BIw962UnMwFebAT65BW43PAYLqMrcAy8ybf7124ZF+ugFGbzq0zoRlh/S0b
+         QwRtXriBKz9D18728NzfFcPw94XzhYR9dOEYeKja0BJJyGPF5RC3MZOfF9FZxBmrMibS
+         J1meueTyWDP6TQI3C6ROsyA+4k/SGzXJI4C6gzE2Pv2wAyz4yXYIi7qBO0lfex3U0OSv
+         n7nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761659192; x=1762263992;
+        d=1e100.net; s=20230601; t=1761659194; x=1762263994;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jBxWFGkS0l0lhN6tGr++gCo5vVTFWdqpxlJ7/HD9sNI=;
-        b=Tb92sV/6u4zHB+Kd6IfyCECEH2GkYNtSBfl4st0UE4SgmlnTGDRXwnZKR7lTmjq/Y6
-         bXHgNy079apSjZMkGkdIxJbZ4LmrQ5/HkX7y5qy7Q8b//21bAspRJ2sQSN7l26PA6ljP
-         qAcrWBq/YQs3vmpTKu4x3L/dtuLK941jNImG1rSD4m2hwNFD/WfR5y3JKJgvFaTiphTD
-         P0aysykCqZQxx3uX68hipL7BKaVDPMf1+smBmCWVtVbi+LgociM0VTh4LOfhUiuSoP4o
-         zLfXwXF4XqjhjzZ6KQ5tNgkyQzq+sVjoZNNjbvgzuZeRVEQfhj1z0qyy/hpxASZfbBjP
-         Hf5g==
-X-Gm-Message-State: AOJu0YwWbpVI8poORAOvK9o2oA9VzSKfy5qbb8eIkRv1Txh9DZyE+GUN
-	50fR/r3OZz3QkJrgChTgOm6HIxEaTx5l++8TgJSHMbMozjQckVIZwwHtFWN5gbsinIIJNqyykd8
-	gMdcDZb8=
-X-Gm-Gg: ASbGncvw4vYgFQMGu35WnUEIdBAgtMP2kFPKLTRDY5NcmNmMMp1ZJW1agfk5oTiDK8M
-	sjj0jrDNh/IEezY78qYGv94i+46x8Iecsl8SxDtIPv9fyfDADnd3s3uarKglEwfepNGdKh1JWK3
-	n0+lgGuGnmLLKCZjlgakzt6U58F31bnLeK4aND/2As/pWCZnYAogppeVgby4BdRvcBkCRAoksW0
-	mLiaGhv1ZjfWEwpuVg7e52sIiQlrF8L1I8xKGBQvTYVyz9b2HLwoipr0Pgyh8UA20jSliAVtASE
-	qohKuRLz+yoE98J5MEYAWf9UVTUh2yVyZ5o0uIbXGmp3grdcueDwoG4Vgow/L/9Kcd1NZGTkssn
-	ApjPz9ABDwDyMiNpqwSVEP3fv5ztWl7TI93cLSYk/hpf1sKMBFHJUfOVTsp5bbHYQDmHeTj34xJ
-	WRLw==
-X-Google-Smtp-Source: AGHT+IHP7UI72a4Dcn4yNWhytNzHqdUyL9lvXheDW6rOofcaJ26XAEEzIa8EoZV/eojVNAl263kj5Q==
-X-Received: by 2002:a17:902:d4cc:b0:28a:8ae7:4034 with SMTP id d9443c01a7336-294cb3d0b60mr46284815ad.25.1761659192224;
-        Tue, 28 Oct 2025 06:46:32 -0700 (PDT)
+        bh=vtBBpd63X0+tV2ApqJLqYTGy27BXdj7CbLrnde/NV8o=;
+        b=cikAalXShQQhDNkujW68b9LF5bnRbk12Jv4KnPA+CT89y3SrzKM1e0GNUyEP9NN3J5
+         UCkWKezJ/+aYpxHa/GccEmVeb7jR7r3MavIOesPjdqdonzOMmP6qGyndy1t3aePDQXdA
+         eM9LDaSGrKNaO04WHG6/2Mbhclgx3mXZ0C6UdlcuPliPhdib6n0PDgDXoeQmlAGd7bN6
+         pM56APfU8p3B63JY29Yt7WGrBIei6nSk2rDB8dFuU2k+woysOWuRjmwVDFw7xJrFRbar
+         g6+JPQAw11oFH8tQuJDyHSNcG88V/sQRNbCq87Ad1zNcHf7jlKuy3ht8cBhEhdW2DrcO
+         S7zw==
+X-Gm-Message-State: AOJu0YxuaQmBT///JthEmsKKN74Bo5v6X1iJ0bH1A+w92f2uulk0isV1
+	hjhtLAdjJYDPE5266BllCYnifznGAgOJcNXzKd5jQA6yOjWDUlLAC4NVIpeMofru40J9AhDWcvh
+	e9+iqKDk=
+X-Gm-Gg: ASbGncuQbczuRTchV4KHp1u1GhgKUzHRYupJp8a5+IkAOn9iiO5l12jaxclekN5iI2m
+	7loW8AGWjwGpa08SYGDxoln1BcxEA5ZVpEct1lXitKKNB4baPpgh7nIM7zSdvBG3a9g5iP8AJyT
+	HxYlPCNyvqy1MRMlVHrR8QxkStJvBaplK44pRFHitEXpSDJ+oD/d/MU6cU5fnl9KsIZuE1FSWJh
+	3lPAlebnPdlGQpSKHpLRUS5IEudtDDdlQhdV0iwTH4nXG6sGwj/py8SlA2PnRdIqafcql+DHrQn
+	xelyizLkZfo+AAhm7oOlSyVKz44lllnw65XWi8eV+HloB97+8xvkDmZchq+wFQ8SV6Q28Pc7FWe
+	/1N9g8hMgOab7/b7pW4gC5ct5EVQ6NHED21zLO6edu1LXvuYVYUpIxIbu1krdXq+9wLs=
+X-Google-Smtp-Source: AGHT+IEbb3QC7EdBxvMXHdgZ1kgiiQ9/4LkgMw3OoC/S5Ujnubyjw0ZXKKeMPbKOn/3jXemH7QnP9A==
+X-Received: by 2002:a17:902:c94d:b0:25e:37ed:d15d with SMTP id d9443c01a7336-294cac97ed3mr43219075ad.0.1761659193927;
+        Tue, 28 Oct 2025 06:46:33 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:2bae:51f5:3bdc:4c68])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d40a7esm119894605ad.70.2025.10.28.06.46.31
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d40a7esm119894605ad.70.2025.10.28.06.46.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 06:46:31 -0700 (PDT)
+        Tue, 28 Oct 2025 06:46:33 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 4/8] elfutils: Fix CVE-2025-1377
-Date: Tue, 28 Oct 2025 06:46:14 -0700
-Message-ID: <ae89d0c2ca49c40429f787577d280b5886f42cc1.1761596406.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 5/8] flex: fix build with gcc-15 on host
+Date: Tue, 28 Oct 2025 06:46:15 -0700
+Message-ID: <c13635db898146de4935c8c1c5e61cd732fa694e.1761596406.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1761596406.git.steve@sakoman.com>
 References: <cover.1761596406.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 13:46:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225404
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225405
 
-From: Soumya Sambu <soumya.sambu@windriver.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-A vulnerability, which was classified as problematic, has been found in GNU elfutils
-0.192. This issue affects the function gelf_getsymshndx of the file strip.c of the
-component eu-strip. The manipulation leads to denial of service. The attack needs to
-be approached locally. The exploit has been disclosed to the public and may be used.
-The identifier of the patch is fbf1df9ca286de3323ae541973b08449f8d03aba. It is
-recommended to apply a patch to fix this issue.
+* fixes:
+  http://errors.yoctoproject.org/Errors/Details/853017/
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-1377
+../../flex-2.6.4/src/../lib/malloc.c:6:12: warning: conflicting types for built-in function ‘malloc’; expected ‘void *(long unsigned int)’ [-Wbuiltin-declaration-mismatch]
+    6 |      void *malloc ();
+      |            ^~~~~~
+../../flex-2.6.4/src/../lib/malloc.c:5:1: note: ‘malloc’ is declared in header ‘<stdlib.h>’
+    4 |      #include <sys/types.h>
+  +++ |+#include <stdlib.h>
+    5 |
+../../flex-2.6.4/src/../lib/malloc.c: In function ‘rpl_malloc’:
+../../flex-2.6.4/src/../lib/malloc.c:16:15: error: too many arguments to function ‘malloc’; expected 0, have 1
+   16 |        return malloc (n);
+      |               ^~~~~~  ~
+../../flex-2.6.4/src/../lib/malloc.c:6:12: note: declared here
+    6 |      void *malloc ();
+      |            ^~~~~~
+make[2]: *** [Makefile:1431: ../lib/stage1flex-malloc.o] Error 1
 
-Upstream patch:
-https://sourceware.org/git/?p=elfutils.git;a=fbf1df9ca286de3323ae541973b08449f8d03aba
-
-Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../elfutils/elfutils_0.191.bb                |  1 +
- .../elfutils/files/CVE-2025-1377.patch        | 69 +++++++++++++++++++
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2025-1377.patch
+ ...01-Match-malloc-signature-to-its-use.patch | 25 +++++++++++++++++++
+ meta/recipes-devtools/flex/flex_2.6.4.bb      |  1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-devtools/flex/flex/0001-Match-malloc-signature-to-its-use.patch
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.191.bb b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
-index c5f357eb93..0fd6d31af1 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.191.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
-@@ -29,6 +29,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://CVE-2025-1371.patch \
-            file://0007-Fix-build-with-gcc-15.patch \
-            file://CVE-2025-1376.patch \
-+           file://CVE-2025-1377.patch \
-            "
- SRC_URI:append:libc-musl = " \
-            file://0003-musl-utils.patch \
-diff --git a/meta/recipes-devtools/elfutils/files/CVE-2025-1377.patch b/meta/recipes-devtools/elfutils/files/CVE-2025-1377.patch
+diff --git a/meta/recipes-devtools/flex/flex/0001-Match-malloc-signature-to-its-use.patch b/meta/recipes-devtools/flex/flex/0001-Match-malloc-signature-to-its-use.patch
 new file mode 100644
-index 0000000000..31a9ec33f2
+index 0000000000..fc3b8c563d
 --- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/CVE-2025-1377.patch
-@@ -0,0 +1,69 @@
-+From fbf1df9ca286de3323ae541973b08449f8d03aba Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Thu, 13 Feb 2025 14:59:34 +0100
-+Subject: [PATCH] strip: Verify symbol table is a real symbol table
++++ b/meta/recipes-devtools/flex/flex/0001-Match-malloc-signature-to-its-use.patch
+@@ -0,0 +1,25 @@
++From cec508013706ef06dbac036905a90cbe075fa03d Mon Sep 17 00:00:00 2001
++From: Richard Barnes <rbarnes@umn.edu>
++Date: Wed, 2 Oct 2024 10:35:09 -0700
++Subject: [PATCH] Match `malloc` signature to its use
 +
-+We didn't check the symbol table referenced from the relocation table
-+was a real symbol table. This could cause a crash if that section
-+happened to be an SHT_NOBITS section without any data. Fix this by
-+adding an explicit check.
++Upstream-Status: Submitted [https://github.com/westes/flex/pull/674]
 +
-+       * src/strip.c (INTERNAL_ERROR_MSG): New macro that takes a
-+       message string to display.
-+       (INTERNAL_ERROR): Use INTERNAL_ERROR_MSG with elf_errmsg (-1).
-+       (remove_debug_relocations): Check the sh_link referenced
-+       section is real and isn't a SHT_NOBITS section.
-+
-+https://sourceware.org/bugzilla/show_bug.cgi?id=32673
-+
-+Signed-off-by: Mark Wielaard <mark@klomp.org>
-+
-+CVE: CVE-2025-1377
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=fbf1df9ca286de3323ae541973b08449f8d03aba]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 +---
-+ src/strip.c | 14 +++++++++++---
-+ 1 file changed, 11 insertions(+), 3 deletions(-)
++ lib/malloc.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/src/strip.c b/src/strip.c
-+index 6436443..16922e9 100644
-+--- a/src/strip.c
-++++ b/src/strip.c
-+@@ -126,13 +126,14 @@ static char *tmp_debug_fname = NULL;
-+ /* Close debug file descriptor, if opened. And remove temporary debug file.  */
-+ static void cleanup_debug (void);
-+ 
-+-#define INTERNAL_ERROR(fname) \
-++#define INTERNAL_ERROR_MSG(fname, msg) \
-+   do { \
-+     cleanup_debug (); \
-+     error_exit (0, _("%s: INTERNAL ERROR %d (%s): %s"),			\
-+-		fname, __LINE__, PACKAGE_VERSION, elf_errmsg (-1));	\
-++		fname, __LINE__, PACKAGE_VERSION, msg);	\
-+   } while (0)
-+ 
-++#define INTERNAL_ERROR(fname) INTERNAL_ERROR_MSG(fname, elf_errmsg (-1))
-+ 
-+ /* Name of the output file.  */
-+ static const char *output_fname;
-+@@ -631,7 +632,14 @@ remove_debug_relocations (Ebl *ebl, Elf *elf, GElf_Ehdr *ehdr,
-+ 	     resolve relocation symbol indexes.  */
-+ 	  Elf64_Word symt = shdr->sh_link;
-+ 	  Elf_Data *symdata, *xndxdata;
-+-	  Elf_Scn * symscn = elf_getscn (elf, symt);
-++	  Elf_Scn *symscn = elf_getscn (elf, symt);
-++	  GElf_Shdr symshdr_mem;
-++	  GElf_Shdr *symshdr = gelf_getshdr (symscn, &symshdr_mem);
-++	  if (symshdr == NULL)
-++	    INTERNAL_ERROR (fname);
-++	  if (symshdr->sh_type == SHT_NOBITS)
-++	    INTERNAL_ERROR_MSG (fname, "NOBITS section");
-++
-+ 	  symdata = elf_getdata (symscn, NULL);
-+ 	  xndxdata = get_xndxdata (elf, symscn);
-+ 	  if (symdata == NULL)
-+-- 
-+2.40.0
-+
++diff --git a/lib/malloc.c b/lib/malloc.c
++index 75e8ef9..701b9b3 100755
++--- a/lib/malloc.c
+++++ b/lib/malloc.c
++@@ -3,7 +3,7 @@
++      
++      #include <sys/types.h>
++      
++-     void *malloc ();
+++     void *malloc (size_t n);
++      
++      /* Allocate an N-byte block of memory from the heap.
++         If N is zero, allocate a 1-byte block.  */
+diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+index f7d4ef1f08..52543b6e02 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.4.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -19,6 +19,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/flex-${PV}.tar.gz \
+            file://0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch \
+            file://check-funcs.patch \
+            file://0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch \
++           file://0001-Match-malloc-signature-to-its-use.patch \
+            "
+ 
+ SRC_URI[md5sum] = "2882e3179748cc9f9c23ec593d6adc8d"
 -- 
 2.43.0
 
