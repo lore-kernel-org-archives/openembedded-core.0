@@ -1,83 +1,104 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <Jiaying.Song.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 704EBCCD1BF
-	for <webhook@archiver.kernel.org>; Tue, 28 Oct 2025 10:14:07 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.7873.1761646437227922495
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E79BCCD1BF
+	for <webhook@archiver.kernel.org>; Tue, 28 Oct 2025 10:18:27 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.7938.1761646692269831721
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Oct 2025 03:13:57 -0700
+ Tue, 28 Oct 2025 03:18:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Sb7X8oMv;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: skandigraun@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4711b95226dso71875325e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 03:13:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761646435; x=1762251235; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+YbMCBUQb3B8Z9CeQcJgPhjiWjTmrvQt8uF1oL786wA=;
-        b=Sb7X8oMvFbW/zPrNVdEUjc7OyXbAuuLKM8ypYvVABuj7kceXnPL7kXb3nzoLJ6yXhX
-         iA1BjbJ0SDlgaldS57d0OkcIaUI2xQmpPqrXZkb0Ttv8XPS72KW4DpEtO16gO/12WfzB
-         JqcRwJ763uQl8zP8QxOR7n3ciDSNMVPz6SubcTVnIMCQhvZWBgTfpObHZZhoPBjLj+hM
-         Fu5kJxenYU/f2HmnOZM/n/PjEo0iukDe55/LqnptTfZHfCdNQBKB9qOCNcQdmI6SMsKK
-         CDd4pYc3wdN2aK+rbWJnxGmq2vm+TJu0UFro6AyM3Wgs5v4IKm6bA9cBX57/N4eqUM4M
-         ABYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761646435; x=1762251235;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+YbMCBUQb3B8Z9CeQcJgPhjiWjTmrvQt8uF1oL786wA=;
-        b=JPBhXDTNG/ejj3A6IMeC+GgpkfFtW8RihzVqnH7J/beLwLVgFxVFLQR4RcpKnvuODV
-         vF1UVRuNmddhWFg8gthCW7CEc56/VVVWlBpk9pw6CLjkTeeOnTvXG6rvnsC48CqXfFIo
-         +/wsTVRJT5EFByS0aspRhq+SNcNPCFrtUhlck11xYB9e5NZJeH0akRD0fKL4rijk1iTa
-         skuurVhejxnT0nrRQWWE9GK34oaSfrdNL2eItbwqie9zCFvsaLEAWOQamCNkSV3F7670
-         7Cu9e2lBjqNvBzHal1aXFXzvFCmZSg9XHhhrAMWl80tcJCOnWZbK7D76wY3q6WGnQmgf
-         aZaA==
-X-Gm-Message-State: AOJu0Yw+MASkZPe/9jWBjl66DVfPuh3tf1dR9B/VE9IW1E/bBzfLOMmn
-	rPcUAEaSaDyTcpOGgMqvLjvzwz7VWdRMp1P6rGJoDLxJhhROgESBtbUf6nUqgA==
-X-Gm-Gg: ASbGnctytjJ11gZtI3fARr7J47Yqq4eZtwzzrDe/hj9M7m9/HjIbwgTkhmSHKEN/zOT
-	h3BfcNtQg6S5ijne3TBojKPioMzXHfbntjL5nQi1cz0/kOi5/X3itZan317hmlaX9c8W3F4GdCB
-	egPhlRcQBk9DqIiXrS9Q09Tcy/FnLZxMFhcPiySLv2vNvgD/3Okz+KVQt4TXUXsasSGdFX6lY3/
-	m7ndGwQaoLlFyr0QBs7Ams51XSMsBYpMr1UXgb+BRnM+FsVaSZ4gUWh1J4ShpdoLu6cdamIUCHc
-	YiqrEc5V1LmIqJ8jp5nZrONvF2XXAkI/8DaT6P1D3OQ0iQN2DQBgx/8upTU9a3jLNOb5Mw8bNnA
-	0yNPOmLRRzzKKaZ6AAqo7e1n+RBccdygLr03nj+mN6xizhospasyTVRmkUMcMXL8rg+m0n9kFuo
-	MUjWRYUXgG
-X-Google-Smtp-Source: AGHT+IFW8vZ8lqUDMQ7JRhevVLlm3uUcsocbfasESJYJ3taqbPP03ecOGFT7AHWepDSTRiBOYBMoKQ==
-X-Received: by 2002:a05:6000:2912:b0:427:376:2f81 with SMTP id ffacd0b85a97d-429a7e4ebc2mr2819448f8f.5.1761646435179;
-        Tue, 28 Oct 2025 03:13:55 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952da645sm18667070f8f.30.2025.10.28.03.13.54
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Oct 2025 03:13:54 -0700 (PDT)
-Message-ID: <2c0f4b40-7519-4ea1-9ff9-02a0e959d60c@gmail.com>
-Date: Tue, 28 Oct 2025 11:13:53 +0100
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=RdsQXZ9y;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3396045b79=jiaying.song.cn@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59SA2xTF3682449;
+	Tue, 28 Oct 2025 03:18:11 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=EWDZMfVfUIxgrIo0LN18
+	VcQt4fPFgx93j0aRpsjwVZQ=; b=RdsQXZ9y4TNxvALwTPMyKK2/shmX4GoQY6GN
+	9GXQeXWF05k7mEdcxhtgxwlD5WnkoU5wjMNTf9q/C8eSqqPYFKFNx2hIdeJqL9KR
+	dz5gfUZEg58gsKMoydY/cUafztC3Iu89mbiptgdEZ70yq5u3U/1ZzLHdPExIUfkO
+	+tMFhiYJn33MaeS4HW84Yjt77BI6exoIfUknPTTefqxZq2EYYBvTsLugZ6C7Egg6
+	0/N8ExceISP3dgKvuBKM1mbhzpNUy2C8zmiBa4EGX6ydSlMPJgqf2/qQIT//Seih
+	r/QS/VY43+B0SUOOeYJlXCF0/H0oxJTAbw+5GzMWGQlTy5HQsA==
+Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a0su1jw2s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 28 Oct 2025 03:18:10 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 28 Oct 2025 03:18:09 -0700
+Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 28 Oct 2025 03:18:08 -0700
+From: <jiaying.song.cn@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <bruce.ashfield@gmail.com>
+Subject: [PATCH v2] kernel-devsrc: fix incorrect python shebang replacement
+Date: Tue, 28 Oct 2025 18:18:07 +0800
+Message-ID: <20251028101807.2085945-1-jiaying.song.cn@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] core-image-weston: Add wayland as required
- feature.
-To: openembedded-core@lists.openembedded.org
-References: <20251027164236.2324092-1-contact@schnwalter.eu>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <20251027164236.2324092-1-contact@schnwalter.eu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=SuadKfO0 c=1 sm=1 tr=0 ts=69009862 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
+ a=E3QKD7HjEgw5_gFfbC8A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDA4NyBTYWx0ZWRfXzXo4TukklCPi
+ brqtWu30AFUukz+wM0reX66+VJawDxOmtufIB5lFHaMy9vBztlOobSCdcFSG9+fZ0HAs1VwC7CA
+ bLlC5cDQgCPpo0YgGkTyh97Je9o9KVVjpbYKvo8oUOXK2AnJd/kYAfrQOWTS2OX5As40ZYFFgBH
+ Q42kmZnWNm0z3moeYu6K4wiHc/MrtkTvQ3QqH0Ochv1xS6wXEY6RC/yWowtfn4UZPjLg0oSQmJT
+ maE9WOgWy4V5HliCiTK3PvpQG6a6yApZbzZ9QDrLKcF5FGAjGgGiBLhn+8Bp+zstXi3yMO2Bz9M
+ RG2SiCHVDmcy+9iEj/cds5fwjrSOY43tAUuMIQLZP0nLdR2IaqfC3QotdBMOHsOXKGV0w7xX5ZI
+ uRRs6/sEhu+maluI4H2/RavqB5fHSA==
+X-Proofpoint-GUID: yEY1OIhE7S-IGs2k9O8AoWa7PEXt7SUR
+X-Proofpoint-ORIG-GUID: yEY1OIhE7S-IGs2k9O8AoWa7PEXt7SUR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-28_04,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1011 bulkscore=0 suspectscore=0 spamscore=0
+ adultscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510280087
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 10:14:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225385
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 10:18:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225386
 
-On 10/27/25 17:42, Walter Werner SCHNEIDER via lists.openembedded.org wrote:
-> Signed-off-by: Walter Werner SCHNEIDER <contact@schnwalter.eu>
-> ---
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-Little bit offtopic, but is the patchtest job down? It supposed to catch
-empty commit message. (And thinking of it, there hasn't been any mails
-since a few weeks)
+Update the sed replacement rule to strictly match '/usr/bin/python'
+(with no trailing characters)
+
+The previous sed rule was too broad and could incorrectly change Python
+shebangs such as in
+/lib/modules/6.16.11-yocto-standard/build/scripts/macro_checker.py from
+'#!/usr/bin/python3' to '#!/usr/bin/env python33'.
+
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+---
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 04dd683dde..411c99ba30 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -400,7 +400,7 @@ do_install() {
+     for ss in $(find $kerneldir/build/scripts -type f -name '*'); do
+         sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "$ss"
+         sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "$ss"
+-        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "$ss"
++        sed -i 's,/usr/bin/python$,/usr/bin/env python3,' "$ss"
+     done
+ 
+     chown -R root:root ${D}
+-- 
+2.34.1
+
 
