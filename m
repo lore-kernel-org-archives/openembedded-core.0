@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8FEECCF9E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E46A3CCF9EE
 	for <webhook@archiver.kernel.org>; Tue, 28 Oct 2025 13:46:38 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.12195.1761659191751676720
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.9354.1761659193136208852
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Oct 2025 06:46:31 -0700
+ Tue, 28 Oct 2025 06:46:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OZJ56b3s;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-28e7cd6dbc0so74195615ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 06:46:31 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zyfpYkBb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-26e68904f0eso64631375ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 06:46:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761659191; x=1762263991; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761659192; x=1762263992; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=M1rMHSk4Ma1+JajQNBZTOLetMgu49V0nmrUIl005LEI=;
-        b=OZJ56b3s8RrbiIPNnpZO/nNGrW6n8nuCTlYiWDJdqlp3Kn5nMX6r5Se+BABh3KdqsR
-         sg7k0mRwjA844GCsGiRxUMe6/IWZ1rdGCWCVAe4W6+a0NY9uUpONqQ4BKGC/iq89OBuY
-         73xHqnQ7Kn08bV2hz3c3LXp/5dAKpy32Kdt+iC4O1lSebpAFX1Uazqyq4eZ1AuQtR2+7
-         +Gwrp5VyOauqW8UQROJy2py8Q8dtKp7+PtloJNHYCPnPb30lOZUBag0lM2SIvZrQ9Mb5
-         kKofN425eLfbPoHFtJsHmItyyWwG7bH8PpBujMnPRe6m4aCwUWsia4lpHr0TT3gIjBeZ
-         dinA==
+        bh=jBxWFGkS0l0lhN6tGr++gCo5vVTFWdqpxlJ7/HD9sNI=;
+        b=zyfpYkBbncIwVZeFrTN2Q0MQkQwp1Qc2ghgTZhpHStcuv50HLDdK0XK+EYaaoJG4s2
+         QGrBOLCsypvVcN8iQzreqqQR4VNQAvk8C3sZBGUY64wuWswUk4dGJAs2ET16/+nVcR0o
+         yE2mFc2T3HDwNNcw01A0+aVxFu0jhMl7wY7r05eIYXFEwxOSjXMwgEb1pT4jdgepi7hi
+         9VKB3mIMIxs69zM3BQvK6+6wtGFVP5SbYTunPwryBAu+LLk0ULHkT2siEiDHV/yOo8AH
+         fcO8SKNV21/xeDs3M3bnSFqjCB/KJtdgZ4KeR7VgfSwossho3z5NXR2MYXJlRyn/3QQs
+         Solg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761659191; x=1762263991;
+        d=1e100.net; s=20230601; t=1761659192; x=1762263992;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M1rMHSk4Ma1+JajQNBZTOLetMgu49V0nmrUIl005LEI=;
-        b=ZyuALGszo2R5bnxnzR1IKlQoxHmKzUigLoKda429UNdq13TjKUdWOFwoLUkdnIwu2q
-         EaB2JZE2dYfCSrkOtahETepN49DylEC9zCje4Iv9a3Zo7LdX0XjKcR6e3P4I1iRrrPmk
-         gEtuabX7qyQo1iX33xwGv6J4SdOoqeTmczs6J2iMnQertqLKNFkKOJcrx/a1A2h+e87M
-         yYULyIQ6rwGf988FzG9TkK/CpbDIAy5/tJoO7KTxFrYmTdaZQbLvSOGI1Ezfp7iI7kgf
-         sEI1Xfzn/0b+DAB1LJ1nC06wm9NhMhdsgFNc7mCP5QQqZ1S+lIIsb+0J2dpDcwaLJO4I
-         qrRA==
-X-Gm-Message-State: AOJu0Yxe2TOExTMHLVzop7U3TjYhp9YGsiptyGAnv2TqzHMBdQ3RHkTG
-	x2LerWpJCneUuf4QN0s4pwW4MifSjPab4/iFITIvPA8cNLNQjwup62/jzbna6xZw3uT2yFsn2nd
-	acwoT3NU=
-X-Gm-Gg: ASbGncvy+iAB0tU9LaaqErtthyqoq23jMS02lMvnVa5/ZO5Sg5dHM2Cw72ghkyI7oAr
-	Phu8TL4QfHtPKrxAFZSFy6gLzTUs6lWd60uA6Q5osWEu8ay9BWc8d/wERHu66WGB8sWvBU+NQOh
-	/FXeEohOWK+v/G3Hd2LoCB+JVQyvFlgKvFokioakjPaxj0J9zBSHNUHy7GSuKlWT4xb2dMKxf4/
-	nq3T6Rw/TV6qOOiUxE70HNaW1qFq9IRE0mwjeCXfmX+q1K2upkwsf1+IJzxc+6IMiUuD9f50Gok
-	rnFuwZO4iJjIJfJAA0i5/LyOsoiiEBH6tULNCcH+6wfSqjEdHOCdni4/eTah4jzu2u5bK+tnuyM
-	q3VOIGN5ZQn5G0Y14vkj3BWFkfWJTrzbLvlZjYCXuRAe1JnhJOkkRE0NPdz0EEtNCe9g=
-X-Google-Smtp-Source: AGHT+IHG9VSALHQDEzwG9ldyMN2mbBY7CA5tpqaS+j/FKUGsojpjvxJ0ByFzhKIafDk6NMmvrImHkQ==
-X-Received: by 2002:a17:903:1c8:b0:25b:a5fc:8664 with SMTP id d9443c01a7336-294cb687028mr44321815ad.51.1761659190732;
-        Tue, 28 Oct 2025 06:46:30 -0700 (PDT)
+        bh=jBxWFGkS0l0lhN6tGr++gCo5vVTFWdqpxlJ7/HD9sNI=;
+        b=Tb92sV/6u4zHB+Kd6IfyCECEH2GkYNtSBfl4st0UE4SgmlnTGDRXwnZKR7lTmjq/Y6
+         bXHgNy079apSjZMkGkdIxJbZ4LmrQ5/HkX7y5qy7Q8b//21bAspRJ2sQSN7l26PA6ljP
+         qAcrWBq/YQs3vmpTKu4x3L/dtuLK941jNImG1rSD4m2hwNFD/WfR5y3JKJgvFaTiphTD
+         P0aysykCqZQxx3uX68hipL7BKaVDPMf1+smBmCWVtVbi+LgociM0VTh4LOfhUiuSoP4o
+         zLfXwXF4XqjhjzZ6KQ5tNgkyQzq+sVjoZNNjbvgzuZeRVEQfhj1z0qyy/hpxASZfbBjP
+         Hf5g==
+X-Gm-Message-State: AOJu0YwWbpVI8poORAOvK9o2oA9VzSKfy5qbb8eIkRv1Txh9DZyE+GUN
+	50fR/r3OZz3QkJrgChTgOm6HIxEaTx5l++8TgJSHMbMozjQckVIZwwHtFWN5gbsinIIJNqyykd8
+	gMdcDZb8=
+X-Gm-Gg: ASbGncvw4vYgFQMGu35WnUEIdBAgtMP2kFPKLTRDY5NcmNmMMp1ZJW1agfk5oTiDK8M
+	sjj0jrDNh/IEezY78qYGv94i+46x8Iecsl8SxDtIPv9fyfDADnd3s3uarKglEwfepNGdKh1JWK3
+	n0+lgGuGnmLLKCZjlgakzt6U58F31bnLeK4aND/2As/pWCZnYAogppeVgby4BdRvcBkCRAoksW0
+	mLiaGhv1ZjfWEwpuVg7e52sIiQlrF8L1I8xKGBQvTYVyz9b2HLwoipr0Pgyh8UA20jSliAVtASE
+	qohKuRLz+yoE98J5MEYAWf9UVTUh2yVyZ5o0uIbXGmp3grdcueDwoG4Vgow/L/9Kcd1NZGTkssn
+	ApjPz9ABDwDyMiNpqwSVEP3fv5ztWl7TI93cLSYk/hpf1sKMBFHJUfOVTsp5bbHYQDmHeTj34xJ
+	WRLw==
+X-Google-Smtp-Source: AGHT+IHP7UI72a4Dcn4yNWhytNzHqdUyL9lvXheDW6rOofcaJ26XAEEzIa8EoZV/eojVNAl263kj5Q==
+X-Received: by 2002:a17:902:d4cc:b0:28a:8ae7:4034 with SMTP id d9443c01a7336-294cb3d0b60mr46284815ad.25.1761659192224;
+        Tue, 28 Oct 2025 06:46:32 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:2bae:51f5:3bdc:4c68])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d40a7esm119894605ad.70.2025.10.28.06.46.30
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d40a7esm119894605ad.70.2025.10.28.06.46.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 06:46:30 -0700 (PDT)
+        Tue, 28 Oct 2025 06:46:31 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 3/8] elfutils: Fix CVE-2025-1376
-Date: Tue, 28 Oct 2025 06:46:13 -0700
-Message-ID: <06e3cd0891f553b0ed036d9247dfa7c5ed814d78.1761596406.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 4/8] elfutils: Fix CVE-2025-1377
+Date: Tue, 28 Oct 2025 06:46:14 -0700
+Message-ID: <ae89d0c2ca49c40429f787577d280b5886f42cc1.1761596406.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1761596406.git.steve@sakoman.com>
 References: <cover.1761596406.git.steve@sakoman.com>
@@ -68,106 +69,115 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 13:46:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225402
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225404
 
 From: Soumya Sambu <soumya.sambu@windriver.com>
 
-A vulnerability classified as problematic was found in GNU elfutils 0.192. This
-vulnerability affects the function elf_strptr in the library /libelf/elf_strptr.c
-of the component eu-strip. The manipulation leads to denial of service. It is
-possible to launch the attack on the local host. The complexity of an attack is
-rather high. The exploitation appears to be difficult. The exploit has been
-disclosed to the public and may be used. The name of the patch is
-b16f441cca0a4841050e3215a9f120a6d8aea918. It is recommended to apply a patch to
-fix this issue.
+A vulnerability, which was classified as problematic, has been found in GNU elfutils
+0.192. This issue affects the function gelf_getsymshndx of the file strip.c of the
+component eu-strip. The manipulation leads to denial of service. The attack needs to
+be approached locally. The exploit has been disclosed to the public and may be used.
+The identifier of the patch is fbf1df9ca286de3323ae541973b08449f8d03aba. It is
+recommended to apply a patch to fix this issue.
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-1376
+https://nvd.nist.gov/vuln/detail/CVE-2025-1377
 
 Upstream patch:
-https://sourceware.org/git/?p=elfutils.git;a=commit;h=b16f441cca0a4841050e3215a9f120a6d8aea918
+https://sourceware.org/git/?p=elfutils.git;a=fbf1df9ca286de3323ae541973b08449f8d03aba
 
 Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
  .../elfutils/elfutils_0.191.bb                |  1 +
- .../elfutils/files/CVE-2025-1376.patch        | 58 +++++++++++++++++++
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2025-1376.patch
+ .../elfutils/files/CVE-2025-1377.patch        | 69 +++++++++++++++++++
+ 2 files changed, 70 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2025-1377.patch
 
 diff --git a/meta/recipes-devtools/elfutils/elfutils_0.191.bb b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
-index fcb91e41aa..c5f357eb93 100644
+index c5f357eb93..0fd6d31af1 100644
 --- a/meta/recipes-devtools/elfutils/elfutils_0.191.bb
 +++ b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
-@@ -28,6 +28,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://CVE-2025-1372.patch \
+@@ -29,6 +29,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
             file://CVE-2025-1371.patch \
             file://0007-Fix-build-with-gcc-15.patch \
-+           file://CVE-2025-1376.patch \
+            file://CVE-2025-1376.patch \
++           file://CVE-2025-1377.patch \
             "
  SRC_URI:append:libc-musl = " \
             file://0003-musl-utils.patch \
-diff --git a/meta/recipes-devtools/elfutils/files/CVE-2025-1376.patch b/meta/recipes-devtools/elfutils/files/CVE-2025-1376.patch
+diff --git a/meta/recipes-devtools/elfutils/files/CVE-2025-1377.patch b/meta/recipes-devtools/elfutils/files/CVE-2025-1377.patch
 new file mode 100644
-index 0000000000..1f40add305
+index 0000000000..31a9ec33f2
 --- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/CVE-2025-1376.patch
-@@ -0,0 +1,58 @@
-+From b16f441cca0a4841050e3215a9f120a6d8aea918 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/elfutils/files/CVE-2025-1377.patch
+@@ -0,0 +1,69 @@
++From fbf1df9ca286de3323ae541973b08449f8d03aba Mon Sep 17 00:00:00 2001
 +From: Mark Wielaard <mark@klomp.org>
-+Date: Thu, 13 Feb 2025 00:02:32 +0100
-+Subject: [PATCH] libelf: Handle elf_strptr on section without any data
++Date: Thu, 13 Feb 2025 14:59:34 +0100
++Subject: [PATCH] strip: Verify symbol table is a real symbol table
 +
-+In the unlikely situation that elf_strptr was called on a section with
-+sh_size already set, but that doesn't have any data yet we could crash
-+trying to verify the string to return.
++We didn't check the symbol table referenced from the relocation table
++was a real symbol table. This could cause a crash if that section
++happened to be an SHT_NOBITS section without any data. Fix this by
++adding an explicit check.
 +
-+This could happen for example when a new section was created with
-+elf_newscn, but no data having been added yet.
++       * src/strip.c (INTERNAL_ERROR_MSG): New macro that takes a
++       message string to display.
++       (INTERNAL_ERROR): Use INTERNAL_ERROR_MSG with elf_errmsg (-1).
++       (remove_debug_relocations): Check the sh_link referenced
++       section is real and isn't a SHT_NOBITS section.
 +
-+        * libelf/elf_strptr.c (elf_strptr): Check strscn->rawdata_base
-+        is not NULL.
-+
-+https://sourceware.org/bugzilla/show_bug.cgi?id=32672
++https://sourceware.org/bugzilla/show_bug.cgi?id=32673
 +
 +Signed-off-by: Mark Wielaard <mark@klomp.org>
 +
-+CVE: CVE-2025-1376
++CVE: CVE-2025-1377
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commit;h=b16f441cca0a4841050e3215a9f120a6d8aea918]
++Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=fbf1df9ca286de3323ae541973b08449f8d03aba]
 +
 +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ libelf/elf_strptr.c | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
++ src/strip.c | 14 +++++++++++---
++ 1 file changed, 11 insertions(+), 3 deletions(-)
 +
-+diff --git a/libelf/elf_strptr.c b/libelf/elf_strptr.c
-+index c5a94f8..7be7f5e 100644
-+--- a/libelf/elf_strptr.c
-++++ b/libelf/elf_strptr.c
-+@@ -1,5 +1,6 @@
-+ /* Return string pointer from string section.
-+    Copyright (C) 1998-2002, 2004, 2008, 2009, 2015 Red Hat, Inc.
-++   Copyright (C) 2025 Mark J. Wielaard <mark@klomp.org>
-+    This file is part of elfutils.
-+    Contributed by Ulrich Drepper <drepper@redhat.com>, 1998.
++diff --git a/src/strip.c b/src/strip.c
++index 6436443..16922e9 100644
++--- a/src/strip.c
+++++ b/src/strip.c
++@@ -126,13 +126,14 @@ static char *tmp_debug_fname = NULL;
++ /* Close debug file descriptor, if opened. And remove temporary debug file.  */
++ static void cleanup_debug (void);
 + 
-+@@ -183,9 +184,12 @@ elf_strptr (Elf *elf, size_t idx, size_t offset)
-+       // initialized yet (when data_read is zero). So we cannot just
-+       // look at the rawdata.d.d_size.
++-#define INTERNAL_ERROR(fname) \
+++#define INTERNAL_ERROR_MSG(fname, msg) \
++   do { \
++     cleanup_debug (); \
++     error_exit (0, _("%s: INTERNAL ERROR %d (%s): %s"),			\
++-		fname, __LINE__, PACKAGE_VERSION, elf_errmsg (-1));	\
+++		fname, __LINE__, PACKAGE_VERSION, msg);	\
++   } while (0)
 + 
-+-      /* Make sure the string is NUL terminated.  Start from the end,
-+-	 which very likely is a NUL char.  */
-+-      if (likely (validate_str (strscn->rawdata_base, offset, sh_size)))
-++      /* First check there actually is any data.  This could be a new
-++         section which hasn't had any data set yet.  Then make sure
-++         the string is at a valid offset and NUL terminated.  */
-++      if (unlikely (strscn->rawdata_base == NULL))
-++	__libelf_seterrno (ELF_E_INVALID_SECTION);
-++      else if (likely (validate_str (strscn->rawdata_base, offset, sh_size)))
-+ 	result = &strscn->rawdata_base[offset];
-+       else
-+ 	__libelf_seterrno (ELF_E_INVALID_INDEX);
+++#define INTERNAL_ERROR(fname) INTERNAL_ERROR_MSG(fname, elf_errmsg (-1))
++ 
++ /* Name of the output file.  */
++ static const char *output_fname;
++@@ -631,7 +632,14 @@ remove_debug_relocations (Ebl *ebl, Elf *elf, GElf_Ehdr *ehdr,
++ 	     resolve relocation symbol indexes.  */
++ 	  Elf64_Word symt = shdr->sh_link;
++ 	  Elf_Data *symdata, *xndxdata;
++-	  Elf_Scn * symscn = elf_getscn (elf, symt);
+++	  Elf_Scn *symscn = elf_getscn (elf, symt);
+++	  GElf_Shdr symshdr_mem;
+++	  GElf_Shdr *symshdr = gelf_getshdr (symscn, &symshdr_mem);
+++	  if (symshdr == NULL)
+++	    INTERNAL_ERROR (fname);
+++	  if (symshdr->sh_type == SHT_NOBITS)
+++	    INTERNAL_ERROR_MSG (fname, "NOBITS section");
+++
++ 	  symdata = elf_getdata (symscn, NULL);
++ 	  xndxdata = get_xndxdata (elf, symscn);
++ 	  if (symdata == NULL)
 +-- 
 +2.40.0
 +
