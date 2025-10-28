@@ -1,102 +1,78 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE1DBCCF9E0
-	for <webhook@archiver.kernel.org>; Tue, 28 Oct 2025 09:12:36 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web10.7182.1761642756229563549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33A61CCF9E0
+	for <webhook@archiver.kernel.org>; Tue, 28 Oct 2025 09:58:57 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web11.4652.1761645535437749808
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Oct 2025 02:12:36 -0700
+ Tue, 28 Oct 2025 02:58:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XduFjELX;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: zboszor@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b6d5b756284so1215013466b.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 02:12:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WIsgeDc0;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-87c103928ffso52262706d6.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 02:58:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761642754; x=1762247554; darn=lists.openembedded.org;
-        h=content-transfer-encoding:subject:from:content-language:to
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Axo+HVorn6ZY0TN4Byz5M9wO26c9JWHv/red2pAx0vk=;
-        b=XduFjELXbxuACErWsCPr2eIDf2wuw4c54G/nmV2NEpsNn7JXBCIIXWQH7ycssKsiW+
-         8dTAFL0YABnmEQJOtReC4g91e3FJDeRSLKtWRKJFimc4TSo6CHeaUKLHTUvm/dwBXmgA
-         0BYrGirZAPseHWLfSMSx/mATBVCB7Otw0mAltplwoH/sDL8X2xSgeYWzOPN/XHZFNYED
-         nT0vWXSRFIW4vLDS5MQ4dyB1cw0hMdQyQSUp1tEbVsBnEr5juzFWREkLITwKK3IrEuYN
-         PDArHWy3zeHhveR+TSc5+JzEz1VD7XOyC27J5JcusdwOlTH1tERcglkwt3sjdHYwky9n
-         6qpg==
+        d=gmail.com; s=20230601; t=1761645534; x=1762250334; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HIy8NVQkG3ldgdtLURf8Uuw02YcAFJw+oX4+Y7PDTQY=;
+        b=WIsgeDc0HC1T4VJ+pvX2Nr9YP+bTcLnSGtO14tS6RdpgYAU7YzcXJdvgm0mJnd2EC0
+         7hUeOqY63FaX7gFzmBgvWk157Rg9wXYh1ma0ysXw2/msq6ebKT/cthMeAsW/1vW+YbDG
+         VwTk0QGixucHwXP5f7+YSUqd8MGKwT1ywilq+xQvBWQwEmR8cxON0AcO3oyOdMMxATnz
+         92DCJ/2Hzw6NXFVbCcI/V1Skireg0aIoPYZ8CEPjd3Aw8rQXHRB2m4pmXhdRPaGoGR1w
+         425Tkhg1ga95PgSo+CmA3IDSmePifpCp09JGdwfs2G5f/wpwGR+njzV/ZIzfFrJq0nck
+         Clkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761642754; x=1762247554;
-        h=content-transfer-encoding:subject:from:content-language:to
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Axo+HVorn6ZY0TN4Byz5M9wO26c9JWHv/red2pAx0vk=;
-        b=IDFOZWYI/V/rqcBwby+EsqsOvCu/L5uU1Z+80Osb9Ub8R2DuZ/q4KwNNBUNQuNP5SH
-         0REf5fOSppkmq588dfELhM2DiCtdYqMevn0hyBxz8lm6choqrlOOydtMS7GRHJsCIE8H
-         7WlTpkiMlzPDki+HI5KlKmBK8l+aeHx/ad3+GXCjtJ7iUABT2wmz3ABwj1owpqikwPsB
-         UNuq4XyY3rk2E70l3UoQlLrGIjjIP0ymGE3dzfxf9205I1pxMBlDWeWAM5nCKO1gBacG
-         K8mFAUSatAnbPIqm+HqjRTBn2WWz05b2ZLo08uM1sZfZlEMTznps26+KLste9rN9IzI1
-         m+cA==
-X-Gm-Message-State: AOJu0YypwQ6p4lsBZcSlpmVGmJ3veRSrdBtjtfLWl6PK49V6D+b0pRuo
-	3FrMKB35+II/n8nRxyhLdEMqAXGoy0Kl+jt+7rq6RcUds3yljfkPNvZmJqL5mw==
-X-Gm-Gg: ASbGncsNXxvcYwZYqyAf96H9IByucKWtqF34uFOoxwcW6VNxz1ASQIRNBwuRqlZdLwN
-	S61b1uIArJQTTw5vU4UJVvH1noQgikGQmuBI8GByCgAUxGFlLyxR/VwPGfsWRsDLLNUDMqJ0bTv
-	ewbSMWT0oFnXs5uIk4Mw6zWTuqnJH/gqmld8dKMhby1umFUsQJPB81cihCyOk+0z5d0NDJs1NSo
-	SFQ8D1sRWC5E1BdknxseUrFEGwOavPxx5c2RsiSYA+pVkLu3LlBbeqCK6vJJ2nO8e7Ka4ndNL5m
-	qEHaFrXTrSKfPtEZrWcf9eZuym4kVhTTGv56IDR3GiOnqAuigQNUyhy5iwWNIOO5VizQdnD4BeZ
-	Abzz+Ar+mJAojEJ6Bugr06D4mNlQsb6KA5fTfaukspHAiXdsvKR6ATi13fvXP5ajCV0d3804zf0
-	5MH5Ov4Z4/IRa8VR4PRs2GokUXsIAyJL+OqA==
-X-Google-Smtp-Source: AGHT+IHACTCR94pBWU7k9nc8YeSRD1e9wvDlA0aRkFKQufQFrOIQhyqZ8T3dt7Lot2v2K1fRvRI8yw==
-X-Received: by 2002:a17:907:7254:b0:b2a:5fe5:87c7 with SMTP id a640c23a62f3a-b6dba447458mr341142066b.12.1761642754040;
-        Tue, 28 Oct 2025 02:12:34 -0700 (PDT)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d85369697sm1068743766b.26.2025.10.28.02.12.33
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Oct 2025 02:12:33 -0700 (PDT)
-Message-ID: <ce858ff9-c6ef-4dd2-a788-51eb4b4315a6@gmail.com>
-Date: Tue, 28 Oct 2025 10:12:33 +0100
+        d=1e100.net; s=20230601; t=1761645534; x=1762250334;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HIy8NVQkG3ldgdtLURf8Uuw02YcAFJw+oX4+Y7PDTQY=;
+        b=vlcgtik/EyLPLujy9G1jtNuTvXlAe3YkospdwAu+7NAYTNVOslzmEFZr2OS+kAFHFy
+         jpr0J3CoYwuTQ8VCUPak9sfTTevjx9FfKLb0Mc8B9iKLhnWrzIfDUY0MsJwJCo71w4J3
+         TZjAkDKqORP2MJkCZ2mmgPkdYU/JcIab1QjYD9mQYk0ITptuG51qQaJ3BIGgwY3PuFwC
+         usm3U5IgHC9u4HYkDFw6QIldGHfzJywQNPLpOq+3Sr7NRxw2b2fi4KMJ6JAECrtajKRm
+         YMQyHzDNnrpaINxl0mhtFhBPBWfrVSobCEGaYaGZ4lpgFZRQM8AxhGhlUb85BS8kkDQB
+         nMNA==
+X-Gm-Message-State: AOJu0YxzYAd22rtiLieAC4Kyu0q4q9XUszrsUofenZZjGJ6CC0M3PoTG
+	eP2hbyelh8kFf+Vxw0Rd1op/plLCfzf0A0tQGddpFFSLlp6h8DFsXerkrL9KC/rL5GSEFdG7TFx
+	3s5JhNdnCcd17jDBOHDElQ4Rvs8vswwrv3w==
+X-Gm-Gg: ASbGncuVHNf0XTe1TdcGnvHdIwdspRmqxOE4BPIZ6ejS3MCOuXByoJywGFUFzFUAq7P
+	0+fdeCYxkxF84h1LUpukWzNBV+OnzdJivcBNQj049e7h4jAMn5NulzEerijEpcQbSO/doyS5WGM
+	P2woKL4/xwsU2Wvu8gf+UsugvBUyw+pz5jGY55OIAirkqN1snJ+LhpJPVKw26hruCFXYh0j2bKs
+	vAlUBODoP3cUz4I6HszBG3NTOGiICP+fIpq3ur4jGmp39SWd2m/446iBPuEZ4rhKoK7MJIV9xyD
+	ufiIQR2h/w/1V2jpGgxCiVi8GXg7xtSt622WNimPcKs156Ll32fGR/0o9rxX0yAV1TM64IsGFFO
+	3MyL1sv7b+N3eHeQfYw==
+X-Google-Smtp-Source: AGHT+IEQI2OAiRjxLeaqOz1s0/3f3C6g0XC3fOGpVZdcyHH8+ZxxtD5G62pCmjAdJR2ezcAIIzuBQYMSk7ijYygSZZs=
+X-Received: by 2002:a05:6214:21c7:b0:87c:2967:fd32 with SMTP id
+ 6a1803df08f44-87ffb046a42mr33620116d6.22.1761645534371; Tue, 28 Oct 2025
+ 02:58:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: openembedded-core@lists.openembedded.org
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-Subject: llvm-native is pulled into package builds that do not rely on it
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20251027164236.2324092-1-contact@schnwalter.eu>
+In-Reply-To: <20251027164236.2324092-1-contact@schnwalter.eu>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 28 Oct 2025 10:58:42 +0100
+X-Gm-Features: AWmQ_bm64j6CKtRlEUsLbNLp51iNw2tHtgUkwC1VIY7WvcHBdnn_gLWGOp4IUfM
+Message-ID: <CANNYZj-JpmwPdMVUnbowCeDSKtBpWuOxN27yT74H2mHxn-9AKQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] core-image-weston: Add wayland as required feature.
+To: contact@schnwalter.eu
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 09:12:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225383
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 09:58:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225384
 
-Hi,
+On Mon, 27 Oct 2025 at 17:43, Walter Werner SCHNEIDER via
+lists.openembedded.org <contact=schnwalter.eu@lists.openembedded.org>
+wrote:
+> +REQUIRED_DISTRO_FEATURES = "wayland"
 
-I am trying to make my meta-clang-revival layer compatible
-with Yocto 5.3 that merged meta-clang and llvm is split off
-into its own recipe.
+It would help to add to the commit message an explanation of what is
+improved by the change. What is the issue you ran into?
 
-Target recipes that use LLVM 14 or 15 (most notably, variants of
-intel-compute-runtime and their dependencies) fail with
-conflicting files being copied into recipe-sysroot-native,
-like static libs from clang14-native and llvm-native, etc.
-
-As far as I can tell, the issue occurs during packaging, after
-compilation already succeeded. The dependency chain is correct,
-otherwise the issue would occur during do_prepare_recipe_sysroot.
-
-It seems that the python function "extend_recipe_sysroot" is re-run
-for packaging. That's when it fails because llvm-native is pulled in,
-because llvm-native conflicts with e.g. clang14-native.
-
-Is it because I use signed rpm packaging?
-
-rpm-sequoia-native, while it depends on rust-native, and as a
-consequence, depends on llvm-native to build, requires neither to run.
-
-How can I avoid this problem without switching to non-signed rpms?
-
-Thanks in advance,
-Zoltán Böszörményi
-
+Alex
 
