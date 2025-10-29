@@ -2,60 +2,60 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE3ABCCF9E9
-	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 10:44:36 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web11.3631.1761734667801624380
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFA3ECCF9E9
+	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 10:45:46 +0000 (UTC)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web11.3639.1761734737432334885
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Oct 2025 03:44:27 -0700
+ Wed, 29 Oct 2025 03:45:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fzrL1jlo;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-87c237eca60so58958576d6.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 03:44:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PAlZ03Wg;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4e89c433c00so76579351cf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 03:45:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761734667; x=1762339467; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1761734736; x=1762339536; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ah6A8QYjEzSPRtGb2yL7dEEeqGNXcvQCJ3SzJW8Y10Q=;
-        b=fzrL1jloD6qCXPv57fejEjWjtnvAFxliTYwhhAM+5TxMtFc27bDa2r0oIKxMWxeBaU
-         AfkKm9f21ZRqbBgebEW2StZvoo6NPgfz8DGgRqmm1ft3w69naBJmBmOFG2Kz1SFvIsBL
-         20031BDN4zSU5YlnJJltxd3dOZzqD/Dk76+ELLZsmNgoucNAq1EMNqXk7fKYMgRQZCwY
-         /DtxdFkdDQ5lGy+UzTmD99bi69J0AYOGJTfd3kZLeGgVEuRmAFyo0PyYjksKNJ+57hAA
-         lgpdTN0f0LMEXGXyA4rWRVYiWxYHsXUi+IgEz0aRhiW6m5T+zPAMg8LlJctatU7SK8sF
-         GSSw==
+        bh=uAvLuDFTu31+QcnfMlLMJu+5kjYf5zxGmVJlpkguY+M=;
+        b=PAlZ03WgIycFqgeMdbT9684345csQCw4/tW9GtzwMRJEYezbJ26ByZ53OZGYnh2DiV
+         uZHCN3jewyyEAXlcff0HiwVWEGFVxuKyVzxpAFvAPRwSfjcB2nhQ2YqKfH1Q5EAMYTqr
+         xQVeqHL0e7cX4VSPndEXLT7BfHNxfkX0tjEBzdyW+ThJFsSjNM6vfksN3/HpoyHzgrHo
+         y3udbSJoQV6Pn+p97pq/pCAXRvo1+EnvAMhjvFy0R4RCTINs5BBZEwVE/Ywp3y1Wq8LD
+         /ldrBkpH2MfYnZsZsLdGL83tKKmMpOOoafRuT3NcB8vvUTnrisd9eVDQrsiUmbZHCsqA
+         +Jgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761734667; x=1762339467;
+        d=1e100.net; s=20230601; t=1761734736; x=1762339536;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ah6A8QYjEzSPRtGb2yL7dEEeqGNXcvQCJ3SzJW8Y10Q=;
-        b=uOQ5/i25Frj4zBn0nmQmnrSKn0/atIJt1+v9YePnpG0R02sA7irfYEPCipBAiADKIX
-         58BT8/HODWjTD+A7FRGr92YOsJl50s8j+XjGjonMWRCX6aDbUfI7M/Fzarzu+C5SjEXh
-         PK3xpHLUNggsczK8DkGBzThi5imNiZTSlQwDA/oOobMLO+QDi9bC0Fbcw6U9XUXrxprv
-         AJaGJT3dJNB83TA41H/DmJ74E4deOcs/uIC2AF7XUjW5MliJ2t+468weBFkV6jxufLK2
-         944tmpJF2QfTCuVSNogJniipEk882icaT9caEVe6Bai6J8TLeHR2cufDxKoD3vsHROD2
-         ZmkA==
-X-Gm-Message-State: AOJu0Yzc4QN5w5nu7CziZ/pyduDu4IRNyCq30sOOVX2vkwwx+MV6xQJH
-	j7BlkaF0ZQ+eSoF17faoEkme9Pwf01JBPVYh0Ujin/yw9imr3l8z6i5+DtvssxFtLaUto70RF58
-	s3v94qvE/eis0dWDGydmiNMEyURfxBrI=
-X-Gm-Gg: ASbGncuYs0+NUK3h57Eh4r1EOYfZYLHOMe0yoOg5U0OWGq55is+fVbw36OGFvrOgLYN
-	x62J5e/MaMohY87Tm2qt5vNjZrK80wNu67K8UxkzRHO/4OY2Kd5Yr2eHvNbjL4inOOps9HVFXi9
-	RxK1kNdz3R74CJL8QzpKjretDhSx1IDax2sg/50KKsQ9hFp6ri5z7YE/6b4eG/YP0PMMrFBeYwR
-	7JLWTIhmuHXX2jqMjrU7FIzh5IFK0jN1CatkfzFFLMsSQxg7jvO4vG3z3i+sUGHBcWWtFuMUS4M
-	CvHQoqxQNEIJ63vzY+6uxYM7cB4fLU4GJEsV5EoLuoPKeSK7I5fw98TkkQcFBGmBFFClk2EJCjN
-	mBitPZEQomDNtND6eyIoUWH5Ven9j
-X-Google-Smtp-Source: AGHT+IGviYx/Sh45oaROeHjDsYSri7nBjQQRil4dXpXQ9zbR2rNbgo4mC4sw+S6QRNcJSi1apXedZCAr97Mc1FxedaM=
-X-Received: by 2002:a05:6214:301e:b0:87d:cb55:823b with SMTP id
- 6a1803df08f44-88009c2f720mr21870876d6.51.1761734666634; Wed, 29 Oct 2025
- 03:44:26 -0700 (PDT)
+        bh=uAvLuDFTu31+QcnfMlLMJu+5kjYf5zxGmVJlpkguY+M=;
+        b=ugio7MMfRQGKsRbtmdutU42zmMjpgyBc2r+AvN4Avplj93NQY4jfW7L+OqlkGSQx3n
+         ZkdZmflCAf7ATksehTC48nud5MiflkXu2UmkElZ9yCYObXXs89IlOZ8XaY8p3Ua8d8Q1
+         HrNNbw72Q+fsEhOSmqnbXDXbmdYYBtcGGmRCV7RAv1H3NPIRiOO3wrMDnUjuSix3xIdC
+         BG8YjJ93tnAVhkysY6J6PbdD9BwK1ilBS9nK06MdhLp7tsRAelZpvCxfv/k3IP/ciqF4
+         lEPAZ95pwuzgKlGxDGeSbP/oPpJumVqJusx/z3UovTr/lQ5vxgbp0KXVGwFjlYG/xIq8
+         2Jjw==
+X-Gm-Message-State: AOJu0Yze5aeDzVDnAepXUvbydLHAzOP/bZSGQi/Khct9LnyqBnBgZaMj
+	xBzOqntHBQU9KBBl8PBLe8Brkn54yfvN8yCKTSR+o5BAUaSPusVm6DlPpQcoO1k7sZp+d9q1ovy
+	0FZVYWBFDb3mz/XYv/94/N37JztfaZ+g=
+X-Gm-Gg: ASbGnctfX1c5/SQcuuOk3Q0i6+d2uJr9X3AriJB8j4/joo1LrjZgJfqo5y8+WqghNyM
+	MNq8+tliyXv4sO0MTlvmOi/2OnWxJhmVwMNPxacnga7+CtcSmDXj19CX37t1tnrSyFA8Vm4f2a6
+	d+YJEtCEInIdJdVU0uwxCDioJG8h/CWrEu5MNfaqxM/fzgH5wBN/dMsYRlZ+Otn2389BhT/nLZ/
+	DMHbZKh/p/rtd966ySG1M4jVXJS3SWw5yCM/JFsGvDgRY9ozC96XEL945i4uoTK7TawSODPj07K
+	QlgzrqqT1Sc75PE9Oko99798IISjhwxlNk79AYbnMbDIVXDHPSSprnFhIyUJ+RmzCEORxbbaqBE
+	XL+GPcHvs9/qAsbofWzil1wKcLDp+
+X-Google-Smtp-Source: AGHT+IFEa9LrnX4rPU2q/Ow267E9LYwiQKzaRsabhLsaQYDrDjQFjxMQHQmb7EkevRTnDd/yyqCqiqpwSbMewGI+3OY=
+X-Received: by 2002:a05:622a:190c:b0:4ec:fc63:257e with SMTP id
+ d75a77b69052e-4ed15c8948cmr30847171cf.53.1761734736454; Wed, 29 Oct 2025
+ 03:45:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251029002918.3728797-1-dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20251029002918.3728797-1-dmitry.baryshkov@oss.qualcomm.com>
+References: <20251029002918.3728797-1-dmitry.baryshkov@oss.qualcomm.com> <CANNYZj83omwdp2NNvBf5i_AVMSgWtT4F9_Gyq6HMsDhsNzyKDQ@mail.gmail.com>
+In-Reply-To: <CANNYZj83omwdp2NNvBf5i_AVMSgWtT4F9_Gyq6HMsDhsNzyKDQ@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 29 Oct 2025 11:44:15 +0100
-X-Gm-Features: AWmQ_bnXHmaEXIebY-6rEjjd3VmcS2WM-dnX99tSqXTqg1iW83NnAOPED75xxgA
-Message-ID: <CANNYZj83omwdp2NNvBf5i_AVMSgWtT4F9_Gyq6HMsDhsNzyKDQ@mail.gmail.com>
+Date: Wed, 29 Oct 2025 11:45:25 +0100
+X-Gm-Features: AWmQ_bm94hIg6AyK09spDIQL0raqc9Xsd7bYeM-SOD0WnxmcEHMVFdVUugkcplI
+Message-ID: <CANNYZj-Ok_ZKSZb92GfJbBo7sqAWiEYmZ7NaSiwtNv1OA2gDTQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 1/3] libconfig: import recipe from meta-oe
 To: dmitry.baryshkov@oss.qualcomm.com
 Cc: openembedded-core@lists.openembedded.org
@@ -63,28 +63,24 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 10:44:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225443
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 10:45:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225444
 
-On Wed, 29 Oct 2025 at 01:29, Dmitry Baryshkov via
-lists.openembedded.org
-<dmitry.baryshkov=oss.qualcomm.com@lists.openembedded.org> wrote:
-> +RECIPE_MAINTAINER:pn-libconfig = "Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>"
+On Wed, 29 Oct 2025 at 11:44, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> On Wed, 29 Oct 2025 at 01:29, Dmitry Baryshkov via
+> lists.openembedded.org
+> <dmitry.baryshkov=oss.qualcomm.com@lists.openembedded.org> wrote:
+> > +RECIPE_MAINTAINER:pn-libconfig = "Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>"
+>
+> You don't have to do the below straight away, but there are a couple
+> possible cleanups.
+>
+> > +UPSTREAM_CHECK_URI = "https://github.com/hyperrealm/libconfig/releases"
+> > +UPSTREAM_CHECK_REGEX = "Version (?P<pver>\d+(\.\d+)+)"
 
-You don't have to do the below straight away, but there are a couple
-possible cleanups.
-
-> +UPSTREAM_CHECK_URI = "https://github.com/hyperrealm/libconfig/releases"
-> +UPSTREAM_CHECK_REGEX = "Version (?P<pver>\d+(\.\d+)+)"
-
-As the recipe is fetching from git, these have no effect.
-
-> +inherit autotools-brokensep pkgconfig
-
-Can you look into why building in a separate build directory is
-broken? Maybe it used to be, but the issues have been since fixed?
-It's much preferred to build separately, so the source tree doesn't
-get cluttered (and autotools are very good at that).
+Oh, and: the latest upstream version is 1.8.1. Putting that into
+oe-core would be much preferred from the start.
 
 Alex
 
