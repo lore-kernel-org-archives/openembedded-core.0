@@ -2,64 +2,64 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FFFCCCF9E9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CF72CCF9EB
 	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 12:08:47 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.4584.1761739725515950440
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web01.4693.1761739723121308876
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Oct 2025 05:08:45 -0700
+ Wed, 29 Oct 2025 05:08:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jDr1lDmf;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-470ffbf2150so5511675e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 05:08:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=L2Ons2mF;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4298bada5bdso6570012f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 05:08:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761739724; x=1762344524; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1761739721; x=1762344521; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=albq9zzPtUeAIOl16ybvlWUWcyvrmeczOQDj3SR9Cfo=;
-        b=jDr1lDmforGTGsNYgXvlDmO8b2d2EYf8c7PG62lRqhUI55eKkYzodKwLeABwXk5DEf
-         drWX3lMcndXgpQkKb4UhqHB8L8J2W8DGnTQ+cAazNshsYCiBajhww3uEFVMV/HS3LyCn
-         M70VIFfqxbfl5Le4DYgRLKR53IGYsmWDJ+YzACS/kKn98MOzoSNqqtclGcw4H18AxLt3
-         aHyFHJVP0LNPf0OT/QqwODZmphSeCtk1IVRd2pGJ0c0x1qgmuL9BzKHmBtVg5mFHwOog
-         zWvCAJxeeayqjsa3sq6JDT5WKI7UgoyDu1gNEqvt56VlRR0pUt4CrLIqHM/Ti+s86v69
-         +1hQ==
+        bh=H5geehZB+fuuwVs1YevvA3XfvsCc2V3I+PnOtS5bFBE=;
+        b=L2Ons2mFZjsAkjsjFeH43ubzYwwCXzjhBbFLuaPS/Fl1Ll8am7V46fNZ5AmLtHobbb
+         0Yh/Q6iErj2N/we/9QpILJR5bd/qP+kP8Fs4uJm8OmfkfMPY5PoEFiEFhBekv+0x6mQV
+         KBww8/CmdTr3UUGVjnaD4K8VXF4+qmzEAzhBuUGk/XaMcMkuw0aHZCnU09qELuFrD4kw
+         P4Ge7NbuK+PxAzqpfByP875fZDxMV/83EO4AVHG7tGV0t+LO5FQRHTBcSOLSb8gixI3c
+         m6CC97zgGg62/MuiikASCislVj+Od7RWkVrZn8bzvNJYdxY67D1HmnEPwGj7rV8e4Hn/
+         QTGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761739724; x=1762344524;
+        d=1e100.net; s=20230601; t=1761739721; x=1762344521;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=albq9zzPtUeAIOl16ybvlWUWcyvrmeczOQDj3SR9Cfo=;
-        b=k+xAKZ4OrLDmAbxnMjmeg6Zl+mjUSbMMJsGIiOSwcYA3uTeiKcO05T6XfVB0jEvH2b
-         rLDCqi4l39iXP8BetrUNbWRUiqPmd8gcjRfW9S0+qm1zRHyve36RN8v+ckaC8y7/shm3
-         15VzE3y3lS7l+7APpFGQ0P7AwHNITGt0sLO7RM/werFNBlk2GUZsvtZLJqEwTcIjUzdO
-         gt1Z1NzXHzWJ06F2d93Dvni3yL2gpJ58Vu24Y26xsBHFSabnr26DBNQYcEhJHQWU3mkb
-         V01DmKB5mQ1AZsoRHd+NN+4OGVuK7g2xlWPFXKf+7PbrrqXji6GxwEq5FVmMda4AtW4i
-         ydLA==
-X-Gm-Message-State: AOJu0YyYtioH/WhodmsO16jWPhgnvCwKocH8M/wBYe1gFMbB6D5sA0Rj
-	k3hGUaZaNSvS7IaBpR7bwuu2m9ONo9LJ7n14vjAgXZOjx6Ps43Q3tmz7WCSCRw==
-X-Gm-Gg: ASbGncu8qQVaQL/Vp2xq0raa3zmJyH7jaGLpbLbIIng3CPOcM14fZeUk6gRKUIgWdDv
-	z1RUQ0UkoYy4vTAG3nCH4E7U9oFX135cvL5grABYGlwzB7x2AjEeKT0WEhBb3WcaXL9JLfJayLH
-	brvffi170THminxcwWslXip6r+oI8hv26Dx9huP0Tri1w2kctxI6iiyQA0BcTsSbdSo3dnOaeSK
-	4tb1/cNFDnmi6D2X62RmgS2+RhADg/Q9FvPjtUXvknwNc6XxOz9AWYgEn6kQF6by5UlOs/gCyn6
-	0sW6XMiiHW4Bx9OCXCHjkFzEVpK/tYMLUi/bB8Ldq+2x5gFMrdpe88PVC0xXBs7CIpEMfr5t+7F
-	6mb4UhLQ7cmFDGfSPKZyAX+Hhh6NVtxugq+y+DzZ3v44HctfxpjsIaAwNyYLUxd0zhOVtflBk/d
-	ep3H4jTlE1Or84fBXXWmRHm29q9F0N5utBVmGllMW8CBAjoYCjTOoPDqQSUns6lBAdi5/bA6Gj4
-	5jLT9SpYQ7CS95CUCNn+I+e9nAxsKk7LQW4W+Q=
-X-Google-Smtp-Source: AGHT+IHYMRsQLtfIWw6efs9t475ZfBLbrDSyYeAUN2zBsm+5dUQ1dCql47HxVav1XFgmu2VDEvNF9w==
-X-Received: by 2002:a05:6000:2406:b0:426:fff3:5d04 with SMTP id ffacd0b85a97d-429aeb096c7mr2428605f8f.25.1761739723711;
-        Wed, 29 Oct 2025 05:08:43 -0700 (PDT)
+        bh=H5geehZB+fuuwVs1YevvA3XfvsCc2V3I+PnOtS5bFBE=;
+        b=NUjb9FDRyXf7vLGtGoDnbXxDedX4zBRF8bceiyQMeMAXDJdhfsWB3HqZxiYRfF+Hx6
+         6h7flr4ALwNkstclqO/guJOBLtG7yTiBXbP/zCnEnkfz+Jn9z4lmpaDLmHtyxFfn5jvG
+         81iyWZTuF0e1LcgJugOMIz+D3wt+xdkEmsi8l+OTBEAi085+uKrHC0ZREFl2ZAWCGHdV
+         Z2rfTgS5tVpKKzNUx/XprhL80H/a32DPeAMFuEM4X6lDbgJoz0KZqbfj/UZ4kj88VE1s
+         taNqcsGrjvWboJu7z/rUZ+V00IKUOst0KQPb1QlPxmP3iZsPu7mHF03bmw7pkCuNMVQO
+         SkPw==
+X-Gm-Message-State: AOJu0YzfWBeZBrv5HtrY20FqDCs0IyTzUaV3fxTIS59fw82L2yXEqtol
+	nGkTISVnOZTQfBaai8nWkwGOCPV2k78kcmxhm4iZwXbi7Karbigrgn1V8HNE6w==
+X-Gm-Gg: ASbGnctd/ysRLmg1ETVZlaLY24Nk8KHd+KBgnyJjaZ/fhsp3CSJBJsI9Lbux64TJapr
+	l5hhfJe5F49ju2MOswFezQDBBKQ83o4i3iBZUE030rAREXXVY2gdEW4Kny7Ik6fnlVjMrKZxTC+
+	dDwO65gngPtyvcoIZF+qlq1yI69t82ZT4bWv5Z/RvqZlBsrq12RZjtMfgATjkUmbcPABTaRbbqB
+	azeff3lLBfAFrLblFCBqqQKu95ckYI6YfxeeitM7N271grJCLZjR0mDl30O1LGDXVLeFni6RX7e
+	YymOHEQmiINwil0x2qtaZgt2EbEAATPvQXfnNCQ3Kh9CKXyl64ECoT+yedrE5uxRUnRUjvPe8VI
+	fBFbluKR1WrJXHJzdMXtCV1IxiWdb20Yfxh8DSQRljh9ETd+xSBEQYRjcCPhRY/DW8OQEojpVMr
+	JCnQlUhY/EEZEK1zXiSixp6lk5Ryfo/iPEUePYoi4eG7T2SqaXTdgK47yo35FtD4a7g4ceh4NjW
+	ww1haR+YYn9uhbAiHv/JunpPd8jOulL90zMETYNPnVKtnFkzg==
+X-Google-Smtp-Source: AGHT+IHi+J1jgOHoRJgFtJeo3iCXuohdMDGDH/BEFWDOWfNZnXU/KTwiol7wZy4Iu7JsbDnt4ko7Rw==
+X-Received: by 2002:a5d:5d05:0:b0:3eb:2428:4a05 with SMTP id ffacd0b85a97d-429aef73574mr2235747f8f.3.1761739721460;
+        Wed, 29 Oct 2025 05:08:41 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952b7b2dsm25685793f8f.2.2025.10.29.05.08.43
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952b7b2dsm25685793f8f.2.2025.10.29.05.08.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 05:08:43 -0700 (PDT)
+        Wed, 29 Oct 2025 05:08:41 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 5/6] testimage.bbclass: check that root-login-without-password image features are present
-Date: Wed, 29 Oct 2025 13:08:34 +0100
-Message-Id: <20251029120835.4075555-5-alex.kanavin@gmail.com>
+Subject: [PATCH 2/6] bbconfigbuild/configfragments.py: replace fragment_exists() with a more generic get_fragment()
+Date: Wed, 29 Oct 2025 13:08:31 +0100
+Message-Id: <20251029120835.4075555-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20251029120835.4075555-1-alex.kanavin@gmail.com>
 References: <20251029120835.4075555-1-alex.kanavin@gmail.com>
@@ -69,49 +69,47 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 12:08:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225453
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225450
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-More or less all of testimage relies on logging in as root, without password,
-both on console and over ssh. Previously this was enabled by default in poky
-and core, but now that it isn't, testimage will error out on timeouts in
-both console and ssh login attempts. This commit adds an earlier check and
-provides a hint to the users about what they should do.
+This can be used to get fragment information by its name (or None,
+if there's no fragment), rather than just check for its existence.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes-recipe/testimage.bbclass | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ meta/lib/bbconfigbuild/configfragments.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index 847a6f18a81..83b750bd7d0 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -131,12 +131,22 @@ do_testimage[depends] += "${TESTIMAGEDEPENDS}"
- do_testimage[lockfiles] += "${TESTIMAGELOCK}"
+diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigbuild/configfragments.py
+index 60cdced555c..59e760f2909 100644
+--- a/meta/lib/bbconfigbuild/configfragments.py
++++ b/meta/lib/bbconfigbuild/configfragments.py
+@@ -97,12 +97,12 @@ class ConfigFragmentsPlugin(LayerPlugin):
+                     print_fragment(f, args.verbose, is_enabled=False)
+             print('')
  
- def testimage_sanity(d):
--    if (d.getVar('TEST_TARGET') == 'simpleremote'
-+    test_target = d.getVar('TEST_TARGET')
-+    if (test_target == 'simpleremote'
-         and (not d.getVar('TEST_TARGET_IP')
-              or not d.getVar('TEST_SERVER_IP'))):
-         bb.fatal('When TEST_TARGET is set to "simpleremote" '
-                  'TEST_TARGET_IP and TEST_SERVER_IP are needed too.')
+-    def fragment_exists(self, fragmentname, fragments):
++    def get_fragment(self, fragmentname, fragments):
+         for layername, layerdata in fragments.items():
+             for f in layerdata['fragments']:
+               if f['name'] == fragmentname:
+-                  return True
+-        return False
++                  return f
++        return None
  
-+    image_features = d.getVar('IMAGE_FEATURES')
-+    needed_features = "allow-empty-password empty-root-password allow-root-login"
-+    present_features = set(image_features.split()) & set(needed_features.split())
-+    if (test_target in ('simpleremote', 'qemu')
-+        and (len(present_features) < len(needed_features.split()))):
-+        bb.fatal("When TEST_TARGET is '{}', IMAGE_FEATURES need to include '{}', and they are currently set to '{}'. This can be done for all images in a local build by running\n\nbitbake-config-build enable-fragment core/yocto/root-login-without-password\n\nand rebuilding the image-under-test."
-+            .format(test_target, needed_features, image_features))
-+
-+
- def get_testimage_configuration(d, test_type, machine):
-     import platform
-     from oeqa.utils.metadata import get_layers
+     def fragment_prefix(self, fragmentname):
+         return fragmentname.split("/",1)[0]
+@@ -138,7 +138,7 @@ class ConfigFragmentsPlugin(LayerPlugin):
+ 
+         fragments = self.discover_fragments()
+         for f in args.fragmentname:
+-            if not self.fragment_exists(f, fragments) and not self.builtin_fragment_exists(f):
++            if not self.get_fragment(f, fragments) and not self.builtin_fragment_exists(f):
+                 raise Exception("Fragment {} does not exist; use 'list-fragments' to see the full list.".format(f))
+ 
+         self.create_conf(args.confpath)
 -- 
 2.39.5
 
