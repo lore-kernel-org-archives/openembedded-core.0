@@ -1,82 +1,107 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45E57CCF9EB
-	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 11:49:17 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.web11.4415.1761738551370016465
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E903CCF9EE
+	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 12:08:47 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web01.4692.1761739722591081226
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Oct 2025 04:49:12 -0700
+ Wed, 29 Oct 2025 05:08:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=mwdo7yXW;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id EA068C0B887
-	for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 11:48:48 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3528A606E8;
-	Wed, 29 Oct 2025 11:49:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F3643102F2510;
-	Wed, 29 Oct 2025 12:49:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761738548; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=s7tHnDn5DPERM7KYQIR7EWcxsu4raOLSS46flHj4TsE=;
-	b=mwdo7yXWqYi03c17iSH8Pn8kTrHV0MphqJe4oeL3usUtnhdFEOwf6ZwWKDK8U0saxyh/rQ
-	rJfW193RVu600tmGZUBWstsGT3zJNvmBC/RCKEs/JzLCVJp7/O7upj+M1Q1+HSYunvixhp
-	BfwCiq3Wbh7RUPeiag2CCe3h3PL4Tx8EyG3XnMr3NInWlTwz/1voc9vkQHJ152rkdCvzDs
-	Y31514AIm/XBPBWMp1Fga9pcOSfRcDXFPxGs+JJbe4QYHKrx3a7LuXPTgcQrNzRZI9DHh+
-	dYwAlf9jURkXGVL1KTrggzdF1iK4E0g9JccSBx00M7RfaGSFsrhrqS4ItUhWpQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 29 Oct 2025 12:49:07 +0100
-Message-Id: <DDUS6ZLHP1TA.1RO2V3WLOWZXW@bootlin.com>
-To: "Pratik Farkase" <pratik.farkase@est.tech>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v5] libxslt: add ptest support
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20251023153459.49699-1-pratik.farkase@est.tech>
- <20251025132107.9296-1-pratik.farkase@est.tech>
- <DDSVFR6HJY5J.9F1TJMJY0ZQ0@bootlin.com>
- <GV2P189MB3005ADB18D1B5A8674AABA72FEFDA@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
-In-Reply-To: <GV2P189MB3005ADB18D1B5A8674AABA72FEFDA@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PQqNFhnK;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3f99ac9acc4so6792680f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 05:08:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761739721; x=1762344521; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YFW2Qo8Rd5Mlmq46SBmrGDgobhiW+dt6D7ZuKkgVJcQ=;
+        b=PQqNFhnKaQuMEF9b4Cs8CbomgWFXmPj8L7HNmytPonVA1wmpX5aQ/J4kK5MatAoS+7
+         mZUpsmV9yIy/4siJ8csd4hP8aon0MOSA0as4y+inyfV4FOMJSgJiKCUqnSYoDishLcAA
+         DUikLIviK6vw5pPCEcIfnaLC8yaVhMcymc/xZFCIMzknAY/sbGYMIEQqZo1C4j9d+sNE
+         KFvYzYjmvyXFk2Vrd0Q9xDAMwWZd2KD3jg7zJYoFTbZweqPHpe+S+9GHag+tbtmzr5bg
+         U3xwnQbwtS67tn2uCUBFzMJwlcq7THSFyMkOaUyixpFpVreXHqBT/j2rWX2MdWv21Ki4
+         Riyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761739721; x=1762344521;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YFW2Qo8Rd5Mlmq46SBmrGDgobhiW+dt6D7ZuKkgVJcQ=;
+        b=oegF5DHXRPDmRLrd7G/sCkbFEOHWOS92NylMzxwlNHFUSQbM3HErFmRXjPPxot6xnt
+         KGKbaa5PnZvJIysuJUvrBbUaYAP4jrVUh6YSPj8INAaVbdgaH8TK1eK2hNBvBer6yBwF
+         LhM5i274D0W9f3b/J8mTq0QAJZFUWZ0nFx6vaxqyvFZv235oY/+AXHvOgaELXuIJiGTV
+         +OKgTuzEb51MTmO0RnnlJq4/yHstry2zlXoGMC8bgt8uWC7Rynr/lEo8XnK7FDUTwGYW
+         zh84sakHw5PWTDWRk+X38bK9HyNugPXs25v0uToqLQKv5JhESWO/GnTU24iQnB3KsDXt
+         s+qA==
+X-Gm-Message-State: AOJu0Yy4aHGUkHPtTFpDTaNDfPc12zUw1QAyDev7cwWzhABN2v/7jaLF
+	u/jUdq8KFlSQiyzJQsq0YyRd4P8cUekEhZ6pJf9N1fbz/I4j+pFX/OXZ5xEdBA==
+X-Gm-Gg: ASbGnctKuEPkP5+3zxHXNtbcd/fuXKeHcfnPNsuu3hIqJEDouTGKSJHf6D9kT4j4VAF
+	6WyH+oo6eMm5aPmjwVOPSOCzctO+xaD/XRraRcm66WVg1lepccLhDmmBcJ9KzlPeu9wCLcP29Na
+	dHjkkgl+5yVmy3drEJuYETtP2Dk9eGmwL5ka6JquAKI9/+X0uf2b0s/+6V4vjoWspbZUztS9Bi9
+	vkejdfsS7UnI0fb2QiJdjaGfQAli2c3IBJY4cbCsT2T0xKEyNkESRkmEx7iH10WraYs3KklM4JV
+	caA7WS2EILttB+ugEKKIbvsdsieRJT2qCMQnB0K+7gc4gqmRXDC3WGcfs6U7JKJ2ZRQiyW/L7Up
+	sxqxtNIMdvVGxQKPkdPmtmycbhA6UYN4mK35jfQdt/Q0EK1NY5DT78hEPTOl3RN8HnIPODY5q3I
+	Q9bY3BJt6Qrgb/wAeGi1w5kL/+WfWxtdtD6orKFau+DOxu40R3SJ9/HL/pmEDENvHDRlK0rSmT3
+	LYBYZcZy2+cgYQY6/N446w/FD7kUJyXzo9reeufLoab7xNsKg==
+X-Google-Smtp-Source: AGHT+IE6mD2InEL04J9k5GD6JBpfCLcJhdT7JDdfuJ1wZ9lHdMzZdJrEDN9ChCWzsyIXZ17hS6Gugw==
+X-Received: by 2002:a05:6000:2f85:b0:3ff:17ac:a34b with SMTP id ffacd0b85a97d-429aefc03f0mr2203450f8f.42.1761739720762;
+        Wed, 29 Oct 2025 05:08:40 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952b7b2dsm25685793f8f.2.2025.10.29.05.08.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Oct 2025 05:08:40 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 1/6] bbconfigbuild/configfragments.py: run discover_fragments() only once when enabling them
+Date: Wed, 29 Oct 2025 13:08:30 +0100
+Message-Id: <20251029120835.4075555-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 11:49:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225448
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 12:08:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225449
 
-On Tue Oct 28, 2025 at 10:05 PM CET, Pratik Farkase wrote:
-> Hi Mathieu,
->
-> I looked at both the Ptest logs you sent and seems like more tests are fa=
-iling in the autobuilder than in my local QEMU test setup. The failures app=
-ear to be byte-level differences (e.g., =E2=80=9C230 bytes vs 275 bytes=E2=
-=80=9D for bug-147) rather than functional errors.
->
-> https://valkyrie.yocto.io/pub/non-release/20251026-107/testresults/qemux8=
-6-64-ptest/core-image-ptest-libxslt/
->
-> For both qemuarm64 and qemux86-64 machines my local ptest-runner has the =
-following output :
->
+From: Alexander Kanavin <alex@linutronix.de>
 
-Yes, it looks like a bit intermittent. I launched another run both locally
-and on the autobuilder, and the result is different: it is closer to
-yours.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/lib/bbconfigbuild/configfragments.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/2550
-https://valkyrie.yocto.io/pub/non-release/20251029-63/testresults/qemux86-6=
-4-ptest/core-image-ptest-libxslt/
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigbuild/configfragments.py
+index 21baedc9a42..60cdced555c 100644
+--- a/meta/lib/bbconfigbuild/configfragments.py
++++ b/meta/lib/bbconfigbuild/configfragments.py
+@@ -97,8 +97,8 @@ class ConfigFragmentsPlugin(LayerPlugin):
+                     print_fragment(f, args.verbose, is_enabled=False)
+             print('')
+ 
+-    def fragment_exists(self, fragmentname):
+-        for layername, layerdata in self.discover_fragments().items():
++    def fragment_exists(self, fragmentname, fragments):
++        for layername, layerdata in fragments.items():
+             for f in layerdata['fragments']:
+               if f['name'] == fragmentname:
+                   return True
+@@ -136,8 +136,9 @@ class ConfigFragmentsPlugin(LayerPlugin):
+                     enabled_fragments.append(f)
+             return " ".join(enabled_fragments), None, 0, True
+ 
++        fragments = self.discover_fragments()
+         for f in args.fragmentname:
+-            if not self.fragment_exists(f) and not self.builtin_fragment_exists(f):
++            if not self.fragment_exists(f, fragments) and not self.builtin_fragment_exists(f):
+                 raise Exception("Fragment {} does not exist; use 'list-fragments' to see the full list.".format(f))
+ 
+         self.create_conf(args.confpath)
+-- 
+2.39.5
 
 
