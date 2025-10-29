@@ -2,109 +2,160 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 432D4CCF9EA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4452BCCF9F1
 	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 02:54:54 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web10.34.1761706488755193214
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web01.39.1761706493078130060
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Oct 2025 19:54:48 -0700
+ Tue, 28 Oct 2025 19:54:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=leYddqk9;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-290b48e09a7so80883795ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 19:54:48 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YRFWQXqy;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b6a73db16efso6396249a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 19:54:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761706487; x=1762311287; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vd/KvHllDnm4h9hCfBRB4csFG6TcBhqYxIEz421kjn8=;
-        b=leYddqk9kCujcSxrGeY1rsBCF1ByqgiIBlQi2sLvvfCbRQTxOasu0opuXAEWaEiA0a
-         bD7TMZXoehIx7TSoW2chUKMc1td27sWAxmobXueTsZn6a1dufB3LxXNK36RHLfQGxpX9
-         b3ZXLvSVUrolQQcpVYzX0zyyAUrfde+KhJgkrHJUqEGJgrwG6vLGlDsTle4g/25wMg/S
-         OA5oksrRQhB2MR3jSovvxJ4fHC8Geb95nFSzSHqgG0+dUxsqYJbYFPYFK/a3fFYCEIyL
-         IMgkLlNEh1G0DJ6KqMR60lDJozO3mkLckY+EctA5trY6+M+4lQcCYEl/tKx3Bs4L8SVS
-         pv/A==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761706492; x=1762311292; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=q6EPhT9pEEaVQx4XeMTQ6W8BN62mWex8hjyMxacKhd0=;
+        b=YRFWQXqyQGoANzLXKXTQbKMarxIpS3suxDMir2jQbJ9n9FkjU9NW2d3ni51bj3OoqN
+         bfII1Gfso0kKWqsPJc5pvT1i+W7RUtKD6/mg7QzbodxKRdouDZgsHXMsSIE3mfG2lO6n
+         qK4bjLrpisEEAk8qTKm+XmVEQv3ahWp0kYNVeX0fhKmoabkN+Vc7nU8l0vnCJttGNVJj
+         iT5PtUMnuqWJdH9x2m28kXGQsVE/VuZNc4HsQ8n75pP/fsqdaNimY9/HUHNrY4whiZAU
+         wtqdzH4TtvFhZylZZnp1jhxkbAqS8hq0zavymPVc56cG00QiawTQarvp8X6YojqUVJh8
+         RTFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761706487; x=1762311287;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vd/KvHllDnm4h9hCfBRB4csFG6TcBhqYxIEz421kjn8=;
-        b=g/K+vIqGGHslTb+CbKRVtxkiGh79snU5yIpPS7cfc+WS4Xg2fySuDV6xRGrDiQq+aV
-         taH7T45ziVZHiy9DizZ71H0tTRR7Idqatmo6xeptY4hF8ylLyMok62tkh9oxpIBbJGk6
-         /rfb6EIacj5PyKjtDiKaTf8/q5Ka2nRverxC73BFNjQdxj86c+onepcyPLQwUexd32Wz
-         5G5KayZowScVeeohdPON1MpGi885WRF2aUvGyJoBgCx401QhoeUlBeRxzz2r0YNbLQmh
-         C4EX+8POn/g3nErAi9pMd45WH6gSbosheXwu5oQ5u+puGbp7c+HGv8SPE5GV25JB+RP8
-         IVHg==
-X-Gm-Message-State: AOJu0Yx1udytHb7XTmhMiyl++mHuzKJmN0jmcunsuza4MfqoOW+i6FGw
-	AU9oIrJcTnNxtDDh2XxZ8bgQHpMZntlTM4/S8ToSdDK8LeDIFBckW30z8X+I8wf8MK0oRSq7dfF
-	BAZWFBwg=
-X-Gm-Gg: ASbGncuwWD2hTjVu2lJjw6yT55rwSYQbS1HvOmYI5UFZAwNiY2ZmuZftKKpKqUSTKJY
-	7o9ZzDIMhp1mEJZb/H9VKLSK8AAPgVPyP8qDRObFvQQ6iTVTbXGDVBaNVCuV+r3HJXA9PJ7jkX2
-	nYsLldWQfzpNfSj5g1eYfPDDv3pgARjPzpERuxuwrVGq54I16bYLzFQxaKn5O7N9BdnOpBiUeeV
-	RnETbaaBkaBd8OUkHdpEKjcvFSsHvoQ2otEjSC3JMRn8OHZ9DEuMPsPYWWaFu30LjvcyYkdqttW
-	LxUSyPjKP/slxq2OjxzLeHzGbPHAzvCWGQXVaPnXcbOcjeUfgIHSOBnjb6IEJNDCRBd1vvJrAS3
-	UEFuWnSEWG/5EDRBRFG2kFInKm6K7wqY4M+1NeR3NoA5md4q2NdIuZRKq6MV2ioJ7Hug=
-X-Google-Smtp-Source: AGHT+IGm4/OuLqiL6XryuzrNEuQ2uvq48EYQi5bSRlkATvBBSwJqskBhw87oxIQs+Gcap7rhxJ453g==
-X-Received: by 2002:a17:903:2f8c:b0:24e:3cf2:2453 with SMTP id d9443c01a7336-294def17b11mr13906665ad.61.1761706487344;
-        Tue, 28 Oct 2025 19:54:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1761706492; x=1762311292;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q6EPhT9pEEaVQx4XeMTQ6W8BN62mWex8hjyMxacKhd0=;
+        b=UotIMUttetnv8Lb9kSYxhLZGPK+cdfHtK6eiymw2EHBI/WMmfTz8MdDs+h0lbpFNVy
+         +tKkzJC4i1Y9xI+EpMlu1NKVstL/U473Z5LM8qU5nG6MBaRHiutHoOjQl2a8m1eGJSEe
+         WvHXT3906GMLuuH7GkKcd0dfrRtNvCw5dOSjo3dqmFaiCyWOBAYG82c6zp7hEd6h76Z0
+         +hLpZf+bDgxcFTzpBC7jeS2N8gKOUPrD1IsUWBduNiolgXipynJ8kSdHzqjME56YeX3F
+         fRRfYYRnPavNuVI0+hOmuy4PII3uf/T9lQSqHQgXjOiGDaBc2zTDnD8nuF0ieMUU/6SM
+         vOpw==
+X-Gm-Message-State: AOJu0YzdB+D9nUk4Q7FOj/x6TzF0pl4dKWcXBWA+4hND29OlniJTO7vQ
+	E4Tb9EbMIMCpIYQh0Ayq3qxLPDJ845Z+fmd3gzKwbXG3BZ7EBDM6crQFLD1zxBzzES0eg6DEMNJ
+	kP1oThf4=
+X-Gm-Gg: ASbGnctYTkiYaQ7Jj3J3hcQluZhtL630iKe5RD8OiNZV2NDvvp3VJinff4jGbLqUayF
+	4bjD/nOoTui3rC8bTsgIZ6tONa7EKW5Fyxeudff3ePbmT6Oxu2PmEdrMUixOP2Oe22PvdqGEwdB
+	9GqZh2GG6TT2BjW9eujLgPNAqsDAjmw+0XSjlp13x9dKHgvgteOr1ebqhD82t28fR13Ex4gRu2U
+	uxymyOE/FieDFZOjiN3wvLUYQAGhx49FiuCwo9K4+pWWfAaO8gArVO5A3GzTHVDceZjERR8lHNt
+	4ktGyLHIswwP1o3xTgIK54CiuB5Nzx3tD2tweXHAC88PAVTd7PNJoSgwOq3eL+YbQFkMk+wlWXH
+	6fv9wqOzqnAxpAKQtCpgycj1fkGcpmit1gMqjcMchAxg2UhAQ+D0GtgLTJJsvR/dZ5Qw=
+X-Google-Smtp-Source: AGHT+IHXMxr4mLXt3lP18lmgEKqKkIDA3r4DEJeR2SjSI3+gZqOrvHXU8r4NwmANdlkdfL11al8wcA==
+X-Received: by 2002:a17:902:e94d:b0:290:c5c8:941c with SMTP id d9443c01a7336-294deed4217mr17380805ad.29.1761706492194;
+        Tue, 28 Oct 2025 19:54:52 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:2bae:51f5:3bdc:4c68])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d27345sm131058945ad.54.2025.10.28.19.54.46
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d27345sm131058945ad.54.2025.10.28.19.54.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 19:54:46 -0700 (PDT)
+        Tue, 28 Oct 2025 19:54:51 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/4] Patch review
-Date: Tue, 28 Oct 2025 19:54:26 -0700
-Message-ID: <cover.1761692326.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 2/4] binutils: fix CVE-2025-8225
+Date: Tue, 28 Oct 2025 19:54:28 -0700
+Message-ID: <9b5bb098b542a43a7aa97cc376c358f0a38778e3.1761692326.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1761692326.git.steve@sakoman.com>
+References: <cover.1761692326.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 02:54:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225422
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225424
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Thursday, October 30
+From: Yash Shinde <Yash.Shinde@windriver.com>
 
-Passed a-full on the autobuilder:
+CVE: CVE-2025-8225
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2650
+It is possible with fuzzed files to have num_debug_info_entries zero
+after allocating space for debug_information, leading to multiple
+allocations.
 
-The following changes since commit 9b3dbd691f6ebdbdfe88cef3d3a676ddd1399c63:
+* dwarf.c (process_debug_info): Don't test num_debug_info_entries
+to determine whether debug_information has been allocated,
+test alloc_num_debug_info_entries.
 
-  python3: upgrade 3.10.18 -> 3.10.19 (2025-10-17 07:39:27 -0700)
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=e51fdff7d2e538c0e5accdd65649ac68e6e0ddd4]
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Hitendra Prajapati (1):
-  git: fix CVE-2025-48386
-
-Peter Marko (1):
-  lz4: patch CVE-2025-62813
-
-Yash Shinde (2):
-  binutils: fix CVE-2025-11081
-  binutils: fix CVE-2025-8225
-
- .../binutils/binutils-2.38.inc                |  2 +
- .../binutils/0046-CVE-2025-11081.patch        | 84 ++++++++++++++++
- .../binutils/0047-CVE-2025-8225.patch         | 47 +++++++++
- .../git/git/CVE-2025-48386.patch              | 97 +++++++++++++++++++
- meta/recipes-devtools/git/git_2.35.7.bb       |  1 +
- .../lz4/files/CVE-2025-62813.patch            | 69 +++++++++++++
- meta/recipes-support/lz4/lz4_1.9.4.bb         |  4 +-
- 7 files changed, 303 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0046-CVE-2025-11081.patch
+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../binutils/binutils-2.38.inc                |  1 +
+ .../binutils/0047-CVE-2025-8225.patch         | 47 +++++++++++++++++++
+ 2 files changed, 48 insertions(+)
  create mode 100644 meta/recipes-devtools/binutils/binutils/0047-CVE-2025-8225.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2025-48386.patch
- create mode 100644 meta/recipes-support/lz4/files/CVE-2025-62813.patch
 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index 2444a304be..ade69881a1 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -83,5 +83,6 @@ SRC_URI = "\
+      file://0044-CVE-2025-11082.patch \
+      file://0045-CVE-2025-11083.patch \
+      file://0046-CVE-2025-11081.patch \
++     file://0047-CVE-2025-8225.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0047-CVE-2025-8225.patch b/meta/recipes-devtools/binutils/binutils/0047-CVE-2025-8225.patch
+new file mode 100644
+index 0000000000..410ba64143
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0047-CVE-2025-8225.patch
+@@ -0,0 +1,47 @@
++From e51fdff7d2e538c0e5accdd65649ac68e6e0ddd4 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Wed, 19 Feb 2025 22:45:29 +1030
++Subject: [PATCH] binutils/dwarf.c debug_information leak
++
++It is possible with fuzzed files to have num_debug_info_entries zero
++after allocating space for debug_information, leading to multiple
++allocations.
++
++	* dwarf.c (process_debug_info): Don't test num_debug_info_entries
++	to determine whether debug_information has been allocated,
++	test alloc_num_debug_info_entries.
++---
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=e51fdff7d2e538c0e5accdd65649ac68e6e0ddd4]
++CVE: CVE-2025-8225
++
++ binutils/dwarf.c | 8 +++-----
++ 1 file changed, 3 insertions(+), 5 deletions(-)
++
++Signed-off-by: Alan Modra <amodra@gmail.com>
++Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
++
++diff --git a/binutils/dwarf.c b/binutils/dwarf.c
++index 8e004cea839..bfbf83ec9f4 100644
++--- a/binutils/dwarf.c
+++++ b/binutils/dwarf.c
++@@ -3807,13 +3807,11 @@ process_debug_info (struct dwarf_section * section,
++     }
++ 
++   if ((do_loc || do_debug_loc || do_debug_ranges || do_debug_info)
++-      && num_debug_info_entries == 0
++-      && ! do_types)
+++      && alloc_num_debug_info_entries == 0
+++      && !do_types)
++     {
++-
++       /* Then allocate an array to hold the information.  */
++-      debug_information = (debug_info *) cmalloc (num_units,
++-						  sizeof (* debug_information));
+++      debug_information = cmalloc (num_units, sizeof (*debug_information));
++       if (debug_information == NULL)
++ 	{
++ 	  error (_("Not enough memory for a debug info array of %u entries\n"),
++-- 
++2.43.7
++
 -- 
 2.43.0
 
