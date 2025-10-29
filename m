@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E194ACCF9EB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2C97CCF9F7
 	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 20:12:20 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web10.13458.1761768739675799587
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web01.13557.1761768737951649111
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Oct 2025 13:12:19 -0700
+ Wed, 29 Oct 2025 13:12:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=M4haP50x;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so319485b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 13:12:19 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pOvJoxPM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7a2754a7f6aso403365b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 13:12:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761768739; x=1762373539; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761768737; x=1762373537; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GDpLhWTVl5qAHTYMD5mvDz5/Ga6fWD7fgWJpzc/OwQo=;
-        b=M4haP50xcKLFcA/aEmXSHfqeatUhZ1afLKpFNEYW8z1eBQ/RTij9pCAylipB+o3YVE
-         P1lJMtj/7VejHLJTOol0kOfZCI3jCKmGzujY75frsDodSasiLRez1rM4UPwmdq01yppD
-         SIpMXgnVXyZmy5v/BlmBUCCmJ3tSvvJmMRKjz2ivSDo8Ds0pk/hlR83AkHiMj3UuT6FI
-         eLLimLs5mReJz3N7L48hESkh/tPBNuVXTxk63MNN8zJAyPTSdv4A+aNf9couVNSOlDHl
-         l0TEXse4AaP82Nft9aOwaE/Zoup6G+DlXkJAPusWD79mQsb4r2zqf35b/ebSzWABM4oF
-         VwuA==
+        bh=DOECH9XbPXTcU0bEdNxSTLvqEXe3spGx//ZpSsizkfs=;
+        b=pOvJoxPMkX7U4LUFqeML2rmjKaDjjw3Qy5J2L7bOF5jNZEaZNrGrdkwuEkpAmIFFr7
+         4k0ftrjafJr1UlnHtHQ1Mq+YaNc1q3C1/agZWd8t17wcnvdj/vSuL2ukUupajHO4x5wm
+         DqyEFZxU4JxjGRkEUVd3yQiCmvmGcKOf7iISe42UcYEqWKa+daLPaZRqoMZwkEDbZS0d
+         AtJezvEA4zikizOG3acnGMny+4AITiSYg4DXKR0TafSpaob8v94+VrQberglD5FgBrjU
+         c1Z2gawS2QqEgRddFMM78/poy2CU17+lvPDcxN8UzV0QBhJlDKbSTJycO0KqD1HbcKhJ
+         UvBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761768739; x=1762373539;
+        d=1e100.net; s=20230601; t=1761768737; x=1762373537;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GDpLhWTVl5qAHTYMD5mvDz5/Ga6fWD7fgWJpzc/OwQo=;
-        b=mruwBzdQRrgCMr25lzdmbUdUwYsr61SkW0bNa2tIL1V2qWsEkH7fv/2oDqAV18GHGK
-         zwg5sLF3F09zIHdcGA9/MQAvvG8mnoTAvBQSBochHSaVsCUAuYA6SSEa27r+nBKvJps/
-         vLfdKt7u/nhzqQ8efSGLHNdXp6NXnCcaiGYQJY3LsRwOD+wYMYPsHNikximfHymgRxSJ
-         IwInoXhATpGC1ugjLUeAQIagjjeOM3vCB1vh9AO8Mn5IQOxqDy53TqOb7mfbQNw1PDNo
-         /z7QjTaMza/HyoM2VX+efpQ82n6/ZHPU89xfBQt5XybZUD0UtLFk2GE1gIC/p7yV30CT
-         eCoA==
-X-Gm-Message-State: AOJu0Yw+0h9Z1Ge/CLJv29kKKEsKJwkDz5Q9u4Z7fNpoNz/WYCT5HGib
-	yAzgtZ6d9ZExUoViWUQvsSAChNl5RwJddH8/QfJEMh32TKdLqAmh0m53WPPh36tuOVoN2jEs6Iu
-	HSeoQi6A=
-X-Gm-Gg: ASbGnctifunbwaIODJaWybUDVMzdJzZU+hiKdd4jIAccr3/VLRYTVpOrqeUIg8DOZaC
-	PqXVwC7xo/vix98S0a9Vi2Kx8H6SZTeXkABTYHeYjoG7COvfuQHNu5177dWjyAG4Vwa1GHeNOKG
-	JXiq6TlR0FAP+KRYLEQK/kUJ8IQ9VargepgiFw4/AUkw30qaJhXB2leTdwCrqgnxprrayFs7OP2
-	hkZM5NhDvvcu+2zpUg5AFMQ/MY3LaR5S0zI9j89p10hZ2tuoXEEVYsIpagoENhp4+8d0T33BNSi
-	jPDL0ZAJuUGYIEINlfpN9kHMPoM+fwyjuml8CJvYlA9it5AIphNuYFgvKWSLj7ZutAbwcUit6LU
-	0oqea12+4hDjJ/ALHBqLL1NDJLwsc+v0VUR9y3BBh8G56RCSqaG6/mvqt9NXHrl9mXdQ=
-X-Google-Smtp-Source: AGHT+IGqGeL+83Am6buZI/w4B2LY4GQrj2gDGT/f4BK2S4Gz0xhzceKyAXd2wQvvQcKjtyI3Dc3R3Q==
-X-Received: by 2002:a05:6a20:9149:b0:32a:745f:beed with SMTP id adf61e73a8af0-3477c7dd4c3mr954828637.26.1761768738889;
-        Wed, 29 Oct 2025 13:12:18 -0700 (PDT)
+        bh=DOECH9XbPXTcU0bEdNxSTLvqEXe3spGx//ZpSsizkfs=;
+        b=NDOdhRCyMYDT6z3evT1fSe6qUCMlqGFDpBjxc+h7N6Dn9XtNu2pa5rxgNDxDXrsLlu
+         gxXbQ0Pljl08oQQEeFmpehUExWVyREe5RecDAxvMbcWx7Clf+n4bWBmBWebs1EBGuYP+
+         pDnUYCzvAUMIXOk+moVYlT49SwdquFI36p3JK+0CgW/KbxEIcnrt722njpJ9xA5jfGyy
+         aCyoRVI0W3wxOim9JedrNLkuI+8bdiNWvluTnzawWe/nTwqIkFLlwyEHKpUekmWVqwj1
+         37DDI1T8z7y27L5Uwl3SJPYngSKrR6RTH2BejZk28mUh975abVRt+6IUBfu6cw6O78JJ
+         LH7g==
+X-Gm-Message-State: AOJu0YwYCnjjfVccjqojUV65R0I+McWcO//1qT9gm7VnPZFEoUfJ4lhp
+	U+BjieYVwtjY6ywdGxjnN4If+cRafrhkQWev3S1zOBH1Ep9zYQx7nWzZEivJV+w3nNqsiPytJRO
+	fvt3wagM=
+X-Gm-Gg: ASbGncu0TYtj81jSSbn3VkVP/cVIiOxp8S0Rx6l1F48dhX6TJFp67WOisjID935QUeY
+	SYpftsteILCWFSph/QSc4NQZ/1LL0H42ANKKWrkyg9fnHUO7LEGTChz77siftbhr5v+NQBvZRDv
+	cX3vMMkhejOHjc5cmKTic3fMehF3mPDkrdmoVMy89BHrvRLDABwQyqNxYgk6HMj6i+oD3Cx4Bm3
+	Em5/YazQTKlUnTHfxJB0EurToJyGjZVdAVLVOwXXjS5KtDkLFXKRupPffDGt1yMFde3l1j0cu7G
+	fcVK3z91O0BKtg8jRJkay3ontIYrBw/HN2gmyL/hs7CQLR5G6m+1V4cgCt/JI5XYRXk1xRYfNUr
+	aOA/boAOmNb1kZYkdvBY3izdgbm4e8mO655UkSv96mbX+JnsruzKO8EAonF308TBXKI0=
+X-Google-Smtp-Source: AGHT+IFU0nBbC9G9csrMOO+g//YqgKPVE2I7fifK6BhiEexVD0ozX6Ab1bkZs1rlRzsJl13If1J9Cg==
+X-Received: by 2002:a05:6a00:1826:b0:7a2:7d23:f6df with SMTP id d2e1a72fcca58-7a4e290feb7mr5294604b3a.7.1761768737170;
+        Wed, 29 Oct 2025 13:12:17 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:5e34:462b:e2f0:5898])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414087d2asm16522100b3a.63.2025.10.29.13.12.18
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414087d2asm16522100b3a.63.2025.10.29.13.12.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 13:12:18 -0700 (PDT)
+        Wed, 29 Oct 2025 13:12:16 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 6/6] bind: upgrade 9.18.33 -> 9.18.41
-Date: Wed, 29 Oct 2025 13:11:55 -0700
-Message-ID: <4cb834388759540ea5bf7265389b9f1b2e15333a.1761768602.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 5/6] tiff: ignore CVE-2025-8961
+Date: Wed, 29 Oct 2025 13:11:54 -0700
+Message-ID: <1ff4b39374a5b328069a928e7234c3397769dc6f.1761768602.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1761768602.git.steve@sakoman.com>
 References: <cover.1761768602.git.steve@sakoman.com>
@@ -68,40 +68,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 20:12:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225470
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225469
 
-From: Praveen Kumar <praveen.kumar@windriver.com>
+From: Yogita Urade <yogita.urade@windriver.com>
 
-This upgrade fixes
-CVE-2025-8677,CVE-2025-40778 and CVE-2025-40780.
+This CVE is for the tool which is removed in v4.6.0 via [1] and
+re-introduced again in v4.7.0 via [2].
 
-Changelog
-==========
-https://downloads.isc.org/isc/bind9/9.18.41/doc/arm/html/changelog.html
+[1] https://gitlab.com/libtiff/libtiff/-/commit/eab89a627f0a65e9a1a47c4b30b4802c80b1ac45
+[2] https://gitlab.com/libtiff/libtiff/-/commit/9ab54a858049bef020d578c71d82669531551c00
 
-Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../bind/{bind_9.18.33.bb => bind_9.18.41.bb}                   | 2 +-
+ meta/recipes-multimedia/libtiff/tiff_4.6.0.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind_9.18.33.bb => bind_9.18.41.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.18.33.bb b/meta/recipes-connectivity/bind/bind_9.18.41.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.18.33.bb
-rename to meta/recipes-connectivity/bind/bind_9.18.41.bb
-index 2554a7bb5f..a83ec29bb4 100644
---- a/meta/recipes-connectivity/bind/bind_9.18.33.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.18.41.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
+index 9957699fb2..777783d7cc 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
+@@ -29,7 +29,7 @@ CVE_STATUS[CVE-2015-7313] = "fixed-version: Tested with check from https://secur
+ CVE_STATUS[CVE-2023-3164] = "cpe-incorrect: Issue only affects the tiffcrop tool not compiled by default since 4.6.0"
  
--SRC_URI[sha256sum] = "fb373fac5ebbc41c645160afd5a9fb451918f6c0e69ab1d9474154e2b515de40"
-+SRC_URI[sha256sum] = "6ddc1d981511c4da0b203b0513af131e5d15e5f1c261145736fe1f35dd1fe79d"
+ CVE_STATUS_GROUPS += "CVE_STATUS_REMOVED_TOOLS"
+-CVE_STATUS_REMOVED_TOOLS = "CVE-2024-13978 CVE-2025-8176 CVE-2025-8177 CVE-2025-8534 CVE-2025-8851"
++CVE_STATUS_REMOVED_TOOLS = "CVE-2024-13978 CVE-2025-8176 CVE-2025-8177 CVE-2025-8534 CVE-2025-8851 CVE-2025-8961"
+ CVE_STATUS_REMOVED_TOOLS[status] = "cpe-incorrect: tools affected by these CVEs are not present in this release"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
+ inherit autotools multilib_header
 -- 
 2.43.0
 
