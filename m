@@ -2,88 +2,89 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D91B4CCF9EB
-	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 10:32:46 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.web11.3521.1761733957683924474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE3ABCCF9E9
+	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 10:44:36 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web11.3631.1761734667801624380
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Oct 2025 03:32:37 -0700
+ Wed, 29 Oct 2025 03:44:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YLJxHj2Q;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-87c11268b97so74984696d6.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 03:32:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fzrL1jlo;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-87c237eca60so58958576d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 03:44:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761733957; x=1762338757; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1761734667; x=1762339467; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vvYuZ4kYTQqLSmruHAiRiL5eGaZlpZeNaQeJOBCrZUA=;
-        b=YLJxHj2Q00M9f0GzNAQ+kcxO9AWjj1P2WnbRHbDdFZOueE44bKbJjvPBVDg2Gd/U6p
-         k1/sUkcSyUdVPUxB4OELXV8HyOG9HPao0LCae4iCvD2CeHj/9+eXRmgt0z8Tl2XNw8jd
-         KJITRgKMoJPhyCRe4I+fCb93E9Unq4t0XlOE+Rq3m1JVXyfRgxDQwiiHWu32quufWetL
-         2gjQNWhE6j1KtzyFgByIN3tE9+LkbKaxSXyrj/hbovtpaHhwCqXgYa5TM0s7wdKjrJWZ
-         0kgC5CF5MDfts+1f9WkHo1GhF8w0HGyaSRdGz9P1Ow25XC7y76/yIrU+7cxlUfJgwYjM
-         PsdA==
+        bh=Ah6A8QYjEzSPRtGb2yL7dEEeqGNXcvQCJ3SzJW8Y10Q=;
+        b=fzrL1jloD6qCXPv57fejEjWjtnvAFxliTYwhhAM+5TxMtFc27bDa2r0oIKxMWxeBaU
+         AfkKm9f21ZRqbBgebEW2StZvoo6NPgfz8DGgRqmm1ft3w69naBJmBmOFG2Kz1SFvIsBL
+         20031BDN4zSU5YlnJJltxd3dOZzqD/Dk76+ELLZsmNgoucNAq1EMNqXk7fKYMgRQZCwY
+         /DtxdFkdDQ5lGy+UzTmD99bi69J0AYOGJTfd3kZLeGgVEuRmAFyo0PyYjksKNJ+57hAA
+         lgpdTN0f0LMEXGXyA4rWRVYiWxYHsXUi+IgEz0aRhiW6m5T+zPAMg8LlJctatU7SK8sF
+         GSSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761733957; x=1762338757;
+        d=1e100.net; s=20230601; t=1761734667; x=1762339467;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vvYuZ4kYTQqLSmruHAiRiL5eGaZlpZeNaQeJOBCrZUA=;
-        b=WGfwZ3k2A0T7STuHVFrXn0tWOlKnDVYYe4X9jPWK9T4h2PDhqXZ22izy+pTRCVs3tC
-         QDj76n30Rpw1bFtzKy1UbSeDWQOpWtNs746es45xQE87ovl78wa2ZKqAdHLZB/Lt0nQw
-         jOtmRaFGLvJRUf6rn458MvPwsETcbUsPP2DJew0c5JHXzQkHc6of6ev/dbuF/C0BSQ2J
-         QIkEIZmwoMNDAANSgV+kY8+jvrqBYQZKa0ImNwyZ3msRDxCAjY5YfrZ4OJ/ALqtKKrFk
-         cxh/mblP6yluiDHoN1egb2J20WAqQtwMq2PJrP3nU1gjj99pgP5cI0vMlzgc8LsgdHqi
-         Z/bw==
-X-Gm-Message-State: AOJu0YxE3YUhRxu50k5KyUYvu8/LTg48fdqyx6TilLAOrVQfowfof/tO
-	gjLS277vIaTm+d5yG510E68LHPohpNIDznFtK7hQx9cAr4pJrYW68n5wJwwFebv9ZBH0bOokS9/
-	PYSMS9n4B2Hs4Q21lra0sOFqvB9RBaWQIxA==
-X-Gm-Gg: ASbGncsfhq+VPR9evaNF/uhfaA8dEoHfL3gAkM61Br5K6Gv/p5mvg+LAKkrX5w4FFKo
-	IspTE2GCy3m4B5T6X//ScMfwP9IB8bUi+muZvdmhNZQDhsdKsA9BrddFQtjHklIQ42PBdHCKVbD
-	bgSdW1modyAkTwVERn99cBrWL0wfQwDJBJYubcYWBnmPTytNMWSpjUTkMLpDgyJakzBcSnSQUSx
-	plWbZGgOPEpB3ClLhqemCxRtIDtGAz/keBj2SvIrHGdsrNSAfsidnTo8EJZ0C1H5hA+jmIYoKSV
-	hbt1WhyotSzjc8EujMlOmvT2wwJOJm3dH7cffKjmPZ2KYdJGBs9MEyV11YvFqbqWmug5cbEe2Es
-	EB7OdTzGn8e6FUenTzuzJfvDQ/cuJ
-X-Google-Smtp-Source: AGHT+IG/8BMxlXZI+vFHhNA9VO2VS9u7Ci5BCcoawXkGipFujeo1vpi1G+sEO69SpJ3ruAMGqv+UkrbBmWa9jp4w3sI=
-X-Received: by 2002:ad4:4ea9:0:b0:87f:ff3b:3a73 with SMTP id
- 6a1803df08f44-88009c088demr24669886d6.32.1761733956619; Wed, 29 Oct 2025
- 03:32:36 -0700 (PDT)
+        bh=Ah6A8QYjEzSPRtGb2yL7dEEeqGNXcvQCJ3SzJW8Y10Q=;
+        b=uOQ5/i25Frj4zBn0nmQmnrSKn0/atIJt1+v9YePnpG0R02sA7irfYEPCipBAiADKIX
+         58BT8/HODWjTD+A7FRGr92YOsJl50s8j+XjGjonMWRCX6aDbUfI7M/Fzarzu+C5SjEXh
+         PK3xpHLUNggsczK8DkGBzThi5imNiZTSlQwDA/oOobMLO+QDi9bC0Fbcw6U9XUXrxprv
+         AJaGJT3dJNB83TA41H/DmJ74E4deOcs/uIC2AF7XUjW5MliJ2t+468weBFkV6jxufLK2
+         944tmpJF2QfTCuVSNogJniipEk882icaT9caEVe6Bai6J8TLeHR2cufDxKoD3vsHROD2
+         ZmkA==
+X-Gm-Message-State: AOJu0Yzc4QN5w5nu7CziZ/pyduDu4IRNyCq30sOOVX2vkwwx+MV6xQJH
+	j7BlkaF0ZQ+eSoF17faoEkme9Pwf01JBPVYh0Ujin/yw9imr3l8z6i5+DtvssxFtLaUto70RF58
+	s3v94qvE/eis0dWDGydmiNMEyURfxBrI=
+X-Gm-Gg: ASbGncuYs0+NUK3h57Eh4r1EOYfZYLHOMe0yoOg5U0OWGq55is+fVbw36OGFvrOgLYN
+	x62J5e/MaMohY87Tm2qt5vNjZrK80wNu67K8UxkzRHO/4OY2Kd5Yr2eHvNbjL4inOOps9HVFXi9
+	RxK1kNdz3R74CJL8QzpKjretDhSx1IDax2sg/50KKsQ9hFp6ri5z7YE/6b4eG/YP0PMMrFBeYwR
+	7JLWTIhmuHXX2jqMjrU7FIzh5IFK0jN1CatkfzFFLMsSQxg7jvO4vG3z3i+sUGHBcWWtFuMUS4M
+	CvHQoqxQNEIJ63vzY+6uxYM7cB4fLU4GJEsV5EoLuoPKeSK7I5fw98TkkQcFBGmBFFClk2EJCjN
+	mBitPZEQomDNtND6eyIoUWH5Ven9j
+X-Google-Smtp-Source: AGHT+IGviYx/Sh45oaROeHjDsYSri7nBjQQRil4dXpXQ9zbR2rNbgo4mC4sw+S6QRNcJSi1apXedZCAr97Mc1FxedaM=
+X-Received: by 2002:a05:6214:301e:b0:87d:cb55:823b with SMTP id
+ 6a1803df08f44-88009c2f720mr21870876d6.51.1761734666634; Wed, 29 Oct 2025
+ 03:44:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <13053c3e-d249-52a2-5186-3dd43fe8a97d@crashcourse.ca>
- <CANNYZj8k7A_BuS=f_mEpSmoS7Hz8vQVujZ4sFGcqkpzKwVmjSg@mail.gmail.com> <141ccb4b-3cf7-a867-a52a-47f89fae93cc@crashcourse.ca>
-In-Reply-To: <141ccb4b-3cf7-a867-a52a-47f89fae93cc@crashcourse.ca>
+References: <20251029002918.3728797-1-dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20251029002918.3728797-1-dmitry.baryshkov@oss.qualcomm.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 29 Oct 2025 11:32:25 +0100
-X-Gm-Features: AWmQ_bkv1ch_icAhCVPDCv1m3DkPCt6ptFZ4o4K3Cr9Pid-Twd0FQsqa6abnF3Y
-Message-ID: <CANNYZj-nuGJHXLzs_+Dujc8bkdk6f=ENYLvRyYPzR3YCeOYfiQ@mail.gmail.com>
-Subject: Re: [OE-core] what is the point of setting "do_fetch[number_threads]"
-To: rpjday@crashcourse.ca
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Oct 2025 11:44:15 +0100
+X-Gm-Features: AWmQ_bnXHmaEXIebY-6rEjjd3VmcS2WM-dnX99tSqXTqg1iW83NnAOPED75xxgA
+Message-ID: <CANNYZj83omwdp2NNvBf5i_AVMSgWtT4F9_Gyq6HMsDhsNzyKDQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] libconfig: import recipe from meta-oe
+To: dmitry.baryshkov@oss.qualcomm.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 10:32:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225442
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 10:44:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225443
 
-On Wed, 29 Oct 2025 at 10:47, Robert P. J. Day via
-lists.openembedded.org <rpjday=crashcourse.ca@lists.openembedded.org>
-wrote:
-> > I guess you mean BB_NUMBER_THREADS, which limits the overall amount of
-> > parrallel tasks bitbake runs. The do_fetch thing is specifically for
-> > limiting fetch tasks. This is useful in situations where the build
-> > machine can handle lots of tasks, but the (broken) network cannot, and
-> > so the network access has to be limited to something smaller.
->
->   oh, i know it's for limiting solely fetch tasks, but if the (broken)
-> network can't handle concurrent fetch tasks, would it not be the
-> limiting factor, anyway?
+On Wed, 29 Oct 2025 at 01:29, Dmitry Baryshkov via
+lists.openembedded.org
+<dmitry.baryshkov=oss.qualcomm.com@lists.openembedded.org> wrote:
+> +RECIPE_MAINTAINER:pn-libconfig = "Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>"
 
-Networks are often 'semi-broken'. They can't handle lots of fetch
-tasks, but they can handle few. So by default you're going to get
-fetch errors, but if you limit the rate of fetching, then it will
-succeed.
+You don't have to do the below straight away, but there are a couple
+possible cleanups.
+
+> +UPSTREAM_CHECK_URI = "https://github.com/hyperrealm/libconfig/releases"
+> +UPSTREAM_CHECK_REGEX = "Version (?P<pver>\d+(\.\d+)+)"
+
+As the recipe is fetching from git, these have no effect.
+
+> +inherit autotools-brokensep pkgconfig
+
+Can you look into why building in a separate build directory is
+broken? Maybe it used to be, but the issues have been since fixed?
+It's much preferred to build separately, so the source tree doesn't
+get cluttered (and autotools are very good at that).
 
 Alex
 
