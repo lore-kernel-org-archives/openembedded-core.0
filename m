@@ -1,203 +1,166 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D03DCCD1BF
-	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 02:55:04 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.37.1761706495014494952
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61AC9CCF9EA
+	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 03:10:04 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.197.1761707397926142440
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Oct 2025 19:54:55 -0700
+ Tue, 28 Oct 2025 20:09:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=e/TZz4FC;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-269639879c3so57358765ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 19:54:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761706494; x=1762311294; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=whOf5Lmr8UtE3CconDCP2va6ovDY1BLs0iQxq0agSSQ=;
-        b=e/TZz4FCUckp1yY5/JU/qsu8bvIMIFJTx8eLAKPA5k3JsB40v7wrgnkOXH3VM9qddG
-         WmnIgIZDvdPf16Se2m1QEjGkc66Ucg+3W2AXNR7jcTx3dqDsdzkZdwl5gPfA/BNLGpaI
-         0RfyMNbZMTXTgjsPgG2d9hOihrX3G4P9W0Kd2vlIGjUXmYS7bsZ4vZfx0ZuWn5wc1FdI
-         U79MXhlcIxEEUCChrlXNlNDWfFUSywTnMpkd9wPRcc1QfsejO0atMKCr6cCoH+nwVkLt
-         FS/6xHIkwbl8QuADl7cBnO9O/8yGE1ec95UdJr+qGKfXJyvts8of+oW/hVaidcIS6RKi
-         mebQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761706494; x=1762311294;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=whOf5Lmr8UtE3CconDCP2va6ovDY1BLs0iQxq0agSSQ=;
-        b=IQtvtBEpeFERHirV2LemXe8WGRaNxxOsPu3RwlOq/wbHIOLHG+ZTdLF4xNgUaZoCmQ
-         LDxXiWzAAPh0Cf/PA/2L9QCkAwPcVEszILaJmFrUO3r/UUhJrrkd8g7zlhZK4s3+OAJ0
-         TF7tA7i9aQ7Cu8SH3Yu3O4/DiR8gT5bvYXpiGJWG9HmXg7Pd5cNXn2yOgZlxPJ1YMJrB
-         Bfg1eL9XLGUuKun5WXgvYK7BWFKRSQkdzrR2k6uyYvDNk9/2xw5YZAwiOI+HXdUw5wfM
-         +sEZa5Rrz26y+0dJxsmRAdM/uqdZt5UzmwhjHw3vAYZ+8L4hs1Kscp4ACiOUlXB9uSbA
-         iiMQ==
-X-Gm-Message-State: AOJu0YzBW5bHiCDquXEBBLuxRZKVVZzTYxZpYHhSsM5I3wGrXAsHSPt4
-	drzdndxE89Q01av4a5wRKcK4kmvQXvnLOs81Gv54cfAjReaGWRMbeuICPpumqcP4KXa4xCFAIe7
-	YCdCYIWY=
-X-Gm-Gg: ASbGncuVkd1WNtLx2e7qbIyXFBnAuqNGyfuErBzif3tPCUQyRv6Jn7G+7UGA2C1UuFQ
-	IhtxaDUsAsFmQSrFCo1OedEP8sJUhvzUYkli+TF0iRenrNyev35n4ylVIraaBUhi2j3I/D09d3W
-	BpYUKSSvnlQ6DGwe/9oL7VlZt2VgoOxHabTqt4MFwzItNT2idT3W8uYj70SwWGTbegT5SSPKwea
-	L6hA1efO7vxndApdJMf3j6rVuq4jwASQA10w7vb8n/YlABvZwKSedjjxfr90Prw22CoodVSF0Wu
-	cRkACBWJ0BAhJlMc66aMPJgshpwSN9KZRKCu/coiW0PbKSTeFFHW0A3g6PrDqdr43Gb1ffmeyh4
-	KsEWt4EhqaKmOmVf86FnPPQQf4yu2JncjMZ0Yx8i2UIs7XbzfsYVEJ0hva8yDWSqXNpM=
-X-Google-Smtp-Source: AGHT+IFA1+q8l4upCcO7yqzWX4c+CsD4f9oujNQUqQmToAA6e/hnRLUXAIB6zJpqyCxoPx9Fj/x0bw==
-X-Received: by 2002:a17:903:2348:b0:25d:37fc:32df with SMTP id d9443c01a7336-294deedb5c6mr16629595ad.47.1761706493893;
-        Tue, 28 Oct 2025 19:54:53 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:2bae:51f5:3bdc:4c68])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d27345sm131058945ad.54.2025.10.28.19.54.53
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 19:54:53 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 3/4] git: fix CVE-2025-48386
-Date: Tue, 28 Oct 2025 19:54:29 -0700
-Message-ID: <3f2fce1ababbf6c94a9e4995d133d5338913b2ce.1761692326.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1761692326.git.steve@sakoman.com>
-References: <cover.1761692326.git.steve@sakoman.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=O07kxHQG;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3397cd56c3=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59SMegLD4129150
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 20:09:57 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=JiCCGFTZbv7ZZ3689rl0
+	RMRHL7imGZIOtCevATp+mrw=; b=O07kxHQGFFzuuMkNNA+69XRmIz4OyuT8OU09
+	lSXzQeqbnNMm3rLejkC0hK/Nca7wheiowj87S4q81SRWDPHPlZrnziL4zYOD6bK5
+	41gEe4/LwqT7jypxyMk0v11PA48rtVRD08IGUVUV2fVD8w05g0Hy4rfRfWjxMLYc
+	7NvoAn25oAce6ojGMlrgny6x7YoD5y/U2T4fmnhVlQ8GDXtIymGCh2rQYEDMaRk9
+	cp+B/fSKjF27G/mHQiWGf8QCbVxsIVeeQA808/asGtujMgClLlzOkFDt9s3BKtxH
+	VhQzU0W0lv6PfU+V1V6ubjqp2NDQ6/aflaghhGRmjsFq9xOzgw==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a348a8cpk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 20:09:57 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 28 Oct 2025 20:09:56 -0700
+Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 28 Oct 2025 20:09:56 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [walnascar][PATCH] u-boot: fix CVE-2024-42040
+Date: Wed, 29 Oct 2025 11:09:55 +0800
+Message-ID: <20251029030955.2684313-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: y3mMx9yqPwDdIbJQLv6Bi7t-dOa-cac0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI5MDAyNCBTYWx0ZWRfX2J76RPUMAtXj
+ DuzHDG+zMGz+gP37GNZ7fym+9fwL4z0bcsPLh5ydfWbnH8lDw4ukVT+mTkJM6vrDx2Hij+tT5Y6
+ C2f8XFEkNW4rrBctd969cKn2VD3yWgiZlEx3uyQgHo6uvc09FQ0+IvHw3HNHGj0mPTO6+QP/V/X
+ 5GZDJeKutU+C0IT1JPysp9PT3tshi+7DWFO0G9TRzQm3LCzpB2v0SBV6P7Zvd4wTs22YgyuXuxA
+ ghTkqYX7wfmlWiI9RpFzMkdMb+sG6KSLB538F4wArQtjkky9FUGXWfTrH4b5drLZ5wqI7z+bWEU
+ bE5cSMBz3kF/lVBr5EFt4xkztoAz99KqDRQLZepp6qFQMbB7WKfm3VipS2hhTDdToQaoqQuNac6
+ BjKNpxfbmh5OlcYSaAzwsItSA/Kw8A==
+X-Authority-Analysis: v=2.4 cv=aLj9aL9m c=1 sm=1 tr=0 ts=69018585 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=YfCOm-DyAAAA:8 a=PYnjg3YJAAAA:8
+ a=t7CeM3EgAAAA:8 a=8xt6yXMlAAAA:8 a=xoHeRbk_Chj4lytq0XUA:9
+ a=zQLMK8awuJ6_Hvp-_9Ux:22 a=FdTzh2GWekK77mhwV6Dw:22 a=62aeB-Bz8chgfR-5iBum:22
+X-Proofpoint-ORIG-GUID: y3mMx9yqPwDdIbJQLv6Bi7t-dOa-cac0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-29_01,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 impostorscore=0 spamscore=0 adultscore=0 suspectscore=0
+ bulkscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510290024
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 02:55:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225425
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 03:10:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225427
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+Backport a patch [1] from upstrem to fix CVE-2024-42040 [2]
 
-Upstream-Status: Backport from https://github.com/git/git/commit/9de345cb273cc7faaeda279c7e07149d8a15a319
+[1] https://source.denx.de/u-boot/u-boot/-/commit/81e5708cc2c865df606e49aed5415adb2a662171
+[2] https://nvd.nist.gov/vuln/detail/CVE-2024-42040
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../git/git/CVE-2025-48386.patch              | 97 +++++++++++++++++++
- meta/recipes-devtools/git/git_2.35.7.bb       |  1 +
- 2 files changed, 98 insertions(+)
- create mode 100644 meta/recipes-devtools/git/git/CVE-2025-48386.patch
+ .../u-boot/files/CVE-2024-42040.patch         | 56 +++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |  4 +-
+ 2 files changed, 59 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch
 
-diff --git a/meta/recipes-devtools/git/git/CVE-2025-48386.patch b/meta/recipes-devtools/git/git/CVE-2025-48386.patch
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch
 new file mode 100644
-index 0000000000..e78e95dbea
+index 0000000000..2d250e51b7
 --- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2025-48386.patch
-@@ -0,0 +1,97 @@
-+From 9de345cb273cc7faaeda279c7e07149d8a15a319 Mon Sep 17 00:00:00 2001
-+From: Taylor Blau <me@ttaylorr.com>
-+Date: Mon, 19 May 2025 18:30:29 -0400
-+Subject: [PATCH] wincred: avoid buffer overflow in wcsncat()
++++ b/meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch
+@@ -0,0 +1,56 @@
++From 1406fc918977bba4dac0af5e22e63a5553aa6aff Mon Sep 17 00:00:00 2001
++From: Paul HENRYS <paul.henrys_ext@softathome.com>
++Date: Thu, 9 Oct 2025 17:43:28 +0200
++Subject: [PATCH] net: bootp: Prevent buffer overflow to avoid leaking the RAM
++ content
 +
-+The wincred credential helper uses a static buffer ("target") as a
-+unique key for storing and comparing against internal storage. It does
-+this by building up a string is supposed to look like:
++CVE-2024-42040 describes a possible buffer overflow when calling
++bootp_process_vendor() in bootp_handler() since the total length
++of the packet is passed to bootp_process_vendor() without being
++reduced to len-(offsetof(struct bootp_hdr,bp_vend)+4).
 +
-+    git:$PROTOCOL://$USERNAME@$HOST/@path
++The packet length is also checked against its minimum size to avoid
++reading data from struct bootp_hdr outside of the packet length.
 +
-+However, the static "target" buffer is declared as a wide string with no
-+more than 1,024 wide characters. The first call to wcsncat() is almost
-+correct (it copies no more than ARRAY_SIZE(target) wchar_t's), but does
-+not account for the trailing NUL, introducing an off-by-one error.
++Signed-off-by: Paul HENRYS <paul.henrys_ext@softathome.com>
++Signed-off-by: Philippe Reynes <philippe.reynes@softathome.com>
 +
-+But subsequent calls to wcsncat() have an additional problem on top of
-+the off-by-one. They do not account for the length of the existing
-+wide string being built up in 'target'. So the following:
-+
-+    $ perl -e '
-+        my $x = "x" x 1_000;
-+        print "protocol=$x\nhost=$x\nusername=$x\npath=$x\n"
-+      ' |
-+      C\:/Program\ Files/Git/mingw64/libexec/git-core/git-credential-wincred.exe get
-+
-+will result in a segmentation fault from over-filling buffer.
-+
-+This bug is as old as the wincred helper itself, dating back to
-+a6253da (contrib: add win32 credential-helper, 2012-07-27). Commit
-+8b2d219 (wincred: improve compatibility with windows versions,
-+2013-01-10) replaced the use of strncat() with wcsncat(), but retained
-+the buggy behavior.
-+
-+Fix this by using a "target_append()" helper which accounts for both the
-+length of the existing string within the buffer, as well as the trailing
-+NUL character.
-+
-+Reported-by: David Leadbeater <dgl@dgl.cx>
-+Helped-by: David Leadbeater <dgl@dgl.cx>
-+Helped-by: Jeff King <peff@peff.net>
-+Signed-off-by: Taylor Blau <me@ttaylorr.com>
-+
-+CVE: CVE-2025-48386
-+Upstream-Status: Backport [https://github.com/git/git/commit/9de345cb273cc7faaeda279c7e07149d8a15a319]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++CVE: CVE-2024-42040
++Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/81e5708cc2c865df606e49aed5415adb2a662171]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ .../wincred/git-credential-wincred.c          | 22 +++++++++++++------
-+ 1 file changed, 15 insertions(+), 7 deletions(-)
++ net/bootp.c | 11 ++++++++++-
++ 1 file changed, 10 insertions(+), 1 deletion(-)
 +
-+diff --git a/contrib/credential/wincred/git-credential-wincred.c b/contrib/credential/wincred/git-credential-wincred.c
-+index 5091048..00ecd87 100644
-+--- a/contrib/credential/wincred/git-credential-wincred.c
-++++ b/contrib/credential/wincred/git-credential-wincred.c
-+@@ -93,6 +93,14 @@ static void load_cred_funcs(void)
++diff --git a/net/bootp.c b/net/bootp.c
++index 68002909634..843180d296c 100644
++--- a/net/bootp.c
+++++ b/net/bootp.c
++@@ -362,6 +362,14 @@ static void bootp_handler(uchar *pkt, unsigned dest, struct in_addr sip,
++ 	debug("got BOOTP packet (src=%d, dst=%d, len=%d want_len=%zu)\n",
++ 	      src, dest, len, sizeof(struct bootp_hdr));
 + 
-+ static WCHAR *wusername, *password, *protocol, *host, *path, target[1024];
-+ 
-++static void target_append(const WCHAR *src)
-++{
-++	size_t avail = ARRAY_SIZE(target) - wcslen(target) - 1; /* -1 for NUL */
-++	if (avail < wcslen(src))
-++		die("target buffer overflow");
-++	wcsncat(target, src, avail);
-++}
+++	/* Check the minimum size of a BOOTP packet is respected.
+++	 * A BOOTP packet is between 300 bytes and 576 bytes big
+++	 */
+++	if (len < offsetof(struct bootp_hdr, bp_vend) + 64) {
+++		printf("Error: got an invalid BOOTP packet (len=%u)\n", len);
+++		return;
+++	}
 ++
-+ static void write_item(const char *what, LPCWSTR wbuf, int wlen)
-+ {
-+ 	char *buf;
-+@@ -304,17 +312,17 @@ int main(int argc, char *argv[])
++ 	bp = (struct bootp_hdr *)pkt;
 + 
-+ 	/* prepare 'target', the unique key for the credential */
-+ 	wcscpy(target, L"git:");
-+-	wcsncat(target, protocol, ARRAY_SIZE(target));
-+-	wcsncat(target, L"://", ARRAY_SIZE(target));
-++	target_append(protocol);
-++	target_append(L"://");
-+ 	if (wusername) {
-+-		wcsncat(target, wusername, ARRAY_SIZE(target));
-+-		wcsncat(target, L"@", ARRAY_SIZE(target));
-++		target_append(wusername);
-++		target_append(L"@");
-+ 	}
-+ 	if (host)
-+-		wcsncat(target, host, ARRAY_SIZE(target));
-++		target_append(host);
-+ 	if (path) {
-+-		wcsncat(target, L"/", ARRAY_SIZE(target));
-+-		wcsncat(target, path, ARRAY_SIZE(target));
-++		target_append(L"/");
-++		target_append(path);
-+ 	}
++ 	/* Filter out pkts we don't want */
++@@ -379,7 +387,8 @@ static void bootp_handler(uchar *pkt, unsigned dest, struct in_addr sip,
 + 
-+ 	if (!strcmp(argv[1], "get"))
++ 	/* Retrieve extended information (we must parse the vendor area) */
++ 	if (net_read_u32((u32 *)&bp->bp_vend[0]) == htonl(BOOTP_VENDOR_MAGIC))
++-		bootp_process_vendor((uchar *)&bp->bp_vend[4], len);
+++		bootp_process_vendor((uchar *)&bp->bp_vend[4], len -
+++				     (offsetof(struct bootp_hdr, bp_vend) + 4));
++ 
++ 	net_set_timeout_handler(0, (thand_f *)0);
++ 	bootstage_mark_name(BOOTSTAGE_ID_BOOTP_STOP, "bootp_stop");
 +-- 
-+2.50.1
++2.49.0
 +
-diff --git a/meta/recipes-devtools/git/git_2.35.7.bb b/meta/recipes-devtools/git/git_2.35.7.bb
-index 2079c3ddc8..063446645e 100644
---- a/meta/recipes-devtools/git/git_2.35.7.bb
-+++ b/meta/recipes-devtools/git/git_2.35.7.bb
-@@ -28,6 +28,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
-            file://CVE-2024-52006.patch \
-            file://CVE-2025-27614-CVE-2025-27613-CVE-2025-46334-CVE-2025-46835.patch \
-            file://CVE-2025-48384.patch \
-+           file://CVE-2025-48386.patch \
-            "
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index fc860248ed..58308576fc 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -14,7 +14,9 @@ PE = "1"
+ # repo during parse
+ SRCREV = "6d41f0a39d6423c8e57e92ebbe9f8c0333a63f72"
  
- S = "${WORKDIR}/git-${PV}"
+-SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
++SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master \
++           file://CVE-2024-42040.patch \
++"
+ 
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build"
 -- 
-2.43.0
+2.34.1
 
 
