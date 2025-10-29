@@ -1,103 +1,195 @@
-Return-Path: <Jiaying.Song.CN@windriver.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E7D1CCF9E9
-	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 06:20:35 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.1616.1761718829365015197
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76C77CCF9EE
+	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 09:23:56 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.2886.1761729831073333963
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Oct 2025 23:20:29 -0700
+ Wed, 29 Oct 2025 02:23:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Y1oegE1R;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=33977d2df3=jiaying.song.cn@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59T47hhG1281991
-	for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 23:20:29 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=yV0mVpXiNK3egL+gOU1U
-	3GD7CMRHtCDSFH2BirPiJkM=; b=Y1oegE1RPmwI7lTKiZzu8QI8U+zxVK0ziSZK
-	xHxL7xJSY8mOaGDZoM6M7lx9fJVisamRu48Meg70Yxhxn9fA5npgtPDSFiiYQ8na
-	3YOrqNesdLVPHndwxWcbz6NYMgKAwP7gv5LIQDI8qczusiLIdb4WkzCJWZ9y6dVJ
-	4aNrmszgN/00JUv9HtkIpp0cDSR2aPPcN0XyLoTNbkjZO58KEVv8xv/is06nnWgA
-	TeWh+wIaBew0JhKx/IUeL/nuK73vteVesmV+VZC+bjOsF356Ju7e4fTfZbTkUUkK
-	p0GzYK/7gZojhur/zB9t6ER5gN2RhZlYn50ARx8qKRH5Q4V0DA==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a34890grd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 23:20:28 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Tue, 28 Oct 2025 23:20:28 -0700
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Tue, 28 Oct 2025 23:20:27 -0700
-From: <jiaying.song.cn@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] cmake: remove GHS-related files
-Date: Wed, 29 Oct 2025 14:20:27 +0800
-Message-ID: <20251029062027.836131-1-jiaying.song.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LqTmCUF6;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: skandigraun@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-427015003eeso6125187f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 02:23:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761729829; x=1762334629; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=b6pPZvOURjWkdNTATvcGvywS3mZcABm+1wBQvjmUuDo=;
+        b=LqTmCUF6IlS/EX/5UpdzQ3yJulltHdNn2rBCdNj5Yg8u4LMZ0SfxhUDqU/MtG9/N7b
+         tevmucsUwEpMh28G+i1jk2cE7CtBac4MsjqwjhXS1zIWSundF41Hb8DYHc5Ul1aP9FHv
+         RfgxyinvNqDrlqek9B0Bby4UyRY+52O048GmBBukbSoYysyxe5/Arp6Bs+mhzMG/LmHE
+         +lFcBcsa35wA6XjH6Qzyy5W2lvHcK++pHdkiyR880PhMYbyiT1uEX+HD5FZA9+iQQCm8
+         UPK9unv10GrkTA9DukHPtjZaeLwTUmFmSm4cS26386UEukWsd06Ia9tSkxU5Hh6CYQfI
+         LqvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761729829; x=1762334629;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b6pPZvOURjWkdNTATvcGvywS3mZcABm+1wBQvjmUuDo=;
+        b=OpJNEBrJSjvz9MmBWKfvRe4iPfGvL6dLk8mLEKiOngUo670hMrjxnrMncPlXJG0otX
+         5aUMrQQ1KOBWDp1VV1qX4pL7zgxCugO2RucQgSzNsLvzZ/vR1kEN0mYxN3VANpHb9m6s
+         F4d2kfSBwltarXjehVlOuZgbllOdAc2v33WeQV/CdogFdEXMspxU1i4Fp/fpyY2dRscX
+         Iz0L+wSNyzLbpgDnFmUF+i0/MbJjNdKvX9MeXTE4KBCANRVYj9ovepDaAJnsOYxullbP
+         uURsVcba2F6XkP8ovNNaxMrcrQ9yfFSK+aCqZ7lw4cy3s8DGQtYsyFezvmkY+i8XveJF
+         LRMA==
+X-Forwarded-Encrypted: i=1; AJvYcCUnP+OkZcDeAgq/Pa3D+IL81L6IawNxXU6I2c2hfa7QNoafDaOA3grcp5MJStcDjCvUvbsD3sAoWwtio6QgmfKVGA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx11JrVIUPJ1hl63nTc1KeUDgR3mHeRB7hlMqonEo4IsJobb6bb
+	pP1Pn1pkENV01zxvUi5UcZuLhQvAPFmFAE9mBY9OdYqnslTuLGaWnWQy
+X-Gm-Gg: ASbGncsWwQaKTGHAjxpR2dCc8uWEQIG1INrgw1FOH0QW9b/tQWIicYGo37aXX1W877R
+	Rb0Xye1SdWW9pUOehtDebvqcDCtc+hk8LELRyI4H/sfkYzyihgYawXBZrwTZm+1bkze9yyzr8e0
+	LYXSTEoH1wiN7OOz+4vNFg21Ig+HJW80r6opnGg97yR0rPENu9u59dwm7EhkgvTUUfKQQK9P6tS
+	cw8QIYuYhfeZrzexDuRM1jWuIwF0LdB5qSu0DeuUjUZlWHImOs+qUs2NY2Y1Uca1S03BigmWNWm
+	QtfX+rO5q9ztdM8CLcFulZXmlZIQ2q20ycaSUQpmPUquDM/Z7W/KOuv8LqBBO+JVyIjmDpqLiWQ
+	NXyuBTJGxsMwVZ5nHNy6HjB6qsyWtdTUwijUTE+1qaQZ/UMJ1UD+/pPt5AI6Ymg9qyHl/u9I5+9
+	YJbN13Kziz
+X-Google-Smtp-Source: AGHT+IFsA88Siy9nimhaP7veeIgwhJSqzCdb90CezG3X+9fk1TTRAsLQAUKjXy042s92zfOYSkqVyw==
+X-Received: by 2002:a05:6000:2f85:b0:3ff:17ac:a34b with SMTP id ffacd0b85a97d-429aefc03f0mr1640113f8f.42.1761729829235;
+        Wed, 29 Oct 2025 02:23:49 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4771906714dsm38391475e9.13.2025.10.29.02.23.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Oct 2025 02:23:48 -0700 (PDT)
+Message-ID: <2daec34c-5c29-4917-a817-27f21a1f65a2@gmail.com>
+Date: Wed, 29 Oct 2025 10:23:47 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v5] libxslt: add ptest support
+To: pratik.farkase@est.tech,
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20251023153459.49699-1-pratik.farkase@est.tech>
+ <20251025132107.9296-1-pratik.farkase@est.tech>
+ <DDSVFR6HJY5J.9F1TJMJY0ZQ0@bootlin.com>
+ <GV2P189MB3005ADB18D1B5A8674AABA72FEFDA@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <GV2P189MB3005ADB18D1B5A8674AABA72FEFDA@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: E6SiJ5GfCaGGAKH7xQv3drgUVcaEMJ4g
-X-Proofpoint-ORIG-GUID: E6SiJ5GfCaGGAKH7xQv3drgUVcaEMJ4g
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI5MDA0NCBTYWx0ZWRfXwS2HZ5Mr47+k
- UTN2o4A3lvmOkHQbR0ago94rzjtmr+Em0WIjc1SaWC3/9OfqhqRhdWvMAIgYoKtB1kCYp+URJpm
- M7IcOTGJP+P7Otu36ZH1epCxUeOTCfHJMxQ4a288j22SkV8ZwtulRrQ0iufphhM16tRIiuOeHo6
- H1v+hZIgfL02xnovhxt9Da15vmyA3+MOVS9tyhlUPFYkK+xxS4Gz05cIhB4zhQtZ/ZuKuakOwoC
- NmHEc3NQmw4LTkh3OLJc36cEKfRZhfbj1bK6HAEDaISE47+QyafXzoqJ+ay8D7Wje1LiegsmFxJ
- ZfD9xN8JMu3qMhYBQfH0znhAmP9lnrBpM4uKcfSyt4ZRs2yvMVWxDvAkJaarxI8qqpq43xX7+gr
- WXexgxFsj6t0m9QvBOJFM8eNd2CcOg==
-X-Authority-Analysis: v=2.4 cv=HNvO14tv c=1 sm=1 tr=0 ts=6901b22c cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
- a=_FoUYe0EEdZIyvCbGUgA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-29_03,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 spamscore=0 priorityscore=1501 adultscore=0
- impostorscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510290044
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 06:20:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225434
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 09:23:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225435
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+On 10/28/25 22:05, Pratik Farkase via lists.openembedded.org wrote:
+> Hi Mathieu,
+>
+> I looked at both the Ptest logs you sent and seems like more tests are
+> failing in the autobuilder than in my local QEMU test setup. The
+> failures appear to be byte-level differences (e.g., “230 bytes vs 275
+> bytes” for bug-147) rather than functional errors.
+>
+> https://valkyrie.yocto.io/pub/non-release/20251026-107/testresults/qemux86-64-ptest/core-image-ptest-libxslt/
+> <https://valkyrie.yocto.io/pub/non-release/20251026-107/testresults/qemux86-64-ptest/core-image-ptest-libxslt/>
+>
+> For both qemuarm64 and qemux86-64 machines my local ptest-runner has
+> the following output :
+>
+> For x86-64 : 
+> root@qemux86-64:~# ptest-runner libxslt
+> START: ptest-runner
+> 2025-10-28T20:44
+> BEGIN: /usr/lib/libxslt/ptest
+> === Running libxslt ptests ===
+> FAIL: ./bug-146.xsl (result mismatch)
+> failed to stat ./bug-146.err
+> FAIL: ./bug-146.xsl (error mismatch)
+> ## Running REC2 tests
+> ## Running REC tests
+> ## Running REC tests (standalone)
+> ## Running REC tests without dictionaries
+> ## Running REC tests without dictionaries (standalone)
+> ## Running general tests
+> ## Running general tests without dictionaries
+> ## Running encoding tests
+> ## Running documents tests
+> ## Running numbers tests
+> ## Running keys tests
+> ## Running namespaces tests
+> ## Running extensions tests
+> ## Running reports tests
+> ## Running exslt common tests
+> ## Running exslt date tests
+> ## Running exslt dynamic tests
+> ## Running exslt functions tests
+> ## Running exslt math tests
+> ## Running exslt saxon tests
+> ## Running exslt sets tests
+> ## Running exslt strings tests
+> Total 746 tests, 1 errors
+> === Finished libxslt ptests ===
+> DURATION: 10
+> END: /usr/lib/libxslt/ptest
+> 2025-10-28T20:44
+> STOP: ptest-runner
+> TOTAL: 1 FAIL: 0
+>
+> For arm64: 
+> root@qemuarm64:~# ptest-runner libxslt
+> START: ptest-runner
+> 2025-10-28T20:54
+> BEGIN: /usr/lib/libxslt/ptest
+> === Running libxslt ptests ===
+> Running .libs/runtest
+> file ./bug-146.out is 217 bytes, result is 0 bytes
+> Result for ./bug-146.xsl failed
+> failed to stat ./bug-146.err
+> Error for ./bug-146.xsl failed
+> File ./bug-146.xsl generated an error
+> ## Running REC2 tests
+> ## Running REC tests
+> ## Running REC tests (standalone)
+> ## Running REC tests without dictionaries
+> ## Running REC tests without dictionaries (standalone)
+> ## Running general tests
+> ## Running general tests without dictionaries
+> ## Running encoding tests
+> ## Running documents tests
+> ## Running numbers tests
+> ## Running keys tests
+> ## Running namespaces tests
+> ## Running extensions tests
+> ## Running reports tests
+> ## Running exslt common tests
+> ## Running exslt date tests
+> ## Running exslt dynamic tests
+> ## Running exslt functions tests
+> ## Running exslt math tests
+> ## Running exslt saxon tests
+> ## Running exslt sets tests
+> ## Running exslt strings tests
+> Total 746 tests, 1 errors
+> FAIL: runtest returned 1
+> FAIL: some libxslt tests failed
+> Finished libxslt ptests
+>
+> ERROR: Exit status is 1
+> DURATION: 9
+> END: /usr/lib/libxslt/ptest
+> 2025-10-28T20:54
+> STOP: ptest-runner
+> TOTAL: 1 FAIL: 1
+> Any suggestions on how to proceed or debug further would be appreciated!
 
-Remove files starting with "GHS*". These files are related to the
-Glasgow Haskell Compiler (GHS), which is not supported, so keeping them
-is unnecessary.
+It can be reproduced with Mathieu's staging branch (apply your patch on
+https://git.openembedded.org/openembedded-core-contrib repo's
+mathieu/master-next branch). Not sure if it's due to the new kernel or
+something else, haven't looked further.
 
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
----
- meta/recipes-devtools/cmake/cmake_4.1.2.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+As a somewhat offtopic, but still related thing:
 
-diff --git a/meta/recipes-devtools/cmake/cmake_4.1.2.bb b/meta/recipes-devtools/cmake/cmake_4.1.2.bb
-index cfc5cb1b93..e348eccb9a 100644
---- a/meta/recipes-devtools/cmake/cmake_4.1.2.bb
-+++ b/meta/recipes-devtools/cmake/cmake_4.1.2.bb
-@@ -61,6 +61,11 @@ do_install:append:class-nativesdk() {
-     install -m 0755 ${UNPACKDIR}/cmake-setup.py ${D}${SDKPATHNATIVE}/post-relocate-setup.d/
- }
- 
-+do_install:append() {
-+    # Remove files related to the Glasgow Haskell Compiler (GHS), which is not supported.
-+    find ${D}${datadir}/cmake-${CMAKE_MAJOR_VERSION} -type f -name "GHS*" -exec rm -f {} +
-+}
-+
- FILES:${PN}:append:class-nativesdk = " ${SDKPATHNATIVE}"
- 
- FILES:${PN} += "${datadir}/cmake-${CMAKE_MAJOR_VERSION} ${datadir}/cmake ${datadir}/aclocal ${datadir}/emacs ${datadir}/vim"
--- 
-2.34.1
+I noticed the following construct in the run-ptest script:
+RT_RET=${PIPESTATUS[0]:-0} || RT_RET=$?
 
+In case the first statement fails, then RT_RET will be always 1. What's
+the intention here? If the second part should be a fallback value from
+the test execution, then you should store $? before this line, and
+assign the stored value to RT_RET.
 
