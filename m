@@ -2,191 +2,198 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8484CCF9F1
-	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 20:12:10 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.13452.1761768730272696165
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5351CCF9F1
+	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 20:12:20 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web01.13556.1761768732892540694
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Oct 2025 13:12:10 -0700
+ Wed, 29 Oct 2025 13:12:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=aXiftojk;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7a27bf4fbcbso328481b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 13:12:10 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZqjzxY6i;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7a28c7e3577so312903b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 13:12:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761768729; x=1762373529; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1761768732; x=1762373532; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LDjm6zzQbtplvHgJKRTR87yPQpBd1O5jrOgREsDKirQ=;
-        b=aXiftojkV/NC4GjzHBdnklBxrL9zdTzyvKcP/eGAw2dDlne2mPgOauIJlhbwdvhMcy
-         5t8h/MSFvC3xilFA1My14nEj5vqqocq86BIReipULW26KNpqAO0gqJBIRgclrsg53g8W
-         kXahLMDMxenhR9fXwBFKS41oM+HBLYmpsBvvJpg4B7uSfZYv+s/U1gpm07xGGqL6l/aW
-         p8bNkks4GwqYZbntKf107CsTWn5sMxCw/hOdvb0TrC44Tzp7xcPzG222qKKlmkdKoq7g
-         qSgaxC93LbhBZAq+inTieyKH/+/CjO+TXTtub0aZ5t1OeVFndkp49kE275B66aHBCyUn
-         kwwQ==
+        bh=owM1nPLVYeik8s31o7qM+1c1lBRkY4mnCK0DClm3/tU=;
+        b=ZqjzxY6ixFMwaVnxulwgfrResnADOkTuDtPIMLP3XQvBVKWescQl40rSJ1J521ZDoD
+         J2y36RlGU61axiX/B/y5l+HY+/gnC38YRItMNQe2kEXhbrykWwJwUUnqAvBJZ5+kkmHO
+         l29loOAFY7zq0y8fxgtUwXlMiZsmt7Dh2V3bAERs/8zknode5wBsbpd+DNnKrv66ISqf
+         tdw4qdskOXyQwL5mBHPzYklv38pFCW/WND5/jmD1d+3YbWtRG1gEht+73L2Vby6L6u6Z
+         Ba8a3NLLPEi3+K0WE/MQo6KmSUZIM4qSK7F5e3WGVkqWqsZgKHuYZnyEprYXh0nlj8wW
+         QzoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761768729; x=1762373529;
+        d=1e100.net; s=20230601; t=1761768732; x=1762373532;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LDjm6zzQbtplvHgJKRTR87yPQpBd1O5jrOgREsDKirQ=;
-        b=wRAHG1KCcV5c3Y2s3lnna/HebfMQh8ooBcQDpBqF4Vu+hxu3XozWR2LyeZUqpUs3/8
-         fc3ogHKJ32o3NkAYX3EIZw/Lyunot3ZgUXQ5Sit0M3U3mL6uB9qbLMU64z0mfTiPvYO4
-         yaivl9WznOeTD3yR1KMVZkY0C2vsjEtEzFzIlCJjHQg67B69wNnZ4pXMOBPNWYb1CBal
-         ddMLc9WGq4D9dwPAlpXT8dCyEdR7wBv8i6emDWGvN4etSwkLFAd0vFpl2xtpj/iV9Qt4
-         UP6FZYWDC5qNSWqT/Eso42VQ3Pfu05BpNPaZVyr2vOLjSN0dUvkFtVKgGL9qfNM4+g9P
-         Iq4w==
-X-Gm-Message-State: AOJu0YzD1x3k2JIIP9MiWrRyJM2QWkY8Ta+L3ThLDdNQl70nwPyQYCHS
-	PsYmrAvx46eye19uYXmuai5BUVIG5btg+X3BFRbgcVUqAaUzjhqDi0btEyOcPWhV8JuZ0T8sPfb
-	2xbTcZgU=
-X-Gm-Gg: ASbGncsTTbKhnw2Pq599b/YlJmISSSw7YM3+uUr8uyzfVxg0CQ04b1qkYzcRgEvdeH/
-	xG42QTDlhHvbwly03UxMB5LDbOHJoeeF8c9VKv6lnnOud78n/PzZvXTzdMUb8x650j7WTN9ZJZy
-	Z5D2SyHkM0PGIAdmCk1XxLZMG+tGqofSewn4flAr+peFW+QgUfQp3p87yYCuKxlEOw4TO4PHftO
-	VjNKTjvRMwNX6U/BK98VybILHn5zLmrSLZbqaoaZauQaOcYxQLg0YSWrNyaOsKv+A6rI5CNTKY1
-	0BimBdAIvJSq3k4RxpueD+wG+6m4ZG6wxHuHKcDbO5YxpQVi3iF9Tx0G5HoW1ABUGjwmVudVFMW
-	l0EEJYtu/jCk130ud9FaTZzp89EoSDyTFUf2q6ahloxwgFmCEzQx9107UjdrcdjlaEz4=
-X-Google-Smtp-Source: AGHT+IExqcbccxhzt1mkVrRAUbukyi+/5G/v94Lq80rxlu/x9M54W9B+XZQS9NP5TOoVByLMg8m37A==
-X-Received: by 2002:a05:6a20:2584:b0:344:97a7:8c61 with SMTP id adf61e73a8af0-34654a05a52mr5231164637.37.1761768729331;
-        Wed, 29 Oct 2025 13:12:09 -0700 (PDT)
+        bh=owM1nPLVYeik8s31o7qM+1c1lBRkY4mnCK0DClm3/tU=;
+        b=gSIsNCK5xRaNBwsaojmcM72IV8AagacQLjkwYFUZ8NAeGFY+RY/UkpdTZt3+uiscl+
+         vGCf8Q80ZDQnDv9q5dhJJ7+/V6FxWSXt1GT9vXEfx1/Qzw+GACdziRB7+Ezl+8GA9U5g
+         QYQJW4RshpVdsmgGwttIlyFCbuCB4WU8P0ROPhcmhp2MPJzfKKkYlMFR9FcoWOGX7U4U
+         CL0xj6cUal2Rhv4YUyjn4zkddSYwcqIdN+EiMFEZthYkVOf0lxGUze5/7AxVhypRojgl
+         H8AbzfN0WV2o7LFq4g62eW7KS+rxAKPCwLDihnFobBeBq/6hRlNOETIDHDR/Wjx60g7+
+         vuXg==
+X-Gm-Message-State: AOJu0YzuaO0f9QQOQpnM0Qg/2dGnfAeWxRm03WYnCDCHqCecUFjOCs84
+	Oh/seSMKdYIodhjeGPAVSvIyof+T+JgdKf5lNJSqiIGPb9zVSJFdUsWcPb8ppCv8JepZFB7crO2
+	05nBY02U=
+X-Gm-Gg: ASbGnctGQf3VwpMBRwlgyiGAj/+xymlf37wb+COag2j3iD8DPEIl4AL2zb+QInh7+f8
+	RQKO4oR/+83BVuhw6givKvDSF4hSU0vp6HkBuh9+a7UHtH5JNQDfm4RxaP4J13hQ9hXnVhXPu5E
+	C8aWMpfAINiLnAOkFKZjuKCV2o/G248HFgDni+xNuAprj2lnfIHv+OGcePapmuVElh7//Jg0weV
+	g+hnotYf5dH1C7ngxC8aoi86CSfPmQmIeEpHlqfZN8wTKh8iohiGWWKw8FuB8+eoljlbc4TEq/m
+	XYNBEGc0rqlXIMJPro4z6EkCCsSQ425Py1kC4pervZp/aoZ4ISrYWHsgAiZQSVo+MWNqk+VJqaC
+	JZi75CrcydSRVh0kzhhp1VOCfUDxul3KnA8N4OwTbosKFxTx7d3sN+4hVgrwErlayUB0=
+X-Google-Smtp-Source: AGHT+IHoqrifeMzEyDoLjcCPY9qnEbfGaLOc5oy1RNF3KW1w5Yd0WWh2CF4HhEKKNbOrhi2pPPSs2Q==
+X-Received: by 2002:a05:6a00:94f5:b0:792:574d:b2c with SMTP id d2e1a72fcca58-7a626526543mr740717b3a.15.1761768731997;
+        Wed, 29 Oct 2025 13:12:11 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:5e34:462b:e2f0:5898])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414087d2asm16522100b3a.63.2025.10.29.13.12.08
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414087d2asm16522100b3a.63.2025.10.29.13.12.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 13:12:08 -0700 (PDT)
+        Wed, 29 Oct 2025 13:12:11 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 1/6] lz4: fix CVE-2025-62813
-Date: Wed, 29 Oct 2025 13:11:50 -0700
-Message-ID: <0a63e3e120cc6958e2963a3ad510ec7c03f1adae.1761768602.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 2/6] binutils: fix CVE-2025-11081
+Date: Wed, 29 Oct 2025 13:11:51 -0700
+Message-ID: <6ed800208a56d69faf4a1b3458caa8d412f01b89.1761768602.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1761768602.git.steve@sakoman.com>
 References: <cover.1761768602.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 20:12:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225465
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 20:12:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225466
 
-From: David Nyström <david.nystrom@est.tech>
+From: Yash Shinde <Yash.Shinde@windriver.com>
 
-Prevent attackers to cause a denial of service (application crash) or
-possibly have unspecified other impact when the application processes
-untrusted LZ4 frames. For example, LZ4F_createCDict_advanced in
-lib/lz4frame.c mishandles NULL checks.
+CVE: CVE-2025-11081
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-62813
+Trying to dump .sframe in a PE file results in a segfault accessing
+elf_section_data.
 
-Upstream patch:
-https://github.com/lz4/lz4/commit/f64efec011c058bd70348576438abac222fe6c82
+	* objdump (dump_sframe_section, dump_dwarf_section): Don't access
+	elf_section_type without first checking the file is ELF.
 
-Signed-off-by: David Nyström <david.nystrom@est.tech>
+PR 33406 SEGV in dump_dwarf_section
+[https://sourceware.org/bugzilla/show_bug.cgi?id=33406]
+
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=f87a66db645caf8cc0e6fc87b0c28c78a38af59b]
+
+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../lz4/files/CVE-2025-62813.patch            | 73 +++++++++++++++++++
- meta/recipes-support/lz4/lz4_1.9.4.bb         |  5 +-
- 2 files changed, 76 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/lz4/files/CVE-2025-62813.patch
+ .../binutils/binutils-2.42.inc                |  1 +
+ .../binutils/0026-CVE-2025-11081.patch        | 84 +++++++++++++++++++
+ 2 files changed, 85 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0026-CVE-2025-11081.patch
 
-diff --git a/meta/recipes-support/lz4/files/CVE-2025-62813.patch b/meta/recipes-support/lz4/files/CVE-2025-62813.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index 3e180b6018..5447ab0da4 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -61,5 +61,6 @@ SRC_URI = "\
+      file://0023-CVE-2025-7545.patch \
+      file://0024-CVE-2025-11082.patch \
+      file://0025-CVE-2025-11083.patch \
++     file://0026-CVE-2025-11081.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0026-CVE-2025-11081.patch b/meta/recipes-devtools/binutils/binutils/0026-CVE-2025-11081.patch
 new file mode 100644
-index 0000000000..bbd0f74541
+index 0000000000..31dbef52fa
 --- /dev/null
-+++ b/meta/recipes-support/lz4/files/CVE-2025-62813.patch
-@@ -0,0 +1,73 @@
-+From 10dbd089b74cf858a24a4aa4c2a438984ddf17d7 Mon Sep 17 00:00:00 2001
-+From: louislafosse <louis.lafosse@epitech.eu>
-+Date: Mon, 31 Mar 2025 20:48:52 +0200
-+Subject: [PATCH] fix(null) : improve error handlings when passing a null
-+ pointer to some functions from lz4frame
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/binutils/binutils/0026-CVE-2025-11081.patch
+@@ -0,0 +1,84 @@
++From f87a66db645caf8cc0e6fc87b0c28c78a38af59b Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Tue, 9 Sep 2025 18:32:09 +0930
++Subject: [PATCH] PR 33406 SEGV in dump_dwarf_section
 +
-+Upstream-Status: Backport [Upstream commit https://github.com/lz4/lz4/commit/f64efec011c058bd70348576438abac222fe6c82]
-+CVE: CVE-2025-62813
++Trying to dump .sframe in a PE file results in a segfault accessing
++elf_section_data.
 +
-+Signed-off-by: David Nyström <david.nystrom@est.tech>
++	* objdump (dump_sframe_section, dump_dwarf_section): Don't access
++	elf_section_type without first checking the file is ELF.
 +---
-+ lib/lz4frame.c    | 15 +++++++++++++--
-+ tests/frametest.c |  9 ++++++---
-+ 2 files changed, 19 insertions(+), 5 deletions(-)
++ binutils/objdump.c | 10 ++++++----
++ 1 file changed, 6 insertions(+), 4 deletions(-)
 +
-+diff --git a/lib/lz4frame.c b/lib/lz4frame.c
-+index 174f9ae4..cc6ed6f1 100644
-+--- a/lib/lz4frame.c
-++++ b/lib/lz4frame.c
-+@@ -530,9 +530,16 @@ LZ4F_CDict*
-+ LZ4F_createCDict_advanced(LZ4F_CustomMem cmem, const void* dictBuffer, size_t dictSize)
-+ {
-+     const char* dictStart = (const char*)dictBuffer;
-+-    LZ4F_CDict* const cdict = (LZ4F_CDict*)LZ4F_malloc(sizeof(*cdict), cmem);
-++    LZ4F_CDict* cdict = NULL;
-++
-+     DEBUGLOG(4, "LZ4F_createCDict_advanced");
-+-    if (!cdict) return NULL;
-++
-++    if (!dictStart)
-++        return NULL;
-++    cdict = (LZ4F_CDict*)LZ4F_malloc(sizeof(*cdict), cmem);
-++    if (!cdict)
-++        return NULL;
-++
-+     cdict->cmem = cmem;
-+     if (dictSize > 64 KB) {
-+         dictStart += dictSize - 64 KB;
-+@@ -1429,6 +1436,10 @@ LZ4F_errorCode_t LZ4F_getFrameInfo(LZ4F_dctx* dctx,
-+                                    LZ4F_frameInfo_t* frameInfoPtr,
-+                              const void* srcBuffer, size_t* srcSizePtr)
-+ {
-++    assert(dctx != NULL);
-++    RETURN_ERROR_IF(frameInfoPtr == NULL, parameter_null);
-++    RETURN_ERROR_IF(srcSizePtr == NULL, parameter_null);
-++
-+     LZ4F_STATIC_ASSERT(dstage_getFrameHeader < dstage_storeFrameHeader);
-+     if (dctx->dStage > dstage_storeFrameHeader) {
-+         /* frameInfo already decoded */
-+diff --git a/tests/frametest.c b/tests/frametest.c
-+index 33019551..523e35d1 100644
-+--- a/tests/frametest.c
-++++ b/tests/frametest.c
-+@@ -589,10 +589,13 @@ int basicTests(U32 seed, double compressibility)
-+         size_t const srcSize = 65 KB; /* must be > 64 KB to avoid short-size optimizations */
-+         size_t const dstCapacity = LZ4F_compressFrameBound(srcSize, NULL);
-+         size_t cSizeNoDict, cSizeWithDict;
-+-        LZ4F_CDict* const cdict = LZ4F_createCDict(CNBuffer, dictSize);
-+-        if (cdict == NULL) goto _output_error;
-+-        CHECK( LZ4F_createCompressionContext(&cctx, LZ4F_VERSION) );
-++        LZ4F_CDict* cdict = NULL;
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=f87a66db645caf8cc0e6fc87b0c28c78a38af59b]
++CVE: CVE-2025-11081
++
++Signed-off-by: Alan Modra <amodra@gmail.com>
++Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
++
++diff --git a/binutils/objdump.c b/binutils/objdump.c
++index 290f7e51f66..ee8823da05a 100644
++--- a/binutils/objdump.c
+++++ b/binutils/objdump.c
++@@ -4418,6 +4418,10 @@
++   else
++     match = name;
 + 
-++        CHECK( LZ4F_createCompressionContext(&cctx, LZ4F_VERSION) );
-++        cdict = LZ4F_createCDict(CNBuffer, dictSize);
-++        if (cdict == NULL)
-++            goto _output_error;
-++        
-+         DISPLAYLEVEL(3, "Testing LZ4F_createCDict_advanced : ");
-+         {   LZ4F_CDict* const cda = LZ4F_createCDict_advanced(lz4f_cmem_test, CNBuffer, dictSize);
-+             if (cda == NULL) goto _output_error;
-diff --git a/meta/recipes-support/lz4/lz4_1.9.4.bb b/meta/recipes-support/lz4/lz4_1.9.4.bb
-index 51a854d44a..8c96f9bab4 100644
---- a/meta/recipes-support/lz4/lz4_1.9.4.bb
-+++ b/meta/recipes-support/lz4/lz4_1.9.4.bb
-@@ -13,8 +13,9 @@ PE = "1"
- SRCREV = "5ff839680134437dbf4678f3d0c7b371d84f4964"
- 
- SRC_URI = "git://github.com/lz4/lz4.git;branch=release;protocol=https \
--	   file://run-ptest \
--	   "
-+           file://run-ptest \
-+           file://CVE-2025-62813.patch \
-+           "
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
- 
- S = "${WORKDIR}/git"
+++  if (bfd_get_flavour (abfd) == bfd_target_elf_flavour
+++      && elf_section_type (section) == SHT_GNU_SFRAME)
+++    match = ".sframe";
+++
++   for (i = 0; i < max; i++)
++     if ((strcmp (debug_displays [i].section.uncompressed_name, match) == 0
++	 || strcmp (debug_displays [i].section.compressed_name, match) == 0
++@@ -4923,6 +4927,36 @@
++ }
++ 
+++static void
+++dump_sframe_section (bfd *abfd, const char *sect_name, bool is_mainfile)
+++
+++{
+++  /* Error checking for user provided SFrame section name, if any.  */
+++  if (sect_name)
+++    {
+++      asection *sec = bfd_get_section_by_name (abfd, sect_name);
+++      if (sec == NULL)
+++       {
+++         printf (_("No %s section present\n\n"), sanitize_string (sect_name));
+++         return;
+++       }
+++      /* Starting with Binutils 2.45, SFrame sections have section type
+++        SHT_GNU_SFRAME.  For SFrame sections from Binutils 2.44 or earlier,
+++        check explcitly for SFrame sections of type SHT_PROGBITS and name
+++        ".sframe" to allow them.  */
+++      else if (bfd_get_flavour (abfd) != bfd_target_elf_flavour
+++              || (elf_section_type (sec) != SHT_GNU_SFRAME
+++                  && !(elf_section_type (sec) == SHT_PROGBITS
+++                       && strcmp (sect_name, ".sframe") == 0)))
+++       {
+++         printf (_("Section %s does not contain SFrame data\n\n"),
+++                 sanitize_string (sect_name));
+++         return;
+++       }
+++    }
+++  dump_dwarf (abfd, is_mainfile);
+++}
+++
++ static void
++ dump_target_specific (bfd *abfd)
++ {
++   const struct objdump_private_desc * const *desc;
++diff --git a/include/elf/common.h b/include/elf/common.h
++--- a/include/elf/common.h
+++++ b/include/elf/common.h 
++@@ -528,6 +528,8 @@
++ #define SHT_LOOS	0x60000000	/* First of OS specific semantics */
++ #define SHT_HIOS	0x6fffffff	/* Last of OS specific semantics */
++ 
+++#define SHT_GNU_SFRAME	0x6ffffff4	/* SFrame stack trace information.  */
+++
++ #define SHT_GNU_INCREMENTAL_INPUTS 0x6fff4700   /* incremental build data */
++ #define SHT_GNU_ATTRIBUTES 0x6ffffff5	/* Object attributes */
++ #define SHT_GNU_HASH	0x6ffffff6	/* GNU style symbol hash table */
 -- 
 2.43.0
 
