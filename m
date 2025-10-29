@@ -1,166 +1,185 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DF6DCCD1BF
-	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 03:29:44 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web01.378.1761708577537439285
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8188DCCF9E9
+	for <webhook@archiver.kernel.org>; Wed, 29 Oct 2025 03:37:24 +0000 (UTC)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+ by mx.groups.io with SMTP id smtpd.web01.437.1761709042385459746
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Oct 2025 20:29:37 -0700
+ Tue, 28 Oct 2025 20:37:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=i2JPuLCW;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3397cd56c3=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59T3Gtkt390854
-	for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 20:29:37 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=euM0K72xlsT1ySV6it+d
-	FAnX3iUkZdR5Ow5axq+TMKU=; b=i2JPuLCW1QVERowkxJUQIMAS6yIFAasARGjM
-	USjC4as7ssEfI3/lTzKm7aZxZ6M1KlJm3sfUpGwojehZ5+nMclRVxditgSHIRndm
-	8j/np208AhFXGzFd9cuiNs0QHzyeucEOYtvdGQLSbnGt16vT6qxiZGgw/qdnJj+J
-	c2hSiW8UCM52YqUk9PI9O0BF+RBz7oqedFsfrvy2kGtXwvDsUfxF2Ycar7yq8Isv
-	RDVBrZJOgf/m2Wai3zJv87N+OMkAGKCr2YqwMmafx2kob7n+ZkhAMr80S92fBq2X
-	Tzy+ZWVVGLKL2nAIXXJzGEjFMF7rLvc8Tyux5LWk/jLj06KkrQ==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a348a8d6t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 20:29:37 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Tue, 28 Oct 2025 20:29:36 -0700
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Tue, 28 Oct 2025 20:29:35 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone][PATCH] u-boot: fix CVE-2024-42040
-Date: Wed, 29 Oct 2025 11:29:29 +0800
-Message-ID: <20251029032929.3667642-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Tgze2rYA;
+ spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-71d60157747so66513367b3.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Oct 2025 20:37:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761709041; x=1762313841; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r1NElYCJKSSxWIbtCGVDczhpY27MpEGODn++UVE1rhY=;
+        b=Tgze2rYAJ4earcsSKEWYPY7G5ftGq3gNKpGXTmAzaMYGoevDBhdeqMs/PYOSPk4bdc
+         4168qtAtlVf9HfVzVTdqWnzprWYZodnXI/RzwrYl6EHDdIEG8H6DE/i89o0gmwxOosiZ
+         3UwTQWk5AtS04F2kM15QdOBvJa/1udhTf9NYQ3Ba1y1sTcVQd61r4oegqaJLd1RRXNzb
+         OK4Z8LPZdvCEgDYcMtSoIyRu1YVoFGATtG+WxaBulwoeGKoqYUW+GzcAkkCmKxNqwzYO
+         NLU4ESJgJZwXcSMttZxzXi8kj0dV3jNqu71fhJRapCrn3I3r5jkmLq29WiaLYEQ9DHb1
+         WW1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761709041; x=1762313841;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r1NElYCJKSSxWIbtCGVDczhpY27MpEGODn++UVE1rhY=;
+        b=m7ISyfe04VMDd/7lHpXTrknnqOf9B0nVk1xh2nmt68oBXE4FG4SWEWMQ3WAJwglFhk
+         MHTV4mUU7wLHD06/j3Fs6osllnqmkwOk+Nb7i6+UjXjnxIgL9b6+dz91SKBwj3ViHUv+
+         u3SnKMVx8cgsLNFsNlA/WIuMgyk9Y6Ex5D/OtYl9mV8ytOoXb6yNzVdcJAuukLfmFYq6
+         8RsWDuKyTvQUcGlubK3rtIZLNFQw3fSctAWO5ZwH35z7vkREBfVmyT9hbNxsPmJkdP/x
+         4DZVVCDYX+Q+rF5Hq1TFf+rmsjfZhrZXPUQNJZGOjAWN2IFLwoGYQB+Ruvs+sQ1K4Ep/
+         dWNw==
+X-Gm-Message-State: AOJu0YxJgYJvVeCeyd62vaChRSaoGqm2Z28UZergxoAuiEwaaiW9YMqP
+	8pNnr4xB12/gAiondoD0pdzS1djS9fjrEG1W+gSfW7/d9tpNhxXW6ElrN3Eoe2jBeUNHQW4A4Vb
+	rMWs0e3045EbV1RYXvYVl0gbI1cCWg+5MmKNL
+X-Gm-Gg: ASbGnctP/NSM3rJ+Vz6v+VLdKN0Nu5LoP1DdxTxi3COLvT3Ih3b76XDkDIuMlXTlztZ
+	5Zo8GFbHqjldxcqo1/IcLJL5SnX3ehJttOR48r5aiMdmwxxngIbAFSAv89n+MC/AVweBByNriKB
+	RSzabtiZdo5lINJmrLz2exPC/iqFjYcFd4h6bsz1rf/LKiXUJ/TgkCnvXeeFr84nnQrftjIwR2i
+	od/qmBsshZMJHJFpkCQLdVNxwktNqNjkLi1BqsnICqisCH6C1TFtg5RGgIP3rE4WeSScYZHwxbQ
+	KSF5eSYMI84GaMJl6KqY7AJLeEUxKwof2ZzNH48tkM/eIlRL
+X-Google-Smtp-Source: AGHT+IH3i05g1zJnZbm6XNeDOlOnMfzBnN+4vIhoPhyKIXTM8WK0MjulgQ66izyb8djgHdxKjPLqCE6oGwNYwnPwfrI=
+X-Received: by 2002:a05:690c:2c02:b0:785:e76e:59aa with SMTP id
+ 00721157ae682-78628f85800mr16111107b3.38.1761709041389; Tue, 28 Oct 2025
+ 20:37:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 0HT5vSZDOiqoWr8rP0JilXFeSHvLFT9L
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI5MDAyNSBTYWx0ZWRfX0xGN5AvIdxvS
- WwvpPAWGk0yUuj/dfwurF+LcmglxKhSRkcqZzLLOFkXgFfvQlQ9wsflBrgoLzHwmmdonO0dFmu3
- NDT/oaPcFvV8dnrHUEWyFvs0ygydk4uk6NJUw1s3OxM7BlzHNIGHYCdJy5QcK+WGIdTOFABV9D9
- 4gb+umRhu7F8bcxpoRuUXTwF97uIlrrrTgTzFwg1oOkoTJvHUNZR6I1n45z8RiYags9rw+vwujy
- UZcX9G6BciMdVHiboZe3EeDG9HWHqFZLsMifXhOgCFJBAxs6Gso61zoo7CkcSP0KHuPIbpJUA+U
- 9S+8Sj+xe2Pq3ancBnyENvz5GDhUueJdZ6ppsTEevwZk+YL0w86bjSDMweIlCtIaArumh3kUxCK
- AEmHtSoOnhi8Gun3L4dy3ERvSciEMg==
-X-Authority-Analysis: v=2.4 cv=aLj9aL9m c=1 sm=1 tr=0 ts=69018a21 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=YfCOm-DyAAAA:8 a=PYnjg3YJAAAA:8
- a=t7CeM3EgAAAA:8 a=8xt6yXMlAAAA:8 a=xoHeRbk_Chj4lytq0XUA:9
- a=zQLMK8awuJ6_Hvp-_9Ux:22 a=FdTzh2GWekK77mhwV6Dw:22 a=62aeB-Bz8chgfR-5iBum:22
-X-Proofpoint-ORIG-GUID: 0HT5vSZDOiqoWr8rP0JilXFeSHvLFT9L
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-29_01,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 impostorscore=0 spamscore=0 adultscore=0 suspectscore=0
- bulkscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2510290025
+References: <cover.1761692326.git.steve@sakoman.com> <9b5bb098b542a43a7aa97cc376c358f0a38778e3.1761692326.git.steve@sakoman.com>
+In-Reply-To: <9b5bb098b542a43a7aa97cc376c358f0a38778e3.1761692326.git.steve@sakoman.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 28 Oct 2025 20:36:55 -0700
+X-Gm-Features: AWmQ_bkBBUr8Yaq76jmAXkFYtG5cPgWA6FqMojxzuIKnC2fEfyxCZxgRQGw0aM8
+Message-ID: <CAMKF1sour-R+XNv0oFdSuJntAwkBFFTZMT14h-k_p=DGz9E7ug@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone 2/4] binutils: fix CVE-2025-8225
+To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 03:29:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225429
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 03:37:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225430
 
-Backport a patch [1] from upstrem to fix CVE-2024-42040 [2]
+this looks ok.
 
-[1] https://source.denx.de/u-boot/u-boot/-/commit/81e5708cc2c865df606e49aed5415adb2a662171
-[2] https://nvd.nist.gov/vuln/detail/CVE-2024-42040
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../u-boot/files/CVE-2024-42040.patch         | 56 +++++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot-common.inc     |  4 +-
- 2 files changed, 59 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch
-
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch
-new file mode 100644
-index 0000000000..2d250e51b7
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch
-@@ -0,0 +1,56 @@
-+From 1406fc918977bba4dac0af5e22e63a5553aa6aff Mon Sep 17 00:00:00 2001
-+From: Paul HENRYS <paul.henrys_ext@softathome.com>
-+Date: Thu, 9 Oct 2025 17:43:28 +0200
-+Subject: [PATCH] net: bootp: Prevent buffer overflow to avoid leaking the RAM
-+ content
-+
-+CVE-2024-42040 describes a possible buffer overflow when calling
-+bootp_process_vendor() in bootp_handler() since the total length
-+of the packet is passed to bootp_process_vendor() without being
-+reduced to len-(offsetof(struct bootp_hdr,bp_vend)+4).
-+
-+The packet length is also checked against its minimum size to avoid
-+reading data from struct bootp_hdr outside of the packet length.
-+
-+Signed-off-by: Paul HENRYS <paul.henrys_ext@softathome.com>
-+Signed-off-by: Philippe Reynes <philippe.reynes@softathome.com>
-+
-+CVE: CVE-2024-42040
-+Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/81e5708cc2c865df606e49aed5415adb2a662171]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ net/bootp.c | 11 ++++++++++-
-+ 1 file changed, 10 insertions(+), 1 deletion(-)
-+
-+diff --git a/net/bootp.c b/net/bootp.c
-+index 68002909634..843180d296c 100644
-+--- a/net/bootp.c
-++++ b/net/bootp.c
-+@@ -362,6 +362,14 @@ static void bootp_handler(uchar *pkt, unsigned dest, struct in_addr sip,
-+ 	debug("got BOOTP packet (src=%d, dst=%d, len=%d want_len=%zu)\n",
-+ 	      src, dest, len, sizeof(struct bootp_hdr));
-+ 
-++	/* Check the minimum size of a BOOTP packet is respected.
-++	 * A BOOTP packet is between 300 bytes and 576 bytes big
-++	 */
-++	if (len < offsetof(struct bootp_hdr, bp_vend) + 64) {
-++		printf("Error: got an invalid BOOTP packet (len=%u)\n", len);
-++		return;
-++	}
-++
-+ 	bp = (struct bootp_hdr *)pkt;
-+ 
-+ 	/* Filter out pkts we don't want */
-+@@ -379,7 +387,8 @@ static void bootp_handler(uchar *pkt, unsigned dest, struct in_addr sip,
-+ 
-+ 	/* Retrieve extended information (we must parse the vendor area) */
-+ 	if (net_read_u32((u32 *)&bp->bp_vend[0]) == htonl(BOOTP_VENDOR_MAGIC))
-+-		bootp_process_vendor((uchar *)&bp->bp_vend[4], len);
-++		bootp_process_vendor((uchar *)&bp->bp_vend[4], len -
-++				     (offsetof(struct bootp_hdr, bp_vend) + 4));
-+ 
-+ 	net_set_timeout_handler(0, (thand_f *)0);
-+ 	bootstage_mark_name(BOOTSTAGE_ID_BOOTP_STOP, "bootp_stop");
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index d366f10398..7a63420642 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -14,7 +14,9 @@ PE = "1"
- # repo during parse
- SRCREV = "d637294e264adfeb29f390dfc393106fd4d41b17"
- 
--SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
-+SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master \
-+           file://CVE-2024-42040.patch \
-+"
- 
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build"
--- 
-2.34.1
-
+On Tue, Oct 28, 2025 at 7:54=E2=80=AFPM Steve Sakoman via
+lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
+wrote:
+>
+> From: Yash Shinde <Yash.Shinde@windriver.com>
+>
+> CVE: CVE-2025-8225
+>
+> It is possible with fuzzed files to have num_debug_info_entries zero
+> after allocating space for debug_information, leading to multiple
+> allocations.
+>
+> * dwarf.c (process_debug_info): Don't test num_debug_info_entries
+> to determine whether debug_information has been allocated,
+> test alloc_num_debug_info_entries.
+>
+> Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.g=
+it;a=3Dcommitdiff;h=3De51fdff7d2e538c0e5accdd65649ac68e6e0ddd4]
+>
+> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  .../binutils/binutils-2.38.inc                |  1 +
+>  .../binutils/0047-CVE-2025-8225.patch         | 47 +++++++++++++++++++
+>  2 files changed, 48 insertions(+)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/0047-CVE-2025=
+-8225.patch
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/reci=
+pes-devtools/binutils/binutils-2.38.inc
+> index 2444a304be..ade69881a1 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.38.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+> @@ -83,5 +83,6 @@ SRC_URI =3D "\
+>       file://0044-CVE-2025-11082.patch \
+>       file://0045-CVE-2025-11083.patch \
+>       file://0046-CVE-2025-11081.patch \
+> +     file://0047-CVE-2025-8225.patch \
+>  "
+>  S  =3D "${WORKDIR}/git"
+> diff --git a/meta/recipes-devtools/binutils/binutils/0047-CVE-2025-8225.p=
+atch b/meta/recipes-devtools/binutils/binutils/0047-CVE-2025-8225.patch
+> new file mode 100644
+> index 0000000000..410ba64143
+> --- /dev/null
+> +++ b/meta/recipes-devtools/binutils/binutils/0047-CVE-2025-8225.patch
+> @@ -0,0 +1,47 @@
+> +From e51fdff7d2e538c0e5accdd65649ac68e6e0ddd4 Mon Sep 17 00:00:00 2001
+> +From: Alan Modra <amodra@gmail.com>
+> +Date: Wed, 19 Feb 2025 22:45:29 +1030
+> +Subject: [PATCH] binutils/dwarf.c debug_information leak
+> +
+> +It is possible with fuzzed files to have num_debug_info_entries zero
+> +after allocating space for debug_information, leading to multiple
+> +allocations.
+> +
+> +       * dwarf.c (process_debug_info): Don't test num_debug_info_entries
+> +       to determine whether debug_information has been allocated,
+> +       test alloc_num_debug_info_entries.
+> +---
+> +
+> +Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.=
+git;a=3Dcommitdiff;h=3De51fdff7d2e538c0e5accdd65649ac68e6e0ddd4]
+> +CVE: CVE-2025-8225
+> +
+> + binutils/dwarf.c | 8 +++-----
+> + 1 file changed, 3 insertions(+), 5 deletions(-)
+> +
+> +Signed-off-by: Alan Modra <amodra@gmail.com>
+> +Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+> +
+> +diff --git a/binutils/dwarf.c b/binutils/dwarf.c
+> +index 8e004cea839..bfbf83ec9f4 100644
+> +--- a/binutils/dwarf.c
+> ++++ b/binutils/dwarf.c
+> +@@ -3807,13 +3807,11 @@ process_debug_info (struct dwarf_section * secti=
+on,
+> +     }
+> +
+> +   if ((do_loc || do_debug_loc || do_debug_ranges || do_debug_info)
+> +-      && num_debug_info_entries =3D=3D 0
+> +-      && ! do_types)
+> ++      && alloc_num_debug_info_entries =3D=3D 0
+> ++      && !do_types)
+> +     {
+> +-
+> +       /* Then allocate an array to hold the information.  */
+> +-      debug_information =3D (debug_info *) cmalloc (num_units,
+> +-                                                sizeof (* debug_informa=
+tion));
+> ++      debug_information =3D cmalloc (num_units, sizeof (*debug_informat=
+ion));
+> +       if (debug_information =3D=3D NULL)
+> +       {
+> +         error (_("Not enough memory for a debug info array of %u entrie=
+s\n"),
+> +--
+> +2.43.7
+> +
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#225424): https://lists.openembedded.org/g/openembedde=
+d-core/message/225424
+> Mute This Topic: https://lists.openembedded.org/mt/116006916/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
