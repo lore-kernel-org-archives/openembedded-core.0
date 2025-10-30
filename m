@@ -1,151 +1,105 @@
-Return-Path: <schonm@gmail.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98A87CCF9E3
-	for <webhook@archiver.kernel.org>; Thu, 30 Oct 2025 14:34:37 +0000 (UTC)
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
- by mx.groups.io with SMTP id smtpd.web01.23233.1761834876919055320
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B320ECCF9FA
+	for <webhook@archiver.kernel.org>; Thu, 30 Oct 2025 15:17:27 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web10.20331.1761799661736982295
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Oct 2025 07:34:37 -0700
+ Wed, 29 Oct 2025 21:47:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FoAivq6L;
- spf=pass (domain: gmail.com, ip: 74.125.224.47, mailfrom: schonm@gmail.com)
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-63e255e9a20so1345714d50.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Oct 2025 07:34:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=h4oUFnqD;
+ spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: nmjain23@gmail.com)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4ecee8ce926so5481931cf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Oct 2025 21:47:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761834876; x=1762439676; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1761799660; x=1762404460; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3vdDn5WiXLZAG4GYb6GBDuMGipy8kVN07vvJyESoZqI=;
-        b=FoAivq6Lyqe6yVLaRDu/sT/+obXExshnsG8EClnUU+4xIYC8b6Ffk/az78J/NfLxg7
-         v1hWtMT/9NrcP1+ilxy5r4Q6YaZsJfwuys9UFx328yAF1uS8966VgvkXRuGuWeJEsXuF
-         WmVyaVSsk2OuwuRiIIRa2uiF/wr2Gj34LPzcXoYadPVvk0JTvCmm6Ue/nVuSSCs/L/cj
-         DwROvcMzZu9Ais9aaL+7oVg9xEQX/1j9SGmv8dIPMqDlUNYjv060z7c4/KBOkK/3Gh5C
-         Z83ZTFd/XCmlbqbmHEy78SiHVxnkW4dhPPy/qv20teBNnH/AuxRf7dnNwXpbipFalCSk
-         BmUg==
+        bh=6ezJkhdRbn5j28EFTbbEfJ+BfmGFhQEYnElZOxPxGcA=;
+        b=h4oUFnqD7VHutYOXhnTwI/3QTPGeyzZJg1xgvRvEUQ9DrKWfRP/UBXSZisGholePbW
+         kvCYscHQrhbeCl2zaN/pCJWL1YLGbzcKKM2hIQadqbAPHwYma1brLNF/I3U8SVruul+p
+         Ge9A26+0n18vCwftPJR7/9+BgnRBLiyQIFFrkX3JTP/bCDriXEgb5MzO3WwDVOj+qRdi
+         rzRrWZfXtky24/vQy70TzeziLkvKPjT6e8/0h9K+lFVt4U9g8TUI4tqQAA3w9oQhnvfn
+         sdTqoEquoyRF52PEPdTfQJ+bYelqw4let8IZr5UzLQEhtFWiapP6vO3bEqU+lLPGJWLR
+         zvyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761834876; x=1762439676;
+        d=1e100.net; s=20230601; t=1761799661; x=1762404461;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3vdDn5WiXLZAG4GYb6GBDuMGipy8kVN07vvJyESoZqI=;
-        b=eH/FWG28XEnYIAch+Wf+MAd5kRdK8gED02ZWTEY81iK9HR/qTLGbDIZxXDCSSn+l05
-         ZXq6Ft8eoYFXy/pEaRZuc8k0YPetlrJ+6VB5caFE6RcLSmJwl+v0AohSKpK+7bjYB+X4
-         1PH/bcTcHtaZkgSB3GL/KmxTTVa3ruZMkrfV1qJYqNx3etJ1DRmkZox+vCc4EzMpHkAw
-         B7xOlx0SirCe3zuQmez9m1IONB09j6fly0sQa8urzHtzn5kUs1Y83HkfKpgw6FJxpCiK
-         Xn1Hm9HMm2qGfTgYm8TFYlJIb+7IGKsYTl3qaGtjt2nj71tAl2yxTH1YBeNvjS3sXVR9
-         kX0Q==
-X-Gm-Message-State: AOJu0YxjIGohGEJYlHClbzcvUr0sSBU2kL7XVp2rNVVp9O4zzM6g6CMH
-	FaHOwFJc+nDgyRpNYbJ+v33CWzUBTyuckXub3sEak51ItRySnlz76VqkAf80dMWp
-X-Gm-Gg: ASbGncufrIyXkaoriLyO4425I3isLpZXl0GOy2ClgIYKZUd5p/x7fONiNH6WsNDrNqF
-	/NWQHugPm4wzrxaY52Iu2ut5r1ymm8CqalHO8VCskYT9tR4xVUYBAKxu5KNRRgTsxd+qSoY0rwb
-	n/TnqR7MKZJaWHamrMgkhfzhBrp5o2c7usG3K5XAV7PtG1OPvrb2juGycEopm26sJcFJ7ChZEoH
-	AyWen5KMnh8AkbRuMzSnqqT8HAMBGUV3CxsSwk4LYxafnLWvznut5rIepNa+CS5OXKSQTcQRJpW
-	U6fCYo0xylGPKznC8uPvBXJ7lJNquEHJk+SAkx8twopjM2f+8a07X+EV1brlgFCUahADwrEUFpo
-	yCWLuxlipGXY/DtlKeuzQugwjG7JnziIKUN9AoKTn7a3GAujU2PtQFe3TxL30clPsTZcn6UQiwW
-	nqeY3UxtbY6/6ZJuaKsVSN3LkvLEhpEi4=
-X-Google-Smtp-Source: AGHT+IFo64yyKS4xJ2iPL1V2HilxmZJlBYNGtfidAjdW5ZpgKtVAR3GiZ5/xN0cVYPYbIPjlJhshPA==
-X-Received: by 2002:a05:690e:d5a:b0:63e:c25:9706 with SMTP id 956f58d0204a3-63f8382a3a9mr2191804d50.2.1761834875495;
-        Thu, 30 Oct 2025 07:34:35 -0700 (PDT)
-Received: from localhost.localdomain (71-208-0-23.ftmy.qwest.net. [71.208.0.23])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-785ed1e0b24sm46118587b3.51.2025.10.30.07.34.34
+        bh=6ezJkhdRbn5j28EFTbbEfJ+BfmGFhQEYnElZOxPxGcA=;
+        b=obq/uNbdojbOX7qGTpFj2fpcqZyydNCh4lXUtrg3C5iAaV3n3mdol7V0QBz4tPUxtm
+         Vvpu5SeRRxTupWLA9oaP0peHfuNpq2yPHmA3M2ie0QQjaF+sitERz7jeuuHqSM8cpi+J
+         EVI7BPKs5OkmpRN4Sl+adobOlZEZvzO0ixBHnJJC0gWlLT8Y5Myz4oLXNYVS/cnhHcXj
+         ZX7z38v0cIpE2t1t8nk3hyIBkFODkLw+uWQJ70b+w7lOFj8gAuABHxeL0SSNNKcSxk2z
+         ZjpoRegY5cpNoGYQZAcfD5vwwCdCtvpaBWP3v0Q8eFlGaNLGtXfAkKz4/FdGvReD4pwn
+         a1xg==
+X-Gm-Message-State: AOJu0Yx+0CP1t9l2zD5b2vkJxbZs1dmRe+F06UJH5MWYPRFFVspiGhj3
+	1RDEG0q3LCAOryTdvsrVE3AzIbwDbwl4otW4FDuSLIzI2z6/zFct32nSUSlJWg==
+X-Gm-Gg: ASbGncs2o8MmpaPTy3Pv2a+gSh2cwPFOnToXAh6eyf9iNLfkExgzgDuRd3thaRORm0z
+	ATk8RZUoB+fDQbJ2UeO57C1gx/7X8BPxBsXmCXpG1B2kVrVnBCtJPdzorJbvJPNGF22fNaaHfBU
+	bKAwlf/zKdbb8A9YTaHuavkT7hsOST06CMvTG/wzEIn0SJYWvGu4KBvkyhko76kf/ln3L8NqbaE
+	DEe/ieXYM9d7N4+LBOOYEusfI2PTmAMu3IsY1Q2Fc8XzN01zAmrXBQKePfAw9DW1HMLUnWauQNM
+	T2Ut+WWwTaiwgkFR8H6Z+AIZrdkRZhIeO4gCo+jGLOputjAMZ2UM/ljUtmf/q74WqKbIyem4Eov
+	rZfwsVgcwRxnd5hYewDOBaV17AcJTx+tynEXCVvnhnp1DVN+EG2Jq/d9Ew0SeUNf7sNaiG3ZxJf
+	PMzL8jBw==
+X-Google-Smtp-Source: AGHT+IHtE81UZpzilvEG/Fu4PAtzef4NCL972oTutJaNuvzoWEPLwkmwcsFYhJN77NFP4oGjrNDSqA==
+X-Received: by 2002:a05:6a20:1591:b0:334:9d7d:f255 with SMTP id adf61e73a8af0-3465381699amr7386257637.14.1761799288194;
+        Wed, 29 Oct 2025 21:41:28 -0700 (PDT)
+Received: from LL-3450LLL.kpit.com ([2405:201:6807:1a2:beae:429:147d:8dc3])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3405c363205sm270842a91.2.2025.10.29.21.41.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Oct 2025 07:34:35 -0700 (PDT)
-From: Jason Schonberg <schonm@gmail.com>
+        Wed, 29 Oct 2025 21:41:27 -0700 (PDT)
+From: Naman Jain <nmjain23@gmail.com>
+X-Google-Original-From: Naman Jain <namanj1@kpit.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Jason Schonberg <schonm@gmail.com>
-Subject: [oe-core][kirkstone][PATCH] Don't use ftp.gnome.org
-Date: Thu, 30 Oct 2025 10:34:21 -0400
-Message-ID: <20251030143421.8110-1-schonm@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Virendra Thakur <virendra.thakur@kpit.com>
+Subject: [meta][scarthgap][PATCH] socat: Update LICENSE field
+Date: Thu, 30 Oct 2025 10:10:53 +0530
+Message-Id: <20251030044053.606746-1-namanj1@kpit.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Oct 2025 14:34:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225495
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Oct 2025 15:17:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225498
 
-http://ftp.gnome.org/pub/gnome redirects to https://download.gnome.org
+The below reference clearly states that GPL-2.0-with-OpenSSL-exception
+is to be used with GPL 2.0 or GPL3.0 and not as a standalone license.
+Therefore, update the correct license. Also add LGPL-2.1-or-later as
+socat uses it.
 
- bitbake.conf defines ${GNOME_MIRROR} to be https://download.gnome.org/sources/
+Reference:
+https://github.com/aboutcode-org/scancode-licensedb/blob/569d72e13e7c8d14a44380f91e80c5a2d4091f8f/docs/openssl-exception-gpl-2.0.yml#L7
 
-Signed-off-by: Jason Schonberg <schonm@gmail.com>
+Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
+Signed-off-by: Naman Jain <namanj1@kpit.com>
 ---
- meta/recipes-devtools/python/python3-pygobject_3.42.0.bb | 2 +-
- meta/recipes-devtools/vala/vala.inc                      | 2 +-
- meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb                 | 2 +-
- meta/recipes-gnome/libgudev/libgudev_237.bb              | 2 +-
- meta/recipes-support/libxslt/libxslt_1.1.35.bb           | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-connectivity/socat/socat_1.8.0.0.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb b/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-index 360996dbb7..7798148094 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-@@ -15,7 +15,7 @@ DEPENDS += "python3 glib-2.0"
- SRCNAME="pygobject"
+diff --git a/meta/recipes-connectivity/socat/socat_1.8.0.0.bb b/meta/recipes-connectivity/socat/socat_1.8.0.0.bb
+index bb39730005..ddbbcf976f 100644
+--- a/meta/recipes-connectivity/socat/socat_1.8.0.0.bb
++++ b/meta/recipes-connectivity/socat/socat_1.8.0.0.bb
+@@ -5,9 +5,10 @@ HOMEPAGE = "http://www.dest-unreach.org/socat/"
  
- SRC_URI = " \
--    http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
-+    ${GNOME_MIRROR}/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
-     file://0001-Do-not-build-tests.patch \
- "
- SRC_URI[sha256sum] = "9b12616e32cfc792f9dc841d9c472a41a35b85ba67d3a6eb427e307a6fe4367b"
-diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
-index 87d8fedc3f..3e5194e688 100644
---- a/meta/recipes-devtools/vala/vala.inc
-+++ b/meta/recipes-devtools/vala/vala.inc
-@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+ SECTION = "console/network"
  
- SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+-LICENSE = "GPL-2.0-with-OpenSSL-exception"
++LICENSE = "LGPL-2.1-or-later & GPL-2.0-or-later & GPL-2.0-with-OpenSSL-exception"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://README;beginline=241;endline=271;md5=338c05eadd013872abb1d6e198e10a3f"
++                    file://README;beginline=241;endline=271;md5=338c05eadd013872abb1d6e198e10a3f \
++                    file://COPYING.OpenSSL;md5=5c9bccc77f67a8328ef4ebaf468116f4"
  
--SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/${BPN}/${SHRT_VER}/${BP}.tar.xz"
-+SRC_URI = "${GNOME_MIRROR}/${BPN}/${SHRT_VER}/${BP}.tar.xz"
- inherit autotools pkgconfig upstream-version-is-even
- 
- FILES:${PN} += "${datadir}/${BPN}-${SHRT_VER}/vapi ${libdir}/${BPN}-${SHRT_VER}/"
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
-index 3e974c91e5..e6c8e43923 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
-@@ -2,7 +2,7 @@ require gtk+3.inc
- 
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
--SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
-+SRC_URI = "${GNOME_MIRROR}/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
-            file://0002-Do-not-try-to-initialize-GL-without-libGL.patch \
-            file://0003-Add-disable-opengl-configure-option.patch \
-            file://link_fribidi.patch \
-diff --git a/meta/recipes-gnome/libgudev/libgudev_237.bb b/meta/recipes-gnome/libgudev/libgudev_237.bb
-index 9ce43ce34b..4b4121980c 100644
---- a/meta/recipes-gnome/libgudev/libgudev_237.bb
-+++ b/meta/recipes-gnome/libgudev/libgudev_237.bb
-@@ -22,7 +22,7 @@ GIR_MESON_DISABLE_FLAG = 'disabled'
- 
- GTKDOC_MESON_OPTION = "gtk_doc"
- 
--UPSTREAM_CHECK_URI = "http://ftp.gnome.org/pub/GNOME/sources/libgudev/"
-+UPSTREAM_CHECK_URI = "${GNOME_MIRROR}/libgudev/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>(\d+))"
- 
- # This isn't a GNOME-style version do gnome_verdir fails. Just return the
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.35.bb b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-index f1532a05c1..fc1fafbf19 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=0cd9a07afbeb24026c9b03aecfeba458"
- SECTION = "libs"
- DEPENDS = "libxml2"
- 
--SRC_URI = "https://download.gnome.org/sources/libxslt/1.1/libxslt-${PV}.tar.xz \
-+SRC_URI = "${GNOME_MIRROR}/libxslt/1.1/libxslt-${PV}.tar.xz \
-            file://CVE-2024-55549.patch \
-            file://CVE-2025-24855.patch \
-            file://CVE-2023-40403-001.patch \
+ SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
+            file://0001-fix-compile-procan.c-failed.patch \
 -- 
-2.43.0
+2.34.1
 
 
