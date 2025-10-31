@@ -1,154 +1,94 @@
-Return-Path: <johannes.schneider@leica-geosystems.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04DE0CCFA00
-	for <webhook@archiver.kernel.org>; Fri, 31 Oct 2025 16:15:59 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.51])
- by mx.groups.io with SMTP id smtpd.web11.19373.1761927356491847037
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23E1ACCF9F8
+	for <webhook@archiver.kernel.org>; Fri, 31 Oct 2025 16:23:19 +0000 (UTC)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+ by mx.groups.io with SMTP id smtpd.web11.19542.1761927789141515731
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Oct 2025 09:15:56 -0700
+ Fri, 31 Oct 2025 09:23:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=AQK0TzVY;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 52.101.84.51, mailfrom: johannes.schneider@leica-geosystems.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GuUJwIndqVizVQH5pvDfoPtRS8qQTbyXEGceHjRrddiuctijKGe70N67wJwmNkd+Lr+3FVsC3bOAJHs7re7Z1W/WiutHEkED2P7BkwN0uP+7ZjGd++EamJ+tirz/h81hO3TUX0xXvR93cPpbxR75AdVbZlGq74afluyMbvrAHPcJyoZzMssqWuash9jgvhD6lars7K0tTCFqVpofevO24sNCxZfkLS/oGmQX+4HnZOLvI8t5+5g2hJUhALxiOOT0YJK0qsGEj+WIPPgJLnBLEZ+GZaG/rmZGaflTbNXrFxILs04gcHa+wIJl4Vwp+JkQ49ps0YaujU3R7JmLHygI+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7ZsAlhEj853Tdjt33ewkcyaD7opaUiR/DO88NoIReyA=;
- b=Y0CyR1ffR4JbDd2WOKnaiPmWNf9eyRP00Vj0E8ZElGwRAxr+NyXGK1Glq+B/rA1Uwf0CkQCONRedZV4B6oDbtj2YfSdo+8DpBHvicPdgbdsZAkMuxJNYC+5jmmhT8rzMdtJ/LvAR3yaM7rlWiqq4jm/Fp7al7bfHfefQ8dEU8Z6VvoHrM+BLQDGucR76//cRTOe0ch4eTIvLf39Os9UKMDqfG/UWgTDMjz0FPXE1SfcuGxGBHmZCGXSvyt7sa+9AViVUiCy1k4OUGM/vxWtNZ10ngvwdG91mv1C+18bXu89TJFKjybIwzNKIfnLfq+bKtfLoay7gBMTNpNDtoJd/1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.8.40.99) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=leica-geosystems.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7ZsAlhEj853Tdjt33ewkcyaD7opaUiR/DO88NoIReyA=;
- b=AQK0TzVYPrkEDCK/5QpkP2Rlo7YDpr5W6lvXkmeA6K3GgIXsjblHE+m2as4RUU8H4P7JGaBeahdof4om4F2NnxrzPdYZTyraWMsFtKJUoqZQ5FMJUVWSNiJJPP19fAwcMhnVxCqTQHesoRnU1wsAZ22KcfiNRmqcfRR8pjkm1dg=
-Received: from AM0PR02CA0162.eurprd02.prod.outlook.com (2603:10a6:20b:28d::29)
- by AS8PR06MB7255.eurprd06.prod.outlook.com (2603:10a6:20b:25b::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Fri, 31 Oct
- 2025 16:15:53 +0000
-Received: from AMS0EPF0000019F.eurprd05.prod.outlook.com
- (2603:10a6:20b:28d:cafe::e9) by AM0PR02CA0162.outlook.office365.com
- (2603:10a6:20b:28d::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.12 via Frontend Transport; Fri,
- 31 Oct 2025 16:15:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.99)
- smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
-Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
- designates 193.8.40.99 as permitted sender) receiver=protection.outlook.com;
- client-ip=193.8.40.99; helo=hexagon.com; pr=C
-Received: from hexagon.com (193.8.40.99) by
- AMS0EPF0000019F.mail.protection.outlook.com (10.167.16.251) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Fri, 31 Oct 2025 16:15:53 +0000
-Received: from aherlnxbspsrv01.lgs-net.com ([10.61.228.61]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
-	 Fri, 31 Oct 2025 17:15:53 +0100
-From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-To: openembedded-core@lists.openembedded.org
-CC: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-Subject: [scarthgap][PATCH v1] perf: add Kbuild file for unistd.h
-Date: Fri, 31 Oct 2025 16:15:51 +0000
-Message-ID: <20251031161551.1405597-1-johannes.schneider@leica-geosystems.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fLyyUbgb;
+ spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8803e8f440eso5471326d6.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 31 Oct 2025 09:23:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761927788; x=1762532588; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3vkr6HVIf4MyX8xiDID8PFJCWlWHkPC9CUtTr2mIB9E=;
+        b=fLyyUbgbFRvBU1Qkx2qtst6o4slOYIZlRoIJnGwpOiKtJtHJpBRdHgRDQvC+WWhKuF
+         oC/5UjJnbcnToTNbIi2JeGMqSQeXgEgPpIlbZWlGtX6Lc6wUCv/ttidRtbCLR5zehU/G
+         y4CgMABq442hDsg0UevBIfxeFM5oy4CenihyT+Ce/9WBHcc+aQvUEnUfqp7VdIkuJQAA
+         StRei5cq3VmZrTqE4NTuHcZ5w8mQTj5G+I/kDNGykqYP5iR5Zd0v55wnAvzLPMUjdWWy
+         81s4iJR8x37SUcq7LmGQMSEssCx70bCaOB2owYGx2WoUXMXBfZxdznUMrvuqGxJoo+Ww
+         dYwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761927788; x=1762532588;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3vkr6HVIf4MyX8xiDID8PFJCWlWHkPC9CUtTr2mIB9E=;
+        b=OFsyYpNjPRk71gRysyoX5NDrj18ULIuK0Ubovm3t/ViAQ0DvOm0blNSV6Q04EiE6e8
+         ytlH4s5Sxi+ok/ZCQuYoFRgiWOgu5oH5G46XrCRumSJQj7l5SuvV19FB9vg9huhFX27W
+         aL0oEKKnb2gDiVA3um4lh56bYmFB47J3X+NEilhBnelfbURIqnF2BmKDQTsQoIMHU3O9
+         dSuUfM4BLii82Qtxg5IEnqimk3ovnmU28SG1zs8jU5hiwxipNBMkRML7V6gkNOPLTQe1
+         Fkhq0gjLlH6CgcWkGz3Jo5RCqLsZi2j3PA0kYIFSq6rA5Sf5j8IoC3ciVWSYyZqnm1lR
+         Ev8w==
+X-Gm-Message-State: AOJu0YwoNi8Ce+QXsst+YuZcU1S3K7xJ6z0EsctCbgNae1CQ+KQBIsZ7
+	AS2ZYpeH0bm0bqThlG1dcSzqBhi9zjatWBV/trwt5ep5JJTeAsm2rmD0M8Ak3qcq+8eiLwpTJXn
+	f6bPvrILrwtj38ENS8DcTHRjpjMbrr4jmug==
+X-Gm-Gg: ASbGnct+ScCxyuE8njl7Qcy5mGAwYDHySoXbZhFhyV+FtLkvm+Ym4E3TYWTmofczdag
+	h8/nIkG/SISnxB72EQRacdFnyrIfPWYGpRrNsl6ViHspPF2cBJFXHRUHOYLJ694EGOxXvClfsNM
+	VHUooeHPOvAFTimhmTr7w5fLkwK2Ru0W5SRpXfwoDUwVFTIXoy7dysG8i80iFRN1x7/Ja4aao6L
+	sOwJKFjLPEvOnLRDNLC3k+o+2PYypfKqLN5hA9Q+mfTyJe65w2fK9bzKbaa7uShP+gP8T3MXGdb
+	MYOUb9F8YMqqAKt6FO9zQ7K/MvQ9I+KTlOEh/SsXpu3yjhru9c0Ujos2IiCN+EPF07MQ
+X-Google-Smtp-Source: AGHT+IET5eV3fnIshQfko1STqF0HgGwooT7YRNx1hgWJSrwYJoRp3QM/Nn09hAqKrmysrV3pTqxAplDT7nncdzleQvY=
+X-Received: by 2002:a05:6214:21e2:b0:87d:e32:81c4 with SMTP id
+ 6a1803df08f44-8802f4db5a4mr53510936d6.48.1761927788107; Fri, 31 Oct 2025
+ 09:23:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-OriginalArrivalTime: 31 Oct 2025 16:15:53.0413 (UTC) FILETIME=[A1724750:01DC4A81]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF0000019F:EE_|AS8PR06MB7255:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: ae8bcab0-730f-4113-1aed-08de1898c40c
-X-SET-LOWER-SCL-SCANNER: YES
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|82310400026|34070700014|36860700013;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?dYSWOgG1ClqlhyTrf4TD3B0U57Gdzq35zc7czw6q/JHXZGADQZimZb+vIpfF?=
- =?us-ascii?Q?YorJvYd+aJKcEwP9bgJX4bS6/GgmqEgAn+X4EIQoUA2khl47EQBhr16GecDs?=
- =?us-ascii?Q?vDd3pnAHRW3vk7ajwjONqdLZrskn3pI/U1VlKtQ2bR7A4NF8NsSXN6zhdzJa?=
- =?us-ascii?Q?tvZwa+AmVhldJnZxfXDggAYDz86+ed+tn57z5bG86lKZvXB28O6LYD/TvWgc?=
- =?us-ascii?Q?e2kaOcRYsVkHdsL/BUBsveY3Ktt03wdD+FC1iLQusZQb91PFxrtIQt+H96Dy?=
- =?us-ascii?Q?5ZA4UyOTL2ZN3HpAODdl07Ay9C2JTUpD3PKbuCQy+wJJ1b4yptMgqLonrJD4?=
- =?us-ascii?Q?EQfEZqdvWIVCsGdDCHSla5E+xbsgg+1JDScGxHCAT9u3qZ0eaSgWValzHaoQ?=
- =?us-ascii?Q?LVPwKDxutLSvA4FV3CQR7QWuYL3wvnUccFrT7itkMlmykfFRun+4XLCge5or?=
- =?us-ascii?Q?xRsHvqXX7FuvmUAJuEb0lTu/A+OtvH/9OL9bJh//xbeQ/snn5zgT/8ULgbld?=
- =?us-ascii?Q?YdGqGb8vKAaeB6lYZGqjZS+nVz/4bR9WaO+cvHmrzUodEgXZGU5WNprmuWws?=
- =?us-ascii?Q?KSwR8KJIULyLbJ2c1rb7GJxK3xiecGSvxpsnUi5PwSMDbj0SZNLQEx2u2r3F?=
- =?us-ascii?Q?IG/Gz8nh2jkJcOY+hpd9dztkkAa6E7P5d0c206UWXFptuL/wq/XGTbGlxJVm?=
- =?us-ascii?Q?PAajfMWjVO0/LZjACLSbbuTUo4Mo7Hl+Kncp+V6oBvjry7jwRPCgNOchxbjT?=
- =?us-ascii?Q?/ixtbz1XdRKefNuDaahog4LNVUG16wSB0RvHPJXI+mBBVgxHWJzat1cN8esJ?=
- =?us-ascii?Q?XVZ8chaLOtNeNs0HE/PBQ7cXLV6s9e+cJ0MPxx09qYzQBZ4xBURchEiQZObD?=
- =?us-ascii?Q?pBPt4zLhF5n1kZmTe1mUeULIeHeyIUAYlQSHm43y0PF02l/KvwR+UVi/Ihaz?=
- =?us-ascii?Q?AVMSGG0P6BkX4aqVy065IVCPmciZnx1pYugXcU8zuRPzzrkkoY1mXUM8T0DN?=
- =?us-ascii?Q?Pbqln/NHvgIZ3aFIqXEAI8LFGAzz+aqSMNTbCuJC74Ayt1VylDUHONgGjMVX?=
- =?us-ascii?Q?nj54EbJezPd2oaXGRlbKENxGwhT/iYm5kkbtKjlqrIr8cJOmk+2VeziLwgBo?=
- =?us-ascii?Q?jAWFLMDtNrCDp09JYYPn3Te1Djq5f0xiIAMynQi8dlN7ghAanebaV9a4yuH/?=
- =?us-ascii?Q?ip5Yz0FNn7JDWbfvliNUG4BLI3WvqAJ83ICaiCS+Dq1BAh1r6teQ/DBvEXEH?=
- =?us-ascii?Q?4WJakIXAo7O1I/nwhzCaLWq1hdB5uZYxm1+/HDf/m2URFK2LTTaXknwHvo5h?=
- =?us-ascii?Q?fP2rKCZFDaSZx82FleLMoipAAw82jTQRHA8PeNv16c7AMEbCq0IJ9OkAvKW+?=
- =?us-ascii?Q?jP4Uhjsu4r3j+I70aOHDxUS9DBGAcVTukuMZLWSW3croZakw2UArbbkNqKTg?=
- =?us-ascii?Q?vVACHuq/VR2kGoAuTfmvr1gQr/rKgAl/kqSUeL9Y7KZLQzk4rT0Ur8Q4sFsu?=
- =?us-ascii?Q?eH3qg+fu+QS610cY3TObr2KWGoT4PszVbVgZebJT1VMDTYrf+rovXTWIWYw4?=
- =?us-ascii?Q?RiECl0GkCi9XisKKk1k=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:193.8.40.99;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom51.leica-geosystems.com;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(34070700014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: leica-geosystems.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2025 16:15:53.6056
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae8bcab0-730f-4113-1aed-08de1898c40c
-X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.99];Helo=[hexagon.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF0000019F.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR06MB7255
+References: <20251031030519.2602967-1-Qi.Chen@windriver.com>
+ <CANNYZj_1CpU0svcA4mRWA6=mvY+GLgqruO50jACnUO439FO6aA@mail.gmail.com> <10e196ea-a7fe-4a86-93b6-bedf2e819ee1@windriver.com>
+In-Reply-To: <10e196ea-a7fe-4a86-93b6-bedf2e819ee1@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 31 Oct 2025 17:22:56 +0100
+X-Gm-Features: AWmQ_blIG7KtQwWZImJTuAvWfqzTXZNpUJJPZldOIjpmXrPBeeArRXI246LV-PU
+Message-ID: <CANNYZj8LecJZQ+egTA9+=NLBF96L61VUFMY3zFTfwYJq9cDyTg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH V5 1/3] base-passwd: add clock group
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Oct 2025 16:15:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225547
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Oct 2025 16:23:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225548
 
-Building 'perf' with/against newer kernels (>=3D6.14) would fail because
-of a missing 'Kbuild' in the folder created when manually installing
-the 'unistd.h' header from libc.
+On Fri, 31 Oct 2025 at 07:09, ChenQi <Qi.Chen@windriver.com> wrote:
+> IMHO, there are two reasons.
+>
+> 1) It will result in other recipes using this group have a dependency on
+> systemd recipe. This might not be a problem for clock group now, because
+> it was newly introduced. But such dependency is really unneeded. It's
+> possible that they use sysvinit and they can still use this group.
+>
+> 2) It's better we handle such groups (sgx, wheel, kvm, clock) in a
+> consistent manner. We either change them all, or we keep the status quo.
+> I mean, if we use sysusers mechanism or change useradd.bbclass to have
+> similar behavior with sysusers, it's possible that we can remove these
+> groups from base-passwd. Because in this way, there will be no
+> unnecessary extra inter-recipe dependencies.
+>
+> In summary, for a group that might be needed by multiple recipes that do
+> not necessarily have dependency relationships, we can only put it on
+> base-passwd for now. If we re-design and re-implement useradd.bbclass,
+> we might be able to avoid this.
 
-Add a oneliner that creates the missing file, with the relevant
-content taken from the kernels Kbuild file.
+Thanks. I don't have a particularly strong opinion, I guess this
+answer will be discussed in the patch review call. If others agree
+with your reasons, then I won't object.
 
-Signed-off-by: Johannes Schneider <johannes.schneider@leica-geosystems.com>
----
- meta/recipes-kernel/perf/perf.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/pe=
-rf.bb
-index 11fa917649..7db5fe6d1c 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -368,6 +368,7 @@ do_configure:prepend () {
-     # so we copy it from the sysroot unistd.h to the perf unistd.h
-     install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/in=
-clude/uapi/asm-generic/unistd.h
-     install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/include/=
-uapi/asm-generic/unistd.h
-+    echo "mandatory-y +=3D unistd.h" > ${S}/include/uapi/asm-generic/Kbuil=
-d
-=20
-     # the fetcher is inhibited by the 'inherit kernelsrc', so we do a quic=
-k check and
-     # copy for a helper script we need
-
-base-commit: 649147913e89cd8f7390cb17cd0be94c9710ffa6
---=20
-2.43.0
-
+Alex
 
