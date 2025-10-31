@@ -2,39 +2,38 @@ Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 669FACCF9EB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E996CCF9EE
 	for <webhook@archiver.kernel.org>; Fri, 31 Oct 2025 06:11:35 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.8644.1761891086193101972
+ by mx.groups.io with SMTP id smtpd.web11.8545.1761891085850458544
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Oct 2025 23:11:26 -0700
+ Thu, 30 Oct 2025 23:11:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=TnS0KXYw;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=DsBaSWuT;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=33993df286=qi.chen@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59V5AZB31599214
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59V5AZB21599214
 	for <openembedded-core@lists.openembedded.org>; Thu, 30 Oct 2025 23:11:25 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=7prakq0UA5a4IYAVmBiKFGmmq/yQ9TbTzo/cS3dknqo=; b=TnS0KXYwVb3a
-	HSqH7Ag7cslLnmrO5LCUUWMslehf9WAOuJWXkR1GSfQ87AzW26cBGQmCOTsgAjca
-	3JzuRiA7v2r3TTqXZ1rdzJfA9XLOBAnx0rz7DmS4rRpO53VQ8KKfskxsfuCDTqur
-	iC4ifFWGmlmCJVwPRAY4mCAJRExw1lN76fmKM/E9oE0Q1wu8Ehu47DTZcK60xgvg
-	paLVaArZlX5WdKJ8z88AczF66BWhsRKEuMgFKwLl+Ojp26utGzUjs3e8Xtt3x3Tk
-	Ojrn7dfEt+GowHFiq33CqOzqxcpAfhXOYvMnO4QV5Y4nb5tkrsiBNniZdJNc/9hK
-	Tfqb+BlhOA==
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=mDkI9f4gf3X/5Kl/t/6i
+	Tr8oADyAg1KV0i0bX8we1pg=; b=DsBaSWuTSyqzHDksaPEUu8pWX7TH7VFBqzpo
+	1p6Zh73qM1nyrKu0nKQ1cZQ8RNbjjqhB908gCTg9IZl34PSoVjafP4rwRq5t/jIA
+	gCu4HpO/LX6mnXgDUwl5H6mWpj6mt6DeDq1+pLjAiBA7G+R3gl/epXGV6GGKYGHo
+	NxLwMUa4F9kWp8I4MGy9AdaN/nF31ZgcuC8q5gPvcy7qGGRn3GT9F17VYYTgP6so
+	mHd7DqE81aSawtsr6lQS1nh5vuK10P4VA1uKHc2B8O7vEoBmBy8vMVOKT1J08Vae
+	zRiYtIIUVo5QCjGahUN68sWxuynKLY9Qo3fVTgkUyyo9DYhY4A==
 Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012035.outbound.protection.outlook.com [52.101.43.35])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a4mg204pc-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a4mg204pc-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>; Thu, 30 Oct 2025 23:11:25 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=j9Znli7r3esSxI+pNejp3dXTJYXWHi8LVADnNs9dRTvR8EPLZiPpovJtaOSrWAFZcRHIQx/Fnb22FnXgXoRcFuvSNypIug+dAKNNCTCKUDsZUk+yXV8EotmReGOcm8n0jpIHY6AFxlGzW9E9X+DMY3HgUqeb7zhBNpe3Isshl5pa+rN5RsRhd2RcXPguQd5+xhDl/e4lq069wTvkEMgLGyGimq1GjJOEQ34agN5ZJuszb7Uaph1rJuqtScGzBvWwb56STWARjzr1qidtb2e3nGqNzUJkK3CRZ+BZMLRQia/z/rDw2AQ/CP/1AZOo4cCQru/D9x1/qsn0aZg7EPOPsQ==
+ b=Q0Jg9JwaQLMTWQkYCQfwsgLa2QRwn0myJozNxkQhAptZNExBhaeY31QJAiGQCM/ohp71GyKeZExSENs566u3A5vTZ383rPI5PdXDRuXvAeYelGZXdEg06/3qbyxF104e1MyPkYaG6T5S+u646bEOc7iL1LyQYR7NXPuK317baDGUnp85GZxBVGXmCHxyiY0eIDXnzJpbGfh8IkD4vRkbRQJiH+iHgwyGVP6iakEmbij4NP9e86SIJ9XsaWBQrJXZZGFdOTzsMjIAJUkfVM6evfaaUUgIK7lXXPdoEnUJ6tQLLHp/gZgoprhT0UqzRiVA7EQBllQH6/q0308Nmm3grw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7prakq0UA5a4IYAVmBiKFGmmq/yQ9TbTzo/cS3dknqo=;
- b=Q490qzBEDB71ltcjiqSzaMPMKmPLsQypzsK6LcRCzcsXE2D7Gvz3/SxtXBFTwRQ5vH2rRsbv4FMY5pjKfDQd2f/0HH/Pu4HT2PTANNaZiKrvzJaqGOTwPMCZDbl0SV7RX9giZftJ+SKwyOzu69i/bAvnT9+1KrVlpNWTYGm7gq6ayyjZldEcgveJQkL83ntOachwupMy5UdvKA9G66ZBoyGwZ3skQxACthNFtutSeLi3SO1pPUYfHkMNazAIDdHjV+mq5eoYf1Ncv7NxRFbVwyiA+6JqNQWVagFCuHM38vJ3EQLbXqhbdtTwWWKGSH5xP0KkPJjo+PrlKscsuVi75w==
+ bh=mDkI9f4gf3X/5Kl/t/6iTr8oADyAg1KV0i0bX8we1pg=;
+ b=CtbObIM5NTmmXvvMaG3wfamiNc0FBU6zw7sWUjLZgkeScoTpP7raahM1SLRqQ0/tUjIEV+RHonaZXpa22R8fKyf2Q6Ehv2DE67vJqEc9ffEYud7ycuKFTorIwRoxZ4Ek/rXvGKrnkMbjXP/0H04kPNsCwJledWN6TChO41KSdhTOGJZUYIDJl8LBgfTmR8HO9Fa5klF9UCKS4vC7yy5nnP0NHYYLJBGuauoPuF+tyv/GTVWn2dgREWC3yQqZCbok2U+8erptfmJLFLIP72itmCb3AswtKlEO+hEG61XRXGMliwN2V3JbHEBJYmRCjm8nfkFTQGDtw4LpRx5NkxA8IQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,19 +41,17 @@ Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
  by PH7PR11MB8275.namprd11.prod.outlook.com (2603:10b6:510:1ae::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.14; Fri, 31 Oct
- 2025 06:11:24 +0000
+ 2025 06:11:21 +0000
 Received: from CO6PR11MB5602.namprd11.prod.outlook.com
  ([fe80::5ad6:8f90:b01d:2c62]) by CO6PR11MB5602.namprd11.prod.outlook.com
  ([fe80::5ad6:8f90:b01d:2c62%4]) with mapi id 15.20.9275.013; Fri, 31 Oct 2025
- 06:11:24 +0000
+ 06:11:20 +0000
 From: Qi.Chen@windriver.com
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH V6 3/3] xserver-nodm-init: avoid race condition related to udev
-Date: Fri, 31 Oct 2025 14:11:05 +0800
-Message-Id: <20251031061105.2693258-3-Qi.Chen@windriver.com>
+Subject: [OE-core][PATCH V6 1/3] base-passwd: add clock group
+Date: Fri, 31 Oct 2025 14:11:03 +0800
+Message-Id: <20251031061105.2693258-1-Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251031061105.2693258-1-Qi.Chen@windriver.com>
-References: <20251031061105.2693258-1-Qi.Chen@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SG2PR03CA0089.apcprd03.prod.outlook.com
@@ -63,95 +60,94 @@ X-ClientProxiedBy: SG2PR03CA0089.apcprd03.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|PH7PR11MB8275:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1fe1dcc-e29b-4e06-3aaf-08de184451b0
+X-MS-Office365-Filtering-Correlation-Id: 6d40ecd1-69dd-44f8-f8b7-08de18444fa1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
+	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?gAczGfo9D2yxDsscRIvs6MWEtfqa8FbqJYEZmIHOChoooB3X8ZtqMUgJ9cEJ?=
- =?us-ascii?Q?0dbM5IG2ndALGdk6wUW2D+9g2eZoowtvroZKaGWKzEKZfYSIUuxzYxJZKMwA?=
- =?us-ascii?Q?ijCL/CgaoC/lfEO0NJDge3lGCZcBS4jk54fygdjZOQfVVu5TlanSoIDMOCV/?=
- =?us-ascii?Q?DgzVpPqjnvWk772UiScDGsj+Dtme1cBD4M4meiZRUE8keb7QaJX2y2kELJuN?=
- =?us-ascii?Q?6ovvup4d4mKzmwkM8gDzwswj4oSeE0fDo3/F+WGXMemmEJr22qFiTaAExoIY?=
- =?us-ascii?Q?2PY64P3Ua3z30zorc8B+OrPix7x2LrqQj1Iy0sxe2zlkDt32pfLfTpdn1oCg?=
- =?us-ascii?Q?o90pMdCRSarVA6y9/9Q/xMc3U0QiyvuS0eBwkT9lf1hPLg6lMGDb9TM11nBp?=
- =?us-ascii?Q?ZD4ZQxrRUoTzdRdcnOfu43Uk4cuvMtSbz4vjbJ1u62Nc8mkxb/j9l32xiKRq?=
- =?us-ascii?Q?V2vPLxPz5a/LYXSSaQQzazlY2yuP0arfJ3FaZpO9HMG3ScVA8v1ksP0TSb0S?=
- =?us-ascii?Q?bcH8Evm5IOeK46zdiEbhp/g40Bhn+mUqe5iOWrpP1E38Bwq6BfScoojr0O1+?=
- =?us-ascii?Q?2ktZtyF/U0lGQ/GrrX6DN0MCmvQT9Oi6H3MYkaRLmR6s2sqoR5+OH8VoqaV/?=
- =?us-ascii?Q?54vJhQd/EYQXdSu7zrCPQe0BrNj8km75nO4petlFRSgutDnELof3nyxqYVS8?=
- =?us-ascii?Q?UTL5T3PcbAXXCplwfC5JSSEtaZ1zdEwASouIw83PBv2K8VzCyFuJRfFFXL27?=
- =?us-ascii?Q?joUp7k0NsRyNHt8+K1gkMX/tOzto/T9Hk3RLt5L89Ay9FKZvYx2kg9SmNHPH?=
- =?us-ascii?Q?9J7RFAG1XPQQDrfrDL4FLEqqyikOD9pP+hsS7Xy8uv6+3uJflurucdwQ54nG?=
- =?us-ascii?Q?iDvsayqpXHs+K3jQnHpwo4ZaXa9IbogcZVqb/a5w9Du+qOjWFP1glE9lpehP?=
- =?us-ascii?Q?TU5ZknAQnKfN0Bo38Umi+8IDWTA4KcWUwrwujHP+9LjYQPJVw2PSlPgguiy3?=
- =?us-ascii?Q?3pn9ykypzpFAv5A7AnRLgIK5afyXOv8l6JZSb5xdhsHuY0oCwDIfYLsnSFva?=
- =?us-ascii?Q?EH++5Pr4DtE/ySoc9fSnX5CoLZXoBou9aWSN83NalfmX9wY+YVumIVGHpJQB?=
- =?us-ascii?Q?hgs/vt9/zehGcmvLfUBxgxzwLhfe12Jl0x375AJAkTLHwplzsJO7o0xMOEnV?=
- =?us-ascii?Q?8cuHI06yVbL4mmbgcKcXVKavVRr1WqRD+imI70rN2bDIdMlx7sKzD77y0g5w?=
- =?us-ascii?Q?rfJcWiHxB2Ns5kUmlfrSkpOIp7/d+/1UdFZldzU0hGsbaNSuBZZnbSheJC+g?=
- =?us-ascii?Q?B8EquBRCuSSlxZbVs1TrWH6gaKPJju6bu6THWctZjtYuWsbGy1dJdWiuuHN6?=
- =?us-ascii?Q?QqT4Wx1433mu0m4RasHBOkhYqRJE5w/+cNj0TuVqp4TzDxHxzWdhFBcxQwHo?=
- =?us-ascii?Q?aiQ5ttAFdTRmcbSNav6CbCFwL6s45utO+diI7ppDs4Lvj3RQFYS9m6XwQgbe?=
- =?us-ascii?Q?qjoYp3AlP0qLDqd0li6sPiuaIxgcHzyGuC1v?=
+	=?us-ascii?Q?DzTPmWdxINWo5T03kwuI3brBiFFb/WWV0/RihroiZuenbRYlreLBNUJ9Yufn?=
+ =?us-ascii?Q?siKazO99GH9EGP2EqnENg0mjYsEehyPiPzOnXnUnnBHlXP+7EkRJulRxMvko?=
+ =?us-ascii?Q?6UN5ZDZzJPvBQXIukNuEZ9bCEoiYgfdwyyVwlPjPGGGsFLhF7Te8CKYklfkp?=
+ =?us-ascii?Q?aYOEI80n4USLvTZIYyYbxojwsTH4SfcdtVMRhf4kKy8H3ITE6WPVLk7L4HSm?=
+ =?us-ascii?Q?pi65p8YBqwY0SrncDmGFjhyMBbQWDOl5LLZqONe4YkkaFkXAPuCP3uTz5xJ0?=
+ =?us-ascii?Q?DK0dQd3xklou7vkjOeG8VNLf1sPEuSwNqR3XBPWSd885UiiD2/s4OCxMjCkz?=
+ =?us-ascii?Q?8erICsXRe7mtAb4TL7tMsS/4J3cYO14Eh51/fK34tOpcN+6dHDWuwBV/222f?=
+ =?us-ascii?Q?2JU9Pd+vcBx07xuMd8lRF9c8J+/hfbBriYINeszUQDm4jAjQaLEZk5FPkHh7?=
+ =?us-ascii?Q?Kz1cBvky9scw7OwgpDY3Jcmo2ersnIvVFpQa295+PCOn99t8TKDSKfv5xBmW?=
+ =?us-ascii?Q?/sTgW/iabZo8MezhU+O3EQrhgMcLWdFN5uHd6oFIK9k5XUGaZKREJjh070NU?=
+ =?us-ascii?Q?7ngrHQabn46AqGfYao7sBZTzKne91urElDklmxeIry7PyZ/VDOBxJGjlxsHr?=
+ =?us-ascii?Q?jm42C2vhv46JEd/bTW38SWZxeCFGaiQ05MCvRFcKOF4EYYyhlon3Jl5M1vAR?=
+ =?us-ascii?Q?xEkZzURvFJPAyUJY4sDO5GYltXdwx5tNMal1oG3o2Fv95c/aHOjUGzD6wgyS?=
+ =?us-ascii?Q?5YdtG70LmZaUvIwEd2qU5sGID05TRGJfrpZ7bvwpeP3ckXA7xEoy1Wi6rsm+?=
+ =?us-ascii?Q?ULZYCB2HLLqD/AHZNbbc6SCLgoAmMDnCQCdcvD9u7+LNP36U0a8jVZwX8IN3?=
+ =?us-ascii?Q?E6Efvq2+/nhZTpgN9vaYRNuavPRl8gixckaAVbn2GzdxIzZOock6r1swm9zg?=
+ =?us-ascii?Q?sB/+mJLdE2APRlV403XZcXz0onpa5mxTQ7TRE440SbL4NXBXOX+//mAeI7de?=
+ =?us-ascii?Q?kIF3fd0xMopv4M+3TtiSlad0jf3uHCKYdHGZRdhtYnhBhqj9rFe7t+5GFQ+W?=
+ =?us-ascii?Q?Ayrq7BqOR7pHBQLSODbr2L9tH648esUmAvm06g6rTovRBTdfgPtiEJf6MoRN?=
+ =?us-ascii?Q?P2u89cgn1Jt4wuU0talnO5FBLpLSh4/ul6ojNaSNVZX7DkKsOAwd2HHATmpa?=
+ =?us-ascii?Q?9rgvt6mi04Z5gv+0dKQvC6GBeZ+FQiMjGsSRRAfi+zci3SRCcGmONHB7AzQv?=
+ =?us-ascii?Q?KDsMflxftvl90VRKIwn+AQgZLjNCJGIuZ+dEnL6Yc3gPXLzqERcC79HbyOX0?=
+ =?us-ascii?Q?6om7q5vt87A/D2WkBcfmY2M9vL2NdFE9LVG6V86CdUqtzAQ6QDo4TLdqAeba?=
+ =?us-ascii?Q?IedJUzqwRKPAcYgY2tmuPRLrKRKm+eFmejLt4/UONKqQqpIdbINwp7z+5V1B?=
+ =?us-ascii?Q?7BOsYPj1lmmMUrKoFIAeYDffQV9JqkGLDfQ5OI0219/9GBQeqpQQ3A=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?lvfEV+3z4Sp+8AdQJnzu//XKJDCztahOE2JIA/8Kv8QT7EDxVa3L6fbGgRK4?=
- =?us-ascii?Q?ED8ePcfun08p5l8LwzSKltwhTj/wtUI/HqOtegkC/VXgiPaewvwdEzz05TLn?=
- =?us-ascii?Q?VtpF8buqccTAYmqjAU41DFbC8I+fA8YXLaQJx3vkFC8MrlsWn+r2fHq05Za8?=
- =?us-ascii?Q?umfGcvsJyV1Fi/O9xuXyEiLFZKIf4fyh95BRJQxjDe+Ie9FHlZBbjDwJeO/K?=
- =?us-ascii?Q?tjz560yjz2fJ1qjwCM/OMW9oPICbFaqr89OxI0kVXemUjyFj1K36MrRomTk4?=
- =?us-ascii?Q?tH+r24E6eHfR6g76kJOUvB+C6CNsTN8sA6dX/IfFZmZ7ubfQ7WYeKguih6R0?=
- =?us-ascii?Q?tqJvfDzb5pee8uyJGOoNDow8zoFP18T7OJn0/X1eVNURMNihACkDGUsArPDp?=
- =?us-ascii?Q?iuFggiM00UPmwxItdkXPx1QEC2FgGPEn582+D8SvwtiRaLeqmYrMK1ywCYqc?=
- =?us-ascii?Q?lE573Sy8YeGtIAk6M50kMjNEjHqDNRYoMY/EQSXOoEbT1WXd1UFmJsdPBThG?=
- =?us-ascii?Q?Zgkehs31u/Wdnsxp2VfPwbdPYZ/ZTTYSsUblsoMuMnFQoCeNnrV16iebmc3i?=
- =?us-ascii?Q?stZAv38UFV8mtdGPfYu8sH+jFY79B3eVdKkStBz63CQGKfrhy1ZPYEECKTpy?=
- =?us-ascii?Q?44IQV0lCd6o15e5oa3qNDxt8aLSrx9KjFBuKEwEEVODivZMC5Fzud5hTPcjH?=
- =?us-ascii?Q?0BeDGj1S+PHyzh8gHkcQ1U793LxkaAVxpLTtvh8LraBeJ3fZjEpJ5bZp02WE?=
- =?us-ascii?Q?62YiVgNlwYRJTICiFEsFFvydF0sBYMlWwRMLT9FeDxf9lKvW3McB2al2hQG3?=
- =?us-ascii?Q?ksJsD3PP1I4TxS/UXV+bqTEGLiKZ3QltHLMyTx9FbRnLBBnbuavxCy1tWqwC?=
- =?us-ascii?Q?xY8N1Fkn/oe9mmFHtC/oR883NmdvZY0HtIzPU/nVrc/ZJ6xqiMjfMOKDVBrQ?=
- =?us-ascii?Q?0f7/ewGHgKGrIEX269kx/UcJ6eofBFSe0hlksIJ6ffmSUQLDLF83hylcWjSV?=
- =?us-ascii?Q?QwrOUIn4pP6nTD15eGlDubL7JKqe79ucub5fEIOwio4TlGqWQVeDhPzszNRz?=
- =?us-ascii?Q?ys0GOfbJ/UjP+vZYd6Z+9jqO86xPtTLAnX6QQN0dhTuL3nmakMJpcmwu42be?=
- =?us-ascii?Q?iP50vex1/2l7V+lyxTTVbEzf+CL0CBBqiS9YTNgMvOgKWfSuJjgT/+HxqU+Q?=
- =?us-ascii?Q?M/wyAq8B2LGvSBubipDvkcCVOGQQZNrhr2p67dFajIC5UOs8hAp4u9YZToSE?=
- =?us-ascii?Q?ssNRI543HYedGCfCwu520m+cFSydSgI3+I3SqcOR/xFO+mSfOqSjNAXIKsik?=
- =?us-ascii?Q?C2c6MuWBP4sYN2PKtBuzQ82jlsq5uYVD3DAZVXHyxvrZCyJQCguvBS7t0nlg?=
- =?us-ascii?Q?4r928z/ntMQDmhYT0fL5Cj4eE6B2d+mTN/hpzBCdUv/hMplXun93H59Cb0w2?=
- =?us-ascii?Q?bemjgPS7Kk/VUGBv0SbujJ0AF4jV4pZv1oLNoYTTt9ULi6o9fC4XrGELAHOo?=
- =?us-ascii?Q?vkPLDlyY1MUYXCQWSsSCQ1syDDBckYK9f7V/mZWhaQ9BZk18esS1okWN7XLo?=
- =?us-ascii?Q?b0tGQ56pHK7XSei2963DTKPSZZYCR29F9FCk9SuC?=
+	=?us-ascii?Q?8S1fm5cUn0JF0tFt7A6VAUhaWsorfrZQvMJdXXzV2KBj8ewo9I1dAGVV3uFY?=
+ =?us-ascii?Q?cuIDMGE38ZFycPf8t4b5TODRNZs1mNqZE/3Q0GqxBcNKwlmTaR6q8a41Zjj/?=
+ =?us-ascii?Q?DP5SQQF1inBuDLxioSIVJIsp2tZ1krGBH4j2SHaDegnE696M4H5McK1XBLVL?=
+ =?us-ascii?Q?6ndbQpK0ZMfkjKTguD/n8eOTHdqxOfMq1NZaLougtFYp4yRqR5Ug/iepP6Fz?=
+ =?us-ascii?Q?Nbf+U8MhWSitaRuZwRXMaqlKKAjMhgv+OgfyY0yX8dt4GSTg2/SRsK8Y9xuT?=
+ =?us-ascii?Q?bZ4/LyHhQTR+4aZDJDTYlSPmuCr1jR2hCjo4mIBGkOn0kjSO9ecNACjR3ggD?=
+ =?us-ascii?Q?nMVmKzXJlOKYdg66r3/bvEUhbl/LzlXG7E2t1lVEuo+MlvGi44NW+cRB5HHA?=
+ =?us-ascii?Q?bMWRHlHXt6Ci9fAtywbiyX0+xwabuJ8k8bxzCtb3TZ57vV8wH94hKuMYeUMh?=
+ =?us-ascii?Q?Id4fc8yn41tBf/GHyL8EthxXPMplfwHniVbGQrRU+UhOBOycsEAsUurCmhDw?=
+ =?us-ascii?Q?wYhNfYwqy71nnZaVDAh052b2SZdkuHogEhAzyGsRI1X8HFW1qzepykEEXuMC?=
+ =?us-ascii?Q?gd1gJDIG/P7wx+X8c/E3hp6pTiTPzau3c1bKe/KUQJrnl7dr9CObnLhQYHJm?=
+ =?us-ascii?Q?pLdTLdkdR3IV1iZiTPCk6u1TqtQQt2neLYyIYPVAiSE/fF8A2YbFlXG4w6hB?=
+ =?us-ascii?Q?9BNUDO7YZ/pBLF4YB2e4TlzJ5urbHdTC9i7ZI9MHvqcoudnn6R/YOLaqYQ1/?=
+ =?us-ascii?Q?/k8R9ORjx8Am5uk2hy+xFouQRNoURLLM01sOFBBxm2oyP3m3AzGkZ0GOo5o2?=
+ =?us-ascii?Q?Q/8bNlrRmSfj3VvNGNI1Iq9SyApKQC6YFBS+yiqNCsZ+nafbchOLFr0m5zRa?=
+ =?us-ascii?Q?p2vefHxrlkTUzaha6HWtBEx2K+8fahwB7BSCR7nEEsuHhTLsUlWUWwn+/kIX?=
+ =?us-ascii?Q?93U9RHm0CqUzlpetUhP52Cf6F7OxjTF0w0EHvR+NyAnr//soycEfgUuXivRS?=
+ =?us-ascii?Q?jZxpFliBJk6Fx5UnXe5DbVhmcSW3asJFbUBptDYQmiU04h/HZKGbHMu7m27Z?=
+ =?us-ascii?Q?sCYY39JMf6oFe+RQBtwQ3UbZdzdPJxK/v7phktZTUh6yb7MlqbHxvvgmcNDU?=
+ =?us-ascii?Q?9I2J0pjMW0dw8jhdE4H0HJZnM+BxAH7N0V9Sje6QQipGW3jkRSUHH/F0HFtX?=
+ =?us-ascii?Q?kLP+JlPCEaQgJkKI57nzk3uUi5eML+We71ODnUcMX2fTW7iaK0ersJk2f3an?=
+ =?us-ascii?Q?vSJbTcMGX3BtOgrAGgYBL4ckqXyrtaXJkfsJ4zmMvvCHWt08kJXnBTKzM3ok?=
+ =?us-ascii?Q?1E0HovMuqNiTYohw90fjl5RcEzD6goinUuWeNltwOAkEc90WE2vw2ltKsDKx?=
+ =?us-ascii?Q?mJ6lytOLUmfCqZa8DhVYkvVwIYmgus6EGGeV6sPF6AiQrno+hWTIj4xArzAO?=
+ =?us-ascii?Q?HS/fVKuZn9vQ23eg4oR/pN04t3cmezUVET/74PlTed1z6/Kp7VH32CZth36J?=
+ =?us-ascii?Q?R8xhFK0TVfZ41ZoD0LZIk7+Ey1KCAgC/vRiyqCjSbTbUc/6lXRleWQKg6WAy?=
+ =?us-ascii?Q?yaasszqN7lqw2TvAIXCjpxTA8uRnbhtL3ag7oqNn?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1fe1dcc-e29b-4e06-3aaf-08de184451b0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d40ecd1-69dd-44f8-f8b7-08de18444fa1
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2025 06:11:24.2292
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2025 06:11:20.9165
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MxvezQwDovAYY30bn90hocj+22O0HvNw6n2AfncF7ZpHSPmGMwy0BSpadpDf8mj+JOzhdcEPACEFw63yPwu4Rw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ufXw9sdetpViF/bfPN3TaIce57tFWLe9SbIuhsjYL67i/S16EF2hjyDzjU90pfozOuVieR8TXARAEfwWcQuXDA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8275
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMxMDA1NSBTYWx0ZWRfXx7qH7Rv6fD2u
- rvucJ29ah/hVXxI8wIvv7TCKYKfLqpTt32H1vRnvpmEIjEZ5Lf46nsVLRfGB5PE1/uoSq7OsNgM
- gSSzxGbHvKiTBPa/imepZ8ZMmKRp0tptUrsd38HX2xDMLsJIl7O588ZYlA5O5dPDLclLKmvFUfg
- 7wmvFn1cUFa3hwss4cONwOgZofrT+nPqPzX8nlHs8vb2xtTZgfXAl5rAWrGTyS1fxQlWZ38Ctw4
- e0VkRsfW51BdH7mFL/nmqqw0owJXTKfAjfUlFxVJwyW0LYfs1O2lFr8/xuPt324mvXogh85T8eQ
- 5FFmYOlYeJ29Ysn7om4QBS33sAHQ5fgkCx+q/5NvXb27TjNmX9K/4odVAHS5/ICxPhNplTzqfag
- +n1QChlpTK1/xhLmWq7MHMiNXjmUTg==
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMxMDA1NSBTYWx0ZWRfX9RSralP9Uimd
+ UQDMMaaC/CTSw6mBmwULE1U+bp18uXjVSo+Bb7H2/iyEkJ9ffgOX5kMNS2BE5F0Sqse86EOn/rQ
+ 3a7mAXHWSx+qxeCJhyrc1CRHTk4ctPb9kMGxVSbBhECwrfXCJWCoC9jwaQ99xmdzIHIRKF2RBXf
+ rpWDSSLgML9DgXwK3NgeEz4hwXtHX1/NfXNanGP1M/CTZp+OaDTz1OfS3EvVYuDqXIc7nyVNjIC
+ KRT7w1AfN7WfiqflYl0zg9B39xkxWByf3E3pamoYSPEtjlUMvX0oORFf9Tz6RbPRjdYPozEMBEw
+ 995WlMc+6ZmX52T4S4vAFmzzww+jMeZBwJjeHVq04loE9TzNUIlajR9gyduiD10m0f0WdI7+iqR
+ /5o+q4dVgWoZmGv/9dkqlhT7IHoGBA==
 X-Authority-Analysis: v=2.4 cv=JemxbEKV c=1 sm=1 tr=0 ts=6904530d cx=c_pps
  a=MRNWLIXgA5QtCoQasNiLPg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=et4UR6atNtKrrsjGgL8A:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: Bga4L_PgNyPv8SPq4MGFPR7Iy0clbX1G
-X-Proofpoint-GUID: Bga4L_PgNyPv8SPq4MGFPR7Iy0clbX1G
+ a=NEAV23lmAAAA:8 a=xNf9USuDAAAA:8 a=danhDmx_AAAA:8 a=t7CeM3EgAAAA:8
+ a=FW9jF6JLtlXW1qxicXkA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: qf8X8Was1JWzbDsKFccq1kFNBcd_5yO5
+X-Proofpoint-GUID: qf8X8Was1JWzbDsKFccq1kFNBcd_5yO5
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-10-31_01,2025-10-29_03,2025-10-01_01
@@ -164,45 +160,85 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 31 Oct 2025 06:11:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225530
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225529
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-With systemd upgraded to 258+, there's a race condition error found
-on qemuarm:
+New systemd version (v258) introduces a new group, clock, to
+"enable applications like linuxptp to open clocks without root
+privileges".[1]
 
-  failed to find screen to remove
+This results in warning at do_rootfs time:
+WARNING: Group clock has never been defined
 
-This error is likely to be introduced by the following systemd commit:
-https://github.com/systemd/systemd/commit/0ba9d06963ecb848e71951ed5e9f6f6f03b80b06
+Add group clock with gid 81 to fix this issue. The wheel group's
+gid is 80, so 81 is chosen.
 
-However, I think the commit cannot be reverted, not only because
-there are a bunch of changes based on this one, but also because
-the change look like a reasonable one.
+Note that Debian rejects this patch because they're using sysusers
+to handle such groups, including 'clock', 'kvm', 'sgx', etc. We're
+not relying on sysusers, so we have to add a patch here.
 
-Before xserver is able to handle such issue inside its codes, this service
-need wait for udev to settle things before it starts. This can avoid the
-above race condition error.
-
-Fixes [YOCTO #16045]
+[1] https://github.com/systemd/systemd/commit/af96ccfc24bc4803078a46b4ef2cdeb5decdfbcd
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../x11-common/xserver-nodm-init/xserver-nodm.service.in        | 2 ++
- 1 file changed, 2 insertions(+)
+ .../base-passwd/0001-Add-clock-group.patch    | 34 +++++++++++++++++++
+ .../base-passwd/base-passwd_3.6.7.bb          |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-core/base-passwd/base-passwd/0001-Add-clock-group.patch
 
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
-index 87dc4f8fcd..43aaa84c0f 100644
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
-@@ -1,5 +1,7 @@
- [Unit]
- Description=Xserver startup without a display manager
-+After=systemd-udev-settle.service
-+Wants=systemd-udev-settle.service
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-Add-clock-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-Add-clock-group.patch
+new file mode 100644
+index 0000000000..af871949fa
+--- /dev/null
++++ b/meta/recipes-core/base-passwd/base-passwd/0001-Add-clock-group.patch
+@@ -0,0 +1,34 @@
++From 4b3a8f347179d7e2a1062eeed13a6474deb28728 Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Thu, 16 Oct 2025 08:48:49 +0800
++Subject: [PATCH] Add clock group
++
++The clock group is needed to "to enable applications like linuxptp
++to open clocks without root privileges". See the link below:
++https://github.com/systemd/systemd/commit/af96ccfc24bc4803078a46b4ef2cdeb5decdfbcd
++
++Note that this group is needed as long as people use udev from
++systemd because 50-udev-default.rules needs it. See the above
++commit.
++
++Upstream-Status: Denied [https://salsa.debian.org/debian/base-passwd/-/merge_requests/17]
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ group.master | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/group.master b/group.master
++index e54fd1d..6f84539 100644
++--- a/group.master
+++++ b/group.master
++@@ -39,5 +39,6 @@ staff:*:50:
++ games:*:60:
++ shutdown:*:70:
++ wheel:*:80:
+++clock:*:81:
++ users:*:100:
++ nogroup:*:65534:
++-- 
++2.34.1
++
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb b/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
+index 177927d674..e4e0890293 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
+@@ -13,6 +13,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
+            file://0005-Add-kvm-group.patch \
+            file://0007-Add-wheel-group.patch \
+            file://0001-base-passwd-Add-the-sgx-group.patch \
++           file://0001-Add-clock-group.patch \
+            "
  
- [Service]
- EnvironmentFile=/etc/default/xserver-nodm
+ SRC_URI[sha256sum] = "cf869870fed7862b57bfa9e99cd5cd6f365e2349705a1b65af7fc182629bd1ab"
 -- 
 2.34.1
 
