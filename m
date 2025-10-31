@@ -1,81 +1,98 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32298CCFA00
-	for <webhook@archiver.kernel.org>; Fri, 31 Oct 2025 16:30:49 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web10.20172.1761928240382648464
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1691CCFA00
+	for <webhook@archiver.kernel.org>; Fri, 31 Oct 2025 16:41:39 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.web10.6.1761928893968860808
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Oct 2025 09:30:40 -0700
+ Fri, 31 Oct 2025 09:41:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RqqoLpma;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-87c1a760df5so41923466d6.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 31 Oct 2025 09:30:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761928239; x=1762533039; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=noSrnJPCRZFRPdvbssvzbUIgANfsXn0N+g6qN6l1H0Q=;
-        b=RqqoLpmafkRSLJbz5p0ZLQ1m0+KZ8qccXuSSA3X+fTh/bBWp0sUi5DPvosgZA5fwuP
-         JZOjN3s+cv1F2ULVyNm5SFM4EeVSpNphgX/EH73/b5ZhqHGOWdDYekIZBn0zMVMK0NUT
-         rzQupDQLXNs2trqwZ5rmPR1cPgA8dh4HP/MeLKNQ+zCTpTrvUJsymPwODXkV4bVy/4A4
-         d5L/bKMOTIQz9BvXIZ90B44ZcjN/9ulxCw8dOoD9NI/srEfiGQj6WHDpluB2ml8yZbBk
-         GiHnq69DwuAJLT/2984FF2/sljorh5upZ4fJeuXyJU9lnp7WzvemwszwVyV5rSUJHSZu
-         CoNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761928239; x=1762533039;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=noSrnJPCRZFRPdvbssvzbUIgANfsXn0N+g6qN6l1H0Q=;
-        b=tNo4pS0thN4PHP1hBn4WgTiqA1ZntaN2utZcbTe0qXwfHbwJC4QDmmZkEvwyGCQ6ej
-         K9lC9U7b32/z+uxaPTerfZR+pP2YzbdUR8DdEprc/TbplaT0WjVU/Vvlclq2m7ZFJJUh
-         6mgCixCstMaqfZAcDhh7dzs+7tvxjeKutfikC423Q7w/g6klEFnwstr+dztuAHpsy1UU
-         gNkPkv8KEhWsNQBWUBQmjJSzJQJDqmtDu6oVxNlPwdLAhTVfYShLUvsqq47MZDdW1E01
-         YrBiZ7tJMW8Aewg3SjIwgW3WL4PYCl8cVt8HOpG3vuhR+E4Oz3Z7vdNPwJAITm6APmEx
-         3sDA==
-X-Gm-Message-State: AOJu0Yz6SDBdTc3b3+E9lXURBfOIDUoeOP9WoNsugHRpWRHdgpoSYE0L
-	rxpO6vAEUW5BYsVSykAZ83nmYIHsdELdDbqQ3/f2Jrj34wQcTPSQh6C4m/bXEwZ8dDDdJGvF4th
-	C+eV+8ZW8PGZQJub8tP3WS9qOTsTWTg0qyQ==
-X-Gm-Gg: ASbGnctwSbFyuE66H3QQX78GqpkjXmjsolXWwgMxXBLpat1+u9yvlh2VVqUyR1YjAqD
-	30Kr0QAb9ZEHR8LwE332npTKF2Ssb1hmEx/0wySAaEsv3hKDTtnkSeVC/H7IUGXpck1I9bGA1x5
-	fXvDGa/vlmhURPTY0x1pgRrRcJicG/CFT9NcJ26UBixAgKMVVNifKeQvHbwe4ZvtMnRJ+BwogtF
-	QPF2IRJOWP8IxWvPUHp+JnAf0FMfPvRpaj5c6XJCh5wPIRHZo/RIkOmcMqnw23B/lwj2Ljc6Na7
-	ZggQmjm+9hu95P6gCq+MW3t0dV5qcVNyXVPA1yhsFbtgYtTixDE+DuZQDw==
-X-Google-Smtp-Source: AGHT+IF+m/FXpSi+4ktmBbvp/OTYUPs/1s40dtaw6H2j1pe2uXnzWo6jNLWeCHxhiUrSklDFrj3oxlW39Jcd4NNvAio=
-X-Received: by 2002:a05:6214:468d:b0:880:439b:ac55 with SMTP id
- 6a1803df08f44-880439bb0ffmr15338026d6.11.1761928239314; Fri, 31 Oct 2025
- 09:30:39 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=vq26Gj/3;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 3D08A1A17B8;
+	Fri, 31 Oct 2025 16:41:32 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1052960704;
+	Fri, 31 Oct 2025 16:41:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 242DF11818086;
+	Fri, 31 Oct 2025 17:41:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1761928891; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=cxJZcM0oazBoMoNdKDZ9wx945soa+FkKOYLRVyPI3yc=;
+	b=vq26Gj/37w6G7JKpk0amZphByWEC0B2yZ97q3AtC30ai89p0VYgy8TIGlMnUobKCLarYi8
+	EfVeoG8vKLVRDFe+slMLyobZextYNfcmT2y2uVQLkuMiJSlLqqwsmzkH49priAVMEBDdQQ
+	Ltdv57+9wfbc1QzjdYsIkwEERzYPzIqElq348iA/wgoWHYHZemEA8/QWcy45YNeXugRmBA
+	FN2erZWTyRD1ionDBCUpQ4IvoU6u8JZbfmNV7vVooaqgycud2/R/kR+WVCmiDv0KS/Dw3P
+	dZecHIxZFtDkhuQk9MrqPKErVftY4ZzmnHdxwoJecwc+1zeI53YNcLC9RWLN5w==
+Message-ID: <64d62995-6c65-4cf1-9293-9c5ac364dfef@bootlin.com>
+Date: Fri, 31 Oct 2025 17:41:29 +0100
 MIME-Version: 1.0
-References: <20251031064504.461920-1-jiaying.song.cn@windriver.com>
-In-Reply-To: <20251031064504.461920-1-jiaying.song.cn@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 31 Oct 2025 17:30:27 +0100
-X-Gm-Features: AWmQ_bmqI8P-ge3hdABvHmsq4wkGDWLzfs8tw5WV6M27IOlWBhFrGHKu_YU-G_4
-Message-ID: <CANNYZj89C_tuh8Gcd-PoicmPigwHpmvfqya+A=GdybH=t1rKHA@mail.gmail.com>
-Subject: Re: [PATCH v2] icu: use automake ptest output format
-To: jiaying.song.cn@windriver.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 00/14] kernel-yocto: consolidated pull request
+To: bruce.ashfield@gmail.com, richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+References: <cover.1761844161.git.bruce.ashfield@gmail.com>
+Content-Language: en-US, fr
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <cover.1761844161.git.bruce.ashfield@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 31 Oct 2025 16:30:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225549
+ <openembedded-core@lists.openembedded.org>; Fri, 31 Oct 2025 16:41:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225550
 
-On Fri, 31 Oct 2025 at 07:45, <jiaying.song.cn@windriver.com> wrote:
-> +- Adjust indentation and timing output formatting
+Hello, Bruce (and Richard)
 
-This needs to be separately justified. Do we really need those extra
-tweaks, or can the patch be limited to just adding PASS and FAIL
-prints? Are those extra tweaks suitable for upstream submission?
+I hope this email finds you well.
 
-Note that the longer the patch, the higher the likelihood that it will
-fail to rebase on version updates, and require tedious manual rework
-against upstream changes. Patches that stay in oe-core forever should
-be as short as possible.
+On 10/30/25 18:12, Bruce Ashfield via lists.openembedded.org wrote:
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>=20
+> Richard,
+>=20
+> I've put all of the patches I've sent for 6.17 into this series. The
+> only new ones are a bump to 6.17.5 (Which also contains some configurat=
+ion
+> changes to fix audit warnings for genericarm64) and t he addition of
+> genericarm64 SRCREVs to the 6.16 and 6.17 appends.
+>=20
+> These are against master, I can rebase to master-next as needed (if
+> some of the older ones merged there that I didn't notice).
+>=20
+> If this series works out, we'll remove 6.16 from the tree.
+>=20
+> Cheers,
+>=20
+> Bruce
 
-Alex
+I spotted this ptest failure likely related to this update:
+Failed ptests:
+{'lttng-tools':=20
+["tests.serial_3_-_Test_script_'tools/channel/test_cli_legacy_channel_buf=
+fering_policies.py'_returned_code_1._4_passed,_0_failed,_0_skipped,_6_pla=
+nned_[total:_4]",=20
+=20
+"tests.serial_6_-_Test_script_'tools/filtering/test_valid_filter[_0.00000=
+0]_Linux_version_6.17.6-yocto-standard"]}
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/2561/s=
+teps/13/logs/stdio
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/2520/s=
+teps/13/logs/stdio
+
+Could you please take a look?
+
+Have a nice weekend!
+
+--=20
+Best regards,
+Jo=C3=A3o Marcos Costa
 
