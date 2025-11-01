@@ -1,257 +1,182 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <johannes.schneider@leica-geosystems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27BA4CCF9F8
-	for <webhook@archiver.kernel.org>; Sat,  1 Nov 2025 01:18:32 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1430.1761959910653563995
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18021CCF9F8
+	for <webhook@archiver.kernel.org>; Sat,  1 Nov 2025 02:27:36 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.14])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2190.1761964051936600376
  for <openembedded-core@lists.openembedded.org>;
- Fri, 31 Oct 2025 18:18:30 -0700
+ Fri, 31 Oct 2025 19:27:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aWOG0cjq;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-339d7c403b6so2696076a91.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 31 Oct 2025 18:18:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761959910; x=1762564710; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0kneej0dAbNKaitTAmKSn/Yz0hLTcA0piaGj+G/EtAs=;
-        b=aWOG0cjqTLsl6Lbtl0dobCSnZ5KK97rV5SOaov6YcVUHc3OKGQp7dAVAG2W0fJ1Hc+
-         yLSFPRaeI0PkpwteQdHzATi7XNk4M46DC4GgeXSBlEps7fTuiNeUZ/oqBqo2q+RSeM5c
-         /KEmBWC6nsIWVG88E/09KzwoGY6aKB7XVzuaw+Q5i6/f7DNFGg8/JwrnLm9yfgFqQMOD
-         2Vyit7xzHADTlbgLhLRZ8ifRynU2T+gpXBo6gcehvR9d+zJdTTA4HxYIbn/ptyBEuhQD
-         nxVwIywNtukpiQF/uEAUj8x9y08LWkh+E7VNhRlKaG/cso06Wtm7oqfyyS6OAsHje1BJ
-         BSfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761959910; x=1762564710;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0kneej0dAbNKaitTAmKSn/Yz0hLTcA0piaGj+G/EtAs=;
-        b=jf2N2IpNmwEo0lCgkBUQiki4yGyqpwhIFDYw20rRS34FHr8XVst8zA5llG2Q0AKFdd
-         vQRazLjlSiVVGAyqRs7tn5spKkDspGHUAQLI0MT+8WLjxNouRCWl20wKLblLUQDs3qGh
-         FIvURV3W1sKQ2ARzjeN9tnhPy98mssnHmzRqPc3lOd0Nc6vti8Q5yxIGdwXGO1e85bgJ
-         76ClNEBGMknKaNSTQ9vUhY53NpYbxN/Qd9Hy8ZVRMnR1oJcxxRURC4asccKJGXXf8aNJ
-         /FeEVg/MJsIKFsXyaVDRQJqxZyW4vwpsZDkghu5vn7lQOw/Xg+exzY2R+DGGcSTcN37i
-         dTAw==
-X-Gm-Message-State: AOJu0YxiCKwsKuRySsN1Wqj/m09uUHQSGApGQjL+iPiAD4dJShm7YCJV
-	ZAi8FNNYTx+cQzLWw/XSnUsIRIkzAwEFXFbGXY8zBjVkrSR2ZOiOlTVo7uS368+M/sZI0X3tJRz
-	wRhEi9cUTfcYRMKJo04pYQLWHELC6cSk=
-X-Gm-Gg: ASbGncsuAsDf4JY498lfwlGhsQBVVxbY/UcBdtwcxQ01BZ456sqbMHRBJd8eKaOj2Hh
-	7iffah08kAKwwtAALyfeTxskwUIIe2nG6qWtEgCmFb7AEINr7FA368cd3Tzqd1Gp4AhIvXTE5x9
-	30TTfrnYu/dpB+kuM3iJbnwGrGZfpTM3dKkPv1ify9tR27WO51/XZ9h6wS1JMSlO9HOxlKwM+GX
-	age9/2UCXi8SiLUNgHHt46Md5stCKzx31N4fsUb9IjOIlDpkSWva8k8ApMEBA==
-X-Google-Smtp-Source: AGHT+IFfpdyMCpCB7RZdCnJl45YgxtsEhdP7rrlOOiYU9oT9nYR7H3VQraVRI8v3imbqZ03vI8ALDhKrsVQACjn2wQU=
-X-Received: by 2002:a17:90b:4c09:b0:32e:749d:fcb7 with SMTP id
- 98e67ed59e1d1-34082fce094mr6417752a91.13.1761959909903; Fri, 31 Oct 2025
- 18:18:29 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=XYYAPRSO;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 52.101.72.14, mailfrom: johannes.schneider@leica-geosystems.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mL3zoDzcaULSbLNIL05Yz/YlJUDwuL5YyYdgG4F12K14vPbAOnRTV6Ab5XC4EEWOiQ+soauHs8STp+FKo9TZe9NDFLjVzQQbYmDmlddV4hM2zDizIbS9Mduc0qYGcV0dYP1BOh2gR9WtgNYnAmMw3hx3j8f2/9aBgtxcsI6QtUa9wP6/klBwZ38BYjlLIaA4KqceFBJJ15Ox7IMNKcusE4FfrqU2qzWz7lk8j6yRLOqtUXLG0T3As7GApAoH2B4Uk0BbFVIJ/bXIZ1OmFkxKm+dNPzABuK9xgQiyrnKl30UJFeaxa4prc8Ys0jp9ag1Z2C4sTZ0pFhvHbgmWYmn2Bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w7s7IGg5nHQpEiRpuZrCb2+0MlFXCHSthnv29zv4LbI=;
+ b=T88ADxawbU5pHASZD0sqCUNeAr67xPeppSBQwP6aPaB24hc8x7slcibob412uK2gwe/NIXU0C8EzrbsBD+tRCm7zM3LrBrMdUGv9pojnQxt4sRPa5oPTOaYhvmo/LvCIbz977mnxHlrwzwIIYuqhjO3QTWAuWFVOTHYlheXRBvDgBLZU7myNd/RWlc4hRixfaDOMS0c+snzzkwY3WhwwcBpxppH6P244T9fMQisTjbjKtTHLpwhwV9OoOVmYuz9UhsmpbAVAsApuTOHb+pPzE41Q12t5b/N+6XA3plIwqhFgKznwN1W6+6gRB00UxGvZdOCT7dkGFrXWrXb38Mpelg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 193.8.40.99) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=leica-geosystems.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w7s7IGg5nHQpEiRpuZrCb2+0MlFXCHSthnv29zv4LbI=;
+ b=XYYAPRSOWJ8ept/xzmogVSQFfLKWUhRmYg2OFjIT4JUDc5snyuDeaFhVx7iBJUJTKFYyixGD5CjiV9ACj8DY6cKh8d02GbW2xHRY1bpQVNa2RRoiOsZMqWD5pOMuthTGXDhDidvAiIRaH6WJjqQkrWOE8dVJ0g3ybCI3zov1jcU=
+Received: from DB7PR05CA0002.eurprd05.prod.outlook.com (2603:10a6:10:36::15)
+ by VE1PR06MB7166.eurprd06.prod.outlook.com (2603:10a6:800:1ad::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Sat, 1 Nov
+ 2025 02:27:27 +0000
+Received: from DU6PEPF00009524.eurprd02.prod.outlook.com
+ (2603:10a6:10:36:cafe::41) by DB7PR05CA0002.outlook.office365.com
+ (2603:10a6:10:36::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.15 via Frontend Transport; Sat,
+ 1 Nov 2025 02:27:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.99)
+ smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
+Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
+ designates 193.8.40.99 as permitted sender) receiver=protection.outlook.com;
+ client-ip=193.8.40.99; helo=hexagon.com; pr=C
+Received: from hexagon.com (193.8.40.99) by
+ DU6PEPF00009524.mail.protection.outlook.com (10.167.8.5) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9275.10 via Frontend Transport; Sat, 1 Nov 2025 02:27:25 +0000
+Received: from aherlnxbspsrv01.lgs-net.com ([10.61.228.61]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
+	 Sat, 1 Nov 2025 03:27:25 +0100
+From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+To: openembedded-core@lists.openembedded.org,
+	bruce.ashfield@gmail.com
+CC: Yannic Moog <y.moog@phytec.de>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [scarthgap][PATCH] perf: add arm64 source files for unistd_64.h
+Date: Sat,  1 Nov 2025 02:27:24 +0000
+Message-ID: <20251101022724.598115-1-johannes.schneider@leica-geosystems.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20251031173559.1916806-1-johannes.schneider@leica-geosystems.com>
- <CADkTA4MqjYaf_3TbpqT53AkCcznuHfxbZ_S1eLDyRqozxKcPNg@mail.gmail.com>
- <CADkTA4Mz_-fJoWvHAUg4e9KFg4dMFcUG2UyMSkv=tp2wqemGrw@mail.gmail.com> <AM6PR0602MB3830F90DC703198C69C535A6BCF9A@AM6PR0602MB3830.eurprd06.prod.outlook.com>
-In-Reply-To: <AM6PR0602MB3830F90DC703198C69C535A6BCF9A@AM6PR0602MB3830.eurprd06.prod.outlook.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 31 Oct 2025 21:18:18 -0400
-X-Gm-Features: AWmQ_blhmePjdJu1hhqNwlWWBhFNvF31QMRNUkDXfaKRjXwZXpp75WWIQ20Wdo0
-Message-ID: <CADkTA4PMMUHJO-Wea=v9UbKUCGmW7piYPyC+smsTPjp3Q1Guaw@mail.gmail.com>
-Subject: Re: [scarthgap][PATCH v2] perf: add Kbuild file for unistd.h
-To: SCHNEIDER Johannes <johannes.schneider@leica-geosystems.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000089d30306427e420b"
+Content-Transfer-Encoding: quoted-printable
+X-OriginalArrivalTime: 01 Nov 2025 02:27:25.0602 (UTC) FILETIME=[0FB20020:01DC4AD7]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU6PEPF00009524:EE_|VE1PR06MB7166:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: ed5e2540-988e-4a5b-1519-08de18ee325f
+X-SET-LOWER-SCL-SCANNER: YES
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|82310400026|36860700013|34070700014|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?xX6pi40ufE9XOY/ZG/aMLNQK1VMSFMtPjnLRX6dXAm93AVaqaZka/x246BcZ?=
+ =?us-ascii?Q?ztGT+63o7MDRFSpTIuxBGLHb/VANxnTSFTwjNqZZ/uF7+dsmbg7C2Uy7CsA+?=
+ =?us-ascii?Q?eeB4NO+ytwi5wlq0Y9Gvcr0yBLwSlgnJPuehTW9AHsKNHaaKaq0s7rkJx6IB?=
+ =?us-ascii?Q?abeef9wPDR8mDE7sxitLVvjG7zdEQOdGF3LcAC5CWwkZms0nHThzTNmWanuK?=
+ =?us-ascii?Q?MjHiWF0ic74lX+nvdUiEvx5qoGJDAiu1uOPG3bmAK9Lqk2uKS+oNjG9wKl81?=
+ =?us-ascii?Q?LMwusOt5PpXuAukHk7VcApCusSh1M3E2V5H8HOeut6vMHX+uSV3E9dulK1yt?=
+ =?us-ascii?Q?UMz/404WtmB/lCt9KfWXfwSjc7u+mfEND7PRTQn6vuCRGOpwUrOBU+f9XMs6?=
+ =?us-ascii?Q?v+KmwKX1BFucGb+N0mUt10Y27HAa+RDSkOJR68mBo1eG7heMhML1OdbO+c+N?=
+ =?us-ascii?Q?MegGTlIg7Ca+BGZ4nDpkFZPMqsoIAxhvjUT2J7Q0doLU17cYD3G5b9TMG71L?=
+ =?us-ascii?Q?B2eXaJef8XsLLy0Jl59LzEVtP1BxHKuRUdYZ6iShFPXXhVQuzQNuArv2KZo4?=
+ =?us-ascii?Q?krgp3JUTOAeRWPXwx30yRFvWvJJk/EU4+LxTlpNx3JkGNxqKX8B6gcJUFoVh?=
+ =?us-ascii?Q?PZZbPVYbXJaqmL9qR30pw9Fsx1DBpfpfpYkERUhZSUlPF1QgkNhJoGQyDAhZ?=
+ =?us-ascii?Q?OCUTUnUq0JVeds+INLaiNyCP9lrg8mk+9ezPn0Kow7MKyr+K0AD7QJFFjM5L?=
+ =?us-ascii?Q?Eb67jjyKBqSWlk2ZYQOH4GwetqWoVDup3Ew5QvJ1uYnMT8dj/Ckbjmr1qMQ2?=
+ =?us-ascii?Q?pj9DmB9R1PDn5GY5FJ+jKwLBRNCflXv6oqW7IaJOepNj3VAlVw5hy+8Cf1lU?=
+ =?us-ascii?Q?qPikFa1xHEjBSJUmYjv9pV4ctY32oWl1I6z8FmLsSqpk9FzOuqlof692yyFP?=
+ =?us-ascii?Q?L5f0B9/OomwTv/QiK0xTUv+SmTqJnNYE5Zh9G3hgV6GQK5kQ38NSJec1OnKf?=
+ =?us-ascii?Q?v88QvzMnOyav6GHWrcqPEOP4MqofUR4oFKLqjB3oGghtQ4iSwGLm7wjWBIsr?=
+ =?us-ascii?Q?FGH4kOUmqyWNZVtCEMNKXqGjtEhmbnvBQbStw0axThRSjWorpWWD8n1XELQ6?=
+ =?us-ascii?Q?3KNwYxvyXqx64FqInU0Onfn9c2sQQ92LnFZ84lHGLQ1cndZEpXedcGVLNl7Z?=
+ =?us-ascii?Q?Uhb5Wdm8IPpLO/lDl1KggIg+ElZW+7PppTywSLY/8bQxjJhSzqVRIC0W9qHH?=
+ =?us-ascii?Q?7WVH3Ec68dDXaVuGQvkroDZkkFh1pvgOaHgqDaXeogSptMlOTl03ITV2qq2s?=
+ =?us-ascii?Q?30d490k1YfXYOwQ6LZczzF1VUA9D87p1AWbAAtPmHurog5zuhvpPXAi32iFf?=
+ =?us-ascii?Q?A0ENh4yHUk1TKnMDc+eqsvXpbbWerYFQi1+JUajZqJwHnU2LdoXzwo6Wk6qH?=
+ =?us-ascii?Q?30VkPtGlczXKvoCu68KytL09KEyM0DMX5vkkWDZVKb829d7ZfNJvnMJvekDM?=
+ =?us-ascii?Q?Cks9Z7m5SMlTyupY8FBK5WEIoCl+nhmBrLiD?=
+X-Forefront-Antispam-Report: 
+	CIP:193.8.40.99;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom51.leica-geosystems.com;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013)(34070700014)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: leica-geosystems.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2025 02:27:25.8926
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed5e2540-988e-4a5b-1519-08de18ee325f
+X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.99];Helo=[hexagon.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU6PEPF00009524.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR06MB7166
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Nov 2025 01:18:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225561
+ <openembedded-core@lists.openembedded.org>; Sat, 01 Nov 2025 02:27:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225562
 
---00000000000089d30306427e420b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Yannic Moog <y.moog@phytec.de>
 
-On Fri, Oct 31, 2025 at 9:07=E2=80=AFPM SCHNEIDER Johannes <
-johannes.schneider@leica-geosystems.com> wrote:
+kernel commit bfb713ea53c7 ("perf tools: Fix arm64 build by generating unis=
+td_64.h")
+introduces a new dependency on source files for arm64, specifically
+include/uapi/asm-generic.
 
-> Hoi Bruce,
->
->
-> > > On Fri, Oct 31, 2025 at 1:45=E2=80=AFPM Bruce Ashfield <
-> bruce.ashfield@gmail.com<mailto:bruce.ashfield@gmail.com>> wrote:
-> > >
-> > > > On Fri, Oct 31, 2025 at 1:36=E2=80=AFPM Johannes Schneider <
-> johannes.schneider@leica-geosystems.com<mailto:
-> johannes.schneider@leica-geosystems.com>> wrote:
-> > > > Building 'perf' with/against newer kernels (>=3D6.14) would fail
-> because
-> > > > of a missing 'Kbuild' in the folder created when manually installin=
-g
-> > > > the 'unistd.h' header from libc.
-> > > >
-> > > > Add a oneliner that creates the missing file, with the relevant
-> > > > content taken from the kernels Kbuild file.
-> > > >
-> > > > Tested with kernel version: 6.16.4
-> > > >
-> > > I wasn't clear.
-> > >
-> > > You also need to test this with the older kernel versions and let us
-> know that it worked.
-> > >
-> > > Not just "it should work", we can't let the infrastructure pick up an=
-y
-> failures, it needs to be tested before submission.
-> > >
-> > > But thanks for not just saying you tested it (if you haven't). if you
-> have done those tests and I'm just misunderstanding, a quick v3 with
-> confirmation would be great.
-> > >
-> > I hit send too soon.
-> >
-> > The reason that we really need those tests is:  if you've noticed on
-> master we had significant reproducibility issues with perf, which you'd
-> also have when building a 6.16 perf on that old release.
-> >
-> > So once we add the support for building it all, there will be
-> expectations that it passes testing on all versions.
-> >
-> >
->
-> thanks for pushing in the right direction ;-)
->
-> as i was putting up a plain oe-core build, to test more kernel versions
-> than just our project constellation (scarthgap + 6.16 kernel)
->
-> i've noticed that on master it is already fixed - slightly differently
-> though:
->
-> https://lists.openembedded.org/g/openembedded-core/message/217991
->
-> what is the process to get this fix backported/applied to scarthgap? :-)
->
+Build fails with:
+[..]/perf/1.0/perf-1.0/scripts/Makefile.asm-headers:33: [...]/perf/1.0/perf=
+-1.0/include/uapi/asm-generic/Kbuild: No such file or directory
+make[4]: *** No rule to make target '[...]/perf/1.0/perf-1.0/include/uapi/a=
+sm-generic/Kbuild'.  Stop.
 
-The easiest way is to cherry-pick the branch into your local scarthgap
-branch,
-git format the patch out, add [scarthgap] to the prefix and add a comment
-in the
-patch below the --- (so it will be thrown out on application) that this is
-a cherry-pick
-request from master.
+Add the directory to PERF_SRC.
+Fix whitespace error while at it.
 
-Then send it to oe-core and the stable maintainer will see it and pick it
-up.
+Signed-off-by: Yannic Moog <y.moog@phytec.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
 
-Bruce
+This patch is a backported from 'master'
+
+The original submission can be found here:
+https://lists.openembedded.org/g/openembedded-core/message/217991
 
 
+ meta/recipes-kernel/perf/perf.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
->
->
-> gru=C3=9F
-> Johannes
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/pe=
+rf.bb
+index 11fa917649..2d432f3f40 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -145,6 +145,7 @@ PERF_SRC ?=3D "Makefile \
+              arch/arm64/tools \
+              ${PERF_BPF_EVENT_SRC} \
+              arch/${ARCH}/Makefile \
++             include/uapi/asm-generic/Kbuild \
+ "
+=20
+ PERF_EXTRA_LDFLAGS =3D ""
+@@ -202,7 +203,7 @@ python copy_perf_source_from_kernel() {
+ do_configure:prepend () {
+     # If building a multlib based perf, the incorrect library path will be
+     # detected by perf, since it triggers via: ifeq ($(ARCH),x86_64). In a=
+ 32 bit
+-    # build, with a 64 bit multilib, the arch won't match and the detectio=
+n of a=20
++    # build, with a 64 bit multilib, the arch won't match and the detectio=
+n of a
+     # 64 bit build (and library) are not exected. To ensure that libraries=
+ are
+     # installed to the correct location, we can use the weak assignment in=
+ the
+     # config/Makefile.
 
-
-
+base-commit: 649147913e89cd8f7390cb17cd0be94c9710ffa6
 --=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.43.0
 
---00000000000089d30306427e420b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_defa=
-ult" style=3D"font-size:small"><br></div></div><br><div class=3D"gmail_quot=
-e"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 31, 2025 at 9:07=E2=80=
-=AFPM SCHNEIDER Johannes &lt;<a href=3D"mailto:johannes.schneider@leica-geo=
-systems.com" target=3D"_blank">johannes.schneider@leica-geosystems.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hoi B=
-ruce,<br>
-<br>
-<br>
-&gt; &gt; On Fri, Oct 31, 2025 at 1:45=E2=80=AFPM Bruce Ashfield &lt;<a hre=
-f=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmai=
-l.com</a>&lt;mailto:<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_=
-blank">bruce.ashfield@gmail.com</a>&gt;&gt; wrote:<br>
-&gt; &gt; <br>
-&gt; &gt; &gt; On Fri, Oct 31, 2025 at 1:36=E2=80=AFPM Johannes Schneider &=
-lt;<a href=3D"mailto:johannes.schneider@leica-geosystems.com" target=3D"_bl=
-ank">johannes.schneider@leica-geosystems.com</a>&lt;mailto:<a href=3D"mailt=
-o:johannes.schneider@leica-geosystems.com" target=3D"_blank">johannes.schne=
-ider@leica-geosystems.com</a>&gt;&gt; wrote:<br>
-&gt; &gt; &gt; Building &#39;perf&#39; with/against newer kernels (&gt;=3D6=
-.14) would fail because<br>
-&gt; &gt; &gt; of a missing &#39;Kbuild&#39; in the folder created when man=
-ually installing<br>
-&gt; &gt; &gt; the &#39;unistd.h&#39; header from libc.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Add a oneliner that creates the missing file, with the relev=
-ant<br>
-&gt; &gt; &gt; content taken from the kernels Kbuild file.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Tested with kernel version: 6.16.4<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; I wasn&#39;t clear.<br>
-&gt; &gt; <br>
-&gt; &gt; You also need to test this with the older kernel versions and let=
- us know that it worked.<br>
-&gt; &gt; <br>
-&gt; &gt; Not just &quot;it should work&quot;, we can&#39;t let the infrast=
-ructure pick up any failures, it needs to be tested before submission.<br>
-&gt; &gt; <br>
-&gt; &gt; But thanks for not just saying you tested it (if you haven&#39;t)=
-. if you have done those tests and I&#39;m just misunderstanding, a quick v=
-3 with confirmation would be great.<br>
-&gt; &gt; <br>
-&gt; I hit send too soon.<br>
-&gt; <br>
-&gt; The reason that we really need those tests is:=C2=A0 if you&#39;ve not=
-iced on master we had significant reproducibility issues with perf, which y=
-ou&#39;d also have when building a 6.16 perf on that old release.<br>
-&gt; <br>
-&gt; So once we add the support for building it all, there will be expectat=
-ions that it passes testing on all versions.<br>
-&gt; <br>
-&gt; <br>
-<br>
-thanks for pushing in the right direction ;-)<br>
-<br>
-as i was putting up a plain oe-core build, to test more kernel versions tha=
-n just our project constellation (scarthgap + 6.16 kernel)<br>
-<br>
-i&#39;ve noticed that on master it is already fixed - slightly differently =
-though:<br>
-<br>
-<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/21799=
-1" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/op=
-enembedded-core/message/217991</a><br>
-<br>
-what is the process to get this fix backported/applied to scarthgap? :-)<br=
-></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"fon=
-t-size:small">The easiest way is to cherry-pick the branch into your local =
-scarthgap branch,</div><div class=3D"gmail_default" style=3D"font-size:smal=
-l">git format the patch out, add [scarthgap] to the prefix and add a commen=
-t in the</div><div class=3D"gmail_default" style=3D"font-size:small">patch =
-below the --- (so it will be thrown out on application) that this is a cher=
-ry-pick</div><div class=3D"gmail_default" style=3D"font-size:small">request=
- from master.</div><div class=3D"gmail_default" style=3D"font-size:small"><=
-br></div><div class=3D"gmail_default" style=3D"font-size:small">Then send i=
-t to oe-core and the stable maintainer will see it and pick it up.</div><di=
-v class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D=
-"gmail_default" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0<=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-<br>
-gru=C3=9F<br>
-Johannes</blockquote></div><div><br clear=3D"all"></div><div><br></div><spa=
-n class=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"=
-gmail_signature">- Thou shalt not follow the NULL pointer, for chaos and ma=
-dness await thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf,=
- Star Trek II<br><br></div></div>
-</div>
-
---00000000000089d30306427e420b--
 
