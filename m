@@ -1,90 +1,94 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BC58CCFA02
-	for <webhook@archiver.kernel.org>; Sun,  2 Nov 2025 07:06:03 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6067.1762067162182743027
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2B64CCFA02
+	for <webhook@archiver.kernel.org>; Sun,  2 Nov 2025 08:49:13 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6984.1762073348393192534
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Nov 2025 00:06:02 -0700
+ Sun, 02 Nov 2025 01:49:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=X6+WBLNi;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: zboszor@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b70406feed3so733095166b.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Nov 2025 00:06:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LBy1AQrN;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-29524c38f4fso26461655ad.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Nov 2025 01:49:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762067160; x=1762671960; darn=lists.openembedded.org;
-        h=content-transfer-encoding:subject:from:content-language:to
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kk2RE635iyATUstWRRTWlC/p25OQ4anTedPVLFB0xzo=;
-        b=X6+WBLNi29wNXALUqM89LvsIOgYhI2RTMwuqsMQm4zpn9y7C0TXSVcj1MMjzi/YxwK
-         4SGX2xVslCq5pT2rtii7OzbZLVqDhEgKeMbP7DGzYeIN06Wpybn3nZcaNIDuQPCeAwt9
-         T+2t3lZh4LBjZhCZecUklSBbO/GWng6BxH42eXy/7kTzEC1PSrn7HTkH0CF5HFESLGZU
-         nai1OxJH0zTnkHGjTSP/6cOOgaxL0NSh0f6CWTb1nnph0DPdKX78Tl+y5Wa94mSVnMcf
-         DujIGJ8osWn79AFQEN2nvJl07Un7IdvQH7JeCeRgyWjwjo/AAHKiXlvf+gaANe6+kFX3
-         9mYQ==
+        d=gmail.com; s=20230601; t=1762073348; x=1762678148; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3rEQhoomvP3sgKCZuzrR/nMJ+TIu4NQikZFjF4bWngk=;
+        b=LBy1AQrN+hPOvLmeWtHuMriqZ6UObxNBoSplXWS+ZQD6qiMdgjvCj2rvrMnymSZWqw
+         /FHHIpvs/iVi7xfvoka4f7DbI91j9mvloOH4OZXauGOZ9lyEdbCW6Uz1ZJo6ZGIg8Hei
+         U3T2M7v9pqGWIUJe5PL6+Zzm/pvxQC5X/fc3VVdmsUMSd9UZ1rap+EAzCrmr939r9q2u
+         DE9fF68kWg+hS2finoPOAWOhAJPWqxUJmyaCj0TLkm8PRGfsTh/FU5l2949xs7wXRU9L
+         +2FlKjg8pZqJZG89JYKjE4qpZ49FmvFhdqiCjJGSK0PU6fYGTAhQ+uynXLTWN8qbzbeN
+         S7lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762067160; x=1762671960;
-        h=content-transfer-encoding:subject:from:content-language:to
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=kk2RE635iyATUstWRRTWlC/p25OQ4anTedPVLFB0xzo=;
-        b=Yz0Y3NIjHTkuNHJeIVqcfHtj49F77QT7wR9BNDRuFpxGSTrb+plYKzuvGaUpogHuEe
-         /FCL1MGS+2mLGntZC963dXAuQQjLazbkjZRFsNvSYGm6evN8jpw02jBEk+fq+WMhjAon
-         VkCGGmaX/2ckC1NGi9QzeDnecVu6dxZLjf307OxI0qeechxU2OwqzZJuIf6RL7pMW/Kf
-         slZzG5GNudESq/AdHtFpm1cGUjfh+bMgCwnzqq/h4cTh9ztIp4jNMPp2dUS1nbNi6O4i
-         64pHIh2gr1wHZ8DgKIJzKiaoa2BjAkS6N+7ZjA9no48vgLTkosbX4KqETskC2YrMOaE+
-         zRPQ==
-X-Gm-Message-State: AOJu0YyNTCCNE7nOUCXRoDUAsVC4ZF3WnOMd9OR1gDDh0dgosMVlUh+F
-	IfcpxFkufp1FVe/yCRRWcSi5YgqeMYleUkVPqJoZfd/nDEfSdvXIJI97NnZlmw==
-X-Gm-Gg: ASbGncsj4bb3VFyROMKPO0t1caFCS6ybYPm0b3+Qtg2TpoIREooU4sqzN7wBJbV8eBi
-	Y8eNf9/Py8+GCx6hUXloPzUrvno4+3pOEZAag2J+3QYpZyGkJ2Ga3VLkhiQtTCN0/WGPaPQ6CFb
-	cji8wLwX/R3wQocLGm0LqhbeP1C5B82lnCXzPex00lr0bmx7senI5Fnf864BfawrTz7FtAVA7ZH
-	rxXImpk/XyhYcuune1zh8TMWGRFihbAKdt0DRlL+pvO5PmAdfZmz9DSe+dUGEj4RbV2SLgJhXun
-	p4TiJOTq4Xfr62atMWVm8tz6C5ZZETeMMZMvkKN9vC2Lo/HOgA83Ver0+z+kPCdYpBr3bSOTqGZ
-	3brzinopR+f5hQlVxukavf0RhxaZIFTFd8APgI26Qsc5NG00g27y/5GghBduWGAyjUv9aoabNIc
-	m24I3b+1LM3uBHGUdmEgtwPwEWpsPW1S7xRwQvEsKrkAQKrG7K9ueGTEY=
-X-Google-Smtp-Source: AGHT+IEZV8jiA3M9qbDCqOaZtbUuYzKC1nrGLjlFjRo7aNieWnfOSy32RxzCY49gK/UhiK32oJpoHQ==
-X-Received: by 2002:a17:907:3f0c:b0:b6d:7b77:ff33 with SMTP id a640c23a62f3a-b7070144954mr975500466b.19.1762067160039;
-        Sun, 02 Nov 2025 00:06:00 -0700 (PDT)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b70b81916c6sm19777166b.36.2025.11.02.00.05.59
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Nov 2025 00:05:59 -0700 (PDT)
-Message-ID: <2b875d1c-50ef-4679-bb41-3e1cf89791b3@gmail.com>
-Date: Sun, 2 Nov 2025 08:05:58 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+        d=1e100.net; s=20230601; t=1762073348; x=1762678148;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3rEQhoomvP3sgKCZuzrR/nMJ+TIu4NQikZFjF4bWngk=;
+        b=tSHFteC5OWfgBsAt7tgTrDBHAxl7/J3NPUbCLieyfgvgbZ7tKlM0KQd+58fwRoHdBo
+         GX1nJDZvz5EBaMB/XRE3KIhRXYqGEDYiCb/EgfBsh/xEGbt0TGsEar+8LQrMgm1ZlzWZ
+         AgPCXtCtxzJy3AK03TBWjUBGTs0jEyBgOxk6+RHyRjGIbZoL4rZ4yn2z1aBibigt0x2R
+         N6UuK0Oik95XYONfXA+BRd6588ZeO34gY/u+9PaecyNuctmMnSCTzO8ztxmwccJwYz/0
+         nZ7enbBcEvChgOabJFniF6z9srHjddhkpGexwPyR/+XBuy4JCZ8/l23t1Y32NKTLWJIf
+         DNmw==
+X-Gm-Message-State: AOJu0YyYQxheqoGZ3fQg7BCEid2PVbk9/1xgxxhA5/LOE2Hm4xb3ItJ4
+	NLTfJUspr1QtyqTb2SNxcm8thyxodIjOYqaVMOoqQhmPTa7OKlvVpjjc6JQ2aA==
+X-Gm-Gg: ASbGncv5QyCxvV8TARzleW8o2GdZ/mFqlggw9QfXlJnZfkOojiYRRNhOnbBqBe/h5L1
+	AJO0L5z9Cm/ijljVeH0oDEm1eZq6cghc2hHvTs342/cx5CEgJKr38QXNweJICyoeGG7qGAwJ9xs
+	Fh74paPb73p7oCO8vhm1A4vhWoBlkzPYFlWIvtLGcgzfmfoCqMv8pv4g54nZ2495k3m5axPq0+2
+	VF0iYm8RqyS/bkiwi/hV83KGn5es9Y1w20zSDdBvrUiEDWHiFuH0Oxmpqr7uFX1tqPB1EjKZbky
+	nMfg+erjZPmyW1JV25AG3sH9M023zAq+sLgyO6O6iSqwnTxpIAMXmq58MH8tYcQOWo8ApA1pwSY
+	7FqZKzo4PZA60NrrLP0znrBtoZwQT4C3DWTeXEV0SRTrrwPIP1xikcCTt6pYLFb5LMXhQY6pM7g
+	xyMWkFA9o3UMKfoQ==
+X-Google-Smtp-Source: AGHT+IHIQ5xVJJ15MRoKFYlBpr/wbzxsCmqzT2//4s3iA5uPPUvDOK/syiXhr33InHV+Ev11BKE3tA==
+X-Received: by 2002:a17:903:2348:b0:27d:69de:edd3 with SMTP id d9443c01a7336-2951a3c3298mr121804375ad.20.1762073347417;
+        Sun, 02 Nov 2025 01:49:07 -0700 (PDT)
+Received: from NVAPF55DW0D-IPD.. ([147.161.216.252])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7aaf449e8f1sm113891b3a.11.2025.11.02.01.49.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Nov 2025 01:49:06 -0700 (PDT)
+From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-Subject: Go 1.25.3 release is botched at Google
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Subject: [OE-core][PATCH 1/5] wireless-regdb: upgrade 2025.07.10 -> 2025.10.07
+Date: Sun,  2 Nov 2025 21:48:51 +1300
+Message-ID: <20251102084855.1555197-1-ankur.tyagi85@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Nov 2025 07:06:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225567
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Nov 2025 08:49:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225568
 
-Hi,
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-apparently, the pre-built Go 1.25.3 release, both the
-* prebuilt tarballs at https://goloang.org/dl, and
-* source tarball at https://dl.google.com/go
-are compressed twice with gzip but is named as tar.gz instead of tar.gz.gz
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+---
+ ...ireless-regdb_2025.07.10.bb => wireless-regdb_2025.10.07.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2025.07.10.bb => wireless-regdb_2025.10.07.bb} (94%)
 
-Therefore, the checksums are incorrect, and the downloaded
-file cannot be uncompressed with a single tar xzf command.
-
-Uncompressing the tarballs once with gzip makes them match
-the expected checksum and can be extracted with tar xvf.
-
-Adding downloadfilename=<basename>.tar.gz.gz makes it download
-and extract ONCE, so the result is the <basename>.tar.gz tarball file
-instead of the extracted sources or prebuilt stuff.
-
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2025.07.10.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2025.10.07.bb
+similarity index 94%
+rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2025.07.10.bb
+rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2025.10.07.bb
+index decccad05a..68ae3b0464 100644
+--- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2025.07.10.bb
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2025.10.07.bb
+@@ -5,7 +5,7 @@ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+ 
+ SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "a8340bcdcd1b5db6c79149879d122b170f3bb075381718d4f429ad831a6fa28d"
++SRC_URI[sha256sum] = "d4c872a44154604c869f5851f7d21d818d492835d370af7f58de8847973801c3"
+ 
+ inherit bin_package allarch
+ 
 
