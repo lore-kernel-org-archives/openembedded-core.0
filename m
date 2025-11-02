@@ -1,135 +1,124 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD40ACCF9E3
-	for <webhook@archiver.kernel.org>; Sun,  2 Nov 2025 11:49:34 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8569.1762084167204372605
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B52CECCF9E3
+	for <webhook@archiver.kernel.org>; Sun,  2 Nov 2025 11:58:44 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8657.1762084721694309419
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Nov 2025 03:49:27 -0800
+ Sun, 02 Nov 2025 03:58:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=P0/gElNK;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-29558061c68so8200705ad.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 Nov 2025 03:49:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762084166; x=1762688966; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UchWhtL7RL6Zhyou0lKsQjz0Gw7N+qYUMXU8N22UOOY=;
-        b=P0/gElNKA/je5Tx5ILIKORpAx5cLJLlSF+SzylCOmP1mlJQF/f2McOkEHeatOfjFWA
-         4EHlKnyLFdw34g47clZQx6PVgi2ppxus4H6z9TeMyAsoNfCrR+nhFBJdCm05HJNMfenu
-         XJJLDrXNTXpMDH2LxdbX9tQE4KH/K9p2l6PQL/wrTNE4kYJmlPnlCvs8CWgpctCbghPC
-         iGVM7IFgFitYTaaNSvmvHo33nUFKpmT1eaH1faMYUWz8g6yJp/3KOZxPmeqckZ2/sw2l
-         Ti/XfqmgpC2mhqGBxy8Zy0ZQ5qlo49pXwZ3QFgcLzPiUHyDrDepIjalovwhRtDjZK1a0
-         eGGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762084166; x=1762688966;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UchWhtL7RL6Zhyou0lKsQjz0Gw7N+qYUMXU8N22UOOY=;
-        b=cP20VIfbBHSEqQmhysI7sI8qHGV3XUx9SPcJwfbijTpt9GCbSryX0VejsoJjS0lQq3
-         tge3Ces0XD6rMZd3xyqZ95/1qtKCOqfUDZ76hmeoFzfI/QCCDQ+ftw+2bg9DyX2FrrA3
-         ut92fcldeqyrF4teOsGJm1Hg26llq7N3A2AS0OaNff/kt7blf4Rdzb5OHsTlIlG2+akx
-         SS55Ieh+GBqF8lM7g+31sRt1o/jhZjRoOTiPuzntEs5GnvNI9GY68z/eS5BKMEQjHzWm
-         huvuZQ1tEgRFNxR8rwjxsulUsePStcqPVZr37ETAREYgXq7mn+MWawTCoqxlgMsikSoT
-         jPRg==
-X-Gm-Message-State: AOJu0YwFZEnWEqV5ym70N6ahZqAUS7XgiiUI2G4Zh2TYg6TvXDo/SNkZ
-	MQ1bbqKrTMfuWcU2u4PdTRuQjmt9Te9NTHSLMXTMbStPGmdEwpM/iGxlmHKRERvgvjxLVGv+C8E
-	GrCZEBr8=
-X-Gm-Gg: ASbGnctGHB9i4s4uAxydEgCGOpzRDd/Io6n6/PAqIDNQ/akMH0lpUQ8whEMJvKk0y96
-	1Yofs1UDiBbkPaRhrTLG+2xph94Mtw2iBJBuRpvf01i9/jxnwBrg11wNS2DzbJuWNhgN6e2zB4u
-	zaGv7fiYzC0c38avWDg3RMkwuGRVDUJSWFPPO6i8tpzgSRSTVBxvCgA5f3rnpDBlQ0NnMWfq7or
-	kGig+Mj6lIyn+HVVaH1kwxsgi6h4AFgl96krdK4PPkzfWk+h2mGQvJwXd0AX+X6xmTmGSjWgq5l
-	zyBq48tk99y+i4vIhHlPAFQFkC/OIO58X+cZiD5fy7KgUn/aen7qBABAfDHNvKnq7VJP7AiW4WQ
-	jfQLtVWQx0vfFt0lyTNe4qSpnS3Ie9Zn6McL0HWsTHuPYxgz4H1vNxs+63K9i5kf7c2hdOqvBoz
-	cpxKONd8qxNAnDIIc=
-X-Google-Smtp-Source: AGHT+IEagww2fQunRXspKBx/g2vKijNCmq0nkqx/O0qmk3tIyItaKudtjfxz1hADoJDHNltWF8Ap1Q==
-X-Received: by 2002:a17:902:ecc5:b0:27e:dc53:d239 with SMTP id d9443c01a7336-2951a48fb0bmr129136215ad.35.1762084166299;
-        Sun, 02 Nov 2025 03:49:26 -0800 (PST)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-295269beedfsm82756585ad.106.2025.11.02.03.49.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Nov 2025 03:49:25 -0800 (PST)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id A09F51003DE; Sun,  2 Nov 2025 01:49:25 -1000 (HST)
-Subject: OE-core CVE metrics for walnascar on Sun 02 Nov 2025 01:46:59 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun,  2 Nov 2025 01:49:25 -1000
-Message-Id: <20251102114925.A09F51003DE@builder.sakoman.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Y5ITCv4g;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20251102115837212abde4d7000207a5-arww5e@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20251102115837212abde4d7000207a5
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 02 Nov 2025 12:58:38 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:References:In-Reply-To;
+ bh=7noIzbu3ph82WbjNLB/RRr/pnk/P52qSBjrpnj09LCE=;
+ b=Y5ITCv4gCTffxruu/YiZL17GJ0n2ggNzegF7T6qRScTjR6aaLxpFmmHhYDfW+1pvZo8VjZ
+ uDH8Z609i0FHEX8/ThSnRVQuwdHbv9q14D49P2261i1gM9owMIkU+WPnoRYG9YehjEka/VKj
+ rcTNRYzUqYpMBxbs6lpR57IuynDaZZgzSeryEPU257+kY7POBgnabsMXNE1CZMQoKIWGjoTU
+ gtHj6M7pQLnW3oYKJ9VQiTLtffcddvBBayRgFJITnQRl4obWmhkeBLREnG2k9oJIUqwR3Q7g
+ smZhPG7dOjU+LRQK6xpSVEyJ+ZEjHE/mTqIKDVnYq82RFI0E6zknGxiQ==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap][PATCH 3/3] binutils: patch CVE-2025-11413
+Date: Sun,  2 Nov 2025 12:58:36 +0100
+Message-Id: <20251102115836.1374458-3-peter.marko@siemens.com>
+In-Reply-To: <20251102115836.1374458-1-peter.marko@siemens.com>
+References: <20251102115836.1374458-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 02 Nov 2025 11:49:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225576
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Nov 2025 11:58:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225578
 
-Branch: walnascar
+From: Peter Marko <peter.marko@siemens.com>
 
-New this week: 7 CVEs
-CVE-2024-58074 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58074 *
-CVE-2024-58093 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58093 *
-CVE-2024-58094 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58094 *
-CVE-2024-58095 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58095 *
-CVE-2024-58096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58096 *
-CVE-2025-21752 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21752 *
-CVE-2025-21807 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21807 *
+Pick commit per NVD CVE report.
 
-Removed this week: 1 CVEs
-CVE-2025-40014 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-40014 *
+Note that there were two patches for this, first [1] and then [2].
+The second patch moved the original patch to different location.
+Cherry-pick of second patch is successful leaving out the code removing
+the code from first location, so the patch attached here is not
+identical to the upstream commit but is identical to applying both and
+merging them to a single patch.
 
-Full list:  Found 42 unpatched CVEs
-CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
-CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
-CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
-CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
-CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
-CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
-CVE-2024-52560 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-52560 *
-CVE-2024-57995 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57995 *
-CVE-2024-58015 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58015 *
-CVE-2024-58074 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58074 *
-CVE-2024-58093 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58093 *
-CVE-2024-58094 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58094 *
-CVE-2024-58095 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58095 *
-CVE-2024-58096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58096 *
-CVE-2024-58097 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58097 *
-CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
-CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
-CVE-2025-21709 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21709 *
-CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
-CVE-2025-21752 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21752 *
-CVE-2025-21807 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21807 *
-CVE-2025-21833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21833 *
-CVE-2025-21949 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21949 *
-CVE-2025-37803 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37803 *
-CVE-2025-37860 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37860 *
-CVE-2025-4598 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-4598 *
-CVE-2025-46394 (CVSS3: N/A): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-46394 *
-CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
-CVE-2025-59798 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59798 *
-CVE-2025-59799 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59799 *
-CVE-2025-59800 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59800 *
+[1] https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=1108620d7a521f1c85d2f629031ce0fbae14e331
+[2] https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=72efdf166aa0ed72ecc69fc2349af6591a7a19c0
 
-Summary of CVE counts by recipe:
-  linux-yocto: 34
-  ghostscript: 3
-  libsndfile1: 2
-  qemu:qemu-native:qemu-system-native: 2
-  busybox: 1
+(From OE-Core rev: 98df728e6136d04af0f4922b7ffbeffb704de395)
 
-For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../binutils/binutils-2.42.inc                |  1 +
+ .../binutils/binutils/CVE-2025-11413.patch    | 38 +++++++++++++++++++
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-11413.patch
+
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index 1de32d1badc..60f921b5b0d 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -63,5 +63,6 @@ SRC_URI = "\
+      file://0025-CVE-2025-11083.patch \
+      file://CVE-2025-11414.patch \
+      file://CVE-2025-11412.patch \
++     file://CVE-2025-11413.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-11413.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-11413.patch
+new file mode 100644
+index 00000000000..a7697d247f4
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-11413.patch
+@@ -0,0 +1,38 @@
++From 72efdf166aa0ed72ecc69fc2349af6591a7a19c0 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Thu, 25 Sep 2025 10:41:32 +0930
++Subject: [PATCH] Re: elf: Disallow the empty global symbol name
++
++sparc64-linux-gnu  +FAIL: selective2
++sparc64-linux-gnu  +FAIL: selective3
++
++	PR ld/33456
++	* elflink.c (elf_link_add_object_symbols): Move new check later
++	to give the backend add_symbol_hook a chance to remove symbols
++	with empty names.
++
++CVE: CVE-2025-11413
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=72efdf166aa0ed72ecc69fc2349af6591a7a19c0]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ bfd/elflink.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/bfd/elflink.c b/bfd/elflink.c
++index 0a0456177c2..5c8b822e36a 100644
++--- a/bfd/elflink.c
+++++ b/bfd/elflink.c
++@@ -5015,6 +5015,13 @@ elf_link_add_object_symbols (bfd *abfd, struct bfd_link_info *info)
++ 	    continue;
++ 	}
++ 
+++      if (name[0] == '\0')
+++	{
+++	  _bfd_error_handler (_("%pB: corrupt symbol table"), abfd);
+++	  bfd_set_error (bfd_error_bad_value);
+++	  goto error_free_vers;
+++	}
+++
++       /* Sanity check that all possibilities were handled.  */
++       if (sec == NULL)
++ 	abort ();
 
