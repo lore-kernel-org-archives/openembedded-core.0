@@ -1,139 +1,90 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D77DFCCFA00
-	for <webhook@archiver.kernel.org>; Sat,  1 Nov 2025 22:58:20 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.782.1762037899058223193
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BC58CCFA02
+	for <webhook@archiver.kernel.org>; Sun,  2 Nov 2025 07:06:03 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6067.1762067162182743027
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 Nov 2025 15:58:19 -0700
+ Sun, 02 Nov 2025 00:06:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=vbfC8JMX;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4710022571cso32619375e9.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 Nov 2025 15:58:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=X6+WBLNi;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: zboszor@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b70406feed3so733095166b.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 Nov 2025 00:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1762037897; x=1762642697; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j1lOgXpFVK3yfLeQKO5pOf9Hj43HtssqXpSqZ1lMzWA=;
-        b=vbfC8JMXP6hHAp4PZC+ayH+bzw5H9JvL7KGwJj2Q3dQzreLFJAU60z3j47Nsy8PIaI
-         xehiqQihtv51XG5RihPJVoGkIOSiVMxMr4RMyVGpzZEQsagORTgo1pXA//nVjoF6Nvia
-         Dur5pLniiMdfR0vi7MpxzMzP+fLEvVnW1hMt4=
+        d=gmail.com; s=20230601; t=1762067160; x=1762671960; darn=lists.openembedded.org;
+        h=content-transfer-encoding:subject:from:content-language:to
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kk2RE635iyATUstWRRTWlC/p25OQ4anTedPVLFB0xzo=;
+        b=X6+WBLNi29wNXALUqM89LvsIOgYhI2RTMwuqsMQm4zpn9y7C0TXSVcj1MMjzi/YxwK
+         4SGX2xVslCq5pT2rtii7OzbZLVqDhEgKeMbP7DGzYeIN06Wpybn3nZcaNIDuQPCeAwt9
+         T+2t3lZh4LBjZhCZecUklSBbO/GWng6BxH42eXy/7kTzEC1PSrn7HTkH0CF5HFESLGZU
+         nai1OxJH0zTnkHGjTSP/6cOOgaxL0NSh0f6CWTb1nnph0DPdKX78Tl+y5Wa94mSVnMcf
+         DujIGJ8osWn79AFQEN2nvJl07Un7IdvQH7JeCeRgyWjwjo/AAHKiXlvf+gaANe6+kFX3
+         9mYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762037897; x=1762642697;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j1lOgXpFVK3yfLeQKO5pOf9Hj43HtssqXpSqZ1lMzWA=;
-        b=bY2hNgCvjsTKOIue14v+KV6Xxal1iAwIlmghYAQxh6EaoMquZsfDR3tu5TkQp7XxFd
-         k7NS6xA3TAGAFnwEvtsS7ntm8pqxIVi3QlE/0aspkiHdaN0PIRX3Gc8Zgcux01GEjlK/
-         q7aMJYG/l5Ge60jlgW0ayPgI+TWJsJpDavlxlnoYm7GXv3glz+2GoBC8+JYJu8CpJcct
-         1oPr/Di5VS/QSFmqSQszbzXPLIeHLrHmbe7TMM1EvIngVSHH1Hw4GlypHZ2TgKV/UTCI
-         Y8uGC+NXkBJqisaQ7YL+z9r+PWAezVYBkBZccm5x/W7uW7I1pA5bLUxseK5esUCaxs51
-         WqOA==
-X-Gm-Message-State: AOJu0Yy9J88XUG0TqWQFfeQKX3iumcAFm3zdYw0J1FwMpvGx0y3j+PTl
-	HMH+QjhJMyllSq5eiEQVWbpyWiXdF4RIJOLSnL/Fku/bwiuuen9xTIFcG+x3YUiMsBt9ZVNtqRz
-	7XGUDhjo=
-X-Gm-Gg: ASbGncsJ8a17KvS5M9m7YHqUeSiiNU2mQeyK3YdMETpZNX6CBUUhHLtiMoBPCSXZu5k
-	t7io2G5FeL/1XY88qyr2mB6V/Ikb/iYAyNLNXO/MPW/Dd/VT7MTeAHMPiCHc//hMP7Mxp6NlUu/
-	FII+Mk40kyeiaQpEvPEKxaOcb6kwNqxOaSICceYpRrkgsd8K/a50LaaMJyesnMTA4jLA0fF3b7W
-	n2As1Lw5GFvSfHadfdZDRZkJ6FgkGXx7VqKfyfX4ilSlcRKOeylCMdGdvhUMQciY/X4oG/sTNf3
-	BNzgf9oFJvfI9oMiFQiHS6B8JT70U3cPP/xY2e8LpWxukkf8HDPF1GC377ZFXA7bxBm3G/vXjrt
-	+BqWOxWe/ESRVfPnC2sqXbK4sxZYFCjrRD+pK5FMPc3VkOCg5DxIZBVXXICemoPK4/L6wZPqivC
-	P2LYFKOgUaIoY+hp28w0C1bapf6qGtKsSNwRsJFJKfLRp/oK/mOxFmgfS5zfOgJWNiWRJ7ilFsi
-	uhRHrkZVWI=
-X-Google-Smtp-Source: AGHT+IH9MnfCNnj575hBFFaQXiJHJ1IeB9b0hQYUtOzbTAlyty5kQFxsyu+fUERdQai5oF0ltXKShg==
-X-Received: by 2002:a05:600c:1f8f:b0:477:58:7cfe with SMTP id 5b1f17b1804b1-477307e4885mr61989285e9.18.1762037897165;
-        Sat, 01 Nov 2025 15:58:17 -0700 (PDT)
-Received: from P-ASN-ECS-830T8C3.home (2a01cb001331aa0017b58d8bf04048c3.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:17b5:8d8b:f040:48c3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429c140629dsm11465751f8f.46.2025.11.01.15.58.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Nov 2025 15:58:16 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH] oe-setup-layers: make "path" optional
-Date: Sat,  1 Nov 2025 23:57:44 +0100
-Message-Id: <20251101225744.3856186-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.39.5
+        d=1e100.net; s=20230601; t=1762067160; x=1762671960;
+        h=content-transfer-encoding:subject:from:content-language:to
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kk2RE635iyATUstWRRTWlC/p25OQ4anTedPVLFB0xzo=;
+        b=Yz0Y3NIjHTkuNHJeIVqcfHtj49F77QT7wR9BNDRuFpxGSTrb+plYKzuvGaUpogHuEe
+         /FCL1MGS+2mLGntZC963dXAuQQjLazbkjZRFsNvSYGm6evN8jpw02jBEk+fq+WMhjAon
+         VkCGGmaX/2ckC1NGi9QzeDnecVu6dxZLjf307OxI0qeechxU2OwqzZJuIf6RL7pMW/Kf
+         slZzG5GNudESq/AdHtFpm1cGUjfh+bMgCwnzqq/h4cTh9ztIp4jNMPp2dUS1nbNi6O4i
+         64pHIh2gr1wHZ8DgKIJzKiaoa2BjAkS6N+7ZjA9no48vgLTkosbX4KqETskC2YrMOaE+
+         zRPQ==
+X-Gm-Message-State: AOJu0YyNTCCNE7nOUCXRoDUAsVC4ZF3WnOMd9OR1gDDh0dgosMVlUh+F
+	IfcpxFkufp1FVe/yCRRWcSi5YgqeMYleUkVPqJoZfd/nDEfSdvXIJI97NnZlmw==
+X-Gm-Gg: ASbGncsj4bb3VFyROMKPO0t1caFCS6ybYPm0b3+Qtg2TpoIREooU4sqzN7wBJbV8eBi
+	Y8eNf9/Py8+GCx6hUXloPzUrvno4+3pOEZAag2J+3QYpZyGkJ2Ga3VLkhiQtTCN0/WGPaPQ6CFb
+	cji8wLwX/R3wQocLGm0LqhbeP1C5B82lnCXzPex00lr0bmx7senI5Fnf864BfawrTz7FtAVA7ZH
+	rxXImpk/XyhYcuune1zh8TMWGRFihbAKdt0DRlL+pvO5PmAdfZmz9DSe+dUGEj4RbV2SLgJhXun
+	p4TiJOTq4Xfr62atMWVm8tz6C5ZZETeMMZMvkKN9vC2Lo/HOgA83Ver0+z+kPCdYpBr3bSOTqGZ
+	3brzinopR+f5hQlVxukavf0RhxaZIFTFd8APgI26Qsc5NG00g27y/5GghBduWGAyjUv9aoabNIc
+	m24I3b+1LM3uBHGUdmEgtwPwEWpsPW1S7xRwQvEsKrkAQKrG7K9ueGTEY=
+X-Google-Smtp-Source: AGHT+IEZV8jiA3M9qbDCqOaZtbUuYzKC1nrGLjlFjRo7aNieWnfOSy32RxzCY49gK/UhiK32oJpoHQ==
+X-Received: by 2002:a17:907:3f0c:b0:b6d:7b77:ff33 with SMTP id a640c23a62f3a-b7070144954mr975500466b.19.1762067160039;
+        Sun, 02 Nov 2025 00:06:00 -0700 (PDT)
+Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b70b81916c6sm19777166b.36.2025.11.02.00.05.59
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Nov 2025 00:05:59 -0700 (PDT)
+Message-ID: <2b875d1c-50ef-4679-bb41-3e1cf89791b3@gmail.com>
+Date: Sun, 2 Nov 2025 08:05:58 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: openembedded-core@lists.openembedded.org
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+Subject: Go 1.25.3 release is botched at Google
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 01 Nov 2025 22:58:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225566
+ <openembedded-core@lists.openembedded.org>; Sun, 02 Nov 2025 07:06:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225567
 
-From: Yoann Congal <yoann.congal@smile.fr>
+Hi,
 
-Layer names and path are often redundant. Allow users to omit the path
-key when it is equal to the layer name by using the layer name as a
-default value for its path.
+apparently, the pre-built Go 1.25.3 release, both the
+* prebuilt tarballs at https://goloang.org/dl, and
+* source tarball at https://dl.google.com/go
+are compressed twice with gzip but is named as tar.gz instead of tar.gz.gz
 
-For example, from layers.example.json:
-  "sources": {
-      "meta-alex": {
-          "path": "meta-alex"
-      },
-      "meta-intel": {
-          "path": "meta-intel"
-      },
-      "poky": {
-          "path": "poky"
-      }
-  },
+Therefore, the checksums are incorrect, and the downloaded
+file cannot be uncompressed with a single tar xzf command.
 
-Update the schema to stop requiring "path" and remove it in example for
-"meta-intel".
+Uncompressing the tarballs once with gzip makes them match
+the expected checksum and can be extracted with tar xvf.
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- meta/files/layers.example.json | 3 +--
- meta/files/layers.schema.json  | 3 ---
- scripts/oe-setup-layers        | 2 +-
- 3 files changed, 2 insertions(+), 6 deletions(-)
+Adding downloadfilename=<basename>.tar.gz.gz makes it download
+and extract ONCE, so the result is the <basename>.tar.gz tarball file
+instead of the extracted sources or prebuilt stuff.
 
-diff --git a/meta/files/layers.example.json b/meta/files/layers.example.json
-index 0a6a6a7b489..f3b65220831 100644
---- a/meta/files/layers.example.json
-+++ b/meta/files/layers.example.json
-@@ -24,8 +24,7 @@
-                     }
-                 },
-                 "rev": "0a96edae609a3f48befac36af82cf1eed6786b4a"
--            },
--            "path": "meta-intel"
-+            }
-         },
-         "poky": {
-             "git-remote": {
-diff --git a/meta/files/layers.schema.json b/meta/files/layers.schema.json
-index 659ee8da498..b5c13fdb5c9 100644
---- a/meta/files/layers.schema.json
-+++ b/meta/files/layers.schema.json
-@@ -17,9 +17,6 @@
-                 "type": "object",
-                 "description": "The upstream source from which a set of layers may be fetched",
-                 "additionalProperties": false,
--                "required": [
--                    "path"
--                ],
-                 "properties": {
-                     "path": {
-                         "description": "The path where this layer source will be placed when fetching",
-diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
-index 6fbfefd656f..31cb9632515 100755
---- a/scripts/oe-setup-layers
-+++ b/scripts/oe-setup-layers
-@@ -66,7 +66,7 @@ def _do_checkout(args, json):
-     oesetupbuild = None
-     for r_name in repos:
-         r_data = repos[r_name]
--        repodir = os.path.abspath(os.path.join(args['destdir'], r_data['path']))
-+        repodir = os.path.abspath(os.path.join(args['destdir'], r_data.get('path', r_name)))
-         repodirs.append(repodir)
- 
-         if 'contains_this_file' in r_data.keys():
 
