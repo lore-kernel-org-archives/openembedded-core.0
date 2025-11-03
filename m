@@ -2,134 +2,157 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF78ECCF9F8
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 20:59:27 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2242.1762203566997663759
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 955C3CCFA03
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 20:59:37 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2247.1762203576661307495
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 12:59:27 -0800
+ Mon, 03 Nov 2025 12:59:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=eE4lVn2O;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-340ba29d518so2150819a91.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 12:59:26 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dI0Jg1UU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7930132f59aso6891515b3a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 12:59:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762203566; x=1762808366; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1l31qsQwE7AgO3BHx+MsH9VUg0iPFyQy9pEFnZVZG68=;
-        b=eE4lVn2OhjcckLVT0QBetdBzc1zXKf9nc/VnQcit621tzNHVXtUM2TLNgShngSngNM
-         6fAfdmeCge+oYUilPX0TOnUEZTlUmmEOWEbRWe/HCnYRvlbtI37lwsuTwN2iqyJSSVEU
-         8NXwQwVKvJCXu+jBxXUGRF0J7pTiJ2bRerT1xUUhvHVwR1nOzCch6KugLU4cOhZFE79v
-         KFtj/FS8gR8eCGr6IhSQ++NDgYTk1ZnkP3uU3NpwzJtjWQrAlXDR0bDV7crSWpN1vz9T
-         eN8jl6J8FQMpau6oUBV005Cfw2A63D9xwFfY95j3dOmPIK7Ljq7tOr/mcAL8fPwxbo2t
-         XBkQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762203576; x=1762808376; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cuXNNoOnf/N4PPPt3nT3XdSn8s9ATKupZLau7hbXZOI=;
+        b=dI0Jg1UUNcNE7AIoc74r6K9S43BFack0DyFagaeWjO1CPGguDGa8bfWfqiTLVQrmf6
+         6Bj2/hVtyQXMcpnhcGER0W1Is76ljhdONqotRlT58WtoI/QKO+vOmb6lFcmOaJMk3N0v
+         W+2K/LLJDiKjqTaf8+dSCyU0162DhOFbQj/yb2uayujxobYHiaHYG1rIttXu+zg61TJ9
+         uuBiN7+hW6h/lMhaJdvesBtY98VPME/jwAooOBpBzmg8cIMUfk4zR4RcLa52TNtqZnIt
+         6ixz8Dh5+Wf2T1Fobu3Bp3rBWGRlSlrVAnyb6dv7c7kgQIybIoI0kn0rZVx30FliDCPy
+         wNHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762203566; x=1762808366;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1l31qsQwE7AgO3BHx+MsH9VUg0iPFyQy9pEFnZVZG68=;
-        b=tCAlVTMh99IfWM4zPKdJglYOlH3eLf7/Rje/Y36yQ7ru+4S9E4wjSY+Tdv+YTZuoXK
-         7T4M+zdvhUUYy6IqaWujjxC1P9ynBdhJgbOmu0CZhoPteXoVFMvNrO+twdY8oS7ALx8O
-         l2rQLZcYa1xQqhG3I/r5wdPWUQ59rPo/avWxEHE7VZNe6GNajBK/h+FvibHhZo0xY20a
-         V2LGrQVVEr8nhYun2y1MWHHM7nc/xac8AYaI7uYiknIMnl+LRKqdTJqp767SPu6LZIRI
-         xZJhghGUWdIzjqLplN/lJjsGbPEc2utP/TAqUbspSfDCIVcqG3nH+ZSuHfXHZTflrsNn
-         o21Q==
-X-Gm-Message-State: AOJu0Yy2ZLGzxnA6VPLyqJhIYSl3eWzMtS0kJ9l7COvkU5BPf+zq4At6
-	eo6zy1gxCsApgl2zMT4qzzJ4kZNprF/360h3s7qfjKxpeu4Cg/IinIA3szklGIDUOzTCneMXcQ5
-	uhqLTKa0=
-X-Gm-Gg: ASbGncu5bd/Ij9BXOGluDNjluqdflysldFY9LFyauKzNH48ILDa7xTxQOCipjSBEMi+
-	XUWuvcRbYT58up693SymOsfvaTQZ8ujERPAv7UZhDACnPVApJ478OEdZcoyT1RxumPqUkA1bbkD
-	YnU3FEJ7zJEivWJA1W8IxJFOLofQau3ZWB3i6auKgIb/sQ2lbMrOufICbTK/U7yNi6EWTa72nCK
-	JdctiM1wssQXBXHGi+UqMJWuhTKGqjKgeNMvQYh/te5r1HiM/5XDTzDX5obZxnci8gRFXRAD5E6
-	wNnGi3FtQ5Jg0iW25cJ5HFhgQkIA+wQgSmZsJaOjpF1tgwS5iu3kDig+5Raehks+P35Ag6dZoDv
-	N5wjIrSDmnIiu824lKuJxya1qdriZQcx1J/lgchBPdjRO7O0Tvwo1eO0NUQPcw2FmAcM=
-X-Google-Smtp-Source: AGHT+IHWxTTG/odayWs8938HPLZ3JXZriTycxfQEC3Xvvwk0zMq7o3X2nmD4Qa28HY/PqyKRzjYx+A==
-X-Received: by 2002:a17:90a:dfcc:b0:32e:8931:b59c with SMTP id 98e67ed59e1d1-3408308a9b4mr15544828a91.27.1762203566005;
-        Mon, 03 Nov 2025 12:59:26 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762203576; x=1762808376;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cuXNNoOnf/N4PPPt3nT3XdSn8s9ATKupZLau7hbXZOI=;
+        b=NT/OB2eHj+2+kHcNK79Ebdf7NZeMvvUYWr7ibb9p14Op10xEuCZ1va7uU/cGLYn1Jx
+         8uOFQTfk9gQIoPbHGS/sWwVymeIwNxQBfXh0q7dp5/3ICbGaPwLFsypAIRvSxqT34rMh
+         XZawJq3Bq4RkWuFaJIIOnSgSqzPS01kKj95mWIjpvzX5FG2tbQTgVynAn36H1A9ZmqtM
+         kbdb1s3X2+sqxEd6wMtnJG/V7OKE7jgO3cIlTW4TPuSCbh78dIFG7E2MxQkQkYpll1h6
+         aCO/afQFR8B6iUNeosWFnDIzjAcrNYWbxfpU2Sm83KmbQTY0LR7ObgafYtfrYIADufnJ
+         WGRw==
+X-Gm-Message-State: AOJu0YwVjpWhlf/lYN97St+sgwEBYMi2UhNvm0QzO33+d2TifmgjuhbH
+	MzLRT1h65hhK0V1lIkjVEPYuQtav5zkzbYqkpzTIatL3qmv57BT8Qa1khIbDbJ3o6L0N0JxUQks
+	dztLsnvI=
+X-Gm-Gg: ASbGncuqZ+8vX2mvAX6AVXbN8YPju/6ybwf84nCK76IAQdf0v6acuASFMLrU28QWCl9
+	P57pP4tqQkSE0zCnns4SANYrHBww4PDIAdaJQUGc5y0X3Hm3ovaSJhygKB9i0wEpNGAQYDBJptG
+	/VTPt9Vhff3gCwZfH0311iQk26gjl36NIpeAgIZf9aAgQ7D2F8tRUiWtF2K1NqLyc04oAp/Cwqd
+	sZ/snF+tXTB/gZFKWmTSA2cL6szPMtfvPOhYC9I/0L/I4adiux0dPM6l3bwUa6yLgLUg+MS1R0e
+	MZxEoRXZ1ic6B92o/acI3PsJkKPFD2/ARnIpVL+xLc6GRHi9vLsN4ZxOBtKusietwqzLmMfct1B
+	jMXYwMfFB2ETs1HCd/6+2mLEDyEawNrJTdiDTB/MmIsPvg0nZlOgcFDKDdta50zqxIPcCWOp8Xq
+	mwsMTz9TpqlFpi
+X-Google-Smtp-Source: AGHT+IFCAfsTsQfJFmWpqDo3qsb8pCrwwdbN/59NZEumdWcJIY+zV+/uoqBoftvnfCdezg3C82PMJQ==
+X-Received: by 2002:a05:6a20:a10c:b0:341:4171:b5ae with SMTP id adf61e73a8af0-348cce0aa9emr17587081637.52.1762203575925;
+        Mon, 03 Nov 2025 12:59:35 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:6a2d:a521:f4d2:20a3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3415b02891asm2024911a91.9.2025.11.03.12.59.25
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3415b02891asm2024911a91.9.2025.11.03.12.59.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Nov 2025 12:59:25 -0800 (PST)
+        Mon, 03 Nov 2025 12:59:35 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/8] Patch review
-Date: Mon,  3 Nov 2025 12:59:07 -0800
-Message-ID: <cover.1762203396.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 5/8] binutils: patch CVE-2025-11413
+Date: Mon,  3 Nov 2025 12:59:12 -0800
+Message-ID: <8d1a830c713a299f67fc512ed8bc0be21be4b9f0.1762203396.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1762203396.git.steve@sakoman.com>
+References: <cover.1762203396.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 20:59:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225696
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 20:59:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225701
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Wednesday, November 5
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
+Pick commit per NVD CVE report.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2677
+Note that there were two patches for this, first [1] and then [2].
+The second patch moved the original patch to different location.
+Cherry-pick of second patch is successful leaving out the code removing
+the code from first location, so the patch attached here is not
+identical to the upstream commit but is identical to applying both and
+merging them to a single patch.
 
-The following changes since commit 99204008786f659ab03538cd2ae2fd23ed4164c5:
+[1] https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=1108620d7a521f1c85d2f629031ce0fbae14e331
+[2] https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=72efdf166aa0ed72ecc69fc2349af6591a7a19c0
 
-  build-appliance-image: Update to kirkstone head revision (2025-10-31 06:30:23 -0700)
+(From OE-Core rev: 98df728e6136d04af0f4922b7ffbeffb704de395)
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Archana Polampalli (1):
-  openssh: fix CVE-2025-61985
-
-Hitendra Prajapati (1):
-  go: fix CVE-2024-24783
-
-Hongxu Jia (1):
-  u-boot: fix CVE-2024-42040
-
-Jason Schonberg (1):
-  Don't use ftp.gnome.org
-
-Peter Marko (3):
-  wpa-supplicant: patch CVE-2025-24912
-  binutils: patch CVE-2025-11412
-  binutils: patch CVE-2025-11413
-
-Praveen Kumar (1):
-  bind: upgrade 9.18.33 -> 9.18.41
-
- .../u-boot/files/CVE-2024-42040.patch         | 56 +++++++++++++
- meta/recipes-bsp/u-boot/u-boot-common.inc     |  4 +-
- .../bind/{bind_9.18.33.bb => bind_9.18.41.bb} |  2 +-
- .../openssh/openssh/CVE-2025-61985.patch      | 35 ++++++++
- .../openssh/openssh_8.9p1.bb                  |  1 +
- .../wpa-supplicant/CVE-2025-24912-01.patch    | 79 ++++++++++++++++++
- .../wpa-supplicant/CVE-2025-24912-02.patch    | 70 ++++++++++++++++
- .../wpa-supplicant/wpa-supplicant_2.10.bb     |  2 +
- .../binutils/binutils-2.38.inc                |  2 +
- .../binutils/binutils/CVE-2025-11412.patch    | 35 ++++++++
- .../binutils/binutils/CVE-2025-11413.patch    | 38 +++++++++
- meta/recipes-devtools/go/go-1.17.13.inc       |  1 +
- .../go/go-1.21/CVE-2024-24783.patch           | 83 +++++++++++++++++++
- .../python/python3-pygobject_3.42.0.bb        |  2 +-
- meta/recipes-devtools/vala/vala.inc           |  2 +-
- meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb      |  2 +-
- meta/recipes-gnome/libgudev/libgudev_237.bb   |  2 +-
- .../recipes-support/libxslt/libxslt_1.1.35.bb |  2 +-
- 18 files changed, 411 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch
- rename meta/recipes-connectivity/bind/{bind_9.18.33.bb => bind_9.18.41.bb} (97%)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-61985.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-01.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2025-24912-02.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-11412.patch
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../binutils/binutils-2.38.inc                |  1 +
+ .../binutils/binutils/CVE-2025-11413.patch    | 38 +++++++++++++++++++
+ 2 files changed, 39 insertions(+)
  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-11413.patch
- create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2024-24783.patch
 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index 39f2827f78..d5ad3c0ecb 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -85,5 +85,6 @@ SRC_URI = "\
+      file://0046-CVE-2025-11081.patch \
+      file://0047-CVE-2025-8225.patch \
+      file://CVE-2025-11412.patch \
++     file://CVE-2025-11413.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-11413.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-11413.patch
+new file mode 100644
+index 0000000000..bfd1be7787
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-11413.patch
+@@ -0,0 +1,38 @@
++From 72efdf166aa0ed72ecc69fc2349af6591a7a19c0 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Thu, 25 Sep 2025 10:41:32 +0930
++Subject: [PATCH] Re: elf: Disallow the empty global symbol name
++
++sparc64-linux-gnu  +FAIL: selective2
++sparc64-linux-gnu  +FAIL: selective3
++
++	PR ld/33456
++	* elflink.c (elf_link_add_object_symbols): Move new check later
++	to give the backend add_symbol_hook a chance to remove symbols
++	with empty names.
++
++CVE: CVE-2025-11413
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=72efdf166aa0ed72ecc69fc2349af6591a7a19c0]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ bfd/elflink.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/bfd/elflink.c b/bfd/elflink.c
++index 0a0456177c2..5c8b822e36a 100644
++--- a/bfd/elflink.c
+++++ b/bfd/elflink.c
++@@ -4931,6 +4931,13 @@ elf_link_add_object_symbols (bfd *abfd, struct bfd_link_info *info)
++ 	    continue;
++ 	}
++ 
+++      if (name[0] == '\0')
+++	{
+++	  _bfd_error_handler (_("%pB: corrupt symbol table"), abfd);
+++	  bfd_set_error (bfd_error_bad_value);
+++	  goto error_free_vers;
+++	}
+++
++       /* Sanity check that all possibilities were handled.  */
++       if (sec == NULL)
++ 	abort ();
 -- 
 2.43.0
 
