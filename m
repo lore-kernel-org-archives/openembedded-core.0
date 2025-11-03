@@ -2,177 +2,239 @@ Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD9DCCFA08
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B006CCFA09
 	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 07:27:18 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.122])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15252.1762154829900899546
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.112])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15256.1762154834368359678
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Nov 2025 23:27:10 -0800
+ Sun, 02 Nov 2025 23:27:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=uZ+K7zRT;
- spf=pass (domain: navimatix.de, ip: 52.101.69.122, mailfrom: joerg.sommer@navimatix.de)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=taTBFalP;
+ spf=pass (domain: navimatix.de, ip: 40.107.162.112, mailfrom: joerg.sommer@navimatix.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X1sGtxm3gEIvilzp6ORa6+hOsr5bmjnObThy9ONczC0+Om6MpFa2Z0V70/unP8mkXIbVYUQ/hLEAZeET/SwDx7Cc5hjxC8rM1ITQr7H1WqO1ghG4NYhnQpoZ3rJ9q5i9RCAsFuZykv2HcHWFup4VQljjPXs2gzYfeiEQiPq1sZYewJqJQZmffbUCDhzLIGDrWCJSnaIeB/fFnxrC7R7QRn8DUFlcM5AE9UKncNu/z+iiOvFOqXeTh0bAWAlSjymHxopKDVH/koymCDLe9ukZkuf370CKfQdOeV5uoGr+oiWtqIZVrm+wwF4D3eqAV4NBsFMPwDolupYV3nc4PH5MQA==
+ b=H8GXjI0sgqwP8jaG0JrR7+rcTzn50nqu6jJtRyGzt7/Jl60xCt8sLiNvbBLa801p26MkJJAJRB6nIr7k7ZmiXqzhb8v+ZizGiSJcvr9QHm7plsteea9byKeKdEOZGMkBLuXEfjx0i7+hlrMDhnHTw3jzLe9fE9KydQz//FZB5O61INuy7MR5Uyt+1BJakfpFLBcnLhTMmixnzuaKWeDeXgt8fXUh/W3inf9ZoptsdgQzfxTcyhrIec8rPGg6zS4g0uXyg3mBMyOw+PHOxwwnuLqU4PzxYn+nSF7lou2AobqCcjgzQCuWeL98/SKJ9rR9v07R0ZF4KUYfi2TtFJ2wwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ab0KHTG2pynmELEflqodLmoqIx5OuL1gxKLuwqXUeoU=;
- b=mhFNhoHxwVY6O1GEJp+m9dIs/vXPqt7BQQsh75vCOyDepKljV/4tvFZb0cw9ZVHJ0LA0UyJeEo0qSstv2n7ueK0bujP0YK8GwMKnzC1b68ep5lvZGrhrt/uXgNyp7XhixW/H7pvNLDsMd05dZ24MESPK9W1pLdLSs0bnDy/b/rdkRVfeYp1bXfoJ7GQVhqDIKHVCF8mzX9LbCY+atuxz6e5C9K1upM3gR/BeiT7Yjtlg/HSvTUb41UroDC8t/15YcRnGv/PvtPZRce0hs2g6mLzpsVG5Q5pnBeihvDZnl9K8+3RULEOBiJpwsRQ01c9L9iJN/5p5GtPmWkC1qZKNnA==
+ bh=9WqQhcASWxkmibNT+9DU1s+CMkDFJOcJ9rMnXTm/Xmg=;
+ b=afElymrGeDoFYHLmgZZtbm/9BsDC2/LoabRBg42PJ/QjEcxqhiSPrqX3/IYiuinFes1y6BbwOo8Vd88xfbAZaetTi61+KKxrb0QDki5AtEFBysAH3lFfYhiXGveo8D2ySFfWPqAbGbg367qgtMk/1sp45FMQkhoL445Pe/WFPBrj7UIopGoe7jm6f4ZVikoZJDftlFXux7N66CoxeVoJExHv1FeqDWH43cdKTb9hYnUDX3xngFG/3OUws+n2zFpr39oAFaYSS3yFV2Hz+vLPqvu9FcLxsW6V/e84ekYgdGejcR37CiVWKZbhIvrGDgsyWtuzSF2PfEm1HprqAM/zAA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
  dkim=pass header.d=navimatix.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ab0KHTG2pynmELEflqodLmoqIx5OuL1gxKLuwqXUeoU=;
- b=uZ+K7zRTbXRRdJ0JvO3bLIyj8Jefn49mWgStz1feJiug6HLt8uS7ssfWCJLcqH6uHjBF+C8H8HOXiCJbMKV9UmIq7cJRRI1SuulMCrQS2O7LlxldfAeLDXviNlCRKgKljRhaxPrXroNeqiJSCwqqRgucB93BDyl9rirdfXCi/7g=
+ bh=9WqQhcASWxkmibNT+9DU1s+CMkDFJOcJ9rMnXTm/Xmg=;
+ b=taTBFalPoo/YqNzz08ou7P0GKhC3FpA/13D1LrWtlEsdVikmxKYiWyGLqKZfacaIpYYOgegO6RzNpyDVXppVEjLbwyjPJ8CYQay9xRAl1It2MLcEvniApOUTs40d/TWgOIIwUkTRa/GZA1lfAexQPZzwe507aeW4QJejhvmGcds=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=navimatix.de;
 Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8) by AS1PR01MB9155.eurprd01.prod.exchangelabs.com
- (2603:10a6:20b:4d5::21) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10a6:150:2cb::8) by GVXPR01MB11926.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2e4::12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
- 2025 07:27:07 +0000
+ 2025 07:27:09 +0000
 Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  ([fe80::aa6f:8b89:a47b:990b]) by
  GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::aa6f:8b89:a47b:990b%5])
- with mapi id 15.20.9275.015; Mon, 3 Nov 2025 07:27:07 +0000
-Date: Mon, 3 Nov 2025 08:27:06 +0100
+ with mapi id 15.20.9275.015; Mon, 3 Nov 2025 07:27:09 +0000
+Date: Mon, 3 Nov 2025 08:27:08 +0100
 From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
 To: openembedded-core@lists.openembedded.org, joerg.sommer@navimatix.de
 CC: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-Subject: [PATCH 09/18] at-spi2-core: Convert to gnomebase
-Message-ID: <5400bdddb4d9c5dd8d99ebda029d523537dec171.1762154252.git.joerg.sommer@navimatix.de>
+Subject: [PATCH 10/18] at-spi2-core: Upgrade 2.56.4 -> 2.58.1
+Message-ID: <d99e920567d7842cd941f68bb5a4e26910a735f0.1762154252.git.joerg.sommer@navimatix.de>
 X-Mailer: git-send-email 2.51.0
 References: <270455d31cdf073ffbc85ef7622e4b41bc10cb86.1762154252.git.joerg.sommer@navimatix.de>
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 In-Reply-To: <270455d31cdf073ffbc85ef7622e4b41bc10cb86.1762154252.git.joerg.sommer@navimatix.de>
-X-ClientProxiedBy: BE0P281CA0002.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:a::12) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-ClientProxiedBy: BE0P281CA0013.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:a::23) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  (2603:10a6:150:2cb::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|AS1PR01MB9155:EE_
-X-MS-Office365-Filtering-Correlation-Id: 648faa6f-6d94-416f-c5b6-08de1aaa64f3
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|GVXPR01MB11926:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5de773e0-d619-43f5-87eb-08de1aaa660b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?FASGni3e2RYL//JFz9liAbTMFLMs1EbQEsaf8gSy+xcyM3x0PPS3/rDRX2YY?=
- =?us-ascii?Q?2BGPBpZxloh1lrSH0j386RptwDvmBsPU/uLd6F1jwtdmWFYVmNtGEV/gSJnj?=
- =?us-ascii?Q?TZ6MUA05BaiQN+uAiZPS3gnqkEHIX3Hy6jgCWZ9bV8z5SNQCIGFNX505smwY?=
- =?us-ascii?Q?+lS1z9tjDqSnbii/cYSmuqQ5w0Xjmk2OS1sz5eXicoIqusXpayIUobp10aiW?=
- =?us-ascii?Q?fYMxHyV97Exesa1F5qGPJsu3fgjBZuS/DqaKFRk7RiBZOzuH1w72hB/EgLHg?=
- =?us-ascii?Q?clGaSvvx+LzDkPtkzmD3rPwF2qXLPl1mkD1NQGrhA+dEQJoHUHMV+0i2Nn8u?=
- =?us-ascii?Q?K6QNYI7/QXTHGPUdU0JsE+lJHoA7u/bZb1I6U/sRrE29BCOGmU2J4L/0q5XT?=
- =?us-ascii?Q?H6ci8+65rW7V0+C/UQTfsf4M0UOfJbRyaABQSNNT0UADGTZ0WSrsNj3UKO+A?=
- =?us-ascii?Q?x2+Kl0m+ABqcIuDDyjhe7R6wqR3aQL+gQP3G51YGh+TeRlpvSRy3e1gH4QOG?=
- =?us-ascii?Q?YKZkTeN8o7fkLuAP215bvZ+BaHr/B/GjyWPfnpxUuTjWSXMpbunzhZpzzMQc?=
- =?us-ascii?Q?OTS5DRA21zI6As+vpMboxQluWGocfnQ7ZjaRGsgUVYmOWHjmTMI1ZzJdC0FH?=
- =?us-ascii?Q?t6J6D8ccIyz1tvbgrSz21tWmXseFubiLR/ONri/tQzs9+yURGLZTfhI7NzT3?=
- =?us-ascii?Q?ey5yNlrsCmnGUKhZH7kOeacvIgpsarTFyuOrzEXYGOBxfXyNVKaLZW8MWGO+?=
- =?us-ascii?Q?mWtV4ASYYlTnFeB1GPpwfppRGfKd9Fu+N1gQkWJV7aJaf9WdjK33IQ+1CpL8?=
- =?us-ascii?Q?ZzQcEUFJ8w+M/BJApxGcZYLb9DI/jblQXovzfxz5zCZSeLJkTxr7Ozh9eIE2?=
- =?us-ascii?Q?We1B/RWqBSPEZBOlwRrGkp08/rN/zTgawjAAKjoalXPdHHcvPegiodowQq40?=
- =?us-ascii?Q?/TjwwXN+bei7PoiZRrfu65Rtb5+fEJfnKn9GlUB5BIq+VtEwBe1j6VbGAr5G?=
- =?us-ascii?Q?2oWhK5r+PpmN2loIXE7uVfJXqQ2Fu0vXinK/O6LUOXAYo+Vn9UcxF5OoGSs7?=
- =?us-ascii?Q?N2f6zUZ9h+oaOy5zRr32ECSIqAmXcPhWLsygDY8HPJJBTwjP4gXDPn8XpXQy?=
- =?us-ascii?Q?jCqwP8DzvOEYyqWyQ4UARzdWAwnX0AdgDq4LmW8dnC2KkriRV7FhACxBWM82?=
- =?us-ascii?Q?VmY7qYiDmSDmCWKk3lePtpArCYOca/+WUVrROEZGSy7r6VoVeHoMy2Ugifx8?=
- =?us-ascii?Q?zkKrGsv0mARaNSs7Mu0TpX99JLzuyQd+YIXnt12WnvNePeVseqUmYjRWysKH?=
- =?us-ascii?Q?SrnqCWk18rKxI2N0I+s5iZLBPVM+lf+eawIHdVgMeVG+zUsOgyvbuFAoY9J7?=
- =?us-ascii?Q?BbRcpwHR0czkt8Q+g/VJmGLglbsueDfmSVHlbrzTZeBvKFG6y/iJmHP4eI1l?=
- =?us-ascii?Q?2FxiK27YEV+rHwlUhG13ZhKmVHCovxED?=
+	=?us-ascii?Q?9Iukkx8qBzl+D72ja4ELft6nQq680B0USM1EuUt2OrUTdw+wUJV/r5ttfygu?=
+ =?us-ascii?Q?b689FpMRZbs0tFEDenRkHvoXrFHIT1Utx5QpbXYRxJ5hBezuUbexX6GStRt2?=
+ =?us-ascii?Q?2SOieiVcXft4Fx+tw70iUkBkgAC+PLnJXwNEVkhLzg9GF3pOJaEOOCDqWqlb?=
+ =?us-ascii?Q?e8zum/U8LMp1rG1Qf/YWgx5ZKlGVE3aszJiRFMQZkzxjEgI1WOhq4oPgmFCp?=
+ =?us-ascii?Q?zYDmys5Qm1YAX2He33wK3X7BoX0Z/cAnIbKIqNxh0l38OXQAhvOp2UWuY75T?=
+ =?us-ascii?Q?BxFtIWuKnIth46XjYR5VF7LbNkJLWHmXmJAHLya4FijewGNEbYo71APu7Urq?=
+ =?us-ascii?Q?TjmBwVkKhocApZuJ4s+drzrAq4MpJI/hplPdyynFYUvlf6piaz36uLEN++x4?=
+ =?us-ascii?Q?ED3bAta1EDrWDskdBhR/5FNsWkb16PoqaLeV/mUfRB5EkxsONkuYlY2/EY7i?=
+ =?us-ascii?Q?KMx1BUqWnhR+R/Q2aAe52quIPiS4yyxysXRys/zoalAV2MYs2nx6HRRH/Ygb?=
+ =?us-ascii?Q?5l0UYhm1RM+Mt7lDF3xwQEKvul4GgbitukuFjKmtLVVVxx3WlAq+xephwcj0?=
+ =?us-ascii?Q?RaeDhfpEu8xBPPkGt85bjWfZZYWlSBhPJBRKg2Ixs+cXwv+Tm6aX8aGo6Cg6?=
+ =?us-ascii?Q?Xbw0RSS4wlm9siuu+AaisMM0UovaOuPZ602VT3TKvcCPnqWz4Wcu+G/93aco?=
+ =?us-ascii?Q?C9Z9YrlLdCDfqGc6wZPqG30Nl+2gJf1EjyUnG65A64wk8Oqyr7CbC9ihVNnz?=
+ =?us-ascii?Q?xflv/1nErxCksyqsKz1jD4PqOXtmXooC2Yz91LFB8rNZmY2ndN2PLCjmLbI+?=
+ =?us-ascii?Q?Lhw3uYToNhpyiQ+PSt3nfTwUUbw1UyW9cmo3JStgJ1RfdEtWV9fXP24jscvn?=
+ =?us-ascii?Q?lVmXZaYElRdf8VixwDBoCA1NlPtVl5+P+FcnTIvAH2ZSbJcfRdIwY0fje+yq?=
+ =?us-ascii?Q?JcvlpLv9mvLAupSsyGbXf0rNaC4LVRO3C4sisfOCtAC+i+HSKh2UazCKR9oT?=
+ =?us-ascii?Q?6F9cInaK0ooDs6UxDwjC7jJ0HiqePakiliIIG/k2UaLyjdL2AlSDg7+c9ciT?=
+ =?us-ascii?Q?rjyeMWGFCuCL3Y25C7H/3H2Cp7TedDaE8v+Rk3fO0JTInBFCLgvwuZ67S7Ns?=
+ =?us-ascii?Q?19/H8AUk37+dQRPvVSZGgCnTNQ8Qo9v6hlT5kmfwpLEx5a79yAFzL14KzkXm?=
+ =?us-ascii?Q?TV1UM0RKgpWjLMvSMCpyMW/h6G4UytTa/N34GRz5EtvB0PSnJ0TwWUK6feIc?=
+ =?us-ascii?Q?MzdfmxbBTGQnBn3rOAaEPUP6OGa0y5dRTabKVnC/Tq2HTkuOZLwqRelDImEy?=
+ =?us-ascii?Q?s4gNTtKIAv63CMBjprkqnhsV37hPXeIEsJyTO0wNCfTlSswypFMZk+I9lBFs?=
+ =?us-ascii?Q?t4l7qjhD+W7hPWPA4RrRURBvwyNExB4SzWPOPNqkrlJhrEEwJQ=3D=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?FDBHzaD07t7kiHtnJlayHt8kfdDq3IR/LR4MqirABsZkt3CBJtOS8eFAlAwv?=
- =?us-ascii?Q?ZM6X4+RuNXP2gcmwNgtKriATnIRsaMMFNwrjbXj6Gi8YjW4gl/8OgtGT4+Jv?=
- =?us-ascii?Q?IfEcnD7FgdqoQqtn+kq66NRn47XQdR/DIZCWQbnSWzeqVcNbfpAW1r1faPzY?=
- =?us-ascii?Q?SSUAD4cLmREofb/MynAnlUKqfg+egC9JCTqSaacs2uFVDS4n3Tq5WbSMxQkb?=
- =?us-ascii?Q?kZBrqmxUeLPYLj+Ad3FTcezKcq7V6+wVm1KBPhYB3IK/ioeEQKrHwK6z171g?=
- =?us-ascii?Q?cm9kCU77tvPlPlNcTNdj/FJFuOWMj4icF9+MCdq9iQLqQ2MOl43Q3Ni+hLAF?=
- =?us-ascii?Q?wkmZkvHCTnQbLcFlgQS0LA568nW9prG6RR5rEYaM/wtS6joUcZEIqho0qWU8?=
- =?us-ascii?Q?N90sqt8vzcpY6kOg9YEvF5cx+4t9LC2O1fnS8Uquc56Hu/tLKm7usTmmTkLC?=
- =?us-ascii?Q?FEyFKfSzx+CYT1KfEoiMccWBmoxMPbq1/yVHi1Eqxvhk+pZp3Rbhukxuaa++?=
- =?us-ascii?Q?C4NMzJmqJJP0T8+CfpwBdKB5nCWR3iz/F2WtjyecQKWrgfcjchzOBAQ4zCsU?=
- =?us-ascii?Q?W0dcrfT5jgazf3P6nQHIYLKrT/BYe9DaSqcLjAjuPmEXwdYZVF9kqbk6tbS1?=
- =?us-ascii?Q?fp00aCGKxh3hE/aggQsO9z8ut+Uyock1apEFFhbjab/RN1gV+YJNlZfzZZ0y?=
- =?us-ascii?Q?f1vLwFk1wEfH5fAyXjkHJW9QbRbkQAZ9Af6ZCqc/YIITZyn0HL8MgI7St3Vu?=
- =?us-ascii?Q?G4Oyw34MdZ+WCz0+szBLwaTZwQ9F+PMBBwnpDmljMYqDPqgylGA5MFGvVFnu?=
- =?us-ascii?Q?746pPECOHdALSLRnxxLBAB1nZWOTtYDIZy0q+fYSqcMvAc/dQ7xvPFXehJ6T?=
- =?us-ascii?Q?ajeHbyi2mVK2iKRLbWv+ELkrHZoysoM4KST298K4V1aXgJIP9PqnVdvnYNTW?=
- =?us-ascii?Q?zeDHnWa0JK5XR6XIBYRvrxTspW7I7pUGoRPOO1Q/jDSx1Jj+SL30rnYEfS9t?=
- =?us-ascii?Q?RiGMM4DBUTN+jIDFra8YmHiP0CN2gujRyd8TjGIktNfECWNWrm7OzunsoPdH?=
- =?us-ascii?Q?aynBdTY3HvpKb5QlcDOndM1bL1aeKwV4oZBuWiFGjOyVi+Tr+LL3QQFDmzHc?=
- =?us-ascii?Q?pb2tK/20RPKG3F+ncxz7I+9ss1WKy7RWETlqocNElPC6XUmUiY7Q/Bw8BhKl?=
- =?us-ascii?Q?2QOilFqH1R1WWct0IEvajOJ/P1R5JpsvI8zXxmqeJXN+CO06kD91qMoiXvLm?=
- =?us-ascii?Q?w6JAVTAyZag67zSlqyqZenUf3QOZJj3DqnMztSSZbDaqbBm84AFnCHqa7Wif?=
- =?us-ascii?Q?70+fDTuJbPomc+kVYUeR/vX3t/KG1EtynFXne73ygHsRZFRWxusraBZh2D78?=
- =?us-ascii?Q?msBfiLQhfFuTf/XpSHXKYkvi4RdpZ/+xuLW9DlmaNkZT7jyhp3XnzNktp3Ij?=
- =?us-ascii?Q?FKhnJP2RqYlf+xADd6MHmoOLcBvVpleZt3e6QZYxyVzSSObyAxvDEmN5SYsA?=
- =?us-ascii?Q?CRD66yhl8x4ZBOhdN8AUwqPqPLujS0mSHy+L3KgxxnN2OxHc+ZWEV7ABoNOn?=
- =?us-ascii?Q?mAtVtuaKQ/zgzN3IeIgyMSZfsg5IoIBZTKi1UwFB8OaYzY9b1xZ2XxYzmogi?=
- =?us-ascii?Q?KA=3D=3D?=
+	=?us-ascii?Q?GabZdFJbYBA6eNHwT1E4DkxRkhkNuazfuTjlr8O61eumEv/c2JLiA94aTnD4?=
+ =?us-ascii?Q?o1ta2EoykakC2laq/dt6ZQlYIM9giY40VRcVanUaiza8B+zI1ENpQgSVmISW?=
+ =?us-ascii?Q?zT8KRtkrVP3jOsYbWZWQiTX90qYCfCIf8GWztPgL/z+HQA1xuo8/mCd8O0ht?=
+ =?us-ascii?Q?CSIkjCzqEZIjtCanaVTNrAd9E/TkNU5ok6f1/SymvPOW1h9hUVn6cxU9bkJz?=
+ =?us-ascii?Q?eZlXSuUINYje5ty4w0mhQUj27ZARX2pSFmeGTheB9lvX02fomUrO8gRxsoDN?=
+ =?us-ascii?Q?h0kstcFWNley4W972/B/qFcHPXQwA77TZ7ddyY8gdwCiz83nWowvRvjGZJfG?=
+ =?us-ascii?Q?NhtZh7jcU5okowANAqyDOghoSEJ/j2yF4qqiPFipWXnyh9qV9hFzynEReOl6?=
+ =?us-ascii?Q?iY8tij9NBmNGZTpm+dgWeweqrqAtA6sUilRxri09js3qjpc+lWI3lr2YUN1S?=
+ =?us-ascii?Q?V/B1w56jKlvpWtESeSGWClfaqVcY9WS9OsxBvxUVymNO93jukgywsKIaEd6f?=
+ =?us-ascii?Q?9O72GB+40cpdjkAMBwaIVE7ZU4jQfajn7e89abU25cXycasSJxbuVhC080WK?=
+ =?us-ascii?Q?f/OwbTqc/4s8SXv9utg9rIT7tt7tMo+6wQ5DmMoj3MXW6MEt9ZEzNn24ZoKj?=
+ =?us-ascii?Q?gzPHnsK1llCnQUIzI4aNC+UQqguyRQ1AY3gf23rAAHd9yX/RNSs9ZqBL1jla?=
+ =?us-ascii?Q?8PLGiXXQdncWi2KuJpjiVOrGS+2CcObBuNIDrpQc9NPMrFSerI6gNNPObYw8?=
+ =?us-ascii?Q?kx0wP7nC8LqgjlCjnov8OVulpMNSCtiVRnBAFGioe6YA56xdLr0kTfOMPciS?=
+ =?us-ascii?Q?54UF9nPAL5VJmpKPVAjs9ArQ9YW1LWBf8MYDSf+t0Moc9OfYpUdhUxrCse8i?=
+ =?us-ascii?Q?NXiz04zD+Bx+ZfaLw8ZWffhaSijcX/upMyqnistl6bheQTladCliJX9tRWMV?=
+ =?us-ascii?Q?qqI+LBLQkxVijbY1JZomjeRwqqpWMVJfr2zdhJoLYp6TUhm/F6OJH7Y/vstP?=
+ =?us-ascii?Q?gTHfzkNeXrDUzLUvTC/wZc/xD3uijAs1pu+BaqnmREBqic/r4wgkTkPnue6C?=
+ =?us-ascii?Q?bqdm+K6TdHIVJHHBCsMHySMHM4qnWu92NL9Xb1WDE4KjP/BVASS++Uz1xIN7?=
+ =?us-ascii?Q?GSDfy3TPRjEXFlWDz3f8zWP5k0SKHe8Fvu7hRYfC8es+RdsMsKT3scUmPncE?=
+ =?us-ascii?Q?FQBGdFNLNpGHCL/oQv9zmN1JqgXI2DdJU2z86B43yv5ERUgbGneRS5cMQrmU?=
+ =?us-ascii?Q?UvL/uapAoPxtQcynD8PmfH/SnTzb44CbMNL3EA25hkK101rhlmCYbgeSOKx1?=
+ =?us-ascii?Q?Eik2UngBH+iNOieeijBmOixh9Ook/qTI3CBthvPjp4ROoVtYt9O6OVgOQOWu?=
+ =?us-ascii?Q?Fuco5h0Q8xUexwZZ2hqd4Wr0Epf8BPGTVVHYrVedBu9t85NahjcrO4QfYNaC?=
+ =?us-ascii?Q?0XPTpFk+cEEYUYxXVS6hKPy1yYZ/c8ZUr78kXSDumS7nk0UTlL3Dy8q5/z8Z?=
+ =?us-ascii?Q?LMCInUFOUenRuoya0WN9rb3jB7HpNAumKjbov2SAImtYjLMe14E03DCe9Bnw?=
+ =?us-ascii?Q?PRpxCSPXC/MAFCjmy2BO6Me35PfG7Xv6SQuLkhr0lNibRquB9aQ8ABxo7fHc?=
+ =?us-ascii?Q?1Q=3D=3D?=
 X-OriginatorOrg: navimatix.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 648faa6f-6d94-416f-c5b6-08de1aaa64f3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5de773e0-d619-43f5-87eb-08de1aaa660b
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 07:27:07.4953
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 07:27:09.3373
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eZJvYDwvDGTwJE/2o8NQf76zxCxvrjzNEcQzJY130BSOB4H9wey0yHqpF6x/JEg749LrI8bmClN8SQnwK/oWcx3A4anUh4qSn8LR0wWhMTA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR01MB9155
+X-MS-Exchange-CrossTenant-UserPrincipalName: K5pAHrtpLCpET/IMYaozqkop1dhSCzXKGAO01Nt/SujEZWlm6DVACDJRpXweC5bnY7zkiIEO7WKz5FjFUhmy9ly8DpZ6x46zDbYooSbUOTU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR01MB11926
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 07:27:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225600
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225601
 
 From: J=F6rg Sommer <joerg.sommer@navimatix.de>
 
+Add python override files added with 2.57.0
+
+/usr/lib/python3.13/site-packages/gi/overrides/Atspi.py
+/usr/lib/python3.13/site-packages/gi/overrides/__pycache__/Atspi.cpython-31=
+3.pyc
+
+see https://gitlab.gnome.org/GNOME/at-spi2-core/-/commit/7c8a9365d5009b43af=
+e6d16bebefc14a8df410a7
+
+Changelog:
+
+What's new in at-spi2-core 2.58.1:
+* at-spi-bus-launcher: Fix a possible crash when registering.
+* python: Avoid traceback when hashing a disposed object
+* Fix build failure on MacOS.
+* Fix transfer rule for atk_table_cell_get_table and atk_table_get_summary.
+
+What's new in at-spi2-core 2.58.0:
+* libatspi: Increase ATSPI_ROLE_COUNT after switch role was added
+* Add ATSPI_CHECK_VERSION macro.
+* Properly fix key notifications under X11 when multiple keyboard layouts
+  are in use.
+
+What's new in at-spi2-core 2.57.2:
+* Don't install at-spi-dbus-bus.service if systemd is not enabled.
+* Some collection fixes and documentation improvements.
+* Fix reporting the wrong keysym on X11 setups where multiple keyboard
+  layouts are in use.
+* Fix possible memory leak in atspi_accessible_get_description.
+
+What's new in at-spi2-core 2.57.1:
+* Fix several crashes introduced by the code to handle the accessibility
+  bus going away.
+* Add atspi_device_clear_key_grabs.
+* Fix key grabs when num lock or caps lock are on under Wayland.
+    atk-bridge: Don't crash when requesting a plug if not activated
+* Have python overrides check DBus object paths when testing for equality.
+* Add sanity checks for child indices received via DBus.
+
+What's new in at-spi2-core 2.57.0:
+* device-a11y-manager: Fix crash on dispose
+* device-a11y-manager: Check properly for the DBus backend presence
+* Fix the build with glib < 2.76.
+* a11y-manager-device: Fix unmap_keysym_modifier.
+* DeviceEventController: update mouse coordinates before sending button eve=
+nts
+* atspi-device-legacy: Don't crash when XkbGetMap fails
+* Return localized role name for ATSPI_ROLE_EDITBAR
+    atk-adaptor: Reconnect when the bus launcher reappears.
+* Don't keep references to uncached objects in the application's hash table=
+.
+* Add some Python overrides.
+    AtspiDeviceX11: Suppress window events following key grabs when needed.
+
 Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
 ---
- meta/recipes-support/atk/at-spi2-core_2.56.4.bb | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ .../atk/{at-spi2-core_2.56.4.bb =3D> at-spi2-core_2.58.1.bb}   | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/atk/{at-spi2-core_2.56.4.bb =3D> at-spi2-core_=
+2.58.1.bb} (87%)
 
 diff --git a/meta/recipes-support/atk/at-spi2-core_2.56.4.bb b/meta/recipes=
--support/atk/at-spi2-core_2.56.4.bb
-index 90df892461..a1cbf4b455 100644
+-support/atk/at-spi2-core_2.58.1.bb
+similarity index 87%
+rename from meta/recipes-support/atk/at-spi2-core_2.56.4.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.58.1.bb
+index a1cbf4b455..7376a1e950 100644
 --- a/meta/recipes-support/atk/at-spi2-core_2.56.4.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.56.4.bb
-@@ -9,11 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255=
-951079008b364516c"
++++ b/meta/recipes-support/atk/at-spi2-core_2.58.1.bb
+@@ -3,13 +3,13 @@ SUMMARY =3D "Assistive Technology Service Provider Interf=
+ace (dbus core)"
+ DESCRIPTION =3D "It provides a Service Provider Interface for the Assistiv=
+e Technologies available on the GNOME platform and a library against which =
+applications can be linked."
+=20
+ HOMEPAGE =3D "https://wiki.linuxfoundation.org/accessibility/d-bus"
+-BUGTRACKER =3D "http://bugzilla.gnome.org/"
++BUGTRACKER =3D "https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues"
+ LICENSE =3D "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b364516=
+c"
 =20
  CVE_PRODUCT +=3D "at-spi2-atk"
 =20
--MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
--
--SRC_URI =3D "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
--
--SRC_URI[sha256sum] =3D "dbe35b951499e1d6f1fb552c2e0a09cea7cba2adf6c2eba0b2=
-c85b6c094a3a02"
-+SRC_URI[archive.sha256sum] =3D "dbe35b951499e1d6f1fb552c2e0a09cea7cba2adf6=
+-SRC_URI[archive.sha256sum] =3D "dbe35b951499e1d6f1fb552c2e0a09cea7cba2adf6=
 c2eba0b2c85b6c094a3a02"
++SRC_URI[archive.sha256sum] =3D "7f374a6a38cd70ff4b32c9d3a0310bfa804d946fed=
+4c9e69a7d49facdcb95e9c"
 =20
  DEPENDS =3D " \
  	dbus \
-@@ -27,7 +23,7 @@ DEPENDS =3D " \
- PROVIDES +=3D "atk at-spi2-atk"
- RPROVIDES:${PN} +=3D "atk at-spi2-atk"
+@@ -38,6 +38,7 @@ GIR_MESON_DISABLE_FLAG =3D 'disabled'
 =20
--inherit meson gi-docgen gettext systemd pkgconfig upstream-version-is-even=
- gobject-introspection
-+inherit gnomebase gi-docgen gettext systemd upstream-version-is-even gobje=
-ct-introspection
-=20
- EXTRA_OEMESON =3D " -Dsystemd_user_dir=3D${systemd_user_unitdir} \
-                   -Ddbus_daemon=3D${bindir}/dbus-daemon"
+ FILES:${PN} +=3D "${libdir}/gnome-settings-daemon-3.0/gtk-modules/at-spi2-=
+atk.desktop \
+                 ${libdir}/gtk-2.0/modules/libatk-bridge.so \
++                ${libdir}/python*/site-packages/gi/overrides/ \
+                 ${datadir}/dbus-1/services/*.service \
+                 ${datadir}/dbus-1/accessibility-services/*.service \
+                 ${datadir}/defaults/at-spi2 \
 --=20
 2.51.0
 
