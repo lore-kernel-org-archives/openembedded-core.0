@@ -1,260 +1,437 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52501CCF9FE
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 14:58:22 +0000 (UTC)
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23239.1762181895154476072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B0BCCFA06
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 15:27:12 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.58])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23852.1762183624114518893
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 06:58:15 -0800
+ Mon, 03 Nov 2025 07:27:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=jYZE43uM;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=qYkvT7eE;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.149, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfout.phl.internal (Postfix) with ESMTP id 249EEEC023C;
-	Mon,  3 Nov 2025 09:58:14 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Mon, 03 Nov 2025 09:58:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1762181894; x=1762268294; bh=KHbl/MA5u3
-	mQnWaxONXgBdrfup9Bal64/WuvXu1NX6E=; b=jYZE43uMXBQ64cZUI9032C8BQk
-	mxUQzVIX1effU/25szsrp+pzW91ujLrFpZMMS+Lpv0oRMdYZmOFMYzTGF2MPklD+
-	xcbAZAG7CSl9+utp1vXGu9W3qMiQ+vKMmSxDVCukH6Bnq62pUX2ojIbgq3wTSCYP
-	ib2aqVF40IqyY19NVx5BTfaYBhmErBoQN0IlxCax4cV36ZYn3tgO1EsyjfAGwzu7
-	8xTulY2MuHF3Ci21CqOf1nxzKdBMuEweDIjg6CN677em5sz0dO9xvTLoTxBotyU6
-	BBhn8BdADkAmlbZGU7jJckuVAjJ+KZ0EHYJmVby1QAeMupxtgkqb3MSF3mDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1762181894; x=1762268294; bh=KHbl/MA5u3mQnWaxONXgBdrfup9Bal64/Wu
-	vXu1NX6E=; b=qYkvT7eEEM0qTuWH/Qpay0JX4rYLzCiVjw9aJ1YID8JsiWGEhn8
-	sIvXkpqQAU4tMXVTt/9t2ylogYJC6xDCsb738StpA3BE508XnkK6xk8k0MnyvMpq
-	euqtaGqTwdzeYldRsXCdRGnkBNZzZxKLvGstMp0rGyXceXN8zyLPof48BEkaH936
-	jmUCvRQ+7C49MSWjoDKU3Frj+GWuXYwRkSR3Pt+8zdElNXYOdJ6etqowN4U+Xz2g
-	5D35M6ZEM+eNuxJsVIjV6Qn9yDFjuF3hLn8c3IKCGgAkE1fzU97XKsfJCfsvx1RI
-	Y+G6SZHGbvhEv/RUWycBGh0lJTtV8i/saJQ==
-X-ME-Sender: <xms:BcMIaUROfFgrOwMfdH8-9_LohBr-L97fjUkC3GKNiHPswgHazpezNQ>
-    <xme:BcMIaZNiwCutFBQ681aHbFgT_uuRearuImbxt5jGPC8QO0RLY6MEfxEDM3KKivGru
-    3OyJwgQIy-26XSzxjUwPP8e_kCY-LH7dhhgRXcdTcHyukFktFg4xg>
-X-ME-Received: <xmr:BcMIafMSfAc0jH0jq1Lg7W6ymEqavmzrHSfDQGg9GPLDugw3xQl7DVHGAamjO3dILny2qS0rpnGt7Zt3VezP0aRAaYexfg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddujeekgeefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
-    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
-    epgeffveeffefgledvteekhfevleelfeelleegtddvfeejvddugeefkedukeelhfeknecu
-    ffhomhgrihhnpegrrhgthhhlihhnuhigrdhorhhgpdhgnhhurdhorhhgpdhkvghrnhgvlh
-    drohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepfedpmhhouggvpe
-    hsmhhtphhouhhtpdhrtghpthhtohepjhhorghohhhfsehgmhgrihhlrdgtohhmpdhrtghp
-    thhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsg
-    gvugguvggurdhorhhgpdhrtghpthhtohepqhhurghrvghsmhgrrdhjohhsvgesghhmrghi
-    lhdrtghomh
-X-ME-Proxy: <xmx:BcMIaRvnqMPD4XM19D6IWYdD-IcYZvZtD8SpwGIY6_wTASPfV9ZgjA>
-    <xmx:BcMIaRUk0u_pK7r0Akw8patY0D8bAlhbEe-15aAHAcER6oQhzRRIVQ>
-    <xmx:BcMIaRu80WxYcKByP_la7X2sZl3QK-wE6MBCKykqNlhU_Q2qcUoMQw>
-    <xmx:BcMIaVVjBAUGq3kMp4eXqAb0zrQnzyKisxn90dgSrjXlg3QaEnuRXQ>
-    <xmx:BsMIaY7RrisooMF-vNzSt1ZUK3B7jHlXPLYex3TSFPTjVTm6iN8TmVhg>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 3 Nov 2025 09:58:13 -0500 (EST)
-Message-ID: <6052589ab3fdb48fb79485fe7f7a80ed2ad21ec1.camel@pbarker.dev>
-Subject: Re: [PATCH v2] readline: backport a patch to fix for caller setting
- rl_prompt to NULL
-From: Paul Barker <paul@pbarker.dev>
-To: =?ISO-8859-1?Q?Jo=E3o?= Henrique Ferreira de Freitas <joaohf@gmail.com>,
- 	openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Mon, 03 Nov 2025 14:58:09 +0000
-In-Reply-To: <20251031181228.3810813-1-joaohf@gmail.com>
-References: <20251031181228.3810813-1-joaohf@gmail.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- ep0k17xg==
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-wC07hi15w5DjZqtydKId"
-User-Agent: Evolution 3.56.1-1+deb13u1 
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=IWqsnYbF;
+ spf=pass (domain: siemens.com, ip: 52.101.69.58, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y200tnAaS7AqpVNYR4sQhQ8POK2FBNEmVMvmiG5rl341b3RFGE5XMstoUMFom/dnkLE9EsRuHPMGVk+/dW78SbKAvrkovZofXl/sLDS1y3arlFwk4ai8Nn+HwlMvbMICA5fDwyf5tiu4YzjuO+RGafpADmyqa3UD4Qbahp7NvL+QyjftjuXTOApVlwu/9NRP3tT27CIua+sei8TRIriA3gwpKcdeJTjXGRpq5IavFqhJjZMp8oKJnhEGxf/F9OzqHNN/WnMz1aW9eWRsya2sqc1h/y5WM69hNZWISKCJLonHUBsnzHN+YPRHRXRqI9OecrBLdkJ+Iu6KbvCKsIhIqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1kvhKTz8PpRTVb2jGlIPB4BSwk7mIDcXlzl2P0XKd/o=;
+ b=ERgeRTjzXNqqtpPUtq0Wqo05cih9gl4P9dmttRcaD7mJqK6PmXFTJZQztwgtDhyixOblhftTiVbwkKz5Ayu4qi8uOMuWt0RF6bj2RcbbSZ8775UDrPESNPhDx+hag19YtvGvAgWGkcCpwiV6VSY9UzKSOGzf+ety3aktCUMg53he4jPLNLICIBI2YLZWCgCuoAx/8F2+Sgn4SOJOTjojWXyfRBMHFfwypJgMJCyZW+addMeC84CyXc1m7zr8rAiwZoGarSDwqAa+IS16P0WHfAArD2l5mEwxrXrcYzRmnxIlqWx4v/uxOFqr4AmIJ3j6bmS1jbP1p2qRsmaFFamd3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1kvhKTz8PpRTVb2jGlIPB4BSwk7mIDcXlzl2P0XKd/o=;
+ b=IWqsnYbFsxNgOZccCt/OJ/EYTkHqbG7flE0sheuXCsftt8qMa34tiwqFYjpDrbGsXkyffpvmhyxGDpziYyK3FFMoE4cGIGtP5/AoYUjfGlcSyYzZMZFGFuiHITqlT76xWImEZzlz5aAXM2myL4H1WXGMv7YK0x24XPsAZJ0O1cIix0gJxOoQKl19+hy7uJ3/0b48sC/Mu+GH1FE1QUMlWbMhsUs/ZLS0hut1Sb2WE/O2IwSpVS7Q9os1At33EUrbSrVQGk2TWqcmHpi7iyrbDouUfxr6zImBQqnh/m0rQxYT3HREEos6vPcIx8blnKen1cH5uKsEDKxzSY2xUuG9cA==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by GVXPR10MB8986.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:1e5::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
+ 2025 15:26:59 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.9275.013; Mon, 3 Nov 2025
+ 15:26:59 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Niko Mauno <niko.mauno@vaisala.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "ross.burton@arm.com" <ross.burton@arm.com>, "rybczynska@gmail.com"
+	<rybczynska@gmail.com>
+Subject: RE: [PATCH 3/5] cve-update: Drop obsolete NVD1 support
+Thread-Topic: [PATCH 3/5] cve-update: Drop obsolete NVD1 support
+Thread-Index: AQHcTM6pqOH003pEYUiVj5V0f54WjrThC9LQ
+Date: Mon, 3 Nov 2025 15:26:59 +0000
+Message-ID: 
+ <AS1PR10MB56971268C925EB139090781BFDC7A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20251103143157.315178-1-niko.mauno@vaisala.com>
+ <20251103143157.315178-3-niko.mauno@vaisala.com>
+In-Reply-To: <20251103143157.315178-3-niko.mauno@vaisala.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=4b1e430a-f84a-4f67-9226-d927bdaa4831;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-11-03T15:01:22Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GVXPR10MB8986:EE_
+x-ms-office365-filtering-correlation-id: 77ad2a92-07e6-48da-6c92-08de1aed6e77
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?SktdRnDWhqS8hf7LfD/zR4mmUNobNsZ1H3te1wRoB1P5ZYanu4KBShCZ2fTO?=
+ =?us-ascii?Q?jjGG7Tkf5zZgZ+EyabDyzD+nwEnoY9xbvOVUT9A1PglOLgWRwvrXJNRsbrk7?=
+ =?us-ascii?Q?4/qJcmd2Ipfa1T+VthK56j98C69USze58j33diYrrwaD34PI9OLP2uXLuNnw?=
+ =?us-ascii?Q?9nrHT6z0aepIU2ZQQKsP/JQNYKk8F13//zNCbV1kW7IK60d14QPnW6bxIUL4?=
+ =?us-ascii?Q?1B68oFZrPY7+2qBGESNUoV/qnfk1xhaRz5mxtSxeXOaTjfuy+6ISvLwP1opa?=
+ =?us-ascii?Q?xVUp1DqNGb6nzsw6ZIfkgAYQGyguQrFktVf6h0Q6lSn2wZj/i3R3G3CzyhLQ?=
+ =?us-ascii?Q?cJKN7qqKE22VvNoP0xeMzYSRrayA6+ttfASDZ6srL1W2cakQ4V/H6xiELRfF?=
+ =?us-ascii?Q?4Fr+UvFFS7aF/4Ti4Lv3f6cSawQZBeZoHTdPHGlGENu+eRU/Xl7wlXGUJrCG?=
+ =?us-ascii?Q?awtPgCgR2hzBVkcuefd+yr5muN+5R3iXFEQftqMScaLiOyl82VEH8zYgbncD?=
+ =?us-ascii?Q?9XKLYHOQ+krNhT/SnmIt2I18sv7v22za4vQsAzmgTJnqc1ktpBew5S0ogodJ?=
+ =?us-ascii?Q?ePoL6ekvhxeyd11le0IYNKCyDGS9ShmJD+Bcp7ypW6CTvRavedVYZ207O7CS?=
+ =?us-ascii?Q?8NDU26XqPlS97aL0+C0jInvV61pbbQuXfTtR1J82/fJbkVJ+SDpeRDqY+HoB?=
+ =?us-ascii?Q?zdp6YyIj3OoIEHDmNKgLB4u/lk/l8HSDUBW0POI/2PFLYVri/LYuBpI8aa1A?=
+ =?us-ascii?Q?iPwOj9qy6Oez9WzJ33/AhaK/tDQoMjlx4wPh9IR7z9Ro/aY4WQiOQNaBiS6Z?=
+ =?us-ascii?Q?HEdjnugQY6jOmCGg2VfOiTlvGNkrQEi5SQxOdjePHrrtFsKHvYURnCs38C63?=
+ =?us-ascii?Q?VX/QQdki6p9Et+NGUgzQMcjQWVCrWtZXo6qydj7JDxRPov7WAPdOnxBfS0H2?=
+ =?us-ascii?Q?c5R3TG/zkDr9585HKnCdF2FbVcX6ka5Ns/ibDVK5b/1si6Wm/9CEJhmvd/nZ?=
+ =?us-ascii?Q?NK/+bWQ+RlU9p/ngWqLG2n5vPaS4u+/ZuBoz4KcmyjU1B/VHSfD7USRAY4y5?=
+ =?us-ascii?Q?cxkDpm8wG6AX720LSpgefHurJvugOi1BwDFc5rhMRhB52TEQjI/Ne9nqx8VA?=
+ =?us-ascii?Q?sEX3tM98GnlfslAWduczwynDP+rvu/VEfvXmUmKlkmU49IudfZxaw52zYWuC?=
+ =?us-ascii?Q?czNRBmqyxD+Tq+kZvGA4GJucME9p9X0zgbXvzxVuRCYhW5nAO+Zi+UndPoDI?=
+ =?us-ascii?Q?JbGiyqhC7HK9+iRiXi4X4Y+g3/79DUpieAXgpW1PJ9hPp6LwtaCAMDvbjac3?=
+ =?us-ascii?Q?n6OZwp5120snq74pHdjI0dahz8yFa4jxX6KgFW25mIX+xutcQE4qeRDFov25?=
+ =?us-ascii?Q?gcG4+iitTLw3H28DYG8IpigfrNUtbufKSXU6RGa00fIY0Ufm/3dhePjBJIAK?=
+ =?us-ascii?Q?VHINYxaBUwsfEqhuoSBVJQdb+3wq7n7sG7L83MkIVCbJSP26Njga/ie1icbX?=
+ =?us-ascii?Q?WQ2voBntY6sG39UdgAu5pBHDnefExXuITgjawFBrUvy480/MbbdlEOtEgg?=
+ =?us-ascii?Q?=3D=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?46XRC1XM3Gf24LBlMRfLCu6pmlH5YrTLTeVv9lfA6D26Kcf67xW2rFM5C/pb?=
+ =?us-ascii?Q?VjxLETsatUXKL6MViatB/kh7xr2PUODuP4QfFl8Y/H1aFcdup76hh6jM46D/?=
+ =?us-ascii?Q?qPXRmssjJBFQjS1BHjUEZrNqslvT9Yx/on6j9OGWYc4f9JucYXbknBBRtDRw?=
+ =?us-ascii?Q?+1x5uM1GTkzS5ok9JuoZtvmCYnUDk1oeoXpAWjcaqnsBn4naPn9n7HxroFsV?=
+ =?us-ascii?Q?UUU3foD8C+6OcnPmzkJe8LWSFDeV4lCBeueelKrIN/twZPxQ9QSMBA92sPRm?=
+ =?us-ascii?Q?L2T4tVtKKGq0oVuirJGrL4jbxcKlFmYKuP3wo/SVYSHzgK6l8HciPa5BiYOg?=
+ =?us-ascii?Q?34oSt8jvOTDqDh6WmRI0mkMECwiH6ieWDoFPSFWdHIGM8ZjKNl99J9MKGed1?=
+ =?us-ascii?Q?L64R2TzApXRJ7kKa8QlksB/3DaLobb3Ma+erc21FsJyEaDDiRSjBMO7nybdj?=
+ =?us-ascii?Q?8cU647/Cz7TcnGK3obNLSM2LuktFN2QTMwYMWykhdaMY16gLAUk1vDMASfpA?=
+ =?us-ascii?Q?V50n5mNtpGcNDlyzSZ7pevpLycoZSNE6hhznCB7lI1xMyB/fWuffsIDYND2T?=
+ =?us-ascii?Q?3Ir60YAL+ihBh+1W50fpKxvZNINGJIE6oGKWT9x6gtsjQdIPlPAg6yHLoGLN?=
+ =?us-ascii?Q?p9DmPwFwbD903tRLQpSl1JVxTq4zvTKHQ14bk5zUibXFxfv4/zLGs/n/cNme?=
+ =?us-ascii?Q?Q3FbVUG1L+OE1+Y4xOCqJdsmJ1KVMQJYGyDxvblABXfR3LUaZCV1glwuAUSj?=
+ =?us-ascii?Q?GqKXazc3O3EldTncadGQSS3CjWmuLNAFDkbcUmOwPnmQyggX0xVB0bS9SSPC?=
+ =?us-ascii?Q?BdEtURFvL+xMObNgV6T7VOMJ9Ul3aF84Ct56FGI3kH9xx7HP/cGB17mPgyiz?=
+ =?us-ascii?Q?/eQ715zQbFr3DUh+he3/I7YfxAXolh1VZhGAQ3aytAgl/8cRBPkjJ6gQj0UI?=
+ =?us-ascii?Q?i3UGhq0IfN7fUiY5eahhpGJXd0Odrc6ilN+tRpQrt72HaNiQZPBYaVg01GyP?=
+ =?us-ascii?Q?qEaNUjSHjBbG2VxHkq3Qt44hSBKYCn3hB2Powyue3gdE0r0J9LWlt90c2x9w?=
+ =?us-ascii?Q?8u55qTzqVEa8XH1RLCyuYv5/2kHkre9HTccPG9xTVxeZbuApClyKCHeYnPqW?=
+ =?us-ascii?Q?Lb8iF7HxzpkosR2fVskvh75qixahsxsvfET0K8Ys8w13Hrdoc9g3f5V44vru?=
+ =?us-ascii?Q?iQHkP4cdrhlma1TUR4c3jZMykUbUItNITgMfoLzF2I534Fv+ARiHjG7kJfNx?=
+ =?us-ascii?Q?JR5KfLT07j61F79WrfQ2aRAGfBP5rbd4FKZJUGwjNDTF+pE6qd/YhauAV4ES?=
+ =?us-ascii?Q?sgPw/6KR2z7EsrozRAlWbvtvw5797lWsluPnRvpkTBCipo3UxrFQjDOYr8at?=
+ =?us-ascii?Q?8au6yG/awUZTsIcQas78uwTcggPX/glQKywly4Z7YyykOWqh7oPB1+wEB+RC?=
+ =?us-ascii?Q?XpDdMt1wCIMf6OT5hfAVAA465lBxaPVQ6AqJE9t/HtuSqSK3/33lJ9ApWVtW?=
+ =?us-ascii?Q?+I4j0CeKOVqbJDWSwJuZneF+RuNSMd5Vwn128h3UZmVzXMIldI0c8dkViP4S?=
+ =?us-ascii?Q?4uOwfqJMjSPAZP9oc5W+bdAioeh4xBO6F9ld1+wW?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77ad2a92-07e6-48da-6c92-08de1aed6e77
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2025 15:26:59.5882
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fObWO8fhss5a1mww0p+F+JcW8O8Eg3Ptv6HxsB7EmLoFsPpJuS9Xq8PMSz6OgfUulVYsIdCzUDvv/aSassHeJw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR10MB8986
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 14:58:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225662
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 15:27:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225663
 
+This should be commented on by Marta, I'm not sure if she brought this back=
+ even though it was not working anymore.
+In case it's accepted, contribution to yocto-docs should follow.
 
---=-wC07hi15w5DjZqtydKId
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Peter
 
-On Fri, 2025-10-31 at 15:12 -0300, Jo=C3=A3o Henrique Ferreira de Freitas
-wrote:
-> I've observed this issue affecting iwctl and connmanctl.
+> -----Original Message-----
+> From: Niko Mauno <niko.mauno@vaisala.com>
+> Sent: Monday, November 3, 2025 15:32
+> To: openembedded-core@lists.openembedded.org
+> Cc: ross.burton@arm.com; rybczynska@gmail.com; Marko, Peter (FT D EU SK
+> BFS1) <Peter.Marko@siemens.com>; Niko Mauno <niko.mauno@vaisala.com>
+> Subject: [PATCH 3/5] cve-update: Drop obsolete NVD1 support
 >=20
-> Patching readline solves the issue.
+> Since enabling NVD1 as NVD_DB_VERSION nowadays leads to BitBake failure
 >=20
-> The original patch from [5] mixes many fixes in one commit. I've extract
-> only what matters to solve the issues observed with connman and iwd. The
-> final patch is the same patch sent by readline author to readline's mail =
-list [6].
+>   WARNING: cve-update-db-native-1.0-r0 do_fetch: Failed to fetch CVE data=
+ (HTTP
+> Error 403: Forbidden)
+>   WARNING: cve-update-db-native-1.0-r0 do_fetch: Host IPs are 172.65.90.2=
+6,
+> 172.65.90.25, 172.65.90.24, 172.65.90.27, 2606:4700:78::90:0:180,
+> 2606:4700:78::90:0:183, 2606:4700:78::90:0:181, 2606:4700:78::90:0:182
+>   WARNING: cve-update-db-native-1.0-r0 do_fetch: CVE database update fail=
+ed
+>   ERROR: cve-update-db-native-1.0-r0 do_unpack: Error executing a python
+> function in exec_func_python() autogenerated:
 >=20
-> References:
+> Remove the support for obsolete NVD1.
 >=20
-> 1: https://gitlab.archlinux.org/archlinux/packaging/packages/readline/-/i=
-ssues/1
-> 2: https://gitlab.archlinux.org/archlinux/packaging/packages/readline/-/c=
-ommit/b30636dc66fc783a091af51b049dc5240f861dd0
-> 3: https://lists.gnu.org/archive/html/bug-readline/2025-07/msg00007.html
-> 4: https://lore.kernel.org/connman/20251018212411.181909-1-jsbronder@cold=
--front.org/
-> 5: https://cgit.git.savannah.gnu.org/cgit/readline.git/commit/display.c?h=
-=3Ddevel&id=3D488d7edc22894d30b6de7f2d4190bf7403f63ffd
-> 6: https://lists.gnu.org/archive/html/bug-readline/2025-07/txtmA7rksnmmi.=
-txt
->=20
-> Fixes [YOCTO #16047]
->=20
-> CC: Jose Quaresma <quaresma.jose@gmail.com>
-> Signed-off-by: Jo=C3=A3o Henrique Ferreira de Freitas <joaohf@gmail.com>
+> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
 > ---
+>  meta/classes/cve-check.bbclass                |  8 +-
+>  .../recipes-core/meta/cve-update-db-native.bb | 87 +++----------------
+>  2 files changed, 15 insertions(+), 80 deletions(-)
 >=20
-> Notes:
->     changes in v2:
->     - add readline fix author name
->     - add explanation why and where the original patch come from
+> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbcl=
+ass
+> index c63ebd56e1..259c699af2 100644
+> --- a/meta/classes/cve-check.bbclass
+> +++ b/meta/classes/cve-check.bbclass
+> @@ -31,11 +31,11 @@
+>  CVE_PRODUCT ??=3D "${BPN}"
+>  CVE_VERSION ??=3D "${PV}"
 >=20
->  ...for-caller-setting-rl_prompt-to-NULL.patch | 42 +++++++++++++++++++
->  meta/recipes-core/readline/readline_8.3.bb    |  5 ++-
->  2 files changed, 45 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-core/readline/readline/fix-for-caller-se=
-tting-rl_prompt-to-NULL.patch
+> -# Possible database sources: NVD1, NVD2, FKIE
+> +# Possible database sources: NVD2, FKIE
+>  NVD_DB_VERSION ?=3D "FKIE"
 >=20
-> diff --git a/meta/recipes-core/readline/readline/fix-for-caller-setting-r=
-l_prompt-to-NULL.patch b/meta/recipes-core/readline/readline/fix-for-caller=
--setting-rl_prompt-to-NULL.patch
-> new file mode 100644
-> index 0000000000..c8ac712d56
-> --- /dev/null
-> +++ b/meta/recipes-core/readline/readline/fix-for-caller-setting-rl_promp=
-t-to-NULL.patch
-> @@ -0,0 +1,42 @@
-> +From a0a4c011c0c5e598c5b51cbf81d3b4501fa72e0c Mon Sep 17 00:00:00 2001
-> +From: Chet Ramey <chet.ramey@case.edu>
-> +Date: Thu, 30 Oct 2025 14:19:41 -0300
-> +Subject: [PATCH] fix for caller setting rl_prompt to NULL
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/readli=
-ne.git/commit/display.c?h=3Ddevel&id=3D488d7edc22894d30b6de7f2d4190bf7403f6=
-3ffd]
-> +Signed-off-by: Jo=C3=A3o Henrique Ferreira de Freitas <joaohf@gmail.com>
-> +---
-> +
-> +Notes:
-> +    The original patch came from [1, 2] and it has been integrated into
-> +    readline git repository, commit (488d7edc22894d30b6de7f2d4190bf7403f=
-63ffd)
-> +   =20
-> +    This patch has only the fix needed to solve the follow issues [3,4].
-> +   =20
-> +    I added the original author as this patch has been sent through read=
-line mail
-> +    list.
-> +   =20
-> +    1: https://lists.gnu.org/archive/html/bug-readline/2025-07/msg00007.=
-html
-> +    2: https://lists.gnu.org/archive/html/bug-readline/2025-07/txtmA7rks=
-nmmi.txt
-> +    3: https://lore.kernel.org/connman/20251018212411.181909-1-jsbronder=
-@cold-front.org/
-> +    4: https://gitlab.archlinux.org/archlinux/packaging/packages/readlin=
-e/-/issues/1
+>  # Use different file names for each database source, as they synchronize=
+ at
+> different moments, so may be slightly different
+> -CVE_CHECK_DB_FILENAME ?=3D "${@'nvdcve_2-2.db' if
+> d.getVar('NVD_DB_VERSION') =3D=3D 'NVD2' else 'nvdcve_1-3.db' if
+> d.getVar('NVD_DB_VERSION') =3D=3D 'NVD1' else 'nvdfkie_1-1.db'}"
+> +CVE_CHECK_DB_FILENAME ?=3D "${@'nvdcve_2-2.db' if
+> d.getVar('NVD_DB_VERSION') =3D=3D 'NVD2' else 'nvdfkie_1-1.db'}"
+>  CVE_CHECK_DB_FETCHER ?=3D "${@'cve-update-nvd2-native' if
+> d.getVar('NVD_DB_VERSION') =3D=3D 'NVD2' else 'cve-update-db-native'}"
+>  CVE_CHECK_DB_DIR ?=3D "${STAGING_DIR}/CVE_CHECK"
+>  CVE_CHECK_DB_FILE ?=3D
+> "${CVE_CHECK_DB_DIR}/${CVE_CHECK_DB_FILENAME}"
+> @@ -108,8 +108,8 @@ python () {
+>      extend_cve_status(d)
+>=20
+>      nvd_database_type =3D d.getVar("NVD_DB_VERSION")
+> -    if nvd_database_type not in ("NVD1", "NVD2", "FKIE"):
+> -        bb.erroronce("Malformed NVD_DB_VERSION, must be one of: NVD1,
+> NVD2, FKIE. Defaulting to NVD2")
+> +    if nvd_database_type not in ("NVD2", "FKIE"):
+> +        bb.erroronce("Malformed NVD_DB_VERSION, must be one of: NVD2,
+> FKIE. Defaulting to NVD2")
+>          d.setVar("NVD_DB_VERSION", "NVD2")
+>  }
+>=20
+> diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipe=
+s-
+> core/meta/cve-update-db-native.bb
+> index 3a6dc95580..4423216be5 100644
+> --- a/meta/recipes-core/meta/cve-update-db-native.bb
+> +++ b/meta/recipes-core/meta/cve-update-db-native.bb
+> @@ -11,7 +11,6 @@ deltask do_compile
+>  deltask do_install
+>  deltask do_populate_sysroot
+>=20
+> -NVDCVE_URL ?=3D "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
+>  FKIE_URL ?=3D "https://github.com/fkie-cad/nvd-json-data-
+> feeds/releases/latest/download/CVE-"
+>=20
+>  # CVE database update interval, in seconds. By default: once a day (23*6=
+0*60).
+> @@ -108,30 +107,12 @@ def cleanup_db_download(db_tmp_file):
+>      if os.path.exists(db_tmp_file):
+>          os.remove(db_tmp_file)
+>=20
+> -def db_file_names(d, year, is_nvd):
+> -    if is_nvd:
+> -        year_url =3D d.getVar('NVDCVE_URL') + str(year)
+> -        meta_url =3D year_url + ".meta"
+> -        json_url =3D year_url + ".json.gz"
+> -        return json_url, meta_url
+> +def db_file_names(d, year):
+>      year_url =3D d.getVar('FKIE_URL') + str(year)
+>      meta_url =3D year_url + ".meta"
+>      json_url =3D year_url + ".json.xz"
+>      return json_url, meta_url
+>=20
+> -def host_db_name(d, is_nvd):
+> -    if is_nvd:
+> -        return "nvd.nist.gov"
+> -    return "github.com"
+> -
+> -def db_decompress(d, data, is_nvd):
+> -    import gzip, lzma
+> -
+> -    if is_nvd:
+> -        return gzip.decompress(data).decode('utf-8')
+> -    # otherwise
+> -    return lzma.decompress(data)
+> -
+>  def update_db_file(db_tmp_file, d):
+>      """
+>      Update the given database file
+> @@ -139,12 +120,12 @@ def update_db_file(db_tmp_file, d):
+>      import bb.progress
+>      import bb.utils
+>      from datetime import date
+> +    import lzma
+>      import sqlite3
+>      import urllib
+>=20
+>      YEAR_START =3D 2002
+>      cve_socket_timeout =3D int(d.getVar("CVE_SOCKET_TIMEOUT"))
+> -    is_nvd =3D d.getVar("NVD_DB_VERSION") =3D=3D "NVD1"
+>=20
+>      # Connect to database
+>      conn =3D sqlite3.connect(db_tmp_file)
+> @@ -155,7 +136,7 @@ def update_db_file(db_tmp_file, d):
+>          for i, year in enumerate(range(YEAR_START, date.today().year + 1=
+)):
+>              bb.note("Updating %d" % year)
+>              ph.update((float(i + 1) / total_years) * 100)
+> -            json_url, meta_url =3D db_file_names(d, year, is_nvd)
+> +            json_url, meta_url =3D db_file_names(d, year)
+>=20
+>              # Retrieve meta last modified date
+>              try:
+> @@ -164,7 +145,7 @@ def update_db_file(db_tmp_file, d):
+>                  cve_f.write('Warning: CVE db update error, Unable to fet=
+ch CVE
+> data.\n\n')
+>                  bb.warn("Failed to fetch CVE data (%s)" % e)
+>                  import socket
+> -                result =3D socket.getaddrinfo(host_db_name(d, is_nvd), 4=
+43,
+> proto=3Dsocket.IPPROTO_TCP)
+> +                result =3D socket.getaddrinfo("github.com", 443,
+> proto=3Dsocket.IPPROTO_TCP)
+>                  bb.warn("Host IPs are %s" % (", ".join(t[4][0] for t in =
+result)))
+>                  return False
+>=20
+> @@ -192,7 +173,7 @@ def update_db_file(db_tmp_file, d):
+>                  try:
+>                      response =3D urllib.request.urlopen(json_url,
+> timeout=3Dcve_socket_timeout)
+>                      if response:
+> -                        update_db(d, conn, db_decompress(d, response.rea=
+d(), is_nvd))
+> +                        update_db(conn, lzma.decompress(response.read())=
+)
+>                      conn.execute("insert or replace into META values (?,=
+ ?)", [year,
+> last_modified]).close()
+>                  except urllib.error.URLError as e:
+>                      cve_f.write('Warning: CVE db update error, CVE data =
+is
+> outdated.\n\n')
+> @@ -224,17 +205,14 @@ def initialize_db(conn):
+>=20
+>          c.close()
+>=20
+> -def parse_node_and_insert(conn, node, cveId, is_nvd):
+> +def parse_node_and_insert(conn, node, cveId):
+>      # Parse children node if needed
+>      for child in node.get('children', ()):
+> -        parse_node_and_insert(conn, child, cveId, is_nvd)
+> +        parse_node_and_insert(conn, child, cveId)
+>=20
+> -    def cpe_generator(is_nvd):
+> +    def cpe_generator():
+>          match_string =3D "cpeMatch"
+>          cpe_string =3D 'criteria'
+> -        if is_nvd:
+> -            match_string =3D "cpe_match"
+> -            cpe_string =3D 'cpe23Uri'
+>=20
+>          for cpe in node.get(match_string, ()):
+>              if not cpe['vulnerable']:
+> @@ -290,44 +268,7 @@ def parse_node_and_insert(conn, node, cveId, is_nvd)=
+:
+>                      # Save processing by representing as -.
+>                      yield [cveId, vendor, product, '-', '', '', '']
+>=20
+> -    conn.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)"=
+,
+> cpe_generator(is_nvd)).close()
+> -
+> -def update_db_nvdjson(conn, jsondata):
+> -    import json
+> -    root =3D json.loads(jsondata)
+> -
+> -    for elt in root['CVE_Items']:
+> -        if not elt['impact']:
+> -            continue
+> -
+> -        accessVector =3D None
+> -        vectorString =3D None
+> -        cvssv2 =3D 0.0
+> -        cvssv3 =3D 0.0
+> -        cvssv4 =3D 0.0
+> -        cveId =3D elt['cve']['CVE_data_meta']['ID']
+> -        cveDesc =3D elt['cve']['description']['description_data'][0]['va=
+lue']
+> -        date =3D elt['lastModifiedDate']
+> -        try:
+> -            accessVector =3D elt['impact']['baseMetricV2']['cvssV2']['ac=
+cessVector']
+> -            vectorString =3D elt['impact']['baseMetricV2']['cvssV2']['ve=
+ctorString']
+> -            cvssv2 =3D elt['impact']['baseMetricV2']['cvssV2']['baseScor=
+e']
+> -        except KeyError:
+> -            cvssv2 =3D 0.0
+> -        try:
+> -            accessVector =3D accessVector or
+> elt['impact']['baseMetricV3']['cvssV3']['attackVector']
+> -            vectorString =3D vectorString or
+> elt['impact']['baseMetricV3']['cvssV3']['vectorString']
+> -            cvssv3 =3D elt['impact']['baseMetricV3']['cvssV3']['baseScor=
+e']
+> -        except KeyError:
+> -            accessVector =3D accessVector or "UNKNOWN"
+> -            cvssv3 =3D 0.0
+> -
+> -        conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, =
+?, ?, ?)",
+> -                [cveId, cveDesc, cvssv2, cvssv3, cvssv4, date, accessVec=
+tor,
+> vectorString]).close()
+> -
+> -        configurations =3D elt['configurations']['nodes']
+> -        for config in configurations:
+> -            parse_node_and_insert(conn, config, cveId, True)
+> +    conn.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)"=
+,
+> cpe_generator()).close()
+>=20
+>  def get_metric_entry(metric):
+>      primaries =3D [c for c in metric if c['type'] =3D=3D "Primary"]
+> @@ -338,7 +279,7 @@ def get_metric_entry(metric):
+>          return secondaries[0]
+>      return None
+>=20
+> -def update_db_fkie(conn, jsondata):
+> +def update_db(conn, jsondata):
+>      import json
+>      root =3D json.loads(jsondata)
+>=20
+> @@ -403,13 +344,7 @@ def update_db_fkie(conn, jsondata):
+>          for config in elt['configurations']:
+>              # This is suboptimal as it doesn't handle AND/OR and negate,=
+ but is
+> better than nothing
+>              for node in config.get("nodes") or []:
+> -                parse_node_and_insert(conn, node, cveId, False)
+> -
+> -def update_db(d, conn, jsondata):
+> -    if (d.getVar("NVD_DB_VERSION") =3D=3D "FKIE"):
+> -        return update_db_fkie(conn, jsondata)
+> -    else:
+> -        return update_db_nvdjson(conn, jsondata)
+> +                parse_node_and_insert(conn, node, cveId)
+>=20
+>  do_fetch[nostamp] =3D "1"
+>=20
+> --
+> 2.47.3
 
-We should keep these notes above the "---" divider in the patch file so
-that they're not lost if devtool or another tool is used to rebase
-patches.
-
-> diff --git a/meta/recipes-core/readline/readline_8.3.bb b/meta/recipes-co=
-re/readline/readline_8.3.bb
-> index a2f23eb353..8bc4477946 100644
-> --- a/meta/recipes-core/readline/readline_8.3.bb
-> +++ b/meta/recipes-core/readline/readline_8.3.bb
-> @@ -1,7 +1,8 @@
->  require readline.inc
-> =20
->  SRC_URI +=3D "file://norpath.patch \
-> -            file://fix-for-readline-event-hook.patch \
-> -            "
-> +           file://fix-for-readline-event-hook.patch \
-> +           file://fix-for-caller-setting-rl_prompt-to-NULL.patch \
-> +           "
-
-Minor nitpick: Looks like there's an unnecessary whitespace change here.
-
-Thanks,
-
---=20
-Paul Barker
-
---=-wC07hi15w5DjZqtydKId
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaQjDAREccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bkW4AQCk+2wZ3OGQHefZXhPkaOsF9x33cpKRDG8s
-Zqfe8eMCKQEAqjn5wnivIOJTzj13jz5/xemQJ/77HjxzeIGFlS59eQM=
-=7qrl
------END PGP SIGNATURE-----
-
---=-wC07hi15w5DjZqtydKId--
 
