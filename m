@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 955C3CCFA03
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9697DCCF9F8
 	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 20:59:37 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2247.1762203576661307495
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2307.1762203569222157157
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 12:59:36 -0800
+ Mon, 03 Nov 2025 12:59:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dI0Jg1UU;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7930132f59aso6891515b3a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 12:59:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=y8l+vXEX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7a59ec9bef4so5953914b3a.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 12:59:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762203576; x=1762808376; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762203568; x=1762808368; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cuXNNoOnf/N4PPPt3nT3XdSn8s9ATKupZLau7hbXZOI=;
-        b=dI0Jg1UUNcNE7AIoc74r6K9S43BFack0DyFagaeWjO1CPGguDGa8bfWfqiTLVQrmf6
-         6Bj2/hVtyQXMcpnhcGER0W1Is76ljhdONqotRlT58WtoI/QKO+vOmb6lFcmOaJMk3N0v
-         W+2K/LLJDiKjqTaf8+dSCyU0162DhOFbQj/yb2uayujxobYHiaHYG1rIttXu+zg61TJ9
-         uuBiN7+hW6h/lMhaJdvesBtY98VPME/jwAooOBpBzmg8cIMUfk4zR4RcLa52TNtqZnIt
-         6ixz8Dh5+Wf2T1Fobu3Bp3rBWGRlSlrVAnyb6dv7c7kgQIybIoI0kn0rZVx30FliDCPy
-         wNHA==
+        bh=WDWCQe9NFH2ttJXNLXPTWFYa5WQZvItUUI4WsBw5sMY=;
+        b=y8l+vXEXpXSn9p9zds7lJMpdhob+zi9yHaQ9rsnxedjfAhLyB3IwW7uUA/3yj5FM/o
+         Tph4sWeMlJEHJycC+KFs7wP0RuV9WcjvtVGpbXkJOkoX2nHSAhsPNfQJn0HHnfJX73yu
+         p9eowLuLGsARxP9KmdEQUOqFE4bRoNZHJcYdMkIhOXNZyDByZhfjZKANY0jlZfdnCSeq
+         gCcTL6HqzZK3zcNRMGjsJ3YUsjjRiW+V7t+d++rjOJkef74PXmuIeWhuSzpAzYAZN8w1
+         resyU4FxJXeBkI7uMKbIEZ5Rl0wWA9CGAJrs2X5Daw3Ma+o43+E6aSbU/LfHozKoewRI
+         OLyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762203576; x=1762808376;
+        d=1e100.net; s=20230601; t=1762203568; x=1762808368;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cuXNNoOnf/N4PPPt3nT3XdSn8s9ATKupZLau7hbXZOI=;
-        b=NT/OB2eHj+2+kHcNK79Ebdf7NZeMvvUYWr7ibb9p14Op10xEuCZ1va7uU/cGLYn1Jx
-         8uOFQTfk9gQIoPbHGS/sWwVymeIwNxQBfXh0q7dp5/3ICbGaPwLFsypAIRvSxqT34rMh
-         XZawJq3Bq4RkWuFaJIIOnSgSqzPS01kKj95mWIjpvzX5FG2tbQTgVynAn36H1A9ZmqtM
-         kbdb1s3X2+sqxEd6wMtnJG/V7OKE7jgO3cIlTW4TPuSCbh78dIFG7E2MxQkQkYpll1h6
-         aCO/afQFR8B6iUNeosWFnDIzjAcrNYWbxfpU2Sm83KmbQTY0LR7ObgafYtfrYIADufnJ
-         WGRw==
-X-Gm-Message-State: AOJu0YwVjpWhlf/lYN97St+sgwEBYMi2UhNvm0QzO33+d2TifmgjuhbH
-	MzLRT1h65hhK0V1lIkjVEPYuQtav5zkzbYqkpzTIatL3qmv57BT8Qa1khIbDbJ3o6L0N0JxUQks
-	dztLsnvI=
-X-Gm-Gg: ASbGncuqZ+8vX2mvAX6AVXbN8YPju/6ybwf84nCK76IAQdf0v6acuASFMLrU28QWCl9
-	P57pP4tqQkSE0zCnns4SANYrHBww4PDIAdaJQUGc5y0X3Hm3ovaSJhygKB9i0wEpNGAQYDBJptG
-	/VTPt9Vhff3gCwZfH0311iQk26gjl36NIpeAgIZf9aAgQ7D2F8tRUiWtF2K1NqLyc04oAp/Cwqd
-	sZ/snF+tXTB/gZFKWmTSA2cL6szPMtfvPOhYC9I/0L/I4adiux0dPM6l3bwUa6yLgLUg+MS1R0e
-	MZxEoRXZ1ic6B92o/acI3PsJkKPFD2/ARnIpVL+xLc6GRHi9vLsN4ZxOBtKusietwqzLmMfct1B
-	jMXYwMfFB2ETs1HCd/6+2mLEDyEawNrJTdiDTB/MmIsPvg0nZlOgcFDKDdta50zqxIPcCWOp8Xq
-	mwsMTz9TpqlFpi
-X-Google-Smtp-Source: AGHT+IFCAfsTsQfJFmWpqDo3qsb8pCrwwdbN/59NZEumdWcJIY+zV+/uoqBoftvnfCdezg3C82PMJQ==
-X-Received: by 2002:a05:6a20:a10c:b0:341:4171:b5ae with SMTP id adf61e73a8af0-348cce0aa9emr17587081637.52.1762203575925;
-        Mon, 03 Nov 2025 12:59:35 -0800 (PST)
+        bh=WDWCQe9NFH2ttJXNLXPTWFYa5WQZvItUUI4WsBw5sMY=;
+        b=anQW8ThED5cgsx7pc02acPo7OJvBeCjX/6eAyYiRWZe7OQ4MWbeLKueTXUn/4yrF/y
+         SQ9vLcyI6CsL7kJ4bIJgJSOA27xrEIjfiV2lEvFTuIdlNcGohE7ChraeAsYrl4b4nv66
+         N4aMWFuK9AhhzamLIvBpAKAlBAXhrV6px1ceyfhT6q2EtAmGsqKpWE9O0pFG6RrQPBrV
+         zy2O1DibO3Kcd0lgJtaCJUY3e+vxKX5SQTqq1xvFsOY3LRdRqTtpIsMDJTF33+NpjdRm
+         U0P4n2yivJMOCKs4DTo8lNCtgW/t9j/qXLdanGlLk5Ib3nM8uEi18Ggkek34l+c3/QTB
+         FmnQ==
+X-Gm-Message-State: AOJu0Yy0YucEmyYyNRZ2mCjanBLVpCglawSO8UQBUPLSI6z42lYcDlC0
+	zdXv6B/pukgwUvzXbUrmuDBWvjmbtHdXEvrSkQuhb8iwPPkyRa/EeFrJHjM1shEpd43cfek0GUd
+	SVizaEPo=
+X-Gm-Gg: ASbGncuDO0NOsXbdAtPEe/99O8YkqSq5zKFTyzBw0FIZ60LuL/b36SjDYRSAKBZu7Bo
+	r3Z3WoiucFHYNP2iaMRhb2NkJ2mxW08ATCKCtzv6j4tnYVFhLpQKjXZ0AIX6mX3YqAzipaohmQ4
+	mbDQ9XnxyeW6Jk75oWWo0vbfW3f3RWlBl5D+K5b04uI+T+0DZZXhH6Ghxc77Gny6Icx3HylaTqv
+	EH359NwHTWiByL5C/yLPi1PM1mJjS6MkmbwEznGhgM4yHvN1ukWQffxs2xollGmQGgtg6f4oawv
+	l0SL2NdEjOxbecUpK2hMY5ZIf3kHT+9hj6pCQlOyLmzdMY3WVQRgETPuA7aU9VGyk0zWWmg/ixI
+	GtSUrxy79sV8P6Hw2k8/ODGgmsErCbYjcZrGHdEj8QDrMuTxqJo308KwHOJDcNcjMcrE=
+X-Google-Smtp-Source: AGHT+IHj8RHqPfxzCu6x2B3gaRC8x8wTtJJb0Z2Li0dnJ+6YckroEiNLmzheeW1jBubJJocaN0qxkQ==
+X-Received: by 2002:a17:90b:3a8c:b0:33b:b078:d6cc with SMTP id 98e67ed59e1d1-34083070ec7mr16847144a91.31.1762203568438;
+        Mon, 03 Nov 2025 12:59:28 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:6a2d:a521:f4d2:20a3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3415b02891asm2024911a91.9.2025.11.03.12.59.34
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3415b02891asm2024911a91.9.2025.11.03.12.59.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Nov 2025 12:59:35 -0800 (PST)
+        Mon, 03 Nov 2025 12:59:28 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 5/8] binutils: patch CVE-2025-11413
-Date: Mon,  3 Nov 2025 12:59:12 -0800
-Message-ID: <8d1a830c713a299f67fc512ed8bc0be21be4b9f0.1762203396.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 1/8] u-boot: fix CVE-2024-42040
+Date: Mon,  3 Nov 2025 12:59:08 -0800
+Message-ID: <f5b980ade1e952a181cb51d60268942095627c0d.1762203396.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1762203396.git.steve@sakoman.com>
 References: <cover.1762203396.git.steve@sakoman.com>
@@ -69,90 +68,100 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 20:59:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225701
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225697
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-Pick commit per NVD CVE report.
+Backport a patch [1] from upstrem to fix CVE-2024-42040 [2]
 
-Note that there were two patches for this, first [1] and then [2].
-The second patch moved the original patch to different location.
-Cherry-pick of second patch is successful leaving out the code removing
-the code from first location, so the patch attached here is not
-identical to the upstream commit but is identical to applying both and
-merging them to a single patch.
+[1] https://source.denx.de/u-boot/u-boot/-/commit/81e5708cc2c865df606e49aed5415adb2a662171
+[2] https://nvd.nist.gov/vuln/detail/CVE-2024-42040
 
-[1] https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=1108620d7a521f1c85d2f629031ce0fbae14e331
-[2] https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=72efdf166aa0ed72ecc69fc2349af6591a7a19c0
-
-(From OE-Core rev: 98df728e6136d04af0f4922b7ffbeffb704de395)
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../binutils/binutils-2.38.inc                |  1 +
- .../binutils/binutils/CVE-2025-11413.patch    | 38 +++++++++++++++++++
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-11413.patch
+ .../u-boot/files/CVE-2024-42040.patch         | 56 +++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |  4 +-
+ 2 files changed, 59 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index 39f2827f78..d5ad3c0ecb 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -85,5 +85,6 @@ SRC_URI = "\
-      file://0046-CVE-2025-11081.patch \
-      file://0047-CVE-2025-8225.patch \
-      file://CVE-2025-11412.patch \
-+     file://CVE-2025-11413.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-11413.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-11413.patch
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch
 new file mode 100644
-index 0000000000..bfd1be7787
+index 0000000000..2d250e51b7
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-11413.patch
-@@ -0,0 +1,38 @@
-+From 72efdf166aa0ed72ecc69fc2349af6591a7a19c0 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Thu, 25 Sep 2025 10:41:32 +0930
-+Subject: [PATCH] Re: elf: Disallow the empty global symbol name
++++ b/meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch
+@@ -0,0 +1,56 @@
++From 1406fc918977bba4dac0af5e22e63a5553aa6aff Mon Sep 17 00:00:00 2001
++From: Paul HENRYS <paul.henrys_ext@softathome.com>
++Date: Thu, 9 Oct 2025 17:43:28 +0200
++Subject: [PATCH] net: bootp: Prevent buffer overflow to avoid leaking the RAM
++ content
 +
-+sparc64-linux-gnu  +FAIL: selective2
-+sparc64-linux-gnu  +FAIL: selective3
++CVE-2024-42040 describes a possible buffer overflow when calling
++bootp_process_vendor() in bootp_handler() since the total length
++of the packet is passed to bootp_process_vendor() without being
++reduced to len-(offsetof(struct bootp_hdr,bp_vend)+4).
 +
-+	PR ld/33456
-+	* elflink.c (elf_link_add_object_symbols): Move new check later
-+	to give the backend add_symbol_hook a chance to remove symbols
-+	with empty names.
++The packet length is also checked against its minimum size to avoid
++reading data from struct bootp_hdr outside of the packet length.
 +
-+CVE: CVE-2025-11413
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=72efdf166aa0ed72ecc69fc2349af6591a7a19c0]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++Signed-off-by: Paul HENRYS <paul.henrys_ext@softathome.com>
++Signed-off-by: Philippe Reynes <philippe.reynes@softathome.com>
++
++CVE: CVE-2024-42040
++Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/81e5708cc2c865df606e49aed5415adb2a662171]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ bfd/elflink.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
++ net/bootp.c | 11 ++++++++++-
++ 1 file changed, 10 insertions(+), 1 deletion(-)
 +
-+diff --git a/bfd/elflink.c b/bfd/elflink.c
-+index 0a0456177c2..5c8b822e36a 100644
-+--- a/bfd/elflink.c
-++++ b/bfd/elflink.c
-+@@ -4931,6 +4931,13 @@ elf_link_add_object_symbols (bfd *abfd, struct bfd_link_info *info)
-+ 	    continue;
-+ 	}
++diff --git a/net/bootp.c b/net/bootp.c
++index 68002909634..843180d296c 100644
++--- a/net/bootp.c
+++++ b/net/bootp.c
++@@ -362,6 +362,14 @@ static void bootp_handler(uchar *pkt, unsigned dest, struct in_addr sip,
++ 	debug("got BOOTP packet (src=%d, dst=%d, len=%d want_len=%zu)\n",
++ 	      src, dest, len, sizeof(struct bootp_hdr));
 + 
-++      if (name[0] == '\0')
-++	{
-++	  _bfd_error_handler (_("%pB: corrupt symbol table"), abfd);
-++	  bfd_set_error (bfd_error_bad_value);
-++	  goto error_free_vers;
+++	/* Check the minimum size of a BOOTP packet is respected.
+++	 * A BOOTP packet is between 300 bytes and 576 bytes big
+++	 */
+++	if (len < offsetof(struct bootp_hdr, bp_vend) + 64) {
+++		printf("Error: got an invalid BOOTP packet (len=%u)\n", len);
+++		return;
 ++	}
 ++
-+       /* Sanity check that all possibilities were handled.  */
-+       if (sec == NULL)
-+ 	abort ();
++ 	bp = (struct bootp_hdr *)pkt;
++ 
++ 	/* Filter out pkts we don't want */
++@@ -379,7 +387,8 @@ static void bootp_handler(uchar *pkt, unsigned dest, struct in_addr sip,
++ 
++ 	/* Retrieve extended information (we must parse the vendor area) */
++ 	if (net_read_u32((u32 *)&bp->bp_vend[0]) == htonl(BOOTP_VENDOR_MAGIC))
++-		bootp_process_vendor((uchar *)&bp->bp_vend[4], len);
+++		bootp_process_vendor((uchar *)&bp->bp_vend[4], len -
+++				     (offsetof(struct bootp_hdr, bp_vend) + 4));
++ 
++ 	net_set_timeout_handler(0, (thand_f *)0);
++ 	bootstage_mark_name(BOOTSTAGE_ID_BOOTP_STOP, "bootp_stop");
++-- 
++2.49.0
++
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index d366f10398..7a63420642 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -14,7 +14,9 @@ PE = "1"
+ # repo during parse
+ SRCREV = "d637294e264adfeb29f390dfc393106fd4d41b17"
+ 
+-SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
++SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master \
++           file://CVE-2024-42040.patch \
++"
+ 
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build"
 -- 
 2.43.0
 
