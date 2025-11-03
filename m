@@ -2,33 +2,33 @@ Return-Path: <peter.tatrai.ext@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20927CCFA06
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 120B4CCF9FE
 	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 08:29:59 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16127.1762158597030029109
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16126.1762158589809033987
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 00:29:57 -0800
+ Mon, 03 Nov 2025 00:29:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.tatrai.ext@siemens.com header.s=fm1 header.b=kr750sAv;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1328017-2025110308295587b31fe419000207d4-crfaut@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2025110308295587b31fe419000207d4
+ dkim=pass header.i=peter.tatrai.ext@siemens.com header.s=fm1 header.b=N5ROCn2O;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1328017-202511030829475157e285d4000207b7-cfixsa@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202511030829475157e285d4000207b7
         for <openembedded-core@lists.openembedded.org>;
-        Mon, 03 Nov 2025 09:29:55 +0100
+        Mon, 03 Nov 2025 09:29:47 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.tatrai.ext@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=eWorckyQbxldpIDrAqHWUKsAmDOFM6NYw5CMJeFlNzQ=;
- b=kr750sAvoIJ4XR8zcP63ng4P7ueobqW46rO9QhV2dH+XEypqPvuNxevJkbie7J2KEAe4S3
- McpnhHjKs7rWy6oumkQ5k+Lpsc51y9F6YuIG+qtDVlH3kQjigutxRbN8odGcCPff5DA31PXb
- hpvn18K41R9/zb5km+zSh1rht7isS2iv4XyMCzv8afoKxUY4Qb96/evEYehoO0IdDY5vcyFD
- 0dvdMvUq42nzVSDDah6xCuVV+/WtYQJnG8BRAbSnKsKdaPH3Bu7texDqO8T/uf8M51feXVql
- mncFqxwCW/SnXtXTzJiVHxjfqniR8tE0NMkcA+cbDT74e56UcqrENCgA==;
+ bh=/FcPT6YV1o0QRAh50MUTdJX7EcaXO3sYghuczaka/kg=;
+ b=N5ROCn2O3CXbWJeCU3vEYOCknMNLCuRMBcxyvz+jkOwf8yU2EUlmolkGqrlZN+NP9he9qJ
+ 891V9ura0o/g8GEEbp0yV32IQpQj/0O1LuGW6R2n/T/Yl7PSV6uJ5T5WfSNiYYhDrA8pPyCW
+ 14X1d21Dw9c75xYRZ96VkQUJ2D8ftF7uNKnKRE3A9Vf4uXZqQa2eva6TI20RbzcH1tkJNK+2
+ dmkc0fh9CofSPkXfJslx6hCuvTLrwwCMp/DSxh8w9Ha6yo9ruWoZRrnRRRjudcM/IlIcZ+7i
+ WbS8D+JsUvWmHryYlpsQfnOFsHL8axIxdrytGlgNAv58DVO/PhDrSSbQ==;
 From: "P. Tatrai" <peter.tatrai.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Tatrai <peter.tatrai.ext@siemens.com>
-Subject: [PATCH v2 2/2] oeqa/selftest/rust: add libzstd to test image runtime packages
-Date: Mon,  3 Nov 2025 09:29:11 +0100
-Message-Id: <20251103082911.1792759-3-peter.tatrai.ext@siemens.com>
+Subject: [PATCH v2 1/2] oeqa/selftest/rust: pass zlib/zstd link args to test build
+Date: Mon,  3 Nov 2025 09:29:10 +0100
+Message-Id: <20251103082911.1792759-2-peter.tatrai.ext@siemens.com>
 In-Reply-To: <20251103082911.1792759-1-peter.tatrai.ext@siemens.com>
 References: <20251103082911.1792759-1-peter.tatrai.ext@siemens.com>
 MIME-Version: 1.0
@@ -39,22 +39,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 08:29:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225635
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225634
 
 From: Peter Tatrai <peter.tatrai.ext@siemens.com>
 
-Add libzstd runtime package to the QEMU test image so that Rust test
-binaries can find the zstd compression library at runtime.
+Pass -lz and -lzstd linker arguments via RUSTFLAGS when running the
+bootstrap test suite.
 
-The Rust self-test builds test binaries that use LLVM's compression
-functionality. These binaries require libzstd to be present in the
-minimal QEMU image used for testing.
+The Rust self-test executes 'python3 src/bootstrap/bootstrap.py test --target'
+on the host, which builds and links test binaries for the target architecture
+(these binaries are then uploaded to QEMU for execution). The test binaries
+use LLVM's compression functionality and require explicit linker flags for
+zlib and zstd.
 
-Without this package, Rust self-tests would fail on PowerPC when the test
-binaries attempt to use zstd compression.
+The RUSTFLAGS exported at recipe level (in rust_1.90.0.bb) do not propagate
+to this bootstrap test invocation in the selftest harness, so we must set them
+explicitly in the test command.
 
-Note: zlib is already present in core-image-minimal by default, so we
-only need to add libzstd explicitly.
+This fixes PowerPC (qemuppc) test failures with undefined references:
+  undefined reference to 'compress2'
+  undefined reference to 'uncompress'
+  undefined reference to 'ZSTD_decompress'
+  undefined reference to 'ZSTD_isError'
+  undefined reference to 'ZSTD_compress2'
+  undefined reference to 'crc32'
 
 Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
 ---
@@ -62,18 +70,18 @@ Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
-index 819ff6af9e..01a98339a6 100644
+index 31222e2456..819ff6af9e 100644
 --- a/meta/lib/oeqa/selftest/cases/rust.py
 +++ b/meta/lib/oeqa/selftest/cases/rust.py
-@@ -47,7 +47,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
-         bitbake("{} -c test_compile".format(recipe))
-         builddir = get_bb_var("RUSTSRC", "rust")
-         # build core-image-minimal with required packages
--        default_installed_packages = ["libgcc", "libstdc++", "libatomic", "libgomp"]
-+        default_installed_packages = ["libgcc", "libstdc++", "libatomic", "libgomp", "libzstd"]
-         features = []
-         features.append('IMAGE_FEATURES += "ssh-server-dropbear"')
-         features.append('CORE_IMAGE_EXTRA_INSTALL += "{0}"'.format(" ".join(default_installed_packages)))
+@@ -124,7 +124,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
+             cmd = cmd + " export RUST_TARGET_PATH=%s/rust-targets;" % rustlibpath
+             # Strip debug symbols from test binaries to reduce size (300+ MB -> ~140 MB)
+             # PowerPC mac99 QEMU has 768MB RAM limit, so we need to minimize test binary sizes
+-            cmd = cmd + " export RUSTFLAGS='-C strip=debuginfo';"
++            cmd = cmd + " export RUSTFLAGS='-C strip=debuginfo -Clink-arg=-lz -Clink-arg=-lzstd';"
+             # Trigger testing.
+             cmd = cmd + " export TEST_DEVICE_ADDR=\"%s:12345\";" % qemu.ip
+             cmd = cmd + " cd %s; python3 src/bootstrap/bootstrap.py test %s --target %s" % (builddir, testargs, targetsys)
 -- 
 2.47.2
 
