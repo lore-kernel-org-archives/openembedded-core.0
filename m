@@ -1,160 +1,170 @@
-Return-Path: <Jiaying.Song.CN@windriver.com>
+Return-Path: <peter.tatrai.ext@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BE07CCF9FE
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 07:44:08 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15394.1762155843906855293
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E693CCF9FE
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 08:02:38 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15635.1762156953869356164
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Nov 2025 23:44:04 -0800
+ Mon, 03 Nov 2025 00:02:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Xhri3aXc;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=340267741b=jiaying.song.cn@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A34KJuC2546656;
-	Mon, 3 Nov 2025 07:43:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=qNO9bLUBN57yZte/xy7X
-	7SGTZZ/7G3FvXuNfe+1v+TM=; b=Xhri3aXcsko744Bzv5bQPecwrHsUluDxWnH7
-	u03VbChKxELoToPALFoZvERUEF8PdYe8eg39TnC3mQryp9GoQk6VLFga3OJ/YVMi
-	RpsrVJh4wir4LVNePq5gfspKElwQYXxfNAxFDXFOC12xPaMXb7XPKQq8Pp8ZtIyT
-	R9o6Z3nnJonnkSYgguQo/d3vu3ZtvVwjzCQzoxAznR61OYIHotohyOE+jSB5x0EA
-	eSQfJ8X5+xlaL71j/jOrMTs+GllYQ8Ler45iqmUxtDTDDlIQGWViJxS8NXnQdrSo
-	lRAh2rH6AnvGWqzqp58pv3CNmOnxVV1KsjItzKbWRI1halRajA==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a57dx1h4t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 03 Nov 2025 07:43:57 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Sun, 2 Nov 2025 23:43:56 -0800
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Sun, 2 Nov 2025 23:43:55 -0800
-From: <jiaying.song.cn@windriver.com>
-To: <Ross.Burton@arm.com>, <alex.kanavin@gmail.com>,
-        <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v3] icu: use automake ptest output format
-Date: Mon, 3 Nov 2025 15:43:54 +0800
-Message-ID: <20251103074354.4086836-1-jiaying.song.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=BSnuZNf/;
+ spf=pass (domain: siemens.com, ip: 52.101.69.53, mailfrom: peter.tatrai.ext@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=j/YY2M6CEa2h+54ViRt99Qoe8jtsAuSsHGZit3b4SSmmj3z9SHK6vuzdYfvWIXaOLLyGl5zxC1VPo7lw21yFE8BqQEyPMKXrYgW+yexC2V/b1+WuFdWVicHbX6Km1JciHC/LizXJxNacQmSG0M7SHiKFKQ+Q/QtFW6V9LRUmX7wmhdCdh5xHqkYwyzL36bP2pnJDWHe0CfXXsopMhm0SD0uaoPTDjNkRzbFooRD0VLo5eTzG28mexpiMAlhKLskeneLUAaZBPtKUe1JivZIgVHP65VUfZHuwlBSKVvNXIyWOeOq1N4tMAcTqyxlt3ovTz0zgaRoMgDxgaRWqozOJIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dPEpxijcnrQqQv5iiE/5/xP1H+NFnC0oSyLyN4lhm+M=;
+ b=u/S2/+yu9U6/EkRsnWWiHYTZkdiFht4Yv1H7rPseQhReW/cSxFt9dBBmEQeFwPr3AWvMzUVLFYBfaom+t/k4vXAVd3r0HuoWILmRh3uB9avzdnAx3KRKK1kzhGYJPeJPmNJZuEzbhAkcN/OBxcP3I3ywe6qt7MQDXYdAv4OnFAfOfsHAirmAUTvzMT6MxzRB/K7CYCZVRCFA07z8Fk5+7IdKEtDUdCnRdpAVltVPz7Gw8bITnfArhYTdzmNxacIvp9GUVMYKxUheY1EjAf+jwC/lQuV2X/W5tFLIVs6+jMCHr9sZK/bYPKV1Zg8cSyndNu8f91Yo6DPPR5epfxYe0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dPEpxijcnrQqQv5iiE/5/xP1H+NFnC0oSyLyN4lhm+M=;
+ b=BSnuZNf/d1iHOWVPQ2ZAUdQMiTjZgQ3RyZADqzsnJKU0Fs7zh3WPcQ66iEFC7bAMYQujYpr5EtyUVr2bUBDNBh4kM0hFKFmJ/Thsr60lkXrQRynEU4q7KBPpPpTT23BV7GK5PSDr6wBtJMnNpjvTvLHuAIZz9h34rrqyEZIAll3O/Cl7+vsyyrdhxIIY13zbAG7wlACXChM6z8fuEOglEw0SyXYH7yINTBgB6AGx9wYFIzWcCCv10GPvT+X3Ia3cXJiNYBKs5IYcjWwtIZb7ZpFX5A7OQUhML/I6CMv9eK6f6qEwJ7v5+R73dVW8mYtglWz9aaus4AZOF675hmrE9Q==
+Received: from AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:605::21)
+ by PA2PR10MB9017.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:416::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
+ 2025 08:02:29 +0000
+Received: from AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::5f0e:551b:a85b:ce7]) by AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::5f0e:551b:a85b:ce7%7]) with mapi id 15.20.9275.015; Mon, 3 Nov 2025
+ 08:02:29 +0000
+From: "Tatrai, Peter" <peter.tatrai.ext@siemens.com>
+To: Ross Burton <Ross.Burton@arm.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 1/3] rust: add missing zlib and zstd
+ dependencies
+Thread-Topic: [OE-core] [PATCH 1/3] rust: add missing zlib and zstd
+ dependencies
+Thread-Index: AQHcRyyLu+jKnv3BeUm10W+ojPiVjLTcWt+AgARGWeA=
+Date: Mon, 3 Nov 2025 08:02:29 +0000
+Message-ID: 
+ <AS2PR10MB7347D1390E9116FA35919A37DBC7A@AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM>
+References: <20251027102900.65173-1-peter.tatrai.ext@siemens.com>
+ <20251027102900.65173-2-peter.tatrai.ext@siemens.com>
+ <6BBAB12C-61DC-428B-9C3B-422EC35F114E@arm.com>
+In-Reply-To: <6BBAB12C-61DC-428B-9C3B-422EC35F114E@arm.com>
+Accept-Language: sk-SK, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=a83a7ad8-237a-4a12-b860-b2370e78a62b;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-11-03T07:59:30Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS2PR10MB7347:EE_|PA2PR10MB9017:EE_
+x-ms-office365-filtering-correlation-id: 499bcb7b-1efd-468a-a134-08de1aaf55ee
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700021;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?zAcs2BwWq3VT3y/D5JB9WkjEPb3viPC5vg1RSqurO3YnX3JF1cdoqCcFFrju?=
+ =?us-ascii?Q?Xj3F7+gF/itbi0rKq0HvYK/1+Cbc7MGTglahCaEDva1wShWca1bLyrfwdhFA?=
+ =?us-ascii?Q?1xXDMmpCSTpTeHMY6MjiptbBz9GanTqhoiiVrJmOCHtZ2Of+ISsIwvlkaOik?=
+ =?us-ascii?Q?DcA+dc54gnYeGm/Uwh4rHKavBeU6Bwiywq0k5kZp41ScPuFt93eaOXowihuD?=
+ =?us-ascii?Q?d5nMiSqvmJCgh4FWx948UdrDAfUbUjFQYRDaHMQGdHdEtvzK7XhO8s0ue7yS?=
+ =?us-ascii?Q?cbvaUf9u3A/S+p7sEcxQqQY/NE+fRlxdaOtrUkW4MhyS3gKDALZUJ8uoslLQ?=
+ =?us-ascii?Q?ZAHpNwFIkdXRhO/1LgFF6yYOrKGSISASYM5DP0q5a6rHVxGgglSm49WGlqaK?=
+ =?us-ascii?Q?odaJLyswy8EQoFzM7EjqZT51mJfgn+zNIzFqP78v2LaPclZQsYd27eEGR5YV?=
+ =?us-ascii?Q?8ZD/Yc5g3Z8S6UUA2kFxFRa7+0ac3rzFrO0yeAvOgUr86AtPehsOSg2a515m?=
+ =?us-ascii?Q?Fs9bmqoqsuf/dbrAKM5r+XuTzNPABIqvyY2b5sVeLDYvjBsLt+CURjyCkMoq?=
+ =?us-ascii?Q?e5t998YQEq+OlrOb6BB48PDmE9eXSUTVFeoxfGhV7uwxvwcDDbePHESs8/ft?=
+ =?us-ascii?Q?544tFDGO6omgYPB0vWdPj/0LqWU6ushmOgsgmus818kfQ9L7DICLO9ECZxVQ?=
+ =?us-ascii?Q?w+TpLe1FP/5xmvIpDBokEq82Xgben8UpiU/0SXslnqgvAPIJs+FiziQKsR0k?=
+ =?us-ascii?Q?Xi6d2SK1pNenmPoVGArJyr4sZv1XpIufDgoGe8R5euhp3xW3TaunzPvNmcdw?=
+ =?us-ascii?Q?nGZMDak+bJfE4P/ns5sir+spn/QYyCv3eH+GjWZdPQA3Qr+IK5amd0nxSyu0?=
+ =?us-ascii?Q?5cToEW6xqlNxOFev2zrQmrUI8/WSby53lQyPjHonh7To4Ud45UKNO/QdZEzj?=
+ =?us-ascii?Q?jF+qLB6Zhhva/6X3/gHSzs+vvVnabnsRQLc07A7FdMNdaA6U1yFEnifoSxtV?=
+ =?us-ascii?Q?/yTUv1MiVYIkvykvQy2EnGIOpSsLRnZ+wnCAaMPHXDBXM1n1W9w8lyr/40ub?=
+ =?us-ascii?Q?I1feLX1rsB6Ox+SC8ErCp+re69uzci3SzJ/dMaJmmG0m8lewm3IoZfUQ8V5S?=
+ =?us-ascii?Q?WbEJ0XYMXTjQt4U3PnPItGVOdy5iA4mM4xpLKujo4Y7KU+c2KYI8f6fcArIy?=
+ =?us-ascii?Q?UIqBqCtT7gbs8LaNFXDvrj7HtyRtQjnOnjb7FZkfGQECCXx52bFy1gIGripf?=
+ =?us-ascii?Q?OorGnwV7VVBm7t/pSIam67pECD3JO4pVMPMYtI5iZTaRX6Kf2JyYelEVcckJ?=
+ =?us-ascii?Q?FYFL2N8KbUgeVipJH6p7+L0Bs2c3QiLSXbsmuBmyLjXLMW4a2Jlj8WpXrPDh?=
+ =?us-ascii?Q?HXBYtN2pE8t1qGHmp81xWHlbGemrZgmrh4HkURf6jP6XkTsOjr9oTdN1nA9S?=
+ =?us-ascii?Q?bznM5EZnyhQA2z0COz5G4C8Yi69l88349FGfzaJ8HaHDxL7o8BQPvcDS2R/S?=
+ =?us-ascii?Q?QVj23U1FOK0iJEDTZdxsmCLZGm5Jw4KPixhE?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?IV8KERxeTe+GxPpSetCBokTo4OjGazuIsXB3JDu4CsjKkmG105jOgTAgLRSX?=
+ =?us-ascii?Q?Vf/ldzx4wJ9Q+ZnS7nyMQZ+g+fMFSX0Xsb54du6eVmCLPXDl+QeLb4HsRnqo?=
+ =?us-ascii?Q?6KC6ijpXZq67ZXZzbm6nthSQ7esJC4oU9CuNNYMqUfZUj/3irXizT3uhYOMG?=
+ =?us-ascii?Q?84sCA2zpKhGxARA8P5FPK9bGbasZUVBlSlz2rgy6qDI3Ga6Zk2fsFC5Bcwp5?=
+ =?us-ascii?Q?28EJhRYcZYcNgy7v3pJ0y/33mY6kytIy+pLS8kSPynKliTu6cyxkAkYUF25K?=
+ =?us-ascii?Q?H0vdA6wHMO1QGDKZkhBeVSatw6KOU1nn4sEIsqfj4VHOvE1TCUc26jBZ4Mqz?=
+ =?us-ascii?Q?VdDLzBwdfhlS+NOUk2bkWMAgrV+TLTzBDI06DTUaFPL+wU97+9gNSeKirpNg?=
+ =?us-ascii?Q?kNX8XpoY3kEXWUCUAYNvmSOdToGBbAyBJnn6Y36dHu5twnw3ZqYWLfz8YzrN?=
+ =?us-ascii?Q?FAB5RGuQ7xfKApCc2sb2LrOR7oMAEtwr7yxXuDdtuW+C8/T0paFpp7S9DU/V?=
+ =?us-ascii?Q?qSYgbTAWRCT/Gyez6B7X8SRVXpIZGdLU6f6vcdYRJeHzr5/IO7mEw8IMZ2Z9?=
+ =?us-ascii?Q?pyR+vdv1EG9TAH8B6/pQnb7ShcaY1ohIP04LE5+mcaNk+6/er8Inz0xoaLKC?=
+ =?us-ascii?Q?fSLfySGNAVWOWU+F7jKcckUsmuH5PPfxb7l0p3L+IFmP934NddpJ3qctmL5I?=
+ =?us-ascii?Q?/XCx8dTMPnZ2U8BzK25ksNu0jBjZrn3OjxclOdRUYvEAtIq7Z1GtfBJqMkUd?=
+ =?us-ascii?Q?C595RpNATZzVh+1geVm0Gv4YNpdAcYADoJJBGA3gJ8P9rMvmTKFNVlWZu13W?=
+ =?us-ascii?Q?3n1284KeChDvvGa1qTTyyw7Kj+JXHchi8SgVHD0x1HPYKl77leZ3YggC3hm+?=
+ =?us-ascii?Q?bUA7DtwfA981DjjtnlV0Y7mxtRIinwRKhjUWu+rugOML6QLUwrCbuWFhV1Nm?=
+ =?us-ascii?Q?NprMsXWzc+b/QPT7+sGBklyoITASoPxbafDcZXgWNFrZ0Q8r4D5+93j+H4X0?=
+ =?us-ascii?Q?dZ3O5ECYQR2RG2BZ+qrJjol+KBwkPOHLKTOilz7IU5DulSGKU5L0oMJPwMJF?=
+ =?us-ascii?Q?Z65UsJxzIL/gfTTuCQSAwEisWVt4IhpG/GAg7d8x6NCFXE7KqRxTOfvb69Bn?=
+ =?us-ascii?Q?YymOnIuFETOdEukv0X03gyzp3wEB/y502PqCMh2i82yP2o0ATEVRishzL/Hd?=
+ =?us-ascii?Q?WVAHvPWv8RVQ0fnJ8P9gaQ76EiB2hoGWOZbt/TPpnLi60hHqfd0E9pZO8bha?=
+ =?us-ascii?Q?v7XOgRB1snxEUs1z/Y0X9zTv5jUwISjmYu2mpz/czw6GeDoj3dXSfdBC/bD2?=
+ =?us-ascii?Q?jzggMiM79kLHdhSwrXA6fk1s1ol00zbteU45maL5LQhvquCeAJOczntrgtIz?=
+ =?us-ascii?Q?MM6BV0DOTuQxkVnq5sx6ijjlQ7cf2ANP5VLR8DWPspK4bkeCYDSzVndGLlMf?=
+ =?us-ascii?Q?zSI8ORz8QoqCM901nMNMvq04HKa1//OyuYrfYxcY3WjJqprN4dyUL2Nkseww?=
+ =?us-ascii?Q?YOCHNB33wSZcxiSP3OUH17DnII2iOaCDarA5zDYszKge7+7nKCK8/9fj6JPQ?=
+ =?us-ascii?Q?f19Lfyl+EdRk0Yqa3Q5rawDe9Wx5H3LgCHHQGfX7LlzKJ68c9Iv3vIvmUdxh?=
+ =?us-ascii?Q?yA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: mMyj6iQrlQ6eyqNjXLso1gtomhULzu1g
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTAzMDA3MSBTYWx0ZWRfX7blDH341G0yY
- FkOxOVAz/1LSg9PheTGm670kuBE8/bAw4+yPZoKkErOqvWsVIRArqB2go/pOLnhrmpwX0lIWkK6
- yTagDEgFc3VJAwsxzuOaZg4Qy7Tmw8RJbk0zFx6FfzwlT2oDHE0bvJwRMh060XBb+rcAWTXzCZu
- QKbpdMBzoFRUSH6rubwd1ygw+YwoADs39kNAS8Co7tdF76lwra5LPRDiylEXRnMEPgjdaH4G83E
- 9ONc/qGJhRltoOZ43SDKXEpSWMSmWPhokuniDe74CCaEM7eFLWAPqnFHF/miO1ReT4pLsKPySTX
- KbjEx9/FixlrmsaJcBaS5f1cplKaDRCboUitxkPtdH+0kSOSN9WYP38ZDvDUNd4qdi9HLXe3Ilb
- /d5xIty+f5Nz67nmskRPoHjmhLjCfQ==
-X-Proofpoint-GUID: mMyj6iQrlQ6eyqNjXLso1gtomhULzu1g
-X-Authority-Analysis: v=2.4 cv=BeTVE7t2 c=1 sm=1 tr=0 ts=69085d3d cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
- a=lMZyJBgflejPjpnZdzwA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-02_02,2025-10-29_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- clxscore=1015 adultscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511030071
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 499bcb7b-1efd-468a-a134-08de1aaf55ee
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2025 08:02:29.6037
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Vv9Vnj5KgKW5dM0I+7jEl6Zd8Ue9kS9fY0c0IW56hWFdPKV1VvpKspEbnJT7N4hw4BtkgZoBJwAJnxZaSqFLxb3NM6EZSnrwVOwz9dmypZw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR10MB9017
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 07:44:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225611
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 08:02:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225612
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+> Notably, the patch to switch from rust-llvm to llvm included this:
+>=20
+> -    export RUSTFLAGS=3D"${RUST_DEBUG_REMAP}"
+> +    export RUSTFLAGS=3D"${RUST_DEBUG_REMAP} -Clink-arg=3D-lz -Clink-arg=
+=3D-lzstd"
 
-Make ICU ptest output compatible with Automake format.
+I realized that these RUSTFLAGS exported at the recipe level don't propagat=
+e=20
+to the rust self-test. The test directly runs 'python3 src/bootstrap/bootst=
+rap.py test=20
+--target' in an environment where recipe-level variables aren't visible.
 
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
----
- ...utput-compatible-with-Automake-forma.patch | 52 +++++++++++++++++++
- meta/recipes-support/icu/icu_77-1.bb          |  3 +-
- 2 files changed, 54 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/icu/icu/0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch
+I'm sending a v2 that fixes this specifically in the selftest harness=20
+(meta/lib/oeqa/selftest/cases/rust.py) by passing the link args via RUSTFLA=
+GS=20
+in the test command itself, plus adding libzstd to the QEMU test image.
 
-diff --git a/meta/recipes-support/icu/icu/0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch b/meta/recipes-support/icu/icu/0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch
-new file mode 100644
-index 0000000000..b30056a4fe
---- /dev/null
-+++ b/meta/recipes-support/icu/icu/0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch
-@@ -0,0 +1,52 @@
-+From f56e295e936c6c6d9c7219ef649697891cd11382 Mon Sep 17 00:00:00 2001
-+From: Jiaying Song <jiaying.song.cn@windriver.com>
-+Date: Mon, 3 Nov 2025 11:34:06 +0800
-+Subject: [PATCH] Make ICU ptest output compatible with Automake format
-+
-+Change test result format to PASS/FAIL for Automake compatibility
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ test/intltest/intltest.cpp | 4 ++--
-+ tools/ctestfw/ctest.c      | 3 ++-
-+ 2 files changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/test/intltest/intltest.cpp b/test/intltest/intltest.cpp
-+index 33829b0..07071ea 100644
-+--- a/test/intltest/intltest.cpp
-++++ b/test/intltest/intltest.cpp
-+@@ -830,11 +830,11 @@ UBool IntlTest::runTestLoop( char* testname, char* par, char *baseName )
-+             saveBaseLoc[0]=0; /* reset path */
-+             
-+             if (lastErrorCount == errorCount) {
-+-                snprintf( msg, sizeof(msg),  "   } OK:   %s ", name );
-++                snprintf(msg, sizeof(msg), "PASS: %s\n   }", name);
-+                 if(!no_time) str_timeDelta(msg+strlen(msg),timeStop-timeStart);
-+                 lastTestFailed = false;
-+             }else{
-+-                snprintf(msg, sizeof(msg), "   } ERRORS (%li) in %s", static_cast<long>(errorCount - lastErrorCount), name);
-++                snprintf(msg, sizeof(msg), "FAIL: %s\n   } (ERRORS: %li)", name, static_cast<long>(errorCount - lastErrorCount));
-+                 if(!no_time) str_timeDelta(msg+strlen(msg),timeStop-timeStart);
-+ 
-+                 for(int i=0;i<LL_indentlevel;i++) {
-+diff --git a/tools/ctestfw/ctest.c b/tools/ctestfw/ctest.c
-+index 7634526..727b164 100644
-+--- a/tools/ctestfw/ctest.c
-++++ b/tools/ctestfw/ctest.c
-+@@ -413,9 +413,10 @@ static void iterateTestsWithLevel ( const TestNode* root,
-+         ctest_xml_testcase(pathToFunction, pathToFunction, timeSeconds, (myERROR_COUNT!=ERROR_COUNT)?"error":NULL);
-+ 
-+         if (myERROR_COUNT != ERROR_COUNT) {
-+-          log_testinfo_i("} ---[%d ERRORS in %s] ", ERROR_COUNT - myERROR_COUNT, pathToFunction);
-++          log_testinfo_i("\nFAIL: %s\n} ---[ERRORS: %d]", root->name, ERROR_COUNT - myERROR_COUNT);
-+           strcpy(ERROR_LOG[ERRONEOUS_FUNCTION_COUNT++], pathToFunction);
-+         } else {
-++          log_testinfo_i("\nPASS: %s\n", root->name);
-+           if(!ON_LINE) { /* had some output */
-+             int spaces = FLAG_INDENT-(depth-1);
-+             log_testinfo_i("} %*s[OK] ", spaces, "---");
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/icu/icu_77-1.bb b/meta/recipes-support/icu/icu_77-1.bb
-index fa25b3e7c8..370c14af81 100644
---- a/meta/recipes-support/icu/icu_77-1.bb
-+++ b/meta/recipes-support/icu/icu_77-1.bb
-@@ -122,7 +122,8 @@ SRC_URI = "${BASE_SRC_URI};name=code \
-            file://0001-ICU-23120-Mask-UnicodeStringTest-TestLargeMemory-on-.patch \
-            file://0001-test-Add-support-ptest.patch \
-            file://run-ptest \
--           "
-+           file://0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch \
-+          "
- 
- SRC_URI:append:class-target = "\
-            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
--- 
-2.34.1
+This approach is more targeted and only affects the selftest execution.
+
+Peter
 
 
