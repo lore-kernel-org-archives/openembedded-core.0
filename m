@@ -2,117 +2,114 @@ Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CE28CCF9F8
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 12:29:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D815CCF9F8
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 12:49:51 +0000 (UTC)
 Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19265.1762172945092132723
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19743.1762174184005431690
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 04:29:05 -0800
+ Mon, 03 Nov 2025 04:49:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=W77vFfsH;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BkocUk2H;
  spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: zboszor@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-640860f97b5so3027936a12.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 04:29:04 -0800 (PST)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6407e617ad4so5374951a12.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 04:49:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762172943; x=1762777743; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BdcC0mte5d8AtD/Ndiq4CNNSK4C1LPwmu5Y+qzplcpE=;
-        b=W77vFfsHi771j8lffXs8wVkpuNPNkBR8+EU4nIDYNmUh/c+p2J5QZ3hxYXsaGeent2
-         rJaqtYpLKOSn/ZH9vEEglWiRg/jPcz5SyffQVX4x4KR9OWD6JfHIybm4+26cEzl+KxVs
-         Cieghw7u+6JywuSifqq83LRzrADwCSUU+e7slkIUz1GpS5+lXLXNLsHec9g/QKVxKCr2
-         cPJjtkRO90ZOwpolya/a2Jjh+AUX9dqDutM1doWdd8SqrLN0qaJx+lcV4qsq5kZ0Mfgl
-         3nGxwep6rSyrrysLc/PFM1djhvHt4Wcdg8IFX1/LEYfoCtC3RiZWjpyEu43rOX9FrjFe
-         ZzKA==
+        d=gmail.com; s=20230601; t=1762174182; x=1762778982; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TzKYQs5C2Lt8W7WEUr7THiwf6ucG6O1khGkUv08GM+M=;
+        b=BkocUk2HBvldIs0270fxWGU+r5ZGsDJEkKQy4oalYgXy7qs4T6+6LAmApVo3UVa1ws
+         gVObTiVBMBRToEKWvt/kNO2Herr36a0Ub667NbbHs+sCK0zmwOkeGPukL4oIcJEgYgAQ
+         pzcglvd2lAQuO+H9s/v2q6ifamYcc0tWNZR2+1jTMRbL7CY1bSK6GNopHWVwdBrT7Yib
+         aUfVppyIMj7iutNPpSaB+cGl/Oplr8eRfKm/1IwNhX0uNHDegJBDikqA/hGlDG7/hjFs
+         57Rj5Zm5GKOmAn7Tho5xwtByBGyt1+iezoTJ/i7Wsdxk+hdT/AMS+cROYw3bfXzX5ng/
+         qvzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762172943; x=1762777743;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BdcC0mte5d8AtD/Ndiq4CNNSK4C1LPwmu5Y+qzplcpE=;
-        b=CZP46AW4uPFiC8+7g6DTS/5IB5J/WFQq0GsWcrk9h9fxD6IgHGjeG3ezNAB194ybqG
-         LM9Im3T2rJpjqXGPgt2flGfh5VQV9fCEr+x4ZMyDre32YcUi6TLNuE+30t+KN7mGtYPC
-         cSkSiVV3VOIp8chqWb0QMEytBsmSKdfBqWZAQsNiiKzDGUcVd5iqpqdThx6DlP7JTFC4
-         3UP1nAZptcwLWtuyuaEnSSf99VZ33nDWnJ1TLdgYoSEZunPa3wLKRqEKBVeJ88unpUic
-         G7vCl9A3wsjZOBw9Io31ZTHgMCiFQBcQfwJtu2NyTJiMvNpQAlUitNrHjQaB4GUKIHJP
-         HYbw==
-X-Gm-Message-State: AOJu0YyzqnXjAYd7439n7kveM/9lfrgxcTItWFicObaKd75kDXEP+I/4
-	E9U/v3DXjQ8ZqHWQkSNw2ur944rH5ENQYFyafpYA12wG52ZTQhlyDr7B
-X-Gm-Gg: ASbGnctvi2UooNO2Kp0XbmdJaK50bnwUOz4cZ/P1RKWw97oBKnDIZcxNXAh8MEN/cet
-	npZgMYOP8T5sid4BJPaLBHu/01dwU1o4jN4UPyh+9T4Cn7EMujLyeOE00G4BIU+98Jy1nIgaIOu
-	TVu/BtF3iCyhhGYp8RIsW6A0IM6X0w3N5H5kEfDifJz/ny+all+iPiQMaFcstBCD9xHp888LArz
-	J5CAlBqoDdyREeF4mRR8i8X5r3fxaT+QWP7Gm5OhjhrqAi2pcGUYJUW4W1ni3sLnrbB4379lcRW
-	scc2hxLmG6UnWVHBjhFyioQEcN8qkUJRlbWHaWAIHiAxefLM4lZsa0AtudDcMii0o3n9Fl0Kter
-	btGMm0wGEtyOEbk2omHlyrttw1wNw7q1ddE/rOS2M5Ar7HdWIEJcdPj5O57J6SzW47DYbJQUltU
-	4KGsDyFCxhy909BGIJodVkWsF8wlf/7BzK/jLBji95Qej5
-X-Google-Smtp-Source: AGHT+IFIdqcJ43Y75/EdZ9NgTZlPCYln2M8gpgHMO0tgLqEtnF6RZj8dmFUbeNCEfwefAncJVGKzYQ==
-X-Received: by 2002:a17:906:f34f:b0:b70:7cd8:9098 with SMTP id a640c23a62f3a-b707cd8a9cemr792238666b.61.1762172943090;
-        Mon, 03 Nov 2025 04:29:03 -0800 (PST)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7077c3b1a4sm1016786366b.46.2025.11.03.04.29.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Nov 2025 04:29:02 -0800 (PST)
-Message-ID: <ec0c349b-4f6e-42e8-be37-e8e8d368c931@gmail.com>
-Date: Mon, 3 Nov 2025 13:29:02 +0100
+        d=1e100.net; s=20230601; t=1762174182; x=1762778982;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TzKYQs5C2Lt8W7WEUr7THiwf6ucG6O1khGkUv08GM+M=;
+        b=VtJXwTTSERwtxBNRhx61QhdNHunfhl8GenXWZIsV52ipksSV4hNskoHvpZj17gXKeh
+         WZPG5ajkc/ZLbv1AT8zqSST5OKJUYi5c5NfGht1WBk+pAvc77rkdIqPRVSUYYuwJLiFr
+         mZqBV6oKnysJB8rwYyqOx5E54m27GA1+tAOgTEK1ISt5c7LunolfNAA/Xb3zBK3GHjcg
+         95Ab5dxuaVuBb0OThxEBhcz/MBs3HRbAWxNLsVxv8qFj6gfYKH7FnhYwbyi8uM0MpHVG
+         ZqO27c74ZP31yEXy7skfXHuaGNDA86JAXhtsyLgvg6uVog/1IoWz5rlAHujzdjC59ZNx
+         JUPA==
+X-Gm-Message-State: AOJu0Ywwqn7IC3zCWzFdMFRY/cbJNi48xW7JS43KcAg/k0P3wopETHQs
+	niLqbJYcz/rwRe6/WIWvi18FrkB70Fhbk0oqa5tjIac0HekGybE59qEcqJvT7g==
+X-Gm-Gg: ASbGnctaaYdAmYK5L7KKSBl5CZFeFmdDOnZ26nR23LdX8uBLVa2W3Uwdva1vIBiq45u
+	WLkfcEnpJUnn2Y19rfNNL3DShprKzVhsKVRDBUp9fvviWOYDADp6mDEyX2urxxrjEGpR0/navoi
+	8hjfnjggXQDVttImOfErPgEwP17zDIyZWUyuTEZJwhLfVTzVSST/3P/6vihZ42YWiJToz+z/TLt
+	b6NVjot9jXQDz/YakVfAg6+V3AMOdY/MgbmSjhdb+lbLgeoy2mBEx0ZrdHSoQPYuxQ7YMemmm5Q
+	DJVlOJTra46pvVDG4hEmEz3/YkSZheuOIod4FLYXUIeKvh8D6H1t7Z36DO9TSK6FGBr04gjF3NS
+	qKi7rfNc/BybuPEFSzOHviI9NkJqnlcHOU23H1qTrXHxl+fx3aZJDapm2n2pyf4wiKrrEwB0J+A
+	htg9lFVBZZd5YJjsYqZjJGTWpZm64x5jsQ
+X-Google-Smtp-Source: AGHT+IEajUn6jh+GOEX2XslrNkRou5/N4XBDpXSsmL3752zcXZSBgF55mi2t6hwJn33dP7FmA9We+g==
+X-Received: by 2002:a05:6402:1469:b0:640:9bb0:a059 with SMTP id 4fb4d7f45d1cf-6409bb0d2ebmr6642834a12.10.1762174181954;
+        Mon, 03 Nov 2025 04:49:41 -0800 (PST)
+Received: from fedora (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64095f9ee0csm7224348a12.16.2025.11.03.04.49.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Nov 2025 04:49:41 -0800 (PST)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH v2] meta/conf/layer.conf: Omit most build deps of rpm-sequoia-native
+Date: Mon,  3 Nov 2025 13:49:39 +0100
+Message-ID: <20251103124939.2076502-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] meta/conf/layer.conf: Avoid adding build deps
- of rpm-sequoia-native
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20251103080410.2025712-1-zboszor@gmail.com>
- <CANNYZj9WdjNNdaNTUuhL=J_TJf51zfOONb0xR8X05QCs8ioiRQ@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj9WdjNNdaNTUuhL=J_TJf51zfOONb0xR8X05QCs8ioiRQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 12:29:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225652
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 12:49:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225653
 
-2025. 11. 03. 12:16 keltezéssel, Alexander Kanavin írta:
-> On Mon, 3 Nov 2025 at 09:04, Zoltan Boszormenyi via
-> lists.openembedded.org <zboszor=gmail.com@lists.openembedded.org>
-> wrote:
->
->> Avoid adding dependencies of rpm-sequoia-native into sysroots
->> as it needs none of its build dependencies to run.
-> This needs to be a bit more specific. What is specifically installed
-> into sysroots that you would like to avoid having there?
+Omit most of the build dependencies of rpm-sequoia-native as it
+needs only OpenSSL, and implicitly, libgcc and the C runtime
+to run.
 
-rpm-sequoia is Rust based.
+The list of build dependencies were determined by
 
-rust[-native] in Yocto master depends on llvm[-native].
+  $ bitbake -e rpm-sequoia-native 2>&1 | grep ^DEPENDS=
+  DEPENDS="pkgconfig-native cargo-native openssl-native python3-native rust-native rust-native"
 
-The target build just uses the shlib dependencies (only libssl.so.3,
-libcrypto.so.3, libgcc_s.so.1, and the C runtime), but the native build
-pulls in the whole destdir for each build dependency.
+Omitting these (except openssl-native) can save significant
+amount of disk space and it also speeds up packaging into
+signed rpms a little.
 
-So, it's not actually true that none of the build dependencies
-are needed, but the openssl libs and the libgcc_s native builds
-are pulled in via some other recipes that are needed in native sysroots.
+Omitting rust-native (and implicitly, llvm-native) also avoids
+conflicts with different LLVM/CLANG versions, like those found
+in meta-clang-revival.
 
-Anyway, noth rust-native and llvm-native are quite heavy, so
-not copying them speeds up packaging a little and saves disk space.
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ meta/conf/layer.conf | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-llvm-native also conflicts with clangXX-native builds in meta-clang-revival.
-
-Recipes using TOOLCHAIN = "clang14" or similar build successfully,
-but extend_recipe_sysroot in staging.bbclass fails when re-run
-before packaging.
-
-See my previous mail at
-https://lists.openembedded.org/g/openembedded-core/message/225411
-
-Currently this change is in the layer.conf of meta-clang-revival,
-but the speedup and the disk space saving worth it to have
-it in oe-core.
-
-I will send v2 with the extended explanation and only omitting
-rust-native and llvm-native.
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 54fa04e213..ba25ca3029 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -116,6 +116,13 @@ SSTATE_EXCLUDEDEPS_SYSROOT += "\
+     .*->perlcross-native \
+     libarchive-native->e2fsprogs-native \
+ "
++# rpm-sequoia-native does not need most of its build dependencies to run,
++# so omit them. The necessary ones are openssl-native, and implicitly,
++# libgcc-native and the C runtime. Omitting these build dependencies can save
++# significant disk space and speeds up packaging into signed rpms a little.
++SSTATE_EXCLUDEDEPS_SYSROOT += "\
++    rpm-sequoia-native->(pkgconfig-native|cargo-native|python3-native|rust-native) \
++"
+ # Nothing needs to depend on libc-initial
+ # base-passwd/shadow-sysroot don't need their dependencies
+ SSTATE_EXCLUDEDEPS_SYSROOT += "\
+-- 
+2.51.0
 
 
