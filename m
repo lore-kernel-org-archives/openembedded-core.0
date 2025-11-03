@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAB98CCFA04
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAB58CCFA03
 	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 20:59:47 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2250.1762203578607190744
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2252.1762203581805910393
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 12:59:38 -0800
+ Mon, 03 Nov 2025 12:59:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=e67P7U97;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7aab061e7cbso2067862b3a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 12:59:38 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Q5gv6+Jj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-295df6ad56cso8832995ad.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 12:59:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762203578; x=1762808378; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762203581; x=1762808381; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=de7N/XhamQM8wU5w8codXLSzfpje8MKOLouEZgGinRs=;
-        b=e67P7U97zQjWqysVGOE1KB7o+idXJvtgmzbFZRZzuzIuAnbu1RAsYEE8A5PpjcQoQY
-         4nFhnbarqdrvBwujl2TD/dAvAjpqwYnjp32JNamR9/DwnztsYTQcUMK1RChKMYOLqbLs
-         H0JMnTQ/m3UfUQLcNXBYBHQo99sxijYCopQ4/foN8SYu2z6S3S94hMRuw6TmXabyoMWl
-         HdmqnpXqLCbom0k8h0MQsVFOuN1iDD+rTFfinAJ455Qgu9X3/f8NLeA/FYhuh2tmOIs/
-         19cXAqtJSU1N6VYYVyWTQDrX7OjX/TLxLb81T14MBe6/stk2vB1sU3oLhnkMIuvOuRG8
-         0Xmg==
+        bh=mHM+X2r5IhHYUn+yN2XwHFIZ5PEZtQ/bTkqL64aMuzw=;
+        b=Q5gv6+JjG1W2vqsr06z2XRAgJyWhDyqvKLA1AnIMXA5gQyvTwpFfpcaYSAuc46fyVp
+         aeyVsoYPccrAVjViQXE1DX5+lqZpg0us54fNXylv5q8V4dPMWNMXY7EJkICo3KiFw55y
+         J533+X+jXTh8aX9e0QRv+M7sUfvO05D9xVefvzAgHxLPsOMhcoIQGgbVVzE6wNeKxqJE
+         pNfD3xK9eevE44GdzVNuJvcR/UeRnNKIy2gxpbIJPMGP4LKrxhYnfH7XWb7vDsxXJwUF
+         F+41uxfyVIXgkXXXHLn/uONhTrRNWU12Up0qUYOgzI4SJmix6OiGqCn2SH+2Cng7oJE9
+         51dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762203578; x=1762808378;
+        d=1e100.net; s=20230601; t=1762203581; x=1762808381;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=de7N/XhamQM8wU5w8codXLSzfpje8MKOLouEZgGinRs=;
-        b=PWtZzhu6Crg9iph1ZpJ/Nf5iOloIkkhlaLPBWLCKQKUfKDhMDPa3LlfxStifED915G
-         bs8MWN6xiJL4AcPzep4sKoiuj50ZimI24EqTPCyoTDWuiMNNvbXYxd2ltm1hmUZr00Hs
-         8VerKiNs8/wawdMmvsaAn2IQxOQLX/+SCM0lQ0errmU1sEoMf05L+fKpJaWNjXEEl4h5
-         M1rf9GSuaXG+kfqjhcYdtJIf2jfg0oEnhjzdLxRTHSw6g6K7oolL3OEG7MM7c4yZBmwc
-         xprLAV+D+zpZYkk+MiGLUxdOy+78oE5BXaKmfk++xGuagAmoC8G03NvfJWfNtaF3bXUQ
-         JTRA==
-X-Gm-Message-State: AOJu0YyG+yJyjXU7XHCduzvajXaPccNIvyCe5PtJ8HUa5wcJ0d3C8x6K
-	ugSHjL5/ObjF9+3/1xlEM9tyLEntmJ86GcyF6UgRLo37P1Ont/GRi26vH7uzuKc+MWx21eAXcED
-	p7jC1CEo=
-X-Gm-Gg: ASbGnct3LW5jsqj3+RWfbFkpuofsesc+5nTC504HpNdxT8fjqJKR++Cusx5FGMyKeo6
-	ConXg9GrpHgRnSb43x9E+6yAPCCkZoHjHRgjnIs1fcFSkc+q0DCSjT1MmUxF9Vf5MGVwb8Wb6cz
-	wjQ5InxaXZDInA8P/0quabc7poRm5mT0tLiTQATtqCoLigXEeF25XMyYr9+tbAByGikRLVwQpbT
-	q/O17fUQOUmGHhtR9rO0VB9m4LZCp9zW11UehdVJBLpeT03p4vWVq8E+GrkiGvZGIAE1vItKLg1
-	+LkwCInyYogQdLHHTIibnh+ogfREF4Kt5y9Fa8rzTj8N+aDXczW05zAQ6BD4Xnh4MCR30mQFLGo
-	00u2TmUOEAaCC7rwfFPEAziylDxbZXe4XU/DgBSQuCkSWjdTuZggB/Gz8mF/AaSYp8G7qI8qpZF
-	tuuw==
-X-Google-Smtp-Source: AGHT+IGVO75BUuCr44ZLOAR3xLri9q/C598Ghz+elnEtPmjk2fAcZQutU2WglGXnelzlULeaeew2ig==
-X-Received: by 2002:a05:6a20:430d:b0:343:55a9:3ebf with SMTP id adf61e73a8af0-348ca763736mr18504922637.16.1762203577791;
-        Mon, 03 Nov 2025 12:59:37 -0800 (PST)
+        bh=mHM+X2r5IhHYUn+yN2XwHFIZ5PEZtQ/bTkqL64aMuzw=;
+        b=V0AP1tE9hi8CfDZ44p7oXdPI82JEF60rOQP3twXE7RdlW7NVdg2sfHRExNj372uVvn
+         HrhpRMCNNrlntpeB3bJ6nsQUNfefDitgTFcShwylUIWiHeOnKUXHOKgq+KA2BLrWOLAS
+         //furVfpnu4ChqMOtUNcfQebIvCueppR04VTPBV60yCAuuAl14rBl4pupBwsRL+vSTv1
+         oCg0ZmmqxXvLeYX+GNUWiGkTwL3KRrjlv094I9cBdLF2wiCsj1CXz1Xx0DYnmMH1QGWL
+         axEfvsyG8uHSWPgIgcaQNMDmN8Pj2QTwvWOsQqsghv6nvn6NX07oG/mS5EcI3r+TLb2V
+         QOrQ==
+X-Gm-Message-State: AOJu0YxcubpnlUXB2Py2ZEsoX0Dfhm6zGASffV7NJE993jeqpSNwW7hu
+	ziE+j3k1weOLa79qkMlWvoPqcflQGMHuLWAKjYTWHpg+/GTjtAzgSPnfdVXbb/2LbuH+1HRVvly
+	lq+Q2Hjg=
+X-Gm-Gg: ASbGncv3d5uZA2i0fqWFkU8gCnk/88BmDWlED0PzG1NwJGc8Pvp03ZCafXMAmHBShgH
+	crX46UUjUTS7irJhCVgBiekur1Y/bJA9pNWlMg12ujKcfAWckHCI7aN6CZQJLIwLiZECGGMGfxd
+	glIoOlYJMRyy+oFByy8OdY0Py3/mJad7qvyHJvPDWQ53vJdSqt9ibZxceeqq+KccjjhJJn6nYS3
+	waGE1EtHDo3VyhOlm7x4h2+LOTMfMU/TmskRsf82p2reL2RHyADsW5LrLvC3y8XXSZyra/V8cZa
+	EhZ06jOADzDEq9U4VU41vQbAi94U3zd4buBCJJrQnae39L1aC7CfYqeVU/LVAVB++v64A98YEzw
+	0zx3Sok7YT20GlGNiDt4fQp8x22KA7EM2CCTkVaKAwXgQiw9v+kqQctwF5FN4o3f7Lzmywlibpq
+	7bZQ==
+X-Google-Smtp-Source: AGHT+IGdjfNZwEH3bNNgDJs9t0QHZ0aRUs7ORyET388nVweTuL4rgH4rmyQIuyzB2HoZ3itka/Oo6w==
+X-Received: by 2002:a17:902:cece:b0:295:5668:2f26 with SMTP id d9443c01a7336-295566831admr140127455ad.46.1762203580902;
+        Mon, 03 Nov 2025 12:59:40 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:6a2d:a521:f4d2:20a3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3415b02891asm2024911a91.9.2025.11.03.12.59.36
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3415b02891asm2024911a91.9.2025.11.03.12.59.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Nov 2025 12:59:37 -0800 (PST)
+        Mon, 03 Nov 2025 12:59:40 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 6/8] go: fix CVE-2024-24783
-Date: Mon,  3 Nov 2025 12:59:13 -0800
-Message-ID: <b7d89fae22b317199b8f72978712075078a17005.1762203396.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 8/8] Don't use ftp.gnome.org
+Date: Mon,  3 Nov 2025 12:59:15 -0800
+Message-ID: <1e1993b72f2b6109ce3d0ef950553b74b2b37b27.1762203396.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1762203396.git.steve@sakoman.com>
 References: <cover.1762203396.git.steve@sakoman.com>
@@ -69,121 +69,89 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 20:59:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225702
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225704
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Jason Schonberg <schonm@gmail.com>
 
-Upstream-Status: Backport https://github.com/golang/go/commit/be5b52bea674190ef7de272664be6c7ae93ec5a0
+http://ftp.gnome.org/pub/gnome redirects to https://download.gnome.org
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+ bitbake.conf defines ${GNOME_MIRROR} to be https://download.gnome.org/sources/
+
+Signed-off-by: Jason Schonberg <schonm@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/go-1.17.13.inc       |  1 +
- .../go/go-1.21/CVE-2024-24783.patch           | 83 +++++++++++++++++++
- 2 files changed, 84 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2024-24783.patch
+ meta/recipes-devtools/python/python3-pygobject_3.42.0.bb | 2 +-
+ meta/recipes-devtools/vala/vala.inc                      | 2 +-
+ meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb                 | 2 +-
+ meta/recipes-gnome/libgudev/libgudev_237.bb              | 2 +-
+ meta/recipes-support/libxslt/libxslt_1.1.35.bb           | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
-index aab8e85c22..465f24e108 100644
---- a/meta/recipes-devtools/go/go-1.17.13.inc
-+++ b/meta/recipes-devtools/go/go-1.17.13.inc
-@@ -68,6 +68,7 @@ SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main \
-            file://CVE-2025-47907-pre-0002.patch \
-            file://CVE-2025-47907.patch \
-            file://CVE-2025-47906.patch \
-+           file://CVE-2024-24783.patch \
-            "
- SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
+diff --git a/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb b/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
+index 360996dbb7..7798148094 100644
+--- a/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
++++ b/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
+@@ -15,7 +15,7 @@ DEPENDS += "python3 glib-2.0"
+ SRCNAME="pygobject"
  
-diff --git a/meta/recipes-devtools/go/go-1.21/CVE-2024-24783.patch b/meta/recipes-devtools/go/go-1.21/CVE-2024-24783.patch
-new file mode 100644
-index 0000000000..952258be20
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.21/CVE-2024-24783.patch
-@@ -0,0 +1,83 @@
-+From be5b52bea674190ef7de272664be6c7ae93ec5a0 Mon Sep 17 00:00:00 2001
-+From: Roland Shoemaker <bracewell@google.com>
-+Date: Thu, 18 Jan 2024 12:51:13 -0800
-+Subject: [PATCH] [release-branch.go1.21] crypto/x509: make sure pub key is
-+ non-nil before interface conversion
-+
-+alreadyInChain assumes all keys fit a interface which contains the
-+Equal method (which they do), but this ignores that certificates may
-+have a nil key when PublicKeyAlgorithm is UnknownPublicKeyAlgorithm. In
-+this case alreadyInChain panics.
-+
-+Check that the key is non-nil as part of considerCandidate (we are never
-+going to build a chain containing UnknownPublicKeyAlgorithm anyway).
-+
-+For #65390
-+Fixes #65392
-+Fixes CVE-2024-24783
-+
-+Change-Id: Ibdccc0a487e3368b6812be35daad2512220243f3
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2137282
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Run-TryBot: Roland Shoemaker <bracewell@google.com>
-+Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2173774
-+Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+Reviewed-by: Carlos Amedee <amedee@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/569238
-+Auto-Submit: Michael Knyszek <mknyszek@google.com>
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+Reviewed-by: Carlos Amedee <carlos@golang.org>
-+
-+CVE: CVE-2024-24783
-+Upstream-Status: Backport [https://github.com/golang/go/commit/be5b52bea674190ef7de272664be6c7ae93ec5a0]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/crypto/x509/verify.go      |  3 +++
-+ src/crypto/x509/verify_test.go | 19 +++++++++++++++++++
-+ 2 files changed, 22 insertions(+)
-+
-+diff --git a/src/crypto/x509/verify.go b/src/crypto/x509/verify.go
-+index 9ef1146..3e95808 100644
-+--- a/src/crypto/x509/verify.go
-++++ b/src/crypto/x509/verify.go
-+@@ -819,6 +819,9 @@ func (c *Certificate) buildChains(cache map[*Certificate][][]*Certificate, curre
-+ 	)
-+ 
-+ 	considerCandidate := func(certType int, candidate *Certificate) {
-++		if candidate.PublicKey == nil {
-++			return
-++		}
-+ 		for _, cert := range currentChain {
-+ 			if cert.Equal(candidate) {
-+ 				return
-+diff --git a/src/crypto/x509/verify_test.go b/src/crypto/x509/verify_test.go
-+index 9954a67..9da39ca 100644
-+--- a/src/crypto/x509/verify_test.go
-++++ b/src/crypto/x509/verify_test.go
-+@@ -1968,3 +1968,22 @@ func TestSystemRootsErrorUnwrap(t *testing.T) {
-+ 		t.Error("errors.Is failed, wanted success")
-+ 	}
-+ }
-++
-++func TestVerifyNilPubKey(t *testing.T) {
-++	c := &Certificate{
-++		RawIssuer:      []byte{1, 2, 3},
-++		AuthorityKeyId: []byte{1, 2, 3},
-++	}
-++	opts := &VerifyOptions{}
-++	opts.Roots = NewCertPool()
-++	r := &Certificate{
-++		RawSubject:   []byte{1, 2, 3},
-++		SubjectKeyId: []byte{1, 2, 3},
-++	}
-++	opts.Roots.AddCert(r)
-++
-++	_, err := c.buildChains(nil, []*Certificate{r}, nil, opts)
-++	if _, ok := err.(UnknownAuthorityError); !ok {
-++		t.Fatalf("buildChains returned unexpected error, got: %v, want %v", err, UnknownAuthorityError{})
-++	}
-++}
-+-- 
-+2.50.1
-+
+ SRC_URI = " \
+-    http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
++    ${GNOME_MIRROR}/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
+     file://0001-Do-not-build-tests.patch \
+ "
+ SRC_URI[sha256sum] = "9b12616e32cfc792f9dc841d9c472a41a35b85ba67d3a6eb427e307a6fe4367b"
+diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+index 87d8fedc3f..3e5194e688 100644
+--- a/meta/recipes-devtools/vala/vala.inc
++++ b/meta/recipes-devtools/vala/vala.inc
+@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+ 
+ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+ 
+-SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/${BPN}/${SHRT_VER}/${BP}.tar.xz"
++SRC_URI = "${GNOME_MIRROR}/${BPN}/${SHRT_VER}/${BP}.tar.xz"
+ inherit autotools pkgconfig upstream-version-is-even
+ 
+ FILES:${PN} += "${datadir}/${BPN}-${SHRT_VER}/vapi ${libdir}/${BPN}-${SHRT_VER}/"
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
+index 3e974c91e5..e6c8e43923 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
+@@ -2,7 +2,7 @@ require gtk+3.inc
+ 
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+-SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
++SRC_URI = "${GNOME_MIRROR}/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
+            file://0002-Do-not-try-to-initialize-GL-without-libGL.patch \
+            file://0003-Add-disable-opengl-configure-option.patch \
+            file://link_fribidi.patch \
+diff --git a/meta/recipes-gnome/libgudev/libgudev_237.bb b/meta/recipes-gnome/libgudev/libgudev_237.bb
+index 9ce43ce34b..4b4121980c 100644
+--- a/meta/recipes-gnome/libgudev/libgudev_237.bb
++++ b/meta/recipes-gnome/libgudev/libgudev_237.bb
+@@ -22,7 +22,7 @@ GIR_MESON_DISABLE_FLAG = 'disabled'
+ 
+ GTKDOC_MESON_OPTION = "gtk_doc"
+ 
+-UPSTREAM_CHECK_URI = "http://ftp.gnome.org/pub/GNOME/sources/libgudev/"
++UPSTREAM_CHECK_URI = "${GNOME_MIRROR}/libgudev/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>(\d+))"
+ 
+ # This isn't a GNOME-style version do gnome_verdir fails. Just return the
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.35.bb b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
+index f1532a05c1..fc1fafbf19 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.35.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=0cd9a07afbeb24026c9b03aecfeba458"
+ SECTION = "libs"
+ DEPENDS = "libxml2"
+ 
+-SRC_URI = "https://download.gnome.org/sources/libxslt/1.1/libxslt-${PV}.tar.xz \
++SRC_URI = "${GNOME_MIRROR}/libxslt/1.1/libxslt-${PV}.tar.xz \
+            file://CVE-2024-55549.patch \
+            file://CVE-2025-24855.patch \
+            file://CVE-2023-40403-001.patch \
 -- 
 2.43.0
 
