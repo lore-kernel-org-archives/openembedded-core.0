@@ -1,655 +1,228 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDD5ACCF9FE
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 14:22:01 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21915.1762179712186524760
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 017B7CCFA05
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 14:32:22 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.80])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22256.1762180335060390657
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 06:21:52 -0800
+ Mon, 03 Nov 2025 06:32:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1305B1D14
-	for <openembedded-core@lists.openembedded.org>; Mon,  3 Nov 2025 06:21:43 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5DF9F3F694
-	for <openembedded-core@lists.openembedded.org>; Mon,  3 Nov 2025 06:21:50 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=dr7bwecg;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: vaisala.com, ip: 52.101.70.80, mailfrom: niko.mauno@vaisala.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fyiq7Yd6/taUz7ZtJk82zNe2Hgjswme7Q0AnPA/58HCu517w+M50VEUV+i/0GpTP9cfnPo93kevc7mVej6Qu8g2SmZnGh0wfEu0H5VSoEyraG4qwFhjK2OMNcA5zzgTC8xnyZeJnvjnqgT2o26RLiSbnMeixtLaT3wXJuNm3+Y+IC74+nJouxbNhM9D2uvsSFCmFOEqulN5EmYcuo2XeBvkFi8KNHcpEDOV7IhCVFXRLHijGngLV0exobVL+03o2ZhuUdbK5pwtJkSe14UVcuUa2D3T6wjpWlZ0auLYmY4JqnJuUPOivHMfjkOm21hcXpOjmrylmLukqurUky7FHqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jaVj9rSEp9LUBXxicmf6Qfsc5xJt5BCOu4UpW2satOI=;
+ b=uV0ycXX7iLxdDKQHG0twbG603io4pnwYP/kmVg+HD9zPdWUAszF3ub3liQTustbCxMyKcihSzBgaq0A4K+J5wXnYOVPsAFUwH1yufinhA2fMz2rA6p1ygS+ljAbX5G66xs/BJxYuO+g88h1GIcBiQWCv8GlfRpxrIM0URtFSrecTgRZOGYgUplfZdFCuTjwtxkFX6Qs4PxCfJCg+Scyx3LKRkXG2qAg1IO0BQ/wHF3kVTVpyWDWVHOw56pBhkXkqsTC6/BZSrUxPYKD9l/RQSejYpG+hZhut0qjH/AA0MzUMynXDjeUgeGfT4j69dZbaz0jAmuhj3osJjGMB/1Agzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jaVj9rSEp9LUBXxicmf6Qfsc5xJt5BCOu4UpW2satOI=;
+ b=dr7bwecgOnt1sbkget33l0y3SmiO4+M9EbErddG6SqwGsgmUbA6yTeq6AM12UG3lqnFWnNoH0ENNkS5XRZBZ5bzL/QNlIw2Zs43oTnokNd61C2/vgpSqIM5dDh99KY27Aub3a9QwVHg2zW/fOzYKAT+1eC9YlxoVEY6R8tQkVIy6Kx4XppSfUxdzet3RMMAIyeewQTy8IdIgL80/t5cgw54BoJd6Snd0ma3fkT8KUrT7PWmYr+6KoYLiY6hX0N3jOhRM3hBB8dWgMBsFCVBvvNQsxHHmZZzhcFyguqvZFE/WZIlRSwohXQEDffdxlqFxPPq7EEZYCp6jDQ16rPJcnA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
+ by AS4PR06MB8517.eurprd06.prod.outlook.com (2603:10a6:20b:4e4::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
+ 2025 14:32:10 +0000
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc%5]) with mapi id 15.20.9275.015; Mon, 3 Nov 2025
+ 14:32:10 +0000
+From: Niko Mauno <niko.mauno@vaisala.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kea: fix CVE-2025-11232
-Date: Mon,  3 Nov 2025 14:21:46 +0000
-Message-ID: <20251103142146.1738030-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+CC: ross.burton@arm.com,
+	rybczynska@gmail.com,
+	peter.marko@siemens.com,
+	Niko Mauno <niko.mauno@vaisala.com>
+Subject: [PATCH 1/5] cve-update-nvd2-native: pycodestyle fixes
+Date: Mon,  3 Nov 2025 14:31:53 +0000
+Message-ID: <20251103143157.315178-1-niko.mauno@vaisala.com>
+X-Mailer: git-send-email 2.47.3
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: GV3P280CA0085.SWEP280.PROD.OUTLOOK.COM (2603:10a6:150:a::8)
+ To AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|AS4PR06MB8517:EE_
+X-MS-Office365-Filtering-Correlation-Id: 26e4553f-caeb-4690-50a2-08de1ae5c54e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?JToEowYhQ4MCMTetKobfsvtK9LRmD8UgK8IIvKmYp4kwsOTWEcY79gTPnRyt?=
+ =?us-ascii?Q?zBLDO49bvrnoPvcSikmQEC8ZpRifSvB9ojcnTAG7m3ni4h9FSygzs2+sagdQ?=
+ =?us-ascii?Q?/WTv6bWWu51vouS1cZtk+AsA3HBU7DojIRkkbWQGgQaee/s/B5cb8XQOrRrr?=
+ =?us-ascii?Q?qkDyjFMF337LnMyii9z+MSDVhTh4ruYELC+TpsfvT+27EoA2/+wOPEkgVY15?=
+ =?us-ascii?Q?jwzRHmWEJOLATpvWRQdk8Gx5wgn8P9iACvpRjojRu90wV0L+59l0DJlwxs6Y?=
+ =?us-ascii?Q?Po3STHIK/Nk1gqlG0Un5vI5TG8VfX8e6Hx2f0FtD4jtetlqEgZqPU7mUYwWr?=
+ =?us-ascii?Q?gOMDt/rZYO/XsE/+D2VmoeigjP0qkd4oS8LVwX0w9ElRTc7K301GbRn+VFTs?=
+ =?us-ascii?Q?ftox0l9NkKPB0Q85Rybs+9pWHSBaMl5o7H13zdBT0283fhBcTe+n5O8E0P+z?=
+ =?us-ascii?Q?gIAiEO95cDMq2sR+VFap2NtUg3wCRvxNhjeJPdmjIANk6uXV2F3jfhL8s87o?=
+ =?us-ascii?Q?COnz9qTMRMkP7UPOyRf3kCoQrn1ZiQ6Lh4YSHgP6kNZJVHXVZUYsr/1HAhcc?=
+ =?us-ascii?Q?lJK2aPVH8/qmRXrZIkRmld5qoGv+fHYirYV40WP4HSrwLbZA/Zg/sqojhBQ2?=
+ =?us-ascii?Q?xdwRz5CGd3jS63+zwaUh9U3ZJ+81iiViT3P9WJ0WQD0qAUtI5Rg6oWWSx4ag?=
+ =?us-ascii?Q?HXL/Bm9Uh/SjI+8fIp5ohf9cL+L78V+fT4luNon+zO3QOdPdmnuBNoiP5uju?=
+ =?us-ascii?Q?2WIDhekF8it7sNY15o2DN625zEcQ07Si/BeP7EhzuxQLd4haxlPFgW2j2EV8?=
+ =?us-ascii?Q?M9nFKo04EIQbCSd+V0FxakbdkrquTadhiyUWsYJNpJ7+e4AVS2WdbVD5XGx2?=
+ =?us-ascii?Q?3HXAVhew+EkLpofI8Mkpob6bb3fXpVWDCx8xdEyaNJ3O6Ji3lYWoRDkbSrHT?=
+ =?us-ascii?Q?Zx3BGDrZFROy+zj5e9PWGQva4xRCyPMgJQBUUK7A4X/APk0e+e/IdRApoy02?=
+ =?us-ascii?Q?ZCsM8IB82Mhxg4ctZfMqVpzy0ggPX8nUWoTu9+XQMJduN0tQ+UvN7Xs/IGqY?=
+ =?us-ascii?Q?dDBujXhj8c44kR4ZcK1+Wv1c1EYE1DG141w8bfDlH0OylZSjLcnOFy3/rcOb?=
+ =?us-ascii?Q?eGmUAOHQ15R/BDjpLQIo4PDp5IG3PWEeDJQG70JN0kF2GT8wJ/pwpTfJ1cKY?=
+ =?us-ascii?Q?xjsAbGtfThqFQP0OsMJ/c9Nze8ylmZpDxfA3KlJqjC/o+G8SyFbTbluw4OZQ?=
+ =?us-ascii?Q?NnJ6oxKqUp/xWYv3YaBh7q5JB81ObQj18pGpqx+in+zDZAPf2XMkkPEH8ge8?=
+ =?us-ascii?Q?D3pxOVAnKBcpSrqVGJHhfC2Mmpqhd/8tQ80xJokyqXqFd5FCziExEdXSY40P?=
+ =?us-ascii?Q?EGEUHh6hacQJlhu6qS9eQTZf7fJTIY2xlq4DHWewk3S4L0YWo0hdJ5a1cI+q?=
+ =?us-ascii?Q?esWEVfgNG2E0J2IW598aca9ecCZeDp08341kfBpMp+nn+dTOI1zfL+tHg1aL?=
+ =?us-ascii?Q?+lOw7zL+rJYbSn3tJjtRfkEkJG5S8+YhQYjp?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?qu1fMbLzJvXwMLBIEk1yEzJw5k29lxYLDe0OnF/5LhEl1c9p646Hae4QlPje?=
+ =?us-ascii?Q?NXLFQPRxh0Y0HYm9eLt3r4ugHPPOuY9w0+zYHPjN/5IA0/xfswYtg74vjndG?=
+ =?us-ascii?Q?orSNUpwBUZ5Y1gqwMBKkL1z0RYyRuqSEHmzya4Utz4MxFeFC3vpP0WWlKSXg?=
+ =?us-ascii?Q?PrNZCqQuqfC/rwPmQwSO8ET5ybHZbyfu38lmAjIW3o4OAgnCD4r7xuo2c4HI?=
+ =?us-ascii?Q?hnc1W1POO7tKATRkeMoU9371rlzGb4X3rX5pCmL1UggnIvEJ6QdGCAc2yKDX?=
+ =?us-ascii?Q?n3ayCR0TvHnwOP853BlEacKgEJ76oqSbLyfSgcLRG7nctlUGnlNpdLyl2RAI?=
+ =?us-ascii?Q?xtbzbU49017zy5xypvx7trEmMlPZ1rPm0pdswKHz7YqY0BmbhzXeBwiEY+V6?=
+ =?us-ascii?Q?CHbTgMCWYLddYYGFfjEzj3Llby5l3g5qacO+LWwU6+WHDyUSoGmgQJ30TVQE?=
+ =?us-ascii?Q?Utxm4E1LFxL9pBZPSeVZfFtuJTR7cT4cjZc+iIV16TjBSlhgVZLyPLKh4NJx?=
+ =?us-ascii?Q?RFVIqqcXOSrytJbf2Deb8XK3EjF1rm0k+skij2fnhmObdFcdr0YEyDbvpPHL?=
+ =?us-ascii?Q?ptoqp+0uo08uyAnr9CvLcFN07r4PDGAJz56Re53uHWYvPD8/WWM01m6X4vi+?=
+ =?us-ascii?Q?x+zevJJ+x1RMiA0BQj2RD4KjxqBWROlxH8fueYsR1TjAhLVJRRTQYNn5ymWO?=
+ =?us-ascii?Q?/epzRUcKlyNo8O+vIiS6pJBmChraY4ga3m2e1goHI2dZ1cZFBdsErK9JGGLt?=
+ =?us-ascii?Q?aXHA3915sjTENteJ6SXVf90nRhKLXJR6zC8JN9z3ABhs2VyklIZ/s3pI9vk/?=
+ =?us-ascii?Q?9poTF7SgpDYfDoXCUkXSY4Dn6ZRfG3a4FZ4SSS8JtAf2dMG/9yh7aDYvm8kJ?=
+ =?us-ascii?Q?5/y5Afn5P47awIoGhv9XuBA65esRkw+gZjtCZs4jeaDPw3FSqLTAbHEeDLoS?=
+ =?us-ascii?Q?JJJepQUUaZVxYDrpcM9z/o1PafeWSvIpgKKIYBMKO20Thv+VPR7nHeGawiXt?=
+ =?us-ascii?Q?+1JY5tlCyTK9tRpAsQKaPzziUzqvNua3OaO3URwdBmObNm6XDrxnUj+qHRsG?=
+ =?us-ascii?Q?jvE+5VZ2iUhFFX/Butnm83MZSYOj36qdvhNb5lKbbZEszq+i0ZrCvgj9OfNf?=
+ =?us-ascii?Q?nDT+CKwCaJknTuY6bXZH5Po/4Vqx+Tb5icUQCJTNEvneKHPvIdP7RwvjD9/l?=
+ =?us-ascii?Q?RfqfCWKDjUONTMPZ8SAoeFP7DI01bEYXU8ZwhU6XohMzcNecUK/x846Ot6J1?=
+ =?us-ascii?Q?XMd7X2QaMG+8tVBjqSUgvSyBmwgQGGOlOmS3Ck6VNQ+zDemb4RjUHKkwOw6m?=
+ =?us-ascii?Q?mhzWdIyDbIzq+Lew9l+TtO5aho9E/DEurC93+cERqPDcQ0WOfnP1xRYhwOfY?=
+ =?us-ascii?Q?z5MSPwFCr+/cXnrrKRz/6RZoLAHEvcrF06U2Wxm7YL07w4M8RvUXkQSnwOIT?=
+ =?us-ascii?Q?yw+g5DkXLmYWh6ssfbXlcdzBHG+euTSKcCIUuJYo+S6vVaExfGhuf1x0TsPT?=
+ =?us-ascii?Q?hBiLuJf/MvRV3zoynHIZuWRMxnWHFc78P/bren7CM0amTsmvKUPDYRliiev1?=
+ =?us-ascii?Q?BX0C9RWcrJjbEKQi6UQBPDHwlEPMk3j7rkdTX6L9jky6jy3s9RouBxDCLDhj?=
+ =?us-ascii?Q?Yw=3D=3D?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26e4553f-caeb-4690-50a2-08de1ae5c54e
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 14:32:10.3203
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LCzreYocWx8EPsgHHEkrpHoLFVyhthFZs+//wS51CAmREHIlleYl/cZMV8P8Zh0yRDq3C1O+yz8X3XFMN4ayCw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR06MB8517
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 14:22:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225655
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 14:32:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225656
 
-Backport a patch from upstream to resolve CVE-2025-11232:
+Fixes following pycodestyle complaints:
 
-  Invalid characters cause assert
+  cve-update-nvd2-native.bb:95:54: E712 comparison to True should be 'if co=
+nd is True:' or 'if cond:'
+  cve-update-nvd2-native.bb:127:15: E211 whitespace before '('
+  cve-update-nvd2-native.bb:127:17: E201 whitespace after '('
+  cve-update-nvd2-native.bb:127:19: E201 whitespace after '('
+  cve-update-nvd2-native.bb:127:44: E202 whitespace before ')'
+  cve-update-nvd2-native.bb:127:46: E203 whitespace before ','
+  cve-update-nvd2-native.bb:174:20: E401 multiple imports on one line
+  cve-update-nvd2-native.bb:183:29: E203 whitespace before ':'
+  cve-update-nvd2-native.bb:236:16: E111 indentation is not a multiple of 4
+  cve-update-nvd2-native.bb:241:16: E111 indentation is not a multiple of 4
+  cve-update-nvd2-native.bb:336:39: E222 multiple spaces after operator
 
-  To trigger the issue, three configuration parameters must have
-  specific settings: "hostname-char-set" must be left at the default
-  setting, which is "[^A-Za-z0-9.-]"; "hostname-char-replacement" must
-  be empty (the default); and "ddns-qualifying-suffix" must NOT be empty
-  (the default is empty). DDNS updates do not need to be enabled for
-  this issue to manifest. A client that sends certain option content
-  would then cause kea-dhcp4 to exit unexpectedly.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
 ---
- .../kea/files/CVE-2025-11232.patch            | 474 ++++++++++++++++++
- meta/recipes-connectivity/kea/kea_3.0.1.bb    |   1 +
- 2 files changed, 475 insertions(+)
- create mode 100644 meta/recipes-connectivity/kea/files/CVE-2025-11232.pa=
-tch
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-connectivity/kea/files/CVE-2025-11232.patch b/m=
-eta/recipes-connectivity/kea/files/CVE-2025-11232.patch
-new file mode 100644
-index 00000000000..659627deba1
---- /dev/null
-+++ b/meta/recipes-connectivity/kea/files/CVE-2025-11232.patch
-@@ -0,0 +1,474 @@
-+From 92b65b2345e07d826b56ffd65cf47538f1c7a271 Mon Sep 17 00:00:00 2001
-+From: Thomas Markwalder <tmark@isc.org>
-+Date: Tue, 7 Oct 2025 14:41:16 -0400
-+Subject: [PATCH] [#4155] Backport #4142 to v3_0
-+
-+Invalid characters cause assert
-+
-+To trigger the issue, three configuration parameters must have
-+specific settings: "hostname-char-set" must be left at the default
-+setting, which is "[^A-Za-z0-9.-]"; "hostname-char-replacement" must
-+be empty (the default); and "ddns-qualifying-suffix" must NOT be empty
-+(the default is empty). DDNS updates do not need to be enabled for
-+this issue to manifest. A client that sends certain option content
-+would then cause kea-dhcp4 to exit unexpectedly.
-+
-+CVE: CVE-2025-11232
-+Upstream-Status: Backport [https://github.com/isc-projects/kea/commit/92=
-b65b2345e07d826b56ffd65cf47538f1c7a271]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+new file:   changelog_unreleased/CVE-2025-11232-catch-empty-sanitized-ho=
-stname
-+modified:   src/bin/dhcp4/dhcp4_messages.cc
-+modified:   src/bin/dhcp4/dhcp4_messages.h
-+modified:   src/bin/dhcp4/dhcp4_messages.mes
-+modified:   src/bin/dhcp4/dhcp4_srv.cc
-+modified:   src/bin/dhcp4/tests/fqdn_unittest.cc
-+modified:   src/bin/dhcp6/dhcp6_messages.cc
-+modified:   src/bin/dhcp6/dhcp6_messages.h
-+modified:   src/bin/dhcp6/dhcp6_messages.mes
-+modified:   src/bin/dhcp6/dhcp6_srv.cc
-+modified:   src/bin/dhcp6/tests/fqdn_unittest.cc
-+modified:   src/lib/dhcpsrv/d2_client_mgr.cc
-+modified:   src/lib/dhcpsrv/d2_client_mgr.h
-+modified:   src/lib/dhcpsrv/tests/d2_client_unittest.cc
-+---
-+ ...-2025-11232-catch-empty-sanitized-hostname |  6 +++
-+ src/bin/dhcp4/dhcp4_messages.cc               |  4 ++
-+ src/bin/dhcp4/dhcp4_messages.h                |  2 +
-+ src/bin/dhcp4/dhcp4_messages.mes              | 14 +++++
-+ src/bin/dhcp4/dhcp4_srv.cc                    | 21 ++++++--
-+ src/bin/dhcp4/tests/fqdn_unittest.cc          | 54 ++++++++++++++++++-
-+ src/bin/dhcp6/dhcp6_messages.cc               |  2 +
-+ src/bin/dhcp6/dhcp6_messages.h                |  1 +
-+ src/bin/dhcp6/dhcp6_messages.mes              |  7 +++
-+ src/bin/dhcp6/dhcp6_srv.cc                    |  9 +++-
-+ src/bin/dhcp6/tests/fqdn_unittest.cc          | 23 ++++++++
-+ src/lib/dhcpsrv/d2_client_mgr.cc              |  9 +++-
-+ src/lib/dhcpsrv/d2_client_mgr.h               | 19 ++++++-
-+ src/lib/dhcpsrv/tests/d2_client_unittest.cc   | 42 +++++++++++++++
-+ 14 files changed, 205 insertions(+), 8 deletions(-)
-+ create mode 100644 changelog_unreleased/CVE-2025-11232-catch-empty-sani=
-tized-hostname
-+
-+diff --git a/src/bin/dhcp4/dhcp4_messages.cc b/src/bin/dhcp4/dhcp4_messa=
-ges.cc
-+index e06ce6a121..5c6a334bad 100644
-+--- a/src/bin/dhcp4/dhcp4_messages.cc
-++++ b/src/bin/dhcp4/dhcp4_messages.cc
-+@@ -26,9 +26,11 @@ extern const isc::log::MessageID DHCP4_CLASS_UNCONFIG=
-URED =3D "DHCP4_CLASS_UNCONFI
-+ extern const isc::log::MessageID DHCP4_CLIENTID_IGNORED_FOR_LEASES =3D =
-"DHCP4_CLIENTID_IGNORED_FOR_LEASES";
-+ extern const isc::log::MessageID DHCP4_CLIENT_FQDN_DATA =3D "DHCP4_CLIE=
-NT_FQDN_DATA";
-+ extern const isc::log::MessageID DHCP4_CLIENT_FQDN_PROCESS =3D "DHCP4_C=
-LIENT_FQDN_PROCESS";
-++extern const isc::log::MessageID DHCP4_CLIENT_FQDN_SCRUBBED_EMPTY =3D "=
-DHCP4_CLIENT_FQDN_SCRUBBED_EMPTY";
-+ extern const isc::log::MessageID DHCP4_CLIENT_HOSTNAME_DATA =3D "DHCP4_=
-CLIENT_HOSTNAME_DATA";
-+ extern const isc::log::MessageID DHCP4_CLIENT_HOSTNAME_MALFORMED =3D "D=
-HCP4_CLIENT_HOSTNAME_MALFORMED";
-+ extern const isc::log::MessageID DHCP4_CLIENT_HOSTNAME_PROCESS =3D "DHC=
-P4_CLIENT_HOSTNAME_PROCESS";
-++extern const isc::log::MessageID DHCP4_CLIENT_HOSTNAME_SCRUBBED_EMPTY =3D=
- "DHCP4_CLIENT_HOSTNAME_SCRUBBED_EMPTY";
-+ extern const isc::log::MessageID DHCP4_CLIENT_NAME_PROC_FAIL =3D "DHCP4=
-_CLIENT_NAME_PROC_FAIL";
-+ extern const isc::log::MessageID DHCP4_CONFIG_COMPLETE =3D "DHCP4_CONFI=
-G_COMPLETE";
-+ extern const isc::log::MessageID DHCP4_CONFIG_LOAD_FAIL =3D "DHCP4_CONF=
-IG_LOAD_FAIL";
-+@@ -206,9 +208,11 @@ const char* values[] =3D {
-+     "DHCP4_CLIENTID_IGNORED_FOR_LEASES", "%1: not using client identifi=
-er for lease allocation for subnet %2",
-+     "DHCP4_CLIENT_FQDN_DATA", "%1: Client sent FQDN option: %2",
-+     "DHCP4_CLIENT_FQDN_PROCESS", "%1: processing Client FQDN option",
-++    "DHCP4_CLIENT_FQDN_SCRUBBED_EMPTY", "%1: sanitizing client's FQDN o=
-ption '%2' yielded an empty string",
-+     "DHCP4_CLIENT_HOSTNAME_DATA", "%1: client sent Hostname option: %2"=
-,
-+     "DHCP4_CLIENT_HOSTNAME_MALFORMED", "%1: client hostname option malf=
-ormed: %2",
-+     "DHCP4_CLIENT_HOSTNAME_PROCESS", "%1: processing client's Hostname =
-option",
-++    "DHCP4_CLIENT_HOSTNAME_SCRUBBED_EMPTY", "%1: sanitizing client's Ho=
-stname option '%2' yielded an empty string",
-+     "DHCP4_CLIENT_NAME_PROC_FAIL", "%1: failed to process the fqdn or h=
-ostname sent by a client: %2",
-+     "DHCP4_CONFIG_COMPLETE", "DHCPv4 server has completed configuration=
-: %1",
-+     "DHCP4_CONFIG_LOAD_FAIL", "configuration error using file: %1, reas=
-on: %2",
-+diff --git a/src/bin/dhcp4/dhcp4_messages.h b/src/bin/dhcp4/dhcp4_messag=
-es.h
-+index 9a4d0cda21..6e45c63053 100644
-+--- a/src/bin/dhcp4/dhcp4_messages.h
-++++ b/src/bin/dhcp4/dhcp4_messages.h
-+@@ -27,9 +27,11 @@ extern const isc::log::MessageID DHCP4_CLASS_UNCONFIG=
-URED;
-+ extern const isc::log::MessageID DHCP4_CLIENTID_IGNORED_FOR_LEASES;
-+ extern const isc::log::MessageID DHCP4_CLIENT_FQDN_DATA;
-+ extern const isc::log::MessageID DHCP4_CLIENT_FQDN_PROCESS;
-++extern const isc::log::MessageID DHCP4_CLIENT_FQDN_SCRUBBED_EMPTY;
-+ extern const isc::log::MessageID DHCP4_CLIENT_HOSTNAME_DATA;
-+ extern const isc::log::MessageID DHCP4_CLIENT_HOSTNAME_MALFORMED;
-+ extern const isc::log::MessageID DHCP4_CLIENT_HOSTNAME_PROCESS;
-++extern const isc::log::MessageID DHCP4_CLIENT_HOSTNAME_SCRUBBED_EMPTY;
-+ extern const isc::log::MessageID DHCP4_CLIENT_NAME_PROC_FAIL;
-+ extern const isc::log::MessageID DHCP4_CONFIG_COMPLETE;
-+ extern const isc::log::MessageID DHCP4_CONFIG_LOAD_FAIL;
-+diff --git a/src/bin/dhcp4/dhcp4_messages.mes b/src/bin/dhcp4/dhcp4_mess=
-ages.mes
-+index 1deb2e6074..b359d09616 100644
-+--- a/src/bin/dhcp4/dhcp4_messages.mes
-++++ b/src/bin/dhcp4/dhcp4_messages.mes
-+@@ -164,6 +164,20 @@ This debug message is issued when the server starts=
- processing the Hostname
-+ option sent in the client's query. The argument includes the client and
-+ transaction identification information.
-+=20
-++% DHCP4_CLIENT_HOSTNAME_SCRUBBED_EMPTY %1: sanitizing client's Hostname=
- option '%2' yielded an empty string
-++Logged at debug log level 50.
-++This debug message is issued when the result of sanitizing the
-++hostname option(12) sent by the client is an empty string. When this oc=
-curs
-++the server will ignore the hostname option. The arguments include the
-++client and the hostname option it sent.
-++
-++% DHCP4_CLIENT_FQDN_SCRUBBED_EMPTY %1: sanitizing client's FQDN option =
-'%2' yielded an empty string
-++Logged at debug log level 50.
-++This debug message is issued when the result of sanitizing the
-++FQDN option(81) sent by the client is an empty string. When this occurs
-++the server will ignore the FQDN option. The arguments include the
-++client and the FQDN option it sent.
-++
-+ % DHCP4_CLIENT_NAME_PROC_FAIL %1: failed to process the fqdn or hostnam=
-e sent by a client: %2
-+ Logged at debug log level 55.
-+ This debug message is issued when the DHCP server was unable to process=
- the
-+diff --git a/src/bin/dhcp4/dhcp4_srv.cc b/src/bin/dhcp4/dhcp4_srv.cc
-+index 0701ed41e9..a6be662889 100644
-+--- a/src/bin/dhcp4/dhcp4_srv.cc
-++++ b/src/bin/dhcp4/dhcp4_srv.cc
-+@@ -2714,8 +2714,15 @@ Dhcpv4Srv::processClientFqdnOption(Dhcpv4Exchange=
-& ex) {
-+     } else {
-+         // Adjust the domain name based on domain name value and type s=
-ent by the
-+         // client and current configuration.
-+-        d2_mgr.adjustDomainName<Option4ClientFqdn>(*fqdn, *fqdn_resp,
-+-                                                   *(ex.getContext()->g=
-etDdnsParams()));
-++        try {
-++            d2_mgr.adjustDomainName<Option4ClientFqdn>(*fqdn, *fqdn_res=
-p,
-++                                                       *(ex.getContext(=
-)->getDdnsParams()));
-++        } catch (const FQDNScrubbedEmpty& scrubbed) {
-++            LOG_DEBUG(ddns4_logger, DBG_DHCP4_DETAIL, DHCP4_CLIENT_FQDN=
-_SCRUBBED_EMPTY)
-++                    .arg(ex.getQuery()->getLabel())
-++                    .arg(scrubbed.what());
-++            return;
-++        }
-+     }
-+=20
-+     // Add FQDN option to the response message. Note that, there may be=
- some
-+@@ -2857,7 +2864,15 @@ Dhcpv4Srv::processHostnameOption(Dhcpv4Exchange& =
-ex) {
-+             ex.getContext()->getDdnsParams()->getHostnameSanitizer();
-+=20
-+         if (sanitizer) {
-+-            hostname =3D sanitizer->scrub(hostname);
-++            auto tmp =3D sanitizer->scrub(hostname);
-++            if (tmp.empty()) {
-++                LOG_DEBUG(ddns4_logger, DBG_DHCP4_DETAIL, DHCP4_CLIENT_=
-HOSTNAME_SCRUBBED_EMPTY)
-++                    .arg(ex.getQuery()->getLabel())
-++                    .arg(hostname);
-++                return;
-++            }
-++
-++            hostname =3D tmp;
-+         }
-+=20
-+         // Convert hostname to lower case.
-+diff --git a/src/bin/dhcp4/tests/fqdn_unittest.cc b/src/bin/dhcp4/tests/=
-fqdn_unittest.cc
-+index a5d3e4c21a..18e4c6d4b9 100644
-+--- a/src/bin/dhcp4/tests/fqdn_unittest.cc
-++++ b/src/bin/dhcp4/tests/fqdn_unittest.cc
-+@@ -2253,7 +2253,7 @@ TEST_F(NameDhcpv4SrvTest, sanitizeHostDefault) {
-+         },
-+         {
-+             "qualified host name with nuls",
-+-            std::string("four-ok-host\000.other.org",23),
-++            std::string("four-ok-host\000.other.org", 23),
-+             "four-ok-host.other.org"
-+         }
-+     };
-+@@ -3203,4 +3203,56 @@ TEST_F(NameDhcpv4SrvTest, poolDdnsParametersTest)=
- {
-+     }
-+ }
-+=20
-++// Verifies that when the FQDN option is scrubbed empty it is logged
-++// and ignored.
-++TEST_F(NameDhcpv4SrvTest, hostnameScrubbedEmpty) {
-++    Dhcp4Client client(srv_, Dhcp4Client::SELECTING);
-++
-++    // Configure DHCP server.
-++    configure(CONFIGS[2], *client.getServer());
-++
-++    // Set the hostname option.
-++    ASSERT_NO_THROW(client.includeHostname("___"));
-++
-++    // Send the DHCPDISCOVER and make sure that the server responded.
-++    ASSERT_NO_THROW(client.doDiscover());
-++    auto resp =3D client.getContext().response_;
-++    ASSERT_TRUE(resp);
-++    ASSERT_EQ(DHCPOFFER, static_cast<int>(resp->getType()));
-++
-++    // Should have logged that it was scrubbed empty.
-++    std::string log =3D "DHCP4_CLIENT_HOSTNAME_SCRUBBED_EMPTY";
-++    EXPECT_EQ(1, countFile(log));
-++
-++    // Hostname should not be in the response.
-++    ASSERT_FALSE(resp->getOption(DHO_HOST_NAME));
-++}
-++
-++// Verifies that when the FQDN option is scrubbed empty it is logged
-++// and ignored.
-++TEST_F(NameDhcpv4SrvTest, fqdnScrubbedEmpty) {
-++    Dhcp4Client client(srv_, Dhcp4Client::SELECTING);
-++
-++    // Configure DHCP server.
-++    configure(CONFIGS[2], *client.getServer());
-++
-++    // Include the Client FQDN option.
-++    ASSERT_NO_THROW(client.includeFQDN(Option4ClientFqdn::FLAG_S | Opti=
-on4ClientFqdn::FLAG_E,
-++                                       "___", Option4ClientFqdn::PARTIA=
-L));
-++
-++    // Send the DHCPDISCOVER and make sure that the server responded.
-++    ASSERT_NO_THROW(client.doDiscover());
-++    auto resp =3D client.getContext().response_;
-++    ASSERT_TRUE(resp);
-++    ASSERT_EQ(DHCPOFFER, static_cast<int>(resp->getType()));
-++
-++    // Should have logged that it was scrubbed empty.
-++    std::string log =3D "DHCP4_CLIENT_FQDN_SCRUBBED_EMPTY";
-++    EXPECT_EQ(1, countFile(log));
-++
-++    // Hostname should not be in the response.
-++    ASSERT_FALSE(resp->getOption(DHO_FQDN));
-++}
-++
-++
-+ } // end of anonymous namespace
-+diff --git a/src/bin/dhcp6/dhcp6_messages.cc b/src/bin/dhcp6/dhcp6_messa=
-ges.cc
-+index 229ba74450..9619481aba 100644
-+--- a/src/bin/dhcp6/dhcp6_messages.cc
-++++ b/src/bin/dhcp6/dhcp6_messages.cc
-+@@ -27,6 +27,7 @@ extern const isc::log::MessageID DHCP6_CLASSES_ASSIGNE=
-D =3D "DHCP6_CLASSES_ASSIGNE
-+ extern const isc::log::MessageID DHCP6_CLASSES_ASSIGNED_AFTER_SUBNET_SE=
-LECTION =3D "DHCP6_CLASSES_ASSIGNED_AFTER_SUBNET_SELECTION";
-+ extern const isc::log::MessageID DHCP6_CLASS_ASSIGNED =3D "DHCP6_CLASS_=
-ASSIGNED";
-+ extern const isc::log::MessageID DHCP6_CLASS_UNCONFIGURED =3D "DHCP6_CL=
-ASS_UNCONFIGURED";
-++extern const isc::log::MessageID DHCP6_CLIENT_FQDN_SCRUBBED_EMPTY =3D "=
-DHCP6_CLIENT_FQDN_SCRUBBED_EMPTY";
-+ extern const isc::log::MessageID DHCP6_CONFIG_COMPLETE =3D "DHCP6_CONFI=
-G_COMPLETE";
-+ extern const isc::log::MessageID DHCP6_CONFIG_LOAD_FAIL =3D "DHCP6_CONF=
-IG_LOAD_FAIL";
-+ extern const isc::log::MessageID DHCP6_CONFIG_PACKET_QUEUE =3D "DHCP6_C=
-ONFIG_PACKET_QUEUE";
-+@@ -203,6 +204,7 @@ const char* values[] =3D {
-+     "DHCP6_CLASSES_ASSIGNED_AFTER_SUBNET_SELECTION", "%1: client packet=
- has been assigned to the following classes: %2",
-+     "DHCP6_CLASS_ASSIGNED", "%1: client packet has been assigned to the=
- following class: %2",
-+     "DHCP6_CLASS_UNCONFIGURED", "%1: client packet belongs to an unconf=
-igured class: %2",
-++    "DHCP6_CLIENT_FQDN_SCRUBBED_EMPTY", "%1: sanitizing client's FQDN o=
-ption '%2' yielded an empty string",
-+     "DHCP6_CONFIG_COMPLETE", "DHCPv6 server has completed configuration=
-: %1",
-+     "DHCP6_CONFIG_LOAD_FAIL", "configuration error using file: %1, reas=
-on: %2",
-+     "DHCP6_CONFIG_PACKET_QUEUE", "DHCPv6 packet queue info after config=
-uration: %1",
-+diff --git a/src/bin/dhcp6/dhcp6_messages.h b/src/bin/dhcp6/dhcp6_messag=
-es.h
-+index 186f7d557a..7af56e716a 100644
-+--- a/src/bin/dhcp6/dhcp6_messages.h
-++++ b/src/bin/dhcp6/dhcp6_messages.h
-+@@ -28,6 +28,7 @@ extern const isc::log::MessageID DHCP6_CLASSES_ASSIGNE=
-D;
-+ extern const isc::log::MessageID DHCP6_CLASSES_ASSIGNED_AFTER_SUBNET_SE=
-LECTION;
-+ extern const isc::log::MessageID DHCP6_CLASS_ASSIGNED;
-+ extern const isc::log::MessageID DHCP6_CLASS_UNCONFIGURED;
-++extern const isc::log::MessageID DHCP6_CLIENT_FQDN_SCRUBBED_EMPTY;
-+ extern const isc::log::MessageID DHCP6_CONFIG_COMPLETE;
-+ extern const isc::log::MessageID DHCP6_CONFIG_LOAD_FAIL;
-+ extern const isc::log::MessageID DHCP6_CONFIG_PACKET_QUEUE;
-+diff --git a/src/bin/dhcp6/dhcp6_messages.mes b/src/bin/dhcp6/dhcp6_mess=
-ages.mes
-+index fff50ed367..79fc984ff5 100644
-+--- a/src/bin/dhcp6/dhcp6_messages.mes
-++++ b/src/bin/dhcp6/dhcp6_messages.mes
-+@@ -1167,3 +1167,10 @@ such modification. The clients will remember prev=
-ious server-id, and will
-+ use it to extend their leases. As a result, they will have to go throug=
-h
-+ a rebinding phase to re-acquire their leases and associate them with a
-+ new server id.
-++
-++% DHCP6_CLIENT_FQDN_SCRUBBED_EMPTY %1: sanitizing client's FQDN option =
-'%2' yielded an empty string
-++Logged at debug log level 50.
-++This debug message is issued when the result of sanitizing the
-++FQDN option(39) sent by the client is an empty string. When this occurs
-++the server will ignore the FQDN option. The arguments include the
-++client and the FQDN option it sent.
-+diff --git a/src/bin/dhcp6/dhcp6_srv.cc b/src/bin/dhcp6/dhcp6_srv.cc
-+index 417960b126..f999c3178f 100644
-+--- a/src/bin/dhcp6/dhcp6_srv.cc
-++++ b/src/bin/dhcp6/dhcp6_srv.cc
-+@@ -2332,7 +2332,14 @@ Dhcpv6Srv::processClientFqdn(const Pkt6Ptr& quest=
-ion, const Pkt6Ptr& answer,
-+     } else {
-+         // Adjust the domain name based on domain name value and type s=
-ent by
-+         // the client and current configuration.
-+-        d2_mgr.adjustDomainName<Option6ClientFqdn>(*fqdn, *fqdn_resp, *=
-ddns_params);
-++        try {
-++            d2_mgr.adjustDomainName<Option6ClientFqdn>(*fqdn, *fqdn_res=
-p, *ddns_params);
-++        } catch(const FQDNScrubbedEmpty& scrubbed) {
-++            LOG_DEBUG(ddns6_logger, DBG_DHCP6_DETAIL, DHCP6_CLIENT_FQDN=
-_SCRUBBED_EMPTY)
-++                .arg(question->getLabel())
-++                .arg(scrubbed.what());
-++            return;
-++        }
-+     }
-+=20
-+     // Once we have the FQDN setup to use it for the lease hostname.  T=
-his
-+diff --git a/src/bin/dhcp6/tests/fqdn_unittest.cc b/src/bin/dhcp6/tests/=
-fqdn_unittest.cc
-+index ca51856e67..7891c1f5e6 100644
-+--- a/src/bin/dhcp6/tests/fqdn_unittest.cc
-++++ b/src/bin/dhcp6/tests/fqdn_unittest.cc
-+@@ -2425,4 +2425,27 @@ TEST_F(FqdnDhcpv6SrvTest, poolDdnsParametersTest)=
- {
-+     }
-+ }
-+=20
-++// Verify an FQDN with all invalid chars is ignored.
-++TEST_F(FqdnDhcpv6SrvTest, fqdnScrubbedEmpty) {
-++    // Create the query.
-++    Pkt6Ptr question =3D generateMessage(DHCPV6_SOLICIT, Option6ClientF=
-qdn::FLAG_S,
-++                                       "___" , Option6ClientFqdn::FULL,=
- true);
-++    ASSERT_TRUE(getClientFqdnOption(question));
-++    subnet_->setHostnameCharReplacement("");
-++
-++    // Create the response with an "assigned" lease.
-++    // Set the selected subnet so ddns params get returned correctly.
-++    AllocEngine::ClientContext6 ctx;
-++    ctx.subnet_ =3D subnet_;
-++    Pkt6Ptr answer =3D generateMessageWithIds(DHCPV6_ADVERTISE);
-++    addIA(1234, IOAddress("2001:db8:1::1"), answer, ctx);
-++
-++    // Process the client's FQDN.
-++    ASSERT_NO_THROW(srv_->processClientFqdn(question, answer, ctx));
-++
-++    // Should not have an FQDN option in the answer.
-++    EXPECT_FALSE(answer->getOption(D6O_CLIENT_FQDN));
-++    countFile("DHCP6_CLIENT_FQDN_SCRUBBED_EMPTY");
-++}
-++
-+ } // end of anonymous namespace
-+diff --git a/src/lib/dhcpsrv/d2_client_mgr.cc b/src/lib/dhcpsrv/d2_clien=
-t_mgr.cc
-+index 84ee11d9fb..54c815176e 100644
-+--- a/src/lib/dhcpsrv/d2_client_mgr.cc
-++++ b/src/lib/dhcpsrv/d2_client_mgr.cc
-+@@ -186,10 +186,15 @@ std::string
-+ D2ClientMgr::qualifyName(const std::string& partial_name,
-+                          const DdnsParams& ddns_params,
-+                          const bool trailing_dot) const {
-++    if (partial_name.empty()) {
-++        isc_throw(BadValue, "D2ClientMgr::qualifyName"
-++                            " - partial_name cannot be an empty string"=
-);
-++    }
-++
-+     std::ostringstream gen_name;
-+     gen_name << partial_name;
-+     std::string suffix =3D ddns_params.getQualifyingSuffix();
-+-    if (!suffix.empty() && partial_name.back() !=3D '.') {
-++    if (!suffix.empty() && (partial_name.back() !=3D '.')) {
-+         bool suffix_present =3D true;
-+         std::string str =3D gen_name.str();
-+         auto suffix_rit =3D suffix.rbegin();
-+@@ -241,7 +246,7 @@ D2ClientMgr::qualifyName(const std::string& partial_=
-name,
-+         // If the trailing dot should not be appended but it is present=
-,
-+         // remove it.
-+         if ((len > 0) && (str[len - 1] =3D=3D '.')) {
-+-            gen_name.str(str.substr(0,len-1));
-++            gen_name.str(str.substr(0, len-1));
-+         }
-+=20
-+     }
-+diff --git a/src/lib/dhcpsrv/d2_client_mgr.h b/src/lib/dhcpsrv/d2_client=
-_mgr.h
-+index 7344f19a40..238fd0a415 100644
-+--- a/src/lib/dhcpsrv/d2_client_mgr.h
-++++ b/src/lib/dhcpsrv/d2_client_mgr.h
-+@@ -30,6 +30,14 @@
-+ namespace isc {
-+ namespace dhcp {
-+=20
-++/// @brief Exception thrown when host name sanitizing reduces
-++/// the domain name to an empty string.
-++class FQDNScrubbedEmpty : public Exception {
-++public:
-++    FQDNScrubbedEmpty(const char* file, size_t line, const char* what) =
-:
-++        isc::Exception(file, line, what) { }
-++};
-++
-+ /// @brief Defines the type for D2 IO error handler.
-+ /// This callback is invoked when a send to kea-dhcp-ddns completes wit=
-h a
-+ /// failed status.  This provides the application layer (Kea) with a me=
-ans to
-+@@ -197,6 +205,7 @@ class D2ClientMgr : public dhcp_ddns::NameChangeSend=
-er::RequestSendHandler,
-+     /// suffix itself is empty (i.e. "").
-+     ///
-+     /// @return std::string containing the qualified name.
-++    /// @throw BadValue if partial_name is empty.
-+     std::string qualifyName(const std::string& partial_name,
-+                             const DdnsParams& ddns_params,
-+                             const bool trailing_dot) const;
-+@@ -264,6 +273,9 @@ class D2ClientMgr : public dhcp_ddns::NameChangeSend=
-er::RequestSendHandler,
-+     /// @param ddns_params DDNS behavioral configuration parameters
-+     /// @tparam T  FQDN Option class containing the FQDN data such as
-+     /// dhcp::Option4ClientFqdn or dhcp::Option6ClientFqdn
-++    ///
-++    /// @throw FQDNScrubbedEmpty if hostname sanitizing reduces the inp=
-ut domain
-++    /// name to an empty string.
-+     template <class T>
-+     void adjustDomainName(const T& fqdn, T& fqdn_resp,
-+                           const DdnsParams& ddns_params);
-+@@ -515,7 +527,12 @@ D2ClientMgr::adjustDomainName(const T& fqdn, T& fqd=
-n_resp, const DdnsParams& ddn
-+                 ss << sanitizer->scrub(label);
-+             }
-+=20
-+-            client_name =3D ss.str();
-++            std::string clean_name =3D ss.str();
-++            if (clean_name.empty() || clean_name =3D=3D ".") {
-++                isc_throw(FQDNScrubbedEmpty, client_name);
-++            }
-++
-++            client_name =3D clean_name;
-+         }
-+=20
-+         // If the supplied name is partial, qualify it by adding the su=
-ffix.
-+diff --git a/src/lib/dhcpsrv/tests/d2_client_unittest.cc b/src/lib/dhcps=
-rv/tests/d2_client_unittest.cc
-+index 68ad2189d6..00375d0066 100644
-+--- a/src/lib/dhcpsrv/tests/d2_client_unittest.cc
-++++ b/src/lib/dhcpsrv/tests/d2_client_unittest.cc
-+@@ -9,6 +9,7 @@
-+ #include <dhcp/option6_client_fqdn.h>
-+ #include <dhcpsrv/d2_client_mgr.h>
-+ #include <testutils/test_to_element.h>
-++#include <testutils/gtest_utils.h>
-+ #include <exceptions/exceptions.h>
-+ #include <util/str.h>
-+=20
-+@@ -627,6 +628,10 @@ TEST_F(D2ClientMgrParamsTest, qualifyName) {
-+     qualified_name =3D mgr.qualifyName(partial_name, *ddns_params_, do_=
-not_dot);
-+     EXPECT_EQ("somehost.suffix.com", qualified_name);
-+=20
-++    // Verify that an empty name throws.
-++    partial_name =3D "";
-++    ASSERT_THROW(mgr.qualifyName(partial_name, *ddns_params_, do_not_do=
-t), BadValue);
-++
-+     // Verify that an empty suffix and false flag, does not change the =
-name
-+     subnet_->setDdnsQualifyingSuffix("");
-+     partial_name =3D "somehost";
-+@@ -1257,4 +1262,41 @@ TEST_F(D2ClientMgrParamsTest, sanitizeFqdnV6) {
-+     }
-+ }
-+=20
-++/// @brief Tests adjustDomainName template method with Option4ClientFqd=
-n
-++/// when sanitizing scrubs input name empty.
-++TEST_F(D2ClientMgrParamsTest, adjustDomainNameV4ScrubbedEmpty) {
-++    D2ClientMgr mgr;
-++
-++    // Create enabled configuration
-++    subnet_->setDdnsSendUpdates(false);
-++    subnet_->setDdnsQualifyingSuffix("suffix.com");
-++    subnet_->setHostnameCharSet("[^A-Za-z0-9.-]");
-++    subnet_->setHostnameCharReplacement("");
-++
-++    Option4ClientFqdn request(0, Option4ClientFqdn::RCODE_CLIENT(),
-++                              "___", Option4ClientFqdn::FULL);
-++
-++    Option4ClientFqdn response(request);
-++    ASSERT_THROW_MSG(mgr.adjustDomainName<Option4ClientFqdn>(request, r=
-esponse, *ddns_params_),
-++                     FQDNScrubbedEmpty, "___.");
-++}
-++
-++/// @brief Tests adjustDomainName template method with Option4ClientFqd=
-n
-++/// when sanitizing scrubs input name empty.
-++TEST_F(D2ClientMgrParamsTest, adjustDomainNameV6ScrubbedEmpty) {
-++    D2ClientMgr mgr;
-++
-++    // Create enabled configuration
-++    subnet_->setDdnsSendUpdates(false);
-++    subnet_->setDdnsQualifyingSuffix("suffix.com");
-++    subnet_->setHostnameCharSet("[^A-Za-z0-9.-]");
-++    subnet_->setHostnameCharReplacement("");
-++
-++    Option6ClientFqdn request(0, "___", Option6ClientFqdn::FULL);
-++
-++    Option6ClientFqdn response(request);
-++    ASSERT_THROW_MSG(mgr.adjustDomainName<Option6ClientFqdn>(request, r=
-esponse, *ddns_params_),
-++                     FQDNScrubbedEmpty, "___.");
-++}
-++
-+ } // end of anonymous namespace
-diff --git a/meta/recipes-connectivity/kea/kea_3.0.1.bb b/meta/recipes-co=
-nnectivity/kea/kea_3.0.1.bb
-index 4a6623f94a0..8729b1162ea 100644
---- a/meta/recipes-connectivity/kea/kea_3.0.1.bb
-+++ b/meta/recipes-connectivity/kea/kea_3.0.1.bb
-@@ -21,6 +21,7 @@ SRC_URI =3D "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar=
-.xz \
-            file://0001-meson-use-a-runtime-safe-interpreter-string.patch=
- \
-            file://0001-mk_cfgrpt.sh-strip-prefixes.patch \
-            file://0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cas=
-t-o.patch \
-+           file://CVE-2025-11232.patch \
-            "
- SRC_URI[sha256sum] =3D "ec84fec4bb7f6b9d15a82e755a571e9348eb4d6fbc62bb3f=
-6f1296cd7a24c566"
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipe=
+s-core/meta/cve-update-nvd2-native.bb
+index 1411d16e20..abcbcffcc6 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -92,7 +92,7 @@ python do_fetch() {
+     if os.path.exists(db_file):
+         shutil.copy2(db_file, db_tmp_file)
 =20
+-    if update_db_file(db_tmp_file, d, database_time) =3D=3D True:
++    if update_db_file(db_tmp_file, d, database_time):
+         # Update downloaded correctly, can swap files
+         shutil.move(db_tmp_file, db_file)
+     else:
+@@ -124,7 +124,7 @@ def cleanup_db_download(db_tmp_file):
+         os.remove(db_tmp_file)
+=20
+ def nvd_request_wait(attempt, min_wait):
+-    return min ( ( (2 * attempt) + min_wait ) , 30)
++    return min(((2 * attempt) + min_wait), 30)
+=20
+ def nvd_request_next(url, attempts, api_key, args, min_wait):
+     """
+@@ -171,7 +171,8 @@ def update_db_file(db_tmp_file, d, database_time):
+     """
+     Update the given database file
+     """
+-    import bb.utils, bb.progress
++    import bb.progress
++    import bb.utils
+     import datetime
+     import sqlite3
+     import json
+@@ -180,7 +181,7 @@ def update_db_file(db_tmp_file, d, database_time):
+     conn =3D sqlite3.connect(db_tmp_file)
+     initialize_db(conn)
+=20
+-    req_args =3D {'startIndex' : 0}
++    req_args =3D {'startIndex': 0}
+=20
+     incr_update_threshold =3D int(d.getVar("CVE_DB_INCR_UPDATE_AGE_THRES")=
+)
+     if database_time !=3D 0:
+@@ -233,12 +234,12 @@ def update_db_file(db_tmp_file, d, database_time):
+             per_page =3D data["resultsPerPage"]
+             bb.note("Got %d entries" % per_page)
+             for cve in data["vulnerabilities"]:
+-               update_db(conn, cve)
++                update_db(conn, cve)
+=20
+             index +=3D per_page
+             ph.update((float(index) / (total+1)) * 100)
+             if index >=3D total:
+-               break
++                break
+=20
+             # Recommended by NVD
+             time.sleep(wait_time)
+@@ -333,7 +334,7 @@ def update_db(conn, elt):
+     accessVector =3D None
+     vectorString =3D None
+     cveId =3D elt['cve']['id']
+-    if elt['cve'].get('vulnStatus') =3D=3D  "Rejected":
++    if elt['cve'].get('vulnStatus') =3D=3D "Rejected":
+         c =3D conn.cursor()
+         c.execute("delete from PRODUCTS where ID =3D ?;", [cveId])
+         c.execute("delete from NVD where ID =3D ?;", [cveId])
 --=20
-2.43.0
+2.47.3
 
 
