@@ -1,154 +1,135 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C759CCFA04
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 10:17:29 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17368.1762165047483558258
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EBB4CCF9F8
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 10:29:09 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17715.1762165744883434560
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 02:17:27 -0800
+ Mon, 03 Nov 2025 02:29:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GfFsI4Xb;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-88033f09ffeso31526226d6.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 02:17:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eq2lxOGL;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: skandigraun@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-429c4c65485so2760754f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 02:29:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762165046; x=1762769846; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9RLNcwAwOrFyxFBRgXERghz0R/j2X7pSoSDVhxvYFB4=;
-        b=GfFsI4XbK6eHgkuAyOgJY920rnH/SR3DUgJfUuccfFaTFrjHxaJHL94OLmDMQ4LDaA
-         p52e7/KV/VgRfIiK4Q5+UDgj877mrkHmXL7JBs0CRa6dJxGg9LC0mKBnb3HBKJhSlbl/
-         BmJYFaDIuYBSaHuXJOcPvJ/vUetqUJSvm1LlGdzPnhI3+8iLzYsmEEApE3SsRqwzoYCT
-         sm3QqduUdqcnyn3ciZgFKEcgAOlvBcGEMV+k3oBJqXnUL9KHWij2lfVXN0gaXIjcNQEq
-         wPKX2e3N2m/AdLX1ha3aqzceUDcBGdDoMtjeQ4YqBKJhsxm8FKgVYTDhnImmwMlrMzYN
-         MTOg==
+        d=gmail.com; s=20230601; t=1762165743; x=1762770543; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YDZWmgcBWFCIre/WiVxDEkKSTsVV7ONJ6PMlfINeilQ=;
+        b=eq2lxOGLSd39q8eHz89JW73IYFEnzv4GyefIf/1M5dC+qjkUsNxmZPQSdDGiN28P2b
+         WD29L/LzHwm4ZkwdubHmLlSITx2BbWqK8F16B8kcym35BuSpkM027VXKxi6WJXJMuIfI
+         zVyJVnbHJ8mgCdm86AK2dTagGTF/B4lRJM78bLT48eE6PTizwBGVQ80nv/DAqWsfKTDM
+         R5/IKHD7gKaxKwR+Rg+d6b65eEGxb3Zr/R5Jftlra6wv6/dA00hXhNygCvvt8XKDLR1R
+         /b7wDPdWzhWnu2zqvxUYTuE6RzxRo9VXyzu7JJNiw1AhozImJcP8AW8Cibf/LU39RSOs
+         BSlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762165046; x=1762769846;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9RLNcwAwOrFyxFBRgXERghz0R/j2X7pSoSDVhxvYFB4=;
-        b=kygCxDqAKYxpyhDWCtEQrB1UhXxxRWlAc3BMJn87QUgrf9yT8E7u+3HhrpoJCOOmPd
-         QliYWr8f0MMcxgwalOhrh4i+1eRcUUdGprNNuqwkZuCwei+oJcNkD7xFCq0YE0GsJFTZ
-         iAcX98vyhGFFv7fvEa6XkK3FjyX+6neW/7bpKcR75JUszTXXR/Mgu1/8F3/Zxs1hsrM5
-         6XKMvuzXKddZq2CvAWXUoZNt8x24WflW2fmouxTz4GWDA4PBllvS1ggquyGrSpor/SEO
-         PvJTFJleb31KoSUFIOSkksX2Rrw0Muv8IwkAkiLlg3eHdtGgZX3KEnFdpNfNAUQ0XsP2
-         Yt1Q==
-X-Gm-Message-State: AOJu0YyZCk39PkAIH4ZZi0AeE6zIOTPthZrTZOOSU/PFZhloFnAfy576
-	fDLQEeJFjCH217AfBPCA22wOTWJc0lYi5TQSRDujKxgMXcz9I3twOgcqyWESsythunbLubhMiQW
-	jOIPNMy8VP3SDSAY5MWapvhUl2bNyyBdYBQ==
-X-Gm-Gg: ASbGncvc6KFq3dfUe3eRIyUqeKxzORiWxNYkC6zS4PTIS2YdhMk0XUYioHFb7NuO7aN
-	Tyyw3NhJ/ETMYbL5+kDWIHKc4DTSIw5TY/JaKaHbbomPpIxfXCC5tWWL3FahktYTuEXgsDVnZWm
-	kpMPFh4J/NZUCQdNjjfEMEi1DL2xq70wGkUNdHhhJujRpBKtC5+lGiC6ff9M3NLfbcR6E3bNGEj
-	pRqnqkZ7UfUFJViJ/HU/RiZqz6pDdNDe51TyoNXxckNTce71pfCux07mLQAU3XHhBLomkDY9p1F
-	0NMOzNIOfD8LIsDtd0d/MDMHrOyEKdxJJelkXDGZ
-X-Google-Smtp-Source: AGHT+IEP1vJdA2BMZGpahGjRB1MVi6UpsWZP93Qcwcr1daaaE+tMec5VhLrQHtFAsviphgQX+2YEBMIGpNGYwICfVLo=
-X-Received: by 2002:ad4:5c4d:0:b0:880:4a49:75c7 with SMTP id
- 6a1803df08f44-8804a498153mr96581796d6.39.1762165046175; Mon, 03 Nov 2025
- 02:17:26 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762165743; x=1762770543;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YDZWmgcBWFCIre/WiVxDEkKSTsVV7ONJ6PMlfINeilQ=;
+        b=gU2EbN/8rYZYgQ03r4tdPjVrtGecOTUalB979WB3m2XHcyMYAl+c+ODZvXvPDit7r0
+         cIZhfiVZxIiPt2oXTvUb8ASDIGBUnOUJ0XPnWZA2eMrWIlOYfEtwWf7nSJjspe8Cz6cO
+         ouLPSfLRPQ08afuzpckYxObp+V/6S5IkM2h+rYhOBYGe3vmwFbHfd9tS4tw1TItKBhFW
+         xSdhnln8zgeSvrHKhlQGbPwS0tk/iRNcUaaGMkVTsBLjropz9jyy+iAnVjwV4MIKRYw5
+         4xCbPEkd1OVqDhhr5bY4QsjaSY0g15sqZV+XzLS9fFjRGK7U3ItksPv69xuiSSuOpKVN
+         j6Cw==
+X-Forwarded-Encrypted: i=1; AJvYcCVPBgRRwbmhgcKovTBDWZd8jNvLagGxhQgovGY2m8RGqWOltNeUdt5Tx/ALmrZWfh8hBIp8tK69le/hcfp1YXdCew==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwQWtfXkQp9IiPai2np+yDhofz1HFJsKfnRLHMBp5qz9LHGr5hL
+	KaJY6VkeEuiQsNogYWqbfoeh3XQh35CcjYY/ow8fQ08fCcAqVLo1UmSy
+X-Gm-Gg: ASbGnctUmaHJF42wLp7rienl0t2j4Pop55lxY1eroII5Mh4yIt+QZ6GvdTKAl0b1BC1
+	5kAgABoVkj7ZNTOFowXKUwpMyu6nHM+AYz0TxlvxUKyTiVwMYeAKZTZbiiMAo2yLG8F5UIQRBiG
+	9PhSDYYmy6xMQjWx52ze/T6jcxToAegzmvt0DfboGqKHm4r+ze1kFwVaAjchKTjHFzV81Yz6i5g
+	lzWBtZZ5VXC5/f9Dtsds5lerXo5+AwPSX2wcWJlMt+bWJz1OBYPHAJB3KkhHv+BWNoU+qBpnMgv
+	m/hoKQPzq9NcJTbXhRV4hgpX/t5yclJeGeMvs3rU9Jeb5+WmFROzGHLOAh6ZD8yi66ExeGXDKfU
+	Hxn9VyS8CQYa4FL3nh1g3mJiRq/d1JntnWTEbGc353+5GgQZ9sX/FlvQ4KfX8qCApV6olNz++qf
+	iJ3cRuYIcFh+IwKMEMDOJNV0ww+OrhcQ==
+X-Google-Smtp-Source: AGHT+IFr8VGaiujbeCyMPiChSjujV/J2Wwtu380240jiUK9XqmESmN/rcya6q7/3jj78X3LCzgiVxQ==
+X-Received: by 2002:a05:6000:400b:b0:429:cda2:a00e with SMTP id ffacd0b85a97d-429cda2a356mr3028479f8f.6.1762165742976;
+        Mon, 03 Nov 2025 02:29:02 -0800 (PST)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429ce80ded1sm9010699f8f.4.2025.11.03.02.29.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Nov 2025 02:29:02 -0800 (PST)
+Message-ID: <2b15dd7b-717a-453f-9e43-5cb640db126a@gmail.com>
+Date: Mon, 3 Nov 2025 11:29:01 +0100
 MIME-Version: 1.0
-References: <20251101225744.3856186-1-yoann.congal@smile.fr>
-In-Reply-To: <20251101225744.3856186-1-yoann.congal@smile.fr>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 3 Nov 2025 11:17:14 +0100
-X-Gm-Features: AWmQ_bm1QLPM4y1jYRG-QAsczVp9rU9rhZQqp1CAWnEaTFYgaHEsZJEeQq1dljA
-Message-ID: <CANNYZj-zwr2qLTD1LaA-FoYHKrgSi0Ez6pnVx3rG69hoQgbbPQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] oe-setup-layers: make "path" optional
-To: yoann.congal@smile.fr
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [kirkstone][PATCH 05/19] gtk+3: add PACKAGECONFIG for
+ libcloudservice and tracker; fix cups backend
+To: joerg.sommer@navimatix.de, openembedded-core@lists.openembedded.org,
+ f_l_k@t-online.de, alexandre.belloni@bootlin.com,
+ richard.purdie@linuxfoundation.org
+References: <0d34bc13973f2ff1567713e5de053dfa3d202802.1762157680.git.joerg.sommer@navimatix.de>
+ <b39886c6d1d39e893e639a60e368249ffc95941f.1762157680.git.joerg.sommer@navimatix.de>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <b39886c6d1d39e893e639a60e368249ffc95941f.1762157680.git.joerg.sommer@navimatix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 10:17:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225640
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 10:29:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225641
 
-Thanks, lgtm.
+Note that libcloudproviders doesn't exist in Kirkstone meta-oe.
 
-Alex
+I guess it's a matter of taste, but in general I think changing
+packageconfigs in a stable branch can be dicey.
+(I get that these are cherry-picks, but maybe adding custom patches to
+update would be less invasive)
 
-On Sat, 1 Nov 2025 at 23:58, Yoann Congal via lists.openembedded.org
-<yoann.congal=smile.fr@lists.openembedded.org> wrote:
+On 11/3/25 09:21, Jörg Sommer via lists.openembedded.org wrote:
+> From: Markus Volk <f_l_k@t-online.de>
 >
-> From: Yoann Congal <yoann.congal@smile.fr>
+> Add options to enable support for libcloudprovider and tracker
 >
-> Layer names and path are often redundant. Allow users to omit the path
-> key when it is equal to the layer name by using the layer name as a
-> default value for its path.
+> If the cups backend is enabled, the mandatory file backend gets disabled and
+> thus configure fails. Fix it by not defining the print-backend and just include cups
+> as a dependency. Additionally add it as a runtime dependency.
 >
-> For example, from layers.example.json:
->   "sources": {
->       "meta-alex": {
->           "path": "meta-alex"
->       },
->       "meta-intel": {
->           "path": "meta-intel"
->       },
->       "poky": {
->           "path": "poky"
->       }
->   },
+> Now, if cups gets enabled, it should include the following print-backends
+> by default: cups,lpr,file
 >
-> Update the schema to stop requiring "path" and remove it in example for
-> "meta-intel".
+> (From OE-Core rev: 5ac88d032968f4d005a61fc34f7e3e6e55426ccd)
 >
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cherry-pick-of: 2725d99b79b4caa9b301d206a2b1a7851d2b74cc
+> Signed-off-by: Jörg Sommer <joerg.sommer@navimatix.de>
 > ---
->  meta/files/layers.example.json | 3 +--
->  meta/files/layers.schema.json  | 3 ---
->  scripts/oe-setup-layers        | 2 +-
->  3 files changed, 2 insertions(+), 6 deletions(-)
+>  meta/recipes-gnome/gtk+/gtk+3.inc | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/files/layers.example.json b/meta/files/layers.example.json
-> index 0a6a6a7b489..f3b65220831 100644
-> --- a/meta/files/layers.example.json
-> +++ b/meta/files/layers.example.json
-> @@ -24,8 +24,7 @@
->                      }
->                  },
->                  "rev": "0a96edae609a3f48befac36af82cf1eed6786b4a"
-> -            },
-> -            "path": "meta-intel"
-> +            }
->          },
->          "poky": {
->              "git-remote": {
-> diff --git a/meta/files/layers.schema.json b/meta/files/layers.schema.json
-> index 659ee8da498..b5c13fdb5c9 100644
-> --- a/meta/files/layers.schema.json
-> +++ b/meta/files/layers.schema.json
-> @@ -17,9 +17,6 @@
->                  "type": "object",
->                  "description": "The upstream source from which a set of layers may be fetched",
->                  "additionalProperties": false,
-> -                "required": [
-> -                    "path"
-> -                ],
->                  "properties": {
->                      "path": {
->                          "description": "The path where this layer source will be placed when fetching",
-> diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
-> index 6fbfefd656f..31cb9632515 100755
-> --- a/scripts/oe-setup-layers
-> +++ b/scripts/oe-setup-layers
-> @@ -66,7 +66,7 @@ def _do_checkout(args, json):
->      oesetupbuild = None
->      for r_name in repos:
->          r_data = repos[r_name]
-> -        repodir = os.path.abspath(os.path.join(args['destdir'], r_data['path']))
-> +        repodir = os.path.abspath(os.path.join(args['destdir'], r_data.get('path', r_name)))
->          repodirs.append(repodir)
->
->          if 'contains_this_file' in r_data.keys():
+> diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+> index 1d726b5696..8d01e6077f 100644
+> --- a/meta/recipes-gnome/gtk+/gtk+3.inc
+> +++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+> @@ -41,8 +41,10 @@ PACKAGECONFIG[x11] = "-Dx11_backend=true,-Dx11_backend=false,at-spi2-atk fontcon
+>  # this is provided by oe-core patch that removes epoxy/gl dependency from a X11 build
+>  PACKAGECONFIG[opengl] = "-Dopengl=true,-Dopengl=false,libepoxy"
+>  PACKAGECONFIG[wayland] = "-Dwayland_backend=true,-Dwayland_backend=false,wayland wayland-protocols libxkbcommon virtual/egl virtual/libgles2 wayland-native"
+> -PACKAGECONFIG[cups] = "-Dprint_backends=cups,-Dprint_backends=file,cups"
+> +PACKAGECONFIG[cups] = ",,cups,cups"
+>  PACKAGECONFIG[colord] = "-Dcolord=yes,-Dcolord=no,colord"
+> +PACKAGECONFIG[cloudproviders] = "-Dcloudproviders=true,-Dcloudproviders=false,libcloudproviders"
+> +PACKAGECONFIG[tracker3] = "-Dtracker3=true,-Dtracker3=false,tracker,tracker-miners"
+>  
+>  prepare_gtk_scripts() {
+>      mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-cache-3.0
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#225566): https://lists.openembedded.org/g/openembedded-core/message/225566
-> Mute This Topic: https://lists.openembedded.org/mt/116073776/1686489
+> View/Reply Online (#225619): https://lists.openembedded.org/g/openembedded-core/message/225619
+> Mute This Topic: https://lists.openembedded.org/mt/116094469/6084445
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
 >
+
 
