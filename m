@@ -1,166 +1,163 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0B6CCCF9FE
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 06:45:27 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15020.1762152320547595925
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 232F3CCF9FE
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 07:26:58 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.126])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15246.1762154815247262870
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 Nov 2025 22:45:22 -0800
+ Sun, 02 Nov 2025 23:26:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=JdjGlzun;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3402e2e963=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A34kgRM190623
-	for <openembedded-core@lists.openembedded.org>; Sun, 2 Nov 2025 22:45:20 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=FfXYwpeQxSpEV0nPensM
-	Z/EhBy5TaeipjnCtDHKrQfU=; b=JdjGlzunfw+sSclzP0L7FFzqoCfQaE0iQbtB
-	YMlh4RMwVP3IYEO4AQroZm7wuXMC2xJlif8xeeOUGcYhHKNPCQJhJhYEOLsIDIbR
-	tK3lN2evJDH86NyhyR83igYcGD2L3taY8/Iu1AN1zCMeymHu6Ypl2mEIIRDafVL2
-	TkN7aWTp1zR2pwMoN7VUeq9L0nxHy1g+ZunhpMVZO4BlWMDhN0E8vVPQHh3aD2Rw
-	aVSZtc4XxS/GTp4eJFR52yGbEk1AMX8XsJ30HiIT7Rgvj7tFlxXK9XwrtZv3+AeQ
-	LbK/NcVXTWjGfX1DJ0xQC1KenxFgUKMK7SpnpcmgIXg8ykN1tA==
-Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a5hqeh65h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 02 Nov 2025 22:45:19 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Sun, 2 Nov 2025 22:45:19 -0800
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Sun, 2 Nov 2025 22:45:18 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] vte: support reproducibility when debug build is enabled
-Date: Mon, 3 Nov 2025 14:45:17 +0800
-Message-ID: <20251103064517.1211222-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@navimatix.de header.s=selector1 header.b=qXZ2J2QS;
+ spf=pass (domain: navimatix.de, ip: 52.101.69.126, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=S4WmaMnTczKgQ+JVrMLRN1bIM1TPa8ikLTECsX1fgl5/5wA8/l5A4KfYAfxDiQv+R47AilWmHE9isyXT33nDrXRUIWJgnhgLoLkI5Q5y2oHbCPOeutJI2bpRIwllTAdfi8/YY5v0PMHxE9NA0F5v4g+WBUTPUUyAcAiqpERqy7Xn+iCEkY+EwGFQt8FTv8Z5euBqODPlPxpbORKpQJq+A5enyXvd9lx5oqDLW5gJtQ8pfoQfFvDeQ7T0eAEDAe3bsn/GnxwKV2ICXeSt1f/MLVx2BKXWF38bNBKCZE95Fc9Iize/Z9hG//G9Mr45IwAnVUWxJEZGt679DQT9l49PlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ryZorOg9aEI9mXbvxw7BfBtl0VOqSYisgGJe2mA3qCU=;
+ b=ytZezq8gsZsgdJlqHqedVfXlNXN72dw9vrtkI3FtXuVPDWTU7wwn8/2bkAvuUZMIIFHHC3zGOLhdjp742bGdkR/iKH3oxQuHPpK/VgI6MkTvI9uMDbeX7v2xqbvxLJKLZhUl+SLWMHeWe9vvPf6B4gCSI9gZHkQOYE1VwJEel4kOPA/9B5vtgluyk9N2oP3Ta2mx3DLUCiDaB/QlO03U94y2sPkP0Sh8OWtAhzfmr6ICOPSTfwbjYBa7QMsDfCzLZEhirIubx6JKRBTs9t46O3hnprEuegDt+oHvqB7VbhWkcr+BmXsVa54GfKGZPU+o81hOJ/bRULvKjUu5wueVlw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ryZorOg9aEI9mXbvxw7BfBtl0VOqSYisgGJe2mA3qCU=;
+ b=qXZ2J2QS6hU7RdPx5uTYCpz5ZJpYKwSbbbjEzOOlBAABkVA55Hy77rrOTWxIhAbZegMRC11AB+sU4FVh9ouaVZaj4gK6cLZ85ShcbGphSQatBe8fYKZJvXAczKg8Ul0FyU7RvWkzasl/YvAsjDtUgtdNjRbxjXIztYYKFdJ5a8Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8) by AS1PR01MB9155.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:4d5::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
+ 2025 07:26:50 +0000
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ ([fe80::aa6f:8b89:a47b:990b]) by
+ GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::aa6f:8b89:a47b:990b%5])
+ with mapi id 15.20.9275.015; Mon, 3 Nov 2025 07:26:50 +0000
+Date: Mon, 3 Nov 2025 08:26:49 +0100
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+To: openembedded-core@lists.openembedded.org
+Subject: Convert packages to gnomebase and upgrade
+Message-ID: <20251103072622.1296182-1-joerg.sommer@navimatix.de>
+X-Mailer: git-send-email 2.51.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-ClientProxiedBy: BE1P281CA0290.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:8a::11) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=HJPO14tv c=1 sm=1 tr=0 ts=69084f7f cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=SsMK-6ewAAAA:8 a=NEAV23lmAAAA:8
- a=t7CeM3EgAAAA:8 a=GNezoTjiGtXpW3FoNYUA:9 a=49hUO6naoDravHwzbBTq:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: Ve5g6Wh7ekn3U0NM2fgbsJ4yL5itKF6D
-X-Proofpoint-ORIG-GUID: Ve5g6Wh7ekn3U0NM2fgbsJ4yL5itKF6D
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTAzMDA2MSBTYWx0ZWRfX9IBf/cAyO17G
- bVvAP0NVgjdQ8YX2LRq87ZGozazTNWPI/TzpMHpSq3YoZfqe3bzRDDv2yWT2MfAnff0hvj6xyif
- 8l4WivLqgzcvFyGu+qzYt2naYY/TdAFk3IqIm9k2Tnnu0zTgX8DjDMzdkfNIHXmhHThlvXw9GPv
- SolM3IyeWkrkDG63kBH2SNTWsU/hzMu599NxV1ZySZXCaydAZrl8ujBOJVvgjkiszbRGpd71YPN
- 4yCMao2ppkkry6kx9qnyOqvmWR6zyniHEuU2Qwr1Bj+Q3f1j9/1z/Lt6D5MNusIn2sRstGVRHo6
- nHDQr3wGxWlngiGRZjwoNId012e55q+MwJJoYaRFGj1xllYadvgNCHrAwNJu7hsNR42s1G8reGf
- BKhPFLFjEwLKRivh0qEyipZbPEcxkA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-02_02,2025-10-29_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 adultscore=0 bulkscore=0 malwarescore=0
- spamscore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511030061
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|AS1PR01MB9155:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7b3d85f2-54bb-4741-d596-08de1aaa5ac1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?3QGhh+xxa4jqtxj3/mykFHajyYaqihL6KtkqMOE7/WzTNtPII7eIY407fziy?=
+ =?us-ascii?Q?fBAtIG6KcsWWH9gcrxg09Pwv7Iug2i2SUyg0beP0+UQzd8eNU29/IO8+iUoW?=
+ =?us-ascii?Q?iTX9M6ZCeD83Ciwc48KjIyRi1WrZeUHbxd3ojDUKhgDDVJuIOvyhkA1yq+Ac?=
+ =?us-ascii?Q?o4rQumhXTOlDpcVZYyyn2lHeBsEbjv02BGEfcyx4W+myxDAAyzDvdZSqv/3n?=
+ =?us-ascii?Q?+lAhqycBuXID62u7dCVbb5IROADzhikYIBAVXFlJ5vRihNYmmSXv7s4KeRix?=
+ =?us-ascii?Q?ZBukKc3Y/kQBY/jkEzLzLwrcvQsLJx4ImqfVFwAISguslBSnAlyJlVaei4mC?=
+ =?us-ascii?Q?7lexFk0pqAADMjDE1xu92wXBgdCI3Cq8JGDD63NaaWpuYQ1ukDyNjL3xS1lE?=
+ =?us-ascii?Q?/JtpbELbJrRNYz4wE7KT91VQK5mmQD1+LUGhtfCxtJ+s/aQIvCbxkY39Xaw4?=
+ =?us-ascii?Q?lCoDgQDY8t/bhXfcBx2Wcvx/BuH4fiQ4mImRTecymmv6kHMEC/bzJ/x/zonW?=
+ =?us-ascii?Q?VV7u7gxPaDBnDnk4y7VbGE5UOFCdnw28cx0w4PoFLRJ+FcENfmNledgfVdVx?=
+ =?us-ascii?Q?jVmFZtwBJo+cyiTeV6OzGxkzUiJlqX0j0nHo95G1zPtxD2V32M4PTGKeSdUh?=
+ =?us-ascii?Q?yHihtWYUFf7aYBrPOXsGgFB7+mlbfwcP0ou7IgI1rrbgV6vzs2MfzsnAnM1X?=
+ =?us-ascii?Q?oiBHiY7euvFAzA85n1WwhwOXAdsQtbVz7aGS8JVekWX56A80U2eAGRI+/nCA?=
+ =?us-ascii?Q?zaVfHnKtgu5nRBtyU9ceXtaOjrnBnF0kDICVKmJNk6OTPdNAyjysHkXpXee6?=
+ =?us-ascii?Q?Wxobs+PxCh/Y96xJiHWHe1tMNQX42HghxqTJfrBDAAeLC/OLNLA6czmTAQrm?=
+ =?us-ascii?Q?SiOKd//BUlxEH/Hhu7eeLZBrwNia/DTrYkGB30eQAtCq4pyBAISI9n4sV6Am?=
+ =?us-ascii?Q?5qjleVohRbIeW4Kh+JsFzgO3ecAXT34Z6QcT8W3HJDqH5grwyGytxAXzMZjI?=
+ =?us-ascii?Q?yxln0JbiwL1FQ0frx3ING//J66eEqHzyb7DuLwquXg4to20YZjpTkaUpjcIo?=
+ =?us-ascii?Q?ggqECc/c0u5Zu7W/vhdkFT/vMbN7a1gYcZFtS9H7rErGX/sHcow8JmJnQYR8?=
+ =?us-ascii?Q?cp4nq0mnBUAuDX+7sh1AoE4hTl5WbgDwEvg3bZG2ixxoR5v6XC+eFOC7tNho?=
+ =?us-ascii?Q?iStqJN3g70Cx8huG/y5X/tOFC/bD7kGaqp+P2zNr5kjBoRMZt4wf/bMGc7O0?=
+ =?us-ascii?Q?/xeKJG+vywH5oOQZMK+w5aMdtQOi915RqsDKCtaGtf9yGByGTMTwNa3masj8?=
+ =?us-ascii?Q?LV6rt6JyX2S2cNSn33TNtw6suTSMY3AKnN54BLdvYtXkBXa9KXigYn1TWCZn?=
+ =?us-ascii?Q?zXqDeRtVyn+a3oxEmHJxIVKyHWYzZwV/GFV/Lm57ML08Z4uPZd+Ovh3y1xT/?=
+ =?us-ascii?Q?j3e0UiS0z7g/RUcEm0R6WyU+qLjBUTqG?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?B3P/NiJnWd1lqlHzI/R4Vu+TFkSXV11+5WNi2HFHYfi9gMplOX4kjc2XXdhd?=
+ =?us-ascii?Q?fxM/DkYw4jmezBuLoo8FDltc9Iqs8khQjMXJOdnppfzA1lMiL64Uy8sFrcfk?=
+ =?us-ascii?Q?EKMJVE0SPWH/vhWjcZEqGF9qoDdT7vVRvBzRtsWsjAF45Pa947Tz9CN7Hpjf?=
+ =?us-ascii?Q?MlUUCKM03uZaInMYDfZUAfk+QplCoLSwiKUHm7/8RvuQo14PvGx+Ztle1NPZ?=
+ =?us-ascii?Q?O5FUsSDCKxJzc1/OaDujsvREARZGBsubdfPhasY8FZ0DyA6Eiv/x8QhrRzTb?=
+ =?us-ascii?Q?tx3nNSE1vgcJWGQZDGK1DYTSAXR+3qFTUWAkrnMK4Dn+pzdTBX5MyEVs3egG?=
+ =?us-ascii?Q?ZQ/+Iw0wxBJs81VPNG5i0lnz9E2vLA9227RZZLPWkdg1ML9pWf8ejI7hzR4h?=
+ =?us-ascii?Q?dTepTVQI2MUdrnm0+Dyjha1QrEI/CBIpP8Ml4oGVXzENfRp1Qwt+lWxWxbH5?=
+ =?us-ascii?Q?fQftVWKJJlTy9VixZCtJfawdfY7RBlBgtPp38O71b8ZHnoFSF8R5M9kMfuDS?=
+ =?us-ascii?Q?OcRyFnQVogZFz15nN7U/oYGtDkHdK20EvcCHaQ2WFAMZvE5U0Y0oI3pSzZs2?=
+ =?us-ascii?Q?1GKdgCa94WAlqmLnEvORs0e6RpBc3mmIUJ4DHBxmiY7v8dPnIdgr6zUlNHQX?=
+ =?us-ascii?Q?ZHZ2R+cTJMisk9+KsXHsBwH1ouXEK9OoQZ7yD3OTTO5gseKjf0N2GO6afkaD?=
+ =?us-ascii?Q?8TY7yLNYzn+WzMNFlp6SZgTNrRk7PDRaM+OcKmu3HUrMQlfTxLFVxVQEiAiA?=
+ =?us-ascii?Q?q1F+DGmWl9ltBnnucLFrizAYU2MgQmxVH/8D/xFDFHIyGLAMj83cteQueVIk?=
+ =?us-ascii?Q?YsiSxdr+riYhzlK3wegVRjl/8wquJOTUFRIVO4mTbDD9ISUkxCVfK0YPe8tb?=
+ =?us-ascii?Q?VUmm7QflCLry81go9/uj5l1315wz/aFWug2TMqB29NlfSCIZv+S9r2AYM7FZ?=
+ =?us-ascii?Q?ivVXTnC3gtccy+D903Qsxb7xDFxhQdptodn36RdWBp9HfSkG7gBCwMFmoLxq?=
+ =?us-ascii?Q?vsJ9rDu5UOxjpFeSvHw+1/4H5ifGB+qLDEvtwlI3g9tAq82rvc2LmODNA2pO?=
+ =?us-ascii?Q?mFnczlyEKd3FwUzID4BnvFMSTQue6/N91yq4ecEKMR7FTEtbyL+AZ9JMXEns?=
+ =?us-ascii?Q?cH5EJgW2gz03LKqKD7A/MjiTCdEG39Wzbreneqk2rdD1ek52quzRq9hArCRz?=
+ =?us-ascii?Q?3RSrcMpUXb5cM+onYbI7AS7BB10cmOrPcfTHy8UVBrNyZXfZY6+hupnC7tTJ?=
+ =?us-ascii?Q?UpYOxK1LvNie3+rU6aukLszgsXjQPAMxQwv2FnXaQhp9pok7jO4gavLcBtRK?=
+ =?us-ascii?Q?KezOB8p/5jgbhp7wTgtRwNIxbw5hD8OOerkt95wdgcgX/S73S6Ki+T3d1XpM?=
+ =?us-ascii?Q?CFv/6Ize7AkyE2HAKEVpcgAhfOVDZ+D90II9XOM+QW2OYZTT+iv15SzM4PDJ?=
+ =?us-ascii?Q?MxgCDfa5NSzpw5lncUJSliY/0Y9rH4jFOUK6wfXmgujrJ18WjhnRme46Noxs?=
+ =?us-ascii?Q?lIHKiXgZxyDefe7UghDKeFjzOPYQYcEj27XWLNvadha+DbRy3V0mstFk2Vx5?=
+ =?us-ascii?Q?w4nLWjz7p17h1UgeELSVkdPu0naUHCfr2ufqbY6nNAzhSKqZ0KPHYKHAd++Y?=
+ =?us-ascii?Q?6g=3D=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b3d85f2-54bb-4741-d596-08de1aaa5ac1
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 07:26:50.4612
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GelIEwo7PxfjOcFOD8Uih7GvzikUd2SvzCPVD2Qgp20WIWThg5dqBKmxsxBwFIrfBofsqguwcwG0/dSULE/KIQailJ3AjQP//o5jLRdcCI0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR01MB9155
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 06:45:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225590
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 07:26:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225591
 
-When debug build is enabled, there is a build path issue in source file
-which caused build is not reproducible
-...subprojects/simdutf/simdutf.h...
- 1 /* auto-generated on 2025-03-17 16:13:41 -0400. Do not edit! */
- 2 /* begin file include/simdutf.h */
- 3 // /build-dir/vte-0.82.1/subprojects/simdutf/include/simdutf.h:1
- 4 #ifndef SIMDUTF_H
-...subprojects/simdutf/simdutf.h...
+This patch set converts these packages to gnomebase:
 
-The source file is auto generated by python script amalgamate.py,
-apply a fix to the script to use relative path to instead
+* vala
+* python3-pygobject
+* libsoup
+* gconf
+* epiphany
+* gdk-pixbuf
+* at-spi2-core
+* glib-2.0
+* gobject-introspection
+* gtk+3
+* gtk4
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...rt-reproducibility-for-debug-sources.patch | 48 +++++++++++++++++++
- meta/recipes-support/vte/vte_0.82.1.bb        |  4 +-
- 2 files changed, 51 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/vte/vte/0001-support-reproducibility-for-debug-sources.patch
+These packages have newer upstream versions:
 
-diff --git a/meta/recipes-support/vte/vte/0001-support-reproducibility-for-debug-sources.patch b/meta/recipes-support/vte/vte/0001-support-reproducibility-for-debug-sources.patch
-new file mode 100644
-index 0000000000..20e8f71c0e
---- /dev/null
-+++ b/meta/recipes-support/vte/vte/0001-support-reproducibility-for-debug-sources.patch
-@@ -0,0 +1,48 @@
-+From 0959004adbe46f88d558d2ce61b496c662c196f5 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Mon, 3 Nov 2025 06:13:11 +0000
-+Subject: [PATCH] support reproducibility for debug sources
-+
-+While option --debug-sources is used, the generated source file contains
-+build path comments which caused the build is not reproducible [1]
-+...subprojects/simdutf/simdutf.h...
-+ 1 /* auto-generated on 2025-03-17 16:13:41 -0400. Do not edit! */
-+ 2 /* begin file include/simdutf.h */
-+ 3 // /build-dir/vte-0.82.1/subprojects/simdutf/include/simdutf.h:1
-+ 4 #ifndef SIMDUTF_H
-+...subprojects/simdutf/simdutf.h...
-+
-+After apply this commit, use relative path to instead
-+...subprojects/simdutf/simdutf.h...
-+ 1 /* auto-generated on 2025-03-17 16:13:41 -0400. Do not edit! */
-+ 2 /* begin file include/simdutf.h */
-+ 3 // include/simdutf.h:1
-+ 4 #ifndef SIMDUTF_H
-+...subprojects/simdutf/simdutf.h...
-+
-+[1] https://reproducible-builds.org/
-+
-+Upstream-Status: Submitted [https://github.com/simdutf/simdutf/pull/848]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ singleheader/amalgamate.py | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/singleheader/amalgamate.py b/singleheader/amalgamate.py
-+index 190b2f6..75e0d78 100755
-+--- a/singleheader/amalgamate.py
-++++ b/singleheader/amalgamate.py
-+@@ -385,7 +385,8 @@ def filter_features(file):
-+                 current_features = None
-+             elif enabled:
-+                 if context.args.debug_sources and not prev_line.endswith('\\'):
-+-                    yield f"// {file}:{lineno}"
-++                    RELFILE = os.path.relpath(file, PROJECTPATH)
-++                    yield f"// {RELFILE}:{lineno}"
-+ 
-+                 if line or (not line and prev_line):
-+                     yield line
-+-- 
-+2.48.1
-+
-diff --git a/meta/recipes-support/vte/vte_0.82.1.bb b/meta/recipes-support/vte/vte_0.82.1.bb
-index 4fa8115a20..b5d6f2fb62 100644
---- a/meta/recipes-support/vte/vte_0.82.1.bb
-+++ b/meta/recipes-support/vte/vte_0.82.1.bb
-@@ -17,7 +17,9 @@ GIR_MESON_OPTION = 'gir'
- GIDOCGEN_MESON_OPTION = "docs"
- inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection systemd vala
- 
--SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
-+SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
-+            file://0001-support-reproducibility-for-debug-sources.patch;patchdir=./subprojects/simdutf \
-+"
- 
- SRC_URI[archive.sha256sum] = "79376d70402d271e2d38424418e1aea72357934d272e321e3906b71706a78e3a"
- 
--- 
-2.34.1
+* python3-pygobject: Upgrade 3.52.3 -> 3.54.5
+* at-spi2-core: Upgrade 2.56.4 -> 2.58.1
+* glib-2.0: Upgrade 2.86.0 -> 2.86.1
+* gobject-introspection: Upgrade 1.84.0 -> 1.86.0
+* libadwaita: Upgrade 1.7.6 -> 1.8.1
+
+(I'm still working on epiphany and gdk-pixbuf, because they have new
+dependencies, but I will send this as a new request.)
+
+Some minor clean-ups:
+
+* libgudev: Remove UPSTREAM_CHECK_URI; not needed
+* cantarell-fonts: Remove meson, pkgconfig; already in
 
 
