@@ -2,25 +2,25 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB1C5CCF9FE
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 11:46:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 011F2CCFA05
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 11:46:21 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18771.1762170372315835457
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18772.1762170373406224855
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 03:46:12 -0800
+ Mon, 03 Nov 2025 03:46:13 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 232261D14
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5E482A2A
 	for <openembedded-core@lists.openembedded.org>; Mon,  3 Nov 2025 03:46:04 -0800 (PST)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8D6153F66E
-	for <openembedded-core@lists.openembedded.org>; Mon,  3 Nov 2025 03:46:11 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3642B3F66E
+	for <openembedded-core@lists.openembedded.org>; Mon,  3 Nov 2025 03:46:12 -0800 (PST)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] xserver-xorg: fix CVE-2025-62229 CVE-2025-62230 CVE-2025-62231
-Date: Mon,  3 Nov 2025 11:45:09 +0000
-Message-ID: <20251103114511.1271396-2-ross.burton@arm.com>
+Subject: [PATCH 3/3] xwayland: fix CVE-2025-62229 CVE-2025-62230 CVE-2025-62231
+Date: Mon,  3 Nov 2025 11:45:10 +0000
+Message-ID: <20251103114511.1271396-3-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251103114511.1271396-1-ross.burton@arm.com>
 References: <20251103114511.1271396-1-ross.burton@arm.com>
@@ -30,8 +30,8 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 11:46:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225648
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 11:46:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225650
 
 From https://lists.x.org/archives/xorg-announce/2025-October/003635.html:
 
@@ -85,28 +85,28 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
  ...ke-the-RT_XKBCLIENT-resource-private.patch | 63 +++++++++++++
  ...KB-resource-when-freeing-XkbInterest.patch | 92 +++++++++++++++++++
  ...-Prevent-overflow-in-XkbSetCompatMap.patch | 53 +++++++++++
- .../xorg-xserver/xserver-xorg_21.1.18.bb      |  7 +-
+ .../xwayland/xwayland_24.1.8.bb               |  7 +-
  5 files changed, 305 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-=
-present-Fix-use-after-free-in-present_create_notifie.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-=
-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-=
-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0004-=
-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/0001-present-=
+Fix-use-after-free-in-present_create_notifie.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make=
+-the-RT_XKBCLIENT-resource-private.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free=
+-the-XKB-resource-when-freeing-XkbInterest.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prev=
+ent-overflow-in-XkbSetCompatMap.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-present=
--Fix-use-after-free-in-present_create_notifie.patch b/meta/recipes-graphi=
-cs/xorg-xserver/xserver-xorg/0001-present-Fix-use-after-free-in-present_c=
-reate_notifie.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/0001-present-Fix-use=
+-after-free-in-present_create_notifie.patch b/meta/recipes-graphics/xwayl=
+and/xwayland/0001-present-Fix-use-after-free-in-present_create_notifie.pa=
+tch
 new file mode 100644
-index 00000000000..fa8bc542d81
+index 00000000000..c2f6ad1e021
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-present-Fix-us=
-e-after-free-in-present_create_notifie.patch
++++ b/meta/recipes-graphics/xwayland/xwayland/0001-present-Fix-use-after-=
+free-in-present_create_notifie.patch
 @@ -0,0 +1,91 @@
-+From 359c9c0478406fe00e0d4c5d52bd9bf8c2ca4081 Mon Sep 17 00:00:00 2001
++From a2d7bd5fefecfc4315247902b7f03e8bf9866908 Mon Sep 17 00:00:00 2001
 +From: Olivier Fourdan <ofourdan@redhat.com>
 +Date: Wed, 2 Jul 2025 09:46:22 +0200
 +Subject: [PATCH 1/4] present: Fix use-after-free in present_create_notif=
@@ -174,7 +174,7 @@ ies()
 +(cherry picked from commit 5a4286b13f631b66c20f5bc8db7b68211dcbd1d0)
 +
 +Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2=
-087>
+088>
 +
 +CVE: CVE-2025-62229
 +Upstream-Status: Backport
@@ -200,16 +200,16 @@ fies, xPresentNotify *x_no
 +--=20
 +2.43.0
 +
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-xkb-Mak=
-e-the-RT_XKBCLIENT-resource-private.patch b/meta/recipes-graphics/xorg-xs=
-erver/xserver-xorg/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make-the-RT=
+_XKBCLIENT-resource-private.patch b/meta/recipes-graphics/xwayland/xwayla=
+nd/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
 new file mode 100644
-index 00000000000..ed25f4b58e9
+index 00000000000..61369d789ca
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-xkb-Make-the-R=
-T_XKBCLIENT-resource-private.patch
++++ b/meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make-the-RT_XKBCLI=
+ENT-resource-private.patch
 @@ -0,0 +1,63 @@
-+From a3d5c76ee8925ef9846c72e2327674b84e3fcdb3 Mon Sep 17 00:00:00 2001
++From 539bca9e0d05ce995a936c4bdf90bc716510d2a7 Mon Sep 17 00:00:00 2001
 +From: Olivier Fourdan <ofourdan@redhat.com>
 +Date: Wed, 10 Sep 2025 15:55:06 +0200
 +Subject: [PATCH 2/4] xkb: Make the RT_XKBCLIENT resource private
@@ -234,7 +234,7 @@ T_XKBCLIENT-resource-private.patch
 +(cherry picked from commit 99790a2c9205a52fbbec01f21a92c9b7f4ed1d8f)
 +
 +Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2=
-087>
+088>
 +
 +CVE: CVE-2025-62230
 +Upstream-Status: Backport
@@ -245,7 +245,7 @@ T_XKBCLIENT-resource-private.patch
 + 2 files changed, 3 insertions(+), 1 deletion(-)
 +
 +diff --git a/include/xkbsrv.h b/include/xkbsrv.h
-+index fbb5427e1..b2766277c 100644
++index bd747856b..d801cd4b8 100644
 +--- a/include/xkbsrv.h
 ++++ b/include/xkbsrv.h
 +@@ -58,6 +58,8 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
@@ -258,10 +258,10 @@ T_XKBCLIENT-resource-private.patch
 +     DeviceIntPtr dev;
 +     ClientPtr client;
 +diff --git a/xkb/xkb.c b/xkb/xkb.c
-+index 5131bfcdf..26d965d48 100644
++index ac154e200..6c102af0a 100644
 +--- a/xkb/xkb.c
 ++++ b/xkb/xkb.c
-+@@ -51,7 +51,7 @@ int XkbKeyboardErrorCode;
++@@ -50,7 +50,7 @@ int XkbKeyboardErrorCode;
 + CARD32 xkbDebugFlags =3D 0;
 + static CARD32 xkbDebugCtrls =3D 0;
 +=20
@@ -275,17 +275,16 @@ T_XKBCLIENT-resource-private.patch
 +--=20
 +2.43.0
 +
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-xkb-Fre=
-e-the-XKB-resource-when-freeing-XkbInterest.patch b/meta/recipes-graphics=
-/xorg-xserver/xserver-xorg/0003-xkb-Free-the-XKB-resource-when-freeing-Xk=
-bInterest.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free-the-XK=
+B-resource-when-freeing-XkbInterest.patch b/meta/recipes-graphics/xwaylan=
+d/xwayland/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
 new file mode 100644
-index 00000000000..f55e3d41264
+index 00000000000..76e50cfad92
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-xkb-Free-the-X=
-KB-resource-when-freeing-XkbInterest.patch
++++ b/meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free-the-XKB-resou=
+rce-when-freeing-XkbInterest.patch
 @@ -0,0 +1,92 @@
-+From 32b12feb6f9f3d32532ff75c7434a7426b85e0c3 Mon Sep 17 00:00:00 2001
++From a7e9938b621e16677c6330306a45baba0495ea31 Mon Sep 17 00:00:00 2001
 +From: Olivier Fourdan <ofourdan@redhat.com>
 +Date: Wed, 10 Sep 2025 15:58:57 +0200
 +Subject: [PATCH 3/4] xkb: Free the XKB resource when freeing XkbInterest
@@ -346,7 +345,7 @@ KB-resource-when-freeing-XkbInterest.patch
 +(cherry picked from commit 10c94238bdad17c11707e0bdaaa3a9cd54c504be)
 +
 +Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2=
-087>
+088>
 +
 +CVE: CVE-2025-62230
 +Upstream-Status: Backport
@@ -356,10 +355,10 @@ KB-resource-when-freeing-XkbInterest.patch
 + 1 file changed, 2 insertions(+)
 +
 +diff --git a/xkb/xkbEvents.c b/xkb/xkbEvents.c
-+index 0bbd66186..3d04ecf0c 100644
++index f8f65d4a7..7c669c93e 100644
 +--- a/xkb/xkbEvents.c
 ++++ b/xkb/xkbEvents.c
-+@@ -1056,6 +1056,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
++@@ -1055,6 +1055,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
 +             autoCtrls =3D interest->autoCtrls;
 +             autoValues =3D interest->autoCtrlValues;
 +             client =3D interest->client;
@@ -367,7 +366,7 @@ KB-resource-when-freeing-XkbInterest.patch
 +             free(interest);
 +             found =3D TRUE;
 +         }
-+@@ -1067,6 +1068,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
++@@ -1066,6 +1067,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
 +                 autoCtrls =3D victim->autoCtrls;
 +                 autoValues =3D victim->autoCtrlValues;
 +                 client =3D victim->client;
@@ -378,16 +377,16 @@ KB-resource-when-freeing-XkbInterest.patch
 +--=20
 +2.43.0
 +
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0004-xkb-Pre=
-vent-overflow-in-XkbSetCompatMap.patch b/meta/recipes-graphics/xorg-xserv=
-er/xserver-xorg/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prevent-ove=
+rflow-in-XkbSetCompatMap.patch b/meta/recipes-graphics/xwayland/xwayland/=
+0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
 new file mode 100644
-index 00000000000..5036f0c9f0a
+index 00000000000..27c8f6c8099
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0004-xkb-Prevent-ov=
-erflow-in-XkbSetCompatMap.patch
++++ b/meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prevent-overflow-i=
+n-XkbSetCompatMap.patch
 @@ -0,0 +1,53 @@
-+From 364f06788f1de4edc0547c7f29d338e6deffc138 Mon Sep 17 00:00:00 2001
++From 70dfb0fb993655b0989d54e3bffc4e62c5629392 Mon Sep 17 00:00:00 2001
 +From: Olivier Fourdan <ofourdan@redhat.com>
 +Date: Wed, 10 Sep 2025 16:30:29 +0200
 +Subject: [PATCH 4/4] xkb: Prevent overflow in XkbSetCompatMap()
@@ -416,7 +415,7 @@ erflow-in-XkbSetCompatMap.patch
 +(cherry picked from commit 475d9f49acd0e55bc0b089ed77f732ad18585470)
 +
 +Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2=
-087>
+088>
 +
 +CVE: CVE-2025-62231
 +Upstream-Status: Backport
@@ -426,10 +425,10 @@ erflow-in-XkbSetCompatMap.patch
 + 1 file changed, 2 insertions(+)
 +
 +diff --git a/xkb/xkb.c b/xkb/xkb.c
-+index 26d965d48..137d70da2 100644
++index 6c102af0a..a77fe7ff0 100644
 +--- a/xkb/xkb.c
 ++++ b/xkb/xkb.c
-+@@ -2992,6 +2992,8 @@ _XkbSetCompatMap(ClientPtr client, DeviceIntPtr de=
++@@ -2990,6 +2990,8 @@ _XkbSetCompatMap(ClientPtr client, DeviceIntPtr de=
 v,
 +         XkbSymInterpretPtr sym;
 +         unsigned int skipped =3D 0;
@@ -444,31 +443,33 @@ t,
 +--=20
 +2.43.0
 +
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb b=
-/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-index f42f99d6c60..44ccea76f54 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-@@ -1,6 +1,11 @@
- require xserver-xorg.inc
+diff --git a/meta/recipes-graphics/xwayland/xwayland_24.1.8.bb b/meta/rec=
+ipes-graphics/xwayland/xwayland_24.1.8.bb
+index a621af1a7f0..af4bb734996 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_24.1.8.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_24.1.8.bb
+@@ -9,7 +9,12 @@ HOMEPAGE =3D "https://fedoraproject.org/wiki/Changes/Xwa=
+ylandStandalone"
+ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5df87950af51ac2c5822094553ea1=
+880"
 =20
--SRC_URI +=3D "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-h=
-ardwar.patch"
-+SRC_URI +=3D "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-h=
-ardwar.patch \
-+            file://0001-present-Fix-use-after-free-in-present_create_not=
-ifie.patch \
-+            file://0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch=
- \
-+            file://0003-xkb-Free-the-XKB-resource-when-freeing-XkbIntere=
-st.patch \
-+            file://0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch \
-+            "
- SRC_URI[sha256sum] =3D "c878d1930d87725d4a5bf498c24f4be8130d5b2646a9fd0f=
-2994deff90116352"
+-SRC_URI =3D "https://www.x.org/archive/individual/xserver/xwayland-${PV}=
+.tar.xz"
++SRC_URI =3D "https://www.x.org/archive/individual/xserver/xwayland-${PV}=
+.tar.xz \
++           file://0001-present-Fix-use-after-free-in-present_create_noti=
+fie.patch \
++           file://0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch =
+\
++           file://0003-xkb-Free-the-XKB-resource-when-freeing-XkbInteres=
+t.patch \
++           file://0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch \
++           "
+ SRC_URI[sha256sum] =3D "c8908d57c8ed9ceb8293c16ba7ad5af522efaf1ba7e51f9e=
+4cf3c0774d199907"
 =20
- # These extensions are now integrated into the server, so declare the mi=
-gration
+ UPSTREAM_CHECK_REGEX =3D "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
 --=20
 2.43.0
 
