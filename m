@@ -1,85 +1,111 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7DC6CCFA05
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 11:22:49 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18412.1762168967324291474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E753DCCF9F8
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 11:46:20 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18618.1762170372041197401
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 03:22:47 -0800
+ Mon, 03 Nov 2025 03:46:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=J3VTn7c3;
- spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4e896e91368so51852281cf.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 03:22:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762168966; x=1762773766; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JuzxoPAzr7W5lB/mrppMxI49hsQVfL15IM9HrDyERCw=;
-        b=J3VTn7c3Tl3fFVsB8x0v6a1rZnsHQMv671nEefuoO6YysLkBni2xfP6WM5cMckswnm
-         sgpHhCUIKVGYudEcab499KDWwArKnd+q3ABepLCLU9nqwYZjDfFIaG2gHMxfAVn8e7HA
-         oQDgsdC2HJM64A6gkj+VuASI84XZ7OLdbV9D22azOUpaZ4FZ37K+Oa0V1ooiAuNdGZwN
-         NBe0hSmDHv5zAGu1X3wCSbMUenfmRcWnIxFIP2SWnPbPR6/yVGCIJIgiq4A7ERcWDNPE
-         Pc0ewm9rIcVTFEUPDyNdvOm4fQS1KSigDlRqBMAq1qv7i2CTtDhwHkXvbvpZc1LVHSlh
-         lKNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762168966; x=1762773766;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JuzxoPAzr7W5lB/mrppMxI49hsQVfL15IM9HrDyERCw=;
-        b=mgldxodJmy5OPOK3/EPLXWxtarGHEslzBLqjTSsqXwYlwtiRcNvW3ULGJGousP8NBR
-         XYQRmk0BGkwRrn4w68mrAqPueq7Kan3OjUEZrCUnVTLCDTzHF3Dtk7DuIrNS91AnyPtd
-         zCyn7Xgp/HPFSlmgZJOYfRmMNMd07pROdG8X1KluQxVj8SAFNTI7qhCMUMVH7MzNuvBZ
-         Een0j7BYeq/F4jAwhK65ENzSkTYqo/qnx4+aFKujUAqAeuB7vK1+AKujQm3k9qMj+rAL
-         CgmPHYvEW4ngtrdRj1iHBGJJdDrjNCNdsIVO324HgK5mzDdWulAvoPCqc68+iI9U1a72
-         yseg==
-X-Gm-Message-State: AOJu0YzjkyP/v77tpOqe+PjGOWu+8Nx+GXdVljxQTu0lSUv3Zs15zQZs
-	iHvbIgA+HeAF5jdGqRPyYutilE7rgR9OWo5DnyJaS+tCOIWhp4wOLCmf4J/F4pYcv5RBf1pC7xZ
-	wET1/yYOJ2m7CyJavKqSp3zBduyAB1+E=
-X-Gm-Gg: ASbGnctT38KetFIaw/QVDbgZ3R0q3e+QMFf27M5vdzbPGuygmUnwHvsOVveXtSj852w
-	6vqsQJoAYM316MT4C4qKDi4AAVBNf1tbJoBp2KcyCncF6OV8KXu9zPcLBqHY7IYdsdeJZCCggiK
-	7zxeDSgZaMydHmdt3zOJTnlC8VrlRkZxO3x19ra4CYTBTle6w9ceXcU9mNIHJwXxcZCvsVP/V7J
-	tyebP1el+s92umwmIG7AU0K411qfrnqZAC1JxV6rEkVMrKNYdoY7671ymRP0eWcjHXQMZcjg11/
-	HbMB8quc1AG5TFN3KZvva4CohoRkHQ==
-X-Google-Smtp-Source: AGHT+IHBoRjPOe/yyBU4q43sgT57KC+F1rImMKhedRGnDzmFwIcWeIXW5glwxq1EAxZ0XXAs2UHSod2T1Nei9NNNUBk=
-X-Received: by 2002:ac8:7d14:0:b0:4eb:a387:1ecf with SMTP id
- d75a77b69052e-4ed310a8391mr147418671cf.80.1762168966280; Mon, 03 Nov 2025
- 03:22:46 -0800 (PST)
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 791C21D13
+	for <openembedded-core@lists.openembedded.org>; Mon,  3 Nov 2025 03:46:03 -0800 (PST)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E49923F66E
+	for <openembedded-core@lists.openembedded.org>; Mon,  3 Nov 2025 03:46:10 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/3] xserver-xorg: remove redundant patch
+Date: Mon,  3 Nov 2025 11:45:08 +0000
+Message-ID: <20251103114511.1271396-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20251103082911.1792759-1-peter.tatrai.ext@siemens.com> <20251103082911.1792759-2-peter.tatrai.ext@siemens.com>
-In-Reply-To: <20251103082911.1792759-2-peter.tatrai.ext@siemens.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 3 Nov 2025 12:22:35 +0100
-X-Gm-Features: AWmQ_bkiPNQdWsF50z8dHjtN8FpDmu2Op7U9AP-TPkXnpg1rMzSxEbC6eE_XIaM
-Message-ID: <CANNYZj802C5ABk_1tCkgwpO7a2ECC08dKzFaCK9WoR4qBNWmoQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 1/2] oeqa/selftest/rust: pass zlib/zstd link
- args to test build
-To: peter.tatrai.ext@siemens.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 11:22:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225647
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 11:46:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225649
 
-On Mon, 3 Nov 2025 at 09:29, Tatrai, Peter via lists.openembedded.org
-<peter.tatrai.ext=siemens.com@lists.openembedded.org> wrote:
-> This fixes PowerPC (qemuppc) test failures with undefined references:
->   undefined reference to 'compress2'
->   undefined reference to 'uncompress'
->   undefined reference to 'ZSTD_decompress'
->   undefined reference to 'ZSTD_isError'
->   undefined reference to 'ZSTD_compress2'
->   undefined reference to 'crc32'
-> -            cmd = cmd + " export RUSTFLAGS='-C strip=debuginfo';"
-> +            cmd = cmd + " export RUSTFLAGS='-C strip=debuginfo -Clink-arg=-lz -Clink-arg=-lzstd';"
+The underlying issue with -fno-common was resolved upstream in xserver
+21.1.0 onwards[1].
 
-But this still does not explain why the issue is specific to powerpc.
-Can you get to the bottom of it?
+[1] xserver 0148a15da ("compiler.h: don't define inb/outb and friends on =
+mips")
 
-Alex
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ ...-duplicate-definitions-of-IOPortBase.patch | 28 -------------------
+ .../xorg-xserver/xserver-xorg_21.1.18.bb      |  4 +--
+ 2 files changed, 1 insertion(+), 31 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-=
+Avoid-duplicate-definitions-of-IOPortBase.patch
+
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-d=
+uplicate-definitions-of-IOPortBase.patch b/meta/recipes-graphics/xorg-xse=
+rver/xserver-xorg/0001-Avoid-duplicate-definitions-of-IOPortBase.patch
+deleted file mode 100644
+index e9cbc9b4daa..00000000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-Avoid-duplicat=
+e-definitions-of-IOPortBase.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From cedc797e1a0850039a25b7e387b342e54fffcc97 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Mon, 17 Aug 2020 10:50:51 -0700
+-Subject: [PATCH] Avoid duplicate definitions of IOPortBase
+-
+-This fixed build with gcc10/-fno-common
+-
+-Fixes
+-compiler.h:528: multiple definition of `IOPortBase';
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- hw/xfree86/os-support/linux/lnx_video.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/hw/xfree86/os-support/linux/lnx_video.c b/hw/xfree86/os-sup=
+port/linux/lnx_video.c
+-index fd83022..1d0d96e 100644
+---- a/hw/xfree86/os-support/linux/lnx_video.c
+-+++ b/hw/xfree86/os-support/linux/lnx_video.c
+-@@ -78,6 +78,7 @@ xf86OSInitVidMem(VidMemInfoPtr pVidMem)
+- /**********************************************************************=
+*****/
+- /* I/O Permissions section                                             =
+    */
+- /**********************************************************************=
+*****/
+-+_X_EXPORT unsigned int IOPortBase;      /* Memory mapped I/O port area =
+*/
+-=20
+- #if defined(__powerpc__)
+- volatile unsigned char *ioBase =3D NULL;
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb b=
+/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
+index 3c8cb0173f4..f42f99d6c60 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
+@@ -1,8 +1,6 @@
+ require xserver-xorg.inc
+=20
+-SRC_URI +=3D "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-h=
+ardwar.patch \
+-           file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+-           "
++SRC_URI +=3D "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-h=
+ardwar.patch"
+ SRC_URI[sha256sum] =3D "c878d1930d87725d4a5bf498c24f4be8130d5b2646a9fd0f=
+2994deff90116352"
+=20
+ # These extensions are now integrated into the server, so declare the mi=
+gration
+--=20
+2.43.0
+
 
