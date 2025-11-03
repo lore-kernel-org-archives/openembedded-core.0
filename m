@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9697DCCF9F8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0537CCFA08
 	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 20:59:37 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2307.1762203569222157157
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2244.1762203571013149585
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 12:59:29 -0800
+ Mon, 03 Nov 2025 12:59:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=y8l+vXEX;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7a59ec9bef4so5953914b3a.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 12:59:29 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=e+FXWweh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-29570bcf220so26598245ad.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 12:59:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762203568; x=1762808368; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762203570; x=1762808370; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WDWCQe9NFH2ttJXNLXPTWFYa5WQZvItUUI4WsBw5sMY=;
-        b=y8l+vXEXpXSn9p9zds7lJMpdhob+zi9yHaQ9rsnxedjfAhLyB3IwW7uUA/3yj5FM/o
-         Tph4sWeMlJEHJycC+KFs7wP0RuV9WcjvtVGpbXkJOkoX2nHSAhsPNfQJn0HHnfJX73yu
-         p9eowLuLGsARxP9KmdEQUOqFE4bRoNZHJcYdMkIhOXNZyDByZhfjZKANY0jlZfdnCSeq
-         gCcTL6HqzZK3zcNRMGjsJ3YUsjjRiW+V7t+d++rjOJkef74PXmuIeWhuSzpAzYAZN8w1
-         resyU4FxJXeBkI7uMKbIEZ5Rl0wWA9CGAJrs2X5Daw3Ma+o43+E6aSbU/LfHozKoewRI
-         OLyA==
+        bh=cbzJhZneSkI5CKHwBjD+/w6YVujFi5n4XANcVyV2s7s=;
+        b=e+FXWweh6hvbO7wNDfYXs8SuAo5p8IQstlwviaKiQ3av/s/JkpR65k3P0/JNkarYVS
+         0hdIe0ueNBcSTInWb9izFZkdJi01eabJWPpgDrfALVZw5/bgCGgRrKiiYXXRRJfB3LQk
+         nl7ejUY01ayY/Kcw7/xv0uBS3DlRUAiPEdGmZ2xrSx1U9OOQIoshwE7XIFTABDekRtda
+         FrJbskHx7Rm1oQ+HlhO4gk9alR7EqCbocSPUrNjrz5WybEUlDJCsrgLQZIF+zbyqpqey
+         XmaSjo4HdBprx4ItRJIc3IKOWLhLo59hPH1PUOKM3Qvdzvis72SyzHT72oJBGvXze08c
+         0QHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762203568; x=1762808368;
+        d=1e100.net; s=20230601; t=1762203570; x=1762808370;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WDWCQe9NFH2ttJXNLXPTWFYa5WQZvItUUI4WsBw5sMY=;
-        b=anQW8ThED5cgsx7pc02acPo7OJvBeCjX/6eAyYiRWZe7OQ4MWbeLKueTXUn/4yrF/y
-         SQ9vLcyI6CsL7kJ4bIJgJSOA27xrEIjfiV2lEvFTuIdlNcGohE7ChraeAsYrl4b4nv66
-         N4aMWFuK9AhhzamLIvBpAKAlBAXhrV6px1ceyfhT6q2EtAmGsqKpWE9O0pFG6RrQPBrV
-         zy2O1DibO3Kcd0lgJtaCJUY3e+vxKX5SQTqq1xvFsOY3LRdRqTtpIsMDJTF33+NpjdRm
-         U0P4n2yivJMOCKs4DTo8lNCtgW/t9j/qXLdanGlLk5Ib3nM8uEi18Ggkek34l+c3/QTB
-         FmnQ==
-X-Gm-Message-State: AOJu0Yy0YucEmyYyNRZ2mCjanBLVpCglawSO8UQBUPLSI6z42lYcDlC0
-	zdXv6B/pukgwUvzXbUrmuDBWvjmbtHdXEvrSkQuhb8iwPPkyRa/EeFrJHjM1shEpd43cfek0GUd
-	SVizaEPo=
-X-Gm-Gg: ASbGncuDO0NOsXbdAtPEe/99O8YkqSq5zKFTyzBw0FIZ60LuL/b36SjDYRSAKBZu7Bo
-	r3Z3WoiucFHYNP2iaMRhb2NkJ2mxW08ATCKCtzv6j4tnYVFhLpQKjXZ0AIX6mX3YqAzipaohmQ4
-	mbDQ9XnxyeW6Jk75oWWo0vbfW3f3RWlBl5D+K5b04uI+T+0DZZXhH6Ghxc77Gny6Icx3HylaTqv
-	EH359NwHTWiByL5C/yLPi1PM1mJjS6MkmbwEznGhgM4yHvN1ukWQffxs2xollGmQGgtg6f4oawv
-	l0SL2NdEjOxbecUpK2hMY5ZIf3kHT+9hj6pCQlOyLmzdMY3WVQRgETPuA7aU9VGyk0zWWmg/ixI
-	GtSUrxy79sV8P6Hw2k8/ODGgmsErCbYjcZrGHdEj8QDrMuTxqJo308KwHOJDcNcjMcrE=
-X-Google-Smtp-Source: AGHT+IHj8RHqPfxzCu6x2B3gaRC8x8wTtJJb0Z2Li0dnJ+6YckroEiNLmzheeW1jBubJJocaN0qxkQ==
-X-Received: by 2002:a17:90b:3a8c:b0:33b:b078:d6cc with SMTP id 98e67ed59e1d1-34083070ec7mr16847144a91.31.1762203568438;
-        Mon, 03 Nov 2025 12:59:28 -0800 (PST)
+        bh=cbzJhZneSkI5CKHwBjD+/w6YVujFi5n4XANcVyV2s7s=;
+        b=sMjbmQpUPnvQKI7yfxALx3NHLk2H29Nx76LgPXfg/HXmLcpe4xb7AtrJbUUjk8mXCe
+         TlkfQCRg7LqaG5uT56ej9y62GtdTbDo4YIGjgmiajY6xQTGRdweFGkNp3c/6kWwusnc7
+         YFy919PgIs5airRbCk0f5x1ABvju4pv8rHlHib6+Zf88WfdAPSMndx+NNXAyK7ap0W/W
+         rec+OFdjWsuWd3PtsP0nepNhp/II0LzrqAx46R0ShMM6WiBHT1ygrnylIX+zdz3YtH75
+         adB2scU2OYuc6B40bMpLIJ+MgE8t5/kLupQR2YlRMiTWalvnEO8y83uYFp3jkGE7+cNo
+         RXzw==
+X-Gm-Message-State: AOJu0YzZhbTl+CAujcA9EPn+C/eSuRpiKPzr010Nh9zCgLGlzHADPuIw
+	jaAMW0ofAa9SAlvH13uX2qlLMRsLzaz7rStE6yDER8TT3udPZc5GLWV8+5gduvngGZgoubh87DO
+	uGI1BgVk=
+X-Gm-Gg: ASbGncviUiT3JRZq7QAFQV92bNi17qpwtpetW0cDr1EvAhrrVtMDYyYiMyxYZ4XOeWL
+	5znCEA80UQflmIi372A7sVNsXTNiDc4gDxUri+LP2wpdbuj2l5XZrsUWEV0ImmL16hi+xUe9DOM
+	DKadDgeUoloUrWfRNYsKOC1Ltmua42Z+mBKx6ZLYKdaRLgSXNqGFozLQkzinLq/qtK9P6tbQAKD
+	VzoUXliVCw4ME6QtuMhXEbpq+htNU1rTSiES3yTElAeyBU6jNF4nw+8pyU/v5CQxsqvXA/dRcyB
+	s7wKGHRAcIff+35eBV2aIdMmIagf4yguO8Ty2nBK+jnq0y1tdNOiqA4Epp/pBjUHoqGofm9wYYF
+	K6pYUYj0Wb2OMhjrsu2let6MIdrKWFRwzOK3PJrD3lubtqik9G9l45tp3jB0i/PPUY2c=
+X-Google-Smtp-Source: AGHT+IF67qwpBbRw5RzNcVBmYjiImDp5mbYUS3wANbrP+9KMXcjdwCnl8GNuymbEvme3xrdM10u95g==
+X-Received: by 2002:a17:903:384c:b0:24f:dbe7:73a2 with SMTP id d9443c01a7336-2951a45a272mr170714395ad.31.1762203570287;
+        Mon, 03 Nov 2025 12:59:30 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:6a2d:a521:f4d2:20a3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3415b02891asm2024911a91.9.2025.11.03.12.59.27
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3415b02891asm2024911a91.9.2025.11.03.12.59.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Nov 2025 12:59:28 -0800 (PST)
+        Mon, 03 Nov 2025 12:59:29 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 1/8] u-boot: fix CVE-2024-42040
-Date: Mon,  3 Nov 2025 12:59:08 -0800
-Message-ID: <f5b980ade1e952a181cb51d60268942095627c0d.1762203396.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 2/8] openssh: fix CVE-2025-61985
+Date: Mon,  3 Nov 2025 12:59:09 -0800
+Message-ID: <5170bd2f8a63bcc310667a327ea2ab96c783c4f6.1762203396.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1762203396.git.steve@sakoman.com>
 References: <cover.1762203396.git.steve@sakoman.com>
@@ -68,100 +68,74 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 20:59:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225697
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225698
 
-From: Hongxu Jia <hongxu.jia@windriver.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Backport a patch [1] from upstrem to fix CVE-2024-42040 [2]
+ssh in OpenSSH before 10.1 allows the '\0' character in an ssh:// URI, potentially
+leading to code execution when a ProxyCommand is used.
 
-[1] https://source.denx.de/u-boot/u-boot/-/commit/81e5708cc2c865df606e49aed5415adb2a662171
-[2] https://nvd.nist.gov/vuln/detail/CVE-2024-42040
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../u-boot/files/CVE-2024-42040.patch         | 56 +++++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot-common.inc     |  4 +-
- 2 files changed, 59 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch
+ .../openssh/openssh/CVE-2025-61985.patch      | 35 +++++++++++++++++++
+ .../openssh/openssh_8.9p1.bb                  |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-61985.patch
 
-diff --git a/meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch b/meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2025-61985.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2025-61985.patch
 new file mode 100644
-index 0000000000..2d250e51b7
+index 0000000000..7333d5aae8
 --- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/CVE-2024-42040.patch
-@@ -0,0 +1,56 @@
-+From 1406fc918977bba4dac0af5e22e63a5553aa6aff Mon Sep 17 00:00:00 2001
-+From: Paul HENRYS <paul.henrys_ext@softathome.com>
-+Date: Thu, 9 Oct 2025 17:43:28 +0200
-+Subject: [PATCH] net: bootp: Prevent buffer overflow to avoid leaking the RAM
-+ content
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2025-61985.patch
+@@ -0,0 +1,35 @@
++From 54928cb9eaa7143ff17f463efa7ed3109afdbf30 Mon Sep 17 00:00:00 2001
++From: "djm@openbsd.org" <djm@openbsd.org>
++Date: Thu, 4 Sep 2025 00:30:06 +0000
++Subject: [PATCH] upstream: don't allow \0 characters in url-encoded strings.
++ Suggested by David Leadbeater, ok deraadt@
 +
-+CVE-2024-42040 describes a possible buffer overflow when calling
-+bootp_process_vendor() in bootp_handler() since the total length
-+of the packet is passed to bootp_process_vendor() without being
-+reduced to len-(offsetof(struct bootp_hdr,bp_vend)+4).
++OpenBSD-Commit-ID: c92196cef0f970ceabc1e8007a80b01e9b7cd49c
 +
-+The packet length is also checked against its minimum size to avoid
-+reading data from struct bootp_hdr outside of the packet length.
++CVE: CVE-2025-61985
 +
-+Signed-off-by: Paul HENRYS <paul.henrys_ext@softathome.com>
-+Signed-off-by: Philippe Reynes <philippe.reynes@softathome.com>
++Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/43b3bff47bb029f2299bacb6a36057981b39fdb0]
 +
-+CVE: CVE-2024-42040
-+Upstream-Status: Backport [https://source.denx.de/u-boot/u-boot/-/commit/81e5708cc2c865df606e49aed5415adb2a662171]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ net/bootp.c | 11 ++++++++++-
-+ 1 file changed, 10 insertions(+), 1 deletion(-)
++ misc.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/net/bootp.c b/net/bootp.c
-+index 68002909634..843180d296c 100644
-+--- a/net/bootp.c
-++++ b/net/bootp.c
-+@@ -362,6 +362,14 @@ static void bootp_handler(uchar *pkt, unsigned dest, struct in_addr sip,
-+ 	debug("got BOOTP packet (src=%d, dst=%d, len=%d want_len=%zu)\n",
-+ 	      src, dest, len, sizeof(struct bootp_hdr));
-+ 
-++	/* Check the minimum size of a BOOTP packet is respected.
-++	 * A BOOTP packet is between 300 bytes and 576 bytes big
-++	 */
-++	if (len < offsetof(struct bootp_hdr, bp_vend) + 64) {
-++		printf("Error: got an invalid BOOTP packet (len=%u)\n", len);
-++		return;
-++	}
-++
-+ 	bp = (struct bootp_hdr *)pkt;
-+ 
-+ 	/* Filter out pkts we don't want */
-+@@ -379,7 +387,8 @@ static void bootp_handler(uchar *pkt, unsigned dest, struct in_addr sip,
-+ 
-+ 	/* Retrieve extended information (we must parse the vendor area) */
-+ 	if (net_read_u32((u32 *)&bp->bp_vend[0]) == htonl(BOOTP_VENDOR_MAGIC))
-+-		bootp_process_vendor((uchar *)&bp->bp_vend[4], len);
-++		bootp_process_vendor((uchar *)&bp->bp_vend[4], len -
-++				     (offsetof(struct bootp_hdr, bp_vend) + 4));
-+ 
-+ 	net_set_timeout_handler(0, (thand_f *)0);
-+ 	bootstage_mark_name(BOOTSTAGE_ID_BOOTP_STOP, "bootp_stop");
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index d366f10398..7a63420642 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -14,7 +14,9 @@ PE = "1"
- # repo during parse
- SRCREV = "d637294e264adfeb29f390dfc393106fd4d41b17"
++diff --git a/misc.c b/misc.c
++index 6135b15..3d133b5 100644
++--- a/misc.c
+++++ b/misc.c
++@@ -934,9 +934,10 @@ urldecode(const char *src)
++			*dst++ = ' ';
++			break;
++		case '%':
+++			/* note: don't allow \0 characters */
++			if (!isxdigit((unsigned char)src[1]) ||
++			    !isxdigit((unsigned char)src[2]) ||
++-			    (ch = hexchar(src + 1)) == -1) {
+++			    (ch = hexchar(src + 1)) == -1 || ch == 0) {
++				free(ret);
++				return NULL;
++			}
++--
++2.40.0
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+index 345051c8dc..780ece8999 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+@@ -39,6 +39,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://CVE-2024-6387.patch \
+            file://CVE-2025-26465.patch \
+            file://CVE-2025-32728.patch \
++           file://CVE-2025-61985.patch \
+            "
+ SRC_URI[sha256sum] = "fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdaccd262380ae58bec5e7"
  
--SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
-+SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master \
-+           file://CVE-2024-42040.patch \
-+"
- 
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build"
 -- 
 2.43.0
 
