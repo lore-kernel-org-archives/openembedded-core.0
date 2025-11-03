@@ -2,78 +2,76 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51799CCF9F8
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 19:43:47 +0000 (UTC)
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.524.1762199026608369219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5568CCCF9F8
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 19:46:17 +0000 (UTC)
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.583.1762199171557481108
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 11:43:46 -0800
+ Mon, 03 Nov 2025 11:46:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=Jlj9oLbq;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=AO6Wtu1a;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.159, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 9B5737A03C6;
-	Mon,  3 Nov 2025 14:43:45 -0500 (EST)
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=fnZhw583;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=N8IqRYhR;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.151, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id CF07F1D0043C;
+	Mon,  3 Nov 2025 14:46:10 -0500 (EST)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Mon, 03 Nov 2025 14:43:45 -0500
+  by phl-compute-05.internal (MEProxy); Mon, 03 Nov 2025 14:46:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1762199025; x=1762285425; bh=iOA0cuCI/P
-	6k2QZs/nrz8N0cCWohjo+9nh2XOCBjglk=; b=Jlj9oLbqIjYSuoGaGjH9GrnPTc
-	AEFUHIuTIeVpIGP5Hy6nY0i3Az0UHePGALDOp75Il8QWL0MVCkUH9VZ8qryysHh2
-	BtTd+uuM1NEzMNP45Ejsf12XaaeuWALjDirkqypoAToPibuYLfmGAuGUfhx/rFEW
-	EGdAlmxdE/vYHNm6ddbapydA6DjgHz39XZ2M6mO+q46d9jfT0AY2c5+RDRkDLDkg
-	+qiOq/F7Z0Ng3WDxPlfKDePs3+baD+KIPqVlTRptR3bHes+jh6G68qQAL5mnFDwr
-	rs5T8NGhrEKlkEhNRMBONBiaV4/PRnBUwM5k8a/PvhtrqAMxP5u9nWXF2xwQ==
+	:subject:to:to; s=fm1; t=1762199170; x=1762285570; bh=uYdixVXIXz
+	5/VU5WU7LQSxchNiWxuwkGdsV6Rk6T/IE=; b=fnZhw583WWxyOKdrMLyXuJENsa
+	m9FLV+41ZNF0/1ljFkeCY1VSqbovLd4ww2e/3Qt2n8wPXm23QGYKsqtDxRGvyIqa
+	LPib7sGPI1pK6xp/CRmr2d43iwBw1eyxT3TsEV2dVSeZsjxp4LWF+h4nZzSrNe+5
+	fE0uFJpmQx7MDfe12dyxSvbDEdKImQIUiZCB41Qckgf6Hd1TOusE30IDkFAIJPNz
+	g0lgd6oIJrC+lGE6svNQwcD2Mk91jpVT8dpzeJcDXu1sPYYid+18Jr+3XScbjmmr
+	Bk1wz632iLqxU/udhZuHFkGCLazAvjYbhcIY3DdBhJHqa6TE2S1YVeuDUX8w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1762199025; x=1762285425; bh=iOA0cuCI/P6k2QZs/nrz8N0cCWohjo+9nh2
-	XOCBjglk=; b=AO6Wtu1arskVUqAmEyUk92RJUZBItIn2fiLXvHtCkLRVI/DTyne
-	rpnJ18h5G4nNTThZ6LMwe8315dv59X5gG3DfOfGKiNEOlHHjoXhIUm/Bi074uT/5
-	vHnvDuR4XBPSyqp9EkLuEr6A8zj5xy9Bd9gVZlA5AWy6H4xIo74LlbSMfIrM6cIy
-	9sVjaGB85Zj/alAFVNLuw7O3rMWfXJm4omk1i0aSp3jVsCRyxnk3hu6RmIV9P/68
-	E6mhGhSrm+mgVzKSBeh5ufH9CinoK/YZz4CsprlEYIaMUNpp91iDPk2eIqgCT0Zv
-	upwtgN9Vec3MEIPJbW5cnGm9lCEowyAIz1A==
-X-ME-Sender: <xms:8QUJafMH1J-QB99MrIAZKq6xOPjMpWV5zsl-mEH9Zcny2cuVkElApA>
-    <xme:8QUJaQ91nv1h65MfowfDsc2d0AVNaI2NALy0TLfsVGT-GzIfcVYklccPbZfu8R36X
-    WAHnSl3vfkBE5Ad5r9fcyu5B-_KJItEAgMfesOP5iI_znEPuytIfIk>
-X-ME-Received: <xmr:8QUJaTRfYbNuQCWRth_kV07el_JzUo8oGtnloeUvED8t5NlelDqQ6elUTnn70Y7mXIAHB5wmTJTDpEDj9iyRVbsWtuB-rA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddujeeltddtucetufdoteggodetrf
+	1762199170; x=1762285570; bh=uYdixVXIXz5/VU5WU7LQSxchNiWxuwkGdsV
+	6Rk6T/IE=; b=N8IqRYhRDA6Qo2NWgPLQGa/GL0klXCSN/El7iflX3SRpO1P5f8h
+	zJbuQ1I2JEvDHXiI0YqCFQFMI8/35WfO5hDYS9JfJmNrYjAvwjv3MnW318YUva8F
+	JegaaqWBmhmD+jHTF0iR1bLgwXvHbLgA/dn71tEpP8zMdSWtJpGwumtU8coWCOpC
+	TFRnBgg4Dyat7m4QvGKFBwzjGGakDuqMwg0/tXFTgfRxvCZLmMA0egTr56Xdaf8J
+	EyHe9RhkoQQY3g5UtjK694XYKA9MUWyXpichF0eQwwUB7HgYLffksGqE73DuD/Z2
+	MZ2YLragTSYSAkkHcz1Acc6vnW1gVvdEL9Q==
+X-ME-Sender: <xms:ggYJaZiBZJVh9OLD-g2TSKUM6yzs4jmIS7QCZFEf9q82a5ccoI_POQ>
+    <xme:ggYJaVe1K-ITI1tC66RXPjM10Qa93Qu7fEapza-J1kqVX7iGyq-5KFRfSB9o7sIYk
+    H_7-ewL0exop0r3nCe9-4sIfd38dOaBSSGFKTPNo2p4SWncHNAbkm8>
+X-ME-Received: <xmr:ggYJaWdoOmRGjppkIkjxUIRw63sLRcXzd0MBQUesGf-ZNDpMd7lH9SBurC18INZNnBrLVUc4UpZ20MeMJIR8XSLV93Z-_A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddujeeltdduucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
     rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
-    epgeffveeffefgledvteekhfevleelfeelleegtddvfeejvddugeefkedukeelhfeknecu
-    ffhomhgrihhnpegrrhgthhhlihhnuhigrdhorhhgpdhgnhhurdhorhhgpdhkvghrnhgvlh
-    drohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepgedpmhhouggvpe
-    hsmhhtphhouhhtpdhrtghpthhtohepjhhorghohhhfsehgmhgrihhlrdgtohhmpdhrtghp
-    thhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsg
-    gvugguvggurdhorhhgpdhrtghpthhtohepqhhurghrvghsmhgrrdhjohhsvgesghhmrghi
-    lhdrtghomhdprhgtphhtthhopehrrghjrdhkhhgvmhesghhmrghilhdrtghomh
-X-ME-Proxy: <xmx:8QUJaSlPDpGLsD73y4RiP7_mR-mmCtaYIbaFETRtixuSiJRYvs0nfQ>
-    <xmx:8QUJaTTAQ9OKYzYvmJypyYm9ggJ6zr1ysVlyzjeU52QL3DC44VefwA>
-    <xmx:8QUJaQPcDWkttIojnviyWGcF141eFTm53lBslCxs5m_jPUrR-t9MMg>
-    <xmx:8QUJacVyQCOoJCEPgz8d5SmdLtNzNzatnfWcMtOczrPmqV56ac1gTg>
-    <xmx:8QUJaQhqF69ihauuP3g94ZYgSgjBakxTprbLipCcTZ-EtgTCy3KVzmtd>
+    epfeejuedugeffkeegffdvtdeigfeltdfhveeiieejgffggeffvdefleffteeffedvnecu
+    ffhomhgrihhnpegssggtlhgrshhsrdhsohenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghr
+    tghpthhtohepfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepohhpvghnvghmsg
+    gvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhr
+    tghpthhtoheprhhitghhrghrugdrphhurhguihgvsehlihhnuhigfhhouhhnuggrthhioh
+    hnrdhorhhgpdhrtghpthhtoheprghlvgigrdhkrghnrghvihhnsehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:ggYJaX-BaaAndIqLZAaA7zHWAnrG25ogCiAaGj_jI0Fzo5gjdHQlXA>
+    <xmx:ggYJaam4uQQQJZzvpIhkWgsdJbTZqwkP0gL1w0sdB9FBQaEHYf-9eg>
+    <xmx:ggYJaR_3WLPbM8-bXhDtjM5l0ShAVmKK2svtw3uaCP7UOVg1gN855Q>
+    <xmx:ggYJaQkcTmvF2cU7iehF_TIH7KoxE4p7UTTqljAMJr_Z1e8wLyk1gA>
+    <xmx:ggYJaSZP5N-cusS0Ud363lmiypgRPvTuoyddcQbNBMQKjCG_6l20v4MD>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 3 Nov 2025 14:43:44 -0500 (EST)
-Message-ID: <b7a795596ef99c4360902d5ec5d2db2d24d6a660.camel@pbarker.dev>
-Subject: Re: [PATCH v3] readline: backport a patch to fix for caller setting
- rl_prompt to NULL
+ 3 Nov 2025 14:46:09 -0500 (EST)
+Message-ID: <91e68f9f8747154b3754d7a5156c5cf8f1b6b5db.camel@pbarker.dev>
+Subject: Re: [PATCH] pseudo: Add hard sstate dependencies for pseudo-native
 From: Paul Barker <paul@pbarker.dev>
-To: =?ISO-8859-1?Q?Jo=E3o?= Henrique Ferreira de Freitas <joaohf@gmail.com>,
- 	openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Date: Mon, 03 Nov 2025 19:43:38 +0000
-In-Reply-To: <20251103181409.3191690-1-joaohf@gmail.com>
-References: <20251103181409.3191690-1-joaohf@gmail.com>
+To: openembedded-core@lists.openembedded.org, Richard Purdie
+	 <richard.purdie@linuxfoundation.org>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 03 Nov 2025 19:46:05 +0000
+In-Reply-To: <20251016-fix-pseudo-native-v1-1-7c42af094122@pbarker.dev>
+References: <20251016-fix-pseudo-native-v1-1-7c42af094122@pbarker.dev>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -119,70 +117,105 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  OqpPZn7Ij1ga5IAOHNRi5MbyRFROYOeaOj7sz7S7roHQwdP3Q1qTwTOv30hlOSe6uz4PTBiEIKBQH
  ep0k17xg==
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-mN+t05WRcZS4DmFJqvqc"
+	protocol="application/pgp-signature"; boundary="=-bYcpzz0xwE/RRiiRkb7q"
 User-Agent: Evolution 3.56.1-1+deb13u1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 19:43:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225693
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 19:46:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225694
 
 
---=-mN+t05WRcZS4DmFJqvqc
+--=-bYcpzz0xwE/RRiiRkb7q
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2025-11-03 at 15:14 -0300, Jo=C3=A3o Henrique Ferreira de Freitas
-wrote:
-> I've observed this issue affecting iwctl and connmanctl.
+On Thu, 2025-10-16 at 20:11 +0100, Paul Barker wrote:
+> Where a task (such as do_package) runs under fakeroot, the corresponding
+> setscene task (do_package_setscene) will also run under fakeroot when
+> restoring from sstate. Assuming pseudo is used as the fakeroot
+> implementation, we need pseudo-native and all its runtime dependencies
+> to be available in the sysroot before running any setscene tasks under
+> fakeroot.
 >=20
-> Patching readline solves the issue.
+> We already add a hard dependency from all do_package_setscene tasks to
+> virtual/fakeroot-native:do_populate_sysroot in base.bbclass, but this
+> does not cover transitive dependencies. So, extend the dependencies of
+> pseudo-native:do_populate_sysroot_setscene to ensure that the sqlite3
+> library and attr binaries are also available in the sysroot before
+> running fakeroot setscene tasks.
 >=20
-> The original patch from [5] mixes many fixes in one commit. I've extract
-> only what matters to solve the issues observed with connman and iwd. The
-> final patch is the same patch sent by readline author to readline's mail =
-list [6].
+> [YOCTO #15963]
 >=20
-> References:
+> Signed-off-by: Paul Barker <paul@pbarker.dev>
+> ---
+>  meta/recipes-devtools/pseudo/pseudo.inc | 7 +++++++
+>  1 file changed, 7 insertions(+)
 >=20
-> 1: https://gitlab.archlinux.org/archlinux/packaging/packages/readline/-/i=
-ssues/1
-> 2: https://gitlab.archlinux.org/archlinux/packaging/packages/readline/-/c=
-ommit/b30636dc66fc783a091af51b049dc5240f861dd0
-> 3: https://lists.gnu.org/archive/html/bug-readline/2025-07/msg00007.html
-> 4: https://lore.kernel.org/connman/20251018212411.181909-1-jsbronder@cold=
--front.org/
-> 5: https://cgit.git.savannah.gnu.org/cgit/readline.git/commit/display.c?h=
-=3Ddevel&id=3D488d7edc22894d30b6de7f2d4190bf7403f63ffd
-> 6: https://lists.gnu.org/archive/html/bug-readline/2025-07/txtmA7rksnmmi.=
-txt
->=20
-> Fixes [YOCTO #16047]
->=20
-> CC: Jose Quaresma <quaresma.jose@gmail.com>
-> CC: Khem Raj <raj.khem@gmail.com>
-> CC  Paul Barker <paul@pbarker.dev>
-> Signed-off-by: Jo=C3=A3o Henrique Ferreira de Freitas <joaohf@gmail.com>
+> diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devto=
+ols/pseudo/pseudo.inc
+> index 22c934977d9b..82499cdd74da 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo.inc
+> +++ b/meta/recipes-devtools/pseudo/pseudo.inc
+> @@ -155,3 +155,10 @@ do_install:append:class-nativesdk () {
+>  }
+> =20
+>  BBCLASSEXTEND =3D "native nativesdk"
+> +
+> +# Setscene tasks which run under fakeroot must not be executed before
+> +# pseudo-native and *all* its runtime dependencies are available in the
+> +# sysroot.
+> +PSEUDO_SETSCENE_DEPS =3D ""
+> +PSEUDO_SETSCENE_DEPS:class-native =3D "sqlite3-native:do_populate_sysroo=
+t attr-native:do_populate_sysroot"
+> +do_populate_sysroot_setscene[depends] +=3D "${PSEUDO_SETSCENE_DEPS}"
 
-Reviewed-by: Paul Barker <paul@pbarker.dev>
+Richard,
+
+I've spent some time looking at this. I can't find a good reason for the
+hard setscene dependency on attr-native, this appears to be a build time
+dependency only. I thought I saw invocation of the setfattr command, but
+looking again that's just in the configure script.
+
+I think setting the hard setscene dependency here in the pseudo recipe
+is good. Placing it here as a dependency of pseudo-native gives us the
+following dependency graph for the test case of gcc-runtime:do_package:
+
+  gcc-runtime:do_package_setscene -> pseudo-native:do_populate_sysroot_sets=
+cene -> sqlite3-native:do_populate_sysroot_setscene
+
+The extra hop there doesn't really cause us any build performance
+issues. It prevents us from running do_populate_sysroot_setscene in
+parallel for pseudo-native and sqlite3-native, but neither of those are
+large sstate archives and they're very quick to unpack.
+
+I'd be concerned if the graph of hard dependencies got complicated, but
+one level of indirection for a single dependency is ok.
+
+It's good to keep the dependency in the pseudo recipe where it can be
+easily understood, rather than moving it to a new variable named
+something like FAKEROOT_SETSCENE_DEPENDS in base.bbclass.
+
+So, I plan to send a v2 which drops the attr-native:do_populate_sysroot
+dependency but is otherwise the same.
 
 Thanks,
 
 --=20
 Paul Barker
 
---=-mN+t05WRcZS4DmFJqvqc
+--=-bYcpzz0xwE/RRiiRkb7q
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaQkF6hEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bsXwAQCch+nhp/+OPebXpsj0IcWeHVeZIF2pW09e
-ufWM4Y5xvwEArxfozSnug1AfK0gAesCaksyGzascvXZVV/t1RDZ1sw0=
-=T21U
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaQkGfREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0biQhAP46tp1ULKZEVRnAln7WoEFOtx2jqROVebWN
+HVQxdH+a0QEA9AmKlmZ9JsgEulkES1Yh/zYeXQWi6Rle3DAtnjazgAk=
+=59a9
 -----END PGP SIGNATURE-----
 
---=-mN+t05WRcZS4DmFJqvqc--
+--=-bYcpzz0xwE/RRiiRkb7q--
 
