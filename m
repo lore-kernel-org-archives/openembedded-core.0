@@ -2,229 +2,248 @@ Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E861CCFA03
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACF76CCFA06
 	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 08:21:58 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.100])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15837.1762158114459664447
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.84])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16039.1762158108538159684
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 00:21:55 -0800
+ Mon, 03 Nov 2025 00:21:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=G5CZnLAj;
- spf=pass (domain: navimatix.de, ip: 52.101.72.100, mailfrom: joerg.sommer@navimatix.de)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=pExf3G07;
+ spf=pass (domain: navimatix.de, ip: 52.101.84.84, mailfrom: joerg.sommer@navimatix.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=loXEOBViVvzSQ9zDaXjsVmXQTnYR8+tc8XC3ypp5dn71iF/ntmzYibWtGN04prn6k1dWHmrPpjcneJ+DkY963Ou7U27uFRb4o5RiN9MDbJoT3BXP7Y3WVKFYCzyDTRS7IBmBjSfY83U0VOcwIcER53Rl76/sUy7IPXAfgC0ZRd8lZ1ZukQJXFFmkpOjzO9EhBzWwDt4i8LU3PXmz/qaUoI1vQJ8VYJWHd5yZye/tD6yvjHwvq34PWCg4Eg8Mziunwj2Q46ZzAk2yzYm2Ug/o+Y+Lf3p3KaJMSTe7mmfR9qzW+Kww7sdNGsJ53VQGlAAibPo9axAft6LltpFakcp4XA==
+ b=VNoxiiC+M1QJvhKqZfTrXgp8ITKwfrV6MFlDdRE0sjqwqwa6ONUw43hHCf1xLLN8Vi7siXTkizhy2mvi9y5YZvBH7KURFtGNvkKAWQaur90DbzSotAWtMTDYzvPra4UJzxFbkMvU4vwtYbyi3PA/Rbc0t0MNuZV6Wunxlp7qwvNKH3TR8696A8OaKtV1sfRJzJ4raqtiDEparDqzSvn998b3hAv0HlIwoJmeqUK4H0wvUwHvygELxEfBealDL4KEDOW1Iuh1lrZoMK/otKNnJ2KVPNtRrlW0o3tacbZXCWt2Xw0Fhfa3gwnodngePavsWavDZrzjZWLIPzCBjI4B4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I9JI94HwteExG7wWOS80Ce08VhNLYp5rC3SfY6ndvMA=;
- b=gf64GVyIIqgsvitl7A3UcH+bL6jC7WzoWfaea4evOWJvrbkeE3hoYu9O74KcKoBLfHu04+GhisHWOenlg+smgojh7s0Yub7a/GCAntCDYl8goSsd8me6WxEpDPWWVkvajg7gfJ54Uc5eGEYP4XeCkS9Grmwd8HsXkRQYNqIXLBhZJ79Ulf2u+OztSuH7fm9xCzn3oifig3d+v10VGw6TbVc9SUKUTHgMb5hp3EOz2ZY6CQfvYqV0b7ksZr6UR0PajOI+44kGlmv+J7X4DtzReGkx9NhLAVqvAR7VAHoPcisafPFmjxweQryyqpocWZewca1yDjUEGWx482femmm4Dw==
+ bh=OT3THsQte62oIk9LaiYrMJFzAM5F6OSJ5h1JSbSEEtM=;
+ b=W1Ynmhu3Nc5mMys0oQV+LXnB/MLjFkAq6J36cGRT8GbEt0WibO5YHbO/sqIBs+xx6fQcnFbEtm9RCqH+ijPJU7GqqBtAER7EwlqnpkmkMNahMdvaUTwMi0N14TnwnmAVkTOhZd505OzNFgu6Y9jHrsQBr6Hz2udR7wLmZDj4Hhg9NUohRMLKUHPmuARPB5313hZBP6y7CDrIYNsP8ZScfSBN5NwL/LJM0GsqyjpgJZRjonjD/6fKzwm5THJjIJD8Mei1lWzSPQpQy6btk/3/b3ecigEMzukw4U9QY7MRB2w1xng+EuQ9iWVVaH6Lt4Hg4s4blU6AtgE+30B2q4N29w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
  dkim=pass header.d=navimatix.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I9JI94HwteExG7wWOS80Ce08VhNLYp5rC3SfY6ndvMA=;
- b=G5CZnLAjNnywcA7ZRwXgl5+jY0CLLICyF8TEmjvNxklG5iZNHloX5Mq94p9da6nTvqQfipDOOGolRbkfNNFWyHaQsZ2wqxOq8G5fLMORtUeafdBcm29F0xDyjLIht+pc1MbbVurc3na8S0r0sZRlWdiY+wUHdFIME516qN7ROUU=
+ bh=OT3THsQte62oIk9LaiYrMJFzAM5F6OSJ5h1JSbSEEtM=;
+ b=pExf3G07wgebzUpdEFhtrPGUOAGgoMNRvo5x/VgZLxGvUi5SNY62swL65Do+XuFrpOGfkUH40PAk95rss40KyoGbD8bYVSpFrkUyQCqG/frsD76VzPlAAwrO6HYag4eXnwO4fY8FU2iGkHxlLnqREXx/Cot9/DUDrUbQCLlFLsE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=navimatix.de;
 Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8) by PAXPR01MB10285.eurprd01.prod.exchangelabs.com
- (2603:10a6:102:24e::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Mon, 3 Nov
- 2025 08:21:52 +0000
+ (2603:10a6:150:2cb::8) by DU0PR01MB9432.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:32f::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
+ 2025 08:21:46 +0000
 Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  ([fe80::aa6f:8b89:a47b:990b]) by
  GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::aa6f:8b89:a47b:990b%5])
- with mapi id 15.20.9275.015; Mon, 3 Nov 2025 08:21:51 +0000
-Date: Mon, 3 Nov 2025 09:21:50 +0100
+ with mapi id 15.20.9275.015; Mon, 3 Nov 2025 08:21:45 +0000
+Date: Mon, 3 Nov 2025 09:21:44 +0100
 From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
 To: openembedded-core@lists.openembedded.org, ross.burton@arm.com, 
-	richard.purdie@linuxfoundation.org, joerg.sommer@navimatix.de
+	alexandre.belloni@bootlin.com, richard.purdie@linuxfoundation.org, joerg.sommer@navimatix.de
 CC: Ross Burton <ross.burton@arm.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-Subject: [kirkstone][PATCH 06/19] gtk+3: upgrade 3.24.36 -> 3.24.37
-Message-ID: <922e4dccbe871dc663538ae40323bca8993cc83a.1762157680.git.joerg.sommer@navimatix.de>
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	=?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+Subject: [kirkstone][PATCH 03/19] gtk+3: fix reproducible builds
+Message-ID: <e2fe7aba2bf75bc92ca68c30fae7347a956146e6.1762157680.git.joerg.sommer@navimatix.de>
 X-Mailer: git-send-email 2.51.0
 References: <0d34bc13973f2ff1567713e5de053dfa3d202802.1762157680.git.joerg.sommer@navimatix.de>
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 In-Reply-To: <0d34bc13973f2ff1567713e5de053dfa3d202802.1762157680.git.joerg.sommer@navimatix.de>
-X-ClientProxiedBy: BE1P281CA0394.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:80::29) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-ClientProxiedBy: BE1P281CA0229.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:8c::19) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  (2603:10a6:150:2cb::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|PAXPR01MB10285:EE_
-X-MS-Office365-Filtering-Correlation-Id: bb066e90-a427-4c52-8eba-08de1ab20a9a
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|DU0PR01MB9432:EE_
+X-MS-Office365-Filtering-Correlation-Id: a4ceffd2-3c66-4da7-79d1-08de1ab206f0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?5IdhRmOTgqH9LC7b8RiVJdT8l5KlxKcCFFQlhRvRjJEaaaOUrjAKrlEscYuX?=
- =?us-ascii?Q?uJwTJssDq7LD4KTvdmpWjd4CoeSRyCkdNbOJV8kaQ3Q4hOfOy4zMbtbhcOda?=
- =?us-ascii?Q?bfcy7it396tQB9hcOgyy9Yqh6boxfODZVtJWLvjYjMraDSfrVVnDyEaj11Mg?=
- =?us-ascii?Q?FaBb7fCW5oz94Czs8EmfV01c67TYJAmW9XS+6F85dEaq2wpHAwGUOGqmacMA?=
- =?us-ascii?Q?4go8laBH0IvOs1cg8CCj5ZIjJkYXXAsi91+170u/66a2+lECFG0f9uoCtOxL?=
- =?us-ascii?Q?sxHfFB+kQX6SvRhrjNZCyrIyY43t1uOGx+Oc/W95A4bwsAfcRNlAJ/b9jFLm?=
- =?us-ascii?Q?LiCq+xjlgrByTNuBCqhF7Ev66o3z2rU5icp3VYIS9Sjis83ujIQi1Uom6QHO?=
- =?us-ascii?Q?oIIdCs79Qf+/ATpSrO9zIXTDBOQKFW1cM7AmQzMQRkaeMIg0l8lXZpPW9+KW?=
- =?us-ascii?Q?6yBATGrhBU+tGhYyKNWeUXif964gLIj27ze7I03gL9UmcrfT5JUMFdk96dDS?=
- =?us-ascii?Q?RNdT0KVfUQcWLR73HlcNZbwaEJxMADSLC7REuiZgZKofOibJ7sdlf0F9KUKF?=
- =?us-ascii?Q?XsTSOZ2ax7SeC9JoZSo0UtLwUTsWsOo/6BCZL0fQRIHhB3l95IzseH8iTATo?=
- =?us-ascii?Q?IuBFWxnAlTkkIUyTA6nYxProFYh03wFAmduzRi+59EZ9FqPV718gx54/In/n?=
- =?us-ascii?Q?8J+RX2sLuYXJFHsEMLbxdPjyuTNf+JIQ+Y3m3TygamgKaeYScIZIQTF+SXPk?=
- =?us-ascii?Q?Y51TKm/GOlULJd4cjhmuhuAiPgk4hAfesPr+GxZTn2WWadCNAGXrNb3qumVI?=
- =?us-ascii?Q?ApHVmunc2dLxFehwuRcXJJtvbpGdXbh2mc84MpNJJksh/YHDElFHWqm3+RMZ?=
- =?us-ascii?Q?OBWusUdXzuOdk+jcqmIGeM+HpumnICBKIPIQnEnGvkd3XnnB9TjxOcI54xrq?=
- =?us-ascii?Q?XwMQ2yFTvMvPKtmheQVPdw1YRDTDbfeB04rr4uBl17wks7P3e++yYMenboxK?=
- =?us-ascii?Q?iG/2vwEA3baK+fJ+bZbjQiiT4IgjJvagZx51e9BU2VPenbF7IpKsePJqFyDo?=
- =?us-ascii?Q?PwRelpYYczmmF3EAvQr7nCXjKt/viFwYHAYjFmD7BnTav6AOyGsr0JI67Fgk?=
- =?us-ascii?Q?NlLT4PoXN13/7m6k8mvYetaTNLCTZRPo7CdXR5RxNcTSidim1yZSvD1L7ohM?=
- =?us-ascii?Q?3gm0QOA5wwVM1n4z55koFdWCHIjHgPnLM3SPXrV/WqKxT/DjlBc6+8joqJsi?=
- =?us-ascii?Q?potqaMYFbKGzbCV1ivjBlWgwsRUPGbmD3i2c76EJTZfJyH4Zz39cUwxsojlQ?=
- =?us-ascii?Q?alOYwmMb4e3OZ9gRPb+MQSyRBkjFgTUBh32OGm+R9+vdWKvPhHCk1Aeqeqxq?=
- =?us-ascii?Q?I/PfMHCG/7t4a+scq0x0yv76/Ie9AybQMqGjQgm45bIfeSJqBbtRFcbZv/UB?=
- =?us-ascii?Q?mftu3jDyJ2OBkXq1zAYItejVGswlUKfKBMwxjDThWTkD4vz7CWag5g=3D=3D?=
+	=?us-ascii?Q?Qmh1sti1R4hX1hgE18IFtvnOTDM5OdoqkdCJXfwtS3WFIqKpcIPKKm+PRF+s?=
+ =?us-ascii?Q?uI0UzN2HncoNMHVQTCjgPuH2UV28g2ep71y3zrcf9xl6Odh2j4EI4vzgBm/J?=
+ =?us-ascii?Q?0xs85SDST7ftl6kLjlJLIot8TWDOuLtnTMhYJmE42nhOIe7G0WMhDbiXza1I?=
+ =?us-ascii?Q?LA1YekUVIouWP35BSsih4jhUgth31hpoHgmJGp8IREJWbRnW+iawBzD9Dqkt?=
+ =?us-ascii?Q?i8livtNsK37y1GfJG3+l+AaByGWfAtMJJOhUSrV7Lt/cuyqIMeH5CVfNOkHD?=
+ =?us-ascii?Q?YrDCKlWjYcZfr/RgPUO8OHXgTEcMOXOEGyMet/XxlMQJdxFYcO+gXI/zTM/8?=
+ =?us-ascii?Q?VIbL1iWeeY0QEPJ8+cLvGYEPfZhKGRoRg6sV9m2M9dK67B14Y/gZVKHoVcIg?=
+ =?us-ascii?Q?MEe1CD4UMn80y8rmnC4WHJ+vp+R2HDhfRTyrG3x6TOGZr9b2pKTfLDOcOahw?=
+ =?us-ascii?Q?r0GoZvU3nKhQs3vUN5c1LfMiW0zRVoU+UgBYhyfM4VZPBiEUx0B307v8r7vJ?=
+ =?us-ascii?Q?sv2+8VP5Rlmhy5sZbEq+s983EkZ1MB8RNY5WVBATaRJ8JvJjNSvH3vhy160Q?=
+ =?us-ascii?Q?IQ0be5s+Q1ouiHL7T8K8z8PFuMC3wsJzG2Qn5QylH8Upl5UUPVJMF2sraae1?=
+ =?us-ascii?Q?fibdLIs7fQjba3+qFNYB8Y5qnxCn40PhvJ50A5apgKwvz94RryQVfttZbqqy?=
+ =?us-ascii?Q?5+YSPNrA7sDACjxr9r03R5nj1QWrjAwiQ9xur0yr6KS/etwUge6yJn822fR4?=
+ =?us-ascii?Q?UdURM+OXBpq9HfDKACKdSf+dpU/S3j6v9XKFjYYEjfKqv+ldXcnCNd+yI92y?=
+ =?us-ascii?Q?/k1jLdlz9OaxgYskN4CqzVMRImUdhAa1xTrFkQjfPcntRXgptfAhIbkZWIUI?=
+ =?us-ascii?Q?TUc4y0prrvUGxbAqG2GD9CsFc488AmNLBx892Mjewzqs31bRBUNuz7U130Wp?=
+ =?us-ascii?Q?lUJCoBCAVKsYrpVALrUudQb4Ln6CR5Cup9IldhNTDmP3SR+xl6mEa5Q64ssy?=
+ =?us-ascii?Q?R43JGfDB6kmm6U6yqUo9d6Ja6b9LGw1WbV4w6QmHVgGj5AuyfVvjxn4HUEet?=
+ =?us-ascii?Q?guEQ9d4agm3vx7mC33XMVQsUcObsU7vzxI6UZpSxEY/C7YH0QrffHoxz5tGm?=
+ =?us-ascii?Q?1mc0DMesqqe8HtEU6xxnuMES3EJDzoP/NXQskU7mAqHAWeZ5ErmxQw5BsyJK?=
+ =?us-ascii?Q?17lyYNwQcjP+1slstCSHaPZ661zgNQRJ48KNVgy/3E7iaoCUQ0ygPIrXCJNn?=
+ =?us-ascii?Q?2cSnyOn/ONAh6kNJaDwBVaL/RsDfDAeffFI13SY9eE2ra/Le9Q8Dot9PFi+b?=
+ =?us-ascii?Q?DgHnCni0ebDSPzX1f2EfakKBXzQtczA2o7rDtTNFsnt41D3zH+6eiESpLhKd?=
+ =?us-ascii?Q?mblpLpJvF1ks2GWv9xYJXQdEr2HZ38LDkVArtUftJr3zRIBGxQPdOt1lV18e?=
+ =?us-ascii?Q?xmABnJnpQ3YA2HNecrS0ERcM1Vz1SB35?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Qvfu4HL+wdq3VmlxABnDb4KPpfPHtCq6Nn7c4LpdO0rDcU6M28T3gCtYkBZv?=
- =?us-ascii?Q?OD3ZcqDonIIBIIMxOQf5X9VhiPwhsVr6VPs5npFD/K7g8C8TwD3yaVgfMgs5?=
- =?us-ascii?Q?RjeyncGj/lp/1suKiUnsDQqd/borHpofTLHTHPHa1op6tf7n8c+Ios/SwLLT?=
- =?us-ascii?Q?drr6G8E8umA7/84Nj/nghtJWusfXVGj9x21kQO3zEzLGjMH4YmRyh3iwirvL?=
- =?us-ascii?Q?GgcvLxBjeKARwMea/ILLEMYCVW8mRgQBaKkzbRITST4oJHAWUjsfQ9A9s86T?=
- =?us-ascii?Q?FiWi6fUnAwMZUtymb+Ysge5WbqUxtFI0UJx7e3hZv6w9C6aEPqXmW4Wn+MRg?=
- =?us-ascii?Q?mStZkdE/5sBbD3tkqht5trAw+o43oFl4PV6luRIon4S/2DNz/hUFURVwVLh4?=
- =?us-ascii?Q?ov38nDu2jZ08qui7GMzW7dp8oxa9ysHJiSK18N32ouldukfc40D7LXDQAQwu?=
- =?us-ascii?Q?FTK1MeAOKv5ic7xqExbws6V5bEs9jjDVaY+/9FnIUQOaKaHkhHzq6KTw8KZ7?=
- =?us-ascii?Q?JyljMMH1mGZiV2uGbXfdLxwBlIzAweIQJ9j1SfHtmFiSozam3c+di8bELMrl?=
- =?us-ascii?Q?TF7Z9RVNp/PvCK0jUEMgjAxqKvKKlfd17rPndldn7IuFz3tUFL7xFj0xcna+?=
- =?us-ascii?Q?DxEPVEbp9zfPuki7so75pjczSuNDpiabYnVI7dsoAZ7x5meIZo9vOT6aFGXD?=
- =?us-ascii?Q?XD04rcRswbGQU325ltI7gHMZV8MPNgc8VtjBUKiXVKZFjz/1jVJgc/QTSLUA?=
- =?us-ascii?Q?Hr7wT0A+DWXbdgIskI5H45oH0+kidSSG1XnJbYiKX8qt9p/WfOxi/mMWkzl8?=
- =?us-ascii?Q?KpU1ftAqMucZ2RTb/RAqdn8HLZa/kd98h7/3lKwU1B4sUaPe8RQ5uBtwAoOc?=
- =?us-ascii?Q?FpQ1AZsZjRstis3bWiq+DRElris6pIleBq/hMT6COBMdYApsrIfnaFod2ufP?=
- =?us-ascii?Q?gTMsC7jU9QlhHnttIuP6UIKVIpx9PdO5eMIvqzd5t3zPPiqvAufHpv5WjUl1?=
- =?us-ascii?Q?/UffVOmKL2uHu6UkUOy9+aO81r8bY6tiJfqin0baeF3aah4T63ontJjMvY5I?=
- =?us-ascii?Q?B5tHeZ9cMMspaoABA5MO1ek2Dqb62qafp61UgoNcWURTN4b9Y/s6Xj1jSZuz?=
- =?us-ascii?Q?NYFK7qsVwWAgKGcjA6IQg01iUh1ZGAV3C4Ey0NM9AaESAQxkjyYrkYcDF47U?=
- =?us-ascii?Q?BCZTMkHYGSWSFyPr8/0EGsMNjvrYZFxtix2zpe3so846qdrN2QfplYxsZdgw?=
- =?us-ascii?Q?b/BVrbLf+lR5ge8tdV1Kueevb+F3kwJXLphANAwCd3qhVdxX+4Vxntg+CEs9?=
- =?us-ascii?Q?wBpGoTYblTx+ADKfrscNeQzVcfW3BA0zJeC4PIRWoopOVUgqiWT1rkJvkQVT?=
- =?us-ascii?Q?wPe5fYKrGohumdrxvjRmJ04aHX0FeUOl+9PplmJWz1UUtoo2R2RxDxtPtxy4?=
- =?us-ascii?Q?81oxZJSD4n9uHhIgkl5DCnUX8sAkQoOzYTOvwuIl8jawvRucRp2ifRRhQ+/v?=
- =?us-ascii?Q?Mj10YQcpOH5mtiynmIVzne7NYlH9btvhx9gVNu/l6UgtyMZ4oPGSD/CFRKvi?=
- =?us-ascii?Q?6dUHcqizO1469dq5m0CHO1MIUqHbqKI2AefZc+SZKvvg03AOYmlz3uQKjkSw?=
- =?us-ascii?Q?rg=3D=3D?=
+	=?us-ascii?Q?IlatUnklkxxFwIihtIsj2JrulUrVLlt9tpBJuGDq8dxJT5L7oTSoiScjcLhL?=
+ =?us-ascii?Q?bgclKRE+crbzxAITlevK9Yn968+KdLwmS8svNASSaoxQO2vCTVb5qcn1lOHn?=
+ =?us-ascii?Q?MBDITTz6Fj6uu0Uf4Ey99TlXfQHhTVmbQMXqTQ4ENtDoNyVbssBsr25GQWtv?=
+ =?us-ascii?Q?7VphEDiiFmnBPqZUJ5lDq44aTm0GvQEkt4ATS0ZOj4FfHoFMqLEk+jQb8VkZ?=
+ =?us-ascii?Q?sO3IEXvgGh2AhvvYyTC0jrH5UEJZpvG+fjQguXMRKpriqqviigIfPA+W88za?=
+ =?us-ascii?Q?vtlFqtNxYhP0PyxBhtB6A04J7yKAU5pMw3aNGs1fZoQeiyeV7wFACeyJ6Fca?=
+ =?us-ascii?Q?z+t8uwy02PoPccAsmjbV1jwt18rtFWNSXdFVEps86a1/Vqy67al6+T9cWIUB?=
+ =?us-ascii?Q?PMGWeAohdQgyeLRjN50Dp2FWevpUdlcsP0KnIvD//AFbyQZeVkx3NQmZlPRQ?=
+ =?us-ascii?Q?h+8IOlxvKh4N6rt9LYwbyQOg3AIkEZsLvVWp+kDSt4CBnH2GD1gX6US8l55W?=
+ =?us-ascii?Q?L5Fo4bpkOkkIu0Siecw9RAe5qJKYtcFNdrDaMXpsRqPp1aKwgohjNrG6WITV?=
+ =?us-ascii?Q?4x7dHBhWF14rXhz4rgJwARFOOiq2T2XFpw8GtIFbUm4VDyvPK8ziERErHTii?=
+ =?us-ascii?Q?wqZVVhajmXplJDCs8mG3KQLGzd/M4EEPgf09bLg6epRHFRGq12+E/JC7su0f?=
+ =?us-ascii?Q?xzFI4HK6GdxKuPYmQM8akqHH4y7ThCTApCRgY1593ukXYK5M7C21jlNtHBIv?=
+ =?us-ascii?Q?xnw0ptX29h0aa7sxUOpJJ9lcds5hDXZVZP5wqh7TQNyKPSMons8lhypcwe1R?=
+ =?us-ascii?Q?oCMPOETrM91dyJTsasdYKrPcXB9BHBONucnndViFzXfpkt7fNmP9l06Avv1k?=
+ =?us-ascii?Q?EU4blfY3z3QyXjrtMb0Tsy/y8UJQjut7xi5apmVlxcxPcZfFsxw/P8BRcYN7?=
+ =?us-ascii?Q?JnMo7FFfdUXNtRFJm51iYiqNBIb53ErI8QxweFN7FiLT7aFIvz5+kZub4feI?=
+ =?us-ascii?Q?A/PY5GZEBNeNRuTJ4k1N7KHNpZw03DdrgBT1Fh8YaXGK9ImHZzG7kz43NqRf?=
+ =?us-ascii?Q?Qm8ZHP6InSHt6xpM65Qv778fH2MLt1nbC3ZttY891vXE/vVnhotdxAKqgAOJ?=
+ =?us-ascii?Q?gIvk1hldK9CWq8He0eRlQXnuw9KGyIw2AJQPCEPJBzDwzjMEqMC2BSOzmK2U?=
+ =?us-ascii?Q?BieQJ/AaWaXQN7jwmCs80ipNFC3OdBGGR/GJtiDKsB1TRZX/vM7eoVVvXXma?=
+ =?us-ascii?Q?rM0vBtbItrCCS0l4JYSLdIRfxOfg0bZU/dUJshVFyZ3wkd67AEs6AqJfADpE?=
+ =?us-ascii?Q?ZkFvkgfUJV59Nqf/zDyxV1WctpKan3IYGqCLn4TVmoLou+b0oTihUCvsOSeL?=
+ =?us-ascii?Q?bXMTYdyQ9UO6Je8f2AYic9lo4+oI9Ww0X4WF2m7yDCfdxvMQDnvTMHFPZUW5?=
+ =?us-ascii?Q?rfP+zOvBGYis9vNZRqQOjtEd+iMF3oQtlXO66l9sZ7W8gKj4x24DoKpnalPs?=
+ =?us-ascii?Q?Pg+z/6xTDW4D8T7LjS1VIc4iMjrV3RVtx264AjXzp+p0bm6PpBWk5Hpaa+qg?=
+ =?us-ascii?Q?jNjiHNjh0CcBwCYRQD+bOWkgAsAr5ak7FJoT7YbMN+eWmnS4ZDlaigMvNx9a?=
+ =?us-ascii?Q?dw=3D=3D?=
 X-OriginatorOrg: navimatix.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb066e90-a427-4c52-8eba-08de1ab20a9a
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4ceffd2-3c66-4da7-79d1-08de1ab206f0
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 08:21:51.8602
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 08:21:45.7574
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PbUNrLcxXptaJKy4KSL61BAyQSKjzM6VXAWI90PtxwdccdQ6PlfIJcOpLjot2CZgPvokqLSmNHokxaPU81xpxwAnhWhwQcZ13QgC1bhTw84=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR01MB10285
+X-MS-Exchange-CrossTenant-UserPrincipalName: R/rjemz1fbX/EBVEB006pVoH16ye1yGe2cxh/PpBR4QytIx0YrIf+47MCJ4btTwMJeqmgP+Bip3c4Nma2esN/Xr8bVJMAh7GhjbPH1MDSBI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR01MB9432
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 08:21:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225620
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225617
 
 From: Ross Burton <ross.burton@arm.com>
 
-Drop merged introspection patch.
+We can't drop the missing meson.build file into the build tree via SRC_URI
+as then the timestamp of that file becomes the timestamp of the build,
+which results in repeated builds having different timestamps.
 
-(From OE-Core rev: 8ac81784ce414057039bc16417a8b2dd8f58497d)
+Instead patch the file into the build, which doesn't change the SDE
+every build.
+
+(From OE-Core rev: b525fab08cb4f6d7b9a71bf82378a8396a20aba8)
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cherry-pick-of: 801538a3495cfc8d7d3264e470336ee5df5f1048
+Cherry-pick-of: 1628054eca82f3441cc119a8f741d00360171e77
 Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
 ---
- ...d-introspection-according-to-option-.patch | 34 -------------------
- .../{gtk+3_3.24.36.bb =3D> gtk+3_3.24.37.bb}    |  3 +-
- 2 files changed, 1 insertion(+), 36 deletions(-)
- delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/0001-meson.build-build-in=
-trospection-according-to-option-.patch
- rename meta/recipes-gnome/gtk+/{gtk+3_3.24.36.bb =3D> gtk+3_3.24.37.bb} (7=
-8%)
+ .../gtk+/gtk+3/add-missing-meson.build.patch  | 38 +++++++++++++++++++
+ meta/recipes-gnome/gtk+/gtk+3/meson.build     | 14 -------
+ meta/recipes-gnome/gtk+/gtk+3_3.24.35.bb      |  2 +-
+ 3 files changed, 39 insertions(+), 15 deletions(-)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+3/add-missing-meson.build.p=
+atch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/meson.build
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3/0001-meson.build-build-introspec=
-tion-according-to-option-.patch b/meta/recipes-gnome/gtk+/gtk+3/0001-meson.=
-build-build-introspection-according-to-option-.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/add-missing-meson.build.patch b/=
+meta/recipes-gnome/gtk+/gtk+3/add-missing-meson.build.patch
+new file mode 100644
+index 0000000000..ef971ccff4
+--- /dev/null
++++ b/meta/recipes-gnome/gtk+/gtk+3/add-missing-meson.build.patch
+@@ -0,0 +1,38 @@
++From 8a00d0269d547799b598adda364ad6c6ee328e6b Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Tue, 20 Dec 2022 12:09:07 +0000
++Subject: [PATCH] Add missing meson.build
++
++This file was missing from the tarball, but will be in the .36 release.
++
++Upstream-Status: Inappropriate
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++---
++ gdk/wayland/cursor/meson.build | 14 ++++++++++++++
++ 1 file changed, 14 insertions(+)
++ create mode 100644 gdk/wayland/cursor/meson.build
++
++diff --git a/gdk/wayland/cursor/meson.build b/gdk/wayland/cursor/meson.bui=
+ld
++new file mode 100644
++index 0000000..94cf47a
++--- /dev/null
+++++ b/gdk/wayland/cursor/meson.build
++@@ -0,0 +1,14 @@
+++# This file is missing from the 3.24.35 tarball
+++
+++wayland_cursor_sources =3D files([
+++  'wayland-cursor.c',
+++  'xcursor.c',
+++  'os-compatibility.c'
+++])
+++
+++libwayland_cursor =3D static_library('wayland+cursor',
+++  sources: wayland_cursor_sources,
+++  include_directories: [ confinc, ],
+++  dependencies: [ glib_dep, wlclientdep, ],
+++  c_args: common_cflags,
+++)
++--=20
++2.34.1
++
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/meson.build b/meta/recipes-gnome=
+/gtk+/gtk+3/meson.build
 deleted file mode 100644
-index 11effd421f..0000000000
---- a/meta/recipes-gnome/gtk+/gtk+3/0001-meson.build-build-introspection-ac=
-cording-to-option-.patch
+index 94cf47a37f..0000000000
+--- a/meta/recipes-gnome/gtk+/gtk+3/meson.build
 +++ /dev/null
-@@ -1,34 +0,0 @@
--From 6e533d5598ef875f30b84d931aae11b768465869 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Mon, 2 Jan 2023 15:00:02 +0100
--Subject: [PATCH] meson.build: build introspection according to option only
+@@ -1,14 +0,0 @@
+-# This file is missing from the 3.24.35 tarball
 -
--The way the check is written, if the build is native, then the
--introspection option has no effect.
+-wayland_cursor_sources =3D files([
+-  'wayland-cursor.c',
+-  'xcursor.c',
+-  'os-compatibility.c'
+-])
 -
--Particularly yocto project does want to disable introspection in
--native builds and enable it in cross builds (both via the option),
--and without this patch the former is not possible.
--
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gtk/-/merge_req=
-uests/5382]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/meson.build b/meson.build
--index bfc33af0f6..94ffaa7769 100644
----- a/meson.build
--+++ b/meson.build
--@@ -854,7 +854,7 @@ endif
--=20
-- # Introspection
-- gir =3D find_program('g-ir-scanner', required : get_option('introspection=
-'))
---build_gir =3D gir.found() and (not meson.is_cross_build() or get_option('=
-introspection'))
--+build_gir =3D gir.found() and get_option('introspection')
--=20
-- subdir('gdk')
-- subdir('gtk')
----=20
--2.30.2
--
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.36.bb b/meta/recipes-gnome/=
-gtk+/gtk+3_3.24.37.bb
-similarity index 78%
-rename from meta/recipes-gnome/gtk+/gtk+3_3.24.36.bb
-rename to meta/recipes-gnome/gtk+/gtk+3_3.24.37.bb
-index 3df4e6164c..382fceecc1 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.24.36.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.37.bb
-@@ -4,10 +4,9 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+-libwayland_cursor =3D static_library('wayland+cursor',
+-  sources: wayland_cursor_sources,
+-  include_directories: [ confinc, ],
+-  dependencies: [ glib_dep, wlclientdep, ],
+-  c_args: common_cflags,
+-)
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.35.bb b/meta/recipes-gnome/=
+gtk+/gtk+3_3.24.35.bb
+index dae0d029df..52e3a59ad6 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.35.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.35.bb
+@@ -3,7 +3,7 @@ require gtk+3.inc
+ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
 =20
  SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-$=
 {PV}.tar.xz \
+-           file://meson.build;subdir=3D${S}/gdk/wayland/cursor \
++           file://add-missing-meson.build.patch \
+            file://buildpaths.patch \
             file://opengl.patch \
--           file://0001-meson.build-build-introspection-according-to-option=
--.patch \
             file://CVE-2024-6655.patch \
-            "
--SRC_URI[sha256sum] =3D "27a6ef157743350c807ffea59baa1d70226dbede82a5e953ff=
-d58ea6059fe691"
-+SRC_URI[sha256sum] =3D "6745f0b4c053794151fd0f0e2474b077cccff5f83e9dd1bf3d=
-39fe9fe5fb7f57"
-=20
- S =3D "${WORKDIR}/gtk+-${PV}"
-=20
 --=20
 2.51.0
 
