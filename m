@@ -2,217 +2,564 @@ Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C51C4CCF9FE
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 08:22:08 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.85])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16045.1762158127551463229
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8283CCFA07
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 08:22:18 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.72])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15847.1762158135843570868
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 00:22:08 -0800
+ Mon, 03 Nov 2025 00:22:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=QjE6wQ2U;
- spf=pass (domain: navimatix.de, ip: 40.107.162.85, mailfrom: joerg.sommer@navimatix.de)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=UGKtYtOJ;
+ spf=pass (domain: navimatix.de, ip: 40.107.159.72, mailfrom: joerg.sommer@navimatix.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=poAVWsI7gV7MJw0HAIjEcr5GAdoTQRoBQcTGd9FcU3gdkLPdpr8BkWS/hMblxsfTeVSQzsMQN+rjbVa6rCDEvC7AN2j1VjN7DSz04AAvW/UgxH20jR32aA+2b/UGaqMY2wiS53DK8607OvnzGINipboAHheoXGE1wLAj4ihRBJl7bGFBkmQd3v+ilkh9Na9lAxgRVQva0jshki5IxT9APqPryMK+f0/t8QVk5qQmW9h83rkXpPxfYZPiKeGm+OH2zfO+Fk0NnJIfdL7Z18FDiGNyDzrPxWu/+Y8HmHEN4BPz8b7JckNdApWKPSavoxr7tCz+VM8zBsh04yPgOqH5yA==
+ b=etpOEVjloUt7T26xb9Q184461Zw/M++pvfdNN9toH8u+Hsn4J6LVo1TNnTYbYEYJK/HMSk+LMg852SUpJfxKNxxJslyv9mbdJR/Gp4nUKytACGdDNKGph+PHecQ3ar+wV5Z91j2ExMk5tWMs7Tvx90PyL7F4txqUnPoDkvMYkQsLI0iRnAhqQ3lh6hVNwQm3GDL3YnSRFjvn5pgoP5AyTGT57h3mIz+V+NKqoKWbp393ODvDpEuuh/c4s2NQGvYfBQ7Y9FomRNDKXO6UODV0Q9j0kFBd7ffUJfpt7JjXsC8RLZM9V1UP6tTWYPxKQXYFkPjEZqqFxd5r6b4ch5veCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lndfZajG/wrRofdJfF5TxnmuYPqJs+nhNE8eqaAnar8=;
- b=xA/8LnC1MysbvPWZcjFtL1ZTtWfkHtqPgBGgv83iKqzokiFbj7SzzIRfyWZxGPGywLMTce6TvWNt2orGSZCA16PHBeFOR49GncjNOd+hMFngH3+lILdqW2Mx5YhzOjDIkDsUeyREbP8nIYOGvhpBSvGe0+7Ldwt4lofG+cCP15wiDOou/1qklz40np99hG87FmwQY7BrgNaWm7FdMCf6G3nF3En2Qjk5ITpca5bYihBvJuPim9cXX4rg4k/O2+JUIe96mvbrptEZ8EBPA3pW+VCQdBrsUq4/o1dDXs/wTCJ1RXZEUOaqpnza+W4eeMzmyJdBb2HWbytmsAeMR//CYA==
+ bh=3MEF2GBtIiToeeB80je1uQkLE6DCcjzzU22zEosZy2w=;
+ b=V7ZAMkxAuOzsBV+ut/pXELhjZAJFBlRqPgRuScYO4SOdj0bcTsZAplXXgdKWxzzVQGOaZG9uXq5k/ropFjbX1MZRs9iqeAfREVUZC0xAP2E3fE461DR6n/pPkyAwHoc4C0ak3jI4evU190kO319flumtdi9CECkyK3Da5d6LjTnj6ysVh62+BDugWnntcbNULHmpDiKxguQ0wlHvlFSn5Qo/Aw4rJ2iSin9U5221UCMupo/Qajt15DufDVM7RoDTHO+9CdNnvkGSMUDpdD/PqEdl1pwTRLRlj0Jg0AMLJKlftKg+bSUMU8DEDcCcK0u328qK4Y/GKu7AN7oNdhQFVQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
  dkim=pass header.d=navimatix.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lndfZajG/wrRofdJfF5TxnmuYPqJs+nhNE8eqaAnar8=;
- b=QjE6wQ2Uxmh/6aGcc1nY1UH4+QiOqDTmLcXKdYDqwzQdIrWrioNBwEc2Ugv1kUenwh3PjSlseFzPSelBLF1M0+9g0Ej9nqAnbn67H1dqRAuJZUfHfm8PXAXKUnajAItEg8vVEaukdI+Q4emdOpSXU3CWEWnch8qe1OjdLNFTMQ0=
+ bh=3MEF2GBtIiToeeB80je1uQkLE6DCcjzzU22zEosZy2w=;
+ b=UGKtYtOJs+IPUTSR5opGLmmVUHkekU8kIvRAbi3prrrs44Ky1o7dQVH6vBqRbwS2lrqYGmftdTHgYAKPycSnWpQFRDS3uAAP81+cU+2+6WI6cMjVl//kUzwDOyy88MiQFNjfvG1GpyTQgh1dPO9sS4zvN/Izbh44RvR46OxqBDI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=navimatix.de;
 Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8) by PAXPR01MB10285.eurprd01.prod.exchangelabs.com
- (2603:10a6:102:24e::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Mon, 3 Nov
- 2025 08:22:06 +0000
+ (2603:10a6:150:2cb::8) by DU0PR01MB9432.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:32f::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
+ 2025 08:22:12 +0000
 Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  ([fe80::aa6f:8b89:a47b:990b]) by
  GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::aa6f:8b89:a47b:990b%5])
- with mapi id 15.20.9275.015; Mon, 3 Nov 2025 08:22:06 +0000
-Date: Mon, 3 Nov 2025 09:22:05 +0100
+ with mapi id 15.20.9275.015; Mon, 3 Nov 2025 08:22:12 +0000
+Date: Mon, 3 Nov 2025 09:22:10 +0100
 From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-To: openembedded-core@lists.openembedded.org, wangmy@fujitsu.com, 
-	alexandre.belloni@bootlin.com, richard.purdie@linuxfoundation.org, joerg.sommer@navimatix.de
-CC: Wang Mingyu <wangmy@fujitsu.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	=?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-Subject: [kirkstone][PATCH 13/19] gtk+3: upgrade 3.24.41 -> 3.24.42
-Message-ID: <b26728ab4f9b84d0951141fa9779c769b1d82435.1762157680.git.joerg.sommer@navimatix.de>
+To: openembedded-core@lists.openembedded.org, f_l_k@t-online.de, 
+	richard.purdie@linuxfoundation.org, joerg.sommer@navimatix.de
+CC: Markus Volk <f_l_k@t-online.de>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+Subject: [kirkstone][PATCH 16/19] gtk+3: remove unneeded .inc file
+Message-ID: <cb90fa655f1648d91624d6de255563b61eeafcc6.1762157680.git.joerg.sommer@navimatix.de>
 X-Mailer: git-send-email 2.51.0
 References: <0d34bc13973f2ff1567713e5de053dfa3d202802.1762157680.git.joerg.sommer@navimatix.de>
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 In-Reply-To: <0d34bc13973f2ff1567713e5de053dfa3d202802.1762157680.git.joerg.sommer@navimatix.de>
-X-ClientProxiedBy: BE1P281CA0222.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:88::15) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-ClientProxiedBy: BE1P281CA0169.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:66::15) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  (2603:10a6:150:2cb::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|PAXPR01MB10285:EE_
-X-MS-Office365-Filtering-Correlation-Id: c9e5e155-8eb1-4f7c-6ff0-08de1ab21325
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|DU0PR01MB9432:EE_
+X-MS-Office365-Filtering-Correlation-Id: 57cf4c1e-600c-4b84-bedf-08de1ab2169c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?/Cq1wCZue47qpvr1QCONN/3mxtvq0ktVZJU41uj0lywrKmRVaTMvjiXZgoFQ?=
- =?us-ascii?Q?+phvnbl50m4XSkFiRBIwjjSxG46V8K1t8CqrH7lvxaBD9rDe3Y0n7Eunobrp?=
- =?us-ascii?Q?QoWND42gMNwHwT0dFz10ktC42pjb0e7vBlNpeHzzBaKOyuXA7FIMXrA2HinW?=
- =?us-ascii?Q?MsC037YKxUKVxGFRK6rGzxvs8U5Kysm5YGlZKG1jolpnYaeBGb3uVmHIEsD/?=
- =?us-ascii?Q?NTMi6OeXhzZTH9wWUSJ5gxCZoHKvvBdcIjAL5RLRJJJZINUs7tx7XW6rI9VK?=
- =?us-ascii?Q?AT6Ieok2cJ0ePBFsAX7M7alKO6Rw1KKUuqucKaMw9qheONg0/7rziX6HLP2Y?=
- =?us-ascii?Q?jslS42ns/N/y8ROD7iOCElGbvJzXcUq1eluJMN23KeCETRA0jVRZu1XQ/Wij?=
- =?us-ascii?Q?pLDIJ9B9VoCI42ES/wlI4+sMXwxZyiI08XotxREciiIZzpg88iWKzfe8r9dr?=
- =?us-ascii?Q?ti8gbPHUWEobOlI1KZDUdz3tlLU7oBRA2VBIUfbjrukY8cJmN/ArJeJecj4a?=
- =?us-ascii?Q?sAK1Pz4/B3lzu8m8J/eCEyscBZl26i/oxrxbVIbSEbjgxowxVGAyiEVKTjX/?=
- =?us-ascii?Q?ObB9ujzyzLEnmvNlwUbByBCVgWTNtVNaUL1dESPePATD+DSV/zGs3KnT3O7c?=
- =?us-ascii?Q?j/Pi2PR9w4cyIYLGYcnWNJWAx6lf2kmV/Njwt8dcoU52rPPgReMM1nta7kzI?=
- =?us-ascii?Q?N4+efvMNn/qP3z6lDtk2ra3sjA11iO5OBE4HuG353zQr0wWFF/7z973RHUKs?=
- =?us-ascii?Q?gB20E4nowBWsVx+bClJbfjQmIjIBKd5VKKtEMUwCNNONmWpGpGoZrnrO5LWN?=
- =?us-ascii?Q?65zC3UwDY47zMYtnpUdaLJPgT6ZZC5w9NZebjAyGEWSZcnh4p8a9SNmZfGym?=
- =?us-ascii?Q?yMyhpjVyWDXTpTAmPzmt3ZU4lKpqzTaV195FN/27Lan0gedw+I3HsLkQqEO4?=
- =?us-ascii?Q?vV4dREp+N5mKQWgdZVaqJ/jHEq9g5fDzULdqvNI5hlsMmOY7FkRjsO5Gs8VS?=
- =?us-ascii?Q?a9Kpjw+r6jI6V8y3somtd5CwKEIq9xoqvfFuC5j3adfxMCTClXmdsW5VQFcZ?=
- =?us-ascii?Q?idzJe/WVbM6b3M59IgfTLeWfH3X1TQ0jsOp1btFMUqnN4l5n3KFDAfl78RVu?=
- =?us-ascii?Q?2OXq2ao2PxK9sE8j/6x/5sZG9DZ0fflJCU3vy3IS03Ca2lOoL+3wXSq9FG/w?=
- =?us-ascii?Q?f+Dr5hPBibe/Zncp8B2xi/IX4hDEFFqzBwBw24WYe1CCWBin8b48LSMg9NXY?=
- =?us-ascii?Q?JsRTcDgha/sKVE1yYK3xyLeSHyW0LnWeVq5Ocb0dqZ6T0FXVRUnhXhO1q4XK?=
- =?us-ascii?Q?w14TJfBn2vdNdv0HE8ZIWKc/geNxTT0E8/q8u8d58OMyfzKr7dDujmvuS71r?=
- =?us-ascii?Q?Tphc6HE/6kFa4zTh88OejK9xRtz6HW6vk4sOncEXpaZ7zGqB7k/ZMDDdNTR9?=
- =?us-ascii?Q?UJrpBY4Xwx+bEG4ouB2sK7F7K4sYBSDC?=
+	=?us-ascii?Q?HV0RS28GIFNtLebvQpXzz1JQFmFJlVRDjaCIFASzbfDvWoGPWs/5aKoQdDzw?=
+ =?us-ascii?Q?GGGmBkYVzVO+uUOJgpjXlE3lUpaNfS5ZRuGcP7B1Rk97KfT6bVR+WmZRyTSl?=
+ =?us-ascii?Q?ghDB9toUeHYRpNJYSqewJ49f7pWvoxZAry++NPplLyl0GfZ4zqzu98S47Bp4?=
+ =?us-ascii?Q?3BovSweyXbIdzxhT9OjycrxNsPi16yQGjf7bzgJOWKHiooze+p68myEe1TWt?=
+ =?us-ascii?Q?NHC/FXuRNIciAM7Yicn+7JeUPETPwImHiQYIqiDgfWDcF2AwyYzE47LNXZvq?=
+ =?us-ascii?Q?Wy5Oc0M0pki32trn2Kej1RixtcY6D4UAbZ2ti3Wwx26EIO6GVR7q1GbTdKdy?=
+ =?us-ascii?Q?mmhTRwJr89vPxY1nYMYYbGZEjB+t5fHQJu88jnot4fFNPQMdF9NWbFzbJMy5?=
+ =?us-ascii?Q?SdqnugURCCCMksnrI9SK0qvxpAGMgkN7QeimcoMe+gcqGprHnL4B84HMsOzt?=
+ =?us-ascii?Q?fkBecmslUxo67ZZYknUvmS2V5iBRCFDDmrYGH73dYh6GD4zcU9hEe0K8rZMq?=
+ =?us-ascii?Q?yEc5GTKqv5m2UO9Mn9IRKDnqWmctQmmjBKVNBOrbYtsBgAv2crYYg13ZcSEv?=
+ =?us-ascii?Q?YYf9mtjObuQyezKT4OSnPQuBKkVh8Yag+pcT5w28d0p12eXwFpGdJcS0hbnt?=
+ =?us-ascii?Q?ZPZMyX3/MyFD523WmXTG/bKwd9j7PWvYIe5aSUA30i4d5OTQI3sZXaTy88Dj?=
+ =?us-ascii?Q?hf3BykT/GjP118+FUabAqUwuZ6m3ImTUzTnraPY++poVOTn/5inoTGJf8qR9?=
+ =?us-ascii?Q?v73sR1Gayn62nHESJnmPNf9mrQHjjXQPSL99x0j2qer4kIbu1GEgmmJKO4VI?=
+ =?us-ascii?Q?GzVAq0SHYQKJDcD9u+mz9e5aX2fKIr8bHd1JRGZ4BhTLo1W2SRu+wwuk1oj7?=
+ =?us-ascii?Q?JBv/nXxM1H91c1mOVIQyADRVe2zDBB+1feykNsstBwpX/FQOxKPxvnPVuEyU?=
+ =?us-ascii?Q?gekA7TiM8zUH8XrscVlhrnR/8qG1/v0iA0qJphcSZFRfXhVLFViDR26FfAnc?=
+ =?us-ascii?Q?sKJFPQNlwGVd2iFhzF/UwEaYE7HbZ7FVDSR9dBdUWJ5eBK9+YwL3gYFwS+/q?=
+ =?us-ascii?Q?MFtOfAmGDJ8jBZTMAsTZscSH/3T5AUgGMvfyCFQ7krUYD7lHt+kvA5Vb3Zt1?=
+ =?us-ascii?Q?3H1RmZgOWGPb1HfcnyVtO9IKH1VOtqw8iG2mVh1tBOi34v00gTXxl509LdGP?=
+ =?us-ascii?Q?KsVUvvFKnQnZlIxcx3fW9D57PRMEbLZfjHIKEAzh4umOyftS+jOXDBdL9lRv?=
+ =?us-ascii?Q?2mFsfhij/RPEXzg0ZmOqggD5Csq688ZgkTw4C33dtgahp451zgmkjZAF8Etv?=
+ =?us-ascii?Q?PhgC+mWnf1x1TI6LnWwWJ+qbPGUYkVRJ90zTJB8RdXu54xrF1WAduhpalaCn?=
+ =?us-ascii?Q?9TvHT8Rdma3VHYf7aL5LMeXznlJvERZESRxYVaC7ejfPMf+9VQ=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(13003099007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?0ioRLSCiRvMipIrLUeOojsRNIj24nPJX4qrb08uu5e+dcgMRf/XVaa/tLZKW?=
- =?us-ascii?Q?OG55dmCcRBCXuyd65MwyFztX+Bst/P3Z92PiiVmSptgfUTs8dCJ3pCiTgrgm?=
- =?us-ascii?Q?tBNn+LuhFkZtj8KxEVPAF9bumVdwSkZNTI9ccRXoCYkFwOfjP+0GqtNpSRy8?=
- =?us-ascii?Q?SjvE9wp3mWdBn2WeEkM1k2PXdSJH1IGo2tgsgpXVRmXaw6mWVqfGXp/jExQT?=
- =?us-ascii?Q?UEyVJdMOZw2SdCtKj0Zt83bbu0xC9P1H73gaW0P2hrj+/7ikXaNvCH8OySu3?=
- =?us-ascii?Q?PWwAS1NrwVEF4cMg1MmsUDMbOLKvYXEMJs7ZKPtjEXy/GjDdkBe4XcfpenlP?=
- =?us-ascii?Q?AWYyqFvXAuq208ikTDGwVTPf0ZMsqc6x2JMEuWzsrXw74oeuIvm9Bjx7e9MO?=
- =?us-ascii?Q?h0NKyV7NB9XtHCZWvfeDBuZaufrT6Ly1gyPqK1T1xe72YO4oCpGpX747axBm?=
- =?us-ascii?Q?3d7SL0zt//Mu/JF2Ss29p03cmMmVun+G9EXsosl3jzELf+prUgtK2GsA+DPN?=
- =?us-ascii?Q?n6GDZCfuYkXS3FJBQyeuO7IgECyU1AM/2Vd6G8vRo/IGd4LKSmI/GJeF6Dsc?=
- =?us-ascii?Q?jLFqnSO/hHF4Sfu4rj4uUapT4gAhNq59kT9939dzCohm1cbsD87EvHprTe4g?=
- =?us-ascii?Q?8zeincrICoR5f4M2xcr4fULGFYXbnMZGJOdZI5fFEq6R64ewpxJ0Oh+3dS8W?=
- =?us-ascii?Q?/3VZVe8y4bh6TpVCkCWPT8sdRuqpJyBILiUd1THVgmB7nOGyGP+V10nFT/AZ?=
- =?us-ascii?Q?9UOTcCwSJoiDh/8Bo3gu6WRy2vwr+iNOHHhLYMtytX+6gGN9WI+pXNdNK3lY?=
- =?us-ascii?Q?sOI2MaFg9dwbyi77OsqREnXb+107AtcSZoQuhV3o4HGcb7zZ/5Exuts+CQ35?=
- =?us-ascii?Q?MyF3VaPfsCwWSxz9v1tz01kHf2gZsrYsrYT5KopxCRO/Nr+4xOlYiyX+TvM0?=
- =?us-ascii?Q?yGmz9H2J66/xNiTpIDJTNt7VD/YYy8qe2+zEqhdtzvsUuFc4+/ySZTUajoPz?=
- =?us-ascii?Q?pb9ez/N9YpAEDvd4FKvCbd5DKu7UeVeC3vTkFoeRNLZPgIEOGmllaaoC3hi5?=
- =?us-ascii?Q?PnaDuKPQJvai3cIV/bTFqOJgiJxLRWWN0FtWB+OcjYv6+0qz7QERVTCBLd/U?=
- =?us-ascii?Q?a5oatJujyJaBzgisUlCv0Ejl663FnizqX75CdEhmoE6S36vYJy7uYL6mIeLj?=
- =?us-ascii?Q?tDtmM0gOJT4df8aRVncxhpBwipIC4NmZ5yGCabEDju38VRa0leSoaM5OMnFM?=
- =?us-ascii?Q?mkMz5lRZSv0Z/P/p1yM7ZKnBde4s1pdav5sR1HPcLRLilaAykHCHOLaYMA5z?=
- =?us-ascii?Q?xb4kSBioEtIAbEDdX1Sgmo/+d3fxALILoZZlsnKV73gvYw3C9WlLzuGzcBNj?=
- =?us-ascii?Q?ruNLzSoxuMzgmu7eTOMj4WSdXLBrAVO3bTRLHA2xKQENSS9wx3LJ7D9RMRnb?=
- =?us-ascii?Q?C/spvHj2s40RvisjCvYH4/G34WinR2vkplq4q27yrQDXo1DsSG0SD/3oj6eS?=
- =?us-ascii?Q?r3wOh6v7B92i5ynLNFMY4jXy1iPEsMtrxi7jJPBeFdvtqKKPKMq/X3G2jkAL?=
- =?us-ascii?Q?2+RAF3ki8PG8bgjHPpn+acPD2uL4fcDrZo3x4aChKoQkUaLn/3ilwBPo2rZA?=
- =?us-ascii?Q?0A=3D=3D?=
+	=?us-ascii?Q?kruNWpNqVd0SPu7CEhN+ZMBM2Acz/vsBUaARt4fjz1bbM5Yp4JSGxfwRkjdi?=
+ =?us-ascii?Q?GwqhF/G+o9ZR9anTHIUCxI0ZgBi7dvJLjdSFXEya4vIqRyFCbcI2PwyuPI96?=
+ =?us-ascii?Q?5JwzIyvE9y/4Hyy9AHRztCwFyalvZDK7eLLdp57pTu4qXXlvfeRrcy10pQ2t?=
+ =?us-ascii?Q?tyIZR8UdLaB2IDWyqH50k7tLlCHdDElrtPDIks/sxSWG1hxqkMtUi8W8WFzt?=
+ =?us-ascii?Q?obT1ZrRNkY9Q2e4Ny8OgiW7s6s9OwjGmY0VcE533RFegkM9xOJvW60fwK6DH?=
+ =?us-ascii?Q?kbVEiTC7ehtipklm44tAfpqpBxZW7PEz4gPw390NS7QRArfvk2lS0GR6+YfY?=
+ =?us-ascii?Q?Hcd4qwBcNdEGSHLcIQhWHxTZPx3e6aHtSnZKYCTs86o7zOFaGvA8BCuQDMr7?=
+ =?us-ascii?Q?iOkWXYIAWvYTczZGItejDScw5b/+wsXlf6mE/U5jkqy1vCNFcXXkEFi3a23n?=
+ =?us-ascii?Q?UGiGTrKcvQK3Uyyxc5eO8mfx5AM1y1oHr1c+wkSBqUqVd0bXMnypACbhUu55?=
+ =?us-ascii?Q?0O4J6GCuVTr5yYWJiMrqKuwflSAzlvPZjETXGgpxUZ9fKleBbFNJI9oGnfDO?=
+ =?us-ascii?Q?nHsyrsd1dL7CurrgRU3RbLfZmkYasIcvVAENJn8AY6hWPXhw9xTEQq9jZUI8?=
+ =?us-ascii?Q?Nxed6Bk6VHpwb5Mabqg+PD8P9TUbvD2x5FmXvu59KgGaf26MiMcth/S0Gqqm?=
+ =?us-ascii?Q?p7LHIW0YpDEA5wc+UKk6aiPF1bbnNuNxPLpmadq5vNn0bc0HIDvdyYPObP05?=
+ =?us-ascii?Q?V719IbeA+GDPkXt8vneZVmB89Y4FebDSmV8Mhimyz88QJij0ZLmgzB7Wn5JC?=
+ =?us-ascii?Q?cI5MmPP4vIUsuDdCcBbK6MG7JUfyyr6XCxCLqfgOxswjtzRQ9idUpN7l6cB/?=
+ =?us-ascii?Q?HBmOF2uQYMGMuv/aR4hcmFVr1buWeV8rcKs62fkiv4PrsEBzwprxUh32Hyq5?=
+ =?us-ascii?Q?D3OFb5NVQY7VGTxo4HUyFEOTU0Q0UHE019pPHk2mAcql1kbqdn93pK/05P3o?=
+ =?us-ascii?Q?yoRDDHoXrHNIEpDnx2jxKZUeVr4WK7evSU0vBzSxutcxeuk82gcAnzC4baiM?=
+ =?us-ascii?Q?eIeKuVeNqLm5EE9WbGqx32YrnqGPiDRmW5atzuYBIQ3qEOaF3EjU1zK0EaeL?=
+ =?us-ascii?Q?TZ+XoAR0UCeOnFuNMAnWkvDo3TvlhIhrs5SVoa5403uM1dl/CBZuBJjHMTGS?=
+ =?us-ascii?Q?CfwcmhapyykEM6QahRlFLi0vFagtDIFFrvIEi7cYSbrFp0JIlfmkuGGwk2ZB?=
+ =?us-ascii?Q?7xndXYVaXZv69VgwfmI4TzYT192t6CC7NK5BYkMeZ0PxkSFdlP+tKitl2LRP?=
+ =?us-ascii?Q?d0UuL0inO5GjZU8IYlfMcOLgM0E8S9RCxH9C1X91CUPtoS2aevhvZDSq+le2?=
+ =?us-ascii?Q?VdQneBtPHe0IHLBcnVdY5LTe9UL2lTUpk2PwqT6b/Q3w6lVLd7OgYHNWmpi9?=
+ =?us-ascii?Q?pYlSW5/cLS5Koe4rggssozPDvRiUvWr0xetzLy29AQ3SnP3gic/SlhsC7RbC?=
+ =?us-ascii?Q?+YjsIJYOJAZ11WYhzhaET3wSjJaZrUBHL9bu351gJebcRQQPJuKHTdhfqn3T?=
+ =?us-ascii?Q?4xqfjQvQ/QR3PLKk+JPLjqNaKiI3kN2X2mLCnjI5q9WIRRogJ/G/fQFFCndT?=
+ =?us-ascii?Q?lA=3D=3D?=
 X-OriginatorOrg: navimatix.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: c9e5e155-8eb1-4f7c-6ff0-08de1ab21325
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57cf4c1e-600c-4b84-bedf-08de1ab2169c
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 08:22:06.1959
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 08:22:12.0817
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jVwiYPG4QGib/prtVX+ZbVYfEDcGjy+OUn+aSk763OdPlFtXg/chGxeyssIDL/MYhq0SMD1W+RaPpdkqZFAcvSHCNDA9IBQOvdvLKhgHr/c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR01MB10285
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7hEjHrllu/qacu0MQre6l9qPnorviayzKvOn6ywqyjFAQm/uK7/G8Z/VKRRg1ZIek1wuBMXxZECSHv76nvQmsV8lt1B+C8qtijsKYjd7yRU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR01MB9432
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 08:22:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225627
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 08:22:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225630
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Markus Volk <f_l_k@t-online.de>
 
-Changelog:
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-* GtkFileChooser:
- - Avoid warnings about floating refs
- - Improve performance of recursive search
- - Populate search model in an idle
+(From OE-Core rev: fa8d6a892c4cb8479602298997140e531dbb8230)
 
-* GtkGLArea:
- - Fix a regression in transparency handling
-
-* Printing:
- - Avoid accessing freed printers
-
-* Accessibility:
- - Drop support for the deprecated atk_focus_tracker
-
-* Wayland:
- - Fix monitor sizes
- - Fix a crash related to tablet removal
- - Infer resizable edges for tiled windows
- - Always commit soon after acking a configure
-
-* Windows:
- - Avoid committing NULL strings to IME
-
-* gdk:
- - Use css cursor names as far as possible
- - Sync DND cursor use with GTK4
-
-* macOs:
- - Fix cocoa pasteboard constants
-
-* build:
- - Allow building against sysprof-capture-4
-
-* Translation updates:
- Georgian
- Hebrew
- Kabyle
- Persian
-
-(From OE-Core rev: 2f4cdc1ef16f1b86f5632fded21792d71d58de16)
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cherry-pick-of: 051e1bd593cb0f7c8d47cbb3953eeaf8fc0f8314
+Cherry-pick-of: 5ccfc9f411bb19a5d47e1f42784d259160778741
 Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
 ---
- meta/recipes-gnome/gtk+/{gtk+3_3.24.41.bb =3D> gtk+3_3.24.42.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gtk+/{gtk+3_3.24.41.bb =3D> gtk+3_3.24.42.bb} (8=
-8%)
+ meta/recipes-gnome/gtk+/gtk+3.inc        | 154 ---------------------
+ meta/recipes-gnome/gtk+/gtk+3_3.24.43.bb | 164 ++++++++++++++++++++++-
+ 2 files changed, 157 insertions(+), 161 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3.inc
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.41.bb b/meta/recipes-gnome/=
-gtk+/gtk+3_3.24.42.bb
-similarity index 88%
-rename from meta/recipes-gnome/gtk+/gtk+3_3.24.41.bb
-rename to meta/recipes-gnome/gtk+/gtk+3_3.24.42.bb
-index a9b2065683..5612e50e8b 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.24.41.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.42.bb
-@@ -6,7 +6,7 @@ SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk+/${=
-MAJ_VER}/gtk+-${PV}.tar
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gt=
+k+3.inc
+deleted file mode 100644
+index 03913768b1..0000000000
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ /dev/null
+@@ -1,154 +0,0 @@
+-
+-SUMMARY =3D "Multi-platform toolkit for creating GUIs"
+-DESCRIPTION =3D "GTK+ is a multi-platform toolkit for creating graphical u=
+ser interfaces. Offering a complete \
+-set of widgets, GTK+ is suitable for projects ranging from small one-off p=
+rojects to complete application suites."
+-HOMEPAGE =3D "http://www.gtk.org"
+-BUGTRACKER =3D "https://bugzilla.gnome.org/"
+-SECTION =3D "libs"
+-
+-DEPENDS =3D "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf gdk-pixbuf-na=
+tive"
+-
+-LICENSE =3D "LGPL-2.0-only & LGPL-2.0-or-later & LGPL-2.1-or-later"
+-
+-inherit meson gettext pkgconfig gtk-doc update-alternatives gtk-immodules-=
+cache gsettings features_check gobject-introspection
+-
+-BBCLASSEXTEND =3D "native nativesdk"
+-
+-GSETTINGS_PACKAGE:class-native =3D ""
+-
+-# versions >=3D 3.90 are development versions, otherwise like upstream-ver=
+sion-is-even
+-UPSTREAM_CHECK_REGEX =3D "[^\d\.](?P<pver>3\.([1-8]?[02468])+(\.\d+)+)\.ta=
+r"
+-
+-ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
+-
+-do_configure:prepend() {
+-    # These files are generated by wayland-scanner but will race over modi=
+fication
+-    # time between the copies in the sysroot from wayland-protocols and th=
+e copy
+-    # in the source tree. Solve the race by deleting so they need to be re=
+generated.
+-    rm -f ${S}/modules/input/*-text-input-*.[ch]
+-}
+-
+-GTKDOC_MESON_OPTION =3D 'gtk_doc'
+-
+-EXTRA_OEMESON =3D "-Dxinerama=3Dno -Dtests=3Dfalse"
+-EXTRA_OEMESON:append:class-native =3D " -Ddemos=3Dfalse -Dexamples=3Dfalse=
+"
+-
+-PACKAGECONFIG ??=3D " \
+-	${@bb.utils.filter('DISTRO_FEATURES', 'opengl x11', d)} \
+-	${@bb.utils.contains('DISTRO_FEATURES', 'opengl wayland', 'wayland', '', =
+d)} \
+-"
+-PACKAGECONFIG:class-native =3D "${@bb.utils.filter('DISTRO_FEATURES', 'x11=
+', d)}"
+-PACKAGECONFIG:class-nativesdk =3D "${@bb.utils.filter('DISTRO_FEATURES', '=
+x11', d)}"
+-
+-PACKAGECONFIG[x11] =3D "-Dx11_backend=3Dtrue,-Dx11_backend=3Dfalse,at-spi2=
+-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr libxre=
+nder libxcomposite libxfixes"
+-# this is provided by oe-core patch that removes epoxy/gl dependency from =
+a X11 build
+-PACKAGECONFIG[opengl] =3D "-Dopengl=3Dtrue,-Dopengl=3Dfalse,libepoxy"
+-PACKAGECONFIG[wayland] =3D "-Dwayland_backend=3Dtrue,-Dwayland_backend=3Df=
+alse,wayland wayland-protocols libxkbcommon virtual/egl virtual/libgles2 wa=
+yland-native"
+-PACKAGECONFIG[cups] =3D ",,cups,cups gtk3-printbackend-cups"
+-PACKAGECONFIG[colord] =3D "-Dcolord=3Dyes,-Dcolord=3Dno,colord"
+-PACKAGECONFIG[cloudproviders] =3D "-Dcloudproviders=3Dtrue,-Dcloudprovider=
+s=3Dfalse,libcloudproviders"
+-PACKAGECONFIG[tracker3] =3D "-Dtracker3=3Dtrue,-Dtracker3=3Dfalse,tinyspar=
+ql,localsearch"
+-
+-prepare_gtk_scripts() {
+-    mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-c=
+ache-3.0
+-
+-    # duplicate gtk-query-immodules for post install script update_gtk_imm=
+odules_cache
+-    mkdir -p ${D}${libexecdir}
+-    ln ${D}${bindir}/gtk-query-immodules-3.0 ${D}${libexecdir}/${MLPREFIX}=
+gtk-query-immodules-3.0
+-}
+-
+-do_install:append:class-target() {
+-    prepare_gtk_scripts
+-}
+-
+-do_install:append:class-nativesdk() {
+-    prepare_gtk_scripts
+-}
+-
+-do_install:append:class-native() {
+-        create_wrapper ${D}/${bindir}/gtk-update-icon-cache \
+-                GDK_PIXBUF_MODULE_FILE=3D${STAGING_LIBDIR_NATIVE}/gdk-pixb=
+uf-2.0/2.10.0/loaders.cache
+-        create_wrapper ${D}/${bindir}/gtk-encode-symbolic-svg \
+-                GDK_PIXBUF_MODULE_FILE=3D${STAGING_LIBDIR_NATIVE}/gdk-pixb=
+uf-2.0/2.10.0/loaders.cache
+-}
+-
+-PROVIDES +=3D "gtk-icon-utils"
+-PACKAGES =3D+ "${PN}-demo"
+-LIBV =3D "3.0.0"
+-
+-FILES:${PN}-demo =3D "${bindir}/gtk3-demo \
+-                    ${bindir}/gtk3-demo-application \
+-                    ${bindir}/gtk3-icon-browser \
+-                    ${bindir}/gtk3-widget-factory \
+-                    ${datadir}/gtk-3.0/demo \
+-                    ${datadir}/applications/gtk3-demo.desktop \
+-                    ${datadir}/applications/gtk3-icon-browser.desktop \
+-                    ${datadir}/applications/gtk3-widget-factory.desktop \
+-                    ${datadir}/icons/hicolor/*/apps/gtk3-demo*.png \
+-                    ${datadir}/icons/hicolor/*/apps/gtk3-widget-factory*.p=
+ng"
+-
+-FILES:${PN}:append =3D " ${bindir}/gtk-update-icon-cache-3.0 \
+-               ${bindir}/gtk-query-immodules-3.0 \
+-               ${bindir}/gtk-launch \
+-               ${datadir}/themes ${datadir}/gtk-3.0/emoji \
+-               ${sysconfdir} ${datadir}/glib-2.0/schemas/ \
+-               ${libdir}/gtk-3.0/${LIBV}/engines/libpixmap.so \
+-               ${libdir}/gtk-3.0/modules/*.so"
+-
+-FILES:${PN}-dev +=3D " \
+-                    ${datadir}/gtk-3.0/gtkbuilder.rng \
+-                    ${datadir}/gtk-3.0/include \
+-                    ${datadir}/gtk-3.0/valgrind \
+-                    ${datadir}/gettext/its \
+-                    ${libdir}/gtk-3.0/include \
+-                    ${libdir}/gtk-3.0/${LIBV}/loaders/*.la \
+-                    ${libdir}/gtk-3.0/${LIBV}/immodules/*.la \
+-                    ${libdir}/gtk-3.0/3.0.0/printbackends/*.la \
+-                    ${libdir}/gtk-3.0/${LIBV}/engines/*.la \
+-                    ${libdir}/gtk-3.0/modules/*.la \
+-                    ${bindir}/gtk-builder-convert \
+-                    ${bindir}/gtk-encode-symbolic-svg \
+-                    ${bindir}/gtk-builder-tool \
+-                    ${bindir}/gtk-query-settings \
+-                    "
+-
+-GTKBASE_RRECOMMENDS ?=3D "liberation-fonts \
+-                        gdk-pixbuf-loader-png \
+-                        gdk-pixbuf-loader-jpeg \
+-                        gdk-pixbuf-loader-gif \
+-                        gdk-pixbuf-loader-xpm \
+-                        shared-mime-info \
+-                        adwaita-icon-theme-symbolic \
+-                        "
+-
+-GTKBASE_RRECOMMENDS:class-native ?=3D "\
+-                        "
+-
+-GTKGLIBC_RRECOMMENDS ?=3D "${GTKBASE_RRECOMMENDS} glibc-gconv-iso8859-1"
+-
+-RRECOMMENDS:${PN} =3D "${GTKBASE_RRECOMMENDS}"
+-RRECOMMENDS:${PN}:libc-glibc =3D "${GTKGLIBC_RRECOMMENDS}"
+-RDEPENDS:${PN}-dev +=3D "${@bb.utils.contains("PACKAGECONFIG", "wayland", =
+"wayland-protocols", "", d)}"
+-
+-PACKAGES_DYNAMIC +=3D "^gtk3-immodule-.* ^gtk3-printbackend-.*"
+-
+-ALTERNATIVE:${PN} =3D "gtk-update-icon-cache"
+-ALTERNATIVE_TARGET[gtk-update-icon-cache] =3D "${bindir}/gtk-update-icon-c=
+ache-3.0"
+-ALTERNATIVE_PRIORITY =3D "30"
+-
+-python populate_packages:prepend () {
+-    import os.path
+-
+-    gtk_libdir =3D d.expand('${libdir}/gtk-3.0/${LIBV}')
+-    immodules_root =3D os.path.join(gtk_libdir, 'immodules')
+-    printmodules_root =3D os.path.join(gtk_libdir, 'printbackends');
+-
+-    immodules =3D do_split_packages(d, immodules_root, r'^im-(.*)\.so$', '=
+gtk3-immodule-%s', 'GTK input module for %s')
+-    if immodules:
+-        d.setVar("GTKIMMODULES_PACKAGES", " ".join(immodules))
+-
+-    do_split_packages(d, printmodules_root, r'^libprintbackend-(.*)\.so$',=
+ 'gtk3-printbackend-%s', 'GTK printbackend module for %s')
+-
+-    if (d.getVar('DEBIAN_NAMES')):
+-        d.setVar(d.expand('PKG:${PN}'), '${MLPREFIX}libgtk-3.0')
+-}
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.43.bb b/meta/recipes-gnome/=
+gtk+/gtk+3_3.24.43.bb
+index a8cc1152c3..2171880c50 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.43.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.43.bb
+@@ -1,7 +1,23 @@
+-require gtk+3.inc
++SUMMARY =3D "Multi-platform toolkit for creating GUIs"
++DESCRIPTION =3D "GTK+ is a multi-platform toolkit for creating graphical u=
+ser interfaces. Offering a complete \
++set of widgets, GTK+ is suitable for projects ranging from small one-off p=
+rojects to complete application suites."
++HOMEPAGE =3D "http://www.gtk.org"
++BUGTRACKER =3D "https://bugzilla.gnome.org/"
++SECTION =3D "libs"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5f30f0716dfdd0d91eb439ebec522ec=
+2 \
++                    file://gtk/gtk.h;endline=3D25;md5=3D1d8dc0fccdbfa26287=
+a271dce88af737 \
++                    file://gdk/gdk.h;endline=3D25;md5=3Dc920ce39dc88c6f06d=
+3e7c50e08086f2 \
++                    file://tests/testgtk.c;endline=3D25;md5=3Dcb732daee1d8=
+2af7a2bf953cf3cf26f1"
++
++CVE_PRODUCT =3D "gnome:gtk gtk:gtk\+"
++
++DEPENDS =3D "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf gdk-pixbuf-na=
+tive"
++
++LICENSE =3D "LGPL-2.0-only & LGPL-2.0-or-later & LGPL-2.1-or-later"
++
++inherit meson gettext pkgconfig gtk-doc update-alternatives gtk-immodules-=
+cache gsettings features_check gobject-introspection
+=20
+ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+-
+ SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-$=
+{PV}.tar.xz \
             file://opengl.patch \
-            file://CVE-2024-6655.patch \
             "
--SRC_URI[sha256sum] =3D "47da61487af3087a94bc49296fd025ca0bc02f96ef06c556e7=
-c8988bd651b6fa"
-+SRC_URI[sha256sum] =3D "50f89f615092d4dd01bbd759719f8bd380e5f149f6fd78a947=
-25e2de112377e2"
+@@ -9,9 +25,143 @@ SRC_URI[sha256sum] =3D "7e04f0648515034b806b74ae5d774d87=
+cffb1a2a96c468cb5be476d51b
 =20
  S =3D "${WORKDIR}/gtk+-${PV}"
 =20
+-LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5f30f0716dfdd0d91eb439ebec522ec=
+2 \
+-                    file://gtk/gtk.h;endline=3D25;md5=3D1d8dc0fccdbfa26287=
+a271dce88af737 \
+-                    file://gdk/gdk.h;endline=3D25;md5=3Dc920ce39dc88c6f06d=
+3e7c50e08086f2 \
+-                    file://tests/testgtk.c;endline=3D25;md5=3Dcb732daee1d8=
+2af7a2bf953cf3cf26f1"
++BBCLASSEXTEND =3D "native nativesdk"
+=20
+-CVE_PRODUCT =3D "gnome:gtk gtk:gtk\+"
++GSETTINGS_PACKAGE:class-native =3D ""
++
++# versions >=3D 3.90 are development versions, otherwise like upstream-ver=
+sion-is-even
++UPSTREAM_CHECK_REGEX =3D "[^\d\.](?P<pver>3\.([1-8]?[02468])+(\.\d+)+)\.ta=
+r"
++
++ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
++
++do_configure:prepend() {
++    # These files are generated by wayland-scanner but will race over modi=
+fication
++    # time between the copies in the sysroot from wayland-protocols and th=
+e copy
++    # in the source tree. Solve the race by deleting so they need to be re=
+generated.
++    rm -f ${S}/modules/input/*-text-input-*.[ch]
++}
++
++GTKDOC_MESON_OPTION =3D 'gtk_doc'
++
++EXTRA_OEMESON =3D "-Dxinerama=3Dno -Dtests=3Dfalse"
++EXTRA_OEMESON:append:class-native =3D " -Ddemos=3Dfalse -Dexamples=3Dfalse=
+"
++
++PACKAGECONFIG ??=3D " \
++	${@bb.utils.filter('DISTRO_FEATURES', 'opengl x11', d)} \
++	${@bb.utils.contains('DISTRO_FEATURES', 'opengl wayland', 'wayland', '', =
+d)} \
++"
++PACKAGECONFIG:class-native =3D "${@bb.utils.filter('DISTRO_FEATURES', 'x11=
+', d)}"
++PACKAGECONFIG:class-nativesdk =3D "${@bb.utils.filter('DISTRO_FEATURES', '=
+x11', d)}"
++
++PACKAGECONFIG[x11] =3D "-Dx11_backend=3Dtrue,-Dx11_backend=3Dfalse,at-spi2=
+-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr libxre=
+nder libxcomposite libxfixes"
++# this is provided by oe-core patch that removes epoxy/gl dependency from =
+a X11 build
++PACKAGECONFIG[opengl] =3D "-Dopengl=3Dtrue,-Dopengl=3Dfalse,libepoxy"
++PACKAGECONFIG[wayland] =3D "-Dwayland_backend=3Dtrue,-Dwayland_backend=3Df=
+alse,wayland wayland-protocols libxkbcommon virtual/egl virtual/libgles2 wa=
+yland-native"
++PACKAGECONFIG[cups] =3D ",,cups,cups gtk3-printbackend-cups"
++PACKAGECONFIG[colord] =3D "-Dcolord=3Dyes,-Dcolord=3Dno,colord"
++PACKAGECONFIG[cloudproviders] =3D "-Dcloudproviders=3Dtrue,-Dcloudprovider=
+s=3Dfalse,libcloudproviders"
++PACKAGECONFIG[tracker3] =3D "-Dtracker3=3Dtrue,-Dtracker3=3Dfalse,tinyspar=
+ql,localsearch"
++
++prepare_gtk_scripts() {
++    mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-c=
+ache-3.0
++
++    # duplicate gtk-query-immodules for post install script update_gtk_imm=
+odules_cache
++    mkdir -p ${D}${libexecdir}
++    ln ${D}${bindir}/gtk-query-immodules-3.0 ${D}${libexecdir}/${MLPREFIX}=
+gtk-query-immodules-3.0
++}
++
++do_install:append:class-target() {
++    prepare_gtk_scripts
++}
++
++do_install:append:class-nativesdk() {
++    prepare_gtk_scripts
++}
++
++do_install:append:class-native() {
++        create_wrapper ${D}/${bindir}/gtk-update-icon-cache \
++                GDK_PIXBUF_MODULE_FILE=3D${STAGING_LIBDIR_NATIVE}/gdk-pixb=
+uf-2.0/2.10.0/loaders.cache
++        create_wrapper ${D}/${bindir}/gtk-encode-symbolic-svg \
++                GDK_PIXBUF_MODULE_FILE=3D${STAGING_LIBDIR_NATIVE}/gdk-pixb=
+uf-2.0/2.10.0/loaders.cache
++}
++
++PROVIDES +=3D "gtk-icon-utils"
++PACKAGES =3D+ "${PN}-demo"
++LIBV =3D "3.0.0"
++
++FILES:${PN}-demo =3D "${bindir}/gtk3-demo \
++                    ${bindir}/gtk3-demo-application \
++                    ${bindir}/gtk3-icon-browser \
++                    ${bindir}/gtk3-widget-factory \
++                    ${datadir}/gtk-3.0/demo \
++                    ${datadir}/applications/gtk3-demo.desktop \
++                    ${datadir}/applications/gtk3-icon-browser.desktop \
++                    ${datadir}/applications/gtk3-widget-factory.desktop \
++                    ${datadir}/icons/hicolor/*/apps/gtk3-demo*.png \
++                    ${datadir}/icons/hicolor/*/apps/gtk3-widget-factory*.p=
+ng"
++
++FILES:${PN}:append =3D " ${bindir}/gtk-update-icon-cache-3.0 \
++               ${bindir}/gtk-query-immodules-3.0 \
++               ${bindir}/gtk-launch \
++               ${datadir}/themes ${datadir}/gtk-3.0/emoji \
++               ${sysconfdir} ${datadir}/glib-2.0/schemas/ \
++               ${libdir}/gtk-3.0/${LIBV}/engines/libpixmap.so \
++               ${libdir}/gtk-3.0/modules/*.so"
++
++FILES:${PN}-dev +=3D " \
++                    ${datadir}/gtk-3.0/gtkbuilder.rng \
++                    ${datadir}/gtk-3.0/include \
++                    ${datadir}/gtk-3.0/valgrind \
++                    ${datadir}/gettext/its \
++                    ${libdir}/gtk-3.0/include \
++                    ${libdir}/gtk-3.0/${LIBV}/loaders/*.la \
++                    ${libdir}/gtk-3.0/${LIBV}/immodules/*.la \
++                    ${libdir}/gtk-3.0/3.0.0/printbackends/*.la \
++                    ${libdir}/gtk-3.0/${LIBV}/engines/*.la \
++                    ${libdir}/gtk-3.0/modules/*.la \
++                    ${bindir}/gtk-builder-convert \
++                    ${bindir}/gtk-encode-symbolic-svg \
++                    ${bindir}/gtk-builder-tool \
++                    ${bindir}/gtk-query-settings \
++                    "
++
++GTKBASE_RRECOMMENDS ?=3D "liberation-fonts \
++                        gdk-pixbuf-loader-png \
++                        gdk-pixbuf-loader-jpeg \
++                        gdk-pixbuf-loader-gif \
++                        gdk-pixbuf-loader-xpm \
++                        shared-mime-info \
++                        adwaita-icon-theme-symbolic \
++                        "
++
++GTKBASE_RRECOMMENDS:class-native ?=3D "\
++                        "
++
++GTKGLIBC_RRECOMMENDS ?=3D "${GTKBASE_RRECOMMENDS} glibc-gconv-iso8859-1"
++
++RRECOMMENDS:${PN} =3D "${GTKBASE_RRECOMMENDS}"
++RRECOMMENDS:${PN}:libc-glibc =3D "${GTKGLIBC_RRECOMMENDS}"
++RDEPENDS:${PN}-dev +=3D "${@bb.utils.contains("PACKAGECONFIG", "wayland", =
+"wayland-protocols", "", d)}"
++
++PACKAGES_DYNAMIC +=3D "^gtk3-immodule-.* ^gtk3-printbackend-.*"
++
++ALTERNATIVE:${PN} =3D "gtk-update-icon-cache"
++ALTERNATIVE_TARGET[gtk-update-icon-cache] =3D "${bindir}/gtk-update-icon-c=
+ache-3.0"
++ALTERNATIVE_PRIORITY =3D "30"
++
++python populate_packages:prepend () {
++    import os.path
++
++    gtk_libdir =3D d.expand('${libdir}/gtk-3.0/${LIBV}')
++    immodules_root =3D os.path.join(gtk_libdir, 'immodules')
++    printmodules_root =3D os.path.join(gtk_libdir, 'printbackends');
++
++    immodules =3D do_split_packages(d, immodules_root, r'^im-(.*)\.so$', '=
+gtk3-immodule-%s', 'GTK input module for %s')
++    if immodules:
++        d.setVar("GTKIMMODULES_PACKAGES", " ".join(immodules))
++
++    do_split_packages(d, printmodules_root, r'^libprintbackend-(.*)\.so$',=
+ 'gtk3-printbackend-%s', 'GTK printbackend module for %s')
++
++    if (d.getVar('DEBIAN_NAMES')):
++        d.setVar(d.expand('PKG:${PN}'), '${MLPREFIX}libgtk-3.0')
++}
 --=20
 2.51.0
 
