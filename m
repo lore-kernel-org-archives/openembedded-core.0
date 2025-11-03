@@ -1,119 +1,143 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 889E3CCFA03
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 19:20:35 +0000 (UTC)
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.176.1762197632599425317
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42E49CCF9F8
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 19:26:17 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.132.1762197970132697301
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 11:20:32 -0800
+ Mon, 03 Nov 2025 11:26:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MogOjfEx;
- spf=pass (domain: gmail.com, ip: 209.85.160.42, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-3c9a42d6349so6034977fac.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 11:20:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762197631; x=1762802431; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4jkmLxT5EMbrg2Hqzi83i3u6DcTCScy112EJ095vTRg=;
-        b=MogOjfExhsy+uLbsO7JdyHQhPweT8smErBdx0sSBU+8Q/Cp42r74N9PpoJX3E/5ezS
-         nfaJOzatH8jvvGL/VQd4eA3jyll+SX9Ap5ks+XHUHpXTGraexWhpmWmFklojb54oyRnl
-         2/4elz8grwSephluJGbuXNSZsb63SZIAj60TND/5nHhLPxnaCsKLk+4oYi2CdP1k3djO
-         LXcHiObVUIqFqhb2mbB+ThvjuGd4xCIrMDOihdOG8RLUFgZOHUPUAzkho+iB5vSoseCz
-         /8jqAfT/+vcZT0kib2y2i69jPCinW2tndhCB7PMs3IOTmnkbi7FFtxSpZXgJPqVS5+9y
-         mZQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762197631; x=1762802431;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4jkmLxT5EMbrg2Hqzi83i3u6DcTCScy112EJ095vTRg=;
-        b=lAPZUePa020a7nfAIFLr0KA7uGA29+BuJDgA0KHreZJhnz3GdYz8eoNZfH8/oI6yXV
-         aqtagw3aIZwC1ZHHtWJJAnXZRU1zBDTztDgefksM5Ml3Nh+6EhWy1jTFAKj6xlkcaEvi
-         iSiX8M4tTbYMmY1RGgLF14UahNMRk8KcEVZDR+0R9pq6N+nG8Oe5edh8BITidOHOI4VP
-         Tep9n4PvWBX3Ao7mlAixfKt6eDqHkA1zn91vNKwrqhvvJHoPSDchCj7IoIj7mhTu3C4O
-         /ydiRVX0g+pld64iDfbKEt198diJwFH6yEAIWGRn8/d6cS/exuJMpXl5R3B3CmxdE32R
-         8vXw==
-X-Gm-Message-State: AOJu0Yx9xmQ2aui01BmkqBXg4LtYRh5Q4BO7p1/Yog2owU/ypqojJdgp
-	m0vldfpSgWiGiQyx/VixeLcDNQEsSAuPw26TvqyHniJSzzMsZwF6Vqjzl2FZSNXpZVidbsjTMh5
-	7fcXT/8nh73YjfZtJvCNImUUVip9V7Pw=
-X-Gm-Gg: ASbGncua2NxxmC7YBisAOtD/JzRseyNVWd7XKsHWtJ6Q968XqRqDmhqQ/JoO498UcPr
-	6+W/CvysNRxMOWTbQC2FwihsKCGHkWQRLNkgBfJZ0gq38op2ZzSWgWrn9wRLa6QfijTGdRAh1jz
-	9LbXSJnDJHI4CSTmR/OUC8DxPbl+eHHq64Yt/vk8iIhoMdBpZww9Vl83QWOK/d/4DukmhmPG3Cc
-	DDmzHeZxtNiU6XnEOZIwsILwD9lXO2QtHl8Oh8B2D6sSUtjjYUK9fN4JbR0puci9qIbGcl/cQ==
-X-Google-Smtp-Source: AGHT+IHsTmklKKwzJWCiCYA6taHAkxfeTNNrByOiu0G8gDj4b1pRkDqtJo+Mjj7vGe5DR++WyQ/AaZHiEM9r3GCUwZA=
-X-Received: by 2002:a05:6808:6a96:b0:43f:1ae3:78f1 with SMTP id
- 5614622812f47-44f95e82a4fmr6462296b6e.20.1762197631473; Mon, 03 Nov 2025
- 11:20:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20251102084855.1555197-1-ankur.tyagi85@gmail.com>
- <20251102084855.1555197-3-ankur.tyagi85@gmail.com> <DDZ9QEGSEJ8V.1DSQEABXR0UC5@bootlin.com>
-In-Reply-To: <DDZ9QEGSEJ8V.1DSQEABXR0UC5@bootlin.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Tue, 4 Nov 2025 08:20:20 +1300
-X-Gm-Features: AWmQ_bkqi_m7bja0OB9lt-HdkMTUXwijGtlKcQ_U87B2sbSHyewX1Rs7HqC1zbg
-Message-ID: <CADySD0FXx15PEdM2HWiG4NOSO9Zi8gPYPDKNUu_FmVz+z_KhOw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 3/5] iproute2: upgrade 6.16.0 -> 6.17.0
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=hA4iL4G+;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 3EEAC1A1857
+	for <openembedded-core@lists.openembedded.org>; Mon,  3 Nov 2025 19:26:08 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 020A960628;
+	Mon,  3 Nov 2025 19:26:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 45C1010B5019F;
+	Mon,  3 Nov 2025 20:26:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1762197967; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=yZaaeyAhvVQIPYAPDZUodUuNIXS08ZrqgGDwi4IwuTU=;
+	b=hA4iL4G+NplX9Nzehne5LdyQoNtVPCu4RGZRAno4SyXk6nZvz0ZXeIqTmZhal4vcoz3SZI
+	NeKD222UMEDbVm+2PFBbpupEomVyjQORjUKzz4FNzlX7hVgBZcIpsT7NBM3OiFCOI5uSI2
+	exI1WgWJJ2h79hTPSc/T/LcJ0vZQsYdsyv2jWyTnkzcybDUqaGBVOkFz1IPOGEV+jm2bsn
+	ODazJCJH2ne2OISYMni/tnl4LWNPLHd2VZMC6wQLUYP0GUd2/qJDMwenTli4GEw11QdiTJ
+	DW+/8HuHiupXNWGS51WqolWRVr+WiQLqwdBPqG1jlXcCb4b8OTC6X11OFadU8A==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 03 Nov 2025 20:26:04 +0100
+Message-Id: <DDZB1KU7GL22.2C3I05QJUAJ1A@bootlin.com>
+Subject: Re: [OE-core] [PATCH 10/18] at-spi2-core: Upgrade 2.56.4 -> 2.58.1
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <joerg.sommer@navimatix.de>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <270455d31cdf073ffbc85ef7622e4b41bc10cb86.1762154252.git.joerg.sommer@navimatix.de> <d99e920567d7842cd941f68bb5a4e26910a735f0.1762154252.git.joerg.sommer@navimatix.de>
+In-Reply-To: <d99e920567d7842cd941f68bb5a4e26910a735f0.1762154252.git.joerg.sommer@navimatix.de>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 19:20:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225691
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 19:26:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225692
 
-On Tue, Nov 4, 2025 at 7:24=E2=80=AFAM Mathieu Dubois-Briand
-<mathieu.dubois-briand@bootlin.com> wrote:
+On Mon Nov 3, 2025 at 8:27 AM CET, J=C3=B6rg Sommer via lists.openembedded.=
+org wrote:
+> From: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
 >
-> On Sun Nov 2, 2025 at 9:48 AM CET, Ankur Tyagi via lists.openembedded.org=
- wrote:
-> > From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-> >
-> > Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-> > ---
+> Add python override files added with 2.57.0
 >
-> Hi Ankur,
+> /usr/lib/python3.13/site-packages/gi/overrides/Atspi.py
+> /usr/lib/python3.13/site-packages/gi/overrides/__pycache__/Atspi.cpython-=
+313.pyc
 >
-> Thanks for your patch.
+> see https://gitlab.gnome.org/GNOME/at-spi2-core/-/commit/7c8a9365d5009b43=
+afe6d16bebefc14a8df410a7
 >
-> It looks like this is breaking with musl:
+> Changelog:
 >
-> ERROR: iproute2-6.17.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-=
-worker/musl-qemux86-64/build/build/tmp/work/x86-64-v3-poky-linux-musl/iprou=
-te2/6.17.0/temp/run.do_compile.3517119' failed with exit code 1
-> ...
-> | /srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/x86-64=
--v3-poky-linux-musl/iproute2/6.17.0/recipe-sysroot/usr/include/netinet/in.h=
-:29:1: error: redefinition of struct or union 'struct in6_addr'
-> ...
-> | /srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/x86-64=
--v3-poky-linux-musl/iproute2/6.17.0/recipe-sysroot/usr/include/netinet/in.h=
-:40:1: error: redefinition of struct or union 'struct sockaddr_in6'
-> ...
-> | /srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/x86-64=
--v3-poky-linux-musl/iproute2/6.17.0/recipe-sysroot/usr/include/netinet/in.h=
-:45:1: error: redefinition of struct or union 'struct ipv6_mreq'
-> ...
+> What's new in at-spi2-core 2.58.1:
+> * at-spi-bus-launcher: Fix a possible crash when registering.
+> * python: Avoid traceback when hashing a disposed object
+> * Fix build failure on MacOS.
+> * Fix transfer rule for atk_table_cell_get_table and atk_table_get_summar=
+y.
 >
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/2729
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/2694
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/111/builds/1414
+> What's new in at-spi2-core 2.58.0:
+> * libatspi: Increase ATSPI_ROLE_COUNT after switch role was added
+> * Add ATSPI_CHECK_VERSION macro.
+> * Properly fix key notifications under X11 when multiple keyboard layouts
+>   are in use.
 >
-> Can you have a look at this?
+> What's new in at-spi2-core 2.57.2:
+> * Don't install at-spi-dbus-bus.service if systemd is not enabled.
+> * Some collection fixes and documentation improvements.
+> * Fix reporting the wrong keysym on X11 setups where multiple keyboard
+>   layouts are in use.
+> * Fix possible memory leak in atspi_accessible_get_description.
+>
+> What's new in at-spi2-core 2.57.1:
+> * Fix several crashes introduced by the code to handle the accessibility
+>   bus going away.
+> * Add atspi_device_clear_key_grabs.
+> * Fix key grabs when num lock or caps lock are on under Wayland.
+>     atk-bridge: Don't crash when requesting a plug if not activated
+> * Have python overrides check DBus object paths when testing for equality=
+.
+> * Add sanity checks for child indices received via DBus.
+>
+> What's new in at-spi2-core 2.57.0:
+> * device-a11y-manager: Fix crash on dispose
+> * device-a11y-manager: Check properly for the DBus backend presence
+> * Fix the build with glib < 2.76.
+> * a11y-manager-device: Fix unmap_keysym_modifier.
+> * DeviceEventController: update mouse coordinates before sending button e=
+vents
+> * atspi-device-legacy: Don't crash when XkbGetMap fails
+> * Return localized role name for ATSPI_ROLE_EDITBAR
+>     atk-adaptor: Reconnect when the bus launcher reappears.
+> * Don't keep references to uncached objects in the application's hash tab=
+le.
+> * Add some Python overrides.
+>     AtspiDeviceX11: Suppress window events following key grabs when neede=
+d.
+>
+> Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
+> ---
 
-Sure, I will try to fix this error in v2
->
-> Thanks,
-> Mathieu
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
+Hi J=C3=B6rg,
+
+Thanks for the patch.
+
+It looks like some new files should be shipped:
+
+ERROR: at-spi2-core-2.58.1-r0 do_package: QA Issue: at-spi2-core: Files/dir=
+ectories were installed but not shipped in any package:
+  /usr/lib/python3.13
+  /usr/lib/python3.13/site-packages
+  /usr/lib/python3.13/site-packages/gi
+  /usr/lib/python3.13/site-packages/gi/overrides
+  /usr/lib/python3.13/site-packages/gi/overrides/Atspi.py
+  /usr/lib/python3.13/site-packages/gi/overrides/__pycache__
+  /usr/lib/python3.13/site-packages/gi/overrides/__pycache__/Atspi.cpython-=
+313.pyc
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/92/builds/2667
+
+Can you have a look at this?
+
+Thanks,
+Mathieu
+
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
