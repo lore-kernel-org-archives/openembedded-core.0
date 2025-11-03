@@ -1,115 +1,125 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D815CCF9F8
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 12:49:51 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19743.1762174184005431690
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF2D8CCF9FE
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 13:37:31 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20683.1762177046388152792
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 04:49:44 -0800
+ Mon, 03 Nov 2025 05:37:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BkocUk2H;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: zboszor@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6407e617ad4so5374951a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 04:49:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SuNg0n0B;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: skandigraun@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-591c9934e0cso7234343e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 05:37:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762174182; x=1762778982; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TzKYQs5C2Lt8W7WEUr7THiwf6ucG6O1khGkUv08GM+M=;
-        b=BkocUk2HBvldIs0270fxWGU+r5ZGsDJEkKQy4oalYgXy7qs4T6+6LAmApVo3UVa1ws
-         gVObTiVBMBRToEKWvt/kNO2Herr36a0Ub667NbbHs+sCK0zmwOkeGPukL4oIcJEgYgAQ
-         pzcglvd2lAQuO+H9s/v2q6ifamYcc0tWNZR2+1jTMRbL7CY1bSK6GNopHWVwdBrT7Yib
-         aUfVppyIMj7iutNPpSaB+cGl/Oplr8eRfKm/1IwNhX0uNHDegJBDikqA/hGlDG7/hjFs
-         57Rj5Zm5GKOmAn7Tho5xwtByBGyt1+iezoTJ/i7Wsdxk+hdT/AMS+cROYw3bfXzX5ng/
-         qvzA==
+        d=gmail.com; s=20230601; t=1762177044; x=1762781844; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NREGDe92xrbIKcGpMeqR1RIeoY0NXNQYXQAxl2P7Sv4=;
+        b=SuNg0n0BSZVnrh7RbE5W5/3CFg22UTv8bME7bY1sgaP7UuIC1WS78fIGml9fHe5Aro
+         He6ylZ5eBMinMzIYewBTiOIl6l7U91xv47F3ALJ2k+qTCLmkml7K0q0HFC8cTMQtbYQB
+         lYh6qsZ0OkpYdrRxDzebjOE4Q0NdGhkkiw3kfaW6aNQjzIIIK1bHC70OC43sIuy7aSMl
+         63B8GlP0Objl2tdzm2z5Yc3fzl82Y8Rf4UFmXvN5EasUavNeX9KvmFJpEbsg2QqRrZKO
+         65m+yO751cXxRMzGupZAZc20DpAF0iURKT+rFo3ft/Tlue9D555on39DGL8BR0cVn/iA
+         wsOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762174182; x=1762778982;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TzKYQs5C2Lt8W7WEUr7THiwf6ucG6O1khGkUv08GM+M=;
-        b=VtJXwTTSERwtxBNRhx61QhdNHunfhl8GenXWZIsV52ipksSV4hNskoHvpZj17gXKeh
-         WZPG5ajkc/ZLbv1AT8zqSST5OKJUYi5c5NfGht1WBk+pAvc77rkdIqPRVSUYYuwJLiFr
-         mZqBV6oKnysJB8rwYyqOx5E54m27GA1+tAOgTEK1ISt5c7LunolfNAA/Xb3zBK3GHjcg
-         95Ab5dxuaVuBb0OThxEBhcz/MBs3HRbAWxNLsVxv8qFj6gfYKH7FnhYwbyi8uM0MpHVG
-         ZqO27c74ZP31yEXy7skfXHuaGNDA86JAXhtsyLgvg6uVog/1IoWz5rlAHujzdjC59ZNx
-         JUPA==
-X-Gm-Message-State: AOJu0Ywwqn7IC3zCWzFdMFRY/cbJNi48xW7JS43KcAg/k0P3wopETHQs
-	niLqbJYcz/rwRe6/WIWvi18FrkB70Fhbk0oqa5tjIac0HekGybE59qEcqJvT7g==
-X-Gm-Gg: ASbGnctaaYdAmYK5L7KKSBl5CZFeFmdDOnZ26nR23LdX8uBLVa2W3Uwdva1vIBiq45u
-	WLkfcEnpJUnn2Y19rfNNL3DShprKzVhsKVRDBUp9fvviWOYDADp6mDEyX2urxxrjEGpR0/navoi
-	8hjfnjggXQDVttImOfErPgEwP17zDIyZWUyuTEZJwhLfVTzVSST/3P/6vihZ42YWiJToz+z/TLt
-	b6NVjot9jXQDz/YakVfAg6+V3AMOdY/MgbmSjhdb+lbLgeoy2mBEx0ZrdHSoQPYuxQ7YMemmm5Q
-	DJVlOJTra46pvVDG4hEmEz3/YkSZheuOIod4FLYXUIeKvh8D6H1t7Z36DO9TSK6FGBr04gjF3NS
-	qKi7rfNc/BybuPEFSzOHviI9NkJqnlcHOU23H1qTrXHxl+fx3aZJDapm2n2pyf4wiKrrEwB0J+A
-	htg9lFVBZZd5YJjsYqZjJGTWpZm64x5jsQ
-X-Google-Smtp-Source: AGHT+IEajUn6jh+GOEX2XslrNkRou5/N4XBDpXSsmL3752zcXZSBgF55mi2t6hwJn33dP7FmA9We+g==
-X-Received: by 2002:a05:6402:1469:b0:640:9bb0:a059 with SMTP id 4fb4d7f45d1cf-6409bb0d2ebmr6642834a12.10.1762174181954;
-        Mon, 03 Nov 2025 04:49:41 -0800 (PST)
-Received: from fedora (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64095f9ee0csm7224348a12.16.2025.11.03.04.49.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Nov 2025 04:49:41 -0800 (PST)
-From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH v2] meta/conf/layer.conf: Omit most build deps of rpm-sequoia-native
-Date: Mon,  3 Nov 2025 13:49:39 +0100
-Message-ID: <20251103124939.2076502-1-zboszor@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1762177044; x=1762781844;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NREGDe92xrbIKcGpMeqR1RIeoY0NXNQYXQAxl2P7Sv4=;
+        b=PhD6VlRHcdwXj8nNkhOxJjctyNZoZzRZ/1UdLtGFZjZhJvwlsRUufBj//xISXf8iE+
+         EfMvF2hBoMmHOAHo/6cPv/AIGIst8mxFUNqe6jUiwHLFjDlflUZyRbKZb9JzHQMHySVo
+         DQVRr1JI7YyzGOJZrg9oc+PI9/vYrDI1r7mk7dwqNwtDXlhBQi6p+qbr9dehbS54eiyt
+         Alko5mFOb3TSTmeZBZZ6vi9WViOGVXVYkdG4lV3y9XKy9FSE3ojTH0v6Ym0b0IqcXvur
+         2xluYPJyLHRsNK67DYtsAsd8Mjj53/XUbGcG1HLrTLfzZSIQnszi5+FcE3oUUS2geehm
+         83tw==
+X-Gm-Message-State: AOJu0Ywa8Kur6LlQTjpU3CoEX+U5mT5OJnNVLnVZ4NKlkthMfMVL1mse
+	w0cXVnGPMqD9wQWL5GDriETD5aqrbhbURyn8HEDVjkbTmWOZD8Frz5Lr
+X-Gm-Gg: ASbGncsZV4Gq1pFiV87j+vCpZMe1gp+hXEiFQaf8fiSQuyXG94lYfUDyRTSraof/qtx
+	W1rvfUSVNY9XZvLX1B/228KPBl8WNqsu1ZZw6Ofx9uG09BEgvIC2U4JFPu6qEnA56avBifmx23o
+	ofQ74XWYkzQsB3fHHuOnppjoBnSYBIQZMHBHJiEdRxS2pSXauzLqZo/3BrFUuFLy9Fy05hsajXo
+	0aPLlhfQu1T8U8qeilC+TgqvNcCrO012DCMFNJSmU2Khg9aR2eiqUBdPp7eg4CSdkqvxk1DHb2F
+	4gADFXXvSCO6QF9EdBLXtzlTHUzAyO46q22+DUad26RphZGlXY+z/e+M1myMaVJCxCfrgCsuAWN
+	b4dW8m7NQYB2ksxqZs+KPKzvHN3KqjuvonwI8GzTs9QsjtYNISnSwGk58J4iTpxdFJZ4z9+8il1
+	+Jumb+n3qs
+X-Google-Smtp-Source: AGHT+IGHP5Pj3aSqBiwWGuThwMKX3cn+10py/IrruO9m/cfk5M7DzUQnXGoYFdGXcaIBcrWVa7KGTg==
+X-Received: by 2002:a05:6512:1153:b0:57d:b8a1:832b with SMTP id 2adb3069b0e04-5941d508660mr3962609e87.24.1762177044139;
+        Mon, 03 Nov 2025 05:37:24 -0800 (PST)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59427a91396sm1630656e87.99.2025.11.03.05.37.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Nov 2025 05:37:23 -0800 (PST)
+Message-ID: <8c567231-4373-4179-a259-af3daed9a2aa@gmail.com>
+Date: Mon, 3 Nov 2025 14:37:22 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [kirkstone][PATCH 15/19] gtk+3: rename tracker
+ dependencies
+To: =?UTF-8?Q?J=C3=B6rg_Sommer?= <joerg.sommer@navimatix.de>
+Cc: openembedded-core@lists.openembedded.org, f_l_k@t-online.de,
+ richard.purdie@linuxfoundation.org
+References: <0d34bc13973f2ff1567713e5de053dfa3d202802.1762157680.git.joerg.sommer@navimatix.de>
+ <c1641c15f747f70250ab3257edee3640d8cb916f.1762157680.git.joerg.sommer@navimatix.de>
+ <fa662162-32b7-4be3-b93d-ca879b9219b4@gmail.com>
+ <j76kdjsr2gfjkcn2ouhaoy34kzyydmjzqdve52ttriip5tseah@xypzq6gqwcun>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <j76kdjsr2gfjkcn2ouhaoy34kzyydmjzqdve52ttriip5tseah@xypzq6gqwcun>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 12:49:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225653
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 13:37:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225654
 
-Omit most of the build dependencies of rpm-sequoia-native as it
-needs only OpenSSL, and implicitly, libgcc and the C runtime
-to run.
+On 11/3/25 11:59, Jörg Sommer wrote:
+> Gyorgy Sarvari schrieb am Mo 03. Nov, 11:15 (+0100):
+>> I'm not sure if this patch can work. I believe tinysparql was added in
+>> Walnascar in meta-oe, and I'm sure that it's not in Kirkstone.
+> Yes, it fails to build. I would drop the following commits, because there
+> should be no user of/need for these PACKAGECONFIGs.
+>
+> * gtk+3: add PACKAGECONFIG for libcloudservice and tracker; fix cups backend
+> * gtk: Add rdepend on printbackend for cups
+> * gtk+3: rename tracker dependencies
+>
 
-The list of build dependencies were determined by
+Don't know about the middle one, that sounds like a bugfix that fixes
+something that's broken now... but I could be wrong
+I agree about the other two, I think also that they could be dropped.
 
-  $ bitbake -e rpm-sequoia-native 2>&1 | grep ^DEPENDS=
-  DEPENDS="pkgconfig-native cargo-native openssl-native python3-native rust-native rust-native"
-
-Omitting these (except openssl-native) can save significant
-amount of disk space and it also speeds up packaging into
-signed rpms a little.
-
-Omitting rust-native (and implicitly, llvm-native) also avoids
-conflicts with different LLVM/CLANG versions, like those found
-in meta-clang-revival.
-
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
----
- meta/conf/layer.conf | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 54fa04e213..ba25ca3029 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -116,6 +116,13 @@ SSTATE_EXCLUDEDEPS_SYSROOT += "\
-     .*->perlcross-native \
-     libarchive-native->e2fsprogs-native \
- "
-+# rpm-sequoia-native does not need most of its build dependencies to run,
-+# so omit them. The necessary ones are openssl-native, and implicitly,
-+# libgcc-native and the C runtime. Omitting these build dependencies can save
-+# significant disk space and speeds up packaging into signed rpms a little.
-+SSTATE_EXCLUDEDEPS_SYSROOT += "\
-+    rpm-sequoia-native->(pkgconfig-native|cargo-native|python3-native|rust-native) \
-+"
- # Nothing needs to depend on libc-initial
- # base-passwd/shadow-sysroot don't need their dependencies
- SSTATE_EXCLUDEDEPS_SYSROOT += "\
--- 
-2.51.0
+>> On 11/3/25 09:22, Jörg Sommer via lists.openembedded.org wrote:
+>>> From: Markus Volk <f_l_k@t-online.de>
+>>>
+>>> This is required for gnome 47 update in meta-openembedded
+>>>
+>>> (From OE-Core rev: 51864b3494bd8fe456fffb2e0ccf70fee13cc013)
+>>>
+>>> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>> Cherry-pick-of: 07d2dc4c98f2fe1e2c8c0aae5ce863e7bc190b5f
+>>> Signed-off-by: Jörg Sommer <joerg.sommer@navimatix.de>
+>>> ---
+>>>  meta/recipes-gnome/gtk+/gtk+3.inc | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+>>> index e1603b43fc..03913768b1 100644
+>>> --- a/meta/recipes-gnome/gtk+/gtk+3.inc
+>>> +++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+>>> @@ -47,7 +47,7 @@ PACKAGECONFIG[wayland] = "-Dwayland_backend=true,-Dwayland_backend=false,wayland
+>>>  PACKAGECONFIG[cups] = ",,cups,cups gtk3-printbackend-cups"
+>>>  PACKAGECONFIG[colord] = "-Dcolord=yes,-Dcolord=no,colord"
+>>>  PACKAGECONFIG[cloudproviders] = "-Dcloudproviders=true,-Dcloudproviders=false,libcloudproviders"
+>>> -PACKAGECONFIG[tracker3] = "-Dtracker3=true,-Dtracker3=false,tracker,tracker-miners"
+>>> +PACKAGECONFIG[tracker3] = "-Dtracker3=true,-Dtracker3=false,tinysparql,localsearch"
+>>>  
+>>>  prepare_gtk_scripts() {
+>>>      mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-cache-3.0
 
 
