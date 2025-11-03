@@ -1,476 +1,185 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 011F2CCFA05
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 11:46:21 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18772.1762170373406224855
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3212CCF9F8
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 11:54:30 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.40])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18702.1762170865445938304
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 03:46:13 -0800
+ Mon, 03 Nov 2025 03:54:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5E482A2A
-	for <openembedded-core@lists.openembedded.org>; Mon,  3 Nov 2025 03:46:04 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3642B3F66E
-	for <openembedded-core@lists.openembedded.org>; Mon,  3 Nov 2025 03:46:12 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] xwayland: fix CVE-2025-62229 CVE-2025-62230 CVE-2025-62231
-Date: Mon,  3 Nov 2025 11:45:10 +0000
-Message-ID: <20251103114511.1271396-3-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251103114511.1271396-1-ross.burton@arm.com>
-References: <20251103114511.1271396-1-ross.burton@arm.com>
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=UPzLw/Tr;
+ spf=pass (domain: cherry.de, ip: 40.107.159.40, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QOz1YtHPZbI1qm/NLUbCWmPVxHJmvOQa32XW0shCLaOnj03JyHT0hJygw8peVzjM2Z9CCscEpqUqTeozPE7yVhm9jaXTlkOwwh0hLgz2KtmXWyzHVY3WKLp7sP9WIZ4HY6KEWUCrPBlkDSNGYOAR0mIRsIzCI3VqUiExggpo/00T1DvoK+XPIbuGzrk3L/lNbrjep7eEqtSJKcMZ4pd7MXNG9bIzHLBVRXP5kJVn5PGpG3YNklqf/JCHbAMJ+GAflc+ZBGUWjff6y+XaWlior/5gtHml9BKHZC9frHNyWk6REJNbJ1262LWXgyDSIm4+wgZp9/WbuMSiczCMH56flw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+3PxtqnCoEARFFcAEAtX3+IaxBrABMmloGHJn5ls1Pw=;
+ b=QQqKxp3rk+1hqLKScB8KTl3AB1/MwG/bNSxyvd5VA7fPbmeAQQQtpAv7C0ndA+yERptBEMWRUTFpQwL2BicNxphMPzutc4hFm4EOQCDsCmahL/QYuGNukpngvkIyVCEza3YllNbzNSiuX0c/X6nGgom7fsjKgHoEaWS/qFWY4eqzcEcG3xuBBHgIrTCtb01ic9N+TneCNKA9oq15wvV4ROuqMjbd7w7gDh+Euf4vZSNIbDqZ8vb4d25EQ6qx1mdiHspzhPkMcT/uyb/eteo+NQcB+bGOifJZMuTX2eQcDn5b+c0+xgRLLXjGMHYRZvMjCPb8Me9gH5WhF3FJyTmYQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+3PxtqnCoEARFFcAEAtX3+IaxBrABMmloGHJn5ls1Pw=;
+ b=UPzLw/TrWfWfCSrm++9/tLV7eE6paCDncvVw1fsvCe4fABAS28MWQEsmQosHdmrWXhdTdoyavhvPYvgCwWuShOdmGbzxjVLRWX8sVKFCblp7YIE9oRNgh9+8Q7ryOEk+X2arexgncOzEkamWFz3jP4BJcp39cAhiz923b1AKlJo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
+ by GVXPR04MB10202.eurprd04.prod.outlook.com (2603:10a6:150:1c2::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
+ 2025 11:54:19 +0000
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1%6]) with mapi id 15.20.9275.013; Mon, 3 Nov 2025
+ 11:54:19 +0000
+Message-ID: <3b94e0a5-6dd1-4a0e-8610-a0f60e797528@cherry.de>
+Date: Mon, 3 Nov 2025 12:54:18 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [meta][master][PATCH] socat: Update LICENSE field
+To: skandigraun@gmail.com, nmjain23@gmail.com,
+ openembedded-core@lists.openembedded.org
+Cc: Virendra Thakur <virendra.thakur@kpit.com>
+References: <20251030044211.607841-1-namanj1@kpit.com>
+ <ce4ea336-52f5-4da4-8180-f535039dc4b1@gmail.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <ce4ea336-52f5-4da4-8180-f535039dc4b1@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0088.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::8) To AS8PR04MB8897.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42c::20)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|GVXPR04MB10202:EE_
+X-MS-Office365-Filtering-Correlation-Id: b444db5e-5595-49f4-44c2-08de1acfb8dd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?RnBiRjNTQmdxNUhWVUJra2g4dDduWnQ5RUtjNDNGMTNhNGxMNGM1bFJ1YTJt?=
+ =?utf-8?B?ZWRjb3BNNUtnRlVOK2x6cGVHTC9YNmxWZzB6VVNYTUxzV0xqZzlNeTFoRTZ3?=
+ =?utf-8?B?LzlMNHovaUNzQmF2Unc1NEhudEJEdWhOMjlGazFOUE5Dc21jNVlIYURzM3No?=
+ =?utf-8?B?Y294UXh6K2NlSkJYaVoxZk96aVJXUHVrbDNrUVZLZUd4YUhKUG5qWmFtbFho?=
+ =?utf-8?B?VitQS2RmQnRWZ2FoSnh1Vks4MjdZSExEakFMT3FXcWU3YjZJazV0S0loME92?=
+ =?utf-8?B?Y2p4d3J2Q3VwYWgzcnFiaSs4RW8vOXRiSGJwQWdTR3g3ZHFna2xEdHB6SWpm?=
+ =?utf-8?B?SnlESFhSL2pUcXNaY3Y4MnlBWkVGNzFjOEE2b1dvdlQxZFBtS1B3SDV5clpU?=
+ =?utf-8?B?SlAxTUZuMlFnZ3RESjVHY3RGdDcvT2dIUkJHdE1HZzdnT1VMK2g5czkrblZw?=
+ =?utf-8?B?VnU1OUNka0laNWFueGtteFZJWWFzVnBNQXBBbjY0NVRDUWkrcUlpOFZVaEk1?=
+ =?utf-8?B?bEZMQ1JSWFViVTk1RHJzNGpzQ2pVbm1KNExJRGpLRXVBSFFUbXVURld4UVhH?=
+ =?utf-8?B?Y3Y2eVFWNUZpVFBWUHkyTFdaQy91SEM1SGNUSzQ2aWZpamc4YzlJYXQrODhD?=
+ =?utf-8?B?aFhXaFNpYUsrcXR4aGQ1SXZQcmJQR0pvNlE2NndIVWJUbjZUUTFFamRvSzlU?=
+ =?utf-8?B?dGNwYlUxTkNVdVg1K0l4aUp4MEJlamtFWjRvNGxGR01JT0plbmVmYnhCZSsw?=
+ =?utf-8?B?SnlueGQ0Y1ltVUtKZ3p4MG83V1J2MU0xWFZJNjI0dU4vK1ZYeTRBRCtMSFJI?=
+ =?utf-8?B?S3MyZGFPU29CRnFwOGhGc3ZwSkVLbFp5QTIwVFl2L0pmeEgvMitCZHY3K2to?=
+ =?utf-8?B?dE5lbXpWYU1SSTFOd2p4NkZqU1BKWFhnZmRmL1UwcEQ0b1E2TGtZRFFoV3ZI?=
+ =?utf-8?B?TmhHREM5a0IrRFU4ZXNDZGw3QktqYzg1S0NlMkxvOEtENDd5R056UENDYWo3?=
+ =?utf-8?B?QWdtV3NkZWpqQlQ1RzVEZHIrcUFLQzFHMWtSb2pKMGxrUEJhY0h0aTBLN0pB?=
+ =?utf-8?B?QjJjMGZqWUJ0SU0zYVB5WmNmRDZ0QlRDNGR3bmw4RHVDTmdIbld5eTZrbytK?=
+ =?utf-8?B?aXhWLzhFaDgya0tKNThTT3JpdW4ybGRiQU1oNCtwdmdERUV5TGhpeTRITndN?=
+ =?utf-8?B?QitlUXpyd3JiM0ZUUXdOZlhmTnJZTnBVTXZ5Q0ZWOTBuZVEzZ2RoM01DMGRN?=
+ =?utf-8?B?c1BhcHFPdHFJN0F6T0JPaU9BeS9IdVJubEZiWmFGZEF4NTRRdCt2QzFua1pH?=
+ =?utf-8?B?R1ZTOWVZYVEzOFFVUnhWUHNma0RtYmtZaVgxY3FhZVBvbm92QjNzbjlqZlNK?=
+ =?utf-8?B?cE9vNG5jc1ZsTHlsWHJvSkRxV2U1WnFRWExoNkg5OUJpRFpHN2kySFZ5Vno1?=
+ =?utf-8?B?Ny9FOG1mZjV1SVdxSUNXNFJCdS9oQ1ZQM3FDTnFkc0oyL29pb01qMGdOZXpv?=
+ =?utf-8?B?T25VMWRZOEFXV3l1RnZBVFViR29GQndNUythd1p0QkV0L2FmSjE2ZVJEbzVG?=
+ =?utf-8?B?NXZSbGZTcWk2R2xJNisvUlcyU2p0OE1mb1BsSnlUTG1aS1ZEVVRkLzlKbjhD?=
+ =?utf-8?B?cGpiU2c2K2JrdmFsdlRyNnhxMStUbkREUEFhUFdZdHF3d1c4TUlZTlNzMjVS?=
+ =?utf-8?B?VkhRUVlYallsTWVkUlNtd3A2eDBFS1g2WWdXVWRTTEttdmgwVkErUndtaFpM?=
+ =?utf-8?B?MW9XWUc3czFHSFlrSjlrd0p4dTQyYnJBTEJvRFlDVFZiaGxlK0gyOERNRzNt?=
+ =?utf-8?B?N25NS2VJck1JN0pheXZyc2FzTHZWYjhQZFJnT0w1d2h5SjFOc0owRjVVQmd5?=
+ =?utf-8?B?TU5hcUJKM2poTDluQ1lFVzJkejJSWXpjbGxzTnFiOEx2UGUyUVdmdjVGS2o0?=
+ =?utf-8?Q?PEIh9fWSbTHCicEwojZu5WqmJcjQ9vPk?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?bUFRcW9md2xLaDEwZUlJR28wV1QyL0JiQ3Iram9pQ3ZVcExOSm5aNm9OYy9u?=
+ =?utf-8?B?SUQ3ck9tTkYvWmhQYmVmQldUbXQrTEh4QWZ5ZzVFOUgzN2k1UVlReTQ5MEFQ?=
+ =?utf-8?B?QkhmV2dCVGJoWU8vaW16TEJ2Nzg5WXR6VWVoUkUwWDNaZkR4bjJIb1FhU29s?=
+ =?utf-8?B?VGlNd1k1T21TRVByTXgycWptamx4N3puUWxPS1NuMGljMzZKWkxTOVRWMUdY?=
+ =?utf-8?B?NUNUOWdscXlQcGljMnFQZnAzMFF0d1RXcFFCSEZ4SzZRSGNiQmhNUGNXb3Jq?=
+ =?utf-8?B?Qlh4V0UrbURoRnZkT3ovaXhEZDdRdXdPbkE0QXFWT095bHRLK1BiNzkwWmVw?=
+ =?utf-8?B?MWJhOTNKSEFFemRqRDlBeWl0Y3kxWVZ3T282UkdYTWlGOWJmc2dRV3ljMmJN?=
+ =?utf-8?B?eitCeFhZYUY1QjkvK21GM2VmZWR0eXQrVWVGSkEyUFdDZnZzSDhJVXlNRU80?=
+ =?utf-8?B?V1FTNWR0YitLRzIxVVhEbmhaSWhiUUQxYk1VZ1FYc1BLSTRhMHpFVlZ3aEsw?=
+ =?utf-8?B?UHJrREN0NjBYT3o3eXpnZEd1eW02c1l3Z0dtZU50NkRQTzRZeXRSMEpIWlhN?=
+ =?utf-8?B?ZjlIeXhxYndlQ2FsTWszVzBQbmZtcUVaTk90ck1RYlRZaXdtNUNaVWpLZ2ty?=
+ =?utf-8?B?NlZxejBXQngyV2ZmMVNYV0lvcVc4YUNRSlpPOTdPNTRNaEZzZ2wxUHQ0N0dW?=
+ =?utf-8?B?MkRhNS96K2d3emw1RVhFVG9HdnJDWStGUFRvYjlOUVU3cHJUQzV1VHkvdEc3?=
+ =?utf-8?B?dlh4VjRXdVdRQVpZN05XQ01GYUpsY2hkMno1L2NIdTV3N0RKeDI0WC9WN3pP?=
+ =?utf-8?B?cHNsNXlWemVocmtqeUoyWkt0ZkFYY1RJS2dMQlowODNlamRXRUZZTUN4cjFR?=
+ =?utf-8?B?aE5GeHdPS1UwNjdRZituWHU4WnJSMzREYVJiN2g5UFF6TUFNL0JmSnFBVm5p?=
+ =?utf-8?B?MGFWc3JGL3FFNU1OL1ZGWTBJaGQ1WDdTNmJqckIycDFNWDEyd0c3T1dJWXdq?=
+ =?utf-8?B?NS83S1VRM3hqdzM5K3hRNmQ3WHhnZ3hXTElnTkJUVVgzQUZ3RFBwQ0VIZ011?=
+ =?utf-8?B?dTMvd3NEWWVZNzRnc3d2TTdMY05LV3hncGh5YVlhV2pyNDB1WEs1V1d2clVM?=
+ =?utf-8?B?b2JiaVd6MFlENitESzJQZXNiSW01bEdUcVNjV3lSYkZPeVVFcEFZUURMdS9E?=
+ =?utf-8?B?UGxNVVB4RVpSSGdhOWxJaEF6QmM4TnVMVWo1dmtDVHAyM2paVnlFUlJsV3FX?=
+ =?utf-8?B?S0NDRnRsckJjTVZEUmtNTUk1WkYrayt6bFBWZFgvSERyb0xRU3pjWDRKVCtF?=
+ =?utf-8?B?STg3ekNtWll2Yi9FcXBxRGdmOGdQZWJyZGovOEh2V1gvSVZoTmZOekgzYnd4?=
+ =?utf-8?B?cEJEME1uTm12SmxpWXFDT044SEd4OE1hQXRhN2xXWFZnY0JJT1E2d3BnbGxP?=
+ =?utf-8?B?M0NNOGdRMGFQd1Q5QWZKOEQ4MGkrMXNhL3pvNTRIZjYrdkZFdWh5NnBUdW96?=
+ =?utf-8?B?NFA3L3pmZmQwdTI4MklMdFMxVk1vNHRmWWxvZUwxL1RkL3VzQXEwQlQ3WUY1?=
+ =?utf-8?B?K25jSzlrZTVLYmRxTS83TzY4WjdHUnlOS0FvNldGZURiYWoyc2x0ZkRONEJp?=
+ =?utf-8?B?aFJ2UTJzekRRcEV3OUNsY3grcE1HRGZqQmFWeEdQaVp3ZitQVkRSeUlPV1pO?=
+ =?utf-8?B?Y1lwc0l3UktBaHF4MmF0VUROVVNXWXVXaUFBMEsvL0xCclJabkJJak1IQ1lP?=
+ =?utf-8?B?MEk3a1ZIV01Ld3NoOW95UEM4YXU2bk1ubHNTREFJSHZBM2FKdGhiSzB3WDhQ?=
+ =?utf-8?B?UGE4aHBZN3k5cEZuVFRVWW5sbWNyd3AydVJUdXFLZGM5K1h5YkRyZUd6U1l0?=
+ =?utf-8?B?OG10c0UvWkt4ZitZYjVMa2RJOXpOYXM5eGUwN2VsWkRmT2hIV1BaQkNPTTlL?=
+ =?utf-8?B?VDE5WHpkTU1wcVZ2Yi9hb3NocTlvL2FtS1QvZERGelF5TklFS1A5eFlpSUJQ?=
+ =?utf-8?B?R3Qyejh0NlRmTzlFemtUVmtpWmMvSEV3ODByeTIrZDVZTGpqQmxhb0x6QXMr?=
+ =?utf-8?B?TXBaMGcwYlpXUzYzVjJKajBYMkkwRmdseTM1dW8vbG5FTXlFT0d1Sk5CSVY3?=
+ =?utf-8?B?N0dlVmdDcjZtcnpWZE50WnRVQ3lzRDVzS0YxUWFDZ3BXbEIrWnA1ZkhZWmdT?=
+ =?utf-8?B?c3c9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: b444db5e-5595-49f4-44c2-08de1acfb8dd
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 11:54:19.7427
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xvVnkkAvGlaOxljLu5qLTmU35U8tPVsnkm/SYlYCl4KDpljwQespr6QOeZ0vPD4Ldm7w4P2XqLRMQ2cFzNFCgalG8vvjQ/XTuPrVJZVZTDE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10202
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 11:46:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225650
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 11:54:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225651
 
-From https://lists.x.org/archives/xorg-announce/2025-October/003635.html:
+Hi Naman Jain,
 
-1) CVE-2025-62229: Use-after-free in XPresentNotify structures creation
+On 10/30/25 4:40 PM, Gyorgy Sarvari via lists.openembedded.org wrote:
+> On 10/30/25 05:42, Naman Jain via lists.openembedded.org wrote:
+>> The below reference clearly states that GPL-2.0-with-OpenSSL-exception
+>> is to be used with GPL 2.0 or GPL3.0 and not as a standalone license.
+>> Therefore, update the correct license. Also add LGPL-2.1-or-later as
+>> socat uses it.
+> 
+> Is socat under LGPL? The only LGPL part I could find is some .c code
+> which is shipped embedded in an android specific shell script - but
+> maybe I'm searching wrong.
+> 
 
-    Using the X11 Present extension, when processing and adding the
-    notifications after presenting a pixmap, if an error occurs, a dangli=
-ng
-    pointer may be left in the error code path of the function causing a
-    use-after-free when eventually destroying the notification structures
-    later.
+I don't think the GPL-2.0-or-later is correct either.
 
-    Introduced in: Xorg 1.15
-    Fixed in: xorg-server-21.1.19 and xwayland-24.1.9
-    Fix: https://gitlab.freedesktop.org/xorg/xserver/-/commit/5a4286b1
-    Found by: Jan-Niklas Sohn working with Trend Micro Zero Day Initiativ=
-e.
+The files have a top comment
 
-2) CVE-2025-62230: Use-after-free in Xkb client resource removal
+/* Published under the GNU General Public License V.2, see file COPYING */
 
-    When removing the Xkb resources for a client, the function
-    XkbRemoveResourceClient() will free the XkbInterest data associated
-    with the device, but not the resource associated with it.
+According to the COPYING file, the "or later" part only applies if the 
+files actually do mention "any later version", which isn't the case here 
+so should be GPL-2.0-only with the OpenSSL exception, but IANAL.
 
-    As a result, when the client terminates, the resource delete function
-    triggers a use-after-free.
+There's been a release this year, so the project is still somewhat 
+active, maybe asking for confirmation would be best here.
 
-    Introduced in: X11R6
-    Fixed in: xorg-server-21.1.19 and xwayland-24.1.9
-    Fix: https://gitlab.freedesktop.org/xorg/xserver/-/commit/99790a2c
-         https://gitlab.freedesktop.org/xorg/xserver/-/commit/10c94238
-    Found by: Jan-Niklas Sohn working with Trend Micro Zero Day Initiativ=
-e.
-
-3) CVE-2025-62231: Value overflow in Xkb extension XkbSetCompatMap()
-
-    The XkbCompatMap structure stores some of its values using an unsigne=
-d
-    short, but fails to check whether the sum of the input data might
-    overflow the maximum unsigned short value.
-
-    Introduced in: X11R6
-    Fixed in: xorg-server-21.1.19 and xwayland-24.1.9
-    Fix: https://gitlab.freedesktop.org/xorg/xserver/-/commit/475d9f49
-    Found by: Jan-Niklas Sohn working with Trend Micro Zero Day Initiativ=
-e.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...after-free-in-present_create_notifie.patch | 91 ++++++++++++++++++
- ...ke-the-RT_XKBCLIENT-resource-private.patch | 63 +++++++++++++
- ...KB-resource-when-freeing-XkbInterest.patch | 92 +++++++++++++++++++
- ...-Prevent-overflow-in-XkbSetCompatMap.patch | 53 +++++++++++
- .../xwayland/xwayland_24.1.8.bb               |  7 +-
- 5 files changed, 305 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/0001-present-=
-Fix-use-after-free-in-present_create_notifie.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make=
--the-RT_XKBCLIENT-resource-private.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free=
--the-XKB-resource-when-freeing-XkbInterest.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prev=
-ent-overflow-in-XkbSetCompatMap.patch
-
-diff --git a/meta/recipes-graphics/xwayland/xwayland/0001-present-Fix-use=
--after-free-in-present_create_notifie.patch b/meta/recipes-graphics/xwayl=
-and/xwayland/0001-present-Fix-use-after-free-in-present_create_notifie.pa=
-tch
-new file mode 100644
-index 00000000000..c2f6ad1e021
---- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/0001-present-Fix-use-after-=
-free-in-present_create_notifie.patch
-@@ -0,0 +1,91 @@
-+From a2d7bd5fefecfc4315247902b7f03e8bf9866908 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 2 Jul 2025 09:46:22 +0200
-+Subject: [PATCH 1/4] present: Fix use-after-free in present_create_notif=
-ies()
-+
-+Using the Present extension, if an error occurs while processing and
-+adding the notifications after presenting a pixmap, the function
-+present_create_notifies() will clean up and remove the notifications
-+it added.
-+
-+However, there are two different code paths that can lead to an error
-+creating the notify, one being before the notify is being added to the
-+list, and another one after the notify is added.
-+
-+When the error occurs before it's been added, it removes the elements up
-+to the last added element, instead of the actual number of elements
-+which were added.
-+
-+As a result, in case of error, as with an invalid window for example, it
-+leaves a dangling pointer to the last element, leading to a use after
-+free case later:
-+
-+ |  Invalid write of size 8
-+ |     at 0x5361D5: present_clear_window_notifies (present_notify.c:42)
-+ |     by 0x534A56: present_destroy_window (present_screen.c:107)
-+ |     by 0x41E441: xwl_destroy_window (xwayland-window.c:1959)
-+ |     by 0x4F9EC9: compDestroyWindow (compwindow.c:622)
-+ |     by 0x51EAC4: damageDestroyWindow (damage.c:1592)
-+ |     by 0x4FDC29: DbeDestroyWindow (dbe.c:1291)
-+ |     by 0x4EAC55: FreeWindowResources (window.c:1023)
-+ |     by 0x4EAF59: DeleteWindow (window.c:1091)
-+ |     by 0x4DE59A: doFreeResource (resource.c:890)
-+ |     by 0x4DEFB2: FreeClientResources (resource.c:1156)
-+ |     by 0x4A9AFB: CloseDownClient (dispatch.c:3567)
-+ |     by 0x5DCC78: ClientReady (connection.c:603)
-+ |   Address 0x16126200 is 16 bytes inside a block of size 2,048 free'd
-+ |     at 0x4841E43: free (vg_replace_malloc.c:989)
-+ |     by 0x5363DD: present_destroy_notifies (present_notify.c:111)
-+ |     by 0x53638D: present_create_notifies (present_notify.c:100)
-+ |     by 0x5368E9: proc_present_pixmap_common (present_request.c:164)
-+ |     by 0x536A7D: proc_present_pixmap (present_request.c:189)
-+ |     by 0x536FA9: proc_present_dispatch (present_request.c:337)
-+ |     by 0x4A1E4E: Dispatch (dispatch.c:561)
-+ |     by 0x4B00F1: dix_main (main.c:284)
-+ |     by 0x42879D: main (stubmain.c:34)
-+ |   Block was alloc'd at
-+ |     at 0x48463F3: calloc (vg_replace_malloc.c:1675)
-+ |     by 0x5362A1: present_create_notifies (present_notify.c:81)
-+ |     by 0x5368E9: proc_present_pixmap_common (present_request.c:164)
-+ |     by 0x536A7D: proc_present_pixmap (present_request.c:189)
-+ |     by 0x536FA9: proc_present_dispatch (present_request.c:337)
-+ |     by 0x4A1E4E: Dispatch (dispatch.c:561)
-+ |     by 0x4B00F1: dix_main (main.c:284)
-+ |     by 0x42879D: main (stubmain.c:34)
-+
-+To fix the issue, count and remove the actual number of notify elements
-+added in case of error.
-+
-+CVE-2025-62229, ZDI-CAN-27238
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+(cherry picked from commit 5a4286b13f631b66c20f5bc8db7b68211dcbd1d0)
-+
-+Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2=
-088>
-+
-+CVE: CVE-2025-62229
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ present/present_notify.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/present/present_notify.c b/present/present_notify.c
-+index 445954998..00b3b68bd 100644
-+--- a/present/present_notify.c
-++++ b/present/present_notify.c
-+@@ -90,7 +90,7 @@ present_create_notifies(ClientPtr client, int num_noti=
-fies, xPresentNotify *x_no
-+         if (status !=3D Success)
-+             goto bail;
-+=20
-+-        added =3D i;
-++        added++;
-+     }
-+     return Success;
-+=20
-+--=20
-+2.43.0
-+
-diff --git a/meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make-the-RT=
-_XKBCLIENT-resource-private.patch b/meta/recipes-graphics/xwayland/xwayla=
-nd/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
-new file mode 100644
-index 00000000000..61369d789ca
---- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make-the-RT_XKBCLI=
-ENT-resource-private.patch
-@@ -0,0 +1,63 @@
-+From 539bca9e0d05ce995a936c4bdf90bc716510d2a7 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 10 Sep 2025 15:55:06 +0200
-+Subject: [PATCH 2/4] xkb: Make the RT_XKBCLIENT resource private
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Currently, the resource in only available to the xkb.c source file.
-+
-+In preparation for the next commit, to be able to free the resources
-+from XkbRemoveResourceClient(), make that variable private instead.
-+
-+This is related to:
-+
-+CVE-2025-62230, ZDI-CAN-27545
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Reviewed-by: Michel D=C3=A4nzer <mdaenzer@redhat.com>
-+(cherry picked from commit 99790a2c9205a52fbbec01f21a92c9b7f4ed1d8f)
-+
-+Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2=
-088>
-+
-+CVE: CVE-2025-62230
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ include/xkbsrv.h | 2 ++
-+ xkb/xkb.c        | 2 +-
-+ 2 files changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/include/xkbsrv.h b/include/xkbsrv.h
-+index bd747856b..d801cd4b8 100644
-+--- a/include/xkbsrv.h
-++++ b/include/xkbsrv.h
-+@@ -58,6 +58,8 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
-+ #include "inputstr.h"
-+ #include "events.h"
-+=20
-++extern RESTYPE RT_XKBCLIENT;
-++
-+ typedef struct _XkbInterest {
-+     DeviceIntPtr dev;
-+     ClientPtr client;
-+diff --git a/xkb/xkb.c b/xkb/xkb.c
-+index ac154e200..6c102af0a 100644
-+--- a/xkb/xkb.c
-++++ b/xkb/xkb.c
-+@@ -50,7 +50,7 @@ int XkbKeyboardErrorCode;
-+ CARD32 xkbDebugFlags =3D 0;
-+ static CARD32 xkbDebugCtrls =3D 0;
-+=20
-+-static RESTYPE RT_XKBCLIENT;
-++RESTYPE RT_XKBCLIENT =3D 0;
-+=20
-+ /***=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D***/
-+=20
-+--=20
-+2.43.0
-+
-diff --git a/meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free-the-XK=
-B-resource-when-freeing-XkbInterest.patch b/meta/recipes-graphics/xwaylan=
-d/xwayland/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
-new file mode 100644
-index 00000000000..76e50cfad92
---- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free-the-XKB-resou=
-rce-when-freeing-XkbInterest.patch
-@@ -0,0 +1,92 @@
-+From a7e9938b621e16677c6330306a45baba0495ea31 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 10 Sep 2025 15:58:57 +0200
-+Subject: [PATCH 3/4] xkb: Free the XKB resource when freeing XkbInterest
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+XkbRemoveResourceClient() would free the XkbInterest data associated
-+with the device, but not the resource associated with it.
-+
-+As a result, when the client terminates, the resource delete function
-+gets called and accesses already freed memory:
-+
-+ | Invalid read of size 8
-+ |   at 0x5BC0C0: XkbRemoveResourceClient (xkbEvents.c:1047)
-+ |   by 0x5B3391: XkbClientGone (xkb.c:7094)
-+ |   by 0x4DF138: doFreeResource (resource.c:890)
-+ |   by 0x4DFB50: FreeClientResources (resource.c:1156)
-+ |   by 0x4A9A59: CloseDownClient (dispatch.c:3550)
-+ |   by 0x5E0A53: ClientReady (connection.c:601)
-+ |   by 0x5E4FEF: ospoll_wait (ospoll.c:657)
-+ |   by 0x5DC834: WaitForSomething (WaitFor.c:206)
-+ |   by 0x4A1BA5: Dispatch (dispatch.c:491)
-+ |   by 0x4B0070: dix_main (main.c:277)
-+ |   by 0x4285E7: main (stubmain.c:34)
-+ | Address 0x1893e278 is 184 bytes inside a block of size 928 free'd
-+ |   at 0x4842E43: free (vg_replace_malloc.c:989)
-+ |   by 0x49C1A6: CloseDevice (devices.c:1067)
-+ |   by 0x49C522: CloseOneDevice (devices.c:1193)
-+ |   by 0x49C6E4: RemoveDevice (devices.c:1244)
-+ |   by 0x5873D4: remove_master (xichangehierarchy.c:348)
-+ |   by 0x587921: ProcXIChangeHierarchy (xichangehierarchy.c:504)
-+ |   by 0x579BF1: ProcIDispatch (extinit.c:390)
-+ |   by 0x4A1D85: Dispatch (dispatch.c:551)
-+ |   by 0x4B0070: dix_main (main.c:277)
-+ |   by 0x4285E7: main (stubmain.c:34)
-+ | Block was alloc'd at
-+ |   at 0x48473F3: calloc (vg_replace_malloc.c:1675)
-+ |   by 0x49A118: AddInputDevice (devices.c:262)
-+ |   by 0x4A0E58: AllocDevicePair (devices.c:2846)
-+ |   by 0x5866EE: add_master (xichangehierarchy.c:153)
-+ |   by 0x5878C2: ProcXIChangeHierarchy (xichangehierarchy.c:493)
-+ |   by 0x579BF1: ProcIDispatch (extinit.c:390)
-+ |   by 0x4A1D85: Dispatch (dispatch.c:551)
-+ |   by 0x4B0070: dix_main (main.c:277)
-+ |   by 0x4285E7: main (stubmain.c:34)
-+
-+To avoid that issue, make sure to free the resources when freeing the
-+device XkbInterest data.
-+
-+CVE-2025-62230, ZDI-CAN-27545
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Reviewed-by: Michel D=C3=A4nzer <mdaenzer@redhat.com>
-+(cherry picked from commit 10c94238bdad17c11707e0bdaaa3a9cd54c504be)
-+
-+Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2=
-088>
-+
-+CVE: CVE-2025-62230
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ xkb/xkbEvents.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/xkb/xkbEvents.c b/xkb/xkbEvents.c
-+index f8f65d4a7..7c669c93e 100644
-+--- a/xkb/xkbEvents.c
-++++ b/xkb/xkbEvents.c
-+@@ -1055,6 +1055,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
-+             autoCtrls =3D interest->autoCtrls;
-+             autoValues =3D interest->autoCtrlValues;
-+             client =3D interest->client;
-++            FreeResource(interest->resource, RT_XKBCLIENT);
-+             free(interest);
-+             found =3D TRUE;
-+         }
-+@@ -1066,6 +1067,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
-+                 autoCtrls =3D victim->autoCtrls;
-+                 autoValues =3D victim->autoCtrlValues;
-+                 client =3D victim->client;
-++                FreeResource(victim->resource, RT_XKBCLIENT);
-+                 free(victim);
-+                 found =3D TRUE;
-+             }
-+--=20
-+2.43.0
-+
-diff --git a/meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prevent-ove=
-rflow-in-XkbSetCompatMap.patch b/meta/recipes-graphics/xwayland/xwayland/=
-0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
-new file mode 100644
-index 00000000000..27c8f6c8099
---- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prevent-overflow-i=
-n-XkbSetCompatMap.patch
-@@ -0,0 +1,53 @@
-+From 70dfb0fb993655b0989d54e3bffc4e62c5629392 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 10 Sep 2025 16:30:29 +0200
-+Subject: [PATCH 4/4] xkb: Prevent overflow in XkbSetCompatMap()
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The XkbCompatMap structure stores its "num_si" and "size_si" fields
-+using an unsigned short.
-+
-+However, the function _XkbSetCompatMap() will store the sum of the
-+input data "firstSI" and "nSI" in both XkbCompatMap's "num_si" and
-+"size_si" without first checking if the sum overflows the maximum
-+unsigned short value, leading to a possible overflow.
-+
-+To avoid the issue, check whether the sum does not exceed the maximum
-+unsigned short value, or return a "BadValue" error otherwise.
-+
-+CVE-2025-62231, ZDI-CAN-27560
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Reviewed-by: Michel D=C3=A4nzer <mdaenzer@redhat.com>
-+(cherry picked from commit 475d9f49acd0e55bc0b089ed77f732ad18585470)
-+
-+Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2=
-088>
-+
-+CVE: CVE-2025-62231
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ xkb/xkb.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/xkb/xkb.c b/xkb/xkb.c
-+index 6c102af0a..a77fe7ff0 100644
-+--- a/xkb/xkb.c
-++++ b/xkb/xkb.c
-+@@ -2990,6 +2990,8 @@ _XkbSetCompatMap(ClientPtr client, DeviceIntPtr de=
-v,
-+         XkbSymInterpretPtr sym;
-+         unsigned int skipped =3D 0;
-+=20
-++        if ((unsigned) (req->firstSI + req->nSI) > USHRT_MAX)
-++            return BadValue;
-+         if ((unsigned) (req->firstSI + req->nSI) > compat->size_si) {
-+             compat->num_si =3D compat->size_si =3D req->firstSI + req->=
-nSI;
-+             compat->sym_interpret =3D reallocarray(compat->sym_interpre=
-t,
-+--=20
-+2.43.0
-+
-diff --git a/meta/recipes-graphics/xwayland/xwayland_24.1.8.bb b/meta/rec=
-ipes-graphics/xwayland/xwayland_24.1.8.bb
-index a621af1a7f0..af4bb734996 100644
---- a/meta/recipes-graphics/xwayland/xwayland_24.1.8.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_24.1.8.bb
-@@ -9,7 +9,12 @@ HOMEPAGE =3D "https://fedoraproject.org/wiki/Changes/Xwa=
-ylandStandalone"
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5df87950af51ac2c5822094553ea1=
-880"
-=20
--SRC_URI =3D "https://www.x.org/archive/individual/xserver/xwayland-${PV}=
-.tar.xz"
-+SRC_URI =3D "https://www.x.org/archive/individual/xserver/xwayland-${PV}=
-.tar.xz \
-+           file://0001-present-Fix-use-after-free-in-present_create_noti=
-fie.patch \
-+           file://0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch =
-\
-+           file://0003-xkb-Free-the-XKB-resource-when-freeing-XkbInteres=
-t.patch \
-+           file://0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch \
-+           "
- SRC_URI[sha256sum] =3D "c8908d57c8ed9ceb8293c16ba7ad5af522efaf1ba7e51f9e=
-4cf3c0774d199907"
-=20
- UPSTREAM_CHECK_REGEX =3D "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
---=20
-2.43.0
-
+Cheers,
+Quentin
 
