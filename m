@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0537CCFA08
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2F81CCFA04
 	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 20:59:37 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2244.1762203571013149585
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2246.1762203574352588448
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 12:59:31 -0800
+ Mon, 03 Nov 2025 12:59:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=e+FXWweh;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-29570bcf220so26598245ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 12:59:30 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1lFNQYUT;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-34029cd0cbdso4570006a91.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 12:59:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762203570; x=1762808370; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762203574; x=1762808374; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cbzJhZneSkI5CKHwBjD+/w6YVujFi5n4XANcVyV2s7s=;
-        b=e+FXWweh6hvbO7wNDfYXs8SuAo5p8IQstlwviaKiQ3av/s/JkpR65k3P0/JNkarYVS
-         0hdIe0ueNBcSTInWb9izFZkdJi01eabJWPpgDrfALVZw5/bgCGgRrKiiYXXRRJfB3LQk
-         nl7ejUY01ayY/Kcw7/xv0uBS3DlRUAiPEdGmZ2xrSx1U9OOQIoshwE7XIFTABDekRtda
-         FrJbskHx7Rm1oQ+HlhO4gk9alR7EqCbocSPUrNjrz5WybEUlDJCsrgLQZIF+zbyqpqey
-         XmaSjo4HdBprx4ItRJIc3IKOWLhLo59hPH1PUOKM3Qvdzvis72SyzHT72oJBGvXze08c
-         0QHA==
+        bh=GGvCKDoNBy3QOXCjC11M38+pZzutqdle4zV/UT4oXrw=;
+        b=1lFNQYUTbp53y1D4NOGfGCwj3ErqDKASXL0sWYHxu7jF/DRE5YI6p5WEIkAHEV3niW
+         EqNLvG0XFHhF1n/hs0AsRvgX/4VHJhfQBxFq+QWBNdksifhreSu4MW8BSRN44tMiSDcY
+         yp+ACrOR1Y+RGHGPPJHM5eu74LWuzd0P/FhXJwHeCn3RYGYIuUEnDGybnQoGuDhVJOrY
+         xS39zfwr/NMk5xt/2rKIDCBiOjsSi+yTsMvc5K3+plwtpM4GO/e2N4tREi0MhderGUeM
+         Lg21wQUzmCIr+fMfYC+nkm2HNc7aLkDghMDI2C8J6oLRiFSiEvw4b1NkGoofog4ipdin
+         uIDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762203570; x=1762808370;
+        d=1e100.net; s=20230601; t=1762203574; x=1762808374;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cbzJhZneSkI5CKHwBjD+/w6YVujFi5n4XANcVyV2s7s=;
-        b=sMjbmQpUPnvQKI7yfxALx3NHLk2H29Nx76LgPXfg/HXmLcpe4xb7AtrJbUUjk8mXCe
-         TlkfQCRg7LqaG5uT56ej9y62GtdTbDo4YIGjgmiajY6xQTGRdweFGkNp3c/6kWwusnc7
-         YFy919PgIs5airRbCk0f5x1ABvju4pv8rHlHib6+Zf88WfdAPSMndx+NNXAyK7ap0W/W
-         rec+OFdjWsuWd3PtsP0nepNhp/II0LzrqAx46R0ShMM6WiBHT1ygrnylIX+zdz3YtH75
-         adB2scU2OYuc6B40bMpLIJ+MgE8t5/kLupQR2YlRMiTWalvnEO8y83uYFp3jkGE7+cNo
-         RXzw==
-X-Gm-Message-State: AOJu0YzZhbTl+CAujcA9EPn+C/eSuRpiKPzr010Nh9zCgLGlzHADPuIw
-	jaAMW0ofAa9SAlvH13uX2qlLMRsLzaz7rStE6yDER8TT3udPZc5GLWV8+5gduvngGZgoubh87DO
-	uGI1BgVk=
-X-Gm-Gg: ASbGncviUiT3JRZq7QAFQV92bNi17qpwtpetW0cDr1EvAhrrVtMDYyYiMyxYZ4XOeWL
-	5znCEA80UQflmIi372A7sVNsXTNiDc4gDxUri+LP2wpdbuj2l5XZrsUWEV0ImmL16hi+xUe9DOM
-	DKadDgeUoloUrWfRNYsKOC1Ltmua42Z+mBKx6ZLYKdaRLgSXNqGFozLQkzinLq/qtK9P6tbQAKD
-	VzoUXliVCw4ME6QtuMhXEbpq+htNU1rTSiES3yTElAeyBU6jNF4nw+8pyU/v5CQxsqvXA/dRcyB
-	s7wKGHRAcIff+35eBV2aIdMmIagf4yguO8Ty2nBK+jnq0y1tdNOiqA4Epp/pBjUHoqGofm9wYYF
-	K6pYUYj0Wb2OMhjrsu2let6MIdrKWFRwzOK3PJrD3lubtqik9G9l45tp3jB0i/PPUY2c=
-X-Google-Smtp-Source: AGHT+IF67qwpBbRw5RzNcVBmYjiImDp5mbYUS3wANbrP+9KMXcjdwCnl8GNuymbEvme3xrdM10u95g==
-X-Received: by 2002:a17:903:384c:b0:24f:dbe7:73a2 with SMTP id d9443c01a7336-2951a45a272mr170714395ad.31.1762203570287;
-        Mon, 03 Nov 2025 12:59:30 -0800 (PST)
+        bh=GGvCKDoNBy3QOXCjC11M38+pZzutqdle4zV/UT4oXrw=;
+        b=E5EWWb/SUY9VqkEmT+GCCJ8D5zWz/U/+feYRbDzZuRx5NqNxfvzzV6eUE/bzVXbxlW
+         Ld954tyACqb6Cbz87lL2xnjBZd6FO4TS9pdl38gs87DKhgZsWRbQYd0pDW2COUz7xlAB
+         u5cThJUwus68EWKrOQ53xrnWN5zOtmUZTY1o00Wy5iIvDmvKHGmrpqzkByKbMJBsO9eR
+         I6HG0XXZJ7HMFp95IQFcBtXRlFxsuAIGZHXNL2drQC8uFyVkyftZFGptGVH9mZyIelr+
+         Ava4Q3J4IGz+cqeRSvF5Bb5339X38yBzGGO03YXKNIPRDY8YNWJ6MwDvd9op2Xp+TRnc
+         5/Eg==
+X-Gm-Message-State: AOJu0YyM+vQ8L6gB6uXHgmLt9NpDfuh6h4ZPe1AfbUk7O6kBn5Einlbf
+	puSuieD6cZVfS8/mqPQi/u1hYFAWC9onFY7nH32aaBcOwQUCpRLllGhKMAaUj4/SmqA+XNk5NGC
+	f/hQZVxQ=
+X-Gm-Gg: ASbGncumNquOIYmMVnemmk+D9FOAacoq+v4IF/kv4I2nvQzqPabYnxPCeSCT2biCWPG
+	War9958eb3EHsTepGBG5s9879bGCHfi0NWN7ekA8KP9Yvcxmbqjhq0gDJXqvcw79L+19rAyfHVT
+	IfxCHQqvAEJXwoZbJpmQubGrfVLDSqEdnSI1xok9wE4+WTI+bbO4f6Elkqk5D4kr7Fz2MWWyGRd
+	wq0XINcrabEr8aKPGBhxU2oArmYkYZNHDqM+DD4GKQngoBTYS5DJmZT0nTl7SPac/O9dTpZliMZ
+	ZX1zg4oj6eRUx1vxU1n134BTCSgOBxGfGsQXRSOqj/Q9YG/yFr1bfLcXA5VU4v7/FSm1PlsNzpj
+	K56fWexfYCT60VXT9Cv5PYJRAs/OqcBpKgK7YExR2xkycfsgWtRUtrKkKYlVLJSA8Okw=
+X-Google-Smtp-Source: AGHT+IHqGlLVzpD4OoUOECQFTTAsOvFBCChmFmDQCQNgWKGPsP8XDwrDlf5/X2vVK+LuZQqSd+FVLQ==
+X-Received: by 2002:a17:90b:258c:b0:341:6164:c27d with SMTP id 98e67ed59e1d1-3416164d3d3mr2178373a91.3.1762203573641;
+        Mon, 03 Nov 2025 12:59:33 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:6a2d:a521:f4d2:20a3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3415b02891asm2024911a91.9.2025.11.03.12.59.29
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3415b02891asm2024911a91.9.2025.11.03.12.59.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Nov 2025 12:59:29 -0800 (PST)
+        Mon, 03 Nov 2025 12:59:33 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 2/8] openssh: fix CVE-2025-61985
-Date: Mon,  3 Nov 2025 12:59:09 -0800
-Message-ID: <5170bd2f8a63bcc310667a327ea2ab96c783c4f6.1762203396.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 4/8] binutils: patch CVE-2025-11412
+Date: Mon,  3 Nov 2025 12:59:11 -0800
+Message-ID: <9130f3471f4814979cfdfa66ca118929f240cb30.1762203396.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1762203396.git.steve@sakoman.com>
 References: <cover.1762203396.git.steve@sakoman.com>
@@ -68,74 +68,77 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 20:59:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225698
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225700
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-ssh in OpenSSH before 10.1 allows the '\0' character in an ssh:// URI, potentially
-leading to code execution when a ProxyCommand is used.
+Pick commit per NVD CVE report.
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+(From OE-Core rev: 6b94ff6c584a31d2b1e06d1e1dc19392d759b4b7)
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssh/openssh/CVE-2025-61985.patch      | 35 +++++++++++++++++++
- .../openssh/openssh_8.9p1.bb                  |  1 +
+ .../binutils/binutils-2.38.inc                |  1 +
+ .../binutils/binutils/CVE-2025-11412.patch    | 35 +++++++++++++++++++
  2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-61985.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-11412.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2025-61985.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2025-61985.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index ade69881a1..39f2827f78 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -84,5 +84,6 @@ SRC_URI = "\
+      file://0045-CVE-2025-11083.patch \
+      file://0046-CVE-2025-11081.patch \
+      file://0047-CVE-2025-8225.patch \
++     file://CVE-2025-11412.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-11412.patch b/meta/recipes-devtools/binutils/binutils/CVE-2025-11412.patch
 new file mode 100644
-index 0000000000..7333d5aae8
+index 0000000000..19a630b863
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2025-61985.patch
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-11412.patch
 @@ -0,0 +1,35 @@
-+From 54928cb9eaa7143ff17f463efa7ed3109afdbf30 Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Thu, 4 Sep 2025 00:30:06 +0000
-+Subject: [PATCH] upstream: don't allow \0 characters in url-encoded strings.
-+ Suggested by David Leadbeater, ok deraadt@
++From 047435dd988a3975d40c6626a8f739a0b2e154bc Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Thu, 25 Sep 2025 08:22:24 +0930
++Subject: [PATCH] PR 33452 SEGV in bfd_elf_gc_record_vtentry
 +
-+OpenBSD-Commit-ID: c92196cef0f970ceabc1e8007a80b01e9b7cd49c
++Limit addends on vtentry relocs, otherwise ld might attempt to
++allocate a stupidly large array.  This also fixes the expression
++overflow leading to pr33452.  A vtable of 33M entries on a 64-bit
++host is surely large enough, especially considering that VTINHERIT
++and VTENTRY relocations are to support -fvtable-gc that disappeared
++from gcc over 20 years ago.
 +
-+CVE: CVE-2025-61985
++	PR ld/33452
++	* elflink.c (bfd_elf_gc_record_vtentry): Sanity check addend.
 +
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/43b3bff47bb029f2299bacb6a36057981b39fdb0]
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++CVE: CVE-2025-11412
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=047435dd988a3975d40c6626a8f739a0b2e154bc]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ misc.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ bfd/elflink.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/misc.c b/misc.c
-+index 6135b15..3d133b5 100644
-+--- a/misc.c
-++++ b/misc.c
-+@@ -934,9 +934,10 @@ urldecode(const char *src)
-+			*dst++ = ' ';
-+			break;
-+		case '%':
-++			/* note: don't allow \0 characters */
-+			if (!isxdigit((unsigned char)src[1]) ||
-+			    !isxdigit((unsigned char)src[2]) ||
-+-			    (ch = hexchar(src + 1)) == -1) {
-++			    (ch = hexchar(src + 1)) == -1 || ch == 0) {
-+				free(ret);
-+				return NULL;
-+			}
-+--
-+2.40.0
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-index 345051c8dc..780ece8999 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-@@ -39,6 +39,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://CVE-2024-6387.patch \
-            file://CVE-2025-26465.patch \
-            file://CVE-2025-32728.patch \
-+           file://CVE-2025-61985.patch \
-            "
- SRC_URI[sha256sum] = "fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdaccd262380ae58bec5e7"
- 
++diff --git a/bfd/elflink.c b/bfd/elflink.c
++index 54f0d6e957e..0a0456177c2 100644
++--- a/bfd/elflink.c
+++++ b/bfd/elflink.c
++@@ -14407,7 +14407,7 @@ bfd_elf_gc_record_vtentry (bfd *abfd, asection *sec,
++   const struct elf_backend_data *bed = get_elf_backend_data (abfd);
++   unsigned int log_file_align = bed->s->log_file_align;
++ 
++-  if (!h)
+++  if (!h || addend > 1u << 28)
++     {
++       /* xgettext:c-format */
++       _bfd_error_handler (_("%pB: section '%pA': corrupt VTENTRY entry"),
 -- 
 2.43.0
 
