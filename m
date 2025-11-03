@@ -1,143 +1,188 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42E49CCF9F8
-	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 19:26:17 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.132.1762197970132697301
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51799CCF9F8
+	for <webhook@archiver.kernel.org>; Mon,  3 Nov 2025 19:43:47 +0000 (UTC)
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.524.1762199026608369219
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 Nov 2025 11:26:11 -0800
+ Mon, 03 Nov 2025 11:43:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=hA4iL4G+;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 3EEAC1A1857
-	for <openembedded-core@lists.openembedded.org>; Mon,  3 Nov 2025 19:26:08 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 020A960628;
-	Mon,  3 Nov 2025 19:26:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 45C1010B5019F;
-	Mon,  3 Nov 2025 20:26:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1762197967; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=yZaaeyAhvVQIPYAPDZUodUuNIXS08ZrqgGDwi4IwuTU=;
-	b=hA4iL4G+NplX9Nzehne5LdyQoNtVPCu4RGZRAno4SyXk6nZvz0ZXeIqTmZhal4vcoz3SZI
-	NeKD222UMEDbVm+2PFBbpupEomVyjQORjUKzz4FNzlX7hVgBZcIpsT7NBM3OiFCOI5uSI2
-	exI1WgWJJ2h79hTPSc/T/LcJ0vZQsYdsyv2jWyTnkzcybDUqaGBVOkFz1IPOGEV+jm2bsn
-	ODazJCJH2ne2OISYMni/tnl4LWNPLHd2VZMC6wQLUYP0GUd2/qJDMwenTli4GEw11QdiTJ
-	DW+/8HuHiupXNWGS51WqolWRVr+WiQLqwdBPqG1jlXcCb4b8OTC6X11OFadU8A==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 03 Nov 2025 20:26:04 +0100
-Message-Id: <DDZB1KU7GL22.2C3I05QJUAJ1A@bootlin.com>
-Subject: Re: [OE-core] [PATCH 10/18] at-spi2-core: Upgrade 2.56.4 -> 2.58.1
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <joerg.sommer@navimatix.de>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <270455d31cdf073ffbc85ef7622e4b41bc10cb86.1762154252.git.joerg.sommer@navimatix.de> <d99e920567d7842cd941f68bb5a4e26910a735f0.1762154252.git.joerg.sommer@navimatix.de>
-In-Reply-To: <d99e920567d7842cd941f68bb5a4e26910a735f0.1762154252.git.joerg.sommer@navimatix.de>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=Jlj9oLbq;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=AO6Wtu1a;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.159, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 9B5737A03C6;
+	Mon,  3 Nov 2025 14:43:45 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Mon, 03 Nov 2025 14:43:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1762199025; x=1762285425; bh=iOA0cuCI/P
+	6k2QZs/nrz8N0cCWohjo+9nh2XOCBjglk=; b=Jlj9oLbqIjYSuoGaGjH9GrnPTc
+	AEFUHIuTIeVpIGP5Hy6nY0i3Az0UHePGALDOp75Il8QWL0MVCkUH9VZ8qryysHh2
+	BtTd+uuM1NEzMNP45Ejsf12XaaeuWALjDirkqypoAToPibuYLfmGAuGUfhx/rFEW
+	EGdAlmxdE/vYHNm6ddbapydA6DjgHz39XZ2M6mO+q46d9jfT0AY2c5+RDRkDLDkg
+	+qiOq/F7Z0Ng3WDxPlfKDePs3+baD+KIPqVlTRptR3bHes+jh6G68qQAL5mnFDwr
+	rs5T8NGhrEKlkEhNRMBONBiaV4/PRnBUwM5k8a/PvhtrqAMxP5u9nWXF2xwQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1762199025; x=1762285425; bh=iOA0cuCI/P6k2QZs/nrz8N0cCWohjo+9nh2
+	XOCBjglk=; b=AO6Wtu1arskVUqAmEyUk92RJUZBItIn2fiLXvHtCkLRVI/DTyne
+	rpnJ18h5G4nNTThZ6LMwe8315dv59X5gG3DfOfGKiNEOlHHjoXhIUm/Bi074uT/5
+	vHnvDuR4XBPSyqp9EkLuEr6A8zj5xy9Bd9gVZlA5AWy6H4xIo74LlbSMfIrM6cIy
+	9sVjaGB85Zj/alAFVNLuw7O3rMWfXJm4omk1i0aSp3jVsCRyxnk3hu6RmIV9P/68
+	E6mhGhSrm+mgVzKSBeh5ufH9CinoK/YZz4CsprlEYIaMUNpp91iDPk2eIqgCT0Zv
+	upwtgN9Vec3MEIPJbW5cnGm9lCEowyAIz1A==
+X-ME-Sender: <xms:8QUJafMH1J-QB99MrIAZKq6xOPjMpWV5zsl-mEH9Zcny2cuVkElApA>
+    <xme:8QUJaQ91nv1h65MfowfDsc2d0AVNaI2NALy0TLfsVGT-GzIfcVYklccPbZfu8R36X
+    WAHnSl3vfkBE5Ad5r9fcyu5B-_KJItEAgMfesOP5iI_znEPuytIfIk>
+X-ME-Received: <xmr:8QUJaTRfYbNuQCWRth_kV07el_JzUo8oGtnloeUvED8t5NlelDqQ6elUTnn70Y7mXIAHB5wmTJTDpEDj9iyRVbsWtuB-rA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddujeeltddtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
+    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
+    epgeffveeffefgledvteekhfevleelfeelleegtddvfeejvddugeefkedukeelhfeknecu
+    ffhomhgrihhnpegrrhgthhhlihhnuhigrdhorhhgpdhgnhhurdhorhhgpdhkvghrnhgvlh
+    drohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+    pehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepgedpmhhouggvpe
+    hsmhhtphhouhhtpdhrtghpthhtohepjhhorghohhhfsehgmhgrihhlrdgtohhmpdhrtghp
+    thhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsg
+    gvugguvggurdhorhhgpdhrtghpthhtohepqhhurghrvghsmhgrrdhjohhsvgesghhmrghi
+    lhdrtghomhdprhgtphhtthhopehrrghjrdhkhhgvmhesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:8QUJaSlPDpGLsD73y4RiP7_mR-mmCtaYIbaFETRtixuSiJRYvs0nfQ>
+    <xmx:8QUJaTTAQ9OKYzYvmJypyYm9ggJ6zr1ysVlyzjeU52QL3DC44VefwA>
+    <xmx:8QUJaQPcDWkttIojnviyWGcF141eFTm53lBslCxs5m_jPUrR-t9MMg>
+    <xmx:8QUJacVyQCOoJCEPgz8d5SmdLtNzNzatnfWcMtOczrPmqV56ac1gTg>
+    <xmx:8QUJaQhqF69ihauuP3g94ZYgSgjBakxTprbLipCcTZ-EtgTCy3KVzmtd>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 3 Nov 2025 14:43:44 -0500 (EST)
+Message-ID: <b7a795596ef99c4360902d5ec5d2db2d24d6a660.camel@pbarker.dev>
+Subject: Re: [PATCH v3] readline: backport a patch to fix for caller setting
+ rl_prompt to NULL
+From: Paul Barker <paul@pbarker.dev>
+To: =?ISO-8859-1?Q?Jo=E3o?= Henrique Ferreira de Freitas <joaohf@gmail.com>,
+ 	openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>, Khem Raj <raj.khem@gmail.com>
+Date: Mon, 03 Nov 2025 19:43:38 +0000
+In-Reply-To: <20251103181409.3191690-1-joaohf@gmail.com>
+References: <20251103181409.3191690-1-joaohf@gmail.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ ep0k17xg==
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-mN+t05WRcZS4DmFJqvqc"
+User-Agent: Evolution 3.56.1-1+deb13u1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 19:26:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225692
+ <openembedded-core@lists.openembedded.org>; Mon, 03 Nov 2025 19:43:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225693
 
-On Mon Nov 3, 2025 at 8:27 AM CET, J=C3=B6rg Sommer via lists.openembedded.=
-org wrote:
-> From: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
->
-> Add python override files added with 2.57.0
->
-> /usr/lib/python3.13/site-packages/gi/overrides/Atspi.py
-> /usr/lib/python3.13/site-packages/gi/overrides/__pycache__/Atspi.cpython-=
-313.pyc
->
-> see https://gitlab.gnome.org/GNOME/at-spi2-core/-/commit/7c8a9365d5009b43=
-afe6d16bebefc14a8df410a7
->
-> Changelog:
->
-> What's new in at-spi2-core 2.58.1:
-> * at-spi-bus-launcher: Fix a possible crash when registering.
-> * python: Avoid traceback when hashing a disposed object
-> * Fix build failure on MacOS.
-> * Fix transfer rule for atk_table_cell_get_table and atk_table_get_summar=
-y.
->
-> What's new in at-spi2-core 2.58.0:
-> * libatspi: Increase ATSPI_ROLE_COUNT after switch role was added
-> * Add ATSPI_CHECK_VERSION macro.
-> * Properly fix key notifications under X11 when multiple keyboard layouts
->   are in use.
->
-> What's new in at-spi2-core 2.57.2:
-> * Don't install at-spi-dbus-bus.service if systemd is not enabled.
-> * Some collection fixes and documentation improvements.
-> * Fix reporting the wrong keysym on X11 setups where multiple keyboard
->   layouts are in use.
-> * Fix possible memory leak in atspi_accessible_get_description.
->
-> What's new in at-spi2-core 2.57.1:
-> * Fix several crashes introduced by the code to handle the accessibility
->   bus going away.
-> * Add atspi_device_clear_key_grabs.
-> * Fix key grabs when num lock or caps lock are on under Wayland.
->     atk-bridge: Don't crash when requesting a plug if not activated
-> * Have python overrides check DBus object paths when testing for equality=
-.
-> * Add sanity checks for child indices received via DBus.
->
-> What's new in at-spi2-core 2.57.0:
-> * device-a11y-manager: Fix crash on dispose
-> * device-a11y-manager: Check properly for the DBus backend presence
-> * Fix the build with glib < 2.76.
-> * a11y-manager-device: Fix unmap_keysym_modifier.
-> * DeviceEventController: update mouse coordinates before sending button e=
-vents
-> * atspi-device-legacy: Don't crash when XkbGetMap fails
-> * Return localized role name for ATSPI_ROLE_EDITBAR
->     atk-adaptor: Reconnect when the bus launcher reappears.
-> * Don't keep references to uncached objects in the application's hash tab=
-le.
-> * Add some Python overrides.
->     AtspiDeviceX11: Suppress window events following key grabs when neede=
-d.
->
-> Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
-> ---
 
-Hi J=C3=B6rg,
+--=-mN+t05WRcZS4DmFJqvqc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the patch.
+On Mon, 2025-11-03 at 15:14 -0300, Jo=C3=A3o Henrique Ferreira de Freitas
+wrote:
+> I've observed this issue affecting iwctl and connmanctl.
+>=20
+> Patching readline solves the issue.
+>=20
+> The original patch from [5] mixes many fixes in one commit. I've extract
+> only what matters to solve the issues observed with connman and iwd. The
+> final patch is the same patch sent by readline author to readline's mail =
+list [6].
+>=20
+> References:
+>=20
+> 1: https://gitlab.archlinux.org/archlinux/packaging/packages/readline/-/i=
+ssues/1
+> 2: https://gitlab.archlinux.org/archlinux/packaging/packages/readline/-/c=
+ommit/b30636dc66fc783a091af51b049dc5240f861dd0
+> 3: https://lists.gnu.org/archive/html/bug-readline/2025-07/msg00007.html
+> 4: https://lore.kernel.org/connman/20251018212411.181909-1-jsbronder@cold=
+-front.org/
+> 5: https://cgit.git.savannah.gnu.org/cgit/readline.git/commit/display.c?h=
+=3Ddevel&id=3D488d7edc22894d30b6de7f2d4190bf7403f63ffd
+> 6: https://lists.gnu.org/archive/html/bug-readline/2025-07/txtmA7rksnmmi.=
+txt
+>=20
+> Fixes [YOCTO #16047]
+>=20
+> CC: Jose Quaresma <quaresma.jose@gmail.com>
+> CC: Khem Raj <raj.khem@gmail.com>
+> CC  Paul Barker <paul@pbarker.dev>
+> Signed-off-by: Jo=C3=A3o Henrique Ferreira de Freitas <joaohf@gmail.com>
 
-It looks like some new files should be shipped:
-
-ERROR: at-spi2-core-2.58.1-r0 do_package: QA Issue: at-spi2-core: Files/dir=
-ectories were installed but not shipped in any package:
-  /usr/lib/python3.13
-  /usr/lib/python3.13/site-packages
-  /usr/lib/python3.13/site-packages/gi
-  /usr/lib/python3.13/site-packages/gi/overrides
-  /usr/lib/python3.13/site-packages/gi/overrides/Atspi.py
-  /usr/lib/python3.13/site-packages/gi/overrides/__pycache__
-  /usr/lib/python3.13/site-packages/gi/overrides/__pycache__/Atspi.cpython-=
-313.pyc
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/92/builds/2667
-
-Can you have a look at this?
+Reviewed-by: Paul Barker <paul@pbarker.dev>
 
 Thanks,
-Mathieu
-
 
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Paul Barker
 
+--=-mN+t05WRcZS4DmFJqvqc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaQkF6hEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bsXwAQCch+nhp/+OPebXpsj0IcWeHVeZIF2pW09e
+ufWM4Y5xvwEArxfozSnug1AfK0gAesCaksyGzascvXZVV/t1RDZ1sw0=
+=T21U
+-----END PGP SIGNATURE-----
+
+--=-mN+t05WRcZS4DmFJqvqc--
 
