@@ -1,181 +1,93 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52696CCF9E3
-	for <webhook@archiver.kernel.org>; Tue,  4 Nov 2025 14:43:23 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19530.1762267400083266427
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5911DCCFA04
+	for <webhook@archiver.kernel.org>; Tue,  4 Nov 2025 14:48:13 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19635.1762267692814140831
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Nov 2025 06:43:20 -0800
+ Tue, 04 Nov 2025 06:48:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TTaOLUXq;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: skandigraun@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47112edf9f7so45514145e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 Nov 2025 06:43:19 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Jn0dOBHQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-340ba29d518so2836403a91.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Nov 2025 06:48:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762267398; x=1762872198; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zYZ2DcS4/uKqHq9yLknDF3juI725uPOltF4+QzQm8M8=;
-        b=TTaOLUXqY7d49ZIXRdVGeh6WAzHT99I8TuhWTaqSBMcfPsZ+znPOkcHQacT8sMxFkc
-         MGQ5TWrlbZi3JZCi7ibSm23jHfn6GNziGDh5Pe1bw7QhKRunfO6Sc5DC0i1J8Qkb690R
-         8pOi4QNB7AOMgc1fW7IE/PkTDsTW3Ve7jDCrv7920Mu5XIV9tsmz544ESSh/kVxPCAqW
-         hrblsHnz+GyHnzD0C02PWbdaNJ3gzIFNH7B150MH/nXq2zGU0QvmKCFqEKgj8ecedeDq
-         cIZ8+EN+ye7KwBvwc+0S2MZ3OwtU22Hi87kshTmOaKlw636WFeWA2Jt9IWtZYK786Csp
-         WUlA==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762267692; x=1762872492; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JYCcwOnS+Ui/7nymb78KDWKTCTrVcNW1FiL5++R9qXo=;
+        b=Jn0dOBHQZGDTehqIEP6QWSQV/MyT+H0Tb2gSFO5BKXw6O50NSP365yK5pfR7htgPQ5
+         iMb+nk+VkXFYU7Yyh/sjSvYyTvXyWc0+w/KHRTeinnGz84BuIRJUEBN7V1BxAeWqVgd7
+         JkRSD1xKIr9lZJoQSoFVi3LntBZBMQNbBaLJrDDbp2e9GUxPcg3HPGsoZ99AkE2VwqwK
+         kvpOQS6NRBoku4XDqRrSVmcH5cCgBHMvhaZeDPslcVH4MNppFfucihqojDIuPHtcoaoe
+         h8Cn1osirYO1zWUqozg4ecw88yHNR+GhK9MnrblkrsqBAGGX1/6MbK4V3XqrQgHNyjzs
+         xJlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762267398; x=1762872198;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zYZ2DcS4/uKqHq9yLknDF3juI725uPOltF4+QzQm8M8=;
-        b=EtVRkncNuN+hbVj5qSxO/KADHc64e7YunQ0AW189Jy2/lNHFf6vKZ2agmfPylR1g7n
-         sgGnDefStUtz5vJScO9q1hKzsIkUdL9GNcIBjjEKYre4mGqU8NQgPr8Rv9QGNP1jUWqi
-         exujSeu6yK1V5Q5x5YVbFG5apebpSsr5Geyb+DJ8So+veSSfjYi3gAO/owpHqZ7Q150P
-         rOJfVMAscE6iyARIenCfWBZBQ6YH/dlRdlaNmqKLSVrzPNkGUO4zgzUvty7VlOMAo7uX
-         ote9jFr2Di86rrHjMT7qsHZurZN0E0mkgtfKd+PKDtAcmXdszVaZEYz58PLbFwxJP0yM
-         7tGg==
-X-Forwarded-Encrypted: i=1; AJvYcCWNQh9UvhPhAisQWcZDCaZg5ukdz4KowY3MeDjP5Rz15numYYYLXiAjHTXyl55Il2+IJmdC+FUyJ00MhJZwSaqhcQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzJwvt6zqfvt1I6mGJArsGlppl5oHueCzo+eU8ziBqrEEevhWuu
-	DYzEraiWDsN9fC7/0jdRFc8SUtqtnpYE3/WmQelBheE64SvPvpU5VPrI
-X-Gm-Gg: ASbGncuyxlHILTFwhpT1GpHvy1Gn9UcXVNthzjcU8ySG9MXnui5dYqQq8a59Te5koOc
-	lUvrm7wgrEtdLxKl5KLdHZCIKW/q7U+wg4L4VBV9O7UQwDr7+LENh1eoWaBpIy30R6yP7uTDL2Z
-	4VG6xGWhdeVKkPI2200YuDb8NpBMABL8j5ytq06FTubqZdrHNsrcxunRsfjGa8yrMC+CpQrLPVm
-	QFrl5CJDPiH7rHdT0BgzkY4sZts+V9X2gdUZ5Yu60RuJep6L2tNsafARTRlGhHeJP4EhccVZ8Hr
-	Pm/016DmavjyZqG5E+5umugdzgfzZ9NlwNzRj6SKLUAbAgf1lXE3New2Tvw6N8q+Mu9WOyXZogf
-	IH2C7LbtKXggJLY+VUY6mf7X0yjBCkzf6P3tTGl8XYQPKWE+pelhTwfw8lAS1RLfixiwslrXFyq
-	PDK5JJcm28
-X-Google-Smtp-Source: AGHT+IE7ZdMJnI0Z5VGM1WNPHPriS5+ivGLJd6HV/WdIG80fonXT4sbTzDFSXoUW1nrmOL8lM8ZZIw==
-X-Received: by 2002:a05:600c:470c:b0:477:bf0:b9da with SMTP id 5b1f17b1804b1-477308aac1fmr165573335e9.19.1762267398175;
-        Tue, 04 Nov 2025 06:43:18 -0800 (PST)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47755a550dfsm42242385e9.17.2025.11.04.06.43.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Nov 2025 06:43:17 -0800 (PST)
-Message-ID: <858bd64d-77fc-40d5-a7d5-800fca2d98e5@gmail.com>
-Date: Tue, 4 Nov 2025 15:43:16 +0100
+        d=1e100.net; s=20230601; t=1762267692; x=1762872492;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JYCcwOnS+Ui/7nymb78KDWKTCTrVcNW1FiL5++R9qXo=;
+        b=hKYq1yib4Rqk/v8Cu7Ra3eLruzGfLF5UHB232V+GpUS3pkgG/z28g+l0Dui6QUM9GP
+         he7UobYOArOS/LvfRghBAbhcAQbzGQIZR+YOBWLhCgpReCDD1/jbQkcMUk8Q2LkNYDZb
+         5ZB1U3Vt4J95ZD8J2EHCeKKKxNBI/30jlDZHAeFU2BLy0R+cuPnn/HI03Fjk2+muvXJ6
+         78AlMyuoiyz8SNgTzRVKWT7E3+gPwZpqieakvtuOrG1bY5o7sXtA9TD+aIGyywBWATZA
+         3g/Vgy8TF+nXQnu8RDNplawqiXW1vV/zkTSPR9UpTD4W7CNEgsovM9Ccq17Ac6wuL7Tz
+         m2Ug==
+X-Gm-Message-State: AOJu0YzW5OQ3bLe9st6/toaXPHQtWzg/Wn7hHf+HhfNpl+RXevxwhr0M
+	FP9F0wEYhOMu6d2PO+j6La5R/Ll/43AX5pEHbGIcG3sB60uHCGazmFjgQdKWt63plQHThklCrkL
+	9YCpl2eM=
+X-Gm-Gg: ASbGncuDJFqCnqtgMSfy3VCJqKiA52UGxYw/nEmzTn9hr7wQICoR7IVujGLAYevNMwa
+	rF/g2h86Zz+DhnkRZN4HvSfzgqMCry8Y/D8BkJIzhrigud7ChIoxvLU5B3aBHGH4nJ+d0XZtunh
+	JzgpnhQK0MNjnKUg4vOPLoTqyaFdS5UeGNQwXEWNlIydayfwAgZqy9rv+9Wak3+g4e3jThT015i
+	sa86fOzcrmYhjrn8T0uT55vYwilt4gfriuhegujXmBVXGNd8bW8GKC73Jj/QdJZgKQgAkHbJmby
+	ZMBDLgiCXGTzTF7U2HuYAUxZ8l8o1y0Ta59I5ep9oQe2r4nReVZL64yQYgXmpXtWbVdVQqsTyRz
+	4xJIUpfyaD9E2bqk7Arih1Zx4cxd9UfD6u73ggXKLhNSTgWe/UVmfiGb/LxTUiK02T4ILE20/I0
+	t71w==
+X-Google-Smtp-Source: AGHT+IG+CVgy3L6RuLly0Pb82XfaupChlUU2/MbS9ZxJNZOaEFYcRlzdCGoZstdc1Iif7hFR9ZjPHQ==
+X-Received: by 2002:a17:90b:350a:b0:340:bc27:97bd with SMTP id 98e67ed59e1d1-340bc2799c2mr15145673a91.9.1762267692103;
+        Tue, 04 Nov 2025 06:48:12 -0800 (PST)
+Received: from hexa.. ([2602:feb4:3b:2100:1f4f:a6d3:d9bf:780d])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3417d40da83sm1341481a91.14.2025.11.04.06.48.11
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Nov 2025 06:48:11 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 5/7] Remove empty file
+Date: Tue,  4 Nov 2025 06:47:56 -0800
+Message-ID: <0539a7869c4a3e28b3e7d0ab93fe07bfb9462d13.1762267481.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1762267481.git.steve@sakoman.com>
+References: <cover.1762267481.git.steve@sakoman.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v5] libxslt: add ptest support
-To: Pratik Farkase <pratik.farkase@est.tech>,
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20251023153459.49699-1-pratik.farkase@est.tech>
- <20251025132107.9296-1-pratik.farkase@est.tech>
- <DDSVFR6HJY5J.9F1TJMJY0ZQ0@bootlin.com>
- <GV2P189MB3005ADB18D1B5A8674AABA72FEFDA@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
- <DDUS6ZLHP1TA.1RO2V3WLOWZXW@bootlin.com>
- <GV2P189MB3005B2A3572E768BB61E4E8DFEC7A@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
- <GV2P189MB3005DE0FB9724D6E9D17AF7EFEC4A@GV2P189MB3005.EURP189.PROD.OUTLOOK.COM>
- <1874D423590E3BAD.264703@lists.openembedded.org>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <1874D423590E3BAD.264703@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Nov 2025 14:43:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225725
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Nov 2025 14:48:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225731
 
-On 11/4/25 15:29, Gyorgy Sarvari via lists.openembedded.org wrote:
-> On 11/4/25 15:05, Pratik Farkase wrote:
->> Hi Gyorgy,
->>
->> Thanks for your support.
->>
->> I’m now seeing more test failures (as seen in the Autobuilder) when using the `libxml2_2.15.0.bb` recipe from the mathieu/master-next branch, compared to the default `libxml2_2.12.10.bb` recipe from Scarthgap.
->>
->> The ptest implementation for libxslt is identical in both cases, but the number of failing tests increases when we bump the libxml2 version to the one in master. I’m not entirely sure if this is solely due to the version change or if other updates in the newer libxml2 are contributing to the issue.
->>
->> Would you prefer that we wait for the libxslt maintainers to fix these tests upstream, or should I disable the failing tests and roll out a new patch with the existing passing tests in the meantime?
-> In the libxslt repo there are 1-2 recent commits that say suspicious
-> things like "update test outputs for new libxml2" - if that could be
-> checked if they[1][2] fix the problem with new libxml, that would be
-> good to know. (I haven't gone further than looking at the recent commit log)
->
-> If they are relevant and they fix the issue, then I would remove libxml
-> update until it is fixed (it seems there are some other issues with it),
+From: Michael Haener <michael.haener@siemens.com>
 
-I have to correct myself about the "other issues" statement: I missed
-that the problem was present with v2 version of the libxml update, not
-with v3. In this case the libxslt tests should pass with the current
-libxml (though don't know if it will reach master branch before
-Whinlatter release).
+An error occurred in backport commit
+649147913e89cd8f7390cb17cd0be94c9710ffa6. The test file
+is empty and has no functionality at all.
 
-> and accept your update in a way that passes all tests with the
-> non-updated libxml. And then, once libxml update works, the test-fixing
-> patches can be added to libxslt, and everything supposed to work(TM) again.
->
-> But on this ML I'm just a random commenter, my personal opinion might
-> not be the same as what the project wants :) You might want to wait for
-> a second opinion also.
->
-> [1]:
-> https://gitlab.gnome.org/GNOME/libxslt/-/commit/a7287acdf1dd95e32bde828c10e07949a16b68f3
-> [2]:
-> https://gitlab.gnome.org/GNOME/libxslt/-/commit/33cd5e56328ab29ef1fd939c4632915e834bb7af
->
->
->> Best Regards,
->> Pratik
->>
->> ________________________________________
->> From: Pratik Farkase <pratik.farkase@est.tech>
->> Sent: 03 November 2025 10:41 AM
->> To: Mathieu Dubois-Briand; Gyorgy Sarvari; openembedded-core@lists.openembedded.org
->> Subject: Re: [OE-core] [PATCH v5] libxslt: add ptest support
->>
->> Hi Mathieu,
->>
->> bug-146 test failure as seen on my local ptest-runner output seems to be fixed and will be incorporated in libxslt master :
->>
->> https://gitlab.gnome.org/GNOME/libxslt/-/issues/159
->>
->> I am not sure why we get different outputs of ptest-runner on Autobuilder and local QEMU test setup. It needs to be investigated further.
->>
->> Best Regards,
->> Pratik
->>
->> ________________________________________
->> From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
->> Sent: 29 October 2025 12:49 PM
->> To: Pratik Farkase; openembedded-core@lists.openembedded.org
->> Subject: Re: [OE-core] [PATCH v5] libxslt: add ptest support
->>
->> On Tue Oct 28, 2025 at 10:05 PM CET, Pratik Farkase wrote:
->>> Hi Mathieu,
->>>
->>> I looked at both the Ptest logs you sent and seems like more tests are failing in the autobuilder than in my local QEMU test setup. The failures appear to be byte-level differences (e.g., “230 bytes vs 275 bytes” for bug-147) rather than functional errors.
->>>
->>> https://valkyrie.yocto.io/pub/non-release/20251026-107/testresults/qemux86-64-ptest/core-image-ptest-libxslt/
->>>
->>> For both qemuarm64 and qemux86-64 machines my local ptest-runner has the following output :
->>>
->> Yes, it looks like a bit intermittent. I launched another run both locally
->> and on the autobuilder, and the result is different: it is closer to
->> yours.
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/2550
->> https://valkyrie.yocto.io/pub/non-release/20251029-63/testresults/qemux86-64-ptest/core-image-ptest-libxslt/
->>
->> --
->> Mathieu Dubois-Briand, Bootlin
->> Embedded Linux and Kernel engineering
->> https://bootlin.com
->>
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#225724): https://lists.openembedded.org/g/openembedded-core/message/225724
-> Mute This Topic: https://lists.openembedded.org/mt/115943432/6084445
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Michael Haener <michael.haener@siemens.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ test | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ delete mode 100644 test
+
+diff --git a/test b/test
+deleted file mode 100644
+index e69de29bb2..0000000000
+-- 
+2.43.0
 
 
