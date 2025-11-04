@@ -1,485 +1,416 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AC7ACCFA04
-	for <webhook@archiver.kernel.org>; Tue,  4 Nov 2025 17:43:43 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1932.1762278213694214160
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16059CCF9E3
+	for <webhook@archiver.kernel.org>; Tue,  4 Nov 2025 19:50:44 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4836.1762285837194204682
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Nov 2025 09:43:34 -0800
+ Tue, 04 Nov 2025 11:50:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=VMosDRf0;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3403628e3a=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A458O3Y2608395
-	for <openembedded-core@lists.openembedded.org>; Tue, 4 Nov 2025 09:43:33 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=HVir+0iRdMKuTuZNrIawta
-	dPrGTltJz/dCgHvD5LEhE=; b=VMosDRf0VsT7FGXsfi+jP+lGrnZTmP+ZWbl2tm
-	aaAnwFEyNfZPyqHephudihZ8e7WCkMeWttEJp+SQE4qlDGVnXSzImki0APc9xxOZ
-	C3WSdr9fktTMWBufTfP1sopITeuAssPgz5Wn1FnG5UQKTlNa8xGnQvAs5zhD5c1K
-	RHGOdr+eIjR6KlxceJnjeofO6U+tj7ZdjhLyQGwxMGT2uFY7oNEnO7eqGwO7LAnh
-	HwPyQhuVUJiVSfkdV0/oRsCtccicesAAUHpnb23gi7uNeTKIAO9GtXJUTvAsjWUU
-	0FYQ8+7vTiyH1BY3rwrLtwXWcxnUbSpohaaJ7OHbx1FwOJjQ==
-Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013062.outbound.protection.outlook.com [40.107.201.62])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a5hqek6yp-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 04 Nov 2025 09:43:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kHLx/JPxq6q5l8Qaon+HAwXcp+Zk4usz3HjnibuzYA6PMiPCIHplWmYedZ3kmrvt9+qhelhJ+n1Wy4hteGjgDq6O8i004ufPoZj0/09sg7jjjy1XkFVGe6bHd6qBomJSJ41fqckDPzS5Ssx5y8yyxseavNDueYcz495g+89ORZCjuu5BgQX98ur/oqUxJlQh6Tk66B/8b9oMfLHpoFbZe8OCglponEQ7dlHGnhH3gOx5iPHlIL1oSw1jCNdaVox1V/MBow5vxZo01T8R2AM427U+F4RuPbVKK9qbhKDpNZzvEYLXAugkGKyWPdeWiWkBx0JxK0Mv5s9tj2H7yDXZgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HVir+0iRdMKuTuZNrIawtadPrGTltJz/dCgHvD5LEhE=;
- b=c4GKHO0fBgFeuyAxIQ9zTl6uSN+RiMw8ZOKjwuMTp/kwSYbh2glq8wHMEMch2j75SMuhyHuEcWcQH9kxmhS5w9yv7l+Aq+E6cDqMo9imdUORpimeUxnHFkqT6LaguW9mdT9vFOb5wrkFWZ769QAwZe/7T0l9RGjomGcmrG/0v+N7iBPn/DiSgydqviq/UsLQU9A0NspKtSGLUTSDdwpDAMR7TCh6S5OR1yCpyafOM3nfRSh3IcrnJmYgEqZNxSShEMYmjyrGOmmdEbjEVU5J9gQOJNvn6/QyErSH6kNMp45XL2fMjkpo8MnxgylwbDqXIlZdx/0FWmONYgziKIq11Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by PH7PR11MB8455.namprd11.prod.outlook.com (2603:10b6:510:30d::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Tue, 4 Nov
- 2025 17:43:24 +0000
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552%4]) with mapi id 15.20.9298.006; Tue, 4 Nov 2025
- 17:43:24 +0000
-Content-Type: multipart/alternative;
- boundary="------------PWcNqMTh6byx0b1UrhRlFUHA"
-Message-ID: <0a5dc5e7-4b26-4f3f-8cad-ee42b3cc6553@windriver.com>
-Date: Tue, 4 Nov 2025 12:43:20 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [RFC PATCH 6/7] linux-yocto: enable Rust support in
- kernel configuration
-To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org,
-        Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Sundeep.Kokkonda@windriver.com, elmehdi.younes@smile.fr
-References: <20251023112547.4044904-1-Harish.Sadineni@windriver.com>
- <20251023112547.4044904-7-Harish.Sadineni@windriver.com>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <20251023112547.4044904-7-Harish.Sadineni@windriver.com>
-X-ClientProxiedBy: MW4PR02CA0013.namprd02.prod.outlook.com
- (2603:10b6:303:16d::13) To CH3PR11MB8496.namprd11.prod.outlook.com
- (2603:10b6:610:1ba::22)
+ dkim=pass header.i=@smile.fr header.s=google header.b=kwnKs7+H;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-429c19b5de4so859850f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 Nov 2025 11:50:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1762285835; x=1762890635; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5UVOM4PZ8UKm5Ereb/+g0l1eSRtCJXWrufrct45gYNs=;
+        b=kwnKs7+HJkTQG1IWpv6nmcxDvcryuD/TO/2UqkcPhHhuoqxNGYKkqAblmo+7gjnPZJ
+         fgrdujmYpk8TcOWvbQB5S8eMYTjTONDa2iDegHanntLmpAzQAbTvOqiwimkn2mlVY7tA
+         z4PdUQDwxzWjC+PpuYGJLq/c8T1FW46fYWQR0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762285835; x=1762890635;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5UVOM4PZ8UKm5Ereb/+g0l1eSRtCJXWrufrct45gYNs=;
+        b=VoGrUfpcup/X9oWfN9GP2Wh1AT2lwpY2QMx1nMLTlM8CqHW0hf2U6deyLnWkfvaCtP
+         AW+QWLUVYBiQ+9WmgVyrPcGffXBarAOHLcMCxPsFpUqS2F18pXVYk6+c23Eg/c/TjUrE
+         abuDs+7BCObVCb28yGSqV4r8Bg7vQY9RDRqCKAVs0jFxSLKLUde/M6OH1/CcrpQceJ2r
+         d5bI5g833ccC4EkRvv4hQZ9xTgEbioL+LPVRDc9OyFwLMzf19R1xoxJS/AjsjEhbzBH5
+         3W1ra1X1cPCmInkOfQ/nuYOrMKzF5WG4P3Gj2f7RfU7vCkSMnxe1B9DPsJKaIZI4oMbB
+         biwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUsFcJVri4fMWRO3G9WudlEJx5jJQK/k7rY1PeD+m9El33XxxJ4o4CvOKTdJtmldxC6N5gdOE7uVcTa8qTINvP6xA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwGZUEdo31jgAu7Rg5qbUpN+CRXnGiNqRMGhU3pmyb/kExALFr7
+	S0SzycRiBWsomTomm7wWZolxCW/00Srx7X7g0Brk598clhUo8GmrON2WIQmCHtNfKHx9CQUJ9YG
+	1ett3MLY8na5efZ6JQyADMPUZCD9j8Ti7ovfz+PoqEQ==
+X-Gm-Gg: ASbGnctoum54O5VW8EMJlFZsIxTs1Gn+PoxIcfOdpztQhgzOGY0XpyefwtgcBETBWTn
+	1Js0YZSv3+vZjhhy1yKFq45W204Gbtog5FnMInPoSV3Tk86O1bYa5MUa3ZwUCf8xbOMcExcDO9K
+	CDgfchFW1vVfHbzom3j4zNsqC6wHLjaQVgfTaIEGKxLu+hMLqPyYLkw5CNbSLLQj+bqQHcnI72M
+	qcIXdqupmAR02AM45/d5maK8HLy9e/2PxfisfT9mxmNIxV6tUHsq/MzxLxSSt6aiXh9jD7+hPcd
+	YLjG+bb8a2AND3Q5Mwc=
+X-Google-Smtp-Source: AGHT+IHmM6T9O7WjG601ayuJY0lgeUOb0K6dqNQlnQ93Raa4VsvcsGT/jkgn1fOJbGrYEkpnH1vN4fqCROc0Ddlpty8=
+X-Received: by 2002:a05:6000:230e:b0:429:d170:b3ac with SMTP id
+ ffacd0b85a97d-429e32dd82cmr532340f8f.13.1762285835340; Tue, 04 Nov 2025
+ 11:50:35 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|PH7PR11MB8455:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0169a40e-c211-437c-dc33-08de1bc9a74e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|4022899009|1800799024|376014|366016|13003099007|8096899003;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?L0R0NDlCcVJPNnpGOFFTdnFHVHdMakQyYmVQOTMva0JTaEtDelZVZnZEa3FH?=
- =?utf-8?B?cmw0bytlejBCb2M4UmRaZktsN3ZoOXpNZGprTGk4L0Vud1lVcVhDb1JhZldq?=
- =?utf-8?B?MGo1NFEzSG8wMHJ0U1hwdE9jWkFGaUVlZVp6ckJvbGx2blh3NHlDdmwrS0tv?=
- =?utf-8?B?dkFvcm1CVkZmRVZudXovbXdzVVVKMW8rMzhETHQ1TWZvVTFJdGFtZGkxZDNm?=
- =?utf-8?B?WWM0WU1XdnV5SnplRDQ5STRZYmhXREZPOWx2UWlBV1NiUmNBMmpTYWR5UGM1?=
- =?utf-8?B?WEQxQlkyKzFuOTZNeHVBWVpLeW5udFp5ZjRqd0hPbG4zbENmMlkzRWcrR2Jx?=
- =?utf-8?B?Ni9WVVBZelZqTVM1eHE2M2poQlZhTlBlbjBUM1k4bGhzRkZHb0tTZ1Awemxx?=
- =?utf-8?B?eDdPeWN4dWFpa2YzRTNaZ0NpdFQ2NXZadDZ0bitMS3VqVHd4V3JQUGVIVDFP?=
- =?utf-8?B?eUI2QTg3a1hIZCtpRkRoT2pBZ0htYk9TWVdDa21aK1lULzgvK2hKK0RTZDd2?=
- =?utf-8?B?THozeFhrZlJ3ZG9CM2UwT0h5OTl2RUFIWWlFcjJnL0lQbE1zbXc4V3hXSmQ2?=
- =?utf-8?B?ZExzb0JTVTJyYWhiMTByMDZFcGkrSEt1dkRuWEswVk9PZ1JuWFh1ZForVWRW?=
- =?utf-8?B?Qk04Y2luZlltSmdtY2tpcUNqKzVrUUZzb1Bua25VenVmZmZjdlBOVGU3bVUx?=
- =?utf-8?B?R1d3eWxNTXdJQjRmMnlScXdOTU51VnhTQjhjeG1IM2xYTmF4dVc2aWw4OWIz?=
- =?utf-8?B?dkhLSzJubE1mQ3NtQndRSXhzVHVWa1oxd0VvYU1qQmVtZTJmcUpLNFpRMnZG?=
- =?utf-8?B?WHhuWEpUSFVKNWYySWJvcWl6c0QvcUV3eDQxclF5a29ObkZVQXB5a1ZhRlor?=
- =?utf-8?B?RmVkYlcrVGdkSVJvRFkyS1h0US9TdWV1Q1lEdjBPZEk4WEhmN3VmOVR5TFRs?=
- =?utf-8?B?MS8vUlI4TzZrWnB6eFQzbW1LWW1kNjhPY1hDRld2eDdnTk9CblUwbG1MRkFu?=
- =?utf-8?B?NmhKRFRqdndnZ0VOYnpOUGhrQUtJMzZnSmtOTURUN1BWbzQzdFFZMjhQN3FK?=
- =?utf-8?B?ekxza09ZZ2dTV1BwUXQ5ZDRUUDhYU1AraUdVSmxxOG9UdzhuMC9PRUpBcTlj?=
- =?utf-8?B?Uk1LbUdlQ1lXSmhDa0VxTVN0RDR2VUxzNURGblhybGtZRms0V1EzeEZidSsx?=
- =?utf-8?B?b0djaEsvM3U4RmdYU1hUczhvdll4QXl0WUUzWEprRTJETHhSbTJXY1pjaUZG?=
- =?utf-8?B?Mk03ZUozWVRXV21uZm1XeitOdXl6K0ZMZU43ZXBDcHVNdEMrYWZvb1BTc2gr?=
- =?utf-8?B?VFVIRUJCRjNQWDJuQ2k5eTlVa1dEUGFENklnSmViZUJjcTZHUDMxRzIzYTBo?=
- =?utf-8?B?aTFtb0orR1hzUzFjbVBEWWNuUFBaT3RJMTZXdW9LM0EwSTliOFUvRFplcWhm?=
- =?utf-8?B?TnlPalIvUThZS01zZ2daK0lSd2V0Sml0SkFDelVnSWV1dlBhcUoyVjZEUDdz?=
- =?utf-8?B?MW5PTno2Ynk4WTNQWmpTa3BDMkhlSWNEbHBMa2N0MysxZThWV2FLaXZFS21E?=
- =?utf-8?B?aFdYSlNGUjlCV29aczVoZmg5aHBoQytiVFJtbHFlRktFemFMZ2kwdWw3WDVi?=
- =?utf-8?B?d0hJQU5nM2ttTDhQSG5OZnZiMzBHZWMwT1RpNVgwTWtwd1JCKzRRN0hXaU1P?=
- =?utf-8?B?S3RNanUzVU1sUHlTemlmN1V3aStENWVVeVN3N283NHpOWkpDcGUzc0JVZU9R?=
- =?utf-8?B?cjBNbmI5eUVCSXdCTzdQeXNqNWE1Q2NtM3FrK2lFNFRGdXRoc1g5YTRYZmRt?=
- =?utf-8?B?NHJMSTQwaW1HOE5aMTdFOU5uZTU2YitkNnNOZlJWclc1Z29oUWhYaU51azV2?=
- =?utf-8?B?VnZ0TmN5WUJIOG9hUmdPN0hJcS9QKzByakNBdklvcCtOSnR6Q3BNZy8zdWU1?=
- =?utf-8?Q?isB2mxPMZzg=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(1800799024)(376014)(366016)(13003099007)(8096899003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?bnFEMTViYUFSQy8wcStycDRUK294aE82WWdyMEMwQ0pzT01WYUFQaTBLZjht?=
- =?utf-8?B?eHAzSUZWM1FWZFd0NENUVHpXemhBaGE5K3cvbGhDbEVmTUJtR2VxU2wvR2Nv?=
- =?utf-8?B?Y3RVblJ5NzBFR1dkMDJ2UlBFTVhoWXlGSXhrZEh0dTRiTERqSVd2Kzlwa1Rr?=
- =?utf-8?B?WFkwbmRmQlRJWEk4WmtsTktremZ2dlpYRXptaWhSL3VUNFArTVR1NUg0WHI3?=
- =?utf-8?B?S1BGL2JkbG5Kb2NpVkgrM0dsMEo3RVA2QWkvT3lUdUFGUFoxalhoaWJva21x?=
- =?utf-8?B?NFNIS3dOdnRDVjdHKzRUNWQ1bkIzRFREaFNIb3lQK2lXc0xCTGFPMDZsQ0M2?=
- =?utf-8?B?QVowd0Z4bDZoMm5CMUxxTW5xS2FaT2lobVlWRTBKWjAyazM0Qkl5NVlqeGIv?=
- =?utf-8?B?UEZ4d3d5bkt3dnU3MWYyMlFWc3RZaXpoRGpBeGFtQ1EvRE16RVlHYmo4MFhO?=
- =?utf-8?B?Vm9aNVVRbFp2QXpHY2d6aWhYWis4RGx1bndjTFlDSW90UUp4V3NDWm1PaFBz?=
- =?utf-8?B?NFpzMWdXZDlKS3JxZHpkUWkyNjdzd3FObW5pS2tUTVcvRkFzdE1uUlR0cndJ?=
- =?utf-8?B?RTYzSGs2MjRHSGlRZkZxSlFrMHlXOURIQ01PZTR4VEFrTldESzMrS3FqT3ZV?=
- =?utf-8?B?UEZNaDBKenZTNUJ5aTdpUlFVTTR3UURyM3BsalBtTGFuZTRLWkd4aSs3OFpW?=
- =?utf-8?B?V2d3RjU5aVZ4VEJwRmEzZ0Y5bFI0dlZxL3VxRE42TUt6aHJ2YXBuU3FNUlk1?=
- =?utf-8?B?S0JxWjB1MVJDbDNMSzdMSzcxUHdJZ0x6OXZ6Ni9lRDc1bjFPdWFQdzNaN1Q4?=
- =?utf-8?B?aU56Y3Q5WG9UY0xUVkVXRkRIeXJYUVI3OE03QmZqb0VrUzB1L3Vlc2E1dk9X?=
- =?utf-8?B?WENIdFVBUnZLL2lQWTZXV2REWG5OZXZjMVBxNEVhRWdyaURnbElIV293QllY?=
- =?utf-8?B?WkIrNWc4TmtJSXhIT0I1SDBya3FlMGhjSzA3SHZSRDdzYXJVRmZ5dWZFVFVC?=
- =?utf-8?B?bzk5V0RDbmtoY3djOVhkU25xYk9aSUlKSHl1UVdDRE8zNmJMOXJnMzJjSDQr?=
- =?utf-8?B?OWlyR29FN0FPNmFXbW9QY0RFNWVUeXk3NXBQMUZTeTc3dFdUeUpXMzlaZmQw?=
- =?utf-8?B?clJCaEZBMlZTa0IxalVnZEZEelVrN3dtTlFrRUdhbkZvR1ZQbGdpWSt4TVli?=
- =?utf-8?B?S0d2a2FOamY0b1ZMdloweWk5ZHZMNVdOZmN6eWZKS2FhTG12aWNPTis5eC9T?=
- =?utf-8?B?aC9CN3EyQVdqU0RqWkpjR3dnM0ZORUx0QTE2d1hVR3ZqVlRtT1JwN0RzeENL?=
- =?utf-8?B?QVQ3cHErcmlqalFhZjZQRExHMlN3dGZWNzU3dFhPb1BOSWQ5SThMVE9SbUd2?=
- =?utf-8?B?MWRuTGs4b3NHN3pObnVOQzZTNzdQQkFRcDhRWHdaYTBlakhoQjZxZGlmU3Q3?=
- =?utf-8?B?bkM1SEkxWXF5bnRoSVhMSUJRUXZVR0tXSjRhZjYwN2pXSWJPSEV5cHRlNDEz?=
- =?utf-8?B?UEdZdElBZXlTVk5LN0hzOHlqWVZib3AvV3ZsaTliajFKaTRHWnpUYXVmd2t5?=
- =?utf-8?B?OURTM0tqZkNYdmRUbzliSy9RVTBpUndTUkRzVjFKSVlSa1dzT3ZmZWgvckhM?=
- =?utf-8?B?elY5Q1FWM05HUkdBRWdxYmthcmdOc2pkRks3dFZERzB4eUQyK0pNTkZHdGFo?=
- =?utf-8?B?WTVXcGV3ci9seGdHOGhZQ01UMUZYVGJSQ3Y2TVhJWmU2eHVlVVhLQzNGeWRl?=
- =?utf-8?B?ZjJkaXE2aFlBMkRnbGVqVTc2b3grSkJwdlZ3R0dRV3p0Rm9wUVg5WDQ1aE5o?=
- =?utf-8?B?aTA1MlZXQVUrUitKMU5qUXpGZWVZNG5NZlE1YklhdmhjMmIxNWFac1U0UklH?=
- =?utf-8?B?cCszeng2SldRK01JUFpIUkdiUVI4eTRmVWpQb3U4a2Z3RThiVERnTjV2cUVC?=
- =?utf-8?B?dy9rYU9Cd3FMTHR6MnVscnFHRm52U0NIMHJaVDdqck1ZaXFtZC9LNmdmUzlr?=
- =?utf-8?B?UjNDcDJIY3A3ckI1OVBBOEkxMkt5YUhObklLUHZTTTRFaVdKLzdvSEg3eU01?=
- =?utf-8?B?VEVWUnFCbXp0NXdtYU81b2pVN2FRVkVBZEtLR2dINTdVM0JpajJOcVJRRk9w?=
- =?utf-8?B?TjF6d3poMDBRSEhRMml4K0ZHeHpRN0wvQmF2ZjJ0V2xJbUxhMkpKYjBaUVJz?=
- =?utf-8?B?d2c9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0169a40e-c211-437c-dc33-08de1bc9a74e
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2025 17:43:24.4263
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7Y17mtpyzpUO/xyjoN7GZbcSqcynvJAWTpKmSdGMJf9B+6YcPrdImfE0zDxPvReFk39CkJpjfs4msvsOhzwiriN6Vw9iv1WNTo8GlwQNZ8Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8455
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=HJPO14tv c=1 sm=1 tr=0 ts=690a3b45 cx=c_pps
- a=2HCcruDS7e3rZRcUQV6B1Q==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=iGHA9ds3AAAA:8 a=Dh-9_RHuAAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
- a=69ReA-0zyhO7UNb8XXkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=VO4LNry1-8sA:10 a=e5Rqoxz72u0A:10 a=k41wlmQAcKrvtVk2J_0A:9
- a=-qD9SflgdzCVKfl9:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10
- a=nM-MV4yxpKKO9kiQg6Ot:22 a=jioklrMam_EbeH-ZsVr9:22 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: _GvnPzvuMBJQX-azrAoM0-nJ6cYqHaaa
-X-Proofpoint-ORIG-GUID: 4lvCj9rkSeQJfmmKx06fX3ew2W627gF5
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA0MDE0OSBTYWx0ZWRfXzjDHC78mIbvh
- WT/6pQUpX5gvKSF/+uQa4vhQGvAc6za0i5NpwIUjGCVzqyiN29FkAXv450/1++krVm6JbaGq4lB
- aJsLDPLa9Pq+eFoiOe6GyxbZVHmO+/zHDYdclpGhcM0Qr24RAemEzR7cDK/xnH1eLxWzS3uH1o9
- FgSo2SoUPJKHfRimgbXCx4U8nDtOB3aLYGpbU2OafWGRTkO82EcUZmvUgJNxyoba5dG/gATBBJU
- ulJpBsDgmzGd6L4NOXh4tUbHUUogI0mrpCzmEdoE8aJp1LyamBsqR3zJqMhBUewjU+57DbdT/1M
- gFYQuzZeOqtjTSLMj3VlBPtH8U0rBYYeT2BZtqVXhkxAvGdkGXZs4RhKCaxVxPp9Bx4Ip1UDNPB
- kIJjs3I2TaJMyFLBSlsxtyOkzL+Y2g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-04_02,2025-11-03_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 adultscore=0 bulkscore=0 malwarescore=0
- spamscore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511040149
+References: <20251023112547.4044904-1-Harish.Sadineni@windriver.com> <DDSVLCVN8K5F.RVYE5VTH4FQY@bootlin.com>
+In-Reply-To: <DDSVLCVN8K5F.RVYE5VTH4FQY@bootlin.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Tue, 4 Nov 2025 20:50:08 +0100
+X-Gm-Features: AWmQ_bmZ1sl_2GD48cHufD6EGI0oRfSrfnpfDABj3oFs36dRpGNJC9snGnC0AvU
+Message-ID: <CAMSfU+6cQ8SU0s4+SO6=nE+7HS8naP3qKThEWZ8Y97yVVF9+4Q@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 0/7] Enable rust support for linux kernel
+To: mathieu.dubois-briand@bootlin.com
+Cc: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org, 
+	Sundeep.Kokkonda@windriver.com
+Content-Type: multipart/alternative; boundary="0000000000003561f80642ca256f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 04 Nov 2025 17:43:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225741
+ <openembedded-core@lists.openembedded.org>; Tue, 04 Nov 2025 19:50:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225742
 
---------------PWcNqMTh6byx0b1UrhRlFUHA
-Content-Type: text/plain; charset=UTF-8; format=flowed
+--0000000000003561f80642ca256f
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5A458O3Y2608395
 
+Hello,
 
+FYI, Mehdi just sent his series (also as an RFC)
+[RFC PATCH 0/4] Add rust-for-linux option for linux-yocto
+https://lists.openembedded.org/g/openembedded-core/topic/rfc_patch_0_4_add/=
+116120514
+[RFC PATCH 1/4] kernel-yocto.bbclass: Add integrated support for
+Rust-for-Linux
+https://lists.openembedded.org/g/openembedded-core/topic/rfc_patch_1_4/1161=
+20516
+[RFC PATCH 2/4] linux-yocto.inc: Conditionally add rust.scc kernel feature
+https://lists.openembedded.org/g/openembedded-core/topic/rfc_patch_2_4/1161=
+20517
+[RFC PATCH 3/4] rust-native: Conditionally install sources for kernel
+builds
+https://lists.openembedded.org/g/openembedded-core/topic/rfc_patch_3_4_rust=
+_native/116120518
+[RFC PATCH 4/4] linux-yocto-dev: Add temporary Rust kernel feature
+https://lists.openembedded.org/g/openembedded-core/topic/rfc_patch_4_4/1161=
+20519
 
-On 2025-10-23 7:25 a.m., Sadineni, Harish via lists.openembedded.org wrot=
-e:
-> From: Harish Sadineni<Harish.Sadineni@windriver.com>
+He worked basically at the same time on this and also got it working, I've
+asked him to send his series to help.
+
+Le lun. 27 oct. 2025 =C3=A0 07:03, Mathieu Dubois-Briand via
+lists.openembedded.org <mathieu.dubois-briand=3D
+bootlin.com@lists.openembedded.org> a =C3=A9crit :
+
+> On Thu Oct 23, 2025 at 1:25 PM CEST, Harish via lists.openembedded.org
+> Sadineni wrote:
+> > From: Harish Sadineni <Harish.Sadineni@windriver.com>
+> >
+> > This patch series introduces Rust support into the linux-yocto kernel
+> recipe
+> > and related build infrastructure in the Yocto Project. The goal is to
+> enable
+> > building the Linux kernel with Rust components and provide support for
+> > building kernel module which is written in rust inside sdk.
+> >
+> > Summary of changes:
+> >
+> > - Patch 1: Extend 'bindgen-cli' to support 'nativesdk', allowing it to
+> be available in the SDK environment.
+> > - Patch 2: Add required dependencies ('clang-native',
+> 'bindgen-cli-native') to the kernel to support Rust binding generation.
+> > - Patch 3: Install the Rust standard library source ('library/') into
+> `work-shared` and which will be later copied to
+> >            linux-yocto recipe-sysroot-native.
+> > - Patch 4: Stage the Rust sources into `recipe-sysroot-native` for
+> kernel build compatibility, making them visible during native builds.
+> > - Patch 5: Update `kernel-yocto.bbclass` to invoke `make rustavailable`
+> during 'do_kernel_configme', ensuring Rust readiness.
+> > - Patch 6: Add kernel configuration support for Rust (via 'rust.cfg' an=
+d
+> 'rust.scc'), enabling the Rust build options in kernel config.
+> > - patch 7: Copy Rust kernel sources into kernel-devsrc build directory
+> which will be required while runnig 'make prepare' in sdk.
+> >
+> > WIP - need inputs:
+> > 1. In patch-3, rust sources are copied from ${RUSTSRC} to
+> ${TMPDIR}/work-shared, which is redundant and improving it in
+> >  more optimized way by extracting rust directly into
+> ${TMPDIR}/work-shared and then use it for both rust & linux-yocto recipes=
+.
+> >
+> > 2. In patch-6, We've suppressed a few build path QA issues with
+> INSANE_SKIP.
+> > We have tried fixing those using DEBUG_PREFIX_MAP & --remap-path-prefix
+> but unable to resolve it.
+> > Are there any flags for kernel or any other inputs?
+> >
+> > 3. If rust.cfg & rust.scc changes are ok, we will send kernel
+> configuration fragment to yocto-kernel-cache.
+> >
+> > With above considerations, We did a successful build of Enabling rust i=
+n
+> linux kernel and
+> > Tested a rust-out-of-tree kernel module in sdk for x86-64 & arm64
+> architectures.
+> >
+> > Harish Sadineni (7):
+> >   bindgen-cli: extend BBCLASSEXTEND to include nativesdk
+> >   linux-yocto: add clang-native and bindgen-cli-native to DEPENDS
+> >   rust: install Rust standard library sources for make rustavailable
+> >     support
+> >   rust: stage rustlib sources for linux-yocto make rustavailable suppor=
+t
+> >   kernel-yocto: add rust support via make rustavailable in
+> >     do_kernel_configme
+> >   linux-yocto: enable Rust support in kernel configuration
+> >   kernel-devsrc: copying rust-kernel soucre  to $kerneldir/build
+> >
+> >  meta/classes-recipe/kernel-yocto.bbclass      |  4 ++++
+> >  .../bindgen-cli/bindgen-cli_0.72.1.bb         |  2 +-
+> >  meta/recipes-devtools/rust/rust_1.90.0.bb     | 13 +++++++++++-
+> >  meta/recipes-kernel/linux/files/rust.cfg      | 20 +++++++++++++++++++
+> >  meta/recipes-kernel/linux/files/rust.scc      |  1 +
+> >  meta/recipes-kernel/linux/kernel-devsrc.bb    |  1 +
+> >  meta/recipes-kernel/linux/linux-yocto.inc     |  7 +++++++
+> >  meta/recipes-kernel/linux/linux-yocto_6.16.bb |  4 ++++
+> >  8 files changed, 50 insertions(+), 2 deletions(-)
+> >  create mode 100644 meta/recipes-kernel/linux/files/rust.cfg
+> >  create mode 100644 meta/recipes-kernel/linux/files/rust.scc
 >
-> Add initial support for building the Linux kernel with Rust enabled:
+> Hi Harish,
 >
-> - Introduce `rust.cfg` to set Rust-related kernel config options, inclu=
-ding:
->    - `CONFIG_RUST`, `CONFIG_HAVE_RUST`, and `CONFIG_RUST_IS_AVAILABLE`
->    - Rust sample modules and developer checks (overflow/debug assertion=
-s)
->    - Disable BTF and module versioning for compatibility
+> I know this is still an RFC, but I ran it on the autobuilder to check
+> how it goes. We had a some error with kernel build:
 >
-> - Add `rust.scc` to include `rust.cfg` via `kconf` in the kernel featur=
-e stack
+> ERROR: linux-yocto-6.12.52+git-r0 do_patch: Execution of
+> '/srv/pokybuild/yocto-worker/qemux86-alt/build/build/tmp/work/qemux86-pok=
+y-linux/linux-yocto/6.12.52+git/temp/run.do_patch.410367'
+> failed with exit code 1
+> ...
+> | cp: cannot stat
+> '/srv/pokybuild/yocto-worker/qemux86-alt/build/build/tmp/work-shared/rust=
+':
+> No such file or directory
 >
-> - Update `linux-yocto_${PV}.bb` to:
->    - Append `rust.scc` to `SRC_URI` and `KERNEL_FEATURES`
->    - Suppress `buildpaths` QA warning due to Rust path inclusion during=
- builds
+> This happened in almost all builds as far as I can tell:
 >
-> Signed-off-by: Harish Sadineni<Harish.Sadineni@windriver.com>
-> ---
->   meta/recipes-kernel/linux/files/rust.cfg      | 20 ++++++++++++++++++=
-+
->   meta/recipes-kernel/linux/files/rust.scc      |  1 +
-This is fine for an RFC but at some point, when Bruce asks for an=20
-non-RFC version,
-I expect that you will need to move this to the yocto-kenrel-cache,=20
-perhaps under:
-
-https://git.yoctoproject.org/yocto-kernel-cache/tree/cfg
-
-Take a look at the yocto-kernel-cache repo and docs:
-https://docs.yoctoproject.org/kernel-dev/advanced.html
-if you haven't already.
-
->   meta/recipes-kernel/linux/linux-yocto_6.16.bb |  4 ++++
->   3 files changed, 25 insertions(+)
->   create mode 100644 meta/recipes-kernel/linux/files/rust.cfg
->   create mode 100644 meta/recipes-kernel/linux/files/rust.scc
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/builds/2614
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/2623
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/2650
 >
-> diff --git a/meta/recipes-kernel/linux/files/rust.cfg b/meta/recipes-ke=
-rnel/linux/files/rust.cfg
-> new file mode 100644
-> index 0000000000..293438e8e0
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/files/rust.cfg
-> @@ -0,0 +1,20 @@
-> +CONFIG_RUST=3Dy
-> +CONFIG_SAMPLES_RUST=3Dy
-> +CONFIG_SAMPLE_RUST_MINIMAL=3Dy
-> +CONFIG_SAMPLE_RUST_PRINT=3Dy
-> +CONFIG_SAMPLE_RUST_HOSTPROGS=3Dy
-> +CONFIG_RUST_DEBUG_ASSERTIONS=3Dy
-> +CONFIG_RUST_OVERFLOW_CHECKS=3Dy
-> +CONFIG_RUST_BUILD_ASSERT_ALLOW=3Dy
-> +# Disable module versioning
-> +CONFIG_MODVERSIONS=3Dn
-> +
-> +# Disable BTF debug info
-> +CONFIG_DEBUG_INFO_BTF=3Dn
-> +
-> +# Rust availability
-> +CONFIG_RUST_IS_AVAILABLE=3Dy
-> +
-> +# Indicate Rust support present
-> +CONFIG_HAVE_RUST=3Dy
-
-
-You'll have to review this list to divide it up into:
- =C2=A0 1. a minimal rust.cfg and perhaps
- =C2=A0 2. a rust-samples.cfg
- =C2=A0 3. a rust-debug.cfg=C2=A0 if that's really what=20
-CONFIG_RUST_DEBUG_ASSERTIONS and friends are doing:=20
-https://cateee.net/lkddb/web-lkddb/RUST_DEBUG_ASSERTIONS.html Also,=20
-you'll need to explain and justify each option or set of options more=20
-clearly in the commit log.
-
-
-As Bruce said, the next steps are:
-1. Rust being optional and off by default 2. Rust binary / prebuilt=20
-components to minimize the overhead and dependencies of rust and related=20
-tools on the kernel.
-
-Anyway, this is a super start and I understand you have a v2 almost=20
-ready that makes kenrel rust-support be optional so send that now and=20
-we'll see what the next step after that is.
-
-
-Thanks,
-
-../Randy
-
-> +
-> diff --git a/meta/recipes-kernel/linux/files/rust.scc b/meta/recipes-ke=
-rnel/linux/files/rust.scc
-> new file mode 100644
-> index 0000000000..4686d9ce5e
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/files/rust.scc
-> @@ -0,0 +1 @@
-> +kconf hardware rust.cfg
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.16.bb b/meta/recip=
-es-kernel/linux/linux-yocto_6.16.bb
-> index 2188c7fed2..fda964e78d 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_6.16.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
-> @@ -77,3 +77,7 @@ KERNEL_FEATURES:append:powerpc64le =3D " arch/powerpc=
-/powerpc-debug.scc"
->   # Check again during next major version upgrade
->   KERNEL_FEATURES:remove:riscv32 =3D "features/debug/debug-kernel.scc"
->   INSANE_SKIP:kernel-vmlinux:qemuppc64 =3D "textrel"
-> +INSANE_SKIP:kernel-vmlinux =3D "buildpaths"
-> +INSANE_SKIP:kernel-dbg =3D "buildpaths"
-> +SRC_URI +=3D"file://rust.scc"
-> +KERNEL_FEATURES +=3D "rust.scc"
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2638
+>
+> Thanks,
+> Mathieu
+>
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#225242):https://lists.openembedded.org/g/openembedd=
-ed-core/message/225242
-> Mute This Topic:https://lists.openembedded.org/mt/115908712/3616765
-> Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [r=
-andy.macleod@windriver.com]
+> View/Reply Online (#225320):
+> https://lists.openembedded.org/g/openembedded-core/message/225320
+> Mute This Topic: https://lists.openembedded.org/mt/115908706/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> yoann.congal@smile.fr]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 >
 
 --=20
-# Randy MacLeod
-# Wind River Linux
+Yoann Congal
+Smile ECS
 
---------------PWcNqMTh6byx0b1UrhRlFUHA
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+--0000000000003561f80642ca256f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix"><br>
-    </div>
-    <div class="moz-cite-prefix"><br>
-    </div>
-    <div class="moz-cite-prefix">On 2025-10-23 7:25 a.m., Sadineni,
-      Harish via lists.openembedded.org wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20251023112547.4044904-7-Harish.Sadineni@windriver.com">
-      <pre wrap="" class="moz-quote-pre">From: Harish Sadineni <a class="moz-txt-link-rfc2396E" href="mailto:Harish.Sadineni@windriver.com">&lt;Harish.Sadineni@windriver.com&gt;</a>
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div>Hello,</div><div><b=
+r></div><div>FYI, Mehdi just sent his series (also as an RFC)<br>[RFC PATCH=
+ 0/4] Add rust-for-linux option for linux-yocto=C2=A0<a href=3D"https://lis=
+ts.openembedded.org/g/openembedded-core/topic/rfc_patch_0_4_add/116120514" =
+target=3D"_blank">https://lists.openembedded.org/g/openembedded-core/topic/=
+rfc_patch_0_4_add/116120514</a><br>[RFC PATCH 1/4] kernel-yocto.bbclass: Ad=
+d integrated support for Rust-for-Linux=C2=A0<a href=3D"https://lists.opene=
+mbedded.org/g/openembedded-core/topic/rfc_patch_1_4/116120516" target=3D"_b=
+lank">https://lists.openembedded.org/g/openembedded-core/topic/rfc_patch_1_=
+4/116120516</a><br>[RFC PATCH 2/4] linux-yocto.inc: Conditionally add rust.=
+scc kernel feature=C2=A0<a href=3D"https://lists.openembedded.org/g/openemb=
+edded-core/topic/rfc_patch_2_4/116120517" target=3D"_blank">https://lists.o=
+penembedded.org/g/openembedded-core/topic/rfc_patch_2_4/116120517</a><br>[R=
+FC PATCH 3/4] rust-native: Conditionally install sources for kernel builds=
+=C2=A0<a href=3D"https://lists.openembedded.org/g/openembedded-core/topic/r=
+fc_patch_3_4_rust_native/116120518" target=3D"_blank">https://lists.openemb=
+edded.org/g/openembedded-core/topic/rfc_patch_3_4_rust_native/116120518</a>=
+<br>[RFC PATCH 4/4] linux-yocto-dev: Add temporary Rust kernel feature=C2=
+=A0<a href=3D"https://lists.openembedded.org/g/openembedded-core/topic/rfc_=
+patch_4_4/116120519" target=3D"_blank">https://lists.openembedded.org/g/ope=
+nembedded-core/topic/rfc_patch_4_4/116120519</a></div><div><br></div><div>H=
+e worked basically at the same time on this and also got it working, I&#39;=
+ve asked him to send his series to help.=C2=A0</div><br><div class=3D"gmail=
+_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0lun. 27 oct. 2025 =C3=
+=A0=C2=A007:03, Mathieu Dubois-Briand via <a href=3D"http://lists.openembed=
+ded.org" target=3D"_blank">lists.openembedded.org</a> &lt;mathieu.dubois-br=
+iand=3D<a href=3D"mailto:bootlin.com@lists.openembedded.org" target=3D"_bla=
+nk">bootlin.com@lists.openembedded.org</a>&gt; a =C3=A9crit=C2=A0:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu Oct 23, 2025 at 1=
+:25 PM CEST, Harish via <a href=3D"http://lists.openembedded.org" rel=3D"no=
+referrer" target=3D"_blank">lists.openembedded.org</a> Sadineni wrote:<br>
+&gt; From: Harish Sadineni &lt;<a href=3D"mailto:Harish.Sadineni@windriver.=
+com" target=3D"_blank">Harish.Sadineni@windriver.com</a>&gt;<br>
+&gt;<br>
+&gt; This patch series introduces Rust support into the linux-yocto kernel =
+recipe<br>
+&gt; and related build infrastructure in the Yocto Project. The goal is to =
+enable<br>
+&gt; building the Linux kernel with Rust components and provide support for=
+<br>
+&gt; building kernel module which is written in rust inside sdk. <br>
+&gt;<br>
+&gt; Summary of changes:<br>
+&gt;<br>
+&gt; - Patch 1: Extend &#39;bindgen-cli&#39; to support &#39;nativesdk&#39;=
+, allowing it to be available in the SDK environment.<br>
+&gt; - Patch 2: Add required dependencies (&#39;clang-native&#39;, &#39;bin=
+dgen-cli-native&#39;) to the kernel to support Rust binding generation.<br>
+&gt; - Patch 3: Install the Rust standard library source (&#39;library/&#39=
+;) into `work-shared` and which will be later copied to <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 linux-yocto recipe-sysroot-na=
+tive.<br>
+&gt; - Patch 4: Stage the Rust sources into `recipe-sysroot-native` for ker=
+nel build compatibility, making them visible during native builds.<br>
+&gt; - Patch 5: Update `kernel-yocto.bbclass` to invoke `make rustavailable=
+` during &#39;do_kernel_configme&#39;, ensuring Rust readiness.<br>
+&gt; - Patch 6: Add kernel configuration support for Rust (via &#39;rust.cf=
+g&#39; and &#39;rust.scc&#39;), enabling the Rust build options in kernel c=
+onfig.<br>
+&gt; - patch 7: Copy Rust kernel sources into kernel-devsrc build directory=
+ which will be required while runnig &#39;make prepare&#39; in sdk.<br>
+&gt;<br>
+&gt; WIP - need inputs:<br>
+&gt; 1. In patch-3, rust sources are copied from ${RUSTSRC} to ${TMPDIR}/wo=
+rk-shared, which is redundant and improving it in<br>
+&gt;=C2=A0 more optimized way by extracting rust directly into ${TMPDIR}/wo=
+rk-shared and then use it for both rust &amp; linux-yocto recipes.<br>
+&gt;=C2=A0 <br>
+&gt; 2. In patch-6, We&#39;ve suppressed a few build path QA issues with IN=
+SANE_SKIP.<br>
+&gt; We have tried fixing those using DEBUG_PREFIX_MAP &amp; --remap-path-p=
+refix but unable to resolve it.<br>
+&gt; Are there any flags for kernel or any other inputs?<br>
+&gt;=C2=A0 <br>
+&gt; 3. If rust.cfg &amp; rust.scc changes are ok, we will send kernel conf=
+iguration fragment to yocto-kernel-cache.<br>
+&gt;<br>
+&gt; With above considerations, We did a successful build of Enabling rust =
+in linux kernel and <br>
+&gt; Tested a rust-out-of-tree kernel module in sdk for x86-64 &amp; arm64 =
+architectures.<br>
+&gt;<br>
+&gt; Harish Sadineni (7):<br>
+&gt;=C2=A0 =C2=A0bindgen-cli: extend BBCLASSEXTEND to include nativesdk<br>
+&gt;=C2=A0 =C2=A0linux-yocto: add clang-native and bindgen-cli-native to DE=
+PENDS<br>
+&gt;=C2=A0 =C2=A0rust: install Rust standard library sources for make rusta=
+vailable<br>
+&gt;=C2=A0 =C2=A0 =C2=A0support<br>
+&gt;=C2=A0 =C2=A0rust: stage rustlib sources for linux-yocto make rustavail=
+able support<br>
+&gt;=C2=A0 =C2=A0kernel-yocto: add rust support via make rustavailable in<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0do_kernel_configme<br>
+&gt;=C2=A0 =C2=A0linux-yocto: enable Rust support in kernel configuration<b=
+r>
+&gt;=C2=A0 =C2=A0kernel-devsrc: copying rust-kernel soucre=C2=A0 to $kernel=
+dir/build<br>
+&gt;<br>
+&gt;=C2=A0 meta/classes-recipe/kernel-yocto.bbclass=C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 4 ++++<br>
+&gt;=C2=A0 .../bindgen-cli/<a href=3D"http://bindgen-cli_0.72.1.bb" rel=3D"=
+noreferrer" target=3D"_blank">bindgen-cli_0.72.1.bb</a>=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0|=C2=A0 2 +-<br>
+&gt;=C2=A0 meta/recipes-devtools/rust/<a href=3D"http://rust_1.90.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">rust_1.90.0.bb</a>=C2=A0 =C2=A0 =C2=A0| 1=
+3 +++++++++++-<br>
+&gt;=C2=A0 meta/recipes-kernel/linux/files/rust.cfg=C2=A0 =C2=A0 =C2=A0 | 2=
+0 +++++++++++++++++++<br>
+&gt;=C2=A0 meta/recipes-kernel/linux/files/rust.scc=C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 1 +<br>
+&gt;=C2=A0 meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" re=
+l=3D"noreferrer" target=3D"_blank">kernel-devsrc.bb</a>=C2=A0 =C2=A0 |=C2=
+=A0 1 +<br>
+&gt;=C2=A0 meta/recipes-kernel/linux/linux-yocto.inc=C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 7 +++++++<br>
+&gt;=C2=A0 meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.16.bb"=
+ rel=3D"noreferrer" target=3D"_blank">linux-yocto_6.16.bb</a> |=C2=A0 4 +++=
++<br>
+&gt;=C2=A0 8 files changed, 50 insertions(+), 2 deletions(-)<br>
+&gt;=C2=A0 create mode 100644 meta/recipes-kernel/linux/files/rust.cfg<br>
+&gt;=C2=A0 create mode 100644 meta/recipes-kernel/linux/files/rust.scc<br>
+<br>
+Hi Harish,<br>
+<br>
+I know this is still an RFC, but I ran it on the autobuilder to check<br>
+how it goes. We had a some error with kernel build:<br>
+<br>
+ERROR: linux-yocto-6.12.52+git-r0 do_patch: Execution of &#39;/srv/pokybuil=
+d/yocto-worker/qemux86-alt/build/build/tmp/work/qemux86-poky-linux/linux-yo=
+cto/6.12.52+git/temp/run.do_patch.410367&#39; failed with exit code 1<br>
+...<br>
+| cp: cannot stat &#39;/srv/pokybuild/yocto-worker/qemux86-alt/build/build/=
+tmp/work-shared/rust&#39;: No such file or directory<br>
+<br>
+This happened in almost all builds as far as I can tell:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/buil=
+ds/2614" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/20/builds/2614</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/build=
+s/2623" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/valkyrie/#/builders/9/builds/2623</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/build=
+s/2650" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/valkyrie/#/builders/2/builds/2650</a><br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/buil=
+ds/2638" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/29/builds/2638</a><br>
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#225320): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/225320" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/225320</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/115908706/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/115908706/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
+t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
+</div>
+</div>
 
-Add initial support for building the Linux kernel with Rust enabled:
-
-- Introduce `rust.cfg` to set Rust-related kernel config options, including:
-  - `CONFIG_RUST`, `CONFIG_HAVE_RUST`, and `CONFIG_RUST_IS_AVAILABLE`
-  - Rust sample modules and developer checks (overflow/debug assertions)
-  - Disable BTF and module versioning for compatibility
-
-- Add `rust.scc` to include `rust.cfg` via `kconf` in the kernel feature stack
-
-- Update `linux-yocto_${PV}.bb` to:
-  - Append `rust.scc` to `SRC_URI` and `KERNEL_FEATURES`
-  - Suppress `buildpaths` QA warning due to Rust path inclusion during builds
-
-Signed-off-by: Harish Sadineni <a class="moz-txt-link-rfc2396E" href="mailto:Harish.Sadineni@windriver.com">&lt;Harish.Sadineni@windriver.com&gt;</a>
----
- meta/recipes-kernel/linux/files/rust.cfg      | 20 +++++++++++++++++++
- meta/recipes-kernel/linux/files/rust.scc      |  1 +</pre>
-    </blockquote>
-    This is fine for an RFC but at some point, when Bruce asks for an
-    non-RFC version,<br>
-    I expect that you will need to move this to the yocto-kenrel-cache,
-    perhaps under:<br>
-    <p><a class="moz-txt-link-freetext" href="https://git.yoctoproject.org/yocto-kernel-cache/tree/cfg">https://git.yoctoproject.org/yocto-kernel-cache/tree/cfg</a></p>
-    <p>Take a look at the yocto-kernel-cache repo and docs:<br>
-      &nbsp; <a class="moz-txt-link-freetext" href="https://docs.yoctoproject.org/kernel-dev/advanced.html">https://docs.yoctoproject.org/kernel-dev/advanced.html</a><br>
-      if you haven't already.<br>
-      <br>
-    </p>
-    <blockquote type="cite" cite="mid:20251023112547.4044904-7-Harish.Sadineni@windriver.com">
-      <pre wrap="" class="moz-quote-pre">
- meta/recipes-kernel/linux/linux-yocto_6.16.bb |  4 ++++
- 3 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-kernel/linux/files/rust.cfg
- create mode 100644 meta/recipes-kernel/linux/files/rust.scc
-
-diff --git a/meta/recipes-kernel/linux/files/rust.cfg b/meta/recipes-kernel/linux/files/rust.cfg
-new file mode 100644
-index 0000000000..293438e8e0
---- /dev/null
-+++ b/meta/recipes-kernel/linux/files/rust.cfg
-@@ -0,0 +1,20 @@
-+CONFIG_RUST=y
-+CONFIG_SAMPLES_RUST=y
-+CONFIG_SAMPLE_RUST_MINIMAL=y
-+CONFIG_SAMPLE_RUST_PRINT=y
-+CONFIG_SAMPLE_RUST_HOSTPROGS=y
-+CONFIG_RUST_DEBUG_ASSERTIONS=y
-+CONFIG_RUST_OVERFLOW_CHECKS=y
-+CONFIG_RUST_BUILD_ASSERT_ALLOW=y
-+# Disable module versioning
-+CONFIG_MODVERSIONS=n
-+
-+# Disable BTF debug info
-+CONFIG_DEBUG_INFO_BTF=n
-+
-+# Rust availability
-+CONFIG_RUST_IS_AVAILABLE=y
-+
-+# Indicate Rust support present
-+CONFIG_HAVE_RUST=y</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>You'll have to review this list to divide it up into:<br>
-      &nbsp; 1. a minimal rust.cfg and perhaps<br>
-      &nbsp; 2. a rust-samples.cfg<br>
-      &nbsp; 3. a rust-debug.cfg&nbsp; if that's really what <span style="white-space: pre-wrap">CONFIG_RUST_DEBUG_ASSERTIONS and friends are doing:
-   <a class="moz-txt-link-freetext" href="https://cateee.net/lkddb/web-lkddb/RUST_DEBUG_ASSERTIONS.html">https://cateee.net/lkddb/web-lkddb/RUST_DEBUG_ASSERTIONS.html</a>
-
-Also, you'll need to explain and justify each option or set of options more clearly in the commit log.
-</span></p>
-    <p><span style="white-space: pre-wrap"></span><br>
-      As Bruce said, the next steps are:<br>
-      <span style="white-space: pre-wrap">
-1. Rust being optional and off by default 
-2. </span>Rust binary / prebuilt components to minimize the overhead and
-      dependencies of rust and related tools on the kernel.</p>
-    <p><span style="white-space: pre-wrap">Anyway, this is a super start and I understand you have a v2 almost ready that makes kenrel rust-support be optional so
-send that now and we'll see what the next step after that is.
-</span></p>
-    <p><br>
-    </p>
-    <p><span style="white-space: pre-wrap"></span></p>
-    <p><span style="white-space: pre-wrap">Thanks,</span></p>
-    <p><span style="white-space: pre-wrap">../Randy</span></p>
-    <p><span style="white-space: pre-wrap">
-</span></p>
-    <blockquote type="cite" cite="mid:20251023112547.4044904-7-Harish.Sadineni@windriver.com">
-      <pre wrap="" class="moz-quote-pre">
-+
-diff --git a/meta/recipes-kernel/linux/files/rust.scc b/meta/recipes-kernel/linux/files/rust.scc
-new file mode 100644
-index 0000000000..4686d9ce5e
---- /dev/null
-+++ b/meta/recipes-kernel/linux/files/rust.scc
-@@ -0,0 +1 @@
-+kconf hardware rust.cfg
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.16.bb b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
-index 2188c7fed2..fda964e78d 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.16.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
-@@ -77,3 +77,7 @@ KERNEL_FEATURES:append:powerpc64le = &quot; arch/powerpc/powerpc-debug.scc&quot;
- # Check again during next major version upgrade
- KERNEL_FEATURES:remove:riscv32 = &quot;features/debug/debug-kernel.scc&quot;
- INSANE_SKIP:kernel-vmlinux:qemuppc64 = &quot;textrel&quot;
-+INSANE_SKIP:kernel-vmlinux = &quot;buildpaths&quot;
-+INSANE_SKIP:kernel-dbg = &quot;buildpaths&quot;
-+SRC_URI += <a class="moz-txt-link-rfc2396E" href="file://rust.scc">&quot;file://rust.scc&quot;</a>
-+KERNEL_FEATURES += &quot;rust.scc&quot;
-</pre>
-      <br>
-      <fieldset class="moz-mime-attachment-header"></fieldset>
-      <pre wrap="" class="moz-quote-pre">-=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#225242): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/225242">https://lists.openembedded.org/g/openembedded-core/message/225242</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/115908712/3616765">https://lists.openembedded.org/mt/115908712/3616765</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------PWcNqMTh6byx0b1UrhRlFUHA--
+--0000000000003561f80642ca256f--
 
