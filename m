@@ -2,50 +2,50 @@ Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80133CCFA07
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F461CCFA00
 	for <webhook@archiver.kernel.org>; Tue,  4 Nov 2025 08:34:11 +0000 (UTC)
 Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.118])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.13398.1762245230231928511
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Nov 2025 00:33:54 -0800
+ Tue, 04 Nov 2025 00:33:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=R3U9U56S;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=sAMf2dIJ;
  spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: vaisala.com, ip: 40.107.130.118, mailfrom: niko.mauno@vaisala.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=w08r3VF0qjUesMoSAxNF9LDY7ajk30LmTgqtddXJq828ey1KrHptfrg39tV8W0+v0gIhruwejOC5N8J4r5IURSrubS2PFTypmwGXrpa0VtLe2DztPGceTfPWVnz6maRmeVrsY2/ByfGvh8XK5852vy2b5XnOf5ev9hV8qvIXcX/Q6FHUMyllaXuhCnBhWVtj7ccVncWPouC6SYlCUvfzKt9CISSQ1YCC/aZQ2VzfOzwn2qq2Ue73c1Snd7VwWUt8QBbqs+jqX/DVhF3A70fijmodn4U4EwyESzSHjgbhc144ucs6sv6Cd6WTa6x02i5g3Pi4B7htyabUmMP6R31WNg==
+ b=ejaAIaa5HdNKd3ZYnFBMA6Qe4rqMfROPOv6XEoQrw5WQGIF/1LMi4taHH9PXiKoMYKR+QDUrPMAkxcmGXQZWIOwk7xL69ZbC/KvMnL4+Y0C+GIh6jyoBOSULTKvnB2Fa6IGzQN6FweH288WsN6U1f2HJQNkNXAKaSWdsZhcGew+kssZmx39tgq2pcKr+Beq164WmhLg6x4uYPQxUqwr1tKEzVDmvmoI5Ejw/tBxI0sKDHn8dHKEV2+Oy3OQv//4YuQltPzSFVyEQQC+6yA2Zzbrw+q9n1CO84N8MTq/xcsxEsyBueDDq8JTgaJIsUui/Rze4hMltRLHcv3jtxNKjkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DRI0XxFeGw1lpJuVFmWffzfkts/c7kF854+sNyM0P1c=;
- b=ALh/XJKl66SogK4/wuPNUdUIhaj4ldz/aeXgIAm2RgqqJlDArv60nrmz2u4CipcWyM8YeNW7YPq+pz3CIE2gCMtuT5+HxW9tSohjaxeci5d5JU0N+yPBwVmfuvBlxbqWcTwOuyFawObLgdbn8StUrPpzosOLbFqm6FBsUWfXUE95/Opk1KzoKKwUV+qHM1ni372Z+D1tA/HXTuDBIRHIE/fTvnhHsXw05y8KAYpniaO/zUdci9RK+rQ69BAeQ4yQQCNIPXGxQ6xeN1VTm+tXPJr7KFV+yvUIG8aIcIv2I05xSdhSc5Stz49cCifbZ/cjDePYitU2uOvZfbTqo6BoHQ==
+ bh=0YvBv20ZeHs5+m5oaxJYZuiXU3tkg8OKp7HTswJdha0=;
+ b=mOvrqnfSUzJ5A8y5nlU40uDpmDTDw6A4kLUCwH+ugrFZUGYyrR02G8ZBlsmUAUx3Q4MgPaK1LlPY1C1zCSRdPmWcfpKeA9AXDbWkK2NpKSGx6BeqZj4MnmeCF7DqT/difZp0tlTSPJRj10higolo8FmLBAr67Mzi10r655vyJwaVMMK++Kf3T3yp69fjPFCZtfvtEsh+cir3IlUnZQjmH94H4y+TP4Cvk+Dg//kBY+INJ6e9RLSarXMMMHOcvqaIlduwg0M6ufZLa/mtntHM0sDmQVhia85xy6fq3tyeN+Ja05+Yv73scvVibejgeFlbgoAFDDypEjB32HENiyxA0Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
  dkim=pass header.d=vaisala.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DRI0XxFeGw1lpJuVFmWffzfkts/c7kF854+sNyM0P1c=;
- b=R3U9U56SLvQ/bCiFcJtyZIu2RKAn8j+Pl1ich6U7gCDCgQuUgwM5watFEc+8z8UC727qjcpVqlIp3jn9do1Ujdg6tyJBBUPUdhhP/vmEAlJtCNFfq8ztAT/U/nOowQmW55fB3j7CzbykhmTqzGCWWtNdqi+qQYsNAgSf8ezKgpmo7mx12FPvHf9d8zyo8CrLGVpmgwEyFIj83VquxCA+dx8oNQDkIqZsfqpUFU+chEtAXa+p19lw85QEbV6WlPmIO6vB1tLLC6a1QZSJ+a7IkloJNGWhgEPsTlNIGxvknKZlTrpAqg5MYW+8S4Mr+gANxFgkZIQPVO4MgE0k07SJdA==
+ bh=0YvBv20ZeHs5+m5oaxJYZuiXU3tkg8OKp7HTswJdha0=;
+ b=sAMf2dIJ34/IHklfVWAd1J7tqVf0ITS8uvpkMUjT+MlOLmccmCFXZMO+LXW4ozyMUURAqLQrzJobusrDJHpr07X8/+P1P0ZJnVMr47du2urbsNqElgp5GR/+wUCk/ejQyHhliV2h4foJt5qlUaLM3AUu1RmG3TmDqMuxhFG5rh0flePbJwcp6+iPJIlIuPg+sqPSwMG7Rt8pnhP1QmNN5matHBZ9VvNCJCz4RgYKUZJ/4aFcy2ReYLt+JOwP5fHJRpXJehRkflJoLScU+wVUpcDiSfNzSCCR4jdQfC4iooml1iU5nnSBWGSr3Cre3nxoFZ6U9q+nawrWCqwVnHiQDg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=vaisala.com;
 Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
  by PAXPR06MB7405.eurprd06.prod.outlook.com (2603:10a6:102:de::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Tue, 4 Nov
- 2025 08:33:46 +0000
+ 2025 08:33:45 +0000
 Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
  ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
  ([fe80::af93:b150:b886:b2bc%5]) with mapi id 15.20.9275.015; Tue, 4 Nov 2025
- 08:33:46 +0000
+ 08:33:45 +0000
 From: Niko Mauno <niko.mauno@vaisala.com>
 To: openembedded-core@lists.openembedded.org
 CC: ross.burton@arm.com,
 	rybczynska@gmail.com,
 	peter.marko@siemens.com,
 	Niko Mauno <niko.mauno@vaisala.com>
-Subject: [PATCH v2 3/5] cve-update: Drop obsolete NVD1 support
-Date: Tue,  4 Nov 2025 08:33:31 +0000
-Message-ID: <20251104083333.814331-3-niko.mauno@vaisala.com>
+Subject: [PATCH v2 2/5] cve-update-db-native: pycodestyle fixes
+Date: Tue,  4 Nov 2025 08:33:30 +0000
+Message-ID: <20251104083333.814331-2-niko.mauno@vaisala.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251104083333.814331-1-niko.mauno@vaisala.com>
 References: <20251104083333.814331-1-niko.mauno@vaisala.com>
@@ -57,343 +57,168 @@ X-ClientProxiedBy: GV2PEPF0000384D.SWEP280.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|PAXPR06MB7405:EE_
-X-MS-Office365-Filtering-Correlation-Id: 33eedf9b-7e25-4b4c-2d0b-08de1b7cdeb4
+X-MS-Office365-Filtering-Correlation-Id: 0e974eef-97a7-430d-97a9-08de1b7cde45
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?7CKw49E92ioRfFzbCRCfTecISlKM2GXfgLNGOqUITarg42IBLjoWjQCHY3Ey?=
- =?us-ascii?Q?llFoIliq9eqWZ7eO2x4yNeJEaffPPV1ZZdkZ/2xBMYX4aCC5jrTFlSAUS9Vb?=
- =?us-ascii?Q?1I7nGofe6xlMveujG0POorR5kK7xdhjnozIwA+130CD4Dy7ORlOVplYV/rvE?=
- =?us-ascii?Q?kNcIA5SbZJneOcrkTYRcXaG57mxW4K/0HMz4Xp3Qv8WcfRe4XGuMQOGhKBGI?=
- =?us-ascii?Q?s5MuWCaJQCxvaCSPeUvsPGYz0TQZuzOTrRcn67qzwyQDvCFgIBniFv+kny3a?=
- =?us-ascii?Q?Iaigk/7ZiqTwdUr/Rhuexl8rYbnb9ylIJdsn1c6Fe9BNluex83K6fL9NQcfT?=
- =?us-ascii?Q?8nMIRjb8fPB4opyTZuwHl+9ajhe6IIeqEsL+V4838TibORYmf/qbvIdBivtA?=
- =?us-ascii?Q?QuMQWRUBlRimk0YrqyHDzNx7TPhpgS/cm0xH7LRUkRSF5AkL3cZ/UjFWIeMZ?=
- =?us-ascii?Q?1c32p19InK6UzMoZbOUYm4cgF/tmNpYbnmJ7LK7VMZfcltpHifx0bMRhpAWH?=
- =?us-ascii?Q?MJ/hPrigscTzJUj9cPhIDaUc2ujsATc87GI0OlzJrQm7A1+E6sFVv0n/VZ4b?=
- =?us-ascii?Q?IIa1F3ofOqngUxr0+ZpN7PjszFOdZf2LTDqp3O2d08k5Uyv4q7UePXJccL7x?=
- =?us-ascii?Q?Ed1cOYsSltZUUT67f71zuzd++03pKJiqEMV2+8kvEGaJfiLUj6tBIYyUqZ1B?=
- =?us-ascii?Q?KVTFGHWiHYnV8pl5KHCrPCFRWtsLlJOLFN2OibLaY88y2Fk4MXXbL8AxjmRB?=
- =?us-ascii?Q?XcgT/5Ih2GueMz5KtiOLsUy27nLyd3GCA3wJVBBUHbMkFUSJQXUYhzx5ufH7?=
- =?us-ascii?Q?qWJv6htCswwN7qK++gd28SD0kyyc90rqPhqKSfi3mTIIbnHjsy0o1I2NQjLP?=
- =?us-ascii?Q?xgsLjUGA1c3HJQbfqWDqVstxJpZg8GBdOD8ZkcfjOVZ6T48MMsgXgieAsrNM?=
- =?us-ascii?Q?QBkQZg6o2kxe+Ua8vuplCvcfD5V6ZDeLAyuNDZZUGNz7APMnhAOyJZP59ybC?=
- =?us-ascii?Q?A5mmetH95m4rXIlSzXW/8LORhQPlkvZocjhIRsXtqceG1pPUagn49NbXgdPk?=
- =?us-ascii?Q?75YIcDrbyeFrFOLy9vixwpPocwS9wdEMq73Oh5RmPPoDoS1fyACkWD0n04nV?=
- =?us-ascii?Q?Kqq511ZDR4iFcn9YGQWHuODCBrkqSl1fQvL3eWeeJ4uQ0LB8tbQC8AAgvz9K?=
- =?us-ascii?Q?iIFTQrHQFTpsiIlYxcLWCqJsKF1o+zQLSQpPnDikAbuTW9rwxjkTu7J7wFS9?=
- =?us-ascii?Q?raeJGKVPQFg4YZH9q+8ipFvlkq9Ev1mVWWqIF+oWWoIcF3x4IbfYPw9lTuYJ?=
- =?us-ascii?Q?iuSgv46KkG4qS6Qwf6riq/d14iYkFvw77olC19rjRATXwGQzT15Ogo2aNar1?=
- =?us-ascii?Q?UWdehTXnilipJd3Pwmv/O4Ww9EBBA9k8lLDptqPPufMWapQ3foZY0Jr6HK+8?=
- =?us-ascii?Q?lg2IVDcizDi5Ix0i94i39CfNVk6YwsEitRK91cijZH8ImJQT6kMqUMx9yy5C?=
- =?us-ascii?Q?CCm6/vRs8+3PLSkk85AXcQ6zj9r9ZQs9B21G?=
+	=?us-ascii?Q?aBdOz0v7A1hRujYJQF8kOyJA+phEElAGjFeUxdmHdgsCTyvBiGQJjE95wwIO?=
+ =?us-ascii?Q?3eokqOQbyI6DVy49nzte+DuVmXGqCe3MCNkyZe00yhHXxba7/ePAXQzhx7yw?=
+ =?us-ascii?Q?5hFP/RG1Truez9yFuA/GsLm26kiy6MYU1w2DHhuDIzK9HGj8M4ute5qJsBSE?=
+ =?us-ascii?Q?Lck/TgieIDIRISgYs341OXiPNtlWZ3Rk2eJ4ionUAzNJOkcU2Rd37U1UUFac?=
+ =?us-ascii?Q?6s7SnvullCV6vwlN+vvlafBTYt6nk8v5MD02uSXCdPMrygLhih4ZuwPGpajR?=
+ =?us-ascii?Q?SIvW1QJM7sQ1w8B6usAaz18vIrsZXS3Q7yXtqTKs4Ce7eZNI0JEq7TotyLT3?=
+ =?us-ascii?Q?Ycpp+zm62sII8xJeLoTz7rymv3V6n6qVJfAyYO4oFrGVg+FyTdypOBCjTC2A?=
+ =?us-ascii?Q?BLDxdvmpF5MRyK0CDxbYNABsmdEkBKOjEgRd8VCyfBqDHsUHR1FqEJWW8QJW?=
+ =?us-ascii?Q?K8sTXQAaUuG9zVxzmfGALmz4RYG1/vLotynou/sPatpNbElz98CLxsOTmrAO?=
+ =?us-ascii?Q?y4leX35kA3bTNoVc59YeOaRqMU5suHDkzyLyae5OFaaDLXPPAE6OOseoTF46?=
+ =?us-ascii?Q?DHpRP+JutBw8UmMYgnmjt//9RuX6X4rw6GNs7CPSBp4zqoMJD0o0qWxotShv?=
+ =?us-ascii?Q?N7hOaAj29ZyJx1+L4aLrEGY0SKyF8p3ro2xIP0axIZJP0ZOLW579F0wYR2i9?=
+ =?us-ascii?Q?7aVybHNKdRWKBpz+Q+/YUtPQoc946rZpS5OIv/IH8QHdFZcBPCp/kCUak9lk?=
+ =?us-ascii?Q?s9NYBNGyoQRKU6BO9WPUvHBjKbnwkgcCGRTrkLsbYS5cngt45Jq6JgHdpINa?=
+ =?us-ascii?Q?9oPlNKLuSAH+k6GoTdX0LFsUUtgMJIGICWVoCICzjrKsZUXOcLaIYaGFP1PK?=
+ =?us-ascii?Q?fjVNtAa7WR3YJ2suYWdNky0bZD1kAKywk+FbINiwd1VDByvUcSZp1W5E1gAG?=
+ =?us-ascii?Q?4vyqLg1kmVFP72J8VdwzPtxq6vAV2YWCbm27w611ntvW+cP6j6BhpPMc++en?=
+ =?us-ascii?Q?xqZABSiMRhWIxos8QZqEzClezFy07+ZRyzcFlad78a8SIyNGusOg4J5Ybx+O?=
+ =?us-ascii?Q?7p94c+tTag0aHnOk9LphrmpOBmFb0mFrD1l0OKwIPqAnGB2WV/XodT6JIs/4?=
+ =?us-ascii?Q?jpmFPnMp2MN1Fj8/W8zDbtB/jaGHtc/gw2L25sKNaEtu5nishUhT6Zteo8Kh?=
+ =?us-ascii?Q?1V9uaabrTUW1e8xyOqCUHyLlyS0K0GZjSgug2xXnwtgeQNDrHwSIyRcXjQAa?=
+ =?us-ascii?Q?lAN2nyorXLPsZzrNvte8e+X0oF1IXc/qsqJ179VDkUp6rH+lVjQu8+bq8+PU?=
+ =?us-ascii?Q?+QyCp8Aq7w4LeW5lM9EfXXlWQsfEw6Hwg04vVOJzBTCI1oR8VPQP3zvo1KQh?=
+ =?us-ascii?Q?Lx7mWS8kaViq2JL4h/pruRJEp1Lq+Gk6PoUZtwb60xj9wxTd//wGBA7U/sA8?=
+ =?us-ascii?Q?aSzlwhB7h+BukNJHwJ2x7rm9ZejWfFB8ud2TGFYkFCZOjTLoUGNSd/nhTb0e?=
+ =?us-ascii?Q?L29u+YzHtxpXU2++neaAse1BfBKt3B2etHRN?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?+MU2VgMW90T0cS4g/kC5HO+FMwj4vzMJOXHpIG22QXL1DSLaKu8cBJ0UNwet?=
- =?us-ascii?Q?HAHDGug9QpSjatzzBJDqZUJu43D5CH26yizyO8hc5fvjPDKamjLUDRUvx5gB?=
- =?us-ascii?Q?BgksYHT7fQWW97EnUD85578nkDZRDE/yMdc6bWOp4qzLODIK71A2OOXYjk/v?=
- =?us-ascii?Q?6Cokabv1UVQ/wne8fdqJJhrNqc6iieXKexY7P4IoTmaCkMdtWjDMR3DxexOJ?=
- =?us-ascii?Q?RVXcJ0wu/WT7nL1iDbvn3ZKk0Gh8fid23vgvdm+44xhUvC7j2UZhszvR6+Ns?=
- =?us-ascii?Q?uYvCCAnytluUs2YFRG6lhW302NCCd2CMD/HP50dkTIMq4zfUGfqxRLSAcEh7?=
- =?us-ascii?Q?/X0xyYpD00wXU+/WEbG4GZphZVgKkQBDOFh6KiP/3+cyzQJ2fiXacqXDjk1l?=
- =?us-ascii?Q?U56u7fAHvZ6S+0dvw0gDet/z93AoLiz7J2AAYV+bUBaXz3LdHYQRKCV3Zkmb?=
- =?us-ascii?Q?He/VyrtdUkJU0cZMyHCVHXDL0qLzzkbKKM83YO/OSWYtO31Ue0LHSEnA7hxE?=
- =?us-ascii?Q?GsW382LP9HN7pxbnsvyqd9l3EDaku2uYcIPn1NKmq+slvajksr7mt+UhRP6q?=
- =?us-ascii?Q?Zg3b4gvMMPYfxPI2eEwlRmDJJuWP/KqxEeJc0k5MFGn2/OTu6f4JgoBr03mH?=
- =?us-ascii?Q?q7Z1VgaJAcqNwWbx46f2mGoTNlVlU/P6m654rp7wDrBp02xDX+QvcfniJkZ1?=
- =?us-ascii?Q?V7DumvoowLLohz62ftqGId5XJHx+eancsdQv+798leckFP15nNs0mTKIXkmI?=
- =?us-ascii?Q?5Pv+zrhga5qoRMqerlchCY6piPxlKj/+rjFypGP47+2DTxJYHtOvlQI7qkNm?=
- =?us-ascii?Q?wDBy+bTZ/ueAx8roxy3gihSjqPMomwFInZuYva8cdM3SlzVnuJP2O+MA5nIj?=
- =?us-ascii?Q?IwGsPC7sK3m1p65lg0S9chO0Qz9W/Xu5AuTp4yYCxtphS4+Z5wYkRSk0OVbh?=
- =?us-ascii?Q?2aSYmvyrd9ni3u0bR8XZ4bOnpK6gkNZI6xCdrarhAnITmdaDTbXXShovZ1+k?=
- =?us-ascii?Q?y7kurMTtNpkzdEbXB3faA2XqZEkHb/gpZQB7oiZZv7z9BhBHJlV8/O1spoag?=
- =?us-ascii?Q?R9sB7+P5C6DrAVF9O8XQlgLxyhV5jeX3FcLzuMYS7/jrrQ5yx5oyMgwQniZd?=
- =?us-ascii?Q?Xe++p8M82rz8HvRAcrFooHCjUPZV21QVcPNZZUQq0fd11khxufm+5Hv6X/aX?=
- =?us-ascii?Q?0grO8kBQ6ZiqkC0oBrsqbYAVOJ9EMASKfxQMzAAotS0BjgYYP+3DsjlwRa6s?=
- =?us-ascii?Q?cWOo17MSQA2Jho/te1Xev/9UHijEAwRWKhzZgkGpTBE/mDwND1/7Utqv22ya?=
- =?us-ascii?Q?/Zl7jpsILWhFwr6vh3rDKzgWLKT7Sw/9vMNvT3kHO2VZsOlRfze1eFvjeubC?=
- =?us-ascii?Q?1shxtkgMMT/2ZDNBbCYEi1mxuyPFPlu15uyV2twWAa3HCuT1awQbfsPfOGiB?=
- =?us-ascii?Q?853b0SBcdouIzd8n2kG8Z9PAWNBGEZo+KRyGffgT2MmuOD8EMRXCHtrDZHzS?=
- =?us-ascii?Q?sWo4y3az21aDP7d5RnNcPkK6ilnUgOwdSxloq057+nA0I24b9pClO5t+Ax+h?=
- =?us-ascii?Q?hKzamf9MKNWyVK8BAmW9JSfbawyf6wCKwL6X2c6YlQB9AU6szfwyfDFLVDfL?=
- =?us-ascii?Q?0w=3D=3D?=
+	=?us-ascii?Q?0M1lJ0QsGtkzybZpa3Ua6i0Xtw/usACb0fB3WOuWgMmVCmtuRb8JuBxAZ0qf?=
+ =?us-ascii?Q?b2ud643+X9d0P3WQw8PnBD97uBmbtFyF6TNcaMQ+eBhXtLIZHSYDyew9BOCN?=
+ =?us-ascii?Q?L1BsI1ld4+thTMlcmpybJU7Asw9AEwZPyMdspqpBeGngrDvQGHOnhso859zy?=
+ =?us-ascii?Q?djWDoQwCa5uqGhj8btWj7s4FDnrkMg0kBNHElQ40DTkyEKTUiGi2klLxN7jp?=
+ =?us-ascii?Q?DaaRl6yLQwWo/yqIBep05pvL22ex/DyPtWF92r5zw5S/7gkeeJuKbGtRgo1L?=
+ =?us-ascii?Q?DM2ybCra+ykHLCC5h6naWmGyi5peMsFEyuUFH0AcmWdersEOC3NXnfoh7NB7?=
+ =?us-ascii?Q?EVW3FNQtgmyyV7smrZiqbuejQyFsbESRyDbsnoUn07x0kMbAnQsCLK7vtxXT?=
+ =?us-ascii?Q?kSXZ9XYQz/G8jIEL5KoJmKRJH3SmjWgAR9gjFYlAuU8X09Q92tM6daZbJQAv?=
+ =?us-ascii?Q?CaMeOtUl9aThiMZ4AiM9hIOabZoGcbs2/AJNew0Dew84ZKAxIGTh4DseB0kL?=
+ =?us-ascii?Q?tfHF7yj9WjyRkQtVy3aJuaMfhO+Hk9bDGVqn3wG8ybL5H7qlZUo7QVTeeiX2?=
+ =?us-ascii?Q?OI+cF6O+RhsV5PtzCzkzOGL2pjsi22+5UrxHvZrZkDUYEpZXMssYRNcdO5HK?=
+ =?us-ascii?Q?FiDd+ErmRE92TBfRc641ej6wIQJO5EPy0euioosQIwMNXMIgHrDJbrHzERcb?=
+ =?us-ascii?Q?dFxwO9ajW/+I3MY4hwyC1eEJx2p6CKUDvP79G2Y2BZ9gV6hpotp7toY5Fsa0?=
+ =?us-ascii?Q?xbBnf38JX43dgphzeyReVDfD1+PtORc/D2l8p3+FUUoSqurRJxADq53CeMVi?=
+ =?us-ascii?Q?MRb0kvNfYHNerq6IclUig2EBat+K2V1qxu8rdIqcvg39IBfvH6cE3jBEMj0p?=
+ =?us-ascii?Q?T2qXQdi5S90lEIghzH3AMFiv2mdhrCs7h8sFiJRpd0VkXm0eEbeWois9wjep?=
+ =?us-ascii?Q?vty0STJhKipcoaQgbspxmpNQvKwQk+H2cCuwQ87c96SQvWO6NB4gfmQ3ESp4?=
+ =?us-ascii?Q?s/aLaJQ+7s2ogBpHFDvB7rKZvZatJnbHSGVbmvIKKC7pCfctRu/m5deOW7gh?=
+ =?us-ascii?Q?Rx2f3LGUDhKgkZWThZ05xVaYOaaBTrJCNGKHuy5lbSN8F5hpvrEmLKBI4S/s?=
+ =?us-ascii?Q?25FgwWLQLna35G2vLRbIjxYPshnb3A75h4s1W+FkqSwgIrlwOtZa3YB0ipfo?=
+ =?us-ascii?Q?sRFoD1gEzxmzKZ04I8DRL+Riz+QCRh2YHlqXROwlY/WQGu6Oej0DyN69a7R2?=
+ =?us-ascii?Q?LZzRo+gIHrexN6LCwdsdWrN4ZG4JybQ1aKJDx5U4kzWbEJEOnUUa7Cb3Tpuo?=
+ =?us-ascii?Q?aUKX69tZthZRvAMdZTOKeK31VpaqYAp5E9YTTUkRvL1YbDP+E6D5isQtEe7g?=
+ =?us-ascii?Q?/UqVExSnTYxz6f/+4XkKmXF+eG1+I8F1qKoJSD0LDS68ywYpgZJraLA8vjgM?=
+ =?us-ascii?Q?Yzj3wbZpamZFd7QQNgWtL6PQ8IKzLEVx4D1WyMBcDdzGmYGUFh9BmhaXqlF+?=
+ =?us-ascii?Q?g73rTLQH0VN7TgceVE7JnFlCuWWJO0H0/MGTAMCc38ONxV2DmIIsr9howUfg?=
+ =?us-ascii?Q?y3R6R6Pp1zWkfKQE0aYF0p5uSIQhFDgRJ79tDpaccfFnWq4ka3ynSNIBubit?=
+ =?us-ascii?Q?DA=3D=3D?=
 X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33eedf9b-7e25-4b4c-2d0b-08de1b7cdeb4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e974eef-97a7-430d-97a9-08de1b7cde45
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2025 08:33:46.1109
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2025 08:33:45.4302
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L96LfkUQNnOfEmDzzBmOkahWz6/PM115q+XE1Cz8EsQdKeA9bA+47eXm9edqTRdq29P3GwdfFTRvB/MXtRompw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: sfnWhNdelnocj2PocI6VqRrbndqP55rxDnmZNA/IzJTHznNugd1shZ57cyDSj17wsmdBccOjX/BEri6Y3TMy7Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB7405
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 04 Nov 2025 08:34:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225714
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225713
 
-Since enabling NVD1 as NVD_DB_VERSION nowadays leads to BitBake failure
+Fixes following pycodestyle complaints:
 
-  WARNING: cve-update-db-native-1.0-r0 do_fetch: Failed to fetch CVE data (=
-HTTP Error 403: Forbidden)
-  WARNING: cve-update-db-native-1.0-r0 do_fetch: Host IPs are 172.65.90.26,=
- 172.65.90.25, 172.65.90.24, 172.65.90.27, 2606:4700:78::90:0:180, 2606:470=
-0:78::90:0:183, 2606:4700:78::90:0:181, 2606:4700:78::90:0:182
-  WARNING: cve-update-db-native-1.0-r0 do_fetch: CVE database update failed
-  ERROR: cve-update-db-native-1.0-r0 do_unpack: Error executing a python fu=
-nction in exec_func_python() autogenerated:
+  cve-update-db-native.bb:80:39: E712 comparison to True should be 'if cond=
+ is True:' or 'if cond:'
+  cve-update-db-native.bb:128:20: E401 multiple imports on one line
+  cve-update-db-native.bb:130:18: E401 multiple imports on one line
+  cve-update-db-native.bb:171:21: E741 ambiguous variable name 'l'
+  cve-update-db-native.bb:335:26: E225 missing whitespace around operator
+  cve-update-db-native.bb:344:12: E713 test for membership should be 'not i=
+n'
+  cve-update-db-native.bb:347:12: E713 test for membership should be 'not i=
+n'
 
-Remove the support for obsolete NVD1.
+Also leaves out a redundant 'gzip' import in update_db_file().
 
 Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
 ---
- meta/classes/cve-check.bbclass                |  8 +-
- .../recipes-core/meta/cve-update-db-native.bb | 87 +++----------------
- 2 files changed, 15 insertions(+), 80 deletions(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclas=
-s
-index c63ebd56e1..259c699af2 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -31,11 +31,11 @@
- CVE_PRODUCT ??=3D "${BPN}"
- CVE_VERSION ??=3D "${PV}"
-=20
--# Possible database sources: NVD1, NVD2, FKIE
-+# Possible database sources: NVD2, FKIE
- NVD_DB_VERSION ?=3D "FKIE"
-=20
- # Use different file names for each database source, as they synchronize a=
-t different moments, so may be slightly different
--CVE_CHECK_DB_FILENAME ?=3D "${@'nvdcve_2-2.db' if d.getVar('NVD_DB_VERSION=
-') =3D=3D 'NVD2' else 'nvdcve_1-3.db' if d.getVar('NVD_DB_VERSION') =3D=3D =
-'NVD1' else 'nvdfkie_1-1.db'}"
-+CVE_CHECK_DB_FILENAME ?=3D "${@'nvdcve_2-2.db' if d.getVar('NVD_DB_VERSION=
-') =3D=3D 'NVD2' else 'nvdfkie_1-1.db'}"
- CVE_CHECK_DB_FETCHER ?=3D "${@'cve-update-nvd2-native' if d.getVar('NVD_DB=
-_VERSION') =3D=3D 'NVD2' else 'cve-update-db-native'}"
- CVE_CHECK_DB_DIR ?=3D "${STAGING_DIR}/CVE_CHECK"
- CVE_CHECK_DB_FILE ?=3D "${CVE_CHECK_DB_DIR}/${CVE_CHECK_DB_FILENAME}"
-@@ -108,8 +108,8 @@ python () {
-     extend_cve_status(d)
-=20
-     nvd_database_type =3D d.getVar("NVD_DB_VERSION")
--    if nvd_database_type not in ("NVD1", "NVD2", "FKIE"):
--        bb.erroronce("Malformed NVD_DB_VERSION, must be one of: NVD1, NVD2=
-, FKIE. Defaulting to NVD2")
-+    if nvd_database_type not in ("NVD2", "FKIE"):
-+        bb.erroronce("Malformed NVD_DB_VERSION, must be one of: NVD2, FKIE=
-. Defaulting to NVD2")
-         d.setVar("NVD_DB_VERSION", "NVD2")
- }
-=20
 diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-=
 core/meta/cve-update-db-native.bb
-index 3a6dc95580..4423216be5 100644
+index 713c73e574..3a6dc95580 100644
 --- a/meta/recipes-core/meta/cve-update-db-native.bb
 +++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -11,7 +11,6 @@ deltask do_compile
- deltask do_install
- deltask do_populate_sysroot
+@@ -77,7 +77,7 @@ python do_fetch() {
+     if os.path.exists(db_file):
+         shutil.copy2(db_file, db_tmp_file)
 =20
--NVDCVE_URL ?=3D "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
- FKIE_URL ?=3D "https://github.com/fkie-cad/nvd-json-data-feeds/releases/la=
-test/download/CVE-"
-=20
- # CVE database update interval, in seconds. By default: once a day (23*60*=
-60).
-@@ -108,30 +107,12 @@ def cleanup_db_download(db_tmp_file):
-     if os.path.exists(db_tmp_file):
-         os.remove(db_tmp_file)
-=20
--def db_file_names(d, year, is_nvd):
--    if is_nvd:
--        year_url =3D d.getVar('NVDCVE_URL') + str(year)
--        meta_url =3D year_url + ".meta"
--        json_url =3D year_url + ".json.gz"
--        return json_url, meta_url
-+def db_file_names(d, year):
-     year_url =3D d.getVar('FKIE_URL') + str(year)
-     meta_url =3D year_url + ".meta"
-     json_url =3D year_url + ".json.xz"
-     return json_url, meta_url
-=20
--def host_db_name(d, is_nvd):
--    if is_nvd:
--        return "nvd.nist.gov"
--    return "github.com"
--
--def db_decompress(d, data, is_nvd):
--    import gzip, lzma
--
--    if is_nvd:
--        return gzip.decompress(data).decode('utf-8')
--    # otherwise
--    return lzma.decompress(data)
--
- def update_db_file(db_tmp_file, d):
+-    if update_db_file(db_tmp_file, d) =3D=3D True:
++    if update_db_file(db_tmp_file, d):
+         # Update downloaded correctly, can swap files
+         shutil.move(db_tmp_file, db_file)
+     else:
+@@ -136,9 +136,11 @@ def update_db_file(db_tmp_file, d):
      """
      Update the given database file
-@@ -139,12 +120,12 @@ def update_db_file(db_tmp_file, d):
-     import bb.progress
-     import bb.utils
+     """
+-    import bb.utils, bb.progress
++    import bb.progress
++    import bb.utils
      from datetime import date
-+    import lzma
-     import sqlite3
-     import urllib
+-    import urllib, gzip, sqlite3
++    import sqlite3
++    import urllib
 =20
      YEAR_START =3D 2002
      cve_socket_timeout =3D int(d.getVar("CVE_SOCKET_TIMEOUT"))
--    is_nvd =3D d.getVar("NVD_DB_VERSION") =3D=3D "NVD1"
-=20
-     # Connect to database
-     conn =3D sqlite3.connect(db_tmp_file)
-@@ -155,7 +136,7 @@ def update_db_file(db_tmp_file, d):
-         for i, year in enumerate(range(YEAR_START, date.today().year + 1))=
-:
-             bb.note("Updating %d" % year)
-             ph.update((float(i + 1) / total_years) * 100)
--            json_url, meta_url =3D db_file_names(d, year, is_nvd)
-+            json_url, meta_url =3D db_file_names(d, year)
-=20
-             # Retrieve meta last modified date
-             try:
-@@ -164,7 +145,7 @@ def update_db_file(db_tmp_file, d):
-                 cve_f.write('Warning: CVE db update error, Unable to fetch=
- CVE data.\n\n')
-                 bb.warn("Failed to fetch CVE data (%s)" % e)
-                 import socket
--                result =3D socket.getaddrinfo(host_db_name(d, is_nvd), 443=
-, proto=3Dsocket.IPPROTO_TCP)
-+                result =3D socket.getaddrinfo("github.com", 443, proto=3Ds=
-ocket.IPPROTO_TCP)
-                 bb.warn("Host IPs are %s" % (", ".join(t[4][0] for t in re=
-sult)))
+@@ -167,8 +169,8 @@ def update_db_file(db_tmp_file, d):
                  return False
 =20
-@@ -192,7 +173,7 @@ def update_db_file(db_tmp_file, d):
-                 try:
-                     response =3D urllib.request.urlopen(json_url, timeout=
-=3Dcve_socket_timeout)
-                     if response:
--                        update_db(d, conn, db_decompress(d, response.read(=
-), is_nvd))
-+                        update_db(conn, lzma.decompress(response.read()))
-                     conn.execute("insert or replace into META values (?, ?=
-)", [year, last_modified]).close()
-                 except urllib.error.URLError as e:
-                     cve_f.write('Warning: CVE db update error, CVE data is=
- outdated.\n\n')
-@@ -224,17 +205,14 @@ def initialize_db(conn):
-=20
-         c.close()
-=20
--def parse_node_and_insert(conn, node, cveId, is_nvd):
-+def parse_node_and_insert(conn, node, cveId):
-     # Parse children node if needed
-     for child in node.get('children', ()):
--        parse_node_and_insert(conn, child, cveId, is_nvd)
-+        parse_node_and_insert(conn, child, cveId)
-=20
--    def cpe_generator(is_nvd):
-+    def cpe_generator():
-         match_string =3D "cpeMatch"
-         cpe_string =3D 'criteria'
--        if is_nvd:
--            match_string =3D "cpe_match"
--            cpe_string =3D 'cpe23Uri'
-=20
-         for cpe in node.get(match_string, ()):
-             if not cpe['vulnerable']:
-@@ -290,44 +268,7 @@ def parse_node_and_insert(conn, node, cveId, is_nvd):
-                     # Save processing by representing as -.
-                     yield [cveId, vendor, product, '-', '', '', '']
-=20
--    conn.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", =
-cpe_generator(is_nvd)).close()
--
--def update_db_nvdjson(conn, jsondata):
--    import json
--    root =3D json.loads(jsondata)
--
--    for elt in root['CVE_Items']:
--        if not elt['impact']:
--            continue
--
--        accessVector =3D None
--        vectorString =3D None
--        cvssv2 =3D 0.0
--        cvssv3 =3D 0.0
--        cvssv4 =3D 0.0
--        cveId =3D elt['cve']['CVE_data_meta']['ID']
--        cveDesc =3D elt['cve']['description']['description_data'][0]['valu=
-e']
--        date =3D elt['lastModifiedDate']
--        try:
--            accessVector =3D elt['impact']['baseMetricV2']['cvssV2']['acce=
-ssVector']
--            vectorString =3D elt['impact']['baseMetricV2']['cvssV2']['vect=
-orString']
--            cvssv2 =3D elt['impact']['baseMetricV2']['cvssV2']['baseScore'=
-]
--        except KeyError:
--            cvssv2 =3D 0.0
--        try:
--            accessVector =3D accessVector or elt['impact']['baseMetricV3']=
-['cvssV3']['attackVector']
--            vectorString =3D vectorString or elt['impact']['baseMetricV3']=
-['cvssV3']['vectorString']
--            cvssv3 =3D elt['impact']['baseMetricV3']['cvssV3']['baseScore'=
-]
--        except KeyError:
--            accessVector =3D accessVector or "UNKNOWN"
--            cvssv3 =3D 0.0
--
--        conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?,=
- ?, ?)",
--                [cveId, cveDesc, cvssv2, cvssv3, cvssv4, date, accessVecto=
-r, vectorString]).close()
--
--        configurations =3D elt['configurations']['nodes']
--        for config in configurations:
--            parse_node_and_insert(conn, config, cveId, True)
-+    conn.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", =
-cpe_generator()).close()
-=20
- def get_metric_entry(metric):
-     primaries =3D [c for c in metric if c['type'] =3D=3D "Primary"]
-@@ -338,7 +279,7 @@ def get_metric_entry(metric):
+             if response:
+-                for l in response.read().decode("utf-8").splitlines():
+-                    key, value =3D l.split(":", 1)
++                for line in response.read().decode("utf-8").splitlines():
++                    key, value =3D line.split(":", 1)
+                     if key =3D=3D "lastModifiedDate":
+                         last_modified =3D value
+                         break
+@@ -332,7 +334,7 @@ def get_metric_entry(metric):
+     secondaries =3D [c for c in metric if c['type'] =3D=3D "Secondary"]
+     if len(primaries) > 0:
+         return primaries[0]
+-    elif len(secondaries)>0:
++    elif len(secondaries) > 0:
          return secondaries[0]
      return None
 =20
--def update_db_fkie(conn, jsondata):
-+def update_db(conn, jsondata):
-     import json
+@@ -341,10 +343,10 @@ def update_db_fkie(conn, jsondata):
      root =3D json.loads(jsondata)
 =20
-@@ -403,13 +344,7 @@ def update_db_fkie(conn, jsondata):
-         for config in elt['configurations']:
-             # This is suboptimal as it doesn't handle AND/OR and negate, b=
-ut is better than nothing
-             for node in config.get("nodes") or []:
--                parse_node_and_insert(conn, node, cveId, False)
--
--def update_db(d, conn, jsondata):
--    if (d.getVar("NVD_DB_VERSION") =3D=3D "FKIE"):
--        return update_db_fkie(conn, jsondata)
--    else:
--        return update_db_nvdjson(conn, jsondata)
-+                parse_node_and_insert(conn, node, cveId)
+     for elt in root['cve_items']:
+-        if not 'vulnStatus' in elt or elt['vulnStatus'] =3D=3D 'Rejected':
++        if 'vulnStatus' not in elt or elt['vulnStatus'] =3D=3D 'Rejected':
+             continue
 =20
- do_fetch[nostamp] =3D "1"
+-        if not 'configurations' in elt:
++        if 'configurations' not in elt:
+             continue
 =20
+         accessVector =3D None
 --=20
 2.47.3
 
