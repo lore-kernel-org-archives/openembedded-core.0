@@ -2,70 +2,70 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC2BFCCF9F8
-	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 13:24:36 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9237.1762349067739336517
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF4C8CCFA0D
+	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 13:27:06 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9358.1762349221087590448
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 05:24:27 -0800
+ Wed, 05 Nov 2025 05:27:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q5Qf8U43;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-28a5b8b12a1so72050925ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 05:24:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=leknuHwD;
+ spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7a9fb6fccabso3193518b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 05:27:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762349067; x=1762953867; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1762349220; x=1762954020; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gRoDIbjQMBCfg3E8bgGcvE5n1BsKMWxhkmznv22bSTk=;
-        b=Q5Qf8U43Ud9uluX9NJ25IF8zhVnKR+OqyEKzp+EaBXESFss/TpAKLFyWdR2f+m3NIk
-         BkwKucjT2rt26wl7KMlMWy3erFp8I/9Umag42aSJg2rxvBtrm8X/84mGnZwnZZm5bvKK
-         vA0n54j1xRTINrXiJT00DNp+acrpwhPPYuqKUEsM3x/N0LwSRyYTGwzH4BKkVaFBxAWy
-         5Dxv0Y57rt/R43F1l3Wt73yyIJeBEebgprWZfm1im2PFlVgeyKXNhGwlYtVPuF56esVj
-         QAhWdppxLc4AiT7tU+BNEji4D/uf8sLTUEkhe3Okmb/yCmyyt/Klbf5EBmaeN2Rgd062
-         KoZg==
+        bh=JkGvp9iS42TrKuvstxYaDpizt8sHgNWfS0gAKhQn0E0=;
+        b=leknuHwD6jL7Td9hVc943Zlh64zP/m6bcZX3q8dr1tSnWJpVJRV26ksiOVp8xvYRer
+         BZ8ySUxY42eoc/fr9dbxRx4eRhafrgiRPA4WxA9zZ/YYrbiYsug/yFaQj1HVAjI0WUpZ
+         Dl8zzmnBSHbwthDMNU5UBl2Jj2GSLO4G487J8D/jY1LJgDQ2WiTctg8eQcwpkdjDXocs
+         mECyjDwVsIFiGPp8Wfqbnq/Jsug5mS8P0qoXJKvKyH95fAn4fWEwe+bDQQUcPU40dE7i
+         3GKg2hXXWfQrbVqskqkqkj46SYaqSP2l+6xvZMbuXLD1jSRNyvDeXnZx2FBDRlFq+3Ws
+         eoRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762349067; x=1762953867;
+        d=1e100.net; s=20230601; t=1762349220; x=1762954020;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gRoDIbjQMBCfg3E8bgGcvE5n1BsKMWxhkmznv22bSTk=;
-        b=eZWSrtcX2I21kjzJHZCJTTnIiz64V9AiCJBVwX+wIFZBj2BPq6anvObJd/6vpbpA7V
-         SIgbT2HUFhDKs5i+MCVBLdaY0vUSVn393icJkCfBPkUUaEF1MG9JTujLdARwvLxwZopJ
-         tLiAOTa9Hjx8OlZwyBcot+9Vr22+PAHWGKWq459eaH82CUPOz2RBFaRr5Zxd5VIxXYaG
-         cLHo3AY9H9W2BSrrKEd7Yve5AjmbXKoUs1/tw3YMVDyr25kyeeB3qjdgPHNJitWoseZe
-         e3PgPq3UYW+LhQOGAMa4EW1zfRmkOAb41HR1b+4oa0St4BdXIUSo+15GuhZAj2rWsUSn
-         Berw==
-X-Gm-Message-State: AOJu0YwrKgXRcN83Dc+Q7xOlxeUPNlz2mnXjdSvkU3KqpyVXC058B7Qb
-	G6uNSfu7MwP/I8W2DdKzKMWNRPHg89YOMBZc38qAmaCfLjiHFji+p+fcdqCOMBOnTLu1ly7Cz+L
-	7xrvVqs43QlbRScDl9HiQ2NdeFds5Vy/pnRQF
-X-Gm-Gg: ASbGncsn/YvrI66tnvVMaVU4z0IWnB0udKm1XevXtrqWxbdOi2JLE3BvuwZMdcXHMPB
-	hL2eQcEgfiUN+JrRr52yuXpIC7uDuayTrqdlTb6lL6Oyy4k6wmiAznytW8h1AuA2mQNVXd8L0AE
-	i+A4svYYgTlRyoecNoFBaqs4f4qHzpDXig3gtWi7R/u4VEVlb3duB1/asrSVMfHPfXT6+h3avBp
-	nS9Cn70oV2sUBkjD9pTrIPYXhCXcHLkUr+bxbrlKYQ1jy+Qk+tvELRS6cRsHg==
-X-Google-Smtp-Source: AGHT+IF/FAl/iAxN/NBLwCZKUotyEdadUrLBUiEqFzie7Cu2Hoy2HZD87mj7k5PTv6NTtX8Pl982YbT8OquJx6pfzVc=
-X-Received: by 2002:a17:902:c40e:b0:27e:f018:d2fb with SMTP id
- d9443c01a7336-2962ad06a46mr46753935ad.6.1762349066961; Wed, 05 Nov 2025
- 05:24:26 -0800 (PST)
+        bh=JkGvp9iS42TrKuvstxYaDpizt8sHgNWfS0gAKhQn0E0=;
+        b=LhTjEYzePqgOHyUBjZEhYzqBliPt1Kd0Nqa2LpoVUJnEk51Z3K+nNe/zrr9eFNgVJm
+         imN3Cl9Fl0MNuxiUn06tHr5QedVqXcXHZ+1+8LKEEyTrmAgMkLo4x8QC7PL5Ala08D/X
+         sRF/ycZttfRUEwjTbfkzgcXuG+t6m9W4QEoU0xWUwcKXdYP+siZNspf2C4KwrOPxe0OO
+         Sv7a7xUkG8bRmrGe7c+tx7MjapkGi2onfaViePoPVO1GQAJKppmYI0N7OLlpK8yMmJgf
+         17l7UteePcUzbVJ4k8lQBhgRFCQtQNL3RazoTLIC2uQ0MiAelHtfSPDjBN761uiYsXp4
+         Y0vQ==
+X-Gm-Message-State: AOJu0YwidbN0GMvPbH9lmVSFnOQph7wEQhigU3ETvViGLW8KwZCTZEJB
+	ediGKbnlaSbfzmb4UPQ+O4thgil1n0IR+4oyNTob7OsGO8rPF1yYGzX9iAC+Ve/4bMAhzo7JyBj
+	t2Xo7E0Bqm7DQZO2TqGsBi6iy0/sSgn0=
+X-Gm-Gg: ASbGncuYmhLGvyyMs+0UWCJ26R2tR7r4yhRJFzQV8BTWxU2Na3BH7eVMotnMYbKOS6y
+	BCWkNK3O9/7vRCforiUiV3AGvlx8fharBtspVA8MOJ14eni/7r7QH499QSouyvAq3EzayBW7rIl
+	OGVVuNnUQIBoyaRVuMFNfQMMzi+cuohuwBx0+Vqh0p+t44HMk5I+BSGaJViV2jAr9Uv9gMmvrFx
+	Gm5K0NUz99oRtKLOZBcGfoc8GsLQTQnzVPNN5N9gyAKFfoUiAmKRabC8xAbQQ==
+X-Google-Smtp-Source: AGHT+IH7TDZ0OxTvxjlXb9aWG3s9xI0vVORTooMKBzVhae7Mxa1Cqkbr4t2wyYf9Y5jOxgOuB8R9jaoI9NfIF3QPIww=
+X-Received: by 2002:a05:6a20:548d:b0:34e:e0ba:7b1 with SMTP id
+ adf61e73a8af0-34f837edad8mr4460944637.3.1762349220325; Wed, 05 Nov 2025
+ 05:27:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20251104171611.2227798-1-elmehdi.younes@smile.fr> <20251104171611.2227798-3-elmehdi.younes@smile.fr>
-In-Reply-To: <20251104171611.2227798-3-elmehdi.younes@smile.fr>
+References: <20251104171611.2227798-1-elmehdi.younes@smile.fr> <20251104171611.2227798-5-elmehdi.younes@smile.fr>
+In-Reply-To: <20251104171611.2227798-5-elmehdi.younes@smile.fr>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 5 Nov 2025 08:24:14 -0500
-X-Gm-Features: AWmQ_bkWWYdCzwkok87pVd77Xu0nFOrmsHP9rs8cl75bjoDHvgsFmhRsWVn869U
-Message-ID: <CADkTA4M5jnK6feZejXmi1sydX4z-Cb4c560DiWOPKTXkXtvz-g@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 2/4] linux-yocto.inc: Conditionally add
- rust.scc kernel feature
+Date: Wed, 5 Nov 2025 08:26:48 -0500
+X-Gm-Features: AWmQ_bkqGMUKkQjZ5xj2I2TZDwtcGNan1m1nJ99Kiw9uQCQgT1vI8VFnxxP1gmw
+Message-ID: <CADkTA4M7L=K0Vwjqsi=P2xQ0J_BY3vxb6er0RGjbj+xMt8Oxjg@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 4/4] linux-yocto-dev: Add temporary Rust
+ kernel feature
 To: elmehdi.younes@smile.fr
 Cc: openembedded-core@lists.openembedded.org, yoann.congal@smile.fr
-Content-Type: multipart/alternative; boundary="0000000000001b473d0642d8de97"
+Content-Type: multipart/alternative; boundary="0000000000003f6c040642d8e785"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 13:24:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225767
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 13:27:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225768
 
---0000000000001b473d0642d8de97
+--0000000000003f6c040642d8e785
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -73,52 +73,87 @@ On Tue, Nov 4, 2025 at 12:16=E2=80=AFPM El Mehdi YOUNES via lists.openembed=
 ded.org
 <elmehdi.younes=3Dsmile.fr@lists.openembedded.org> wrote:
 
-> This adds the mechanism to enable the Rust for Linux kernel feature
-> via a DISTRO_FEATURE.
+> This commit introduces the 'rust.scc' and 'rust.cfg' files, adding
+> them to the 'SRC_URI' of the 'linux-yocto-dev'.
 >
-> When 'rust-kernel' is present in DISTRO_FEATURES, the 'rust.scc'
-> kernel feature is appended to the KERNEL_FEATURES list.
+> Ideally, these kernel feature files belong in the separate
+> 'yocto-kernel-cache' repository.
+>
+> However, for the purpose of this RFC series,they are being added directly
+> to 'meta/recipes-kernel/linux/files/' to allow the entire feature set to
+> be tested and reviewed in a single repository.
+>
+>
+Indeed, it isn't ideally, it is "must".
+
+There's no reason to hold off sending the fragments to the linux-yocto
+list though.
+
+
+
+> Once this approach is discussed and approved, these files will be
+> removed and submitted as a separate patch to the 'yocto-kernel-cache'
+> project.
 >
 > Signed-off-by: El Mehdi YOUNES <elmehdi.younes@smile.fr>
 > ---
->  meta/recipes-kernel/linux/linux-yocto.inc | 4 ++++
->  1 file changed, 4 insertions(+)
+>  meta/recipes-kernel/linux/files/rust.cfg     | 6 ++++++
+>  meta/recipes-kernel/linux/files/rust.scc     | 2 ++
+>  meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 ++
+>  3 files changed, 10 insertions(+)
+>  create mode 100644 meta/recipes-kernel/linux/files/rust.cfg
+>  create mode 100644 meta/recipes-kernel/linux/files/rust.scc
 >
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
-> b/meta/recipes-kernel/linux/linux-yocto.inc
-> index 4d0a726bb6..40e5bf214b 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -95,3 +95,7 @@ do_devshell:prepend() {
->      d.setVarFlag("PKG_CONFIG_SYSROOT_DIR", "unexport", "1")
->      d.appendVar("OE_TERMINAL_EXPORTS", " PKG_CONFIG_DIR PKG_CONFIG_PATH
-> PKG_CONFIG_LIBDIR PKG_CONFIG_SYSROOT_DIR")
->  }
-> +
-> +KERNEL_FEATURES:append =3D " ${@bb.utils.contains('DISTRO_FEATURES',
-> 'rust-kernel', ' rust.scc', '', d)}"
-> +# TODO: Kernel rust code compilation breaks under ccache, disable it for
-> now
-> +CCACHE_DISABLE =3D "${@bb.utils.contains('DISTRO_FEATURES', 'rust-kernel=
-',
-> '1', '', d)}"
+> diff --git a/meta/recipes-kernel/linux/files/rust.cfg
+> b/meta/recipes-kernel/linux/files/rust.cfg
+> new file mode 100644
+> index 0000000000..dc31c9efbc
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/files/rust.cfg
+> @@ -0,0 +1,6 @@
+> +CONFIG_RUST=3Dy
+> +# --- RFC TEST ONLY - REMOVE FOR FINAL PATCH ---
+> +# Enabled samples to validate the Rust build.
+> +# Users should enable these via their own config fragments.
+> +CONFIG_SAMPLES_RUST=3Dy
+> +CONFIG_SAMPLE_RUST_MINIMAL=3Dm
 >
 
-Make this a ?=3D assignment as well. Since once this is set someone needs t=
-o
-hack around
-it if they are working on debugging ccache + rust in the kernel.
+Just split these into two fragments, even here, and definitely for the
+linux-yocto send.
 
 Bruce
 
 
 
+> diff --git a/meta/recipes-kernel/linux/files/rust.scc
+> b/meta/recipes-kernel/linux/files/rust.scc
+> new file mode 100644
+> index 0000000000..8b81971be2
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/files/rust.scc
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: MIT
+> +kconf non-hardware rust.cfg
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> index fb4e0864d2..a1c9940219 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> @@ -59,3 +59,5 @@ KERNEL_FEATURES:append =3D "
+> ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " fe
+>  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES",
+> "ptest", " features/gpio/mockup.scc features/gpio/sim.scc", "", d)}"
+>
+>  KERNEL_VERSION_SANITY_SKIP =3D "1"
+> +
+> +SRC_URI +=3D "file://rust.scc"
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#225738):
-> https://lists.openembedded.org/g/openembedded-core/message/225738
-> Mute This Topic: https://lists.openembedded.org/mt/116120517/1050810
+> View/Reply Online (#225740):
+> https://lists.openembedded.org/g/openembedded-core/message/225740
+> Mute This Topic: https://lists.openembedded.org/mt/116120519/1050810
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
 > bruce.ashfield@gmail.com]
@@ -131,7 +166,7 @@ Bruce
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---0000000000001b473d0642d8de97
+--0000000000003f6c040642d8e785
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -142,57 +177,100 @@ tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 4, 2025 at 12:16=
 ists.openembedded.org</a> &lt;elmehdi.younes=3D<a href=3D"mailto:smile.fr@l=
 ists.openembedded.org">smile.fr@lists.openembedded.org</a>&gt; wrote:<br></=
 div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">This adds the mechani=
-sm to enable the Rust for Linux kernel feature<br>
-via a DISTRO_FEATURE.<br>
+der-left:1px solid rgb(204,204,204);padding-left:1ex">This commit introduce=
+s the &#39;rust.scc&#39; and &#39;rust.cfg&#39; files, adding<br>
+them to the &#39;SRC_URI&#39; of the &#39;linux-yocto-dev&#39;.<br>
 <br>
-When &#39;rust-kernel&#39; is present in DISTRO_FEATURES, the &#39;rust.scc=
-&#39;<br>
-kernel feature is appended to the KERNEL_FEATURES list.<br>
+Ideally, these kernel feature files belong in the separate<br>
+&#39;yocto-kernel-cache&#39; repository.<br>
+<br>
+However, for the purpose of this RFC series,they are being added directly<b=
+r>
+to &#39;meta/recipes-kernel/linux/files/&#39; to allow the entire feature s=
+et to<br>
+be tested and reviewed in a single repository.<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
+font-size:small">Indeed, it isn&#39;t ideally, it is &quot;must&quot;.</div=
+><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div clas=
+s=3D"gmail_default" style=3D"font-size:small">There&#39;s no reason to hold=
+ off sending the fragments to the linux-yocto</div><div class=3D"gmail_defa=
+ult" style=3D"font-size:small">list though.</div><br></div><div>=C2=A0</div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">
+Once this approach is discussed and approved, these files will be<br>
+removed and submitted as a separate patch to the &#39;yocto-kernel-cache&#3=
+9;<br>
+project.<br>
 <br>
 Signed-off-by: El Mehdi YOUNES &lt;<a href=3D"mailto:elmehdi.younes@smile.f=
 r" target=3D"_blank">elmehdi.younes@smile.fr</a>&gt;<br>
 ---<br>
-=C2=A0meta/recipes-kernel/linux/linux-yocto.inc | 4 ++++<br>
-=C2=A01 file changed, 4 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kerne=
-l/linux/linux-yocto.inc<br>
-index 4d0a726bb6..40e5bf214b 100644<br>
---- a/meta/recipes-kernel/linux/linux-yocto.inc<br>
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc<br>
-@@ -95,3 +95,7 @@ do_devshell:prepend() {<br>
-=C2=A0 =C2=A0 =C2=A0d.setVarFlag(&quot;PKG_CONFIG_SYSROOT_DIR&quot;, &quot;=
-unexport&quot;, &quot;1&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0d.appendVar(&quot;OE_TERMINAL_EXPORTS&quot;, &quot; PKG=
-_CONFIG_DIR PKG_CONFIG_PATH PKG_CONFIG_LIBDIR PKG_CONFIG_SYSROOT_DIR&quot;)=
-<br>
-=C2=A0}<br>
+=C2=A0meta/recipes-kernel/linux/files/rust.cfg=C2=A0 =C2=A0 =C2=A0| 6 +++++=
 +<br>
-+KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&#39;DISTRO_FEATURE=
-S&#39;, &#39;rust-kernel&#39;, &#39; rust.scc&#39;, &#39;&#39;, d)}&quot;<b=
-r>
-+# TODO: Kernel rust code compilation breaks under ccache, disable it for n=
-ow<br>
-+CCACHE_DISABLE =3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &=
-#39;rust-kernel&#39;, &#39;1&#39;, &#39;&#39;, d)}&quot;<br></blockquote><d=
-iv><br></div><div><div class=3D"gmail_default" style=3D"font-size:small">Ma=
-ke this a ?=3D assignment as well. Since once this is set someone needs to =
-hack around</div><div class=3D"gmail_default" style=3D"font-size:small">it =
-if they are working on debugging ccache=C2=A0+ rust in the kernel.</div><di=
-v class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D=
-"gmail_default" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0<=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0meta/recipes-kernel/linux/files/rust.scc=C2=A0 =C2=A0 =C2=A0| 2 ++<br=
+>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-dev.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a> | 2 ++<br>
+=C2=A03 files changed, 10 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-kernel/linux/files/rust.cfg<br>
+=C2=A0create mode 100644 meta/recipes-kernel/linux/files/rust.scc<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/files/rust.cfg b/meta/recipes-kernel=
+/linux/files/rust.cfg<br>
+new file mode 100644<br>
+index 0000000000..dc31c9efbc<br>
+--- /dev/null<br>
++++ b/meta/recipes-kernel/linux/files/rust.cfg<br>
+@@ -0,0 +1,6 @@<br>
++CONFIG_RUST=3Dy<br>
++# --- RFC TEST ONLY - REMOVE FOR FINAL PATCH ---<br>
++# Enabled samples to validate the Rust build.<br>
++# Users should enable these via their own config fragments.<br>
++CONFIG_SAMPLES_RUST=3Dy<br>
++CONFIG_SAMPLE_RUST_MINIMAL=3Dm<br></blockquote><div><br></div><div><div cl=
+ass=3D"gmail_default" style=3D"font-size:small">Just split these into two f=
+ragments, even here, and definitely for the</div><div class=3D"gmail_defaul=
+t" style=3D"font-size:small">linux-yocto send.</div><div class=3D"gmail_def=
+ault" style=3D"font-size:small"><br></div><div class=3D"gmail_default" styl=
+e=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">
+diff --git a/meta/recipes-kernel/linux/files/rust.scc b/meta/recipes-kernel=
+/linux/files/rust.scc<br>
+new file mode 100644<br>
+index 0000000000..8b81971be2<br>
+--- /dev/null<br>
++++ b/meta/recipes-kernel/linux/files/rust.scc<br>
+@@ -0,0 +1,2 @@<br>
++# SPDX-License-Identifier: MIT<br>
++kconf non-hardware rust.cfg<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-dev.bb=
+" rel=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a> b/meta/recipe=
+s-kernel/linux/<a href=3D"http://linux-yocto-dev.bb" rel=3D"noreferrer" tar=
+get=3D"_blank">linux-yocto-dev.bb</a><br>
+index fb4e0864d2..a1c9940219 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-dev.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-dev.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a><br>
+@@ -59,3 +59,5 @@ KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&q=
+uot;DISTRO_FEATURES&quot;, &quot;ptest&quot;, &quot; fe<br>
+=C2=A0KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&quot;DISTRO_F=
+EATURES&quot;, &quot;ptest&quot;, &quot; features/gpio/mockup.scc features/=
+gpio/sim.scc&quot;, &quot;&quot;, d)}&quot;<br>
+<br>
+=C2=A0KERNEL_VERSION_SANITY_SKIP =3D &quot;1&quot;<br>
++<br>
++SRC_URI +=3D &quot;file://rust.scc&quot;<br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#225738): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/225738" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/225738</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/116120517/105=
+View/Reply Online (#225740): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/225740" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/225740</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/116120519/105=
 0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/116120517/1050810</a><br>
+t/116120519/1050810</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
@@ -208,5 +286,5 @@ ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
 wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
 rek II<br><br></div></div>
 
---0000000000001b473d0642d8de97--
+--0000000000003f6c040642d8e785--
 
