@@ -2,56 +2,56 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 599D4CCFA1A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D20ACCFA18
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:47:41 +0000 (UTC)
-Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3001.1762386457331145793
+Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2989.1762386455491063020
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:47:37 -0800
+ Wed, 05 Nov 2025 15:47:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Ct6cXt1k;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=QhBYcsaL;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1762386457; x=1793922457;
+  t=1762386455; x=1793922455;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=vy6PwkS9e87e5O8G5sji+74PWfqRR5WbzZS2hmUd0MU=;
-  b=Ct6cXt1k3nf2O1y9ntl/z2n/ml4pdewzt9A1/pyOMFlqnasafAGGYCCO
-   1OklICGiGFUz+8It7GSwrEKdnJP38hkuiAfqu5r9+7EgDPa879MEDoRb9
-   HMFk4un0YIPhJF9nwTChvs/TXNVoJSAHdI/bNrp9SA/QFaPQnnl6GJCHI
-   PJSK6O3jIflnPvSpE1vALp3K033oZfeQ6ckTImIx6e0JiISK1eaNBCQk3
-   3rH+Iyjptv30Xswn29NHYedqca7eTwJQa3XmC1CNeRQZCetSoM82491UA
-   QFLHTkDMOYk8hTkHeKE3+qjGrzRuRv1FOVwj1SdvPJ8j+IQl12bH27+63
-   w==;
-X-CSE-ConnectionGUID: TGhoFnFmRa2vDn4BR62gsA==
-X-CSE-MsgGUID: ic2yItHJQU64iD3OEeRVdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="218837416"
+  bh=4g/nORgP3ndv0WwkRd0KlYKTzrQVRAyLqtJYcdtfW68=;
+  b=QhBYcsaLtLWoZ0uvviPzVAaN/1V0PoEmobX/rRVaTwYlZa3BQ+Vs89zx
+   vV66nITutGI6jv9q7sUT8xTysMchaNxO//p+pLX1KK+510BhZsg19sPPw
+   UocuJuwBFHzWUFSglcy9qonppFSy76HE1c+lLS6LIMIEPVkSKc+1QIuJE
+   rJUVrmPIS96pyJYi0NSKgJc2voJsh1KWGLsHika8/H7JizBSoicvOATPx
+   t1dPnJNDuNBD182dMJtSwy3qO3b77w/mE5dnBC4YHZEhPneh7klnRvPby
+   L0wjjqauDsOui3cVH1B4d7mWTKPoylIE6EbSWlwpBtQVWzJLrNd9mmVYd
+   Q==;
+X-CSE-ConnectionGUID: qEIfjaL/QUaJugqdxoif+g==
+X-CSE-MsgGUID: kmOUaTpHRc6P7UoiqGZDUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="206782236"
 X-IronPort-AV: E=Sophos;i="6.19,283,1754924400"; 
-   d="scan'208";a="218837416"
-Received: from unknown (HELO az2nlsmgr4.o.css.fujitsu.com) ([20.61.8.234])
-  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 08:47:35 +0900
-Received: from az2nlsmgm2.o.css.fujitsu.com (unknown [10.150.26.202])
+   d="scan'208";a="206782236"
+Received: from unknown (HELO az2nlsmgr1.o.css.fujitsu.com) ([51.138.80.169])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 08:47:34 +0900
+Received: from az2nlsmgm3.fujitsu.com (unknown [10.150.26.205])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2nlsmgr4.o.css.fujitsu.com (Postfix) with ESMTPS id E805742A332
-	for <openembedded-core@lists.openembedded.org>; Wed,  5 Nov 2025 23:47:35 +0000 (UTC)
+	by az2nlsmgr1.o.css.fujitsu.com (Postfix) with ESMTPS id 1942F1C000FA
+	for <openembedded-core@lists.openembedded.org>; Wed,  5 Nov 2025 23:47:34 +0000 (UTC)
 Received: from az2uksmom2.o.css.fujitsu.com (az2uksmom2.o.css.fujitsu.com [10.151.22.203])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2nlsmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id A08ED1C0017B
-	for <openembedded-core@lists.openembedded.org>; Wed,  5 Nov 2025 23:47:35 +0000 (UTC)
+	by az2nlsmgm3.fujitsu.com (Postfix) with ESMTPS id C38D218019AF
+	for <openembedded-core@lists.openembedded.org>; Wed,  5 Nov 2025 23:47:33 +0000 (UTC)
 Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.167.135.104])
-	by az2uksmom2.o.css.fujitsu.com (Postfix) with ESMTP id 213C7140008B;
-	Wed,  5 Nov 2025 23:47:32 +0000 (UTC)
+	by az2uksmom2.o.css.fujitsu.com (Postfix) with ESMTP id 442E714005B7;
+	Wed,  5 Nov 2025 23:47:30 +0000 (UTC)
 From: Wang Mingyu < wangmy@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 10/29] gi-docgen: upgrade 2025.4 -> 2025.5
-Date: Thu,  6 Nov 2025 07:46:53 +0800
-Message-ID: <20251105234712.446-10-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 09/29] fastfloat: upgrade 8.0.2 -> 8.1.0
+Date: Thu,  6 Nov 2025 07:46:52 +0800
+Message-ID: <20251105234712.446-9-wangmy@fujitsu.com>
 X-Mailer: git-send-email 2.49.0.windows.1
 In-Reply-To: <20251105234712.446-1-wangmy@fujitsu.com>
 References: <20251105234712.446-1-wangmy@fujitsu.com>
@@ -61,35 +61,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:47:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225940
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225939
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-Fixed
-- Make sure to escape query strings
-
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../gi-docgen/{gi-docgen_2025.4.bb => gi-docgen_2025.5.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gi-docgen/{gi-docgen_2025.4.bb => gi-docgen_2025.5.bb} (94%)
+ .../fastfloat/{fastfloat_8.0.2.bb => fastfloat_8.1.0.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/fastfloat/{fastfloat_8.0.2.bb => fastfloat_8.1.0.bb} (84%)
 
-diff --git a/meta/recipes-gnome/gi-docgen/gi-docgen_2025.4.bb b/meta/recipes-gnome/gi-docgen/gi-docgen_2025.5.bb
-similarity index 94%
-rename from meta/recipes-gnome/gi-docgen/gi-docgen_2025.4.bb
-rename to meta/recipes-gnome/gi-docgen/gi-docgen_2025.5.bb
-index 19aacb765e..5338bca214 100644
---- a/meta/recipes-gnome/gi-docgen/gi-docgen_2025.4.bb
-+++ b/meta/recipes-gnome/gi-docgen/gi-docgen_2025.5.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://gi-docgen.py;beginline=1;endline=5;md5=2dc0f1f0120247
+diff --git a/meta/recipes-devtools/fastfloat/fastfloat_8.0.2.bb b/meta/recipes-devtools/fastfloat/fastfloat_8.1.0.bb
+similarity index 84%
+rename from meta/recipes-devtools/fastfloat/fastfloat_8.0.2.bb
+rename to meta/recipes-devtools/fastfloat/fastfloat_8.1.0.bb
+index ca69a4238f..84bf90dac9 100644
+--- a/meta/recipes-devtools/fastfloat/fastfloat_8.0.2.bb
++++ b/meta/recipes-devtools/fastfloat/fastfloat_8.1.0.bb
+@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = " \
+ 	file://LICENSE-BOOST;md5=2c7a3fa82e66676005cd4ee2608fd7d2 \
+ "
  
- SRC_URI = "git://gitlab.gnome.org/GNOME/gi-docgen.git;protocol=https;branch=main"
+-SRC_URI = "git://github.com/fastfloat/fast_float.git;protocol=https;branch=main"
++SRC_URI = "git://github.com/fastfloat/fast_float.git;protocol=https;branch=main;tag=v${PV}"
  
--SRCREV = "0517026e0bf51b3776efa4689da44ea0c99e343e"
-+SRCREV = "9eedfa6572cc9929583f926493751adb85805ffb"
+-SRCREV = "50a80a73ab2ab256ba1c3bf86923ddd8b4202bc7"
++SRCREV = "88b1e5321c6918cbe091afd76728296290668403"
  
- inherit python_setuptools_build_meta
- 
+ inherit cmake
 -- 
 2.43.0
 
