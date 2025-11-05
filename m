@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D6EBCD3443
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 029ABCD3442
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:36 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2345.1762384574473537591
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2344.1762384572687340688
  for <openembedded-core@lists.openembedded.org>;
  Wed, 05 Nov 2025 15:16:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UbTSDp/W;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=pz7TL/Q4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019a564eae0d-c31d4500-fef5-44ac-9e71-4831bb791bf5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bSx9K8j4;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=GkmDl0pg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019a564eacf3-0d4eeb64-363a-411a-bb48-e0189b5f84a2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1762384588;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=GurpbVsiXWCbcdxbITAX8UIRMufFPGE1xkoHqxib1m8=;
-	b=UbTSDp/W+D3Hu4NNcz2Dv1aR7NEKpJkhfvQSatcO46TrqW/XyehS7ecj+qAy16Nd
-	M5oeJxNtMqGB3OgXcknVZc66jP7a1lfSQPNl70NMyLg8/q30+eOEEO5lyiRaAZQ2jxF
-	9qBMcPUDUvk63EluwqdNatrlBEDHXzFM8pWMg1iU=
+	bh=JfvXjciih3sLRZU5s6ZLAGqk7Sx8XqAIPiQ3rV/VzrA=;
+	b=bSx9K8j4+oXGj3UrFHohtXRt4KnpqSBG0hAQsXYK/FpkTAeK+ub32XkkmC4UQ8FV
+	zQnQz13s+WxN7ssQLkkPmR6naKNG4zYBuCf6VB26XfGqqmo6ulRcjJs//seZrIA/f1+
+	opkDtA1IXdUn96ZcQxUdh5vACyyQCzIjc4is6bTE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384588;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=GurpbVsiXWCbcdxbITAX8UIRMufFPGE1xkoHqxib1m8=;
-	b=pz7TL/Q4MYR9N7Xlacjf8tRAwkw9HCHpbwivqL2kCmPGIs93ypCuksTiq+TtZyqd
-	YZ0f6F2J63kQmCNecmRilH3+7UX5uPaOrzgP9UaeYe3l1eM7AeWvw2fSYCKqizCbioN
-	tKQ+ULIxESejAmXaMlUh2XHfQBHQlWnXTmZpWKXo=
-Content-Type: multipart/mixed; boundary="===============7742828532338271409=="
+	bh=JfvXjciih3sLRZU5s6ZLAGqk7Sx8XqAIPiQ3rV/VzrA=;
+	b=GkmDl0pghFZOPUKjW4Gl1I2CpGWLp0P6RGF+N6Wv8Ysk3E5FgJlsEvpqD2pt/DD4
+	qAvRCg09/0U33Ipt76twH8aotEMiJmk8K3sfcjVcYft0m3AAP7dymJCXO51P6dkyQYV
+	RCxMFlPmSj/mtqGW/YkI/yRKKp1XZsLR1EWDj2dU=
+Content-Type: multipart/mixed; boundary="===============3728010653520109423=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyparsing: upgrading to 3.2.5 SUCCEEDED
-Message-ID: <0101019a564eae0d-c31d4500-fef5-44ac-9e71-4831bb791bf5-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-pycparser: upgrading to 2.23 SUCCEEDED
+Message-ID: <0101019a564eacf3-0d4eeb64-363a-411a-bb48-e0189b5f84a2-000000@us-west-2.amazonses.com>
 Date: Wed, 5 Nov 2025 23:16:28 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.05-54.240.27.29
+X-SES-Outgoing: 2025.11.05-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225843
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225841
 
---===============7742828532338271409==
+--===============3728010653520109423==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pyparsing* to *3.2.5* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-pycparser* to *2.23* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pyparsing-upgrade-3.2.4-3.2.5.patch
+    - apply the patch: git am 0001-python3-pycparser-upgrade-2.22-2.23.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,44 +72,75 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7b88c324d7f20004d6339681ae2eadb81bf637a1 Mon Sep 17 00:00:00 2001
+From b9a0777ae0dc33711f6cbe44e3620c86b708bc21 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 5 Nov 2025 17:37:58 +0000
-Subject: [PATCH] python3-pyparsing: upgrade 3.2.4 -> 3.2.5
+Date: Wed, 5 Nov 2025 17:30:41 +0000
+Subject: [PATCH] python3-pycparser: upgrade 2.22 -> 2.23
 
 ---
- .../{python3-pyparsing_3.2.4.bb => python3-pyparsing_3.2.5.bb}  | 2 +-
+ .../{python3-pycparser_2.22.bb => python3-pycparser_2.23.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pyparsing_3.2.4.bb => python3-pyparsing_3.2.5.bb} (90%)
+ rename meta/recipes-devtools/python/{python3-pycparser_2.22.bb => python3-pycparser_2.23.bb} (82%)
 
-diff --git a/meta/recipes-devtools/python/python3-pyparsing_3.2.4.bb b/meta/recipes-devtools/python/python3-pyparsing_3.2.5.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-pyparsing_3.2.4.bb
-rename to meta/recipes-devtools/python/python3-pyparsing_3.2.5.bb
-index 46556e6fb8..e94bebae38 100644
---- a/meta/recipes-devtools/python/python3-pyparsing_3.2.4.bb
-+++ b/meta/recipes-devtools/python/python3-pyparsing_3.2.5.bb
-@@ -10,7 +10,7 @@ BUGTRACKER = "https://github.com/pyparsing/pyparsing/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=657a566233888513e1f07ba13e2f47f1"
+diff --git a/meta/recipes-devtools/python/python3-pycparser_2.22.bb b/meta/recipes-devtools/python/python3-pycparser_2.23.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-pycparser_2.22.bb
+rename to meta/recipes-devtools/python/python3-pycparser_2.23.bb
+index 0be39ea383..a33a6553b4 100644
+--- a/meta/recipes-devtools/python/python3-pycparser_2.22.bb
++++ b/meta/recipes-devtools/python/python3-pycparser_2.23.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/eliben/pycparser"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=9761c3ffee7ba99c60dca0408fd3262b"
  
--SRC_URI[sha256sum] = "fff89494f45559d0f2ce46613b419f632bbb6afbdaed49696d322bcf98a58e99"
-+SRC_URI[sha256sum] = "2df8d5b7b2802ef88e8d016a2eb9c7aeaa923529cd251ed0fe4608275d4105b6"
+-SRC_URI[sha256sum] = "491c8be9c040f5390f5bf44a5b07752bd07f56edf992381b05c701439eec10f6"
++SRC_URI[sha256sum] = "78816d4f24add8f10a06d6f05b4d424ad9e96cfebf68a4ddc99c65c0720d00c2"
  
- inherit pypi python_flit_core
+ inherit pypi setuptools3
  
 -- 
 2.47.1
 
 
---===============7742828532338271409==
+--===============3728010653520109423==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pycparser-upgrade-2.22-2.23.patch"
+
+RnJvbSBiOWEwNzc3YWUwZGMzMzcxMWY2Y2JlNDRlMzYyMGM4NmI3MDhiYzIxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxNzozMDo0MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcHljcGFyc2VyOiB1cGdyYWRlIDIuMjIgLT4gMi4yMwoKLS0tCiAuLi4ve3B5dGhvbjMt
+cHljcGFyc2VyXzIuMjIuYmIgPT4gcHl0aG9uMy1weWNwYXJzZXJfMi4yMy5iYn0gICAgfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXB5Y3BhcnNlcl8yLjIyLmJiID0+
+IHB5dGhvbjMtcHljcGFyc2VyXzIuMjMuYmJ9ICg4MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Y3BhcnNlcl8yLjIyLmJiIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Y3BhcnNlcl8yLjIzLmJiCnNpbWlsYXJpdHkg
+aW5kZXggODIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1weWNwYXJzZXJfMi4yMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLXB5Y3BhcnNlcl8yLjIzLmJiCmluZGV4IDBiZTM5ZWEzODMuLmEzM2E2NTUzYjQg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWNwYXJz
+ZXJfMi4yMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlj
+cGFyc2VyXzIuMjMuYmIKQEAgLTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHVi
+LmNvbS9lbGliZW4vcHljcGFyc2VyIgogTElDRU5TRSA9ICJCU0QtMy1DbGF1c2UiCiBMSUNfRklM
+RVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT05NzYxYzNmZmVlN2JhOTljNjBkY2EwNDA4
+ZmQzMjYyYiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQ5MWM4YmU5YzA0MGY1MzkwZjViZjQ0
+YTViMDc3NTJiZDA3ZjU2ZWRmOTkyMzgxYjA1YzcwMTQzOWVlYzEwZjYiCitTUkNfVVJJW3NoYTI1
+NnN1bV0gPSAiNzg4MTZkNGYyNGFkZDhmMTBhMDZkNmYwNWI0ZDQyNGFkOWU5NmNmZWJmNjhhNGRk
+Yzk5YzY1YzA3MjBkMDBjMiIKIAogaW5oZXJpdCBweXBpIHNldHVwdG9vbHMzCiAKLS0gCjIuNDcu
+MQoK
+
+--===============3728010653520109423==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/x86-64-v3-poky-linux/python3-pyparsing (sysroot):
-  /usr/lib/python3.13/site-packages/pyparsing-3.2.4.dist-info moved to /usr/lib/python3.13/site-packages/pyparsing-3.2.5.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-pycparser (sysroot):
+  /usr/lib/python3.13/site-packages/pycparser-2.22.dist-info moved to /usr/lib/python3.13/site-packages/pycparser-2.23.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2033,32 +2064,32 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============7742828532338271409==
+--===============3728010653520109423==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-pyparsing: PV changed from "3.2.4" to "3.2.5"
-packages/x86-64-v3-poky-linux/python3-pyparsing: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.2.4.tar.gz;downloadfilename=pyparsing-3.2.4.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.2.5.tar.gz;downloadfilename=pyparsing-3.2.5.tar.gz"
-packages/x86-64-v3-poky-linux/python3-pyparsing: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PV changed from "3.2.4" to "3.2.5"
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-dev: PV changed from "3.2.4" to "3.2.5"
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-dev: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-doc: PV changed from "3.2.4" to "3.2.5"
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-doc: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-locale: PV changed from "3.2.4" to "3.2.5"
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-locale: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-src: PV changed from "3.2.4" to "3.2.5"
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-src: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PV changed from "3.2.4" to "3.2.5"
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing: PV changed from "3.2.4" to "3.2.5"
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
-packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing: PKGSIZE changed from 929097 to 929285 (+0%)
-Changes to packages/x86-64-v3-poky-linux/python3-pyparsing (sysroot):
-  /usr/lib/python3.13/site-packages/pyparsing-3.2.4.dist-info moved to /usr/lib/python3.13/site-packages/pyparsing-3.2.5.dist-info
+packages/x86-64-v3-poky-linux/python3-pycparser: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pycparser/pycparser-2.22.tar.gz;downloadfilename=pycparser-2.22.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pycparser/pycparser-2.23.tar.gz;downloadfilename=pycparser-2.23.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pycparser: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-dbg: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-dbg: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-dev: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-dev: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-doc: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-doc: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-locale: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-locale: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-src: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-src: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-staticdev: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-staticdev: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser: PKGSIZE changed from 1198204 to 1209244 (+1%)
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser: PV changed from "2.22" to "2.23"
+Changes to packages/x86-64-v3-poky-linux/python3-pycparser (sysroot):
+  /usr/lib/python3.13/site-packages/pycparser-2.22.dist-info moved to /usr/lib/python3.13/site-packages/pycparser-2.23.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -3982,36 +4013,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============7742828532338271409==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pyparsing-upgrade-3.2.4-3.2.5.patch"
-
-RnJvbSA3Yjg4YzMyNGQ3ZjIwMDA0ZDYzMzk2ODFhZTJlYWRiODFiZjYzN2ExIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxNzozNzo1OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcHlwYXJzaW5nOiB1cGdyYWRlIDMuMi40IC0+IDMuMi41CgotLS0KIC4uLi97cHl0aG9u
-My1weXBhcnNpbmdfMy4yLjQuYmIgPT4gcHl0aG9uMy1weXBhcnNpbmdfMy4yLjUuYmJ9ICB8IDIg
-Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHlwYXJzaW5nXzMuMi40LmJi
-ID0+IHB5dGhvbjMtcHlwYXJzaW5nXzMuMi41LmJifSAoOTAlKQoKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXBhcnNpbmdfMy4yLjQuYmIgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlwYXJzaW5nXzMuMi41LmJiCnNpbWls
-YXJpdHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1weXBhcnNpbmdfMy4yLjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1weXBhcnNpbmdfMy4yLjUuYmIKaW5kZXggNDY1NTZlNmZiOC4uZTk0
-YmViYWUzOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LXB5cGFyc2luZ18zLjIuNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtcHlwYXJzaW5nXzMuMi41LmJiCkBAIC0xMCw3ICsxMCw3IEBAIEJVR1RSQUNLRVIgPSAi
-aHR0cHM6Ly9naXRodWIuY29tL3B5cGFyc2luZy9weXBhcnNpbmcvaXNzdWVzIgogTElDRU5TRSA9
-ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT02NTdhNTY2MjMz
-ODg4NTEzZTFmMDdiYTEzZTJmNDdmMSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImZmZjg5NDk0
-ZjQ1NTU5ZDBmMmNlNDY2MTNiNDE5ZjYzMmJiYjZhZmJkYWVkNDk2OTZkMzIyYmNmOThhNThlOTki
-CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMmRmOGQ1YjdiMjgwMmVmODhlOGQwMTZhMmViOWM3YWVh
-YTkyMzUyOWNkMjUxZWQwZmU0NjA4Mjc1ZDQxMDViNiIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9m
-bGl0X2NvcmUKIAotLSAKMi40Ny4xCgo=
-
---===============7742828532338271409==--
+--===============3728010653520109423==--
 
