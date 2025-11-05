@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3D1CCD13DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A2CCD4F34
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:50 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2358.1762384582025820205
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2345.1762384574473537591
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:16:48 -0800
+ Wed, 05 Nov 2025 15:16:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZQnyS/mX;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=C62lBhnJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019a564ef8f6-6b27023f-b008-4011-bd22-060afacaedc7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MNqCIE49;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=bHPG/9Fj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019a564ef75e-f7bbadaf-1744-43ad-b6ba-a007ffa79ee2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1762384607;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=tbRwqaFpWYNSnFqzBiG3XQlfyA8IEcwx2crS/rc660U=;
-	b=ZQnyS/mXyIDrW1yK5H86pdwiRh26WiIyQbA7inwUIKDOCM8DRLRcj85al4FPE84o
-	qm2xsoejHSJysM4nfEiEPGrdHHtMIo2YPkAvoS2FHPX8VuDv9YOr7y8RcTKXHA1BTWe
-	CtrhiByw5RimbI/r/RNpWz1xlvOTXU81SzGmxJG0=
+	bh=nAUJNeC3GieceWJTt9nnHxhucB4LMnd7M7Us3rCsovE=;
+	b=MNqCIE49w0g25TsG206Wk9BgA76iu8bd7XahxqJo7DBL+wMCVtzObmdETWTJ87rl
+	bKv18Vv+xHttaOCuygBGX1ZaZepc7gTWV7yuAyMB79IoP/ObkXoGdYqYJfZnphq5M8X
+	pghuhPnhTpg24XNDcI139EGtPeMfrbT+UXgjVNV4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384607;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=tbRwqaFpWYNSnFqzBiG3XQlfyA8IEcwx2crS/rc660U=;
-	b=C62lBhnJTscneeejXQIOktLxkXrgzRqDllnkXWiFg0wckFzOw+c9VDeEVwng4of2
-	gKX7WIIb6jhoRR7Zr50pkB9jY6Bkp7WXtros+j9G5M0sJg2EVaWTGWE2s1rQsnERxIQ
-	df4d0JfuirRAghdmCWO5IUI7ickVg3bp1tKf95pg=
-Content-Type: multipart/mixed; boundary="===============3656578337098326373=="
+	bh=nAUJNeC3GieceWJTt9nnHxhucB4LMnd7M7Us3rCsovE=;
+	b=bHPG/9FjIZI+ezkV/4ChdKuNYW5NTQsY2XEjgyaCvGAIYPE4aCEp8ZloRi8usahg
+	Az0zsWxMP8UqyLK1QQwf6+B79Rrt5+q7TMR2QNPlHwSiQ7f4bbf2Mnsnv79hJb/+XGF
+	bBF63Pm5j9UU+i/bXeGIP9F2O/nImBPZXh5Do8Rg=
+Content-Type: multipart/mixed; boundary="===============1830928857519084998=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] nghttp2: upgrading to 1.68.0 SUCCEEDED
-Message-ID: <0101019a564ef8f6-6b27023f-b008-4011-bd22-060afacaedc7-000000@us-west-2.amazonses.com>
+Subject: [AUH] libunistring: upgrading to 1.4.1 SUCCEEDED
+Message-ID: <0101019a564ef75e-f7bbadaf-1744-43ad-b6ba-a007ffa79ee2-000000@us-west-2.amazonses.com>
 Date: Wed, 5 Nov 2025 23:16:47 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.05-54.240.27.193
+X-SES-Outgoing: 2025.11.05-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225927
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225924
 
---===============3656578337098326373==
+--===============1830928857519084998==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *nghttp2* to *1.68.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libunistring* to *1.4.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-nghttp2-upgrade-1.66.0-1.68.0.patch
+    - apply the patch: git am 0001-libunistring-upgrade-1.3-1.4.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,53 +72,190 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 897b57ba3c77eb3e52c8af1828bea968f0e9c71b Mon Sep 17 00:00:00 2001
+From 2c9a9143821bb369790ee02a3ad94c31f20c437e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 5 Nov 2025 23:10:59 +0000
-Subject: [PATCH] nghttp2: upgrade 1.66.0 -> 1.68.0
+Date: Wed, 5 Nov 2025 23:05:50 +0000
+Subject: [PATCH] libunistring: upgrade 1.3 -> 1.4.1
 
 ---
- .../nghttp2/{nghttp2_1.66.0.bb => nghttp2_1.68.0.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/nghttp2/{nghttp2_1.66.0.bb => nghttp2_1.68.0.bb} (84%)
+ ...unistring_1.3.bb => libunistring_1.4.1.bb} | 62 ++++++++++++++++++-
+ 1 file changed, 60 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libunistring/{libunistring_1.3.bb => libunistring_1.4.1.bb} (37%)
 
-diff --git a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.68.0.bb
-similarity index 84%
-rename from meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
-rename to meta/recipes-support/nghttp2/nghttp2_1.68.0.bb
-index 49d6d7e632..952064d268 100644
---- a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
-+++ b/meta/recipes-support/nghttp2/nghttp2_1.68.0.bb
-@@ -5,7 +5,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
+diff --git a/meta/recipes-support/libunistring/libunistring_1.3.bb b/meta/recipes-support/libunistring/libunistring_1.4.1.bb
+similarity index 37%
+rename from meta/recipes-support/libunistring/libunistring_1.3.bb
+rename to meta/recipes-support/libunistring/libunistring_1.4.1.bb
+index 08531acec1..197dbc79ab 100644
+--- a/meta/recipes-support/libunistring/libunistring_1.3.bb
++++ b/meta/recipes-support/libunistring/libunistring_1.4.1.bb
+@@ -1,3 +1,61 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- doc/libunistring.texi
++# +++ doc/libunistring.texi
++# @@ -3,7 +3,18 @@
++#  @setfilename libunistring.info
++#  @documentencoding UTF-8
++#  @settitle GNU libunistring
++# +
++# +@c Remove the black boxes generated in the GPL appendix.
++#  @finalout
++# +
++# +@c In PDF output, use a brown colour for interactive links,
++# +@c like it was before commit
++# +@c https://git.savannah.gnu.org/gitweb/?p=texinfo.git;a=commitdiff;h=b4f50b9f4c083327e81ec5c7cde9b87234a19646
++# +@tex
++# +\global\def\linkcolor{\rgbDarkRed}
++# +\global\def\urlcolor{\rgbDarkRed}
++# +@end tex
++# +
++#  @c Indices:
++#  @c   am = autoconf macro  @amindex
++#  @c   cp = concept         @cindex
++# @@ -17,6 +28,7 @@
++#  @syncodeindex am cp
++#  @syncodeindex fn cp
++#  @syncodeindex tp cp
++# +
++#  @ifclear texi2html
++#  @firstparagraphindent insert
++#  @end ifclear
++# @@ -98,7 +110,7 @@
++#  
++#  @ignore
++#  @c This was: @copying but it triggers a makeinfo 4.13 bug
++# -Copyright (C) 2001-2024 Free Software Foundation, Inc.
++# +Copyright (C) 2001-2025 Free Software Foundation, Inc.
++#  
++#  This manual is free documentation.  It is dually licensed under the
++#  GNU FDL and the GNU GPL.  This means that you can redistribute this
++# @@ -129,7 +141,7 @@
++#  @page
++#  @vskip 0pt plus 1filll
++#  @c @insertcopying
++# -Copyright (C) 2001-2024 Free Software Foundation, Inc.
++# +Copyright (C) 2001-2025 Free Software Foundation, Inc.
++#  
++#  This manual is free documentation.  It is dually licensed under the
++#  GNU FDL and the GNU GPL.  This means that you can redistribute this
++# 
++#
++
+ SUMMARY = "Library for manipulating C and Unicode strings"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz"
--SRC_URI[sha256sum] = "00ba1bdf0ba2c74b2a4fe6c8b1069dc9d82f82608af24442d430df97c6f9e631"
-+SRC_URI[sha256sum] = "5511d3128850e01b5b26ec92bf39df15381c767a63441438b25ad6235def902c"
+ DESCRIPTION = "Text files are nowadays usually encoded in Unicode, and may\
+@@ -16,12 +74,12 @@ SECTION = "devel"
+ LICENSE = "LGPL-3.0-or-later | GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+                     file://README;beginline=45;endline=65;md5=3a896a943b4da2c551e6be1af27eff8d \
+-                    file://doc/libunistring.texi;md5=36b7d20daef7fbcc032333ae2429aa94 \
++                    file://doc/libunistring.texi;md5=55cc91e1fe09c7aec78b6dc932202300 \
+                     "
+ DEPENDS = "gperf-native"
  
- inherit cmake manpages python3native github-releases
+ SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "8ea8ccf86c09dd801c8cac19878e804e54f707cf69884371130d20bde68386b7"
++SRC_URI[sha256sum] = "12542ad7619470efd95a623174dcd4b364f2483caf708c6bee837cb53a54cb9d"
  
+ inherit autotools texinfo
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.47.1
 
 
---===============3656578337098326373==
+--===============1830928857519084998==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libunistring-upgrade-1.3-1.4.1.patch"
+
+RnJvbSAyYzlhOTE0MzgyMWJiMzY5NzkwZWUwMmEzYWQ5NGMzMWYyMGM0MzdlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAyMzowNTo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnVuaXN0cmluZzogdXBncmFkZSAxLjMgLT4gMS40LjEKCi0tLQogLi4udW5pc3RyaW5nXzEuMy5i
+YiA9PiBsaWJ1bmlzdHJpbmdfMS40LjEuYmJ9IHwgNjIgKysrKysrKysrKysrKysrKysrLQogMSBm
+aWxlIGNoYW5nZWQsIDYwIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvbGlidW5pc3RyaW5nL3tsaWJ1bmlzdHJpbmdfMS4zLmJiID0+IGxp
+YnVuaXN0cmluZ18xLjQuMS5iYn0gKDM3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9saWJ1bmlzdHJpbmcvbGlidW5pc3RyaW5nXzEuMy5iYiBiL21ldGEvcmVjaXBlcy1zdXBw
+b3J0L2xpYnVuaXN0cmluZy9saWJ1bmlzdHJpbmdfMS40LjEuYmIKc2ltaWxhcml0eSBpbmRleCAz
+NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidW5pc3RyaW5nL2xpYnVuaXN0
+cmluZ18xLjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVuaXN0cmluZy9s
+aWJ1bmlzdHJpbmdfMS40LjEuYmIKaW5kZXggMDg1MzFhY2VjMS4uMTk3ZGJjNzlhYiAxMDA2NDQK
+LS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidW5pc3RyaW5nL2xpYnVuaXN0cmluZ18xLjMu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidW5pc3RyaW5nL2xpYnVuaXN0cmluZ18x
+LjQuMS5iYgpAQCAtMSwzICsxLDYxIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2
+YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xs
+b3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vu
+c2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFu
+ZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGlj
+ZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdo
+dCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gZG9jL2xpYnVu
+aXN0cmluZy50ZXhpCisjICsrKyBkb2MvbGlidW5pc3RyaW5nLnRleGkKKyMgQEAgLTMsNyArMywx
+OCBAQAorIyAgQHNldGZpbGVuYW1lIGxpYnVuaXN0cmluZy5pbmZvCisjICBAZG9jdW1lbnRlbmNv
+ZGluZyBVVEYtOAorIyAgQHNldHRpdGxlIEdOVSBsaWJ1bmlzdHJpbmcKKyMgKworIyArQGMgUmVt
+b3ZlIHRoZSBibGFjayBib3hlcyBnZW5lcmF0ZWQgaW4gdGhlIEdQTCBhcHBlbmRpeC4KKyMgIEBm
+aW5hbG91dAorIyArCisjICtAYyBJbiBQREYgb3V0cHV0LCB1c2UgYSBicm93biBjb2xvdXIgZm9y
+IGludGVyYWN0aXZlIGxpbmtzLAorIyArQGMgbGlrZSBpdCB3YXMgYmVmb3JlIGNvbW1pdAorIyAr
+QGMgaHR0cHM6Ly9naXQuc2F2YW5uYWguZ251Lm9yZy9naXR3ZWIvP3A9dGV4aW5mby5naXQ7YT1j
+b21taXRkaWZmO2g9YjRmNTBiOWY0YzA4MzMyN2U4MWVjNWM3Y2RlOWI4NzIzNGExOTY0NgorIyAr
+QHRleAorIyArXGdsb2JhbFxkZWZcbGlua2NvbG9ye1xyZ2JEYXJrUmVkfQorIyArXGdsb2JhbFxk
+ZWZcdXJsY29sb3J7XHJnYkRhcmtSZWR9CisjICtAZW5kIHRleAorIyArCisjICBAYyBJbmRpY2Vz
+OgorIyAgQGMgICBhbSA9IGF1dG9jb25mIG1hY3JvICBAYW1pbmRleAorIyAgQGMgICBjcCA9IGNv
+bmNlcHQgICAgICAgICBAY2luZGV4CisjIEBAIC0xNyw2ICsyOCw3IEBACisjICBAc3luY29kZWlu
+ZGV4IGFtIGNwCisjICBAc3luY29kZWluZGV4IGZuIGNwCisjICBAc3luY29kZWluZGV4IHRwIGNw
+CisjICsKKyMgIEBpZmNsZWFyIHRleGkyaHRtbAorIyAgQGZpcnN0cGFyYWdyYXBoaW5kZW50IGlu
+c2VydAorIyAgQGVuZCBpZmNsZWFyCisjIEBAIC05OCw3ICsxMTAsNyBAQAorIyAgCisjICBAaWdu
+b3JlCisjICBAYyBUaGlzIHdhczogQGNvcHlpbmcgYnV0IGl0IHRyaWdnZXJzIGEgbWFrZWluZm8g
+NC4xMyBidWcKKyMgLUNvcHlyaWdodCAoQykgMjAwMS0yMDI0IEZyZWUgU29mdHdhcmUgRm91bmRh
+dGlvbiwgSW5jLgorIyArQ29weXJpZ2h0IChDKSAyMDAxLTIwMjUgRnJlZSBTb2Z0d2FyZSBGb3Vu
+ZGF0aW9uLCBJbmMuCisjICAKKyMgIFRoaXMgbWFudWFsIGlzIGZyZWUgZG9jdW1lbnRhdGlvbi4g
+IEl0IGlzIGR1YWxseSBsaWNlbnNlZCB1bmRlciB0aGUKKyMgIEdOVSBGREwgYW5kIHRoZSBHTlUg
+R1BMLiAgVGhpcyBtZWFucyB0aGF0IHlvdSBjYW4gcmVkaXN0cmlidXRlIHRoaXMKKyMgQEAgLTEy
+OSw3ICsxNDEsNyBAQAorIyAgQHBhZ2UKKyMgIEB2c2tpcCAwcHQgcGx1cyAxZmlsbGwKKyMgIEBj
+IEBpbnNlcnRjb3B5aW5nCisjIC1Db3B5cmlnaHQgKEMpIDIwMDEtMjAyNCBGcmVlIFNvZnR3YXJl
+IEZvdW5kYXRpb24sIEluYy4KKyMgK0NvcHlyaWdodCAoQykgMjAwMS0yMDI1IEZyZWUgU29mdHdh
+cmUgRm91bmRhdGlvbiwgSW5jLgorIyAgCisjICBUaGlzIG1hbnVhbCBpcyBmcmVlIGRvY3VtZW50
+YXRpb24uICBJdCBpcyBkdWFsbHkgbGljZW5zZWQgdW5kZXIgdGhlCisjICBHTlUgRkRMIGFuZCB0
+aGUgR05VIEdQTC4gIFRoaXMgbWVhbnMgdGhhdCB5b3UgY2FuIHJlZGlzdHJpYnV0ZSB0aGlzCisj
+IAorIworCiBTVU1NQVJZID0gIkxpYnJhcnkgZm9yIG1hbmlwdWxhdGluZyBDIGFuZCBVbmljb2Rl
+IHN0cmluZ3MiCiAKIERFU0NSSVBUSU9OID0gIlRleHQgZmlsZXMgYXJlIG5vd2FkYXlzIHVzdWFs
+bHkgZW5jb2RlZCBpbiBVbmljb2RlLCBhbmQgbWF5XApAQCAtMTYsMTIgKzc0LDEyIEBAIFNFQ1RJ
+T04gPSAiZGV2ZWwiCiBMSUNFTlNFID0gIkxHUEwtMy4wLW9yLWxhdGVyIHwgR1BMLTIuMC1vci1s
+YXRlciIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkcuTElCO21kNT02YTZhOGUw
+MjA4MzhiMjM0MDZjODFiMTljMWQ0NmRmNiBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9S
+RUFETUU7YmVnaW5saW5lPTQ1O2VuZGxpbmU9NjU7bWQ1PTNhODk2YTk0M2I0ZGEyYzU1MWU2YmUx
+YWYyN2VmZjhkIFwKLSAgICAgICAgICAgICAgICAgICAgZmlsZTovL2RvYy9saWJ1bmlzdHJpbmcu
+dGV4aTttZDU9MzZiN2QyMGRhZWY3ZmJjYzAzMjMzM2FlMjQyOWFhOTQgXAorICAgICAgICAgICAg
+ICAgICAgICBmaWxlOi8vZG9jL2xpYnVuaXN0cmluZy50ZXhpO21kNT01NWNjOTFlMWZlMDljN2Fl
+Yzc4YjZkYzkzMjIwMjMwMCBcCiAgICAgICAgICAgICAgICAgICAgICIKIERFUEVORFMgPSAiZ3Bl
+cmYtbmF0aXZlIgogCiBTUkNfVVJJID0gIiR7R05VX01JUlJPUn0vbGlidW5pc3RyaW5nL2xpYnVu
+aXN0cmluZy0ke1BWfS50YXIuZ3oiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGVhOGNjZjg2YzA5
+ZGQ4MDFjOGNhYzE5ODc4ZTgwNGU1NGY3MDdjZjY5ODg0MzcxMTMwZDIwYmRlNjgzODZiNyIKK1NS
+Q19VUklbc2hhMjU2c3VtXSA9ICIxMjU0MmFkNzYxOTQ3MGVmZDk1YTYyMzE3NGRjZDRiMzY0ZjI0
+ODNjYWY3MDhjNmJlZTgzN2NiNTNhNTRjYjlkIgogCiBpbmhlcml0IGF1dG90b29scyB0ZXhpbmZv
+CiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCi0tIAoyLjQ3LjEKCg==
+
+--===============1830928857519084998==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: FILELIST: removed "/usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake /usr/lib/cmake/nghttp2/nghttp2-targets.cmake", added "/usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake /usr/lib/cmake/nghttp2/nghttp2Targets.cmake /usr/lib/cmake/nghttp2/nghttp2Config.cmake /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.28.5", added "/usr/lib/libnghttp2.so.14.29.2"
-Changes to packages/x86-64-v3-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.28.5 to libnghttp2.so.14.29.2
-  /usr/lib/libnghttp2.so.14.28.5 moved to /usr/lib/libnghttp2.so.14.29.2
-  /usr/lib/cmake/nghttp2/nghttp2Config.cmake was added
-  /usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake was added
-  /usr/lib/cmake/nghttp2/nghttp2Targets.cmake was added
-  /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake was added
-  /usr/lib/cmake/nghttp2/nghttp2-targets.cmake was removed
-  /usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake was removed
+packages/x86-64-v3-poky-linux/libunistring/libunistring-dev: PKGSIZE changed from 168794 to 197748 (+17%)
+packages/x86-64-v3-poky-linux/libunistring/libunistring: FILELIST: removed "/usr/lib/libunistring.so.5.2.0", added "/usr/lib/libunistring.so.5.2.1"
+Changes to packages/x86-64-v3-poky-linux/libunistring (sysroot):
+  /usr/lib/libunistring.so.5 changed symlink target from libunistring.so.5.2.0 to libunistring.so.5.2.1
+  /usr/lib/libunistring.so changed symlink target from libunistring.so.5.2.0 to libunistring.so.5.2.1
+  /usr/lib/libunistring.so.5.2.0 moved to /usr/lib/libunistring.so.5.2.1
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2041,46 +2178,45 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libunistring-native (sysroot):
+  /usr/lib/libunistring.so.5 changed symlink target from libunistring.so.5.2.0 to libunistring.so.5.2.1
+  /usr/lib/libunistring.so changed symlink target from libunistring.so.5.2.0 to libunistring.so.5.2.1
+  /usr/lib/libunistring.so.5.2.0 moved to /usr/lib/libunistring.so.5.2.1
 
---===============3656578337098326373==
+--===============1830928857519084998==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/nghttp2: PV changed from "1.66.0" to "1.68.0"
-packages/x86-64-v3-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.66.0/nghttp2-1.66.0.tar.xz" to "https://github.com/nghttp2/nghttp2/releases//download/v1.68.0/nghttp2-1.68.0.tar.xz"
-packages/x86-64-v3-poky-linux/nghttp2: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.66.0" to "1.68.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.28.5", added "/usr/lib/.debug/libnghttp2.so.14.29.2"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PKGSIZE changed from 561352 to 562096 (+0%)
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.66.0" to "1.68.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: FILELIST: removed "/usr/lib/cmake/nghttp2/nghttp2-targets.cmake /usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake", added "/usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake /usr/lib/cmake/nghttp2/nghttp2Config.cmake /usr/lib/cmake/nghttp2/nghttp2Targets.cmake"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PKGSIZE changed from 248995 to 253583 (+2%)
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.66.0" to "1.68.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 49545 to 49547 (+0%)
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.66.0" to "1.68.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PV changed from "1.66.0" to "1.68.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1041649 to 1050488 (+1%)
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.66.0" to "1.68.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2: PV changed from "1.66.0" to "1.68.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.28.5", added "/usr/lib/libnghttp2.so.14.29.2"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
-Changes to packages/x86-64-v3-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.28.5 to libnghttp2.so.14.29.2
-  /usr/lib/libnghttp2.so.14.28.5 moved to /usr/lib/libnghttp2.so.14.29.2
-  /usr/lib/cmake/nghttp2/nghttp2Config.cmake was added
-  /usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake was added
-  /usr/lib/cmake/nghttp2/nghttp2Targets.cmake was added
-  /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake was added
-  /usr/lib/cmake/nghttp2/nghttp2-targets.cmake was removed
-  /usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake was removed
+packages/x86-64-v3-poky-linux/libunistring: SRC_URI changed from "https://ftpmirror.gnu.org/gnu/libunistring/libunistring-1.3.tar.gz" to "https://ftpmirror.gnu.org/gnu/libunistring/libunistring-1.4.1.tar.gz"
+packages/x86-64-v3-poky-linux/libunistring: PKGV changed from 1.3 [default] to 1.4.1 [default]
+packages/x86-64-v3-poky-linux/libunistring: PV changed from "1.3" to "1.4.1"
+packages/x86-64-v3-poky-linux/libunistring/libunistring-dbg: FILELIST: removed "/usr/lib/.debug/libunistring.so.5.2.0", added "/usr/lib/.debug/libunistring.so.5.2.1"
+packages/x86-64-v3-poky-linux/libunistring/libunistring-dbg: PKGSIZE changed from 1878800 to 1892320 (+1%)
+packages/x86-64-v3-poky-linux/libunistring/libunistring-dbg: PKGV changed from 1.3 [default] to 1.4.1 [default]
+packages/x86-64-v3-poky-linux/libunistring/libunistring-dbg: PV changed from "1.3" to "1.4.1"
+packages/x86-64-v3-poky-linux/libunistring/libunistring-dev: PKGSIZE changed from 168794 to 197748 (+17%)
+packages/x86-64-v3-poky-linux/libunistring/libunistring-dev: PKGV changed from 1.3 [default] to 1.4.1 [default]
+packages/x86-64-v3-poky-linux/libunistring/libunistring-dev: PV changed from "1.3" to "1.4.1"
+packages/x86-64-v3-poky-linux/libunistring/libunistring-doc: PKGSIZE changed from 950737 to 949978 (-0%)
+packages/x86-64-v3-poky-linux/libunistring/libunistring-doc: PKGV changed from 1.3 [default] to 1.4.1 [default]
+packages/x86-64-v3-poky-linux/libunistring/libunistring-doc: PV changed from "1.3" to "1.4.1"
+packages/x86-64-v3-poky-linux/libunistring/libunistring-locale: PKGV changed from 1.3 [default] to 1.4.1 [default]
+packages/x86-64-v3-poky-linux/libunistring/libunistring-locale: PV changed from "1.3" to "1.4.1"
+packages/x86-64-v3-poky-linux/libunistring/libunistring-src: PKGSIZE changed from 561514 to 605267 (+8%)
+packages/x86-64-v3-poky-linux/libunistring/libunistring-src: PKGV changed from 1.3 [default] to 1.4.1 [default]
+packages/x86-64-v3-poky-linux/libunistring/libunistring-src: PV changed from "1.3" to "1.4.1"
+packages/x86-64-v3-poky-linux/libunistring/libunistring-staticdev: PKGV changed from 1.3 [default] to 1.4.1 [default]
+packages/x86-64-v3-poky-linux/libunistring/libunistring-staticdev: PV changed from "1.3" to "1.4.1"
+packages/x86-64-v3-poky-linux/libunistring/libunistring: FILELIST: removed "/usr/lib/libunistring.so.5.2.0", added "/usr/lib/libunistring.so.5.2.1"
+packages/x86-64-v3-poky-linux/libunistring/libunistring: PKGSIZE changed from 2037885 to 2050173 (+1%)
+packages/x86-64-v3-poky-linux/libunistring/libunistring: PKGV changed from 1.3 [default] to 1.4.1 [default]
+packages/x86-64-v3-poky-linux/libunistring/libunistring: PV changed from "1.3" to "1.4.1"
+Changes to packages/x86-64-v3-poky-linux/libunistring (sysroot):
+  /usr/lib/libunistring.so.5 changed symlink target from libunistring.so.5.2.0 to libunistring.so.5.2.1
+  /usr/lib/libunistring.so changed symlink target from libunistring.so.5.2.0 to libunistring.so.5.2.1
+  /usr/lib/libunistring.so.5.2.0 moved to /usr/lib/libunistring.so.5.2.1
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4003,36 +4139,10 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libunistring-native (sysroot):
+  /usr/lib/libunistring.so.5 changed symlink target from libunistring.so.5.2.0 to libunistring.so.5.2.1
+  /usr/lib/libunistring.so changed symlink target from libunistring.so.5.2.0 to libunistring.so.5.2.1
+  /usr/lib/libunistring.so.5.2.0 moved to /usr/lib/libunistring.so.5.2.1
 
---===============3656578337098326373==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-nghttp2-upgrade-1.66.0-1.68.0.patch"
-
-RnJvbSA4OTdiNTdiYTNjNzdlYjNlNTJjOGFmMTgyOGJlYTk2OGYwZTljNzFiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAyMzoxMDo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5n
-aHR0cDI6IHVwZ3JhZGUgMS42Ni4wIC0+IDEuNjguMAoKLS0tCiAuLi4vbmdodHRwMi97bmdodHRw
-Ml8xLjY2LjAuYmIgPT4gbmdodHRwMl8xLjY4LjAuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9uZ2h0dHAyL3tuZ2h0dHAyXzEuNjYuMC5iYiA9PiBuZ2h0dHAyXzEuNjgu
-MC5iYn0gKDg0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25n
-aHR0cDJfMS42Ni4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEu
-NjguMC5iYgpzaW1pbGFyaXR5IGluZGV4IDg0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9uZ2h0dHAyL25naHR0cDJfMS42Ni4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9uZ2h0dHAyL25naHR0cDJfMS42OC4wLmJiCmluZGV4IDQ5ZDZkN2U2MzIuLjk1MjA2NGQy
-NjggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjY2
-LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNjguMC5i
-YgpAQCAtNSw3ICs1LDcgQEAgTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZp
-bGU6Ly9DT1BZSU5HO21kNT03NjRhYmRmMzBiMmVhZGQzN2NlNDdkY2JjZTBlYTFlYyIKIAogU1JD
-X1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvdiR7UFZ9L25naHR0cDItJHtQVn0u
-dGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjAwYmExYmRmMGJhMmM3NGIyYTRmZTZjOGIx
-MDY5ZGM5ZDgyZjgyNjA4YWYyNDQ0MmQ0MzBkZjk3YzZmOWU2MzEiCitTUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiNTUxMWQzMTI4ODUwZTAxYjViMjZlYzkyYmYzOWRmMTUzODFjNzY3YTYzNDQxNDM4YjI1
-YWQ2MjM1ZGVmOTAyYyIKIAogaW5oZXJpdCBjbWFrZSBtYW5wYWdlcyBweXRob24zbmF0aXZlIGdp
-dGh1Yi1yZWxlYXNlcwogCi0tIAoyLjQ3LjEKCg==
-
---===============3656578337098326373==--
+--===============1830928857519084998==--
 
