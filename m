@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EE79CD3441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D6EBCD3443
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:36 +0000 (UTC)
 Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2368.1762384583580536215
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2345.1762384574473537591
  for <openembedded-core@lists.openembedded.org>;
  Wed, 05 Nov 2025 15:16:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=vjJj7VZp;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=fecg7XHh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019a564eab9a-c3c0788e-aaca-413e-a0a2-be708a3d2196-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UbTSDp/W;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=pz7TL/Q4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019a564eae0d-c31d4500-fef5-44ac-9e71-4831bb791bf5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1762384588;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=d7UrQi5qH569fWPbvJsRgO7g6hO6HaPJ9V+tBjpBrNs=;
-	b=vjJj7VZpa6mZkQ4lOjLVrGO2wNITvl/0QoISD5wuDkYXtGiwuIfNTM71FTVBoOgZ
-	msx3b401LUmBIGGXDdxrFXSI2UN8vI+Owafiq3D3+ybhbvw6m/El2TSaQNOcimpugXl
-	kFtLZACejWQt1uhk8Xz4KHaCillYOmOj4KPySNj4=
+	bh=GurpbVsiXWCbcdxbITAX8UIRMufFPGE1xkoHqxib1m8=;
+	b=UbTSDp/W+D3Hu4NNcz2Dv1aR7NEKpJkhfvQSatcO46TrqW/XyehS7ecj+qAy16Nd
+	M5oeJxNtMqGB3OgXcknVZc66jP7a1lfSQPNl70NMyLg8/q30+eOEEO5lyiRaAZQ2jxF
+	9qBMcPUDUvk63EluwqdNatrlBEDHXzFM8pWMg1iU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384588;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=d7UrQi5qH569fWPbvJsRgO7g6hO6HaPJ9V+tBjpBrNs=;
-	b=fecg7XHhciN2ixzi1tI/oVr6Gu+aNHZfcP/re1dL9uAzX3YrR13PiM4E2wjD5N3j
-	1WLmBcHPzfOha+wNNH+jKgc+Ln+IYNoZC3+tiuXKcnIrWkUiPauiT2JO0mZ+Pm9D6kV
-	4TsL+cm1aaB2gDK8HadCDEWMyBSkAlia5C9p997w=
-Content-Type: multipart/mixed; boundary="===============6208564772858252931=="
+	bh=GurpbVsiXWCbcdxbITAX8UIRMufFPGE1xkoHqxib1m8=;
+	b=pz7TL/Q4MYR9N7Xlacjf8tRAwkw9HCHpbwivqL2kCmPGIs93ypCuksTiq+TtZyqd
+	YZ0f6F2J63kQmCNecmRilH3+7UX5uPaOrzgP9UaeYe3l1eM7AeWvw2fSYCKqizCbioN
+	tKQ+ULIxESejAmXaMlUh2XHfQBHQlWnXTmZpWKXo=
+Content-Type: multipart/mixed; boundary="===============7742828532338271409=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-psutil: upgrading to 7.1.3 SUCCEEDED
-Message-ID: <0101019a564eab9a-c3c0788e-aaca-413e-a0a2-be708a3d2196-000000@us-west-2.amazonses.com>
-Date: Wed, 5 Nov 2025 23:16:27 +0000
+Subject: [AUH] python3-pyparsing: upgrading to 3.2.5 SUCCEEDED
+Message-ID: <0101019a564eae0d-c31d4500-fef5-44ac-9e71-4831bb791bf5-000000@us-west-2.amazonses.com>
+Date: Wed, 5 Nov 2025 23:16:28 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.11.05-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225842
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225843
 
---===============6208564772858252931==
+--===============7742828532338271409==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-psutil* to *7.1.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-pyparsing* to *3.2.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-psutil-upgrade-7.0.0-7.1.3.patch
+    - apply the patch: git am 0001-python3-pyparsing-upgrade-3.2.4-3.2.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,50 +72,44 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 649bbb386a1a053b7b3433d2930ea989497b9dbb Mon Sep 17 00:00:00 2001
+From 7b88c324d7f20004d6339681ae2eadb81bf637a1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 5 Nov 2025 17:28:26 +0000
-Subject: [PATCH] python3-psutil: upgrade 7.0.0 -> 7.1.3
+Date: Wed, 5 Nov 2025 17:37:58 +0000
+Subject: [PATCH] python3-pyparsing: upgrade 3.2.4 -> 3.2.5
 
 ---
- .../python/{python3-psutil_7.0.0.bb => python3-psutil_7.1.3.bb} | 2 +-
+ .../{python3-pyparsing_3.2.4.bb => python3-pyparsing_3.2.5.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-psutil_7.0.0.bb => python3-psutil_7.1.3.bb} (90%)
+ rename meta/recipes-devtools/python/{python3-pyparsing_3.2.4.bb => python3-pyparsing_3.2.5.bb} (90%)
 
-diff --git a/meta/recipes-devtools/python/python3-psutil_7.0.0.bb b/meta/recipes-devtools/python/python3-psutil_7.1.3.bb
+diff --git a/meta/recipes-devtools/python/python3-pyparsing_3.2.4.bb b/meta/recipes-devtools/python/python3-pyparsing_3.2.5.bb
 similarity index 90%
-rename from meta/recipes-devtools/python/python3-psutil_7.0.0.bb
-rename to meta/recipes-devtools/python/python3-psutil_7.1.3.bb
-index a2af198083..67d2080f21 100644
---- a/meta/recipes-devtools/python/python3-psutil_7.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-psutil_7.1.3.bb
-@@ -3,7 +3,7 @@ LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a9c72113a843d0d732a0ac1c200d81b1"
- HOMEPAGE = "https://pypi.org/project/psutil/"
+rename from meta/recipes-devtools/python/python3-pyparsing_3.2.4.bb
+rename to meta/recipes-devtools/python/python3-pyparsing_3.2.5.bb
+index 46556e6fb8..e94bebae38 100644
+--- a/meta/recipes-devtools/python/python3-pyparsing_3.2.4.bb
++++ b/meta/recipes-devtools/python/python3-pyparsing_3.2.5.bb
+@@ -10,7 +10,7 @@ BUGTRACKER = "https://github.com/pyparsing/pyparsing/issues"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=657a566233888513e1f07ba13e2f47f1"
  
--SRC_URI[sha256sum] = "7be9c3eba38beccb6495ea33afd982a44074b78f28c434a1f51cc07fd315c456"
-+SRC_URI[sha256sum] = "6c86281738d77335af7aec228328e944b30930899ea760ecf33a4dba66be5e74"
+-SRC_URI[sha256sum] = "fff89494f45559d0f2ce46613b419f632bbb6afbdaed49696d322bcf98a58e99"
++SRC_URI[sha256sum] = "2df8d5b7b2802ef88e8d016a2eb9c7aeaa923529cd251ed0fe4608275d4105b6"
  
- inherit pypi python_setuptools_build_meta
+ inherit pypi python_flit_core
  
 -- 
 2.47.1
 
 
---===============6208564772858252931==
+--===============7742828532338271409==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-dbg: PKGSIZE changed from 120584 to 91168 (-24%)
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-tests: FILELIST: added "/usr/lib/python3.13/site-packages/psutil/tests/__pycache__/test_sudo.cpython-313.pyc /usr/lib/python3.13/site-packages/psutil/tests/test_sudo.py"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil: FILELIST: directory renamed /usr/lib/python3.13/site-packages/psutil-7.0.0.dist-info/licenses -> /usr/lib/python3.13/site-packages/psutil-7.1.3.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/psutil-7.0.0.dist-info -> /usr/lib/python3.13/site-packages/psutil-7.1.3.dist-info, removed "/usr/lib/python3.13/site-packages/psutil/_psutil_posix.abi3.so"
-Changes to packages/x86-64-v3-poky-linux/python3-psutil (sysroot):
-  /usr/lib/python3.13/site-packages/psutil-7.0.0.dist-info moved to /usr/lib/python3.13/site-packages/psutil-7.1.3.dist-info
-  /usr/lib/python3.13/site-packages/psutil/tests/__pycache__/test_sudo.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/psutil/tests/test_sudo.py was added
-  /usr/lib/python3.13/site-packages/psutil/_psutil_posix.abi3.so was removed
+Changes to packages/x86-64-v3-poky-linux/python3-pyparsing (sysroot):
+  /usr/lib/python3.13/site-packages/pyparsing-3.2.4.dist-info moved to /usr/lib/python3.13/site-packages/pyparsing-3.2.5.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2039,45 +2033,32 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============6208564772858252931==
+--===============7742828532338271409==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-psutil: PV changed from "7.0.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-psutil: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/psutil/psutil-7.0.0.tar.gz;downloadfilename=psutil-7.0.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/psutil/psutil-7.1.3.tar.gz;downloadfilename=psutil-7.1.3.tar.gz"
-packages/x86-64-v3-poky-linux/python3-psutil: PKGV changed from 7.0.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-dbg: PV changed from "7.0.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-dbg: PKGV changed from 7.0.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-dbg: PKGSIZE changed from 120584 to 91168 (-24%)
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-dbg: FILELIST: removed "/usr/lib/python3.13/site-packages/psutil/.debug/_psutil_posix.abi3.so"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-dev: PV changed from "7.0.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-dev: PKGV changed from 7.0.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-doc: PV changed from "7.0.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-doc: PKGV changed from 7.0.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-locale: PV changed from "7.0.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-locale: PKGV changed from 7.0.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-src: PV changed from "7.0.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-src: PKGV changed from 7.0.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-src: PKGSIZE changed from 63785 to 60553 (-5%)
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-src: FILELIST: removed "/usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/mem.c /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/proc.h /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/net.c /usr/src/debug/python3-psutil/7.0.0/psutil/_psutil_common.h /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/mem.h /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/net.h /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/proc.c /usr/src/debug/python3-psutil/7.0.0/psutil/_psutil_common.c /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/disk.h /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/users.c /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/disk.c /usr/src/debug/python3-psutil/7.0.0/psutil/_psutil_linux.c /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/users.h /usr/src/debug/python3-psutil/7.0.0/psutil/_psutil_posix.c", added "/usr/src/debug/python3-psutil/7.1.3/psutil/_psutil_linux.c 
- /usr/src/debug/python3-psutil/7.1.3/psutil/arch/posix/pids.c /usr/src/debug/python3-psutil/7.1.3/psutil/arch/posix/proc.c /usr/src/debug/python3-psutil/7.1.3/psutil/arch/posix/net.c /usr/src/debug/python3-psutil/7.1.3/psutil/arch/linux/mem.c /usr/src/debug/python3-psutil/7.1.3/psutil/arch/all/init.h /usr/src/debug/python3-psutil/7.1.3/psutil/arch/linux/init.h /usr/src/debug/python3-psutil/7.1.3/psutil/arch/linux/disk.c /usr/src/debug/python3-psutil/7.1.3/psutil/arch/all/init.c /usr/src/debug/python3-psutil/7.1.3/psutil/arch/posix/init.h /usr/src/debug/python3-psutil/7.1.3/psutil/arch/all/pids.c /usr/src/debug/python3-psutil/7.1.3/psutil/arch/linux/proc.c /usr/src/debug/python3-psutil/7.1.3/psutil/arch/posix/users.c /usr/src/debug/python3-psutil/7.1.3/psutil/arch/all/errors.c /usr/src/debug/python3-psutil/7.1.3/psutil/arch/linux/net.c /usr/src/debug/python3-psutil/7.1.3/psutil/arch/all/str.c /usr/src/debug/python3-psutil/7.1.3/psutil/arch/posix/init.c"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-staticdev: PV changed from "7.0.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-staticdev: PKGV changed from 7.0.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-tests: PV changed from "7.0.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-tests: PKGV changed from 7.0.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-tests: PKGSIZE changed from 1222429 to 1235052 (+1%)
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-tests: FILELIST: added "/usr/lib/python3.13/site-packages/psutil/tests/test_sudo.py /usr/lib/python3.13/site-packages/psutil/tests/__pycache__/test_sudo.cpython-313.pyc"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil: PV changed from "7.0.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil: PKGV changed from 7.0.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil: PKGSIZE changed from 781685 to 771052 (-1%)
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil: FILELIST: directory renamed /usr/lib/python3.13/site-packages/psutil-7.0.0.dist-info/licenses -> /usr/lib/python3.13/site-packages/psutil-7.1.3.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/psutil-7.0.0.dist-info -> /usr/lib/python3.13/site-packages/psutil-7.1.3.dist-info, removed "/usr/lib/python3.13/site-packages/psutil/_psutil_posix.abi3.so"
-Changes to packages/x86-64-v3-poky-linux/python3-psutil (sysroot):
-  /usr/lib/python3.13/site-packages/psutil-7.0.0.dist-info moved to /usr/lib/python3.13/site-packages/psutil-7.1.3.dist-info
-  /usr/lib/python3.13/site-packages/psutil/tests/__pycache__/test_sudo.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/psutil/tests/test_sudo.py was added
-  /usr/lib/python3.13/site-packages/psutil/_psutil_posix.abi3.so was removed
+packages/x86-64-v3-poky-linux/python3-pyparsing: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.2.4.tar.gz;downloadfilename=pyparsing-3.2.4.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.2.5.tar.gz;downloadfilename=pyparsing-3.2.5.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pyparsing: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-dev: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-dev: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-doc: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-doc: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-locale: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-locale: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-src: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-src: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing: PKGSIZE changed from 929097 to 929285 (+0%)
+Changes to packages/x86-64-v3-poky-linux/python3-pyparsing (sysroot):
+  /usr/lib/python3.13/site-packages/pyparsing-3.2.4.dist-info moved to /usr/lib/python3.13/site-packages/pyparsing-3.2.5.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4001,35 +3982,36 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============6208564772858252931==
+--===============7742828532338271409==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-psutil-upgrade-7.0.0-7.1.3.patch"
+ filename="0001-python3-pyparsing-upgrade-3.2.4-3.2.5.patch"
 
-RnJvbSA2NDliYmIzODZhMWEwNTNiN2IzNDMzZDI5MzBlYTk4OTQ5N2I5ZGJiIE1vbiBTZXAgMTcg
+RnJvbSA3Yjg4YzMyNGQ3ZjIwMDA0ZDYzMzk2ODFhZTJlYWRiODFiZjYzN2ExIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxNzoyODoyNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcHN1dGlsOiB1cGdyYWRlIDcuMC4wIC0+IDcuMS4zCgotLS0KIC4uLi9weXRob24ve3B5
-dGhvbjMtcHN1dGlsXzcuMC4wLmJiID0+IHB5dGhvbjMtcHN1dGlsXzcuMS4zLmJifSB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHN1dGlsXzcuMC4wLmJiID0+IHB5
-dGhvbjMtcHN1dGlsXzcuMS4zLmJifSAoOTAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1wc3V0aWxfNy4wLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHN1dGlsXzcuMS4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTAl
-CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wc3V0aWxf
-Ny4wLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1w
-c3V0aWxfNy4xLjMuYmIKaW5kZXggYTJhZjE5ODA4My4uNjdkMjA4MGYyMSAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBzdXRpbF83LjAuMC5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHN1dGlsXzcuMS4zLmJiCkBA
-IC0zLDcgKzMsNyBAQCBMSUNFTlNFID0gIkJTRC0zLUNsYXVzZSIKIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWE5YzcyMTEzYTg0M2QwZDczMmEwYWMxYzIwMGQ4MWIxIgog
-SE9NRVBBR0UgPSAiaHR0cHM6Ly9weXBpLm9yZy9wcm9qZWN0L3BzdXRpbC8iCiAKLVNSQ19VUklb
-c2hhMjU2c3VtXSA9ICI3YmU5YzNlYmEzOGJlY2NiNjQ5NWVhMzNhZmQ5ODJhNDQwNzRiNzhmMjhj
-NDM0YTFmNTFjYzA3ZmQzMTVjNDU2IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjZjODYyODE3Mzhk
-NzczMzVhZjdhZWMyMjgzMjhlOTQ0YjMwOTMwODk5ZWE3NjBlY2YzM2E0ZGJhNjZiZTVlNzQiCiAK
-IGluaGVyaXQgcHlwaSBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxNzozNzo1OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcHlwYXJzaW5nOiB1cGdyYWRlIDMuMi40IC0+IDMuMi41CgotLS0KIC4uLi97cHl0aG9u
+My1weXBhcnNpbmdfMy4yLjQuYmIgPT4gcHl0aG9uMy1weXBhcnNpbmdfMy4yLjUuYmJ9ICB8IDIg
+Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHlwYXJzaW5nXzMuMi40LmJi
+ID0+IHB5dGhvbjMtcHlwYXJzaW5nXzMuMi41LmJifSAoOTAlKQoKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXBhcnNpbmdfMy4yLjQuYmIgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlwYXJzaW5nXzMuMi41LmJiCnNpbWls
+YXJpdHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1weXBhcnNpbmdfMy4yLjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1weXBhcnNpbmdfMy4yLjUuYmIKaW5kZXggNDY1NTZlNmZiOC4uZTk0
+YmViYWUzOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXB5cGFyc2luZ18zLjIuNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtcHlwYXJzaW5nXzMuMi41LmJiCkBAIC0xMCw3ICsxMCw3IEBAIEJVR1RSQUNLRVIgPSAi
+aHR0cHM6Ly9naXRodWIuY29tL3B5cGFyc2luZy9weXBhcnNpbmcvaXNzdWVzIgogTElDRU5TRSA9
+ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT02NTdhNTY2MjMz
+ODg4NTEzZTFmMDdiYTEzZTJmNDdmMSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImZmZjg5NDk0
+ZjQ1NTU5ZDBmMmNlNDY2MTNiNDE5ZjYzMmJiYjZhZmJkYWVkNDk2OTZkMzIyYmNmOThhNThlOTki
+CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMmRmOGQ1YjdiMjgwMmVmODhlOGQwMTZhMmViOWM3YWVh
+YTkyMzUyOWNkMjUxZWQwZmU0NjA4Mjc1ZDQxMDViNiIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9m
+bGl0X2NvcmUKIAotLSAKMi40Ny4xCgo=
 
---===============6208564772858252931==--
+--===============7742828532338271409==--
 
