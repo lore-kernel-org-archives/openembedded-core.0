@@ -2,93 +2,93 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEB9ECCF9F8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0124CCFA0D
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 11:57:35 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7767.1762343849863689993
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7865.1762343849309708248
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 03:57:30 -0800
+ Wed, 05 Nov 2025 03:57:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BKTs7bQW;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3ed20bdfdffso5612953f8f.2
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hDW8or8u;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4711810948aso46983155e9.2
         for <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 03:57:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1762343848; x=1762948648; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pnyjWUSqcflNhAdN5apyy3+oZY1dSfdW/LdaTGateOI=;
-        b=BKTs7bQWa8A3VDA0+ekSTqu/cbwa0ssPycmfd/vGJY+FPgwHquu2ZGfwZ3I8y6bMMA
-         lS6A6rhtQMLL4nsryn2zRLfdmlx916Er0UHfLBOCNWVqaefMEq6lLXrcXycjxPB9stlt
-         B0o0G0OVEf75YXPGnlFa1t6+qoPM4BLQ6fpzmBcZINHK2FA9LVQJcjzE0qY8F/FJBJUC
-         UDrLM0/zbzYx30vPMjjlu4AfZr4jcjuDc+Nf8wDfJlBpmDo+zejCOuDAvtbbzanDJD9c
-         qJ/wIm0d/F0iXj8qgM7Lc+BjzPgswMZACHsePKBbDo8RV2I6olycR88NDOSfgKLzIT1C
-         RNQw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tDw241lKsiAcCgzJ8vEhqiVzcZB4d8uFSOJ7q4/hQC8=;
+        b=hDW8or8umd1DJh5z2q1beSqO/kAWHBddBtMzWujatBCcOA2EgfYdlS53lrz5E6nSNt
+         ZC9t93X9NtBAmaKHgrvo6mWf7jV3r1MObIk1E5sm+/kAE8JRxa1YDnYpKmd6ujV6zh/n
+         6oBd7/UkDkvuMRBRX0rhdw9KgnYtmqjhBUiWtLy2ie3jafVIAY7Y96mB5LY16cf931xw
+         lFZ/8+UZsMv7oxAe7fK3y6Hx0qXkrkqK3ys5KzuBR2TyUZKj64rQHbb189K+5KuygMjp
+         mCkq+6kWuXxf97MDejMvd05ogV7BAhyFmmBxcZpScto7st6R/sbUCnHysHjFSr/u/liM
+         OnQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1762343848; x=1762948648;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pnyjWUSqcflNhAdN5apyy3+oZY1dSfdW/LdaTGateOI=;
-        b=RABh1uhVoTx4MeVw/alj8aNOQVfymp341hUw8yaOkliZ8MOGxkF3vc6rZax0Zr4yvD
-         v62MGL9cdfE/z46eIu10yOz+s7U3nQpf1DLrpgYC6kliFKVwrYiwozvhQSY9kTvYxGM3
-         VNmTru+q1n+8moD42Gv7u04PQ9kjwu+DzUEKTz4WQE/p8VLepfPUlFIQ5fkPJC1X8GmP
-         SFcz6zAJlsAu9NWeIO6kO7WRq27qa+m1dzvE9esNTQ4rsfdxfWZ2df/o+oOGqb65UlsH
-         LeseBbwqnOJyhPydiQ+0RCOd8CECHvHQTBAJgsApK8AiOQKyMAUgnIIu71ZdgxnMDA1N
-         BM9A==
-X-Gm-Message-State: AOJu0Yzonh4Zl0o5kngf4a6FCt5C2Mg0NJt1v5G+KEGtmkzFJ4QwRp6D
-	PoN9/74yDF67gvABeHturKsr0Ur5yDVwgbcOU13PIYfpkWLABDa6SKMBp3LkhQ==
-X-Gm-Gg: ASbGncsaeAlyjcxZk3hVlbZF1aZctzUP03OLhM3Qsw+AgOBYgJJOSYNS3Ewt46vHSYo
-	dvrPzLMqrvBw8Iw9+zkJMZSR1K0U17UOxMjhSYLJgojREdRHqXX6JrFar5Q0VUG+T7bD+i9DiQ5
-	O+6SjuAfWuq9M+Inp/F7BhVjy2zsQ4Zr9Nfz5w38AAe581yS75UzloDg2Mi+PCJc09MgCUVHSo/
-	900xQN6lqqj7L+NDcIZ0CFWswrpJ9DQNcxtjrT8yPpDKJSc/bORPovcA+SlQaZ7MX9L0Z8uqSAy
-	vCfwvg23XEhh/4Ogz7KbrRqOaH2m9kFJn3sRIdjLfhBh5bZ4e1nls9NK8pYIM4iMWu7muUkyQRu
-	UrIAQGyDYbVLSKgGMKZ6pnPgLNl53OYHFGQs7FLGCvbrg5OgfxjbpVlmXm+QrOx/5sNXcmo7/Vu
-	3T1YQvaPp4k6zHCssQrtWV3j+wiMnJmUgcHLZIelmh2TDLJmM=
-X-Google-Smtp-Source: AGHT+IEoXcMISYIPt9ycegoKdEG+9D0kGI62eW9TsR6T9kH4+FME9E4uYkTZnabjw83N64y2pmcU+A==
-X-Received: by 2002:a05:6000:420b:b0:429:cd3f:f43b with SMTP id ffacd0b85a97d-429e32cc2e1mr2426082f8f.4.1762343848105;
-        Wed, 05 Nov 2025 03:57:28 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tDw241lKsiAcCgzJ8vEhqiVzcZB4d8uFSOJ7q4/hQC8=;
+        b=pm56eBwvx2OoEU+IZDZbE4b/4pcma4XebeWGrYMGcdHNp1kXSkTWvTVZGve/PYIEEd
+         UVcLq3s0xcJK00rQMWhYwA1aHq1jiI5LU4aJckWb/OVWq4HPOiYu4fYCWlgRrOMVDSRu
+         Ab81xVmcQMLulLrFIxmNWBfoR5eWk1kWDnlWlvMJnfM25QfSSzKIXqezUO+JZrn9yH04
+         2cOlH4VN8n12AdegdhHRFWAA9MQoNr3dHqQq7Lkpu4n70K2ankKTYEXwGzjf/9OSwMCO
+         mLcXUosO2bXhyFjhHtKSbqRx/OqOWyFL4pGqGnfbIic43x4sxiQPa1NzVO9X+g3HU1ff
+         K3KQ==
+X-Gm-Message-State: AOJu0YyCci2DBOnpxJZN0ASak0s0M9tqPAR3W4HgobIxQ8uxMbkl7mG5
+	Tkky+N9gH3wrEtQm+/k+XL1LZ/aE0mi9z1zkocNWCS/3ljREOq6SQfGRbjiPBw==
+X-Gm-Gg: ASbGncuK1UTtya0SxwWdXCuu2U7yvoR+RxYq61tKKY85oJe/npgfvpO53vCRztNagnE
+	d3QhXyO3/ASkPWq+FbZ+rblnXms6BszgroaA1R58FTl8+IZ8XC2UDHZhYVa2VxDgtx634/twwBB
+	pJR8fjzuUqBZGJu44QDQEnJga+1V09xnNdhu5xBlQx6V3QrVtxyVmtfV73O06ZhcmnVGSH4/ASw
+	PfbhPH6YMPa7ubacmtw6vpDk/tru9AYJAetjmACW3mNKVCRZHCJ3CcHmHhfATUxmSy0sU/nMPAo
+	m78D/gsi5LFqw3wd6zrgSNbiFBqHUcjGfVEh0obGZQTHikfm5kGaapJR5HzUrUes/RO1i8QpNf3
+	X73tonTzpAEirmjNKKPRgTAwq/LQUKATbEh25kA2Oq+kZSPV3einj+OfiVzGVbx1p5lAYPMUzlU
+	C/OWzoFQZ483T9GBeW198lYp9syiuUjMDQy1KcOEmdB7rQX6E=
+X-Google-Smtp-Source: AGHT+IH4o8gEb7KvUX50lzA3gbxsJs5C58ciWTNRWNP1V8Dz1t3XXa56bjD2BTdsidbk/LvoruxAPA==
+X-Received: by 2002:a05:6000:1846:b0:429:b2ad:f31e with SMTP id ffacd0b85a97d-429e3305c82mr2359766f8f.35.1762343847424;
+        Wed, 05 Nov 2025 03:57:27 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429dc18efb3sm11100191f8f.3.2025.11.05.03.57.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429dc18efb3sm11100191f8f.3.2025.11.05.03.57.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 05 Nov 2025 03:57:27 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 2/2] python3-dbusmock: fix upstream version check
-Date: Wed,  5 Nov 2025 12:57:23 +0100
-Message-Id: <20251105115723.560713-2-alex.kanavin@gmail.com>
+Subject: [PATCH 1/2] libnput: correct upstream version check
+Date: Wed,  5 Nov 2025 12:57:22 +0100
+Message-Id: <20251105115723.560713-1-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20251105115723.560713-1-alex.kanavin@gmail.com>
-References: <20251105115723.560713-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 11:57:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225752
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225751
 
 From: Alexander Kanavin <alex@linutronix.de>
 
+It wasn't updated when the recipe was switched to git.
+
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/python/python3-dbusmock_0.37.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-graphics/wayland/libinput_1.29.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.37.0.bb b/meta/recipes-devtools/python/python3-dbusmock_0.37.0.bb
-index 9592c837276..50c46abc956 100644
---- a/meta/recipes-devtools/python/python3-dbusmock_0.37.0.bb
-+++ b/meta/recipes-devtools/python/python3-dbusmock_0.37.0.bb
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e6a600fd5e1d9cbde2d983680233ad02"
- SRC_URI[sha256sum] = "38754c5ad2ad8f3936ff67d4b058bca416588a72bc094e91ded9f8f401b06310"
+diff --git a/meta/recipes-graphics/wayland/libinput_1.29.1.bb b/meta/recipes-graphics/wayland/libinput_1.29.1.bb
+index 79df97ac068..809c291e233 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.29.1.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.29.1.bb
+@@ -17,7 +17,7 @@ SRC_URI = "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=https;bra
+            "
+ SRCREV = "dc2c1ad181be88e1487468f7ca6f9d320981f133"
  
- PYPI_PACKAGE = "python_dbusmock"
-+UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+-UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
++UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
  
- inherit pypi python_setuptools_build_meta
- DEPENDS += "python3-setuptools-scm-native"
+ inherit meson pkgconfig lib_package ptest
+ 
 -- 
 2.39.5
 
