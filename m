@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3786CD13D2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E64A5CD13D1
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:23 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2353.1762384576266000481
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2351.1762384575994735130
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:16:17 -0800
+ Wed, 05 Nov 2025 15:16:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=qH10TuJj;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=QTo4J2wx;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019a564e82a3-e3df88c7-f25f-444b-a615-5bcf176024b3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=qDHESNEj;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=KHlppJGC;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019a564e8ead-00f52d02-b536-49c9-9d09-0202fae91ebe-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1762384577;
+	t=1762384580;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Ln1fSfxQ1CzR7j96pIu1Is9yfbbSFz9REP2jailccsw=;
-	b=qH10TuJjgGvCMKDF82esZeNH20B6prs4m7IL8i0PFBm1DEQ8qVL5kFg5JSx1sefX
-	8heorcWXIE8SGBh3D/+EDQ+o89c0QDF+utTiA1jv6UjgHSGt9Fbxbncgl8Zx38c4KlH
-	uBq6AEtlf5X7RPwO1DIL+Q6U8zpBGre2zhi9xrfY=
+	bh=zyS3Pj2IvAwqxkFSreN5f7JVibrG2kGBsteoORNEpVM=;
+	b=qDHESNEjx1ez1UFHcsRlPob4RrL4rBXno60YWN9abRjmccuGx6uyM0bCDhop6iIj
+	OPOtO5HBpKmVeqF685NOfqj6vubY2gctMcQitnY8EmWVpEXC/3SwTGR9c0flW4mZ/TK
+	HFSGUmPRdbTJoZGZpMh1tS131nXAjXMg3g3DiDXk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384577;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384580;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Ln1fSfxQ1CzR7j96pIu1Is9yfbbSFz9REP2jailccsw=;
-	b=QTo4J2wxgUQQ3/qQOgH24cziSAPDxIaCQ6RjtL0kKB+w38ksDtCnzXArjkhvYhxQ
-	GJXwnDaNSrfXyET2TKKfhhLrwd521N9T+zshuNRHfRI2loh5uTAPeTMFs6380xzSFLX
-	p5Kk6UVE+X3ZSQF3huCjXHnlP0C++ZqSzWVWz59E=
-Content-Type: multipart/mixed; boundary="===============4765716611945962889=="
+	bh=zyS3Pj2IvAwqxkFSreN5f7JVibrG2kGBsteoORNEpVM=;
+	b=KHlppJGCgdiMxndwvnMLUC1HJ6U+uG2O7WF434KEk0jIdHEZ48XsvHtaJrd+KkZo
+	hsu0aKpUQOshyyS4uSsnNz9S3vSCKm3sGrdqfIpfvndsxCmtRNw4PWPWBpecaQAqgeT
+	iJpn2nPTflGfCujV+nytN3w/Plg0wvO89tEvSMRA=
+Content-Type: multipart/mixed; boundary="===============3230108530809123414=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Alex Stewart <alex.stewart@ni.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ttyrun: upgrading to 2.39.0 SUCCEEDED
-Message-ID: <0101019a564e82a3-e3df88c7-f25f-444b-a615-5bcf176024b3-000000@us-west-2.amazonses.com>
-Date: Wed, 5 Nov 2025 23:16:17 +0000
+Subject: [AUH] opkg: upgrading to 0.9.0 FAILED
+Message-ID: <0101019a564e8ead-00f52d02-b536-49c9-9d09-0202fae91ebe-000000@us-west-2.amazonses.com>
+Date: Wed, 5 Nov 2025 23:16:20 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.05-54.240.27.29
+X-SES-Outgoing: 2025.11.05-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225803
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225816
 
---===============4765716611945962889==
+--===============3230108530809123414==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ttyrun* to *2.39.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *opkg* to *0.9.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-ttyrun-upgrade-2.38.0-2.39.0.patch
+    - apply the patch: git am 0001-opkg-upgrade-0.8.0-0.9.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,87 +78,187 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 960a224ced2feb7787e894b1c6f7026d5b791c31 Mon Sep 17 00:00:00 2001
+From a1bc7ebeafe38a7704441014643e0c183b6154e7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 5 Nov 2025 15:27:44 +0000
-Subject: [PATCH] ttyrun: upgrade 2.38.0 -> 2.39.0
+Date: Wed, 5 Nov 2025 16:30:03 +0000
+Subject: [PATCH] opkg: upgrade 0.8.0 -> 0.9.0
 
 ---
- meta/recipes-core/ttyrun/{ttyrun_2.38.0.bb => ttyrun_2.39.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/ttyrun/{ttyrun_2.38.0.bb => ttyrun_2.39.0.bb} (94%)
+ ...opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch | 4 ++--
+ meta/recipes-devtools/opkg/{opkg_0.8.0.bb => opkg_0.9.0.bb}   | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/opkg/{opkg_0.8.0.bb => opkg_0.9.0.bb} (97%)
 
-diff --git a/meta/recipes-core/ttyrun/ttyrun_2.38.0.bb b/meta/recipes-core/ttyrun/ttyrun_2.39.0.bb
-similarity index 94%
-rename from meta/recipes-core/ttyrun/ttyrun_2.38.0.bb
-rename to meta/recipes-core/ttyrun/ttyrun_2.39.0.bb
-index 90380e51ea..c7ca8f3ec3 100644
---- a/meta/recipes-core/ttyrun/ttyrun_2.38.0.bb
-+++ b/meta/recipes-core/ttyrun/ttyrun_2.39.0.bb
-@@ -7,7 +7,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f5118f167b055bfd7c3450803f1847af"
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch b/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
+index 98daf746ec..d807a8c88c 100644
+--- a/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
++++ b/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
+@@ -1,4 +1,4 @@
+-From 82b29dcfe3033d8285890bf46e58f464d9944196 Mon Sep 17 00:00:00 2001
++From 3feaf2d88f0560754c1920c11b43a4dd21c11ade Mon Sep 17 00:00:00 2001
+ From: Jonathan Liu <net147@gmail.com>
+ Date: Mon, 21 Sep 2015 20:23:23 +1000
+ Subject: [PATCH] opkg_conf: create opkg.lock in /run instead of /var/run
+@@ -17,7 +17,7 @@ Signed-off-by: Jonathan Liu <net147@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- SRC_URI = "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v${PV}"
--SRCREV = "660bab6e68fded26b2117e1dcec0844549a22fed"
-+SRCREV = "940ce6790021816f280fab66f443e4721d527833"
+ diff --git a/libopkg/opkg_conf.h b/libopkg/opkg_conf.h
+-index 3fa6ca9..b12672e 100644
++index eec4e81..907521c 100644
+ --- a/libopkg/opkg_conf.h
+ +++ b/libopkg/opkg_conf.h
+ @@ -42,7 +42,7 @@ extern "C" {
+diff --git a/meta/recipes-devtools/opkg/opkg_0.8.0.bb b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
+similarity index 97%
+rename from meta/recipes-devtools/opkg/opkg_0.8.0.bb
+rename to meta/recipes-devtools/opkg/opkg_0.9.0.bb
+index 12e2edf7e3..27b5b8fbb3 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.8.0.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
+@@ -18,7 +18,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+            file://run-ptest \
+            "
  
- CVE_PRODUCT = "s390-tools"
+-SRC_URI[sha256sum] = "582a4c9e220cce0b7d08a0915c95db9f24ae43ad372ed5d42d5ec5f6cd413f0c"
++SRC_URI[sha256sum] = "440ef321862e01f83da4d02884a0cbb4d9d7b32f82faa81a6a85493f0c89d0f5"
  
+ # This needs to be before ptest inherit, otherwise all ptest files end packaged
+ # in libopkg package if OPKGLIBDIR == libdir, because default
 -- 
 2.47.1
 
 
---===============4765716611945962889==
+--===============3230108530809123414==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/x86-64-v3-poky-linux/ttyrun: SRC_URI changed from "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v2.38.0" to "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v2.39.0"
-packages/x86-64-v3-poky-linux/ttyrun: PKGV changed from 2.38.0 [default] to 2.39.0 [default]
-packages/x86-64-v3-poky-linux/ttyrun: PV changed from "2.38.0" to "2.39.0"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dbg: PKGV changed from 2.38.0 [default] to 2.39.0 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dbg: PV changed from "2.38.0" to "2.39.0"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dev: PKGV changed from 2.38.0 [default] to 2.39.0 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dev: PV changed from "2.38.0" to "2.39.0"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-doc: PKGV changed from 2.38.0 [default] to 2.39.0 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-doc: PV changed from "2.38.0" to "2.39.0"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-locale: PKGV changed from 2.38.0 [default] to 2.39.0 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-locale: PV changed from "2.38.0" to "2.39.0"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: PKGV changed from 2.38.0 [default] to 2.39.0 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: PV changed from "2.38.0" to "2.39.0"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-staticdev: PKGV changed from 2.38.0 [default] to 2.39.0 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun-staticdev: PV changed from "2.38.0" to "2.39.0"
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun: PKGV changed from 2.38.0 [default] to 2.39.0 [default]
-packages/x86-64-v3-poky-linux/ttyrun/ttyrun: PV changed from "2.38.0" to "2.39.0"
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1947 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 948 .bb files complete (947 cached, 1 parsed). 1945 targets, 47 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============4765716611945962889==
+Build Configuration:
+BB_VERSION           = "2.15.2"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-b541b4e42e8b735031f9e2d4f01c9c1716f89da6"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 = "tmp-auh-upgrades:b541b4e42e8b735031f9e2d4f01c9c1716f89da6"
+meta-yocto-bsp       
+meta-poky            = "master:66ea31cee15309af07afeee8dec8a6fe1d92d28e"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 307 Local 294 Mirrors 0 Missed 13 Current 463 (95% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 671 of 770 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg/opkg_0.9.0.bb:do_recipe_qa_setscene)
+NOTE: recipe opkg-1_0.9.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-1_0.9.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1490 of 2103 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg/opkg_0.9.0.bb:do_fetch)
+NOTE: recipe opkg-1_0.9.0-r0: task do_fetch: Started
+NOTE: recipe opkg-1_0.9.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2082 of 2103 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg/opkg_0.9.0.bb:do_unpack)
+NOTE: Running task 2083 of 2103 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg/opkg_0.9.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe opkg-1_0.9.0-r0: task do_unpack: Started
+NOTE: recipe opkg-1_0.9.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe opkg-1_0.9.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2084 of 2103 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg/opkg_0.9.0.bb:do_patch)
+NOTE: Running task 2085 of 2103 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg/opkg_0.9.0.bb:do_collect_spdx_deps)
+NOTE: recipe opkg-1_0.9.0-r0: task do_patch: Started
+NOTE: recipe opkg-1_0.9.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe opkg-1_0.9.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe opkg-1_0.9.0-r0: task do_patch: Succeeded
+NOTE: recipe opkg-1_0.9.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2086 of 2103 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg/opkg_0.9.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2087 of 2103 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg/opkg_0.9.0.bb:do_populate_lic)
+NOTE: recipe opkg-1_0.9.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe opkg-1_0.9.0-r0: task do_populate_lic: Started
+NOTE: recipe opkg-1_0.9.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg/opkg_0.9.0.bb:do_populate_lic unihash changed to 177c68e2243105542ca96dc8d4bd17498673444476875df89e83da29ea250215
+NOTE: recipe opkg-1_0.9.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg/opkg_0.9.0.bb:do_deploy_source_date_epoch unihash changed to bb74ce2b4f1f519fff5944841722acb53288e7e278a5c17797582b2f398cb1c4
+NOTE: Setscene tasks completed
+NOTE: Running task 2088 of 2103 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg/opkg_0.9.0.bb:do_configure)
+NOTE: recipe opkg-1_0.9.0-r0: task do_configure: Started
+NOTE: recipe opkg-1_0.9.0-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 2088 tasks of which 2080 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251105162948.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251105162948.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg/opkg_0.9.0.bb:do_configure
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/opkg/0.9.0/temp/log.do_configure.971734
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: opkg-1_0.9.0-r0 do_configure: no configure script found at ../sources/opkg-0.9.0/configure
+ERROR: opkg-1_0.9.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/opkg/0.9.0/temp/run.do_configure.971734' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/opkg/0.9.0/temp/log.do_configure.971734
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg/opkg_0.9.0.bb:do_configure) failed with exit code '1'
+
+--===============3230108530809123414==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-ttyrun-upgrade-2.38.0-2.39.0.patch"
+ filename="0001-opkg-upgrade-0.8.0-0.9.0.patch"
 
-RnJvbSA5NjBhMjI0Y2VkMmZlYjc3ODdlODk0YjFjNmY3MDI2ZDViNzkxYzMxIE1vbiBTZXAgMTcg
+RnJvbSBhMWJjN2ViZWFmZTM4YTc3MDQ0NDEwMTQ2NDNlMGMxODNiNjE1NGU3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxNToyNzo0NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHR0
-eXJ1bjogdXBncmFkZSAyLjM4LjAgLT4gMi4zOS4wCgotLS0KIG1ldGEvcmVjaXBlcy1jb3JlL3R0
-eXJ1bi97dHR5cnVuXzIuMzguMC5iYiA9PiB0dHlydW5fMi4zOS4wLmJifSB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1jb3JlL3R0eXJ1bi97dHR5cnVuXzIuMzguMC5iYiA9PiB0dHlydW5fMi4zOS4wLmJifSAo
-OTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL3R0eXJ1bi90dHlydW5fMi4zOC4w
-LmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvdHR5cnVuL3R0eXJ1bl8yLjM5LjAuYmIKc2ltaWxhcml0
-eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvdHR5cnVuL3R0eXJ1bl8y
-LjM4LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL3R0eXJ1bi90dHlydW5fMi4zOS4w
-LmJiCmluZGV4IDkwMzgwZTUxZWEuLmM3Y2E4ZjNlYzMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1jb3JlL3R0eXJ1bi90dHlydW5fMi4zOC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3R0
-eXJ1bi90dHlydW5fMi4zOS4wLmJiCkBAIC03LDcgKzcsNyBAQCBMSUNFTlNFID0gIk1JVCIKIExJ
-Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWY1MTE4ZjE2N2IwNTViZmQ3YzM0
-NTA4MDNmMTg0N2FmIgogCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vaWJtLXMzOTAtbGlu
-dXgvczM5MC10b29scztwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyO3RhZz12JHtQVn0iCi1T
-UkNSRVYgPSAiNjYwYmFiNmU2OGZkZWQyNmIyMTE3ZTFkY2VjMDg0NDU0OWEyMmZlZCIKK1NSQ1JF
-ViA9ICI5NDBjZTY3OTAwMjE4MTZmMjgwZmFiNjZmNDQzZTQ3MjFkNTI3ODMzIgogCiBDVkVfUFJP
-RFVDVCA9ICJzMzkwLXRvb2xzIgogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxNjozMDowMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9w
+a2c6IHVwZ3JhZGUgMC44LjAgLT4gMC45LjAKCi0tLQogLi4ub3BrZ19jb25mLWNyZWF0ZS1vcGtn
+LmxvY2staW4tcnVuLWluc3RlYWQtb2YtdmFyLXJ1bi5wYXRjaCB8IDQgKystLQogbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL29wa2cve29wa2dfMC44LjAuYmIgPT4gb3BrZ18wLjkuMC5iYn0gICB8IDIg
+Ky0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtnL3tvcGtnXzAuOC4wLmJiID0+IG9wa2dfMC45
+LjAuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2cvb3Br
+Zy8wMDAxLW9wa2dfY29uZi1jcmVhdGUtb3BrZy5sb2NrLWluLXJ1bi1pbnN0ZWFkLW9mLXZhci1y
+dW4ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy9vcGtnLzAwMDEtb3BrZ19jb25m
+LWNyZWF0ZS1vcGtnLmxvY2staW4tcnVuLWluc3RlYWQtb2YtdmFyLXJ1bi5wYXRjaAppbmRleCA5
+OGRhZjc0NmVjLi5kODA3YThjODhjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+b3BrZy9vcGtnLzAwMDEtb3BrZ19jb25mLWNyZWF0ZS1vcGtnLmxvY2staW4tcnVuLWluc3RlYWQt
+b2YtdmFyLXJ1bi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy9vcGtnLzAw
+MDEtb3BrZ19jb25mLWNyZWF0ZS1vcGtnLmxvY2staW4tcnVuLWluc3RlYWQtb2YtdmFyLXJ1bi5w
+YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gODJiMjlkY2ZlMzAzM2Q4Mjg1ODkwYmY0NmU1OGY0
+NjRkOTk0NDE5NiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gM2ZlYWYyZDg4ZjA1NjA3
+NTRjMTkyMGMxMWI0M2E0ZGQyMWMxMWFkZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
+IEpvbmF0aGFuIExpdSA8bmV0MTQ3QGdtYWlsLmNvbT4KIERhdGU6IE1vbiwgMjEgU2VwIDIwMTUg
+MjA6MjM6MjMgKzEwMDAKIFN1YmplY3Q6IFtQQVRDSF0gb3BrZ19jb25mOiBjcmVhdGUgb3BrZy5s
+b2NrIGluIC9ydW4gaW5zdGVhZCBvZiAvdmFyL3J1bgpAQCAtMTcsNyArMTcsNyBAQCBTaWduZWQt
+b2ZmLWJ5OiBKb25hdGhhbiBMaXUgPG5ldDE0N0BnbWFpbC5jb20+CiAgMSBmaWxlIGNoYW5nZWQs
+IDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9saWJvcGtnL29w
+a2dfY29uZi5oIGIvbGlib3BrZy9vcGtnX2NvbmYuaAotaW5kZXggM2ZhNmNhOS4uYjEyNjcyZSAx
+MDA2NDQKK2luZGV4IGVlYzRlODEuLjkwNzUyMWMgMTAwNjQ0CiAtLS0gYS9saWJvcGtnL29wa2df
+Y29uZi5oCiArKysgYi9saWJvcGtnL29wa2dfY29uZi5oCiBAQCAtNDIsNyArNDIsNyBAQCBleHRl
+cm4gIkMiIHsKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtnL29wa2dfMC44
+LjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy9vcGtnXzAuOS4wLmJiCnNpbWlsYXJp
+dHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtnL29wa2df
+MC44LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtnL29wa2dfMC45LjAu
+YmIKaW5kZXggMTJlMmVkZjdlMy4uMjdiNWI4ZmJiMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL29wa2cvb3BrZ18wLjguMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+b3BrZy9vcGtnXzAuOS4wLmJiCkBAIC0xOCw3ICsxOCw3IEBAIFNSQ19VUkkgPSAiaHR0cDovL2Rv
+d25sb2Fkcy55b2N0b3Byb2plY3Qub3JnL3JlbGVhc2VzLyR7QlBOfS8ke0JQTn0tJHtQVn0udGFy
+Lmd6CiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAogICAgICAgICAgICAiCiAKLVNSQ19V
+Uklbc2hhMjU2c3VtXSA9ICI1ODJhNGM5ZTIyMGNjZTBiN2QwOGEwOTE1Yzk1ZGI5ZjI0YWU0M2Fk
+MzcyZWQ1ZDQyZDVlYzVmNmNkNDEzZjBjIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQ0MGVmMzIx
+ODYyZTAxZjgzZGE0ZDAyODg0YTBjYmI0ZDlkN2IzMmY4MmZhYTgxYTZhODU0OTNmMGM4OWQwZjUi
+CiAKICMgVGhpcyBuZWVkcyB0byBiZSBiZWZvcmUgcHRlc3QgaW5oZXJpdCwgb3RoZXJ3aXNlIGFs
+bCBwdGVzdCBmaWxlcyBlbmQgcGFja2FnZWQKICMgaW4gbGlib3BrZyBwYWNrYWdlIGlmIE9QS0dM
+SUJESVIgPT0gbGliZGlyLCBiZWNhdXNlIGRlZmF1bHQKLS0gCjIuNDcuMQoK
 
---===============4765716611945962889==--
+--===============3230108530809123414==--
 
