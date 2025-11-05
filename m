@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD6A2CD37AC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3EE6CD37A9
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:36 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2350.1762384572719947972
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2356.1762384577484165766
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:16:27 -0800
+ Wed, 05 Nov 2025 15:16:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Ze3A3QPQ;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Nz35MB1E;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019a564ea6e0-4e5013f1-f374-4c75-9e39-f70592f3aec7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=mBd2mI37;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BRv2R2Rb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019a564eb105-ae2562ea-2a3a-4665-b1dc-9fb394ded0c5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1762384586;
+	t=1762384589;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=+fULZrai6AgfqltYxQtrFAMFBoJGJTwwBzFxk4H3gck=;
-	b=Ze3A3QPQQCQSivfwlPqE1Fy/UTbBWORGbudYZedFvfbbVSW76nW2Y+Qhai+O3IBO
-	5dBQo5LceCPYnt8bag/E33jytfiCDohT4sP9c7YjlUtYyvT3K3OlarcT29xnkAnbN3r
-	CbJVnPa34ABu5qci0xp4s/a0JeGsUgFy3ej1Ge4Y=
+	bh=SiAXRcQDx7bmCwlQ55Fs3UksNOQECpaTLuhoo5fm7BU=;
+	b=mBd2mI373P/V5g3QDB0sYhPdbxyw47y8FZluQ5re2DruA/hYwkryzCCPYwyTtCun
+	E53oKVFOxNcoWuvqB3+SOASPdXMMci7GmJGVA1heTmw2sL7PPAhdcdriRc0EK4GKWwN
+	0A03GnU5rs0IJX07PjnynxpoT3rw98wLQHn/yB7I=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384586;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384589;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=+fULZrai6AgfqltYxQtrFAMFBoJGJTwwBzFxk4H3gck=;
-	b=Nz35MB1EVRMShY1w47CHNcGrvNT4pp+4Nxkg/R5pTpJTkiqCJQFioMqbjLFncLf/
-	IOc7kNxkzTWYlttcGimTfNFcCcYa1bXcesA6E9LdqkoQED88nGL96nXch53APRuOtkm
-	Gs+JpbgiAC/trZ0Hdz9kyvRsJdSubvhEQeTYVUDE=
-Content-Type: multipart/mixed; boundary="===============4121363540883140220=="
+	bh=SiAXRcQDx7bmCwlQ55Fs3UksNOQECpaTLuhoo5fm7BU=;
+	b=BRv2R2RbnOrrQbpI3YtPChF8uSdTT3JA9U2sYWY+XTB+vDNSwYMR0AwdNAmZDsXc
+	rwnpiZPVCenZQ/E3Ov9sR75eFYNNYIJ7jYucAUYpRdGiNRuzzQOHimMNL3GisSEo+aO
+	791/L0mkV5E9DMgoYLP2GLhGHOveAiNQ21s3+V8I=
+Content-Type: multipart/mixed; boundary="===============3390610235317665820=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pip: upgrading to 25.3 SUCCEEDED
-Message-ID: <0101019a564ea6e0-4e5013f1-f374-4c75-9e39-f70592f3aec7-000000@us-west-2.amazonses.com>
-Date: Wed, 5 Nov 2025 23:16:26 +0000
+Subject: [AUH] python3-pytest-subtests: upgrading to 0.15.0 SUCCEEDED
+Message-ID: <0101019a564eb105-ae2562ea-2a3a-4665-b1dc-9fb394ded0c5-000000@us-west-2.amazonses.com>
+Date: Wed, 5 Nov 2025 23:16:29 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.05-54.240.27.23
+X-SES-Outgoing: 2025.11.05-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225836
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225844
 
---===============4121363540883140220==
+--===============3390610235317665820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pip* to *25.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-pytest-subtests* to *0.15.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pip-upgrade-25.2-25.3.patch
+    - apply the patch: git am 0001-python3-pytest-subtests-upgrade-0.14.2-0.15.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,95 +72,44 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From bb0efd0bda2845e7027f46e4a8eb7a6982e884e7 Mon Sep 17 00:00:00 2001
+From fa20b83345ecd7fba659b183b8fe67dd30230644 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 5 Nov 2025 17:22:48 +0000
-Subject: [PATCH] python3-pip: upgrade 25.2 -> 25.3
+Date: Wed, 5 Nov 2025 17:40:14 +0000
+Subject: [PATCH] python3-pytest-subtests: upgrade 0.14.2 -> 0.15.0
 
 ---
- .../python/python3-pip/no_shebang_mangling.patch                | 2 +-
- .../python/{python3-pip_25.2.bb => python3-pip_25.3.bb}         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pip_25.2.bb => python3-pip_25.3.bb} (96%)
+ ...est-subtests_0.14.2.bb => python3-pytest-subtests_0.15.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pytest-subtests_0.14.2.bb => python3-pytest-subtests_0.15.0.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch b/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch
-index 7f15e9c0da..005dd8aab1 100644
---- a/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch
-+++ b/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch
-@@ -1,4 +1,4 @@
--From 6adf47097928ee3bb1b02c204126ed923faa7446 Mon Sep 17 00:00:00 2001
-+From 267a2c9da67e7de07f3dac4cf662555bc9af0fe7 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Wed, 23 Feb 2022 12:27:06 +0000
- Subject: [PATCH] python3-pip: Don't change shebang
-diff --git a/meta/recipes-devtools/python/python3-pip_25.2.bb b/meta/recipes-devtools/python/python3-pip_25.3.bb
-similarity index 96%
-rename from meta/recipes-devtools/python/python3-pip_25.2.bb
-rename to meta/recipes-devtools/python/python3-pip_25.3.bb
-index 350092d9ad..bbc70e3eae 100644
---- a/meta/recipes-devtools/python/python3-pip_25.2.bb
-+++ b/meta/recipes-devtools/python/python3-pip_25.3.bb
-@@ -26,7 +26,7 @@ inherit pypi python_setuptools_build_meta
+diff --git a/meta/recipes-devtools/python/python3-pytest-subtests_0.14.2.bb b/meta/recipes-devtools/python/python3-pytest-subtests_0.15.0.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-pytest-subtests_0.14.2.bb
+rename to meta/recipes-devtools/python/python3-pytest-subtests_0.15.0.bb
+index 58212bfb1c..01d2332732 100644
+--- a/meta/recipes-devtools/python/python3-pytest-subtests_0.14.2.bb
++++ b/meta/recipes-devtools/python/python3-pytest-subtests_0.15.0.bb
+@@ -7,7 +7,7 @@ BUGTRACKER = "https://github.com/pytest-dev/pytest-subtests/issues"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=242b4e17fa287dcf7aef372f6bc3dcb1"
  
- SRC_URI += "file://no_shebang_mangling.patch"
+-SRC_URI[sha256sum] = "7154a8665fd528ee70a76d00216a44d139dc3c9c83521a0f779f7b0ad4f800de"
++SRC_URI[sha256sum] = "cb495bde05551b784b8f0b8adfaa27edb4131469a27c339b80fd8d6ba33f887c"
  
--SRC_URI[sha256sum] = "578283f006390f85bb6282dffb876454593d637f5d1be494b5202ce4877e71f2"
-+SRC_URI[sha256sum] = "8d0538dbbd7babbd207f261ed969c65de439f6bc9e5dbd3b3b9a77f25d95f343"
- 
- RDEPENDS:${PN} = "\
-   python3-compile \
+ PYPI_PACKAGE = "pytest_subtests"
+ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
 -- 
 2.47.1
 
 
---===============4121363540883140220==
+--===============3390610235317665820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip: FILELIST: directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/packaging -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/packaging, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/urllib3 -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/urllib3, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/requests -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/tomli, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/platformdirs -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/requests, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/distro -> /usr/lib/python3.13/site-packages/pip-25.3
- .dist-info/licenses/src/pip/_vendor/platformdirs, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/cachecontrol -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/cachecontrol, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/rich -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/distro, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/pyproject_hooks -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/rich, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/truststore -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/pyproject_hooks, dir
- ectory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/pygments -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/truststore, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/resolvelib -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/pygments, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/pkg_resources -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/resolvelib, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/tomli_w -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/pkg_resources, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/certifi -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/tomli_w, directo
- ry renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/dependency_groups -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/dependency_groups, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/idna -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/idna, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/distlib -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/distlib, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/msgpack -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/msgpack, removed "/usr/lib/python3.13/site-packages/pip/_internal/operations/install/__pycache__/editable_legacy.cpython-313.pyc /usr/lib/python3.13/site-packages/pip/_internal/operations/build/wheel_legacy.py /usr/lib/pyth
- on3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/tomli/LICENSE /usr/lib/python3.13/site-packages/pip-25.2.dist-info/METADATA /usr/lib/python3.13/site-packages/pip/_internal/utils/setuptools_build.py /usr/lib/python3.13/site-packages/pip/_internal/operations/build/__pycache__/wheel_legacy.cpython-313.pyc /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/tomli/LICENSE-HEADER /usr/lib/python3.13/site-packages/pip/_internal/operations/build/__pycache__/metadata_legacy.cpython-313.pyc /usr/lib/python3.13/site-packages/pip-25.2.dist-info/top_level.txt /usr/lib/python3.13/site-packages/pip/_internal/utils/__pycache__/setuptools_build.cpython-313.pyc /usr/lib/python3.13/site-packages/pip/_internal/operations/install/editable_legacy.py /usr/lib/python3.13/site-packages/pip/_internal/operations/build/metadata_legacy.py /usr/lib/python3.13/site-packages/pip-25.2.dist-info/entry_points.txt /usr/lib/python3.13/site-packages/pip-25.2.dist-info/WHEEL", a
- dded "/usr/lib/python3.13/site-packages/pip/_vendor/packaging/LICENSE.BSD /usr/lib/python3.13/site-packages/pip/_vendor/distlib/LICENSE.txt /usr/lib/python3.13/site-packages/pip/_vendor/distro/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/resolvelib/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/pyproject_hooks/LICENSE /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/certifi/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/certifi/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/dependency_groups/LICENSE.txt /usr/lib/python3.13/site-packages/pip/_vendor/truststore/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/packaging/LICENSE.APACHE /usr/lib/python3.13/site-packages/pip/_vendor/platformdirs/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/tomli/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/rich/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/pkg_resources/LICENSE /usr/lib/python3.13/site-packages/pip-2
- 5.3.dist-info/METADATA /usr/lib/python3.13/site-packages/pip-25.3.dist-info/entry_points.txt /usr/lib/python3.13/site-packages/pip-25.3.dist-info/WHEEL /usr/lib/python3.13/site-packages/pip/_vendor/pygments/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/requests/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/tomli_w/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/README.rst /usr/lib/python3.13/site-packages/pip/_vendor/cachecontrol/LICENSE.txt /usr/lib/python3.13/site-packages/pip/_vendor/urllib3/LICENSE.txt /usr/lib/python3.13/site-packages/pip/_vendor/msgpack/COPYING /usr/lib/python3.13/site-packages/pip/_vendor/idna/LICENSE.md /usr/lib/python3.13/site-packages/pip/_vendor/packaging/LICENSE"
-Changes to packages/x86-64-v3-poky-linux/python3-pip (sysroot):
-  /usr/lib/python3.13/site-packages/pip/_internal/__init__.py changed permissions from rw-r--r-- to rwxr-xr-x
-  /usr/lib/python3.13/site-packages/pip-25.2.dist-info moved to /usr/lib/python3.13/site-packages/pip-25.3.dist-info
-  /usr/lib/python3.13/site-packages/pip/_vendor/cachecontrol/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/certifi/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/dependency_groups/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/distlib/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/distro/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/idna/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/msgpack/COPYING was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/packaging/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/packaging/LICENSE.APACHE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/packaging/LICENSE.BSD was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/pkg_resources/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/platformdirs/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/pygments/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/pyproject_hooks/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/README.rst was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/requests/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/resolvelib/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/rich/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/tomli/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/tomli_w/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/truststore/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/urllib3/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/tomli/LICENSE-HEADER was removed
-  /usr/lib/python3.13/site-packages/pip-25.2.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/operations/build/metadata_legacy.py was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/operations/build/__pycache__/metadata_legacy.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/operations/build/__pycache__/wheel_legacy.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/operations/build/wheel_legacy.py was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/operations/install/editable_legacy.py was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/operations/install/__pycache__/editable_legacy.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/utils/__pycache__/setuptools_build.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/utils/setuptools_build.py was removed
+Changes to packages/x86-64-v3-poky-linux/python3-pytest-subtests (sysroot):
+  /usr/lib/python3.13/site-packages/pytest_subtests-0.14.2.dist-info moved to /usr/lib/python3.13/site-packages/pytest_subtests-0.15.0.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2084,72 +2033,32 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============4121363540883140220==
+--===============3390610235317665820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-pip: PV changed from "25.2" to "25.3"
-packages/x86-64-v3-poky-linux/python3-pip: PKGV changed from 25.2 [default] to 25.3 [default]
-packages/x86-64-v3-poky-linux/python3-pip: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pip/pip-25.2.tar.gz;downloadfilename=pip-25.2.tar.gz file://no_shebang_mangling.patch" to "https://files.pythonhosted.org/packages/source/p/pip/pip-25.3.tar.gz;downloadfilename=pip-25.3.tar.gz file://no_shebang_mangling.patch"
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip-dbg: PV changed from "25.2" to "25.3"
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip-dbg: PKGV changed from 25.2 [default] to 25.3 [default]
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip-dev: PV changed from "25.2" to "25.3"
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip-dev: PKGV changed from 25.2 [default] to 25.3 [default]
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip-doc: PV changed from "25.2" to "25.3"
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip-doc: PKGV changed from 25.2 [default] to 25.3 [default]
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip-locale: PV changed from "25.2" to "25.3"
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip-locale: PKGV changed from 25.2 [default] to 25.3 [default]
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip-src: PV changed from "25.2" to "25.3"
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip-src: PKGV changed from 25.2 [default] to 25.3 [default]
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip-staticdev: PV changed from "25.2" to "25.3"
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip-staticdev: PKGV changed from 25.2 [default] to 25.3 [default]
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip: PKGSIZE changed from 10129474 to 10169490 (+0%)
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip: PV changed from "25.2" to "25.3"
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip: PKGV changed from 25.2 [default] to 25.3 [default]
-packages/x86-64-v3-poky-linux/python3-pip/python3-pip: FILELIST: directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/truststore -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/truststore, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/pkg_resources -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/pkg_resources, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/certifi -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/certifi, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/urllib3 -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/urllib3, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/rich -> /usr/lib/python3.13/site-packages/p
- ip-25.3.dist-info/licenses/src/pip/_vendor/requests, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/requests -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/rich, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/packaging -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/packaging, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/dependency_groups -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/dependency_groups, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/distro -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/distro, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/cachecontrol -> /usr/lib/python3.13/site-packages/pi
- p-25.3.dist-info/licenses/src/pip/_vendor/cachecontrol, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/pyproject_hooks -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/tomli, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/idna -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/idna, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/resolvelib -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/pyproject_hooks, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/tomli_w -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/resolvelib, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/pygments -> /usr/lib/python3.13/site-packages/pip-25.3.
- dist-info/licenses/src/pip/_vendor/tomli_w, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/msgpack -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/msgpack, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/distlib -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/distlib, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/platformdirs -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/pygments, directory renamed /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses -> /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses, removed "/usr/lib/python3.13/site-packages/pip-25.2.dist-info/entry_points.txt /usr/lib/python3.13/site-packages/pip/_internal/operations/build/wheel_legacy.py /usr/lib/python3.13/site-packages/pip/_internal/operations/
- install/editable_legacy.py /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/tomli/LICENSE-HEADER /usr/lib/python3.13/site-packages/pip/_internal/utils/setuptools_build.py /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/tomli/LICENSE /usr/lib/python3.13/site-packages/pip-25.2.dist-info/top_level.txt /usr/lib/python3.13/site-packages/pip-25.2.dist-info/WHEEL /usr/lib/python3.13/site-packages/pip/_internal/operations/build/__pycache__/metadata_legacy.cpython-313.pyc /usr/lib/python3.13/site-packages/pip/_internal/operations/install/__pycache__/editable_legacy.cpython-313.pyc /usr/lib/python3.13/site-packages/pip/_internal/operations/build/__pycache__/wheel_legacy.cpython-313.pyc /usr/lib/python3.13/site-packages/pip-25.2.dist-info/METADATA /usr/lib/python3.13/site-packages/pip/_internal/operations/build/metadata_legacy.py /usr/lib/python3.13/site-packages/pip/_internal/utils/__pycache__/setuptools_build.cpython-313.pyc", added 
- "/usr/lib/python3.13/site-packages/pip/_vendor/distlib/LICENSE.txt /usr/lib/python3.13/site-packages/pip/_vendor/idna/LICENSE.md /usr/lib/python3.13/site-packages/pip/_vendor/packaging/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/resolvelib/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/packaging/LICENSE.APACHE /usr/lib/python3.13/site-packages/pip/_vendor/README.rst /usr/lib/python3.13/site-packages/pip/_vendor/msgpack/COPYING /usr/lib/python3.13/site-packages/pip/_vendor/dependency_groups/LICENSE.txt /usr/lib/python3.13/site-packages/pip/_vendor/pyproject_hooks/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/urllib3/LICENSE.txt /usr/lib/python3.13/site-packages/pip/_vendor/rich/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/pygments/LICENSE /usr/lib/python3.13/site-packages/pip-25.3.dist-info/WHEEL /usr/lib/python3.13/site-packages/pip-25.3.dist-info/METADATA /usr/lib/python3.13/site-packages/pip/_vendor/tomli/LICENSE /usr/lib/python3.13/site-packages/
- pip/_vendor/pkg_resources/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/truststore/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/certifi/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/tomli_w/LICENSE /usr/lib/python3.13/site-packages/pip-25.3.dist-info/entry_points.txt /usr/lib/python3.13/site-packages/pip/_vendor/platformdirs/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/requests/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/packaging/LICENSE.BSD /usr/lib/python3.13/site-packages/pip/_vendor/distro/LICENSE /usr/lib/python3.13/site-packages/pip-25.3.dist-info/licenses/src/pip/_vendor/platformdirs/LICENSE /usr/lib/python3.13/site-packages/pip/_vendor/cachecontrol/LICENSE.txt"
-Changes to packages/x86-64-v3-poky-linux/python3-pip (sysroot):
-  /usr/lib/python3.13/site-packages/pip/_internal/__init__.py changed permissions from rw-r--r-- to rwxr-xr-x
-  /usr/lib/python3.13/site-packages/pip-25.2.dist-info moved to /usr/lib/python3.13/site-packages/pip-25.3.dist-info
-  /usr/lib/python3.13/site-packages/pip/_vendor/cachecontrol/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/certifi/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/dependency_groups/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/distlib/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/distro/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/idna/LICENSE.md was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/msgpack/COPYING was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/packaging/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/packaging/LICENSE.APACHE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/packaging/LICENSE.BSD was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/pkg_resources/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/platformdirs/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/pygments/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/pyproject_hooks/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/README.rst was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/requests/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/resolvelib/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/rich/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/tomli/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/tomli_w/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/truststore/LICENSE was added
-  /usr/lib/python3.13/site-packages/pip/_vendor/urllib3/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/tomli/LICENSE-HEADER was removed
-  /usr/lib/python3.13/site-packages/pip-25.2.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/operations/build/metadata_legacy.py was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/operations/build/__pycache__/metadata_legacy.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/operations/build/__pycache__/wheel_legacy.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/operations/build/wheel_legacy.py was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/operations/install/editable_legacy.py was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/operations/install/__pycache__/editable_legacy.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/utils/__pycache__/setuptools_build.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/pip/_internal/utils/setuptools_build.py was removed
+packages/x86-64-v3-poky-linux/python3-pytest-subtests: PV changed from "0.14.2" to "0.15.0"
+packages/x86-64-v3-poky-linux/python3-pytest-subtests: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pytest_subtests/pytest_subtests-0.14.2.tar.gz;downloadfilename=pytest_subtests-0.14.2.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pytest_subtests/pytest_subtests-0.15.0.tar.gz;downloadfilename=pytest_subtests-0.15.0.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pytest-subtests: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-dbg: PV changed from "0.14.2" to "0.15.0"
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-dbg: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-dev: PV changed from "0.14.2" to "0.15.0"
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-dev: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-doc: PV changed from "0.14.2" to "0.15.0"
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-doc: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-locale: PV changed from "0.14.2" to "0.15.0"
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-locale: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-src: PV changed from "0.14.2" to "0.15.0"
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-src: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-staticdev: PV changed from "0.14.2" to "0.15.0"
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-staticdev: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests: PV changed from "0.14.2" to "0.15.0"
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests: PKGSIZE changed from 48292 to 49167 (+2%)
+Changes to packages/x86-64-v3-poky-linux/python3-pytest-subtests (sysroot):
+  /usr/lib/python3.13/site-packages/pytest_subtests-0.14.2.dist-info moved to /usr/lib/python3.13/site-packages/pytest_subtests-0.15.0.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4073,46 +3982,38 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============4121363540883140220==
+--===============3390610235317665820==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pip-upgrade-25.2-25.3.patch"
+ filename="0001-python3-pytest-subtests-upgrade-0.14.2-0.15.0.patch"
 
-RnJvbSBiYjBlZmQwYmRhMjg0NWU3MDI3ZjQ2ZTRhOGViN2E2OTgyZTg4NGU3IE1vbiBTZXAgMTcg
+RnJvbSBmYTIwYjgzMzQ1ZWNkN2ZiYTY1OWIxODNiOGZlNjdkZDMwMjMwNjQ0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxNzoyMjo0OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcGlwOiB1cGdyYWRlIDI1LjIgLT4gMjUuMwoKLS0tCiAuLi4vcHl0aG9uL3B5dGhvbjMt
-cGlwL25vX3NoZWJhbmdfbWFuZ2xpbmcucGF0Y2ggICAgICAgICAgICAgICAgfCAyICstCiAuLi4v
-cHl0aG9uL3tweXRob24zLXBpcF8yNS4yLmJiID0+IHB5dGhvbjMtcGlwXzI1LjMuYmJ9ICAgICAg
-ICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMo
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXBpcF8yNS4y
-LmJiID0+IHB5dGhvbjMtcGlwXzI1LjMuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBpcC9ub19zaGViYW5nX21hbmdsaW5nLnBhdGNo
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBpcC9ub19zaGViYW5nX21h
-bmdsaW5nLnBhdGNoCmluZGV4IDdmMTVlOWMwZGEuLjAwNWRkOGFhYjEgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1waXAvbm9fc2hlYmFuZ19tYW5nbGlu
-Zy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGlwL25v
-X3NoZWJhbmdfbWFuZ2xpbmcucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDZhZGY0NzA5Nzky
-OGVlM2JiMWIwMmMyMDQxMjZlZDkyM2ZhYTc0NDYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
-cm9tIDI2N2EyYzlkYTY3ZTdkZTA3ZjNkYWM0Y2Y2NjI1NTViYzlhZjBmZTcgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhm
-b3VuZGF0aW9uLm9yZz4KIERhdGU6IFdlZCwgMjMgRmViIDIwMjIgMTI6Mjc6MDYgKzAwMDAKIFN1
-YmplY3Q6IFtQQVRDSF0gcHl0aG9uMy1waXA6IERvbid0IGNoYW5nZSBzaGViYW5nCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGlwXzI1LjIuYmIgYi9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGlwXzI1LjMuYmIKc2ltaWxhcml0
-eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXBpcF8yNS4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtcGlwXzI1LjMuYmIKaW5kZXggMzUwMDkyZDlhZC4uYmJjNzBlM2VhZSAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBpcF8yNS4yLmJiCisrKyBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1waXBfMjUuMy5iYgpAQCAtMjYs
-NyArMjYsNyBAQCBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YQogCiBT
-UkNfVVJJICs9ICJmaWxlOi8vbm9fc2hlYmFuZ19tYW5nbGluZy5wYXRjaCIKIAotU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjU3ODI4M2YwMDYzOTBmODViYjYyODJkZmZiODc2NDU0NTkzZDYzN2Y1ZDFi
-ZTQ5NGI1MjAyY2U0ODc3ZTcxZjIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGQwNTM4ZGJiZDdi
-YWJiZDIwN2YyNjFlZDk2OWM2NWRlNDM5ZjZiYzllNWRiZDNiM2I5YTc3ZjI1ZDk1ZjM0MyIKIAog
-UkRFUEVORFM6JHtQTn0gPSAiXAogICBweXRob24zLWNvbXBpbGUgXAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxNzo0MDoxNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcHl0ZXN0LXN1YnRlc3RzOiB1cGdyYWRlIDAuMTQuMiAtPiAwLjE1LjAKCi0tLQogLi4u
+ZXN0LXN1YnRlc3RzXzAuMTQuMi5iYiA9PiBweXRob24zLXB5dGVzdC1zdWJ0ZXN0c18wLjE1LjAu
+YmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1weXRlc3Qtc3Vi
+dGVzdHNfMC4xNC4yLmJiID0+IHB5dGhvbjMtcHl0ZXN0LXN1YnRlc3RzXzAuMTUuMC5iYn0gKDg4
+JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0
+ZXN0LXN1YnRlc3RzXzAuMTQuMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy1weXRlc3Qtc3VidGVzdHNfMC4xNS4wLmJiCnNpbWlsYXJpdHkgaW5kZXggODglCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXRlc3Qtc3VidGVz
+dHNfMC4xNC4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtcHl0ZXN0LXN1YnRlc3RzXzAuMTUuMC5iYgppbmRleCA1ODIxMmJmYjFjLi4wMWQyMzMyNzMy
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0ZXN0
+LXN1YnRlc3RzXzAuMTQuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtcHl0ZXN0LXN1YnRlc3RzXzAuMTUuMC5iYgpAQCAtNyw3ICs3LDcgQEAgQlVHVFJBQ0tF
+UiA9ICJodHRwczovL2dpdGh1Yi5jb20vcHl0ZXN0LWRldi9weXRlc3Qtc3VidGVzdHMvaXNzdWVz
+IgogTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21k
+NT0yNDJiNGUxN2ZhMjg3ZGNmN2FlZjM3MmY2YmMzZGNiMSIKIAotU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjcxNTRhODY2NWZkNTI4ZWU3MGE3NmQwMDIxNmE0NGQxMzlkYzNjOWM4MzUyMWEwZjc3OWY3
+YjBhZDRmODAwZGUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiY2I0OTViZGUwNTU1MWI3ODRiOGYw
+YjhhZGZhYTI3ZWRiNDEzMTQ2OWEyN2MzMzliODBmZDhkNmJhMzNmODg3YyIKIAogUFlQSV9QQUNL
+QUdFID0gInB5dGVzdF9zdWJ0ZXN0cyIKIFVQU1RSRUFNX0NIRUNLX1BZUElfUEFDS0FHRSA9ICIk
+e1BZUElfUEFDS0FHRX0iCi0tIAoyLjQ3LjEKCg==
 
---===============4121363540883140220==--
+--===============3390610235317665820==--
 
