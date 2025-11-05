@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D6FFCD13DA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 388A7CD13DD
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:24 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2346.1762384574956722874
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2353.1762384576266000481
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:16:15 -0800
+ Wed, 05 Nov 2025 15:16:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jk7cNQdp;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=MICogyYr;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019a564e7794-289a59b3-6562-478d-ab26-26e7f3561678-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=fCBEVAgW;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Y362DAnW;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019a564e7c8b-ee5b44df-f9e1-49cb-ba44-2e6f06bdc6c1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1762384574;
+	t=1762384575;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=iQ81dA4WyiXHhp9mnIFq0QSvg7o0DoLHXH1TdIkerus=;
-	b=jk7cNQdp+6xy1p9hbTJete0gBX7dYXgGwpg+ud5o8UGoIl/PCYqurbGKPnEmgSJ8
-	xICre2T7RNT2HYYhUn6kyeG6fUypn4Jvvx+IRvX/kLbjwbinPJuJ5zF2gTzoL0Fc/0b
-	wEtwtNTQrz1aoLLTi9+B8DpYNCv5EuvQfdC4UdjM=
+	bh=xiViI/vCGn5y1JhaCOO8iSVvz9AHTvc3ABPgwpqBFpY=;
+	b=fCBEVAgWN++EGHve3zVe6MVvfIgiI5fvk30nONeXYRlc1g3frDXlZOYRaOpXB+Lc
+	YDy/0fxnWzIG9OEWuL9HyzqCssk5Xn+bL5rKE3rhrqyCCydgRMNIRndeYRjetBiD6Uw
+	TVXbRnpACAqYoE+YmJYbpb8wGxYVBzgs4V6QeA5c=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384574;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384575;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=iQ81dA4WyiXHhp9mnIFq0QSvg7o0DoLHXH1TdIkerus=;
-	b=MICogyYrtqKO1CajW6JPAnV+aS8wCFN1YcHhMkRiKsZFqymSKe7cu0anrIN6lEgr
-	zvoRP20PtV/3iMKRxawy8fF+Sk8AyLIPqOjkbsk4D8iruFF9wsj1SRViJTBnOcYrY1d
-	DI5iH89kxJfydWfD44K3o7KQJV84kUtBR6XXAEqc=
-Content-Type: multipart/mixed; boundary="===============3194802464850017581=="
+	bh=xiViI/vCGn5y1JhaCOO8iSVvz9AHTvc3ABPgwpqBFpY=;
+	b=Y362DAnWqTRkAbhL257B4gPJywcbcVNkWuwKd680z+5/qukPL8m+ttS7FLokmwqO
+	+lYFBRxFU5Vxgxil/pywnYfhJA6mMAkxF1ZqLpuKoPFfZJPXjkVqBo6QIwoEA9N2vD3
+	DGVHIMl3MHRgXLIkON1HWo6Ss6aEMk7a26L2DRUU=
+Content-Type: multipart/mixed; boundary="===============0935462876881871034=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: 
-	=?utf-8?q?Enrico_J=C3=B6rns_=3Cyocto=40pengutronix=2Ede=3E?=@yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] barebox-tools: upgrading to 2025.10.0 SUCCEEDED
-Message-ID: <0101019a564e7794-289a59b3-6562-478d-ab26-26e7f3561678-000000@us-west-2.amazonses.com>
-Date: Wed, 5 Nov 2025 23:16:14 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] kbd: upgrading to 2.9.0 FAILED
+Message-ID: <0101019a564e7c8b-ee5b44df-f9e1-49cb-ba44-2e6f06bdc6c1-000000@us-west-2.amazonses.com>
+Date: Wed, 5 Nov 2025 23:16:15 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.05-54.240.27.23
+X-SES-Outgoing: 2025.11.05-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225790
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225800
 
---===============3194802464850017581==
+--===============0935462876881871034==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *barebox-tools* to *2025.10.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *kbd* to *2.9.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-barebox-tools-upgrade-2025.09.0-2025.10.0.patch
+    - apply the patch: git am 0001-kbd-upgrade-2.8.0-2.9.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,82 +78,255 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 214f33b65fa7d12e36fbe34b9914ef5b3ecba98a Mon Sep 17 00:00:00 2001
+From 429969b1aa95d256f7da14802fa794fbfc653b3a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 5 Nov 2025 14:19:58 +0000
-Subject: [PATCH] barebox-tools: upgrade 2025.09.0 -> 2025.10.0
+Date: Wed, 5 Nov 2025 15:14:33 +0000
+Subject: [PATCH] kbd: upgrade 2.8.0 -> 2.9.0
 
 ---
- meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/kbd/{kbd_2.8.0.bb => kbd_2.9.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/kbd/{kbd_2.8.0.bb => kbd_2.9.0.bb} (96%)
 
-diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-bsp/barebox/barebox-common.inc
-index e41d0858fd..8ad8e133a8 100644
---- a/meta/recipes-bsp/barebox/barebox-common.inc
-+++ b/meta/recipes-bsp/barebox/barebox-common.inc
-@@ -3,6 +3,6 @@ SECTION = "bootloaders"
+diff --git a/meta/recipes-core/kbd/kbd_2.8.0.bb b/meta/recipes-core/kbd/kbd_2.9.0.bb
+similarity index 96%
+rename from meta/recipes-core/kbd/kbd_2.8.0.bb
+rename to meta/recipes-core/kbd/kbd_2.9.0.bb
+index ababa09918..2a0c5bc1b1 100644
+--- a/meta/recipes-core/kbd/kbd_2.8.0.bb
++++ b/meta/recipes-core/kbd/kbd_2.9.0.bb
+@@ -26,7 +26,7 @@ RCONFLICTS:${PN} = "console-tools"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
+            "
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
+-SRC_URI[sha256sum] = "01f5806da7d1d34f594b7b2a6ae1ab23215344cf1064e8edcd3a90fef9776a11"
++SRC_URI[sha256sum] = "fb3197f17a99eb44d22a3a1a71f755f9622dd963e66acfdea1a45120951b02ed"
  
--PV = "2025.09.0"
-+PV = "2025.10.0"
- SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
--SRC_URI[sha256sum] = "7df1aa47bb7bf1763a729137ac773e69a4052812af094475d739fc63a9295f0d"
-+SRC_URI[sha256sum] = "f7587d576637e46151333dff5bff0423869a5f9f6a9e4439c19c2429d983b84e"
+ # 'gzip -n' is set due to https://github.com/legionus/kbd/issues/124
+ EXTRA_OECONF = "--disable-tests --enable-compress='gzip -n'"
 -- 
 2.47.1
 
 
---===============3194802464850017581==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-barebox-tools-upgrade-2025.09.0-2025.10.0.patch"
-
-RnJvbSAyMTRmMzNiNjVmYTdkMTJlMzZmYmUzNGI5OTE0ZWY1YjNlY2JhOThhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxNDoxOTo1OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJh
-cmVib3gtdG9vbHM6IHVwZ3JhZGUgMjAyNS4wOS4wIC0+IDIwMjUuMTAuMAoKLS0tCiBtZXRhL3Jl
-Y2lwZXMtYnNwL2JhcmVib3gvYmFyZWJveC1jb21tb24uaW5jIHwgNCArKy0tCiAxIGZpbGUgY2hh
-bmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1ic3AvYmFyZWJveC9iYXJlYm94LWNvbW1vbi5pbmMgYi9tZXRhL3JlY2lwZXMtYnNw
-L2JhcmVib3gvYmFyZWJveC1jb21tb24uaW5jCmluZGV4IGU0MWQwODU4ZmQuLjhhZDhlMTMzYTgg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ic3AvYmFyZWJveC9iYXJlYm94LWNvbW1vbi5pbmMK
-KysrIGIvbWV0YS9yZWNpcGVzLWJzcC9iYXJlYm94L2JhcmVib3gtY29tbW9uLmluYwpAQCAtMyw2
-ICszLDYgQEAgU0VDVElPTiA9ICJib290bG9hZGVycyIKIAogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
-aWxlOi8vQ09QWUlORzttZDU9ZjUxMjVkMTNlMDAwYjljYTFmMGQzMzY0Mjg2YzQxOTIiCiAKLVBW
-ID0gIjIwMjUuMDkuMCIKK1BWID0gIjIwMjUuMTAuMCIKIFNSQ19VUkkgPSAiaHR0cHM6Ly9iYXJl
-Ym94Lm9yZy9kb3dubG9hZC9iYXJlYm94LSR7UFZ9LnRhci5iejIiCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiN2RmMWFhNDdiYjdiZjE3NjNhNzI5MTM3YWM3NzNlNjlhNDA1MjgxMmFmMDk0NDc1ZDcz
-OWZjNjNhOTI5NWYwZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJmNzU4N2Q1NzY2MzdlNDYxNTEz
-MzNkZmY1YmZmMDQyMzg2OWE1ZjlmNmE5ZTQ0MzljMTljMjQyOWQ5ODNiODRlIgotLSAKMi40Ny4x
-Cgo=
-
---===============3194802464850017581==
+--===============0935462876881871034==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools-dbg: PV changed from "2025.09.0" to "2025.10.0"
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools-dbg: PKGSIZE changed from 135112 to 135176 (+0%)
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools-dbg: PKGV changed from 2025.09.0 [default] to 2025.10.0 [default]
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools-dev: PV changed from "2025.09.0" to "2025.10.0"
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools-dev: PKGV changed from 2025.09.0 [default] to 2025.10.0 [default]
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools-doc: PV changed from "2025.09.0" to "2025.10.0"
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools-doc: PKGV changed from 2025.09.0 [default] to 2025.10.0 [default]
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools-locale: PV changed from "2025.09.0" to "2025.10.0"
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools-locale: PKGV changed from 2025.09.0 [default] to 2025.10.0 [default]
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools-src: PV changed from "2025.09.0" to "2025.10.0"
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools-src: PKGV changed from 2025.09.0 [default] to 2025.10.0 [default]
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools-staticdev: PV changed from "2025.09.0" to "2025.10.0"
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools-staticdev: PKGV changed from 2025.09.0 [default] to 2025.10.0 [default]
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools: PV changed from "2025.09.0" to "2025.10.0"
-packages/x86-64-v3-poky-linux/barebox-tools/barebox-tools: PKGV changed from 2025.09.0 [default] to 2025.10.0 [default]
-packages/x86-64-v3-poky-linux/barebox-tools: PV changed from "2025.09.0" to "2025.10.0"
-packages/x86-64-v3-poky-linux/barebox-tools: SRC_URI changed from "https://barebox.org/download/barebox-2025.09.0.tar.bz2" to "https://barebox.org/download/barebox-2025.10.0.tar.bz2"
-packages/x86-64-v3-poky-linux/barebox-tools: PKGV changed from 2025.09.0 [default] to 2025.10.0 [default]
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1946 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 948 .bb files complete (947 cached, 1 parsed). 1945 targets, 47 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============3194802464850017581==--
+Build Configuration:
+BB_VERSION           = "2.15.2"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-be8a4fd8f026833b4aa9cdafb5b37a5a6a947b0f"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 = "tmp-auh-upgrades:be8a4fd8f026833b4aa9cdafb5b37a5a6a947b0f"
+meta-yocto-bsp       
+meta-poky            = "master:66ea31cee15309af07afeee8dec8a6fe1d92d28e"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 131 Local 123 Mirrors 0 Missed 8 Current 256 (93% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 267 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 321 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 323 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 325 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_create_spdx_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe kbd-2.9.0-r0: task do_populate_lic_setscene: Started
+NOTE: recipe kbd-2.9.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.7.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libpam-1.7.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 334 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
+NOTE: recipe kbd-2.9.0-r0: task do_populate_lic_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe kbd-2.9.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 340 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 341 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 342 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe kbd-2.9.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 345 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_create_spdx_setscene)
+NOTE: recipe kbd-2.9.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 349 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 351 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe kbd-2.9.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe glibc-2.42+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe kbd-2.9.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 744 of 1146 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_fetch)
+NOTE: recipe glibc-2.42+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 358 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe kbd-2.9.0-r0: task do_fetch: Started
+NOTE: recipe kbd-2.9.0-r0: task do_fetch: Succeeded
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 992 of 1146 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_unpack)
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 376 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe kbd-2.9.0-r0: task do_unpack: Started
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe kbd-2.9.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1022 of 1146 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_patch)
+NOTE: recipe kbd-2.9.0-r0: task do_patch: Started
+NOTE: recipe kbd-2.9.0-r0: task do_patch: Succeeded
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 384 of 387 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.45.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1120 of 1146 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1133 of 1146 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_collect_spdx_deps)
+NOTE: recipe kbd-2.9.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe kbd-2.9.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe kbd-2.9.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe kbd-2.9.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1134 of 1146 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_configure)
+NOTE: recipe kbd-2.9.0-r0: task do_configure: Started
+NOTE: recipe kbd-2.9.0-r0: task do_configure: Succeeded
+NOTE: Running task 1135 of 1146 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_compile)
+NOTE: recipe kbd-2.9.0-r0: task do_compile: Started
+NOTE: recipe kbd-2.9.0-r0: task do_compile: Succeeded
+NOTE: Running task 1136 of 1146 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_install)
+NOTE: recipe kbd-2.9.0-r0: task do_install: Started
+NOTE: recipe kbd-2.9.0-r0: task do_install: Succeeded
+NOTE: Running task 1137 of 1146 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_package)
+NOTE: recipe kbd-2.9.0-r0: task do_package: Started
+NOTE: recipe kbd-2.9.0-r0: task do_package: Failed
+NOTE: Tasks Summary: Attempted 1138 tasks of which 1129 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251105151401.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251105151401.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_package
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/kbd/2.9.0/temp/log.do_package.2512565
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: kbd-2.9.0-r0 do_package: Error executing a python function in exec_func_python() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:sstate_report_unihash(d)
+     0003:
+File: '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/classes-global/sstate.bbclass', lineno: 915, function: sstate_report_unihash
+     0911:    report_unihash = getattr(bb.parse.siggen, 'report_unihash', None)
+     0912:
+     0913:    if report_unihash:
+     0914:        ss = sstate_state_fromvars(d)
+ *** 0915:        report_unihash(os.getcwd(), ss['task'], d)
+     0916:}
+     0917:
+     0918:#
+     0919:# Shell function to decompress and prepare a package for installation
+File: '/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/siggen.py', lineno: 784, function: report_unihash
+     0780:
+     0781:            if "." in self.method:
+     0782:                (module, method) = self.method.rsplit('.', 1)
+     0783:                locs['method'] = getattr(importlib.import_module(module), method)
+ *** 0784:                outhash = bb.utils.better_eval('method(path, sigfile, task, d)', locs)
+     0785:            else:
+     0786:                outhash = bb.utils.better_eval(self.method + '(path, sigfile, task, d)', locs)
+     0787:
+     0788:            try:
+File: '/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/utils.py', lineno: 489, function: better_eval
+     0485:    if extraglobals:
+     0486:        ctx = copy.copy(ctx)
+     0487:        for g in extraglobals:
+     0488:            ctx[g] = extraglobals[g]
+ *** 0489:    return eval(source, ctx, locals)
+     0490:
+     0491:@contextmanager
+     0492:def fileslocked(files, *args, **kwargs):
+     0493:    """Context manager for locking and unlocking file locks. Uses
+File: '<string>', lineno: 1, function: <module>
+  File "<string>", line 1, in <module>
+
+File: '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/sstatesig.py', lineno: 726, function: OEOuthashBasic
+     0722:                process(root)
+     0723:            for f in files:
+     0724:                if f == 'fixmepath':
+     0725:                    continue
+ *** 0726:                process(os.path.join(root, f))
+     0727:
+     0728:            for dir in dirs:
+     0729:                if os.path.islink(os.path.join(root, dir)):
+     0730:                    process(os.path.join(root, dir))
+File: '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/sstatesig.py', lineno: 661, function: process
+     0657:                    except KeyError as e:
+     0658:                        msg = ("KeyError: %s\nPath %s is owned by uid %d, gid %d, which doesn't match "
+     0659:                            "any user/group on target. This may be due to host contamination." %
+     0660:                            (e, os.path.abspath(path), s.st_uid, s.st_gid))
+ *** 0661:                        raise Exception(msg).with_traceback(e.__traceback__)
+     0662:
+     0663:                if include_timestamps:
+     0664:                    # Need to clamp to SOURCE_DATE_EPOCH
+     0665:                    if s.st_mtime > source_date_epoch:
+File: '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/sstatesig.py', lineno: 655, function: process
+     0651:                    else:
+     0652:                        add_perm(stat.S_IXOTH, 'x')
+     0653:
+     0654:                    try:
+ *** 0655:                        update_hash(" %10s" % pwd.getpwuid(s.st_uid).pw_name)
+     0656:                        update_hash(" %10s" % grp.getgrgid(s.st_gid).gr_name)
+     0657:                    except KeyError as e:
+     0658:                        msg = ("KeyError: %s\nPath %s is owned by uid %d, gid %d, which doesn't match "
+     0659:                            "any user/group on target. This may be due to host contamination." %
+Exception: Exception: KeyError: 'getpwuid(): uid not found: 6000'
+Path /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/kbd/2.9.0/sstate-build-package/package/usr/share/consolefonts/161.cp.gz is owned by uid 6000, gid 6000, which doesn't match any user/group on target. This may be due to host contamination.
+
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/kbd/2.9.0/temp/log.do_package.2512565
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/kbd/kbd_2.9.0.bb:do_package) failed with exit code '1'
+
+--===============0935462876881871034==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-kbd-upgrade-2.8.0-2.9.0.patch"
+
+RnJvbSA0Mjk5NjliMWFhOTVkMjU2ZjdkYTE0ODAyZmE3OTRmYmZjNjUzYjNhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxNToxNDozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGti
+ZDogdXBncmFkZSAyLjguMCAtPiAyLjkuMAoKLS0tCiBtZXRhL3JlY2lwZXMtY29yZS9rYmQve2ti
+ZF8yLjguMC5iYiA9PiBrYmRfMi45LjAuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
+ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUva2JkL3tr
+YmRfMi44LjAuYmIgPT4ga2JkXzIuOS4wLmJifSAoOTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1jb3JlL2tiZC9rYmRfMi44LjAuYmIgYi9tZXRhL3JlY2lwZXMtY29yZS9rYmQva2JkXzIu
+OS4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3Jl
+L2tiZC9rYmRfMi44LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmRfMi45
+LjAuYmIKaW5kZXggYWJhYmEwOTkxOC4uMmEwYzViYzFiMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWNvcmUva2JkL2tiZF8yLjguMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9rYmQva2Jk
+XzIuOS4wLmJiCkBAIC0yNiw3ICsyNiw3IEBAIFJDT05GTElDVFM6JHtQTn0gPSAiY29uc29sZS10
+b29scyIKIFNSQ19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9SfS9saW51eC91dGlscy8ke0JQTn0v
+JHtCUH0udGFyLnh6IFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDFm
+NTgwNmRhN2QxZDM0ZjU5NGI3YjJhNmFlMWFiMjMyMTUzNDRjZjEwNjRlOGVkY2QzYTkwZmVmOTc3
+NmExMSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJmYjMxOTdmMTdhOTllYjQ0ZDIyYTNhMWE3MWY3
+NTVmOTYyMmRkOTYzZTY2YWNmZGVhMWE0NTEyMDk1MWIwMmVkIgogCiAjICdnemlwIC1uJyBpcyBz
+ZXQgZHVlIHRvIGh0dHBzOi8vZ2l0aHViLmNvbS9sZWdpb251cy9rYmQvaXNzdWVzLzEyNAogRVhU
+UkFfT0VDT05GID0gIi0tZGlzYWJsZS10ZXN0cyAtLWVuYWJsZS1jb21wcmVzcz0nZ3ppcCAtbici
+Ci0tIAoyLjQ3LjEKCg==
+
+--===============0935462876881871034==--
 
