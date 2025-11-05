@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F60CCD4F2F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BDA0CD4F32
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:50 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2350.1762384575984395349
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2349.1762384572388914338
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:16:38 -0800
+ Wed, 05 Nov 2025 15:16:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=1EkGeqTm;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=E+6SOlpa;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019a564ed459-a00659cc-aa49-425d-a166-c1dab7aeab70-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Zu1boUQj;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=MX7VOzPZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019a564ef66d-07033767-10a4-48c6-a06b-23754c7455bc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1762384598;
+	t=1762384607;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Zqr3BroHRTT3m9Ms2+T0BAlP9V4VQwF1fxAGoq/PWw0=;
-	b=1EkGeqTmmrgjTg8Zc0iKK/JWLubbOKYCbkw4xzyGkcuX2TB0hcLaK2yMpL4au3iV
-	cxqt6fuDe2SMjMk0E8ce9GRul3B/JG7sGzdwVImS8F1NmuE0DUQ1xuRhQQs9hzsPcpr
-	oyvFjF5Ovfgq3jVHHFR26V+S2A2ktuF0h9AlF5sA=
+	bh=e4MIdjx1WQLVsIfhvBLPLBn2dil/4193j6jKbZxoIS8=;
+	b=Zu1boUQjFEEkxLbk2AknCrx5R0W9SrnxaYfyVRnIAdcPsqfieCDpdwO8zmM3ZWGw
+	s986nvUUnc7vQpTKw73Ej1is9HUTg8GPan/jZO2S02diN8+3eCszDRbR1dLBckB2adb
+	C6J7/3EQmZjoBgsl5ofqZKc69YaFgWfDO7AYr6DE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384598;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384607;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Zqr3BroHRTT3m9Ms2+T0BAlP9V4VQwF1fxAGoq/PWw0=;
-	b=E+6SOlpaWHErDjU80fDcMxvO/m1ODzJKyd5W+aMPV1cxI9rfHtFaLxlJ2NkeMq7O
-	tsssnXJ63GEU4wVtmM0Irfj/TokPmJnJRAWa9lL8EMeN/KcCs2QNvl3oCYd/CUEEpY8
-	UE4M7rPIc9rFAnVW0lZD2OHq1EYG5naEQ07EL9oc=
-Content-Type: multipart/mixed; boundary="===============2176792771556621430=="
+	bh=e4MIdjx1WQLVsIfhvBLPLBn2dil/4193j6jKbZxoIS8=;
+	b=MX7VOzPZA68nk7HkHyU0KrpGeUqJqV5/ocidBewVeESwo6EwpSfY4HrDvIbA1Nk3
+	tfoyLpvTHpuhkF2xb7n/Myb4oW4uBKliqrzz5YZMwlz7Kq7IMbYeCuZVq8U7ZeH114b
+	urWHrCunkYdVNt2qAlTCxcNYtlnojIstqzR9aTnc=
+Content-Type: multipart/mixed; boundary="===============8731162379654811687=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] libdrm: upgrading to 2.4.128 SUCCEEDED
-Message-ID: <0101019a564ed459-a00659cc-aa49-425d-a166-c1dab7aeab70-000000@us-west-2.amazonses.com>
-Date: Wed, 5 Nov 2025 23:16:38 +0000
+Subject: [AUH] libpcre2: upgrading to 10.47 SUCCEEDED
+Message-ID: <0101019a564ef66d-07033767-10a4-48c6-a06b-23754c7455bc-000000@us-west-2.amazonses.com>
+Date: Wed, 5 Nov 2025 23:16:46 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.05-54.240.27.191
+X-SES-Outgoing: 2025.11.05-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225881
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225922
 
---===============2176792771556621430==
+--===============8731162379654811687==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libdrm* to *2.4.128* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libpcre2* to *10.47* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libdrm-upgrade-2.4.125-2.4.128.patch
+    - apply the patch: git am 0001-libpcre2-upgrade-10.46-10.47.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,67 +72,119 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From fad6b94cb866f9ef8ec4e25e29e07994d9c1bf67 Mon Sep 17 00:00:00 2001
+From 22a880d461ffc4c25661d103d92a6f195ec4763f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 5 Nov 2025 20:14:12 +0000
-Subject: [PATCH] libdrm: upgrade 2.4.125 -> 2.4.128
+Date: Wed, 5 Nov 2025 22:54:05 +0000
+Subject: [PATCH] libpcre2: upgrade 10.46 -> 10.47
 
 ---
- .../drm/{libdrm_2.4.125.bb => libdrm_2.4.128.bb}                | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.125.bb => libdrm_2.4.128.bb} (97%)
+ .../{libpcre2_10.46.bb => libpcre2_10.47.bb}  | 48 ++++++++++++++++++-
+ 1 file changed, 46 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libpcre/{libpcre2_10.46.bb => libpcre2_10.47.bb} (54%)
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.125.bb b/meta/recipes-graphics/drm/libdrm_2.4.128.bb
-similarity index 97%
-rename from meta/recipes-graphics/drm/libdrm_2.4.125.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.128.bb
-index a256f73145..8796a7a3d0 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.125.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.128.bb
-@@ -13,7 +13,7 @@ DEPENDS = "libpthread-stubs"
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
-           "
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.46.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+similarity index 54%
+rename from meta/recipes-support/libpcre/libpcre2_10.46.bb
+rename to meta/recipes-support/libpcre/libpcre2_10.47.bb
+index 0d7823c079..7ab7945de0 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.46.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+@@ -1,3 +1,47 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENCE.md
++# +++ LICENCE.md
++# @@ -1,4 +1,4 @@
++# -PCRE2 License
++# +PCRE2 Licence
++#  =============
++#  
++#  | SPDX-License-Identifier: | BSD-3-Clause WITH PCRE2-exception |
++# @@ -16,7 +16,8 @@
++#  The basic library functions are written in C and are freestanding. Also
++#  included in the distribution is a just-in-time compiler that can be used to
++#  optimize pattern matching. This is an optional feature that can be omitted when
++# -the library is built.
++# +the library is built. The just-in-time compiler is separately licensed under the
++# +"2-clause BSD" licence.
++#  
++#  
++#  COPYRIGHT
++# @@ -52,6 +53,8 @@
++#  
++#      Copyright (c) 2009-2024 Zoltan Herczeg
++#      All rights reserved.
++# +
++# +The code in the `deps/sljit` directory has its own LICENSE file.
++#  
++#  ### All other contributions
++#  
++# @@ -99,5 +102,3 @@
++#  PCRE2, it must respect the condition, but if package B is software that
++#  includes package A, the condition is not imposed on package B unless it uses
++#  PCRE2 independently.
++# -
++# -End
++# 
++#
++
+ DESCRIPTION = "There are two major versions of the PCRE library. The \
+ newest version is PCRE2, which is a re-working of the original PCRE \
+ library to provide an entirely new API. The original, very widely \
+@@ -8,14 +52,14 @@ SUMMARY = "Perl Compatible Regular Expressions version 2"
+ HOMEPAGE = "http://www.pcre.org"
+ SECTION = "devel"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENCE.md;md5=8446a1fd12e40d9d64c79234fbb1f812"
++LIC_FILES_CHKSUM = "file://LICENCE.md;md5=6720bf3bcff57543b915c2b22e526df0"
  
--SRC_URI[sha256sum] = "d4bae92797a50f81a93524762e0410a49cd84cfa0f997795bc0172ac8fb1d96a"
-+SRC_URI[sha256sum] = "3bb35db8700c2a0b569f2c6729a53f5495786856b310854c8de57782a22bddac"
+ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2"
  
- inherit meson pkgconfig manpages
+ GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/pcre2-(?P<pver>\d+(\.\d+)+)$"
+ 
+-SRC_URI[sha256sum] = "15fbc5aba6beee0b17aecb04602ae39432393aba1ebd8e39b7cabf7db883299f"
++SRC_URI[sha256sum] = "47fe8c99461250d42f89e6e8fdaeba9da057855d06eb7fc08d9ca03fd08d7bc7"
+ 
+ CVE_PRODUCT = "pcre2"
  
 -- 
 2.47.1
 
 
---===============2176792771556621430==
+--===============8731162379654811687==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: FILELIST: removed "/usr/lib/libdrm_amdgpu.so.1.125.0", added "/usr/lib/libdrm_amdgpu.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: FILELIST: removed "/usr/lib/libdrm_etnaviv.so.1.125.0", added "/usr/lib/libdrm_etnaviv.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: FILELIST: removed "/usr/lib/libdrm_freedreno.so.1.125.0", added "/usr/lib/libdrm_freedreno.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: FILELIST: removed "/usr/lib/libdrm_intel.so.1.125.0", added "/usr/lib/libdrm_intel.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: FILELIST: removed "/usr/lib/libdrm_nouveau.so.2.125.0", added "/usr/lib/libdrm_nouveau.so.2.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: FILELIST: removed "/usr/lib/libdrm_omap.so.1.125.0", added "/usr/lib/libdrm_omap.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: FILELIST: removed "/usr/lib/libdrm_radeon.so.1.125.0", added "/usr/lib/libdrm_radeon.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm: FILELIST: removed "/usr/lib/libdrm.so.2.125.0", added "/usr/lib/libdrm.so.2.128.0"
-Changes to packages/x86-64-v3-poky-linux/libdrm (sysroot):
-  /usr/lib/libdrm_amdgpu.so.1 changed symlink target from libdrm_amdgpu.so.1.125.0 to libdrm_amdgpu.so.1.128.0
-  /usr/lib/libdrm_etnaviv.so.1 changed symlink target from libdrm_etnaviv.so.1.125.0 to libdrm_etnaviv.so.1.128.0
-  /usr/lib/libdrm_freedreno.so.1 changed symlink target from libdrm_freedreno.so.1.125.0 to libdrm_freedreno.so.1.128.0
-  /usr/lib/libdrm_intel.so.1 changed symlink target from libdrm_intel.so.1.125.0 to libdrm_intel.so.1.128.0
-  /usr/lib/libdrm_nouveau.so.2 changed symlink target from libdrm_nouveau.so.2.125.0 to libdrm_nouveau.so.2.128.0
-  /usr/lib/libdrm_omap.so.1 changed symlink target from libdrm_omap.so.1.125.0 to libdrm_omap.so.1.128.0
-  /usr/lib/libdrm_radeon.so.1 changed symlink target from libdrm_radeon.so.1.125.0 to libdrm_radeon.so.1.128.0
-  /usr/lib/libdrm.so.2 changed symlink target from libdrm.so.2.125.0 to libdrm.so.2.128.0
-  /usr/lib/libdrm_amdgpu.so.1.125.0 moved to /usr/lib/libdrm_amdgpu.so.1.128.0
-  /usr/lib/libdrm_etnaviv.so.1.125.0 moved to /usr/lib/libdrm_etnaviv.so.1.128.0
-  /usr/lib/libdrm_freedreno.so.1.125.0 moved to /usr/lib/libdrm_freedreno.so.1.128.0
-  /usr/lib/libdrm_intel.so.1.125.0 moved to /usr/lib/libdrm_intel.so.1.128.0
-  /usr/lib/libdrm_nouveau.so.2.125.0 moved to /usr/lib/libdrm_nouveau.so.2.128.0
-  /usr/lib/libdrm_omap.so.1.125.0 moved to /usr/lib/libdrm_omap.so.1.128.0
-  /usr/lib/libdrm_radeon.so.1.125.0 moved to /usr/lib/libdrm_radeon.so.1.128.0
-  /usr/lib/libdrm.so.2.125.0 moved to /usr/lib/libdrm.so.2.128.0
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: FILELIST: removed "/usr/lib/libpcre2-16.so.0.14.0", added "/usr/lib/libpcre2-16.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: FILELIST: removed "/usr/lib/libpcre2-32.so.0.14.0", added "/usr/lib/libpcre2-32.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGSIZE changed from 2590336 to 2882752 (+11%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: FILELIST: added "/usr/share/doc/pcre2/html/pcre2_next_match.html /usr/share/man/man3/pcre2_next_match.3"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: FILELIST: removed "/usr/lib/libpcre2-posix.so.3.0.6 /usr/lib/libpcre2-8.so.0.14.0", added "/usr/lib/libpcre2-8.so.0.15.0 /usr/lib/libpcre2-posix.so.3.0.7"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PKGSIZE changed from 186304 to 284656 (+53%)
+Changes to packages/x86-64-v3-poky-linux/libpcre2 (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-8.so.0.14.0 moved to /usr/lib/libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3.0.6 moved to /usr/lib/libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-16.so.0.15.0 was added
+  /usr/lib/libpcre2-32.so.0.15.0 was added
+  /usr/lib/libpcre2-16.so.0.14.0 was removed
+  /usr/lib/libpcre2-32.so.0.14.0 was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2055,80 +2107,87 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libpcre2-native (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-8.so.0.14.0 moved to /usr/lib/libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3.0.6 moved to /usr/lib/libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-16.so.0.15.0 was added
+  /usr/lib/libpcre2-32.so.0.15.0 was added
+  /usr/lib/libpcre2-16.so.0.14.0 was removed
+  /usr/lib/libpcre2-32.so.0.14.0 was removed
 
---===============2176792771556621430==
+--===============8731162379654811687==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libdrm: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm: SRC_URI changed from "http://dri.freedesktop.org/libdrm/libdrm-2.4.125.tar.xz" to "http://dri.freedesktop.org/libdrm/libdrm-2.4.128.tar.xz"
-packages/x86-64-v3-poky-linux/libdrm: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: FILELIST: removed "/usr/lib/libdrm_amdgpu.so.1.125.0", added "/usr/lib/libdrm_amdgpu.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: PKGSIZE changed from 70282 to 70349 (+0%)
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: FILELIST: removed "/usr/lib/.debug/libdrm_freedreno.so.1.125.0 /usr/lib/.debug/libdrm_amdgpu.so.1.125.0 /usr/lib/.debug/libdrm.so.2.125.0 /usr/lib/.debug/libdrm_omap.so.1.125.0 /usr/lib/.debug/libdrm_nouveau.so.2.125.0 /usr/lib/.debug/libdrm_intel.so.1.125.0 /usr/lib/.debug/libdrm_radeon.so.1.125.0 /usr/lib/.debug/libdrm_etnaviv.so.1.125.0", added "/usr/lib/.debug/libdrm_radeon.so.1.128.0 /usr/lib/.debug/libdrm_intel.so.1.128.0 /usr/lib/.debug/libdrm_amdgpu.so.1.128.0 /usr/lib/.debug/libdrm.so.2.128.0 /usr/lib/.debug/libdrm_omap.so.1.128.0 /usr/lib/.debug/libdrm_nouveau.so.2.128.0 /usr/lib/.debug/libdrm_freedreno.so.1.128.0 /usr/lib/.debug/libdrm_etnaviv.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: PKGSIZE changed from 1623856 to 1646536 (+1%)
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dev: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dev: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dev: PKGSIZE changed from 782697 to 782902 (+0%)
-packages/x86-64-v3-poky-linux/libdrm/libdrm-doc: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-doc: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-drivers: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-drivers: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: FILELIST: removed "/usr/lib/libdrm_etnaviv.so.1.125.0", added "/usr/lib/libdrm_etnaviv.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-exynos: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-exynos: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: FILELIST: removed "/usr/lib/libdrm_freedreno.so.1.125.0", added "/usr/lib/libdrm_freedreno.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: FILELIST: removed "/usr/lib/libdrm_intel.so.1.125.0", added "/usr/lib/libdrm_intel.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-locale: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-locale: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: FILELIST: removed "/usr/lib/libdrm_nouveau.so.2.125.0", added "/usr/lib/libdrm_nouveau.so.2.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: FILELIST: removed "/usr/lib/libdrm_omap.so.1.125.0", added "/usr/lib/libdrm_omap.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: FILELIST: removed "/usr/lib/libdrm_radeon.so.1.125.0", added "/usr/lib/libdrm_radeon.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-src: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-src: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-staticdev: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-staticdev: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-tests: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-tests: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-tests: PKGSIZE changed from 219888 to 223992 (+2%)
-packages/x86-64-v3-poky-linux/libdrm/libdrm: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm: FILELIST: removed "/usr/lib/libdrm.so.2.125.0", added "/usr/lib/libdrm.so.2.128.0"
-Changes to packages/x86-64-v3-poky-linux/libdrm (sysroot):
-  /usr/lib/libdrm_amdgpu.so.1 changed symlink target from libdrm_amdgpu.so.1.125.0 to libdrm_amdgpu.so.1.128.0
-  /usr/lib/libdrm_etnaviv.so.1 changed symlink target from libdrm_etnaviv.so.1.125.0 to libdrm_etnaviv.so.1.128.0
-  /usr/lib/libdrm_freedreno.so.1 changed symlink target from libdrm_freedreno.so.1.125.0 to libdrm_freedreno.so.1.128.0
-  /usr/lib/libdrm_intel.so.1 changed symlink target from libdrm_intel.so.1.125.0 to libdrm_intel.so.1.128.0
-  /usr/lib/libdrm_nouveau.so.2 changed symlink target from libdrm_nouveau.so.2.125.0 to libdrm_nouveau.so.2.128.0
-  /usr/lib/libdrm_omap.so.1 changed symlink target from libdrm_omap.so.1.125.0 to libdrm_omap.so.1.128.0
-  /usr/lib/libdrm_radeon.so.1 changed symlink target from libdrm_radeon.so.1.125.0 to libdrm_radeon.so.1.128.0
-  /usr/lib/libdrm.so.2 changed symlink target from libdrm.so.2.125.0 to libdrm.so.2.128.0
-  /usr/lib/libdrm_amdgpu.so.1.125.0 moved to /usr/lib/libdrm_amdgpu.so.1.128.0
-  /usr/lib/libdrm_etnaviv.so.1.125.0 moved to /usr/lib/libdrm_etnaviv.so.1.128.0
-  /usr/lib/libdrm_freedreno.so.1.125.0 moved to /usr/lib/libdrm_freedreno.so.1.128.0
-  /usr/lib/libdrm_intel.so.1.125.0 moved to /usr/lib/libdrm_intel.so.1.128.0
-  /usr/lib/libdrm_nouveau.so.2.125.0 moved to /usr/lib/libdrm_nouveau.so.2.128.0
-  /usr/lib/libdrm_omap.so.1.125.0 moved to /usr/lib/libdrm_omap.so.1.128.0
-  /usr/lib/libdrm_radeon.so.1.125.0 moved to /usr/lib/libdrm_radeon.so.1.128.0
-  /usr/lib/libdrm.so.2.125.0 moved to /usr/lib/libdrm.so.2.128.0
+packages/x86-64-v3-poky-linux/libpcre2: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2: SRC_URI changed from "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.46/pcre2-10.46.tar.bz2" to "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.47/pcre2-10.47.tar.bz2"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: FILELIST: removed "/usr/lib/libpcre2-16.so.0.14.0", added "/usr/lib/libpcre2-16.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PKGSIZE changed from 399605 to 403781 (+1%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: FILELIST: removed "/usr/lib/libpcre2-32.so.0.14.0", added "/usr/lib/libpcre2-32.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PKGSIZE changed from 383221 to 387397 (+1%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: FILELIST: removed "/usr/lib/.debug/libpcre2-8.so.0.14.0 /usr/lib/.debug/libpcre2-32.so.0.14.0 /usr/lib/.debug/libpcre2-16.so.0.14.0 /usr/lib/.debug/libpcre2-posix.so.3.0.6", added "/usr/lib/.debug/libpcre2-posix.so.3.0.7 /usr/lib/.debug/libpcre2-32.so.0.15.0 /usr/lib/.debug/libpcre2-16.so.0.15.0 /usr/lib/.debug/libpcre2-8.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGSIZE changed from 2590336 to 2882752 (+11%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PKGSIZE changed from 60174 to 60872 (+1%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: FILELIST: added "/usr/share/man/man3/pcre2_next_match.3 /usr/share/doc/pcre2/html/pcre2_next_match.html"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PKGSIZE changed from 2785005 to 2827983 (+2%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-locale: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-locale: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PKGSIZE changed from 59065 to 59621 (+1%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-staticdev: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-staticdev: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: FILELIST: removed "/usr/lib/libpcre2-8.so.0.14.0 /usr/lib/libpcre2-posix.so.3.0.6", added "/usr/lib/libpcre2-posix.so.3.0.7 /usr/lib/libpcre2-8.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PKGSIZE changed from 454899 to 463251 (+2%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PKGSIZE changed from 53292 to 53290 (-0%)
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PKGSIZE changed from 95676 to 97211 (+2%)
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PKGSIZE changed from 186304 to 284656 (+53%)
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PKGV changed from 10.46 [default] to 10.47 [default]
+Changes to packages/x86-64-v3-poky-linux/libpcre2 (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-8.so.0.14.0 moved to /usr/lib/libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3.0.6 moved to /usr/lib/libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-16.so.0.15.0 was added
+  /usr/lib/libpcre2-32.so.0.15.0 was added
+  /usr/lib/libpcre2-16.so.0.14.0 was removed
+  /usr/lib/libpcre2-32.so.0.14.0 was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4051,34 +4110,85 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libpcre2-native (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-8.so.0.14.0 moved to /usr/lib/libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3.0.6 moved to /usr/lib/libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-16.so.0.15.0 was added
+  /usr/lib/libpcre2-32.so.0.15.0 was added
+  /usr/lib/libpcre2-16.so.0.14.0 was removed
+  /usr/lib/libpcre2-32.so.0.14.0 was removed
 
---===============2176792771556621430==
+--===============8731162379654811687==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libdrm-upgrade-2.4.125-2.4.128.patch"
+ filename="0001-libpcre2-upgrade-10.46-10.47.patch"
 
-RnJvbSBmYWQ2Yjk0Y2I4NjZmOWVmOGVjNGUyNWUyOWUwNzk5NGQ5YzFiZjY3IE1vbiBTZXAgMTcg
+RnJvbSAyMmE4ODBkNDYxZmZjNGMyNTY2MWQxMDNkOTJhNmYxOTVlYzQ3NjNmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAyMDoxNDoxMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YmRybTogdXBncmFkZSAyLjQuMTI1IC0+IDIuNC4xMjgKCi0tLQogLi4uL2RybS97bGliZHJtXzIu
-NC4xMjUuYmIgPT4gbGliZHJtXzIuNC4xMjguYmJ9ICAgICAgICAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL2RybS97bGliZHJtXzIuNC4xMjUuYmIgPT4gbGliZHJtXzIuNC4xMjgu
-YmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2RybS9saWJkcm1f
-Mi40LjEyNS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9kcm0vbGliZHJtXzIuNC4xMjguYmIK
-c2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2Ry
-bS9saWJkcm1fMi40LjEyNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2RybS9s
-aWJkcm1fMi40LjEyOC5iYgppbmRleCBhMjU2ZjczMTQ1Li44Nzk2YTdhM2QwIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZHJtL2xpYmRybV8yLjQuMTI1LmJiCisrKyBiL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy9kcm0vbGliZHJtXzIuNC4xMjguYmIKQEAgLTEzLDcgKzEzLDcgQEAg
-REVQRU5EUyA9ICJsaWJwdGhyZWFkLXN0dWJzIgogU1JDX1VSSSA9ICJodHRwOi8vZHJpLmZyZWVk
-ZXNrdG9wLm9yZy9saWJkcm0vJHtCUH0udGFyLnh6IFwKICAgICAgICAgICAiCiAKLVNSQ19VUklb
-c2hhMjU2c3VtXSA9ICJkNGJhZTkyNzk3YTUwZjgxYTkzNTI0NzYyZTA0MTBhNDljZDg0Y2ZhMGY5
-OTc3OTViYzAxNzJhYzhmYjFkOTZhIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNiYjM1ZGI4NzAw
-YzJhMGI1NjlmMmM2NzI5YTUzZjU0OTU3ODY4NTZiMzEwODU0YzhkZTU3NzgyYTIyYmRkYWMiCiAK
-IGluaGVyaXQgbWVzb24gcGtnY29uZmlnIG1hbnBhZ2VzCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAyMjo1NDowNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnBjcmUyOiB1cGdyYWRlIDEwLjQ2IC0+IDEwLjQ3CgotLS0KIC4uLi97bGlicGNyZTJfMTAuNDYu
+YmIgPT4gbGlicGNyZTJfMTAuNDcuYmJ9ICB8IDQ4ICsrKysrKysrKysrKysrKysrKy0KIDEgZmls
+ZSBjaGFuZ2VkLCA0NiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1zdXBwb3J0L2xpYnBjcmUve2xpYnBjcmUyXzEwLjQ2LmJiID0+IGxpYnBjcmUyXzEw
+LjQ3LmJifSAoNTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnBjcmUv
+bGlicGNyZTJfMTAuNDYuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL2xpYnBjcmUy
+XzEwLjQ3LmJiCnNpbWlsYXJpdHkgaW5kZXggNTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1z
+dXBwb3J0L2xpYnBjcmUvbGlicGNyZTJfMTAuNDYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1z
+dXBwb3J0L2xpYnBjcmUvbGlicGNyZTJfMTAuNDcuYmIKaW5kZXggMGQ3ODIzYzA3OS4uN2FiNzk0
+NWRlMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3JlMl8x
+MC40Ni5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL2xpYnBjcmUyXzEwLjQ3
+LmJiCkBAIC0xLDMgKzEsNDcgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVl
+cyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2lu
+ZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0
+ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1
+bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNl
+LVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHll
+YXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTkNFLm1kCisj
+ICsrKyBMSUNFTkNFLm1kCisjIEBAIC0xLDQgKzEsNCBAQAorIyAtUENSRTIgTGljZW5zZQorIyAr
+UENSRTIgTGljZW5jZQorIyAgPT09PT09PT09PT09PQorIyAgCisjICB8IFNQRFgtTGljZW5zZS1J
+ZGVudGlmaWVyOiB8IEJTRC0zLUNsYXVzZSBXSVRIIFBDUkUyLWV4Y2VwdGlvbiB8CisjIEBAIC0x
+Niw3ICsxNiw4IEBACisjICBUaGUgYmFzaWMgbGlicmFyeSBmdW5jdGlvbnMgYXJlIHdyaXR0ZW4g
+aW4gQyBhbmQgYXJlIGZyZWVzdGFuZGluZy4gQWxzbworIyAgaW5jbHVkZWQgaW4gdGhlIGRpc3Ry
+aWJ1dGlvbiBpcyBhIGp1c3QtaW4tdGltZSBjb21waWxlciB0aGF0IGNhbiBiZSB1c2VkIHRvCisj
+ICBvcHRpbWl6ZSBwYXR0ZXJuIG1hdGNoaW5nLiBUaGlzIGlzIGFuIG9wdGlvbmFsIGZlYXR1cmUg
+dGhhdCBjYW4gYmUgb21pdHRlZCB3aGVuCisjIC10aGUgbGlicmFyeSBpcyBidWlsdC4KKyMgK3Ro
+ZSBsaWJyYXJ5IGlzIGJ1aWx0LiBUaGUganVzdC1pbi10aW1lIGNvbXBpbGVyIGlzIHNlcGFyYXRl
+bHkgbGljZW5zZWQgdW5kZXIgdGhlCisjICsiMi1jbGF1c2UgQlNEIiBsaWNlbmNlLgorIyAgCisj
+ICAKKyMgIENPUFlSSUdIVAorIyBAQCAtNTIsNiArNTMsOCBAQAorIyAgCisjICAgICAgQ29weXJp
+Z2h0IChjKSAyMDA5LTIwMjQgWm9sdGFuIEhlcmN6ZWcKKyMgICAgICBBbGwgcmlnaHRzIHJlc2Vy
+dmVkLgorIyArCisjICtUaGUgY29kZSBpbiB0aGUgYGRlcHMvc2xqaXRgIGRpcmVjdG9yeSBoYXMg
+aXRzIG93biBMSUNFTlNFIGZpbGUuCisjICAKKyMgICMjIyBBbGwgb3RoZXIgY29udHJpYnV0aW9u
+cworIyAgCisjIEBAIC05OSw1ICsxMDIsMyBAQAorIyAgUENSRTIsIGl0IG11c3QgcmVzcGVjdCB0
+aGUgY29uZGl0aW9uLCBidXQgaWYgcGFja2FnZSBCIGlzIHNvZnR3YXJlIHRoYXQKKyMgIGluY2x1
+ZGVzIHBhY2thZ2UgQSwgdGhlIGNvbmRpdGlvbiBpcyBub3QgaW1wb3NlZCBvbiBwYWNrYWdlIEIg
+dW5sZXNzIGl0IHVzZXMKKyMgIFBDUkUyIGluZGVwZW5kZW50bHkuCisjIC0KKyMgLUVuZAorIyAK
+KyMKKwogREVTQ1JJUFRJT04gPSAiVGhlcmUgYXJlIHR3byBtYWpvciB2ZXJzaW9ucyBvZiB0aGUg
+UENSRSBsaWJyYXJ5LiBUaGUgXAogbmV3ZXN0IHZlcnNpb24gaXMgUENSRTIsIHdoaWNoIGlzIGEg
+cmUtd29ya2luZyBvZiB0aGUgb3JpZ2luYWwgUENSRSBcCiBsaWJyYXJ5IHRvIHByb3ZpZGUgYW4g
+ZW50aXJlbHkgbmV3IEFQSS4gVGhlIG9yaWdpbmFsLCB2ZXJ5IHdpZGVseSBcCkBAIC04LDE0ICs1
+MiwxNCBAQCBTVU1NQVJZID0gIlBlcmwgQ29tcGF0aWJsZSBSZWd1bGFyIEV4cHJlc3Npb25zIHZl
+cnNpb24gMiIKIEhPTUVQQUdFID0gImh0dHA6Ly93d3cucGNyZS5vcmciCiBTRUNUSU9OID0gImRl
+dmVsIgogTElDRU5TRSA9ICJCU0QtMy1DbGF1c2UiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6
+Ly9MSUNFTkNFLm1kO21kNT04NDQ2YTFmZDEyZTQwZDlkNjRjNzkyMzRmYmIxZjgxMiIKK0xJQ19G
+SUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOQ0UubWQ7bWQ1PTY3MjBiZjNiY2ZmNTc1NDNiOTE1
+YzJiMjJlNTI2ZGYwIgogCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC9w
+Y3JlMi0ke1BWfS9wY3JlMi0ke1BWfS50YXIuYnoyIgogCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0
+cHM6Ly9naXRodWIuY29tL1BDUkUyUHJvamVjdC9wY3JlMi9yZWxlYXNlcyIKIFVQU1RSRUFNX0NI
+RUNLX1JFR0VYID0gInJlbGVhc2VzL3RhZy9wY3JlMi0oP1A8cHZlcj5cZCsoXC5cZCspKykkIgog
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTVmYmM1YWJhNmJlZWUwYjE3YWVjYjA0NjAyYWUzOTQz
+MjM5M2FiYTFlYmQ4ZTM5YjdjYWJmN2RiODgzMjk5ZiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0
+N2ZlOGM5OTQ2MTI1MGQ0MmY4OWU2ZThmZGFlYmE5ZGEwNTc4NTVkMDZlYjdmYzA4ZDljYTAzZmQw
+OGQ3YmM3IgogCiBDVkVfUFJPRFVDVCA9ICJwY3JlMiIKIAotLSAKMi40Ny4xCgo=
 
---===============2176792771556621430==--
+--===============8731162379654811687==--
 
