@@ -2,257 +2,193 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2E98CD4848
-	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:48 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2351.1762384574631610807
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02633CD484A
+	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:49 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2377.1762384601560446370
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:16:43 -0800
+ Wed, 05 Nov 2025 15:16:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=P7rxn5p/;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=seNGSv0Y;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019a564ee865-7c7094ca-cba0-427a-842e-6e17dd5879e6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bCauYetz;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=qRGQIVBG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019a564edfeb-6aaf91d9-fa61-4df4-b171-2aa65127bff3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1762384603;
+	t=1762384601;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=tkRKnDCewT/GfBKXIVfuEDYbDTGZqvP8i5PsrpO1p30=;
-	b=P7rxn5p/sqlImlwCVfLlbgrpqbwVhb63qAy/m0htP850TEUiM96akAqSkf1PHKyC
-	sOjdAy+hXw2L4KXEuh2WPiDGaPbVOUG4qHLIR7htgOsC21iAVVLvJAJnNIFbeBmTTsX
-	IApPmEaVTHFgjOm8YZ0OGXtnwEZFTb3T3RYmppfQ=
+	bh=gEprIYiDFV3pzmFe05DYsiKqZm5tn02Bx8+KN+UDYdU=;
+	b=bCauYetzAXLmDVuwvl4fAu+gH+6VIBKniiCgvrkP1ydnfvzBFkkQovxS7MVXwna4
+	3Au1CzjUtGLt+U0lFz1XCOixkzspCxxs3dfr47t0LxBc0ANoWJxicjYveim7QZ7vU24
+	fm9FKlUfZOsAPBbqJCJ50hKsfEyx40ck0wtSmYTY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384603;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384601;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=tkRKnDCewT/GfBKXIVfuEDYbDTGZqvP8i5PsrpO1p30=;
-	b=seNGSv0YM/D4Jl9BljifSatMmVfKNs0SaYb3CvxihojdJeuCQpLKBrgc2dBXQ43o
-	9JWvBCPhqgebhgAeVQxvPUrvsSYdSLLLYj8Qcamkf2DxiUNnLujPaOqMY8ubCT0dvJV
-	f7qOyOofN1SAE9AkLv7OD0RbQVMByr/Ib+UZVVvM=
-Content-Type: multipart/mixed; boundary="===============4445059507130826298=="
+	bh=gEprIYiDFV3pzmFe05DYsiKqZm5tn02Bx8+KN+UDYdU=;
+	b=qRGQIVBGt7+/SlCXzFVYJjSJUzjX3yf78AqLLPy9FTY+fDvcfrxrsoauVundbDI4
+	UEonrYbXq1TKFIwhVU+e0HFa6CcwcC6syLo1vb6iLlBCijkhmqlwFwghvl3Z7PG52KT
+	u5r2/WjdfkLPUWK1AVqsp4jxwu2sDgx295Xzuh0c=
+Content-Type: multipart/mixed; boundary="===============0127653571617714362=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] puzzles: upgrading to 790f5851507be5845164d3ae7b32b2f86717fe50
- SUCCEEDED
-Message-ID: <0101019a564ee865-7c7094ca-cba0-427a-842e-6e17dd5879e6-000000@us-west-2.amazonses.com>
-Date: Wed, 5 Nov 2025 23:16:43 +0000
+Subject: [AUH] xwayland: upgrading to 24.1.9 SUCCEEDED
+Message-ID: <0101019a564edfeb-6aaf91d9-fa61-4df4-b171-2aa65127bff3-000000@us-west-2.amazonses.com>
+Date: Wed, 5 Nov 2025 23:16:41 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.05-54.240.27.31
+X-SES-Outgoing: 2025.11.05-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225902
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225893
 
---===============4445059507130826298==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-
-Hello,
-
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *puzzles* to *790f5851507be5845164d3ae7b32b2f86717fe50* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-puzzles-upgrade-to-latest-revision.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 739097d3becb7279113c1c58dd4805c1d3e2a460 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 5 Nov 2025 22:01:55 +0000
-Subject: [PATCH] puzzles: upgrade to latest revision
-
----
- meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 91b5740df3..537e891800 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -10,7 +10,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
- SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main;protocol=https"
- 
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "a7c7826bce5cbb9b9c337c11b9b7f8b278e76fba"
-+SRCREV = "790f5851507be5845164d3ae7b32b2f86717fe50"
- PE = "2"
- PV = "0.0+git"
- 
--- 
-2.47.1
-
-
---===============4445059507130826298==
-Content-Type: application/octet-stream
+--===============0127653571617714362==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-puzzles-upgrade-to-latest-revision.patch"
 
-RnJvbSA3MzkwOTdkM2JlY2I3Mjc5MTEzYzFjNThkZDQ4MDVjMWQzZTJhNDYwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAyMjowMTo1NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB1
-enpsZXM6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIG1ldGEvcmVjaXBlcy1zYXRv
-L3B1enpsZXMvcHV6emxlc19naXQuYmIgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc2F0by9wdXp6
-bGVzL3B1enpsZXNfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLXNhdG8vcHV6emxlcy9wdXp6bGVzX2dp
-dC5iYgppbmRleCA5MWI1NzQwZGYzLi41MzdlODkxODAwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtc2F0by9wdXp6bGVzL3B1enpsZXNfZ2l0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zYXRvL3B1
-enpsZXMvcHV6emxlc19naXQuYmIKQEAgLTEwLDcgKzEwLDcgQEAgUkVRVUlSRURfRElTVFJPX0ZF
-QVRVUkVTID0gIngxMSIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0LnRhcnRhcnVzLm9yZy9zaW1vbi9w
-dXp6bGVzLmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcyIKIAogVVBTVFJFQU1fQ0hFQ0tf
-Q09NTUlUUyA9ICIxIgotU1JDUkVWID0gImE3Yzc4MjZiY2U1Y2JiOWI5YzMzN2MxMWI5YjdmOGIy
-NzhlNzZmYmEiCitTUkNSRVYgPSAiNzkwZjU4NTE1MDdiZTU4NDUxNjRkM2FlN2IzMmIyZjg2NzE3
-ZmU1MCIKIFBFID0gIjIiCiBQViA9ICIwLjArZ2l0IgogCi0tIAoyLjQ3LjEKCg==
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICp4d2F5bGFuZCogdG8gKjI0LjEuOSogaGFzIFN1Y2NlZWRlZC4KCk5leHQgc3RlcHM6CiAg
+ICAtIGFwcGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEteHdheWxhbmQtdXBncmFkZS0yNC4xLjgt
+MjQuMS45LnBhdGNoCiAgICAtIGNoZWNrIHRoZSBjaGFuZ2VzIHRvIHVwc3RyZWFtIHBhdGNoZXMg
+YW5kIHN1bW1hcml6ZSB0aGVtIGluIHRoZSBjb21taXQgbWVzc2FnZSwKICAgIC0gY29tcGlsZSBh
+biBpbWFnZSB0aGF0IGNvbnRhaW5zIHRoZSBwYWNrYWdlCiAgICAtIHBlcmZvcm0gc29tZSBiYXNp
+YyBzYW5pdHkgdGVzdHMKICAgIC0gYW1lbmQgdGhlIHBhdGNoIGFuZCBzaWduIGl0IG9mZjogZ2l0
+IGNvbW1pdCAtcyAtLXJlc2V0LWF1dGhvciAtLWFtZW5kCiAgICAtIHNlbmQgaXQgdG8gdGhlIGFw
+cHJvcHJpYXRlIG1haWxpbmcgbGlzdAoKQWx0ZXJuYXRpdmVseSwgaWYgeW91IGJlbGlldmUgdGhl
+IHJlY2lwZSBzaG91bGQgbm90IGJlIHVwZ3JhZGVkIGF0IHRoaXMgdGltZSwKeW91IGNhbiBmaWxs
+IFJFQ0lQRV9OT19VUERBVEVfUkVBU09OIGluIHJlc3BlY3RpdmUgcmVjaXBlIGZpbGUgc28gdGhh
+dAphdXRvbWF0aWMgdXBncmFkZXMgd291bGQgbm8gbG9uZ2VyIGJlIGF0dGVtcHRlZC4KClBsZWFz
+ZSByZXZpZXcgdGhlIGF0dGFjaGVkIGZpbGVzIGZvciBmdXJ0aGVyIGluZm9ybWF0aW9uIGFuZCBi
+dWlsZC91cGRhdGUgZmFpbHVyZXMuCkFueSBwcm9ibGVtIHBsZWFzZSBmaWxlIGEgYnVnIGF0IGh0
+dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9lbnRlcl9idWcuY2dpP3Byb2R1Y3Q9QXV0
+b21hdGVkJTIwVXBkYXRlJTIwSGFuZGxlcgoKUmVnYXJkcywKVGhlIFVwZ3JhZGUgSGVscGVyCgot
+LSA+OCAtLQpGcm9tIDU4YmY0YmVjMDlhM2ZlMWMyMTIyOTRhNGFkOTk3MjM3Y2I0Njg3OTcgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCkZyb206IFVwZ3JhZGUgSGVscGVyIDxhdWhAeW9jdG9wcm9q
+ZWN0Lm9yZz4KRGF0ZTogV2VkLCA1IE5vdiAyMDI1IDIxOjI3OjA2ICswMDAwClN1YmplY3Q6IFtQ
+QVRDSF0geHdheWxhbmQ6IHVwZ3JhZGUgMjQuMS44IC0+IDI0LjEuOQoKLS0tCiAuLi57eHdheWxh
+bmRfMjQuMS44LmJiID0+IHh3YXlsYW5kXzI0LjEuOS5iYn0gfCAyNiArKysrKysrKysrKysrKysr
+Ky0tCiAxIGZpbGUgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveHdheWxhbmQve3h3YXlsYW5kXzI0LjEuOC5iYiA9
+PiB4d2F5bGFuZF8yNC4xLjkuYmJ9ICg2OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdy
+YXBoaWNzL3h3YXlsYW5kL3h3YXlsYW5kXzI0LjEuOC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGlj
+cy94d2F5bGFuZC94d2F5bGFuZF8yNC4xLjkuYmIKc2ltaWxhcml0eSBpbmRleCA2OSUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3h3YXlsYW5kL3h3YXlsYW5kXzI0LjEuOC5iYgpy
+ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3h3YXlsYW5kL3h3YXlsYW5kXzI0LjEuOS5i
+YgppbmRleCBhNjIxYWYxYTdmLi4xZGVhYmViOWY1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MveHdheWxhbmQveHdheWxhbmRfMjQuMS44LmJiCisrKyBiL21ldGEvcmVjaXBlcy1n
+cmFwaGljcy94d2F5bGFuZC94d2F5bGFuZF8yNC4xLjkuYmIKQEAgLTEsMyArMSwyNSBAQAorIyBG
+SVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdk
+ZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdl
+ZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhl
+IExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisj
+IHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBs
+ZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUg
+Y2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcKKyMgKysrIENPUFlJTkcKKyMgQEAgLTE2LDcgKzE2
+LDcgQEAKKyMgIENvcHlyaWdodCDCqSAyMDA2LTIwMDggUGV0ZXIgSHV0dGVyZXIKKyMgIENvcHly
+aWdodCDCqSAyMDA2IEFkYW0gSmFja3NvbgorIyAgQ29weXJpZ2h0IMKpIDIwMDktMjAxMCBOVklE
+SUEgQ29ycG9yYXRpb24KKyMgLUNvcHlyaWdodCDCqSAxOTg3LCAyMDAzLTIwMDYsIDIwMDgtMjAx
+MCBPcmFjbGUgYW5kL29yIGl0cyBhZmZpbGlhdGVzLgorIyArQ29weXJpZ2h0IMKpIDE5ODcsIDIw
+MDMtMjAwNiwgMjAwOC0yMDEwLCAyMDI1IE9yYWNsZSBhbmQvb3IgaXRzIGFmZmlsaWF0ZXMuCisj
+ICBDb3B5cmlnaHQgwqkgMTk5OSBLZWl0aCBQYWNrYXJkCisjICBDb3B5cmlnaHQgwqkgMjAwNy0y
+MDA5IFJlZCBIYXQsIEluYy4KKyMgIENvcHlyaWdodCDCqSAyMDA1LTIwMDggRGFuaWVsIFN0b25l
+CisjIAorIworCiBTVU1NQVJZID0gIlhXYXlsYW5kIGlzIGFuIFggU2VydmVyIHRoYXQgcnVucyB1
+bmRlciBXYXlsYW5kLiIKIERFU0NSSVBUSU9OID0gIlhXYXlsYW5kIGlzIGFuIFggU2VydmVyIHJ1
+bm5pbmcgYXMgYSBXYXlsYW5kIGNsaWVudCwgXAogYW5kIHRodXMgaXMgY2FwYWJsZSBvZiBkaXNw
+bGF5aW5nIG5hdGl2ZSBYMTEgY2xpZW50IGFwcGxpY2F0aW9ucyBpbiBhIFwKQEAgLTcsMTAgKzI5
+LDEwIEBAIGEgd2F5IHRvIHJ1biB1bnBvcnRlZCBhcHBsaWNhdGlvbnMgaW4gdGhlIG1lYW50aW1l
+LiIKIEhPTUVQQUdFID0gImh0dHBzOi8vZmVkb3JhcHJvamVjdC5vcmcvd2lraS9DaGFuZ2VzL1h3
+YXlsYW5kU3RhbmRhbG9uZSIKIAogTElDRU5TRSA9ICJNSVQiCi1MSUNfRklMRVNfQ0hLU1VNID0g
+ImZpbGU6Ly9DT1BZSU5HO21kNT01ZGY4Nzk1MGFmNTFhYzJjNTgyMjA5NDU1M2VhMTg4MCIKK0xJ
+Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTIxZTMzZGNjY2YyZDUwMzRmNzk4
+YThlYTYyNjIyOTM5IgogCiBTUkNfVVJJID0gImh0dHBzOi8vd3d3Lngub3JnL2FyY2hpdmUvaW5k
+aXZpZHVhbC94c2VydmVyL3h3YXlsYW5kLSR7UFZ9LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICJjODkwOGQ1N2M4ZWQ5Y2ViODI5M2MxNmJhN2FkNWFmNTIyZWZhZjFiYTdlNTFmOWU0Y2Yz
+YzA3NzRkMTk5OTA3IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImYyOTdhZjI3YTg0NTA4ZGI5Yjgw
+ZDFjYmJjYzY5YzM4MDFkYTM4ZWI2NGM3MmYzYjViNTBmNTgyNDU5YWZkZDAiCiAKIFVQU1RSRUFN
+X0NIRUNLX1JFR0VYID0gInh3YXlsYW5kLSg/UDxwdmVyPlxkKyhcLig/ITkwXGQpXGQrKSspXC50
+YXIiCiAKLS0gCjIuNDcuMQoK
 
---===============4445059507130826298==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
-packages/x86-64-v3-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
-packages/x86-64-v3-poky-linux/puzzles/puzzles-dev: RRECOMMENDS: removed "puzzles (['= 2:0.0+git0+a7c7826bce-r0'])", added "puzzles (['= 2:0.0+git0+790f585150-r0'])"
-packages/x86-64-v3-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
-packages/x86-64-v3-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
-packages/x86-64-v3-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
-packages/x86-64-v3-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
-packages/x86-64-v3-poky-linux/puzzles/puzzles-staticdev: RDEPENDS: removed "puzzles-dev (['= 2:0.0+git0+a7c7826bce-r0'])", added "puzzles-dev (['= 2:0.0+git0+790f585150-r0'])"
-packages/x86-64-v3-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
-
---===============4445059507130826298==
+--===============0127653571617714362==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/puzzles/puzzles-dbg: PKGSIZE changed from 21986144 to 21997120 (+0%)
-packages/x86-64-v3-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
-packages/x86-64-v3-poky-linux/puzzles/puzzles-dev: RRECOMMENDS: removed "puzzles (['= 2:0.0+git0+a7c7826bce-r0'])", added "puzzles (['= 2:0.0+git0+790f585150-r0'])"
-packages/x86-64-v3-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
-packages/x86-64-v3-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
-packages/x86-64-v3-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
-packages/x86-64-v3-poky-linux/puzzles/puzzles-src: PKGSIZE changed from 3865943 to 3870939 (+0%)
-packages/x86-64-v3-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
-packages/x86-64-v3-poky-linux/puzzles/puzzles-staticdev: RDEPENDS: removed "puzzles-dev (['= 2:0.0+git0+a7c7826bce-r0'])", added "puzzles-dev (['= 2:0.0+git0+790f585150-r0'])"
-packages/x86-64-v3-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
-packages/x86-64-v3-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+a7c7826bce to 0.0+git0+790f585150
+packages/x86-64-v3-poky-linux/xwayland: PKGV changed from 24.1.8 [default] to 24.1.9 [default]
+packages/x86-64-v3-poky-linux/xwayland: PV changed from "24.1.8" to "24.1.9"
+packages/x86-64-v3-poky-linux/xwayland: SRC_URI changed from "https://www.x.org/archive/individual/xserver/xwayland-24.1.8.tar.xz" to "https://www.x.org/archive/individual/xserver/xwayland-24.1.9.tar.xz"
+packages/x86-64-v3-poky-linux/xwayland/xwayland-dbg: PKGV changed from 24.1.8 [default] to 24.1.9 [default]
+packages/x86-64-v3-poky-linux/xwayland/xwayland-dbg: PKGSIZE changed from 12562488 to 12570704 (+0%)
+packages/x86-64-v3-poky-linux/xwayland/xwayland-dbg: PV changed from "24.1.8" to "24.1.9"
+packages/x86-64-v3-poky-linux/xwayland/xwayland-dev: PKGV changed from 24.1.8 [default] to 24.1.9 [default]
+packages/x86-64-v3-poky-linux/xwayland/xwayland-dev: PV changed from "24.1.8" to "24.1.9"
+packages/x86-64-v3-poky-linux/xwayland/xwayland-doc: PKGV changed from 24.1.8 [default] to 24.1.9 [default]
+packages/x86-64-v3-poky-linux/xwayland/xwayland-doc: PV changed from "24.1.8" to "24.1.9"
+packages/x86-64-v3-poky-linux/xwayland/xwayland-locale: PKGV changed from 24.1.8 [default] to 24.1.9 [default]
+packages/x86-64-v3-poky-linux/xwayland/xwayland-locale: PV changed from "24.1.8" to "24.1.9"
+packages/x86-64-v3-poky-linux/xwayland/xwayland-src: PKGV changed from 24.1.8 [default] to 24.1.9 [default]
+packages/x86-64-v3-poky-linux/xwayland/xwayland-src: PV changed from "24.1.8" to "24.1.9"
+packages/x86-64-v3-poky-linux/xwayland/xwayland-staticdev: PKGV changed from 24.1.8 [default] to 24.1.9 [default]
+packages/x86-64-v3-poky-linux/xwayland/xwayland-staticdev: PV changed from "24.1.8" to "24.1.9"
+packages/x86-64-v3-poky-linux/xwayland/xwayland: PKGV changed from 24.1.8 [default] to 24.1.9 [default]
+packages/x86-64-v3-poky-linux/xwayland/xwayland: PKGSIZE changed from 2353763 to 2357859 (+0%)
+packages/x86-64-v3-poky-linux/xwayland/xwayland: PV changed from "24.1.8" to "24.1.9"
 
---===============4445059507130826298==
-Content-Type: text/plain; charset="us-ascii"
+--===============0127653571617714362==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-xwayland-upgrade-24.1.8-24.1.9.patch"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1945 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 948 .bb files complete (947 cached, 1 parsed). 1945 targets, 47 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+RnJvbSA1OGJmNGJlYzA5YTNmZTFjMjEyMjk0YTRhZDk5NzIzN2NiNDY4Nzk3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAyMToyNzowNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHh3
+YXlsYW5kOiB1cGdyYWRlIDI0LjEuOCAtPiAyNC4xLjkKCi0tLQogLi4ue3h3YXlsYW5kXzI0LjEu
+OC5iYiA9PiB4d2F5bGFuZF8yNC4xLjkuYmJ9IHwgMjYgKysrKysrKysrKysrKysrKystLQogMSBm
+aWxlIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL3h3YXlsYW5kL3t4d2F5bGFuZF8yNC4xLjguYmIgPT4geHdheWxh
+bmRfMjQuMS45LmJifSAoNjklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94
+d2F5bGFuZC94d2F5bGFuZF8yNC4xLjguYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveHdheWxh
+bmQveHdheWxhbmRfMjQuMS45LmJiCnNpbWlsYXJpdHkgaW5kZXggNjklCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1ncmFwaGljcy94d2F5bGFuZC94d2F5bGFuZF8yNC4xLjguYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1ncmFwaGljcy94d2F5bGFuZC94d2F5bGFuZF8yNC4xLjkuYmIKaW5kZXgg
+YTYyMWFmMWE3Zi4uMWRlYWJlYjlmNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L3h3YXlsYW5kL3h3YXlsYW5kXzI0LjEuOC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+eHdheWxhbmQveHdheWxhbmRfMjQuMS45LmJiCkBAIC0xLDMgKzEsMjUgQEAKKyMgRklYTUU6IHRo
+ZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1
+cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBv
+bGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNF
+IHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29t
+bWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNl
+bnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6
+CisjCisjIC0tLSBDT1BZSU5HCisjICsrKyBDT1BZSU5HCisjIEBAIC0xNiw3ICsxNiw3IEBACisj
+ICBDb3B5cmlnaHQgwqkgMjAwNi0yMDA4IFBldGVyIEh1dHRlcmVyCisjICBDb3B5cmlnaHQgwqkg
+MjAwNiBBZGFtIEphY2tzb24KKyMgIENvcHlyaWdodCDCqSAyMDA5LTIwMTAgTlZJRElBIENvcnBv
+cmF0aW9uCisjIC1Db3B5cmlnaHQgwqkgMTk4NywgMjAwMy0yMDA2LCAyMDA4LTIwMTAgT3JhY2xl
+IGFuZC9vciBpdHMgYWZmaWxpYXRlcy4KKyMgK0NvcHlyaWdodCDCqSAxOTg3LCAyMDAzLTIwMDYs
+IDIwMDgtMjAxMCwgMjAyNSBPcmFjbGUgYW5kL29yIGl0cyBhZmZpbGlhdGVzLgorIyAgQ29weXJp
+Z2h0IMKpIDE5OTkgS2VpdGggUGFja2FyZAorIyAgQ29weXJpZ2h0IMKpIDIwMDctMjAwOSBSZWQg
+SGF0LCBJbmMuCisjICBDb3B5cmlnaHQgwqkgMjAwNS0yMDA4IERhbmllbCBTdG9uZQorIyAKKyMK
+KwogU1VNTUFSWSA9ICJYV2F5bGFuZCBpcyBhbiBYIFNlcnZlciB0aGF0IHJ1bnMgdW5kZXIgV2F5
+bGFuZC4iCiBERVNDUklQVElPTiA9ICJYV2F5bGFuZCBpcyBhbiBYIFNlcnZlciBydW5uaW5nIGFz
+IGEgV2F5bGFuZCBjbGllbnQsIFwKIGFuZCB0aHVzIGlzIGNhcGFibGUgb2YgZGlzcGxheWluZyBu
+YXRpdmUgWDExIGNsaWVudCBhcHBsaWNhdGlvbnMgaW4gYSBcCkBAIC03LDEwICsyOSwxMCBAQCBh
+IHdheSB0byBydW4gdW5wb3J0ZWQgYXBwbGljYXRpb25zIGluIHRoZSBtZWFudGltZS4iCiBIT01F
+UEFHRSA9ICJodHRwczovL2ZlZG9yYXByb2plY3Qub3JnL3dpa2kvQ2hhbmdlcy9Yd2F5bGFuZFN0
+YW5kYWxvbmUiCiAKIExJQ0VOU0UgPSAiTUlUIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
+Q09QWUlORzttZDU9NWRmODc5NTBhZjUxYWMyYzU4MjIwOTQ1NTNlYTE4ODAiCitMSUNfRklMRVNf
+Q0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0yMWUzM2RjY2NmMmQ1MDM0Zjc5OGE4ZWE2MjYy
+MjkzOSIKIAogU1JDX1VSSSA9ICJodHRwczovL3d3dy54Lm9yZy9hcmNoaXZlL2luZGl2aWR1YWwv
+eHNlcnZlci94d2F5bGFuZC0ke1BWfS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzg5
+MDhkNTdjOGVkOWNlYjgyOTNjMTZiYTdhZDVhZjUyMmVmYWYxYmE3ZTUxZjllNGNmM2MwNzc0ZDE5
+OTkwNyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJmMjk3YWYyN2E4NDUwOGRiOWI4MGQxY2JiY2M2
+OWMzODAxZGEzOGViNjRjNzJmM2I1YjUwZjU4MjQ1OWFmZGQwIgogCiBVUFNUUkVBTV9DSEVDS19S
+RUdFWCA9ICJ4d2F5bGFuZC0oP1A8cHZlcj5cZCsoXC4oPyE5MFxkKVxkKykrKVwudGFyIgogCi0t
+IAoyLjQ3LjEKCg==
 
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-6d26012483d04eb52189b00a73ed5ece0ecd86f5"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:6d26012483d04eb52189b00a73ed5ece0ecd86f5"
-meta-yocto-bsp       
-meta-poky            = "master:66ea31cee15309af07afeee8dec8a6fe1d92d28e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 489 Local 479 Mirrors 0 Missed 10 Current 761 (97% match, 99% complete)
-Removing 1 stale sstate objects for arch qemux86_64...done.
-Removing 9 stale sstate objects for arch x86-64-v3...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 1036 of 1250 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2987 of 3453 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_fetch)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_fetch: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_fetch: Succeeded
-NOTE: Running task 3434 of 3453 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_unpack)
-NOTE: Running task 3435 of 3453 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_unpack: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_unpack: Succeeded
-NOTE: recipe puzzles-2_0.0+git-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3436 of 3453 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_patch)
-NOTE: Running task 3437 of 3453 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_collect_spdx_deps)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_patch: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_patch: Succeeded
-NOTE: Running task 3439 of 3453 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_generate_toolchain_file)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_collect_spdx_deps: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_generate_toolchain_file: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_generate_toolchain_file: Succeeded
-NOTE: Running task 3441 of 3453 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_configure)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_configure: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe puzzles-2_0.0+git-r0: task do_configure: Succeeded
-NOTE: Running task 3442 of 3453 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_compile)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_compile: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_compile: Succeeded
-NOTE: Running task 3443 of 3453 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_install)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_install: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_install: Succeeded
-NOTE: Running task 3444 of 3453 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_package)
-NOTE: Running task 3445 of 3453 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_sysroot)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_package: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_sysroot: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_sysroot unihash changed to 2963d2edcacb715de75828460f5c9ed224f0b0e2b793ee90eaa084c40797b712
-NOTE: Setscene tasks completed
-NOTE: recipe puzzles-2_0.0+git-r0: task do_package: Succeeded
-NOTE: Running task 3446 of 3453 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_packagedata: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_packagedata: Failed
-NOTE: Tasks Summary: Attempted 3446 tasks of which 3434 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251105220033.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251105220033.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/puzzles/0.0+git/temp/log.do_packagedata.4033265
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-src went backwards which would break package feeds (from 2:0.0+git0+a7c7826bce-r0 to 2:0.0+git0+790f585150-r0) [version-going-backwards]
-ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-dbg went backwards which would break package feeds (from 2:0.0+git0+a7c7826bce-r0 to 2:0.0+git0+790f585150-r0) [version-going-backwards]
-ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-staticdev went backwards which would break package feeds (from 2:0.0+git0+a7c7826bce-r0 to 2:0.0+git0+790f585150-r0) [version-going-backwards]
-ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-dev went backwards which would break package feeds (from 2:0.0+git0+a7c7826bce-r0 to 2:0.0+git0+790f585150-r0) [version-going-backwards]
-ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-doc went backwards which would break package feeds (from 2:0.0+git0+a7c7826bce-r0 to 2:0.0+git0+790f585150-r0) [version-going-backwards]
-ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-locale went backwards which would break package feeds (from 2:0.0+git0+a7c7826bce-r0 to 2:0.0+git0+790f585150-r0) [version-going-backwards]
-ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles went backwards which would break package feeds (from 2:0.0+git0+a7c7826bce-r0 to 2:0.0+git0+790f585150-r0) [version-going-backwards]
-ERROR: puzzles-2_0.0+git-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/puzzles/0.0+git/temp/log.do_packagedata.4033265
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata) failed with exit code '1'
-
---===============4445059507130826298==--
+--===============0127653571617714362==--
 
