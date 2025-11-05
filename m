@@ -2,142 +2,471 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39869CD37BF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEAFECD4849
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:48 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2356.1762384577484165766
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2351.1762384575994735130
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:16:44 -0800
+ Wed, 05 Nov 2025 15:16:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=EVSCQzLH;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Nj3DWgjg;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019a564ee955-030db8e4-4fed-41c0-a0a4-21cb39f6f0a8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=HESNWuyM;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Yavd2NN2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019a564ed5d9-5a32dde0-41f8-4095-b0a3-0701f9f023fa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1762384603;
+	t=1762384598;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=PTfXxynEvfbAKd+GSy1v+Dzauulz67Q1VbV0lX3iOHA=;
-	b=EVSCQzLH3LB6SYp+7IFWKH+mDgMwxbGj1Sq5V4dDFn7RlSFF/62t/AO0MwopGcjR
-	2S6JlZ10ChSWte57nv3aIb2wxstdyf4S8WX/XxmAEbl6oHxLbz19VTb+WdSPKHbzaa7
-	QakGkXeYHBn9YEG5FwFVEmUMn8DPCrrmCmeFAHLY=
+	bh=UvZFvWY2VL7StXD+QlD1F+laajTelI1H55/hVWRJQjM=;
+	b=HESNWuyMvt6U/yG6IX1HpeFkekxru3OZcPz/0tEbUoeo15/Vs/NLW1NtME8MQl21
+	wdLltFjwVlQzj67ZdxjHoTSy5xOE+DCGZ3FnXA8ePgMdOUm9Zo72MAxV/jo2JblX3bu
+	vZvKR8ZgPO/nMsYAd5Pw/cXSiLsW47Am7US8v+po=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384603;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384598;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=PTfXxynEvfbAKd+GSy1v+Dzauulz67Q1VbV0lX3iOHA=;
-	b=Nj3DWgjg6tNT/wW8ui/zCZ5AMRSFdkiJ/QRvi7FCvm0My9gdZq56S73oTPzfcm66
-	QesGD8NzRAp2PVKFPmxVdQ3WEqSXQqQJBtpc/hGeW7ificRGm/iC+m0UVjwUMTceW4u
-	esm0JZgcpqdfERRafZbu2qEyOIDJA4D5KHOAgSFQ=
-Content-Type: multipart/mixed; boundary="===============6623143228727599291=="
+	bh=UvZFvWY2VL7StXD+QlD1F+laajTelI1H55/hVWRJQjM=;
+	b=Yavd2NN2Q+RAgHaCOTQJVA0PgN2AKeXD2c1tZ6UbiDztw5bvyVD71AxlTQO9UxGk
+	5fw+dkyx0SlCDBr1HlGcSpMdYIWdPU4/FQ6g8QcthM45Nn6y1UwWyHf+83DTSxPI+eK
+	0NbUE9KGnwjO9HJRjWiZQaIDzg6o6UfE2RC65+gE=
+Content-Type: multipart/mixed; boundary="===============6971662990223751369=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] mpg123: upgrading to 1.33.3 SUCCEEDED
-Message-ID: <0101019a564ee955-030db8e4-4fed-41c0-a0a4-21cb39f6f0a8-000000@us-west-2.amazonses.com>
-Date: Wed, 5 Nov 2025 23:16:43 +0000
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] freetype: upgrading to 2.14.1 SUCCEEDED
+Message-ID: <0101019a564ed5d9-5a32dde0-41f8-4095-b0a3-0701f9f023fa-000000@us-west-2.amazonses.com>
+Date: Wed, 5 Nov 2025 23:16:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.05-54.240.27.193
+X-SES-Outgoing: 2025.11.05-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225907
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225884
 
---===============6623143228727599291==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-
-Hello,
-
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *mpg123* to *1.33.3* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-mpg123-upgrade-1.33.2-1.33.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From e3708e2bbf25cb26deb48ac3973148782d04d79c Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 5 Nov 2025 21:56:54 +0000
-Subject: [PATCH] mpg123: upgrade 1.33.2 -> 1.33.3
-
----
- .../mpg123/{mpg123_1.33.2.bb => mpg123_1.33.3.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/mpg123/{mpg123_1.33.2.bb => mpg123_1.33.3.bb} (96%)
-
-diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.33.2.bb b/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb
-similarity index 96%
-rename from meta/recipes-multimedia/mpg123/mpg123_1.33.2.bb
-rename to meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb
-index 23bb400ce5..b1897fe95d 100644
---- a/meta/recipes-multimedia/mpg123/mpg123_1.33.2.bb
-+++ b/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb
-@@ -10,7 +10,7 @@ LICENSE = "LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e7b9c15fcfb986abb4cc5e8400a24169"
- 
- SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "2c54fabbfa696dce8f9b137c8ef7a429a061f8fe633cd7d0a511809855f2c219"
-+SRC_URI[sha256sum] = "6a0c6472dd156e213c2068f40115ebbb73978c2d873e66bae2a250e2d2198d26"
- 
- UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
- 
--- 
-2.47.1
-
-
---===============6623143228727599291==
-Content-Type: application/octet-stream
+--===============6971662990223751369==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-mpg123-upgrade-1.33.2-1.33.3.patch"
 
-RnJvbSBlMzcwOGUyYmJmMjVjYjI2ZGViNDhhYzM5NzMxNDg3ODJkMDRkNzljIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAyMTo1Njo1NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1w
-ZzEyMzogdXBncmFkZSAxLjMzLjIgLT4gMS4zMy4zCgotLS0KIC4uLi9tcGcxMjMve21wZzEyM18x
-LjMzLjIuYmIgPT4gbXBnMTIzXzEuMzMuMy5iYn0gICAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1tdWx0aW1lZGlhL21wZzEyMy97bXBnMTIzXzEuMzMuMi5iYiA9PiBtcGcxMjNfMS4zMy4z
-LmJifSAoOTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL21wZzEyMy9t
-cGcxMjNfMS4zMy4yLmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbXBnMTIzL21wZzEyM18x
-LjMzLjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11
-bHRpbWVkaWEvbXBnMTIzL21wZzEyM18xLjMzLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1t
-dWx0aW1lZGlhL21wZzEyMy9tcGcxMjNfMS4zMy4zLmJiCmluZGV4IDIzYmI0MDBjZTUuLmIxODk3
-ZmU5NWQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL21wZzEyMy9tcGcxMjNf
-MS4zMy4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL21wZzEyMy9tcGcxMjNfMS4z
-My4zLmJiCkBAIC0xMCw3ICsxMCw3IEBAIExJQ0VOU0UgPSAiTEdQTC0yLjEtb25seSIKIExJQ19G
-SUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWU3YjljMTVmY2ZiOTg2YWJiNGNjNWU4
-NDAwYTI0MTY5IgogCiBTUkNfVVJJID0gImh0dHBzOi8vd3d3Lm1wZzEyMy5kZS9kb3dubG9hZC8k
-e0JQfS50YXIuYnoyIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjJjNTRmYWJiZmE2OTZkY2U4Zjli
-MTM3YzhlZjdhNDI5YTA2MWY4ZmU2MzNjZDdkMGE1MTE4MDk4NTVmMmMyMTkiCitTUkNfVVJJW3No
-YTI1NnN1bV0gPSAiNmEwYzY0NzJkZDE1NmUyMTNjMjA2OGY0MDExNWViYmI3Mzk3OGMyZDg3M2U2
-NmJhZTJhMjUwZTJkMjE5OGQyNiIKIAogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAibXBnMTIzLSg/
-UDxwdmVyPlxkKyhcLlxkKykrKVwudGFyIgogCi0tIAoyLjQ3LjEKCg==
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICpmcmVldHlwZSogdG8gKjIuMTQuMSogaGFzIFN1Y2NlZWRlZC4KCk5leHQgc3RlcHM6CiAg
+ICAtIGFwcGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtZnJlZXR5cGUtdXBncmFkZS0yLjEzLjMt
+Mi4xNC4xLnBhdGNoCiAgICAtIGNoZWNrIHRoZSBjaGFuZ2VzIHRvIHVwc3RyZWFtIHBhdGNoZXMg
+YW5kIHN1bW1hcml6ZSB0aGVtIGluIHRoZSBjb21taXQgbWVzc2FnZSwKICAgIC0gY29tcGlsZSBh
+biBpbWFnZSB0aGF0IGNvbnRhaW5zIHRoZSBwYWNrYWdlCiAgICAtIHBlcmZvcm0gc29tZSBiYXNp
+YyBzYW5pdHkgdGVzdHMKICAgIC0gYW1lbmQgdGhlIHBhdGNoIGFuZCBzaWduIGl0IG9mZjogZ2l0
+IGNvbW1pdCAtcyAtLXJlc2V0LWF1dGhvciAtLWFtZW5kCiAgICAtIHNlbmQgaXQgdG8gdGhlIGFw
+cHJvcHJpYXRlIG1haWxpbmcgbGlzdAoKQWx0ZXJuYXRpdmVseSwgaWYgeW91IGJlbGlldmUgdGhl
+IHJlY2lwZSBzaG91bGQgbm90IGJlIHVwZ3JhZGVkIGF0IHRoaXMgdGltZSwKeW91IGNhbiBmaWxs
+IFJFQ0lQRV9OT19VUERBVEVfUkVBU09OIGluIHJlc3BlY3RpdmUgcmVjaXBlIGZpbGUgc28gdGhh
+dAphdXRvbWF0aWMgdXBncmFkZXMgd291bGQgbm8gbG9uZ2VyIGJlIGF0dGVtcHRlZC4KClBsZWFz
+ZSByZXZpZXcgdGhlIGF0dGFjaGVkIGZpbGVzIGZvciBmdXJ0aGVyIGluZm9ybWF0aW9uIGFuZCBi
+dWlsZC91cGRhdGUgZmFpbHVyZXMuCkFueSBwcm9ibGVtIHBsZWFzZSBmaWxlIGEgYnVnIGF0IGh0
+dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9lbnRlcl9idWcuY2dpP3Byb2R1Y3Q9QXV0
+b21hdGVkJTIwVXBkYXRlJTIwSGFuZGxlcgoKUmVnYXJkcywKVGhlIFVwZ3JhZGUgSGVscGVyCgot
+LSA+OCAtLQpGcm9tIDY1Y2M5MzE2YjVlODZkMjA1NjQ1NzhkOWIwMmVmYmRmZWU2M2E1MTggTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCkZyb206IFVwZ3JhZGUgSGVscGVyIDxhdWhAeW9jdG9wcm9q
+ZWN0Lm9yZz4KRGF0ZTogV2VkLCA1IE5vdiAyMDI1IDIwOjE2OjQxICswMDAwClN1YmplY3Q6IFtQ
+QVRDSF0gZnJlZXR5cGU6IHVwZ3JhZGUgMi4xMy4zIC0+IDIuMTQuMQoKLS0tCiAuLi57ZnJlZXR5
+cGVfMi4xMy4zLmJiID0+IGZyZWV0eXBlXzIuMTQuMS5iYn0gfCA1MyArKysrKysrKysrKysrKysr
+Ky0tCiAxIGZpbGUgY2hhbmdlZCwgNTAgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZnJlZXR5cGUve2ZyZWV0eXBlXzIuMTMuMy5iYiA9
+PiBmcmVldHlwZV8yLjE0LjEuYmJ9ICg0NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdy
+YXBoaWNzL2ZyZWV0eXBlL2ZyZWV0eXBlXzIuMTMuMy5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGlj
+cy9mcmVldHlwZS9mcmVldHlwZV8yLjE0LjEuYmIKc2ltaWxhcml0eSBpbmRleCA0NyUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2ZyZWV0eXBlL2ZyZWV0eXBlXzIuMTMuMy5iYgpy
+ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2ZyZWV0eXBlL2ZyZWV0eXBlXzIuMTQuMS5i
+YgppbmRleCBkYmZmZmRiNjVmLi5iNmUzM2M4Mjc0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MvZnJlZXR5cGUvZnJlZXR5cGVfMi4xMy4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1n
+cmFwaGljcy9mcmVldHlwZS9mcmVldHlwZV8yLjE0LjEuYmIKQEAgLTEsMyArMSw1MCBAQAorIyBG
+SVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdk
+ZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdl
+ZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhl
+IExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisj
+IHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBs
+ZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUg
+Y2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UuVFhUCisjICsrKyBMSUNFTlNFLlRYVAorIyBAQCAt
+MzUsOSArMzUsMTAgQEAKKyMgIFRoZSBnemlwICBtb2R1bGUgdXNlcyB0aGUgIHpsaWIgbGljZW5z
+ZSAoc2VlICBgc3JjL2d6aXAvemxpYi5oYCkgd2hpY2gKKyMgIHRvbyBpcyBjb21wYXRpYmxlIHRv
+IHRoZSBhYm92ZSB0d28gbGljZW5zZXMuCisjICAKKyMgLVRoZSBmaWxlcyBgc3JjL2F1dG9maXQv
+ZnQtaGIuY2AgYW5kIGBzcmMvYXV0b2ZpdC9mdC1oYi5oYCBjb250YWluIGNvZGUKKyMgLXRha2Vu
+IGFsbW9zdCAgdmVyYmF0aW0gZnJvbSB0aGUgIEhhcmZCdXp6IGZpbGUgYGhiLWZ0LmNjYCwgIHdo
+aWNoIHVzZXMKKyMgLXRoZSAnT2xkIE1JVCcgbGljZW5zZSwgY29tcGF0aWJsZSB0byB0aGUgYWJv
+dmUgdHdvIGxpY2Vuc2VzLgorIyArVGhlICAgZmlsZXMgICBgc3JjL2F1dG9maXQvZnQtaGItZnQu
+Y2AsICAgYHNyYy9hdXRvZml0L2Z0LWhiLWRlY2xzLmhgLAorIyArYHNyYy9hdXRvZml0L2Z0LWhi
+LXR5cGVzLmhgLCAgICAgYW5kICAgIGBzcmMvYXV0b2ZpdC9oYi1zY3JpcHQtbGlzdC5oYAorIyAr
+Y29udGFpbiBjb2RlIHRha2VuIChhbG1vc3QpIHZlcmJhdGltICBmcm9tIHRoZSBIYXJmQnV6eiBs
+aWJyYXJ5LCB3aGljaAorIyArdXNlcyB0aGUgJ09sZCBNSVQnIGxpY2Vuc2UgY29tcGF0aWJsZSB0
+byB0aGUgYWJvdmUgdHdvIGxpY2Vuc2VzLgorIyAgCisjICBUaGUgIE1ENSBjaGVja3N1bSAgc3Vw
+cG9ydCAgKG9ubHkgdXNlZCAgZm9yICBkZWJ1Z2dpbmcgaW4gIGRldmVsb3BtZW50CisjICBidWls
+ZHMpIGlzIGluIHRoZSBwdWJsaWMgZG9tYWluLgorIyAtLS0gZG9jcy9GVEwuVFhUCisjICsrKyBk
+b2NzL0ZUTC5UWFQKKyMgQEAgLTQ5LDcgKzQ5LDcgQEAKKyMgIAorIyAgICAgIiIiCisjICAgICAg
+UG9ydGlvbnMgb2YgdGhpcyBzb2Z0d2FyZSBhcmUgY29weXJpZ2h0IMKpIDx5ZWFyPiBUaGUgRnJl
+ZVR5cGUKKyMgLSAgICBQcm9qZWN0ICh3d3cuZnJlZXR5cGUub3JnKS4gIEFsbCByaWdodHMgcmVz
+ZXJ2ZWQuCisjICsgICAgUHJvamVjdCAoaHR0cHM6Ly9mcmVldHlwZS5vcmcpLiAgQWxsIHJpZ2h0
+cyByZXNlcnZlZC4KKyMgICAgICIiIgorIyAgCisjICAgIFBsZWFzZSByZXBsYWNlIDx5ZWFyPiB3
+aXRoIHRoZSB2YWx1ZSBmcm9tIHRoZSBGcmVlVHlwZSB2ZXJzaW9uIHlvdQorIyBAQCAtMTYzLDcg
+KzE2Myw3IEBACisjICAKKyMgICAgT3VyIGhvbWUgcGFnZSBjYW4gYmUgZm91bmQgYXQKKyMgIAor
+IyAtICAgIGh0dHBzOi8vd3d3LmZyZWV0eXBlLm9yZworIyArICAgIGh0dHBzOi8vZnJlZXR5cGUu
+b3JnCisjICAKKyMgIAorIyAgLS0tIGVuZCBvZiBGVEwuVFhUIC0tLQorIyAKKyMKKwogU1VNTUFS
+WSA9ICJGcmVldHlwZSBmb250IHJlbmRlcmluZyBsaWJyYXJ5IgogREVTQ1JJUFRJT04gPSAiRnJl
+ZVR5cGUgaXMgYSBzb2Z0d2FyZSBmb250IGVuZ2luZSB0aGF0IGlzIGRlc2lnbmVkIHRvIGJlIHNt
+YWxsLCBlZmZpY2llbnQsIFwKIGhpZ2hseSBjdXN0b21pemFibGUsIGFuZCBwb3J0YWJsZSB3aGls
+ZSBjYXBhYmxlIG9mIHByb2R1Y2luZyBoaWdoLXF1YWxpdHkgb3V0cHV0IChnbHlwaCBcCkBAIC04
+LDEzICs1NSwxMyBAQCBCVUdUUkFDS0VSID0gImh0dHBzOi8vc2F2YW5uYWgubm9uZ251Lm9yZy9i
+dWdzLz9ncm91cD1mcmVldHlwZSIKIFNFQ1RJT04gPSAibGlicyIKIAogTElDRU5TRSA9ICIoRlRM
+IHwgR1BMLTIuMC1vci1sYXRlcikgJiBNSVQiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
+SUNFTlNFLlRYVDttZDU9ODQzYjZlZmMxNmY2YjE2NTJlYzk3Zjg5ZDVhNTE2YzAgXAotICAgICAg
+ICAgICAgICAgICAgICBmaWxlOi8vZG9jcy9GVEwuVFhUO21kNT05ZjM3YjRlNmFmYTNmZWY5ZGJh
+ODkzMmIxNmJkM2Y5NyBcCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLlRYVDtt
+ZDU9ZWViMDczZDVmYjg2ZDIzYzUyYmI5Yjg0YWEyNTYzMDcgXAorICAgICAgICAgICAgICAgICAg
+ICBmaWxlOi8vZG9jcy9GVEwuVFhUO21kNT03MmQ4NDRjZDJmM2JjYWY2YTg1MjQ0YjUwODAzMmJl
+NyBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9kb2NzL0dQTHYyLlRYVDttZDU9OGVmMzgw
+NDc2ZjY0MmMyMGViZjQwZmVjYjBhZGQyZWMgXAogICAgICAgICAgICAgICAgICAgICAiCiAKIFNS
+Q19VUkkgPSAiJHtTQVZBTk5BSF9OT05HTlVfTUlSUk9SfS8ke0JQTn0vJHtCUH0udGFyLnh6Igot
+U1JDX1VSSVtzaGEyNTZzdW1dID0gIjA1NTAzNTA2NjZkNDI3Yzc0ZGFlYjg1ZDVhYzdiYjM1M2Fj
+YmE1Zjc2OTU2Mzk1OTk1MzExYTljNmYwNjMyODkiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzI0
+MjdlOGM0NzFhYzA5NTg1MzIxMmEzN2FlZjgxNmM2MGI0MjA1MmQ0ZDllNDgyMzBiYWIzYmRmMjkz
+NmNjYyIKIAogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAiZnJlZXR5cGUtKD9QPHB2ZXI+XGQrKFwu
+XGQrKSspIgogCi0tIAoyLjQ3LjEKCg==
 
---===============6623143228727599291==
+--===============6971662990223751369==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/x86-64-v3-poky-linux/freetype/freetype: FILELIST: removed "/usr/lib/libfreetype.so.6.20.2", added "/usr/lib/libfreetype.so.6.20.4"
+Changes to packages/x86-64-v3-poky-linux/freetype (sysroot):
+  /usr/lib/libfreetype.so.6 changed symlink target from libfreetype.so.6.20.2 to libfreetype.so.6.20.4
+  /usr/lib/libfreetype.so changed symlink target from libfreetype.so.6.20.2 to libfreetype.so.6.20.4
+  /usr/lib/libfreetype.so.6.20.2 moved to /usr/lib/libfreetype.so.6.20.4
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -1736,29 +2065,370 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============6623143228727599291==
+--===============6971662990223751369==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/mpg123: SRC_URI changed from "https://www.mpg123.de/download/mpg123-1.33.2.tar.bz2" to "https://www.mpg123.de/download/mpg123-1.33.3.tar.bz2"
-packages/x86-64-v3-poky-linux/mpg123: PKGV changed from 1.33.2 [default] to 1.33.3 [default]
-packages/x86-64-v3-poky-linux/mpg123: PV changed from "1.33.2" to "1.33.3"
-packages/x86-64-v3-poky-linux/mpg123/mpg123-dbg: PKGV changed from 1.33.2 [default] to 1.33.3 [default]
-packages/x86-64-v3-poky-linux/mpg123/mpg123-dbg: PV changed from "1.33.2" to "1.33.3"
-packages/x86-64-v3-poky-linux/mpg123/mpg123-dev: PKGV changed from 1.33.2 [default] to 1.33.3 [default]
-packages/x86-64-v3-poky-linux/mpg123/mpg123-dev: PV changed from "1.33.2" to "1.33.3"
-packages/x86-64-v3-poky-linux/mpg123/mpg123-doc: PKGV changed from 1.33.2 [default] to 1.33.3 [default]
-packages/x86-64-v3-poky-linux/mpg123/mpg123-doc: PV changed from "1.33.2" to "1.33.3"
-packages/x86-64-v3-poky-linux/mpg123/mpg123-locale: PKGV changed from 1.33.2 [default] to 1.33.3 [default]
-packages/x86-64-v3-poky-linux/mpg123/mpg123-locale: PV changed from "1.33.2" to "1.33.3"
-packages/x86-64-v3-poky-linux/mpg123/mpg123-src: PKGV changed from 1.33.2 [default] to 1.33.3 [default]
-packages/x86-64-v3-poky-linux/mpg123/mpg123-src: PV changed from "1.33.2" to "1.33.3"
-packages/x86-64-v3-poky-linux/mpg123/mpg123-staticdev: PKGV changed from 1.33.2 [default] to 1.33.3 [default]
-packages/x86-64-v3-poky-linux/mpg123/mpg123-staticdev: PV changed from "1.33.2" to "1.33.3"
-packages/x86-64-v3-poky-linux/mpg123/mpg123: PKGV changed from 1.33.2 [default] to 1.33.3 [default]
-packages/x86-64-v3-poky-linux/mpg123/mpg123: PV changed from "1.33.2" to "1.33.3"
+packages/x86-64-v3-poky-linux/freetype/freetype-dbg: PV changed from "2.13.3" to "2.14.1"
+packages/x86-64-v3-poky-linux/freetype/freetype-dbg: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
+packages/x86-64-v3-poky-linux/freetype/freetype-dbg: FILELIST: removed "/usr/lib/.debug/libfreetype.so.6.20.2", added "/usr/lib/.debug/libfreetype.so.6.20.4"
+packages/x86-64-v3-poky-linux/freetype/freetype-dbg: PKGSIZE changed from 2685504 to 2705448 (+1%)
+packages/x86-64-v3-poky-linux/freetype/freetype-dev: PV changed from "2.13.3" to "2.14.1"
+packages/x86-64-v3-poky-linux/freetype/freetype-dev: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
+packages/x86-64-v3-poky-linux/freetype/freetype-dev: PKGSIZE changed from 879678 to 885623 (+1%)
+packages/x86-64-v3-poky-linux/freetype/freetype-doc: PV changed from "2.13.3" to "2.14.1"
+packages/x86-64-v3-poky-linux/freetype/freetype-doc: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
+packages/x86-64-v3-poky-linux/freetype/freetype-locale: PV changed from "2.13.3" to "2.14.1"
+packages/x86-64-v3-poky-linux/freetype/freetype-locale: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
+packages/x86-64-v3-poky-linux/freetype/freetype-src: PV changed from "2.13.3" to "2.14.1"
+packages/x86-64-v3-poky-linux/freetype/freetype-src: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
+packages/x86-64-v3-poky-linux/freetype/freetype-src: FILELIST: directory renamed /usr/src/debug/freetype/2.13.3/builds/unix -> /usr/src/debug/freetype/2.14.1/builds/unix, directory renamed /usr/src/debug/freetype/2.13.3/src/cid -> /usr/src/debug/freetype/2.14.1/src/cid, directory renamed /usr/src/debug/freetype/2.13.3/src/pfr -> /usr/src/debug/freetype/2.14.1/src/pfr, directory renamed /usr/src/debug/freetype/2.13.3/src/pshinter -> /usr/src/debug/freetype/2.14.1/src/pshinter, directory renamed /usr/src/debug/freetype/2.13.3/src/raster -> /usr/src/debug/freetype/2.14.1/src/raster, directory renamed /usr/src/debug/freetype/2.13.3/include/freetype/internal -> /usr/src/debug/freetype/2.14.1/include/freetype/internal, directory renamed /usr/src/debug/freetype/2.13.3/src/gzip -> /usr/src/debug/freetype/2.14.1/src/gzip, directory renamed /usr/src/debug/freetype/2.13.3/src/bdf -> /usr/src/debug/freetype/2.14.1/src/bdf, directory renamed /usr/src/debug/freetype/2.13.3/src/cache -> /usr/src/de
+ bug/freetype/2.14.1/src/cache, directory renamed /usr/src/debug/freetype/2.13.3/src/svg -> /usr/src/debug/freetype/2.14.1/src/svg, directory renamed /usr/src/debug/freetype/2.13.3/src/truetype -> /usr/src/debug/freetype/2.14.1/src/truetype, directory renamed /usr/src/debug/freetype/2.13.3/src/winfonts -> /usr/src/debug/freetype/2.14.1/src/winfonts, directory renamed /usr/src/debug/freetype/2.13.3/src/smooth -> /usr/src/debug/freetype/2.14.1/src/smooth, directory renamed /usr/src/debug/freetype/2.13.3 -> /usr/src/debug/freetype/2.14.1, directory renamed /usr/src/debug/freetype/2.13.3/src/base -> /usr/src/debug/freetype/2.14.1/src/base, directory renamed /usr/src/debug/freetype/2.13.3/src/bzip2 -> /usr/src/debug/freetype/2.14.1/src/bzip2, directory renamed /usr/src/debug/freetype/2.13.3/include/freetype -> /usr/src/debug/freetype/2.14.1/include/freetype, directory renamed /usr/src/debug/freetype/2.13.3/src/psaux -> /usr/src/debug/freetype/2.14.1/src/psaux, directory renamed /usr/src/d
+ ebug/freetype/2.13.3/src/cff -> /usr/src/debug/freetype/2.14.1/src/cff, directory renamed /usr/src/debug/freetype/2.13.3/include/freetype/internal/services -> /usr/src/debug/freetype/2.14.1/include/freetype/internal/services, directory renamed /usr/src/debug/freetype/2.13.3/src/pcf -> /usr/src/debug/freetype/2.14.1/src/pcf, directory renamed /usr/src/debug/freetype/2.13.3/src/sfnt -> /usr/src/debug/freetype/2.14.1/src/sfnt, directory renamed /usr/src/debug/freetype/2.13.3/src/sdf -> /usr/src/debug/freetype/2.14.1/src/sdf, directory renamed /usr/src/debug/freetype/2.13.3/src/psnames -> /usr/src/debug/freetype/2.14.1/src/psnames, directory renamed /usr/src/debug/freetype/2.13.3/src/type42 -> /usr/src/debug/freetype/2.14.1/src/type42, directory renamed /usr/src/debug/freetype/2.13.3/src/lzw -> /usr/src/debug/freetype/2.14.1/src/lzw, directory renamed /usr/src/debug/freetype/2.13.3/src/type1 -> /usr/src/debug/freetype/2.14.1/src/type1, directory renamed /usr/src/debug/freetype/2.13.3/in
+ clude/freetype/config -> /usr/src/debug/freetype/2.14.1/include/freetype/config, removed "/usr/src/debug/freetype/2.13.3/src/autofit/afglobal.h /usr/src/debug/freetype/2.13.3/src/autofit/afglobal.c /usr/src/debug/freetype/2.13.3/src/autofit/afstyles.h /usr/src/debug/freetype/2.13.3/src/autofit/afshaper.c /usr/src/debug/freetype/2.13.3/src/autofit/afranges.c /usr/src/debug/freetype/2.13.3/src/autofit/afscript.h /usr/src/debug/freetype/2.13.3/src/autofit/afcjk.c /usr/src/debug/freetype/2.13.3/src/autofit/afmodule.h /usr/src/debug/freetype/2.13.3/src/autofit/aftypes.h /usr/src/debug/freetype/2.13.3/src/autofit/afcjk.h /usr/src/debug/freetype/2.13.3/src/autofit/afmodule.c /usr/src/debug/freetype/2.13.3/src/autofit/afhints.h /usr/src/debug/freetype/2.13.3/src/autofit/afdummy.c /usr/src/debug/freetype/2.13.3/src/autofit/afhints.c /usr/src/debug/freetype/2.13.3/src/autofit/afdummy.h /usr/src/debug/freetype/2.13.3/src/autofit/afindic.h /usr/src/debug/freetype/2.13.3/src/autofit/afblue.h /us
+ r/src/debug/freetype/2.13.3/src/autofit/afloader.c /usr/src/debug/freetype/2.13.3/src/autofit/afindic.c /usr/src/debug/freetype/2.13.3/src/autofit/afloader.h /usr/src/debug/freetype/2.13.3/src/autofit/afblue.c /usr/src/debug/freetype/2.13.3/src/autofit/aflatin.c /usr/src/debug/freetype/2.13.3/src/autofit/aflatin.h", added "/usr/src/debug/freetype/2.14.1/src/autofit/afglobal.h /usr/src/debug/freetype/2.14.1/src/autofit/afglobal.c /usr/src/debug/freetype/2.14.1/src/autofit/afstyles.h /usr/src/debug/freetype/2.14.1/src/autofit/afshaper.c /usr/src/debug/freetype/2.14.1/src/autofit/afranges.c /usr/src/debug/freetype/2.14.1/src/autofit/afscript.h /usr/src/debug/freetype/2.14.1/src/autofit/afcjk.c /usr/src/debug/freetype/2.14.1/src/autofit/afmodule.h /usr/src/debug/freetype/2.14.1/src/autofit/ft-hb.c /usr/src/debug/freetype/2.14.1/src/autofit/afadjust.c /usr/src/debug/freetype/2.14.1/src/autofit/aftypes.h /usr/src/debug/freetype/2.14.1/src/autofit/afcjk.h /usr/src/debug/freetype/2.14.1/src
+ /autofit/afmodule.c /usr/src/debug/freetype/2.14.1/src/autofit/afhints.h /usr/src/debug/freetype/2.14.1/src/autofit/afdummy.c /usr/src/debug/freetype/2.14.1/src/autofit/afhints.c /usr/src/debug/freetype/2.14.1/src/autofit/afdummy.h /usr/src/debug/freetype/2.14.1/src/autofit/afindic.h /usr/src/debug/freetype/2.14.1/src/autofit/afblue.h /usr/src/debug/freetype/2.14.1/src/autofit/afloader.c /usr/src/debug/freetype/2.14.1/src/autofit/afindic.c /usr/src/debug/freetype/2.14.1/src/autofit/afloader.h /usr/src/debug/freetype/2.14.1/src/autofit/afblue.c /usr/src/debug/freetype/2.14.1/src/autofit/aflatin.c /usr/src/debug/freetype/2.14.1/src/autofit/aflatin.h"
+packages/x86-64-v3-poky-linux/freetype/freetype-src: PKGSIZE changed from 5535548 to 5628258 (+2%)
+packages/x86-64-v3-poky-linux/freetype/freetype-staticdev: PV changed from "2.13.3" to "2.14.1"
+packages/x86-64-v3-poky-linux/freetype/freetype-staticdev: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
+packages/x86-64-v3-poky-linux/freetype/freetype: PV changed from "2.13.3" to "2.14.1"
+packages/x86-64-v3-poky-linux/freetype/freetype: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
+packages/x86-64-v3-poky-linux/freetype/freetype: FILELIST: removed "/usr/lib/libfreetype.so.6.20.2", added "/usr/lib/libfreetype.so.6.20.4"
+packages/x86-64-v3-poky-linux/freetype/freetype: PKGSIZE changed from 772093 to 776189 (+1%)
+packages/x86-64-v3-poky-linux/freetype: PV changed from "2.13.3" to "2.14.1"
+packages/x86-64-v3-poky-linux/freetype: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
+packages/x86-64-v3-poky-linux/freetype: SRC_URI changed from "https://download.savannah.nongnu.org/releases/freetype/freetype-2.13.3.tar.xz" to "https://download.savannah.nongnu.org/releases/freetype/freetype-2.14.1.tar.xz"
+Changes to packages/x86-64-v3-poky-linux/freetype (sysroot):
+  /usr/lib/libfreetype.so.6 changed symlink target from libfreetype.so.6.20.2 to libfreetype.so.6.20.4
+  /usr/lib/libfreetype.so changed symlink target from libfreetype.so.6.20.2 to libfreetype.so.6.20.4
+  /usr/lib/libfreetype.so.6.20.2 moved to /usr/lib/libfreetype.so.6.20.4
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -3357,848 +4027,78 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============6623143228727599291==
-Content-Type: text/plain; charset="us-ascii"
+--===============6971662990223751369==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-freetype-upgrade-2.13.3-2.14.1.patch"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 948 .bb files complete (0 cached, 948 parsed). 1946 targets, 54 skipped, 0 masked, 0 errors.
-Removing 79 recipes from the qemux86_64 sysroot...done.
-Removing 80 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+RnJvbSA2NWNjOTMxNmI1ZTg2ZDIwNTY0NTc4ZDliMDJlZmJkZmVlNjNhNTE4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAyMDoxNjo0MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGZy
+ZWV0eXBlOiB1cGdyYWRlIDIuMTMuMyAtPiAyLjE0LjEKCi0tLQogLi4ue2ZyZWV0eXBlXzIuMTMu
+My5iYiA9PiBmcmVldHlwZV8yLjE0LjEuYmJ9IHwgNTMgKysrKysrKysrKysrKysrKystLQogMSBm
+aWxlIGNoYW5nZWQsIDUwIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL2ZyZWV0eXBlL3tmcmVldHlwZV8yLjEzLjMuYmIgPT4gZnJlZXR5
+cGVfMi4xNC4xLmJifSAoNDclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9m
+cmVldHlwZS9mcmVldHlwZV8yLjEzLjMuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZnJlZXR5
+cGUvZnJlZXR5cGVfMi4xNC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggNDclCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1ncmFwaGljcy9mcmVldHlwZS9mcmVldHlwZV8yLjEzLjMuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1ncmFwaGljcy9mcmVldHlwZS9mcmVldHlwZV8yLjE0LjEuYmIKaW5kZXgg
+ZGJmZmZkYjY1Zi4uYjZlMzNjODI3NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L2ZyZWV0eXBlL2ZyZWV0eXBlXzIuMTMuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+ZnJlZXR5cGUvZnJlZXR5cGVfMi4xNC4xLmJiCkBAIC0xLDMgKzEsNTAgQEAKKyMgRklYTUU6IHRo
+ZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1
+cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBv
+bGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNF
+IHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29t
+bWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNl
+bnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6
+CisjCisjIC0tLSBMSUNFTlNFLlRYVAorIyArKysgTElDRU5TRS5UWFQKKyMgQEAgLTM1LDkgKzM1
+LDEwIEBACisjICBUaGUgZ3ppcCAgbW9kdWxlIHVzZXMgdGhlICB6bGliIGxpY2Vuc2UgKHNlZSAg
+YHNyYy9nemlwL3psaWIuaGApIHdoaWNoCisjICB0b28gaXMgY29tcGF0aWJsZSB0byB0aGUgYWJv
+dmUgdHdvIGxpY2Vuc2VzLgorIyAgCisjIC1UaGUgZmlsZXMgYHNyYy9hdXRvZml0L2Z0LWhiLmNg
+IGFuZCBgc3JjL2F1dG9maXQvZnQtaGIuaGAgY29udGFpbiBjb2RlCisjIC10YWtlbiBhbG1vc3Qg
+IHZlcmJhdGltIGZyb20gdGhlICBIYXJmQnV6eiBmaWxlIGBoYi1mdC5jY2AsICB3aGljaCB1c2Vz
+CisjIC10aGUgJ09sZCBNSVQnIGxpY2Vuc2UsIGNvbXBhdGlibGUgdG8gdGhlIGFib3ZlIHR3byBs
+aWNlbnNlcy4KKyMgK1RoZSAgIGZpbGVzICAgYHNyYy9hdXRvZml0L2Z0LWhiLWZ0LmNgLCAgIGBz
+cmMvYXV0b2ZpdC9mdC1oYi1kZWNscy5oYCwKKyMgK2BzcmMvYXV0b2ZpdC9mdC1oYi10eXBlcy5o
+YCwgICAgIGFuZCAgICBgc3JjL2F1dG9maXQvaGItc2NyaXB0LWxpc3QuaGAKKyMgK2NvbnRhaW4g
+Y29kZSB0YWtlbiAoYWxtb3N0KSB2ZXJiYXRpbSAgZnJvbSB0aGUgSGFyZkJ1enogbGlicmFyeSwg
+d2hpY2gKKyMgK3VzZXMgdGhlICdPbGQgTUlUJyBsaWNlbnNlIGNvbXBhdGlibGUgdG8gdGhlIGFi
+b3ZlIHR3byBsaWNlbnNlcy4KKyMgIAorIyAgVGhlICBNRDUgY2hlY2tzdW0gIHN1cHBvcnQgIChv
+bmx5IHVzZWQgIGZvciAgZGVidWdnaW5nIGluICBkZXZlbG9wbWVudAorIyAgYnVpbGRzKSBpcyBp
+biB0aGUgcHVibGljIGRvbWFpbi4KKyMgLS0tIGRvY3MvRlRMLlRYVAorIyArKysgZG9jcy9GVEwu
+VFhUCisjIEBAIC00OSw3ICs0OSw3IEBACisjICAKKyMgICAgICIiIgorIyAgICAgIFBvcnRpb25z
+IG9mIHRoaXMgc29mdHdhcmUgYXJlIGNvcHlyaWdodCDCqSA8eWVhcj4gVGhlIEZyZWVUeXBlCisj
+IC0gICAgUHJvamVjdCAod3d3LmZyZWV0eXBlLm9yZykuICBBbGwgcmlnaHRzIHJlc2VydmVkLgor
+IyArICAgIFByb2plY3QgKGh0dHBzOi8vZnJlZXR5cGUub3JnKS4gIEFsbCByaWdodHMgcmVzZXJ2
+ZWQuCisjICAgICAiIiIKKyMgIAorIyAgICBQbGVhc2UgcmVwbGFjZSA8eWVhcj4gd2l0aCB0aGUg
+dmFsdWUgZnJvbSB0aGUgRnJlZVR5cGUgdmVyc2lvbiB5b3UKKyMgQEAgLTE2Myw3ICsxNjMsNyBA
+QAorIyAgCisjICAgIE91ciBob21lIHBhZ2UgY2FuIGJlIGZvdW5kIGF0CisjICAKKyMgLSAgICBo
+dHRwczovL3d3dy5mcmVldHlwZS5vcmcKKyMgKyAgICBodHRwczovL2ZyZWV0eXBlLm9yZworIyAg
+CisjICAKKyMgIC0tLSBlbmQgb2YgRlRMLlRYVCAtLS0KKyMgCisjCisKIFNVTU1BUlkgPSAiRnJl
+ZXR5cGUgZm9udCByZW5kZXJpbmcgbGlicmFyeSIKIERFU0NSSVBUSU9OID0gIkZyZWVUeXBlIGlz
+IGEgc29mdHdhcmUgZm9udCBlbmdpbmUgdGhhdCBpcyBkZXNpZ25lZCB0byBiZSBzbWFsbCwgZWZm
+aWNpZW50LCBcCiBoaWdobHkgY3VzdG9taXphYmxlLCBhbmQgcG9ydGFibGUgd2hpbGUgY2FwYWJs
+ZSBvZiBwcm9kdWNpbmcgaGlnaC1xdWFsaXR5IG91dHB1dCAoZ2x5cGggXApAQCAtOCwxMyArNTUs
+MTMgQEAgQlVHVFJBQ0tFUiA9ICJodHRwczovL3NhdmFubmFoLm5vbmdudS5vcmcvYnVncy8/Z3Jv
+dXA9ZnJlZXR5cGUiCiBTRUNUSU9OID0gImxpYnMiCiAKIExJQ0VOU0UgPSAiKEZUTCB8IEdQTC0y
+LjAtb3ItbGF0ZXIpICYgTUlUIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5U
+WFQ7bWQ1PTg0M2I2ZWZjMTZmNmIxNjUyZWM5N2Y4OWQ1YTUxNmMwIFwKLSAgICAgICAgICAgICAg
+ICAgICAgZmlsZTovL2RvY3MvRlRMLlRYVDttZDU9OWYzN2I0ZTZhZmEzZmVmOWRiYTg5MzJiMTZi
+ZDNmOTcgXAorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5UWFQ7bWQ1PWVlYjA3
+M2Q1ZmI4NmQyM2M1MmJiOWI4NGFhMjU2MzA3IFwKKyAgICAgICAgICAgICAgICAgICAgZmlsZTov
+L2RvY3MvRlRMLlRYVDttZDU9NzJkODQ0Y2QyZjNiY2FmNmE4NTI0NGI1MDgwMzJiZTcgXAogICAg
+ICAgICAgICAgICAgICAgICBmaWxlOi8vZG9jcy9HUEx2Mi5UWFQ7bWQ1PThlZjM4MDQ3NmY2NDJj
+MjBlYmY0MGZlY2IwYWRkMmVjIFwKICAgICAgICAgICAgICAgICAgICAgIgogCiBTUkNfVVJJID0g
+IiR7U0FWQU5OQUhfTk9OR05VX01JUlJPUn0vJHtCUE59LyR7QlB9LnRhci54eiIKLVNSQ19VUklb
+c2hhMjU2c3VtXSA9ICIwNTUwMzUwNjY2ZDQyN2M3NGRhZWI4NWQ1YWM3YmIzNTNhY2JhNWY3Njk1
+NjM5NTk5NTMxMWE5YzZmMDYzMjg5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjMyNDI3ZThjNDcx
+YWMwOTU4NTMyMTJhMzdhZWY4MTZjNjBiNDIwNTJkNGQ5ZTQ4MjMwYmFiM2JkZjI5MzZjY2MiCiAK
+IFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gImZyZWV0eXBlLSg/UDxwdmVyPlxkKyhcLlxkKykrKSIK
+IAotLSAKMi40Ny4xCgo=
 
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-c004bafba38653d818f55cd363dac4558b268a2e"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:c004bafba38653d818f55cd363dac4558b268a2e"
-meta-yocto-bsp       
-meta-poky            = "master:66ea31cee15309af07afeee8dec8a6fe1d92d28e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 542 Local 529 Mirrors 0 Missed 13 Current 275 (97% match, 98% complete)
-Removing 3 stale sstate objects for arch x86_64...done.
-Removing 1 stale sstate objects for arch qemux86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 294 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 348 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 354 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe mpg123-1.33.3-r0: task do_populate_lic_setscene: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_populate_lic_setscene: Succeeded
-NOTE: recipe mpg123-1.33.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 355 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_recipe_qa_setscene)
-NOTE: recipe mpg123-1.33.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 356 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 360 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 363 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 429 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
-NOTE: recipe mpg123-1.33.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1044 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_fetch)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe base-passwd-3.6.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_fetch: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 430 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
-NOTE: recipe mpg123-1.33.3-r0: task do_fetch: Succeeded
-NOTE: Running task 1045 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_unpack)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 432 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_recipe_qa_setscene)
-NOTE: recipe base-passwd-3.6.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 433 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe mpg123-1.33.3-r0: task do_unpack: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe pulseaudio-17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 435 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe mpg123-1.33.3-r0: task do_unpack: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 1051 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_patch)
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 439 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_create_spdx_setscene)
-NOTE: recipe mpg123-1.33.3-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_patch: Succeeded
-NOTE: recipe pulseaudio-17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe pulseaudio-17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 445 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 446 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 447 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 448 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 449 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 450 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 451 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool_2.5.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 452 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool_2.5.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 453 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 454 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 455 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 457 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_packagedata_setscene)
-NOTE: Running setscene task 458 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 459 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 460 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxtst-1_1.2.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxtst-1_1.2.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sbc-2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libatomic-ops-7.8.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libatomic-ops-7.8.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-2.5.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-2.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe ofono-2.18-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe avahi-0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe sbc-2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ofono-2.18-r0: task do_packagedata_setscene: Started
-NOTE: recipe avahi-0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxtst-1_1.2.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 462 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_packagedata_setscene)
-NOTE: recipe sbc-2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 464 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_packagedata_setscene)
-NOTE: recipe libtool-2.5.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxtst-1_1.2.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe pulseaudio-17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 466 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 468 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_recipe_qa_setscene)
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ofono-2.18-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 471 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 473 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ell/ell_0.79.bb:do_packagedata_setscene)
-NOTE: Running setscene task 474 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_20250613.bb:do_packagedata_setscene)
-NOTE: Running setscene task 475 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.84.bb:do_packagedata_setscene)
-NOTE: recipe sbc-2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libatomic-ops-7.8.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 476 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 479 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/sbc/sbc_2.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 481 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool_2.5.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libatomic-ops-7.8.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxi-1_1.8.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 483 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libsndfile1-1.2.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxi-1_1.8.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxtst-1_1.2.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ell-0.79-r0: task do_packagedata_setscene: Started
-NOTE: recipe mobile-broadband-provider-info-1_20250613-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsndfile1-1.2.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sbc-2.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bluez5-5.84-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-2.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libatomic-ops-7.8.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ofono-2.18-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 484 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ell/ell_0.79.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 485 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.84.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 486 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_20250613.bb:do_populate_sysroot_setscene)
-NOTE: recipe sbc-2.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxi-1_1.8.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 488 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 490 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_packagedata_setscene)
-NOTE: recipe libsndfile1-1.2.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 491 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_packagedata_setscene)
-NOTE: recipe avahi-0.8-r0: task do_packagedata_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux-musl/ell/0.79/temp/log.do_packagedata_setscene.3988168
-NOTE: Running setscene task 494 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_packagedata_setscene)
-NOTE: recipe libxtst-1_1.2.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtool-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
-WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ell/ell_0.79.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 495 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.76.bb:do_packagedata_setscene)
-NOTE: Running setscene task 496 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_packagedata_setscene)
-NOTE: recipe libatomic-ops-7.8.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 497 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 498 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ell/ell_0.79.bb:do_package_setscene)
-NOTE: recipe avahi-0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libsndfile1-1.2.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bluez5-5.84-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ell-0.79-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mobile-broadband-provider-info-1_20250613-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxfixes-1_6.0.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxi-1_1.8.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ofono-2.18-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bluez5-5.84-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe mobile-broadband-provider-info-1_20250613-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe flac-1.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.76-r0: task do_packagedata_setscene: Started
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe ofono-2.18-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-2.76-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe flac-1.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bluez5-5.84-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe mobile-broadband-provider-info-1_20250613-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 499 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 500 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 501 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 504 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.76.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 506 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 507 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 514 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 515 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 518 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 519 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 521 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 522 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_20250613.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 523 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 525 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_packagedata_setscene)
-NOTE: recipe ell-0.79-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 526 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_3.0.20.bb:do_packagedata_setscene)
-NOTE: recipe libxfixes-1_6.0.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-2.76-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe alsa-lib-1.2.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe alsa-lib-1.2.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxi-1_1.8.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe readline-8.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe flac-1.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsndfile1-1.2.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libogg-1.3.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe mobile-broadband-provider-info-1_20250613-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe avahi-0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxi-1_1.8.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 527 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_3.0.20.bb:do_populate_sysroot_setscene)
-NOTE: recipe libical-3.0.20-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsndfile1-1.2.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 528 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_packagedata_setscene)
-NOTE: recipe mobile-broadband-provider-info-1_20250613-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 529 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_packagedata_setscene)
-NOTE: recipe libcap-2.76-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 530 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 531 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.84.bb:do_recipe_qa_setscene)
-NOTE: recipe libogg-1.3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 533 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 535 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.76.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 539 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 541 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 542 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_recipe_qa_setscene)
-NOTE: recipe alsa-lib-1.2.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe readline-8.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe flac-1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 544 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 546 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/flac/flac_1.5.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 548 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.14.bb:do_recipe_qa_setscene)
-NOTE: recipe libical-3.0.20-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe eudev-3.2.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libical-3.0.20-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 550 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_77-1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 551 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.18.bb:do_packagedata_setscene)
-NOTE: recipe libcap-2.76-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libdaemon-0.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxfixes-1_6.0.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bluez5-5.84-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libogg-1.3.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe flac-1.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe alsa-lib-1.2.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vala-0.56.18-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.76-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe icu-77-1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 552 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.14.6.bb:do_packagedata_setscene)
-NOTE: recipe readline-8.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bluez5-5.84-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe eudev-3.2.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 555 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/readline/readline_8.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 557 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_packagedata_setscene)
-NOTE: recipe flac-1.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libical-3.0.20-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 558 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.14.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 560 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.18.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 561 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_77-1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 562 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libical/libical_3.0.20.bb:do_recipe_qa_setscene)
-NOTE: recipe libdaemon-0.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 563 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 565 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/udev/eudev_3.2.14.bb:do_recipe_qa_setscene)
-NOTE: recipe libogg-1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 567 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libogg/libogg_1.3.6.bb:do_recipe_qa_setscene)
-NOTE: recipe libxml2-2.14.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vala-0.56.18-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ell-0.79-r0: task do_package_setscene: Started
-NOTE: recipe kmod-34.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe vala-0.56.18-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.20-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxml2-2.14.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-77-1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe icu-77-1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe readline-8.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libogg-1.3.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe kmod-34.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libical-3.0.20-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxml2-2.14.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libogg-1.3.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe kmod-34.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxml2-2.14.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 573 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.14.6.bb:do_recipe_qa_setscene)
-NOTE: recipe kmod-34.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vala-0.56.18-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 575 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/kmod/kmod_34.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 577 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.18.bb:do_recipe_qa_setscene)
-NOTE: recipe icu-77-1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 579 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/icu/icu_77-1.bb:do_recipe_qa_setscene)
-NOTE: recipe libxml2-2.14.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vala-0.56.18-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe kmod-34.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxml2-2.14.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe icu-77-1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vala-0.56.18-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe kmod-34.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe icu-77-1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ell-0.79-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 581 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 582 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ell/ell_0.79.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 583 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe ell-0.79-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe dbus-1.16.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe dbus-1.16.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ell-0.79-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe dbus-1.16.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 586 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 587 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 588 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 589 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 591 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 592 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 593 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb:do_packagedata_setscene)
-NOTE: recipe dbus-1.16.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 594 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 595 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 596 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 597 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 600 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 601 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 602 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.6.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.18.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.86.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe shadow-4.18.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.86.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe dbus-1.16.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 608 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 609 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb:do_recipe_qa_setscene)
-NOTE: recipe libx11-1_1.8.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 611 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 612 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
-NOTE: recipe dbus-1.16.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 614 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/initscripts/initscripts_1.0.bb:do_recipe_qa_setscene)
-NOTE: recipe shadow-4.18.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 616 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 617 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_recipe_qa_setscene)
-NOTE: recipe libx11-1_1.8.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 619 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 620 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb:do_recipe_qa_setscene)
-NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.6.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.18.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 622 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 623 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
-NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 625 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_recipe_qa_setscene)
-NOTE: recipe glib-2.0-1_2.86.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libice-1_1.1.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.6-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1240 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
-NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 627 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_packagedata_setscene)
-NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.18.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
-NOTE: Running task 1264 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
-NOTE: Running task 1265 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libice-1_1.1.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 628 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 630 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 632 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 633 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 634 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 635 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_packagedata_setscene)
-NOTE: recipe shadow-4.18.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 636 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 637 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 638 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 639 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 641 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_recipe_qa_setscene)
-NOTE: recipe xtrans-1_1.6.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libice-1_1.1.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 645 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_recipe_qa_setscene)
-NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.86.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running setscene task 647 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.46.bb:do_packagedata_setscene)
-NOTE: Running setscene task 648 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libice-1_1.1.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 650 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 651 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 652 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.1.bb:do_packagedata_setscene)
-NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 653 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 658 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 659 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_packagedata_setscene)
-NOTE: recipe xtrans-1_1.6.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 661 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_recipe_qa_setscene)
-NOTE: Running task 1280 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
-NOTE: recipe libpcre2-10.46-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 663 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 665 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 666 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 667 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 670 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_recipe_qa_setscene)
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-2.41.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 671 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-2.41.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
-NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xtrans-1_1.6.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.86.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
-NOTE: recipe libpcre2-10.46-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xtrans-1_1.6.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.86.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 674 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_80.9.0.bb:do_packagedata_setscene)
-NOTE: Running task 1300 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-2.41.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 676 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 678 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_80.9.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 681 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.46.bb:do_populate_sysroot_setscene)
-NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-setuptools-80.9.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
-NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 685 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_recipe_qa_setscene)
-NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 687 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-setuptools-80.9.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.46-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
-NOTE: Running task 1329 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-setuptools-80.9.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 689 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_packagedata_setscene)
-NOTE: recipe libpcre2-10.46-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 691 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.46.bb:do_recipe_qa_setscene)
-NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
-NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
-NOTE: Running task 1345 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe python3-3.13.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.46-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-setuptools-80.9.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 692 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 694 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_80.9.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libpcre2-10.46-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_install: Started
-NOTE: recipe python3-setuptools-80.9.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-3.13.9-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-setuptools-80.9.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-2.41.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 696 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 698 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 699 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 700 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 701 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 702 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 703 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-3.13.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 705 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 706 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 707 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.48.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 708 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 709 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 710 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 711 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.7.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.7.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.41.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.48.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.7.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.5.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.41.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 712 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.1.bb:do_packagedata_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 713 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
-NOTE: Running setscene task 714 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata_setscene)
-NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 718 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 720 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libpam-1.7.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1361 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe python3-3.13.9-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 721 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 722 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.48.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.48.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 724 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 725 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
-NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 727 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.7.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 728 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 729 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe xz-5.8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe openssl-3.5.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_package: Started
-NOTE: Running setscene task 730 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe sqlite3-3_3.48.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.7.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 731 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 733 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 734 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_recipe_qa_setscene)
-NOTE: recipe xz-5.8.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 737 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.48.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.7.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 744 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.48.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 746 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 747 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 749 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 751 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 753 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_recipe_qa_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.8.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 756 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe xz-5.8.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 758 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-3.13.9-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 760 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.1.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.48.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe expat-2.7.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 762 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_recipe_qa_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-3.13.9-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.8.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe sqlite3-3_3.48.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe expat-2.7.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 764 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: recipe xz-5.8.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.7.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 767 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_recipe_qa_setscene)
-NOTE: recipe openssl-3.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 769 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.4.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 770 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 771 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 773 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.7.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe openssl-3.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 775 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
-NOTE: recipe libpam-1.7.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe openssl-3.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 777 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 779 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 780 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 782 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 784 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 785 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 787 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_recipe_qa_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 789 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.17.bb:do_packagedata_setscene)
-NOTE: Running setscene task 790 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 791 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 793 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 794 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_recipe_qa_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 799 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 800 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 802 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 805 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 807 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 809 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
-NOTE: Running task 1477 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 322b8f8b906444532279807f4b6d94c79a2dab3feaff9de6d084f1ef1555cf0a
-NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx as unihash 102381bf8f96fe80445ad066de24b4385da3a5591205f898dae88edb28bda72e to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': '9da20845bfba687062d3915d4769ae6ca747fb906f3de5be7ff2a4e49a3f35e0', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '102381bf8f96fe80445ad066de24b4385da3a5591205f898dae88edb28bda72e'})
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx unihash changed 9da20845bfba687062d3915d4769ae6ca747fb906f3de5be7ff2a4e49a3f35e0 -> 102381bf8f96fe80445ad066de24b4385da3a5591205f898dae88edb28bda72e as wanted
-NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx so ignoring rehash (remap)
-NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 812 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.17.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.17-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.17-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 814 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.45.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 816 of 817 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.17.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.17-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.17-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1793 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Started
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to b56557924a2f51d1c2bf9f435dbc817a7459e44001d90ee2c59bd6678c20a36a
-NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx as unihash 102381bf8f96fe80445ad066de24b4385da3a5591205f898dae88edb28bda72e to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': 'bdd7d443ead0ac80f2c29611a20186f4ba7533ddf09328577121023b884a839f', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '102381bf8f96fe80445ad066de24b4385da3a5591205f898dae88edb28bda72e'})
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx unihash changed bdd7d443ead0ac80f2c29611a20186f4ba7533ddf09328577121023b884a839f -> 102381bf8f96fe80445ad066de24b4385da3a5591205f898dae88edb28bda72e as wanted
-NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx so ignoring rehash (remap)
-NOTE: Running task 2199 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ell/ell_0.79.bb:do_packagedata)
-NOTE: Running task 2204 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ell-0.79-r0: task do_packagedata: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ell-0.79-r0: task do_packagedata: Succeeded
-NOTE: Running task 2221 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_collect_spdx_deps)
-NOTE: recipe mpg123-1.33.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe mpg123-1.33.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2222 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_configure)
-NOTE: recipe mpg123-1.33.3-r0: task do_configure: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_configure: Succeeded
-NOTE: Running task 2223 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_compile)
-NOTE: recipe mpg123-1.33.3-r0: task do_compile: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_compile: Succeeded
-NOTE: Running task 2224 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_install)
-NOTE: recipe mpg123-1.33.3-r0: task do_install: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_install: Succeeded
-NOTE: Running task 2225 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_package)
-NOTE: Running task 2226 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_populate_sysroot)
-NOTE: recipe mpg123-1.33.3-r0: task do_package: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_populate_sysroot: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe mpg123-1.33.3-r0: task do_package: Succeeded
-NOTE: Running task 2227 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_packagedata)
-NOTE: recipe mpg123-1.33.3-r0: task do_packagedata: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_packagedata unihash changed to 8d769ee2df91f92303d0a2e17454e2aa130f60c8ac18904df51920d6c909fc0d
-NOTE: Setscene tasks completed
-NOTE: Running task 2228 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_create_spdx)
-NOTE: Running task 2229 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_package_write_ipk)
-NOTE: Running task 2230 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_package_write_deb)
-NOTE: Running task 2231 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_package_write_rpm)
-NOTE: Running task 2232 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_package_qa)
-NOTE: recipe mpg123-1.33.3-r0: task do_create_spdx: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_package_write_ipk: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_package_write_deb: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_package_write_rpm: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_package_qa: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2233 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_create_package_spdx)
-NOTE: recipe mpg123-1.33.3-r0: task do_create_package_spdx: Started
-NOTE: recipe mpg123-1.33.3-r0: task do_package_write_ipk: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_package_write_ipk unihash changed to 305f898e04c11f648744aa2811eca6a840910649957a77620c06eb466deb6c11
-NOTE: recipe mpg123-1.33.3-r0: task do_package_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_package_qa unihash changed to e76a9000e2260a69714596fdb637f53e6692934c4aa4276cc0bce42759edb45b
-NOTE: recipe mpg123-1.33.3-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe mpg123-1.33.3-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_package_write_rpm unihash changed to 7a4d16d89dd79c1d711fd88d2f3c94836d82d742d2e52bbaea7bbd8fd4687104
-NOTE: recipe mpg123-1.33.3-r0: task do_package_write_deb: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_package_write_deb unihash changed to 10e4c54f8b1af77011b4030da2fc5571167e35f548087a38898241c31c42c024
-NOTE: Running noexec task 2234 of 2234 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb:do_build)
-NOTE: Tasks Summary: Attempted 2234 tasks of which 2205 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: ell-0.79-r0 do_packagedata_setscene: QA Issue: Package version for package ell-src went backwards which would break package feeds (from 0:0.80-r0 to 0:0.79-r0) [version-going-backwards]
-ERROR: ell-0.79-r0 do_packagedata_setscene: QA Issue: Package version for package ell-dbg went backwards which would break package feeds (from 0:0.80-r0 to 0:0.79-r0) [version-going-backwards]
-ERROR: ell-0.79-r0 do_packagedata_setscene: QA Issue: Package version for package ell-staticdev went backwards which would break package feeds (from 0:0.80-r0 to 0:0.79-r0) [version-going-backwards]
-ERROR: ell-0.79-r0 do_packagedata_setscene: QA Issue: Package version for package ell-dev went backwards which would break package feeds (from 0:0.80-r0 to 0:0.79-r0) [version-going-backwards]
-ERROR: ell-0.79-r0 do_packagedata_setscene: QA Issue: Package version for package ell-doc went backwards which would break package feeds (from 0:0.80-r0 to 0:0.79-r0) [version-going-backwards]
-ERROR: ell-0.79-r0 do_packagedata_setscene: QA Issue: Package version for package ell-locale went backwards which would break package feeds (from 0:0.80-r0 to 0:0.79-r0) [version-going-backwards]
-ERROR: ell-0.79-r0 do_packagedata_setscene: QA Issue: Package version for package ell went backwards which would break package feeds (from 0:0.80-r0 to 0:0.79-r0) [version-going-backwards]
-ERROR: ell-0.79-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============6623143228727599291==--
+--===============6971662990223751369==--
 
