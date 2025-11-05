@@ -2,71 +2,71 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0A10CCF9F8
-	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 13:33:16 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9477.1762349590811893283
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A484BCCF9F8
+	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 13:34:26 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9418.1762349659769230487
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 05:33:10 -0800
+ Wed, 05 Nov 2025 05:34:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lYFscAG/;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2951a817541so76869515ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 05:33:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Izat65c8;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-295f937d4c3so15860635ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 05:34:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762349590; x=1762954390; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1762349659; x=1762954459; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vO/UE1MneIZMN6G5sl3r0EkH8YGhfn+MRGGwbXzMRxw=;
-        b=lYFscAG/5AMJIFpfu1YJQoazFSni2+b1zXFsm24muaX/+TUQ71flQmtocP2BkTZ3Zr
-         6+tz//42WgykFXDVr9wRNY02m6tj5ESwX1LOQxlZjOuu2QuoAWF6EW+raufDQk4QZfYk
-         fNfYpF8Pp+4mgp/8bfBcwqUeH3YXlqt6bIls87ytuwpPF4z5x5sD+w49OJUieK8nhb+D
-         AjBuH5mtceNbbdfq4u6S/9Wxk4+3MgDtEuGsn3PXqSoMbHu8qfefyvBFq4dtAkemTpSe
-         O0zI13QLZ7u7XDI5+4RKaoR08glCCxqmHuR1JpNrtHALxEdAklM8WCUTQUAuSv4k18ek
-         /PRA==
+        bh=nR18QXm2lOLWQyn5rr7LCkDer6wGuhlPgMuGekypJBw=;
+        b=Izat65c8zPqnIgWp4nATMMsl9o3rDuSfnosxmR4d8EMvQDh1nE6yjvOEy/v+95q4rY
+         TzAoi1FkUaepDpdl5isrRzv5JoXX+GffMjJXCDXVWDciJD0rktg6deweCBzgnWqGp8Fg
+         X3fSLbPGcnLFE1iorTOrHBMhtyV2KgonGVbf98EPV15xB8kKk0j+PN4Dgb7UQP8K1+gH
+         +JBElXzT1wpxlEVqT/0pwq0EEqb7uhfl7izQUO0gXmY70wFST3E4eYXGBQPW2pGwRcq3
+         +UlTXxzBiIz2ZWv1MlkRU8EG7AzMQNTj/C6E0+7OvEU2wYi0v3+R+DiVQoi2mR+4HtTs
+         8x8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762349590; x=1762954390;
+        d=1e100.net; s=20230601; t=1762349659; x=1762954459;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vO/UE1MneIZMN6G5sl3r0EkH8YGhfn+MRGGwbXzMRxw=;
-        b=m+bL8SV4KXPczdMb4etW+EFOJ6DGEdFbutUsjpo8K1L8jvI5lp5JyboRFB12qeugX7
-         ekmJG7SAq2qGhv+fByD/gkb+evNb8M6oKC5vqvEvO5oq3EqGXJF+jw+dbiue2+eQ+8n+
-         iZDqZq+q+HlKNTSCz1uVI0ERBHFpVyowUF0XgyQCnnb4WbUChp7BBYLGeLmXU/OAUgIv
-         QQSbGua0zS1lJyT8EuvOCFxM334NbrBJh5RwEvE+1Dy0d0UlVboYFMC7JcXBEZdhGHGF
-         EhhEy3TyqRY4qscM1vYNmRGYEqdoEVYMMXKh/5Q4nS9e7bi8DiBxqXnsqxfVMzgwE8oG
-         QSOw==
-X-Gm-Message-State: AOJu0Yw+t9BTag0upeeTjxMQbfMF8qPRwbHjk9ctT9fDexe4X9+9dITT
-	kodFoukmCcMO9i+mS63AAkGQqNHL7ebyCGTa7dKUfvBoJVSJu7fFEnz6AB0PZQx727wqBbE1oSh
-	DvkKCEqMEjVp/5x/UK/AXBW/OOvq5ml4=
-X-Gm-Gg: ASbGnctjU5OB9vkhaizOtEeDB5Zp/nn2ADj/aG2nFWeu7eofv2xnVKVV7g0GewsXahe
-	DWFPC3xhTLRM4t9OY9gnCLwj4NfzNH+mUixbmF9F3uFLCm+Yg3oHYcP26kZ1/HJDs1bxVppks/y
-	cUIS9sDEShFnIcvXfdDcoDxp4V+MJ5F67hklpoQY7+/Texz6KyInzly7UUBiHdKIVeKKeKvJF3s
-	gV3DCm45w+eYvOcM+1qcBeZskxid2Q/iRmRpDnKA0zly1UcNv4GFv4yBtA+ehBx9QUmJBqv
-X-Google-Smtp-Source: AGHT+IFakxLVV4uGWjfmuAthMo1+iQpmVyYwQqRpVnnsKUtwt/cTHDkawDxf3Mxvkp/sM7WEot/6ZeMwM15W0CMeT44=
-X-Received: by 2002:a17:903:2a8d:b0:295:6c9d:1905 with SMTP id
- d9443c01a7336-2962ad2002emr51138235ad.18.1762349590076; Wed, 05 Nov 2025
- 05:33:10 -0800 (PST)
+        bh=nR18QXm2lOLWQyn5rr7LCkDer6wGuhlPgMuGekypJBw=;
+        b=OrQ8Tyh6Guv9I9T5XvKcAnF4AtFvQ4xDXMqvX1h765JeJutOSdakwPX3fMiD3/Hvdx
+         TsJI9F+wvPdz5FUcR9ARqmsNM7n++sTULxEqbpA3tu8zUZjCt/7+7eF1BiETG8+0QZkI
+         DIy8CNbT0zkRgR8su6xq32BKSdFBChwLvXX+ScBj6DcwMV4ooSgWfsK0qFHx9KwByEzS
+         w4FkK3bu3L/jFcLvBSiY57SAojDtCz2BDG/KFWOOXbzsb92vvV5P6INRdSQGc5zsWCjY
+         KdEoIjNrom9DTh4DB25x82CASBAswtx2IYX1bhohkiV2Nw9W0gTnQ1r+09oy3nID5tJ8
+         o8KQ==
+X-Gm-Message-State: AOJu0YwRALGQseg9Hu/8ZMEYqV7YtsvyzYjmqFkE3IwPOHq+xGmYDrIZ
+	8KBHjYWS4faO4LAACRfXZqxMWQLhH1V8tT8YYdNj5EchwvJRPsKgUHkYsjDxA8VAMMAbcMr8Hr8
+	Lj0caHxtrFZPPThEqavLbkV+4L/96Wi8=
+X-Gm-Gg: ASbGncvCSgOyQAdB+2QGAysWC5eBK2DnHhFN0iadzMIP3q2xSDcspoolyzccNGALIRm
+	7FX8qBy2/YZ4b1APTay6xlUO+DYycNxQy+vyUCsXIRka35ZHC+X9o9hhoII6yi1syyrg4mqEUxQ
+	OZTGFjDiS3V6E7JvQRxr5xS2QMLNZ3SLxxzQQAxDD+wr3J+IowBqJ0TLvW5WrGAzAMl9yWxd7dN
+	9WxjHKfoBaDBN5p+280qHm2OwqCLlvKsPQ4jh7CJB1iV/99c88cSlOTAqJgjw==
+X-Google-Smtp-Source: AGHT+IEh1uxrp9A2ALDVg8WvfZewOmXHi/n2EwN1QZnIPqqecfdZxNFTcDEv31/5KvM9ktiS3XnKvtTrjIl9dqGvn3M=
+X-Received: by 2002:a17:902:f64c:b0:295:4d50:aab8 with SMTP id
+ d9443c01a7336-2962ad314a8mr45047265ad.24.1762349659046; Wed, 05 Nov 2025
+ 05:34:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20251105130942.833204-1-Harish.Sadineni@windriver.com> <20251105130942.833204-5-Harish.Sadineni@windriver.com>
-In-Reply-To: <20251105130942.833204-5-Harish.Sadineni@windriver.com>
+References: <20251105130942.833204-1-Harish.Sadineni@windriver.com> <20251105130942.833204-6-Harish.Sadineni@windriver.com>
+In-Reply-To: <20251105130942.833204-6-Harish.Sadineni@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 5 Nov 2025 08:32:57 -0500
-X-Gm-Features: AWmQ_bli8sRKEJVlc6lfpcHEg5qQU5nHROO4-oajZ-KWlSlIEaNYjgySdvIeRU0
-Message-ID: <CADkTA4MRn4u_mFsmwJt1K8MiBECcgers6rkKGTTWQK-KBGnCpg@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 4/8] rust: stage rustlib sources for linux-yocto
- make rustavailable support
+Date: Wed, 5 Nov 2025 08:34:07 -0500
+X-Gm-Features: AWmQ_bkK9TCRY1QBcnUafBQ7CNaz_7H813VcmzLgg97QEda7I4zNkEcwTKFTbkE
+Message-ID: <CADkTA4PVhQnj6-bMrua7Tyqr8=ZZtM8=MX0aNJEeMfonYNA+nA@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 5/8] kernel-yocto: add rust support via make
+ rustavailable in do_kernel_configme
 To: Harish.Sadineni@windriver.com
 Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
 	sundeep.kokkonda@windriver.com, elmehdi.younes@smile.fr
-Content-Type: multipart/alternative; boundary="000000000000495fcf0642d8fd8e"
+Content-Type: multipart/alternative; boundary="00000000000065c6d90642d90114"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 13:33:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225770
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 13:34:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225771
 
---000000000000495fcf0642d8fd8e
+--00000000000065c6d90642d90114
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -75,53 +75,73 @@ e:
 
 > From: Harish Sadineni <Harish.Sadineni@windriver.com>
 >
-> When building the Linux kernel with Rust support enabled (e.g., via `make
-> rustavailable`),
->  the build system expects the Rust standard library sources to be
-> available under:
+> To enable Rust integration in the Linux kernel build, this patch:
 >
+> - Adds `rust-native`, `clang-native` and `bindgen-cli-native` to
+> `do_kernel_configme[depends]`
+>   to ensure required tools are available for Rust support.
+> - Invokes `make rustavailable` inside `do_kernel_configme()` to prepare
+>   the kernel for building Rust-based modules or core components.
 >
-If that call is happening at configure time (in configme), then it would
-better to have
-this preparation step in the same location versus separate before do_patch.
+> The `make rustavailable` target requires the Rust standard library source=
+s
+> to be
+> present under `${STAGING_DIR_NATIVE}/usr/lib/rustlib/src/rust`, which is
+> handled
+> in the `rust` recipe via shared staging.
+>
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
+>  meta/classes-recipe/kernel-yocto.bbclass | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/meta/classes-recipe/kernel-yocto.bbclass
+> b/meta/classes-recipe/kernel-yocto.bbclass
+> index e53bf15194..7a115bdffd 100644
+> --- a/meta/classes-recipe/kernel-yocto.bbclass
+> +++ b/meta/classes-recipe/kernel-yocto.bbclass
+> @@ -463,6 +463,10 @@ do_kernel_configme[depends] +=3D
+> "virtual/cross-binutils:do_populate_sysroot"
+>  do_kernel_configme[depends] +=3D "virtual/cross-cc:do_populate_sysroot"
+>  do_kernel_configme[depends] +=3D "bc-native:do_populate_sysroot
+> bison-native:do_populate_sysroot"
+>  do_kernel_configme[depends] +=3D "kern-tools-native:do_populate_sysroot"
+> +do_kernel_configme[depends] +=3D "${@bb.utils.contains('DISTRO_FEATURES'=
+,
+> 'rust-kernel', \
+> +                                'rust-native:do_populate_sysroot \
+> +                                 clang-native:do_populate_sysroot \
+> +                                 bindgen-cli-native:do_populate_sysroot'=
+,
+> '', d)}"
+>
+for consistency (with the other rust changes), these could be assigned to a
+variable first (?=3D) and then assigned. That allows them to be tweaked mor=
+e
+easily while the support is being developed.
 
 Bruce
 
 
 
->  ${STAGING_DIR_NATIVE}/usr/lib/rustlib/src/rust
->
-> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto.inc | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
-> b/meta/recipes-kernel/linux/linux-yocto.inc
-> index e2ffd96b59..05219d166e 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -71,6 +71,14 @@ do_install:append(){
->                 rm -rf ${STAGING_KERNEL_DIR}/${KMETA}
+>  do_kernel_configme[dirs] +=3D "${S} ${B}"
+>  do_kernel_configme() {
+>         do_kernel_metadata config
+> @@ -507,6 +511,11 @@ do_kernel_configme() {
+>                 echo "CONFIG_LOCALVERSION=3D"\"${LINUX_VERSION_EXTENSION}=
+\"
+> >> ${B}/.config
 >         fi
 >  }
-> +do_patch:append(){
-> +       if
-> ${@bb.utils.contains('DISTRO_FEATURES','rust-kernel','true','false',d)};
-> then
-> +               if [ ! -d ${STAGING_DIR_NATIVE}/usr/lib/rustlib/src/rust
-> ]; then
-> +                       mkdir -p
-> ${STAGING_DIR_NATIVE}/usr/lib/rustlib/src/rust/
-> +                       cp -r ${TMPDIR}/work-shared/rust
-> ${STAGING_DIR_NATIVE}/usr/lib/rustlib/src/.
-> +               fi
-> +        fi
+> +do_kernel_configme:append() {
+> +    if ${@bb.utils.contains('DISTRO_FEATURES', 'rust-kernel', 'true',
+> 'false', d)}; then
+> +        oe_runmake -C ${S} O=3D${B} rustavailable
+> +    fi
 > +}
 >
->  # enable kernel-sample for oeqa/runtime/cases's ksample.py test
->  KERNEL_FEATURES:append:qemuall =3D "
-> features/kernel-sample/kernel-sample.scc"
+>  addtask kernel_configme before do_configure after do_patch
+>  addtask config_analysis
 > --
 > 2.49.0
 >
@@ -132,7 +152,7 @@ Bruce
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---000000000000495fcf0642d8fd8e
+--00000000000065c6d90642d90114
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -146,55 +166,78 @@ e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
 eni@windriver.com" target=3D"_blank">Harish.Sadineni@windriver.com</a>&gt;<=
 br>
 <br>
-When building the Linux kernel with Rust support enabled (e.g., via `make r=
-ustavailable`),<br>
-=C2=A0the build system expects the Rust standard library sources to be avai=
-lable under:<br>
-<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
-font-size:small">If that call is happening at configure time (in configme),=
- then it would better to have</div><div class=3D"gmail_default" style=3D"fo=
-nt-size:small">this preparation step in the same location versus separate b=
-efore do_patch.</div><div class=3D"gmail_default" style=3D"font-size:small"=
-><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</di=
-v><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">
-=C2=A0${STAGING_DIR_NATIVE}/usr/lib/rustlib/src/rust<br>
+To enable Rust integration in the Linux kernel build, this patch:<br>
+<br>
+- Adds `rust-native`, `clang-native` and `bindgen-cli-native` to `do_kernel=
+_configme[depends]`<br>
+=C2=A0 to ensure required tools are available for Rust support.<br>
+- Invokes `make rustavailable` inside `do_kernel_configme()` to prepare<br>
+=C2=A0 the kernel for building Rust-based modules or core components.<br>
+<br>
+The `make rustavailable` target requires the Rust standard library sources =
+to be<br>
+present under `${STAGING_DIR_NATIVE}/usr/lib/rustlib/src/rust`, which is ha=
+ndled<br>
+in the `rust` recipe via shared staging.<br>
 <br>
 Signed-off-by: Harish Sadineni &lt;<a href=3D"mailto:Harish.Sadineni@windri=
 ver.com" target=3D"_blank">Harish.Sadineni@windriver.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/recipes-kernel/linux/linux-yocto.inc | 8 ++++++++<br>
-=C2=A01 file changed, 8 insertions(+)<br>
+=C2=A0meta/classes-recipe/kernel-yocto.bbclass | 9 +++++++++<br>
+=C2=A01 file changed, 9 insertions(+)<br>
 <br>
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kerne=
-l/linux/linux-yocto.inc<br>
-index e2ffd96b59..05219d166e 100644<br>
---- a/meta/recipes-kernel/linux/linux-yocto.inc<br>
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc<br>
-@@ -71,6 +71,14 @@ do_install:append(){<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf ${STAGING_KE=
-RNEL_DIR}/${KMETA}<br>
+diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe=
+/kernel-yocto.bbclass<br>
+index e53bf15194..7a115bdffd 100644<br>
+--- a/meta/classes-recipe/kernel-yocto.bbclass<br>
++++ b/meta/classes-recipe/kernel-yocto.bbclass<br>
+@@ -463,6 +463,10 @@ do_kernel_configme[depends] +=3D &quot;virtual/cross-b=
+inutils:do_populate_sysroot&quot;<br>
+=C2=A0do_kernel_configme[depends] +=3D &quot;virtual/cross-cc:do_populate_s=
+ysroot&quot;<br>
+=C2=A0do_kernel_configme[depends] +=3D &quot;bc-native:do_populate_sysroot =
+bison-native:do_populate_sysroot&quot;<br>
+=C2=A0do_kernel_configme[depends] +=3D &quot;kern-tools-native:do_populate_=
+sysroot&quot;<br>
++do_kernel_configme[depends] +=3D &quot;${@bb.utils.contains(&#39;DISTRO_FE=
+ATURES&#39;, &#39;rust-kernel&#39;, \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;rust-native:do_populate_sysroot=
+ \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0clang-native:do_populate_sysro=
+ot \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bindgen-cli-native:do_populate=
+_sysroot&#39;, &#39;&#39;, d)}&quot;<br></blockquote><div><div class=3D"gma=
+il_default" style=3D"font-size:small"></div><div class=3D"gmail_default" st=
+yle=3D"font-size:small">for consistency (with the other rust changes), thes=
+e could be assigned to a</div><div class=3D"gmail_default" style=3D"font-si=
+ze:small">variable first (?=3D) and then assigned. That allows them to be t=
+weaked more</div><div class=3D"gmail_default" style=3D"font-size:small">eas=
+ily while the support is being developed.</div><div class=3D"gmail_default"=
+ style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"=
+font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">
+=C2=A0do_kernel_configme[dirs] +=3D &quot;${S} ${B}&quot;<br>
+=C2=A0do_kernel_configme() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_kernel_metadata config<br>
+@@ -507,6 +511,11 @@ do_kernel_configme() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;CONFIG_L=
+OCALVERSION=3D&quot;\&quot;${LINUX_VERSION_EXTENSION}\&quot; &gt;&gt; ${B}/=
+.config<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
 =C2=A0}<br>
-+do_patch:append(){<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if ${@bb.utils.contains(&#39;DISTRO_FEATURES&#3=
-9;,&#39;rust-kernel&#39;,&#39;true&#39;,&#39;false&#39;,d)}; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ! -d ${STAGING=
-_DIR_NATIVE}/usr/lib/rustlib/src/rust ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0mkdir -p ${STAGING_DIR_NATIVE}/usr/lib/rustlib/src/rust/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0cp -r ${TMPDIR}/work-shared/rust ${STAGING_DIR_NATIVE}/usr/lib/ru=
-stlib/src/.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
++do_kernel_configme:append() {<br>
++=C2=A0 =C2=A0 if ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;rust=
+-kernel&#39;, &#39;true&#39;, &#39;false&#39;, d)}; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake -C ${S} O=3D${B} rustavailable<br>
++=C2=A0 =C2=A0 fi<br>
 +}<br>
 <br>
-=C2=A0# enable kernel-sample for oeqa/runtime/cases&#39;s ksample.py test<b=
-r>
-=C2=A0KERNEL_FEATURES:append:qemuall =3D &quot; features/kernel-sample/kern=
-el-sample.scc&quot;<br>
+=C2=A0addtask kernel_configme before do_configure after do_patch<br>
+=C2=A0addtask config_analysis<br>
 -- <br>
 2.49.0<br>
 <br>
@@ -204,5 +247,5 @@ ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
 wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
 rek II<br><br></div></div>
 
---000000000000495fcf0642d8fd8e--
+--00000000000065c6d90642d90114--
 
