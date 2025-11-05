@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CD1ACD37B5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B48CD37B6
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:37 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2348.1762384572259116327
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2339.1762384568903480648
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:16:36 -0800
+ Wed, 05 Nov 2025 15:16:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=JPExJNoD;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=og91Cd2f;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019a564eca0b-2db19012-a7dd-484e-8307-3040612aaae7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=G5Sd11C3;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=VBPMys2I;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019a564ecf44-04d9784f-e81a-4f4e-a344-8bf77e84e765-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1762384595;
+	t=1762384596;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=IQSWc2sqeK30GZlTvg5M7cQM5AxaLLiAb8YjsJdIe3c=;
-	b=JPExJNoDFQwStjBTb3dkL+o+hKkHJ9r37TRyehXbnzfNjbNvKbSV4lngCmQcYxDr
-	p5CodX6Hhp7ttJl9k8EB15xLhGpkYaGFeZBlNIgAtkdM4OnNNJpi7xFhbKdPEWmsD50
-	tMBapSjGbvwjk5YjLk8g+N3J2hqK/cuZvp5BR+NM=
+	bh=vNUyqAEp94uVz6daRhKVlaemjAxsg9wJxM2fp3ggBUw=;
+	b=G5Sd11C3fAMROOKq21m2gH5qq+hMLXGKHR/gtlrZBVf50aJbc9gshGwE+B5uUX9y
+	fdpamH6/jqxBi+FZP41uzltdvVUDcht7Qi2RZVYgbIz6wBkA3f/7ekt0hRsqMzWlOPO
+	8ezmdeN7s2iGBAtKF2XyGl8lt+DXTfC2bcd4uzRk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384595;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384596;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=IQSWc2sqeK30GZlTvg5M7cQM5AxaLLiAb8YjsJdIe3c=;
-	b=og91Cd2fhiMlE9HhePh1BFy4HuBChqRp9mdleEExNw0ts/+hotw99Hmy2fKV6ThV
-	MG4x0GK9+P0TtJ981DgNN13QcaYw0UUD6kqTOuNpxYbpMFqmkZ16IJDDAGuEO3xYygo
-	MDARcaZ/51nlqqt26Sq0fChQZSQgc1bXlQVUcpGc=
-Content-Type: multipart/mixed; boundary="===============8917495649302413389=="
+	bh=vNUyqAEp94uVz6daRhKVlaemjAxsg9wJxM2fp3ggBUw=;
+	b=VBPMys2IbTIJmJE7Z1SYVPbQL/R/RXlowPlY9Fvzx/mL4P8aSLzCMIW2VCzPctUb
+	iTYGbKM77xPSEmcTtPVg7eb8H3KBltICEfQNumNnZXyj7mEkwqapV8Yivjw3CEJIJQM
+	SmRM1t5paZQR7RsBNvwIJraTYGf6vqQulz0GDp3g=
+Content-Type: multipart/mixed; boundary="===============8206555629182131628=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] epiphany: upgrading to 49.1 FAILED
-Message-ID: <0101019a564eca0b-2db19012-a7dd-484e-8307-3040612aaae7-000000@us-west-2.amazonses.com>
-Date: Wed, 5 Nov 2025 23:16:35 +0000
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gtk4: upgrading to 4.20.2 FAILED
+Message-ID: <0101019a564ecf44-04d9784f-e81a-4f4e-a344-8bf77e84e765-000000@us-west-2.amazonses.com>
+Date: Wed, 5 Nov 2025 23:16:36 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.05-54.240.27.23
+X-SES-Outgoing: 2025.11.05-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225870
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225872
 
---===============8917495649302413389==
+--===============8206555629182131628==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *epiphany* to *49.1* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe(s) *gtk4* to *4.20.2* has Failed(do_compile).
 
 Detailed error information:
 
@@ -60,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-epiphany-upgrade-48.5-49.1.patch
+    - apply the patch: git am 0001-gtk4-upgrade-4.18.6-4.20.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,151 +78,66 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 097018e331dc80fe8e6dd9bf42c3e50f07625d6f Mon Sep 17 00:00:00 2001
+From bfd9dcf8c41e77a67c4dde8d0756c026740c9cde Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 5 Nov 2025 19:34:22 +0000
-Subject: [PATCH] epiphany: upgrade 48.5 -> 49.1
+Date: Wed, 5 Nov 2025 19:52:01 +0000
+Subject: [PATCH] gtk4: upgrade 4.18.6 -> 4.20.2
 
 ---
- .../epiphany/{epiphany_48.5.bb => epiphany_49.1.bb}           | 2 +-
- .../files/0002-help-meson.build-disable-the-use-of-yelp.patch | 2 +-
- meta/recipes-gnome/epiphany/files/distributor.patch           | 4 ++--
- meta/recipes-gnome/epiphany/files/migrator.patch              | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-gnome/epiphany/{epiphany_48.5.bb => epiphany_49.1.bb} (94%)
+ meta/recipes-gnome/gtk+/{gtk4_4.18.6.bb => gtk4_4.20.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/gtk+/{gtk4_4.18.6.bb => gtk4_4.20.2.bb} (98%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_48.5.bb b/meta/recipes-gnome/epiphany/epiphany_49.1.bb
-similarity index 94%
-rename from meta/recipes-gnome/epiphany/epiphany_48.5.bb
-rename to meta/recipes-gnome/epiphany/epiphany_49.1.bb
-index 8129cd79f8..dc4cf289c6 100644
---- a/meta/recipes-gnome/epiphany/epiphany_48.5.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_49.1.bb
-@@ -31,7 +31,7 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GN
-            file://migrator.patch \
-            file://distributor.patch \
-            "
--SRC_URI[archive.sha256sum] = "0f66552ad6593c7952a3ddee5bf515656c8c434871076d9f1a91a7af9346b1b4"
-+SRC_URI[archive.sha256sum] = "d767c5cbb9e2566bc9903d411b6896161e343f712aa33305365739d8dedac521"
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.18.6.bb b/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb
+similarity index 98%
+rename from meta/recipes-gnome/gtk+/gtk4_4.18.6.bb
+rename to meta/recipes-gnome/gtk+/gtk4_4.20.2.bb
+index 2d24468dcc..0ac0617ea1 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.18.6.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb
+@@ -38,7 +38,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ UPSTREAM_CHECK_REGEX = "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.xz"
  
- # Developer mode enables debugging
- PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
-diff --git a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
-index 6c00ab9b40..5099158853 100644
---- a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
-+++ b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
-@@ -1,4 +1,4 @@
--From 91045ece41faefbeac14b60d7b19b0c652e586fb Mon Sep 17 00:00:00 2001
-+From e5e9e480789c392b160aa8ebd4e49041a733ea21 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 31 Jan 2018 15:50:38 +0200
- Subject: [PATCH] help/meson.build: disable the use of yelp
-diff --git a/meta/recipes-gnome/epiphany/files/distributor.patch b/meta/recipes-gnome/epiphany/files/distributor.patch
-index 54a3305aaf..9b606d8d9a 100644
---- a/meta/recipes-gnome/epiphany/files/distributor.patch
-+++ b/meta/recipes-gnome/epiphany/files/distributor.patch
-@@ -1,4 +1,4 @@
--From 46084da03b5f20423a2946d988c68e9ea9339c9c Mon Sep 17 00:00:00 2001
-+From 2f0ac02c96be750696a82e821bc8442e16ca05e7 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Fri, 26 Feb 2021 10:17:52 +0000
- Subject: [PATCH] Don't encode the distro from /etc/os-release into the
-@@ -11,7 +11,7 @@ RP 2021/2/26
-  1 file changed, 1 insertion(+)
+ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "e1817c650ddc3261f9a8345b3b22a26a5d80af154630dedc03cc7becefffd0fa"
++SRC_URI[sha256sum] = "5e8240edecafaff2b8baf4663bdceaa668ef10a207bee4d7f90e010e10bddc5c"
  
- diff --git a/meson.build b/meson.build
--index df0340c..8ec6c79 100644
-+index 5af99e8..4d1ab8b 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -15,6 +15,7 @@ if r.returncode() == 0
-diff --git a/meta/recipes-gnome/epiphany/files/migrator.patch b/meta/recipes-gnome/epiphany/files/migrator.patch
-index 8ebcdc9991..92b714f9b0 100644
---- a/meta/recipes-gnome/epiphany/files/migrator.patch
-+++ b/meta/recipes-gnome/epiphany/files/migrator.patch
-@@ -1,4 +1,4 @@
--From ca504370b9aa893ceac21141d8f24e28a474b674 Mon Sep 17 00:00:00 2001
-+From 6a1446ee041139ed5a9925e8d69deaa52fa10368 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Thu, 25 Feb 2021 14:52:32 +0000
- Subject: [PATCH] epiphany: Fix reproducibility issue
+ S = "${UNPACKDIR}/gtk-${PV}"
+ 
 -- 
 2.47.1
 
 
---===============8917495649302413389==
+--===============8206555629182131628==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-epiphany-upgrade-48.5-49.1.patch"
+ filename="0001-gtk4-upgrade-4.18.6-4.20.2.patch"
 
-RnJvbSAwOTcwMThlMzMxZGM4MGZlOGU2ZGQ5YmY0MmMzZTUwZjA3NjI1ZDZmIE1vbiBTZXAgMTcg
+RnJvbSBiZmQ5ZGNmOGM0MWU3N2E2N2M0ZGRlOGQwNzU2YzAyNjc0MGM5Y2RlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxOTozNDoyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGVw
-aXBoYW55OiB1cGdyYWRlIDQ4LjUgLT4gNDkuMQoKLS0tCiAuLi4vZXBpcGhhbnkve2VwaXBoYW55
-XzQ4LjUuYmIgPT4gZXBpcGhhbnlfNDkuMS5iYn0gICAgICAgICAgIHwgMiArLQogLi4uL2ZpbGVz
-LzAwMDItaGVscC1tZXNvbi5idWlsZC1kaXNhYmxlLXRoZS11c2Utb2YteWVscC5wYXRjaCB8IDIg
-Ky0KIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9kaXN0cmlidXRvci5wYXRjaCAg
-ICAgICAgICAgfCA0ICsrLS0KIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9taWdy
-YXRvci5wYXRjaCAgICAgICAgICAgICAgfCAyICstCiA0IGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0
-aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhh
-bnkve2VwaXBoYW55XzQ4LjUuYmIgPT4gZXBpcGhhbnlfNDkuMS5iYn0gKDk0JSkKCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDguNS5iYiBiL21ldGEv
-cmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV80OS4xLmJiCnNpbWlsYXJpdHkgaW5kZXgg
-OTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV80OC41
-LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDkuMS5i
-YgppbmRleCA4MTI5Y2Q3OWY4Li5kYzRjZjI4OWM2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-Z25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDguNS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUv
-ZXBpcGhhbnkvZXBpcGhhbnlfNDkuMS5iYgpAQCAtMzEsNyArMzEsNyBAQCBTUkNfVVJJID0gIiR7
-R05PTUVfTUlSUk9SfS8ke0dOT01FQk59LyR7QG9lLnV0aWxzLnRyaW1fdmVyc2lvbigiJHtQVn0i
-LCAxKX0vJHtHTgogICAgICAgICAgICBmaWxlOi8vbWlncmF0b3IucGF0Y2ggXAogICAgICAgICAg
-ICBmaWxlOi8vZGlzdHJpYnV0b3IucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJW2FyY2hp
-dmUuc2hhMjU2c3VtXSA9ICIwZjY2NTUyYWQ2NTkzYzc5NTJhM2RkZWU1YmY1MTU2NTZjOGM0MzQ4
-NzEwNzZkOWYxYTkxYTdhZjkzNDZiMWI0IgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAi
-ZDc2N2M1Y2JiOWUyNTY2YmM5OTAzZDQxMWI2ODk2MTYxZTM0M2Y3MTJhYTMzMzA1MzY1NzM5ZDhk
-ZWRhYzUyMSIKIAogIyBEZXZlbG9wZXIgbW9kZSBlbmFibGVzIGRlYnVnZ2luZwogUEFDS0FHRUNP
-TkZJR1tkZXZlbG9wZXItbW9kZV0gPSAiLURkZXZlbG9wZXJfbW9kZT10cnVlLC1EZGV2ZWxvcGVy
-X21vZGU9ZmFsc2UiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmls
-ZXMvMDAwMi1oZWxwLW1lc29uLmJ1aWxkLWRpc2FibGUtdGhlLXVzZS1vZi15ZWxwLnBhdGNoIGIv
-bWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzLzAwMDItaGVscC1tZXNvbi5idWlsZC1k
-aXNhYmxlLXRoZS11c2Utb2YteWVscC5wYXRjaAppbmRleCA2YzAwYWI5YjQwLi41MDk5MTU4ODUz
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvMDAwMi1oZWxw
-LW1lc29uLmJ1aWxkLWRpc2FibGUtdGhlLXVzZS1vZi15ZWxwLnBhdGNoCisrKyBiL21ldGEvcmVj
-aXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy8wMDAyLWhlbHAtbWVzb24uYnVpbGQtZGlzYWJsZS10
-aGUtdXNlLW9mLXllbHAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDkxMDQ1ZWNlNDFmYWVm
-YmVhYzE0YjYwZDdiMTliMGM2NTJlNTg2ZmIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IGU1ZTllNDgwNzg5YzM5MmIxNjBhYThlYmQ0ZTQ5MDQxYTczM2VhMjEgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
-bT4KIERhdGU6IFdlZCwgMzEgSmFuIDIwMTggMTU6NTA6MzggKzAyMDAKIFN1YmplY3Q6IFtQQVRD
-SF0gaGVscC9tZXNvbi5idWlsZDogZGlzYWJsZSB0aGUgdXNlIG9mIHllbHAKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9kaXN0cmlidXRvci5wYXRjaCBiL21l
-dGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9kaXN0cmlidXRvci5wYXRjaAppbmRleCA1
-NGEzMzA1YWFmLi45YjYwNmQ4ZDlhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBp
-cGhhbnkvZmlsZXMvZGlzdHJpYnV0b3IucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2Vw
-aXBoYW55L2ZpbGVzL2Rpc3RyaWJ1dG9yLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0NjA4
-NGRhMDNiNWYyMDQyM2EyOTQ2ZDk4OGM2OGU5ZWE5MzM5YzljIE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQorRnJvbSAyZjBhYzAyYzk2YmU3NTA2OTZhODJlODIxYmM4NDQyZTE2Y2EwNWU3IE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGll
-QGxpbnV4Zm91bmRhdGlvbi5vcmc+CiBEYXRlOiBGcmksIDI2IEZlYiAyMDIxIDEwOjE3OjUyICsw
-MDAwCiBTdWJqZWN0OiBbUEFUQ0hdIERvbid0IGVuY29kZSB0aGUgZGlzdHJvIGZyb20gL2V0Yy9v
-cy1yZWxlYXNlIGludG8gdGhlCkBAIC0xMSw3ICsxMSw3IEBAIFJQIDIwMjEvMi8yNgogIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQogCiBkaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9t
-ZXNvbi5idWlsZAotaW5kZXggZGYwMzQwYy4uOGVjNmM3OSAxMDA2NDQKK2luZGV4IDVhZjk5ZTgu
-LjRkMWFiOGIgMTAwNjQ0CiAtLS0gYS9tZXNvbi5idWlsZAogKysrIGIvbWVzb24uYnVpbGQKIEBA
-IC0xNSw2ICsxNSw3IEBAIGlmIHIucmV0dXJuY29kZSgpID09IDAKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9taWdyYXRvci5wYXRjaCBiL21ldGEvcmVjaXBl
-cy1nbm9tZS9lcGlwaGFueS9maWxlcy9taWdyYXRvci5wYXRjaAppbmRleCA4ZWJjZGM5OTkxLi45
-MmI3MTRmOWIwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMv
-bWlncmF0b3IucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL21p
-Z3JhdG9yLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBjYTUwNDM3MGI5YWE4OTNjZWFjMjEx
-NDFkOGYyNGUyOGE0NzRiNjc0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA2YTE0NDZl
-ZTA0MTEzOWVkNWE5OTI1ZThkNjlkZWFhNTJmYTEwMzY4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5v
-cmc+CiBEYXRlOiBUaHUsIDI1IEZlYiAyMDIxIDE0OjUyOjMyICswMDAwCiBTdWJqZWN0OiBbUEFU
-Q0hdIGVwaXBoYW55OiBGaXggcmVwcm9kdWNpYmlsaXR5IGlzc3VlCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxOTo1MjowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGd0
+azQ6IHVwZ3JhZGUgNC4xOC42IC0+IDQuMjAuMgoKLS0tCiBtZXRhL3JlY2lwZXMtZ25vbWUvZ3Rr
+Ky97Z3RrNF80LjE4LjYuYmIgPT4gZ3RrNF80LjIwLjIuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdu
+b21lL2d0aysve2d0azRfNC4xOC42LmJiID0+IGd0azRfNC4yMC4yLmJifSAoOTglKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9ndGsrL2d0azRfNC4xOC42LmJiIGIvbWV0YS9yZWNp
+cGVzLWdub21lL2d0aysvZ3RrNF80LjIwLjIuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWdub21lL2d0aysvZ3RrNF80LjE4LjYuYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1nbm9tZS9ndGsrL2d0azRfNC4yMC4yLmJiCmluZGV4IDJkMjQ0NjhkY2MuLjBh
+YzA2MTdlYTEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9ndGsrL2d0azRfNC4xOC42
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9ndGsrL2d0azRfNC4yMC4yLmJiCkBAIC0zOCw3
+ICszOCw3IEBAIE1BSl9WRVIgPSAiJHtAb2UudXRpbHMudHJpbV92ZXJzaW9uKCIke1BWfSIsIDIp
+fSIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gImd0ay0oP1A8cHZlcj5cZCtcLihcZCpbMDI0Njhd
+KSsoXC5cZCspKylcLnRhci54eiIKIAogU1JDX1VSSSA9ICJodHRwOi8vZnRwLmdub21lLm9yZy9w
+dWIvZ25vbWUvc291cmNlcy9ndGsvJHtNQUpfVkVSfS9ndGstJHtQVn0udGFyLnh6IgotU1JDX1VS
+SVtzaGEyNTZzdW1dID0gImUxODE3YzY1MGRkYzMyNjFmOWE4MzQ1YjNiMjJhMjZhNWQ4MGFmMTU0
+NjMwZGVkYzAzY2M3YmVjZWZmZmQwZmEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNWU4MjQwZWRl
+Y2FmYWZmMmI4YmFmNDY2M2JkY2VhYTY2OGVmMTBhMjA3YmVlNGQ3ZjkwZTAxMGUxMGJkZGM1YyIK
+IAogUyA9ICIke1VOUEFDS0RJUn0vZ3RrLSR7UFZ9IgogCi0tIAoyLjQ3LjEKCg==
 
---===============8917495649302413389==
+--===============8206555629182131628==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -230,7 +145,7 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1945 entries from dependency cache.
+Loaded 1946 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 948 .bb files complete (947 cached, 1 parsed). 1945 targets, 47 skipped, 0 masked, 0 errors.
 Removing 1 recipes from the qemux86_64 sysroot...done.
@@ -244,135 +159,190 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-f13d678258a895ad5b7cc3076aa28df5bfdbfdb5"
+DISTRO_VERSION       = "5.2.99+snapshot-3d7134158a01e1478c70740be493e4511bd4f9cf"
 TUNE_FEATURES        = "m64 x86-64-v3"
 TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:f13d678258a895ad5b7cc3076aa28df5bfdbfdb5"
+meta                 = "tmp-auh-upgrades:3d7134158a01e1478c70740be493e4511bd4f9cf"
 meta-yocto-bsp       
 meta-poky            = "master:66ea31cee15309af07afeee8dec8a6fe1d92d28e"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 628 Local 616 Mirrors 0 Missed 12 Current 1160 (98% match, 99% complete)
+Sstate summary: Wanted 665 Local 655 Mirrors 0 Missed 10 Current 938 (98% match, 99% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 1776 of 1788 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_recipe_qa_setscene)
-NOTE: recipe epiphany-49.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe epiphany-49.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 997 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 1021 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.5.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1032 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxinerama_1.1.5.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1097 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1109 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/graphene/graphene_1.10.8.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1112 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcursor_1.2.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1131 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.56.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1132 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1133 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1151 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe tiff-4.7.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gtk4-4.20.2-r0: task do_populate_lic_setscene: Started
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe graphene-1.10.8-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx_setscene: Started
+NOTE: recipe at-spi2-core-2.56.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gtk4-4.20.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxinerama-1_1.1.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gtk4-4.20.2-r0: task do_populate_lic_setscene: Succeeded
+NOTE: recipe tiff-4.7.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxcursor-1_1.2.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gtk4-4.20.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 1186 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gstreamer1.0-plugins-bad-1.26.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1199 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/librsvg/librsvg_2.61.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1212 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1233 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa.bb:do_create_spdx_setscene)
+NOTE: recipe at-spi2-core-2.56.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gtk4-4.20.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 1258 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1263 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxkbcommon_1.11.0.bb:do_create_spdx_setscene)
+NOTE: recipe graphene-1.10.8-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gtk4-4.20.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.1.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxi-1_1.8.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxkbcommon-1.11.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mesa-2_25.2.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe librsvg-2.61.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libjpeg-turbo-1_3.1.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxi-1_1.8.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxkbcommon-1.11.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe mesa-2_25.2.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe librsvg-2.61.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1308 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/drm/libdrm_2.4.125.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1309 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.328.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1311 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/pango/pango_1.57.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1318 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_create_spdx_setscene)
+NOTE: recipe vulkan-loader-1.4.328.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libdrm-2.4.125-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe pango-1.57.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-loader-1.4.328.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1419 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.328.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1420 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1421 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.24.0.bb:do_create_spdx_setscene)
+NOTE: recipe libdrm-2.4.125-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe pango-1.57.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1429 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/harfbuzz/harfbuzz_11.4.5.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1432 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_create_spdx_setscene)
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1436 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb:do_create_spdx_setscene)
+NOTE: recipe vulkan-headers-1.4.328.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe wayland-1.24.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe fribidi-1.0.16-r0: task do_create_spdx_setscene: Started
+NOTE: recipe harfbuzz-11.4.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.4.328.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe wayland-1.24.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe fribidi-1.0.16-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe harfbuzz-11.4.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1452 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1457 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/cairo/cairo_1.18.4.bb:do_create_spdx_setscene)
+NOTE: recipe gobject-introspection-1.84.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe cairo-1.18.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gobject-introspection-1.84.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe cairo-1.18.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1495 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1497 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1498 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb:do_create_spdx_setscene)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxext-1_1.3.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe fontconfig-2.17.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1505 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb:do_create_spdx_setscene)
+NOTE: recipe fontconfig-2.17.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1509 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/libpng/libpng_1.6.50.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1517 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx_setscene)
+NOTE: recipe libx11-1_1.8.12-r0: task do_create_spdx_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libpng-1.6.50-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.12-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libpng-1.6.50-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1577 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1583 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_create_spdx_setscene)
+NOTE: Running task 2588 of 4388 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_fetch)
+NOTE: recipe gtk4-4.20.2-r0: task do_fetch: Started
+NOTE: recipe glibc-2.42+git-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 2797 of 4388 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_write_config)
+NOTE: recipe gtk4-4.20.2-r0: task do_fetch: Succeeded
+NOTE: Running task 2869 of 4388 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_unpack)
+NOTE: recipe glibc-2.42+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1586 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe gtk4-4.20.2-r0: task do_write_config: Started
+NOTE: recipe gtk4-4.20.2-r0: task do_unpack: Started
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gtk4-4.20.2-r0: task do_write_config: Succeeded
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1593 of 1603 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gtk4-4.20.2-r0: task do_unpack: Succeeded
+NOTE: Running task 2986 of 4388 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_patch)
+NOTE: recipe gtk4-4.20.2-r0: task do_patch: Started
+NOTE: recipe gtk4-4.20.2-r0: task do_patch: Succeeded
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 4349 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_fetch)
-NOTE: Running task 4592 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_write_config)
-NOTE: recipe epiphany-49.1-r0: task do_fetch: Started
-NOTE: recipe epiphany-49.1-r0: task do_fetch: Succeeded
-NOTE: Running task 4763 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_unpack)
-NOTE: Running task 4764 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe epiphany-49.1-r0: task do_write_config: Started
-NOTE: recipe epiphany-49.1-r0: task do_unpack: Started
-NOTE: recipe epiphany-49.1-r0: task do_write_config: Succeeded
-NOTE: recipe epiphany-49.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe epiphany-49.1-r0: task do_unpack: Succeeded
-NOTE: Running task 4880 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_patch)
-NOTE: Running task 4881 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_collect_spdx_deps)
-NOTE: recipe epiphany-49.1-r0: task do_patch: Started
-NOTE: recipe epiphany-49.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe epiphany-49.1-r0: task do_patch: Succeeded
-NOTE: Running task 4882 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 4883 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_populate_lic)
-NOTE: recipe epiphany-49.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe epiphany-49.1-r0: task do_populate_lic: Started
-NOTE: recipe epiphany-49.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_deploy_source_date_epoch unihash changed to 8989f34a6c29a0727f750671fa7474eb073f30a9d59083171215ccc879411398
-NOTE: Setscene tasks completed
-NOTE: recipe epiphany-49.1-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_populate_lic unihash changed to 03c90b0d23b4ec43a621e741c724fce800380f7ac1bdfed2137a1a28045102ea
-NOTE: recipe epiphany-49.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe epiphany-49.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Setscene tasks completed
-NOTE: Running task 4884 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_configure)
-NOTE: recipe epiphany-49.1-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.0.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.2.bb:do_populate_sysroot', '/srv/pokybuild/
- yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gcr/gcr_4.4.0.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_48.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/json-glib/json-glib_1.10.8.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libadwaita/libadwaita_1.7.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/buil
- d/layers/openembedded-core/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libhandy/libhandy_1.8.3.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libportal/libportal_0.9.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/webkitgtk_2.50.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libsoup/libsoup_3.6.5.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_3.10.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.7.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-c
- ore/gettext/gettext_0.26.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.9.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/bu
- ild/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'libclc', 'llvm-tblgen-native', 'llvm', 'cmake-native', 'desktop-file-utils', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3-setuptools', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'libarchive', 'libidn2', 'lzlib', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gcr', 'gdk-pixbuf', 'gobject-introspection', 'gsettings-desktop-schemas', 'gtk+3', 'gtk4', 'hicolor-icon-theme', 'json-glib', 'libadwaita', 'libdazzle', 'libgudev', 'libhandy', 'libnotify', 'libportal', 'librsvg', 'libsecret', 'libxmlb', 'cairo', 'libdrm', '
- fontconfig', 'freetype', 'graphene', 'harfbuzz', 'libjpeg-turbo', 'libepoxy', 'libglu', 'mesa', 'pango', 'spirv-headers', 'spirv-llvm-translator', 'spirv-tools', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxcomposite', 'libxcursor', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxi', 'libxinerama', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxt', 'libxtst', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'tiff', 'libvorbis', 'sbc', 'libwebp', 'libwpe', 'webkitgtk', 'wpebackend-fdo', 'appstream', 'aspell', 'at-spi2-core', 'acl', 'attr', 'bash-completion', 'curl', 'enchant2', 'fribidi', 'gdbm', 'gmp', 'gnut
- ls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libgcrypt', 'libgpg-error', 'libical', 'libmicrohttpd', 'libpcre2', 'libpsl', 'libseccomp', 'libsoup', 'libunistring', 'libusb1', 'libxslt', 'libyaml', 'nettle', 'nghttp2', 'p11-kit', 'shared-mime-info', 'sqlite3', 'openssl-native', 'coreutils-native', 'dbus-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'llvm-native', 'desktop-file-utils-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'patchelf-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-docutils-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'cargo-c-native', 'cargo-native'
- , 'rust-native', 'vala-native', 'bzip2-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'gdk-pixbuf-native', 'gobject-introspection-native', 'gtk+3-native', 'librsvg-native', 'cairo-native', 'fontconfig-native', 'freetype-native', 'harfbuzz-native', 'libjpeg-turbo-native', 'pango-native', 'libpthread-stubs-native', 'libx11-native', 'libxau-native', 'libxcb-native', 'libxcomposite-native', 'libxcursor-native', 'libxdamage-native', 'libxdmcp-native', 'libxext-native', 'libxfixes-native', 'libxft-native', 'libxi-native', 'libxrandr-native', 'libxrender-native', 'libxtst-native', 'pixman-native', 'xtrans-native', 'xcb-proto-native', 'xorgproto-native', 'util-macros-native', 'libpng-native', 'at-spi2-core-native', 'attr-native', 'ca-certificates-native', 'curl-native', 'fribidi-native', 'gdbm-native', 'gmp-native', 'icu-native', 'libbsd-native', 'libcap-ng-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'libssh2-native', 'mpfr-native', '
- re2c-native', 'shared-mime-info-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Ddeveloper_mode=false...
-| The Meson build system
-| Version: 1.9.1
-| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/sources/epiphany-49.1
-| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/build
-| Build type: cross build
-| Project name: epiphany
-| Project version: 49.1
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/recipe-sysroot (gcc 15.2.0 "x86_64-poky-linux-gcc (GCC) 15.2.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/recipe-sysroot ld.bfd 2.45.0.20250908
-| C compiler for the build machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
-| C linker for the build machine: gcc ld.bfd 2.43.1.20241111
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
-| Run-time dependency iso-codes found: YES 4.18.0
-| Run-time dependency cairo found: YES 1.18.4
-| Run-time dependency gck-2 found: YES 4.4.0.1
-| Run-time dependency gcr-4 found: YES 4.4.0.1
-| Run-time dependency gdk-pixbuf-2.0 found: YES 2.42.12
-| Run-time dependency gio-2.0 found: YES 2.86.0
-| Run-time dependency gio-unix-2.0 found: YES 2.86.0
-| Run-time dependency glib-2.0 found: YES 2.86.0
-| Dependency granite-7 skipped: feature granite disabled
-| Run-time dependency gsettings-desktop-schemas found: YES 48.0
-| Run-time dependency gstreamer-1.0 found: YES 1.26.5
-| Run-time dependency gtk4 found: YES 4.18.6
-| Run-time dependency gtk4-unix-print found: YES 4.18.6
-| Run-time dependency hogweed found: YES 3.10.2
-| Dependency iso-codes found: YES 4.18.0 (cached)
-| Run-time dependency json-glib-1.0 found: YES 1.10.8
-| Run-time dependency libarchive found: YES 3.8.2
-| Dependency libadwaita-1 found: NO. Found 1.7.6 but need: '>= 1.8.alpha'
-| Found CMake: NO
-| Run-time dependency libadwaita-1 found: NO
-| 
-| ../sources/epiphany-49.1/meson.build:102:17: ERROR: Dependency lookup for libadwaita-1 with method 'pkgconfig' failed: Invalid version, need 'libadwaita-1' ['>= 1.8.alpha'] found '1.7.6'.
-| 
-| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/run.do_configure.2468748:171 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/run.do_configure.2468748, line 171
-| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/run.do_configure.2468748, line 160
-| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/run.do_configure.2468748, line 149
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/run.do_configure.2468748, line 184
-NOTE: recipe epiphany-49.1-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 4884 tasks of which 4875 didn't need to be rerun and 1 failed.
+NOTE: Running task 4185 of 4388 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 4343 of 4388 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_collect_spdx_deps)
+NOTE: recipe gtk4-4.20.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gtk4-4.20.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe gtk4-4.20.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gtk4-4.20.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 4376 of 4388 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_configure)
+NOTE: recipe gtk4-4.20.2-r0: task do_configure: Started
+NOTE: recipe gtk4-4.20.2-r0: task do_configure: Succeeded
+NOTE: Running task 4377 of 4388 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_compile)
+NOTE: recipe gtk4-4.20.2-r0: task do_compile: Started
+NOTE: recipe gtk4-4.20.2-r0: task do_compile: Succeeded
+NOTE: Running task 4378 of 4388 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_install)
+NOTE: recipe gtk4-4.20.2-r0: task do_install: Started
+NOTE: recipe gtk4-4.20.2-r0: task do_install: Succeeded
+NOTE: Running task 4379 of 4388 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_package)
+NOTE: Running task 4380 of 4388 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_populate_sysroot)
+NOTE: recipe gtk4-4.20.2-r0: task do_package: Started
+NOTE: recipe gtk4-4.20.2-r0: task do_populate_sysroot: Started
+NOTE: recipe gtk4-4.20.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe gtk4-4.20.2-r0: task do_package: Failed
+NOTE: Tasks Summary: Attempted 4380 tasks of which 4369 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251105193403.txt
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251105195051.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251105193403.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251105195051.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/log.do_configure.2468748
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_package
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gtk4/4.20.2/temp/log.do_package.2719145
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: epiphany-49.1-r0 do_configure: meson failed
-ERROR: epiphany-49.1-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/run.do_configure.2468748' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/log.do_configure.2468748
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_configure) failed with exit code '1'
+ERROR: gtk4-4.20.2-r0 do_package: QA Issue: gtk4: Files/directories were installed but not shipped in any package:
+  /usr/share/bash-completion
+  /usr/share/bash-completion/completions
+  /usr/share/bash-completion/completions/gtk4-builder-tool
+  /usr/share/bash-completion/completions/gtk4-image-tool
+  /usr/share/bash-completion/completions/gtk4-path-tool
+  /usr/share/bash-completion/completions/gtk4-rendernode-tool
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+gtk4: 6 installed and not shipped files. [installed-vs-shipped]
+ERROR: gtk4-4.20.2-r0 do_package: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gtk4/4.20.2/temp/log.do_package.2719145
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb:do_package) failed with exit code '1'
 
---===============8917495649302413389==--
+--===============8206555629182131628==--
 
