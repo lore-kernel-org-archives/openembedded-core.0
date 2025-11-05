@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DEE1CD4850
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82322CD4F21
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:49 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2350.1762384575984395349
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2363.1762384580621705410
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:16:45 -0800
+ Wed, 05 Nov 2025 15:16:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=NjI6zxUF;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=SMItD9/A;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019a564eef14-22317ab0-a8ce-49ce-b4f1-57d04dd43446-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=LM0paOke;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OMQjsAEz;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019a564ed0c4-fae5022b-ade1-4eb6-8af5-831fdc96a69e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1762384605;
+	t=1762384597;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=M2kmprrbbu5CA8BziHXAkC2FcbXKXJej1WJ7TQsSuEA=;
-	b=NjI6zxUFT/2FUmh8VXYzadGhnb8ExvL3fMVNOhlgwL5WQ0XwxVoWBVllECzefbuX
-	SzVz062bjlYeAN1atoDWV1muzLIo3svIKdiM+RZZAgN4ojEHnSjBDbfGc+ZT4V2Xmfk
-	uQfjMxC29uKmxKV9rjhNMv98u0Oc42InLBdrsKEU=
+	bh=JyC504y6ZJdVcBrQXAR4pJvnC1EDa9KmUFIazrZ7Cls=;
+	b=LM0paOkepm0sPFT4Qks8VKmFLZcR4rGtSJAxn0SmYnyzZ3WFkksZbSffHts3ouXX
+	7PFqK+aa4keRMcZC2l7TJ+j4s6sP658GWJQdiTaUOYrQQ0UdHVDydgi/SjpxXMJZz6U
+	2g0xLRPmKrIXIp6YKL5+vqxdZBWJiziwJWriKbsg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384605;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384597;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=M2kmprrbbu5CA8BziHXAkC2FcbXKXJej1WJ7TQsSuEA=;
-	b=SMItD9/Aul60l5PKFzeS7KHyfh1XSrN9IYXdVeEcxCg8jmF8ASltoDQHmpAi9i3N
-	qKEhZfV2ADdWj/ckeoINXkhsVetFT1egLopymVNvJQj9fsYSvxvmQsWS/05ZVDwRL5E
-	bJt4ALeH6XuuofpkmjMYfI79WmeCmG/fxjGPWLio=
-Content-Type: multipart/mixed; boundary="===============7346603053676805865=="
+	bh=JyC504y6ZJdVcBrQXAR4pJvnC1EDa9KmUFIazrZ7Cls=;
+	b=OMQjsAEzCakTPw3MDC+o6xZy2VrbXYIojj8HZHzToImF9DdS5DTDA74bWUGee2r9
+	EjKn54sBJ0r/vNJyi5fePTc/s4dDRFK9NmRgWBMxvp9e/nSiqrOrFf58J9Y4Eojacqh
+	/aFADAu0erklgypA79r33M8FdkqAIkL5qi3284TY=
+Content-Type: multipart/mixed; boundary="===============7823683935800307111=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Joslyn <robert.joslyn@redrectangle.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] curl: upgrading to 8.17.0 SUCCEEDED
-Message-ID: <0101019a564eef14-22317ab0-a8ce-49ce-b4f1-57d04dd43446-000000@us-west-2.amazonses.com>
-Date: Wed, 5 Nov 2025 23:16:44 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] gobject-introspection: upgrading to 1.86.0 SUCCEEDED
+Message-ID: <0101019a564ed0c4-fae5022b-ade1-4eb6-8af5-831fdc96a69e-000000@us-west-2.amazonses.com>
+Date: Wed, 5 Nov 2025 23:16:37 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.05-54.240.27.191
+X-SES-Outgoing: 2025.11.05-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225914
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225876
 
---===============7346603053676805865==
+--===============7823683935800307111==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *curl* to *8.17.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gobject-introspection* to *1.86.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-curl-upgrade-8.16.0-8.17.0.patch
+    - apply the patch: git am 0001-gobject-introspection-upgrade-1.84.0-1.86.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,68 +72,53 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From aaf1c0b6efe3b60c2742e62dbe3acc7a9290a8bc Mon Sep 17 00:00:00 2001
+From 769f4c79863ceb23e51f53ce6211aa35c822dada Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 5 Nov 2025 22:28:15 +0000
-Subject: [PATCH] curl: upgrade 8.16.0 -> 8.17.0
+Date: Wed, 5 Nov 2025 19:46:11 +0000
+Subject: [PATCH] gobject-introspection: upgrade 1.84.0 -> 1.86.0
 
 ---
- meta/recipes-support/curl/curl/no-test-timeout.patch        | 6 +++---
- .../recipes-support/curl/{curl_8.16.0.bb => curl_8.17.0.bb} | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/curl/{curl_8.16.0.bb => curl_8.17.0.bb} (98%)
+ ...01-Relocate-the-repository-directory-for-native-builds.patch | 2 +-
+ ...-introspection_1.84.0.bb => gobject-introspection_1.86.0.bb} | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.84.0.bb => gobject-introspection_1.86.0.bb} (99%)
 
-diff --git a/meta/recipes-support/curl/curl/no-test-timeout.patch b/meta/recipes-support/curl/curl/no-test-timeout.patch
-index 5b901a6fe9..98ee150504 100644
---- a/meta/recipes-support/curl/curl/no-test-timeout.patch
-+++ b/meta/recipes-support/curl/curl/no-test-timeout.patch
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
+index 510bc426d1..bd3af8a16c 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
 @@ -1,4 +1,4 @@
--From 42cddb52e821cfc2f09f1974742714e5f2f1856e Mon Sep 17 00:00:00 2001
-+From 6db44e0a60e19f916c85871a750fdeefb5e03586 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Fri, 15 Mar 2024 14:37:37 +0000
- Subject: [PATCH] Set the max-time timeout to 600 so the timeout is 10 minutes
-@@ -11,10 +11,10 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-From 4e1aa0ddbc43403ff24f644b4c4912b737290c41 Mon Sep 17 00:00:00 2001
++From c5eec6896d4f970473b41adea5c41f82ca21e67d Mon Sep 17 00:00:00 2001
+ From: Sascha Silbe <x-yo17@se-silbe.de>
+ Date: Fri, 8 Jun 2018 13:55:10 +0200
+ Subject: [PATCH] Relocate the repository directory for native builds
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+similarity index 99%
+rename from meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb
+rename to meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+index f6797cd2e5..2fff132b1d 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-${PV}.tar.xz \
+            "
  
- diff --git a/tests/servers.pm b/tests/servers.pm
--index d4472d5..9999938 100644
-+index e550588..31386e1 100644
- --- a/tests/servers.pm
- +++ b/tests/servers.pm
--@@ -124,7 +124,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
-+@@ -125,7 +125,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
-  my $sshderror;   # for socks server, ssh daemon version error
-  my %doesntrun;    # servers that don't work, identified by pidfile
-  my %PORT = (nolisten => 47); # port we use for a local non-listening service
-diff --git a/meta/recipes-support/curl/curl_8.16.0.bb b/meta/recipes-support/curl/curl_8.17.0.bb
-similarity index 98%
-rename from meta/recipes-support/curl/curl_8.16.0.bb
-rename to meta/recipes-support/curl/curl_8.17.0.bb
-index c226670357..32585070eb 100644
---- a/meta/recipes-support/curl/curl_8.16.0.bb
-+++ b/meta/recipes-support/curl/curl_8.17.0.bb
-@@ -20,7 +20,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://environment.d-curl.sh \
- "
+-SRC_URI[sha256sum] = "945b57da7ec262e5c266b89e091d14be800cc424277d82a02872b7d794a84779"
++SRC_URI[sha256sum] = "920d1a3fcedeadc32acff95c2e203b319039dd4b4a08dd1a2dfd283d19c0b9ae"
  
--SRC_URI[sha256sum] = "40c8cddbcb6cc6251c03dea423a472a6cea4037be654ba5cf5dec6eb2d22ff1d"
-+SRC_URI[sha256sum] = "955f6e729ad6b3566260e8fef68620e76ba3c31acf0a18524416a185acf77992"
+ SRC_URI:append:class-native = " file://0001-Relocate-the-repository-directory-for-native-builds.patch"
  
- # Curl has used many names over the years...
- CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
 -- 
 2.47.1
 
 
---===============7346603053676805865==
+--===============7823683935800307111==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/curl/curl-doc: FILELIST: added "/usr/share/man/man3/CURLMOPT_NOTIFYFUNCTION.3 /usr/share/man/man3/curl_multi_notify_disable.3 /usr/share/man/man3/curl_multi_notify_enable.3 /usr/share/man/man3/CURLMOPT_NOTIFYDATA.3"
-packages/x86-64-v3-poky-linux/curl/curl-ptest: FILELIST: removed "/usr/lib/curl/ptest/tests/data/test795", added "/usr/lib/curl/ptest/tests/data/test766 /usr/lib/curl/ptest/tests/data/test767 /usr/lib/curl/ptest/tests/data/test764 /usr/lib/curl/ptest/tests/data/test765 /usr/lib/curl/ptest/tests/data/test3206 /usr/lib/curl/ptest/tests/data/test768 /usr/lib/curl/ptest/tests/data/test769 /usr/lib/curl/ptest/tests/data/test1802 /usr/lib/curl/ptest/tests/data/test1617 /usr/lib/curl/ptest/tests/data/test1711 /usr/lib/curl/ptest/tests/data/test1902 /usr/lib/curl/ptest/tests/data/test775 /usr/lib/curl/ptest/tests/data/test774 /usr/lib/curl/ptest/tests/data/test776 /usr/lib/curl/ptest/tests/data/test771 /usr/lib/curl/ptest/tests/data/test770 /usr/lib/curl/ptest/tests/data/test773 /usr/lib/curl/ptest/tests/data/test772 /usr/lib/curl/ptest/tests/data/test3035 /usr/lib/curl/ptest/tests/data/test1582 /usr/lib/curl/ptest/tests/data/test1583"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2057,95 +2042,34 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============7346603053676805865==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-curl-upgrade-8.16.0-8.17.0.patch"
-
-RnJvbSBhYWYxYzBiNmVmZTNiNjBjMjc0MmU2MmRiZTNhY2M3YTkyOTBhOGJjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAyMjoyODoxNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGN1
-cmw6IHVwZ3JhZGUgOC4xNi4wIC0+IDguMTcuMAoKLS0tCiBtZXRhL3JlY2lwZXMtc3VwcG9ydC9j
-dXJsL2N1cmwvbm8tdGVzdC10aW1lb3V0LnBhdGNoICAgICAgICB8IDYgKysrLS0tCiAuLi4vcmVj
-aXBlcy1zdXBwb3J0L2N1cmwve2N1cmxfOC4xNi4wLmJiID0+IGN1cmxfOC4xNy4wLmJifSB8IDIg
-Ky0KIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwve2N1cmxfOC4xNi4wLmJiID0+IGN1cmxfOC4x
-Ny4wLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3Vy
-bC9uby10ZXN0LXRpbWVvdXQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmwv
-bm8tdGVzdC10aW1lb3V0LnBhdGNoCmluZGV4IDViOTAxYTZmZTkuLjk4ZWUxNTA1MDQgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybC9uby10ZXN0LXRpbWVvdXQucGF0
-Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJsL25vLXRlc3QtdGltZW91dC5w
-YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNDJjZGRiNTJlODIxY2ZjMmYwOWYxOTc0NzQyNzE0
-ZTVmMmYxODU2ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNmRiNDRlMGE2MGUxOWY5
-MTZjODU4NzFhNzUwZmRlZWZiNWUwMzU4NiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
-IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogRGF0ZTogRnJpLCAxNSBNYXIgMjAy
-NCAxNDozNzozNyArMDAwMAogU3ViamVjdDogW1BBVENIXSBTZXQgdGhlIG1heC10aW1lIHRpbWVv
-dXQgdG8gNjAwIHNvIHRoZSB0aW1lb3V0IGlzIDEwIG1pbnV0ZXMKQEAgLTExLDEwICsxMSwxMCBA
-QCBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBh
-L3Rlc3RzL3NlcnZlcnMucG0gYi90ZXN0cy9zZXJ2ZXJzLnBtCi1pbmRleCBkNDQ3MmQ1Li45OTk5
-OTM4IDEwMDY0NAoraW5kZXggZTU1MDU4OC4uMzEzODZlMSAxMDA2NDQKIC0tLSBhL3Rlc3RzL3Nl
-cnZlcnMucG0KICsrKyBiL3Rlc3RzL3NlcnZlcnMucG0KLUBAIC0xMjQsNyArMTI0LDcgQEAgbXkg
-JHNzaGR2ZXJzdHI7ICAjIGZvciBzb2NrcyBzZXJ2ZXIsIHNzaCBkYWVtb24gdmVyc2lvbiBzdHJp
-bmcKK0BAIC0xMjUsNyArMTI1LDcgQEAgbXkgJHNzaGR2ZXJzdHI7ICAjIGZvciBzb2NrcyBzZXJ2
-ZXIsIHNzaCBkYWVtb24gdmVyc2lvbiBzdHJpbmcKICBteSAkc3NoZGVycm9yOyAgICMgZm9yIHNv
-Y2tzIHNlcnZlciwgc3NoIGRhZW1vbiB2ZXJzaW9uIGVycm9yCiAgbXkgJWRvZXNudHJ1bjsgICAg
-IyBzZXJ2ZXJzIHRoYXQgZG9uJ3Qgd29yaywgaWRlbnRpZmllZCBieSBwaWRmaWxlCiAgbXkgJVBP
-UlQgPSAobm9saXN0ZW4gPT4gNDcpOyAjIHBvcnQgd2UgdXNlIGZvciBhIGxvY2FsIG5vbi1saXN0
-ZW5pbmcgc2VydmljZQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJs
-XzguMTYuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybF84LjE3LjAuYmIKc2lt
-aWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9j
-dXJsXzguMTYuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJsXzgu
-MTcuMC5iYgppbmRleCBjMjI2NjcwMzU3Li4zMjU4NTA3MGViIDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9jdXJsL2N1cmxfOC4xNi4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L2N1cmwvY3VybF84LjE3LjAuYmIKQEAgLTIwLDcgKzIwLDcgQEAgU1JDX1VSSTphcHBlbmQ6
-Y2xhc3MtbmF0aXZlc2RrID0gIiBcCiAgICAgICAgICAgIGZpbGU6Ly9lbnZpcm9ubWVudC5kLWN1
-cmwuc2ggXAogIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDBjOGNkZGJjYjZjYzYyNTFjMDNk
-ZWE0MjNhNDcyYTZjZWE0MDM3YmU2NTRiYTVjZjVkZWM2ZWIyZDIyZmYxZCIKK1NSQ19VUklbc2hh
-MjU2c3VtXSA9ICI5NTVmNmU3MjlhZDZiMzU2NjI2MGU4ZmVmNjg2MjBlNzZiYTNjMzFhY2YwYTE4
-NTI0NDE2YTE4NWFjZjc3OTkyIgogCiAjIEN1cmwgaGFzIHVzZWQgbWFueSBuYW1lcyBvdmVyIHRo
-ZSB5ZWFycy4uLgogQ1ZFX1BST0RVQ1QgPSAiaGF4eDpjdXJsIGhheHg6bGliY3VybCBjdXJsOmN1
-cmwgY3VybDpsaWJjdXJsIGxpYmN1cmw6bGliY3VybCBkYW5pZWxfc3RlbmJlcmc6Y3VybCIKLS0g
-CjIuNDcuMQoK
-
---===============7346603053676805865==
+--===============7823683935800307111==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/curl/curl-dbg: PKGV changed from 8.16.0 [default] to 8.17.0 [default]
-packages/x86-64-v3-poky-linux/curl/curl-dbg: PV changed from "8.16.0" to "8.17.0"
-packages/x86-64-v3-poky-linux/curl/curl-dbg: PKGSIZE changed from 6048384 to 6180432 (+2%)
-packages/x86-64-v3-poky-linux/curl/curl-dev: PKGV changed from 8.16.0 [default] to 8.17.0 [default]
-packages/x86-64-v3-poky-linux/curl/curl-dev: PV changed from "8.16.0" to "8.17.0"
-packages/x86-64-v3-poky-linux/curl/curl-dev: PKGSIZE changed from 271906 to 273597 (+1%)
-packages/x86-64-v3-poky-linux/curl/curl-doc: FILELIST: added "/usr/share/man/man3/CURLMOPT_NOTIFYFUNCTION.3 /usr/share/man/man3/curl_multi_notify_disable.3 /usr/share/man/man3/curl_multi_notify_enable.3 /usr/share/man/man3/CURLMOPT_NOTIFYDATA.3"
-packages/x86-64-v3-poky-linux/curl/curl-doc: PKGV changed from 8.16.0 [default] to 8.17.0 [default]
-packages/x86-64-v3-poky-linux/curl/curl-doc: PV changed from "8.16.0" to "8.17.0"
-packages/x86-64-v3-poky-linux/curl/curl-doc: PKGSIZE changed from 1668389 to 1683345 (+1%)
-packages/x86-64-v3-poky-linux/curl/curl-locale: PKGV changed from 8.16.0 [default] to 8.17.0 [default]
-packages/x86-64-v3-poky-linux/curl/curl-locale: PV changed from "8.16.0" to "8.17.0"
-packages/x86-64-v3-poky-linux/curl/curl-ptest: FILELIST: removed "/usr/lib/curl/ptest/tests/data/test795", added "/usr/lib/curl/ptest/tests/data/test3206 /usr/lib/curl/ptest/tests/data/test767 /usr/lib/curl/ptest/tests/data/test766 /usr/lib/curl/ptest/tests/data/test765 /usr/lib/curl/ptest/tests/data/test764 /usr/lib/curl/ptest/tests/data/test769 /usr/lib/curl/ptest/tests/data/test768 /usr/lib/curl/ptest/tests/data/test1711 /usr/lib/curl/ptest/tests/data/test1617 /usr/lib/curl/ptest/tests/data/test1802 /usr/lib/curl/ptest/tests/data/test1583 /usr/lib/curl/ptest/tests/data/test1582 /usr/lib/curl/ptest/tests/data/test774 /usr/lib/curl/ptest/tests/data/test775 /usr/lib/curl/ptest/tests/data/test776 /usr/lib/curl/ptest/tests/data/test770 /usr/lib/curl/ptest/tests/data/test771 /usr/lib/curl/ptest/tests/data/test772 /usr/lib/curl/ptest/tests/data/test773 /usr/lib/curl/ptest/tests/data/test1902 /usr/lib/curl/ptest/tests/data/test3035"
-packages/x86-64-v3-poky-linux/curl/curl-ptest: PKGV changed from 8.16.0 [default] to 8.17.0 [default]
-packages/x86-64-v3-poky-linux/curl/curl-ptest: PV changed from "8.16.0" to "8.17.0"
-packages/x86-64-v3-poky-linux/curl/curl-ptest: PKGSIZE changed from 3855818 to 3571698 (-7%)
-packages/x86-64-v3-poky-linux/curl/curl-src: PKGV changed from 8.16.0 [default] to 8.17.0 [default]
-packages/x86-64-v3-poky-linux/curl/curl-src: PV changed from "8.16.0" to "8.17.0"
-packages/x86-64-v3-poky-linux/curl/curl-src: PKGSIZE changed from 236336 to 259623 (+10%)
-packages/x86-64-v3-poky-linux/curl/curl-staticdev: PKGV changed from 8.16.0 [default] to 8.17.0 [default]
-packages/x86-64-v3-poky-linux/curl/curl-staticdev: PV changed from "8.16.0" to "8.17.0"
-packages/x86-64-v3-poky-linux/curl/curl: PKGV changed from 8.16.0 [default] to 8.17.0 [default]
-packages/x86-64-v3-poky-linux/curl/curl: PV changed from "8.16.0" to "8.17.0"
-packages/x86-64-v3-poky-linux/curl/curl: PKGSIZE changed from 225966 to 234976 (+4%)
-packages/x86-64-v3-poky-linux/curl: PKGV changed from 8.16.0 [default] to 8.17.0 [default]
-packages/x86-64-v3-poky-linux/curl: PV changed from "8.16.0" to "8.17.0"
-packages/x86-64-v3-poky-linux/curl: SRC_URI changed from "https://curl.se/download/curl-8.16.0.tar.xz file://run-ptest file://disable-tests file://no-test-timeout.patch" to "https://curl.se/download/curl-8.17.0.tar.xz file://run-ptest file://disable-tests file://no-test-timeout.patch"
-packages/x86-64-v3-poky-linux/curl/libcurl: PKGV changed from 8.16.0 [default] to 8.17.0 [default]
-packages/x86-64-v3-poky-linux/curl/libcurl: PV changed from "8.16.0" to "8.17.0"
-packages/x86-64-v3-poky-linux/curl/libcurl: PKGSIZE changed from 684048 to 696336 (+2%)
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-dbg: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-dbg: PKGSIZE changed from 1872152 to 1872864 (+0%)
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-dbg: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-dev: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-dev: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-doc: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-doc: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-locale: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-locale: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-src: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-src: PKGSIZE changed from 318659 to 322800 (+1%)
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-src: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-staticdev: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-staticdev: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-tools: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-tools: PKGSIZE changed from 981450 to 992235 (+1%)
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-tools: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection: SRC_URI changed from "https://download.gnome.org/sources//gobject-introspection/1.84/gobject-introspection-1.84.0.tar.xz" to "https://download.gnome.org/sources//gobject-introspection/1.86/gobject-introspection-1.86.0.tar.xz"
+packages/x86-64-v3-poky-linux/gobject-introspection: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection: PV changed from "1.84.0" to "1.86.0"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4069,5 +3993,57 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============7346603053676805865==--
+--===============7823683935800307111==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gobject-introspection-upgrade-1.84.0-1.86.0.patch"
+
+RnJvbSA3NjlmNGM3OTg2M2NlYjIzZTUxZjUzY2U2MjExYWEzNWM4MjJkYWRhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxOTo0NjoxMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdv
+YmplY3QtaW50cm9zcGVjdGlvbjogdXBncmFkZSAxLjg0LjAgLT4gMS44Ni4wCgotLS0KIC4uLjAx
+LVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRj
+aCB8IDIgKy0KIC4uLi1pbnRyb3NwZWN0aW9uXzEuODQuMC5iYiA9PiBnb2JqZWN0LWludHJvc3Bl
+Y3Rpb25fMS44Ni4wLmJifSB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCsp
+LCAyIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJv
+c3BlY3Rpb24ve2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjg0LjAuYmIgPT4gZ29iamVjdC1pbnRy
+b3NwZWN0aW9uXzEuODYuMC5iYn0gKDk5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25v
+bWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbi8wMDAxLVJlbG9j
+YXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaCBiL21l
+dGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0
+aW9uLzAwMDEtUmVsb2NhdGUtdGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5LWZvci1uYXRpdmUtYnVp
+bGRzLnBhdGNoCmluZGV4IDUxMGJjNDI2ZDEuLmJkM2FmOGExNmMgMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0aW9u
+LzAwMDEtUmVsb2NhdGUtdGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5LWZvci1uYXRpdmUtYnVpbGRz
+LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29i
+amVjdC1pbnRyb3NwZWN0aW9uLzAwMDEtUmVsb2NhdGUtdGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5
+LWZvci1uYXRpdmUtYnVpbGRzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0ZTFhYTBkZGJj
+NDM0MDNmZjI0ZjY0NGI0YzQ5MTJiNzM3MjkwYzQxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
+RnJvbSBjNWVlYzY4OTZkNGY5NzA0NzNiNDFhZGVhNWM0MWY4MmNhMjFlNjdkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQogRnJvbTogU2FzY2hhIFNpbGJlIDx4LXlvMTdAc2Utc2lsYmUuZGU+CiBE
+YXRlOiBGcmksIDggSnVuIDIwMTggMTM6NTU6MTAgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gUmVs
+b2NhdGUgdGhlIHJlcG9zaXRvcnkgZGlyZWN0b3J5IGZvciBuYXRpdmUgYnVpbGRzCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50
+cm9zcGVjdGlvbl8xLjg0LjAuYmIgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3Nw
+ZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjg2LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5
+OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9n
+b2JqZWN0LWludHJvc3BlY3Rpb25fMS44NC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25v
+bWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjg2LjAuYmIK
+aW5kZXggZjY3OTdjZDJlNS4uMmZmZjEzMmIxZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdu
+b21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb25fMS44NC4wLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1p
+bnRyb3NwZWN0aW9uXzEuODYuMC5iYgpAQCAtMTYsNyArMTYsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9DT1BZSU5HO21kNT1jNDM0ZTgxMjhhNjhiZWRkNTliODBiMmFjMWViMWM0YSBc
+CiBTUkNfVVJJID0gIiR7R05PTUVfTUlSUk9SfS8ke0JQTn0vJHtAb2UudXRpbHMudHJpbV92ZXJz
+aW9uKCIke1BWfSIsIDIpfS8ke0JQTn0tJHtQVn0udGFyLnh6IFwKICAgICAgICAgICAgIgogCi1T
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiOTQ1YjU3ZGE3ZWMyNjJlNWMyNjZiODllMDkxZDE0YmU4MDBj
+YzQyNDI3N2Q4MmEwMjg3MmI3ZDc5NGE4NDc3OSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5MjBk
+MWEzZmNlZGVhZGMzMmFjZmY5NWMyZTIwM2IzMTkwMzlkZDRiNGEwOGRkMWEyZGZkMjgzZDE5YzBi
+OWFlIgogCiBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmUgPSAiIGZpbGU6Ly8wMDAxLVJlbG9j
+YXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaCIKIAot
+LSAKMi40Ny4xCgo=
+
+--===============7823683935800307111==--
 
