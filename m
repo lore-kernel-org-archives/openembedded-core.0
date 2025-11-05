@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 892B7CCF9F8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB49BCD13CF
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:23 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2361.1762384579408257120
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2351.1762384575994735130
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:16:19 -0800
+ Wed, 05 Nov 2025 15:16:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=GxKaWGWA;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Ng8CX2A6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019a564e88bc-30254ced-27a8-4662-b8ad-619720528393-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MQwu3Bxg;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=CzscXZyu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019a564e7b1a-234be15a-c404-434e-a8c2-305e32e803ed-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1762384578;
+	t=1762384575;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=PA7t5r7q8uBqm4iFw2/fvkqii4gwNo7FesdnTVWPcpE=;
-	b=GxKaWGWAtUgKUujMhsvQUhC+R8QaX4rb3pZ/+cbb/9e8XqBQWGa/NPUgc4ng6Gd6
-	JrsDH8cGOEOdLNrhsMDHzJdWvFls/5QPMwki9EvC177vlfAgZ1oWkSJR6GaSGy/kBtt
-	nVpL91fZe6A+xi27JmvGX69wWB5i0nauSFa2mE3E=
+	bh=OOyKjyUqLEo8BJy+14dEs3MMQc4j89CcL2M2tlvCF68=;
+	b=MQwu3BxgcOPz3Yu4cTHKZXvMVD5m9YZg+W/FL+NFjRYBQgRN1if5Wrnb17D6IbGo
+	ZZ49P0t2sihYeyW/vS5tGWffPqh5YADhlykDh9uuO62R5yWIxAhd7vyQ1A3ocJZgbcr
+	t5lmLIDenH+JEAgAfps6j3UGhSLsc+d73jTcRiGQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384578;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384575;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=PA7t5r7q8uBqm4iFw2/fvkqii4gwNo7FesdnTVWPcpE=;
-	b=Ng8CX2A65EE1L1q7hEA6HhST2s5ZGBHSUcVgPUPWpDp3GhZ1oy2f2nOwPh0QKJ5N
-	ibIg1lHiY8eRTK83Cb8FlL7XfTq1TVZUheAcHFCuZkYG1l/4Lst+so4yD9CoUko1hB0
-	08lmOCQinJoEjPcKGEh8j8JEGNlKVipU3I2oywbc=
-Content-Type: multipart/mixed; boundary="===============0366807716804682198=="
+	bh=OOyKjyUqLEo8BJy+14dEs3MMQc4j89CcL2M2tlvCF68=;
+	b=CzscXZyuzs8rXc91gwXx4p3ls07TXvLdxCY5SbSm1bN9GH7nEzoJuEQ8J9UtAi03
+	QQr161J25aRBk4D9EQf8S8g/F1ShT6xqOlwXIVrERs50YnUgy2vx90eOQ4pKyejTlkE
+	98bGn/ZJ1ug9p1UpnMgARIarto3Fwn7Nmbn1QGUM=
+Content-Type: multipart/mixed; boundary="===============8728277525499747582=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] fmt: upgrading to 12.1.0 SUCCEEDED
-Message-ID: <0101019a564e88bc-30254ced-27a8-4662-b8ad-619720528393-000000@us-west-2.amazonses.com>
-Date: Wed, 5 Nov 2025 23:16:18 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] base-passwd: upgrading to 3.6.8 SUCCEEDED
+Message-ID: <0101019a564e7b1a-234be15a-c404-434e-a8c2-305e32e803ed-000000@us-west-2.amazonses.com>
+Date: Wed, 5 Nov 2025 23:16:15 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.05-54.240.27.29
+X-SES-Outgoing: 2025.11.05-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225812
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225798
 
---===============0366807716804682198==
+--===============8728277525499747582==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *fmt* to *12.1.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *base-passwd* to *3.6.8* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-fmt-upgrade-11.2.0-12.1.0.patch
+    - apply the patch: git am 0001-base-passwd-upgrade-3.6.7-3.6.8.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,141 +72,119 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a4aa2a08360fa4d19d74b691d1261fb12db6512d Mon Sep 17 00:00:00 2001
+From a0252fa29d39e0170a5ddf8deaebc5d5d037d768 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 5 Nov 2025 16:03:49 +0000
-Subject: [PATCH] fmt: upgrade 11.2.0 -> 12.1.0
+Date: Wed, 5 Nov 2025 15:05:08 +0000
+Subject: [PATCH] base-passwd: upgrade 3.6.7 -> 3.6.8
 
 ---
- ...compilation-on-clang-21-libc-21-4477.patch | 46 -------------------
- ...01-Workaround-an-ABI-issue-in-spdlog.patch |  8 ++--
- .../fmt/{fmt_11.2.0.bb => fmt_12.1.0.bb}      |  5 +-
- 3 files changed, 6 insertions(+), 53 deletions(-)
- delete mode 100644 meta/recipes-devtools/fmt/fmt/0001-Fix-compilation-on-clang-21-libc-21-4477.patch
- rename meta/recipes-devtools/fmt/{fmt_11.2.0.bb => fmt_12.1.0.bb} (84%)
+ .../base-passwd/base-passwd/0001-Add-a-shutdown-group.patch     | 2 +-
+ .../base-passwd/0001-base-passwd-Add-the-sgx-group.patch        | 2 +-
+ .../0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch | 2 +-
+ ...003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch | 2 +-
+ .../0004-Add-an-input-group-for-the-dev-input-devices.patch     | 2 +-
+ .../base-passwd/base-passwd/0005-Add-kvm-group.patch            | 2 +-
+ .../base-passwd/base-passwd/0007-Add-wheel-group.patch          | 2 +-
+ .../base-passwd/{base-passwd_3.6.7.bb => base-passwd_3.6.8.bb}  | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
+ rename meta/recipes-core/base-passwd/{base-passwd_3.6.7.bb => base-passwd_3.6.8.bb} (98%)
 
-diff --git a/meta/recipes-devtools/fmt/fmt/0001-Fix-compilation-on-clang-21-libc-21-4477.patch b/meta/recipes-devtools/fmt/fmt/0001-Fix-compilation-on-clang-21-libc-21-4477.patch
-deleted file mode 100644
-index 911fa90a40..0000000000
---- a/meta/recipes-devtools/fmt/fmt/0001-Fix-compilation-on-clang-21-libc-21-4477.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From f4345467fce7edbc6b36c3fa1cf197a67be617e2 Mon Sep 17 00:00:00 2001
--From: Remy Jette <remy@remyjette.com>
--Date: Sat, 21 Jun 2025 07:28:14 -0700
--Subject: [PATCH] Fix compilation on clang-21 / libc++-21 (#4477)
--
--`<cstdlib>` was not being included, so malloc and free were only declared
--via transitive includes. Some includes changed in the latest libc++-21
--build which broke fmt.
--
--Also changed `malloc`/`free` to `std::malloc` and `std::free`, as
--putting those symbols in the global namespace is optional for the
--implementation when including `<cstdlib>`.
--
--Upstream-Status: Backport [https://github.com/fmtlib/fmt/pull/4477]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- include/fmt/format.h | 5 +++--
-- 1 file changed, 3 insertions(+), 2 deletions(-)
--
--Index: fmt-11.2.0/include/fmt/format.h
--===================================================================
----- fmt-11.2.0.orig/include/fmt/format.h
--+++ fmt-11.2.0/include/fmt/format.h
--@@ -44,6 +44,7 @@
-- #  include <cmath>    // std::signbit
-- #  include <cstddef>  // std::byte
-- #  include <cstdint>  // uint32_t
--+#  include <cstdlib>  // std::malloc, std::free
-- #  include <cstring>  // std::memcpy
-- #  include <limits>   // std::numeric_limits
-- #  include <new>      // std::bad_alloc
--@@ -744,12 +745,12 @@ template <typename T> struct allocator {
-- 
--   T* allocate(size_t n) {
--     FMT_ASSERT(n <= max_value<size_t>() / sizeof(T), "");
---    T* p = static_cast<T*>(malloc(n * sizeof(T)));
--+    T* p = static_cast<T*>(std::malloc(n * sizeof(T)));
--     if (!p) FMT_THROW(std::bad_alloc());
--     return p;
--   }
-- 
---  void deallocate(T* p, size_t) { free(p); }
--+  void deallocate(T* p, size_t) { std::free(p); }
-- };
-- 
-- }  // namespace detail
-diff --git a/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.patch b/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.patch
-index 3fe85d51ee..86f9e6696c 100644
---- a/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.patch
-+++ b/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.patch
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch
+index 4bb0634a00..6635f81df4 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch
 @@ -1,4 +1,4 @@
--From 5a5637c306c617ddb3726c76d3f7490a2dc0a5cd Mon Sep 17 00:00:00 2001
-+From 93f96757d7ed51767b77d20ed5f5321fb082013e Mon Sep 17 00:00:00 2001
- From: Victor Zverovich <viz@meta.com>
- Date: Sat, 22 Mar 2025 06:57:04 -0700
- Subject: [PATCH] Workaround an ABI issue in spdlog
-@@ -10,10 +10,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 4 insertions(+), 2 deletions(-)
- 
- diff --git a/include/fmt/format.h b/include/fmt/format.h
--index 287e7163..61cb2825 100644
-+index 4a653007..82f80efd 100644
- --- a/include/fmt/format.h
- +++ b/include/fmt/format.h
--@@ -774,7 +774,9 @@ enum { inline_buffer_size = 500 };
-+@@ -793,7 +793,9 @@ enum { inline_buffer_size = 500 };
-   * converted to `std::string` with `to_string(out)`.
-   */
-  template <typename T, size_t SIZE = inline_buffer_size,
-@@ -24,7 +24,7 @@ index 287e7163..61cb2825 100644
-  class basic_memory_buffer : public detail::buffer<T> {
-   private:
-    T store_[SIZE];
--@@ -2594,7 +2596,7 @@ class bigint {
-+@@ -2746,7 +2748,7 @@ class bigint {
-    }
-  
-   public:
-diff --git a/meta/recipes-devtools/fmt/fmt_11.2.0.bb b/meta/recipes-devtools/fmt/fmt_12.1.0.bb
-similarity index 84%
-rename from meta/recipes-devtools/fmt/fmt_11.2.0.bb
-rename to meta/recipes-devtools/fmt/fmt_12.1.0.bb
-index 133e1ae77d..22cab6f138 100644
---- a/meta/recipes-devtools/fmt/fmt_11.2.0.bb
-+++ b/meta/recipes-devtools/fmt/fmt_12.1.0.bb
-@@ -4,12 +4,11 @@ HOMEPAGE = "https://fmt.dev"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=b9257785fc4f3803a4b71b76c1412729"
- 
--SRC_URI = "git://github.com/fmtlib/fmt;branch=master;protocol=https;tag=${PV}\
-+SRC_URI = "git://github.com/fmtlib/fmt;branch=master;protocol=https;tag=${PV} \
-            file://0001-Workaround-an-ABI-issue-in-spdlog.patch \
--           file://0001-Fix-compilation-on-clang-21-libc-21-4477.patch \
-            file://run-ptest \
+-From caf4344849c67e939689bc7d57a6f5dc24884937 Mon Sep 17 00:00:00 2001
++From e1f1c4e30a4a7cbe81cac0aa9b399e1351d35abc Mon Sep 17 00:00:00 2001
+ From: Saul Wold <sgw@linux.intel.com>
+ Date: Fri, 29 Apr 2022 13:32:27 +0000
+ Subject: [PATCH] Add a shutdown group
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
+index 714c5b40fc..598c1b9ced 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-Add-the-sgx-group.patch
+@@ -1,4 +1,4 @@
+-From 2ac953ddd31dae19568cc7925d9d56444e3232a7 Mon Sep 17 00:00:00 2001
++From 8ee1ca2b3aa9a6ca6181fe7d96f27ab250e46946 Mon Sep 17 00:00:00 2001
+ From: Alex Kiernan <alexk@zuma.ai>
+ Date: Fri, 28 Jul 2023 10:28:57 +0100
+ Subject: [PATCH] base-passwd: Add the sgx group
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch b/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
+index 6cac38eada..0a3c913b2c 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
+@@ -1,4 +1,4 @@
+-From dffeea1a44064c11d9035be008db8c628b93c7ab Mon Sep 17 00:00:00 2001
++From 5e180e6be6636099f7b5ad921b7ef8bb53119ef0 Mon Sep 17 00:00:00 2001
+ From: Scott Garman <scott.a.garman@intel.com>
+ Date: Fri, 29 Apr 2022 13:32:27 +0000
+ Subject: [PATCH] Use /bin/sh instead of /bin/bash for the root user
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch b/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
+index 7c3642fcc9..9709ebd1fd 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
+@@ -1,4 +1,4 @@
+-From 8a79e64654eb4ee38a7971cf99ad37df7f5dee63 Mon Sep 17 00:00:00 2001
++From 7694e10cf8ee67793cf87a5552640d7e17eafaaf Mon Sep 17 00:00:00 2001
+ From: Scott Garman <scott.a.garman@intel.com>
+ Date: Fri, 29 Apr 2022 13:32:28 +0000
+ Subject: [PATCH] Remove "*" for root since we do not have an /etc/shadow
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch b/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch
+index 4fdbc47b6e..bb309d558e 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch
+@@ -1,4 +1,4 @@
+-From 2d02a1e4e3202691e2ddc11f80565d5fa53d532f Mon Sep 17 00:00:00 2001
++From adab2d914cd589a658cfefa70e4052afbf79b6f5 Mon Sep 17 00:00:00 2001
+ From: Darren Hart <dvhart@linux.intel.com>
+ Date: Fri, 29 Apr 2022 13:32:28 +0000
+ Subject: [PATCH] Add an input group for the /dev/input/* devices
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch b/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
+index 742d696a24..1b501e0b27 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
+@@ -1,4 +1,4 @@
+-From 3f25f39802657de55f41fa4d5773f1d1c2bdbd93 Mon Sep 17 00:00:00 2001
++From 4ab1ffa203e62702cafee5c371f1c6a9800af51e Mon Sep 17 00:00:00 2001
+ From: Jacob Kroon <jacob.kroon@gmail.com>
+ Date: Wed, 30 Jan 2019 04:53:48 +0000
+ Subject: [PATCH] Add kvm group
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
+index 00eff1b724..bd3c64a165 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0007-Add-wheel-group.patch
+@@ -1,4 +1,4 @@
+-From 4980807167a5b7c4d9c91e2af6de61efff548868 Mon Sep 17 00:00:00 2001
++From 13edb7e4219a246d4db74db864ba5acdaf034d6d Mon Sep 17 00:00:00 2001
+ From: Louis Rannou <lrannou@baylibre.com>
+ Date: Thu, 15 Jun 2023 13:43:55 +0200
+ Subject: [PATCH] base-passwd: add the wheel group
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb b/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb
+similarity index 98%
+rename from meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
+rename to meta/recipes-core/base-passwd/base-passwd_3.6.8.bb
+index 177927d674..609f67037a 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb
+@@ -15,7 +15,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
+            file://0001-base-passwd-Add-the-sgx-group.patch \
             "
--SRCREV = "40626af88bd7df9a5fb80be7b25ac85b122d6c21"
-+SRCREV = "407c905e45ad75fc29bf0f9bb7c5c2fd3475976f"
  
- inherit cmake ptest
+-SRC_URI[sha256sum] = "cf869870fed7862b57bfa9e99cd5cd6f365e2349705a1b65af7fc182629bd1ab"
++SRC_URI[sha256sum] = "fab3d0e6e8b641e116bda9bd5f7a7ed24482384c1513f6a369b506327fbc8dde"
  
+ # the package is taken from launchpad; that source is static and goes stale
+ # so we check the latest upstream from a directory that does get updated
 -- 
 2.47.1
 
 
---===============0366807716804682198==
+--===============8728277525499747582==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/fmt/fmt: PKG changed from libfmt11 to libfmt12
-packages/x86-64-v3-poky-linux/fmt/fmt: FILELIST: removed "/usr/lib/libfmt.so.11.2.0 /usr/lib/libfmt.so.11", added "/usr/lib/libfmt.so.12 /usr/lib/libfmt.so.12.1.0"
-Changes to packages/x86-64-v3-poky-linux/fmt (sysroot):
-  /usr/lib/libfmt.so changed symlink target from libfmt.so.11 to libfmt.so.12
-  /usr/lib/libfmt.so.11.2.0 moved to /usr/lib/libfmt.so.12.1.0
-  /usr/lib/libfmt.so.11 moved to /usr/lib/libfmt.so.12
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2130,43 +2108,32 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============0366807716804682198==
+--===============8728277525499747582==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/fmt/fmt-dbg: FILELIST: removed "/usr/lib/.debug/libfmt.so.11.2.0", added "/usr/lib/.debug/libfmt.so.12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-dbg: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-dbg: PKGSIZE changed from 198066976 to 199840888 (+1%)
-packages/x86-64-v3-poky-linux/fmt/fmt-dbg: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt-dev: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-dev: PKGSIZE changed from 584573 to 590023 (+1%)
-packages/x86-64-v3-poky-linux/fmt/fmt-dev: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt-doc: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-doc: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt-locale: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-locale: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt-ptest: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-ptest: PKGSIZE changed from 15113572 to 15265124 (+1%)
-packages/x86-64-v3-poky-linux/fmt/fmt-ptest: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt-src: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-src: PKGSIZE changed from 2441729 to 2456140 (+1%)
-packages/x86-64-v3-poky-linux/fmt/fmt-src: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt-staticdev: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-staticdev: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt: FILELIST: removed "/usr/lib/libfmt.so.11 /usr/lib/libfmt.so.11.2.0", added "/usr/lib/libfmt.so.12 /usr/lib/libfmt.so.12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt: PKGSIZE changed from 133192 to 141384 (+6%)
-packages/x86-64-v3-poky-linux/fmt/fmt: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt: PKG changed from libfmt11 to libfmt12
-packages/x86-64-v3-poky-linux/fmt: SRC_URI changed from "git://github.com/fmtlib/fmt;branch=master;protocol=https;tag=11.2.0 file://0001-Workaround-an-ABI-issue-in-spdlog.patch file://0001-Fix-compilation-on-clang-21-libc-21-4477.patch file://run-ptest" to "git://github.com/fmtlib/fmt;branch=master;protocol=https;tag=12.1.0 file://0001-Workaround-an-ABI-issue-in-spdlog.patch file://run-ptest"
-packages/x86-64-v3-poky-linux/fmt: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-Changes to packages/x86-64-v3-poky-linux/fmt (sysroot):
-  /usr/lib/libfmt.so changed symlink target from libfmt.so.11 to libfmt.so.12
-  /usr/lib/libfmt.so.11.2.0 moved to /usr/lib/libfmt.so.12.1.0
-  /usr/lib/libfmt.so.11 moved to /usr/lib/libfmt.so.12
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-dbg: PV changed from "3.6.7" to "3.6.8"
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-dbg: PKGV changed from 3.6.7 [default] to 3.6.8 [default]
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-dev: PV changed from "3.6.7" to "3.6.8"
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-dev: PKGV changed from 3.6.7 [default] to 3.6.8 [default]
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-doc: PV changed from "3.6.7" to "3.6.8"
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-doc: PKGV changed from 3.6.7 [default] to 3.6.8 [default]
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-doc: PKGSIZE changed from 20054 to 20109 (+0%)
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-locale: PV changed from "3.6.7" to "3.6.8"
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-locale: PKGV changed from 3.6.7 [default] to 3.6.8 [default]
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-src: PV changed from "3.6.7" to "3.6.8"
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-src: PKGV changed from 3.6.7 [default] to 3.6.8 [default]
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-staticdev: PV changed from "3.6.7" to "3.6.8"
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-staticdev: PKGV changed from 3.6.7 [default] to 3.6.8 [default]
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-update: PV changed from "3.6.7" to "3.6.8"
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd-update: PKGV changed from 3.6.7 [default] to 3.6.8 [default]
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd: PV changed from "3.6.7" to "3.6.8"
+packages/x86-64-v3-poky-linux/base-passwd/base-passwd: PKGV changed from 3.6.7 [default] to 3.6.8 [default]
+packages/x86-64-v3-poky-linux/base-passwd: SRC_URI changed from "https://launchpad.net/debian/+archive/primary/+files/base-passwd_3.6.7.tar.xz file://0001-Add-a-shutdown-group.patch file://0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch file://0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch file://0004-Add-an-input-group-for-the-dev-input-devices.patch file://0005-Add-kvm-group.patch file://0007-Add-wheel-group.patch file://0001-base-passwd-Add-the-sgx-group.patch" to "https://launchpad.net/debian/+archive/primary/+files/base-passwd_3.6.8.tar.xz file://0001-Add-a-shutdown-group.patch file://0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch file://0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch file://0004-Add-an-input-group-for-the-dev-input-devices.patch file://0005-Add-kvm-group.patch file://0007-Add-wheel-group.patch file://0001-base-passwd-Add-the-sgx-group.patch"
+packages/x86-64-v3-poky-linux/base-passwd: PKGV changed from 3.6.7 [default] to 3.6.8 [default]
+packages/x86-64-v3-poky-linux/base-passwd: PV changed from "3.6.7" to "3.6.8"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4090,103 +4057,132 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============0366807716804682198==
+--===============8728277525499747582==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-fmt-upgrade-11.2.0-12.1.0.patch"
+ filename="0001-base-passwd-upgrade-3.6.7-3.6.8.patch"
 
-RnJvbSBhNGFhMmEwODM2MGZhNGQxOWQ3NGI2OTFkMTI2MWZiMTJkYjY1MTJkIE1vbiBTZXAgMTcg
+RnJvbSBhMDI1MmZhMjlkMzllMDE3MGE1ZGRmOGRlYWViYzVkNWQwMzdkNzY4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxNjowMzo0OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGZt
-dDogdXBncmFkZSAxMS4yLjAgLT4gMTIuMS4wCgotLS0KIC4uLmNvbXBpbGF0aW9uLW9uLWNsYW5n
-LTIxLWxpYmMtMjEtNDQ3Ny5wYXRjaCB8IDQ2IC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4uLjAxLVdv
-cmthcm91bmQtYW4tQUJJLWlzc3VlLWluLXNwZGxvZy5wYXRjaCB8ICA4ICsrLS0KIC4uLi9mbXQv
-e2ZtdF8xMS4yLjAuYmIgPT4gZm10XzEyLjEuMC5iYn0gICAgICB8ICA1ICstCiAzIGZpbGVzIGNo
-YW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNTMgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAxMDA2
-NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2ZtdC9mbXQvMDAwMS1GaXgtY29tcGlsYXRpb24tb24t
-Y2xhbmctMjEtbGliYy0yMS00NDc3LnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2ZtdC97Zm10XzExLjIuMC5iYiA9PiBmbXRfMTIuMS4wLmJifSAoODQlKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9mbXQvZm10LzAwMDEtRml4LWNvbXBpbGF0aW9uLW9uLWNs
-YW5nLTIxLWxpYmMtMjEtNDQ3Ny5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9mbXQvZm10
-LzAwMDEtRml4LWNvbXBpbGF0aW9uLW9uLWNsYW5nLTIxLWxpYmMtMjEtNDQ3Ny5wYXRjaApkZWxl
-dGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggOTExZmE5MGE0MC4uMDAwMDAwMDAwMAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvZm10L2ZtdC8wMDAxLUZpeC1jb21waWxhdGlvbi1vbi1jbGFu
-Zy0yMS1saWJjLTIxLTQ0NzcucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw0NiArMCwwIEBACi1G
-cm9tIGY0MzQ1NDY3ZmNlN2VkYmM2YjM2YzNmYTFjZjE5N2E2N2JlNjE3ZTIgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCi1Gcm9tOiBSZW15IEpldHRlIDxyZW15QHJlbXlqZXR0ZS5jb20+Ci1EYXRl
-OiBTYXQsIDIxIEp1biAyMDI1IDA3OjI4OjE0IC0wNzAwCi1TdWJqZWN0OiBbUEFUQ0hdIEZpeCBj
-b21waWxhdGlvbiBvbiBjbGFuZy0yMSAvIGxpYmMrKy0yMSAoIzQ0NzcpCi0KLWA8Y3N0ZGxpYj5g
-IHdhcyBub3QgYmVpbmcgaW5jbHVkZWQsIHNvIG1hbGxvYyBhbmQgZnJlZSB3ZXJlIG9ubHkgZGVj
-bGFyZWQKLXZpYSB0cmFuc2l0aXZlIGluY2x1ZGVzLiBTb21lIGluY2x1ZGVzIGNoYW5nZWQgaW4g
-dGhlIGxhdGVzdCBsaWJjKystMjEKLWJ1aWxkIHdoaWNoIGJyb2tlIGZtdC4KLQotQWxzbyBjaGFu
-Z2VkIGBtYWxsb2NgL2BmcmVlYCB0byBgc3RkOjptYWxsb2NgIGFuZCBgc3RkOjpmcmVlYCwgYXMK
-LXB1dHRpbmcgdGhvc2Ugc3ltYm9scyBpbiB0aGUgZ2xvYmFsIG5hbWVzcGFjZSBpcyBvcHRpb25h
-bCBmb3IgdGhlCi1pbXBsZW1lbnRhdGlvbiB3aGVuIGluY2x1ZGluZyBgPGNzdGRsaWI+YC4KLQot
-VXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIuY29tL2ZtdGxpYi9mbXQv
-cHVsbC80NDc3XQotU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4K
-LS0tLQotIGluY2x1ZGUvZm10L2Zvcm1hdC5oIHwgNSArKystLQotIDEgZmlsZSBjaGFuZ2VkLCAz
-IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCi0KLUluZGV4OiBmbXQtMTEuMi4wL2luY2x1
-ZGUvZm10L2Zvcm1hdC5oCi09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0tLS0gZm10LTExLjIuMC5vcmlnL2luY2x1ZGUv
-Zm10L2Zvcm1hdC5oCi0rKysgZm10LTExLjIuMC9pbmNsdWRlL2ZtdC9mb3JtYXQuaAotQEAgLTQ0
-LDYgKzQ0LDcgQEAKLSAjICBpbmNsdWRlIDxjbWF0aD4gICAgLy8gc3RkOjpzaWduYml0Ci0gIyAg
-aW5jbHVkZSA8Y3N0ZGRlZj4gIC8vIHN0ZDo6Ynl0ZQotICMgIGluY2x1ZGUgPGNzdGRpbnQ+ICAv
-LyB1aW50MzJfdAotKyMgIGluY2x1ZGUgPGNzdGRsaWI+ICAvLyBzdGQ6Om1hbGxvYywgc3RkOjpm
-cmVlCi0gIyAgaW5jbHVkZSA8Y3N0cmluZz4gIC8vIHN0ZDo6bWVtY3B5Ci0gIyAgaW5jbHVkZSA8
-bGltaXRzPiAgIC8vIHN0ZDo6bnVtZXJpY19saW1pdHMKLSAjICBpbmNsdWRlIDxuZXc+ICAgICAg
-Ly8gc3RkOjpiYWRfYWxsb2MKLUBAIC03NDQsMTIgKzc0NSwxMiBAQCB0ZW1wbGF0ZSA8dHlwZW5h
-bWUgVD4gc3RydWN0IGFsbG9jYXRvciB7Ci0gCi0gICBUKiBhbGxvY2F0ZShzaXplX3Qgbikgewot
-ICAgICBGTVRfQVNTRVJUKG4gPD0gbWF4X3ZhbHVlPHNpemVfdD4oKSAvIHNpemVvZihUKSwgIiIp
-OwotLSAgICBUKiBwID0gc3RhdGljX2Nhc3Q8VCo+KG1hbGxvYyhuICogc2l6ZW9mKFQpKSk7Ci0r
-ICAgIFQqIHAgPSBzdGF0aWNfY2FzdDxUKj4oc3RkOjptYWxsb2MobiAqIHNpemVvZihUKSkpOwot
-ICAgICBpZiAoIXApIEZNVF9USFJPVyhzdGQ6OmJhZF9hbGxvYygpKTsKLSAgICAgcmV0dXJuIHA7
-Ci0gICB9Ci0gCi0tICB2b2lkIGRlYWxsb2NhdGUoVCogcCwgc2l6ZV90KSB7IGZyZWUocCk7IH0K
-LSsgIHZvaWQgZGVhbGxvY2F0ZShUKiBwLCBzaXplX3QpIHsgc3RkOjpmcmVlKHApOyB9Ci0gfTsK
-LSAKLSB9ICAvLyBuYW1lc3BhY2UgZGV0YWlsCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvZm10L2ZtdC8wMDAxLVdvcmthcm91bmQtYW4tQUJJLWlzc3VlLWluLXNwZGxvZy5wYXRj
-aCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9mbXQvZm10LzAwMDEtV29ya2Fyb3VuZC1hbi1BQkkt
-aXNzdWUtaW4tc3BkbG9nLnBhdGNoCmluZGV4IDNmZTg1ZDUxZWUuLjg2ZjllNjY5NmMgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9mbXQvZm10LzAwMDEtV29ya2Fyb3VuZC1hbi1B
-QkktaXNzdWUtaW4tc3BkbG9nLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9mbXQv
-Zm10LzAwMDEtV29ya2Fyb3VuZC1hbi1BQkktaXNzdWUtaW4tc3BkbG9nLnBhdGNoCkBAIC0xLDQg
-KzEsNCBAQAotRnJvbSA1YTU2MzdjMzA2YzYxN2RkYjM3MjZjNzZkM2Y3NDkwYTJkYzBhNWNkIE1v
-biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5M2Y5Njc1N2Q3ZWQ1MTc2N2I3N2QyMGVkNWY1
-MzIxZmIwODIwMTNlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogVmljdG9yIFp2ZXJv
-dmljaCA8dml6QG1ldGEuY29tPgogRGF0ZTogU2F0LCAyMiBNYXIgMjAyNSAwNjo1NzowNCAtMDcw
-MAogU3ViamVjdDogW1BBVENIXSBXb3JrYXJvdW5kIGFuIEFCSSBpc3N1ZSBpbiBzcGRsb2cKQEAg
-LTEwLDEwICsxMCwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwu
-Y29tPgogIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAK
-IGRpZmYgLS1naXQgYS9pbmNsdWRlL2ZtdC9mb3JtYXQuaCBiL2luY2x1ZGUvZm10L2Zvcm1hdC5o
-Ci1pbmRleCAyODdlNzE2My4uNjFjYjI4MjUgMTAwNjQ0CitpbmRleCA0YTY1MzAwNy4uODJmODBl
-ZmQgMTAwNjQ0CiAtLS0gYS9pbmNsdWRlL2ZtdC9mb3JtYXQuaAogKysrIGIvaW5jbHVkZS9mbXQv
-Zm9ybWF0LmgKLUBAIC03NzQsNyArNzc0LDkgQEAgZW51bSB7IGlubGluZV9idWZmZXJfc2l6ZSA9
-IDUwMCB9OworQEAgLTc5Myw3ICs3OTMsOSBAQCBlbnVtIHsgaW5saW5lX2J1ZmZlcl9zaXplID0g
-NTAwIH07CiAgICogY29udmVydGVkIHRvIGBzdGQ6OnN0cmluZ2Agd2l0aCBgdG9fc3RyaW5nKG91
-dClgLgogICAqLwogIHRlbXBsYXRlIDx0eXBlbmFtZSBULCBzaXplX3QgU0laRSA9IGlubGluZV9i
-dWZmZXJfc2l6ZSwKQEAgLTI0LDcgKzI0LDcgQEAgaW5kZXggMjg3ZTcxNjMuLjYxY2IyODI1IDEw
-MDY0NAogIGNsYXNzIGJhc2ljX21lbW9yeV9idWZmZXIgOiBwdWJsaWMgZGV0YWlsOjpidWZmZXI8
-VD4gewogICBwcml2YXRlOgogICAgVCBzdG9yZV9bU0laRV07Ci1AQCAtMjU5NCw3ICsyNTk2LDcg
-QEAgY2xhc3MgYmlnaW50IHsKK0BAIC0yNzQ2LDcgKzI3NDgsNyBAQCBjbGFzcyBiaWdpbnQgewog
-ICAgfQogIAogICBwdWJsaWM6CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZm10
-L2ZtdF8xMS4yLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZm10L2ZtdF8xMi4xLjAuYmIK
-c2ltaWxhcml0eSBpbmRleCA4NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Zt
-dC9mbXRfMTEuMi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZm10L2ZtdF8x
-Mi4xLjAuYmIKaW5kZXggMTMzZTFhZTc3ZC4uMjJjYWI2ZjEzOCAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2ZtdC9mbXRfMTEuMi4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9mbXQvZm10XzEyLjEuMC5iYgpAQCAtNCwxMiArNCwxMSBAQCBIT01FUEFHRSA9ICJodHRw
-czovL2ZtdC5kZXYiCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
-L0xJQ0VOU0U7bWQ1PWI5MjU3Nzg1ZmM0ZjM4MDNhNGI3MWI3NmMxNDEyNzI5IgogCi1TUkNfVVJJ
-ID0gImdpdDovL2dpdGh1Yi5jb20vZm10bGliL2ZtdDticmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0
-dHBzO3RhZz0ke1BWfVwKK1NSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9mbXRsaWIvZm10O2Jy
-YW5jaD1tYXN0ZXI7cHJvdG9jb2w9aHR0cHM7dGFnPSR7UFZ9IFwKICAgICAgICAgICAgZmlsZTov
-LzAwMDEtV29ya2Fyb3VuZC1hbi1BQkktaXNzdWUtaW4tc3BkbG9nLnBhdGNoIFwKLSAgICAgICAg
-ICAgZmlsZTovLzAwMDEtRml4LWNvbXBpbGF0aW9uLW9uLWNsYW5nLTIxLWxpYmMtMjEtNDQ3Ny5w
-YXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAogICAgICAgICAgICAiCi1TUkNS
-RVYgPSAiNDA2MjZhZjg4YmQ3ZGY5YTVmYjgwYmU3YjI1YWM4NWIxMjJkNmMyMSIKK1NSQ1JFViA9
-ICI0MDdjOTA1ZTQ1YWQ3NWZjMjliZjBmOWJiN2M1YzJmZDM0NzU5NzZmIgogCiBpbmhlcml0IGNt
-YWtlIHB0ZXN0CiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAxNTowNTowOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJh
+c2UtcGFzc3dkOiB1cGdyYWRlIDMuNi43IC0+IDMuNi44CgotLS0KIC4uLi9iYXNlLXBhc3N3ZC9i
+YXNlLXBhc3N3ZC8wMDAxLUFkZC1hLXNodXRkb3duLWdyb3VwLnBhdGNoICAgICB8IDIgKy0KIC4u
+Li9iYXNlLXBhc3N3ZC8wMDAxLWJhc2UtcGFzc3dkLUFkZC10aGUtc2d4LWdyb3VwLnBhdGNoICAg
+ICAgICB8IDIgKy0KIC4uLi8wMDAyLVVzZS1iaW4tc2gtaW5zdGVhZC1vZi1iaW4tYmFzaC1mb3It
+dGhlLXJvb3QtdXNlci5wYXRjaCB8IDIgKy0KIC4uLjAwMy1SZW1vdmUtZm9yLXJvb3Qtc2luY2Ut
+d2UtZG8tbm90LWhhdmUtYW4tZXRjLXNoYWRvdy5wYXRjaCB8IDIgKy0KIC4uLi8wMDA0LUFkZC1h
+bi1pbnB1dC1ncm91cC1mb3ItdGhlLWRldi1pbnB1dC1kZXZpY2VzLnBhdGNoICAgICB8IDIgKy0K
+IC4uLi9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDA1LUFkZC1rdm0tZ3JvdXAucGF0Y2ggICAg
+ICAgICAgICB8IDIgKy0KIC4uLi9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDA3LUFkZC13aGVl
+bC1ncm91cC5wYXRjaCAgICAgICAgICB8IDIgKy0KIC4uLi9iYXNlLXBhc3N3ZC97YmFzZS1wYXNz
+d2RfMy42LjcuYmIgPT4gYmFzZS1wYXNzd2RfMy42LjguYmJ9ICB8IDIgKy0KIDggZmlsZXMgY2hh
+bmdlZCwgOCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBl
+cy1jb3JlL2Jhc2UtcGFzc3dkL3tiYXNlLXBhc3N3ZF8zLjYuNy5iYiA9PiBiYXNlLXBhc3N3ZF8z
+LjYuOC5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3
+ZC9iYXNlLXBhc3N3ZC8wMDAxLUFkZC1hLXNodXRkb3duLWdyb3VwLnBhdGNoIGIvbWV0YS9yZWNp
+cGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwMS1BZGQtYS1zaHV0ZG93bi1ncm91
+cC5wYXRjaAppbmRleCA0YmIwNjM0YTAwLi42NjM1ZjgxZGY0IDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAxLUFkZC1hLXNodXRkb3duLWdy
+b3VwLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dk
+LzAwMDEtQWRkLWEtc2h1dGRvd24tZ3JvdXAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGNh
+ZjQzNDQ4NDljNjdlOTM5Njg5YmM3ZDU3YTZmNWRjMjQ4ODQ5MzcgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCitGcm9tIGUxZjFjNGUzMGE0YTdjYmU4MWNhYzBhYTliMzk5ZTEzNTFkMzVhYmMgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBTYXVsIFdvbGQgPHNnd0BsaW51eC5pbnRlbC5j
+b20+CiBEYXRlOiBGcmksIDI5IEFwciAyMDIyIDEzOjMyOjI3ICswMDAwCiBTdWJqZWN0OiBbUEFU
+Q0hdIEFkZCBhIHNodXRkb3duIGdyb3VwCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9i
+YXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAxLWJhc2UtcGFzc3dkLUFkZC10aGUtc2d4LWdyb3Vw
+LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwMS1i
+YXNlLXBhc3N3ZC1BZGQtdGhlLXNneC1ncm91cC5wYXRjaAppbmRleCA3MTRjNWI0MGZjLi41OThj
+MWI5Y2VkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBh
+c3N3ZC8wMDAxLWJhc2UtcGFzc3dkLUFkZC10aGUtc2d4LWdyb3VwLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDEtYmFzZS1wYXNzd2QtQWRk
+LXRoZS1zZ3gtZ3JvdXAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDJhYzk1M2RkZDMxZGFl
+MTk1NjhjYzc5MjVkOWQ1NjQ0NGUzMjMyYTcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IDhlZTFjYTJiM2FhOWE2Y2E2MTgxZmU3ZDk2ZjI3YWIyNTBlNDY5NDYgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBBbGV4IEtpZXJuYW4gPGFsZXhrQHp1bWEuYWk+CiBEYXRlOiBGcmks
+IDI4IEp1bCAyMDIzIDEwOjI4OjU3ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIGJhc2UtcGFzc3dk
+OiBBZGQgdGhlIHNneCBncm91cApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1w
+YXNzd2QvYmFzZS1wYXNzd2QvMDAwMi1Vc2UtYmluLXNoLWluc3RlYWQtb2YtYmluLWJhc2gtZm9y
+LXRoZS1yb290LXVzZXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNl
+LXBhc3N3ZC8wMDAyLVVzZS1iaW4tc2gtaW5zdGVhZC1vZi1iaW4tYmFzaC1mb3ItdGhlLXJvb3Qt
+dXNlci5wYXRjaAppbmRleCA2Y2FjMzhlYWRhLi4wYTNjOTEzYjJjIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAyLVVzZS1iaW4tc2gtaW5z
+dGVhZC1vZi1iaW4tYmFzaC1mb3ItdGhlLXJvb3QtdXNlci5wYXRjaAorKysgYi9tZXRhL3JlY2lw
+ZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAyLVVzZS1iaW4tc2gtaW5zdGVhZC1v
+Zi1iaW4tYmFzaC1mb3ItdGhlLXJvb3QtdXNlci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
+ZGZmZWVhMWE0NDA2NGMxMWQ5MDM1YmUwMDhkYjhjNjI4YjkzYzdhYiBNb24gU2VwIDE3IDAwOjAw
+OjAwIDIwMDEKK0Zyb20gNWUxODBlNmJlNjYzNjA5OWY3YjVhZDkyMWI3ZWY4YmI1MzExOWVmMCBN
+b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFNjb3R0IEdhcm1hbiA8c2NvdHQuYS5nYXJt
+YW5AaW50ZWwuY29tPgogRGF0ZTogRnJpLCAyOSBBcHIgMjAyMiAxMzozMjoyNyArMDAwMAogU3Vi
+amVjdDogW1BBVENIXSBVc2UgL2Jpbi9zaCBpbnN0ZWFkIG9mIC9iaW4vYmFzaCBmb3IgdGhlIHJv
+b3QgdXNlcgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1w
+YXNzd2QvMDAwMy1SZW1vdmUtZm9yLXJvb3Qtc2luY2Utd2UtZG8tbm90LWhhdmUtYW4tZXRjLXNo
+YWRvdy5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAw
+MDMtUmVtb3ZlLWZvci1yb290LXNpbmNlLXdlLWRvLW5vdC1oYXZlLWFuLWV0Yy1zaGFkb3cucGF0
+Y2gKaW5kZXggN2MzNjQyZmNjOS4uOTcwOWViZDFmZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwMy1SZW1vdmUtZm9yLXJvb3Qtc2luY2Ut
+d2UtZG8tbm90LWhhdmUtYW4tZXRjLXNoYWRvdy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29y
+ZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDAzLVJlbW92ZS1mb3Itcm9vdC1zaW5jZS13ZS1k
+by1ub3QtaGF2ZS1hbi1ldGMtc2hhZG93LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA4YTc5
+ZTY0NjU0ZWI0ZWUzOGE3OTcxY2Y5OWFkMzdkZjdmNWRlZTYzIE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQorRnJvbSA3Njk0ZTEwY2Y4ZWU2Nzc5M2NmODdhNTU1MjY0MGQ3ZTE3ZWFmYWFmIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogU2NvdHQgR2FybWFuIDxzY290dC5hLmdhcm1hbkBp
+bnRlbC5jb20+CiBEYXRlOiBGcmksIDI5IEFwciAyMDIyIDEzOjMyOjI4ICswMDAwCiBTdWJqZWN0
+OiBbUEFUQ0hdIFJlbW92ZSAiKiIgZm9yIHJvb3Qgc2luY2Ugd2UgZG8gbm90IGhhdmUgYW4gL2V0
+Yy9zaGFkb3cKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2Ut
+cGFzc3dkLzAwMDQtQWRkLWFuLWlucHV0LWdyb3VwLWZvci10aGUtZGV2LWlucHV0LWRldmljZXMu
+cGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDA0LUFk
+ZC1hbi1pbnB1dC1ncm91cC1mb3ItdGhlLWRldi1pbnB1dC1kZXZpY2VzLnBhdGNoCmluZGV4IDRm
+ZGJjNDdiNmUuLmJiMzA5ZDU1OGUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2Ut
+cGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDQtQWRkLWFuLWlucHV0LWdyb3VwLWZvci10aGUtZGV2LWlu
+cHV0LWRldmljZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFz
+ZS1wYXNzd2QvMDAwNC1BZGQtYW4taW5wdXQtZ3JvdXAtZm9yLXRoZS1kZXYtaW5wdXQtZGV2aWNl
+cy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMmQwMmExZTRlMzIwMjY5MWUyZGRjMTFmODA1
+NjVkNWZhNTNkNTMyZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYWRhYjJkOTE0Y2Q1
+ODlhNjU4Y2ZlZmE3MGU0MDUyYWZiZjc5YjZmNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
+b206IERhcnJlbiBIYXJ0IDxkdmhhcnRAbGludXguaW50ZWwuY29tPgogRGF0ZTogRnJpLCAyOSBB
+cHIgMjAyMiAxMzozMjoyOCArMDAwMAogU3ViamVjdDogW1BBVENIXSBBZGQgYW4gaW5wdXQgZ3Jv
+dXAgZm9yIHRoZSAvZGV2L2lucHV0LyogZGV2aWNlcwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwNS1BZGQta3ZtLWdyb3VwLnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwNS1BZGQta3ZtLWdy
+b3VwLnBhdGNoCmluZGV4IDc0MmQ2OTZhMjQuLjFiNTAxZTBiMjcgMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDUtQWRkLWt2bS1ncm91cC5w
+YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDA1
+LUFkZC1rdm0tZ3JvdXAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDNmMjVmMzk4MDI2NTdk
+ZTU1ZjQxZmE0ZDU3NzNmMWQxYzJiZGJkOTMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IDRhYjFmZmEyMDNlNjI3MDJjYWZlZTVjMzcxZjFjNmE5ODAwYWY1MWUgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBKYWNvYiBLcm9vbiA8amFjb2Iua3Jvb25AZ21haWwuY29tPgogRGF0
+ZTogV2VkLCAzMCBKYW4gMjAxOSAwNDo1Mzo0OCArMDAwMAogU3ViamVjdDogW1BBVENIXSBBZGQg
+a3ZtIGdyb3VwCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNl
+LXBhc3N3ZC8wMDA3LUFkZC13aGVlbC1ncm91cC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2Jh
+c2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDctQWRkLXdoZWVsLWdyb3VwLnBhdGNoCmluZGV4IDAw
+ZWZmMWI3MjQuLmJkM2M2NGExNjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2Ut
+cGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDctQWRkLXdoZWVsLWdyb3VwLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDctQWRkLXdoZWVsLWdyb3Vw
+LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0OTgwODA3MTY3YTViN2M0ZDljOTFlMmFmNmRl
+NjFlZmZmNTQ4ODY4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAxM2VkYjdlNDIxOWEy
+NDZkNGRiNzRkYjg2NGJhNWFjZGFmMDM0ZDZkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
+bTogTG91aXMgUmFubm91IDxscmFubm91QGJheWxpYnJlLmNvbT4KIERhdGU6IFRodSwgMTUgSnVu
+IDIwMjMgMTM6NDM6NTUgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gYmFzZS1wYXNzd2Q6IGFkZCB0
+aGUgd2hlZWwgZ3JvdXAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dk
+L2Jhc2UtcGFzc3dkXzMuNi43LmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFz
+ZS1wYXNzd2RfMy42LjguYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9y
+ZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2RfMy42LjcuYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkXzMuNi44LmJiCmluZGV4IDE3
+NzkyN2Q2NzQuLjYwOWY2NzAzN2EgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2Ut
+cGFzc3dkL2Jhc2UtcGFzc3dkXzMuNi43LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2Ut
+cGFzc3dkL2Jhc2UtcGFzc3dkXzMuNi44LmJiCkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAi
+aHR0cHM6Ly9sYXVuY2hwYWQubmV0L2RlYmlhbi8rYXJjaGl2ZS9wcmltYXJ5LytmaWxlcy8ke0JQ
+Tn1fJHtQVn0udGFyCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWJhc2UtcGFzc3dkLUFkZC10aGUt
+c2d4LWdyb3VwLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAi
+Y2Y4Njk4NzBmZWQ3ODYyYjU3YmZhOWU5OWNkNWNkNmYzNjVlMjM0OTcwNWExYjY1YWY3ZmMxODI2
+MjliZDFhYiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJmYWIzZDBlNmU4YjY0MWUxMTZiZGE5YmQ1
+ZjdhN2VkMjQ0ODIzODRjMTUxM2Y2YTM2OWI1MDYzMjdmYmM4ZGRlIgogCiAjIHRoZSBwYWNrYWdl
+IGlzIHRha2VuIGZyb20gbGF1bmNocGFkOyB0aGF0IHNvdXJjZSBpcyBzdGF0aWMgYW5kIGdvZXMg
+c3RhbGUKICMgc28gd2UgY2hlY2sgdGhlIGxhdGVzdCB1cHN0cmVhbSBmcm9tIGEgZGlyZWN0b3J5
+IHRoYXQgZG9lcyBnZXQgdXBkYXRlZAotLSAKMi40Ny4xCgo=
 
---===============0366807716804682198==--
+--===============8728277525499747582==--
 
