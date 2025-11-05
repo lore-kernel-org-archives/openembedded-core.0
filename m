@@ -2,146 +2,113 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEAFECD4849
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0DCFCD484C
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:48 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2351.1762384575994735130
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2378.1762384602172553582
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:16:39 -0800
+ Wed, 05 Nov 2025 15:16:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=HESNWuyM;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Yavd2NN2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019a564ed5d9-5a32dde0-41f8-4095-b0a3-0701f9f023fa-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WQcdYN3R;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=evVEq1Kr;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019a564ee1fd-3dec158a-55fb-4b00-b98e-c244b8cfda48-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1762384598;
+	t=1762384601;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=UvZFvWY2VL7StXD+QlD1F+laajTelI1H55/hVWRJQjM=;
-	b=HESNWuyMvt6U/yG6IX1HpeFkekxru3OZcPz/0tEbUoeo15/Vs/NLW1NtME8MQl21
-	wdLltFjwVlQzj67ZdxjHoTSy5xOE+DCGZ3FnXA8ePgMdOUm9Zo72MAxV/jo2JblX3bu
-	vZvKR8ZgPO/nMsYAd5Pw/cXSiLsW47Am7US8v+po=
+	bh=ROf/qo/aAxSCKLLc3IrxhCDLutyNMSUwxvwvanIGfJs=;
+	b=WQcdYN3RR93TuIsLg24Mo9mNufUN5cR7lPR3F9jUhVIfmEwcWmzDpZVD5uzZSCPu
+	KMHx8eczhVhiQ9Qh4/dmUdIBszQTW4/OaZ/ejP3Rkjko8MgUddCXgA48gpcI7FN29sK
+	jFA5vWZ7qlgEFQutS3nZZ2fkaeZvufOM36/tVcPk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384598;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384601;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=UvZFvWY2VL7StXD+QlD1F+laajTelI1H55/hVWRJQjM=;
-	b=Yavd2NN2Q+RAgHaCOTQJVA0PgN2AKeXD2c1tZ6UbiDztw5bvyVD71AxlTQO9UxGk
-	5fw+dkyx0SlCDBr1HlGcSpMdYIWdPU4/FQ6g8QcthM45Nn6y1UwWyHf+83DTSxPI+eK
-	0NbUE9KGnwjO9HJRjWiZQaIDzg6o6UfE2RC65+gE=
-Content-Type: multipart/mixed; boundary="===============6971662990223751369=="
+	bh=ROf/qo/aAxSCKLLc3IrxhCDLutyNMSUwxvwvanIGfJs=;
+	b=evVEq1KrfY7C+H/pKUPBqeyp+TZuwLxd3WGdsWwMktYqACWkZ4EOw3k2PPi1A3wt
+	zzHNh7pOanTpcmN4+hYNoFqaeue1v7gmO6WuXjsYiELjSppflLcid/5vLCcZZNigbmF
+	TjICJ3lH6YLw0GlFofmLVCypTgbW9dgJqInNBj8s=
+Content-Type: multipart/mixed; boundary="===============0986085048541376614=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] freetype: upgrading to 2.14.1 SUCCEEDED
-Message-ID: <0101019a564ed5d9-5a32dde0-41f8-4095-b0a3-0701f9f023fa-000000@us-west-2.amazonses.com>
-Date: Wed, 5 Nov 2025 23:16:38 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] xkeyboard-config: upgrading to 2.46 SUCCEEDED
+Message-ID: <0101019a564ee1fd-3dec158a-55fb-4b00-b98e-c244b8cfda48-000000@us-west-2.amazonses.com>
+Date: Wed, 5 Nov 2025 23:16:41 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.05-54.240.27.45
+X-SES-Outgoing: 2025.11.05-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225884
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225897
 
---===============6971662990223751369==
-Content-Type: text/plain; charset="utf-8"
+--===============0986085048541376614==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICpmcmVldHlwZSogdG8gKjIuMTQuMSogaGFzIFN1Y2NlZWRlZC4KCk5leHQgc3RlcHM6CiAg
-ICAtIGFwcGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtZnJlZXR5cGUtdXBncmFkZS0yLjEzLjMt
-Mi4xNC4xLnBhdGNoCiAgICAtIGNoZWNrIHRoZSBjaGFuZ2VzIHRvIHVwc3RyZWFtIHBhdGNoZXMg
-YW5kIHN1bW1hcml6ZSB0aGVtIGluIHRoZSBjb21taXQgbWVzc2FnZSwKICAgIC0gY29tcGlsZSBh
-biBpbWFnZSB0aGF0IGNvbnRhaW5zIHRoZSBwYWNrYWdlCiAgICAtIHBlcmZvcm0gc29tZSBiYXNp
-YyBzYW5pdHkgdGVzdHMKICAgIC0gYW1lbmQgdGhlIHBhdGNoIGFuZCBzaWduIGl0IG9mZjogZ2l0
-IGNvbW1pdCAtcyAtLXJlc2V0LWF1dGhvciAtLWFtZW5kCiAgICAtIHNlbmQgaXQgdG8gdGhlIGFw
-cHJvcHJpYXRlIG1haWxpbmcgbGlzdAoKQWx0ZXJuYXRpdmVseSwgaWYgeW91IGJlbGlldmUgdGhl
-IHJlY2lwZSBzaG91bGQgbm90IGJlIHVwZ3JhZGVkIGF0IHRoaXMgdGltZSwKeW91IGNhbiBmaWxs
-IFJFQ0lQRV9OT19VUERBVEVfUkVBU09OIGluIHJlc3BlY3RpdmUgcmVjaXBlIGZpbGUgc28gdGhh
-dAphdXRvbWF0aWMgdXBncmFkZXMgd291bGQgbm8gbG9uZ2VyIGJlIGF0dGVtcHRlZC4KClBsZWFz
-ZSByZXZpZXcgdGhlIGF0dGFjaGVkIGZpbGVzIGZvciBmdXJ0aGVyIGluZm9ybWF0aW9uIGFuZCBi
-dWlsZC91cGRhdGUgZmFpbHVyZXMuCkFueSBwcm9ibGVtIHBsZWFzZSBmaWxlIGEgYnVnIGF0IGh0
-dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9lbnRlcl9idWcuY2dpP3Byb2R1Y3Q9QXV0
-b21hdGVkJTIwVXBkYXRlJTIwSGFuZGxlcgoKUmVnYXJkcywKVGhlIFVwZ3JhZGUgSGVscGVyCgot
-LSA+OCAtLQpGcm9tIDY1Y2M5MzE2YjVlODZkMjA1NjQ1NzhkOWIwMmVmYmRmZWU2M2E1MTggTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCkZyb206IFVwZ3JhZGUgSGVscGVyIDxhdWhAeW9jdG9wcm9q
-ZWN0Lm9yZz4KRGF0ZTogV2VkLCA1IE5vdiAyMDI1IDIwOjE2OjQxICswMDAwClN1YmplY3Q6IFtQ
-QVRDSF0gZnJlZXR5cGU6IHVwZ3JhZGUgMi4xMy4zIC0+IDIuMTQuMQoKLS0tCiAuLi57ZnJlZXR5
-cGVfMi4xMy4zLmJiID0+IGZyZWV0eXBlXzIuMTQuMS5iYn0gfCA1MyArKysrKysrKysrKysrKysr
-Ky0tCiAxIGZpbGUgY2hhbmdlZCwgNTAgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZnJlZXR5cGUve2ZyZWV0eXBlXzIuMTMuMy5iYiA9
-PiBmcmVldHlwZV8yLjE0LjEuYmJ9ICg0NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdy
-YXBoaWNzL2ZyZWV0eXBlL2ZyZWV0eXBlXzIuMTMuMy5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGlj
-cy9mcmVldHlwZS9mcmVldHlwZV8yLjE0LjEuYmIKc2ltaWxhcml0eSBpbmRleCA0NyUKcmVuYW1l
-IGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2ZyZWV0eXBlL2ZyZWV0eXBlXzIuMTMuMy5iYgpy
-ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2ZyZWV0eXBlL2ZyZWV0eXBlXzIuMTQuMS5i
-YgppbmRleCBkYmZmZmRiNjVmLi5iNmUzM2M4Mjc0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvZnJlZXR5cGUvZnJlZXR5cGVfMi4xMy4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1n
-cmFwaGljcy9mcmVldHlwZS9mcmVldHlwZV8yLjE0LjEuYmIKQEAgLTEsMyArMSw1MCBAQAorIyBG
-SVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdk
-ZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdl
-ZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhl
-IExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisj
-IHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBs
-ZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUg
-Y2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UuVFhUCisjICsrKyBMSUNFTlNFLlRYVAorIyBAQCAt
-MzUsOSArMzUsMTAgQEAKKyMgIFRoZSBnemlwICBtb2R1bGUgdXNlcyB0aGUgIHpsaWIgbGljZW5z
-ZSAoc2VlICBgc3JjL2d6aXAvemxpYi5oYCkgd2hpY2gKKyMgIHRvbyBpcyBjb21wYXRpYmxlIHRv
-IHRoZSBhYm92ZSB0d28gbGljZW5zZXMuCisjICAKKyMgLVRoZSBmaWxlcyBgc3JjL2F1dG9maXQv
-ZnQtaGIuY2AgYW5kIGBzcmMvYXV0b2ZpdC9mdC1oYi5oYCBjb250YWluIGNvZGUKKyMgLXRha2Vu
-IGFsbW9zdCAgdmVyYmF0aW0gZnJvbSB0aGUgIEhhcmZCdXp6IGZpbGUgYGhiLWZ0LmNjYCwgIHdo
-aWNoIHVzZXMKKyMgLXRoZSAnT2xkIE1JVCcgbGljZW5zZSwgY29tcGF0aWJsZSB0byB0aGUgYWJv
-dmUgdHdvIGxpY2Vuc2VzLgorIyArVGhlICAgZmlsZXMgICBgc3JjL2F1dG9maXQvZnQtaGItZnQu
-Y2AsICAgYHNyYy9hdXRvZml0L2Z0LWhiLWRlY2xzLmhgLAorIyArYHNyYy9hdXRvZml0L2Z0LWhi
-LXR5cGVzLmhgLCAgICAgYW5kICAgIGBzcmMvYXV0b2ZpdC9oYi1zY3JpcHQtbGlzdC5oYAorIyAr
-Y29udGFpbiBjb2RlIHRha2VuIChhbG1vc3QpIHZlcmJhdGltICBmcm9tIHRoZSBIYXJmQnV6eiBs
-aWJyYXJ5LCB3aGljaAorIyArdXNlcyB0aGUgJ09sZCBNSVQnIGxpY2Vuc2UgY29tcGF0aWJsZSB0
-byB0aGUgYWJvdmUgdHdvIGxpY2Vuc2VzLgorIyAgCisjICBUaGUgIE1ENSBjaGVja3N1bSAgc3Vw
-cG9ydCAgKG9ubHkgdXNlZCAgZm9yICBkZWJ1Z2dpbmcgaW4gIGRldmVsb3BtZW50CisjICBidWls
-ZHMpIGlzIGluIHRoZSBwdWJsaWMgZG9tYWluLgorIyAtLS0gZG9jcy9GVEwuVFhUCisjICsrKyBk
-b2NzL0ZUTC5UWFQKKyMgQEAgLTQ5LDcgKzQ5LDcgQEAKKyMgIAorIyAgICAgIiIiCisjICAgICAg
-UG9ydGlvbnMgb2YgdGhpcyBzb2Z0d2FyZSBhcmUgY29weXJpZ2h0IMKpIDx5ZWFyPiBUaGUgRnJl
-ZVR5cGUKKyMgLSAgICBQcm9qZWN0ICh3d3cuZnJlZXR5cGUub3JnKS4gIEFsbCByaWdodHMgcmVz
-ZXJ2ZWQuCisjICsgICAgUHJvamVjdCAoaHR0cHM6Ly9mcmVldHlwZS5vcmcpLiAgQWxsIHJpZ2h0
-cyByZXNlcnZlZC4KKyMgICAgICIiIgorIyAgCisjICAgIFBsZWFzZSByZXBsYWNlIDx5ZWFyPiB3
-aXRoIHRoZSB2YWx1ZSBmcm9tIHRoZSBGcmVlVHlwZSB2ZXJzaW9uIHlvdQorIyBAQCAtMTYzLDcg
-KzE2Myw3IEBACisjICAKKyMgICAgT3VyIGhvbWUgcGFnZSBjYW4gYmUgZm91bmQgYXQKKyMgIAor
-IyAtICAgIGh0dHBzOi8vd3d3LmZyZWV0eXBlLm9yZworIyArICAgIGh0dHBzOi8vZnJlZXR5cGUu
-b3JnCisjICAKKyMgIAorIyAgLS0tIGVuZCBvZiBGVEwuVFhUIC0tLQorIyAKKyMKKwogU1VNTUFS
-WSA9ICJGcmVldHlwZSBmb250IHJlbmRlcmluZyBsaWJyYXJ5IgogREVTQ1JJUFRJT04gPSAiRnJl
-ZVR5cGUgaXMgYSBzb2Z0d2FyZSBmb250IGVuZ2luZSB0aGF0IGlzIGRlc2lnbmVkIHRvIGJlIHNt
-YWxsLCBlZmZpY2llbnQsIFwKIGhpZ2hseSBjdXN0b21pemFibGUsIGFuZCBwb3J0YWJsZSB3aGls
-ZSBjYXBhYmxlIG9mIHByb2R1Y2luZyBoaWdoLXF1YWxpdHkgb3V0cHV0IChnbHlwaCBcCkBAIC04
-LDEzICs1NSwxMyBAQCBCVUdUUkFDS0VSID0gImh0dHBzOi8vc2F2YW5uYWgubm9uZ251Lm9yZy9i
-dWdzLz9ncm91cD1mcmVldHlwZSIKIFNFQ1RJT04gPSAibGlicyIKIAogTElDRU5TRSA9ICIoRlRM
-IHwgR1BMLTIuMC1vci1sYXRlcikgJiBNSVQiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
-SUNFTlNFLlRYVDttZDU9ODQzYjZlZmMxNmY2YjE2NTJlYzk3Zjg5ZDVhNTE2YzAgXAotICAgICAg
-ICAgICAgICAgICAgICBmaWxlOi8vZG9jcy9GVEwuVFhUO21kNT05ZjM3YjRlNmFmYTNmZWY5ZGJh
-ODkzMmIxNmJkM2Y5NyBcCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLlRYVDtt
-ZDU9ZWViMDczZDVmYjg2ZDIzYzUyYmI5Yjg0YWEyNTYzMDcgXAorICAgICAgICAgICAgICAgICAg
-ICBmaWxlOi8vZG9jcy9GVEwuVFhUO21kNT03MmQ4NDRjZDJmM2JjYWY2YTg1MjQ0YjUwODAzMmJl
-NyBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9kb2NzL0dQTHYyLlRYVDttZDU9OGVmMzgw
-NDc2ZjY0MmMyMGViZjQwZmVjYjBhZGQyZWMgXAogICAgICAgICAgICAgICAgICAgICAiCiAKIFNS
-Q19VUkkgPSAiJHtTQVZBTk5BSF9OT05HTlVfTUlSUk9SfS8ke0JQTn0vJHtCUH0udGFyLnh6Igot
-U1JDX1VSSVtzaGEyNTZzdW1dID0gIjA1NTAzNTA2NjZkNDI3Yzc0ZGFlYjg1ZDVhYzdiYjM1M2Fj
-YmE1Zjc2OTU2Mzk1OTk1MzExYTljNmYwNjMyODkiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzI0
-MjdlOGM0NzFhYzA5NTg1MzIxMmEzN2FlZjgxNmM2MGI0MjA1MmQ0ZDllNDgyMzBiYWIzYmRmMjkz
-NmNjYyIKIAogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAiZnJlZXR5cGUtKD9QPHB2ZXI+XGQrKFwu
-XGQrKSspIgogCi0tIAoyLjQ3LjEKCg==
+Hello,
 
---===============6971662990223751369==
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *xkeyboard-config* to *2.46* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-xkeyboard-config-upgrade-2.45-2.46.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From c44c972559cf362323099cd6d18a0d0be80b6c7e Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 5 Nov 2025 21:19:42 +0000
+Subject: [PATCH] xkeyboard-config: upgrade 2.45 -> 2.46
+
+---
+ .../{xkeyboard-config_2.45.bb => xkeyboard-config_2.46.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.45.bb => xkeyboard-config_2.46.bb} (91%)
+
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.45.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.46.bb
+similarity index 91%
+rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.45.bb
+rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.46.bb
+index 5153b76d98..cfefa53a0f 100644
+--- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.45.bb
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.46.bb
+@@ -13,7 +13,7 @@ LICENSE = "MIT & MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=faa756e04053029ddc602caf99e5ef1d"
+ 
+ SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "169e075a92d957a57787c199e84e359df2931b7196c1c5b4a3d576ee6235a87c"
++SRC_URI[sha256sum] = "10c58218fb60d08fb1f7b30304deb3ba47613195aa8a08a81f1972775ccc3640"
+ 
+ SECTION = "x11/libs"
+ DEPENDS = "util-macros libxslt-native"
+-- 
+2.47.1
+
+
+--===============0986085048541376614==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/freetype/freetype: FILELIST: removed "/usr/lib/libfreetype.so.6.20.2", added "/usr/lib/libfreetype.so.6.20.4"
-Changes to packages/x86-64-v3-poky-linux/freetype (sysroot):
-  /usr/lib/libfreetype.so.6 changed symlink target from libfreetype.so.6.20.2 to libfreetype.so.6.20.4
-  /usr/lib/libfreetype.so changed symlink target from libfreetype.so.6.20.2 to libfreetype.so.6.20.4
-  /usr/lib/libfreetype.so.6.20.2 moved to /usr/lib/libfreetype.so.6.20.4
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fa: PKGSIZE changed from 67326 to 84332 (+25%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2065,45 +2032,169 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============6971662990223751369==
+--===============0986085048541376614==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-xkeyboard-config-upgrade-2.45-2.46.patch"
+
+RnJvbSBjNDRjOTcyNTU5Y2YzNjIzMjMwOTljZDZkMThhMGQwYmU4MGI2YzdlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAyMToxOTo0MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHhr
+ZXlib2FyZC1jb25maWc6IHVwZ3JhZGUgMi40NSAtPiAyLjQ2CgotLS0KIC4uLi97eGtleWJvYXJk
+LWNvbmZpZ18yLjQ1LmJiID0+IHhrZXlib2FyZC1jb25maWdfMi40Ni5iYn0gICAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi97eGtleWJvYXJkLWNvbmZpZ18yLjQ1LmJiID0+
+IHhrZXlib2FyZC1jb25maWdfMi40Ni5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3MveG9yZy1saWIveGtleWJvYXJkLWNvbmZpZ18yLjQ1LmJiIGIvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3hvcmctbGliL3hrZXlib2FyZC1jb25maWdfMi40Ni5iYgpzaW1pbGFyaXR5
+IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIveGtl
+eWJvYXJkLWNvbmZpZ18yLjQ1LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9y
+Zy1saWIveGtleWJvYXJkLWNvbmZpZ18yLjQ2LmJiCmluZGV4IDUxNTNiNzZkOTguLmNmZWZhNTNh
+MGYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi94a2V5Ym9hcmQt
+Y29uZmlnXzIuNDUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3hrZXli
+b2FyZC1jb25maWdfMi40Ni5iYgpAQCAtMTMsNyArMTMsNyBAQCBMSUNFTlNFID0gIk1JVCAmIE1J
+VCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWZhYTc1NmUwNDA1MzAy
+OWRkYzYwMmNhZjk5ZTVlZjFkIgogCiBTUkNfVVJJID0gIiR7WE9SR19NSVJST1J9L2luZGl2aWR1
+YWwvZGF0YS94a2V5Ym9hcmQtY29uZmlnLyR7QlBOfS0ke1BWfS50YXIueHoiCi1TUkNfVVJJW3No
+YTI1NnN1bV0gPSAiMTY5ZTA3NWE5MmQ5NTdhNTc3ODdjMTk5ZTg0ZTM1OWRmMjkzMWI3MTk2YzFj
+NWI0YTNkNTc2ZWU2MjM1YTg3YyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIxMGM1ODIxOGZiNjBk
+MDhmYjFmN2IzMDMwNGRlYjNiYTQ3NjEzMTk1YWE4YTA4YTgxZjE5NzI3NzVjY2MzNjQwIgogCiBT
+RUNUSU9OID0gIngxMS9saWJzIgogREVQRU5EUyA9ICJ1dGlsLW1hY3JvcyBsaWJ4c2x0LW5hdGl2
+ZSIKLS0gCjIuNDcuMQoK
+
+--===============0986085048541376614==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/freetype/freetype-dbg: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype/freetype-dbg: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype-dbg: FILELIST: removed "/usr/lib/.debug/libfreetype.so.6.20.2", added "/usr/lib/.debug/libfreetype.so.6.20.4"
-packages/x86-64-v3-poky-linux/freetype/freetype-dbg: PKGSIZE changed from 2685504 to 2705448 (+1%)
-packages/x86-64-v3-poky-linux/freetype/freetype-dev: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype/freetype-dev: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype-dev: PKGSIZE changed from 879678 to 885623 (+1%)
-packages/x86-64-v3-poky-linux/freetype/freetype-doc: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype/freetype-doc: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype-locale: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype/freetype-locale: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype-src: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype/freetype-src: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype-src: FILELIST: directory renamed /usr/src/debug/freetype/2.13.3/builds/unix -> /usr/src/debug/freetype/2.14.1/builds/unix, directory renamed /usr/src/debug/freetype/2.13.3/src/cid -> /usr/src/debug/freetype/2.14.1/src/cid, directory renamed /usr/src/debug/freetype/2.13.3/src/pfr -> /usr/src/debug/freetype/2.14.1/src/pfr, directory renamed /usr/src/debug/freetype/2.13.3/src/pshinter -> /usr/src/debug/freetype/2.14.1/src/pshinter, directory renamed /usr/src/debug/freetype/2.13.3/src/raster -> /usr/src/debug/freetype/2.14.1/src/raster, directory renamed /usr/src/debug/freetype/2.13.3/include/freetype/internal -> /usr/src/debug/freetype/2.14.1/include/freetype/internal, directory renamed /usr/src/debug/freetype/2.13.3/src/gzip -> /usr/src/debug/freetype/2.14.1/src/gzip, directory renamed /usr/src/debug/freetype/2.13.3/src/bdf -> /usr/src/debug/freetype/2.14.1/src/bdf, directory renamed /usr/src/debug/freetype/2.13.3/src/cache -> /usr/src/de
- bug/freetype/2.14.1/src/cache, directory renamed /usr/src/debug/freetype/2.13.3/src/svg -> /usr/src/debug/freetype/2.14.1/src/svg, directory renamed /usr/src/debug/freetype/2.13.3/src/truetype -> /usr/src/debug/freetype/2.14.1/src/truetype, directory renamed /usr/src/debug/freetype/2.13.3/src/winfonts -> /usr/src/debug/freetype/2.14.1/src/winfonts, directory renamed /usr/src/debug/freetype/2.13.3/src/smooth -> /usr/src/debug/freetype/2.14.1/src/smooth, directory renamed /usr/src/debug/freetype/2.13.3 -> /usr/src/debug/freetype/2.14.1, directory renamed /usr/src/debug/freetype/2.13.3/src/base -> /usr/src/debug/freetype/2.14.1/src/base, directory renamed /usr/src/debug/freetype/2.13.3/src/bzip2 -> /usr/src/debug/freetype/2.14.1/src/bzip2, directory renamed /usr/src/debug/freetype/2.13.3/include/freetype -> /usr/src/debug/freetype/2.14.1/include/freetype, directory renamed /usr/src/debug/freetype/2.13.3/src/psaux -> /usr/src/debug/freetype/2.14.1/src/psaux, directory renamed /usr/src/d
- ebug/freetype/2.13.3/src/cff -> /usr/src/debug/freetype/2.14.1/src/cff, directory renamed /usr/src/debug/freetype/2.13.3/include/freetype/internal/services -> /usr/src/debug/freetype/2.14.1/include/freetype/internal/services, directory renamed /usr/src/debug/freetype/2.13.3/src/pcf -> /usr/src/debug/freetype/2.14.1/src/pcf, directory renamed /usr/src/debug/freetype/2.13.3/src/sfnt -> /usr/src/debug/freetype/2.14.1/src/sfnt, directory renamed /usr/src/debug/freetype/2.13.3/src/sdf -> /usr/src/debug/freetype/2.14.1/src/sdf, directory renamed /usr/src/debug/freetype/2.13.3/src/psnames -> /usr/src/debug/freetype/2.14.1/src/psnames, directory renamed /usr/src/debug/freetype/2.13.3/src/type42 -> /usr/src/debug/freetype/2.14.1/src/type42, directory renamed /usr/src/debug/freetype/2.13.3/src/lzw -> /usr/src/debug/freetype/2.14.1/src/lzw, directory renamed /usr/src/debug/freetype/2.13.3/src/type1 -> /usr/src/debug/freetype/2.14.1/src/type1, directory renamed /usr/src/debug/freetype/2.13.3/in
- clude/freetype/config -> /usr/src/debug/freetype/2.14.1/include/freetype/config, removed "/usr/src/debug/freetype/2.13.3/src/autofit/afglobal.h /usr/src/debug/freetype/2.13.3/src/autofit/afglobal.c /usr/src/debug/freetype/2.13.3/src/autofit/afstyles.h /usr/src/debug/freetype/2.13.3/src/autofit/afshaper.c /usr/src/debug/freetype/2.13.3/src/autofit/afranges.c /usr/src/debug/freetype/2.13.3/src/autofit/afscript.h /usr/src/debug/freetype/2.13.3/src/autofit/afcjk.c /usr/src/debug/freetype/2.13.3/src/autofit/afmodule.h /usr/src/debug/freetype/2.13.3/src/autofit/aftypes.h /usr/src/debug/freetype/2.13.3/src/autofit/afcjk.h /usr/src/debug/freetype/2.13.3/src/autofit/afmodule.c /usr/src/debug/freetype/2.13.3/src/autofit/afhints.h /usr/src/debug/freetype/2.13.3/src/autofit/afdummy.c /usr/src/debug/freetype/2.13.3/src/autofit/afhints.c /usr/src/debug/freetype/2.13.3/src/autofit/afdummy.h /usr/src/debug/freetype/2.13.3/src/autofit/afindic.h /usr/src/debug/freetype/2.13.3/src/autofit/afblue.h /us
- r/src/debug/freetype/2.13.3/src/autofit/afloader.c /usr/src/debug/freetype/2.13.3/src/autofit/afindic.c /usr/src/debug/freetype/2.13.3/src/autofit/afloader.h /usr/src/debug/freetype/2.13.3/src/autofit/afblue.c /usr/src/debug/freetype/2.13.3/src/autofit/aflatin.c /usr/src/debug/freetype/2.13.3/src/autofit/aflatin.h", added "/usr/src/debug/freetype/2.14.1/src/autofit/afglobal.h /usr/src/debug/freetype/2.14.1/src/autofit/afglobal.c /usr/src/debug/freetype/2.14.1/src/autofit/afstyles.h /usr/src/debug/freetype/2.14.1/src/autofit/afshaper.c /usr/src/debug/freetype/2.14.1/src/autofit/afranges.c /usr/src/debug/freetype/2.14.1/src/autofit/afscript.h /usr/src/debug/freetype/2.14.1/src/autofit/afcjk.c /usr/src/debug/freetype/2.14.1/src/autofit/afmodule.h /usr/src/debug/freetype/2.14.1/src/autofit/ft-hb.c /usr/src/debug/freetype/2.14.1/src/autofit/afadjust.c /usr/src/debug/freetype/2.14.1/src/autofit/aftypes.h /usr/src/debug/freetype/2.14.1/src/autofit/afcjk.h /usr/src/debug/freetype/2.14.1/src
- /autofit/afmodule.c /usr/src/debug/freetype/2.14.1/src/autofit/afhints.h /usr/src/debug/freetype/2.14.1/src/autofit/afdummy.c /usr/src/debug/freetype/2.14.1/src/autofit/afhints.c /usr/src/debug/freetype/2.14.1/src/autofit/afdummy.h /usr/src/debug/freetype/2.14.1/src/autofit/afindic.h /usr/src/debug/freetype/2.14.1/src/autofit/afblue.h /usr/src/debug/freetype/2.14.1/src/autofit/afloader.c /usr/src/debug/freetype/2.14.1/src/autofit/afindic.c /usr/src/debug/freetype/2.14.1/src/autofit/afloader.h /usr/src/debug/freetype/2.14.1/src/autofit/afblue.c /usr/src/debug/freetype/2.14.1/src/autofit/aflatin.c /usr/src/debug/freetype/2.14.1/src/autofit/aflatin.h"
-packages/x86-64-v3-poky-linux/freetype/freetype-src: PKGSIZE changed from 5535548 to 5628258 (+2%)
-packages/x86-64-v3-poky-linux/freetype/freetype-staticdev: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype/freetype-staticdev: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype/freetype: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype: FILELIST: removed "/usr/lib/libfreetype.so.6.20.2", added "/usr/lib/libfreetype.so.6.20.4"
-packages/x86-64-v3-poky-linux/freetype/freetype: PKGSIZE changed from 772093 to 776189 (+1%)
-packages/x86-64-v3-poky-linux/freetype: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype: SRC_URI changed from "https://download.savannah.nongnu.org/releases/freetype/freetype-2.13.3.tar.xz" to "https://download.savannah.nongnu.org/releases/freetype/freetype-2.14.1.tar.xz"
-Changes to packages/x86-64-v3-poky-linux/freetype (sysroot):
-  /usr/lib/libfreetype.so.6 changed symlink target from libfreetype.so.6.20.2 to libfreetype.so.6.20.4
-  /usr/lib/libfreetype.so changed symlink target from libfreetype.so.6.20.2 to libfreetype.so.6.20.4
-  /usr/lib/libfreetype.so.6.20.2 moved to /usr/lib/libfreetype.so.6.20.4
+packages/x86-64-v3-poky-linux/xkeyboard-config: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config: SRC_URI changed from "https://www.x.org/releases//individual/data/xkeyboard-config/xkeyboard-config-2.45.tar.xz" to "https://www.x.org/releases//individual/data/xkeyboard-config/xkeyboard-config-2.46.tar.xz"
+packages/x86-64-v3-poky-linux/xkeyboard-config: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-dbg: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-dbg: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-dev: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-dev: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-doc: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-doc: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-doc: PKGSIZE changed from 42275 to 42567 (+1%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-af: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-af: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ar: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ar: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-az: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-az: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-bg: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-bg: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PKGSIZE changed from 178440 to 179328 (+0%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-crh: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-crh: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PKGSIZE changed from 188612 to 189544 (+0%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-da: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-da: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PKGSIZE changed from 188722 to 189606 (+0%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-el: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-el: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-en-gb: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-en-gb: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-eo: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-eo: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-es: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-es: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fa: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fa: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fa: PKGSIZE changed from 67326 to 84332 (+25%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PKGSIZE changed from 189534 to 190486 (+1%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PKGSIZE changed from 181470 to 181466 (-0%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fur: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fur: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-gl: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-gl: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-he: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-he: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-he: PKGSIZE changed from 202530 to 203588 (+1%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-hr: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-hr: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-hu: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-hu: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-id: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-id: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-it: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-it: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ja: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ja: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ka: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ka: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ko: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ko: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ky: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ky: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-lt: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-lt: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-nb: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-nb: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-nl: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-nl: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PKGSIZE changed from 181772 to 182686 (+1%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt-br: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt-br: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt: PKGSIZE changed from 178548 to 179428 (+0%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PKGSIZE changed from 185334 to 186254 (+0%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ru: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ru: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-rw: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-rw: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sk: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sk: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PKGSIZE changed from 184100 to 185496 (+1%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sq: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sq: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PKGSIZE changed from 218528 to 219206 (+0%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PKGSIZE changed from 180946 to 181840 (+0%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PKGSIZE changed from 180858 to 181770 (+1%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PKGSIZE changed from 221992 to 223106 (+1%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-vi: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-vi: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PKGSIZE changed from 183834 to 184790 (+1%)
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-tw: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-tw: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-src: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-src: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-staticdev: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-staticdev: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config: PKGV changed from 2.45 [default] to 2.46 [default]
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config: PV changed from "2.45" to "2.46"
+packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config: PKGSIZE changed from 3301729 to 3320515 (+1%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4027,78 +4118,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============6971662990223751369==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-freetype-upgrade-2.13.3-2.14.1.patch"
-
-RnJvbSA2NWNjOTMxNmI1ZTg2ZDIwNTY0NTc4ZDliMDJlZmJkZmVlNjNhNTE4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAyMDoxNjo0MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGZy
-ZWV0eXBlOiB1cGdyYWRlIDIuMTMuMyAtPiAyLjE0LjEKCi0tLQogLi4ue2ZyZWV0eXBlXzIuMTMu
-My5iYiA9PiBmcmVldHlwZV8yLjE0LjEuYmJ9IHwgNTMgKysrKysrKysrKysrKysrKystLQogMSBm
-aWxlIGNoYW5nZWQsIDUwIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL2ZyZWV0eXBlL3tmcmVldHlwZV8yLjEzLjMuYmIgPT4gZnJlZXR5
-cGVfMi4xNC4xLmJifSAoNDclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9m
-cmVldHlwZS9mcmVldHlwZV8yLjEzLjMuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZnJlZXR5
-cGUvZnJlZXR5cGVfMi4xNC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggNDclCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1ncmFwaGljcy9mcmVldHlwZS9mcmVldHlwZV8yLjEzLjMuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1ncmFwaGljcy9mcmVldHlwZS9mcmVldHlwZV8yLjE0LjEuYmIKaW5kZXgg
-ZGJmZmZkYjY1Zi4uYjZlMzNjODI3NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L2ZyZWV0eXBlL2ZyZWV0eXBlXzIuMTMuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-ZnJlZXR5cGUvZnJlZXR5cGVfMi4xNC4xLmJiCkBAIC0xLDMgKzEsNTAgQEAKKyMgRklYTUU6IHRo
-ZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1
-cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBv
-bGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNF
-IHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29t
-bWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNl
-bnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6
-CisjCisjIC0tLSBMSUNFTlNFLlRYVAorIyArKysgTElDRU5TRS5UWFQKKyMgQEAgLTM1LDkgKzM1
-LDEwIEBACisjICBUaGUgZ3ppcCAgbW9kdWxlIHVzZXMgdGhlICB6bGliIGxpY2Vuc2UgKHNlZSAg
-YHNyYy9nemlwL3psaWIuaGApIHdoaWNoCisjICB0b28gaXMgY29tcGF0aWJsZSB0byB0aGUgYWJv
-dmUgdHdvIGxpY2Vuc2VzLgorIyAgCisjIC1UaGUgZmlsZXMgYHNyYy9hdXRvZml0L2Z0LWhiLmNg
-IGFuZCBgc3JjL2F1dG9maXQvZnQtaGIuaGAgY29udGFpbiBjb2RlCisjIC10YWtlbiBhbG1vc3Qg
-IHZlcmJhdGltIGZyb20gdGhlICBIYXJmQnV6eiBmaWxlIGBoYi1mdC5jY2AsICB3aGljaCB1c2Vz
-CisjIC10aGUgJ09sZCBNSVQnIGxpY2Vuc2UsIGNvbXBhdGlibGUgdG8gdGhlIGFib3ZlIHR3byBs
-aWNlbnNlcy4KKyMgK1RoZSAgIGZpbGVzICAgYHNyYy9hdXRvZml0L2Z0LWhiLWZ0LmNgLCAgIGBz
-cmMvYXV0b2ZpdC9mdC1oYi1kZWNscy5oYCwKKyMgK2BzcmMvYXV0b2ZpdC9mdC1oYi10eXBlcy5o
-YCwgICAgIGFuZCAgICBgc3JjL2F1dG9maXQvaGItc2NyaXB0LWxpc3QuaGAKKyMgK2NvbnRhaW4g
-Y29kZSB0YWtlbiAoYWxtb3N0KSB2ZXJiYXRpbSAgZnJvbSB0aGUgSGFyZkJ1enogbGlicmFyeSwg
-d2hpY2gKKyMgK3VzZXMgdGhlICdPbGQgTUlUJyBsaWNlbnNlIGNvbXBhdGlibGUgdG8gdGhlIGFi
-b3ZlIHR3byBsaWNlbnNlcy4KKyMgIAorIyAgVGhlICBNRDUgY2hlY2tzdW0gIHN1cHBvcnQgIChv
-bmx5IHVzZWQgIGZvciAgZGVidWdnaW5nIGluICBkZXZlbG9wbWVudAorIyAgYnVpbGRzKSBpcyBp
-biB0aGUgcHVibGljIGRvbWFpbi4KKyMgLS0tIGRvY3MvRlRMLlRYVAorIyArKysgZG9jcy9GVEwu
-VFhUCisjIEBAIC00OSw3ICs0OSw3IEBACisjICAKKyMgICAgICIiIgorIyAgICAgIFBvcnRpb25z
-IG9mIHRoaXMgc29mdHdhcmUgYXJlIGNvcHlyaWdodCDCqSA8eWVhcj4gVGhlIEZyZWVUeXBlCisj
-IC0gICAgUHJvamVjdCAod3d3LmZyZWV0eXBlLm9yZykuICBBbGwgcmlnaHRzIHJlc2VydmVkLgor
-IyArICAgIFByb2plY3QgKGh0dHBzOi8vZnJlZXR5cGUub3JnKS4gIEFsbCByaWdodHMgcmVzZXJ2
-ZWQuCisjICAgICAiIiIKKyMgIAorIyAgICBQbGVhc2UgcmVwbGFjZSA8eWVhcj4gd2l0aCB0aGUg
-dmFsdWUgZnJvbSB0aGUgRnJlZVR5cGUgdmVyc2lvbiB5b3UKKyMgQEAgLTE2Myw3ICsxNjMsNyBA
-QAorIyAgCisjICAgIE91ciBob21lIHBhZ2UgY2FuIGJlIGZvdW5kIGF0CisjICAKKyMgLSAgICBo
-dHRwczovL3d3dy5mcmVldHlwZS5vcmcKKyMgKyAgICBodHRwczovL2ZyZWV0eXBlLm9yZworIyAg
-CisjICAKKyMgIC0tLSBlbmQgb2YgRlRMLlRYVCAtLS0KKyMgCisjCisKIFNVTU1BUlkgPSAiRnJl
-ZXR5cGUgZm9udCByZW5kZXJpbmcgbGlicmFyeSIKIERFU0NSSVBUSU9OID0gIkZyZWVUeXBlIGlz
-IGEgc29mdHdhcmUgZm9udCBlbmdpbmUgdGhhdCBpcyBkZXNpZ25lZCB0byBiZSBzbWFsbCwgZWZm
-aWNpZW50LCBcCiBoaWdobHkgY3VzdG9taXphYmxlLCBhbmQgcG9ydGFibGUgd2hpbGUgY2FwYWJs
-ZSBvZiBwcm9kdWNpbmcgaGlnaC1xdWFsaXR5IG91dHB1dCAoZ2x5cGggXApAQCAtOCwxMyArNTUs
-MTMgQEAgQlVHVFJBQ0tFUiA9ICJodHRwczovL3NhdmFubmFoLm5vbmdudS5vcmcvYnVncy8/Z3Jv
-dXA9ZnJlZXR5cGUiCiBTRUNUSU9OID0gImxpYnMiCiAKIExJQ0VOU0UgPSAiKEZUTCB8IEdQTC0y
-LjAtb3ItbGF0ZXIpICYgTUlUIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5U
-WFQ7bWQ1PTg0M2I2ZWZjMTZmNmIxNjUyZWM5N2Y4OWQ1YTUxNmMwIFwKLSAgICAgICAgICAgICAg
-ICAgICAgZmlsZTovL2RvY3MvRlRMLlRYVDttZDU9OWYzN2I0ZTZhZmEzZmVmOWRiYTg5MzJiMTZi
-ZDNmOTcgXAorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5UWFQ7bWQ1PWVlYjA3
-M2Q1ZmI4NmQyM2M1MmJiOWI4NGFhMjU2MzA3IFwKKyAgICAgICAgICAgICAgICAgICAgZmlsZTov
-L2RvY3MvRlRMLlRYVDttZDU9NzJkODQ0Y2QyZjNiY2FmNmE4NTI0NGI1MDgwMzJiZTcgXAogICAg
-ICAgICAgICAgICAgICAgICBmaWxlOi8vZG9jcy9HUEx2Mi5UWFQ7bWQ1PThlZjM4MDQ3NmY2NDJj
-MjBlYmY0MGZlY2IwYWRkMmVjIFwKICAgICAgICAgICAgICAgICAgICAgIgogCiBTUkNfVVJJID0g
-IiR7U0FWQU5OQUhfTk9OR05VX01JUlJPUn0vJHtCUE59LyR7QlB9LnRhci54eiIKLVNSQ19VUklb
-c2hhMjU2c3VtXSA9ICIwNTUwMzUwNjY2ZDQyN2M3NGRhZWI4NWQ1YWM3YmIzNTNhY2JhNWY3Njk1
-NjM5NTk5NTMxMWE5YzZmMDYzMjg5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjMyNDI3ZThjNDcx
-YWMwOTU4NTMyMTJhMzdhZWY4MTZjNjBiNDIwNTJkNGQ5ZTQ4MjMwYmFiM2JkZjI5MzZjY2MiCiAK
-IFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gImZyZWV0eXBlLSg/UDxwdmVyPlxkKyhcLlxkKykrKSIK
-IAotLSAKMi40Ny4xCgo=
-
---===============6971662990223751369==--
+--===============0986085048541376614==--
 
