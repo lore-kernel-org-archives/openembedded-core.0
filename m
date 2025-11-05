@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E3FBCD4F2E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F60CCD4F2F
 	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:16:50 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2367.1762384582598409796
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2350.1762384575984395349
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:16:47 -0800
+ Wed, 05 Nov 2025 15:16:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=o3lFPkO2;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=tuPhqi3g;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019a564ef60a-2e812d18-fc3f-4715-a0a4-4b9b61e9f941-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=1EkGeqTm;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=E+6SOlpa;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019a564ed459-a00659cc-aa49-425d-a166-c1dab7aeab70-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1762384606;
+	t=1762384598;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=pEr1XZ7uSh3YWzRtIXunW2C4eVnc7ccL/JTFhKorcNM=;
-	b=o3lFPkO2+L2JPsuY4sXLp30uH3ikYLD58orDNReL7/BI5jxyliIOMQ159+V7qO8k
-	+wEaGxsjo01ITgDKJP/+KY4L7Iqrvd4OxW5u29nKKgbdy4cww8iVAdRboVQaMztdsuM
-	I8xOWbIgWuTuT9x/OdtiHcOdi4dvZ87ErI6XtSK4=
+	bh=Zqr3BroHRTT3m9Ms2+T0BAlP9V4VQwF1fxAGoq/PWw0=;
+	b=1EkGeqTmmrgjTg8Zc0iKK/JWLubbOKYCbkw4xzyGkcuX2TB0hcLaK2yMpL4au3iV
+	cxqt6fuDe2SMjMk0E8ce9GRul3B/JG7sGzdwVImS8F1NmuE0DUQ1xuRhQQs9hzsPcpr
+	oyvFjF5Ovfgq3jVHHFR26V+S2A2ktuF0h9AlF5sA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384606;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762384598;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=pEr1XZ7uSh3YWzRtIXunW2C4eVnc7ccL/JTFhKorcNM=;
-	b=tuPhqi3gVpd7KgOOGq8Dspid506RAgv4a/MVEkdy+VRu8A0Nnb/Z6gVKe/jaNUd6
-	5/8xJ/f4zbUpCynh1Jk41NFJxrbjL+d9qLq9RQDokEplfnElB063EEYTkvyU6aG0UtV
-	jKt2Nx4ORSxVM3uOFjZByQP5dPqMCwSZlKa24FgY=
-Content-Type: multipart/mixed; boundary="===============6592073865200443990=="
+	bh=Zqr3BroHRTT3m9Ms2+T0BAlP9V4VQwF1fxAGoq/PWw0=;
+	b=E+6SOlpaWHErDjU80fDcMxvO/m1ODzJKyd5W+aMPV1cxI9rfHtFaLxlJ2NkeMq7O
+	tsssnXJ63GEU4wVtmM0Irfj/TokPmJnJRAWa9lL8EMeN/KcCs2QNvl3oCYd/CUEEpY8
+	UE4M7rPIc9rFAnVW0lZD2OHq1EYG5naEQ07EL9oc=
+Content-Type: multipart/mixed; boundary="===============2176792771556621430=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] libevdev: upgrading to 1.13.5 SUCCEEDED
-Message-ID: <0101019a564ef60a-2e812d18-fc3f-4715-a0a4-4b9b61e9f941-000000@us-west-2.amazonses.com>
-Date: Wed, 5 Nov 2025 23:16:46 +0000
+Subject: [AUH] libdrm: upgrading to 2.4.128 SUCCEEDED
+Message-ID: <0101019a564ed459-a00659cc-aa49-425d-a166-c1dab7aeab70-000000@us-west-2.amazonses.com>
+Date: Wed, 5 Nov 2025 23:16:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.05-54.240.27.31
+X-SES-Outgoing: 2025.11.05-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:16:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225920
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225881
 
---===============6592073865200443990==
+--===============2176792771556621430==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libevdev* to *1.13.5* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libdrm* to *2.4.128* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libevdev-upgrade-1.13.4-1.13.5.patch
+    - apply the patch: git am 0001-libdrm-upgrade-2.4.125-2.4.128.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,42 +72,67 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 6111ba9b71e71843643d990083c8aa7a992bf2ce Mon Sep 17 00:00:00 2001
+From fad6b94cb866f9ef8ec4e25e29e07994d9c1bf67 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 5 Nov 2025 22:45:33 +0000
-Subject: [PATCH] libevdev: upgrade 1.13.4 -> 1.13.5
+Date: Wed, 5 Nov 2025 20:14:12 +0000
+Subject: [PATCH] libdrm: upgrade 2.4.125 -> 2.4.128
 
 ---
- .../libevdev/{libevdev_1.13.4.bb => libevdev_1.13.5.bb}         | 2 +-
+ .../drm/{libdrm_2.4.125.bb => libdrm_2.4.128.bb}                | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libevdev/{libevdev_1.13.4.bb => libevdev_1.13.5.bb} (87%)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.125.bb => libdrm_2.4.128.bb} (97%)
 
-diff --git a/meta/recipes-support/libevdev/libevdev_1.13.4.bb b/meta/recipes-support/libevdev/libevdev_1.13.5.bb
-similarity index 87%
-rename from meta/recipes-support/libevdev/libevdev_1.13.4.bb
-rename to meta/recipes-support/libevdev/libevdev_1.13.5.bb
-index 3ff64bd04b..a42bd38489 100644
---- a/meta/recipes-support/libevdev/libevdev_1.13.4.bb
-+++ b/meta/recipes-support/libevdev/libevdev_1.13.5.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=80c550b3197bcb8da7d7557ebcc3fc46 \
-                     "
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.125.bb b/meta/recipes-graphics/drm/libdrm_2.4.128.bb
+similarity index 97%
+rename from meta/recipes-graphics/drm/libdrm_2.4.125.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.128.bb
+index a256f73145..8796a7a3d0 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.125.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.128.bb
+@@ -13,7 +13,7 @@ DEPENDS = "libpthread-stubs"
+ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
+           "
  
- SRC_URI = "http://www.freedesktop.org/software/libevdev/${BP}.tar.xz"
--SRC_URI[sha256sum] = "f00ab8d42ad8b905296fab67e13b871f1a424839331516642100f82ad88127cd"
-+SRC_URI[sha256sum] = "89918ae7b7c13936e6482604a77a2bfbbb74544c5d039fde01c3fa1bdf639987"
+-SRC_URI[sha256sum] = "d4bae92797a50f81a93524762e0410a49cd84cfa0f997795bc0172ac8fb1d96a"
++SRC_URI[sha256sum] = "3bb35db8700c2a0b569f2c6729a53f5495786856b310854c8de57782a22bddac"
  
- inherit autotools pkgconfig
+ inherit meson pkgconfig manpages
  
 -- 
 2.47.1
 
 
---===============6592073865200443990==
+--===============2176792771556621430==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: FILELIST: removed "/usr/lib/libdrm_amdgpu.so.1.125.0", added "/usr/lib/libdrm_amdgpu.so.1.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: FILELIST: removed "/usr/lib/libdrm_etnaviv.so.1.125.0", added "/usr/lib/libdrm_etnaviv.so.1.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: FILELIST: removed "/usr/lib/libdrm_freedreno.so.1.125.0", added "/usr/lib/libdrm_freedreno.so.1.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: FILELIST: removed "/usr/lib/libdrm_intel.so.1.125.0", added "/usr/lib/libdrm_intel.so.1.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: FILELIST: removed "/usr/lib/libdrm_nouveau.so.2.125.0", added "/usr/lib/libdrm_nouveau.so.2.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: FILELIST: removed "/usr/lib/libdrm_omap.so.1.125.0", added "/usr/lib/libdrm_omap.so.1.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: FILELIST: removed "/usr/lib/libdrm_radeon.so.1.125.0", added "/usr/lib/libdrm_radeon.so.1.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm: FILELIST: removed "/usr/lib/libdrm.so.2.125.0", added "/usr/lib/libdrm.so.2.128.0"
+Changes to packages/x86-64-v3-poky-linux/libdrm (sysroot):
+  /usr/lib/libdrm_amdgpu.so.1 changed symlink target from libdrm_amdgpu.so.1.125.0 to libdrm_amdgpu.so.1.128.0
+  /usr/lib/libdrm_etnaviv.so.1 changed symlink target from libdrm_etnaviv.so.1.125.0 to libdrm_etnaviv.so.1.128.0
+  /usr/lib/libdrm_freedreno.so.1 changed symlink target from libdrm_freedreno.so.1.125.0 to libdrm_freedreno.so.1.128.0
+  /usr/lib/libdrm_intel.so.1 changed symlink target from libdrm_intel.so.1.125.0 to libdrm_intel.so.1.128.0
+  /usr/lib/libdrm_nouveau.so.2 changed symlink target from libdrm_nouveau.so.2.125.0 to libdrm_nouveau.so.2.128.0
+  /usr/lib/libdrm_omap.so.1 changed symlink target from libdrm_omap.so.1.125.0 to libdrm_omap.so.1.128.0
+  /usr/lib/libdrm_radeon.so.1 changed symlink target from libdrm_radeon.so.1.125.0 to libdrm_radeon.so.1.128.0
+  /usr/lib/libdrm.so.2 changed symlink target from libdrm.so.2.125.0 to libdrm.so.2.128.0
+  /usr/lib/libdrm_amdgpu.so.1.125.0 moved to /usr/lib/libdrm_amdgpu.so.1.128.0
+  /usr/lib/libdrm_etnaviv.so.1.125.0 moved to /usr/lib/libdrm_etnaviv.so.1.128.0
+  /usr/lib/libdrm_freedreno.so.1.125.0 moved to /usr/lib/libdrm_freedreno.so.1.128.0
+  /usr/lib/libdrm_intel.so.1.125.0 moved to /usr/lib/libdrm_intel.so.1.128.0
+  /usr/lib/libdrm_nouveau.so.2.125.0 moved to /usr/lib/libdrm_nouveau.so.2.128.0
+  /usr/lib/libdrm_omap.so.1.125.0 moved to /usr/lib/libdrm_omap.so.1.128.0
+  /usr/lib/libdrm_radeon.so.1.125.0 moved to /usr/lib/libdrm_radeon.so.1.128.0
+  /usr/lib/libdrm.so.2.125.0 moved to /usr/lib/libdrm.so.2.128.0
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2031,31 +2056,79 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============6592073865200443990==
+--===============2176792771556621430==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libevdev: PKGV changed from 1.13.4 [default] to 1.13.5 [default]
-packages/x86-64-v3-poky-linux/libevdev: PV changed from "1.13.4" to "1.13.5"
-packages/x86-64-v3-poky-linux/libevdev: SRC_URI changed from "http://www.freedesktop.org/software/libevdev/libevdev-1.13.4.tar.xz" to "http://www.freedesktop.org/software/libevdev/libevdev-1.13.5.tar.xz"
-packages/x86-64-v3-poky-linux/libevdev/libevdev-dbg: PKGV changed from 1.13.4 [default] to 1.13.5 [default]
-packages/x86-64-v3-poky-linux/libevdev/libevdev-dbg: PKGSIZE changed from 220664 to 220400 (-0%)
-packages/x86-64-v3-poky-linux/libevdev/libevdev-dbg: PV changed from "1.13.4" to "1.13.5"
-packages/x86-64-v3-poky-linux/libevdev/libevdev-dev: PKGV changed from 1.13.4 [default] to 1.13.5 [default]
-packages/x86-64-v3-poky-linux/libevdev/libevdev-dev: PV changed from "1.13.4" to "1.13.5"
-packages/x86-64-v3-poky-linux/libevdev/libevdev-doc: PKGV changed from 1.13.4 [default] to 1.13.5 [default]
-packages/x86-64-v3-poky-linux/libevdev/libevdev-doc: PV changed from "1.13.4" to "1.13.5"
-packages/x86-64-v3-poky-linux/libevdev/libevdev-locale: PKGV changed from 1.13.4 [default] to 1.13.5 [default]
-packages/x86-64-v3-poky-linux/libevdev/libevdev-locale: PV changed from "1.13.4" to "1.13.5"
-packages/x86-64-v3-poky-linux/libevdev/libevdev-src: PKGV changed from 1.13.4 [default] to 1.13.5 [default]
-packages/x86-64-v3-poky-linux/libevdev/libevdev-src: PKGSIZE changed from 71274 to 71902 (+1%)
-packages/x86-64-v3-poky-linux/libevdev/libevdev-src: PV changed from "1.13.4" to "1.13.5"
-packages/x86-64-v3-poky-linux/libevdev/libevdev-staticdev: PKGV changed from 1.13.4 [default] to 1.13.5 [default]
-packages/x86-64-v3-poky-linux/libevdev/libevdev-staticdev: PV changed from "1.13.4" to "1.13.5"
-packages/x86-64-v3-poky-linux/libevdev/libevdev: PKGV changed from 1.13.4 [default] to 1.13.5 [default]
-packages/x86-64-v3-poky-linux/libevdev/libevdev: PV changed from "1.13.4" to "1.13.5"
+packages/x86-64-v3-poky-linux/libdrm: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm: SRC_URI changed from "http://dri.freedesktop.org/libdrm/libdrm-2.4.125.tar.xz" to "http://dri.freedesktop.org/libdrm/libdrm-2.4.128.tar.xz"
+packages/x86-64-v3-poky-linux/libdrm: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: FILELIST: removed "/usr/lib/libdrm_amdgpu.so.1.125.0", added "/usr/lib/libdrm_amdgpu.so.1.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: PKGSIZE changed from 70282 to 70349 (+0%)
+packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: FILELIST: removed "/usr/lib/.debug/libdrm_freedreno.so.1.125.0 /usr/lib/.debug/libdrm_amdgpu.so.1.125.0 /usr/lib/.debug/libdrm.so.2.125.0 /usr/lib/.debug/libdrm_omap.so.1.125.0 /usr/lib/.debug/libdrm_nouveau.so.2.125.0 /usr/lib/.debug/libdrm_intel.so.1.125.0 /usr/lib/.debug/libdrm_radeon.so.1.125.0 /usr/lib/.debug/libdrm_etnaviv.so.1.125.0", added "/usr/lib/.debug/libdrm_radeon.so.1.128.0 /usr/lib/.debug/libdrm_intel.so.1.128.0 /usr/lib/.debug/libdrm_amdgpu.so.1.128.0 /usr/lib/.debug/libdrm.so.2.128.0 /usr/lib/.debug/libdrm_omap.so.1.128.0 /usr/lib/.debug/libdrm_nouveau.so.2.128.0 /usr/lib/.debug/libdrm_freedreno.so.1.128.0 /usr/lib/.debug/libdrm_etnaviv.so.1.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: PKGSIZE changed from 1623856 to 1646536 (+1%)
+packages/x86-64-v3-poky-linux/libdrm/libdrm-dev: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-dev: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-dev: PKGSIZE changed from 782697 to 782902 (+0%)
+packages/x86-64-v3-poky-linux/libdrm/libdrm-doc: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-doc: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-drivers: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-drivers: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: FILELIST: removed "/usr/lib/libdrm_etnaviv.so.1.125.0", added "/usr/lib/libdrm_etnaviv.so.1.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-exynos: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-exynos: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: FILELIST: removed "/usr/lib/libdrm_freedreno.so.1.125.0", added "/usr/lib/libdrm_freedreno.so.1.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: FILELIST: removed "/usr/lib/libdrm_intel.so.1.125.0", added "/usr/lib/libdrm_intel.so.1.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-locale: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-locale: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: FILELIST: removed "/usr/lib/libdrm_nouveau.so.2.125.0", added "/usr/lib/libdrm_nouveau.so.2.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: FILELIST: removed "/usr/lib/libdrm_omap.so.1.125.0", added "/usr/lib/libdrm_omap.so.1.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: FILELIST: removed "/usr/lib/libdrm_radeon.so.1.125.0", added "/usr/lib/libdrm_radeon.so.1.128.0"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-src: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-src: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-staticdev: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-staticdev: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-tests: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm-tests: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm-tests: PKGSIZE changed from 219888 to 223992 (+2%)
+packages/x86-64-v3-poky-linux/libdrm/libdrm: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
+packages/x86-64-v3-poky-linux/libdrm/libdrm: PV changed from "2.4.125" to "2.4.128"
+packages/x86-64-v3-poky-linux/libdrm/libdrm: FILELIST: removed "/usr/lib/libdrm.so.2.125.0", added "/usr/lib/libdrm.so.2.128.0"
+Changes to packages/x86-64-v3-poky-linux/libdrm (sysroot):
+  /usr/lib/libdrm_amdgpu.so.1 changed symlink target from libdrm_amdgpu.so.1.125.0 to libdrm_amdgpu.so.1.128.0
+  /usr/lib/libdrm_etnaviv.so.1 changed symlink target from libdrm_etnaviv.so.1.125.0 to libdrm_etnaviv.so.1.128.0
+  /usr/lib/libdrm_freedreno.so.1 changed symlink target from libdrm_freedreno.so.1.125.0 to libdrm_freedreno.so.1.128.0
+  /usr/lib/libdrm_intel.so.1 changed symlink target from libdrm_intel.so.1.125.0 to libdrm_intel.so.1.128.0
+  /usr/lib/libdrm_nouveau.so.2 changed symlink target from libdrm_nouveau.so.2.125.0 to libdrm_nouveau.so.2.128.0
+  /usr/lib/libdrm_omap.so.1 changed symlink target from libdrm_omap.so.1.125.0 to libdrm_omap.so.1.128.0
+  /usr/lib/libdrm_radeon.so.1 changed symlink target from libdrm_radeon.so.1.125.0 to libdrm_radeon.so.1.128.0
+  /usr/lib/libdrm.so.2 changed symlink target from libdrm.so.2.125.0 to libdrm.so.2.128.0
+  /usr/lib/libdrm_amdgpu.so.1.125.0 moved to /usr/lib/libdrm_amdgpu.so.1.128.0
+  /usr/lib/libdrm_etnaviv.so.1.125.0 moved to /usr/lib/libdrm_etnaviv.so.1.128.0
+  /usr/lib/libdrm_freedreno.so.1.125.0 moved to /usr/lib/libdrm_freedreno.so.1.128.0
+  /usr/lib/libdrm_intel.so.1.125.0 moved to /usr/lib/libdrm_intel.so.1.128.0
+  /usr/lib/libdrm_nouveau.so.2.125.0 moved to /usr/lib/libdrm_nouveau.so.2.128.0
+  /usr/lib/libdrm_omap.so.1.125.0 moved to /usr/lib/libdrm_omap.so.1.128.0
+  /usr/lib/libdrm_radeon.so.1.125.0 moved to /usr/lib/libdrm_radeon.so.1.128.0
+  /usr/lib/libdrm.so.2.125.0 moved to /usr/lib/libdrm.so.2.128.0
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -3979,35 +4052,33 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============6592073865200443990==
+--===============2176792771556621430==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libevdev-upgrade-1.13.4-1.13.5.patch"
+ filename="0001-libdrm-upgrade-2.4.125-2.4.128.patch"
 
-RnJvbSA2MTExYmE5YjcxZTcxODQzNjQzZDk5MDA4M2M4YWE3YTk5MmJmMmNlIE1vbiBTZXAgMTcg
+RnJvbSBmYWQ2Yjk0Y2I4NjZmOWVmOGVjNGUyNWUyOWUwNzk5NGQ5YzFiZjY3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAyMjo0NTozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YmV2ZGV2OiB1cGdyYWRlIDEuMTMuNCAtPiAxLjEzLjUKCi0tLQogLi4uL2xpYmV2ZGV2L3tsaWJl
-dmRldl8xLjEzLjQuYmIgPT4gbGliZXZkZXZfMS4xMy41LmJifSAgICAgICAgIHwgMiArLQogMSBm
+CkRhdGU6IFdlZCwgNSBOb3YgMjAyNSAyMDoxNDoxMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YmRybTogdXBncmFkZSAyLjQuMTI1IC0+IDIuNC4xMjgKCi0tLQogLi4uL2RybS97bGliZHJtXzIu
+NC4xMjUuYmIgPT4gbGliZHJtXzIuNC4xMjguYmJ9ICAgICAgICAgICAgICAgIHwgMiArLQogMSBm
 aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvbGliZXZkZXYve2xpYmV2ZGV2XzEuMTMuNC5iYiA9PiBsaWJldmRldl8x
-LjEzLjUuYmJ9ICg4NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZXZk
-ZXYvbGliZXZkZXZfMS4xMy40LmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZXZkZXYvbGli
-ZXZkZXZfMS4xMy41LmJiCnNpbWlsYXJpdHkgaW5kZXggODclCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1zdXBwb3J0L2xpYmV2ZGV2L2xpYmV2ZGV2XzEuMTMuNC5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvbGliZXZkZXYvbGliZXZkZXZfMS4xMy41LmJiCmluZGV4IDNmZjY0YmQw
-NGIuLmE0MmJkMzg0ODkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmV2ZGV2
-L2xpYmV2ZGV2XzEuMTMuNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJldmRldi9s
-aWJldmRldl8xLjEzLjUuYmIKQEAgLTEwLDcgKzEwLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJm
-aWxlOi8vQ09QWUlORzttZDU9ODBjNTUwYjMxOTdiY2I4ZGE3ZDc1NTdlYmNjM2ZjNDYgXAogICAg
-ICAgICAgICAgICAgICAgICAiCiAKIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5mcmVlZGVza3RvcC5v
-cmcvc29mdHdhcmUvbGliZXZkZXYvJHtCUH0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0g
-ImYwMGFiOGQ0MmFkOGI5MDUyOTZmYWI2N2UxM2I4NzFmMWE0MjQ4MzkzMzE1MTY2NDIxMDBmODJh
-ZDg4MTI3Y2QiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiODk5MThhZTdiN2MxMzkzNmU2NDgyNjA0
-YTc3YTJiZmJiYjc0NTQ0YzVkMDM5ZmRlMDFjM2ZhMWJkZjYzOTk4NyIKIAogaW5oZXJpdCBhdXRv
-dG9vbHMgcGtnY29uZmlnCiAKLS0gCjIuNDcuMQoK
+ZWNpcGVzLWdyYXBoaWNzL2RybS97bGliZHJtXzIuNC4xMjUuYmIgPT4gbGliZHJtXzIuNC4xMjgu
+YmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2RybS9saWJkcm1f
+Mi40LjEyNS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9kcm0vbGliZHJtXzIuNC4xMjguYmIK
+c2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2Ry
+bS9saWJkcm1fMi40LjEyNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2RybS9s
+aWJkcm1fMi40LjEyOC5iYgppbmRleCBhMjU2ZjczMTQ1Li44Nzk2YTdhM2QwIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZHJtL2xpYmRybV8yLjQuMTI1LmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy9kcm0vbGliZHJtXzIuNC4xMjguYmIKQEAgLTEzLDcgKzEzLDcgQEAg
+REVQRU5EUyA9ICJsaWJwdGhyZWFkLXN0dWJzIgogU1JDX1VSSSA9ICJodHRwOi8vZHJpLmZyZWVk
+ZXNrdG9wLm9yZy9saWJkcm0vJHtCUH0udGFyLnh6IFwKICAgICAgICAgICAiCiAKLVNSQ19VUklb
+c2hhMjU2c3VtXSA9ICJkNGJhZTkyNzk3YTUwZjgxYTkzNTI0NzYyZTA0MTBhNDljZDg0Y2ZhMGY5
+OTc3OTViYzAxNzJhYzhmYjFkOTZhIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNiYjM1ZGI4NzAw
+YzJhMGI1NjlmMmM2NzI5YTUzZjU0OTU3ODY4NTZiMzEwODU0YzhkZTU3NzgyYTIyYmRkYWMiCiAK
+IGluaGVyaXQgbWVzb24gcGtnY29uZmlnIG1hbnBhZ2VzCiAKLS0gCjIuNDcuMQoK
 
---===============6592073865200443990==--
+--===============2176792771556621430==--
 
