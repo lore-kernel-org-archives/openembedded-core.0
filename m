@@ -1,201 +1,388 @@
-Return-Path: <Harish.Sadineni@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A25ECCFA1E
-	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 13:10:06 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9000.1762348203508820503
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B983DCCFA19
+	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 13:23:06 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9222.1762348985018370293
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 05:10:03 -0800
+ Wed, 05 Nov 2025 05:23:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=ecwlvDNO;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=34043e1a29=harish.sadineni@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A54o3lM2097893
-	for <openembedded-core@lists.openembedded.org>; Wed, 5 Nov 2025 13:10:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=JqZ3ZElWcTKGtHIohARrNdAm5NNDujE5YqD9s9vyxSA=; b=
-	ecwlvDNOaTflawcLuBxVJr1ot2unnY9LmjvKR32ZsjCQzHxifSESMXYjzJQ7FpNn
-	42VLvf7fJOjrnJzfajUsL/BiUVbSYm/pg/OE+EBZu9XWvtdaSebolWFHdY/zxG+R
-	DTqu+vScBYNbwzXz/tXa2LnxOFjQfYe1XdaK88a/vMmYSR9zFhBHiDku9ZF1CoMD
-	sKGSOQKnFC3goZOuZ+1VWxQ3SvISImghu6enLaiJpafXTlsVE940AgCM4q2AhzA5
-	dBqfGNFkUcDGCTc+PuNNlxp7abXOgHcIhc71jTO3PJ6j40FSKjGEVyQkv/3FG0PT
-	zmx61xu664gmLgKmbp24NQ==
-Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010008.outbound.protection.outlook.com [52.101.85.8])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4a7war8gbp-3
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 05 Nov 2025 13:10:02 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l7gfWamLRZM2mpvXImU3rV8lQkUsKAQX8bwKPhCKvA5B454pzImofoEcOJYVMdqw+DTlGBj9kHN8uY7+rFm/KEgL33jlMXlwYGj5TXP2+608dDnXO+TzzWLmQnWhvVB+rKW8PciORW+ZZpktF8gk8p3tYfMV0Ir5+l7ChlucWdONb8KddkONCeQ0C8SvX0Wd0s1QRZNFy7fgRazgNkXbvxJzu4cb3oVcNtU9CQsFOv3VETVc7vMmTQjV/UM1o8yu5XAR7vLW7mEQHIZjktDm43QBQuB7Oj0/XzyymGBql2FtmCEnAj5DoIJV51MRvwLj5X+odJ2bO28Zip3xOvVl+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JqZ3ZElWcTKGtHIohARrNdAm5NNDujE5YqD9s9vyxSA=;
- b=WeIkX6vUEX8bgAujKhtcdo4eRCZWJsYE+0QB2dTndK2sOVpIpnGR3brl9t860uYjsxrpXfXIGGa3bkdL5WZ/ad2Sh3/iZOJ+x2GFmAVVHGNQThqNDGrawBC2FTkMuDB0losYfXMknMNgVhbbuPqRZVJvVHvZh1Mw9NIoLEG5Ekq40jIFyWNACXq0bLEu25xVcFZ2FW1vHXMvMxfuTL9f1rrkAh4D7u+fSC4/E0XJNfdWHxQDNFBVB7iZfou+G3pwymQHBsPUi8ucswQJI4Fl4Qu/u8StQE6wN0tIbi7ezHCoUQluFLsimDWbbiuEOws25eSQk0QeN8wlCFfTQFiMfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
- by DM4PR11MB6528.namprd11.prod.outlook.com (2603:10b6:8:8f::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Wed, 5 Nov
- 2025 13:10:00 +0000
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::f440:269f:9645:29c0]) by PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::f440:269f:9645:29c0%6]) with mapi id 15.20.9298.007; Wed, 5 Nov 2025
- 13:10:00 +0000
-From: Harish.Sadineni@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, bruce.ashfield@gmail.com,
-        sundeep.kokkonda@windriver.com, elmehdi.younes@smile.fr
-Subject: [PATCH RFC v2 8/8] kernel-devsrc: copying rust-kernel soucre to $kerneldir/build
-Date: Wed,  5 Nov 2025 05:09:42 -0800
-Message-ID: <20251105130942.833204-9-Harish.Sadineni@windriver.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20251105130942.833204-1-Harish.Sadineni@windriver.com>
-References: <20251105130942.833204-1-Harish.Sadineni@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR08CA0037.namprd08.prod.outlook.com
- (2603:10b6:a03:117::14) To PH0PR11MB5658.namprd11.prod.outlook.com
- (2603:10b6:510:e2::23)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nbdLgptn;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-29470bc80ceso11562895ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 05:23:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762348984; x=1762953784; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uLiNxuX9cLGb+/+qFFldMSiz+y9QmRFo5zQI+YSY+lo=;
+        b=nbdLgptngoZka+hy87Pcz3Mif5+RVxH4/IQudLBw3FqYhKenIn4WPC9P/BRtuwIKVc
+         zr6Rw1j2hkVRIhozNz7T8haSolRtsTjWIn8/wYoKtZ/f+eG+y54bFDRevQa2zlRA+L96
+         ub/vixz1fifBNobkQvkIxL0yGtdjUtKwivLv7qRFPWALL+ELAvr8sK2zeOO/wp5kGn22
+         SHhCGY21Q7RQsLvG238RQxHYv1y0EmficrzbN8E7PyE0Hwj/8B5lBXak2glEzf3B8mXg
+         8AaCxca+oblLOWmFV10BTIGmCcJQ4HsFHY25sinwA9HWsc+dzYmCP0usEG2H75QcDYh+
+         k5GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762348984; x=1762953784;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uLiNxuX9cLGb+/+qFFldMSiz+y9QmRFo5zQI+YSY+lo=;
+        b=BenUx1UB0veDDA39hr4xAf49SCXntLwUmiNBsCjRS8rfXmDzn6UGPev2I16bXCJtLj
+         ZlkdMQyLNnFM6AjwOMQ753LWN855BXBBbC3P9q07StmWBxgffQTrFuqI+TKh5YKiz0He
+         OQIS02ZnG8ghJXhbL2zFjm50/Vr0JhwAib9ElMRvLFBYZJfHqZltMSKnd3InfReW4a8i
+         fdcE5IOHhH4IB1Gu5qin2qoOzute+1UvnREY20DPlCJKk6ApaLH5Q8RP133FGo7J8APp
+         SJFwobnsTPzKnjmmpTkXVeJucedY83kMKoarj4iD3y6gWIBT+fKOsaQ+UMk3sXcHD4wF
+         XwqQ==
+X-Gm-Message-State: AOJu0Yy+ChCf/gjh2Zwj77LPHpfJP1/np5XFHJrly4lT//NlkIP0n4EP
+	L9+YlXZxPAe1S9ydy3ax3WDVDHdLISVS7MFR80EulyrxyRexXCWFnq0MxQxUQxAGflCeIYtE7Ho
+	xLQ2K3kLh+ocLuzp30OkpvGTVLe3Pros=
+X-Gm-Gg: ASbGncs3m+WUjqSlEUUfi+XrqnRXo9p+Mn0mSm/EfoSPKvEN6vyVTr4dpsHrb64kOyJ
+	CWRt2kuZGkdixyrpnDJBvtKc3kMS0uyQE/aS1som9TELwYztzq/8+ykmBPdPnpwEQBDqajhvu59
+	g9tsgHrViDEEfn0lwSxxOsiducgKYmTZR/IwNPkljb2CQZY2VS5Pb2n8Ia0hG31215aUCesaRJd
+	FIcYTWYhSa0tU7Ivq6TW03nkZnkxuiyyckuXAF3/mwf3em99E0OWMBMWxkhsg==
+X-Google-Smtp-Source: AGHT+IGmQhgKpFZfD0/VOn4bD/ue7C88VTAwxtaGjRszjP0Gm7v1lYrsQqyTjGH1+eqzp+pw1YU9pTt7rt44FDI5gGA=
+X-Received: by 2002:a17:902:d48f:b0:295:557e:7468 with SMTP id
+ d9443c01a7336-2962addf8e6mr55492525ad.28.1762348984018; Wed, 05 Nov 2025
+ 05:23:04 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|DM4PR11MB6528:EE_
-X-MS-Office365-Filtering-Correlation-Id: 664e1e1e-0a11-45f6-2b56-08de1c6ca004
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?tJHL9m2i2wRijMVmLOp84r/tntagTZ4CxQJW7uy4uMHBji49qO4ZND83m6zf?=
- =?us-ascii?Q?cnVvTQT05bU8zanSKumRIUsRopVWE+EecqsUaGJdvrDyVdcRLZYvMO2uokeq?=
- =?us-ascii?Q?LWj9mkO3uYZ2FTtUP1sniZrF1xmQ886xe7EeGW1PAW6drHFRQZmrsoOhsy+5?=
- =?us-ascii?Q?5den038Qed3XITdCgjpkubBrfz/qGiHfMI3PQBbUpksvwBdTUxO6p5eFP61l?=
- =?us-ascii?Q?qsvzzrckd12+vaJ+aV2EJf4JX95l8r2wi0xD/CgJYk/p8oRvUqGSTCfKfZ1a?=
- =?us-ascii?Q?WVHMlhsv71JxLqT9FUQ39qgU4vcAaH2Xcswe9oukhzqUNxpFO71rPuAChgkV?=
- =?us-ascii?Q?YYtosQy/uiEhyqTJiZzQo3x083x+suBcN3O4gaNvS/WsCJREjqoe+rffpFtD?=
- =?us-ascii?Q?pDuDmB74D5Uu6XgwDH54aEjQrH8yxXLTfsww4SpABsEBfs8HVOnHQ/hRuWdQ?=
- =?us-ascii?Q?3HtsTEzFJmq6hpaHewO5jWtc1y+9htgPzK2HmETjZsMdkKZczqF+DpDTxQzs?=
- =?us-ascii?Q?OJQBPd7rlWcsXiuibVmmjXHwYrrn2VRc7q30blEt5s1JcLTziNcrS6zngfQn?=
- =?us-ascii?Q?Sx2IXdjgqUpyw4JNhrhQ0nYvs7cj+W2mxkCO5wGiDJr4OOMmGxE/d8xMi4YA?=
- =?us-ascii?Q?NNBrGnzEhug/ZCB8fm82pTrEkKdTO3cbpXfYD14JbLzBGTHtpZ2+3HxlCYXM?=
- =?us-ascii?Q?llsXETLhuxhMbq9GmT5UK0LXKzcIqsqHf4NaMiNcBy5bBCh1RJAMtzVf2+i0?=
- =?us-ascii?Q?LvWOJk3706iYvoxI+rA6FsDvsKTiDWVHv2AjGl7vCXw1+BzQBjjR/C6l6XsL?=
- =?us-ascii?Q?dKRkKjX6yaynFUC+gc4N3HTeOYWzZDcA5W06NBmdXqySWj8UdFSKGojkuus0?=
- =?us-ascii?Q?PKTHepwh3Hj2GesQ7+o46JdmQrumGsxOhMCcemALn24Kd5RDdRfEEtQqRuTN?=
- =?us-ascii?Q?giVjbobKHogGbW4mYevik1U88Uz5f8L+E8S/tzhuq0xcIjDNmvVsl/ObzcnQ?=
- =?us-ascii?Q?MzQvQ7CtrRoY0pE6v48oZCw0um8Tya9p315l/zeH5JK9DsNhqoiyYPqt33+n?=
- =?us-ascii?Q?XFcPSGBfUv+03xep/mEH6muT47OVhCXBw0g40gQfDRN03ybKNB2HGIgRwSqF?=
- =?us-ascii?Q?eVME5a2Dbpp1IgUAg1Fe1VwEp+fVA4C0aDkhHHRbl54buIVRD0DwUZarmP57?=
- =?us-ascii?Q?odYWqF86Tjg7D9hplP8OC/rMMKjEr+Rhc4wtxhMkUnuN7ZUiz7cRFFj1F9Bk?=
- =?us-ascii?Q?wKW7v5phrZw3JSXbRvhPvGqvKNUnBhn8PTTlvm1g3NiZMRU5/SZPmeoaMbNI?=
- =?us-ascii?Q?6th/RqCPdTmt0JZK/BTyT4GOybpTVoCPitR1F2Unc1Hj4KvWIDnKQf2Rvs6N?=
- =?us-ascii?Q?TVyS29mC0b0gqDICrwhWHAI57Oz6YwEF8y+M2s51yQtKLTC5Ioz0o295RfLj?=
- =?us-ascii?Q?g/vXNvIE7uoh7HFid5hQxC8kTHCQjzFNTXI3mzOLFFT7zc9nxhC83WBBwXaX?=
- =?us-ascii?Q?gpO2Ax/KjEHBn8KTNUOdpt4fK895s/1Zl7O4?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?s4ewKfX1swpu6UqXTPu9/fj/uRW6aHlbBpqVy+crQdlmRWHjK/uIkQCuLxUe?=
- =?us-ascii?Q?Ez5fEw67sJb9p4JAVZUgheYnKrOMrbNtHq24f/cObOje/DC5G/aoyDZiTlRQ?=
- =?us-ascii?Q?p6vL9va7632KuqGGc0cDYYAktlMmDuJnoVaYg+jn81CSRYe6+Yu/E3n4tU1x?=
- =?us-ascii?Q?uSyatQoNefquD2urlxQ549PtjEvvM2Iir9pBcbZC3rtLS4b7KwJu2no3bi+Z?=
- =?us-ascii?Q?yL5p8L1hNb8vM1DUuK/16/3/zmih1exo6b+Szjcym4yfmPbhyUTDWivOe3Kf?=
- =?us-ascii?Q?X5+lawsYRk8MWK+EqumSi1L3LwM+v4kfgocYUBL2zcCWJE2R8t4oAU7SPW5Y?=
- =?us-ascii?Q?Rr64Ns0OiWb4MoNuZMQ+7bcgneVpV1wyzaAJmkgNi/BG/+qIIW0c1UAgyEnD?=
- =?us-ascii?Q?S2UXOiRQEnM/t73Fh5UpbjI1UP/9mwukld3fPoqY2un0b5Lt41iADbLh7BBt?=
- =?us-ascii?Q?IyIjMUsjYAiC90yKAUVgwOwtMcRChi/vuyJ/8G0VKM/xl+ae8jr5rpMRih0s?=
- =?us-ascii?Q?1nhEdZ8rUQsDoLCWOKEdz0FFLxcyu5gqI9vOknGW5By+3QiT1Sm1iV31bmQ+?=
- =?us-ascii?Q?saGv0J00WgQaJI9Ut6wgtHG71BK8PrUaTyfjJe06IHxJ7160Z3CGDX6MnQKm?=
- =?us-ascii?Q?Lv2Imvr8CHv9ehLozLYcKnNWmYfcJ0rVIzV7uTw511MMbD6gFBrQ4PBoCJ2r?=
- =?us-ascii?Q?TprdDMl8Z+rlgFo7kB2rlHxlf8RhfuYZdh1twEjAMe9/8baI5H79w0CSnwpZ?=
- =?us-ascii?Q?WuJDK83aqF0mFBYFUxHiokO9A7xwfE36wlnfkTW/PKVEmPORAlT0MLwITGjP?=
- =?us-ascii?Q?sqgFQl4szVhZGa6kwhPeHKmSf3ta01q7Egl1UkTfK1Ov/6vwyjmfRHLaRRkv?=
- =?us-ascii?Q?syVYH+erGf1DANi+WlnsLbHF1OWzwKTYBRQ/d6pkiHFy8/DHXGfENL3Rp3yK?=
- =?us-ascii?Q?lVbAM9cuJaY3Og3fiePOFQsE/tYQcFNPqBcw2zg0+t/mohazU2Di8JEQtfyO?=
- =?us-ascii?Q?unYGTOK8xUF6x5mD8/YDTORWI3xf+t34Ca7KF2Pkm39E/EiO01mpB9uB00p8?=
- =?us-ascii?Q?EqnCzaBtJALrOULDoApjDaM0/EgV2Z8cjIudbnY8xUhThkdL8pRaLSQnfs10?=
- =?us-ascii?Q?VOrS125d3DvaKVnKCdLHkvMxcVwI5xphz7us9vzbN/13eF0pg88+L/WmHdWM?=
- =?us-ascii?Q?BNSDw4DBJUyhwThj9tYO+NL/0NbX1GRUz/6TlnDGeCcrRqxL6m24BYMWDQEd?=
- =?us-ascii?Q?qpHg43mZOKJKzw6FyeEPxkX616dHc1RYzvqcuena5TRflytA2t5wDJ1CqABp?=
- =?us-ascii?Q?3rY+aj8koifCngVrMY2u5CtVmlPcfEfKqByZKAToq94eLEU5ijUQ0XDKKKvw?=
- =?us-ascii?Q?ctcasq/Zhjz7waJSbdk1x7/JgwvDUTmT/Iam6h3YeFQxYN7U7tudnWL/1Beg?=
- =?us-ascii?Q?HDBKgqb4RNqm08dOrfoswEavny5XAlIPAwQpI2HFf6tprSeZxy8zulUT35NK?=
- =?us-ascii?Q?Q3UaBaB1rqH+2LfnnYjL3luhrU3jGksaqbmfjLFqBfVjU97qiW07Q24BNKTc?=
- =?us-ascii?Q?J1ZGpin34uKAQjnBZTRUyUcF769uag5JocK9Guf2JVPAEk5KL35g+0U2Ao22?=
- =?us-ascii?Q?uA=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 664e1e1e-0a11-45f6-2b56-08de1c6ca004
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 13:10:00.1298
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fHbHsO9zT6d7K4WYAuInkwPjBHq3H8I56EId66T2InPJr8A5xtV31wbLJg2OBBiL2miv+2+QhIaxSaN2ZS1hjmIhvEXVZEuzqEud+0A2eco=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6528
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=UYJciaSN c=1 sm=1 tr=0 ts=690b4caa cx=c_pps
- a=WNBGq+kRZA72juK154DUDw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=t7CeM3EgAAAA:8 a=PVi3edU6geBfKTWHhYUA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA1MDA5OSBTYWx0ZWRfXwM5VSLIKsDTF
- 5br4fV7T3hQt4yaO3EVBy/63qrxwl+M5NwKGR+JiifvwlaERxa8OZ3NHj8+yyoH1ijaNl8m5rhI
- 6RWrNhMnGo5rJklrXvQ9eTFioViNFUyRsLXFpBr4OHx79ePjZUzvZRwq/I8JpoavMbGiFhQT/VX
- e04BXeTprXJvc52G56ZB6Uhk6bgb9ZCgOJSoxnWj2+uCbfWc81NQPmUdzbrnr7Un9UNWv0orQ/K
- zyVKheSj1ey9ZE9z6nLcb39GHrw0zHXK3rj4BNCeF2jvsOaVMkuskGVQsBFidIYaNFMKAYfmMJF
- cuft98yiWsT+adYAxguE38/h1eADTnyVDiMhJYNV1kARP2g1AgTzQxkfWV7jwLE69vquCmtl7nK
- j9bklRamzcUONclL32tI02q/JRXYRw==
-X-Proofpoint-GUID: EwCYp6nYl7p7QiPOW-hMRhBE_pVvZEcG
-X-Proofpoint-ORIG-GUID: NBqV7vdAm5hC8F01XDJVrhoSleQES8Wy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-05_05,2025-11-03_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 bulkscore=0 adultscore=0 phishscore=0
- impostorscore=0 spamscore=0 malwarescore=0 suspectscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511050099
+References: <20251104171611.2227798-1-elmehdi.younes@smile.fr> <20251104171611.2227798-2-elmehdi.younes@smile.fr>
+In-Reply-To: <20251104171611.2227798-2-elmehdi.younes@smile.fr>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 5 Nov 2025 08:22:52 -0500
+X-Gm-Features: AWmQ_bk_HARyi-d7Xl7kIsiUakpZc-bidjmkO7J6KE2NLpDV-txgNxa5sqKDZsM
+Message-ID: <CADkTA4NEUxGQ7-z1kkGwmPh-ovAFgO=Zr89zD9JDhUmOn8mXGg@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 1/4] kernel-yocto.bbclass: Add integrated
+ support for Rust-for-Linux
+To: elmehdi.younes@smile.fr
+Cc: openembedded-core@lists.openembedded.org, yoann.congal@smile.fr
+Content-Type: multipart/alternative; boundary="00000000000029bd040642d8d976"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 13:10:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225765
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 13:23:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225766
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+--00000000000029bd040642d8d976
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In sdk while running make prepare in kernel-source directory after rust
-enabling rust config. it will throw erros since only makefile is present
-in rust kernel souces.
+On Tue, Nov 4, 2025 at 12:15=E2=80=AFPM El Mehdi YOUNES via lists.openembed=
+ded.org
+<elmehdi.younes=3Dsmile.fr@lists.openembedded.org> wrote:
 
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
----
- meta/recipes-kernel/linux/kernel-devsrc.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+> This change introduces a comprehensive solution to build Rust-enabled
+> kernels cleanly, controlled by a new DISTRO_FEATURE named 'rust-kernel'.
+>
+> When this feature is enabled, the class performs the following actions:
+>
+> 1.  Appends the necessary native toolchain dependencies (rust-native,
+>     bindgen-native, etc.) to the kernel recipe's DEPENDS.
+>
+> 2.  Implements a solution for reproducible builds to fix the [buildpaths]
+>     QA failures.
+>     To solve this, the rustc flag --remap-path-prefix is used. This
+>     flag instructs the compiler to replace build-specific path prefixes
+>     with generic ones in all output, including debug metadata. The offici=
+al
+>     documentation for this flag is here:
+>     https://doc.rust-lang.org/nightly/rustc/remap-source-paths.html
+>
+>     To apply this flag cleanly, the rust-common class is inherited to
+>     use its RUST_DEBUG_REMAP variable. This commit extends
+>     RUST_DEBUG_REMAP with the specific paths for the kernel source (${S})=
+,
+>     the build directory (${B}), and the native sysroot
+> (${STAGING_DIR_NATIVE}).
+>     The resulting flags are then passed to the kernel's Makefile via the
+>     KRUSTFLAGS variable.
+>
+> Signed-off-by: El Mehdi YOUNES <elmehdi.younes@smile.fr>
+> ---
+>  meta/classes-recipe/kernel-yocto.bbclass | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+>
+> diff --git a/meta/classes-recipe/kernel-yocto.bbclass
+> b/meta/classes-recipe/kernel-yocto.bbclass
+> index e53bf15194..e722a7a81d 100644
+> --- a/meta/classes-recipe/kernel-yocto.bbclass
+> +++ b/meta/classes-recipe/kernel-yocto.bbclass
+> @@ -463,6 +463,7 @@ do_kernel_configme[depends] +=3D
+> "virtual/cross-binutils:do_populate_sysroot"
+>  do_kernel_configme[depends] +=3D "virtual/cross-cc:do_populate_sysroot"
+>  do_kernel_configme[depends] +=3D "bc-native:do_populate_sysroot
+> bison-native:do_populate_sysroot"
+>  do_kernel_configme[depends] +=3D "kern-tools-native:do_populate_sysroot"
+> +do_kernel_configme[depends] +=3D "${@bb.utils.contains('DISTRO_FEATURES'=
+,
+> 'rust-kernel', ' rust-native:do_populate_sysroot
+> clang-native:do_populate_sysroot bindgen-cli-native:do_populate_sysroot',
+> '', d)}"
+>  do_kernel_configme[dirs] +=3D "${S} ${B}"
+>  do_kernel_configme() {
+>         do_kernel_metadata config
+> @@ -491,6 +492,16 @@ do_kernel_configme() {
+>                 bberror "${configs}"
+>                 bbfatal_log "Could not find configuration queue
+> (${meta_dir}/config.queue)"
+>         fi
+> +        # Run the kernel's 'make rustavailable' check.
+> +        # This is a critical step for getting a clear error message.
+> +        # Without this check, if the Rust toolchain is incomplete
+> +        # (e.g., missing sources), Kbuild just silently disables
+> +        # CONFIG_RUST=3Dy. The build would then succeed *without* Rust
+> +        # support, which is very difficult to debug.
+> +        # This command forces an explicit failure if the toolchain is no=
+t
+> ready.
+> +        if ${@bb.utils.contains('DISTRO_FEATURES', 'rust-kernel', 'true'=
+,
+> 'false', d)}; then
+> +            oe_runmake -C ${S} O=3D${B} rustavailable
+> +        fi
+>
+>         CFLAGS=3D"${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC=3D"${BUILD_CC}
+> ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}" CC=3D"${KERNEL=
+_CC}"
+> LD=3D"${KERNEL_LD}" OBJCOPY=3D"${KERNEL_OBJCOPY}" STRIP=3D"${KERNEL_STRIP=
+}"
+> ARCH=3D${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} >
+> ${meta_dir}/cfg/merge_config_build.log 2>&1
+>         if [ $? -ne 0 -o ! -f ${B}/.config ]; then
+> @@ -776,3 +787,11 @@ python () {
+>  addtask kernel_version_sanity_check after do_kernel_metadata
+> do_kernel_checkout before do_compile
+>  addtask validate_branches before do_patch after do_kernel_checkout
+>  addtask kernel_configcheck after do_configure before do_compile
+> +
+> +INHERIT:append =3D " ${@bb.utils.contains('DISTRO_FEATURES', 'rust-kerne=
+l',
+> ' rust-common', '', d)}"
+> +KERNEL_EXTRA_DEPENDS_RUST =3D "rust-native cargo-native clang-native
+> llvm-native bindgen-cli-native"
+>
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 411c99ba30..b4bc9eaac2 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -140,6 +140,10 @@ do_install() {
- 
-         cp -a scripts $kerneldir/build
- 
-+        if ${@bb.utils.contains('DISTRO_FEATURES', 'rust-kernel', 'true', 'false', d)}; then
-+            cp -a rust ${kerneldir}/build
-+        fi
-+
-         # for v6.1+ (otherwise we are missing multiple default targets)
-         cp -a --parents Kbuild $kerneldir/build 2>/dev/null || :
- 
--- 
-2.49.0
+There's limited value in assigning this to a variable without using ?=3D in
+that assignment, since
+there's no "clean" way to override it from a bbappend.
 
+
+> +DEPENDS:append =3D " ${@bb.utils.contains('DISTRO_FEATURES', 'rust-kerne=
+l',
+> ' ${KERNEL_EXTRA_DEPENDS_RUST}', '', d)}"
+> +RUST_KERNEL_OEMAKE_VARS =3D "KRUSTFLAGS=3D\"${RUST_DEBUG_REMAP}\""
+>
+
+Same here, should be ?=3D
+
+
+> +EXTRA_OEMAKE:append =3D " ${@bb.utils.contains('DISTRO_FEATURES',
+> 'rust-kernel', ' ${RUST_KERNEL_OEMAKE_VARS}', '', d)}"
+> +RUST_DEBUG_REMAP:append =3D "${@bb.utils.contains('DISTRO_FEATURES',
+> 'rust-kernel', ' --remap-path-prefix=3D${S}=3D${TARGET_DBGSRC_DIR}/kernel
+> --remap-path-prefix=3D${STAGING_DIR_NATIVE}=3D${TARGET_DBGSRC_DIR}/rustc
+> --remap-path-prefix=3D${B}=3D${TARGET_DBGSRC_DIR}/build', '', d)}"
+> +
+>
+
+To keep everything consistent, those rust debug flags should be assigned to
+a variable, versus
+being inlined in the python.
+
+Bruce
+
+
+
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#225737):
+> https://lists.openembedded.org/g/openembedded-core/message/225737
+> Mute This Topic: https://lists.openembedded.org/mt/116120516/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--00000000000029bd040642d8d976
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 4, 2025 at 12:15=
+=E2=80=AFPM El Mehdi YOUNES via <a href=3D"http://lists.openembedded.org">l=
+ists.openembedded.org</a> &lt;elmehdi.younes=3D<a href=3D"mailto:smile.fr@l=
+ists.openembedded.org">smile.fr@lists.openembedded.org</a>&gt; wrote:<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">This change introduce=
+s a comprehensive solution to build Rust-enabled<br>
+kernels cleanly, controlled by a new DISTRO_FEATURE named &#39;rust-kernel&=
+#39;.<br>
+<br>
+When this feature is enabled, the class performs the following actions:<br>
+<br>
+1.=C2=A0 Appends the necessary native toolchain dependencies (rust-native,<=
+br>
+=C2=A0 =C2=A0 bindgen-native, etc.) to the kernel recipe&#39;s DEPENDS.<br>
+<br>
+2.=C2=A0 Implements a solution for reproducible builds to fix the [buildpat=
+hs]<br>
+=C2=A0 =C2=A0 QA failures.<br>
+=C2=A0 =C2=A0 To solve this, the rustc flag --remap-path-prefix is used. Th=
+is<br>
+=C2=A0 =C2=A0 flag instructs the compiler to replace build-specific path pr=
+efixes<br>
+=C2=A0 =C2=A0 with generic ones in all output, including debug metadata. Th=
+e official<br>
+=C2=A0 =C2=A0 documentation for this flag is here:<br>
+=C2=A0 =C2=A0 <a href=3D"https://doc.rust-lang.org/nightly/rustc/remap-sour=
+ce-paths.html" rel=3D"noreferrer" target=3D"_blank">https://doc.rust-lang.o=
+rg/nightly/rustc/remap-source-paths.html</a><br>
+<br>
+=C2=A0 =C2=A0 To apply this flag cleanly, the rust-common class is inherite=
+d to<br>
+=C2=A0 =C2=A0 use its RUST_DEBUG_REMAP variable. This commit extends<br>
+=C2=A0 =C2=A0 RUST_DEBUG_REMAP with the specific paths for the kernel sourc=
+e (${S}),<br>
+=C2=A0 =C2=A0 the build directory (${B}), and the native sysroot (${STAGING=
+_DIR_NATIVE}).<br>
+=C2=A0 =C2=A0 The resulting flags are then passed to the kernel&#39;s Makef=
+ile via the<br>
+=C2=A0 =C2=A0 KRUSTFLAGS variable.<br>
+<br>
+Signed-off-by: El Mehdi YOUNES &lt;<a href=3D"mailto:elmehdi.younes@smile.f=
+r" target=3D"_blank">elmehdi.younes@smile.fr</a>&gt;<br>
+---<br>
+=C2=A0meta/classes-recipe/kernel-yocto.bbclass | 19 +++++++++++++++++++<br>
+=C2=A01 file changed, 19 insertions(+)<br>
+<br>
+diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe=
+/kernel-yocto.bbclass<br>
+index e53bf15194..e722a7a81d 100644<br>
+--- a/meta/classes-recipe/kernel-yocto.bbclass<br>
++++ b/meta/classes-recipe/kernel-yocto.bbclass<br>
+@@ -463,6 +463,7 @@ do_kernel_configme[depends] +=3D &quot;virtual/cross-bi=
+nutils:do_populate_sysroot&quot;<br>
+=C2=A0do_kernel_configme[depends] +=3D &quot;virtual/cross-cc:do_populate_s=
+ysroot&quot;<br>
+=C2=A0do_kernel_configme[depends] +=3D &quot;bc-native:do_populate_sysroot =
+bison-native:do_populate_sysroot&quot;<br>
+=C2=A0do_kernel_configme[depends] +=3D &quot;kern-tools-native:do_populate_=
+sysroot&quot;<br>
++do_kernel_configme[depends] +=3D &quot;${@bb.utils.contains(&#39;DISTRO_FE=
+ATURES&#39;, &#39;rust-kernel&#39;, &#39; rust-native:do_populate_sysroot c=
+lang-native:do_populate_sysroot bindgen-cli-native:do_populate_sysroot&#39;=
+, &#39;&#39;, d)}&quot;<br>
+=C2=A0do_kernel_configme[dirs] +=3D &quot;${S} ${B}&quot;<br>
+=C2=A0do_kernel_configme() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_kernel_metadata config<br>
+@@ -491,6 +492,16 @@ do_kernel_configme() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bberror &quot;${con=
+figs}&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbfatal_log &quot;C=
+ould not find configuration queue (${meta_dir}/config.queue)&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Run the kernel&#39;s &#39;make rustavailable=
+&#39; check.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # This is a critical step for getting a clear =
+error message.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Without this check, if the Rust toolchain is=
+ incomplete<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # (e.g., missing sources), Kbuild just silentl=
+y disables<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # CONFIG_RUST=3Dy. The build would then succee=
+d *without* Rust<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # support, which is very difficult to debug.<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # This command forces an explicit failure if t=
+he toolchain is not ready.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ${@bb.utils.contains(&#39;DISTRO_FEATURES&#=
+39;, &#39;rust-kernel&#39;, &#39;true&#39;, &#39;false&#39;, d)}; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake -C ${S} O=3D${B} rust=
+available<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 CFLAGS=3D&quot;${CFLAGS} ${TOOLCHAIN_OPTIONS}&q=
+uot; HOSTCC=3D&quot;${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}&quot; HOST=
+CPP=3D&quot;${BUILD_CPP}&quot; CC=3D&quot;${KERNEL_CC}&quot; LD=3D&quot;${K=
+ERNEL_LD}&quot; OBJCOPY=3D&quot;${KERNEL_OBJCOPY}&quot; STRIP=3D&quot;${KER=
+NEL_STRIP}&quot; ARCH=3D${ARCH} merge_config.sh -O ${B} ${config_flags} ${c=
+onfigs} &gt; ${meta_dir}/cfg/merge_config_build.log 2&gt;&amp;1<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ $? -ne 0 -o ! -f ${B}/.config ]; then<br>
+@@ -776,3 +787,11 @@ python () {<br>
+=C2=A0addtask kernel_version_sanity_check after do_kernel_metadata do_kerne=
+l_checkout before do_compile<br>
+=C2=A0addtask validate_branches before do_patch after do_kernel_checkout<br=
+>
+=C2=A0addtask kernel_configcheck after do_configure before do_compile<br>
++<br>
++INHERIT:append =3D &quot; ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, =
+&#39;rust-kernel&#39;, &#39; rust-common&#39;, &#39;&#39;, d)}&quot;<br>
++KERNEL_EXTRA_DEPENDS_RUST =3D &quot;rust-native cargo-native clang-native =
+llvm-native bindgen-cli-native&quot;<br></blockquote><div><br></div><div><d=
+iv class=3D"gmail_default" style=3D"font-size:small">There&#39;s limited va=
+lue in assigning this to a variable without using ?=3D in that assignment, =
+since</div><div class=3D"gmail_default" style=3D"font-size:small">there&#39=
+;s no &quot;clean&quot; way to override it from a bbappend.</div></div><div=
+>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++DEPENDS:append =3D &quot; ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, =
+&#39;rust-kernel&#39;, &#39; ${KERNEL_EXTRA_DEPENDS_RUST}&#39;, &#39;&#39;,=
+ d)}&quot;<br>
++RUST_KERNEL_OEMAKE_VARS =3D &quot;KRUSTFLAGS=3D\&quot;${RUST_DEBUG_REMAP}\=
+&quot;&quot;<br></blockquote><div><br></div><div><div class=3D"gmail_defaul=
+t" style=3D"font-size:small">Same here, should be ?=3D</div></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++EXTRA_OEMAKE:append =3D &quot; ${@bb.utils.contains(&#39;DISTRO_FEATURES&#=
+39;, &#39;rust-kernel&#39;, &#39; ${RUST_KERNEL_OEMAKE_VARS}&#39;, &#39;&#3=
+9;, d)}&quot;<br>
++RUST_DEBUG_REMAP:append =3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURE=
+S&#39;, &#39;rust-kernel&#39;, &#39; --remap-path-prefix=3D${S}=3D${TARGET_=
+DBGSRC_DIR}/kernel --remap-path-prefix=3D${STAGING_DIR_NATIVE}=3D${TARGET_D=
+BGSRC_DIR}/rustc --remap-path-prefix=3D${B}=3D${TARGET_DBGSRC_DIR}/build&#3=
+9;, &#39;&#39;, d)}&quot;<br>
++<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D=
+"font-size:small">To keep everything consistent, those rust debug flags sho=
+uld be assigned to a variable, versus</div><div class=3D"gmail_default" sty=
+le=3D"font-size:small">being inlined in the python.</div><div class=3D"gmai=
+l_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default"=
+ style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#225737): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/225737" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/225737</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/116120516/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/116120516/1050810</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
+target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--00000000000029bd040642d8d976--
 
