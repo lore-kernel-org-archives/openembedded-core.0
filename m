@@ -2,99 +2,118 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4319ECCF9F8
-	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:47:21 +0000 (UTC)
-Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2980.1762386439864192560
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FA9CCCFA18
+	for <webhook@archiver.kernel.org>; Wed,  5 Nov 2025 23:47:31 +0000 (UTC)
+Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2996.1762386448160184465
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Nov 2025 15:47:20 -0800
+ Wed, 05 Nov 2025 15:47:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=FiqtJF32;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=V0aPrbu7;
+ spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1762386440; x=1793922440;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=NCE6Nb01QBYsWYcmue0lZnWAwIQjSDvO5M2dAmQ21o0=;
-  b=FiqtJF329PJfSrwE38fSDu+jbDZZcNlTU69fZEDOFCj4j/nOkmAbMQah
-   wfGmGNj1RP8/rBFm8LhWFRBx6XgaKDeNLNSzc/RORWuaCbfrG0XRVsXXG
-   HRF0igi/FVqrWfl+eeC87TO1trybWcgcfcRJ+9z2XOFq/l8kaCL0KG45N
-   oe6ghxqUJF4++WJ8+C4u1ei40/mQVBWD0wHaCQKDVWpdFP9kPLp55tZiZ
-   GXRzbZKZnWT86KJTyEGKsBA6antJtWXnz7CdMDG9fQ/pqsFBisig0v0Xn
-   UXyAvcNldxrUeoi3yx6gOzkxJHWJMxZUfFJZdXVBFt4g0Iu7zN0nd4IIJ
-   Q==;
-X-CSE-ConnectionGUID: ts8ziWW9RHWT+DEIhQptBw==
-X-CSE-MsgGUID: 7gwzAL/ITUaOAUocEuO9Pw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="221965688"
+  t=1762386449; x=1793922449;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=V7TNn4r8VY9wi2+esImpAt6QHi5EMr5OF43dBwmxYc4=;
+  b=V0aPrbu7BnMLZzVNV+cLwNqUZSzWhEy/Yk+2NrtrAGa1QpMmuhx4aVDz
+   Zrk8upoFegOry+s/myfXH1Db34oBMmtz9evV47V6VC7Vkt92nsEL0PqfY
+   KV3iGE6MTeJZvqPVQhvEGR0GiR3Z7mwbwyUz8T9KpvnsZUhxFO9Zv3wYS
+   JlyZ3FqEzl90p4Y2AFVk3XTFFXK+u9bQIQXwkDQz0xVFiJZVsWDy3WJQP
+   wDdIWxUOFqHEMHMfsZB0/6E9hoC4A0PwAAOGOrIa1ZVUzi8oeGMaWOK+S
+   Fa16m0ORx6wEZp0vX/3vlyQHTL5BD7BdBMeYplIKH7J70D2R6rm2Cjgov
+   A==;
+X-CSE-ConnectionGUID: OPKvjqwBR86ly46y2yqw4g==
+X-CSE-MsgGUID: OyEpzSF4Ra28ZilPc9Hdfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="197067414"
 X-IronPort-AV: E=Sophos;i="6.19,283,1754924400"; 
-   d="scan'208";a="221965688"
-Received: from unknown (HELO az2uksmgr3.o.css.fujitsu.com) ([52.151.125.19])
-  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 08:47:18 +0900
-Received: from az2uksmgm3.o.css.fujitsu.com (unknown [10.151.22.200])
+   d="scan'208";a="197067414"
+Received: from unknown (HELO az2nlsmgr4.o.css.fujitsu.com) ([20.61.8.234])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 08:47:28 +0900
+Received: from az2nlsmgm2.o.css.fujitsu.com (unknown [10.150.26.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2uksmgr3.o.css.fujitsu.com (Postfix) with ESMTPS id 159021002BB8
-	for <openembedded-core@lists.openembedded.org>; Wed,  5 Nov 2025 23:47:18 +0000 (UTC)
+	by az2nlsmgr4.o.css.fujitsu.com (Postfix) with ESMTPS id 82C1042A332
+	for <openembedded-core@lists.openembedded.org>; Wed,  5 Nov 2025 23:47:28 +0000 (UTC)
 Received: from az2uksmom2.o.css.fujitsu.com (az2uksmom2.o.css.fujitsu.com [10.151.22.203])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2uksmgm3.o.css.fujitsu.com (Postfix) with ESMTPS id C27ADC02F00
-	for <openembedded-core@lists.openembedded.org>; Wed,  5 Nov 2025 23:47:17 +0000 (UTC)
+	by az2nlsmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id 3B4B41C00101
+	for <openembedded-core@lists.openembedded.org>; Wed,  5 Nov 2025 23:47:28 +0000 (UTC)
 Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.167.135.104])
-	by az2uksmom2.o.css.fujitsu.com (Postfix) with ESMTP id 5D72D14005BD;
-	Wed,  5 Nov 2025 23:47:15 +0000 (UTC)
+	by az2uksmom2.o.css.fujitsu.com (Postfix) with ESMTP id B49E614005BF;
+	Wed,  5 Nov 2025 23:47:25 +0000 (UTC)
 From: Wang Mingyu < wangmy@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 01/29] adwaita-icon-theme: upgrade 48.0 -> 49.0
-Date: Thu,  6 Nov 2025 07:46:44 +0800
-Message-ID: <20251105234712.446-1-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 06/29] dnf: upgrade 4.23.0 -> 4.24.0
+Date: Thu,  6 Nov 2025 07:46:49 +0800
+Message-ID: <20251105234712.446-6-wangmy@fujitsu.com>
 X-Mailer: git-send-email 2.49.0.windows.1
+In-Reply-To: <20251105234712.446-1-wangmy@fujitsu.com>
+References: <20251105234712.446-1-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:47:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225931
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Nov 2025 23:47:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225936
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-Changelog:
-==========
-- symbolic: night light
-- symbolic: battery rendered as square
-- symbolic: plugged variants of battery status
-- symbolic: vpn metaphor
-- symbolic: gtk rendering optimizations
-- cursors: fleur -> all-resize
-- cursors: DND cleanup
+0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
+refreshed for 4.24.0
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../{adwaita-icon-theme_48.0.bb => adwaita-icon-theme_49.0.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gnome/{adwaita-icon-theme_48.0.bb => adwaita-icon-theme_49.0.bb} (91%)
+ ...1-Do-not-hardcode-etc-and-systemd-unit-directories.patch | 6 +++---
+ meta/recipes-devtools/dnf/{dnf_4.23.0.bb => dnf_4.24.0.bb}  | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/dnf/{dnf_4.23.0.bb => dnf_4.24.0.bb} (98%)
 
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_48.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_49.0.bb
-similarity index 91%
-rename from meta/recipes-gnome/gnome/adwaita-icon-theme_48.0.bb
-rename to meta/recipes-gnome/gnome/adwaita-icon-theme_49.0.bb
-index 38b5410086..a12faeb8fd 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme_48.0.bb
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_49.0.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c84cac88e46fc07647ea07e6c24eeb7c \
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
+index 37359a5765..9d978cdc5f 100644
+--- a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
++++ b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
+@@ -1,4 +1,4 @@
+-From 3ca6d14fbc6419ff6239b4ba16f77da20fb31d03 Mon Sep 17 00:00:00 2001
++From c2b2b91b58f4531d4baf0a01f5d868d71e577a84 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 26 Jan 2017 16:25:47 +0200
+ Subject: [PATCH] Do not hardcode /etc and systemd unit directories
+@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
- inherit gnomebase allarch gtk-icon-cache
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 4aee99fb..9e2e9e9e 100644
++index e71e9517..8fcb2069 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -3,8 +3,8 @@ CMAKE_MINIMUM_REQUIRED (VERSION 2.4)
++@@ -3,8 +3,8 @@ PROJECT (dnf NONE)
+  
+  INCLUDE (${CMAKE_SOURCE_DIR}/VERSION.cmake)
+  
+diff --git a/meta/recipes-devtools/dnf/dnf_4.23.0.bb b/meta/recipes-devtools/dnf/dnf_4.24.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/dnf/dnf_4.23.0.bb
+rename to meta/recipes-devtools/dnf/dnf_4.24.0.bb
+index 927a8d8930..d40b85c4b0 100644
+--- a/meta/recipes-devtools/dnf/dnf_4.23.0.bb
++++ b/meta/recipes-devtools/dnf/dnf_4.24.0.bb
+@@ -20,7 +20,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protoc
  
--SRC_URI[archive.sha256sum] = "847068888650d9673115be6dbf2bfdc31a46aebc528a6a9db4420e60e656b8d4"
-+SRC_URI[archive.sha256sum] = "65166461d1b278aa942f59aa8d0fccf1108d71c65f372c6266e172449791755c"
+ SRC_URI:append:class-native = " file://0001-dnf-write-the-log-lock-to-root.patch"
  
- DEPENDS += "librsvg-native"
+-SRCREV = "8fa4bb94a99eadaed91ad2ee51f27a4baafcebed"
++SRCREV = "e47634fbe3565d0580e89ec21adb7c1b308642ce"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
  
+ inherit cmake gettext bash-completion setuptools3-base systemd
 -- 
 2.43.0
 
