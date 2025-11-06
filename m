@@ -1,96 +1,92 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3473BCCFA05
-	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 18:11:11 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4417.1762452667315985694
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F4F8CCFA05
+	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 18:15:11 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4519.1762452903030491088
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Nov 2025 10:11:07 -0800
+ Thu, 06 Nov 2025 10:15:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BN7CflKf;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-295548467c7so14174045ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 10:11:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762452666; x=1763057466; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=byeK3STrk2Itd1VQ0Zs2FDtKiSlzjj6oULwI3YrcV3s=;
-        b=BN7CflKf5RXwuElzcut0UZ8iLFVmBW9fxMhCaegcGZyz16QBpDVob6yT/OndgxJRny
-         wpkZtB3Z+CoFLFsvZVZd79HhzacS+wXOYCcNlaBKKQZGMCtM3qHGtEvFvbG18CetSKNQ
-         KB0flOdPvUdiuHeIdnkQPACOwsMGwXNNyG9mVKcZ81JKCDZx+fdFrzz5MCeFm+JtI7Oh
-         XUyGJNIiqfy3mhG7I7r/QSZWiTTV/kJLzvoLn+KHTqI0RWFnUU2HMET+EDB92dvC+Pow
-         5n8z2ImANEP4KA7t9s/9tNVDXW+ZlITXD+0z7qMAhoqT5NRa6LxVgbWhTRsBYyBclY8h
-         Swxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762452666; x=1763057466;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=byeK3STrk2Itd1VQ0Zs2FDtKiSlzjj6oULwI3YrcV3s=;
-        b=Xu1T2Kc802hK2TF3B34dB1Izsqw9knfQ2pniXPQA0n8zsiqrk11jcDDBPBLX8ReiQv
-         ub5nE4U3LSSwL2zEDeVccPhlsoIWYyU8UqXua7wjhkrZ0GhEQ16VHHG5JnzW8l+RNNwI
-         aRUjbkrYDU9qvE9UO44iNsN0LvQO0BX+xWRNDfTrwmbJbbvPd/lzrbq4A9i3OIBfCDZ8
-         qXrpM+pXNx/tBKHCfVh2CO5MraJhhYvJXH3l8cZAl3xTYVWys+j7bgtTfRL+pOQn6gok
-         v7lMX+nEW6W8n+kkr5/5mIejyEklUCaYYtMPvKTUvvOB27scOuMEMzzVMfKuXF6ZQgYX
-         Pp1w==
-X-Gm-Message-State: AOJu0YzvD5oN5cNAhXKk+Td5YiDtMKW92oY4tMAteYMIV40SMd/dMqjO
-	14m/ivNaWYxM0VrmDo5VwreqPlrLyVg5byNFhfdIRQVOE4CwNOXrBDVTom3ytxm7
-X-Gm-Gg: ASbGncs6tLDQXdPo+CnGLCOckm/ZDIPZ71GEZ9VEm4LkTSl6P/qjevXYjW9VAtGFW5B
-	1E1KqeqHePfmNGocYkv8FlN1LVyiNKdGkYoIrauxB3cYi/JYQFDuvUVG60SwFpL+xxquvnrv1JA
-	c0NA0eUY54FeBHztubkfpJCntupcZySNIJWeDs+1y3tCSFIy4e5eNZZpYzcIav5MOf7SDGAT5V7
-	koXLOH4oElM63NG664YC2cUqPIfG+iw/FebhPlcirff6W+x9nPoAwSP30iJjgVr1NJlmKkdd9sv
-	UXJ1n9yZ7uOvm0qgymgBbbrciaESwUcZyTNDv40EQb3ZGBzC2KAH1/4wuZJO0ksYVu6XpY0/l6h
-	1FCEYhW5OzrJehH4VmKVtHd4VZNIQ0UdfG0G+9flHGA8608p0sLgKMR7bKuTg0ILiafu758QU3+
-	2wZnNUpEQxx0TB/uTW/fI8ND/Y+XG2f2rRC2yj1Zyf0SmrnB60EV3ONhrrW9IH5sZDCBarQpo2
-X-Google-Smtp-Source: AGHT+IG/uyGkdUURSzGiij1fcpof94pVVsJuGFHjpxQXMUI9ik4hB3bsLjRQLV/ybGnRMeCCpgKOQQ==
-X-Received: by 2002:a17:903:1ac4:b0:295:fc0:5a32 with SMTP id d9443c01a7336-297c03a066bmr4616115ad.3.1762452666266;
-        Thu, 06 Nov 2025 10:11:06 -0800 (PST)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::888a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29650e5a33bsm35367005ad.47.2025.11.06.10.11.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 10:11:05 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E2EC215A1
+	for <openembedded-core@lists.openembedded.org>; Thu,  6 Nov 2025 10:14:54 -0800 (PST)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5228C3F66E
+	for <openembedded-core@lists.openembedded.org>; Thu,  6 Nov 2025 10:15:02 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] libclc: Add misssing quotes around target list
-Date: Thu,  6 Nov 2025 10:11:03 -0800
-Message-ID: <20251106181103.515146-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.51.2
+Subject: [PATCH 2/2] nativesdk: don't map packaging variables if the recipe inherits nativesdk
+Date: Thu,  6 Nov 2025 18:14:57 +0000
+Message-ID: <20251106181457.3214940-2-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251106181457.3214940-1-ross.burton@arm.com>
+References: <20251106181457.3214940-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 18:11:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225985
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 18:15:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225987
 
-Defualt for LIBCLC_TARGETS is `all` so a single
-target is ok but when its overidden with a semi-colon
-separated list to use a subset of targets, e.g.
+The nativesdk class uses a ClassExtender to remap variables and
+references, for example turning foo to nativesdk-foo.  We need to do this
+always because when the nativesdk class is inherited in a recipe these
+need to update automatically: DEPENDS=3Dbar should be DEPENDS=3Dnativesdk=
+-bar.
 
-LIBCLC_TARGETS:class-nativesdk = "amdgcn--;amdgcn--amdhsa;nvptx--;nvptx64--;nvptx--nvidiacl;nvptx64--nvidiacl"
+This mapping extends to the packaging variables (RDEPENDS, etc) as it is
+usual for nativesdk to be used via BBCLASSEXTEND, so the recipe would be
+written using RDEPENDS:${PN}=3Dbar and the class would turn that into
+nativesdk-bar automatically.
 
-cmake rejects it.
+Some recipes don't use BBCLASSEXTEND and instead inherit nativesdk
+directly. These recipes typically use "nativesdk-bar" explicitly and the
+remapping isn't needed.  However, the remapping still runs: it normally
+has no effect but it will still run.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+This is a problem for the recipes that use sdk-provides-dummy.inc to
+provide names that we don't want to be in the SDK. Notably,
+nativesdk-target-provides-dummy provides "pkgconfig" because packages
+can have that literal dependency injected into them by rpmdeps, and
+the remapping was changing this to nativesdk-pkgconfig: the intended
+provides wasn't present and it became impossible to install pkgconfig
+into the nativesdk sysroot.
+
+Note that this broke when the class extension switched to use the new
+bitbake filtering API[1], as this meant the remapping happens when the
+variables are _read_ instead of at parse time.
+
+[1] oe-core 24a9858a892 ("classes/lib: Switch classextend to use new filt=
+er API")
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/clang/libclc_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes-recipe/nativesdk.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/clang/libclc_git.bb b/meta/recipes-devtools/clang/libclc_git.bb
-index 60909339e70..c4b4881542f 100644
---- a/meta/recipes-devtools/clang/libclc_git.bb
-+++ b/meta/recipes-devtools/clang/libclc_git.bb
-@@ -21,7 +21,7 @@ B_NATIVE = "${B}-native"
- # Semicolon-separated list of targets to build
- LIBCLC_TARGETS ?= "all"
- 
--EXTRA_OECMAKE += "-DLIBCLC_TARGETS_TO_BUILD=${LIBCLC_TARGETS}"
-+EXTRA_OECMAKE += "-DLIBCLC_TARGETS_TO_BUILD='${LIBCLC_TARGETS}'"
- EXTRA_OECMAKE:append:class-target = " -DPREPARE_BUILTINS=${B_NATIVE}/prepare_builtins"
- EXTRA_OECMAKE:append:class-nativesdk = " -DPREPARE_BUILTINS=${B_NATIVE}/prepare_builtins"
- 
+diff --git a/meta/classes-recipe/nativesdk.bbclass b/meta/classes-recipe/=
+nativesdk.bbclass
+index 9838d5a54b7..c2e53c8450a 100644
+--- a/meta/classes-recipe/nativesdk.bbclass
++++ b/meta/classes-recipe/nativesdk.bbclass
+@@ -104,9 +104,11 @@ python () {
+=20
+     clsextend.set_filter("DEPENDS", deps=3DTrue)
+     clsextend.set_filter("PACKAGE_WRITE_DEPS", deps=3DFalse)
+-    clsextend.map_packagevars()
+     clsextend.set_filter("PROVIDES", deps=3DFalse)
+=20
++    if "nativesdk" in (d.getVar("BBCLASSEXTEND") or ""):
++        clsextend.map_packagevars()
++
+     d.setVar("LIBCEXTENSION", "")
+     d.setVar("ABIEXTENSION", "")
+ }
+--=20
+2.43.0
+
 
