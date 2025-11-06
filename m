@@ -2,175 +2,97 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05579CCFA05
-	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 17:29:51 +0000 (UTC)
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3403.1762450189059218336
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4970CCFA05
+	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 17:30:00 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3484.1762450191036260264
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Nov 2025 09:29:49 -0800
+ Thu, 06 Nov 2025 09:29:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XhYqy/mq;
- spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b608df6d2a0so994011a12.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 09:29:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LvCRm9ZZ;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-29555415c5fso16252705ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 09:29:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762450188; x=1763054988; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LnGBoNQVBZxwVRfJ0LF0mSQaz980+Xdw8CCz+AhE2uA=;
-        b=XhYqy/mqeaG9SKb/nELpZZdy0IEJFshehujW2bgoBi1VWFezzkboRwPUEBws2SO+if
-         lF2tOyhgbci6rDlssGDQgt6HG1Yztuw95tL7ifDRKBe007YXVmwYPpwkKP1wHCbaNYXk
-         wxXEyaLnIWrmF4xFW8qhPJvm438j2HUojA58zg0FqCcl1UuZmNJpwrVS6Z7CCyW+Doru
-         HeT6KyH3R4iSl0WilP66wMErxlBHYbxNlrphXlWFliW8IuiYHK/eIL/v7k+if8p/LWB6
-         5N9JlKsd/iHuMdKKkb58iBBqcW5w3bAD1Af/vFS5CUKBy4MTIy4mIZ1LmijJ4v7VAeIH
-         8ukQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762450188; x=1763054988;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1762450190; x=1763054990; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LnGBoNQVBZxwVRfJ0LF0mSQaz980+Xdw8CCz+AhE2uA=;
-        b=h0BIANaBbCxUT5zTFTET6KeS2z63ZPj45Wv6FHvVjSXrHqBhASI7lnG/Lt1xuFoTvY
-         uDaibPhqwiGhnwl9pYS3o2SJlqjrfx/5lABovZwOiDXaT3pFifSa5/zvcyjlp10Tuc9W
-         IwmFkI1Q8HlouzqxMKrAreGKa+8bhnwt9J6BidEfWq37OnTLMw5K5GAuuerSroasC69g
-         EU7NqycwYweXhOH8Va48tk+Hxi4HhrQVuLOaqsp0sqiEvmSOqRAQwCrzWhVjtNExfksI
-         Tt7cncXEWbD6oEoOz/zwAu+aKwzdwchkc2eebvU0Kt0rflrtE9zaYBZRkETRmYg36tR1
-         iWPA==
-X-Gm-Message-State: AOJu0YyDr7BOXlpxWZsQyzorPemB7D4IE+9nqIXE9jXSTa3/G02myQap
-	2kjmPT+Yl44+FTvOYrvkv7IXaAZhl1Dql/+9N095osTzQZ8AjmLUXCAz8Lkt//HE
-X-Gm-Gg: ASbGncuGaGKoi6wdWkE5cC8taTtS1JOfTvQHWQoCbM48ohtXheyCoVoFKeqfVhNcqHr
-	R2aD1BrKo2a65GB7M7Kwr25VDAa/rCYgP7gLB+wWAM6g99wOaUBpZbFoiyf0pSfFvVl0OublWjf
-	yUlusf7fhyYGT7p+MaCZHxUP3RlRtM/eJTmYWyrKUoB8+x/Sq9uAyajIiM7wJo0Gk5WCieTuQL0
-	OZP9sdfzDyRHXmC+B1h91vsdDU9dmXPwJafpDrlpwRjIheT2w/ZfCpqVOn/QPzc4HR7xpJvxfI/
-	ZjN91zd9yPwRmDH+SBH4Q36mn9fW2hocJxhGw0gGiIZ/2rGK3zs1kjRMUO2sv01/W53TnwUTw4R
-	Bb/dIait5Eb/qEndZwBF6LRUElKj7z+x/hxapvkeIY10rqBcmhHy6kOvb/6ZOWR6+syVgeBxvaA
-	mJjshyiTs5dfGGLf08j7HxFZ7zsM6Cx6+9sQhgU0x2EyK/ScyIL8/AezuVUKNT44DX7mELoPtR
-X-Google-Smtp-Source: AGHT+IGiHWrqH8aXfUCHiKOUo7qc1TKeeX+1J6hZpVIzXVnFUnopwQZ6AhY8rAjdj0M7JMoK+blNlQ==
-X-Received: by 2002:a17:903:1251:b0:295:8c51:64ff with SMTP id d9443c01a7336-297c0442ebbmr3162875ad.29.1762450188056;
-        Thu, 06 Nov 2025 09:29:48 -0800 (PST)
+        bh=8w6nWt+kzEa5UYwr/iyUYspfk86fbkNPpdLrhjETUCo=;
+        b=LvCRm9ZZy2q7qUFc2slznLdRuuEXIzj3fYHABvTtW1TkjXlJGrS6H7VECmGr7vU+g6
+         x/sqHrRR+/5RB0VdC1LitzB8GpwBysjCwqG5dRR2S675hoaP0np7coo6PDHqcrlYfXdS
+         8FKJPexkB91zbQKKSbfImV3+183Gl2hiaQDoN2X4FEFHB9Ni0WCUkoEkzyXoTT0ocena
+         BSuLNtT4DhuHqgIGRlXaDIyoXl19T0PW+D7dfPqO+Afb2Q2TptjPtj5eigPtSdsZV5CK
+         eJMjAdiKsOdzsgude5Q+xZsR63anBPGH+ux8qZ76gfGMmNb0FDyKAjiKz8hCViM27kPE
+         b4Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762450190; x=1763054990;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8w6nWt+kzEa5UYwr/iyUYspfk86fbkNPpdLrhjETUCo=;
+        b=Si/eVKNKDHimfKPTNwrjb0DK5L/jqagh333BCYAdohh7DuVY48ZZd1nlQMOH9PxHAU
+         ghKDkc3AMCWonc3oR4K24hbh3xRbiZtW2Ef96XkOW7Ymi0bsifulL/dXBr9yB09OILcM
+         qdEi/5UVfjITpuS7IVVE5yCbXY0SHXcIGc70J8DyuSK7vMoi4zKkybbm0lYoBVGBHX1S
+         egLn6wbwfedLlZmx2A107JB0ZSiv7f8/7c5rrk6YFwBYT204qtEVXd2bUxeJ5lLr/2mT
+         Si49t4Tgx/6JAcpGIJrILjgF5Ym/q/qY5Iz3nNSX/Y2WaEMg7Bos3i4xAVblYMa36Kwy
+         YBPA==
+X-Gm-Message-State: AOJu0Yzz/koWTYR9sXoc5KZFSuWPrpmJhrn8fOIKjUuaUzUzIM67+zk8
+	swgsLy+oeOBWc7ww+Y5E5BkwPsD9qvbtJEMa5KSn572goKUgVTq2uSBasGTTtzHr
+X-Gm-Gg: ASbGnctq8AwAexgdfEb+n9oji88AXCsk90dVjQRIWy2Y0TCi4vKoJroUIzupAOcVdD0
+	p3312XjGuGOZHm6GE9pGQXSXwBE7L/mVlq+sau2AGoxa5DoyE/FVIXFGGkM8a5Q4dWpmx7h4sFy
+	eBLVg2fK3ReKEw+4FUVRhghS5zj9A9LcQLwCXbsIN/wmBFlT9O0k7bOhsdn9NZgtCMvA74c+J13
+	3tiOh5Fs9vwGf4jIRZjPnG10z1B/1Afmf0wQ7yHVDz1ZRV7pQ8CejhOkznCbeWeuYtl5gYmLDzJ
+	uotnBum8zRZBz6lCw2NIke/L7I5hIVEdPC1WslTzoLX8WB8Y9ZeEcK+apdSf4k9hh1u2HuU8OxX
+	kk+FWUaz5XqFUm6BajEMVdXjr+ZHYhq8Et/5GS9OQPy1o2HUopavzNOnItikqIqxBqUQ2TfCQor
+	SzraUj3Zgts3K86BQLdKC+OEKXbaMFqEU49egDG69Rf5TCho31PgADFbzSm0MFzGp/yldPp6kn
+X-Google-Smtp-Source: AGHT+IES6gaKS99wEYF0m32SfUL8WghhrWhTgIp8O0lTg3GmyMflCVSgh7V1gNO2Vczst9AXkhEVYw==
+X-Received: by 2002:a17:903:fae:b0:26c:2e56:ec27 with SMTP id d9443c01a7336-297c03c76a7mr3200525ad.19.1762450190187;
+        Thu, 06 Nov 2025 09:29:50 -0800 (PST)
 Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::888a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-296509682b4sm34081915ad.12.2025.11.06.09.29.47
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-296509682b4sm34081915ad.12.2025.11.06.09.29.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 09:29:47 -0800 (PST)
+        Thu, 06 Nov 2025 09:29:49 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] mesa: Fix build with C23 implementing once_flag
-Date: Thu,  6 Nov 2025 09:29:39 -0800
-Message-ID: <20251106172942.2654398-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] spirv-llvm-translator: Upgrade to 21.1.2
+Date: Thu,  6 Nov 2025 09:29:40 -0800
+Message-ID: <20251106172942.2654398-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.51.2
+In-Reply-To: <20251106172942.2654398-1-raj.khem@gmail.com>
+References: <20251106172942.2654398-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 17:29:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225983
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 17:30:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225984
 
-This is needed to build with glibc 2.43+
+[Backport to 21] Implement SPV_INTEL_predicated_io extension (#3370) (#3386)
+[Backport to 21] Fix incorrect translation for AtomicCmpExchangeWeak builtin ptr arg type. (#3390) (#3392)
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...once_flag-ONCE_FLAG_INIT-when-presen.patch | 78 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch
+ ...lvm-translator_21.1.1.bb => spirv-llvm-translator_21.1.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/spir/{spirv-llvm-translator_21.1.1.bb => spirv-llvm-translator_21.1.2.bb} (94%)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch b/meta/recipes-graphics/mesa/files/0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch
-new file mode 100644
-index 00000000000..e32a378792a
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch
-@@ -0,0 +1,78 @@
-+From 6afe3c2ed510dd68d5bb3048a313cdd7b7eff5fc Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 5 Nov 2025 13:32:52 -0800
-+Subject: [PATCH] =?UTF-8?q?c11:=20use=20glibc=E2=80=99s=20once=5Fflag/ONCE?=
-+ =?UTF-8?q?=5FFLAG=5FINIT=20when=20present?=
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+don’t build Mesa’s call_once shim on such systems
-+
-+glibc recently grew C11/C23 one-time initialization primitives (commit
-+a7ddbf456d97, released with 2.42+) [1], providing once_flag and
-+ONCE_FLAG_INIT via bits/types/once_flag.h and advertising their
-+presence with __once_flag_defined. Mesa’s C11 shim currently typedefs
-+once_flag to pthread_once_t, defines ONCE_FLAG_INIT as
-+PTHREAD_ONCE_INIT, and implements call_once() using pthread_once().
-+
-+On new glibc this causes two problems during Mesa build:
-+
-+typedef redefinition:
-+
-+src/c11/threads.h:121:25: error: typedef redefinition with different types
-+('pthread_once_t' vs '__once_flag')
-+
-+pointer type mismatch when calling pthread_once() with the glibc
-+once_flag:
-+
-+error: incompatible pointer types passing 'once_flag *' to parameter of type 'pthread_once_t *'
-+
-+This patch makes Mesa prefer the system-provided types/initializers when
-+available and only keep the shim otherwise.
-+
-+[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=a7ddbf456d97
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/38272]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/c11/impl/threads_posix.c | 3 ++-
-+ src/c11/threads.h            | 4 ++++
-+ 2 files changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/c11/impl/threads_posix.c b/src/c11/impl/threads_posix.c
-+index 3b8692482bb..b108ba4ae0f 100644
-+--- a/src/c11/impl/threads_posix.c
-++++ b/src/c11/impl/threads_posix.c
-+@@ -46,12 +46,13 @@ impl_thrd_routine(void *p)
-+
-+ /*--------------- 7.25.2 Initialization functions ---------------*/
-+ // 7.25.2.1
-++#ifndef USE_SYSTEM_CALL_ONCE
-+ void
-+ call_once(once_flag *flag, void (*func)(void))
-+ {
-+     pthread_once(flag, func);
-+ }
-+-
-++#endif
-+
-+ /*------------- 7.25.3 Condition variable functions -------------*/
-+ // 7.25.3.1
-+diff --git a/src/c11/threads.h b/src/c11/threads.h
-+index dbcb3459a9b..a6c6f38aa85 100644
-+--- a/src/c11/threads.h
-++++ b/src/c11/threads.h
-+@@ -118,8 +118,12 @@ typedef pthread_cond_t  cnd_t;
-+ typedef pthread_t       thrd_t;
-+ typedef pthread_key_t   tss_t;
-+ typedef pthread_mutex_t mtx_t;
-++#ifdef __once_flag_defined
-++#  define USE_SYSTEM_CALL_ONCE 1
-++#else
-+ typedef pthread_once_t  once_flag;
-+ #  define ONCE_FLAG_INIT PTHREAD_ONCE_INIT
-++#endif
-+ #  ifdef PTHREAD_DESTRUCTOR_ITERATIONS
-+ #    define TSS_DTOR_ITERATIONS PTHREAD_DESTRUCTOR_ITERATIONS
-+ #  else
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 6a36aea259f..4863a27949e 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -17,6 +17,7 @@ PE = "2"
- SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
-+           file://0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch \
- "
+diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.2.bb
+similarity index 94%
+rename from meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb
+rename to meta/recipes-graphics/spir/spirv-llvm-translator_21.1.2.bb
+index 503e7df6440..763afbd6080 100644
+--- a/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb
++++ b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.2.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=47e311aa9caedd1b3abf098bd7814d1d"
  
- SRC_URI[sha256sum] = "bb6243e7a6f525febfa1e6ab50827ca4d4bfdad73812377b0ca9b6c50998b03e"
+ # pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
+ SPIRV_BRANCH = "llvm_release_${@oe.utils.trim_version('${PV}', 1).replace('.', '')}0"
+-SRCREV = "29758b55816c14abb3e4142d42aca7a95bf46710"
++SRCREV = "a37544fc0bb90b4e8b8d755580119c018891dfa4"
+ SRC_URI = " \
+     git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v${PV};branch=${SPIRV_BRANCH} \
+ "
 
