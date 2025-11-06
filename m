@@ -1,126 +1,431 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C574BCCFA03
-	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 10:32:46 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11625.1762425156494196184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67348CCFA03
+	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 10:54:57 +0000 (UTC)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11990.1762426496964597104
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Nov 2025 02:32:36 -0800
+ Thu, 06 Nov 2025 02:54:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=EDRqWsEi;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3ed20bdfdffso758533f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 02:32:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=R3YoKTeu;
+ spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: rybczynska@gmail.com)
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b9a5b5b47bfso451082a12.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 02:54:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1762425155; x=1763029955; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1762426496; x=1763031296; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=d5aF0VKaSw7tlKh3oevSvw3U0kbd1zS1uzAlbSKN0uE=;
-        b=EDRqWsEiT6qWZnafZrhl5EeyD9gi9XCUf4QRdi4Z+lPDJJEEFz2PVNMnfKYfjnlUZF
-         UFgYP/ThFSfPmozonXSgJDNyMHaF2cbhe9qkNuxNlcrYxkTo0XxtCkEBUQP9WgGHOWNV
-         MehECT9Vpb7EwZLlnGuK6VRODOGXNlYe8qZck=
+        bh=K7XtnzGSiZYTSSmUQlHxB/jNbV/Y6azSTF/UrAfd8xI=;
+        b=R3YoKTeufR0F4wWH8HsvsTmGCjCdUT6++LVlvptYSxelgEXzhYEwp5+mbUywq3Qgkl
+         FUZZ3MA90S6RfPW7VoOQU0tVoI1JTNBafmjn0u+IE7eC2oHrFd2saYqNqfs68TFP7WeB
+         92WmrMYkOJiffJTD4Lw6tCQNyz6kFs3QX+D+1NINEZJHnayaY0ToghkMN/QNjUyq4FAL
+         13JwRvKrBdttKCT14yyMAX+WZsPuyYzaTrFq3wPWUTaqxd2F2HqPXx8IHvMd9s04kJ4k
+         6gJMvXSRHcVeoT3nTSAAnAr2SILxff9oxP5K5q3F654DnNwdnQpM3GiYngqhIAFD2cOu
+         eNkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762425155; x=1763029955;
+        d=1e100.net; s=20230601; t=1762426496; x=1763031296;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=d5aF0VKaSw7tlKh3oevSvw3U0kbd1zS1uzAlbSKN0uE=;
-        b=Kkb7ETDLq7nqjH/G7mThGTwdWJFP2OqGhyISGus/H9IpIedr233/oywqQUl/a3eHem
-         qGZVWVZMkTy7t5Ax2/1zQUtKdQe4LjM28Ws4U4oxPu/8Nn8pO5FrQO1v881yWtHbWhaw
-         oETtHG5LC5fXYle6yDBJ2VmsOR8tURF4g5gWArF9aHa4KsjuCHJOjIdEtoY34e74SF3n
-         pZ4DoT29ISfN/5SEPGqZTJjHAcl9OM0i4chpiq8Rs97oRQhbSuEzpexopEXFth0JrGH6
-         EorsNKeqYop1wsQdsup4Z+1VX+GxtZyC7K+u+Ae6/dlBwMj+LU3O6YjY2n7mE1Ggj/I/
-         hs3w==
-X-Forwarded-Encrypted: i=1; AJvYcCXJgFsMGrxEVRMsnPtoUSz+7H5XwU94ktX2VaVQRyvEVQIg5DzRD+k6bJjH8X9eIzmzS6kUVNFVzUAqXXc7gkEY9A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyWDozPd4iZ0LK5EmL6zgLmh9hsN5Gn0t3OlJUS6iG1/Lo5B4Ga
-	ATHFKw4uN8tvetZo/EcumhomYd0XEcn+ehx9IXwjFCCPKYyVBNc0Dw98VN9XjWJL8atZNN3cb8G
-	0VELoftYKA7w11Y5/0LaaOKVYrXwk6ldLEseKO50vHQ==
-X-Gm-Gg: ASbGncuKdq8egclxcht5uN6W1LWg40z88dVpREhASO/bNKb+K91T/S3SkJRrzFCJ6rp
-	gZ3bkNsXo+1K7YpjepAzR2ApYRWVLD+BqvjTqzC4SoBgIdOoL9+nK7CwBE/hBqEx+XZp6Fn4k0B
-	OiWHGTHOZotwOBJRdhE2D3zYuHNN9dIdebbNJUQi3VIcUzMQHnEmska4Atm51NLXRTK7TW/zWmR
-	soUskdntAGk1HCUgPJm7q9Iwkxf9tLYl3crNdlRLz+3bLeq+AN95IlRoavsbR3XmbPz6Skh3v63
-	IFRJkCnZbvQEq0DXtm4=
-X-Google-Smtp-Source: AGHT+IFOciUg3/KcsGQsms7qlzUsspp8wxZPBc6j0Yo9YVM9F4ADwfH/qLmaBSw9S1dF9W+aL+GgA65dK2mqf6s0Uz0=
-X-Received: by 2002:a05:6000:184f:b0:429:d2d2:5047 with SMTP id
- ffacd0b85a97d-429e32cc2abmr5482168f8f.10.1762425154796; Thu, 06 Nov 2025
- 02:32:34 -0800 (PST)
+        bh=K7XtnzGSiZYTSSmUQlHxB/jNbV/Y6azSTF/UrAfd8xI=;
+        b=NDhqQSMfHwIV2LLxDB7phvJP7DnmTAgUEstv31V5W8zZc82AtQnUCGtPCaK+95H8aB
+         XxW2w3sVn4GBEE30BQ4HrrpyVl6haYajg24C61IkjTeu+1QGIvHA07JBed/0sxWpmVo7
+         lTfd7YoOOCqFSEHVclROYjqNqf2ORfyeIqoeVrxGZnqyKS4tm+BTCFz5v/t4IwJV44XT
+         0t8UL4O3pIAXrVaZS8UoYtnGT55bIcfn/Pz3RluVJ/viaPriX1KTeCIewREexhnIy1k3
+         YbaVN30VznkEhcF4P7neVQqeaakZkcrg6icKY6bpTLWhXilQgjJTt9EFJ77Op5IfwbpV
+         0BUw==
+X-Gm-Message-State: AOJu0YwYz7AvBrTUSHZq3tZGgcchwre/OU0ofgyGlAveBVVW75R9Pvou
+	JpObOdWgXSNkGGCOdFz5TuUQ8h7kS21yKW4He9m50YHkcroflDEV/q2YPF28vr2+snPMffEIvxJ
+	+Dxogmuxg++kSsF8q2lnBqukTXSy4fRA=
+X-Gm-Gg: ASbGncvoI6htwwuvlrh+MPvAIlaq+80htR7jxvQrdWECZef5V73l1N3o+UqJIEUuleC
+	5WKI2wA1lzvrfzEnX2dGybpRyp3V77U17dRDm5hyU+m7wvcVUGkrGMrKDazFW7Ltx8Af59fIn6C
+	yV051ajEuPP9jotyBJmdJ/DFbT8LwWw9uqzmyGq2/2YquBE4dlB3B3KOT/LExoL4Ac6O+NeJAw7
+	Fwfyqgv0YXAUgan1oDzKWXPc5B2p9w9XRswmXi9LF1j2+M4T6k9WX64D6RqVKHSnk0CqUnU
+X-Google-Smtp-Source: AGHT+IFv2UXEqV7ZnIHKSIeZebw4jaN7rpY/vw3lndw62AC8nXBbiXSYGaYH+lphkOPbXwEgB0p1wqMaeHANI8B/vZE=
+X-Received: by 2002:a05:6a21:9986:b0:343:3d3c:4669 with SMTP id
+ adf61e73a8af0-34f846fe122mr8714402637.17.1762426495529; Thu, 06 Nov 2025
+ 02:54:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20251105232333.2800541-1-yoann.congal@smile.fr>
- <CAJdd5Ga4O9AWOCg=NrOnwdd_m_u24L4OS+cqB0ojmT39zFhj1A@mail.gmail.com>
- <CAMSfU+7tVyd36J5ssaKeyPK4cxCtTsrgkOVejvXbaUM+n9fRMg@mail.gmail.com>
- <18755DC80A8D9F8D.418361@lists.openembedded.org> <CANNYZj_tN8ZHDSuY+6cETOjGSFPW0=AYjEg+JVASyJoRde5rTQ@mail.gmail.com>
-In-Reply-To: <CANNYZj_tN8ZHDSuY+6cETOjGSFPW0=AYjEg+JVASyJoRde5rTQ@mail.gmail.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Thu, 6 Nov 2025 11:32:08 +0100
-X-Gm-Features: AWmQ_bmv5dSw8JV8RAnzu5gMWo8pdMr4sXyZcv9gYDNeO6yOeL8L-hskMmzLSRs
-Message-ID: <CAMSfU+6Xyn1-rTYY9j8iCsgUVhkg22i9K52-8doV4THERtk7ng@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bitbake-setup.schema.json: Add schema for
- "{THISDIR}" bb-layer
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Joshua Watt <jpewhacker@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000004b96e90642ea9539"
+References: <270455d31cdf073ffbc85ef7622e4b41bc10cb86.1762154252.git.joerg.sommer@navimatix.de>
+ <42a078860d319a90ff0a346546a70dd972c28613.1762154252.git.joerg.sommer@navimatix.de>
+In-Reply-To: <42a078860d319a90ff0a346546a70dd972c28613.1762154252.git.joerg.sommer@navimatix.de>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Thu, 6 Nov 2025 11:54:43 +0100
+X-Gm-Features: AWmQ_bkgeuzPgjQ3fcp5XvAD_Kyabtbax-SyhMPfxZSU4AF2HmNT8MADzuO8kvk
+Message-ID: <CAApg2=TKg+kvyLK6vytZ9QnYJ7_71O+_2_Hvu4KrddUYmJfjRQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 12/18] glib-2.0: Upgrade 2.86.0 -> 2.86.1
+To: joerg.sommer@navimatix.de
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000003578c30642eae5a2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 10:32:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225969
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 10:54:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225970
 
---0000000000004b96e90642ea9539
+--0000000000003578c30642eae5a2
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le jeu. 6 nov. 2025 =C3=A0 11:10, Alexander Kanavin <alex.kanavin@gmail.com=
-> a
-=C3=A9crit :
+Hello,
+I'm favorable for taking this patch to the release. Some of the fixes look
+like potential security issues (even if I do not see any CVEs for now).
 
-> On Thu, 6 Nov 2025 at 09:32, Alexander Kanavin via
-> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-> wrote:
-> > Yep, the point is to formally document the meaning of {THISDIR} in the
-> > schema. Maybe we should've added a separate key, e.g.
-> > bb-layers-relative-to-config-file. Maybe we can still do that :)
+Kind regards,
+Marta
+
+On Mon, Nov 3, 2025 at 8:27=E2=80=AFAM J=C3=B6rg Sommer via lists.openembed=
+ded.org
+<joerg.sommer=3Dnavimatix.de@lists.openembedded.org> wrote:
+
+> From: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
 >
-> I'm going to make patches. I do dislike having magic tokens in values
-> that need special processing.
+> Overview of changes in GLib 2.86.1, 2025-10-21
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> * Bugs fixed:
+>   - #3745 GIRepository: union fields offsets for compiled typelibs all ha=
+ve
+>     offset 0xffff (unknown) (Philip Chimento)
+>   - #3780 `gio/tests/socket-listener` requires dlsym
+>   - #3781 GLib.OptionContext's get_help() includes width of invisible
+> options
+>     (FeRD (Frank Dana))
+>   - #3783 [CI] Pipeline on 'main' failed for commit c31c4a52 (Tobias
+> Stoeckmann)
+>   - #3784 Memory leak related to g_get_home_dir (Michael Catanzaro)
+>   - #3798 Gio.AppInfo.launch_default_for_uri_async crashes with
+> non-existent
+>     paths (Philip Withnall)
+>   - #3803 GNetworkMonitor's netlink backend doesn't notify connectivity
+> change
+>     (Philip Withnall)
+>   - https://gitlab.gnome.org/Infrastructure/Infrastructure/-/issues/
+>   - !4755 ghash: Fix entry_is_big for CHERI architecture
+>   - !4756 ghash: Handle all table sizes in iterator
+>   - !4760 gbookmarkfile: Escape icon href and mime-type
+>   - !4773 docs: Add Luca Bacci as a co-maintainer of the Windows code
+>   - !4775 Update Ukrainian translation
+>   - !4776 Update Catalan translation
+>   - !4777 Update Lithuanian translation
+>   - !4778 tests: Fix clang compilation warnings
+>   - !4779 gmem: Replace SIZE_OVERFLOWS with g_size_checked_mul
+>   - !4780 Update Brazilian Portuguese translation
+>   - !4781 Update eu translation
+>   - !4782 Update Korean translation
+>   - !4785 Update Japanese translation
+>   - !4786 Update Galician translations
+>   - !4787 Update Hungarian translation
+>   - !4791 gstrfuncs: Check string length in g_strescape
+>   - !4800 gutils: Improve load_user_special_dirs' user-dirs.dirs parser
+>   - !4802 Update Turkish translation
+>   - !4809 Trivial backport of "gutils: Handle singletons in unlocked
+> functions"
+>     to glib-2-86 branch
+>   - !4814 Backport translation updates to glib-2-86
+>   - !4821 Backport !4820 =E2=80=9Cgio/tests: Fix a race condition in
+>     /gdbus/connection/flush=E2=80=9D to glib-2-86
+>   - !4828 Backport !4827 =E2=80=9Cghostutils: Treat 0x80 (and above) as n=
+on-ASCII=E2=80=9D
+> to
+>     glib-2-86
+>   - !4834 Backport !4810 and !4819, various fixes to user-dirs.dirs
+> handling in
+>     gutils
+>   - !4836 Backport !4835 =E2=80=9CUpdate Portuguese translation=E2=80=9D =
+to glib-2-86
+>   - !4839 Update Romanian translation
+>   - !4842 Backport "girnode: Fix computation of union member offsets" to
+>     glib-2-86
+>   - !4848 Update British English translation (2.86)
+>   - !4865 Backport !4859 =E2=80=9Cgopenuriportal: Fix a crash when the fi=
+le can=E2=80=99t
+> be
+>     opened=E2=80=9D to glib-2-86
+>   - !4867 Backport !4792 =E2=80=9Cgtype: Use transfer none for types (un)=
+ref
+> functions=E2=80=9D
+>     to glib-2-86
+>   - !4872 Fix macOS and msys2 CI builds on glib-2-86 branch
+>   - !4873 Backport !4871 =E2=80=9Cgnetworkmonitorbase: Add missing
+> notify::connectivity
+>     signal=E2=80=9D to glib-2-86
+>
+> * Translation updates:
+>   - Basque (Asier Saratsua Garmendia)
+>   - Catalan (Jordi Mas)
+>   - English (United Kingdom) (Bruce Cowan)
+>   - Esperanto (Kristjan ESPERANTO)
+>   - Galician (Fran Dieguez)
+>   - Hungarian (Bal=C3=A1zs =C3=9Ar)
+>   - Japanese (Makoto Sakaguchi)
+>   - Korean (Changwoo Ryu)
+>   - Lithuanian (Aurimas =C4=8Cernius)
+>   - Portuguese (Hugo Carvalho)
+>   - Portuguese (Brazil) (Rafael Fontenelle)
+>   - Romanian (Antonio Marin)
+>   - Serbian (=D0=9C=D0=B8=D0=BB=D0=BE=D1=88 =D0=9F=D0=BE=D0=BF=D0=BE=D0=
+=B2=D0=B8=D1=9B)
+>   - Turkish (Sabri =C3=9Cnal)
+>   - Ukrainian (Yuri Chornoivan)
+>
+> Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
+> ---
+>  .../{glib-2.0-initial_2.86.0.bb =3D> glib-2.0-initial_2.86.1.bb}  | 0
+>  .../glib-2.0/{glib-2.0_2.86.0.bb =3D> glib-2.0_2.86.1.bb}         | 0
+>  meta/recipes-core/glib-2.0/glib.inc                             | 2 +-
+>  3 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.86.0.bb =3D>
+> glib-2.0-initial_2.86.1.bb} (100%)
+>  rename meta/recipes-core/glib-2.0/{glib-2.0_2.86.0.bb =3D>
+> glib-2.0_2.86.1.bb} (100%)
+>
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.0.bb
+> b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.1.bb
+> similarity index 100%
+> rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.0.bb
+> rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.1.bb
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb
+> b/meta/recipes-core/glib-2.0/glib-2.0_2.86.1.bb
+> similarity index 100%
+> rename from meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb
+> rename to meta/recipes-core/glib-2.0/glib-2.0_2.86.1.bb
+> diff --git a/meta/recipes-core/glib-2.0/glib.inc
+> b/meta/recipes-core/glib-2.0/glib.inc
+> index 2e8dde2820..5909851896 100644
+> --- a/meta/recipes-core/glib-2.0/glib.inc
+> +++ b/meta/recipes-core/glib-2.0/glib.inc
+> @@ -236,7 +236,7 @@ SRC_URI:append:class-native =3D "
+> file://relocate-modules.patch \
+>
+>  file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+>                                "
+>
+> -SRC_URI[archive.sha256sum] =3D
+> "b5739972d737cfb0d6fd1e7f163dfe650e2e03740bb3b8d408e4d1faea580d6d"
+> +SRC_URI[archive.sha256sum] =3D
+> "119d1708ca022556d6d2989ee90ad1b82bd9c0d1667e066944a6d0020e2d5e57"
+>
+>  # Find any meson cross files in FILESPATH that are relevant for the
+> current
+>  # build (using siteinfo) and add them to EXTRA_OEMESON.
+> --
+> 2.51.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#225603):
+> https://lists.openembedded.org/g/openembedded-core/message/225603
+> Mute This Topic: https://lists.openembedded.org/mt/116094110/5827677
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> rybczynska@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-Fine with me.
-I haven't thought of creating a new key when implementing THISDIR.
---=20
-Yoann Congal
-Smile ECS
-
---0000000000004b96e90642ea9539
+--0000000000003578c30642eae5a2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0jeu. 6 =
-nov. 2025 =C3=A0=C2=A011:10, Alexander Kanavin &lt;<a href=3D"mailto:alex.k=
-anavin@gmail.com">alex.kanavin@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, 6 Nov 2025 at =
-09:32, Alexander Kanavin via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.c=
-om@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openembedded.o=
-rg</a>&gt;<br>
-wrote:<br>
-&gt; Yep, the point is to formally document the meaning of {THISDIR} in the=
+<div dir=3D"ltr"><div>Hello,</div><div>I&#39;m favorable for taking this pa=
+tch to the release. Some of the fixes look like potential security issues (=
+even if I do not see any CVEs for now).</div><div><br></div><div>Kind regar=
+ds,</div><div>Marta<br></div></div><br><div class=3D"gmail_quote gmail_quot=
+e_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Nov 3, 2025 at 8=
+:27=E2=80=AFAM J=C3=B6rg Sommer via <a href=3D"http://lists.openembedded.or=
+g">lists.openembedded.org</a> &lt;joerg.sommer=3D<a href=3D"mailto:navimati=
+x.de@lists.openembedded.org">navimatix.de@lists.openembedded.org</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: J=C3=
+=B6rg Sommer &lt;<a href=3D"mailto:joerg.sommer@navimatix.de" target=3D"_bl=
+ank">joerg.sommer@navimatix.de</a>&gt;<br>
 <br>
-&gt; schema. Maybe we should&#39;ve added a separate key, e.g.<br>
-&gt; bb-layers-relative-to-config-file. Maybe we can still do that :)<br>
+Overview of changes in GLib 2.86.1, 2025-10-21<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
 <br>
-I&#39;m going to make patches. I do dislike having magic tokens in values<b=
+* Bugs fixed:<br>
+=C2=A0 - #3745 GIRepository: union fields offsets for compiled typelibs all=
+ have<br>
+=C2=A0 =C2=A0 offset 0xffff (unknown) (Philip Chimento)<br>
+=C2=A0 - #3780 `gio/tests/socket-listener` requires dlsym<br>
+=C2=A0 - #3781 GLib.OptionContext&#39;s get_help() includes width of invisi=
+ble options<br>
+=C2=A0 =C2=A0 (FeRD (Frank Dana))<br>
+=C2=A0 - #3783 [CI] Pipeline on &#39;main&#39; failed for commit c31c4a52 (=
+Tobias Stoeckmann)<br>
+=C2=A0 - #3784 Memory leak related to g_get_home_dir (Michael Catanzaro)<br=
+>
+=C2=A0 - #3798 Gio.AppInfo.launch_default_for_uri_async crashes with non-ex=
+istent<br>
+=C2=A0 =C2=A0 paths (Philip Withnall)<br>
+=C2=A0 - #3803 GNetworkMonitor&#39;s netlink backend doesn&#39;t notify con=
+nectivity change<br>
+=C2=A0 =C2=A0 (Philip Withnall)<br>
+=C2=A0 - <a href=3D"https://gitlab.gnome.org/Infrastructure/Infrastructure/=
+-/issues/" rel=3D"noreferrer" target=3D"_blank">https://gitlab.gnome.org/In=
+frastructure/Infrastructure/-/issues/</a><br>
+=C2=A0 - !4755 ghash: Fix entry_is_big for CHERI architecture<br>
+=C2=A0 - !4756 ghash: Handle all table sizes in iterator<br>
+=C2=A0 - !4760 gbookmarkfile: Escape icon href and mime-type<br>
+=C2=A0 - !4773 docs: Add Luca Bacci as a co-maintainer of the Windows code<=
+br>
+=C2=A0 - !4775 Update Ukrainian translation<br>
+=C2=A0 - !4776 Update Catalan translation<br>
+=C2=A0 - !4777 Update Lithuanian translation<br>
+=C2=A0 - !4778 tests: Fix clang compilation warnings<br>
+=C2=A0 - !4779 gmem: Replace SIZE_OVERFLOWS with g_size_checked_mul<br>
+=C2=A0 - !4780 Update Brazilian Portuguese translation<br>
+=C2=A0 - !4781 Update eu translation<br>
+=C2=A0 - !4782 Update Korean translation<br>
+=C2=A0 - !4785 Update Japanese translation<br>
+=C2=A0 - !4786 Update Galician translations<br>
+=C2=A0 - !4787 Update Hungarian translation<br>
+=C2=A0 - !4791 gstrfuncs: Check string length in g_strescape<br>
+=C2=A0 - !4800 gutils: Improve load_user_special_dirs&#39; user-dirs.dirs p=
+arser<br>
+=C2=A0 - !4802 Update Turkish translation<br>
+=C2=A0 - !4809 Trivial backport of &quot;gutils: Handle singletons in unloc=
+ked functions&quot;<br>
+=C2=A0 =C2=A0 to glib-2-86 branch<br>
+=C2=A0 - !4814 Backport translation updates to glib-2-86<br>
+=C2=A0 - !4821 Backport !4820 =E2=80=9Cgio/tests: Fix a race condition in<b=
 r>
-that need special processing.</blockquote></div><div>Fine with me.</div><di=
-v>I haven&#39;t thought of creating a new key when implementing THISDIR.</d=
-iv><span class=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" cl=
-ass=3D"gmail_signature"><div dir=3D"ltr"><font face=3D"Raleway, regular">Yo=
-ann Congal</font><div><font face=3D"Raleway, regular">Smile ECS</font></div=
-></div></div></div>
+=C2=A0 =C2=A0 /gdbus/connection/flush=E2=80=9D to glib-2-86<br>
+=C2=A0 - !4828 Backport !4827 =E2=80=9Cghostutils: Treat 0x80 (and above) a=
+s non-ASCII=E2=80=9D to<br>
+=C2=A0 =C2=A0 glib-2-86<br>
+=C2=A0 - !4834 Backport !4810 and !4819, various fixes to user-dirs.dirs ha=
+ndling in<br>
+=C2=A0 =C2=A0 gutils<br>
+=C2=A0 - !4836 Backport !4835 =E2=80=9CUpdate Portuguese translation=E2=80=
+=9D to glib-2-86<br>
+=C2=A0 - !4839 Update Romanian translation<br>
+=C2=A0 - !4842 Backport &quot;girnode: Fix computation of union member offs=
+ets&quot; to<br>
+=C2=A0 =C2=A0 glib-2-86<br>
+=C2=A0 - !4848 Update British English translation (2.86)<br>
+=C2=A0 - !4865 Backport !4859 =E2=80=9Cgopenuriportal: Fix a crash when the=
+ file can=E2=80=99t be<br>
+=C2=A0 =C2=A0 opened=E2=80=9D to glib-2-86<br>
+=C2=A0 - !4867 Backport !4792 =E2=80=9Cgtype: Use transfer none for types (=
+un)ref functions=E2=80=9D<br>
+=C2=A0 =C2=A0 to glib-2-86<br>
+=C2=A0 - !4872 Fix macOS and msys2 CI builds on glib-2-86 branch<br>
+=C2=A0 - !4873 Backport !4871 =E2=80=9Cgnetworkmonitorbase: Add missing not=
+ify::connectivity<br>
+=C2=A0 =C2=A0 signal=E2=80=9D to glib-2-86<br>
+<br>
+* Translation updates:<br>
+=C2=A0 - Basque (Asier Saratsua Garmendia)<br>
+=C2=A0 - Catalan (Jordi Mas)<br>
+=C2=A0 - English (United Kingdom) (Bruce Cowan)<br>
+=C2=A0 - Esperanto (Kristjan ESPERANTO)<br>
+=C2=A0 - Galician (Fran Dieguez)<br>
+=C2=A0 - Hungarian (Bal=C3=A1zs =C3=9Ar)<br>
+=C2=A0 - Japanese (Makoto Sakaguchi)<br>
+=C2=A0 - Korean (Changwoo Ryu)<br>
+=C2=A0 - Lithuanian (Aurimas =C4=8Cernius)<br>
+=C2=A0 - Portuguese (Hugo Carvalho)<br>
+=C2=A0 - Portuguese (Brazil) (Rafael Fontenelle)<br>
+=C2=A0 - Romanian (Antonio Marin)<br>
+=C2=A0 - Serbian (=D0=9C=D0=B8=D0=BB=D0=BE=D1=88 =D0=9F=D0=BE=D0=BF=D0=BE=
+=D0=B2=D0=B8=D1=9B)<br>
+=C2=A0 - Turkish (Sabri =C3=9Cnal)<br>
+=C2=A0 - Ukrainian (Yuri Chornoivan)<br>
+<br>
+Signed-off-by: J=C3=B6rg Sommer &lt;<a href=3D"mailto:joerg.sommer@navimati=
+x.de" target=3D"_blank">joerg.sommer@navimatix.de</a>&gt;<br>
+---<br>
+=C2=A0.../{<a href=3D"http://glib-2.0-initial_2.86.0.bb" rel=3D"noreferrer"=
+ target=3D"_blank">glib-2.0-initial_2.86.0.bb</a> =3D&gt; <a href=3D"http:/=
+/glib-2.0-initial_2.86.1.bb" rel=3D"noreferrer" target=3D"_blank">glib-2.0-=
+initial_2.86.1.bb</a>}=C2=A0 | 0<br>
+=C2=A0.../glib-2.0/{<a href=3D"http://glib-2.0_2.86.0.bb" rel=3D"noreferrer=
+" target=3D"_blank">glib-2.0_2.86.0.bb</a> =3D&gt; <a href=3D"http://glib-2=
+.0_2.86.1.bb" rel=3D"noreferrer" target=3D"_blank">glib-2.0_2.86.1.bb</a>}=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 0<br>
+=C2=A0meta/recipes-core/glib-2.0/glib.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +=
+-<br>
+=C2=A03 files changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0rename meta/recipes-core/glib-2.0/{<a href=3D"http://glib-2.0-initial=
+_2.86.0.bb" rel=3D"noreferrer" target=3D"_blank">glib-2.0-initial_2.86.0.bb=
+</a> =3D&gt; <a href=3D"http://glib-2.0-initial_2.86.1.bb" rel=3D"noreferre=
+r" target=3D"_blank">glib-2.0-initial_2.86.1.bb</a>} (100%)<br>
+=C2=A0rename meta/recipes-core/glib-2.0/{<a href=3D"http://glib-2.0_2.86.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">glib-2.0_2.86.0.bb</a> =3D&gt; <a =
+href=3D"http://glib-2.0_2.86.1.bb" rel=3D"noreferrer" target=3D"_blank">gli=
+b-2.0_2.86.1.bb</a>} (100%)<br>
+<br>
+diff --git a/meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0-initial_=
+2.86.0.bb" rel=3D"noreferrer" target=3D"_blank">glib-2.0-initial_2.86.0.bb<=
+/a> b/meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0-initial_2.86.1.=
+bb" rel=3D"noreferrer" target=3D"_blank">glib-2.0-initial_2.86.1.bb</a><br>
+similarity index 100%<br>
+rename from meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0-initial_2=
+.86.0.bb" rel=3D"noreferrer" target=3D"_blank">glib-2.0-initial_2.86.0.bb</=
+a><br>
+rename to meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0-initial_2.8=
+6.1.bb" rel=3D"noreferrer" target=3D"_blank">glib-2.0-initial_2.86.1.bb</a>=
+<br>
+diff --git a/meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.86.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">glib-2.0_2.86.0.bb</a> b/meta/recip=
+es-core/glib-2.0/<a href=3D"http://glib-2.0_2.86.1.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">glib-2.0_2.86.1.bb</a><br>
+similarity index 100%<br>
+rename from meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.86.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">glib-2.0_2.86.0.bb</a><br>
+rename to meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.86.1.bb" =
+rel=3D"noreferrer" target=3D"_blank">glib-2.0_2.86.1.bb</a><br>
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2=
+.0/glib.inc<br>
+index 2e8dde2820..5909851896 100644<br>
+--- a/meta/recipes-core/glib-2.0/glib.inc<br>
++++ b/meta/recipes-core/glib-2.0/glib.inc<br>
+@@ -236,7 +236,7 @@ SRC_URI:append:class-native =3D &quot; file://relocate-=
+modules.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-meson.build-do-not=
+-enable-pidfd-features-on-native-g.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+-SRC_URI[archive.sha256sum] =3D &quot;b5739972d737cfb0d6fd1e7f163dfe650e2e0=
+3740bb3b8d408e4d1faea580d6d&quot;<br>
++SRC_URI[archive.sha256sum] =3D &quot;119d1708ca022556d6d2989ee90ad1b82bd9c=
+0d1667e066944a6d0020e2d5e57&quot;<br>
+<br>
+=C2=A0# Find any meson cross files in FILESPATH that are relevant for the c=
+urrent<br>
+=C2=A0# build (using siteinfo) and add them to EXTRA_OEMESON.<br>
+-- <br>
+2.51.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#225603): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/225603" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/225603</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/116094110/582=
+7677" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/116094110/5827677</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:rybczynska@gmail.com" targ=
+et=3D"_blank">rybczynska@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
 
---0000000000004b96e90642ea9539--
+--0000000000003578c30642eae5a2--
 
