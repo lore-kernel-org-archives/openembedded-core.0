@@ -1,116 +1,98 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 737E2CCFA05
-	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 19:00:41 +0000 (UTC)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5617.1762455637896861827
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D6A5CCFA13
+	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 19:05:01 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5709.1762455893901250695
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Nov 2025 11:00:38 -0800
+ Thu, 06 Nov 2025 11:04:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ACN3N8nZ;
- spf=pass (domain: gmail.com, ip: 209.85.167.177, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-4500a6fb71aso306768b6e.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 11:00:37 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nJR/VKUw;
+ spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7a9fb6fccabso1310877b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 11:04:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762455637; x=1763060437; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b1rxGIvzs2028HmpidwcTMDS5UmAPA+b6QBxffm7Kz8=;
-        b=ACN3N8nZG2LH0DXCid+81cxKUyXyykRvSUpjacFhxYz6XAlBC0GdmaDo5JTKVkRMkn
-         7o4zZy1oP1mji+hV5JJ24W/9Za/jinOnIdlKp2VTBWUgSBy96HOv9TqhZ9h3WZxajEA5
-         LLO33buRbCt+w8+ythoEqKtYPsur7DAjLG1NKmVx7JboB7Oc8Pbcf5MMKs8CxXKHUjNp
-         c1BBhOPwC8PkdmvntTKLm2YMHpCq4fwD9BfkvQnUwj+Qzk7YTd7dMDtYQcb0/Zc5D/cJ
-         cb+PaDJr9sSRgekc5BBtWcpCWbgzBaE6sy4CMvO6arPZlqncO3+OyHF+RwZiIXz9Awm6
-         WSSA==
+        d=gmail.com; s=20230601; t=1762455893; x=1763060693; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CeDEzAsxw7RQ/W4H3RPWtlDwPun/p/gTx2OLHhuyicE=;
+        b=nJR/VKUwp4thg9Epm6kj2stUkNqfLIYHKiLtgpwK3gCR1Cs+H7RyzxQf5+8FHw7UWW
+         k6xXq8X33t+T15RnKpcu9z0zvsxdD71/5a50knSSAxYnSgCCQ7ujWjW9dPEen5zzSVOA
+         bTHUt+7l0blayP3UIuxczYuOVR7aQPCv64+b7Jnl5azBidoN/NhfM/utVDoIgav4+BFC
+         TrxelI5jQZlXktUmC5YFOX4C8cIug7GNslVabL7A6kEqXnrBQ2NeO+w2/fl62x6zRvuq
+         fNsmDQrX92hvj/ZC2JRbcf9s+t79mw4kFnxNGkczwByYSZ3YjU0pei//uPnwMRa3lJp8
+         JAkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762455637; x=1763060437;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=b1rxGIvzs2028HmpidwcTMDS5UmAPA+b6QBxffm7Kz8=;
-        b=C1TKLo7NkH3T94XqRoiuqg5z2kpOh998hm6F6hLfCTUxag2udrj1vdfPjFj8BoBbjn
-         Gr71Mh48RKtg0MqnRsvs4IXYseV3QK5ybbHCisyEx3UghgxLo4lFv8x72lN/MzfY4lJh
-         gEkZb9RP72fsMy+SmoQcyd7MbrOLo/eZz3mjnOcAaJ3SjkEPEOGX67b06xoWO3/Fs8pG
-         Gk3QLzD1wbJjNCku9p19pQAM2dOVfe20ZDdGK68yKQV5oJWf+Qc3GfKFaMX/u3SoC5WY
-         3VARAJLKRxFrJ/xyrw7wHpxMTrNxeKdqk1ByP7dEcwXiQs4xJNwG9szsK4qQE4iyxOtt
-         mYyg==
-X-Gm-Message-State: AOJu0Yy6wqzyGSt/QPT/Cg3PCampvrLwapp4ueF21YdXRgr7jyu03cvw
-	UHPz14MAssx829B4B8egmh8nQgDjsTJ5nmHUSvUFKvlgpjE2wuXFIRVppUYOQrg/QtMETYcN42D
-	+dj//EDDdeCBzchziDwRa5K2otCNvaFI=
-X-Gm-Gg: ASbGncvyeAt7NKj79AusMmhjhDCRgWBhP0qN+moN2L+6VxNMaHwre7zfBG41s9o0gl9
-	NnjVQXFhPHpBRPvnSMA3apYZymWeziWfMF3S7ukZ3rgou8KCNtOWonrOzsi7B82R2P+xeTOe/AL
-	18si9As2B+rIIesZytklOIZYk96tvNoQudoBi5qlQe/NRokL5L2WHYR5Vn48ireVdIr5s9hix2K
-	u5Ssvzg/eN0piUCTQUWDoxnNtgUfz0xXiJz31r59hoE7cochve4yDkELBqN+OU7Wv6KIa11jA==
-X-Google-Smtp-Source: AGHT+IHWCQlFMpluO4PbDoZTLyI2fBRwZH2ytZJjjPcFqdNofPxQ+IEroR1FFIx4XBhHaN0PYC/EghkXvqgZxxm3Xy0=
-X-Received: by 2002:a05:6808:30aa:b0:44d:aa8b:58f4 with SMTP id
- 5614622812f47-45015f4105emr232045b6e.45.1762455637042; Thu, 06 Nov 2025
- 11:00:37 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762455893; x=1763060693;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CeDEzAsxw7RQ/W4H3RPWtlDwPun/p/gTx2OLHhuyicE=;
+        b=jYKEWHyVWA61acVYOH/lk0ii8TIGUZxyDJGAnACkUtlI+GRWUn7bBIvQke1i88hma5
+         0GytI3UQOS50E+ozFkB888tlQUcbBsI3c0BjnpFfslQg8kC/7dhPXdddzGjGksFuY4Vb
+         DQXqtIbPaX9oOTFs2s7ZbSpf85B3ZlznPttWCSyzE2pfASnlu459iW7Em4sbMQN4xfW+
+         9OEou6JpIDH/6l731x4b3XVwbyUvg3rJoBmiizad4jrVhi9LAAl6wdzaRAT99cD68MV+
+         QNpLmpUwNgVygCfOBPdxq/YOSgOeslLMsja4GVvErI9H5AR7wdn/hSKXIaWR5AzyTl0c
+         f+/g==
+X-Gm-Message-State: AOJu0Yx9QP/2OphFOtsuaoC7tCoLpC6iA32aqHKx5+iN04WBzHHxameu
+	n4wD3EO6Jhbug0AMG2t9ARo9XEodZcX8xdwB2lFQrn7QTpHtPmvDieWrQGy2LUq8
+X-Gm-Gg: ASbGnct7JBJ1AaI1wYRs6DqunZfq6BNdNHV0JF/cE2nt60zDoTBmDue+/Vu0pvfMHq9
+	ZWVxuvi8RZJlPUgGAvv9s1yAj4we/U8avxpF1494/HYBmP90NxS2FE6qWlS5zmnziq8CKZz+WaM
+	ODi17krbbAvnZ3QCX8EhupxpMeaHKAv/+Trc7Sn/g3kJJ0a+jjvbyMaTF8GYfF44R/mcslEy00r
+	SsHulo1BLcbShcE9D852w0bB1bIw7iWQVUatFLEypyJGGoxXK9jg2miIhS17BxZC3rxy4Z5QjNW
+	hi9GlhHESrfSXgEOSgQp0G4xyfV7Kwk3r7/GMenIBk+T5njt8DCZViGBc1I7ABsQtlc0Mp+Qbo+
+	HZcFmg0TGMWl9niFrDx/Ws8+0yRJU6fBVZ1aRm7gFmX35RlfUKOA8yOdXAxpF8FQEhdAs/fr8mW
+	KXndn+v7OI2xDskSaXK7ecou3BfoismeR8S6u8eJ2w1ZteMpA/P9eVZZ0jKWNPhA==
+X-Google-Smtp-Source: AGHT+IHNA63SI4D8lFao3AAok5UcYGz+KAUqUQdodHCjEKH2/oiyiNAl8IssuSYVWeJMz4thaJ8dTA==
+X-Received: by 2002:a05:6a00:1988:b0:7a4:c1c4:3959 with SMTP id d2e1a72fcca58-7b0bdb85befmr733164b3a.22.1762455892812;
+        Thu, 06 Nov 2025 11:04:52 -0800 (PST)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::888a])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0c9c0874bsm285608b3a.16.2025.11.06.11.04.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 11:04:52 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] libclc: Add misssing quotes around target list
+Date: Thu,  6 Nov 2025 11:04:50 -0800
+Message-ID: <20251106190450.2830150-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-References: <20251106181103.515146-1-raj.khem@gmail.com>
-In-Reply-To: <20251106181103.515146-1-raj.khem@gmail.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Fri, 7 Nov 2025 08:00:26 +1300
-X-Gm-Features: AWmQ_blB95zE1P2vi1aWvdldnv-3uqekH2rANtxfrPkWF3b1mi0kTNrzMpv0kMk
-Message-ID: <CADySD0G4DAJ2Cjudf_jx0=vBR23W6LB-qxRNqXeL-m5Uas+7rA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libclc: Add misssing quotes around target list
-To: raj.khem@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 19:00:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225988
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 19:05:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225989
 
-On Fri, Nov 7, 2025 at 7:44=E2=80=AFAM Khem Raj via lists.openembedded.org
-<raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
->
-> Defualt for LIBCLC_TARGETS is `all` so a single
+Default for LIBCLC_TARGETS is `all` so a single
+target is ok but when its overidden with a semi-colon
+separated list to use a subset of targets, e.g.
 
-there is a typo -> "Defualt"
+LIBCLC_TARGETS:class-nativesdk = "amdgcn--;amdgcn--amdhsa;nvptx--;nvptx64--;nvptx--nvidiacl;nvptx64--nvidiacl"
 
-> target is ok but when its overidden with a semi-colon
-> separated list to use a subset of targets, e.g.
->
-> LIBCLC_TARGETS:class-nativesdk =3D "amdgcn--;amdgcn--amdhsa;nvptx--;nvptx=
-64--;nvptx--nvidiacl;nvptx64--nvidiacl"
->
-> cmake rejects it.
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-devtools/clang/libclc_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/clang/libclc_git.bb b/meta/recipes-dev=
-tools/clang/libclc_git.bb
-> index 60909339e70..c4b4881542f 100644
-> --- a/meta/recipes-devtools/clang/libclc_git.bb
-> +++ b/meta/recipes-devtools/clang/libclc_git.bb
-> @@ -21,7 +21,7 @@ B_NATIVE =3D "${B}-native"
->  # Semicolon-separated list of targets to build
->  LIBCLC_TARGETS ?=3D "all"
->
-> -EXTRA_OECMAKE +=3D "-DLIBCLC_TARGETS_TO_BUILD=3D${LIBCLC_TARGETS}"
-> +EXTRA_OECMAKE +=3D "-DLIBCLC_TARGETS_TO_BUILD=3D'${LIBCLC_TARGETS}'"
->  EXTRA_OECMAKE:append:class-target =3D " -DPREPARE_BUILTINS=3D${B_NATIVE}=
-/prepare_builtins"
->  EXTRA_OECMAKE:append:class-nativesdk =3D " -DPREPARE_BUILTINS=3D${B_NATI=
-VE}/prepare_builtins"
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#225985): https://lists.openembedded.org/g/openembedde=
-d-core/message/225985
-> Mute This Topic: https://lists.openembedded.org/mt/116157847/3619737
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [an=
-kur.tyagi85@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+cmake rejects it.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Fix typo in commit message
+
+ meta/recipes-devtools/clang/libclc_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/clang/libclc_git.bb b/meta/recipes-devtools/clang/libclc_git.bb
+index 60909339e70..c4b4881542f 100644
+--- a/meta/recipes-devtools/clang/libclc_git.bb
++++ b/meta/recipes-devtools/clang/libclc_git.bb
+@@ -21,7 +21,7 @@ B_NATIVE = "${B}-native"
+ # Semicolon-separated list of targets to build
+ LIBCLC_TARGETS ?= "all"
+
+-EXTRA_OECMAKE += "-DLIBCLC_TARGETS_TO_BUILD=${LIBCLC_TARGETS}"
++EXTRA_OECMAKE += "-DLIBCLC_TARGETS_TO_BUILD='${LIBCLC_TARGETS}'"
+ EXTRA_OECMAKE:append:class-target = " -DPREPARE_BUILTINS=${B_NATIVE}/prepare_builtins"
+ EXTRA_OECMAKE:append:class-nativesdk = " -DPREPARE_BUILTINS=${B_NATIVE}/prepare_builtins"
+
 
