@@ -1,179 +1,87 @@
-Return-Path: <pierre-loup.gosse@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1415CCFA03
-	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 08:31:55 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10248.1762417911021243061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9360ACCFA03
+	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 08:32:25 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10259.1762417942728930786
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Nov 2025 00:31:51 -0800
+ Thu, 06 Nov 2025 00:32:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=WdBr98uB;
- spf=pass (domain: smile.fr, ip: 209.85.167.49, mailfrom: pierre-loup.gosse@smile.fr)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5943d1d6471so693617e87.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 00:31:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FI246IeD;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-87a092251eeso23221676d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 00:32:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1762417909; x=1763022709; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1762417942; x=1763022742; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CfpmCfl+snGG7sGpBX9sf889uH+vBxjtnpy9xR3EyWI=;
-        b=WdBr98uBVzKTdonxLT5yRI8ieE6bTqgP3uPvT8MngCY4QeOhMVUeVj+Y2BsfnCpvJN
-         RvSxApvsmTcLpJcm0xzCQkwCPdHnKOKwCKBgUFNHy5nhnXcoRYJCBoGKqfH6wj+mryoF
-         zNPmq7n4OP85UGCfEJnTC9WmKzWzSeyRrr/fk=
+        bh=mpzlwy/Fen1XmO24PRYC3dIZdd+vd3P3zxNj2Rmc7uQ=;
+        b=FI246IeDtfqBmtnM65P1uFkTR3SEaNLQ6OmO+7IuoTlh+5SR4ZFRl52pCU3ZE0x2YL
+         Phc5dWLkbbGm9EwheZYiB8Uc2jCYrE2L1FB9s4BnpuXDNNb1ZSonqwnDRSKRGn6fjxxE
+         S6J9/iInL7rKhmWBKAPSslrLDLc3642sN6VctpAASOwO9jNe25lp5jVsWJR1+dQXwYKV
+         YGCnT60jM3B+FGEH0L+1UQzyuvAlrgHw2EE6j8DfEIW+q76Ulw3x1wRBfo+3gVcf0vHm
+         Y0nD3QC78Udqm8jTgAISFA5rT4yy2bt4bovwAcWlD5VHSqgfoPotuq+mYC1xsmiGvuZ4
+         cDrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762417909; x=1763022709;
+        d=1e100.net; s=20230601; t=1762417942; x=1763022742;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CfpmCfl+snGG7sGpBX9sf889uH+vBxjtnpy9xR3EyWI=;
-        b=uURRcuB0m/qA6vHLI0lI1lDAlxfkXp219vASOcv703ixdYstqIGf6W6p6Ou1LWVEza
-         tOLcMAr00Ed0J+qlezpW+vtjAxTNWrbJv8+76gOftoU9iQn8U4J/MTlZixhT3vgGH/Aw
-         AR80yEZggSmWx2Z4EZmL9OV0+iBVkJZJwDisEZppmx39KDLqDTsiOCxOWB6u4BVPGQex
-         NKEN0IA7Yt6ENsQ38okzs4lHvC4DVb7IC0Rm3kiQtr+25hbCUBKS0dtrx3s9NwykvQJi
-         I3U7FlQtq+mb+8WQ0uT4Uzhq1W18wkUAo9dc3p1NZSHGnGXQj+j6pPblzSL2qCWumAbQ
-         /umA==
-X-Gm-Message-State: AOJu0Yzgc2wYreBiPHInoZskqPiFVYGq+VVv1O1Tr84GhPY9+0HkBNpy
-	gUiJqqK6gFzxfmsf154Aq6axB3h2+RTasD+Uk0HzeFtwbz/geriG1TEPjD4b2A40bsKESyCY9s+
-	jTVXzK1qfj6m+QAZGZdCkewcnCXd3g0+Fl/RFfrzB/w==
-X-Gm-Gg: ASbGncuP+sKt+5rFEyPO0RG9jajpPDKa+FCNA62wH48BMpYC0NbomX/1JmsJmEQ4upX
-	RI/lkN65nbGNh+43y7KHCuzs44oWzehD3+EnyOk1JQCT0UcmIUvplTyntFUJx1GVF0yYQo2MY0w
-	T1JjSv+UghGX+W41h1cMySn3c0xZwh5cSxscU/G+EMwQXLU8lRKw/tb7Bo2QHP7CbSKquRBfijH
-	uXvnquxaAyggCH/7n8fEspcgJwJFfesqZCICRE6OjoyPNTVJp3brBvAzdqW/02Uu6Z7L1luOohq
-	opsZLw==
-X-Google-Smtp-Source: AGHT+IE/VNVnneKWQyqVuOYk+ckBvXAhrHB7dLV+UYdfK8eFy+wcr2kKoSmwpVvkiDBT3n2WkPrM+f5RNPiv80hBXUk=
-X-Received: by 2002:a05:6512:2246:b0:594:282d:f40c with SMTP id
- 2adb3069b0e04-5943d7bf635mr2154351e87.31.1762417908782; Thu, 06 Nov 2025
- 00:31:48 -0800 (PST)
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mpzlwy/Fen1XmO24PRYC3dIZdd+vd3P3zxNj2Rmc7uQ=;
+        b=L+cv1IVlOwFY3OzBNQVpttMPJQOkN3SH3FL+uRWhzCaaYkPPg6nwaES0g3N5msPgt8
+         7p7154E4O2EUzAsoc68bOjub9kzNBDlZR5myso8ibBHi+myXMtrkQjurLdch90JSpsbk
+         Umh2d42D0c+5itK6Ou2pMrQTw/wawKdaXrOnStkokkUo6PE0nZ1KeZXsEafi8GuMuDI4
+         PW0SbkxoQ1gJMMa9IdwRzVyue+iO19qDIQT4S+R9dB36veOWNvhq9bocjbvwOQPaTg6s
+         j0jGwISSWYfvHPrAP3uaLDJGendqHq9fGbqIowH9tx9OHm+HDC21pWJJkvBjT5PlIatb
+         9eRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVZsgmTGjzBt5naB6nxcMolRby4kk1esewsy77o3hGzCiRIOxSe/AfvpEJ45R4o5jhx20Zk6v+NiwA6mhb/l0nYJA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yzmsa1iLml5rBGSHbLhIK0Br4dgsBh2JDP3Lu7aIxVSnbuko29e
+	vVTUscUVZVx1ATG3ngEGlAFe0IboDC80os0I/BMoFdc5pqvpu0bc5Xfq4f58jAMKyme5VX8lOCE
+	l8lPYRdfWPbSm32H4GsD++lezXwYeCUPYsw==
+X-Gm-Gg: ASbGncuxrNdNIvt1zk2uXUChSmk9z4N7ibTq73oPq65duul9M4PvW8n4BBLmjc0s4fR
+	oXxaDv23PWrzsM/gHsADoFtlN9DKFe1xXITwUY9IXNbW9PYPAeTOejWi5un+tb8rMVKPV5RvoYe
+	8qMXtNVDN6HAJ3ltJCZauRd0ZEbQ9by+qTpIcj4JW42QheUN3svHgv4FKRP8dtgHpQdk15hHwsb
+	uv5PM3YxB4a131tcrOmQAL2yRW0e8n7qrfTztlmZCBKheIx7H/iaVO5XOpCPo/P8nBTWCQYjoNM
+	ntcvoKJoEw4xaH/7kKo=
+X-Google-Smtp-Source: AGHT+IHQKrSybor1GcdC15Q/CULK2RKtP97ilybVawVxkXfkYsO9nWZ++JexrJ4L3n/IMx/TiCo8GBscOwAgnBbR188=
+X-Received: by 2002:a05:6214:5094:b0:87c:27e2:3c0c with SMTP id
+ 6a1803df08f44-88082909105mr25827216d6.21.1762417941725; Thu, 06 Nov 2025
+ 00:32:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20251024073738.1060583-1-pierre-loup.gosse@smile.fr> <AEBBFD72-49FE-46DB-A159-3961D1E92D1F@arm.com>
-In-Reply-To: <AEBBFD72-49FE-46DB-A159-3961D1E92D1F@arm.com>
-From: Pierre-loup GOSSE <pierre-loup.gosse@smile.fr>
-Date: Thu, 6 Nov 2025 09:31:38 +0100
-X-Gm-Features: AWmQ_bnJU83Mog3aaoKpH1dH4oBzCVU7fKKOjcUngouL18uN302Hz1Lmhkk53w4
-Message-ID: <CAHT-cZtngzAK1hxrFHm7OB0sBB4uCic3aV6WB=P8gVut_bkeiA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] u-boot: make initial environment binary image
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000006627b90642e8e583"
+References: <20251105232333.2800541-1-yoann.congal@smile.fr>
+ <CAJdd5Ga4O9AWOCg=NrOnwdd_m_u24L4OS+cqB0ojmT39zFhj1A@mail.gmail.com> <CAMSfU+7tVyd36J5ssaKeyPK4cxCtTsrgkOVejvXbaUM+n9fRMg@mail.gmail.com>
+In-Reply-To: <CAMSfU+7tVyd36J5ssaKeyPK4cxCtTsrgkOVejvXbaUM+n9fRMg@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 6 Nov 2025 09:32:10 +0100
+X-Gm-Features: AWmQ_bl2l_MFCKDteSWxKh4dUY0-ScUC85A5ghjnwYFfxlO7cnWdOXuAV_ulp5A
+Message-ID: <CANNYZj-mHpSDju1-poFDpX-p5bSMJTB2JSvOzOr+SHfYvRts1g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bitbake-setup.schema.json: Add schema for
+ "{THISDIR}" bb-layer
+To: yoann.congal@smile.fr
+Cc: Joshua Watt <jpewhacker@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 08:31:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225965
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 08:32:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225966
 
---0000000000006627b90642e8e583
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-I could not find any existing test for U-Boot variable in the meta/lib/oeqa
-directory. The meta/lib/oeqa/selftest/cases/uboot.py file only build and
-run the bootloader.
-Should I extend this test file to include validation for binary environment
-generation with these new variables ?
-
-Pierre-Loup,
-
-On Mon, Oct 27, 2025 at 6:40=E2=80=AFPM Ross Burton <Ross.Burton@arm.com> w=
-rote:
-
-> On 24 Oct 2025, at 08:37, Pierre-loup GOSSE via lists.openembedded.org
-> <pierre-loup.gosse=3Dsmile.fr@lists.openembedded.org> wrote:
-> >
-> > From: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
-> >
-> > Build the U-Boot initial environment binary image if
-> > UBOOT_INITIAL_ENV_BINARY is set to "1". The environment partition size
-> > (in bytes, hexadecimal or decimal) must be defined using
-> > UBOOT_INITIAL_ENV_BINARY_SIZE.
-> >
-> > If U-Boot environment redundancy is enabled,
-> > UBOOT_INITIAL_ENV_BINARY_REDUND must be set to "1".
-> >
-> > The resulting binary can be flashed using WIC at the environment offset=
-,
-> > overriding any existing environment if present, for example:
-> >
-> >  part --source rawcopy --sourceparams=3D"file=3Du-boot-initial-env-sd.b=
-in"
-> --ondisk sda --no-table --offset 4096
-> >
-> > Signed-off-by: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
-> > ---
-> > Note: Once merged, a patch with the new variables will be submitted to
-> the
-> >      documentation mailing list.
->
-> That=E2=80=99s great, but this is a new variable without any tests.  Can =
-you also
-> add a test case to the u-boot tests in meta/lib/oeqa please?
->
-> Thanks,
-> Ross
+On Thu, 6 Nov 2025 at 08:57, Yoann Congal via lists.openembedded.org
+<yoann.congal=smile.fr@lists.openembedded.org> wrote:
+>> This seems tautological to me; can you give an example of a string
+>> that would fail to validate?
 >
 >
+> It is tautological. As of now, every string will validate (I did not want to limit what a path can be).
+> But semantically, whether they start with "{THISDIR}/" changes where the path is looked up, so the description changes between branches.
+> This is coming from the bitbake-setup documentation patch review : https://lists.openembedded.org/g/bitbake-devel/message/18267
 
---0000000000006627b90642e8e583
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Yep, the point is to formally document the meaning of {THISDIR} in the
+schema. Maybe we should've added a separate key, e.g.
+bb-layers-relative-to-config-file. Maybe we can still do that :)
 
-<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>I could not find any exi=
-sting test for U-Boot variable in the <span style=3D"font-family:monospace"=
->meta/lib/oeqa</span> directory. The=C2=A0<span style=3D"font-family:monosp=
-ace">meta/lib/oeqa/selftest/cases/uboot.py</span> file only build and run t=
-he bootloader.</div><div></div><div><span class=3D"gmail-followup-block gma=
-il-followup-block-hidden gmail-cursor-pointer gmail-outline-none gmail-stat=
-ic gmail-inline gmail-group-hover/message:[--hover-opacity:1]" type=3D"butt=
-on" aria-haspopup=3D"dialog" aria-expanded=3D"false" aria-controls=3D"radix=
--_r_m1_" tabindex=3D"0"><span>Should I extend this test file</span></span> =
-to include validation for binary environment generation with these new vari=
-ables ? <br></div><div><br></div><div>Pierre-Loup,</div></div><br><div clas=
-s=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Mon, Oct 27, 2025 at 6:40=E2=80=AFPM Ross Burton &lt;<a href=3D"mailt=
-o:Ross.Burton@arm.com">Ross.Burton@arm.com</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">On 24 Oct 2025, at 08:37, Pierre-=
-loup GOSSE via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer"=
- target=3D"_blank">lists.openembedded.org</a> &lt;pierre-loup.gosse=3D<a hr=
-ef=3D"mailto:smile.fr@lists.openembedded.org" target=3D"_blank">smile.fr@li=
-sts.openembedded.org</a>&gt; wrote:<br>
-&gt; <br>
-&gt; From: Pierre-Loup GOSSE &lt;<a href=3D"mailto:pierre-loup.gosse@smile.=
-fr" target=3D"_blank">pierre-loup.gosse@smile.fr</a>&gt;<br>
-&gt; <br>
-&gt; Build the U-Boot initial environment binary image if<br>
-&gt; UBOOT_INITIAL_ENV_BINARY is set to &quot;1&quot;. The environment part=
-ition size<br>
-&gt; (in bytes, hexadecimal or decimal) must be defined using<br>
-&gt; UBOOT_INITIAL_ENV_BINARY_SIZE.<br>
-&gt; <br>
-&gt; If U-Boot environment redundancy is enabled,<br>
-&gt; UBOOT_INITIAL_ENV_BINARY_REDUND must be set to &quot;1&quot;.<br>
-&gt; <br>
-&gt; The resulting binary can be flashed using WIC at the environment offse=
-t,<br>
-&gt; overriding any existing environment if present, for example:<br>
-&gt; <br>
-&gt;=C2=A0 part --source rawcopy --sourceparams=3D&quot;file=3Du-boot-initi=
-al-env-sd.bin&quot; --ondisk sda --no-table --offset 4096<br>
-&gt; <br>
-&gt; Signed-off-by: Pierre-Loup GOSSE &lt;<a href=3D"mailto:pierre-loup.gos=
-se@smile.fr" target=3D"_blank">pierre-loup.gosse@smile.fr</a>&gt;<br>
-&gt; ---<br>
-&gt; Note: Once merged, a patch with the new variables will be submitted to=
- the <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 documentation mailing list.<br>
-<br>
-That=E2=80=99s great, but this is a new variable without any tests.=C2=A0 C=
-an you also add a test case to the u-boot tests in meta/lib/oeqa please?<br=
->
-<br>
-Thanks,<br>
-Ross<br>
-<br>
-</blockquote></div>
-
---0000000000006627b90642e8e583--
+Alex
 
