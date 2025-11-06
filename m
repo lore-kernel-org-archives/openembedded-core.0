@@ -1,147 +1,102 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D4B6CCFA05
-	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 15:50:30 +0000 (UTC)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.489.1762444229755777266
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5882CCFA13
+	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 17:08:30 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2835.1762448901677247058
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Nov 2025 07:50:29 -0800
+ Thu, 06 Nov 2025 09:08:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NxL9Z8hv;
- spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: jpewhacker@gmail.com)
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-948673fdc47so38646439f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 07:50:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Bmen7qUf;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b726997b121so340715866b.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 09:08:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762444229; x=1763049029; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1762448900; x=1763053700; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FZzqHPfNFjvJ90eZe5XWshlu5BbRv6rLCweCWO9d6yA=;
-        b=NxL9Z8hvZMHw6PaHac81n+fNvBCeA9mkyCYA4HejAVGpEWqeBx+s7tjqp9NB2FR91V
-         /97dz4OBrQWGoV+Ln4ZUcldiF/S6J6Fg3/xOiRmcdjokovA4oHiuuMIILxkf2i0viXz3
-         QDb20KJZ6ZMhfA/Ov2qxVmLlhdj4ahK0q17OVx7KggSmkPzsZrWCnre/pqv/29eND0Vg
-         lBGH6cqXwLdLIyczgbVEEwV/vTrc4kF/FCEyF2ZlQlC6JfsvwrSP2zFi0VDGB6yA59Z4
-         TmsRyFbXsjz1cHZRYUV+yQhBBvSX2IWWifsIW6tdXPSSUomqkAWvEQwOnesV552vyKq0
-         /yiA==
+        bh=FdvSs3Mql3eirF4VWojvsnzRN5E6GksT/LGlfp7NltM=;
+        b=Bmen7qUfZ4h/F+K36Q6p5J/wQNGoPK2bUecwt9EYvcZd88tkPY0T8jdIY//UkJB2ej
+         LKV2ompFtkGzT8b2FWKd63LAsvfJ1RDqvDwQheaVWu3EVNo3qHC2T7ZD6t7rxg0HsK7z
+         MzkY4C13B2nJlwABFlXY3yW9MeCikxcR94tjl4vtM6J8FhYtCVlU90Ziu5+mTQAdDWNU
+         Wy7ey1B8bAQwdA97wzvSKSJvhMpTOxfenPkWw5eFn9wKRG/s3yY0Jr+pcnNEL4X2OevK
+         bV7Q2EMC0sH1Y/I+iO9c3j+jfcO4sfC9TljLFQRHO46TAkkhc6DcM7EqWqZ1XMQ/ORGy
+         Y33A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762444229; x=1763049029;
+        d=1e100.net; s=20230601; t=1762448900; x=1763053700;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FZzqHPfNFjvJ90eZe5XWshlu5BbRv6rLCweCWO9d6yA=;
-        b=ieMI9mFGqT+Ls9lppUv1m7qKmHNqLZTMgrYMUFvLDFMmjA/KzfzusKKoyel6HkM2k3
-         K2Z/eZ76XSwFY1R3fNJOHmHZvTlWg1z4mDZYZDGwRV44bTOorj+ZHyzGwDT5BFTTiv+8
-         4II7vSBsOenocwK4lsXP7lkVQSWychDuKEOAgT4hluRryRMbgCLbMVF8lxcERIk7+JlY
-         PL7EWC8pXoue4xvQIYZxMcKIbD9Lds57tRNzaUfeYxDIQabcr+Ie/q53ZZI/f/2HIaDk
-         tALOF7etU+NB/siRYpFDFwAeXGniD+bXeqhIM95Z7D1OMijc+lUgIyI14QueiHB9G9ON
-         0jUA==
-X-Gm-Message-State: AOJu0YwcyuW58qPyhTrpATYdH0Jj79yRQMr+VEgffnc0LwdXWFyq7U6i
-	9rSmnzwEv5waoTrqv0o1qKcqPoalXRXWHaprCmKopvw0wnneJXelYhv5vz1iJw==
-X-Gm-Gg: ASbGncvhnkKTxV9RPjg/c8zd+JJnGrd0PGur+F3XoXMdnKsT1wY5WTpbplIEy36NY6N
-	rjhgwpzcyPOBoJZlR9X5p70oAjQp2QoaRlCedCWKw4NnxSFSbWAQ3i2KKufE+UXfgGLiXTYSPl8
-	du4PXHHG6jd24blrWeKgjC+ufdc1S9xkY7Ulf3Y5flrN3qxDhCJwNhOZAVAz5IkfMfJQPy2heik
-	TmEFJXEtiAv9gEjKbTTjBNfJ6C62uCcaZnLyt7H3GFg1jKl5M9qdU9QOnIW8Qf+RoSm6k46wpaI
-	tUSpIP/1Yx6P5imS8x0OslYNGNlBlJ2TecmOfQsajjvICsz1GsGMuwFm61J643onRJ1L0T7EiGa
-	IESs2/TyH88lbPlMVGL98I8ZodShUmbQWu9i6+l9reYzOGIo69Ly5vlmQBLocLJWLxiBHcHsp4w
-	==
-X-Google-Smtp-Source: AGHT+IEHeAykdLQUpO3gPqUMx2fYijXrSBz0LqlzNspSQL5bnKwXAMJ9m4vUeetaGE3TZ84/gzZLhg==
-X-Received: by 2002:a05:6602:3d2:b0:945:ae17:9ae4 with SMTP id ca18e2360f4ac-94869cc040fmr1175746139f.1.1762444228553;
-        Thu, 06 Nov 2025 07:50:28 -0800 (PST)
-Received: from localhost.localdomain ([2601:282:4300:19e0::9115])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-9487956c4a0sm104543539f.7.2025.11.06.07.50.26
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FdvSs3Mql3eirF4VWojvsnzRN5E6GksT/LGlfp7NltM=;
+        b=cbz2qcKhfpVfQmwX7BrU/kqB1Jom/oQye60vstNgc7uRV43swa+d1kikj/Vq0wE2Hy
+         1+2WREAHf4Wkjcjp+R0I076UIaZVK9y5DxbsKe/8lpRXOvbWt/ir7+Mscld1sEXC1f20
+         gWA8rwqUOwbZ8prwWvZ1CR8fEkcFtGtdixsSJHo5V7767tnRCflC1HD1n66TsSxVm8p0
+         6bDrBVdF7VWzmnIStGxB37Jfdg8wdY7c9qO8JvKI+AtbVsRoIbQGBXM0WIEjzi+DSk0S
+         h9ZPjzg7OX3QFPWrNjMxSS9kDX+eweVXLOWpUXXIzg883ReRxgTR8+8G6W3XEr/FtBU5
+         glsQ==
+X-Gm-Message-State: AOJu0Yx8DwoMJN3qs0zOD0mDz1YkeqTUCpE5fQstOh9rKFogh7bfM4de
+	V2KV+WhUfNAESQX255H43A65uc4Gqkl5CR0F6pejNbM83pNKhG0FiGDOCeXspQ==
+X-Gm-Gg: ASbGncu8uv3EZWvs8SytVpiCvBUor0INaYjA2YBar3CaM44M7ZNgDiy26LO3glEQ1z/
+	n9y5Cm674R8T+ksYUKlhdJbOHLbzPyoVtI6kJDZoEEgXc46s81ZacVzoBqnkugOaTTGTI9guO00
+	yHDOpomu9uGQdxB6ajLih/LYmvH0RiCYk+0yp+zANe/a9ygm7yEfVNE2zScnydNh4mbNSQKb8K+
+	l6TmZsghbMtJ1cVQB9YbIFlnoMJOk2OPrnYgiVdS5RoqVw916J6Sbff21oeTdRHf6GvQuQwb+56
+	PiMH0F9n9lop5mUxSDA6AGYYS2AU8Us73Q2H3l7pej0a8W982upiOsJ8Z3H5jwFwnLYoTnSe/7/
+	JoZNjn5qmLrypHuY1b15oO/Gsuz7/971JPuXzMbd5m8RHIsnY/Lv8XNXpsEKWwLj1i9ctfEkQ5K
+	A72Ufdq9Wb8+Apc6y9g4nu/HoYS/Iabsh9YaPa
+X-Google-Smtp-Source: AGHT+IF6U4VteJzak/nTFyEetNmGhrJJf+09/NZJypucjW0fqyG8oBnCuB2Q3DTWScivQWrht3OU3A==
+X-Received: by 2002:a17:907:9309:b0:b3f:331a:a982 with SMTP id a640c23a62f3a-b72b95533camr41795566b.6.1762448899798;
+        Thu, 06 Nov 2025 09:08:19 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bfa25454sm3905766b.75.2025.11.06.09.08.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 07:50:27 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+        Thu, 06 Nov 2025 09:08:19 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] wayland: Remove event_loop_timer test
-Date: Thu,  6 Nov 2025 08:50:21 -0700
-Message-ID: <20251106155021.16738-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.51.1
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH v2] meta/files/bitbake-setup.schema.json: add a definition for bb-layers-relative
+Date: Thu,  6 Nov 2025 18:08:15 +0100
+Message-Id: <20251106170815.2439421-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 15:50:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225981
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 17:08:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225982
 
-The event_loop_timer test requires precise timing constraints (10's of
-milliseconds) which cannot be achieved on qemu testing targets. Remove
-this test to prevent spurious failures.
+From: Alexander Kanavin <alex@linutronix.de>
 
-[YOCTO #14861]
+Also, adjust the description for bb-layers property.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...1-tests-Remove-event_loop_timer-test.patch | 42 +++++++++++++++++++
- .../wayland/wayland_1.24.0.bb                 |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch
+ meta/files/bitbake-setup.schema.json | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch b/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch
-new file mode 100644
-index 0000000000..e662d6cfd2
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch
-@@ -0,0 +1,42 @@
-+From 61fa7e7d9c282798988907cf3b8928c88d7a7930 Mon Sep 17 00:00:00 2001
-+From: Joshua Watt <JPEWhacker@gmail.com>
-+Date: Thu, 6 Nov 2025 08:35:26 -0700
-+Subject: [PATCH] tests: Remove event_loop_timer test
-+
-+The event_loop_timer tests relies on very precise timing of the
-+execution (10's of milliseconds). However, on the Yocto Autobuilder qemu
-+testing, this sort of precise timing is not possible, resulting in
-+spurious test failures.
-+
-+Remove this test to prevent these failures, since there isn't a simple
-+way to increase the timing constraints.
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-+---
-+ tests/event-loop-test.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/tests/event-loop-test.c b/tests/event-loop-test.c
-+index a51ba8f..0c39b09 100644
-+--- a/tests/event-loop-test.c
-++++ b/tests/event-loop-test.c
-+@@ -238,6 +238,7 @@ TEST(event_loop_multiple_same_signals)
-+ 	wl_event_loop_destroy(loop);
-+ }
-+ 
-++#if 0 /* Timing requirements are too tight for qemu testing */
-+ static int
-+ timer_callback(void *data)
-+ {
-+@@ -280,6 +281,7 @@ TEST(event_loop_timer)
-+ 	wl_event_source_remove(source2);
-+ 	wl_event_loop_destroy(loop);
-+ }
-++#endif
-+ 
-+ #define MSEC_TO_USEC(msec) ((msec) * 1000)
-+ 
-+-- 
-+2.51.1
-+
-diff --git a/meta/recipes-graphics/wayland/wayland_1.24.0.bb b/meta/recipes-graphics/wayland/wayland_1.24.0.bb
-index 5fb7951781..de7ee516bb 100644
---- a/meta/recipes-graphics/wayland/wayland_1.24.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.24.0.bb
-@@ -15,6 +15,7 @@ DEPENDS = "expat libffi wayland-native"
- SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz \
-            file://run-ptest \
-            file://0001-build-Fix-strndup-detection-on-MinGW.patch \
-+           file://0001-tests-Remove-event_loop_timer-test.patch \
-            "
- SRC_URI[sha256sum] = "82892487a01ad67b334eca83b54317a7c86a03a89cfadacfef5211f11a5d0536"
- 
+diff --git a/meta/files/bitbake-setup.schema.json b/meta/files/bitbake-setup.schema.json
+index 5101b0de53e..6e79bd6018a 100644
+--- a/meta/files/bitbake-setup.schema.json
++++ b/meta/files/bitbake-setup.schema.json
+@@ -39,7 +39,14 @@
+                             },
+                             "bb-layers": {
+                                 "type": "array",
+-                                "description": "List of BitBake layers to include",
++                                "description": "List of BitBake layer paths to include, relative to the layer checkout directory",
++                                "items": {
++                                    "type": "string"
++                                }
++                            },
++                            "bb-layers-relative": {
++                                "type": "array",
++                                "description": "List of BitBake layers paths to include, relative to the configuration file",
+                                 "items": {
+                                     "type": "string"
+                                 }
 -- 
-2.51.1
+2.39.5
 
 
