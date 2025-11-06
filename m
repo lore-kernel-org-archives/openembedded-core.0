@@ -1,216 +1,147 @@
-Return-Path: <kamel.bouhara@bootlin.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1D51CCFA05
-	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 15:30:38 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18547.1762443027608999128
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D4B6CCFA05
+	for <webhook@archiver.kernel.org>; Thu,  6 Nov 2025 15:50:30 +0000 (UTC)
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.489.1762444229755777266
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Nov 2025 07:30:28 -0800
+ Thu, 06 Nov 2025 07:50:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=wCYYA5HB;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: kamel.bouhara@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 107D81A18F2;
-	Thu,  6 Nov 2025 15:30:25 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D3B9A6068C;
-	Thu,  6 Nov 2025 15:30:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7FD441185124C;
-	Thu,  6 Nov 2025 16:30:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1762443020; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=rcTMRTI2WPnC9br44OAwqpQTv0JqeQhREIK+xDpiU6M=;
-	b=wCYYA5HBSij3c+1mFK+Ekla8AdtVZhN9/2O5N5nyYXjy2K72DPepiHYXQMnhRjqDjnq9iS
-	sjAwAbkR84F54hVcJnzqmdeCOp02AyhyZqWNbVbCqieDMqeylLTcPLnxBSKb8HRS/ZPoQr
-	CVzZ29T1uh3LHBJJFZScjIT9rnvsckmoYGTnEhA6+OJj6tQD5ySfcrciBTS7iflBIKTjwz
-	giOIzJ0+hgOO8jCBRw2OQrRO95m+w0cv+8aT6kXxEm0Elq65AkDyUcHX2q0iGv/auVT01k
-	9KN6BbDNtvvR1tDuY3jeLiXx8FN/xhKaTlITx4ZDr3XGdu2mWK/5FofzZ/JujA==
-Date: Thu, 6 Nov 2025 16:30:16 +0100
-From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org, JPEWhacker@gmail.com, 
-	thomas.petazzoni@bootlin.com, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	mathieu.dubois-briand@bootlin.com, antonin.godard@bootlin.com, 
-	Pascal Eberhard <pascal.eberhard@se.com>
-Subject: Re: [OE-core] [scarthgap v3 00/16] backport: SPDX 3.0 support to
- Scarthgap
-Message-ID: <mxjvjqyofvibavewarons4epr3yf655srs7gk4uh355axcr34r@oxatfeqibka4>
-References: <20251103162654.1714239-1-kamel.bouhara@bootlin.com>
- <CAOSpxdbWp7rGCK_nzf-RQQXW5KSj7qkYj8b-YWNjhrktMyP0-Q@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NxL9Z8hv;
+ spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: jpewhacker@gmail.com)
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-948673fdc47so38646439f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 07:50:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762444229; x=1763049029; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FZzqHPfNFjvJ90eZe5XWshlu5BbRv6rLCweCWO9d6yA=;
+        b=NxL9Z8hvZMHw6PaHac81n+fNvBCeA9mkyCYA4HejAVGpEWqeBx+s7tjqp9NB2FR91V
+         /97dz4OBrQWGoV+Ln4ZUcldiF/S6J6Fg3/xOiRmcdjokovA4oHiuuMIILxkf2i0viXz3
+         QDb20KJZ6ZMhfA/Ov2qxVmLlhdj4ahK0q17OVx7KggSmkPzsZrWCnre/pqv/29eND0Vg
+         lBGH6cqXwLdLIyczgbVEEwV/vTrc4kF/FCEyF2ZlQlC6JfsvwrSP2zFi0VDGB6yA59Z4
+         TmsRyFbXsjz1cHZRYUV+yQhBBvSX2IWWifsIW6tdXPSSUomqkAWvEQwOnesV552vyKq0
+         /yiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762444229; x=1763049029;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FZzqHPfNFjvJ90eZe5XWshlu5BbRv6rLCweCWO9d6yA=;
+        b=ieMI9mFGqT+Ls9lppUv1m7qKmHNqLZTMgrYMUFvLDFMmjA/KzfzusKKoyel6HkM2k3
+         K2Z/eZ76XSwFY1R3fNJOHmHZvTlWg1z4mDZYZDGwRV44bTOorj+ZHyzGwDT5BFTTiv+8
+         4II7vSBsOenocwK4lsXP7lkVQSWychDuKEOAgT4hluRryRMbgCLbMVF8lxcERIk7+JlY
+         PL7EWC8pXoue4xvQIYZxMcKIbD9Lds57tRNzaUfeYxDIQabcr+Ie/q53ZZI/f/2HIaDk
+         tALOF7etU+NB/siRYpFDFwAeXGniD+bXeqhIM95Z7D1OMijc+lUgIyI14QueiHB9G9ON
+         0jUA==
+X-Gm-Message-State: AOJu0YwcyuW58qPyhTrpATYdH0Jj79yRQMr+VEgffnc0LwdXWFyq7U6i
+	9rSmnzwEv5waoTrqv0o1qKcqPoalXRXWHaprCmKopvw0wnneJXelYhv5vz1iJw==
+X-Gm-Gg: ASbGncvhnkKTxV9RPjg/c8zd+JJnGrd0PGur+F3XoXMdnKsT1wY5WTpbplIEy36NY6N
+	rjhgwpzcyPOBoJZlR9X5p70oAjQp2QoaRlCedCWKw4NnxSFSbWAQ3i2KKufE+UXfgGLiXTYSPl8
+	du4PXHHG6jd24blrWeKgjC+ufdc1S9xkY7Ulf3Y5flrN3qxDhCJwNhOZAVAz5IkfMfJQPy2heik
+	TmEFJXEtiAv9gEjKbTTjBNfJ6C62uCcaZnLyt7H3GFg1jKl5M9qdU9QOnIW8Qf+RoSm6k46wpaI
+	tUSpIP/1Yx6P5imS8x0OslYNGNlBlJ2TecmOfQsajjvICsz1GsGMuwFm61J643onRJ1L0T7EiGa
+	IESs2/TyH88lbPlMVGL98I8ZodShUmbQWu9i6+l9reYzOGIo69Ly5vlmQBLocLJWLxiBHcHsp4w
+	==
+X-Google-Smtp-Source: AGHT+IEHeAykdLQUpO3gPqUMx2fYijXrSBz0LqlzNspSQL5bnKwXAMJ9m4vUeetaGE3TZ84/gzZLhg==
+X-Received: by 2002:a05:6602:3d2:b0:945:ae17:9ae4 with SMTP id ca18e2360f4ac-94869cc040fmr1175746139f.1.1762444228553;
+        Thu, 06 Nov 2025 07:50:28 -0800 (PST)
+Received: from localhost.localdomain ([2601:282:4300:19e0::9115])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-9487956c4a0sm104543539f.7.2025.11.06.07.50.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 07:50:27 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] wayland: Remove event_loop_timer test
+Date: Thu,  6 Nov 2025 08:50:21 -0700
+Message-ID: <20251106155021.16738-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAOSpxdbWp7rGCK_nzf-RQQXW5KSj7qkYj8b-YWNjhrktMyP0-Q@mail.gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 15:30:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225980
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 15:50:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225981
 
-On Wed, Nov 05, 2025 at 06:40:57AM -0800, Steve Sakoman wrote:
-> I'm getting autobuilder errors with this series:
->
-> ERROR: baremetal-helloworld-0.1+git-r0 do_rootfs: Error executing a
-> python function in exec_func_python() autogenerated:
->
-> The stack trace of python calls that resulted in this exception/failure=
- was:
-> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:image_combine_spdx(d)
->      0003:
-> File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/classe=
-s/create-spdx-2.2.bbclass',
-> lineno: 980, function: image_combine_spdx
->      0976:    imgdeploydir =3D Path(d.getVar("IMGDEPLOYDIR"))
->      0977:    img_spdxid =3D oe.sbom.get_image_spdxid(image_name)
->      0978:    packages =3D image_list_installed_packages(d)
->      0979:
->  *** 0980:    combine_spdx(d, image_name, imgdeploydir, img_spdxid,
-> packages, Path(d.getVar("SPDXIMAGEWORK")))
->      0981:
->      0982:    def make_image_link(target_path, suffix):
->      0983:        if image_link_name:
->      0984:            link =3D imgdeploydir / (image_link_name + suffix=
-)
-> File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/classe=
-s/create-spdx-2.2.bbclass',
-> lineno: 1048, function: combine_spdx
->      1044:    image.supplier =3D d.getVar("SPDX_SUPPLIER")
->      1045:
->      1046:    doc.packages.append(image)
->      1047:
->  *** 1048:    for name in sorted(packages.keys()):
->      1049:        if name not in providers:
->      1050:            bb.fatal("Unable to find SPDX provider for '%s'" =
-% name)
->      1051:
->      1052:        pkg_name, pkg_hashfn =3D providers[name]
-> Exception: AttributeError: 'str' object has no attribute 'keys'
->
-> Here's an error log with more details:
->
-> https://errors.yoctoproject.org/Errors/Details/886537/
+The event_loop_timer test requires precise timing constraints (10's of
+milliseconds) which cannot be achieved on qemu testing targets. Remove
+this test to prevent spurious failures.
 
-Thanks Steve, I=E2=80=99ll reach out to Joshua to see the best way to fix=
- this
-issue.
+[YOCTO #14861]
 
-Kamel
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ ...1-tests-Remove-event_loop_timer-test.patch | 42 +++++++++++++++++++
+ .../wayland/wayland_1.24.0.bb                 |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch
 
->
-> Steve
->
-> On Mon, Nov 3, 2025 at 8:27=E2=80=AFAM Kamel Bouhara via
-> lists.openembedded.org
-> <kamel.bouhara=3Dbootlin.com@lists.openembedded.org> wrote:
-> >
-> > Hello,
-> >
-> > This is the v3 series to backport SPDX 3.0 support from upstream
-> > Walnascar to Scarthgap (Yocto Project 5.0 LTS), it essentially
-> > includes selftest fixes.
-> >
-> > Changes since v2:
-> > -----------------
-> > Cherry-picked commits:
-> >
-> >     c5b5136bf8: Exclude do_create_spdx from automatic sysroot extensi=
-on.
-> >
-> >     03c6ace6c6: Fix SPDX_VERSION handling in selftests.
-> >
-> >     7be5a6e699: Add tar test for SPDX 2.2.
-> >
-> > Local fix:
-> >
-> >     7e14a5b966: Align DEPLOY_DIR_SPDX in create-spdx-2.2.bbclass with
-> >         ${SPDX_VERSION} layout, restoring successful SPDX 2.2 selftes=
-ts.
-> >
-> > Greetings,
-> > Kamel
-> >
-> > Hongxu Jia (1):
-> >   oeqa/selftest: Add SPDX 3.0 include source case for work-share
-> >
-> > Joshua Watt (10):
-> >   classes-global/license: Move functions to library code
-> >   classes-global/staging: Exclude do_create_spdx from automatic sysro=
-ot
-> >     extension
-> >   lib/license: Move package license skip to library
-> >   lib: oe: license: Add missing import
-> >   classes-recipe/image: Add image file manifest
-> >   classes-recipe/baremetal-image: Add image file manifest
-> >   selftest: spdx: Add SPDX 3.0 test cases
-> >   lib: oeqa: spdx: Add tests for extra options
-> >   spdx 3.0: Rework how SPDX aliases are linked
-> >   oeqa: spdx: Add tar test for SPDX 2.2
-> >
-> > Kamel Bouhara (Schneider Electric) (4):
-> >   backport: SPDX 3.0 fixes and tasks from upstream version Walnascar
-> >   spdx30_tasks: fix FetchData attribute in add_download_files
-> >   classes/create-spdx-2.2: align DEPLOY_DIR_SPDX with SPDX_VERSION
-> >     layout
-> >   spdx30_tasks: adapt CVE handling to new cve-check API
-> >
-> > Richard Purdie (1):
-> >   selftest/spdx: Fix for SPDX_VERSION addition
-> >
-> >  meta/classes-global/base.bbclass              |   41 +-
-> >  meta/classes-global/license.bbclass           |  165 -
-> >  meta/classes-global/staging.bbclass           |    9 +-
-> >  meta/classes-recipe/baremetal-image.bbclass   |   32 +-
-> >  .../create-spdx-image-3.0.bbclass             |   85 +
-> >  .../create-spdx-sdk-3.0.bbclass               |   74 +
-> >  meta/classes-recipe/image.bbclass             |   58 +
-> >  meta/classes-recipe/license_image.bbclass     |   14 +-
-> >  meta/classes-recipe/nospdx.bbclass            |   13 +
-> >  meta/classes/create-spdx-2.2.bbclass          |    3 +-
-> >  meta/classes/create-spdx-3.0.bbclass          |  200 +
-> >  meta/classes/spdx-common.bbclass              |   99 +
-> >  meta/lib/oe/__init__.py                       |    2 +-
-> >  meta/lib/oe/license.py                        |  203 +
-> >  meta/lib/oe/sbom30.py                         | 1096 ++++
-> >  meta/lib/oe/spdx30.py                         | 5593 +++++++++++++++=
-++
-> >  meta/lib/oe/spdx30_tasks.py                   | 1343 ++++
-> >  meta/lib/oe/spdx_common.py                    |  244 +
-> >  meta/lib/oeqa/selftest/cases/spdx.py          |  256 +-
-> >  19 files changed, 9307 insertions(+), 223 deletions(-)
-> >  create mode 100644 meta/classes-recipe/create-spdx-image-3.0.bbclass
-> >  create mode 100644 meta/classes-recipe/create-spdx-sdk-3.0.bbclass
-> >  create mode 100644 meta/classes-recipe/nospdx.bbclass
-> >  create mode 100644 meta/classes/create-spdx-3.0.bbclass
-> >  create mode 100644 meta/classes/spdx-common.bbclass
-> >  create mode 100644 meta/lib/oe/sbom30.py
-> >  create mode 100644 meta/lib/oe/spdx30.py
-> >  create mode 100644 meta/lib/oe/spdx30_tasks.py
-> >  create mode 100644 meta/lib/oe/spdx_common.py
-> >
-> > --
-> > 2.43.0
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#225667): https://lists.openembedded.org/g/openemb=
-edded-core/message/225667
-> > Mute This Topic: https://lists.openembedded.org/mt/116100659/3620601
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
- [steve@sakoman.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+diff --git a/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch b/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch
+new file mode 100644
+index 0000000000..e662d6cfd2
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/wayland/0001-tests-Remove-event_loop_timer-test.patch
+@@ -0,0 +1,42 @@
++From 61fa7e7d9c282798988907cf3b8928c88d7a7930 Mon Sep 17 00:00:00 2001
++From: Joshua Watt <JPEWhacker@gmail.com>
++Date: Thu, 6 Nov 2025 08:35:26 -0700
++Subject: [PATCH] tests: Remove event_loop_timer test
++
++The event_loop_timer tests relies on very precise timing of the
++execution (10's of milliseconds). However, on the Yocto Autobuilder qemu
++testing, this sort of precise timing is not possible, resulting in
++spurious test failures.
++
++Remove this test to prevent these failures, since there isn't a simple
++way to increase the timing constraints.
++
++Upstream-Status: Inappropriate [oe-specific]
++Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
++---
++ tests/event-loop-test.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/tests/event-loop-test.c b/tests/event-loop-test.c
++index a51ba8f..0c39b09 100644
++--- a/tests/event-loop-test.c
+++++ b/tests/event-loop-test.c
++@@ -238,6 +238,7 @@ TEST(event_loop_multiple_same_signals)
++ 	wl_event_loop_destroy(loop);
++ }
++ 
+++#if 0 /* Timing requirements are too tight for qemu testing */
++ static int
++ timer_callback(void *data)
++ {
++@@ -280,6 +281,7 @@ TEST(event_loop_timer)
++ 	wl_event_source_remove(source2);
++ 	wl_event_loop_destroy(loop);
++ }
+++#endif
++ 
++ #define MSEC_TO_USEC(msec) ((msec) * 1000)
++ 
++-- 
++2.51.1
++
+diff --git a/meta/recipes-graphics/wayland/wayland_1.24.0.bb b/meta/recipes-graphics/wayland/wayland_1.24.0.bb
+index 5fb7951781..de7ee516bb 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.24.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.24.0.bb
+@@ -15,6 +15,7 @@ DEPENDS = "expat libffi wayland-native"
+ SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz \
+            file://run-ptest \
+            file://0001-build-Fix-strndup-detection-on-MinGW.patch \
++           file://0001-tests-Remove-event_loop_timer-test.patch \
+            "
+ SRC_URI[sha256sum] = "82892487a01ad67b334eca83b54317a7c86a03a89cfadacfef5211f11a5d0536"
+ 
+-- 
+2.51.1
 
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
 
