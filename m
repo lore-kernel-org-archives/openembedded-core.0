@@ -2,32 +2,32 @@ Return-Path: <kamel.bouhara@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BC34CCFA1D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55660CD11C2
 	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 13:15:21 +0000 (UTC)
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11163.1762521316188677788
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11166.1762521320577313331
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Nov 2025 05:15:16 -0800
+ Fri, 07 Nov 2025 05:15:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=aCxP7McL;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=bD5f07l3;
  spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: kamel.bouhara@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 37A43C0FAA1;
-	Fri,  7 Nov 2025 13:14:52 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 1FC78C0FAA3;
+	Fri,  7 Nov 2025 13:14:58 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 60CA2606A6;
-	Fri,  7 Nov 2025 13:15:13 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 954B8118525B2;
-	Fri,  7 Nov 2025 14:15:11 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4A5AB606A6;
+	Fri,  7 Nov 2025 13:15:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 32547118525C8;
+	Fri,  7 Nov 2025 14:15:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1762521312; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1762521318; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=th91Xg2vVeVS296nmdsjSApW/9ZW65XnQTwqP1NzPn4=;
-	b=aCxP7McLw2hRMg5gYVtiULGneu2OQon6/0EsiEUtuvxv70zDahuIPY8nyV4wcYY1RhB+No
-	MDLXh45/IjPiNEbZT03SWQJ5TyT1Q/U0voD711izT7PXlKLAUIs72hHIMJpI8gARMQcNbq
-	fFFUdC/L0mTY89LVl0Yn3T4rSUv3J+ALBV14ucZR49OjLTbIlgt6c9Nc/cBQ5jC3Qt96ue
-	YHjwyKz2VH9W80+hnNnfBf6lR32lVIgauzk4dVSnkBXygeSSdd00dUcfa2K5SJTovr7muU
-	BqeZ8T2J2B1gwu0YPqc1mmlSOgTbWxdWI1jkd8Rt9faIr5SdzIEu1vFf2NCXag==
+	bh=2jr6t3PcpxQRv6UEPh0mqfnTtQs1jiTYoes/lZn7zmo=;
+	b=bD5f07l3d/OjTMp8qkAJyV0W9A7vgc5AAWHF99HQfVORz8VxahyAUdyY4vPazsQ97oinFM
+	6WfVIWAJgMWtw2uS7qCrRaOePDYcGVkNvP3hi1BnU+cvG/XrjLPz5Fjb5s6TF5RxbNu9D8
+	53kDsqtkh5LOJBNFk5nq5A0PuZPXxqBEofd1rUnDqADk4BaLiKcNx8SyWIWEzs1ana6AFu
+	sdLIu7rzet0tKbWuRM0loJRuy08gJsYv/paDSoWKIGML7y3O6CSH/L4MpSZHEpKRyPn9Gp
+	PAxaCwNjX8VWgQ7abvd3xoSHWek2QhyXAy4eo5UF+YTu7FUMU5+v2n1BKmoQoA==
 From: Kamel Bouhara <kamel.bouhara@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: JPEWhacker@gmail.com,
@@ -37,9 +37,9 @@ Cc: JPEWhacker@gmail.com,
 	antonin.godard@bootlin.com,
 	Pascal Eberhard <pascal.eberhard@se.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap v4 03/17] classes-global/license: Move functions to library code
-Date: Fri,  7 Nov 2025 14:14:37 +0100
-Message-ID: <20251107131502.3857600-4-kamel.bouhara@bootlin.com>
+Subject: [scarthgap v4 08/17] classes-recipe/baremetal-image: Add image file manifest
+Date: Fri,  7 Nov 2025 14:14:42 +0100
+Message-ID: <20251107131502.3857600-9-kamel.bouhara@bootlin.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251107131502.3857600-1-kamel.bouhara@bootlin.com>
 References: <20251107131502.3857600-1-kamel.bouhara@bootlin.com>
@@ -50,545 +50,94 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 13:15:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226039
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226044
 
 From: Joshua Watt <JPEWhacker@gmail.com>
 
-Moves several of the functions in license.bbclass to be library code
-
-New function dependencies were manually verified using bitbake-dumpsigs
-to ensure that bitbake identified the same dependencies even though they
-are now in library code (although the new function names mean that the
-task hashes still change)
+Downstream tasks may want to know what image files were written so write
+out a manifest in do_image_complete. The format of the manifest is the
+same as the one in image.bbclass
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0333e04e353991260c5f67a72f80f3ab9dcf526a)
 ---
- meta/classes-global/base.bbclass          |  10 +-
- meta/classes-global/license.bbclass       | 165 ----------------------
- meta/classes-recipe/license_image.bbclass |  14 +-
- meta/lib/oe/license.py                    | 163 +++++++++++++++++++++
- 4 files changed, 175 insertions(+), 177 deletions(-)
+ meta/classes-recipe/baremetal-image.bbclass | 32 +++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.=
-bbclass
-index 0999b42daa..f764f3ee2f 100644
---- a/meta/classes-global/base.bbclass
-+++ b/meta/classes-global/base.bbclass
-@@ -520,8 +520,8 @@ python () {
-         bb.fatal('This recipe does not have the LICENSE field set (%s)' =
-% pn)
+diff --git a/meta/classes-recipe/baremetal-image.bbclass b/meta/classes-r=
+ecipe/baremetal-image.bbclass
+index b9a584351a..c29b5c0b43 100644
+--- a/meta/classes-recipe/baremetal-image.bbclass
++++ b/meta/classes-recipe/baremetal-image.bbclass
+@@ -30,6 +30,9 @@ BAREMETAL_BINNAME ?=3D "hello_baremetal_${MACHINE}"
+ IMAGE_LINK_NAME ?=3D "baremetal-helloworld-image-${MACHINE}"
+ IMAGE_NAME_SUFFIX ?=3D ""
 =20
-     if bb.data.inherits_class('license', d):
--        check_license_format(d)
--        unmatched_license_flags =3D check_license_flags(d)
-+        oe.license.check_license_format(d)
-+        unmatched_license_flags =3D oe.license.check_license_flags(d)
-         if unmatched_license_flags:
-             for unmatched in unmatched_license_flags:
-                 message =3D "Has a restricted license '%s' which is not =
-listed in your LICENSE_FLAGS_ACCEPTED." % unmatched
-@@ -575,7 +575,7 @@ python () {
-             check_license =3D False
-=20
-         if check_license and bad_licenses:
--            bad_licenses =3D expand_wildcard_licenses(d, bad_licenses)
-+            bad_licenses =3D oe.license.expand_wildcard_licenses(d, bad_=
-licenses)
-=20
-             exceptions =3D (d.getVar("INCOMPATIBLE_LICENSE_EXCEPTIONS") =
-or "").split()
-=20
-@@ -591,7 +591,7 @@ python () {
-             for pkg in pkgs:
-                 remaining_bad_licenses =3D oe.license.apply_pkg_license_=
-exception(pkg, bad_licenses, exceptions)
-=20
--                incompatible_lic =3D incompatible_license(d, remaining_b=
-ad_licenses, pkg)
-+                incompatible_lic =3D oe.license.incompatible_license(d, =
-remaining_bad_licenses, pkg)
-                 if incompatible_lic:
-                     skipped_pkgs[pkg] =3D incompatible_lic
-                 else:
-@@ -604,7 +604,7 @@ python () {
-                 for pkg in unskipped_pkgs:
-                     bb.debug(1, "Including the package %s" % pkg)
-             else:
--                incompatible_lic =3D incompatible_license(d, bad_license=
-s)
-+                incompatible_lic =3D oe.license.incompatible_license(d, =
-bad_licenses)
-                 for pkg in skipped_pkgs:
-                     incompatible_lic +=3D skipped_pkgs[pkg]
-                 incompatible_lic =3D sorted(list(set(incompatible_lic)))
-diff --git a/meta/classes-global/license.bbclass b/meta/classes-global/li=
-cense.bbclass
-index d7c5d08a77..6e0de5f414 100644
---- a/meta/classes-global/license.bbclass
-+++ b/meta/classes-global/license.bbclass
-@@ -255,171 +255,6 @@ def find_license_files(d):
-=20
-     return lic_files_paths
-=20
--def return_spdx(d, license):
--    """
--    This function returns the spdx mapping of a license if it exists.
--     """
--    return d.getVarFlag('SPDXLICENSEMAP', license)
--
--def canonical_license(d, license):
--    """
--    Return the canonical (SPDX) form of the license if available (so GPL=
-v3
--    becomes GPL-3.0-only) or the passed license if there is no canonical=
- form.
--    """
--    return d.getVarFlag('SPDXLICENSEMAP', license) or license
--
--def expand_wildcard_licenses(d, wildcard_licenses):
--    """
--    There are some common wildcard values users may want to use. Support=
- them
--    here.
--    """
--    licenses =3D set(wildcard_licenses)
--    mapping =3D {
--        "AGPL-3.0*" : ["AGPL-3.0-only", "AGPL-3.0-or-later"],
--        "GPL-3.0*" : ["GPL-3.0-only", "GPL-3.0-or-later"],
--        "LGPL-3.0*" : ["LGPL-3.0-only", "LGPL-3.0-or-later"],
--    }
--    for k in mapping:
--        if k in wildcard_licenses:
--            licenses.remove(k)
--            for item in mapping[k]:
--                licenses.add(item)
--
--    for l in licenses:
--        if l in oe.license.obsolete_license_list():
--            bb.fatal("Error, %s is an obsolete license, please use an SP=
-DX reference in INCOMPATIBLE_LICENSE" % l)
--        if "*" in l:
--            bb.fatal("Error, %s is an invalid license wildcard entry" % =
-l)
--
--    return list(licenses)
--
--def incompatible_license_contains(license, truevalue, falsevalue, d):
--    license =3D canonical_license(d, license)
--    bad_licenses =3D (d.getVar('INCOMPATIBLE_LICENSE') or "").split()
--    bad_licenses =3D expand_wildcard_licenses(d, bad_licenses)
--    return truevalue if license in bad_licenses else falsevalue
--
--def incompatible_pkg_license(d, dont_want_licenses, license):
--    # Handles an "or" or two license sets provided by
--    # flattened_licenses(), pick one that works if possible.
--    def choose_lic_set(a, b):
--        return a if all(oe.license.license_ok(canonical_license(d, lic),
--                            dont_want_licenses) for lic in a) else b
--
--    try:
--        licenses =3D oe.license.flattened_licenses(license, choose_lic_s=
-et)
--    except oe.license.LicenseError as exc:
--        bb.fatal('%s: %s' % (d.getVar('P'), exc))
--
--    incompatible_lic =3D []
--    for l in licenses:
--        license =3D canonical_license(d, l)
--        if not oe.license.license_ok(license, dont_want_licenses):
--            incompatible_lic.append(license)
--
--    return sorted(incompatible_lic)
--
--def incompatible_license(d, dont_want_licenses, package=3DNone):
--    """
--    This function checks if a recipe has only incompatible licenses. It =
-also
--    take into consideration 'or' operand.  dont_want_licenses should be =
-passed
--    as canonical (SPDX) names.
--    """
--    import oe.license
--    license =3D d.getVar("LICENSE:%s" % package) if package else None
--    if not license:
--        license =3D d.getVar('LICENSE')
--
--    return incompatible_pkg_license(d, dont_want_licenses, license)
--
--def check_license_flags(d):
--    """
--    This function checks if a recipe has any LICENSE_FLAGS that
--    aren't acceptable.
--
--    If it does, it returns the all LICENSE_FLAGS missing from the list
--    of acceptable license flags, or all of the LICENSE_FLAGS if there
--    is no list of acceptable flags.
--
--    If everything is is acceptable, it returns None.
--    """
--
--    def license_flag_matches(flag, acceptlist, pn):
--        """
--        Return True if flag matches something in acceptlist, None if not=
-.
--
--        Before we test a flag against the acceptlist, we append _${PN}
--        to it.  We then try to match that string against the
--        acceptlist.  This covers the normal case, where we expect
--        LICENSE_FLAGS to be a simple string like 'commercial', which
--        the user typically matches exactly in the acceptlist by
--        explicitly appending the package name e.g 'commercial_foo'.
--        If we fail the match however, we then split the flag across
--        '_' and append each fragment and test until we either match or
--        run out of fragments.
--        """
--        flag_pn =3D ("%s_%s" % (flag, pn))
--        for candidate in acceptlist:
--            if flag_pn =3D=3D candidate:
--                    return True
--
--        flag_cur =3D ""
--        flagments =3D flag_pn.split("_")
--        flagments.pop() # we've already tested the full string
--        for flagment in flagments:
--            if flag_cur:
--                flag_cur +=3D "_"
--            flag_cur +=3D flagment
--            for candidate in acceptlist:
--                if flag_cur =3D=3D candidate:
--                    return True
--        return False
--
--    def all_license_flags_match(license_flags, acceptlist):
--        """ Return all unmatched flags, None if all flags match """
--        pn =3D d.getVar('PN')
--        split_acceptlist =3D acceptlist.split()
--        flags =3D []
--        for flag in license_flags.split():
--            if not license_flag_matches(flag, split_acceptlist, pn):
--                flags.append(flag)
--        return flags if flags else None
--
--    license_flags =3D d.getVar('LICENSE_FLAGS')
--    if license_flags:
--        acceptlist =3D d.getVar('LICENSE_FLAGS_ACCEPTED')
--        if not acceptlist:
--            return license_flags.split()
--        unmatched_flags =3D all_license_flags_match(license_flags, accep=
-tlist)
--        if unmatched_flags:
--            return unmatched_flags
--    return None
--
--def check_license_format(d):
--    """
--    This function checks if LICENSE is well defined,
--        Validate operators in LICENSES.
--        No spaces are allowed between LICENSES.
--    """
--    pn =3D d.getVar('PN')
--    licenses =3D d.getVar('LICENSE')
--    from oe.license import license_operator, license_operator_chars, lic=
-ense_pattern
--
--    elements =3D list(filter(lambda x: x.strip(), license_operator.split=
-(licenses)))
--    for pos, element in enumerate(elements):
--        if license_pattern.match(element):
--            if pos > 0 and license_pattern.match(elements[pos - 1]):
--                oe.qa.handle_error('license-format',
--                        '%s: LICENSE value "%s" has an invalid format - =
-license names ' \
--                        'must be separated by the following characters t=
-o indicate ' \
--                        'the license selection: %s' %
--                        (pn, licenses, license_operator_chars), d)
--        elif not license_operator.match(element):
--            oe.qa.handle_error('license-format',
--                    '%s: LICENSE value "%s" has an invalid separator "%s=
-" that is not ' \
--                    'in the valid list of separators (%s)' %
--                    (pn, licenses, element, license_operator_chars), d)
--
- SSTATETASKS +=3D "do_populate_lic"
- do_populate_lic[sstate-inputdirs] =3D "${LICSSTATEDIR}"
- do_populate_lic[sstate-outputdirs] =3D "${LICENSE_DIRECTORY}/"
-diff --git a/meta/classes-recipe/license_image.bbclass b/meta/classes-rec=
-ipe/license_image.bbclass
-index 19b3dc55ba..b18a64d2bc 100644
---- a/meta/classes-recipe/license_image.bbclass
-+++ b/meta/classes-recipe/license_image.bbclass
-@@ -58,7 +58,7 @@ def write_license_files(d, license_manifest, pkg_dic, r=
-ootfs=3DTrue):
-     import stat
-=20
-     bad_licenses =3D (d.getVar("INCOMPATIBLE_LICENSE") or "").split()
--    bad_licenses =3D expand_wildcard_licenses(d, bad_licenses)
-+    bad_licenses =3D oe.license.expand_wildcard_licenses(d, bad_licenses=
-)
-     pkgarchs =3D d.getVar("SSTATE_ARCHS").split()
-     pkgarchs.reverse()
-=20
-@@ -66,17 +66,17 @@ def write_license_files(d, license_manifest, pkg_dic,=
- rootfs=3DTrue):
-     with open(license_manifest, "w") as license_file:
-         for pkg in sorted(pkg_dic):
-             remaining_bad_licenses =3D oe.license.apply_pkg_license_exce=
-ption(pkg, bad_licenses, exceptions)
--            incompatible_licenses =3D incompatible_pkg_license(d, remain=
-ing_bad_licenses, pkg_dic[pkg]["LICENSE"])
-+            incompatible_licenses =3D oe.license.incompatible_pkg_licens=
-e(d, remaining_bad_licenses, pkg_dic[pkg]["LICENSE"])
-             if incompatible_licenses:
-                 bb.fatal("Package %s cannot be installed into the image =
-because it has incompatible license(s): %s" %(pkg, ' '.join(incompatible_=
-licenses)))
-             else:
--                incompatible_licenses =3D incompatible_pkg_license(d, ba=
-d_licenses, pkg_dic[pkg]["LICENSE"])
-+                incompatible_licenses =3D oe.license.incompatible_pkg_li=
-cense(d, bad_licenses, pkg_dic[pkg]["LICENSE"])
-                 if incompatible_licenses:
-                     oe.qa.handle_error('license-incompatible', "Includin=
-g %s with incompatible license(s) %s into the image, because it has been =
-allowed by exception list." %(pkg, ' '.join(incompatible_licenses)), d)
-             try:
-                 (pkg_dic[pkg]["LICENSE"], pkg_dic[pkg]["LICENSES"]) =3D =
-\
-                     oe.license.manifest_licenses(pkg_dic[pkg]["LICENSE"]=
-,
--                    remaining_bad_licenses, canonical_license, d)
-+                    remaining_bad_licenses, oe.license.canonical_license=
-, d)
-             except oe.license.LicenseError as exc:
-                 bb.fatal('%s: %s' % (d.getVar('P'), exc))
-=20
-@@ -144,7 +144,7 @@ def write_license_files(d, license_manifest, pkg_dic,=
- rootfs=3DTrue):
-                 if not os.path.exists(pkg_license_dir ):
-                     bb.fatal("Couldn't find license information for depe=
-ndency %s" % pkg)
-=20
--                pkg_manifest_licenses =3D [canonical_license(d, lic) \
-+                pkg_manifest_licenses =3D [oe.license.canonical_license(=
-d, lic) \
-                         for lic in pkg_dic[pkg]["LICENSES"]]
-=20
-                 licenses =3D os.listdir(pkg_license_dir)
-@@ -153,7 +153,7 @@ def write_license_files(d, license_manifest, pkg_dic,=
- rootfs=3DTrue):
-                     pkg_rootfs_license =3D os.path.join(pkg_rootfs_licen=
-se_dir, lic)
-=20
-                     if re.match(r"^generic_.*$", lic):
--                        generic_lic =3D canonical_license(d,
-+                        generic_lic =3D oe.license.canonical_license(d,
-                                 re.search(r"^generic_(.*)$", lic).group(=
-1))
-=20
-                         # Do not copy generic license into package if is=
-n't
-@@ -176,7 +176,7 @@ def write_license_files(d, license_manifest, pkg_dic,=
- rootfs=3DTrue):
-                         if not os.path.exists(pkg_rootfs_license):
-                             os.symlink(os.path.join('..', generic_lic_fi=
-le), pkg_rootfs_license)
-                     else:
--                        if (oe.license.license_ok(canonical_license(d,
-+                        if (oe.license.license_ok(oe.license.canonical_l=
-icense(d,
-                                 lic), bad_licenses) =3D=3D False or
-                                 os.path.exists(pkg_rootfs_license)):
-                             continue
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index ac5b296e60..83c2e47766 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -259,3 +259,166 @@ def apply_pkg_license_exception(pkg, bad_licenses, =
-exceptions):
-     """Return remaining bad licenses after removing any package exceptio=
-ns"""
-=20
-     return [lic for lic in bad_licenses if pkg + ':' + lic not in except=
-ions]
++IMAGE_OUTPUT_MANIFEST_DIR =3D "${WORKDIR}/deploy-image-output-manifest"
++IMAGE_OUTPUT_MANIFEST =3D "${IMAGE_OUTPUT_MANIFEST_DIR}/manifest.json"
 +
-+def return_spdx(d, license):
-+    """
-+    This function returns the spdx mapping of a license if it exists.
-+     """
-+    return d.getVarFlag('SPDXLICENSEMAP', license)
+ do_rootfs[dirs] =3D "${IMGDEPLOYDIR} ${DEPLOY_DIR_IMAGE}"
+=20
+ do_image(){
+@@ -37,8 +40,28 @@ do_image(){
+     install ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf ${IMGD=
+EPLOYDIR}/${IMAGE_LINK_NAME}.elf
+ }
+=20
+-do_image_complete(){
+-    :
++python do_image_complete(){
++    from pathlib import Path
++    import json
 +
-+def canonical_license(d, license):
-+    """
-+    Return the canonical (SPDX) form of the license if available (so GPL=
-v3
-+    becomes GPL-3.0-only) or the passed license if there is no canonical=
- form.
-+    """
-+    return d.getVarFlag('SPDXLICENSEMAP', license) or license
-+
-+def expand_wildcard_licenses(d, wildcard_licenses):
-+    """
-+    There are some common wildcard values users may want to use. Support=
- them
-+    here.
-+    """
-+    licenses =3D set(wildcard_licenses)
-+    mapping =3D {
-+        "AGPL-3.0*" : ["AGPL-3.0-only", "AGPL-3.0-or-later"],
-+        "GPL-3.0*" : ["GPL-3.0-only", "GPL-3.0-or-later"],
-+        "LGPL-3.0*" : ["LGPL-3.0-only", "LGPL-3.0-or-later"],
++    data =3D {
++        "taskname": "do_image",
++        "imagetype": "baremetal-image",
++        "images": []
 +    }
-+    for k in mapping:
-+        if k in wildcard_licenses:
-+            licenses.remove(k)
-+            for item in mapping[k]:
-+                licenses.add(item)
 +
-+    for l in licenses:
-+        if l in obsolete_license_list():
-+            bb.fatal("Error, %s is an obsolete license, please use an SP=
-DX reference in INCOMPATIBLE_LICENSE" % l)
-+        if "*" in l:
-+            bb.fatal("Error, %s is an invalid license wildcard entry" % =
-l)
++    img_deploy_dir =3D Path(d.getVar("IMGDEPLOYDIR"))
 +
-+    return list(licenses)
++    for child in img_deploy_dir.iterdir():
++        if not child.is_file() or child.is_symlink():
++            continue
 +
-+def incompatible_license_contains(license, truevalue, falsevalue, d):
-+    license =3D canonical_license(d, license)
-+    bad_licenses =3D (d.getVar('INCOMPATIBLE_LICENSE') or "").split()
-+    bad_licenses =3D expand_wildcard_licenses(d, bad_licenses)
-+    return truevalue if license in bad_licenses else falsevalue
++        data["images"].append({
++            "filename": child.name,
++        })
 +
-+def incompatible_pkg_license(d, dont_want_licenses, license):
-+    # Handles an "or" or two license sets provided by
-+    # flattened_licenses(), pick one that works if possible.
-+    def choose_lic_set(a, b):
-+        return a if all(license_ok(canonical_license(d, lic),
-+                            dont_want_licenses) for lic in a) else b
-+
-+    try:
-+        licenses =3D flattened_licenses(license, choose_lic_set)
-+    except LicenseError as exc:
-+        bb.fatal('%s: %s' % (d.getVar('P'), exc))
-+
-+    incompatible_lic =3D []
-+    for l in licenses:
-+        license =3D canonical_license(d, l)
-+        if not license_ok(license, dont_want_licenses):
-+            incompatible_lic.append(license)
-+
-+    return sorted(incompatible_lic)
-+
-+def incompatible_license(d, dont_want_licenses, package=3DNone):
-+    """
-+    This function checks if a recipe has only incompatible licenses. It =
-also
-+    take into consideration 'or' operand.  dont_want_licenses should be =
-passed
-+    as canonical (SPDX) names.
-+    """
-+    license =3D d.getVar("LICENSE:%s" % package) if package else None
-+    if not license:
-+        license =3D d.getVar('LICENSE')
-+
-+    return incompatible_pkg_license(d, dont_want_licenses, license)
-+
-+def check_license_flags(d):
-+    """
-+    This function checks if a recipe has any LICENSE_FLAGS that
-+    aren't acceptable.
-+
-+    If it does, it returns the all LICENSE_FLAGS missing from the list
-+    of acceptable license flags, or all of the LICENSE_FLAGS if there
-+    is no list of acceptable flags.
-+
-+    If everything is is acceptable, it returns None.
-+    """
-+
-+    def license_flag_matches(flag, acceptlist, pn):
-+        """
-+        Return True if flag matches something in acceptlist, None if not=
-.
-+
-+        Before we test a flag against the acceptlist, we append _${PN}
-+        to it.  We then try to match that string against the
-+        acceptlist.  This covers the normal case, where we expect
-+        LICENSE_FLAGS to be a simple string like 'commercial', which
-+        the user typically matches exactly in the acceptlist by
-+        explicitly appending the package name e.g 'commercial_foo'.
-+        If we fail the match however, we then split the flag across
-+        '_' and append each fragment and test until we either match or
-+        run out of fragments.
-+        """
-+        flag_pn =3D ("%s_%s" % (flag, pn))
-+        for candidate in acceptlist:
-+            if flag_pn =3D=3D candidate:
-+                    return True
-+
-+        flag_cur =3D ""
-+        flagments =3D flag_pn.split("_")
-+        flagments.pop() # we've already tested the full string
-+        for flagment in flagments:
-+            if flag_cur:
-+                flag_cur +=3D "_"
-+            flag_cur +=3D flagment
-+            for candidate in acceptlist:
-+                if flag_cur =3D=3D candidate:
-+                    return True
-+        return False
-+
-+    def all_license_flags_match(license_flags, acceptlist):
-+        """ Return all unmatched flags, None if all flags match """
-+        pn =3D d.getVar('PN')
-+        split_acceptlist =3D acceptlist.split()
-+        flags =3D []
-+        for flag in license_flags.split():
-+            if not license_flag_matches(flag, split_acceptlist, pn):
-+                flags.append(flag)
-+        return flags if flags else None
-+
-+    license_flags =3D d.getVar('LICENSE_FLAGS')
-+    if license_flags:
-+        acceptlist =3D d.getVar('LICENSE_FLAGS_ACCEPTED')
-+        if not acceptlist:
-+            return license_flags.split()
-+        unmatched_flags =3D all_license_flags_match(license_flags, accep=
-tlist)
-+        if unmatched_flags:
-+            return unmatched_flags
-+    return None
-+
-+def check_license_format(d):
-+    """
-+    This function checks if LICENSE is well defined,
-+        Validate operators in LICENSES.
-+        No spaces are allowed between LICENSES.
-+    """
-+    pn =3D d.getVar('PN')
-+    licenses =3D d.getVar('LICENSE')
-+
-+    elements =3D list(filter(lambda x: x.strip(), license_operator.split=
-(licenses)))
-+    for pos, element in enumerate(elements):
-+        if license_pattern.match(element):
-+            if pos > 0 and license_pattern.match(elements[pos - 1]):
-+                oe.qa.handle_error('license-format',
-+                        '%s: LICENSE value "%s" has an invalid format - =
-license names ' \
-+                        'must be separated by the following characters t=
-o indicate ' \
-+                        'the license selection: %s' %
-+                        (pn, licenses, license_operator_chars), d)
-+        elif not license_operator.match(element):
-+            oe.qa.handle_error('license-format',
-+                    '%s: LICENSE value "%s" has an invalid separator "%s=
-" that is not ' \
-+                    'in the valid list of separators (%s)' %
-+                    (pn, licenses, element, license_operator_chars), d)
++    with open(d.getVar("IMAGE_OUTPUT_MANIFEST"), "w") as f:
++        json.dump([data], f)
+ }
+=20
+ python do_rootfs(){
+@@ -62,6 +85,7 @@ python do_rootfs(){
+     bb.utils.mkdirhier(sysconfdir)
+=20
+     execute_pre_post_process(d, d.getVar('ROOTFS_POSTPROCESS_COMMAND'))
++    execute_pre_post_process(d, d.getVar("ROOTFS_POSTUNINSTALL_COMMAND")=
+)
+ }
+=20
+=20
+@@ -72,6 +96,8 @@ SSTATE_SKIP_CREATION:task-image-complete =3D '1'
+ do_image_complete[sstate-inputdirs] =3D "${IMGDEPLOYDIR}"
+ do_image_complete[sstate-outputdirs] =3D "${DEPLOY_DIR_IMAGE}"
+ do_image_complete[stamp-extra-info] =3D "${MACHINE_ARCH}"
++do_image_complete[sstate-plaindirs] +=3D "${IMAGE_OUTPUT_MANIFEST_DIR}"
++do_image_complete[dirs] +=3D "${IMAGE_OUTPUT_MANIFEST_DIR}"
+ addtask do_image_complete after do_image before do_build
+=20
+ python do_image_complete_setscene () {
+@@ -140,5 +166,5 @@ python(){
+                 else:
+                     deps +=3D " %s:%s" % (dep, task)
+         return deps
+-    d.appendVarFlag('do_image', 'depends', extraimage_getdepends('do_pop=
+ulate_sysroot'))=20
++    d.appendVarFlag('do_image', 'depends', extraimage_getdepends('do_pop=
+ulate_sysroot'))
+ }
 --=20
 2.43.0
 
