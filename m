@@ -2,32 +2,32 @@ Return-Path: <kamel.bouhara@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55660CD11C2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ABBACCF9E3
 	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 13:15:21 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11166.1762521320577313331
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11088.1762521316345442861
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Nov 2025 05:15:20 -0800
+ Fri, 07 Nov 2025 05:15:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=bD5f07l3;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: kamel.bouhara@bootlin.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=MAva6Pp7;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: kamel.bouhara@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 1FC78C0FAA3;
-	Fri,  7 Nov 2025 13:14:58 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 064FA4E41595;
+	Fri,  7 Nov 2025 13:15:15 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4A5AB606A6;
-	Fri,  7 Nov 2025 13:15:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 32547118525C8;
-	Fri,  7 Nov 2025 14:15:18 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id CB34F606A6;
+	Fri,  7 Nov 2025 13:15:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 743D9118525BC;
+	Fri,  7 Nov 2025 14:15:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1762521318; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1762521314; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=2jr6t3PcpxQRv6UEPh0mqfnTtQs1jiTYoes/lZn7zmo=;
-	b=bD5f07l3d/OjTMp8qkAJyV0W9A7vgc5AAWHF99HQfVORz8VxahyAUdyY4vPazsQ97oinFM
-	6WfVIWAJgMWtw2uS7qCrRaOePDYcGVkNvP3hi1BnU+cvG/XrjLPz5Fjb5s6TF5RxbNu9D8
-	53kDsqtkh5LOJBNFk5nq5A0PuZPXxqBEofd1rUnDqADk4BaLiKcNx8SyWIWEzs1ana6AFu
-	sdLIu7rzet0tKbWuRM0loJRuy08gJsYv/paDSoWKIGML7y3O6CSH/L4MpSZHEpKRyPn9Gp
-	PAxaCwNjX8VWgQ7abvd3xoSHWek2QhyXAy4eo5UF+YTu7FUMU5+v2n1BKmoQoA==
+	bh=kLbJ7VqAM4fK1f8R1/G+dwV0Julxyg4eL61zgEJ2iIo=;
+	b=MAva6Pp7KYuZ0bM+prrHPJc3X/ZWye8djpYYGpj6v5B7lWM/VrNFMfriIObcUfRn7ygsYV
+	FRkj+f2OWPGdWJUIAj9+V8ojwFLypcb0dy4WDUGMEsEqYlEzSoY8mh798E44ItsMBHQZl4
+	0mIO5pK71jFqo4YkxPXqCFZfmHd/EOLffq8jKtTRRvDyYum3x1JpkQyLUGvXKsh9Z7XV0A
+	DPSgC6UL/UlCX5bkEWLNcb4Bef2fdjHMtKKcknzAIAhTm7Mw0P7aqByZvJoZLb5jl91sqx
+	QBWOFwXYKkKC4l+1yr2Wi6IADdJhsnVkJyTSosBr8pnIysGkHzieN0COgdWKdA==
 From: Kamel Bouhara <kamel.bouhara@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: JPEWhacker@gmail.com,
@@ -37,9 +37,9 @@ Cc: JPEWhacker@gmail.com,
 	antonin.godard@bootlin.com,
 	Pascal Eberhard <pascal.eberhard@se.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap v4 08/17] classes-recipe/baremetal-image: Add image file manifest
-Date: Fri,  7 Nov 2025 14:14:42 +0100
-Message-ID: <20251107131502.3857600-9-kamel.bouhara@bootlin.com>
+Subject: [scarthgap v4 04/17] classes-global/staging: Exclude do_create_spdx from automatic sysroot extension
+Date: Fri,  7 Nov 2025 14:14:38 +0100
+Message-ID: <20251107131502.3857600-5-kamel.bouhara@bootlin.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251107131502.3857600-1-kamel.bouhara@bootlin.com>
 References: <20251107131502.3857600-1-kamel.bouhara@bootlin.com>
@@ -50,94 +50,51 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 13:15:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226044
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226040
 
 From: Joshua Watt <JPEWhacker@gmail.com>
 
-Downstream tasks may want to know what image files were written so write
-out a manifest in do_image_complete. The format of the manifest is the
-same as the one in image.bbclass
+do_create_spdx is a outlier in that it doesn't need the RSS to be
+extended just because it depends on do_populate_sysroot. In fact, it
+only depends on do_populate_sysroot so it can see the actual recipes
+sysroot, and attempting to extend the sysroot can cause problems for
+some recipes (e.g. if a recipe does do_populate_sysroot[noexec] =3D "1")
+
+As such, explicitly exclude do_create_spdx from extending the sysroot
+just because it depends on do_populate_sysroot.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-recipe/baremetal-image.bbclass | 32 +++++++++++++++++++--
- 1 file changed, 29 insertions(+), 3 deletions(-)
+ meta/classes-global/staging.bbclass | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/baremetal-image.bbclass b/meta/classes-r=
-ecipe/baremetal-image.bbclass
-index b9a584351a..c29b5c0b43 100644
---- a/meta/classes-recipe/baremetal-image.bbclass
-+++ b/meta/classes-recipe/baremetal-image.bbclass
-@@ -30,6 +30,9 @@ BAREMETAL_BINNAME ?=3D "hello_baremetal_${MACHINE}"
- IMAGE_LINK_NAME ?=3D "baremetal-helloworld-image-${MACHINE}"
- IMAGE_NAME_SUFFIX ?=3D ""
+diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/st=
+aging.bbclass
+index 3678a1b441..c2213ffa2b 100644
+--- a/meta/classes-global/staging.bbclass
++++ b/meta/classes-global/staging.bbclass
+@@ -652,10 +652,17 @@ python do_prepare_recipe_sysroot () {
+ addtask do_prepare_recipe_sysroot before do_configure after do_fetch
 =20
-+IMAGE_OUTPUT_MANIFEST_DIR =3D "${WORKDIR}/deploy-image-output-manifest"
-+IMAGE_OUTPUT_MANIFEST =3D "${IMAGE_OUTPUT_MANIFEST_DIR}/manifest.json"
-+
- do_rootfs[dirs] =3D "${IMGDEPLOYDIR} ${DEPLOY_DIR_IMAGE}"
-=20
- do_image(){
-@@ -37,8 +40,28 @@ do_image(){
-     install ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf ${IMGD=
-EPLOYDIR}/${IMAGE_LINK_NAME}.elf
- }
-=20
--do_image_complete(){
--    :
-+python do_image_complete(){
-+    from pathlib import Path
-+    import json
-+
-+    data =3D {
-+        "taskname": "do_image",
-+        "imagetype": "baremetal-image",
-+        "images": []
-+    }
-+
-+    img_deploy_dir =3D Path(d.getVar("IMGDEPLOYDIR"))
-+
-+    for child in img_deploy_dir.iterdir():
-+        if not child.is_file() or child.is_symlink():
+ python staging_taskhandler() {
++    EXCLUDED_TASKS =3D (
++        "do_prepare_recipe_sysroot",
++        "do_create_spdx",
++    )
+     bbtasks =3D e.tasklist
+     for task in bbtasks:
++        if task in EXCLUDED_TASKS:
 +            continue
 +
-+        data["images"].append({
-+            "filename": child.name,
-+        })
-+
-+    with open(d.getVar("IMAGE_OUTPUT_MANIFEST"), "w") as f:
-+        json.dump([data], f)
+         deps =3D d.getVarFlag(task, "depends")
+-        if task !=3D 'do_prepare_recipe_sysroot' and (task =3D=3D "do_co=
+nfigure" or (deps and "populate_sysroot" in deps)):
++        if task =3D=3D "do_configure" or (deps and "populate_sysroot" in=
+ deps):
+             d.prependVarFlag(task, "prefuncs", "extend_recipe_sysroot ")
  }
-=20
- python do_rootfs(){
-@@ -62,6 +85,7 @@ python do_rootfs(){
-     bb.utils.mkdirhier(sysconfdir)
-=20
-     execute_pre_post_process(d, d.getVar('ROOTFS_POSTPROCESS_COMMAND'))
-+    execute_pre_post_process(d, d.getVar("ROOTFS_POSTUNINSTALL_COMMAND")=
-)
- }
-=20
-=20
-@@ -72,6 +96,8 @@ SSTATE_SKIP_CREATION:task-image-complete =3D '1'
- do_image_complete[sstate-inputdirs] =3D "${IMGDEPLOYDIR}"
- do_image_complete[sstate-outputdirs] =3D "${DEPLOY_DIR_IMAGE}"
- do_image_complete[stamp-extra-info] =3D "${MACHINE_ARCH}"
-+do_image_complete[sstate-plaindirs] +=3D "${IMAGE_OUTPUT_MANIFEST_DIR}"
-+do_image_complete[dirs] +=3D "${IMAGE_OUTPUT_MANIFEST_DIR}"
- addtask do_image_complete after do_image before do_build
-=20
- python do_image_complete_setscene () {
-@@ -140,5 +166,5 @@ python(){
-                 else:
-                     deps +=3D " %s:%s" % (dep, task)
-         return deps
--    d.appendVarFlag('do_image', 'depends', extraimage_getdepends('do_pop=
-ulate_sysroot'))=20
-+    d.appendVarFlag('do_image', 'depends', extraimage_getdepends('do_pop=
-ulate_sysroot'))
- }
+ staging_taskhandler[eventmask] =3D "bb.event.RecipeTaskPreProcess"
 --=20
 2.43.0
 
