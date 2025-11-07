@@ -1,143 +1,184 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7898BCCFA05
-	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 17:26:04 +0000 (UTC)
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4742.1762536354876030079
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2C84CCF9F8
+	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 21:16:35 +0000 (UTC)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10161.1762550191339327210
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Nov 2025 09:25:55 -0800
+ Fri, 07 Nov 2025 13:16:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UPG2+mtj;
- spf=pass (domain: gmail.com, ip: 74.125.224.53, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-63f74b43db8so990830d50.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 09:25:54 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Ppfpygm8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.174, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-71d6014810fso10365557b3.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 13:16:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762536354; x=1763141154; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762550190; x=1763154990; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Bet169TUNmc3CDXyedFjJ7QI7EmtQtpIbKVCFowXocg=;
-        b=UPG2+mtj9xhDMK/RR+/AgyXnUclra8AtfoVkhjrsMFYnVNgUavd2wCKxaHkCJvC5dq
-         Xt/zZT2SKzJd6FEgtJG5I8ZKKNl0hRysOV45NWD4oLkIU/5MExBrl8zjVFiTtKTRNTpD
-         CfwEdib9o5e12Pm04VsPlBy+DeenbmnzQjQtJ4D6hUhXOMm++HwUSKeOR08Vypy2sLSg
-         EZY1Ht57tfrhSrK4cBXgKBi0I0lJmeuhCx6+hNnzjJt68TvdfXEr7/FYlIPua5TxXVlK
-         S/8Qq4xqePNNjEuWcfEAQoecyMLAzpwD+ShQj5l6sXAdSn8Lsen0MTc/RCfO8od7Gl9i
-         P7zQ==
+        bh=9A46YdpBVanNvIWGcYKNteqVUpb21JV4HEiseEtNvWo=;
+        b=Ppfpygm8QnfeAjDXlKFsd9mub6U1VESQRZX84a463MGAANWPhIuTuU5IIukzndZ5r1
+         smp/31BTzzVidg3vO/Q1TNU/5bJirr+L1TFzUOFb9y25mGqNVfBwh63aWfLVVYewPcXZ
+         WmittCRflesiIlvu576NJIDHeAUNUAWJ45SdDQMn24s2DfIo4oB9pKaSba5UJrrBu9Xb
+         qN2scaXBPEtRMJS0P/v5gKQD3ozRfpRRcgir+cQeZz6vbtprSxPxxo4KeiM5XSo3eRDH
+         AAMETr5v2oqgzZeKySiJDTNlpzqxXUfx1gEXPIHMHRdFygafAfo+oyGkOBv8uMOjo1ZS
+         Z7Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762536354; x=1763141154;
+        d=1e100.net; s=20230601; t=1762550190; x=1763154990;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Bet169TUNmc3CDXyedFjJ7QI7EmtQtpIbKVCFowXocg=;
-        b=pW0sPYarCqTQJ0Aei8Y9WKmeEgo/Rmtmg0H3FvQb5fpVj776ERn2Kouxrgqo79/NO1
-         yeIjrTStQN495ZZrHer5LuSU0d8eY1txsioOeDDl7bTqWEcR3HfH63TqWYrHtzBiYUcC
-         ymsq0LV50SesQC7UQlQGVjofJZyOOdd6JqF0+haE22SZ0O9MoKnWgPvAi4FFqs9BWWqq
-         xNJt5C7jeF2TgBfR0FfZVeF6VpeUYD72UGMHa7upGWV5i6EpigtGIUhZfmSc62Zm9wN1
-         6vHyatwYoX4Bq8PIWmVADVW3y8po3OL67I50C/VzOu5UjKvvQbmx9QwOwtzySZNTpW9J
-         dB5w==
-X-Gm-Message-State: AOJu0YwI+WXuW9OS/ecxaczCq3++gM+MJ8zNLa9kv1O1GSA8dUN1DQ8K
-	l4IaevLg2VpDBGOf84a7x2OavDgPoAzqflXx5S8iYijVKvx0m5zw7tgAjLdG/IJ1uV3aE4PW2M6
-	2IsHxZ3AjO6ZD3gRAjlXlv8Bf0QEJ9xc=
-X-Gm-Gg: ASbGncsCI0oLeWhLaIZJFmqWkA6hdZlxaOm6ht9uoX1jxnPVy6M6hgn17ILW7dGQerG
-	TUUDiEc8PVCIOTgMHfgn8czg3UOrJWwHT8No+7RNJuAiALYKw9yINBEdTyA7fp8RZR6eCVBFkTW
-	zlPKT851RtfvL4gul5TE1m1xe6Vi+d+ZzV7kJzzSlWe6ta2EZOLrDzqncxCKtz7tI5P7BHmmrpK
-	b6VpiyHyz4hJ279YPhQMn+IIsHpouD6hEYumKTKnFj9PISenn6jC+k61+36658JTMjz2eGwLnc=
-X-Google-Smtp-Source: AGHT+IGFNVF0WbvYwUVOgGHIPxQaESYxGLYYKkpyEbPifLdlCgrvMz0IPDdLAHYKhtFiCY6E8Q2uaHA87CyTFAx2QZg=
-X-Received: by 2002:a53:c059:0:20b0:63f:b922:ed79 with SMTP id
- 956f58d0204a3-640c418d78dmr3046186d50.14.1762536353806; Fri, 07 Nov 2025
- 09:25:53 -0800 (PST)
+        bh=9A46YdpBVanNvIWGcYKNteqVUpb21JV4HEiseEtNvWo=;
+        b=kqwEtHI7Nk0K8t2QELblUkvoiGppzt7FCzOSNkCoqpYkdncfRsrznOQB4RmRY3ceaZ
+         1Wx1Ifg1JmqFCtHb5fL1UXyKVgGtyjTIglY1a8voM/rzsxTJRqFLQgC7+42pe6gntZ50
+         zdyFkEjCvHWFNcBnReGJX05M5pZJJVJaxi6+e6XL8f4I8jECwuFyjI0rRr+SDl7z98Ci
+         oHagfK9Qf4lBPQlECgcQkLTtTpSpzoWTKTmSo3AZRWiv3RI93MZiz8oZLUqZc8K7PYAP
+         8cGOwk+6MB1uoNjo6Ji9iNTZsNj5cpSi4pDX8LvTwu3mbxNdtx4tpsytI2iAmo4jTYcz
+         o9Mw==
+X-Gm-Message-State: AOJu0Yx+vpK+Bhr7guioSunuK4DJP5nxJqUc/jt71OkaNJ6jZQ7UDnAp
+	6IPscpRPyZ5aZtaJj57Yu5sz01RoCfpXdpjH6J9tiwIq/Byh6cGuhvxZvvStNYZS6e32wxx6d02
+	jfSfChXK1pWW+sLcNJd/4Ucc/sSleXmBeQ066uQ0sGQ==
+X-Gm-Gg: ASbGnct7K03MLvCMS+NzQCSdk6J/kIa7Uby0naG4YPj8ViEgdSobpksbP4UlTEwrDU6
+	/J5lnhlM8xI2WjP7vAP1iIccblDPr9d9Dye4+qUzFcs6ANlV9OkJH+jl9eop33Oh7TXXsuS6vwN
+	fXBpc3Ddka3yT5vyPQjV5Px+vyT4cXNo0jhoYEcTHW3yEeDWIPAbqe+zBgFkn2tyHGxgTGYrkcJ
+	31jRdiPzjJlN+1FfxbW3kZG/NPiFkhz10Oj0Gdm3e7TEAl2GGSpp5vxOd4h1gI8JfYEXgyHpHjk
+	hSoeJovKn8sD3FKzGtBgvjA9y+/dbi+xU9E/LQ==
+X-Google-Smtp-Source: AGHT+IEECC7z9IWPkfl84eSJC/Ti1TPyZYj/MuB/emP7e2mMyEJGuMOl29WDwTk80p6/l4fHr1JNPqU4332aWmFV1m0=
+X-Received: by 2002:a05:690e:4254:b0:63f:9796:39b7 with SMTP id
+ 956f58d0204a3-640d45d2bf9mr366151d50.49.1762550190456; Fri, 07 Nov 2025
+ 13:16:30 -0800 (PST)
 MIME-Version: 1.0
-References: <b2e867d19c02966f3e11d2c7e6b7765564587df5.camel@emlix.com>
- <CAJdd5GYSgnUtey269iGQzcoxNfB6u48QWMGsjsDYoAQCa_YNCw@mail.gmail.com> <8e5019335cf683491cb29159a2ae3e34eb3942c4.camel@emlix.com>
-In-Reply-To: <8e5019335cf683491cb29159a2ae3e34eb3942c4.camel@emlix.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 7 Nov 2025 10:25:42 -0700
-X-Gm-Features: AWmQ_bmwR7alrdeZhjuK5z3BTuB4CTCsCumEBliw3jLbBZu-bgutEQtTq4Yvx6E
-Message-ID: <CAJdd5GbX2UfEWrLs5gaYFGZK9SrHT4YxeZgTUmOyhDsrQOBprg@mail.gmail.com>
-Subject: Re: [OE-core] Thoughts on SPDX for files from meta-layer
-To: Daniel Wagenknecht <dwagenknecht@emlix.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	OpenEmbedded Architecture <openembedded-architecture@lists.openembedded.org>
+References: <20251107131502.3857600-1-kamel.bouhara@bootlin.com>
+In-Reply-To: <20251107131502.3857600-1-kamel.bouhara@bootlin.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 7 Nov 2025 13:16:20 -0800
+X-Gm-Features: AWmQ_bnCiq58hSh7JovtDNBRCWi4o6ojoj0D5KdR8OIU0bkC3XIwtJqrqQJdiUo
+Message-ID: <CAOSpxdb+gEFgEHnqoUmvzyiXy7+C7DcTgK54EEgc-BsSzv5VJw@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap v4 00/17] backport: SPDX 3.0 support to Scarthgap
+To: kamel.bouhara@bootlin.com
+Cc: openembedded-core@lists.openembedded.org, JPEWhacker@gmail.com, 
+	thomas.petazzoni@bootlin.com, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	mathieu.dubois-briand@bootlin.com, antonin.godard@bootlin.com, 
+	Pascal Eberhard <pascal.eberhard@se.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 17:26:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226063
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 21:16:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226064
 
-On Fri, Nov 7, 2025 at 6:33=E2=80=AFAM Daniel Wagenknecht
-<dwagenknecht@emlix.com> wrote:
->
-> Hello Joshua,
->
-> thanks for your remarks!
->
-> On Wed, 2025-11-05 at 09:53 -0700, Joshua Watt wrote:
-> > On Wed, Nov 5, 2025 at 7:54=E2=80=AFAM Daniel Wagenknecht via
-> >
-> > I don't think a variable to specify the public URL is going to work
-> > well; for example, if a layer is forked, it will be wrong and
-> > confusing.
-> Agreed. My intention was to get the "public" URL for a layer, even if
-> it was pulled from a fork. My naive assumption was, that this URL
-> should point to a publically reachable location, but according to the
-> SPDX documentation for the downloadLocation field it might just as well
-> be an internal URL. This simplifies it.
->
-> > Just thinking off the top of my head, a better option might
-> > be a variable that specifies the name of the git remote that should be
-> > used, and if it's not specified then the URLs are ignored?
-> > [...]
-> > which would use the "origin" remote of the oe-core git repo, and _if_
-> > the current SHA-1 of that repo (which bitbake already knows) is in
-> > that remote, then it will use that remote as the URL.
-> I like that approach! To clarify: this should not access the network
-> but work with the local view of the repo only, right?
+Unfortunately I'm still getting autobuilder errors on the oeeselftest
+runs, example below:
 
-Correct
+https://errors.yoctoproject.org/Errors/Details/887588/
 
-> I guess the local view of the remote could be out of sync (e.g.
-> something was rebased on the remote), and if a commit is not part of a
-> known branch of that remote (e.g. the commit exists in a tags history
-> only) this would also yield a NOASSERTION value.
+Steve
+
+On Fri, Nov 7, 2025 at 5:15=E2=80=AFAM Kamel Bouhara via
+lists.openembedded.org
+<kamel.bouhara=3Dbootlin.com@lists.openembedded.org> wrote:
+>
+> Hello,
+>
+> This is the v4 series to backport SPDX 3.0 support from upstream
+> Walnascar to Scarthgap (Yocto Project 5.0 LTS).
+>
+> Changes since v2:
+> -----------------
+> Cherry-picked commits:
+>
+>     c5b5136bf8: Exclude do_create_spdx from automatic sysroot extension.
+>
+>     03c6ace6c6: Fix SPDX_VERSION handling in selftests.
+>
+>     7be5a6e699: Add tar test for SPDX 2.2.
+>
+> Local fix:
+>
+>     7e14a5b966: Align DEPLOY_DIR_SPDX in create-spdx-2.2.bbclass with
+>        ${SPDX_VERSION} layout, restoring successful SPDX 2.2 selftests.
+>
+> Changes since v3:
+> -----------------
+> Cherry-picked commits:
+>
+>      29d3f8ad4: classes/create-spdx-2.2: Handle empty packages
+>
+> Greetings,
+> Kamel
+>
+> Hongxu Jia (1):
+>   oeqa/selftest: Add SPDX 3.0 include source case for work-share
+>
+> Joshua Watt (11):
+>   classes-global/license: Move functions to library code
+>   classes-global/staging: Exclude do_create_spdx from automatic sysroot
+>     extension
+>   lib/license: Move package license skip to library
+>   lib: oe: license: Add missing import
+>   classes-recipe/image: Add image file manifest
+>   classes-recipe/baremetal-image: Add image file manifest
+>   selftest: spdx: Add SPDX 3.0 test cases
+>   lib: oeqa: spdx: Add tests for extra options
+>   spdx 3.0: Rework how SPDX aliases are linked
+>   oeqa: spdx: Add tar test for SPDX 2.2
+>   classes/create-spdx-2.2: Handle empty packages
+>
+> Kamel Bouhara (Schneider Electric) (4):
+>   backport: SPDX 3.0 fixes and tasks from upstream version Walnascar
+>   spdx30_tasks: fix FetchData attribute in add_download_files
+>   classes/create-spdx-2.2: align DEPLOY_DIR_SPDX with SPDX_VERSION
+>     layout
+>   spdx30_tasks: adapt CVE handling to new cve-check API
+>
+> Richard Purdie (1):
+>   selftest/spdx: Fix for SPDX_VERSION addition
+>
+>  meta/classes-global/base.bbclass              |   41 +-
+>  meta/classes-global/license.bbclass           |  165 -
+>  meta/classes-global/staging.bbclass           |    9 +-
+>  meta/classes-recipe/baremetal-image.bbclass   |   32 +-
+>  .../create-spdx-image-3.0.bbclass             |   85 +
+>  .../create-spdx-sdk-3.0.bbclass               |   74 +
+>  meta/classes-recipe/image.bbclass             |   58 +
+>  meta/classes-recipe/license_image.bbclass     |   14 +-
+>  meta/classes-recipe/nospdx.bbclass            |   13 +
+>  meta/classes/create-spdx-2.2.bbclass          |   85 +-
+>  meta/classes/create-spdx-3.0.bbclass          |  200 +
+>  meta/classes/spdx-common.bbclass              |   99 +
+>  meta/lib/oe/__init__.py                       |    2 +-
+>  meta/lib/oe/license.py                        |  203 +
+>  meta/lib/oe/sbom30.py                         | 1096 ++++
+>  meta/lib/oe/spdx30.py                         | 5593 +++++++++++++++++
+>  meta/lib/oe/spdx30_tasks.py                   | 1343 ++++
+>  meta/lib/oe/spdx_common.py                    |  244 +
+>  meta/lib/oeqa/selftest/cases/spdx.py          |  256 +-
+>  19 files changed, 9348 insertions(+), 264 deletions(-)
+>  create mode 100644 meta/classes-recipe/create-spdx-image-3.0.bbclass
+>  create mode 100644 meta/classes-recipe/create-spdx-sdk-3.0.bbclass
+>  create mode 100644 meta/classes-recipe/nospdx.bbclass
+>  create mode 100644 meta/classes/create-spdx-3.0.bbclass
+>  create mode 100644 meta/classes/spdx-common.bbclass
+>  create mode 100644 meta/lib/oe/sbom30.py
+>  create mode 100644 meta/lib/oe/spdx30.py
+>  create mode 100644 meta/lib/oe/spdx30_tasks.py
+>  create mode 100644 meta/lib/oe/spdx_common.py
+>
+> --
+> 2.43.0
 >
 >
-> >  In this way, if
-> > you fork you can choose to use your own remote, or for example pull in
-> > upstream oe-core as an "upstream" remote and use that.
-> >
-> > I'm not entirely sold the above description is the best path, so maybe
-> > we can let others chime in.
-> Developing the thought further I think it would be fine to default to
-> using the git origin remote as default and allow adapting it per layer.
-> I'd then introduce an
->    SPDX_REQUIRE_META_LAYER_ASSERTION
-> (or similarly named) variabel to promote unasserted values (like layer
-> dirty) to build failure.
-
-I'd start with NOASSERTION. You can always post-process the SPDX to
-check for NOASSERTION after the build finishes if that's something you
-care about; then we can separate the discussion about whether that
-should be a build failure for later. I suspect many users will have
-different QA tests they can perform by post-processing the SPDX, which
-would remove the burden of needing to make builds fatal for everyone's
-specific (QA) use case.
-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#226036): https://lists.openembedded.org/g/openembedde=
+d-core/message/226036
+> Mute This Topic: https://lists.openembedded.org/mt/116169967/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
-> > I do think that we will want a way to
-> > solve this, as we have also talked about including the information
-> > about the layer itself into the SPDX, so this is more or less an
-> > extension of that
-> Yes, small steps. Working out how to refer to a layer to construct
-> downloadLocations for individual files is only a first step, creating
-> SPDXRef-Download-meta-layer entries for layers and refering to them
-> would be a logical improvement.
-> >
-> >
-> >
-> Sincerely
-> Daniel
 
