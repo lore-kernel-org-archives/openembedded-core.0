@@ -1,121 +1,141 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <kamel.bouhara@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A96E2CCF9F8
-	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 11:51:40 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9482.1762516291599354005
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25150CCFA05
+	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 13:15:11 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11161.1762521308832832664
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Nov 2025 03:51:32 -0800
+ Fri, 07 Nov 2025 05:15:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=plgun4JJ;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=fail reason="dkim: signature did not verify: crypto/rsa: verification error" header.i=@bootlin.com header.s=dkim header.b=sHF3RrFP;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: kamel.bouhara@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id E16004E41595
-	for <openembedded-core@lists.openembedded.org>; Fri,  7 Nov 2025 11:51:29 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id ABCEE1A1921;
+	Fri,  7 Nov 2025 13:15:06 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id A878F606A6;
-	Fri,  7 Nov 2025 11:51:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2321611852424;
-	Fri,  7 Nov 2025 12:51:27 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 81680606A6;
+	Fri,  7 Nov 2025 13:15:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C499411851D00;
+	Fri,  7 Nov 2025 14:15:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1762516289; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=aLO3D6Cq649NXU/DAxj2xvk8VZmIpUWU2fMWZlZH5tU=;
-	b=plgun4JJUJmBOXbaoGCrLQYMKwv8XiQUqX5qj/6Maram5Ce1pOGNfT25uI0+t/18FIc1Dy
-	f0adG43NhfR3fejVMYjZ57+6UiosA/qoHPktgJLPTXXoasFkQRSaKkrsoitLeBNyIRUSL7
-	MI/bCXwb4GtwHy8xNW5iST/gDiUUdUcD7mGZWs7uweVBe2zLDjait69hngnRWPMmsbivgX
-	bJedQyqF5OXlIi4ezb3+rc9dEMLp+fVImmvKeRs7ZWEh/Lb23A2P830GqR0hwKe/kJbEk/
-	y94TkG5p+ZxHe696NOs2uoYLLZdlWjqlB4um46hF+ZiCeXF55txTP9QbX1d2qw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 07 Nov 2025 12:51:27 +0100
-Message-Id: <DE2FVODBMUDF.2XW0SJDUUG1HA@bootlin.com>
-Subject: Re: [OE-core] [PATCH 06/29] dnf: upgrade 4.23.0 -> 4.24.0
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <wangmy@fujitsu.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20251105234712.446-1-wangmy@fujitsu.com>
- <20251105234712.446-6-wangmy@fujitsu.com>
-In-Reply-To: <20251105234712.446-6-wangmy@fujitsu.com>
+	t=1762521305; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=JymAE4UZFwfEE2VocIDwpxAi098hyKM8DAOpX3IpKSQ=;
+	b=sHF3RrFPs01C+Obhs0ddj7wKe59GqfaZ6WEc1IuGqGPV8JuE0aG6Z9k2n+XmlTUPhJJJGa
+	Y38ghn0rAPUP2GPIYphiYKqd5h3r4xC1V/CfrhqxYphDU1uqmlwOfYLfqtMXNoelZYmt05
+	wnHYqD/0yMcZCs+gliCfwzAOfs1lEgXXVCetpVX16RcePF2kDa6Ip2Mp4kTs+lpYuMuOik
+	K4JQSlBC/5SLrNAcB87vwulTit0uD3DTcNfTew1Egya7Anz6x0DlEYpxTXH4rmd9AvB+b9
+	7CJbcEC/x7nNjaKwrHJmlf06GdjxMmosOtHwgYS+3aFCKFqvJ9RdIaGLu2imTg==
+From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+To: openembedded-core@lists.openembedded.org
+Cc: JPEWhacker@gmail.com,
+	thomas.petazzoni@bootlin.com,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	mathieu.dubois-briand@bootlin.com,
+	antonin.godard@bootlin.com,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>
+Subject: [scarthgap v4 00/17] backport: SPDX 3.0 support to Scarthgap
+Date: Fri,  7 Nov 2025 14:14:34 +0100
+Message-ID: <20251107131502.3857600-1-kamel.bouhara@bootlin.com>
+X-Mailer: git-send-email 2.51.0
+MIME-Version: 1.0
 X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 11:51:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226035
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 13:15:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226036
 
-On Thu Nov 6, 2025 at 12:46 AM CET, wangmy via lists.openembedded.org wrote=
-:
-> From: Wang Mingyu <wangmy@fujitsu.com>
->
-> 0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-> refreshed for 4.24.0
->
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
+Hello,
 
-Hi Wang,
+This is the v4 series to backport SPDX 3.0 support from upstream
+Walnascar to Scarthgap (Yocto Project 5.0 LTS).
 
-Thanks for the update.
+Changes since v2:
+-----------------
+Cherry-picked commits:
 
-It look likes this is breaking dnf while generating images:
+    c5b5136bf8: Exclude do_create_spdx from automatic sysroot extension.
 
-ERROR: core-image-minimal-1.0-r0 do_rootfs: Could not invoke dnf. Command '=
-/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/genericx86_6=
-4-poky-linux/core-image-minimal/1.0/recipe-sysroot-native/usr/bin/dnf -v --=
-rpmverbosity=3Dinfo -y -c /srv/pokybuild/yocto-worker/genericx86-64/build/b=
-uild/tmp/work/genericx86_64-poky-linux/core-image-minimal/1.0/rootfs/etc/dn=
-f/dnf.conf --setopt=3Dreposdir=3D/srv/pokybuild/yocto-worker/genericx86-64/=
-build/build/tmp/work/genericx86_64-poky-linux/core-image-minimal/1.0/rootfs=
-/etc/yum.repos.d --installroot=3D/srv/pokybuild/yocto-worker/genericx86-64/=
-build/build/tmp/work/genericx86_64-poky-linux/core-image-minimal/1.0/rootfs=
- --setopt=3Dlogdir=3D/srv/pokybuild/yocto-worker/genericx86-64/build/build/=
-tmp/work/genericx86_64-poky-linux/core-image-minimal/1.0/temp --repofrompat=
-h=3Doe-repo,/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/=
-genericx86_64-poky-linux/core-image-minimal/1.0/oe-rootfs-repo makecache --=
-refresh' returned 1:
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/gene=
-ricx86_64-poky-linux/core-image-minimal/1.0/recipe-sysroot-native/usr/bin/d=
-nf.real", line 56, in <module>
-    from dnf.cli import main
-  File "/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/gene=
-ricx86_64-poky-linux/core-image-minimal/1.0/recipe-sysroot-native/usr/lib/p=
-ython3.13/site-packages/dnf/__init__.py", line 30, in <module>
-    import dnf.base
-  File "/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/gene=
-ricx86_64-poky-linux/core-image-minimal/1.0/recipe-sysroot-native/usr/lib/p=
-ython3.13/site-packages/dnf/base.py", line 35, in <module>
-    from dnf.db.history import SwdbInterface
-  File "/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/gene=
-ricx86_64-poky-linux/core-image-minimal/1.0/recipe-sysroot-native/usr/lib/p=
-ython3.13/site-packages/dnf/db/history.py", line 287, in <module>
-    class SwdbInterface(object):
-    ...<243 lines>...
-            return result
-  File "/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/gene=
-ricx86_64-poky-linux/core-image-minimal/1.0/recipe-sysroot-native/usr/lib/p=
-ython3.13/site-packages/dnf/db/history.py", line 430, in SwdbInterface
-    persistence=3Dlibdnf.transaction.TransactionPersistence_UNKNOWN):
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AttributeError: module 'libdnf.transaction' has no attribute 'TransactionPe=
-rsistence_UNKNOWN'. Did you mean: 'TransactionItemState_UNKNOWN'?
+    03c6ace6c6: Fix SPDX_VERSION handling in selftests.
 
+    7be5a6e699: Add tar test for SPDX 2.2.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/2699
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/2745
+Local fix:
 
-Can you have a look at this error?
+    7e14a5b966: Align DEPLOY_DIR_SPDX in create-spdx-2.2.bbclass with
+       ${SPDX_VERSION} layout, restoring successful SPDX 2.2 selftests.
 
-Thanks,
-Mathieu
+Changes since v3:
+-----------------
+Cherry-picked commits:
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+     29d3f8ad4: classes/create-spdx-2.2: Handle empty packages
+
+Greetings,
+Kamel
+
+Hongxu Jia (1):
+  oeqa/selftest: Add SPDX 3.0 include source case for work-share
+
+Joshua Watt (11):
+  classes-global/license: Move functions to library code
+  classes-global/staging: Exclude do_create_spdx from automatic sysroot
+    extension
+  lib/license: Move package license skip to library
+  lib: oe: license: Add missing import
+  classes-recipe/image: Add image file manifest
+  classes-recipe/baremetal-image: Add image file manifest
+  selftest: spdx: Add SPDX 3.0 test cases
+  lib: oeqa: spdx: Add tests for extra options
+  spdx 3.0: Rework how SPDX aliases are linked
+  oeqa: spdx: Add tar test for SPDX 2.2
+  classes/create-spdx-2.2: Handle empty packages
+
+Kamel Bouhara (Schneider Electric) (4):
+  backport: SPDX 3.0 fixes and tasks from upstream version Walnascar
+  spdx30_tasks: fix FetchData attribute in add_download_files
+  classes/create-spdx-2.2: align DEPLOY_DIR_SPDX with SPDX_VERSION
+    layout
+  spdx30_tasks: adapt CVE handling to new cve-check API
+
+Richard Purdie (1):
+  selftest/spdx: Fix for SPDX_VERSION addition
+
+ meta/classes-global/base.bbclass              |   41 +-
+ meta/classes-global/license.bbclass           |  165 -
+ meta/classes-global/staging.bbclass           |    9 +-
+ meta/classes-recipe/baremetal-image.bbclass   |   32 +-
+ .../create-spdx-image-3.0.bbclass             |   85 +
+ .../create-spdx-sdk-3.0.bbclass               |   74 +
+ meta/classes-recipe/image.bbclass             |   58 +
+ meta/classes-recipe/license_image.bbclass     |   14 +-
+ meta/classes-recipe/nospdx.bbclass            |   13 +
+ meta/classes/create-spdx-2.2.bbclass          |   85 +-
+ meta/classes/create-spdx-3.0.bbclass          |  200 +
+ meta/classes/spdx-common.bbclass              |   99 +
+ meta/lib/oe/__init__.py                       |    2 +-
+ meta/lib/oe/license.py                        |  203 +
+ meta/lib/oe/sbom30.py                         | 1096 ++++
+ meta/lib/oe/spdx30.py                         | 5593 +++++++++++++++++
+ meta/lib/oe/spdx30_tasks.py                   | 1343 ++++
+ meta/lib/oe/spdx_common.py                    |  244 +
+ meta/lib/oeqa/selftest/cases/spdx.py          |  256 +-
+ 19 files changed, 9348 insertions(+), 264 deletions(-)
+ create mode 100644 meta/classes-recipe/create-spdx-image-3.0.bbclass
+ create mode 100644 meta/classes-recipe/create-spdx-sdk-3.0.bbclass
+ create mode 100644 meta/classes-recipe/nospdx.bbclass
+ create mode 100644 meta/classes/create-spdx-3.0.bbclass
+ create mode 100644 meta/classes/spdx-common.bbclass
+ create mode 100644 meta/lib/oe/sbom30.py
+ create mode 100644 meta/lib/oe/spdx30.py
+ create mode 100644 meta/lib/oe/spdx30_tasks.py
+ create mode 100644 meta/lib/oe/spdx_common.py
+
+--
+2.43.0
 
 
