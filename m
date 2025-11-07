@@ -1,102 +1,99 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <nmjain23@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 796AECCFA05
-	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 10:24:29 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8291.1762511065375775763
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2698CCF9F8
+	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 10:55:59 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8632.1762512952918669724
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Nov 2025 02:24:25 -0800
+ Fri, 07 Nov 2025 02:55:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=en30hGWs;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4710665e7deso2437735e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 02:24:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gRrMiOOk;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: nmjain23@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b9ab6cdf64bso274214a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 02:55:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1762511063; x=1763115863; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pcYpJssuYG5XRrXvpHCGmPgQbIFOn2h8NZvYLyJUfTs=;
-        b=en30hGWsEcGkgxwYUaXWTtSiaprREyJbWJz1/fmCghYKvac7WTxOEof+UwWb59ATSG
-         ZhFwyYhpX6InYBTb5VkkI72D67LAeQWkqKl7n0siH0funJlgxg3GSOaYlwVudj51qG+c
-         eeFFiz6WF3P3nJg2WOmx3QtWcrYrdGtX/YhoQ=
+        d=gmail.com; s=20230601; t=1762512952; x=1763117752; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gqbswwM5mBJeFO8vPGEEehNIWO/sQOo6l6IBLKnd7qc=;
+        b=gRrMiOOkWLtvU7AktJ5kULVEWH1+1nVFv4C7yyBVxxuTUzSIvkrnQwxDNMafN5S8aN
+         pszpsFAmwZYTYj78NEsNsHBnniqRvnrIllBK4s1z2/WDHktkxQvAIUFdM+uMQCtw+Tml
+         1ybTrH9N84cdkczzW57PwVpwmRR+S3GKtpAF2RNINUlIVH+tlskHea8YfZ+eUHlPMhPW
+         y8WPrBUnrH8zFrpTym7C11rXaNIGGrD6YYAGxatv6hb6V3EZAzr7xLy+2YjCteoTyP0P
+         qY5R6SGOjkW0/KxU+SgW2JbRFdh+GC42C06LwTM4Z5I4ZA4vbNKm6FtMCpalHOoBhb04
+         i6VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762511063; x=1763115863;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pcYpJssuYG5XRrXvpHCGmPgQbIFOn2h8NZvYLyJUfTs=;
-        b=w4XYn3mAWUtpvTrxXEpqXDYHVJFw7j8s3WPmWrv71/6v+3uV3w1p3GnPt0jMRQa39B
-         U9RnaI45+LUC478T14GKPTve+RLH8tUPLDlVRoR1u/3KaW33VJOmH9i3z4bUDTC35AXy
-         DK0/CrFxX4MD5CKjFomE7gaxWZgy1/bxcEXMPmg3L7YKdr2+Id6CIAXXZ56VPmJGaa5z
-         R/K8CjiU5HY4T7fwwiK5vJrzuJkOy0KbY4sE8lYnNPWS4IwtD2RIvO9AH4HSOcXtXByH
-         7JGHysPQtUT/nqR9IEUowZYCgIwUwF1bqNpoaEX66z0SrvZpuDfpNVrS47WSt02BqKmP
-         kUPw==
-X-Gm-Message-State: AOJu0YzJ7LNsue09u0WRFPJcQw2mwyeBAW42gFsYpa3r22iNSRNorye8
-	TRK81kxJUwJkLeoq86qlHsHQhJo3Tvp2XYlWSWqvwYVmmmMnglM2QVqOnAgeVCzx9Ln8xovUpQ1
-	OZHal
-X-Gm-Gg: ASbGnct3bKiqpkDjbrnIxG24aVzSmAQphmF/FkGfTf8wosNwL59tmMOBEmoCG2GFOvR
-	cY5KiKZtkdSUIEmo+GO7+oIy1zyootcKDs6Toe8+wtiO4WGKjQfYHZmsDY7oV2oGivDLTZqj0ub
-	GNs4yh92MzGP6LdXUWhccrg4+7i3yOtgAyPUQFuruEEYkZWPjbrU7qf48KXNFcBWSNK/2qDF5IL
-	mf8mRpUB68ES/IM/dYEwNksVpiQ5pRD1wuk2mUmmqQIzhnybZqkGhyCkJ8lIKUy+Z3JmmLIKvL9
-	1dpvsrxUQ6mDrvujcvmf+N62PJuqgLdIYFDNWDbob2gf775Tj3anCQhnRMRWRt60oyQNIAJEO0r
-	1nb5g5w1o6inUDgUBmQpXIWpjyCeJT2BR+pdc7bXFsf7O+X5XlUYJ4l2phJyXUgPyJZP+xAYoGc
-	7esTFe3AP0ePaJvmsKO3nzrwoYeGF1
-X-Google-Smtp-Source: AGHT+IEbnTuCcdB16HxBLzvZmueZLEQPIlsm2KElOeHfaz3Bf9qSoQi8kjgkxcIKkU/wY77ox5rrxg==
-X-Received: by 2002:a05:600c:1f94:b0:456:1a69:94fa with SMTP id 5b1f17b1804b1-4776bcae60fmr20985975e9.13.1762511063297;
-        Fri, 07 Nov 2025 02:24:23 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:aeb7:f903:75cb:8c09])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4776bcd521fsm47557715e9.6.2025.11.07.02.24.22
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1762512952; x=1763117752;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gqbswwM5mBJeFO8vPGEEehNIWO/sQOo6l6IBLKnd7qc=;
+        b=OTyeP54pBoLpT9/UxrLDzQjKIuj7x0Oyi2fVpZ/8Re6WPVxBwYicC020hzfXjtmE4N
+         xfa7yEMAQ6kQ3eHhO0nFWAVqZk6erke22J5RJ2Bg4bRw4kYIKzGbSr1eESZFvZ2DjGu2
+         U6SdXpvM29lVtrkvkGwZpzTZVoU046y8wkUfcKItzLWAZj0HhfMM/pbImqeJX9ENgsSK
+         20ch8XA9cOuSWrGSa217xUhL5fG35E7SnHcrJfXlH+hFWluAK0RmuvSau/aqhnZWHkA1
+         ydMLp8ZKsBk9QFbQmlsHhSuIQvM1XvbX7Dya9Y37YKjyscrWBl2U+GbRAgekXJhR2O0m
+         0Ylw==
+X-Gm-Message-State: AOJu0YwiaeM1wqFKw4qZIHfs2FYvNwSiwaXqX23Ozeou6ofa2l8cTnJc
+	EsOWlTeOtxkMUKTorIf11FHfkPEJS59IMrwxxCTeE0LnRiZAcd0BPChPQNLaTkIw
+X-Gm-Gg: ASbGncuTuvyEu3/MxF4SGKSLFSQ38INS9nflQjHA8VJhbpy4V5WJFwinX54579IrE5F
+	S054wTknFzePggoU1y1FtDHXUhIYNb/iOpYeHYcIJNfORAp3l7ZDonjGwPVEFAy0dlm5f86e5ga
+	OtzlzTM1mpnks6Onvj2faofrommA/GyH19i7OyngWAuDYxueP1W6BqyBIfpOTt/RSGGRl65hL9q
+	Vl32CW+Y10D3nTgDPXNJ3aCuFH76BPydJ766sFNEgAUwh2pcRW5cTqT4UfuMRB3Mj/+i71us5Yv
+	OzYcKfSZvN/Gbn8Ci+NN/2PiSzgrE0zOuJzf1sd9wqy36aMlG8mXBx+stbPcDMA93MFc1l2n7AM
+	Zerxl1hbG+nq94l2ZqS/rbmPR+njWQ+ZzJFwA17O0GeplYadgj5m60AsjqSIZKVoINMJbWE+3vA
+	XeQZWy2MzCKaj4GB1w
+X-Google-Smtp-Source: AGHT+IGixjUR8OD4CBr7mdi1kkig6ZicWAouKg9q7YGUibBZDhRC6Hb+ayrnE1rwR7/nDBUedOE9Mg==
+X-Received: by 2002:a17:903:48f:b0:267:8b4f:df36 with SMTP id d9443c01a7336-297c97dea7bmr11549455ad.29.1762512951741;
+        Fri, 07 Nov 2025 02:55:51 -0800 (PST)
+Received: from LL-3450LLL.kpit.com ([103.133.67.152])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0c953e791sm2653259b3a.7.2025.11.07.02.55.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Nov 2025 02:24:22 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Fri, 07 Nov 2025 02:55:51 -0800 (PST)
+From: Naman Jain <nmjain23@gmail.com>
+X-Google-Original-From: Naman Jain <namanj1@kpit.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] meta/files/bitbake-setup.schema.json: correct bb-layers definitions
-Date: Fri,  7 Nov 2025 10:24:21 +0000
-Message-ID: <20251107102421.1615976-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
+Cc: Saquib Iltaf <saquib.iltaf@kpit.com>
+Subject: [PATCH] rust-cross-canadian: Ignore CVE-2024-43402
+Date: Fri,  7 Nov 2025 16:25:21 +0530
+Message-Id: <20251107105521.89956-1-namanj1@kpit.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 10:24:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226031
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 10:55:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226032
 
-- improve bb-layers property description
-- add bb-layers-file-relative property
+From: Saquib Iltaf <saquib.iltaf@kpit.com>
 
-The rationale is that both properties are relative to their respective directories
-and that should be documented and clear from their names (without being too verbose).
+Ignore CVE-2024-43402 as its not applicable.
 
-Based on a patch from Alexander Kanavin <alex@linutronix.de> but with
-updated naming.
+CVEs are specific to Microsoft Windows.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Saquib Iltaf <saquib.iltaf@kpit.com>
 ---
- meta/files/bitbake-setup.schema.json | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ recipes-devtools/rust/rust-cross-canadian.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/files/bitbake-setup.schema.json b/meta/files/bitbake-setup.schema.json
-index 5101b0de53e..7030f1d6d55 100644
---- a/meta/files/bitbake-setup.schema.json
-+++ b/meta/files/bitbake-setup.schema.json
-@@ -39,7 +39,14 @@
-                             },
-                             "bb-layers": {
-                                 "type": "array",
--                                "description": "List of BitBake layers to include",
-+                                "description": "List of BitBake layer paths to include, relative to the layers download directory",
-+                                "items": {
-+                                    "type": "string"
-+                                }
-+                            },
-+                            "bb-layers-file-relative": {
-+                                "type": "array",
-+                                "description": "List of BitBake layers paths to include, relative to the directory with the configuration file",
-                                 "items": {
-                                     "type": "string"
-                                 }
+diff --git a/recipes-devtools/rust/rust-cross-canadian.inc b/recipes-devtools/rust/rust-cross-canadian.inc
+index 4478a7e..8e728ef 100644
+--- a/recipes-devtools/rust/rust-cross-canadian.inc
++++ b/recipes-devtools/rust/rust-cross-canadian.inc
+@@ -15,6 +15,9 @@ SRC_URI += "file://target-rust-ccld.c"
+ LIC_FILES_CHKSUM = "file://target-rust-ccld.c;md5=af4e0e29f81a34cffe05aa07c89e93e9;endline=7"
+ S = "${WORKDIR}"
+ 
++# These CVEs are specific to Microsoft Windows
++CVE_CHECK_IGNORE += "CVE-2024-43402"
++
+ # Need to use our SDK's sh here, see #14878
+ create_sdk_wrapper () {
+         file="$1"
+-- 
+2.34.1
+
 
