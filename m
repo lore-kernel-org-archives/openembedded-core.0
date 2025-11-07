@@ -2,32 +2,32 @@ Return-Path: <kamel.bouhara@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A04ACCFA1E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57576CD1292
 	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 13:15:21 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11164.1762521317456358201
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11094.1762521319579885825
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Nov 2025 05:15:17 -0800
+ Fri, 07 Nov 2025 05:15:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=ZXoMEc9m;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: kamel.bouhara@bootlin.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=qek/ETVj;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: kamel.bouhara@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 2061C4E41596;
-	Fri,  7 Nov 2025 13:15:16 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 3D3951A1922;
+	Fri,  7 Nov 2025 13:15:18 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EA90F606A6;
-	Fri,  7 Nov 2025 13:15:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B6D4C118525BE;
-	Fri,  7 Nov 2025 14:15:14 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 149ED606A6;
+	Fri,  7 Nov 2025 13:15:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2A803118525C6;
+	Fri,  7 Nov 2025 14:15:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1762521315; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1762521317; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=J/TyRsPT5ieDRSNkvUoS227D+G6Ssyasp8n03WfOzR0=;
-	b=ZXoMEc9mlyW63cdrdYmdLtsI8YFG7ElZGJbBAnHhPkjOH9WF0/0++HAmuwsxDuPf+xfJDL
-	qkjAMl1U26lT2TdvS6ItLyqurG7e7h8EPNAcZQ8+0Vem4Qx+8CZ4PJf47wpnGtqxVIu5pK
-	+s3PPyktZ8dcDeSSKpNqd6vgWrRtXoXiBwJN1sSSMSy2i0PTEQ9g7dcNWOxHYTaokFp6JY
-	TT2ArRdwr8oJK4+wwiq1Gf5nCSWkc+p55AXC5UL+SjWzhsBKUiU/Yv4aq6dVf0VhCsL5Ny
-	7X027JoSHVhd+fvp9l97Ql8slyu+JU5HPWPD/458b0Z8IJ3+6HxJzjm5yUhtqA==
+	bh=cDcLsWdl2ctlBwyENQRFJEmbGbYDkmsxCk7c3zhXFPc=;
+	b=qek/ETVjfjn+4CHesUgu4mDGaVv+P/BLs6ERTZjxZhE9okxBSCH0TnMb1oLEmeoF167wd9
+	sp2qn2KA/RSqh14oIa9lhwHPVcf6PdhnVhyt5ryGthf5edt0EiG58jjuyoxrwD7AesseTH
+	j0MBvCrFE+xen0z3ydjEgEApw4Jw7Om0dyzyVctcYuBojlLt0xLKWU0blTu+6sRI45NC5u
+	JSbXFBve3xpDOwR89FuHQ5b8JOdYelZ2FlSf/6ICFmWX5Ym2FibPaQ9xFpF4Y11GTi+aAK
+	B33US5W70jaEyKvwUu6auoQZ4QW3zHzuLYP/2TT+dYpuJbDWPYfCYgWuYYoqTA==
 From: Kamel Bouhara <kamel.bouhara@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: JPEWhacker@gmail.com,
@@ -37,9 +37,9 @@ Cc: JPEWhacker@gmail.com,
 	antonin.godard@bootlin.com,
 	Pascal Eberhard <pascal.eberhard@se.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap v4 05/17] lib/license: Move package license skip to library
-Date: Fri,  7 Nov 2025 14:14:39 +0100
-Message-ID: <20251107131502.3857600-6-kamel.bouhara@bootlin.com>
+Subject: [scarthgap v4 07/17] classes-recipe/image: Add image file manifest
+Date: Fri,  7 Nov 2025 14:14:41 +0100
+Message-ID: <20251107131502.3857600-8-kamel.bouhara@bootlin.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251107131502.3857600-1-kamel.bouhara@bootlin.com>
 References: <20251107131502.3857600-1-kamel.bouhara@bootlin.com>
@@ -50,130 +50,145 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 13:15:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226041
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226043
 
 From: Joshua Watt <JPEWhacker@gmail.com>
 
-Moves the code that skips packages with incompatible licenses to the
-library code so that it can be called in other locations
+Downstream tasks may want to know what image files were written by the
+do_image family of tasks (e.g. SPDX) so have each task write out a
+manifest file that describes the files it produced, then aggregate them
+in do_image_complete
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 86eb409e3c1b30110869ec5a0027ae2d48bbfe7f)
+(cherry picked from commit 5e55ed4c5b9d5af3c96b82805af34af1512fc3d1)
 ---
- meta/classes-global/base.bbclass | 35 ++++------------------------
- meta/lib/oe/license.py           | 39 ++++++++++++++++++++++++++++++++
- 2 files changed, 43 insertions(+), 31 deletions(-)
+ meta/classes-recipe/image.bbclass | 58 +++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.=
-bbclass
-index f764f3ee2f..ecf0fd711f 100644
---- a/meta/classes-global/base.bbclass
-+++ b/meta/classes-global/base.bbclass
-@@ -565,37 +565,10 @@ python () {
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/imag=
+e.bbclass
+index 1f0ee1861e..00f1d58f23 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -88,6 +88,11 @@ PACKAGE_INSTALL_ATTEMPTONLY ?=3D "${FEATURE_INSTALL_OP=
+TIONAL}"
 =20
-         bad_licenses =3D (d.getVar('INCOMPATIBLE_LICENSE') or "").split(=
-)
+ IMGDEPLOYDIR =3D "${WORKDIR}/deploy-${PN}-image-complete"
 =20
--        check_license =3D False if pn.startswith("nativesdk-") else True
--        for t in ["-native", "-cross-${TARGET_ARCH}", "-cross-initial-${=
-TARGET_ARCH}",
--              "-crosssdk-${SDK_SYS}", "-crosssdk-initial-${SDK_SYS}",
--              "-cross-canadian-${TRANSLATED_TARGET_ARCH}"]:
--            if pn.endswith(d.expand(t)):
--                check_license =3D False
--        if pn.startswith("gcc-source-"):
--            check_license =3D False
--
--        if check_license and bad_licenses:
--            bad_licenses =3D oe.license.expand_wildcard_licenses(d, bad_=
-licenses)
--
--            exceptions =3D (d.getVar("INCOMPATIBLE_LICENSE_EXCEPTIONS") =
-or "").split()
--
--            for lic_exception in exceptions:
--                if ":" in lic_exception:
--                    lic_exception =3D lic_exception.split(":")[1]
--                if lic_exception in oe.license.obsolete_license_list():
--                    bb.fatal("Obsolete license %s used in INCOMPATIBLE_L=
-ICENSE_EXCEPTIONS" % lic_exception)
--
--            pkgs =3D d.getVar('PACKAGES').split()
--            skipped_pkgs =3D {}
--            unskipped_pkgs =3D []
--            for pkg in pkgs:
--                remaining_bad_licenses =3D oe.license.apply_pkg_license_=
-exception(pkg, bad_licenses, exceptions)
--
--                incompatible_lic =3D oe.license.incompatible_license(d, =
-remaining_bad_licenses, pkg)
--                if incompatible_lic:
--                    skipped_pkgs[pkg] =3D incompatible_lic
--                else:
--                    unskipped_pkgs.append(pkg)
-+        pkgs =3D d.getVar('PACKAGES').split()
-+        if pkgs:
-+            skipped_pkgs =3D oe.license.skip_incompatible_package_licens=
-es(d, pkgs)
-+            unskipped_pkgs =3D [p for p in pkgs if p not in skipped_pkgs=
-]
++IMGMANIFESTDIR =3D "${WORKDIR}/image-task-manifest"
++
++IMAGE_OUTPUT_MANIFEST_DIR =3D "${WORKDIR}/deploy-image-output-manifest"
++IMAGE_OUTPUT_MANIFEST =3D "${IMAGE_OUTPUT_MANIFEST_DIR}/manifest.json"
++
+ # Images are generally built explicitly, do not need to be part of world=
+.
+ EXCLUDE_FROM_WORLD =3D "1"
 =20
-             if unskipped_pkgs:
-                 for pkg in skipped_pkgs:
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index 83c2e47766..c1ae103b54 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -422,3 +422,42 @@ def check_license_format(d):
-                     '%s: LICENSE value "%s" has an invalid separator "%s=
-" that is not ' \
-                     'in the valid list of separators (%s)' %
-                     (pn, licenses, element, license_operator_chars), d)
+@@ -277,14 +282,28 @@ fakeroot python do_image () {
+     execute_pre_post_process(d, pre_process_cmds)
+ }
+ do_image[dirs] =3D "${TOPDIR}"
++do_image[cleandirs] +=3D "${IMGMANIFESTDIR}"
+ addtask do_image after do_rootfs
+=20
+ fakeroot python do_image_complete () {
+     from oe.utils import execute_pre_post_process
++    from pathlib import Path
++    import json
+=20
+     post_process_cmds =3D d.getVar("IMAGE_POSTPROCESS_COMMAND")
+=20
+     execute_pre_post_process(d, post_process_cmds)
 +
-+def skip_incompatible_package_licenses(d, pkgs):
-+    if not pkgs:
-+        return {}
++    image_manifest_dir =3D Path(d.getVar('IMGMANIFESTDIR'))
 +
-+    pn =3D d.getVar("PN")
++    data =3D []
 +
-+    check_license =3D False if pn.startswith("nativesdk-") else True
-+    for t in ["-native", "-cross-${TARGET_ARCH}", "-cross-initial-${TARG=
-ET_ARCH}",
-+            "-crosssdk-${SDK_SYS}", "-crosssdk-initial-${SDK_SYS}",
-+            "-cross-canadian-${TRANSLATED_TARGET_ARCH}"]:
-+        if pn.endswith(d.expand(t)):
-+            check_license =3D False
-+    if pn.startswith("gcc-source-"):
-+        check_license =3D False
++    for manifest_path in image_manifest_dir.glob("*.json"):
++        with manifest_path.open("r") as f:
++            data.extend(json.load(f))
 +
-+    bad_licenses =3D (d.getVar('INCOMPATIBLE_LICENSE') or "").split()
-+    if not check_license or not bad_licenses:
-+        return {}
++    with open(d.getVar("IMAGE_OUTPUT_MANIFEST"), "w") as f:
++        json.dump(data, f)
+ }
+ do_image_complete[dirs] =3D "${TOPDIR}"
+ SSTATETASKS +=3D "do_image_complete"
+@@ -292,6 +311,8 @@ SSTATE_SKIP_CREATION:task-image-complete =3D '1'
+ do_image_complete[sstate-inputdirs] =3D "${IMGDEPLOYDIR}"
+ do_image_complete[sstate-outputdirs] =3D "${DEPLOY_DIR_IMAGE}"
+ do_image_complete[stamp-extra-info] =3D "${MACHINE_ARCH}"
++do_image_complete[sstate-plaindirs] +=3D "${IMAGE_OUTPUT_MANIFEST_DIR}"
++do_image_complete[dirs] +=3D "${IMAGE_OUTPUT_MANIFEST_DIR}"
+ addtask do_image_complete after do_image before do_build
+ python do_image_complete_setscene () {
+     sstate_setscene(d)
+@@ -501,12 +522,14 @@ python () {
+         d.setVar(task, '\n'.join(cmds))
+         d.setVarFlag(task, 'func', '1')
+         d.setVarFlag(task, 'fakeroot', '1')
++        d.setVarFlag(task, 'imagetype', t)
+=20
+         d.appendVarFlag(task, 'prefuncs', ' ' + debug + ' set_image_size=
+')
+         d.prependVarFlag(task, 'postfuncs', 'create_symlinks ')
+         d.appendVarFlag(task, 'subimages', ' ' + ' '.join(subimages))
+         d.appendVarFlag(task, 'vardeps', ' ' + ' '.join(vardeps))
+         d.appendVarFlag(task, 'vardepsexclude', ' DATETIME DATE ' + ' '.=
+join(vardepsexclude))
++        d.appendVarFlag(task, 'postfuncs', ' write_image_output_manifest=
+')
+=20
+         bb.debug(2, "Adding task %s before %s, after %s" % (task, 'do_im=
+age_complete', after))
+         bb.build.addtask(task, 'do_image_complete', after, d)
+@@ -604,6 +627,41 @@ python create_symlinks() {
+             bb.note("Skipping symlink, source does not exist: %s -> %s" =
+% (dst, src))
+ }
+=20
++python write_image_output_manifest() {
++    import json
++    from pathlib import Path
 +
-+    bad_licenses =3D expand_wildcard_licenses(d, bad_licenses)
++    taskname =3D d.getVar("BB_CURRENTTASK")
++    image_deploy_dir =3D Path(d.getVar('IMGDEPLOYDIR'))
++    image_manifest_dir =3D Path(d.getVar('IMGMANIFESTDIR'))
++    manifest_path =3D image_manifest_dir / ("do_" + d.getVar("BB_CURRENT=
+TASK") + ".json")
 +
-+    exceptions =3D (d.getVar("INCOMPATIBLE_LICENSE_EXCEPTIONS") or "").s=
-plit()
++    image_name =3D d.getVar("IMAGE_NAME")
++    image_basename =3D d.getVar("IMAGE_BASENAME")
++    machine =3D d.getVar("MACHINE")
 +
-+    for lic_exception in exceptions:
-+        if ":" in lic_exception:
-+            lic_exception =3D lic_exception.split(":")[1]
-+        if lic_exception in obsolete_license_list():
-+            bb.fatal("Obsolete license %s used in INCOMPATIBLE_LICENSE_E=
-XCEPTIONS" % lic_exception)
++    subimages =3D (d.getVarFlag("do_" + taskname, 'subimages', False) or=
+ "").split()
++    imagetype =3D d.getVarFlag("do_" + taskname, 'imagetype', False)
 +
-+    skipped_pkgs =3D {}
-+    for pkg in pkgs:
-+        remaining_bad_licenses =3D apply_pkg_license_exception(pkg, bad_=
-licenses, exceptions)
++    data =3D {
++        "taskname": taskname,
++        "imagetype": imagetype,
++        "images": []
++    }
 +
-+        incompatible_lic =3D incompatible_license(d, remaining_bad_licen=
-ses, pkg)
-+        if incompatible_lic:
-+            skipped_pkgs[pkg] =3D incompatible_lic
++    for type in subimages:
++        image_filename =3D image_name + "." + type
++        image_path =3D image_deploy_dir / image_filename
++        if not image_path.exists():
++            continue
++        data["images"].append({
++            "filename": image_filename,
++        })
 +
-+    return skipped_pkgs
++    with manifest_path.open("w") as f:
++        json.dump([data], f)
++}
++
+ MULTILIBRE_ALLOW_REP +=3D "${base_bindir} ${base_sbindir} ${bindir} ${sb=
+indir} ${libexecdir} ${sysconfdir} ${nonarch_base_libdir}/udev /lib/modul=
+es/[^/]*/modules.*"
+ MULTILIB_CHECK_FILE =3D "${WORKDIR}/multilib_check.py"
+ MULTILIB_TEMP_ROOTFS =3D "${WORKDIR}/multilib"
 --=20
 2.43.0
 
