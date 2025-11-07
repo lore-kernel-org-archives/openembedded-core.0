@@ -1,104 +1,88 @@
-Return-Path: <nmjain23@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A542CCFA05
-	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 04:09:57 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4331.1762488594109221874
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EF3DCCFA05
+	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 07:08:28 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6157.1762499303412271198
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Nov 2025 20:09:54 -0800
+ Thu, 06 Nov 2025 23:08:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RzlxA+Lv;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: nmjain23@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2957850c63bso3396245ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 20:09:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OtXLrpZO;
+ spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-341c68c953bso545428a91.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 23:08:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762488593; x=1763093393; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1762499302; x=1763104102; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UpNCcvShgxmFT4vJORiVzbpShP0IAN1kr6OkZDZmm7Y=;
-        b=RzlxA+LvY6OcAnRHHnEdWzWl0d2KHJTVVqtc1oF9REwUlkCJceRLGIUHJreznqWGNW
-         Ltl3kq4STl9odZUkeRKW2oiBupN11kItaN3J/FgdXPwbV1Uapp7qKPD5UpGA6AeyFTrv
-         GJe9TIhL5nDvrtLOSfQuPGSs32qq5ozCIzaDd/egqTOLg+sq743nZT1xyCE5B+6sCtxy
-         rmh1gZV5UKLkkYDdywq2umnY5mmA21Ni8ZLNeE2NNTDBRVwdAsMhRYVPmLvt6izbw/sB
-         spQBqGd5q6dLldOEhpx7WM3QMzXx9CnUEvVFxj/IdZpJmJdsrHvyuLxvJ4PhhZ0m23CN
-         giHQ==
+        bh=O0GWFRv0IvJyxQ0sMXj5hT/Il3zBXLqqGVEAMXk1vok=;
+        b=OtXLrpZOKGld1C5W7ciWmBwbx8h/M5l71TMpNvA2+fk8PesPP6bVYFy+jS01l7KvhK
+         qDj3+eXVy4t07IagPRZ7D+zkgC3rbMjdHOlA37GgS/zryvz55iv1cZ+K1xbkaTUeHRhh
+         blRmj1TreFFR7jpzu7i2fgL55NMqyHW2FhQPXp0BkMOJutdXBxm0csJ/Fl03rAFSGf2W
+         7by0IGS4Rux4Ex7PhadQz346ujnbC5sS47T5TFHEofYkwFd9V0ecp8+L0g2fPJDBHx3l
+         BlSGFV4xlL6EyaZU10GiGyyZOCXvWQ2eHqrkgkozKkEktS2DrnkZLbwLrxhdIxZn5FHV
+         TsdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762488593; x=1763093393;
+        d=1e100.net; s=20230601; t=1762499302; x=1763104102;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UpNCcvShgxmFT4vJORiVzbpShP0IAN1kr6OkZDZmm7Y=;
-        b=j+7X4oZ4NLeCrqUMQtxQhHuq4Oi3twYqxlqGvzC4brQGB2ydcl7SVSm1BH+2uR9OIr
-         nad9t8SYKCiHrpM9KqbzaPTym+divYipXYwrViIcgm+AYNwpBo7T17AsKXhcMBPFQwHd
-         ntbm/K/oNuFtlp9TzgW6LWiUXJGGClxf4eY8+swXqN9fg03NQk9z0bYN8X1V2K1lBS1c
-         Yxd5BulOT2o7wnqXy2PmLAo1d8YVF+DRIjnBCsdcBdwxOdr7HfUMT8rcyXShx2TQQ/tr
-         nn6nyD2kBCuFsA28CHaonUiSLOWjdSqHk+GEVkFdMKhsAuo7dPunJM9E8YPYkPTxWIzu
-         mTww==
-X-Gm-Message-State: AOJu0Ywma9A2jQ0PUwJ26I/zZJn2aq2i0sfOPFO3yuRdnQ/uPXRNnFzl
-	EHKjY2mdFHCPno/3cebR/myKwlTrcK68lDgWV+up3Sg+n0JzJk56wyuxXvg0/fU2
-X-Gm-Gg: ASbGncu/crfZjzcg3BNcE4pjsTUQGzbwRC4gBV3APx9ZjjEIBLeJ7gyqRlwNNJ5R4Hg
-	I/Gk4CaUp2FHGaKfIj0IkJHpAp+f7JLC4LrFaDYn4oUZF8kuxOAz3frSK2xa1KaPuvrxLtJe4Sb
-	EgnynNDIGCuVFJk8AFjR1sVABB5qCfXQqTB1Nu2Icuf+bn7T+cvKHF6p7srgdMSfT3uFAtZ+ali
-	TBV4a/4p+0KOjULbJaHl0TAgTLtOH0ayYRKo8odnHxiINJcl86FV8N9pEK2IqUQwVbu8sRrYWNr
-	7PYDiMEanrC/JSGsLV6eIBP8TSjw0eEjy+x7WSm9n3EUr8anHY/zix+gpv2WJOsSYnWZAGp7IDG
-	Pfah0kWtxP9K3DOxQV7iEVhKRPhk7KkK9UbcU7ovqZX2JqhgUGi+lVe6yjGrgSrkkj04jpYLs3a
-	ur/PuqI1TqJC5QaySZ
-X-Google-Smtp-Source: AGHT+IFTaMFkG3I4s3h+bCgUr9EwY76DpBi+nW7TCVDmpwUqan7H/IwVjnfDKLPAytPy679wyLhqVQ==
-X-Received: by 2002:a17:902:cf0b:b0:297:c079:4c32 with SMTP id d9443c01a7336-297c94d8a62mr5836085ad.11.1762488593207;
-        Thu, 06 Nov 2025 20:09:53 -0800 (PST)
-Received: from LL-3450LLL.kpit.com ([103.133.67.152])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29651c6f201sm44486375ad.55.2025.11.06.20.09.51
+        bh=O0GWFRv0IvJyxQ0sMXj5hT/Il3zBXLqqGVEAMXk1vok=;
+        b=cthIQJayqVvk7oe67b4jyJAgLAlsmu10kev+i4G0vnZPW6iadCUjuiB9Ei/V4BLON8
+         ETmwSNzvZyR4SLQg24711cxDQmh4R6OpZqoLVydkmRonsfv/jgyALhSb6A+yhJpHBq/h
+         vltOs5mz9t+Xwd1Fy4q3ow5Rez9twWPnCdlIEe4oQZb6c9ntOKoBFIi1HaPrmrYUDmz6
+         lI9A+Hdr5nVAp4cymc87uBDaO36YDp7exz5sZZsUlu1f+3VQI4s/+OtBOKyRoId6Ypi0
+         znbgrI8m5+a8/apeHHUJeT0I2cOldem7kRx3gobclL89SC/KRant+po9ab/PEuL1L7ED
+         f4Cg==
+X-Gm-Message-State: AOJu0YyEtVdpDMWn+ZRTaLhrRUGQT+6JjanCIJX0HEj9g3JDjyLKbHOt
+	ovcWRpOKjN1Ad/BnaG021xrLqF8C8Vo27GM+kVffTkw/YfFq4SX99TSSdjeMP+Q5gdY=
+X-Gm-Gg: ASbGnctTZjSb5jvbokEcsIrzGb3l35tgr+xrfxWQJkizgN+K+j7ezDAqT2bwtPlNjIj
+	V0Z6SBJT6GtjMohD7qoNLXAU21+e3O8qxDlZlwtY11QgacIgFokkMyFxubLs4WFwQ+A/aNfO51R
+	9o3poq4B2xq+uq96X/0KIKqgyKTARKX3Nb9+zr/1PUtNJ7dE3pc8LuDeA/mkhPESDKQHDqLfokt
+	ROBgyS9h24crHyex5C4cg7p5nmetnWUwvLMlPd8259T+RKed+eYrxSFs+3h7fqs4d4PJKta5cWr
+	CUWj+W4ZI4Cx+Egb8jTINXzT2DbAggQ4V6Pw/YSu9XlrHJPsifmaIjeRvRqIkChYjsURTVsa45r
+	GFKb761KABby0R/XOf/HHHqQZKyGwGyIXdPOtdZaNh/Wcncity665Fs3/clU4QQRK4uOPM2uXaB
+	WSjYTJbJ7yKk7lpi9hxQ+MAzWq0Ci36to0JJ/D89rT85ECHOBHMl2jTvh6fd2KwZs47o9z4dNc
+X-Google-Smtp-Source: AGHT+IG2EqRDCAF+U8PIcJCD5zqJISiWjZPtIo1A2aL+TJ5HyEdKSJ2sDprpJQ9osHuFXP8iDNZ8zw==
+X-Received: by 2002:a17:90b:1c88:b0:340:29a1:1b0c with SMTP id 98e67ed59e1d1-3434c4df264mr2782020a91.7.1762499302115;
+        Thu, 06 Nov 2025 23:08:22 -0800 (PST)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::888a])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-341a67e2f82sm8561625a91.0.2025.11.06.23.08.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 20:09:52 -0800 (PST)
-From: Naman Jain <nmjain23@gmail.com>
-X-Google-Original-From: Naman Jain <namanj1@kpit.com>
+        Thu, 06 Nov 2025 23:08:21 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Virendra Thakur <virendra.thakur@kpit.com>
-Subject: [meta][master][PATCH] socat: Update LICENSE field
-Date: Fri,  7 Nov 2025 09:39:23 +0530
-Message-Id: <20251107040923.4127069-1-namanj1@kpit.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/5] gn: upgrade to latest revision
+Date: Thu,  6 Nov 2025 23:08:15 -0800
+Message-ID: <20251107070819.3751599-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 04:09:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226007
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 07:08:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226008
 
-The below reference clearly states that GPL-2.0-with-OpenSSL-exception
-is to be used with GPL 2.0 or GPL3.0 and not as a standalone license.
-Therefore, update the correct license.
-
-Reference:
-https://github.com/aboutcode-org/scancode-licensedb/blob/569d72e13e7c8d14a44380f91e80c5a2d4091f8f/docs/openssl-exception-gpl-2.0.yml#L7
-
-Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
-Signed-off-by: Naman Jain <namanj1@kpit.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-connectivity/socat/socat_1.8.0.3.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/gn/gn_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/socat/socat_1.8.0.3.bb b/meta/recipes-connectivity/socat/socat_1.8.0.3.bb
-index ee6ca1fe44..964af9d124 100644
---- a/meta/recipes-connectivity/socat/socat_1.8.0.3.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.8.0.3.bb
-@@ -5,9 +5,10 @@ HOMEPAGE = "http://www.dest-unreach.org/socat/"
+diff --git a/meta/recipes-devtools/gn/gn_git.bb b/meta/recipes-devtools/gn/gn_git.bb
+index d8896609b19..86372169884 100644
+--- a/meta/recipes-devtools/gn/gn_git.bb
++++ b/meta/recipes-devtools/gn/gn_git.bb
+@@ -7,7 +7,7 @@ DEPENDS += "ninja-native"
+ UPSTREAM_CHECK_COMMITS = "1"
  
- SECTION = "console/network"
+ SRC_URI = "git://gn.googlesource.com/gn;protocol=https;branch=main"
+-SRCREV = "81b24e01531ecf0eff12ec9359a555ec3944ec4e"
++SRCREV = "092f4f0d612e5982728c8b872c2e69cf3d04b21f"
+ PV = "0+git"
  
--LICENSE = "GPL-2.0-with-OpenSSL-exception"
-+LICENSE = "GPL-2.0-only & GPL-2.0-with-OpenSSL-exception"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://README;beginline=248;endline=278;md5=338c05eadd013872abb1d6e198e10a3f"
-+                    file://README;beginline=248;endline=278;md5=338c05eadd013872abb1d6e198e10a3f \
-+                    file://COPYING.OpenSSL;md5=5c9bccc77f67a8328ef4ebaf468116f4"
- 
- SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
-            file://0001-fix-compile-procan.c-failed.patch \
--- 
-2.34.1
-
+ BB_GIT_SHALLOW = ""
 
