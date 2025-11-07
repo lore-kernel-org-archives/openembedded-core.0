@@ -2,32 +2,32 @@ Return-Path: <kamel.bouhara@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C12CCFA1D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55EDACCF9E3
 	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 13:15:31 +0000 (UTC)
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11168.1762521321751495445
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11169.1762521322676273317
  for <openembedded-core@lists.openembedded.org>;
  Fri, 07 Nov 2025 05:15:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=Jup9124u;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=ZSGb9VHM;
  spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: kamel.bouhara@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 5919D1A1921
-	for <openembedded-core@lists.openembedded.org>; Fri,  7 Nov 2025 13:15:20 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 622931A1922
+	for <openembedded-core@lists.openembedded.org>; Fri,  7 Nov 2025 13:15:21 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 30EEF606A6;
-	Fri,  7 Nov 2025 13:15:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4FD07118525CD;
-	Fri,  7 Nov 2025 14:15:19 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3AACC606A6;
+	Fri,  7 Nov 2025 13:15:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3C906118525CF;
+	Fri,  7 Nov 2025 14:15:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1762521319; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1762521320; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=eWgtoRjWSAaoBvj6m3LYbGt+GNTun5g+YxTitHTXhpo=;
-	b=Jup9124uMzFDUWQfK6J5bfK6uKvLp0ZD3ndjVGnFyITGElhM8gtZFfbh85oZsM9gAD9UN6
-	0CeRybHEWEy1QQb1Q2sdYDTXi2rcw2Q0qLMQWy05FycxbMT+li5XatQVTdYSwuFMHfNVoo
-	9cTarwoFe5NIhLgXNdkf88cc8WjgwQsv1kWPKQnps54zcwU3mKA4NsF0toWCauth7n2HoF
-	1jiuWCF89PHyQ7cFJQYfyWA/2Bc6O9LT1NqwTZNIrkTLyLuN79KoMYCNa5BIUUcg6Kkiby
-	ROJVykUqEoKMixd7clfj+IxJ7RnYbbi755EgxLHW2h4k1R/nVLykg4jbUoi6CQ==
+	bh=UlxaD+oomwvpzeb//hIpf8nPBLT0mFMygGrIMCyF440=;
+	b=ZSGb9VHM+rqRSUlGLFNgrOry4Osrm8gLeBn4+wfJlyZn70DNurKX/SXoQ6Ynq6s9czAEdq
+	9MNzfu5b9G+1WmOH30YOfW/MtTjU7nxPl2YHQ4v5lIJc4eTxfJaCA0GerjdLFTALZ0syhl
+	H0heQ8vbijbOvgmuN3Uf1hptfdQtz1uLkUJ4gPPYkOADYw4DdyARbiAFeGHvztLeOz2CeZ
+	Z68A7L1f5mlHPPeLWu392uWm76PufVgzmNZIO4/VyJPJsW7zNtImbQwUjG+YPs+uCcY1zd
+	pEmelm1lDNReACzO35Y4vOVt5jabMHxRiecs2REOBNUUZSwU7S1wqXp9MkVPGA==
 From: Kamel Bouhara <kamel.bouhara@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: JPEWhacker@gmail.com,
@@ -36,10 +36,10 @@ Cc: JPEWhacker@gmail.com,
 	mathieu.dubois-briand@bootlin.com,
 	antonin.godard@bootlin.com,
 	Pascal Eberhard <pascal.eberhard@se.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap v4 09/17] selftest/spdx: Fix for SPDX_VERSION addition
-Date: Fri,  7 Nov 2025 14:14:43 +0100
-Message-ID: <20251107131502.3857600-10-kamel.bouhara@bootlin.com>
+	"Kamel Bouhara (Schneider Electric)" <kamel.bouhara@bootlin.com>
+Subject: [scarthgap v4 10/17] classes/create-spdx-2.2: align DEPLOY_DIR_SPDX with SPDX_VERSION layout
+Date: Fri,  7 Nov 2025 14:14:44 +0100
+Message-ID: <20251107131502.3857600-11-kamel.bouhara@bootlin.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251107131502.3857600-1-kamel.bouhara@bootlin.com>
 References: <20251107131502.3857600-1-kamel.bouhara@bootlin.com>
@@ -50,38 +50,53 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 13:15:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226045
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226046
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: "Kamel Bouhara (Schneider Electric)" <kamel.bouhara@bootlin.com>
 
-Update the test for the addition of SPDX_VERSION to the deploy path.
+Upstream commit 544d46e4169a ("selftest/spdx: Fix for SPDX_VERSION additi=
+on")
+updated the selftests to expect SPDX artifacts under:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 055e8c21908127722abad9e992d6408d8697a119)
+    ${DEPLOY_DIR}/spdx/${SPDX_VERSION}/
+
+However, in this branch the effective SPDX output was still being
+written to:
+
+    ${DEPLOY_DIR}/spdx/${PACKAGE_ARCH}/
+
+without the version subdirectory. This caused SPDX selftests such as
+test_spdx_tar to fail with missing file errors, e.g.:
+
+    AssertionError: .../deploy/spdx/SPDX-1.1/core2-64/packages/tar.spdx.j=
+son does not exist
+
+Update create-spdx-2.2.bbclass so that DEPLOY_DIR_SPDX includes
+${SPDX_VERSION}, matching the expected deploy structure and restoring
+successful SPDX selftests.
+
+Signed-off-by: Kamel Bouhara (Schneider Electric) <kamel.bouhara@bootlin.=
+com>
 ---
- meta/lib/oeqa/selftest/cases/spdx.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/create-spdx-2.2.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftes=
-t/cases/spdx.py
-index 05fc4e390b..7685a81e7f 100644
---- a/meta/lib/oeqa/selftest/cases/spdx.py
-+++ b/meta/lib/oeqa/selftest/cases/spdx.py
-@@ -25,10 +25,11 @@ INHERIT +=3D "create-spdx"
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-s=
+pdx-2.2.bbclass
+index 1fc11ad7ac..aee7fbac13 100644
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ b/meta/classes/create-spdx-2.2.bbclass
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
 =20
-         deploy_dir =3D get_bb_var("DEPLOY_DIR")
-         machine_var =3D get_bb_var("MACHINE")
-+        spdx_version =3D get_bb_var("SPDX_VERSION")
-         # qemux86-64 creates the directory qemux86_64
-         machine_dir =3D machine_var.replace("-", "_")
+-DEPLOY_DIR_SPDX ??=3D "${DEPLOY_DIR}/spdx"
++DEPLOY_DIR_SPDX ??=3D "${DEPLOY_DIR}/spdx/${SPDX_VERSION}"
 =20
--        full_file_path =3D os.path.join(deploy_dir, "spdx", machine_dir,=
- high_level_dir, spdx_file)
-+        full_file_path =3D os.path.join(deploy_dir, "spdx", spdx_version=
-, machine_dir, high_level_dir, spdx_file)
-=20
-         try:
-             os.remove(full_file_path)
+ # The product name that the CVE database uses.  Defaults to BPN, but may=
+ need to
+ # be overriden per recipe (for example tiff.bb sets CVE_PRODUCT=3Dlibtif=
+f).
 --=20
 2.43.0
 
