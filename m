@@ -1,110 +1,112 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8071DCCF9E3
-	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 08:01:08 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6665.1762502462547408943
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3577CCF9E3
+	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 08:13:38 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6811.1762503216178720845
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Nov 2025 00:01:02 -0800
+ Fri, 07 Nov 2025 00:13:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WavBThPB;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47112a73785so2496705e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 00:01:02 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=O9r4ioeR;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-340564186e0so439157a91.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 00:13:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762502461; x=1763107261; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=b7RgywcNInkkeDgHM9mELIkf4+qnPYpsS0z5wp4c0o0=;
-        b=WavBThPBoemuVCoh+QXkT+KI4TPb0a3GYDdIjLcLQcGoUAyO7LqHVL/QdmfVqU4eVK
-         PHhuKIfBc2T1wwUkHT1pMy8qRuse+VNGVMHlaafGJlCiLIWyMlDgLN/ZQX+LHb+rBRTz
-         IC3T+egTIA83kXTqH31h+Y936AdpHSU0cQT8GT/LeGqdkPW2Xr7aIAFXO4UMLjEMUTWF
-         FC30+n2lfP8srfjsh/rSoXkcSJdj22SwDfm9i6MPYgkczuSvTOi7gOK7I2adogkyTg/y
-         Ya9m344J8qBtRiyRN+y83Ltr71CuEPvO4bJ5duKfVtFT+FBaL7tr4rBM16zIFnL/6Iaz
-         ZBKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762502461; x=1763107261;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1762503215; x=1763108015; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=b7RgywcNInkkeDgHM9mELIkf4+qnPYpsS0z5wp4c0o0=;
-        b=BYopCPIYThNJXNhnsH0335jJFStomQJ/Y9sWqJZQFbPH2ZACJjSgqGW+PLbjokmuYr
-         wpelN5HjYKxL2SlNVm5MEQoU/ELd1vUHvGUlEXcB89IvtNgi7p5DjwE0yliXkgoYy1u7
-         8hyMDAXBcb71Q1mYqWJBOifZXfww0XfVuX42Btx6iDJ2aYASkGmciPZVBBWeQ1XXFAjz
-         En+7i5O81xobmuGCZN1mdFXda3nWQHwMGd5lfHxvi8967v3R+zBCeN8sn2ZVMh0iXECz
-         ayGDJh8JPrvsMydJk6GZk+S9Fa3Rlf3FbquB0uaQ+/lREhfU2bX5+p0esvcEs/LF3xhJ
-         uaEg==
-X-Gm-Message-State: AOJu0YxtvWCU1cyabiH3EKkEx7UsBExn4Zco819d/htENy+/g6QykXPf
-	NlbCqzPGxJeAB4X7sDjV1Y++INh0BduSJPAIkzViIWkSbuT709humuQbcpJ2Fg==
-X-Gm-Gg: ASbGncuGNyBirxD4VFXgIahuWgIw7NrJQn04S0qB3NSQPztNu1JjguO58GAprRARjDs
-	RqijcXlpVTj/JlUBmxe/ags+t3bS6yVqXaDaKprNlFghZWx4h85VipMMn+FS7tfjfObevjlSGWm
-	+fhuKVAEFjTc99ot6f27+OL4D7lq0oIW2duT8LG+MP9ZAUQtmHOClI+e1rKcx4D4aAF1EB4vq3L
-	cfVqeSvtQljKj/dIpzyD9+f27zwbZdccgCznoMHXz6p+YVOqcR+yiaV/ie2MV1QCS2RYwluulI5
-	Q2tTspzKNw/KdjbLheVTN3VOHJzWHFWJIpLr3eFMixW0K8rk/Oz3FIr6thQdE2dzxvuYbLd+M4x
-	YJFow7a4exY7zk8dJt/MjOA7mEegerv1V3la70uhRdUXxjgQ+WPQxUFiNNZiyzakrT73cnzmNy8
-	J4qYO7DrCcGheK7VJjfB3+UyzQx//zNM2RhAsHAGgxcMBpHKc=
-X-Google-Smtp-Source: AGHT+IFsLAPMSOAuWJ2PqtAmE3lounMtReOqfs1t6dCzUF4e13km1BIYQkdkO0G1Hf4VVExvLVq2YA==
-X-Received: by 2002:a05:600c:3153:b0:475:de14:db1e with SMTP id 5b1f17b1804b1-4776bce1b49mr12965845e9.24.1762502460339;
-        Fri, 07 Nov 2025 00:01:00 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4776bccd41bsm33132115e9.2.2025.11.07.00.00.59
+        bh=V8JrJL87H2rccpeMB4y8kFeImHvqiwzZ8+JITS9jrg8=;
+        b=O9r4ioeRepGSiiesZVQMDsDFMKZ5D5KDfF9lFN4hoU0Fz2M/Jl834mCr6MOBZ48L6E
+         UHfmijY7V/cV/K6KZnam4BW/P6jU0wHyZdwEEJ6UprtTsbLt+Jjh9K418o9NkzJ4dHro
+         32n46yFVBnH6K9qNU4bOO21iKPROIKGbaoMSFYMxTwSHJIL3MGvY6H6EnI3ZRdKUXYdo
+         dbjtHvQhbcmVe8BXupnCfkbKZBGm7B8qRM73gmml6L/5n5Bz+n3WJAMU3SEfHpQZ20AA
+         vqdWTJHUIo+2sZ2u1YIglywa02wlDMvrIfUBlNRFeCtHEf5p018BdhoBLD++5K6adG9Y
+         CuwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762503215; x=1763108015;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=V8JrJL87H2rccpeMB4y8kFeImHvqiwzZ8+JITS9jrg8=;
+        b=l8bFYinl+zqY+9vEE/0+FsrrbhDHhtDRxv6NQa/qxDOSuLbjhLpIsVOLcis54g167o
+         +03ufgcc5rUOoLKcIrzjxwbcZ+lFybrXcT8E5sRBv8m6MLQtJY63KFK+SRNU/uuYMbkS
+         pSOXDET3HH5wJg+j1MXH5p9OddjwpbFZNPs2r2wwCeOvSgNRvK+5qonuan2SGLKAHnF2
+         GFGEBL8WmAvtSLvZeNJ5QujkKNn3Hl0Lll1Ric3I4x4e8PzCDRRLUqW4RIVItw7SG+kB
+         5sCW6kz6FDxYdF0XYXhxA9LYwIba+LdayGdeBE1AgHHT+d01DYRFqozqSRv12P5rN+t6
+         5jaA==
+X-Gm-Message-State: AOJu0Yy0qHuWytFM9lT5AaMSA1TM84Nj+6ayLwQiQl5Rk3Zxu+idZ+k6
+	P/y83cEQoAcybRs13aRigBUHNcuW9vPw0DuENJUFpXSnLiAoaMUDpDT+lcQpiw==
+X-Gm-Gg: ASbGncs+scmBCJP3F/68t/oh4dR6h0jIiDF3Ze5tKJp9e3uYZUlXH7QQ2E/snPkPE3F
+	a7onpblxmzuso3lsd/5LPcZBwsXYdO4O1f9IXg8CP5rBByfT+AT5MljT7dzRAv77oLSBaDLdCjn
+	G6rYI9cn7yqNnAoA20PLN+d340ujZuWe+dmnuoEc20yAL59fTaRD/yTHaCaZPksy5JArGBwGm5/
+	lIMS7TGglHqdVnlH8jTIOQpsfYG1hTUdV71GHtfcGNl0jwec2rl1jjl/w6vIlRZL7G9IrBSS02y
+	9SH3euKdR4Frune+dL81fQil6EI/8rNgax89WUxsXmWAurNCf5HjAXoKvIFjXdqCfHxwIe8GwcG
+	ccnU+TbhTW1EnnOHffL21++mGmGzmdPfAxRIceZHjOd64o39g9jlmdvm4qkRmaEHnIDVf8QIgbv
+	wWRT4t2Fu5wTMY9rUOQwJsDhRR
+X-Google-Smtp-Source: AGHT+IHcBbQoXu/34yXNI9HoLbXOWR0hyO/xctWuqRwvH5QNSypidSD2jHT1yHSnHtBV8ectKH6e9Q==
+X-Received: by 2002:a17:90b:2f4c:b0:340:bb56:79de with SMTP id 98e67ed59e1d1-3434c5706a3mr2746059a91.30.1762503215273;
+        Fri, 07 Nov 2025 00:13:35 -0800 (PST)
+Received: from NVAPF55DW0D-IPD.. ([147.161.216.248])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bad33c801d1sm1043010a12.7.2025.11.07.00.13.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Nov 2025 00:00:59 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+        Fri, 07 Nov 2025 00:13:35 -0800 (PST)
+From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] meta/files/bitbake-setup.schema.json: correct bb-layers definitions
-Date: Fri,  7 Nov 2025 09:00:56 +0100
-Message-Id: <20251107080056.2599873-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Subject: [OE-core][PATCH 3/3] elfutils: upgrade 0.193 -> 0.194
+Date: Fri,  7 Nov 2025 21:13:23 +1300
+Message-ID: <20251107081323.4111387-3-ankur.tyagi85@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251107081323.4111387-1-ankur.tyagi85@gmail.com>
+References: <20251107081323.4111387-1-ankur.tyagi85@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 08:01:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226017
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 08:13:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226020
 
-From: Alexander Kanavin <alex@linutronix.de>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-- rename bb-layers property to bb-layers-in-sources and adjust its description
-- add bb-layers-in-this-dir property
+Changelog:
+* debuginfod-find: Fixed caching bug preventing user-cancelled downloads
+                   from being re-downloaded at a later time.
+* elfclassify: New options --has-debug-sections and --any-ar-member.
+* elflint: Presence of vendor- and application-specific ELF note types no
+           longer triggers compliance errors.
+* libdwfl_stacktrace: New function dwflst_sample_getframes.  The
+                      libdwfl_stacktrace library interface is experimental
+                      and may be subject to API/ABI changes.
+* libelf: Manual pages have been added for many libelf library functions.
+          Additional manual pages are planned for future releases.
+* readelf: Up to 13% faster when using the -N option.
 
-The rationale is that both properties are relative to their
-respective directories and that should be clear from their names
-(without being too verbose).
+https://sourceware.org/git/?p=elfutils.git;a=blob;f=NEWS;h=922a15cce7163b2bee605a26132d833dc0c29074;hb=eb7f17d5016a75c6fdb6431aff1c1804d8c290e4
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- meta/files/bitbake-setup.schema.json | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ .../elfutils/{elfutils_0.193.bb => elfutils_0.194.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/elfutils/{elfutils_0.193.bb => elfutils_0.194.bb} (99%)
 
-diff --git a/meta/files/bitbake-setup.schema.json b/meta/files/bitbake-setup.schema.json
-index 5101b0de53e..72d56f8ad8d 100644
---- a/meta/files/bitbake-setup.schema.json
-+++ b/meta/files/bitbake-setup.schema.json
-@@ -37,9 +37,16 @@
-                                 "type": "string",
-                                 "description": "Human-readable description of the configuration"
-                             },
--                            "bb-layers": {
-+                            "bb-layers-in-sources": {
-                                 "type": "array",
--                                "description": "List of BitBake layers to include",
-+                                "description": "List of BitBake layer paths to include, relative to the sources checkout directory",
-+                                "items": {
-+                                    "type": "string"
-+                                }
-+                            },
-+                            "bb-layers-in-this-dir": {
-+                                "type": "array",
-+                                "description": "List of BitBake layers paths to include, relative to the directory with the configuration file",
-                                 "items": {
-                                     "type": "string"
-                                 }
--- 
-2.39.5
-
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.193.bb b/meta/recipes-devtools/elfutils/elfutils_0.194.bb
+similarity index 99%
+rename from meta/recipes-devtools/elfutils/elfutils_0.193.bb
+rename to meta/recipes-devtools/elfutils/elfutils_0.194.bb
+index 85aef7881b..f7963afcbe 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.193.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.194.bb
+@@ -24,7 +24,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+ SRC_URI:append:libc-musl = " \
+            file://0003-musl-utils.patch \
+            "
+-SRC_URI[sha256sum] = "7857f44b624f4d8d421df851aaae7b1402cfe6bcdd2d8049f15fc07d3dde7635"
++SRC_URI[sha256sum] = "09e2ff033d39baa8b388a2d7fbc5390bfde99ae3b7c67c7daaf7433fbcf0f01e"
+ 
+ inherit autotools gettext ptest pkgconfig
+ 
 
