@@ -1,192 +1,121 @@
-Return-Path: <kamel.bouhara@bootlin.com>
+Return-Path: <dwagenknecht@emlix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F19CCFA1E
-	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 13:15:41 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11105.1762521331937623878
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B15F9CCF9E3
+	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 13:33:51 +0000 (UTC)
+Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11487.1762522424863061556
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Nov 2025 05:15:32 -0800
+ Fri, 07 Nov 2025 05:33:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=OU8KPHhE;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: kamel.bouhara@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 80E96C0FAA2;
-	Fri,  7 Nov 2025 13:15:09 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AC066606A6;
-	Fri,  7 Nov 2025 13:15:30 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 962CB118525B2;
-	Fri,  7 Nov 2025 14:15:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1762521330; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=qRBp7Gvv4IVkPnkeXJDk46Y6j9NPpTjX3sX82oXJ7Ck=;
-	b=OU8KPHhE7+5aL2HyXXNBGs/G4zTQYdyOe3eo8N/AkV4Jtt4jR6/1hX4Xxx9hSNk3K3+iPc
-	yIFKluci+1R1W1F6RtJG06tEqYFNWYF9+JlfKJbizy/mNOYMc1SPQuZkDrg/8iNA+fz4lo
-	V+MqjiLn4XbY4eFxOOhEmI+GkQvfYOIfefYukcILXUJiw9uQKxdScIj8oKMdy30Xov8lC0
-	SkQ/pPfZrkOi16Y7g+LZvgUmhU2zVGigkmwJwPpA/8WAVPuc8RbiLg3/7AoTIUbX2hHcX0
-	rFyjQqcqy362PkwntURrcLJCD4PtvQHyxRMEVrlIQcl2WSjj1vzgOd5LKYUIMQ==
-From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: JPEWhacker@gmail.com,
-	thomas.petazzoni@bootlin.com,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	mathieu.dubois-briand@bootlin.com,
-	antonin.godard@bootlin.com,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap v4 17/17] classes/create-spdx-2.2: Handle empty packages
-Date: Fri,  7 Nov 2025 14:14:51 +0100
-Message-ID: <20251107131502.3857600-18-kamel.bouhara@bootlin.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251107131502.3857600-1-kamel.bouhara@bootlin.com>
-References: <20251107131502.3857600-1-kamel.bouhara@bootlin.com>
-MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@emlix.com header.s=20250930 header.b=VQT0XD8N;
+ dkim=pass header.i=@emlix.com header.s=20250930 header.b=MP7KdKV8;
+ spf=pass (domain: emlix.com, ip: 178.63.209.131, mailfrom: dwagenknecht@emlix.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
+	s=20250930; t=1762522422;
+	bh=JPrhQTmb30ddG1NhYrFM4GD1IpreDVxZ9XHi1L5f1IA=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=VQT0XD8NvD9VQ/OgUSSvKL8q+PZM8IrTtbCFnQmHRyl3qAVIgC+9i3qDY7yommuQh
+	 7npGEm7OEICx+vkz7aLL8FJ9BISnwjhXXK73/zHdl8v/iWF96LNjIdMcasijvhDfel
+	 8FgIcenPSohFsN+29FNJ7i7l++NRqdfoUUbey75jY0DGc2OAD+I5xr9hbMJh4S8IJV
+	 beLFac6veoaFVVpkxJf2TXajB/1zuUzgzBRRToF2FGS0loKLi6G3MglX0wcqaaRHYl
+	 wCCAsc1bc3SfVtHG2+pmXYI5haCn5/zCQWAz5drTZXkbFDm6zFXcySTJUk160ATkzI
+	 ldYtVDyXb21Gw==
+Received: from mx1.emlix.com (localhost [127.0.0.1])
+	by mx1.emlix.com (Postfix) with ESMTP id F40D15F9CC;
+	Fri,  7 Nov 2025 14:33:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
+	s=20250930; t=1762522421;
+	bh=JPrhQTmb30ddG1NhYrFM4GD1IpreDVxZ9XHi1L5f1IA=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=MP7KdKV8fSZjX/dsqjhNGTQmNPOy7GprP9eUbwO8LVHTCSjmHp8GXenEjORGusViv
+	 uoPhN0yNdm8UGZqCWW42W8WPH7fXhn4WcnM+5HiHX7V/tASHogZKdF2SLE9Mz1acTL
+	 Lgw7z5IjQC/HvyZHxStAxwgjpqEE/wEPV3khw+PJ6eirAW7yq8T8B6rcSrW9DU41Am
+	 5mXWsVh3u6roHFIbcJkuOlRlpuqdQ494iETwBUfK1sCfoG81FYONkPUesRtcI0VgCj
+	 ysS9BhhYCuqwKEerVSdR7gbijYvIJ3h6CFRtZ764evKq8KPdwUoiLtQkGNotswczKJ
+	 8Uzu4pvqateHw==
+Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.emlix.com (Postfix) with ESMTPS id DB0EE5F871;
+	Fri,  7 Nov 2025 14:33:41 +0100 (CET)
+Message-ID: <8e5019335cf683491cb29159a2ae3e34eb3942c4.camel@emlix.com>
+Subject: Re: [OE-core] Thoughts on SPDX for files from meta-layer
+From: Daniel Wagenknecht <dwagenknecht@emlix.com>
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, OpenEmbedded Architecture
+	 <openembedded-architecture@lists.openembedded.org>
+Date: Fri, 07 Nov 2025 14:33:40 +0100
+In-Reply-To: <CAJdd5GYSgnUtey269iGQzcoxNfB6u48QWMGsjsDYoAQCa_YNCw@mail.gmail.com>
+References: <b2e867d19c02966f3e11d2c7e6b7765564587df5.camel@emlix.com>
+	 <CAJdd5GYSgnUtey269iGQzcoxNfB6u48QWMGsjsDYoAQCa_YNCw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
+MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 13:15:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226053
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 13:33:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226054
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+Hello Joshua,
 
-When combining an SPDX document, the package list might be empty (e.g.
-a baremetal image). Handle this case instead of erroring out
+thanks for your remarks!
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/create-spdx-2.2.bbclass | 83 ++++++++++++++--------------
- 1 file changed, 42 insertions(+), 41 deletions(-)
+On Wed, 2025-11-05 at 09:53 -0700, Joshua Watt wrote:
+> On Wed, Nov 5, 2025 at 7:54=E2=80=AFAM Daniel Wagenknecht via
+>=20
+> I don't think a variable to specify the public URL is going to work
+> well; for example, if a layer is forked, it will be wrong and
+> confusing.=C2=A0
+Agreed. My intention was to get the "public" URL for a layer, even if
+it was pulled from a fork. My naive assumption was, that this URL
+should point to a publically reachable location, but according to the
+SPDX documentation for the downloadLocation field it might just as well
+be an internal URL. This simplifies it.
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-s=
-pdx-2.2.bbclass
-index aee7fbac13..2351a3d5a1 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -1044,52 +1044,53 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir=
-, rootfs_spdxid, packages, spdx
-=20
-     doc.packages.append(image)
-=20
--    for name in sorted(packages.keys()):
--        if name not in providers:
--            bb.fatal("Unable to find SPDX provider for '%s'" % name)
-+    if packages:
-+        for name in sorted(packages.keys()):
-+            if name not in providers:
-+                bb.fatal("Unable to find SPDX provider for '%s'" % name)
-=20
--        pkg_name, pkg_hashfn =3D providers[name]
-+            pkg_name, pkg_hashfn =3D providers[name]
-=20
--        pkg_spdx_path =3D oe.sbom.doc_find_by_hashfn(deploy_dir_spdx, pa=
-ckage_archs, pkg_name, pkg_hashfn)
--        if not pkg_spdx_path:
--            bb.fatal("No SPDX file found for package %s, %s" % (pkg_name=
-, pkg_hashfn))
-+            pkg_spdx_path =3D oe.sbom.doc_find_by_hashfn(deploy_dir_spdx=
-, package_archs, pkg_name, pkg_hashfn)
-+            if not pkg_spdx_path:
-+                bb.fatal("No SPDX file found for package %s, %s" % (pkg_=
-name, pkg_hashfn))
-=20
--        pkg_doc, pkg_doc_sha1 =3D oe.sbom.read_doc(pkg_spdx_path)
-+            pkg_doc, pkg_doc_sha1 =3D oe.sbom.read_doc(pkg_spdx_path)
-=20
--        for p in pkg_doc.packages:
--            if p.name =3D=3D name:
--                pkg_ref =3D oe.spdx.SPDXExternalDocumentRef()
--                pkg_ref.externalDocumentId =3D "DocumentRef-%s" % pkg_do=
-c.name
--                pkg_ref.spdxDocument =3D pkg_doc.documentNamespace
--                pkg_ref.checksum.algorithm =3D "SHA1"
--                pkg_ref.checksum.checksumValue =3D pkg_doc_sha1
-+            for p in pkg_doc.packages:
-+                if p.name =3D=3D name:
-+                    pkg_ref =3D oe.spdx.SPDXExternalDocumentRef()
-+                    pkg_ref.externalDocumentId =3D "DocumentRef-%s" % pk=
-g_doc.name
-+                    pkg_ref.spdxDocument =3D pkg_doc.documentNamespace
-+                    pkg_ref.checksum.algorithm =3D "SHA1"
-+                    pkg_ref.checksum.checksumValue =3D pkg_doc_sha1
-=20
--                doc.externalDocumentRefs.append(pkg_ref)
--                doc.add_relationship(image, "CONTAINS", "%s:%s" % (pkg_r=
-ef.externalDocumentId, p.SPDXID))
--                break
--        else:
--            bb.fatal("Unable to find package with name '%s' in SPDX file=
- %s" % (name, pkg_spdx_path))
--
--        runtime_spdx_path =3D oe.sbom.doc_find_by_hashfn(deploy_dir_spdx=
-, package_archs, "runtime-" + name, pkg_hashfn)
--        if not runtime_spdx_path:
--            bb.fatal("No runtime SPDX document found for %s, %s" % (name=
-, pkg_hashfn))
--
--        runtime_doc, runtime_doc_sha1 =3D oe.sbom.read_doc(runtime_spdx_=
-path)
--
--        runtime_ref =3D oe.spdx.SPDXExternalDocumentRef()
--        runtime_ref.externalDocumentId =3D "DocumentRef-%s" % runtime_do=
-c.name
--        runtime_ref.spdxDocument =3D runtime_doc.documentNamespace
--        runtime_ref.checksum.algorithm =3D "SHA1"
--        runtime_ref.checksum.checksumValue =3D runtime_doc_sha1
--
--        # "OTHER" isn't ideal here, but I can't find a relationship that=
- makes sense
--        doc.externalDocumentRefs.append(runtime_ref)
--        doc.add_relationship(
--            image,
--            "OTHER",
--            "%s:%s" % (runtime_ref.externalDocumentId, runtime_doc.SPDXI=
-D),
--            comment=3D"Runtime dependencies for %s" % name
--        )
-+                    doc.externalDocumentRefs.append(pkg_ref)
-+                    doc.add_relationship(image, "CONTAINS", "%s:%s" % (p=
-kg_ref.externalDocumentId, p.SPDXID))
-+                    break
-+            else:
-+                bb.fatal("Unable to find package with name '%s' in SPDX =
-file %s" % (name, pkg_spdx_path))
-+
-+            runtime_spdx_path =3D oe.sbom.doc_find_by_hashfn(deploy_dir_=
-spdx, package_archs, "runtime-" + name, pkg_hashfn)
-+            if not runtime_spdx_path:
-+                bb.fatal("No runtime SPDX document found for %s, %s" % (=
-name, pkg_hashfn))
-+
-+            runtime_doc, runtime_doc_sha1 =3D oe.sbom.read_doc(runtime_s=
-pdx_path)
-+
-+            runtime_ref =3D oe.spdx.SPDXExternalDocumentRef()
-+            runtime_ref.externalDocumentId =3D "DocumentRef-%s" % runtim=
-e_doc.name
-+            runtime_ref.spdxDocument =3D runtime_doc.documentNamespace
-+            runtime_ref.checksum.algorithm =3D "SHA1"
-+            runtime_ref.checksum.checksumValue =3D runtime_doc_sha1
-+
-+            # "OTHER" isn't ideal here, but I can't find a relationship =
-that makes sense
-+            doc.externalDocumentRefs.append(runtime_ref)
-+            doc.add_relationship(
-+                image,
-+                "OTHER",
-+                "%s:%s" % (runtime_ref.externalDocumentId, runtime_doc.S=
-PDXID),
-+                comment=3D"Runtime dependencies for %s" % name
-+            )
-     bb.utils.mkdirhier(spdx_workdir)
-     image_spdx_path =3D spdx_workdir / (rootfs_name + ".spdx.json")
-=20
---=20
-2.43.0
+> Just thinking off the top of my head, a better option might
+> be a variable that specifies the name of the git remote that should be
+> used, and if it's not specified then the URLs are ignored?=20
+> [...]
+> which would use the "origin" remote of the oe-core git repo, and _if_
+> the current SHA-1 of that repo (which bitbake already knows) is in
+> that remote, then it will use that remote as the URL.
+I like that approach! To clarify: this should not access the network
+but work with the local view of the repo only, right?
+I guess the local view of the remote could be out of sync (e.g.
+something was rebased on the remote),=C2=A0and if a commit is not part of a
+known branch of that remote (e.g. the commit exists in a tags history
+only) this would also yield a NOASSERTION value.
 
+
+>  In this way, if
+> you fork you can choose to use your own remote, or for example pull in
+> upstream oe-core as an "upstream" remote and use that.
+>=20
+> I'm not entirely sold the above description is the best path, so maybe
+> we can let others chime in.
+Developing the thought further I think it would be fine to default to
+using the git origin remote as default and allow adapting it per layer.
+I'd then introduce an
+   SPDX_REQUIRE_META_LAYER_ASSERTION
+(or similarly named) variabel to promote unasserted values (like layer
+dirty) to build failure.
+
+> I do think that we will want a way to
+> solve this, as we have also talked about including the information
+> about the layer itself into the SPDX, so this is more or less an
+> extension of that
+Yes, small steps. Working out how to refer to a layer to construct
+downloadLocations for individual files is only a first step, creating
+SPDXRef-Download-meta-layer entries for layers and refering to them
+would be a logical improvement.
+>=20
+>=20
+>=20
+Sincerely
+Daniel
 
