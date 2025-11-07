@@ -1,100 +1,131 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DAEACCFA05
-	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 07:17:48 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6223.1762499863290756129
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CA12CCF9E3
+	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 07:26:48 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6317.1762500404113948587
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Nov 2025 23:17:43 -0800
+ Thu, 06 Nov 2025 23:26:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=oZaJ9TYz;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=IRQ1gpUq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019a5d2d9f24-ca03e61f-779f-453f-b79f-daaf25720304-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1762499862; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=kDc9eel8Nb2rt2J/we2Zv6k6Brmfy8Q6Yqw3g1kWpmU=;
-	b=oZaJ9TYzI1PqUyhnc/u7XhMMzwUXyBM7r5165EdduMGF6AAat+us7ZCLgOc8ednf
-	Qay8fr471lAsbMIEZ+Z7pofna5FXCV4u8Ic8oAQBqN/zJppxfViAIYTN/gAczgCnaQL
-	K/E9afCYL79cqJgUhcvpGi1z25Ftx2U+A0XxF6Ms=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1762499862;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=kDc9eel8Nb2rt2J/we2Zv6k6Brmfy8Q6Yqw3g1kWpmU=;
-	b=IRQ1gpUqZ8Gt+I5/LwQaDuOj68khLrrbXc3qP8POAALNEb/FKIttPyYB8R9XBUX0
-	1V3r0tS/PpGWF9sJwxXiEWtcfwDNdqMu4Lh5ZL2X2jArdBo9eV5OSuRoeY8NO+YN5Go
-	gorZ68ydhwHIqq/IaNFSzQnRs1Bb2RvrYXEmB1JY=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/5] python3-pdm: upgrade 2.25.9 -> 2.26.1
-In-Reply-To: <20251107070819.3751599-2-raj.khem@gmail.com>
-References: <20251107070819.3751599-2-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019a5d2d9f24-ca03e61f-779f-453f-b79f-daaf25720304-000000@us-west-2.amazonses.com>
-Date: Fri, 7 Nov 2025 07:17:42 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.07-54.240.27.33
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=O8vQJpx6;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id E0E774E4158D;
+	Fri,  7 Nov 2025 07:26:41 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id AE5AE6070B;
+	Fri,  7 Nov 2025 07:26:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CC10F11851725;
+	Fri,  7 Nov 2025 08:26:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1762500401; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=83KHSeTY4mSQ0ttjHxzeVuo+pDJFgWJW5uXSuZxKtjE=;
+	b=O8vQJpx6BLNJ3fttdoO5SdYm/ZT9IDSvlz+iGw9cUowh449WAwDk7yo39YiR5yDOrAJ5Cq
+	7HBYtXIt0PJ+jHx51H2bOFspWCe5/BhrDIeH4eyqj1LrnEbiPrL+3TPQLmcEIVaVBte6Fb
+	6nAQwKgPCnorxGunN3t9WxdrQejoPwjvHrIJq+zZCXstwRbbXxCmN3cz4E7bj2GNzC9OOY
+	e5l7RK48m4fGHcYd8cjxvQbJSbglfsCQ5EhV/u1gIoV+lYokQ2iqmJnGtvpwXqun/xT43S
+	jCfdJjAcgV3PIsZjc3/vBAUeolLoELJEJtqifRdTd3usFCy81Qy03PftVEga9g==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 07 Nov 2025 08:26:36 +0100
+Message-Id: <DE2A8WAMFQ8I.33H1IHF8RV2DJ@bootlin.com>
+Subject: Re: [PATCH v4] libxml2: upgrade 2.14.6 -> 2.15.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Hongxu Jia" <hongxu.jia@windriver.com>,
+ <openembedded-core@lists.openembedded.org>, <skandigraun@gmail.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20251105023236.310076-1-hongxu.jia@windriver.com>
+In-Reply-To: <20251105023236.310076-1-hongxu.jia@windriver.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 07:17:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226014
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 07:26:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226016
 
---NextPart
-Content-Type: text/plain
+On Wed Nov 5, 2025 at 3:32 AM CET, Hongxu Jia wrote:
+> Due to upstream [Remove LZMA support][1], drop option --without-lzma
+>
+> Due to upstream [disable python bindings by default][2] and are
+> planned to be removed in the 2.16 release[3][4]. If we still enable
+> python bindings by --with-python=3Dyes, due to upstream [doc: Build docs
+> with Doxygen and xsltproc][5], build python binding requires doxygen
+> otherwise build will fail, and we do not provide doxygen in oe-core,
+> so remove python package directly.
+>
+> Refresh install-tests.patch and run-ptest to not install python test
+> cases
+>
+> Drop CVE-2025-6021.patch which is obsolete
+>
+> [1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/1763281cd65ded4067ddf=
+123eb7358690c214b0b
+> [2] https://gitlab.gnome.org/GNOME/libxml2/-/commit/fa931566d2f541d3162c7=
+b98c8a12e6b2a6ae542
+> [3] https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.0.news
+> [4] https://gitlab.gnome.org/GNOME/libxml2/-/issues/891
+> [5] https://gitlab.gnome.org/GNOME/libxml2/-/commit/bbe5827c94cc9b0e393ff=
+3e6eef6dec2376317e2
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hi Hongxu,
 
----
-Testing patch /home/patchtest/share/mboxes/2-5-python3-pdm-upgrade-2.25.9---2.26.1.patch
+Thanks for the new version.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+It's not clear to me how, but it looks like this update is breaking rust
+build:
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+ERROR: rust-1.90.0-r0 do_test_compile: Execution of '/srv/pokybuild/yocto-w=
+orker/qemuarm64-tc/build/build-st-3876356/tmp/work/cortexa57-poky-linux/rus=
+t/1.90.0/temp/run.do_test_compile.3947248' failed with exit code 1
+...
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+alues("optimized-c"))' --check-cfg 'cfg(__aarch64_swp8_rel, values("optimiz=
+ed-c"))' --check-cfg 'cfg(__aarch64_swp8_acq_rel, values("optimized-c"))' -=
+-check-cfg 'cfg(target_feature, values("vis3"))' --check-cfg 'cfg(feature, =
+values("checked"))' --check-cfg 'cfg(assert_no_panic)' --check-cfg 'cfg(thu=
+mb)' --check-cfg 'cfg(thumb_1)' --check-cfg 'cfg(f16_enabled)' --check-cfg =
+'cfg(f128_enabled)' --check-cfg 'cfg(intrinsics_enabled)' --check-cfg 'cfg(=
+arch_enabled)' --check-cfg 'cfg(optimizations_enabled)' --check-cfg 'cfg(fe=
+ature, values("unstable-public-internals"))' --check-cfg 'cfg(optimizations=
+_enabled)' --check-cfg 'cfg(x86_no_sse)' --check-cfg 'cfg(kernel_user_helpe=
+rs)' --check-cfg 'cfg(feature, values("mem-unaligned"))'`
+| error: rustc interrupted by SIGSEGV, printing backtrace
+|
+| /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3876356/tmp/work/=
+cortexa57-poky-linux/rust/1.90.0/sources/rustc-1.90.0-src/build/x86_64-unkn=
+own-linux-gnu/stage1/lib/librustc_driver-d18035d17505fd2b.so(+0xd2ab55) [0x=
+7f3ae2d2ab55]
+| /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3876356/tmp/sysro=
+ots-uninative/x86_64-linux/lib/libc.so.6(+0x3bba0) [0x7f3ae1e4aba0]
+| /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3876356/tmp/work/=
+cortexa57-poky-linux/rust/1.90.0/sources/rustc-1.90.0-src/build/x86_64-unkn=
+own-linux-gnu/stage1/lib/librustc_driver-d18035d17505fd2b.so(+0x8527820) [0=
+x7f3aea527820]
+|
+| note: we would appreciate a report at https://github.com/rust-lang/rust
+| help: you can increase rustc's stack size by setting RUST_MIN_STACK=3D167=
+77216
+| rustc exited with signal: 11 (SIGSEGV)
 
----
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/builds/2610
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/58/builds/672
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/builds/2613
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Can you have a look at these?
 
---NextPart
+Thanks,
+Mathieu
 
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
---NextPart--
 
