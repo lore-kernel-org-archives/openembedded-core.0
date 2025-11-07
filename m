@@ -2,63 +2,63 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11B64CCF9E3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FD7CCCFA19
 	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 07:08:28 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6162.1762499304954847741
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6163.1762499306134160117
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Nov 2025 23:08:25 -0800
+ Thu, 06 Nov 2025 23:08:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=D8YxoEHh;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-34088fbd65aso418218a91.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 23:08:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hfX8W1h+;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-340bcc92c7dso444809a91.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 Nov 2025 23:08:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762499304; x=1763104104; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1762499305; x=1763104105; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kYWgBpH38Dw9mPeBk5/jZGbv3Ca9KwlDs6b4gl+UClc=;
-        b=D8YxoEHhPPOpoZt0ThHDzeY854xjpJ1PG1YfsJTjLjhCGNio4AABR/pw+7nkccx7ps
-         nfn2qXd9eHWy+KTgah6b1N7MRSAtEsbWSeWlpYAshlTIblHs8bZIOWnRDN3kwTijYc5Q
-         w/ATN+YGnEbPIzEx7VOAGosLOqkokK9z5IoCahLdejuL4JMv8p0YWf8GlXJCpXy6o+dV
-         bsrY+FWgqYXWRxzd2AzIF7eonEWIkd3VoX8prsfs7mHKrjiGIfVB+L5SAiwblyCoM7Zf
-         G5kiarwmd19np91odM46Ic5lME5yxs7LaluyRkYt2R+ab9/aOTeKGuyR0vGrBe0Bx0UM
-         OmdA==
+        bh=h9YhTwRcAitcByU6qU9+QWSZB7OeJGH+eynQ51PhacM=;
+        b=hfX8W1h++IqR9bROftNMc3PmVv12ij4zXHi7nP7rrJUZMlNY5icbIP1QeE8yVWRqRV
+         2U0wG/XLjKrCxLR4oM+/l2N6oAz1yzlV56pL24WicHVnmWmbMZhUQARN0TPNSGIM1X4b
+         fh19DkSKAK/6c3mGsdk5X4PQirrSrph9enyGXrHDD3B4G32F2uvcC4lKUkjQ5wiAS7Ov
+         ip/wR8GCeQIAR5+ErMrZGjqR5EUDz2cAt1lQBlWmm+Ngg3g8unOwuA8A/f6eS5dk7bqb
+         PciIvovUmCg0/qIKowoC/tjDu4lFsVlym9RKcBqEYpO0BPiBiZondp3Y5AzxmjuvQPCz
+         gL6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762499304; x=1763104104;
+        d=1e100.net; s=20230601; t=1762499305; x=1763104105;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kYWgBpH38Dw9mPeBk5/jZGbv3Ca9KwlDs6b4gl+UClc=;
-        b=EvOdI7JuGKgd00vfmQyx57MmAsX/J4Y7SDZDTYGaGrNrAJGOfBPlDyufdFyIBUoRWn
-         2DzRwhN/O2F2ML4E7FAXwBFHiTjpA1kNdfl8OA511+BseNomr7QR3c0mP00FoEFdP2iZ
-         tL46x6Ej4bvIXZ5fGlUVC7FyJ1VIbEBN8TrzF+wJTPerlw6AbiYzW2e1yOjzNfUjEanL
-         k8TxRGiWnxg2+sldMz2neFjWV2teUztX3dH7d4ejr09cuPOzCpNvSTt6y0kD1p39oHPB
-         +o5Uk9CSTd0qhHAQ6kcioEkmG3wvnxWF/zk3KEGkPkdFele3aqRUEUqUyhhHx2bO2jWV
-         /9OA==
-X-Gm-Message-State: AOJu0Yw6xIw/iO/QkWpyovbT3sc1iVRZjlMiOCDtPkkUVTZgHonzK/2q
-	AxA+Yz0yW7y7Za6pBenCiOOgUKcdCvK3cvY8jxiACFYSV2v4FjnSKJCq2696bmkHsDU=
-X-Gm-Gg: ASbGncuBvytVmJPRIc0iPumD/d7ADYQ77u+vaYo8GlLD2VThVvSTiphyFacrPNIOR1B
-	DnGuxtnWE8mmGk293Pi9WeKqclXL5HXnlYA5lkWhUQcljMSv5rmLDObFYuVLkQdMXsYpL1KDup/
-	WIPltr8jCrUHAoOsTIkwvH1NxYa+wtWT73wlTFzgDV/hAmL0+kf1jE3tVxmaC6VxSrOLk4jIFVv
-	Kj+D/M7rTMgNEso92FeWO/B3SSXfR7Z+hy52YXH3rJSwEr9melK+C75+YVcywmtHLuzQgqclOir
-	PzbQDopx/jm3JfvsR7nf//0KoD9IjpplISuba4d3W1qB21WHfLU0j8uuKuBocLeGI00rvmX8kW1
-	jAxZrDY0EePR2nIWJQoAOad+zsPDbXXwb1T6MPrP+hlUpAUkld4eogMt+vbCDpT7AEGoIXpKZJI
-	noWnBjPi2IyNA/bNkFSAd44U8BhU6aNJa+asrRsrfpaRiladAM/sC0C5U9ytcsfg==
-X-Google-Smtp-Source: AGHT+IFu5ct4E14y7sQtkw8Ne9Y0pJ1dCcGgYPxv+JPRhp62V3raUBxhAUVZIRmUv3CH9K0+6H60Hw==
-X-Received: by 2002:a17:90b:4fcc:b0:33e:2d0f:479b with SMTP id 98e67ed59e1d1-3434c4e4369mr2616406a91.6.1762499303906;
-        Thu, 06 Nov 2025 23:08:23 -0800 (PST)
+        bh=h9YhTwRcAitcByU6qU9+QWSZB7OeJGH+eynQ51PhacM=;
+        b=uNbFKACJ+oK9NySweI4ZZ40NGYYrdI+4chTBKgnOqtVHW5Y9jXKS/xz+F1CYpb1wCq
+         xE7q5I+wfAx2MfAMHKtqkm5XRRCyp3t3Bs9VyvywQBi1V38Nc4Ciwt+s1r2CBH5CzDbp
+         cEyhkBtSts56gf7jOOI8+KlSTJAyE2Yu0eQSdWB65+hkAyVXVGrzaO5BnPouEkGiX/T6
+         eX27Lezit/BiN8xO0a5SX1gIpi2qgwgbJkMxX1dVgVwYybeqmqYU7lKXqwzh8SdX6cp5
+         JqmiYwQgWauKgyGj7qq4u+itUjlaI7twY6pyUFbah+fHPq65K/VNJRmTFBvM1PlSFUpb
+         qKuQ==
+X-Gm-Message-State: AOJu0YymWsFXsf9IS2NUFg8752DkpS5JpfZsgodjK/0nxwbmn1mJoMcU
+	rlDCc59TD459ZV0Nk4t78h7nx5IG1xo/rAWAMCv74E2XqnZqKxWfrV8+8wh0B4S/qmw=
+X-Gm-Gg: ASbGncuiAhedOZs8NVXBs9Y6ay/cpinojhrW4eVxDgAoKTGhlBOr1fWuDM8rEkLiajG
+	iPm5sDo8PmOigijm8YdM7TRNNj1QH0AH0rWlBkvbee4ruyI+wJID2hxwlODOEI4JIW5HZlbcMfB
+	XJl66UzXFvU9Aprx+lrs2BbZ8MBZVuXKQ7a3H/o54d3WM5obHeO5nkyHPDnBrtsXmY+L6pXkbNe
+	qD9IIJgA8cld2z1eUkrsMY0L/lXpUWxMB0bk/HbFkNyz1wedazjxW7xfMu51gU0OqmT9tI+d1oO
+	gvHN17XC/Z936qoREHV6cv1D1BGKL3pwNY/aPhWxM8H8G6GwD8L4HjIac8oc5yC3uGbM4wzRHFM
+	FmZKk6NKfrVzgNzCQrXzvIFN6VId2LduR/zBTW8WLUvsAy2vEtJEf5A6QyHP77HIw6FxKIGr5D/
+	GLbrtCAxGckweQvar12kEQGnW+RphEWJe0w9XiNqW1xRYqJIhsJpVUUCE+T0Hi+SOdLyvXnXxt
+X-Google-Smtp-Source: AGHT+IEPGYsLKoSXTQxin3B5UlbT6jB8cNQzL/v1XqbP2OE9GgcJk/P4/qxAHssUnRfLCLzZ4DKwKg==
+X-Received: by 2002:a17:90b:384a:b0:32e:15e9:2cbc with SMTP id 98e67ed59e1d1-3435360dd67mr931780a91.5.1762499305170;
+        Thu, 06 Nov 2025 23:08:25 -0800 (PST)
 Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::888a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-341a67e2f82sm8561625a91.0.2025.11.06.23.08.23
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-341a67e2f82sm8561625a91.0.2025.11.06.23.08.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 23:08:23 -0800 (PST)
+        Thu, 06 Nov 2025 23:08:24 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/5] libxcrypt-compat,libxcrypt: upgrade 4.4.38 -> 4.5.0
-Date: Thu,  6 Nov 2025 23:08:17 -0800
-Message-ID: <20251107070819.3751599-3-raj.khem@gmail.com>
+Subject: [PATCH 4/5] libedit: upgrade 20250104-3.1 -> 20251016-3.1
+Date: Thu,  6 Nov 2025 23:08:18 -0800
+Message-ID: <20251107070819.3751599-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251107070819.3751599-1-raj.khem@gmail.com>
 References: <20251107070819.3751599-1-raj.khem@gmail.com>
@@ -68,59 +68,45 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 07:08:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226010
-
-Remove branch variable and add tag in SRC_URI
-
-License-Update: New source files added under 0-BSD and BSD-3-Clause licenses
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226011
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...bxcrypt-compat_4.4.38.bb => libxcrypt-compat_4.5.0.bb} | 1 -
- meta/recipes-core/libxcrypt/libxcrypt.inc                 | 8 +++-----
- .../libxcrypt/{libxcrypt_4.4.38.bb => libxcrypt_4.5.0.bb} | 0
- 3 files changed, 3 insertions(+), 6 deletions(-)
- rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.38.bb => libxcrypt-compat_4.5.0.bb} (99%)
- rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.38.bb => libxcrypt_4.5.0.bb} (100%)
+ meta/recipes-devtools/libedit/libedit/stdc-predef.patch     | 2 +-
+ .../{libedit_20250104-3.1.bb => libedit_20251016-3.1.bb}    | 6 +-----
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+ rename meta/recipes-devtools/libedit/{libedit_20250104-3.1.bb => libedit_20251016-3.1.bb} (76%)
 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.38.bb b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.5.0.bb
-similarity index 99%
-rename from meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.38.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt-compat_4.5.0.bb
-index bb4e2032dd6..30ec6a4674e 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.38.bb
-+++ b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.5.0.bb
-@@ -16,4 +16,3 @@ do_install:append () {
- 	rm -rf ${D}${libdir}/libcrypt.so
- 	rm -rf ${D}${datadir}
- }
+diff --git a/meta/recipes-devtools/libedit/libedit/stdc-predef.patch b/meta/recipes-devtools/libedit/libedit/stdc-predef.patch
+index 0ce6d127a94..88e87aa551f 100644
+--- a/meta/recipes-devtools/libedit/libedit/stdc-predef.patch
++++ b/meta/recipes-devtools/libedit/libedit/stdc-predef.patch
+@@ -1,4 +1,4 @@
+-From 32918b3a91d9fe4719bba78a44ec3262a2994e68 Mon Sep 17 00:00:00 2001
++From f14c2e24556d6c7937bf0b0c538e7fb436a368bc Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 31 Jul 2019 10:48:19 -0700
+ Subject: [PATCH] libedit: Move from meta-oe
+diff --git a/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb b/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb
+similarity index 76%
+rename from meta/recipes-devtools/libedit/libedit_20250104-3.1.bb
+rename to meta/recipes-devtools/libedit/libedit_20251016-3.1.bb
+index cad24d8d654..2ea75bba878 100644
+--- a/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb
++++ b/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb
+@@ -13,13 +13,9 @@ inherit autotools
+ SRC_URI = "http://www.thrysoee.dk/editline/${BP}.tar.gz \
+            file://stdc-predef.patch \
+           "
+-SRC_URI[sha256sum] = "23792701694550a53720630cd1cd6167101b5773adddcb4104f7345b73a568ac"
++SRC_URI[sha256sum] = "21362b00653bbfc1c71f71a7578da66b5b5203559d43134d2dd7719e313ce041"
+ 
+ # configure hardcodes /usr/bin search path bypassing HOSTTOOLS
+ CACHED_CONFIGUREVARS += "ac_cv_path_NROFF=/bin/false"
+ 
+-# remove at next version upgrade or when output changes
+-PR = "r1"
+-HASHEQUIV_HASH_VERSION .= ".1"
 -
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index da515d19270..47961fbbdb8 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -3,16 +3,14 @@ DESCRIPTION = "Forked code from glibc libary to extract only crypto part."
- HOMEPAGE = "https://github.com/besser82/libxcrypt"
- SECTION = "libs"
- LICENSE = "LGPL-2.1-only"
--LIC_FILES_CHKSUM = "file://LICENSING;md5=c0a30e2b1502c55a7f37e412cd6c6a4b \
-+LIC_FILES_CHKSUM = "file://LICENSING;md5=b65434749329c34b5d32c2df3f1b4112 \
-                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
-                     "
- 
- inherit autotools pkgconfig
- 
--SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH};protocol=https \
--           "
--SRCREV = "55ea777e8d567e5e86ffac917c28815ac54cc341"
--SRCBRANCH ?= "master"
-+SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=master;protocol=https;tag=v${PV}"
-+SRCREV = "096296cb6fbecd9ad46c93a410d76c752a5d6206"
- 
- PROVIDES = "virtual/crypt"
- 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.38.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.5.0.bb
-similarity index 100%
-rename from meta/recipes-core/libxcrypt/libxcrypt_4.4.38.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt_4.5.0.bb
+ BBCLASSEXTEND = "native nativesdk"
 
