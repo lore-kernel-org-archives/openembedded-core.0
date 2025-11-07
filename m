@@ -1,131 +1,110 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CA12CCF9E3
-	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 07:26:48 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6317.1762500404113948587
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8071DCCF9E3
+	for <webhook@archiver.kernel.org>; Fri,  7 Nov 2025 08:01:08 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6665.1762502462547408943
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Nov 2025 23:26:45 -0800
+ Fri, 07 Nov 2025 00:01:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=O8vQJpx6;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id E0E774E4158D;
-	Fri,  7 Nov 2025 07:26:41 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AE5AE6070B;
-	Fri,  7 Nov 2025 07:26:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CC10F11851725;
-	Fri,  7 Nov 2025 08:26:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1762500401; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=83KHSeTY4mSQ0ttjHxzeVuo+pDJFgWJW5uXSuZxKtjE=;
-	b=O8vQJpx6BLNJ3fttdoO5SdYm/ZT9IDSvlz+iGw9cUowh449WAwDk7yo39YiR5yDOrAJ5Cq
-	7HBYtXIt0PJ+jHx51H2bOFspWCe5/BhrDIeH4eyqj1LrnEbiPrL+3TPQLmcEIVaVBte6Fb
-	6nAQwKgPCnorxGunN3t9WxdrQejoPwjvHrIJq+zZCXstwRbbXxCmN3cz4E7bj2GNzC9OOY
-	e5l7RK48m4fGHcYd8cjxvQbJSbglfsCQ5EhV/u1gIoV+lYokQ2iqmJnGtvpwXqun/xT43S
-	jCfdJjAcgV3PIsZjc3/vBAUeolLoELJEJtqifRdTd3usFCy81Qy03PftVEga9g==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 07 Nov 2025 08:26:36 +0100
-Message-Id: <DE2A8WAMFQ8I.33H1IHF8RV2DJ@bootlin.com>
-Subject: Re: [PATCH v4] libxml2: upgrade 2.14.6 -> 2.15.0
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Hongxu Jia" <hongxu.jia@windriver.com>,
- <openembedded-core@lists.openembedded.org>, <skandigraun@gmail.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20251105023236.310076-1-hongxu.jia@windriver.com>
-In-Reply-To: <20251105023236.310076-1-hongxu.jia@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WavBThPB;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47112a73785so2496705e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 00:01:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762502461; x=1763107261; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b7RgywcNInkkeDgHM9mELIkf4+qnPYpsS0z5wp4c0o0=;
+        b=WavBThPBoemuVCoh+QXkT+KI4TPb0a3GYDdIjLcLQcGoUAyO7LqHVL/QdmfVqU4eVK
+         PHhuKIfBc2T1wwUkHT1pMy8qRuse+VNGVMHlaafGJlCiLIWyMlDgLN/ZQX+LHb+rBRTz
+         IC3T+egTIA83kXTqH31h+Y936AdpHSU0cQT8GT/LeGqdkPW2Xr7aIAFXO4UMLjEMUTWF
+         FC30+n2lfP8srfjsh/rSoXkcSJdj22SwDfm9i6MPYgkczuSvTOi7gOK7I2adogkyTg/y
+         Ya9m344J8qBtRiyRN+y83Ltr71CuEPvO4bJ5duKfVtFT+FBaL7tr4rBM16zIFnL/6Iaz
+         ZBKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762502461; x=1763107261;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b7RgywcNInkkeDgHM9mELIkf4+qnPYpsS0z5wp4c0o0=;
+        b=BYopCPIYThNJXNhnsH0335jJFStomQJ/Y9sWqJZQFbPH2ZACJjSgqGW+PLbjokmuYr
+         wpelN5HjYKxL2SlNVm5MEQoU/ELd1vUHvGUlEXcB89IvtNgi7p5DjwE0yliXkgoYy1u7
+         8hyMDAXBcb71Q1mYqWJBOifZXfww0XfVuX42Btx6iDJ2aYASkGmciPZVBBWeQ1XXFAjz
+         En+7i5O81xobmuGCZN1mdFXda3nWQHwMGd5lfHxvi8967v3R+zBCeN8sn2ZVMh0iXECz
+         ayGDJh8JPrvsMydJk6GZk+S9Fa3Rlf3FbquB0uaQ+/lREhfU2bX5+p0esvcEs/LF3xhJ
+         uaEg==
+X-Gm-Message-State: AOJu0YxtvWCU1cyabiH3EKkEx7UsBExn4Zco819d/htENy+/g6QykXPf
+	NlbCqzPGxJeAB4X7sDjV1Y++INh0BduSJPAIkzViIWkSbuT709humuQbcpJ2Fg==
+X-Gm-Gg: ASbGncuGNyBirxD4VFXgIahuWgIw7NrJQn04S0qB3NSQPztNu1JjguO58GAprRARjDs
+	RqijcXlpVTj/JlUBmxe/ags+t3bS6yVqXaDaKprNlFghZWx4h85VipMMn+FS7tfjfObevjlSGWm
+	+fhuKVAEFjTc99ot6f27+OL4D7lq0oIW2duT8LG+MP9ZAUQtmHOClI+e1rKcx4D4aAF1EB4vq3L
+	cfVqeSvtQljKj/dIpzyD9+f27zwbZdccgCznoMHXz6p+YVOqcR+yiaV/ie2MV1QCS2RYwluulI5
+	Q2tTspzKNw/KdjbLheVTN3VOHJzWHFWJIpLr3eFMixW0K8rk/Oz3FIr6thQdE2dzxvuYbLd+M4x
+	YJFow7a4exY7zk8dJt/MjOA7mEegerv1V3la70uhRdUXxjgQ+WPQxUFiNNZiyzakrT73cnzmNy8
+	J4qYO7DrCcGheK7VJjfB3+UyzQx//zNM2RhAsHAGgxcMBpHKc=
+X-Google-Smtp-Source: AGHT+IFsLAPMSOAuWJ2PqtAmE3lounMtReOqfs1t6dCzUF4e13km1BIYQkdkO0G1Hf4VVExvLVq2YA==
+X-Received: by 2002:a05:600c:3153:b0:475:de14:db1e with SMTP id 5b1f17b1804b1-4776bce1b49mr12965845e9.24.1762502460339;
+        Fri, 07 Nov 2025 00:01:00 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4776bccd41bsm33132115e9.2.2025.11.07.00.00.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Nov 2025 00:00:59 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] meta/files/bitbake-setup.schema.json: correct bb-layers definitions
+Date: Fri,  7 Nov 2025 09:00:56 +0100
+Message-Id: <20251107080056.2599873-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 07:26:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226016
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Nov 2025 08:01:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226017
 
-On Wed Nov 5, 2025 at 3:32 AM CET, Hongxu Jia wrote:
-> Due to upstream [Remove LZMA support][1], drop option --without-lzma
->
-> Due to upstream [disable python bindings by default][2] and are
-> planned to be removed in the 2.16 release[3][4]. If we still enable
-> python bindings by --with-python=3Dyes, due to upstream [doc: Build docs
-> with Doxygen and xsltproc][5], build python binding requires doxygen
-> otherwise build will fail, and we do not provide doxygen in oe-core,
-> so remove python package directly.
->
-> Refresh install-tests.patch and run-ptest to not install python test
-> cases
->
-> Drop CVE-2025-6021.patch which is obsolete
->
-> [1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/1763281cd65ded4067ddf=
-123eb7358690c214b0b
-> [2] https://gitlab.gnome.org/GNOME/libxml2/-/commit/fa931566d2f541d3162c7=
-b98c8a12e6b2a6ae542
-> [3] https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.0.news
-> [4] https://gitlab.gnome.org/GNOME/libxml2/-/issues/891
-> [5] https://gitlab.gnome.org/GNOME/libxml2/-/commit/bbe5827c94cc9b0e393ff=
-3e6eef6dec2376317e2
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
+From: Alexander Kanavin <alex@linutronix.de>
 
-Hi Hongxu,
+- rename bb-layers property to bb-layers-in-sources and adjust its description
+- add bb-layers-in-this-dir property
 
-Thanks for the new version.
+The rationale is that both properties are relative to their
+respective directories and that should be clear from their names
+(without being too verbose).
 
-It's not clear to me how, but it looks like this update is breaking rust
-build:
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/files/bitbake-setup.schema.json | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-ERROR: rust-1.90.0-r0 do_test_compile: Execution of '/srv/pokybuild/yocto-w=
-orker/qemuarm64-tc/build/build-st-3876356/tmp/work/cortexa57-poky-linux/rus=
-t/1.90.0/temp/run.do_test_compile.3947248' failed with exit code 1
-...
-
-alues("optimized-c"))' --check-cfg 'cfg(__aarch64_swp8_rel, values("optimiz=
-ed-c"))' --check-cfg 'cfg(__aarch64_swp8_acq_rel, values("optimized-c"))' -=
--check-cfg 'cfg(target_feature, values("vis3"))' --check-cfg 'cfg(feature, =
-values("checked"))' --check-cfg 'cfg(assert_no_panic)' --check-cfg 'cfg(thu=
-mb)' --check-cfg 'cfg(thumb_1)' --check-cfg 'cfg(f16_enabled)' --check-cfg =
-'cfg(f128_enabled)' --check-cfg 'cfg(intrinsics_enabled)' --check-cfg 'cfg(=
-arch_enabled)' --check-cfg 'cfg(optimizations_enabled)' --check-cfg 'cfg(fe=
-ature, values("unstable-public-internals"))' --check-cfg 'cfg(optimizations=
-_enabled)' --check-cfg 'cfg(x86_no_sse)' --check-cfg 'cfg(kernel_user_helpe=
-rs)' --check-cfg 'cfg(feature, values("mem-unaligned"))'`
-| error: rustc interrupted by SIGSEGV, printing backtrace
-|
-| /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3876356/tmp/work/=
-cortexa57-poky-linux/rust/1.90.0/sources/rustc-1.90.0-src/build/x86_64-unkn=
-own-linux-gnu/stage1/lib/librustc_driver-d18035d17505fd2b.so(+0xd2ab55) [0x=
-7f3ae2d2ab55]
-| /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3876356/tmp/sysro=
-ots-uninative/x86_64-linux/lib/libc.so.6(+0x3bba0) [0x7f3ae1e4aba0]
-| /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3876356/tmp/work/=
-cortexa57-poky-linux/rust/1.90.0/sources/rustc-1.90.0-src/build/x86_64-unkn=
-own-linux-gnu/stage1/lib/librustc_driver-d18035d17505fd2b.so(+0x8527820) [0=
-x7f3aea527820]
-|
-| note: we would appreciate a report at https://github.com/rust-lang/rust
-| help: you can increase rustc's stack size by setting RUST_MIN_STACK=3D167=
-77216
-| rustc exited with signal: 11 (SIGSEGV)
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/builds/2610
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/58/builds/672
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/builds/2613
-
-Can you have a look at these?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/files/bitbake-setup.schema.json b/meta/files/bitbake-setup.schema.json
+index 5101b0de53e..72d56f8ad8d 100644
+--- a/meta/files/bitbake-setup.schema.json
++++ b/meta/files/bitbake-setup.schema.json
+@@ -37,9 +37,16 @@
+                                 "type": "string",
+                                 "description": "Human-readable description of the configuration"
+                             },
+-                            "bb-layers": {
++                            "bb-layers-in-sources": {
+                                 "type": "array",
+-                                "description": "List of BitBake layers to include",
++                                "description": "List of BitBake layer paths to include, relative to the sources checkout directory",
++                                "items": {
++                                    "type": "string"
++                                }
++                            },
++                            "bb-layers-in-this-dir": {
++                                "type": "array",
++                                "description": "List of BitBake layers paths to include, relative to the directory with the configuration file",
+                                 "items": {
+                                     "type": "string"
+                                 }
+-- 
+2.39.5
 
 
