@@ -1,154 +1,123 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EEF6CCFA18
-	for <webhook@archiver.kernel.org>; Sat,  8 Nov 2025 19:42:00 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12537.1762630910500797866
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F54ACCFA18
+	for <webhook@archiver.kernel.org>; Sat,  8 Nov 2025 21:14:41 +0000 (UTC)
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14063.1762636474338229473
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 Nov 2025 11:41:51 -0800
+ Sat, 08 Nov 2025 13:14:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=F6A5HQ90;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 3B6EC4E415CF
-	for <openembedded-core@lists.openembedded.org>; Sat,  8 Nov 2025 19:41:48 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E9EE460710;
-	Sat,  8 Nov 2025 19:41:47 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2FB3E11851498;
-	Sat,  8 Nov 2025 20:41:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1762630907; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=y7dFKc4l1IEvInlc02ee0ytTjzv0tfsMXDohYzKtuuE=;
-	b=F6A5HQ908yYK11k8J06Wc0Vr00m5e5mMAtJIrY4Hu5vmQ9RgOgvyZcHZBp5qchJwlB3hpm
-	d8VdIckGd7xiecBMAEg+P0GiAEVBSICbaCYMDJF9X0tfH+0Nog47rCO8nQmPAyJFTFFpNq
-	lL3W0TvBkJXa6KuHTW1Zr2fnBNQ2o8FLUvZUCkMSn5TV7UZ+0avyYNSdipn2v+tY3CQYhg
-	+YZ95rfWFYOq8q+83ZWBggVzfOFLt2GG1ZUYud74s9DESG8R7csTw3yohDs1YWB5GC5lnH
-	ZBnQKbmfFCnop2CEM7JchM/gp7qEx2nBUY9vW4z+6Ulrqu5Nzq7RiEHbibs0nw==
-Mime-Version: 1.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=M04nC/Rq;
+ spf=pass (domain: gmail.com, ip: 209.85.167.174, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-45033024e45so174230b6e.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 Nov 2025 13:14:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762636473; x=1763241273; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h3n28O0yBMLjStOTK5NqjOOLNIUqcR/s7QBC7QvuC5k=;
+        b=M04nC/RqynxXMSmeom0Go/1SLtUh25xz9wNHy4z7uKCHBvHSc0d2PXZQgjysTvfwJw
+         m0/B2SbHfYsTJLK61qr5K2/4NqgLOm4r5G3sTnHLtCi7D46KFqqwOF14GsEz6E4KxWut
+         vw62AK/aLG/V/rEzhb+XdKNYyd8jSU8WVIcaCMljBcqW18L5Jdy9eugOVvmP0DDdYp/T
+         jZgM5sXk/qOG+GocPFs/L9U3ZFUH5D7JurBu0NFScSj/apEP31wOmAWwmaq1fNg1CGCx
+         e4FOBh/h9IZ50CTk9gbD/0UtG/joFX8ZksCaXd473LrfYNxse7t7Pkuk9grAwdB+K2Wo
+         t2+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762636473; x=1763241273;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=h3n28O0yBMLjStOTK5NqjOOLNIUqcR/s7QBC7QvuC5k=;
+        b=tPMRD7fZrfqwQXZsYR2jcxQYKu9Zt5+7ynkHO7LzYxR2y8AyD8NW1QgUNkFPbjJeQX
+         jbOhvyoCv0mrnGAvJ7tC6aLB3bscIh5UztI/vSfUWBF4xBGGXLlkey1BwRD+zgYpZpj6
+         QmQ5dt9sKP0HuC0s73smA+BCHWgQXtmMEn1IWm6uoCLJuoyBh1n80IZ7eN6QiWgckhog
+         tVC/NPUUrzsH4T4bv6S8rcHGZmwqO16rJABIqAAOTbKpQftOI6PW75TQ2UPCgH0pHxsu
+         FCzZryCY1afhIOq4Eg7y8Zw6SbhMhhMhQyVnraCFrb7K+DaMM6tNnkHJyGJASVSa1oLi
+         nR2w==
+X-Gm-Message-State: AOJu0YwMGeVWXGgaI8+w/w5s4E8wdRTgj3vFbHUC/xJCU3oLcOFwtFfh
+	e1ArcLvaXLnU6QK9z7Xp6SaWpSK8SzGdf3+boyZkt9LAeYAEIH0hnrMGVdyB9ZgED4QcaZ5k7hm
+	oKt3c2uQzuSOntXEcULuBsXBppFQazSY=
+X-Gm-Gg: ASbGnctOBd7O+ERB32holdDJOgOvBc7zwkgBNwWmZpu+ycOYdHG5SbvMP4/ulg/cGVE
+	cjJcJG1Bk52Oq4thzzeZZ7foDtExACQSWX43tc7KYWKsUBdcAAh0E17YBZbHGBSLnM+f8zR68lQ
+	CZ2gnco55SvXCmd91okdF+tXfVqGtF4w5S5tq2XMEYBkNu8htGQ/Afc0yVFkTYH0TXZeDEA126I
+	KcdrJ8g94DxHjziAAP6IzAUiWl8Nfl2/APezWfuZHiwv2KTkUcnG7DuyR4F/Omn4/Euyw2R4Vr/
+	Er5vN8XH
+X-Google-Smtp-Source: AGHT+IHR0cnft7wALfyBRXQLhctZlu+r8SD2Ti1m2YcDLPKxEDbdRyHLMJJMkBeNwIALHMakIduMBskDWgwYsAP2jyQ=
+X-Received: by 2002:a05:6808:1a21:b0:44d:a4d3:b6a6 with SMTP id
+ 5614622812f47-4502a3fd79cmr1965822b6e.35.1762636473379; Sat, 08 Nov 2025
+ 13:14:33 -0800 (PST)
+MIME-Version: 1.0
+References: <20251106204536.2079412-1-ankur.tyagi85@gmail.com> <DE35FEGOLJK5.C1B3O2A9MVY7@bootlin.com>
+In-Reply-To: <DE35FEGOLJK5.C1B3O2A9MVY7@bootlin.com>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Date: Sun, 9 Nov 2025 10:14:22 +1300
+X-Gm-Features: AWmQ_bnK_ySMC85bETSywU1ja_B6e-l7He1IeBB3EQqNkFGe-lyjdoFD-FkH2ys
+Message-ID: <CADySD0HbLkexh+Wyjn-3zWXiAAfHfU-qr0kXS6FY4zuJk-Fvrw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 1/4] nghttp2: upgrade 1.66.0 -> 1.68.0
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 08 Nov 2025 20:41:42 +0100
-Message-Id: <DE3KIA2656K1.2UE9T6FAQSG2Q@bootlin.com>
-Subject: Re: [PATCH v4] libxml2: upgrade 2.14.6 -> 2.15.0
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Hongxu Jia" <hongxu.jia@windriver.com>,
- <openembedded-core@lists.openembedded.org>, <skandigraun@gmail.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20251105023236.310076-1-hongxu.jia@windriver.com>
- <DE2A8WAMFQ8I.33H1IHF8RV2DJ@bootlin.com>
- <8a42aa34-7ba5-400e-92d3-3765eeaccedf@windriver.com>
-In-Reply-To: <8a42aa34-7ba5-400e-92d3-3765eeaccedf@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 08 Nov 2025 19:42:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226085
+ <openembedded-core@lists.openembedded.org>; Sat, 08 Nov 2025 21:14:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226086
 
-On Fri Nov 7, 2025 at 9:27 AM CET, Hongxu Jia wrote:
-> On 11/7/25 15:26, Mathieu Dubois-Briand wrote:
->> CAUTION: This email comes from a non Wind River email account!
->> Do not click links or open attachments unless you recognize the sender a=
-nd know the content is safe.
->>
->> On Wed Nov 5, 2025 at 3:32 AM CET, Hongxu Jia wrote:
->>> Due to upstream [Remove LZMA support][1], drop option --without-lzma
->>>
->>> Due to upstream [disable python bindings by default][2] and are
->>> planned to be removed in the 2.16 release[3][4]. If we still enable
->>> python bindings by --with-python=3Dyes, due to upstream [doc: Build doc=
-s
->>> with Doxygen and xsltproc][5], build python binding requires doxygen
->>> otherwise build will fail, and we do not provide doxygen in oe-core,
->>> so remove python package directly.
->>>
->>> Refresh install-tests.patch and run-ptest to not install python test
->>> cases
->>>
->>> Drop CVE-2025-6021.patch which is obsolete
->>>
->>> [1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/1763281cd65ded4067d=
-df123eb7358690c214b0b
->>> [2] https://gitlab.gnome.org/GNOME/libxml2/-/commit/fa931566d2f541d3162=
-c7b98c8a12e6b2a6ae542
->>> [3] https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.0.news
->>> [4] https://gitlab.gnome.org/GNOME/libxml2/-/issues/891
->>> [5] https://gitlab.gnome.org/GNOME/libxml2/-/commit/bbe5827c94cc9b0e393=
-ff3e6eef6dec2376317e2
->>>
->>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->>> ---
->> Hi Hongxu,
->>
->> Thanks for the new version.
->>
->> It's not clear to me how, but it looks like this update is breaking rust
->> build:
->>
->> ERROR: rust-1.90.0-r0 do_test_compile: Execution of '/srv/pokybuild/yoct=
-o-worker/qemuarm64-tc/build/build-st-3876356/tmp/work/cortexa57-poky-linux/=
-rust/1.90.0/temp/run.do_test_compile.3947248' failed with exit code 1
->> ...
->>
->> alues("optimized-c"))' --check-cfg 'cfg(__aarch64_swp8_rel, values("opti=
-mized-c"))' --check-cfg 'cfg(__aarch64_swp8_acq_rel, values("optimized-c"))=
-' --check-cfg 'cfg(target_feature, values("vis3"))' --check-cfg 'cfg(featur=
-e, values("checked"))' --check-cfg 'cfg(assert_no_panic)' --check-cfg 'cfg(=
-thumb)' --check-cfg 'cfg(thumb_1)' --check-cfg 'cfg(f16_enabled)' --check-c=
-fg 'cfg(f128_enabled)' --check-cfg 'cfg(intrinsics_enabled)' --check-cfg 'c=
-fg(arch_enabled)' --check-cfg 'cfg(optimizations_enabled)' --check-cfg 'cfg=
-(feature, values("unstable-public-internals"))' --check-cfg 'cfg(optimizati=
-ons_enabled)' --check-cfg 'cfg(x86_no_sse)' --check-cfg 'cfg(kernel_user_he=
-lpers)' --check-cfg 'cfg(feature, values("mem-unaligned"))'`
->> | error: rustc interrupted by SIGSEGV, printing backtrace
->> |
->> | /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3876356/tmp/wo=
-rk/cortexa57-poky-linux/rust/1.90.0/sources/rustc-1.90.0-src/build/x86_64-u=
-nknown-linux-gnu/stage1/lib/librustc_driver-d18035d17505fd2b.so(+0xd2ab55) =
-[0x7f3ae2d2ab55]
->> | /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3876356/tmp/sy=
-sroots-uninative/x86_64-linux/lib/libc.so.6(+0x3bba0) [0x7f3ae1e4aba0]
->> | /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3876356/tmp/wo=
-rk/cortexa57-poky-linux/rust/1.90.0/sources/rustc-1.90.0-src/build/x86_64-u=
-nknown-linux-gnu/stage1/lib/librustc_driver-d18035d17505fd2b.so(+0x8527820)=
- [0x7f3aea527820]
->> |
->> | note: we would appreciate a report at https://github.com/rust-lang/rus=
-t
->> | help: you can increase rustc's stack size by setting RUST_MIN_STACK=3D=
-16777216
->> | rustc exited with signal: 11 (SIGSEGV)
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/builds/2610
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/58/builds/672
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/builds/2613
->>
->> Can you have a look at these?
+On Sat, Nov 8, 2025 at 8:52=E2=80=AFPM Mathieu Dubois-Briand
+<mathieu.dubois-briand@bootlin.com> wrote:
 >
-> Seems no direct relationship with libxml2, but I will still have a look=
-=20
-> and try to reproduce the rust build failure
+> On Thu Nov 6, 2025 at 9:45 PM CET, Ankur Tyagi via lists.openembedded.org=
+ wrote:
+> > From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+> >
+> > Changelog:
+> > https://github.com/nghttp2/nghttp2/releases/tag/v1.67.0
+> > https://github.com/nghttp2/nghttp2/releases/tag/v1.67.1
+> > https://github.com/nghttp2/nghttp2/releases/tag/v1.68.0
+> >
+> > Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+> > ---
 >
-> //Hongxu
+> Hi Ankur,
+>
+> Thanks for your patch.
+>
+> It looks like there are some new installed files that are not shipped:
+>
+> ERROR: nghttp2-1.68.0-r0 do_package: QA Issue: nghttp2: Files/directories=
+ were installed but not shipped in any package:
+>   /usr/lib
+>   /usr/lib/cmake
+>   /usr/lib/cmake/nghttp2
+>   /usr/lib/cmake/nghttp2/nghttp2Config.cmake
+>   /usr/lib/cmake/nghttp2/nghttp2Targets.cmake
+>   /usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake
+>   /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/2701
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/2533
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/92/builds/2683
+>
+> Can you have a look at this?
 
-I tried to pick again your patches, and I'm not seeing the same issue
-this time. Some tests are still pending, but I'm highly confident they
-will succeed.
+Thanks for pointing it out Mathieu.
 
-In addition, the same error also appeared while testing other patches,
-completely unrelated with your. So it's more likely that we have some
-bad intermittent issue with rust.
+I also managed to repro this locally by enabling multilib, sorry I
+should have done that in the first place.
+Will send v2 later today with the fix and also enable multilib support
+for future submissions to avoid such errors.
 
-Thanks for your time,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+>
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
 
