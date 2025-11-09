@@ -1,82 +1,95 @@
-Return-Path: <simone.p.weiss@posteo.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD111CCFA1E
-	for <webhook@archiver.kernel.org>; Sun,  9 Nov 2025 15:37:46 +0000 (UTC)
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.26763.1762702660536426213
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6FAECCFA1A
+	for <webhook@archiver.kernel.org>; Sun,  9 Nov 2025 15:46:36 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.27025.1762703194794101373
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Nov 2025 07:37:40 -0800
+ Sun, 09 Nov 2025 07:46:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=ID53u1pJ;
- spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 63F64240027
-	for <openembedded-core@lists.openembedded.org>; Sun,  9 Nov 2025 16:37:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.com; s=2017;
-	t=1762702658; bh=IiKV4wEqGSeFwSW/gtbzfakJjOIOtf3G40mhgKVEDT0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:From;
-	b=ID53u1pJotO73G27IJpHCsWDcvONeaQhcH3w21c0z2eAwcAg8cUyT8zcWP/1kA5t0
-	 FmNZJHe00PRiggAog9ID9k0nmCsGx1lM80q5aZvuL2BRylKihLZwCP3DV3Oih8Wh8t
-	 T9cKTm1jv2YfgvWVmtUYdQeloQsztdcWQozsMtxf5IxVeBqtm9Q+M/USr3DShHO8cp
-	 K19OPJnSV6L9y/gBSt0g7gOgKJed7AZ61d5Gk3h4bBkjWKmrcjChXQ7idBmAvRh7YI
-	 9lYCYK62ntRepLgeEcclJvaN2r4rhaSdvF/A3Jv/60VnH1EFnpRGLrPSZaTvwM9J1w
-	 I5NOwX6sfoWLQ==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4d4H413k2cz9rxB;
-	Sun,  9 Nov 2025 16:37:37 +0100 (CET)
-From: simone.p.weiss@posteo.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UQSGnNvZ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47118259fd8so14892345e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 Nov 2025 07:46:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762703193; x=1763307993; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1ScM4vRXwRSAkT4/gd3/GMCGIinb+UPIQupNQ8zVO2c=;
+        b=UQSGnNvZHxpC5J821lxU608kX/CLmfDxVevJ4pTa/CYKgoFgVZdj+VBBeMsFCrsokr
+         PaLRhSHwKwSxEAkl1GGMEKLxm4NqIQRLh03nVuJhtDiNSbbsziLAQ5N9+rnPOX5hvJ+R
+         ElBdaLbr8+sl2Ix8xlbdApkHmAAZqQCBUqEQVibK2H7ezhq9+jimiO2QGVvI824mWxoP
+         icNHmd0+hETFiYOw/MXAZnHbjQq4Q8f/jSb+j528Qfv2NI2YDlwEoOsQ/M73NgkbSSkJ
+         PHHJQFF872U2MGokmmijVdOv+AWeThStNdF53BAFElHhspeloZF1dm3SODUVJb4KY439
+         Eiww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762703193; x=1763307993;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1ScM4vRXwRSAkT4/gd3/GMCGIinb+UPIQupNQ8zVO2c=;
+        b=WDChPPzvsZuRiFc0UseusHKMjz1qC/nBefRiWiTsCUlv6vxvUghpTCPCxAKuYhFZvX
+         zAcefhA+B84lOkSic5L3ee/f0rwrrADrtWJzDTpdvVkn92OiFgak9IqK4PIz93s2Ts6t
+         7hxO07CmEkYUT/8Nd2beuPHA6SBU4fFvC8GwYoh6plObrD6zL0fOq71i0vPlpihVH941
+         NqsssAEQToctSdTNJflo/KiAJN/ubKJY00htHHGoYF29Otn8zang5ZpN69uKZ8U0g7q9
+         mzMb1cH3m8aOir9o3PwLJuXTFrMR/406MziOC9l/zToo+XbqFR5kNFnqoD9I7ZOFttLf
+         yT2g==
+X-Gm-Message-State: AOJu0YxOM8k3L6qjwE6STVdlVO5GyZglJA2bqcGm9mqHYT1mAUqmS9/s
+	3rYj6OTQXH/parosoJrDPzxpVRiUaoNzqss84/eApr7pKdse3ePJ9YpGLIR9bSTF
+X-Gm-Gg: ASbGncv3r8NrSZJM5x1qxSfjSpdYAyuy6oOeNGhSy20ElUfU17Zcm9J5/EQtHBiuyP5
+	KMyRQcx3f5EdbKS81Cc50NvOhqvZnDun8g22DWPzdo6iXXHISsy8yCOLNG5395NH9sQgV+eFm56
+	wblmQeLo1Kw1m/4RNoLxvKHv6BE1+PozBDXKypdhtYj/XUNAmBbcFxN/rQOTzELvwvHlPAauS2w
+	6paBxAdjEmDRxucuT+M1JmPiNvV/8/rn3LD1K2MHKgyYBdKAgStucsLiyWzKMki4HQNNeshNSGH
+	ZX+4CD3LcSDi1W66+/lzSBPXE6hAk4DLm2yb5ZEp2Lj2QqIAam1iW0DuyOSAJ1jwbrOVHhS82ze
+	Q1uMZ2iHt3y59v3+13y3iVL7hDnlQqnL/NjIfnR9CjVw7qhYm8XnhS32nO2AEUG/XC1iQorEyEY
+	Lk5IyjVEb5
+X-Google-Smtp-Source: AGHT+IGJJMYQYjw1SXbW4neRnCghtox5N4Vzz4qi6aRw4r83LZnBMnZ+C03SJKGzrV+43JtdsTSu+Q==
+X-Received: by 2002:a05:600c:1912:b0:477:79a0:51e with SMTP id 5b1f17b1804b1-47779a0061amr19713355e9.40.1762703193040;
+        Sun, 09 Nov 2025 07:46:33 -0800 (PST)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4777bbb8c59sm7062985e9.17.2025.11.09.07.46.32
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Nov 2025 07:46:32 -0800 (PST)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>,
-	=?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.net>
-Subject: [PATCH 2/2] libadwaita: upgrade 1.7.6 -> 1.8.1
-Date: Sun, 09 Nov 2025 15:37:37 +0000
-Message-Id: <20251109153719.10026-3-simone.p.weiss@posteo.com>
-In-Reply-To: <20251109153719.10026-1-simone.p.weiss@posteo.com>
-References: <20251109153719.10026-1-simone.p.weiss@posteo.com>
+Subject: [scarthgap][PATCH] xf86-video-intel: correct SRC_URI as freedesktop anongit is down
+Date: Sun,  9 Nov 2025 16:46:31 +0100
+Message-ID: <20251109154631.2464244-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Nov 2025 15:37:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226094
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Nov 2025 15:46:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226095
 
-From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-Changes: https://gitlab.gnome.org/GNOME/libadwaita/-/compare/1.8.1...1.7.=
-6
+(From OE-Core rev: 04037a14e1431c4a51f5d51885974732a6108368)
 
-Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.net>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 9649bec517996558e01d668d2b59e68306a3a647)
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- .../libadwaita/{libadwaita_1.7.6.bb =3D> libadwaita_1.8.1.bb}     | 2 +-
+ meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/libadwaita/{libadwaita_1.7.6.bb =3D> libadwait=
-a_1.8.1.bb} (88%)
 
-diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.7.6.bb b/meta/rec=
-ipes-gnome/libadwaita/libadwaita_1.8.1.bb
-similarity index 88%
-rename from meta/recipes-gnome/libadwaita/libadwaita_1.7.6.bb
-rename to meta/recipes-gnome/libadwaita/libadwaita_1.8.1.bb
-index 6e5eca38de..16ef1db38f 100644
---- a/meta/recipes-gnome/libadwaita/libadwaita_1.7.6.bb
-+++ b/meta/recipes-gnome/libadwaita/libadwaita_1.8.1.bb
-@@ -11,7 +11,7 @@ DEPENDS =3D " \
-=20
- inherit gnomebase gobject-introspection gi-docgen vala features_check
-=20
--SRC_URI[archive.sha256sum] =3D "5eacc5550f0bdbba6a1568aebf25a3d88f5ee07d=
-6b558becc6fd9487579c9a29"
-+SRC_URI[archive.sha256sum] =3D "8b1d4d5f89373a5b6eea8d93ecdaee34cd26ad27=
-a4dd396c06f5d9929fb313bc"
-=20
- ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
- REQUIRED_DISTRO_FEATURES =3D "opengl"
---=20
-2.39.5
-
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
+index 2e526bd799..0a42bd9975 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
+@@ -13,7 +13,7 @@ SRCREV = "31486f40f8e8f8923ca0799aea84b58799754564"
+ PV = "2.99.917+git"
+ S = "${WORKDIR}/git"
+ 
+-SRC_URI = "git://anongit.freedesktop.org/git/xorg/driver/xf86-video-intel;protocol=https;branch=master"
++SRC_URI = "git://gitlab.freedesktop.org/xorg/driver/xf86-video-intel.git;protocol=https;branch=master"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ 
 
