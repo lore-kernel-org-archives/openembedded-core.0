@@ -1,104 +1,106 @@
-Return-Path: <nmjain23@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A4DCCCF9E3
-	for <webhook@archiver.kernel.org>; Mon, 10 Nov 2025 11:39:03 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.46214.1762774734760698316
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48AA0CCF9E3
+	for <webhook@archiver.kernel.org>; Mon, 10 Nov 2025 13:59:14 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.48492.1762783147460254913
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Nov 2025 03:38:54 -0800
+ Mon, 10 Nov 2025 05:59:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ayONk/BQ;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: nmjain23@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b8c0c0cdd61so2412110a12.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Nov 2025 03:38:54 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GjijVVCG;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4775ae77516so36440155e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Nov 2025 05:59:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762774734; x=1763379534; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vlF73EB7E/JRHRHSWIPBdzMxi7vNwaM+9s4hhbo1SxA=;
-        b=ayONk/BQDyXYFh+eepB298YdbeiAARJ0MpKVFdc1ImLaf9m7GxehZKJH+e82u9FGzV
-         TugHy0uoNOpmjwXMLUNlq0txjmR4Hcg/8OkgSoyHHEOF3akKStuJwnBP4fu3vVH0/NU4
-         dgAd/ae+UQnAA9wpfmh9899ai86HS/7hV1nRI5HbAmqXdWJirS2dds2DfF6vsLG+UyUJ
-         H9ZGkXK+jYk1dv0EAnA3d5mixGYi9MwdI2bjidLzlBgJiWD1sdhL2mRHy0vwxDRW2mE3
-         W2Vc929hKXbpgyeGvVnbvJXA4nTJcxfbv7QkyvbIeh+fvSR+DutBIRBkk06WHhReJsF5
-         HQxg==
+        d=linuxfoundation.org; s=google; t=1762783145; x=1763387945; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OR3JZNgSf+crEwVpGiJRpWdU7I6Ro9mu7LxDgE1mG0g=;
+        b=GjijVVCGpVZWslwpnIgYw/v4chRyMA4Z0gH+XrbCm1t/mP3wrxUCGdy6ANh6iSnb4i
+         lia4nLwql449zRuG/75MNEO3AebplIu1Hcv556XAv37fa4ht9MdzIo1VAst80VsIm9zm
+         15RcGh0hdyCyNFib922Wqd3FDJ20BgR31rWiI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762774734; x=1763379534;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vlF73EB7E/JRHRHSWIPBdzMxi7vNwaM+9s4hhbo1SxA=;
-        b=OYDkZhLJZYg81/2Pfk4B8xFzsIwzN/4K859ab11kYcFjsNs+Irw0HhvIaGKgLD0Nhm
-         49m0EYZ40go/Zw4SWxnLWSHhOP5mbHGn/EDVW9/ZD2Lh7giTzr7BQ818T+fYgOjlHcW8
-         BqYQiHnVAmX06O2eDB8HHnexvsDSiSZJxivK2p4mJZPXFyAMDKwzUILzFngEVfO6eny1
-         fxAH5xYVWXZZN07EgVsd7rBEZk/WGbgNnp1oj4U6J0aRcr6F8YRTPInx4XYaczvE7ilM
-         vAEA39aD73j1IWyAZroJGAxHlPDPCoup5hbpxfyxmPsnDsHJj1vt1uPPB8eh2x7JXyhY
-         H64A==
-X-Gm-Message-State: AOJu0Yxm+h3ermA/shUx+/uLaHRNBp0ejGxkPAxnoQciEmpdGnyuixGO
-	kLAuhpvk83deIO/m5gxIkLxGT/XYGatkwl8V3k2nzM0UMUU1ccVtOGWnbIydrQ==
-X-Gm-Gg: ASbGncuuxnCmu8Q1fCejl1+rQZFCF8dBtbbkvxBWN3BdS6XTlTzIqfftcABYxw8jm7I
-	cBNj4612zQ+vP2UvwWUXtCvAiXOUgP0KttLoTOoc33J/aDqwWChey88kTnId4Y3fMbC4NHuyGH4
-	fVhQAFhzzQ8DyGP0xdyeccLwQsjMExYUpGE6GdM+UlphAfxq6wJpHhklVOzgcPhcLqFpQkESq2K
-	d7UAGCHHVrdDFtfRJl8zoDq93zfo3vkB/tc9uFde6683E/pNTHGhqZTFrwImX5T4AiE62NqIcLr
-	BqZAEz7XTtqOe118zaPRuyoKDlX19jIsY2oC4+wvp0LPE4OAnmAvVtETEYQLoVBxOtiQNjpmf6c
-	37dSnNRmTw+yHFUga8hgyj13TzJKI32p4dhG0XJ4ONceqK4jaRXfk6PnXkSOk0DEn2d0w7eh1e5
-	XNHF/Ei2wMdzYuoIM9
-X-Google-Smtp-Source: AGHT+IHkpKM7QuBaiwcDI/WRAjPV+e0eZdONKqJBHYOfB9IKZRVcIR7QcJLwr8wQImvMzt1/CdKmFg==
-X-Received: by 2002:a05:6a20:94cb:b0:352:4411:6785 with SMTP id adf61e73a8af0-353a21cb41amr10182451637.44.1762774733972;
-        Mon, 10 Nov 2025 03:38:53 -0800 (PST)
-Received: from LL-3450LLL.kpit.com ([103.133.67.152])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0ccc59e44sm11716956b3a.64.2025.11.10.03.38.51
+        d=1e100.net; s=20230601; t=1762783145; x=1763387945;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OR3JZNgSf+crEwVpGiJRpWdU7I6Ro9mu7LxDgE1mG0g=;
+        b=iaNyO8tnwC9xGMJ3JyCx0knLu9tiYk2+G3eac0wGIND+TdakOIWXzMINl8uSBd9ygm
+         vdFnPPhFVFz19Bva1DyxnS+cTUAWCq5JVyKhcorz8dipy6MLIWnDBQH1SATfq3ox5SmN
+         yPQh66tTBgU1H1XFoaKxH0NLQLofF26AFuwxk3OFuQfIqyeQx2bD2gIhk/biUD5xABqB
+         TlgJoNAvVEo1cA3s6BufYipcuPLAPT52QOxg6s4r8GE1PAO2tb0mpWjt7RRqQzIU2Mw8
+         IAuQ4liNvD1h7NCWSL6jq64aqPzJeEDdqZLyYOTTWqeBLztPnHk+fJpHtunoEvaZWMjj
+         /CTw==
+X-Gm-Message-State: AOJu0Yzcqn58FgL6M/50sF1iUxUmfstCN0GrReA/gw0EYbcG93A1GCen
+	W/61oR4NUz6SllnULnir0t19r3x8kgoj+wlUmPzNgZqsZmVFwcny5mD4fOMtDMeo2fYbkVFCcRZ
+	fzWZ7
+X-Gm-Gg: ASbGncvvfOJNdHyji3WumHmLhVJO6uzDjvypC8kd1tTw5lGYQWZcgaDb18yJypDgp04
+	4hqrnnuf0VZSF6ENTz7Xpap9Qm6fR3wPJpzkTPp0qWYd7VXzgWn9WfqJNZ+cu/S8kRz5YAOQe0L
+	P7jEoAMI0LsIo4PWdOKkIeY4NhQUlyOOPB8lzeABPg98+RStDJvL7LJ325Y11QgPpKLbjCyKuCd
+	Db2TRXMrwDwpdK2yMWGoxmSNtlYMrW6hXHwxMwlM6g8PAIdnKgli3/b936VlVPUi+WISHQoBEbA
+	AtSlkm18g8nopR+gUHuMzhXfj3Ef3WO6k7YRIAPDAfoTpgoO6ifC9gpu6np1qDSetZtWVl5HyxY
+	QluQfsmuGHOsD7IERFPglns9TMKVV0ya/GcZ5wo6Knc8q6S8m40L+deXhcd5vOY5yyvyzYnOWhl
+	JzxPOF8CLNBSBRQJYK4Gv8t4PKz6wAnYYZAsmpWOQ=
+X-Google-Smtp-Source: AGHT+IFrFGyVMx+6kUfOPneegVBgJ+H2K+gyLaPDau7l0jlpsBENdwYo3+FEj0xSivgKptP0+sMAww==
+X-Received: by 2002:adf:9d89:0:b0:42b:3090:2680 with SMTP id ffacd0b85a97d-42b30902856mr4947530f8f.10.1762783144971;
+        Mon, 10 Nov 2025 05:59:04 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:ec3b:58b3:3d18:55e2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b2fb308f5sm14164265f8f.42.2025.11.10.05.59.04
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 03:38:52 -0800 (PST)
-From: Naman Jain <nmjain23@gmail.com>
-X-Google-Original-From: Naman Jain <namanj1@kpit.com>
+        Mon, 10 Nov 2025 05:59:04 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Virendra Thakur <virendra.thakur@kpit.com>
-Subject: [meta][kirkstone][PATCH] socat: Update LICENSE field
-Date: Mon, 10 Nov 2025 17:08:38 +0530
-Message-Id: <20251110113838.852524-1-namanj1@kpit.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH] oeqa/selftest/devtool: Update after upstream repo changes
+Date: Mon, 10 Nov 2025 13:59:03 +0000
+Message-ID: <20251110135903.2426523-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Nov 2025 11:39:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226120
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Nov 2025 13:59:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226121
 
-The below reference clearly states that GPL-2.0-with-OpenSSL-exception
-is to be used with GPL 2.0 or GPL3.0 and not as a standalone license.
-Therefore, update the correct license.
+The upstream changed the branch name, moving to archive/ so we need to
+update too. Take the opportunity to match the new location too to avoid
+the redirect.
 
-Reference:
-https://github.com/aboutcode-org/scancode-licensedb/blob/569d72e13e7c8d14a44380f91e80c5a2d4091f8f/docs/openssl-exception-gpl-2.0.yml#L7
+We could use a different branch but upstream would probably eventually
+rename that too so this may last longer.
 
-Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
-Signed-off-by: Naman Jain <namanj1@kpit.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-connectivity/socat/socat_1.7.4.4.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-connectivity/socat/socat_1.7.4.4.bb b/meta/recipes-connectivity/socat/socat_1.7.4.4.bb
-index 86ca5879be..4a18219208 100644
---- a/meta/recipes-connectivity/socat/socat_1.7.4.4.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.7.4.4.bb
-@@ -5,9 +5,10 @@ HOMEPAGE = "http://www.dest-unreach.org/socat/"
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index b92f017b81..8d7e984753 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -469,8 +469,8 @@ class DevtoolAddTests(DevtoolBase):
+         version = 'v3.1.0'
+         pn = 'mbedtls'
+         # this will trigger reformat_git_uri with branch parameter in url
+-        git_url = "'git://git@github.com/ARMmbed/mbedtls.git;branch=mbedtls-2.28;protocol=https'"
+-        resulting_src_uri = "git://git@github.com/ARMmbed/mbedtls.git;branch=mbedtls-2.28;protocol=https"
++        git_url = "'git://git@github.com/Mbed-TLS/mbedtls.git;branch=archive/mbedtls-2.28;protocol=https'"
++        resulting_src_uri = "git://git@github.com/Mbed-TLS/mbedtls.git;branch=archive/mbedtls-2.28;protocol=https"
+         self._test_devtool_add_git_url(git_url, version, pn, resulting_src_uri)
  
- SECTION = "console/network"
+     def test_devtool_add_git_style2(self):
+@@ -478,8 +478,8 @@ class DevtoolAddTests(DevtoolBase):
+         srcrev = 'v3.1.0'
+         pn = 'mbedtls'
+         # this will trigger reformat_git_uri with branch parameter in url
+-        git_url = "'git://git@github.com/ARMmbed/mbedtls.git;protocol=https'"
+-        resulting_src_uri = "git://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master"
++        git_url = "'git://git@github.com/Mbed-TLS/mbedtls.git;protocol=https'"
++        resulting_src_uri = "git://git@github.com/Mbed-TLS/mbedtls.git;protocol=https;branch=master"
+         self._test_devtool_add_git_url(git_url, version, pn, resulting_src_uri, srcrev)
  
--LICENSE = "GPL-2.0-with-OpenSSL-exception"
-+LICENSE = "GPL-2.0-only & GPL-2.0-with-OpenSSL-exception"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://README;beginline=257;endline=287;md5=82520b052f322ac2b5b3dfdc7c7eea86"
-+                    file://README;beginline=257;endline=287;md5=82520b052f322ac2b5b3dfdc7c7eea86 \
-+                    file://COPYING.OpenSSL;md5=5c9bccc77f67a8328ef4ebaf468116f4"
- 
- SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
-            file://CVE-2024-54661.patch \
--- 
-2.34.1
-
+     def test_devtool_add_library(self):
 
