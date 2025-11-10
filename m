@@ -1,150 +1,151 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAAA2CCF9E3
-	for <webhook@archiver.kernel.org>; Mon, 10 Nov 2025 20:21:41 +0000 (UTC)
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.780.1762806096948640366
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00E19CCFA13
+	for <webhook@archiver.kernel.org>; Mon, 10 Nov 2025 20:38:01 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1134.1762807075129788742
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Nov 2025 12:21:37 -0800
+ Mon, 10 Nov 2025 12:37:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dmNYYHiQ;
- spf=pass (domain: gmail.com, ip: 74.125.224.49, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-63e1e1bf882so2771649d50.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Nov 2025 12:21:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PM0mJY4m;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-29586626fbeso30950285ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Nov 2025 12:37:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762806096; x=1763410896; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=311zUhhZHaWPElZZDvgZ+rnlwFtzld6n+ah3Cz96D10=;
-        b=dmNYYHiQ3glMWJMlWx7jmUS2bGQVoIQbqq+sv+ZusA8LUSSr8RZX1xkYnRG6XqcwOT
-         nYGs+WVi56xDsntdE8gdbnGtmShSo+Rm6pHq2jVEC0hq3X+ewkRjFlooLnhjtwftZlN5
-         PgDVhtXTrxn6FrtYZh+++2jr/hOIgSIClnSWITf+cgC4L0Cje3dycdNJ7RXo3V4zwLEP
-         r3GgEmu0Uckfu3IewgfdRKlgHOkP/yRklGcA2mBnre06/Y24c2HgyFgTs+qiEvu6pvQQ
-         NxpSZ2+imx2i7tYubPqgWN80GAEKGzN15n8dmGX9sc3Q/+uPH2weEJBesbJ7a27mT/ki
-         DjeA==
+        d=gmail.com; s=20230601; t=1762807074; x=1763411874; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ALi/TvL7VQ5twcXZ8nnMcS3bMQ2UcXfJnN/+u7QZHC0=;
+        b=PM0mJY4mrMi1+FqNKxucNKYVFQU+LvNrWcL4YYaY7Ixj6WxT0ka6KYbvPa3ATQx6EV
+         Z1Mmq6MmRGTVp9G1+wZCpH5T5gVQrVwclGzgT32L2IwYejPQ2lag5GHb0Uo2YVNcuj5f
+         SCK0vQl7SbqXG+cuIfFgqJdlMSphznOTXtbcGwJ9a7FYmsMxsnwzd7w3kBM584ygJ6ko
+         xsBcr8q3mhqop/pYXQsfV5b3OVbiSgnqOwd5ZNqEBhxOHNWQXQG4DHSyFQ5w1X04ofNa
+         WBTRxpK18POn2JFJ/ql2HX3CaK20dyPAKEac8xWDrBwCVsu3W1PvAFuXtWjW9QOoGhSW
+         O7ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762806096; x=1763410896;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=311zUhhZHaWPElZZDvgZ+rnlwFtzld6n+ah3Cz96D10=;
-        b=L2GrQsVnU0j+ef+Jbhleby7mBl5cQDamVhG/ibF1EFDhfsUqjP+gq98FYNS1mI7LIX
-         S0nFzAkbREpiMV3rFq4ER6xXGD7y7IsVnemo7YE/g0XjRUHz3Dl1JvCkESQrzNRfnjZd
-         9m3UJlnp80uHSC32qVBQBkSjQzkseyM6tctqk+4DuIQjbahdCBkVZYNLLGptC/v9V4vO
-         okTqZAC6i/9alG8O2//U3cwEPz4UJO1EaHZm+S9o75NH9lZmt6Do1b8FvvWwLLG2eY8B
-         3hnx9tmlgmrdqy3BBfM009eoysWwon93IAo5rCTWsC0syMxgbFYWy+MZMxa9UDIyfskJ
-         V3Cg==
-X-Gm-Message-State: AOJu0Yxh0ooe8mLOw1lmurNYJrinuhg8jH2xrowWrb945t7scV7XTJjy
-	eX2ymNgvnuaqfX0sT2MoDt05sDye1vVyaCH/me81bcbia9qM83zopBCT6oYYH8XuI3opREQRyLg
-	NjNgeedQ/XxMXvpmuBLxL6XlIzzFXx/Q=
-X-Gm-Gg: ASbGncttV573YC3m6Ty3Flp16vmjLkKaRMdR0erARcwbPcslAKvUDMBBlswY1p2Hcx8
-	7ahgc432kzQfE/uzOv4DgR0cm4X2d2zLtWHV2SkI56n1KvX7pmgCItLIEwae63CE5kAWMR6GCOG
-	n4LynzluyfpwyRHvK5YvPu46ZInDHZYmLKpgBybYqFfRZEHau+8wCCOwqnzulJ38FG1mDFoaodf
-	ZpBWBCMN3LyafD5EeBRlUG9v9GMzOt+mYdvvCPzB0TG6EV0AHARUFQPqbPkQJnB+vhlDMVrF1mJ
-	mcWVfpfOIQ==
-X-Google-Smtp-Source: AGHT+IEOKmSUSeVAINMIS0RiLY5851xe9FDXjxkV2zjwC/PvApRz+OA69GM29iaEVPxFxAwmMoECWa/9dxdIS/DFJ/o=
-X-Received: by 2002:a05:690c:dc1:b0:785:bfd8:c4c5 with SMTP id
- 00721157ae682-787d53527c1mr164209347b3.11.1762806095934; Mon, 10 Nov 2025
- 12:21:35 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762807074; x=1763411874;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ALi/TvL7VQ5twcXZ8nnMcS3bMQ2UcXfJnN/+u7QZHC0=;
+        b=wUdWAGwQBS1wY26Y+PyfuFEAuiN3XMdcKbjnCvqCfIubBG9u/L4VbRPmPYalClxJ19
+         e03HpUJ9j7ZtpQyPYS9AEEDMwwJIrsnIXqoJ3GIhseWUfB17/Z5JF/YEIiwvu1axq3BU
+         OvF28bsj8+ryw/SsiqYg66fX9eWgpgqx/p5MKmzgmHfIY304cjOWd1M6goU6uZMnVK//
+         JahoRm1fVjR0vOuyIAgLtJiDNNF8zmwUYaWzAdx6XZBUkIGw8ajzE6GeHSA+3O4GUJZr
+         ajiKrnT9DeBZhRBr+oJoeOBJUBzAe/sh2inxWQdekbcZaVaaJO36H51vz7yjoVPJts6w
+         VBHQ==
+X-Gm-Message-State: AOJu0Yy5/hEsp28PNEDT5iPI2DpHtvwtCuxNd2t6awji+OjPYzxEQq/m
+	RFqcG8JCDcq3aRVCA9OCWN5aS5zmj9GMlvVjHOcnPHTF50kmxxt442QdJl9TDqy2Fy4=
+X-Gm-Gg: ASbGncuvSN+e8Z+OpT7Mn+wSmLNZwUTCjsY7Nx8gw1h+lKd0kbIIQXjRw15vl/nTT5d
+	MzRKcg0/ks7zbSKd1JBYa+doaFi4fflPPdLA+2HwdsoQXK9aZmQY1GxX0xRgfoJyjUvW2uJk7cr
+	WPwSYzgXeF9OC3bk9tHiUprq8MG35ecrD5JUrS1+UmT4MJOLtNTFtG+Zd+MO4YFZMz5dipbg6Bb
+	ZGNloprIOE5cbT15QFn5Cw04EWSw6pMuFLM/dQREMCMMbWyzrzSHKruwVOWc4uXGE8RDNgmWu40
+	lbGuHDGoYMz+d4fvlMhgrV9i+QdB8Yw4OFNERKjNnHssqlE82Wu21fIkdsfSd3sJDdNW0NsRALx
+	r0fSZLghFpE9oFE4MgCR3e6jxQFL+pLW/88lKf3745jt5pQ59aBO72u0QzaZkUB+ZPR/efpnbwE
+	4S0jUkafVTQ9GPc6n96QQcXUG1fuROG7Iu3svUpFG+V18apMz3rkqBR9JjefIJhL2q1CjssBgpc
+	k0yp8ky2oM=
+X-Google-Smtp-Source: AGHT+IEgH1cInXO3PvJIy4HKzK9bKpQKQaFkkCPOZdw5HOMiKbv3CRo95w0V7eapTX5Djx4aDVUluA==
+X-Received: by 2002:a17:902:ce92:b0:250:643e:c947 with SMTP id d9443c01a7336-297e56bdf49mr120034375ad.28.1762807074203;
+        Mon, 10 Nov 2025 12:37:54 -0800 (PST)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::888a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29651cc1907sm154868535ad.99.2025.11.10.12.37.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 12:37:53 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] virglrenderer: Fix build with glibc 2.43+
+Date: Mon, 10 Nov 2025 12:37:51 -0800
+Message-ID: <20251110203751.777801-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-References: <b2e867d19c02966f3e11d2c7e6b7765564587df5.camel@emlix.com> <6df562d0-8ce8-481a-a913-11bae6e0abaf@gmail.com>
-In-Reply-To: <6df562d0-8ce8-481a-a913-11bae6e0abaf@gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Mon, 10 Nov 2025 13:21:25 -0700
-X-Gm-Features: AWmQ_blAnTvE-6VcGiXLcbCcJBtyi442P2YsLl5nNoyQqA-4R24YeItevLhVlwY
-Message-ID: <CAJdd5GY8rkuNt2G4tSwG1Bfc3vaG8+ojBb0Hs+nEsj=r3Nt1Lw@mail.gmail.com>
-Subject: Re: [OE-core] Thoughts on SPDX for files from meta-layer
-To: fbberton@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Nov 2025 20:21:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226138
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Nov 2025 20:38:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226139
 
-On Mon, Nov 10, 2025 at 10:18=E2=80=AFAM Fabio Berton via
-lists.openembedded.org <fbberton=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> Hi Daniel,
->
-> I'm working on something similar and have shared what I have so far, http=
-s://lists.openembedded.org/g/openembedded-core/topic/rfc_patch_0_1_spdx_add=
-/116223136.
->
-> Could you please take a look?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...once_flag-ONCE_FLAG_INIT-when-presen.patch | 55 +++++++++++++++++++
+ .../virglrenderer/virglrenderer_1.1.1.bb      |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch
 
-You are correct in the observation that Files don't have a download
-location, so externalRef would be the correct thing to use instead.
-Otherwise, I think you're trying to do something pretty similar to
-Daniel. I'll leave some comments in your patch
-
->
-> Best regards,
-> Fabio
->
-> On 11/5/25 14:54, Daniel Wagenknecht via lists.openembedded.org wrote:
-> > Hello,
-> >
-> > I've looked through the generated SPDX files for a project recently.
-> > I' m specifically interested in the downloadLocation property that is
-> > set for entries in SRC_URI in recipe scope SPDX files, as our list of
-> > upstream sources we need to monitor for security information is based
-> > off those values.
-> >
-> > We'd like to extend the generated SPDX to also cover files from meta-
-> > layers, that are provided via file:// entries in SRC_URI. The files
-> > provided via this mechanism are mostly configuration files, systemd
-> > services, initscripts and the likes, so one could argue that they
-> > are not relevant dependencies and thus do not need to be traced in
-> > SPDX, but we'd prefer to properly trace them in the SPDX documents.
-> >
-> > Are there any thoughts on this, prior discussion that I've not found in
-> > the mailinglist archive or external resources on how such files should
-> > be treated in SPDX in general?
-> >
-> > I'm considering implementing this as outlined:
-> > - for file:// entries in SRC_URI determine which layer provides the
-> > file (via bb.fetch2.local.localpath())
-> > - check if the layer is modified via oe.buildcfg.is_layer_modified()
-> >   -> modified -> abort
-> > - retrieve the layers URL. This is more involved since what
-> > oe.buildcfg.get_metadata_git_remotes() returns might not be the URL
-> > that should be specified in the downloadLocation
-> > My approach would be to introduce a per-layer variable that specifies
-> > it's public URL.
-> >   -> no public URL for the layer found -> abort
-> > - create a SPDXRef-Download-recipename-X entry for the file with the
-> > downloadLocation set to the layers url with commit and subpath of the
-> > file in the repository specified
-> >
-> > If the layer is modified or a public URL for that layer is not
-> > specified the downloadLocation would yield a NOASSERTION value.
-> >
-> > I'd be glad to get some feedback on those ideas!
-> >
-> > Sincerely
-> > Daniel Wagenknecht
-> >
-> >
-> >
-> >
-> >
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#226132): https://lists.openembedded.org/g/openembedde=
-d-core/message/226132
-> Mute This Topic: https://lists.openembedded.org/mt/116135395/3616693
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
-EWhacker@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch
+new file mode 100644
+index 00000000000..1740d7605f8
+--- /dev/null
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch
+@@ -0,0 +1,55 @@
++From 179e744f7577d98df7c79d7324c22acfb32a0154 Mon Sep 17 00:00:00 2001
++From: Dave Airlie <airlied@redhat.com>
++Date: Fri, 7 Nov 2025 13:14:56 +1000
++Subject: [PATCH] c11/threads: fix build on c23
++
++C23/glibc is now including once_init in stdlib.h
++
++https://patchwork.sourceware.org/project/glibc/patch/78061085-f04a-0c45-107b-5a8a15521083@redhat.com/#213088
++
++Just fix up our use of it.
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1567]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/mesa/compat/c11/impl/threads_posix.c | 3 ++-
++ 2 files changed, 4 insertions(+), 1 deletion(-)
++
++--- a/src/mesa/compat/c11/threads_posix.h
+++++ b/src/mesa/compat/c11/threads_posix.h
++@@ -51,7 +51,9 @@ Configuration macro:
++ #include <pthread.h>
++
++ /*---------------------------- macros ----------------------------*/
+++#ifndef __once_flag_defined
++ #define ONCE_FLAG_INIT PTHREAD_ONCE_INIT
+++#endif
++ #ifdef INIT_ONCE_STATIC_INIT
++ #define TSS_DTOR_ITERATIONS PTHREAD_DESTRUCTOR_ITERATIONS
++ #else
++@@ -66,8 +68,9 @@ typedef pthread_cond_t  cnd_t;
++ typedef pthread_t       thrd_t;
++ typedef pthread_key_t   tss_t;
++ typedef pthread_mutex_t mtx_t;
+++#ifndef __once_flag_defined
++ typedef pthread_once_t  once_flag;
++-
+++#endif
++
++ /*
++ Implementation limits:
++@@ -90,12 +93,13 @@ impl_thrd_routine(void *p)
++
++ /*--------------- 7.25.2 Initialization functions ---------------*/
++ // 7.25.2.1
+++#ifndef __once_flag_defined
++ static inline void
++ call_once(once_flag *flag, void (*func)(void))
++ {
++     pthread_once(flag, func);
++ }
++-
+++#endif
++
++ /*------------- 7.25.3 Condition variable functions -------------*/
++ // 7.25.3.1
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb
+index 89dd25de70e..be4385ada61 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb
+@@ -12,6 +12,7 @@ DEPENDS = "libdrm libepoxy python3-pyyaml-native virtual/egl virtual/libgbm"
+ SRCREV = "0f1f43929724a6a414c01a29bc51feccb445c2f0"
+ SRC_URI = "git://gitlab.freedesktop.org/virgl/virglrenderer.git;branch=main;protocol=https;tag=${PV} \
+            file://0001-meson.build-use-python3-directly-for-python.patch \
++           file://0001-c11-use-glibc-s-once_flag-ONCE_FLAG_INIT-when-presen.patch \
+            "
+ 
+ inherit meson pkgconfig features_check
 
