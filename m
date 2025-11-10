@@ -2,134 +2,146 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0384CCFA13
-	for <webhook@archiver.kernel.org>; Mon, 10 Nov 2025 19:18:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAAA2CCF9E3
+	for <webhook@archiver.kernel.org>; Mon, 10 Nov 2025 20:21:41 +0000 (UTC)
 Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1397.1762802281100409495
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.780.1762806096948640366
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Nov 2025 11:18:01 -0800
+ Mon, 10 Nov 2025 12:21:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DT7c/x+l;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dmNYYHiQ;
  spf=pass (domain: gmail.com, ip: 74.125.224.49, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-63fc72db706so3159491d50.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 Nov 2025 11:18:01 -0800 (PST)
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-63e1e1bf882so2771649d50.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 Nov 2025 12:21:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762802280; x=1763407080; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1762806096; x=1763410896; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q1DnlaahhoLNozNnL2LTtrdcWNdFjzrPAbUzpDR4fFc=;
-        b=DT7c/x+lcp5t0XVMPHcfcCmgM5DQ4aJe5VrF4Qb+zJj3/QEueU7nK4yET/Iqkkl9cc
-         PjI2AccgAMxx0uOSSfanjtWpqGbBwPkFlko0f0c6AuRZ9aYBvRlCYahIaojf2vsHedAx
-         L3uuc6irmS6Yk6PcjaV0ulCxjjf7gjKMRAwgz5n1LAAIItu6J1WFulSiLF0Gl0taWlMb
-         Gc0I/pIF+vzsCY/UKuj09FHCUfXL1xmPryQlDK0DhtG/wRPipkjKj4f/3yoCTwB5pWgi
-         Mn03hg/B2Hmo1OvbY5H9afRCRxPl+5FyTFdtEgSocIWDmPScppEOYgunSihsTaQJUncH
-         07UA==
+        bh=311zUhhZHaWPElZZDvgZ+rnlwFtzld6n+ah3Cz96D10=;
+        b=dmNYYHiQ3glMWJMlWx7jmUS2bGQVoIQbqq+sv+ZusA8LUSSr8RZX1xkYnRG6XqcwOT
+         nYGs+WVi56xDsntdE8gdbnGtmShSo+Rm6pHq2jVEC0hq3X+ewkRjFlooLnhjtwftZlN5
+         PgDVhtXTrxn6FrtYZh+++2jr/hOIgSIClnSWITf+cgC4L0Cje3dycdNJ7RXo3V4zwLEP
+         r3GgEmu0Uckfu3IewgfdRKlgHOkP/yRklGcA2mBnre06/Y24c2HgyFgTs+qiEvu6pvQQ
+         NxpSZ2+imx2i7tYubPqgWN80GAEKGzN15n8dmGX9sc3Q/+uPH2weEJBesbJ7a27mT/ki
+         DjeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762802280; x=1763407080;
+        d=1e100.net; s=20230601; t=1762806096; x=1763410896;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Q1DnlaahhoLNozNnL2LTtrdcWNdFjzrPAbUzpDR4fFc=;
-        b=V4OFuOeI2sWZoB46uDa8MlAnKNjrqaUf24YNrdE+igj4ewAx5pefu8paXaaQikDXK1
-         8TKmDOOw0hon0/z4QwsHUiS1geR6Ey7NQv5gH/eLkqGypwwb/lG3PQLQZdAm74tBwTGo
-         aO7kp1O+1JVNFR3/Wp3m5+QucrMFj6YOjy/kPLu1WhXko4BW3DRRmj/JdTAWcijiAoJQ
-         pbz/XuKfELINQN42sdWxhoB6zdn+jRY4DFeOBc9pJAk/tYdD7W3icHRv6A1yUXEVLOay
-         r2yfgafxPiVO+CUA2gulbCPpZT4+1hUDFaDKO7bm4HbAywcBXUh5+c4kJ3cBaOCxxAPj
-         ixHw==
-X-Gm-Message-State: AOJu0YzW60N4YZeDgxLumEp/0AxhMDBUFI7BIPdezWXJKRc+nh8+dKWl
-	EWCemYshamhd7iFdAugnFX6n462YPM6uXYWspeOqk+I49iNpNPMx8CZnJPZLNdpN+SG1kwaK/SS
-	D8hspn5y5RME221NjFgdLalEIdOFGTrg=
-X-Gm-Gg: ASbGnctjBQmfiyc9JHzNevSLCswIYF/T6PZyXDkLUQ+2Iiakwx5k7CgdSlpUxJlKzPp
-	nqPji+iRjQoy0VJcBgxcYvGneArPoz5fgShBNytUu+oSWndlm4qyP0CAVq54FFYuDuljR1iirWA
-	9KoW881kXsYpKA9d9rurJ3svZsI1BYJCTAI4EBumTlHwVHuUzv/6BRvgVuUTadWlT9DSgfAW/aH
-	NqQeru5uvUZOZSSIcrZVgkgR7+c6g/tLlSXGSd1GX5ckFYFG7wbh6/Bj1ihbGdJxQma8f7ujdnD
-	Tj1z2lEhbA==
-X-Google-Smtp-Source: AGHT+IFSzo5Kt6jPBTTkZVKpFLwSnZGYVaOIbsYFngY/njF1ENz2dbB1bL4EWEPAgUj6XG8KQKKDh03famYMeBK0qdg=
-X-Received: by 2002:a05:690e:15c8:b0:63f:c4f4:e180 with SMTP id
- 956f58d0204a3-640d444a16emr7347646d50.0.1762802280112; Mon, 10 Nov 2025
- 11:18:00 -0800 (PST)
+        bh=311zUhhZHaWPElZZDvgZ+rnlwFtzld6n+ah3Cz96D10=;
+        b=L2GrQsVnU0j+ef+Jbhleby7mBl5cQDamVhG/ibF1EFDhfsUqjP+gq98FYNS1mI7LIX
+         S0nFzAkbREpiMV3rFq4ER6xXGD7y7IsVnemo7YE/g0XjRUHz3Dl1JvCkESQrzNRfnjZd
+         9m3UJlnp80uHSC32qVBQBkSjQzkseyM6tctqk+4DuIQjbahdCBkVZYNLLGptC/v9V4vO
+         okTqZAC6i/9alG8O2//U3cwEPz4UJO1EaHZm+S9o75NH9lZmt6Do1b8FvvWwLLG2eY8B
+         3hnx9tmlgmrdqy3BBfM009eoysWwon93IAo5rCTWsC0syMxgbFYWy+MZMxa9UDIyfskJ
+         V3Cg==
+X-Gm-Message-State: AOJu0Yxh0ooe8mLOw1lmurNYJrinuhg8jH2xrowWrb945t7scV7XTJjy
+	eX2ymNgvnuaqfX0sT2MoDt05sDye1vVyaCH/me81bcbia9qM83zopBCT6oYYH8XuI3opREQRyLg
+	NjNgeedQ/XxMXvpmuBLxL6XlIzzFXx/Q=
+X-Gm-Gg: ASbGncttV573YC3m6Ty3Flp16vmjLkKaRMdR0erARcwbPcslAKvUDMBBlswY1p2Hcx8
+	7ahgc432kzQfE/uzOv4DgR0cm4X2d2zLtWHV2SkI56n1KvX7pmgCItLIEwae63CE5kAWMR6GCOG
+	n4LynzluyfpwyRHvK5YvPu46ZInDHZYmLKpgBybYqFfRZEHau+8wCCOwqnzulJ38FG1mDFoaodf
+	ZpBWBCMN3LyafD5EeBRlUG9v9GMzOt+mYdvvCPzB0TG6EV0AHARUFQPqbPkQJnB+vhlDMVrF1mJ
+	mcWVfpfOIQ==
+X-Google-Smtp-Source: AGHT+IEOKmSUSeVAINMIS0RiLY5851xe9FDXjxkV2zjwC/PvApRz+OA69GM29iaEVPxFxAwmMoECWa/9dxdIS/DFJ/o=
+X-Received: by 2002:a05:690c:dc1:b0:785:bfd8:c4c5 with SMTP id
+ 00721157ae682-787d53527c1mr164209347b3.11.1762806095934; Mon, 10 Nov 2025
+ 12:21:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20251107040923.4127069-1-namanj1@kpit.com>
-In-Reply-To: <20251107040923.4127069-1-namanj1@kpit.com>
+References: <b2e867d19c02966f3e11d2c7e6b7765564587df5.camel@emlix.com> <6df562d0-8ce8-481a-a913-11bae6e0abaf@gmail.com>
+In-Reply-To: <6df562d0-8ce8-481a-a913-11bae6e0abaf@gmail.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Mon, 10 Nov 2025 12:17:48 -0700
-X-Gm-Features: AWmQ_bkpbb6XATJG_p_5dX8w1bK1TIb5CC6UIzdHk_dpIEYz_53ZwnQmQfmHjuw
-Message-ID: <CAJdd5GZnHbXCuNn64rx4YnPmxJ27oERiuft1wRvDNbrgzR7kNQ@mail.gmail.com>
-Subject: Re: [OE-core] [meta][master][PATCH] socat: Update LICENSE field
-To: nmjain23@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Virendra Thakur <virendra.thakur@kpit.com>
+Date: Mon, 10 Nov 2025 13:21:25 -0700
+X-Gm-Features: AWmQ_blAnTvE-6VcGiXLcbCcJBtyi442P2YsLl5nNoyQqA-4R24YeItevLhVlwY
+Message-ID: <CAJdd5GY8rkuNt2G4tSwG1Bfc3vaG8+ojBb0Hs+nEsj=r3Nt1Lw@mail.gmail.com>
+Subject: Re: [OE-core] Thoughts on SPDX for files from meta-layer
+To: fbberton@gmail.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Nov 2025 19:18:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226137
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Nov 2025 20:21:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226138
 
-On Thu, Nov 6, 2025 at 9:09=E2=80=AFPM Naman Jain via lists.openembedded.or=
-g
-<nmjain23=3Dgmail.com@lists.openembedded.org> wrote:
+On Mon, Nov 10, 2025 at 10:18=E2=80=AFAM Fabio Berton via
+lists.openembedded.org <fbberton=3Dgmail.com@lists.openembedded.org>
+wrote:
 >
-> The below reference clearly states that GPL-2.0-with-OpenSSL-exception
-> is to be used with GPL 2.0 or GPL3.0 and not as a standalone license.
-> Therefore, update the correct license.
+> Hi Daniel,
 >
-> Reference:
-> https://github.com/aboutcode-org/scancode-licensedb/blob/569d72e13e7c8d14=
-a44380f91e80c5a2d4091f8f/docs/openssl-exception-gpl-2.0.yml#L7
+> I'm working on something similar and have shared what I have so far, http=
+s://lists.openembedded.org/g/openembedded-core/topic/rfc_patch_0_1_spdx_add=
+/116223136.
 >
-> Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
-> Signed-off-by: Naman Jain <namanj1@kpit.com>
-> ---
->  meta/recipes-connectivity/socat/socat_1.8.0.3.bb | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/socat/socat_1.8.0.3.bb b/meta/reci=
-pes-connectivity/socat/socat_1.8.0.3.bb
-> index ee6ca1fe44..964af9d124 100644
-> --- a/meta/recipes-connectivity/socat/socat_1.8.0.3.bb
-> +++ b/meta/recipes-connectivity/socat/socat_1.8.0.3.bb
-> @@ -5,9 +5,10 @@ HOMEPAGE =3D "http://www.dest-unreach.org/socat/"
->
->  SECTION =3D "console/network"
->
-> -LICENSE =3D "GPL-2.0-with-OpenSSL-exception"
-> +LICENSE =3D "GPL-2.0-only & GPL-2.0-with-OpenSSL-exception"
+> Could you please take a look?
 
-I don't think & here is really correct. If we were doing this in
-accordance with SPDX guidelines, it would be something like
-"GPL-2.0-only WITH OpenSSL-exception" or similar, but we don't
-(currently) support the WITH operator, or dsitinct license exceptions
-in general. However, our "GPL-2.0-with-OpenSSL-exception" is not just
-the exception (as scancode claims), but it is the complete license
-text; it also isn't a SPDX license identifier. I'm not sure why
-scancode is identifying as just the exception instead of the full
-license with the exception, I'm pretty sure that's the problem here,
-and adding in the GPL-2.0-only is not correct.
+You are correct in the observation that Files don't have a download
+location, so externalRef would be the correct thing to use instead.
+Otherwise, I think you're trying to do something pretty similar to
+Daniel. I'll leave some comments in your patch
 
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
-263 \
-> -                    file://README;beginline=3D248;endline=3D278;md5=3D33=
-8c05eadd013872abb1d6e198e10a3f"
-> +                    file://README;beginline=3D248;endline=3D278;md5=3D33=
-8c05eadd013872abb1d6e198e10a3f \
-> +                    file://COPYING.OpenSSL;md5=3D5c9bccc77f67a8328ef4eba=
-f468116f4"
 >
->  SRC_URI =3D "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.=
-bz2 \
->             file://0001-fix-compile-procan.c-failed.patch \
-> --
-> 2.34.1
+> Best regards,
+> Fabio
+>
+> On 11/5/25 14:54, Daniel Wagenknecht via lists.openembedded.org wrote:
+> > Hello,
+> >
+> > I've looked through the generated SPDX files for a project recently.
+> > I' m specifically interested in the downloadLocation property that is
+> > set for entries in SRC_URI in recipe scope SPDX files, as our list of
+> > upstream sources we need to monitor for security information is based
+> > off those values.
+> >
+> > We'd like to extend the generated SPDX to also cover files from meta-
+> > layers, that are provided via file:// entries in SRC_URI. The files
+> > provided via this mechanism are mostly configuration files, systemd
+> > services, initscripts and the likes, so one could argue that they
+> > are not relevant dependencies and thus do not need to be traced in
+> > SPDX, but we'd prefer to properly trace them in the SPDX documents.
+> >
+> > Are there any thoughts on this, prior discussion that I've not found in
+> > the mailinglist archive or external resources on how such files should
+> > be treated in SPDX in general?
+> >
+> > I'm considering implementing this as outlined:
+> > - for file:// entries in SRC_URI determine which layer provides the
+> > file (via bb.fetch2.local.localpath())
+> > - check if the layer is modified via oe.buildcfg.is_layer_modified()
+> >   -> modified -> abort
+> > - retrieve the layers URL. This is more involved since what
+> > oe.buildcfg.get_metadata_git_remotes() returns might not be the URL
+> > that should be specified in the downloadLocation
+> > My approach would be to introduce a per-layer variable that specifies
+> > it's public URL.
+> >   -> no public URL for the layer found -> abort
+> > - create a SPDXRef-Download-recipename-X entry for the file with the
+> > downloadLocation set to the layers url with commit and subpath of the
+> > file in the repository specified
+> >
+> > If the layer is modified or a public URL for that layer is not
+> > specified the downloadLocation would yield a NOASSERTION value.
+> >
+> > I'd be glad to get some feedback on those ideas!
+> >
+> > Sincerely
+> > Daniel Wagenknecht
+> >
+> >
+> >
+> >
+> >
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#226007): https://lists.openembedded.org/g/openembedde=
-d-core/message/226007
-> Mute This Topic: https://lists.openembedded.org/mt/116166040/3616693
+> View/Reply Online (#226132): https://lists.openembedded.org/g/openembedde=
+d-core/message/226132
+> Mute This Topic: https://lists.openembedded.org/mt/116135395/3616693
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
 EWhacker@gmail.com]
