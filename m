@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FC22CCFA1A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FC72CCFA1E
 	for <webhook@archiver.kernel.org>; Tue, 11 Nov 2025 14:59:19 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19453.1762873149830698684
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19454.1762873151399694396
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Nov 2025 06:59:09 -0800
+ Tue, 11 Nov 2025 06:59:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yX6E/Bdz;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3439e1b6f72so2274733a91.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Nov 2025 06:59:09 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TwafW1x7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-343514c7854so959998a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Nov 2025 06:59:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762873149; x=1763477949; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1762873151; x=1763477951; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iTg2DWy+BucWAt6jlB+hfnmidd52UA99uHyPBfvB+FI=;
-        b=yX6E/Bdz1huhcGqa0OnEUEiWRnygbai/KR5Qgn6LMDakx+HvD/15fwvPE6OeyLAwWN
-         chvHu6VVoYavpiR5pnqR7CIJbzVS2MN2ICddFNcpyvEzg0EfxVmMoBGosh8F8Hqf+FxI
-         b+ZaBhC+fxVdEYv+nY9omU1kzZc9Xm8WT+got+bVWcFH34awN/J9lcoQoHEWs/Y/6CdV
-         5ZN7NhTrZvBngnsiRuE6IBIusX28krPvO7Lb3ykcFydlkFeCJWH5+OaeK6g+OCXkyOZZ
-         QKaFoYFkxQDuhZ9C5VNWR5bThk2sJAkawreY8/C3ubnox/Tkoqoy1E9SeIXLaBYGXGcQ
-         Zw3w==
+        bh=XLQAo2ohzlc2vlEzyyb6Rmi7iUywz98niE6EVPbE2xY=;
+        b=TwafW1x7BmyVZZgULJ5Fz1LD0dYq6LNSRe7xOB5hSKeCHJfNCNztTfB9tyrI+m8iaM
+         rBAzfNRKsHWHfPsq+XVaR5FltPm4lm92u+QT96rJSQbknEmWuJNzRTeCXwXAiRDDEzVF
+         ZtimAK3GHNGFZSjOzrYMsmtEo2kNr7CI+tOwGjyD1PgXsrUyojcuf3PjwzbirKQUH4xX
+         h986NSavMCsPanBNU8PFoYz1nO8A0f3zdnbD10CgiOoClARtsgm08AVjBBiYq64/4l+w
+         WLvcOxJ+jjADJ2KU/wRoQe+++/tsWRXvf24xdUifWxxbKZHXO8SeXsNFcH3AqQ7GqRNM
+         tOEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762873149; x=1763477949;
+        d=1e100.net; s=20230601; t=1762873151; x=1763477951;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=iTg2DWy+BucWAt6jlB+hfnmidd52UA99uHyPBfvB+FI=;
-        b=EP9e4iGW3Qgnx9/Qc/r3++nePHc9iVfIfr/rx2JqpEJTZxCJRcEf0jWI93EG6SWe4h
-         4Zt4RXbmombBCTNXg4GXdUA2l0iDg8NlUiEJFTRk9pqpxtxXTYAZcaOtFH9kYrluwlmq
-         PI9TJEF6XORtaSWXT+uUYE/ThwyHnGhjCw+TorTmNFp9RQMUpQFxzLBcyt807sT09mFU
-         qcP8QxdRT5aOpwdHxF+ejAuvglxsU51YNbLu69uRDx096h2RABul1+doHdHjXr8+SITz
-         lpDiWFrozHKJxupUZoskZNEyJ4d9TsmPJM2iPJROwxyf8S3eq1reYDTdxoISew5n7xHX
-         xV4w==
-X-Gm-Message-State: AOJu0YwDq2uvpAPEFPmwkxwLssh03zXtcsnEr5qwmXy7BON1pt7ee2N+
-	qCmzX5+/g10IgXGTe+wWDakHfbp6B9s1qkfcP1DDZHt5hK5+gGNOA1oIUM5P/vIf24242J7knGO
-	3iGMzGK0=
-X-Gm-Gg: ASbGncvLy+cPpAWEC59wPzK/GXYlcBvjv+zu92EnUYglsQWSdXdNWeHadHsx/ZLYMhA
-	7LG+bvCzeHaePfwp1KXmm7h7Hfkgwa7JvrALbue+AANOVX21EWOXM/HDY6mVTWk9l6IHfQPltiZ
-	5R5fanikVXzAgLQVpCnaIEYqsbTCCxC9iIBv80P1D/RXrbEQ37m/wSX5DhhzBRVZOH4m9mTDG7f
-	94aNhUkWdMRmolglTlHC/UEiEFCAZIim5eWOGz/FXryow9BRCI0lj3hcesO5PlE+KL3WFrNpTHX
-	gygszsoJHOplKvp6bVWlBesK80SRNmiW4VvaRj6CMIQxovgI1zD0bKZZTPFU+9d2J/uGBJxYs+k
-	0JPMJvI+kqnH0GfMbtCGjRoI4pHup5nkIXLzQmLJyC1Cq85vJevA8nPlyC1ozH5tdvV4=
-X-Google-Smtp-Source: AGHT+IG/ORnCu4HluzWXeX56wKgMzDwZkBEw8mWRxvwWdaqb4O+rVMnf2ooAnYqtAxXXUhNc3pPrKA==
-X-Received: by 2002:a17:90a:e7ca:b0:340:f05a:3ebd with SMTP id 98e67ed59e1d1-3436ccfe431mr12877959a91.28.1762873149084;
-        Tue, 11 Nov 2025 06:59:09 -0800 (PST)
+        bh=XLQAo2ohzlc2vlEzyyb6Rmi7iUywz98niE6EVPbE2xY=;
+        b=IiczznLGFWUpaqH4HY2vmBRUaxcpqTBB+OlE6sBssEf/AaAXH2Nn/3Wxp8vPxhRpgn
+         tN2ETKW69p3GCf2OWKYIsueSVgixy71IEyg7KCWhy+wVYq5B1BSps22K0lQnSeugQZJ/
+         akYOPhq/G9TarmcJgIx6uExC7DjVgp67BRnIQzrvmFjnbpiX0CK3u9ZyV1MLyy5TJVAT
+         dbsLn/iWqcGU1u9os3Co82FoL2VjWaga0uNqYRpX+KiBubin//ijs1QeBf0yXICnfWqX
+         2vvttEOTESIo6UtK8EbeRCgMl5ryZkKh9253Uf9OaBrG4aP2a/KwVeYToC+gACcN2Sa3
+         dSZg==
+X-Gm-Message-State: AOJu0YxntD0oLrajLvezc/uYaqVdRhrbfiz55I2sItZQOMbWWM4bAYno
+	fxFKVK3czdPu4g30Z0uYP8gKqB2PAMyh0c3R146JwgwpRrdO/NIHJ0zy4dciAyuWLj4cO6YLJny
+	xPFtCBmQ=
+X-Gm-Gg: ASbGncu/38Oh7zZhm/FJqji58IJPUc/H84JBTh2q/lLqn+aOqwIPmWr2nHRNXVkHyrD
+	zKA8/wZXAk3r9Q8WDoJevNnfksz1rpoSiGK7rxr74GMvsSTx1ioIuoCzUgaE+RI1DxRYTCHOATD
+	kqTJeRCHQGOcKj5EZS887p80bzduMBuwzQxmv+QaG8ZjmnrD0/Y0kiGALzsdpMNJcacxNQAxgIZ
+	/bt6+Rblo+7BPgi2MpjXLtvlHsP9eUy8HKkALWeCHwkxD2NBy7AnbkKiLuombaKumauv8GL1TGE
+	BrXzLq3bNPLKuvPzD+zBZ3Q1ndkQoAtTrxJribix41Ifd20fRal1qOPpSTBXGdTrseDo7lHjnF9
+	4j5afYMx/RstGV2K8RI312w75iDVAed3peZ6GCPdE2vEj9C1Xau4aXR3yiho6h0SaAmU2JnVhw0
+	vTAw==
+X-Google-Smtp-Source: AGHT+IFflO0uEpP1NKfkPPuhBdzBSSTfQLFrYZYMttlF6StfZUYO8x33PRPXEHE9llVl4r0Ca//0NQ==
+X-Received: by 2002:a17:90b:164b:b0:32e:4716:d551 with SMTP id 98e67ed59e1d1-343bf0dd604mr4505929a91.6.1762873150668;
+        Tue, 11 Nov 2025 06:59:10 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:db6b:ed5a:7890:6b41])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-343685301f8sm11662588a91.5.2025.11.11.06.59.08
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-343685301f8sm11662588a91.5.2025.11.11.06.59.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 06:59:08 -0800 (PST)
+        Tue, 11 Nov 2025 06:59:10 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 17/19] ca-certificates: fix on-target postinstall script
-Date: Tue, 11 Nov 2025 06:58:25 -0800
-Message-ID: <9a2bd3b6e2e53071a1463d2804d0d4fb17b1814f.1762872962.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 18/19] oeqa/selftest/devtool: Update after upstream repo changes
+Date: Tue, 11 Nov 2025 06:58:26 -0800
+Message-ID: <1e0a64a1890a62e130595f46d93c8d08af9170f5.1762872962.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1762872962.git.steve@sakoman.com>
 References: <cover.1762872962.git.steve@sakoman.com>
@@ -68,48 +69,50 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 11 Nov 2025 14:59:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226182
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226183
 
-From: Gyorgy Sarvari <skandigraun@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-When the package is installed directly on the machine (instead of
-installing it in the rootfs directly), the postinstall script fails with
-the following error:
+The upstream changed the branch name, moving to archive/ so we need to
+update too. Take the opportunity to match the new location too to avoid
+the redirect.
 
-/usr/sbin/update-ca-certificates: line 75: shift: shift count out of range
+We could use a different branch but upstream would probably eventually
+rename that too so this may last longer.
 
-The reason is that the "update-ca-certificates" script is executed with
-the "--sysroot" argument, and as the sysroot $D is passed. However on the
-target system this variable doesn't exist, so the argument is passed without
-this mandatory value, and the execution fails.
-
-To avoid this error, check if the $D variable exists, and pass the --sysroot
-argument only when it does.
-
-Reported-by: WXbet <Wxbet@proton.me>
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cf39461e97098a1b28693299677888ba7e8bfccf)
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+(cherry picked from commit 478a645bad150f04dee1b0085c4542c2eefe7007)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ca-certificates/ca-certificates_20250419.bb                | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20250419.bb b/meta/recipes-support/ca-certificates/ca-certificates_20250419.bb
-index f06a30bd6d..01f594095e 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20250419.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20250419.bb
-@@ -60,7 +60,8 @@ do_install:append:class-target () {
- }
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index ee75687f01..55048830bf 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -476,8 +476,8 @@ class DevtoolAddTests(DevtoolBase):
+         version = 'v3.1.0'
+         pn = 'mbedtls'
+         # this will trigger reformat_git_uri with branch parameter in url
+-        git_url = "'git://git@github.com/ARMmbed/mbedtls.git;branch=mbedtls-2.28;protocol=https'"
+-        resulting_src_uri = "git://git@github.com/ARMmbed/mbedtls.git;branch=mbedtls-2.28;protocol=https"
++        git_url = "'git://git@github.com/Mbed-TLS/mbedtls.git;branch=archive/mbedtls-2.28;protocol=https'"
++        resulting_src_uri = "git://git@github.com/Mbed-TLS/mbedtls.git;branch=archive/mbedtls-2.28;protocol=https"
+         self._test_devtool_add_git_url(git_url, version, pn, resulting_src_uri)
  
- pkg_postinst:${PN}:class-target () {
--    $D${sbindir}/update-ca-certificates --sysroot $D
-+    [ -n "$D" ] && sysroot_args="--sysroot $D"
-+    $D${sbindir}/update-ca-certificates $sysroot_args
- }
+     def test_devtool_add_git_style2(self):
+@@ -485,8 +485,8 @@ class DevtoolAddTests(DevtoolBase):
+         srcrev = 'v3.1.0'
+         pn = 'mbedtls'
+         # this will trigger reformat_git_uri with branch parameter in url
+-        git_url = "'git://git@github.com/ARMmbed/mbedtls.git;protocol=https'"
+-        resulting_src_uri = "git://git@github.com/ARMmbed/mbedtls.git;protocol=https;branch=master"
++        git_url = "'git://git@github.com/Mbed-TLS/mbedtls.git;protocol=https'"
++        resulting_src_uri = "git://git@github.com/Mbed-TLS/mbedtls.git;protocol=https;branch=master"
+         self._test_devtool_add_git_url(git_url, version, pn, resulting_src_uri, srcrev)
  
- CONFFILES:${PN} += "${sysconfdir}/ca-certificates.conf"
+     def test_devtool_add_library(self):
 -- 
 2.43.0
 
