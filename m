@@ -1,107 +1,113 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C2A1CCFA18
-	for <webhook@archiver.kernel.org>; Tue, 11 Nov 2025 13:26:58 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17004.1762867615909913967
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC4A1CCFA1E
+	for <webhook@archiver.kernel.org>; Tue, 11 Nov 2025 13:44:58 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17490.1762868693254982134
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Nov 2025 05:26:56 -0800
+ Tue, 11 Nov 2025 05:44:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lN/B1MFa;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-88057f5d041so43652366d6.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Nov 2025 05:26:55 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fHqQJYug;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-594259bc5f1so3178039e87.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Nov 2025 05:44:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762867615; x=1763472415; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1762868691; x=1763473491; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EE/NQrM4KNde1pEbA5643p5FAdht0n1+6maTpQUHdDA=;
-        b=lN/B1MFaa9ttjBxi6f/jb3ry0dgD3AuI/In5D9b9+OTsxW0GueLckDjVYCU7mXoCtP
-         foXGWRglQa3A4/elTO5g+SIW8SIj9ZOWCY5FLK+exjHOrH0Xb4Nig0aXI+M5w10rTe4o
-         8hBZkGJ9eCXQ8iqPOr+DsTWS21FUm87+ieEmwex4hSp1AGhdb1Aw2lWdO8gQlLYGa9L2
-         mPCUrmo7/IqDcolXSGTTrZ1ecyK7EkS0V0pG9uXW2TMbDOdqi1u6UGfVeaR4933NfcaQ
-         OHS0RwPcAbweQ0DBPSdFOrcTonizmd48INUoILsdELxe3HWkPY6dZIIsCoPA6NiC7AOD
-         3rkg==
+        bh=dUuVjx6Jg1gqPQl0zGo73rBJXhfkCSeRQabO1BNLArY=;
+        b=fHqQJYug/9Mbi9Ppy6ksUvMi7/Pg6qVG63kmukPPWOdZ4VObNdccTSGzA2F6aiqxLC
+         FLz/u2GhQXjSukjL0a1dewjvodH6x9BLawQorlK26QF+t8NZ+syYsnFR4WzT5ADM80rr
+         9OHHks3OkKvmwJu9lhYet14t/Ko50zZ44tOFLNxLkX5E51EOMzuXbKbdfK3AjwRH9T3p
+         JUD4hUziWOuMMMW7NgW6iKlUz1NnWryYjmVAmDTUzwjcY7gc68peQAHlnefenPtYVEfz
+         7Hqgp5FHdG19dAjmdvI+LCzrTvJpaBKEuJDdRu0UVsokb3EX337kDd4OFRTTW4Uu++2e
+         iNNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762867615; x=1763472415;
+        d=1e100.net; s=20230601; t=1762868691; x=1763473491;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=EE/NQrM4KNde1pEbA5643p5FAdht0n1+6maTpQUHdDA=;
-        b=Q/BZlLaJLNOEVf6Cp/3Qmwkh2fANVNOZj4SMPaYTrkJxBXmqhHojEKilb6POtDZuXq
-         IPV7XyxBpbpUTX0LRpjydVsVQurkNJ/aAs2ttTXUW1ehJ20zuf1PHzAPyp+WXWinUIWT
-         /MCFi7gr2YCAZRFKPeViDfX4ol0kYQPP9/PEy5ZA0phbUM9CKQmchpmv7fmY1s3BBu0b
-         SA6hxcNT96Ofuxi1NAdptsCxDnL+5h1ascdFSyC23ymX2Mx/YJt/my7e0tr2Ux6UawKl
-         sltQK+jYEWs0tWf/u9CPBePbVv+ttXpr748K6Npppa3WL8dwHIQOwYJ51kz8H0IIhH9I
-         0B0Q==
-X-Gm-Message-State: AOJu0Yz/bcVFKdClvP6wc5vgBBx0/7fkN6yA+JJo5eTT1VX4Eo53/3eX
-	8iuyzzx90065fxCeZGnzT4hItF73sX5BtXsVuKf/XOVse1DJIUCkEFCMohjpdNNY3U08ogJFIdO
-	LIUEBzJex5WPWeaHcPCSVBwObbtpaF/c=
-X-Gm-Gg: ASbGncuUNi+rRFoagi78Tgp4wfRL8qLi+iJvu2h15cQu6CUozwxyg7k1iYZ37TnJQOi
-	LFli2DrHPy3Y2vKqLY7MGI8KXN+kc/9uxeT5t5Q2XEXoxrGd/B3Xnelloggkr3R/vajY1JLsEo2
-	sp6Te5noY6bL1D/7BnOOHNQN8U9gho9RZDpSIQsK5s7mizmQyzwrTUjkLsDRya1dj/4t6yBJ0/r
-	67s1Q/Y01JS+d2ITe1Y/eh9FXnjrS4JWKI4ac9YbfMQRWckvXPBNpq7nOfQgkoprrOtv4ROFSqm
-	4L9EnD1B97GdCBlySQ==
-X-Google-Smtp-Source: AGHT+IGheqrZHasG3lsqDg1P1AmwCTWmOVd+qBvUNirCf/jRClNuA0tgRXXkJZWHrxI7feMy1W9Ugbal/E/+S8L6GAY=
-X-Received: by 2002:a0c:f10b:0:b0:882:3f38:4fbc with SMTP id
- 6a1803df08f44-8823f385876mr119097376d6.61.1762867614848; Tue, 11 Nov 2025
- 05:26:54 -0800 (PST)
+        bh=dUuVjx6Jg1gqPQl0zGo73rBJXhfkCSeRQabO1BNLArY=;
+        b=O3I17jWac5+WZUFf22vtpROKFjtjVX9iiBiFnk5Y7zCCsCb9nveYupObmXJATrimCp
+         a5lIRf5K9E6xiC70iBp1I3yZ1njkkP66E1ksg6ZNcQEHpGW4gE/Coest0tkMQViUlKFq
+         PYBtLW/a9OFtRDjOaKU7RJt3biQJd7bMOekN3OGlHEiVYlx2KydBJKkY5NrLirnvqGaB
+         28J2Ez1Afix5YAiBP8NgtvQeLnpLMrEDea/xxjhKdQAnIrlNfZ5ouYdiuy62p3vTbJo6
+         JGvTTl63PXMwNsty3L+8Y7YmvUstcFVE8K74huLUxbNKQd8RJwTXCDkO6il1GDL6miIp
+         Gu4A==
+X-Forwarded-Encrypted: i=1; AJvYcCVMs4hiZGK6F4OlZoT6otIF93hHBHOBWWVN1JEXVo9cPFkDJT7KkpnnOsspe7KaK7yIKhAyYPIPJqRUB5dL4daO+g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx8jhn2mNLO3ftd4YbmPK6xJ7DKewMd+ugFuyrWhW30HuZb+Zhv
+	a4fiCcu4U2wO7uo3Z1Wzb5D1ijfzkujRJ/7NW2hWHfwI/QWZIvcOnrjCFN0UzCfkX4hq7lShNhE
+	A0jK3DUOfLaTSPMt6y6JoTzy26HFJvIk=
+X-Gm-Gg: ASbGncujKr8tlpn6fDg5zRCkHokHp9zOFtwsmQo6U/1LxjEM6If/w/LpesVhd7ZyCUu
+	d46ECMBkEBZbk6iyuj9QNf4WaOnkFyXlIWqR9X0SkxvP2RM0HzniZAKAWuNsaRbgs516vaDCvJt
+	ZbofJy3JlpNQxATeeQurXhJvguKUImf6hD+xjAp9/yhDyRZtI2wJEFVBulrmA+FniotSUTpxL4u
+	jIJrQ3B4gPPTGjfwT0fdqGiHntz0dmmAUy26YRhLl1kKsMVyekNTISZZeMp6tWwEpxFqg==
+X-Google-Smtp-Source: AGHT+IGxJq8Tb0OMDUogwy8YQYyo7ovI/02XFo6ESb2wqEpx0VFJaEKvAiE3YHFCIout/7Ogul/V3vafEtpDZmL3BB0=
+X-Received: by 2002:a05:6512:3a8e:b0:592:f6ea:24fe with SMTP id
+ 2adb3069b0e04-5945f1b79d7mr3659837e87.40.1762868690910; Tue, 11 Nov 2025
+ 05:44:50 -0800 (PST)
 MIME-Version: 1.0
-References: <2AUI5T.7ZXVDQ11N5KQ@t-online.de> <CANNYZj_4H-EmTKQSch-7yB=KFoMezya_q4ZjupVJWfv+TdwXvg@mail.gmail.com>
- <9PBK5T.3N0ESJ8YG4JV3@t-online.de>
-In-Reply-To: <9PBK5T.3N0ESJ8YG4JV3@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 11 Nov 2025 14:26:42 +0100
-X-Gm-Features: AWmQ_bm3jlWHwXlrnu0B57QTc0kn0g3ROpWGUJnnz5fZWqz9DiwK9I7iPQYXUsk
-Message-ID: <CANNYZj9fsH6o_VR7bqEEW6P36MTaJHEF0AH9cFZMGxPanKKfZQ@mail.gmail.com>
-Subject: Re: bitbake-setup test
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
+References: <29595a8ed6b004a981a82b14abf8e60592b14777.camel@linuxfoundation.org>
+In-Reply-To: <29595a8ed6b004a981a82b14abf8e60592b14777.camel@linuxfoundation.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 11 Nov 2025 13:44:39 +0000
+X-Gm-Features: AWmQ_blYzfNZf9pTMKvxtHPi0Wy9ysmOSNXNGKSAhHtv-doBdoLh4RlbKcg3bxk
+Message-ID: <CAO5Uq5SnV4d1ygktpOqkvXk6iCcjhJ9Wh97iM9av8qXK2C048g@mail.gmail.com>
+Subject: Re: [bitbake-devel] YP 5.3 Release readiness - not there yet
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	bitbake-devel <bitbake-devel@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Nov 2025 13:26:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226162
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Nov 2025 13:44:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226163
 
-On Tue, 11 Nov 2025 at 13:51, Markus Volk <f_l_k@t-online.de> wrote:
+On Tue, Nov 11, 2025 at 12:07=E2=80=AFPM Richard Purdie via
+lists.openembedded.org
+<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+>
+> Having gone through trying to use bitbake-setup again, I'm sad to say
+> that this isn't ready yet.
+>
+> The basic structure is there and is good but it has significant rough
+> edges that cause usability problems and putting this in front of new or
+> existing users is going to do the project reputation harm.
+>
+> I don't mind rough edges, but not when they're at the level they're
+> currently at.
+>
+> I appreciate saying this instantly puts the pressure on me to say
+> why/where it has issues and how to fix them. I will try and provide
+> some thoughts on that but I am pretty burnt out at this point and not
+> at my best. It is frustrating that I'm the one having to say this and
+> that in saying it, I just make things worse for myself but it is what
+> needs to be done.
+>
+> I had hoped more eyes, working through the docs and so on would let us
+> get through this but as yet, that hasn't happened. I don't think we can
+> release until we're in a better state.
 
-> Now compilation started  and failed some time later with a more informati=
-ve error:
-> | FAILED: [code=3D1] media_driver/CMakeFiles/iHD_drv_video_COMMON.dir/agn=
-ostic/common/cm/cm_array.cpp.o
-> | /home/flk/bitbake-builds/poky-master-poky-distro_poky-altcfg-machine_ge=
-nericx86-64/build/tmp/work/core2-64-poky-linux/intel-media-driver/25.1.4/re=
-cipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysro=
-ot=3D/home/flk/bitbake-builds/poky-master-poky-distro_poky-altcfg-machine_g=
-enericx86-64/build/tmp/work/core2-64-poky-linux/intel-media-driver/25.1.4/r=
-ecipe-sysroot @media_driver/CMakeFiles/iHD_drv_video_COMMON.dir/agnostic/co=
-mmon/cm/cm_array.cpp.o.rsp -MD -MT media_driver/CMakeFiles/iHD_drv_video_CO=
-MMON.dir/agnostic/common/cm/cm_array.cpp.o -MF media_driver/CMakeFiles/iHD_=
-drv_video_COMMON.dir/agnostic/common/cm/cm_array.cpp.o.d -o media_driver/CM=
-akeFiles/iHD_drv_video_COMMON.dir/agnostic/common/cm/cm_array.cpp.o -c /hom=
-e/flk/bitbake-builds/poky-master-poky-distro_poky-altcfg-machine_genericx86=
--64/build/tmp/work/core2-64-poky-linux/intel-media-driver/25.1.4/sources/in=
-tel-media-driver-25.1.4/media_driver/agnostic/common/cm/cm_array.cpp
-> | x86_64-poky-linux-g++: fatal error: cannot execute '/home/flk/bitbake-b=
-uilds/poky-master-poky-distro_poky-altcfg-machine_genericx86-64/build/tmp/w=
-ork/core2-64-poky-linux/intel-media-driver/25.1.4/recipe-sysroot-native/usr=
-/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linu=
-x/15.2.0/cc1plus': posix_spawn: Argument list too long
-> | compilation terminated.
+I started swapping over local builds to bitbake-setup this week, for a
+basic qemu core-image-base it was impressively straightforward.
 
-This line in itself is not problematic, but somehow the arguments that
-g++ passes to cc1plus are. Which makes me wonder, what does
-'@media_driver/CMakeFiles/iHD_drv_video_COMMON.dir/agnostic/common/cm/cm_ar=
-ray.cpp.o.rsp'
-part do? I haven't seen such syntax before. I suspect that becomes a
-very long list of files, each with a full path that exceeds the limits
-anywhere with a long-ish build prefix, not just one made by
-bitbake-setup.
+But I've immediately run into things where I know how to do them in
+the old world, but not the right way to do them in the new[1] and
+failing to find answers in the docs, which isn't to say the answers
+aren't there, I've just not found them.
 
-Alex
+If there's things I could usefully help with documenting/testing, I've
+got time on my hands as my current contract is on hold...
+
+[1] how do I add a layer which hasn't been migrated to bitbake-setup
+was the first I hit
+
+--=20
+Alex Kiernan
 
