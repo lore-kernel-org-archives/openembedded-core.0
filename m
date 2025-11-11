@@ -1,352 +1,95 @@
-Return-Path: <mhalstead@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24C6CCCFA18
-	for <webhook@archiver.kernel.org>; Tue, 11 Nov 2025 08:56:27 +0000 (UTC)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13431.1762851378078020476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA392CCFA1A
+	for <webhook@archiver.kernel.org>; Tue, 11 Nov 2025 10:23:37 +0000 (UTC)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14403.1762856609871627495
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Nov 2025 00:56:18 -0800
+ Tue, 11 Nov 2025 02:23:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KoxvlINU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.217.54, mailfrom: mhalstead@linuxfoundation.org)
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5dd8988d098so1388115137.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 Nov 2025 00:56:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=j8V1kr3I;
+ spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8b28f983333so41931085a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Nov 2025 02:23:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1762851376; x=1763456176; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1762856609; x=1763461409; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VBXv6XlGDyHUNVm/kTjPuWAxGL+IJBBASKBGIgzsF8E=;
-        b=KoxvlINU7FHDmc9Xz1YBs4Qnc+5ByiBrOwyGr8oRF3HIs4m5RVoediS9zRFTLmfeOo
-         o61zdMp0P3JtYMcrZ4h7yMYDDblkJbrfwNNE4Kh9we5Oa7LIdDbBaI/VsLRQd6rkRcys
-         e5Ed/1uQ6zi3IaMseyzYmzdW0zI1KFMEyjn5Q=
+        bh=IQ/3wbaf8atoIpg63j1m8LRJrApdFCUpEFDRSBEFEK4=;
+        b=j8V1kr3IR4OzG1bdMeCPha0XRMVE1n1Z7+D8W635BmtWe72RPG4ECDIvLKGmj5n5cV
+         j6BLeFTAa9QKBeEqtyqPs9Zxf1QK+Dw2gbcIYMyCUA8euhoaNwargRAuf0W+tFhciBpF
+         KvwQvFvwNy1x2nXn4OMTFMcExMCmRhR4KlBN588Jls4HP5Y274LZi7pTwdZJzxufdSjr
+         SzG49BaUzhQb63j7nctTaSZqklzvK8H/2X2jvu/EDuHaB0tDm9RDXWK2or/RyT+C26tk
+         gp6qm53GOdn40eId9ppbLFecRaKkAvfofsdYy/Q84J2d/dR5EnSwRu+aXQJaqlewEAf6
+         afpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762851376; x=1763456176;
+        d=1e100.net; s=20230601; t=1762856609; x=1763461409;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=VBXv6XlGDyHUNVm/kTjPuWAxGL+IJBBASKBGIgzsF8E=;
-        b=CcsCHJDUB+fdYeWShMscL8idpXLahWF70Tk1ZTLc1ptQGUxd3mQuscE7ELboDBc0RC
-         lEP0crjYdDywW1gCS2T6rFIm0OGBaBx4yLv3NhkS6ul7GL78v9waqitCIIuf+6/njPmq
-         7qRdp35oD0gehJRHROWGHjo3+4Qbl93AXhyWTpy7lsxRz4/jYMIYDWxA9Ne9LZtRJrJc
-         v/KylRloc+kXSEk7n1ZBgSVaSMAfs0sw3jT4Pk5RkZ7EN5SEEyjUhei9wCkyVYAmCnK5
-         F5i2xow0zNi6BY8OYROhID/hvCQYoxXF9Ur1ojHX8oxt0oTK0Ibseu1poaYlIRBbrNQ7
-         gM9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUyYwRMD3gp6IqH0r4THJB0F+OzGztI0DqWh4R/0FXiqNqEKQKIOjybTCNZU8pnV1tmnTjyujtSCzTY0HMwIuSlpg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwftacLy2a5K1Mi1ykeF48b6iTiLRxDVrUiZbghOovDfMx8syd0
-	1gG6Qp053Qdm8uyQff7mhoF1BUP8IBy61OWNlYpIIdR5OXQPZyBAieWDzTwervmNpxcoliy57/w
-	4jq2C4mfUK8R7Gr2CnmvVOaly/Q8+q79wDDN+3MKddg==
-X-Gm-Gg: ASbGncvZjea+SxeN3tTPCCxN6smAKZ3cYY0iCgAxedqs8m5j744hB0O09BBS/XVU5de
-	He3coQ5pjvyg3mG4q5QE4ZGsbgc6KwoUzem9qp8ETrYJncwWEsgooBiOX3Hzv8DScaeqT3Twb+K
-	6GhP/wj3GSZr6nYJuzfpgcRdIGUnZTZpzeMLcUgnAy9lZ3UxjkJDPI2f8mqNP3V2Lyg0aHl2pKw
-	Daeit7aNluy7puz6q6HmSqFs/f0O8QWOFOI5lp0U1TjwaZvnXMFZUfPRJfsn01z5gNZcghmBydI
-	+z2g1B/c
-X-Google-Smtp-Source: AGHT+IF1RJOdGHQGvBCCw/SHPcaOaRJlaDGAF/W2+amNBqMbLJg814ob79mW8e4mCwr68tOyks4aZqRtsC4KJGusz7k=
-X-Received: by 2002:a05:6102:6110:10b0:5dd:f9c2:5505 with SMTP id
- ada2fe7eead31-5ddf9c25924mr293914137.20.1762851376580; Tue, 11 Nov 2025
- 00:56:16 -0800 (PST)
+        bh=IQ/3wbaf8atoIpg63j1m8LRJrApdFCUpEFDRSBEFEK4=;
+        b=pukfg+0Fl8+vyBeZQIWFemw7y4fo1hhktwXrCzGKV+b1Q0kIQjO3M82YBm7sjLt1f6
+         7Opw27BS4DU/ufqcJNXQKnRvSQUOcdEDA7oYYejlSc8XqGghaHvJERzWQQuGqqkrR2A1
+         5EKnvwEJh806Gsp/S8rS+KSRhkIxylYeBkeWuKKXyCJK4fjyWHZbGlvWi6SlbyB0tgNn
+         FdkOEJt2JQjIVfY4ifMbOt4tdmNIwak69XQlNeJNqvzH6UnsVH8dvzJW2US5FhPnfTyh
+         OmOTo6e8V/33F9WBxpctRZnCWd0u34oCiW0Ix978Tp8fpLTm7CAL7IsUi7N8JLAqC0bo
+         dNTQ==
+X-Gm-Message-State: AOJu0YwHDvoYne6KhJxh9uylFYa8W2rnIORzrVrTCKslA0hqaHE1afcD
+	gBR7fDmtb/4I9pXKf94pY8YFzexMVyMnZEPHJhCe9Dmxdvi1uoP7jpnEHKGiTQn1BEoNM19O4g0
+	C5YoEAIaLngKbDhsHHStCsRx/+ANEDPw=
+X-Gm-Gg: ASbGncu5Rurc6NLgCYQ71G2EM7L65UyQiRE+A3o/YgASDHiBDhgK5puwHJseeWoQbOE
+	aN4qiXh0UB0gOT7QbmiKzarcirS2zQQZXKkH5TNNrzpJkUAY2OsmhOzSZxdhX3XN6+cAIswjaSL
+	54rxw2vpcKfq+eW1orSo5GGUd0g91GY+905FL2QQmOBjwf6Jiij36rerzuYMkVx7ckQ5/sZza8D
+	ehkvWDFU+KNsBS87aJpIAoyW86QKV19XfZ3XU+OYRKF0Mchy5p2iEh0327Oxrx0CyjypKCu1A==
+X-Google-Smtp-Source: AGHT+IEzqqoTZF5Ucy12sXQrWH9jxyZmZ2qM2wZ/deS33c0K3c8ztMn3uqpZW2ay68MpAC5KDiPWYhcpCT/QueAfy3M=
+X-Received: by 2002:a05:6214:2402:b0:880:4c73:9e3b with SMTP id
+ 6a1803df08f44-882385be731mr136559676d6.15.1762856608619; Tue, 11 Nov 2025
+ 02:23:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20251103143157.315178-1-niko.mauno@vaisala.com>
- <20251103143157.315178-5-niko.mauno@vaisala.com> <1ccdd952a740a2d09774d825cc28bee20ff1525d.camel@linuxfoundation.org>
- <CAApg2=R=nyLt3hiqH5uEKqhp1XZ2WKkWrAH837ZqTGRTVSCWHw@mail.gmail.com>
- <AS1PR10MB5697F694A61CEF460D80F25EFDCEA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <CAApg2=SyfWMcE2OAknOQJRx4uwysiz9bdWnNxR-pPfLb9SgR1g@mail.gmail.com>
- <AS1PR10MB56971CEED209F3CDBFBBB23BFDCEA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <CADfgfoa0d+-dN2qHm2aXJsyuo5gyXiMgfFkyKzuyhcokgSCrfg@mail.gmail.com> <AS1PR10MB5697EBEC620A0E63356EF08AFDCFA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB5697EBEC620A0E63356EF08AFDCFA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-Date: Tue, 11 Nov 2025 00:56:02 -0800
-X-Gm-Features: AWmQ_bmCAID4jfu972du0VzjMOwNwSd2Q2fZFCtID69uF1PSPKYSm8z3aT4dB8Q
-Message-ID: <CADfgfob3WmAjhQiyT_eNWT0z5n34ZC0w4hfO0TCPwFX7kf-o_Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 5/5] cve-update: Keep mtime stamp in the
- database itself
-To: peter.marko@siemens.com
-Cc: Marta Rybczynska <rybczynska@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"niko.mauno@vaisala.com" <niko.mauno@vaisala.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"ross.burton@arm.com" <ross.burton@arm.com>
+References: <2AUI5T.7ZXVDQ11N5KQ@t-online.de>
+In-Reply-To: <2AUI5T.7ZXVDQ11N5KQ@t-online.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 11 Nov 2025 11:23:16 +0100
+X-Gm-Features: AWmQ_bkIKT7hc_OI7xw67BxWfFCt2Znt61WWKr_i3-fMsG5yYlTrCd0kTReVbmQ
+Message-ID: <CANNYZj_4H-EmTKQSch-7yB=KFoMezya_q4ZjupVJWfv+TdwXvg@mail.gmail.com>
+Subject: Re: bitbake-setup test
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Nov 2025 08:56:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226152
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Nov 2025 10:23:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226153
 
-On Mon, Nov 10, 2025 at 11:42=E2=80=AFPM Peter Marko via
-lists.openembedded.org
-<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+On Mon, 10 Nov 2025 at 18:37, Markus Volk <f_l_k@t-online.de> wrote:
+> I ran some tests with the bitbake-setup tool and noticed a problem that i=
+s at least partly related to the long name of the setup directory.
 >
+> With the default value, compiling intel-media-driver fails with:
+> posix_spawn: Argument list too long
 >
+> It turns out that this is a known issue when the string length reaches MA=
+X_ARG_STRLEN.
+> https://github.com/ninja-build/ninja/issues/1261
 >
-> > -----Original Message-----
-> > From: Michael Halstead <mhalstead@linuxfoundation.org>
-> > Sent: Tuesday, November 11, 2025 6:31
-> > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> > Cc: Marta Rybczynska <rybczynska@gmail.com>; Richard Purdie
-> > <richard.purdie@linuxfoundation.org>; niko.mauno@vaisala.com; openembed=
-ded-
-> > core@lists.openembedded.org; ross.burton@arm.com
-> > Subject: Re: [OE-core] [PATCH 5/5] cve-update: Keep mtime stamp in the
-> > database itself
-> >
-> > On Mon, Nov 10, 2025 at 7:31=E2=80=AFAM Peter Marko via lists.openembed=
-ded.org
-> > <peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
-> > >
-> > >
-> > >
-> > > > -----Original Message-----
-> > > > From: Marta Rybczynska <rybczynska@gmail.com>
-> > > > Sent: Monday, November 10, 2025 16:29
-> > > > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> > > > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>;
-> > > > niko.mauno@vaisala.com; openembedded-core@lists.openembedded.org;
-> > > > ross.burton@arm.com
-> > > > Subject: Re: [OE-core] [PATCH 5/5] cve-update: Keep mtime stamp in =
-the
-> > > > database itself
-> > > >
-> > > >
-> > > >
-> > > > On Mon, Nov 10, 2025 at 4:18=E2=80=AFPM Marko, Peter <Peter.Marko@s=
-iemens.com
-> > > > <mailto:Peter.Marko@siemens.com> > wrote:
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >       > -----Original Message-----
-> > > >       > From: Marta Rybczynska <rybczynska@gmail.com
-> > > > <mailto:rybczynska@gmail.com> >
-> > > >       > Sent: Monday, November 10, 2025 16:00
-> > > >       > To: Richard Purdie <richard.purdie@linuxfoundation.org
-> > > > <mailto:richard.purdie@linuxfoundation.org> >
-> > > >       > Cc: niko.mauno@vaisala.com <mailto:niko.mauno@vaisala.com> =
-;
-> > > > openembedded-core@lists.openembedded.org <mailto:openembedded-
-> > > > core@lists.openembedded.org> ;
-> > > >       > ross.burton@arm.com <mailto:ross.burton@arm.com> ; Marko, P=
-eter
-> > > > (FT D EU SK BFS1)
-> > > >       > <Peter.Marko@siemens.com <mailto:Peter.Marko@siemens.com> >
-> > > >       > Subject: Re: [OE-core] [PATCH 5/5] cve-update: Keep mtime s=
-tamp in
-> > > > the
-> > > >       > database itself
-> > > >       >
-> > > >       >
-> > > >       >
-> > > >       > On Mon, Nov 10, 2025 at 3:16=E2=80=AFPM Richard Purdie
-> > > >       > <richard.purdie@linuxfoundation.org
-> > > > <mailto:richard.purdie@linuxfoundation.org>
-> > > > <mailto:richard.purdie@linuxfoundation.org
-> > > > <mailto:richard.purdie@linuxfoundation.org> >
-> > > >       > > wrote:
-> > > >       >
-> > > >       >
-> > > >       >       On Mon, 2025-11-03 at 14:31 +0000, Niko Mauno via
-> > > >       > lists.openembedded.org <http://lists.openembedded.org>
-> > > > <http://lists.openembedded.org>  wrote:
-> > > >       >       > This should help to avoid problems that will occur =
-if the
-> > > > modification
-> > > >       >       > time of database file itself is altered e.g. by una=
-ssociated
-> > > >       >       > process(es) on the file system which hosts the data=
-base file.
-> > > >       >       >
-> > > >       >       > Since this change updates the database structure by=
- adding a new
-> > > > table,
-> > > >       >       > bump the 'minor' version number in database file na=
-mes to enforce
-> > > > full
-> > > >       >       > database fetch. This should also iron out e.g. situ=
-ation where the
-> > > >       >       > database might have inconspicuously omitted entries=
- due to way
-> > > > in
-> > > >       > which
-> > > >       >       > the mtime of database file itself was relied upon.
-> > > >       >       >
-> > > >       >       > Signed-off-by: Niko Mauno <niko.mauno@vaisala.com
-> > > > <mailto:niko.mauno@vaisala.com>
-> > > >       > <mailto:niko.mauno@vaisala.com <mailto:niko.mauno@vaisala.c=
-om> >
-> > > > >
-> > > >       >       > ---
-> > > >       >       >  meta/classes/cve-check.bbclass                |  2=
- +-
-> > > >       >       >  .../recipes-core/meta/cve-update-db-native.bb <htt=
-p://cve-update-
-> > > > db-native.bb>  <http://cve-update-db-
-> > > >       > native.bb <http://native.bb> >  |  3 +
-> > > >       >       >  meta/recipes-core/meta/cve-update-native.inc  | 59
-> > > > ++++++++++++-------
-> > > >       >       >  .../meta/cve-update-nvd2-native.bb <http://cve-upd=
-ate-nvd2-
-> > > > native.bb>  <http://cve-update-nvd2-native.bb>
-> > > >       > |  3 +
-> > > >       >       >  4 files changed, 46 insertions(+), 21 deletions(-)
-> > > >       >
-> > > >       >       I am a bit worried about this since it takes what is =
-a simple mtime
-> > > >       >       comparison and means that to check the database you n=
-ow have to
-> > > > lock
-> > > >       >       and open it which is comparatively expensive.
-> > > >       >
-> > > >       >       What kind of "unassociated processes" are updating th=
-e mtime?
-> > > >       >
-> > > >       >
-> > > >       >
-> > > >       >
-> > > >       > I second Richard here. If we would really want to keep the =
-date
-> > > > somewhere else
-> > > >       > than the file
-> > > >       > timestamp, we could create a simple file that stores it, wh=
-at is way
-> > > > simpler and
-> > > >       > doesn't require
-> > > >       > to open the database just to see if you want to update it.
-> > > >       >
-> > > >       > I second Richard's question: in what kind of a situation ha=
-ve you seen an
-> > > > issue?
-> > > >
-> > > >       The issue is on Yocto AB.
-> > > >       It has not updated statistics for more than 5 months now.
-> > > >
-> > > >       Looking at the logs, something is updating mtime very frequen=
-tly...
-> > > >       I don't know the AB infrastructure, but it looks like there i=
-s some filesystem
-> > > > crawler, maybe backup of sync process.
-> >
-> > On 2024-12-26 we set workers in the
-> > autobulder.yoctoproject.org/valkyrie cluster to run "touch
-> > /srv/autobuilder/valkyrie.yocto.io/current_sources/CVE_CHECK/*.db
-> > /srv/autobuilder/valkyrie.yocto.io/current_sources/CVE_CHECK2/*.db"
-> > every 3 minute to ensure no stale NFS cache existed for these files.
+> To verify this assumption, I changed the setup directory name to just =C4=
+=81 poky,=C4=81 which avoided the problem. This is an annoying issue and no=
+t a satisfactory solution, but perhaps it will help as a bug report or if s=
+omeone else encounters the same problem.
 >
-> This explains a lot.
-> Touching file while we rely on mtime is obviously breaking cve-check code=
-.
->
-> Note that stopping the touch service is not enough, at least not for LTS =
-branches,
-> because NVD2 code will update new CVEs only since the mtime timestamp.
-> Could you also delete the databases now so it can start fresh without 5 m=
-onths of missing data?
+> Perhaps using response files would help?
 
-I've removed those files.
+I'd like to see how you ended up with a directory name that is too
+long for intel-media-driver. Can you share the build logs that pass
+and those that fail?
 
->
-> Peter
->
-> > That job was disabled for all builders on 2025-09-02. The performance
-> > testing workers were still running the job though. I've disabled it on
-> > those now.
-> >
-> > The issue of stale cached NFS data may return now. Something to keep an=
- eye on.
-> >
-> > If we want to keep the timestamp in a separate file I suggest creating
-> > a new file named timestamp_$(date +%s) for each timestamp and deleting
-> > previous timestamp_ files. That should avoid most caching issues and
-> > keep overhead minimal.
-> >
-> > > >       Or the nfs mount is plain broken there?
-> > > >
-> > > >       Example is here:
-> > > >       https://valkyrie.yocto.io/pub/non-release/20251109-
-> > > > 43/testresults/metrics/db-update/
-> > > >       NOTE: Current time: Sun Nov  9 07:17:52 2025; DB time: Sun No=
-v  9
-> > > > 07:14:51 2025
-> > > >       NOTE: Current time: Sun Nov  9 07:19:22 2025; DB time: Sun No=
-v  9
-> > > > 07:18:14 2025
-> > > >       2 jobs are 90 seconds from each other, but something managed =
-to change
-> > > > the timestamp in between and only 3.5 minutes after last change!
-> > > >
-> > > >
-> > > >
-> > > >
-> > > > The autobuilder was expected to force the complete download every d=
-ay.
-> > > > Something
-> > > > has changed? The code does open the database after checking the
-> > timestamp, so
-> > > > frequent jobs couldn't cause it. I think that machine requires some=
- monitoring
-> > to
-> > > > see
-> > > > what is actually changing those timestamps, because we do not know =
-what it
-> > is
-> > > > also
-> > > > changing.
-> > >
-> > > 1 day doesn't beat the 3.5 minutes crawler...
-> > > This is probably AB issue only.
-> > >
-> > > And maybe other example:
-> > > https://valkyrie.yocto.io/pub/non-release/20251110-45/testresults/met=
-rics/db-
-> > update/
-> > > NOTE: Current time: Mon Nov 10 07:17:47 2025; DB time: Mon Nov 10 07:=
-16:33
-> > 2025
-> > > NOTE: Current time: Mon Nov 10 07:19:17 2025; DB time: Mon Nov 10 07:=
-16:33
-> > 2025
-> > >
-> > > This shows that the first job does not modify it (at least not in the=
- first 90
-> > seconds).
-> > > I guess it fit the 3.5 minutes window of opportunity.
-> > > And my local build does not show any timestamp manipulation either.
-> > >
-> > > Peter
-> > >
-> > > >
-> > > > I haven't seen such an effect on my systems.
-> > > >
-> > > > Kind regards,
-> > > > Marta
-> > >
-> > >
-> > >
-> > >
-> >
-> >
-> > --
-> > Michael Halstead
-> > Linux Foundation / Yocto Project
-> > Systems Operations Engineer
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#226148): https://lists.openembedded.org/g/openembedde=
-d-core/message/226148
-> Mute This Topic: https://lists.openembedded.org/mt/116098343/1003190
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mh=
-alstead@linuxfoundation.org]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Bitbake-setup does not add that much to the build paths, so trying to
+make it even shorter will not solve the issue properly.
 
-
---=20
-Michael Halstead
-Linux Foundation / Yocto Project
-Systems Operations Engineer
+Alex
 
