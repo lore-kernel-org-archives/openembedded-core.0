@@ -1,91 +1,136 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A29BCD3440
-	for <webhook@archiver.kernel.org>; Wed, 12 Nov 2025 18:37:00 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4865.1762972617112244530
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34127CD3440
+	for <webhook@archiver.kernel.org>; Wed, 12 Nov 2025 19:02:50 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5499.1762974166799810179
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Nov 2025 10:36:57 -0800
+ Wed, 12 Nov 2025 11:02:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LP8IG9+h;
- spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: skandigraun@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42b3d4d9ca6so1040539f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 10:36:56 -0800 (PST)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=euA0tKUY;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=IVBt0d/S;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5ACIEFG31109256
+	for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 19:02:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=XPeG+EWjujmpKz+JC3C6l6YA
+	thyeFMPX0FtXtAUmd5w=; b=euA0tKUYUk5GEt+VjnlCId6Nmv/yTBFErq1iqtYn
+	ok8pyKpZjOfgGlQ6WRfMlkm6TI9H3xNSgArB4o5AQ8RgaoOQ5TyK6/I90H2Zhrbs
+	hjtreeNLM1V++gYrobZ/E07weywSDtOHW2yhKVpIMz/efK+rFhs8fuqk1j++THJH
+	3pF8vagEbvQmOhjwdCUhp1huLj7aNxEKaBmhuBsRksi5l8DAR8tOUy9SnY5JsfGT
+	kJ1hWB35YWX3hn5wFUoQ3YbpVS2IjJXdTMccyryft113F/ANs0T41JVr/JupwaIB
+	TqOtr1XbirZQKgHQL2mvYUk558RUOQr1lc12FvMBaDLZaQ==
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com [209.85.221.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4acqum1q35-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 19:02:44 +0000 (GMT)
+Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-55959f13235so11045e0c.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 11:02:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762972615; x=1763577415; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vMz+/MQ/dS8oFYGbOgLO/AI3dgU9g4HmnCl0ok8k7K0=;
-        b=LP8IG9+hahM/Brp+IUNYrT8dKnzvXf1HaQcb7qriw+7oYwhNn4UxtKIO87WIIRUg8V
-         L9xopEg9m9fRnrXvxmhm+/vJM7hd0EdRnN9cXwSU33xf4CzxGAAQX1oZhq/2sckX544g
-         mmn8DlScKcJo2Bb5aZ6O72n6OAOV8RJGkHyeTnT5XprhZZ3OBOXOThvFKEonoyyUUuT5
-         c+zBYeDwPWhxzZMT33wuMchzSpHk4GEd71RPd4ZqZPySaY1uFRplulDncVde/QC0mc9f
-         25Kp/uO9jKMBXFhZzmZV1STyyXf81QOpSvLBkkjHrLQDtBNVnbOU+vf1GR7sLWtH41vs
-         vB7A==
+        d=oss.qualcomm.com; s=google; t=1762974164; x=1763578964; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XPeG+EWjujmpKz+JC3C6l6YAthyeFMPX0FtXtAUmd5w=;
+        b=IVBt0d/SFZrgmlyIl7iSQOj2AAWNhP/6b+ZDlBD5F5fSRguIO5UFX2MYUxKxJnB5Dy
+         rGv5SV6VtBasrLhvwd7x0kEF7Rr1pk6yw7XKC2JqN7Ueyy5FoeCIHsO4AGDIHAyTZXWA
+         BiupgggVhAvQZGTWsQyWdcielDNL10X3cwp2xBiWusfSYqISxSzIFQFZa+cCO381EPWj
+         6TW2JyE5GkOC6h1zKf/Icr/Tk8MLQNhBwPPnd0fDUHpxS9l4E6NRJZJOPyyooCuCMGnc
+         WGw+XaeXHRaZXCHEoXjYXh9S4h+Z2LOFcXN+GRgLI7tpF53lenIOqEJmjcTEX7fJrZA+
+         WIow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762972615; x=1763577415;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vMz+/MQ/dS8oFYGbOgLO/AI3dgU9g4HmnCl0ok8k7K0=;
-        b=OjnelUO9e/e/OFybiLEwQVaV0Z043qvGpkR1vx1ssxe/5kVu6ACQspJUloUqnXLMVU
-         qX1tFSXwLiQi5hrtQdb8ULNXZeQk6me738ENrsbVeK333j0yezMP+xIu7d7mJnJjmvk8
-         +ik5vSRSEFD+0pc6LECifZwjLFYfNd9r5eM0EU3LpPDbQArV3p58jwCYHMXie1sm3VhP
-         DK7hjpH07nWDHubKRBmEEP+Q9SguozhjK5jeUtWGPWoog4a1WXPZC/WTB6ZG9ksGB2Qy
-         3cRbOnrAmCHSdGLTMiXly1prtr1yI6v3STqQw2ZuKdGgUZRmHalyW0LVzxaIE2PIDZAJ
-         Ix6g==
-X-Gm-Message-State: AOJu0YyLfkqSOyfa36Pzbv6Mt9EWg9sKLl2kmuX7GPhi6NBQux8k/S/v
-	mr1PlAD3U3d1wpd4ghzLYeFkZxSYtY1z60cz6fS8wIMawEKKPyXO4LYLgD1w2VOq
-X-Gm-Gg: ASbGncuHeoWXMWaHNnKK36tJBua2xT67iJZVFRTAjQkpYiOtnK2X+7J26p6GxyjsAOZ
-	dLFmgkdxBAQoWcAydKGhrgMX+WvgavBZKsrw2UkZlqKdT5oU3epX9Jn4Rxvn7LIQypOglYIANh1
-	Pp7CdsP/ImAghNFhAVMezJZhj8X3k73iPWoLhJWZuJSXJX9OoUgkQDhOkCyb3kiCb35bC7zT6cA
-	kOjoWsQHJM9wUla16WyTCkr4+rWpBKKj4WAfLorhmH4EuIfM/HGdxEFGOtsj+K+hYgt3BjndMY4
-	eS9xK6ZE8nf4BDJmGw+1Xkf04/b4p2tca/a4RUjg4s93zmalZimzaAIyEo7hqg3exxWv7cQJVRm
-	W0JTlcr/yLTWGMDi1O29y0NUJzAxd7RuDtf+bWdMbWvLsVgyYpCFoO52POXEEOTAxke+QYWF8z+
-	c4P2g3QI3w
-X-Google-Smtp-Source: AGHT+IH237HthFfSf/Rwlf2yQFhyNBc4Y5yHYevCW4t43M+N9yDBvj24ocPVnfnOhfte28nRmWG2Mg==
-X-Received: by 2002:a05:6000:1841:b0:42b:3090:2680 with SMTP id ffacd0b85a97d-42b4bb875f9mr3871372f8f.10.1762972615151;
-        Wed, 12 Nov 2025 10:36:55 -0800 (PST)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b316775f2sm25422963f8f.16.2025.11.12.10.36.54
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1762974164; x=1763578964;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XPeG+EWjujmpKz+JC3C6l6YAthyeFMPX0FtXtAUmd5w=;
+        b=JyEPDXVdTLXBLWlcdjp757svw0CPla/nMbB3gw6bZY08+381RBta+9ZPhBH7UWHsGW
+         jmubVmVxoBzb7JpfW0LFOTKyS09mWFUliD5jgxxM/Xc0k9E8jbqT8sbBRFYc+S2uyH1y
+         9rQ3X4GU1GUS4tUZREwUGCBaUbD1X4PHMGhTHaRgx9t9yFcMM+Q7NkKbSZZodJu+rcB3
+         Ux48UOF7p3aK3AJ+gcXEp6srl7MVFBGLR6f7AP8bjP4qTwGONYszMK1XRpMohCDlwRh2
+         4wptps4JahJf+dNVfZJJNRoz6s9gaXpgoQubqXbIxkcMEvXjvv+yurAF7Ls+Xt/OIwRc
+         pU9Q==
+X-Gm-Message-State: AOJu0YxM9DUtcbqTrIQ5WS+24yZZOrNfwwCVeR8saJevMnPHGqpiAuSp
+	bnXfJwwFfOiaur4ETTG2Bjdp08N4nkHL47EBe7SpbfpdGzIVIP8HhcTGfyLNjF6kWXL+3djqd9v
+	tyX2gMn6gErtcRWXUen4IIavNzAGI2EbRkBdi9E1v27TQiJ22MjXaptqrCqBQ1rR8xTlW+5awk2
+	5PlKF61U4=
+X-Gm-Gg: ASbGncsyyXStutsX8E5jB+2xtHkiPSpeGJysr1FWTICIt6l9gYNqESBPXmyCFX3O8nr
+	VV0drqxBQE4a4c3rDATC5hFbSjsxIX+gXRnklONj9USciaPjJH+6oZS5AZPV2FqdLoD+BOsbeMD
+	tKlSlBZNJb0Hx2H24IY0o2rZSulzblBqdZiG/Uf4Az9JbgCrqqgr2D1i5M5/MXQjbHUObA1URHQ
+	ISXP+sTi5QePMv512sZzMKAr1oCjow4TV5w+6ahofKeeWgVotoBQBYwITsj1+AoAiNS89s1gFKx
+	FmEtzHhzdW78Jes6UJKcvgzrTnWskGeP8HlNv7gx+/8bknoM5jWGtOe4cmFaUsCpt45Sm3a1i0V
+	DOdjMm2x4kza61CBTR2oQjsR0aPoFvbZlO6kM8nL8YlNmf+TReq8TmoPMB1IQSvCXW7glMgCqfD
+	OnXUG/m8Pql+5p
+X-Received: by 2002:a05:6122:168c:b0:54c:da0:f709 with SMTP id 71dfb90a1353d-559e7d7bd3fmr1675571e0c.13.1762974163769;
+        Wed, 12 Nov 2025 11:02:43 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGucSc/01wnoLVIFj1fxKUGO5iSif4pAopwpQ/xJbp0fRwrBw2MFrbEVbu06jbR+rUlzItE0Q==
+X-Received: by 2002:a05:6122:168c:b0:54c:da0:f709 with SMTP id 71dfb90a1353d-559e7d7bd3fmr1675503e0c.13.1762974163098;
+        Wed, 12 Nov 2025 11:02:43 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37a5f078f13sm54933251fa.21.2025.11.12.11.02.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 10:36:54 -0800 (PST)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [kirkstone][PATCH] babeltrace2: fetch with https protocol
-Date: Wed, 12 Nov 2025 19:36:54 +0100
-Message-ID: <20251112183654.1049165-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.51.2
+        Wed, 12 Nov 2025 11:02:42 -0800 (PST)
+Date: Wed, 12 Nov 2025 21:02:40 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vivek Puar <vpuar@qti.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] linux-firmware: upgrade 20251021 -> 20251111
+Message-ID: <lfwunannpvskcey2xjhsgo3v7ztvvlgrmxijrsk7dpafu5qr6v@4v4rtp5ochpv>
+References: <20251112181218.3301302-1-vpuar@qti.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251112181218.3301302-1-vpuar@qti.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEyMDE1NCBTYWx0ZWRfX10UCJdW7/0HZ
+ yYEFX5Qkv5IllxtDMQ0NAxxLaCHQhfIpovVrNRkmLVUNOIB7ubMlRFBcYqyfbkmK1Q1/aoMfdLc
+ 7964Xf+SJhTApsSaAkSsgMpmDx4Ct6IXJKFJZsjnS/u5lFszD8NyJGI4BK6aVseBQhOWxFd2kpf
+ rczYM2VN4EIuY62Or7q68HoBNOljHtzkWwG51n9fT4B27EGIIyk579C3P+dW4Rtjh+qD5kQ5WVs
+ eed1tc25mVhhdCFVD7OI9/mZvu1z25ZShpPH6kMGLbNLaMpEhIdfYJ9CL2+DJtK7IpUfAvKweM8
+ vyGxPt217Iukpo0MERkcWhO5aDU1nrvbjiIxpce6zMmAysZAul/9AyAtoluP97BrqnIDf6DFLs6
+ njR8gR5tUQzQc1lshVialS/GIdVmUA==
+X-Proofpoint-GUID: 3AHHNGMhMPYkm1n8EO8jPwKhFLTmnJZK
+X-Proofpoint-ORIG-GUID: 3AHHNGMhMPYkm1n8EO8jPwKhFLTmnJZK
+X-Authority-Analysis: v=2.4 cv=KeTfcAYD c=1 sm=1 tr=0 ts=6914d9d5 cx=c_pps
+ a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=z-QSNh-ow5uosPlSD2sA:9 a=CjuIK1q_8ugA:10
+ a=tNoRWFLymzeba-QzToBc:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-12_06,2025-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 clxscore=1015 bulkscore=0 suspectscore=0
+ impostorscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511120154
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 18:37:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226216
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 19:02:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226217
 
-The source doesn't support the default "git" protocol anymore for
-anonymous download, causing fetching failures.
+On Wed, Nov 12, 2025 at 11:42:18PM +0530, Vivek Puar wrote:
+> Upgrade the firmware package to latest release. Add new
+> Qualcomm firmware packages, rename HP package, and update
+> FILES path for packages ${PN}-ti-{tas2563, tas2781}.
+> 
+> License-Update: new and updated firmware
+> 
+> Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  ...20251021.bb => linux-firmware_20251111.bb} | 28 +++++++++++--------
+>  1 file changed, 17 insertions(+), 11 deletions(-)
+>  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20251021.bb => linux-firmware_20251111.bb} (99%)
+> 
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
----
- meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb
-index 7ece3140f7..8fa0f9f20d 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=a6a458c13f18385b7bc5069a6d7b176e"
- 
- DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
- 
--SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.0 \
-+SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.0;protocol=https \
-            file://run-ptest \
-            file://0001-tests-do-not-run-test-applications-from-.libs.patch \
-            file://0001-Make-manpages-multilib-identical.patch \
+
+-- 
+With best wishes
+Dmitry
 
