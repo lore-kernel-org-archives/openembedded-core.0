@@ -1,136 +1,191 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <nmjain23@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34127CD3440
-	for <webhook@archiver.kernel.org>; Wed, 12 Nov 2025 19:02:50 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5499.1762974166799810179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AB10CD4847
+	for <webhook@archiver.kernel.org>; Wed, 12 Nov 2025 20:56:33 +0000 (UTC)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8129.1762980991522101353
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Nov 2025 11:02:47 -0800
+ Wed, 12 Nov 2025 12:56:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=euA0tKUY;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=IVBt0d/S;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5ACIEFG31109256
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 19:02:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=XPeG+EWjujmpKz+JC3C6l6YA
-	thyeFMPX0FtXtAUmd5w=; b=euA0tKUYUk5GEt+VjnlCId6Nmv/yTBFErq1iqtYn
-	ok8pyKpZjOfgGlQ6WRfMlkm6TI9H3xNSgArB4o5AQ8RgaoOQ5TyK6/I90H2Zhrbs
-	hjtreeNLM1V++gYrobZ/E07weywSDtOHW2yhKVpIMz/efK+rFhs8fuqk1j++THJH
-	3pF8vagEbvQmOhjwdCUhp1huLj7aNxEKaBmhuBsRksi5l8DAR8tOUy9SnY5JsfGT
-	kJ1hWB35YWX3hn5wFUoQ3YbpVS2IjJXdTMccyryft113F/ANs0T41JVr/JupwaIB
-	TqOtr1XbirZQKgHQL2mvYUk558RUOQr1lc12FvMBaDLZaQ==
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com [209.85.221.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4acqum1q35-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 19:02:44 +0000 (GMT)
-Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-55959f13235so11045e0c.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 11:02:44 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mamjDMA+;
+ spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: nmjain23@gmail.com)
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4ed614777a3so406161cf.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 12:56:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1762974164; x=1763578964; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XPeG+EWjujmpKz+JC3C6l6YAthyeFMPX0FtXtAUmd5w=;
-        b=IVBt0d/SFZrgmlyIl7iSQOj2AAWNhP/6b+ZDlBD5F5fSRguIO5UFX2MYUxKxJnB5Dy
-         rGv5SV6VtBasrLhvwd7x0kEF7Rr1pk6yw7XKC2JqN7Ueyy5FoeCIHsO4AGDIHAyTZXWA
-         BiupgggVhAvQZGTWsQyWdcielDNL10X3cwp2xBiWusfSYqISxSzIFQFZa+cCO381EPWj
-         6TW2JyE5GkOC6h1zKf/Icr/Tk8MLQNhBwPPnd0fDUHpxS9l4E6NRJZJOPyyooCuCMGnc
-         WGw+XaeXHRaZXCHEoXjYXh9S4h+Z2LOFcXN+GRgLI7tpF53lenIOqEJmjcTEX7fJrZA+
-         WIow==
+        d=gmail.com; s=20230601; t=1762980990; x=1763585790; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L/KAGdV3fi9tdl57tu8k5zvpWNarAcolbXzW1Wjtd4A=;
+        b=mamjDMA+cwlII9r1c9BiMdfCWzQftrMCkgRlNTzZuVrItR3Mwu0c3lx3lmAPjkdlrx
+         nvV4SUWN2P/1bteSFHDkpna9roUq0kgDNxXNHg97QKMRrimry+/xVQg9a021XMyi4JUd
+         CyYABFF469UZXyB9Jmn0lV9juKFkZuwpikxkrGtYiDrpQtGKDWXjfV6L1Ohylirki3JI
+         Ao82H4up4YVHAawgY9lPTcJZkzA6hdKFCStuHb3Y54nQrCychyu5T3VH9I4Y350w1ZxN
+         hXvkjQMlDHN5GduL8jrnpZ7KCyvZ8cgO9/r3qrDPcGI2wDjpgDZGwhjlElOUBmvkMAMT
+         2UNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762974164; x=1763578964;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XPeG+EWjujmpKz+JC3C6l6YAthyeFMPX0FtXtAUmd5w=;
-        b=JyEPDXVdTLXBLWlcdjp757svw0CPla/nMbB3gw6bZY08+381RBta+9ZPhBH7UWHsGW
-         jmubVmVxoBzb7JpfW0LFOTKyS09mWFUliD5jgxxM/Xc0k9E8jbqT8sbBRFYc+S2uyH1y
-         9rQ3X4GU1GUS4tUZREwUGCBaUbD1X4PHMGhTHaRgx9t9yFcMM+Q7NkKbSZZodJu+rcB3
-         Ux48UOF7p3aK3AJ+gcXEp6srl7MVFBGLR6f7AP8bjP4qTwGONYszMK1XRpMohCDlwRh2
-         4wptps4JahJf+dNVfZJJNRoz6s9gaXpgoQubqXbIxkcMEvXjvv+yurAF7Ls+Xt/OIwRc
-         pU9Q==
-X-Gm-Message-State: AOJu0YxM9DUtcbqTrIQ5WS+24yZZOrNfwwCVeR8saJevMnPHGqpiAuSp
-	bnXfJwwFfOiaur4ETTG2Bjdp08N4nkHL47EBe7SpbfpdGzIVIP8HhcTGfyLNjF6kWXL+3djqd9v
-	tyX2gMn6gErtcRWXUen4IIavNzAGI2EbRkBdi9E1v27TQiJ22MjXaptqrCqBQ1rR8xTlW+5awk2
-	5PlKF61U4=
-X-Gm-Gg: ASbGncsyyXStutsX8E5jB+2xtHkiPSpeGJysr1FWTICIt6l9gYNqESBPXmyCFX3O8nr
-	VV0drqxBQE4a4c3rDATC5hFbSjsxIX+gXRnklONj9USciaPjJH+6oZS5AZPV2FqdLoD+BOsbeMD
-	tKlSlBZNJb0Hx2H24IY0o2rZSulzblBqdZiG/Uf4Az9JbgCrqqgr2D1i5M5/MXQjbHUObA1URHQ
-	ISXP+sTi5QePMv512sZzMKAr1oCjow4TV5w+6ahofKeeWgVotoBQBYwITsj1+AoAiNS89s1gFKx
-	FmEtzHhzdW78Jes6UJKcvgzrTnWskGeP8HlNv7gx+/8bknoM5jWGtOe4cmFaUsCpt45Sm3a1i0V
-	DOdjMm2x4kza61CBTR2oQjsR0aPoFvbZlO6kM8nL8YlNmf+TReq8TmoPMB1IQSvCXW7glMgCqfD
-	OnXUG/m8Pql+5p
-X-Received: by 2002:a05:6122:168c:b0:54c:da0:f709 with SMTP id 71dfb90a1353d-559e7d7bd3fmr1675571e0c.13.1762974163769;
-        Wed, 12 Nov 2025 11:02:43 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGucSc/01wnoLVIFj1fxKUGO5iSif4pAopwpQ/xJbp0fRwrBw2MFrbEVbu06jbR+rUlzItE0Q==
-X-Received: by 2002:a05:6122:168c:b0:54c:da0:f709 with SMTP id 71dfb90a1353d-559e7d7bd3fmr1675503e0c.13.1762974163098;
-        Wed, 12 Nov 2025 11:02:43 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37a5f078f13sm54933251fa.21.2025.11.12.11.02.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 11:02:42 -0800 (PST)
-Date: Wed, 12 Nov 2025 21:02:40 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vivek Puar <vpuar@qti.qualcomm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] linux-firmware: upgrade 20251021 -> 20251111
-Message-ID: <lfwunannpvskcey2xjhsgo3v7ztvvlgrmxijrsk7dpafu5qr6v@4v4rtp5ochpv>
-References: <20251112181218.3301302-1-vpuar@qti.qualcomm.com>
+        d=1e100.net; s=20230601; t=1762980990; x=1763585790;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L/KAGdV3fi9tdl57tu8k5zvpWNarAcolbXzW1Wjtd4A=;
+        b=JJpVOzY1ZE3FOJU9UbiL+1R1l0tP3CITNrKW6+TQ1YUth7ETkAkkup1drvFRUP9eMy
+         Y+2+FP7P4M1Q+e4HakRpdVf7Y2tnFUqdgSC18dCVzkaoUgl5PXn3yo3RWGoPMPv9uhWp
+         OdjPIR7RrIo65vRZH/56LJFZBUQ5nvaPLmlmsHlWP2vFyFcjC1KTOCazFdM8GEEOULyT
+         RVcUA+Yjnb3Nxm1SLysSaPxQ0zs4fsl0WkfSsFN0PcrvpLoYwF4yaY6cp/B6fufBYKCb
+         EkCatgv2zbb2L9rhiEu3VdFxNAL/injD+HECjdr1EOs0ajZuHsLHe9+ETDLozTU4FFIH
+         5pMg==
+X-Gm-Message-State: AOJu0YxvZs8OydiPNzlYIMTwIgrVgblIpyY4/DAsiDxD5bkLwnbwVVlf
+	YP0MPB0rJnxB/8EvBjHTuadgyTOBU1VvQAkXU6B5Ka1+4Hcpl6qf/AZMxno60q9LDkUdB6yCX6A
+	9oA0rv7+nN9VEzxi+oxmTVKgKF9mp/CT7eg==
+X-Gm-Gg: ASbGncuc/cTttH4R8QoXdsHqIfxnHl19f85VJJxLELCGk+LHDTB7qmzgPdsdrBl7ek4
+	Q1IEmTANRRunCENRD8Pl3N43kdYYJ+6M2R8s2tJA2AcSFEvGUyITLsDHEpJmZiRcxXHkur87mzY
+	fAiIawoySM08SMlNqpEEi+59qXdP/tob2OuEGB3PBvGLjiom//WVJwzEq4tuUMBJhZhfugLpSa9
+	R7MiGT6sD20IcggJOQ9w7sCajsu3Rr2MuxqUR4bwsHzEYxGlmUVfUTxjgCq6A==
+X-Google-Smtp-Source: AGHT+IHjOb9tZBsaG64QAvkmuhNdgZhwhEJm5en8/vvaq/UrP3xEj2hbUa4Q17h8taD/d5NVo1F24RUJz36P475kJcI=
+X-Received: by 2002:ac8:5744:0:b0:4ed:42ba:9bbf with SMTP id
+ d75a77b69052e-4eddbc427a7mr57259991cf.14.1762980990139; Wed, 12 Nov 2025
+ 12:56:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251112181218.3301302-1-vpuar@qti.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEyMDE1NCBTYWx0ZWRfX10UCJdW7/0HZ
- yYEFX5Qkv5IllxtDMQ0NAxxLaCHQhfIpovVrNRkmLVUNOIB7ubMlRFBcYqyfbkmK1Q1/aoMfdLc
- 7964Xf+SJhTApsSaAkSsgMpmDx4Ct6IXJKFJZsjnS/u5lFszD8NyJGI4BK6aVseBQhOWxFd2kpf
- rczYM2VN4EIuY62Or7q68HoBNOljHtzkWwG51n9fT4B27EGIIyk579C3P+dW4Rtjh+qD5kQ5WVs
- eed1tc25mVhhdCFVD7OI9/mZvu1z25ZShpPH6kMGLbNLaMpEhIdfYJ9CL2+DJtK7IpUfAvKweM8
- vyGxPt217Iukpo0MERkcWhO5aDU1nrvbjiIxpce6zMmAysZAul/9AyAtoluP97BrqnIDf6DFLs6
- njR8gR5tUQzQc1lshVialS/GIdVmUA==
-X-Proofpoint-GUID: 3AHHNGMhMPYkm1n8EO8jPwKhFLTmnJZK
-X-Proofpoint-ORIG-GUID: 3AHHNGMhMPYkm1n8EO8jPwKhFLTmnJZK
-X-Authority-Analysis: v=2.4 cv=KeTfcAYD c=1 sm=1 tr=0 ts=6914d9d5 cx=c_pps
- a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=z-QSNh-ow5uosPlSD2sA:9 a=CjuIK1q_8ugA:10
- a=tNoRWFLymzeba-QzToBc:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-12_06,2025-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 clxscore=1015 bulkscore=0 suspectscore=0
- impostorscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511120154
+References: <20251107040923.4127069-1-namanj1@kpit.com>
+In-Reply-To: <20251107040923.4127069-1-namanj1@kpit.com>
+From: Naman Jain <nmjain23@gmail.com>
+Date: Thu, 13 Nov 2025 02:26:18 +0530
+X-Gm-Features: AWmQ_bkC-oWQ8eXnvk5vmwEfDtivBzAheeh9ENY16ol-V-3b6AUpwUWlE7ZfypE
+Message-ID: <CALCkg5ajxNo8LPWOXAsqQCSeGMa2duP+q-EHDaYW46RkhPpugA@mail.gmail.com>
+Subject: Re: [meta][master][PATCH] socat: Update LICENSE field
+To: openembedded-core@lists.openembedded.org, namanj1@kpit.com
+Content-Type: multipart/alternative; boundary="000000000000a9c0bb06436bff5c"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 19:02:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226217
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 20:56:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226218
 
-On Wed, Nov 12, 2025 at 11:42:18PM +0530, Vivek Puar wrote:
-> Upgrade the firmware package to latest release. Add new
-> Qualcomm firmware packages, rename HP package, and update
-> FILES path for packages ${PN}-ti-{tas2563, tas2781}.
-> 
-> License-Update: new and updated firmware
-> 
-> Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+--000000000000a9c0bb06436bff5c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 7 Nov, 2025, 9:39=E2=80=AFam Naman Jain, <nmjain23@gmail.com> wrote=
+:
+
+> The below reference clearly states that GPL-2.0-with-OpenSSL-exception
+> is to be used with GPL 2.0 or GPL3.0 and not as a standalone license.
+> Therefore, update the correct license.
+>
+> Reference:
+>
+> https://github.com/aboutcode-org/scancode-licensedb/blob/569d72e13e7c8d14=
+a44380f91e80c5a2d4091f8f/docs/openssl-exception-gpl-2.0.yml#L7
+>
+> Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
+> Signed-off-by: Naman Jain <namanj1@kpit.com>
 > ---
->  ...20251021.bb => linux-firmware_20251111.bb} | 28 +++++++++++--------
->  1 file changed, 17 insertions(+), 11 deletions(-)
->  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20251021.bb => linux-firmware_20251111.bb} (99%)
-> 
+>  meta/recipes-connectivity/socat/socat_1.8.0.3.bb | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-connectivity/socat/socat_1.8.0.3.bb
+> b/meta/recipes-connectivity/socat/socat_1.8.0.3.bb
+> index ee6ca1fe44..964af9d124 100644
+> --- a/meta/recipes-connectivity/socat/socat_1.8.0.3.bb
+> +++ b/meta/recipes-connectivity/socat/socat_1.8.0.3.bb
+> @@ -5,9 +5,10 @@ HOMEPAGE =3D "http://www.dest-unreach.org/socat/"
+>
+>  SECTION =3D "console/network"
+>
+> -LICENSE =3D "GPL-2.0-with-OpenSSL-exception"
+> +LICENSE =3D "GPL-2.0-only & GPL-2.0-with-OpenSSL-exception"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
+263 \
+> -
+> file://README;beginline=3D248;endline=3D278;md5=3D338c05eadd013872abb1d6e=
+198e10a3f"
+> +
+> file://README;beginline=3D248;endline=3D278;md5=3D338c05eadd013872abb1d6e=
+198e10a3f
+> \
+> +
+> file://COPYING.OpenSSL;md5=3D5c9bccc77f67a8328ef4ebaf468116f4"
+>
+>  SRC_URI =3D "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.=
+bz2
+> \
+>             file://0001-fix-compile-procan.c-failed.patch \
+> --
+> 2.34.1
+>
+>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+--000000000000a9c0bb06436bff5c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"auto"></div><br><div class=3D"gmail_quote gmail_quote_container=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 7 Nov, 2025, 9:39=E2=80=AFa=
+m Naman Jain, &lt;<a href=3D"mailto:nmjain23@gmail.com">nmjain23@gmail.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">The below reference =
+clearly states that GPL-2.0-with-OpenSSL-exception<br>
+is to be used with GPL 2.0 or GPL3.0 and not as a standalone license.<br>
+Therefore, update the correct license.<br>
+<br>
+Reference:<br>
+<a href=3D"https://github.com/aboutcode-org/scancode-licensedb/blob/569d72e=
+13e7c8d14a44380f91e80c5a2d4091f8f/docs/openssl-exception-gpl-2.0.yml#L7" re=
+l=3D"noreferrer noreferrer" target=3D"_blank">https://github.com/aboutcode-=
+org/scancode-licensedb/blob/569d72e13e7c8d14a44380f91e80c5a2d4091f8f/docs/o=
+penssl-exception-gpl-2.0.yml#L7</a><br>
+<br>
+Signed-off-by: Virendra Thakur &lt;<a href=3D"mailto:virendra.thakur@kpit.c=
+om" target=3D"_blank" rel=3D"noreferrer">virendra.thakur@kpit.com</a>&gt;<b=
+r>
+Signed-off-by: Naman Jain &lt;<a href=3D"mailto:namanj1@kpit.com" target=3D=
+"_blank" rel=3D"noreferrer">namanj1@kpit.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-connectivity/socat/<a href=3D"http://socat_1.8.0.3.bb" r=
+el=3D"noreferrer noreferrer" target=3D"_blank">socat_1.8.0.3.bb</a> | 5 +++=
+--<br>
+=C2=A01 file changed, 3 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-connectivity/socat/<a href=3D"http://socat_1.8.0.=
+3.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">socat_1.8.0.3.bb</a> =
+b/meta/recipes-connectivity/socat/<a href=3D"http://socat_1.8.0.3.bb" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">socat_1.8.0.3.bb</a><br>
+index ee6ca1fe44..964af9d124 100644<br>
+--- a/meta/recipes-connectivity/socat/<a href=3D"http://socat_1.8.0.3.bb" r=
+el=3D"noreferrer noreferrer" target=3D"_blank">socat_1.8.0.3.bb</a><br>
++++ b/meta/recipes-connectivity/socat/<a href=3D"http://socat_1.8.0.3.bb" r=
+el=3D"noreferrer noreferrer" target=3D"_blank">socat_1.8.0.3.bb</a><br>
+@@ -5,9 +5,10 @@ HOMEPAGE =3D &quot;<a href=3D"http://www.dest-unreach.org/=
+socat/" rel=3D"noreferrer noreferrer" target=3D"_blank">http://www.dest-unr=
+each.org/socat/</a>&quot;<br>
+<br>
+=C2=A0SECTION =3D &quot;console/network&quot;<br>
+<br>
+-LICENSE =3D &quot;GPL-2.0-with-OpenSSL-exception&quot;<br>
++LICENSE =3D &quot;GPL-2.0-only &amp; GPL-2.0-with-OpenSSL-exception&quot;<=
+br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Db234ee4d69f5fce4486a8=
+0fdaf4a4263 \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+://README;beginline=3D248;endline=3D278;md5=3D338c05eadd013872abb1d6e198e10=
+a3f&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+://README;beginline=3D248;endline=3D278;md5=3D338c05eadd013872abb1d6e198e10=
+a3f \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+://COPYING.OpenSSL;md5=3D5c9bccc77f67a8328ef4ebaf468116f4&quot;<br>
+<br>
+=C2=A0SRC_URI =3D &quot;<a href=3D"http://www.dest-unreach.org/socat/downlo=
+ad/socat-$%7BPV%7D.tar.bz2" rel=3D"noreferrer noreferrer" target=3D"_blank"=
+>http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-fix-compile-procan.c-=
+failed.patch \<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div>
 
--- 
-With best wishes
-Dmitry
+--000000000000a9c0bb06436bff5c--
 
