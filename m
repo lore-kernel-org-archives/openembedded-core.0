@@ -1,151 +1,175 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A203CCFA1A
-	for <webhook@archiver.kernel.org>; Wed, 12 Nov 2025 09:36:25 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9893.1762940179561963884
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45288CCFA1A
+	for <webhook@archiver.kernel.org>; Wed, 12 Nov 2025 10:05:45 +0000 (UTC)
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10058.1762941935744240762
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Nov 2025 01:36:19 -0800
+ Wed, 12 Nov 2025 02:05:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=I5b700bB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42b31c610fcso484401f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 01:36:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1762940178; x=1763544978; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=SOShIGMOtZoqINDjoMyg58Fp2Yp1viYupMHTcf1ZUME=;
-        b=I5b700bBMA8spEH6olhBrxmx3OtSmNrwOb8ibGaXP/7x5Gn8F/XPTZitKqYsbInfLu
-         RyFPLmIKOSyHWSBuHnCHtF3bSpACWaB/LLODMxyLjgNgvMkpgK46K/oane7aLNNp5ngR
-         rocd5fAykGIlFmuL2iXElaw4o8wgeSm1ewowg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762940178; x=1763544978;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SOShIGMOtZoqINDjoMyg58Fp2Yp1viYupMHTcf1ZUME=;
-        b=gEAb+2XCEzvdLlLOnCFSwnFJ1N78uY8WD2hV65jBQwvgjXhqroV8SpgnbyupQ0Dyf/
-         HI9gsV5NTkhfJbw1GjxCeKRKY2MoKT3dMYcDm/hZncpPaCU8fUk1LES2e32nCL9zNubS
-         KC32IlnsqPb41h2pNERKPaAfQx8WzgCGgHlJnHEaXli0dujjEmbU7A6us3zvknujohUO
-         jMGwm6RZo3x9SzbpLb7uyb6ghu9stVq+P9w8PMg1fWGvcKlnHsMATm7Xo8kidkkgcjQm
-         6RXjkVn/HfoBn3TxGRXML8mfRMicqpM+sTFFSkExekMutWop8BszhQ8AyUeZZzN5uPWd
-         s2RA==
-X-Forwarded-Encrypted: i=1; AJvYcCXNl7s7yXtxAYhk9h0NYxskX+29g2Tb12Oopo9sc7HWbN1x9RjKzde+tiFoArgLSv48WFfKB0V62NTn9yLvfagqEg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwB67ELx3C+12s/eejGZX4Qr9TxHBMemySP/R+loR6vzsmFFsN9
-	Et8Lw+vTXO+20UIb7TiiQmvpH6h3KMchBGrdzwqEJ9Pf0Cngh3r2SZhkx9nPRQTy7c4=
-X-Gm-Gg: ASbGncu39b06qqSR1fGgTHvpBr1wqUsRSnDy76PN6szHTNZwRW6EhsJZGoY6AO1R+da
-	7VhYJIatqqUh46CXrTMCfr/xoL44dCIyicbxaqm4tI3xGdQEp0jkqCFEC1F++gt+JNDHJQlXv49
-	pIJAdF8dixT9hrhyU722kfIuY4CvKtZ6Jw3U6oF+72NtYx5JjzLj4d/NhOEE9UYe8TdntFiFjcJ
-	lVYD016yw5EDIAnxedQDZtMZv1sEkX8JGSsyr32/gnvMt28fj3fyo4FPLxdUV3k4Ho+T8w1cl91
-	C2tY9WJQF7kOHp4grOz3jmJ99I/gmR8KQduy7K0GcwwtBP0paj63mZZuA5mHXdFBPe97Cn6DrIk
-	Yc0TSSkJovZqn8xkfHCqpxk2u/Rw+jGPXkcInvniGkU3/qQUy4PJjto/JI1wM5N1S122gicBcj2
-	XioHu5W0btjpxr13kvaifyFbxqWqW/nFGbHaawCdmCV3Zoxv5Nki14zDO4MYw/Hk3A
-X-Google-Smtp-Source: AGHT+IECJoZyrj46F2kOZxWRA4d/QEGE7FEBedKFVO3ny99IGp7shKecIb+3bmDOLkJEaF56WLxAXQ==
-X-Received: by 2002:a05:6000:40cc:b0:42b:3746:3b82 with SMTP id ffacd0b85a97d-42b4bdb8305mr1930694f8f.54.1762940177843;
-        Wed, 12 Nov 2025 01:36:17 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8876:d08f:2a0c:d6ff? ([2001:8b0:aba:5f3c:8876:d08f:2a0c:d6ff])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b2e052f32sm26327441f8f.17.2025.11.12.01.36.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 01:36:17 -0800 (PST)
-Message-ID: <35da4030cb0e66d21e0497c7f9c2b777150ce7b5.camel@linuxfoundation.org>
-Subject: Re: [Automated-testing] bitbake, oe-core and meta-yocto tags in
- sync? (was Re: GPIT LAVA Test Report - Job 123474: OEQA ALL PASSED (24/75)
- passed)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
-Cc: automated-testing@lists.yoctoproject.org, bill.mills@linaro.org, 
-	ilias.apalodimas@linaro.org, javier.tia@linaro.org
-Date: Wed, 12 Nov 2025 09:36:16 +0000
-In-Reply-To: <aRROLHFAmzOAbzRj@nuoska>
-References: <691381dc.7b0a0220.35e53.800e@mx.google.com>
-	 <aRROLHFAmzOAbzRj@nuoska>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=Sc9h2NXO;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=VTqDFrSA;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.150, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 98DCBEC01B0;
+	Wed, 12 Nov 2025 05:05:34 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Wed, 12 Nov 2025 05:05:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1762941934; x=1763028334; bh=cwklGDNi5s
+	ChcJKhDGjLKPK+wZ/tOJvuBsYL8k5S9vI=; b=Sc9h2NXO5znsJv5pCnyIask+df
+	CnYJJ/Llt5TZyZfVPFTCGicb8Ogy31G584ccsRNI1JFTeh/4rWFbfX2DidiNud9C
+	5ecYl4YIpLkxROzgcgZt862kqbJtpoikBh6P6HT6MWKU13+oKKW5E12xOBRy4zq5
+	Xqih8yYHKJQck6GJjBf0eOIRMF144UME10jS72RVH0i+GOOnUKPqT54EnfUwdXJi
+	q041floH33SZt6sw5rnBNJhdXkqFMUzQtslkxJsBGmTIog4IpHZG7nOEkBwwp3tk
+	RAVcUaWge8mSuMNnoY4Ae3M0Pw0js8NAq2Jo3CrdaK3gIC4+6KA8avVsQfvA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1762941934; x=1763028334; bh=cwklGDNi5sChcJKhDGjLKPK+wZ/tOJvuBsY
+	L8k5S9vI=; b=VTqDFrSA14UroClM3ypUx9wss66wlFs3Phm74yMsb5k5Cp3Ylq9
+	xhSLBQsO9dTRpLOkOHGVFeUhECWsOpu4aYdYrsj3V0qFqDNABkw7/kzUvx0PJ+DL
+	dM1DtZtdTDdfwnkNRWvtO8qvWR2hXaatMn0iEqfVcVKIe4Ya2wdMtHfuJOF7CW+k
+	zB9OmrkrZMWW4gEGLUeQq7EMrbB34HpkNijFJkOKJX69YgwBiWUB9zQ9rwHYFZXL
+	b2o8YgfFf/TOkFYSKVJTEH6rYCW/vBiSlnOmr8WxdThxfjwIH2mT/JhmxpqygUa5
+	PQkVgLw4r/INOeMNiLu6s+OVTIgcmiOFZ3g==
+X-ME-Sender: <xms:7lsUaQGDD2IctJKCnFVFh1Cq4XqTsoIkD8vjQPAHqg-FdNBSQwkzJg>
+    <xme:7lsUaUz7z6HDOs7_FTtrM5Yfaw7KfmgtWc4lyUjlkJUXz8Ea_0nxsRR8CWXDQt0rU
+    uMke-sza6vvMl2hGYrghEiBNxDTa-gc_O_WA9zTC_KK7nRsPiJufPQ>
+X-ME-Received: <xmr:7lsUadpaT9tpRhsOcOpeLr6luLmBTOUfISZJRGf1n1mE7XD-rotFr9Vu90UbH-5dxKTrOAJJWv6sPxgMMP8WrATwZ9F_bA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtdefjeekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
+    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
+    epfeffvdefgeevkeduhfetueehhfeikedvieeufeevieffueektdeluddtgfegveehnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlse
+    hpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopehvuhguuhhprgesqhhtihdrqhhurghltghomhhmrdgtohhmpdhrtg
+    hpthhtoheprghlvgigrdhkrghnrghvihhnsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
+    ohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvg
+    gurdhorhhgpdhrtghpthhtoheprghnuhhjrdhmihhtthgrlhesohhsshdrqhhurghltgho
+    mhhmrdgtohhm
+X-ME-Proxy: <xmx:7lsUaWhxjpRuXhgzgGsitY0OCEKtFSIaNY9EcTcdwmn2F2d5kQLWvQ>
+    <xmx:7lsUaShMfJkyLjH8Bt3Eg0SH0VsSf9MiwHh72Gox83b-cA6D0VJXMQ>
+    <xmx:7lsUaUiH2XDuX2PvYSPFFwkH5KnZJLKDKHN7lgUdg_3ydopn9t3X1A>
+    <xmx:7lsUaaIGn9cn0UvKdnWRY1qqrOZOzTWUp5sv-W_-Ev7W6J8kfcLJsg>
+    <xmx:7lsUaamiIzFkX9uFUAs4bjVswmbcBjKGQ4vs9ZOIaBddnTjO9SpYTsvL>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 12 Nov 2025 05:05:33 -0500 (EST)
+Message-ID: <4954c44a9174bb069bf207c08ed1a9adf1530761.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH] findutils: /var is populated by base-files,
+ so no need to repack empty dir
+From: Paul Barker <paul@pbarker.dev>
+To: Vishwas Udupa <vudupa@qti.qualcomm.com>, Alexander Kanavin
+	 <alex.kanavin@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>, "anuj.mittal@oss.qualcomm.com"
+	 <anuj.mittal@oss.qualcomm.com>
+Date: Wed, 12 Nov 2025 10:05:27 +0000
+In-Reply-To: <PH0PR02MB8796E101519849F416D02891F1CCA@PH0PR02MB8796.namprd02.prod.outlook.com>
+References: <20251111052244.3228403-1-vudupa@qti.qualcomm.com>
+	 <CANNYZj_9kLM2ZAYAqY5RJupTfsZty8LbD0ys6mShWeAOMKkEoQ@mail.gmail.com>
+	 <PH0PR02MB8796E101519849F416D02891F1CCA@PH0PR02MB8796.namprd02.prod.outlook.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
+ DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
+ NrVM0IVDkwKTbL2Nu1P+xns4MIpF9Kj4XN5celYJ9vEJ2n0Bo0nO5T5vg46dihIaDl+24iNIHSsHq
+ YyEdMBfY8kY2RulpaAyFOuaaHdIeDkejVvO5xLSiYLjB5qrRhgH134lJXsuLOsFQ64ybGECuOasnb
+ auevsPBAaroQW0pqVb9FneGrWHxMCLlQHJRqQJRdVa6bsUdp6NWra8/0msPawSrFwGQdfJBTA3aXJ
+ C2CG1JxEgj6QQjEQA49DSjgzdhInbiIK8Vbp/zedM4aVue7qJnwPMTFQM9lYx63b7wLN4Tu8B9YZ0
+ UFdSwMCJuqmYGsYRUYdwM3ArjS0VO6WpU+HBKvzLK5GQfUTSM8KaZ5eA2Uo2ain8SSZb+WptUYKpx
+ F9jbtCPbjpZKzGuX4iHFl9eT75TM9iXJNGAjB5xigkADLwVfPoJ5E53S+KdNVuOWHugyLMPNAQHOw
+ pw5Rey+0zxyzPd4wphutc93UIU5g/029ngAc7DuKCq12jl7fhkjqFlFtYPIc1k7nd+RSezmH/qRes
+ bMErHSX1MBSZQARAQABtB5QYXVsIEJhcmtlciA8cGF1bEBwYmFya2VyLmRldj6JAlcEEwEIAEECGw
+ EFCwkIBwIGFQoJCAsCBBYCAwECHgECF4ACGQEWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaAzHVAU
+ JCTdOhgAKCRB0l1yBt+ZrrA51EACS7IYZaliCgQEhq8nnsQotchJtIZbO6nr8tk+6gicX0loJYqsY
+ P2/XZ/MaF8kWYSGPIHjiCcB8tEISUFKPAvfCu0Q/X7n62AkSUZOhsQ6T/ajCaXStv/P28kQmGzoCp
+ 6ljK/zALMWKvWFEbLaZprIWV8AZJxzJWhfSdb+1XnLlmwhBCfjXJeR/TlGWhNTqTO6vyAtZ5OpGgq
+ 6N9EG60EQd4YWYwliDhCoUYRYR8qpp9JMrsDm/dzwd/A2/3rR0zzCtkha29kHqdVJtsd7bbiVLr8/
+ Zpa9Wcd7EG32CC25DUdkarU7f2P+goFVXfddGQRPy7l9uwF4kmtLGeuxWCCS8+4FPadifGvL8UoE9
+ 62fbxdHTzhjj0Yqs8zDgEwQUxFjpbmTseVx7QdoEe783jWqH4QhCeuo2kSjC4/VIRGDAS0/7Hq3rj
+ Iqqg6zGY8YQRvUyoOLn7Ip7WbHkZOUtWPjPbxe2tgeCttZkGrLQCosH0dlC0Hm7KWs+XHFp5d8OVd
+ WzIgWUvYkVaDeLHe3b6tM8AXoixS1rSQrnrAs/O/62Nx+k9+XVAy1clY2jdYOstuPvDhcqkT10RPs
+ o2qQnH7RGh2DCVu1D10XwDE1CWZ4Op70BO3g/I02ojT6kG4MHh6JX9+tjpjOINQQf+rGiHzj1YZYf
+ z0oc2b0NQI//cy/pDbQjUGF1bCBCYXJrZXIgPHBhdWxAcGF1bGJhcmtlci5tZS51az6JAlQEEwEIA
+ D4CGwEFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaAzHVg
+ UJCTdOhgAKCRB0l1yBt+ZrrBr7D/oCOAaVVHKCuFHHJjnCNuN06o7BRgBUR8IzQxDSc0WIhTSNaa7
+ OWPSDanFtDJwOVhe7Ongu8ZF8gsLXg8jb9iS8J2lsm9q4tID3NCQIL0PgjI2/hKKOt1dZs4RGcFXj
+ v1nVEwFcvaJE4996tr9UMeZeOtipdlnGoh4Sozs2UvWydnc8SZZ3hCqxbJiorxD7wdrR4As5rqesP
+ YwiNqE4KW3jUavf1Sr0U94Umv4l5UPGQQekBxjh1ujsCo05g4IByS3RlDBxCQDvXAMBVHW20PLofD
+ aFqNpynQwAdpBS/cvX7tDK2pq+Rd4YK8uuDoHxH18dfCZcGYzSEUJ6y+rbYiJGh01mJFOM0oJP4DO
+ 9L79mJpURUdZNhI5/GVkCCxwt6HcNt24ertMlHDQkhZ6igP7zBgzODZ1sizODISaBh4M7lyxsBl76
+ 0dwghNbczt5ytG37mPLWjYaiJMeU7xQtoQo3yZDQvUSMnfFMxWYJO9Hi4P6H2gnMsDrPRnfr68vfP
+ rbseTtQM8cpfGnV0FzdFfHSTMJfcFA4BdeCJsn73JHuNEBMjDvUfgjN1a661nEzA5Zd26HQZQ1mQM
+ zRkrHto4z7Y86q05esioZ8Vd2Dhm1SMCBY9PNd5QrGpS67uP0wGOK2o3q9eQmxjenFHGAaOuTEZWT
+ UpTTTw8SSeLBAHSSQ37QbUGF1bCBCYXJrZXIgPHBhdWxAcGJya3IudWs+iQJTBBMBCAA+AhsBBQsJ
+ CAcCBhUKCQgLAgQWAgMBAh4BAheAFiEEmLKqwQCsP4K7XVRndJdcgbfma6wFAmgMx1cFCQk3ToYAC
+ gkQdJdcgbfma6xTZw/2PQ+vjkegBRAHxNIMcj0j9QfP45ZE4bmyGrCDb5i8BwoAJccilT8chvVFgB
+ AjG40Zx4oFcRKYYe6AkC6/B5U71307/nqPtt0gEy0VmTi0V+28eQPrNiTLa+OL9B5SGki/45N3g5V
+ hdqDNdvx/P2k1cg8YsndVE5ASmdPI2l96n7dqd0fW2C/rzrYNUQ+mPyvNgOGcD82YzahLRfb2u/GV
+ CWzEc2iplJeeWlUGoYHPCo4ztZDqJghCfgBab0RBJexdTyJl2QFs/osCM3yp02nTEUV/EiKbXcuWu
+ 4fvJ3xRtopQ49DMQtsTS3xB0vaPgPeBYb6DeJsLpR6be31mvEmhHGPEuVlxXNsXig1JNS0S+U0NhH
+ R1fKNc1uwHE2eTFhFKHK+BhyzJGBWU3reEGjm9BygE9G591bz3+UASdqeT7FY7MGq55NqUVHTlW9R
+ +L+IYXzlKvtcF8xDaZLo5MGD/2WTjdbMm25cMc+Nj4MpElAKdvjneViv8NIfyBnXcXi4zU89mh377
+ 2+rcJTO/Hy87NN1G2LEOKr9zFgvm+CLeoGi2Ay8NyrB3q5+ptE3ziYIPJmq84qFw1SUy4Nq+VF4yc
+ OqpPZn7Ij1ga5IAOHNRi5MbyRFROYOeaOj7sz7S7roHQwdP3Q1qTwTOv30hlOSe6uz4PTBiEIKBQH
+ ep0k17xg==
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-Vrr/aqRO8M3bH5+6MP4e"
+User-Agent: Evolution 3.56.1-1+deb13u1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 09:36:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226201
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 10:05:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226202
 
-On Wed, 2025-11-12 at 11:06 +0200, Mikko Rapeli via lists.yoctoproject.org =
-wrote:
+
+--=-Vrr/aqRO8M3bH5+6MP4e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Vishwas,
+
+On Wed, 2025-11-12 at 08:22 +0000, Vishwas Udupa wrote:
 > Hi,
 >=20
-> On Tue, Nov 11, 2025 at 10:35:08AM -0800, ledge-bot@linaro.org=C2=A0wrote=
-:
-> > LAVA Test Report for Job 123474
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> >=20
-> > GitLab Pipeline Information:
-> > =C2=A0 Project: gpit
-> > =C2=A0 Branch: main
-> > =C2=A0 Pipeline:
-> > https://gitlab.com/Linaro/trustedsubstrate/gpit/-/pipelines/2152817594
-> > =C2=A0 bitbake: 2c6c40bdab8ebc6c04fe9992524add967fb4a053
-> > =C2=A0 bitbake git describe: yocto-5.2.1-149-g2c6c40bda
-> > =C2=A0 openembedded-core: e556df28f47e754b53e1f46c97dde2b19fd8fad1
-> > =C2=A0 openembedded-core git describe: uninative-5.0-152-ge556df28f4
-> > =C2=A0 meta-yocto: 66ea31cee15309af07afeee8dec8a6fe1d92d28e
-> > =C2=A0 meta-yocto git describe: 5.3_M3-3-g66ea31c
->=20
-> So this is our first build and test run with separate bitbake,
-> oe-core and meta-yocto built using kas to replace old poky repo
-> master branch which no longer builds. Setup details in
-> https://gitlab.com/Linaro/trustedsubstrate/gpit
->=20
-> The "git describe" output with tags is a bit confusing. Would it be
-> possible to use same version/milestone names there?
->=20
-> Currently it's a bit hard to tell if the trees are fully in sync and
-> if
-> yocto-5.2.1, uninative-5.0 and 5.3_M3 are compatible with each other
-> or not. From pure tags it is not easy to see if trees used same
-> branches, for example.
+> There is no error seen, but this helps to align towards stateless
+> system expectations or when updates are done via meta-updater.
 
-This whole area is a mess.
+This explanation needs to be included in the commit message.
 
-The OE TSC required certain things in the past. We'd have to dig out
-the minutes to remember all the details but I didn't 100% agree with
-what was asked for and we went ahead and did it regardless. We probably
-need to revisit this but the new TSC has been unable to work out a time
-to meet or schedule its meetings. Even if we had, someone needs to look
-up and summarise what decisions were made and why. Keep in mind there
-is years of some people being very vocal if there were yocto references
-outside of yocto 'owned' repositories (i.e. in bitbake/oe-core). I
-think we're past some of that now but certainly not all of it. I
-actually dread this whole topic.
+> > +do_install:append() {
+> > +       rm -rf ${D}${localstatedir}
+> > +}
 
-We also need to work out what we are currently doing and not doing and
-why. I know I recently asked release engineering to stop doing certain
-things as they were completely non-sensical. We had a load of
-problematic tags to remove and new ones to create to replace them to
-try and ensure everything was consistent. I'd have to go and check
-whether that happened and whether we're now doing the right things or
-not.
+If the directory is empty, please use `rmdir` instead of `rm -rf` so
+that we don't accidentally delete wanted files in the future.
 
-Now, that all sounds fine, some people need to go and do some painful
-work.=C2=A0It will be far from simple, take a ton of time and nobody will
-actually really see it all or ever value the end result but it can be
-done. Even if (when) we do this, it isn't going to quite give you what
-you want due to things like the uninative tags. Those usually happen
-mid release and will "corrupt" the git describe output as those tags
-will be more recent.
+Thanks,
 
-So yes, it does need fixing but it isn't as simple as you might think.
-I'm totally burnt out and the current release is stalled. Perhaps
-someone else from the TSCs wants to go and resolve this?
+--=20
+Paul Barker
 
-Cheers,
+--=-Vrr/aqRO8M3bH5+6MP4e
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-Richard
+-----BEGIN PGP SIGNATURE-----
 
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaRRb5xEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bvzbAQCMvJyjca/WU/6HiT4ASNl8JjwjcHJnzNv0
+CGQcgxET9gD/VWC579qtW4QzWF4+VRsF0fnxF+omKAdfmueeXg9guQ4=
+=z5uc
+-----END PGP SIGNATURE-----
 
+--=-Vrr/aqRO8M3bH5+6MP4e--
 
