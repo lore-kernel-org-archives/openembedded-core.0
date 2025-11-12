@@ -1,165 +1,151 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18300CCFA1A
-	for <webhook@archiver.kernel.org>; Wed, 12 Nov 2025 09:07:05 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9102.1762938416237783719
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A203CCFA1A
+	for <webhook@archiver.kernel.org>; Wed, 12 Nov 2025 09:36:25 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9893.1762940179561963884
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Nov 2025 01:06:56 -0800
+ Wed, 12 Nov 2025 01:36:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=D+MOFE8+;
- spf=pass (domain: linaro.org, ip: 209.85.167.47, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5943d1d6442so566056e87.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 01:06:55 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=I5b700bB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42b31c610fcso484401f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 01:36:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762938414; x=1763543214; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NqCcLluXgiDWG+o2i/tWHMuaqKSAnUHXwBitn6AHhKU=;
-        b=D+MOFE8+vcmexUDNuiYK7LJ/R+cM8J1Wi1K17dO3Xdn6j6D5nmdYg5+kCrV57KpJCe
-         uscqtmzuv/oQAQUBGJPvdlMwWsw1qkH8e3nV7vLZvqjfizADgrJ767B9Wk4jTDlH7T+v
-         THaV0jAR2LpOXQaJ5KUOddZy1xPt6ls0QuN6DNlYHHAYrjwVsPL9rGdwLM+idmmugiza
-         2NKkOysmnLO0HslaazNyOdtHozdT7KUiBRFqje997zL3u/cWPXymDC+EKG07o5L0Ifgu
-         YitPrYl511hbjwZsPRcaZOPFip4iTJ7O62wNe6ihviWqHmqU6YNn/Ymf6eetbzINJ8xA
-         uGuQ==
+        d=linuxfoundation.org; s=google; t=1762940178; x=1763544978; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=SOShIGMOtZoqINDjoMyg58Fp2Yp1viYupMHTcf1ZUME=;
+        b=I5b700bBMA8spEH6olhBrxmx3OtSmNrwOb8ibGaXP/7x5Gn8F/XPTZitKqYsbInfLu
+         RyFPLmIKOSyHWSBuHnCHtF3bSpACWaB/LLODMxyLjgNgvMkpgK46K/oane7aLNNp5ngR
+         rocd5fAykGIlFmuL2iXElaw4o8wgeSm1ewowg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762938414; x=1763543214;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NqCcLluXgiDWG+o2i/tWHMuaqKSAnUHXwBitn6AHhKU=;
-        b=dxjkCs7VuSon4STx3Uei7Vond+NG2VCIPjePVcvFUpV2eWEXabrIWvSU/KwCnt5orA
-         ygpbgFkb5VI4UGcsc6eKDWDmv8vQXdpEOpAoNvQx4niVKeCEkv+tyXm8U9do08+345dU
-         AF2TaDuxJAvTjkQ25TFf2fMoPtTZ9LegW/ccw/1TNrBWd3cVcUxlZCv1PuTeCO086WEM
-         KSwgJlOlBVCMRjZii4OAJT6LjWJmq1fT3KR/XbUCaNpZmj2P3Mm64anWMqVOuefKM9aN
-         b8uVHnwtNEEkOKzHHHdXqNWpxfECwHJyXGH84nePnOoFPSlxsC8PljyDV0TwA/eel9Pz
-         n+Qw==
-X-Gm-Message-State: AOJu0YyH6ynDzhp80y9rYqRuyRCXwYr+pyavUamczBtCHudD1WgYLnYe
-	CM/NskHzSVE63ZPAHvis6kBn237N+9GyZQ92APib69yf5wBU/Qg233tXi6ZIlbMgyNYSpble3VM
-	pazh1Zt0=
-X-Gm-Gg: ASbGncsrndttccraxv38ymw0EOgL9/z7XCwoSF70TVCjnJ6/zJ1PiV3OQySKPvi/FDe
-	CkH6Bo6HU6VOw6gX79ONhwx4hb+u6o1xfKNjL5tgvuSCBZHfcrdw+3Q2PV7n/2IWQLGiCOGkGhG
-	kp71ZlZbSgtqJB9faHIB4BAfAxsoiGVDFvq2eGKx9nJwL7uQRo8XaWM+EGuI7O9V4zo91K5Ym82
-	aWr262aHGshw/kHLE6hAUkaDfxDCpTELab6iBREbbXam4Q41XveeL9XGSVy/yVzOUfDj7vxxfJ0
-	Q7pUqBYvDX/79bKJiHwNPc5rzt/+npXyMh0+XintuTiL/ovF5sTeKzxIbv4zGGYHODs93XPiVzV
-	BMCkOJ3DT+H/R+HjztFv9CQSsyxh0l5i1ekR/2IrbgAaBdWfMG84tzzu/qibu4FhN+8VgXNaAt5
-	D9xI9dUpuxetGcIgejYH/HhVa8hiKh/g==
-X-Google-Smtp-Source: AGHT+IHTCbsXzvgVpNT6MceUmutaDctnB7c/oAC6Sfva7/w4P6KeiKeUJEI8XXZJ5zjZ1P/GXTSm/A==
-X-Received: by 2002:a05:6512:3b11:b0:594:5545:b742 with SMTP id 2adb3069b0e04-59576e18926mr756210e87.32.1762938414165;
-        Wed, 12 Nov 2025 01:06:54 -0800 (PST)
-Received: from nuoska (2001-14ba-48e-3a00--19a.rev.dnainternet.fi. [2001:14ba:48e:3a00::19a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5957d22783bsm75646e87.75.2025.11.12.01.06.53
+        d=1e100.net; s=20230601; t=1762940178; x=1763544978;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SOShIGMOtZoqINDjoMyg58Fp2Yp1viYupMHTcf1ZUME=;
+        b=gEAb+2XCEzvdLlLOnCFSwnFJ1N78uY8WD2hV65jBQwvgjXhqroV8SpgnbyupQ0Dyf/
+         HI9gsV5NTkhfJbw1GjxCeKRKY2MoKT3dMYcDm/hZncpPaCU8fUk1LES2e32nCL9zNubS
+         KC32IlnsqPb41h2pNERKPaAfQx8WzgCGgHlJnHEaXli0dujjEmbU7A6us3zvknujohUO
+         jMGwm6RZo3x9SzbpLb7uyb6ghu9stVq+P9w8PMg1fWGvcKlnHsMATm7Xo8kidkkgcjQm
+         6RXjkVn/HfoBn3TxGRXML8mfRMicqpM+sTFFSkExekMutWop8BszhQ8AyUeZZzN5uPWd
+         s2RA==
+X-Forwarded-Encrypted: i=1; AJvYcCXNl7s7yXtxAYhk9h0NYxskX+29g2Tb12Oopo9sc7HWbN1x9RjKzde+tiFoArgLSv48WFfKB0V62NTn9yLvfagqEg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwB67ELx3C+12s/eejGZX4Qr9TxHBMemySP/R+loR6vzsmFFsN9
+	Et8Lw+vTXO+20UIb7TiiQmvpH6h3KMchBGrdzwqEJ9Pf0Cngh3r2SZhkx9nPRQTy7c4=
+X-Gm-Gg: ASbGncu39b06qqSR1fGgTHvpBr1wqUsRSnDy76PN6szHTNZwRW6EhsJZGoY6AO1R+da
+	7VhYJIatqqUh46CXrTMCfr/xoL44dCIyicbxaqm4tI3xGdQEp0jkqCFEC1F++gt+JNDHJQlXv49
+	pIJAdF8dixT9hrhyU722kfIuY4CvKtZ6Jw3U6oF+72NtYx5JjzLj4d/NhOEE9UYe8TdntFiFjcJ
+	lVYD016yw5EDIAnxedQDZtMZv1sEkX8JGSsyr32/gnvMt28fj3fyo4FPLxdUV3k4Ho+T8w1cl91
+	C2tY9WJQF7kOHp4grOz3jmJ99I/gmR8KQduy7K0GcwwtBP0paj63mZZuA5mHXdFBPe97Cn6DrIk
+	Yc0TSSkJovZqn8xkfHCqpxk2u/Rw+jGPXkcInvniGkU3/qQUy4PJjto/JI1wM5N1S122gicBcj2
+	XioHu5W0btjpxr13kvaifyFbxqWqW/nFGbHaawCdmCV3Zoxv5Nki14zDO4MYw/Hk3A
+X-Google-Smtp-Source: AGHT+IECJoZyrj46F2kOZxWRA4d/QEGE7FEBedKFVO3ny99IGp7shKecIb+3bmDOLkJEaF56WLxAXQ==
+X-Received: by 2002:a05:6000:40cc:b0:42b:3746:3b82 with SMTP id ffacd0b85a97d-42b4bdb8305mr1930694f8f.54.1762940177843;
+        Wed, 12 Nov 2025 01:36:17 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8876:d08f:2a0c:d6ff? ([2001:8b0:aba:5f3c:8876:d08f:2a0c:d6ff])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b2e052f32sm26327441f8f.17.2025.11.12.01.36.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 01:06:53 -0800 (PST)
-Date: Wed, 12 Nov 2025 11:06:52 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: automated-testing@lists.yoctoproject.org, bill.mills@linaro.org,
+        Wed, 12 Nov 2025 01:36:17 -0800 (PST)
+Message-ID: <35da4030cb0e66d21e0497c7f9c2b777150ce7b5.camel@linuxfoundation.org>
+Subject: Re: [Automated-testing] bitbake, oe-core and meta-yocto tags in
+ sync? (was Re: GPIT LAVA Test Report - Job 123474: OEQA ALL PASSED (24/75)
+ passed)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
+Cc: automated-testing@lists.yoctoproject.org, bill.mills@linaro.org, 
 	ilias.apalodimas@linaro.org, javier.tia@linaro.org
-Subject: bitbake, oe-core and meta-yocto tags in sync? (was Re: GPIT LAVA
- Test Report - Job 123474: OEQA ALL PASSED (24/75) passed)
-Message-ID: <aRROLHFAmzOAbzRj@nuoska>
+Date: Wed, 12 Nov 2025 09:36:16 +0000
+In-Reply-To: <aRROLHFAmzOAbzRj@nuoska>
 References: <691381dc.7b0a0220.35e53.800e@mx.google.com>
+	 <aRROLHFAmzOAbzRj@nuoska>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <691381dc.7b0a0220.35e53.800e@mx.google.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 09:07:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226200
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 09:36:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226201
 
-Hi,
+On Wed, 2025-11-12 at 11:06 +0200, Mikko Rapeli via lists.yoctoproject.org =
+wrote:
+> Hi,
+>=20
+> On Tue, Nov 11, 2025 at 10:35:08AM -0800, ledge-bot@linaro.org=C2=A0wrote=
+:
+> > LAVA Test Report for Job 123474
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> >=20
+> > GitLab Pipeline Information:
+> > =C2=A0 Project: gpit
+> > =C2=A0 Branch: main
+> > =C2=A0 Pipeline:
+> > https://gitlab.com/Linaro/trustedsubstrate/gpit/-/pipelines/2152817594
+> > =C2=A0 bitbake: 2c6c40bdab8ebc6c04fe9992524add967fb4a053
+> > =C2=A0 bitbake git describe: yocto-5.2.1-149-g2c6c40bda
+> > =C2=A0 openembedded-core: e556df28f47e754b53e1f46c97dde2b19fd8fad1
+> > =C2=A0 openembedded-core git describe: uninative-5.0-152-ge556df28f4
+> > =C2=A0 meta-yocto: 66ea31cee15309af07afeee8dec8a6fe1d92d28e
+> > =C2=A0 meta-yocto git describe: 5.3_M3-3-g66ea31c
+>=20
+> So this is our first build and test run with separate bitbake,
+> oe-core and meta-yocto built using kas to replace old poky repo
+> master branch which no longer builds. Setup details in
+> https://gitlab.com/Linaro/trustedsubstrate/gpit
+>=20
+> The "git describe" output with tags is a bit confusing. Would it be
+> possible to use same version/milestone names there?
+>=20
+> Currently it's a bit hard to tell if the trees are fully in sync and
+> if
+> yocto-5.2.1, uninative-5.0 and 5.3_M3 are compatible with each other
+> or not. From pure tags it is not easy to see if trees used same
+> branches, for example.
 
-On Tue, Nov 11, 2025 at 10:35:08AM -0800, ledge-bot@linaro.org wrote:
-> LAVA Test Report for Job 123474
-> ==================================================
-> 
-> GitLab Pipeline Information:
->   Project: gpit
->   Branch: main
->   Pipeline: https://gitlab.com/Linaro/trustedsubstrate/gpit/-/pipelines/2152817594
->   bitbake: 2c6c40bdab8ebc6c04fe9992524add967fb4a053
->   bitbake git describe: yocto-5.2.1-149-g2c6c40bda
->   openembedded-core: e556df28f47e754b53e1f46c97dde2b19fd8fad1
->   openembedded-core git describe: uninative-5.0-152-ge556df28f4
->   meta-yocto: 66ea31cee15309af07afeee8dec8a6fe1d92d28e
->   meta-yocto git describe: 5.3_M3-3-g66ea31c
+This whole area is a mess.
 
-So this is our first build and test run with separate bitbake,
-oe-core and meta-yocto built using kas to replace old poky repo master
-branch which no longer builds. Setup details in
-https://gitlab.com/Linaro/trustedsubstrate/gpit
+The OE TSC required certain things in the past. We'd have to dig out
+the minutes to remember all the details but I didn't 100% agree with
+what was asked for and we went ahead and did it regardless. We probably
+need to revisit this but the new TSC has been unable to work out a time
+to meet or schedule its meetings. Even if we had, someone needs to look
+up and summarise what decisions were made and why. Keep in mind there
+is years of some people being very vocal if there were yocto references
+outside of yocto 'owned' repositories (i.e. in bitbake/oe-core). I
+think we're past some of that now but certainly not all of it. I
+actually dread this whole topic.
 
-The "git describe" output with tags is a bit confusing. Would it be
-possible to use same version/milestone names there?
+We also need to work out what we are currently doing and not doing and
+why. I know I recently asked release engineering to stop doing certain
+things as they were completely non-sensical. We had a load of
+problematic tags to remove and new ones to create to replace them to
+try and ensure everything was consistent. I'd have to go and check
+whether that happened and whether we're now doing the right things or
+not.
 
-Currently it's a bit hard to tell if the trees are fully in sync and if
-yocto-5.2.1, uninative-5.0 and 5.3_M3 are compatible with each other
-or not. From pure tags it is not easy to see if trees used same
-branches, for example.
+Now, that all sounds fine, some people need to go and do some painful
+work.=C2=A0It will be far from simple, take a ton of time and nobody will
+actually really see it all or ever value the end result but it can be
+done. Even if (when) we do this, it isn't going to quite give you what
+you want due to things like the uninative tags. Those usually happen
+mid release and will "corrupt" the git describe output as those tags
+will be more recent.
 
-> LAVA Job Information:
->   Job ID: 123474
->   Description: gpit-kv260
->   Device: laa-00077-kv260
->   State: Finished
->   URL: https://ledge.validation.linaro.org/scheduler/job/123474
-> 
-> OEQA Test Results Summary:
->   Total Tests: 75
->   Passed: 24
->   Failed: 0
->   Errors: 0
->   Skipped: 51
-
-But at least all executed oeqa rutime tests on core-image-sato
-with genericarm64 machine passed on AMD kv260 which is the same
-result as with poky from one week ago before its retirement.
-
-> Passed Tests:
->   - connman.ConnmanTest.test_connmand_help
->   - connman.ConnmanTest.test_connmand_running
->   - date.DateTest.test_date
->   - df.DfTest.test_df
->   - oe_syslog.SyslogTest.test_syslog_running
->   - oe_syslog.SyslogTestConfig.test_syslog_logger
->   - oe_syslog.SyslogTestConfig.test_syslog_restart
->   - opkg.OpkgRepoTest.test_opkg_install_from_repo
->   - pam.PamBasicTest.test_pam
->   - parselogs.ParseLogsTest.test_get_context
->   - parselogs.ParseLogsTest.test_parselogs
->   - ping.PingTest.test_ping
->   - python.PythonTest.test_python3
->   - scp.ScpTest.test_scp_file
->   - ssh.SSHTest.test_ssh
->   - systemd.SystemdBasicTests.test_systemd_basic
->   - systemd.SystemdBasicTests.test_systemd_failed
->   - systemd.SystemdBasicTests.test_systemd_list
->   - systemd.SystemdJournalTests.test_systemd_boot_time
->   - systemd.SystemdJournalTests.test_systemd_journal
->   - systemd.SystemdServiceTests.test_systemd_disable_enable
->   - systemd.SystemdServiceTests.test_systemd_status
->   - systemd.SystemdServiceTests.test_systemd_stop_start
->   - xorg.XorgTest.test_xorg_running
-
-And we now list the passing tests in this report.
-I think this is a useful detail to have.
+So yes, it does need fixing but it isn't as simple as you might think.
+I'm totally burnt out and the current release is stalled. Perhaps
+someone else from the TSCs wants to go and resolve this?
 
 Cheers,
 
--Mikko
- 
-> LAVA Test Suite Results:
->   BITBAKE_COMMIT_HASH: 2c6c40bdab8ebc6c04fe9992524add967fb4a053
->   BITBAKE_GIT_DESCRIBE: yocto-5.2.1-149-g2c6c40bda
->   METAYOCTO_COMMIT_HASH: 66ea31cee15309af07afeee8dec8a6fe1d92d28e
->   METAYOCTO_GIT_DESCRIBE: 5.3_M3-3-g66ea31c
->   OECORE_COMMIT_HASH: e556df28f47e754b53e1f46c97dde2b19fd8fad1
->   OECORE_GIT_DESCRIBE: uninative-5.0-152-ge556df28f4
-> 
-> This is an automated test report.
+Richard
+
+
 
