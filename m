@@ -1,115 +1,93 @@
-Return-Path: <vudupa@qti.qualcomm.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B83D2CCFA1A
-	for <webhook@archiver.kernel.org>; Wed, 12 Nov 2025 11:28:45 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11199.1762946919352907604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2CC5CCF9E3
+	for <webhook@archiver.kernel.org>; Wed, 12 Nov 2025 15:16:22 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7746.1762931895454945646
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Nov 2025 03:28:39 -0800
+ Tue, 11 Nov 2025 23:18:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=ke7D4pVx;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: vudupa@qualcomm.com)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AC9hUtO907571
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 11:28:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=eVF43qWDZ9CH4lljH7e3RtUYWVvT6sLF7N6
-	JLN7NUQ4=; b=ke7D4pVxhocxanIhzN+fQALA5+UOt5A4ab/R6ybfsgDmtdjR5FQ
-	/d3uG7UOrPt3iLPWqbzoTd+y9WgFh1lj7i/5O0xGM2AnAa+35GxB1J4eL3I3jw6x
-	wnkL7+W3WHz/NnF+OfXX4iVNwp3euyR5tYbIs2LSWzhEh2E+8gIo7L2fhsudRMmZ
-	9L3qSFo3rFfX7Th3uzVWMa48JZsEbApjWfZdSvWR227QgPk/dI4dRCgNBZ081l0K
-	Xb3oeu8THoa8RByy+kCyvvnXkGAS8AxLkZWoDtfte/5fla4Sh3xuM28iI9eAQ8w6
-	L/65Qyzjrs4vcKJ47GZZPh+GiPknej8mryA==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4acqur89xh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 11:28:38 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5ACBSZTN015580
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 11:28:35 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4a9xxm7d2b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 11:28:35 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5ACBSYY4015575
-	for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 11:28:35 GMT
-Received: from hyd-e160-a01-2-03.qualcomm.com (hyd-e160-a01-2-03.qualcomm.com [10.147.154.239])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 5ACBSYPc015574
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Nov 2025 11:28:34 +0000
-Received: by hyd-e160-a01-2-03.qualcomm.com (Postfix, from userid 3978420)
-	id 8C5174C28; Wed, 12 Nov 2025 16:58:33 +0530 (IST)
-From: Vishwas Udupa <vudupa@qti.qualcomm.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hB0WcikC;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: saquibiltaf@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7a9c64dfa8aso440963b3a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 Nov 2025 23:18:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762931894; x=1763536694; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CIJ8jdrjopa9jFk7KlxZHLQ+WZ9A2mIlK0ukQhYisTc=;
+        b=hB0WcikCD3qbDrVeRdcyWcmoK+BnfvbE+2p1ordJ7ZrCtDsVk0nS9hBQOM5Ynk6b++
+         Krd+L7mv/5E2VFyZqUMzFGNC+5Gsaovts3XU38fPmTJHjDvswGoYSl+kJA3YliIYzygb
+         NYsrtp9WcapYRRVaJJdtMuGdbep02NbzeG/UanvyttFgRAxIhoZe5RqKKh25z09nQrZz
+         TsRfxJ2ZAKJMIkDP5sOhvAWxYAisRrMdHBihCezZkfosUxjvWC+PknctVjIix60jMTVy
+         h6UE+MYnWqkLKglHs95tpXvkeVe39nuy/ngi4PBJNq8BIORuxRMk3Yywu8t15QK7mM9z
+         s5Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762931894; x=1763536694;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CIJ8jdrjopa9jFk7KlxZHLQ+WZ9A2mIlK0ukQhYisTc=;
+        b=wDTlln017rbzsxRD8qwOdivRbmV11tJGgLlZs5PNfrfL+Gj3mCTNgob6eXKU0vy4XZ
+         iXy/t462cvC3ETcKGHpCV7dYuDXYMLbKkCWN8RVDU2RPcLlsJhwwrbeYygnojrpUcuIK
+         e2BsRMyKx5t/Kb6rn8NMOEu1EcvoaY6jyOujFolpsDIzkUEPB1WAR+ICvh0U7BC4X0po
+         VMVPSAJw9rfuDghozgKTnnjqZ1NWFEmC9vNXUb+iYj2NzgTHepD21YHYp0lJ2oXO+Mg0
+         ZYTwANqPX7fhWTFobzR5Pa8chXWJlvkgL1HIG96//f2nVPRCFFI86gIc2WMARAoMslkG
+         rJ/g==
+X-Gm-Message-State: AOJu0YwR3/Rgq3hU9XyRWO3lgg31BO3J1F6Y+Z600TXwRf383dh5H9TQ
+	g7re5PomXYhEf58niyV03Phu4BDrBumwaNxitMbEQccdfAfPC1aad8Rv9EDgKQ==
+X-Gm-Gg: ASbGncvAGisxRkznaIwY5HoLmYaraTLw6ihh33eoWSBzI9tYQAIqfYiNiO8nxWr4OBB
+	Dw1eBUitKIToH7qrHyKttC8tKhu1+887YwL9p5BL7aWnZ2+ROVY8UBkRUUjvHQsihtUlNsMGlso
+	5FRE7uFAGq7cNPeQ/xj1NkY43mPW2BDtM48221ev2Bx34AKMyN8Qd7BUeVnSHSGG2oFKF8o9NMx
+	eF/uzMNnXL5OoZBEKCijQTHWNx0iBb7kffA3MJAJ3CffkMuYKJj1bfnkMzPovEV6F+ZJmZFAvzy
+	T8Ln2Kc1ynk6U1Bs8AdSox+sQwjF2Zylq59b5cdwMF2nNHyZECUQurn6/M3CevMJPe3LVhZrgkn
+	j1N3RZ65q76mmBv4twzncm5qYSIHqYcr6B7qmWR7NSDcnBA7OIzineLKHubfW+G9bAifwHvlius
+	QPgyNYP+8Cjvr+QNX41+28
+X-Google-Smtp-Source: AGHT+IEUZYaTpCI5cDQ2dS5R7q9XLUZqKB5UI0mX4p1oG4TZA1rwiagvMZJmiykJ8EWDwTrw3oH2Bw==
+X-Received: by 2002:a05:6a00:4f88:b0:7ad:1082:fdf0 with SMTP id d2e1a72fcca58-7b7a53c30a1mr2682521b3a.31.1762931894174;
+        Tue, 11 Nov 2025 23:18:14 -0800 (PST)
+Received: from L-18433L.kpit.com ([45.250.227.159])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b2c83906e5sm13342356b3a.71.2025.11.11.23.18.12
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Nov 2025 23:18:13 -0800 (PST)
+From: Saquib Iltaf <saquibiltaf@gmail.com>
+X-Google-Original-From: Saquib Iltaf <saquib.iltaf@kpit.com>
 To: openembedded-core@lists.openembedded.org
-Cc: anuj.mittal@oss.qualcomm.com, Vishwas Udupa <vudupa@qti.qualcomm.com>
-Subject: [PATCH v2] findutils:/var is populated by base-files, so no need to repack empty dir
-Date: Wed, 12 Nov 2025 16:58:23 +0530
-Message-Id: <20251112112823.1834531-1-vudupa@qti.qualcomm.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [meta][kirkstone][PATCH] rust-cross-canadian: Ignore CVE-2024-43402
+Date: Wed, 12 Nov 2025 12:47:42 +0530
+Message-Id: <20251112071742.3263627-1-saquib.iltaf@kpit.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEyMDA5MiBTYWx0ZWRfX0IhtMQjv+Vs8
- EpvTRK/YbnjpEIKFaWI0k4YNbQeUupsCmhjemIvs+wG6hSV1InONMX9iI1ocugVtDbFHNbmd+0u
- Xov61bD/+cGYE7xf3cXqgJMdB8lT/O92OQeS9ntLp3Ib8i4MdcGRUxqhuvO++jqR9xFarTdQvwN
- rZ2KRP3Yuy2kdzXhpfdqQK3pZEpaHHRFI2ckz8IShNp+3ijvdYTL/cUCDnTiOX/heUJ5nKU5sf6
- iWWC34n1ImKGxid2wvBnOUyKRm6crkIb+mik1zeSLDSPOsmvy0+WXDzKV1xXWGpchRvSUxHf6Vt
- 0exBB9Wd3KzQkpwuxKTkTlVwCc8qJJtHUvEkrfeW71q586TVGPmM7Lg8r2tPqk0iOSGjwpuKh/S
- xcH2Vk5RAttuzZuhxMipZqf2ZQvvhg==
-X-Proofpoint-GUID: v_gUI86gGd82DUQelMVGcJSk1kIjmuQF
-X-Authority-Analysis: v=2.4 cv=bbBmkePB c=1 sm=1 tr=0 ts=69146f66 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=MHo1wMy07wiU54WxFgcA:9
-X-Proofpoint-ORIG-GUID: v_gUI86gGd82DUQelMVGcJSk1kIjmuQF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-12_03,2025-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 malwarescore=0 phishscore=0 spamscore=0 clxscore=1015
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511120092
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 11:28:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226204
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 15:16:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226205
 
-findutils installs an empty /var which is already created
-by base-files. It doesn't need to be packaged by findutils.
-this helps to align towards stateless
-system expectations or when updates are done via meta-updater.
+Ignore CVE-2024-43402 as its not applicable.
 
-Signed-off-by: Vishwas Udupa <vudupa@qti.qualcomm.com>
+CVEs are specific to Microsoft Windows.
+
+Signed-off-by: Saquib Iltaf <saquib.iltaf@kpit.com>
 ---
- meta/recipes-extended/findutils/findutils_4.10.0.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-devtools/rust/rust-cross-canadian.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/findutils/findutils_4.10.0.bb b/meta/recipes-extended/findutils/findutils_4.10.0.bb
-index 29ad6c7350..91bb1be170 100644
---- a/meta/recipes-extended/findutils/findutils_4.10.0.bb
-+++ b/meta/recipes-extended/findutils/findutils_4.10.0.bb
-@@ -15,6 +15,10 @@ EXTRA_OECONF += "ac_cv_path_SORT=${bindir}/sort"
- # need od from coreutils for -t option
- RDEPENDS:${PN}-ptest += "bash sed grep coreutils"
+diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+index 8bbbd61bdc..044df5123a 100644
+--- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
++++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+@@ -76,3 +76,5 @@ SUMMARY:${RUSTLIB_HOST_PN} = "Rust cross canadian libaries for ${HOST_SYS}"
+ SUMMARY:${RUSTLIB_SRC_PN} = "Rust standard library sources for cross canadian toolchain"
+ SUMMARY:${PN} = "Rust crost canadian compiler"
  
-+do_install:append() {
-+	rmdir ${D}${localstatedir}
-+}
-+
- do_install_ptest:class-target() {
- 	mkdir -p ${D}${PTEST_PATH}/tests/
- 	cp ${S}/init.cfg ${D}${PTEST_PATH}
++# These CVEs are specific to Microsoft Windows
++CVE_CHECK_IGNORE += "CVE-2024-43402"
 -- 
-2.25.1
+2.34.1
 
 
