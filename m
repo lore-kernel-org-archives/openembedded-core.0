@@ -2,63 +2,63 @@ Return-Path: <andreas.stergiopoulos@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11030CD13DE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17616CD1297
 	for <webhook@archiver.kernel.org>; Wed, 12 Nov 2025 15:58:00 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.672.1762963077276123242
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.663.1762963079009659782
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Nov 2025 07:57:57 -0800
+ Wed, 12 Nov 2025 07:57:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ycEOBW2Y;
- spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: andreas.stergiopoulos@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-42b3b0d76fcso714805f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 07:57:56 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=RnN4aZJJ;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: andreas.stergiopoulos@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-42b312a08a2so946739f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 07:57:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1762963075; x=1763567875; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1762963077; x=1763567877; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oS4RODn0UOU0cY1B4GtTatz/YgjZP6SkDFY5qt21uro=;
-        b=ycEOBW2YHLKwqom24yC9dX0zaCGQ813pCIwKJrIq7uIVdigMezu9xuq8pVvxe8LHZL
-         FWAY7kgHBd9uxgADYO9B6SzngPKPSRC5eZ0Ig0KSDnDdepr6eTuKPJvLT/Ce2TyIHmr+
-         kzTKiu7zX2Cg4WFJHav0zdpCqGEnS5C4mRIqw=
+        bh=uztm3Ukaj5egy9bZrIdqKJWBsTlafq7SBZhfhE2Dodg=;
+        b=RnN4aZJJD6RMuE7R13a2BFHZDcwCLxn20ayxWa8aE/K7Ji7msrq7SWaxZcD0CDLDpX
+         BNcKJ5lZMwQrrjDJvYp6J1KvANlWkxauv+QF52n5+AMujhQEGNxBNon4uygrNAw0LAqw
+         ySJfXe8hQQk8kY0WXvBuZ8CEAZZWIvnAtzSl0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762963075; x=1763567875;
+        d=1e100.net; s=20230601; t=1762963077; x=1763567877;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=oS4RODn0UOU0cY1B4GtTatz/YgjZP6SkDFY5qt21uro=;
-        b=KPUJKBVdBshpGbAOEj2RJdYJukHgccABAkM9U2JKbVjERZt4bz4r3Pb39keaaMc7Id
-         DApyXOe8crtVkn4FaELH8mozV1nCrIzEVEBJPQFkqbmmRGM4hDLwikIO+j6SrMMzyASr
-         AiWXzr4zrxbnFYJa1fRw/RNmzFInK3a3TsFrgeFs7LRXhylnffHvUmqfGfmjUL0eCC31
-         MeKNEqle1o9fCr7j5wmSId2b/22teQW5qxonVMV9lO8lqKFKbvYbReW24lVpQTuS19QP
-         2hcKhMmEqAwoMnLmXRBUUry8bDVZArTNzW+orpMHb6aTlD8Wc9li4CESzrsmMWLbi3e6
-         L6bQ==
-X-Gm-Message-State: AOJu0YyDBM7ZVX+RpUrBNgb67N/tq8kpk74Uyj+Jm5zan5vyG2C3YE0p
-	xANHvctFfT9bD9Jwe7PEo/PmMgHI+bmXv6+ndoUtcZ2V1u+znTrTi1qailsqKJimogUmDQ8LNUI
-	b5sQM
-X-Gm-Gg: ASbGncvYCJyVQAY16IJ3xEhFL/Xh8lHzfsq+kKGJogCAi+vFfc/RXzh85WQNDQu715A
-	8RWfjvMxmIhVYDB0I1zW3tlz4fmDc9fJuy8q/V54TvAyJXd9TVvK6AsVPDbSKA88ufxbKskH2z/
-	ChquiYSaDIMS86unaNESbBjMQavjyFm0gOLwivvMGGFaRgFzM1wQ8DJxJT5eFtQnQ8/MXKo9DNU
-	nzCvrwxvRGpaXDYAcWJ0GN7PvICGdq7Auu6lXXKzJstna+UkvMvL2D8t36ab5hnNWqJ5vwXFHcS
-	aKED4aKiVH3OXQvco/wfj23vZ+ArEZSdo7ZT1w289Dg1RNeQotDzxz1OIyHUtnoneBCAXPY/bxc
-	XGBPiyEH7qHWtPgBehOgxxCAqVZl8mlX8hCMT7idhTdf2VKq/6huaju9cSD4mB2Uwv5gTw3ldpy
-	tMIzPeGD1wda5gxHtN1JYsTM+SsMnq9eHUsUNgbHTz6KO8NInPk5u+aVBpFZZrB03WNhp8fwiol
-	4CgEEErhkfaE97avb8qUKPjGkcpsAU=
-X-Google-Smtp-Source: AGHT+IGGEcC1AOq63e0+wqjhn9CGhC55hxF5kQkHKSyYFzjoJRWEH09WTqOwF8WJzXL3r7Z51Wf0JQ==
-X-Received: by 2002:a5d:5f85:0:b0:42b:2e65:6576 with SMTP id ffacd0b85a97d-42b4bdb3640mr2862436f8f.50.1762963075247;
-        Wed, 12 Nov 2025 07:57:55 -0800 (PST)
+        bh=uztm3Ukaj5egy9bZrIdqKJWBsTlafq7SBZhfhE2Dodg=;
+        b=SIGSAKdwJz8412RRzqTpoL7QrfmDKG8NELH4BDTEK6I7gqq2qQHCpEMsTulnsdD7sc
+         0A4VaIkNrW0MX8XGc3gMmLAjAkBPRHYiJdP/uOcQvd38FUF3aei3h6LaiiGKx3XLn5DM
+         70n1yT9TAv3LSoKdRYnmIUTSLelzkp6bGjqiX07SEjyr6aGrtlHi2+QGE9+/caGXOTqu
+         FllGU59MzZTYsQ1KmiZzuTyFhsoiz6jKoSbQPq5fMcVBmf+nvc3DepXddhgl+W8qP7AC
+         ohPlNo5znrongcSW6UKxFiAH8AmuVJEO2EGlftMZwraT/8YZzpRSLFyG76KNHCFbLU9R
+         NXrQ==
+X-Gm-Message-State: AOJu0YzsY8oCBrhmW7HCbqAclU73Nzc/wNO8FzF4Tm72/VLHP2zZ0pKM
+	rZbou6g/e6jk1FIiE/ZDHN2mpOzvPkoZMXGo+2BDJV2PuRYUIXX4q8rd36kr3Zl+w5CqWa/Dlo2
+	ysyzj
+X-Gm-Gg: ASbGncuAjF6j1f1RYR7jOR8xRiQkNmC+7H56UQkL8Pv2+byGyUF6dCNTPEMdnQpE0BQ
+	y8rAnQ/eZSbd3rYwuwtspFBFdsZkYQ63Q/PboR6pdXkRQbdy5DUImL5qnnzy4uFymaeWrmoFk3W
+	+Eyp1ELmhX7ct13qWlTaZgmd+/0dG1xKLvK9wiuxw3WLtl2v61zkOxDISYOWBXwR5NzHP76deH7
+	6BMtGm1s3f1aFZYH1P1wNdhLWJWRdLgS64TRpu8CgyOunBOGf0+8iZaeXBUzBEAt8XXeFq12jFu
+	ChwF7g4FJYkSo6gk7tGb9Z80uaX4PofHXbTJP8p5M2K/mzcYyySIUG8PGjf+UVgNd0CuaaHoAz3
+	7K1rokhdOjd3fWJupgWz41K6HRuETTbrfOgzKwL8XkUB5htDq476xWw4YmLclgvwzO7SwlvXuhZ
+	uKNxpgJupiVzXtu3f2gaCvLaG19Zvvh0vZ2AMnRKwlOdtm3PeeORlES+sPzqA7PKMBxrIhPv3ji
+	Xr2eJtMoj43sl42KS4a
+X-Google-Smtp-Source: AGHT+IFZ5gMdSz/CYSpXQPidUG+3DdGzl+GNWGnvBqXLOkhvLn7IHbGzT2VZyphoBoxa7eHNqJsy1A==
+X-Received: by 2002:a05:6000:2c11:b0:42b:3e60:18ba with SMTP id ffacd0b85a97d-42b4bb74c59mr2485114f8f.8.1762963077113;
+        Wed, 12 Nov 2025 07:57:57 -0800 (PST)
 Received: from FRSMI25-PILS.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42abe62b23csm33976612f8f.10.2025.11.12.07.57.54
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42abe62b23csm33976612f8f.10.2025.11.12.07.57.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 07:57:55 -0800 (PST)
+        Wed, 12 Nov 2025 07:57:56 -0800 (PST)
 From: Andreas Stergiopoulos <andreas.stergiopoulos@smile.fr>
 To: openembedded-core@lists.openembedded.org
 Cc: yoann.congal@smile.fr,
 	Andreas Stergiopoulos <andreas.stergiopoulos@smile.fr>
-Subject: [PATCH 2/3] cargo.bbclass: Collect installation paths of executable binaries
-Date: Wed, 12 Nov 2025 16:57:29 +0100
-Message-ID: <20251112155730.646159-3-andreas.stergiopoulos@smile.fr>
+Subject: [PATCH 3/3] ptest-cargo.bbclass: Add support for CARGO_BIN_EXE_<name> environment variables
+Date: Wed, 12 Nov 2025 16:57:30 +0100
+Message-ID: <20251112155730.646159-4-andreas.stergiopoulos@smile.fr>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251112155730.646159-1-andreas.stergiopoulos@smile.fr>
 References: <20251112155730.646159-1-andreas.stergiopoulos@smile.fr>
@@ -68,36 +68,100 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 15:58:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226208
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226209
 
-All the binary executables that are installed in the image are collected along with
-their paths and then added to the cargo_bin_exe_paths file. This file is then used
-for the CARGO_BIN_EXE_<name> environment variables, used by the integration tests.
+This commit takes the installation paths collected during package installation and
+sets them up as environment variables in the run-ptest script. This is necessary as
+the integration tests require the executable binary to run successfully.
+
+The paths collected are not those of the artifacts created during cargo test, but the
+paths where the artifacts in the system. The intention for this choice was to ensure
+that the tested binaries are those who are actually executed by the user and vice
+versa.
+
+Env has been used instead of export, as export explicitly does not support dashes "-"
+when setting up environment variables. The execution environment is set up inside the
+function exec_in_env. For every binary executable artifact collected, one environment
+variable is added irregardles of whether it is needed or not.
 
 Signed-off-by: Andreas Stergiopoulos <andreas.stergiopoulos@smile.fr>
 ---
- meta/classes-recipe/cargo.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes-recipe/ptest-cargo.bbclass | 40 +++++++++++++++++++++++--
+ 1 file changed, 38 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/cargo.bbclass
-index 2dd28e95d3..167040cb81 100644
---- a/meta/classes-recipe/cargo.bbclass
-+++ b/meta/classes-recipe/cargo.bbclass
-@@ -58,6 +58,7 @@ cargo_do_compile () {
+diff --git a/meta/classes-recipe/ptest-cargo.bbclass b/meta/classes-recipe/ptest-cargo.bbclass
+index 004abb40f7..f5dfe36c48 100644
+--- a/meta/classes-recipe/ptest-cargo.bbclass
++++ b/meta/classes-recipe/ptest-cargo.bbclass
+@@ -6,6 +6,11 @@ RUST_TEST_ARGS[doc] = "Arguments to give to the test binaries (e.g. --shuffle)"
+ # I didn't find a cleaner way to share data between compile and install tasks
+ CARGO_TEST_BINARIES_FILES ?= "${B}/test_binaries_list"
  
- cargo_do_install () {
- 	local have_installed=false
-+	binary_exe_path_list="${B}/binary_exe_path_list"
- 	for tgt in "${B}/target/${CARGO_TARGET_SUBDIR}/"*; do
- 		case $tgt in
- 		*.so|*.rlib)
-@@ -83,6 +84,8 @@ cargo_do_install () {
- 				install -d "${D}${bindir}"
- 				install -m755 "$tgt" "${D}${bindir}"
- 				have_installed=true
-+				# Append the install path of the executable to the bin_exe list
-+				echo "${bindir}/$(basename ${tgt})" >> ${binary_exe_path_list}
- 			fi
- 			;;
- 		esac
++# Integration tests usually require the application binary to execute successfully.
++# This file contains the paths in the image where all the crate executable artifacts
++# reside.
++CARGO_BIN_EXE_PATHS ?= "${B}/binary_exe_path_list"
++
+ # Sadly, generated test binaries have no deterministic names (https://github.com/rust-lang/cargo/issues/1924)
+ # This forces us to parse the cargo output in json format to find those test binaries.
+ python do_compile_ptest_cargo() {
+@@ -84,6 +89,7 @@ python do_install_ptest_cargo() {
+     pn = d.getVar("PN")
+     ptest_path = d.getVar("PTEST_PATH")
+     cargo_test_binaries_file = d.getVar('CARGO_TEST_BINARIES_FILES')
++    cargo_bin_exe_paths = d.getVar('CARGO_BIN_EXE_PATHS')
+     rust_test_args = d.getVar('RUST_TEST_ARGS') or ""
+ 
+     ptest_dir = os.path.join(dest_dir, ptest_path.lstrip('/'))
+@@ -94,6 +100,14 @@ python do_install_ptest_cargo() {
+         for line in f.readlines():
+             test_bins.append(line.strip('\n'))
+ 
++    # Read the file that contains the paths to the executable binaries. This step is
++    # necessary in order to successfully set up the execution environment for integration tests.
++    cargo_bin_exes = []
++    if os.path.exists(cargo_bin_exe_paths):
++        with open(cargo_bin_exe_paths, "r") as f:
++            for line in f.readlines():
++                cargo_bin_exes.append(line.strip('\n'))
++
+     test_paths = []
+     for test_bin in test_bins:
+         shutil.copy2(test_bin, ptest_dir)
+@@ -106,11 +120,33 @@ python do_install_ptest_cargo() {
+             f.write("#!/bin/sh\n")
+         else:
+             f.write(f"\necho \"\"\n")
+-            f.write(f"echo \"## starting to run rust tests ##\"\n")               
++            f.write(f"echo \"## starting to run rust tests ##\"\n")
++
++        # For the integration tests, cargo uses the CARGO_BIN_EXE_<name> environment variable to
++        # communicate the location of the binary executable. More info on this variable can be
++        # found in the link: (https://doc.rust-lang.org/cargo/reference/environment-variables.html).
++
++        # This environment variable is exported by cargo automatically during compilation. Making it
++        # also available during runtime is a very powerful tool as it allows the ptest framework to
++        # run the integration tests on the actual executables installed in the target, no matter the
++        # installation location.
++
++        # By using env we ensure that we will be able to create environment variables even for apps
++        # whose name contains dashes "-", which is not supported by export. For every binary executable
++        # produced by the rust compiler, one environment variable is added.
++
++        f.write("exec_in_env () {\n")
++        f.write("    env - ")
++        for cargo_bin_exe in cargo_bin_exes:
++            f.write(f"CARGO_BIN_EXE_{os.path.basename(cargo_bin_exe)}={cargo_bin_exe} \\\n")
++
++        f.write("        \"$@\"\n")
++        f.write("}\n")
++
+         f.write("if [ -z \"$rc\" ]; then rc=0; fi\n")
+         for test_path in test_paths:
+             script = textwrap.dedent(f"""\
+-                if ! {test_path} {rust_test_args}
++                if ! exec_in_env {test_path} {rust_test_args}
+                 then
+                     rc=1
+                     echo "FAIL: {test_path}"
 
