@@ -2,100 +2,129 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1FFFCD98E3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2037CD98ED
 	for <webhook@archiver.kernel.org>; Thu, 13 Nov 2025 21:47:43 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4369.1763070457464953680
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4343.1763070455811794397
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Nov 2025 13:47:37 -0800
+ Thu, 13 Nov 2025 13:47:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=oPR+b/Mc;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-295548467c7so14773205ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 13:47:37 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=srGP/uq8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-298250d7769so8253125ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 13:47:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763070457; x=1763675257; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BPD79Fm1wkYhS84p5PTs2LIXexrFUIBnjSVHQJbeWIY=;
-        b=oPR+b/Mcj7VORISpGemBulX7F4oOwsheiSRUlJkcfaC98kiTLjHE1vK5+fcsJgRDju
-         RIQdwQa7ECwcB1Kc81daEmIbLtIdcm7rZYoiLlXmqJuQF/AeXs+1+FKZgHJkJlHM4EcZ
-         a4biN9fWYGZVmwErtH6mWhG72kjjZ8M38/k1pTxGtl3BEzFVC+b7JCoCyUMukYHwQWVv
-         qdprPFGbkRfH74Oo9xr7ztd0SXMmuByL9N2C001Kzm8gbhEPxqeaoXAGWScuGzsCP9Tt
-         6wJzn2Z9IJ5SM34LBcZEjr66BTcGG7gyv2Y15x9e6zT/H6KtaFwDHk+FkSz2E0+4nj3M
-         Q9zw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763070455; x=1763675255; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hX2JHQWbl3jQ4LB/O/Ikyk2+WAxwzEt7Xg7XdJ37aqk=;
+        b=srGP/uq8QPL4PRubSuIggn63FMfRNDFAHOGDLD56HPSNK0ZvymhSv3M5YNE2J4XT9/
+         iXcTZbK162Ry0nYrLID8XyPBfMTMbe/MEekDjB3roWRvTHEpkInbm519qHdol35ySkmR
+         9ADm2MJIMvZrrI4t+UaA1R9HZN34LehExXq1ezue53oGEqPe39PqNRzrMYiiEQ+oXIaR
+         25bwKM5bZvufzBs6nSpbg/YntikwnmeI/n7USzjAngpae+QNLnS2VcmS29+38v4aKx/1
+         lOr4nqzzhYOSOf3wVIqIKKOy6RK0jaMqR8XVYyn1SxpVbXBZdyFXKK9hvHkZiFvbL0kl
+         fFVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763070457; x=1763675257;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=BPD79Fm1wkYhS84p5PTs2LIXexrFUIBnjSVHQJbeWIY=;
-        b=USQlnlDs1c48w4k0vyiGkdtd2q3nUaxvQvojZQSz4mmdO216Mzz9M+koCO7FRU6yrN
-         GNX8UluppA1S7Kj+wBwcxYdSZkrNXJQqQ0TZll06iLxP+txOKTLuc0+5rJoyXS9vTUvU
-         Aox2A9MzJ132gVvZAGckTGZh7Xj+HIrzge/Cg64xLLCHshOYuQEiuPsCwtvlGMSctRYI
-         2CsJcHuCgsUC7FunXRf8w8Vnm32iCyyc8X0KO7g/rtBs7j5/F1N4XJsGBcdpg11dCCT4
-         XmDMIHjMACRMEcc2Wn5sW5euaT2d8AUydl1abthCoTBfL+G8J7e70X0aZt9e3iQEWce9
-         fW9w==
-X-Gm-Message-State: AOJu0YwxpoUQGRO02vNZLSQgyM+AlJIAaHDaWYkqxtByuf7taJfglcVy
-	tGnijwpmg6jNqIHafYkj4RsmNELdLe4NAR27zqHrMK/LKD2knpD/pIF9f6MfdsQhGYRL+LdJo0s
-	3OWxi
-X-Gm-Gg: ASbGnctzgY4FweHdPIWrSbbo8pIhfeb8MrowLWCuhYsWd6BFJvkHLHjUanFFImjCLqM
-	VMz9jufzayLJJ4qywHQ2BHnpeNz2V/M1AIDppjnU/DJrUaYRkC2d/QarAn8JIJlbC9RY73JvNkT
-	4G1Mk/teB3MogZJDD0yOwb0fM4alvGgmsCXY4KN9igX4bvc52NS7s2l7w1HnzlZK6aDzrGT5j1q
-	85A4lkdFo2Jn7jmE6TdsEo30blbrQpzbXRLv6pWrABxg1W04AgXwu8l6iaE4kkpCJ36cnmW//0c
-	ZLxeEzZqZokEd673f3yXsoAyc3CiFV/uauQfK7VnA/U6//QmRy5TBD1ugWWImslmdE4psdnCPb6
-	wYO3Se+AtXBJ6bdajpvg7/sTD6xgJkhnJNLHsaUuGLBkMZcYkWXhR6r5gzbwAjE60Tg==
-X-Google-Smtp-Source: AGHT+IEzIL2JoyAW+ThXp+ym5xvfLXJBrQqH5TPwJsqfwWPREcnAeIZ4NyedF+7DbmS5rxSf4oeW/g==
-X-Received: by 2002:a17:902:f712:b0:295:a1a5:bae9 with SMTP id d9443c01a7336-2986a6ad9f5mr4143805ad.8.1763070456658;
-        Thu, 13 Nov 2025 13:47:36 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763070455; x=1763675255;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hX2JHQWbl3jQ4LB/O/Ikyk2+WAxwzEt7Xg7XdJ37aqk=;
+        b=ljisBLxKpqnRd9YAEERVkjYOGwDT/UL/Ri38xjk2xyZFQ/S1gCAzL3sV9gMkaJ25Ya
+         UDWBBD6j8Vlmm+ESx/pt3LdEXPqHVS915xpta2SZHXbTNFXrpX0zDxyCR8+jnm9fH6dm
+         U4vXlLlFcagPPRvbSwr6Xe95MRZWW03nHu+TRTN0Ybr2bxQ4YQVZb76MWBvJ5dNX9EHe
+         6b/JG31tiTX0K/wdF8Gnktcp1vz37U4voK/jsuEl+rtwPUGJqBdeBfnkp3H9ZgJHK2Yw
+         kF1wzs/KaGE5H9VkKFMNFy9LyhtovFOAhwJfSIeixwkFe0RKteSQ54BjWTqmsy43V6IC
+         O4cg==
+X-Gm-Message-State: AOJu0YzGOESQQHtk/tAvCcC2eh9JLUIwfXTAzA05pX7OWiw1Ut8Bht9h
+	0sPvoNA2ogInz/LpDLuRp5uHjut3Ybt7CEt1DKnZ4uNhqWt8oxhAbj+u+iWnYFCq8IphIO8GUcA
+	yuVaf
+X-Gm-Gg: ASbGncvgS9zReUQuCoAxV7wBzQgRt5iOyDASBQhSjgnkz1KqkRuYw9trf2cFr78AkAU
+	hMzLKi+73mi19mPSeAdv/qgDIumpf2Em/+XsoqzDyQul2Zg7fDFg2xfCk4GePVJzpzdVQz+HL7Q
+	5DkEqthoh5mxAfZQkPgZCfV5DWkYZJPlbEpF5qUAzpBasq2lboTpaf+gOaGhZ3gGbWxXZJOgjst
+	x4U6AqJLSVPKOXKE0Q3gdXCP8YBwB5hBBfUMMlW63BXV5GFoXTKvw/rfl7tLCBSVpKkmos/s8x3
+	xjzb56oPhOrJy8evwmKfb94A/VleC/YelS/kGCORUxbVTfwUYg8t2Kbsvr9v1463puR8QC+yyvx
+	8Tqk6M+ugVjjov8XCAp0j+p4KvT/pEgiM2xh2S84PfU+fvnWb69NXeAu5cMjd0nntOg==
+X-Google-Smtp-Source: AGHT+IFibODLVl3F3K8EOH2nQZuIzg6fCD/jAvqrvw267eQm0xF5MWU6kN9UQspioiTCcFoD0q1tOw==
+X-Received: by 2002:a17:902:c405:b0:297:ddb6:ef81 with SMTP id d9443c01a7336-2986a6be2a1mr6783555ad.16.1763070454977;
+        Thu, 13 Nov 2025 13:47:34 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:70b:f91f:acd9:f6d9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2b0d68sm34639815ad.61.2025.11.13.13.47.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2b0d68sm34639815ad.61.2025.11.13.13.47.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Nov 2025 13:47:36 -0800 (PST)
+        Thu, 13 Nov 2025 13:47:34 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/10] curl: ignore CVE-2025-10966
-Date: Thu, 13 Nov 2025 13:47:20 -0800
-Message-ID: <41c4735658e9ba5322bd06ef50aa3a1edb1f7fd8.1763070333.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 00/10] Patch review
+Date: Thu, 13 Nov 2025 13:47:19 -0800
+Message-ID: <cover.1763070333.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1763070333.git.steve@sakoman.com>
-References: <cover.1763070333.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 21:47:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226273
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226272
 
-From: Peter Marko <peter.marko@siemens.com>
+Please review this set of changes for kirkstone and have comments back by
+end of day Monday, November 17
 
-Per [1] this CVE applies only when wolfssl backed is used.
-8.17.0 removed WolfSSL support completely.
+Passed a-full on autobuilder:
 
-[1] https://curl.se/docs/CVE-2025-10966.html
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2720
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-support/curl/curl_7.82.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+The following changes since commit 1e1993b72f2b6109ce3d0ef950553b74b2b37b27:
 
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 54362e6978..2326392a4f 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -79,6 +79,8 @@ CVE_CHECK_IGNORE += "CVE-2023-42915"
- CVE_CHECK_IGNORE += "CVE-2024-32928"
- # ignored: gzip decompression of content-encoded HTTP responses with the `CURLOPT_ACCEPT_ENCODING` option, using zlib 1.2.0.3 or older
- CVE_CHECK_IGNORE += "CVE-2025-0725"
-+# not-applicable-config: applicable only with wolfssl
-+CVE_CHECK_IGNORE += "${@bb.utils.contains('PACKAGECONFIG', 'openssl', 'CVE-2025-10966','',d)}"
- 
- inherit autotools pkgconfig binconfig multilib_header
- 
+  Don't use ftp.gnome.org (2025-11-03 09:18:14 -0800)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Alexander Kanavin (2):
+  xf86-video-intel: correct SRC_URI as freedesktop anongit is down
+  goarch.bbclass: do not leak TUNE_FEATURES into crosssdk task
+    signatures
+
+Gyorgy Sarvari (2):
+  efibootmgr: update SRC_URI branch
+  babeltrace2: fetch with https protocol
+
+Peter Marko (1):
+  curl: ignore CVE-2025-10966
+
+Saquib Iltaf (1):
+  rust-cross-canadian: Ignore CVE-2024-43402
+
+Soumya Sambu (1):
+  python3-urllib3: Upgrade 1.26.18 -> 1.26.20
+
+Vijay Anusuri (3):
+  xserver-xorg: Fix for CVE-2025-62229
+  xserver-xorg: Fix for CVE-2025-62230
+  xserver-xorg: Fix for CVE-2025-62231
+
+ meta/classes/goarch.bbclass                   |  3 +
+ meta/recipes-bsp/efibootmgr/efibootmgr_17.bb  |  2 +-
+ ..._1.26.18.bb => python3-urllib3_1.26.20.bb} |  2 +-
+ .../rust/rust-cross-canadian.inc              |  2 +
+ .../xorg-driver/xf86-video-intel_git.bb       |  3 +-
+ .../xserver-xorg/CVE-2025-62229.patch         | 89 ++++++++++++++++++
+ .../xserver-xorg/CVE-2025-62230-1.patch       | 63 +++++++++++++
+ .../xserver-xorg/CVE-2025-62230-2.patch       | 92 +++++++++++++++++++
+ .../xserver-xorg/CVE-2025-62231.patch         | 53 +++++++++++
+ .../xorg-xserver/xserver-xorg_21.1.8.bb       |  4 +
+ .../recipes-kernel/lttng/babeltrace2_2.0.5.bb |  2 +-
+ meta/recipes-support/curl/curl_7.82.0.bb      |  2 +
+ 12 files changed, 312 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/python/{python3-urllib3_1.26.18.bb => python3-urllib3_1.26.20.bb} (87%)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-62229.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-62230-1.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-62230-2.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2025-62231.patch
+
 -- 
 2.43.0
 
