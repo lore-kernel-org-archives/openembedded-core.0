@@ -1,75 +1,74 @@
 Return-Path: <changqing.li@windriver.com>
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42FC8CCFA18
-	for <webhook@archiver.kernel.org>; Thu, 13 Nov 2025 03:59:05 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16243.1763006270687594769
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FCB4CCFA18
+	for <webhook@archiver.kernel.org>; Thu, 13 Nov 2025 05:12:45 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16947.1763010756218390766
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Nov 2025 19:59:00 -0800
+ Wed, 12 Nov 2025 21:12:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=l2/rOfVM;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3412a7ece4=changqing.li@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AD1E6nT154250
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 03:57:42 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=LlxNDI8y;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3412a7ece4=changqing.li@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AD4IOG83670005
+	for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 21:12:35 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=TNo2H9STPVJIy8/xt5Bl
-	5tcDfLXdS1Uo/iVFXydb+KU=; b=l2/rOfVMbWP06F+t3Myb54YxJbzl0ZtBJaMx
-	9P2nLZkOvEeZmboVLtLCorzNUFxd/pji9/gdi3mP9Lo2od4fvrNJOMlo6bqW0utX
-	IMdkIx5vJcQ3GiGeDoOKOHQ5FbSCGGih3VBe8oH3z8v9OXRdSB2rmpRGJlLqt7hz
-	UbOEYdWoZoH3rwV9MztwHn63venPjJypxmvN4RP8XDFnjN2zOHDj1+d4BzEja7d4
-	Yh0bKig6R4laeYg/p081WaLLxcO+h2F9VYpzYgPEniqxT0F6/p6ido+Rtl38DpC8
-	7MsdNleesemXY2p07yePnGKUwselWjRCA/v6206BvYYH2Wgubw==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4acwphs2se-1
+	:mime-version:subject:to; s=PPS06212021; bh=6n6fgGsCCMIB8esEwEIK
+	kJ2YR0+2wseDwemYfXAphQc=; b=LlxNDI8yVMXE5yMTUO25IUKNrVzkrapXyM8I
+	N7D1QAHrZzVmEtT2i5sISHiyZmR4Nbgc5N8mR0legiF9kbi+fBQljMWa47U3J3Bk
+	waEMIYRvbcflQxutrHn+hqAK2sSfQggbJiagEq+J8wzlTtUwmMA+QCsdQjNYog1m
+	CFmW2rYafig+esTpK+bQl1gYP4mfOGu7Wo46O6K5Q1Zpnqg3RIpq1vd0VlNw9NXv
+	GtzAWAsXIDFGv9rgxOxYorWgbl3LhYmTXAJNA94e9ji1IkeI5ghjJw5Nq8CySV0j
+	Cjs9VXAoocmkj1iWVMu6lrvYMJGDqHJICTuzt0HVtYgd6O0Jlg==
+Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4aa68jpe9m-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 03:57:41 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 12 Nov 2025 21:12:34 -0800 (PST)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 12 Nov 2025 19:57:39 -0800
+ 15.1.2507.61; Wed, 12 Nov 2025 21:12:33 -0800
 Received: from pek-lpg-core6.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 12 Nov 2025 19:57:39 -0800
+ 15.1.2507.61 via Frontend Transport; Wed, 12 Nov 2025 21:12:33 -0800
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone][PATCH] libmicrohttpd: fix CVE-2025-59777, CVE-2025-62689
-Date: Thu, 13 Nov 2025 11:57:38 +0800
-Message-ID: <20251113035738.2837998-1-changqing.li@windriver.com>
+Subject: [scarthgap][PATCH] libmicrohttpd: fix CVE-2025-59777, CVE-2025-62689
+Date: Thu, 13 Nov 2025 13:12:32 +0800
+Message-ID: <20251113051232.2312045-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: hO2RuZ6hAzgQqzHiznp0LIa0IP1fVdsy
-X-Proofpoint-ORIG-GUID: hO2RuZ6hAzgQqzHiznp0LIa0IP1fVdsy
-X-Authority-Analysis: v=2.4 cv=TKtIilla c=1 sm=1 tr=0 ts=69155736 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEzMDAzMiBTYWx0ZWRfX+sMCdkU27/r1
+ ILtCuRdDcfUgh1o3TMRq4yZWq3PJsfUr80azNTaDFUQGmpMqvnndBwHnuXNSJdfQc/Z9nkgKToo
+ M8FUvFcns/XQa/OpDkeg8UiKrBJ8wN7fkSryiTyWeDF6LWezMU1egfRWXGQmCCZshGsUtApAEaN
+ K87+eCZ0Y1FuYUEUZ75JhGL9Uj+QXv8gxnZTWHo0C/lg9/Wyk7Y61YDmFVF0oY/ni9bccQgi6bS
+ uAfQ9uSBLN9XevLLNYi0YPLJp5A8p3/1F3PEKwa9ln8jpfeSMu7DHbP1tRGZc6HJxKSHJEaKtjV
+ 5NmSxh72Q08phguplpODKBUzWgua6GUIl6klzNrQiRxdhk8ySOq+wF6bZka9PsmTFb/hWduVQAx
+ cISXidmp7k8juGDugJZGc1715NRfaA==
+X-Proofpoint-GUID: Wvw-xmUaSznPg5igNJIBTQGZ6EhCfZh0
+X-Proofpoint-ORIG-GUID: Wvw-xmUaSznPg5igNJIBTQGZ6EhCfZh0
+X-Authority-Analysis: v=2.4 cv=ef0wvrEH c=1 sm=1 tr=0 ts=691568c3 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
  a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=PYnjg3YJAAAA:8 a=cXER5rsiAAAA:8
  a=mDV3o1hIAAAA:8 a=t7CeM3EgAAAA:8 a=3Vru7Ui4N18Ht7k6oywA:9
  a=e6gHQ2zWfcreqHeh:21 a=3ZKOabzyN94A:10 a=4uWEtD8DuY3znTzooXTq:22
  a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEzMDAyMyBTYWx0ZWRfX20yyhHfDfeI5
- +VX4wTead+GlWSVW240n6xQhYohek8cl/DEWo6momqjvggadsat8iImi0zJrk52DunpGmCIFD6k
- 1xXISZ3JXmNzeprsJlG7YszVe1MQEWr04uaqFOYt0zD4Xe3z17yJN+BHTlf+qCLM21kODjaXoZy
- s/xIbgxpSBVTaeVzmQWkVZ+fnbbuQP+2Y5gyKxU15ERvJEv7LhYyTWPAI+XM0WZeKgAqae3BXgY
- E/ZWnvF3IEfVJDELGQC2D8j/56TZshJ9FnOra6irt7XR5s5ROQctP1fYtxtoANbAA2oB8mzeJ4w
- snbSqSGMms8llF+xQkkEQZyxcpDC1Q8ni827w9xhdrMFMdyouOJZ3amQYdzzx5POkrtTMf4IROx
- vLTIrGWypw4WbPwZpieggIFXOblbBA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-12_06,2025-11-12_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015 bulkscore=0 spamscore=0 adultscore=0
- suspectscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511130023
+ malwarescore=0 phishscore=0 suspectscore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 clxscore=1015 spamscore=0 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511130032
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 03:59:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226223
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 05:12:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226224
 
 From: Changqing Li <changqing.li@windriver.com>
 
@@ -79,20 +78,20 @@ https://nvd.nist.gov/vuln/detail/CVE-2025-62689
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- ...0001-Remove-broken-experimental-code.patch | 14475 ++++++++++++++++
- .../libmicrohttpd/libmicrohttpd_0.9.76.bb     |     3 +-
- 2 files changed, 14477 insertions(+), 1 deletion(-)
+ ...0001-Remove-broken-experimental-code.patch | 14471 ++++++++++++++++
+ .../libmicrohttpd/libmicrohttpd_1.0.1.bb      |     3 +-
+ 2 files changed, 14473 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-support/libmicrohttpd/files/0001-Remove-broken-experimental-code.patch
 
 diff --git a/meta/recipes-support/libmicrohttpd/files/0001-Remove-broken-experimental-code.patch b/meta/recipes-support/libmicrohttpd/files/0001-Remove-broken-experimental-code.patch
 new file mode 100644
-index 0000000000..b30e0c69d6
+index 0000000000..902596f6f0
 --- /dev/null
 +++ b/meta/recipes-support/libmicrohttpd/files/0001-Remove-broken-experimental-code.patch
-@@ -0,0 +1,14475 @@
-+From 34a71b9ba76f868f2f16732c9b5ec1798e62c046 Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,14471 @@
++From 0878daf6a6fb95b6faf403ffd8c39808fd0e14f1 Mon Sep 17 00:00:00 2001
 +From: Changqing Li <changqing.li@windriver.com>
-+Date: Thu, 13 Nov 2025 11:19:30 +0800
++Date: Thu, 13 Nov 2025 12:13:38 +0800
 +Subject: [PATCH] Remove broken experimental code
 +
 +Upstream-Status: Backport [https://git.gnunet.org/libmicrohttpd.git/commit/?id=ff13abc1c1d7d2b30d69d5c0bd4a237e1801c50b
@@ -104,13 +103,13 @@ index 0000000000..b30e0c69d6
 +---
 + configure.ac                       |     1 -
 + src/Makefile.am                    |     5 -
-+ src/microhttpd_ws/Makefile.am      |    39 -
-+ src/microhttpd_ws/Makefile.in      |  1305 ----
++ src/microhttpd_ws/Makefile.am      |    43 -
++ src/microhttpd_ws/Makefile.in      |  1297 ----
 + src/microhttpd_ws/mhd_websocket.c  |  2443 -------
 + src/microhttpd_ws/sha1.c           |   378 -
 + src/microhttpd_ws/sha1.h           |   110 -
 + src/microhttpd_ws/test_websocket.c | 10105 ---------------------------
-+ 8 files changed, 14386 deletions(-)
++ 8 files changed, 14382 deletions(-)
 + delete mode 100644 src/microhttpd_ws/Makefile.am
 + delete mode 100644 src/microhttpd_ws/Makefile.in
 + delete mode 100644 src/microhttpd_ws/mhd_websocket.c
@@ -119,24 +118,24 @@ index 0000000000..b30e0c69d6
 + delete mode 100644 src/microhttpd_ws/test_websocket.c
 +
 +diff --git a/configure.ac b/configure.ac
-+index d485915..837a838 100644
++index 932f8ad..322179e 100644
 +--- a/configure.ac
 ++++ b/configure.ac
-+@@ -3424,7 +3424,6 @@ src/Makefile
++@@ -5961,7 +5961,6 @@ src/Makefile
 + src/include/Makefile
 + src/lib/Makefile
 + src/microhttpd/Makefile
 +-src/microhttpd_ws/Makefile
 + src/examples/Makefile
++ src/tools/Makefile
 + src/testcurl/Makefile
-+ src/testcurl/https/Makefile
 +diff --git a/src/Makefile.am b/src/Makefile.am
-+index 0d2f49b..bb3cdcb 100644
++index 4673d0d..07d8f3d 100644
 +--- a/src/Makefile.am
 ++++ b/src/Makefile.am
-+@@ -10,11 +10,6 @@ endif
-+ 
-+ SUBDIRS = include microhttpd $(curltests) $(zzuftests) .
++@@ -9,11 +9,6 @@ SUBDIRS += testzzuf
++ endif
++ endif
 + 
 +-# Finally (last!) also build experimental lib...
 +-if HAVE_EXPERIMENTAL
@@ -148,16 +147,20 @@ index 0000000000..b30e0c69d6
 + endif
 +diff --git a/src/microhttpd_ws/Makefile.am b/src/microhttpd_ws/Makefile.am
 +deleted file mode 100644
-+index 1661250..0000000
++index 3ce8a9f..0000000
 +--- a/src/microhttpd_ws/Makefile.am
 ++++ /dev/null
-+@@ -1,39 +0,0 @@
++@@ -1,43 +0,0 @@
 +-# This Makefile.am is in the public domain
 +-AM_CPPFLAGS = \
 +-  -I$(top_srcdir)/src/include \
 +-  -I$(top_srcdir)/src/microhttpd
 +-
 +-AM_CFLAGS = $(HIDDEN_VISIBILITY_CFLAGS)
++-
++-$(top_builddir)/src/microhttpd/libmicrohttpd.la: $(top_builddir)/src/microhttpd/Makefile
++-	@echo ' cd $(top_builddir)/src/microhttpd && $(MAKE) $(AM_MAKEFLAGS) libmicrohttpd.la'; \
++-	$(am__cd) $(top_builddir)/src/microhttpd && $(MAKE) $(AM_MAKEFLAGS) libmicrohttpd.la
 +-
 +-noinst_DATA =
 +-MOSTLYCLEANFILES =
@@ -193,10 +196,10 @@ index 0000000000..b30e0c69d6
 +-  $(top_builddir)/src/microhttpd/libmicrohttpd.la
 +diff --git a/src/microhttpd_ws/Makefile.in b/src/microhttpd_ws/Makefile.in
 +deleted file mode 100644
-+index 7310753..0000000
++index fe33f96..0000000
 +--- a/src/microhttpd_ws/Makefile.in
 ++++ /dev/null
-+@@ -1,1305 +0,0 @@
++@@ -1,1297 +0,0 @@
 +-# Makefile.in generated by automake 1.16.5 from Makefile.am.
 +-# @configure_input@
 +-
@@ -301,19 +304,26 @@ index 0000000000..b30e0c69d6
 +-	$(top_srcdir)/m4/ax_have_epoll.m4 \
 +-	$(top_srcdir)/m4/ax_pthread.m4 \
 +-	$(top_srcdir)/m4/ax_require_defined.m4 \
-+-	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/host-cpu-c-abi.m4 \
-+-	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
-+-	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
-+-	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libcurl.m4 \
++-	$(top_srcdir)/m4/c_backported.m4 $(top_srcdir)/m4/libcurl.m4 \
 +-	$(top_srcdir)/m4/libgcrypt.m4 $(top_srcdir)/m4/libtool.m4 \
 +-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
 +-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
++-	$(top_srcdir)/m4/mhd_append_flag_to_var.m4 \
++-	$(top_srcdir)/m4/mhd_check_add_cc_cflag.m4 \
++-	$(top_srcdir)/m4/mhd_check_add_cc_cflags.m4 \
++-	$(top_srcdir)/m4/mhd_check_add_cc_ldflag.m4 \
++-	$(top_srcdir)/m4/mhd_check_add_cc_ldflags.m4 \
++-	$(top_srcdir)/m4/mhd_check_cc_cflag.m4 \
 +-	$(top_srcdir)/m4/mhd_check_func.m4 \
++-	$(top_srcdir)/m4/mhd_check_func_gettimeofday.m4 \
++-	$(top_srcdir)/m4/mhd_check_link_run.m4 \
++-	$(top_srcdir)/m4/mhd_find_add_cc_cflag.m4 \
++-	$(top_srcdir)/m4/mhd_find_add_cc_cflag_ifelse.m4 \
++-	$(top_srcdir)/m4/mhd_find_lib.m4 \
++-	$(top_srcdir)/m4/mhd_norm_expd.m4 \
++-	$(top_srcdir)/m4/mhd_prepend_flag_to_var.m4 \
 +-	$(top_srcdir)/m4/mhd_shutdown_socket_trigger.m4 \
-+-	$(top_srcdir)/m4/mhd_sys_extentions.m4 $(top_srcdir)/m4/nls.m4 \
-+-	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/m4/po.m4 \
-+-	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/m4/search_h.m4 \
-+-	$(top_srcdir)/m4/tsearch.m4 $(top_srcdir)/acinclude.m4 \
++-	$(top_srcdir)/m4/mhd_sys_extentions.m4 $(top_srcdir)/m4/pkg.m4 \
 +-	$(top_srcdir)/configure.ac
 +-am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 +-	$(ACLOCAL_M4)
@@ -661,7 +671,6 @@ index 0000000000..b30e0c69d6
 +-AM_ASAN_OPTIONS = @AM_ASAN_OPTIONS@
 +-AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 +-AM_LSAN_OPTIONS = @AM_LSAN_OPTIONS@
-+-AM_TESTS_ENVIRONMENT = @AM_TESTS_ENVIRONMENT@
 +-AM_UBSAN_OPTIONS = @AM_UBSAN_OPTIONS@
 +-AR = @AR@
 +-AS = @AS@
@@ -672,8 +681,10 @@ index 0000000000..b30e0c69d6
 +-CC = @CC@
 +-CCDEPMODE = @CCDEPMODE@
 +-CFLAGS = @CFLAGS@
++-CFLAGS_ac = @CFLAGS_ac@
 +-CPP = @CPP@
 +-CPPFLAGS = @CPPFLAGS@
++-CPPFLAGS_ac = @CPPFLAGS_ac@
 +-CPU_COUNT = @CPU_COUNT@
 +-CSCOPE = @CSCOPE@
 +-CTAGS = @CTAGS@
@@ -691,12 +702,7 @@ index 0000000000..b30e0c69d6
 +-ETAGS = @ETAGS@
 +-EXEEXT = @EXEEXT@
 +-FGREP = @FGREP@
-+-GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
-+-GMSGFMT = @GMSGFMT@
-+-GMSGFMT_015 = @GMSGFMT_015@
-+-GNULIB_MDA_LFIND = @GNULIB_MDA_LFIND@
-+-GNULIB_MDA_LSEARCH = @GNULIB_MDA_LSEARCH@
-+-GNULIB_TSEARCH = @GNULIB_TSEARCH@
++-FILECMD = @FILECMD@
 +-GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 +-GNUTLS_CPPFLAGS = @GNUTLS_CPPFLAGS@
 +-GNUTLS_LDFLAGS = @GNUTLS_LDFLAGS@
@@ -704,26 +710,20 @@ index 0000000000..b30e0c69d6
 +-GREP = @GREP@
 +-HAVE_CURL_BINARY = @HAVE_CURL_BINARY@
 +-HAVE_MAKEINFO_BINARY = @HAVE_MAKEINFO_BINARY@
-+-HAVE_TSEARCH = @HAVE_TSEARCH@
-+-HAVE_TWALK = @HAVE_TWALK@
-+-HEAVY_TESTS_NOTPARALLEL = @HEAVY_TESTS_NOTPARALLEL@
 +-HIDDEN_VISIBILITY_CFLAGS = @HIDDEN_VISIBILITY_CFLAGS@
 +-INSTALL = @INSTALL@
 +-INSTALL_DATA = @INSTALL_DATA@
 +-INSTALL_PROGRAM = @INSTALL_PROGRAM@
 +-INSTALL_SCRIPT = @INSTALL_SCRIPT@
 +-INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
-+-INTLLIBS = @INTLLIBS@
-+-INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
 +-LD = @LD@
 +-LDFLAGS = @LDFLAGS@
++-LDFLAGS_ac = @LDFLAGS_ac@
 +-LIBCURL = @LIBCURL@
 +-LIBCURL_CPPFLAGS = @LIBCURL_CPPFLAGS@
 +-LIBGCRYPT_CFLAGS = @LIBGCRYPT_CFLAGS@
 +-LIBGCRYPT_CONFIG = @LIBGCRYPT_CONFIG@
 +-LIBGCRYPT_LIBS = @LIBGCRYPT_LIBS@
-+-LIBICONV = @LIBICONV@
-+-LIBINTL = @LIBINTL@
 +-LIBOBJS = @LIBOBJS@
 +-LIBS = @LIBS@
 +-LIBTOOL = @LIBTOOL@
@@ -732,12 +732,11 @@ index 0000000000..b30e0c69d6
 +-LIB_VERSION_REVISION = @LIB_VERSION_REVISION@
 +-LIPO = @LIPO@
 +-LN_S = @LN_S@
-+-LTLIBICONV = @LTLIBICONV@
-+-LTLIBINTL = @LTLIBINTL@
 +-LTLIBOBJS = @LTLIBOBJS@
 +-LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 +-MAKEINFO = @MAKEINFO@
 +-MANIFEST_TOOL = @MANIFEST_TOOL@
++-MHD_AUX_DIR = @MHD_AUX_DIR@
 +-MHD_LIBDEPS = @MHD_LIBDEPS@
 +-MHD_LIBDEPS_PKGCFG = @MHD_LIBDEPS_PKGCFG@
 +-MHD_LIB_CFLAGS = @MHD_LIB_CFLAGS@
@@ -751,9 +750,6 @@ index 0000000000..b30e0c69d6
 +-MHD_TLS_LIB_LDFLAGS = @MHD_TLS_LIB_LDFLAGS@
 +-MHD_W32_DLL_SUFF = @MHD_W32_DLL_SUFF@
 +-MKDIR_P = @MKDIR_P@
-+-MSGFMT = @MSGFMT@
-+-MSGMERGE = @MSGMERGE@
-+-MSGMERGE_FOR_MSGFMT_OPTION = @MSGMERGE_FOR_MSGFMT_OPTION@
 +-MS_LIB_TOOL = @MS_LIB_TOOL@
 +-NM = @NM@
 +-NMEDIT = @NMEDIT@
@@ -775,24 +771,21 @@ index 0000000000..b30e0c69d6
 +-PKG_CONFIG = @PKG_CONFIG@
 +-PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 +-PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
-+-POSUB = @POSUB@
 +-PTHREAD_CC = @PTHREAD_CC@
 +-PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 +-PTHREAD_CXX = @PTHREAD_CXX@
 +-PTHREAD_LIBS = @PTHREAD_LIBS@
 +-RANLIB = @RANLIB@
 +-RC = @RC@
-+-REPLACE_TSEARCH = @REPLACE_TSEARCH@
 +-SED = @SED@
 +-SET_MAKE = @SET_MAKE@
 +-SHELL = @SHELL@
++-SOCAT = @SOCAT@
 +-STRIP = @STRIP@
-+-USE_NLS = @USE_NLS@
++-TESTS_ENVIRONMENT_ac = @TESTS_ENVIRONMENT_ac@
 +-VERSION = @VERSION@
 +-W32CRT = @W32CRT@
-+-XGETTEXT = @XGETTEXT@
-+-XGETTEXT_015 = @XGETTEXT_015@
-+-XGETTEXT_EXTRA_OPTIONS = @XGETTEXT_EXTRA_OPTIONS@
++-ZZUF = @ZZUF@
 +-_libcurl_config = @_libcurl_config@
 +-abs_builddir = @abs_builddir@
 +-abs_srcdir = @abs_srcdir@
@@ -820,8 +813,6 @@ index 0000000000..b30e0c69d6
 +-docdir = @docdir@
 +-dvidir = @dvidir@
 +-exec_prefix = @exec_prefix@
-+-have_socat = @have_socat@
-+-have_zzuf = @have_zzuf@
 +-host = @host@
 +-host_alias = @host_alias@
 +-host_cpu = @host_cpu@
@@ -1498,6 +1489,10 @@ index 0000000000..b30e0c69d6
 +-
 +-.PRECIOUS: Makefile
 +-
++-
++-$(top_builddir)/src/microhttpd/libmicrohttpd.la: $(top_builddir)/src/microhttpd/Makefile
++-	@echo ' cd $(top_builddir)/src/microhttpd && $(MAKE) $(AM_MAKEFLAGS) libmicrohttpd.la'; \
++-	$(am__cd) $(top_builddir)/src/microhttpd && $(MAKE) $(AM_MAKEFLAGS) libmicrohttpd.la
 +-
 +-# Tell versions [3.59,3.63) of GNU make to not export all variables.
 +-# Otherwise a system limit (for SysV at least) may be exceeded.
@@ -4453,7 +4448,7 @@ index 0000000000..b30e0c69d6
 +-#endif /* MHD_SHA1_H */
 +diff --git a/src/microhttpd_ws/test_websocket.c b/src/microhttpd_ws/test_websocket.c
 +deleted file mode 100644
-+index 00fd8e0..0000000
++index b824b9c..0000000
 +--- a/src/microhttpd_ws/test_websocket.c
 ++++ /dev/null
 +@@ -1,10105 +0,0 @@
@@ -14297,7 +14292,7 @@ index 0000000000..b30e0c69d6
 +-             (unsigned int) __LINE__);
 +-    ++failed;
 +-  }
-+-  /* Edge test (success): All allowed token characters plus /, then websocket keyowrd */
++-  /* Edge test (success): All allowed token characters plus /, then websocket keyword */
 +-  ret = MHD_websocket_check_upgrade_header (
 +-    "!#$%&'*+-.^_`|~0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz/,websocket");
 +-  if (MHD_WEBSOCKET_STATUS_OK != ret)
@@ -14565,10 +14560,10 @@ index 0000000000..b30e0c69d6
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb b/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb
-index ad3c34ab9e..1c859825b9 100644
---- a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb
-+++ b/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.76.bb
+diff --git a/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb b/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb
+index 0628ee71b5..66d34c8c43 100644
+--- a/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb
++++ b/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb
 @@ -6,7 +6,8 @@ SECTION = "net"
  
  DEPENDS = "file"
@@ -14576,7 +14571,7 @@ index ad3c34ab9e..1c859825b9 100644
 -SRC_URI = "${GNU_MIRROR}/libmicrohttpd/${BPN}-${PV}.tar.gz"
 +SRC_URI = "${GNU_MIRROR}/libmicrohttpd/${BPN}-${PV}.tar.gz \
 +           file://0001-Remove-broken-experimental-code.patch"
- SRC_URI[sha256sum] = "f0b1547b5a42a6c0f724e8e1c1cb5ce9c4c35fb495e7d780b9930d35011ceb4c"
+ SRC_URI[sha256sum] = "a89e09fc9b4de34dde19f4fcb4faaa1ce10299b9908db1132bbfa1de47882b94"
  
  inherit autotools lib_package pkgconfig gettext
 -- 
