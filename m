@@ -1,243 +1,223 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8551BCD98DC
-	for <webhook@archiver.kernel.org>; Thu, 13 Nov 2025 20:21:33 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2342.1763065283519652066
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF19ACD98E2
+	for <webhook@archiver.kernel.org>; Thu, 13 Nov 2025 21:13:33 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3609.1763068413004638606
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Nov 2025 12:21:24 -0800
+ Thu, 13 Nov 2025 13:13:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=KcymuGZL;
- spf=pass (domain: smile.fr, ip: 209.85.208.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-64165cd689eso3985050a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 12:21:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aSaWg5j8;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b72bf7e703fso215971166b.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 13:13:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1763065282; x=1763670082; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=oo5POh7UPzKl/e08i4UJaX8Vd46JYJajcf2budo+Cns=;
-        b=KcymuGZLy27ASKel9987C8fa9s89sUu5oqukxZY377Z6E7H/JE5QxEQe8uqPNSjBIT
-         88niSfCsi+KcEDsvvrOl0ePANX34D3V5REHeAl9b7mBjmcZqF/zkp7vxtfoVU+5Rfx+q
-         5IuXgmaO1jX98xPhdBKYHDBW70ErJ5PhfKd5U=
+        d=gmail.com; s=20230601; t=1763068411; x=1763673211; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rkcjH+5q3ht4HeTX7rvQZEg5b9XBMZCAi0IcMv6v2Ew=;
+        b=aSaWg5j8RVfBOpsSBAYO0hduXqitCHVxjh3drlqrUfU24M5b9MGhZMHyRyC2vUd4ol
+         JyF01kNOrCBfdLk+yaJ/wZ53ajIA0iWPQkJVLofcdjAI0ymlEZMGwIF9hXEZfJ7+lVLR
+         tZdKcOqqEYn+YbkY3+YMpYFCXhEY9cXpxp+2z73cJFNJ1KgXchQN4tLRNrhc/sKqG+Im
+         sDmp9EeXeiNJ63yEo5PBMnxNhBewDVo/l+Wi1HjO4TlWNHhfG8nHtAXPfq95HUfAqITf
+         Bz2xfjDTBe8g25UAs9ZUzomygKxapm+LB0WiTBasNik6AyeWFgx+CfbcgpAxEy1rWcZ4
+         h4JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763065282; x=1763670082;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1763068411; x=1763673211;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oo5POh7UPzKl/e08i4UJaX8Vd46JYJajcf2budo+Cns=;
-        b=JxHCSfqGr1ZcRKPO3hQ23bHLZRHQfn2uKQnMpqfDfJtIzOzz/xcp/40/KPPK4WmbgI
-         9MIW9jj9YW3ssdEfmLjQechjqhOhnhT4pVTWaozIpiF16B/0V+ajLmLBqb6+RCl8nsSs
-         5ArCwkvr/utYv+zssvkGXu89kFBHVumwasujMa4Lv4+t5pmFJFNs2BDS4lTKLLIm93FQ
-         PjDFhk9Txx3ALLN9zEd5OUYA1vcQgt5TOFr1WbcYto3olzpnWRTYum+DJsJ242St/r4B
-         LanZUAEy8k4kjqZ1dyYHlThjprX735FnBLBkEswc9DtkcFJATTbcR1i0WdCMSeUi0nUi
-         9CLw==
-X-Forwarded-Encrypted: i=1; AJvYcCVpN0CfOBlQ87gQJ+Ts9ScEKDUxAslEHqRMZZM609hSeotcSEvMXBZ40bjy5Vm/K2+W21ejKhNj1l92xuPl+vaTmA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy1/N32MlUc7sjZ0pCjfI1UQnK6Sd5wZM/ZHQnT0+g827To4Wb8
-	1+PragR08MBaFCWjOIhmQBJEds4IwQy7gcB3LDSbd8q0pqq/8pzNVwIoHZhglfp43Sxs3gO5k5X
-	lOJ4MLiCiVKv3tIB6SqgA8XIv2AldyEZd5p8Nw0hwog==
-X-Gm-Gg: ASbGncvSFddRIsNgUrBwB3ekw6X2d9va2OqcaOPCQQrNRQ1p1dCqbKax+D+TBObOhSa
-	wsDXPSjyNbrldyRkCw6Kj1mIOLoUu3wx5b81D7V+0AXkl9rcvPpfhknryl/PkhFJikG5eBDtXNF
-	59srrd5zrXDySdVa+4ebX/7iPSVaa4wpP6ElEwcC5XiAM7fH9Xtj1kfgARIGwVDuOguMxw1Z0Ky
-	+7fyxGQYw0mT92zlff+mTNQ80xGG2k7iGDLzNK0qYd0p0Y0qIK7pzKF4MQNhlAPHxGy2w3Oc5Ei
-	MW/GPDvFd+qSodSYUHk=
-X-Google-Smtp-Source: AGHT+IE96UpqC7PkPc8J+c1LX0Nd3Pirgl6vo0JM7JnQpl9gU92Dyw/9WDdfhB8yAfND3/PduDj7KpIuu6clyTCW9GE=
-X-Received: by 2002:a05:6402:44c9:b0:641:270:2c8a with SMTP id
- 4fb4d7f45d1cf-6434f9756c9mr585236a12.14.1763065281777; Thu, 13 Nov 2025
- 12:21:21 -0800 (PST)
+        bh=rkcjH+5q3ht4HeTX7rvQZEg5b9XBMZCAi0IcMv6v2Ew=;
+        b=qVE9gNUa4wIbnBa3tNUh+EfXV5QmjzyLUKcHlPFiTonA4TxbITNl/KcA7MnQ8if00H
+         vGwQ//wvR2ARKLFxeIAM/4lmys5UMNCkIixvMOe8HliCEjjzuYL0Zho+/IaUnyGnhbSX
+         OxY2YzUzBX2m+8aOu3DZJdMYSNfx7uWUdesbXFBfihPk9CbyyFpQQDSRK628G2aKrM7J
+         HuLX9VxrPcNjC4AHVa69xah8G3vIhfBxECAfWor62xT+7IjeE23nd+abzuhbo2lXf6mP
+         XxVU2Jw1kFadjazFf4dueW4+V6M1FFGrXz3xKvMdY4W9pDPjTcdYYnHE00Zw9PCEceWp
+         6Ttg==
+X-Gm-Message-State: AOJu0Yyy66K+HTqFhkO/H5wK3aW/MXZAuFqxyq+Fg9r1k5jzU+uC1L36
+	D/sKW5ft+D2L97AbC/KNtkxGbe7snk9HPW9w4pVYpEH+grtfQKdkMa5gcT+6bA==
+X-Gm-Gg: ASbGncvholLDHvmNXbf5VL2btQIcByP5XReUPFOQErtM1LJnMEedcyrA4k1bRs/K0b3
+	KD9pWQR7gOq8NE9KHUEQ87vPPXitnISEjyWJyhB0GiBz4QM3GFcKSjetV/E4pkTpg6BokuS2Q7P
+	5b5cxsrs/MI55FeL5wTeSwbw1PxeDu506vtF6pjudrUoMvO7Vxqukhu+KOYxTmCfba84X7XyFnr
+	Jci1xz/6ChTD/HfoJsgriCYJgLEC71bU4F/Elv98qSYZuEIFpaKRGaj9WAUszi+h8gdGKTUZc5E
+	FcbclUdOtjXdWUvIizrsrzAScrG6LC/W7FKJgSRpA23rZsoLouxUrxQEG7vatOLfGn0Cl5JBujq
+	5ElEexf+WkQVAcdOPLzYj7x6hh3OYwSu5CGz5QBTW/CrCqcwi/3g93Qp1Xnm1q9gD+uRLHyRkFw
+	X3cNxc9bGxGrWsVg==
+X-Google-Smtp-Source: AGHT+IEUvkxj+K5HRZH33/thCTi7lTUz0dHZytAG40NWt6iNnJWAepwu49985Cocn9O1OQ6cqmu43w==
+X-Received: by 2002:a17:907:8688:b0:b72:6b3c:1f0d with SMTP id a640c23a62f3a-b7367983f00mr59105266b.35.1763068411263;
+        Thu, 13 Nov 2025 13:13:31 -0800 (PST)
+Received: from localhost ([109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fed6315sm237487866b.64.2025.11.13.13.13.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Nov 2025 13:13:30 -0800 (PST)
+From: martin.jansa@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [RFC][PATCH] cross.bbclass: Propagate dependencies to outhash
+Date: Thu, 13 Nov 2025 22:13:23 +0100
+Message-ID: <20251113211323.3490138-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-References: <20251113181157.410053-1-corentin.guillevic@smile.fr>
- <20251113181157.410053-2-corentin.guillevic@smile.fr> <AS1PR10MB56971551CC05881D1874F72BFDCDA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB56971551CC05881D1874F72BFDCDA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Thu, 13 Nov 2025 21:20:50 +0100
-X-Gm-Features: AWmQ_blyXhAk1S4JnQVWATipCIJAEj_gEjR2DWHPgwOA3nii0-_ZVlHYZku8SrM
-Message-ID: <CAMSfU+6DNwyJGjK7hdc60OS0PD7z0qtp+id=Odz5VsU8M6418g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] layer.conf: enable test for revision
- alongside a git URI
-To: peter.marko@siemens.com
-Cc: "corentin.guillevic@smile.fr" <corentin.guillevic@smile.fr>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d621d406437f9f26"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 20:21:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226266
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 21:13:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226267
 
---000000000000d621d406437f9f26
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Le jeu. 13 nov. 2025 =C3=A0 20:34, Peter Marko via lists.openembedded.org
-<peter.marko=3Dsiemens.com@lists.openembedded.org> a =C3=A9crit :
+Similar to what native and staging is doing since:
+https://git.openembedded.org/openembedded-core/commit/meta/classes/native.bbclass?id=d6c7b9f4f0e61fa6546d3644e27abe3e96f597e2
+https://git.openembedded.org/openembedded-core/commit/meta/classes/staging.bbclass?id=1cf62882bbac543960e4815d117ffce0e53bda07
 
-> Perhaps this could be a warning by default in insane class and meta-poky
-> could upgrade it via WARN_TO_ERROR_QA?
->
+Cross task outputs can call native dependencies and even when cross
+recipe output doesn't change it might produce different results when
+the called native dependency is changed, e.g. clang-cross-${TARGET_ARCH}
+contains symlink to clang binary from clang-native, but when clang-native
+outhash is changed, clang-cross-${TARGET_ARCH} will still be considered
+equivalent and target recipes aren't rebuilt with new clang binary, see
+work around in https://github.com/kraj/meta-clang/pull/1140 to make target
+recipes to depend directly not only on clang-cross-${TARGET_ARCH} but
+clang-native as well.
 
-Yes, but it would warn on the supported use case of targeting the moving
-tip of a git branch.
-It is wrong to do that in OE layers (oe-core to meta-oe) but it should be
-possible in downstream user-layers.
+I have added a small testcase in meta-selftest which demostrates this issue.
+Not included in this change, but will send it if useful.
 
-If I remember correctly, when I talked about this idea in a call (can't
-remember which one), the consensus was to use "layer-specific" QA checks to
-enforce it on oe-core (and most likely meta-openembedded) but not by
-default.
-... but it can be revisited.
+openembedded-core $ ls -1 meta-selftest/recipes-devtools/hashequiv-test/
+print-datetime-link-cross.bb
+print-datetime-link-native.bb
+print-datetime-native.bb
+print-datetime-usecross.bb
+print-datetime-usenative.bb
 
-Peter
->
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Corentin Guillevic via
-> > lists.openembedded.org
-> > Sent: Thursday, November 13, 2025 19:12
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Corentin Guillevic <corentin.guillevic@smile.fr>
-> > Subject: [OE-core] [PATCH 2/2] layer.conf: enable test for revision
-> alongside a git
-> > URI
-> >
-> > As meta is the main layer, its recipes should fully comply with revisio=
-ns
-> > for git URIs. Enable the check for this layer only.
-> >
-> > Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
-> > ---
-> >  meta/conf/layer.conf | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> > index ba25ca3029..1f95867165 100644
-> > --- a/meta/conf/layer.conf
-> > +++ b/meta/conf/layer.conf
-> > @@ -19,6 +19,9 @@ BBLAYERS_LAYERINDEX_NAME_core =3D "openembedded-
-> > core"
-> >  # Set a variable to get to the top of the metadata location
-> >  COREBASE =3D '${@os.path.normpath("${LAYERDIR}/../")}'
-> >
-> > +# Raise an error if no revision is provided with a git URI
-> > +ERROR_QA:append:layer-core =3D " missing-srcrev"
-> > +
-> >  # opkg-utils is for update-alternatives :(
-> >  SIGGEN_EXCLUDERECIPES_ABISAFE +=3D " \
-> >    sysvinit-inittab \
-> > --
-> > 2.49.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#226265):
-> https://lists.openembedded.org/g/openembedded-core/message/226265
-> Mute This Topic: https://lists.openembedded.org/mt/116278978/4316185
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> yoann.congal@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+print-datetime-native provides script which prints defined PRINT_DATETIME variable.
 
---=20
-Yoann Congal
-Smile ECS
+print-datetime-link-native and print-datetime-link-cross both provide a symlink to
+the script from print-datetime-native.
 
---000000000000d621d406437f9f26
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+print-datetime-usenative and print-datetime-usecross are target recipes using the
+native and cross versions of print-datetime-link-* recipe.
 
-<div dir=3D"ltr"><div dir=3D"ltr">Le=C2=A0jeu. 13 nov. 2025 =C3=A0=C2=A020:=
-34, Peter Marko via <a href=3D"http://lists.openembedded.org">lists.openemb=
-edded.org</a> &lt;peter.marko=3D<a href=3D"mailto:siemens.com@lists.openemb=
-edded.org">siemens.com@lists.openembedded.org</a>&gt; a =C3=A9crit=C2=A0:</=
-div><div class=3D"gmail_quote gmail_quote_container"><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">Perhaps this could be a warning by default in i=
-nsane class and meta-poky could upgrade it via WARN_TO_ERROR_QA?<br></block=
-quote><div><br></div><div>Yes, but it would warn on the supported use case =
-of targeting the moving tip of a git branch.</div><div>It is wrong to do th=
-at in OE layers (oe-core to meta-oe) but it should be possible in downstrea=
-m user-layers.</div><div><br></div><div>If I remember correctly, when I tal=
-ked about this idea in a call (can&#39;t remember which one), the consensus=
-=C2=A0was to use &quot;layer-specific&quot; QA checks to enforce it on oe-c=
-ore (and most likely meta-openembedded) but not by default.</div><div>... b=
-ut it can be revisited.</div><div><br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">
-Peter<br>
-<br>
-&gt; -----Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
--<br>
-&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
-lists.openembedded.org</a>&gt; On Behalf Of Corentin Guillevic via<br>
-&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
-"_blank">lists.openembedded.org</a><br>
-&gt; Sent: Thursday, November 13, 2025 19:12<br>
-&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; Cc: Corentin Guillevic &lt;<a href=3D"mailto:corentin.guillevic@smile.=
-fr" target=3D"_blank">corentin.guillevic@smile.fr</a>&gt;<br>
-&gt; Subject: [OE-core] [PATCH 2/2] layer.conf: enable test for revision al=
-ongside a git<br>
-&gt; URI<br>
-&gt; <br>
-&gt; As meta is the main layer, its recipes should fully comply with revisi=
-ons<br>
-&gt; for git URIs. Enable the check for this layer only.<br>
-&gt; <br>
-&gt; Signed-off-by: Corentin Guillevic &lt;<a href=3D"mailto:corentin.guill=
-evic@smile.fr" target=3D"_blank">corentin.guillevic@smile.fr</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/conf/layer.conf | 3 +++<br>
-&gt;=C2=A0 1 file changed, 3 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf<br>
-&gt; index ba25ca3029..1f95867165 100644<br>
-&gt; --- a/meta/conf/layer.conf<br>
-&gt; +++ b/meta/conf/layer.conf<br>
-&gt; @@ -19,6 +19,9 @@ BBLAYERS_LAYERINDEX_NAME_core =3D &quot;openembedded=
--<br>
-&gt; core&quot;<br>
-&gt;=C2=A0 # Set a variable to get to the top of the metadata location<br>
-&gt;=C2=A0 COREBASE =3D &#39;${@os.path.normpath(&quot;${LAYERDIR}/../&quot=
-;)}&#39;<br>
-&gt; <br>
-&gt; +# Raise an error if no revision is provided with a git URI<br>
-&gt; +ERROR_QA:append:layer-core =3D &quot; missing-srcrev&quot;<br>
-&gt; +<br>
-&gt;=C2=A0 # opkg-utils is for update-alternatives :(<br>
-&gt;=C2=A0 SIGGEN_EXCLUDERECIPES_ABISAFE +=3D &quot; \<br>
-&gt;=C2=A0 =C2=A0 sysvinit-inittab \<br>
-&gt; --<br>
-&gt; 2.49.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#226265): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/226265" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/226265</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/116278978/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/116278978/4316185</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
-get=3D"_blank">yoann.congal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
+  # clean build all is rebuilt:
+  $ bitbake -k print-datetime-usenative print-datetime-usecross
+  WARNING: print-datetime-native-1.0-r0 do_install: print-datetime-native current DATETIME in script is 2025-11-13_20_05
+  WARNING: print-datetime-link-native-1.0-r0 do_install: print-datetime-link-native current DATETIME in symlink is 2025-11-13_20_05
+  WARNING: print-datetime-link-cross-x86_64-1.0-r0 do_install: print-datetime-link-cross-x86_64 current DATETIME in symlink is 2025-11-13_20_05
+  WARNING: print-datetime-usenative-1.0-r0 do_install: print-datetime-usenative current DATETIME from print-datetime-link is 2025-11-13_20_05
+  WARNING: print-datetime-usecross-1.0-r0 do_install: print-datetime-usecross current DATETIME from print-datetime-link is 2025-11-13_20_05
 
---000000000000d621d406437f9f26--
+  # keep sstate-cache and hashserv.db:
+  # print-datetime-usenative is correctly rebuilt, because print-datetime-link-native has different hash (because print-datetime-native hash changed)
+  # print-datetime-usecross wasn't rebuilt, because print-datetime-link-cross-x86_64 doesn't include the changed hash of print-datetime-native
+  $ bitbake -k print-datetime-usenative print-datetime-usecross
+  WARNING: print-datetime-native-1.0-r0 do_install: print-datetime-native current DATETIME in script is 2025-11-13_20_07
+  WARNING: print-datetime-link-native-1.0-r0 do_install: print-datetime-link-native current DATETIME in symlink is 2025-11-13_20_07
+  WARNING: print-datetime-link-cross-x86_64-1.0-r0 do_install: print-datetime-link-cross-x86_64 current DATETIME in symlink is 2025-11-13_20_07
+  WARNING: print-datetime-usenative-1.0-r0 do_install: print-datetime-usenative current DATETIME from print-datetime-link is 2025-11-13_20_07
+
+It's because print-datetime-link-cross-x86_64 depsig doesn't include print-datetime-native signature:
+
+$ cat tmp/work/x86_64-linux/print-datetime-link-cross-x86_64/1.0/temp/depsig.do_populate_sysroot
+OEOuthashBasic
+18
+SSTATE_PKGSPEC=sstate:print-datetime-link-cross-x86_64:x86_64-oe-linux:1.0:r0:x86_64:14:
+task=populate_sysroot
+drwx                                                                                       .
+drwx                                                                                       ./recipe-sysroot-native
+drwx                                                                                       ./recipe-sysroot-native/sysroot-providers
+-rw-                   32 19fbeb373f781c2504453c1ca04dab018a7bc8388c87f4bbc59589df31523d07 ./recipe-sysroot-native/sysroot-providers/print-datetime-link-cross-x86_64
+drwx                                                                                       ./recipe-sysroot-native/usr
+drwx                                                                                       ./recipe-sysroot-native/usr/bin
+drwx                                                                                       ./recipe-sysroot-native/usr/bin/x86_64-oe-linux
+lrwx                                                                                       ./recipe-sysroot-native/usr/bin/x86_64-oe-linux/print-datetime-link -> ../print-datetime
+
+While print-datetime-link-native doesn't have this issue, because print-datetime-native signature is there:
+
+$ cat tmp/work/x86_64-linux/print-datetime-link-native/1.0/temp/depsig.do_populate_sysroot
+OEOuthashBasic
+18
+print-datetime-native: 60f2734a63d708489570ca719413b4662f8368abc9f4760a279a0a5481e4a17b
+quilt-native: 65d78a7a5b5cbbf0969798efe558ca28e7ef058f4232fcff266912d16f67a8b8
+SSTATE_PKGSPEC=sstate:print-datetime-link-native:x86_64-linux:1.0:r0:x86_64:14:
+task=populate_sysroot
+drwx                                                                                       .
+drwx                                                                                       ./recipe-sysroot-native
+drwx                                                                                       ./recipe-sysroot-native/sysroot-providers
+-rw-                   26 3d5458be834b2d0e4c65466b9b877d6028ae2210a56399284a23144818666f10 ./recipe-sysroot-native/sysroot-providers/print-datetime-link-native
+drwx                                                                                       ./recipe-sysroot-native/usr
+drwx                                                                                       ./recipe-sysroot-native/usr/bin
+lrwx                                                                                       ./recipe-sysroot-native/usr/bin/print-datetime-link -> print-datetime
+
+With the cross.bbclass fix the link-cross recipe has a checksum from native recipe as well:
+
+$ cat tmp/work/x86_64-linux/print-datetime-link-cross-x86_64/1.0/temp/depsig.do_populate_sysroot
+OEOuthashBasic
+18
+print-datetime-native: 9ceb6c27342eae6b8da86c84685af38fb8927ccc19979aae75b8b1e444b11c5c
+quilt-native: 65d78a7a5b5cbbf0969798efe558ca28e7ef058f4232fcff266912d16f67a8b8
+SSTATE_PKGSPEC=sstate:print-datetime-link-cross-x86_64:x86_64-oe-linux:1.0:r0:x86_64:14:
+task=populate_sysroot
+drwx                                                                                       .
+drwx                                                                                       ./recipe-sysroot-native
+drwx                                                                                       ./recipe-sysroot-native/sysroot-providers
+-rw-                   32 19fbeb373f781c2504453c1ca04dab018a7bc8388c87f4bbc59589df31523d07 ./recipe-sysroot-native/sysroot-providers/print-datetime-link-cross-x86_64
+drwx                                                                                       ./recipe-sysroot-native/usr
+drwx                                                                                       ./recipe-sysroot-native/usr/bin
+drwx                                                                                       ./recipe-sysroot-native/usr/bin/x86_64-oe-linux
+lrwx                                                                                       ./recipe-sysroot-native/usr/bin/x86_64-oe-linux/print-datetime-link -> ../print-datetime
+
+And print-datetime-usecross is correctly rebuilt whenever print-datetime-native output is different.
+
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ meta/classes-recipe/cross.bbclass | 36 +++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/meta/classes-recipe/cross.bbclass b/meta/classes-recipe/cross.bbclass
+index 9abf166e50..c3eeade67b 100644
+--- a/meta/classes-recipe/cross.bbclass
++++ b/meta/classes-recipe/cross.bbclass
+@@ -101,3 +101,39 @@ addtask addto_recipe_sysroot after do_populate_sysroot
+ do_addto_recipe_sysroot[deptask] = "do_populate_sysroot"
+ 
+ PATH:prepend = "${COREBASE}/scripts/cross-intercept:"
++
++#
++# Cross task outputs can call native dependencies and even when cross
++# recipe output doesn't change it might produce different results when
++# the called native dependency is changed, e.g. clang-cross-${TARGET_ARCH}
++# contains symlink to clang binary from clang-native, but when clang-native
++# outhash is changed, clang-cross-${TARGET_ARCH} will still be considered
++# equivalent and target recipes aren't rebuilt with new clang binary, see
++# work around in https://github.com/kraj/meta-clang/pull/1140 to make target
++# recipes to depend directly not only on clang-cross-${TARGET_ARCH} but
++# clang-native as well.
++#
++# This can cause poor interactions with hash equivalence, since this recipes
++# output-changing dependency is "hidden" and downstream task only see that this
++# recipe has the same outhash and therefore is equivalent. This can result in
++# different output in different cases.
++#
++# To resolve this, unhide the output-changing dependency by adding its unihash
++# to this tasks outhash calculation. Unfortunately, don't know specifically
++# know which dependencies are output-changing, so we have to add all of them.
++#
++python cross_add_do_populate_sysroot_deps () {
++    current_task = "do_" + d.getVar("BB_CURRENTTASK")
++    if current_task != "do_populate_sysroot":
++        return
++
++    taskdepdata = d.getVar("BB_TASKDEPDATA", False)
++    pn = d.getVar("PN")
++    deps = {
++        dep[0]:dep[6] for dep in taskdepdata.values() if
++            dep[1] == current_task and dep[0] != pn
++    }
++
++    d.setVar("HASHEQUIV_EXTRA_SIGDATA", "\n".join("%s: %s" % (k, deps[k]) for k in sorted(deps.keys())))
++}
++SSTATECREATEFUNCS += "cross_add_do_populate_sysroot_deps"
 
