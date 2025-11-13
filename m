@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DB5DCD98F6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 273C8CD98FA
 	for <webhook@archiver.kernel.org>; Thu, 13 Nov 2025 21:47:54 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4355.1763070470574872151
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4356.1763070472106120162
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Nov 2025 13:47:50 -0800
+ Thu, 13 Nov 2025 13:47:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qtL5B+61;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-298250d7769so8254085ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 13:47:50 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=c2Xg1goH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-297ef378069so12447475ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 13:47:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763070470; x=1763675270; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763070471; x=1763675271; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3YtNj0wBV9cDniDp/zQHOciuQWtxkp3gLFmekfoT30U=;
-        b=qtL5B+61YlDzFA3mvxGIH9s91rq6MsSoQgdOPSxUpRkqOTD0lDrmvQz6scIX2Z3+EC
-         iiyeFNR4k4bvzP3JnlfHRUlFuVNg5x0aKj+U+k3K0/tp3giRi3UHBSpIz1jPqYe48Hdm
-         we/e4InoYgZV0SgY3Ipw7LrBAovpLBdGftHnzaDxN+2k0PY6j1JHSnkFbaPKordj8E+u
-         JyW9QhXhChX8CvZIABSQNbGB9TdMjGTcD/XJeMlbDqGCHRhuyJjHII9SrMam+Gj18f+8
-         SYEr3ko0UbcNfphQpsyxpVpKgJxj1mrRXA0aDUfgLU0GmlSnbmG1xf0x/DHvr9FnxC+I
-         glmg==
+        bh=A2nbZF6O84rpgmwBMajw97MJQNOVnxUvse5Kt2ml0Ww=;
+        b=c2Xg1goHhBVBT9PPFb6Z3WfY3XS3copXcyOCHlj9B1MB0Ia8jgzWdhjyoM6h1a8ts1
+         fVAA9gGaW23mtfS3maX8KkUtPmlVCPsTGUnQFHxH5lQ+jIQbFG0LY2aXThA0A2fkwzrX
+         6oFT4M85q/pstk6k2zdBK1Xu/X0Fwx7XGNOOTFdqNLtCAdS1Idk75AQRoae3PGChw13k
+         g8BzS9gXbqUdJozuKniEk1WwIBx5muXdVgO8NsfPJFnts5r2Z5tTMFhzOYb4Rv5+x2LC
+         iLap/lkYqj81xzuVN7PwFVzZbbEgDmLHKrlUkre+dHZRc1EgtmvPlWXpMMR1r7JPgRzu
+         BcLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763070470; x=1763675270;
+        d=1e100.net; s=20230601; t=1763070471; x=1763675271;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=3YtNj0wBV9cDniDp/zQHOciuQWtxkp3gLFmekfoT30U=;
-        b=Fg9IEjagxXW3ucYfC+1bJOei/kcyBsL/I3D/sDJBg/wYSvABgdlKsAhzBrmWShclEI
-         JizOrRCClOdFEUfsM4GiPy0ne46kUxdD7axkQIjo4xYe/aJQHtfloWyPYrX92zuqSn2d
-         eKDnFSROKDlhHTdUrWFt1E0L0NFaYLIUg6EVp/SBMLvEFA1UODxmt9KGIrNUyQbeRH+D
-         zQL4YD21ua74Q9iZ4dkG0ViTVdLb1mE6lZLIUwq4jqf2cz43vzpMquaLLhfhFxKoNMPv
-         bYHZjt5X6X10V8feYjFVYecynLlDiagDYcw0Etj2JXff8ZTb8Wu9O8J6bbEjVnGuHlrF
-         uyzw==
-X-Gm-Message-State: AOJu0Yymk1PfBOaDWBgC75fgaXQZlUbs5OD1CqdkeK4SkNb4QlygP0Gn
-	PqDjsi0ljY/oKGphY++GlJd0n0thew0331HHete5yDv/Gmy1pW2bBxug41gWMFe85238d9X5HBt
-	uUnWk
-X-Gm-Gg: ASbGncuHUmkp0bu2fApNaf/R22kk3o5lqujGlLyzP+lfQu7iYiuiAm95D/W15QdZznK
-	aUjqey/Cruw0p/ROV6uK6dRtYAGtsmVrTX711zhWbA6QBX6VMtbDdb3CK9N+Gp46Z3zsXm4xfru
-	tt33u4cP9NjGQJfh9VFU0wEINNIR6ICPXPxgMnDXHZT7JPWj1AlmjVArfWe68L58mjVgHwZztzH
-	nF2Qq3Wry7qoB57rHAcTzOD2lpvWa0mU2qvmGg5mxwwX3U0HGDtiPlmbuvJiwNKe73D1FuPf/Wy
-	OxDj8HCmv/K2QDlffCP/4RNKvkPk0g2VTKbLc0DG5gFAWpVLixtWmJZk1FJpjQRa2BS5W56cx51
-	8vzCVd43AvXjYx5kwNAeaAOxUa8F2iGEO36u0lbwzJJ7fE77jOTyE5rlzMZDJivEdTA==
-X-Google-Smtp-Source: AGHT+IG+ks4N7BHEIlFsQtOLMqlsA+4lkrMQQ5b1SEKk3NYTFJx6klpiDljtvgupPZ+0oC79BeytCA==
-X-Received: by 2002:a17:903:1a26:b0:298:250b:19eb with SMTP id d9443c01a7336-2986a755e6cmr4239495ad.60.1763070469860;
-        Thu, 13 Nov 2025 13:47:49 -0800 (PST)
+        bh=A2nbZF6O84rpgmwBMajw97MJQNOVnxUvse5Kt2ml0Ww=;
+        b=YRZEds6OHBrAd22V8U3YIQtBvuced/Xqwatz1RJ4SSDmRXXgl2ye7F+a7224dZTDO9
+         YznlvIVgM9TNBMBmjMfL8WLmtZ2Ang78BmQ+DOX2dNvmFOubJLEBiT5J8q/eItzdSCZN
+         SiIjJ5PvM6nkVopU8MNz01ztuLztZVK7GWkDU+T4NucahZgjkHgvuNtkdAQfFz1Em3aY
+         4KaR9Xa7yO9o1ffEtfQhxNYJ3pibD3tcvGO/6RY+qZdeH/VIBy3bYLqh00yIF5thDhYj
+         wLY7h/8tGVSxjnkFA4Oa1q8JxAtaJ9LPP7aRRomiZ22YgBtrz+Qj3fuC/0lPnplNCCyy
+         oGyg==
+X-Gm-Message-State: AOJu0YyuMcbUy4QCamnVlwo03QG7cB5qoYfQNEzsSKY09m4Uzxb8Thpj
+	W//wDGXEXSGd1pH1wBN6InBCoVKyTseQHW4TVV9x6vI/KQA8Ssht94UWoUg/nP3HrmwGqjkSvKC
+	9fWpK
+X-Gm-Gg: ASbGncu7epLWfMXXjlNxrZcxSVMnROe/gUpQ7I6fWf/5rpE6TJuQfFpmSZrJ9vGvBYt
+	HJ37NH+MA3y24qYGkjgEbkVm0cWaVx0TN9BEmV90mZWoq7p35Ih4uUt5Q8EM6+j0m8pdkvw5WO6
+	Xler7mR8fbWdPwDfTvA51CisOGx6WZQOSueQUYNeVF1uibNCPHcoVcfqNGU7wkEdqc9W7k4ZuU1
+	V+gKsZSUetFFRdKTw2pUHJRhxGBfG5i+ibZiNf+mjbeObnGWCdfGMCsMboXuLwjhZwqVQvQvvvV
+	Z5WCP04v7VQmLTKyjuUThcAqBMPHiAMeBeH52N+d9N7wa2fGyyUBybAsFMqf0Qb6MsdseprFXim
+	6SJcINvbJXNkB3ZV7Oi8AnF3ARCI/BLnlFKjv1SvSimtMXu52Os++iWn0gP1NOxHPig==
+X-Google-Smtp-Source: AGHT+IFyrJFvU23sMqEfMBsYoht1WJ20tPgu483hIomrAVjlyXqdOso2UXxVu56QE4sHUhT4IWGyOQ==
+X-Received: by 2002:a17:902:d486:b0:297:df4e:fdd2 with SMTP id d9443c01a7336-2986a6b77b4mr4057675ad.9.1763070471451;
+        Thu, 13 Nov 2025 13:47:51 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:70b:f91f:acd9:f6d9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2b0d68sm34639815ad.61.2025.11.13.13.47.49
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2b0d68sm34639815ad.61.2025.11.13.13.47.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Nov 2025 13:47:49 -0800 (PST)
+        Thu, 13 Nov 2025 13:47:51 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 09/10] babeltrace2: fetch with https protocol
-Date: Thu, 13 Nov 2025 13:47:28 -0800
-Message-ID: <4351a427b2ec270ea5e4c698fe4c213036c1241b.1763070333.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/10] goarch.bbclass: do not leak TUNE_FEATURES into crosssdk task signatures
+Date: Thu, 13 Nov 2025 13:47:29 -0800
+Message-ID: <8aad87c12a809d790175b9848f5802d0a28eecac.1763070333.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1763070333.git.steve@sakoman.com>
 References: <cover.1763070333.git.steve@sakoman.com>
@@ -68,31 +68,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 21:47:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226281
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226282
 
-From: Gyorgy Sarvari <skandigraun@gmail.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-The source doesn't support the default "git" protocol anymore for
-anonymous download, causing fetching failures.
+The default assignments look like this:
+TARGET_GO386 = "${@go_map_386(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+TUNE_FEATURES is a target-specific variable, and so should be used
+only for target builds. The change is similar to what is already done
+for native packages.
+
+(From OE-Core rev: cfff8e968257c44880caa3605e158764ed5c6a2a)
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/goarch.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb
-index 7ece3140f7..8fa0f9f20d 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.5.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=a6a458c13f18385b7bc5069a6d7b176e"
+diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+index 394c0c5d84..5996bf1805 100644
+--- a/meta/classes/goarch.bbclass
++++ b/meta/classes/goarch.bbclass
+@@ -18,6 +18,9 @@ TARGET_GOMIPS = "${@go_map_mips(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES
+ TARGET_GOARM:class-native = "7"
+ TARGET_GO386:class-native = "sse2"
+ TARGET_GOMIPS:class-native = "hardfloat"
++TARGET_GOARM:class-crosssdk = "7"
++TARGET_GO386:class-crosssdk = "sse2"
++TARGET_GOMIPS:class-crosssdk = "hardfloat"
+ TARGET_GOTUPLE = "${TARGET_GOOS}_${TARGET_GOARCH}"
+ GO_BUILD_BINDIR = "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GOTUPLE') == d.getVar('HOST_GOTUPLE')]}"
  
- DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
- 
--SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.0 \
-+SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.0;protocol=https \
-            file://run-ptest \
-            file://0001-tests-do-not-run-test-applications-from-.libs.patch \
-            file://0001-Make-manpages-multilib-identical.patch \
 -- 
 2.43.0
 
