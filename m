@@ -1,134 +1,102 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4577CD98E4
-	for <webhook@archiver.kernel.org>; Thu, 13 Nov 2025 21:18:23 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3708.1763068699296867625
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA9D8CD98E3
+	for <webhook@archiver.kernel.org>; Thu, 13 Nov 2025 21:40:53 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.901.1763058276647856646
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Nov 2025 13:18:20 -0800
+ Thu, 13 Nov 2025 10:24:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=eQKg+Xuk;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20251113211814a076e2f9e500020719-azsh5f@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20251113211814a076e2f9e500020719
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 13 Nov 2025 22:18:15 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=2QO2gqwv8NNVkUp60rxdbBeT/8LTiAMleGVfF6VV0PM=;
- b=eQKg+XukMFZmyJOnk2LNUKWRVCUy/fVAJxS5x96yHlY4ON8/pxd2l+VDf1qlSXuZv6KqoB
- XfPOlPurSFup2GfUZeqOK5aDKPMK1ZP8iFWP1HTH/aTVblffZqUHTJe4L4kwh6dw4wzoFnD2
- rTWIHGPCeT+1XF2QIDDpL72rZtirVrIHYp0O6smTs+BWqUDDbaZi9tHlWanVfj3QD4kjfb1s
- AqB6qgy0EE1Qa+l6z944cazNbnj8QM6vXB1do86pHP/bbZMPbE3zL2kk8lWATHlJDMWwBWS0
- 6t187iTVozycg/qgbEZYNa4bMCU8rFpiuRm1uY7uscEXPtpi+2EEDYow==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cFUTzeOf;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: stondo@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b73161849e1so190438366b.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 10:24:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763058275; x=1763663075; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WCeUlkz7nECEUAyvteZKSfT+gbzcIh6IhXTR+HZXs6E=;
+        b=cFUTzeOfxwsWIU7hvZCRGCAB4zp3CbHNOvgcr7n2A5Q/xlnNK+hYKOVMYAK/p7/8eq
+         B0J+TCTCZRykW6RMTiSIQGPg1SOS4vmOfgZle9VqQDlnIl1eOh6zjbiUQrFVXOhuNAZx
+         mXURh/28jU1etwWYMQjZsC8opAYXy4u9PFvsxaLq0GWbQGpQXoCAhDZpg2VPn7Ctcrfq
+         EMarwqtu3aqDLJ7YGyoXPnGqJsjlyMLwDyDsK916ZOYcH+74V1qOPocHog2VOAadZpg6
+         swzJQckvL29u3qhOSBghTBD9vF7cjAAs5gtnIqNBuJWlW8NQdFg0boSD4jkw/tiMp6p4
+         O/dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763058275; x=1763663075;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WCeUlkz7nECEUAyvteZKSfT+gbzcIh6IhXTR+HZXs6E=;
+        b=wDOg8i7r4WESrH7dLRdsWFcZsH6BeCBB/AwfC9FaIuYnxXIoFjEdHV1BkK/BQhVbFn
+         jQdGEZqjBpYpjVlWDOzxg1mMb5j/6zaNcSJXDrMASesMIvwKKjFTZ8d+7Y77N+BEffJg
+         K/ZC6WBs5dKGh8dHbMe85iS4l9EyscixFW6ZbKTebh0GYo9jSw1L978SedS27tieliCo
+         ZltHXTSdzUOql3XNGzqnKA7ecSZLPleWTpkXQd77c4i6InL9ZpkD/Ja7EDNayZi9SLju
+         VobaC0PPvK/9zLtjMMX6VnT6BrbeDPLB0/pLyTcxRLpV3fS7593F8ect56SLPahFuanZ
+         AT8Q==
+X-Gm-Message-State: AOJu0YwKFrAiUInRjATQNJh4GiyEmgLfb4MdWMIxC1JMG8ps5bipQEFK
+	udWWwG9HBl3ybitcRBB45YRg+PqHggDTJ7YMURTCExXkkqcPJLHWUXXaXzJEdQ==
+X-Gm-Gg: ASbGncsdOXbaIUk2aiN7Aa5lWN156kN0fKNdmYJgEG3NlRopuqriUffzvqf1n/w1sDK
+	4FXoQDsGmMpo5VfPNsCOBCREeDh9E8gNp3EFgUcan1D56DnCENq5rWYO52XNUZ4dNhZ2nLZNr0x
+	H9GY9F2n4FQ/q0l6civynX03Pr3ZPibPpTWEQV76SianFIEeeVZNCqOlPZJkar9PW+LOd1AsxrM
+	nrA1P0a8Pa01FAa11d9c7YhnuKyOAtSH9OAHgjQWyXmykvH8c0uAHGLFyp7256C1zK1cVvYnP6j
+	Gx0FfywNKEDAl3J96RaLq6ogdWXuG8ZiLEkTxxyATI9Ic3c2KRKkzar8eeD7uW6DGNH8ut5gpST
+	hkymAqFSWaKpXeuA4PomDGKX7+htRfllHKf6XVgFKr2KMYQ6Dvxio1MlBMS8iAGNZxQoJxGiP+b
+	WRaOcOpMp7LKgrFRzGx1JT/0A=
+X-Google-Smtp-Source: AGHT+IE9o7HmOf5ObC/9W+95raGS8ohsqe3ORaS2TYoCUxKKUlMGeQaie8UScWBpVlTa9OdCKWaEtg==
+X-Received: by 2002:a17:906:478c:b0:b72:1ced:f213 with SMTP id a640c23a62f3a-b73678f4e72mr21156466b.37.1763057912770;
+        Thu, 13 Nov 2025 10:18:32 -0800 (PST)
+Received: from fedora ([81.6.40.67])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-b7359bfb238sm118784966b.14.2025.11.13.10.18.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Nov 2025 10:18:32 -0800 (PST)
+From: Stefano Tondo <stondo@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] go: upgrade 1.25.3 -> 1.25.4
-Date: Thu, 13 Nov 2025 22:18:09 +0100
-Message-Id: <20251113211809.327632-1-peter.marko@siemens.com>
+Cc: Stefano Tondo <stefano.tondo.ext@siemens.com>,
+	peter.marko@siemens.com,
+	adrian.freihofer@siemens.com
+Subject: [OE-core 0/2] SPDX 3.0.1 documentation and bugfix
+Date: Thu, 13 Nov 2025 19:18:21 +0100
+Message-ID: <20251113181828.508075-1-stondo@gmail.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 21:18:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226268
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 21:40:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226269
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-Upgrade to latest 1.25.x release [1]:
+This series adds documentation for undocumented SPDX variables and
+fixes a critical bug in the custom annotations feature.
 
-$ git --no-pager log --oneline go1.25.3..go1.25.4
-f2cd93aa05 (tag: go1.25.4) [release-branch.go1.25] go1.25.4
-83885f3c22 [release-branch.go1.25] encoding/pem: properly calculate end indexes
-5ba37a3677 [release-branch.go1.25] cmd/compile: don't optimize away a panicing interface comparison
-8097b1915f [release-branch.go1.25] os: support deleting read-only files in RemoveAll on older Windows versions
-4942c74d04 [release-branch.go1.25] Revert "crypto/internal/fips140/subtle: add assembly implementation of xorBytes for mips64x"
-cd21a7b31b [release-branch.go1.25] Revert "crypto/internal/fips140/subtle: add assembly implementation of xorBytes for mipsx"
-bf95b76739 [release-branch.go1.25] runtime: use one more address bit for tagged pointers
-bbb7627123 [release-branch.go1.25] cmd/compile: prevent shapifying of pointer shape type
-7e049e5c31 [release-branch.go1.25] encoding/pem: properly decode strange PEM data
-f6db7350e1 [release-branch.go1.25] net/url: allow IP-literals with IPv4-mapped IPv6 addresses
+Patch 1/2: Fixes NameError in SPDX_CUSTOM_ANNOTATION_VARS feature by
+           correcting method call syntax. Adds regression test to prevent
+           future occurrences.
 
-Release information: [2]
+Patch 2/2: Adds [doc] strings for 8 SPDX variables in spdx-common.bbclass.
+           Makes variables discoverable via bitbake-getvar and IDE completion.
 
-[1] https://github.com/golang/go/compare/go1.25.3...go1.25.4
-[2] https://groups.google.com/g/golang-announce/c/tVVHm9gnwl8
+Note: A companion patch for yocto-docs will add three of these variables
+to the reference manual (SPDX_UUID_NAMESPACE, SPDX_LICENSES, and
+SPDX_MULTILIB_SSTATE_ARCHS).
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-devtools/go/{go-1.25.3.inc => go-1.25.4.inc}   | 2 +-
- ...o-binary-native_1.25.3.bb => go-binary-native_1.25.4.bb} | 6 +++---
- ...cross-canadian_1.25.3.bb => go-cross-canadian_1.25.4.bb} | 0
- .../go/{go-cross_1.25.3.bb => go-cross_1.25.4.bb}           | 0
- .../go/{go-crosssdk_1.25.3.bb => go-crosssdk_1.25.4.bb}     | 0
- .../go/{go-runtime_1.25.3.bb => go-runtime_1.25.4.bb}       | 0
- meta/recipes-devtools/go/{go_1.25.3.bb => go_1.25.4.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.25.3.inc => go-1.25.4.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.25.3.bb => go-binary-native_1.25.4.bb} (79%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.25.3.bb => go-cross-canadian_1.25.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.25.3.bb => go-cross_1.25.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.25.3.bb => go-crosssdk_1.25.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.25.3.bb => go-runtime_1.25.4.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.25.3.bb => go_1.25.4.bb} (100%)
+Both patches have been tested with core-image-minimal builds.
 
-diff --git a/meta/recipes-devtools/go/go-1.25.3.inc b/meta/recipes-devtools/go/go-1.25.4.inc
-similarity index 91%
-rename from meta/recipes-devtools/go/go-1.25.3.inc
-rename to meta/recipes-devtools/go/go-1.25.4.inc
-index c29f4d6ece..f88d7feef1 100644
---- a/meta/recipes-devtools/go/go-1.25.3.inc
-+++ b/meta/recipes-devtools/go/go-1.25.4.inc
-@@ -18,4 +18,4 @@ SRC_URI += "\
-     file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch \
-     file://0001-runtime-when-using-cgo-on-386-call-C-sigaction-funct.patch \
- "
--SRC_URI[main.sha256sum] = "a81a4ba593d0015e10c51e267de3ff07c7ac914dfca037d9517d029517097795"
-+SRC_URI[main.sha256sum] = "160043b7f17b6d60b50369436917fda8d5034640ba39ae2431c6b95a889cc98c"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.25.3.bb b/meta/recipes-devtools/go/go-binary-native_1.25.4.bb
-similarity index 79%
-rename from meta/recipes-devtools/go/go-binary-native_1.25.3.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.25.4.bb
-index b1d9522cb6..921005c21b 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.25.3.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.25.4.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "0335f314b6e7bfe08c3d0cfaa7c19db961b7b99fb20be62b0a826c992ad14e0f"
--SRC_URI[go_linux_arm64.sha256sum] = "1d42ebc84999b5e2069f5e31b67d6fc5d67308adad3e178d5a2ee2c9ff2001f5"
--SRC_URI[go_linux_ppc64le.sha256sum] = "68d1a08bf3567f330717d821b266a0be1c5080bd05dc238b5a43a24ca0c47d7c"
-+SRC_URI[go_linux_amd64.sha256sum] = "9fa5ffeda4170de60f67f3aa0f824e426421ba724c21e133c1e35d6159ca1bec"
-+SRC_URI[go_linux_arm64.sha256sum] = "a68e86d4b72c2c2fecf7dfed667680b6c2a071221bbdb6913cf83ce3f80d9ff0"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "38c8ac8463537c99fbc1ef368f243b626144446c09db71b1d20634a4237c966d"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.25.3.bb b/meta/recipes-devtools/go/go-cross-canadian_1.25.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.25.3.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.25.4.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.25.3.bb b/meta/recipes-devtools/go/go-cross_1.25.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.25.3.bb
-rename to meta/recipes-devtools/go/go-cross_1.25.4.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.25.3.bb b/meta/recipes-devtools/go/go-crosssdk_1.25.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.25.3.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.25.4.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.25.3.bb b/meta/recipes-devtools/go/go-runtime_1.25.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.25.3.bb
-rename to meta/recipes-devtools/go/go-runtime_1.25.4.bb
-diff --git a/meta/recipes-devtools/go/go_1.25.3.bb b/meta/recipes-devtools/go/go_1.25.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.25.3.bb
-rename to meta/recipes-devtools/go/go_1.25.4.bb
+Stefano Tondo (2):
+  spdx30_tasks: Fix SPDX_CUSTOM_ANNOTATION_VARS implementation
+  spdx-common: Add documentation for undocumented SPDX variables
+
+ meta/classes/spdx-common.bbclass     | 26 ++++++++++
+ meta/lib/oe/spdx30_tasks.py          |  4 +-
+ meta/lib/oeqa/selftest/cases/spdx.py | 74 ++++++++++++++++++++++++++++
+ 3 files changed, 101 insertions(+), 3 deletions(-)
+
+-- 
+2.51.1
+
 
