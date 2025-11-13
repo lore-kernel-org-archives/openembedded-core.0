@@ -2,36 +2,36 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4F6ACD6E4B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4FB7CD6E4C
 	for <webhook@archiver.kernel.org>; Thu, 13 Nov 2025 12:28:57 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22645.1763036933973304228
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22641.1763036928834897013
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Nov 2025 04:28:54 -0800
+ Thu, 13 Nov 2025 04:28:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=M2HejYNk;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-2025111312285248eee5657f00020786-uypzla@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 2025111312285248eee5657f00020786
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=IivVGTY7;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2025111312284656fdb2b3890002077e-mb2xjb@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2025111312284656fdb2b3890002077e
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 13 Nov 2025 13:28:52 +0100
+        Thu, 13 Nov 2025 13:28:46 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=Tutj8kNsm4UAU6wcLLr2NOTVsRx8V2V9eOP8qWXYm1I=;
- b=M2HejYNkFUxk7AjPFMiq3hwMNByvuPEpdhfx8U4VWixGDQkP7yQz7SBtBS74lFhKTM+PCf
- Uu2Qo7zIU0cjeORCcd5dqyVjU8/VIjWv8Z5eMHhzxhUPRw1gIeaD5YDNgi/L+K5iRYV8appp
- C+i/7PFh2XsBgB0KIdcLPR3NBiid6IuTEVc1nut9fQpAADvefS0VYd0HkKYdtWSc6z7SXHgP
- cThQM40sAIfQzbIZcan2eVpMQnB/cw8YK5/hljVDWSVoKYrr/U49nHC3Qv+kSWX7opvkbFf2
- xD1WDXneQcXfpu5o2Dwa/i5V6YiLH2k8egd9y9v09YQK1KqYdFXiLJAg==;
+ bh=S2ZJvUyhQHoksFcVhuBdPaxPux1n1/R68vQ3WRUOfuw=;
+ b=IivVGTY7zcf9t4zY+8gQXYxHVK9nidtsMVW15cn9VTl+tuWOKlzERiB+6IWtaPy0cWWmQS
+ frFCVJc1VVebA3r/TBoK3NatU0HgSFiTZPIF6myxpHEWWB10XMIy6Hb6FGjzm8OATl1Nkxqf
+ Zivr/BmcCBtyVp5DQWlaKaHCjtS+w291LgppYx28O+b70kSwHUPYBtb514ju0Y8FiG17cX1C
+ bRLoV9zWVgn5ew+AmhDqIghK5SdH0I8n0Ts+sc4q0tFhkV1PTq7IdTaTLdWGFvTToi3whxRD
+ qbm47VjhrwmcE7qohQdgnO5rwmHxkSKmCZdwF93GmWjidLaR/hHsKsjw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Osama Abdelkader <osama.abdelkader@gmail.com>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH 7/9] go: remove duplicate arch map in sdk test
-Date: Thu, 13 Nov 2025 13:28:04 +0100
-Message-Id: <20251113122806.16769-8-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH 6/9] go: extend runtime test
+Date: Thu, 13 Nov 2025 13:28:03 +0100
+Message-Id: <20251113122806.16769-7-peter.marko@siemens.com>
 In-Reply-To: <20251113122806.16769-1-peter.marko@siemens.com>
 References: <20251113122806.16769-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -42,86 +42,120 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 12:28:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226245
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226244
 
 From: Osama Abdelkader <osama.abdelkader@gmail.com>
 
-ARCH_MAP is duplicating an existing map in meta/lib/oe/go.py
-use oe.go map_arch instead.
+extend go runtime test with a simple test file, and simple
+go module test to validate go compilation and execution on
+target.
 
-(From OE-Core rev: c2ba36f41777d347fd5ffcd9b6862638e5f35a1b)
+(From OE-Core rev: e3b2b9170f76f4bbdc41ea6ba7bccffc17d01968)
 
 Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/lib/oeqa/sdk/cases/go.py | 31 +++++--------------------------
- 1 file changed, 5 insertions(+), 26 deletions(-)
+ meta/lib/oeqa/files/test.go       |  7 ++++
+ meta/lib/oeqa/runtime/cases/go.py | 68 +++++++++++++++++++++++++++++++
+ 2 files changed, 75 insertions(+)
+ create mode 100644 meta/lib/oeqa/files/test.go
 
-diff --git a/meta/lib/oeqa/sdk/cases/go.py b/meta/lib/oeqa/sdk/cases/go.py
-index 9c15124f6ad..a050df7a9fa 100644
---- a/meta/lib/oeqa/sdk/cases/go.py
-+++ b/meta/lib/oeqa/sdk/cases/go.py
-@@ -12,6 +12,7 @@ from oeqa.core.utils.path import remove_safe
- from oeqa.sdk.case import OESDKTestCase
+diff --git a/meta/lib/oeqa/files/test.go b/meta/lib/oeqa/files/test.go
+new file mode 100644
+index 00000000000..9ca93026546
+--- /dev/null
++++ b/meta/lib/oeqa/files/test.go
+@@ -0,0 +1,7 @@
++package main
++
++import "fmt"
++
++func main() {
++	fmt.Println("Hello from Go!")
++}
+diff --git a/meta/lib/oeqa/runtime/cases/go.py b/meta/lib/oeqa/runtime/cases/go.py
+index 39a80f4dcae..fc7959b5f4b 100644
+--- a/meta/lib/oeqa/runtime/cases/go.py
++++ b/meta/lib/oeqa/runtime/cases/go.py
+@@ -4,10 +4,78 @@
+ # SPDX-License-Identifier: MIT
+ #
  
- from oeqa.utils.subprocesstweak import errors_have_output
-+from oe.go import map_arch
- errors_have_output()
++import os
+ from oeqa.runtime.case import OERuntimeTestCase
+ from oeqa.core.decorator.depends import OETestDepends
+ from oeqa.runtime.decorator.package import OEHasPackage
  
- class GoCompileTest(OESDKTestCase):
-@@ -55,22 +56,6 @@ class GoCompileTest(OESDKTestCase):
- class GoHostCompileTest(OESDKTestCase):
-     td_vars = ['MACHINE', 'SDK_SYS', 'TARGET_ARCH']
- 
--    # Architecture mapping from Yocto/Poky to Go
--    ARCH_MAP = {
--        'aarch64': 'arm64',
--        'cortexa57': 'arm64',  # ARM Cortex-A57 is ARM64
--        'cortexa72': 'arm64',  # ARM Cortex-A72 is ARM64
--        'cortexa53': 'arm64',  # ARM Cortex-A53 is ARM64
--        'x86_64': 'amd64',
--        'i586': '386',
--        'i686': '386',
--        'mips': 'mips',
--        'mipsel': 'mipsle',
--        'powerpc64': 'ppc64',
--        'powerpc64le': 'ppc64le',
--        'riscv64': 'riscv64',
--    }
--
-     @classmethod
-     def setUpClass(self):
-         # Copy test.go file to SDK directory (same as GCC test uses files_dir)
-@@ -94,12 +79,8 @@ class GoHostCompileTest(OESDKTestCase):
-         sdksys = self.td.get("SDK_SYS")
-         arch = sdksys.split('-')[0]
- 
--        # Handle ARM variants
--        if arch.startswith('arm'):
--            return 'arm'
--
-         # Use mapping for other architectures
--        return self.ARCH_MAP.get(arch, arch)
-+        return map_arch(arch)
- 
-     def test_go_cross_compile(self):
-         """Test Go cross-compilation for target"""
-@@ -117,12 +98,10 @@ class GoHostCompileTest(OESDKTestCase):
-         # Clean up files with dynamic architecture names
-         files = [os.path.join(self.tc.sdk_dir, f) \
-                 for f in ['test.go', 'go.mod', 'go.sum']]
--        # Add architecture-specific files using the same mapping
--        for arch in self.ARCH_MAP.values():
-+        # Add common architecture-specific files that might be created
-+        common_archs = ['arm64', 'arm', 'amd64', '386', 'mips', 'mipsle', 'ppc64', 'ppc64le', 'riscv64']
-+        for arch in common_archs:
-             files.extend([os.path.join(self.tc.sdk_dir, f) \
-                          for f in ['test-%s' % arch, 'hello-go-%s' % arch]])
--        # Add 'arm' for ARM variants
--        files.extend([os.path.join(self.tc.sdk_dir, f) \
--                     for f in ['test-arm', 'hello-go-arm']])
-         for f in files:
-             remove_safe(f)
++class GoCompileTest(OERuntimeTestCase):
++
++    @classmethod
++    def setUp(cls):
++        dst = '/tmp/'
++        src = os.path.join(cls.tc.files_dir, 'test.go')
++        cls.tc.target.copyTo(src, dst)
++
++    @classmethod
++    def tearDown(cls):
++        files = '/tmp/test.go /tmp/test'
++        cls.tc.target.run('rm %s' % files)
++        dirs = '/tmp/hello-go'
++        cls.tc.target.run('rm -r %s' % dirs)
++
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    @OEHasPackage('go')
++    @OEHasPackage('go-runtime')
++    @OEHasPackage('go-runtime-dev')
++    @OEHasPackage('openssh-scp')
++    def test_go_compile(self):
++        # Check if go is available
++        status, output = self.target.run('which go')
++        if status != 0:
++            self.skipTest('go command not found, output: %s' % output)
++
++        # Compile the simple Go program
++        status, output = self.target.run('go build -o /tmp/test /tmp/test.go')
++        msg = 'go compile failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++        # Run the compiled program
++        status, output = self.target.run('/tmp/test')
++        msg = 'running compiled file failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    @OEHasPackage('go')
++    @OEHasPackage('go-runtime')
++    @OEHasPackage('go-runtime-dev')
++    @OEHasPackage('openssh-scp')
++    def test_go_module(self):
++        # Check if go is available
++        status, output = self.target.run('which go')
++        if status != 0:
++            self.skipTest('go command not found, output: %s' % output)
++
++        # Create a simple Go module
++        status, output = self.target.run('mkdir -p /tmp/hello-go')
++        msg = 'mkdir failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++        # Copy the existing test.go file to the module
++        status, output = self.target.run('cp /tmp/test.go /tmp/hello-go/main.go')
++        msg = 'copying test.go failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++        # Build the module
++        status, output = self.target.run('cd /tmp/hello-go && go build -o hello main.go')
++        msg = 'go build failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++        # Run the module
++        status, output = self.target.run('cd /tmp/hello-go && ./hello')
++        msg = 'running go module failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
+ class GoHelloworldTest(OERuntimeTestCase):
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+     @OEHasPackage(['go-helloworld'])
 
