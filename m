@@ -1,139 +1,211 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <Jiaying.Song.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC498CDE00B
-	for <webhook@archiver.kernel.org>; Fri, 14 Nov 2025 04:15:46 +0000 (UTC)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10754.1763093745355122783
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B26EFCE7AF4
+	for <webhook@archiver.kernel.org>; Fri, 14 Nov 2025 11:48:49 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16187.1763120925789842267
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Nov 2025 20:15:45 -0800
+ Fri, 14 Nov 2025 03:48:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IwqdnOP9;
- spf=pass (domain: gmail.com, ip: 209.85.128.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-787f28f89faso16866837b3.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 13 Nov 2025 20:15:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763093744; x=1763698544; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=H4lnoB6NWFQXExlk23KwyxR0q/XKJYMhDthBpRPAskA=;
-        b=IwqdnOP9Ge+QYiBWPhNmhh/Oj24v3mmW8ENKCeUNrSsdWMWxD2EdF9iarC/z0ZUe9p
-         eMA/Hq9vpbjkWaXw+KybDpWl1Y8+Chon2ZBaB57PMLdFs39HYHy14qNL1yLF0PWkpzFK
-         +DbCHgi1a/oLHYK8nUGyxkP2fwMCIUH+6ybdGkiJeYGniata9wsvDy9Vj4/rsUXPusaJ
-         qB5goQurXs0/31OTxM495NaaaVdI55ILlk7h6O0cVi0Tzop6/J8j5WCFr4GTYcprH3zJ
-         7+UA1Ll1ZU62oJR1ewlX3hdn7MBA3rjbKZ24cwUqkSUptakKzkmO6ToYGtm3shtrh/Az
-         6kxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763093744; x=1763698544;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H4lnoB6NWFQXExlk23KwyxR0q/XKJYMhDthBpRPAskA=;
-        b=TMITh5wgIbO22wJSAbpRzXkumRXBn0H0zPbH5+Fk5Yi6crVSAsVBtQSHJdge6fyuay
-         8ejL/pjDgUyQSmo60mo9RCI3lVkigx87oh68r11Ci8ZcfG17Snvz2wQ+TZWX/EzsGqfH
-         CnQaOl1tNftiO8iq+Z2y4KwiQ8UZnJ8ESGBVCM3Os74a9miUQgS8i6yfDPwNfqrkkZF3
-         UPR6Lke/3TLAL2pYM47hzOwSbn4zD+d3AZJ4vAkYoQi0Bu8WDLhcciN9EW+HLYU2wc5g
-         1BE5a2m8OR/hO1v0+XATovdz5loOOiMFtHHiyi8L7e3p8f40lmwqIMQ9rSasBghzNE65
-         Ktnw==
-X-Gm-Message-State: AOJu0YxeNdLcv3YtcNmoBGmu59zGygPVhgHmcq4fF9SI7tJyuS1KAPwa
-	fPo/Kl4AeQ9YvysVFYf8xHTsG4krj4Wt0ycF3V6brEhPE2nkM9LH2DuHfPLIn0LJHou3VfPtwP4
-	iqewnCX89ORnYImiwacLXkbiKvHx4EVE=
-X-Gm-Gg: ASbGncvO3i82DlRHowiuY/tDxAnzQOdB7ViBqGFSK6jBoVlnlvpLT31T1KVcKk0BoKs
-	k1fCx2VQNOAwVKc+KvmVyDLDVkptx1+DNc5Q4ccZZy2cqM+hK85E6PqmIHskSLGKgamzbXsApSK
-	Rw5wgWdQhTBWSzpv1eOhZPgMQND9FnMxhEQlmRdhk/VSY7zXfwt09BWzYJpvDD61SrgWnHSeQtM
-	PhP2OT1GP1oayq1tBl8rXiFJ8IcCMIWmJEj1OboWzNjJKrnWs4QmBAzrqGdIjdOgSLSbVf/hspp
-	GX/M2YrzVcd2YwPO714QBQMeIl1m5cyytQH2y7EUEjTSkFYYTroWVqW0u46t3ldcUjCkB20v/U8
-	3RO0qOw+KOeTX8YVqciZTL02HSMNo80jnQ0DU8L6MR5RGJNjnT86lJOl7
-X-Google-Smtp-Source: AGHT+IEP5dfTSsq7/anPz3ZFvJbmo83ELBBuyyLx4SlNRVBz6j+Fn0eL0ZI/AAv+pjIpjcb5m1yJRX9MvmX/Qqe77Xk=
-X-Received: by 2002:a05:690c:a1d4:b0:788:166a:d007 with SMTP id
- 00721157ae682-78929e3e69cmr13430567b3.4.1763093744537; Thu, 13 Nov 2025
- 20:15:44 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=hkicTi1K;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=34131d5d60=jiaying.song.cn@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AEAXwuN2492907
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Nov 2025 03:48:45 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=SoSqmB4vQ1fH29KktbHH
+	j4c2VWjPrkiQUGS+pJsQulk=; b=hkicTi1KNbUA+j/fQmLXTN/9IVTbiCDyhLbf
+	6CLPwZyiS1k7hOUJTNjpeoq4Rp7Wq81SxEHT6aMABHIiJqrVK9sqYnGeKy82ue56
+	NggnXPzAv9kVJl1ApAFwTMAQ1Yi2o+IrfdbDnxj28TnGqpMJXG3PlCDBh6445b7C
+	ejrjTL69U8w/+D7ME+MzAVYfRmxJJ5niXvEf5pq4IqMjb43ocWlxINC3F55ZDqVq
+	iXVVGv+unnBDbuoZjVHDlKMB/LO1qGa0kgwsirjyNqMfsYVUJy3gR0SjCBdMQhcY
+	+Zym5SD8Rf5y6jliaTLSqsyjRrpwNWTud4NrXzxKWHKo9jzkvw==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4adtk6rfm4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Nov 2025 03:48:45 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Fri, 14 Nov 2025 03:48:44 -0800
+Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Fri, 14 Nov 2025 03:48:43 -0800
+From: <jiaying.song.cn@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] icu: Add configure option to enable Automake-style ptest output format
+Date: Fri, 14 Nov 2025 19:48:43 +0800
+Message-ID: <20251114114843.2821561-1-jiaying.song.cn@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20251113074747.6735-1-rmxpzlb@gmail.com> <83C84BC6-EE26-4C26-94B8-AFD9CBA980BC@arm.com>
- <445583.1763090362590399237@lists.openembedded.org>
-In-Reply-To: <445583.1763090362590399237@lists.openembedded.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 13 Nov 2025 20:15:18 -0800
-X-Gm-Features: AWmQ_bkW-z76mBp4Ai7NEXauztb9z7A6Rn3RbpKWVTAWKFbE8IFUhWbsdSPpMmY
-Message-ID: <CAMKF1sp_hzRmpHiqB4Yk+TBjn9heht+yvtaLgfaBVpf8cJ+oKw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] armv8a: Set -mbranch-protection more specifically
-To: rmxpzlb@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000059561506438640c3"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE0MDA5MyBTYWx0ZWRfX9WID837dXUT9
+ wG6yO7EKMhjzDJXS53Ww/ih+sO3itRXYSqTlV0wxDcE7/3RCQ7neW4oNGOReT+r3LszEAQIQBjT
+ RcBxD5LMvF+Nj/DAetK4/J1gpWTIQ/UvA9Wgr0RCTsVe78MFUo0mnYWYdOFtfL1zI6ccYF0I066
+ E6k0P6cZIGyiV4Y+xbTJXqby2e2c9edNLVfJZV8xjP27E9ew7OIN2fMOGZzh0Ltk7YInmg9BbIQ
+ +KO8jBtDbIya5aCBOS90f5+P/aWUAZ7MeEu2x886KGmGCllNNJC49lAqyeHGx7obVNCPdhewthe
+ L3uOFW7CVVgbmMMMrcTeDrhKR3KQx9S47eH7pppxZjuo6kT6aTCBubaZ6cQeiC/vlGxLHrfuQxy
+ p167NPwoK2zD/LdJXS+Q8WUKj68s0Q==
+X-Proofpoint-GUID: z3iL-ynpSnj6C4Zu5u1dZAr4TvuvlkWh
+X-Proofpoint-ORIG-GUID: z3iL-ynpSnj6C4Zu5u1dZAr4TvuvlkWh
+X-Authority-Analysis: v=2.4 cv=YsQChoYX c=1 sm=1 tr=0 ts=6917171d cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
+ a=eu2FYrs744zXLHLzHMEA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-14_03,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 clxscore=1015 malwarescore=0 adultscore=0
+ phishscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511140093
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Nov 2025 04:15:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226286
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Nov 2025 11:48:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226287
 
---00000000000059561506438640c3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-On Thu, Nov 13, 2025 at 7:19=E2=80=AFPM Frank Zhang via lists.openembedded.=
-org
-<rmxpzlb=3Dgmail.com@lists.openembedded.org> wrote:
+Added a new configure option `--enable-ptest-automake-format` to enable Automake-style ptest output format.
 
-> As I know karchive kfilemetadata and kpipewire will fail. They are in
-> meta-kf6 and meta-kde.
->
-> Do I need update patch, just set v8 branch-protection to BTI & PAC?
->
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+---
+ ...utput-compatible-with-Automake-forma.patch | 70 +++++++++++++++----
+ meta/recipes-support/icu/icu_77-1.bb          |  2 +-
+ 2 files changed, 59 insertions(+), 13 deletions(-)
 
-Please use the systemd patch-like approach for these recipes.
+diff --git a/meta/recipes-support/icu/icu/0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch b/meta/recipes-support/icu/icu/0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch
+index a3d9b46835..8fbc209097 100644
+--- a/meta/recipes-support/icu/icu/0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch
++++ b/meta/recipes-support/icu/icu/0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch
+@@ -1,49 +1,95 @@
+-From f56e295e936c6c6d9c7219ef649697891cd11382 Mon Sep 17 00:00:00 2001
++From e92a2b82cbbfa499ba210eca50cb6ca0b5c786a5 Mon Sep 17 00:00:00 2001
+ From: Jiaying Song <jiaying.song.cn@windriver.com>
+-Date: Mon, 3 Nov 2025 11:34:06 +0800
++Date: Wed, 12 Nov 2025 11:35:43 +0800
+ Subject: [PATCH] Make ICU ptest output compatible with Automake format
+ 
+-Change test result format to PASS/FAIL for Automake compatibility
++Change test result format to PASS/FAIL for Automake compatibility, controlled by the --enable-ptest-automake-format option.
+ 
+ Upstream-Status: Submitted [https://github.com/unicode-org/icu/pull/3764]
+ 
+ Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+ ---
+- test/intltest/intltest.cpp | 4 ++--
+- tools/ctestfw/ctest.c      | 3 ++-
+- 2 files changed, 4 insertions(+), 3 deletions(-)
++ configure.ac               | 17 +++++++++++++++++
++ test/intltest/intltest.cpp | 10 +++++++++-
++ tools/ctestfw/ctest.c      |  9 ++++++++-
++ 3 files changed, 34 insertions(+), 2 deletions(-)
+ 
++diff --git a/configure.ac b/configure.ac
++index da4f170..37872d4 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1165,6 +1165,21 @@ If set, it will REPLACE any automatic list of libraries.],
++ 		*) AC_MSG_ERROR(bad value ${enableval} for --enable-samples) ;;
++ 		esac],
++ 	samples=true)
+++
+++# Enable Automake-compatible ptest output format (for Yocto/OpenEmbedded)
+++AC_ARG_ENABLE([ptest-automake-format],
+++    AS_HELP_STRING([--enable-ptest-automake-format],
+++                   [Emit ptest output in Automake format (PASS:/FAIL:) for Yocto ptest]),
+++    [
+++        if test "x$enableval" = "xyes"; then
+++            UCONFIG_CPPFLAGS="${UCONFIG_CPPFLAGS} -DU_PTEST_AUTOMAKE_FORMAT=1"
+++            AC_MSG_RESULT([enabling Automake ptest format])
+++        else
+++            AC_MSG_RESULT([disabling Automake ptest format])
+++        fi
+++    ],
+++    [enable_ptest_automake_format=no])
+++
++ ICU_CONDITIONAL(SAMPLES, test "$samples" = true)
++ 
++ ICUDATA_CHAR=$U_ENDIAN_CHAR
++@@ -1428,3 +1443,5 @@ then
++ fi
++ 
++ $as_unset _CXX_CXXSUFFIX
+++
+++
+ diff --git a/test/intltest/intltest.cpp b/test/intltest/intltest.cpp
+-index 33829b0..07071ea 100644
++index 33829b0..6dfc8cb 100644
+ --- a/test/intltest/intltest.cpp
+ +++ b/test/intltest/intltest.cpp
+-@@ -830,11 +830,11 @@ UBool IntlTest::runTestLoop( char* testname, char* par, char *baseName )
++@@ -830,11 +830,19 @@ UBool IntlTest::runTestLoop( char* testname, char* par, char *baseName )
+              saveBaseLoc[0]=0; /* reset path */
+              
+              if (lastErrorCount == errorCount) {
+ -                snprintf( msg, sizeof(msg),  "   } OK:   %s ", name );
+++            #ifdef U_PTEST_AUTOMAKE_FORMAT
+ +                snprintf(msg, sizeof(msg), "PASS: %s\n   }", name);
+++            #else
+++                snprintf(msg, sizeof(msg),  "   } OK:   %s ", name );
+++            #endif
+                  if(!no_time) str_timeDelta(msg+strlen(msg),timeStop-timeStart);
+                  lastTestFailed = false;
+              }else{
+--                snprintf(msg, sizeof(msg), "   } ERRORS (%li) in %s", static_cast<long>(errorCount - lastErrorCount), name);
+++            #ifdef U_PTEST_AUTOMAKE_FORMAT
+ +                snprintf(msg, sizeof(msg), "FAIL: %s\n   } (ERRORS: %li)", name, static_cast<long>(errorCount - lastErrorCount));
+++            #else
++                 snprintf(msg, sizeof(msg), "   } ERRORS (%li) in %s", static_cast<long>(errorCount - lastErrorCount), name);
+++            #endif
+                  if(!no_time) str_timeDelta(msg+strlen(msg),timeStop-timeStart);
+  
+                  for(int i=0;i<LL_indentlevel;i++) {
+ diff --git a/tools/ctestfw/ctest.c b/tools/ctestfw/ctest.c
+-index 7634526..727b164 100644
++index 7634526..1f73650 100644
+ --- a/tools/ctestfw/ctest.c
+ +++ b/tools/ctestfw/ctest.c
+-@@ -413,9 +413,10 @@ static void iterateTestsWithLevel ( const TestNode* root,
++@@ -413,9 +413,16 @@ static void iterateTestsWithLevel ( const TestNode* root,
+          ctest_xml_testcase(pathToFunction, pathToFunction, timeSeconds, (myERROR_COUNT!=ERROR_COUNT)?"error":NULL);
+  
+          if (myERROR_COUNT != ERROR_COUNT) {
+ -          log_testinfo_i("} ---[%d ERRORS in %s] ", ERROR_COUNT - myERROR_COUNT, pathToFunction);
+-+          log_testinfo_i("\nFAIL: %s\n} ---[ERRORS: %d]", root->name, ERROR_COUNT - myERROR_COUNT);
+++        #ifdef U_PTEST_AUTOMAKE_FORMAT
+++          log_testinfo_i("\nFAIL: %s\n} ---[ERRORS: %d]", root->name,ERROR_COUNT - myERROR_COUNT);
+++        #else
+++          log_testinfo_i("} ---[%d ERRORS in %s] ", ERROR_COUNT - myERROR_COUNT,pathToFunction);
+++        #endif
+            strcpy(ERROR_LOG[ERRONEOUS_FUNCTION_COUNT++], pathToFunction);
+          } else {
+++        #ifdef U_PTEST_AUTOMAKE_FORMAT
+ +          log_testinfo_i("\nPASS: %s\n", root->name);
+++        #endif
+            if(!ON_LINE) { /* had some output */
+              int spaces = FLAG_INDENT-(depth-1);
+              log_testinfo_i("} %*s[OK] ", spaces, "---");
+diff --git a/meta/recipes-support/icu/icu_77-1.bb b/meta/recipes-support/icu/icu_77-1.bb
+index 370c14af81..17fa4a4db2 100644
+--- a/meta/recipes-support/icu/icu_77-1.bb
++++ b/meta/recipes-support/icu/icu_77-1.bb
+@@ -23,7 +23,7 @@ inherit autotools pkgconfig github-releases
+ EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config ac_cv_path_install='install -c'"
+ EXTRA_OECONF:class-native = "--disable-icu-config ac_cv_path_install='install -c'"
+ EXTRA_OECONF:class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config ac_cv_path_install='install -c'"
+-
++EXTRA_OECONF:append:class-target = " --enable-ptest-automake-format"
+ EXTRA_OECONF:append:class-target = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' --with-data-packaging=archive', '', d)}"
+ TARGET_CXXFLAGS:append = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' -DICU_DATA_DIR=\\""${datadir}/${BPN}/${@icu_install_folder(d)}\\""', '', d)}"
+ 
+-- 
+2.34.1
 
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#226285):
-> https://lists.openembedded.org/g/openembedded-core/message/226285
-> Mute This Topic: https://lists.openembedded.org/mt/116271008/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---00000000000059561506438640c3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov 13,=
- 2025 at 7:19=E2=80=AFPM Frank Zhang via <a href=3D"http://lists.openembedd=
-ed.org">lists.openembedded.org</a> &lt;rmxpzlb=3D<a href=3D"mailto:gmail.co=
-m@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div>As I know ka=
-rchive kfilemetadata and kpipewire will fail. They are in meta-kf6 and meta=
--kde.</div>
-<div>=C2=A0</div>
-<div>Do I need update patch, just set v8 branch-protection to BTI &amp; PAC=
-?</div></blockquote><div><br></div><div>Please use the systemd patch-like a=
-pproach for these recipes.=C2=A0</div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#226285): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/226285" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/226285</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/116271008/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/116271008/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---00000000000059561506438640c3--
 
