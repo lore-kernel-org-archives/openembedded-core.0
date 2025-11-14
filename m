@@ -1,225 +1,188 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3B9DCE7AF6
-	for <webhook@archiver.kernel.org>; Fri, 14 Nov 2025 11:50:19 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.40])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16224.1763121015673050523
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6114CE7B00
+	for <webhook@archiver.kernel.org>; Fri, 14 Nov 2025 12:19:59 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16678.1763122791896796946
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Nov 2025 03:50:16 -0800
+ Fri, 14 Nov 2025 04:19:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=bh52qCC9;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=bh52qCC9;
- spf=pass (domain: arm.com, ip: 52.101.66.40, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=QVCwFwFNcOGd3vGoBvpLR4+jKREHkaL184tOFdl4wtTmAstlsMOpjFTg807QUhYbdSI0k/HummfRfuRAZJVMTJEKIS4jdjr/v5I0OezDae9GeyWkwaJXkMXBemnUes5oaysB8JBJA3R7vQKzGs3JdeHVcWMO5tEybqHjQfAKQX9AtxZtO7/OK/Dkm8ch65f3f4QdZIeDn1qReN9t5JC/OikXQJ673qnpQz3pG4kbzRIo7ERSZ6vV40IEYaCm9FSLcB4o4Bh68nHD8SUQasEn0o+px+8CDa1dgA8Wyne/IuO/JXT0+tgvtHDn9PNo9p3Rz43MrM9VLWuEQ4k6zXac6A==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tANH8EfBnbTAtJc38bwR3pbCuyKiN8ZMpLnTX/YZj1E=;
- b=OI4luDIl6OcPV2GRCgGAO8+QsQMJ8J9bwLniuvIU/si7pOUrxyh3YC8Wwk7ZrG4Dc1CyLo841S3waf70uuJexizLxbL7/RKY90+oUekPc1/p11NUczxgksP7Qat/lVAUNhp0R1t6GZW0Z1AAQm9HYnz1UmPHYG3DkX7MF5T5xPqlFzxwiOGaKF6dmqbJmKaD/n5ZeHsfjJp7WjkgI+SW2XYkaSySqAiA/+dYdmXEsq7rqtKSanDRoAFZytxKv5C5Q3ZX3rjmyxZidJ+JGP8xWdoKkxqFkS4mtEinEkkzqR/e9ZCLw56eWP05mU0sj0Gf1ImrWqdDRodgjhRzepVfVQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tANH8EfBnbTAtJc38bwR3pbCuyKiN8ZMpLnTX/YZj1E=;
- b=bh52qCC98+h5jLiXWcOlduPgJasdzgUwJnUqPub08lLT+T1GRPJwXcKOCCJvyiIPOt8FRFmne708TOWmcMBU9NXh3cWvQjAhV5qeTO3M88w1LH2f82e/SIrlGEgkx4XPENYaPrl94r5Ly6E1kkZviDdeSUD8z0/isEongwg2IX4=
-Received: from AM6PR0502CA0039.eurprd05.prod.outlook.com
- (2603:10a6:20b:56::16) by DU0PR08MB8787.eurprd08.prod.outlook.com
- (2603:10a6:10:476::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Fri, 14 Nov
- 2025 11:50:12 +0000
-Received: from AM1PEPF000252DE.eurprd07.prod.outlook.com
- (2603:10a6:20b:56:cafe::8f) by AM6PR0502CA0039.outlook.office365.com
- (2603:10a6:20b:56::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.17 via Frontend Transport; Fri,
- 14 Nov 2025 11:50:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM1PEPF000252DE.mail.protection.outlook.com (10.167.16.56) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.13
- via Frontend Transport; Fri, 14 Nov 2025 11:50:11 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vdSZOcEBHQbMv//dLn/xhjwuv76LpVkh3eTzfelJ5T9uSQTfCIyxC95yMZVovKnhQnzYuPn62rrbBD0XGg8Y/FuoxTLrwzrQEMG0GCu4vFsso4SRAsZ7pxl1kmeyMPOaThWNwG6j7VqgzLK9mOhCZjoREL1OHswVE1T6tFFIefvpgHXJ95C2jZXkOegdESxGo/1UkUXI/0y7JntJEsGaWjRiFaHqsX+qh/rIrNr8EMezredRZz8469yw+pCcYeNwJJ6VRQHWMPDgCjfc7xD9909x5R77IILlLkJynGJnEDIw64PZGeaIpebWViZIuCO7QaqSIcywbSdwEA4YBfoDcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tANH8EfBnbTAtJc38bwR3pbCuyKiN8ZMpLnTX/YZj1E=;
- b=x+8trvqWrrZGKGr8D8Uy+jwgVsfEjaZ+2pDSC9m4Hoyhn72pAcBz7zebCyTe8eBbB81Eo0U+KZrRF5L8M9EBsT+GYfzX41KvnsExDLjgddW6wsHs5lgza199Rqy+uLcEMBwk72NezuQr66OePDIvqsYo1q1pTUOjrrC4Nn7oa5xEuyTRWrorMJVo7RoUY+x88aKJwFYhHwNqNG8EFn5mx8WReomU8jkVDeFIhtskfO0TlrxrUuCTGr06BD4hdA8rf/M3Gf9lbyeuuxrbOGru4B28vSj6T6eBTrqc3kvvT8Sv3o8QKj+CMrNYTWHLgeKYOh/4O1yaBVYVYmRZPqAL7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tANH8EfBnbTAtJc38bwR3pbCuyKiN8ZMpLnTX/YZj1E=;
- b=bh52qCC98+h5jLiXWcOlduPgJasdzgUwJnUqPub08lLT+T1GRPJwXcKOCCJvyiIPOt8FRFmne708TOWmcMBU9NXh3cWvQjAhV5qeTO3M88w1LH2f82e/SIrlGEgkx4XPENYaPrl94r5Ly6E1kkZviDdeSUD8z0/isEongwg2IX4=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DB4PR08MB9288.eurprd08.prod.outlook.com (2603:10a6:10:3f4::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.17; Fri, 14 Nov
- 2025 11:49:37 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9320.013; Fri, 14 Nov 2025
- 11:49:37 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>
-CC: "rmxpzlb@gmail.com" <rmxpzlb@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] armv8a: Set -mbranch-protection more
- specifically
-Thread-Topic: [OE-core] [PATCH] armv8a: Set -mbranch-protection more
- specifically
-Thread-Index: AQHcVHHd2Z2eKlgWzE6EMGDiaL9qFbTwdUSAgAEMyQCAAA+hAIAAfuOA
-Date: Fri, 14 Nov 2025 11:49:37 +0000
-Message-ID: <97E0758A-6A97-4838-9E46-10E462356829@arm.com>
-References: <20251113074747.6735-1-rmxpzlb@gmail.com>
- <83C84BC6-EE26-4C26-94B8-AFD9CBA980BC@arm.com>
- <445583.1763090362590399237@lists.openembedded.org>
- <CAMKF1sp_hzRmpHiqB4Yk+TBjn9heht+yvtaLgfaBVpf8cJ+oKw@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1sp_hzRmpHiqB4Yk+TBjn9heht+yvtaLgfaBVpf8cJ+oKw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81.1.3)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DB4PR08MB9288:EE_|AM1PEPF000252DE:EE_|DU0PR08MB8787:EE_
-X-MS-Office365-Filtering-Correlation-Id: fbdaf333-843d-431f-1489-08de2373f7d5
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|366016|1800799024|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?utf-8?B?ZEt3VVZxTjRQYXJmWUFuY0NCbnZOa1RrZFUzUEg0cUwrZFNZWm94cnI4dVhY?=
- =?utf-8?B?OTJkeW44djAyMDhEZy9oWWZUTnE4UjArOUpxZHBVWm1aSEJFVFZBb3Vsb3Qw?=
- =?utf-8?B?alJmeWY5VFArVHVlRFhodGo3ZnJTMjZ1VlZ1UmowTWhFanM5UEIvTE9GRG5D?=
- =?utf-8?B?VUhRVWxHTndrVVFkWlRxeHlhRGJLK2VXcThSOVZ5ckZjakFoQzNxMU81emw4?=
- =?utf-8?B?WE1MWkd3eFkxejFUQ3lZQXRiMFlNOVFBQ2Z2eUd3VUk5cVZnT0h6WTFhQW5C?=
- =?utf-8?B?a3lJSFE4eWMxbnNiRGRwc1F5TnpVUVpPQzcyYlN6TzZHR1pNdnozYkg0OHU2?=
- =?utf-8?B?bHJVanJiREl6R2hWTXY1RGt5c0Y4dG1KajFMWmxxQjJHaDVGSitXRDh6RzlS?=
- =?utf-8?B?ZTZ2ZC94QUJPelEyZVY2YVpvK1p3NlhOZVgvd0NSb1NVQ2IwT3JaNWNuMndR?=
- =?utf-8?B?R2hNc3owbGZ2d284WXVkRG5kZzczbXpCZFFMN1Zudmp2SkdWM0c2S29LcTJh?=
- =?utf-8?B?aDlMSlE1Tzgvc2NsR0U3QktlNDJXVzVOUzIyeHlCYTF0aFdyZXJmN05EMEwr?=
- =?utf-8?B?czdmU0p5NDBIdjRoQUVyaXJsK0I1ZG1LeUFFTlhYaGYvT1N4ZVI5cHZxb282?=
- =?utf-8?B?UFR5YzlyQWtmZHM0cnM4VGZjNWZSOWRnbmJ6dmVWRkR0ZmV4NlpYdFN2VG9p?=
- =?utf-8?B?VDJkOU10M3l3TVNaY2V4ZWlJaWN5TmdVUWxQWlVxYzJlZ2cxNHpKZHYxeWNz?=
- =?utf-8?B?RlQzNzl6bHRvQ0hLS3I4ZEJFZ2Q3ZE1JSG1ZZTdEaFhrNnJ2K29XSGdROEZP?=
- =?utf-8?B?NkkrYTJGL3hpTHIxVGFodnQrWEU0d3dKR1ovcUNZejV4L2xCUzZqZVFGUkpR?=
- =?utf-8?B?N0QzMUpaejlDNlNUNmJGRjUyeTRvTXlCZmZZdmQrVE11NmN1UUI3VjZYZmpW?=
- =?utf-8?B?SVV5MjZoR3J1TmlvMGl2YlRCRDZJSnlXb21wZTc5NFNnY1hqZEVXOTZYY1VJ?=
- =?utf-8?B?ZUJoc3dxTGhFWXFCbHI1dnF6dFozdGtqMEc5c21UNEdFRm4wYXk5RW9qUHg2?=
- =?utf-8?B?ei9hUldxT2ppNTJaWC9wS0EzT1c1Z3RlbzY5bG0zWlhXZVFNbzM4Mk5sMGdl?=
- =?utf-8?B?MW5MRGdjaGhQTVFwODNKZHVXNnBmWFY2NHc2cHBYVllCL1dUSE5CNzFBVEha?=
- =?utf-8?B?eUx0RGFoK3NtSjhWNEFjSFNZZ1gwTGdacEU2NUhTaGJsbGVCOS9MckxLUWU0?=
- =?utf-8?B?NEVqZDIwbDhxSzFOTFFFTTBGSWd6cVVWdzlhRnU4WjlNTzA5UmhrcXR4Szgr?=
- =?utf-8?B?UG5pYnlyOEJCVTNnd1pkb2FSaUdSb2hadTBuTUVyS1RoNG1BdlFITGFqOWFK?=
- =?utf-8?B?N1BXN0ZPellPS0ZBMzhtcisvUGs2U2JRd1BhdGEzQ0h2SDU0Ny9iRzN6eEIz?=
- =?utf-8?B?MGl3NTZnUmpGMG9CdlhaM0VRclU2eGdORzQ4SmU1VUN4eTlXWFh3T0FrckVM?=
- =?utf-8?B?bXRLbUdGNTRzb3pZT1Y2aG9xUW85b253VzF6bDZ3WWNJcEk4clpHc3VqZjBt?=
- =?utf-8?B?R3htTSt0M3lHVDJ1STcwd3pSelBEVEsrSjlKdUxjckZNN2xxRGpBSjRYazFP?=
- =?utf-8?B?TTZpSXhBZUo2Y2JaOFNUa1RIUTUwUU8wVHpBNUR3dk9IMFhyYUVGRFdSdXEr?=
- =?utf-8?B?NzV4YjhmZitiSmh2SEVHTjcyMUl2cWtwMFdsMDNmdVYvMi9JNE8vVk5mRU9M?=
- =?utf-8?B?VWdRVFVNSWFOMDQ5QTZhOERrLzQyWGplcmFHZXdtazcxbmVnYnUySlAzRkow?=
- =?utf-8?B?S1dkNTd4NjB2bHk5emlGWHIwckE5YlJuMnhKcXcvd0RHdnZLYVlCN1lTTURM?=
- =?utf-8?B?eWdvZGVFRUtQUFowN05RVW55SW9hOGtOQ295dzV6MlQxL2thVUZjZGFQM1Ax?=
- =?utf-8?B?Z0hwWXhUT2ZYRTlweiszaElISDZwTk5EODQzUm9jcDh4bjJJNXV5M2FlUnB5?=
- =?utf-8?B?NFJKbk53MXkvYW9Nb0R2NnN4bVRRZThTZWF0Z1M1bG9FZGpaY1ZmQVlBa2gy?=
- =?utf-8?Q?vJ11r+?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CE66E7F7AA0AEF4AA5FD0E7019813CF8@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=P81KIStQ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=34138fee75=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AE5kxaK2778369
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Nov 2025 04:19:51 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=wvkf9nTS7g1wdsYr17oJa/wwhWBP9FhnrC4wCVKHYOc=; b=P81KIStQjqxq
+	okRjQD3Ywza2xdb5USPVELHF/WRiS/EiMbWtiorEM6q025rdzcykAH+SRtU7B3Du
+	ogzt5R4KvOb/WW7tkuG+0CVGZXyDzcxoWHAHsX54/tNmkQiJrXY419Rc7cY8f+nD
+	kwOWpl5bEINB7SANKlKqN/16ogd78B5283ggGwbiw/DF4VqMM6HHUhPvSu4Hrb9T
+	vGgxFCQwBNBtOzPnmEF1dghUDVDFmymsLwkQMzdYG3+/v9J8taerX5FLGyas01wE
+	luB5JeB6EWy02Z8wSa7boG2Iy+Kr38ExCFdO7i76GY1lirs7cLunI/aLIZisv4/I
+	4t5t0kGa7g==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4adtr2gg70-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 14 Nov 2025 04:19:51 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Fri, 14 Nov 2025 04:19:50 -0800
+Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Fri, 14 Nov 2025 04:19:49 -0800
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH 2/2] elfutils: Fix CVE-2025-1377
+Date: Fri, 14 Nov 2025 17:49:41 +0530
+Message-ID: <20251114121941.4133042-2-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20251114121941.4133042-1-soumya.sambu@windriver.com>
+References: <20251114121941.4133042-1-soumya.sambu@windriver.com>
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR08MB9288
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM1PEPF000252DE.eurprd07.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	786d75de-9912-420a-9f80-08de2373e332
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|35042699022|376014|14060799003;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?b2lrWGxaRVBIVCtoMGIxQktFSTY0dmhsaGl2NWpXWjA5dytjR1JrY2hrWnpq?=
- =?utf-8?B?OUpxVFVHWXRlLzNqQjRvRTVldTBXaC8wenk2a1hob0lmMXh3L3VQMkdjYW9s?=
- =?utf-8?B?bTNOdjAxMnZoZStDeVNYQmhmVGZ3MTYrd2RRZnFlK2htZTJOUzdqcmhjTzNq?=
- =?utf-8?B?YWpPbkYrU3YzR3IyMlZMOGc3RHFJeFk5NVRmY0NYVWZPeFE2UHltWjdFUTd6?=
- =?utf-8?B?MkZ6QjRBZ24yREhUWFVoaHM2bUFyRW9vUnl6bWJJUWdTYWU1RStZRmNXTXUz?=
- =?utf-8?B?UWxBMmcyN0JIQ3BFcEp3aTE2Rm5rdUoyK0d6QmhjdUpWSmNmeXdVSFJCRjJz?=
- =?utf-8?B?Z2JuZWNjdEI0Sm9MYjU3WFZONS9GSG5vQWVlbjE4LzVxN3lqMUZETFpNek1Y?=
- =?utf-8?B?clptekF6V3lORnRyam03L1FVc29ucXA2anVGSDUzeVdKWURGN0IwNVRXT1g4?=
- =?utf-8?B?WTFITkgvdXVJNDZVT2srdndGZE4zSzRDWDhINUkyT3dkc1l3WjdrU2JBTlVD?=
- =?utf-8?B?YjR0QzZManZyYVk1ckxnT1Z5c3U3S1lra0w5dW1wYXZBQWY4cllSSmNZcWxI?=
- =?utf-8?B?bHZ0bGpZL3JLbFZlNXdmcjdhUStlTiswSXJHcE1ua3JLTnB1T3JFMFhuNjVw?=
- =?utf-8?B?blN0L0w5NmM2bmJRTis3SGc0dE5nRS9abkdWampaeitGNUQyb0VCQ3NwYjZD?=
- =?utf-8?B?cFA2c3dQeGJSRVVFNm8yMWI2T1pmb2p6M3oyR1hRdzVWSWt3bXF1MzM2WFUx?=
- =?utf-8?B?TVBMaXRnT2tyZk8vZVUvckEwQzRnYWt0S3J2UWNWR21HMlFDb3p4R0poREh3?=
- =?utf-8?B?QnJKVUNqcGYxUWt3cXhWSXVNL3VjNkhQekRSNW01QzcwUXRCOFp4cEEyZnpT?=
- =?utf-8?B?aVZacWpqQjVSK0hDeTVLaVNlOUdrTFJ0QSt0dGFCdHNVNWJrNS9KN0VwYVUr?=
- =?utf-8?B?bTFwL1phaGQxZjZPYUJCMlBEdk1aMGwzWVFTRnVPd2k3bTFXUXZPL1llQWJE?=
- =?utf-8?B?aGI0MnZIN3dIeVBWL1Z4QndRSmhzb0hKcks4N0tYZS9WbjBQNlZnWmd4Tk9B?=
- =?utf-8?B?QzF5NDlHelZwL3RiSXdLT09KVFdBVURHSmZMY0tnNW9XWVNmT1ZmVEhGSDZD?=
- =?utf-8?B?QUtOUkxMaDZTc0xuU1VGbVpzTDJTMHpmSXJpR2dYMXpEbzdiVXNEN2FlbEli?=
- =?utf-8?B?aE5aYVNQUHF6dEpXalYxR2didjJCdzNlNU5mSWVTa0I1dlQvWTJBbDZCRW5D?=
- =?utf-8?B?TzhwNnJ5UkFQOVcyMm1pd1BZZzVRb3FtNm0rdnFCL3czcmNKNVd0Y2hQbVpl?=
- =?utf-8?B?bnhTNXdWMXp2OWlOblg1VDh6bEJiMzBrVVZRbjByL1h1a3lhR0wvbXovWWV4?=
- =?utf-8?B?QitXUzVlYWpVSlFHSTFlV3FpMU5GWE5ISTFWWHVJaDMvemJUK0lwRjF0VUk2?=
- =?utf-8?B?UFNydENLVm92Z0R6ajRndGJ4bm1FWTJOSmpBVENWdWVZSHZHcFIxZG82SHBO?=
- =?utf-8?B?am9MU2dHQXREcEdrU3BhU3NiZXBGL0llZUpSdTNWU1hxL01mb0hpNHRrVlVk?=
- =?utf-8?B?NEh6bjhoZW5ubzkyQzNvVFAyUTA1WnBqZHJLS1pxTHBJU054UG0xK1BXT1Vv?=
- =?utf-8?B?QUl5aXRDVmJUZkNFMWFXV20xcG1ORnV6dHEzb21RTTR1NFNVTzc5L0xmdkdQ?=
- =?utf-8?B?YzhKVWNLSitaa01KMXYvTXg2N1IyL0JBeTQxL3dVVXUxTHB0Ym16QkRMY3VR?=
- =?utf-8?B?cDBHZmRCeHhubDY0MXQxZk5Zbld4UDhyS2NMdWJOOHVwcmk4U2VwTUpNL3Jy?=
- =?utf-8?B?MWttZ0RPdVRuMUh6dlZZcDZpSEJ5MitUMEdZRktnSjYyWGczaXd0bm00M2J0?=
- =?utf-8?B?UDhFWGszOXRKdEhmL2pGVFZzUFdaUm85ZXVjcHFldjczbnlBMld1WTlWZWJK?=
- =?utf-8?B?TmJnbjRYWEYzcThYLzlkdGNyTXRKdVZFclVLakp6bldocXhDNlJoZmw4MnhF?=
- =?utf-8?B?WE9vNVU4K0p6WU1GVFVtcUVyWkNTR2VUMjNJc3VKUmNUWk0vS0ZzYzBuRGVL?=
- =?utf-8?B?WFBzdi9qdEtJQmxORzRZYmRTbGxjcUtwYWtyckVlS1Z0Y05mY3dtME5wNjhL?=
- =?utf-8?Q?hkOg=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(35042699022)(376014)(14060799003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 11:50:11.8259
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbdaf333-843d-431f-1489-08de2373f7d5
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM1PEPF000252DE.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8787
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE0MDA5OCBTYWx0ZWRfXzqktPRjl/kcZ
+ gVRM/Gf84ZkCLSf4+kOtnl4MwWZ0vtnEID8xRDKB2TYmkuk8HA85r8LY0EQ7+dWmKjbNDVI13xf
+ WbOkAcNXX263VFyNjgsOhKcGSdzVDtRfm6deQjybGutVpJF6XDQr1ZimlfhymTmA5LqjgpknPSp
+ mQmmpEL/SKhqvtf/5PlpFqwA7cXrvJbo2X4yKwwm4MUGplqy0J0K8/0HxAb5McbR/0h+0xw332q
+ FkVPzGbE6GVC8iREOZEsSwuUOdTAfcullQKJ4kiXMHStQCRVrFYCg2VqGR2lG5ejPFoCTU774S7
+ yFo3U0lWGAucmLsahsYQIIvXcylIC8tyVarq8Uqihx/qFeA2JDV4Ckcnv8tLABfngp8tWuX+tXx
+ /IbJDh3wrWKI4Dp26wfqh6EgBQ+hxw==
+X-Proofpoint-GUID: TUjWW_mSWtJ8Yw_rBFghecKoOXhwhry2
+X-Authority-Analysis: v=2.4 cv=fMM0HJae c=1 sm=1 tr=0 ts=69171e67 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=PYnjg3YJAAAA:8 a=CCpqsmhAAAAA:8
+ a=t7CeM3EgAAAA:8 a=n9Nvxce8AAAA:8 a=Cf4WFWjvce3MkOfJXmwA:9
+ a=ul9cdbp4aOFLsgKbc677:22 a=FdTzh2GWekK77mhwV6Dw:22 a=V4tbcg9hxeXQX3VEsxKP:22
+X-Proofpoint-ORIG-GUID: TUjWW_mSWtJ8Yw_rBFghecKoOXhwhry2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-14_03,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0
+ suspectscore=0 priorityscore=1501 clxscore=1015 adultscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511140098
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Nov 2025 11:50:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226288
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Nov 2025 12:19:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226290
 
-T24gMTQgTm92IDIwMjUsIGF0IDA0OjE1LCBLaGVtIFJhaiB2aWEgbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZyA8cmFqLmtoZW09Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0K
-PiBPbiBUaHUsIE5vdiAxMywgMjAyNSBhdCA3OjE54oCvUE0gRnJhbmsgWmhhbmcgdmlhIGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcgPHJteHB6bGI9Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmc+IHdyb3RlOg0KPiBBcyBJIGtub3cga2FyY2hpdmUga2ZpbGVtZXRhZGF0YSBhbmQga3BpcGV3
-aXJlIHdpbGwgZmFpbC4gVGhleSBhcmUgaW4gbWV0YS1rZjYgYW5kIG1ldGEta2RlLg0KPiAgIERv
-IEkgbmVlZCB1cGRhdGUgcGF0Y2gsIGp1c3Qgc2V0IHY4IGJyYW5jaC1wcm90ZWN0aW9uIHRvIEJU
-SSAmIFBBQz8NCj4gDQo+IFBsZWFzZSB1c2UgdGhlIHN5c3RlbWQgcGF0Y2gtbGlrZSBhcHByb2Fj
-aCBmb3IgdGhlc2UgcmVjaXBlcy4gDQoNCkFncmVlZC4NCg0KUm9zcw0KDQo=
+From: Soumya Sambu <soumya.sambu@windriver.com>
+
+A vulnerability, which was classified as problematic, has been found in GNU elfutils
+0.192. This issue affects the function gelf_getsymshndx of the file strip.c of the
+component eu-strip. The manipulation leads to denial of service. The attack needs to
+be approached locally. The exploit has been disclosed to the public and may be used.
+The identifier of the patch is fbf1df9ca286de3323ae541973b08449f8d03aba. It is
+recommended to apply a patch to fix this issue.
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-1377
+
+Upstream patch:
+https://sourceware.org/git/?p=elfutils.git;a=commit;h=fbf1df9ca286de3323ae541973b08449f8d03aba
+
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+---
+ .../elfutils/elfutils_0.186.bb                |  1 +
+ .../elfutils/files/CVE-2025-1377.patch        | 68 +++++++++++++++++++
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2025-1377.patch
+
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.186.bb b/meta/recipes-devtools/elfutils/elfutils_0.186.bb
+index 9f0fb43d50..f97a97c673 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.186.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.186.bb
+@@ -26,6 +26,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://CVE-2025-1352.patch \
+            file://CVE-2025-1372.patch \
+            file://CVE-2025-1376.patch \
++           file://CVE-2025-1377.patch \
+            "
+ SRC_URI:append:libc-musl = " \
+            file://0003-musl-utils.patch \
+diff --git a/meta/recipes-devtools/elfutils/files/CVE-2025-1377.patch b/meta/recipes-devtools/elfutils/files/CVE-2025-1377.patch
+new file mode 100644
+index 0000000000..3a4c0136b8
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/CVE-2025-1377.patch
+@@ -0,0 +1,68 @@
++From fbf1df9ca286de3323ae541973b08449f8d03aba Mon Sep 17 00:00:00 2001
++From: Mark Wielaard <mark@klomp.org>
++Date: Thu, 13 Feb 2025 14:59:34 +0100
++Subject: [PATCH] strip: Verify symbol table is a real symbol table
++
++We didn't check the symbol table referenced from the relocation table
++was a real symbol table. This could cause a crash if that section
++happened to be an SHT_NOBITS section without any data. Fix this by
++adding an explicit check.
++
++       * src/strip.c (INTERNAL_ERROR_MSG): New macro that takes a
++       message string to display.
++       (INTERNAL_ERROR): Use INTERNAL_ERROR_MSG with elf_errmsg (-1).
++       (remove_debug_relocations): Check the sh_link referenced
++       section is real and isn't a SHT_NOBITS section.
++
++https://sourceware.org/bugzilla/show_bug.cgi?id=32673
++
++Signed-off-by: Mark Wielaard <mark@klomp.org>
++
++CVE: CVE-2025-1377
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commit;h=fbf1df9ca286de3323ae541973b08449f8d03aba]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ src/strip.c | 13 ++++++++++---
++ 1 file changed, 10 insertions(+), 3 deletions(-)
++
++diff --git a/src/strip.c b/src/strip.c
++index d5b753d..0cfd8c8 100644
++--- a/src/strip.c
+++++ b/src/strip.c
++@@ -127,13 +127,14 @@ static char *tmp_debug_fname = NULL;
++ /* Close debug file descriptor, if opened. And remove temporary debug file.  */
++ static void cleanup_debug (void);
++ 
++-#define INTERNAL_ERROR(fname) \
+++#define INTERNAL_ERROR_MSG(fname, msg) \
++   do { \
++     cleanup_debug (); \
++     error (EXIT_FAILURE, 0, _("%s: INTERNAL ERROR %d (%s): %s"),      \
++-	   fname, __LINE__, PACKAGE_VERSION, elf_errmsg (-1)); \
+++	   fname, __LINE__, PACKAGE_VERSION, msg); \
++   } while (0)
++ 
+++#define INTERNAL_ERROR(fname) INTERNAL_ERROR_MSG(fname, elf_errmsg (-1))
++ 
++ /* Name of the output file.  */
++ static const char *output_fname;
++@@ -632,7 +633,13 @@ remove_debug_relocations (Ebl *ebl, Elf *elf, GElf_Ehdr *ehdr,
++ 	     resolve relocation symbol indexes.  */
++ 	  Elf64_Word symt = shdr->sh_link;
++ 	  Elf_Data *symdata, *xndxdata;
++-	  Elf_Scn * symscn = elf_getscn (elf, symt);
+++	  Elf_Scn *symscn = elf_getscn (elf, symt);GElf_Shdr symshdr_mem;
+++          GElf_Shdr *symshdr = gelf_getshdr (symscn, &symshdr_mem);
+++          if (symshdr == NULL)
+++            INTERNAL_ERROR (fname);
+++          if (symshdr->sh_type == SHT_NOBITS)
+++            INTERNAL_ERROR_MSG (fname, "NOBITS section");
+++
++ 	  symdata = elf_getdata (symscn, NULL);
++ 	  xndxdata = get_xndxdata (elf, symscn);
++ 	  if (symdata == NULL)
++-- 
++2.40.0
++
+-- 
+2.40.0
+
 
