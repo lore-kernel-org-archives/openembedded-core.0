@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF5FDCED25D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4989CED259
 	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:38:53 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11926.1763224708299561039
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11946.1763224733103652162
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Nov 2025 08:38:52 -0800
+ Sat, 15 Nov 2025 08:38:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Ni0EUWqq;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=D+jTcJ5q;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019a88624346-6cadd216-2823-4890-97c2-ba640bd02c92-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=BONdSWzK;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ohxvdEyu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019a88624348-b935491f-ea17-4db2-a412-cdf5bb4a55f0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1763224732;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zILmoCpHaaW1Zw6gpeUVq/zGtv1Yinv32Ye2PM4l8+M=;
-	b=Ni0EUWqq297K/XNAiT3xqkxiHgQm89VJ3GuBL+1OYW1u2qr6ByCXKKWzIw1HxbYs
-	Q0e54Jsp+EhmgTITEiNMigrvRsPVtTOolLmP1FNO1r+GjfncDb6PFdxlHEhlYfTwiP2
-	Voy4JSNnI14i2f2oRvfdV6X4WPO+ZVul/GIWvWFA=
+	bh=UP2zfinW4k+uvx/Rn8pa3iHmK78mO0PXuafha6Ntd8A=;
+	b=BONdSWzKONjWiHtQndvOGkUXggYb5e/d0cqGGvxFQ6Lvk5vofBfi1CVjKNtj8vQN
+	lm8CO1Z98R5o6jNlIomA46HL6dHJBomKqeSc7zra6Vw4Hmu28/Dxu6Ao2br+2JGr9Sx
+	kDsOCVz562LzQqvhRDS7caMbmw5LYD0DbXuYmy4g=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224732;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zILmoCpHaaW1Zw6gpeUVq/zGtv1Yinv32Ye2PM4l8+M=;
-	b=D+jTcJ5q8q3W3rzUwPyNiM04iNESBtEPRB8iLFZHi9Yb6qGh8VV6eMGokd8QsGGE
-	slPrv0jsbO7sEogIl4CrZsNY8vWbXXJq5LDsG1FRnzDAelb3rgbx91SnQpxL8HstAno
-	Zbs0Bx8kpHbgsIV7YuH4Ok+v4eoZ1ByaDh+RHGdk=
-Content-Type: multipart/mixed; boundary="===============7091787898815099080=="
+	bh=UP2zfinW4k+uvx/Rn8pa3iHmK78mO0PXuafha6Ntd8A=;
+	b=ohxvdEyuWQJ+/RBzJTiCWpURq/E2+ACNMOKOrUrmc0WH1hQufayADfD/9P9zJeBg
+	xOGan879T9JNJT9vCfxqAtvhV1wGXu19YvvEbrH8jaA6O/yBXH+byN4U5JptTw5oequ
+	+rkqkDoc4D98Vg/l6JFvFzHMhIKdGwmm5IjGigNg=
+Content-Type: multipart/mixed; boundary="===============3405381459018793026=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pytest-subtests: upgrading to 0.15.0 SUCCEEDED
-Message-ID: <0101019a88624346-6cadd216-2823-4890-97c2-ba640bd02c92-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-pyparsing: upgrading to 3.2.5 SUCCEEDED
+Message-ID: <0101019a88624348-b935491f-ea17-4db2-a412-cdf5bb4a55f0-000000@us-west-2.amazonses.com>
 Date: Sat, 15 Nov 2025 16:38:52 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.15-54.240.27.191
+X-SES-Outgoing: 2025.11.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:38:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226370
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226371
 
---===============7091787898815099080==
+--===============3405381459018793026==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pytest-subtests* to *0.15.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-pyparsing* to *3.2.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pytest-subtests-upgrade-0.14.2-0.15.0.patch
+    - apply the patch: git am 0001-python3-pyparsing-upgrade-3.2.4-3.2.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,62 +72,62 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From efbad3c1c15f543056e391c0b94123b08a882cef Mon Sep 17 00:00:00 2001
+From 719f9dfac7c9ab4ad02e4b00d887466dcccdbcb0 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Nov 2025 11:03:36 +0000
-Subject: [PATCH] python3-pytest-subtests: upgrade 0.14.2 -> 0.15.0
+Date: Sat, 15 Nov 2025 11:01:20 +0000
+Subject: [PATCH] python3-pyparsing: upgrade 3.2.4 -> 3.2.5
 
 ---
- ...est-subtests_0.14.2.bb => python3-pytest-subtests_0.15.0.bb} | 2 +-
+ .../{python3-pyparsing_3.2.4.bb => python3-pyparsing_3.2.5.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pytest-subtests_0.14.2.bb => python3-pytest-subtests_0.15.0.bb} (88%)
+ rename meta/recipes-devtools/python/{python3-pyparsing_3.2.4.bb => python3-pyparsing_3.2.5.bb} (90%)
 
-diff --git a/meta/recipes-devtools/python/python3-pytest-subtests_0.14.2.bb b/meta/recipes-devtools/python/python3-pytest-subtests_0.15.0.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-pytest-subtests_0.14.2.bb
-rename to meta/recipes-devtools/python/python3-pytest-subtests_0.15.0.bb
-index 58212bfb1c..01d2332732 100644
---- a/meta/recipes-devtools/python/python3-pytest-subtests_0.14.2.bb
-+++ b/meta/recipes-devtools/python/python3-pytest-subtests_0.15.0.bb
-@@ -7,7 +7,7 @@ BUGTRACKER = "https://github.com/pytest-dev/pytest-subtests/issues"
+diff --git a/meta/recipes-devtools/python/python3-pyparsing_3.2.4.bb b/meta/recipes-devtools/python/python3-pyparsing_3.2.5.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-pyparsing_3.2.4.bb
+rename to meta/recipes-devtools/python/python3-pyparsing_3.2.5.bb
+index 46556e6fb8..e94bebae38 100644
+--- a/meta/recipes-devtools/python/python3-pyparsing_3.2.4.bb
++++ b/meta/recipes-devtools/python/python3-pyparsing_3.2.5.bb
+@@ -10,7 +10,7 @@ BUGTRACKER = "https://github.com/pyparsing/pyparsing/issues"
  LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=242b4e17fa287dcf7aef372f6bc3dcb1"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=657a566233888513e1f07ba13e2f47f1"
  
--SRC_URI[sha256sum] = "7154a8665fd528ee70a76d00216a44d139dc3c9c83521a0f779f7b0ad4f800de"
-+SRC_URI[sha256sum] = "cb495bde05551b784b8f0b8adfaa27edb4131469a27c339b80fd8d6ba33f887c"
+-SRC_URI[sha256sum] = "fff89494f45559d0f2ce46613b419f632bbb6afbdaed49696d322bcf98a58e99"
++SRC_URI[sha256sum] = "2df8d5b7b2802ef88e8d016a2eb9c7aeaa923529cd251ed0fe4608275d4105b6"
  
- PYPI_PACKAGE = "pytest_subtests"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+ inherit pypi python_flit_core
+ 
 -- 
 2.47.1
 
 
---===============7091787898815099080==
+--===============3405381459018793026==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-pytest-subtests: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pytest_subtests/pytest_subtests-0.14.2.tar.gz;downloadfilename=pytest_subtests-0.14.2.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pytest_subtests/pytest_subtests-0.15.0.tar.gz;downloadfilename=pytest_subtests-0.15.0.tar.gz"
-packages/x86-64-v3-poky-linux/python3-pytest-subtests: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest-subtests: PV changed from "0.14.2" to "0.15.0"
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-dbg: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-dbg: PV changed from "0.14.2" to "0.15.0"
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-dev: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-dev: PV changed from "0.14.2" to "0.15.0"
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-doc: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-doc: PV changed from "0.14.2" to "0.15.0"
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-locale: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-locale: PV changed from "0.14.2" to "0.15.0"
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-src: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-src: PV changed from "0.14.2" to "0.15.0"
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-staticdev: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests-staticdev: PV changed from "0.14.2" to "0.15.0"
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests: PKGSIZE changed from 48292 to 49167 (+2%)
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests: PKGV changed from 0.14.2 [default] to 0.15.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest-subtests/python3-pytest-subtests: PV changed from "0.14.2" to "0.15.0"
-Changes to packages/x86-64-v3-poky-linux/python3-pytest-subtests (sysroot):
-  /usr/lib/python3.13/site-packages/pytest_subtests-0.14.2.dist-info moved to /usr/lib/python3.13/site-packages/pytest_subtests-0.15.0.dist-info
+packages/x86-64-v3-poky-linux/python3-pyparsing: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.2.4.tar.gz;downloadfilename=pyparsing-3.2.4.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.2.5.tar.gz;downloadfilename=pyparsing-3.2.5.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pyparsing: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-dev: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-dev: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-doc: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-doc: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-locale: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-locale: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-src: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-src: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing: PV changed from "3.2.4" to "3.2.5"
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing: PKGV changed from 3.2.4 [default] to 3.2.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyparsing/python3-pyparsing: PKGSIZE changed from 929097 to 929285 (+0%)
+Changes to packages/x86-64-v3-poky-linux/python3-pyparsing (sysroot):
+  /usr/lib/python3.13/site-packages/pyparsing-3.2.4.dist-info moved to /usr/lib/python3.13/site-packages/pyparsing-3.2.5.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2051,47 +2051,45 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============7091787898815099080==
+--===============3405381459018793026==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pytest-subtests-upgrade-0.14.2-0.15.0.patch"
+ filename="0001-python3-pyparsing-upgrade-3.2.4-3.2.5.patch"
 
-RnJvbSBlZmJhZDNjMWMxNWY1NDMwNTZlMzkxYzBiOTQxMjNiMDhhODgyY2VmIE1vbiBTZXAgMTcg
+RnJvbSA3MTlmOWRmYWM3YzlhYjRhZDAyZTRiMDBkODg3NDY2ZGNjY2RiY2IwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTE6MDM6MzYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXB5dGVzdC1zdWJ0ZXN0czogdXBncmFkZSAwLjE0LjIgLT4gMC4xNS4wCgotLS0KIC4u
-LmVzdC1zdWJ0ZXN0c18wLjE0LjIuYmIgPT4gcHl0aG9uMy1weXRlc3Qtc3VidGVzdHNfMC4xNS4w
-LmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
-KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHl0ZXN0LXN1
-YnRlc3RzXzAuMTQuMi5iYiA9PiBweXRob24zLXB5dGVzdC1zdWJ0ZXN0c18wLjE1LjAuYmJ9ICg4
-OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5
-dGVzdC1zdWJ0ZXN0c18wLjE0LjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtcHl0ZXN0LXN1YnRlc3RzXzAuMTUuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDg4JQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0ZXN0LXN1YnRl
-c3RzXzAuMTQuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXB5dGVzdC1zdWJ0ZXN0c18wLjE1LjAuYmIKaW5kZXggNTgyMTJiZmIxYy4uMDFkMjMzMjcz
-MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5dGVz
-dC1zdWJ0ZXN0c18wLjE0LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXB5dGVzdC1zdWJ0ZXN0c18wLjE1LjAuYmIKQEAgLTcsNyArNyw3IEBAIEJVR1RSQUNL
-RVIgPSAiaHR0cHM6Ly9naXRodWIuY29tL3B5dGVzdC1kZXYvcHl0ZXN0LXN1YnRlc3RzL2lzc3Vl
-cyIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTtt
-ZDU9MjQyYjRlMTdmYTI4N2RjZjdhZWYzNzJmNmJjM2RjYjEiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
-XSA9ICI3MTU0YTg2NjVmZDUyOGVlNzBhNzZkMDAyMTZhNDRkMTM5ZGMzYzljODM1MjFhMGY3Nzlm
-N2IwYWQ0ZjgwMGRlIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImNiNDk1YmRlMDU1NTFiNzg0Yjhm
-MGI4YWRmYWEyN2VkYjQxMzE0NjlhMjdjMzM5YjgwZmQ4ZDZiYTMzZjg4N2MiCiAKIFBZUElfUEFD
-S0FHRSA9ICJweXRlc3Rfc3VidGVzdHMiCiBVUFNUUkVBTV9DSEVDS19QWVBJX1BBQ0tBR0UgPSAi
-JHtQWVBJX1BBQ0tBR0V9IgotLSAKMi40Ny4xCgo=
+CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTE6MDE6MjAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXB5cGFyc2luZzogdXBncmFkZSAzLjIuNCAtPiAzLjIuNQoKLS0tCiAuLi4ve3B5dGhv
+bjMtcHlwYXJzaW5nXzMuMi40LmJiID0+IHB5dGhvbjMtcHlwYXJzaW5nXzMuMi41LmJifSAgfCAy
+ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXB5cGFyc2luZ18zLjIuNC5i
+YiA9PiBweXRob24zLXB5cGFyc2luZ18zLjIuNS5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlwYXJzaW5nXzMuMi40LmJiIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5cGFyc2luZ18zLjIuNS5iYgpzaW1p
+bGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtcHlwYXJzaW5nXzMuMi40LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtcHlwYXJzaW5nXzMuMi41LmJiCmluZGV4IDQ2NTU2ZTZmYjguLmU5
+NGJlYmFlMzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1weXBhcnNpbmdfMy4yLjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXB5cGFyc2luZ18zLjIuNS5iYgpAQCAtMTAsNyArMTAsNyBAQCBCVUdUUkFDS0VSID0g
+Imh0dHBzOi8vZ2l0aHViLmNvbS9weXBhcnNpbmcvcHlwYXJzaW5nL2lzc3VlcyIKIExJQ0VOU0Ug
+PSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NjU3YTU2NjIz
+Mzg4ODUxM2UxZjA3YmExM2UyZjQ3ZjEiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmZmY4OTQ5
+NGY0NTU1OWQwZjJjZTQ2NjEzYjQxOWY2MzJiYmI2YWZiZGFlZDQ5Njk2ZDMyMmJjZjk4YTU4ZTk5
+IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjJkZjhkNWI3YjI4MDJlZjg4ZThkMDE2YTJlYjljN2Fl
+YWE5MjM1MjljZDI1MWVkMGZlNDYwODI3NWQ0MTA1YjYiCiAKIGluaGVyaXQgcHlwaSBweXRob25f
+ZmxpdF9jb3JlCiAKLS0gCjIuNDcuMQoK
 
---===============7091787898815099080==
+--===============3405381459018793026==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/x86-64-v3-poky-linux/python3-pytest-subtests (sysroot):
-  /usr/lib/python3.13/site-packages/pytest_subtests-0.14.2.dist-info moved to /usr/lib/python3.13/site-packages/pytest_subtests-0.15.0.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-pyparsing (sysroot):
+  /usr/lib/python3.13/site-packages/pyparsing-3.2.4.dist-info moved to /usr/lib/python3.13/site-packages/pyparsing-3.2.5.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4015,5 +4013,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============7091787898815099080==--
+--===============3405381459018793026==--
 
