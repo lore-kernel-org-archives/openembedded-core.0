@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8149BCEBF88
-	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:38:41 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12112.1763224714174664328
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C409CEBF97
+	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:38:52 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12118.1763224717820855283
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Nov 2025 08:38:40 -0800
+ Sat, 15 Nov 2025 08:38:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ENZgNOYd;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Or2dDv5z;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019a8862123e-8dcc1972-26f4-4937-a99e-55def73c0390-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=iwwJdW+g;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=VqEXizvQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019a886222d9-44a198f0-9241-4ba0-b423-04ce75d7b9b4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1763224720;
+	t=1763224724;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=nXfqk8AkvFviSmcWXRhWIZV1VodmtysYd8qtvRKmaqQ=;
-	b=ENZgNOYdrvSNxc+LsyEdtlQG+AfFqNXgyeQxyOqYimlVEHXrRIPa8AmVrRXCaPkm
-	BpSvkcI7ECbvtFpEE7RVNAytnntSg0vam+UxPtgKlabFOvTfUMuTTpdVh5kl4j6OCQv
-	kRLu9ok/tZyArjDoZny6ebD0+87i8nwYT4Imf6Cc=
+	bh=aPLLfAAON6yZHAspiYCkyjJd393HuRG5IKr82hB/Ao8=;
+	b=iwwJdW+giop0y+Vw0Hs5AkKWILqZyjhqwsC6RljEUoZGXt5caznHbQA2XZ1PN2p3
+	i1NINlPjaAG7XHBcy6XQd+cYsxa0e8Jl8Hu4JrHGE7TQec4hVhymR9i3fELRFIk2FD7
+	pVwMWAqBYAKrKxbGHQwvw4Xr7C8ZcjOAMZikE2ZM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224720;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224724;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=nXfqk8AkvFviSmcWXRhWIZV1VodmtysYd8qtvRKmaqQ=;
-	b=Or2dDv5zhCSOxdjWFqFztAxLKg0W2ve8cNEhjAaQRVrJqY7mwr0Gw10B6qCGaEdU
-	mWukTS3/SWCNnhLu1cd3RAxkljPZaAKaNMubiOGXyVg3fvzTdAUmnxAjvcL0tImNHyw
-	ALx9R1MxQWUXuoh5bOwy3CJxjSZ9PD2LSgfVmg8Y=
-Content-Type: multipart/mixed; boundary="===============2926690747957695106=="
+	bh=aPLLfAAON6yZHAspiYCkyjJd393HuRG5IKr82hB/Ao8=;
+	b=VqEXizvQ81A1RIflR/FUx049NVcAV8Jd0dV2D+nw8Y68Vt5Djp3Nsgzl2mcby0ov
+	v9TNWiMb5+GcTDU8+/tvvDY19gJNxGLO7rXiqFDbBb9zcfBKwcEdFIci6i64RGN2a3A
+	JYQ8UZ/O1NMT1JcvqpqNUytRa5drbwPewv7rTnJ0=
+Content-Type: multipart/mixed; boundary="===============0789870430260666037=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] fmt: upgrading to 12.1.0 SUCCEEDED
-Message-ID: <0101019a8862123e-8dcc1972-26f4-4937-a99e-55def73c0390-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Nov 2025 16:38:39 +0000
+Subject: [AUH] python3-cffi: upgrading to 2.0.0 SUCCEEDED
+Message-ID: <0101019a886222d9-44a198f0-9241-4ba0-b423-04ce75d7b9b4-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Nov 2025 16:38:44 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.15-54.240.27.23
+X-SES-Outgoing: 2025.11.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:38:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226340
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:38:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226353
 
---===============2926690747957695106==
+--===============0789870430260666037==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *fmt* to *12.1.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-cffi* to *2.0.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-fmt-upgrade-11.2.0-12.1.0.patch
+    - apply the patch: git am 0001-python3-cffi-upgrade-1.17.1-2.0.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,166 +72,166 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 06e82b3ce2d33a7ae82c5ad27dd87c1780a7aa5b Mon Sep 17 00:00:00 2001
+From c71973f9df6b25046c0338da11cdb0bf17e19dbf Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Nov 2025 09:16:24 +0000
-Subject: [PATCH] fmt: upgrade 11.2.0 -> 12.1.0
+Date: Sat, 15 Nov 2025 10:02:47 +0000
+Subject: [PATCH] python3-cffi: upgrade 1.17.1 -> 2.0.0
 
 ---
- ...compilation-on-clang-21-libc-21-4477.patch | 46 -------------------
- ...01-Workaround-an-ABI-issue-in-spdlog.patch |  8 ++--
- .../fmt/{fmt_11.2.0.bb => fmt_12.1.0.bb}      |  5 +-
- 3 files changed, 6 insertions(+), 53 deletions(-)
- delete mode 100644 meta/recipes-devtools/fmt/fmt/0001-Fix-compilation-on-clang-21-libc-21-4477.patch
- rename meta/recipes-devtools/fmt/{fmt_11.2.0.bb => fmt_12.1.0.bb} (84%)
+ ...ize_t-to-avoid-c-11-narrowing-warnin.patch | 34 ---------------
+ ...3-cffi_1.17.1.bb => python3-cffi_2.0.0.bb} | 41 +++++++++++++++++--
+ 2 files changed, 37 insertions(+), 38 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-cffi/0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch
+ rename meta/recipes-devtools/python/{python3-cffi_1.17.1.bb => python3-cffi_2.0.0.bb} (36%)
 
-diff --git a/meta/recipes-devtools/fmt/fmt/0001-Fix-compilation-on-clang-21-libc-21-4477.patch b/meta/recipes-devtools/fmt/fmt/0001-Fix-compilation-on-clang-21-libc-21-4477.patch
+diff --git a/meta/recipes-devtools/python/python3-cffi/0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch b/meta/recipes-devtools/python/python3-cffi/0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch
 deleted file mode 100644
-index 911fa90a40..0000000000
---- a/meta/recipes-devtools/fmt/fmt/0001-Fix-compilation-on-clang-21-libc-21-4477.patch
+index a919f4f6fb..0000000000
+--- a/meta/recipes-devtools/python/python3-cffi/0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch
 +++ /dev/null
-@@ -1,46 +0,0 @@
--From f4345467fce7edbc6b36c3fa1cf197a67be617e2 Mon Sep 17 00:00:00 2001
--From: Remy Jette <remy@remyjette.com>
--Date: Sat, 21 Jun 2025 07:28:14 -0700
--Subject: [PATCH] Fix compilation on clang-21 / libc++-21 (#4477)
+@@ -1,34 +0,0 @@
+-From 2ac63f8765e62f1492ef3ee06791636700bc6cfb Mon Sep 17 00:00:00 2001
+-From: triallax <triallax@tutanota.com>
+-Date: Sat, 29 Jun 2024 15:25:24 +0100
+-Subject: [PATCH] Cast offset to size_t to avoid c++11-narrowing warning (#92)
 -
--`<cstdlib>` was not being included, so malloc and free were only declared
--via transitive includes. Some includes changed in the latest libc++-21
--build which broke fmt.
+-e.g. with clang 18 on chimera linux:
 -
--Also changed `malloc`/`free` to `std::malloc` and `std::free`, as
--putting those symbols in the global namespace is optional for the
--implementation when including `<cstdlib>`.
+-_CFFI_test_verify_anonymous_struct_with_star_typedef.cpp:583:10: error: non-constant-expression cannot be narrowed from type 'long' to 'size_t' (aka 'unsigned long') in initializer list [-Wc++11-narrowing]
+-  583 |   { "a", ((char *)&((foo_t)4096)->a) - (char *)4096,
+-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-_CFFI_test_verify_anonymous_struct_with_star_typedef.cpp:583:10: note: insert an explicit cast to silence this issue
+-  583 |   { "a", ((char *)&((foo_t)4096)->a) - (char *)4096,
+-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-      |          static_cast<size_t>(                      )
 -
--Upstream-Status: Backport [https://github.com/fmtlib/fmt/pull/4477]
+-Upstream-Status: Backport [https://github.com/python-cffi/cffi/pull/92]
 -Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
-- include/fmt/format.h | 5 +++--
-- 1 file changed, 3 insertions(+), 2 deletions(-)
+- src/cffi/recompiler.py | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--Index: fmt-11.2.0/include/fmt/format.h
--===================================================================
----- fmt-11.2.0.orig/include/fmt/format.h
--+++ fmt-11.2.0/include/fmt/format.h
--@@ -44,6 +44,7 @@
-- #  include <cmath>    // std::signbit
-- #  include <cstddef>  // std::byte
-- #  include <cstdint>  // uint32_t
--+#  include <cstdlib>  // std::malloc, std::free
-- #  include <cstring>  // std::memcpy
-- #  include <limits>   // std::numeric_limits
-- #  include <new>      // std::bad_alloc
--@@ -744,12 +745,12 @@ template <typename T> struct allocator {
-- 
--   T* allocate(size_t n) {
--     FMT_ASSERT(n <= max_value<size_t>() / sizeof(T), "");
---    T* p = static_cast<T*>(malloc(n * sizeof(T)));
--+    T* p = static_cast<T*>(std::malloc(n * sizeof(T)));
--     if (!p) FMT_THROW(std::bad_alloc());
--     return p;
--   }
-- 
---  void deallocate(T* p, size_t) { free(p); }
--+  void deallocate(T* p, size_t) { std::free(p); }
-- };
-- 
-- }  // namespace detail
-diff --git a/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.patch b/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.patch
-index 3fe85d51ee..442506f834 100644
---- a/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.patch
-+++ b/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.patch
-@@ -1,4 +1,4 @@
--From 5a5637c306c617ddb3726c76d3f7490a2dc0a5cd Mon Sep 17 00:00:00 2001
-+From 32f4a4a634c99d4e00cc6149786a9180ad651f76 Mon Sep 17 00:00:00 2001
- From: Victor Zverovich <viz@meta.com>
- Date: Sat, 22 Mar 2025 06:57:04 -0700
- Subject: [PATCH] Workaround an ABI issue in spdlog
-@@ -10,10 +10,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 4 insertions(+), 2 deletions(-)
- 
- diff --git a/include/fmt/format.h b/include/fmt/format.h
--index 287e7163..61cb2825 100644
-+index 4a653007..82f80efd 100644
- --- a/include/fmt/format.h
- +++ b/include/fmt/format.h
--@@ -774,7 +774,9 @@ enum { inline_buffer_size = 500 };
-+@@ -793,7 +793,9 @@ enum { inline_buffer_size = 500 };
-   * converted to `std::string` with `to_string(out)`.
-   */
-  template <typename T, size_t SIZE = inline_buffer_size,
-@@ -24,7 +24,7 @@ index 287e7163..61cb2825 100644
-  class basic_memory_buffer : public detail::buffer<T> {
-   private:
-    T store_[SIZE];
--@@ -2594,7 +2596,7 @@ class bigint {
-+@@ -2746,7 +2748,7 @@ class bigint {
-    }
-  
-   public:
-diff --git a/meta/recipes-devtools/fmt/fmt_11.2.0.bb b/meta/recipes-devtools/fmt/fmt_12.1.0.bb
-similarity index 84%
-rename from meta/recipes-devtools/fmt/fmt_11.2.0.bb
-rename to meta/recipes-devtools/fmt/fmt_12.1.0.bb
-index 133e1ae77d..22cab6f138 100644
---- a/meta/recipes-devtools/fmt/fmt_11.2.0.bb
-+++ b/meta/recipes-devtools/fmt/fmt_12.1.0.bb
-@@ -4,12 +4,11 @@ HOMEPAGE = "https://fmt.dev"
+-diff --git a/src/cffi/recompiler.py b/src/cffi/recompiler.py
+-index ac6c163e..14d578ee 100644
+---- a/src/cffi/recompiler.py
+-+++ b/src/cffi/recompiler.py
+-@@ -953,7 +953,7 @@ class Recompiler:
+-                 if cname is None or fbitsize >= 0:
+-                     offset = '(size_t)-1'
+-                 elif named_ptr is not None:
+--                    offset = '((char *)&((%s)4096)->%s) - (char *)4096' % (
+-+                    offset = '(size_t)(((char *)&((%s)4096)->%s) - (char *)4096)' % (
+-                         named_ptr.name, fldname)
+-                 else:
+-                     offset = 'offsetof(%s, %s)' % (tp.get_c_name(''), fldname)
+diff --git a/meta/recipes-devtools/python/python3-cffi_1.17.1.bb b/meta/recipes-devtools/python/python3-cffi_2.0.0.bb
+similarity index 36%
+rename from meta/recipes-devtools/python/python3-cffi_1.17.1.bb
+rename to meta/recipes-devtools/python/python3-cffi_2.0.0.bb
+index 5a3af03d9f..074174ed4d 100644
+--- a/meta/recipes-devtools/python/python3-cffi_1.17.1.bb
++++ b/meta/recipes-devtools/python/python3-cffi_2.0.0.bb
+@@ -1,13 +1,46 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -3,7 +3,7 @@
++#  information at the beginning of each file) all software and
++#  documentation is licensed as follows: 
++#  
++# -    The MIT License
++# +    MIT No Attribution
++#  
++#      Permission is hereby granted, free of charge, to any person 
++#      obtaining a copy of this software and associated documentation 
++# @@ -11,10 +11,7 @@
++#      restriction, including without limitation the rights to use, 
++#      copy, modify, merge, publish, distribute, sublicense, and/or 
++#      sell copies of the Software, and to permit persons to whom the 
++# -    Software is furnished to do so, subject to the following conditions:
++# -
++# -    The above copyright notice and this permission notice shall be included 
++# -    in all copies or substantial portions of the Software.
++# +    Software is furnished to do so.
++#  
++#      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
++#      OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
++# 
++#
++
+ SUMMARY = "Foreign Function Interface for Python calling C code"
+ HOMEPAGE = "http://cffi.readthedocs.org/"
  LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=b9257785fc4f3803a4b71b76c1412729"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=5677e2fdbf7cdda61d6dd2b57df547bf"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=c0158ab9b75875f3bb7fea081d388818"
+ DEPENDS += "libffi python3-pycparser"
  
--SRC_URI = "git://github.com/fmtlib/fmt;branch=master;protocol=https;tag=${PV}\
-+SRC_URI = "git://github.com/fmtlib/fmt;branch=master;protocol=https;tag=${PV} \
-            file://0001-Workaround-an-ABI-issue-in-spdlog.patch \
--           file://0001-Fix-compilation-on-clang-21-libc-21-4477.patch \
-            file://run-ptest \
-            "
--SRCREV = "40626af88bd7df9a5fb80be7b25ac85b122d6c21"
-+SRCREV = "407c905e45ad75fc29bf0f9bb7c5c2fd3475976f"
+-SRC_URI[sha256sum] = "1c39c6016c32bc48dd54561950ebd6836e1670f2ae46128f67cf49e789c52824"
++SRC_URI[sha256sum] = "44d1b5909021139fe36001ae048dbdde8214afa20200eda0f64c068cac5d5529"
  
- inherit cmake ptest
+-SRC_URI += "file://run-ptest \
+-            file://0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch"
++SRC_URI += "file://run-ptest"
+ 
+ inherit pypi python_setuptools_build_meta ptest pkgconfig
  
 -- 
 2.47.1
 
 
---===============2926690747957695106==
+--===============0789870430260666037==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/fmt/fmt-dbg: FILELIST: removed "/usr/lib/.debug/libfmt.so.11.2.0", added "/usr/lib/.debug/libfmt.so.12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-dbg: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt-dbg: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-dbg: PKGSIZE changed from 198066976 to 199840888 (+1%)
-packages/x86-64-v3-poky-linux/fmt/fmt-dev: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt-dev: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-dev: PKGSIZE changed from 584573 to 590023 (+1%)
-packages/x86-64-v3-poky-linux/fmt/fmt-doc: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt-doc: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-locale: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt-locale: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-ptest: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt-ptest: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-ptest: PKGSIZE changed from 15113572 to 15265124 (+1%)
-packages/x86-64-v3-poky-linux/fmt/fmt-src: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt-src: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt-src: PKGSIZE changed from 2441729 to 2456140 (+1%)
-packages/x86-64-v3-poky-linux/fmt/fmt-staticdev: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt-staticdev: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt: FILELIST: removed "/usr/lib/libfmt.so.11 /usr/lib/libfmt.so.11.2.0", added "/usr/lib/libfmt.so.12 /usr/lib/libfmt.so.12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt/fmt: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt: PKGSIZE changed from 133192 to 141384 (+6%)
-packages/x86-64-v3-poky-linux/fmt/fmt: PKG changed from libfmt11 to libfmt12
-packages/x86-64-v3-poky-linux/fmt: PKGV changed from 11.2.0 [default] to 12.1.0 [default]
-packages/x86-64-v3-poky-linux/fmt: PV changed from "11.2.0" to "12.1.0"
-packages/x86-64-v3-poky-linux/fmt: SRC_URI changed from "git://github.com/fmtlib/fmt;branch=master;protocol=https;tag=11.2.0 file://0001-Workaround-an-ABI-issue-in-spdlog.patch file://0001-Fix-compilation-on-clang-21-libc-21-4477.patch file://run-ptest" to "git://github.com/fmtlib/fmt;branch=master;protocol=https;tag=12.1.0 file://0001-Workaround-an-ABI-issue-in-spdlog.patch file://run-ptest"
-Changes to packages/x86-64-v3-poky-linux/fmt (sysroot):
-  /usr/lib/libfmt.so changed symlink target from libfmt.so.11 to libfmt.so.12
-  /usr/lib/libfmt.so.11.2.0 moved to /usr/lib/libfmt.so.12.1.0
-  /usr/lib/libfmt.so.11 moved to /usr/lib/libfmt.so.12
+packages/x86-64-v3-poky-linux/python3-cffi: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cffi/cffi-1.17.1.tar.gz;downloadfilename=cffi-1.17.1.tar.gz file://run-ptest file://0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch" to "https://files.pythonhosted.org/packages/source/c/cffi/cffi-2.0.0.tar.gz;downloadfilename=cffi-2.0.0.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-dbg: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-dbg: PKGSIZE changed from 581920 to 592120 (+2%)
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-dbg: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-dev: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-dev: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-doc: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-doc: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-locale: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-locale: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-ptest: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-ptest: PKGSIZE changed from 677014 to 684059 (+1%)
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-ptest: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-src: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-src: PKGSIZE changed from 488407 to 497652 (+2%)
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-src: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-staticdev: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-staticdev: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi: PKGSIZE changed from 1012467 to 1014971 (+0%)
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi: FILELIST: directory renamed /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info -> /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info, removed "/usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/licenses/LICENSE", added "/usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/LICENSE /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/AUTHORS"
+Changes to packages/x86-64-v3-poky-linux/python3-cffi (sysroot):
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/AUTHORS was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/WHEEL was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2155,116 +2155,29 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============2926690747957695106==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-fmt-upgrade-11.2.0-12.1.0.patch"
-
-RnJvbSAwNmU4MmIzY2UyZDMzYTdhZTgyYzVhZDI3ZGQ4N2MxNzgwYTdhYTViIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMDk6MTY6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBm
-bXQ6IHVwZ3JhZGUgMTEuMi4wIC0+IDEyLjEuMAoKLS0tCiAuLi5jb21waWxhdGlvbi1vbi1jbGFu
-Zy0yMS1saWJjLTIxLTQ0NzcucGF0Y2ggfCA0NiAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4wMS1X
-b3JrYXJvdW5kLWFuLUFCSS1pc3N1ZS1pbi1zcGRsb2cucGF0Y2ggfCAgOCArKy0tCiAuLi4vZm10
-L3tmbXRfMTEuMi4wLmJiID0+IGZtdF8xMi4xLjAuYmJ9ICAgICAgfCAgNSArLQogMyBmaWxlcyBj
-aGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDUzIGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAw
-NjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9mbXQvZm10LzAwMDEtRml4LWNvbXBpbGF0aW9uLW9u
-LWNsYW5nLTIxLWxpYmMtMjEtNDQ3Ny5wYXRjaAogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9mbXQve2ZtdF8xMS4yLjAuYmIgPT4gZm10XzEyLjEuMC5iYn0gKDg0JSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZm10L2ZtdC8wMDAxLUZpeC1jb21waWxhdGlvbi1vbi1j
-bGFuZy0yMS1saWJjLTIxLTQ0NzcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZm10L2Zt
-dC8wMDAxLUZpeC1jb21waWxhdGlvbi1vbi1jbGFuZy0yMS1saWJjLTIxLTQ0NzcucGF0Y2gKZGVs
-ZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDkxMWZhOTBhNDAuLjAwMDAwMDAwMDAKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2ZtdC9mbXQvMDAwMS1GaXgtY29tcGlsYXRpb24tb24tY2xh
-bmctMjEtbGliYy0yMS00NDc3LnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsNDYgKzAsMCBAQAot
-RnJvbSBmNDM0NTQ2N2ZjZTdlZGJjNmIzNmMzZmExY2YxOTdhNjdiZTYxN2UyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQotRnJvbTogUmVteSBKZXR0ZSA8cmVteUByZW15amV0dGUuY29tPgotRGF0
-ZTogU2F0LCAyMSBKdW4gMjAyNSAwNzoyODoxNCAtMDcwMAotU3ViamVjdDogW1BBVENIXSBGaXgg
-Y29tcGlsYXRpb24gb24gY2xhbmctMjEgLyBsaWJjKystMjEgKCM0NDc3KQotCi1gPGNzdGRsaWI+
-YCB3YXMgbm90IGJlaW5nIGluY2x1ZGVkLCBzbyBtYWxsb2MgYW5kIGZyZWUgd2VyZSBvbmx5IGRl
-Y2xhcmVkCi12aWEgdHJhbnNpdGl2ZSBpbmNsdWRlcy4gU29tZSBpbmNsdWRlcyBjaGFuZ2VkIGlu
-IHRoZSBsYXRlc3QgbGliYysrLTIxCi1idWlsZCB3aGljaCBicm9rZSBmbXQuCi0KLUFsc28gY2hh
-bmdlZCBgbWFsbG9jYC9gZnJlZWAgdG8gYHN0ZDo6bWFsbG9jYCBhbmQgYHN0ZDo6ZnJlZWAsIGFz
-Ci1wdXR0aW5nIHRob3NlIHN5bWJvbHMgaW4gdGhlIGdsb2JhbCBuYW1lc3BhY2UgaXMgb3B0aW9u
-YWwgZm9yIHRoZQotaW1wbGVtZW50YXRpb24gd2hlbiBpbmNsdWRpbmcgYDxjc3RkbGliPmAuCi0K
-LVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8vZ2l0aHViLmNvbS9mbXRsaWIvZm10
-L3B1bGwvNDQ3N10KLVNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+
-Ci0tLS0KLSBpbmNsdWRlL2ZtdC9mb3JtYXQuaCB8IDUgKysrLS0KLSAxIGZpbGUgY2hhbmdlZCwg
-MyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQotCi1JbmRleDogZm10LTExLjIuMC9pbmNs
-dWRlL2ZtdC9mb3JtYXQuaAotPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PQotLS0tIGZtdC0xMS4yLjAub3JpZy9pbmNsdWRl
-L2ZtdC9mb3JtYXQuaAotKysrIGZtdC0xMS4yLjAvaW5jbHVkZS9mbXQvZm9ybWF0LmgKLUBAIC00
-NCw2ICs0NCw3IEBACi0gIyAgaW5jbHVkZSA8Y21hdGg+ICAgIC8vIHN0ZDo6c2lnbmJpdAotICMg
-IGluY2x1ZGUgPGNzdGRkZWY+ICAvLyBzdGQ6OmJ5dGUKLSAjICBpbmNsdWRlIDxjc3RkaW50PiAg
-Ly8gdWludDMyX3QKLSsjICBpbmNsdWRlIDxjc3RkbGliPiAgLy8gc3RkOjptYWxsb2MsIHN0ZDo6
-ZnJlZQotICMgIGluY2x1ZGUgPGNzdHJpbmc+ICAvLyBzdGQ6Om1lbWNweQotICMgIGluY2x1ZGUg
-PGxpbWl0cz4gICAvLyBzdGQ6Om51bWVyaWNfbGltaXRzCi0gIyAgaW5jbHVkZSA8bmV3PiAgICAg
-IC8vIHN0ZDo6YmFkX2FsbG9jCi1AQCAtNzQ0LDEyICs3NDUsMTIgQEAgdGVtcGxhdGUgPHR5cGVu
-YW1lIFQ+IHN0cnVjdCBhbGxvY2F0b3IgewotIAotICAgVCogYWxsb2NhdGUoc2l6ZV90IG4pIHsK
-LSAgICAgRk1UX0FTU0VSVChuIDw9IG1heF92YWx1ZTxzaXplX3Q+KCkgLyBzaXplb2YoVCksICIi
-KTsKLS0gICAgVCogcCA9IHN0YXRpY19jYXN0PFQqPihtYWxsb2MobiAqIHNpemVvZihUKSkpOwot
-KyAgICBUKiBwID0gc3RhdGljX2Nhc3Q8VCo+KHN0ZDo6bWFsbG9jKG4gKiBzaXplb2YoVCkpKTsK
-LSAgICAgaWYgKCFwKSBGTVRfVEhST1coc3RkOjpiYWRfYWxsb2MoKSk7Ci0gICAgIHJldHVybiBw
-OwotICAgfQotIAotLSAgdm9pZCBkZWFsbG9jYXRlKFQqIHAsIHNpemVfdCkgeyBmcmVlKHApOyB9
-Ci0rICB2b2lkIGRlYWxsb2NhdGUoVCogcCwgc2l6ZV90KSB7IHN0ZDo6ZnJlZShwKTsgfQotIH07
-Ci0gCi0gfSAgLy8gbmFtZXNwYWNlIGRldGFpbApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2ZtdC9mbXQvMDAwMS1Xb3JrYXJvdW5kLWFuLUFCSS1pc3N1ZS1pbi1zcGRsb2cucGF0
-Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZm10L2ZtdC8wMDAxLVdvcmthcm91bmQtYW4tQUJJ
-LWlzc3VlLWluLXNwZGxvZy5wYXRjaAppbmRleCAzZmU4NWQ1MWVlLi40NDI1MDZmODM0IDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZm10L2ZtdC8wMDAxLVdvcmthcm91bmQtYW4t
-QUJJLWlzc3VlLWluLXNwZGxvZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZm10
-L2ZtdC8wMDAxLVdvcmthcm91bmQtYW4tQUJJLWlzc3VlLWluLXNwZGxvZy5wYXRjaApAQCAtMSw0
-ICsxLDQgQEAKLUZyb20gNWE1NjM3YzMwNmM2MTdkZGIzNzI2Yzc2ZDNmNzQ5MGEyZGMwYTVjZCBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMzJmNGE0YTYzNGM5OWQ0ZTAwY2M2MTQ5Nzg2
-YTkxODBhZDY1MWY3NiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFZpY3RvciBadmVy
-b3ZpY2ggPHZpekBtZXRhLmNvbT4KIERhdGU6IFNhdCwgMjIgTWFyIDIwMjUgMDY6NTc6MDQgLTA3
-MDAKIFN1YmplY3Q6IFtQQVRDSF0gV29ya2Fyb3VuZCBhbiBBQkkgaXNzdWUgaW4gc3BkbG9nCkBA
-IC0xMCwxMCArMTAsMTAgQEAgU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWls
-LmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQog
-CiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9mbXQvZm9ybWF0LmggYi9pbmNsdWRlL2ZtdC9mb3JtYXQu
-aAotaW5kZXggMjg3ZTcxNjMuLjYxY2IyODI1IDEwMDY0NAoraW5kZXggNGE2NTMwMDcuLjgyZjgw
-ZWZkIDEwMDY0NAogLS0tIGEvaW5jbHVkZS9mbXQvZm9ybWF0LmgKICsrKyBiL2luY2x1ZGUvZm10
-L2Zvcm1hdC5oCi1AQCAtNzc0LDcgKzc3NCw5IEBAIGVudW0geyBpbmxpbmVfYnVmZmVyX3NpemUg
-PSA1MDAgfTsKK0BAIC03OTMsNyArNzkzLDkgQEAgZW51bSB7IGlubGluZV9idWZmZXJfc2l6ZSA9
-IDUwMCB9OwogICAqIGNvbnZlcnRlZCB0byBgc3RkOjpzdHJpbmdgIHdpdGggYHRvX3N0cmluZyhv
-dXQpYC4KICAgKi8KICB0ZW1wbGF0ZSA8dHlwZW5hbWUgVCwgc2l6ZV90IFNJWkUgPSBpbmxpbmVf
-YnVmZmVyX3NpemUsCkBAIC0yNCw3ICsyNCw3IEBAIGluZGV4IDI4N2U3MTYzLi42MWNiMjgyNSAx
-MDA2NDQKICBjbGFzcyBiYXNpY19tZW1vcnlfYnVmZmVyIDogcHVibGljIGRldGFpbDo6YnVmZmVy
-PFQ+IHsKICAgcHJpdmF0ZToKICAgIFQgc3RvcmVfW1NJWkVdOwotQEAgLTI1OTQsNyArMjU5Niw3
-IEBAIGNsYXNzIGJpZ2ludCB7CitAQCAtMjc0Niw3ICsyNzQ4LDcgQEAgY2xhc3MgYmlnaW50IHsK
-ICAgIH0KICAKICAgcHVibGljOgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Zt
-dC9mbXRfMTEuMi4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2ZtdC9mbXRfMTIuMS4wLmJi
-CnNpbWlsYXJpdHkgaW5kZXggODQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9m
-bXQvZm10XzExLjIuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2ZtdC9mbXRf
-MTIuMS4wLmJiCmluZGV4IDEzM2UxYWU3N2QuLjIyY2FiNmYxMzggMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9mbXQvZm10XzExLjIuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvZm10L2ZtdF8xMi4xLjAuYmIKQEAgLTQsMTIgKzQsMTEgQEAgSE9NRVBBR0UgPSAiaHR0
-cHM6Ly9mbXQuZGV2IgogTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6
-Ly9MSUNFTlNFO21kNT1iOTI1Nzc4NWZjNGYzODAzYTRiNzFiNzZjMTQxMjcyOSIKIAotU1JDX1VS
-SSA9ICJnaXQ6Ly9naXRodWIuY29tL2ZtdGxpYi9mbXQ7YnJhbmNoPW1hc3Rlcjtwcm90b2NvbD1o
-dHRwczt0YWc9JHtQVn1cCitTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vZm10bGliL2ZtdDti
-cmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0dHBzO3RhZz0ke1BWfSBcCiAgICAgICAgICAgIGZpbGU6
-Ly8wMDAxLVdvcmthcm91bmQtYW4tQUJJLWlzc3VlLWluLXNwZGxvZy5wYXRjaCBcCi0gICAgICAg
-ICAgIGZpbGU6Ly8wMDAxLUZpeC1jb21waWxhdGlvbi1vbi1jbGFuZy0yMS1saWJjLTIxLTQ0Nzcu
-cGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAgIgotU1JD
-UkVWID0gIjQwNjI2YWY4OGJkN2RmOWE1ZmI4MGJlN2IyNWFjODViMTIyZDZjMjEiCitTUkNSRVYg
-PSAiNDA3YzkwNWU0NWFkNzVmYzI5YmYwZjliYjdjNWMyZmQzNDc1OTc2ZiIKIAogaW5oZXJpdCBj
-bWFrZSBwdGVzdAogCi0tIAoyLjQ3LjEKCg==
-
---===============2926690747957695106==
+--===============0789870430260666037==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/fmt/fmt: FILELIST: removed "/usr/lib/libfmt.so.11 /usr/lib/libfmt.so.11.2.0", added "/usr/lib/libfmt.so.12 /usr/lib/libfmt.so.12.1.0"
-packages/x86-64-v3-poky-linux/fmt/fmt: PKG changed from libfmt11 to libfmt12
-Changes to packages/x86-64-v3-poky-linux/fmt (sysroot):
-  /usr/lib/libfmt.so changed symlink target from libfmt.so.11 to libfmt.so.12
-  /usr/lib/libfmt.so.11.2.0 moved to /usr/lib/libfmt.so.12.1.0
-  /usr/lib/libfmt.so.11 moved to /usr/lib/libfmt.so.12
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi: FILELIST: directory renamed /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info -> /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info, removed "/usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/licenses/LICENSE", added "/usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/LICENSE /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/AUTHORS"
+Changes to packages/x86-64-v3-poky-linux/python3-cffi (sysroot):
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/AUTHORS was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/WHEEL was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4188,5 +4101,108 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============2926690747957695106==--
+--===============0789870430260666037==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-cffi-upgrade-1.17.1-2.0.0.patch"
+
+RnJvbSBjNzE5NzNmOWRmNmIyNTA0NmMwMzM4ZGExMWNkYjBiZjE3ZTE5ZGJmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTA6MDI6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWNmZmk6IHVwZ3JhZGUgMS4xNy4xIC0+IDIuMC4wCgotLS0KIC4uLml6ZV90LXRvLWF2
+b2lkLWMtMTEtbmFycm93aW5nLXdhcm5pbi5wYXRjaCB8IDM0IC0tLS0tLS0tLS0tLS0tLQogLi4u
+My1jZmZpXzEuMTcuMS5iYiA9PiBweXRob24zLWNmZmlfMi4wLjAuYmJ9IHwgNDEgKysrKysrKysr
+KysrKysrKystLQogMiBmaWxlcyBjaGFuZ2VkLCAzNyBpbnNlcnRpb25zKCspLCAzOCBkZWxldGlv
+bnMoLSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtY2ZmaS8wMDAxLUNhc3Qtb2Zmc2V0LXRvLXNpemVfdC10by1hdm9pZC1jLTExLW5hcnJv
+d2luZy13YXJuaW4ucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tw
+eXRob24zLWNmZmlfMS4xNy4xLmJiID0+IHB5dGhvbjMtY2ZmaV8yLjAuMC5iYn0gKDM2JSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2ZmaS8wMDAx
+LUNhc3Qtb2Zmc2V0LXRvLXNpemVfdC10by1hdm9pZC1jLTExLW5hcnJvd2luZy13YXJuaW4ucGF0
+Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2ZmaS8wMDAxLUNhc3Qt
+b2Zmc2V0LXRvLXNpemVfdC10by1hdm9pZC1jLTExLW5hcnJvd2luZy13YXJuaW4ucGF0Y2gKZGVs
+ZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IGE5MTlmNGY2ZmIuLjAwMDAwMDAwMDAKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNmZmkvMDAwMS1DYXN0LW9mZnNl
+dC10by1zaXplX3QtdG8tYXZvaWQtYy0xMS1uYXJyb3dpbmctd2FybmluLnBhdGNoCisrKyAvZGV2
+L251bGwKQEAgLTEsMzQgKzAsMCBAQAotRnJvbSAyYWM2M2Y4NzY1ZTYyZjE0OTJlZjNlZTA2Nzkx
+NjM2NzAwYmM2Y2ZiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogdHJpYWxsYXggPHRy
+aWFsbGF4QHR1dGFub3RhLmNvbT4KLURhdGU6IFNhdCwgMjkgSnVuIDIwMjQgMTU6MjU6MjQgKzAx
+MDAKLVN1YmplY3Q6IFtQQVRDSF0gQ2FzdCBvZmZzZXQgdG8gc2l6ZV90IHRvIGF2b2lkIGMrKzEx
+LW5hcnJvd2luZyB3YXJuaW5nICgjOTIpCi0KLWUuZy4gd2l0aCBjbGFuZyAxOCBvbiBjaGltZXJh
+IGxpbnV4OgotCi1fQ0ZGSV90ZXN0X3ZlcmlmeV9hbm9ueW1vdXNfc3RydWN0X3dpdGhfc3Rhcl90
+eXBlZGVmLmNwcDo1ODM6MTA6IGVycm9yOiBub24tY29uc3RhbnQtZXhwcmVzc2lvbiBjYW5ub3Qg
+YmUgbmFycm93ZWQgZnJvbSB0eXBlICdsb25nJyB0byAnc2l6ZV90JyAoYWthICd1bnNpZ25lZCBs
+b25nJykgaW4gaW5pdGlhbGl6ZXIgbGlzdCBbLVdjKysxMS1uYXJyb3dpbmddCi0gIDU4MyB8ICAg
+eyAiYSIsICgoY2hhciAqKSYoKGZvb190KTQwOTYpLT5hKSAtIChjaGFyICopNDA5NiwKLSAgICAg
+IHwgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Ci1f
+Q0ZGSV90ZXN0X3ZlcmlmeV9hbm9ueW1vdXNfc3RydWN0X3dpdGhfc3Rhcl90eXBlZGVmLmNwcDo1
+ODM6MTA6IG5vdGU6IGluc2VydCBhbiBleHBsaWNpdCBjYXN0IHRvIHNpbGVuY2UgdGhpcyBpc3N1
+ZQotICA1ODMgfCAgIHsgImEiLCAoKGNoYXIgKikmKChmb29fdCk0MDk2KS0+YSkgLSAoY2hhciAq
+KTQwOTYsCi0gICAgICB8ICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fgotICAgICAgfCAgICAgICAgICBzdGF0aWNfY2FzdDxzaXplX3Q+KCAgICAgICAg
+ICAgICAgICAgICAgICApCi0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8vZ2l0
+aHViLmNvbS9weXRob24tY2ZmaS9jZmZpL3B1bGwvOTJdCi1TaWduZWQtb2ZmLWJ5OiBLaGVtIFJh
+aiA8cmFqLmtoZW1AZ21haWwuY29tPgotLS0tCi0gc3JjL2NmZmkvcmVjb21waWxlci5weSB8IDIg
+Ky0KLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKLQotZGlm
+ZiAtLWdpdCBhL3NyYy9jZmZpL3JlY29tcGlsZXIucHkgYi9zcmMvY2ZmaS9yZWNvbXBpbGVyLnB5
+Ci1pbmRleCBhYzZjMTYzZS4uMTRkNTc4ZWUgMTAwNjQ0Ci0tLS0gYS9zcmMvY2ZmaS9yZWNvbXBp
+bGVyLnB5Ci0rKysgYi9zcmMvY2ZmaS9yZWNvbXBpbGVyLnB5Ci1AQCAtOTUzLDcgKzk1Myw3IEBA
+IGNsYXNzIFJlY29tcGlsZXI6Ci0gICAgICAgICAgICAgICAgIGlmIGNuYW1lIGlzIE5vbmUgb3Ig
+ZmJpdHNpemUgPj0gMDoKLSAgICAgICAgICAgICAgICAgICAgIG9mZnNldCA9ICcoc2l6ZV90KS0x
+JwotICAgICAgICAgICAgICAgICBlbGlmIG5hbWVkX3B0ciBpcyBub3QgTm9uZToKLS0gICAgICAg
+ICAgICAgICAgICAgIG9mZnNldCA9ICcoKGNoYXIgKikmKCglcyk0MDk2KS0+JXMpIC0gKGNoYXIg
+Kik0MDk2JyAlICgKLSsgICAgICAgICAgICAgICAgICAgIG9mZnNldCA9ICcoc2l6ZV90KSgoKGNo
+YXIgKikmKCglcyk0MDk2KS0+JXMpIC0gKGNoYXIgKik0MDk2KScgJSAoCi0gICAgICAgICAgICAg
+ICAgICAgICAgICAgbmFtZWRfcHRyLm5hbWUsIGZsZG5hbWUpCi0gICAgICAgICAgICAgICAgIGVs
+c2U6Ci0gICAgICAgICAgICAgICAgICAgICBvZmZzZXQgPSAnb2Zmc2V0b2YoJXMsICVzKScgJSAo
+dHAuZ2V0X2NfbmFtZSgnJyksIGZsZG5hbWUpCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2ZmaV8xLjE3LjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtY2ZmaV8yLjAuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDM2JQpyZW5h
+bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2ZmaV8xLjE3LjEu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZmZpXzIu
+MC4wLmJiCmluZGV4IDVhM2FmMDNkOWYuLjA3NDE3NGVkNGQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZmZpXzEuMTcuMS5iYgorKysgYi9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2ZmaV8yLjAuMC5iYgpAQCAtMSwxMyArMSw0
+NiBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRh
+dGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJl
+bmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1
+cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFu
+Z2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgor
+IyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQor
+IworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UKKyMgKysrIExJQ0VOU0UKKyMgQEAg
+LTMsNyArMyw3IEBACisjICBpbmZvcm1hdGlvbiBhdCB0aGUgYmVnaW5uaW5nIG9mIGVhY2ggZmls
+ZSkgYWxsIHNvZnR3YXJlIGFuZAorIyAgZG9jdW1lbnRhdGlvbiBpcyBsaWNlbnNlZCBhcyBmb2xs
+b3dzOiAKKyMgIAorIyAtICAgIFRoZSBNSVQgTGljZW5zZQorIyArICAgIE1JVCBObyBBdHRyaWJ1
+dGlvbgorIyAgCisjICAgICAgUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBj
+aGFyZ2UsIHRvIGFueSBwZXJzb24gCisjICAgICAgb2J0YWluaW5nIGEgY29weSBvZiB0aGlzIHNv
+ZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gCisjIEBAIC0xMSwxMCArMTEsNyBA
+QAorIyAgICAgIHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uIHRoZSBy
+aWdodHMgdG8gdXNlLCAKKyMgICAgICBjb3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNoLCBkaXN0
+cmlidXRlLCBzdWJsaWNlbnNlLCBhbmQvb3IgCisjICAgICAgc2VsbCBjb3BpZXMgb2YgdGhlIFNv
+ZnR3YXJlLCBhbmQgdG8gcGVybWl0IHBlcnNvbnMgdG8gd2hvbSB0aGUgCisjIC0gICAgU29mdHdh
+cmUgaXMgZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dpbmcgY29uZGl0
+aW9uczoKKyMgLQorIyAtICAgIFRoZSBhYm92ZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBl
+cm1pc3Npb24gbm90aWNlIHNoYWxsIGJlIGluY2x1ZGVkIAorIyAtICAgIGluIGFsbCBjb3BpZXMg
+b3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMgb2YgdGhlIFNvZnR3YXJlLgorIyArICAgIFNvZnR3YXJl
+IGlzIGZ1cm5pc2hlZCB0byBkbyBzby4KKyMgIAorIyAgICAgIFRIRSBTT0ZUV0FSRSBJUyBQUk9W
+SURFRCAiQVMgSVMiLCBXSVRIT1VUIFdBUlJBTlRZIE9GIEFOWSBLSU5ELCBFWFBSRVNTIAorIyAg
+ICAgIE9SIElNUExJRUQsIElOQ0xVRElORyBCVVQgTk9UIExJTUlURUQgVE8gVEhFIFdBUlJBTlRJ
+RVMgT0YgTUVSQ0hBTlRBQklMSVRZLCAKKyMgCisjCisKIFNVTU1BUlkgPSAiRm9yZWlnbiBGdW5j
+dGlvbiBJbnRlcmZhY2UgZm9yIFB5dGhvbiBjYWxsaW5nIEMgY29kZSIKIEhPTUVQQUdFID0gImh0
+dHA6Ly9jZmZpLnJlYWR0aGVkb2NzLm9yZy8iCiBMSUNFTlNFID0gIk1JVCIKLUxJQ19GSUxFU19D
+SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTU2NzdlMmZkYmY3Y2RkYTYxZDZkZDJiNTdkZjU0
+N2JmIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9YzAxNThhYjliNzU4
+NzVmM2JiN2ZlYTA4MWQzODg4MTgiCiBERVBFTkRTICs9ICJsaWJmZmkgcHl0aG9uMy1weWNwYXJz
+ZXIiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxYzM5YzYwMTZjMzJiYzQ4ZGQ1NDU2MTk1MGVi
+ZDY4MzZlMTY3MGYyYWU0NjEyOGY2N2NmNDllNzg5YzUyODI0IgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjQ0ZDFiNTkwOTAyMTEzOWZlMzYwMDFhZTA0OGRiZGRlODIxNGFmYTIwMjAwZWRhMGY2NGMw
+NjhjYWM1ZDU1MjkiCiAKLVNSQ19VUkkgKz0gImZpbGU6Ly9ydW4tcHRlc3QgXAotICAgICAgICAg
+ICAgZmlsZTovLzAwMDEtQ2FzdC1vZmZzZXQtdG8tc2l6ZV90LXRvLWF2b2lkLWMtMTEtbmFycm93
+aW5nLXdhcm5pbi5wYXRjaCIKK1NSQ19VUkkgKz0gImZpbGU6Ly9ydW4tcHRlc3QiCiAKIGluaGVy
+aXQgcHlwaSBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhIHB0ZXN0IHBrZ2NvbmZpZwogCi0t
+IAoyLjQ3LjEKCg==
+
+--===============0789870430260666037==--
 
