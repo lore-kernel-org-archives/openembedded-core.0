@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2738CEDD98
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFA56CEDD9B
 	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:39:17 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11964.1763224752507546823
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12138.1763224745079703698
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Nov 2025 08:39:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=E0s9mKty;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=kHJL+bSy;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019a88628e0c-7e10d3b1-604c-47f5-bf8d-f2993ccb02fe-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=A+djds4T;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=c0ktSZyL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019a88629076-0c1dd183-45b6-4ed3-be4f-303160744417-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1763224752;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=NdfnIv5aw47VcKB3ebaqdtE6NO+QxTUifAQzdfabWio=;
-	b=E0s9mKtyDiASq/pdFe7VHe4IKirJkrieiDzoQvOcaARQr7TKXOe112DHqW1ziuTr
-	DUXF9NenFr3Krg3IptBDt+0CrvxlboO6o5hNYbHZ+KIWopyBfy3puPbwR2UwQNvwXyK
-	Zc+I1IZIFhWtqBKVTdLyArJ2yJw92AevAxmZe2q0=
+	bh=eHdGnGKFpKr7coZMqzW2gwWE4ntgsTH5qmtgjAVhhIw=;
+	b=A+djds4T/Ik/+Sz3U1UDSBNYFRQjF9nsLQ34rbAKlxlWaHUm78EP+1fTo4881F05
+	WEKXEcZXM98ds9BgWHrHiV1eQOQjj3HJBlaHNct0WoB+HL8ttlSu6m/g60I7IQ1Hgwn
+	OLOqyu8vMgx3gLFGpBGrqPCT+VVfB0P+LAU4Q54Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224752;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=NdfnIv5aw47VcKB3ebaqdtE6NO+QxTUifAQzdfabWio=;
-	b=kHJL+bSyLeirvH8yiGUhHitcsoLbBcGk8VVGH+VyEPOEHyXfhK3sHnMthQsedsHH
-	XvDBJXCE5cuaW/W5fSEjhups1HMWjsZqQt90KLAP8bZAEGg3O0lEGSPPJdK63dLO9l5
-	idaEKYC3egmvQf2Jnm3j4PJEOghetRIRYrm1Xu4k=
-Content-Type: multipart/mixed; boundary="===============5133071398659610293=="
+	bh=eHdGnGKFpKr7coZMqzW2gwWE4ntgsTH5qmtgjAVhhIw=;
+	b=c0ktSZyLSiipMkEloT9IhqTxJfsjMlFsvLclwZzGe4lwID6/fY06JiQYQbsOzA9+
+	kuWlT7tZmbeQUev45H7Sc+z6giQBFWJr2FHG1cQwOUn2NL4n4Bjz70Z0AMtK1UPNZv1
+	OqUG1jMYDZhI0w1IfOU6x4Tpd434Xz3tAitpcEzo=
+Content-Type: multipart/mixed; boundary="===============2937674403632639144=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] at-spi2-core: upgrading to 2.58.1 FAILED
-Message-ID: <0101019a88628e0c-7e10d3b1-604c-47f5-bf8d-f2993ccb02fe-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Nov 2025 16:39:11 +0000
+Subject: [AUH] dos2unix: upgrading to 7.5.3 SUCCEEDED
+Message-ID: <0101019a88629076-0c1dd183-45b6-4ed3-be4f-303160744417-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Nov 2025 16:39:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.15-54.240.27.29
+X-SES-Outgoing: 2025.11.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:39:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226448
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226447
 
---===============5133071398659610293==
+--===============2937674403632639144==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *at-spi2-core* to *2.58.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *dos2unix* to *7.5.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-at-spi2-core-upgrade-2.56.4-2.58.1.patch
+    - apply the patch: git am 0001-dos2unix-upgrade-7.5.2-7.5.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,186 +72,143 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e1dd2506ed62d7c11348a4f8637389f4dfcb81eb Mon Sep 17 00:00:00 2001
+From d4b032c899717f90accaefc0d4c47dab1de8bb3f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Nov 2025 15:45:09 +0000
-Subject: [PATCH] at-spi2-core: upgrade 2.56.4 -> 2.58.1
+Date: Sat, 15 Nov 2025 15:51:15 +0000
+Subject: [PATCH] dos2unix: upgrade 7.5.2 -> 7.5.3
 
 ---
- .../atk/{at-spi2-core_2.56.4.bb => at-spi2-core_2.58.1.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/atk/{at-spi2-core_2.56.4.bb => at-spi2-core_2.58.1.bb} (94%)
+ .../{dos2unix_7.5.2.bb => dos2unix_7.5.3.bb}  | 26 +++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/dos2unix/{dos2unix_7.5.2.bb => dos2unix_7.5.3.bb} (55%)
 
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.56.4.bb b/meta/recipes-support/atk/at-spi2-core_2.58.1.bb
-similarity index 94%
-rename from meta/recipes-support/atk/at-spi2-core_2.56.4.bb
-rename to meta/recipes-support/atk/at-spi2-core_2.58.1.bb
-index a1cbf4b455..2887bb54d7 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.56.4.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.58.1.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-support/dos2unix/dos2unix_7.5.2.bb b/meta/recipes-support/dos2unix/dos2unix_7.5.3.bb
+similarity index 55%
+rename from meta/recipes-support/dos2unix/dos2unix_7.5.2.bb
+rename to meta/recipes-support/dos2unix/dos2unix_7.5.3.bb
+index c3803f457b..9865424ff7 100644
+--- a/meta/recipes-support/dos2unix/dos2unix_7.5.2.bb
++++ b/meta/recipes-support/dos2unix/dos2unix_7.5.3.bb
+@@ -1,3 +1,25 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- COPYING.txt
++# +++ COPYING.txt
++# @@ -2,7 +2,7 @@
++#  See also https://www.freebsd.org/copyright/freebsd-license.html
++#  --------
++#  
++# -Copyright (C) 2009-2024  Erwin Waterlander
++# +Copyright (C) 2009-2025  Erwin Waterlander
++#  Copyright (C) 1998 Christian Wurll
++#  Copyright (C) 1998 Bernd Johannes Wuebben
++#  Copyright (C) 1994-1995 Benjamin Lin.
++# 
++#
++
+ SUMMARY = "Convert text file line endings between CRLF and LF"
+ DESCRIPTION = "The Dos2unix package includes utilities dos2unix and \
+ unix2dos to convert plain text files in DOS or Mac format to Unix \
+@@ -6,12 +28,12 @@ HOMEPAGE = "http://waterlan.home.xs4all.nl/dos2unix.html"
+ SECTION = "support"
  
- CVE_PRODUCT += "at-spi2-atk"
+ LICENSE = "BSD-2-Clause"
+-LIC_FILES_CHKSUM = "file://COPYING.txt;md5=49ec74e0139712398b9ddb06d824929a"
++LIC_FILES_CHKSUM = "file://COPYING.txt;md5=0802ff257bfeb9bb07ae4e4de04e3223"
  
--SRC_URI[archive.sha256sum] = "dbe35b951499e1d6f1fb552c2e0a09cea7cba2adf6c2eba0b2c85b6c094a3a02"
-+SRC_URI[archive.sha256sum] = "7f374a6a38cd70ff4b32c9d3a0310bfa804d946fed4c9e69a7d49facdcb95e9c"
+ SRC_URI = "git://git.code.sf.net/p/dos2unix/dos2unix;branch=master;protocol=https"
+ UPSTREAM_CHECK_GITTAGREGEX = "dos2unix-(?P<pver>(\d+(\.\d+)+))"
  
- DEPENDS = " \
- 	dbus \
+-SRCREV = "c16a0b31a64c7eb6b2d76960e5144732b57f2993"
++SRCREV = "9df44447947a7b311c62ea0383be94080edcaf85"
+ 
+ S = "${UNPACKDIR}/${BP}/dos2unix"
+ 
 -- 
 2.47.1
 
 
---===============5133071398659610293==
+--===============2937674403632639144==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-dbg: PKGV changed from 7.5.2 [default] to 7.5.3 [default]
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-dbg: PKGSIZE changed from 265712 to 265736 (+0%)
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-dbg: PV changed from "7.5.2" to "7.5.3"
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-dev: PKGV changed from 7.5.2 [default] to 7.5.3 [default]
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-dev: PV changed from "7.5.2" to "7.5.3"
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-doc: PKGV changed from 7.5.2 [default] to 7.5.3 [default]
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-doc: PKGSIZE changed from 203400 to 205825 (+1%)
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-doc: PV changed from "7.5.2" to "7.5.3"
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-locale: PKGV changed from 7.5.2 [default] to 7.5.3 [default]
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-locale: PV changed from "7.5.2" to "7.5.3"
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-src: PKGV changed from 7.5.2 [default] to 7.5.3 [default]
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-src: PKGSIZE changed from 202322 to 202090 (-0%)
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-src: PV changed from "7.5.2" to "7.5.3"
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-staticdev: PKGV changed from 7.5.2 [default] to 7.5.3 [default]
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix-staticdev: PV changed from "7.5.2" to "7.5.3"
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix: PKGV changed from 7.5.2 [default] to 7.5.3 [default]
+packages/x86-64-v3-poky-linux/dos2unix/dos2unix: PV changed from "7.5.2" to "7.5.3"
+packages/x86-64-v3-poky-linux/dos2unix: PKGV changed from 7.5.2 [default] to 7.5.3 [default]
+packages/x86-64-v3-poky-linux/dos2unix: PV changed from "7.5.2" to "7.5.3"
+
+--===============2937674403632639144==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-at-spi2-core-upgrade-2.56.4-2.58.1.patch"
+ filename="0001-dos2unix-upgrade-7.5.2-7.5.3.patch"
 
-RnJvbSBlMWRkMjUwNmVkNjJkN2MxMTM0OGE0Zjg2MzczODlmNGRmY2I4MWViIE1vbiBTZXAgMTcg
+RnJvbSBkNGIwMzJjODk5NzE3ZjkwYWNjYWVmYzBkNGM0N2RhYjFkZThiYjNmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTU6NDU6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
-dC1zcGkyLWNvcmU6IHVwZ3JhZGUgMi41Ni40IC0+IDIuNTguMQoKLS0tCiAuLi4vYXRrL3thdC1z
-cGkyLWNvcmVfMi41Ni40LmJiID0+IGF0LXNwaTItY29yZV8yLjU4LjEuYmJ9ICAgICAgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsve2F0LXNwaTItY29yZV8yLjU2LjQuYmIgPT4gYXQtc3Bp
-Mi1jb3JlXzIuNTguMS5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9y
-dC9hdGsvYXQtc3BpMi1jb3JlXzIuNTYuNC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9h
-dC1zcGkyLWNvcmVfMi41OC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9hdC1zcGkyLWNvcmVfMi41Ni40LmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsvYXQtc3BpMi1jb3JlXzIuNTguMS5iYgppbmRleCBhMWNi
-ZjRiNDU1Li4yODg3YmI1NGQ3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsv
-YXQtc3BpMi1jb3JlXzIuNTYuNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsvYXQt
-c3BpMi1jb3JlXzIuNTguMS5iYgpAQCAtOSw3ICs5LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJm
-aWxlOi8vQ09QWUlORzttZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUxNmMiCiAKIENW
-RV9QUk9EVUNUICs9ICJhdC1zcGkyLWF0ayIKIAotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0g
-PSAiZGJlMzViOTUxNDk5ZTFkNmYxZmI1NTJjMmUwYTA5Y2VhN2NiYTJhZGY2YzJlYmEwYjJjODVi
-NmMwOTRhM2EwMiIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjdmMzc0YTZhMzhjZDcw
-ZmY0YjMyYzlkM2EwMzEwYmZhODA0ZDk0NmZlZDRjOWU2OWE3ZDQ5ZmFjZGNiOTVlOWMiCiAKIERF
-UEVORFMgPSAiIFwKIAlkYnVzIFwKLS0gCjIuNDcuMQoK
+CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTU6NTE6MTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
+b3MydW5peDogdXBncmFkZSA3LjUuMiAtPiA3LjUuMwoKLS0tCiAuLi4ve2RvczJ1bml4XzcuNS4y
+LmJiID0+IGRvczJ1bml4XzcuNS4zLmJifSAgfCAyNiArKysrKysrKysrKysrKysrKy0tCiAxIGZp
+bGUgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtc3VwcG9ydC9kb3MydW5peC97ZG9zMnVuaXhfNy41LjIuYmIgPT4gZG9zMnVuaXhf
+Ny41LjMuYmJ9ICg1NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZG9zMnVu
+aXgvZG9zMnVuaXhfNy41LjIuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kb3MydW5peC9kb3My
+dW5peF83LjUuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDU1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9kb3MydW5peC9kb3MydW5peF83LjUuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvZG9zMnVuaXgvZG9zMnVuaXhfNy41LjMuYmIKaW5kZXggYzM4MDNmNDU3Yi4u
+OTg2NTQyNGZmNyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZG9zMnVuaXgvZG9z
+MnVuaXhfNy41LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZG9zMnVuaXgvZG9zMnVu
+aXhfNy41LjMuYmIKQEAgLTEsMyArMSwyNSBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtT
+VU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUg
+Zm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBs
+aWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVk
+LCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEg
+J0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5
+cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIENPUFlJ
+TkcudHh0CisjICsrKyBDT1BZSU5HLnR4dAorIyBAQCAtMiw3ICsyLDcgQEAKKyMgIFNlZSBhbHNv
+IGh0dHBzOi8vd3d3LmZyZWVic2Qub3JnL2NvcHlyaWdodC9mcmVlYnNkLWxpY2Vuc2UuaHRtbAor
+IyAgLS0tLS0tLS0KKyMgIAorIyAtQ29weXJpZ2h0IChDKSAyMDA5LTIwMjQgIEVyd2luIFdhdGVy
+bGFuZGVyCisjICtDb3B5cmlnaHQgKEMpIDIwMDktMjAyNSAgRXJ3aW4gV2F0ZXJsYW5kZXIKKyMg
+IENvcHlyaWdodCAoQykgMTk5OCBDaHJpc3RpYW4gV3VybGwKKyMgIENvcHlyaWdodCAoQykgMTk5
+OCBCZXJuZCBKb2hhbm5lcyBXdWViYmVuCisjICBDb3B5cmlnaHQgKEMpIDE5OTQtMTk5NSBCZW5q
+YW1pbiBMaW4uCisjIAorIworCiBTVU1NQVJZID0gIkNvbnZlcnQgdGV4dCBmaWxlIGxpbmUgZW5k
+aW5ncyBiZXR3ZWVuIENSTEYgYW5kIExGIgogREVTQ1JJUFRJT04gPSAiVGhlIERvczJ1bml4IHBh
+Y2thZ2UgaW5jbHVkZXMgdXRpbGl0aWVzIGRvczJ1bml4IGFuZCBcCiB1bml4MmRvcyB0byBjb252
+ZXJ0IHBsYWluIHRleHQgZmlsZXMgaW4gRE9TIG9yIE1hYyBmb3JtYXQgdG8gVW5peCBcCkBAIC02
+LDEyICsyOCwxMiBAQCBIT01FUEFHRSA9ICJodHRwOi8vd2F0ZXJsYW4uaG9tZS54czRhbGwubmwv
+ZG9zMnVuaXguaHRtbCIKIFNFQ1RJT04gPSAic3VwcG9ydCIKIAogTElDRU5TRSA9ICJCU0QtMi1D
+bGF1c2UiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HLnR4dDttZDU9NDllYzc0
+ZTAxMzk3MTIzOThiOWRkYjA2ZDgyNDkyOWEiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9D
+T1BZSU5HLnR4dDttZDU9MDgwMmZmMjU3YmZlYjliYjA3YWU0ZTRkZTA0ZTMyMjMiCiAKIFNSQ19V
+UkkgPSAiZ2l0Oi8vZ2l0LmNvZGUuc2YubmV0L3AvZG9zMnVuaXgvZG9zMnVuaXg7YnJhbmNoPW1h
+c3Rlcjtwcm90b2NvbD1odHRwcyIKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gImRvczJ1
+bml4LSg/UDxwdmVyPihcZCsoXC5cZCspKykpIgogCi1TUkNSRVYgPSAiYzE2YTBiMzFhNjRjN2Vi
+NmIyZDc2OTYwZTUxNDQ3MzJiNTdmMjk5MyIKK1NSQ1JFViA9ICI5ZGY0NDQ0Nzk0N2E3YjMxMWM2
+MmVhMDM4M2JlOTQwODBlZGNhZjg1IgogCiBTID0gIiR7VU5QQUNLRElSfS8ke0JQfS9kb3MydW5p
+eCIKIAotLSAKMi40Ny4xCgo=
 
---===============5133071398659610293==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1946 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 947 .bb files complete (946 cached, 1 parsed). 1944 targets, 47 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-97babd72f3fb5091c2c6a0cdcdf16000e63d892e"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:97babd72f3fb5091c2c6a0cdcdf16000e63d892e"
-meta-yocto-bsp       
-meta-poky            = "master:66ea31cee15309af07afeee8dec8a6fe1d92d28e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 272 Local 261 Mirrors 0 Missed 11 Current 486 (95% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 554 of 758 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 610 of 758 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 615 of 758 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 629 of 758 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.14.6.bb:do_create_spdx_setscene)
-NOTE: recipe libxtst-1_1.2.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_populate_lic_setscene: Started
-NOTE: Running task 1321 of 2113 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_write_config)
-NOTE: recipe libxml2-2.14.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe dbus-1.16.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxtst-1_1.2.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 645 of 758 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_create_spdx_setscene)
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_populate_lic_setscene: Succeeded
-NOTE: recipe dbus-1.16.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_write_config: Started
-NOTE: Running setscene task 646 of 758 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libxml2-2.14.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 656 of 758 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_create_spdx_setscene)
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_write_config: Succeeded
-NOTE: recipe libxi-1_1.8.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.86.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxi-1_1.8.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 1485 of 2113 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_fetch)
-NOTE: recipe glib-2.0-1_2.86.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_fetch: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1976 of 2113 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_unpack)
-NOTE: Running task 2042 of 2113 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_unpack: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2097 of 2113 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_patch)
-NOTE: Running task 2098 of 2113 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_collect_spdx_deps)
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_patch: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_patch: Succeeded
-NOTE: Running task 2099 of 2113 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_deploy_source_date_epoch unihash changed to 59edaed48237f7c888cc350869ad74c6310501aa6d8fc5d370b6217c1cdc33ca
-NOTE: Setscene tasks completed
-NOTE: Running task 2101 of 2113 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_configure)
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_configure: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_configure: Succeeded
-NOTE: Running task 2102 of 2113 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_compile)
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_compile: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_compile: Succeeded
-NOTE: Running task 2103 of 2113 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_install)
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_install: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_install: Succeeded
-NOTE: Running task 2104 of 2113 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_package)
-NOTE: Running task 2105 of 2113 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_populate_sysroot)
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_package: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_populate_sysroot: Started
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_populate_sysroot unihash changed to 0ab9a5e89a24e5857651834acdbb8e4b6f3e73ede143fa48be304ee3dc972040
-NOTE: Setscene tasks completed
-NOTE: recipe at-spi2-core-2.58.1-r0: task do_package: Failed
-NOTE: Tasks Summary: Attempted 2105 tasks of which 2093 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251115154443.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251115154443.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_package
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/at-spi2-core/2.58.1/temp/log.do_package.1101573
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: at-spi2-core-2.58.1-r0 do_package: QA Issue: at-spi2-core: Files/directories were installed but not shipped in any package:
-  /usr/lib/python3.13
-  /usr/lib/python3.13/site-packages
-  /usr/lib/python3.13/site-packages/gi
-  /usr/lib/python3.13/site-packages/gi/overrides
-  /usr/lib/python3.13/site-packages/gi/overrides/Atspi.py
-  /usr/lib/python3.13/site-packages/gi/overrides/__pycache__
-  /usr/lib/python3.13/site-packages/gi/overrides/__pycache__/Atspi.cpython-313.pyc
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-at-spi2-core: 7 installed and not shipped files. [installed-vs-shipped]
-ERROR: at-spi2-core-2.58.1-r0 do_package: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/at-spi2-core/2.58.1/temp/log.do_package.1101573
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/atk/at-spi2-core_2.58.1.bb:do_package) failed with exit code '1'
-
---===============5133071398659610293==--
+--===============2937674403632639144==--
 
