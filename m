@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 663E6CEDD8C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 585C6CEDD89
 	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:39:17 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12144.1763224754558360365
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11951.1763224737567327213
  for <openembedded-core@lists.openembedded.org>;
  Sat, 15 Nov 2025 08:39:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=GIbTp3mp;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=LS+Vxa60;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019a8862973d-53a7245f-e964-4cb0-bc47-78b58c8d2edd-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=d17zQ5OZ;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=p05uj6eu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019a8862987d-0e727393-331c-46dc-b269-cff8c898df70-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1763224754;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=pjPSZtJjbvbm18hHadmuhVVPLAd7KfjZMFojn2QWB0o=;
-	b=GIbTp3mpdCEAdu4gcIvSQGZqnWgzu7WPz4nh8FqfX5piDSlpgZmW70TFeBvOU9t1
-	JqbuA898DX3qdcXQLirXvT7bUp/Sd36TItauo4cYCx9H7uWglmNVR3KoH8Nf54+/d61
-	4kkD1Y+URS/USK5UWRt01Ax9FsxHKPp3jzgvp4H0=
+	bh=NVQGfZwzoCFexzzRl9/d1ZdWfCZJeskByE+HiiX6ESI=;
+	b=d17zQ5OZz1gpUzwwJFOPfsBWwYxiW7pYSJJpbEqo82ebGAcRiic0w5vOP9R0B7ub
+	A5SrG7JD3APeUpQx5UjubPiLlW+B9GqYwlCWhiw+EWIJZFpX8D0PaoYgB0Id6qCEaYd
+	pOwxmdArTsVFH+lLVxiipbOhFyFO3Vt8TqUOXF/Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224754;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=pjPSZtJjbvbm18hHadmuhVVPLAd7KfjZMFojn2QWB0o=;
-	b=LS+Vxa60VqpUJ5gVQjao13LGfZzLtcwieGyPVPTQ1dd9d0PP2Bk3mzSaIpY5ndnF
-	CL2IGJK7bPI6miEJ2Orp7KtBp90b14/3hxa8HZkAb2E1ft5Sr/cTC6tJE6egIysoon4
-	vuz/53b0OaL/x5BTkLgzjbHoXMMZsUw7LgXS5L1Y=
-Content-Type: multipart/mixed; boundary="===============6365107209793859533=="
+	bh=NVQGfZwzoCFexzzRl9/d1ZdWfCZJeskByE+HiiX6ESI=;
+	b=p05uj6euSaH7/VvUX5bXmIaxOQ45Lkd1RH3XbHRsKSsymj5mjte6iFGi8oPZVdWH
+	AQmF3J2M/1LNDQzw2R9Xuel2ntLK+yqngYeshzAvfVCmKSroECSLWLwvnGWMccNx7f8
+	bo3KTTUiINMeaUDBiNyieohOxXrZR5lt/VhGciNo=
+Content-Type: multipart/mixed; boundary="===============5177531183712011977=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libcap: upgrading to 2.77 SUCCEEDED
-Message-ID: <0101019a8862973d-53a7245f-e964-4cb0-bc47-78b58c8d2edd-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Nov 2025 16:39:13 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] libpcre2: upgrading to 10.47 SUCCEEDED
+Message-ID: <0101019a8862987d-0e727393-331c-46dc-b269-cff8c898df70-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Nov 2025 16:39:14 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.15-54.240.27.191
+X-SES-Outgoing: 2025.11.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:39:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226455
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226456
 
---===============6365107209793859533==
+--===============5177531183712011977==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libcap* to *2.77* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libpcre2* to *10.47* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libcap-upgrade-2.76-2.77.patch
+    - apply the patch: git am 0001-libpcre2-upgrade-10.46-10.47.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,140 +72,157 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 231bcad1fe14469549508d7b40fd9fbe93299f14 Mon Sep 17 00:00:00 2001
+From 27c4e7f77dee1163811c6039ac014476c53af08f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Nov 2025 16:06:05 +0000
-Subject: [PATCH] libcap: upgrade 2.76 -> 2.77
+Date: Sat, 15 Nov 2025 16:16:37 +0000
+Subject: [PATCH] libpcre2: upgrade 10.46 -> 10.47
 
 ---
- ...Add-build-ldflags-to-_makenames-rule.patch | 29 -------------------
- ...-Raise-the-size-of-arrays-containing.patch |  6 ++--
- .../libcap/{libcap_2.76.bb => libcap_2.77.bb} |  6 ++--
- 3 files changed, 6 insertions(+), 35 deletions(-)
- delete mode 100644 meta/recipes-support/libcap/files/0001-libcap-Add-build-ldflags-to-_makenames-rule.patch
- rename meta/recipes-support/libcap/{libcap_2.76.bb => libcap_2.77.bb} (92%)
+ .../{libpcre2_10.46.bb => libpcre2_10.47.bb}  | 48 ++++++++++++++++++-
+ 1 file changed, 46 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libpcre/{libpcre2_10.46.bb => libpcre2_10.47.bb} (54%)
 
-diff --git a/meta/recipes-support/libcap/files/0001-libcap-Add-build-ldflags-to-_makenames-rule.patch b/meta/recipes-support/libcap/files/0001-libcap-Add-build-ldflags-to-_makenames-rule.patch
-deleted file mode 100644
-index 10ddf64935..0000000000
---- a/meta/recipes-support/libcap/files/0001-libcap-Add-build-ldflags-to-_makenames-rule.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From e52d3232882c263f5bd4b1980195ac633d706a53 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 21 Oct 2025 18:27:51 -0700
--Subject: [PATCH] libcap: Add build ldflags to _makenames rule
--
--its calling compiler and linker in single step
--ensure that build ldflags are respected as it
--might have important information like which runtime
--to use.
--
--Upstream-Status: Backport [https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=c3ddf45d9afaab85d3b7db0dc7bfd1aafb8fde50]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- libcap/Makefile | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/libcap/Makefile b/libcap/Makefile
--index e90a950..f0eb87e 100644
----- a/libcap/Makefile
--+++ b/libcap/Makefile
--@@ -80,7 +80,7 @@ $(PSXTITLE).pc: $(PSXTITLE).pc.in
-- 		$< >$@
--
-- _makenames: _makenames.c cap_names.list.h
---	$(BUILD_CC) $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $< -o $@
--+	$(BUILD_CC) $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $< -o $@ $(BUILD_LDFLAGS)
--
-- cap_names.h: _makenames
-- 	./_makenames > cap_names.h
-diff --git a/meta/recipes-support/libcap/files/0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch b/meta/recipes-support/libcap/files/0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch
-index 2cec20b4b1..33a5db9e93 100644
---- a/meta/recipes-support/libcap/files/0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch
-+++ b/meta/recipes-support/libcap/files/0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch
-@@ -1,4 +1,4 @@
--From 969d21aa2bf474d9c5c80a64de1a9fe0e17e31b2 Mon Sep 17 00:00:00 2001
-+From 280c2b1687141e5d4fac294bc49816f0f4fd21e9 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Thu, 14 Oct 2021 15:57:36 +0800
- Subject: [PATCH] nativesdk-libcap: Raise the size of arrays containing dl
-@@ -19,10 +19,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.46.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+similarity index 54%
+rename from meta/recipes-support/libpcre/libpcre2_10.46.bb
+rename to meta/recipes-support/libpcre/libpcre2_10.47.bb
+index 0d7823c079..7ab7945de0 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.46.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+@@ -1,3 +1,47 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENCE.md
++# +++ LICENCE.md
++# @@ -1,4 +1,4 @@
++# -PCRE2 License
++# +PCRE2 Licence
++#  =============
++#  
++#  | SPDX-License-Identifier: | BSD-3-Clause WITH PCRE2-exception |
++# @@ -16,7 +16,8 @@
++#  The basic library functions are written in C and are freestanding. Also
++#  included in the distribution is a just-in-time compiler that can be used to
++#  optimize pattern matching. This is an optional feature that can be omitted when
++# -the library is built.
++# +the library is built. The just-in-time compiler is separately licensed under the
++# +"2-clause BSD" licence.
++#  
++#  
++#  COPYRIGHT
++# @@ -52,6 +53,8 @@
++#  
++#      Copyright (c) 2009-2024 Zoltan Herczeg
++#      All rights reserved.
++# +
++# +The code in the `deps/sljit` directory has its own LICENSE file.
++#  
++#  ### All other contributions
++#  
++# @@ -99,5 +102,3 @@
++#  PCRE2, it must respect the condition, but if package B is software that
++#  includes package A, the condition is not imposed on package B unless it uses
++#  PCRE2 independently.
++# -
++# -End
++# 
++#
++
+ DESCRIPTION = "There are two major versions of the PCRE library. The \
+ newest version is PCRE2, which is a re-working of the original PCRE \
+ library to provide an entirely new API. The original, very widely \
+@@ -8,14 +52,14 @@ SUMMARY = "Perl Compatible Regular Expressions version 2"
+ HOMEPAGE = "http://www.pcre.org"
+ SECTION = "devel"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENCE.md;md5=8446a1fd12e40d9d64c79234fbb1f812"
++LIC_FILES_CHKSUM = "file://LICENCE.md;md5=6720bf3bcff57543b915c2b22e526df0"
  
- diff --git a/libcap/execable.h b/libcap/execable.h
--index a68ea24..60d3853 100644
-+index c8ac2f2..98843e4 100644
- --- a/libcap/execable.h
- +++ b/libcap/execable.h
--@@ -34,7 +34,7 @@ extern const int _IO_stdin_used;
-+@@ -50,7 +50,7 @@ extern const int _IO_stdin_used;
-  const int _IO_stdin_used __attribute__((weak)) = 131073;
-  #endif /* def __GLIBC__ */
-  
-diff --git a/meta/recipes-support/libcap/libcap_2.76.bb b/meta/recipes-support/libcap/libcap_2.77.bb
-similarity index 92%
-rename from meta/recipes-support/libcap/libcap_2.76.bb
-rename to meta/recipes-support/libcap/libcap_2.77.bb
-index 27093ff3e7..eaa0980132 100644
---- a/meta/recipes-support/libcap/libcap_2.76.bb
-+++ b/meta/recipes-support/libcap/libcap_2.77.bb
-@@ -13,12 +13,12 @@ LIC_FILES_CHKSUM = "file://License;md5=2965a646645b72ecee859b43c592dcaa \
- DEPENDS = "hostperl-runtime-native gperf-native"
+ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2"
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
--           file://0001-libcap-Add-build-ldflags-to-_makenames-rule.patch \
--		   "
-+           file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
-+           "
- SRC_URI:append:class-nativesdk = " \
-            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
-            "
--SRC_URI[sha256sum] = "629da4ab29900d0f7fcc36227073743119925fd711c99a1689bbf5c9b40c8e6f"
-+SRC_URI[sha256sum] = "897bc18b44afc26c70e78cead3dbb31e154acc24bee085a5a09079a88dbf6f52"
+ GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/pcre2-(?P<pver>\d+(\.\d+)+)$"
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
+-SRC_URI[sha256sum] = "15fbc5aba6beee0b17aecb04602ae39432393aba1ebd8e39b7cabf7db883299f"
++SRC_URI[sha256sum] = "47fe8c99461250d42f89e6e8fdaeba9da057855d06eb7fc08d9ca03fd08d7bc7"
+ 
+ CVE_PRODUCT = "pcre2"
  
 -- 
 2.47.1
 
 
---===============6365107209793859533==
+--===============5177531183712011977==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libcap: PV changed from "2.76" to "2.77"
-packages/x86-64-v3-poky-linux/libcap: SRC_URI changed from "https://cdn.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.76.tar.xz file://0001-libcap-Add-build-ldflags-to-_makenames-rule.patch" to "https://cdn.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.77.tar.xz file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch"
-packages/x86-64-v3-poky-linux/libcap: PKGV changed from 2.76 [default] to 2.77 [default]
-packages/x86-64-v3-poky-linux/libcap/libcap-bin: PV changed from "2.76" to "2.77"
-packages/x86-64-v3-poky-linux/libcap/libcap-bin: PKGV changed from 2.76 [default] to 2.77 [default]
-packages/x86-64-v3-poky-linux/libcap/libcap-dbg: PKGSIZE changed from 330704 to 331664 (+0%)
-packages/x86-64-v3-poky-linux/libcap/libcap-dbg: PV changed from "2.76" to "2.77"
-packages/x86-64-v3-poky-linux/libcap/libcap-dbg: FILELIST: removed "/usr/lib/.debug/libpsx.so.2.76 /usr/lib/.debug/libcap.so.2.76", added "/usr/lib/.debug/libpsx.so.2.77 /usr/lib/.debug/libcap.so.2.77"
-packages/x86-64-v3-poky-linux/libcap/libcap-dbg: PKGV changed from 2.76 [default] to 2.77 [default]
-packages/x86-64-v3-poky-linux/libcap/libcap-dev: PV changed from "2.76" to "2.77"
-packages/x86-64-v3-poky-linux/libcap/libcap-dev: PKGV changed from 2.76 [default] to 2.77 [default]
-packages/x86-64-v3-poky-linux/libcap/libcap-doc: PV changed from "2.76" to "2.77"
-packages/x86-64-v3-poky-linux/libcap/libcap-doc: PKGV changed from 2.76 [default] to 2.77 [default]
-packages/x86-64-v3-poky-linux/libcap/libcap-locale: PV changed from "2.76" to "2.77"
-packages/x86-64-v3-poky-linux/libcap/libcap-locale: PKGV changed from 2.76 [default] to 2.77 [default]
-packages/x86-64-v3-poky-linux/libcap/libcap-src: PKGSIZE changed from 229971 to 231461 (+1%)
-packages/x86-64-v3-poky-linux/libcap/libcap-src: PV changed from "2.76" to "2.77"
-packages/x86-64-v3-poky-linux/libcap/libcap-src: PKGV changed from 2.76 [default] to 2.77 [default]
-packages/x86-64-v3-poky-linux/libcap/libcap-staticdev: PKGSIZE changed from 237262 to 238638 (+1%)
-packages/x86-64-v3-poky-linux/libcap/libcap-staticdev: PV changed from "2.76" to "2.77"
-packages/x86-64-v3-poky-linux/libcap/libcap-staticdev: PKGV changed from 2.76 [default] to 2.77 [default]
-packages/x86-64-v3-poky-linux/libcap/libcap: PKGSIZE changed from 79900 to 92188 (+15%)
-packages/x86-64-v3-poky-linux/libcap/libcap: PV changed from "2.76" to "2.77"
-packages/x86-64-v3-poky-linux/libcap/libcap: FILELIST: removed "/usr/lib/libpsx.so.2.76 /usr/lib/libcap.so.2.76", added "/usr/lib/libcap.so.2.77 /usr/lib/libpsx.so.2.77"
-packages/x86-64-v3-poky-linux/libcap/libcap: PKGV changed from 2.76 [default] to 2.77 [default]
-Changes to packages/x86-64-v3-poky-linux/libcap (sysroot):
-  /usr/lib/libcap.so.2 changed symlink target from libcap.so.2.76 to libcap.so.2.77
-  /usr/lib/libpsx.so.2 changed symlink target from libpsx.so.2.76 to libpsx.so.2.77
-  /usr/lib/libcap.so.2.76 moved to /usr/lib/libcap.so.2.77
-  /usr/lib/libpsx.so.2.76 moved to /usr/lib/libpsx.so.2.77
+packages/x86-64-v3-poky-linux/libpcre2: SRC_URI changed from "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.46/pcre2-10.46.tar.bz2" to "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.47/pcre2-10.47.tar.bz2"
+packages/x86-64-v3-poky-linux/libpcre2: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PKGSIZE changed from 399605 to 403781 (+1%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: FILELIST: removed "/usr/lib/libpcre2-16.so.0.14.0", added "/usr/lib/libpcre2-16.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PKGSIZE changed from 383221 to 387397 (+1%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: FILELIST: removed "/usr/lib/libpcre2-32.so.0.14.0", added "/usr/lib/libpcre2-32.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGSIZE changed from 2590336 to 2882752 (+11%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: FILELIST: removed "/usr/lib/.debug/libpcre2-32.so.0.14.0 /usr/lib/.debug/libpcre2-posix.so.3.0.6 /usr/lib/.debug/libpcre2-8.so.0.14.0 /usr/lib/.debug/libpcre2-16.so.0.14.0", added "/usr/lib/.debug/libpcre2-8.so.0.15.0 /usr/lib/.debug/libpcre2-16.so.0.15.0 /usr/lib/.debug/libpcre2-32.so.0.15.0 /usr/lib/.debug/libpcre2-posix.so.3.0.7"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PKGSIZE changed from 60174 to 60872 (+1%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PKGSIZE changed from 2785005 to 2827983 (+2%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: FILELIST: added "/usr/share/doc/pcre2/html/pcre2_next_match.html /usr/share/man/man3/pcre2_next_match.3"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-locale: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-locale: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PKGSIZE changed from 59065 to 59621 (+1%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-staticdev: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-staticdev: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PKGSIZE changed from 454899 to 463251 (+2%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: FILELIST: removed "/usr/lib/libpcre2-posix.so.3.0.6 /usr/lib/libpcre2-8.so.0.14.0", added "/usr/lib/libpcre2-8.so.0.15.0 /usr/lib/libpcre2-posix.so.3.0.7"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PKGSIZE changed from 53292 to 53290 (-0%)
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PKGSIZE changed from 95676 to 97211 (+2%)
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PKGSIZE changed from 186304 to 284656 (+53%)
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PV changed from "10.46" to "10.47"
+Changes to packages/x86-64-v3-poky-linux/libpcre2 (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-8.so.0.14.0 moved to /usr/lib/libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3.0.6 moved to /usr/lib/libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-16.so.0.15.0 was added
+  /usr/lib/libpcre2-32.so.0.15.0 was added
+  /usr/lib/libpcre2-16.so.0.14.0 was removed
+  /usr/lib/libpcre2-32.so.0.14.0 was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2128,113 +2145,113 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/libcap-native (sysroot):
-  /lib/libcap.so.2 changed symlink target from libcap.so.2.76 to libcap.so.2.77
-  /usr/lib/libpsx.so.2 changed symlink target from libpsx.so.2.76 to libpsx.so.2.77
-  /lib/libcap.so.2.76 moved to /lib/libcap.so.2.77
-  /usr/lib/libpsx.so.2.76 moved to /usr/lib/libpsx.so.2.77
+Changes to packages/x86_64-linux/libpcre2-native (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-8.so.0.14.0 moved to /usr/lib/libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3.0.6 moved to /usr/lib/libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-16.so.0.15.0 was added
+  /usr/lib/libpcre2-32.so.0.15.0 was added
+  /usr/lib/libpcre2-16.so.0.14.0 was removed
+  /usr/lib/libpcre2-32.so.0.14.0 was removed
 
---===============6365107209793859533==
+--===============5177531183712011977==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libcap-upgrade-2.76-2.77.patch"
+ filename="0001-libpcre2-upgrade-10.46-10.47.patch"
 
-RnJvbSAyMzFiY2FkMWZlMTQ0Njk1NDk1MDhkN2I0MGZkOWZiZTkzMjk5ZjE0IE1vbiBTZXAgMTcg
+RnJvbSAyN2M0ZTdmNzdkZWUxMTYzODExYzYwMzlhYzAxNDQ3NmM1M2FmMDhmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTY6MDY6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJjYXA6IHVwZ3JhZGUgMi43NiAtPiAyLjc3CgotLS0KIC4uLkFkZC1idWlsZC1sZGZsYWdzLXRv
-LV9tYWtlbmFtZXMtcnVsZS5wYXRjaCB8IDI5IC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4uLi1SYWlz
-ZS10aGUtc2l6ZS1vZi1hcnJheXMtY29udGFpbmluZy5wYXRjaCB8ICA2ICsrLS0KIC4uLi9saWJj
-YXAve2xpYmNhcF8yLjc2LmJiID0+IGxpYmNhcF8yLjc3LmJifSB8ICA2ICsrLS0KIDMgZmlsZXMg
-Y2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAzNSBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEw
-MDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAvZmlsZXMvMDAwMS1saWJjYXAtQWRkLWJ1
-aWxkLWxkZmxhZ3MtdG8tX21ha2VuYW1lcy1ydWxlLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvbGliY2FwL3tsaWJjYXBfMi43Ni5iYiA9PiBsaWJjYXBfMi43Ny5iYn0gKDkyJSkK
-CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAvZmlsZXMvMDAwMS1saWJj
-YXAtQWRkLWJ1aWxkLWxkZmxhZ3MtdG8tX21ha2VuYW1lcy1ydWxlLnBhdGNoIGIvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvbGliY2FwL2ZpbGVzLzAwMDEtbGliY2FwLUFkZC1idWlsZC1sZGZsYWdzLXRv
-LV9tYWtlbmFtZXMtcnVsZS5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMTBk
-ZGY2NDkzNS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAvZmls
-ZXMvMDAwMS1saWJjYXAtQWRkLWJ1aWxkLWxkZmxhZ3MtdG8tX21ha2VuYW1lcy1ydWxlLnBhdGNo
-CisrKyAvZGV2L251bGwKQEAgLTEsMjkgKzAsMCBAQAotRnJvbSBlNTJkMzIzMjg4MmMyNjNmNWJk
-NGIxOTgwMTk1YWM2MzNkNzA2YTUzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogS2hl
-bSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KLURhdGU6IFR1ZSwgMjEgT2N0IDIwMjUgMTg6Mjc6
-NTEgLTA3MDAKLVN1YmplY3Q6IFtQQVRDSF0gbGliY2FwOiBBZGQgYnVpbGQgbGRmbGFncyB0byBf
-bWFrZW5hbWVzIHJ1bGUKLQotaXRzIGNhbGxpbmcgY29tcGlsZXIgYW5kIGxpbmtlciBpbiBzaW5n
-bGUgc3RlcAotZW5zdXJlIHRoYXQgYnVpbGQgbGRmbGFncyBhcmUgcmVzcGVjdGVkIGFzIGl0Ci1t
-aWdodCBoYXZlIGltcG9ydGFudCBpbmZvcm1hdGlvbiBsaWtlIHdoaWNoIHJ1bnRpbWUKLXRvIHVz
-ZS4KLQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXQua2VybmVsLm9yZy9w
-dWIvc2NtL2xpYnMvbGliY2FwL2xpYmNhcC5naXQvY29tbWl0Lz9pZD1jM2RkZjQ1ZDlhZmFhYjg1
-ZDNiN2RiMGRjN2JmZDFhYWZiOGZkZTUwXQotU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5r
-aGVtQGdtYWlsLmNvbT4KLS0tLQotIGxpYmNhcC9NYWtlZmlsZSB8IDIgKy0KLSAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKLQotZGlmZiAtLWdpdCBhL2xpYmNh
-cC9NYWtlZmlsZSBiL2xpYmNhcC9NYWtlZmlsZQotaW5kZXggZTkwYTk1MC4uZjBlYjg3ZSAxMDA2
-NDQKLS0tLSBhL2xpYmNhcC9NYWtlZmlsZQotKysrIGIvbGliY2FwL01ha2VmaWxlCi1AQCAtODAs
-NyArODAsNyBAQCAkKFBTWFRJVExFKS5wYzogJChQU1hUSVRMRSkucGMuaW4KLSAJCSQ8ID4kQAot
-Ci0gX21ha2VuYW1lczogX21ha2VuYW1lcy5jIGNhcF9uYW1lcy5saXN0LmgKLS0JJChCVUlMRF9D
-QykgJChCVUlMRF9DRkxBR1MpICQoQlVJTERfQ1BQRkxBR1MpICQ8IC1vICRACi0rCSQoQlVJTERf
-Q0MpICQoQlVJTERfQ0ZMQUdTKSAkKEJVSUxEX0NQUEZMQUdTKSAkPCAtbyAkQCAkKEJVSUxEX0xE
-RkxBR1MpCi0KLSBjYXBfbmFtZXMuaDogX21ha2VuYW1lcwotIAkuL19tYWtlbmFtZXMgPiBjYXBf
-bmFtZXMuaApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwL2ZpbGVzLzAw
-MDEtbmF0aXZlc2RrLWxpYmNhcC1SYWlzZS10aGUtc2l6ZS1vZi1hcnJheXMtY29udGFpbmluZy5w
-YXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmNhcC9maWxlcy8wMDAxLW5hdGl2ZXNkay1s
-aWJjYXAtUmFpc2UtdGhlLXNpemUtb2YtYXJyYXlzLWNvbnRhaW5pbmcucGF0Y2gKaW5kZXggMmNl
-YzIwYjRiMS4uMzNhNWRiOWU5MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGli
-Y2FwL2ZpbGVzLzAwMDEtbmF0aXZlc2RrLWxpYmNhcC1SYWlzZS10aGUtc2l6ZS1vZi1hcnJheXMt
-Y29udGFpbmluZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAvZmlsZXMv
-MDAwMS1uYXRpdmVzZGstbGliY2FwLVJhaXNlLXRoZS1zaXplLW9mLWFycmF5cy1jb250YWluaW5n
-LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA5NjlkMjFhYTJiZjQ3NGQ5YzVjODBhNjRkZTFh
-OWZlMGUxN2UzMWIyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAyODBjMmIxNjg3MTQx
-ZTVkNGZhYzI5NGJjNDk4MTZmMGY0ZmQyMWU5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
-bTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogRGF0ZTogVGh1LCAxNCBP
-Y3QgMjAyMSAxNTo1NzozNiArMDgwMAogU3ViamVjdDogW1BBVENIXSBuYXRpdmVzZGstbGliY2Fw
-OiBSYWlzZSB0aGUgc2l6ZSBvZiBhcnJheXMgY29udGFpbmluZyBkbApAQCAtMTksMTAgKzE5LDEw
-IEBAIFNpZ25lZC1vZmYtYnk6IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4K
-ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAt
-LWdpdCBhL2xpYmNhcC9leGVjYWJsZS5oIGIvbGliY2FwL2V4ZWNhYmxlLmgKLWluZGV4IGE2OGVh
-MjQuLjYwZDM4NTMgMTAwNjQ0CitpbmRleCBjOGFjMmYyLi45ODg0M2U0IDEwMDY0NAogLS0tIGEv
-bGliY2FwL2V4ZWNhYmxlLmgKICsrKyBiL2xpYmNhcC9leGVjYWJsZS5oCi1AQCAtMzQsNyArMzQs
-NyBAQCBleHRlcm4gY29uc3QgaW50IF9JT19zdGRpbl91c2VkOworQEAgLTUwLDcgKzUwLDcgQEAg
-ZXh0ZXJuIGNvbnN0IGludCBfSU9fc3RkaW5fdXNlZDsKICBjb25zdCBpbnQgX0lPX3N0ZGluX3Vz
-ZWQgX19hdHRyaWJ1dGVfXygod2VhaykpID0gMTMxMDczOwogICNlbmRpZiAvKiBkZWYgX19HTElC
-Q19fICovCiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAvbGliY2Fw
-XzIuNzYuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAvbGliY2FwXzIuNzcuYmIKc2lt
-aWxhcml0eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliY2Fw
-L2xpYmNhcF8yLjc2LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJjYXAvbGli
-Y2FwXzIuNzcuYmIKaW5kZXggMjcwOTNmZjNlNy4uZWFhMDk4MDEzMiAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvbGliY2FwL2xpYmNhcF8yLjc2LmJiCisrKyBiL21ldGEvcmVjaXBl
-cy1zdXBwb3J0L2xpYmNhcC9saWJjYXBfMi43Ny5iYgpAQCAtMTMsMTIgKzEzLDEyIEBAIExJQ19G
-SUxFU19DSEtTVU0gPSAiZmlsZTovL0xpY2Vuc2U7bWQ1PTI5NjVhNjQ2NjQ1YjcyZWNlZTg1OWI0
-M2M1OTJkY2FhIFwKIERFUEVORFMgPSAiaG9zdHBlcmwtcnVudGltZS1uYXRpdmUgZ3BlcmYtbmF0
-aXZlIgogCiBTUkNfVVJJID0gIiR7S0VSTkVMT1JHX01JUlJPUn0vbGludXgvbGlicy9zZWN1cml0
-eS9saW51eC1wcml2cy8ke0JQTn0yLyR7QlBOfS0ke1BWfS50YXIueHogXAotICAgICAgICAgICBm
-aWxlOi8vMDAwMS1saWJjYXAtQWRkLWJ1aWxkLWxkZmxhZ3MtdG8tX21ha2VuYW1lcy1ydWxlLnBh
-dGNoIFwKLQkJICAgIgorICAgICAgICAgICBmaWxlOi8vMDAwMS1uYXRpdmVzZGstbGliY2FwLVJh
-aXNlLXRoZS1zaXplLW9mLWFycmF5cy1jb250YWluaW5nLnBhdGNoIFwKKyAgICAgICAgICAgIgog
-U1JDX1VSSTphcHBlbmQ6Y2xhc3MtbmF0aXZlc2RrID0gIiBcCiAgICAgICAgICAgIGZpbGU6Ly8w
-MDAxLW5hdGl2ZXNkay1saWJjYXAtUmFpc2UtdGhlLXNpemUtb2YtYXJyYXlzLWNvbnRhaW5pbmcu
-cGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjI5ZGE0YWIyOTkw
-MGQwZjdmY2MzNjIyNzA3Mzc0MzExOTkyNWZkNzExYzk5YTE2ODliYmY1YzliNDBjOGU2ZiIKK1NS
-Q19VUklbc2hhMjU2c3VtXSA9ICI4OTdiYzE4YjQ0YWZjMjZjNzBlNzhjZWFkM2RiYjMxZTE1NGFj
-YzI0YmVlMDg1YTVhMDkwNzlhODhkYmY2ZjUyIgogCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0
-cHM6Ly93d3cua2VybmVsLm9yZy9wdWIvbGludXgvbGlicy9zZWN1cml0eS9saW51eC1wcml2cy8k
-e0JQTn0yLyIKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTY6MTY6MzcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJwY3JlMjogdXBncmFkZSAxMC40NiAtPiAxMC40NwoKLS0tCiAuLi4ve2xpYnBjcmUyXzEwLjQ2
+LmJiID0+IGxpYnBjcmUyXzEwLjQ3LmJifSAgfCA0OCArKysrKysrKysrKysrKysrKystCiAxIGZp
+bGUgY2hhbmdlZCwgNDYgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL3tsaWJwY3JlMl8xMC40Ni5iYiA9PiBsaWJwY3JlMl8x
+MC40Ny5iYn0gKDU0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3Jl
+L2xpYnBjcmUyXzEwLjQ2LmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3Jl
+Ml8xMC40Ny5iYgpzaW1pbGFyaXR5IGluZGV4IDU0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9saWJwY3JlL2xpYnBjcmUyXzEwLjQ2LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9saWJwY3JlL2xpYnBjcmUyXzEwLjQ3LmJiCmluZGV4IDBkNzgyM2MwNzkuLjdhYjc5
+NDVkZTAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnBjcmUvbGlicGNyZTJf
+MTAuNDYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3JlMl8xMC40
+Ny5iYgpAQCAtMSwzICsxLDQ3IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1
+ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dp
+bmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2Ug
+dGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBz
+dW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5z
+ZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5
+ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5DRS5tZAor
+IyArKysgTElDRU5DRS5tZAorIyBAQCAtMSw0ICsxLDQgQEAKKyMgLVBDUkUyIExpY2Vuc2UKKyMg
+K1BDUkUyIExpY2VuY2UKKyMgID09PT09PT09PT09PT0KKyMgIAorIyAgfCBTUERYLUxpY2Vuc2Ut
+SWRlbnRpZmllcjogfCBCU0QtMy1DbGF1c2UgV0lUSCBQQ1JFMi1leGNlcHRpb24gfAorIyBAQCAt
+MTYsNyArMTYsOCBAQAorIyAgVGhlIGJhc2ljIGxpYnJhcnkgZnVuY3Rpb25zIGFyZSB3cml0dGVu
+IGluIEMgYW5kIGFyZSBmcmVlc3RhbmRpbmcuIEFsc28KKyMgIGluY2x1ZGVkIGluIHRoZSBkaXN0
+cmlidXRpb24gaXMgYSBqdXN0LWluLXRpbWUgY29tcGlsZXIgdGhhdCBjYW4gYmUgdXNlZCB0bwor
+IyAgb3B0aW1pemUgcGF0dGVybiBtYXRjaGluZy4gVGhpcyBpcyBhbiBvcHRpb25hbCBmZWF0dXJl
+IHRoYXQgY2FuIGJlIG9taXR0ZWQgd2hlbgorIyAtdGhlIGxpYnJhcnkgaXMgYnVpbHQuCisjICt0
+aGUgbGlicmFyeSBpcyBidWlsdC4gVGhlIGp1c3QtaW4tdGltZSBjb21waWxlciBpcyBzZXBhcmF0
+ZWx5IGxpY2Vuc2VkIHVuZGVyIHRoZQorIyArIjItY2xhdXNlIEJTRCIgbGljZW5jZS4KKyMgIAor
+IyAgCisjICBDT1BZUklHSFQKKyMgQEAgLTUyLDYgKzUzLDggQEAKKyMgIAorIyAgICAgIENvcHly
+aWdodCAoYykgMjAwOS0yMDI0IFpvbHRhbiBIZXJjemVnCisjICAgICAgQWxsIHJpZ2h0cyByZXNl
+cnZlZC4KKyMgKworIyArVGhlIGNvZGUgaW4gdGhlIGBkZXBzL3Nsaml0YCBkaXJlY3RvcnkgaGFz
+IGl0cyBvd24gTElDRU5TRSBmaWxlLgorIyAgCisjICAjIyMgQWxsIG90aGVyIGNvbnRyaWJ1dGlv
+bnMKKyMgIAorIyBAQCAtOTksNSArMTAyLDMgQEAKKyMgIFBDUkUyLCBpdCBtdXN0IHJlc3BlY3Qg
+dGhlIGNvbmRpdGlvbiwgYnV0IGlmIHBhY2thZ2UgQiBpcyBzb2Z0d2FyZSB0aGF0CisjICBpbmNs
+dWRlcyBwYWNrYWdlIEEsIHRoZSBjb25kaXRpb24gaXMgbm90IGltcG9zZWQgb24gcGFja2FnZSBC
+IHVubGVzcyBpdCB1c2VzCisjICBQQ1JFMiBpbmRlcGVuZGVudGx5LgorIyAtCisjIC1FbmQKKyMg
+CisjCisKIERFU0NSSVBUSU9OID0gIlRoZXJlIGFyZSB0d28gbWFqb3IgdmVyc2lvbnMgb2YgdGhl
+IFBDUkUgbGlicmFyeS4gVGhlIFwKIG5ld2VzdCB2ZXJzaW9uIGlzIFBDUkUyLCB3aGljaCBpcyBh
+IHJlLXdvcmtpbmcgb2YgdGhlIG9yaWdpbmFsIFBDUkUgXAogbGlicmFyeSB0byBwcm92aWRlIGFu
+IGVudGlyZWx5IG5ldyBBUEkuIFRoZSBvcmlnaW5hbCwgdmVyeSB3aWRlbHkgXApAQCAtOCwxNCAr
+NTIsMTQgQEAgU1VNTUFSWSA9ICJQZXJsIENvbXBhdGlibGUgUmVndWxhciBFeHByZXNzaW9ucyB2
+ZXJzaW9uIDIiCiBIT01FUEFHRSA9ICJodHRwOi8vd3d3LnBjcmUub3JnIgogU0VDVElPTiA9ICJk
+ZXZlbCIKIExJQ0VOU0UgPSAiQlNELTMtQ2xhdXNlIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxl
+Oi8vTElDRU5DRS5tZDttZDU9ODQ0NmExZmQxMmU0MGQ5ZDY0Yzc5MjM0ZmJiMWY4MTIiCitMSUNf
+RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTkNFLm1kO21kNT02NzIwYmYzYmNmZjU3NTQzYjkx
+NWMyYjIyZTUyNmRmMCIKIAogU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQv
+cGNyZTItJHtQVn0vcGNyZTItJHtQVn0udGFyLmJ6MiIKIAogR0lUSFVCX0JBU0VfVVJJID0gImh0
+dHBzOi8vZ2l0aHViLmNvbS9QQ1JFMlByb2plY3QvcGNyZTIvcmVsZWFzZXMiCiBVUFNUUkVBTV9D
+SEVDS19SRUdFWCA9ICJyZWxlYXNlcy90YWcvcGNyZTItKD9QPHB2ZXI+XGQrKFwuXGQrKSspJCIK
+IAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjE1ZmJjNWFiYTZiZWVlMGIxN2FlY2IwNDYwMmFlMzk0
+MzIzOTNhYmExZWJkOGUzOWI3Y2FiZjdkYjg4MzI5OWYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
+NDdmZThjOTk0NjEyNTBkNDJmODllNmU4ZmRhZWJhOWRhMDU3ODU1ZDA2ZWI3ZmMwOGQ5Y2EwM2Zk
+MDhkN2JjNyIKIAogQ1ZFX1BST0RVQ1QgPSAicGNyZTIiCiAKLS0gCjIuNDcuMQoK
 
---===============6365107209793859533==
+--===============5177531183712011977==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/libcap/libcap: FILELIST: removed "/usr/lib/libpsx.so.2.76 /usr/lib/libcap.so.2.76", added "/usr/lib/libpsx.so.2.77 /usr/lib/libcap.so.2.77"
-packages/x86-64-v3-poky-linux/libcap/libcap: PKGSIZE changed from 79900 to 92188 (+15%)
-Changes to packages/x86-64-v3-poky-linux/libcap (sysroot):
-  /usr/lib/libcap.so.2 changed symlink target from libcap.so.2.76 to libcap.so.2.77
-  /usr/lib/libpsx.so.2 changed symlink target from libpsx.so.2.76 to libpsx.so.2.77
-  /usr/lib/libcap.so.2.76 moved to /usr/lib/libcap.so.2.77
-  /usr/lib/libpsx.so.2.76 moved to /usr/lib/libpsx.so.2.77
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: FILELIST: removed "/usr/lib/libpcre2-16.so.0.14.0", added "/usr/lib/libpcre2-16.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: FILELIST: removed "/usr/lib/libpcre2-32.so.0.14.0", added "/usr/lib/libpcre2-32.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGSIZE changed from 2590336 to 2882752 (+11%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: FILELIST: added "/usr/share/man/man3/pcre2_next_match.3 /usr/share/doc/pcre2/html/pcre2_next_match.html"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: FILELIST: removed "/usr/lib/libpcre2-8.so.0.14.0 /usr/lib/libpcre2-posix.so.3.0.6", added "/usr/lib/libpcre2-8.so.0.15.0 /usr/lib/libpcre2-posix.so.3.0.7"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PKGSIZE changed from 186304 to 284656 (+53%)
+Changes to packages/x86-64-v3-poky-linux/libpcre2 (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-8.so.0.14.0 moved to /usr/lib/libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3.0.6 moved to /usr/lib/libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-16.so.0.15.0 was added
+  /usr/lib/libpcre2-32.so.0.15.0 was added
+  /usr/lib/libpcre2-16.so.0.14.0 was removed
+  /usr/lib/libpcre2-32.so.0.14.0 was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4157,11 +4174,21 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/libcap-native (sysroot):
-  /lib/libcap.so.2 changed symlink target from libcap.so.2.76 to libcap.so.2.77
-  /usr/lib/libpsx.so.2 changed symlink target from libpsx.so.2.76 to libpsx.so.2.77
-  /lib/libcap.so.2.76 moved to /lib/libcap.so.2.77
-  /usr/lib/libpsx.so.2.76 moved to /usr/lib/libpsx.so.2.77
+Changes to packages/x86_64-linux/libpcre2-native (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-8.so.0.14.0 moved to /usr/lib/libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3.0.6 moved to /usr/lib/libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-16.so.0.15.0 was added
+  /usr/lib/libpcre2-32.so.0.15.0 was added
+  /usr/lib/libpcre2-16.so.0.14.0 was removed
+  /usr/lib/libpcre2-32.so.0.14.0 was removed
 
---===============6365107209793859533==--
+--===============5177531183712011977==--
 
