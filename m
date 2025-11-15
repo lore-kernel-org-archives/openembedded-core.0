@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 540D9CED24E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B87ECED255
 	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:38:53 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12121.1763224723505291008
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11942.1763224724196471723
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Nov 2025 08:38:43 -0800
+ Sat, 15 Nov 2025 08:38:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=rdM7kJC+;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Zg9pO9Mc;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019a88621db2-d96e3673-34ed-47ff-b208-2d565edf88cb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dCvRAZts;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=hGHmTJ7r;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019a88621fe6-14eb8b13-2995-46ed-8bac-08d9f6a1fd96-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1763224723;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Hzoa12F247x0TSGUblCEB4jPDEtIVB2WoHF1gGfqolc=;
-	b=rdM7kJC+4UXyEqhexMXbnrwAYLL6ppcVvc+F18B9+HuYwbU3SmHmRbh0jLa16MXw
-	Lihpmdue1XdE1eEj2TgpD2Sp0rSgpRBEmxX1Ad0+Xj0582v8xLYBXPxfQKThAODXIMW
-	/ciKCSs8RURvrPtxFnxFba7/w7HqJ4ue2G1i6g1I=
+	bh=tbscbVdy4vr91u3xX+mN4EwwitJtiPf7+mwr4RRNzOE=;
+	b=dCvRAZtsQMshVkPHVDpx7u090yEB4rWKLMXUUIPiSIJKF997rQo5kFN520dtedQr
+	f3RWiOCpdHmzr1Q5gW99VeNUgDHS4WnqAJYfJ6Hc0uqyOxvTAIojdXKV6d4Xwa7QOJ9
+	ms4YeulcS4z93XOTfk0w0U/Hng9SsfAoANPOEk5o=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224723;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Hzoa12F247x0TSGUblCEB4jPDEtIVB2WoHF1gGfqolc=;
-	b=Zg9pO9McAhYUgLwHhlq+btyQOMPtrPwrTu5wgT/0IlPvVnvZc/LWp/W9idJsVCxC
-	z2Q1qgF5OxS5L0tbSZUApZ+Pw+PerbcRSTkKHBDBVMyBN27q0djpBBckeErF15BNZC9
-	3Xb8YzMebPARIilMPiYmJ36Rk1h29FtbE4H7yMfc=
-Content-Type: multipart/mixed; boundary="===============1126174472349477054=="
+	bh=tbscbVdy4vr91u3xX+mN4EwwitJtiPf7+mwr4RRNzOE=;
+	b=hGHmTJ7rztDji5dqvgfTNF4vMJR+6xr0m3Y+qudIH1aSXEnlPAsQfWDDnBSbhSoi
+	NfU8usgFdT0zL4B6x8mDYylsyF0lK+8+6aMfLEGBGPgAxEP8wEMo8wr+8FY9H8UQ5nk
+	qsUaVk4CfQCOvOFdCOoDDEx+yaF8h/Qsxh1jrWNs=
+Content-Type: multipart/mixed; boundary="===============6092788170492991717=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-calver: upgrading to 2025.10.20 SUCCEEDED
-Message-ID: <0101019a88621db2-d96e3673-34ed-47ff-b208-2d565edf88cb-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Nov 2025 16:38:42 +0000
+Subject: [AUH] python3-certifi: upgrading to 2025.11.12 SUCCEEDED
+Message-ID: <0101019a88621fe6-14eb8b13-2995-46ed-8bac-08d9f6a1fd96-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Nov 2025 16:38:43 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.15-54.240.27.30
+X-SES-Outgoing: 2025.11.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:38:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226349
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226351
 
---===============1126174472349477054==
+--===============6092788170492991717==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-calver* to *2025.10.20* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-certifi* to *2025.11.12* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-calver-upgrade-2025.04.17-2025.10.20.patch
+    - apply the patch: git am 0001-python3-certifi-upgrade-2025.8.3-2025.11.12.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,161 +72,124 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b1ce90435c0e0e9dfa250469ebdbbce46ef910d0 Mon Sep 17 00:00:00 2001
+From ad61bec809d8b476d406cc894034470e1e9fcfd7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Nov 2025 09:57:57 +0000
-Subject: [PATCH] python3-calver: upgrade 2025.04.17 -> 2025.10.20
+Date: Sat, 15 Nov 2025 10:00:18 +0000
+Subject: [PATCH] python3-certifi: upgrade 2025.8.3 -> 2025.11.12
 
 ---
- ...ython3-calver_2025.04.17.bb => python3-calver_2025.10.20.bb} | 2 +-
+ ...ython3-certifi_2025.8.3.bb => python3-certifi_2025.11.12.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-calver_2025.04.17.bb => python3-calver_2025.10.20.bb} (89%)
+ rename meta/recipes-devtools/python/{python3-certifi_2025.8.3.bb => python3-certifi_2025.11.12.bb} (87%)
 
-diff --git a/meta/recipes-devtools/python/python3-calver_2025.04.17.bb b/meta/recipes-devtools/python/python3-calver_2025.10.20.bb
-similarity index 89%
-rename from meta/recipes-devtools/python/python3-calver_2025.04.17.bb
-rename to meta/recipes-devtools/python/python3-calver_2025.10.20.bb
-index 85ad18701c..0aa468e05a 100644
---- a/meta/recipes-devtools/python/python3-calver_2025.04.17.bb
-+++ b/meta/recipes-devtools/python/python3-calver_2025.10.20.bb
-@@ -4,7 +4,7 @@ LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+diff --git a/meta/recipes-devtools/python/python3-certifi_2025.8.3.bb b/meta/recipes-devtools/python/python3-certifi_2025.11.12.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-certifi_2025.8.3.bb
+rename to meta/recipes-devtools/python/python3-certifi_2025.11.12.bb
+index d3e842b4bd..a7ba12b620 100644
+--- a/meta/recipes-devtools/python/python3-certifi_2025.8.3.bb
++++ b/meta/recipes-devtools/python/python3-certifi_2025.11.12.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = " http://certifi.io/"
+ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=11618cb6a975948679286b1211bd573c"
  
- SRC_URI = "git://github.com/di/calver;branch=master;protocol=https;tag=${PV}"
--SRCREV = "3b74bdce35f2814eb2b65db39a133d5c849ddea7"
-+SRCREV = "36c6977d6e2d9b9912c2afb83b4e36bb1289dbdd"
+-SRC_URI[sha256sum] = "e564105f78ded564e3ae7c923924435e1daa7463faeab5bb932bc53ffae63407"
++SRC_URI[sha256sum] = "d8ab5478f2ecd78af242878415affce761ca6bc54a22a27e026d7c25357c3316"
  
- inherit python_setuptools_build_meta ptest-python-pytest
+ inherit pypi python_setuptools_build_meta
  
 -- 
 2.47.1
 
 
---===============1126174472349477054==
+--===============6092788170492991717==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-certifi-upgrade-2025.8.3-2025.11.12.patch"
+
+RnJvbSBhZDYxYmVjODA5ZDhiNDc2ZDQwNmNjODk0MDM0NDcwZTFlOWZjZmQ3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTA6MDA6MTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWNlcnRpZmk6IHVwZ3JhZGUgMjAyNS44LjMgLT4gMjAyNS4xMS4xMgoKLS0tCiAuLi55
+dGhvbjMtY2VydGlmaV8yMDI1LjguMy5iYiA9PiBweXRob24zLWNlcnRpZmlfMjAyNS4xMS4xMi5i
+Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWNlcnRpZmlfMjAy
+NS44LjMuYmIgPT4gcHl0aG9uMy1jZXJ0aWZpXzIwMjUuMTEuMTIuYmJ9ICg4NyUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNlcnRpZmlfMjAyNS44
+LjMuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2VydGlmaV8yMDI1
+LjExLjEyLmJiCnNpbWlsYXJpdHkgaW5kZXggODclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjUuOC4zLmJiCnJlbmFtZSB0byBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2VydGlmaV8yMDI1LjExLjEyLmJiCmlu
+ZGV4IGQzZTg0MmI0YmQuLmE3YmExMmI2MjAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjUuOC4zLmJiCisrKyBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjUuMTEuMTIuYmIKQEAgLTcsNyAr
+Nyw3IEBAIEhPTUVQQUdFID0gIiBodHRwOi8vY2VydGlmaS5pby8iCiBMSUNFTlNFID0gIklTQyIK
+IExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTExNjE4Y2I2YTk3NTk0ODY3
+OTI4NmIxMjExYmQ1NzNjIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZTU2NDEwNWY3OGRlZDU2
+NGUzYWU3YzkyMzkyNDQzNWUxZGFhNzQ2M2ZhZWFiNWJiOTMyYmM1M2ZmYWU2MzQwNyIKK1NSQ19V
+Uklbc2hhMjU2c3VtXSA9ICJkOGFiNTQ3OGYyZWNkNzhhZjI0Mjg3ODQxNWFmZmNlNzYxY2E2YmM1
+NGEyMmEyN2UwMjZkN2MyNTM1N2MzMzE2IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9v
+bHNfYnVpbGRfbWV0YQogCi0tIAoyLjQ3LjEKCg==
+
+--===============6092788170492991717==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-calver: SRC_URI changed from "git://github.com/di/calver;branch=master;protocol=https;tag=2025.04.17" to "git://github.com/di/calver;branch=master;protocol=https;tag=2025.10.20"
-packages/x86-64-v3-poky-linux/python3-calver: PKGV changed from 2025.04.17 [default] to 2025.10.20 [default]
-packages/x86-64-v3-poky-linux/python3-calver: PV changed from "2025.04.17" to "2025.10.20"
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-dbg: PKGV changed from 2025.04.17 [default] to 2025.10.20 [default]
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-dbg: PV changed from "2025.04.17" to "2025.10.20"
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-dev: PKGV changed from 2025.04.17 [default] to 2025.10.20 [default]
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-dev: PV changed from "2025.04.17" to "2025.10.20"
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-doc: PKGV changed from 2025.04.17 [default] to 2025.10.20 [default]
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-doc: PV changed from "2025.04.17" to "2025.10.20"
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-locale: PKGV changed from 2025.04.17 [default] to 2025.10.20 [default]
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-locale: PV changed from "2025.04.17" to "2025.10.20"
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-ptest: PKGSIZE changed from 2955 to 2987 (+1%)
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-ptest: PKGV changed from 2025.04.17 [default] to 2025.10.20 [default]
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-ptest: PV changed from "2025.04.17" to "2025.10.20"
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-src: PKGV changed from 2025.04.17 [default] to 2025.10.20 [default]
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-src: PV changed from "2025.04.17" to "2025.10.20"
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-staticdev: PKGV changed from 2025.04.17 [default] to 2025.10.20 [default]
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver-staticdev: PV changed from "2025.04.17" to "2025.10.20"
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver: PKGSIZE changed from 18417 to 18418 (+0%)
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver: PKGV changed from 2025.04.17 [default] to 2025.10.20 [default]
-packages/x86-64-v3-poky-linux/python3-calver/python3-calver: PV changed from "2025.04.17" to "2025.10.20"
-Changes to packages/x86-64-v3-poky-linux/python3-calver (sysroot):
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/entry_points.txt was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/licenses was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/entry_points.txt was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/WHEEL was removed
-Changes to packages/x86_64-linux/python3-calver-native (sysroot):
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/entry_points.txt was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/licenses was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/entry_points.txt was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/WHEEL was removed
+packages/x86-64-v3-poky-linux/python3-certifi: PKGV changed from 2025.8.3 [default] to 2025.11.12 [default]
+packages/x86-64-v3-poky-linux/python3-certifi: PV changed from "2025.8.3" to "2025.11.12"
+packages/x86-64-v3-poky-linux/python3-certifi: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2025.8.3.tar.gz;downloadfilename=certifi-2025.8.3.tar.gz" to "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2025.11.12.tar.gz;downloadfilename=certifi-2025.11.12.tar.gz"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-dbg: PKGV changed from 2025.8.3 [default] to 2025.11.12 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-dbg: PV changed from "2025.8.3" to "2025.11.12"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-dev: PKGV changed from 2025.8.3 [default] to 2025.11.12 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-dev: PV changed from "2025.8.3" to "2025.11.12"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-doc: PKGV changed from 2025.8.3 [default] to 2025.11.12 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-doc: PV changed from "2025.8.3" to "2025.11.12"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-locale: PKGV changed from 2025.8.3 [default] to 2025.11.12 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-locale: PV changed from "2025.8.3" to "2025.11.12"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-src: PKGV changed from 2025.8.3 [default] to 2025.11.12 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-src: PV changed from "2025.8.3" to "2025.11.12"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-staticdev: PKGV changed from 2025.8.3 [default] to 2025.11.12 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-staticdev: PV changed from "2025.8.3" to "2025.11.12"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi: PKGV changed from 2025.8.3 [default] to 2025.11.12 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi: PV changed from "2025.8.3" to "2025.11.12"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi: PKGSIZE changed from 297778 to 294129 (-1%)
+Changes to packages/x86-64-v3-poky-linux/python3-certifi (sysroot):
+  /usr/lib/python3.13/site-packages/certifi-2025.11.12.dist-info was added
+  /usr/lib/python3.13/site-packages/certifi-2025.11.12.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/certifi-2025.11.12.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/certifi-2025.11.12.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/certifi-2025.11.12.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/certifi-2025.11.12.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/certifi-2025.8.3.dist-info was removed
+  /usr/lib/python3.13/site-packages/certifi-2025.8.3.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/certifi-2025.8.3.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/certifi-2025.8.3.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/certifi-2025.8.3.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/certifi-2025.8.3.dist-info/WHEEL was removed
 
---===============1126174472349477054==
+--===============6092788170492991717==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/x86-64-v3-poky-linux/python3-calver (sysroot):
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/entry_points.txt was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/licenses was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/entry_points.txt was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/WHEEL was removed
-Changes to packages/x86_64-linux/python3-calver-native (sysroot):
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/entry_points.txt was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/licenses was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/calver-2025.10.20.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/entry_points.txt was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/calver-2025.4.17.dist-info/WHEEL was removed
+Changes to packages/x86-64-v3-poky-linux/python3-certifi (sysroot):
+  /usr/lib/python3.13/site-packages/certifi-2025.11.12.dist-info was added
+  /usr/lib/python3.13/site-packages/certifi-2025.11.12.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/certifi-2025.11.12.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/certifi-2025.11.12.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/certifi-2025.11.12.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/certifi-2025.11.12.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/certifi-2025.8.3.dist-info was removed
+  /usr/lib/python3.13/site-packages/certifi-2025.8.3.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/certifi-2025.8.3.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/certifi-2025.8.3.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/certifi-2025.8.3.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/certifi-2025.8.3.dist-info/WHEEL was removed
 
---===============1126174472349477054==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-calver-upgrade-2025.04.17-2025.10.20.patch"
-
-RnJvbSBiMWNlOTA0MzVjMGUwZTlkZmEyNTA0NjllYmRiYmNlNDZlZjkxMGQwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMDk6NTc6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWNhbHZlcjogdXBncmFkZSAyMDI1LjA0LjE3IC0+IDIwMjUuMTAuMjAKCi0tLQogLi4u
-eXRob24zLWNhbHZlcl8yMDI1LjA0LjE3LmJiID0+IHB5dGhvbjMtY2FsdmVyXzIwMjUuMTAuMjAu
-YmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1jYWx2ZXJfMjAy
-NS4wNC4xNy5iYiA9PiBweXRob24zLWNhbHZlcl8yMDI1LjEwLjIwLmJifSAoODklKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jYWx2ZXJfMjAyNS4w
-NC4xNy5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jYWx2ZXJfMjAy
-NS4xMC4yMC5iYgpzaW1pbGFyaXR5IGluZGV4IDg5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2FsdmVyXzIwMjUuMDQuMTcuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jYWx2ZXJfMjAyNS4xMC4yMC5iYgpp
-bmRleCA4NWFkMTg3MDFjLi4wYWE0NjhlMDVhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2FsdmVyXzIwMjUuMDQuMTcuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNhbHZlcl8yMDI1LjEwLjIwLmJiCkBAIC00LDcg
-KzQsNyBAQCBMSUNFTlNFID0gIkFwYWNoZS0yLjAiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6
-Ly9MSUNFTlNFO21kNT0zYjgzZWY5NjM4N2YxNDY1NWZjODU0ZGRjM2M2YmQ1NyIKIAogU1JDX1VS
-SSA9ICJnaXQ6Ly9naXRodWIuY29tL2RpL2NhbHZlcjticmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0
-dHBzO3RhZz0ke1BWfSIKLVNSQ1JFViA9ICIzYjc0YmRjZTM1ZjI4MTRlYjJiNjVkYjM5YTEzM2Q1
-Yzg0OWRkZWE3IgorU1JDUkVWID0gIjM2YzY5NzdkNmUyZDliOTkxMmMyYWZiODNiNGUzNmJiMTI4
-OWRiZGQiCiAKIGluaGVyaXQgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YSBwdGVzdC1weXRo
-b24tcHl0ZXN0CiAKLS0gCjIuNDcuMQoK
-
---===============1126174472349477054==--
+--===============6092788170492991717==--
 
