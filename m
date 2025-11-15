@@ -2,239 +2,209 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40DFACED618
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F912CED61E
 	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:39:05 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12133.1763224737780450573
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11950.1763224736778355896
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Nov 2025 08:38:57 -0800
+ Sat, 15 Nov 2025 08:38:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=obi0m8gB;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=YSEjQmXY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019a8862554b-270944e4-49f6-4389-927d-a9ad9910214a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=3j/FkmG8;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=LDRG+Fb3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019a88625200-95d668b8-4478-4f3f-b4c1-4dfad2c57d14-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1763224737;
+	t=1763224736;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=7htbjOZhzzwnrzUgmMPi+F08SVETUlgn44nSFeV57bI=;
-	b=obi0m8gBLNmHMbl4xZUjac2CNRoQV4qCin1WZ6sHyOeBbKbug6F2th+Mx9FmMVa2
-	9m7HLEQpRo5l+7jdz6WgSjPEpuedzUDFPWddV0Suf2xOTqaLVTUbGWLjsEequnQwylb
-	PK2GmwIGE3kETAxvjmBr3L4Yc/N00rQQJ/rsbLqA=
+	bh=5PMafC9VJLw0jsTs2gXkO3KZJ6Cm+kNMmq9ASkwMl1Y=;
+	b=3j/FkmG80QiVoaBiJLVytV8We4P9l5lSYFg66v1pBcd+NQw1xNtu8hVklIAINLlO
+	mJFY9E5TAjRp/Gj3KaA5T9UKy/HfLf3IqabeO/ti9YMnvBPrFnYjz9AgFRSuk0wWFc3
+	AIiIpu9f/hSvWSkLqNYl2xNARIoY0AetbnkRGlfo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224737;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224736;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=7htbjOZhzzwnrzUgmMPi+F08SVETUlgn44nSFeV57bI=;
-	b=YSEjQmXYloG0d+EDBVyoPjRoocOINAhe+bjEx0UGjV/FugRc6D73SN0pKMbthGFF
-	qnQiV2NKE9j2Dx2dsW7W8SEI9vXpjkq1ocON1mEFjq54WgkTvyhx2Py+KjfqB2D0gOS
-	6QIOBgDqbpRcMlsWoYzaJB6NyTBsnZ5pkFEuUHiM=
-Content-Type: multipart/mixed; boundary="===============7264677806673477636=="
+	bh=5PMafC9VJLw0jsTs2gXkO3KZJ6Cm+kNMmq9ASkwMl1Y=;
+	b=LDRG+Fb3R3jUpRZJ/KtB4p6xhr3lgXdNJmvcbDx6W3F3QSRXDcraN4iZalOWqvkw
+	r75r1tEP9YLhNDj2ZFfeuExYgNMaAz5P9U9PT6D/1Ob2Sitau+slMfYdqe65UlA8Wgc
+	/OWlvEtW2ehe6Uh59fmqihKjFsf1SgbAaMcuYBy4=
+Content-Type: multipart/mixed; boundary="===============5015956148346301911=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Leon Anavi <leon.anavi@konsulko.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-xmltodict: upgrading to 1.0.2 FAILED
-Message-ID: <0101019a8862554b-270944e4-49f6-4389-927d-a9ad9910214a-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Nov 2025 16:38:57 +0000
+Subject: [AUH] python3-testtools: upgrading to 2.8.0 SUCCEEDED
+Message-ID: <0101019a88625200-95d668b8-4478-4f3f-b4c1-4dfad2c57d14-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Nov 2025 16:38:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.15-54.240.27.33
+X-SES-Outgoing: 2025.11.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:39:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226385
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226380
 
---===============7264677806673477636==
+--===============5015956148346301911==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICpweXRob24zLXRlc3R0b29scyogdG8gKjIuOC4wKiBoYXMgU3VjY2VlZGVkLgoKTmV4dCBz
+dGVwczoKICAgIC0gYXBwbHkgdGhlIHBhdGNoOiBnaXQgYW0gMDAwMS1weXRob24zLXRlc3R0b29s
+cy11cGdyYWRlLTIuNy4yLTIuOC4wLnBhdGNoCiAgICAtIGNoZWNrIHRoZSBjaGFuZ2VzIHRvIHVw
+c3RyZWFtIHBhdGNoZXMgYW5kIHN1bW1hcml6ZSB0aGVtIGluIHRoZSBjb21taXQgbWVzc2FnZSwK
+ICAgIC0gY29tcGlsZSBhbiBpbWFnZSB0aGF0IGNvbnRhaW5zIHRoZSBwYWNrYWdlCiAgICAtIHBl
+cmZvcm0gc29tZSBiYXNpYyBzYW5pdHkgdGVzdHMKICAgIC0gYW1lbmQgdGhlIHBhdGNoIGFuZCBz
+aWduIGl0IG9mZjogZ2l0IGNvbW1pdCAtcyAtLXJlc2V0LWF1dGhvciAtLWFtZW5kCiAgICAtIHNl
+bmQgaXQgdG8gdGhlIGFwcHJvcHJpYXRlIG1haWxpbmcgbGlzdAoKQWx0ZXJuYXRpdmVseSwgaWYg
+eW91IGJlbGlldmUgdGhlIHJlY2lwZSBzaG91bGQgbm90IGJlIHVwZ3JhZGVkIGF0IHRoaXMgdGlt
+ZSwKeW91IGNhbiBmaWxsIFJFQ0lQRV9OT19VUERBVEVfUkVBU09OIGluIHJlc3BlY3RpdmUgcmVj
+aXBlIGZpbGUgc28gdGhhdAphdXRvbWF0aWMgdXBncmFkZXMgd291bGQgbm8gbG9uZ2VyIGJlIGF0
+dGVtcHRlZC4KClBsZWFzZSByZXZpZXcgdGhlIGF0dGFjaGVkIGZpbGVzIGZvciBmdXJ0aGVyIGlu
+Zm9ybWF0aW9uIGFuZCBidWlsZC91cGRhdGUgZmFpbHVyZXMuCkFueSBwcm9ibGVtIHBsZWFzZSBm
+aWxlIGEgYnVnIGF0IGh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9lbnRlcl9idWcu
+Y2dpP3Byb2R1Y3Q9QXV0b21hdGVkJTIwVXBkYXRlJTIwSGFuZGxlcgoKUmVnYXJkcywKVGhlIFVw
+Z3JhZGUgSGVscGVyCgotLSA+OCAtLQpGcm9tIDJiNmUzMTUyMjM0MmZmMThmZjU5MjllOWVhMjAw
+NmQ2MDY4ZTRmMzMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCkZyb206IFVwZ3JhZGUgSGVscGVy
+IDxhdWhAeW9jdG9wcm9qZWN0Lm9yZz4KRGF0ZTogU2F0LCAxNSBOb3YgMjAyNSAxMToyNzo0OSAr
+MDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5dGhvbjMtdGVzdHRvb2xzOiB1cGdyYWRlIDIuNy4yIC0+
+IDIuOC4wCgotLS0KIC4uLmxzXzIuNy4yLmJiID0+IHB5dGhvbjMtdGVzdHRvb2xzXzIuOC4wLmJi
+fSB8IDM0ICsrKysrKysrKysrKysrKysrLS0KIDEgZmlsZSBjaGFuZ2VkLCAzMiBpbnNlcnRpb25z
+KCspLCAyIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+e3B5dGhvbjMtdGVzdHRvb2xzXzIuNy4yLmJiID0+IHB5dGhvbjMtdGVzdHRvb2xzXzIuOC4wLmJi
+fSAoMjYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My10ZXN0dG9vbHNfMi43LjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtdGVzdHRvb2xzXzIuOC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggMjYlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10ZXN0dG9vbHNfMi43LjIuYmIKcmVu
+YW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10ZXN0dG9vbHNfMi44
+LjAuYmIKaW5kZXggOGQ3NzU5YjRhNy4uZDE4YjUzYWIwNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXRlc3R0b29sc18yLjcuMi5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdGVzdHRvb2xzXzIuOC4wLmJiCkBAIC0x
+LDE0ICsxLDQ0IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBi
+ZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhl
+IGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMg
+UGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUg
+dGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6
+JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRh
+dGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5TRQorIyArKysgTElDRU5T
+RQorIyBAQCAtMjEsNiArMjEsNyBAQAorIyAgICogVHJpc3RhbiBTZWxpZ21hbm4KKyMgICAqIEp1
+bGlhbiBFZHdhcmRzCisjICAgKiBKb25hdGhhbiBKYWNvYnMKKyMgKyAqIEplbG1lciBWZXJub2/E
+sworIyAgCisjICBhbmQgYXJlIGNvbGxlY3RpdmVseSByZWZlcnJlZCB0byBhcyAidGVzdHRvb2xz
+IGRldmVsb3BlcnMiLgorIyAgCisjIEBAIC00Miw3ICs0Myw3IEBACisjICBPVVQgT0YgT1IgSU4g
+Q09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9USEVSIERFQUxJTkdT
+IElOIFRIRQorIyAgU09GVFdBUkUuCisjICAKKyMgLVNvbWUgY29kZSBpbiB0ZXN0dG9vbHMvcnVu
+LnB5IHRha2VuIGZyb20gUHl0aG9uJ3MgdW5pdHRlc3QgbW9kdWxlOgorIyArU29tZSBjb2RlIGlu
+IHRlc3R0b29scy9ydW4ucHkgYW5kIHRlc3R0b29scy90ZXN0Y2FzZS5weSB0YWtlbiBmcm9tIFB5
+dGhvbidzIHVuaXR0ZXN0IG1vZHVsZToKKyMgIENvcHlyaWdodCAoYykgMTk5OS0yMDAzIFN0ZXZl
+IFB1cmNlbGwKKyMgIENvcHlyaWdodCAoYykgMjAwMy0yMDEwIFB5dGhvbiBTb2Z0d2FyZSBGb3Vu
+ZGF0aW9uCisjICAKKyMgCisjCisKIFNVTU1BUlkgPSAiRXh0ZW5zaW9ucyB0byB0aGUgUHl0aG9u
+IHN0YW5kYXJkIGxpYnJhcnkgdW5pdCB0ZXN0aW5nIGZyYW1ld29yayIKIEhPTUVQQUdFID0gImh0
+dHBzOi8vcHlwaS5vcmcvcHJvamVjdC90ZXN0dG9vbHMvIgogU0VDVElPTiA9ICJkZXZlbC9weXRo
+b24iCiBMSUNFTlNFID0gIkFwYWNoZS0yLjAiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
+SUNFTlNFO21kNT1lMmM5ZDNlOGJhNzE0MWM4M2JmZWYxOTBlMGI5Mzc5YSIKK0xJQ19GSUxFU19D
+SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWQ2ZmQ3ZDU3ZDJiZGM4Njc4ZGU4MjRmYjQwNGNi
+MWE0IgogCiBERVBFTkRTICs9ICJweXRob24zLWhhdGNoLXZjcy1uYXRpdmUiCiAKIGluaGVyaXQg
+cHlwaSBweXRob25faGF0Y2hsaW5nCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1YmU1YmJjMWYw
+ZmEwZjhiNjBhY2E2Y2VlYzA3ODQ1ZDQxZDBjNDc1Y2Y0NDViZmFkYjRkMmM0NWVjMzk3ZWEzIgor
+U1JDX1VSSVtzaGEyNTZzdW1dID0gImI0NDk2ZjE0N2E3Yjc5NDQwMjQyNDk2ODg5YTczNDE3OTc5
+NWRmMzQ1YjU3ZDVhYTQwNmEwOWM5MDU3MmRiYTEiCiAKIFJERVBFTkRTOiR7UE59ICs9ICJcCiAg
+ICAgcHl0aG9uMy1jb21wcmVzc2lvbiBcCi0tIAoyLjQ3LjEKCg==
+
+--===============5015956148346301911==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Hello,
+packages/x86-64-v3-poky-linux/python3-testtools: PV changed from "2.7.2" to "2.8.0"
+packages/x86-64-v3-poky-linux/python3-testtools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/testtools/testtools-2.7.2.tar.gz;downloadfilename=testtools-2.7.2.tar.gz" to "https://files.pythonhosted.org/packages/source/t/testtools/testtools-2.8.0.tar.gz;downloadfilename=testtools-2.8.0.tar.gz"
+packages/x86-64-v3-poky-linux/python3-testtools: PKGV changed from 2.7.2 [default] to 2.8.0 [default]
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-dbg: PV changed from "2.7.2" to "2.8.0"
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-dbg: PKGV changed from 2.7.2 [default] to 2.8.0 [default]
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-dev: PV changed from "2.7.2" to "2.8.0"
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-dev: PKGV changed from 2.7.2 [default] to 2.8.0 [default]
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-doc: PV changed from "2.7.2" to "2.8.0"
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-doc: PKGV changed from 2.7.2 [default] to 2.8.0 [default]
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-locale: PV changed from "2.7.2" to "2.8.0"
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-locale: PKGV changed from 2.7.2 [default] to 2.8.0 [default]
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-src: PV changed from "2.7.2" to "2.8.0"
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-src: PKGV changed from 2.7.2 [default] to 2.8.0 [default]
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-staticdev: PV changed from "2.7.2" to "2.8.0"
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-staticdev: PKGV changed from 2.7.2 [default] to 2.8.0 [default]
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools: PKGSIZE changed from 1812715 to 1827244 (+1%)
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools: PV changed from "2.7.2" to "2.8.0"
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools: FILELIST: directory renamed /usr/lib/python3.13/site-packages/testtools-2.7.2.dist-info/licenses -> /usr/lib/python3.13/site-packages/testtools-2.8.0.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/testtools-2.7.2.dist-info -> /usr/lib/python3.13/site-packages/testtools-2.8.0.dist-info, removed "/usr/lib/python3.13/site-packages/testtools/__pycache__/utils.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/utils.py"
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools: PKGV changed from 2.7.2 [default] to 2.8.0 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-testtools (sysroot):
+  /usr/lib/python3.13/site-packages/testtools-2.7.2.dist-info moved to /usr/lib/python3.13/site-packages/testtools-2.8.0.dist-info
+  /usr/lib/python3.13/site-packages/testtools/__pycache__/utils.cpython-313.pyc was removed
+  /usr/lib/python3.13/site-packages/testtools/utils.py was removed
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-xmltodict* to *1.0.2* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-python3-xmltodict-upgrade-0.15.1-1.0.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 0cab32624a03de2501f7633bddd87659843a8cb0 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Nov 2025 11:36:47 +0000
-Subject: [PATCH] python3-xmltodict: upgrade 0.15.1 -> 1.0.2
-
----
- .../{python3-xmltodict_0.15.1.bb => python3-xmltodict_1.0.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-xmltodict_0.15.1.bb => python3-xmltodict_1.0.2.bb} (81%)
-
-diff --git a/meta/recipes-devtools/python/python3-xmltodict_0.15.1.bb b/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-xmltodict_0.15.1.bb
-rename to meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb
-index a1d1bb47e4..b9f9f80e38 100644
---- a/meta/recipes-devtools/python/python3-xmltodict_0.15.1.bb
-+++ b/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/martinblech/xmltodict"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=01441d50dc74476db58a41ac10cb9fa2"
- 
--SRC_URI[sha256sum] = "3d8d49127f3ce6979d40a36dbcad96f8bab106d232d24b49efdd4bd21716983c"
-+SRC_URI[sha256sum] = "54306780b7c2175a3967cad1db92f218207e5bc1aba697d887807c0fb68b7649"
- 
- PYPI_PACKAGE = "xmltodict"
- 
--- 
-2.47.1
-
-
---===============7264677806673477636==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1946 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 947 .bb files complete (946 cached, 1 parsed). 1944 targets, 47 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-651aa4d188f1f3b20e1e0c746bc44788a46a3e2a"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:651aa4d188f1f3b20e1e0c746bc44788a46a3e2a"
-meta-yocto-bsp       
-meta-poky            = "master:66ea31cee15309af07afeee8dec8a6fe1d92d28e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 324 Local 313 Mirrors 0 Missed 11 Current 402 (96% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 494 of 726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 644 of 726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_populate_lic_setscene: Started
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 726 of 726 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2030 of 2053 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_fetch)
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_fetch: Started
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2031 of 2053 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_unpack)
-NOTE: Running task 2032 of 2053 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_unpack: Started
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2033 of 2053 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_patch)
-NOTE: Running task 2034 of 2053 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_collect_spdx_deps)
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_patch: Started
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_patch: Succeeded
-NOTE: Running task 2036 of 2053 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_check_backend)
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_check_backend: Started
-WARNING: python3-xmltodict-1.0.2-r0 do_check_backend: QA Issue: inherits setuptools3 but has pyproject.toml with setuptools.build_meta, use the correct class [pep517-backend]
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_check_backend: Succeeded
-NOTE: Running task 2038 of 2053 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_configure)
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_configure: Started
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_configure: Succeeded
-NOTE: Running task 2039 of 2053 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_configure_ptest_base)
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2040 of 2053 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_compile)
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| nativepython3: can't open file '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-xmltodict/1.0.2/sources/xmltodict-1.0.2/setup.py': [Errno 2] No such file or directory
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-xmltodict/1.0.2/temp/run.do_compile.2895129:170 exit 2 from 'nativepython3 setup.py --verbose build -j 16 bdist_wheel --dist-dir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-xmltodict/1.0.2/dist'
-| WARNING: Backtrace (BB generated script):
-| 	#1: setuptools3_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-xmltodict/1.0.2/temp/run.do_compile.2895129, line 170
-| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-xmltodict/1.0.2/temp/run.do_compile.2895129, line 153
-| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-xmltodict/1.0.2/temp/run.do_compile.2895129, line 177
-NOTE: recipe python3-xmltodict-1.0.2-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 2040 tasks of which 2031 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251115113633.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251115113633.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-xmltodict/1.0.2/temp/log.do_compile.2895129
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: python3-xmltodict-1.0.2-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-xmltodict/1.0.2/temp/run.do_compile.2895129' failed with exit code 2
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-xmltodict/1.0.2/temp/log.do_compile.2895129
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-xmltodict_1.0.2.bb:do_compile) failed with exit code '1'
-
---===============7264677806673477636==
+--===============5015956148346301911==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-xmltodict-upgrade-0.15.1-1.0.2.patch"
+ filename="0001-python3-testtools-upgrade-2.7.2-2.8.0.patch"
 
-RnJvbSAwY2FiMzI2MjRhMDNkZTI1MDFmNzYzM2JkZGQ4NzY1OTg0M2E4Y2IwIE1vbiBTZXAgMTcg
+RnJvbSAyYjZlMzE1MjIzNDJmZjE4ZmY1OTI5ZTllYTIwMDZkNjA2OGU0ZjMzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTE6MzY6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXhtbHRvZGljdDogdXBncmFkZSAwLjE1LjEgLT4gMS4wLjIKCi0tLQogLi4uL3tweXRo
-b24zLXhtbHRvZGljdF8wLjE1LjEuYmIgPT4gcHl0aG9uMy14bWx0b2RpY3RfMS4wLjIuYmJ9IHwg
-MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy14bWx0b2RpY3RfMC4xNS4x
-LmJiID0+IHB5dGhvbjMteG1sdG9kaWN0XzEuMC4yLmJifSAoODElKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy14bWx0b2RpY3RfMC4xNS4xLmJiIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXhtbHRvZGljdF8xLjAuMi5iYgpz
-aW1pbGFyaXR5IGluZGV4IDgxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMteG1sdG9kaWN0XzAuMTUuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLXhtbHRvZGljdF8xLjAuMi5iYgppbmRleCBhMWQxYmI0N2U0
-Li5iOWY5ZjgwZTM4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMteG1sdG9kaWN0XzAuMTUuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMteG1sdG9kaWN0XzEuMC4yLmJiCkBAIC0zLDcgKzMsNyBAQCBIT01FUEFHRSA9
-ICJodHRwczovL2dpdGh1Yi5jb20vbWFydGluYmxlY2gveG1sdG9kaWN0IgogTElDRU5TRSA9ICJN
-SVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0wMTQ0MWQ1MGRjNzQ0
-NzZkYjU4YTQxYWMxMGNiOWZhMiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNkOGQ0OTEyN2Yz
-Y2U2OTc5ZDQwYTM2ZGJjYWQ5NmY4YmFiMTA2ZDIzMmQyNGI0OWVmZGQ0YmQyMTcxNjk4M2MiCitT
-UkNfVVJJW3NoYTI1NnN1bV0gPSAiNTQzMDY3ODBiN2MyMTc1YTM5NjdjYWQxZGI5MmYyMTgyMDdl
-NWJjMWFiYTY5N2Q4ODc4MDdjMGZiNjhiNzY0OSIKIAogUFlQSV9QQUNLQUdFID0gInhtbHRvZGlj
-dCIKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTE6Mjc6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXRlc3R0b29sczogdXBncmFkZSAyLjcuMiAtPiAyLjguMAoKLS0tCiAuLi5sc18yLjcu
+Mi5iYiA9PiBweXRob24zLXRlc3R0b29sc18yLjguMC5iYn0gfCAzNCArKysrKysrKysrKysrKysr
+Ky0tCiAxIGZpbGUgY2hhbmdlZCwgMzIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXRlc3R0b29sc18yLjcu
+Mi5iYiA9PiBweXRob24zLXRlc3R0b29sc18yLjguMC5iYn0gKDI2JSkKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdGVzdHRvb2xzXzIuNy4yLmJiIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXRlc3R0b29sc18yLjguMC5iYgpz
+aW1pbGFyaXR5IGluZGV4IDI2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3B5dGhvbjMtdGVzdHRvb2xzXzIuNy4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtdGVzdHRvb2xzXzIuOC4wLmJiCmluZGV4IDhkNzc1OWI0YTcu
+LmQxOGI1M2FiMDUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy10ZXN0dG9vbHNfMi43LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLXRlc3R0b29sc18yLjguMC5iYgpAQCAtMSwxNCArMSw0NCBAQAorIyBGSVhNRTog
+dGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29s
+IHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhl
+IG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VO
+U0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBj
+b21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xp
+Y2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdl
+czoKKyMKKyMgLS0tIExJQ0VOU0UKKyMgKysrIExJQ0VOU0UKKyMgQEAgLTIxLDYgKzIxLDcgQEAK
+KyMgICAqIFRyaXN0YW4gU2VsaWdtYW5uCisjICAgKiBKdWxpYW4gRWR3YXJkcworIyAgICogSm9u
+YXRoYW4gSmFjb2JzCisjICsgKiBKZWxtZXIgVmVybm9vxLMKKyMgIAorIyAgYW5kIGFyZSBjb2xs
+ZWN0aXZlbHkgcmVmZXJyZWQgdG8gYXMgInRlc3R0b29scyBkZXZlbG9wZXJzIi4KKyMgIAorIyBA
+QCAtNDIsNyArNDMsNyBAQAorIyAgT1VUIE9GIE9SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgU09G
+VFdBUkUgT1IgVEhFIFVTRSBPUiBPVEhFUiBERUFMSU5HUyBJTiBUSEUKKyMgIFNPRlRXQVJFLgor
+IyAgCisjIC1Tb21lIGNvZGUgaW4gdGVzdHRvb2xzL3J1bi5weSB0YWtlbiBmcm9tIFB5dGhvbidz
+IHVuaXR0ZXN0IG1vZHVsZToKKyMgK1NvbWUgY29kZSBpbiB0ZXN0dG9vbHMvcnVuLnB5IGFuZCB0
+ZXN0dG9vbHMvdGVzdGNhc2UucHkgdGFrZW4gZnJvbSBQeXRob24ncyB1bml0dGVzdCBtb2R1bGU6
+CisjICBDb3B5cmlnaHQgKGMpIDE5OTktMjAwMyBTdGV2ZSBQdXJjZWxsCisjICBDb3B5cmlnaHQg
+KGMpIDIwMDMtMjAxMCBQeXRob24gU29mdHdhcmUgRm91bmRhdGlvbgorIyAgCisjIAorIworCiBT
+VU1NQVJZID0gIkV4dGVuc2lvbnMgdG8gdGhlIFB5dGhvbiBzdGFuZGFyZCBsaWJyYXJ5IHVuaXQg
+dGVzdGluZyBmcmFtZXdvcmsiCiBIT01FUEFHRSA9ICJodHRwczovL3B5cGkub3JnL3Byb2plY3Qv
+dGVzdHRvb2xzLyIKIFNFQ1RJT04gPSAiZGV2ZWwvcHl0aG9uIgogTElDRU5TRSA9ICJBcGFjaGUt
+Mi4wIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9ZTJjOWQzZThiYTcx
+NDFjODNiZmVmMTkwZTBiOTM3OWEiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNF
+O21kNT1kNmZkN2Q1N2QyYmRjODY3OGRlODI0ZmI0MDRjYjFhNCIKIAogREVQRU5EUyArPSAicHl0
+aG9uMy1oYXRjaC12Y3MtbmF0aXZlIgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX2hhdGNobGluZwog
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNWJlNWJiYzFmMGZhMGY4YjYwYWNhNmNlZWMwNzg0NWQ0
+MWQwYzQ3NWNmNDQ1YmZhZGI0ZDJjNDVlYzM5N2VhMyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJi
+NDQ5NmYxNDdhN2I3OTQ0MDI0MjQ5Njg4OWE3MzQxNzk3OTVkZjM0NWI1N2Q1YWE0MDZhMDljOTA1
+NzJkYmExIgogCiBSREVQRU5EUzoke1BOfSArPSAiXAogICAgIHB5dGhvbjMtY29tcHJlc3Npb24g
+XAotLSAKMi40Ny4xCgo=
 
---===============7264677806673477636==--
+--===============5015956148346301911==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools: FILELIST: directory renamed /usr/lib/python3.13/site-packages/testtools-2.7.2.dist-info -> /usr/lib/python3.13/site-packages/testtools-2.8.0.dist-info, directory renamed /usr/lib/python3.13/site-packages/testtools-2.7.2.dist-info/licenses -> /usr/lib/python3.13/site-packages/testtools-2.8.0.dist-info/licenses, removed "/usr/lib/python3.13/site-packages/testtools/utils.py /usr/lib/python3.13/site-packages/testtools/__pycache__/utils.cpython-313.pyc"
+Changes to packages/x86-64-v3-poky-linux/python3-testtools (sysroot):
+  /usr/lib/python3.13/site-packages/testtools-2.7.2.dist-info moved to /usr/lib/python3.13/site-packages/testtools-2.8.0.dist-info
+  /usr/lib/python3.13/site-packages/testtools/__pycache__/utils.cpython-313.pyc was removed
+  /usr/lib/python3.13/site-packages/testtools/utils.py was removed
+
+--===============5015956148346301911==--
 
