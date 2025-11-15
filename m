@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54EF4CEDDBE
-	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:39:19 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11961.1763224749268390325
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F60ECEE32A
+	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:39:20 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12139.1763224746437543697
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Nov 2025 08:39:09 -0800
+ Sat, 15 Nov 2025 08:39:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Rmciexcn;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=RxJ2ncyG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019a8862820c-f5ec4d8a-e28f-449c-8cde-5001a0297d5b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ptHmOteQ;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WweElRAa;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019a88627e55-4ac8e46f-e3c7-488f-a753-e2408e446fbc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1763224748;
+	t=1763224747;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=enKep8rwlv5BBGBnRVVLmJgMGDdpIzSM2bUL7xQbdis=;
-	b=RmciexcnvWA1z0INzeMhqdQtdI8W92HB2ELO6096oPpkdGJbpXNM9mUTlh3LAuWO
-	RWG4BG8/HL2eiTRWhI32sLHZxUy2hQQ7RlvizCCWfvlIadxT5hzDb1ydOUZvwIpLAOD
-	dqUeTYnTWW/u4ARtfHsK9lNYHQRYiQGrFKPUnJsk=
+	bh=JrMo1T5umQEFdksmobXVlURHkTgDtasYotHt6H04iLE=;
+	b=ptHmOteQx40tTmOLwG+6UON1S+dN/IXWt8IUhg5v6p+k+Vuh8pMMDlCi86Oolrpg
+	4GcyFwpWjA6+Zv+5HuvjPUjXlBu31GYvFzQLkSMZN5hvBfrOnFpBOP1WCf9MpjpCtPa
+	bav6AHSUR6LWFKY/sIn8PA1Qe2obuNUMSSwVT25I=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224748;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224747;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=enKep8rwlv5BBGBnRVVLmJgMGDdpIzSM2bUL7xQbdis=;
-	b=RxJ2ncyGvRnkWUMpvxmnT7wm3/2A7rN6m/jSFXaJRYSvDFBZjMZQoVUGxFcnXpQR
-	NKVNgw7HsYcC4ozuaRnn3dlk9iD57qk/J32I8mcW+vAiS/dVs2oBgG+pf/fc4hss8JR
-	6KKbJYjLTasQH4TCe77Zf6GeZHjj+0rjv5nckzhQ=
-Content-Type: multipart/mixed; boundary="===============4658736770122227064=="
+	bh=JrMo1T5umQEFdksmobXVlURHkTgDtasYotHt6H04iLE=;
+	b=WweElRAakZBtBtdySjJsrHdJcHHmW+OGz7P7/cTUywcCdGvreWctaPUWXwl1wm8G
+	oSdOZEniU2S5OssB6/B6ZaC8ZFXzqEC4lWf+ZmY7y5GnB7N/I30aW4sgV9904mu9XCt
+	ZxV/g14eT0jvs+3gsj8eF8tlFAwxDY1Ov6rRkKQw=
+Content-Type: multipart/mixed; boundary="===============8965461990491295068=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] libxkbcommon: upgrading to 1.13.0 SUCCEEDED
-Message-ID: <0101019a8862820c-f5ec4d8a-e28f-449c-8cde-5001a0297d5b-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Nov 2025 16:39:08 +0000
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] spirv-llvm-translator: upgrading to 21.1.2 SUCCEEDED
+Message-ID: <0101019a88627e55-4ac8e46f-e3c7-488f-a753-e2408e446fbc-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Nov 2025 16:39:07 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.15-54.240.27.192
+X-SES-Outgoing: 2025.11.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:39:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226431
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:39:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226426
 
---===============4658736770122227064==
+--===============8965461990491295068==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libxkbcommon* to *1.13.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *spirv-llvm-translator* to *21.1.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxkbcommon-upgrade-1.11.0-1.13.0.patch
+    - apply the patch: git am 0001-spirv-llvm-translator-upgrade-21.1.1-21.1.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,89 +72,65 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 8ff00447d4d7f9660ae76464fd72349f93c2883c Mon Sep 17 00:00:00 2001
+From e601f6380e5508a73be885adfe78d47814b5edf2 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Nov 2025 14:49:54 +0000
-Subject: [PATCH] libxkbcommon: upgrade 1.11.0 -> 1.13.0
+Date: Sat, 15 Nov 2025 14:33:50 +0000
+Subject: [PATCH] spirv-llvm-translator: upgrade 21.1.1 -> 21.1.2
 
 ---
- .../xorg-lib/{libxkbcommon_1.11.0.bb => libxkbcommon_1.13.0.bb} | 2 +-
+ ...lvm-translator_21.1.1.bb => spirv-llvm-translator_21.1.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxkbcommon_1.11.0.bb => libxkbcommon_1.13.0.bb} (96%)
+ rename meta/recipes-graphics/spir/{spirv-llvm-translator_21.1.1.bb => spirv-llvm-translator_21.1.2.bb} (94%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.11.0.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/xorg-lib/libxkbcommon_1.11.0.bb
-rename to meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.0.bb
-index c953058275..8560064253 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.11.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.13.0.bb
-@@ -9,7 +9,7 @@ DEPENDS = "flex-native bison-native"
+diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.2.bb
+similarity index 94%
+rename from meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb
+rename to meta/recipes-graphics/spir/spirv-llvm-translator_21.1.2.bb
+index 503e7df644..763afbd608 100644
+--- a/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb
++++ b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.2.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=47e311aa9caedd1b3abf098bd7814d1d"
  
- SRC_URI = "git://github.com/xkbcommon/libxkbcommon;protocol=https;branch=master;tag=xkbcommon-${PV}"
- 
--SRCREV = "0f9cefb1fedb23433666fa5d9045e48ff030c006"
-+SRCREV = "3049d310694fd70f1269bf48a1200aa4259e79b1"
- 
- inherit meson pkgconfig bash-completion
- 
+ # pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
+ SPIRV_BRANCH = "llvm_release_${@oe.utils.trim_version('${PV}', 1).replace('.', '')}0"
+-SRCREV = "29758b55816c14abb3e4142d42aca7a95bf46710"
++SRCREV = "a37544fc0bb90b4e8b8d755580119c018891dfa4"
+ SRC_URI = " \
+     git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v${PV};branch=${SPIRV_BRANCH} \
+ "
 -- 
 2.47.1
 
 
---===============4658736770122227064==
+--===============8965461990491295068==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libxkbcommon: SRC_URI changed from "git://github.com/xkbcommon/libxkbcommon;protocol=https;branch=master;tag=xkbcommon-1.11.0" to "git://github.com/xkbcommon/libxkbcommon;protocol=https;branch=master;tag=xkbcommon-1.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon: PKGV changed from 1.11.0 [default] to 1.13.0 [default]
-packages/x86-64-v3-poky-linux/libxkbcommon: PV changed from "1.11.0" to "1.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-bash-completion: PKGV changed from 1.11.0 [default] to 1.13.0 [default]
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-bash-completion: PV changed from "1.11.0" to "1.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGV changed from 1.11.0 [default] to 1.13.0 [default]
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-dbg: FILELIST: removed "/usr/lib/.debug/libxkbcommon-x11.so.0.11.0 /usr/lib/.debug/libxkbregistry.so.0.11.0 /usr/lib/.debug/libxkbcommon.so.0.11.0", added "/usr/lib/.debug/libxkbcommon.so.0.13.0 /usr/lib/.debug/libxkbregistry.so.0.13.0 /usr/lib/.debug/libxkbcommon-x11.so.0.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-dbg: PV changed from "1.11.0" to "1.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGSIZE changed from 2181904 to 2309464 (+6%)
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-dev: PKGV changed from 1.11.0 [default] to 1.13.0 [default]
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-dev: PV changed from "1.11.0" to "1.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-dev: PKGSIZE changed from 401197 to 411390 (+3%)
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-doc: PKGV changed from 1.11.0 [default] to 1.13.0 [default]
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-doc: PV changed from "1.11.0" to "1.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-doc: PKGSIZE changed from 16083 to 16563 (+3%)
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-locale: PKGV changed from 1.11.0 [default] to 1.13.0 [default]
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-locale: PV changed from "1.11.0" to "1.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-src: PKGV changed from 1.11.0 [default] to 1.13.0 [default]
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-src: PV changed from "1.11.0" to "1.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-src: PKGSIZE changed from 390893 to 393619 (+1%)
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-staticdev: PKGV changed from 1.11.0 [default] to 1.13.0 [default]
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-staticdev: PV changed from "1.11.0" to "1.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-x11: FILES: removed "/usr/lib/libxkbcommon-x11.so.0.11.0", added "/usr/lib/libxkbcommon-x11.so.0.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-x11: PKGV changed from 1.11.0 [default] to 1.13.0 [default]
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-x11: FILELIST: removed "/usr/lib/libxkbcommon-x11.so.0.11.0", added "/usr/lib/libxkbcommon-x11.so.0.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-x11: PV changed from "1.11.0" to "1.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-x11: PKGSIZE changed from 38994 to 51282 (+32%)
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon: FILES: removed "/usr/lib/libxkbcommon.so.0.11.0", added "/usr/lib/libxkbcommon.so.0.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon: PKGV changed from 1.11.0 [default] to 1.13.0 [default]
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon: FILELIST: removed "/usr/lib/libxkbcommon.so.0.11.0", added "/usr/lib/libxkbcommon.so.0.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon: PV changed from "1.11.0" to "1.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon: PKGSIZE changed from 370902 to 391382 (+6%)
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbregistry: FILES: removed "/usr/lib/libxkbregistry.so.0.11.0", added "/usr/lib/libxkbregistry.so.0.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbregistry: PKGV changed from 1.11.0 [default] to 1.13.0 [default]
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbregistry: FILELIST: removed "/usr/lib/libxkbregistry.so.0.11.0", added "/usr/lib/libxkbregistry.so.0.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbregistry: PV changed from "1.11.0" to "1.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbregistry: PKGSIZE changed from 38912 to 43008 (+11%)
-Changes to packages/x86-64-v3-poky-linux/libxkbcommon (sysroot):
-  /usr/lib/libxkbcommon.so.0 changed symlink target from libxkbcommon.so.0.11.0 to libxkbcommon.so.0.13.0
-  /usr/lib/libxkbcommon-x11.so.0 changed symlink target from libxkbcommon-x11.so.0.11.0 to libxkbcommon-x11.so.0.13.0
-  /usr/lib/libxkbregistry.so.0 changed symlink target from libxkbregistry.so.0.11.0 to libxkbregistry.so.0.13.0
-  /usr/lib/libxkbcommon.so.0.11.0 moved to /usr/lib/libxkbcommon.so.0.13.0
-  /usr/lib/libxkbcommon-x11.so.0.11.0 moved to /usr/lib/libxkbcommon-x11.so.0.13.0
-  /usr/lib/libxkbregistry.so.0.11.0 moved to /usr/lib/libxkbregistry.so.0.13.0
-packages/x86-64-v3-poky-linux/libxkbcommon/xkbcli: PKGV changed from 1.11.0 [default] to 1.13.0 [default]
-packages/x86-64-v3-poky-linux/libxkbcommon/xkbcli: PV changed from "1.11.0" to "1.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/xkbcli: PKGSIZE changed from 414704 to 414928 (+0%)
+packages/x86-64-v3-poky-linux/spirv-llvm-translator: PV changed from "21.1.1" to "21.1.2"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator: SRC_URI changed from "git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v21.1.1;branch=llvm_release_210" to "git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v21.1.2;branch=llvm_release_210"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-bin: PV changed from "21.1.1" to "21.1.2"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-bin: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PV changed from "21.1.1" to "21.1.2"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PKGSIZE changed from 131466696 to 131553576 (+0%)
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PV changed from "21.1.1" to "21.1.2"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PKGSIZE changed from 26155 to 26184 (+0%)
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-doc: PV changed from "21.1.1" to "21.1.2"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-doc: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-locale: PV changed from "21.1.1" to "21.1.2"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-locale: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PV changed from "21.1.1" to "21.1.2"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PKGSIZE changed from 2382593 to 2383817 (+0%)
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-staticdev: PV changed from "21.1.1" to "21.1.2"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-staticdev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PV changed from "21.1.1" to "21.1.2"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PKGSIZE changed from 5829008 to 5833136 (+0%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2078,53 +2054,46 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============4658736770122227064==
+--===============8965461990491295068==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libxkbcommon-upgrade-1.11.0-1.13.0.patch"
+ filename="0001-spirv-llvm-translator-upgrade-21.1.1-21.1.2.patch"
 
-RnJvbSA4ZmYwMDQ0N2Q0ZDdmOTY2MGFlNzY0NjRmZDcyMzQ5ZjkzYzI4ODNjIE1vbiBTZXAgMTcg
+RnJvbSBlNjAxZjYzODBlNTUwOGE3M2JlODg1YWRmZTc4ZDQ3ODE0YjVlZGYyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTQ6NDk6NTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4a2Jjb21tb246IHVwZ3JhZGUgMS4xMS4wIC0+IDEuMTMuMAoKLS0tCiAuLi4veG9yZy1saWIv
-e2xpYnhrYmNvbW1vbl8xLjExLjAuYmIgPT4gbGlieGtiY29tbW9uXzEuMTMuMC5iYn0gfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve2xpYnhrYmNvbW1vbl8xLjExLjAuYmIgPT4g
-bGlieGtiY29tbW9uXzEuMTMuMC5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MveG9yZy1saWIvbGlieGtiY29tbW9uXzEuMTEuMC5iYiBiL21ldGEvcmVjaXBlcy1n
-cmFwaGljcy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS4xMy4wLmJiCnNpbWlsYXJpdHkgaW5kZXgg
-OTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4a2Jjb21t
-b25fMS4xMS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGli
-eGtiY29tbW9uXzEuMTMuMC5iYgppbmRleCBjOTUzMDU4Mjc1Li44NTYwMDY0MjUzIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGtiY29tbW9uXzEuMTEuMC5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGtiY29tbW9uXzEuMTMu
-MC5iYgpAQCAtOSw3ICs5LDcgQEAgREVQRU5EUyA9ICJmbGV4LW5hdGl2ZSBiaXNvbi1uYXRpdmUi
-CiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS94a2Jjb21tb24vbGlieGtiY29tbW9uO3By
-b3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0ZXI7dGFnPXhrYmNvbW1vbi0ke1BWfSIKIAotU1JDUkVW
-ID0gIjBmOWNlZmIxZmVkYjIzNDMzNjY2ZmE1ZDkwNDVlNDhmZjAzMGMwMDYiCitTUkNSRVYgPSAi
-MzA0OWQzMTA2OTRmZDcwZjEyNjliZjQ4YTEyMDBhYTQyNTllNzliMSIKIAogaW5oZXJpdCBtZXNv
-biBwa2djb25maWcgYmFzaC1jb21wbGV0aW9uCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTQ6MzM6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+cGlydi1sbHZtLXRyYW5zbGF0b3I6IHVwZ3JhZGUgMjEuMS4xIC0+IDIxLjEuMgoKLS0tCiAuLi5s
+dm0tdHJhbnNsYXRvcl8yMS4xLjEuYmIgPT4gc3BpcnYtbGx2bS10cmFuc2xhdG9yXzIxLjEuMi5i
+Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci97c3BpcnYtbGx2bS10cmFuc2xhdG9y
+XzIxLjEuMS5iYiA9PiBzcGlydi1sbHZtLXRyYW5zbGF0b3JfMjEuMS4yLmJifSAoOTQlKQoKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWxsdm0tdHJhbnNsYXRv
+cl8yMS4xLjEuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi1sbHZtLXRyYW5z
+bGF0b3JfMjEuMS4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
+aXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWxsdm0tdHJhbnNsYXRvcl8yMS4xLjEuYmIKcmVuYW1l
+IHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWxsdm0tdHJhbnNsYXRvcl8yMS4x
+LjIuYmIKaW5kZXggNTAzZTdkZjY0NC4uNzYzYWZiZDYwOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtbGx2bS10cmFuc2xhdG9yXzIxLjEuMS5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi1sbHZtLXRyYW5zbGF0b3JfMjEuMS4yLmJi
+CkBAIC02LDcgKzYsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLlRYVDtt
+ZDU9NDdlMzExYWE5Y2FlZGQxYjNhYmYwOThiZDc4MTRkMWQiCiAKICMgcGF0dGVybjogbGx2bV9i
+cmFuY2hfMjAwLCBjdXJyZW50bHkgdGhlcmUgYXJlIG5vIG1pbm9yIHJlbGVhc2VzLCBzbywgbm8g
+bGx2bV9icmFuY2hfMjAxCiBTUElSVl9CUkFOQ0ggPSAibGx2bV9yZWxlYXNlXyR7QG9lLnV0aWxz
+LnRyaW1fdmVyc2lvbignJHtQVn0nLCAxKS5yZXBsYWNlKCcuJywgJycpfTAiCi1TUkNSRVYgPSAi
+Mjk3NThiNTU4MTZjMTRhYmIzZTQxNDJkNDJhY2E3YTk1YmY0NjcxMCIKK1NSQ1JFViA9ICJhMzc1
+NDRmYzBiYjkwYjRlOGI4ZDc1NTU4MDExOWMwMTg4OTFkZmE0IgogU1JDX1VSSSA9ICIgXAogICAg
+IGdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1NQSVJWLUxMVk0tVHJhbnNsYXRvcjtwcm90
+b2NvbD1odHRwczt0YWc9diR7UFZ9O2JyYW5jaD0ke1NQSVJWX0JSQU5DSH0gXAogIgotLSAKMi40
+Ny4xCgo=
 
---===============4658736770122227064==
+--===============8965461990491295068==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-x11: FILELIST: removed "/usr/lib/libxkbcommon-x11.so.0.11.0", added "/usr/lib/libxkbcommon-x11.so.0.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon-x11: PKGSIZE changed from 38994 to 51282 (+32%)
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbcommon: FILELIST: removed "/usr/lib/libxkbcommon.so.0.11.0", added "/usr/lib/libxkbcommon.so.0.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbregistry: FILELIST: removed "/usr/lib/libxkbregistry.so.0.11.0", added "/usr/lib/libxkbregistry.so.0.13.0"
-packages/x86-64-v3-poky-linux/libxkbcommon/libxkbregistry: PKGSIZE changed from 38912 to 43008 (+11%)
-Changes to packages/x86-64-v3-poky-linux/libxkbcommon (sysroot):
-  /usr/lib/libxkbcommon.so.0 changed symlink target from libxkbcommon.so.0.11.0 to libxkbcommon.so.0.13.0
-  /usr/lib/libxkbcommon-x11.so.0 changed symlink target from libxkbcommon-x11.so.0.11.0 to libxkbcommon-x11.so.0.13.0
-  /usr/lib/libxkbregistry.so.0 changed symlink target from libxkbregistry.so.0.11.0 to libxkbregistry.so.0.13.0
-  /usr/lib/libxkbcommon.so.0.11.0 moved to /usr/lib/libxkbcommon.so.0.13.0
-  /usr/lib/libxkbcommon-x11.so.0.11.0 moved to /usr/lib/libxkbcommon-x11.so.0.13.0
-  /usr/lib/libxkbregistry.so.0.11.0 moved to /usr/lib/libxkbregistry.so.0.13.0
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4048,5 +4017,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============4658736770122227064==--
+--===============8965461990491295068==--
 
