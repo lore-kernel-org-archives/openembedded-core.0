@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C771ACED63A
-	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:39:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D34D2CED63D
+	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:39:16 +0000 (UTC)
 Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12112.1763224714174664328
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12116.1763224715612138635
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Nov 2025 08:39:06 -0800
+ Sat, 15 Nov 2025 08:39:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=KbNsKSKo;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=rkU0oVYJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019a886276e4-3b4d4ddc-2cd8-407e-93ce-b4bad2afb9cb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=VkisYYrT;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=sZdl9Xky;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019a88629c4e-fc40ce44-1749-4ee2-bd97-94c5cc0affdf-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1763224745;
+	t=1763224755;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=QmfBCP44u9tJX5i27pcdeM4VwEa3dS5byyeE/2ISlRg=;
-	b=KbNsKSKovKIGBxvGvVNthM9CCN6dOtFzq7FxQeWNx7pA5ZkC6aSlUwysnvOLfll/
-	qjunv1/tqoBN9Iz1usfL49Ou+8cRi2pW6VlV5QY81AG3UWbW5xPP6D5sRkxEyOoykxH
-	hVqsrpfNw/G+tyhNNDj9zDRNEDNR2xxV1X5oPvLs=
+	bh=mz4TFaJgzV/pzkOdQoGFLhShSZpfdYdad3JJGtWWlG4=;
+	b=VkisYYrTvufPA3QC/edn3YNF5gXdscZFnFFUYWySAu44lcqEOEU3Yjm9/jJS8kln
+	59qkjckzw7rFQoVsPn6WiEx3Jz5DCnsV6FlrNzQkoeNR7/eG5q/pS1A0OLoQL55hPAE
+	Rq0/kV31cMw3oflBWHHOw6Gycy5Iyz9hI2DpJyW8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224745;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224755;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=QmfBCP44u9tJX5i27pcdeM4VwEa3dS5byyeE/2ISlRg=;
-	b=rkU0oVYJrcLSVKbbZP2Bfgra4QVrMyGiBgvaOhGR5hceVskJ4Kl0Y5sKpUBG7gPQ
-	cgJUbIfwQcPmvBzfMwb/AABo/M8EFQTtq9BEY5tuiaPq916Pr2Vd7TX5HkbyNysDEKv
-	nEVdspQqG6EiIrBSBbRyDLp5Zj2Jm2M14aNgDNvg=
-Content-Type: multipart/mixed; boundary="===============1318972836512532472=="
+	bh=mz4TFaJgzV/pzkOdQoGFLhShSZpfdYdad3JJGtWWlG4=;
+	b=sZdl9Xky1aqf45vZht/+ZWC4CupvlZFhso4uadzodZPWXHV3o/gp3tT3gDqRvv5n
+	8vx/Yi3i3xKWnzVlr3C1pMp4+3ttlrW0UFFRzYTCBgiiwCVQwLCwU8LTx5KTeCxnTI+
+	2c9dUvOjHERhWvg8MLlYjrMguoW0ObPOQ8ZN/ixY=
+Content-Type: multipart/mixed; boundary="===============5860495030396325555=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] libdrm: upgrading to 2.4.128 SUCCEEDED
-Message-ID: <0101019a886276e4-3b4d4ddc-2cd8-407e-93ce-b4bad2afb9cb-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Nov 2025 16:39:05 +0000
+Subject: [AUH] nghttp2: upgrading to 1.68.0 SUCCEEDED
+Message-ID: <0101019a88629c4e-fc40ce44-1749-4ee2-bd97-94c5cc0affdf-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Nov 2025 16:39:15 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.11.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:39:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226418
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:39:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226461
 
---===============1318972836512532472==
+--===============5860495030396325555==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libdrm* to *2.4.128* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *nghttp2* to *1.68.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libdrm-upgrade-2.4.125-2.4.128.patch
+    - apply the patch: git am 0001-nghttp2-upgrade-1.66.0-1.68.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,137 +72,105 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1d10c94bb3f380a0f2eaa8866c4c05e9757479af Mon Sep 17 00:00:00 2001
+From cb39bd8769750bf96e8ffd437aaf9655375a3a7e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Nov 2025 13:52:15 +0000
-Subject: [PATCH] libdrm: upgrade 2.4.125 -> 2.4.128
+Date: Sat, 15 Nov 2025 16:33:27 +0000
+Subject: [PATCH] nghttp2: upgrade 1.66.0 -> 1.68.0
 
 ---
- .../drm/{libdrm_2.4.125.bb => libdrm_2.4.128.bb}                | 2 +-
+ .../nghttp2/{nghttp2_1.66.0.bb => nghttp2_1.68.0.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.125.bb => libdrm_2.4.128.bb} (97%)
+ rename meta/recipes-support/nghttp2/{nghttp2_1.66.0.bb => nghttp2_1.68.0.bb} (84%)
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.125.bb b/meta/recipes-graphics/drm/libdrm_2.4.128.bb
-similarity index 97%
-rename from meta/recipes-graphics/drm/libdrm_2.4.125.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.128.bb
-index a256f73145..8796a7a3d0 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.125.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.128.bb
-@@ -13,7 +13,7 @@ DEPENDS = "libpthread-stubs"
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
-           "
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.68.0.bb
+similarity index 84%
+rename from meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
+rename to meta/recipes-support/nghttp2/nghttp2_1.68.0.bb
+index 49d6d7e632..952064d268 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.68.0.bb
+@@ -5,7 +5,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
  
--SRC_URI[sha256sum] = "d4bae92797a50f81a93524762e0410a49cd84cfa0f997795bc0172ac8fb1d96a"
-+SRC_URI[sha256sum] = "3bb35db8700c2a0b569f2c6729a53f5495786856b310854c8de57782a22bddac"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "00ba1bdf0ba2c74b2a4fe6c8b1069dc9d82f82608af24442d430df97c6f9e631"
++SRC_URI[sha256sum] = "5511d3128850e01b5b26ec92bf39df15381c767a63441438b25ad6235def902c"
  
- inherit meson pkgconfig manpages
+ inherit cmake manpages python3native github-releases
  
 -- 
 2.47.1
 
 
---===============1318972836512532472==
+--===============5860495030396325555==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libdrm-upgrade-2.4.125-2.4.128.patch"
+ filename="0001-nghttp2-upgrade-1.66.0-1.68.0.patch"
 
-RnJvbSAxZDEwYzk0YmIzZjM4MGEwZjJlYWE4ODY2YzRjMDVlOTc1NzQ3OWFmIE1vbiBTZXAgMTcg
+RnJvbSBjYjM5YmQ4NzY5NzUwYmY5NmU4ZmZkNDM3YWFmOTY1NTM3NWEzYTdlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTM6NTI6MTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJkcm06IHVwZ3JhZGUgMi40LjEyNSAtPiAyLjQuMTI4CgotLS0KIC4uLi9kcm0ve2xpYmRybV8y
-LjQuMTI1LmJiID0+IGxpYmRybV8yLjQuMTI4LmJifSAgICAgICAgICAgICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy9kcm0ve2xpYmRybV8yLjQuMTI1LmJiID0+IGxpYmRybV8yLjQuMTI4
-LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9kcm0vbGliZHJt
-XzIuNC4xMjUuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZHJtL2xpYmRybV8yLjQuMTI4LmJi
-CnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9k
-cm0vbGliZHJtXzIuNC4xMjUuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9kcm0v
-bGliZHJtXzIuNC4xMjguYmIKaW5kZXggYTI1NmY3MzE0NS4uODc5NmE3YTNkMCAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2RybS9saWJkcm1fMi40LjEyNS5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3MvZHJtL2xpYmRybV8yLjQuMTI4LmJiCkBAIC0xMyw3ICsxMyw3IEBA
-IERFUEVORFMgPSAibGlicHRocmVhZC1zdHVicyIKIFNSQ19VUkkgPSAiaHR0cDovL2RyaS5mcmVl
-ZGVza3RvcC5vcmcvbGliZHJtLyR7QlB9LnRhci54eiBcCiAgICAgICAgICAgIgogCi1TUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiZDRiYWU5Mjc5N2E1MGY4MWE5MzUyNDc2MmUwNDEwYTQ5Y2Q4NGNmYTBm
-OTk3Nzk1YmMwMTcyYWM4ZmIxZDk2YSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzYmIzNWRiODcw
-MGMyYTBiNTY5ZjJjNjcyOWE1M2Y1NDk1Nzg2ODU2YjMxMDg1NGM4ZGU1Nzc4MmEyMmJkZGFjIgog
-CiBpbmhlcml0IG1lc29uIHBrZ2NvbmZpZyBtYW5wYWdlcwogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTY6MzM6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
+Z2h0dHAyOiB1cGdyYWRlIDEuNjYuMCAtPiAxLjY4LjAKCi0tLQogLi4uL25naHR0cDIve25naHR0
+cDJfMS42Ni4wLmJiID0+IG5naHR0cDJfMS42OC4wLmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbmdodHRwMi97bmdodHRwMl8xLjY2LjAuYmIgPT4gbmdodHRwMl8xLjY4
+LjAuYmJ9ICg4NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9u
+Z2h0dHAyXzEuNjYuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8x
+LjY4LjAuYmIKc2ltaWxhcml0eSBpbmRleCA4NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNjYuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNjguMC5iYgppbmRleCA0OWQ2ZDdlNjMyLi45NTIwNjRk
+MjY4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25naHR0cDJfMS42
+Ni4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjY4LjAu
+YmIKQEAgLTUsNyArNSw3IEBAIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vQ09QWUlORzttZDU9NzY0YWJkZjMwYjJlYWRkMzdjZTQ3ZGNiY2UwZWExZWMiCiAKIFNS
+Q19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkL3Yke1BWfS9uZ2h0dHAyLSR7UFZ9
+LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIwMGJhMWJkZjBiYTJjNzRiMmE0ZmU2Yzhi
+MTA2OWRjOWQ4MmY4MjYwOGFmMjQ0NDJkNDMwZGY5N2M2ZjllNjMxIgorU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjU1MTFkMzEyODg1MGUwMWI1YjI2ZWM5MmJmMzlkZjE1MzgxYzc2N2E2MzQ0MTQzOGIy
+NWFkNjIzNWRlZjkwMmMiCiAKIGluaGVyaXQgY21ha2UgbWFucGFnZXMgcHl0aG9uM25hdGl2ZSBn
+aXRodWItcmVsZWFzZXMKIAotLSAKMi40Ny4xCgo=
 
---===============1318972836512532472==
+--===============5860495030396325555==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libdrm: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm: SRC_URI changed from "http://dri.freedesktop.org/libdrm/libdrm-2.4.125.tar.xz" to "http://dri.freedesktop.org/libdrm/libdrm-2.4.128.tar.xz"
-packages/x86-64-v3-poky-linux/libdrm: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: FILELIST: removed "/usr/lib/libdrm_amdgpu.so.1.125.0", added "/usr/lib/libdrm_amdgpu.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: PKGSIZE changed from 70282 to 70349 (+0%)
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: FILELIST: removed "/usr/lib/.debug/libdrm.so.2.125.0 /usr/lib/.debug/libdrm_omap.so.1.125.0 /usr/lib/.debug/libdrm_radeon.so.1.125.0 /usr/lib/.debug/libdrm_amdgpu.so.1.125.0 /usr/lib/.debug/libdrm_intel.so.1.125.0 /usr/lib/.debug/libdrm_nouveau.so.2.125.0 /usr/lib/.debug/libdrm_etnaviv.so.1.125.0 /usr/lib/.debug/libdrm_freedreno.so.1.125.0", added "/usr/lib/.debug/libdrm.so.2.128.0 /usr/lib/.debug/libdrm_omap.so.1.128.0 /usr/lib/.debug/libdrm_freedreno.so.1.128.0 /usr/lib/.debug/libdrm_nouveau.so.2.128.0 /usr/lib/.debug/libdrm_etnaviv.so.1.128.0 /usr/lib/.debug/libdrm_amdgpu.so.1.128.0 /usr/lib/.debug/libdrm_radeon.so.1.128.0 /usr/lib/.debug/libdrm_intel.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: PKGSIZE changed from 1623856 to 1646536 (+1%)
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dev: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dev: PKGSIZE changed from 782697 to 782902 (+0%)
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dev: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-doc: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-doc: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-drivers: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-drivers: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: FILELIST: removed "/usr/lib/libdrm_etnaviv.so.1.125.0", added "/usr/lib/libdrm_etnaviv.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-exynos: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-exynos: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: FILELIST: removed "/usr/lib/libdrm_freedreno.so.1.125.0", added "/usr/lib/libdrm_freedreno.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: FILELIST: removed "/usr/lib/libdrm_intel.so.1.125.0", added "/usr/lib/libdrm_intel.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-locale: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-locale: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: FILELIST: removed "/usr/lib/libdrm_nouveau.so.2.125.0", added "/usr/lib/libdrm_nouveau.so.2.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: FILELIST: removed "/usr/lib/libdrm_omap.so.1.125.0", added "/usr/lib/libdrm_omap.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: FILELIST: removed "/usr/lib/libdrm_radeon.so.1.125.0", added "/usr/lib/libdrm_radeon.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-src: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-src: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-staticdev: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-staticdev: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-tests: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-tests: PKGSIZE changed from 219888 to 223992 (+2%)
-packages/x86-64-v3-poky-linux/libdrm/libdrm-tests: PV changed from "2.4.125" to "2.4.128"
-packages/x86-64-v3-poky-linux/libdrm/libdrm: FILELIST: removed "/usr/lib/libdrm.so.2.125.0", added "/usr/lib/libdrm.so.2.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm: PKGV changed from 2.4.125 [default] to 2.4.128 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm: PV changed from "2.4.125" to "2.4.128"
-Changes to packages/x86-64-v3-poky-linux/libdrm (sysroot):
-  /usr/lib/libdrm_amdgpu.so.1 changed symlink target from libdrm_amdgpu.so.1.125.0 to libdrm_amdgpu.so.1.128.0
-  /usr/lib/libdrm_etnaviv.so.1 changed symlink target from libdrm_etnaviv.so.1.125.0 to libdrm_etnaviv.so.1.128.0
-  /usr/lib/libdrm_freedreno.so.1 changed symlink target from libdrm_freedreno.so.1.125.0 to libdrm_freedreno.so.1.128.0
-  /usr/lib/libdrm_intel.so.1 changed symlink target from libdrm_intel.so.1.125.0 to libdrm_intel.so.1.128.0
-  /usr/lib/libdrm_nouveau.so.2 changed symlink target from libdrm_nouveau.so.2.125.0 to libdrm_nouveau.so.2.128.0
-  /usr/lib/libdrm_omap.so.1 changed symlink target from libdrm_omap.so.1.125.0 to libdrm_omap.so.1.128.0
-  /usr/lib/libdrm_radeon.so.1 changed symlink target from libdrm_radeon.so.1.125.0 to libdrm_radeon.so.1.128.0
-  /usr/lib/libdrm.so.2 changed symlink target from libdrm.so.2.125.0 to libdrm.so.2.128.0
-  /usr/lib/libdrm_amdgpu.so.1.125.0 moved to /usr/lib/libdrm_amdgpu.so.1.128.0
-  /usr/lib/libdrm_etnaviv.so.1.125.0 moved to /usr/lib/libdrm_etnaviv.so.1.128.0
-  /usr/lib/libdrm_freedreno.so.1.125.0 moved to /usr/lib/libdrm_freedreno.so.1.128.0
-  /usr/lib/libdrm_intel.so.1.125.0 moved to /usr/lib/libdrm_intel.so.1.128.0
-  /usr/lib/libdrm_nouveau.so.2.125.0 moved to /usr/lib/libdrm_nouveau.so.2.128.0
-  /usr/lib/libdrm_omap.so.1.125.0 moved to /usr/lib/libdrm_omap.so.1.128.0
-  /usr/lib/libdrm_radeon.so.1.125.0 moved to /usr/lib/libdrm_radeon.so.1.128.0
-  /usr/lib/libdrm.so.2.125.0 moved to /usr/lib/libdrm.so.2.128.0
+packages/x86-64-v3-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.66.0/nghttp2-1.66.0.tar.xz" to "https://github.com/nghttp2/nghttp2/releases//download/v1.68.0/nghttp2-1.68.0.tar.xz"
+packages/x86-64-v3-poky-linux/nghttp2: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2: PV changed from "1.66.0" to "1.68.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PKGSIZE changed from 561352 to 562096 (+0%)
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.28.5", added "/usr/lib/.debug/libnghttp2.so.14.29.2"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.66.0" to "1.68.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PKGSIZE changed from 248995 to 253583 (+2%)
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: FILELIST: removed "/usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake /usr/lib/cmake/nghttp2/nghttp2-targets.cmake", added "/usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake /usr/lib/cmake/nghttp2/nghttp2Config.cmake /usr/lib/cmake/nghttp2/nghttp2Targets.cmake /usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.66.0" to "1.68.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 49545 to 49547 (+0%)
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.66.0" to "1.68.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.66.0" to "1.68.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1041649 to 1050488 (+1%)
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PV changed from "1.66.0" to "1.68.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.66.0" to "1.68.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.28.5", added "/usr/lib/libnghttp2.so.14.29.2"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2: PKGV changed from 1.66.0 [default] to 1.68.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2: PV changed from "1.66.0" to "1.68.0"
+Changes to packages/x86-64-v3-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.28.5 to libnghttp2.so.14.29.2
+  /usr/lib/libnghttp2.so.14.28.5 moved to /usr/lib/libnghttp2.so.14.29.2
+  /usr/lib/cmake/nghttp2/nghttp2Config.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2Targets.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2-targets.cmake was removed
+  /usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2126,37 +2094,23 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============1318972836512532472==
+--===============5860495030396325555==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: FILELIST: removed "/usr/lib/libdrm_amdgpu.so.1.125.0", added "/usr/lib/libdrm_amdgpu.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: FILELIST: removed "/usr/lib/libdrm_etnaviv.so.1.125.0", added "/usr/lib/libdrm_etnaviv.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: FILELIST: removed "/usr/lib/libdrm_freedreno.so.1.125.0", added "/usr/lib/libdrm_freedreno.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: FILELIST: removed "/usr/lib/libdrm_intel.so.1.125.0", added "/usr/lib/libdrm_intel.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: FILELIST: removed "/usr/lib/libdrm_nouveau.so.2.125.0", added "/usr/lib/libdrm_nouveau.so.2.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: FILELIST: removed "/usr/lib/libdrm_omap.so.1.125.0", added "/usr/lib/libdrm_omap.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: FILELIST: removed "/usr/lib/libdrm_radeon.so.1.125.0", added "/usr/lib/libdrm_radeon.so.1.128.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm: FILELIST: removed "/usr/lib/libdrm.so.2.125.0", added "/usr/lib/libdrm.so.2.128.0"
-Changes to packages/x86-64-v3-poky-linux/libdrm (sysroot):
-  /usr/lib/libdrm_amdgpu.so.1 changed symlink target from libdrm_amdgpu.so.1.125.0 to libdrm_amdgpu.so.1.128.0
-  /usr/lib/libdrm_etnaviv.so.1 changed symlink target from libdrm_etnaviv.so.1.125.0 to libdrm_etnaviv.so.1.128.0
-  /usr/lib/libdrm_freedreno.so.1 changed symlink target from libdrm_freedreno.so.1.125.0 to libdrm_freedreno.so.1.128.0
-  /usr/lib/libdrm_intel.so.1 changed symlink target from libdrm_intel.so.1.125.0 to libdrm_intel.so.1.128.0
-  /usr/lib/libdrm_nouveau.so.2 changed symlink target from libdrm_nouveau.so.2.125.0 to libdrm_nouveau.so.2.128.0
-  /usr/lib/libdrm_omap.so.1 changed symlink target from libdrm_omap.so.1.125.0 to libdrm_omap.so.1.128.0
-  /usr/lib/libdrm_radeon.so.1 changed symlink target from libdrm_radeon.so.1.125.0 to libdrm_radeon.so.1.128.0
-  /usr/lib/libdrm.so.2 changed symlink target from libdrm.so.2.125.0 to libdrm.so.2.128.0
-  /usr/lib/libdrm_amdgpu.so.1.125.0 moved to /usr/lib/libdrm_amdgpu.so.1.128.0
-  /usr/lib/libdrm_etnaviv.so.1.125.0 moved to /usr/lib/libdrm_etnaviv.so.1.128.0
-  /usr/lib/libdrm_freedreno.so.1.125.0 moved to /usr/lib/libdrm_freedreno.so.1.128.0
-  /usr/lib/libdrm_intel.so.1.125.0 moved to /usr/lib/libdrm_intel.so.1.128.0
-  /usr/lib/libdrm_nouveau.so.2.125.0 moved to /usr/lib/libdrm_nouveau.so.2.128.0
-  /usr/lib/libdrm_omap.so.1.125.0 moved to /usr/lib/libdrm_omap.so.1.128.0
-  /usr/lib/libdrm_radeon.so.1.125.0 moved to /usr/lib/libdrm_radeon.so.1.128.0
-  /usr/lib/libdrm.so.2.125.0 moved to /usr/lib/libdrm.so.2.128.0
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: FILELIST: removed "/usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake /usr/lib/cmake/nghttp2/nghttp2-targets.cmake", added "/usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake /usr/lib/cmake/nghttp2/nghttp2Config.cmake /usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake /usr/lib/cmake/nghttp2/nghttp2Targets.cmake"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.28.5", added "/usr/lib/libnghttp2.so.14.29.2"
+Changes to packages/x86-64-v3-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.28.5 to libnghttp2.so.14.29.2
+  /usr/lib/libnghttp2.so.14.28.5 moved to /usr/lib/libnghttp2.so.14.29.2
+  /usr/lib/cmake/nghttp2/nghttp2Config.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2Targets.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2-targets.cmake was removed
+  /usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4080,5 +4034,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============1318972836512532472==--
+--===============5860495030396325555==--
 
