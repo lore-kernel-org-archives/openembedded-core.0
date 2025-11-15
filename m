@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F60ECEE32A
-	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:39:20 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12139.1763224746437543697
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6EA9CEE326
+	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:39:19 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11929.1763224712422590111
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Nov 2025 08:39:08 -0800
+ Sat, 15 Nov 2025 08:39:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ptHmOteQ;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WweElRAa;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019a88627e55-4ac8e46f-e3c7-488f-a753-e2408e446fbc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=nHBNj/Ah;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=MCRWMTsH;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019a886286c6-541e037d-7316-45eb-a471-7b272706bbd4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1763224747;
+	t=1763224749;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=JrMo1T5umQEFdksmobXVlURHkTgDtasYotHt6H04iLE=;
-	b=ptHmOteQx40tTmOLwG+6UON1S+dN/IXWt8IUhg5v6p+k+Vuh8pMMDlCi86Oolrpg
-	4GcyFwpWjA6+Zv+5HuvjPUjXlBu31GYvFzQLkSMZN5hvBfrOnFpBOP1WCf9MpjpCtPa
-	bav6AHSUR6LWFKY/sIn8PA1Qe2obuNUMSSwVT25I=
+	bh=G8uu6Y+LtPJDbezvGA1HfHKqWIGJGs0FikPBqpQSipM=;
+	b=nHBNj/Ah7L+yhLjUlT45yD4kgy+xh5EcWJckqTtQxMro5VKJSnTMelnE2KlwTLzM
+	MtW8//cx3t4kIPETFnBnSyvv4X8NEuXGw47IS7u3YE1LY0A7nOkhj5uGGgPUKlRRzOP
+	pJwrq035hHpUYs2X21/nedKHxF0s4gv7ZPLUB6HI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224747;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224749;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=JrMo1T5umQEFdksmobXVlURHkTgDtasYotHt6H04iLE=;
-	b=WweElRAakZBtBtdySjJsrHdJcHHmW+OGz7P7/cTUywcCdGvreWctaPUWXwl1wm8G
-	oSdOZEniU2S5OssB6/B6ZaC8ZFXzqEC4lWf+ZmY7y5GnB7N/I30aW4sgV9904mu9XCt
-	ZxV/g14eT0jvs+3gsj8eF8tlFAwxDY1Ov6rRkKQw=
-Content-Type: multipart/mixed; boundary="===============8965461990491295068=="
+	bh=G8uu6Y+LtPJDbezvGA1HfHKqWIGJGs0FikPBqpQSipM=;
+	b=MCRWMTsHYpaVZaKb0+b/pU2lNFOmKHRBbippZX+UPO19FI3Bwl51mQhCTP/rB0js
+	B/hJC5cPNxzOtpg6mktHkRhWotgvR2Hz3TmFqIbtdw5iMVw2aTato9qwrh1gxYbvv3g
+	zdMxeToZeRQPH7ORRY4kousLjOltylz+Xn1tNr84=
+Content-Type: multipart/mixed; boundary="===============9132641675876856917=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Etienne Cordonnier <ecordonnier@snap.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] spirv-llvm-translator: upgrading to 21.1.2 SUCCEEDED
-Message-ID: <0101019a88627e55-4ac8e46f-e3c7-488f-a753-e2408e446fbc-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Nov 2025 16:39:07 +0000
+Subject: [AUH] makedumpfile: upgrading to 1.7.8 SUCCEEDED
+Message-ID: <0101019a886286c6-541e037d-7316-45eb-a471-7b272706bbd4-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Nov 2025 16:39:09 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.15-54.240.27.29
+X-SES-Outgoing: 2025.11.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:39:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226426
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:39:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226436
 
---===============8965461990491295068==
+--===============9132641675876856917==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *spirv-llvm-translator* to *21.1.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *makedumpfile* to *1.7.8* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-spirv-llvm-translator-upgrade-21.1.1-21.1.2.patch
+    - apply the patch: git am 0001-makedumpfile-upgrade-1.7.7-1.7.8.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,65 +72,82 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e601f6380e5508a73be885adfe78d47814b5edf2 Mon Sep 17 00:00:00 2001
+From 4235ad79b43d065098acf3db99d413439045f323 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Nov 2025 14:33:50 +0000
-Subject: [PATCH] spirv-llvm-translator: upgrade 21.1.1 -> 21.1.2
+Date: Sat, 15 Nov 2025 15:11:09 +0000
+Subject: [PATCH] makedumpfile: upgrade 1.7.7 -> 1.7.8
 
 ---
- ...lvm-translator_21.1.1.bb => spirv-llvm-translator_21.1.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/spir/{spirv-llvm-translator_21.1.1.bb => spirv-llvm-translator_21.1.2.bb} (94%)
+ .../0001-makedumpfile-replace-hardcode-CFLAGS.patch           | 4 ++--
+ .../{makedumpfile_1.7.7.bb => makedumpfile_1.7.8.bb}          | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-kernel/makedumpfile/{makedumpfile_1.7.7.bb => makedumpfile_1.7.8.bb} (96%)
 
-diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.2.bb
-similarity index 94%
-rename from meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb
-rename to meta/recipes-graphics/spir/spirv-llvm-translator_21.1.2.bb
-index 503e7df644..763afbd608 100644
---- a/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb
-+++ b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.2.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=47e311aa9caedd1b3abf098bd7814d1d"
+diff --git a/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch b/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch
+index 796e036ab8..8ad3e99305 100644
+--- a/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch
++++ b/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch
+@@ -1,4 +1,4 @@
+-From 59b8d59504c1bafff52a8794e67c6025fcd418a4 Mon Sep 17 00:00:00 2001
++From 1fd7f03bf0512915703dde92fb52e766592c06a1 Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <mingli.yu@windriver.com>
+ Date: Sun, 24 Apr 2022 17:25:33 +0800
+ Subject: [PATCH] makedumpfile: replace hardcode CFLAGS
+@@ -24,7 +24,7 @@ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+  1 file changed, 21 insertions(+), 19 deletions(-)
  
- # pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
- SPIRV_BRANCH = "llvm_release_${@oe.utils.trim_version('${PV}', 1).replace('.', '')}0"
--SRCREV = "29758b55816c14abb3e4142d42aca7a95bf46710"
-+SRCREV = "a37544fc0bb90b4e8b8d755580119c018891dfa4"
- SRC_URI = " \
-     git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v${PV};branch=${SPIRV_BRANCH} \
- "
+ diff --git a/Makefile b/Makefile
+-index aa73252..76fcafd 100644
++index 05ab5f2..57328f8 100644
+ --- a/Makefile
+ +++ b/Makefile
+ @@ -8,12 +8,6 @@ ifeq ($(strip $CC),)
+diff --git a/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.7.bb b/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.8.bb
+similarity index 96%
+rename from meta/recipes-kernel/makedumpfile/makedumpfile_1.7.7.bb
+rename to meta/recipes-kernel/makedumpfile/makedumpfile_1.7.8.bb
+index 99393e0984..6b582729a1 100644
+--- a/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.7.bb
++++ b/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.8.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ LICENSE = "GPL-2.0-only"
+ 
+ SRCBRANCH ?= "master"
+-SRCREV = "e4ae6b5ee04edeeb03db89bee372904157e3378d"
++SRCREV = "65e0b5488ffe840035c6e165a5149dc5da769d97"
+ 
+ DEPENDS = "bzip2 zlib elfutils xz"
+ RDEPENDS:${PN}-tools = "perl ${PN}"
 -- 
 2.47.1
 
 
---===============8965461990491295068==
+--===============9132641675876856917==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/spirv-llvm-translator: PV changed from "21.1.1" to "21.1.2"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator: SRC_URI changed from "git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v21.1.1;branch=llvm_release_210" to "git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v21.1.2;branch=llvm_release_210"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-bin: PV changed from "21.1.1" to "21.1.2"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-bin: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PV changed from "21.1.1" to "21.1.2"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PKGSIZE changed from 131466696 to 131553576 (+0%)
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PV changed from "21.1.1" to "21.1.2"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PKGSIZE changed from 26155 to 26184 (+0%)
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-doc: PV changed from "21.1.1" to "21.1.2"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-doc: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-locale: PV changed from "21.1.1" to "21.1.2"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-locale: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PV changed from "21.1.1" to "21.1.2"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PKGSIZE changed from 2382593 to 2383817 (+0%)
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-staticdev: PV changed from "21.1.1" to "21.1.2"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-staticdev: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PV changed from "21.1.1" to "21.1.2"
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PKGV changed from 21.1.1 [default] to 21.1.2 [default]
-packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PKGSIZE changed from 5829008 to 5833136 (+0%)
+packages/x86-64-v3-poky-linux/makedumpfile: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-dbg: PKGSIZE changed from 1231392 to 1233400 (+0%)
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-dbg: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-dbg: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-dev: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-dev: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-doc: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-doc: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-locale: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-locale: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-src: PKGSIZE changed from 691815 to 693112 (+0%)
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-src: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-src: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-staticdev: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-staticdev: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-tools: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-tools: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2054,41 +2071,56 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============8965461990491295068==
+--===============9132641675876856917==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-spirv-llvm-translator-upgrade-21.1.1-21.1.2.patch"
+ filename="0001-makedumpfile-upgrade-1.7.7-1.7.8.patch"
 
-RnJvbSBlNjAxZjYzODBlNTUwOGE3M2JlODg1YWRmZTc4ZDQ3ODE0YjVlZGYyIE1vbiBTZXAgMTcg
+RnJvbSA0MjM1YWQ3OWI0M2QwNjUwOThhY2YzZGI5OWQ0MTM0MzkwNDVmMzIzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTQ6MzM6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-cGlydi1sbHZtLXRyYW5zbGF0b3I6IHVwZ3JhZGUgMjEuMS4xIC0+IDIxLjEuMgoKLS0tCiAuLi5s
-dm0tdHJhbnNsYXRvcl8yMS4xLjEuYmIgPT4gc3BpcnYtbGx2bS10cmFuc2xhdG9yXzIxLjEuMi5i
-Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci97c3BpcnYtbGx2bS10cmFuc2xhdG9y
-XzIxLjEuMS5iYiA9PiBzcGlydi1sbHZtLXRyYW5zbGF0b3JfMjEuMS4yLmJifSAoOTQlKQoKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWxsdm0tdHJhbnNsYXRv
-cl8yMS4xLjEuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi1sbHZtLXRyYW5z
-bGF0b3JfMjEuMS4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWxsdm0tdHJhbnNsYXRvcl8yMS4xLjEuYmIKcmVuYW1l
-IHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWxsdm0tdHJhbnNsYXRvcl8yMS4x
-LjIuYmIKaW5kZXggNTAzZTdkZjY0NC4uNzYzYWZiZDYwOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtbGx2bS10cmFuc2xhdG9yXzIxLjEuMS5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi1sbHZtLXRyYW5zbGF0b3JfMjEuMS4yLmJi
-CkBAIC02LDcgKzYsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLlRYVDtt
-ZDU9NDdlMzExYWE5Y2FlZGQxYjNhYmYwOThiZDc4MTRkMWQiCiAKICMgcGF0dGVybjogbGx2bV9i
-cmFuY2hfMjAwLCBjdXJyZW50bHkgdGhlcmUgYXJlIG5vIG1pbm9yIHJlbGVhc2VzLCBzbywgbm8g
-bGx2bV9icmFuY2hfMjAxCiBTUElSVl9CUkFOQ0ggPSAibGx2bV9yZWxlYXNlXyR7QG9lLnV0aWxz
-LnRyaW1fdmVyc2lvbignJHtQVn0nLCAxKS5yZXBsYWNlKCcuJywgJycpfTAiCi1TUkNSRVYgPSAi
-Mjk3NThiNTU4MTZjMTRhYmIzZTQxNDJkNDJhY2E3YTk1YmY0NjcxMCIKK1NSQ1JFViA9ICJhMzc1
-NDRmYzBiYjkwYjRlOGI4ZDc1NTU4MDExOWMwMTg4OTFkZmE0IgogU1JDX1VSSSA9ICIgXAogICAg
-IGdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1NQSVJWLUxMVk0tVHJhbnNsYXRvcjtwcm90
-b2NvbD1odHRwczt0YWc9diR7UFZ9O2JyYW5jaD0ke1NQSVJWX0JSQU5DSH0gXAogIgotLSAKMi40
-Ny4xCgo=
+CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTU6MTE6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+YWtlZHVtcGZpbGU6IHVwZ3JhZGUgMS43LjcgLT4gMS43LjgKCi0tLQogLi4uLzAwMDEtbWFrZWR1
+bXBmaWxlLXJlcGxhY2UtaGFyZGNvZGUtQ0ZMQUdTLnBhdGNoICAgICAgICAgICB8IDQgKystLQog
+Li4uL3ttYWtlZHVtcGZpbGVfMS43LjcuYmIgPT4gbWFrZWR1bXBmaWxlXzEuNy44LmJifSAgICAg
+ICAgICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9u
+cygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1rZXJuZWwvbWFrZWR1bXBmaWxlL3ttYWtlZHVtcGZp
+bGVfMS43LjcuYmIgPT4gbWFrZWR1bXBmaWxlXzEuNy44LmJifSAoOTYlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1rZXJuZWwvbWFrZWR1bXBmaWxlL21ha2VkdW1wZmlsZS8wMDAxLW1ha2Vk
+dW1wZmlsZS1yZXBsYWNlLWhhcmRjb2RlLUNGTEFHUy5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJu
+ZWwvbWFrZWR1bXBmaWxlL21ha2VkdW1wZmlsZS8wMDAxLW1ha2VkdW1wZmlsZS1yZXBsYWNlLWhh
+cmRjb2RlLUNGTEFHUy5wYXRjaAppbmRleCA3OTZlMDM2YWI4Li44YWQzZTk5MzA1IDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL21ha2VkdW1wZmlsZS9tYWtlZHVtcGZpbGUvMDAwMS1t
+YWtlZHVtcGZpbGUtcmVwbGFjZS1oYXJkY29kZS1DRkxBR1MucGF0Y2gKKysrIGIvbWV0YS9yZWNp
+cGVzLWtlcm5lbC9tYWtlZHVtcGZpbGUvbWFrZWR1bXBmaWxlLzAwMDEtbWFrZWR1bXBmaWxlLXJl
+cGxhY2UtaGFyZGNvZGUtQ0ZMQUdTLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1OWI4ZDU5
+NTA0YzFiYWZmZjUyYTg3OTRlNjdjNjAyNWZjZDQxOGE0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQorRnJvbSAxZmQ3ZjAzYmYwNTEyOTE1NzAzZGRlOTJmYjUyZTc2NjU5MmMwNmExIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWluZ2xpIFl1IDxtaW5nbGkueXVAd2luZHJpdmVyLmNv
+bT4KIERhdGU6IFN1biwgMjQgQXByIDIwMjIgMTc6MjU6MzMgKzA4MDAKIFN1YmplY3Q6IFtQQVRD
+SF0gbWFrZWR1bXBmaWxlOiByZXBsYWNlIGhhcmRjb2RlIENGTEFHUwpAQCAtMjQsNyArMjQsNyBA
+QCBTaWduZWQtb2ZmLWJ5OiBNaW5nbGkgWXUgPG1pbmdsaS55dUB3aW5kcml2ZXIuY29tPgogIDEg
+ZmlsZSBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCAxOSBkZWxldGlvbnMoLSkKIAogZGlmZiAt
+LWdpdCBhL01ha2VmaWxlIGIvTWFrZWZpbGUKLWluZGV4IGFhNzMyNTIuLjc2ZmNhZmQgMTAwNjQ0
+CitpbmRleCAwNWFiNWYyLi41NzMyOGY4IDEwMDY0NAogLS0tIGEvTWFrZWZpbGUKICsrKyBiL01h
+a2VmaWxlCiBAQCAtOCwxMiArOCw2IEBAIGlmZXEgKCQoc3RyaXAgJENDKSwpCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMta2VybmVsL21ha2VkdW1wZmlsZS9tYWtlZHVtcGZpbGVfMS43LjcuYmIg
+Yi9tZXRhL3JlY2lwZXMta2VybmVsL21ha2VkdW1wZmlsZS9tYWtlZHVtcGZpbGVfMS43LjguYmIK
+c2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWtlcm5lbC9tYWtl
+ZHVtcGZpbGUvbWFrZWR1bXBmaWxlXzEuNy43LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMta2Vy
+bmVsL21ha2VkdW1wZmlsZS9tYWtlZHVtcGZpbGVfMS43LjguYmIKaW5kZXggOTkzOTNlMDk4NC4u
+NmI1ODI3MjlhMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9tYWtlZHVtcGZpbGUv
+bWFrZWR1bXBmaWxlXzEuNy43LmJiCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbWFrZWR1bXBm
+aWxlL21ha2VkdW1wZmlsZV8xLjcuOC5iYgpAQCAtMTEsNyArMTEsNyBAQCBMSUNfRklMRVNfQ0hL
+U1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT03NTE0MTkyNjBhYTk1NDQ5OWY3YWJhYWJhYTg4MmJi
+ZSIKIExJQ0VOU0UgPSAiR1BMLTIuMC1vbmx5IgogCiBTUkNCUkFOQ0ggPz0gIm1hc3RlciIKLVNS
+Q1JFViA9ICJlNGFlNmI1ZWUwNGVkZWViMDNkYjg5YmVlMzcyOTA0MTU3ZTMzNzhkIgorU1JDUkVW
+ID0gIjY1ZTBiNTQ4OGZmZTg0MDAzNWM2ZTE2NWE1MTQ5ZGM1ZGE3NjlkOTciCiAKIERFUEVORFMg
+PSAiYnppcDIgemxpYiBlbGZ1dGlscyB4eiIKIFJERVBFTkRTOiR7UE59LXRvb2xzID0gInBlcmwg
+JHtQTn0iCi0tIAoyLjQ3LjEKCg==
 
---===============8965461990491295068==
+--===============9132641675876856917==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -4017,5 +4049,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============8965461990491295068==--
+--===============9132641675876856917==--
 
