@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D68CED26B
-	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:39:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4F2BCEB2F1
+	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:38:51 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.12119.1763224719787781609
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Nov 2025 08:39:03 -0800
+ Sat, 15 Nov 2025 08:38:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=2NNAQwbz;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=D84U2PSo;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019a88626ac7-ff90e2fc-a731-4f24-ad5d-2a723448e875-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=wZ969aHz;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=i7Q/4lbK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019a88623bc6-6439b86e-bad9-4ca3-99c4-fe8d046caebc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1763224742;
+	t=1763224730;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=vnJFc3cbLSLC9fX86qFMxyHZHAYaBNiNSTUqA3UJZAM=;
-	b=2NNAQwbz9TWDWwlsVKYSXwjS/Xbzsx0ONCy9fjEf9gXgGfIl7dTA7t2ObHr28/xq
-	9Rd6+MxmSke1IHzREYIbn1nkU1mQBykLTIswgcqvkfp6Zz0vo7Sj+ptjunfMH/04zqq
-	Nnlxzr2hg5aIFsrV718dO44KsGLlnViSilQFj6hY=
+	bh=V3k9JO37tknvIw7fHE7UFNH63wc4K3XWWWwoenWcVmE=;
+	b=wZ969aHzKpA3S3GUvcMUQvNC5wXD+itPUMUSDlGhdQ18qoEuFD7RfoULocNAlqR6
+	FjzJjGVg6OkjN91bIUZR99UB+z5mtKw0lMMqGfFJ/9UK9jc16I0S+Qa2LoN/zczDE7T
+	wasI4BkH1u15d/oOH1gJZv2VreT0YTBmUfo/wc0I=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224742;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224730;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=vnJFc3cbLSLC9fX86qFMxyHZHAYaBNiNSTUqA3UJZAM=;
-	b=D84U2PSoa7ZZa8JL+Huoxfc6cBpgzlZmggcWgCYtwicjg52ixLirXHn0vCFSb8Yh
-	AywWvbEAioYKmxLtuI5Hd0nuWRVCwc2r6U0nJ0n3DJprdpRbEWAoTkJyso55KkMLdcH
-	jOQLHocSB5PZ07qV/ODSBczoKziedrPpVFCEh8w0=
-Content-Type: multipart/mixed; boundary="===============5828750623189662239=="
+	bh=V3k9JO37tknvIw7fHE7UFNH63wc4K3XWWWwoenWcVmE=;
+	b=i7Q/4lbKb6zgqH2UfUGt1VjcjXK7rOzMYu78IAMdduP9pNYuBmmPPwBJgTxrk2oL
+	hg5yjHLUxIX1BZFyHsNu+kYkQn0Uyfjjbc+3JgtOjr6mVKn8xAD8/3y8HDogGyFaqWW
+	VgAswMHrUtRpJrDCTqNnlL6QjFs7cq/rPnymq8xo=
+Content-Type: multipart/mixed; boundary="===============8212598510656827942=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] epiphany: upgrading to 49.1 FAILED
-Message-ID: <0101019a88626ac7-ff90e2fc-a731-4f24-ad5d-2a723448e875-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Nov 2025 16:39:02 +0000
+To: Tim Orling <tim.orling@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-pycparser: upgrading to 2.23 SUCCEEDED
+Message-ID: <0101019a88623bc6-6439b86e-bad9-4ca3-99c4-fe8d046caebc-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Nov 2025 16:38:50 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.11.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:39:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226404
+ <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:38:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226367
 
---===============5828750623189662239==
+--===============8212598510656827942==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *epiphany* to *49.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *python3-pycparser* to *2.23* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-epiphany-upgrade-48.5-49.1.patch
+    - apply the patch: git am 0001-python3-pycparser-upgrade-2.22-2.23.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,301 +72,3946 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 38c2445b6eadc57b411fc2fbe9cfe5dac3c336b4 Mon Sep 17 00:00:00 2001
+From 8f1f26987d02ea0167e4a68eb212a89704f9e3ff Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Nov 2025 13:12:21 +0000
-Subject: [PATCH] epiphany: upgrade 48.5 -> 49.1
+Date: Sat, 15 Nov 2025 10:54:17 +0000
+Subject: [PATCH] python3-pycparser: upgrade 2.22 -> 2.23
 
 ---
- .../epiphany/{epiphany_48.5.bb => epiphany_49.1.bb}           | 2 +-
- .../files/0002-help-meson.build-disable-the-use-of-yelp.patch | 2 +-
- meta/recipes-gnome/epiphany/files/distributor.patch           | 4 ++--
- meta/recipes-gnome/epiphany/files/migrator.patch              | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-gnome/epiphany/{epiphany_48.5.bb => epiphany_49.1.bb} (94%)
+ .../{python3-pycparser_2.22.bb => python3-pycparser_2.23.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pycparser_2.22.bb => python3-pycparser_2.23.bb} (82%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_48.5.bb b/meta/recipes-gnome/epiphany/epiphany_49.1.bb
-similarity index 94%
-rename from meta/recipes-gnome/epiphany/epiphany_48.5.bb
-rename to meta/recipes-gnome/epiphany/epiphany_49.1.bb
-index 6a1abdc553..864d4f304f 100644
---- a/meta/recipes-gnome/epiphany/epiphany_48.5.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_49.1.bb
-@@ -31,7 +31,7 @@ SRC_URI += "\
-            file://migrator.patch \
-            file://distributor.patch \
-            "
--SRC_URI[archive.sha256sum] = "0f66552ad6593c7952a3ddee5bf515656c8c434871076d9f1a91a7af9346b1b4"
-+SRC_URI[archive.sha256sum] = "d767c5cbb9e2566bc9903d411b6896161e343f712aa33305365739d8dedac521"
+diff --git a/meta/recipes-devtools/python/python3-pycparser_2.22.bb b/meta/recipes-devtools/python/python3-pycparser_2.23.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-pycparser_2.22.bb
+rename to meta/recipes-devtools/python/python3-pycparser_2.23.bb
+index 0be39ea383..a33a6553b4 100644
+--- a/meta/recipes-devtools/python/python3-pycparser_2.22.bb
++++ b/meta/recipes-devtools/python/python3-pycparser_2.23.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/eliben/pycparser"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=9761c3ffee7ba99c60dca0408fd3262b"
  
- # Developer mode enables debugging
- PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
-diff --git a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
-index 6c00ab9b40..2f737cd54b 100644
---- a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
-+++ b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
-@@ -1,4 +1,4 @@
--From 91045ece41faefbeac14b60d7b19b0c652e586fb Mon Sep 17 00:00:00 2001
-+From 862d1ba310dbb16837ef832be28bc0ffcdafb214 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 31 Jan 2018 15:50:38 +0200
- Subject: [PATCH] help/meson.build: disable the use of yelp
-diff --git a/meta/recipes-gnome/epiphany/files/distributor.patch b/meta/recipes-gnome/epiphany/files/distributor.patch
-index 54a3305aaf..58f6c3e472 100644
---- a/meta/recipes-gnome/epiphany/files/distributor.patch
-+++ b/meta/recipes-gnome/epiphany/files/distributor.patch
-@@ -1,4 +1,4 @@
--From 46084da03b5f20423a2946d988c68e9ea9339c9c Mon Sep 17 00:00:00 2001
-+From 2d2d6d59f3fc4e321fefb631ab48c3b315dad72d Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Fri, 26 Feb 2021 10:17:52 +0000
- Subject: [PATCH] Don't encode the distro from /etc/os-release into the
-@@ -11,7 +11,7 @@ RP 2021/2/26
-  1 file changed, 1 insertion(+)
+-SRC_URI[sha256sum] = "491c8be9c040f5390f5bf44a5b07752bd07f56edf992381b05c701439eec10f6"
++SRC_URI[sha256sum] = "78816d4f24add8f10a06d6f05b4d424ad9e96cfebf68a4ddc99c65c0720d00c2"
  
- diff --git a/meson.build b/meson.build
--index df0340c..8ec6c79 100644
-+index 5af99e8..4d1ab8b 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -15,6 +15,7 @@ if r.returncode() == 0
-diff --git a/meta/recipes-gnome/epiphany/files/migrator.patch b/meta/recipes-gnome/epiphany/files/migrator.patch
-index 8ebcdc9991..70f6125c4b 100644
---- a/meta/recipes-gnome/epiphany/files/migrator.patch
-+++ b/meta/recipes-gnome/epiphany/files/migrator.patch
-@@ -1,4 +1,4 @@
--From ca504370b9aa893ceac21141d8f24e28a474b674 Mon Sep 17 00:00:00 2001
-+From 6777a43d05189debfe56acfbf051178e8db15946 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Thu, 25 Feb 2021 14:52:32 +0000
- Subject: [PATCH] epiphany: Fix reproducibility issue
+ inherit pypi setuptools3
+ 
 -- 
 2.47.1
 
 
---===============5828750623189662239==
+--===============8212598510656827942==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-pycparser: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pycparser/pycparser-2.22.tar.gz;downloadfilename=pycparser-2.22.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pycparser/pycparser-2.23.tar.gz;downloadfilename=pycparser-2.23.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-dbg: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-dbg: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-dev: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-dev: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-doc: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-doc: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-locale: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-locale: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-src: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-src: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-staticdev: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser-staticdev: PV changed from "2.22" to "2.23"
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser: PKGSIZE changed from 1198204 to 1209244 (+1%)
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser: PKGV changed from 2.22 [default] to 2.23 [default]
+packages/x86-64-v3-poky-linux/python3-pycparser/python3-pycparser: PV changed from "2.22" to "2.23"
+Changes to packages/x86-64-v3-poky-linux/python3-pycparser (sysroot):
+  /usr/lib/python3.13/site-packages/pycparser-2.22.dist-info moved to /usr/lib/python3.13/site-packages/pycparser-2.23.dist-info
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-cpp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-15.2.0 was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-dump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-tool was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-lto-dump was added
+  /usr/libexec/x86_64-poky-linux was added
+  /usr/libexec/x86_64-poky-linux/gcc was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/ar was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/as was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/cc1 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/cc1plus was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/collect2 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/cpp was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/gcc was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/g++-mapper-server was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/fixincl was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/fixinc.sh was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/mkheaders was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/mkinstalldirs was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/ld.bfd was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/ld was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcc1plugin.so.0.0.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcc1plugin.so.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcc1plugin.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcc1.so.0.0.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcc1.so.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcc1.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcp1plugin.so.0.0.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcp1plugin.so.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcp1plugin.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/liblto_plugin.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/lto1 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/lto-wrapper was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/nm was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/objcopy was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/objdump was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/gengtype was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/ranlib was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/strip was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-ar was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-as was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-cpp was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-gcc was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-ld.bfd was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-ld was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-nm was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-objcopy was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-objdump was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-ranlib was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/liblto_plugin.so was added
+  /usr/lib/x86_64-poky-linux/gcc was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/adxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/ammintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxavx512intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxbf16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxcomplexintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxfp16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxfp8intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxint8intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxmovrsintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxtf32intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxtileintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxtransposeintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2-512bf16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2-512convertintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2-512mediaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2-512minmaxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2-512satcvtintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2bf16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2convertintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2copyintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2mediaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2minmaxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2satcvtintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx2intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512bf16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512bf16vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512bitalgintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512bitalgvlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512bwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512cdintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512dqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512fintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512fp16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512fp16vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512ifmaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512ifmavlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vbmi2intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vbmi2vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vbmiintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vbmivlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vlbwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vldqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vnniintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vnnivlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vp2intersectintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vp2intersectvlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vpopcntdqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vpopcntdqvlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avxifmaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avxneconvertintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avxvnniint16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avxvnniint8intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avxvnniintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/bmi2intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/bmiintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/bmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/cet.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/cetintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/cldemoteintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/clflushoptintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/clwbintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/clzerointrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/cmpccxaddintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/cpuid.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/cross-stdarg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/emmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/enqcmdintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/f16cintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include-fixed was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include-fixed/README was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/float.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/fma4intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/fmaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/fxsrintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/gfniintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/hresetintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/ia32intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/immintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/iso646.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/keylockerintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/limits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/lwpintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/lzcntintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/mm3dnow.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/mmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/mm_malloc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/movdirintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/movrsintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/mwaitintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/mwaitxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/nmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/pconfigintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/pkuintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/pmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/popcntintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/prfchiintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/prfchwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/quadmath.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/quadmath_weak.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/raointintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/rdseedintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/rtmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/serializeintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/sgxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/sha512intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/shaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/sm3intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/sm4intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/smmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdalign.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdarg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdatomic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdbool.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdckdint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stddef.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdfix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdint-gcc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdnoreturn.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/syslimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/tbmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/tmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/tsxldtrkintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/uintrintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/unwind.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/usermsrintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/vaesintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/varargs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/vpclmulqdqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/waitpkgintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/wbnoinvdintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/wmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/x86gprintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/x86intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xopintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xsavecintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xsaveintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xsaveoptintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xsavesintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xtestintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/fixinc_list was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/gsyslimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/include was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/include/limits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/include/README was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/macro_list was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/mkheaders.conf was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/gtype.state was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ada was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ada/gcc-interface was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/addresses.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/alias.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/align.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/alloc-pool.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/all-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/access-diagram.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/analysis-plan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/analyzer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/analyzer-language.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/analyzer-logging.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/analyzer-selftests.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/bar-chart.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/call-details.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/call-info.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/call-string.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/call-summary.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/checker-event.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/checker-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/complexity.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/constraint-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/diagnostic-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/engine.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/event-loc-info.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/exploded-graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/feasible-graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/function-set.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/inlining-iterator.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/known-function-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/pending-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/program-point.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/program-state.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/ranges.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/reachability.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/record-layout.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/region.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/region-model.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/region-model-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/region-model-reachability.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/sm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/state-purge.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/store.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/supergraph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/svalue.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/symbol.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/trimmed-graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ansidecl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/array-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/asan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/attr-fnspec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/attribs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/attr-urls.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/auto-host.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/auto-profile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/avoid-store-forwarding.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/backend.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/basic-block.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/bbitmap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/bb-reorder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/b-header-vars was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/bitmap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/builtin-attrs.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/builtins.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/builtin-types.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/bversion.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/calls.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ccmp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c/c-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-family was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-family/c-common.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-family/c-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-family/c-objc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-family/c-pragma.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-family/c-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfganal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfgbuild.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfgcleanup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfgexpand.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfg-flags.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfghooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfgloop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfgloopmanip.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfgrtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cgraph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cif-code.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/collect2-aix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/collect2.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/collect-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/color-macros.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/common was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/common/config was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/common/config/i386 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/conditions.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/configargs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/elfos.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/glibc-stdint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/gnu-user.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/att.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/biarch64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/gnu-user64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/gnu-user-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/i386.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/i386-isa.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/i386-opts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/i386-protos.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/linux64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/linux-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/stringop.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/unix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/x86-64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/x86-tune.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/initfini-array.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/linux-android.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/linux.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/linux-protos.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/vxworks-dummy.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/context.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/convert.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/coretypes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/coroutine-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/coverage.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/contracts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/cp-trait.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/cp-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/cp-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/cxx-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/name-lookup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/operators.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cppbuiltin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cppdefault.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cpplib.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/type-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/crc-verification.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cselib.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ctfc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/d was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/data-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dbgcnt.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dbgcnt.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dce.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ddg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/d/d-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/debug.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/defaults.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/df.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dfp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-buffer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-client-data-hooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-color.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-core.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-diagram.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-event-id.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-format.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-format-sarif.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-format-text.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-highlight-colors.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-label-effects.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-macro-unwinding.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-metadata.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-output-file.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-spec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-url.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/digraph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dojump.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dominance.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/domwalk.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/double-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dump-context.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dumpfile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dwarf2asm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dwarf2codeview.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dwarf2ctf.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dwarf2out.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/edit-context.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/emit-rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/errors.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/escaped_string.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/et-forest.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/except.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/explow.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/expmed.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/expr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/fibonacci_heap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/file-find.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/filenames.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/file-prefix-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/fixed-value.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/flags.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/flag-types.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/fold-const-call.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/fold-const.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/function-abi.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/function.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcc-plugin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcc-rich-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcc-symtab.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcc-urlifier.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcc-urlifier.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcov-counter.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcov-io.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcse-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcse.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/generic-match.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gengtype.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/genrtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gensupport.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ggc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ggc-internal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-array-bounds.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-expr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-fold.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-iterator.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-lower-bitint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-low.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-match.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-predicate-analysis.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-predict.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-cache.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-edge.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-fold.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-gori.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-infer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-op.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-phi.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-trace.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-ssa-warn-access.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-walk.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimplify.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimplify-me.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/glimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gomp-constants.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/graphds.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/graphite.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/graphviz.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gsstruct.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gsyms.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gsyslimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gtm-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gtype-desc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hard-reg-set.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hash-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hash-map-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hash-set.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hashtab.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hash-table.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hash-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/highlev-plugin-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hosthooks-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hosthooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hw-doloop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hwint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ifcvt.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/inchash.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/incpath.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/input.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-addr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-attr-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-attr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-codes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-config.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-constants.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-flags.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-modes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-modes-inline.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-notes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-opinit.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/internal-fn.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/internal-fn.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/intl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/int-vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-cp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-fnsummary.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-icf-gimple.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-icf.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-inline.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-locality-cloning.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-modref.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-modref-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-param-manipulation.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-predicate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-prop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-reference.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-ref.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-strub.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ira.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ira-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/is-a.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/iterator-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/json.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/json-parsing.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/label-text.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/langhooks-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/langhooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lazy-diagnostic-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lcm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/libfuncs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/libgdiagnostics++.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/libgdiagnostics.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/libiberty.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/libsarifreplay.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/limitx.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/limity.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/line-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/linux.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lockfile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/logical-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/loop-unroll.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lower-subreg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lra.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lra-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lto-compress.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lto-ltrans-cache.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lto-section-names.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lto-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/m2 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/m2/m2-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/machmode.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/machmode.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/make-unique.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/md5.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/memmodel.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/memory-block.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/mem-stats.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/mem-stats-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/mode-classes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/mux-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/objc was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/objc/objc-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/obstack.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/obstack-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-api.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-expand.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-general.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-low.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-offload.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-selectors.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-simd-clone.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optabs.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optabs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optabs-libfuncs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optabs-query.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optabs-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optinfo-emit-json.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optinfo.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/options.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/opt-problem.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/opts-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/opts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/opts-jobserver.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/opt-suggestions.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ordered-hash-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/output.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pair-fusion.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/passes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pass-instances.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pass_manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/plugin-api.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/plugin.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/plugin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/plugin-version.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pointer-query.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/poly-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/poly-int-types.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/predict.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/predict.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/prefix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pretty-print-format-impl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pretty-print-markup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pretty-print-urlifier.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/print-rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/print-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/profile-count.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/profile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/range.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/range-op.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/range-op-mixed.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/read-md.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/read-rtl-function.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/real.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/realmpfr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/recog.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/regcprop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/reg-notes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/regrename.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/regset.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/regs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/reload.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/resource.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rich-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtlanal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtl.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtl-error.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtlhash.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtlhooks-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtl-iter.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtl-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtx-vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/run-rtl-passes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/safe-ctype.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sanitizer.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sarif-spec-urls.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sbitmap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sched-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-diagnostic-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-diagnostic-show-locus.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-json.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-logical-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sel-sched-dump.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sel-sched.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sel-sched-ir.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sese.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/shortest-paths.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/shrink-wrap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/signop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/simple-diagnostic-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sparseset.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/spellcheck.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/spellcheck-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/splay-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/splay-tree-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sreal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ssa-iterators.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/statistics.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/stmt.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/stor-layout.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/streamer-hooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/stringpool.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/substring-locations.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/symbol-summary.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/symtab-clones.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/symtab.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/symtab-thunks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sync-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/system.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/target.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/target-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/target-globals.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/target.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/target-hooks-macros.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/target-insns.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/targhooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/text-range-label.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/timevar.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/timevar.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tm_p.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tm-preds.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/toplev.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tracer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/trans-mem.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-affine.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-cfgcleanup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-cfg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-check.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-chrec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-core.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-data-ref.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-dfa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-dump.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-eh.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-hasher.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-hash-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-if-conv.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-inline.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-into-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-iterator.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-logical-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-nested.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-object-size.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-outof-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-parloops.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-pass.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-phinodes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-pretty-print-markup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-scalar-evolution.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-sra.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-address.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-alias-compare.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-alias.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-ccp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-coalesce.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-dce.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-dom.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-dse.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-live.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-loop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-loop-manip.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-loop-niter.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-math-opts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssanames.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-operands.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-propagate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-reassoc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-sccvn.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-scopedtables.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-strlen.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-ter.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-threadedge.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-threadupdate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-stdarg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/treestruct.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-switch-conversion.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-vectorizer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-vrp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tristate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tsan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tsystem.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/typeclass.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/typed-splay-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ubsan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/unique-argv.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/valtrack.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-pointer-equiv.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-prof.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-query.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-range.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-range-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-range-storage.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-relation.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/varasm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/vec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/vec-perm-indices.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/version.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/vmsdbg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/vr-values.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/vtable-verify.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/wide-int-bitmask.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/wide-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/wide-int-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/xcoff.h was added
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++ was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-cpp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-g++ was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-15.2.0 was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-dump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-tool was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-lto-dump was removed
+  /usr/libexec/x86_64-poky-linux-musl was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/ar was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/as was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/cc1 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/cc1plus was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/collect2 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/cpp was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/gcc was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/g++-mapper-server was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/fixincl was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/fixinc.sh was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/mkheaders was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/mkinstalldirs was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/ld.bfd was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/ld was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcc1plugin.so.0.0.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcc1plugin.so.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcc1plugin.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcc1.so.0.0.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcc1.so.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcc1.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcp1plugin.so.0.0.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcp1plugin.so.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcp1plugin.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/liblto_plugin.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/lto1 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/lto-wrapper was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/nm was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/objcopy was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/objdump was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/gengtype was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/ranlib was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/strip was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-ar was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-as was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-cpp was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-gcc was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-ld was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-nm was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-objcopy was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-objdump was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-ranlib was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/adxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/ammintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxavx512intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxbf16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxcomplexintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxfp16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxfp8intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxint8intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxmovrsintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxtf32intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxtileintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxtransposeintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2-512bf16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2-512convertintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2-512mediaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2-512minmaxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2-512satcvtintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2bf16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2convertintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2copyintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2mediaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2minmaxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2satcvtintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx2intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512bf16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512bf16vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512bitalgintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512bitalgvlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512bwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512cdintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512dqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512fintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512fp16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512fp16vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512ifmaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512ifmavlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vbmi2intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vbmi2vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vbmiintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vbmivlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vlbwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vldqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vnniintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vnnivlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vp2intersectintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vp2intersectvlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vpopcntdqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vpopcntdqvlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avxifmaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avxneconvertintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avxvnniint16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avxvnniint8intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avxvnniintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/bmi2intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/bmiintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/bmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/cet.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/cetintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/cldemoteintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/clflushoptintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/clwbintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/clzerointrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/cmpccxaddintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/cpuid.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/cross-stdarg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/emmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/enqcmdintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/f16cintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include-fixed was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include-fixed/README was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/float.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/fma4intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/fmaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/fxsrintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/gfniintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/hresetintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/ia32intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/immintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/iso646.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/keylockerintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/limits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/lwpintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/lzcntintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/mm3dnow.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/mmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/mm_malloc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/movdirintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/movrsintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/mwaitintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/mwaitxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/nmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/pconfigintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/pkuintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/pmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/popcntintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/prfchiintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/prfchwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/quadmath.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/quadmath_weak.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/raointintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/rdseedintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/rtmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/serializeintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/sgxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/sha512intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/shaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/sm3intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/sm4intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/smmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdalign.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdarg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdatomic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdbool.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdckdint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stddef.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdfix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdint-gcc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdnoreturn.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/syslimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/tbmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/tmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/tsxldtrkintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/uintrintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/unwind.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/usermsrintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/vaesintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/varargs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/vpclmulqdqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/waitpkgintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/wbnoinvdintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/wmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/x86gprintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/x86intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xopintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xsavecintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xsaveintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xsaveoptintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xsavesintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xtestintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/fixinc_list was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/gsyslimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/include was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/include/limits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/include/README was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/macro_list was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/mkheaders.conf was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/gtype.state was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ada was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ada/gcc-interface was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/addresses.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/alias.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/align.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/alloc-pool.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/all-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/access-diagram.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/analysis-plan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/analyzer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/analyzer-language.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/analyzer-logging.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/analyzer-selftests.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/bar-chart.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/call-details.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/call-info.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/call-string.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/call-summary.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/checker-event.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/checker-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/complexity.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/constraint-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/diagnostic-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/engine.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/event-loc-info.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/exploded-graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/feasible-graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/function-set.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/inlining-iterator.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/known-function-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/pending-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/program-point.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/program-state.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/ranges.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/reachability.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/record-layout.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/region.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/region-model.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/region-model-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/region-model-reachability.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/sm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/state-purge.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/store.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/supergraph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/svalue.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/symbol.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/trimmed-graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ansidecl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/array-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/asan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/attr-fnspec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/attribs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/attr-urls.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/auto-host.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/auto-profile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/avoid-store-forwarding.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/backend.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/basic-block.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/bbitmap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/bb-reorder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/b-header-vars was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/bitmap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/builtin-attrs.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/builtins.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/builtin-types.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/bversion.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/calls.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ccmp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c/c-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-family was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-family/c-common.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-family/c-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-family/c-objc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-family/c-pragma.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-family/c-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfganal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfgbuild.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfgcleanup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfgexpand.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfg-flags.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfghooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfgloop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfgloopmanip.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfgrtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cgraph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cif-code.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/collect2-aix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/collect2.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/collect-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/color-macros.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/common was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/common/config was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/common/config/i386 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/conditions.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/configargs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/elfos.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/glibc-stdint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/gnu-user.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/att.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/biarch64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/gnu-user64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/gnu-user-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/i386.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/i386-isa.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/i386-opts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/i386-protos.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/linux64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/linux-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/stringop.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/unix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/x86-64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/x86-tune.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/initfini-array.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/linux-android.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/linux.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/linux-protos.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/vxworks-dummy.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/context.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/convert.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/coretypes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/coroutine-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/coverage.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/contracts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/cp-trait.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/cp-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/cp-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/cxx-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/name-lookup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/operators.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cppbuiltin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cppdefault.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cpplib.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/type-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/crc-verification.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cselib.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ctfc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/d was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/data-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dbgcnt.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dbgcnt.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dce.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ddg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/d/d-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/debug.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/defaults.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/df.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dfp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-buffer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-client-data-hooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-color.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-core.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-diagram.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-event-id.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-format.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-format-sarif.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-format-text.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-highlight-colors.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-label-effects.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-macro-unwinding.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-metadata.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-output-file.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-spec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-url.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/digraph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dojump.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dominance.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/domwalk.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/double-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dump-context.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dumpfile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dwarf2asm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dwarf2codeview.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dwarf2ctf.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dwarf2out.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/edit-context.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/emit-rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/errors.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/escaped_string.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/et-forest.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/except.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/explow.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/expmed.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/expr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/fibonacci_heap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/file-find.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/filenames.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/file-prefix-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/fixed-value.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/flags.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/flag-types.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/fold-const-call.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/fold-const.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/function-abi.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/function.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcc-plugin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcc-rich-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcc-symtab.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcc-urlifier.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcc-urlifier.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcov-counter.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcov-io.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcse-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcse.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/generic-match.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gengtype.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/genrtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gensupport.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ggc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ggc-internal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-array-bounds.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-expr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-fold.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-iterator.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-lower-bitint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-low.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-match.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-predicate-analysis.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-predict.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-cache.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-edge.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-fold.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-gori.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-infer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-op.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-phi.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-trace.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-ssa-warn-access.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-walk.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimplify.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimplify-me.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/glimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gomp-constants.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/graphds.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/graphite.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/graphviz.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gsstruct.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gsyms.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gsyslimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gtm-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gtype-desc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hard-reg-set.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hash-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hash-map-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hash-set.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hashtab.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hash-table.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hash-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/highlev-plugin-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hosthooks-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hosthooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hw-doloop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hwint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ifcvt.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/inchash.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/incpath.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/input.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-addr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-attr-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-attr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-codes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-config.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-constants.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-flags.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-modes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-modes-inline.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-notes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-opinit.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/internal-fn.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/internal-fn.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/intl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/int-vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-cp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-fnsummary.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-icf-gimple.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-icf.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-inline.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-locality-cloning.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-modref.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-modref-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-param-manipulation.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-predicate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-prop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-reference.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-ref.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-strub.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ira.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ira-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/is-a.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/iterator-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/json.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/json-parsing.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/label-text.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/langhooks-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/langhooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lazy-diagnostic-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lcm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/libfuncs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/libgdiagnostics++.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/libgdiagnostics.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/libiberty.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/libsarifreplay.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/limitx.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/limity.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/line-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/linux.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lockfile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/logical-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/loop-unroll.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lower-subreg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lra.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lra-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lto-compress.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lto-ltrans-cache.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lto-section-names.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lto-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/m2 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/m2/m2-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/machmode.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/machmode.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/make-unique.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/md5.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/memmodel.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/memory-block.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/mem-stats.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/mem-stats-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/mode-classes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/mux-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/objc was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/objc/objc-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/obstack.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/obstack-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-api.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-expand.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-general.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-low.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-offload.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-selectors.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-simd-clone.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optabs.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optabs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optabs-libfuncs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optabs-query.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optabs-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optinfo-emit-json.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optinfo.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/options.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/opt-problem.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/opts-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/opts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/opts-jobserver.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/opt-suggestions.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ordered-hash-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/output.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pair-fusion.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/passes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pass-instances.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pass_manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/plugin-api.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/plugin.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/plugin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/plugin-version.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pointer-query.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/poly-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/poly-int-types.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/predict.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/predict.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/prefix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pretty-print-format-impl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pretty-print-markup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pretty-print-urlifier.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/print-rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/print-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/profile-count.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/profile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/range.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/range-op.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/range-op-mixed.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/read-md.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/read-rtl-function.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/real.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/realmpfr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/recog.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/regcprop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/reg-notes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/regrename.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/regset.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/regs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/reload.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/resource.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rich-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtlanal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtl.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtl-error.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtlhash.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtlhooks-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtl-iter.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtl-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtx-vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/run-rtl-passes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/safe-ctype.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sanitizer.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sarif-spec-urls.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sbitmap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sched-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-diagnostic-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-diagnostic-show-locus.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-json.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-logical-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sel-sched-dump.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sel-sched.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sel-sched-ir.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sese.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/shortest-paths.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/shrink-wrap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/signop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/simple-diagnostic-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sparseset.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/spellcheck.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/spellcheck-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/splay-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/splay-tree-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sreal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ssa-iterators.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/statistics.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/stmt.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/stor-layout.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/streamer-hooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/stringpool.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/substring-locations.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/symbol-summary.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/symtab-clones.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/symtab.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/symtab-thunks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sync-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/system.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/target.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/target-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/target-globals.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/target.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/target-hooks-macros.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/target-insns.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/targhooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/text-range-label.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/timevar.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/timevar.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tm_p.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tm-preds.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/toplev.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tracer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/trans-mem.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-affine.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-cfgcleanup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-cfg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-check.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-chrec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-core.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-data-ref.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-dfa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-dump.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-eh.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-hasher.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-hash-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-if-conv.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-inline.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-into-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-iterator.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-logical-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-nested.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-object-size.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-outof-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-parloops.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-pass.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-phinodes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-pretty-print-markup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-scalar-evolution.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-sra.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-address.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-alias-compare.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-alias.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-ccp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-coalesce.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-dce.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-dom.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-dse.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-live.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-loop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-loop-manip.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-loop-niter.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-math-opts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssanames.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-operands.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-propagate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-reassoc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-sccvn.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-scopedtables.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-strlen.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-ter.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-threadedge.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-threadupdate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-stdarg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/treestruct.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-switch-conversion.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-vectorizer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-vrp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tristate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tsan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tsystem.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/typeclass.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/typed-splay-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ubsan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/unique-argv.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/valtrack.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-pointer-equiv.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-prof.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-query.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-range.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-range-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-range-storage.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-relation.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/varasm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/vec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/vec-perm-indices.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/version.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/vmsdbg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/vr-values.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/vtable-verify.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-bitmask.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
+
+--===============8212598510656827942==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-epiphany-upgrade-48.5-49.1.patch"
+ filename="0001-python3-pycparser-upgrade-2.22-2.23.patch"
 
-RnJvbSAzOGMyNDQ1YjZlYWRjNTdiNDExZmMyZmJlOWNmZTVkYWMzYzMzNmI0IE1vbiBTZXAgMTcg
+RnJvbSA4ZjFmMjY5ODdkMDJlYTAxNjdlNGE2OGViMjEyYTg5NzA0ZjllM2ZmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTM6MTI6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
-cGlwaGFueTogdXBncmFkZSA0OC41IC0+IDQ5LjEKCi0tLQogLi4uL2VwaXBoYW55L3tlcGlwaGFu
-eV80OC41LmJiID0+IGVwaXBoYW55XzQ5LjEuYmJ9ICAgICAgICAgICB8IDIgKy0KIC4uLi9maWxl
-cy8wMDAyLWhlbHAtbWVzb24uYnVpbGQtZGlzYWJsZS10aGUtdXNlLW9mLXllbHAucGF0Y2ggfCAy
-ICstCiBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvZGlzdHJpYnV0b3IucGF0Y2gg
-ICAgICAgICAgIHwgNCArKy0tCiBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvbWln
-cmF0b3IucGF0Y2ggICAgICAgICAgICAgIHwgMiArLQogNCBmaWxlcyBjaGFuZ2VkLCA1IGluc2Vy
-dGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdub21lL2VwaXBo
-YW55L3tlcGlwaGFueV80OC41LmJiID0+IGVwaXBoYW55XzQ5LjEuYmJ9ICg5NCUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzQ4LjUuYmIgYi9tZXRh
-L3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDkuMS5iYgpzaW1pbGFyaXR5IGluZGV4
-IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDgu
-NS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzQ5LjEu
-YmIKaW5kZXggNmExYWJkYzU1My4uODY0ZDRmMzA0ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWdub21lL2VwaXBoYW55L2VwaXBoYW55XzQ4LjUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdub21l
-L2VwaXBoYW55L2VwaXBoYW55XzQ5LjEuYmIKQEAgLTMxLDcgKzMxLDcgQEAgU1JDX1VSSSArPSAi
-XAogICAgICAgICAgICBmaWxlOi8vbWlncmF0b3IucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8v
-ZGlzdHJpYnV0b3IucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2
-c3VtXSA9ICIwZjY2NTUyYWQ2NTkzYzc5NTJhM2RkZWU1YmY1MTU2NTZjOGM0MzQ4NzEwNzZkOWYx
-YTkxYTdhZjkzNDZiMWI0IgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiZDc2N2M1Y2Ji
-OWUyNTY2YmM5OTAzZDQxMWI2ODk2MTYxZTM0M2Y3MTJhYTMzMzA1MzY1NzM5ZDhkZWRhYzUyMSIK
-IAogIyBEZXZlbG9wZXIgbW9kZSBlbmFibGVzIGRlYnVnZ2luZwogUEFDS0FHRUNPTkZJR1tkZXZl
-bG9wZXItbW9kZV0gPSAiLURkZXZlbG9wZXJfbW9kZT10cnVlLC1EZGV2ZWxvcGVyX21vZGU9ZmFs
-c2UiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvMDAwMi1o
-ZWxwLW1lc29uLmJ1aWxkLWRpc2FibGUtdGhlLXVzZS1vZi15ZWxwLnBhdGNoIGIvbWV0YS9yZWNp
-cGVzLWdub21lL2VwaXBoYW55L2ZpbGVzLzAwMDItaGVscC1tZXNvbi5idWlsZC1kaXNhYmxlLXRo
-ZS11c2Utb2YteWVscC5wYXRjaAppbmRleCA2YzAwYWI5YjQwLi4yZjczN2NkNTRiIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvMDAwMi1oZWxwLW1lc29uLmJ1
-aWxkLWRpc2FibGUtdGhlLXVzZS1vZi15ZWxwLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1nbm9t
-ZS9lcGlwaGFueS9maWxlcy8wMDAyLWhlbHAtbWVzb24uYnVpbGQtZGlzYWJsZS10aGUtdXNlLW9m
-LXllbHAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDkxMDQ1ZWNlNDFmYWVmYmVhYzE0YjYw
-ZDdiMTliMGM2NTJlNTg2ZmIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDg2MmQxYmEz
-MTBkYmIxNjgzN2VmODMyYmUyOGJjMGZmY2RhZmIyMTQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6
-IFdlZCwgMzEgSmFuIDIwMTggMTU6NTA6MzggKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gaGVscC9t
-ZXNvbi5idWlsZDogZGlzYWJsZSB0aGUgdXNlIG9mIHllbHAKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9kaXN0cmlidXRvci5wYXRjaCBiL21ldGEvcmVjaXBl
-cy1nbm9tZS9lcGlwaGFueS9maWxlcy9kaXN0cmlidXRvci5wYXRjaAppbmRleCA1NGEzMzA1YWFm
-Li41OGY2YzNlNDcyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmls
-ZXMvZGlzdHJpYnV0b3IucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2Zp
-bGVzL2Rpc3RyaWJ1dG9yLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0NjA4NGRhMDNiNWYy
-MDQyM2EyOTQ2ZDk4OGM2OGU5ZWE5MzM5YzljIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSAyZDJkNmQ1OWYzZmM0ZTMyMWZlZmI2MzFhYjQ4YzNiMzE1ZGFkNzJkIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91
-bmRhdGlvbi5vcmc+CiBEYXRlOiBGcmksIDI2IEZlYiAyMDIxIDEwOjE3OjUyICswMDAwCiBTdWJq
-ZWN0OiBbUEFUQ0hdIERvbid0IGVuY29kZSB0aGUgZGlzdHJvIGZyb20gL2V0Yy9vcy1yZWxlYXNl
-IGludG8gdGhlCkBAIC0xMSw3ICsxMSw3IEBAIFJQIDIwMjEvMi8yNgogIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGluc2VydGlvbigrKQogCiBkaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9tZXNvbi5idWls
-ZAotaW5kZXggZGYwMzQwYy4uOGVjNmM3OSAxMDA2NDQKK2luZGV4IDVhZjk5ZTguLjRkMWFiOGIg
-MTAwNjQ0CiAtLS0gYS9tZXNvbi5idWlsZAogKysrIGIvbWVzb24uYnVpbGQKIEBAIC0xNSw2ICsx
-NSw3IEBAIGlmIHIucmV0dXJuY29kZSgpID09IDAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1n
-bm9tZS9lcGlwaGFueS9maWxlcy9taWdyYXRvci5wYXRjaCBiL21ldGEvcmVjaXBlcy1nbm9tZS9l
-cGlwaGFueS9maWxlcy9taWdyYXRvci5wYXRjaAppbmRleCA4ZWJjZGM5OTkxLi43MGY2MTI1YzRi
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvbWlncmF0b3Iu
-cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL21pZ3JhdG9yLnBh
-dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBjYTUwNDM3MGI5YWE4OTNjZWFjMjExNDFkOGYyNGUy
-OGE0NzRiNjc0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA2Nzc3YTQzZDA1MTg5ZGVi
-ZmU1NmFjZmJmMDUxMTc4ZThkYjE1OTQ2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
-UmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiBEYXRl
-OiBUaHUsIDI1IEZlYiAyMDIxIDE0OjUyOjMyICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGVwaXBo
-YW55OiBGaXggcmVwcm9kdWNpYmlsaXR5IGlzc3VlCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMTA6NTQ6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXB5Y3BhcnNlcjogdXBncmFkZSAyLjIyIC0+IDIuMjMKCi0tLQogLi4uL3tweXRob24z
+LXB5Y3BhcnNlcl8yLjIyLmJiID0+IHB5dGhvbjMtcHljcGFyc2VyXzIuMjMuYmJ9ICAgIHwgMiAr
+LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1weWNwYXJzZXJfMi4yMi5iYiA9
+PiBweXRob24zLXB5Y3BhcnNlcl8yLjIzLmJifSAoODIlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWNwYXJzZXJfMi4yMi5iYiBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWNwYXJzZXJfMi4yMy5iYgpzaW1pbGFyaXR5
+IGluZGV4IDgyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtcHljcGFyc2VyXzIuMjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
+b24vcHl0aG9uMy1weWNwYXJzZXJfMi4yMy5iYgppbmRleCAwYmUzOWVhMzgzLi5hMzNhNjU1M2I0
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHljcGFy
+c2VyXzIuMjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5
+Y3BhcnNlcl8yLjIzLmJiCkBAIC0zLDcgKzMsNyBAQCBIT01FUEFHRSA9ICJodHRwczovL2dpdGh1
+Yi5jb20vZWxpYmVuL3B5Y3BhcnNlciIKIExJQ0VOU0UgPSAiQlNELTMtQ2xhdXNlIgogTElDX0ZJ
+TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9OTc2MWMzZmZlZTdiYTk5YzYwZGNhMDQw
+OGZkMzI2MmIiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI0OTFjOGJlOWMwNDBmNTM5MGY1YmY0
+NGE1YjA3NzUyYmQwN2Y1NmVkZjk5MjM4MWIwNWM3MDE0MzllZWMxMGY2IgorU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjc4ODE2ZDRmMjRhZGQ4ZjEwYTA2ZDZmMDViNGQ0MjRhZDllOTZjZmViZjY4YTRk
+ZGM5OWM2NWMwNzIwZDAwYzIiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi0tIAoyLjQ3
+LjEKCg==
 
---===============5828750623189662239==
+--===============8212598510656827942==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1944 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 947 .bb files complete (946 cached, 1 parsed). 1944 targets, 47 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+Changes to packages/x86-64-v3-poky-linux/python3-pycparser (sysroot):
+  /usr/lib/python3.13/site-packages/pycparser-2.22.dist-info moved to /usr/lib/python3.13/site-packages/pycparser-2.23.dist-info
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
+Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-cpp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-15.2.0 was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-dump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-tool was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-lto-dump was added
+  /usr/libexec/x86_64-poky-linux was added
+  /usr/libexec/x86_64-poky-linux/gcc was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/ar was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/as was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/cc1 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/cc1plus was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/collect2 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/cpp was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/gcc was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/g++-mapper-server was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/fixincl was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/fixinc.sh was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/mkheaders was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/mkinstalldirs was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/ld.bfd was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/ld was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcc1plugin.so.0.0.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcc1plugin.so.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcc1plugin.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcc1.so.0.0.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcc1.so.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcc1.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcp1plugin.so.0.0.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcp1plugin.so.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/libcp1plugin.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/liblto_plugin.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/lto1 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/lto-wrapper was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/nm was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/objcopy was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/objdump was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/gengtype was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/ranlib was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/strip was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-ar was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-as was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-cpp was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-gcc was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-ld.bfd was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-ld was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-nm was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-objcopy was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-objdump was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-ranlib was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/liblto_plugin.so was added
+  /usr/lib/x86_64-poky-linux/gcc was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/adxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/ammintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxavx512intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxbf16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxcomplexintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxfp16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxfp8intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxint8intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxmovrsintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxtf32intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxtileintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/amxtransposeintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2-512bf16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2-512convertintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2-512mediaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2-512minmaxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2-512satcvtintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2bf16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2convertintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2copyintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2mediaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2minmaxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx10_2satcvtintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx2intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512bf16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512bf16vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512bitalgintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512bitalgvlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512bwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512cdintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512dqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512fintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512fp16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512fp16vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512ifmaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512ifmavlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vbmi2intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vbmi2vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vbmiintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vbmivlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vlbwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vldqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vnniintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vnnivlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vp2intersectintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vp2intersectvlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vpopcntdqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avx512vpopcntdqvlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avxifmaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avxneconvertintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avxvnniint16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avxvnniint8intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/avxvnniintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/bmi2intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/bmiintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/bmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/cet.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/cetintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/cldemoteintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/clflushoptintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/clwbintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/clzerointrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/cmpccxaddintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/cpuid.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/cross-stdarg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/emmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/enqcmdintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/f16cintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include-fixed was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include-fixed/README was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/float.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/fma4intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/fmaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/fxsrintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/gfniintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/hresetintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/ia32intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/immintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/iso646.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/keylockerintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/limits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/lwpintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/lzcntintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/mm3dnow.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/mmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/mm_malloc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/movdirintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/movrsintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/mwaitintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/mwaitxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/nmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/pconfigintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/pkuintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/pmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/popcntintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/prfchiintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/prfchwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/quadmath.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/quadmath_weak.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/raointintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/rdseedintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/rtmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/serializeintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/sgxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/sha512intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/shaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/sm3intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/sm4intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/smmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdalign.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdarg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdatomic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdbool.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdckdint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stddef.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdfix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdint-gcc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/stdnoreturn.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/syslimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/tbmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/tmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/tsxldtrkintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/uintrintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/unwind.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/usermsrintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/vaesintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/varargs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/vpclmulqdqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/waitpkgintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/wbnoinvdintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/wmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/x86gprintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/x86intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xopintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xsavecintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xsaveintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xsaveoptintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xsavesintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/include/xtestintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/fixinc_list was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/gsyslimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/include was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/include/limits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/include/README was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/macro_list was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/install-tools/mkheaders.conf was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/gtype.state was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ada was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ada/gcc-interface was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/addresses.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/alias.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/align.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/alloc-pool.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/all-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/access-diagram.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/analysis-plan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/analyzer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/analyzer-language.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/analyzer-logging.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/analyzer-selftests.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/bar-chart.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/call-details.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/call-info.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/call-string.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/call-summary.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/checker-event.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/checker-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/complexity.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/constraint-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/diagnostic-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/engine.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/event-loc-info.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/exploded-graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/feasible-graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/function-set.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/inlining-iterator.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/known-function-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/pending-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/program-point.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/program-state.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/ranges.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/reachability.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/record-layout.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/region.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/region-model.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/region-model-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/region-model-reachability.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/sm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/state-purge.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/store.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/supergraph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/svalue.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/symbol.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/analyzer/trimmed-graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ansidecl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/array-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/asan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/attr-fnspec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/attribs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/attr-urls.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/auto-host.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/auto-profile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/avoid-store-forwarding.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/backend.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/basic-block.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/bbitmap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/bb-reorder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/b-header-vars was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/bitmap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/builtin-attrs.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/builtins.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/builtin-types.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/bversion.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/calls.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ccmp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c/c-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-family was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-family/c-common.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-family/c-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-family/c-objc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-family/c-pragma.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-family/c-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfganal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfgbuild.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfgcleanup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfgexpand.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfg-flags.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfghooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfgloop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfgloopmanip.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cfgrtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cgraph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cif-code.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/collect2-aix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/collect2.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/collect-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/color-macros.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/common was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/common/config was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/common/config/i386 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/conditions.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/configargs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/elfos.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/glibc-stdint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/gnu-user.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/att.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/biarch64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/gnu-user64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/gnu-user-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/i386.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/i386-isa.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/i386-opts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/i386-protos.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/linux64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/linux-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/stringop.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/unix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/x86-64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/i386/x86-tune.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/initfini-array.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/linux-android.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/linux.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/linux-protos.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/config/vxworks-dummy.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/context.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/convert.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/coretypes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/coroutine-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/coverage.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/contracts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/cp-trait.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/cp-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/cp-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/cxx-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/name-lookup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/operators.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cppbuiltin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cppdefault.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cpplib.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cp/type-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/crc-verification.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/cselib.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ctfc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/c-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/d was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/data-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dbgcnt.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dbgcnt.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dce.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ddg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/d/d-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/debug.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/defaults.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/df.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dfp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-buffer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-client-data-hooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-color.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-core.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-diagram.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-event-id.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-format.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-format-sarif.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-format-text.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-highlight-colors.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-label-effects.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-macro-unwinding.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-metadata.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-output-file.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-spec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/diagnostic-url.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/digraph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dojump.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dominance.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/domwalk.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/double-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dump-context.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dumpfile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dwarf2asm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dwarf2codeview.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dwarf2ctf.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/dwarf2out.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/edit-context.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/emit-rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/errors.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/escaped_string.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/et-forest.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/except.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/explow.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/expmed.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/expr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/fibonacci_heap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/file-find.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/filenames.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/file-prefix-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/fixed-value.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/flags.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/flag-types.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/fold-const-call.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/fold-const.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/function-abi.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/function.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcc-plugin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcc-rich-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcc-symtab.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcc-urlifier.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcc-urlifier.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcov-counter.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcov-io.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcse-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gcse.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/generic-match.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gengtype.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/genrtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gensupport.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ggc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ggc-internal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-array-bounds.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-expr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-fold.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-iterator.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-lower-bitint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-low.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-match.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-predicate-analysis.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-predict.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-cache.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-edge.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-fold.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-gori.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-infer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-op.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-phi.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-range-trace.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-ssa-warn-access.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimple-walk.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimplify.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gimplify-me.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/glimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gomp-constants.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/graphds.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/graphite.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/graphviz.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gsstruct.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gsyms.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gsyslimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gtm-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/gtype-desc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hard-reg-set.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hash-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hash-map-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hash-set.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hashtab.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hash-table.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hash-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/highlev-plugin-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hosthooks-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hosthooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hw-doloop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/hwint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ifcvt.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/inchash.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/incpath.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/input.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-addr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-attr-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-attr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-codes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-config.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-constants.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-flags.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-modes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-modes-inline.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-notes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/insn-opinit.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/internal-fn.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/internal-fn.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/intl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/int-vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-cp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-fnsummary.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-icf-gimple.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-icf.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-inline.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-locality-cloning.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-modref.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-modref-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-param-manipulation.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-predicate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-prop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-reference.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-ref.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-strub.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ipa-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ira.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ira-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/is-a.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/iterator-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/json.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/json-parsing.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/label-text.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/langhooks-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/langhooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lazy-diagnostic-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lcm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/libfuncs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/libgdiagnostics++.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/libgdiagnostics.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/libiberty.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/libsarifreplay.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/limitx.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/limity.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/line-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/linux.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lockfile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/logical-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/loop-unroll.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lower-subreg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lra.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lra-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lto-compress.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lto-ltrans-cache.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lto-section-names.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/lto-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/m2 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/m2/m2-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/machmode.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/machmode.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/make-unique.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/md5.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/memmodel.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/memory-block.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/mem-stats.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/mem-stats-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/mode-classes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/mux-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/objc was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/objc/objc-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/obstack.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/obstack-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-api.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-expand.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-general.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-low.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-offload.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-selectors.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/omp-simd-clone.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optabs.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optabs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optabs-libfuncs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optabs-query.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optabs-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optinfo-emit-json.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/optinfo.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/options.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/opt-problem.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/opts-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/opts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/opts-jobserver.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/opt-suggestions.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ordered-hash-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/output.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pair-fusion.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/passes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pass-instances.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pass_manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/plugin-api.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/plugin.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/plugin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/plugin-version.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pointer-query.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/poly-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/poly-int-types.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/predict.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/predict.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/prefix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pretty-print-format-impl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pretty-print-markup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/pretty-print-urlifier.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/print-rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/print-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/profile-count.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/profile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/range.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/range-op.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/range-op-mixed.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/read-md.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/read-rtl-function.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/real.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/realmpfr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/recog.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/regcprop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/reg-notes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/regrename.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/regset.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/regs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/reload.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/resource.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rich-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtlanal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtl.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtl-error.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtlhash.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtlhooks-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtl-iter.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtl-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/rtx-vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/run-rtl-passes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/safe-ctype.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sanitizer.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sarif-spec-urls.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sbitmap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sched-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-diagnostic-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-diagnostic-show-locus.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-json.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-logical-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/selftest-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sel-sched-dump.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sel-sched.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sel-sched-ir.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sese.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/shortest-paths.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/shrink-wrap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/signop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/simple-diagnostic-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sparseset.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/spellcheck.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/spellcheck-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/splay-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/splay-tree-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sreal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ssa-iterators.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/statistics.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/stmt.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/stor-layout.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/streamer-hooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/stringpool.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/substring-locations.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/symbol-summary.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/symtab-clones.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/symtab.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/symtab-thunks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/sync-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/system.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/target.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/target-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/target-globals.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/target.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/target-hooks-macros.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/target-insns.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/targhooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/text-range-label.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/timevar.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/timevar.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tm_p.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tm-preds.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/toplev.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tracer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/trans-mem.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-affine.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-cfgcleanup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-cfg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-check.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-chrec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-core.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-data-ref.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-dfa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-dump.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-eh.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-hasher.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-hash-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-if-conv.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-inline.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-into-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-iterator.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-logical-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-nested.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-object-size.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-outof-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-parloops.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-pass.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-phinodes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-pretty-print-markup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-scalar-evolution.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-sra.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-address.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-alias-compare.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-alias.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-ccp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-coalesce.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-dce.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-dom.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-dse.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-live.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-loop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-loop-manip.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-loop-niter.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-math-opts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssanames.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-operands.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-propagate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-reassoc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-sccvn.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-scopedtables.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-strlen.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-ter.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-threadedge.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-ssa-threadupdate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-stdarg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/treestruct.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-switch-conversion.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-vectorizer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tree-vrp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tristate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tsan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/tsystem.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/typeclass.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/typed-splay-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/ubsan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/unique-argv.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/valtrack.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-pointer-equiv.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-prof.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-query.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-range.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-range-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-range-storage.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/value-relation.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/varasm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/vec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/vec-perm-indices.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/version.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/vmsdbg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/vr-values.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/vtable-verify.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/wide-int-bitmask.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/wide-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/wide-int-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/15.2.0/plugin/include/xcoff.h was added
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++ was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-cpp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-g++ was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-15.2.0 was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-dump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-tool was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-lto-dump was removed
+  /usr/libexec/x86_64-poky-linux-musl was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/ar was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/as was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/cc1 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/cc1plus was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/collect2 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/cpp was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/gcc was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/g++-mapper-server was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/fixincl was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/fixinc.sh was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/mkheaders was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/mkinstalldirs was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/ld.bfd was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/ld was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcc1plugin.so.0.0.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcc1plugin.so.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcc1plugin.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcc1.so.0.0.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcc1.so.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcc1.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcp1plugin.so.0.0.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcp1plugin.so.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/libcp1plugin.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/liblto_plugin.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/lto1 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/lto-wrapper was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/nm was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/objcopy was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/objdump was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/gengtype was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/ranlib was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/strip was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-ar was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-as was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-cpp was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-gcc was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-ld was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-nm was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-objcopy was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-objdump was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-ranlib was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/adxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/ammintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxavx512intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxbf16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxcomplexintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxfp16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxfp8intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxint8intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxmovrsintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxtf32intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxtileintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/amxtransposeintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2-512bf16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2-512convertintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2-512mediaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2-512minmaxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2-512satcvtintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2bf16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2convertintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2copyintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2mediaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2minmaxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx10_2satcvtintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx2intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512bf16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512bf16vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512bitalgintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512bitalgvlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512bwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512cdintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512dqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512fintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512fp16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512fp16vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512ifmaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512ifmavlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vbmi2intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vbmi2vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vbmiintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vbmivlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vlbwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vldqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vnniintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vnnivlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vp2intersectintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vp2intersectvlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vpopcntdqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avx512vpopcntdqvlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avxifmaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avxneconvertintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avxvnniint16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avxvnniint8intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/avxvnniintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/bmi2intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/bmiintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/bmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/cet.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/cetintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/cldemoteintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/clflushoptintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/clwbintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/clzerointrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/cmpccxaddintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/cpuid.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/cross-stdarg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/emmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/enqcmdintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/f16cintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include-fixed was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include-fixed/README was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/float.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/fma4intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/fmaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/fxsrintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/gfniintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/hresetintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/ia32intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/immintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/iso646.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/keylockerintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/limits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/lwpintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/lzcntintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/mm3dnow.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/mmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/mm_malloc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/movdirintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/movrsintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/mwaitintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/mwaitxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/nmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/pconfigintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/pkuintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/pmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/popcntintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/prfchiintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/prfchwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/quadmath.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/quadmath_weak.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/raointintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/rdseedintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/rtmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/serializeintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/sgxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/sha512intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/shaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/sm3intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/sm4intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/smmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdalign.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdarg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdatomic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdbool.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdckdint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stddef.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdfix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdint-gcc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/stdnoreturn.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/syslimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/tbmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/tmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/tsxldtrkintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/uintrintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/unwind.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/usermsrintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/vaesintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/varargs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/vpclmulqdqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/waitpkgintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/wbnoinvdintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/wmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/x86gprintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/x86intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xopintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xsavecintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xsaveintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xsaveoptintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xsavesintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/include/xtestintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/fixinc_list was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/gsyslimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/include was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/include/limits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/include/README was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/macro_list was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/install-tools/mkheaders.conf was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/gtype.state was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ada was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ada/gcc-interface was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/addresses.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/alias.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/align.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/alloc-pool.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/all-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/access-diagram.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/analysis-plan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/analyzer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/analyzer-language.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/analyzer-logging.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/analyzer-selftests.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/bar-chart.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/call-details.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/call-info.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/call-string.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/call-summary.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/checker-event.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/checker-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/complexity.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/constraint-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/diagnostic-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/engine.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/event-loc-info.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/exploded-graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/feasible-graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/function-set.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/inlining-iterator.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/known-function-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/pending-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/program-point.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/program-state.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/ranges.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/reachability.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/record-layout.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/region.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/region-model.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/region-model-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/region-model-reachability.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/sm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/state-purge.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/store.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/supergraph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/svalue.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/symbol.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/analyzer/trimmed-graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ansidecl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/array-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/asan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/attr-fnspec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/attribs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/attr-urls.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/auto-host.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/auto-profile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/avoid-store-forwarding.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/backend.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/basic-block.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/bbitmap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/bb-reorder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/b-header-vars was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/bitmap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/builtin-attrs.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/builtins.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/builtin-types.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/bversion.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/calls.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ccmp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c/c-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-family was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-family/c-common.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-family/c-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-family/c-objc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-family/c-pragma.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-family/c-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfganal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfgbuild.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfgcleanup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfgexpand.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfg-flags.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfghooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfgloop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfgloopmanip.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cfgrtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cgraph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cif-code.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/collect2-aix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/collect2.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/collect-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/color-macros.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/common was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/common/config was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/common/config/i386 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/conditions.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/configargs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/elfos.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/glibc-stdint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/gnu-user.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/att.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/biarch64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/gnu-user64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/gnu-user-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/i386.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/i386-isa.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/i386-opts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/i386-protos.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/linux64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/linux-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/stringop.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/unix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/x86-64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/i386/x86-tune.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/initfini-array.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/linux-android.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/linux.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/linux-protos.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/config/vxworks-dummy.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/context.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/convert.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/coretypes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/coroutine-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/coverage.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/contracts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/cp-trait.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/cp-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/cp-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/cxx-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/name-lookup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/operators.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cppbuiltin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cppdefault.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cpplib.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cp/type-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/crc-verification.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/cselib.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ctfc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/c-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/d was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/data-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dbgcnt.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dbgcnt.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dce.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ddg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/d/d-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/debug.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/defaults.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/df.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dfp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-buffer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-client-data-hooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-color.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-core.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-diagram.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-event-id.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-format.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-format-sarif.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-format-text.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-highlight-colors.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-label-effects.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-macro-unwinding.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-metadata.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-output-file.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-spec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/diagnostic-url.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/digraph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dojump.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dominance.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/domwalk.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/double-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dump-context.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dumpfile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dwarf2asm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dwarf2codeview.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dwarf2ctf.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/dwarf2out.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/edit-context.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/emit-rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/errors.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/escaped_string.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/et-forest.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/except.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/explow.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/expmed.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/expr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/fibonacci_heap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/file-find.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/filenames.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/file-prefix-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/fixed-value.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/flags.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/flag-types.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/fold-const-call.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/fold-const.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/function-abi.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/function.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcc-plugin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcc-rich-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcc-symtab.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcc-urlifier.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcc-urlifier.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcov-counter.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcov-io.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcse-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gcse.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/generic-match.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gengtype.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/genrtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gensupport.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ggc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ggc-internal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-array-bounds.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-expr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-fold.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-iterator.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-lower-bitint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-low.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-match.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-predicate-analysis.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-predict.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-cache.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-edge.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-fold.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-gori.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-infer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-op.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-phi.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-range-trace.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-ssa-warn-access.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimple-walk.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimplify.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gimplify-me.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/glimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gomp-constants.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/graphds.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/graphite.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/graphviz.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gsstruct.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gsyms.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gsyslimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gtm-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/gtype-desc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hard-reg-set.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hash-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hash-map-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hash-set.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hashtab.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hash-table.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hash-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/highlev-plugin-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hosthooks-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hosthooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hw-doloop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/hwint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ifcvt.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/inchash.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/incpath.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/input.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-addr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-attr-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-attr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-codes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-config.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-constants.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-flags.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-modes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-modes-inline.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-notes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/insn-opinit.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/internal-fn.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/internal-fn.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/intl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/int-vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-cp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-fnsummary.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-icf-gimple.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-icf.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-inline.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-locality-cloning.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-modref.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-modref-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-param-manipulation.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-predicate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-prop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-reference.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-ref.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-strub.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ipa-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ira.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ira-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/is-a.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/iterator-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/json.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/json-parsing.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/label-text.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/langhooks-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/langhooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lazy-diagnostic-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lcm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/libfuncs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/libgdiagnostics++.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/libgdiagnostics.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/libiberty.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/libsarifreplay.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/limitx.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/limity.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/line-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/linux.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lockfile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/logical-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/loop-unroll.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lower-subreg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lra.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lra-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lto-compress.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lto-ltrans-cache.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lto-section-names.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/lto-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/m2 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/m2/m2-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/machmode.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/machmode.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/make-unique.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/md5.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/memmodel.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/memory-block.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/mem-stats.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/mem-stats-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/mode-classes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/mux-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/objc was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/objc/objc-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/obstack.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/obstack-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-api.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-expand.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-general.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-low.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-offload.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-selectors.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/omp-simd-clone.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optabs.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optabs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optabs-libfuncs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optabs-query.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optabs-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optinfo-emit-json.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/optinfo.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/options.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/opt-problem.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/opts-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/opts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/opts-jobserver.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/opt-suggestions.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ordered-hash-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/output.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pair-fusion.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/passes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pass-instances.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pass_manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/plugin-api.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/plugin.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/plugin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/plugin-version.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pointer-query.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/poly-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/poly-int-types.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/predict.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/predict.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/prefix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pretty-print-format-impl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pretty-print-markup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/pretty-print-urlifier.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/print-rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/print-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/profile-count.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/profile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/range.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/range-op.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/range-op-mixed.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/read-md.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/read-rtl-function.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/real.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/realmpfr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/recog.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/regcprop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/reg-notes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/regrename.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/regset.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/regs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/reload.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/resource.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rich-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtlanal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtl.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtl-error.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtlhash.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtlhooks-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtl-iter.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtl-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/rtx-vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/run-rtl-passes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/safe-ctype.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sanitizer.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sarif-spec-urls.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sbitmap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sched-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-diagnostic-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-diagnostic-show-locus.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-json.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-logical-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/selftest-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sel-sched-dump.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sel-sched.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sel-sched-ir.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sese.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/shortest-paths.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/shrink-wrap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/signop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/simple-diagnostic-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sparseset.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/spellcheck.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/spellcheck-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/splay-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/splay-tree-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sreal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ssa-iterators.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/statistics.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/stmt.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/stor-layout.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/streamer-hooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/stringpool.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/substring-locations.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/symbol-summary.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/symtab-clones.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/symtab.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/symtab-thunks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/sync-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/system.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/target.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/target-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/target-globals.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/target.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/target-hooks-macros.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/target-insns.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/targhooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/text-range-label.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/timevar.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/timevar.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tm_p.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tm-preds.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/toplev.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tracer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/trans-mem.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-affine.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-cfgcleanup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-cfg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-check.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-chrec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-core.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-data-ref.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-dfa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-dump.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-eh.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-hasher.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-hash-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-if-conv.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-inline.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-into-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-iterator.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-logical-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-nested.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-object-size.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-outof-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-parloops.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-pass.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-phinodes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-pretty-print-markup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-scalar-evolution.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-sra.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-address.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-alias-compare.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-alias.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-ccp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-coalesce.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-dce.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-dom.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-dse.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-live.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-loop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-loop-manip.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-loop-niter.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-math-opts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssanames.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-operands.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-propagate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-reassoc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-sccvn.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-scopedtables.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-strlen.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-ter.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-threadedge.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-ssa-threadupdate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-stdarg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/treestruct.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-switch-conversion.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-vectorizer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tree-vrp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tristate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tsan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/tsystem.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/typeclass.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/typed-splay-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/ubsan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/unique-argv.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/valtrack.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-pointer-equiv.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-prof.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-query.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-range.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-range-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-range-storage.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/value-relation.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/varasm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/vec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/vec-perm-indices.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/version.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/vmsdbg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/vr-values.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/vtable-verify.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-bitmask.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-da0e3233a15eb82bb3700eb8a01eae23e0fe42ad"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:da0e3233a15eb82bb3700eb8a01eae23e0fe42ad"
-meta-yocto-bsp       
-meta-poky            = "master:66ea31cee15309af07afeee8dec8a6fe1d92d28e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 625 Local 612 Mirrors 0 Missed 13 Current 1163 (97% match, 99% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 4347 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_recipe_qa)
-NOTE: Running task 4591 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_write_config)
-NOTE: recipe epiphany-49.1-r0: task do_recipe_qa: Started
-NOTE: recipe epiphany-49.1-r0: task do_write_config: Started
-NOTE: recipe epiphany-49.1-r0: task do_write_config: Succeeded
-NOTE: recipe epiphany-49.1-r0: task do_recipe_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_recipe_qa unihash changed to 826007d87e1237e35b24c33672c772f2ce940e744c5babafb8bc5806378e5ea4
-NOTE: Setscene tasks completed
-NOTE: Running task 4877 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_fetch)
-NOTE: recipe epiphany-49.1-r0: task do_fetch: Started
-NOTE: recipe epiphany-49.1-r0: task do_fetch: Succeeded
-NOTE: Running task 4878 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_unpack)
-NOTE: Running task 4879 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe epiphany-49.1-r0: task do_unpack: Started
-NOTE: recipe epiphany-49.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe epiphany-49.1-r0: task do_unpack: Succeeded
-NOTE: Running task 4880 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_patch)
-NOTE: Running task 4881 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_collect_spdx_deps)
-NOTE: recipe epiphany-49.1-r0: task do_patch: Started
-NOTE: recipe epiphany-49.1-r0: task do_patch: Succeeded
-NOTE: Running task 4882 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 4883 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_populate_lic)
-NOTE: recipe epiphany-49.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe epiphany-49.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe epiphany-49.1-r0: task do_populate_lic: Started
-NOTE: recipe epiphany-49.1-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_populate_lic unihash changed to 03c90b0d23b4ec43a621e741c724fce800380f7ac1bdfed2137a1a28045102ea
-NOTE: recipe epiphany-49.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_deploy_source_date_epoch unihash changed to 8989f34a6c29a0727f750671fa7474eb073f30a9d59083171215ccc879411398
-NOTE: Setscene tasks completed
-NOTE: recipe epiphany-49.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe epiphany-49.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 4884 of 4896 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_configure)
-NOTE: recipe epiphany-49.1-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.0.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.2.bb:do_populate_sysroot', '/srv/pokybuild/
- yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gcr/gcr_4.4.0.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_48.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/json-glib/json-glib_1.10.8.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libadwaita/libadwaita_1.7.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/buil
- d/layers/openembedded-core/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libhandy/libhandy_1.8.3.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libportal/libportal_0.9.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/webkitgtk_2.50.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libsoup/libsoup_3.6.5.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_3.10.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.7.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-c
- ore/gettext/gettext_0.26.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.9.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/bu
- ild/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'libclc', 'llvm-tblgen-native', 'llvm', 'cmake-native', 'desktop-file-utils', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3-setuptools', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'libarchive', 'libidn2', 'lzlib', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gcr', 'gdk-pixbuf', 'gobject-introspection', 'gsettings-desktop-schemas', 'gtk+3', 'gtk4', 'hicolor-icon-theme', 'json-glib', 'libadwaita', 'libdazzle', 'libgudev', 'libhandy', 'libnotify', 'libportal', 'librsvg', 'libsecret', 'libxmlb', 'cairo', 'libdrm', '
- fontconfig', 'freetype', 'graphene', 'harfbuzz', 'libjpeg-turbo', 'libepoxy', 'libglu', 'mesa', 'pango', 'spirv-headers', 'spirv-llvm-translator', 'spirv-tools', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxcomposite', 'libxcursor', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxi', 'libxinerama', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxt', 'libxtst', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'tiff', 'libvorbis', 'sbc', 'libwebp', 'libwpe', 'webkitgtk', 'wpebackend-fdo', 'appstream', 'aspell', 'at-spi2-core', 'acl', 'attr', 'bash-completion', 'curl', 'enchant2', 'fribidi', 'gdbm', 'gmp', 'gnut
- ls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libgcrypt', 'libgpg-error', 'libical', 'libmicrohttpd', 'libpcre2', 'libpsl', 'libseccomp', 'libsoup', 'libunistring', 'libusb1', 'libxslt', 'libyaml', 'nettle', 'nghttp2', 'p11-kit', 'shared-mime-info', 'sqlite3', 'openssl-native', 'coreutils-native', 'dbus-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'llvm-native', 'desktop-file-utils-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'patchelf-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-docutils-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'cargo-c-native', 'cargo-native'
- , 'rust-native', 'vala-native', 'bzip2-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'gdk-pixbuf-native', 'gobject-introspection-native', 'gtk+3-native', 'librsvg-native', 'cairo-native', 'fontconfig-native', 'freetype-native', 'harfbuzz-native', 'libjpeg-turbo-native', 'pango-native', 'libpthread-stubs-native', 'libx11-native', 'libxau-native', 'libxcb-native', 'libxcomposite-native', 'libxcursor-native', 'libxdamage-native', 'libxdmcp-native', 'libxext-native', 'libxfixes-native', 'libxft-native', 'libxi-native', 'libxrandr-native', 'libxrender-native', 'libxtst-native', 'pixman-native', 'xtrans-native', 'xcb-proto-native', 'xorgproto-native', 'util-macros-native', 'libpng-native', 'at-spi2-core-native', 'attr-native', 'ca-certificates-native', 'curl-native', 'fribidi-native', 'gdbm-native', 'gmp-native', 'icu-native', 'libbsd-native', 'libcap-ng-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'libssh2-native', 'mpfr-native', '
- re2c-native', 'shared-mime-info-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Ddeveloper_mode=false...
-| The Meson build system
-| Version: 1.9.1
-| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/sources/epiphany-49.1
-| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/build
-| Build type: cross build
-| Project name: epiphany
-| Project version: 49.1
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/recipe-sysroot (gcc 15.2.0 "x86_64-poky-linux-gcc (GCC) 15.2.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/recipe-sysroot ld.bfd 2.45.0.20250908
-| C compiler for the build machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
-| C linker for the build machine: gcc ld.bfd 2.43.1.20241111
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
-| Run-time dependency iso-codes found: YES 4.18.0
-| Run-time dependency cairo found: YES 1.18.4
-| Run-time dependency gck-2 found: YES 4.4.0.1
-| Run-time dependency gcr-4 found: YES 4.4.0.1
-| Run-time dependency gdk-pixbuf-2.0 found: YES 2.42.12
-| Run-time dependency gio-2.0 found: YES 2.86.0
-| Run-time dependency gio-unix-2.0 found: YES 2.86.0
-| Run-time dependency glib-2.0 found: YES 2.86.0
-| Dependency granite-7 skipped: feature granite disabled
-| Run-time dependency gsettings-desktop-schemas found: YES 48.0
-| Run-time dependency gstreamer-1.0 found: YES 1.26.5
-| Run-time dependency gtk4 found: YES 4.18.6
-| Run-time dependency gtk4-unix-print found: YES 4.18.6
-| Run-time dependency hogweed found: YES 3.10.2
-| Dependency iso-codes found: YES 4.18.0 (cached)
-| Run-time dependency json-glib-1.0 found: YES 1.10.8
-| Run-time dependency libarchive found: YES 3.8.2
-| Dependency libadwaita-1 found: NO. Found 1.7.6 but need: '>= 1.8.alpha'
-| Found CMake: NO
-| Run-time dependency libadwaita-1 found: NO
-| 
-| ../sources/epiphany-49.1/meson.build:102:17: ERROR: Dependency lookup for libadwaita-1 with method 'pkgconfig' failed: Invalid version, need 'libadwaita-1' ['>= 1.8.alpha'] found '1.7.6'.
-| 
-| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/run.do_configure.3676448:171 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/run.do_configure.3676448, line 171
-| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/run.do_configure.3676448, line 160
-| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/run.do_configure.3676448, line 149
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/run.do_configure.3676448, line 184
-NOTE: recipe epiphany-49.1-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 4884 tasks of which 4874 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251115131156.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251115131156.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/log.do_configure.3676448
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: epiphany-49.1-r0 do_configure: meson failed
-ERROR: epiphany-49.1-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/run.do_configure.3676448' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.1/temp/log.do_configure.3676448
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.1.bb:do_configure) failed with exit code '1'
-
---===============5828750623189662239==--
+--===============8212598510656827942==--
 
