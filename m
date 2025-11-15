@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B309CEBF80
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 383BBCEBF79
 	for <webhook@archiver.kernel.org>; Sat, 15 Nov 2025 16:38:41 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11938.1763224720703099286
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12113.1763224714356595535
  for <openembedded-core@lists.openembedded.org>;
- Sat, 15 Nov 2025 08:38:40 -0800
+ Sat, 15 Nov 2025 08:38:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=soXYQaFN;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BTEFAmVJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019a886212cd-dbb84103-eb06-477e-8990-f2f6d48dec97-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=rqpr197x;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=JFuAzZMP;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019a88620faa-cb2adc6d-9846-4bbb-b612-771e2671ddc0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1763224720;
+	t=1763224719;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=NPFZrd+enMSuToQJ9NYsctnq2fYedPDq6+ZlxBwopXg=;
-	b=soXYQaFNtcTAQX68K8Bieyrsani2jY3oYPRSEldlRdsVGR6px8+yVQbPVBiROnKB
-	6h+urKk9y/meEIjg4a5W04xbfaLENBNiYboeBjp1SK+bmLotzjGLLpF30VA7sL/N3BC
-	EVSFi/k6t3C2hhh58lEhsjLc5PgYClF48p9q6oCk=
+	bh=DAvkV2ukjSoM70CQ8ZWOvcx6nb+lTq7rqB4jy3eWjes=;
+	b=rqpr197xi3IRDTUWhiyM/AQ+EMsHY8V7S/LKFbCIw6ZU0H9qT8NIkESivgTd4Wky
+	0ly+mP2WEe3ei5Nl+UFFs0IaqHECkmcsCzt13ymTjQITPdG59hmyRtfRAA2yDQ/atZH
+	pFOVdVNxbJVfTS6y5pBF0s1U8bbcMAT7hvdE7loM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224720;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1763224719;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=NPFZrd+enMSuToQJ9NYsctnq2fYedPDq6+ZlxBwopXg=;
-	b=BTEFAmVJ7bEEGbXUq5u6nXo8EqKswp2l2vclbxkAbKoeaZhuA2g5jnU51haMIICg
-	gZWjukCmet76FSzvwSrXxMorBqbJVjoSXE7EdP4BOTBRXLmYS7ESOdYGWwQWXaqOb6g
-	GYOq8QJ/QifztLXu5xRYvj1r7O6s9zwLB2gGsN/0=
-Content-Type: multipart/mixed; boundary="===============6918367917759422144=="
+	bh=DAvkV2ukjSoM70CQ8ZWOvcx6nb+lTq7rqB4jy3eWjes=;
+	b=JFuAzZMPJEacNevrNMeiEXoIyMGJYyHYg53zOfeuhxT3S8WDD0PWqiRWr1DuD3Vx
+	u5QduZEkdKVMKjRnvSHDuo0JCIv2aYdTxFDV8kN6/LjlZ/wHjkDIi0NSGkr0z4SHPrF
+	3YAZbWw7h5XkLpiH6ZkvbMUnhvLW3rn2ATI6c7Gs=
+Content-Type: multipart/mixed; boundary="===============6993417076691430081=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go-binary-native: upgrading to 1.25.4 SUCCEEDED
-Message-ID: <0101019a886212cd-dbb84103-eb06-477e-8990-f2f6d48dec97-000000@us-west-2.amazonses.com>
-Date: Sat, 15 Nov 2025 16:38:40 +0000
+Subject: [AUH] git: upgrading to 2.51.2 SUCCEEDED
+Message-ID: <0101019a88620faa-cb2adc6d-9846-4bbb-b612-771e2671ddc0-000000@us-west-2.amazonses.com>
+Date: Sat, 15 Nov 2025 16:38:39 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.11.15-54.240.27.192
+X-SES-Outgoing: 2025.11.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 15 Nov 2025 16:38:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226341
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226335
 
---===============6918367917759422144==
+--===============6993417076691430081==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *go-binary-native* to *1.25.4* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *git* to *2.51.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-go-binary-native-upgrade-1.25.3-1.25.4.patch
+    - apply the patch: git am 0001-git-upgrade-2.51.0-2.51.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,95 +72,157 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 36b8f6f334a787a3eeb9f6c346bbfbc5cace7e23 Mon Sep 17 00:00:00 2001
+From 3a2569f563351120e315eccc36ba9baf96a050b6 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 15 Nov 2025 09:25:28 +0000
-Subject: [PATCH] go-binary-native: upgrade 1.25.3 -> 1.25.4
+Date: Sat, 15 Nov 2025 09:20:17 +0000
+Subject: [PATCH] git: upgrade 2.51.0 -> 2.51.2
 
 ---
- ...{go-binary-native_1.25.3.bb => go-binary-native_1.25.4.bb} | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
- rename meta/recipes-devtools/go/{go-binary-native_1.25.3.bb => go-binary-native_1.25.4.bb} (79%)
+ ...config.mak.uname-do-not-force-RHEL-7-specific-build-.patch | 4 ++--
+ meta/recipes-devtools/git/git/fixsort.patch                   | 2 +-
+ meta/recipes-devtools/git/{git_2.51.0.bb => git_2.51.2.bb}    | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/git/{git_2.51.0.bb => git_2.51.2.bb} (98%)
 
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.25.3.bb b/meta/recipes-devtools/go/go-binary-native_1.25.4.bb
-similarity index 79%
-rename from meta/recipes-devtools/go/go-binary-native_1.25.3.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.25.4.bb
-index b1d9522cb6..15c38ff0dc 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.25.3.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.25.4.bb
-@@ -9,9 +9,7 @@ PROVIDES = "go-native"
+diff --git a/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch b/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
+index 61bf0e12dc..f55282fcca 100644
+--- a/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
++++ b/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
+@@ -1,4 +1,4 @@
+-From 325c30dac4eafdd463c8ffcfe1215858d642ab91 Mon Sep 17 00:00:00 2001
++From e8aebf375140b67fb48baea10af2ac0088fe6768 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Mon, 7 Feb 2022 10:13:15 +0100
+ Subject: [PATCH] config.mak.uname: do not force RHEL-7 specific build settings
+@@ -17,7 +17,7 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+  1 file changed, 4 deletions(-)
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "0335f314b6e7bfe08c3d0cfaa7c19db961b7b99fb20be62b0a826c992ad14e0f"
--SRC_URI[go_linux_arm64.sha256sum] = "1d42ebc84999b5e2069f5e31b67d6fc5d67308adad3e178d5a2ee2c9ff2001f5"
--SRC_URI[go_linux_ppc64le.sha256sum] = "68d1a08bf3567f330717d821b266a0be1c5080bd05dc238b5a43a24ca0c47d7c"
-+SRC_URI[go_linux_amd64.sha256sum] = "9fa5ffeda4170de60f67f3aa0f824e426421ba724c21e133c1e35d6159ca1bec"
+ diff --git a/config.mak.uname b/config.mak.uname
+-index b12d4e1..b5b8d82 100644
++index 1691c6a..00d0f93 100644
+ --- a/config.mak.uname
+ +++ b/config.mak.uname
+ @@ -63,10 +63,6 @@ ifeq ($(uname_S),Linux)
+diff --git a/meta/recipes-devtools/git/git/fixsort.patch b/meta/recipes-devtools/git/git/fixsort.patch
+index 7066e1808d..8c60bd5c21 100644
+--- a/meta/recipes-devtools/git/git/fixsort.patch
++++ b/meta/recipes-devtools/git/git/fixsort.patch
+@@ -1,4 +1,4 @@
+-From 65fa5c0f849fe4a1e3cb8e6af0086ef0748c28de Mon Sep 17 00:00:00 2001
++From 7b509d1e3f9acbbe0c35ef62f54cfa2ed8f9a740 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Wed, 17 Feb 2021 17:57:13 +0000
+ Subject: [PATCH] generate-configlist.sh: Fix determinism issue
+diff --git a/meta/recipes-devtools/git/git_2.51.0.bb b/meta/recipes-devtools/git/git_2.51.2.bb
+similarity index 98%
+rename from meta/recipes-devtools/git/git_2.51.0.bb
+rename to meta/recipes-devtools/git/git_2.51.2.bb
+index aeb8c54aa0..14d5a3d60e 100644
+--- a/meta/recipes-devtools/git/git_2.51.0.bb
++++ b/meta/recipes-devtools/git/git_2.51.2.bb
+@@ -170,4 +170,4 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+                  "
+ EXTRA_OEMAKE += "NO_GETTEXT=1"
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+-SRC_URI[tarball.sha256sum] = "3d531799d2cf2cac8e294ec6e3229e07bfca60dc6c783fe69e7712738bef7283"
++SRC_URI[tarball.sha256sum] = "9b44c2b337ec838e10aad42439d390963904449710d30c9e7e4ba449f45da98f"
 -- 
 2.47.1
 
 
---===============6918367917759422144==
+--===============6993417076691430081==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-git-upgrade-2.51.0-2.51.2.patch"
+
+RnJvbSAzYTI1NjlmNTYzMzUxMTIwZTMxNWVjY2MzNmJhOWJhZjk2YTA1MGI2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMDk6MjA6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+aXQ6IHVwZ3JhZGUgMi41MS4wIC0+IDIuNTEuMgoKLS0tCiAuLi5jb25maWcubWFrLnVuYW1lLWRv
+LW5vdC1mb3JjZS1SSEVMLTctc3BlY2lmaWMtYnVpbGQtLnBhdGNoIHwgNCArKy0tCiBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvZ2l0L2dpdC9maXhzb3J0LnBhdGNoICAgICAgICAgICAgICAgICAgIHwg
+MiArLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dpdC97Z2l0XzIuNTEuMC5iYiA9PiBnaXRfMi41
+MS4yLmJifSAgICB8IDIgKy0KIDMgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRl
+bGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQve2dpdF8yLjUxLjAu
+YmIgPT4gZ2l0XzIuNTEuMi5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvZ2l0L2dpdC8wMDAxLWNvbmZpZy5tYWsudW5hbWUtZG8tbm90LWZvcmNlLVJIRUwtNy1z
+cGVjaWZpYy1idWlsZC0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2l0L2dpdC8wMDAx
+LWNvbmZpZy5tYWsudW5hbWUtZG8tbm90LWZvcmNlLVJIRUwtNy1zcGVjaWZpYy1idWlsZC0ucGF0
+Y2gKaW5kZXggNjFiZjBlMTJkYy4uZjU1MjgyZmNjYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL2dpdC9naXQvMDAwMS1jb25maWcubWFrLnVuYW1lLWRvLW5vdC1mb3JjZS1SSEVM
+LTctc3BlY2lmaWMtYnVpbGQtLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQv
+Z2l0LzAwMDEtY29uZmlnLm1hay51bmFtZS1kby1ub3QtZm9yY2UtUkhFTC03LXNwZWNpZmljLWJ1
+aWxkLS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMzI1YzMwZGFjNGVhZmRkNDYzYzhmZmNm
+ZTEyMTU4NThkNjQyYWI5MSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZThhZWJmMzc1
+MTQwYjY3ZmI0OGJhZWExMGFmMmFjMDA4OGZlNjc2OCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+IEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+CiBEYXRlOiBNb24s
+IDcgRmViIDIwMjIgMTA6MTM6MTUgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gY29uZmlnLm1hay51
+bmFtZTogZG8gbm90IGZvcmNlIFJIRUwtNyBzcGVjaWZpYyBidWlsZCBzZXR0aW5ncwpAQCAtMTcs
+NyArMTcsNyBAQCBTaWduZWQtb2ZmLWJ5OiBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJp
+dmVyLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgNCBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBh
+L2NvbmZpZy5tYWsudW5hbWUgYi9jb25maWcubWFrLnVuYW1lCi1pbmRleCBiMTJkNGUxLi5iNWI4
+ZDgyIDEwMDY0NAoraW5kZXggMTY5MWM2YS4uMDBkMGY5MyAxMDA2NDQKIC0tLSBhL2NvbmZpZy5t
+YWsudW5hbWUKICsrKyBiL2NvbmZpZy5tYWsudW5hbWUKIEBAIC02MywxMCArNjMsNiBAQCBpZmVx
+ICgkKHVuYW1lX1MpLExpbnV4KQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dp
+dC9naXQvZml4c29ydC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0L2ZpeHNv
+cnQucGF0Y2gKaW5kZXggNzA2NmUxODA4ZC4uOGM2MGJkNWMyMSAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2dpdC9naXQvZml4c29ydC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvZ2l0L2dpdC9maXhzb3J0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA2NWZh
+NWMwZjg0OWZlNGExZTNjYjhlNmFmMDA4NmVmMDc0OGMyOGRlIE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQorRnJvbSA3YjUwOWQxZTNmOWFjYmJlMGMzNWVmNjJmNTRjZmEyZWQ4ZjlhNzQwIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGll
+QGxpbnV4Zm91bmRhdGlvbi5vcmc+CiBEYXRlOiBXZWQsIDE3IEZlYiAyMDIxIDE3OjU3OjEzICsw
+MDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGdlbmVyYXRlLWNvbmZpZ2xpc3Quc2g6IEZpeCBkZXRlcm1p
+bmlzbSBpc3N1ZQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dpdC9naXRfMi41
+MS4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dpdC9naXRfMi41MS4yLmJiCnNpbWlsYXJp
+dHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0XzIu
+NTEuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dpdC9naXRfMi41MS4yLmJi
+CmluZGV4IGFlYjhjNTRhYTAuLjE0ZDVhM2Q2MGUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9naXQvZ2l0XzIuNTEuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2l0
+L2dpdF8yLjUxLjIuYmIKQEAgLTE3MCw0ICsxNzAsNCBAQCBFWFRSQV9PRUNPTkYgKz0gImFjX2N2
+X3NucHJpbnRmX3JldHVybnNfYm9ndXM9bm8gXAogICAgICAgICAgICAgICAgICAiCiBFWFRSQV9P
+RU1BS0UgKz0gIk5PX0dFVFRFWFQ9MSIKIAotU1JDX1VSSVt0YXJiYWxsLnNoYTI1NnN1bV0gPSAi
+M2Q1MzE3OTlkMmNmMmNhYzhlMjk0ZWM2ZTMyMjllMDdiZmNhNjBkYzZjNzgzZmU2OWU3NzEyNzM4
+YmVmNzI4MyIKK1NSQ19VUklbdGFyYmFsbC5zaGEyNTZzdW1dID0gIjliNDRjMmIzMzdlYzgzOGUx
+MGFhZDQyNDM5ZDM5MDk2MzkwNDQ0OTcxMGQzMGM5ZTdlNGJhNDQ5ZjQ1ZGE5OGYiCi0tIAoyLjQ3
+LjEKCg==
+
+--===============6993417076691430081==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Changes to packages/x86_64-linux/go-binary-native (sysroot):
-  /usr/lib/go/test/fixedbugs/issue76008.go was added
-  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_mips64x.s was removed
-  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_mipsx.s was removed
+packages/x86-64-v3-poky-linux/git/git-bash-completion: PV changed from "2.51.0" to "2.51.2"
+packages/x86-64-v3-poky-linux/git/git-bash-completion: PKGV changed from 2.51.0 [default] to 2.51.2 [default]
+packages/x86-64-v3-poky-linux/git/git-dbg: PKGSIZE changed from 100103328 to 100185200 (+0%)
+packages/x86-64-v3-poky-linux/git/git-dbg: PV changed from "2.51.0" to "2.51.2"
+packages/x86-64-v3-poky-linux/git/git-dbg: PKGV changed from 2.51.0 [default] to 2.51.2 [default]
+packages/x86-64-v3-poky-linux/git/git-dev: PV changed from "2.51.0" to "2.51.2"
+packages/x86-64-v3-poky-linux/git/git-dev: PKGV changed from 2.51.0 [default] to 2.51.2 [default]
+packages/x86-64-v3-poky-linux/git/git-doc: PV changed from "2.51.0" to "2.51.2"
+packages/x86-64-v3-poky-linux/git/git-doc: PKGV changed from 2.51.0 [default] to 2.51.2 [default]
+packages/x86-64-v3-poky-linux/git/git-locale: PV changed from "2.51.0" to "2.51.2"
+packages/x86-64-v3-poky-linux/git/git-locale: PKGV changed from 2.51.0 [default] to 2.51.2 [default]
+packages/x86-64-v3-poky-linux/git/git-perltools: PV changed from "2.51.0" to "2.51.2"
+packages/x86-64-v3-poky-linux/git/git-perltools: PKGV changed from 2.51.0 [default] to 2.51.2 [default]
+packages/x86-64-v3-poky-linux/git/git-src: PKGSIZE changed from 10048766 to 10062752 (+0%)
+packages/x86-64-v3-poky-linux/git/git-src: PV changed from "2.51.0" to "2.51.2"
+packages/x86-64-v3-poky-linux/git/git-src: PKGV changed from 2.51.0 [default] to 2.51.2 [default]
+packages/x86-64-v3-poky-linux/git/git-staticdev: PV changed from "2.51.0" to "2.51.2"
+packages/x86-64-v3-poky-linux/git/git-staticdev: PKGV changed from 2.51.0 [default] to 2.51.2 [default]
+packages/x86-64-v3-poky-linux/git/git-tk: PV changed from "2.51.0" to "2.51.2"
+packages/x86-64-v3-poky-linux/git/git-tk: PKGV changed from 2.51.0 [default] to 2.51.2 [default]
+packages/x86-64-v3-poky-linux/git/git: PKGSIZE changed from 24761272 to 24785848 (+0%)
+packages/x86-64-v3-poky-linux/git/git: PV changed from "2.51.0" to "2.51.2"
+packages/x86-64-v3-poky-linux/git/git: PKGV changed from 2.51.0 [default] to 2.51.2 [default]
+packages/x86-64-v3-poky-linux/git/gitweb: PV changed from "2.51.0" to "2.51.2"
+packages/x86-64-v3-poky-linux/git/gitweb: PKGV changed from 2.51.0 [default] to 2.51.2 [default]
+packages/x86-64-v3-poky-linux/git: SRC_URI changed from "https://cdn.kernel.org/pub/software/scm/git/git-2.51.0.tar.gz;name=tarball file://fixsort.patch file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch" to "https://cdn.kernel.org/pub/software/scm/git/git-2.51.2.tar.gz;name=tarball file://fixsort.patch file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch"
+packages/x86-64-v3-poky-linux/git: PV changed from "2.51.0" to "2.51.2"
+packages/x86-64-v3-poky-linux/git: PKGV changed from 2.51.0 [default] to 2.51.2 [default]
 
---===============6918367917759422144==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-go-binary-native-upgrade-1.25.3-1.25.4.patch"
-
-RnJvbSAzNmI4ZjZmMzM0YTc4N2EzZWViOWY2YzM0NmJiZmJjNWNhY2U3ZTIzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTUgTm92IDIwMjUgMDk6MjU6MjggKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-by1iaW5hcnktbmF0aXZlOiB1cGdyYWRlIDEuMjUuMyAtPiAxLjI1LjQKCi0tLQogLi4ue2dvLWJp
-bmFyeS1uYXRpdmVfMS4yNS4zLmJiID0+IGdvLWJpbmFyeS1uYXRpdmVfMS4yNS40LmJifSB8IDQg
-Ky0tLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAzIGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby97Z28tYmluYXJ5LW5hdGl2ZV8xLjI1LjMuYmIg
-PT4gZ28tYmluYXJ5LW5hdGl2ZV8xLjI1LjQuYmJ9ICg3OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2dvL2dvLWJpbmFyeS1uYXRpdmVfMS4yNS4zLmJiIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2dvL2dvLWJpbmFyeS1uYXRpdmVfMS4yNS40LmJiCnNpbWlsYXJpdHkgaW5k
-ZXggNzklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby1iaW5hcnktbmF0
-aXZlXzEuMjUuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLWJpbmFy
-eS1uYXRpdmVfMS4yNS40LmJiCmluZGV4IGIxZDk1MjJjYjYuLjE1YzM4ZmYwZGMgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby1iaW5hcnktbmF0aXZlXzEuMjUuMy5iYgor
-KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28vZ28tYmluYXJ5LW5hdGl2ZV8xLjI1LjQuYmIK
-QEAgLTksOSArOSw3IEBAIFBST1ZJREVTID0gImdvLW5hdGl2ZSIKIAogIyBDaGVja3N1bXMgYXZh
-aWxhYmxlIGF0IGh0dHBzOi8vZ28uZGV2L2RsLwogU1JDX1VSSSA9ICJodHRwczovL2RsLmdvb2ds
-ZS5jb20vZ28vZ28ke1BWfS4ke0JVSUxEX0dPT1N9LSR7QlVJTERfR09BUkNIfS50YXIuZ3o7bmFt
-ZT1nb18ke0JVSUxEX0dPVFVQTEV9IgotU1JDX1VSSVtnb19saW51eF9hbWQ2NC5zaGEyNTZzdW1d
-ID0gIjAzMzVmMzE0YjZlN2JmZTA4YzNkMGNmYWE3YzE5ZGI5NjFiN2I5OWZiMjBiZTYyYjBhODI2
-Yzk5MmFkMTRlMGYiCi1TUkNfVVJJW2dvX2xpbnV4X2FybTY0LnNoYTI1NnN1bV0gPSAiMWQ0MmVi
-Yzg0OTk5YjVlMjA2OWY1ZTMxYjY3ZDZmYzVkNjczMDhhZGFkM2UxNzhkNWEyZWUyYzlmZjIwMDFm
-NSIKLVNSQ19VUklbZ29fbGludXhfcHBjNjRsZS5zaGEyNTZzdW1dID0gIjY4ZDFhMDhiZjM1Njdm
-MzMwNzE3ZDgyMWIyNjZhMGJlMWM1MDgwYmQwNWRjMjM4YjVhNDNhMjRjYTBjNDdkN2MiCitTUkNf
-VVJJW2dvX2xpbnV4X2FtZDY0LnNoYTI1NnN1bV0gPSAiOWZhNWZmZWRhNDE3MGRlNjBmNjdmM2Fh
-MGY4MjRlNDI2NDIxYmE3MjRjMjFlMTMzYzFlMzVkNjE1OWNhMWJlYyIKIAogVVBTVFJFQU1fQ0hF
-Q0tfVVJJID0gImh0dHBzOi8vZ29sYW5nLm9yZy9kbC8iCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9
-ICJnbyg/UDxwdmVyPlxkKyhcLlxkKykrKVwubGludXgiCi0tIAoyLjQ3LjEKCg==
-
---===============6918367917759422144==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/x86_64-linux/go-binary-native (sysroot):
-  /usr/lib/go/test/fixedbugs/issue76008.go was added
-  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_mips64x.s was removed
-  /usr/lib/go/src/crypto/internal/fips140/subtle/xor_mipsx.s was removed
-
---===============6918367917759422144==--
+--===============6993417076691430081==--
 
