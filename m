@@ -1,110 +1,95 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FEE3CD4F3E
-	for <webhook@archiver.kernel.org>; Sun, 16 Nov 2025 16:27:26 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11074.1763310443281842161
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E869CD4F3E
+	for <webhook@archiver.kernel.org>; Sun, 16 Nov 2025 18:20:44 +0000 (UTC)
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1506.1763317235190379748
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Nov 2025 08:27:23 -0800
+ Sun, 16 Nov 2025 10:20:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ee5rSuOx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47795f6f5c0so10440125e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Nov 2025 08:27:23 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Xufd24MY;
+ spf=softfail (domain: sakoman.com, ip: 74.125.224.51, mailfrom: steve@sakoman.com)
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-63e19642764so2907513d50.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 16 Nov 2025 10:20:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1763310442; x=1763915242; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763317234; x=1763922034; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eoqdtsGrUv0sOvyopgSNz292N/a8qYx5VnfOmGFr1g4=;
-        b=Ee5rSuOxbDLkT0xaksxXR5r102YBfYBt7j0TIwXnwtIWPJr0gSLSr524b+hiYfQclv
-         10SIZUW2nBKZfkAzeCBlWtRALLANxqAKqXVPXWblO1OssnfCnkcGE04xrSG6kXS31TRN
-         Sn8xFBrRB7JIhm9UEueHt2zK1kOKv8rtFfY5c=
+        bh=0a+3CroqvNWBZyHNzSKenBFTxBXQPQR3RjpDRDsxcoA=;
+        b=Xufd24MYaKtENqqYqQUeYkfCpyrdIQqFIeE3GOgcXyL/J/dBzaQ3XorybKULb7J6Fa
+         DOGuUwUIJaDT+1i+DtRf/AeoUCdVgocnphnC+0D7dcskZso2CtTqwXuSVY9LZMdHZak/
+         U20WK3Rdjrg2rQV/S3o2P7atmDLMo4NuFnhfBS6wlIDZchXhN1RP9Z4duFx1KW6R8RW1
+         dZ+wQ5Bq8XPGPQ3BqIDqICmSQn64SGmxDsqWMLh3HTuRs+YJZsVU3cKGzlJNz5kuzYBU
+         CSu/f+Wyl9uuBBmfK27e8B0DMMXFr8PrS21IZBLVbdSFGOyISL8lKSYMddMKfkxoBu9/
+         krcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763310442; x=1763915242;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eoqdtsGrUv0sOvyopgSNz292N/a8qYx5VnfOmGFr1g4=;
-        b=R7zsz5bq3nD0ctJ+2HPe5tqbgUftIePtiI6QXCsn1Rjs8onJQdhG5VekxdGS/LywNn
-         2g17XVY8U0mHWkXatbwnwiBFFEvpSnNAtTHlcJEmg2vKBOFr4O3UCyvVzK8kS7xuOVzF
-         IcEx0zLRE085oKg6e9Gq2Vf/1GQCQ7iNqfxNSTG6bj0t3sUR1Ms8YbOKQ9PkQ7+GN+hY
-         ajcPS9t8NkCJLYFJK2l+lfwozGu2Retj04ngI673Yn/BYis8ScxIfxM26/OwkeoPwkf8
-         233EapzKukaT2wPsylmDlhVnqhMBfVuPC3K5LuXEyh0r7u1vgi++iwT77G3Q984gomOK
-         5JYg==
-X-Forwarded-Encrypted: i=1; AJvYcCWfN9r3PZZVySd+PW+hMdcXERdUiUpY8uz8FJjcvh7I58zzRBfZw372Z/B6qr9SJBsPktFVwTaa9fNShiMTCKV7Ig==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz1VbleQcZbA1aLbtlPSXe0u76pvVZoe8/SyQuQmodLp3PcNlqn
-	8sBt3EOJDDKdk8ltoTLOfz/6fI9K80Pi+oB9b1iwbnMW0D25byL6gz9YBX5V2S+jhzw=
-X-Gm-Gg: ASbGncsjEPVrjLaoerS+eQcLo3Suw/PfRvImoUqkpSbReIt3nGyW/Ga8jIhKwpsmNh9
-	gusdJLNEJBYJE7GUO8DOzfg9nbFAfmKyxlQlgPMuEkO/Tn/d/58Aw9tnUtrF125XxGChHxRmn5+
-	DtNBN7h3WGEQ9MRcEfDJlC6Nmwnw58RVr74owJuUBE1BxxEtfTCLCmcdTOyJ+d8VxDIRayalRJ3
-	tSwnX/gLsLt6+gwxdpKsGX/08WgFLNo0cDGvZ2kVGi2p3H/mNYmN14VR7QCDCZcMSXaeO2ZTK7q
-	+CERXK0Yr6hwZ54jU9+K3ClEQzUwLm8vh4pEOXdNrIs5SWVmQiawsSX4H2hQVHyoNiElOJuZztP
-	tK87RUuiPhQDZTEIXqdG/iQ3hYlwHf5al1i9kpAPy9VyXT/aHQzyq2e9OePWKZireaMIDSE1LRT
-	KPKk+ZpeMr4XxJyLY2MtZofuPKjkH1QhrKvuryJ6Tj6p2kG1iAavxnYhc6hH9c8OqHAcCaaK4pp
-	sA=
-X-Google-Smtp-Source: AGHT+IFe21Xr176WEQlo+lK0/PFkx9wD0Wuh7UqUu4PzsEYWvj963uVcRDgnu6xt4yhqvCiolosjww==
-X-Received: by 2002:a05:600c:6287:b0:477:7b16:5fa6 with SMTP id 5b1f17b1804b1-4778fe604e6mr85246965e9.3.1763310441677;
-        Sun, 16 Nov 2025 08:27:21 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e709:ebbb:d3ce:b049? ([2001:8b0:aba:5f3c:e709:ebbb:d3ce:b049])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47798dd2e8fsm39751655e9.7.2025.11.16.08.27.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Nov 2025 08:27:20 -0800 (PST)
-Message-ID: <87cfd519da6bba9636c4f2d0806916fb15179b8d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/1] buildhistory.bbclass: Warn when
- PRSERV_HOST is not enabled
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: liezhi.yang@windriver.com, openembedded-core@lists.openembedded.org
-Date: Sun, 16 Nov 2025 16:27:19 +0000
-In-Reply-To: <0468feeac5c3c42078b6cf9085f7707de5f09cc9.1763295498.git.liezhi.yang@windriver.com>
-References: <cover.1763295498.git.liezhi.yang@windriver.com>
-	 <0468feeac5c3c42078b6cf9085f7707de5f09cc9.1763295498.git.liezhi.yang@windriver.com>
+        d=1e100.net; s=20230601; t=1763317234; x=1763922034;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0a+3CroqvNWBZyHNzSKenBFTxBXQPQR3RjpDRDsxcoA=;
+        b=bV0Mpvf0MADLrmxqWApmlqv9SBOCUu41Y0Sj0uI+j2y3GYh6QzY8exuoQDdKNnjr9N
+         LGGuhXuiYAJlTrE0284YkY51xn1Y5Gl1jUNonFGhs4heUB8E/6Ozz9rp5Cc56KPSnku3
+         ZzUKyVbk6qPFZ2ONdyI5jitbzsmNsco3+R1Uqaq+z5JCuLytdQhrKv8FvihgwRoBRuoH
+         31EwHiYHi3zwAxHc3o6TzuGEI8so+Kq0/Xl6Ih4YhnBcC2u/FPgQH9z8RsP+BzvIxhCH
+         lRtO+jBrLT3BIjSU6cVVKcIuSPT2htkZkBuOe9tAFzsKpqYGzryvTlT2VTqMhx8qF6Wq
+         iVng==
+X-Gm-Message-State: AOJu0YwmvKet10wBHuCrTkFXSGqyDa8BtIw1d2Av4kQ6IG1HslQf154G
+	XfxgqICaasIXAJynf/63rNGsXjCocxaHGduN6RkEq0+j43IHWvYx/nYpG7vnJ3CMkuWyrBPrB3j
+	iisYcvvPXrVOjJ9Lz9R4q5OrFf4riROW6Tkk4eOaSfw==
+X-Gm-Gg: ASbGnct0hIuCPM7+c8+vAAR+lOv3WcQW1OpXb/iWZl56iOv6348jHs8VIv+FaB14Wz7
+	qbrPwvNjp5hgxiM4zw/4biZXpFY20G7uwRVPM5frQCIhj5HBkN6unampyQP64wTt2cSiwHU6cw7
+	GfqaLxlsCV1CVcWofq0qUmJ7mnZUo0PJHAwofyVB0wQW5izTz2Jzv5Bd0BxODIE45LeXGwKWrp0
+	zbh1YnAPUP5yy5bNFjgY1Qp7+sdcvjofSJs/8M6j1v+5Kprqa+8QFQ+PlmDBgZPKP9Y8KMrPowp
+	1MlkyyrdxLfjydGp+k6oW9mBIvg=
+X-Google-Smtp-Source: AGHT+IELZJRDJWN7UZnR/MlStOP5xN+k+/VdQ5DqKKzotohj4GopfcFaaOkyU1T7rH3cT+v99NQiA0zmJ05tHTKaYhY=
+X-Received: by 2002:a05:690e:d58:b0:63f:9ff9:1496 with SMTP id
+ 956f58d0204a3-641e75531a6mr8390502d50.2.1763317234277; Sun, 16 Nov 2025
+ 10:20:34 -0800 (PST)
+MIME-Version: 1.0
+References: <20251109114632.331C31001C6@builder.sakoman.com> <b96e80dd-fde5-417a-a2af-6a05a6832b83@gmail.com>
+In-Reply-To: <b96e80dd-fde5-417a-a2af-6a05a6832b83@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Sun, 16 Nov 2025 10:20:22 -0800
+X-Gm-Features: AWmQ_blu_fnU7Y3DdXmbXc7OnddMbsXNHO5qgp0dMTqEG5TQySfCTTrSqPjDI0A
+Message-ID: <CAOSpxdbQSCrYfN6LpDCN0xBAqtYJEQ8GukDswA7hKjvNu=uLsA@mail.gmail.com>
+Subject: Re: [OE-core] OE-core CVE metrics for walnascar on Sun 09 Nov 2025
+ 01:44:35 AM HST
+To: Clayton Casciato <majortomtosourcecontrol@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	yocto-security@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Nov 2025 16:27:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226475
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Nov 2025 18:20:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226476
 
-On Sun, 2025-11-16 at 04:18 -0800, Robert Yang via lists.openembedded.org w=
-rote:
-> From: Robert Yang <liezhi.yang@windriver.com>
->=20
-> The version-going-backwards check may fail without PRServer, and it's not=
- easy
-> to debug, so warn for that.
->=20
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
-> =C2=A0meta/classes/buildhistory.bbclass | 5 +++++
-> =C2=A01 file changed, 5 insertions(+)
->=20
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistor=
-y.bbclass
-> index 4a380c10c6..859fded472 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -57,6 +57,11 @@ BUILDHISTORY_PRESERVE =3D "latest latest_srcrev sysroo=
-t"
-> =C2=A0PATCH_GIT_USER_EMAIL ?=3D "buildhistory@oe"
-> =C2=A0PATCH_GIT_USER_NAME ?=3D "OpenEmbedded"
-> =C2=A0
-> +python() {
-> +=C2=A0=C2=A0=C2=A0 if not d.getVar('PRSERV_HOST'):
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.warn('PRServer is not enab=
-led, version-going-backwards check may fail!')
-> +}
-> +
+On Fri, Nov 14, 2025 at 7:16=E2=80=AFPM Clayton Casciato
+<majortomtosourcecontrol@gmail.com> wrote:
+>
+> > Branch: walnascar
+> > [...]
+> > Removed this week: 34 CVEs
+> > [...]
+> > CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/v=
+uln/detail?vulnId=3DCVE-2023-4010 *
+> Hi, Steve
+>
+> Can you provide insight as to how/why this was removed?
 
+The walnascar branch is end of life and not changing, so I suspect
+that this was removed due to a CVE database change.
 
-Shouldn't this be conditional on that test being enabled?
+Steve
 
-Cheers,
-
-Richard
+>
+> Thank you!
+>
+> --
+> Clayton Casciato
 
