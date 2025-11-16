@@ -1,197 +1,122 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C09E4CEBF61
-	for <webhook@archiver.kernel.org>; Sun, 16 Nov 2025 11:47:14 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7013.1763293632053661049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7BEACEBF93
+	for <webhook@archiver.kernel.org>; Sun, 16 Nov 2025 11:54:34 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7106.1763294062818591374
  for <openembedded-core@lists.openembedded.org>;
- Sun, 16 Nov 2025 03:47:12 -0800
+ Sun, 16 Nov 2025 03:54:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qYOtOapp;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-343806688c5so3312963a91.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 16 Nov 2025 03:47:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763293631; x=1763898431; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ta1+dPllPW1uP3/akpM/TGgcGT1XXfvIR90pLZbpZRg=;
-        b=qYOtOapp/D9wKydx/2/fmWvAdKAEZMgvBXD97w+2W3h5xduMkOXRey3TwT+vVBkXx9
-         qjtEz8+q39BppecaKGcfjOFB9lCGHrgtMEFIGsW1BJ6JgOye5CjX51ICNBixSj773ZwR
-         Ak923IbzfH8kl2KAn5DBaetXyiZF0Cps9POQVD9U6juluIEXnIsPwDOZF5rICKLm78bt
-         T0bGHy3jEusx1VP3GU3i5NVg4ZuBEYfIaWrMOBj/SkaKYMMTuuY1+8uvle/5otVM8M9b
-         tcvhru1o8MKlDEJnULis/S0F12N8n4Lwhj4zM2VMxAd+Bs0UX9l9GMP8QFIzJNaAKof3
-         MTOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763293631; x=1763898431;
-        h=message-id:date:user-agent:to:from:subject:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ta1+dPllPW1uP3/akpM/TGgcGT1XXfvIR90pLZbpZRg=;
-        b=lqiUVe5ErA3UF9VrKHJaSk24g7SXD3aIXA+kwC8WOmUwWxi/ssq4mFJmDpbA5QmWU0
-         gsqAP+YWKCW8RsMg1ttGeYZnMVo8sWVJb6+SIt/pZQw/yLhEirguygqnU6yLF0qn3jZG
-         qfJJE7LZD1hJHUYpRlyWX7jjmXBAz/hpNhLIsznHrEQHOWtE42fLjUgrwXWI5cHHV/PD
-         Wf947pJJAMH6WaLQdj04dkqCAOD1b2QTXaQ6ciZZAg8fAURHMMbLzEMx5cWBvV+OoMQ2
-         DWMJGpTx/vW2S6RQqysMTKyqS78TGP/HYyboMLOeVIoHSINmhqmpGXwknd+VC45SKZYI
-         fJTw==
-X-Gm-Message-State: AOJu0YwbUfYoGDFNbnm/GFvUQ22T9TTHmqawLtW9Cif14E+p8AmLji5I
-	uveEutlM/wTPk7MeFlRn6hMrFuvE46hOFSB3MO9xghKqc5fm2tusda6j7cLhYJl9D26dmMT8lCx
-	FVUGuN5g=
-X-Gm-Gg: ASbGnctGOuAbzNDBsmzMF4zmM47fxSiBGirHp8FAQAkFWZv9bxTd/qDsg2KgUgOB81c
-	XZm51hQyob5JUGtA9ZViUK1eLnQZcKYZqFTZuXqDLjD25HcPzFbxXi0yrm3ATNXHfoINdvvAEmF
-	JMjLvNrMn9YOvcEPAui7O0/xLBJhRA1Wiv3CI/WplWCorCpm88/dkhRDhnv4YEblaANKZ+dFDjJ
-	IGaSfluysprTOmagThKw2KDh6+0bDrOLv+JrVdDJLZrKK1c2TMZ1rEVeODCoWYHM5Grlt7OOMVt
-	oTkX9a4851FzsFcG4jqd0nTpFf2xq0DCuQe0hsjMQegCPPNYknomlEWHzx2R5c+RlwBM/3uS4z1
-	ul2Tjvbj+HAlrJ1kbD/RyFD4N4fIsaY0fxp+HS4zClZx9BQVXo0vykqAu/3Qb66SrTByfjfDM+Y
-	AUuNqQ
-X-Google-Smtp-Source: AGHT+IGRcZHOH4zS7gSKpFbCVV3Y0KNg7avFDG78FLBShCyJ48DvXNwqgcFAlmoAtSHOALchVX+srg==
-X-Received: by 2002:a17:90b:3bcd:b0:341:3ea2:b625 with SMTP id 98e67ed59e1d1-343f9eb4416mr11564814a91.12.1763293631286;
-        Sun, 16 Nov 2025 03:47:11 -0800 (PST)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-343e07156absm14796789a91.5.2025.11.16.03.47.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Nov 2025 03:47:10 -0800 (PST)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 9CA081003B6; Sun, 16 Nov 2025 01:47:10 -1000 (HST)
-Subject: OE-core CVE metrics for walnascar on Sun 16 Nov 2025 01:44:40 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 16 Nov 2025 01:47:10 -1000
-Message-Id: <20251116114710.9CA081003B6@builder.sakoman.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=gN/jC6CF;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=341579856b=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AGBaq50342296
+	for <openembedded-core@lists.openembedded.org>; Sun, 16 Nov 2025 11:54:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=uW4HHddp9ofFqAv80pEL/Le5M7e0yLw+8dy2/pk/Xj0=; b=gN/jC6CFg4Mv
+	86bMMmHq0xU2+n2U3T2NFBYQtC3e93IHMXFXn91deMljPJM+CKbNPjGa4W6ai4E3
+	PaYyqD++OPuv7WaynUBdIG1HXGZ+8ktabmJadDEzQ8fKeNw8sMEdAK2Eq2nDr+zh
+	fegXSDjNkWD6u/1wjQhY4X2UohDzHzHkYjoEN3rYlLVm6H/LlNj6L/7mbK24c0lq
+	1iVggdY0RgkifFULx0ZYKWDKMOcBfkP2+Ib9/75RXP2nULx2aVFO8oMSoYBkjE7n
+	gvHoxL7FdgQKnoB9yHarJFW6WQAkkqX+WSBkAf9WXLKqSMTKjF9M60RH1b6PKN+f
+	N/7OPuo8Tw==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4aegg89045-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 16 Nov 2025 11:54:21 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Sun, 16 Nov 2025 03:54:20 -0800
+Received: from ala-lpggp3.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Sun, 16 Nov 2025 03:54:20 -0800
+From: <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 1/1] package.bbclass: Fix base_ver for AUTOINC
+Date: Sun, 16 Nov 2025 03:54:20 -0800
+Message-ID: <0336a138f7ad4aff0f2cd3b9549aba5a467a8986.1763293945.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1763293945.git.liezhi.yang@windriver.com>
+References: <cover.1763293945.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE2MDA5OSBTYWx0ZWRfXzWEHHwOtM8xv
+ JBL9tu4CVDgDUUGj0l6umapz3ZnvtEydAQ3OS8QVQ5+b9ia4OZ6bazEjX3gsHWpz5DlLn8FPDpw
+ CST+6MUWy5OVy0CQQ6m14N8DaK1NBRPKucMwNAYecfislABp8W9Kfy+vQzQWUv9WWJRHu/T9gNB
+ WdMUNFwMAzy7kMSyU5DeBXlXusoEUg0fNmw/r7b7q7fd7sC+GdQTVxABgrRcaPQ7FSSCYZEjzCl
+ YmMVsCQZSJBsan94E/l1WMQcl5a+JLo+Cb7mJEPGNqtv1dE8VP2/PI227UTWUrqlIqSCCshlJjw
+ BjvWKjaSbowyhepmcIVBX2TIIbPOufjtWbh5rjsfEwBWNCpo/rFDrBqEi6zj2/A0WBsj4sH0KZJ
+ gOLB6fZSb8L69YXko296uTz7tsVIKA==
+X-Authority-Analysis: v=2.4 cv=U+CfzOru c=1 sm=1 tr=0 ts=6919bb6d cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
+ a=VrdWWUnlEglZnysO2HwA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 3Ul4NfrOLzcNihCIOJtphATxG9-HroA4
+X-Proofpoint-GUID: 3Ul4NfrOLzcNihCIOJtphATxG9-HroA4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-16_04,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 impostorscore=0 spamscore=0 bulkscore=0 adultscore=0
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511160099
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 16 Nov 2025 11:47:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226470
+ <openembedded-core@lists.openembedded.org>; Sun, 16 Nov 2025 11:54:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226472
 
-Branch: walnascar
+From: Robert Yang <liezhi.yang@windriver.com>
 
-New this week: 42 CVEs
-CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
-CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
-CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
-CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
-CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
-CVE-2024-52560 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-52560 *
-CVE-2024-58015 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58015 *
-CVE-2024-58074 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58074 *
-CVE-2024-58093 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58093 *
-CVE-2024-58094 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58094 *
-CVE-2024-58095 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58095 *
-CVE-2024-58096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58096 *
-CVE-2024-58097 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58097 *
-CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
-CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
-CVE-2025-21709 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21709 *
-CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
-CVE-2025-21752 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21752 *
-CVE-2025-21807 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21807 *
-CVE-2025-21949 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21949 *
-CVE-2025-37880 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37880 *
-CVE-2025-38029 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38029 *
-CVE-2025-38036 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38036 *
-CVE-2025-38041 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38041 *
-CVE-2025-38042 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38042 *
-CVE-2025-38064 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38064 *
-CVE-2025-46394 (CVSS3: N/A): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-46394 *
-CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
-CVE-2025-59777 (CVSS3: N/A): libmicrohttpd:libmicrohttpd-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59777 *
-CVE-2025-59800 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59800 *
-CVE-2025-62689 (CVSS3: N/A): libmicrohttpd:libmicrohttpd-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-62689 *
+The srcpv isn't in PV any more after the following commit:
 
-Removed this week: 0 CVEs
+a8e7b0f932 base/package: Move source revision information from PV to PKGV
 
-Full list:  Found 69 unpatched CVEs
-CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
-CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
-CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
-CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
-CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
-CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
-CVE-2024-52560 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-52560 *
-CVE-2024-57995 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57995 *
-CVE-2024-58015 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58015 *
-CVE-2024-58074 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58074 *
-CVE-2024-58093 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58093 *
-CVE-2024-58094 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58094 *
-CVE-2024-58095 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58095 *
-CVE-2024-58096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58096 *
-CVE-2024-58097 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58097 *
-CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
-CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
-CVE-2025-21709 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21709 *
-CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
-CVE-2025-21752 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21752 *
-CVE-2025-21807 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21807 *
-CVE-2025-21833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21833 *
-CVE-2025-21949 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21949 *
-CVE-2025-22104 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22104 *
-CVE-2025-22105 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22105 *
-CVE-2025-22106 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22106 *
-CVE-2025-22107 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22107 *
-CVE-2025-22108 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22108 *
-CVE-2025-22109 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22109 *
-CVE-2025-22111 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22111 *
-CVE-2025-22116 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22116 *
-CVE-2025-22117 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22117 *
-CVE-2025-22121 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22121 *
-CVE-2025-22127 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-22127 *
-CVE-2025-23129 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23129 *
-CVE-2025-23130 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23130 *
-CVE-2025-23131 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23131 *
-CVE-2025-23132 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23132 *
-CVE-2025-23135 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-23135 *
-CVE-2025-37743 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37743 *
-CVE-2025-37746 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37746 *
-CVE-2025-37803 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37803 *
-CVE-2025-37860 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37860 *
-CVE-2025-37880 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37880 *
-CVE-2025-38029 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38029 *
-CVE-2025-38036 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38036 *
-CVE-2025-38041 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38041 *
-CVE-2025-38042 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38042 *
-CVE-2025-38064 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-38064 *
-CVE-2025-40325 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-40325 *
-CVE-2025-4598 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-4598 *
-CVE-2025-46394 (CVSS3: N/A): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-46394 *
-CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
-CVE-2025-59777 (CVSS3: N/A): libmicrohttpd:libmicrohttpd-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59777 *
-CVE-2025-59798 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59798 *
-CVE-2025-59799 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59799 *
-CVE-2025-59800 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59800 *
-CVE-2025-62689 (CVSS3: N/A): libmicrohttpd:libmicrohttpd-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-62689 *
+So the version.find(srcpv) will be -1, which would make base_ver to something like:
+glibc-2.39+git-r (The 0 is removed)
 
-Summary of CVE counts by recipe:
-  linux-yocto: 59
-  ghostscript: 3
-  libmicrohttpd:libmicrohttpd-native: 2
-  libsndfile1: 2
-  qemu:qemu-native:qemu-system-native: 2
-  busybox: 1
+There will be bugs when both of the following conditions are met:
+* The srcrev is upgraded from value such as cff104 to b027d5 (b is less c)
+* The PR value is changed from value such as r0 to r10
 
-For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+This would make glibc-2.39+git-r can't match glibc-2.39+git-r1, so the AUTOINC won't work,
+and would still be git0, then buildhistory would report errors like:
+
+ERROR: glibc-2.39+git-r0 do_packagedata_setscene: QA Issue: Package version for package glibc-src went backwards which would break package feeds (from 0:2.39+git0+cff1042cce-r0.0 to 0:2.39+git0+b027d5b145-r10.0) [version-going-backwards]
+
+Strip PR to make it work as before, just like it stripped the string after
+srcpv in the past.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes-global/package.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
+index d7ff333f20..bd32a6ede5 100644
+--- a/meta/classes-global/package.bbclass
++++ b/meta/classes-global/package.bbclass
+@@ -296,8 +296,10 @@ python package_get_auto_pr() {
+         conn = oe.prservice.prserv_make_conn(d)
+         if conn is not None:
+             if "AUTOINC" in pkgv:
++                pr = d.getVar('PR')
++                # Strip PR to make AUTOINC can increase when SRCREV is changed
++                base_ver = "AUTOINC-%s" % version[:-len(pr)]
+                 srcpv = bb.fetch2.get_srcrev(d)
+-                base_ver = "AUTOINC-%s" % version[:version.find(srcpv)]
+                 value = conn.getPR(base_ver, pkgarch, srcpv)
+                 d.setVar("PRSERV_PV_AUTOINC", str(value))
+ 
+-- 
+2.49.0
+
 
