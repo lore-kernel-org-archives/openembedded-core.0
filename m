@@ -1,100 +1,103 @@
-Return-Path: <andreas.stergiopoulos@smile.fr>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 688EDCEACEF
-	for <webhook@archiver.kernel.org>; Mon, 17 Nov 2025 16:00:04 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12799.1763395196048447838
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80664CE8D6B
+	for <webhook@archiver.kernel.org>; Mon, 17 Nov 2025 16:01:14 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12838.1763395264289028880
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Nov 2025 07:59:56 -0800
+ Mon, 17 Nov 2025 08:01:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=CYBlRvRi;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: andreas.stergiopoulos@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4779a637712so14055485e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Nov 2025 07:59:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1763395194; x=1763999994; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LGhHOeIZ/hBf6SkGjXIPccvnKcx3AEeoWe7ypaabSwc=;
-        b=CYBlRvRiIADcUfb0UqydMpkincEd/8PNT6RayY1hHmSWmdF6zz4hLfU8YJsMzZamCX
-         cWqbWF0x+se0i+L22+PaU3TZqxNLk7m53e5B/QkJAssEpzqQLz8JeXdfw85kuB+WFmy7
-         hvDamYVNXassJeFwn4A+Li1Er0vQpwrNiv0n8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763395194; x=1763999994;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LGhHOeIZ/hBf6SkGjXIPccvnKcx3AEeoWe7ypaabSwc=;
-        b=BUh19UwoUFiW80+q1tkUF3GuRBhRXuj225tC6WwWrCGI+/UvDJ+M9jc/AUzF2IfRwC
-         rH/GBm+irw51Qg+fsi2I62vIWSTb8rQILsPdhBqqG/AJnGNPSfIoCfm3hpjZs29zg+qN
-         Bmz+7YRlo1agK4bj6aBoxpNMYJRNNaFnpERxiX7PP/7dAdbiq57yrxWDm1kg7Mitv1On
-         7VPAJnp4PIehRJWIElNgcv/jR/BIvFibMiPTRoY6s7UCq05R0eLse2qr6cLd+pvQgP0f
-         ui5kvducGOoYzEk1eJ5MO97tu/jqBHdjzYRCcd8GXjiqEQAJR91vWVGN6tNa1idOzKdV
-         7XhA==
-X-Gm-Message-State: AOJu0YyqJVQxFRoexveoNU7AsMyWqOVkPkqvlbJCey7j8XOaDnyGyYBj
-	VajSM1x5YXH79mhUHauBiuA3+tylQ0uTcQqy7cLs1TzpvMXA/RYpiZMvsTOfZ/8IWxxbKRc9lD+
-	kLo3V
-X-Gm-Gg: ASbGncvK5Gs4JK50oHtJ9CQGh49K00W9IDtGkBh1PDybgA455GzoXXiCYycR3mEPY/t
-	AyqbbwZVQdCcMIna76CpF6pXENIz8gxracEUcJlQ8aOycQNZOVZiJd/Up/w2jXL7/NUXYm/ZlPO
-	B8P9aIBdOfd0LzIGwCQuu8GiryhsMyfqUQqTcFf8dx75p8Y8PvJb9ddQL3CAT/ktn/DQM2oIl1u
-	xhXn/aOAX6QNRaVAc5Bjuif0fREjkYJqncVox2DkaNlQ6otIF+wXY9ihBHZvOk1gLVUMrtonnLw
-	C8Uhgr48LGSnl2XucB7v3Ge1wRqmNKXHkiItb2BBEAnesw30uZktRW/niUL43gySZRfJaxePBWk
-	CZRbGuzF+wSsP8Q7LEGVwB6ioh4+FjR2oDY30lZHgyYJU/9YZ+F4u5wGIfX+3nqTJmw5FCbMXDI
-	yOnHrIIBNiMw497Adn/JpfGBbiDdtyWlutjb1KR2p2LjVyrOkZzSsgbpEtYvWDz1s0kmh98og1N
-	HUjm9RgrFSGOhaUlF5txO9nYKqZx34=
-X-Google-Smtp-Source: AGHT+IEiHh/jazVi8Q3rZTqmTtMj0EPgJBnMpitIWz14q0QiqjaKbbY4am8HvIp7HoBoyHiEtCBEcQ==
-X-Received: by 2002:a05:600c:3112:b0:477:9650:3184 with SMTP id 5b1f17b1804b1-47796503351mr86341015e9.2.1763395194217;
-        Mon, 17 Nov 2025 07:59:54 -0800 (PST)
-Received: from FRSMI25-PILS.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47787daab3fsm340609225e9.0.2025.11.17.07.59.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 07:59:53 -0800 (PST)
-From: Andreas Stergiopoulos <andreas.stergiopoulos@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: yoann.congal@smile.fr,
-	Andreas Stergiopoulos <andreas.stergiopoulos@smile.fr>
-Subject: [PATCH v2 1/3] ptest-cargo.bbclass: Collect only test binaries and not executables
-Date: Mon, 17 Nov 2025 16:59:25 +0100
-Message-ID: <20251117155927.427462-2-andreas.stergiopoulos@smile.fr>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251117155927.427462-1-andreas.stergiopoulos@smile.fr>
-References: <20251117155927.427462-1-andreas.stergiopoulos@smile.fr>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=neuvPStr;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=34165bd6f8=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AH6F2Ij719851
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Nov 2025 08:01:04 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=Qd7RJm7If12pHj8kj55Y
+	MIukv9YqH2/dCV69VD4r4Ks=; b=neuvPStrBjLoN0kQ1zSNkCxWX/FjdGHK8lhS
+	P8raxj73T2/tAAJvXFTDRepg0wY/QbwBag4/Kw/jIYbCfJfAKhXCMsSBTk9ksIZJ
+	wpPdXu/9RR4OS2f/83LxQYvd1lI/741JYtX3zSHIwHmLfGJwiebI7t41Avygij/P
+	yJ/n3UeCdN7mIK1lOP2URGS9MsbOlOETZqI9rIcrmjEXlsKy/7QFtGKCCHOyVbS5
+	ErIAgS+oRuQ+thLJ1cuKPj9xkNFKo0URS4jQDaMWl+5AOm0Y3b1JXSk9ces9191n
+	iGtNJknE38h67O0PHZm/HG/zBL1FKb5JN7ZMwFvLb4hHNXEfKQ==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4aeswj9ts8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 17 Nov 2025 08:01:03 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Mon, 17 Nov 2025 08:01:03 -0800
+Received: from ala-lpggp3.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Mon, 17 Nov 2025 08:01:03 -0800
+From: <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 0/1] strace: 6.16 -> 6.17
+Date: Mon, 17 Nov 2025 08:01:02 -0800
+Message-ID: <cover.1763395229.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=BqiQAIX5 c=1 sm=1 tr=0 ts=691b46bf cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
+ a=vzq6rwG_XssxEzQIHvwA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: sVXzybguIB6sZFgBDjPIfibONxbk-jGE
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE3MDEzNiBTYWx0ZWRfXxrCpcH6tPmG6
+ ehzELVUoziuG+/uqCJSVHDeDcZTmERadzlRy4n+meXx4qMB/QAhID3PpYRkwfa9Sp9yqEBbQZKH
+ AxLLg8hNbXEYxYrj0VyXpERcsdDGGNKwWB378S+Yo5bycqXKG6lIBL9lo0LqT8BoaFHnPZmOU6z
+ oggL+OB7VnfmlG925P9079ykuDKk8i/qChAdRzfPs4cmL1XbHDDLI03AZHnGGQjV+XqWhTrqJje
+ q5Xc95uc036fpD47r7aUeBSUG3JpVnEFDpZMDvvfCr+Iymaba8Qott5ja9TOQTpiUj+5boK5vqk
+ 6OO9lijnXD7UiPvo16xd2HUy0AzFhW5gW1xAvbWh1qyBE5PJoE7NmM9fVPV2sO3NVl8gsOrPpp1
+ 3T5moDdZKjtrTbUpWX+nflRRPm50zg==
+X-Proofpoint-ORIG-GUID: sVXzybguIB6sZFgBDjPIfibONxbk-jGE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-17_03,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 priorityscore=1501 suspectscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511170136
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Nov 2025 16:00:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226497
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Nov 2025 16:01:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226501
 
-This commit changes the files that are collected during compilation of tests. Till now, all the
-produced binaries were collected. This commit changes the conditions inside the loop so that only
-the binary and integration tests are collected. To do this, the variable "test" of the object
-"profile" is examined. Tests are all compiled with the "test" profile, whereas the binaries are
-compiled with the "dev" profile.
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Signed-off-by: Andreas Stergiopoulos <andreas.stergiopoulos@smile.fr>
----
-No changes in v2.
----
- meta/classes-recipe/ptest-cargo.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The following changes since commit e7dc42e30c76bf0fbb4d3cc019bbec675bac55fa:
 
-diff --git a/meta/classes-recipe/ptest-cargo.bbclass b/meta/classes-recipe/ptest-cargo.bbclass
-index 30463e117b..004abb40f7 100644
---- a/meta/classes-recipe/ptest-cargo.bbclass
-+++ b/meta/classes-recipe/ptest-cargo.bbclass
-@@ -55,7 +55,8 @@ python do_compile_ptest_cargo() {
-                 current_manifest_path = os.path.normpath(data['manifest_path'])
-                 common_path = os.path.commonpath([current_manifest_path, project_manifest_path])
-                 if common_path in [manifest_dir, current_manifest_path]:
--                    if (data['target']['test'] or data['target']['doctest']) and data['executable']:
-+                    # Collect tests (integration and unit) and nothing but tests
-+                    if (data['target']['test'] or data['target']['doctest']) and data['executable'] and data['profile']['test']:
-                         test_bins.append(data['executable'])
-             except (KeyError, ValueError) as e:
-                 # skip lines that do not meet the requirements
+  oe-build-perf-report: relax metadata matching rules (2025-11-16 23:44:30 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/robertlinux/yocto rbt/strace
+  https://github.com/robertlinux/yocto/tree/rbt/strace
+
+Robert Yang (1):
+  strace: 6.16 -> 6.17
+
+ ...toconf-macro-to-detect-largefile-sup.patch |  2 +-
+ ...001-strace-fix-reproducibilty-issues.patch |  2 +-
+ ...01-tests-fix-uio.test-with-musl-libc.patch | 30 -------------------
+ ...002-tests-Replace-off64_t-with-off_t.patch |  2 +-
+ .../strace/strace/Makefile-ptest.patch        |  6 ++--
+ .../strace/strace/ptest-spacesave.patch       |  2 +-
+ .../strace/strace/skip-load.patch             | 13 ++++----
+ .../strace/strace/update-gawk-paths.patch     |  2 +-
+ .../strace/{strace_6.16.bb => strace_6.17.bb} |  3 +-
+ 9 files changed, 14 insertions(+), 48 deletions(-)
+ delete mode 100644 meta/recipes-devtools/strace/strace/0001-tests-fix-uio.test-with-musl-libc.patch
+ rename meta/recipes-devtools/strace/{strace_6.16.bb => strace_6.17.bb} (94%)
+
+-- 
+2.49.0
+
 
