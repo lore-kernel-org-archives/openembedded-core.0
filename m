@@ -1,205 +1,122 @@
-Return-Path: <pierre-loup.gosse@smile.fr>
+Return-Path: <corentin.guillevic@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C5D5CE8D6B
-	for <webhook@archiver.kernel.org>; Mon, 17 Nov 2025 16:13:04 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13368.1763395970410613046
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4600CEACEF
+	for <webhook@archiver.kernel.org>; Mon, 17 Nov 2025 17:14:39 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14762.1763399671054037000
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Nov 2025 08:13:00 -0800
+ Mon, 17 Nov 2025 09:14:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=CInePm3v;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: pierre-loup.gosse@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42b32a5494dso2660658f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Nov 2025 08:12:50 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=2cyvewvp;
+ spf=pass (domain: smile.fr, ip: 209.85.208.177, mailfrom: corentin.guillevic@smile.fr)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-37a3a4d3d53so39856851fa.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Nov 2025 09:14:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1763395969; x=1764000769; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1763399669; x=1764004469; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3V2GalqepYVn8DhqAnEPVtpasO54/rCDa4y6ODQykbg=;
-        b=CInePm3v+Oyzs930JsWIiJb1eY6xoWj+XYsm+Fv2joXUmH9K0KcBzyCX+sRu2Vczsl
-         7Eo2lIs8BbKDdqj9HKrRmb8L3JHl3APBpWbrzsm0xbREl4wh81mVZzY2uJVtHHTwcFwE
-         Ys966Qk60W681+LPqWDp8PPSAe8OLfobxHsrY=
+        bh=qemv4dt8H+EzaQAka3QLVfTVPgyXCsqihKZinYtUqUM=;
+        b=2cyvewvpMR69jonJm26Xoh8oo4zeKCMJh6caz7usi1e3U+ZxkjN0Xmet0FpZK8Pafl
+         bS2Tk14l8RY/mjpxdP4NErD9c65rLBsFt6ozXbzpu4VETaFFMcXlcmebYMqlWGSLfZ8E
+         vSibAcw4YzEH6EcBLKoMmAX5xRljkVCWsrHVo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763395969; x=1764000769;
+        d=1e100.net; s=20230601; t=1763399669; x=1764004469;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3V2GalqepYVn8DhqAnEPVtpasO54/rCDa4y6ODQykbg=;
-        b=UjI//5rFpdQ5lpifWbmXs0qAEuL5zkLhJKKNlSlu16Ah3KIxxYBZoLbWhmQRbg5neF
-         w4k54BxJGQZ/44CfBCve32Ait8uOKyN3Qh5WSKuCE2Xouk5rXwMdiNZYCjRQ2lRgx0Uq
-         raRYOSVkcBmK834/EREkXqcr0xhJF9j2ZhLC/1CGa8rCdW9YESyBXYgIZS+RPVWjjYfj
-         PLVFHIHahzbDfUkgmPehVP1OxIU9kCeayP/BMlQxuVxt/qiHs1GwYNBTi2LBf5/KUwHB
-         IMZjCq+UC20RkR2oD/DWYBhczlBcfibpzx0qXXWVXaJ+pV1obPq5qc8SH3gMN0gcClCP
-         K8pA==
-X-Gm-Message-State: AOJu0YzjeKas7d4jd6IZER9k6m18mRe+GeWrRrm8+rzZe3vfXYWqIM/o
-	FZd7hXpJYi8FmX0e85jPs9SliMlfMRIDt+Tkq2MPDPaG9ESQGR9QYM1F/H579wbpL+VnYC6i0rx
-	dHv0q
-X-Gm-Gg: ASbGnctj7rtT70vEddfb5fX+c7uyV9wrjJX7j/SUUSQfr2ifmrod5MjnWHwPiF80aEZ
-	Ecpro9gTUj0NRrWZfS9AXT4BYBg+VQmLd1YpshMLgbReTEbaPcBtdlwSSS7zuN5Y00r7biUB7W5
-	RWf5ptIl+5x6IKpB5m+CBtEZ1TIDwsDbdH1YzSS6zKH5t7n7em7+TILtWdcsaASh8TcguvKzr9b
-	WifILi84KP2vHQZBCHgxSeAemo9wxsWZF76MWsqA4fVi40skqRDY++3ag3bj/g5QtaqkmOg+P7s
-	MfwDjnxGtdgHAH/UMVps8yaPFYz4f5tC68h7/ZVqQwzK+FUCkj4AWYNsSfIsMhVHTYZNEEoqy2+
-	LXTJ3quHhPNDJUmT2kfS5qLGnYfWDueU0XxMh7fHmWtu+LkGrCygFJPvC9G7CSg3Nb/xLGmN1AS
-	LymdJKn6usMPnIDV4DbR6iuumzKZ4FA36xawcxgK/2FDhEaiDi2XKt1CKN
-X-Google-Smtp-Source: AGHT+IGZZxPnLnLXYGL4nch/fuydmQrnH0atySXqKJMyMTo2KmJkiGn1EfpPWMDPXDt9e+EJPjWlXw==
-X-Received: by 2002:a05:6000:2509:b0:42b:3978:158e with SMTP id ffacd0b85a97d-42b5936c71cmr11204085f8f.30.1763395968214;
-        Mon, 17 Nov 2025 08:12:48 -0800 (PST)
-Received: from FRSMI24-BLUE.example.com ([195.68.54.115])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f174afsm26431181f8f.33.2025.11.17.08.12.47
+        bh=qemv4dt8H+EzaQAka3QLVfTVPgyXCsqihKZinYtUqUM=;
+        b=P+p13YiGz7fFD7RlPnHEeuFXNXZcAXqMMpgYi88Ox/1BRI7CECpNib6/ugg3cv3dn1
+         MCXNQxggQdFO35qteSB4SoKeNC5ocZla3WfT21ec22kUkKEoD4GSiKVh08DR/VeZ7s7h
+         iBU0uYmoXgV5vGfZ16yNDCv6IEytlwbWrC5QHuNDcoHnRtTIU70wfJwgEN+/Giw7T/5T
+         DYxz26KHlDxZSXjhjWbfoXIXk8QqYqkd71XwT2lFvZITVDC4n0XwBFvqbHkYZPO9LFTN
+         BOsCqfvVXVY9X8rPc3Dya6Nz9rF1SpSRJqS18rSII0OCP5S655RTCM0Q08itSrjE9VK6
+         u26A==
+X-Gm-Message-State: AOJu0YyLFRG4vz79/Q3EGRD1IUMnFcHpzuKGu77wZk0z7hhzrWHJnSMr
+	yD6IvpHLolIrB1weQsUBqlPag8XVReHOKoOn4HxkBvSaNRLEhVKo1qmKR8WxeLB4SeCvzjRwxfd
+	w+S+CRV/6Bg==
+X-Gm-Gg: ASbGncufTM2VI+j4YGVqbKEOKHj4w5Nkplwlo/BHfDZHjalKETd6/S1tpRQnHzOn8Q6
+	kCY2OOBXFT9xBSSrvXTL+MPD2vh3T5v/2knJROKT97TCiDx6tTPo/u+txBkntUfOJwKMnmSYdzt
+	sTySlNrTt3U271ORg/HlCJIPvS9o6R0Pzy463947vyrvG5nshe1M1WCrX2QYlOPJmraTFYX9IYZ
+	cVp5lmAcDhe/13CHc6wW6p1BkPifZay1bmjcayEZY5iLmPn6olF6eWRkAzI6fYqa+Fy7b7NT4Kb
+	WtO4RX55qoPBBk/7Wn+ocOmK9n0RQRvoRNQLgbGkM3SiTXkhsM0DG2vikRJLvNuag4pY/QDvni3
+	Qxj+t+ahmM9NFmj/pvBnVLPmn4V1MSaY3CZUJgLNxckQaiJyMrVa/dnKhXD1cu7QrC2Sl7BIVOp
+	2LgHiCLDlbhB04ss3ca2AF
+X-Google-Smtp-Source: AGHT+IEdnFPzWJ5mOijmZAubT8h7cGfNH8cF4aUQvsMu1j3LnJSWMJ9EwrY7nXNYQOWIGSXSjIwKDw==
+X-Received: by 2002:a2e:900e:0:b0:37b:aac1:282e with SMTP id 38308e7fff4ca-37babd5cd6amr30079871fa.28.1763399668865;
+        Mon, 17 Nov 2025 09:14:28 -0800 (PST)
+Received: from heaven.lan ([2001:861:3080:b0f0:8ab:bf5a:da73:c932])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37b9ce25408sm28748101fa.20.2025.11.17.09.14.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 08:12:47 -0800 (PST)
-From: pierre-loup.gosse@smile.fr
+        Mon, 17 Nov 2025 09:14:28 -0800 (PST)
+From: Corentin Guillevic <corentin.guillevic@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>,
-	Ross Burton <ross.burton@arm.com>
-Subject: [PATCH v2 1/2] u-boot: make initial environment binary image
-Date: Mon, 17 Nov 2025 17:12:38 +0100
-Message-Id: <20251117161239.1227164-1-pierre-loup.gosse@smile.fr>
-X-Mailer: git-send-email 2.34.1
+Cc: Corentin Guillevic <corentin.guillevic@smile.fr>
+Subject: [PATCH v2 1/2] insane.bbclass: check revision for every git URI
+Date: Mon, 17 Nov 2025 18:12:22 +0100
+Message-ID: <20251117171223.919666-1-corentin.guillevic@smile.fr>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Nov 2025 16:13:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226503
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Nov 2025 17:14:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226504
 
-From: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
+Every git URI into SRC_URI variable should have a revision. However, if
+the revision is missing (SRCREV), BitBake will perform a query on the
+remote repository every time it parses a recipe.
 
-Build the U-Boot initial environment binary image if
-UBOOT_INITIAL_ENV_BINARY is set to "1". The environment partition size
-(in bytes, hexadecimal or decimal) must be defined using
-UBOOT_INITIAL_ENV_BINARY_SIZE.
+This check will raise an error if a git URI is not provided alongside a revision.
 
-If U-Boot environment redundancy is enabled,
-UBOOT_INITIAL_ENV_BINARY_REDUND must be set to "1".
-
-The resulting binary can be flashed using WIC at the environment offset,
-overriding any existing environment if present, for example:
-
-  part --source rawcopy --sourceparams="file=u-boot-initial-env-sd.bin" --ondisk sda --no-table --offset 4096
-
-Signed-off-by: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
-Cc: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
 ---
-Note: Once merged, a patch with the new variables will be submitted to the 
-      documentation mailing list.
+v2: add support of rev= parameter
 
-changes in v2:
-- fix uboot_deploy_config (builddir was missing)
----
- meta/classes-recipe/uboot-config.bbclass | 11 +++++++++
- meta/recipes-bsp/u-boot/u-boot.inc       | 30 ++++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
+ meta/classes-global/insane.bbclass | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/meta/classes-recipe/uboot-config.bbclass b/meta/classes-recipe/uboot-config.bbclass
-index fd6c045142..81057b5cad 100644
---- a/meta/classes-recipe/uboot-config.bbclass
-+++ b/meta/classes-recipe/uboot-config.bbclass
-@@ -71,6 +71,14 @@ UBOOT_ENV_BINARY ?= "${UBOOT_ENV}.${UBOOT_ENV_SUFFIX}"
- UBOOT_ENV_IMAGE ?= "${UBOOT_ENV}-${MACHINE}-${UBOOT_VERSION}.${UBOOT_ENV_SUFFIX}"
- UBOOT_ENV_SYMLINK ?= "${UBOOT_ENV}-${MACHINE}.${UBOOT_ENV_SUFFIX}"
+diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
+index fed8163c3e..63490ecf25 100644
+--- a/meta/classes-global/insane.bbclass
++++ b/meta/classes-global/insane.bbclass
+@@ -1495,7 +1495,33 @@ python do_recipe_qa() {
+                 error_msg = "%s: invalid PACKAGECONFIG(s): %s" % (pn, " ".join(sorted(invalid_pkgconfigs)))
+                 oe.qa.handle_error("invalid-packageconfig", error_msg, d)
  
-+# Enable the build of the U-Boot initial env binary image. The binary size is
-+# required (i.e. the U-Boot partition environment size). Since the environment
-+# layout with multiple copies is different, set UBOOT_INITIAL_ENV_BINARY_REDUND
-+# to "1" if the U-Boot environment redundancy is enabled.
-+UBOOT_INITIAL_ENV_BINARY ?= "0"
-+UBOOT_INITIAL_ENV_BINARY_SIZE ?= ""
-+UBOOT_INITIAL_ENV_BINARY_REDUND ?= "0"
++    def test_git_missing_srcrev(pn, d):
++        sha1_re = re.compile(r'^[0-9a-f]{40}$')
++        for uri in d.getVar('SRC_URI').split():
++            if not uri.startswith('git://'):
++                continue
 +
- # U-Boot EXTLINUX variables. U-Boot searches for /boot/extlinux/extlinux.conf
- # to find EXTLINUX conf file.
- UBOOT_EXTLINUX_INSTALL_DIR ?= "/boot/extlinux"
-@@ -100,6 +108,9 @@ UBOOT_DTB_BINARY ??= ""
- UBOOT_FIT_CHECK_SIGN ?= "uboot-fit_check_sign"
- 
- python () {
-+    if bb.utils.to_boolean(d.getVar('UBOOT_INITIAL_ENV_BINARY')) and d.getVar('UBOOT_INITIAL_ENV_BINARY_SIZE') == "":
-+        bb.fatal("UBOOT_INITIAL_ENV_BINARY requires setting the U-Boot partition environment size with the UBOOT_INITIAL_ENV_BINARY_SIZE variable")
++            # Get parameters for the current URI
++            params = bb.fetch2.decodeurl(uri)[5]
++            name = params.get('name', '')
++            rev = params.get('rev', '')
 +
-     ubootmachine = d.getVar("UBOOT_MACHINE")
-     ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
-     ubootbinary = d.getVar('UBOOT_BINARY')
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 16c9836508..ffa9ef2d59 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -4,6 +4,7 @@ PROVIDES = "virtual/bootloader"
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- DEPENDS += "${@bb.utils.contains('UBOOT_ENV_SUFFIX', 'scr', 'u-boot-mkimage-native', '', d)}"
-+DEPENDS += "${@ 'u-boot-mkenvimage-native' if bb.utils.to_boolean(d.getVar('UBOOT_INITIAL_ENV_BINARY')) else ''}"
- 
- inherit uboot-config uboot-extlinux-config uboot-sign deploy python3native kernel-arch
- 
-@@ -104,6 +105,10 @@ uboot_compile_config () {
-     if [ -n "${UBOOT_INITIAL_ENV}" ]; then
-         oe_runmake -C ${S} O=${B}/${builddir} u-boot-initial-env
-         cp ${B}/${builddir}/u-boot-initial-env ${B}/${builddir}/u-boot-initial-env-${type}
-+        if [ "${UBOOT_INITIAL_ENV_BINARY}" = "1" ] ; then
-+            uboot_compile_initial_env_binary
-+            cp ${B}/${builddir}/u-boot-initial-env.bin ${B}/${builddir}/u-boot-initial-env-${type}.bin
-+        fi
-     fi
- }
- 
-@@ -123,7 +128,18 @@ uboot_compile () {
-     # Generate the uboot-initial-env
-     if [ -n "${UBOOT_INITIAL_ENV}" ]; then
-         oe_runmake -C ${S} O=${B} u-boot-initial-env
-+        if [ "${UBOOT_INITIAL_ENV_BINARY}" = "1" ] ; then
-+            uboot_compile_initial_env_binary
-+        fi
-+    fi
-+}
++            # Revision is provided as a 'rev' parameter
++            if rev:
++                # Prevent any revision that doesn't look like a SHA-1
++                if not sha1_re.match(rev or ''):
++                    oe.qa.handle_error("missing-srcrev", "%s: ;rev=%s URL parameter doesn't look like a SHA-1" % (pn, rev), d)
++            # git URI has a "name" parameter
++            elif name:
++                rev = d.getVar('SRCREV_' + name)
++                if not rev:
++                    oe.qa.handle_error("missing-srcrev", "%s: no revision (%s) defined for URI %s" % (pn, 'SRCREV_' + name, uri), d)
++            else:
++                if d.getVar('SRCREV') == "INVALID":
++                    oe.qa.handle_error("missing-srcrev", "%s: no revision (SRCREV) defined for URI %s" % (pn, uri), d)
 +
-+uboot_compile_initial_env_binary() {
-+    redund=""
-+    if [ "${UBOOT_INITIAL_ENV_BINARY_REDUND}" = "1" ] ; then
-+        redund="-r"
-     fi
-+    uboot-mkenvimage -s ${UBOOT_INITIAL_ENV_BINARY_SIZE} ${redund} -o ${B}/${builddir}/u-boot-initial-env.bin ${B}/${builddir}/u-boot-initial-env
- }
- 
- do_install () {
-@@ -388,9 +404,16 @@ uboot_deploy_config () {
-     # Deploy the uboot-initial-env
-     if [ -n "${UBOOT_INITIAL_ENV}" ]; then
-         install -D -m 644 ${B}/${builddir}/u-boot-initial-env-${type} ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_VERSION}
-+        if [ "${UBOOT_INITIAL_ENV_BINARY}" = "1" ]; then
-+            install -D -m 644 ${B}/${builddir}/u-boot-initial-env-${type}.bin ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_VERSION}.bin
-+        fi
-         cd ${DEPLOYDIR}
-         ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_VERSION} ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
-         ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_VERSION} ${UBOOT_INITIAL_ENV}-${type}
-+        if [ "${UBOOT_INITIAL_ENV_BINARY}" = "1" ]; then
-+            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_VERSION}.bin ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}.bin
-+            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_VERSION}.bin ${UBOOT_INITIAL_ENV}-${type}.bin
-+        fi
-     fi
- }
- 
-@@ -405,9 +428,16 @@ uboot_deploy () {
-     # Deploy the uboot-initial-env
-     if [ -n "${UBOOT_INITIAL_ENV}" ]; then
-         install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_VERSION}
-+        if [ "${UBOOT_INITIAL_ENV_BINARY}" = "1" ]; then
-+            install -D -m 644 ${B}/u-boot-initial-env.bin ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_VERSION}.bin
-+        fi
-         cd ${DEPLOYDIR}
-         ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_VERSION} ${UBOOT_INITIAL_ENV}-${MACHINE}
-         ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_VERSION} ${UBOOT_INITIAL_ENV}
-+        if [ "${UBOOT_INITIAL_ENV_BINARY}" = "1" ]; then
-+            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_VERSION}.bin ${UBOOT_INITIAL_ENV}-${MACHINE}.bin
-+            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_VERSION}.bin ${UBOOT_INITIAL_ENV}.bin
-+        fi
-     fi
- }
- 
+     pn = d.getVar('PN')
++    test_git_missing_srcrev(pn, d)
+     test_naming(pn, d)
+     test_missing_metadata(pn, d)
+     test_missing_maintainer(pn, d)
 -- 
-2.34.1
+2.49.0
 
 
