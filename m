@@ -2,31 +2,32 @@ Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA011CE8D6B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB93ACEBF97
 	for <webhook@archiver.kernel.org>; Mon, 17 Nov 2025 06:37:20 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3722.1763361431485352064
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3724.1763361432158158028
  for <openembedded-core@lists.openembedded.org>;
  Sun, 16 Nov 2025 22:37:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=fnXXjVjh;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=JaBVFYYQ;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=34165bd6f8=liezhi.yang@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AH3xCAp1234247
-	for <openembedded-core@lists.openembedded.org>; Sun, 16 Nov 2025 22:37:11 -0800
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AH3xCAs1234247
+	for <openembedded-core@lists.openembedded.org>; Sun, 16 Nov 2025 22:37:12 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=+BcKW0yu0psdZf4/l/E+
-	H59Bc1EZDqFuL8VVo0BJt7k=; b=fnXXjVjhstGkyALZ5kQqKbcyHiyTD/sG9E3+
-	vSlm7crHnKxFL9odfR9UUG2mnf07/WQW19vXq03C6c1mqPpCTvkuUyYincycakMi
-	vIIOpYshA7DbJjKMYFo929/0BP9K2qArvWAWCxby8lOi9fIa08Uw+QpRT9q2jcbq
-	YUrS7E7I5em0ruKhzu/sRDk/aEEBzvIHwkVValRLTH+Sb5V62bNpMzzqX18NqU72
-	r4W3Zcb/x/fmXIpnl1a2Fy4sxb6l/qrrTMTG/HslGkBQdjkeccNcz/A/OQNo9Dnp
-	eamp7GooQbTznkcZzNMjqgJO5OxRWxgodzdqNniSoZP2wwSyiw==
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=mimkGvAqn8/GwMp4mOss+jiNEPNJi0hilpzuIbMIoBE=; b=JaBVFYYQ1P7J
+	0IsgXIUmqUsZg4YPf7daqy9EUY+5c0uxmiT9ibf8TSk380/YLA2WggCRIFFFesSu
+	L1RqHMk+5dXPd4bmKiT//2ujJX71X1iK1jPYiAqjFHqKwixZ7KLfNtZPuSUMnuc1
+	Fmh22gZHkYEv7e0bP1izTZBLmht671UWJTVHLQcsohtc0R0lDq7bfhd5sFOFFn9x
+	qC+k6GJIF8H55plAyaz17im9XEoTdpei48grHk0FAzs839oT3EE1VWbbfmyh2RZ/
+	A+5YHNqWhdmTuK3YIxQ8djJTIPgfuoiXbFPMZvyhBE0rSaUsovBS39tdBhlFVMn8
+	RXAoGE4qbw==
 Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4aenp2sewm-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4aenp2sewm-4
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 16 Nov 2025 22:37:10 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Sun, 16 Nov 2025 22:37:11 -0800 (PST)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
  ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -36,26 +37,28 @@ Received: from ala-lpggp3.wrs.com (10.11.232.110) by
  15.1.2507.61 via Frontend Transport; Sun, 16 Nov 2025 22:37:10 -0800
 From: <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 0/4] Upgrade 4 recipes
-Date: Sun, 16 Nov 2025 22:37:06 -0800
-Message-ID: <cover.1763361341.git.liezhi.yang@windriver.com>
+Subject: [PATCH 3/4] git: 2.51.0 -> 2.51.2
+Date: Sun, 16 Nov 2025 22:37:09 -0800
+Message-ID: <08e4f6c72879da26e3925fe0d5e42514c97b9a02.1763361341.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1763361341.git.liezhi.yang@windriver.com>
+References: <cover.1763361341.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE3MDA1NCBTYWx0ZWRfX5f2AGeTFmGdU
- LEC/91R2uGUfiOtTJbtmqCGCvSFIRIJuDEh6iJCHy04pUjyQxqZUjExhxya/frlwwsgbChbVTcv
- KvuJsbFW+SuOWxAxPh030azcOELHfS9eDIMjx5UtKua6pSekKtfZdWiutaxu+Q2TCWvMWprituw
- jTl2hkyedmh/CSTLpy4CRw9hVff4L2yXzKjXhCKqIkMvQyuDSktE6koASaQPRam78WL0EaBhoum
- dzBFO6sTBjztnTzSDBAMcTomkwlp76h1SR3zaPlJji3PEvXosuoJ7sbZOnW2hVOhbWyYoq4bGcv
- ydbJMk0cBVXVFNsAT9LMzFm5BzeC0LpKW9B9HwEbX803Z0jl3Qpi7Ze1X2iO1iQIDGfxQ0awOEm
- oKv6GwWMIW92wFio6lOd1Mih/1xqQQ==
-X-Proofpoint-ORIG-GUID: NRLyVLq8J1H0iYoejXEkVz0DkvwMWnMV
-X-Proofpoint-GUID: NRLyVLq8J1H0iYoejXEkVz0DkvwMWnMV
-X-Authority-Analysis: v=2.4 cv=Z6Xh3XRA c=1 sm=1 tr=0 ts=691ac296 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE3MDA1NCBTYWx0ZWRfXyRUti/7P2VUz
+ qJaqXO5M4rHjlDeu2bkpxFIkoWGU/a/S7HHbChC0yLGOoN3Zo5FuNbG9f6obme6c4tr4f2niNHB
+ dR4r9KiZQlYlYSAPsYCKTzE9UItcycLlBn4WPTtnxYH+bsfy5uhjtpMx9hnfaCvmNIV6rRhaBRZ
+ +qacCVW9BNXUFA75hoWWJN9Dm8xBWuV5fq4PzX7dwpXJDyOIKT4uMwlbZEMnmpR1SrRjf0dQzZc
+ nA3Nf4JV4NjRnL3n3QsAuHLS3WkPGMk742tgXjyhoLEwo6QOaeZif+yuuODHKsAJI6Mb+1Kl89b
+ 1AM1QYhVeTzP5KtRhwb1x3s1J3FQhe1HAhOOMARhRsfKJF/4fldFctu8IjyRCdAq+qFLLPEhQQP
+ AcoHDTXb3BidoILzTB400B99QVNg3g==
+X-Proofpoint-ORIG-GUID: oxZ3GE3HVUNANLD6PjBj7Yv42zYzf9Ld
+X-Proofpoint-GUID: oxZ3GE3HVUNANLD6PjBj7Yv42zYzf9Ld
+X-Authority-Analysis: v=2.4 cv=Z6Xh3XRA c=1 sm=1 tr=0 ts=691ac297 cx=c_pps
  a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
- a=oudqQOCI-spMJKepTLwA:9 a=FdTzh2GWekK77mhwV6Dw:22
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8 a=ag1SF4gXAAAA:8
+ a=qOQEsxbX1Xo4Xe_MVu0A:9 a=FdTzh2GWekK77mhwV6Dw:22 a=Yupwre4RP9_Eg_Bd0iYG:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-17_02,2025-11-13_02,2025-10-01_01
@@ -69,40 +72,60 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 17 Nov 2025 06:37:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226484
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226486
 
 From: Robert Yang <liezhi.yang@windriver.com>
 
-The following changes since commit e7dc42e30c76bf0fbb4d3cc019bbec675bac55fa:
-
-  oe-build-perf-report: relax metadata matching rules (2025-11-16 23:44:30 +0000)
-
-are available in the Git repository at:
-
-  https://github.com/robertlinux/yocto rbt/pu
-  https://github.com/robertlinux/yocto/tree/rbt/pu
-
-Robert Yang (4):
-  squashfs-tools: 4.7.2 -> 4.7.4
-  fmt: 11.2.0 -> 12.1.0
-  git: 2.51.0 -> 2.51.2
-  ccache: 4.12 -> 4.12.1
-
- .../{ccache_4.12.bb => ccache_4.12.1.bb}      |  2 +-
- ...compilation-on-clang-21-libc-21-4477.patch | 46 -------------------
- ...01-Workaround-an-ABI-issue-in-spdlog.patch |  8 ++--
- .../fmt/{fmt_11.2.0.bb => fmt_12.1.0.bb}      |  5 +-
- ...-do-not-force-RHEL-7-specific-build-.patch |  4 +-
- meta/recipes-devtools/git/git/fixsort.patch   |  2 +-
- .../git/{git_2.51.0.bb => git_2.51.2.bb}      |  2 +-
- ...tools_4.7.2.bb => squashfs-tools_4.7.4.bb} |  2 +-
- 8 files changed, 12 insertions(+), 59 deletions(-)
- rename meta/recipes-devtools/ccache/{ccache_4.12.bb => ccache_4.12.1.bb} (93%)
- delete mode 100644 meta/recipes-devtools/fmt/fmt/0001-Fix-compilation-on-clang-21-libc-21-4477.patch
- rename meta/recipes-devtools/fmt/{fmt_11.2.0.bb => fmt_12.1.0.bb} (84%)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ ...config.mak.uname-do-not-force-RHEL-7-specific-build-.patch | 4 ++--
+ meta/recipes-devtools/git/git/fixsort.patch                   | 2 +-
+ meta/recipes-devtools/git/{git_2.51.0.bb => git_2.51.2.bb}    | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
  rename meta/recipes-devtools/git/{git_2.51.0.bb => git_2.51.2.bb} (98%)
- rename meta/recipes-devtools/squashfs-tools/{squashfs-tools_4.7.2.bb => squashfs-tools_4.7.4.bb} (96%)
 
+diff --git a/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch b/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
+index 61bf0e12dc..f55282fcca 100644
+--- a/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
++++ b/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
+@@ -1,4 +1,4 @@
+-From 325c30dac4eafdd463c8ffcfe1215858d642ab91 Mon Sep 17 00:00:00 2001
++From e8aebf375140b67fb48baea10af2ac0088fe6768 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Mon, 7 Feb 2022 10:13:15 +0100
+ Subject: [PATCH] config.mak.uname: do not force RHEL-7 specific build settings
+@@ -17,7 +17,7 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+  1 file changed, 4 deletions(-)
+ 
+ diff --git a/config.mak.uname b/config.mak.uname
+-index b12d4e1..b5b8d82 100644
++index 1691c6a..00d0f93 100644
+ --- a/config.mak.uname
+ +++ b/config.mak.uname
+ @@ -63,10 +63,6 @@ ifeq ($(uname_S),Linux)
+diff --git a/meta/recipes-devtools/git/git/fixsort.patch b/meta/recipes-devtools/git/git/fixsort.patch
+index 7066e1808d..8c60bd5c21 100644
+--- a/meta/recipes-devtools/git/git/fixsort.patch
++++ b/meta/recipes-devtools/git/git/fixsort.patch
+@@ -1,4 +1,4 @@
+-From 65fa5c0f849fe4a1e3cb8e6af0086ef0748c28de Mon Sep 17 00:00:00 2001
++From 7b509d1e3f9acbbe0c35ef62f54cfa2ed8f9a740 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Wed, 17 Feb 2021 17:57:13 +0000
+ Subject: [PATCH] generate-configlist.sh: Fix determinism issue
+diff --git a/meta/recipes-devtools/git/git_2.51.0.bb b/meta/recipes-devtools/git/git_2.51.2.bb
+similarity index 98%
+rename from meta/recipes-devtools/git/git_2.51.0.bb
+rename to meta/recipes-devtools/git/git_2.51.2.bb
+index aeb8c54aa0..14d5a3d60e 100644
+--- a/meta/recipes-devtools/git/git_2.51.0.bb
++++ b/meta/recipes-devtools/git/git_2.51.2.bb
+@@ -170,4 +170,4 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+                  "
+ EXTRA_OEMAKE += "NO_GETTEXT=1"
+ 
+-SRC_URI[tarball.sha256sum] = "3d531799d2cf2cac8e294ec6e3229e07bfca60dc6c783fe69e7712738bef7283"
++SRC_URI[tarball.sha256sum] = "9b44c2b337ec838e10aad42439d390963904449710d30c9e7e4ba449f45da98f"
 -- 
 2.49.0
 
