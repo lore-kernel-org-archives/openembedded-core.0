@@ -1,99 +1,231 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F84DCEE340
-	for <webhook@archiver.kernel.org>; Tue, 18 Nov 2025 16:59:00 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1895.1763485131785193213
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A44D4CEE349
+	for <webhook@archiver.kernel.org>; Tue, 18 Nov 2025 18:12:50 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3583.1763489569274145727
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Nov 2025 08:58:52 -0800
+ Tue, 18 Nov 2025 10:12:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fYiWzva/;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so58594545e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Nov 2025 08:58:51 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=j/jp10kB;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-477a1c28778so32589765e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Nov 2025 10:12:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763485130; x=1764089930; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KTVXeSNIbGOokzf0GfrJ9crkdFyQmiWtJZV03Ld23+U=;
-        b=fYiWzva/+2hSdgsE0F4gJJTUXllz1XBPO5ta/5TzOrnt72smFMvP0ImaujA85USjIH
-         hQ0gf3utGYMOscMlJq6pSGT3uaJKVRKVeKWSExdD5yr+ZZkNBqccqJLJmkLEzWw0z1Wu
-         hT/7JJjxxASXkF2VSindHwSyYsV4jXsY7oyoAjzvlFvycNZkDswIj3peDuIpCtAZ72G9
-         GrD8WlvWsR+wyMz8eaGYnHYop4VR5aNSRN8J5FKTYA9PiM1xBT+vn5p5evNjqsxXh24b
-         32PwKZec6w6eLoUB/Yh9aPgpTZK3gDsr11/K4/jRFuEEYwpOoHfY0e5YC+VaB8r6jzAC
-         nHCw==
+        d=gmail.com; s=20230601; t=1763489567; x=1764094367; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=I/0djniakMh3UPx+SiFQsVJRhpaZsUMu51JJYDL1QD4=;
+        b=j/jp10kBE/f3TzagsDYhqSrcPfutoBSTuAyJuZ6WafOS+hyForjUDCk+0MCqN9xoc4
+         9kgHUJU4KXbrcG4dgavkTLkYUjYDNFC6kq+PqVcXKjiZlQnNPqVLNkdPrBIgt6iBSzmy
+         28HL34YIksPcOl3oLW06HjyX7k6S2TcltFm30KaAPd+4CV7FBEgUCB/voQ4B3yd0FP/Z
+         1wTbUhO62anM/fe75Qk2GNV4NgHQkDFmeMT+VDWfxXUS9Dxv8oQJS4qD2RPEU5ZXLPlm
+         xTaNkAgWez9PWUP2exnMb9mapKtFRIQcq3dsT/OX5ICAeJ1ELezvd3ssTEYFUzZTRFiJ
+         jxRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763485130; x=1764089930;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KTVXeSNIbGOokzf0GfrJ9crkdFyQmiWtJZV03Ld23+U=;
-        b=kX1hZ0ixO7+STPKoJ5nKO3pni30XzWeUXIL2h7F/708XR+h2jj81+FZWx8ip2fpKeL
-         QZy6rhOGzsMNRX7tiMol0NIFAVNq1QMNIYeTLjm5+jlK2UlXZr7pUSqr68dxx/pIXZmq
-         /BdecMDYKLzQej4VA83WoY2JziVWXPuWyjztTtwug9hGWTH/d02dhE9HZpYin/248V+V
-         XsJ2jBwknKMAVn1HBxoPSdH09Vg2pdEDo2cuL+BKL0KnwsIP9cjEYuX8eg++yHzawu13
-         UbSCwLZEtYDvKDCmKmjgE8OsIe3mSdGrvRGpuqgIar6w08XbNjFiBZvJhqVY5WhkRTOA
-         8Arw==
-X-Gm-Message-State: AOJu0YwkF8rsqvLi2gFW5I/iPZKLbSXzNV4g0QoAaPp9T9kCpQOdwa2e
-	zTTxAvqqNHZFQ+pXkU6YSECnfN6x/rW3GRhbc1qLcnLXYuSYCMq0NKXr7csE3g==
-X-Gm-Gg: ASbGncvS+SzPc5/ySbxZHXn4CsdP6sqF5I950Nbv/+lse1bRE3s6o+CRns74WEL8YsE
-	y0SmVVyHrgj/1LIN9cM0Qgo4yfShZ9fHOzijmDDhGPMdpjuX1SFeajmP9yhtT59YEAsAaFU7QTP
-	ER8CFMm6UqSNpirE1JXGBrDX+PI1PhPH8jGW1pUy2LVS6JYebIBcJtpAfPs1iJc003mNa3rIpm4
-	HOPHb5EM1sDFlb8bLwqOvoW3pbwPNKarEnY23S1fAHo29uLaPP1d2r0/KwYzFQU/0U+tYZl/Q/V
-	kIARJEWQpx6g5+9D2C3GgxTb2VrCypMSqaeJNPacf4rhrhOpHFboeG5h0ckuaJojquDSUYBqtEx
-	fX12FGxVEt1t8q1PcuqXwvaey9VbdmVNxkDWRMxxu+FFgdY8W2Wo/EHyStdTkTGYLKdabo59p3F
-	ABUFYZAHtRVMDVvP76x7G+Wrnd/8B/5eaP1RVFuk+jcd9cD24Yc7sYDD9ljQ==
-X-Google-Smtp-Source: AGHT+IGKrvRk0ZDRiXpOtP+RiOKmjGKdptu9MNYR+ODVUkp+Tw7x3HpPxrZNCtMz8mR1nrg+KAWk2g==
-X-Received: by 2002:a05:600c:1c20:b0:477:5b0a:e616 with SMTP id 5b1f17b1804b1-4778fe4f635mr167310775e9.5.1763485129955;
-        Tue, 18 Nov 2025 08:58:49 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47787e8e6acsm387883405e9.9.2025.11.18.08.58.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Nov 2025 08:58:49 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/2] local.conf.sample: do not set PACKAGE_CLASSES as it is matching oe-core's default
-Date: Tue, 18 Nov 2025 17:58:42 +0100
-Message-Id: <20251118165843.3674407-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
+        d=1e100.net; s=20230601; t=1763489567; x=1764094367;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I/0djniakMh3UPx+SiFQsVJRhpaZsUMu51JJYDL1QD4=;
+        b=Xx3W+ZEmFrvK+epmF55Z5ufvpUNacbdOhEUWrduE7BNJQec3n2uFJJAMqvptCHkz9f
+         8A+6Jw1v1g5Qd4bIVGUwXBzGSFzYKwuAEZRGp6EUvaueutx+y2ggJhi9qNyExiV/C6Qd
+         yIx7wKyahc64cm0KvCMsmU64n8nUCBCRSBFbWy3jHojgSh97N1TEf84IEF+UPN38+9FE
+         hQn3UctPmT1r6Vwf/I0Ap1mmipjFne+HayH3brWXlgOuo5gK5JnjJgqtwzDOHjMtIyBc
+         KEULFUJ6P0ZzxVjgm4qKvK8JMBMM0TZ1iyHgYvtHMYmPDASvNo0FHL5z/iUqdpd7ddqF
+         hG3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWSx6HiLTWxk+/3S7pLfv6FZQqIZ7U8JZ4bR83J5gjvXEZCtYM0fRxaehfMR2sbV/KiM+IyzlZCdySeGtY6b6neEg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YziLLTbEzYi/RY5f1e2VPh0RtSL1Ne9nJcqRfDqgNbXhdyTOX/v
+	Jt41qGujF52j0olXibTHGZ7eQzWb9rT1wyTJM0rnl71U0xoqn5WvMkNg
+X-Gm-Gg: ASbGnct03bPeAQnizef4XhlOZj/uAY9tZLRw56LKckrFo4sfRpgzr2ugjliUj81tZUH
+	UZV1Jie3uTl32b9uy5Y+Ze2u06GyNiK1IP0Qlk6z3Lh3mpFQnXsuZQ+F6eOEgcXH8X1YvS1CtWJ
+	I9lzKEHIcCaJLoCVA9tpcPbR//zqy/PWipGpSZuyrZPBdeUBO3L4UCSw9qCxHMlddmWBvucm9bK
+	j/X1aNu56oT5xvsd/ED0N8hufPD/TqyR71GBc3R6Xtm3gD81sw7PhS4V7XQpMePgcdjBnOmB3oo
+	G8QNhIRGP5nIDauAIt7xC+aF155PYbHecXVhOkvzztWar1uMqgBYREy846ZhGK7wI2S6tLEt6b6
+	3p6oGFRjFxUsVt8f1QNGWLGGFZDXOJme3pN3DVM6NMTcE1kVcYFyeY43JboI7czGLadhV2+bq5d
+	LmRzOJB9iyqqIpLayTLjeV1qAUQjrPjQ==
+X-Google-Smtp-Source: AGHT+IG6jGyrs5QxUwoJULduOkdg+nSDme4TzHzeDqFSnQVAasAfKcXNgHpDSGfbHy0gOO6s9/+46g==
+X-Received: by 2002:a05:600c:154a:b0:477:b0b9:3131 with SMTP id 5b1f17b1804b1-477b0b932cfmr6319095e9.8.1763489567326;
+        Tue, 18 Nov 2025 10:12:47 -0800 (PST)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9deb126sm21523955e9.9.2025.11.18.10.12.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Nov 2025 10:12:46 -0800 (PST)
+Message-ID: <84993796-5eab-4fff-9980-3946f4bb6034@gmail.com>
+Date: Tue, 18 Nov 2025 19:12:45 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v3 2/2] bitbake.conf: Switch prefix mapping to
+ use -ffile-prefix-map
+To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
+Cc: Jacob Kroon <jacob.kroon@gmail.com>, Martin Jansa <Martin.Jansa@gmail.com>
+References: <20250421172915.1651803-1-raj.khem@gmail.com>
+ <20250421172915.1651803-2-raj.khem@gmail.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <20250421172915.1651803-2-raj.khem@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Nov 2025 16:59:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226532
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Nov 2025 18:12:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226534
 
-From: Alexander Kanavin <alex@linutronix.de>
+This patch seems to have caused some regression in packaging the source
+for some recipes.
+I don't have a lot of info yet, just finished bisecting.
 
-This setting isn't necessary as it matches what is set in oe-core
-already. It may also interfere with settings on other places
-such as distro files or fragments.
+The issue I see is with "audiofile" recipe from meta-oe that I wanted to
+debug with master branch: with this patch the -src package is empty.
+Without it, it is populated fine. I guess there are other recipes also,
+but that's what I stumbled upon.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/conf/templates/default/local.conf.sample | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Will try to look at it, but if you have any ideas, I'm all ears. But in
+any case, FYI.
 
-diff --git a/meta/conf/templates/default/local.conf.sample b/meta/conf/templates/default/local.conf.sample
-index 9bb6601eb19..2639be3ddf1 100644
---- a/meta/conf/templates/default/local.conf.sample
-+++ b/meta/conf/templates/default/local.conf.sample
-@@ -85,8 +85,8 @@ MACHINE ??= "qemux86-64"
- #  - 'package_ipk' for ipk files are used by opkg (a debian style embedded package manager)
- #  - 'package_rpm' for rpm style packages
- # E.g.: PACKAGE_CLASSES ?= "package_rpm package_deb package_ipk"
--# We default to ipk:
--PACKAGE_CLASSES ?= "package_ipk"
-+# We default to ipk (via meta/conf/distro/defaultsetup.conf included in meta/conf/bitbake.conf):
-+#PACKAGE_CLASSES ?= "package_ipk"
- 
- #
- # SDK target architecture
--- 
-2.39.5
+On 4/21/25 19:29, Khem Raj via lists.openembedded.org wrote:
+> -ffile-prefix map is more comprehensive when it comes to reproducible
+> builds and its superset of all prefix-mapping options in compilers
+>
+> This makes is cleaner and workable across gcc and clang, clang does not
+> support -fcanon-prefix-map and it has to be explicitly omitted when using
+> clang.
+>
+> There are lambdas generated in templates by clang which still get the
+> absolute paths despite -fdebug-prefix-map, this helps with that as well.
+>
+> nasm is an outlier and we have fixed it by adding -fdebug-prefix-map option
+> luckily we do not pass DEBUG_PREFIX_MAP to nasm, in all recipes which use
+> nasm either pass -fdebug-prefix-map explicitly to nasm or they rewrite it
+> to use nasm flags syntax.
+>
+> We have discussed this in past [1]
+>
+> [1] https://patchwork.yoctoproject.org/project/oe-core/patch/20230428032030.2047920-1-raj.khem@gmail.com/#10281
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Jacob Kroon <jacob.kroon@gmail.com>
+> Cc: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+> v2: Drop using --ffile-prefix in go
+> v3: Fix copydebugsources to use --file-prefix-map instead of -fdebug-prefix-map
+>     and few more places
+>
+>  meta/classes-recipe/kernel-arch.bbclass            |  6 ++----
+>  meta/conf/bitbake.conf                             | 14 +++++---------
+>  meta/lib/oe/package.py                             |  2 +-
+>  meta/recipes-devtools/gcc/libgfortran.inc          |  2 +-
+>  .../python/python3-maturin_1.8.3.bb                |  2 +-
+>  meta/recipes-devtools/rust/cargo_1.85.1.bb         |  2 +-
+>  6 files changed, 11 insertions(+), 17 deletions(-)
+>
+> diff --git a/meta/classes-recipe/kernel-arch.bbclass b/meta/classes-recipe/kernel-arch.bbclass
+> index 968551267f9..7aea9cd3e8e 100644
+> --- a/meta/classes-recipe/kernel-arch.bbclass
+> +++ b/meta/classes-recipe/kernel-arch.bbclass
+> @@ -73,10 +73,8 @@ HOST_OBJCOPY_KERNEL_ARCH ?= "${TARGET_OBJCOPY_KERNEL_ARCH}"
+>  
+>  KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} \
+>   -fuse-ld=bfd ${DEBUG_PREFIX_MAP} \
+> - -fdebug-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH} \
+> - -fmacro-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH} \
+> - -fdebug-prefix-map=${STAGING_KERNEL_BUILDDIR}=${KERNEL_SRC_PATH} \
+> - -fmacro-prefix-map=${STAGING_KERNEL_BUILDDIR}=${KERNEL_SRC_PATH} \
+> + -ffile-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH} \
+> + -ffile-prefix-map=${STAGING_KERNEL_BUILDDIR}=${KERNEL_SRC_PATH} \
+>  "
+>  KERNEL_LD = "${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
+>  KERNEL_AR = "${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 8f90026f7c2..b4e1964f77d 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -652,15 +652,11 @@ EXTRA_OEMAKE:prepend:task-install = "${PARALLEL_MAKEINST} "
+>  ##################################################################
+>  TARGET_DBGSRC_DIR ?= "/usr/src/debug/${PN}/${PV}"
+>  # Beware: applied last to first
+> -DEBUG_PREFIX_MAP ?= "-fcanon-prefix-map \
+> - -fmacro-prefix-map=${S}=${TARGET_DBGSRC_DIR} \
+> - -fdebug-prefix-map=${S}=${TARGET_DBGSRC_DIR} \
+> - -fmacro-prefix-map=${B}=${TARGET_DBGSRC_DIR} \
+> - -fdebug-prefix-map=${B}=${TARGET_DBGSRC_DIR} \
+> - -fdebug-prefix-map=${STAGING_DIR_HOST}= \
+> - -fmacro-prefix-map=${STAGING_DIR_HOST}= \
+> - -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
+> - -fmacro-prefix-map=${STAGING_DIR_NATIVE}= \
+> +DEBUG_PREFIX_MAP ?= "\
+> + -ffile-prefix-map=${S}=${TARGET_DBGSRC_DIR} \
+> + -ffile-prefix-map=${B}=${TARGET_DBGSRC_DIR} \
+> + -ffile-prefix-map=${STAGING_DIR_HOST}= \
+> + -ffile-prefix-map=${STAGING_DIR_NATIVE}= \
+>  "
+>  DEBUG_LEVELFLAG ?= "-g"
+>  
+> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+> index 0db14f21642..0bcc04ea54a 100644
+> --- a/meta/lib/oe/package.py
+> +++ b/meta/lib/oe/package.py
+> @@ -991,7 +991,7 @@ def copydebugsources(debugsrcdir, sources, d):
+>  
+>          prefixmap = {}
+>          for flag in cflags.split():
+> -            if not flag.startswith("-fdebug-prefix-map"):
+> +            if not flag.startswith("-ffile-prefix-map"):
+>                  continue
+>              if "recipe-sysroot" in flag:
+>                  continue
+> diff --git a/meta/recipes-devtools/gcc/libgfortran.inc b/meta/recipes-devtools/gcc/libgfortran.inc
+> index 4560421ed1f..fa6aecaaa30 100644
+> --- a/meta/recipes-devtools/gcc/libgfortran.inc
+> +++ b/meta/recipes-devtools/gcc/libgfortran.inc
+> @@ -8,7 +8,7 @@ EXTRA_OECONF_PATHS = "\
+>  # An arm hard float target like raspberrypi4 won't build
+>  # as CFLAGS don't make it to the fortran compiler otherwise
+>  # (the configure script sets FC to $GFORTRAN unconditionally)
+> -export GFORTRAN = "${FC} -fcanon-prefix-map -fdebug-prefix-map=${S}=${TARGET_DBGSRC_DIR} -fdebug-prefix-map=${B}=${TARGET_DBGSRC_DIR} -gno-record-gcc-switches"
+> +export GFORTRAN = "${FC} -ffile-prefix-map=${S}=${TARGET_DBGSRC_DIR} -ffile-prefix-map=${B}=${TARGET_DBGSRC_DIR} -gno-record-gcc-switches"
+>  
+>  do_configure () {
+>  	for target in libbacktrace libgfortran
+> diff --git a/meta/recipes-devtools/python/python3-maturin_1.8.3.bb b/meta/recipes-devtools/python/python3-maturin_1.8.3.bb
+> index 3ec4d0c103b..08975e177f0 100644
+> --- a/meta/recipes-devtools/python/python3-maturin_1.8.3.bb
+> +++ b/meta/recipes-devtools/python/python3-maturin_1.8.3.bb
+> @@ -10,7 +10,7 @@ SRC_URI[sha256sum] = "304762f86fd53a8031b1bf006d12572a2aa0a5235485031113195cc015
+>  
+>  S = "${WORKDIR}/maturin-${PV}"
+>  
+> -CFLAGS += "-fdebug-prefix-map=${CARGO_HOME}=${TARGET_DBGSRC_DIR}/cargo_home"
+> +CFLAGS += "-ffile-prefix-map=${CARGO_HOME}=${TARGET_DBGSRC_DIR}/cargo_home"
+>  
+>  DEPENDS += "\
+>      python3-setuptools-rust-native \
+> diff --git a/meta/recipes-devtools/rust/cargo_1.85.1.bb b/meta/recipes-devtools/rust/cargo_1.85.1.bb
+> index db18ecfda9a..150c2d2b801 100644
+> --- a/meta/recipes-devtools/rust/cargo_1.85.1.bb
+> +++ b/meta/recipes-devtools/rust/cargo_1.85.1.bb
+> @@ -19,7 +19,7 @@ CARGO_VENDORING_DIRECTORY = "${RUSTSRC}/vendor"
+>  
+>  inherit cargo pkgconfig
+>  
+> -DEBUG_PREFIX_MAP += "-fdebug-prefix-map=${RUSTSRC}/vendor=${TARGET_DBGSRC_DIR}"
+> +DEBUG_PREFIX_MAP += "-ffile-prefix-map=${RUSTSRC}/vendor=${TARGET_DBGSRC_DIR}"
+>  
+>  do_cargo_setup_snapshot () {
+>  	${UNPACKDIR}/rust-snapshot-components/${CARGO_SNAPSHOT}/install.sh --prefix="${WORKDIR}/${CARGO_SNAPSHOT}" --disable-ldconfig
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#215180): https://lists.openembedded.org/g/openembedded-core/message/215180
+> Mute This Topic: https://lists.openembedded.org/mt/112379635/6084445
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
 
