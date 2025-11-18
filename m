@@ -1,109 +1,167 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D1ECCED240
-	for <webhook@archiver.kernel.org>; Tue, 18 Nov 2025 04:16:37 +0000 (UTC)
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4741.1763439392561016791
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48047CCD19A
+	for <webhook@archiver.kernel.org>; Tue, 18 Nov 2025 07:53:08 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7555.1763452385678429001
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Nov 2025 20:16:32 -0800
+ Mon, 17 Nov 2025 23:53:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RXvM5Bt1;
- spf=pass (domain: gmail.com, ip: 209.85.160.50, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-3e3dac349easo2891549fac.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 17 Nov 2025 20:16:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=clzWkP9e;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-477632b0621so33752145e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 17 Nov 2025 23:53:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763439392; x=1764044192; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fBJuoFMz1ogS6zZq2j1ngfUxjgz9EWEIeK5/B52LrQA=;
-        b=RXvM5Bt1ZKti9RkMFIakBIo3PdmnR8Fc3wWdVyGQc4OfVKLbHog5VONwdP5Vv7rjif
-         PZSzd9yuVn5r481Y/dzTo/yDa0h5IrX5iUos8CkVx8vLULrhHOZKAsdyAkbueh9zjvUh
-         MYGX0azfPf/Pd4fboOqC/lnaRSRwpm2HDAIw+70NbgGwB0qrLNG8sF+dAfUun7aLH/0n
-         zWZlROQ8PtSEtPoCrjRe19af+ikBZdl0AXtJFyaAtPPHPtHxicTEpnN6Jep30EFRr2ch
-         YyDp8oClAm+Sy4/f3vTZ46b/5vKD9yuW5WajuRUPlIoyzjKTEGp1HDdADBDEEE8jPkH3
-         FquA==
+        d=gmail.com; s=20230601; t=1763452384; x=1764057184; darn=lists.openembedded.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wY+865EEoR3nm/o+BNk6nfc5MmPtCyPxr5SrXO97Yc8=;
+        b=clzWkP9eW+AfFyvydfX/xm9XpAD5GLpDNLg+BXJvrbEcqPe7pFC0DfqQ8qmFKroslr
+         hwWgZwWzzZs+wM/Sp1tXATWzgX3tSlGYL4ZauUi2gHnU2iuR+KtrGaxPG2erU1LovKIb
+         8yd5F7SYxJLqtvcLaPqjSVI811ThxssB2FiU4ckh5i+JPMpomDHNX9cFgwDkjnolS5Ib
+         n8UuItqXKR3P5RRlKlaGTYSxOx1ibbnpcMPqvMKPBaUSRRr0/gT41WNUXLiZwE5TAPY3
+         7sAPlWBrnZhr70XBy2qOHG2q9JAEseLfyKzMOgB+K/3GGBJah08O0YHF7jl2Tx+HBwwt
+         c3Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763439392; x=1764044192;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fBJuoFMz1ogS6zZq2j1ngfUxjgz9EWEIeK5/B52LrQA=;
-        b=SdRtTsJPnuWNoTyQGg/bWZGZxyzS6/PN7A4NwzM2U7wSLTMIQddiKQ/HyUCZF/luMU
-         pxlg4UIXbAXlEtHVwEVAaseBWnykKGHEZebachCsX7D7PPJKzTj/Gm6UGUNA+FCcJlQe
-         e+wjz3L3z8Z/U1sh75GFZQxGrlwSSkXhQhsjit+a6/4jPDPfBd93KbIZZsCWtWsw/LIS
-         zkp2DkP6HLAz+KkyfdaB8FgKt8nDNX/+GxPvR97jxJ+RyOl2KwkpWqnS+czvclu2ks5X
-         /mv2udijNDELH5aibvvErxVpHdHBdMs3Wvfo1Tx87S5ul5ptVCByh7Ui7fkOTpmwIGIQ
-         OIvQ==
-X-Gm-Message-State: AOJu0YzGIZN5JWd1Q+Yq7W534U2hwrdpqh8YEtXns0piScTrOCC/WXbH
-	QGaI+i1ehEgSw+IDWa75DEQIs4i/cejbpTnCZiCoDIeHCzKqMlxLAWKatz13ynxf1lkjur2IscY
-	1AuuAOG1pLPzeNqsyiyhs3euKF0wH32I=
-X-Gm-Gg: ASbGncswZtSYCiPBiuCjau47FpCIuzetHD1WGy/3IJewguFE+LZsF4KdHm/Crl39iP5
-	NyWPd2Mbb/hzl82T+FID2oKjqBkJRoJhaEhCZJA6dc6VciOGpIveecZKD36JXtSLTU92UaSC24D
-	Y18b9DwiNZlZ/jnxu4HZRSHaM2k2nyCfG5xf8QaacT40k4CkTv/5JSu4SLXkvGbyMw5c6tWVhzV
-	kAjlt/dOasa33UGdYJVBC+AL4GIcL3zuF5a43ocmID6/bhXzeZNV10OPHye101yMutDEwF3L4oS
-	f+8yWZBTJ0RZflcPxA==
-X-Google-Smtp-Source: AGHT+IF3fK/P6rK3KRD6znYIKrv1YeRLBEJX7sJcppQWcTPIZHmFjNge+SRwIIz/pp3a5kGpXvlCiUfPaSS4XkycWRA=
-X-Received: by 2002:a05:6870:41d0:b0:3d3:4338:bbab with SMTP id
- 586e51a60fabf-3e868efabe9mr6032355fac.18.1763439391688; Mon, 17 Nov 2025
- 20:16:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763452384; x=1764057184;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wY+865EEoR3nm/o+BNk6nfc5MmPtCyPxr5SrXO97Yc8=;
+        b=wqfNSOiKmswBcqFJ3AdmZxHVK9T2WOl7mZlm2eJqQ7Rd67VXFGZbcaX+/c2g8Wq8VS
+         9ClH9SdPq0LN56sR7cAoqQvmRFD3NWBmZWZyCQqJ5MkRtcFR7rqRFvV0m5dfC4ofMupu
+         RRsLcOE572R0KC2vjAAX+e9etKuGN8uOoZCV3sIK2nVjXLa9w0mAEI8/ixBk05gY05kw
+         fHhLPUxaPBr/ROwzmWVlv/cHlhCWVqKq5sc+t7Y+NMBaHvjnnOSdLpS8x7xZg84KkwIO
+         Yfro9rlErViSqGO7l3mrhXpITuOfdQUl0uWQjkf1n1IeyQe8H9ChJpsMnM4h5WOURZY1
+         GWPA==
+X-Gm-Message-State: AOJu0YzLyWEU0olW7786+d4ZS2j4aTiJ/OZ86jwCEnpgvDDzaNkdXPl1
+	fFU+h8kC1oFKCg9YBffKcPW+cVoIsyyIEAXg7arZscfd8s2muJwVv0Hu
+X-Gm-Gg: ASbGncvXuDbxRJCFdV/rrUAbPBCsk7vNgpG6n0gjCh04jXC2FqW6jAyXBZx0H/v8Uw+
+	BUPjiqA5kV4AcApN+LshyS2MSHYn5Haii+5leI8Wdw5RA/VEwod4SND6TKi79ZHMtZTd8zWQ6Pe
+	uWauwJyFevaQlvIUOO/UyZGm8shj/+egKqOKr4LvI6QVUwIsUkUWVwVRheXZpM44PY++rBD3JXp
+	ny9id5drVwN0PRiKmgvK8LejwZ3fNNq/bKNwbKUt0lPNxZXqfdXU8Q+rwzryGG0SdwDD8RcDryJ
+	0p3/+lQTk8DMVsEvRJkvGIhJk2rDSlJEqS8EN+ZQU+h46M49kWs5iPV9xQgIQFwk7HgdJ45Ruhx
+	x8Utpmu4oTbHeUtDJid8B65j9CFIINCGjO1QHgeou/nmpR3tBQA8vvqboOZOR13Bbsl2irgdQ8Z
+	6fT2o9M97ORTkTKz8QPYbzTenZQ87Y44eRdNwDmHF12qfxnmhaWp3HBVj5T6kQsBn+sqzhX1H9k
+	oiUiVBRV+U=
+X-Google-Smtp-Source: AGHT+IFhi0CC+dwtb/kaETjeeBB0YiC27q2UdZdtdCUjvKk+UFIly/qwEhTgJg3Ay/lKtmOGkWYaEA==
+X-Received: by 2002:a05:600c:4685:b0:477:8b77:1575 with SMTP id 5b1f17b1804b1-4778fe5dcbfmr135211545e9.12.1763452383848;
+        Mon, 17 Nov 2025 23:53:03 -0800 (PST)
+Received: from [192.168.5.15] (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a7cb24dfsm70541905e9.14.2025.11.17.23.53.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Nov 2025 23:53:03 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 18 Nov 2025 07:52:53 +0000
+Subject: [PATCH] scdoc: Upgrade 1.11.3 -> 1.11.4
 MIME-Version: 1.0
-References: <0101019a88621386-99534d34-9ca8-423f-9c7a-5e49665a5307-000000@us-west-2.amazonses.com>
- <B65A887C-3297-4262-94DE-232FA1C396F4@arm.com>
-In-Reply-To: <B65A887C-3297-4262-94DE-232FA1C396F4@arm.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Tue, 18 Nov 2025 17:16:20 +1300
-X-Gm-Features: AWmQ_bl8CvWHbc8AHvToEwbwBtfVNv1ZWpCz5zNA48vaw9PpMuPQdo_OVdWJGk4
-Message-ID: <CADySD0EWNpDpYyG-PeoDUt0SZ=ePwaGhXgKk39KRSbStUaN-gQ@mail.gmail.com>
-Subject: Re: [OE-core] [AUH] nasm: upgrading to 3.01 FAILED
-To: ross.burton@arm.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251118-master-v1-1-72d7ec661c89@gmail.com>
+X-B4-Tracking: v=1; b=H4sIANQlHGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDQ0ML3dzE4pLUIl1LUwMLc6NU80SjREsloOKCotS0zAqwQdGxtbUA1a5
+ 82lgAAAA=
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+X-Mailer: b4 0.13.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Nov 2025 04:16:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226510
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Nov 2025 07:53:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226511
 
-Hi Ross,
+Drop backport of 3667cce Makefile: drop -static
 
-I have submitted a patch
-https://lists.openembedded.org/g/openembedded-core/message/226509 to
-upgrade.
-Let me know if you encounter any issues and I will try to fix them.
+Changes from 1.11.3:
 
-cheers
-Ankur
+  Drew DeVault (4):
+      Makefile: drop -static
+      parse_preamble: remove useless branch
+      utf8_size: fix bug with array length
+      Update version to 1.11.4
 
-On Tue, Nov 18, 2025 at 6:33=E2=80=AFAM Ross Burton via lists.openembedded.=
-org
-<ross.burton=3Darm.com@lists.openembedded.org> wrote:
->
-> On 15 Nov 2025, at 16:38, Auto Upgrade Helper via lists.openembedded.org =
-<auh=3Dyoctoproject.org@lists.openembedded.org> wrote:
-> > this email is a notification from the Auto Upgrade Helper
-> > that the automatic attempt to upgrade the recipe(s) *nasm* to *3.01* ha=
-s Failed (devtool error).
->
-> I had a quick look at this, and the patches that we carry are still neede=
-d for reproducible builds.
->
-> Upstream is moving to GitHub so I filed a new ticket (https://github.com/=
-netwide-assembler/nasm/issues/173) but someone rebasing our patches to 3.01=
- would be much appreciated.
->
-> Ross
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#226506): https://lists.openembedded.org/g/openembedde=
-d-core/message/226506
-> Mute This Topic: https://lists.openembedded.org/mt/116309731/3619737
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [an=
-kur.tyagi85@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+  Jason Lenz (2):
+      Fix unclosed indent at EOF
+      Fix make check permissions mask
+
+  Kirill Chibisov (1):
+      Emit \(ti and \(ha instead of ~ and ^
+
+  Nico Wagner (1):
+      Makefile: remove unnecessary path separator
+
+  Sertonix (1):
+      gmtime: handle failure
+
+  Viacheslav Kruglov (1):
+      Fix logical error in comparison with ULONG_MAX
+
+  elij (1):
+      strip indentation after a hard line break `++`
+
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
+ .../scdoc/scdoc/0001-Makefile-drop-static.patch    | 23 ----------------------
+ .../scdoc/{scdoc_1.11.3.bb => scdoc_1.11.4.bb}     |  5 ++---
+ 2 files changed, 2 insertions(+), 26 deletions(-)
+
+diff --git a/meta/recipes-extended/scdoc/scdoc/0001-Makefile-drop-static.patch b/meta/recipes-extended/scdoc/scdoc/0001-Makefile-drop-static.patch
+deleted file mode 100644
+index 631d06375b..0000000000
+--- a/meta/recipes-extended/scdoc/scdoc/0001-Makefile-drop-static.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-From 3667cced504bc40b176d4570d99a83fe67599f3a Mon Sep 17 00:00:00 2001
+-From: Drew DeVault <sir@cmpwn.com>
+-Date: Wed, 4 Sep 2024 10:07:46 +0200
+-Subject: [PATCH] Makefile: drop -static
+-
+-Upstream-Status: Backport [https://git.sr.ht/~sircmpwn/scdoc/commit/3667cced504bc40b176d4570d99a83fe67599f3a]
+-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+----
+- Makefile | 1 -
+- 1 file changed, 1 deletion(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 96ad48cd04a6..49f076aadd39 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -1,7 +1,6 @@
+- VERSION=1.11.3
+- CFLAGS?=-g
+- MAINFLAGS:=-DVERSION='"$(VERSION)"' -Wall -Wextra -Werror -Wno-unused-parameter
+--LDFLAGS+=-static
+- INCLUDE+=-Iinclude
+- PREFIX?=/usr/local
+- BINDIR?=$(PREFIX)/bin
+diff --git a/meta/recipes-extended/scdoc/scdoc_1.11.3.bb b/meta/recipes-extended/scdoc/scdoc_1.11.4.bb
+similarity index 82%
+rename from meta/recipes-extended/scdoc/scdoc_1.11.3.bb
+rename to meta/recipes-extended/scdoc/scdoc_1.11.4.bb
+index 5f571c64dd..059150df46 100644
+--- a/meta/recipes-extended/scdoc/scdoc_1.11.3.bb
++++ b/meta/recipes-extended/scdoc/scdoc_1.11.4.bb
+@@ -6,9 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=31752b4a8edd3fb9ddba1cb90fada74d"
+ 
+ DEPENDS = "scdoc-native"
+ 
+-SRC_URI = "git://git.sr.ht/~sircmpwn/scdoc;protocol=https;branch=master \
+-           file://0001-Makefile-drop-static.patch "
+-SRCREV = "0528bcb993cac6c412acd3ae2e09539e994c0a59"
++SRC_URI = "git://git.sr.ht/~sircmpwn/scdoc;protocol=https;branch=master"
++SRCREV = "70de0e5e5d3bc40134ee65c35f1631656199f4be"
+ 
+ do_install() {
+ 	oe_runmake 'DESTDIR=${D}' install
+
+---
+base-commit: e7dc42e30c76bf0fbb4d3cc019bbec675bac55fa
+change-id: 20251118-master-950872e7a2a9
+
+Best regards,
+-- 
+Alex Kiernan <alex.kiernan@gmail.com>
+
 
