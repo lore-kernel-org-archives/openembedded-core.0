@@ -2,80 +2,104 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C869CEE33E
-	for <webhook@archiver.kernel.org>; Tue, 18 Nov 2025 16:56:30 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1906.1763484989804352985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E945CEE33F
+	for <webhook@archiver.kernel.org>; Tue, 18 Nov 2025 16:59:00 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1950.1763485132579647797
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Nov 2025 08:56:29 -0800
+ Tue, 18 Nov 2025 08:58:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LIFwsch2;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8823e39c581so79836426d6.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Nov 2025 08:56:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jClaRMfX;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47755de027eso39787555e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Nov 2025 08:58:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763484989; x=1764089789; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0D9jz4I6V+IvK2BkJLFuZSvg2GFVjC8fzKBb/sYr3+8=;
-        b=LIFwsch2MI6tOT+osffQoxfo2u3ec2xkF3VeRjri+PYf+fVCrayJnjefRyHVDiDChJ
-         Th70ZLQspobfDIeYvvR4Io5te6t+rHPP+dk0m5Vlz28NBEIKxhs8Jg20SDLlblAb32aA
-         /kPaQe+YJPFhuDM80ES3w5Lkv7mJSZita6GEuIFWLCiBtcR49mhCe3zSYC9KgCezO67g
-         TKu9d7osmUcCj1wRZl4AG6gDSWkiqas2DGzDAy+1/EiVAOESLC63LNQeEc117FJsBmUC
-         +ny3hOCxEWFrF9HQ6jOtgv25Yuk2pBxrTVnnGeI2TZizp8sH5M0q7RmWeS+uGv4fKOZC
-         2oig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763484989; x=1764089789;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1763485131; x=1764089931; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0D9jz4I6V+IvK2BkJLFuZSvg2GFVjC8fzKBb/sYr3+8=;
-        b=xTeo9mivFSSaaAzyaHcSc5moRH1IXVbxm7CzEAhm1orNC7gKHA9/vVZxuc+YEj5aS8
-         Bb9Rw8kBUQToz2ky3HsPxL2X0r5jfWqCIYrRoGVuwINQ2i9K1aD9k8y+8TkexPCeFHb+
-         PJ6iDG2DVWf9/vXH6xRrZdSb/j5Gg9ebyufs00zILorQr6Qf7UX/OVoyamddPX3m0QjV
-         zw8yZDfOeJvma3C8QyYZ/pjY4KbHGZ9euEHeHtzu237rD/hGethtT+VgDuZGLoWvO2Ug
-         s/SxFwUO47+jdQoSxVoS8r6FN4Q+WZyOY5ocW3raQm8tR6zEJdI0aMlYcIpBZ9/8OLkS
-         i8tw==
-X-Forwarded-Encrypted: i=1; AJvYcCXuLkSAzC8XGhNTdY1nLACESrAxTJ3Puf46vZzgtKiujxQVbDHOZUcLhGQ/dgenMgaef7Cm4xtEiwkD7fYSH4l4EQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzUzWO2S5W7pciZh7ThS+Gt6RaxPmysL6dZe3aAiJeqWoZr9gnb
-	n9pMMwOU0+9nMNbHGHOsoT+PNsVtogQUv+X4PSovYiRXGGJzawI7pSLRwMG34koguYgsIp6IHA4
-	4tl2cQ+Lx4hvhvxyHwNgVG/YbjYLZvNU=
-X-Gm-Gg: ASbGncuR8RNwvzNZtxXb1O60zy3pb84k2l+hWWhtFTQyjnTades0iU8jNhrBHAMAjoa
-	PmeqyXlPj3U2phKfTu8BwU4DJV86Uh/m5g+8SuzC3oI5oedZGYehY+JfSCfFNsaGF+6rkHsMUWq
-	YbLlq0U9WoN9C4ltkYYSoLtAQ4Jm2M7cmadLWdZSCO/OLrDQw11P2M/C7GLh6Qcn0XoGpWwpwfr
-	s3zmkNPr8Fl7LK4IPaTxj4Ludxo88J+G3hQ5WeeGiknP06QaxGdR7b+aWcC+Sw2ocJIiKoLB1oU
-	cBvaNEc3BiIM/0h716rVNTGhk0YQntTl0n8ou3mJ
-X-Google-Smtp-Source: AGHT+IHZlPxgpbT2Q3/kElg8YQgwZ3vXkxMKj4ZusSHC+puu0et+icDeyA3sE7I94CGk/jj37inhtaeY90DI8GJZSgo=
-X-Received: by 2002:ad4:5c66:0:b0:87c:2206:2e3d with SMTP id
- 6a1803df08f44-88292608356mr201442006d6.25.1763484988789; Tue, 18 Nov 2025
- 08:56:28 -0800 (PST)
-MIME-Version: 1.0
-References: <CAK5yBb8SJ79GDs5aGpz0MGuNNdKf26Z7nw81yNtAsUr9VNq01A@mail.gmail.com>
-In-Reply-To: <CAK5yBb8SJ79GDs5aGpz0MGuNNdKf26Z7nw81yNtAsUr9VNq01A@mail.gmail.com>
+        bh=UV9BUUc8FW4Cd6RdcwLAFjQDnAq6+j1geJ3UDSqqkvo=;
+        b=jClaRMfXDWrp2ch9rEV4tfKR4ixb0XsEvzMeuL7GOk2lgSRyS1ySVIF5in692/SpDD
+         TbNk3nh5LIjStTpozf23rMDtP8qk4YF2uBrLI7Ph2LtSv1003kgizRFFbsX/BT5E0MCd
+         8JQOqYfPKkN47x0ltUHU4UmtRmRYXrx85f1YZEzMotyw3bj03b9bMRViXHz+jKqCG7JB
+         6SMQYlB2KxTWzbAUAHQ+chRmlGPNpUbqsnF9k3CoH8ob2Dwy1Poxu+wc7E/Y23SBOt6D
+         aNhMTApEg4iil4J5kMfpkK12x55a9s1v8i1FhlBjTDJhpX/E80GfFX5QUyhuykV9oVKr
+         iFSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763485131; x=1764089931;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=UV9BUUc8FW4Cd6RdcwLAFjQDnAq6+j1geJ3UDSqqkvo=;
+        b=V4oeTPjOJTjCm1PRNPhF6/7RIRwpCfSchv2W7k25iXffyqSW7TVS+NFVIpn7tB0+KX
+         4+jj8SQx5mCgYZ/8VTxenJjF3uDVVYM1m5EuR76XWld6tX1h1cblfDPa0EgHWV6zszm3
+         wM4PURKUpBqpN9IoMNgibK4Umke4PJxlJ993r+O2wo9BY7PsP224UIbm+Oj0DstaA/Am
+         qq7MLA40xSrbc5U7irzMowmAg+YwNccE/l0uehXMKGO8B2k645BnxRY239E+GqGsFVSD
+         kTCA17BCC87/XOiajE2YsFvIP9B5q9FkOw1IRHCo2IemhBQZcghsS3UJL/ROeexbBoXX
+         d+8g==
+X-Gm-Message-State: AOJu0Yxfb1J6oUw0cC7IWoGIM7j/4PyG5Mik3jp2szi6CHPV50pxW2Si
+	PFUBPzdI20J67nvggAd7/fqH8vU6CQxgzgA5Xg/pChaEkn5DH2Tv+pDN/NEIFA==
+X-Gm-Gg: ASbGncvViU4GUZycOsXCk3UZzLKdI2BhFSK5ba5BmHGfC0oLdIzje4uDnm5bvJuR+Vl
+	kFPvtneg5M9xdaDL9ZlvYn1smkmhQ2zG8uLD9fCas7BTbeaptHS9LEnGgUNo51TpSMjJcg/At1N
+	j+4XQ6rg6oP2ZDtveLWQ/GSZTxIfgz+nm39mdEMRmKM2REFquZS2bxI6KQ+4cxxUL85QaoKH/i9
+	wHejVsdd83wZIVu5yw06ohbnutru3PwpZpVWJPhpFncUr54LNh3pEyytR4ZVxc9kjDqUqlk80cf
+	yFnGZThoUXjZZaPEqZ1BT0nvyOLhmdyQSga3SvLPXn7Pr2GkZSGo5MSsM8kTajfEPbU2O3NxcbZ
+	iKcvkLLSbvlVZwTLyyk9zG+6EVrBdxl0Vu9aGpmd3nOws94aD3XoDMh4eymom0mUjhTiv3LHoqx
+	VE4G0i4k5KYCyG51duAwr8kLbzmBp3thb7yPlI4dL5Iy1j83NFtOxHa/bTVQ==
+X-Google-Smtp-Source: AGHT+IEsjedduPKpMaPmDFgLgh4smQiGKKY7nx8wUbQG3TzUPlzL4LD+ey689SfoBjFOW8z/3P1gjQ==
+X-Received: by 2002:a05:600c:4f0d:b0:465:a51d:d4 with SMTP id 5b1f17b1804b1-4778fe41c75mr157243325e9.6.1763485130813;
+        Tue, 18 Nov 2025 08:58:50 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47787e8e6acsm387883405e9.9.2025.11.18.08.58.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Nov 2025 08:58:50 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 18 Nov 2025 17:56:17 +0100
-X-Gm-Features: AWmQ_bkuE6AaWWA5avengI4U9gI6ucRMjKRTJlULWefjcytgLpzSa_8pzBkoCB8
-Message-ID: <CANNYZj-=_OYQsfqUKoMcSU3m5whK=XwTB3anD0-8XykfqbE5Hw@mail.gmail.com>
-Subject: Re: [OE-core] Yocto Project Status 18 November 2025 (WW46)
-To: sjolley.yp.pm@gmail.com
-Cc: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
-	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/2] local.conf.sample: comment out the root-with-empty-password setting
+Date: Tue, 18 Nov 2025 17:58:43 +0100
+Message-Id: <20251118165843.3674407-2-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20251118165843.3674407-1-alex.kanavin@gmail.com>
+References: <20251118165843.3674407-1-alex.kanavin@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Nov 2025 16:56:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226531
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Nov 2025 16:59:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226533
 
-On Tue, 18 Nov 2025 at 16:55, Stephen Jolley via
-lists.openembedded.org
-<sjolley.yp.pm=gmail.com@lists.openembedded.org> wrote:
-> Patches in the Pending State: 175 (16%) [last week 153 (14%)]
->
-> https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+From: Alexander Kanavin <alex@linutronix.de>
 
-These both seem to have rolled back to about one year ago and show
-situation as of 2024-10.
+This was not a good default; the autobuilder relied on it, but this
+has been fixed, there's now a separate fragment as well, and testimage
+has a check for the needed image features. Let's take this out and
+be more secure by default everywhere.
 
-Alex
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/conf/templates/default/local.conf.sample | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/meta/conf/templates/default/local.conf.sample b/meta/conf/templates/default/local.conf.sample
+index 2639be3ddf1..fb6ed2c3bf2 100644
+--- a/meta/conf/templates/default/local.conf.sample
++++ b/meta/conf/templates/default/local.conf.sample
+@@ -122,8 +122,10 @@ MACHINE ??= "qemux86-64"
+ # There are other features that can be used here too, see
+ # meta/classes-recipe/image.bbclass and
+ # meta/classes-recipe/core-image.bbclass for more details.
+-# We default to allowing root login without a password for convenience.
+-EXTRA_IMAGE_FEATURES ?= "allow-empty-password empty-root-password allow-root-login"
++#
++# The following will allow root login without a password for convenience.
++# Use with care, and never in product builds.
++#EXTRA_IMAGE_FEATURES ?= "allow-empty-password empty-root-password allow-root-login"
+ 
+ #
+ # Additional image features
+-- 
+2.39.5
+
 
