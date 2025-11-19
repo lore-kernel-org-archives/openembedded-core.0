@@ -2,70 +2,70 @@ Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAED3CF34A0
-	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 12:43:06 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5976.1763556181418509500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5FA4CF34A1
+	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 12:43:56 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5997.1763556231265233764
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Nov 2025 04:43:01 -0800
+ Wed, 19 Nov 2025 04:43:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GGKc1mGk;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: skandigraun@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4779aa4f928so47576225e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 04:43:01 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JzpBWccp;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: skandigraun@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42b3ad51fecso4927226f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 04:43:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763556180; x=1764160980; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1763556229; x=1764161029; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ndcl8NFNAQW1UTdu+IhgxOertteqaMqVkXjmzby5Ys0=;
-        b=GGKc1mGk5pMXey5ZdMkkANkzDCdDSyFQED462MhmDMqv/FS67UhPVjdHZULx8Kw6vt
-         V3DuG6BdIzHWN7XB73dzGmdZMjjCapCH+9/a2hry5Jr9SPn0SCEJUCgoyQ4hPzODGZ8w
-         lCP4jTSZ7GPHzX1vJH24gxHtdxfq1qDAhcNRvHsIp/w82cRAh6pPcjRcEeQV01gMBsMb
-         aPaMI6M+sRZ9386qVez+Xe0feOWMlNxZMRtfGLeFvZCDHpyjToyLJ0LklNmDRTF9j3Mg
-         QijIq22/mvT/P0iLPdwmUlM/a+kkrYD7iZ1/5V+Ctsg8oxxxbcHF0+cD4TnqjUdXUkCL
-         eGyQ==
+        bh=jaGoKD1vI7nvP1WxKPcu7FtEZN09PWhKBQPiu58Vhu0=;
+        b=JzpBWccpkdjdfV/ozaqfjnbbGRcySvFVbYousPMz02X4Oom6GO+LM2M/8g8Y8fXFkT
+         MF6updvoSP+fPanDM2g6X0LXkmClGY5AmzoaPA3F+dsTEnnMBWFgq6xPoMP+JRhHkaa0
+         0HxbVoFPjMNmrd3AZtAFRBJ7M4zg3I/eNkeOvtucnZ8IWUejSbXo/eKtbJf0wkvWuLMe
+         w47m5PPVNJF5/wRFDOf/kUGdfpNyPT61UoHqB0l6+A0sllaaVgnZikbYaYLVMoYB8tgv
+         Uf+nqESysDsf7rL86p9JqBZVdM22euN/ZVE6xdAe/23I7UIt7ZskJHpOucWLSAUhfM6T
+         IZBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763556180; x=1764160980;
+        d=1e100.net; s=20230601; t=1763556229; x=1764161029;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ndcl8NFNAQW1UTdu+IhgxOertteqaMqVkXjmzby5Ys0=;
-        b=aO81AtLrZ69E3cv2LgsS91r/ID29trJsTwzBGOX0pURleGtHkM5lyu1c+GfrvrcjAT
-         4SaACvCIL0Y2pW60kNXLlFkH+KB9HNRBjaxL0Y0YldzOCansO88RoY876WEiOCXbCuu0
-         W+KWfWmMAZ4Xt6EuTg03e2cA67tx4Rc/sWy7L0MSPWhsF6FIEMHfPBvtcnAg9pkNsITK
-         4Ndx8iYblncUDgHKKvnP3ix4BTz2c0LO3MbfaXlfzu8gM1MlgNXpMTyce5ZxjODc1suY
-         DXBKwlKx9CWeH9Eg4wXe4JobGFMkuiTG8QqMjH+sRvD0YOR6sjaYSV73P6jJVOIKq7x6
-         PbEA==
-X-Gm-Message-State: AOJu0Yw8e2CgFEqRcBNkU+XEYus5gHHFZmgSnHfab9/DV71UhXXTOmOD
-	hcMb2R/pkELXoLr68hW8lxFIYQzL+e2K1JfsG1t9pa/OWBuhU4XyxqoVRHq2VIzE
-X-Gm-Gg: ASbGnctj1c85GIulCuTSRi9AVsmlOfZnelvDX3swM6+nDNbhtglo/zyDxCvgx1j8Cq3
-	D+lvLIHWuhUHDff+INc30gLfm7SCEnXHXLC5GztHwvA7EY8hn43eHobV6NSyOO/mOUuepEmvMmy
-	JUrMY6mw4f7lyuqc/AevmKAAsaIdXRFpSAtitbCPZc37qrre3urMhnhvkPaAS15KvPLVyDIPJFT
-	29uWUOXApXSQiMVJNDatv3K7qG9CZmQkSw9NDCUbdZ/BcR1kjtjTrqDOtV4iq5iWhLcMgDmx/2T
-	bmSw1TEnUaWK9pdkqzGMNyEJIdNdduxGrWtc3pdJ7n5ZJtPjx9cQX1W8oV8m/iErTB8Pck3Mxmj
-	I7mIv4lwb72Fzrm3OVhRua5n4O+LZQfDlnP+vGTYFy6KmJshRlSYijAw713c3a4x1p1670DCkWD
-	sTIEIVclOht+nsWZMNQ0c=
-X-Google-Smtp-Source: AGHT+IGbalNieqMiBv0dodMtvhkK+RL4lIdWM8KOx7MVNGHBcVBUbXVH9iSJ55757J1jFCLnUiTsfg==
-X-Received: by 2002:a05:600c:1986:b0:477:28c1:26ce with SMTP id 5b1f17b1804b1-4778fe41be4mr179182565e9.7.1763556179472;
-        Wed, 19 Nov 2025 04:42:59 -0800 (PST)
+        bh=jaGoKD1vI7nvP1WxKPcu7FtEZN09PWhKBQPiu58Vhu0=;
+        b=WJAlJLav6snJ2wRKpzwSsprNOGVjKiiz+WQXDOOxKn/Zk20XPvYyYRe4EWfvD6+BwM
+         haJDon3pil8H1Tzd/eWVnhGKSJl0vQHWEXb4rUT55W+X7wH8QoyGM3INZvzAorkwylwj
+         q7oxNXSLypHabdS+YmTiLC3+svi6ItVE0s3+lr+oikSC6id2WJvN6tmr/7ZL5k144wfL
+         H2qkQPSqhbY9edYadi57AAwqK+jcpB8d4mQUEt2JTua6gjaEHIzWi99JmLthWOyXETpc
+         N56psRBfg7lSYPhqSTkLL0T6wdATOYnBTQ2yROWalJwCrRaSplIZSexZmuT9gDHfjZAQ
+         A/2Q==
+X-Gm-Message-State: AOJu0YzldnCcJerPimkboVXlOpRM5XKi0efK0sMWo7ueZJ1APYg/ChCD
+	RoOHEjTQL9fujImfwZfrX1pigzzchC2skikzYM9XuaJsbaqgveRMkPg3WH0piQ7O
+X-Gm-Gg: ASbGncvjwaO01UaCC/ftU9DC59pPUvtZWD2d57NgaR+Yn5QPlXqXLDPsJAkPJalAa3i
+	L5oygUnS1ZiPrF3wxptA9BYCUHbHnf84pJKUNkjCypZiv/9nLwDIX1qy4PQ50bWRRbxfBkfn21K
+	q+TAQOqvogGSk7BJlVg/h5mTbTzUJhOXQemuRumgKLo2Hyy8DmtP3RJn3Auq/Emj3D4dYBVtTeX
+	JOiUn3te4N7hfQjY8E36+NHF+1hT+tXW7Rd3jq0gS6RXKrW1HSJ8pIPpuBN0n2l7tlbc6sVoKIv
+	Awffn8ZJznulVdMKm1VTa4PbQgcGoM+gsZmw7Zkf6J/q2vAkXy3/O7jqB3e1rAA8xTpTwPRv+3x
+	vBd9Nfvy6GMhJgggOJMx594RtGqw5DG839vPo1iNTPM+bG1sW8FpCdE6cQNKa2UCdgKyDG4moqC
+	3V/DIxiXxeeZFZH1ycqfM=
+X-Google-Smtp-Source: AGHT+IE/ponvut5rVbEC0+sE7kkqkgr+KQJXzMFFrqqPpyI0S+PBngNF8cS4utmN8JHqpcugNidypQ==
+X-Received: by 2002:a05:6000:144a:b0:42b:38b1:e32e with SMTP id ffacd0b85a97d-42b5938fddamr19727177f8f.46.1763556229456;
+        Wed, 19 Nov 2025 04:43:49 -0800 (PST)
 Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42c961f6e64sm24428318f8f.27.2025.11.19.04.42.58
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53e7b12asm37463263f8f.10.2025.11.19.04.43.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 04:42:59 -0800 (PST)
+        Wed, 19 Nov 2025 04:43:49 -0800 (PST)
 From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [kirkstone][PATCH] musl: patch CVE-2025-26519
-Date: Wed, 19 Nov 2025 13:42:58 +0100
-Message-ID: <20251119124258.164074-1-skandigraun@gmail.com>
+Subject: [scarthgap][PATCH] musl: patch CVE-2025-26519
+Date: Wed, 19 Nov 2025 13:43:48 +0100
+Message-ID: <20251119124348.164169-1-skandigraun@gmail.com>
 X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 12:43:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226552
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 12:43:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226553
 
 Details: https://nvd.nist.gov/vuln/detail/CVE-2025-26519
 
@@ -83,11 +83,11 @@ Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 
 diff --git a/meta/recipes-core/musl/musl/CVE-2025-26519-1.patch b/meta/recipes-core/musl/musl/CVE-2025-26519-1.patch
 new file mode 100644
-index 0000000000..a9ea3b4149
+index 00000000000..5583c5f6cc1
 --- /dev/null
 +++ b/meta/recipes-core/musl/musl/CVE-2025-26519-1.patch
 @@ -0,0 +1,39 @@
-+From 345d2a053c32f3443dbfdd313f49346ce30b92f8 Mon Sep 17 00:00:00 2001
++From 8ebb2a68dfac02e7a83885587a9a5a203147ebbe Mon Sep 17 00:00:00 2001
 +From: Rich Felker <dalias@aerifal.cx>
 +Date: Wed, 19 Nov 2025 13:23:38 +0100
 +Subject: [PATCH] iconv: fix erroneous input validation in EUC-KR decoder
@@ -128,11 +128,11 @@ index 0000000000..a9ea3b4149
 + 				else if (d-'a'<26) d = d-'a'+26;
 diff --git a/meta/recipes-core/musl/musl/CVE-2025-26519-2.patch b/meta/recipes-core/musl/musl/CVE-2025-26519-2.patch
 new file mode 100644
-index 0000000000..82a09af535
+index 00000000000..7d193ab2411
 --- /dev/null
 +++ b/meta/recipes-core/musl/musl/CVE-2025-26519-2.patch
 @@ -0,0 +1,38 @@
-+From b81230050f6c3348038fe470d260028824b9a9e5 Mon Sep 17 00:00:00 2001
++From 7e7052e17e900194a588d337ff4a8e646133afed Mon Sep 17 00:00:00 2001
 +From: Rich Felker <dalias@aerifal.cx>
 +Date: Wed, 19 Nov 2025 13:27:15 +0100
 +Subject: [PATCH] iconv: harden UTF-8 output code path against input decoder
@@ -171,13 +171,13 @@ index 0000000000..82a09af535
 + 			*outb -= k;
 + 			break;
 diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 4b85401360..f24da3b2cb 100644
+index 324269a9687..bc516b61834 100644
 --- a/meta/recipes-core/musl/musl_git.bb
 +++ b/meta/recipes-core/musl/musl_git.bb
-@@ -15,7 +15,9 @@ PV = "${BASEVER}+git${SRCPV}"
- SRC_URI = "git://git.musl-libc.org/musl;branch=master \
+@@ -14,7 +14,9 @@ SRC_URI = "git://git.etalabs.net/git/musl;branch=master;protocol=https \
             file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
             file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
+            file://0003-elf.h-add-typedefs-for-Elf64_Relr-and-Elf32_Relr.patch \
 -          "
 +           file://CVE-2025-26519-1.patch \
 +           file://CVE-2025-26519-2.patch \
