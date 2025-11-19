@@ -1,114 +1,118 @@
-Return-Path: <kamel.bouhara@bootlin.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23EBDCF2599
-	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 07:55:25 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1932.1763538923765566843
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DFD4CF3182
+	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 09:11:05 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2763.1763543455345853436
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Nov 2025 23:55:24 -0800
+ Wed, 19 Nov 2025 01:10:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=DxVX4jPu;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: kamel.bouhara@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=Tbno9Iob;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 7902C4E41798
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 07:55:21 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 3145F1A1BCA;
+	Wed, 19 Nov 2025 09:10:53 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4EC1E60720;
-	Wed, 19 Nov 2025 07:55:21 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CB5441037173E;
-	Wed, 19 Nov 2025 08:55:19 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id EBC8460720;
+	Wed, 19 Nov 2025 09:10:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BB3A3103719DE;
+	Wed, 19 Nov 2025 10:10:50 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1763538920; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1763543452; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=Go96WD4oWrOsRcnHQPMzXadW8S3EzRorZD/4tCdzCv0=;
-	b=DxVX4jPu8v0JI5+JSU/Oznh4Tar9lZToHKKw5B4w6mfjZDu0y6m9ydi/jhtI6H3adNrucj
-	Vywlm87ui0aoCbmqFR9yaQfjSPQYR+mRzCRBZ6ONgg5b/SZlUZ0R8WwaiHi1wUMG12KVgv
-	8+ujtDpJMTJzwSUebr9RX/vwdYT4HkpQKSxEgwKvnlACIM4Ght6d3SfguaW79OP8AAP80z
-	iE8Pp/CWS02N7SXsAPBw4BM16XdoZOFydxgoUj77PR9JjQskB5raCdVWvisQMRT3940Lqe
-	p0lmYg/hJOhP2dItcTExOP22k1uN/q6ic8RsTLP4aeCMsblrAO66FOzp/Fl6gg==
-Date: Wed, 19 Nov 2025 08:55:17 +0100
-From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-To: Peter Marko <peter.marko@siemens.com>
-Cc: openembedded-core@lists.openembedded.org, jpewhacker@gmail.com
-Subject: Re: [OE-core][scarthgap][PATCH] spdx30: fix cve status for patch
- files in VEX
-Message-ID: <khthpxww2cjk6utwcpmffkdgmj6oyadefjm6ik7x6cscdj7edk@vvpy5klvpgui>
-References: <20251118120839.603554-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251118120839.603554-1-peter.marko@siemens.com>
-X-Last-TLS-Session-Version: TLSv1.3
+	bh=jiFPENNbvMbFDwUADanAK6QCavAFj1R0PE3Ubx0Qxyc=;
+	b=Tbno9Iobu2CZG2zdmIdgUjK0QLnAI2D9GpopEpXm1oBhhB66lquAgb9bAsy845yfuZ0z8I
+	CsEGq3f8eqFI3tII9L0Qv+eCTF8DkOU36ZDhMgh1M4fCwVyvWyRlF/3oht9+lJj3XUmlGY
+	jQtM/KLuYUuejpgsxv6nU0iEa60o5quqG9ylHqPv81IHShSKVpK3vM/F8Mh2PUJqxNuaxM
+	gJqSZH4nTs1r3JAbyikY+mtFRd4lQ6ajSh/qvqq0ZtoflXILHUjt1SZAFNrjvuJHCOwODX
+	BAzqmWC49Qe28ObeZWV3s+VITB0GyXKoHnLXPYwEnsW1EduMmiKYQwu8XNljEQ==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 19 Nov 2025 10:10:49 +0100
+Message-Id: <DECJZ8GOEY2L.1LKIW4KZNILBR@bootlin.com>
+Subject: Re: [OE-core][PATCH v2] spdx30_tasks: Fix
+ SPDX_CUSTOM_ANNOTATION_VARS implementation
+Cc: <Peter.Marko@siemens.com>, <adrian.freihofer@siemens.com>, "Stefano
+ Tondo" <stefano.tondo.ext@siemens.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Stefano Tondo" <stondo@gmail.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20251117130451.1711036-1-stondo@gmail.com>
+In-Reply-To: <20251117130451.1711036-1-stondo@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 07:55:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226542
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 09:11:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226543
 
-On Tue, Nov 18, 2025 at 01:08:39PM +0100, Peter Marko wrote:
-> From: Peter Marko <peter.marko@siemens.com>
+On Mon Nov 17, 2025 at 2:04 PM CET, Stefano Tondo wrote:
+> From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 >
-> This commit fixes commit 08595b39b46ef2bf3a928d4528292ee31a990c98
-> which adapts vex creation between function create_spdx where all change=
-s
-> were backported and funtion get_patched_cves where changes were not
-> backported.
+> Fix incorrect function call when processing SPDX_CUSTOM_ANNOTATION_VARS.
+> The code was calling new_annotation() as a standalone function, but it
+> should be called as a method on the build_objset object.
 >
-> CVE patches were previously ignored as they cannot be decoded from
-> CVE_STATUS variables and each caused a warning like:
-> WARNING: ncurses-native-6.4-r0 do_create_spdx: Skipping CVE-2023-50495 =
-=E2=80=94 missing or unknown CVE status
+> Error:
+>     new_annotation(d, build_objset, build, ...)
 >
-> Master branch uses fix-file-included for CVE patches however since
-> cve-check-map.conf was not part of spdx-3.0 backport, closest one
-> available (backported-patch) was implemented.
+> Corrected to:
+>     build_objset.new_annotation(d, build_objset, build, ...)
 >
-
-Hi Peter,
-
-I tested it and this looks good to me, it fixes the missing/unknown CVE
-status warnings.
-
-Thanks for preparing the patch.
-
-Greetings,
-Kamel
-
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> This bug would cause a NameError at runtime if SPDX_CUSTOM_ANNOTATION_VAR=
+S
+> was set to a non-empty value, preventing SPDX document generation.
+>
+> The fix aligns with how new_annotation() is called elsewhere in the
+> codebase and matches the SBOMObjset class method signature.
+>
+> Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+>
 > ---
->  meta/lib/oe/spdx30_tasks.py | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> index 6b0aa137c4..8115088ab8 100644
-> --- a/meta/lib/oe/spdx30_tasks.py
-> +++ b/meta/lib/oe/spdx30_tasks.py
-> @@ -503,7 +503,13 @@ def create_spdx(d):
->      if include_vex !=3D "none":
->          patched_cves =3D oe.cve_check.get_patched_cves(d)
->          for cve_id in patched_cves:
-> -            mapping, detail, description =3D oe.cve_check.decode_cve_s=
-tatus(d, cve_id)
-> +            # decode_cve_status is decoding CVE_STATUS, so patch files=
- need to be hardcoded
-> +            if cve_id in (d.getVarFlags("CVE_STATUS") or {}):
-> +                mapping, detail, description =3D oe.cve_check.decode_c=
-ve_status(d, cve_id)
-> +            else:
-> +                mapping =3D "Patched"
-> +                detail =3D "backported-patch"  # fix-file-included is =
-not available in scarthgap
-> +                description =3D None
->
->              if not mapping or not detail:
->                  bb.warn(f"Skipping {cve_id} =E2=80=94 missing or unkno=
-wn CVE status")
+> Changes in v2:
+> - Fixed test bugs: corrected SPDX file path from packages/ to recipes/
+> - Fixed test bugs: removed parentheses from objset.objects() call
+> - Fixed whitespace formatting in test code
+> ---
 
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
+Hi Stefano,
+
+Thanks for the v2, but it looks like the test is still failing with a
+similar error:
+
+2025-11-18 18:36:56,500 - oe-selftest - INFO - spdx.SPDX30Check.test_custom=
+_annotation_vars (subunit.RemotedTestCase)
+2025-11-18 18:36:56,500 - oe-selftest - INFO -  ... FAIL
+...
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 330, in test_custom_=
+annotation_vars
+    self.assertIsNotNone(build, "Unable to find Build element")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/unittest/case.py", line 1309, in assertIsNotNon=
+e
+    self.fail(self._formatMessage(msg, standardMsg))
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/unittest/case.py", line 732, in fail
+    raise self.failureException(msg)
+AssertionError: unexpectedly None : Unable to find Build element
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2716
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/2610
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/2852
+
+Can you have a look at these?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
 https://bootlin.com
+
 
