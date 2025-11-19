@@ -1,220 +1,188 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F88CF31A5
-	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 11:14:26 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4254.1763550857096221764
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAED3CF34A0
+	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 12:43:06 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5976.1763556181418509500
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Nov 2025 03:14:17 -0800
+ Wed, 19 Nov 2025 04:43:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Hs2JMz8P;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42b3377aaf2so3683155f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 03:14:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GGKc1mGk;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4779aa4f928so47576225e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 04:43:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1763550855; x=1764155655; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zigEcArCgaoNLouJnidiAPpO80lwq+dacT6HDOSXS3M=;
-        b=Hs2JMz8P8m2/xmwPZcfq7cz6beByNnJdMzStvVbtP2BEcXamctQFL9/HtkhKzv6plY
-         jWptUBjH0Z6PPLIZNwM0ryHUi2fTeE/1pN6+HPxQZzU7+v1oVsWExIQHwmFjxcl/l7Ep
-         KUvsQH2z2r+A3+8U592wELteSkyQdCXGnN1XU=
+        d=gmail.com; s=20230601; t=1763556180; x=1764160980; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ndcl8NFNAQW1UTdu+IhgxOertteqaMqVkXjmzby5Ys0=;
+        b=GGKc1mGk5pMXey5ZdMkkANkzDCdDSyFQED462MhmDMqv/FS67UhPVjdHZULx8Kw6vt
+         V3DuG6BdIzHWN7XB73dzGmdZMjjCapCH+9/a2hry5Jr9SPn0SCEJUCgoyQ4hPzODGZ8w
+         lCP4jTSZ7GPHzX1vJH24gxHtdxfq1qDAhcNRvHsIp/w82cRAh6pPcjRcEeQV01gMBsMb
+         aPaMI6M+sRZ9386qVez+Xe0feOWMlNxZMRtfGLeFvZCDHpyjToyLJ0LklNmDRTF9j3Mg
+         QijIq22/mvT/P0iLPdwmUlM/a+kkrYD7iZ1/5V+Ctsg8oxxxbcHF0+cD4TnqjUdXUkCL
+         eGyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763550855; x=1764155655;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zigEcArCgaoNLouJnidiAPpO80lwq+dacT6HDOSXS3M=;
-        b=bhYYF07aXcNrqpgHUSLwNerz6icHPO4Rdqd4B8gpkCjdVDjkCQQApjLFgkdmGyGshh
-         9KrjQH/7rOguLzvDRn1BqMJXKAddsHAMi0kYnDn47mYtN2QwuO+xmXRqsJbpkysGhwgX
-         NQOsbDQZn1PLRP/8oKCmgLyb3Kou5izQZ6rdtXPGAddv2rCBdWCOnNRW+SITpdPIY+IM
-         St6bVvuBsesjtHy7Ioa+OGPTGJAvjNkWnrNfXaz2w7Wc9hgQ179Xf8qCy10lyyz+uVn3
-         Dl5g+PU6DIF/gkO4nZNlFttHcun//OG142qm2+OWNDrmKoIGyzLJVH/NskhA5i//oybJ
-         WMPA==
-X-Gm-Message-State: AOJu0Yw4N/hOJVOtO3aEnxviOikj2RbpsgWNNz13qBihhDOwS1AIjew3
-	dHgosc1mzn4n/NfFtb64DffBXaRXcDu//TCek+z4lBD1go8PLhEC3h6YqqnOwsySkmwRtRGhlAS
-	h+aXdr4geFGRi1lYjuFmbgJFkqPg9E7Lx5aHYP/66PxZ+FvTELYTAiqSgnQ==
-X-Gm-Gg: ASbGncvV7RRmsI0j7iM3ksOgMg186fAAvljUqURwA5Q8H0TGNAZlF78TgEJy33lV9a1
-	CGBVyvt5hMJy08P/2RKY7Woa1B0jtAnDCBz3N0Br3FtSlNVTURMVrwqoh83U68FiAaEkYmQwhZW
-	GcHVugVQL2LANkW+87bYdqh5m2z3vb+bkiTsAjax0KhARRYYovVg7CEWq0iRfW90lqNpurFmccZ
-	NnQUVdsVnd8O6gTYxwwVgsxXQPhQrhuBJ9mMk6n5eFp2gUTBNafzvbbNCYDCuT2iqJCP6Hx/G0N
-	+SDKC+6t7wD8pmEPWNrO4NsnQ8HTjgIcgAYS4Dyc
-X-Google-Smtp-Source: AGHT+IEF79PJjChCZ5ijMHDD0dlfgVHl7rtLDDBfEiMSa/BfUT7l/04/NGyFFo1Xz6LhgMux5+F0+Eiv+0Y2eWlNKFQ=
-X-Received: by 2002:a5d:5d01:0:b0:42b:4177:7131 with SMTP id
- ffacd0b85a97d-42b595add99mr20156770f8f.44.1763550855247; Wed, 19 Nov 2025
- 03:14:15 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763556180; x=1764160980;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ndcl8NFNAQW1UTdu+IhgxOertteqaMqVkXjmzby5Ys0=;
+        b=aO81AtLrZ69E3cv2LgsS91r/ID29trJsTwzBGOX0pURleGtHkM5lyu1c+GfrvrcjAT
+         4SaACvCIL0Y2pW60kNXLlFkH+KB9HNRBjaxL0Y0YldzOCansO88RoY876WEiOCXbCuu0
+         W+KWfWmMAZ4Xt6EuTg03e2cA67tx4Rc/sWy7L0MSPWhsF6FIEMHfPBvtcnAg9pkNsITK
+         4Ndx8iYblncUDgHKKvnP3ix4BTz2c0LO3MbfaXlfzu8gM1MlgNXpMTyce5ZxjODc1suY
+         DXBKwlKx9CWeH9Eg4wXe4JobGFMkuiTG8QqMjH+sRvD0YOR6sjaYSV73P6jJVOIKq7x6
+         PbEA==
+X-Gm-Message-State: AOJu0Yw8e2CgFEqRcBNkU+XEYus5gHHFZmgSnHfab9/DV71UhXXTOmOD
+	hcMb2R/pkELXoLr68hW8lxFIYQzL+e2K1JfsG1t9pa/OWBuhU4XyxqoVRHq2VIzE
+X-Gm-Gg: ASbGnctj1c85GIulCuTSRi9AVsmlOfZnelvDX3swM6+nDNbhtglo/zyDxCvgx1j8Cq3
+	D+lvLIHWuhUHDff+INc30gLfm7SCEnXHXLC5GztHwvA7EY8hn43eHobV6NSyOO/mOUuepEmvMmy
+	JUrMY6mw4f7lyuqc/AevmKAAsaIdXRFpSAtitbCPZc37qrre3urMhnhvkPaAS15KvPLVyDIPJFT
+	29uWUOXApXSQiMVJNDatv3K7qG9CZmQkSw9NDCUbdZ/BcR1kjtjTrqDOtV4iq5iWhLcMgDmx/2T
+	bmSw1TEnUaWK9pdkqzGMNyEJIdNdduxGrWtc3pdJ7n5ZJtPjx9cQX1W8oV8m/iErTB8Pck3Mxmj
+	I7mIv4lwb72Fzrm3OVhRua5n4O+LZQfDlnP+vGTYFy6KmJshRlSYijAw713c3a4x1p1670DCkWD
+	sTIEIVclOht+nsWZMNQ0c=
+X-Google-Smtp-Source: AGHT+IGbalNieqMiBv0dodMtvhkK+RL4lIdWM8KOx7MVNGHBcVBUbXVH9iSJ55757J1jFCLnUiTsfg==
+X-Received: by 2002:a05:600c:1986:b0:477:28c1:26ce with SMTP id 5b1f17b1804b1-4778fe41be4mr179182565e9.7.1763556179472;
+        Wed, 19 Nov 2025 04:42:59 -0800 (PST)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42c961f6e64sm24428318f8f.27.2025.11.19.04.42.58
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 04:42:59 -0800 (PST)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [kirkstone][PATCH] musl: patch CVE-2025-26519
+Date: Wed, 19 Nov 2025 13:42:58 +0100
+Message-ID: <20251119124258.164074-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-References: <20251119101959.2603691-1-skandigraun@gmail.com>
-In-Reply-To: <20251119101959.2603691-1-skandigraun@gmail.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Wed, 19 Nov 2025 12:13:48 +0100
-X-Gm-Features: AWmQ_bnU-1p--J0L1lWJKFgepEuJWA86cS2PCrJ-vQOhqGh2tXpFj9xl-1FG0io
-Message-ID: <CAMSfU+6HVotB37NL7o6arKjxkeGzm-wAHCOnTNDHcyQ6x_JjoA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bitbake.conf: add canon-prefix-map to DEBUG_PREFIX_MAP
-To: skandigraun@gmail.com
-Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000004549bd0643f0ae80"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 11:14:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226551
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 12:43:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226552
 
---0000000000004549bd0643f0ae80
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Details: https://nvd.nist.gov/vuln/detail/CVE-2025-26519
 
-Le mer. 19 nov. 2025 =C3=A0 11:20, Gyorgy Sarvari via lists.openembedded.or=
-g
-<skandigraun=3Dgmail.com@lists.openembedded.org> a =C3=A9crit :
+Pick the patches that are attached to the musl advisory:
+https://www.openwall.com/lists/musl/2025/02/13/1
 
-> When the debug-prefix-map and macro-prefix-map compiler flags
-> were change to file-prefix-map[1] the -fcanon-prefix-map
-> flag was removed, most likely accidentally.
->
-> Due to this the file paths were not canonicalized before
-> substituting them, so they did not always match the corresponding keys.
->
-> E.g. relative pathes were not converted to absolute ones:
-> ../../sources/foo.cpp doesn't match ${S}/foo.cpp, and due to
-> this some debug sources were missed.
->
-> This patch adds back the -fcanon-prefix-map flag.
->
-> [1]:
-> https://git.openembedded.org/openembedded-core/commit/?id=3Dff73fa7ef7666=
-a6dbe34f15515bc3ab6e574c5b0
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+ .../musl/musl/CVE-2025-26519-1.patch          | 39 +++++++++++++++++++
+ .../musl/musl/CVE-2025-26519-2.patch          | 38 ++++++++++++++++++
+ meta/recipes-core/musl/musl_git.bb            |  4 +-
+ 3 files changed, 80 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/musl/musl/CVE-2025-26519-1.patch
+ create mode 100644 meta/recipes-core/musl/musl/CVE-2025-26519-2.patch
 
-
-This patch does fix a bug I filed yesterday :
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16069
-
-Awesome, thanks!
-
-For the out-of-tree kernel module case:
-Tested-by: Yoann Congal <yoann.congal@smile.fr>
-
-
-> Cc: Khem Raj <raj.khem@gmail.com>
-> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-> ---
->  meta/conf/bitbake.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 52ceb76bbb..f789b8e326 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -650,7 +650,7 @@ EXTRA_OEMAKE:prepend:task-install =3D
-> "${PARALLEL_MAKEINST} "
->  ##################################################################
->  TARGET_DBGSRC_DIR ?=3D "/usr/src/debug/${PN}/${PV}"
->  # Beware: applied last to first
-> -DEBUG_PREFIX_MAP ?=3D "\
-> +DEBUG_PREFIX_MAP ?=3D "-fcanon-prefix-map \
->   -ffile-prefix-map=3D${S}=3D${TARGET_DBGSRC_DIR} \
->   -ffile-prefix-map=3D${B}=3D${TARGET_DBGSRC_DIR} \
->   -ffile-prefix-map=3D${STAGING_DIR_HOST}=3D \
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#226545):
-> https://lists.openembedded.org/g/openembedded-core/message/226545
-> Mute This Topic: https://lists.openembedded.org/mt/116371356/4316185
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> yoann.congal@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Yoann Congal
-Smile ECS
-
---0000000000004549bd0643f0ae80
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Le=C2=A0mer. 19 nov. 2025 =C3=A0=C2=A011:=
-20, Gyorgy Sarvari via <a href=3D"http://lists.openembedded.org">lists.open=
-embedded.org</a> &lt;skandigraun=3D<a href=3D"mailto:gmail.com@lists.openem=
-bedded.org">gmail.com@lists.openembedded.org</a>&gt; a =C3=A9crit=C2=A0:</d=
-iv><div class=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">When the debug-prefix-map and macro-prefix-map c=
-ompiler flags<br>
-were change to file-prefix-map[1] the -fcanon-prefix-map<br>
-flag was removed, most likely accidentally.<br>
-<br>
-Due to this the file paths were not canonicalized before<br>
-substituting them, so they did not always match the corresponding keys.<br>
-<br>
-E.g. relative pathes were not converted to absolute ones:<br>
-../../sources/foo.cpp doesn&#39;t match ${S}/foo.cpp, and due to<br>
-this some debug sources were missed.<br>
-<br>
-This patch adds back the -fcanon-prefix-map flag.<br>
-<br>
-[1]: <a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=
-=3Dff73fa7ef7666a6dbe34f15515bc3ab6e574c5b0" rel=3D"noreferrer" target=3D"_=
-blank">https://git.openembedded.org/openembedded-core/commit/?id=3Dff73fa7e=
-f7666a6dbe34f15515bc3ab6e574c5b0</a></blockquote><div><br></div><div>This p=
-atch does fix a bug I filed yesterday :=C2=A0<a href=3D"https://bugzilla.yo=
-ctoproject.org/show_bug.cgi?id=3D16069">https://bugzilla.yoctoproject.org/s=
-how_bug.cgi?id=3D16069</a></div><div><br></div><div>Awesome, thanks!</div><=
-div><br></div><div>For the out-of-tree kernel module case:</div><div>Tested=
--by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr">yoann.congal=
-@smile.fr</a>&gt;</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">
-Cc: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">ra=
-j.khem@gmail.com</a>&gt;<br>
-Signed-off-by: Gyorgy Sarvari &lt;<a href=3D"mailto:skandigraun@gmail.com" =
-target=3D"_blank">skandigraun@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/conf/bitbake.conf | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
-index 52ceb76bbb..f789b8e326 100644<br>
---- a/meta/conf/bitbake.conf<br>
-+++ b/meta/conf/bitbake.conf<br>
-@@ -650,7 +650,7 @@ EXTRA_OEMAKE:prepend:task-install =3D &quot;${PARALLEL_=
-MAKEINST} &quot;<br>
-=C2=A0##################################################################<br=
->
-=C2=A0TARGET_DBGSRC_DIR ?=3D &quot;/usr/src/debug/${PN}/${PV}&quot;<br>
-=C2=A0# Beware: applied last to first<br>
--DEBUG_PREFIX_MAP ?=3D &quot;\<br>
-+DEBUG_PREFIX_MAP ?=3D &quot;-fcanon-prefix-map \<br>
-=C2=A0 -ffile-prefix-map=3D${S}=3D${TARGET_DBGSRC_DIR} \<br>
-=C2=A0 -ffile-prefix-map=3D${B}=3D${TARGET_DBGSRC_DIR} \<br>
-=C2=A0 -ffile-prefix-map=3D${STAGING_DIR_HOST}=3D \<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#226545): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/226545" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/226545</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/116371356/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/116371356/4316185</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
-get=3D"_blank">yoann.congal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-
---0000000000004549bd0643f0ae80--
+diff --git a/meta/recipes-core/musl/musl/CVE-2025-26519-1.patch b/meta/recipes-core/musl/musl/CVE-2025-26519-1.patch
+new file mode 100644
+index 0000000000..a9ea3b4149
+--- /dev/null
++++ b/meta/recipes-core/musl/musl/CVE-2025-26519-1.patch
+@@ -0,0 +1,39 @@
++From 345d2a053c32f3443dbfdd313f49346ce30b92f8 Mon Sep 17 00:00:00 2001
++From: Rich Felker <dalias@aerifal.cx>
++Date: Wed, 19 Nov 2025 13:23:38 +0100
++Subject: [PATCH] iconv: fix erroneous input validation in EUC-KR decoder
++
++as a result of incorrect bounds checking on the lead byte being
++decoded, certain invalid inputs which should produce an encoding
++error, such as "\xc8\x41", instead produced out-of-bounds loads from
++the ksc table.
++
++in a worst case, the loaded value may not be a valid unicode scalar
++value, in which case, if the output encoding was UTF-8, wctomb would
++return (size_t)-1, causing an overflow in the output pointer and
++remaining buffer size which could clobber memory outside of the output
++buffer.
++
++bug report was submitted in private by Nick Wellnhofer on account of
++potential security implications.
++
++CVE: CVE-2025-26519
++Upstream-Status: Backport [https://git.musl-libc.org/cgit/musl/commit/?id=e5adcd97b5196e29991b524237381a0202a60659]
++Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
++---
++ src/locale/iconv.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/locale/iconv.c b/src/locale/iconv.c
++index 3047c27b..1fb66bc8 100644
++--- a/src/locale/iconv.c
+++++ b/src/locale/iconv.c
++@@ -495,7 +495,7 @@ size_t iconv(iconv_t cd, char **restrict in, size_t *restrict inb, char **restri
++ 			if (c >= 93 || d >= 94) {
++ 				c += (0xa1-0x81);
++ 				d += 0xa1;
++-				if (c >= 93 || c>=0xc6-0x81 && d>0x52)
+++				if (c > 0xc6-0x81 || c==0xc6-0x81 && d>0x52)
++ 					goto ilseq;
++ 				if (d-'A'<26) d = d-'A';
++ 				else if (d-'a'<26) d = d-'a'+26;
+diff --git a/meta/recipes-core/musl/musl/CVE-2025-26519-2.patch b/meta/recipes-core/musl/musl/CVE-2025-26519-2.patch
+new file mode 100644
+index 0000000000..82a09af535
+--- /dev/null
++++ b/meta/recipes-core/musl/musl/CVE-2025-26519-2.patch
+@@ -0,0 +1,38 @@
++From b81230050f6c3348038fe470d260028824b9a9e5 Mon Sep 17 00:00:00 2001
++From: Rich Felker <dalias@aerifal.cx>
++Date: Wed, 19 Nov 2025 13:27:15 +0100
++Subject: [PATCH] iconv: harden UTF-8 output code path against input decoder
++ bugs
++
++the UTF-8 output code was written assuming an invariant that iconv's
++decoders only emit valid Unicode Scalar Values which wctomb can encode
++successfully, thereby always returning a value between 1 and 4.
++
++if this invariant is not satisfied, wctomb returns (size_t)-1, and the
++subsequent adjustments to the output buffer pointer and remaining
++output byte count overflow, moving the output position backwards,
++potentially past the beginning of the buffer, without storing any
++bytes.
++
++CVE: CVE-2025-26519
++Upstream-Status: Backport [https://git.musl-libc.org/cgit/musl/commit/?id=c47ad25ea3b484e10326f933e927c0bc8cded3da]
++Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
++---
++ src/locale/iconv.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/src/locale/iconv.c b/src/locale/iconv.c
++index 1fb66bc8..fb1d3217 100644
++--- a/src/locale/iconv.c
+++++ b/src/locale/iconv.c
++@@ -538,6 +538,10 @@ size_t iconv(iconv_t cd, char **restrict in, size_t *restrict inb, char **restri
++ 				if (*outb < k) goto toobig;
++ 				memcpy(*out, tmp, k);
++ 			} else k = wctomb_utf8(*out, c);
+++			/* This failure condition should be unreachable, but
+++			 * is included to prevent decoder bugs from translating
+++			 * into advancement outside the output buffer range. */
+++			if (k>4) goto ilseq;
++ 			*out += k;
++ 			*outb -= k;
++ 			break;
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 4b85401360..f24da3b2cb 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -15,7 +15,9 @@ PV = "${BASEVER}+git${SRCPV}"
+ SRC_URI = "git://git.musl-libc.org/musl;branch=master \
+            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
+            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
+-          "
++           file://CVE-2025-26519-1.patch \
++           file://CVE-2025-26519-2.patch \
++           "
+ 
+ S = "${WORKDIR}/git"
+ 
 
