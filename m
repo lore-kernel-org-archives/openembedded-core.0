@@ -1,200 +1,140 @@
-Return-Path: <Harish.Sadineni@windriver.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA985CF3979
-	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 16:48:39 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11802.1763570908493052631
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD3CFCF3963
+	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 16:52:49 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11911.1763571161933119963
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Nov 2025 08:48:29 -0800
+ Wed, 19 Nov 2025 08:52:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=RJzz6L7o;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=34186f8fde=harish.sadineni@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AJ7vuuC4101401
-	for <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 16:48:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=cfulRwytJfi9vWAecnMqzcC79bviZ/lLbO8BEB8uLKg=; b=
-	RJzz6L7oHfdnvNXd3s8S3MvJbUM4BD9f3LbIhKSzY8MhGkeIa0FM+16AAbkbsep8
-	wSDcz16vsJFhIavaniHE7jtLXzJBP+zpN5a/Srs7Imn8/A7Ty99ZkDR88bB2ZOLA
-	Fa/QmmLlTidS97ld1/07B/TypdC8tcew45IJSTfspDuy23AecFrkD9FjBgdFUGXX
-	ysO3Z5RsgSBjde0LjYjJSweqBQ6uN81EXAhwlB7tSO5vE4RJ0ConGae9z0zhIj0c
-	K6/B/ELubhmVXz8/6Z7yVDzprEwGA8EFR/xGgzG3XwKiw6Z2FWPchk0T/Je7NWgd
-	351HKuuTKAuYitcW35lbiQ==
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011060.outbound.protection.outlook.com [52.101.62.60])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4aeeqwncu5-2
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 19 Nov 2025 16:48:27 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tBZtJuF17L+AkG99UF/DkKxi7WzYIur2qfo/+noOzylRP/Vc0K8vsVGZAlE8gifZTagEK2pM1nnBbfadNsn6YPG2W0QGHUS22cdKnERYY5cTUoABgrAeMwKVCk3P/0Kzz5FZ0/weU1ongBAynUpQisLXW5vkTUTtYFTGIh0pOeAsq+qA7u4jnzVNGBpYnZUktASPXQVLRwx3HUNoB++uck97Uq/JEmM4xn7v2H8IcdkPfje9dpJc2iiMaCVL1pzNPlKgL9mabYBQF09FDknoiRwEjQqt+pEsYeCfyeY9ncDrRkP3Udit6++4uzYOQHOB7kogpUWyy86egVH6WFwaSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cfulRwytJfi9vWAecnMqzcC79bviZ/lLbO8BEB8uLKg=;
- b=ROi7Hr/7WUXPuJNBpGEYt7s3Xt2xrLmeZMJRs6e+qGBHK8zkfw5FylrE8QT1zHBb1cpS/MKgJHE6GK11toru1WHnULjzrp4MKgHZvA+QKcUAKYd+O1ReXTDXQnVhhWoaDZ8GT9DaC1rV4faQQgNYHo6p3klvFFXCwPyhcjY2rIxUTZTMpm0RUGIfS4dkbjHzGWWqeBPRGHI8uMo6ZJOgT2p5JMrGEsApYbkhbNABjDS3Gu/z4FxOISnoqKeq2XNA8PrnDPD3O/WhF5aHRhA8Y0qojbhTGzFsBBgo6/hOkytICcILk78wzz9gewjqcRTbFkvcYI5u4JYd94ypqm7eiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
- by IA1PR11MB6122.namprd11.prod.outlook.com (2603:10b6:208:3ee::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Wed, 19 Nov
- 2025 16:48:23 +0000
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::f440:269f:9645:29c0]) by PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::f440:269f:9645:29c0%6]) with mapi id 15.20.9343.009; Wed, 19 Nov 2025
- 16:48:23 +0000
-From: Harish.Sadineni@windriver.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y5wSYXha;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47755a7652eso47256355e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 08:52:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763571160; x=1764175960; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/Y9IEZudQRIzPZEYXHBFW8Dh1aE3pYx7WU1m+JuYUDw=;
+        b=Y5wSYXhaHGndQjJP6Nl4+aExIUyl+/wC4J1JUJb2sICsdZLf5wuFu9/qMGjasKSNJv
+         /fbchVjiu1OVUwk+OlH4/AOMs+mFFDNAmBH7mAUaVt1wTjCLc9GXn9FDiMMbZZ07B59A
+         aDp6XKqteL2cUTPgdSUoZhzT7HgbQ5HD7WdV1mE9Oplru2Qwt4Q1nRsbRWMbpCvwP7zI
+         mNLQ2zTV2j9W588K4h6Gf4LEZFmUgxgJgjwbPIJGIdW6tmzMPOMa4VkxepSiiVSN7GWd
+         gbJ/b5suBJvhtobOLMX1zOOUu+ntdncnSGMQLt2z+NsnEHXchop1g/8V1N0FEhM+7roa
+         dwZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763571160; x=1764175960;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/Y9IEZudQRIzPZEYXHBFW8Dh1aE3pYx7WU1m+JuYUDw=;
+        b=bjSJ86vX/TPLz+5nyJ916Vd4vvgWYPmX35QqL4jgCzbbyQGEtwckwenHntXfn1FHoP
+         SAAYba6UEo4IRr/gSy6XYFxxKJE6cmQEz0s/G7yYB5kgQIkBQGmWGdWf2wUIVJNEZYls
+         WyFR5Auc2NgtRpaKTBEjPxvcWjvx/7ViTRnmTYKg3LPzaC/Z+jBpDwiLnAMM8CkSXTox
+         HGBVYZjKb2CeeEgrmWmVLUJMPtxig7K/FO5DCTd30drPM16K7y58h0Ff6oG5Rxw8DHrw
+         JFxQZboyqcZDsOpMr/cjmv9DSWo4q5lTJHfYhqTtwwpAYbXmcyDFp2bzop+cBUK8tJM2
+         HHZg==
+X-Gm-Message-State: AOJu0YwBAGanQl/ePXLUGhg64UNlliKZ+4mKkvEJYl4mG3bV7g5dYpYj
+	yo6wuImmLGhWoiszSWqj6neCzVwFTlTCl/U4swjFpS0ibh7tVQP4KDy/R3K/1dC+
+X-Gm-Gg: ASbGncuqEIu0SMrAI+CTUUaVSSkqjClrWPjW+0B1ryJ4upztKPtUQN7Rr5HUa4nzpDW
+	RPQROuyJ2QE9oM6sEVfhL0fY/KSVlzmYhdUUGnBVEMmqlqd9B93j6amzYfw8+lOt24l7LwPddbG
+	B6an0S++HjfJ/A4uosKLL0GRl4y5oF4Xfbhcdt0jY3/t6S60AitPXTMWeuDV4rCvGWQ67oo6NdI
+	ltbIpJOexS9b5sa2Bpd6y6RT48YudxPuuyVOjdDWCt4OrOh4KO8CCnplEVBYpw1Wmf1ZKLRyfDs
+	MU3YyJXZDE8D5sgKqfvWKa/13z1Q2F/7PSsDQcZpCOEaPmnXSkYtPIhTKLA2ZnOGI7kFV7dyF/n
+	wmBlUPtUAGAhYGkDGufrTXnoIr5zNH7YEef/aBHK08B3sZhHnAeNVl0O5ZuvKBFNPCmsu15IUTb
+	3L2v6Ox6yuTBeJovUluM4=
+X-Google-Smtp-Source: AGHT+IEZSO5x0TMnyZdAqy7PmpMtGDvgrBGzTNB3w6s59mQjextg2Mxs8w50ry7EX5lmeAWAmquVGg==
+X-Received: by 2002:a05:600c:1c20:b0:477:5b0a:e616 with SMTP id 5b1f17b1804b1-4778fe4f635mr208249715e9.5.1763571160041;
+        Wed, 19 Nov 2025 08:52:40 -0800 (PST)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b0faf295sm60961555e9.0.2025.11.19.08.52.39
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 08:52:39 -0800 (PST)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, bruce.ashfield@gmail.com,
-        Sundeep.Kokkonda@windriver.com, yoann.congal@smile.fr,
-        elmehdi.younes@smile.fr
-Subject: [PATCH RFC v3 01/11] bindgen-cli: extend BBCLASSEXTEND to include nativesdk
-Date: Wed, 19 Nov 2025 08:47:53 -0800
-Message-ID: <20251119164804.256364-2-Harish.Sadineni@windriver.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20251119164804.256364-1-Harish.Sadineni@windriver.com>
-References: <20251119164804.256364-1-Harish.Sadineni@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0203.namprd13.prod.outlook.com
- (2603:10b6:a03:2c3::28) To PH0PR11MB5658.namprd11.prod.outlook.com
- (2603:10b6:510:e2::23)
+Subject: [kirkstone][PATCH] flac: patch seeking bug
+Date: Wed, 19 Nov 2025 17:52:38 +0100
+Message-ID: <20251119165238.442767-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|IA1PR11MB6122:EE_
-X-MS-Office365-Filtering-Correlation-Id: 67cd20b2-7665-4c0e-0442-08de278b7375
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?LArdkx56PP7/XvSuLiLcbnwA989kKJ/UQvCTu+z4y65HL3A9zR0qQVv0gxh3?=
- =?us-ascii?Q?cwzFrWT4EVtWyRpdXvF4Uk7AKh+hiiLkP0EFNX6L9OE675fJC+e9rX6DUp+m?=
- =?us-ascii?Q?f7zH8AwkFvRK2niwFnVHjusT7/i16Ku8XpLPPEFcCGAhNLHev6586Dseht0x?=
- =?us-ascii?Q?+1MCpPnOxQvAyjm4jIRyQfx3lYcgtN+8B5A+f6kq9pVqjN68TJyjAcF5CUGG?=
- =?us-ascii?Q?MtCyALcD9UDLMC1MlZzH2wz/EEPCrB2W4/n5RKD6bPkkVrXQ+EhS9sqeVkxl?=
- =?us-ascii?Q?BaM6ghLAlDl2y6FnzbnZ0/8hSWe2rwkxCB16GzU9g56MYUqDI0iqQyIQmZZr?=
- =?us-ascii?Q?0z+E17KMxVg43vPPtLZeTD/7x3BPLLb2thH3/v2fmFu88OZKTbkx2kPWFhns?=
- =?us-ascii?Q?AqpZkIzkOQZeI4jNHsFLpHEzmCOq4ORgAioVFFVg4WmWga1nxuQ0QJqzfZKM?=
- =?us-ascii?Q?rTYUbw0xErQ/WEq5ItwhW4m5/or+dPxxDPkNpjsuTWnukBlwlRWiJj0rhnIX?=
- =?us-ascii?Q?yKgSKuOixNO8PlynYg1toFEzZox2LI4SN44J6a3vPKIliyFtTJFwri9pN/Bo?=
- =?us-ascii?Q?T+17ACBXkw7/wSTwbKt8Hk1IQm31CYRELxs11DLFjo+x3z8Pt5x/QAoIreai?=
- =?us-ascii?Q?y8QBfmbwxatV1bfxYSruR4SIFDXWRdhLeq7kz1qDfFfnTz+JxZp7T1LdoVbX?=
- =?us-ascii?Q?QzmUax4/3XHoEeQokYhQpNrXz0j3z66yMjGBlSF2v2C/9Cb/ARBfwPwoy2D6?=
- =?us-ascii?Q?QyGd1F3V0bwPGwWmsy4eVVkzz6dv8+xVGRmi1hPNSIgRKAAnu5U9n8KbT0G/?=
- =?us-ascii?Q?q7mEasMLteOsGnXTD7ADEURjNXimyKwA9w6hVGalPbtCxn4C66tEIwkv7eeo?=
- =?us-ascii?Q?EzlvaWDCe72nv75F+CtgWwl6WWg93gK34DhmXQn0jLCpWIq9EH39mt2im8o3?=
- =?us-ascii?Q?plqwfQ+Lg72xh25J330JK1Vo84ywR7isjLjt3n1GPMFJbBFUGvGkz3on5Kta?=
- =?us-ascii?Q?Q2Ab2aK02pDymEVodO5neyaJ7thCb6mlVWU8vsj1XbHwmAFn0LDH1sDGhEyK?=
- =?us-ascii?Q?zuhNNdT9A1gnLMHMxKhD+QeXUw/NRGhTEjYJrnUqfAhwMtFePLHzujb0EtIB?=
- =?us-ascii?Q?Syzpcd8sDTDVxtP2FahBk5p3JJWVpMsDTUJDy02/8u6c3otd+Q3HaNxaEL+u?=
- =?us-ascii?Q?AV6re787tsIogC08zKhtS4d8/s22YGr5neAj5A9xanPgAONOuohwdzXZfwsI?=
- =?us-ascii?Q?nH+dX2Jo9HlP+zh6JV9dNBLgwTy96Zzt7VlbT7pjixCLTHap5En9wjFU31ik?=
- =?us-ascii?Q?yUXgI9zDTjHgBwmRZDvWHNpB7oc2M+K1Y8Dvh1YpkVGqbTASU30rTaHi08d7?=
- =?us-ascii?Q?MkQWMc/3Uo0qf/qyPMe0PY8NA5LCnmknfIJZhQoraKTWpbSG7map7olUMOUj?=
- =?us-ascii?Q?u2E3YJdvUGgKB1xMQOwR1lHAwOPTh5Os+hptCMf4aj+wmN4H8OVgetvQrTEm?=
- =?us-ascii?Q?Xw42BRB2advGfN4KnmpB0bEWSAsEi7mI5woO?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ZCtqHxylGAo5PYgPAqg/TR6X6WC8+5eUyhRCgdp92Kt4xE00SEc0bOdE+JcO?=
- =?us-ascii?Q?F0T3y7hU1IzJDqaU02wsuI9u88y8waorXandypeIhco7p0mO+GCroNDCfbDn?=
- =?us-ascii?Q?lD67zsbQlK3MbwmGUf4u/LEEHOJBIzYuhBqem8eXBiRuKS+cgrPW+iHun7Yg?=
- =?us-ascii?Q?+Vk+bL98jl3B815dcWcg/hTHEa0GnmCDwMuwLnfZmqjz7KHNEGcwy7Xlid8Z?=
- =?us-ascii?Q?pyKO4oQkrt7jvlc2qp8+aOEeNnMra5tP1BdsMe9gU8zRvObe5wQJOneSzVYd?=
- =?us-ascii?Q?NHCgSlxBYQodOQh7nddFxHJnQ4gJX5J9Bk8a6MXqjV2b3oeLo+iA8hlsC9If?=
- =?us-ascii?Q?iXwMfZB60M3gM3ME3xvdAbZVFtvz/cSvkNI3AuqmiCGSWhW20mmgNnaljGCn?=
- =?us-ascii?Q?OnNZmtoaRScXHIJNiPQzvUVMUiSCON3+rhvsFI9/y/2Y8tqpJW00EXqNJLjI?=
- =?us-ascii?Q?4poQ95wzSA8ktawoJ390VbS6Oq5huqP/qb0F2Ict+OuYmS2++hBzY97KUvNe?=
- =?us-ascii?Q?/VSBe7F59mSovqMdrzv3xFvcNospoEFML55VApMWb0W/GRucIVkM25Dt59w1?=
- =?us-ascii?Q?nCwd52Cud5dNJLp6N1vz82JwBdZ5yNXw7dsSzGySJytMKna4Bu2ZCyAcf4A3?=
- =?us-ascii?Q?4w96b7NYvoBzgwLRGstoxzfoUuEr9uR6Il8f2bq46HR9Yomz6hQ6JCSUwP3U?=
- =?us-ascii?Q?UAWd5Slf70O+OlVEvgxpaP6w/0eHrF/3Y+di3/Uk6BBKz0mye5vsecezc3KP?=
- =?us-ascii?Q?cCjwoAPx/MxVDbbZ3m9IosVWiMCGxjR+ZU+ODiZGOQLjzDD0GxCNZmMmrogN?=
- =?us-ascii?Q?1QZmUwhB9Tvmz7HLIPTivYqaiFXWPbC/Be3wtsnXVabiHauM0/OeHyttbTgi?=
- =?us-ascii?Q?Sp/2Uhw0UpwQUhnFh4awg22IwnSP8ydqRK4mV2qslb04I3bN4ODHfN6kgs/S?=
- =?us-ascii?Q?RPxdYgvN0KRci8CH6LgLRxjg97TIgf5uK6xcCmbNw0qF743mgOBjWhHYIbMB?=
- =?us-ascii?Q?rSSNkpI7MlQFXP33LLyetPRrWBQtdWjsnXmLEIzLAy3etmd3Ntu4sGIA6htw?=
- =?us-ascii?Q?9E0506cHU5R5Yy7G27C0w7XkThCIuQn2cKm+OqagGYEU2d5Hd54fL6mseED3?=
- =?us-ascii?Q?mgZJAxgIYiC65KbpRIehJ+Mfq7CsHcuvSfCy6H2yL/YBrSpMUmRNTyLiPWlJ?=
- =?us-ascii?Q?LrD1UQWcgf4ZkTu2NES5zDD9sCQwbiJBjJFLYf5jMIAnYXt/+S/AZoMp/fa1?=
- =?us-ascii?Q?K+dxEtb6TrdGjHTDd0AJrGTK02Kyam7h2+rbR/29AoK3HkvKz0+4IeUWH1ZP?=
- =?us-ascii?Q?98oiPXbP62LPbpcQ5n0gWtD7smZZ0yZT7NDO9mH+AAV7ET6Zt7YNUs6thm0N?=
- =?us-ascii?Q?31J46J6Rqb4N4Sr86lOeGMuGsiU9NrXast2GSmBDzyQtnmmfpr3KiQUpP5pq?=
- =?us-ascii?Q?1EYSBxbogBKVyEui0WltC09oA1bsfkA38vbQBKlSmEyp5ODIU6FuWT7NoVoy?=
- =?us-ascii?Q?crr+3JBcSyZ2lzx+sIwyo/SPU4w8PTE2D6iuUiUDD4BxQIACJcBz3TtPft1y?=
- =?us-ascii?Q?AN5qxelYSoPtwDAY88FsBza24j4XPFMZ146CB2wqiO8L6h4Uvr6+jjtlEJOK?=
- =?us-ascii?Q?49UEoh4yAqJ0xVkkmTNNu/8=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 67cd20b2-7665-4c0e-0442-08de278b7375
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 16:48:22.5721
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vb2Y9M9c8EZqbmnoCRIWd/SsfwhLr+pzcoXhJmZsUMEH3q17JCVtKAD2iuWRnFUfSByiOU8LXRO/hz/khCcqz6hKBddayIiljfIeOF9MG6I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6122
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE5MDEzMSBTYWx0ZWRfX4AjCbg+Dof+H
- 3t54Xh/RxkWokhAKhDQFdQWFWng05p8HrmmhfYMqnNGcv3gIr2tpR3xHZ0MYsfmao382pag/nHY
- sODRbozJawtVwSuDMSBLkXPnX27PbijkQ/0fUJrATtR7E2phsU9Axoyx6KCJ+bP0yjnXw7bIfeN
- tfj0r0+uJTcteYvCb/7xTvhtohBln6FTV1GyKWlzWOlkdBRWnIyECWhrNlx/MG06vkFS+FnQkyQ
- ueUwd7orOB6P+qHT/V3VkgksH6ZYwyr9mkN5h4oJBbL39Nhl8exWg/fmYkfqwsOeCmlpwgsNXdK
- FV3T+CiW2zilLhXBmvw9hcCXb142iQa8MbcOnAdlghVhu02+lh4BHCKk6P37GNLWPpDRkh4+LVQ
- 2S9xBKtFmvRFXBMLJCrfjh6T9CqkPw==
-X-Proofpoint-GUID: Bn0_dwSgY_ktf5BOXmADZ6VtG2yDTdgi
-X-Authority-Analysis: v=2.4 cv=OuxCCi/t c=1 sm=1 tr=0 ts=691df4db cx=c_pps
- a=VmiGRewH7mEIsprpaxNw0Q==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=t7CeM3EgAAAA:8 a=giED5mSNaOMbM826fEsA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: 8VzeawkSf8Nukwpo9KJaFrYNGQmCX7nf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-19_05,2025-11-18_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 phishscore=0 bulkscore=0 malwarescore=0
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511190131
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 16:48:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226561
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 16:52:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226572
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+While working on audiofile recipe from meta-oe, a test that is using flac
+to convert a flac file failed with this particular version of the recipe.
 
-To support building Rust bindings in the SDK environment, bindgen needs to
-be available for the `nativesdk` class as well.
+Bisecting the issue pointed to a code snippet that later was modifed with the
+patch that is introduced here: in version 1.3.4 there is a bug with seeking
+in flac files, returning incorrect pointers.
 
-This is required as part of making Rust available, where bindgen is a common
-dependency for generating Rust FFI bindings from C headers during cross-compilation.
+This backported patch fixes this (and fixes the ptest also, that triggered this).
 
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- meta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../flac/files/0001-Fix-seeking-bug.patch     | 34 +++++++++++++++++++
+ meta/recipes-multimedia/flac/flac_1.3.4.bb    |  3 +-
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/flac/files/0001-Fix-seeking-bug.patch
 
-diff --git a/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb b/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb
-index 2f3ec04e82..72dadfe52f 100644
---- a/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb
-+++ b/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb
-@@ -15,4 +15,4 @@ do_install:append:class-native() {
- 	create_wrapper ${D}/${bindir}/bindgen LIBCLANG_PATH="${STAGING_LIBDIR_NATIVE}"
- }
+diff --git a/meta/recipes-multimedia/flac/files/0001-Fix-seeking-bug.patch b/meta/recipes-multimedia/flac/files/0001-Fix-seeking-bug.patch
+new file mode 100644
+index 0000000000..dadedcc168
+--- /dev/null
++++ b/meta/recipes-multimedia/flac/files/0001-Fix-seeking-bug.patch
+@@ -0,0 +1,34 @@
++From 1817916388cd8180f4411e6d0eb89a8c6916dce6 Mon Sep 17 00:00:00 2001
++From: Martijn van Beurden <mvanb1@gmail.com>
++Date: Mon, 25 Apr 2022 20:29:57 +0200
++Subject: [PATCH] Fix seeking bug
++
++Commit 159cd6c introduced a bug that only triggered upon seeking
++from the start of a headerless FLAC file to the first frame (so
++really not a seek at all). Furthermore that commit did nothing
++else in any other circumstance. This commit fixes that, by both
++fixing the problem and the behaviour the commit mentioned earlier
++meant to introduce.
++
++Co-authored-by: Robert Kausch <robert.kausch@freac.org>
++
++Upstream-Status: Backport [https://github.com/xiph/flac/commit/7e785eb9a84f9147246eb2b0e5e35ec01db5a815]
++Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
++---
++ src/libFLAC/stream_decoder.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/src/libFLAC/stream_decoder.c b/src/libFLAC/stream_decoder.c
++index ef6da44..bc78645 100644
++--- a/src/libFLAC/stream_decoder.c
+++++ b/src/libFLAC/stream_decoder.c
++@@ -3077,7 +3077,8 @@ FLAC__bool seek_to_absolute_sample_(FLAC__StreamDecoder *decoder, FLAC__uint64 s
++ 	upper_bound = stream_length;
++ 	upper_bound_sample = total_samples > 0 ? total_samples : target_sample /*estimate it*/;
++ 
++-	if(decoder->protected_->state == FLAC__STREAM_DECODER_READ_FRAME) {
+++	if(decoder->protected_->state == FLAC__STREAM_DECODER_SEARCH_FOR_FRAME_SYNC &&
+++	   decoder->private_->samples_decoded != 0) {
++ 		if(target_sample < decoder->private_->samples_decoded) {
++ 			if(FLAC__stream_decoder_get_decode_position(decoder, &upper_bound))
++ 				upper_bound_sample = decoder->private_->samples_decoded;
+diff --git a/meta/recipes-multimedia/flac/flac_1.3.4.bb b/meta/recipes-multimedia/flac/flac_1.3.4.bb
+index 1a44718bba..6df0668783 100644
+--- a/meta/recipes-multimedia/flac/flac_1.3.4.bb
++++ b/meta/recipes-multimedia/flac/flac_1.3.4.bb
+@@ -16,7 +16,8 @@ DEPENDS = "libogg"
  
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.49.0
-
+ SRC_URI = "http://downloads.xiph.org/releases/flac/${BP}.tar.xz \
+            file://CVE-2020-22219.patch \
+-"
++           file://0001-Fix-seeking-bug.patch \
++           "
+ 
+ SRC_URI[sha256sum] = "8ff0607e75a322dd7cd6ec48f4f225471404ae2730d0ea945127b1355155e737"
+ 
 
