@@ -1,114 +1,231 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <Divya.Chellam@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFE23CF8577
-	for <webhook@archiver.kernel.org>; Thu, 20 Nov 2025 09:24:44 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.30599.1763630682030615741
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1018DCF857B
+	for <webhook@archiver.kernel.org>; Thu, 20 Nov 2025 09:37:55 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30487.1763631472164579109
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Nov 2025 01:24:42 -0800
+ Thu, 20 Nov 2025 01:37:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TpYLB7og;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4775ae5684fso2896575e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 01:24:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763630680; x=1764235480; darn=lists.openembedded.org;
-        h=content-transfer-encoding:subject:from:cc:content-language:to
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dV7yp9vOPucmZiwIWbE1NeKibN/Kvj7wwT6lXfOcjdE=;
-        b=TpYLB7ogenoPCrrW62V6MWzQOET8EUq33VkJsESYz11tm3yVzdDIFBwUQSqx9YG2Q/
-         diUdCTVojsiE9yztJhvOjfro8T0bcFFOKqER6oL/LP+Xu7B2VxnQMA8YXHFkLdKwYE2W
-         NrDVfRIcHN1I3/9N4CN0EyZ/zJC41SfmdB6XIB8cPQPE1ipY5vpu64cdB89OqZavJRso
-         z9HWXHR5PFeTzO345Ir9gcUTdFcqTcy6kuXWJMXIMFTa7q/Gx74h+og3mA16CYWkzoBA
-         VMHLL6ajz9QqkxTGO+LKUE47CE/slkwuiQB5Z6DyG5ENb8h76/U7Xd3sE5b4l9xepWbu
-         nqvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763630680; x=1764235480;
-        h=content-transfer-encoding:subject:from:cc:content-language:to
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dV7yp9vOPucmZiwIWbE1NeKibN/Kvj7wwT6lXfOcjdE=;
-        b=xSYwtZbuuw/cUA79WuPjNOVVjPAQJVG2XBfubE9pLVmfKJlQ/+k5gSnVDV5F7y80FV
-         JCLD5+xXTw211UgTL9byvF6Gk96RyjriyYC6SPVPBciARRY/9mEjtLmWqIImOtdHb8pj
-         hC8pmFk2ULtbV/7+KZMsV7VmYENi13SCL5lk248rzecdtRd/F32vdlRF9AfTZVB49g8W
-         kxe73f+80hRLN4OIiEhLC0sgANrVW/oPoL27Ddpx0SUEnTI81t7N+0QgWaq8JRXouW9p
-         hE8e2taR+WFvohfHrKBLgG+iqdyvHnGLuzaalXf8bRSKLolePh3ozDut0n2oQ+uypmj5
-         tq8Q==
-X-Gm-Message-State: AOJu0YwkF0I+3UGDH7ny9NI6VFtaa0g/OPIkzstfCKtxBgqIdQzVGRZV
-	b06XUxn63zIJ3vS1hytI3WjJd0A1FgD4CEi3TFyQIDhRzIz0Aq7eIvoSIGFw3g==
-X-Gm-Gg: ASbGncuXKM2Yt10eloFr2NUvgRsRIWLIS25q1xFUOQjwX0CX23iOdNB9KwzBfGSQ+0d
-	aFLX5oB817M2QGRXQdHMe9hFhOL4JKcKjO4FiYzJkNgi9mtTgwLrBmBWapBwvhjIHCE0HIogHb5
-	q8iaO9D1MZfXnzl2539bPuyO0G8CYqR2pQecz1sIgXr0e5+lBnNVd8NhlmzETnhyc5TzYwuWu6j
-	D7SM6WvQwg12GtDMw3GQYvck1E35/oIxoBc0QofljZ9+rikPEES7ZgwRcv9lQr93llABZRhxMMy
-	MKTzwvy4apWQn5SX6hu3X22H2rnKQSXD/H3aPIZbFh3IZRaeobob7X1e4NewkhMPxRbDSEpSQtj
-	eFRs8w55HghRbppBPYzgguK16PBL6FqArSklQdU06ITtPoe+M/0rBCk3lJE+4M+bwuL7OVfLZo0
-	qy0xrfoHGvHYh2lU3v7/TNK2Q7NBRWk7JwxUsU2kxatauL
-X-Google-Smtp-Source: AGHT+IGkLU/j0Eba3hbjhMIdAKMw6zjv9v8oWIAk2CSZN+VlHuAP9It6SF6CuSRIwobI9LM5nrxwIA==
-X-Received: by 2002:a05:600c:1909:b0:477:2f7c:314f with SMTP id 5b1f17b1804b1-477b8a6470fmr22304105e9.10.1763630679742;
-        Thu, 20 Nov 2025 01:24:39 -0800 (PST)
-Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b1076865sm96459935e9.13.2025.11.20.01.24.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Nov 2025 01:24:39 -0800 (PST)
-Message-ID: <24e06766-bfdf-4090-9f13-ff6f5dbdd21d@gmail.com>
-Date: Thu, 20 Nov 2025 10:24:38 +0100
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=ocO3uggj;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3419b7187b=divya.chellam@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AK5wrSR2099146
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 09:37:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=Xkx1J5EoetyuW6eBRf28
+	RgyIP52q3La55OTtR38FWLU=; b=ocO3uggjAQh3eVnJQHAVt2kv3hG9IyCGM5FI
+	YdCnKLeK8zAEXREFzXIkqgEelr0tSwtZoRKNXQHaNi0NCENNIEY6zohEYIVAs2Eq
+	fq+3MOgiW/cPJNiXIj3rBR1nAsPZXg+pJGm6sXedlQ+fTyqvDPuAoeqyoYIDSDwH
+	a9AfPLg/zm8XwWEBz9abnbOT6kwNOlpnofxzMTbwGNwUx1creUHHddPuYMsLVQtH
+	9FQt49RG7jLnL9SV+gvIK+IwREchGmLOQPVnhrglw9/qllbqrzfLABq042w8Jwlt
+	i0glipbSoXMHf4HLG75JWfPHJX8RsYAKnpDGYeCEokNLKzirpg==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ahrs3rd4q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 09:37:51 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Thu, 20 Nov 2025 01:37:48 -0800
+From: dchellam <divya.chellam@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH 1/3] ruby: fix CVE-2024-35176
+Date: Thu, 20 Nov 2025 15:07:20 +0530
+Message-ID: <20251120093722.4148633-1-divya.chellam@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: openembedded-core@lists.openembedded.org
-Content-Language: en-US
-Cc: Khem Raj <raj.khem@gmail.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- Ross Burton <ross.burton@arm.com>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-Subject: RFC: remove STAGING_DIR_NATIVE from CMAKE_FIND_ROOT_PATH and specify
- full path to compilers
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.11.232.110]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (10.11.224.121) To
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121)
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIwMDA1NyBTYWx0ZWRfXyEIlOHWQfRwc
+ Gvh4zuV+WSibjIhAh+8m3n7iZe7E3TTRM6/e22bkzSVJLjBp+fu1DOd05Ixni5sIhbbkDAhViH+
+ v8lZCy8QODxHBF5QWmPv9znN7VsvC+RXCXSQLaD+fhAVffRHiJxmNbkBq/T0GtJ+rjz2quPVKfm
+ KCZG52JpSlIcGKnQF7VOnErSd0pThz9XYlMykvAHNDyoNJJ9eWSPv9WVHPCnvgOPcLQHFkj2mpC
+ KpECyTrFg7uaSDnQbGpCo0oFPkef0SatgiBQieqeJjc+6gjhfueSG404ZRLPOZwsKgGHnddT/ve
+ gibD85cN/RNK2QGS88FXLIgaNRYavKIdv0NOSxLKZAOeLdgOltH4SwLtTo8W2+15BTBUwVXblqE
+ aHQmW/graGavavg8ubNb71cRbMNDIQ==
+X-Proofpoint-GUID: Vd-eXH5OOudpHEaBGLfzfxIQmpI1-RrA
+X-Proofpoint-ORIG-GUID: Vd-eXH5OOudpHEaBGLfzfxIQmpI1-RrA
+X-Authority-Analysis: v=2.4 cv=f61FxeyM c=1 sm=1 tr=0 ts=691ee16f cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=gmxlzscTznEA:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=SSmOFEACAAAA:8 a=w2PP7KgtAAAA:8
+ a=t7CeM3EgAAAA:8 a=t1kVDvCAwgPmzlN0vhgA:9 a=CDB6uwv3NW-08_pL9N3q:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-20_03,2025-11-18_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 impostorscore=0 bulkscore=0 adultscore=0
+ priorityscore=1501 phishscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511200057
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 09:24:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226609
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 09:37:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226610
 
-Hi,
+From: Divya Chellam <divya.chellam@windriver.com>
 
-when I recently tried to fix a lot of recipes in my meta-python-ai layer
-at https://github.com/zboszor/meta-python-ai to actually be able
-to cross-compile, I came across an interesting issue related to
-python modules using cmake internally in their build frameworks.
+REXML is an XML toolkit for Ruby. The REXML gem before 3.2.6 has a
+denial of service vulnerability when it parses an XML that has many
+`<`s in an attribute value. Those who need to parse untrusted XMLs
+may be impacted to this vulnerability. The REXML gem 3.2.7 or later
+include the patch to fix this vulnerability. As a workaround, don't
+parse untrusted XMLs.
 
-Here's the python3-onnx commit that needed tweaks in toolchain.cmake:
-https://github.com/zboszor/meta-python-ai/commit/a1b466ec0db66866ff1c817fd707c33837ec0225
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2024-35176
 
-The problem was that the pre-release onnx 1.20.0rc1 uses nanobind,
-which in turn seems to utilize both STAGING_DIR and STAGING_DIR_NATIVE
-as currently specified in CMAKE_FIND_ROOT_PATH. Then cmake
-rightfully complains about libraries in recipe-sysroot shadowed
-by the ones in recipe-sysroot-native.
+Upstream-patch:
+https://github.com/ruby/rexml/commit/4325835f92f3f142ebd91a3fdba4e1f1ab7f1cfb
 
-Removing STAGING_DIR_NATIVE from CMAKE_FIND_ROOT_PATH then
-made it necessary to specify
-* the full path to ninja in CMAKE_MAKE_PROGRAM
-* the full path to compilers in OECMAKE_C_COMPILER and OECMAKE_CXX_COMPILER
-* some other things, like the full path to protoc and python3,
-   because for some reason, they were not picked up from PATH(???)
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+---
+ .../ruby/ruby/CVE-2024-35176.patch            | 112 ++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_3.1.3.bb      |   1 +
+ 2 files changed, 113 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-35176.patch
 
-My questions are regarding cmake.bbclass:
-
-Would it make sense to make the use of STAGING_DIR_NATIVE in
-CMAKE_FIND_ROOT_PATH for target builds optional?
-At least provide a choice to opt-out?
-
-Would it make sense to specify the full path to C/C++ compilers by default?
-
-Would it make sense to add CMAKE_MAKE_PROGRAM and the full path
-to the proper binary (make or ninja) to toolchain.cmake, depending on
-the value of OECMAKE_GENERATOR?
-
-Best regards,
-Zoltán Böszörményi
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2024-35176.patch b/meta/recipes-devtools/ruby/ruby/CVE-2024-35176.patch
+new file mode 100644
+index 0000000000..83fa3fa4e7
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2024-35176.patch
+@@ -0,0 +1,112 @@
++From 4325835f92f3f142ebd91a3fdba4e1f1ab7f1cfb Mon Sep 17 00:00:00 2001
++From: Nobuyoshi Nakada <nobu@ruby-lang.org>
++Date: Thu, 16 May 2024 11:26:51 +0900
++Subject: [PATCH] Read quoted attributes in chunks (#126)
++
++CVE: CVE-2024-35176
++
++Upstream-Status: Backport [https://github.com/ruby/rexml/commit/4325835f92f3f142ebd91a3fdba4e1f1ab7f1cfb]
++
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++---
++ .../lib/rexml/parsers/baseparser.rb           | 20 ++++++-------
++ .bundle/gems/rexml-3.2.5/lib/rexml/source.rb  | 29 +++++++++++++++----
++ 2 files changed, 34 insertions(+), 15 deletions(-)
++
++diff --git a/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb b/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
++index b97beb3..eab942d 100644
++--- a/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+++++ b/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
++@@ -675,17 +675,17 @@ module REXML
++               message = "Missing attribute equal: <#{name}>"
++               raise REXML::ParseException.new(message, @source)
++             end
++-            unless match = @source.match(/(['"])(.*?)\1\s*/um, true)
++-              if match = @source.match(/(['"])/, true)
++-                message =
++-                  "Missing attribute value end quote: <#{name}>: <#{match[1]}>"
++-                raise REXML::ParseException.new(message, @source)
++-              else
++-                message = "Missing attribute value start quote: <#{name}>"
++-                raise REXML::ParseException.new(message, @source)
++-              end
+++            unless match = @source.match(/(['"])/, true)
+++              message = "Missing attribute value start quote: <#{name}>"
+++              raise REXML::ParseException.new(message, @source)
+++            end
+++            quote = match[1]
+++            value = @source.read_until(quote)
+++            unless value.chomp!(quote)
+++              message = "Missing attribute value end quote: <#{name}>: <#{quote}>"
+++              raise REXML::ParseException.new(message, @source)
++             end
++-            value = match[2]
+++            @source.match(/\s*/um, true)
++             if prefix == "xmlns"
++               if local_part == "xml"
++                 if value != "http://www.w3.org/XML/1998/namespace"
++diff --git a/.bundle/gems/rexml-3.2.5/lib/rexml/source.rb b/.bundle/gems/rexml-3.2.5/lib/rexml/source.rb
++index 4111d1d..7132147 100644
++--- a/.bundle/gems/rexml-3.2.5/lib/rexml/source.rb
+++++ b/.bundle/gems/rexml-3.2.5/lib/rexml/source.rb
++@@ -65,7 +65,11 @@ module REXML
++       encoding_updated
++     end
++ 
++-    def read
+++    def read(term = nil)
+++    end
+++
+++    def read_until(term)
+++      @scanner.scan_until(Regexp.union(term)) or @scanner.rest
++     end
++ 
++     def match(pattern, cons=false)
++@@ -151,9 +155,9 @@ module REXML
++       end
++     end
++ 
++-    def read
+++    def read(term = nil)
++       begin
++-        @scanner << readline
+++        @scanner << readline(term)
++         true
++       rescue Exception, NameError
++         @source = nil
++@@ -161,6 +165,21 @@ module REXML
++       end
++     end
++ 
+++    def read_until(term)
+++      pattern = Regexp.union(term)
+++      data = []
+++      begin
+++        until str = @scanner.scan_until(pattern)
+++          @scanner << readline(term)
+++        end
+++      rescue EOFError
+++        @scanner.rest
+++      else
+++        read if @scanner.eos? and !@source.eof?
+++        str
+++      end
+++    end
+++
++     def match( pattern, cons=false )
++       read if @scanner.eos? && @source
++       while true
++@@ -205,8 +224,8 @@ module REXML
++     end
++ 
++     private
++-    def readline
++-      str = @source.readline(@line_break)
+++    def readline(term = nil)
+++      str = @source.readline(term || @line_break)
++       if @pending_buffer
++         if str.nil?
++           str = @pending_buffer
++-- 
++2.40.0
++
+diff --git a/meta/recipes-devtools/ruby/ruby_3.1.3.bb b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
+index 19641e5a51..6a381b2e40 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.1.3.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
+@@ -53,6 +53,7 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+            file://CVE-2024-43398-0003.patch \
+            file://CVE-2025-27221-0001.patch \
+            file://CVE-2025-27221-0002.patch \
++           file://CVE-2024-35176.patch \
+            "
+ UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
+ 
+-- 
+2.40.0
 
 
