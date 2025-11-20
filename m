@@ -1,236 +1,129 @@
-Return-Path: <stondo@gmail.com>
+Return-Path: <ricardo@foundries.io>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9F28CF6487
-	for <webhook@archiver.kernel.org>; Wed, 19 Nov 2025 22:23:01 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19589.1763590974284881389
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD0BDCF64A4
+	for <webhook@archiver.kernel.org>; Thu, 20 Nov 2025 02:07:02 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23830.1763604413410493579
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Nov 2025 14:22:54 -0800
+ Wed, 19 Nov 2025 18:06:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aY5h5zkb;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4775ae77516so2918715e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 14:22:54 -0800 (PST)
+ dkim=pass header.i=@foundries.io header.s=google header.b=MIVADrxf;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: foundries.io, ip: 205.220.180.131, mailfrom: ricardo@foundries.io)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AJNEL293474541
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 02:06:52 GMT
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ahbt6thxt-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 02:06:52 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-b969f3f5c13so338581a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 18:06:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763590972; x=1764195772; darn=lists.openembedded.org;
+        d=foundries.io; s=google; t=1763604410; x=1764209210; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NAkdSStRG6JCYXFUokqmBy5Ap0iOqwIT8fNzR8slmWA=;
-        b=aY5h5zkb9+Ab7zmdLgRGiIXCozrv0mK0IqGorRCU+SX3HI4ta/pHvaQPlMj/vmOp6q
-         nUTmS8NL+gPMGPEFByC/zJQ8tB5WZSZ41qtJ/qSTh03TNhNHjcyitEjPTun2Pk00fpzN
-         YlrVEKU4BH7Y9RawWCY7OF7EkPQZN3k7hcQ+/kwAu4UHMRlsm+dQJ1BM0VPnApPushTZ
-         FMYFQSA4Im6C1d15TFMqUaNWN90y0qiGT/qYNKUBXdotSREkOTnck4r/hZRrumNRpZO4
-         nneY9UKxR9oEQc01UwzaazRSabTIsX8Pof1/nI9PE6vzfneym8JzZxPwEGBF9oYbrYTo
-         owyQ==
+        bh=LFif31xsXu7ayf+eOuBhME099GmxtFzNNm7vAKyQABE=;
+        b=MIVADrxfH+vYOgp9Xr8rnSxcWVAPI/1DH6MN61zvoFHmd3I95xTdcpVpnzWHjy7MvE
+         5DFLGyDJd8TG+NB1ccG+SlXOU50vo1XO1Jnqr8MgN8GN342vFl1mBaGkqYL+0n5JKvTu
+         /XrBUn51kH57EEQ3DqPrnUS7nanI8PlDEa3sZkUOmgfF/rhu00kLC1XNYq0dP1fCeVZM
+         XQQVwSlWYhN1wHSUOarf4IXuAMqUNzdIe/unvGNRhPVqPDw3ZcB6PPjGSgmeEsQmC9sk
+         HmtfUcQcBppnvbKunhQv/VrVqHwxTSxZU94qhG9cpgnaHU9cv8Ibw7llA+ZN5c7Ue+hh
+         /NJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763590972; x=1764195772;
+        d=1e100.net; s=20230601; t=1763604410; x=1764209210;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NAkdSStRG6JCYXFUokqmBy5Ap0iOqwIT8fNzR8slmWA=;
-        b=fjiqSRKJF8s2RSn9xl3I592fUa/3vH/q0bvLCu7C5CNYmugfBUSV/RlqzbNRA9OjKq
-         KToa8i2KobLaCf0eZNylzZc0JBX9i6C8JPQGSaGWPLyRV2C1cleran5lqa23MhfkZhRA
-         nmvJTb5jahlixRQOmlP5UopVYJaVBoy9xpsXO+I8H0sMY/etgBsp6wzePuuu+FRxtAii
-         reps4nTX8ftRv3HEg1wNVrKNFhze0cooZ+1KqFKzmn8YhhQP6o7NE3JtcQOSMwPMreIv
-         GiWOil3n4dGvflElvNGFURbEUGQVDwTqDQYMGXRqlbfs8RAi139EnZwv362WOBBWIsuP
-         tFXQ==
-X-Gm-Message-State: AOJu0YygTHzCu6Bc6K/59MNmD4pe6UNHwcOR1XF7rzJydpW4SfzHBvCt
-	zt7dG9JzdW7OsxaGKVJr8hqkfYR/4POK7VAvxxRAFmtca1h+/0X1coijn0g36pM3
-X-Gm-Gg: ASbGncvgHobZrym0gvW1Ajn+fYeWquE4LC13bdVTe5ZqucCCfspMyT84S/RjrbFSQUe
-	8SHphLXHUwnrD2uopA0/7ED+XaBGNtUMDCTf9rqn9TvW3Jt6f+30Gw2egaLDufJ5wt4OhPkcXgO
-	vKKqOS2G5zY0bOHznEXmc0r75CHa1f/mnnL6hdsslGkf2AOvZIFueW88f81m+SjG2USLODVh3jS
-	b1j61YB23nQvePzjOdel6IdYEHHhvCgB9h+rs+/oNC9yPxsXNqtHWA1yTfRMgzgAYlitn2Ncbxc
-	1cWm9ecTKc377fxeiuSS49uB2kG7OeR1reku1t3rtFJ1d8L5+1ZEeat9Tq9cZ7Re2U7I17/aWUK
-	j3sbAUqDc8xnwuxzLpLLj+B9uVXDG2MXk+C8Ovvbwy/hlBdJSj7G82G9XwKguFBsC6quEPjvyDP
-	Wyydc/5zC7gilOl/oMdZF07uwQsOcOibc5zQ==
-X-Google-Smtp-Source: AGHT+IFYydp0kI8EFvfy5PYZFD/rEeY/JD0XIBQBNbW2u3U0ZaaZuWlYsGDSwd/EDFML2URY6mZWOw==
-X-Received: by 2002:a05:600c:1994:b0:477:9bfc:dcb6 with SMTP id 5b1f17b1804b1-477b895a8cemr7493815e9.14.1763590971937;
-        Wed, 19 Nov 2025 14:22:51 -0800 (PST)
-Received: from fedora ([81.6.40.67])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-477b106b10asm70182445e9.10.2025.11.19.14.22.50
+        bh=LFif31xsXu7ayf+eOuBhME099GmxtFzNNm7vAKyQABE=;
+        b=lHqE7l0umIkv0hGv7ja8bdeWkbQyHsH1azF1g9lq/L1nkLOo/MdzkDbjBEernaAzv3
+         gWRX/1hOFVga3qYSwKfc1xLevw6+dCVF3ONy7pMfaeyRJV67busOdCokZWIdYVsrp33F
+         LByrOr/v+fe72t8hj9SkTVQIgm4BT4eKdEows1I3w2J4TCjRLwWLzw/kr1/HSxI2YhGE
+         tuXk+8WYjIo2s6K28DcUKWrZw7apK4mDmBraJEUcB5A9Pi1pzvd9lCLcgFXOmc6HvP0q
+         lUoqzKQ8tvOEFh2w32oy5LTvUDgwL5vgqe3HbqQIk+8i96CUZveEWk90qoXDBSD4xCuO
+         8uSw==
+X-Gm-Message-State: AOJu0Yy4Iynyk+sPXTlwDwcP2C/dvsC3odnIYEXQild8smWYMyPzuLU4
+	qgHSyO0SF+QBhqI8YR4cHbfGLWpfjpB527rGm8YyfuCJEl6H7n5SWV4srq2sBpV2AkUeL/GAMYm
+	n5hN2saXxvncvzh6uh8y2EM941pNMewAyQJGUf7CWrFGR9SCsNTv/X4+KT6wmZSWeF5irf67RYc
+	NvamK2+SbuGHcn
+X-Gm-Gg: ASbGncuuxFz0tXlFzJf2VEaJ0idrOu7chtqYCYkZ765JT85gAoTxxrWQQKwZqsAFDDK
+	UzVKS8cUQtFT5/IJ5CNiSECtRsi4SgrAO1Yn+/xe0Ere05uWy1CbdO/pUJh0+qZ7Y4X3euNkp9/
+	CjN36H0hfjFy2NyftNtyERQKMhHTQk7hvRjmSkHCiw1TlL6QKUI8H7TfNdJ3HNyOhz3s2D5n2Zx
+	lA2YGg40mW3lY16yHm0gh7jjzeUCVrmxI+x9KIYMYvItw5baTmaJEcCr1ZV5EiL05Rbyo2Rg8zA
+	HLWTNQDG0DqqxTP881egFN6WEQaj9J+wAG7EcMZL6Z+c56jfT1ENViPCQroHlYJhPETnzsEuVVa
+	b8iY=
+X-Received: by 2002:a05:7023:a8c:b0:11b:a36d:a7f7 with SMTP id a92af1059eb24-11c9383a514mr466835c88.16.1763604410531;
+        Wed, 19 Nov 2025 18:06:50 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH2o97hKCKif7bqd67M3D2UOiuBHt2g/JoeTFVR12atjYc4tVmjHtpw6N3xVbFXNVYqBnEJuQ==
+X-Received: by 2002:a05:7023:a8c:b0:11b:a36d:a7f7 with SMTP id a92af1059eb24-11c9383a514mr466824c88.16.1763604410057;
+        Wed, 19 Nov 2025 18:06:50 -0800 (PST)
+Received: from evatuf.. ([187.65.199.47])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11c93e6da4dsm3157360c88.9.2025.11.19.18.06.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 14:22:51 -0800 (PST)
-From: Stefano Tondo <stondo@gmail.com>
+        Wed, 19 Nov 2025 18:06:49 -0800 (PST)
+From: Ricardo Salveti <ricardo@foundries.io>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter.Marko@siemens.com,
-	adrian.freihofer@siemens.com,
-	mathieu.dubois-briand@bootlin.com,
-	Stefano Tondo <stefano.tondo.ext@siemens.com>
-Subject: [OE-core][PATCH v3] spdx30_tasks: Fix SPDX_CUSTOM_ANNOTATION_VARS implementation
-Date: Wed, 19 Nov 2025 23:22:45 +0100
-Message-ID: <20251119222245.80654-1-stondo@gmail.com>
-X-Mailer: git-send-email 2.51.1
+Cc: mikko.rapeli@linaro.org
+Subject: [PATCH] uki.bbclass: use basename for dtbs available via KERNEL_DEVICETREE
+Date: Wed, 19 Nov 2025 23:06:33 -0300
+Message-Id: <20251120020633.4589-1-ricardo@foundries.io>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: LkGHLT5ZQBZnHAKd7MKr-jiJ84l7Sn07
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIwMDAxMSBTYWx0ZWRfX8xQWcO6CuKap
+ r8CUqe4+88yaFXDYX40ZlAZNo3Ctb0RlJCWex6nb0sAxNetrrWrik/Zy/206PQcvsxKf/LXQNcJ
+ nLn7V5ldzWsj7DVvFlmfMgE+1l3/ZG1HEib5F/7Nc3KXjbV76p+IqTitnVZP7/vFTiPasiC2AY4
+ 9esp4NylSpbDFmI4WDmW/uI8CzZc3uSf0NawlAcof+vjk9LZDzODZ2I4PHb9KQjLHRj/quizTEy
+ /jtSNAM4jpYZglQfMk4+J5hpoHVUMdVLMKrQ8u62l/V0wBfWYvPCyEG0W1gO4UGU+EXhDGgI40y
+ 5WMKFEFjJJWtv38bCqkW5hz1kypTuknbIv+pDeSepkyALcIS8DFdhrIMGphB/umcINaZmIhFmC0
+ vUiXEy3ExV/FRxIWsHrJGNWvfNjiug==
+X-Proofpoint-ORIG-GUID: LkGHLT5ZQBZnHAKd7MKr-jiJ84l7Sn07
+X-Authority-Analysis: v=2.4 cv=PJICOPqC c=1 sm=1 tr=0 ts=691e77bc cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=JEjW2rnyS3Y/5sYvBvSpBA==:17
+ a=6UeiqGixMTsA:10 a=9UA2AVYIz8kA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=nzdI5zr_s0Zz-bnDVt4A:9 a=bFCP_H2QrGi7Okbo017w:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-20_01,2025-11-18_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 phishscore=0 impostorscore=0 spamscore=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511200011
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 22:23:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226600
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 02:07:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226601
 
-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
+Device-tree files set via KERNEL_DEVICETREE are deployed without any
+vendor sub-directory (e.g. arm/juno.dtb gets deployed as juno.dtb).
 
-Fix incorrect function call when processing SPDX_CUSTOM_ANNOTATION_VARS.
-The code was calling new_annotation() as a standalone function, but it
-should be called as a method on the build_objset object.
+Same is also done in kernel-fit-image.bbclass.
 
-Error:
-    new_annotation(d, build_objset, build, ...)
-
-Corrected to:
-    build_objset.new_annotation(d, build_objset, build, ...)
-
-This bug would cause a NameError at runtime if SPDX_CUSTOM_ANNOTATION_VARS
-was set to a non-empty value, preventing SPDX document generation.
-
-The fix aligns with how new_annotation() is called elsewhere in the
-codebase and matches the SBOMObjset class method signature.
-
-Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
-
+Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
 ---
-Changes in v3:
-- Fixed test bugs identified in v2 review:
-  - Corrected SPDX file path from packages/package-base-files.spdx.json
-    to recipes/recipe-base-files.spdx.json
-  - Fixed objset.objects() to objset.objects (removed incorrect parentheses)
-  - Fixed whitespace formatting in test code
+ meta/classes-recipe/uki.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Changes in v2:
-- Added regression test to prevent future occurrences
----
- meta/lib/oe/spdx30_tasks.py          |  4 +-
- meta/lib/oeqa/selftest/cases/spdx.py | 85 +++++++++++++++++++++++++---
- 2 files changed, 79 insertions(+), 10 deletions(-)
-
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index f2f133005d..4d11b3c289 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -498,9 +498,7 @@ def create_spdx(d):
-     build_objset.set_is_native(is_native)
- 
-     for var in (d.getVar("SPDX_CUSTOM_ANNOTATION_VARS") or "").split():
--        new_annotation(
--            d,
--            build_objset,
-+        build_objset.new_annotation(
-             build,
-             "%s=%s" % (var, d.getVar(var)),
-             oe.spdx30.AnnotationType.other,
-diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
-index 8cd4e83ca2..f548dd4be7 100644
---- a/meta/lib/oeqa/selftest/cases/spdx.py
-+++ b/meta/lib/oeqa/selftest/cases/spdx.py
-@@ -34,7 +34,7 @@ class SPDX22Check(OESelftestTestCase):
-         arch_dir = get_bb_var("PACKAGE_ARCH", target_name)
-         spdx_version = get_bb_var("SPDX_VERSION")
-         # qemux86-64 creates the directory qemux86_64
--        #arch_dir = arch_var.replace("-", "_")
-+        # arch_dir = arch_var.replace("-", "_")
- 
-         full_file_path = os.path.join(
-             deploy_dir, "spdx", spdx_version, arch_dir, high_level_dir, spdx_file
-@@ -89,15 +89,12 @@ class SPDX3CheckBase(object):
-         return objset
- 
-     def check_recipe_spdx(self, target_name, spdx_path, *, task=None, extraconf=""):
--        config = (
--            textwrap.dedent(
--                f"""\
-+        config = textwrap.dedent(
-+            f"""\
-                 INHERIT:remove = "create-spdx"
-                 INHERIT += "{self.SPDX_CLASS}"
-                 """
--            )
--            + textwrap.dedent(extraconf)
--        )
-+        ) + textwrap.dedent(extraconf)
- 
-         self.write_config(config)
- 
-@@ -286,3 +283,77 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-                 break
-         else:
-             self.assertTrue(False, "Unable to find imported Host SpdxID")
-+
-+    def test_custom_annotation_vars(self):
-+        """
-+        Test that SPDX_CUSTOM_ANNOTATION_VARS properly creates annotations
-+        without runtime errors. This is a regression test for the bug where
-+        new_annotation() was called as a standalone function instead of as
-+        a method on build_objset, causing a NameError.
-+
-+        The test verifies:
-+        1. The build completes successfully (no NameError)
-+        2. Each configured annotation variable appears exactly once
-+        3. The annotation values match the configured variables
-+
-+        We check for exact equality (not >=) to prevent regressions where
-+        one annotation might appear multiple times while another is missing.
-+        """
-+        ANNOTATION_VAR1 = "TestAnnotation1"
-+        ANNOTATION_VAR2 = "TestAnnotation2"
-+
-+        # This will fail with NameError if new_annotation() is called incorrectly
-+        objset = self.check_recipe_spdx(
-+            "base-files",
-+            "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/recipes/recipe-base-files.spdx.json",
-+            extraconf=textwrap.dedent(
-+                f"""\
-+                ANNOTATION1 = "{ANNOTATION_VAR1}"
-+                ANNOTATION2 = "{ANNOTATION_VAR2}"
-+                SPDX_CUSTOM_ANNOTATION_VARS = "ANNOTATION1 ANNOTATION2"
-+                """
-+            ),
-+        )
-+
-+        # If we got here, the build succeeded (no NameError)
-+        # Now verify the annotations were actually created
-+
-+        # Find the build element
-+        build = None
-+        for o in objset.foreach_type(oe.spdx30.build_Build):
-+            build = o
-+            break
-+
-+        self.assertIsNotNone(build, "Unable to find Build element")
-+
-+        # Find annotation objects that reference our build
-+        found_annotations = []
-+        for obj in objset.objects:  # <-- Remove parentheses
-+            if isinstance(obj, oe.spdx30.Annotation):
-+                if hasattr(obj, "subject") and build._id == obj.subject._id:
-+                    found_annotations.append(obj)
-+
-+        # Check each annotation separately to ensure exactly one occurrence of each
-+        annotation1_count = 0
-+        annotation2_count = 0
-+
-+        for annotation in found_annotations:
-+            if hasattr(annotation, "statement"):
-+                if f"ANNOTATION1={ANNOTATION_VAR1}" in annotation.statement:
-+                    annotation1_count += 1
-+                    self.logger.info(f"Found ANNOTATION1: {annotation.statement}")
-+                if f"ANNOTATION2={ANNOTATION_VAR2}" in annotation.statement:
-+                    annotation2_count += 1
-+                    self.logger.info(f"Found ANNOTATION2: {annotation.statement}")
-+
-+        # Each annotation should appear exactly once
-+        self.assertEqual(
-+            annotation1_count,
-+            1,
-+            f"Expected exactly 1 occurrence of ANNOTATION1, found {annotation1_count}",
-+        )
-+        self.assertEqual(
-+            annotation2_count,
-+            1,
-+            f"Expected exactly 1 occurrence of ANNOTATION2, found {annotation2_count}",
-+        )
+diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
+index fedff222c6c..a2b1c8a82d6 100644
+--- a/meta/classes-recipe/uki.bbclass
++++ b/meta/classes-recipe/uki.bbclass
+@@ -152,7 +152,9 @@ python do_uki() {
+     # dtb
+     if d.getVar('KERNEL_DEVICETREE'):
+         for dtb in d.getVar('KERNEL_DEVICETREE').split():
+-            dtb_path = "%s/%s" % (deploy_dir_image, dtb)
++            # DTBs are without sub-directories in deploy_dir
++            dtb_name = os.path.basename(dtb)
++            dtb_path = "%s/%s" % (deploy_dir_image, dtb_name)
+             if not os.path.exists(dtb_path):
+                 bb.fatal(f"ERROR: cannot find {dtb_path}.")
+             ukify_cmd += " --devicetree %s" % (dtb_path)
 -- 
-2.51.1
+2.34.1
 
 
