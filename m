@@ -1,150 +1,99 @@
-Return-Path: <andreas.stergiopoulos@smile.fr>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C516CF9C4B
-	for <webhook@archiver.kernel.org>; Thu, 20 Nov 2025 16:51:17 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1173.1763657469190350419
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 129FDCF9C7A
+	for <webhook@archiver.kernel.org>; Thu, 20 Nov 2025 17:38:57 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.30815.1763632102892046965
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Nov 2025 08:51:09 -0800
+ Thu, 20 Nov 2025 01:48:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=foQd2oZQ;
- spf=pass (domain: smile.fr, ip: 209.85.208.48, mailfrom: andreas.stergiopoulos@smile.fr)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6417313bddaso1684759a12.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 08:51:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1763657467; x=1764262267; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1kF9a1Z51F5dGEwEz6WmOnQMpgiPPTFQU3D5rTz6Fjs=;
-        b=foQd2oZQFI8etKJAjH28D3TDWDnIZH0ZCG3S8T7foFEbUBV8BJsVnWwoYsnTHWnsSN
-         XuCbXfShh66Tzl2j0t/qWBwjj1BnDGsilFmK0tbJYs1OjO2AK57lclLGAJmFzRn22p6l
-         v2sOb4XOW7/bim8EBxzufFGyXd1FokRtnJEmE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763657467; x=1764262267;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1kF9a1Z51F5dGEwEz6WmOnQMpgiPPTFQU3D5rTz6Fjs=;
-        b=SHiKVoaKB24UX+TdzwiYBXZKrYBRKJS185wbsEkR0zjotOSkQNHhR1z66GqnXqoEN1
-         yCgNYi2BmPGUmRrTr3d3i4eHk5x0njY2NvqCtPrWQCE1cd2rsLgFgsXUShTcHVHoram5
-         NwlHLiNxXvAL+z01NVHiRiny+8lHMQhuQowtcLytToymxp1OVdzOx2QT1gHX2dYGwAOC
-         CZk4KYJWNKcL3P4sf8WrkAaHkBcs0axnBr1avloqXmdX+Cu0Qu6X9zmNR2xKvQbP1XS0
-         D3kiZtZsz3g6lgCWy09fTcuibu3CwZ+7J2gT2EHIgW62RwPgY6+CHRYhsyMMUd5w+27s
-         9JRQ==
-X-Gm-Message-State: AOJu0YzLAaWOWqGGW48VpB2K2v7DVWRgd3CjunyVtPkFrd1U/Pjd0aSu
-	KrAWZl7UQ1QQiN63yMjQhBvLPj7EcqzZe+Ogw4hts20XCZHvsiLN2sTSyiBiOW1Zyna6370dBus
-	zN5G97dgsqQE3/6o+f5E8vrAIDs7wh6ihDgzU3YkMsw==
-X-Gm-Gg: ASbGncsq+Xmi2dk72jUjMv0jmpF8USNN4I2tyZmdFLJ6+FfmTdzghIOrrgiFtkTn8h5
-	TcYcWyJihWV1xTeI6CcZ8N25T56YhvQKEL/sFQGrzjMzYkUfZ6zMPZp2g6YvrSzAUYy9Xas/3wq
-	Ke3BNmu5SwX99tmfb8lCQs84a0/2VYpH4YnPtDPoQJvHdFmdC4m4OP5jIqn3EvEfEdShq94X/L0
-	ozZkIJOJkuFmE6WNo4XVx9gokxrl/WDLpalQIQatxe6QxCXB9zPfKIMLeBQoyMYHi7j485C5g==
-X-Google-Smtp-Source: AGHT+IEpQKMAHjHi2mJJVkW2CMEfGtPXANN7XxFXDXoh+UPhijNn99us9FSWdsn7y2NPrNoHCK6bfaEyq92KBHiz6LE=
-X-Received: by 2002:a17:907:9812:b0:b73:78f3:15c1 with SMTP id
- a640c23a62f3a-b7654f408c0mr404172866b.52.1763657467462; Thu, 20 Nov 2025
- 08:51:07 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=WdqU7czp;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 06BC84E417E5;
+	Thu, 20 Nov 2025 09:39:00 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id CAA336068C;
+	Thu, 20 Nov 2025 09:38:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 10D2C10371C30;
+	Thu, 20 Nov 2025 10:38:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1763631539; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=oBhEgaKNrXKKWrPf7LuvywA53S6m9gZy6kY83f2kkAI=;
+	b=WdqU7czpZSUFQ11PJmsKg3iXrjTK0S9LARZ28jz2OOS9MFnPhInUlzWY5cVjLYbZbX2wIV
+	ewfnV1zFQFsBmaqKrCC74oyIrnnCYcyFOrVCVuSVA3SrDdi7zFkp+/U1B2T3yQz3FMT3p3
+	UZswP7pcdJuYHhffHufwqq+hyr3kcaRSQf5C/Va7i70Y1cJ2kkjNehGlKuoZEFtRVarLCU
+	jNld80Nq1ffvp6KxVZghGywsX6XnU1HDaxqNrXuHwmMxbsP2tt0jwBk+/e5SjvOFgbpKks
+	j6ePcwVUsdIyK0MjyKfmh9XsbLm0ojk0conU689d6lOtwvrGhquM5pLo0xRScw==
+From: Benjamin ROBIN <benjamin.robin@bootlin.com>
+To: openembedded-core@lists.openembedded.org,
+ Marta Rybczynska <marta.rybczynska@syslinbit.com>,
+ Samantha Jalabert <samantha.jalabert@syslinbit.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Peter Marko <peter.marko@siemens.com>
+Subject: Re: [PATCH 0/5] backport: allow to extract all CVE_STATUS info
+Date: Thu, 20 Nov 2025 10:38:56 +0100
+Message-ID: <10765366.nUPlyArG6x@brobin-bootlin>
+In-Reply-To: <20251120091954.211153-1-benjamin.robin@bootlin.com>
+References: <20251120091954.211153-1-benjamin.robin@bootlin.com>
 MIME-Version: 1.0
-References: <1878D6968221CB06.1122728@lists.openembedded.org>
-In-Reply-To: <1878D6968221CB06.1122728@lists.openembedded.org>
-From: Andreas STERGIOPOULOS <andreas.stergiopoulos@smile.fr>
-Date: Thu, 20 Nov 2025 17:50:56 +0100
-X-Gm-Features: AWmQ_bk47Nk6WZ8JGhDti6ZwwDIAd1-JwGXxZ644iqg24skTabJbe9BBzAMQtbE
-Message-ID: <CAC7iNs+wouR8o4WkJ+wSCgdPs0Hc=UbHy+1_sqtsE190ELXUvw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 0/3] Better support for Rust integration tests
-To: andreas.stergiopoulos@smile.fr
-Cc: openembedded-core@lists.openembedded.org, yoann.congal@smile.fr
-Content-Type: text/plain; charset="UTF-8"
+X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 16:51:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226635
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 17:38:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226636
 
-Hi,
+Hello,
 
-After revisiting the issue, even though this solution deals with the
-integration tests failing, it does not deal with the QA tests failing
-due to the binaries leaking the build path. This is obviously caused
-by the env! macro. A new solution will have to be implemented that
-also treats this issue. Until then, please discard this series of
-patches.
+Please ignore this serie, it is not ready, and was sent by mistake...
+Really sorry.
 
-Best regards,
-Andreas Stergiopoulos
-IED1 Smile
+On Thursday, November 20, 2025 at 10:19=E2=80=AFAM, Benjamin Robin (Schneid=
+er=20
+Electric) wrote:
+> From: "Benjamin Robin" <benjamin.robin@bootlin.com>
+>=20
+> The goal of this backport is to be able to extract all CVE annotations
+> provided by the CVE_STATUS and the CVE_STATUS_GROUPS variables.
+>=20
+> Currently only CVEs with "Patched" status are exported in SPDX 3.0 files.
+> And CVE annotations provided by the CVE_STATUS_GROUPS variable are not
+> exported, since previously this was only handled by cve-check.bbclass.
+>=20
+> Also backport the vex.bbclass, which will help users to extract all the
+> information needed to do a CVE analysis outside of Yocto.
+>=20
+> With this backport, great care has been taken to avoid breaking
+> compatibility. This is why the get_patched_cves() API was not changed.
+> Everything that was needed is implemented in the associated .bbclass.
+>=20
+> Benjamin Robin (5):
+>   spdx30: provide all CVE_STATUS, not only Patched status
+>   vex.bbclass: add a new class
+>   cve-check: extract extending CVE_STATUS to library function
+>   spdx: extend CVE_STATUS variables
+>   vex: fix rootfs manifest
+>=20
+>  meta/classes/cve-check.bbclass   |  17 +-
+>  meta/classes/spdx-common.bbclass |   5 +
+>  meta/classes/vex.bbclass         | 319 +++++++++++++++++++++++++++++++
+>  meta/lib/oe/cve_check.py         |  22 +++
+>  meta/lib/oe/spdx30_tasks.py      |  31 +--
+>  5 files changed, 365 insertions(+), 29 deletions(-)
+>  create mode 100644 meta/classes/vex.bbclass
 
-On Mon, Nov 17, 2025 at 4:59=E2=80=AFPM Andreas Stergiopoulos via
-lists.openembedded.org
-<andreas.stergiopoulos=3Dsmile.fr@lists.openembedded.org> wrote:
->
-> When executing integration tests generated by cargo test, every test that=
- needs
-> to somehow interact with the generated binary executables fails. This is =
-due
-> to the fact that most projects in Rust either use static methods to find =
-the
-> generated executable (such as going up and down the build directories) or=
- use
-> the "CARGO_BIN_EXE_<package-name>" environment variable, which is exporte=
-d by
-> cargo during compilation.
->
-> Until now, ptest-cargo copies all the binary executables produced (unit a=
-nd
-> integration tests and binary executables) to the /usr/lib/<package>/ptest
-> directory, where the run-ptest script executes the tests. Unit tests succ=
-eed
-> but integration tests almost always fail. A side-effect of that is that t=
-he
-> same binary is duplicated, as it can be found both in the package install=
-ation
-> directory and in the corresponding ptest directory.
->
-> This patch series improves the support of said integration tests by expor=
-ting
-> the appropriate  environment variables during test runtime as well, so th=
-at
-> integration tests can access the binary executables they neeed irregardle=
-ss of
-> the configuration of their environment.
->
-> The method proposed here is a powerful tool for Rust integration for Yoct=
-o, as
-> it allows the ptest-cargo framework to execute the actual installed binar=
-y
-> packages while at the same time it also reduces image size, by avoiding t=
-he
-> deduplication of the binary executables.
->
-> v1: Original version.
-> v2: Removed "-" from env invocation, as it implied an empty environment, =
-which
-> broke existing tests and improved how spaces are printed in order to incr=
-ease
-> readability and make the generated code better-looking.
->
-> Andreas Stergiopoulos (3):
->   ptest-cargo.bbclass: Collect only test binaries and not executables
->   cargo.bbclass: Collect installation paths of executable binariesv
->   ptest-cargo.bbclass: Add support for CARGO_BIN_EXE_<name> environment
->     variables
->
->  meta/classes-recipe/cargo.bbclass       |  3 ++
->  meta/classes-recipe/ptest-cargo.bbclass | 44 +++++++++++++++++++++++--
->  2 files changed, 44 insertions(+), 3 deletions(-)
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#226496): https://lists.openembedded.org/g/openembedde=
-d-core/message/226496
-> Mute This Topic: https://lists.openembedded.org/mt/116340214/10066836
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [an=
-dreas.stergiopoulos@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+
+=2D-=20
+Benjamin Robin, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+
+
 
