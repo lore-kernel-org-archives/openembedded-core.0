@@ -1,100 +1,140 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D152CF8844
-	for <webhook@archiver.kernel.org>; Thu, 20 Nov 2025 11:24:35 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32017.1763637869252001451
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93FE9CF8847
+	for <webhook@archiver.kernel.org>; Thu, 20 Nov 2025 11:40:45 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32280.1763638844036923199
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Nov 2025 03:24:29 -0800
+ Thu, 20 Nov 2025 03:40:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ihkFdkcC;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4779a4fc95aso13211385e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 03:24:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763637867; x=1764242667; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=towQDHuBiW+qFIzhUUc+r4E2bazO60gVWb0ngI9EloE=;
-        b=ihkFdkcCnbormmGvfeW3caV9TQjD5CrUr+yII0Hng4Gy7C8v7PmAvTLl3dFKyd6e3z
-         j/5OpC2/aot/3hAQDehb3wVjel7ihdqJFzujf1rYZty6Jo9Zju/y9DjGvHiTfVVW8V08
-         i+a/rsMWGGB0wXGgHyLIRzZr2QjBt3cVc7fyPVhL8L+Pfp6l6q/SxPNg+IGfZhXroUyl
-         PGIYpvv1vrGbtX0QpEguHX67RprCiS/2tfN2rSk6JudloerM5RF6wMhiNdkrmBeNU311
-         pfsTec23gpNdsLZK7CXfa0mcmOXb3nCaikiI9ntJtpjNKRBv/A+VeTiDXJAiGXgC1XG7
-         Tq5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763637867; x=1764242667;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=towQDHuBiW+qFIzhUUc+r4E2bazO60gVWb0ngI9EloE=;
-        b=pgtwPPG2TODKWtE694TfUBGoLkuQVvp6hSqhCXoQYIF7pFN7wuKwzY1BO+mcG4nrds
-         4T3nVWnNph4TzaPyo93t52alyeE6KEjtqCVZBviB42k6nIKh/V1QAr9a22RH0HAnDnMM
-         kOr+hrfidtSVXAJHx29RVzMuI6xyE+4cQptUoA7hrV7dx/FVV58CCt5IouCUmBSSIQT3
-         rzCjmt0tc4WyM2uGEs15VwAZ2/SlalePheEUPBrlf2DKPnLabFhvWJ/Ivf61VXqJa8CC
-         Jot9AjH42NS05xv7jU8AgIiqgamBvYE7c2ANa4i6FOqCehxkArnQmty7vMWYseVos7NX
-         OMYw==
-X-Gm-Message-State: AOJu0YyL+FrmmnUavbKHllZ9byzL9vtob0GLEhYVtccZsRC9IY6rLYrJ
-	FFNqaOkp1vB//3ATdEoW94oYUdvbK0tVCBZ65jcIZgWcuAKfvFbXsGjnEzC64g==
-X-Gm-Gg: ASbGncuuTlwVmO6FBm7eVU/r5zFVbJEGviyWQz98NGvo+e0Vg/kRIJbEda1G13Gdr2A
-	z2TdI4NOzVlRPR0pVdrJcAsZYpi1yqkJaEI3LrqTudaZsCHx/WxnGdeoc0PMlVGRZHjmIOp29Fa
-	rWYOKcDgZTQoWp+aZqtCyrpiIIlZLko5CQIUdtWkXAwg/yAbK2SZ3gmB85uYwDTrx8tnPk8thjb
-	yqQWlUp8xvwmZkOHwvEleC27Kk95we1sNk6up4NQ0nIHsMpfj+9FZ0umxJWf+EACAbcoOlIJR7d
-	VVOvtEMNBEG82O40aHhdjQIrXXYlIde60n/TUyWx9OOf+YkdhtPn9N8hFh3mhaTuYeWhpKPQH9w
-	2BFu1fxogoH+CkbXRYDyuzfta/lghIe9xUgOCPwBQXezhIQ7wXWRDkmhWLu5kUJNTFrGkDWCbn6
-	3YCWHMZ1MCqhYfiu9w1NDo2FCaRMXwTSQg1YEMfAFzz5EF0Sg=
-X-Google-Smtp-Source: AGHT+IHvmKawzj6adXAAPgLQHfrWZVBMWJhFZj8oNWKAQBfQCLGykE2n2OXYZYeTIENzsPfObZwRsg==
-X-Received: by 2002:a05:600c:1987:b0:471:665:e688 with SMTP id 5b1f17b1804b1-477b9ed0b1fmr22995645e9.17.1763637867518;
-        Thu, 20 Nov 2025 03:24:27 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b831ad9dsm42485555e9.13.2025.11.20.03.24.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Nov 2025 03:24:27 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] bbconfigbuild/configfragments.py: add information about enabling fragments to toolcfg.conf
-Date: Thu, 20 Nov 2025 12:24:23 +0100
-Message-Id: <20251120112423.137726-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=pQmWUL8H;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3419e170cb=changqing.li@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AK6aS3P3721328
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 03:40:43 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=PPWPP8hE6URi9EN/kRz8
+	V1ZTvl5cXLBVcEAk4uCfWXI=; b=pQmWUL8HrAmhRmnlB6BgMve7kAxt15LqsBgc
+	Wr1usx9VgDVYV0aniymS897m449a0JBM+BT1KFLtgYH1sSHNyC/h4pKx8tkfxzbp
+	kuGG6mHOa9bSKCOXEuORGlqw8U9gwmw/0LOF8eJlMu+m4hp5Qr/O4NeV8QNnx/NK
+	pLIQB9CsTuu/yweZ1NYDqgdzKR7Dw7pl4Pqy2A6DM4aJZ5DlfMim5SqIpAtCQ+E8
+	QCOISYt0QYTWJ2cZ0vBJiZeI/dHbcuc+AgCUATQQdqkQc7MHUZTNW0Us9j8VvV7J
+	tdBdDBkN+PzMzcz9NX8pxeTbEFDNaa2nyU+ZLJp1RkZ+mGwFxw==
+Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4aeswje4rf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 03:40:43 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Thu, 20 Nov 2025 03:40:42 -0800
+Received: from pek-lpg-core6.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Thu, 20 Nov 2025 03:40:42 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] bitbake.conf: add new variable FIXED_SOURCE_DATE_EPOCH
+Date: Thu, 20 Nov 2025 19:40:41 +0800
+Message-ID: <20251120114041.193806-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=BqiQAIX5 c=1 sm=1 tr=0 ts=691efe3b cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=JQSNpBNHAAAA:8 a=t7CeM3EgAAAA:8
+ a=6ZXuvi-LJkF483BbeEwA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: ZKWIBMmYmmn__vDP1tk7Pfsi0pQzrEn5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIwMDA3MyBTYWx0ZWRfXzyDNO6fD2k0o
+ AOcrbjDrlRGimzX6HO4XpjVpsGtrVbzjfomEP5OvB7GRwgpIBo4ghrRzUrPSEN2rYV/+dmWb2m9
+ hTPyhrhnB9yZrniGlCa1KQ6umpuPnYvJ11t8iGI3q6qpep1vrljTTT6tQLPZETr3Hs91jhR2ort
+ NAC4GncEcToaddt+y0zBR7nSh9sDFX8nYvXoVc3otxoFPHkjNXMAlGQWQw2+1nFigRTwUmJvujq
+ 80InBGepeC9l3C7AKYK4Eh4O17WF7xYOBY355I/GwmGO7ZItGXJTaLUFVlSFfduhagd4QE8Q98y
+ nudHvtJmJ4ErlAlung9HrAp9XQ9BhrSrFQfYJXwMIhrKNlcb0NlSvb0yfiG0IMl3D29cuAZK+q/
+ 8IGX3/tPXCCDRpEpmjtKxbBhzKucgA==
+X-Proofpoint-ORIG-GUID: ZKWIBMmYmmn__vDP1tk7Pfsi0pQzrEn5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-20_04,2025-11-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 priorityscore=1501 suspectscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511200073
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 11:24:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226613
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 11:40:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226614
 
-From: Alexander Kanavin <alex@linutronix.de>
+From: Changqing Li <changqing.li@windriver.com>
 
-The info was first added to bitbake-setup, but this is actually the
-correct place to do it.
+Here is SRC_URI of jquery:
+SRC_URI = "\
+    https://code.jquery.com/${BP}.js;name=js;subdir=${BP} \
+    https://code.jquery.com/${BP}.min.js;name=min;subdir=${BP} \
+    https://code.jquery.com/${BP}.min.map;name=map;subdir=${BP} \
+    "
+When ${BP}.js/${BP}.min.js/${BP}.min.map are downloaded in a git repo,
+and this git repo is cloned locally as a PREMIRRORS. In this case, mtime
+of these files will be current time when checking out. For this recipe,
+source_date_epoch will get by function
+get_source_date_epoch_from_youngest_file, mtime of
+${BP}.js/${BP}.min.js/${BP}.min.map are not stable, so cause the
+generated package not reproducible.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+A new variable FIXED_SOURCE_DATE_EPOCH is added to support this case.
+By default, FIXED_SOURCE_DATE_EPOCH is 0,  and source_date_epoch works
+as before. If user build in above case, FIXED_SOURCE_DATE_EPOCH set to 1
+in recipe jquery can ensure fixed source date epoch used by this recipe
+to support reproducible build.
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/lib/bbconfigbuild/configfragments.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/conf/bitbake.conf      |  1 +
+ meta/lib/oe/reproducible.py | 13 ++++++++-----
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigbuild/configfragments.py
-index 6fdac33a5da..fe2c629d927 100644
---- a/meta/lib/bbconfigbuild/configfragments.py
-+++ b/meta/lib/bbconfigbuild/configfragments.py
-@@ -115,7 +115,11 @@ class ConfigFragmentsPlugin(LayerPlugin):
-     def create_conf(self, confpath):
-         if not os.path.exists(confpath):
-             with open(confpath, 'w') as f:
--                f.write('# Automated config file controlled by tools\n')
-+                f.write("""# Automated config file controlled by tools
-+#
-+# Run 'bitbake-config-build enable-fragment <fragment-name>' to enable additional fragments
-+# or replace built-in ones (e.g. machine/<name> or distro/<name> to change MACHINE or DISTRO).
-+""")
-         with open(confpath, 'r') as f:
-             lines = f.read()
-         if "OE_FRAGMENTS += " not in lines:
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 5406e542db..2371567da3 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -680,6 +680,7 @@ export SOURCE_DATE_EPOCH ?= "${@get_source_date_epoch_value(d)}"
+ # A SOURCE_DATE_EPOCH of '0' might be misinterpreted as no SDE
+ SOURCE_DATE_EPOCH_FALLBACK ??= "1302044400"
+ REPRODUCIBLE_TIMESTAMP_ROOTFS ??= "1520598896"
++FIXED_SOURCE_DATE_EPOCH ?= "0"
+ 
+ ##################################################################
+ # Settings used by bitbake-layers.
+diff --git a/meta/lib/oe/reproducible.py b/meta/lib/oe/reproducible.py
+index 0270024a83..8ed5e2b458 100644
+--- a/meta/lib/oe/reproducible.py
++++ b/meta/lib/oe/reproducible.py
+@@ -158,11 +158,14 @@ def fixed_source_date_epoch(d):
+     return 0
+ 
+ def get_source_date_epoch(d, sourcedir):
+-    return (
+-        get_source_date_epoch_from_git(d, sourcedir) or
+-        get_source_date_epoch_from_youngest_file(d, sourcedir) or
+-        fixed_source_date_epoch(d)       # Last resort
+-    )
++    if d.getVar('FIXED_SOURCE_DATE_EPOCH') == '0':
++        return (
++            get_source_date_epoch_from_git(d, sourcedir) or
++            get_source_date_epoch_from_youngest_file(d, sourcedir) or
++            fixed_source_date_epoch(d)       # Last resort
++        )
++    else:
++        return fixed_source_date_epoch(d)
+ 
+ def epochfile_read(epochfile, d):
+     cached, efile = d.getVar('__CACHED_SOURCE_DATE_EPOCH') or (None, None)
 -- 
-2.39.5
+2.34.1
 
 
