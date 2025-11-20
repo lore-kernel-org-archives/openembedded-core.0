@@ -1,130 +1,133 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B782FCF884D
-	for <webhook@archiver.kernel.org>; Thu, 20 Nov 2025 12:17:25 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32949.1763641040849091798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B78DACF884F
+	for <webhook@archiver.kernel.org>; Thu, 20 Nov 2025 12:19:55 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32976.1763641190608901511
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Nov 2025 04:17:21 -0800
+ Thu, 20 Nov 2025 04:19:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hnQTjKkt;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-477b5e0323bso10034255e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 04:17:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cACRawq7;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-477563e28a3so5658555e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 04:19:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1763641039; x=1764245839; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C+/wfJqEkCRUHXcmhqBTiZ/OGUcUKPByhUNiaRG+Pt4=;
-        b=hnQTjKkt0e0/7pAmhmwq1+82x7LIvUDIYpgcFKMTrbmzr+shTwGysjerqhXkVbQcFU
-         UAVAIrsfTPQo9JOal3fCVAdS2bMAKBkyUJcCaRNdX3LQpbAN6lmbnss90SX0WDu5YE1p
-         dtVKKotH7/H2qVt7+E32YD8EJemP+Ps6vkdw4=
+        d=gmail.com; s=20230601; t=1763641189; x=1764245989; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xq5VExmpHxrU8dRcA7QH4P1Mk9j0wjUz1OcDFkzaN/M=;
+        b=cACRawq794URe7i7oc5uVR+8daeYaj69G84NsExuDt1h1BNlDrNyNXKob6a3Nmbrtk
+         60N5HlC2duVJh550Nv/Zb2lA7udwws2r3Lo1MPVygenlKQW4MoPqdw2v3t64ySvC5x7y
+         d6zOAuVfCIwT9s9xIsT0bc1FlAyAOhFXDOT13Ibymkxzs09yxdbQXTGanZpLZZWocrvH
+         2SjJC1dZROekwMZltJHLrO0DAdTFr08LzCSRiSf9WzlajncRZy2fjEYqCpEJFm84mac+
+         BZUuf5ogN76gHD7wPxsdnM3MikVkXcvvorYKlWcVddD0qrc6aYbyF5Ht2iPiV3OMAhRJ
+         XkAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763641039; x=1764245839;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C+/wfJqEkCRUHXcmhqBTiZ/OGUcUKPByhUNiaRG+Pt4=;
-        b=xLWeVALv8gqDitOugWGD59Flm7nQw7RZtWq1/BAFVJamNLHrWEG0NvFHHHGXOTIH/x
-         Hcr68KDWsDAEgGCSuWLR9yFL6OkcxFvhQue3vtn9wrvOMNvz1usBCbvLHFUEEnTTrfhX
-         uXEKyLsnYxQIszNLY6BqnTRADf/e8HbPxL2ZjI26Go4abv9fTCiSh0+R1G+BuwNvvLrV
-         JBHH0MlS92kC4ixU0I7nrrhBZt8h0In948PLb6OP/gHsNYZ0N8HIW0p2D8l08JS2SdhR
-         8Jz50aEhI96kXGPZcK9AfPZ+FD9n0jYOvZyhvasFPvPPnNE6PY2FUesdrGi6tWbffoKg
-         X3IQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXuAmPz7T6CC1pDK1ara/tWKhYcloUeGxj8lsMJqIZjGgC1YcLUC1CeVUXlupl4AMFxWJv/kenx/Gq8Y9Jw+8gtXw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzO0JUzWSgnMXsL804qkckxH2yuPHawu8IVTkTbi3bqhs7Bio39
-	VeDzAO0z9TpEXvBS+5goM/8RvBQsQzVF5jeo05FFXJ+dv/trGArGSboO+oPZ2jpM+qc=
-X-Gm-Gg: ASbGncs7hLbVX5z8pxVCyokHY+PRLrun/0bRj0ipRjxMOd0taAhA+sJ+ikA37MWlybP
-	EXS/c52T0Fj2cknwHIk7gjdD5pmY0E76ZCAR4LumjPNMwISLYYgFOvZOMFyzwdraKzcFr5NHRnz
-	aWnPHXf5gE+4OKcd8T5+cdtu76LaCPFP9dyCh6c63955IsBUpMRmc79+kVKaiwFq0j8VQRTd5sM
-	MkC1HogzMR8QRGI/exwfN8UdYF9E7fiTl0tPXXLtaCs38rC3HxOPqQPDEljw1Qi+YgvmmBIlgKo
-	VkkgC8XULZapWz0Zs1J9x3yJts4b5Fyffjjk8gNmzKhBmQFyKFsKPBCsWMyar5qD8M6JA8esRos
-	w5jxDmaJgrEMbCuOpQJjJzj4ezHObWosfwgE+58OTuHsR9m0iz6kKB0P+9Adiwr61RbNdKREml7
-	97fINoeYbQkwDlcGlWbIrCJ3tDONL+PPOJQk+VrLXwE4Moa84vU1BuLZ86iEx1HMmvXLcfQnIKq
-	pE=
-X-Google-Smtp-Source: AGHT+IFgN8lUq0tQf2s3DUYhqZ0O9zLdM/MNNnIrU0KdDodnJeIw/i2g8FeCdLds0iGTjzYHa0gRsQ==
-X-Received: by 2002:a05:600c:3515:b0:477:7a5c:6a8e with SMTP id 5b1f17b1804b1-477b9eb69e3mr21845335e9.9.1763641038987;
-        Thu, 20 Nov 2025 04:17:18 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8d15:c0ee:cc9b:c363? ([2001:8b0:aba:5f3c:8d15:c0ee:cc9b:c363])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b0ffe377sm103698345e9.1.2025.11.20.04.17.18
+        d=1e100.net; s=20230601; t=1763641189; x=1764245989;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Xq5VExmpHxrU8dRcA7QH4P1Mk9j0wjUz1OcDFkzaN/M=;
+        b=X9QWv8eIw9HZeCc9ba/ITB/qxp+wGYDo8lkku7PcYky1xl6mjLuWEXrg6KZgVmfcMw
+         QBTDKLg8OKKz7p9ItSZoO+SE5MnH8KgXc+rwf4SZ0HzcCbrGKGDCtS2QoduzY0PmbrE6
+         +3YeR1xd73ighXt/viuNMBkYwPfAa7+dYFCTI4i/QyRkRC20bf0F/WXp0cNhOoL4+wd2
+         GWj95qeI2pNfcpK5iWJAypjcA/UvMNyuo9e09MEXDcZvyO0ThlCF3T09HObP/ODdGdEF
+         WC5lL0tE+44qECCcg/PDrQkPkRD5Cw0nj3VjN+ApveUUhw/IlAEApwJMp421HfCsbVdg
+         Ad7w==
+X-Gm-Message-State: AOJu0Yx3/RxmE9a0vMDVBhZoDWys32462PiifbYipiTMjE501Zp1lAmO
+	fmW+znS+f/vQnmLPRbJ9/gBtor8Xm3BSekSQqcFKlW3wxhLjGyGgaTGOiOXvJV7Z
+X-Gm-Gg: ASbGncvtXo0xAB9PtH7xH+3fgnH5NtoPM2HvvXZZtC2envh6eYgC9XCFCnVqkE9kg7A
+	L0W+6KaFvMkrp/4FNFAnDBF+P/KDuj92zc3n3GBqXLsivMkugBkrqUb2OKVThLZ/FcNaFr70JGn
+	34Gc3UOIN1NSZGRejXnxQqwJ/ihH7SAE9gAfZuahKrTmZdD/mC4jIIic6Qfg0dn+v3WFF5KVbn3
+	vy8wv06GA1txD/RUeWnsEKzMRS+t5pt+BR4VOZbQnbMsOBOCOKg+KdAs1F2qB93FBb2bQ0rSqxX
+	co1DFhMCCy4g5YNbLuGKClEVN8HI6N7/XdPlBImubalAlNkObmUyYtjOI4bXxB2SgENvb7kQbt/
+	KgdcSs6awQIeMkSu4nC0TefhyA1C/Vih6giI0rqv8Ic7XiIvR/iWJEQEQ3EFxTli9zJFTexOO+C
+	hI+8dUkfnS
+X-Google-Smtp-Source: AGHT+IGhQOehlrN0A2O8BRZFpmFUdpVyhYf112HUP8rIu0Q+VGwn4Z9J3D+4laGICc7dI9TSnlCYVQ==
+X-Received: by 2002:a05:600c:1516:b0:477:14ba:28da with SMTP id 5b1f17b1804b1-477b9ea8f78mr14377405e9.5.1763641188896;
+        Thu, 20 Nov 2025 04:19:48 -0800 (PST)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b0ffe377sm103812435e9.1.2025.11.20.04.19.48
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Nov 2025 04:17:18 -0800 (PST)
-Message-ID: <d214308179d1520df0c4523b5d18d2613849e3bf.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] bitbake.conf: add new variable
- FIXED_SOURCE_DATE_EPOCH
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
-Date: Thu, 20 Nov 2025 12:17:17 +0000
-In-Reply-To: <20251120114041.193806-1-changqing.li@windriver.com>
-References: <20251120114041.193806-1-changqing.li@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        Thu, 20 Nov 2025 04:19:48 -0800 (PST)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] bitbake.conf, gcc toolchain: add -fcanon-prefix-map to map-prefixes
+Date: Thu, 20 Nov 2025 13:19:46 +0100
+Message-ID: <20251120121947.3473848-2-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <20251120121947.3473848-1-skandigraun@gmail.com>
+References: <20251120121947.3473848-1-skandigraun@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 12:17:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226616
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 12:19:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226618
 
-On Thu, 2025-11-20 at 19:40 +0800, Changqing Li via lists.openembedded.org =
-wrote:
-> From: Changqing Li <changqing.li@windriver.com>
->=20
-> Here is SRC_URI of jquery:
-> SRC_URI =3D "\
-> =C2=A0=C2=A0=C2=A0 https://code.jquery.com/${BP}.js;name=3Djs;subdir=3D${=
-BP}=C2=A0\
-> =C2=A0=C2=A0=C2=A0 https://code.jquery.com/${BP}.min.js;name=3Dmin;subdir=
-=3D${BP}=C2=A0\
-> =C2=A0=C2=A0=C2=A0 https://code.jquery.com/${BP}.min.map;name=3Dmap;subdi=
-r=3D${BP}=C2=A0\
-> =C2=A0=C2=A0=C2=A0 "
-> When ${BP}.js/${BP}.min.js/${BP}.min.map are downloaded in a git repo,
-> and this git repo is cloned locally as a PREMIRRORS. In this case, mtime
-> of these files will be current time when checking out. For this recipe,
-> source_date_epoch will get by function
-> get_source_date_epoch_from_youngest_file, mtime of
-> ${BP}.js/${BP}.min.js/${BP}.min.map are not stable, so cause the
-> generated package not reproducible.
->=20
-> A new variable FIXED_SOURCE_DATE_EPOCH is added to support this case.
-> By default, FIXED_SOURCE_DATE_EPOCH is 0,=C2=A0 and source_date_epoch wor=
-ks
-> as before. If user build in above case, FIXED_SOURCE_DATE_EPOCH set to 1
-> in recipe jquery can ensure fixed source date epoch used by this recipe
-> to support reproducible build.
->=20
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
-> =C2=A0meta/conf/bitbake.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A0meta/lib/oe/reproducible.py | 13 ++++++++-----
-> =C2=A02 files changed, 9 insertions(+), 5 deletions(-)
+This patch adds -fcanon-prefix-map to the list of compile file-prefixes
+list in case at least gcc 13 is used (it's a gcc-only flag).
 
-We need to take a step back here and think about what is going on.
+This flag used to be part of this list in the past, but was removed with [1].
 
-The current design is that mtimes of files are clamped at an upper
-value which is determined by the the logic you're changing.
+Since then the source file paths are not canonicalized, which makes
+the system to miss some (and sometimes all) source files to include
+in the corresponding -src packages. As an example sqlite3 and audiofile
+(from meta-oe) produces empty src packages, mostly due to the pathes:
+they frequently use relative paths that don't match up with the
+absolute path specified in the file-preifx map:
+`pwd`/../../foo.cpp and ${S}/foo.cpp might refer to the same file, but
+the first one won't match the prefix-map, so it is omitted.
 
-There is an assumption that the mtimes don't affect the build, the
-build process will create files and therefore we will always have to
-have some kind of ignore threshold as the creation times of built
-components will vary.
+This patch adds this option again with gcc: for class-target it is uses
+always, and for class-native it is used when the host gcc is at least
+version 13.
 
-As you've pointed out, git can under some circumstances mean that files
-don't have the correct mtime ordering which causes components to
-rebuild, particularly around flex/bison. We need to find those cases
-and ensure the right mtime ordering as you've done in some patches.
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+ meta/classes/toolchain/gcc-native.bbclass | 3 +++
+ meta/classes/toolchain/gcc.bbclass        | 2 ++
+ meta/conf/bitbake.conf                    | 2 +-
+ 3 files changed, 6 insertions(+), 1 deletion(-)
 
-What I don't think is reasonable is changing the git fetcher to try and
-have stable mtimes, or adding new variables without a really strong
-explanation of why the existing code can't work.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/classes/toolchain/gcc-native.bbclass b/meta/classes/toolchain/gcc-native.bbclass
+index a708bd0389..8708ad0211 100644
+--- a/meta/classes/toolchain/gcc-native.bbclass
++++ b/meta/classes/toolchain/gcc-native.bbclass
+@@ -13,3 +13,6 @@ BUILD_OBJDUMP = "${BUILD_PREFIX}objdump"
+ BUILD_NM = "${BUILD_PREFIX}nm"
+ BUILD_READELF = "${BUILD_PREFIX}readelf"
+ 
++# gcc started to support -fcanon-prefix-map from version 13
++DEBUG_PREFIX_MAP_EXTRA:class-native = \
++    "${@'-fcanon-prefix-map' if bb.utils.vercmp_string_op(oe.utils.get_host_gcc_version(d), '13.0.0', '>=') else ''}"
+diff --git a/meta/classes/toolchain/gcc.bbclass b/meta/classes/toolchain/gcc.bbclass
+index a5adb5ca37..0ed49ba892 100644
+--- a/meta/classes/toolchain/gcc.bbclass
++++ b/meta/classes/toolchain/gcc.bbclass
+@@ -30,4 +30,6 @@ PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-cross-canadian = "gcc-crosss
+ PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-cross-canadian = "gcc-crosssdk-${SDK_SYS}"
+ PREFERRED_PROVIDER_virtual/nativesdk-compilerlibs:class-cross-canadian = "nativesdk-gcc-runtime"
+ 
++DEBUG_PREFIX_MAP_EXTRA = "-fcanon-prefix-map"
++
+ TCOVERRIDE = "toolchain-gcc"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 5406e542db..600d4baffb 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -650,7 +650,7 @@ EXTRA_OEMAKE:prepend:task-install = "${PARALLEL_MAKEINST} "
+ ##################################################################
+ TARGET_DBGSRC_DIR ?= "/usr/src/debug/${PN}/${PV}"
+ # Beware: applied last to first
+-DEBUG_PREFIX_MAP ?= "\
++DEBUG_PREFIX_MAP ?= "${DEBUG_PREFIX_MAP_EXTRA} \
+  -ffile-prefix-map=${S}=${TARGET_DBGSRC_DIR} \
+  -ffile-prefix-map=${B}=${TARGET_DBGSRC_DIR} \
+  -ffile-prefix-map=${STAGING_DIR_HOST}= \
 
