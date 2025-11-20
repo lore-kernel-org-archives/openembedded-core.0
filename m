@@ -2,104 +2,132 @@ Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFAABCF884C
-	for <webhook@archiver.kernel.org>; Thu, 20 Nov 2025 12:19:55 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32975.1763641190172953211
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02A78CF8856
+	for <webhook@archiver.kernel.org>; Thu, 20 Nov 2025 13:14:46 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33797.1763644478431402198
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Nov 2025 04:19:50 -0800
+ Thu, 20 Nov 2025 05:14:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VX2Ts9lS;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: skandigraun@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47774d3536dso6382035e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 04:19:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RRP+g+FV;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4775895d69cso3967345e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 05:14:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763641188; x=1764245988; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1763644477; x=1764249277; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=siQUiOrdDcN/tK0e0fBxVu/8U+p1owBQOFX3bdcOoFU=;
-        b=VX2Ts9lS/Z9hVc2SFGBTqKXOBVJ/VHEvI8xB7K1xUYMdC4UWT46cqn5rZeRqMkb8CC
-         M69q3IjAy1ycP/cGdYQghGfRINdRoyoTX8uTQ1JeKC6gIH/bxamja52Cht4verJ/zh5o
-         eyH7ZmQs8l0F+e8chFB88VYF1rMK+uFUBNbyy8SC3aoYaNATERwYv2q8AzFRo2BieYcO
-         31UiAQCA6NlfLHsx53kj32soFfeJDju9rz8Th0bwrwo6uV2G1q2R8VIjmjehgji+IOBe
-         3tUNEyL1vdt0hF7RDa6NEY0Gnec8Lck/slGD7p39KDMvRYRSQKeQvUlkhfqw1tAwzfQk
-         rZ1Q==
+        bh=hiKgMc+LTFgJNTMt3YyiWhSNPk3ILEbc2DMWJTH2jz8=;
+        b=RRP+g+FVu5ECzxTKoRbc0GEWc8yzxXHpQ0l7a0tMCY/e1yHC42d2unP7WRqpsQnfjU
+         d8k2BxfEQs4UMsS3kBMrl8b1ybfYZGSpv5L9guKPh2R8LJFEl5KyNN+5qf0DSDHpZDxC
+         D+ny8Va1ZU8Lq/vOMB4YKrm230BPYpY30KizOdM4hmUCBYwfOVA6erXIIPak5KxB80Xm
+         EA2QQhU5nrBk2PWlbNBKt9JXq6U/9T9UtESY0pmT3u1Fe3q6JXC09PYH8JHa1xXQZxZi
+         9BKVkSzsb9JaE7FbJRjPFi1lBdIfDpPlEFp8BhmkkrhgtYudJv6NGf9kKTeLIgxrGUiT
+         IZ+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763641188; x=1764245988;
+        d=1e100.net; s=20230601; t=1763644477; x=1764249277;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=siQUiOrdDcN/tK0e0fBxVu/8U+p1owBQOFX3bdcOoFU=;
-        b=g+U0W2Y9lhqZfuwSesfKo9CxOFYtLFuWsRuc6Mx3CJERpWNqC+tmrdUkjsTo6aXn8L
-         VuZ3FrX/nRL+wvUHe0eyi9Dytig5kNqjzfcuE0dJrHf6THQjIoFRxpZsostNIXuPd5I7
-         +oLIFhNp/sLEhT8LlylYXRIo3G7LKzpZw5kVAfeJmnL1GKdbt6dZQwfXD4c1/D26CKpl
-         lgyEj6y0ldAk1OoSCw+4iWRGx7CCAC9RWl+yUmzdbVAdSLuGdmmtTAIkKF/UTHn11Oht
-         Y88mGmuwrE1uGKObpVGSx4zuFfl+/hTk8/UmNaJ/MRVD5mVeSIoj89/DAI5BRjQT7jnK
-         tsjQ==
-X-Gm-Message-State: AOJu0YypLfkQuw6H7N4Kc57KgFwobgAmR8qWPhagj0uAR4BYBhUT6mtU
-	DEugSQCt1N2skhgo913xTCirMrXpUmb/Z5Hj7ALsos8370bS1aQNFi45Onr/Qzp0
-X-Gm-Gg: ASbGncvCKCBGop8yjr+7YrhUsdmO9t9y1AZF1NXitHSopIrwUDqCMRRCrgvvzdm9Qp+
-	vaOSKjFMFJCA8tALhQplx9P9KW/eCfnZwM/z9qf45JXm01HqxAFNdS5wpe1rIl/MuUuLdyT//PW
-	mgUSVePQaRjvPgdL6/hHYiznXNnNG25wyNctYYwe+ylvhbEeON9lLtUqCs9NR2IXkQNvyFCyOX7
-	Jw9Ap+rL6w1aQUTBVQmvDN/MgLCZNH6wsP63gAW6t7TerTpw7ayB9hj8ffFshJdVe9NYk0Z7/bz
-	pHc+Y5e5/VX0JUjDZsOijau0LXaZWQd75Y63v22nGlV2dS2GBB79stOO1yD6p3yR3t+qiYETKSw
-	coGw/H9DRdzBNqjU0DH5xPmcs4Q28/JED7DuHrZGEWSoS2TIN+y8ObJHXdplJAbTn/SxvXONXzg
-	TD4ZRhtETJGyv0uUPS1Dc=
-X-Google-Smtp-Source: AGHT+IHbqaFf3rltDi6SXjiZfkUrI+hpVoW/FDEyoEbzDBLcW9nAzbl+ci2JosXKtp+pv/wO3AcrRA==
-X-Received: by 2002:a05:600c:c4b7:b0:471:5c0:94fc with SMTP id 5b1f17b1804b1-477b9eb43c3mr24994065e9.6.1763641188271;
-        Thu, 20 Nov 2025 04:19:48 -0800 (PST)
+        bh=hiKgMc+LTFgJNTMt3YyiWhSNPk3ILEbc2DMWJTH2jz8=;
+        b=iI9KvkAKmSIZGtAlW/1xKeQ6RmE81sCFtFZ+YnJoc2z7z2D5ypMr5YsyAohbxKvjWo
+         XvYTC+Z6D/zAjRl3EwSqx/e9WJMamMvphUYDT4qUx4Y4V9vsKA0xv4CohxL0VKETkHOD
+         RffDe85Nff/8g4EOGatkO8dIhVAq/kRgegWHDGg5GLiYsPhL/HJ0Qq5LnPmmMhN/up6D
+         fZlY9TZHny9cakph72ongMQAzn0jKdYlbLoidBOfWHMgPlQL20swzDn7x8kvLpvISs1k
+         5Ai5ks4K5eMesFNhgYwl/nl+i6XDRJxPpWDgvgwt2TibzdrcPupL0KW3DBNKp13RQLH3
+         a2Kg==
+X-Gm-Message-State: AOJu0Yy+OUWGtZPzqF4Pe/9AKikQ89CvlUvPsJw3nbGn8SXRpaPV6+N5
+	MJVJysejQ5cYvTlzAMkeuHGtFnyUhZNRw1xF6N5cQcb3B88d/5EEKVCmU/Kbd6mX
+X-Gm-Gg: ASbGnctITAJv6CKGKCuRhE1rlBFR5WiUog2EPnPn+C1pWhtlQJjZYBirywxLJG+Jukw
+	45uKOU9+o4O1Skw5PEixTl+SDVNQX3oXuiAjM7n/ziMavaLZydGcBnlnBr7EWMH7LDswnpE/uWG
+	FKsft+oBBiCjhwuc3UtgTC8fVf04ZkUiPy8FkCAIkAKAly3eWQFB9YjcvYBGWr3lOmFOjYaxYzn
+	hhtPsaJWDUlzZ9ByCflUaKhNEw+5y0spk1p0lC9NCNp4OJ3t4Nql9KisqVNm1K0TivZcj14GW2I
+	mM+HYIxJAuhECO9M13YYZV12fgtqjh9E+/MXWf10hhz43p/EQoA4fgiBF98wF8PIQEVWQm5/+9e
+	WQjbj6tfjbxH3+AQ+Md7zu7fHsMhetcUttWPQLj1ndN3Vjos+YHV/ohYXGII0Q/N9U5HIAcnoWh
+	fkgIW4TCt2
+X-Google-Smtp-Source: AGHT+IEB5Wa5jnJSqtAJ/Fj0DLQLxIm/x34tm2iSoVKrROYM3H9P+hALJlcaRhobQyGxy8i4TqpoSg==
+X-Received: by 2002:a05:600c:444c:b0:45d:e28c:875a with SMTP id 5b1f17b1804b1-477b8aa06c0mr34035925e9.31.1763644476502;
+        Thu, 20 Nov 2025 05:14:36 -0800 (PST)
 Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b0ffe377sm103812435e9.1.2025.11.20.04.19.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9dfd643sm62142165e9.14.2025.11.20.05.14.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Nov 2025 04:19:47 -0800 (PST)
+        Thu, 20 Nov 2025 05:14:36 -0800 (PST)
 From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/2] -fcanon-file-prefix and cc-rs compiler flag mixing
-Date: Thu, 20 Nov 2025 13:19:45 +0100
-Message-ID: <20251120121947.3473848-1-skandigraun@gmail.com>
+Subject: [scarthgap][PATCH] glslang: fix compiling with gcc15
+Date: Thu, 20 Nov 2025 14:14:35 +0100
+Message-ID: <20251120131435.4106436-1-skandigraun@gmail.com>
 X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 12:19:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226617
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 13:14:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226620
 
-These two commits are very losely related to each other.
+Backport a patch that fixes a compilation failure with gcc15:
 
-Patch 1 adds -fcanon-prefix-map to the compiler flags, when it is applicable 
-(when gcc >=13 is used). This helps with finding the correct debug sources 
-for the -src package. Without this flag some recipes miss some source 
-files from this package, and sometimes they miss all files. (E.g. sqlite, audiofile, librsvg)
+| .../git/SPIRV/SpvBuilder.h:238:30: error: ‘uint32_t’ has not been declared
+|   238 |     Id makeDebugLexicalBlock(uint32_t line);
+|       |                              ^~~~~~~~
+| .../git/SPIRV/SpvBuilder.h:64:1: note: ‘uint32_t’ is defined in header ‘<cstdint>’; this is probably fixable by adding ‘#include <cstdint>’
 
-Patch 2 tries to work around a bug (or at least unexpected behavior) in the cc-rs 
-crate. 
-
-This patch tries to recognize if there are any flags passed to the compiler that shouldn't be there.
-
-How these patches are related: normally the *-prefix-map flags are only passed to cross-compiled 
-targets. However the cc crate passes this flag to the native builds also (due to flag 
-merging), and in case the host compiler is too old to recognize this flag, than the build fails.
-
-Though I was able to build rust with both of these patches for both native and class targets,
-I wasn't able to configure qemu to run in my docker env, and due to this I was unable
-to verify if the selftests pass in an OS where gcc is older than v13.
-
-While not mentioned explicitly, but especially with the 2nd patch I'm testing the waters,
-it is an RFC also.
-
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
+ ...uilder.h-add-missing-cstdint-include.patch | 30 +++++++++++++++++++
+ .../glslang/glslang_1.3.275.0.bb              |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-graphics/glslang/glslang/0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch
 
-Gyorgy Sarvari (2):
-  bitbake.conf, gcc toolchain: add -fcanon-prefix-map to map-prefixes
-  rust-common.bbclass: filter out incorrect compiler flags in wrapper
-
- meta/classes-recipe/rust-common.bbclass   | 24 +++++++++++++++++++++++
- meta/classes/toolchain/gcc-native.bbclass |  3 +++
- meta/classes/toolchain/gcc.bbclass        |  2 ++
- meta/conf/bitbake.conf                    |  2 +-
- 4 files changed, 30 insertions(+), 1 deletion(-)
-
+diff --git a/meta/recipes-graphics/glslang/glslang/0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch b/meta/recipes-graphics/glslang/glslang/0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch
+new file mode 100644
+index 0000000000..02b072c56a
+--- /dev/null
++++ b/meta/recipes-graphics/glslang/glslang/0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch
+@@ -0,0 +1,30 @@
++From e40c14a3e007fac0e4f2e4164fdf14d1712355bd Mon Sep 17 00:00:00 2001
++From: Sergei Trofimovich <slyich@gmail.com>
++Date: Fri, 2 Aug 2024 22:44:21 +0100
++Subject: [PATCH] SPIRV/SpvBuilder.h: add missing <cstdint> include
++
++Without the change `glslang` build fails on upcoming `gcc-15` as:
++
++    In file included from /build/source/SPIRV/GlslangToSpv.cpp:45:
++    SPIRV/SpvBuilder.h:248:30: error: 'uint32_t' has not been declared
++      248 |     Id makeDebugLexicalBlock(uint32_t line);
++          |                              ^~~~~~~~
++
++Upstream-Status: Backport [https://github.com/KhronosGroup/glslang/commit/e40c14a3e007fac0e4f2e4164fdf14d1712355bd]
++Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
++---
++ SPIRV/SpvBuilder.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/SPIRV/SpvBuilder.h b/SPIRV/SpvBuilder.h
++index b1ca6ce1..00b2e53a 100644
++--- a/SPIRV/SpvBuilder.h
+++++ b/SPIRV/SpvBuilder.h
++@@ -56,6 +56,7 @@ namespace spv {
++ }
++ 
++ #include <algorithm>
+++#include <cstdint>
++ #include <map>
++ #include <memory>
++ #include <set>
+diff --git a/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb b/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb
+index 2fd1e72a26..b688b3df48 100644
+--- a/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb
++++ b/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2a2b5acd7bc4844964cfda45fe807dc3"
+ SRCREV = "a91631b260cba3f22858d6c6827511e636c2458a"
+ SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main \
+            file://0001-generate-glslang-pkg-config.patch \
++           file://0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch \
+            "
+ PE = "1"
+ # These recipes need to be updated in lockstep with each other:
 
