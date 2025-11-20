@@ -1,138 +1,158 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A014ACF64BB
-	for <webhook@archiver.kernel.org>; Thu, 20 Nov 2025 05:01:43 +0000 (UTC)
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.27811.1763614897678688253
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ED0CCF8542
+	for <webhook@archiver.kernel.org>; Thu, 20 Nov 2025 06:13:54 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28446.1763619231133107946
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Nov 2025 21:01:37 -0800
+ Wed, 19 Nov 2025 22:13:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=K0IbXkly;
- spf=pass (domain: gmail.com, ip: 74.125.224.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-63fc8c337f2so413587d50.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 21:01:37 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y+/9qOpq;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: skandigraun@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-42b3c965cc4so191409f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Nov 2025 22:13:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763614897; x=1764219697; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+        d=gmail.com; s=20230601; t=1763619229; x=1764224029; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=x9i5G8M9di0J5OUh32BjmFtjweNQxU+TDTJqNhJDkLo=;
-        b=K0IbXklyNwQfkbHq05zg6G9hkMQvb3Zunwj3Ur+CgAAEkITYcBwq1dn/+BuaP71Wdb
-         m/PTmCBGb1coPqyowE/o0vN6M49nB2q8GmunwAzRtBVHDNAiDxn8ANuZLlitEx4Bpb7t
-         764DEzdMD1IXOdBWElh24QED3ddFVLdigLy93VSCLms1EY4hOSCAKGj6n41LdDDS6VQK
-         BctdDlb50c0eTWVuparfKHMmtY7SZNmWpFeuSBTgnxFz/jCweVCdAhtGgaTjlHww7Yjy
-         1UrUoODJgbOqsOfYBaZk9gfCnrTIrgWkgNHaLsSy7AJynWbFGApMxbJ5BkfcaZOJpyZI
-         N4rA==
+        bh=Zdc0iN8YOBWNhFB3Ge6rskmjBD8GhZNmUGz96YOaqB0=;
+        b=Y+/9qOpqgOsQP5bHJo/UTe3IDjdxf8XWIGRxGRTMnz7AWhbDjf/aGoiA2YKetwl26T
+         ZCUDC0rtNwvWZ27IfYPjrpfLMxLN9XRjXuLIh5ZSVqAVSu2GH7Nr2e3Yi+b0itEK0ym/
+         uVrseAiXPmkSL8c4gMejeU4Y+XKr5Na0CL1Kmr/iX5TEbLxgyrOn7nSFnRCveesu4NEG
+         AKsMQn7HLS+oiRyhqCCFnUXIY2vOV0dJiuVKLGhey49/EQOmExFhF7Obrd1cxrGfRxad
+         UCmEgE2A3vVz4mDt4yvvnWbIGQ3NdGPIFBYbMU+p/mQ2amNLOrB3rdzxMcX2sCdfo956
+         wpSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763614897; x=1764219697;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+        d=1e100.net; s=20230601; t=1763619229; x=1764224029;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=x9i5G8M9di0J5OUh32BjmFtjweNQxU+TDTJqNhJDkLo=;
-        b=IgfCu9tO8dJCjJoXZOXK3+wB+8Rq83fLSNt2uWUDmcbtCBEBIWFgHjh9eblhcaQ4/1
-         1DM6kfHCaguXggNe7ybcybLy/7OrwQ2NwLxWtU0VBJPhcy4S6ThHTzSWvkASMnvQttpk
-         D2yHlQ4Q5V0He1aNiVLt5Zqs7dPGPLhp3EVsJicKbXJCE2HjDh/JWYInuBxVQu8HmMdp
-         kmCkmyenP1vgwdaG0lVqeoFTLT7GOUbGVw6YIPgqp22okZg4ytVJpP5osMzokp86L6mf
-         3GX3JBHCM2OwyI8aKUtGwoD870XTWrUwAWjnX20OwJcZyh14tP7BDXFf/10Buqcn4nyW
-         SkyA==
-X-Forwarded-Encrypted: i=1; AJvYcCXSA327mkXFdqkNUkGsTzj9FVHl3ZssY2avTCTB0fgONQSUiJJutzLe30ci+FjEbxlRVqeZS9k5PZmQTo0uML8EKw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzq9Pa5ecfrUNaL5HfWFxGE8YzD4o08wB5ACi1jBoMuIltSad7o
-	Is5upJbS/myU+u0Ux+n+tlFHCEYjnCu5Dq6BFui8V8W7O/V1SeLZJWiqom2kdSzGF/Prs5vfZwE
-	ZfIbuVjfdRO21h4pWVof2AY6I6ukSwYY=
-X-Gm-Gg: ASbGncvRZ0SrnzJmDtkuUrrlMFpOLWgx3Vw2cpVafms3hMqjlP0C+E+t14Cs0g6zXAA
-	Js9nMcmhOTCLcv2C/mMPH4e5MlwXZSU0Rj5dLADKsmH/Gh/pXmbRd3ZKtdVDUhWjr8vCR/Ou56f
-	3rpWI9VhJdpOrjgpTuqdo0bb3KghPnefH0sbMKMXZhnj5CjYyhaHalEbrUvrw5Ypm11uG5sXumz
-	Y2AZfVxZFWH0m2wdE48rDxlecOAbSlNd2EwQIFRFuc+3GzSYV9+EdaPwCsDf047zUoaS4YkQXqF
-	l+gRIBLontOcecNFpTF2IVDNcDbO6jgFV79k0KciBsrYlRG6tGeqRhXy17xzdtRpMXiTLMLryCh
-	vU2utUS2TDdCcWU2YWeHwmcW5CeQ=
-X-Google-Smtp-Source: AGHT+IEUdDBoHPFycdAQcPp1kb9F/eRi6N27H1h9NOsSvUf7bIdqs3ToWVaGaAajArdpQDyf+p7wjW3o692v005qdAw=
-X-Received: by 2002:a05:690c:6c0e:b0:786:68da:3f4b with SMTP id
- 00721157ae682-78a795a84d0mr31584497b3.31.1763614896785; Wed, 19 Nov 2025
- 21:01:36 -0800 (PST)
+        bh=Zdc0iN8YOBWNhFB3Ge6rskmjBD8GhZNmUGz96YOaqB0=;
+        b=ScBCUZZremBT2kip3gz2vNDaUYIWHYP3TTzFj/e4EDLKV2spex2Oz97Vrs7f7DZvYI
+         GxNwIyCxcANZc45cmph+gPm2FOazstxBQdkblQF76o/po2fV6Xfd7/Zh2LN4vtPituTx
+         db/wDkJ+Ex4SxYRKGwbqif5TziwM8WgxOhGxzVoA3FNiVxnakoAL1v5LiMxK32a196BC
+         YE4dQ17HhttcE1Xx3KVM8D1rqHA+mAndue4ZgQvMhSgyRJVVnj2EAl2lhO/hE8FczKKk
+         tHM/pajnjjBX33iVsXC21SYbCKVlDOgTewGW82wELbekcOahhaxnzkhPgdGDZajF2jLu
+         0iSg==
+X-Gm-Message-State: AOJu0Yy5qdYGSLw+7eesJMVVaO2/BNSUWoaDp8rk/ZLFbx0viN6f2X8S
+	Faf7pdebnT9Xeb07DmPx2ae+5CrkynTs0SysajaP782RsIfoIJMcGCev
+X-Gm-Gg: ASbGncsZrq65vM3++f2/906nUKH7yUQVAPdyRkCAt26t9ambNmV/5sV8r71MS8Md/X0
+	506v3eZ4ZNtqJFJ/Gznd5WCL5/lrMxEfRVmIr2Yr5bpyOuvgou4DXBAzqA++lgcE5RSPK25e7Ax
+	JRe81O/2da6/01/NcMOlHTVLicyhpiMxQcUVZmUidonrpcUCXxjdSnxE8msVLZaux9sSfYppJat
+	azH4k3lnx0wyejqDqkrSmRoBvxHAYBKcPiyFOH6mmNQDHVomPuMZIBKmHvnnrHSk8djZryITYyD
+	UsB0M0Mz7RPjnCh7hMxEV2b1ZSGricEgkCWj7quO036t4MrWuLSJdjN4/2lqIPjdDJ+ALdE41qx
+	/3pDQgY8IBTD1Z93VFb35URJvZBoXF8M6yaAkzbf0FwrYjWSDz/gix2/bUXSFEMfkj5xp8TaUio
+	nCkGqFrGMCErOipIImyYw=
+X-Google-Smtp-Source: AGHT+IEvC0UYXyMBGKoiAPMs5fVyjLHaGJJelSMAs8b6cGQJRi8GNV1Cvtydv7rKqSspvZtHVDok/Q==
+X-Received: by 2002:a05:6000:288b:b0:426:fb27:974a with SMTP id ffacd0b85a97d-42cba7c4cc9mr1075329f8f.27.1763619229121;
+        Wed, 19 Nov 2025 22:13:49 -0800 (PST)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9022sm3374345f8f.36.2025.11.19.22.13.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Nov 2025 22:13:48 -0800 (PST)
+Message-ID: <cd7cb6c0-8439-4bb8-98ce-399dab65702e@gmail.com>
+Date: Thu, 20 Nov 2025 07:13:48 +0100
 MIME-Version: 1.0
-References: <CAMKF1sq=PB-ahsheN4iCD9w9MzmnCwUUZxTmaCJNBVhYpwKm1g@mail.gmail.com>
-In-Reply-To: <CAMKF1sq=PB-ahsheN4iCD9w9MzmnCwUUZxTmaCJNBVhYpwKm1g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 19 Nov 2025 21:01:10 -0800
-X-Gm-Features: AWmQ_bmAYu-DRHtYreWBR3xzdijhaQ77CuHNr3xRJ8ImMs1dLxGdemp5Nn1x5cw
-Message-ID: <CAMKF1soaUxXhsWJcQ3HG4TQQN-ETAQC09iJ05vQq04=SYqn6rA@mail.gmail.com>
-Subject: Re: Whinlatter ( 5.3 ) release and maintenance for meta-openembedded layers
-To: openembeded-devel <Openembedded-devel@lists.openembedded.org>, 
-	Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000718c8e0643ff9758"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] bitbake.conf: add canon-prefix-map to
+ DEBUG_PREFIX_MAP
+To: Khem Raj <raj.khem@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+References: <20251119101959.2603691-1-skandigraun@gmail.com>
+ <e327cbe3-7980-4806-8a1e-69d3910d3eb4@gmail.com>
+ <CAMKF1sr9jnTiyAAue6LeGWT5aGganW3zoSCKapGV_dCcrBL93A@mail.gmail.com>
+ <331d9c70b2bd4a23790efae7726ac626656e4234.camel@linuxfoundation.org>
+ <CAMKF1sqh+kj7vtYHWREOXYPT6zUzR1fUsxxhKogqd4C4230Vcw@mail.gmail.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <CAMKF1sqh+kj7vtYHWREOXYPT6zUzR1fUsxxhKogqd4C4230Vcw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 05:01:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226603
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 06:13:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226604
 
---000000000000718c8e0643ff9758
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello All,
-
-"whinlatter" branch for meta-openembedded has been created, please test it
-with whinlatter oe-core in your distros and report problems and fixes
-
-Thanks
--Khem
-
-On Tue, Nov 18, 2025 at 8:05=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
-:
-
-> Hey All,
+On 11/20/25 03:40, Khem Raj wrote:
 >
-> Whinlatter release is in its final stages for OE-Core. Accordingly we wil=
-l
-> be branching meta-openembedded for whinlatter as soon as the OE-core is
-> branched out.
 >
-> If you have patches lined up for this release, please send them by this
-> week. I am also interested in ptest fixes particularly, if folks can run
-> ptests on meta-openembedded layers and report, patches to fix the failure=
-s
-> are even better.
+> On Wed, Nov 19, 2025 at 10:17 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
 >
-> Anuj Mittal has agreed to maintain this release along with scarthgap LTS
-> that he has been
-> doing an awesome job with. Ankur Tyagi will co-maintain whinlatter
-> alongside Anuj to even out
-> the load a bit.
+>     On Wed, 2025-11-19 at 09:29 -0800, Khem Raj via
+>     lists.openembedded.org <http://lists.openembedded.org> wrote:
+>     > On Wed, Nov 19, 2025 at 9:20 AM Gyorgy Sarvari
+>     <skandigraun@gmail.com> wrote:
+>     > > Hmm, I just noticed that this flag wasn't omitted accidentally
+>     at all,
+>     > > but because clang doesn't support it.
+>     > >
+>     > > Please ignore this patch, will try to come up with some
+>     conditional
+>     > > patch or something like that.
+>     > >
+>     >
+>     >
+>     >
+>     > Right, the intention was to keep the DEBUG_PREFIX_MAP to be generic
+>     > and I was hoping that packages won't need -fcanon-prefix-map but
+>     that's
+>     > not the case. In any case I think we now have toolchain classes
+>     and these
+>     > options are compiler specific so we could either move the whole
+>     > assignment out of bitbake.conf and into toolchain classes
+>     > or define addon variable in gcc.bbclass
+>     >
+>     > DEBUG_PREFIX_MAP_EXTRA = "-fcanon-prefix-map"
+>     >
+>     > and prepend it to DEBUG_PREFIX_MAP in bitbake.conf
+>     >
+>     > That will allow it to be overridden cleanly in recipes if needed.
+>     >
+>     > Third option is to keep it as such and add
+>     >
+>     > DEBUG_PREFIX_MAP =+
+>     "-fcanon-prefix-map" meta/classes/toolchain/gcc.bbclass
+>     >
+>     > also keep in mind that this option is only available in gcc-13+
+>     > so DEBUG_PREFIX_MAP if used on native recipes might fail for
+>     hosts with
+>     > gcc < 13
+>     >
 >
-> I will send an update again when the release branch is created.
+>     There is an additional issue in rust too, e.g.:
 >
-> Thank you
-> -Khem
+>     https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/2773
+>
+>
+> Right, as I noted above in my reply, ibuild host is running debian-12
+> and the gcc version on debian-12 is GCC-12 which does not
+> have this option implemented. We need atleast gcc 13. Perhaps we
+> should follow option 2 or 3, that will address the provlem
+> surgically.
+
+Yes, but I believe that we are also hitting this bug:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=15976
+
+This log corroborates with this - bootstrapping is building some crates
+for the host, it uses the host's compiler, but it adds the target flags
+to it: "HOST_CFLAGS" uses no prefix-maps as prepared by
+oe_cargo_fix_env(), but the failing call uses them. (And the failing
+crate has cc-rs as a build dependency...)
+
+This is getting into a rabbit hole :) Will stare at this a bit more.
+
+>  
+>
+>     Cheers,
+>
+>     Richard
 >
 
---000000000000718c8e0643ff9758
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello All,<div><br></div><div>&quot;whinlatter&quot; branc=
-h for meta-openembedded has been created, please test it with whinlatter oe=
--core in your distros and report problems and fixes</div><div><br></div><di=
-v>Thanks</div><div>-Khem</div></div><br><div class=3D"gmail_quote gmail_quo=
-te_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 18, 2025 at=
- 8:05=E2=80=AFPM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khe=
-m@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><div dir=3D"ltr">Hey All,<div><br></div><div>Whinlatter release =
-is in its final stages for OE-Core. Accordingly we will be branching meta-o=
-penembedded for whinlatter as soon as the OE-core is branched out.</div><di=
-v><br></div><div>If you have patches lined up for this release, please send=
- them by this week. I am also interested in ptest fixes particularly, if fo=
-lks can run ptests on meta-openembedded layers and report,=C2=A0patches to =
-fix the failures are even=C2=A0better.</div><div><br></div><div>Anuj Mittal=
- has agreed to maintain this release along with scarthgap LTS that he has b=
-een</div><div>doing an awesome job with. Ankur Tyagi will co-maintain whinl=
-atter alongside Anuj to even out</div><div>the load a bit.</div><div><br></=
-div><div>I will send an update again when the release branch is created.</d=
-iv><div><br></div><div>Thank you</div><div>-Khem</div></div>
-</blockquote></div>
-
---000000000000718c8e0643ff9758--
 
