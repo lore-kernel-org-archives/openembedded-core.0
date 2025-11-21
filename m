@@ -1,454 +1,501 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <praveen.kumar@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD41ECFC261
-	for <webhook@archiver.kernel.org>; Fri, 21 Nov 2025 11:23:05 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9474.1763724175418168951
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4337CFC263
+	for <webhook@archiver.kernel.org>; Fri, 21 Nov 2025 11:26:55 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9517.1763724410468710867
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Nov 2025 03:22:55 -0800
+ Fri, 21 Nov 2025 03:26:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=eJ7cjT/k;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-42b3c965cc4so1005808f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 03:22:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1763724174; x=1764328974; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Velx28eXhJycceY8X2JMYaN10dpescN08elzaXnxLu0=;
-        b=eJ7cjT/klivs4KDqJmdAigHJqdAURWdBEQiCuUD0x4h7vFuKnHJNjW5/enhRaNMrJf
-         AdHj7f/navX/na5Hd5TeU0YSHk58+wkUOHDtooahd+DOnFgiq+MwSQf4HWUojQMbMN3R
-         dDsaQsoWFHXa76SQ1b2GPyYHh6BYqKdxMwAM4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763724174; x=1764328974;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Velx28eXhJycceY8X2JMYaN10dpescN08elzaXnxLu0=;
-        b=K823E5mHPfc1dt+2naI/jVHFPjE0dCZBelNRkaSfvr8qBQ3JUu+ndDTCS/hFg+/nJs
-         ahmriKk75XUBGlo15Gi2fA1KOftXG27ZwW4Q5kYTmMPVyUqPMP8byVVSYGz1ZiqLPLxy
-         WZ1w/LyMjY/9HeEsVLZhq5HxMHr3VTErJ1jYq8lQR5USFq2FofcWrmMiJkTVC0Lxsd2t
-         V3/eIFmIYDJZf67TWU9kSPyhk/NtgtgAk/vUqmNm1mdvMOOyXV4Ge7TKUQ8S+psE+9hW
-         H1yI7TowMx9Q3zOcZtkOs9RTgW3m8Ot+dsg+o4rD14+uYF5fvQUJqjYqpdq7F1XKjr9E
-         jsEQ==
-X-Gm-Message-State: AOJu0YxQJ7d/D3vUWYm0yDRL3E8dnpFUrmQOMbFxr4We8+xzdT/ec5/c
-	3anvlkdx9PR3nWFHXK9wV0vF6Z6awqXZgpYcXWwHOastaYV3mcAca71dvlS2FzzWSJZO4hmm1E7
-	mDz8V+A3qYs51Bwcg1Ag25DsRRVHllWvieEULEgQ5sA==
-X-Gm-Gg: ASbGncveqiYAnxPILDpQSwa0qUX40ZUqp23Bh4TTO5uWNcqDGenh8Y34v5uR+S+gxLq
-	9l1HlvmgvnPQbqi+bByNDKS/nLIm6A48ioLhZBtrfMy6j5BXa/AX0kwfKDPE6AKsyZf3vhTQxzA
-	wiEa8TnqYsXo1fGee/QpTN+R0uq3hgNSmdhboIX/7NVG1pmI6iq4UByGEadU2nmZJxuMMFOlKHN
-	xPseHTOOpe67dkD3gVQ53X6NzTog+bs0BuqC8zWcWGXObL0MhechReaW9pXVFCcQwBw7EJUuz2H
-	/DHGJ0WGgeStsIh+2l05TWJ67i7eCQ==
-X-Google-Smtp-Source: AGHT+IEqyXOJ+8N3iUYwDccC5BMrjtPx5Guva8bX2oAOGUIAfBqqyiNC3QmZcbKgXcap7oVU+grBqhfPHmEQfZ05lXc=
-X-Received: by 2002:a05:6000:2008:b0:429:d253:8619 with SMTP id
- ffacd0b85a97d-42cba63b310mr7086977f8f.5.1763724172520; Fri, 21 Nov 2025
- 03:22:52 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=OHdpygkI;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3420bbd990=praveen.kumar@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AL7Qbk12698764
+	for <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 03:26:50 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=k0iS9Y08YE5mDhwzq1jq
+	Ch6q21jfo5UH3a2gIJjheH8=; b=OHdpygkILkGPV/JX9a+xQr9p1mOd1Ye2esiC
+	NffSRFCfc9SfDgAVV2fwn5tspWpPP0EwsvEiP+ihGbOVELCkfZTruNtebaou/5mx
+	N2bpX8itXN5A6Am39crYZ2h5V5UvAs+YV89tlQZI8/Gkb9rOQ1wsq5Va1CtbgSc0
+	lr3McKzplnmPlUXRWpYUV7dNEC2NeNQZ1rNlEQFBqdYWptRgd2xmsJcbgZP8iIUg
+	BlULz5WNSTIuJxJGpYIRymaYoQ5YWPitilSHAhOoaokaSOfErrfyMSV5Vxp9OT/M
+	b+7Xet94BSh5qMfzVXxQnyGxyXCukv3KQ6iqVZGJ8h7LN1PeFA==
+Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ajekageam-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 03:26:49 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Fri, 21 Nov 2025 03:26:48 -0800
+Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Fri, 21 Nov 2025 03:26:47 -0800
+From: <praveen.kumar@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][kirkstone][PATCH 1/1] python3: fix CVE-2025-6075
+Date: Fri, 21 Nov 2025 16:56:42 +0530
+Message-ID: <20251121112642.3379117-1-praveen.kumar@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20251121105612.12259-1-pratik.farkase@est.tech>
-In-Reply-To: <20251121105612.12259-1-pratik.farkase@est.tech>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Fri, 21 Nov 2025 12:22:26 +0100
-X-Gm-Features: AWmQ_bnK8LwCrQ97IAsa-os9Rrwt02TCZQVmcSzNpgsGupGBtIZojTuKMlzc5wM
-Message-ID: <CAMSfU+6rTuAHSGci4LS8Kuu-XZqzZjzJXd8Vh2p_c2Bq=mag7w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] libyaml: add ptest support
-To: pratik.farkase@est.tech
-Cc: openembedded-core@lists.openembedded.org, pratik.farkase@ericsson.com
-Content-Type: multipart/alternative; boundary="000000000000c9008706441908e9"
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDA4NiBTYWx0ZWRfX/vavYnXV3vP+
+ 8gTkORueV5rkaj3p9z58WnUEZPZvJOO0kBTcm3MjTDrYWjPQrDhKs4Ed3z8cOGgLZKtBccZ1Wch
+ uq61wfdTvk33+xFBxNVhj5EDfCIxb1KmHYznl81itsvNwE9vbl6uUcprD4ozCJmaeEmrYGcEE2k
+ 5JIDFsP/46nWBvcEKLSaGnFOD4O2qskLL3c2Nk4GUc4er0duV5Vo9Q7EIwnr4b4Z2YDzlpnWiJj
+ tDrgXbzuWFU9lgQp+/UL2WslgNkJeuoimRfG/2ENCtu1+VXc/NV2zzl1CtOTdJeJolTlFqoHjDx
+ c4Waz5dvyDRPzV/86iyVMSKTXHBr57eGdt5siMFhhzhN58vx84Md9Zf94Xl4Fd2XVy6yUfU9RlA
+ mY2Jmx4yoTgxCukYhcveVTm8C2nzxQ==
+X-Proofpoint-GUID: WrkXne39zJKxbYEmnIWra1wBHrawSRKA
+X-Authority-Analysis: v=2.4 cv=YIuSCBGx c=1 sm=1 tr=0 ts=69204c79 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=8AHkEIZyAAAA:8 a=t7CeM3EgAAAA:8
+ a=pGLkceISAAAA:8 a=asWo_369AAAA:8 a=t09dciPa6Lqb90NMwrMA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=FdTzh2GWekK77mhwV6Dw:22 a=YnP8LtLWTqQO9u8dPMSg:22
+X-Proofpoint-ORIG-GUID: WrkXne39zJKxbYEmnIWra1wBHrawSRKA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-21_03,2025-11-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 clxscore=1015 impostorscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511210086
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5AL7Qbk12698764
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 11:23:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226669
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 11:26:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226670
 
---000000000000c9008706441908e9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Praveen Kumar <praveen.kumar@windriver.com>
 
-Hello,
+If the value passed to os.path.expandvars() is user-controlled a
+performance degradation is possible when expanding environment variables.
 
-Le ven. 21 nov. 2025 =C3=A0 11:56, Pratik Farkase via lists.openembedded.or=
-g
-<pratik.farkase=3Dest.tech@lists.openembedded.org> a =C3=A9crit :
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-6075
 
-> Add ptest support for libyaml to enable running the test suite
-> on target devices. This includes:
->
-> - test-version: Verifies library version information
-> - test-reader: Tests YAML reading functionality
->
-> The tests are built from the upstream test suite using the
-> autotools check_PROGRAMS infrastructure.
->
-> All 2 upstream tests pass successfully:
-> START: ptest-runner
-> BEGIN: /usr/lib/libyaml/ptest
-> PASS: test-version
-> PASS: test-reader
-> DURATION: 0
-> END: /usr/lib/libyaml/ptest
-> STOP: ptest-runner
->
-> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
-> ---
->  .../recipes-support/libyaml/libyaml/run-ptest | 49 +++++++++++++++++++
->  meta/recipes-support/libyaml/libyaml_0.2.5.bb | 21 +++++++-
->  2 files changed, 68 insertions(+), 2 deletions(-)
->  create mode 100755 meta/recipes-support/libyaml/libyaml/run-ptest
->
-> diff --git a/meta/recipes-support/libyaml/libyaml/run-ptest
-> b/meta/recipes-support/libyaml/libyaml/run-ptest
-> new file mode 100755
-> index 0000000000..885e4b68d5
-> --- /dev/null
-> +++ b/meta/recipes-support/libyaml/libyaml/run-ptest
-> @@ -0,0 +1,49 @@
-> +#!/bin/sh
-> +
-> +# run-ptest - Execute libyaml test suite
-> +
-> +cd tests || exit 1
-> +
-> +TOTAL=3D0
-> +PASS=3D0
-> +FAIL=3D0
-> +SKIP=3D0
-> +
-> +run_test() {
-> +    test_name=3D"$1"
-> +    test_bin=3D"./${test_name}"
-> +
-> +    TOTAL=3D$((TOTAL + 1))
-> +
-> +    if [ ! -x "${test_bin}" ]; then
-> +        echo "SKIP: ${test_name}"
-> +        SKIP=3D$((SKIP + 1))
-> +        return
-> +    fi
-> +
-> +    if ${test_bin} >/dev/null 2>&1; then
-> +        echo "PASS: ${test_name}"
-> +        PASS=3D$((PASS + 1))
-> +    else
-> +        echo "FAIL: ${test_name}"
-> +        FAIL=3D$((FAIL + 1))
-> +        return 1
-> +    fi
-> +}
-> +
-> +run_test "test-version"
-> +run_test "test-reader"
->
+Upstream-patch:
+https://github.com/python/cpython/commit/892747b4cf0f95ba8beb51c0d0658bfa=
+a381ebca
 
-This is the duplication of PTEST_TESTS. Is there any way to avoid the
-repetition?
-Run every binary in tests/ maybe?
+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
+---
+ .../python/python3/CVE-2025-6075.patch        | 364 ++++++++++++++++++
+ .../python/python3_3.10.19.bb                 |   1 +
+ 2 files changed, 365 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-6075.pa=
+tch
 
-
-> +
-> +echo
-> "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D"
-> +echo "Testsuite summary for yaml 0.2.5"
->
-
-This hard-coded "0.2.5" version will most likely *not* be updated on future
-upgrades.
-Either remove it (my recommendation) or generate it from $PV.
-
-
-> +echo
-> "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D"
-> +echo "# TOTAL: ${TOTAL}"
-> +echo "# PASS:  ${PASS}"
-> +echo "# SKIP:  ${SKIP}"
-> +echo "# XFAIL: 0"
-> +echo "# FAIL:  ${FAIL}"
-> +echo "# XPASS: 0"
-> +echo "# ERROR: 0"
-> +echo
-> "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D"
->
-
-The lines forced to "0" are not used by any tools (that I know of) and
-provide little info (being static). How about removing them?
-
-
-> +
-> +test ${FAIL} -eq 0
-> diff --git a/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-> b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-> index 0d8e8762d5..1d950572ab 100644
-> --- a/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-> +++ b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-> @@ -7,14 +7,31 @@ SECTION =3D "libs/devel"
->  LICENSE =3D "MIT"
->  LIC_FILES_CHKSUM =3D "file://License;md5=3D7bbd28caa69f81f5cd5f486472366=
-63d"
->
-> -SRC_URI =3D "https://pyyaml.org/download/libyaml/yaml-${PV}.tar.gz"
-> +SRC_URI =3D "https://pyyaml.org/download/libyaml/yaml-${PV}.tar.gz \
-> +           file://run-ptest \
-> +"
->  SRC_URI[sha256sum] =3D
-> "c642ae9b75fee120b2d96c712538bd2cf283228d2337df2cf2988e3c02678ef4"
->
->  S =3D "${UNPACKDIR}/yaml-${PV}"
->
-> -inherit autotools
-> +inherit autotools ptest
->
->  DISABLE_STATIC:class-nativesdk =3D ""
->  DISABLE_STATIC:class-native =3D ""
->
->  BBCLASSEXTEND =3D "native nativesdk"
-> +
-> +do_compile_ptest() {
-> +    oe_runmake -C tests ${PTEST_TESTS}
-> +}
-> +
-> +do_install_ptest() {
-> +    install -d ${D}${PTEST_PATH}/tests
-> +    for test in ${PTEST_TESTS}; do
-> +        if [ -f ${B}/tests/.libs/${test} ]; then
-> +            install -m 0755 ${B}/tests/.libs/${test}
-> ${D}${PTEST_PATH}/tests/
-> +        fi
-> +    done
-> +}
-> +
-> +PTEST_TESTS =3D "test-version test-reader"
->
-Can you put this definition above the tasks where it is used? That would
-make the code easier to read.
-
-Thanks!
-
-
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#226667):
-> https://lists.openembedded.org/g/openembedded-core/message/226667
-> Mute This Topic: https://lists.openembedded.org/mt/116405792/4316185
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> yoann.congal@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
+diff --git a/meta/recipes-devtools/python/python3/CVE-2025-6075.patch b/m=
+eta/recipes-devtools/python/python3/CVE-2025-6075.patch
+new file mode 100644
+index 0000000000..eab5a882a0
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2025-6075.patch
+@@ -0,0 +1,364 @@
++From 892747b4cf0f95ba8beb51c0d0658bfaa381ebca Mon Sep 17 00:00:00 2001
++From: =C5=81ukasz Langa <lukasz@langa.pl>
++Date: Fri, 31 Oct 2025 17:51:32 +0100
++Subject: [PATCH] gh-136065: Fix quadratic complexity in os.path.expandva=
+rs()
++ (GH-134952) (GH-140851)
++
++(cherry picked from commit f029e8db626ddc6e3a3beea4eff511a71aaceb5c)
++
++Co-authored-by: Serhiy Storchaka <storchaka@gmail.com>
++
++CVE: CVE-2025-6075
++
++Upstream-Status: Backport [https://github.com/python/cpython/commit/8927=
+47b4cf0f95ba8beb51c0d0658bfaa381ebca]
++
++Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
++---
++ Lib/ntpath.py                                 | 126 ++++++------------
++ Lib/posixpath.py                              |  43 +++---
++ Lib/test/test_genericpath.py                  |  14 ++
++ Lib/test/test_ntpath.py                       |  20 ++-
++ ...-05-30-22-33-27.gh-issue-136065.bu337o.rst |   1 +
++ 5 files changed, 93 insertions(+), 111 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-iss=
+ue-136065.bu337o.rst
++
++diff --git a/Lib/ntpath.py b/Lib/ntpath.py
++index 9b0cca4..bd2b4e2 100644
++--- a/Lib/ntpath.py
+++++ b/Lib/ntpath.py
++@@ -374,17 +374,23 @@ def expanduser(path):
++ # XXX With COMMAND.COM you can use any characters in a variable name,
++ # XXX except '^|<>=3D'.
++
+++_varpattern =3D r"'[^']*'?|%(%|[^%]*%?)|\$(\$|[-\w]+|\{[^}]*\}?)"
+++_varsub =3D None
+++_varsubb =3D None
+++
++ def expandvars(path):
++     """Expand shell variables of the forms $var, ${var} and %var%.
++
++     Unknown variables are left unchanged."""
++     path =3D os.fspath(path)
+++    global _varsub, _varsubb
++     if isinstance(path, bytes):
++         if b'$' not in path and b'%' not in path:
++             return path
++-        import string
++-        varchars =3D bytes(string.ascii_letters + string.digits + '_-',=
+ 'ascii')
++-        quote =3D b'\''
+++        if not _varsubb:
+++            import re
+++            _varsubb =3D re.compile(_varpattern.encode(), re.ASCII).sub
+++        sub =3D _varsubb
++         percent =3D b'%'
++         brace =3D b'{'
++         rbrace =3D b'}'
++@@ -393,94 +399,44 @@ def expandvars(path):
++     else:
++         if '$' not in path and '%' not in path:
++             return path
++-        import string
++-        varchars =3D string.ascii_letters + string.digits + '_-'
++-        quote =3D '\''
+++        if not _varsub:
+++            import re
+++            _varsub =3D re.compile(_varpattern, re.ASCII).sub
+++        sub =3D _varsub
++         percent =3D '%'
++         brace =3D '{'
++         rbrace =3D '}'
++         dollar =3D '$'
++         environ =3D os.environ
++-    res =3D path[:0]
++-    index =3D 0
++-    pathlen =3D len(path)
++-    while index < pathlen:
++-        c =3D path[index:index+1]
++-        if c =3D=3D quote:   # no expansion within single quotes
++-            path =3D path[index + 1:]
++-            pathlen =3D len(path)
++-            try:
++-                index =3D path.index(c)
++-                res +=3D c + path[:index + 1]
++-            except ValueError:
++-                res +=3D c + path
++-                index =3D pathlen - 1
++-        elif c =3D=3D percent:  # variable or '%'
++-            if path[index + 1:index + 2] =3D=3D percent:
++-                res +=3D c
++-                index +=3D 1
++-            else:
++-                path =3D path[index+1:]
++-                pathlen =3D len(path)
++-                try:
++-                    index =3D path.index(percent)
++-                except ValueError:
++-                    res +=3D percent + path
++-                    index =3D pathlen - 1
++-                else:
++-                    var =3D path[:index]
++-                    try:
++-                        if environ is None:
++-                            value =3D os.fsencode(os.environ[os.fsdecod=
+e(var)])
++-                        else:
++-                            value =3D environ[var]
++-                    except KeyError:
++-                        value =3D percent + var + percent
++-                    res +=3D value
++-        elif c =3D=3D dollar:  # variable or '$$'
++-            if path[index + 1:index + 2] =3D=3D dollar:
++-                res +=3D c
++-                index +=3D 1
++-            elif path[index + 1:index + 2] =3D=3D brace:
++-                path =3D path[index+2:]
++-                pathlen =3D len(path)
++-                try:
++-                    index =3D path.index(rbrace)
++-                except ValueError:
++-                    res +=3D dollar + brace + path
++-                    index =3D pathlen - 1
++-                else:
++-                    var =3D path[:index]
++-                    try:
++-                        if environ is None:
++-                            value =3D os.fsencode(os.environ[os.fsdecod=
+e(var)])
++-                        else:
++-                            value =3D environ[var]
++-                    except KeyError:
++-                        value =3D dollar + brace + var + rbrace
++-                    res +=3D value
++-            else:
++-                var =3D path[:0]
++-                index +=3D 1
++-                c =3D path[index:index + 1]
++-                while c and c in varchars:
++-                    var +=3D c
++-                    index +=3D 1
++-                    c =3D path[index:index + 1]
++-                try:
++-                    if environ is None:
++-                        value =3D os.fsencode(os.environ[os.fsdecode(va=
+r)])
++-                    else:
++-                        value =3D environ[var]
++-                except KeyError:
++-                    value =3D dollar + var
++-                res +=3D value
++-                if c:
++-                    index -=3D 1
+++
+++    def repl(m):
+++        lastindex =3D m.lastindex
+++        if lastindex is None:
+++            return m[0]
+++        name =3D m[lastindex]
+++        if lastindex =3D=3D 1:
+++            if name =3D=3D percent:
+++                return name
+++            if not name.endswith(percent):
+++                return m[0]
+++            name =3D name[:-1]
++         else:
++-            res +=3D c
++-        index +=3D 1
++-    return res
+++            if name =3D=3D dollar:
+++                return name
+++            if name.startswith(brace):
+++                if not name.endswith(rbrace):
+++                    return m[0]
+++                name =3D name[1:-1]
+++
+++        try:
+++            if environ is None:
+++                return os.fsencode(os.environ[os.fsdecode(name)])
+++            else:
+++                return environ[name]
+++        except KeyError:
+++            return m[0]
+++
+++    return sub(repl, path)
++
++
++ # Normalize a path, e.g. A//B, A/./B and A/foo/../B all become A\B.
++diff --git a/Lib/posixpath.py b/Lib/posixpath.py
++index b8dd563..75020ee 100644
++--- a/Lib/posixpath.py
+++++ b/Lib/posixpath.py
++@@ -279,42 +279,41 @@ def expanduser(path):
++ # This expands the forms $variable and ${variable} only.
++ # Non-existent variables are left unchanged.
++
++-_varprog =3D None
++-_varprogb =3D None
+++_varpattern =3D r'\$(\w+|\{[^}]*\}?)'
+++_varsub =3D None
+++_varsubb =3D None
++
++ def expandvars(path):
++     """Expand shell variables of form $var and ${var}.  Unknown variabl=
+es
++     are left unchanged."""
++     path =3D os.fspath(path)
++-    global _varprog, _varprogb
+++    global _varsub, _varsubb
++     if isinstance(path, bytes):
++         if b'$' not in path:
++             return path
++-        if not _varprogb:
+++        if not _varsubb:
++             import re
++-            _varprogb =3D re.compile(br'\$(\w+|\{[^}]*\})', re.ASCII)
++-        search =3D _varprogb.search
+++            _varsubb =3D re.compile(_varpattern.encode(), re.ASCII).sub
+++        sub =3D _varsubb
++         start =3D b'{'
++         end =3D b'}'
++         environ =3D getattr(os, 'environb', None)
++     else:
++         if '$' not in path:
++             return path
++-        if not _varprog:
+++        if not _varsub:
++             import re
++-            _varprog =3D re.compile(r'\$(\w+|\{[^}]*\})', re.ASCII)
++-        search =3D _varprog.search
+++            _varsub =3D re.compile(_varpattern, re.ASCII).sub
+++        sub =3D _varsub
++         start =3D '{'
++         end =3D '}'
++         environ =3D os.environ
++-    i =3D 0
++-    while True:
++-        m =3D search(path, i)
++-        if not m:
++-            break
++-        i, j =3D m.span(0)
++-        name =3D m.group(1)
++-        if name.startswith(start) and name.endswith(end):
+++
+++    def repl(m):
+++        name =3D m[1]
+++        if name.startswith(start):
+++            if not name.endswith(end):
+++                return m[0]
++             name =3D name[1:-1]
++         try:
++             if environ is None:
++@@ -322,13 +321,11 @@ def expandvars(path):
++             else:
++                 value =3D environ[name]
++         except KeyError:
++-            i =3D j
+++            return m[0]
++         else:
++-            tail =3D path[j:]
++-            path =3D path[:i] + value
++-            i =3D len(path)
++-            path +=3D tail
++-    return path
+++            return value
+++
+++    return sub(repl, path)
++
++
++ # Normalize a path, e.g. A//B, A/./B and A/foo/../B all become A/B.
++diff --git a/Lib/test/test_genericpath.py b/Lib/test/test_genericpath.py
++index 1ff7f75..b0a1326 100644
++--- a/Lib/test/test_genericpath.py
+++++ b/Lib/test/test_genericpath.py
++@@ -7,6 +7,7 @@ import os
++ import sys
++ import unittest
++ import warnings
+++from test import support
++ from test.support import os_helper
++ from test.support import warnings_helper
++ from test.support.script_helper import assert_python_ok
++@@ -430,6 +431,19 @@ class CommonTest(GenericTest):
++                   os.fsencode('$bar%s bar' % nonascii))
++             check(b'$spam}bar', os.fsencode('%s}bar' % nonascii))
++
+++    @support.requires_resource('cpu')
+++    def test_expandvars_large(self):
+++        expandvars =3D self.pathmodule.expandvars
+++        with os_helper.EnvironmentVarGuard() as env:
+++            env.clear()
+++            env["A"] =3D "B"
+++            n =3D 100_000
+++            self.assertEqual(expandvars('$A'*n), 'B'*n)
+++            self.assertEqual(expandvars('${A}'*n), 'B'*n)
+++            self.assertEqual(expandvars('$A!'*n), 'B!'*n)
+++            self.assertEqual(expandvars('${A}A'*n), 'BA'*n)
+++            self.assertEqual(expandvars('${'*10*n), '${'*10*n)
+++
++     def test_abspath(self):
++         self.assertIn("foo", self.pathmodule.abspath("foo"))
++         with warnings.catch_warnings():
++diff --git a/Lib/test/test_ntpath.py b/Lib/test/test_ntpath.py
++index f790f77..161e57d 100644
++--- a/Lib/test/test_ntpath.py
+++++ b/Lib/test/test_ntpath.py
++@@ -5,8 +5,8 @@ import sys
++ import unittest
++ import warnings
++ from ntpath import ALLOW_MISSING
+++from test import support
++ from test.support import os_helper
++-from test.support import TestFailed
++ from test.support.os_helper import FakePath
++ from test import test_genericpath
++ from tempfile import TemporaryFile
++@@ -56,7 +56,7 @@ def tester(fn, wantResult):
++     fn =3D fn.replace("\\", "\\\\")
++     gotResult =3D eval(fn)
++     if wantResult !=3D gotResult and _norm(wantResult) !=3D _norm(gotRe=
+sult):
++-        raise TestFailed("%s should return: %s but returned: %s" \
+++        raise support.TestFailed("%s should return: %s but returned: %s=
+" \
++               %(str(fn), str(wantResult), str(gotResult)))
++
++     # then with bytes
++@@ -72,7 +72,7 @@ def tester(fn, wantResult):
++         warnings.simplefilter("ignore", DeprecationWarning)
++         gotResult =3D eval(fn)
++     if _norm(wantResult) !=3D _norm(gotResult):
++-        raise TestFailed("%s should return: %s but returned: %s" \
+++        raise support.TestFailed("%s should return: %s but returned: %s=
+" \
++               %(str(fn), str(wantResult), repr(gotResult)))
++
++
++@@ -689,6 +689,19 @@ class TestNtpath(NtpathTestCase):
++             check('%spam%bar', '%sbar' % nonascii)
++             check('%{}%bar'.format(nonascii), 'ham%sbar' % nonascii)
++
+++    @support.requires_resource('cpu')
+++    def test_expandvars_large(self):
+++        expandvars =3D ntpath.expandvars
+++        with os_helper.EnvironmentVarGuard() as env:
+++            env.clear()
+++            env["A"] =3D "B"
+++            n =3D 100_000
+++            self.assertEqual(expandvars('%A%'*n), 'B'*n)
+++            self.assertEqual(expandvars('%A%A'*n), 'BA'*n)
+++            self.assertEqual(expandvars("''"*n + '%%'), "''"*n + '%')
+++            self.assertEqual(expandvars("%%"*n), "%"*n)
+++            self.assertEqual(expandvars("$$"*n), "$"*n)
+++
++     def test_expanduser(self):
++         tester('ntpath.expanduser("test")', 'test')
++
++@@ -923,6 +936,7 @@ class TestNtpath(NtpathTestCase):
++             self.assertIsInstance(b_final_path, bytes)
++             self.assertGreater(len(b_final_path), 0)
++
+++
++ class NtCommonTest(test_genericpath.CommonTest, unittest.TestCase):
++     pathmodule =3D ntpath
++     attributes =3D ['relpath']
++diff --git a/Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-1360=
+65.bu337o.rst b/Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-13=
+6065.bu337o.rst
++new file mode 100644
++index 0000000..1d152bb
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-136065.bu33=
+7o.rst
++@@ -0,0 +1 @@
+++Fix quadratic complexity in :func:`os.path.expandvars`.
++--
++2.40.0
+diff --git a/meta/recipes-devtools/python/python3_3.10.19.bb b/meta/recip=
+es-devtools/python/python3_3.10.19.bb
+index 8680c13893..6f23d258c1 100644
+--- a/meta/recipes-devtools/python/python3_3.10.19.bb
++++ b/meta/recipes-devtools/python/python3_3.10.19.bb
+@@ -37,6 +37,7 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Pyt=
+hon-${PV}.tar.xz \
+            file://0001-Avoid-shebang-overflow-on-python-config.py.patch =
+\
+            file://0001-test_storlines-skip-due-to-load-variability.patch=
+ \
+            file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-fa=
+ilu.patch \
++           file://CVE-2025-6075.patch \
+            "
+=20
+ SRC_URI:append:class-native =3D " \
 --=20
-Yoann Congal
-Smile ECS
+2.40.0
 
---000000000000c9008706441908e9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello,</div><br><div class=3D"gmail_quote gmail_quote=
-_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0ven. 21 nov. 2025=
- =C3=A0=C2=A011:56, Pratik Farkase via <a href=3D"http://lists.openembedded=
-.org">lists.openembedded.org</a> &lt;pratik.farkase=3D<a href=3D"mailto:est=
-.tech@lists.openembedded.org">est.tech@lists.openembedded.org</a>&gt; a =C3=
-=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">A=
-dd ptest support for libyaml to enable running the test suite<br>
-on target devices. This includes:<br>
-<br>
-- test-version: Verifies library version information<br>
-- test-reader: Tests YAML reading functionality<br>
-<br>
-The tests are built from the upstream test suite using the<br>
-autotools check_PROGRAMS infrastructure.<br>
-<br>
-All 2 upstream tests pass successfully:<br>
-START: ptest-runner<br>
-BEGIN: /usr/lib/libyaml/ptest<br>
-PASS: test-version<br>
-PASS: test-reader<br>
-DURATION: 0<br>
-END: /usr/lib/libyaml/ptest<br>
-STOP: ptest-runner<br>
-<br>
-Signed-off-by: Pratik Farkase &lt;pratik.farkase@est.tech&gt;<br>
----<br>
-=C2=A0.../recipes-support/libyaml/libyaml/run-ptest | 49 ++++++++++++++++++=
-+<br>
-=C2=A0meta/recipes-support/libyaml/<a href=3D"http://libyaml_0.2.5.bb" rel=
-=3D"noreferrer" target=3D"_blank">libyaml_0.2.5.bb</a> | 21 +++++++-<br>
-=C2=A02 files changed, 68 insertions(+), 2 deletions(-)<br>
-=C2=A0create mode 100755 meta/recipes-support/libyaml/libyaml/run-ptest<br>
-<br>
-diff --git a/meta/recipes-support/libyaml/libyaml/run-ptest b/meta/recipes-=
-support/libyaml/libyaml/run-ptest<br>
-new file mode 100755<br>
-index 0000000000..885e4b68d5<br>
---- /dev/null<br>
-+++ b/meta/recipes-support/libyaml/libyaml/run-ptest<br>
-@@ -0,0 +1,49 @@<br>
-+#!/bin/sh<br>
-+<br>
-+# run-ptest - Execute libyaml test suite<br>
-+<br>
-+cd tests || exit 1<br>
-+<br>
-+TOTAL=3D0<br>
-+PASS=3D0<br>
-+FAIL=3D0<br>
-+SKIP=3D0<br>
-+<br>
-+run_test() {<br>
-+=C2=A0 =C2=A0 test_name=3D&quot;$1&quot;<br>
-+=C2=A0 =C2=A0 test_bin=3D&quot;./${test_name}&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 TOTAL=3D$((TOTAL + 1))<br>
-+<br>
-+=C2=A0 =C2=A0 if [ ! -x &quot;${test_bin}&quot; ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;SKIP: ${test_name}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 SKIP=3D$((SKIP + 1))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-+=C2=A0 =C2=A0 fi<br>
-+<br>
-+=C2=A0 =C2=A0 if ${test_bin} &gt;/dev/null 2&gt;&amp;1; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;PASS: ${test_name}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 PASS=3D$((PASS + 1))<br>
-+=C2=A0 =C2=A0 else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;FAIL: ${test_name}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 FAIL=3D$((FAIL + 1))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 1<br>
-+=C2=A0 =C2=A0 fi<br>
-+}<br>
-+<br>
-+run_test &quot;test-version&quot;<br>
-+run_test &quot;test-reader&quot;<br></blockquote><div><br></div><div>This =
-is the duplication=C2=A0of=C2=A0PTEST_TESTS. Is there any way to avoid the =
-repetition?</div><div>Run every binary in tests/ maybe?</div><div>=C2=A0</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">
-+<br>
-+echo &quot;=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D&quot;<br>
-+echo &quot;Testsuite summary for yaml 0.2.5&quot;<br></blockquote><div><br=
-></div><div>This hard-coded &quot;0.2.5&quot; version will most likely *not=
-* be updated on future upgrades.</div><div>Either remove it (my recommendat=
-ion) or generate it from $PV.</div><div>=C2=A0</div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">
-+echo &quot;=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D&quot;<br>
-+echo &quot;# TOTAL: ${TOTAL}&quot;<br>
-+echo &quot;# PASS:=C2=A0 ${PASS}&quot;<br>
-+echo &quot;# SKIP:=C2=A0 ${SKIP}&quot;<br>
-+echo &quot;# XFAIL: 0&quot;<br>
-+echo &quot;# FAIL:=C2=A0 ${FAIL}&quot;<br>
-+echo &quot;# XPASS: 0&quot;<br>
-+echo &quot;# ERROR: 0&quot;<br>
-+echo &quot;=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D&quot;<br></blockquote><div><br></div><div>The lines forced =
-to &quot;0&quot; are not used by any tools (that I know of) and provide lit=
-tle info (being static). How about removing them?</div><div>=C2=A0</div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">
-+<br>
-+test ${FAIL} -eq 0<br>
-diff --git a/meta/recipes-support/libyaml/<a href=3D"http://libyaml_0.2.5.b=
-b" rel=3D"noreferrer" target=3D"_blank">libyaml_0.2.5.bb</a> b/meta/recipes=
--support/libyaml/<a href=3D"http://libyaml_0.2.5.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">libyaml_0.2.5.bb</a><br>
-index 0d8e8762d5..1d950572ab 100644<br>
---- a/meta/recipes-support/libyaml/<a href=3D"http://libyaml_0.2.5.bb" rel=
-=3D"noreferrer" target=3D"_blank">libyaml_0.2.5.bb</a><br>
-+++ b/meta/recipes-support/libyaml/<a href=3D"http://libyaml_0.2.5.bb" rel=
-=3D"noreferrer" target=3D"_blank">libyaml_0.2.5.bb</a><br>
-@@ -7,14 +7,31 @@ SECTION =3D &quot;libs/devel&quot;<br>
-=C2=A0LICENSE =3D &quot;MIT&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://License;md5=3D7bbd28caa69f81f5cd5f4=
-8647236663d&quot;<br>
-<br>
--SRC_URI =3D &quot;<a href=3D"https://pyyaml.org/download/libyaml/yaml-$%7B=
-PV%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">https://pyyaml.org/downl=
-oad/libyaml/yaml-${PV}.tar.gz</a>&quot;<br>
-+SRC_URI =3D &quot;<a href=3D"https://pyyaml.org/download/libyaml/yaml-$%7B=
-PV%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">https://pyyaml.org/downl=
-oad/libyaml/yaml-${PV}.tar.gz</a> \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest \<br>
-+&quot;<br>
-=C2=A0SRC_URI[sha256sum] =3D &quot;c642ae9b75fee120b2d96c712538bd2cf283228d=
-2337df2cf2988e3c02678ef4&quot;<br>
-<br>
-=C2=A0S =3D &quot;${UNPACKDIR}/yaml-${PV}&quot;<br>
-<br>
--inherit autotools<br>
-+inherit autotools ptest<br>
-<br>
-=C2=A0DISABLE_STATIC:class-nativesdk =3D &quot;&quot;<br>
-=C2=A0DISABLE_STATIC:class-native =3D &quot;&quot;<br>
-<br>
-=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
-+<br>
-+do_compile_ptest() {<br>
-+=C2=A0 =C2=A0 oe_runmake -C tests ${PTEST_TESTS}<br>
-+}<br>
-+<br>
-+do_install_ptest() {<br>
-+=C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/tests<br>
-+=C2=A0 =C2=A0 for test in ${PTEST_TESTS}; do<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -f ${B}/tests/.libs/${test} ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0755 ${B}/tests/.libs=
-/${test} ${D}${PTEST_PATH}/tests/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-+=C2=A0 =C2=A0 done<br>
-+}<br>
-+<br>
-+PTEST_TESTS =3D &quot;test-version test-reader&quot;<br></blockquote><div>=
-Can you put this definition above the tasks where it is used? That would ma=
-ke the code easier to read.</div><div><br></div><div>Thanks!</div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
--- <br>
-2.43.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#226667): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/226667" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/226667</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/116405792/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/116405792/4316185</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
-get=3D"_blank">yoann.congal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-
---000000000000c9008706441908e9--
 
