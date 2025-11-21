@@ -1,137 +1,230 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69931CFC28D
-	for <webhook@archiver.kernel.org>; Fri, 21 Nov 2025 15:42:17 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14147.1763739727367450526
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9660CCFC291
+	for <webhook@archiver.kernel.org>; Fri, 21 Nov 2025 16:19:57 +0000 (UTC)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15084.1763741994953929506
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Nov 2025 07:42:07 -0800
+ Fri, 21 Nov 2025 08:19:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=THJi01uQ;
- spf=pass (domain: linaro.org, ip: 209.85.167.46, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5958187fa55so1733239e87.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 07:42:07 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GvrG/kSd;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-640bd9039fbso3669194a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 08:19:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763739725; x=1764344525; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ny13viwL/ON5ZrsqhTWs6wg51ICMeIRVDBNeO195g20=;
-        b=THJi01uQcsRl5xtzHlgwYD1VdxggILOOI7msSpr28WdTr7yUAnYtOMV6tysnHyMmLi
-         LG9I7bxbHCXCRxtZc7uCYfwZ1qNJDKHSgOZUTGRbqzv8u1mNp+FJ20g2Mn1/98jTqfTH
-         4CpERtXiYhYYQ8f3kYuyl1bamG2J5mQK14lvWHivMopvFMkkPR9WpMLSwcV/hNTt4kpr
-         j2PMW3cSYuiMHcBpadIYl1GyORkxReP/chz0WZ537zh3jML21dxcY/ZCH64ELjn8fqaH
-         dgkez4Xm2vqHZV3EoMZHCZ0z2VlZIixoyFVOAT2u+3vRw6bXgVecrPq70GfCs+SIzJ4D
-         wE9g==
+        d=gmail.com; s=20230601; t=1763741993; x=1764346793; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=xiJ2ikZLnMpIOrPzKMNkQTilnVYsWyD1gNo1t1z/ih8=;
+        b=GvrG/kSdFfxvR71h97thBbk0/c7bUHzCbT2X3JVsqGFY+a5vVu5xfcmw+a6s6/TX/N
+         Z1rDy6r2wxUnbixXBu2y39eH6MrFDvF9iFw7PncaMSabVu6i1RSBl9XkpufapSSLJT3u
+         spkh1SpVv2zbWeaWqNj3t3dlxm9xeeg/efmoztL1oUYxsKVK9WgWJndjPM9nPERHyHfl
+         Bo7i99B9C5Lf7kL8K3fZf8UdaxNHfIB3LBEpmmMNqN4t1j7K1UEIOmiaHRakW25EXbo8
+         rU2KcfByjov3PxUWyNbuvhpccb9Fofml6y6ektR3FJbLXA99NxG9B4Yov04c2f4cNrML
+         575w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763739725; x=1764344525;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1763741993; x=1764346793;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ny13viwL/ON5ZrsqhTWs6wg51ICMeIRVDBNeO195g20=;
-        b=EVUd7RfrowIwcMJT6HOBi612vBA877iqBbP8gaXgUfK9yY7DcaKUqBkbD2041jquo6
-         t0g6bIUk6670XeJTsra8Es/5zeK5AxF6CMgWnM477PascyCcMyP3h+zZmr+l1DG+NXWu
-         sEiRXPaMnGVdAYFIxmac2IfTd+O6/YS4vqVGzUGScTE4KJb88g/BTj+EIVrHznZS1HNA
-         UKxYeeDl8nDkRET7YWQw4Tr5bVZnUonx2ht+9306QVIFuKU+sEo8ZeBhAiXaEJtLwwZ3
-         CjkTp0oRoKL3bTI+7JBf42CsOSpmGgjzWEZU3RgDK2DiG3XVnMdKRbV4jrLhRIJ222ww
-         zpNA==
-X-Gm-Message-State: AOJu0YwNx08Dq2DrePatLAHenBqzN96gukHFubkMpvDAs2miTK8ejVv3
-	4WJD7BFnhh6s5ZPSZSDM0ezRltM+jE/aT53ZwUI4U2QiCkEtaoNrHPPJzHPjq8yhBFZ089S+wji
-	XKi6S1W0=
-X-Gm-Gg: ASbGncsaXqr8qDb+WjyBkGURa/mdCKXjPRUpTvvAkh4FyItyQ6gpr+ALxc+TM7RFFgG
-	eWWlGw+L9gB9eQ0/nJp1zw/nRBbMp8/7+KEypCPDBtmdCuxjQ5wzMNBrITvWgSyQ/2onfbyHpFd
-	eTZ261wi22br97+GllwaeYc5twP1ZGpSK/+e53E4DTkT0fDm3w5gU5gaFDv5j8lf2TCouO14TV1
-	L9iNMiLhVcsrPxnuekZERKcNoFnJxhegiLYI90QHZxMlMA/4dZ8J80dWLe3N3tqeVE8/0cFVHCH
-	eoGtR4tCzjRvx8bE1hL/b1eD4h1WwaFKKKWQVzQNwn008/XcHU5UKKBqNsiYI4JjhXdYJdFfjAY
-	IObMV85CUdZbX9I7cxr0imqXZljtoxuiAHwVBaUIIJsULFHUcsweFBhSs7qDODW7l4YUrQZu2Ei
-	LO//07wvzEjGFhgBaX1XZUP5HjUrum9GNXqUU+16Hiai8CyHk6hQDXub8=
-X-Google-Smtp-Source: AGHT+IFXtZDpnzqS2+mD5hcpvb56AY5ELQO/CCH6RRqXtYCbt50ic1WTxl6YjnawJdYmhiqi3xPJ4Q==
-X-Received: by 2002:a05:6512:ac6:b0:594:1957:a36b with SMTP id 2adb3069b0e04-596a3e9eb10mr958745e87.2.1763739725094;
-        Fri, 21 Nov 2025 07:42:05 -0800 (PST)
-Received: from nuoska (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5969db75705sm1720511e87.15.2025.11.21.07.42.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Nov 2025 07:42:04 -0800 (PST)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v2] testexport.bbclass: export bitbake/lib
-Date: Fri, 21 Nov 2025 17:41:39 +0200
-Message-ID: <20251121154139.1232410-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.51.0
+        bh=xiJ2ikZLnMpIOrPzKMNkQTilnVYsWyD1gNo1t1z/ih8=;
+        b=vatQ1t5AtWqE4T5q1iXf16jEjCxbhpAFK6j69t+TtwON8B9lJnVp7kZDM//uh+LcY2
+         z8Rlw1Iva2uOARdjyWYkfj75maoXRsKaFi28+pUYtU814OLQKmBhdsx4FNA5F3VxdgjQ
+         jjG8X0UkoNd4RDexd1WaJYiubNdDYd094Iyfx/h+MhVO4PcqA6SAjqxb4O+u3PEm4bky
+         R2e47R20yvSXdmDYnLXe40S7BL3uISO7xlhWujeR+JvkgYAKlzgSnGlnk7uu0wR2n54f
+         77W/eE3z8l/8hHjLSYRt1Hx03e0/Z96XTVpF3le0kRfHUJ4gmVef20/s9q0mBra5YTNu
+         OY0Q==
+X-Gm-Message-State: AOJu0YwdZdpp2FSdBk3sSNnRE/Yv/GA8BHGuJvSjXu42sTkHlfzkUkCf
+	TA6erzdPYND6ZSbt8fRZk2ka7YfwlD3IeoXCRNuf+pf1azGVIIw/4AX+mGPH8IwwQYmEWd4s6Jn
+	bd0FL8c2t1MzI4LqhZU3UZmjQpf/7rXE=
+X-Gm-Gg: ASbGnctoDvRe1diPjkvqLfg6aUZzSb/ShgILsvdf1Nv5CfijrBRESDLDcHqXLOFuI12
+	vlnFc2sddPTD8rWnw6OBp3+zpgkfQwuQErbt6eJGW2L1ISF9sPK9se+sgSUnoPLvCBELIAucQGC
+	nSESX6iH3W+7JsqBDTwbnNCFrMCHH67RBn4xqDHlRWXRRAvqJuJKfVEJHmZwXfy23OX6Z0Djh+r
+	tQJEUJ1gYbHNdPDSovfARtqdyoc+eGdCR1+U02ywSUoNub+2YFO3z5oP2BF4L8ibVuYa8O1
+X-Google-Smtp-Source: AGHT+IHS/Cy1AnQKPxgnT5una3dMNjshoOmkDJSrjYMiPIn4qde31QWukymrvT14EjrFbTMBOVqBdpuEZt7cPe6DjJ8=
+X-Received: by 2002:a17:907:96a6:b0:b50:a389:7aa4 with SMTP id
+ a640c23a62f3a-b7671547e0fmr284556666b.13.1763741992581; Fri, 21 Nov 2025
+ 08:19:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251121061252.2644203-1-vpuar@qti.qualcomm.com>
+In-Reply-To: <20251121061252.2644203-1-vpuar@qti.qualcomm.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Fri, 21 Nov 2025 16:19:39 +0000
+X-Gm-Features: AWmQ_bkR8vTzKB1zMB0E6axtJI8pR4GYzRSS6fqBgizF6yrfAtOWMD64KGfIMyQ
+Message-ID: <CANPvuRkC16oj=twxLvfbx76P+yqvZOKE63Q=U=6LTAgwuGmM5A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] udev-extraconf: Split automount and autonet
+ into seperate packages
+To: vpuar@qti.qualcomm.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000f180e706441d2edb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 15:42:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226688
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 16:19:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226689
 
-utils/httpserver.py now depends on bb and multiprocessing.
+--000000000000f180e706441d2edb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fixes oeqa test execution:
+Hi Vivek
 
-https://ledge.validation.linaro.org/scheduler/job/123974
+Vivek Puar via lists.openembedded.org <vpuar=3D
+qti.qualcomm.com@lists.openembedded.org> escreveu (sexta, 21/11/2025 =C3=A0=
+(s)
+06:13):
 
-ImportError: Failed to import test module: apt
-Traceback (most recent call last):
-  File "/usr/lib/python3.13/unittest/loader.py", line 396, in _find_test_path
-    module = self._get_module_from_name(name)
-  File "/usr/lib/python3.13/unittest/loader.py", line 339, in _get_module_from_name
-    __import__(name)
-    ~~~~~~~~~~^^^^^^
-  File "/lava-downloads/core-image-sato/meta/lib/oeqa/runtime/cases/apt.py", line 8, in <module>
-    from oeqa.utils.httpserver import HTTPService
-  File "/lava-downloads/core-image-sato/meta/lib/oeqa/utils/httpserver.py", line 9, in <module>
-    from bb import multiprocessing
-ModuleNotFoundError: No module named 'bb'
+> Created two subpackages (${PN}-automount and ${PN}-autonet) to separate
+> udev rules and scripts for automount and autonet functionality. This
+> allows
+> selective installation, and reduces unnecessary dependencies for systems
+> that only need one feature.
+>
+> Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+> ---
+>  meta/recipes-core/udev/udev-extraconf_1.1.bb | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb
+> b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+> index 2ba6606c05..7a63773d69 100644
+> --- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
+> +++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+> @@ -59,3 +59,16 @@ CONFFILES:${PN} =3D "${sysconfdir}/udev/mount.ignoreli=
+st"
+>  RPROVIDES:${PN} =3D "udev-extra-rules"
+>  RREPLACES:${PN} =3D "udev-extra-rules"
+>  RCONFLICTS:${PN} =3D "udev-extra-rules"
+> +
+> +PACKAGES =3D+ "${PN}-automount ${PN}-autonet"
+> +
+> +FILES:${PN}-automount =3D " \
+> +    ${sysconfdir}/udev/rules.d/automount.rules \
+> +    ${sysconfdir}/udev/scripts/mount.sh \
+> +    ${sysconfdir}/udev/mount.ignorelist \
+> +"
+> +
+> +FILES:${PN}-autonet =3D " \
+> +    ${sysconfdir}/udev/rules.d/autonet.rules \
+> +    ${sysconfdir}/udev/scripts/network.sh \
+> +"
+>
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta/classes-recipe/testexport.bbclass | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+Can you also all these new packages in the runtime depends so the
+behaviour is like before?
 
-v2: changed from python import workaround to exporting bitbake/lib in
-    testexport.bbclass as requested by Richard
+RDEPENDS:${PN} =3D "${PN}-automount ${PN}-autonet"
 
-v1: https://lists.openembedded.org/g/openembedded-core/message/226668
+Thanks for the patch.
 
-diff --git a/meta/classes-recipe/testexport.bbclass b/meta/classes-recipe/testexport.bbclass
-index 843d777e3b..344ae489b5 100644
---- a/meta/classes-recipe/testexport.bbclass
-+++ b/meta/classes-recipe/testexport.bbclass
-@@ -84,6 +84,7 @@ def copy_needed_files(d, tc):
-     from oeqa.core.utils.test import getSuiteCasesFiles
- 
-     export_path = d.getVar('TEST_EXPORT_DIR')
-+    bitbake_path = d.getVar('BITBAKEPATH')
-     corebase_path = d.getVar('COREBASE')
-     bblayers = d.getVar('BBLAYERS').split()
- 
-@@ -91,9 +92,18 @@ def copy_needed_files(d, tc):
-     oe.path.remove(export_path)
-     bb.utils.mkdirhier(os.path.join(export_path, 'lib', 'oeqa'))
- 
--    # The source of files to copy are relative to 'COREBASE' directory
--    # The destination is relative to 'TEST_EXPORT_DIR'
--    # core files/dirs first
-+    # The source of files to copy are relative to 'BITBAKEPATH' and 'COREBASE'
-+    # directory. The destination is relative to 'TEST_EXPORT_DIR'.
-+    # bitbake and core files/dirs first.
-+    bitbake_files_to_copy = [os.path.join('..', 'lib')]
-+    for f in bitbake_files_to_copy:
-+        src = os.path.join(bitbake_path, f)
-+        dst = os.path.join(export_path, 'bitbake', f.split('/', 1)[-1])
-+        if os.path.isdir(src):
-+            oe.path.copytree(src, dst)
-+        else:
-+            shutil.copy2(src, dst)
-+
-     core_files_to_copy = [ os.path.join('scripts', 'oe-test'),
-                       os.path.join('scripts', 'lib', 'argparse_oe.py'),
-                       os.path.join('scripts', 'lib', 'scriptutils.py'), ]
--- 
-2.34.1
+Jose
 
+--=20
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#226649):
+> https://lists.openembedded.org/g/openembedded-core/message/226649
+> Mute This Topic: https://lists.openembedded.org/mt/116404291/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000f180e706441d2edb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Vivek</div><br><div class=3D"gmail_quote gmail_quo=
+te_container"><div dir=3D"ltr" class=3D"gmail_attr">Vivek Puar via <a href=
+=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;vpuar=3D<=
+a href=3D"mailto:qti.qualcomm.com@lists.openembedded.org">qti.qualcomm.com@=
+lists.openembedded.org</a>&gt; escreveu (sexta, 21/11/2025 =C3=A0(s) 06:13)=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Created two su=
+bpackages (${PN}-automount and ${PN}-autonet) to separate<br>
+udev rules and scripts for automount and autonet functionality. This allows=
+ <br>
+selective installation, and reduces unnecessary dependencies for systems <b=
+r>
+that only need one feature.<br>
+<br>
+Signed-off-by: Vivek Puar &lt;<a href=3D"mailto:vpuar@qti.qualcomm.com" tar=
+get=3D"_blank">vpuar@qti.qualcomm.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/udev/<a href=3D"http://udev-extraconf_1.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">udev-extraconf_1.1.bb</a> | 13 ++++++++++=
++++<br>
+=C2=A01 file changed, 13 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-core/udev/<a href=3D"http://udev-extraconf_1.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">udev-extraconf_1.1.bb</a> b/meta/rec=
+ipes-core/udev/<a href=3D"http://udev-extraconf_1.1.bb" rel=3D"noreferrer" =
+target=3D"_blank">udev-extraconf_1.1.bb</a><br>
+index 2ba6606c05..7a63773d69 100644<br>
+--- a/meta/recipes-core/udev/<a href=3D"http://udev-extraconf_1.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">udev-extraconf_1.1.bb</a><br>
++++ b/meta/recipes-core/udev/<a href=3D"http://udev-extraconf_1.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">udev-extraconf_1.1.bb</a><br>
+@@ -59,3 +59,16 @@ CONFFILES:${PN} =3D &quot;${sysconfdir}/udev/mount.ignor=
+elist&quot;<br>
+=C2=A0RPROVIDES:${PN} =3D &quot;udev-extra-rules&quot;<br>
+=C2=A0RREPLACES:${PN} =3D &quot;udev-extra-rules&quot;<br>
+=C2=A0RCONFLICTS:${PN} =3D &quot;udev-extra-rules&quot;<br>
++<br>
++PACKAGES =3D+ &quot;${PN}-automount ${PN}-autonet&quot;<br>
++<br>
++FILES:${PN}-automount =3D &quot; \<br>
++=C2=A0 =C2=A0 ${sysconfdir}/udev/rules.d/automount.rules \<br>
++=C2=A0 =C2=A0 ${sysconfdir}/udev/scripts/mount.sh \<br>
++=C2=A0 =C2=A0 ${sysconfdir}/udev/mount.ignorelist \<br>
++&quot;<br>
++<br>
++FILES:${PN}-autonet =3D &quot; \<br>
++=C2=A0 =C2=A0 ${sysconfdir}/udev/rules.d/autonet.rules \<br>
++=C2=A0 =C2=A0 ${sysconfdir}/udev/scripts/network.sh \<br>
++&quot;<br></blockquote><div><br></div><div>Can you also all these new pack=
+ages in the runtime depends so the behaviour=C2=A0is like before?</div><div=
+>=C2=A0<br>RDEPENDS:${PN} =3D &quot;${PN}-automount ${PN}-autonet&quot;<br>=
+<br>Thanks=C2=A0for the patch.<br><br>Jose<br><br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#226649): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/226649" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/226649</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/116404291/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/116404291/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
+div></div></div>
+
+--000000000000f180e706441d2edb--
 
