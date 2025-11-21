@@ -2,38 +2,38 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E7F7CFA460
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E7BCCFA45F
 	for <webhook@archiver.kernel.org>; Fri, 21 Nov 2025 00:08:52 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.294.1763683731592821355
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.293.1763683731017233644
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Nov 2025 16:08:52 -0800
+ Thu, 20 Nov 2025 16:08:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=j0RXnQtx;
- spf=pass (domain: axis.com, ip: 52.101.83.51, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=XTkjUzwb;
+ spf=pass (domain: axis.com, ip: 52.101.66.23, mailfrom: peter.kjellerstedt@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kgb9uGstEgOJzwgj+ihTFIRi9+5Zv0xerEHGdV1v1PUnSIVBtdZ4h+W5+k0TaRHXe1D5RsUktMdhuXdWxDAzhkv2EYOcYPKCZTivjPtfqZvCophoMcfHE7ZHgHX22xaza1u1KRl6me1VBhz4vpIywqN10pFjlZWQ5mHew8pdIt8t2/PnBrmh2MRfb3hsu93c1RWMDNjYEWsc09RoBUGos9QdhJ1q+JSQO7e37GnC5X67E7asbBbfHMU4NPLp/SkGwdyMLMaaon9bZShE0Ypvq8N2xSb0AcYvMzFQHBrTqyju+PdUxEPHxV3AUapwJW5LtwkA6Cp5VmMD6/RU6BSNDg==
+ b=yyebDMar1g3clSXZ2aPfcUBcGUQsHIoqNnSBx3+4YSMd30okXTs5gkJmxrRjAuGtWUCARvOEGFmbmyKr+lPjqgkeZcmjbD4ETmyXethOB580YfB35xsDUiZ3tcaDUVtP7cUhMpM44RIIRZ5hiK8A/34sz6DD/8fjhIu/sEOB/nylc+3DRLVB44JLWoL12h8NXMixBmtYaKa+DSxZIOSywglY7q/tOm3VLWt0fmZMZGWtafiLWwqAE+hAbXBA7eYni24t1CbaurE4Eouoyea9vvdExQTrMRvQYQjE0MmYh2O+lqSv7nWVdFRlq6i1zlrt439cMVeoUY0WBB/Id0XC0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/nmonzkhIg3HghfMDRDBj5eXdfJQvFl0CY3DDMJHZog=;
- b=oL1O8LkLOev0MpGjW4nbgUcGn0Cw5WVKyTZawPlk6SisbeBTYy/pMo7sXtvFujB1FtsqKZJCQekXWovs0ZJdRbLcJxLLOSQrtYgOmyea2WNXGUtNeDgZyCrtYxRNdqM/qyzet8zvmPp1VJ84cdxXgCqcznjXOv3YjoU6PAAo36tLPoBik9cp1Ob98kBglm66Fr+Gs5PDIyJZYJhTGT/A1Dx3Ajhtl8oPVMvAiXDN+lHFBxZNnWAeOOaYcVfIPbCJazJu8rkLpcvhWxOib3oqQ0ppG5SuAN3p1umf0IyiyP2+vYeOhW3goA5K/lRHPuyxZMioRx6/TZHXsst5mQ0ziA==
+ bh=gZd3MdKfShjbECTISRl3VS6YrrBtwAHSQo7zURasIXo=;
+ b=f4czMNjD2Bm5rzw1Z4KfCr8D+kQDnadrSsxKAjdxMO+BYRP1gBTQasFwJyaOTcnlEAILzFAfiB4TPJd5KggGQydt4O8OXYcja6wX2LtZ/noLMwzSY3R5vy+Mixlaw786FXvCHOuUznzVt9J2pxkoScmRdD528Z2qhSnEs21RwrIBUrGPL5LT+Hd0YyM/T6xeEJRRm8czfTabipzVi0KhCDrGdZPzk0QNfjuM+A/2jVtMkv7/BpftZDNB94cQypoVVkOeSiTZ4WMjojSOs+Dwi3W58BaiNReSKCHUvYhv7n0p53Y1GYWQc/6VjjNyDUlWWzYfl5fSWSoe4Vp2R6OKGg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
  header.from=axis.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/nmonzkhIg3HghfMDRDBj5eXdfJQvFl0CY3DDMJHZog=;
- b=j0RXnQtxy12o5PX8faOzljcaw5tcxhPrpR/q1rZYPePCu/aWyXHYqqyHnNKbwNnbcBjzqPj2bdRF85z7TtA213l72UifeD8jxxVW0gd7OhgGmpUpx/SZXq2fJ+MTUAHg+Z1xfoqQZjyiCTO+QanSsPW26sXv+Nf1/lrREGDr1ug=
-Received: from DU7PR01CA0044.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:50e::28) by AS8PR02MB7142.eurprd02.prod.outlook.com
- (2603:10a6:20b:2e5::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Fri, 21 Nov
- 2025 00:08:47 +0000
+ bh=gZd3MdKfShjbECTISRl3VS6YrrBtwAHSQo7zURasIXo=;
+ b=XTkjUzwb4DiO0IpHZ3s2Gr8GZ+23xi5UZ43QvRxCSuQqJWlQAre4ypyHW0s+BJ2zuy5WAPaZoC8hDbKnP8qmUH9nqEI4JH/hMCDKvTGQE5+NOtuXhwDkoMUwv20WdyZNobE5xPcneI+R0GsmMYtJNoaCHrq39sIlbjKlwQtpMP0=
+Received: from DU7PR01CA0029.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:50e::7) by OSKPR02MB11482.eurprd02.prod.outlook.com
+ (2603:10a6:e10:9e::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Fri, 21 Nov
+ 2025 00:08:46 +0000
 Received: from DB1PEPF000509E8.eurprd03.prod.outlook.com
- (2603:10a6:10:50e:cafe::87) by DU7PR01CA0044.outlook.office365.com
- (2603:10a6:10:50e::28) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10a6:10:50e:cafe::4a) by DU7PR01CA0029.outlook.office365.com
+ (2603:10a6:10:50e::7) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.11 via Frontend Transport; Fri,
  21 Nov 2025 00:08:45 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
@@ -45,94 +45,88 @@ Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
 Received: from mail.axis.com (195.60.68.100) by
  DB1PEPF000509E8.mail.protection.outlook.com (10.167.242.58) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.9 via Frontend Transport; Fri, 21 Nov 2025 00:08:47 +0000
-Received: from SE-MAIL21W.axis.com (10.20.40.16) by se-mail11w.axis.com
+ 15.20.9343.9 via Frontend Transport; Fri, 21 Nov 2025 00:08:46 +0000
+Received: from se-mail01w.axis.com (10.20.40.7) by se-mail11w.axis.com
  (10.20.40.11) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Fri, 21 Nov
  2025 01:08:46 +0100
-Received: from se-mail02w.axis.com (10.20.40.8) by SE-MAIL21W.axis.com
- (10.20.40.16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.61; Fri, 21 Nov
- 2025 01:08:46 +0100
-Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
+Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
  Transport; Fri, 21 Nov 2025 01:08:46 +0100
 Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail02x.se.axis.com (Postfix) with ESMTP id 2682328DA
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 0B8332DDB
 	for <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 01:08:46 +0100 (CET)
 Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id 6F42E12058E; Fri, 21 Nov 2025 01:10:34 +0100 (CET)
+	id 729FB120600; Fri, 21 Nov 2025 01:10:34 +0100 (CET)
 From: Peter Kjellerstedt <pkj@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/3] configfragments.py: Correct the help for enable-fragment
-Date: Fri, 21 Nov 2025 01:10:26 +0100
-Message-ID: <20251121001028.3756594-1-pkj@axis.com>
+Subject: [PATCH 2/3] configfragments.py: Make list-fragments fail early
+Date: Fri, 21 Nov 2025 01:10:27 +0100
+Message-ID: <20251121001028.3756594-2-pkj@axis.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251121001028.3756594-1-pkj@axis.com>
+References: <20251121001028.3756594-1-pkj@axis.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509E8:EE_|AS8PR02MB7142:EE_
-X-MS-Office365-Filtering-Correlation-Id: 10956f6f-4a3c-4498-a221-08de2892243a
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509E8:EE_|OSKPR02MB11482:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6812b3ee-4397-4438-2c3e-08de289223e9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700013;
+	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?L8mMOOKmTiUvnxRgQytvDm0ZPMPz6bV4M1Nq8SFMDoQGD1x6rOlFkRbVoL1b?=
- =?us-ascii?Q?wRBcbPmfD6zYzsFIiSDNqRhyUB7rZZsNUTzJaqVHnYq+n0PzykqgBeIRXcvi?=
- =?us-ascii?Q?a7h9C2Ci2718VRwCYb5rNQKmqMW8iO+uhs+LI3+SWDyn5KA7cvhAnU4QyFxH?=
- =?us-ascii?Q?du83N1tyqvurf2h/b6F4GDet6wOMM/qUAVERAtM5otSHGGzZViYQHSOrhPmt?=
- =?us-ascii?Q?VHooN/dXkK+xuiEHGAaOn9y7bl6bviwFcwNE6oQTiMK0c0mDvKJLETLfkJRK?=
- =?us-ascii?Q?/kYJ9hkmJLh18jw7sWTJCIy1fxBv+v3vaHYbWUhTP+GTfLUcV+UvLOyDGVOR?=
- =?us-ascii?Q?+HfQV3A18U4qg3gGWPyYM+iWXPOECRbp1ZhuhoTncKDYHEwbAG6DBJBst/g7?=
- =?us-ascii?Q?BSvxDUsAQcaHN/D6hJzgUju80QdovxqBtti64Z1u+wgYW87/h/95siSaFQUF?=
- =?us-ascii?Q?XppJofIET5gjSdhPxfhvr2ye5hfHvo0jhO8YBzieKdrjB32CQdxE7KveUBTb?=
- =?us-ascii?Q?DLT5M+sKQG1cT+UQz8+2a23rEj78MjXNuv/zjZT9+OJ0QfNFqugJTWSYPtAa?=
- =?us-ascii?Q?PrJFBb3MhZ1aaDNi80gcQ4TM5ZKcfF7epiEmQ+9uYypjxJh8b+teyoT69Zb4?=
- =?us-ascii?Q?UdtNlHM2/IFHQUrs6CAznWZCT4N0KlIXyPaiWl9yqZKPlORl0mTbMqFF4L6B?=
- =?us-ascii?Q?cQkQlxhCW8d/tNPZNraUcliHCx4fHCnx2myznxQtvY6+M6HpTmiofUwbV5iu?=
- =?us-ascii?Q?rjMCOIhdvEWJ8UD9NDYfPD+1lK9vv90dz+Jhsvhnzp7WbCtEOZSurfN1tU5U?=
- =?us-ascii?Q?kZXeIhvpgNFuucQ4syzr7efnqlWmh9u14EynHnF6TcwNS0QiO3BLfozyVps+?=
- =?us-ascii?Q?aUY7KPU5rFcdgvNByHIdbCAbcHjZgipXCC3SOY8e9+bOyl//QFjoUx7DZRog?=
- =?us-ascii?Q?XMoOCH/nUsj9WXeQQ1R+AognqpDbzkzlu09HgYwd/IkcenSnRWYATY/czQyu?=
- =?us-ascii?Q?M56+Hfwi6TZvC8hmjRqWqgCmWq1e4EVy09tqja42AHCiyiyY3BAWmbwcWbOf?=
- =?us-ascii?Q?He2pv6SaqTLP64ICD8iqhny1NMo9BcIXgqlR1h51AIViOf0DpDyDolPej+WM?=
- =?us-ascii?Q?eYA/wQSk8PKNUFU/XHCihtPpdGiQxKvucN40BWsJebNUsLOC7lH8V0DAM4hU?=
- =?us-ascii?Q?pzwF4O9hd5H9156+N4xWzaJJOsvKYHBMkupMWfAvA1x4ZUnfrkWUPwjvowIf?=
- =?us-ascii?Q?8qap5dcUnbkwTUnpFhg2CU0LZ9IY5cPIw0YMfVEFREHSNIiifxB10rBF11dB?=
- =?us-ascii?Q?/11E1fyR5j4qB2EH3cMKQx03qb1rMvvfsSwCvL1gyhnTjNnYYzA8UybPU3nN?=
- =?us-ascii?Q?Q/unuzLl27/v43YP+AjLnPFivLwMVXdDjcKXZXel/TFDE+fMc8RN+Xos+v3r?=
- =?us-ascii?Q?x3p/Xh42oFOVWsd++Cb+fGWr+E0XAG4FDL78TEueYAZIpZpDJMDOG2Bd5jta?=
- =?us-ascii?Q?GUK08n99ApwfXGgK6Y1aqjUy0LZb3RDkmECJ88IldmDGhRq83BlMryzDnoyX?=
- =?us-ascii?Q?MGZIlk22hqpQA7JSF2k=3D?=
+	=?us-ascii?Q?2tJ6tiwgioV6ycP82aIzQVxyVj9v1Vu3hCiceF2VW59wKbTYcvKw4PRmDqs6?=
+ =?us-ascii?Q?qqIOBYNp+gUooX2K9VpBl+cKEh4+HwictzBGwwUq5IzbeAYrrE6Zg3ZIh+YS?=
+ =?us-ascii?Q?7vP1s+kKtHjaKLRubjTYp68Q8C81SfVLoOOGtQOzq9pj/3bIf9+zr57TJOEu?=
+ =?us-ascii?Q?3clov0AdwjzRI/gSJN3Jj7zwHM0fb4cTeXycHiPJhj2kKkyyv6xnZUzRjAeT?=
+ =?us-ascii?Q?el8StB8VRPR//0Fm45W8T897fCmCAQiojXhG7Pmp67quxcfuTqkvJAOwcPm4?=
+ =?us-ascii?Q?DMZ6mOfliHFIRRYzyoaqaQycf8XBdSbOHNiEFofp/PZTY7UXRX9fKpVCWyL5?=
+ =?us-ascii?Q?zqcb2RwAyX8bXD3Z6fXcNmqG4tYJB97xBAptqp+ySLePGp9km+m3NNvl2m1V?=
+ =?us-ascii?Q?sGb5KKklHuu9avVs7A6e4sjlTNNSnZx2ceMxY+KsNHg3ncWvBr43AXiMDrfw?=
+ =?us-ascii?Q?eK4Q6KCIe1KEwrxRu57DbCZpqWBhVzmMjYHxo/0H6buMZU/XBdBMX2XQH65O?=
+ =?us-ascii?Q?d7Cj3dM1n6Idp+eA1jT6FtmpCb+6EFlQH5G9MBRqPsMMuY6oq+M2NWMi2TiV?=
+ =?us-ascii?Q?iH+K84dUl3unoEt42dGLBIq6Tx7N569HFR2rYA/za8oQ9cvwCF73hsM2WrDw?=
+ =?us-ascii?Q?rI0GxPrwi9kkFJdOkGR6o7w4o0Tpt1H8JofTl1G+L09DNf5ca9wNrdB6/QbJ?=
+ =?us-ascii?Q?qq2pS33fTv0vEYijSXPjELxLW5Ov9VDANxH0MTSihR9133W2iUDiPh517gDU?=
+ =?us-ascii?Q?xxG5wNHx1/VuO4AMydED4gyUzW5cs3I3dyf25mqvlMZt477boTbTLmJlz4CL?=
+ =?us-ascii?Q?5iE1D9wfY9L+mzQYn71/Cj1ZGZpc/p3HKTUYEfY1WNJBtaEH9gPdWDzI3/+W?=
+ =?us-ascii?Q?r8Nz4ikyIntTXIMkdG6Ez1IVgIHJSraYrZTT9xtwbvDLWui9YBY+22DiIU5d?=
+ =?us-ascii?Q?LfC6OJrCwP49x906F3UagA5RqS2YO3R8BHzlBhaf0pwUV/e8Ke5G/I5zhUQ7?=
+ =?us-ascii?Q?Rtosu7uSe3DyOcQiPvd122PBLG9ITLFfj+kzXUMlhic8pxHkQuuQARiiUjWL?=
+ =?us-ascii?Q?+y0TUZT8CEy0ulrZC/zBg58eoWEI4ThsImWAaLKlJmLx4nYvCKCkl2DfU0fF?=
+ =?us-ascii?Q?dkHq5/3xHHTj34v6AV9GjFdXev6jZbitVFJiMeLYWdoOchBmWdoWXtNCSkPE?=
+ =?us-ascii?Q?7GhXmBvwd502Ru5fmuGqqsD1Pc0Ti6mvtktvqLtQMWNmHfv0s81u5eYl2tq5?=
+ =?us-ascii?Q?fpp/2qcv3uwd0DiDumMljoRyTBsjAEgP/UcVmUqSvNG0oUfiZUU4PQC06PRx?=
+ =?us-ascii?Q?XDuiV784G5dWJ+Rp3KWqo1nLKwa2jcOcsxvz0e/qTI/duyil003aUSjO0fC2?=
+ =?us-ascii?Q?aQ631zEEB6e7IIy7fmMmfnY/KZGV59FqFWd9WgamVbRv6rFSy2m/oPdO9q2O?=
+ =?us-ascii?Q?raiSQtyBprq9vcjEGHrw8VlRHbI/XRRfUcdMaQM0+CDYYigxZNiN/xamjXRM?=
+ =?us-ascii?Q?EMcX/bRkFn7eLlqbXN8JplOJL3N0JuRqB/1LqelCvmXIcHANghNV3uoRZ2ZW?=
+ =?us-ascii?Q?OAKNuwOCXAPplXD8zJE=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1101;
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 00:08:47.0832
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 00:08:46.5485
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10956f6f-4a3c-4498-a221-08de2892243a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6812b3ee-4397-4438-2c3e-08de289223e9
 X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
 	DB1PEPF000509E8.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB7142
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSKPR02MB11482
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 00:08:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226645
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226643
 
-The help entry for --quiet had been added to list-fragments rather than
-enable-fragment.
-
-Due to the fact that --quiet is a global option, this actually adds a
-dummy --quiet option as it would otherwise hide the global option, but
-would never be set since any --quiet argument would already have been
-parsed when this option is parsed.
+If a fragment has not been configured correctly, make list-fragments
+fail with an error before it has output information about any built-in
+fragments.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
@@ -141,28 +135,27 @@ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
 diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigb=
 uild/configfragments.py
-index 6fdac33a5d..f79e238297 100644
+index f79e238297..15142ec9f9 100644
 --- a/meta/lib/bbconfigbuild/configfragments.py
 +++ b/meta/lib/bbconfigbuild/configfragments.py
-@@ -197,7 +197,9 @@ class ConfigFragmentsPlugin(LayerPlugin):
+@@ -75,11 +75,13 @@ class ConfigFragmentsPlugin(LayerPlugin):
+                  print('{}\tSets {} =3D "{}"'.format(f, builtin_dict[prefi=
+x], value))
+             print('')
 =20
-         parser_enable_fragment =3D self.add_command(sp, 'enable-fragment',=
- self.do_enable_fragment, parserecipes=3DFalse)
-         parser_enable_fragment.add_argument("--confpath", default=3Ddefaul=
-t_confpath, help=3D'Configuration file which contains a list of enabled fra=
-gments (default is {}).'.format(default_confpath))
--        parser_list_fragments.add_argument('--quiet', '-q', action=3D'stor=
-e_true', help=3D'Do not print descriptions of the newly enabled fragments')
-+        # Store the quiet argument in quiet_dummy. This is because --quiet=
- is a
-+        # global option and this one is only here to add an entry for --he=
-lp.
-+        parser_enable_fragment.add_argument('--quiet', '-q', action=3D'sto=
-re_true', dest=3D'quiet_dummy', help=3D'Do not print descriptions of the ne=
-wly enabled fragments')
-         parser_enable_fragment.add_argument('fragmentname', help=3D'The na=
-me of the fragment (use list-fragments to see them)', nargs=3D'+')
++        allfragments =3D self.discover_fragments()
++
+         all_enabled_fragments =3D (self.tinfoil.config_data.getVar('OE_FRA=
+GMENTS') or "").split()
+         all_builtin_fragments =3D (self.tinfoil.config_data.getVar('OE_FRA=
+GMENTS_BUILTIN') or "").split()
+         print_builtin_fragments(all_builtin_fragments, all_enabled_fragmen=
+ts)
 =20
-         parser_disable_fragment =3D self.add_command(sp, 'disable-fragment=
-', self.do_disable_fragment, parserecipes=3DFalse)
+-        for layername, layerdata in self.discover_fragments().items():
++        for layername, layerdata in allfragments.items():
+             layerdir =3D layerdata['layerdir']
+             fragments =3D layerdata['fragments']
+             enabled_fragments =3D [f for f in fragments if f['name'] in al=
+l_enabled_fragments]
 
