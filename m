@@ -1,200 +1,283 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <Jiaying.Song.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 652A0CFA459
-	for <webhook@archiver.kernel.org>; Fri, 21 Nov 2025 00:08:52 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.325.1763683731597935413
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2CD0CFA474
+	for <webhook@archiver.kernel.org>; Fri, 21 Nov 2025 05:33:03 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5463.1763703174673429408
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Nov 2025 16:08:52 -0800
+ Thu, 20 Nov 2025 21:32:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=TMTIT3cx;
- spf=pass (domain: axis.com, ip: 52.101.84.46, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Jces5p/W7nWmIkRaPUR0hOs/yQYE4L/OLbvq4sMGhn2nj1CcjIYZ2hABc4KllgYQNANBvxvmPYofC8cD8G+mEb79gRjR8kb+fDzm/y8lS5eSfuAmEJTK+yTmXTODUvWJ42O8zjaDLRLiqzDqV7ovvAuJn/qGjhLbU4wQb3BHskrU+SNP0cHLlN9H0dh4YpkVtNbOtZxqzpgnXiqYUu7/fMchKHJZWYR+RA6pZrYAelNZM8TQeYU9N3miviMyYJbL8RiDyQWjVB0JBESY/k1eGdLt5BEdtqrvhvFxEMHEP4MWfT+LO+qLhMXi6ooGMBReGfZyoHF8biDvzsN6LGREdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W+vLQZzzuaGxKwKuSHoGfsSX+nANDWvAh6ojCQoghT8=;
- b=L9WJuFbu5lcPqlt0rGcO68AFegIq9CdROE1ZmBuOi8WZdBA3BGsz6UWUVREL0UNRk86tGQ1eIIiNAb6BpIpwctNgbfTkwQl/8ooQz0fybNOV1OH1drjM3IvEKrqZej4BK2GRAGq1FhQfkS6MQS7gEpxATfvEpYkx3I8aJ1qkEIy6NgvR8BD74+t6/l9wU9Ao6xu/fB4qHQiPC8bC3kAcXMuVe6X7kbhstpa9Hl29e/yIICK1Z5TXxPLqzXgK9LOpxb9eZG5NzYfCzTIOrftoji6nSoGX55qrNkfaW/30d8P41PzdaflhRJsb7HH/Bq5BfqDddZJCJc/LE7xH5/dLrA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W+vLQZzzuaGxKwKuSHoGfsSX+nANDWvAh6ojCQoghT8=;
- b=TMTIT3cxfD8VJonRHunMFO2p7ZsW+0lovZJnPBdZhUjtBu0R0Cs/wqRy8LhINaJWPDyZTTyvDR38DV6cPcHYR03wm814+qXHKE0WqqFtID0Qw3cFxP6aS5k+xWRim6EHwLPAaA7CDY3VspHqnk/HYZ+7TyevtcJh+PHc+/gqLYE=
-Received: from DU7PR01CA0037.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:50e::27) by AM7PR02MB6307.eurprd02.prod.outlook.com
- (2603:10a6:20b:1b2::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Fri, 21 Nov
- 2025 00:08:47 +0000
-Received: from DB1PEPF000509E8.eurprd03.prod.outlook.com
- (2603:10a6:10:50e:cafe::a2) by DU7PR01CA0037.outlook.office365.com
- (2603:10a6:10:50e::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.11 via Frontend Transport; Fri,
- 21 Nov 2025 00:08:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DB1PEPF000509E8.mail.protection.outlook.com (10.167.242.58) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.9 via Frontend Transport; Fri, 21 Nov 2025 00:08:47 +0000
-Received: from SE-MAIL21W.axis.com (10.20.40.16) by se-mail11w.axis.com
- (10.20.40.11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Fri, 21 Nov
- 2025 01:08:46 +0100
-Received: from se-mail02w.axis.com (10.20.40.8) by SE-MAIL21W.axis.com
- (10.20.40.16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.61; Fri, 21 Nov
- 2025 01:08:46 +0100
-Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
- Transport; Fri, 21 Nov 2025 01:08:46 +0100
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail02x.se.axis.com (Postfix) with ESMTP id 2DC3D2911
-	for <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 01:08:46 +0100 (CET)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id 767CB12058E; Fri, 21 Nov 2025 01:10:34 +0100 (CET)
-From: Peter Kjellerstedt <pkj@axis.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=jGjJ3Gl1;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=342003eb54=jiaying.song.cn@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AL5Ar1A2476521
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 21:32:54 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=X/eot3k2C
+	Zzn5yi4YziyjCfWeDdtcCa+Xb1+uP+Wuw8=; b=jGjJ3Gl1EmLXZtFog+3WCBanx
+	pSVHZwGc/5qg7zJFAm9lKlnLymj094W7mi9v55yz+TuDCeWuq+WsYy8YpQZdkTXn
+	pZ+RHV2o8GqK8VvUQg0M4nsFyfDrFq0chZWjdnxGOeEnGdPZxi+7TjzmiG725tOE
+	ej4DKT/FPYPdf+XNjZK9exxOKs6pthwHtqT0LayqdIA2be0A9o64QQXYpVcQsOXQ
+	fwIyLbNEKRWxzlC6H8pqLUSsJo71QFsKqlweqQhwZB5lGUb3/raS9PaiZhOMNT2e
+	IToAaU8b5xWimXVhsknNvbyrzZtDGBuM1FTQcClm6IbP9u84dcgPNQ5cGhWYw==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ajekag54f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Nov 2025 21:32:54 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Thu, 20 Nov 2025 21:32:53 -0800
+Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Thu, 20 Nov 2025 21:32:52 -0800
+From: <jiaying.song.cn@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 3/3] configfragments.py: Improve reporting of errors and warnings
-Date: Fri, 21 Nov 2025 01:10:28 +0100
-Message-ID: <20251121001028.3756594-3-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251121001028.3756594-1-pkj@axis.com>
-References: <20251121001028.3756594-1-pkj@axis.com>
+CC: <Liezhi.Yang@windriver.com>
+Subject: [PATCH v2] icu: Add configure option to enable Automake-style ptest output format
+Date: Fri, 21 Nov 2025 13:32:52 +0800
+Message-ID: <20251121053252.654614-1-jiaying.song.cn@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509E8:EE_|AM7PR02MB6307:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57d29d2e-a0fe-4173-8103-08de28922476
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|36860700013|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?fdTEGo9MIhSPEQWFq/wZHK5mG1vesTZEQY6fyJzgxAR7FEd5QnfvUNuSdUi8?=
- =?us-ascii?Q?/jMXmEvTqz+ngjjCGgg8lb4xe32BC91rtqZgSgyXwN/MtbK+JaehdmGzN4Po?=
- =?us-ascii?Q?MFKGK8KqPoYxCdZM39Y25LCf2DttJuDUi4Rtv2wiweBogFBggkXUYhmFePwn?=
- =?us-ascii?Q?3v1yB0qRZYLCJoUQJgbUQX8OiOckCiVO8hVgSqH1DQLPDuw5OxqIGZJ/XTed?=
- =?us-ascii?Q?j6u9jyCN6WlcAjg184jdoxISEE+2wZggkvq+3rUrETKACe5gkcBxcwzvah7e?=
- =?us-ascii?Q?Z4FbMdGufhLnFb1HxvMWxc2Zj/PJY33aDoKNXPicFPWa1r2MiZ33XSd21MrF?=
- =?us-ascii?Q?AYQJodImyqUoaY05kPiZFunrbu4K1sU5acQivoA7lK1ZOJmpLaswFvJVWAPn?=
- =?us-ascii?Q?QR/XAp22L2u8sZQ2VizcA21Ynau9iDiW1Y909nIZbwnXo1cUTSftB1IPkEQa?=
- =?us-ascii?Q?V6NgxmObHFIddNEcbWqhUsbkTDWR6WIKujK8Zhgi4iuKcmx5BQgdQMTScFdQ?=
- =?us-ascii?Q?pWnrtMAvsSAozzVArsX4PnyDIPw156FJon0EYw6QKeF1KY5YK2uGmH703hXl?=
- =?us-ascii?Q?iPuvOPKl+Yht3nJg19ybiiXbKElBYiUrCx3oBOvCSpHVQXPDOSgpLctpOoXZ?=
- =?us-ascii?Q?5PGNNMy54cgmwv42yzDxOv6g1Uoj/52o9Xv8jqT/WHnwTK7xzlx3vkdGU8LB?=
- =?us-ascii?Q?yrnR9eBetMlCRxG1NfMta9Hfd7kqkZCihkMZtjzDaBD9XgJlJSfff9St6L9W?=
- =?us-ascii?Q?xbEOkSBlQ1m8gxsORFpujVULCW7x1UHfgDI5DEIrLvQoqRcOJxW1rPl90+rx?=
- =?us-ascii?Q?acTUm0FrLrdozg4+hByaPqBd8lGbhuZyr//EtU0AUotg56D87SVIaoGNEfoi?=
- =?us-ascii?Q?ta/Od4Rbx8a0+wRnhmFCRch4uEnQ3LPz8l0GtM5Kt1AqPzgtwLo8HPJu6ybv?=
- =?us-ascii?Q?kUbVEX4Ym3/+4lgqkEYxeQUko8F0cq3+MaloMc9D7tbmAvILkukPeOl94A9H?=
- =?us-ascii?Q?caVdFiibM7y18HGR5z1OgDzw7ddVcQ4FbivKNK+P/vu7nEusbgWTBpa9XgxN?=
- =?us-ascii?Q?+mayq0xT2FDE9hZV3bU4C6gOMCmimVXiQVRATraxlyF7/7mFrQ+UWH6y6Q12?=
- =?us-ascii?Q?ViIH+wUWtaYOfIUdkZ+JznPOxpmS2/ZmkwRW1mqrZsbT+bnsDVwqUj8PZfzf?=
- =?us-ascii?Q?O9SJl5CbQc5wabIKWjk35oCt7/feprpY2vK/AttU7h4WyLy/9agf0Nj3bYWA?=
- =?us-ascii?Q?TBPb5CAFbB2PcvZmKdygc15+H2BbmOOgePkLesps+kOHjGeKIj8nouP3I6AZ?=
- =?us-ascii?Q?ApoQ+qLJEm7lkgvkiUfssQIn6cOoeKdQmJLO7AIebrJnTYbOieqrBmjL55NI?=
- =?us-ascii?Q?W6GkaVBMna3brl2U7CwIF7PXu8tyowvYyuiBR58qOdEvUBjdlW7hr+JizTP5?=
- =?us-ascii?Q?+Pw1RzPtW16lCHn6S85XQFZgWXv81s6GRWgJNqBUTRNTGU149tmUZJKbiI/2?=
- =?us-ascii?Q?tSggZPqmllf+JE/KjfkBdfDZ2qAPIQ6hls7Tx0ZYxB9WWB8uAY999Y881RZl?=
- =?us-ascii?Q?IHh7bfgX7RS29yUtfoM=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 00:08:47.4739
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57d29d2e-a0fe-4173-8103-08de28922476
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB1PEPF000509E8.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR02MB6307
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDA0MSBTYWx0ZWRfX9A5vHr9dUx70
+ 5DIlgcw0dBoFRD7qoUUH4JrzyAXD26Ynxcxbhm5aJAdMTDNVUXwKDPBn/7XBwt7xqbHCRXPwuY0
+ MpmC5KD0DjkUWWE65Oet+j0uCrvjfHbVNrLYh0xohEQBLYnI55+PVh0tPmMLpq33t6EU3Lcj9Ml
+ gpDRk4j28jFYlekX0QPtAXGNinSyfYw/ghHXBV/9DiFAGXUU3VuoijfVF6zWxWST6TdT2Y0dG9Q
+ GMzDpdlHa4H5gZ130K39rT+BlwL3nIrjAfkH8BbPHjcSE3RoLIBcmEnv2xqtmy90+2SdCUl/kAJ
+ Sp1l+zibCzVTU40et50dMQq3zB4JoWgywFLvOAFH99rRECHEU9hvGpU+79KJNK6ZUeN5sQquxY+
+ oSUb0PM1mEsVLt/UbGC69AapV7Av0g==
+X-Proofpoint-GUID: AL2HuItMdhGjpcqU5DS4Mto2nIiSS-KI
+X-Authority-Analysis: v=2.4 cv=YIuSCBGx c=1 sm=1 tr=0 ts=691ff986 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8 a=iGHA9ds3AAAA:8
+ a=t7CeM3EgAAAA:8 a=7gnkTrLSKuvzd49Q8jwA:9 a=nM-MV4yxpKKO9kiQg6Ot:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: AL2HuItMdhGjpcqU5DS4Mto2nIiSS-KI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-21_02,2025-11-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 clxscore=1015 impostorscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511210041
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 00:08:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226644
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 05:33:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226646
 
-Use bb.fatal() and bb.warn() to report errors and warnings. This makes
-for a nicer experience for the user, and allows the warnings to be
-silenced using the --quiet option.
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Added a new configure option `--enable-automake-test-format` to enable
+Automake-style ptest output format.
+
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
 ---
- meta/lib/bbconfigbuild/configfragments.py | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ ...utput-compatible-with-Automake-forma.patch |  52 ---------
+ ...tput-compatible-with-Automake-format.patch | 105 ++++++++++++++++++
+ meta/recipes-support/icu/icu_77-1.bb          |   4 +-
+ 3 files changed, 107 insertions(+), 54 deletions(-)
+ delete mode 100644 meta/recipes-support/icu/icu/0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch
+ create mode 100644 meta/recipes-support/icu/icu/0001-Make-ICU-test-output-compatible-with-Automake-format.patch
 
-diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigb=
-uild/configfragments.py
-index 15142ec9f9..8365a15a32 100644
---- a/meta/lib/bbconfigbuild/configfragments.py
-+++ b/meta/lib/bbconfigbuild/configfragments.py
-@@ -28,10 +28,10 @@ class ConfigFragmentsPlugin(LayerPlugin):
-         summary =3D d.getVar('BB_CONF_FRAGMENT_SUMMARY')
-         description =3D d.getVar('BB_CONF_FRAGMENT_DESCRIPTION')
-         if not summary:
--            raise Exception('Please add a one-line summary as BB_CONF_FRAG=
-MENT_SUMMARY =3D \"...\" variable at the beginning of {}'.format(path))
-+            bb.fatal('Please add a one-line summary as BB_CONF_FRAGMENT_SU=
-MMARY =3D "..." variable at the beginning of {}'.format(path))
-=20
-         if not description:
--            raise Exception('Please add a description as BB_CONF_FRAGMENT_=
-DESCRIPTION =3D \"...\" variable at the beginning of {}'.format(path))
-+            bb.fatal('Please add a description as BB_CONF_FRAGMENT_DESCRIP=
-TION =3D "..." variable at the beginning of {}'.format(path))
-=20
-         return summary, description
-=20
-@@ -131,7 +131,7 @@ class ConfigFragmentsPlugin(LayerPlugin):
-             enabled_fragments =3D origvalue.split()
-             for f in args.fragmentname:
-                 if f in enabled_fragments:
--                    print("Fragment {} already included in {}".format(f, a=
-rgs.confpath))
-+                    bb.warn("Fragment {} already included in {}".format(f,=
- args.confpath))
-                 else:
-                     # first filter out all built-in fragments with the sam=
-e prefix as the one that is being enabled
-                     enabled_fragments =3D [fragment for fragment in enable=
-d_fragments if not(self.builtin_fragment_exists(fragment) and self.fragment=
-_prefix(fragment) =3D=3D self.fragment_prefix(f))]
-@@ -141,7 +141,7 @@ class ConfigFragmentsPlugin(LayerPlugin):
-         fragments =3D self.discover_fragments()
-         for f in args.fragmentname:
-             if not self.get_fragment(f, fragments) and not self.builtin_fr=
-agment_exists(f):
--                raise Exception("Fragment {} does not exist; use 'list-fra=
-gments' to see the full list.".format(f))
-+                bb.fatal("Fragment {} does not exist; use 'list-fragments'=
- to see the full list.".format(f))
-=20
-         self.create_conf(args.confpath)
-         modified =3D bb.utils.edit_metadata_file(args.confpath, ["OE_FRAGM=
-ENTS"], enable_helper)
-@@ -160,7 +160,7 @@ class ConfigFragmentsPlugin(LayerPlugin):
-                 if f in enabled_fragments:
-                     enabled_fragments.remove(f)
-                 else:
--                    print("Fragment {} not currently enabled in {}".format=
-(f, args.confpath))
-+                    bb.warn("Fragment {} not currently enabled in {}".form=
-at(f, args.confpath))
-             return " ".join(enabled_fragments), None, 0, True
-=20
-         self.create_conf(args.confpath)
+diff --git a/meta/recipes-support/icu/icu/0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch b/meta/recipes-support/icu/icu/0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch
+deleted file mode 100644
+index a3d9b46835..0000000000
+--- a/meta/recipes-support/icu/icu/0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From f56e295e936c6c6d9c7219ef649697891cd11382 Mon Sep 17 00:00:00 2001
+-From: Jiaying Song <jiaying.song.cn@windriver.com>
+-Date: Mon, 3 Nov 2025 11:34:06 +0800
+-Subject: [PATCH] Make ICU ptest output compatible with Automake format
+-
+-Change test result format to PASS/FAIL for Automake compatibility
+-
+-Upstream-Status: Submitted [https://github.com/unicode-org/icu/pull/3764]
+-
+-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+----
+- test/intltest/intltest.cpp | 4 ++--
+- tools/ctestfw/ctest.c      | 3 ++-
+- 2 files changed, 4 insertions(+), 3 deletions(-)
+-
+-diff --git a/test/intltest/intltest.cpp b/test/intltest/intltest.cpp
+-index 33829b0..07071ea 100644
+---- a/test/intltest/intltest.cpp
+-+++ b/test/intltest/intltest.cpp
+-@@ -830,11 +830,11 @@ UBool IntlTest::runTestLoop( char* testname, char* par, char *baseName )
+-             saveBaseLoc[0]=0; /* reset path */
+-             
+-             if (lastErrorCount == errorCount) {
+--                snprintf( msg, sizeof(msg),  "   } OK:   %s ", name );
+-+                snprintf(msg, sizeof(msg), "PASS: %s\n   }", name);
+-                 if(!no_time) str_timeDelta(msg+strlen(msg),timeStop-timeStart);
+-                 lastTestFailed = false;
+-             }else{
+--                snprintf(msg, sizeof(msg), "   } ERRORS (%li) in %s", static_cast<long>(errorCount - lastErrorCount), name);
+-+                snprintf(msg, sizeof(msg), "FAIL: %s\n   } (ERRORS: %li)", name, static_cast<long>(errorCount - lastErrorCount));
+-                 if(!no_time) str_timeDelta(msg+strlen(msg),timeStop-timeStart);
+- 
+-                 for(int i=0;i<LL_indentlevel;i++) {
+-diff --git a/tools/ctestfw/ctest.c b/tools/ctestfw/ctest.c
+-index 7634526..727b164 100644
+---- a/tools/ctestfw/ctest.c
+-+++ b/tools/ctestfw/ctest.c
+-@@ -413,9 +413,10 @@ static void iterateTestsWithLevel ( const TestNode* root,
+-         ctest_xml_testcase(pathToFunction, pathToFunction, timeSeconds, (myERROR_COUNT!=ERROR_COUNT)?"error":NULL);
+- 
+-         if (myERROR_COUNT != ERROR_COUNT) {
+--          log_testinfo_i("} ---[%d ERRORS in %s] ", ERROR_COUNT - myERROR_COUNT, pathToFunction);
+-+          log_testinfo_i("\nFAIL: %s\n} ---[ERRORS: %d]", root->name, ERROR_COUNT - myERROR_COUNT);
+-           strcpy(ERROR_LOG[ERRONEOUS_FUNCTION_COUNT++], pathToFunction);
+-         } else {
+-+          log_testinfo_i("\nPASS: %s\n", root->name);
+-           if(!ON_LINE) { /* had some output */
+-             int spaces = FLAG_INDENT-(depth-1);
+-             log_testinfo_i("} %*s[OK] ", spaces, "---");
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-support/icu/icu/0001-Make-ICU-test-output-compatible-with-Automake-format.patch b/meta/recipes-support/icu/icu/0001-Make-ICU-test-output-compatible-with-Automake-format.patch
+new file mode 100644
+index 0000000000..484e1c7f6f
+--- /dev/null
++++ b/meta/recipes-support/icu/icu/0001-Make-ICU-test-output-compatible-with-Automake-format.patch
+@@ -0,0 +1,105 @@
++From 4779f798463d673dd74623979ec93141eb60d07a Mon Sep 17 00:00:00 2001
++From: Jiaying Song <jiaying.song.cn@windriver.com>
++Date: Fri, 21 Nov 2025 10:47:59 +0800
++Subject: [PATCH] Make ICU test output compatible with Automake format
++
++Update ICU test output to print each test result in the Automake "simple
++test" format[1]:
++
++result: testname
++
++Where `result` is one of PASS, FAIL, or SKIP.
++
++[1] https://wiki.yoctoproject.org/wiki/Ptest
++
++Upstream-Status: Submitted [https://github.com/unicode-org/icu/pull/3764]
++
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ configure.ac               | 17 +++++++++++++++++
++ test/intltest/intltest.cpp | 10 +++++++++-
++ tools/ctestfw/ctest.c      |  9 ++++++++-
++ 3 files changed, 34 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index da4f170..514fa0c 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1165,6 +1165,21 @@ If set, it will REPLACE any automatic list of libraries.],
++ 		*) AC_MSG_ERROR(bad value ${enableval} for --enable-samples) ;;
++ 		esac],
++ 	samples=true)
+++
+++# Enable Automake-compatible test output format
+++AC_ARG_ENABLE([automake-test-format],
+++    AS_HELP_STRING([--enable-automake-test-format],
+++                   [Generate test output in Automake format (PASS / FAIL: testname) ]),
+++    [
+++        if test "x$enableval" = "xyes"; then
+++            UCONFIG_CPPFLAGS="${UCONFIG_CPPFLAGS} -DU_AUTOMAKE_TEST__FORMAT=1"
+++            AC_MSG_RESULT([Automake test format is enabled])
+++        else
+++            AC_MSG_RESULT([Automake test format is disabled])
+++        fi
+++    ],
+++    [enable_automake_test_format=no])
+++
++ ICU_CONDITIONAL(SAMPLES, test "$samples" = true)
++ 
++ ICUDATA_CHAR=$U_ENDIAN_CHAR
++@@ -1428,3 +1443,5 @@ then
++ fi
++ 
++ $as_unset _CXX_CXXSUFFIX
+++
+++
++diff --git a/test/intltest/intltest.cpp b/test/intltest/intltest.cpp
++index 33829b0..bf3ef56 100644
++--- a/test/intltest/intltest.cpp
+++++ b/test/intltest/intltest.cpp
++@@ -830,11 +830,19 @@ UBool IntlTest::runTestLoop( char* testname, char* par, char *baseName )
++             saveBaseLoc[0]=0; /* reset path */
++             
++             if (lastErrorCount == errorCount) {
++-                snprintf( msg, sizeof(msg),  "   } OK:   %s ", name );
+++            #ifdef U_AUTOMAKE_TEST__FORMAT
+++                snprintf(msg, sizeof(msg), "PASS: %s\n   }", name);
+++            #else
+++                snprintf(msg, sizeof(msg),  "   } OK:   %s ", name );
+++            #endif
++                 if(!no_time) str_timeDelta(msg+strlen(msg),timeStop-timeStart);
++                 lastTestFailed = false;
++             }else{
+++            #ifdef U_AUTOMAKE_TEST__FORMAT
+++                snprintf(msg, sizeof(msg), "FAIL: %s\n   } (ERRORS: %li)", name, static_cast<long>(errorCount - lastErrorCount));
+++            #else
++                 snprintf(msg, sizeof(msg), "   } ERRORS (%li) in %s", static_cast<long>(errorCount - lastErrorCount), name);
+++            #endif
++                 if(!no_time) str_timeDelta(msg+strlen(msg),timeStop-timeStart);
++ 
++                 for(int i=0;i<LL_indentlevel;i++) {
++diff --git a/tools/ctestfw/ctest.c b/tools/ctestfw/ctest.c
++index 7634526..c2e11dd 100644
++--- a/tools/ctestfw/ctest.c
+++++ b/tools/ctestfw/ctest.c
++@@ -413,9 +413,16 @@ static void iterateTestsWithLevel ( const TestNode* root,
++         ctest_xml_testcase(pathToFunction, pathToFunction, timeSeconds, (myERROR_COUNT!=ERROR_COUNT)?"error":NULL);
++ 
++         if (myERROR_COUNT != ERROR_COUNT) {
++-          log_testinfo_i("} ---[%d ERRORS in %s] ", ERROR_COUNT - myERROR_COUNT, pathToFunction);
+++        #ifdef U_AUTOMAKE_TEST__FORMAT
+++          log_testinfo_i("\nFAIL: %s\n} ---[ERRORS: %d]", root->name,ERROR_COUNT - myERROR_COUNT);
+++        #else
+++          log_testinfo_i("} ---[%d ERRORS in %s] ", ERROR_COUNT - myERROR_COUNT,pathToFunction);
+++        #endif
++           strcpy(ERROR_LOG[ERRONEOUS_FUNCTION_COUNT++], pathToFunction);
++         } else {
+++        #ifdef U_AUTOMAKE_TEST__FORMAT
+++          log_testinfo_i("\nPASS: %s\n", root->name);
+++        #endif
++           if(!ON_LINE) { /* had some output */
++             int spaces = FLAG_INDENT-(depth-1);
++             log_testinfo_i("} %*s[OK] ", spaces, "---");
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/icu/icu_77-1.bb b/meta/recipes-support/icu/icu_77-1.bb
+index 370c14af81..7c9483c975 100644
+--- a/meta/recipes-support/icu/icu_77-1.bb
++++ b/meta/recipes-support/icu/icu_77-1.bb
+@@ -23,7 +23,7 @@ inherit autotools pkgconfig github-releases
+ EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config ac_cv_path_install='install -c'"
+ EXTRA_OECONF:class-native = "--disable-icu-config ac_cv_path_install='install -c'"
+ EXTRA_OECONF:class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE} --disable-icu-config ac_cv_path_install='install -c'"
+-
++EXTRA_OECONF:append:class-target = " --enable-automake-test-format"
+ EXTRA_OECONF:append:class-target = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' --with-data-packaging=archive', '', d)}"
+ TARGET_CXXFLAGS:append = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' -DICU_DATA_DIR=\\""${datadir}/${BPN}/${@icu_install_folder(d)}\\""', '', d)}"
+ 
+@@ -122,7 +122,7 @@ SRC_URI = "${BASE_SRC_URI};name=code \
+            file://0001-ICU-23120-Mask-UnicodeStringTest-TestLargeMemory-on-.patch \
+            file://0001-test-Add-support-ptest.patch \
+            file://run-ptest \
+-           file://0001-Make-ICU-ptest-output-compatible-with-Automake-forma.patch \
++           file://0001-Make-ICU-test-output-compatible-with-Automake-format.patch \
+           "
+ 
+ SRC_URI:append:class-target = "\
+-- 
+2.34.1
+
 
