@@ -1,298 +1,168 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 794D8CFC275
-	for <webhook@archiver.kernel.org>; Fri, 21 Nov 2025 13:24:36 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.36])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11280.1763731468927287051
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EEE9CFC277
+	for <webhook@archiver.kernel.org>; Fri, 21 Nov 2025 13:25:36 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.37])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11372.1763731531637690307
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Nov 2025 05:24:29 -0800
+ Fri, 21 Nov 2025 05:25:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=jFH1E2v3;
- spf=pass (domain: est.tech, ip: 52.101.72.36, mailfrom: pratik.farkase@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=LFd6eVSP;
+ spf=pass (domain: axis.com, ip: 52.101.66.37, mailfrom: peter.kjellerstedt@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ib1eXyW3K4a0zZ9X/YuanELRTCXYpFWxSnGMJpy4lRT5DvbR+pKl57QiYC0OTyl0EiUJo2c/uKsifx5Kj2AfsbNjkuk3KdSc71eO2oiCZJUR44iGA+ZvUM72VT2+pZa7IE+2HAH5HzHjYZBqcDdnRL/RCGbopQ7hLJiQgd1mgG1uWXFglCg/8EUbLYmluqOvRXBhw6KMmIk5cOp6WlZsWIXJbGZD52yn6w4CRR3mjgqws02e1mjRC7F3oJx5WoF8cF6h+RvP7Et/tvYGjDsKLHhdCmbLTwhfkB814Rs9qmkmvNJ8tFUGKFA2sYLZGsJp+Hm1NbbDDexzIprQeoDLFQ==
+ b=VtCdo9pQw6U5tRg5CL20vwaJUJ6huScxghtjqJfgXosq+8fRNc8aSKWk8S9iAnS/EsO0gP3H0Jqlxtzny6eH7s8iKvHk/n+vGSKIoZTZvRUuB6sQZ0yYFaHqf9z4nE9HtjvFOxCAwPHLCfC8ULAFC+vDXWSczKdgC6LKIZgMB6lJIq7amqHVSbnYwVPFg2g0XXSsWZmXGhFli3Ub8qHn0LV4ikn8A/KdnbqD87rW6P2VXELg4N09B4eRBu3V8BmA8EDYid1Hu+H1DTFqej8qF12qw9mS7SpgGCoexQQ3n6Wp5LHnjTKzda15TKQvmR2dgoSw3Jy2dAwehh+mgN3yEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MzGSWXjjeyPKJ+8lrdZEFSKEiguW6jeFu72sB0Jr62o=;
- b=k6ZpgJiGAbkKCAOfXJnI5L3SiBnfry/J/Mps37oxQA/yZDeH4gzTbuef23qT74ObGnMdyt1cfNXRWpGgDIpxc6d4RgAO0XO+5SGA5Gj7c8MEVw76wgtexLNTK9b0kwSb49Dts71mkaGw1gzv9qzIcTFnjE9sOHu1v3GeZ5OoBhJw7HBN/FkAE4A8EbK2+KLwDa4yg6SKVvQVZu1bBfgOzZQM0Wbvygh+KZ00/ngC4c88YQaDZgxxBQ+RBAZ9/b8xMg9Fmna1VVw3Grr3S+oYrLOEQzAfulGteYx9wpLvaoAsrnVkLleJ0nJAbvVRzwoaf4TLE8/d+9QTctCZHw/62A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ bh=fWAbzhjxQk3GfoeDCJGNnqKZcHTemOV22YnhZmg5C+0=;
+ b=QWzZJJaRTdK7eZbNkjVWGRnGjOSci1zIAYn7CslTEKdb19uHcX+6TgsD+tOq5Bjmk7egtnWf7qbQIRwOFqzq8EIEzR83sckYdHq8DObOCwxcuxYV33YAD7q4ZUHgr7aCi1JzKmgPIXDLgvH9V6jb1sdRLvdnmwRTLLiWSo6lXhPbWMOM04zjTlByy9HT0xTiv0X96MYE/PKRqo8LBWRuO/pUEKC/tPbNOl5OkSOHyFM451F/mgrRt6pV8LdHkpT1JFyvGDoCNlK1vy/TubhXuE9E++Xg3EtWg3RYxpkx3KQ+HI/jjrfw/PwpWmRwjyhFOjLT8rBjEjzViE2SrbVI/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MzGSWXjjeyPKJ+8lrdZEFSKEiguW6jeFu72sB0Jr62o=;
- b=jFH1E2v3lOKr7BQMn/UUp7mucjlzFxB2hlrj4ZD1O5DjmgY9361oySk4CKbFyGCVN55Sf13ED/83Ez7I102/35svyr5UVuknbgWiqnHJckaRSq7CqqgXFpAnOG3ca12s8r/tawQwXaErHuljctrOghRWwRi+6euPf03SKgRIZzpbR9Cxx4SZcaMKHKnoC1wtY5QDACmgk9Yc3NKpfT6UH6pFvPDqB2/ltCeg0ylgqha9p32Vcf+AQoZFYF0Pg+AETvGC+QxpvZqZIVISJAvUXuA8dBOjvPP2kH5B2hgOJDsOVZDotDuarpjPIxniFeucGddKCJk2IoNaAk2/WUQEkw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:26e::16)
- by VE1P189MB0893.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:16a::21) with
+ bh=fWAbzhjxQk3GfoeDCJGNnqKZcHTemOV22YnhZmg5C+0=;
+ b=LFd6eVSPMA7b/mf+oTHH+5PD9ahFuI8qiFVuNHYzbuyKNWhVWQIvfiKMlSjFYDj+g71XykFdtJtjzb2P7jD4FkgRN8oCOrZc+IhpSKRHVKA2o9LbRhXQhSO0EUFPdy1URB8sztl3Y0/2vasUeIGGerZqqwSOcDKg2sCHg1iiiuE=
+Received: from AM0PR02CA0172.eurprd02.prod.outlook.com (2603:10a6:20b:28e::9)
+ by DU0PR02MB9634.eurprd02.prod.outlook.com (2603:10a6:10:421::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Fri, 21 Nov
- 2025 13:24:23 +0000
-Received: from GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::c13f:ef4:ecf2:85af]) by GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- ([fe80::c13f:ef4:ecf2:85af%5]) with mapi id 15.20.9343.009; Fri, 21 Nov 2025
- 13:24:23 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v2] libcheck: add ptest support
-Date: Fri, 21 Nov 2025 14:24:17 +0100
-Message-ID: <20251121132417.19975-1-pratik.farkase@est.tech>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Fri, 21 Nov
+ 2025 13:25:27 +0000
+Received: from AMS1EPF0000004D.eurprd04.prod.outlook.com
+ (2603:10a6:20b:28e:cafe::ac) by AM0PR02CA0172.outlook.office365.com
+ (2603:10a6:20b:28e::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Fri,
+ 21 Nov 2025 13:25:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ AMS1EPF0000004D.mail.protection.outlook.com (10.167.16.138) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.9 via Frontend Transport; Fri, 21 Nov 2025 13:25:27 +0000
+Received: from SE-MAIL21W.axis.com (10.20.40.16) by se-mail10w.axis.com
+ (10.20.40.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Fri, 21 Nov
+ 2025 14:25:26 +0100
+Received: from se-mail01w.axis.com (10.20.40.7) by SE-MAIL21W.axis.com
+ (10.20.40.16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.61; Fri, 21 Nov
+ 2025 14:25:26 +0100
+Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
+ Transport; Fri, 21 Nov 2025 14:25:26 +0100
+Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 9FCD932B1
+	for <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 14:25:26 +0100 (CET)
+Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
+	id F39D01200D3; Fri, 21 Nov 2025 14:27:14 +0100 (CET)
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCHv2 2/3] configfragments.py: Make list-fragments fail early
+Date: Fri, 21 Nov 2025 14:27:11 +0100
+Message-ID: <20251121132712.3970921-2-pkj@axis.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251114014145.23826-1-pratik.farkase@est.tech>
-References: <20251114014145.23826-1-pratik.farkase@est.tech>
+In-Reply-To: <20251121132712.3970921-1-pkj@axis.com>
+References: <20251121132712.3970921-1-pkj@axis.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DUZPR01CA0012.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:3c3::14) To GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:150:26e::16)
-MIME-Version: 1.0
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2P189MB3005:EE_|VE1P189MB0893:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7bf212c4-7492-42da-46b3-08de2901492a
+X-MS-TrafficTypeDiagnostic: AMS1EPF0000004D:EE_|DU0PR02MB9634:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7ca1b997-3a94-4d4c-aed5-08de29016f68
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|82310400026|1800799024|376014|36860700013;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?aOKcAsGRvgb6NYwb83LUtRJJZM6jDg6qnb2/R16s9xwA5gwgr/HRPmeHokP5?=
- =?us-ascii?Q?19QfDobRKgPkfFCIURGSMhkoVeiBZ57gBAjKxm6L9Jlm1xSUYzVQgUPRaKR4?=
- =?us-ascii?Q?gPAV3YM4+8au9lpZg4HzhsPUocAZaBgFIpQjvAUPbNO/N9t5vz3SFI3kdnp8?=
- =?us-ascii?Q?Ig+bkJfknF19SrOG3gFyyfs/XyoMOvJDF7dG/SfoTlyY5dIxGtVOf2uo4KD5?=
- =?us-ascii?Q?P+dmiQ3S54CpjHPD78hm8BJbwe5JckxFMbEfbcMFev07WNLyOSOAI/OJSoY2?=
- =?us-ascii?Q?aCeZ5u5aeKtpBjm7a3xiUbUFfSmnqopAE4Ib+EZr8rWQBaRVYk0rWlS7A656?=
- =?us-ascii?Q?/n2HEpANUYXnMm4XP8AEt5OMXfopcmqS0B+hlz/Pc+CUuhV0oNrU3fNbIcBg?=
- =?us-ascii?Q?PA2trXqQ/lXS80dvWhx9xG4roRTnfS/a1NoUjHfxq2skuqG2XV91HjAuv7qP?=
- =?us-ascii?Q?UqZhM3rnvNM6IdKA0I2MAbFdWJ4mQ0TKuRnyT1bCt1KYn5v0KYTYnCXdH+hJ?=
- =?us-ascii?Q?gj9yrh8AWLy3+haLjLHSYSNfB4ANMbcYkI7WQAHI4UYyiaEq0lrWMbSCRoaK?=
- =?us-ascii?Q?0qM9AiBXGQ4b95p3ypDgD9ljFjbU1Y30GndlvA/uiz2efYw+wThvgHW4/M+n?=
- =?us-ascii?Q?nRvcaBFV/L1fq+QIqTZCKx68Oq0LvlWVoxAnZpkxCRx92q0fiVQQTjKrmsmt?=
- =?us-ascii?Q?zAuH37Wj4x1hbMNPq8aZtAdgY1C0rAYaYhNTl+1IrF4AqnY/gJZEnbMQFdw4?=
- =?us-ascii?Q?C55Gome+h7tuBhGTeHfBlU5VyvpoMuoC0DG/T0LGy/viZH7VEaZCCVlMWCvA?=
- =?us-ascii?Q?ioh7Q2Wp3M21ObqpUQpQj3uP0XzxaO0JalDd7GXL/SGoJ0D5lOsETljCxMbD?=
- =?us-ascii?Q?BResTstsX4P5eNQVzvKX94nOnpoJ/zCXIkKApepzyXnYsqdZBGWoeM0Paqer?=
- =?us-ascii?Q?UYAKvPKK0WIjXYplPCJ+EY0a7OrW04Fvf1sMRjX3fKJbcC81nLlvBpiwoNsg?=
- =?us-ascii?Q?4SUGb+Zc5czdZIDpxnhmwPcm6NLzWR9W3rGfBzZ63T1XHaszQScn0UPNuJsV?=
- =?us-ascii?Q?+eD09ggbI0L+zuU3XdoWtEDLoFPK7QCgXTQQ6BWeCm0Uu65ZZx89OWBpm0O+?=
- =?us-ascii?Q?K2nSmc76Hmnr1OFHd+mrGktr2T4hjPKqeTyJAOxAg1wskB1LX+JDmsU0RJJQ?=
- =?us-ascii?Q?hQeX5wJXsTzSrYJzKZylWFovYKVctCUUIrZerL3OcbcyEBOjIVZ71q8mnPrb?=
- =?us-ascii?Q?dRyIQGwQ0H0UPstj9cjy93uSBpPPtVkFOG6onneHadecW6eKYKmuNkUT9Sd6?=
- =?us-ascii?Q?mttvtb2PFImIQ+3r52w7jGMKSRBhyDQQ7I5CP8fy5anWX3wT1ydle9CT/TES?=
- =?us-ascii?Q?opVZLpnM7D3F0WnE5bbTziejQlYp8JSA1lmGpHA+etgSJbnnsQ=3D=3D?=
+	=?us-ascii?Q?tsDDyJPkPYH0xnkHSVlUdcW55jppA4R4a3YisbKGkrb+XQJAkDooBwrgfE0o?=
+ =?us-ascii?Q?Q88Jt+LEjK6IuaMToTqwJ1CjcClNS8VriHN+iyYMJTEtRZNuL08D5OPbqCUh?=
+ =?us-ascii?Q?v08BzQbkGkEWGaoCcT5qQza6T2i3y/1ifDx9UOucFPif3FmIgCcs/MuwS6ve?=
+ =?us-ascii?Q?yaGve4V7Z1MfQFT2rcCS5Zf2Ih/uXqlfH4VJbyVzgl3K0gfb+9/gHLd5unFA?=
+ =?us-ascii?Q?kRVnELMnAiDJLCzwFMapJWHzm4dOGfyM3+gOTIDYPWohHsh67NdwJJWVUxij?=
+ =?us-ascii?Q?EFOvK+t3LPRux9bnw8J03noCLeimeBxcfGYjWBTI3rQj0FSOXbFo5ABnDx30?=
+ =?us-ascii?Q?CIFizUe9weswVdsqkmAZawLj6t7Kee8KNxYhY72TZ94HApjzQ72+JGGOIjWt?=
+ =?us-ascii?Q?JIaCDtq8iDGrCM+8xi1VzhVpJGHGi5YQDFeD7z7PXBXdKDzDhD1e0abzH7o4?=
+ =?us-ascii?Q?0ajHAGSA31Q6V6qKHsF5Fuo0HPzmvoxFILO0Y0YkfgIX8FiGON9pbl3echpK?=
+ =?us-ascii?Q?HkAumoDjXNTiHQ3nG9+V/g0hVjuhb4aoWRP5Do6p2Dbg8/eLrU0+Fg87kqi+?=
+ =?us-ascii?Q?fyYc4hfeP0sGW6qnpqR2dsX/dMo3IwZtFQhYxkcl5lWLDgrAOiAPPqybTYyM?=
+ =?us-ascii?Q?fZh17exBq/e/QVZcR0aS8avPnO7UnzLPoZl7/5bDCOGbKeKRM7T3zYuHWlFS?=
+ =?us-ascii?Q?6nIyvOMIrM5cFo/71gYWpZadlrCgpB+VxNgmhlGMxpkXsP3Im7vbQX3WGehK?=
+ =?us-ascii?Q?OU+ro4vhlwOFqogea6u/dS4/Tyi3uvYpydVBeTXR6bnCo/jqIc1j8+vrLnqx?=
+ =?us-ascii?Q?Kq4AV48KVxApVuZbVE5r9Sz2y01z4dKIb0bMceyl1zEHQhIIW1D1jVcYjNz9?=
+ =?us-ascii?Q?0N1bO9gqm5FmOYuJ4zDcfuue77KTrkKLNRh45Wu6QezxkowkHvMIwRuKkYQZ?=
+ =?us-ascii?Q?JFDvzaaQHZQ6R1ah2uO9wufsY+IQzdp5CywQSEIEXZlwzDnPNJOgzsngoYG6?=
+ =?us-ascii?Q?w4X3+R+1uprSHUwrEG/8cJvGi4cNiPcs4AmAZ3o3vwygCjdQE746yfI0ZF/c?=
+ =?us-ascii?Q?ZZS7TI0quRES6botwJZED9JR0bppqR92ocjrbnMBbKlNtguFXOVa+6bopjPS?=
+ =?us-ascii?Q?TUjLwVcHmGJbg4BF1D+6qlJw77Bn/+VF+LY0kcDFG55XNhD5X4b0/zFThqtb?=
+ =?us-ascii?Q?nkujuXK6DGwLWBaoNy/led+Zcrwu8FS109VuoxAPtvgJwzHog2Ur/RkCwHfn?=
+ =?us-ascii?Q?NuAzCumQavaVGWbqz0wUobIiLNcJa3CqY2XN1RR5oLyuBK3AooTnbQ7J5o0l?=
+ =?us-ascii?Q?C3//PucIUIVytI2x3GfOaDyKso6jNUZcLFAW6L9buiC7ih09x41kdEjA1ED1?=
+ =?us-ascii?Q?0v6WxJJ3AQCDkKWkZ70zPLCo2g0l67XCM08sqIJu3XjyMreciWHge4054+jD?=
+ =?us-ascii?Q?YXz+Gl4Jhg8TvVcTsZ/mPt+g2ISAJsl2TE9ycyve4Pjzhzza4VbNem0JX4jm?=
+ =?us-ascii?Q?8v21Fa0OGVNB0MALpVnV00Qy+IY5Lfbt14O1FeOSxuhxHqnOTGNMmDkaxfOl?=
+ =?us-ascii?Q?0dz87RrbQovy7dba7HM=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2P189MB3005.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?jsVZFNi6bG4JFjkaT/7UzdTeoslKqRDV65eH9gRYAk6mY0VnD2wnzVwx7PDd?=
- =?us-ascii?Q?dw4j/XT6BPDGuoS8EEKX1QO8ZTqMhyxZJkFi0Glu3Srphzg2i9qcrvN15uzw?=
- =?us-ascii?Q?AmygWjRYs3w661wFQQoeiDqP6HxKdEBLFdk/FVCnsAFeaTCVCCJaOejgNsiD?=
- =?us-ascii?Q?Yb4uykOjs7EYVg2jlIA4CIudFcREIO4E7weXeYbiH5PhnJuMvYmUA1YsoGxh?=
- =?us-ascii?Q?sT5j6+3ceaCSp/7DioSpt55jvnVPEpAhZghF4BWv3qjtbKyLaqTCIkFQ9xo5?=
- =?us-ascii?Q?/iY1HMcHYjix0moUQ3Hj23DBQpyOaqICLQ3XQHyGvRzs2yEmqTrubIwOvS+X?=
- =?us-ascii?Q?iuEm5F8I671kKH7IllCPQ8V1nCFwUH459Q3vOzOIWCGgcu4QJji6Nu8utKTz?=
- =?us-ascii?Q?nfMqqvrxZprMomBn66BUdWOvJB3ftZKxzjSCOh1FHV+q7HRb4d1q0nlWLaJy?=
- =?us-ascii?Q?zWjkswWzh8KsTquJRIiYWOlRMZ+f3pUOrF+H3KEQvVBq0t3emhW2JCDLBQ7w?=
- =?us-ascii?Q?7IN3zKJ6OZHmLQr6Wx77Gsp3YSlw9ZBWSpXzDUmtbd9+AVOQAVVKh/9307DB?=
- =?us-ascii?Q?haZ8FbQQYhP5NrPmdwYd33w5Gl1hql3zG7mjFNioBD6A5odni13d3B47LbM+?=
- =?us-ascii?Q?1sWOwDwJi9ZB6X7UCEWr9XxfEBdnnTgGWv4n6Vk6S3s3qOAdp0sMMLLi0EnP?=
- =?us-ascii?Q?34jw+cunDUIi9MmsmFVFEpYU8VePByT43nJy58f0P3Pr2YPPXyakRjT1ULC3?=
- =?us-ascii?Q?6YCUzlAdEZEQ5u+bK8NF+/V+aAPALoerBzsGlHmTjgEFWfnz0235nEVLld0L?=
- =?us-ascii?Q?JrQesVqQ4IlNk7zOzXxZPH3mg2rOBmEEn2F5hm/lW433FogXWyHD9WOYhHed?=
- =?us-ascii?Q?qFIKo7pDPJvuaPkoZukJXo50Akdrf14IhLVQxgVICJ1JBtlswrrbVk76Hi/Y?=
- =?us-ascii?Q?h24tZvHInHbdaShX4GCpApWcDM8k3HQ+4YlGePsbUWW38c9I2uDON900EIPA?=
- =?us-ascii?Q?p718PO09wtRfKMGCY8RkL5Cz+7D+/iDDnyzE0Ri/6CnRPQ7ucD/xbzP6jUdC?=
- =?us-ascii?Q?aDgt5ldFFgmjcqPC7Ba8V7e736JsXCL0YPZpGK/L9gbZtO9nVVPv40tMoR1p?=
- =?us-ascii?Q?koTrnsj1CdbPGCF8gNbELQIH/DiRK0N66VGBzkOoth6IsJV1WuaPLAv1XaKs?=
- =?us-ascii?Q?r6J5QoyEtmSDMk6XrrWf7+7htYGNz5u1NXu7i9IohDd99cE61FNoU6z8yitH?=
- =?us-ascii?Q?lpAlfks1HJnB4Jy6/eba/RvHJQdsiO3psjAZmwTbRAxc4dPp5oIDa4uf50Sj?=
- =?us-ascii?Q?V5BMjsVcsmifEUaa8LokbWahZr/xJi8dBt5WDHZu7LeAHiFlvn3KY9HM/e/i?=
- =?us-ascii?Q?HuJmDcyrauuqHe+DSWUoGsSjkElItj4yawWGSYIxcmfe7AuXsTFA7k5BOxJj?=
- =?us-ascii?Q?BoJutGRq3iQAtxLzBIVPywpx6qG3gh1Knpmb9wtDgSzgmHZl5x4WwbJF/Q5u?=
- =?us-ascii?Q?JtvFeHMZFCQ0py4gpCBDa8xVLuDulMZjnhuQBsLKSDencb4fft/6fgJdQC4e?=
- =?us-ascii?Q?2KFIuIYm+Vl+GXuT8OfPsHlZy/Tw6otx3DqtwnPpK1khYyu96Hoa7zYdcFj3?=
- =?us-ascii?Q?iw=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7bf212c4-7492-42da-46b3-08de2901492a
-X-MS-Exchange-CrossTenant-AuthSource: GV2P189MB3005.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 13:24:23.3763
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 13:25:27.3627
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sblSzrR0zA03cAZoCN0UTbXdPV+Gg6wS3/pvs4LIhu8K0tazSVyPUXKi+eRqNFnT7EH34QjnitKC7BYg82QL3A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1P189MB0893
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ca1b997-3a94-4d4c-aed5-08de29016f68
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS1EPF0000004D.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR02MB9634
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 13:24:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226679
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 13:25:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226681
 
-Add package test (ptest) support to libcheck recipe to enable
-running the test suite on target devices.
+If a fragment has not been configured correctly, make list-fragments
+fail with an error before it has output information about any built-in
+fragments.
 
-The implementation installs:
-- Test binaries (check_check, check_check_export)
-- Test helper binaries and scripts
-- Shell script tests that validate various output formats
-- Test configuration files
-
-All 9 upstream tests pass successfully:
-START: ptest-runner
-BEGIN: /usr/lib/libcheck/ptest
-PASS: check_check_export
-PASS: check_check
-PASS: test_output.sh
-PASS: test_check_nofork.sh
-PASS: test_check_nofork_teardown.sh
-PASS: test_xml_output.sh
-PASS: test_log_output.sh
-PASS: test_set_max_msg_size.sh
-PASS: test_tap_output.sh
-END: /usr/lib/libcheck/ptest
-STOP: ptest-runner
-
-Note: The test_vars SRCDIR path is set to /usr/src/debug/libcheck/0.15.2/te=
-sts
-to match the debug source paths embedded in compiled binaries.
-
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
-
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
-Changes in v2:
-- Merged duplicate test loops in run-ptest
-- Hardcoded binary list instead of dynamic detection
-- Use *.sh glob for installing test scripts
-- Use ${TARGET_DBGSRC_DIR} instead of hardcoded path
-- Removed redundant RDEPENDS
----
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../libcheck/libcheck/run-ptest               | 24 ++++++++++++++++
- .../libcheck/libcheck_0.15.2.bb               | 28 +++++++++++++++++--
- 3 files changed, 51 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/libcheck/libcheck/run-ptest
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index 06d113e264..3cd5f244be 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -28,6 +28,7 @@ PTESTS_FAST =3D "\
-     icu \
-     json-c \
-     json-glib \
-+    libcheck \
-     libconvert-asn1-perl \
-     libexif \
-     libgpg-error\
-diff --git a/meta/recipes-support/libcheck/libcheck/run-ptest b/meta/recipe=
-s-support/libcheck/libcheck/run-ptest
-new file mode 100644
-index 0000000000..6523b1d146
---- /dev/null
-+++ b/meta/recipes-support/libcheck/libcheck/run-ptest
-@@ -0,0 +1,24 @@
-+#!/bin/sh
-+
-+# run-ptest script for libcheck
-+# Runs the libcheck test suite and outputs results in ptest format
-+
-+cd tests || exit 1
-+
-+for test in check_check_export check_check \
-+            test_output.sh test_check_nofork.sh test_check_nofork_teardown=
-.sh \
-+            test_xml_output.sh test_log_output.sh test_set_max_msg_size.sh=
- \
-+            test_tap_output.sh; do
-+    if [ -x ./$test ]; then
-+        ./$test > /dev/null 2>&1
-+        if [ $? -eq 0 ]; then
-+            echo "PASS: $test"
-+        else
-+            echo "FAIL: $test"
-+        fi
-+    else
-+        echo "SKIP: $test"
-+    fi
-+done
-+
-+exit 0
-diff --git a/meta/recipes-support/libcheck/libcheck_0.15.2.bb b/meta/recipe=
-s-support/libcheck/libcheck_0.15.2.bb
-index adf95f5040..e45c1d0264 100644
---- a/meta/recipes-support/libcheck/libcheck_0.15.2.bb
-+++ b/meta/recipes-support/libcheck/libcheck_0.15.2.bb
-@@ -6,7 +6,6 @@ segmentation faults or other signals can be caught. Test re=
-sults are \
- reportable in the following: Subunit, TAP, XML, and a generic logging form=
-at."
- HOMEPAGE =3D "https://libcheck.github.io/check/"
- SECTION =3D "devel"
--
- LICENSE  =3D "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM =3D "file://COPYING.LESSER;md5=3D2d5025d4aa3495befef8f172=
-06a5b0a1"
-=20
-@@ -14,20 +13,45 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/check-${=
-PV}.tar.gz \
-            file://automake-output.patch \
-            file://subunit.patch \
-            file://0001-Fix-texinfo-errors-and-warnings.patch \
-+           file://run-ptest \
- "
-=20
- SRC_URI[sha256sum] =3D "a8de4e0bacfb4d76dd1c618ded263523b53b85d92a146d8835=
-eb1a52932fa20a"
-+
- GITHUB_BASE_URI =3D "https://github.com/libcheck/check/releases/"
-=20
- S =3D "${UNPACKDIR}/check-${PV}"
-=20
--inherit cmake pkgconfig texinfo github-releases
-+inherit cmake pkgconfig texinfo github-releases ptest
-=20
- RREPLACES:${PN} =3D "check (<=3D 0.9.5)"
-=20
- EXTRA_OECMAKE:append:class-target =3D " -DAWK_PATH=3D${bindir}/awk"
- EXTRA_OECMAKE =3D "-DENABLE_SUBUNIT_EXT=3DOFF"
-=20
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+
-+    install -m 0755 ${B}/tests/check_check ${D}${PTEST_PATH}/tests/
-+    install -m 0755 ${B}/tests/check_check_export ${D}${PTEST_PATH}/tests/
-+    install -m 0755 ${B}/tests/ex_output ${D}${PTEST_PATH}/tests/
-+    install -m 0755 ${B}/tests/check_nofork ${D}${PTEST_PATH}/tests/
-+    install -m 0755 ${B}/tests/check_nofork_teardown ${D}${PTEST_PATH}/tes=
-ts/
-+    install -m 0755 ${B}/tests/check_set_max_msg_size ${D}${PTEST_PATH}/te=
-sts/
-+
-+    install -m 0755 ${S}/tests/*.sh ${D}${PTEST_PATH}/tests/
-+
-+    install -m 0755 ${S}/tests/test_output_strings ${D}${PTEST_PATH}/tests=
-/
-+
-+    if [ -f ${B}/tests/test_vars ]; then
-+        install -m 0644 ${B}/tests/test_vars ${D}${PTEST_PATH}/tests/
-+        sed -i \
-+            -e 's|if \[ x"[^"]*" !=3D x"\." \];|if \[ x"${TARGET_DBGSRC_DI=
-R}/tests" !=3D x"." \];|g' \
-+            -e 's|SRCDIR=3D"[^"]*"|SRCDIR=3D"${TARGET_DBGSRC_DIR}/tests/"|=
-g' \
-+            ${D}${PTEST_PATH}/tests/test_vars
-+    fi
-+}
-+
- do_install:append:class-native() {
-     create_cmdline_shebang_wrapper ${D}${bindir}/checkmk
- }
---=20
-2.43.0
+PATCHv2: No changes.
 
+ meta/lib/bbconfigbuild/configfragments.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigb=
+uild/configfragments.py
+index f79e238297..15142ec9f9 100644
+--- a/meta/lib/bbconfigbuild/configfragments.py
++++ b/meta/lib/bbconfigbuild/configfragments.py
+@@ -75,11 +75,13 @@ class ConfigFragmentsPlugin(LayerPlugin):
+                  print('{}\tSets {} =3D "{}"'.format(f, builtin_dict[prefi=
+x], value))
+             print('')
+=20
++        allfragments =3D self.discover_fragments()
++
+         all_enabled_fragments =3D (self.tinfoil.config_data.getVar('OE_FRA=
+GMENTS') or "").split()
+         all_builtin_fragments =3D (self.tinfoil.config_data.getVar('OE_FRA=
+GMENTS_BUILTIN') or "").split()
+         print_builtin_fragments(all_builtin_fragments, all_enabled_fragmen=
+ts)
+=20
+-        for layername, layerdata in self.discover_fragments().items():
++        for layername, layerdata in allfragments.items():
+             layerdir =3D layerdata['layerdir']
+             fragments =3D layerdata['fragments']
+             enabled_fragments =3D [f for f in fragments if f['name'] in al=
+l_enabled_fragments]
 
