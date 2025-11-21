@@ -1,163 +1,206 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <pierre-loup.gosse@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3863CFA74C
-	for <webhook@archiver.kernel.org>; Fri, 21 Nov 2025 08:31:04 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7523.1763713856652605898
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04904CFA755
+	for <webhook@archiver.kernel.org>; Fri, 21 Nov 2025 08:49:35 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7567.1763714969012995942
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Nov 2025 00:30:57 -0800
+ Fri, 21 Nov 2025 00:49:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ve2gwiq0;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: skandigraun@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47798ded6fcso10521075e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 00:30:56 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=h36tAeO5;
+ spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: pierre-loup.gosse@smile.fr)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-429c4c65485so1429840f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 00:49:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763713855; x=1764318655; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=E8sLwJiH+Pad0urHLqTlY/XpgREBcRdrVLUuajWsV+8=;
-        b=Ve2gwiq0tb1bvOz+EXOs13eizhpoXVF/O1wOdEObR5Ftx7tdVEMSA687M4tyuPfLTn
-         F/nNcdr7CSLXMLT+rGZnvAlEaUnyVbjmZ6yn0GJNLWtnlGQxqF9vnS2sGvZtn6hKiq61
-         R1SDXRX0M1+SCYVVzDzdxfroryvjT4Z82WmFVNpCczeQNovaaeu6BEFWWt++RSG0y9XH
-         B63hy9mq2BYzCz+3oIu8QVq/wit8GfnuMn7dZDzG8q7357JZKzbeZkAEfpQ8SKNVcQTn
-         1WVJ2E0s5hTIKBaFzsiWb85HrpHa9uhLWuUbJaydHy9csMVonq9dZ9h7kBlnN/fCcis4
-         Lm9g==
+        d=smile.fr; s=google; t=1763714967; x=1764319767; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ye3qPc/9eYme0pPDRwTQtEMugQo2GbPNSYwYLKJRvZ4=;
+        b=h36tAeO5QxrN/dZZq7iT0SUYELjik2xCNBsgKWwQMy4xv2I5z6U2nzwh79fouXCqXl
+         mq+EZABpNrssL6i4HNUoHAfe/oMRD1FAE9xzDBBduK8oLEtbcCb9tkaCTa3srxn8YWSZ
+         /y/Mwe1SaLPc3n+LpoiIY0xhbX74fQjdrQjUU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763713855; x=1764318655;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=E8sLwJiH+Pad0urHLqTlY/XpgREBcRdrVLUuajWsV+8=;
-        b=ewvHuMePTh9Wg80/YhtDSE5hgup1IO6DpEoT9kiWosxwAa184jzFzI4QIAOSRvzXqM
-         BRnFftiSO3EGbJr5yw4kwIo5GfZh3k6Go3rchmzmplD94zO+d+WbL/QETh9sdVnDl3G7
-         Hpk3Xezhxi3f4ggitIWFhR5al1xz1iZB3X0TKprEWiW3hdnEb5OStUQt14Em9wcKo/wn
-         wf8hJGKIyrus/51P2SPYWxbWW2ssBofV5bezVzoehulP+h8v+diLmGSsEG+hp0134/qd
-         YdVI4uey+VN9eucQduUv94Rl4wE1+usoSslzn5rBd5hoUxkbnwGYTbR8zHnGNpBr8lvM
-         YQuw==
-X-Forwarded-Encrypted: i=1; AJvYcCX5z9d+gfoUaCP4YcnzWmJoAwTXgJ0EGbUEt5uPi4BthJ7y+t4wQR3uoMNF1ppXfh6IgDviysLb+zTX+TKe+5NxYQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzTE0xphZm8Cwm1+ePIJstmNKIO1zkJVk3NAsHycBlhh9YfRpSo
-	HjxJF0Ghz1kXDW11n0vy+HI1xD0VDe1Ps/tM14hGir91cO2BEPUQmwrsfOcg9D33
-X-Gm-Gg: ASbGncsFSbgvLGqGdDL0S86MDNXRqp+LXyRenW4EbVbq7l7s3jQa4EPtOiEI09Y7TXd
-	P0M5+XHEW3kDRIqrRjGjIeHcB0kA+SZirftWmtuBwOTxxtWlZ6b51YbbBFtj4H4IXIhoUTgeTbR
-	Xiwtk1uZYD5DlEAAIcNG+V0HaB9uuo76K4pbUKDXUzmPIm14CVMzBP4Aafo/mObXJ5Ia5RO+KGk
-	iAGaVUJS5sXzXc5wUwTr+JvVaZe1wQqHN1HGjjL/tynX3VKrO2qdl/X8lYzpZAnZ+ShrRFnOJZL
-	91VPAGDXA/whb5tUt8mvjDOP/2RY+0JKO+8qRGcJK+8rHpfVmx6q9Q2N4Lzy/XT+HemvHPj4Yy0
-	8f8MI3JatEWLeFkBVmOILAGswc1E+RSn+V6O3kHnGUrZJUxKgozPQ+L4Wep+l2O0m0K2jFKpMyD
-	xP1H5EnNVexGKYU0++VFs=
-X-Google-Smtp-Source: AGHT+IGhagod9hvI8EreC4Z7syfap4/deRAdqVkYdJijZv31ht8ufdIcizidOYAwt874uUw31a8xBA==
-X-Received: by 2002:a05:600c:470a:b0:45d:dc85:c009 with SMTP id 5b1f17b1804b1-477c10d49b5mr10313095e9.10.1763713854476;
-        Fri, 21 Nov 2025 00:30:54 -0800 (PST)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7f34ffesm10549281f8f.10.2025.11.21.00.30.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Nov 2025 00:30:53 -0800 (PST)
-Message-ID: <4fbb33b0-1238-40db-8a16-c9ffc767e417@gmail.com>
-Date: Fri, 21 Nov 2025 09:30:53 +0100
+        d=1e100.net; s=20230601; t=1763714967; x=1764319767;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ye3qPc/9eYme0pPDRwTQtEMugQo2GbPNSYwYLKJRvZ4=;
+        b=o0zgLlB62Tkf27NtZcmD5UCoSL0vjvo4EEMeUc+WSfrOiUl345+s0iqpHQ9MubgGYD
+         Uuzwabpp+RAsM4UkyVyXB27YYVp4DnpmAkB7ZFepibRtv9i1EzGSvyXoq2cWY6Dm3cNu
+         sJWnys1wyyrFgMNe2vfL7S0H3RC7dTJ6dDjVvQtyG8BX8moZIS7stzePaCPVcxWWHkY4
+         TzeICGvcUz0RjJywI0GwQYsXOxZIIkV282fERNGp14Q+gyLD/UG0x30H2BXb50xvqv8t
+         nK9HcSe7hqttMhwMP8BH5e0FXEu+ZlmH71MkTeLYKZ/GTq/aOHCJzUOnUUBHHsWGbku4
+         FUOw==
+X-Gm-Message-State: AOJu0YwF+rsTlcE/+JIzizjY9MWbyRfCWKJtHn4JrznbXf2J2X9NzwXL
+	EAhsH+7B0cWK6d7B1mF2KRRTi/gy2IxBaNiLD/Xfz0fEA+Z+m6uBQp5lKY8EbC1QsuuoYNxEh8q
+	CpN5G
+X-Gm-Gg: ASbGncsH6QEU2S9Gd6sPDbYbW6KjNFEPb+uB6WKKNdoK1g8LetXzLt6VYzW32EXhhUf
+	vMn8IOwoPGniuYElY7lqDWxwGLMZ6KTVYq3+V7JFDXVdRsQfwQZC35PCAzTxoqMtML6urgoeNaP
+	BNQ8ZTN1JV6JwZs89MUID1fuCwNH+oR8WB+8W0J8M4k20l9wJLJ8paWZEFslkIcmY0zvmyqBC38
+	IwoTZv4EkZFk5znUNL14W58cXphRuVXOj7l8AqQ9I6wvqC2HVcRtLGsYg++aj2ej8Ssrp5OMK/k
+	K43mlTsO3SM7NAv3+jdSJRoSwwuipiWNxpkWPGa/OQNACL7a4R3jn7sYnmYKBqILY4k4+27/TOu
+	TPsSS0mDB5+wBbjHyTwOBR/c5HdSNlgiKqdl5mr2Ks66kVYoSEyWU+jbQUM8VM91XitKRN/ZI/f
+	Z80P0bxUVt+QON2WrARj0Wu4OCpz4NjPlxWwD4sRVyr2y+68oyD+gEp/wlCTrbfac1ka7RFm5Dh
+	ltn09M8QCYQEFm+d123oMYLeCEC
+X-Google-Smtp-Source: AGHT+IGsWVzomQ1iGiEanCTtosURUeVG/7Ao58u/FqnwKbmQiSt0yX1kL2279baxpGN2yNcT0Ji2Vw==
+X-Received: by 2002:a05:6000:310d:b0:42b:2e39:6d58 with SMTP id ffacd0b85a97d-42cc1d51a80mr1163743f8f.51.1763714967167;
+        Fri, 21 Nov 2025 00:49:27 -0800 (PST)
+Received: from FRSMI24-BLUE.example.com (2a01cb000301bd00856597798efcbb8b.ipv6.abo.wanadoo.fr. [2a01:cb00:301:bd00:8565:9779:8efc:bb8b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fa41d2sm9635201f8f.22.2025.11.21.00.49.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Nov 2025 00:49:26 -0800 (PST)
+From: pierre-loup.gosse@smile.fr
+To: openembedded-core@lists.openembedded.org
+Cc: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
+Subject: [PATCH v3 1/2] u-boot: make initial environment binary image
+Date: Fri, 21 Nov 2025 09:49:17 +0100
+Message-Id: <20251121084918.875151-1-pierre-loup.gosse@smile.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/2] bitbake.conf, gcc toolchain: add
- -fcanon-prefix-map to map-prefixes
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20251120121947.3473848-1-skandigraun@gmail.com>
- <20251120121947.3473848-2-skandigraun@gmail.com>
- <62b3ba44522521b8f0f54a88e90e9805755f379b.camel@linuxfoundation.org>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <62b3ba44522521b8f0f54a88e90e9805755f379b.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 08:31:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226652
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Nov 2025 08:49:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226653
 
-Please try the v2 of the cc-rs patch - I see that v1 got into
-master-next, but it will fail selftests.
+From: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
 
+Build the U-Boot initial environment binary image if
+UBOOT_INITIAL_ENV_BINARY is set to "1". The environment partition size
+(in bytes, hexadecimal or decimal) must be defined using
+UBOOT_INITIAL_ENV_BINARY_SIZE.
 
-On 11/20/25 23:48, Richard Purdie wrote:
-> On Thu, 2025-11-20 at 13:19 +0100, Gyorgy Sarvari via lists.openembedded.org wrote:
->> This patch adds -fcanon-prefix-map to the list of compile file-prefixes
->> list in case at least gcc 13 is used (it's a gcc-only flag).
->>
->> This flag used to be part of this list in the past, but was removed with [1].
->>
->> Since then the source file paths are not canonicalized, which makes
->> the system to miss some (and sometimes all) source files to include
->> in the corresponding -src packages. As an example sqlite3 and audiofile
->> (from meta-oe) produces empty src packages, mostly due to the pathes:
->> they frequently use relative paths that don't match up with the
->> absolute path specified in the file-preifx map:
->> `pwd`/../../foo.cpp and ${S}/foo.cpp might refer to the same file, but
->> the first one won't match the prefix-map, so it is omitted.
->>
->> This patch adds this option again with gcc: for class-target it is uses
->> always, and for class-native it is used when the host gcc is at least
->> version 13.
->>
->> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
->> ---
->>  meta/classes/toolchain/gcc-native.bbclass | 3 +++
->>  meta/classes/toolchain/gcc.bbclass        | 2 ++
->>  meta/conf/bitbake.conf                    | 2 +-
->>  3 files changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/toolchain/gcc-native.bbclass b/meta/classes/toolchain/gcc-native.bbclass
->> index a708bd0389..8708ad0211 100644
->> --- a/meta/classes/toolchain/gcc-native.bbclass
->> +++ b/meta/classes/toolchain/gcc-native.bbclass
->> @@ -13,3 +13,6 @@ BUILD_OBJDUMP = "${BUILD_PREFIX}objdump"
->>  BUILD_NM = "${BUILD_PREFIX}nm"
->>  BUILD_READELF = "${BUILD_PREFIX}readelf"
->>  
->> +# gcc started to support -fcanon-prefix-map from version 13
->> +DEBUG_PREFIX_MAP_EXTRA:class-native = \
->> +    "${@'-fcanon-prefix-map' if bb.utils.vercmp_string_op(oe.utils.get_host_gcc_version(d), '13.0.0', '>=') else ''}"
->> diff --git a/meta/classes/toolchain/gcc.bbclass b/meta/classes/toolchain/gcc.bbclass
->> index a5adb5ca37..0ed49ba892 100644
->> --- a/meta/classes/toolchain/gcc.bbclass
->> +++ b/meta/classes/toolchain/gcc.bbclass
->> @@ -30,4 +30,6 @@ PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-cross-canadian = "gcc-crosss
->>  PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-cross-canadian = "gcc-crosssdk-${SDK_SYS}"
->>  PREFERRED_PROVIDER_virtual/nativesdk-compilerlibs:class-cross-canadian = "nativesdk-gcc-runtime"
->>  
->> +DEBUG_PREFIX_MAP_EXTRA = "-fcanon-prefix-map"
->> +
->>  TCOVERRIDE = "toolchain-gcc"
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index 5406e542db..600d4baffb 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -650,7 +650,7 @@ EXTRA_OEMAKE:prepend:task-install = "${PARALLEL_MAKEINST} "
->>  ##################################################################
->>  TARGET_DBGSRC_DIR ?= "/usr/src/debug/${PN}/${PV}"
->>  # Beware: applied last to first
->> -DEBUG_PREFIX_MAP ?= "\
->> +DEBUG_PREFIX_MAP ?= "${DEBUG_PREFIX_MAP_EXTRA} \
->>   -ffile-prefix-map=${S}=${TARGET_DBGSRC_DIR} \
->>   -ffile-prefix-map=${B}=${TARGET_DBGSRC_DIR} \
->>   -ffile-prefix-map=${STAGING_DIR_HOST}= \
->>
-> I think we should do something like this patch but just with only the
-> target pieces, not the native ones.
->
-> The gcc version check is a slow function call since it execs a command
-> and we really don't want a call like that dropped inside a variable.
->
-> native components don't have -src packages so I'm not sure we need that
-> element of this. The simplest thing would be to drop that piece.
->
-> This issue was identified as a release blocker so I'll probably hack
-> the patch and put something into master-next for testing overnight.
->
-> Cheers,
->
-> Richard
+If U-Boot environment redundancy is enabled,
+UBOOT_INITIAL_ENV_BINARY_REDUND must be set to "1".
+
+The resulting binary can be flashed using WIC at the environment offset,
+overriding any existing environment if present, for example:
+
+  part --source rawcopy --sourceparams="file=u-boot-initial-env-sd.bin" --ondisk sda --no-table --offset 4096
+
+Signed-off-by: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
+---
+Note: Once merged, a patch with the new variables will be submitted to the
+      documentation mailing list.
+
+changes in v2:
+- fix uboot_deploy_config (builddir was missing)
+
+no changes in v3
+---
+ meta/classes-recipe/uboot-config.bbclass | 11 +++++++++
+ meta/recipes-bsp/u-boot/u-boot.inc       | 30 ++++++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
+
+diff --git a/meta/classes-recipe/uboot-config.bbclass b/meta/classes-recipe/uboot-config.bbclass
+index fd6c045142..81057b5cad 100644
+--- a/meta/classes-recipe/uboot-config.bbclass
++++ b/meta/classes-recipe/uboot-config.bbclass
+@@ -71,6 +71,14 @@ UBOOT_ENV_BINARY ?= "${UBOOT_ENV}.${UBOOT_ENV_SUFFIX}"
+ UBOOT_ENV_IMAGE ?= "${UBOOT_ENV}-${MACHINE}-${UBOOT_VERSION}.${UBOOT_ENV_SUFFIX}"
+ UBOOT_ENV_SYMLINK ?= "${UBOOT_ENV}-${MACHINE}.${UBOOT_ENV_SUFFIX}"
+ 
++# Enable the build of the U-Boot initial env binary image. The binary size is
++# required (i.e. the U-Boot partition environment size). Since the environment
++# layout with multiple copies is different, set UBOOT_INITIAL_ENV_BINARY_REDUND
++# to "1" if the U-Boot environment redundancy is enabled.
++UBOOT_INITIAL_ENV_BINARY ?= "0"
++UBOOT_INITIAL_ENV_BINARY_SIZE ?= ""
++UBOOT_INITIAL_ENV_BINARY_REDUND ?= "0"
++
+ # U-Boot EXTLINUX variables. U-Boot searches for /boot/extlinux/extlinux.conf
+ # to find EXTLINUX conf file.
+ UBOOT_EXTLINUX_INSTALL_DIR ?= "/boot/extlinux"
+@@ -100,6 +108,9 @@ UBOOT_DTB_BINARY ??= ""
+ UBOOT_FIT_CHECK_SIGN ?= "uboot-fit_check_sign"
+ 
+ python () {
++    if bb.utils.to_boolean(d.getVar('UBOOT_INITIAL_ENV_BINARY')) and d.getVar('UBOOT_INITIAL_ENV_BINARY_SIZE') == "":
++        bb.fatal("UBOOT_INITIAL_ENV_BINARY requires setting the U-Boot partition environment size with the UBOOT_INITIAL_ENV_BINARY_SIZE variable")
++
+     ubootmachine = d.getVar("UBOOT_MACHINE")
+     ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
+     ubootbinary = d.getVar('UBOOT_BINARY')
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 16c9836508..ffa9ef2d59 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -4,6 +4,7 @@ PROVIDES = "virtual/bootloader"
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ DEPENDS += "${@bb.utils.contains('UBOOT_ENV_SUFFIX', 'scr', 'u-boot-mkimage-native', '', d)}"
++DEPENDS += "${@ 'u-boot-mkenvimage-native' if bb.utils.to_boolean(d.getVar('UBOOT_INITIAL_ENV_BINARY')) else ''}"
+ 
+ inherit uboot-config uboot-extlinux-config uboot-sign deploy python3native kernel-arch
+ 
+@@ -104,6 +105,10 @@ uboot_compile_config () {
+     if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+         oe_runmake -C ${S} O=${B}/${builddir} u-boot-initial-env
+         cp ${B}/${builddir}/u-boot-initial-env ${B}/${builddir}/u-boot-initial-env-${type}
++        if [ "${UBOOT_INITIAL_ENV_BINARY}" = "1" ] ; then
++            uboot_compile_initial_env_binary
++            cp ${B}/${builddir}/u-boot-initial-env.bin ${B}/${builddir}/u-boot-initial-env-${type}.bin
++        fi
+     fi
+ }
+ 
+@@ -123,7 +128,18 @@ uboot_compile () {
+     # Generate the uboot-initial-env
+     if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+         oe_runmake -C ${S} O=${B} u-boot-initial-env
++        if [ "${UBOOT_INITIAL_ENV_BINARY}" = "1" ] ; then
++            uboot_compile_initial_env_binary
++        fi
++    fi
++}
++
++uboot_compile_initial_env_binary() {
++    redund=""
++    if [ "${UBOOT_INITIAL_ENV_BINARY_REDUND}" = "1" ] ; then
++        redund="-r"
+     fi
++    uboot-mkenvimage -s ${UBOOT_INITIAL_ENV_BINARY_SIZE} ${redund} -o ${B}/${builddir}/u-boot-initial-env.bin ${B}/${builddir}/u-boot-initial-env
+ }
+ 
+ do_install () {
+@@ -388,9 +404,16 @@ uboot_deploy_config () {
+     # Deploy the uboot-initial-env
+     if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+         install -D -m 644 ${B}/${builddir}/u-boot-initial-env-${type} ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_VERSION}
++        if [ "${UBOOT_INITIAL_ENV_BINARY}" = "1" ]; then
++            install -D -m 644 ${B}/${builddir}/u-boot-initial-env-${type}.bin ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_VERSION}.bin
++        fi
+         cd ${DEPLOYDIR}
+         ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_VERSION} ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
+         ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_VERSION} ${UBOOT_INITIAL_ENV}-${type}
++        if [ "${UBOOT_INITIAL_ENV_BINARY}" = "1" ]; then
++            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_VERSION}.bin ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}.bin
++            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${UBOOT_VERSION}.bin ${UBOOT_INITIAL_ENV}-${type}.bin
++        fi
+     fi
+ }
+ 
+@@ -405,9 +428,16 @@ uboot_deploy () {
+     # Deploy the uboot-initial-env
+     if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+         install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_VERSION}
++        if [ "${UBOOT_INITIAL_ENV_BINARY}" = "1" ]; then
++            install -D -m 644 ${B}/u-boot-initial-env.bin ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_VERSION}.bin
++        fi
+         cd ${DEPLOYDIR}
+         ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_VERSION} ${UBOOT_INITIAL_ENV}-${MACHINE}
+         ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_VERSION} ${UBOOT_INITIAL_ENV}
++        if [ "${UBOOT_INITIAL_ENV_BINARY}" = "1" ]; then
++            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_VERSION}.bin ${UBOOT_INITIAL_ENV}-${MACHINE}.bin
++            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${UBOOT_VERSION}.bin ${UBOOT_INITIAL_ENV}.bin
++        fi
+     fi
+ }
+ 
+-- 
+2.34.1
 
 
