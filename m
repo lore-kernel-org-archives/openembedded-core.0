@@ -2,99 +2,91 @@ Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50CACCFC52F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FAF0CFC52E
 	for <webhook@archiver.kernel.org>; Sat, 22 Nov 2025 12:20:30 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8115.1763814026227300084
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8112.1763814021866654395
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Nov 2025 04:20:26 -0800
+ Sat, 22 Nov 2025 04:20:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nqLRZXt7;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: liu.ming50@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b73545723ebso541091966b.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 04:20:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QtEDTjws;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: liu.ming50@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b72b495aa81so344637066b.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 04:20:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763814024; x=1764418824; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SJDIuL88T2sTakHWDh9eV0YZa/1Mt3cI7QVLHLT2vKs=;
-        b=nqLRZXt7SRVqQlt0ZbYv5rnIQHSqw2hy1T1DVyumB4xNo1qxtZIf5P6WZco2JPRIHe
-         ZnP9Mf8Egh2jGUeeSgv+5RW73RUbLnzpXgdyVQ9NJZEN+1ewhdwQQhqCvC3mr1xu2xLV
-         pta71/Lu8dJWK37t5qlTsRuXKzlO8lyIys/Z91UsMoJL5F1OBxTjH83bgcIvU2sBcgTU
-         6LAeRzr/gqrQJegJA32k7FwOlCFHZ4Fq0OrOYDSXUI6eNyuFkA+2Nyq1VKu/pwKkZZrp
-         VpCRlQdryNjVjB4FceTTMPq0JeAm4mxo/UKX577viGBHU/nSkyIqqgEJd3NUz74+Ygo4
-         wkQg==
+        d=gmail.com; s=20230601; t=1763814020; x=1764418820; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=llbSsbiUo0IOFFgkvhFo9MCLuhxJYcfvW9YTOozO0PY=;
+        b=QtEDTjwsv7YgEf8qm183ZaaYuswPVT3SZGjIpzzj9RaZgeql59e/h9XTeOurCn+eFQ
+         vlcZzOdX6z14thvJ2/z4MTTsj4rQDAq/IqPFyS0h9CYDGWOGqy9nV2F/XPHIEd/pLpd+
+         9G8U7PFzIXaryRn3Ru6L/mMpwDkDQoEdqpWEMGJ3S/bB/0z7cTVYnfEkFZfzLDprY8Yo
+         KOi4TysaCN/QOUNA316DxEoZ4Ezct/4R6mJrhG9CmKWOnoXmUsHPhJ/qQWbvVRNd3036
+         q2PRMU+3fTaLq51fh0/keWRGlkH8fdxmcbOxfnYVRMw5arl3iNj/tOo0MWEo4yAOiiN9
+         uwEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763814024; x=1764418824;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SJDIuL88T2sTakHWDh9eV0YZa/1Mt3cI7QVLHLT2vKs=;
-        b=Y7tQN2gOO5D5WWMjj+2Q+0GHC4YsIXV/5kZBlP1Bq6HZ4e2fzW3nFrIbX7rotuOjR2
-         r9NOni6lHaeBT7/FPA19ISeaKaJGMSleplBT9MVeC6Lak7fLIGiFwgg95GUmoHUQ3KVZ
-         Agv8YySgGlDx8F7kUVCBRVuxnWy61/Oa4WVpBBDUmhm4sL4E9UiW646rOxWkAfK7zh3Q
-         khxE+pCIKSTJoAJM4iQFn7Ijq3lg6YpvTfjhZ3cW4Lterxb0O7HJwB4fNDy2Fw7+8Ctb
-         U0TuQOsd+OGkQStSEpfOnGHRSHmYuG6MjVFDKsQ0FPfHeNAjXZG2o1eZhTqQYNWb0i4s
-         Kgqw==
-X-Gm-Message-State: AOJu0YyL4zO4asNattBWAAsYG4P9PrPzzC4ReELy7TmecVIo3oSovFXo
-	+SiR57fpIyqoy+7a7McpbqwC2+ZSWVwI5G6R+jMJCaoj/QcpZ9SrfYf4oT3UzA==
-X-Gm-Gg: ASbGncvMn/fDv6sbnRWkFY+Pp0Jyb0uEXwPb5qi407iyiJPohvYogNVQT2s3ljORSVA
-	gE8/gl2ipgJ/02QOmGmLRAJDExzsakk+L2MjPu5tylaH6g7vVpMtbGkgqHRNNtaKZ6pAgMyXbG8
-	gmodDmxTBLM3wton9VaE6jP8+JSsmWFVceyzdMCuEzr6n5oc+rtuDEzpgtFGXt5oVQ4VJbi4RtT
-	DRwelkT0w3xtbL6/xBpZ2bwlwhW9UEkJ81eTT+s7MefwX0W33ZADve+fvkF/l+KU8mQDq0DW8tB
-	kkuasgiY8vkjef5+Xwjm/LXWYRmRf0GO3N82x/xisqMPwVciLnXeTq7HtJ+Wbp0O9D+byTaZs47
-	yIFRLx6KngBDUtZfZc6EJ0MsFY5agrKOQr+7XgUYihae/8+ntxiFTyTC0VDd56lASMegvaH14PG
-	JJnYxfN4UhaDV/gRVBY8TdiN85sqOBQqP29E0Cy+KnioQP4mCH0b9fC6lmKXrYUr/rwlFD7YPCI
-	ANUt3fA9RVBtGW35tMraoawY5gBMgUaUl2OmO0pWz+53bk76IA=
-X-Google-Smtp-Source: AGHT+IE+xhnNV60QqFdOSKJqoFbRMPXYF54T5HLIgH7yq9mXZtT+6FaEYO9l5e5ZGvel+aH+OeGTnw==
-X-Received: by 2002:a17:907:7fac:b0:b73:36fb:5fcb with SMTP id a640c23a62f3a-b7671b12c63mr492924866b.55.1763814023964;
-        Sat, 22 Nov 2025 04:20:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763814020; x=1764418820;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=llbSsbiUo0IOFFgkvhFo9MCLuhxJYcfvW9YTOozO0PY=;
+        b=YIZqYng6GGl+Mi2zM7PpxxeR2Irw6NDVugekPFEUT3ZP/pOKljL7iF6om7UAayxTTP
+         2zQnPNv8DfidMQA11JN9TNvKAUvoLup0PbF5y1CLQ6Ine9/mpxo3QMlP/wuyzvj7tNRg
+         MqdajNpHgnTTOAQeD1NzHcqxldb8g+sLLbmckF8vpVG8OABPcSKGkglXEDJYRzdhRVsd
+         4iuo6UxbgWFBhO5/HfdjWLmmMrkQSdREbHQ3QiB3di+/ra66gKZIrixXKlCNY53PBIeE
+         r8RrHiMpfB5Xc0FxXQIUBTxbWBpektcJqC6gCi6c6dqbwnsWNXSmDFrJEFw7mMF1TZ1I
+         AXSA==
+X-Gm-Message-State: AOJu0YzLlmvk82QrAlGZ5h32Ijnhe7oFMT+mk+rm6+HevCf7L4xua6dF
+	RzLrZsDVbKAvbg9Xh29SAzXZpGZpJFQRQtlTzq4xPjYqX11hDAToFur4dUKNDw==
+X-Gm-Gg: ASbGnct4XUznKtyi4By3I7FO6iqWFOWezA/enBa5SXgUj6IT+oaAGbWPfuhehyoETke
+	Bv/5xFBkaqYYsZoj+RQhsK2fPiTNuxvjEcRBIO/GdHxEoFpyNGhku0atsONWXOd2SfZMcO5qO4t
+	P9VlJqke7LGQ4mMidpl/jaHlNg+4fOIvF9/4zdCMrikcjqbmj3M5VjGxIKPmp0P4lcFnHCVZqJM
+	AZbUevqO/iOaCVAYMwQcnGbt/Uxf4NY4QIYSZ7cfloMZtbAtghkuHJt0Lsg9+WERe3H2WuJW4ds
+	KWEPkbZxDOVFXHyFnan5p0H1yR6kR2o1CUPeFbwYUScPcq8pMD0RjHo/HTw8ODrLjvo9JAPufiM
+	BiEHGVcgqtKamYRjeXd2Y1GYiFdBsRH5gWCK4ZEPhSnz9bCDGyrPSRsexYKvUwfRpqlpC4ZkWpl
+	HJqZvgkGCQA0aXpXyPfSIi+rJ/LbluDXTQmDhawqyVFgSA0qBHThKohLyDHjjITm1qJhJl2J/JA
+	TBczis+wSqZvktPud2Fotn4mnFyRqow/vYm6Qk53qN670eyL+A=
+X-Google-Smtp-Source: AGHT+IGDH/VUVAg+FdBbKeQ/1dQ4zr9mBVPH+Tp/UAgCXybvKstUzllA9bdIQqp8CjRO1+fEWuxd+w==
+X-Received: by 2002:a17:907:3e82:b0:b73:875f:2858 with SMTP id a640c23a62f3a-b767156746bmr630415166b.15.1763814019619;
+        Sat, 22 Nov 2025 04:20:19 -0800 (PST)
 Received: from peterliu-Precision-5680.atlascopco.group (static-212-247-106-195.cust.tele2.se. [212.247.106.195])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b765504828esm708694066b.64.2025.11.22.04.20.22
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b765504828esm708694066b.64.2025.11.22.04.20.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Nov 2025 04:20:23 -0800 (PST)
+        Sat, 22 Nov 2025 04:20:18 -0800 (PST)
 From: Ming Liu <liu.ming50@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	peter.kjellerstedt@axis.com,
 	Ross.Burton@arm.com,
 	richard.purdie@linuxfoundation.org
 Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH V3 2/3] iproute2: use "+=" to set PACKAGE_BEFORE_PN
-Date: Sat, 22 Nov 2025 13:20:12 +0100
-Message-ID: <20251122122013.1960798-3-liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH V3 0/3] bash-completion.bbclass: put bash-completion package to PACKAGE_BEFORE_PN
+Date: Sat, 22 Nov 2025 13:20:10 +0100
+Message-ID: <20251122122013.1960798-1-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251122122013.1960798-1-liu.ming50@gmail.com>
-References: <20251122122013.1960798-1-liu.ming50@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 12:20:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226692
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226690
 
-This avoid overridding the original PACKAGE_BEFORE_PN value could be
-set in bbclasses.
+Changes in V3:
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
+1 Use PACKAGE_BEFORE_PN instead prepending to PACKAGES.
+2 Fix build errors in other recipes that caused by this change.
+
+Ming Liu (3):
+  systemd: use "+=" to set PACKAGE_BEFORE_PN
+  iproute2: use "+=" to set PACKAGE_BEFORE_PN
+  bash-completion.bbclass: put bash-completion package to
+    PACKAGE_BEFORE_PN
+
+ meta/classes-recipe/bash-completion.bbclass           | 2 +-
  meta/recipes-connectivity/iproute2/iproute2_6.16.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd_257.8.bb            | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_6.16.0.bb b/meta/recipes-connectivity/iproute2/iproute2_6.16.0.bb
-index dc7106902c..019f82a196 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_6.16.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_6.16.0.bb
-@@ -80,7 +80,7 @@ IPROUTE2_PACKAGES =+ "\
-     ${PN}-rdma \
- "
- 
--PACKAGE_BEFORE_PN = "${IPROUTE2_PACKAGES}"
-+PACKAGE_BEFORE_PN += "${IPROUTE2_PACKAGES}"
- RDEPENDS:${PN} += "${PN}-ip"
- 
- FILES:${PN}-tc = "${base_sbindir}/tc* \
 -- 
 2.43.0
 
