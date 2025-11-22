@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4B70CFD30B
-	for <webhook@archiver.kernel.org>; Sat, 22 Nov 2025 22:15:03 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3758.1763849698323254184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEE60CFD30D
+	for <webhook@archiver.kernel.org>; Sat, 22 Nov 2025 22:15:13 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3773.1763849713582996392
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Nov 2025 14:14:58 -0800
+ Sat, 22 Nov 2025 14:15:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=txvIvm8p;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-340ba29d518so1875401a91.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 14:14:58 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DyrGRWyt;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-297ef378069so28462825ad.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 14:15:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763849697; x=1764454497; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763849713; x=1764454513; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xQH3POWnsEtmguhWdq4cXxWSSGkWEiQvKzpghcI3+EU=;
-        b=txvIvm8pRXMuiOo9bzwA/bRlm3tGZjke3hs6RdIMH8TNdiBuMe9h5VMHGdhHcol/nC
-         KGiuc4Oq41FM4v343T5jDWtxmJ2HW+LU6RArd5adEXwfzlYqTvhoc8XPEYhzOV/boiBa
-         TL5wnGK3U4MEg1ybgl7jW82k/elT67OAG+WjAYW9x1nCc9IucXoV7JfVrU8u3nGdaI0d
-         Wj6CxYfbaA5Im9B7IMh6ebKhtMSirh3I9y4k1+nNDV6/HlhIBxZHyRMYuE8QQDm8ktdV
-         QmLcqOyTE1F5T84Z/UMfFeqQ+xiovn6L7BvEY+8JW96J/0OjpqtEWidt0uCVPszxxtAm
-         qMNw==
+        bh=XL/kfWHJOz6SAfs7LRjmiptXG+ae6Kl5tTRWnbH2jZI=;
+        b=DyrGRWytG6MIQCVdYgrUdazXPhAmGOlSNdgpaH3eAK2PgpbBvcROLA4lpa99WHBGn+
+         L5gNqy4o/9wmk2/ushXxMier043NbhBT7GY4BZxqGR3Se2KgFexbPet7zEhpYWerTtQg
+         /CGLsjNshxSDUbcrxizqOMK6eO6wMhfW6Ixbq0BbSd6CBVZd+zmAKsjmmMooxd0nZQ2b
+         zMsxvTpWChcWG1oASoOtxM+K4d5wLg3hF9A/WYIi12uGG3nNpx8dEjqLiEtdwIiHP+Gc
+         ck6xlFGLNk51kdO44UGRkx1wwn3+07zDfn9Nh4HsIu3BpgX5ByzT1lFkC39adbsZ4W/A
+         URgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763849697; x=1764454497;
+        d=1e100.net; s=20230601; t=1763849713; x=1764454513;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=xQH3POWnsEtmguhWdq4cXxWSSGkWEiQvKzpghcI3+EU=;
-        b=MCWVWLtabuGShA/TPWIBDzEMuX8ODIS3rfG1ElKpiSZ4lC9jxjXA7vazRSkGJRecDD
-         PciEAfcu9mqfmmkpYv78EWWbJIOInmxOGDKmHyb2HFhesomfm9X93qCNowk2dmoyRCLG
-         AkwVYPSq10zfmllilQzAVEd0+UtJrFde2fJ9UYbkbyJhfbKmT2f7A68rD3E+ptVAmfK7
-         9LzuWJLoH8Li2hjnJUUSRArCLpmi1mBkENpCiwomYWXVtjpkVpm4q1exXLfNvO3sZ3h3
-         yzBBqgcQgJshOyHw4WXVqANiHx3roNtnAXmENBXHAbqIOQYMJA/epNqFOAkdYPpqdFJY
-         s6Ig==
-X-Gm-Message-State: AOJu0YwveTf3MymgfH0mu97t8Kzpin3176tHS58arL0SvHBfdNCtbnpD
-	H/8bXs0RbQBJxEiTvNM7SzRlA7HCiPMLs9NxTjnAyGB+1AiAiU6R2KmIlqz0RoeFiHffFiQ00t4
-	HSMkT
-X-Gm-Gg: ASbGncujtPpdkIP6t7jE4ikCzPQTrygSHq8AAxv037ZPi788A91f62Y9SUgFk5fxbVT
-	WhRPWNR/3X7/LsR2KcHyKh0e58NEubK03lbdUIIrK8frZ0r2FdqU6YevlMYUJiefkLDDbar36Ko
-	j7qAeVDhQ734EqdjFsSTLuRDKlFgS5grUd2Wz6S05vr5Ty+nlr7iz395eHLlEaxvN3PoZCu/LsM
-	k80+qxh09tLXZjTuDVG4pKDh3kSuPLFpQYyTKCdYUJVzlJJRrnbXoETNQyjE1u9IKPr642RxG61
-	Nh3t7oSyffDQEx406Uvnunc6YbLrV9HFsJZF+kd0iPHXqQy6Fm1O7a7JQpnd5gy/wIZ1I7WcQxS
-	GKMje2Fby9RSJkv6wkKlYhwCqOECVhDo6CGt83SU4+ebI1ngtfbwNCmewDbDTx9+1TO68Kn8MEA
-	sLYQ==
-X-Google-Smtp-Source: AGHT+IFnnvfvIXAXw5RsUOo+LTqpn9ViEPEuBQEw480MB7HpsnbqzP0mH6CZRTBZmVvTGRZl/woTdA==
-X-Received: by 2002:a17:90b:4c0f:b0:32e:9da9:3e60 with SMTP id 98e67ed59e1d1-34733f54393mr7288847a91.36.1763849697491;
-        Sat, 22 Nov 2025 14:14:57 -0800 (PST)
+        bh=XL/kfWHJOz6SAfs7LRjmiptXG+ae6Kl5tTRWnbH2jZI=;
+        b=Qdgcn3OLsX2rApB7eM+rI7TkL6KO6M4UBNfzCBDBH8IhPJ+ilmOtceUXkb/eCYovWr
+         ghWaxTpwUG9FeJge/TV61NGq/s6vqOjyR2+Q+RI8+7UB+k0d0TuaZAg2YFKWtrfO+naS
+         yKyProkcHMv4tISZmeVnS99K2VCX3O9UWEWWolhC+rNnjtqf4Oaz7hQyCJ9cEw4YQzO8
+         SwyaYS92ZCmsJYmw8s5Xc8w3uwqmDLM95bOQgaewPEMMLpUZiEWkNIK4TNRZig31LkST
+         v/F2bttgygFBkiQx9akpc5fA/H+1JC2W3l488NaA+Az2DWcBJu/lYSLj8zaPJLoOP4vM
+         PZ5g==
+X-Gm-Message-State: AOJu0YzMV5JfrqrDUJ0VT/Q1xjO+gUwgJ3A1S2lcEvvUv02uWySobD4d
+	EsqUYRjuVXCGxSkXLNKkflZx9UC99gomK505ACtwy1BDEdZTe7stLv/9dy++PTDcRun4N+KFjvt
+	n49Hz
+X-Gm-Gg: ASbGnct8L8X+JLrllZInaZr7D+V30nGG0JIMBbi5N2ZgoOdLjJaouhOq8GpFGnIKZKN
+	cMFodb1FDI5OjbdRjivrS4V7ISRINPq7+gQrzqIHEQY+pmjw6BGxULC6GByICELqxxWQW/oLBuf
+	p5bfoxpuiy3oNotCr/4TjjJTClciEFTMnyfK3nxofwdN4ryJ7mOj2LoAmhlMBDJ3ffWFK9VjHWX
+	i22GlpMg7e5sU7N0TcNxbun7iucjo0XYT0hP6mNLickfcvfnn1MzHtSIZyEdVOBV1VTP/qJAAFF
+	PgqnjOTxTFx1crX60qHX/c4jX0qNZBexmodvQ/juIeKghC9FNE00cEUIc3ko5au+detb8Vhi4XM
+	nwLNXcVZY2h+jO55Dp2jikoi2MlrLDSRnoM5CtEGbDTjVsd3mAeh6pggSiuJHKQMWSzhEm4F/vl
+	/5cec04hA9+rG9
+X-Google-Smtp-Source: AGHT+IGVyL9vFJGOqfQC7stNNStE7bvZmN8AKBag39ex2EFgUgOqdLgqR6cA4wMkTu4+5qQ4KK3GeA==
+X-Received: by 2002:a17:90a:ae91:b0:340:be44:dd11 with SMTP id 98e67ed59e1d1-34733f2a450mr5256055a91.27.1763849712826;
+        Sat, 22 Nov 2025 14:15:12 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:a812:a9e4:3291:bb61])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-345af26d8b1sm7158274a91.3.2025.11.22.14.14.56
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-345af26d8b1sm7158274a91.3.2025.11.22.14.15.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Nov 2025 14:14:57 -0800 (PST)
+        Sat, 22 Nov 2025 14:15:12 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 13/21] oe/sdk: fix empty SDK manifests
-Date: Sat, 22 Nov 2025 14:14:19 -0800
-Message-ID: <062a525bd36c672f372dabe8d9f0fbe355c7e58b.1763849517.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 21/21] oeqa/sdk/buildepoxy: skip test in eSDK
+Date: Sat, 22 Nov 2025 14:14:27 -0800
+Message-ID: <7cfacaee1b3319e561036512a849e762d0f68a5e.1763849517.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1763849517.git.steve@sakoman.com>
 References: <cover.1763849517.git.steve@sakoman.com>
@@ -68,58 +68,46 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 22:15:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226711
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 22:15:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226719
 
-From: Ross Burton <ross.burton@arm.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-The SDK manifests are generated by listing the sstate was that used, but
-it hardcodes that the sstate data filenames end in .tgz.
+Currently meson inside eSDKs only works with fully populated eSDKs,
+but our testing uses minimal eSDKS, so skip the test if the eSDK is a
+minimal build.  A bug has been filed to resolve this.
 
-This has not been the case since sstate switched to Zstd[1] in 2021,
-which meant that all of the tests which checked for packages existing
-were being skipped as the manifests were empty.  For example, see a
-representative core-image-sato eSDK test run[2]:
+This is minimal change extracted from OE-Core commit which has this only
+as a minor comment: 575e0bf52db0467d88af4b5fe467b682f10ca62a
 
-RESULTS - cmake.CMakeTest.test_assimp: SKIPPED (0.00s)
-RESULTS - gtk3.GTK3Test.test_galculator: SKIPPED (0.00s)
-RESULTS - kmod.KernelModuleTest.test_cryptodev: SKIPPED (0.00s)
-RESULTS - maturin.MaturinDevelopTest.test_maturin_develop: SKIPPED (0.00s)
-RESULTS - maturin.MaturinTest.test_maturin_list_python: SKIPPED (0.00s)
-RESULTS - meson.MesonTest.test_epoxy: SKIPPED (0.00s)
-RESULTS - perl.PerlTest.test_perl: SKIPPED (0.00s)
-RESULTS - python.Python3Test.test_python3: SKIPPED (0.00s)
-
-All of those tests should have been ran.
-
-Solve this by generalising the filename check so that it doesn't care
-what specfic compression algorithm is used.
-
-[1] oe-core 0710e98f40e ("sstate: Switch to ZStandard compressor support")
-[2] https://autobuilder.yoctoproject.org/valkyrie/#/builders/16/builds/1517/steps/15/logs/stdio
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/sdk.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/sdk/cases/buildepoxy.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-index 3dc3672210..588c74bb44 100644
---- a/meta/lib/oe/sdk.py
-+++ b/meta/lib/oe/sdk.py
-@@ -148,7 +148,8 @@ def get_extra_sdkinfo(sstate_dir):
-     extra_info['filesizes'] = {}
-     for root, _, files in os.walk(sstate_dir):
-         for fn in files:
--            if fn.endswith('.tgz'):
-+            # Note that this makes an assumption about the sstate filenames
-+            if '.tar.' in fn and not fn.endswith('.siginfo'):
-                 fsize = int(math.ceil(float(os.path.getsize(os.path.join(root, fn))) / 1024))
-                 task = fn.rsplit(':',1)[1].split('_',1)[1].split(',')[0]
-                 origtotal = extra_info['tasksizes'].get(task, 0)
+diff --git a/meta/lib/oeqa/sdk/cases/buildepoxy.py b/meta/lib/oeqa/sdk/cases/buildepoxy.py
+index 5b9c36fcec..2f21210c79 100644
+--- a/meta/lib/oeqa/sdk/cases/buildepoxy.py
++++ b/meta/lib/oeqa/sdk/cases/buildepoxy.py
+@@ -10,6 +10,7 @@ import tempfile
+ import unittest
+ 
+ from oeqa.sdk.case import OESDKTestCase
++from oeqa.sdkext.context import OESDKExtTestContext
+ from oeqa.utils.subprocesstweak import errors_have_output
+ errors_have_output()
+ 
+@@ -22,6 +23,9 @@ class EpoxyTest(OESDKTestCase):
+         if libc in [ 'newlib' ]:
+             raise unittest.SkipTest("MesonTest class: SDK doesn't contain a supported C library")
+ 
++        if isinstance(self.tc, OESDKExtTestContext):
++            self.skipTest(f"{self.id()} does not support eSDK (https://bugzilla.yoctoproject.org/show_bug.cgi?id=15854)")
++
+         if not (self.tc.hasHostPackage("nativesdk-meson") or
+                 self.tc.hasHostPackage("meson-native")):
+             raise unittest.SkipTest("EpoxyTest class: SDK doesn't contain Meson")
 -- 
 2.43.0
 
