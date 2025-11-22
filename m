@@ -2,127 +2,166 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C622BCFD301
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2FA0CFD306
 	for <webhook@archiver.kernel.org>; Sat, 22 Nov 2025 22:14:53 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3756.1763849691975204240
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2709.1763849688780720841
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Nov 2025 14:14:52 -0800
+ Sat, 22 Nov 2025 14:14:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=BUnxn9Lf;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3436d6aa66dso2079449a91.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 14:14:51 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1kIosgke;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-343ff854297so4550723a91.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 14:14:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763849691; x=1764454491; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763849688; x=1764454488; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=O5w/xsOph5MqaJ52W0khjcqyjUyULQq1fQKx1UlYGAE=;
-        b=BUnxn9LfZLaDCntK3Pr4ltkzd5xASkBp42P9doy+5IhFoCwGKeA6aBSST13jErvofN
-         mL0wv4jC8nqmjQ9dMiAMmSlHkwaVErT8BeQo49PVQp6bEAC/t20ifXu0SQxrPmnDT3dg
-         GKPLue4HJWvgphRADnMG2BoIG/Gf8o+TxzovNG3JDXeqERhh25tGyJfj1XFYpRnnvh8P
-         rl8QTX+2+OnqTj8UOWl2eKF7kCyZKuuGrPEumBZZo5Wa0aRKpUzD7MXgIlkyFIjjl+55
-         WZrVu8aqH87riAYRHkrUedxWkUAhzMTD/EVZFTK1KdHGhqExLAHuIAq+7PanLnEvA+ym
-         1vvg==
+        bh=XkOJI6Kf+k0PdeCCmm3KWsblQbv96+CTlJqG2k+c2c8=;
+        b=1kIosgke/WGNker+KAIq6mzCXSLhrxzsPCxeFGfLOvAicTWzWdE/hxLRPhMz7hz1k2
+         KZc3Ro6p70F9UsoRC+j4OMicDPXwo8ysTzpsrXDURQWdmaAvCv77CsDBpsyE6y1N4BT7
+         TVjV8nAfm43NEX/1iWV1ohRp+zFkeWjzecDURwl7FXIQhuZNcoikoDtK1SdaQhBoHUcR
+         or7FxctrQdMq6FPqpnvDQEEBz/CaT2QKnFPhe2rX6hocfA29zKJoCAEhvFtas3FBAx2+
+         MZLZyEIzVbiuapSNB96/G/o72RR0Fxt409UEP4ylfxUXapEhW+pLw7PqmAcog3CJWLg4
+         a7Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763849691; x=1764454491;
+        d=1e100.net; s=20230601; t=1763849688; x=1764454488;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=O5w/xsOph5MqaJ52W0khjcqyjUyULQq1fQKx1UlYGAE=;
-        b=sWcNxyC+yzGeGfDcRSbDJdDUZCPuhzW3gYJSESpQqILCqOgF755JR7vlWV11FTDixA
-         gYd2y7+gS5oqzTc7DNFNUq+f1MTWjor0SoI7znnSbCkFO3kJI8s0ndBItk8iP1c8CiK5
-         eRa2dfcP17NlHpO8X4MI6kZeqVgMuHfGSR1j4Z7yzdbBvRyrz7nLa50D1CMPIvODAfzv
-         0Ov+vm/SMdXVTdfZXI+CBrzepymboGU6jKXZGOVLM6SW3rEgzw9Zxg9wz5rvprKea6bW
-         1vKaeFW+NtMpVPOV6iAt2AmCKWBpVg9DPP9yRtd0Uby2tDkk1HUi6eYoGKFEw3jxNrdz
-         LPow==
-X-Gm-Message-State: AOJu0YyrP0a6QWPG2bahkAv+U0QyA9RM12V30BTb4pGLggVz75aayR0d
-	2bp9GQuG2fIyRR1NFTjVDGee61Oy2p0XoMapKgiRcau9DNQ1zHddnrvOYnrsUYTIxLznjGFqvzQ
-	DUHFA
-X-Gm-Gg: ASbGncunJJbNu79fFHSSK8HDTWaKQGqGTrevs0gXsdNYJRs1EjaP5pKQ/niSV2wQe/m
-	UnpqoPIls6eAfKIlm6X4N7iyKQL2U5aQ/jlbcdAMBVrWGk/mdxNbW6QOvyZdlDcBqhMynsaA6Te
-	V6lWhVzkM1oCfXkiAf9LJOTYtXswl88xlKEw0v3wY1InPTw/Lh6z7PhRq2TmlbKB3cTH9Kkmjg3
-	hekFPGMHXa2MTuZ3GquvRp+QvKR75ZQuGg90FFwMYYVwUIGQqKmyW5MaONSbp7I70eiQMaC8uUf
-	Y6Er0+e/3KW9UFVXdQLpEvq4el0QwoRIP8u+kPU4Ankm14ThXWBa7qclJSGF5a6yJnqeW8/eO4G
-	+819K7X3HkZoiNo3cdZsImIKr4OPym3VlScMInf83TAuFqYk0jNLozLfkUo4wy8mhWIc7MYctUf
-	+niw==
-X-Google-Smtp-Source: AGHT+IGBwsF/JP0jrFpxwQc0LEHE6E65H/iAyrGjMw7V2gQLwFvu46lbMJ9F35I1MvilY23nQ6WsyQ==
-X-Received: by 2002:a17:90b:33c2:b0:340:68ee:ae5e with SMTP id 98e67ed59e1d1-347331a7cbfmr7047169a91.4.1763849691172;
-        Sat, 22 Nov 2025 14:14:51 -0800 (PST)
+        bh=XkOJI6Kf+k0PdeCCmm3KWsblQbv96+CTlJqG2k+c2c8=;
+        b=UcD8I9BqMRUrt3vDoMcoxCPrjxX1SmbvPIF4ECt7xzoj0UBtHagDVZRlUjD4pZmE00
+         iMwB5hxv8uPvaiC+8i85fAy6vbUHYASA2S2YqjPVO1YBZhVh32fQc7wYxw0MM5CIuEN3
+         KKHDBGWowG9ZSOqfsqgfImwLjHNLfzzlzqiirrl/YElAUE3Zn3KtjqugrPgACXhrTLaG
+         pS3d2B2ak+sE234NplHq17ySJjs+hOQwCWk6qDrOpvcNcbPzmMaR7dqhSJHHs2IQRCah
+         NxtQAlyhRfqZCk9pc5Ybleb4NKlwucJ9MjwDJG4zl17Gy3bFzc0d8GYS4w4b7JQEuZih
+         tQpw==
+X-Gm-Message-State: AOJu0YzGEPHUd/FpvZwNZ2AJoJSHhQW7z/FTWNNoLIeUFf6FDN7b0j/7
+	KCSUiOyEvXVk4RVM7P1acbUU59lCFNyJzvVAXHKr68ctw6pOomrA/y3vVkvygTHKYvBRrHJMkFq
+	OBsc1
+X-Gm-Gg: ASbGnctu0uRzR/dk7nNhrwfdRaUdIrj3ES4Y4v360qD250ZE/YBJ1zLm616F9cOeH86
+	PrE8lQtMQZG+gg7gNqdpHD/m6teobssqRfCUoEvFgYcNe4b3656HzWqu7ubQctYCkjl2F+bvjqs
+	bX5WCNC/biYK3QN1X/JxxFxcAGxYfBO6LpIQPeArj1rhsvDnmD2WigzJTyLkkZNUefqahtzgjKZ
+	VLK+aGk/48fWvQ+E4IieynF1ear8CpXAI68uWS5z9HzVhmgNmv8OtOii/jaHAm8dNnn1Ho5FHLr
+	r3gKvUqXetNbnxdW0QSudMzk8TYBd1M0MaKeGKza/5f+lly4OKfcbq+MT9fDPFSSvYlS3eh6pu2
+	lCMxfs/1Mlj0QQzQ/FP+nhoJCex9RP+YGI6nro2jotIWq4aOzchJrOIPHczfyQW5bkcFmCGY1YJ
+	fu4w==
+X-Google-Smtp-Source: AGHT+IE02vLyQiDbZT+94zFdlnRWOBFVm2Z8CHpe3WXjooqnjZ79ofX8jk8BmWa3n8ZUuxmqFLKrLw==
+X-Received: by 2002:a17:90b:3c8e:b0:340:ca7d:936a with SMTP id 98e67ed59e1d1-34733f22173mr8145395a91.18.1763849688031;
+        Sat, 22 Nov 2025 14:14:48 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:a812:a9e4:3291:bb61])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-345af26d8b1sm7158274a91.3.2025.11.22.14.14.50
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-345af26d8b1sm7158274a91.3.2025.11.22.14.14.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Nov 2025 14:14:50 -0800 (PST)
+        Sat, 22 Nov 2025 14:14:47 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 10/21] rust-target-config: fix nativesdk-libstd-rs build with baremetal
-Date: Sat, 22 Nov 2025 14:14:16 -0800
-Message-ID: <4c3f321304f2aa8b75cb58699b59fea80a23690c.1763849517.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 08/21] xwayland: fix CVE-2025-62231
+Date: Sat, 22 Nov 2025 14:14:14 -0800
+Message-ID: <97326be553f3fec8fbda63a8b38d18f656425b2c.1763849517.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1763849517.git.steve@sakoman.com>
 References: <cover.1763849517.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 22:14:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226708
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226706
 
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
+From: Yogita Urade <yogita.urade@windriver.com>
 
-If TCLIBC='baremetal' is set in local.conf, nativesdk-libstd-rs build fails
-with:
+A flaw was identified in the X.Org X serverâ\x80\x99s X Keyboard
+(Xkb) extension where improper bounds checking in the XkbSetCompatMap()
+function can cause an unsigned short overflow. If an attacker sends
+specially crafted input data, the value calculation may overflow,
+leading to memory corruption or a crash.
 
-| error[E0412]: cannot find type `c_char` in the crate root
-|   --> /usr/src/debug/libstd-rs/1.75.0/rustc-1.75.0-src/vendor/libc/src/unix/mod.rs:56:29
-|    |
-| 6  | pub type c_schar = i8;
-|    | ---------------------- similarly named type alias `c_schar` defined here
-| ...
-| 56 |         pub gr_name: *mut ::c_char,
-|    |                             ^^^^^^
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-62231
 
-This happens because rust_gen_target() sets os="none" when TCLIBC is
-'baremetal' - even for nativesdk targets. However, nativesdk packages are
-built against glibc, so the correct 'os' value should be "linux".
+Upstream patch:
+https://gitlab.freedesktop.org/xorg/xserver/-/commit/3baad99f9c15028ed8c3e3d8408e5ec35db155aa
 
-Fix this by setting the os field based on {TARGET,HOST,BUILD}_OS variables,
-as it is already done in rust_base_triple(), instead of relying on TCLIBC.
-
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(master rev: 3eaf2cd5647585a1e6df03fc20e2753da27bb692) -- backport
-Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/rust-target-config.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../xwayland/xwayland/CVE-2025-62231.patch    | 50 +++++++++++++++++++
+ .../xwayland/xwayland_23.2.5.bb               |  1 +
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2025-62231.patch
 
-diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
-index 1bd7626bd8..31b4bd9afd 100644
---- a/meta/classes-recipe/rust-target-config.bbclass
-+++ b/meta/classes-recipe/rust-target-config.bbclass
-@@ -329,6 +329,7 @@ def rust_gen_target(d, thing, wd, arch):
-     sys = d.getVar('{}_SYS'.format(thing))
-     prefix = d.getVar('{}_PREFIX'.format(thing))
-     rustsys = d.getVar('RUST_{}_SYS'.format(thing))
-+    os = d.getVar('{}_OS'.format(thing))
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2025-62231.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-62231.patch
+new file mode 100644
+index 0000000000..8095c3d82c
+--- /dev/null
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2025-62231.patch
+@@ -0,0 +1,50 @@
++From 3baad99f9c15028ed8c3e3d8408e5ec35db155aa Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Wed, 10 Sep 2025 16:30:29 +0200
++Subject: [PATCH] xkb: Prevent overflow in XkbSetCompatMap()
++
++The XkbCompatMap structure stores its "num_si" and "size_si" fields
++using an unsigned short.
++
++However, the function _XkbSetCompatMap() will store the sum of the
++input data "firstSI" and "nSI" in both XkbCompatMap's "num_si" and
++"size_si" without first checking if the sum overflows the maximum
++unsigned short value, leading to a possible overflow.
++
++To avoid the issue, check whether the sum does not exceed the maximum
++unsigned short value, or return a "BadValue" error otherwise.
++
++CVE-2025-62231, ZDI-CAN-27560
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Reviewed-by: Michel Dänzer <mdaenzer@redhat.com>
++(cherry picked from commit 475d9f49acd0e55bc0b089ed77f732ad18585470)
++
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2087>
++
++CVE: CVE-2025-62231
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/3baad99f9c15028ed8c3e3d8408e5ec35db155aa]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ xkb/xkb.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/xkb/xkb.c b/xkb/xkb.c
++index b7877f5..4e585d1 100644
++--- a/xkb/xkb.c
+++++ b/xkb/xkb.c
++@@ -2992,6 +2992,8 @@ _XkbSetCompatMap(ClientPtr client, DeviceIntPtr dev,
++         XkbSymInterpretPtr sym;
++         unsigned int skipped = 0;
++
+++        if ((unsigned) (req->firstSI + req->nSI) > USHRT_MAX)
+++            return BadValue;
++         if ((unsigned) (req->firstSI + req->nSI) > compat->size_si) {
++             compat->num_si = compat->size_si = req->firstSI + req->nSI;
++             compat->sym_interpret = reallocarray(compat->sym_interpret,
++--
++2.40.0
+diff --git a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
+index 9bc67f7761..362b110a0b 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
+@@ -34,6 +34,7 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
+            file://CVE-2025-62229.patch \
+            file://CVE-2025-62230-0001.patch \
+            file://CVE-2025-62230-0002.patch \
++           file://CVE-2025-62231.patch \
+ "
+ SRC_URI[sha256sum] = "33ec7ff2687a59faaa52b9b09aa8caf118e7ecb6aed8953f526a625ff9f4bd90"
  
-     abi = None
-     cpu = "generic"
-@@ -368,7 +369,7 @@ def rust_gen_target(d, thing, wd, arch):
-     tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
-     tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
-     tspec['arch'] = arch_to_rust_target_arch(rust_arch)
--    if "baremetal" in d.getVar('TCLIBC'):
-+    if "elf" in os:
-         tspec['os'] = "none"
-     else:
-         tspec['os'] = "linux"
 -- 
 2.43.0
 
