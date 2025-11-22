@@ -2,104 +2,160 @@ Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34D78CFC531
-	for <webhook@archiver.kernel.org>; Sat, 22 Nov 2025 12:20:40 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8060.1763814029893326751
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A41CFC533
+	for <webhook@archiver.kernel.org>; Sat, 22 Nov 2025 12:24:20 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8152.1763814257945702404
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Nov 2025 04:20:30 -0800
+ Sat, 22 Nov 2025 04:24:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=D9KFdrs8;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: liu.ming50@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b72bf7e703fso472765866b.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 04:20:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GjsLgJQ7;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: liu.ming50@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34101107cc8so2566387a91.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 04:24:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763814028; x=1764418828; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fx4q/yHGvLUh1GfmQv0qmYYO/ro3Sx3APmPJ466kUC0=;
-        b=D9KFdrs8F7Y3lbEfXHjFrERDcgJ8o5oDEFKnfkn04SlLaIEW9qKh/LPtGc+oOpniOL
-         GFrMdINnj8BfLJ9K++3ptgXu4fVYy43Asm+zFY94AJJ/T4VC0I3/7y9rql4jsxWjQdWe
-         iKJLwnB3sLAzGsQV8SKfC7DNxUFBcJo7YsO6dMT0nVq/YtgD2cYbzoSvgvPHuLk8iAFB
-         z/f4Z06S9sH8V3urLVIkDRLrWLkpDlg+HPCe1mXCobYIBY2FDohkR8A9PfbUm2mTh9No
-         lu6v7j3bIBUypRCDf7xKBAtR3jrl26bRykGRQ6oEUIU0pQQBGunt1HAFuiEjyPYEOMzQ
-         bbfA==
+        d=gmail.com; s=20230601; t=1763814257; x=1764419057; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DUZdLq2Pif+hy40hYIoRrVGbFL8Kd24CmPHVUwkTp2c=;
+        b=GjsLgJQ7ZApXkAUSOwgnU4p17BMt0UuJ6w3Xe+pLmTsHAJUfnPnNpCHqNly7bWuLmA
+         ALsCmc5QPKkGbMry7gu4iPeLdbqzPNGJlnPu/7E9vSt5JNwilMhlV5UBUuxqJP0jQ17c
+         MQIa1YAsyOz+4Y7AA9/wH66gHkpFNif38zk/sFX7Lji200Po3yE+MdWqftZEkr0VmxcJ
+         qc148qYOvthGh2bV+aLMPD8MW7nsKlBYl6j3rXwP2rtB8RAD7n/ZR1hTD+HUw0VQfpi0
+         T0sbBcda9OtdL+U7Xz/m2mN2ZOfEppUVUoUpOuOUMQyQlYJlcGkEppEmvHc7w1aTccyT
+         K9lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763814028; x=1764418828;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fx4q/yHGvLUh1GfmQv0qmYYO/ro3Sx3APmPJ466kUC0=;
-        b=lGVHgVq267wv/+hQ3IPsaLsaq9GEu+gqgBcAmEyPMBtNacokjcDKykByNfORVUHN3T
-         5FTX72abvIv4+UytvaxBFruRFmoNoI8udEb9pyxupb518H7UoZ9YpgKgDsQZR3KIipQV
-         ZgY1GckoV44GpYP0tIKJw/HtakJ4U4LlnxV5KtlFtEXdDVMHi0G6F4W8kCegzP1SmJqo
-         Ny4iXs6GC2MaaXi9UnIncM1kVFw2UG3cUCE2omxUAo+CY446aTeRER4TtXIg9ffHwjy2
-         ILAXUwZ286Fd+3tR5JOIRrSmzSgUU34WmZwvcDmnfDSt1ymHQRv+FtxWtNZULpfxAb/U
-         edkA==
-X-Gm-Message-State: AOJu0Ywa/KLqiWpPevSyfW4637pmzcc6uHh0rw7t0yKoydeELzw8HSgj
-	+MbkBCuMtnUYr8gVxTw4B47b/XF+4hF8na52/lAXvQF/tWHVOwL22C0/falXSA==
-X-Gm-Gg: ASbGncullCiaC7TzXOCeBL6FuVVABdRfkmqZ3La7CYiYDaSTtLHMFV/8NsohT9JvPZB
-	Xp0pYTeDbvIaL5P5KI2D4P7NbeVTS+42JQ8mgdVq11FlcSIwaOdrvI3/KcZS/f7z1HzFBDlc+az
-	o3eZQt1JmXOwthmi+zrBya0Fl+o4MP1GS3gLH9guS9lTNr1clJKm0E5ChJdhyCsEUHNRJkaDb63
-	mAUO2O+dNKqC/rv/Q6KtDYKDetwrVpDmnQruB6tynOfq7r6wYpym73x0AVb7tY6g3b9/UHg4vJq
-	QLKrAiEJTr15nI8lygAxplW6Rzbe0M07/hTHoLHUCb03mv0+fWIQNGdUpidW8MVTs5PMzs/4pjF
-	9D9wfMOy4V8lS/4ZDPk7jPXytDutdMGG4r3gQV4PNICI1h+6aEQY6U4hXPy19/DjnManCWvtscz
-	SHlm3on1F1foi1gNd0GGdC3lWwDviYaiADT5ZhjysEEWvgIqLrNNFhyI/HGZwUxqKpYz6yj3PWx
-	oeJ22yegwd5D+/2ONm3YBMiVMo634/7nY/uHeHE3l5fk6rIGao=
-X-Google-Smtp-Source: AGHT+IHPmcLKrW9t0wkwS7cLlzXuzIp+GQH+Q/Pf0vjfxxnT6bSep+uh301eXtMmHvK8KTDsjOWeJA==
-X-Received: by 2002:a17:907:72c9:b0:b72:9d0b:def4 with SMTP id a640c23a62f3a-b76716fcbaemr636257566b.18.1763814027848;
-        Sat, 22 Nov 2025 04:20:27 -0800 (PST)
-Received: from peterliu-Precision-5680.atlascopco.group (static-212-247-106-195.cust.tele2.se. [212.247.106.195])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b765504828esm708694066b.64.2025.11.22.04.20.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Nov 2025 04:20:27 -0800 (PST)
-From: Ming Liu <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	peter.kjellerstedt@axis.com,
-	Ross.Burton@arm.com,
-	richard.purdie@linuxfoundation.org
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH V3 3/3] bash-completion.bbclass: put bash-completion package to PACKAGE_BEFORE_PN
-Date: Sat, 22 Nov 2025 13:20:13 +0100
-Message-ID: <20251122122013.1960798-4-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251122122013.1960798-1-liu.ming50@gmail.com>
-References: <20251122122013.1960798-1-liu.ming50@gmail.com>
+        d=1e100.net; s=20230601; t=1763814257; x=1764419057;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DUZdLq2Pif+hy40hYIoRrVGbFL8Kd24CmPHVUwkTp2c=;
+        b=DflTtGIucmNA9G//BdSGFcYoa/W+IOd9mdavuXzoLWZW10Qc8zR4ocDfAmikvCxlQn
+         LmYrz9UpLqR9fXlB/VBVc3bmzvzA1ynpz2S6BHqm1e+Fz9i/lWAYCLS+5e7EFvI2KPbG
+         Eu04mZhE0/F0ac2aQKuHIwD41leZ2Qx3prv7VLmjz2Qerue0P+cktuUg6NU6o43lZwDw
+         VAKkZHJPDyCVwrLF9JGDiFaGzKYqvBiHcsqzzbP5NBICnWOdTibCeHRFhe14SgQNqqwN
+         HuOLr1i8P0cQ9IMFr/9hhVCWetLYA8OtEcVTWktzxI/tfVjQtNe46GGRDJhzwXjl2toQ
+         nKhA==
+X-Gm-Message-State: AOJu0Yy1waIC6sUHbjNGXru68jreSp4A2HXcJAOUbsIygsfAtEWC8rfN
+	WOVxtAMbk55NBE08gS9g8ZA9at4VoCu45xuVdAUBfuk5Lmmqw211NBok4gJ04lL7gWmFsEWXYXO
+	KacMBLCtt26K0pJOcSJsSIvEwJBuWqjQ=
+X-Gm-Gg: ASbGnctX1O/e9BHazrq4s7qQ+pWAv4EuFh3KoNRSWjDgLryVIOVuKcPWkSwxrjQOZPO
+	q4UwgrVCb3CxRnyYPyTrq9/s2IvzikoDT3MZDCu+hC4tOohSXF6S3n34y4WQxZU5k6/UpKYmPSS
+	2bhSMmbsVhaWUw6i//qdTpRQxODwFqeFrLuGr3BCObx8ZTbMW91+znFd4ZXFlh3//8QLt9G+gUk
+	6p7+eLWW8JFFvlreXbEmUA9Z06KGGnze4h1cFzYi5hTFQWYW5HNjrJ1I2OEBCgpHZ2FysdVemUE
+	B0gOXTWr1JdxNxolFGM1LwssC0R6MQ==
+X-Google-Smtp-Source: AGHT+IFwlk8Wy0MmPxdfX+UtnaSbX9qj4rAFzxhN6tDKMeaIde4F6QKhqtyOUjNBgMAryE0HP3XOrgqGIgbViNmAhU0=
+X-Received: by 2002:a17:90b:5588:b0:340:d81d:7874 with SMTP id
+ 98e67ed59e1d1-34733f442c9mr6271130a91.26.1763814257242; Sat, 22 Nov 2025
+ 04:24:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251001093453.185784-1-liu.ming50@gmail.com> <CANNYZj8ka0t576ifJKNvrahors+QsPz+0xj2JZNZ8x91sJX=hw@mail.gmail.com>
+ <CALatG=61tOh728dLdkmTwuKRSd9Tm1O0cTOrWncCW8Y=uPkzLg@mail.gmail.com>
+In-Reply-To: <CALatG=61tOh728dLdkmTwuKRSd9Tm1O0cTOrWncCW8Y=uPkzLg@mail.gmail.com>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Sat, 22 Nov 2025 13:24:05 +0100
+X-Gm-Features: AWmQ_bkqekWuzBdpVM9jDYa68d-3AykA4rbWLj2rS_4qojD9AUKpEbMff1jcWLc
+Message-ID: <CALatG=431+x-TwfAdo=88gfzQOV4qvhFLyRVZkM5j2J9cz=haQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel-module-split.bbclass: support muti-lines
+ in module conf
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Mathias Thore <mathias.thore@atlascopco.com>
+Content-Type: multipart/alternative; boundary="00000000000040b6c106442e02eb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 12:20:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226693
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 12:24:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226694
 
-It was observed when FILES:${PN} contains "${sysconfdir}" or
-"${datadir}", the bash-completion files wont be installed to
-bash-completion package.
+--00000000000040b6c106442e02eb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix it by putting bash-completion package to PACKAGE_BEFORE_PN, this
-ensures bash-completion package get the files packaged before PN.
+Hi, Alexander/maintainers:
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/classes-recipe/bash-completion.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Could you please kindly help me review this MR? It's pending for a while.
 
-diff --git a/meta/classes-recipe/bash-completion.bbclass b/meta/classes-recipe/bash-completion.bbclass
-index b656e76c09..5371d3e625 100644
---- a/meta/classes-recipe/bash-completion.bbclass
-+++ b/meta/classes-recipe/bash-completion.bbclass
-@@ -6,7 +6,7 @@
- 
- DEPENDS:append:class-target = " bash-completion"
- 
--PACKAGES += "${PN}-bash-completion"
-+PACKAGE_BEFORE_PN += "${PN}-bash-completion"
- 
- FILES:${PN}-bash-completion = "${datadir}/bash-completion ${sysconfdir}/bash_completion.d"
- 
--- 
-2.43.0
+the best.
+thank you
 
+Ming Liu <liu.ming50@gmail.com> =E6=96=BC 2025=E5=B9=B410=E6=9C=881=E6=97=
+=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=8812:02=E5=AF=AB=E9=81=93=EF=BC=9A
+
+> > Can you provide an example of such a variable which causes the issue?
+>
+> Sure, when we have the following settings:
+>
+> ```
+> KERNEL_MODULE_AUTOLOAD =3D "mod1"
+> module_conf_mod1 =3D "line1\nline2\nline3"
+> ```
+>
+> // MIng
+>
+> Alexander Kanavin <alex.kanavin@gmail.com> =E6=96=BC 2025=E5=B9=B410=E6=
+=9C=881=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8811:49=E5=AF=AB=E9=81=
+=93=EF=BC=9A
+>
+>> On Wed, 1 Oct 2025 at 11:35, Ming Liu via lists.openembedded.org
+>> <liu.ming50=3Dgmail.com@lists.openembedded.org> wrote:
+>> >
+>> > The expanded bitbake variables are raw strings so it does not support
+>> > writting multiple lines to a kernel module conf, add the support by
+>> > decoding it with 'unicode-escape'.
+>> > -                f.write("%s\n" % modconf)
+>> > +                f.write("%s\n" %
+>> modconf.encode().decode('unicode-escape'))
+>>
+>> Can you provide an example of such a variable which causes the issue?
+>>
+>> Alex
+>>
+>
+
+--00000000000040b6c106442e02eb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi, Alexander/maintainers:<div><br></div><div>Could you pl=
+ease kindly help me review this MR? It&#39;s pending for a while.</div><div=
+><br></div><div>the best.</div><div>thank you</div></div><br><div class=3D"=
+gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Mi=
+ng Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com">liu.ming50@gmail.com</a>=
+&gt; =E6=96=BC 2025=E5=B9=B410=E6=9C=881=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=
+=8B=E5=8D=8812:02=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex"><div dir=3D"ltr">&gt; Can you provide an examp=
+le of such a variable which causes the issue?<div><br></div><div>Sure, when=
+ we have the following settings:</div><div><br></div><div>```</div><div>KER=
+NEL_MODULE_AUTOLOAD =3D &quot;mod1&quot;</div><div>module_conf_mod1 =3D &qu=
+ot;line1\nline2\nline3&quot;</div><div>```</div><div><br></div><div>// MIng=
+</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
+attr">Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" targe=
+t=3D"_blank">alex.kanavin@gmail.com</a>&gt; =E6=96=BC 2025=E5=B9=B410=E6=9C=
+=881=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8811:49=E5=AF=AB=E9=81=93=
+=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed=
+, 1 Oct 2025 at 11:35, Ming Liu via <a href=3D"http://lists.openembedded.or=
+g" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a><br>
+&lt;liu.ming50=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" target=
+=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; The expanded bitbake variables are raw strings so it does not support<=
+br>
+&gt; writting multiple lines to a kernel module conf, add the support by<br=
+>
+&gt; decoding it with &#39;unicode-escape&#39;.<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&quot=
+;%s\n&quot; % modconf)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&quot=
+;%s\n&quot; % modconf.encode().decode(&#39;unicode-escape&#39;))<br>
+<br>
+Can you provide an example of such a variable which causes the issue?<br>
+<br>
+Alex<br>
+</blockquote></div>
+</blockquote></div>
+
+--00000000000040b6c106442e02eb--
 
