@@ -1,192 +1,497 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 161BDCFD314
-	for <webhook@archiver.kernel.org>; Sat, 22 Nov 2025 22:15:14 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3769.1763849706486067922
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34DF9CFD30D
+	for <webhook@archiver.kernel.org>; Sat, 22 Nov 2025 22:17:14 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2755.1763849826765635340
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Nov 2025 14:15:06 -0800
+ Sat, 22 Nov 2025 14:17:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yItI+W28;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-343f52d15efso2881373a91.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 14:15:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763849706; x=1764454506; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MzjsQQtJYMQioekYxe9GPABswCu5A3JFdvJpb/7sw+I=;
-        b=yItI+W28VweQQOktMRQ1hzvUJVY/A4z6TlbXsIIAMWi/s2wGx9ycDaXBbCcD0+yT6V
-         jNdMW49V6ACOXJWiOFNbepza2BYmDcAhEvBcr6sgji/Gs2oc7SS5MqURhp+HXkekfsUr
-         UFt9LVuxSBdmnIRN/nCz8/CrmsIJEPBVTZWf16crHfySMOn4vgjpYxObItKiFa22t4Uc
-         PW1zkqAeeT12sewUtSSDY0UWTXKZ1xoGuXylq8Y5tMZc7X1+Z8dM2JB81MIkV+HoowtW
-         R5L25YP4VC8YK8nOW2EzXKdky0MYiCczKo1/dZ5dR7U08CF2Gf9nnllSExzDBftChCo0
-         Pufg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763849706; x=1764454506;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=MzjsQQtJYMQioekYxe9GPABswCu5A3JFdvJpb/7sw+I=;
-        b=E0E2CX0GUXUekbi9MNlrnSowwtX+kjiidSnejhMCuw/czw5HjZiNF9lVz2lHY0ZHIp
-         t1L8Ue3BVI1kV+o6JHTeC4ukGOCWc/O3pq6gx6IX3/9KVPdl6xZkPcwyAIALeCCTOHpV
-         vFq4Y5zz2m285KCQwFOOeeKdbn/7jErw6LTVosW/sty52bRrxXVlLnL1uMMCnbMJb+Qd
-         WV2BNfaE8YymAhLPXRlAUBYQHD8GLivotGVu31Qbu6g4HtM8mqlfg4+U4k94mq7QJD6x
-         eUMYpLnGNAV6bcjMvBBwL4kyLv+L0vAvePe9/qy7ZQqE8LCR+9o8f6Fj51WOsdtLMzy4
-         bOZw==
-X-Gm-Message-State: AOJu0YxpLZfthttZv+Cl86CEeVZrD8QqngcIvdhsZ0Kpvt6KSZGllA2M
-	X5hbdx22oNWkiMlJivi9GY4LXmJWZ38h6FQL8T2p0eA6I/E3tYVkXkU5GPqX3sMz2KpagF7dI/N
-	D47wG
-X-Gm-Gg: ASbGnctSI8RhGMydjMZb70/o5RDvykmV/S2R7hDdSOxY+eIp4QDaXm5Pc4aHLMRKQ3V
-	uUf2ZoxSQRyzvuw4cQKUZdzVA6LycNch3x5rKK8eN0resxs0LEzb07pG0y9DukLrSFefXqb0R8X
-	An80j54TdTxZTgRXl9DFTAzOQTdkd9aRrAL5UnLF5nvpfszlQ3wAY+/rxx4o85cfLGAvUloTq/J
-	CqDSn6epHODPVimu1WSlHvW1/Nj2+ppq+/ImXSn4oyj9gUZ6Vj2D/z9ybnlLJixaW8BjoVz7nZG
-	5nUQ1AOEfxRtFktL8UdMiD6jczMrccMvyF3bKTmlTkJqndhr0vGbuk6tkYFVzhX0VYZ5G1Bt91a
-	Br8VCRib9cdRKtRgIv5qHjourpY3UqQSOApSm8dCI0n5WbHlLclYHswEOHzRGg9nHleQ2Ny9Rox
-	ejaQ==
-X-Google-Smtp-Source: AGHT+IEXD3sdCT44xh40QV0pM9UkYywhqYvbokCSsHEfWgPfHTho7CI7pSvYF2sVdXiOCLikzjIsYw==
-X-Received: by 2002:a17:90b:380a:b0:340:b152:efe7 with SMTP id 98e67ed59e1d1-34733e5934cmr6845712a91.11.1763849705698;
-        Sat, 22 Nov 2025 14:15:05 -0800 (PST)
-Received: from hexa.. ([2602:feb4:3b:2100:a812:a9e4:3291:bb61])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-345af26d8b1sm7158274a91.3.2025.11.22.14.15.04
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Nov 2025 14:15:05 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=cXt2qxYd;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202511222217034988fbffec0002077c-43b3hn@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202511222217034988fbffec0002077c
+        for <openembedded-core@lists.openembedded.org>;
+        Sat, 22 Nov 2025 23:17:03 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=yL9Ur5XHR5me4e5o0+J2po0/31+VuNpiju2Kmm+hw1k=;
+ b=cXt2qxYdLnT/0WfdLhybaeLHnzdpsJZ4t/gAgfHGu3xoBi9SRuJJyHLSSvdCfkytmrunb+
+ vi+XCeskDuKdadOGNX3BElDcBOkYn5rQHM2g6bmhTQ/xNujllIKQnFEn6N+PJlViSy8ozXdj
+ gSI6F/WiLouaSnPKDLqr8vPbIMJXoV+nENAscsLGwqwxJ+hbQTE1JMO0xrXXco6TAvW6hX/T
+ G4O+LSTMuKxtP3oJhyuUAQMx6wQRICHnc6e6z1iLf+/3Evvi1rdVJlDUQxsBrdFNG9jT43aU
+ wzus1C7dWgWDLkpnXBhaVJqD6aknoyFcfCZIgFvOIlJKsNqd8sRsGDrA==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 17/21] go: extend runtime test
-Date: Sat, 22 Nov 2025 14:14:23 -0800
-Message-ID: <bda3e3711f84394423c15f48fb4e75258fec199a.1763849517.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1763849517.git.steve@sakoman.com>
-References: <cover.1763849517.git.steve@sakoman.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH 1/3] libarchive: patch 3.8.3 security issue 1
+Date: Sat, 22 Nov 2025 23:16:52 +0100
+Message-Id: <20251122221654.3047008-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 22:15:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226715
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 22:17:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226720
 
-From: Osama Abdelkader <osama.abdelkader@gmail.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-extend go runtime test with a simple test file, and simple
-go module test to validate go compilation and execution on
-target.
+Pick patch [2] as listed in [1].
+To apply it cleanly, add two additional patches from branch patch/3.8.
 
-(From OE-Core rev: e3b2b9170f76f4bbdc41ea6ba7bccffc17d01968)
+[1] https://github.com/libarchive/libarchive/releases/tag/v3.8.3
+[2] https://github.com/libarchive/libarchive/pull/2753
 
-Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/files/test.go       |  7 ++++
- meta/lib/oeqa/runtime/cases/go.py | 68 +++++++++++++++++++++++++++++++
- 2 files changed, 75 insertions(+)
- create mode 100644 meta/lib/oeqa/files/test.go
+ ...request-2696-from-al3xtjames-mkstemp.patch |  28 +++
+ ...st-2749-from-KlaraSystems-des-tempdi.patch | 186 +++++++++++++++++
+ ...st-2753-from-KlaraSystems-des-temp-f.patch | 190 ++++++++++++++++++
+ .../libarchive/libarchive_3.7.9.bb            |   3 +
+ 4 files changed, 407 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-Merge-pull-request-2696-from-al3xtjames-mkstemp.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-Merge-pull-request-2749-from-KlaraSystems-des-tempdi.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-Merge-pull-request-2753-from-KlaraSystems-des-temp-f.patch
 
-diff --git a/meta/lib/oeqa/files/test.go b/meta/lib/oeqa/files/test.go
+diff --git a/meta/recipes-extended/libarchive/libarchive/0001-Merge-pull-request-2696-from-al3xtjames-mkstemp.patch b/meta/recipes-extended/libarchive/libarchive/0001-Merge-pull-request-2696-from-al3xtjames-mkstemp.patch
 new file mode 100644
-index 0000000000..9ca9302654
+index 00000000000..c6a4c026d15
 --- /dev/null
-+++ b/meta/lib/oeqa/files/test.go
-@@ -0,0 +1,7 @@
-+package main
++++ b/meta/recipes-extended/libarchive/libarchive/0001-Merge-pull-request-2696-from-al3xtjames-mkstemp.patch
+@@ -0,0 +1,28 @@
++From 53d2bc4f89fcbd7414b92bd242f6cdc901941f55 Mon Sep 17 00:00:00 2001
++From: Tim Kientzle <kientzle@acm.org>
++Date: Sat, 16 Aug 2025 10:27:11 -0600
++Subject: [PATCH] Merge pull request #2696 from al3xtjames/mkstemp
 +
-+import "fmt"
++Fix mkstemp path in setup_mac_metadata
 +
-+func main() {
-+	fmt.Println("Hello from Go!")
-+}
-diff --git a/meta/lib/oeqa/runtime/cases/go.py b/meta/lib/oeqa/runtime/cases/go.py
-index 39a80f4dca..fc7959b5f4 100644
---- a/meta/lib/oeqa/runtime/cases/go.py
-+++ b/meta/lib/oeqa/runtime/cases/go.py
-@@ -4,10 +4,78 @@
- # SPDX-License-Identifier: MIT
- #
++(cherry picked from commit 892f33145093d1c9b962b6521a6480dfea66ae00)
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/53d2bc4f89fcbd7414b92bd242f6cdc901941f55]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ libarchive/archive_read_disk_entry_from_file.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libarchive/archive_read_disk_entry_from_file.c b/libarchive/archive_read_disk_entry_from_file.c
++index 19d04977..87389642 100644
++--- a/libarchive/archive_read_disk_entry_from_file.c
+++++ b/libarchive/archive_read_disk_entry_from_file.c
++@@ -364,7 +364,7 @@ setup_mac_metadata(struct archive_read_disk *a,
++ 		tempdir = _PATH_TMP;
++ 	archive_string_init(&tempfile);
++ 	archive_strcpy(&tempfile, tempdir);
++-	archive_strcat(&tempfile, "tar.md.XXXXXX");
+++	archive_strcat(&tempfile, "/tar.md.XXXXXX");
++ 	tempfd = mkstemp(tempfile.s);
++ 	if (tempfd < 0) {
++ 		archive_set_error(&a->archive, errno,
+diff --git a/meta/recipes-extended/libarchive/libarchive/0001-Merge-pull-request-2749-from-KlaraSystems-des-tempdi.patch b/meta/recipes-extended/libarchive/libarchive/0001-Merge-pull-request-2749-from-KlaraSystems-des-tempdi.patch
+new file mode 100644
+index 00000000000..cab8e5e651c
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/0001-Merge-pull-request-2749-from-KlaraSystems-des-tempdi.patch
+@@ -0,0 +1,186 @@
++From 82e31ba4a9afcce0c7c19e591ccd8653196d84a0 Mon Sep 17 00:00:00 2001
++From: Tim Kientzle <kientzle@acm.org>
++Date: Mon, 13 Oct 2025 10:57:18 -0700
++Subject: [PATCH] Merge pull request #2749 from KlaraSystems/des/tempdir
++
++Unify temporary directory handling
++
++(cherry picked from commit d207d816d065c79dc2cb992008c3ba9721c6a276)
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/82e31ba4a9afcce0c7c19e591ccd8653196d84a0]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ CMakeLists.txt                                |  6 ++-
++ configure.ac                                  |  6 ++-
++ libarchive/archive_private.h                  |  1 +
++ .../archive_read_disk_entry_from_file.c       | 14 +++----
++ libarchive/archive_read_disk_posix.c          |  3 --
++ libarchive/archive_util.c                     | 38 ++++++++++++++++---
++ 6 files changed, 49 insertions(+), 19 deletions(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index f44adc77..fc9aca4e 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -1455,15 +1455,19 @@ CHECK_FUNCTION_EXISTS_GLIBC(ftruncate HAVE_FTRUNCATE)
++ CHECK_FUNCTION_EXISTS_GLIBC(futimens HAVE_FUTIMENS)
++ CHECK_FUNCTION_EXISTS_GLIBC(futimes HAVE_FUTIMES)
++ CHECK_FUNCTION_EXISTS_GLIBC(futimesat HAVE_FUTIMESAT)
+++CHECK_FUNCTION_EXISTS_GLIBC(getegid HAVE_GETEGID)
++ CHECK_FUNCTION_EXISTS_GLIBC(geteuid HAVE_GETEUID)
++ CHECK_FUNCTION_EXISTS_GLIBC(getgrgid_r HAVE_GETGRGID_R)
++ CHECK_FUNCTION_EXISTS_GLIBC(getgrnam_r HAVE_GETGRNAM_R)
++ CHECK_FUNCTION_EXISTS_GLIBC(getline HAVE_GETLINE)
+++CHECK_FUNCTION_EXISTS_GLIBC(getpid HAVE_GETPID)
++ CHECK_FUNCTION_EXISTS_GLIBC(getpwnam_r HAVE_GETPWNAM_R)
++ CHECK_FUNCTION_EXISTS_GLIBC(getpwuid_r HAVE_GETPWUID_R)
++-CHECK_FUNCTION_EXISTS_GLIBC(getpid HAVE_GETPID)
+++CHECK_FUNCTION_EXISTS_GLIBC(getresgid HAVE_GETRESGID)
+++CHECK_FUNCTION_EXISTS_GLIBC(getresuid HAVE_GETRESUID)
++ CHECK_FUNCTION_EXISTS_GLIBC(getvfsbyname HAVE_GETVFSBYNAME)
++ CHECK_FUNCTION_EXISTS_GLIBC(gmtime_r HAVE_GMTIME_R)
+++CHECK_FUNCTION_EXISTS_GLIBC(issetugid HAVE_ISSETUGID)
++ CHECK_FUNCTION_EXISTS_GLIBC(lchflags HAVE_LCHFLAGS)
++ CHECK_FUNCTION_EXISTS_GLIBC(lchmod HAVE_LCHMOD)
++ CHECK_FUNCTION_EXISTS_GLIBC(lchown HAVE_LCHOWN)
++diff --git a/configure.ac b/configure.ac
++index aae0f381..a1a8f380 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -810,8 +810,10 @@ AC_CHECK_FUNCS([arc4random_buf chflags chown chroot ctime_r])
++ AC_CHECK_FUNCS([fchdir fchflags fchmod fchown fcntl fdopendir fnmatch fork])
++ AC_CHECK_FUNCS([fstat fstatat fstatfs fstatvfs ftruncate])
++ AC_CHECK_FUNCS([futimens futimes futimesat])
++-AC_CHECK_FUNCS([geteuid getline getpid getgrgid_r getgrnam_r])
++-AC_CHECK_FUNCS([getpwnam_r getpwuid_r getvfsbyname gmtime_r])
+++AC_CHECK_FUNCS([getegid geteuid getline getpid getresgid getresuid])
+++AC_CHECK_FUNCS([getgrgid_r getgrnam_r getpwnam_r getpwuid_r])
+++AC_CHECK_FUNCS([getvfsbyname gmtime_r])
+++AC_CHECK_FUNCS([issetugid])
++ AC_CHECK_FUNCS([lchflags lchmod lchown link linkat localtime_r lstat lutimes])
++ AC_CHECK_FUNCS([mbrtowc memmove memset])
++ AC_CHECK_FUNCS([mkdir mkfifo mknod mkstemp])
++diff --git a/libarchive/archive_private.h b/libarchive/archive_private.h
++index 050fc63c..3a926c68 100644
++--- a/libarchive/archive_private.h
+++++ b/libarchive/archive_private.h
++@@ -158,6 +158,7 @@ int	__archive_check_magic(struct archive *, unsigned int magic,
++ __LA_NORETURN void	__archive_errx(int retvalue, const char *msg);
++ 
++ void	__archive_ensure_cloexec_flag(int fd);
+++int	__archive_get_tempdir(struct archive_string *);
++ int	__archive_mktemp(const char *tmpdir);
++ #if defined(_WIN32) && !defined(__CYGWIN__)
++ int	__archive_mkstemp(wchar_t *templates);
++diff --git a/libarchive/archive_read_disk_entry_from_file.c b/libarchive/archive_read_disk_entry_from_file.c
++index 87389642..42af4034 100644
++--- a/libarchive/archive_read_disk_entry_from_file.c
+++++ b/libarchive/archive_read_disk_entry_from_file.c
++@@ -338,7 +338,7 @@ setup_mac_metadata(struct archive_read_disk *a,
++ 	int ret = ARCHIVE_OK;
++ 	void *buff = NULL;
++ 	int have_attrs;
++-	const char *name, *tempdir;
+++	const char *name;
++ 	struct archive_string tempfile;
++ 
++ 	(void)fd; /* UNUSED */
++@@ -357,14 +357,12 @@ setup_mac_metadata(struct archive_read_disk *a,
++ 	if (have_attrs == 0)
++ 		return (ARCHIVE_OK);
++ 
++-	tempdir = NULL;
++-	if (issetugid() == 0)
++-		tempdir = getenv("TMPDIR");
++-	if (tempdir == NULL)
++-		tempdir = _PATH_TMP;
++ 	archive_string_init(&tempfile);
++-	archive_strcpy(&tempfile, tempdir);
++-	archive_strcat(&tempfile, "/tar.md.XXXXXX");
+++	if (__archive_get_tempdir(&tempfile) != ARCHIVE_OK) {
+++		ret = ARCHIVE_WARN;
+++		goto cleanup;
+++	}
+++	archive_strcat(&tempfile, "tar.md.XXXXXX");
++ 	tempfd = mkstemp(tempfile.s);
++ 	if (tempfd < 0) {
++ 		archive_set_error(&a->archive, errno,
++diff --git a/libarchive/archive_read_disk_posix.c b/libarchive/archive_read_disk_posix.c
++index ba0046d7..54a8e661 100644
++--- a/libarchive/archive_read_disk_posix.c
+++++ b/libarchive/archive_read_disk_posix.c
++@@ -1578,9 +1578,6 @@ setup_current_filesystem(struct archive_read_disk *a)
++ #  endif
++ #endif
++ 	int r, xr = 0;
++-#if !defined(HAVE_STRUCT_STATFS_F_NAMEMAX)
++-	long nm;
++-#endif
++ 
++ 	t->current_filesystem->synthetic = -1;
++ 	t->current_filesystem->remote = -1;
++diff --git a/libarchive/archive_util.c b/libarchive/archive_util.c
++index 900abd0c..d048bbc9 100644
++--- a/libarchive/archive_util.c
+++++ b/libarchive/archive_util.c
++@@ -443,11 +443,39 @@ __archive_mkstemp(wchar_t *template)
++ #else
++ 
++ static int
++-get_tempdir(struct archive_string *temppath)
+++__archive_issetugid(void)
++ {
++-	const char *tmp;
+++#ifdef HAVE_ISSETUGID
+++	return (issetugid());
+++#elif HAVE_GETRESUID
+++	uid_t ruid, euid, suid;
+++	gid_t rgid, egid, sgid;
+++	if (getresuid(&ruid, &euid, &suid) != 0)
+++		return (-1);
+++	if (ruid != euid || ruid != suid)
+++		return (1);
+++	if (getresgid(&ruid, &egid, &sgid) != 0)
+++		return (-1);
+++	if (rgid != egid || rgid != sgid)
+++		return (1);
+++#elif HAVE_GETEUID
+++	if (geteuid() != getuid())
+++		return (1);
+++#if HAVE_GETEGID
+++	if (getegid() != getgid())
+++		return (1);
+++#endif
+++#endif
+++	return (0);
+++}
++ 
++-	tmp = getenv("TMPDIR");
+++int
+++__archive_get_tempdir(struct archive_string *temppath)
+++{
+++	const char *tmp = NULL;
+++
+++	if (__archive_issetugid() == 0)
+++		tmp = getenv("TMPDIR");
++ 	if (tmp == NULL)
++ #ifdef _PATH_TMP
++ 		tmp = _PATH_TMP;
++@@ -474,7 +502,7 @@ __archive_mktemp(const char *tmpdir)
++ 
++ 	archive_string_init(&temp_name);
++ 	if (tmpdir == NULL) {
++-		if (get_tempdir(&temp_name) != ARCHIVE_OK)
+++		if (__archive_get_tempdir(&temp_name) != ARCHIVE_OK)
++ 			goto exit_tmpfile;
++ 	} else {
++ 		archive_strcpy(&temp_name, tmpdir);
++@@ -536,7 +564,7 @@ __archive_mktempx(const char *tmpdir, char *template)
++ 	if (template == NULL) {
++ 		archive_string_init(&temp_name);
++ 		if (tmpdir == NULL) {
++-			if (get_tempdir(&temp_name) != ARCHIVE_OK)
+++			if (__archive_get_tempdir(&temp_name) != ARCHIVE_OK)
++ 				goto exit_tmpfile;
++ 		} else
++ 			archive_strcpy(&temp_name, tmpdir);
+diff --git a/meta/recipes-extended/libarchive/libarchive/0001-Merge-pull-request-2753-from-KlaraSystems-des-temp-f.patch b/meta/recipes-extended/libarchive/libarchive/0001-Merge-pull-request-2753-from-KlaraSystems-des-temp-f.patch
+new file mode 100644
+index 00000000000..a5e05957761
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/0001-Merge-pull-request-2753-from-KlaraSystems-des-temp-f.patch
+@@ -0,0 +1,190 @@
++From c3593848067cea3b41bc11eec15f391318675cb4 Mon Sep 17 00:00:00 2001
++From: Tim Kientzle <kientzle@acm.org>
++Date: Tue, 28 Oct 2025 17:13:18 -0700
++Subject: [PATCH] Merge pull request #2753 from KlaraSystems/des/temp-files
++
++Create temporary files in the target directory
++
++(cherry picked from commit d2e861769c25470427656b36a14b535f17d47d03)
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/c3593848067cea3b41bc11eec15f391318675cb4]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ .../archive_read_disk_entry_from_file.c       | 10 ++---
++ libarchive/archive_string.c                   | 20 ++++++++++
++ libarchive/archive_string.h                   |  4 ++
++ libarchive/archive_write_disk_posix.c         | 20 ++++++----
++ libarchive/test/test_archive_string.c         | 38 +++++++++++++++++++
++ 5 files changed, 79 insertions(+), 13 deletions(-)
++
++diff --git a/libarchive/archive_read_disk_entry_from_file.c b/libarchive/archive_read_disk_entry_from_file.c
++index 42af4034..121af198 100644
++--- a/libarchive/archive_read_disk_entry_from_file.c
+++++ b/libarchive/archive_read_disk_entry_from_file.c
++@@ -358,12 +358,10 @@ setup_mac_metadata(struct archive_read_disk *a,
++ 		return (ARCHIVE_OK);
++ 
++ 	archive_string_init(&tempfile);
++-	if (__archive_get_tempdir(&tempfile) != ARCHIVE_OK) {
++-		ret = ARCHIVE_WARN;
++-		goto cleanup;
++-	}
++-	archive_strcat(&tempfile, "tar.md.XXXXXX");
++-	tempfd = mkstemp(tempfile.s);
+++	archive_strcpy(&tempfile, name);
+++	archive_string_dirname(&tempfile);
+++	archive_strcat(&tempfile, "/tar.XXXXXXXX");
+++	tempfd = __archive_mkstemp(tempfile.s);
++ 	if (tempfd < 0) {
++ 		archive_set_error(&a->archive, errno,
++ 		    "Could not open extended attribute file");
++diff --git a/libarchive/archive_string.c b/libarchive/archive_string.c
++index 3bb97833..740308b6 100644
++--- a/libarchive/archive_string.c
+++++ b/libarchive/archive_string.c
++@@ -2039,6 +2039,26 @@ archive_strncat_l(struct archive_string *as, const void *_p, size_t n,
++ 	return (r);
++ }
++ 
+++struct archive_string *
+++archive_string_dirname(struct archive_string *as)
+++{
+++	/* strip trailing separators */
+++	while (as->length > 1 && as->s[as->length - 1] == '/')
+++		as->length--;
+++	/* strip final component */
+++	while (as->length > 0 && as->s[as->length - 1] != '/')
+++		as->length--;
+++	/* empty path -> cwd */
+++	if (as->length == 0)
+++		return (archive_strcat(as, "."));
+++	/* strip separator(s) */
+++	while (as->length > 1 && as->s[as->length - 1] == '/')
+++		as->length--;
+++	/* terminate */
+++	as->s[as->length] = '\0';
+++	return (as);
+++}
+++
++ #if HAVE_ICONV
++ 
++ /*
++diff --git a/libarchive/archive_string.h b/libarchive/archive_string.h
++index e8987867..d5f5c03a 100644
++--- a/libarchive/archive_string.h
+++++ b/libarchive/archive_string.h
++@@ -192,6 +192,10 @@ void	archive_string_vsprintf(struct archive_string *, const char *,
++ void	archive_string_sprintf(struct archive_string *, const char *, ...)
++ 	    __LA_PRINTF(2, 3);
++ 
+++/* Equivalent to dirname(3) */
+++struct archive_string *
+++archive_string_dirname(struct archive_string *);
+++
++ /* Translates from MBS to Unicode. */
++ /* Returns non-zero if conversion failed in any way. */
++ int archive_wstring_append_from_mbs(struct archive_wstring *dest,
++diff --git a/libarchive/archive_write_disk_posix.c b/libarchive/archive_write_disk_posix.c
++index 6fcf3929..cd256203 100644
++--- a/libarchive/archive_write_disk_posix.c
+++++ b/libarchive/archive_write_disk_posix.c
++@@ -412,12 +412,14 @@ static ssize_t	_archive_write_disk_data_block(struct archive *, const void *,
++ static int
++ la_mktemp(struct archive_write_disk *a)
++ {
+++	struct archive_string *tmp = &a->_tmpname_data;
++ 	int oerrno, fd;
++ 	mode_t mode;
++ 
++-	archive_string_empty(&a->_tmpname_data);
++-	archive_string_sprintf(&a->_tmpname_data, "%s.XXXXXX", a->name);
++-	a->tmpname = a->_tmpname_data.s;
+++	archive_strcpy(tmp, a->name);
+++	archive_string_dirname(tmp);
+++	archive_strcat(tmp, "/tar.XXXXXXXX");
+++	a->tmpname = tmp->s;
++ 
++ 	fd = __archive_mkstemp(a->tmpname);
++ 	if (fd == -1)
++@@ -4283,8 +4285,10 @@ create_tempdatafork(struct archive_write_disk *a, const char *pathname)
++ 	int tmpfd;
++ 
++ 	archive_string_init(&tmpdatafork);
++-	archive_strcpy(&tmpdatafork, "tar.md.XXXXXX");
++-	tmpfd = mkstemp(tmpdatafork.s);
+++	archive_strcpy(&tmpdatafork, pathname);
+++	archive_string_dirname(&tmpdatafork);
+++	archive_strcat(&tmpdatafork, "/tar.XXXXXXXX");
+++	tmpfd = __archive_mkstemp(tmpdatafork.s);
++ 	if (tmpfd < 0) {
++ 		archive_set_error(&a->archive, errno,
++ 		    "Failed to mkstemp");
++@@ -4363,8 +4367,10 @@ set_mac_metadata(struct archive_write_disk *a, const char *pathname,
++ 	 * silly dance of writing the data to disk just so that
++ 	 * copyfile() can read it back in again. */
++ 	archive_string_init(&tmp);
++-	archive_strcpy(&tmp, "tar.mmd.XXXXXX");
++-	fd = mkstemp(tmp.s);
+++	archive_strcpy(&tmp, pathname);
+++	archive_string_dirname(&tmp);
+++	archive_strcat(&tmp, "/tar.XXXXXXXX");
+++	fd = __archive_mkstemp(tmp.s);
++ 
++ 	if (fd < 0) {
++ 		archive_set_error(&a->archive, errno,
++diff --git a/libarchive/test/test_archive_string.c b/libarchive/test/test_archive_string.c
++index 30f7a800..bf822c0d 100644
++--- a/libarchive/test/test_archive_string.c
+++++ b/libarchive/test/test_archive_string.c
++@@ -353,6 +353,43 @@ test_archive_string_sprintf(void)
++ 	archive_string_free(&s);
++ }
++ 
+++static void
+++test_archive_string_dirname(void)
+++{
+++	static struct pair { const char *str, *exp; } pairs[] = {
+++		{ "",		"." },
+++		{ "/",		"/" },
+++		{ "//",		"/" },
+++		{ "///",	"/" },
+++		{ "./",		"." },
+++		{ ".",		"." },
+++		{ "..",		"." },
+++		{ "foo",	"." },
+++		{ "foo/",	"." },
+++		{ "foo//",	"." },
+++		{ "foo/bar",	"foo" },
+++		{ "foo/bar/",	"foo" },
+++		{ "foo/bar//",	"foo" },
+++		{ "foo//bar",	"foo" },
+++		{ "foo//bar/",	"foo" },
+++		{ "foo//bar//",	"foo" },
+++		{ "/foo",	"/" },
+++		{ "//foo",	"/" },
+++		{ "//foo/",	"/" },
+++		{ "//foo//",	"/" },
+++		{ 0 },
+++	};
+++	struct pair *pair;
+++	struct archive_string s;
+++
+++	archive_string_init(&s);
+++	for (pair = pairs; pair->str; pair++) {
+++		archive_strcpy(&s, pair->str);
+++		archive_string_dirname(&s);
+++		assertEqualString(pair->exp, s.s);
+++	}
+++}
+++
++ DEFINE_TEST(test_archive_string)
++ {
++ 	test_archive_string_ensure();
++@@ -364,6 +401,7 @@ DEFINE_TEST(test_archive_string)
++ 	test_archive_string_concat();
++ 	test_archive_string_copy();
++ 	test_archive_string_sprintf();
+++	test_archive_string_dirname();
++ }
++ 
++ static const char *strings[] =
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+index f4b1be23371..88e9fbf8e99 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
+@@ -38,6 +38,9 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://CVE-2025-5918-0001.patch \
+            file://CVE-2025-5918-0002.patch \
+            file://CVE-2025-5918-0003.patch \
++           file://0001-Merge-pull-request-2696-from-al3xtjames-mkstemp.patch \
++           file://0001-Merge-pull-request-2749-from-KlaraSystems-des-tempdi.patch \
++           file://0001-Merge-pull-request-2753-from-KlaraSystems-des-temp-f.patch \
+            "
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
  
-+import os
- from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.runtime.decorator.package import OEHasPackage
- 
-+class GoCompileTest(OERuntimeTestCase):
-+
-+    @classmethod
-+    def setUp(cls):
-+        dst = '/tmp/'
-+        src = os.path.join(cls.tc.files_dir, 'test.go')
-+        cls.tc.target.copyTo(src, dst)
-+
-+    @classmethod
-+    def tearDown(cls):
-+        files = '/tmp/test.go /tmp/test'
-+        cls.tc.target.run('rm %s' % files)
-+        dirs = '/tmp/hello-go'
-+        cls.tc.target.run('rm -r %s' % dirs)
-+
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    @OEHasPackage('go')
-+    @OEHasPackage('go-runtime')
-+    @OEHasPackage('go-runtime-dev')
-+    @OEHasPackage('openssh-scp')
-+    def test_go_compile(self):
-+        # Check if go is available
-+        status, output = self.target.run('which go')
-+        if status != 0:
-+            self.skipTest('go command not found, output: %s' % output)
-+
-+        # Compile the simple Go program
-+        status, output = self.target.run('go build -o /tmp/test /tmp/test.go')
-+        msg = 'go compile failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
-+        # Run the compiled program
-+        status, output = self.target.run('/tmp/test')
-+        msg = 'running compiled file failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    @OEHasPackage('go')
-+    @OEHasPackage('go-runtime')
-+    @OEHasPackage('go-runtime-dev')
-+    @OEHasPackage('openssh-scp')
-+    def test_go_module(self):
-+        # Check if go is available
-+        status, output = self.target.run('which go')
-+        if status != 0:
-+            self.skipTest('go command not found, output: %s' % output)
-+
-+        # Create a simple Go module
-+        status, output = self.target.run('mkdir -p /tmp/hello-go')
-+        msg = 'mkdir failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
-+        # Copy the existing test.go file to the module
-+        status, output = self.target.run('cp /tmp/test.go /tmp/hello-go/main.go')
-+        msg = 'copying test.go failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
-+        # Build the module
-+        status, output = self.target.run('cd /tmp/hello-go && go build -o hello main.go')
-+        msg = 'go build failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
-+        # Run the module
-+        status, output = self.target.run('cd /tmp/hello-go && ./hello')
-+        msg = 'running go module failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
- class GoHelloworldTest(OERuntimeTestCase):
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-     @OEHasPackage(['go-helloworld'])
--- 
-2.43.0
-
 
