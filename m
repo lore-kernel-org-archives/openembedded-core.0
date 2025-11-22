@@ -2,478 +2,127 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A53AECFD2FE
-	for <webhook@archiver.kernel.org>; Sat, 22 Nov 2025 22:14:43 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3748.1763849683078378850
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C622BCFD301
+	for <webhook@archiver.kernel.org>; Sat, 22 Nov 2025 22:14:53 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3756.1763849691975204240
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Nov 2025 14:14:43 -0800
+ Sat, 22 Nov 2025 14:14:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=HLg7WIbt;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-298144fb9bcso34304165ad.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 14:14:43 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=BUnxn9Lf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3436d6aa66dso2079449a91.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 14:14:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763849682; x=1764454482; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763849691; x=1764454491; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1I8WV5B30Z8obBFZx0ArEgedYAMsAEsibCKovYo65To=;
-        b=HLg7WIbtYDKvjr6HR8O6h8/OIZ+/2+q2Bf3jEMERTq91IyA2MVc5QU9MV1hTlBUPnV
-         lDsHxBk4XvEgu9R2LqyKgG7APwYb2oCc1hkomEH4pyS8znneF42rAAuSPtWv0jG6xdWl
-         OQhm8SD7qzpBht6SyO7v4u8tqdVQDSL59fhG7xzp++UZVkNcGjlhHLszVXvNZbGs7mz5
-         gWPRxks5og7LhPNOKKEkFsSjXDhJqk0sdr9GtlhzI9wfrUA0Umrr4mk/tCY7DYJOVcFD
-         weu10JHKRUDYAQA5+5Zw8hi+GAy3FK6YvzH187ot2BlROLFjqLFVSOY2EDYrdhZ18gNG
-         WlAQ==
+        bh=O5w/xsOph5MqaJ52W0khjcqyjUyULQq1fQKx1UlYGAE=;
+        b=BUnxn9LfZLaDCntK3Pr4ltkzd5xASkBp42P9doy+5IhFoCwGKeA6aBSST13jErvofN
+         mL0wv4jC8nqmjQ9dMiAMmSlHkwaVErT8BeQo49PVQp6bEAC/t20ifXu0SQxrPmnDT3dg
+         GKPLue4HJWvgphRADnMG2BoIG/Gf8o+TxzovNG3JDXeqERhh25tGyJfj1XFYpRnnvh8P
+         rl8QTX+2+OnqTj8UOWl2eKF7kCyZKuuGrPEumBZZo5Wa0aRKpUzD7MXgIlkyFIjjl+55
+         WZrVu8aqH87riAYRHkrUedxWkUAhzMTD/EVZFTK1KdHGhqExLAHuIAq+7PanLnEvA+ym
+         1vvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763849682; x=1764454482;
+        d=1e100.net; s=20230601; t=1763849691; x=1764454491;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=1I8WV5B30Z8obBFZx0ArEgedYAMsAEsibCKovYo65To=;
-        b=hkkYTrYk0aAQqlveZIx+aHmrvINloy7yuWl2kehtvh4cFmCGL9/otzFkSeK/dmDGY8
-         w+8o/2MCPMrHBvdG+Q21Gf6fi5XmTYF70raOqwcOAsF4GuiQY2PPAUVSARO6Cl4DF/eM
-         pQ7rBkTRLwCForPDUsqBn/pUUIpJml9ODB4gmvEM2Sb0lH9J60nfOWsuF1W3ZnbLibgw
-         uh6Vzhk5Zn61Zy2ts8AAtiyfw7CLede1ZIv5V1ijjj2hE5lxy07e18RYMGBigFy9A9Mv
-         P/FhN3x9UNFe3A0RniPe1FOUD/Uew3AhmITyfle7+r5yPdf16tIuYA/I0qXFSndLHdL0
-         sh/Q==
-X-Gm-Message-State: AOJu0Yx6gkHYubhKq1Fyu9DCk191XuMj8Vm+8VePeELAsOAoSBB31bUg
-	f+xgTcFK/eGHlgf3HMw3jlRkIoeWtXcuvNYDw2B+m3PCZcYMKhyTHWL2pZLV17nyNFtLjTldAYL
-	L+4TD
-X-Gm-Gg: ASbGncs2P9jUymsxyo7olb1XfRtHsWZfpLBydBntCPuLWGWMo8zn/97PA2M4TuPPDfH
-	M2kfPwWi+s8hwcZKbGHGUihe49ox5fpD1NgJG53VaNskn+4lgDDLt9q9uTK1SpzVqoZpnyoB7Y0
-	OtbyyrfpX7HlI68ympiEe+qyqfvquhatJYRPY0FWGeVkgUX7PnOQQF12/U2ReFGrXNLvZArxggg
-	Yqc1wt+DN7KFRanQ0sD/ZvPgh01S0yUrrJ85L/eyD08t/chogviLHVhHk8zlXK3VPTq2CpXFf9o
-	u3HYW7Izui+Pq480RgqCU4eZfV/jRqv+DvU3wlRE73pn7y8pUEoTvzXU0tEOYGYT3HRn+nrXiYg
-	kRKMsPlJP2s88V10iZFvRFNPnro7/lHHYrH5iYfbSUClSARjOvSEe9owPVkxuMhUx8J7xuK2sCI
-	7gFg==
-X-Google-Smtp-Source: AGHT+IF+dSi119IblLCg8bud+Zn6TrNVIf4vOfjbs8UjNCxbwL/IUWFhfeH/mzZWzSQaR9RtEkh/lA==
-X-Received: by 2002:a17:90b:5291:b0:340:f05a:3ed3 with SMTP id 98e67ed59e1d1-34733f19bbamr8285548a91.17.1763849682178;
-        Sat, 22 Nov 2025 14:14:42 -0800 (PST)
+        bh=O5w/xsOph5MqaJ52W0khjcqyjUyULQq1fQKx1UlYGAE=;
+        b=sWcNxyC+yzGeGfDcRSbDJdDUZCPuhzW3gYJSESpQqILCqOgF755JR7vlWV11FTDixA
+         gYd2y7+gS5oqzTc7DNFNUq+f1MTWjor0SoI7znnSbCkFO3kJI8s0ndBItk8iP1c8CiK5
+         eRa2dfcP17NlHpO8X4MI6kZeqVgMuHfGSR1j4Z7yzdbBvRyrz7nLa50D1CMPIvODAfzv
+         0Ov+vm/SMdXVTdfZXI+CBrzepymboGU6jKXZGOVLM6SW3rEgzw9Zxg9wz5rvprKea6bW
+         1vKaeFW+NtMpVPOV6iAt2AmCKWBpVg9DPP9yRtd0Uby2tDkk1HUi6eYoGKFEw3jxNrdz
+         LPow==
+X-Gm-Message-State: AOJu0YyrP0a6QWPG2bahkAv+U0QyA9RM12V30BTb4pGLggVz75aayR0d
+	2bp9GQuG2fIyRR1NFTjVDGee61Oy2p0XoMapKgiRcau9DNQ1zHddnrvOYnrsUYTIxLznjGFqvzQ
+	DUHFA
+X-Gm-Gg: ASbGncunJJbNu79fFHSSK8HDTWaKQGqGTrevs0gXsdNYJRs1EjaP5pKQ/niSV2wQe/m
+	UnpqoPIls6eAfKIlm6X4N7iyKQL2U5aQ/jlbcdAMBVrWGk/mdxNbW6QOvyZdlDcBqhMynsaA6Te
+	V6lWhVzkM1oCfXkiAf9LJOTYtXswl88xlKEw0v3wY1InPTw/Lh6z7PhRq2TmlbKB3cTH9Kkmjg3
+	hekFPGMHXa2MTuZ3GquvRp+QvKR75ZQuGg90FFwMYYVwUIGQqKmyW5MaONSbp7I70eiQMaC8uUf
+	Y6Er0+e/3KW9UFVXdQLpEvq4el0QwoRIP8u+kPU4Ankm14ThXWBa7qclJSGF5a6yJnqeW8/eO4G
+	+819K7X3HkZoiNo3cdZsImIKr4OPym3VlScMInf83TAuFqYk0jNLozLfkUo4wy8mhWIc7MYctUf
+	+niw==
+X-Google-Smtp-Source: AGHT+IGBwsF/JP0jrFpxwQc0LEHE6E65H/iAyrGjMw7V2gQLwFvu46lbMJ9F35I1MvilY23nQ6WsyQ==
+X-Received: by 2002:a17:90b:33c2:b0:340:68ee:ae5e with SMTP id 98e67ed59e1d1-347331a7cbfmr7047169a91.4.1763849691172;
+        Sat, 22 Nov 2025 14:14:51 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:a812:a9e4:3291:bb61])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-345af26d8b1sm7158274a91.3.2025.11.22.14.14.41
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-345af26d8b1sm7158274a91.3.2025.11.22.14.14.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Nov 2025 14:14:41 -0800 (PST)
+        Sat, 22 Nov 2025 14:14:50 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 05/21] xserver-xorg: fix CVE-2025-62229 CVE-2025-62230 CVE-2025-62231
-Date: Sat, 22 Nov 2025 14:14:11 -0800
-Message-ID: <f5a10c4950ccb5570c72eb0a09618b7b3523bc39.1763849517.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 10/21] rust-target-config: fix nativesdk-libstd-rs build with baremetal
+Date: Sat, 22 Nov 2025 14:14:16 -0800
+Message-ID: <4c3f321304f2aa8b75cb58699b59fea80a23690c.1763849517.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1763849517.git.steve@sakoman.com>
 References: <cover.1763849517.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 22:14:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226703
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Nov 2025 22:14:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226708
 
-From: Ross Burton <ross.burton@arm.com>
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
 
->From https://lists.x.org/archives/xorg-announce/2025-October/003635.html:
+If TCLIBC='baremetal' is set in local.conf, nativesdk-libstd-rs build fails
+with:
 
-1) CVE-2025-62229: Use-after-free in XPresentNotify structures creation
+| error[E0412]: cannot find type `c_char` in the crate root
+|   --> /usr/src/debug/libstd-rs/1.75.0/rustc-1.75.0-src/vendor/libc/src/unix/mod.rs:56:29
+|    |
+| 6  | pub type c_schar = i8;
+|    | ---------------------- similarly named type alias `c_schar` defined here
+| ...
+| 56 |         pub gr_name: *mut ::c_char,
+|    |                             ^^^^^^
 
-    Using the X11 Present extension, when processing and adding the
-    notifications after presenting a pixmap, if an error occurs, a dangling
-    pointer may be left in the error code path of the function causing a
-    use-after-free when eventually destroying the notification structures
-    later.
+This happens because rust_gen_target() sets os="none" when TCLIBC is
+'baremetal' - even for nativesdk targets. However, nativesdk packages are
+built against glibc, so the correct 'os' value should be "linux".
 
-    Introduced in: Xorg 1.15
-    Fixed in: xorg-server-21.1.19 and xwayland-24.1.9
-    Fix: https://gitlab.freedesktop.org/xorg/xserver/-/commit/5a4286b1
-    Found by: Jan-Niklas Sohn working with Trend Micro Zero Day Initiative.
+Fix this by setting the os field based on {TARGET,HOST,BUILD}_OS variables,
+as it is already done in rust_base_triple(), instead of relying on TCLIBC.
 
-2) CVE-2025-62230: Use-after-free in Xkb client resource removal
-
-    When removing the Xkb resources for a client, the function
-    XkbRemoveResourceClient() will free the XkbInterest data associated
-    with the device, but not the resource associated with it.
-
-    As a result, when the client terminates, the resource delete function
-    triggers a use-after-free.
-
-    Introduced in: X11R6
-    Fixed in: xorg-server-21.1.19 and xwayland-24.1.9
-    Fix: https://gitlab.freedesktop.org/xorg/xserver/-/commit/99790a2c
-         https://gitlab.freedesktop.org/xorg/xserver/-/commit/10c94238
-    Found by: Jan-Niklas Sohn working with Trend Micro Zero Day Initiative.
-
-3) CVE-2025-62231: Value overflow in Xkb extension XkbSetCompatMap()
-
-    The XkbCompatMap structure stores some of its values using an unsigned
-    short, but fails to check whether the sum of the input data might
-    overflow the maximum unsigned short value.
-
-    Introduced in: X11R6
-    Fixed in: xorg-server-21.1.19 and xwayland-24.1.9
-    Fix: https://gitlab.freedesktop.org/xorg/xserver/-/commit/475d9f49
-    Found by: Jan-Niklas Sohn working with Trend Micro Zero Day Initiative.
-
-(From OE-Core rev: 50b9c34ba932761fab9035a54e58466d72b097bf)
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+(master rev: 3eaf2cd5647585a1e6df03fc20e2753da27bb692) -- backport
+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...after-free-in-present_create_notifie.patch | 91 ++++++++++++++++++
- ...ke-the-RT_XKBCLIENT-resource-private.patch | 63 +++++++++++++
- ...KB-resource-when-freeing-XkbInterest.patch | 92 +++++++++++++++++++
- ...-Prevent-overflow-in-XkbSetCompatMap.patch | 53 +++++++++++
- .../xorg-xserver/xserver-xorg_21.1.18.bb      |  7 +-
- 5 files changed, 305 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-present-Fix-use-after-free-in-present_create_notifie.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
+ meta/classes-recipe/rust-target-config.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-present-Fix-use-after-free-in-present_create_notifie.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-present-Fix-use-after-free-in-present_create_notifie.patch
-new file mode 100644
-index 0000000000..fa8bc542d8
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-present-Fix-use-after-free-in-present_create_notifie.patch
-@@ -0,0 +1,91 @@
-+From 359c9c0478406fe00e0d4c5d52bd9bf8c2ca4081 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 2 Jul 2025 09:46:22 +0200
-+Subject: [PATCH 1/4] present: Fix use-after-free in present_create_notifies()
-+
-+Using the Present extension, if an error occurs while processing and
-+adding the notifications after presenting a pixmap, the function
-+present_create_notifies() will clean up and remove the notifications
-+it added.
-+
-+However, there are two different code paths that can lead to an error
-+creating the notify, one being before the notify is being added to the
-+list, and another one after the notify is added.
-+
-+When the error occurs before it's been added, it removes the elements up
-+to the last added element, instead of the actual number of elements
-+which were added.
-+
-+As a result, in case of error, as with an invalid window for example, it
-+leaves a dangling pointer to the last element, leading to a use after
-+free case later:
-+
-+ |  Invalid write of size 8
-+ |     at 0x5361D5: present_clear_window_notifies (present_notify.c:42)
-+ |     by 0x534A56: present_destroy_window (present_screen.c:107)
-+ |     by 0x41E441: xwl_destroy_window (xwayland-window.c:1959)
-+ |     by 0x4F9EC9: compDestroyWindow (compwindow.c:622)
-+ |     by 0x51EAC4: damageDestroyWindow (damage.c:1592)
-+ |     by 0x4FDC29: DbeDestroyWindow (dbe.c:1291)
-+ |     by 0x4EAC55: FreeWindowResources (window.c:1023)
-+ |     by 0x4EAF59: DeleteWindow (window.c:1091)
-+ |     by 0x4DE59A: doFreeResource (resource.c:890)
-+ |     by 0x4DEFB2: FreeClientResources (resource.c:1156)
-+ |     by 0x4A9AFB: CloseDownClient (dispatch.c:3567)
-+ |     by 0x5DCC78: ClientReady (connection.c:603)
-+ |   Address 0x16126200 is 16 bytes inside a block of size 2,048 free'd
-+ |     at 0x4841E43: free (vg_replace_malloc.c:989)
-+ |     by 0x5363DD: present_destroy_notifies (present_notify.c:111)
-+ |     by 0x53638D: present_create_notifies (present_notify.c:100)
-+ |     by 0x5368E9: proc_present_pixmap_common (present_request.c:164)
-+ |     by 0x536A7D: proc_present_pixmap (present_request.c:189)
-+ |     by 0x536FA9: proc_present_dispatch (present_request.c:337)
-+ |     by 0x4A1E4E: Dispatch (dispatch.c:561)
-+ |     by 0x4B00F1: dix_main (main.c:284)
-+ |     by 0x42879D: main (stubmain.c:34)
-+ |   Block was alloc'd at
-+ |     at 0x48463F3: calloc (vg_replace_malloc.c:1675)
-+ |     by 0x5362A1: present_create_notifies (present_notify.c:81)
-+ |     by 0x5368E9: proc_present_pixmap_common (present_request.c:164)
-+ |     by 0x536A7D: proc_present_pixmap (present_request.c:189)
-+ |     by 0x536FA9: proc_present_dispatch (present_request.c:337)
-+ |     by 0x4A1E4E: Dispatch (dispatch.c:561)
-+ |     by 0x4B00F1: dix_main (main.c:284)
-+ |     by 0x42879D: main (stubmain.c:34)
-+
-+To fix the issue, count and remove the actual number of notify elements
-+added in case of error.
-+
-+CVE-2025-62229, ZDI-CAN-27238
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+(cherry picked from commit 5a4286b13f631b66c20f5bc8db7b68211dcbd1d0)
-+
-+Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2087>
-+
-+CVE: CVE-2025-62229
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ present/present_notify.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/present/present_notify.c b/present/present_notify.c
-+index 445954998..00b3b68bd 100644
-+--- a/present/present_notify.c
-++++ b/present/present_notify.c
-+@@ -90,7 +90,7 @@ present_create_notifies(ClientPtr client, int num_notifies, xPresentNotify *x_no
-+         if (status != Success)
-+             goto bail;
-+ 
-+-        added = i;
-++        added++;
-+     }
-+     return Success;
-+ 
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
-new file mode 100644
-index 0000000000..ed25f4b58e
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
-@@ -0,0 +1,63 @@
-+From a3d5c76ee8925ef9846c72e2327674b84e3fcdb3 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 10 Sep 2025 15:55:06 +0200
-+Subject: [PATCH 2/4] xkb: Make the RT_XKBCLIENT resource private
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Currently, the resource in only available to the xkb.c source file.
-+
-+In preparation for the next commit, to be able to free the resources
-+from XkbRemoveResourceClient(), make that variable private instead.
-+
-+This is related to:
-+
-+CVE-2025-62230, ZDI-CAN-27545
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Reviewed-by: Michel Dänzer <mdaenzer@redhat.com>
-+(cherry picked from commit 99790a2c9205a52fbbec01f21a92c9b7f4ed1d8f)
-+
-+Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2087>
-+
-+CVE: CVE-2025-62230
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ include/xkbsrv.h | 2 ++
-+ xkb/xkb.c        | 2 +-
-+ 2 files changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/include/xkbsrv.h b/include/xkbsrv.h
-+index fbb5427e1..b2766277c 100644
-+--- a/include/xkbsrv.h
-++++ b/include/xkbsrv.h
-+@@ -58,6 +58,8 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
-+ #include "inputstr.h"
-+ #include "events.h"
-+ 
-++extern RESTYPE RT_XKBCLIENT;
-++
-+ typedef struct _XkbInterest {
-+     DeviceIntPtr dev;
-+     ClientPtr client;
-+diff --git a/xkb/xkb.c b/xkb/xkb.c
-+index 5131bfcdf..26d965d48 100644
-+--- a/xkb/xkb.c
-++++ b/xkb/xkb.c
-+@@ -51,7 +51,7 @@ int XkbKeyboardErrorCode;
-+ CARD32 xkbDebugFlags = 0;
-+ static CARD32 xkbDebugCtrls = 0;
-+ 
-+-static RESTYPE RT_XKBCLIENT;
-++RESTYPE RT_XKBCLIENT = 0;
-+ 
-+ /***====================================================================***/
-+ 
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
-new file mode 100644
-index 0000000000..f55e3d4126
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
-@@ -0,0 +1,92 @@
-+From 32b12feb6f9f3d32532ff75c7434a7426b85e0c3 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 10 Sep 2025 15:58:57 +0200
-+Subject: [PATCH 3/4] xkb: Free the XKB resource when freeing XkbInterest
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+XkbRemoveResourceClient() would free the XkbInterest data associated
-+with the device, but not the resource associated with it.
-+
-+As a result, when the client terminates, the resource delete function
-+gets called and accesses already freed memory:
-+
-+ | Invalid read of size 8
-+ |   at 0x5BC0C0: XkbRemoveResourceClient (xkbEvents.c:1047)
-+ |   by 0x5B3391: XkbClientGone (xkb.c:7094)
-+ |   by 0x4DF138: doFreeResource (resource.c:890)
-+ |   by 0x4DFB50: FreeClientResources (resource.c:1156)
-+ |   by 0x4A9A59: CloseDownClient (dispatch.c:3550)
-+ |   by 0x5E0A53: ClientReady (connection.c:601)
-+ |   by 0x5E4FEF: ospoll_wait (ospoll.c:657)
-+ |   by 0x5DC834: WaitForSomething (WaitFor.c:206)
-+ |   by 0x4A1BA5: Dispatch (dispatch.c:491)
-+ |   by 0x4B0070: dix_main (main.c:277)
-+ |   by 0x4285E7: main (stubmain.c:34)
-+ | Address 0x1893e278 is 184 bytes inside a block of size 928 free'd
-+ |   at 0x4842E43: free (vg_replace_malloc.c:989)
-+ |   by 0x49C1A6: CloseDevice (devices.c:1067)
-+ |   by 0x49C522: CloseOneDevice (devices.c:1193)
-+ |   by 0x49C6E4: RemoveDevice (devices.c:1244)
-+ |   by 0x5873D4: remove_master (xichangehierarchy.c:348)
-+ |   by 0x587921: ProcXIChangeHierarchy (xichangehierarchy.c:504)
-+ |   by 0x579BF1: ProcIDispatch (extinit.c:390)
-+ |   by 0x4A1D85: Dispatch (dispatch.c:551)
-+ |   by 0x4B0070: dix_main (main.c:277)
-+ |   by 0x4285E7: main (stubmain.c:34)
-+ | Block was alloc'd at
-+ |   at 0x48473F3: calloc (vg_replace_malloc.c:1675)
-+ |   by 0x49A118: AddInputDevice (devices.c:262)
-+ |   by 0x4A0E58: AllocDevicePair (devices.c:2846)
-+ |   by 0x5866EE: add_master (xichangehierarchy.c:153)
-+ |   by 0x5878C2: ProcXIChangeHierarchy (xichangehierarchy.c:493)
-+ |   by 0x579BF1: ProcIDispatch (extinit.c:390)
-+ |   by 0x4A1D85: Dispatch (dispatch.c:551)
-+ |   by 0x4B0070: dix_main (main.c:277)
-+ |   by 0x4285E7: main (stubmain.c:34)
-+
-+To avoid that issue, make sure to free the resources when freeing the
-+device XkbInterest data.
-+
-+CVE-2025-62230, ZDI-CAN-27545
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Reviewed-by: Michel Dänzer <mdaenzer@redhat.com>
-+(cherry picked from commit 10c94238bdad17c11707e0bdaaa3a9cd54c504be)
-+
-+Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2087>
-+
-+CVE: CVE-2025-62230
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ xkb/xkbEvents.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/xkb/xkbEvents.c b/xkb/xkbEvents.c
-+index 0bbd66186..3d04ecf0c 100644
-+--- a/xkb/xkbEvents.c
-++++ b/xkb/xkbEvents.c
-+@@ -1056,6 +1056,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
-+             autoCtrls = interest->autoCtrls;
-+             autoValues = interest->autoCtrlValues;
-+             client = interest->client;
-++            FreeResource(interest->resource, RT_XKBCLIENT);
-+             free(interest);
-+             found = TRUE;
-+         }
-+@@ -1067,6 +1068,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
-+                 autoCtrls = victim->autoCtrls;
-+                 autoValues = victim->autoCtrlValues;
-+                 client = victim->client;
-++                FreeResource(victim->resource, RT_XKBCLIENT);
-+                 free(victim);
-+                 found = TRUE;
-+             }
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
-new file mode 100644
-index 0000000000..5036f0c9f0
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
-@@ -0,0 +1,53 @@
-+From 364f06788f1de4edc0547c7f29d338e6deffc138 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 10 Sep 2025 16:30:29 +0200
-+Subject: [PATCH 4/4] xkb: Prevent overflow in XkbSetCompatMap()
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The XkbCompatMap structure stores its "num_si" and "size_si" fields
-+using an unsigned short.
-+
-+However, the function _XkbSetCompatMap() will store the sum of the
-+input data "firstSI" and "nSI" in both XkbCompatMap's "num_si" and
-+"size_si" without first checking if the sum overflows the maximum
-+unsigned short value, leading to a possible overflow.
-+
-+To avoid the issue, check whether the sum does not exceed the maximum
-+unsigned short value, or return a "BadValue" error otherwise.
-+
-+CVE-2025-62231, ZDI-CAN-27560
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Reviewed-by: Michel Dänzer <mdaenzer@redhat.com>
-+(cherry picked from commit 475d9f49acd0e55bc0b089ed77f732ad18585470)
-+
-+Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2087>
-+
-+CVE: CVE-2025-62231
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ xkb/xkb.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/xkb/xkb.c b/xkb/xkb.c
-+index 26d965d48..137d70da2 100644
-+--- a/xkb/xkb.c
-++++ b/xkb/xkb.c
-+@@ -2992,6 +2992,8 @@ _XkbSetCompatMap(ClientPtr client, DeviceIntPtr dev,
-+         XkbSymInterpretPtr sym;
-+         unsigned int skipped = 0;
-+ 
-++        if ((unsigned) (req->firstSI + req->nSI) > USHRT_MAX)
-++            return BadValue;
-+         if ((unsigned) (req->firstSI + req->nSI) > compat->size_si) {
-+             compat->num_si = compat->size_si = req->firstSI + req->nSI;
-+             compat->sym_interpret = reallocarray(compat->sym_interpret,
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-index 1e341553f9..7f6197a0b4 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-@@ -1,6 +1,11 @@
- require xserver-xorg.inc
+diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
+index 1bd7626bd8..31b4bd9afd 100644
+--- a/meta/classes-recipe/rust-target-config.bbclass
++++ b/meta/classes-recipe/rust-target-config.bbclass
+@@ -329,6 +329,7 @@ def rust_gen_target(d, thing, wd, arch):
+     sys = d.getVar('{}_SYS'.format(thing))
+     prefix = d.getVar('{}_PREFIX'.format(thing))
+     rustsys = d.getVar('RUST_{}_SYS'.format(thing))
++    os = d.getVar('{}_OS'.format(thing))
  
--SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch"
-+SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
-+            file://0001-present-Fix-use-after-free-in-present_create_notifie.patch \
-+            file://0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch \
-+            file://0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch \
-+            file://0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch \
-+            "
- SRC_URI[sha256sum] = "c878d1930d87725d4a5bf498c24f4be8130d5b2646a9fd0f2994deff90116352"
- 
- # These extensions are now integrated into the server, so declare the migration
+     abi = None
+     cpu = "generic"
+@@ -368,7 +369,7 @@ def rust_gen_target(d, thing, wd, arch):
+     tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
+     tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
+     tspec['arch'] = arch_to_rust_target_arch(rust_arch)
+-    if "baremetal" in d.getVar('TCLIBC'):
++    if "elf" in os:
+         tspec['os'] = "none"
+     else:
+         tspec['os'] = "linux"
 -- 
 2.43.0
 
