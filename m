@@ -1,151 +1,110 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD2A0CFC26D
-	for <webhook@archiver.kernel.org>; Sun, 23 Nov 2025 07:25:16 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8791.1763882710322675581
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9CC8CFC518
+	for <webhook@archiver.kernel.org>; Sun, 23 Nov 2025 11:02:27 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11617.1763895742799280419
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Nov 2025 23:25:11 -0800
+ Sun, 23 Nov 2025 03:02:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=WZ0r/Zvm;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 094F61A1CD0
-	for <openembedded-core@lists.openembedded.org>; Sun, 23 Nov 2025 07:25:08 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id CEB6F606FC
-	for <openembedded-core@lists.openembedded.org>; Sun, 23 Nov 2025 07:25:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 19DF110371C52;
-	Sun, 23 Nov 2025 08:25:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1763882707; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=bMup/SsQFDqZofdlFyDk709aWFa4Fb2fjI198aMvIjY=;
-	b=WZ0r/ZvmObUEXHeSXuuBpsDwhXosFzv+be356QrBGEzg7dty+EksUV+e3ulCDFvLKkoYMa
-	ng9aD6a29vG1II/WDZdXbiXz/b3JhmpxwqUBw/g/JBbmE5D+aA3kDLvkVNYsWrqM0+l2Dc
-	7ovblhSORimZYT+dRLFi/oOuoaHEbqU7iGzQ/N3XY2qkMgrn9NSMm3HJOI1xlpr50UyGdj
-	Cd3gPkpjsQIujt7v5vftDRLgvJnCL7Xht9U4MUQmz5e7pqckWc5FT6j1XpaeXq6TI/QftB
-	wblafJ89M0lEzcmHf2KxT2gONtXHZleWoDgdeTLq5sqQGVxMyvCIE/lU6ILrnQ==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Sun, 23 Nov 2025 08:24:47 +0100
-Subject: [PATCH] wic: Remove conflicting du parameters
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251123-mathieu-master-next-whinlatter-success-v1-1-150572b798b3@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAL62ImkC/x3NywqDMBCF4VeRWXfABLS2r1K6iOnRDNi0ZOIFx
- Hc37erwbc6/kyIJlO7VTgmLqHxigblU5IOLI1hexWRr2xhjLb9dDoK5rGYkjtgyr0Hi5PLPOns
- PVb7e+rarm64dekfl7JswyPYPPZ7HcQKrayt4eAAAAA==
-X-Change-ID: 20251122-mathieu-master-next-whinlatter-success-79b680586fba
-To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763882706; l=3837;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=gwk4ow/71gwLy71+IAVzdRlmtW3nxUV9/9EklssVXjY=;
- b=PWSK7NrVs+fBeSpled4A/1rFMPbNeYbToWE3ygft80tuxLxvO6Lqx+8qH5ZHrMpDM/nZl/LG3
- zzBWP0D4S8SAU/GVhInoYreRZxSZBFo9n/JVGWV/cc36hVxtDxErXoT
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=t5vrCjYz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-29586626fbeso41787525ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Nov 2025 03:02:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1763895742; x=1764500542; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wDaCj4mhVxHhB9xAN5wqFDxEuSgj7667RhNAUq6QyBs=;
+        b=t5vrCjYzXZBVzKLXMMOCEPSwbY+UJYTcTKmltQOnl9Z2d/FcU1CUKouoi5SYE2l/YV
+         c3nJ3KRE0GbQ2Z5mcTpXOZOAJycv/bxwKUaJF+yINg2qeKJXu2LuLovIM01V1SYNozVa
+         +rI58JBwX0s0PTwZhoTOZKuj9+C0AY/4ncZI3UyNgsImjqP3/oLp8Gmxd4VeOxv0Fynz
+         F11B0VZNRq+PN273sUnwyh/nM0PMS8cgBYLS7E0zncB/EHURHSosOmmn2XVPBAVIWnQ5
+         lNPRk3wuXbCBOFlPcb46KquToD86AxAFu8yD0IITRckIHEQZiDhUqgBVl4tbLNv9LOl9
+         xWsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763895742; x=1764500542;
+        h=message-id:date:user-agent:to:from:subject:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wDaCj4mhVxHhB9xAN5wqFDxEuSgj7667RhNAUq6QyBs=;
+        b=t3R5XiCZCPHtUfpPwH3k5t7kxfHG/Jn30tk8IhzrHGqIuT1vYOrfaHG8eXX98a+TeY
+         HHNhV0Q8KFyHF50iGj2Ihg921WsZcOGmpAQeW0/pCaZz2+lk0T6bBUyKGTZkRb+f22jA
+         MyZ0AfcZgaSyiAIsrilu99+DTEawmFHhQN+/MaCRso4Mk4hYeVCNhjTVq/72e026Kaew
+         7NDFEOZH0rx08K+2IkNUYfXxy2bXcXWkjOFfG8+zGXvxjM57AA2V6FeB5+GXZgahSZR2
+         cvpY0GrV1szd6TUuuzC0TL1D5qCT8wzbfBssh/LVt3bjjZIjrisCO0q3DHl2lGQprZT2
+         XfOA==
+X-Gm-Message-State: AOJu0YxKcBcxSbG0dz9KOpQZSmlgct2aC1YGv/NzOxBaHThiSr41IJar
+	qXeT5MQFFyE97Esuu9j1svI53eKvPIsJotiRyvTYtm4kawyK1l0xf+ln9F3QEjf3rFgEMo9pXHc
+	eNsKe
+X-Gm-Gg: ASbGncu4n9meQkziZUJerlvlRAVdOKB41kUgtj+ShSB/FlRUhkhDt1lz6Zb1I3+qNQz
+	F9l3hE2s8M6d/J10l+7rbGUagLAJpwxmYNLj3wsiMO/Ze72dz0TU9uerCSB4lqi6rfb+LCRTHcZ
+	SHKwGxjv+k/uZ+VbJnrBhdwxCOI+fQ5GHKhSMUDoMjOCD3JY6x9INsILtfvrCw6WfkKpKfnMBN1
+	baXcJxqQhTEH2EAb6xvJL4pcFygQ/EtBFkloKKbgw5DMFfExT5jKBKTCT4fwZiucCDbXdh9cW+U
+	d0e0c+z1L+fbO+X/FWXzbnu4m8RM/3VBALZOULIwpmQ/eaKCYqoEAaMd+YagYPQ6GWtD6Rt62IZ
+	RN5TQfXdl+epp4/Iqfebjux0PdRxzQRmJUyVWi0Xd8mYliUt3HxP3OBqJ7OZezI9yhFlSA66PMv
+	TNizu+cSSLNBslAoc=
+X-Google-Smtp-Source: AGHT+IFEEIjbT8yMrpJgOsr1B/ZPxfXW8NVm3zegUcegdY8C53VK+BavBLsHGuzc2PIw8NkjbzFBfA==
+X-Received: by 2002:a17:902:ebc2:b0:298:33c9:eda2 with SMTP id d9443c01a7336-29b6bf3bccbmr93757025ad.33.1763895741857;
+        Sun, 23 Nov 2025 03:02:21 -0800 (PST)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b111acfsm106282955ad.19.2025.11.23.03.02.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Nov 2025 03:02:21 -0800 (PST)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id B46C410034E; Sun, 23 Nov 2025 01:02:20 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 23 Nov 2025 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 23 Nov 2025 01:02:20 -1000
+Message-Id: <20251123110220.B46C410034E@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 23 Nov 2025 07:25:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226723
+ <openembedded-core@lists.openembedded.org>; Sun, 23 Nov 2025 11:02:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226724
 
-Current du parameters used in wic scripts are conflicting: -b implies
---block-size=1 while -k implies --block-size=1K. When both parameters
-are used, coreutils du and uutils du do not react similarly, leading to
-failures on Ubuntu 25.10.
+Branch: master
 
-As we do want to use the 1K block size, remove -b and add
---apparent-size that was implied by it, so we have a predictable
-behaviour.
+New this week: 0 CVEs
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
----
- scripts/lib/wic/partition.py                         | 2 +-
- scripts/lib/wic/plugins/source/bootimg_efi.py        | 2 +-
- scripts/lib/wic/plugins/source/bootimg_pcbios.py     | 2 +-
- scripts/lib/wic/plugins/source/isoimage_isohybrid.py | 2 +-
- scripts/lib/wic/plugins/source/rawcopy.py            | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+Removed this week: 0 CVEs
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 531ac6eb3d4a..9c09816e5d35 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -275,7 +275,7 @@ class Partition():
-         self.source_file = rootfs
- 
-         # get the rootfs size in the right units for kickstart (kB)
--        du_cmd = "du -Lbks %s" % rootfs
-+        du_cmd = "du --apparent-size -Lks %s" % rootfs
-         out = exec_cmd(du_cmd)
-         self.size = int(out.split()[0])
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg_efi.py b/scripts/lib/wic/plugins/source/bootimg_efi.py
-index ba520cd78b06..99cc34454cad 100644
---- a/scripts/lib/wic/plugins/source/bootimg_efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg_efi.py
-@@ -427,7 +427,7 @@ class BootimgEFIPlugin(SourcePlugin):
-         chmod_cmd = "chmod 644 %s" % bootimg
-         exec_cmd(chmod_cmd)
- 
--        du_cmd = "du -Lbks %s" % bootimg
-+        du_cmd = "du --apparent-size -Lks %s" % bootimg
-         out = exec_cmd(du_cmd)
-         bootimg_size = out.split()[0]
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg_pcbios.py b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-index caabda6318d0..8f34c926ebbb 100644
---- a/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-@@ -305,7 +305,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         chmod_cmd = "chmod 644 %s" % bootimg
-         exec_cmd(chmod_cmd)
- 
--        du_cmd = "du -Lbks %s" % bootimg
-+        du_cmd = "du --apparent-size -Lks %s" % bootimg
-         out = exec_cmd(du_cmd)
-         bootimg_size = out.split()[0]
- 
-diff --git a/scripts/lib/wic/plugins/source/isoimage_isohybrid.py b/scripts/lib/wic/plugins/source/isoimage_isohybrid.py
-index 5d42eb5d3e86..40018dc7eacf 100644
---- a/scripts/lib/wic/plugins/source/isoimage_isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage_isohybrid.py
-@@ -429,7 +429,7 @@ class IsoImagePlugin(SourcePlugin):
- 
-         shutil.rmtree(isodir)
- 
--        du_cmd = "du -Lbks %s" % iso_img
-+        du_cmd = "du --apparent-size -Lks %s" % iso_img
-         out = exec_cmd(du_cmd)
-         isoimg_size = int(out.split()[0])
- 
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
-index 21903c2f23df..698413b2215a 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -102,7 +102,7 @@ class RawCopyPlugin(SourcePlugin):
-             sparse_copy(src, dst)
- 
-         # get the size in the right units for kickstart (kB)
--        du_cmd = "du -Lbks %s" % dst
-+        du_cmd = "du --apparent-size -Lks %s" % dst
-         out = exec_cmd(du_cmd)
-         filesize = int(out.split()[0])
- 
+Full list:  Found 25 unpatched CVEs
+CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
+CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
+CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
+CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
+CVE-2025-11494 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11494 *
+CVE-2025-11839 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11839 *
+CVE-2025-11840 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-11840 *
+CVE-2025-29087 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-29087 *
+CVE-2025-3277 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-3277 *
+CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
+CVE-2025-6965 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-6965 *
 
----
-base-commit: 94d95bea4edec883f3ae2fd89c32b4438ebf015a
-change-id: 20251122-mathieu-master-next-whinlatter-success-79b680586fba
+Summary of CVE counts by recipe:
+  linux-yocto: 16
+  binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite: 3
+  sqlite3:sqlite3-native: 3
+  libsndfile1: 2
+  qemu:qemu-native:qemu-system-native: 1
 
-Best regards,
--- 
-Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-
+For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
 
