@@ -1,72 +1,85 @@
-Return-Path: <vpuar@qti.qualcomm.com>
+Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2C92CFD318
-	for <webhook@archiver.kernel.org>; Mon, 24 Nov 2025 05:21:25 +0000 (UTC)
-Subject: Re: [PATCH v2] udev-extraconf: Split automount and autonet into seperate packages
-To: openembedded-core@lists.openembedded.org
-From: "Vivek Puar" <vpuar@qti.qualcomm.com>
-X-Originating-Location: Chennai, Tamil Nadu, IN (163.116.214.62)
-X-Originating-Platform: Windows Chrome 142
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE7ACFD318
+	for <webhook@archiver.kernel.org>; Mon, 24 Nov 2025 05:56:06 +0000 (UTC)
+Received: from esa1.hc324-48.eu.iphmx.com (esa1.hc324-48.eu.iphmx.com [207.54.68.119])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10054.1763963760050080942
+ for <openembedded-core@lists.openembedded.org>;
+ Sun, 23 Nov 2025 21:56:01 -0800
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=QwDPP+P5;
+ spf=pass (domain: bmw.de, ip: 207.54.68.119, mailfrom: prvs=4160b5489=moritz.haase@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1763963760; x=1795499760;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dNJmp2EKQ+34Zhg6KNbTHB7JDMj2NplFpQgdSZXl4xw=;
+  b=QwDPP+P5fDRKyVAzPnud9nieTY+jxM8BOTufkzg+6BJF/qt/h/xStnpl
+   vvJnq9Im7SI7XUMktTdAQwCD3kAxsyRE/SOtyNv7359bdtz79FDwnLEIz
+   MO4bGRG1F8AEKaPDbP5KzYfKaFGG1P4L4PS+rGSCNb+9g9nmrUj95HesB
+   o=;
+X-CSE-ConnectionGUID: tgR/OZGrQm68gbp+Cml8Dw==
+X-CSE-MsgGUID: yRnNmaISTgWQWlw0i4X4wQ==
+Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
+ esa1.hc324-48.eu.iphmx.com with ESMTP/TLS; 24 Nov 2025 06:55:53 +0100
+Received: from unknown (HELO esabb4.muc) ([10.31.187.135]) by esagw2.muc with
+ ESMTP/TLS; 24 Nov 2025 06:55:53 +0100
+Received: from smucmp16d.bmwgroup.net (HELO smucmp16d.europe.bmw.corp)
+ ([10.30.13.146]) by esabb4.muc with ESMTP/TLS; 24 Nov 2025 06:55:53 +0100
+Received: from smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) by
+ smucmp16d.europe.bmw.corp (2a03:1e80:a15:58f::1:57) with Microsoft SMTP
+ Server (version=TLS; Mon, 24 Nov 2025 06:55:53 +0100
+Received: from q1054628.de-cci.bmwgroup.net (10.30.85.201) by
+ smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) with Microsoft SMTP
+ Server (version=TLS; Mon, 24 Nov 2025 06:55:53 +0100
+X-CSE-ConnectionGUID: XsSjOdjhRVe9Qe8ZmHOA7Q==
+X-CSE-MsgGUID: IKcUoBOSSi+7kbGxPKdLzQ==
+X-CSE-ConnectionGUID: hAwzhkgGQDynRyTvHZ2L/A==
+X-CSE-MsgGUID: u6NKq7MVTXW59qC8mwU+eg==
+From: Moritz Haase <Moritz.Haase@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Moritz Haase <Moritz.Haase@bmw.de>, <changqing.li@windriver.com>,
+	<raj.khem@gmail.com>
+Subject: [PATCH] curl: Ensure 'CURL_CA_BUNDLE' from host env is indeed respected
+Date: Mon, 24 Nov 2025 06:55:33 +0100
+Message-ID: <20251124055533.857103-1-Moritz.Haase@bmw.de>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Date: Sun, 23 Nov 2025 21:21:25 -0800
-References: <20251122160554.283274-1-vpuar@qti.qualcomm.com> <CANNYZj-4W4Ujymomy-fqTgaAR8ZZ2uS_b7NwMHiAyff+UxvvEw@mail.gmail.com>
-In-Reply-To: <CANNYZj-4W4Ujymomy-fqTgaAR8ZZ2uS_b7NwMHiAyff+UxvvEw@mail.gmail.com>
-Message-ID: <686098.1763961685702080770@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="PNRWwTosLatpWvvaU9VX"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: smucmp18e.europe.bmw.corp (2a03:1e80:a15:58f::1:75) To
+ smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Nov 2025 05:21:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226733
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Nov 2025 05:56:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226734
 
---PNRWwTosLatpWvvaU9VX
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Due to what looks like a copy'n'paste mistake, the environment setup script
+might override 'CURL_CA_BUNDLE' from the host env instead of leaving it
+untouched. Fix that.
 
-On Sun, Nov 23, 2025 at 09:36 PM, Alexander Kanavin wrote:
+CC: changqing.li@windriver.com
+CC: raj.khem@gmail.com
+Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
+---
+ meta/recipes-support/curl/curl/environment.d-curl.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->=20
-> The same reasoning applies to any other recipe: we could micro-split
-> everything. It would help to go into a bit more details on this: what
-> do these features do, and why one would want one but not the other,
-> and what are the actual savings achieved.
->=20
-> Alex
-
-If one needs only storage devices to be auto-mounted and does not require
-network hotplug handling, splitting allows selecting just the automount pac=
-kage
-without having to care about other rules. This also avoids installing unnec=
-essary
-scripts and rules.
-
-Regards,
-Vivek
-
---PNRWwTosLatpWvvaU9VX
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>On Sun, Nov 23, 2025 at 09:36 PM, Alexander Kanavin wrote:</div>
-<div>
-<blockquote>The same reasoning applies to any other recipe: we could micro-=
-split<br />everything. It would help to go into a bit more details on this:=
- what<br />do these features do, and why one would want one but not the oth=
-er,<br />and what are the actual savings achieved.<br /><br />Alex</blockqu=
-ote>
-If one needs only storage devices to be auto-mounted and does not require</=
-div>
-<div>network hotplug handling, splitting allows selecting just the automoun=
-t package</div>
-<div>without <span data-teams=3D"true">having to care about other rules</sp=
-an>. This also avoids installing unnecessary</div>
-<div>scripts and rules.</div>
-<div>&nbsp;</div>
-<div><span data-teams=3D"true">Regards,</span></div>
-<div><span data-teams=3D"true">Vivek</span></div>
-
---PNRWwTosLatpWvvaU9VX--
+diff --git a/meta/recipes-support/curl/curl/environment.d-curl.sh b/meta/recipes-support/curl/curl/environment.d-curl.sh
+index 581108ef35..b948db2cf6 100644
+--- a/meta/recipes-support/curl/curl/environment.d-curl.sh
++++ b/meta/recipes-support/curl/curl/environment.d-curl.sh
+@@ -1,6 +1,6 @@
+ # Respect host env CURL_CA_BUNDLE/CURL_CA_PATH first, then auto-detected host cert, then cert in buildtools
+-# CAFILE/CAPATH is auto-deteced when source buildtools
+-if [ -z "${CURL_CA_PATH:-}" ]; then
++# CAFILE/CAPATH is auto-detected when source buildtools
++if [ -z "${CURL_CA_BUNDLE:-}" ]; then
+ 	if [ -n "${CAFILE:-}" ];then
+ 		export CURL_CA_BUNDLE="$CAFILE"
+ 	elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
 
