@@ -1,261 +1,106 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EE36CFD313
-	for <webhook@archiver.kernel.org>; Mon, 24 Nov 2025 13:55:38 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17160.1763992528443442785
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78C1CCFD31C
+	for <webhook@archiver.kernel.org>; Mon, 24 Nov 2025 17:46:59 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22840.1764006410485845751
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Nov 2025 05:55:29 -0800
+ Mon, 24 Nov 2025 09:46:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=PVwoPLbm;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3423f9c1af=kai.kang@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AOCc0ki1167679;
-	Mon, 24 Nov 2025 05:55:15 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=k2JBD/d6E
-	JdOunRCDwbyY9Fwcez11o4OXKqbtrzc/Ak=; b=PVwoPLbmz5SYlTQ4E15FQbIY4
-	pAW8ioHzFwpeJSO1+IpR7Gw7rzdUT2nYOiDn8/Qh2BnZxgEfr+rZsgTtIMUfpx/4
-	pNZptlVN6oYR97dESIgogBE7j34sRzqNR+KEKVXujaQK3EXpTHUGjOeXzNqCzGYg
-	O35GdpU5URXvtBv+G7sQdeb+NispiDj9tlXNgQ7wig1cMWaTjDOBMf2gDxpoxEbA
-	dXBuF4hDsBwiPwE8GthOXGNDjrKvHT8ysaI0b/cXXMw/4LuhzcbuO7btYxd/Ykrs
-	BBYIXwMcGTiYJ9zQVW+9INdMDPMhVwPi1MZnfQNBTMaEk5Rh4EftnxujG1kPg==
-Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4akdjj9kv2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 24 Nov 2025 05:55:15 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Mon, 24 Nov 2025 05:55:15 -0800
-Received: from pek-lpg-core4.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Mon, 24 Nov 2025 05:55:14 -0800
-From: <kai.kang@windriver.com>
-To: <steve@sakoman.com>
-CC: <kamel.bouhara@bootlin.com>, <openembedded-core@lists.openembedded.org>
-Subject: [scarthgap][PATCH] Revert "spdx: Update for bitbake changes"
-Date: Mon, 24 Nov 2025 21:55:06 +0800
-Message-ID: <20251124135506.622336-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hilfDOH1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-429c7869704so3862383f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Nov 2025 09:46:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1764006408; x=1764611208; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j28SIOpY33eU0CCFYtiqjCYX4iwubW984omLypon7to=;
+        b=hilfDOH1Y5VSO16W9LPIOCDGIpbQyO1/RE5rmN7Qsv1F3Y6kbsEvKtbS/Ri32vCpC9
+         6aYud2FUNc9Fcgpo7XBwiTlCZ8UUXR/Kvrn6JRsf9LuTCmFnbLw0r53TEJeF3xCQ5H86
+         sQZ4vXUMxGNz/L/c7t2EvrY5ttuiFgbOD1Mdo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764006408; x=1764611208;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j28SIOpY33eU0CCFYtiqjCYX4iwubW984omLypon7to=;
+        b=FZ6Kbar7QUJukKGfYNFl6886Os+V0lEkRKOLKj8TO/heDiggM1eRLBSlX5mnX/MZmw
+         Y52d+5I0QuGDIGxQd/uaycPh4twfHKJO/AeykkqpTPXPBpsPQv4cWYzILVUzqiZqo7SB
+         OK6P2nMpGi4BAx0/FaYa4zC6RhoxhQzySWGkQ/d97/Q+2faUUTPyUr8he/V4SKitiXhn
+         8hk73/WsCbbu/Hbt0MqG2uqqfzDUQZJCOgyfbX2OO0kY113OnJkQCI55irwIPPo5FUbN
+         YJ5JtoQ/MCHjd6iZPt/G3bBLXC1liR32YxarYsClWAtTG/j971z4Ow87f+naALFXk0OL
+         hWQQ==
+X-Gm-Message-State: AOJu0Yx8vmvljdbeS1NbsNK9UUlhErVJgLSzMrfyQZ6KTiKLM/kVcrwZ
+	SY4GW8YUHvpjFBnxMV4Q1xuUtS0dJnjZcLAfTarEIAP/d1ICH2fyy2fQbMVj3qyyr58muFPAU3s
+	iNcmY
+X-Gm-Gg: ASbGnctB2NueJ4/eWLP0yIV87Tfou/DLuYLeBvkhBM66tfgvqJ7e1Clk+MyxK9eI0/b
+	JK4kYf4d4YI9Rb65DwyZ6g2rZLVOq725jQ9FvMKK5Gz1cNl12tIpX4S3Royz8slnOgvZ1b8Qfrv
+	5/9CwKfd9xOJNbIGOuzOSDgGHQ7NTKywJa1/BO9o/m9vRBZzqN27BEIElLwWnJg24yV2GKSMOFY
+	s3yNPMpvRqnfvDaotHnxmV0hXgjb8whbvX3to9BgOPfr9w1hjaoBFGZC90vLScsqIRen//IoosA
+	11cCMue0O+F8WKosIdkv+oIXR4EJURN49KtvSe+iZK3TAL4Dnmv8FnztvLiHaKBs/luzeGajQQ3
+	/bDnxwEWa/9jZPjyCvIkFCaYnzgKbwL0Hu4sIr0hHuLuJQBYHe/CpjG1LGPDTRz+qgCR23kB+lz
+	yJzkvqT3M+ogSqiYZdn7NJ2c46HnMfZcN6+3PpvVxXRL5a1kPY
+X-Google-Smtp-Source: AGHT+IF9r51k5rG32rVxwHx2Yo1Fs32ukkmvlPTLKK2tbAoIdSAbOwRlgAUqqPFKmKoryIXEtO+gIQ==
+X-Received: by 2002:a5d:5f91:0:b0:429:cd3f:f45f with SMTP id ffacd0b85a97d-42cc1cd5d8bmr11930599f8f.7.1764006408268;
+        Mon, 24 Nov 2025 09:46:48 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:acc4:4249:84a:cb80])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm29474469f8f.33.2025.11.24.09.46.47
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Nov 2025 09:46:47 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] bitbake.conf/rust-common: Fix DEBUG_PREFIX_MAP_EXTRA handling
+Date: Mon, 24 Nov 2025 17:46:46 +0000
+Message-ID: <20251124174646.299415-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI0MDEyMSBTYWx0ZWRfXx4Bo3SfK4tfD
- FWq7EtI1mYV51BfyY1l8tJJil9VuQwdvXhgzramSPNZX1P85EvI7+nvzUjAmbUJMo3IvDVZ8sQm
- u5I9zD6Pw9aGa0f0Q7H0FIr2Itl0uv2yB8mPqKNsETxS7Mn6VkhRKuKGdM0Cg8vbAHSd9KHLtqr
- jhlKRpKhLVE2lqmPO2RET3oT6wox2xRbMZK/1u40TMVibxBIkq6TThqRceiN63PYsS2OM2EKhxt
- c5ob+KBirQBbxUz/Y15h5hZxFQFJpnUsMp3v4GsCpnJggwpi3xwz3dTPMm7Nqt4H9+c4J4MR7Hi
- iZDQkUP7JQlClRnf+oqWKBXbwk2//Bx4kH+gjdQD0QbNKnJS0RqpIeKknsJfCzBnujYZtew+fa1
- VFJz/+tYca+gBnKTi1ASmwMLOXBJMg==
-X-Proofpoint-ORIG-GUID: hQgWi8EdM0Bd-s7DIq0iKZlDi2ize8F-
-X-Authority-Analysis: v=2.4 cv=Wq8m8Nfv c=1 sm=1 tr=0 ts=692463c3 cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
- a=fCmAYc0T6vF_H5oM34gA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: hQgWi8EdM0Bd-s7DIq0iKZlDi2ize8F-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-24_05,2025-11-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 clxscore=1011 lowpriorityscore=0
- priorityscore=1501 impostorscore=0 bulkscore=0 malwarescore=0 spamscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511240121
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Nov 2025 13:55:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226744
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Nov 2025 17:46:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226745
 
-From: Kai Kang <kai.kang@windriver.com>
+To avoid errors we need to set a weak default for DEBUG_PREFIX_MAP_EXTRA
+as it is not always set by toolchain include files.
 
-This reverts part of commit 4859cdf97fd9a260036e148e25f0b78eb393df1e.
+Also, bug YOCTO #15976 mixes flags to the llvm compiler in rust and
+we need to avoid the canon-prefix-map option in DEBUG_PREFIX_MAP_EXTRA.
+For now, just remove this until we can properly fix the rust flags handling.
 
-Modification of meta/classes/create-spdx-2.2.bbclass is not backported,
-so no need to consider it.
-
-In the commit, it updates spdx according to bitbake change. But the
-bitbake commit
-
-* 2515fbd10 fetch: Drop multiple branch/revision support for single git urls
-
-doesn't backport for scarthgap.
-
-So revert the other parts of the commit 4859cdf97fd9a260036e148e25f0b.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-test with
+ meta/classes-recipe/rust-common.bbclass | 2 ++
+ meta/conf/bitbake.conf                  | 1 +
+ 2 files changed, 3 insertions(+)
 
-$ bitbake world --runall=create_spdx
-
- meta/lib/oe/spdx30_tasks.py | 125 ++++++++++++++++++------------------
- meta/lib/oe/spdx_common.py  |   2 +-
- 2 files changed, 64 insertions(+), 63 deletions(-)
-
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 6b0aa137c4..9a1e5a0c73 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -356,77 +356,78 @@ def add_download_files(d, objset):
-     for download_idx, src_uri in enumerate(urls):
-         fd = fetch.ud[src_uri]
+diff --git a/meta/classes-recipe/rust-common.bbclass b/meta/classes-recipe/rust-common.bbclass
+index 31331c7a268..34bb2377cf4 100644
+--- a/meta/classes-recipe/rust-common.bbclass
++++ b/meta/classes-recipe/rust-common.bbclass
+@@ -18,6 +18,8 @@ RUST_DEBUG_REMAP = "--remap-path-prefix=${WORKDIR}=${TARGET_DBGSRC_DIR}"
+ RUSTFLAGS += "${RUSTLIB} ${RUST_DEBUG_REMAP}"
+ RUSTLIB_DEP ??= "libstd-rs"
+ RUST_PANIC_STRATEGY ??= "unwind"
++# See https://bugzilla.yoctoproject.org/show_bug.cgi?id=15976
++DEBUG_PREFIX_MAP_EXTRA:toolchain-gcc = ""
  
--        file_name = os.path.basename(fetch.localpath(src_uri))
--        if oe.patch.patch_path(src_uri, fetch, "", expand=False):
--            primary_purpose = oe.spdx30.software_SoftwarePurpose.patch
--        else:
--            primary_purpose = oe.spdx30.software_SoftwarePurpose.source
--
--        if fd.type == "file":
--            if os.path.isdir(fd.localpath):
--                walk_idx = 1
--                for root, dirs, files in os.walk(fd.localpath, onerror=walk_error):
--                    dirs.sort()
--                    files.sort()
--                    for f in files:
--                        f_path = os.path.join(root, f)
--                        if os.path.islink(f_path):
--                            # TODO: SPDX doesn't support symlinks yet
--                            continue
-+        for name in fd.names:
-+            file_name = os.path.basename(fetch.localpath(src_uri))
-+            if oe.patch.patch_path(src_uri, fetch, "", expand=False):
-+                primary_purpose = oe.spdx30.software_SoftwarePurpose.patch
-+            else:
-+                primary_purpose = oe.spdx30.software_SoftwarePurpose.source
-+
-+            if fd.type == "file":
-+                if os.path.isdir(fd.localpath):
-+                    walk_idx = 1
-+                    for root, dirs, files in os.walk(fd.localpath, onerror=walk_error):
-+                        dirs.sort()
-+                        files.sort()
-+                        for f in files:
-+                            f_path = os.path.join(root, f)
-+                            if os.path.islink(f_path):
-+                                # TODO: SPDX doesn't support symlinks yet
-+                                continue
-+
-+                            file = objset.new_file(
-+                                objset.new_spdxid(
-+                                    "source", str(download_idx + 1), str(walk_idx)
-+                                ),
-+                                os.path.join(
-+                                    file_name, os.path.relpath(f_path, fd.localpath)
-+                                ),
-+                                f_path,
-+                                purposes=[primary_purpose],
-+                            )
- 
--                        file = objset.new_file(
--                            objset.new_spdxid(
--                                "source", str(download_idx + 1), str(walk_idx)
--                            ),
--                            os.path.join(
--                                file_name, os.path.relpath(f_path, fd.localpath)
--                            ),
--                            f_path,
--                            purposes=[primary_purpose],
--                        )
-+                            inputs.add(file)
-+                            walk_idx += 1
- 
--                        inputs.add(file)
--                        walk_idx += 1
-+                else:
-+                    file = objset.new_file(
-+                        objset.new_spdxid("source", str(download_idx + 1)),
-+                        file_name,
-+                        fd.localpath,
-+                        purposes=[primary_purpose],
-+                    )
-+                    inputs.add(file)
- 
-             else:
--                file = objset.new_file(
--                    objset.new_spdxid("source", str(download_idx + 1)),
--                    file_name,
--                    fd.localpath,
--                    purposes=[primary_purpose],
--                )
--                inputs.add(file)
--
--        else:
--            dl = objset.add(
--                oe.spdx30.software_Package(
--                    _id=objset.new_spdxid("source", str(download_idx + 1)),
--                    creationInfo=objset.doc.creationInfo,
--                    name=file_name,
--                    software_primaryPurpose=primary_purpose,
--                    software_downloadLocation=oe.spdx_common.fetch_data_to_uri(
--                        fd, fd.names[0]
--                    ),
-+                dl = objset.add(
-+                    oe.spdx30.software_Package(
-+                        _id=objset.new_spdxid("source", str(download_idx + 1)),
-+                        creationInfo=objset.doc.creationInfo,
-+                        name=file_name,
-+                        software_primaryPurpose=primary_purpose,
-+                        software_downloadLocation=oe.spdx_common.fetch_data_to_uri(
-+                            fd, name
-+                        ),
-+                    )
-                 )
--            )
- 
--            if fd.method.supports_checksum(fd):
--                # TODO Need something better than hard coding this
--                for checksum_id in ["sha256", "sha1"]:
--                    expected_checksum = getattr(
--                        fd, "%s_expected" % checksum_id, None
--                    )
--                    if expected_checksum is None:
--                        continue
-+                if fd.method.supports_checksum(fd):
-+                    # TODO Need something better than hard coding this
-+                    for checksum_id in ["sha256", "sha1"]:
-+                        expected_checksum = getattr(
-+                            fd, "%s_expected" % checksum_id, None
-+                        )
-+                        if expected_checksum is None:
-+                            continue
- 
--                    dl.verifiedUsing.append(
--                        oe.spdx30.Hash(
--                            algorithm=getattr(oe.spdx30.HashAlgorithm, checksum_id),
--                            hashValue=expected_checksum,
-+                        dl.verifiedUsing.append(
-+                            oe.spdx30.Hash(
-+                                algorithm=getattr(oe.spdx30.HashAlgorithm, checksum_id),
-+                                hashValue=expected_checksum,
-+                            )
-                         )
--                    )
- 
--            inputs.add(dl)
-+                inputs.add(dl)
- 
-     return inputs
- 
-diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
-index 4caefc7673..e1b26edaaf 100644
---- a/meta/lib/oe/spdx_common.py
-+++ b/meta/lib/oe/spdx_common.py
-@@ -239,6 +239,6 @@ def fetch_data_to_uri(fd, name):
-     uri = uri + "://" + fd.host + fd.path
- 
-     if fd.method.supports_srcrev():
--        uri = uri + "@" + fd.revision
-+        uri = uri + "@" + fd.revisions[name]
- 
-     return uri
--- 
-2.34.1
-
+ def target_is_armv7(d):
+     '''Determine if target is armv7'''
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 600d4baffb7..729f92fcdb9 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -649,6 +649,7 @@ EXTRA_OEMAKE:prepend:task-install = "${PARALLEL_MAKEINST} "
+ # Optimization flags.
+ ##################################################################
+ TARGET_DBGSRC_DIR ?= "/usr/src/debug/${PN}/${PV}"
++DEBUG_PREFIX_MAP_EXTRA ??= ""
+ # Beware: applied last to first
+ DEBUG_PREFIX_MAP ?= "${DEBUG_PREFIX_MAP_EXTRA} \
+  -ffile-prefix-map=${S}=${TARGET_DBGSRC_DIR} \
 
