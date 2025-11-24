@@ -2,177 +2,219 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CF98CFD35B
-	for <webhook@archiver.kernel.org>; Mon, 24 Nov 2025 21:36:54 +0000 (UTC)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2827.1764020210895671173
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E0D7CFD35F
+	for <webhook@archiver.kernel.org>; Mon, 24 Nov 2025 21:51:14 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3274.1764021067511584579
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Nov 2025 13:36:51 -0800
+ Mon, 24 Nov 2025 13:51:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jmUONF6G;
- spf=pass (domain: gmail.com, ip: 209.85.128.176, mailfrom: stondo@gmail.com)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-787d5555274so48693987b3.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Nov 2025 13:36:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=M7VQUsIz;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-477a219db05so28871335e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Nov 2025 13:51:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764020210; x=1764625010; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JfxYrmKaDbCNsfO7FzBrFya1izozjKqINS+M6iu54MQ=;
-        b=jmUONF6GAzNWSAHkTOvXpUgKODP86+QtzMdVcPlMmIuMakzaatyi5NQP8SqU3CGywf
-         kto+lpQTfWn3IlldIoABWxbQyihDkyK8SMcd+KeFUFQlFIUXl3d5YFnpKL6yy6CJz/Da
-         A+yBFJrR9Bk3KcrrDIbJgcpgvtJmR359dJ0AiL2SJFUpCREuvUKRy0r7YkXH6gJ97mbx
-         0bZ/9778frJGFZaPe+5TP4u54Md8JM2m7kU/A/cXR0PewdebjH4EVy43TBeDgF+F3ghz
-         qkHmaw7wlX/jPY9OhSZ8Wi3Tu2KXgpCU6TyM2+V1qkc0qFw222ZJt9zmM4lhtGKqY1W0
-         2EXA==
+        d=gmail.com; s=20230601; t=1764021066; x=1764625866; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=H6aAFGeQfonUQz+DsAEgbFm5QMqIijMk7J6BB8dE8DM=;
+        b=M7VQUsIz3cMI9twMldhynNZnzuBbPP/ZWBR28o+vLHuyjxXle2ABSzUi629x7oseoH
+         jH4aI13bp1SBWdCdMkjavTCIqlIyfN4BG9UATXLbgYLl/lorMl7XrcxcsejMYcAUGTwI
+         ZkJBALCjXu04cEb8ggOr4YStBniSb/Oz14bGZqw9We3piOkegfs62ulAx5FJVy6m7oTm
+         3oWA6SH6mD5kT8X1U+9N4UoC3BU8XbCi0JgcTwURwL4fDSvj2nqZMr4L99GVuecotels
+         Z/TgV4SPrdTYsBbasuEs9bOQrDwgctBl2JOCRWDjfz6oQO2GCatJw4crckKsa+Ivu1Ss
+         0S2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764020210; x=1764625010;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JfxYrmKaDbCNsfO7FzBrFya1izozjKqINS+M6iu54MQ=;
-        b=hUWFEmwYyO63QaP2HQUVR26VHefhT5QyJHQy61jKtDs8BtyGOAp07r0/dAylsMd3mv
-         sNUVe23Yk1bcpBVLB57X9ihakGAAMKygORrwjT4QcDSPjsG2WbyuIqNHELENIL75rgZr
-         InkHp+eaEIQ4rvPz7XxZ+utdmI6m40X663DlYoJ9pyJmi1Q6/ydfBhjMuuvjZU3tBQc0
-         Kx8MlQVRu5RDcZAzChk9jefUch011vbQdnAifbIYc+1v6LUEwy+9R0e/JGMpAKG7dQ14
-         KMzWONU3Q52qhz+/orM4PTGYmvlzBmywsWO6WlYqVs2NioS235GRhSrW9NdgWFZgVRHI
-         /SVg==
-X-Gm-Message-State: AOJu0Yy2LIhjzbQraogmYVTd5QNDCW1lEKiVb9g59xu6fiz9L1ioxxFM
-	zI/u7dPZOEnmAfovJ/cf2zb0OU4ziC1aLZYPlcp1WloOekGXHF6nKwdXXa2Tm822yXm/wSiHURK
-	4ijpiEd1uG/mbXTOyFDrG/TjHXigl3FFG695bMI0=
-X-Gm-Gg: ASbGnctdYMg1stuFZ9gUASxNVNDzPgcUWNucEPQ75WMvxi67FmV5VB0RUhiyUOqNZzD
-	nQV2Z9rsTvrrwS+pZoQDlcnjlE0xJko9+OBQY1r0/bRPM+gB5eKoGIsdvoeCmmLOSEfZoz8vAEs
-	Usappx1ShE+lclo71PnJdcrjYvZGlQdTNfR7vfZ1OvTc9+oU+/u0XWALfZU/icII1tagqUsfqTZ
-	R5fQz99sUinHhWE8lSZhI3Bz4fK3VCvpcF5pJJTSrh7L3rYO4hXc4gQiX+QpW67IQA=
-X-Google-Smtp-Source: AGHT+IGwDyA6HOzZ//sy0Z85keHgd40/b6+42mz1jka5UQuUCPqyuwhFYgTZn12M5uZf3SNXghw+V29QBXtwUs+tH3g=
-X-Received: by 2002:a05:690c:91:b0:786:7d2c:8a35 with SMTP id
- 00721157ae682-78ab6f9f1b8mr5922207b3.60.1764020209751; Mon, 24 Nov 2025
- 13:36:49 -0800 (PST)
-MIME-Version: 1.0
+        d=1e100.net; s=20230601; t=1764021066; x=1764625866;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H6aAFGeQfonUQz+DsAEgbFm5QMqIijMk7J6BB8dE8DM=;
+        b=NY/eWeVv925ntGHQRG4et3bu9lTod0NYK8j52qRuNIB/EhJzhfbT8CyGZCuTV4PbM8
+         R7neQELecUJ6lroFJ6WbHg/6UlARWh+CPeXCC+bsdT/V8ijs80yFF1O5CBMBaoOYDcHC
+         DRHpRY3pploF0eqcgnUdSsfZyGnUHJN4+f9m7jSHJh+Aw7ZQd38x7GNbOZiwmNnDUsrq
+         1LMQuCIgA9r1CfV7HmDatjM8Cm/rw8i0qCWQMCa1fioSLQQcA9cOhbYU3irkilIcmNaF
+         V5CH/5AqdabzJ21iO3P2yE4wQz6Y5rYNxcBxnzwpQH13kZyu7FslDfORUIu/JsWPYCwT
+         Hw7g==
+X-Gm-Message-State: AOJu0YzcjNNGx75GsiBKmHL172DHnnVofo1s+rlV5EqmN8ZPkUFbtaAs
+	SlGURYYmruL8Yg7Y3gcknzv0NHuSyzzqCnQnvFUJmGUfoKTHJ+UaoqD5YYncs0GdSRI=
+X-Gm-Gg: ASbGncuFLvMD8gaCyT9bmG6WjIt0soPC0sTU3sXBvNpmbMb8CVVjmFHhYeT5CS6fwiE
+	0HvdSzxAkABSW3VJu9Y13TNYwLtjujD9XZUvPvrmNA9fh4uR8Z1PJ3k4EUh5AEcb44fKCnj1uxo
+	a3L/AePZAaaQSyx1EUy95g+LCINCbt0ivGRsI53SMJy9jG4CI/rnq1QRnm3iaU/s36rAqQ5pRJq
+	dFCG7YqTOCagLDNwQ546vsdecbMc/KPydU9ro/d03HO9xAnjdxiQbTjrEaqvHaC8GF75pECrcX5
+	OqOR8qfJx9L9Ef1WjSXkUYd8Lt/BHwz/43JpcQnqqIafcafqgQ24Et6TUx6UZ+iAW+MQYHjGSK+
+	+QKevoFYLr7dCWVoVtHh8PCEpNDpqk+nu58u7oOZ0QvYDIgU/EH+tTb6LcowEbS8JwjcXtYhvpa
+	ddC65rjMWbHyngB8vGeZiYUjs=
+X-Google-Smtp-Source: AGHT+IECYqCEcsqYQEbhM5mdtPqGJS8UCrwLH3uhyFQlJzo//nKDtBbD92Pde43scSeKhoZyzyR3/g==
+X-Received: by 2002:a05:600c:198e:b0:46e:33b2:c8da with SMTP id 5b1f17b1804b1-477c1133927mr135537195e9.32.1764021065376;
+        Mon, 24 Nov 2025 13:51:05 -0800 (PST)
+Received: from fedora ([81.6.40.67])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-477bf216ddasm212339765e9.0.2025.11.24.13.51.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Nov 2025 13:51:04 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
-Date: Mon, 24 Nov 2025 22:36:38 +0100
-X-Gm-Features: AWmQ_bnNG0-3PfSOH9OoKWR33eGBDREep0ZN1giIUsLDkrvljA325TLjVedFC0w
-Message-ID: <CAC-LxqPnzAmUC7dz4svn8aFOti2DQ8z0_HWuQSJs8u8xAfK0vw@mail.gmail.com>
-Subject: Question: Should SPDX_FILE_FILTER apply to rootfs files?
 To: openembedded-core@lists.openembedded.org
-Cc: spdx@lists.yoctoproject.org, peter.marko@siemens.com, 
-	adrian.freihofer@siemens.com, 
-	"Skoczylas, Piotr" <piotr.skoczylas@siemens.com>, "Bach, Pascal" <pascal.bach@siemens.com>
-Content-Type: multipart/alternative; boundary="000000000000fa9bec06445df54d"
+Cc: antonin.godard@bootlin.com,
+	peter.marko@siemens.com,
+	adrian.freihofer@siemens.com,
+	stefano.tondo.ext@siemens.com
+Subject: [OE-core][PATCH v3] documentation: Add comprehensive SPDX variable documentation
+Date: Mon, 24 Nov 2025 22:50:58 +0100
+Message-ID: <20251124215058.1468645-1-stondo@gmail.com>
+X-Mailer: git-send-email 2.51.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Nov 2025 21:36:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226746
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Nov 2025 21:51:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226747
 
---000000000000fa9bec06445df54d
-Content-Type: text/plain; charset="UTF-8"
+From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-```
-Hi OpenEmbedded SPDX maintainers,
+Add comprehensive documentation for SPDX-related variables in the
+Yocto reference manual. This includes documenting previously
+undocumented variables and updating existing documentation with
+SPDX 3.0.1 specific information.
 
-I'm working with the SPDX 3.0 implementation in oe-core and have a question
-about the intended behavior of the SPDX_FILE_FILTER variable.
+New variables documented:
+- SPDX_LICENSES: Path to SPDX license identifier mapping file
+- SPDX_MULTILIB_SSTATE_ARCHS: Architecture list for dependency collection
+- SPDX_UUID_NAMESPACE: Namespace for UUID generation in SPDX documents
 
-I've observed that SPDX_FILE_FILTER correctly filters files at the package
-level (in create_spdx() and create_package_spdx()), but does NOT filter
-files
-in the rootfs SPDX document (created by create_rootfs_spdx()).
+Updated existing variables with SPDX 3.0.1 data:
+- SPDX_INCLUDE_SOURCES: Documented distributed architecture behavior
+- SPDX_INCLUDE_COMPILED_SOURCES: Updated with SPDX 3.0.1 format information
 
-Test results with core-image-minimal on qemux86-64:
+Testing on core-image-minimal for qemux86-64 with SPDX 3.0.1 shows that
+the rootfs SBOM file is approximately 5-6 MB regardless of source inclusion
+settings. This is due to SPDX 3.0.1's distributed architecture where
+per-package SPDX documents are stored in tmp/deploy/spdx/ (~130 MB),
+while the rootfs SBOM contains only relationships and references.
 
-Package-level filtering (working as expected):
-- SPDX_FILE_FILTER="none": 0 files in package SPDXs
-- SPDX_FILE_FILTER="essential": Only LICENSE/README/etc. files
-- SPDX_FILE_FILTER="all": All source files included
+Note: SPDX 3.0.1 JSON files are not compressed by default,
+unlike the tar.zst compression used in SPDX 2.2. Manual compression
+with zstd typically achieves 94-97% file size reduction.
 
-Rootfs-level (no filtering applied):
-- ALL three modes include 1,671 rootfs files (binaries, configs, etc.)
-- create_rootfs_spdx() walks IMAGE_ROOTFS unconditionally
-- No check of SPDX_FILE_FILTER variable
+These variables are defined in meta/classes/spdx-common.bbclass.
 
+Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+---
 
-Package filtering (meta/lib/oe/spdx30_tasks.py:165-220):
+Changes in v3:
+- Fixed terminology: Changed "JSON-LD" to "JSON" throughout for clarity
+- Removed untested SPDX_INCLUDE_COMPILED_SOURCES size claims for SPDX 3.0.1
+- Converted note paragraphs to proper RST ".. note::" blocks
+- Added concrete compression instructions with zstd command
+- Replaced hardcoded variable values with generic descriptions
+- Added compression ratio data (94-97% reduction with zstd)
+- Linked SPDX_LICENSES to upstream SPDX license-list-data repository
 
-def add_package_files(d, objset, pkg, source_files, packaged_files):
-    spdx_file_filter = d.getVar("SPDX_FILE_FILTER") or "essential"
+Changes in v2:
+- Fixed unintended removal of non-SPDX variables (CCACHE_DISABLE,
+  IMAGE_EXTRA_PARTITION_FILES, REQUIRED_*_FEATURES)
+- Fixed unintended change to LAYERDEPENDS description
+- Only SPDX-related variables are now modified
 
-    if spdx_file_filter == "none":
-        return []  # Filtering works here
-    elif spdx_file_filter == "essential":
-        # Filters to essential files only
+ documentation/ref-manual/variables.rst | 77 ++++++++++++++++++++++----
+ 1 file changed, 67 insertions(+), 10 deletions(-)
 
-
-Rootfs collection (meta/lib/oe/spdx30_tasks.py:1284-1316):
-
-def create_rootfs_spdx(d):
-    # ... setup ...
-    for dirpath, dirnames, filenames in os.walk(image_rootfs):
-        # No SPDX_FILE_FILTER check here
-        files.add(objset.new_file(...))
-
-
-Is this behavior intentional? I can think of two valid interpretations:
-
-*This is a bug*
-SPDX_FILE_FILTER should apply consistently to ALL file elements, including
-rootfs files. The variable should control whether deployed binaries/configs
-are included in the SBOM.
-
-*This is by design*
-Rootfs files represent the actual deployed system and should ALWAYS be
-documented regardless of filtering. SPDX_FILE_FILTER is only meant to
-reduce
-build-time clutter (source files, patches, tests), not runtime content.
-
-For our use case (dual-profile SBOMs), we need to control whether runtime
-files are included. If rootfs filtering isn't intended, we can implement
-post-processing in our tooling, but I wanted
-to clarify the design intent first.
-Thanks for your guidance!
-
-Best regards,
-Stefano Tondo
-
---000000000000fa9bec06445df54d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>```<br>Hi OpenEmbedded SPDX maintainers,<br><br>I&#39=
-;m working with the SPDX 3.0 implementation in oe-core and have a question =
-<br>about the intended behavior of the SPDX_FILE_FILTER variable.<br><br>I&=
-#39;ve observed that SPDX_FILE_FILTER correctly filters files at the packag=
-e <br>level (in create_spdx() and create_package_spdx()), but does NOT filt=
-er files <br>in the rootfs SPDX document (created by create_rootfs_spdx()).=
-<br><br>Test results with core-image-minimal on qemux86-64:<br><br>Package-=
-level filtering (working as expected):<br>- SPDX_FILE_FILTER=3D&quot;none&q=
-uot;: 0 files in package SPDXs<br>- SPDX_FILE_FILTER=3D&quot;essential&quot=
-;: Only LICENSE/README/etc. files<br>- SPDX_FILE_FILTER=3D&quot;all&quot;: =
-All source files included<br><br>Rootfs-level (no filtering applied):<br>- =
-ALL three modes include 1,671 rootfs files (binaries, configs, etc.)<br>- c=
-reate_rootfs_spdx() walks IMAGE_ROOTFS unconditionally<br>- No check of SPD=
-X_FILE_FILTER variable<br><br><br>Package filtering (meta/lib/oe/spdx30_tas=
-ks.py:165-220):<br><br>def add_package_files(d, objset, pkg, source_files, =
-packaged_files):<br>=C2=A0 =C2=A0 spdx_file_filter =3D d.getVar(&quot;SPDX_=
-FILE_FILTER&quot;) or &quot;essential&quot;<br>=C2=A0 =C2=A0 <br>=C2=A0 =C2=
-=A0 if spdx_file_filter =3D=3D &quot;none&quot;:<br>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 return [] =C2=A0# Filtering works here<br>=C2=A0 =C2=A0 elif spdx_fi=
-le_filter =3D=3D &quot;essential&quot;:<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Fi=
-lters to essential files only<br><br><br>Rootfs collection (meta/lib/oe/spd=
-x30_tasks.py:1284-1316):<br><br>def create_rootfs_spdx(d):<br>=C2=A0 =C2=A0=
- # ... setup ...<br>=C2=A0 =C2=A0 for dirpath, dirnames, filenames in os.wa=
-lk(image_rootfs):<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 # No SPDX_FILE_FILTER chec=
-k here<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 files.add(objset.new_file(...))<br><b=
-r><br>Is this behavior intentional? I can think of two valid interpretation=
-s:<br><br><i>This is a bug</i><br>SPDX_FILE_FILTER should apply consistentl=
-y to ALL file elements, including <br>rootfs files. The variable should con=
-trol whether deployed binaries/configs <br>are included in the SBOM.<br><br=
-><i>This is by design</i><br>Rootfs files represent the actual deployed sys=
-tem and should ALWAYS be <br>documented regardless of filtering. SPDX_FILE_=
-FILTER is only meant to reduce <br>build-time clutter (source files, patche=
-s, tests), not runtime content.<br><br>For our use case (dual-profile SBOMs=
-), we need to control whether runtime files are included. If rootfs filteri=
-ng isn&#39;t intended, we can implement post-processing in our tooling, but=
- I wanted <br>to clarify the design intent first.<br>Thanks for your guidan=
-ce!<br><br></div>Best regards,<br>Stefano Tondo</div>
-
---000000000000fa9bec06445df54d--
+diff --git a/documentation/ref-manual/variables.rst b/documentation/ref-manual/variables.rst
+index a80ef364e..f2c8a1d9a 100644
+--- a/documentation/ref-manual/variables.rst
++++ b/documentation/ref-manual/variables.rst
+@@ -8962,10 +8962,18 @@ system and gives an overview of their function and contents.
+ 
+           SPDX_INCLUDE_COMPILED_SOURCES = "1"
+ 
+-      According to our tests, building ``core-image-minimal`` for the
+-      ``qemux86-64`` machine, enabling this option compared with the
+-      :term:`SPDX_INCLUDE_SOURCES` reduces the size of the  ``tmp/deploy/spdx``
+-      directory from 2GB to 1.6GB.
++      According to our tests on release 4.1 "langdale", building
++      ``core-image-minimal`` for the ``qemux86-64`` machine, enabling this
++      option compared with the :term:`SPDX_INCLUDE_SOURCES` reduced the size
++      of the ``tmp/deploy/spdx`` directory from 2GB to 1.6GB.
++
++      .. note::
++
++         The above measurements are for SPDX 2.2 format. Size characteristics
++         may differ with SPDX 3.0.1 JSON format. The key benefit of this option
++         is including only compiled files (object files, binaries) rather than
++         all source code, which reduces the amount of data while still providing
++         information about build artifacts.
+ 
+    :term:`SPDX_INCLUDE_SOURCES`
+       This option allows to add a description of the source files used to build
+@@ -8979,8 +8987,8 @@ system and gives an overview of their function and contents.
+ 
+           SPDX_INCLUDE_SOURCES = "1"
+ 
+-      According to our tests on release 4.1 "langdale", building
+-      ``core-image-minimal`` for the ``qemux86-64`` machine, enabling
++      According to our tests on release 4.1 "langdale" (SPDX 2.2 format),
++      building ``core-image-minimal`` for the ``qemux86-64`` machine, enabling
+       this option multiplied the total size of the ``tmp/deploy/spdx``
+       directory by a factor of 3  (+291 MiB for this image),
+       and the size of the ``IMAGE-MACHINE.spdx.tar.zst`` in
+@@ -8988,6 +8996,55 @@ system and gives an overview of their function and contents.
+       image), compared to just using the :ref:`ref-classes-create-spdx` class
+       with no option.
+ 
++      With SPDX 3.0.1 JSON format, the uncompressed rootfs SBOM file
++      (``core-image-minimal-qemux86-64.rootfs.spdx.json``) is approximately
++      **5-6 MB regardless of source inclusion settings**. Unlike SPDX 2.2,
++      the SPDX 3.0.1 implementation uses a distributed architecture where
++      per-package SPDX documents are stored in ``tmp/deploy/spdx/`` 
++      (~130 MB for core-image-minimal), while the rootfs SBOM contains
++      only relationships and references to these package documents.
++
++      .. note::
++
++         SPDX 3.0.1 JSON files are not compressed by default, unlike the
++         tar.zst format used in SPDX 2.2. To reduce file size, compress the
++         files manually using ``zstd``::
++
++            zstd core-image-minimal-qemux86-64.rootfs.spdx.json
++
++         This typically reduces file size by 94-97%. For example, a 5.4 MB
++         SBOM compresses to ~350 KB.
++
++   :term:`SPDX_LICENSES`
++      Path to the JSON file containing SPDX license identifier mappings. This
++      file maps common license names to official SPDX license identifiers used
++      during SBOM generation.
++
++      The default value points to a copy of the license mappings defined by
++      SPDX (https://github.com/spdx/license-list-data) stored in
++      :term:`OpenEmbedded-Core (OE-Core)`.
++
++      For additional information, see the :term:`LICENSE` and
++      :term:`SPDXLICENSEMAP` variables.
++
++   :term:`SPDX_MULTILIB_SSTATE_ARCHS`
++      The list of sstate architectures to consider when collecting SPDX
++      dependencies. This includes multilib architectures when multilib is
++      enabled.
++
++      The default value is set to :term:`SSTATE_ARCHS`, which automatically
++      includes all relevant architectures for the current build configuration.
++
++      This variable is used internally by the SPDX generation process and
++      typically does not need to be modified.
++
++   :term:`SPDX_UUID_NAMESPACE`
++      The namespace used for generating UUIDs in SPDX documents. This should
++      be a domain name or unique identifier for your organization to ensure
++      globally unique SPDX IDs.
++
++      The default value is set to the OpenEmbedded project namespace. If you
++      are generating SBOMs for your own organization, set this to your own
++      domain name (e.g., ``SPDX_UUID_NAMESPACE = "sbom.example.com"``).
++
+    :term:`SPDX_NAMESPACE_PREFIX`
+       This variable allows to set a custom namespace prefix in the SPDX
+       output. The default is "http://spdx.org/spdxdocs".
+-- 
+2.51.1
 
