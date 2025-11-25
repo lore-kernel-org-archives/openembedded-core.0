@@ -2,86 +2,85 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CED02CFD37F
-	for <webhook@archiver.kernel.org>; Tue, 25 Nov 2025 10:23:38 +0000 (UTC)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13934.1764066216954445262
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D89BED0E6C1
+	for <webhook@archiver.kernel.org>; Tue, 25 Nov 2025 10:31:38 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14043.1764066692340953893
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Nov 2025 02:23:37 -0800
+ Tue, 25 Nov 2025 02:31:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Tm8pCBYj;
- spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8b2148ca40eso725865885a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 02:23:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XZHA7pCj;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8845498be17so71608076d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 02:31:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764066216; x=1764671016; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1764066691; x=1764671491; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pqb1vArhlZEIzp3GpEybDE/sCkvRrSkjdS1joh2+BuU=;
-        b=Tm8pCBYjCRielKZ9AuZN4iWT3N9Sjc65BvtRYGhNs90QhPQMbljtP260griBwcKTfU
-         OVqFBbuHYc1rdCOus9cKqyqbIx01fvDxd1vujw4Uu+2FhnXF7rYzUC1SJQ6ku+m1TCg6
-         vsn0n8Rt3iOXe3X9y+wPYpiwIzv3/PouJghMElNRTG4aNF9wXLM2qhSkJzmG+B+ACTB2
-         hRJBksqviXfL6eTWig/pQ4rQOX6S95uPWNGnC5viZ+tbymEOlYSSTzE96lrPp8kVkvs4
-         P4rI/nIaBGVaHy0W66dDIgsNgi0WRBQDvPMkCOugGxXsoexyVwfQ7tQtudQa7o7W03qC
-         R2zg==
+        bh=J7G++hTnq569MvawcynV8XdiELqUsiO93sGAsKsVyqY=;
+        b=XZHA7pCjzNQYt2mcQjpiujZ5cOe2GlEfe7k0hlHdwch/RZ5saSSH92xi9JqONiqdwD
+         9HxU9JIGLCSy1gTMuscQ2P7CRnWOhRqW17ZKdW89fI8/45dBKfPOnbe9M4tFz5AL1Kat
+         /htNnSKUCHtngorkx6UJlkkPqkJFSLdsfCG3UaHZLw166Cz9r3uzfJo0fhZNGNj22cD5
+         VTzaqJx5ZyjS183H5aStF9Uzv0/fo9s3284ui6P9UeTtrILMrIClT7ALGQG0Hii6V6Oy
+         3kL7f6/eANnw1vV+alug2/aDWdBV6KRvco0MAKofcXr322hekfeMuzu2cQ4uDm2yDwVQ
+         osTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764066216; x=1764671016;
+        d=1e100.net; s=20230601; t=1764066691; x=1764671491;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pqb1vArhlZEIzp3GpEybDE/sCkvRrSkjdS1joh2+BuU=;
-        b=tQbCMJL1UXBWy7mHN9yoszEJdAwRgypGwldGtQ4xViQ0EurGKfRs/hNi44HoAM36Ye
-         7T9H1losOu7m1FOlyhNkZQ9UrnB3pY3Nm1FWQXhXYg9UR3ooNYeRxVYGY5ZP1dbIQ+dg
-         WyEkGoaOH7SwC5SscUV44JgzT98HsshJO5/pwscvSf7vmVPfVrR9NoMSfMobkV8oVZpa
-         AdE4TzTe26Y01zpappmTVEz7sbA2INuLhAtswLhjcpBBCG+sYBwcuC3XsSEHA9vjGUyB
-         BaKWJg4/ZYMi31YVOCcqOYJ30Pc8Zdcl+ByK8G9kGKBDF3/UHGQRwBTu5pieAnlfQIBZ
-         qQ/g==
-X-Gm-Message-State: AOJu0YwoNrlgN+FaDIJOHTF+PiYW0jbH7UxUdPReZcG+GoMDCRgxXMJ1
-	A8Y0iXtuHfb89+2O3HBSgQCy5gqz3aHUikB4kwliJBF7PnOAVsg6fr8suROqVBB2I3sA/4XmUfM
-	XC+KNirCzBrr1d8C9gI+lVLcQxqCyvGQ=
-X-Gm-Gg: ASbGncsu9otX+JnL5f7IgNsar2V2aUpoaOEcebQyT/C1tjUkDSkvL9IBHh2xDaK4tF9
-	XOCm5wgokipbLnNpi/hFXjU+c9bSoFpDCm4UvdVcpuBep1dBlwpCLmRA0aQtOQay4nkWR23ATxf
-	2UEu5KFerfUJ084sEncn3e/uVNstuSAbMtZsix7ObWEChiFrYcirANcF1PYDSzOmp4NKvg4xA1R
-	IahRBp4R8Aq9JihV10/eg+u4YOGyFoFycMTkTE4EBh90BbIkQitkuLH59uwGovu6h/FbE0W7fV+
-	tfXCtrR+qTUlKQUswe6fjblP726beRO3yCa33cE3
-X-Google-Smtp-Source: AGHT+IG0oikH0WSneB1kWfyy/0fDgt3RUlTxq4bY6SZs36cJfFWWVRhWhhpZWzI18t0/fuHKSYienRyGNCKf4GcJCmw=
-X-Received: by 2002:a05:620a:4690:b0:8b2:e4f0:74c4 with SMTP id
- af79cd13be357-8b33d4c729cmr2001554285a.84.1764066215673; Tue, 25 Nov 2025
- 02:23:35 -0800 (PST)
+        bh=J7G++hTnq569MvawcynV8XdiELqUsiO93sGAsKsVyqY=;
+        b=G0wMJTWtIQC5+eeoVhORJ4J2zf6/z6VQMhkiWtYFgXYxAqAlljhWefmAjBfbWFBKZa
+         LKwRdu3OjPq1y32/GjkSDuH9Mf1NKVEkp682NXGZa14aOEXA5wB99w1cC3U9X/yPQvGc
+         9f5yOAqGNxewE7QbGCHzcRhDmnYeGvTXJcRNT/2txJdoZkqbnuGsp/EOE2IzNgw0hrDg
+         2BMzxc2nK7A2Q4gdYSHfzYqr3t9ZmSLLpGjKyT8Z5k+UiTH2s79yuzAtlLCyVl5ugOK3
+         mtQ2UG8vSpR+epzJszExZiEC9vPyHUpswWiccxSTQDB0DyJ2UyAuhQBktNurABas1ZUf
+         hGXQ==
+X-Gm-Message-State: AOJu0YyXSZu6yWii3QO9rqJksonWKOa0L6VGJbhoZUNK5sp0DlQUFizU
+	qdTghCFI7Lr+GaixQyrD5RE2xXr5gUElzOGM7L8bhuGkfBU3S2W0diRmyYmYuFnKHW/+zEr+vDS
+	Hbuf9t7SA/6NMKSszyio2gQ8adw2hgk2QlA==
+X-Gm-Gg: ASbGncuQZrFibgoXcLkXC3Y3urQvfsnklTfFdirJ0FUcCAB+r9UIfGGv56DBUm0Ze3u
+	sc7eEl/RyOlUO7NuccKXiSFfXkP+juXUkozgrGRbfgEwLl2Mj5KyD8XHNJ6wFTbkc57gYF/sHKJ
+	SNYzBSK3eKx/plxBi/09oAuRvfAdjKawk8Me18K63w/czXJOUmon4EoJNqJwdpm4ev+VNP2myK3
+	ysfa7JNjhihARIvGHvOcvHL5UIQz0wWvIBArJugSVsyPigw5JnXoqmKnLpfP3m2RFwV15IBE2aI
+	Se0tXyXzOHhKDt7pqJV3Y9xKpobK4g==
+X-Google-Smtp-Source: AGHT+IG+xASM3hAj8oZBIQe4kHCaBg2zjX24mB6uZZ1+oYexAtA4FI96BT9SNsBdIhstBQNvZ8SC09GC2XOwLNuxIhc=
+X-Received: by 2002:a05:6214:19ea:b0:880:4dd6:20c4 with SMTP id
+ 6a1803df08f44-8847c4a4a08mr191133736d6.25.1764066691315; Tue, 25 Nov 2025
+ 02:31:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20251125090059.3155853-1-m.schwan@phytec.de>
-In-Reply-To: <20251125090059.3155853-1-m.schwan@phytec.de>
+References: <20251125090722.2240655-1-vpuar@qti.qualcomm.com>
+In-Reply-To: <20251125090722.2240655-1-vpuar@qti.qualcomm.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 25 Nov 2025 11:23:24 +0100
-X-Gm-Features: AWmQ_bkZYjyZbR2hhQesWJ7n2iBec2jivR_eT0K2TtMzNBMIThwhaCjG9D8bRrE
-Message-ID: <CANNYZj96iASKujEQRjxVn9AMSRjHV7ep=oh6JbaZw+kWnOOsqQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cargo-update-recipe-crates: Don't fail for
- partially empty Cargo.lock
-To: m.schwan@phytec.de
+Date: Tue, 25 Nov 2025 11:31:19 +0100
+X-Gm-Features: AWmQ_bkoPexfEUQIFypNXkg30cz12jAMzECPUsLla2kjjukRD-jTorv9xGVUvoA
+Message-ID: <CANNYZj85=33xxwT0hffW=4PeR99crUiTcWRtyTv2qYVLubY6ow@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v4] udev-extraconf: Split automount and autonet
+ into seperate packages
+To: vpuar@qti.qualcomm.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 10:23:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226761
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 10:31:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226762
 
-On Tue, 25 Nov 2025 at 10:01, Martin Schwan via lists.openembedded.org
-<m.schwan=phytec.de@lists.openembedded.org> wrote:
+On Tue, 25 Nov 2025 at 10:07, Vivek Puar via lists.openembedded.org
+<vpuar=qti.qualcomm.com@lists.openembedded.org> wrote:
 >
-> Do not fail if only some Cargo.lock files are empty. Only fail, if there
-> are absolutely no dependencies found in any Cargo.lock.
+> Created two subpackages (${PN}-automount and ${PN}-autonet) to separate
+> udev rules and scripts for automount and autonet functionality.
+>
+> If the image only needs storage devices to be auto-mounted or just needs
+> network hotplug handling, splitting the packages let us choose automount or
+> autonet package without having to care about other rules. This change does not
+> save much space but helps avoid installing unnecessary scripts and rules.
 
-...
+This still needs an answer to the question asked previously: how was
+this patch tested? Given that previous iterations of the patch made
+serious runtime dependency omissions, I'm somewhat nervous that the
+patch hasn't been actually verified on the target.
 
-> While at it, restructure do_update_crates() to be a real Python function
-> and use the corresponding code directly inline.
-
-This, as a diff on the mailing list, is incredibly hard to review, and
-needs to be split up. Refactoring in one commit (explaining the
-benefits), functional changes in another please. Even better if you
-can split things further, and explain what the particular
-modifications are (rather than use terms like 'restructure').
-
-Aelx
+Alex
 
