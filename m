@@ -1,240 +1,309 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <m.schwan@phytec.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E15D1CFD315
-	for <webhook@archiver.kernel.org>; Tue, 25 Nov 2025 08:45:27 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.63])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12907.1764060325428984768
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 064C5CFD364
+	for <webhook@archiver.kernel.org>; Tue, 25 Nov 2025 09:01:18 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.77])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13086.1764061274055726105
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Nov 2025 00:45:26 -0800
+ Tue, 25 Nov 2025 01:01:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=nMYYvA9U;
- spf=pass (domain: siemens.com, ip: 52.101.72.63, mailfrom: peter.marko@siemens.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@phytec.de header.s=selector2 header.b=Zo5fpBHu;
+ spf=pass (domain: phytec.de, ip: 52.101.69.77, mailfrom: m.schwan@phytec.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KVJ6uV96chL2t2GPps+ITVr9FdzJqbmr6f0RDO+/MeAbUNb8INS1WNWEnJ0w4aLIqYi85yUWyWYQZzEsKLzKuHErjFAfU8DwmOXv8rZPMDZFneRCDktznxfS8xJ7bqdG7c593J8pT72Dhkakbx025w9GNZ0nvuVgwL9jvsBhVL9JoyTcNHv9aFoVB6VXig21d5O4wNPfmsYqHegYdGZkNM/SMLidt8k8enJMq9xsculvA9ksb/PVXsE2+qa+rZ+8Ib3JqjfAQ1PJZUbhATTCytaIDTWQPo1k6KQU5hV+6aWw3jtBAhNCeajU2oUkgldF+SOe1mcYSfoc3XJMRm7PYQ==
+ b=bSrG7BFAUiuBJgxrva0hqNpmND6De2RMwsZWN6gcaQRryx/6sgXyKGNdXC7ylyUsAYmVNXlXlT+wGuHEq8/500POeJ+q7uW1Wv4lmqaXYw5q0CiMwOtgfO+R5fOnlOsHys6uEVsdUa3JIvH1yHXWEqtQ7W/51mqvp+/kzgDT9DqKSU3kN/P0j8QTghqIn69Exz5pPwSBu3YIyHYAjmqEHBmuIbPA9x7L104xpUEhe2WsUorRMahBQPKsqgwG8mA7xSYDfUnRUPfjInhkLQTgessZc6xpbppEVRv7coc4QoqCF7IW9KgNncBAAgKQlnqniQf6B3V5tFrLr2dF+dP8YQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V7FA9Vj6OH22RJcmX6AW9KI59UPoodGcvzd8qmilrZA=;
- b=hd7eoWYOZcs3QZkRN2qP++itLI1QHiqWAtDNF8iEN2fnkJNPazBveFxLijaGjhoB3nrqRU9aj7DaJn3qPC8VWlniTJSFe5dZWj3fd41fczKsLU9PiZh6cF6H7E4ijxv1yFWC7WZVHBjoJxHfL/JEb+030EuEic8wI9IfPIrwdchqy7eqcYgosO9h94pLdR/xWasqfTJqkq+nEwsG+mdM876IBKyDqpfzx0sg7iLsrPd1J8aUOneU58qFZqrS/PtIuhOF/BQy9YkOLehAdNpZAJXn2heC941WsywEuZVhJP+ZqOzzweWHfhazXLK3LdS3ly3FnA0Zcp5c0gq0syk1gw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ bh=dPudlg21DL7Vjkga56z/u3Ugz3xChlOaK50ksOEDJAo=;
+ b=Q3MR8pe3dTuH9Mm3spDObtdy01OVXnzt4hcwqqrpmAKucFQlgrSUGlBTcTeYWeapnTeftZyQK74khfIjq7UwgBjVLi5PGGUqgB+/BGJD7WSd9xynvphAEI49jnmcy98WRixdcqE0uSwlqF0luC26GCBptHFk64Z6YqbVOiTkU40TQUMuijN3BKLIAX7bu982EqJoQM4e2tnpfH0FOOMPWixT2yj7HiGmychqtSxGyHCUqhBCGZmtYGf+q+2PbaeqGU3i5/2Y/99zC9n2TFpzzKNBAGqBlfPrs0U+Zd90JxpD2peZ2Di06eppvjK8ZE8zMdwy0FHkQKQKvkOTKlj0zQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 91.26.50.189) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=phytec.de; dmarc=fail (p=quarantine sp=quarantine pct=100)
+ action=quarantine header.from=phytec.de; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V7FA9Vj6OH22RJcmX6AW9KI59UPoodGcvzd8qmilrZA=;
- b=nMYYvA9UdAWxlaqZjWAPTewpic5ryMs+ZC32fsRHfiEYmv7OdamhCn+VFpR7EH3W9IQZqPS4cUbyZtuZMLPXjQYne26dlRRaaSiH8QxCkHaeo9+OAPzKU4dIqX6iR1TPgondBNUx7cYP6Yp7Fv2db/9OC5GHrT29NVNCoPOIBZ7fZrFYomabngfA5X/evyf2qOgdQXoeHnP9Jqoa418KPPQMDOc6pkl6mPvXVih+3hAQesqH1ahOEMTdyHcboqcxQFsk5BthxhNXidcHxH6Fvh05fbcFLcdlIxId1YGatqSr1sMCDv73LSk+U0VT1hTyUqkoEyAjuFxx0lUdXYj8Pw==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by DU0PR10MB6252.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3ef::11) with
+ bh=dPudlg21DL7Vjkga56z/u3Ugz3xChlOaK50ksOEDJAo=;
+ b=Zo5fpBHuny7jVa3JsRam1jn5xsc5+IID9tXO1lXTsjoeeXXLET9eOqSnxhJpQkIXW5mW7Oezhr9s9rCrK3e2k+unHAGCgbrWkbcXIQxY8QHszTE/474T80O3Lit/sZMeUckxZC29wiCkqWyACACXyHdQ7szn4av3gLXRNf0fOsMWLour0GWOc9LYYcZxBg873ZLm9j7MSf1cd7ME2kqAXvE7phxAQThX14w+xegGoiSYm3dzRQzmS6gtasue8aUVB6/HLOBXS0n3AvQL4uZ8zXc8D/yhbEgmREh8Funa68Qxh0IxYF36wPWaYDQC+Zmvg+WUnIebiqKpfepd+UJXdg==
+Received: from AS4P189CA0035.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5dd::14)
+ by PRAP195MB1556.EURP195.PROD.OUTLOOK.COM (2603:10a6:102:297::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.11; Tue, 25 Nov
- 2025 08:45:20 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.9343.016; Tue, 25 Nov 2025
- 08:45:20 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "Haase Moritz, JD-61" <Moritz.Haase@bmw.de>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "matthias.schiffer@ew.tq-group.com" <matthias.schiffer@ew.tq-group.com>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"steve@sakoman.com" <steve@sakoman.com>
-Subject: RE: [scarthgap 8/8] curl: only set CA bundle in target build
-Thread-Topic: [scarthgap 8/8] curl: only set CA bundle in target build
-Thread-Index: AQHcXd4a4JqGrneHwkiX+phh+Y2I2rUDECDQ
-Date: Tue, 25 Nov 2025 08:45:19 +0000
-Message-ID: 
- <AS1PR10MB5697B560F53B3853DC0107F1FDD1A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: 
- <PAWPR09MB803066084BE4261C627B09BEEAD1A@PAWPR09MB8030.eurprd09.prod.outlook.com>
-In-Reply-To: 
- <PAWPR09MB803066084BE4261C627B09BEEAD1A@PAWPR09MB8030.eurprd09.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=7c23643d-cad5-4db2-8ad1-9b6dc3da2f90;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-11-25T08:31:44Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0,
- 1;MSIP_Label_e6935750-240b-48e4-a615-66942a738439_ContentBits=1;MSIP_Label_e6935750-240b-48e4-a615-66942a738439_Enabled=true;MSIP_Label_e6935750-240b-48e4-a615-66942a738439_Method=Standard;MSIP_Label_e6935750-240b-48e4-a615-66942a738439_Name=Vertraulich;MSIP_Label_e6935750-240b-48e4-a615-66942a738439_SetDate=2025-11-25T08:02:03.697Z;MSIP_Label_e6935750-240b-48e4-a615-66942a738439_SiteId=ce849bab-cc1c-465b-b62e-18f07c9ac198;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DU0PR10MB6252:EE_
-x-ms-office365-filtering-correlation-id: 761303af-16bf-4a99-8471-08de2bfef71e
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|376014|1800799024|38070700021|13003099007;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?aIrSSeJ283nI4T+JV+bdlqIpJZyxlNvadRlYdMRNrsRhisGzzRib/Vl3PNUr?=
- =?us-ascii?Q?XoRDbFHzj/S0RxGOfkgG1P0RD8S1AGFfFIWx2+eGEDxxvP4hSfgf0rS4uKh1?=
- =?us-ascii?Q?i5DiBavV0DGeckfWZUDLsuRdi2ZTHstScwusphgfMn9UKI+V9R64smRb+IJK?=
- =?us-ascii?Q?U2B9QSjUT19pC7oo0myQIJ/70GMO9EU8nVZ+h6iNYEdTYXmT3xDePxBI5yks?=
- =?us-ascii?Q?Hl0O+w48ZoIlBKr9TTTwBRiCZt0bBjJWXmqJAnPh4y9u50aoYAN47dRUcHfT?=
- =?us-ascii?Q?2cFFgp3ybJKhS0qxAnnaEdapk2mzInoZANrGjvPLZ5ZYkCOFSjAvxoYYvryn?=
- =?us-ascii?Q?O5+E9l+CiDMlLVAYIJ02YDU8OID26oK29eWMSClGuZ6QmhOGQkHruboIl7Lk?=
- =?us-ascii?Q?yq3laRmWs/7PCZfoTFfPcFDsb4OeqTVkDbExq0Te9NBMsY/LR1KJrwexq04m?=
- =?us-ascii?Q?eH3NEXpFrPa9uqSA0hiox/TNU2PujTgvU5CnFLh6HCualJlIqAr1l4k3APmO?=
- =?us-ascii?Q?BpP/HFbSHJZjc3N1CDcda+UpGXDFndrFtIoSPco6mTkaxUcXI+9GH7tG39a+?=
- =?us-ascii?Q?bOVRToEBifSEOwri6zC+Bg+2Co+mT1nxS0xaQTd1aV+Lb9cl2gU9ludXfxd9?=
- =?us-ascii?Q?dqXfIG0R40KpJPbTfloxUIt59savhaoaO6FOlP5xhVeyXNa/uoWnaf6bYaGV?=
- =?us-ascii?Q?3vE60ObMnAGxbCt+/5qp7ZDQMVh6DBRvgrWLM/IaLJfv6D1hkXl2vLMIyL58?=
- =?us-ascii?Q?nu/30FwiQQrnHrlPwbCOmswbPElUtgP+tVwcfdzgCmJrFLReNN5oFqImcsJ2?=
- =?us-ascii?Q?ukyCLgiq9M1xDqLd/cvowKI+Zl8872nbvzeR7knpdt4wcQ1P4d40AbGWusy/?=
- =?us-ascii?Q?e061HxOnow4kWExiH83BzfcpXCtsw+jIpkH6lKCjQD9XgTfPHcZpWeev1z0A?=
- =?us-ascii?Q?kX3pwg2DpL7DuOUrW4a8BDvFjplFWGNUrjIV1l4YGUSbTtC6PIb6dwrnHrvy?=
- =?us-ascii?Q?EVTwIoVT7zP+z9qsiZpJZ3WRAkKuJ2OQ8JBSYSrBh5tD6LCMtY1ObXsQFVcv?=
- =?us-ascii?Q?YvkayUtNpkfYcW2loltdI8QlqYTTtN4fOz/D6eBZPruFXayhYiaG72bBIsi2?=
- =?us-ascii?Q?UtzXzc05q359EYpBOuvyOs1e8i7zTAoH3g7Xm/IxD5CM7velGrYvricbDHR6?=
- =?us-ascii?Q?+QrK4e+Yr6F1GtSaB/xEl+ovZI4qDYMdt9CBWsIrdK9F2wLxmIm8BlVTqRNm?=
- =?us-ascii?Q?eqVS074e0ZdqLFtrHkzsMHnS7CaVIE74KlOmJyNCWqIOg9EfkTHbe/EWka8f?=
- =?us-ascii?Q?BmqPzm833XuZVaLdGrM186/5C/L4gLHIi9pLVJwxVoC+A1WsMATK9vO6X0B0?=
- =?us-ascii?Q?aEqKTm35Byj3YFnBOQgy/LtwKbvMVeBCYqJeB+uhE/9KJV++t7U6RLeNnQ/C?=
- =?us-ascii?Q?IXht7sfiWuhHPcxQWm3Cq+PYQx4sq/RrYnC/jqB8h6ngXMf4eMvpEA=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021)(13003099007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?w4bNhFUWqgt3zI9HUtU8mXPPhuhZMXdnaHEEayYbVhXKUC73yiCceA4lT5y+?=
- =?us-ascii?Q?ACSuBII9XMlh5Tm1z6SN1GMcdYjR9y2NXzHlK1vTv9owmB83SUJJ/J/lqnRl?=
- =?us-ascii?Q?VbP32idTn+WsFvtz1OzYL06FOzCxOgbAQMEBOcp+uYJwVvGmr0QXNyTfkeYc?=
- =?us-ascii?Q?oLdRqplVIu7Ss+EZNpECad217tmGYmqjVTUqTgPMn0Yhqx+THyWKafOTL2tM?=
- =?us-ascii?Q?7wNmh0oYpbIn74WeRk3owy3EPq6CWdMkMnSuWXPcExUKQNlvDfgHCkuaVA25?=
- =?us-ascii?Q?pKjc4OthTLQDgYYdfx1KyQhp+2N1vI33cO3HZdpojWTJNzLiHGyDAa/HB4WZ?=
- =?us-ascii?Q?Zfd/8l5EEI+q9D7+/OgtYELbjbodKm+7nFowcftvYXx+Lspdul3ftkqPfj6D?=
- =?us-ascii?Q?CXZhZytnkVtQwrnpBJiE+eovE7mRzz+W96UB1jbz50uW6KlznvUlr1ecntXt?=
- =?us-ascii?Q?axQOjwjkEBmNZuK3LEMIKeoqTehY/hLBbUa8SIDzih9khX7QSuTtEZKMrqos?=
- =?us-ascii?Q?bV+dabVp+yDdClweZMY5kFeCUbINCFRRMZAvuuuVjlpkgMzsUxRGmzhKvdaI?=
- =?us-ascii?Q?JJAd1Bi4EKhR4n/Pf8Bz9duGrVm4quFcrkuU0DM6fYnhE+ISvgoxavgD6WKL?=
- =?us-ascii?Q?As+oSXQHPMg7x102qgqADZZcFh0sIUoqR7kUOlCTdQjpvLENDqVz+gBXCd/7?=
- =?us-ascii?Q?tyRVzbN/WK5EeQO0rWYLLiNdiHOz7wwxAMWgGXciKp8eFfrNG06nKuaSULiI?=
- =?us-ascii?Q?MZNHLwZDUGg+r/yvYNEvX3oXCtLzpy2cqBd/PHwaD4OSh3qeO5FQuogamVxS?=
- =?us-ascii?Q?UFVxOkfGXbW8alU1aLL3TpBl2P5g7n7MllFOMdBEM5jJ1ybnE32N/R3+ddCG?=
- =?us-ascii?Q?TEnFYikq7GEqRepjGS3gehuNZcK4rK2R/VhslDUiNq3W0dpb3G3MupXmwkNT?=
- =?us-ascii?Q?CZ3GPnaXeF3woMLJERA/PsIchXPQGCM/uI/B8a9HvFLzgUCGsBz+JN12Qjoj?=
- =?us-ascii?Q?o0uxXdh9kpqGrI6rGBrsLFCh6a6sW1FmuwfmaY3IxX8qFxwEIL5UFlHe+sSQ?=
- =?us-ascii?Q?S96cqJoBGC6xfwmLqkQROJimL+yJFlIIQ0ug5HrvjUeWgREl3d30CYRLLh3e?=
- =?us-ascii?Q?rbosAIa9N+ypX/Gs4s9JX69nFftP0pyDushgPjftAaH7R9bYGOp4L+HL5My7?=
- =?us-ascii?Q?/JT4/6rtAIRG2Jblj+tLGeyExCoeqxeWitlKJ+z2D193m7YuRMaLHdHfPUVH?=
- =?us-ascii?Q?5rk7mC1tfuPVw9Xf8rZe/bCAgK1HyOL4uHEg9xo/frOzDzbDk66tq8rhnvgO?=
- =?us-ascii?Q?gpBw0Fmg/EYsEL5LjliPNRkxp8FAIXGflCf4b5Fj6FE/2uMXjwOTkiF3BLxC?=
- =?us-ascii?Q?jJvg5ndg5KaHYlw6Q5pFuVvlqx4mdeegOGVkegUZnBjh4ODhQa8Cuo8OHlqZ?=
- =?us-ascii?Q?Ipiz3lk/+CU6sQltrTRnGAabEwYY5k5HOxjoxAWOrJGDtWflBonCEr54R80T?=
- =?us-ascii?Q?5MTLieHLZHeUHJAsydes/qBEFYh5K9VchhpeUDvkx1JPKzuHFYzqaH1h0yNR?=
- =?us-ascii?Q?RUupzC0a1pIZdbEeLK0atlJUEVwqxQR6Q7wam3Kk?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Tue, 25 Nov
+ 2025 09:01:08 +0000
+Received: from AMS0EPF000001B2.eurprd05.prod.outlook.com
+ (2603:10a6:20b:5dd:cafe::99) by AS4P189CA0035.outlook.office365.com
+ (2603:10a6:20b:5dd::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.11 via Frontend Transport; Tue,
+ 25 Nov 2025 09:01:09 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 91.26.50.189)
+ smtp.mailfrom=phytec.de; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=phytec.de;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ phytec.de discourages use of 91.26.50.189 as permitted sender)
+Received: from Postix.phytec.de (91.26.50.189) by
+ AMS0EPF000001B2.mail.protection.outlook.com (10.167.16.166) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9366.7 via Frontend Transport; Tue, 25 Nov 2025 09:01:08 +0000
+Received: from augenblix2.phytec.de (172.25.0.51) by Postix.phytec.de
+ (172.25.0.11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Tue, 25 Nov
+ 2025 10:01:08 +0100
+From: Martin Schwan <m.schwan@phytec.de>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] cargo-update-recipe-crates: Don't fail for partially empty Cargo.lock
+Date: Tue, 25 Nov 2025 10:00:59 +0100
+Message-ID: <20251125090059.3155853-1-m.schwan@phytec.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 761303af-16bf-4a99-8471-08de2bfef71e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2025 08:45:20.0536
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [172.25.0.51]
+X-ClientProxiedBy: Postix.phytec.de (172.25.0.11) To Postix.phytec.de
+ (172.25.0.11)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMS0EPF000001B2:EE_|PRAP195MB1556:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0bd7193b-18bc-4478-1b89-08de2c012c68
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|82310400026|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?30W2u3TZK5RL2/k3b1A3m8mxwhMti+orAv01MPdxr7fD/K82sEIHjUPbz5pz?=
+ =?us-ascii?Q?vDQEtQHqfiDOMQnJBU5IObILGjKfu3UfE7vtPZ0r94FAnlCIXIzIAlqW5b4A?=
+ =?us-ascii?Q?EWJL1bkubPjdLNnAx5Q9AbfJ+v2vrIKxFHAL7YIOYvDt4D3fVBDspre+h1tS?=
+ =?us-ascii?Q?oe3G/UwbFAXusWDoRdozRJR8AlUvnzb5mKKHHg38U9eXwC+WWHrRAR4OWzOt?=
+ =?us-ascii?Q?UMR+buI0TvqTXCdlnMa9ZlOUeBy5h4Ue2Aji01Bjne1bGZWtyWagP0xgNUwM?=
+ =?us-ascii?Q?815cRM2O6GSx3TywKZJrUytmoRhTtzX5iA9jydZ2YW3SXpnkGunEU6Mxm71j?=
+ =?us-ascii?Q?Hq/iuEoVyyAvUHQMOSK5/ogdyFFMgZqNSxiGPy98K6fqtMbWlGbdawOJVlge?=
+ =?us-ascii?Q?GZyebXW1f2SPgjlKIYkd2UykELq6S++UpFa4jClSZYdRxuuMrCZMcrDojbxi?=
+ =?us-ascii?Q?KAs+smStKNiTcw1fBVwQPsdrOg2JaVlnGGdDAoHsu6zlUah/V1tPU8qIsG2/?=
+ =?us-ascii?Q?alY+O/3diqogBeT/SGZW58kJFxfBi5C7ZsYD+Jbuudk1bETZqaDPOP8IL0Io?=
+ =?us-ascii?Q?exbZfZHOmfDGflfkL9d7hXKdTKtREFZ/p9KMiSKOIA0l/zrdS0Y09kpz3QBG?=
+ =?us-ascii?Q?G7o2w/8eux/7tcjPbD3NjOipQ8Ji/FVl2dPXulrfK9tf2QeMC7wIZYXGu0BQ?=
+ =?us-ascii?Q?sliw6nJn2TgpIESc7aECH23n1Anpklxynbk1K7NtogAWHkUpsfsbVX/5tj2A?=
+ =?us-ascii?Q?TLaV8gL2vpt3o7qbGkVLvby9oZ7/m3W3CLiVmq0e8u8ye47ZyBOPkiEHPSIW?=
+ =?us-ascii?Q?MsH1s3YG6TrXVL9YDNGTndPiWaVNLOTgHkji1yHlUjDA/ktLflf5HRlxiZ7Q?=
+ =?us-ascii?Q?N7G7EMP9dZs4u4ECLkEWPHW3T4i2cgkTfn9S8Pb298xUpowUCQMXLe8rwGjY?=
+ =?us-ascii?Q?WwL2va41LtsRsInSqvOheQ9C3zROnDc3aH+G0QG2Qi/DJ+Hy5nLERQDWwl6A?=
+ =?us-ascii?Q?404Jo1mfU98/YUD5lYoPQL++CR8s3MOOvlkHE95xCMkA4C+428AgxPRWzkhA?=
+ =?us-ascii?Q?3iHgiPCzzpM7pP7tTN0LIeH751ypPpRIrk1Vg3Gg13SwowiAjLCaNozFSQ6n?=
+ =?us-ascii?Q?82hRf+EMdEpwTbxrq/RejW4ZBCBnV+u6eB6RLN9f2nZiGkxt/NyDSQEUEHm2?=
+ =?us-ascii?Q?qpWmIEpakPM3Vzp7XkUQVsHUHYmKPQTADkBLrGkaRhObkT9up0e+Af0rJlre?=
+ =?us-ascii?Q?yP0QJKmYiV/rKzEZKY00SHTjDeoHbsg5RSt6Flsof8TnQ/1LITL0nMUkesg6?=
+ =?us-ascii?Q?tvHSFbIoOb6PljZ0tjww1iCoN26xTaL8WCCHoIyp7z+3kByb8bV8QosP7pjg?=
+ =?us-ascii?Q?Df5EuEuBtKav2QphBDmpzOwqG7icgroDxdD5Ilw4oooJfCrstc0uU0MubhAT?=
+ =?us-ascii?Q?nSGGtr61U92Uzjz4k+wrd0qADqxGN7sxf7+BQCF1Dhl1ilsqQA/MA5dpNWDD?=
+ =?us-ascii?Q?mLHKPLasZD7yKOi7ozrkl2pWWpW8u7tyooz2wmLL6Pegx6tlwiZR2mG4d3SN?=
+ =?us-ascii?Q?OO8NFyVHnaSW4ka3P5c=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:91.26.50.189;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:Postix.phytec.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024);DIR:OUT;SFP:1102;
+X-OriginatorOrg: phytec.de
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 09:01:08.4366
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DdJ48+sKnZEwHg0u8yIC0AsALQn5zAWXownYofQxQsV1tBW25p2EgQLvA/JceGW0SPrEZk48563NzxxokoKUQQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6252
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0bd7193b-18bc-4478-1b89-08de2c012c68
+X-MS-Exchange-CrossTenant-Id: e609157c-80e2-446d-9be3-9c99c2399d29
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e609157c-80e2-446d-9be3-9c99c2399d29;Ip=[91.26.50.189];Helo=[Postix.phytec.de]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF000001B2.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAP195MB1556
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 08:45:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226756
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 09:01:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226757
 
+Do not fail if only some Cargo.lock files are empty. Only fail, if there
+are absolutely no dependencies found in any Cargo.lock.
 
+This fixes the following error message, which would occur with "bitbake
+-c update_crates python3-orjson":
 
-> -----Original Message-----
-> From: Haase Moritz, JD-61 <Moritz.Haase@bmw.de>
-> Sent: Tuesday, November 25, 2025 9:02
-> To: openembedded-core@lists.openembedded.org
-> Cc: matthias.schiffer@ew.tq-group.com; richard.purdie@linuxfoundation.org=
-;
-> Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
-> steve@sakoman.com
-> Subject: Re: [scarthgap 8/8] curl: only set CA bundle in target build
->=20
-> Hi,
->=20
-> > In native/nativesdk builds, sysconfdir refers to a recipe sysroot
-> > directory, which will disappear once the workdir is cleaned up, breakin=
-g
-> > libcurl's HTTPS connections.
-> >
-> > By simply not setting --with-ca-bundle at all in non-target builds, cur=
-l
-> > defaults to the host system's CA certificates, which is desirable anywa=
-ys
-> > to allow builds in environments that require local CA certificates.
->=20
-> this patch seems to have broken opkg in the SDK for us: It now fails to d=
-ownload
-> packages via HTTPS (from a server with a "proper" certificate from a publ=
-ic CA),
-> reporting:
->=20
-> > SSL certificate problem: self-signed certificate in certificate chain
->=20
-> It looks like the env variables set by [0] and others like 'SSL_CERT_(DIR=
-|FILE)'
-> (see [1]) are only taken into account by curl on the command line (see [2=
-]), but
-> not by libcurl, which opkg uses. Removing the default CA bundle option fr=
-om the
-> build now means that libcurl doesn't have any CA certificates to verify a=
-gainst
-> unless explicitly configured (previously it was using 'ca-certificates.cr=
-t'
-> shipped by the SDK). For opkg, that would be possible using the 'ssl_ca_f=
-ile'
-> and 'ssl_ca_file' options in the config file, but those paths would need =
-to be
-> relocatable at SDK install time and there might be other programs using l=
-ibcurl
-> that are affected by the same issue.
->=20
-> Is there anything that I'm missing or an easier workaround to restore opk=
-g's
-> HTTPS transfer abilities?
+    ERROR: python3-orjson-3.10.17-r0 do_update_crates: Execution of '.../py=
+thon3-orjson/3.10.17/temp/run.do_update_crates.70693' failed with exit code=
+ 1
+    ERROR: Logfile of failure stored in: .../python3-orjson/3.10.17/temp/lo=
+g.do_update_crates.70693
+    Log data follows:
+    | DEBUG: Executing python function extend_recipe_sysroot
+    | NOTE: Direct dependencies are ['.../sources/oe-core/../oe-core/meta/r=
+ecipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', 'virtual:n=
+ative:.../sources/oe-core/../oe-core/meta/recipes-devtools/patch/patch_2.8.=
+bb:do_populate_sysroot', 'virtual:native:.../sources/oe-core/../oe-core/met=
+a/recipes-devtools/python/python3_3.13.9.bb:do_populate_sysroot']
+    | NOTE: Installed into sysroot: []
+    | NOTE: Skipping as already exists in sysroot: ['gettext-minimal-native=
+', 'cmake-native', 'libtool-native', 'quilt-native', 'texinfo-dummy-native'=
+, 'openssl-native', 'expat-native', 'ncurses-native', 'util-linux-libuuid-n=
+ative', 'zlib-native', 'libedit-native', 'make-native', 'patch-native', 'pe=
+rl-native', 'python3-native', 'bzip2-native', 'xz-native', 'zstd-native', '=
+attr-native', 'gdbm-native', 'libffi-native', 'sqlite3-native']
+    | DEBUG: Python function extend_recipe_sysroot finished
+    | DEBUG: Executing shell function do_update_crates
+    | Traceback (most recent call last):
+    |   File "<stdin>", line 41, in <module>
+    |   File "<stdin>", line 12, in get_crates
+    | ValueError: Unable to find any candidate crates that use crates.io
+    |
+    | The above exception was the direct cause of the following exception:
+    |
+    | Traceback (most recent call last):
+    |   File "<stdin>", line 43, in <module>
+    | ValueError: Cannot parse '.../python3-orjson/3.10.17/sources/orjson-3=
+.10.17/include/cargo/simdutf8-0.1.5/Cargo.lock'
+    | WARNING: exit code 1 from a shell command.
+    ERROR: Task (.../sources/oe-core/../meta-openembedded/meta-python/recip=
+es-devtools/python/python3-orjson_3.10.17.bb:do_update_crates) failed with =
+exit code '1'
 
-Qruick workaround could be to set host path for native/nativesdk?
-# use host certificates for non-target builds
-CERT_BASE_DIR ?=3D "/etc"
-CERT_BASE_DIR:class-target =3D "${sysconfdir}"
-And use "--with-ca-bundle=3D${CERT_BASE_DIR}/ssl/certs/ca-certificates.crt
+After this change, a working crates include file is produced and warning
+messages are output instead to inform about potential issues in the
+corresponding project:
 
-However, the system will behave differently with curl-cli and libcurl.
-So what should probably be done is to implement env handling for everything=
- using libcurl as was done in the patch series which prompted this hot-patc=
-h:
-* https://git.openembedded.org/openembedded-core/commit/?h=3Dscarthgap&id=
-=3D5f4fd544d3df7365224599c9efdce4e545f51d5e
-* https://git.openembedded.org/openembedded-core/commit/?h=3Dscarthgap&id=
-=3D397d432a62c265f481cf1ac4d9c760504d9eb9f5
-* https://git.openembedded.org/openembedded-core/commit/?h=3Dscarthgap&id=
-=3D2e0b9e9a86f6bd2ba13082e31d7c097b254f30a4
-Especially with commit message saying "... respects host CA certificates".
-I guess that series didn't take libcurl into account and should be extended=
- instead of trying to find per-usecase sulutions.
+    WARNING: python3-orjson-3.10.17-r0 do_update_crates: Unable to find any=
+ candidate crates that use crates.io
+    WARNING: python3-orjson-3.10.17-r0 do_update_crates: Cannot parse '.../=
+python3-orjson/3.10.17/sources/orjson-3.10.17/include/cargo/simdutf8-0.1.5/=
+Cargo.lock'
 
-Peter
+While at it, restructure do_update_crates() to be a real Python function
+and use the corresponding code directly inline.
 
->=20
-> Thanks,
->=20
-> Moritz
->=20
-> [0]: https://git.openembedded.org/openembedded-core/tree/meta/recipes-
-> support/curl/curl/environment.d-curl.sh
-> [1]: https://git.openembedded.org/openembedded-core/tree/meta/recipes-
-> connectivity/openssl/files/environment.d-openssl.sh
-> [2]:
-> https://github.com/curl/curl/blob/de7b3e89218467159a7af72d58cea8425946e97=
-d/sr
-> c/tool_operate.c#L2586-L2623
+Signed-off-by: Martin Schwan <m.schwan@phytec.de>
+---
+ .../cargo-update-recipe-crates.bbclass        | 91 +++++++++----------
+ 1 file changed, 45 insertions(+), 46 deletions(-)
+
+diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/meta/=
+classes-recipe/cargo-update-recipe-crates.bbclass
+index 3251d5ef2e..589f497680 100644
+--- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
++++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
+@@ -23,59 +23,58 @@ RECIPE_UPGRADE_EXTRA_TASKS +=3D "do_update_crates"
+ # The directory where to search for Cargo.lock files
+ CARGO_LOCK_SRC_DIR ??=3D "${S}"
+=20
+-do_update_crates() {
+-    TARGET_FILE=3D"${THISDIR}/${BPN}-crates.inc"
++python do_update_crates() {
++    import tomllib
+=20
+-    nativepython3 - <<EOF
++    target_file =3D d.expand('${THISDIR}/${BPN}-crates.inc')
++    cargo_lock_src_dir =3D d.getVar('CARGO_LOCK_SRC_DIR')
+=20
+-def get_crates(f):
+-    import tomllib
+-    c_list =3D '# from %s' % os.path.relpath(f, '${CARGO_LOCK_SRC_DIR}')
+-    c_list +=3D '\nSRC_URI +=3D " \\\'
+-    crates =3D tomllib.load(open(f, 'rb'))
++    def get_crates(f):
++        c_list =3D '# from %s' % os.path.relpath(f, cargo_lock_src_dir)
++        c_list +=3D '\nSRC_URI +=3D " \\'
++        crates =3D tomllib.load(open(f, 'rb'))
+=20
+-    # Build a list with crates info that have crates.io in the source
+-    crates_candidates =3D list(filter(lambda c: 'crates.io' in c.get('sour=
+ce', ''), crates['package']))
++        # Build a list with crates info that have crates.io in the source
++        crates_candidates =3D list(filter(lambda c: 'crates.io' in c.get('=
+source', ''), crates['package']))
+=20
+-    if not crates_candidates:
+-        raise ValueError("Unable to find any candidate crates that use cra=
+tes.io")
++        if not crates_candidates:
++            bb.warn('Unable to find any candidate crates that use crates.i=
+o')
++            return None
+=20
+-    # Update crates uri and their checksum, to avoid name clashing on the =
+checksum
+-    # we need to rename crates with name and version to have a unique key
+-    cksum_list =3D ''
+-    for c in crates_candidates:
+-        rename =3D "%s-%s" % (c['name'], c['version'])
+-        c_list +=3D '\n    crate://crates.io/%s/%s \\\' % (c['name'], c['v=
+ersion'])
+-        if 'checksum' in c:
+-            cksum_list +=3D '\nSRC_URI[%s.sha256sum] =3D "%s"' % (rename, =
+c['checksum'])
++        # Update crates uri and their checksum, to avoid name clashing on =
+the checksum
++        # we need to rename crates with name and version to have a unique =
+key
++        cksum_list =3D ''
++        for c in crates_candidates:
++            rename =3D "%s-%s" % (c['name'], c['version'])
++            c_list +=3D '\n    crate://crates.io/%s/%s \\' % (c['name'], c=
+['version'])
++            if 'checksum' in c:
++                cksum_list +=3D '\nSRC_URI[%s.sha256sum] =3D "%s"' % (rena=
+me, c['checksum'])
+=20
+-    c_list +=3D '\n"\n'
+-    c_list +=3D cksum_list
+-    c_list +=3D '\n'
+-    return c_list
++        c_list +=3D '\n"\n'
++        c_list +=3D cksum_list
++        c_list +=3D '\n'
++        return c_list
+=20
+-import os
+-crates =3D "# Autogenerated with 'bitbake -c update_crates ${PN}'\n\n"
+-found =3D False
+-for root, dirs, files in os.walk('${CARGO_LOCK_SRC_DIR}'):
+-    # ignore git and patches directories
+-    if root.startswith(os.path.join('${CARGO_LOCK_SRC_DIR}', '.pc')):
+-        continue
+-    if root.startswith(os.path.join('${CARGO_LOCK_SRC_DIR}', '.git')):
+-        continue
+-    for file in files:
+-        if file =3D=3D 'Cargo.lock':
+-            try:
++    crates =3D d.expand('# Autogenerated with \'bitbake -c update_crates $=
+{PN}\'\n\n')
++    for root, dirs, files in os.walk(cargo_lock_src_dir):
++        # ignore git and patches directories
++        if root.startswith(os.path.join(cargo_lock_src_dir, '.pc')):
++            continue
++        if root.startswith(os.path.join(cargo_lock_src_dir, '.git')):
++            continue
++        for file in files:
++            if file =3D=3D 'Cargo.lock':
+                 cargo_lock_path =3D os.path.join(root, file)
+-                crates +=3D get_crates(os.path.join(root, file))
+-            except Exception as e:
+-                raise ValueError("Cannot parse '%s'" % cargo_lock_path) fr=
+om e
+-            else:
+-                found =3D True
+-if not found:
+-    raise ValueError("Unable to find any Cargo.lock in ${CARGO_LOCK_SRC_DI=
+R}")
+-open("${TARGET_FILE}", 'w').write(crates)
+-EOF
++                c =3D get_crates(cargo_lock_path)
++                if c is None:
++                    bb.warn('Cannot parse \'%s\'' % cargo_lock_path)
++                else:
++                    crates +=3D c
++    if crates is None:
++        bb.error(f'Unable to find any Cargo.lock in {cargo_lock_src_dir}')
++
++    with open(target_file, 'w') as f:
++        f.write(crates)
+=20
+-    bbnote "Successfully update crates inside '${TARGET_FILE}'"
++    bb.note(f'Successfully updated crates inside \'{target_file}\'')
+ }
+--=20
+2.43.0
+
 
