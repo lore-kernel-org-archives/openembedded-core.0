@@ -2,477 +2,564 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A95DD0EE31
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 043B5D0EE30
 	for <webhook@archiver.kernel.org>; Tue, 25 Nov 2025 20:55:10 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4190.1764104108646535829
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4189.1764104107203371457
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Nov 2025 12:55:08 -0800
+ Tue, 25 Nov 2025 12:55:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xwh4Zais;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-343dd5aa6e7so6298613a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 12:55:08 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mg8HuFmb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7b86e0d9615so7144269b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 12:55:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1764104108; x=1764708908; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1764104106; x=1764708906; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xsMZjKeiNsCRXo3Hz/LPzZTKDN9y+cEfGW3mTYn3uIw=;
-        b=xwh4ZaiseFR3A0vtF0vdOd7/ffQ/1uBZhCA0e4yLUxfIxA3SVAyCVgzAlLXGkzK/Di
-         FfmICV6AbSht4KeVK4lnW9FEPfGYzIgenyl9TqJ46Cp0ZvwKKqhCyhdYO7s6LbHExX+9
-         ob7O388POVz8AJitiFwYJFdHp56f3p4Sy8HiPyFLMSaxEUsdRpVIw5fpp8yPO47uwTxM
-         RVJ1iQUdP/AAW4FhrrHcvpQ1hZXxCndu8sx/Rtg/O+Fr4S/qxRlefK9CZkT2ALIjbfcH
-         wrakk5sFqBrwULljwdJtjC6lrb4IosUC4Gtn+I8tU7R0ySFgquBdqFZ7bkBoZfeqqeSt
-         zlIw==
+        bh=VNBr/xRHhdUTWxaWtf9rqRKYKyFn1ZspDaF6qsBy398=;
+        b=mg8HuFmbgv29NKqOztAFBa8jkbtzFlAJEykgzU1CstaarXy3bU2GHWPfsPlapWz7N9
+         bOllnxlNgp4OZ3JIJHAHuUlUzQz82TEtZagvhw2+8Y0Zd3NhbmjMEeIy5ElYugZiNvAh
+         3i+dV+zsouaMyFyo2aX/HjkDxEu6JoElIGCdGpDILk4IY5cQfl4+kgpiMGTqVsb5yDA+
+         yfqseBXU0ZU/DgrLSLkSxBz8Dj1X/14PMD/YvinzTJ2txFajNQXcIQ/LUqaQe1tQaxUX
+         l64j9t79jlQudRvgsiwWFA0Xf59dt2ZGWlGykqRrXlY/xl6pjR+qD573c50KtIDK9xlZ
+         TN0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764104108; x=1764708908;
+        d=1e100.net; s=20230601; t=1764104106; x=1764708906;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=xsMZjKeiNsCRXo3Hz/LPzZTKDN9y+cEfGW3mTYn3uIw=;
-        b=eYHgRhf87ugK6CySr25jj18OSJ7q6LiPnynXyoX0I+u6P93DM16arD6d5NSyGYcbXg
-         69fFs5By46C745bimnVxIOtpDFKD/gM1uySy5mfuCqceDFoR6a7rOM4XKjoEQVTQ1r16
-         Lak4R3T77+okrR3iUYFOpAty2TLNZb53ivjbzpoaA2HQ5jKG+RVYFdEY28pz+OUvUy0y
-         vnfpkpSmnxCe9aCSN/WbPC8A/GjG0rE3osEiEhEjEWC6g5qt/RvNVwP1vAGj7Tu3jNBo
-         r7S1IiSYBmcSxV6wqGXUqRNW0g37x80VJsiIGfsejGySdaMjYtr3pZgx6aP/c2Tiu2ym
-         28SQ==
-X-Gm-Message-State: AOJu0Yx9gp9LGrsMCWrpHUb0NK/uRI89MJ81u/7QHx65WHk+f1+KiuWQ
-	yF/zrZ3b3+5xixGtNgDRTdATmJDdae109maaVhvSzmc7UbGmHK51i8fj8CHDVm6lCydJC+qfSHL
-	u6fKz
-X-Gm-Gg: ASbGncvPn6967bVRJQcKA5KLKoVfdseGkIQZxcfwA67m3R5W2sYo+O7VCAakrtvHDKd
-	sEaD1kwO5rBsKq/4YZEg4Svj6ajcsSPLiCEK0dw04oWjBk43CuWcoGKIgNmZJvKybjzgnB33CFn
-	bp1vdezbs7PQlYJsphpa+K5RB0JE2yaG0mfRrw0VaKPOg37m5gNnmLHhkQVRqaizXav69BLz3p0
-	WuhtiY3NzUi+q1cQ8nO5UBwGcyugrsykBxLPY/XoDXW0ZQKB/o0wUBHhjA1w0rE8DFmimzAA+3t
-	AzdFzRsGmgRFyJ7PtZLDfvanP3OCiNZZ8o48OnSTZPuGy67Nr2rTXOV5awveixko/5jJY/Qrvis
-	/HhgunjiKMzPonXPIfduoVz7JcozX50RZ4USKFhdzaQutAAyfEAJB/zc9rtE0v4P/DqZHP/+OSa
-	hU4Q==
-X-Google-Smtp-Source: AGHT+IF8DlrUlzn5TC9Nnz1HEkrU5kj0PqBm6cxSToqOZbtO5RIhsJpWjwmyJiNfLuFGH217U6gZKg==
-X-Received: by 2002:a17:90b:3890:b0:330:a228:d2c with SMTP id 98e67ed59e1d1-34733e6ce5bmr17578343a91.15.1764104107658;
-        Tue, 25 Nov 2025 12:55:07 -0800 (PST)
+        bh=VNBr/xRHhdUTWxaWtf9rqRKYKyFn1ZspDaF6qsBy398=;
+        b=vcKfrnWpR8k+aIZq3AbtCzLeY4n9Yz0TRvRQeRRzjEMBibDnKqXKNzsqZ1c7HTT8sa
+         uH7dSkXHHzkWiOuFrvoWUOik4J2ZZeqBfC/V2Bcozzt2x9BOrZ7z+i0PS/jHcpUBaICj
+         1NKQdlYmkMplhmevOchtgh7u8EJqtlK3KAEuPmaghJBo82qEj1tUUqt+u4tKzA5i4ppf
+         OH/Zb5iJCBbzkefnjUSS0cVlgM8y/mQQ/PpD3k0g4gmO8Y7p8sg45GWMZXA6Xw3bg3ZF
+         gNiL/5uy/tcPUyhEEJXh8Gm6gT3pOCVQTkPLP4THHZUH7It66sKKTuS0datPKkcGlqIq
+         Pxmw==
+X-Gm-Message-State: AOJu0Yz7jnQlCQPHB468slG/rK3iqb0b3aa3BzfFZZ6JTnL7GQVDszD6
+	Col6bjYYQ2TouaXPWFsAqy8B61+1fXAy/uHLxDVyoaKs3f2Ht/I1pul4VAYN9zlJvwRGKVTJeWN
+	Xwiz1
+X-Gm-Gg: ASbGnctVd575yldVCHMaTPsW4k/7cbHOstmqQMwGMglksdlgdNNgv3OCmdmGR/RjH3v
+	ya5EG1dg2WEwgRM+ze9ADEAF7kCml+gxmXZ8BEZDDr4boL2MScDnJa2KDN0baNVZ99uF5IoBjR8
+	4n99MHvqzz0aTb13+5W8Pol83akwkPj6HKFvc9tH7XLYV1mKKcwqv0t8WTpePG7+iWxLKaG4+k5
+	rL9jr2jdLvbJuMU4NODGcxwhesCR07tJqg+Td6K6aG0c+hCn3ZQtUl2byu1vhWdHF7ooTIwP6uf
+	RYk6ofWj3khnHIEp7rj/jk8kYo3xsJ5rJo6n0L6br/Ck9ULRlODxqxZf1g1xamGnlahxSVZBtmY
+	qQbAdCT5pLUhAPd4+vDhE1yWoe13fEmRQD9DVkt0DccvYt80EfR7XD3goTSFV7Re+4CphNCONdn
+	MQMg==
+X-Google-Smtp-Source: AGHT+IGPICY8vCniGWiYtBaul6f6KL3QLdD6RvPgHrAcuQ7aoqPnqGGPmCNF0ObPFrSIW6w6B+vQ2w==
+X-Received: by 2002:a05:6a20:2586:b0:35d:bb66:5ce3 with SMTP id adf61e73a8af0-3614eaf59b5mr18894868637.12.1764104106155;
+        Tue, 25 Nov 2025 12:55:06 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:5e34:462b:e2f0:5898])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3476a5a3099sm322602a91.11.2025.11.25.12.55.06
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3476a5a3099sm322602a91.11.2025.11.25.12.55.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 12:55:07 -0800 (PST)
+        Tue, 25 Nov 2025 12:55:05 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 5/9] python3: fix CVE-2025-6075
-Date: Tue, 25 Nov 2025 12:54:48 -0800
-Message-ID: <9a7f33d85355ffbe382aa175c04c64541e77b441.1764103986.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 4/9] ruby: fix CVE-2024-41123
+Date: Tue, 25 Nov 2025 12:54:47 -0800
+Message-ID: <6b2a2e689a69deef6098f6c266542234e46fb24b.1764103986.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1764103986.git.steve@sakoman.com>
 References: <cover.1764103986.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 20:55:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226780
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226779
 
-From: Praveen Kumar <praveen.kumar@windriver.com>
+From: Divya Chellam <divya.chellam@windriver.com>
 
-If the value passed to os.path.expandvars() is user-controlled a
-performance degradation is possible when expanding environment variables.
+REXML is an XML toolkit for Ruby. The REXML gem before 3.3.2 has some DoS
+vulnerabilities when it parses an XML that has many specific characters
+such as whitespace character, `>]` and `]>`. The REXML gem 3.3.3 or later
+include the patches to fix these vulnerabilities.
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-6075
+https://nvd.nist.gov/vuln/detail/CVE-2024-41123
 
-Upstream-patch:
-https://github.com/python/cpython/commit/892747b4cf0f95ba8beb51c0d0658bfaa381ebca
+Upstream-patches:
+https://github.com/ruby/rexml/commit/2c39c91a65d69357cfbc35dd8079b3606d86bb70
+https://github.com/ruby/rexml/commit/4444a04ece4c02a7bd51e8c75623f22dc12d882b
+https://github.com/ruby/rexml/commit/ebc3e85bfa2796fb4922c1932760bec8390ff87c
+https://github.com/ruby/rexml/commit/6cac15d45864c8d70904baa5cbfcc97181000960
+https://github.com/ruby/rexml/commit/e2546e6ecade16b04c9ee528e5be8509fe16c2d6
 
-Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../python/python3/CVE-2025-6075.patch        | 364 ++++++++++++++++++
- .../python/python3_3.10.19.bb                 |   1 +
- 2 files changed, 365 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-6075.patch
+ .../ruby/ruby/CVE-2024-41123-0001.patch       |  44 +++++
+ .../ruby/ruby/CVE-2024-41123-0002.patch       |  37 ++++
+ .../ruby/ruby/CVE-2024-41123-0003.patch       |  55 ++++++
+ .../ruby/ruby/CVE-2024-41123-0004.patch       | 163 ++++++++++++++++++
+ .../ruby/ruby/CVE-2024-41123-0005.patch       | 111 ++++++++++++
+ meta/recipes-devtools/ruby/ruby_3.1.3.bb      |   5 +
+ 6 files changed, 415 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0001.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0002.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0003.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0004.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0005.patch
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2025-6075.patch b/meta/recipes-devtools/python/python3/CVE-2025-6075.patch
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0001.patch b/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0001.patch
 new file mode 100644
-index 0000000000..eab5a882a0
+index 0000000000..c9d7ed2626
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2025-6075.patch
-@@ -0,0 +1,364 @@
-+From 892747b4cf0f95ba8beb51c0d0658bfaa381ebca Mon Sep 17 00:00:00 2001
-+From: Łukasz Langa <lukasz@langa.pl>
-+Date: Fri, 31 Oct 2025 17:51:32 +0100
-+Subject: [PATCH] gh-136065: Fix quadratic complexity in os.path.expandvars()
-+ (GH-134952) (GH-140851)
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0001.patch
+@@ -0,0 +1,44 @@
++From 2c39c91a65d69357cfbc35dd8079b3606d86bb70 Mon Sep 17 00:00:00 2001
++From: Watson <watson1978@gmail.com>
++Date: Fri, 19 Jul 2024 17:15:15 +0900
++Subject: [PATCH] Fix method scope in test in order to invoke the tests
++ properly and fix exception message (#182)
 +
-+(cherry picked from commit f029e8db626ddc6e3a3beea4eff511a71aaceb5c)
++This PR includes following two fixes.
 +
-+Co-authored-by: Serhiy Storchaka <storchaka@gmail.com>
++1. The `test_empty` and `test_linear_performance_gt` were defined as
++private method. Seems that test-unit runner does not invoke private
++methods even if the methods have `test_` prefix.
++2. When parse malformed entity declaration, the exception might have the
++message about `NoMethodError`. The proper exception message will be
++contained by this fix.
 +
-+CVE: CVE-2025-6075
++CVE: CVE-2024-41123
 +
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/892747b4cf0f95ba8beb51c0d0658bfaa381ebca]
++Upstream-Status: Backport [https://github.com/ruby/rexml/commit/2c39c91a65d69357cfbc35dd8079b3606d86bb70]
 +
-+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
 +---
-+ Lib/ntpath.py                                 | 126 ++++++------------
-+ Lib/posixpath.py                              |  43 +++---
-+ Lib/test/test_genericpath.py                  |  14 ++
-+ Lib/test/test_ntpath.py                       |  20 ++-
-+ ...-05-30-22-33-27.gh-issue-136065.bu337o.rst |   1 +
-+ 5 files changed, 93 insertions(+), 111 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-136065.bu337o.rst
++ .bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
 +
-+diff --git a/Lib/ntpath.py b/Lib/ntpath.py
-+index 9b0cca4..bd2b4e2 100644
-+--- a/Lib/ntpath.py
-++++ b/Lib/ntpath.py
-+@@ -374,17 +374,23 @@ def expanduser(path):
-+ # XXX With COMMAND.COM you can use any characters in a variable name,
-+ # XXX except '^|<>='.
-+
-++_varpattern = r"'[^']*'?|%(%|[^%]*%?)|\$(\$|[-\w]+|\{[^}]*\}?)"
-++_varsub = None
-++_varsubb = None
-++
-+ def expandvars(path):
-+     """Expand shell variables of the forms $var, ${var} and %var%.
-+
-+     Unknown variables are left unchanged."""
-+     path = os.fspath(path)
-++    global _varsub, _varsubb
-+     if isinstance(path, bytes):
-+         if b'$' not in path and b'%' not in path:
-+             return path
-+-        import string
-+-        varchars = bytes(string.ascii_letters + string.digits + '_-', 'ascii')
-+-        quote = b'\''
-++        if not _varsubb:
-++            import re
-++            _varsubb = re.compile(_varpattern.encode(), re.ASCII).sub
-++        sub = _varsubb
-+         percent = b'%'
-+         brace = b'{'
-+         rbrace = b'}'
-+@@ -393,94 +399,44 @@ def expandvars(path):
-+     else:
-+         if '$' not in path and '%' not in path:
-+             return path
-+-        import string
-+-        varchars = string.ascii_letters + string.digits + '_-'
-+-        quote = '\''
-++        if not _varsub:
-++            import re
-++            _varsub = re.compile(_varpattern, re.ASCII).sub
-++        sub = _varsub
-+         percent = '%'
-+         brace = '{'
-+         rbrace = '}'
-+         dollar = '$'
-+         environ = os.environ
-+-    res = path[:0]
-+-    index = 0
-+-    pathlen = len(path)
-+-    while index < pathlen:
-+-        c = path[index:index+1]
-+-        if c == quote:   # no expansion within single quotes
-+-            path = path[index + 1:]
-+-            pathlen = len(path)
-+-            try:
-+-                index = path.index(c)
-+-                res += c + path[:index + 1]
-+-            except ValueError:
-+-                res += c + path
-+-                index = pathlen - 1
-+-        elif c == percent:  # variable or '%'
-+-            if path[index + 1:index + 2] == percent:
-+-                res += c
-+-                index += 1
-+-            else:
-+-                path = path[index+1:]
-+-                pathlen = len(path)
-+-                try:
-+-                    index = path.index(percent)
-+-                except ValueError:
-+-                    res += percent + path
-+-                    index = pathlen - 1
-+-                else:
-+-                    var = path[:index]
-+-                    try:
-+-                        if environ is None:
-+-                            value = os.fsencode(os.environ[os.fsdecode(var)])
-+-                        else:
-+-                            value = environ[var]
-+-                    except KeyError:
-+-                        value = percent + var + percent
-+-                    res += value
-+-        elif c == dollar:  # variable or '$$'
-+-            if path[index + 1:index + 2] == dollar:
-+-                res += c
-+-                index += 1
-+-            elif path[index + 1:index + 2] == brace:
-+-                path = path[index+2:]
-+-                pathlen = len(path)
-+-                try:
-+-                    index = path.index(rbrace)
-+-                except ValueError:
-+-                    res += dollar + brace + path
-+-                    index = pathlen - 1
-+-                else:
-+-                    var = path[:index]
-+-                    try:
-+-                        if environ is None:
-+-                            value = os.fsencode(os.environ[os.fsdecode(var)])
-+-                        else:
-+-                            value = environ[var]
-+-                    except KeyError:
-+-                        value = dollar + brace + var + rbrace
-+-                    res += value
-+-            else:
-+-                var = path[:0]
-+-                index += 1
-+-                c = path[index:index + 1]
-+-                while c and c in varchars:
-+-                    var += c
-+-                    index += 1
-+-                    c = path[index:index + 1]
-+-                try:
-+-                    if environ is None:
-+-                        value = os.fsencode(os.environ[os.fsdecode(var)])
-+-                    else:
-+-                        value = environ[var]
-+-                except KeyError:
-+-                    value = dollar + var
-+-                res += value
-+-                if c:
-+-                    index -= 1
-++
-++    def repl(m):
-++        lastindex = m.lastindex
-++        if lastindex is None:
-++            return m[0]
-++        name = m[lastindex]
-++        if lastindex == 1:
-++            if name == percent:
-++                return name
-++            if not name.endswith(percent):
-++                return m[0]
-++            name = name[:-1]
-+         else:
-+-            res += c
-+-        index += 1
-+-    return res
-++            if name == dollar:
-++                return name
-++            if name.startswith(brace):
-++                if not name.endswith(rbrace):
-++                    return m[0]
-++                name = name[1:-1]
-++
-++        try:
-++            if environ is None:
-++                return os.fsencode(os.environ[os.fsdecode(name)])
-++            else:
-++                return environ[name]
-++        except KeyError:
-++            return m[0]
-++
-++    return sub(repl, path)
-+
-+
-+ # Normalize a path, e.g. A//B, A/./B and A/foo/../B all become A\B.
-+diff --git a/Lib/posixpath.py b/Lib/posixpath.py
-+index b8dd563..75020ee 100644
-+--- a/Lib/posixpath.py
-++++ b/Lib/posixpath.py
-+@@ -279,42 +279,41 @@ def expanduser(path):
-+ # This expands the forms $variable and ${variable} only.
-+ # Non-existent variables are left unchanged.
-+
-+-_varprog = None
-+-_varprogb = None
-++_varpattern = r'\$(\w+|\{[^}]*\}?)'
-++_varsub = None
-++_varsubb = None
-+
-+ def expandvars(path):
-+     """Expand shell variables of form $var and ${var}.  Unknown variables
-+     are left unchanged."""
-+     path = os.fspath(path)
-+-    global _varprog, _varprogb
-++    global _varsub, _varsubb
-+     if isinstance(path, bytes):
-+         if b'$' not in path:
-+             return path
-+-        if not _varprogb:
-++        if not _varsubb:
-+             import re
-+-            _varprogb = re.compile(br'\$(\w+|\{[^}]*\})', re.ASCII)
-+-        search = _varprogb.search
-++            _varsubb = re.compile(_varpattern.encode(), re.ASCII).sub
-++        sub = _varsubb
-+         start = b'{'
-+         end = b'}'
-+         environ = getattr(os, 'environb', None)
-+     else:
-+         if '$' not in path:
-+             return path
-+-        if not _varprog:
-++        if not _varsub:
-+             import re
-+-            _varprog = re.compile(r'\$(\w+|\{[^}]*\})', re.ASCII)
-+-        search = _varprog.search
-++            _varsub = re.compile(_varpattern, re.ASCII).sub
-++        sub = _varsub
-+         start = '{'
-+         end = '}'
-+         environ = os.environ
-+-    i = 0
-+-    while True:
-+-        m = search(path, i)
-+-        if not m:
-+-            break
-+-        i, j = m.span(0)
-+-        name = m.group(1)
-+-        if name.startswith(start) and name.endswith(end):
-++
-++    def repl(m):
-++        name = m[1]
-++        if name.startswith(start):
-++            if not name.endswith(end):
-++                return m[0]
-+             name = name[1:-1]
-+         try:
-+             if environ is None:
-+@@ -322,13 +321,11 @@ def expandvars(path):
-+             else:
-+                 value = environ[name]
-+         except KeyError:
-+-            i = j
-++            return m[0]
-+         else:
-+-            tail = path[j:]
-+-            path = path[:i] + value
-+-            i = len(path)
-+-            path += tail
-+-    return path
-++            return value
-++
-++    return sub(repl, path)
-+
-+
-+ # Normalize a path, e.g. A//B, A/./B and A/foo/../B all become A/B.
-+diff --git a/Lib/test/test_genericpath.py b/Lib/test/test_genericpath.py
-+index 1ff7f75..b0a1326 100644
-+--- a/Lib/test/test_genericpath.py
-++++ b/Lib/test/test_genericpath.py
-+@@ -7,6 +7,7 @@ import os
-+ import sys
-+ import unittest
-+ import warnings
-++from test import support
-+ from test.support import os_helper
-+ from test.support import warnings_helper
-+ from test.support.script_helper import assert_python_ok
-+@@ -430,6 +431,19 @@ class CommonTest(GenericTest):
-+                   os.fsencode('$bar%s bar' % nonascii))
-+             check(b'$spam}bar', os.fsencode('%s}bar' % nonascii))
-+
-++    @support.requires_resource('cpu')
-++    def test_expandvars_large(self):
-++        expandvars = self.pathmodule.expandvars
-++        with os_helper.EnvironmentVarGuard() as env:
-++            env.clear()
-++            env["A"] = "B"
-++            n = 100_000
-++            self.assertEqual(expandvars('$A'*n), 'B'*n)
-++            self.assertEqual(expandvars('${A}'*n), 'B'*n)
-++            self.assertEqual(expandvars('$A!'*n), 'B!'*n)
-++            self.assertEqual(expandvars('${A}A'*n), 'BA'*n)
-++            self.assertEqual(expandvars('${'*10*n), '${'*10*n)
-++
-+     def test_abspath(self):
-+         self.assertIn("foo", self.pathmodule.abspath("foo"))
-+         with warnings.catch_warnings():
-+diff --git a/Lib/test/test_ntpath.py b/Lib/test/test_ntpath.py
-+index f790f77..161e57d 100644
-+--- a/Lib/test/test_ntpath.py
-++++ b/Lib/test/test_ntpath.py
-+@@ -5,8 +5,8 @@ import sys
-+ import unittest
-+ import warnings
-+ from ntpath import ALLOW_MISSING
-++from test import support
-+ from test.support import os_helper
-+-from test.support import TestFailed
-+ from test.support.os_helper import FakePath
-+ from test import test_genericpath
-+ from tempfile import TemporaryFile
-+@@ -56,7 +56,7 @@ def tester(fn, wantResult):
-+     fn = fn.replace("\\", "\\\\")
-+     gotResult = eval(fn)
-+     if wantResult != gotResult and _norm(wantResult) != _norm(gotResult):
-+-        raise TestFailed("%s should return: %s but returned: %s" \
-++        raise support.TestFailed("%s should return: %s but returned: %s" \
-+               %(str(fn), str(wantResult), str(gotResult)))
-+
-+     # then with bytes
-+@@ -72,7 +72,7 @@ def tester(fn, wantResult):
-+         warnings.simplefilter("ignore", DeprecationWarning)
-+         gotResult = eval(fn)
-+     if _norm(wantResult) != _norm(gotResult):
-+-        raise TestFailed("%s should return: %s but returned: %s" \
-++        raise support.TestFailed("%s should return: %s but returned: %s" \
-+               %(str(fn), str(wantResult), repr(gotResult)))
-+
-+
-+@@ -689,6 +689,19 @@ class TestNtpath(NtpathTestCase):
-+             check('%spam%bar', '%sbar' % nonascii)
-+             check('%{}%bar'.format(nonascii), 'ham%sbar' % nonascii)
-+
-++    @support.requires_resource('cpu')
-++    def test_expandvars_large(self):
-++        expandvars = ntpath.expandvars
-++        with os_helper.EnvironmentVarGuard() as env:
-++            env.clear()
-++            env["A"] = "B"
-++            n = 100_000
-++            self.assertEqual(expandvars('%A%'*n), 'B'*n)
-++            self.assertEqual(expandvars('%A%A'*n), 'BA'*n)
-++            self.assertEqual(expandvars("''"*n + '%%'), "''"*n + '%')
-++            self.assertEqual(expandvars("%%"*n), "%"*n)
-++            self.assertEqual(expandvars("$$"*n), "$"*n)
-++
-+     def test_expanduser(self):
-+         tester('ntpath.expanduser("test")', 'test')
-+
-+@@ -923,6 +936,7 @@ class TestNtpath(NtpathTestCase):
-+             self.assertIsInstance(b_final_path, bytes)
-+             self.assertGreater(len(b_final_path), 0)
-+
-++
-+ class NtCommonTest(test_genericpath.CommonTest, unittest.TestCase):
-+     pathmodule = ntpath
-+     attributes = ['relpath']
-+diff --git a/Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-136065.bu337o.rst b/Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-136065.bu337o.rst
-+new file mode 100644
-+index 0000000..1d152bb
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-136065.bu337o.rst
-+@@ -0,0 +1 @@
-++Fix quadratic complexity in :func:`os.path.expandvars`.
-+--
++diff --git a/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb b/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
++index 4864ba1..451fbf8 100644
++--- a/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+++++ b/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
++@@ -308,7 +308,11 @@ module REXML
++               raise REXML::ParseException.new( "Bad ELEMENT declaration!", @source ) if md.nil?
++               return [ :elementdecl, "<!ELEMENT" + md[1] ]
++             elsif @source.match("ENTITY", true)
++-              match = [:entitydecl, *@source.match(Private::ENTITYDECL_PATTERN, true, term: Private::ENTITY_TERM).captures.compact]
+++              match_data = @source.match(Private::ENTITYDECL_PATTERN, true, term: Private::ENTITY_TERM)
+++              unless match_data
+++                raise REXML::ParseException.new("Malformed entity declaration", @source)
+++              end
+++              match = [:entitydecl, *match_data.captures.compact]
++               ref = false
++               if match[1] == '%'
++                 ref = true
++-- 
 +2.40.0
-diff --git a/meta/recipes-devtools/python/python3_3.10.19.bb b/meta/recipes-devtools/python/python3_3.10.19.bb
-index 8680c13893..6f23d258c1 100644
---- a/meta/recipes-devtools/python/python3_3.10.19.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.19.bb
-@@ -37,6 +37,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-            file://0001-test_storlines-skip-due-to-load-variability.patch \
-            file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
-+           file://CVE-2025-6075.patch \
++
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0002.patch b/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0002.patch
+new file mode 100644
+index 0000000000..6c6c81d7f1
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0002.patch
+@@ -0,0 +1,37 @@
++From 4444a04ece4c02a7bd51e8c75623f22dc12d882b Mon Sep 17 00:00:00 2001
++From: Sutou Kouhei <kou@clear-code.com>
++Date: Sun, 2 Jun 2024 16:59:16 +0900
++Subject: [PATCH] Add missing encode for custom term
++
++CVE: CVE-2024-41123
++
++Upstream-Status: Backport [https://github.com/ruby/rexml/commit/4444a04ece4c02a7bd51e8c75623f22dc12d882b]
++
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++---
++ .bundle/gems/rexml-3.2.5/lib/rexml/source.rb | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/.bundle/gems/rexml-3.2.5/lib/rexml/source.rb b/.bundle/gems/rexml-3.2.5/lib/rexml/source.rb
++index 08a035c..7be430a 100644
++--- a/.bundle/gems/rexml-3.2.5/lib/rexml/source.rb
+++++ b/.bundle/gems/rexml-3.2.5/lib/rexml/source.rb
++@@ -160,6 +160,7 @@ module REXML
++     end
++ 
++     def read(term = nil)
+++      term = encode(term) if term
++       begin
++         @scanner << readline(term)
++         true
++@@ -171,6 +172,7 @@ module REXML
++ 
++     def read_until(term)
++       pattern = Regexp.union(term)
+++      term = encode(term)
++       data = []
++       begin
++         until str = @scanner.scan_until(pattern)
++-- 
++2.40.0
++
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0003.patch b/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0003.patch
+new file mode 100644
+index 0000000000..d31b77efbf
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0003.patch
+@@ -0,0 +1,55 @@
++From ebc3e85bfa2796fb4922c1932760bec8390ff87c Mon Sep 17 00:00:00 2001
++From: NAITOH Jun <naitoh@gmail.com>
++Date: Mon, 8 Jul 2024 05:54:06 +0900
++Subject: [PATCH] Add position check for XML declaration (#162)
++
++XML declaration must be the first item.
++
++https://www.w3.org/TR/2006/REC-xml11-20060816/#document
++
++```
++[1]   document   ::=   ( prolog element Misc* ) - ( Char* RestrictedChar Char* )
++```
++
++https://www.w3.org/TR/2006/REC-xml11-20060816/#NT-prolog
++
++```
++[22]   prolog   ::=     XMLDecl Misc* (doctypedecl Misc*)?
++```
++
++https://www.w3.org/TR/2006/REC-xml11-20060816/#NT-XMLDecl
++
++```
++[23]   XMLDecl  ::=   '<?xml' VersionInfo EncodingDecl? SDDecl? S? '?>'
++```
++
++See: https://github.com/ruby/rexml/pull/161#discussion_r1666118193
++
++CVE: CVE-2024-41123
++
++Upstream-Status: Backport [https://github.com/ruby/rexml/commit/ebc3e85bfa2796fb4922c1932760bec8390ff87c]
++
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++---
++ .bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb b/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
++index 451fbf8..71fce99 100644
++--- a/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+++++ b/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
++@@ -670,7 +670,10 @@ module REXML
++           @source.position = start_position
++           raise REXML::ParseException.new(message, @source)
++         end
++-        if @document_status.nil? and match_data[1] == "xml"
+++        if match_data[1] == "xml"
+++          if @document_status
+++            raise ParseException.new("Malformed XML: XML declaration is not at the start", @source)
+++          end
++           content = match_data[2]
++           version = VERSION.match(content)
++           version = version[1] unless version.nil?
++-- 
++2.40.0
++
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0004.patch b/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0004.patch
+new file mode 100644
+index 0000000000..4d7603a5b9
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0004.patch
+@@ -0,0 +1,163 @@
++From 6cac15d45864c8d70904baa5cbfcc97181000960 Mon Sep 17 00:00:00 2001
++From: tomoya ishida <tomoyapenguin@gmail.com>
++Date: Thu, 1 Aug 2024 09:21:19 +0900
++Subject: [PATCH] Fix source.match performance without specifying term string
++ (#186)
++
++Performance problem of `source.match(regexp)` was recently fixed by
++specifying terminator string. However, I think maintaining appropriate
++terminator string for a regexp is hard.
++I propose solving this performance issue by increasing bytes to read in
++each iteration.
++
++CVE: CVE-2024-41123
++
++Upstream-Status: Backport [https://github.com/ruby/rexml/commit/6cac15d45864c8d70904baa5cbfcc97181000960]
++
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++---
++ .../lib/rexml/parsers/baseparser.rb           | 22 ++++++------------
++ .bundle/gems/rexml-3.2.5/lib/rexml/source.rb  | 23 +++++++++++++++----
++ 2 files changed, 25 insertions(+), 20 deletions(-)
++
++diff --git a/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb b/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
++index 71fce99..c1a22b8 100644
++--- a/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+++++ b/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
++@@ -124,14 +124,6 @@ module REXML
++       }
++ 
++       module Private
++-        # Terminal requires two or more letters.
++-        INSTRUCTION_TERM = "?>"
++-        COMMENT_TERM = "-->"
++-        CDATA_TERM = "]]>"
++-        DOCTYPE_TERM = "]>"
++-        # Read to the end of DOCTYPE because there is no proper ENTITY termination
++-        ENTITY_TERM = DOCTYPE_TERM
++-
++         INSTRUCTION_END = /#{NAME}(\s+.*?)?\?>/um
++         TAG_PATTERN = /((?>#{QNAME_STR}))\s*/um
++         CLOSE_PATTERN = /(#{QNAME_STR})\s*>/um
++@@ -244,7 +236,7 @@ module REXML
++             return process_instruction(start_position)
++           elsif @source.match("<!", true)
++             if @source.match("--", true)
++-              md = @source.match(/(.*?)-->/um, true, term: Private::COMMENT_TERM)
+++              md = @source.match(/(.*?)-->/um, true)
++               if md.nil?
++                 raise REXML::ParseException.new("Unclosed comment", @source)
++               end
++@@ -308,7 +300,7 @@ module REXML
++               raise REXML::ParseException.new( "Bad ELEMENT declaration!", @source ) if md.nil?
++               return [ :elementdecl, "<!ELEMENT" + md[1] ]
++             elsif @source.match("ENTITY", true)
++-              match_data = @source.match(Private::ENTITYDECL_PATTERN, true, term: Private::ENTITY_TERM)
+++              match_data = @source.match(Private::ENTITYDECL_PATTERN, true)
++               unless match_data
++                 raise REXML::ParseException.new("Malformed entity declaration", @source)
++               end
++@@ -377,14 +369,14 @@ module REXML
++                 raise REXML::ParseException.new(message, @source)
++               end
++               return [:notationdecl, name, *id]
++-            elsif md = @source.match(/--(.*?)-->/um, true, term: Private::COMMENT_TERM)
+++            elsif md = @source.match(/--(.*?)-->/um, true)
++               case md[1]
++               when /--/, /-\z/
++                 raise REXML::ParseException.new("Malformed comment", @source)
++               end
++               return [ :comment, md[1] ] if md
++             end
++-          elsif match = @source.match(/(%.*?;)\s*/um, true, term: Private::DOCTYPE_TERM)
+++          elsif match = @source.match(/(%.*?;)\s*/um, true)
++             return [ :externalentity, match[1] ]
++           elsif @source.match(/\]\s*>/um, true)
++             @document_status = :after_doctype
++@@ -417,7 +409,7 @@ module REXML
++               #STDERR.puts "SOURCE BUFFER = #{source.buffer}, #{source.buffer.size}"
++               raise REXML::ParseException.new("Malformed node", @source) unless md
++               if md[0][0] == ?-
++-                md = @source.match(/--(.*?)-->/um, true, term: Private::COMMENT_TERM)
+++                md = @source.match(/--(.*?)-->/um, true)
++ 
++                 case md[1]
++                 when /--/, /-\z/
++@@ -426,7 +418,7 @@ module REXML
++ 
++                 return [ :comment, md[1] ] if md
++               else
++-                md = @source.match(/\[CDATA\[(.*?)\]\]>/um, true, term: Private::CDATA_TERM)
+++                md = @source.match(/\[CDATA\[(.*?)\]\]>/um, true)
++                 return [ :cdata, md[1] ] if md
++               end
++               raise REXML::ParseException.new( "Declarations can only occur "+
++@@ -664,7 +656,7 @@ module REXML
++       end
++ 
++       def process_instruction(start_position)
++-        match_data = @source.match(Private::INSTRUCTION_END, true, term: Private::INSTRUCTION_TERM)
+++        match_data = @source.match(Private::INSTRUCTION_END, true)
++         unless match_data
++           message = "Invalid processing instruction node"
++           @source.position = start_position
++diff --git a/.bundle/gems/rexml-3.2.5/lib/rexml/source.rb b/.bundle/gems/rexml-3.2.5/lib/rexml/source.rb
++index 7be430a..7c05cb5 100644
++--- a/.bundle/gems/rexml-3.2.5/lib/rexml/source.rb
+++++ b/.bundle/gems/rexml-3.2.5/lib/rexml/source.rb
++@@ -72,7 +72,7 @@ module REXML
++       @scanner.scan_until(Regexp.union(term)) or @scanner.rest
++     end
++ 
++-    def match(pattern, cons=false, term: nil)
+++    def match(pattern, cons=false)
++       if cons
++         @scanner.scan(pattern).nil? ? nil : @scanner
++       else
++@@ -159,10 +159,20 @@ module REXML
++       end
++     end
++ 
++-    def read(term = nil)
+++    def read(term = nil, min_bytes = 1)
++       term = encode(term) if term
++       begin
++-        @scanner << readline(term)
+++        str = readline(term)
+++        @scanner << str
+++        read_bytes = str.bytesize
+++        begin
+++          while read_bytes < min_bytes
+++            str = readline(term)
+++            @scanner << str
+++            read_bytes += str.bytesize
+++          end
+++        rescue IOError
+++        end
++         true
++       rescue Exception, NameError
++         @source = nil
++@@ -186,7 +196,9 @@ module REXML
++       end
++     end
++ 
++-    def match( pattern, cons=false, term: nil )
+++    def match( pattern, cons=false )
+++      # To avoid performance issue, we need to increase bytes to read per scan
+++      min_bytes = 1
++       read if @scanner.eos? && @source
++       while true
++         if cons
++@@ -197,7 +209,8 @@ module REXML
++         break if md
++         return nil if pattern.is_a?(String) && pattern.bytesize <= @scanner.rest_size
++         return nil if @source.nil?
++-        return nil unless read(term)
+++        return nil unless read(nil, min_bytes)
+++        min_bytes *= 2
++       end
++ 
++       md.nil? ? nil : @scanner
++-- 
++2.40.0
++
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0005.patch b/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0005.patch
+new file mode 100644
+index 0000000000..3d79d07327
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2024-41123-0005.patch
+@@ -0,0 +1,111 @@
++From e2546e6ecade16b04c9ee528e5be8509fe16c2d6 Mon Sep 17 00:00:00 2001
++From: Sutou Kouhei <kou@clear-code.com>
++Date: Thu, 1 Aug 2024 11:23:43 +0900
++Subject: [PATCH] parse pi: improve invalid case detection
++
++CVE: CVE-2024-41123
++
++Upstream-Status: Backport [https://github.com/ruby/rexml/commit/e2546e6ecade16b04c9ee528e5be8509fe16c2d6]
++
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++---
++ .../lib/rexml/parsers/baseparser.rb           | 35 +++++++++++--------
++ 1 file changed, 20 insertions(+), 15 deletions(-)
++
++diff --git a/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb b/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
++index c1a22b8..0ece9b5 100644
++--- a/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+++++ b/.bundle/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
++@@ -124,11 +124,10 @@ module REXML
++       }
++ 
++       module Private
++-        INSTRUCTION_END = /#{NAME}(\s+.*?)?\?>/um
++         TAG_PATTERN = /((?>#{QNAME_STR}))\s*/um
++         CLOSE_PATTERN = /(#{QNAME_STR})\s*>/um
++         ATTLISTDECL_END = /\s+#{NAME}(?:#{ATTDEF})*\s*>/um
++-        NAME_PATTERN = /\s*#{NAME}/um
+++        NAME_PATTERN = /#{NAME}/um
++         GEDECL_PATTERN = "\\s+#{NAME}\\s+#{ENTITYDEF}\\s*>"
++         PEDECL_PATTERN = "\\s+(%)\\s+#{NAME}\\s+#{PEDEF}\\s*>"
++         ENTITYDECL_PATTERN = /(?:#{GEDECL_PATTERN})|(?:#{PEDECL_PATTERN})/um
++@@ -233,7 +232,7 @@ module REXML
++         if @document_status == nil
++           start_position = @source.position
++           if @source.match("<?", true)
++-            return process_instruction(start_position)
+++            return process_instruction
++           elsif @source.match("<!", true)
++             if @source.match("--", true)
++               md = @source.match(/(.*?)-->/um, true)
++@@ -424,7 +423,7 @@ module REXML
++               raise REXML::ParseException.new( "Declarations can only occur "+
++                 "in the doctype declaration.", @source)
++             elsif @source.match("?", true)
++-              return process_instruction(start_position)
+++              return process_instruction
++             else
++               # Get the next tag
++               md = @source.match(TAG_PATTERN, true)
++@@ -579,14 +578,14 @@ module REXML
++       def parse_name(base_error_message)
++         md = @source.match(NAME_PATTERN, true)
++         unless md
++-          if @source.match(/\s*\S/um)
+++          if @source.match(/\S/um)
++             message = "#{base_error_message}: invalid name"
++           else
++             message = "#{base_error_message}: name is missing"
++           end
++           raise REXML::ParseException.new(message, @source)
++         end
++-        md[1]
+++        md[0]
++       end
++ 
++       def parse_id(base_error_message,
++@@ -655,18 +654,24 @@ module REXML
++         end
++       end
++ 
++-      def process_instruction(start_position)
++-        match_data = @source.match(Private::INSTRUCTION_END, true)
++-        unless match_data
++-          message = "Invalid processing instruction node"
++-          @source.position = start_position
++-          raise REXML::ParseException.new(message, @source)
+++      def process_instruction
+++        name = parse_name("Malformed XML: Invalid processing instruction node")
+++        if @source.match(/\s+/um, true)
+++          match_data = @source.match(/(.*?)\?>/um, true)
+++          unless match_data
+++            raise ParseException.new("Malformed XML: Unclosed processing instruction", @source)
+++          end
+++          content = match_data[1]
+++        else
+++          content = nil
+++          unless @source.match("?>", true)
+++            raise ParseException.new("Malformed XML: Unclosed processing instruction", @source)
+++          end
++         end
++-        if match_data[1] == "xml"
+++        if name == "xml"
++           if @document_status
++             raise ParseException.new("Malformed XML: XML declaration is not at the start", @source)
++           end
++-          content = match_data[2]
++           version = VERSION.match(content)
++           version = version[1] unless version.nil?
++           encoding = ENCODING.match(content)
++@@ -681,7 +686,7 @@ module REXML
++           standalone = standalone[1] unless standalone.nil?
++           return [ :xmldecl, version, encoding, standalone ]
++         end
++-        [:processing_instruction, match_data[1], match_data[2]]
+++        [:processing_instruction, name, content]
++       end
++ 
++       def parse_attributes(prefixes)
++-- 
++2.40.0
++
+diff --git a/meta/recipes-devtools/ruby/ruby_3.1.3.bb b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
+index f967cc6948..f2f9c848f0 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.1.3.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
+@@ -66,6 +66,11 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+            file://CVE-2024-39908-0010.patch \
+            file://CVE-2024-39908-0011.patch \
+            file://CVE-2024-39908-0012.patch \
++           file://CVE-2024-41123-0001.patch \
++           file://CVE-2024-41123-0002.patch \
++           file://CVE-2024-41123-0003.patch \
++           file://CVE-2024-41123-0004.patch \
++           file://CVE-2024-41123-0005.patch \
             "
+ UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
  
- SRC_URI:append:class-native = " \
 -- 
 2.43.0
 
