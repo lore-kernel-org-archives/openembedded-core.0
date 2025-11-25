@@ -1,292 +1,215 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F08BCFD368
-	for <webhook@archiver.kernel.org>; Tue, 25 Nov 2025 06:56:17 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11775.1764053776727350157
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1F59CFD364
+	for <webhook@archiver.kernel.org>; Tue, 25 Nov 2025 08:02:47 +0000 (UTC)
+Received: from esa2.hc324-48.eu.iphmx.com (esa2.hc324-48.eu.iphmx.com [207.54.68.120])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12513.1764057765564196744
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Nov 2025 22:56:16 -0800
+ Tue, 25 Nov 2025 00:02:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=E7DxD85O;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=34243e2576=changqing.li@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AP5onCv2878977
-	for <openembedded-core@lists.openembedded.org>; Mon, 24 Nov 2025 22:56:14 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=S1QTUyN5YrBVMB0Sor8PS7
-	aGgRMrBTnIzKAgQ5E18Q8=; b=E7DxD85ORXglHGbdMoNvZxgnnPi/mF7a4su+22
-	bjiAQ75BYDqO990LhsONy145tQLciCNSDYSUQ0skGnnmE2XM9WjovxwLIcbXSLPq
-	RpqJtUTp3mUYQ9+sYHZq5LgC9dUJLE/IqTD9K4E/NPbe0ny89jRRiWt5klVwmpNR
-	G61wcF72XTLqU5WkNg2nx1yQSJT+dpmWmNhc0OD40mKLg87sLcBB5yMXm0RFNxwo
-	UOWwZUHMyJ9Y8LGvW5hn2h9mSDfAo2TmQEvzKSkoIgiNQjQQ5+Zigh9VkAda7C5I
-	zCMKoZ0t/HK506AjIeR4h5fmQCTUz4U6z8A6s4YzBR2GPtOw==
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010033.outbound.protection.outlook.com [52.101.56.33])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4akdjjaeu6-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 24 Nov 2025 22:56:14 -0800 (PST)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=mE+eR9kU;
+ dkim=pass header.i=@bmwgroup.onmicrosoft.com header.s=selector2-bmwgroup-onmicrosoft-com header.b=N3IkOUIT;
+ spf=pass (domain: bmw.de, ip: 207.54.68.120, mailfrom: prvs=417ea8bb2=moritz.haase@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1764057765; x=1795593765;
+  h=from:to:cc:subject:date:message-id:
+   content-transfer-encoding:mime-version;
+  bh=5YLVN7DvYT34GgZj8j07M5nlROFWEWP5N18O1IIFbB8=;
+  b=mE+eR9kUhtKVxljV0peQVR7YuogzgZLWZMpdQMDYGKkyx6wH3493wEh2
+   alyrvjoe0fD+6k8LPHtlOzBj//WxNXwKOIeMaBjq09wUImI6QxVdnuraS
+   oitDPXOzcm4rSzCyX14IE11Dc23GkyvyNN22X3UTNFRgXVMmBotqaTmGq
+   o=;
+X-CSE-ConnectionGUID: Tu8tEeBvT1Gxae5I9u33bA==
+X-CSE-MsgGUID: HVe9T3OtSGe8uJ1xv8OkNw==
+Received: from mail-norwayeastazon11013038.outbound.protection.outlook.com (HELO
+ OSPPR02CU001.outbound.protection.outlook.com) ([40.107.159.38]) by
+ ob1.hc324-48.eu.iphmx.com with ESMTP/TLS; 25 Nov 2025 09:02:07 +0100
+Received: from PAWPR09MB8030.eurprd09.prod.outlook.com (2603:10a6:102:4c8::8) by
+ VI0PR09MB8239.eurprd09.prod.outlook.com (2603:10a6:800:2b5::10) with
+ Microsoft SMTP Server (version=TLS; Tue, 25 Nov 2025 08:02:04 +0000
+Received: from PAWPR09MB8030.eurprd09.prod.outlook.com
+ ([fe80::ad5b:1b80:9eef:7826]) by PAWPR09MB8030.eurprd09.prod.outlook.com
+ ([fe80::ad5b:1b80:9eef:7826%3]) with mapi id 15.20.9343.016; Tue, 25 Nov 2025
+ 08:02:04 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OJafAPW1srHkrHIsSC8VoTe+vWnCXDD1dKmSzp7nencmY2giDFWifMS6B64P/L6ptQGGv7HmgaQ6oEkuDI5wMROyzbcUjFyycbp6kBw0u7RrLovMH8EhycHITsY1Ijp4CHgcTynk/HBNTcavqRyw8adVGs3u3gbB1XL8EoHkI8xtvoJWvh9VyeC34ZBRLgQx/Sxj/nSaBo413EmZ3BYFuVL4+fB7h07QU3HF3RRI8mto/eRrmtB/dvhL9ABrK5hc4ABHTWjhQ9Js4NMUQ6aXWGpAvLbJDzWNdAHosvdatRSAD6SsVXPzi9+GKhpHqHtRJUOZrwmCrgRLI/vD/wNlEA==
+ b=C2snc5Wwlq4BOaiQGD1v+/rrgf5IVrLUFpnvi2HmnU7CQC446dIPDYzzCAQfjrCl93YQGudx77puU1EWi1qhbsv8qxZ5LvLapt/Ev7QBwE+Epv7BZgx4Q24oearcVJrxY2gFTpJEvc423+qQV5T0L0e7G5WbUYE/psVze3K7IWhBqlNY+UFu6VXWxlP5ueXNcS5toCPkU7W1KKVy3b+WhcKbWp1XtQINoZzUOqquOPPZnx7aZGMUkT84jk7PGaPlG9OOCWJ9EtvGx682xPs5m9jaRdKhUZ5AYGqdhq5D2yDZdMtvPJjMR0MGOpJLLW7FxrMyC8sPcdgQqCwydEuNsw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S1QTUyN5YrBVMB0Sor8PS7aGgRMrBTnIzKAgQ5E18Q8=;
- b=eZ4L34FiUdk07T6Nis9PzGVUeIO1wcqH3BWFEUDMUaNn5KfwLORYG5QQgz2ccZUCQdxxoBewEjAfo+qbvStdCaRA+3eT0HIxXlrGGwqbEaWZDhF3erCUU+v62TMTz/r8bJ9ltYrXVwVCNVyVKishMBx36JzsZkuMma25BxaKWAu4m0li82xCXXYMWcX3zxElQ4916Qc0ebTW1LRCUHh1ezKHBcC1TmrvPciiGOA6gnCcBTNtuqNNMEjKcs8pRjO627ZqQq6Tt2tIBy5eyy3mVYqgU18u8Az7BQUPKNXpOBWiW86ZqUzjygatXTKvjNP+/D/ZwCEBfwdYO1P34n5oWQ==
+ bh=5YLVN7DvYT34GgZj8j07M5nlROFWEWP5N18O1IIFbB8=;
+ b=jaWRhVwextFtJpWglNZwwewZ6Jbx86+/l7Hp0WVmYcjSsYdMFVDrRXhzkxLIz4UuUykjAlHeX3cUpFOBe0VSalmgAxB69y/+lBiiBmYXZnnpLLiOGqYKCNhFaDRDwbY3vV5BG8WP4US4BqROPdYXKqzsHVMM51ehvFnnVEq8qK3ED9w3PQyIeWd/NfRWwGjmy+S5UMqw4uJWL2uxC34EN5DAFg3xuwsxrZSwv1jUH7xtxSubWbDko4/KyqJcHBm/SrnQ1BvFSdC+abSVeDog8iYcq7XgsXwxJuhU35P677cmB7H2wYodyGWldWZzI9nbzMQY7oa17kWtFaxy3J0fvg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
- by IA3PR11MB9134.namprd11.prod.outlook.com (2603:10b6:208:573::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Tue, 25 Nov
- 2025 06:56:10 +0000
-Received: from DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::8436:b2d3:31a9:1c8c]) by DS0PR11MB7312.namprd11.prod.outlook.com
- ([fe80::8436:b2d3:31a9:1c8c%4]) with mapi id 15.20.9343.016; Tue, 25 Nov 2025
- 06:56:09 +0000
-Content-Type: multipart/alternative;
- boundary="------------JaZBScKpymEnCfHvRpgBsQsv"
-Message-ID: <73899be1-bcc2-4da3-8ac2-d629742f33a7@windriver.com>
-Date: Tue, 25 Nov 2025 14:56:03 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] curl: Ensure 'CURL_CA_BUNDLE' from host env is indeed
- respected
-To: Moritz Haase <Moritz.Haase@bmw.de>,
-        openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com
-References: <20251124055533.857103-1-Moritz.Haase@bmw.de>
-Content-Language: en-US
-From: Changqing Li <changqing.li@windriver.com>
-In-Reply-To: <20251124055533.857103-1-Moritz.Haase@bmw.de>
-X-ClientProxiedBy: SI1PR02CA0035.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::8) To DS0PR11MB7312.namprd11.prod.outlook.com
- (2603:10b6:8:11f::18)
+ smtp.mailfrom=bmw.de; dmarc=pass action=none header.from=bmw.de; dkim=pass
+ header.d=bmw.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bmwgroup.onmicrosoft.com; s=selector2-bmwgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5YLVN7DvYT34GgZj8j07M5nlROFWEWP5N18O1IIFbB8=;
+ b=N3IkOUITAQXlaw9TyS1OsCaclc0NlpuU36XHe+jzpn8WkdsHqp5nkFc3VRa6GoGPUKFU3uoISWa+hkN7tC40aybrzCvBtISsdFaeNubDzB8lmartXly3SfF0p05cgoNCvkb1ek2hvd6vEA1ZMveTzMc/52VLQhQnzvRQ8eKOHIg=
+From: "Haase Moritz, JD-61" <Moritz.Haase@bmw.de>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "matthias.schiffer@ew.tq-group.com" <matthias.schiffer@ew.tq-group.com>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"Peter.Marko@siemens.com" <peter.marko@siemens.com>, "steve@sakoman.com"
+	<steve@sakoman.com>
+Subject: Re: [scarthgap 8/8] curl: only set CA bundle in target build
+Thread-Topic: [scarthgap 8/8] curl: only set CA bundle in target build
+Thread-Index: AQHcXd4a4JqGrneHwkiX+phh+Y2I2g==
+Date: Tue, 25 Nov 2025 08:02:03 +0000
+Message-ID: 
+ <PAWPR09MB803066084BE4261C627B09BEEAD1A@PAWPR09MB8030.eurprd09.prod.outlook.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_e6935750-240b-48e4-a615-66942a738439_Enabled=True;MSIP_Label_e6935750-240b-48e4-a615-66942a738439_SiteId=ce849bab-cc1c-465b-b62e-18f07c9ac198;MSIP_Label_e6935750-240b-48e4-a615-66942a738439_SetDate=2025-11-25T08:02:03.697Z;MSIP_Label_e6935750-240b-48e4-a615-66942a738439_Name=Vertraulich;MSIP_Label_e6935750-240b-48e4-a615-66942a738439_ContentBits=1;MSIP_Label_e6935750-240b-48e4-a615-66942a738439_Method=Standard;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bmw.de;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAWPR09MB8030:EE_|VI0PR09MB8239:EE_
+x-ms-office365-filtering-correlation-id: 1eb20c7d-b76c-44ac-9090-08de2bf8ebbe
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|19092799006|376014|366016|38070700021;
+x-microsoft-antispam-message-info: 
+ =?iso-8859-1?Q?oHX3p7Mk7lnSFL/kJR4tadQKOmLq++TjsEW4LRVFXBpkTqAVZgVjrUUY0R?=
+ =?iso-8859-1?Q?x+nqJ8CjYciqquliAlHx5YDWv4JX4WR7/7GVpfLUt5l947H1em1cTFZ4gb?=
+ =?iso-8859-1?Q?wv6THpfRdhDdIAT1W9JlkiewhuBlcrPDb5amtlpqd+dFTmK0CLkOVav761?=
+ =?iso-8859-1?Q?kQqRXKByYo0rMNc1MOwl6gG7u3skUdm46/uIBFFmp184LdncrjVMOQHUrH?=
+ =?iso-8859-1?Q?rINK3DSXDz5xpII/UisQezaEtL3OeYbB0Z6kbb/quL+Q08Iprz8SHTZghF?=
+ =?iso-8859-1?Q?BdpAGR8TL2w7/Psso82zDgQ7D8lWCjNus4jcxqgiL3esVrmJ47HuLZolKM?=
+ =?iso-8859-1?Q?e3PBsFPDl9V2y6prUR0avjsFgs3EOwgpy50WKUTV/IiSd4cwXNhtA2fsgj?=
+ =?iso-8859-1?Q?SThKKeLs5SMRNmJFffxPQ094D33yuO3Qgb70+wYiQsmcE9FP2/8pc+0xx2?=
+ =?iso-8859-1?Q?Hk6dvlAxHlFFmpH9tpn4Xd+p6IEEmHBxuuQ+uLTxwU5HX3rR8QRtmjAxsV?=
+ =?iso-8859-1?Q?QUnUYT3rM3EFPKo2D1qfD18kEipi+xd1xTmEJjZ9VOitJyjVUJDkLAFgRN?=
+ =?iso-8859-1?Q?9r/OCsjgJEkCs60mId1hvoxKyraQ11Un73qPA5z+vQRkf/OtyXGGMoYgNc?=
+ =?iso-8859-1?Q?vdLLX4ofuuQHDsJs7lTP72cEGl0fTLCsCE10OmlO+VttPZ24rlDr5+/D7q?=
+ =?iso-8859-1?Q?ZvMDaguOUOS5oFKDoRGBRt56YioFHQvNM5A/G0Xhdz7uEon1bViVUSFd2r?=
+ =?iso-8859-1?Q?+LILz9EO8uu6US3PS0/Y25mfqdDIVkLNvAMebgJhvKETvdT7FnN8tpK53w?=
+ =?iso-8859-1?Q?MluuJDJbpG9RZ726moNfhe3eqtMhWuwo+fgoK7CTrfH80GD6X//BQLq8HS?=
+ =?iso-8859-1?Q?TyDyVQ/abq9eW3vWWuDuvsyg3M2M/Q5p/sjsl1QxWLj6agukzNq74ACYR+?=
+ =?iso-8859-1?Q?cAHHvIssLNZOLCC0zEjUMA+0TjJVZpIiDzcsIZ2F0vlYl51E8cRfzvly3n?=
+ =?iso-8859-1?Q?OTTpxJEaSHnI+KS/fZpR0ZecRYEW2V0dBn+1l1gFXJgbQRAnQH+3FxGZ1Q?=
+ =?iso-8859-1?Q?kFzmPsVKQP0MxUKj+B9KSQeLzQQfwh30wD2lP4f7hbWx+T/HdfEJge5zsu?=
+ =?iso-8859-1?Q?VvM5SJkI9UJrPUQYQW9zlLl2qb0wsrmvb0PwCA7FCe0oukaNXr9rwGeJ6h?=
+ =?iso-8859-1?Q?4eJrbbYhZ2pmy1QeY3XWjlztnFKQY3Mwplzd1IEpvuC52iboeXGPTZf+y0?=
+ =?iso-8859-1?Q?TY/r2HW41iROGBX4D2AqcEutUR9lYB4zZCB257YtuhVxhqvjzuD1N13UCt?=
+ =?iso-8859-1?Q?rHuuHXHRROi1KV3Hy6pd6JJI+7u/PgorGTw7i1gHkd7+jVbqjFLR5x1NCS?=
+ =?iso-8859-1?Q?/XqEIf4T9rwyaocI2udT1X9qfV6HmXumCISod2OGsPF6K9PZjoTrzW+VJ7?=
+ =?iso-8859-1?Q?qJV6srYnY8YmXlEHYJlmN9wJHTN5HrLbbNJwrCZ7O/XsgfygRHXslVn+0d?=
+ =?iso-8859-1?Q?dxZKetoWOuIF4lfU4xTel8QmDUCwhKxnOMzhRAGwG4Tw=3D=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAWPR09MB8030.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(376014)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?iso-8859-1?Q?G5d78qnT6Ccc+qYGIaSLy8ZQsTfpyRDZRW3r39XnuEZFF7wvLc41IZK4ZN?=
+ =?iso-8859-1?Q?EqKfs2xyZgdnM+wbMtDXb13QXSsVYaL2/GGSDwh0T7POVjzl3hIfEtRvr5?=
+ =?iso-8859-1?Q?VO+2M0NBUJ9g0YsiqWneXxRITzvav3m7ODEdk5WTVpRrl5PSXKwDx8l6SL?=
+ =?iso-8859-1?Q?vTl3DFQofJ0p37ACz+biCMocJnLn2E9ne/F1HIRbEDb9GSMnEMPiRJNpK4?=
+ =?iso-8859-1?Q?llviOp221evMVSRDymcTFSokWurbO4ooa0/KK6GCvG58sCPuxA5HtBEDiP?=
+ =?iso-8859-1?Q?iMOgsy5jD4Q/KTAm0i+Xd174ajgOhloZgJrxLqGYOr89zK7ERdiN6V+TRM?=
+ =?iso-8859-1?Q?ii77p1sCORBCtybWo2XuhThZhrAcDlaqKcU+AaEeHg15zPfHcSWkgwYnNu?=
+ =?iso-8859-1?Q?Of+vVXo9J6AwV4L7w2+VcofyPY1H2c4pUGlfn37SeBcmAlSOMnTFAad48P?=
+ =?iso-8859-1?Q?js58ZEz7Us2t0UsGrdfxln7sJCteI3YwMJE7yklJldthYbL/r8RUnKAu45?=
+ =?iso-8859-1?Q?g7mVnoPk4yEfQ/CjJm34SLhSy14SF7z7n+wa/QQpaLDdAFsS0gXKOe0Mg3?=
+ =?iso-8859-1?Q?HQals62oSzArdwkaYTKSpvSvujEGW32HJ0MlgxBkv0jF/4VhKJYVXs/5dB?=
+ =?iso-8859-1?Q?qKAMOSKy+3XqHgJA8H45pTtfVv3G9uN++RPWa9VdubZrDYLjvSVoy6IBmO?=
+ =?iso-8859-1?Q?QrD5L2S2VYzUSvMOTtECD2DbyKKKqXJ6HRGaqpEi9dMjk7Aj/cvBRCdqYe?=
+ =?iso-8859-1?Q?FlVmR+u0c4q/sCiNJTRftNwqvVigtwmTUlSQ1GL5YtQJRqhkq8v930YWId?=
+ =?iso-8859-1?Q?foxC+z+c5KI4QTQQG3iC7lLjHrJPpLz7fAcPIWwAyhAy9hlPU5aiD97Zhf?=
+ =?iso-8859-1?Q?v1PTJGbk3aqNzmo0O/bpYoqS/3rmMGhXCX3ZU/ya+U81S9nFFWm4nTGfzo?=
+ =?iso-8859-1?Q?mFeHmXRYxD5p1ggcdy3ynJ5Snv58JGRFBOTrNfQf9bU5HRsNfKPaanXLob?=
+ =?iso-8859-1?Q?FhM62tx47n5freqoCfHDPz1VXowXE+/fXYvCasGmyRWKHbR77bZQgYdHQK?=
+ =?iso-8859-1?Q?cv6YIsyugS8fpT8B7v4+L1zCFJmyZgyqN81aOCPTdC/L2QFjgyy1k/kLsE?=
+ =?iso-8859-1?Q?VwRUuqa6QWz5YIZxICnPF06PldSpGr5UiQP7VMPQBcycmbSyLVbYan8bH8?=
+ =?iso-8859-1?Q?MwETi1f4rd3ytTs4J1ggTVAhIKIc0V4PoToT53Ky7smlFI4Ba2I/6Y4Npa?=
+ =?iso-8859-1?Q?TNy2Oc3ym2MBGJTMyUk3ZBNnwYyJ5L64eAq2FZTvAXH4hEhkskNYeO65MD?=
+ =?iso-8859-1?Q?HUSPkf72zuH0FStieOJwRIoGGjMZyrekdKjseedmUl5FeJzY5c+WyYO81m?=
+ =?iso-8859-1?Q?ysGjVV4sLEQ6RoAub620srgc42oKUDTZOoW/uKx86wmAyhIFp7XOmmqhj2?=
+ =?iso-8859-1?Q?eH8NPmEh+jWYe6eQkyCiCvf6To1G8I23IBOFiDG6toFnNyojpL5TKhgeHH?=
+ =?iso-8859-1?Q?7wrl2f+Ds7U6uYYmeK8LpzgK37DIh6xRCqDaKoYP3LXzop838r0nkdKM44?=
+ =?iso-8859-1?Q?oQz4nMPSaces9XwpbPxp2gQ5FXOLnIz4nNiv+ZtUVYFiuDsEcDRFtJ4zsq?=
+ =?iso-8859-1?Q?JZUHcTR+z8rre3961QhH8DrbTdvdoFqsnv?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|IA3PR11MB9134:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91f1389d-18a0-44b1-0f48-08de2befb6a7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|7053199007|8096899003;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?K2UwVVdjYU1SYkl2ZTc2bDZvUkZDaG41WnhINVpOdUNCL2tRRnl0WHlZLzRL?=
- =?utf-8?B?d3ovOEpWVUxsRXp1b1VBdW9qRW5KcFlIeUpBNXNndS9LT2Rsc1BpbW9kTDl5?=
- =?utf-8?B?MHJSNyt4NUpUeTg2MjVRR0h3ZU1wNmZlY1B1WlM4VmJseHFlM2J4WnV2Wmtm?=
- =?utf-8?B?cnpIK3pRMm5lMitwTEYyMmlVc2dWRExZSy9DWE5xc0QyVzBkL25TK0ZXN3JQ?=
- =?utf-8?B?by9XNnhmOWp0cWxGelBoWS9xd3BiRklaOWgzWTJYYmhlSWVEUE91NncxQzlL?=
- =?utf-8?B?Y3F6K09HNVRDSGIwNHhoYWhramZVZVdYRnEvRFFNem4vTzN0RGpLeUNKT2lT?=
- =?utf-8?B?WkFyVFlKbHlzYkFpaXRkb3NvbmZBZGhvZVZsM2Joc2hmMEpJVUNBdnE3dWlX?=
- =?utf-8?B?NXRKeGo2RllNc3ZWUS8zeS8vbzl5dU1RTnYvOHZFNVhORUlSc2hwZkZWYW9z?=
- =?utf-8?B?SjlXNTQ4c2ZiOCtjOHNvckFnd1EyWVRBMkNLc2hPZXFwbDd6ZmxtR0RCTGNx?=
- =?utf-8?B?dUdYTXMrM0xXZTgxbFBuOFVoMUxBT3RaZy9ramx6amlVQ1VPdHhHRlJNQkIr?=
- =?utf-8?B?eDhSMkRwTnFDNlhmTlZqckZCN2hVaFl3MjVLdlRFM0VGbkE0Ti9IWmFnSWwr?=
- =?utf-8?B?dmhoSVB1QlJpS0Y4QnhvRXgyY1BOR2FUK1dmK3hJY1hEVVUzbW4zNXZuSFVi?=
- =?utf-8?B?Y0JoZUVxa2phSnNsNUVIbytENmcwQmdjMksrc1ZwZVQxU1NZZUpPNlpUTlIw?=
- =?utf-8?B?b2plNHVFZkYxU0ZWMFcrNVlTV0hjc0kzSEo0NzlSQ3FSWVJheTJvU3YwMW1N?=
- =?utf-8?B?M0ZNbHh3cTBiWmlYVmkyWjR6VnN4TnZmMFYySXRleUY3SVlRUmZyYVI1Qmwr?=
- =?utf-8?B?a0VGbjYwL1RQMzFjUSs1SDF1S01ZdFNPNFhnRFJTRmtLK1pjd3dCa1BaVkNP?=
- =?utf-8?B?ZTBvM0pUTUVWaVA3M3RoTnI4eUV1SDdnWXNUQUJUbkJFNmY2SThrUElFbVJG?=
- =?utf-8?B?T2lLU2oxT2M0TUl4eEtrckVmYktydDFHZ000TCtZK3p0NmVlS0t3Qm94b3o0?=
- =?utf-8?B?TmRrOWFvVDkvemQ3Q0doRDEyRG1JRmRkbU5SaStkK2Nub0RVWXBRbkF4RHNM?=
- =?utf-8?B?b1Z2ZzZnZFZhaDk4aW40Y1pSNHZBbDY0cXUvZE55NnpzRTltVFJya25NanZT?=
- =?utf-8?B?bDJIQWoxVERkNG45OEVLYzdJVFpWM0lsYm9kMy95VFp0ZkdNY1FuZFBTNC9o?=
- =?utf-8?B?UWlOcHJoWTMvTUlleVpjb3lsbThjQS82K1V5eDVWU3ppczl4cUpVSFNHZHB6?=
- =?utf-8?B?TUxOa21UamtzQ2JLMmpwdG1UUElxZ3pLc3FnY25WeUIrU20raGt6b2dGNkly?=
- =?utf-8?B?WGpMSnJlbnVRTFVzTXpXcTd0NzNNQ2FJUW93T1RDS2FtVytUTkdSQVpDOFg2?=
- =?utf-8?B?dnZqVTdrMU1yVHBpVjVsTGdpZndwQ00rR0tJaHRGQ3lFMC9kK0Q3dmtWS1Yy?=
- =?utf-8?B?K0hNOWY0dE1DOWFwWDlGQ29XOWdlekZrMm96bkJsalV4NEl0Rkw0N2VKRHhZ?=
- =?utf-8?B?ZnF2RXRmdVJiMWdWMUdESzhWUEVaN0JQTk5QNmtZUWpBYms0aGdyUEVweUNN?=
- =?utf-8?B?NnVkN3dqNkNpelBYZ2dyNnFxRkdRblpSZ0pSVEhBMkhSQzZQaldaMmRjQmpq?=
- =?utf-8?B?clJjTGhyTVRQa1BmOExpcmlwbjcza000dGxoRmUvaFp4Z2daSTVJS3EzVzE5?=
- =?utf-8?B?YSt4UDZ3R3U1TDBrZWZWWFlRRnJTZUthZWMvKzdBdUZUUnJJT0s2N1FjcGZ1?=
- =?utf-8?B?NHVLRHdmU0VzcmlhYWdaSU1jSUFsRnVVMW1IYWpoZng2MmpXR2FVWklSUjRU?=
- =?utf-8?B?WUdHNXR6anVyUTYrM1VvcStUejZ4RWorMElwMFdvUnFEdFZHUWwrajBaZTU0?=
- =?utf-8?Q?rxOx6zoChDBfCiTAstAYAAy14xyIbz1K?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7053199007)(8096899003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?N05RNTRIdTF3ekE4TDBkSG5LeUZVNmIyS1VKMUtGM2JSYzRscUtnR0dTaGw0?=
- =?utf-8?B?VzFaWUQ0L3FFLzYzb1R0V0xqTzI3TzJTanYwd2k5RjUxR3Y1bFZuUVRoS2lL?=
- =?utf-8?B?T3ZJemtBSyt3VVlGd1M2Ny9zc2Jyb3podWp6VWVITUE1Z3c0YldGSFhqQ0ZI?=
- =?utf-8?B?aEpJMGFZTWJMb0NHSWtQUk5wNTlaUExPTlhyRnF0Zm8vcTEwcmZNZ1o0WUVz?=
- =?utf-8?B?bVdja29xaEdQUVQyRDdGaUcrdDVKRkVSbkNoaHV4Y0NVTDdIUS81enQxRFdr?=
- =?utf-8?B?YzlOcnJsaFp6WDJ1YlExMkpKRHZ4Q0ZhUWg3dWp1VFF0YzVMYk1OcGVEVVBn?=
- =?utf-8?B?U3MzcUFQVzIyaWF6M1VUTDI0S2tGa0hiZlJic1JNRGpIc1AxOTdIZC9CTE5y?=
- =?utf-8?B?RW02YSt4bEtuN2ozZ3k2WFJWSXpFcU5ZeVZVQm94S0hLdnVQOEUrSEUrTVND?=
- =?utf-8?B?R3l3ZXdjWCtQV0l4dDd0bFNOMnZJWjBLLzlEREozaURTVDd2VTFxK0ZVSld5?=
- =?utf-8?B?dlMyRGhnRnZ3TXpRbFhBL0d5VmlUWDA3WkRMWjE5NnEybGZaRlJEU1Q2aTFL?=
- =?utf-8?B?aGtHdzgxNFF2WllPZHRjVnFKWFlzak9CbVdEcnU5ZzJncytpVzZVOGFOTnR2?=
- =?utf-8?B?SUpXRkVWWTg3MXgxMnk3Q2hhd2twMjB0Q0tONFFPakt2b1ZVYjVqWTBPQTVv?=
- =?utf-8?B?d0taVmNYSEJSQjV1akk0cG1SeEdwcGtCRGtwbjhDKzdsaU0yUGhvV3BLb2Mw?=
- =?utf-8?B?aFpEMERVK0FwSktCYjdRNFVrdU1LZEUyampJalNQRU5CTUtWaGs0WGZ2MUNI?=
- =?utf-8?B?b1ZQcFFXZ2VibGFETXpMMFNFaGFTemlCYVFBc2FpcVNJa1IrbFRhSkE5VG5a?=
- =?utf-8?B?bTZOd29maDU0OWg1Q3VTVTNONHduTlN4emJOYWpuZGd3elRtU3QvZ0lwN0Ev?=
- =?utf-8?B?M01rMW1Ra29ENDdHaTdoKzdXVnB4YnVPTXBzeDdGbXJFYmVXc0lMeUpMbmZU?=
- =?utf-8?B?RGVzR3ZDb1VOSVgwdzVPM2NXb1VaNEhxdW1zYWkyVWR6UmF4SFZjZDVPZVJL?=
- =?utf-8?B?NDhMZnNORGhFcE5NcSsxTWJQVGRMeHl6S2ZZbnJwam40bnVaVmxrVmI4MEx5?=
- =?utf-8?B?MEY0ME5PKzJ2OE16ZmUrWEcycUxZZXRZMG1hTXBRS21qa3FNK21MeHJuVnl2?=
- =?utf-8?B?SHVQQS9MZlpjeUxhMGtEV1NmQ1pBUmdrZ1R4ME1Ba1ZKY3NjSGw3T0ZTV25X?=
- =?utf-8?B?QlMxOWFMdVdzV09NZVJEdVpDSDh3anJxT1hySUg2QWlzb0w0ZGZrWmsxR2pT?=
- =?utf-8?B?ZERsUlEwbWx3bUtOMEMxNU8rb2x4Ym9qWVVoTGxxVGZDTVhnYS9zdkNhYWt2?=
- =?utf-8?B?WnFuSXQ2VjQ2ZzhnZEFLZS9xRlRpRkxBM1pxWDNFT1VjN3BMZlY2Ujd1akQ1?=
- =?utf-8?B?WktaQkFzelFadVJTVHExS0EvYXc4cHQ1WmdtQmx4Qkw2YmFkczBabExoLzJ6?=
- =?utf-8?B?a0R5WFJPVUljNk15ZzMybzRxWC92VlA3eDVYdC9LTHdGTlJleUoxekFkMENn?=
- =?utf-8?B?NnZqNmY2Ym1mOXJnWUtBQlZHYUJYMXZtaHdXNzdDTzZZMlJGSWRzdHNoYXds?=
- =?utf-8?B?eTh2Wkdpd1FxOGVhTGJUbEZPNlEwbnRnR0xPc09rSFVyMDdORGxNNHd5TzlS?=
- =?utf-8?B?QnVneE9jbWhsR3BsdEZtUTMwa1lKcHFBajh2UGFWbDVzbWFNUmNPdEE5R0JH?=
- =?utf-8?B?RjV2dnV1alhzYm1iOTYyd2dBUzk0NFFHQW1BRDdRdDBMQk9Ca2syRDgzQWl4?=
- =?utf-8?B?M2VKWFVVeHZkT3JabFZHR1M4TTkvWE5jZFVMVHdKZnEyRlA4bU5MWHIzOWpp?=
- =?utf-8?B?dFVleFRHNGQ4VjhZME9ESkRYWFk3dTh3OWtPRWZPRGlURkJwYUs2YmVrME5W?=
- =?utf-8?B?TE1wTllrUjRTN0hlVUxWVVpoaHo2Tk1VK016enY1R2hsbzVndm5BTXJwdUxa?=
- =?utf-8?B?MjA0NkEvc2tNWVZHaHZ5YXNjZzBGRHpCU2ljblU0QWZlM3duSjBOc1YrSU13?=
- =?utf-8?B?K2lML0RvSXZrdmM1Mzh3VXdSOGs5eFVYSkUvbGhaSWQ0VTJSZWpxRlpQekdh?=
- =?utf-8?B?L0daZkEydHZXb0VCa2M0UklNdS9aYnFSbHV5TjJOd3o2YklTb2xmR3JqWmFx?=
- =?utf-8?B?dmc9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91f1389d-18a0-44b1-0f48-08de2befb6a7
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	fl/cccCPs+0mGRXBcoayhD/Hnv+z1c5OU4fyvvwGKBORDl9sn5CxyK1B9Fay5ebg+KF0yOwZoYWzJ+n98GCs9e40mcAvxUM+Oe/ZTCJkkL5BgRJjR2wSnIZ1SubryYDtyn4RhlS0Q7BXWfGsidLYvV6Yv+xXPAP08wf9nsC4Yj1vtUD+qsBWI9b/S4u87dHCc9e9YmP0LVakmU2a7amMKiGXTG70wLTxpM0naBDKOxZdyq3DB9YJEpq8PfbMmj0bSCAvgTqBBdZrPl0kT2LvcRCkynUjI/D4HVi0p5sSo6GImCjsxIOihehLVwxzvAb6/LskZKZ4Qb+yhvtM4CntSwVyvoPank+SUfQ9acMxCjJUopKojy7jp6LzgGrmul/HW/opMZOXDH+VlGfw/7j1NwNj24XbFSdX9v1/I2lfKS1PfKG3Gb8o1wR6OU6Zswz40Sag3nHSWgQtM/Pn1Ha60YuJkT7g8RQIsZ27FRCJu7DUqsBLpnMTHb0LayMHa8dqC2Qb2LmBYZESDaCBA+8dQedZXcdfxlFyuoVfzZwoDP4mSODI8F5LFWSEEOpnPsycLB8R2d0TSuIWuawFgK5JViscU6tzHllLgaCbUJfw1Ct7zVAcs2ily3EnlQjI7lr61zuClrASyTrBQvYsN1WFGA==
+X-OriginatorOrg: bmw.de
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 06:56:09.8574
+X-MS-Exchange-CrossTenant-AuthSource: PAWPR09MB8030.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1eb20c7d-b76c-44ac-9090-08de2bf8ebbe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2025 08:02:03.9590
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: D3tJdxjWMO8+0WjC+7eixzKynaCGSj734q8NawRh3n+tNWOssx+muPJImy77h+wPrd5BsbdeaketThY8EvRvrsBS9VUNkWdrFM4WhvHiddw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9134
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI1MDA1NSBTYWx0ZWRfX58Tq4IWfH3xO
- BesBeWoBGkSKDbK+gZfp7cDeBZ08n0A+1z7oqb5z7S7oUs6bvTh734zCzqbaPM6ap1xq9tMMgzd
- bKlQfcjzOomRqIg8nC4262zPNNqadfSn5WeqTSBXZiOfjoT+b1/KmgUN8Gjo4Kh7lAvPaoRUtpo
- UlYXb4jBC5F73ZMxJ4eOuyzxlSOlG2jNO1JZy4docvdcERDsV+MSk5WtcSdLMEuO2XNTMeIGCMF
- n8ypvXkXCxsv556uoVioby12fc4zu2HbfmDfMP+BMVT4oJ7TD1wsIkZhUseaBmXM1r2ufi1mNc5
- W1nXPD0CQwvyLilrd+vUTBaGcLee3+E0EoXcjeGnLypdlD0Cfc7PCEKmaDPHL9Y1Q8Yk7x3K0is
- Zkjd34QVGeitE2rbZ8qENvpnBIOxlQ==
-X-Proofpoint-ORIG-GUID: _5FdLWbEN0_MPmOHfYkyftUd9RUadLOU
-X-Authority-Analysis: v=2.4 cv=Wq8m8Nfv c=1 sm=1 tr=0 ts=6925530e cx=c_pps
- a=3IxC/HLiWPPRhiYFHlIRMw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=YLVSbKSnXQcLARK_lBYA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=wvPkM9v7g1_ikmSEda4A:9 a=C_JTt94QPBfM75Sg:21
- a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: Sn4Z1o3Nil1Dd67wQQg1X4dN8oZHgOLL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-25_02,2025-11-24_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 impostorscore=0 bulkscore=0 malwarescore=0 spamscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511250055
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: ce849bab-cc1c-465b-b62e-18f07c9ac198
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZWIF5ZZotpM5Yjc/7Odz7kuN0QJwnEz2luS6g5Wf1dxE+SYbBx5j7f+vxsPrDmob4qspJ6hI2NsAWBY/z3ZXKw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR09MB8239
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 06:56:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226750
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 08:02:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226751
 
---------------JaZBScKpymEnCfHvRpgBsQsv
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5AP5onCv2878977
-
-
-On 11/24/25 13:55, Moritz Haase wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender =
-and know the content is safe.
->
-> Due to what looks like a copy'n'paste mistake, the environment setup sc=
-ript
-> might override 'CURL_CA_BUNDLE' from the host env instead of leaving it
-> untouched. Fix that.
->
-> CC:changqing.li@windriver.com
-> CC:raj.khem@gmail.com
-> Signed-off-by: Moritz Haase<Moritz.Haase@bmw.de>
-> ---
->   meta/recipes-support/curl/curl/environment.d-curl.sh | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-support/curl/curl/environment.d-curl.sh b/met=
-a/recipes-support/curl/curl/environment.d-curl.sh
-> index 581108ef35..b948db2cf6 100644
-> --- a/meta/recipes-support/curl/curl/environment.d-curl.sh
-> +++ b/meta/recipes-support/curl/curl/environment.d-curl.sh
-> @@ -1,6 +1,6 @@
->   # Respect host env CURL_CA_BUNDLE/CURL_CA_PATH first, then auto-detec=
-ted host cert, then cert in buildtools
-> -# CAFILE/CAPATH is auto-deteced when source buildtools
-> -if [ -z "${CURL_CA_PATH:-}" ]; then
-> +# CAFILE/CAPATH is auto-detected when source buildtools
-> +if [ -z "${CURL_CA_BUNDLE:-}" ]; then
-
-Look good,=C2=A0 it should be a copy'n'paste mistake. Could you also send=
-=20
-this to Scarthgap branch? Thanks
-
-//Changqing
-
->          if [ -n "${CAFILE:-}" ];then
->                  export CURL_CA_BUNDLE=3D"$CAFILE"
->          elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certifica=
-tes.crt" ];then
---------------JaZBScKpymEnCfHvRpgBsQsv
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#cceed0">
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 11/24/25 13:55, Moritz Haase wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20251124055533.857103-1-Moritz.Haase@bmw.de">
-      <pre wrap="" class="moz-quote-pre">CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and know the content is safe.
-
-Due to what looks like a copy'n'paste mistake, the environment setup script
-might override 'CURL_CA_BUNDLE' from the host env instead of leaving it
-untouched. Fix that.
-
-CC: <a class="moz-txt-link-abbreviated" href="mailto:changqing.li@windriver.com">changqing.li@windriver.com</a>
-CC: <a class="moz-txt-link-abbreviated" href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>
-Signed-off-by: Moritz Haase <a class="moz-txt-link-rfc2396E" href="mailto:Moritz.Haase@bmw.de">&lt;Moritz.Haase@bmw.de&gt;</a>
----
- meta/recipes-support/curl/curl/environment.d-curl.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-support/curl/curl/environment.d-curl.sh b/meta/recipes-support/curl/curl/environment.d-curl.sh
-index 581108ef35..b948db2cf6 100644
---- a/meta/recipes-support/curl/curl/environment.d-curl.sh
-+++ b/meta/recipes-support/curl/curl/environment.d-curl.sh
-@@ -1,6 +1,6 @@
- # Respect host env CURL_CA_BUNDLE/CURL_CA_PATH first, then auto-detected host cert, then cert in buildtools
--# CAFILE/CAPATH is auto-deteced when source buildtools
--if [ -z &quot;${CURL_CA_PATH:-}&quot; ]; then
-+# CAFILE/CAPATH is auto-detected when source buildtools
-+if [ -z &quot;${CURL_CA_BUNDLE:-}&quot; ]; then</pre>
-    </blockquote>
-    <p>Look good,&nbsp; it should be a <span style="white-space: pre-wrap">copy'n'paste mistake.  Could you also send  this to  </span>Scarthgap
-      branch? Thanks<br>
-    </p>
-    <p>//Changqing<br>
-    </p>
-    <blockquote type="cite" cite="mid:20251124055533.857103-1-Moritz.Haase@bmw.de">
-      <pre wrap="" class="moz-quote-pre">
-        if [ -n &quot;${CAFILE:-}&quot; ];then
-                export CURL_CA_BUNDLE=&quot;$CAFILE&quot;
-        elif [ -e &quot;${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt&quot; ];then
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------JaZBScKpymEnCfHvRpgBsQsv--
+Hi,=0A=
+=0A=
+> In native/nativesdk builds, sysconfdir refers to a recipe sysroot=0A=
+> directory, which will disappear once the workdir is cleaned up, breaking=
+=0A=
+> libcurl's HTTPS connections.=0A=
+>=A0=0A=
+> By simply not setting --with-ca-bundle at all in non-target builds, curl=
+=0A=
+> defaults to the host system's CA certificates, which is desirable anyways=
+=0A=
+> to allow builds in environments that require local CA certificates.=0A=
+=0A=
+this patch seems to have broken opkg in the SDK for us: It now fails to dow=
+nload=0A=
+packages via HTTPS (from a server with a "proper" certificate from a public=
+ CA),=0A=
+reporting:=0A=
+=0A=
+> SSL certificate problem: self-signed certificate in certificate chain=0A=
+=0A=
+It looks like the env variables set by [0] and others like 'SSL_CERT_(DIR|F=
+ILE)'=0A=
+(see [1]) are only taken into account by curl on the command line (see [2])=
+, but=0A=
+not by libcurl, which opkg uses. Removing the default CA bundle option from=
+ the=0A=
+build now means that libcurl doesn't have any CA certificates to verify aga=
+inst=0A=
+unless explicitly configured (previously it was using 'ca-certificates.crt'=
+=0A=
+shipped by the SDK). For opkg, that would be possible using the 'ssl_ca_fil=
+e'=0A=
+and 'ssl_ca_file' options in the config file, but those paths would need to=
+ be=0A=
+relocatable at SDK install time and there might be other programs using lib=
+curl=0A=
+that are affected by the same issue.=0A=
+=0A=
+Is there anything that I'm missing or an easier workaround to restore opkg'=
+s=0A=
+HTTPS transfer abilities?=0A=
+=0A=
+Thanks,=0A=
+=0A=
+Moritz=0A=
+=0A=
+[0]: https://git.openembedded.org/openembedded-core/tree/meta/recipes-suppo=
+rt/curl/curl/environment.d-curl.sh=0A=
+[1]: https://git.openembedded.org/openembedded-core/tree/meta/recipes-conne=
+ctivity/openssl/files/environment.d-openssl.sh=0A=
+[2]: https://github.com/curl/curl/blob/de7b3e89218467159a7af72d58cea8425946=
+e97d/src/tool_operate.c#L2586-L2623=
 
