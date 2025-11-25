@@ -1,188 +1,180 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 501EAD0EE3E
-	for <webhook@archiver.kernel.org>; Tue, 25 Nov 2025 20:59:20 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4357.1764104353367518253
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A6C6D10369
+	for <webhook@archiver.kernel.org>; Tue, 25 Nov 2025 22:53:11 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11.1764111186752678485
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Nov 2025 12:59:13 -0800
+ Tue, 25 Nov 2025 14:53:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mbNl2Stb;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-299d40b0845so95995005ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 12:59:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1764104353; x=1764709153; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MI6oJswh6ZcPS6Bh64+cNgMndatdKjuIBJ8dmsNzYL0=;
-        b=mbNl2Stbc4XbpRGLqu3rSHMquzUTfclGJ9luFjIuj7x76t1u/fjDijV11e6UrQwtVg
-         HRQaPPII/TB/V7da4dUaIbas5zL3AiAvNzFCgrkM/aGw9c7/Qo2i7Af14740aItwvzG7
-         GiRTs0Y2t+B7Pjiz/4nEBHtIWhTGNdCgJ328YNvWhJNnr2EWw7ehznFir526nRddpQ0a
-         ns7XgadzeuDCBndP3rNkbc4blxJQdupKkXSz45Gv82C7ucG7l/C7WIMA5k7gmVJRHaG/
-         YKj867T7SCGZjAUlWsXjh32zdxtz8r9J91gIVjlCGph1Gze6WGpsKDlp+GMOs+vsgV4r
-         DAaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764104353; x=1764709153;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=MI6oJswh6ZcPS6Bh64+cNgMndatdKjuIBJ8dmsNzYL0=;
-        b=kLXM1YDhW8Mzh9BvBy6oMPQPLE57Ahb2vSbs9nzJX0ehfhO6K/1TwPhFeegUHzXdIb
-         58uInD8BrxDDNP3N03RJLm5neSCG9U0pbWtI5jkR+aFqymvD1s7844xXPdr8l2VAZtWK
-         tKuSZ4JUDC0UDJyAMGBoIaEjxk2vfhZl/AZh3memf8UOKpIus3FrI/lFMuj/FykCjkqF
-         FoN3EZfg6JPcm+8IaKuYwjQTsoWoIWJaEswTbs6xA8nDImBhFGUVUX2ZdK8B17UErHad
-         3PdXKKPRK75+7DbSHey64LpnTyVGiQLzukWtLwvMPllshJSniznCvPCQZMLkNn6NAvyB
-         ZjmQ==
-X-Gm-Message-State: AOJu0YwG1lhJPOQ+0kxfIf/7zxn96g19dUqnBV1EkDE90llPB7YyiLIY
-	maMA6J1ZLDxY5ATGvoUjCViJGTVhIUt3XP0Ut58zw2J6+5ceUWUvP42xk26tfIR+WY0l0uaJGp9
-	e+fAo
-X-Gm-Gg: ASbGncubFRMLVfmbwSO3J/w5Ke2PF9bAsMHih24kEcl8Bmj9Swgi7JVVVkCyAxU0y2/
-	sctpf8CRoU3UwzACCTCCQEeoO48ngIbJzkEHEWj54LmgtCQ0JPEtyBz9xsZyVtLffCgN1FZVOJj
-	GVO0Ql8S2jwLcJc8He4QYnN1VsJ55gCaGwG5wUA4zhgJId0mS5mWK5CNHumHACxQ+0/PGpjOTg7
-	hiVPs1OLwV8Y4u0O2Lxr5afP38cb5SR/XLQS2eaD5GqtlDT7KsEuS2jXEDRoLvPjfHzY7x5ZVCK
-	/rdZVoVEorRVU9W3AinSmoiyBYLnHXhoXxpbO/PBI1CtV0h8EteBT9fOlucDiIU1wOlRz01PCnx
-	771VrAAjqAoybv4xFOjjMsuAaOwjUHYaUwjAQGe3Pj1NnU/4rmnFKhXq5WkUoiPRLXrj+/uEU2C
-	EkLA==
-X-Google-Smtp-Source: AGHT+IEv413NYy77PRyJL3hYa1gT8npjRWV/8srNXeMqcrCbda2Z/F2VMZK6mIerNDSzCA+B+0FAoQ==
-X-Received: by 2002:a17:902:db0e:b0:295:3d5d:fe37 with SMTP id d9443c01a7336-29bab198021mr43163565ad.41.1764104352570;
-        Tue, 25 Nov 2025 12:59:12 -0800 (PST)
-Received: from hexa.. ([2602:feb4:3b:2100:5e34:462b:e2f0:5898])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bd75def6346sm17340755a12.4.2025.11.25.12.59.11
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 12:59:12 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Uzh/RdP9;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20251125225301fb463dcd7c00020721-vytxi4@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20251125225301fb463dcd7c00020721
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 25 Nov 2025 23:53:02 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=0YJ1Lw8tuixM6h7+dFhhhMXAC+NA3qXQjoLLi/QLsos=;
+ b=Uzh/RdP9meH5LFfEmvDIlF8xlI/9nEj8pvLDpbZtvv60uMY/HHrjrMGTdAsw/9EAxk+mUY
+ YgAuHwVsYJMnRHpc+Q6it9MXNOJe1ZSoxMl5koGz6+JypATSMHXMBTFo0mqn3Z9mDLlgMePd
+ C4nd9e3Aa/GtXIBgzhAWnc0aHFWQUMWs7BideCrCHPh/iryfq2JFWzh+xMeVgJjlfacStqaA
+ 3b23j4KazWv4LMOTUbHKXoLumUOUWH7NfGClwXb6t6noCkKey2Ejhtsogp7eq2Y9iPkfDPTS
+ RgI5DrpihMYvFFqJxZgiJQl+WkCvDjr0/qAmx11SCNiY6BC741hXvO7g==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 9/9] libarchive: patch CVE-2025-60753
-Date: Tue, 25 Nov 2025 12:58:47 -0800
-Message-ID: <1fbd9eddbdf0da062df0510cabff6f6ee33d5752.1764104199.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1764104199.git.steve@sakoman.com>
-References: <cover.1764104199.git.steve@sakoman.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] sqlite3: upgrade 3.50.4 -> 3.51.0
+Date: Tue, 25 Nov 2025 23:52:57 +0100
+Message-Id: <20251125225257.2579493-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 20:59:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226794
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Nov 2025 22:53:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226795
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch from [3] marked in [2] mentioned in [1].
+Handles CVE-2025-7709.
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2025-60753
-[2] https://github.com/libarchive/libarchive/issues/2725
-[3] https://github.com/libarchive/libarchive/pull/2787
+Drop commit included in this release.
+Refresh and rename the other patch.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libarchive/CVE-2025-60753.patch           | 76 +++++++++++++++++++
- .../libarchive/libarchive_3.7.9.bb            |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-60753.patch
+ ... => 0001-Add-option-to-disable-zlib.patch} |  4 +-
+ ...rpath-configure-script-flag-to-addre.patch | 57 -------------------
+ meta/recipes-support/sqlite/sqlite3_3.50.4.bb | 10 ----
+ meta/recipes-support/sqlite/sqlite3_3.51.0.bb |  9 +++
+ 4 files changed, 11 insertions(+), 69 deletions(-)
+ rename meta/recipes-support/sqlite/sqlite3/{0002-Add-option-to-disable-zlib.patch => 0001-Add-option-to-disable-zlib.patch} (93%)
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3/0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.50.4.bb
+ create mode 100644 meta/recipes-support/sqlite/sqlite3_3.51.0.bb
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-60753.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-60753.patch
+diff --git a/meta/recipes-support/sqlite/sqlite3/0002-Add-option-to-disable-zlib.patch b/meta/recipes-support/sqlite/sqlite3/0001-Add-option-to-disable-zlib.patch
+similarity index 93%
+rename from meta/recipes-support/sqlite/sqlite3/0002-Add-option-to-disable-zlib.patch
+rename to meta/recipes-support/sqlite/sqlite3/0001-Add-option-to-disable-zlib.patch
+index 2855372c21..77181fe4df 100644
+--- a/meta/recipes-support/sqlite/sqlite3/0002-Add-option-to-disable-zlib.patch
++++ b/meta/recipes-support/sqlite/sqlite3/0001-Add-option-to-disable-zlib.patch
+@@ -32,7 +32,7 @@ diff --git a/autosetup/sqlite-config.tcl b/autosetup/sqlite-config.tcl
+ index 85fe414382..77190a7053 100644
+ --- a/autosetup/sqlite-config.tcl
+ +++ b/autosetup/sqlite-config.tcl
+-@@ -274,6 +274,14 @@ proc sqlite-configure {buildMode configScript} {
++@@ -287,6 +287,14 @@ proc sqlite-configure {buildMode configScript} {
+        }
+      }
+  
+@@ -47,7 +47,7 @@ index 85fe414382..77190a7053 100644
+      # Options for ICU: International Components for Unicode
+      icu {
+        {*} {
+-@@ -641,7 +649,7 @@ proc sqlite-check-common-system-deps {} {
++@@ -656,7 +664,7 @@ proc sqlite-check-common-system-deps {} {
+      string.h strings.h \
+      inttypes.h
+  
+diff --git a/meta/recipes-support/sqlite/sqlite3/0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch b/meta/recipes-support/sqlite/sqlite3/0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch
+deleted file mode 100644
+index f1e93a1c9a..0000000000
+--- a/meta/recipes-support/sqlite/sqlite3/0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-From 87c807c6dd4df67328919fa28e89a06839e634fe Mon Sep 17 00:00:00 2001
+-From: stephan <stephan@noemail.net>
+-Date: Sun, 22 Jun 2025 22:48:11 +0000
+-Subject: [PATCH] Add the --disable-rpath configure script flag to address
+- [forum:13cac3b56516f849 | forum post 13cac3b56516f849].
+-
+-FossilOrigin-Name: a59d9bb25e518f5d79f654615b92f6c50cfb704b5abee0f820912644b89366c5
+-
+-Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/87c807c6dd4df67328919fa28e89a06839e634fe]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- autosetup/sqlite-config.tcl | 18 +++++++++---------
+- 1 file changed, 9 insertions(+), 9 deletions(-)
+-
+-diff --git a/autosetup/sqlite-config.tcl b/autosetup/sqlite-config.tcl
+-index bb81123204..4dd065095e 100644
+---- a/autosetup/sqlite-config.tcl
+-+++ b/autosetup/sqlite-config.tcl
+-@@ -334,8 +334,8 @@ proc sqlite-configure {buildMode configScript} {
+-           => {Link the sqlite3 shell app against the DLL instead of embedding sqlite3.c}
+-       }
+-       {canonical autoconf} {
+--        # A potential TODO without a current use case:
+--        #rpath=1 => {Disable use of the rpath linker flag}
+-+        rpath=1 => {Disable use of the rpath linker flag}
+-+
+-         # soname: https://sqlite.org/src/forumpost/5a3b44f510df8ded
+-         soname:=legacy
+-           => {SONAME for libsqlite3.so. "none", or not using this flag, sets no
+-@@ -2119,7 +2119,6 @@ proc sqlite-handle-tcl {} {
+- ########################################################################
+- # Handle the --enable/disable-rpath flag.
+- proc sqlite-handle-rpath {} {
+--  proj-check-rpath
+-   # autosetup/cc-shared.tcl sets the rpath flag definition in
+-   # [get-define SH_LINKRPATH], but it does so on a per-platform basis
+-   # rather than as a compiler check. Though we should do a proper
+-@@ -2128,12 +2127,13 @@ proc sqlite-handle-rpath {} {
+-   # for which sqlite-env-is-unix-on-windows returns a non-empty
+-   # string.
+- 
+--#  if {[proj-opt-truthy rpath]} {
+--#    proj-check-rpath
+--#  } else {
+--#    msg-result "Disabling use of rpath."
+--#    define LDFLAGS_RPATH ""
+--#  }
+-+  # https://sqlite.org/forum/forumpost/13cac3b56516f849
+-+  if {[proj-opt-truthy rpath]} {
+-+    proj-check-rpath
+-+  } else {
+-+    msg-result "Disabling use of rpath."
+-+    define LDFLAGS_RPATH ""
+-+  }
+- }
+- 
+- ########################################################################
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.50.4.bb b/meta/recipes-support/sqlite/sqlite3_3.50.4.bb
+deleted file mode 100644
+index b822d7e919..0000000000
+--- a/meta/recipes-support/sqlite/sqlite3_3.50.4.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require sqlite3.inc
+-
+-LICENSE = "PD"
+-LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+-
+-SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "a3db587a1b92ee5ddac2f66b3edb41b26f9c867275782d46c3a088977d6a5b18"
+-
+-SRC_URI += "file://0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch"
+-SRC_URI += "file://0002-Add-option-to-disable-zlib.patch"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.51.0.bb b/meta/recipes-support/sqlite/sqlite3_3.51.0.bb
 new file mode 100644
-index 0000000000..730a6128c3
+index 0000000000..258b2c6505
 --- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2025-60753.patch
-@@ -0,0 +1,76 @@
-+From 3150539edb18690c2c5f81c37fd2d3a35c69ace5 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?ARJANEN=20Lo=C3=AFc=20Jean=20David?= <ljd@luigiscorner.mu>
-+Date: Fri, 14 Nov 2025 20:34:48 +0100
-+Subject: [PATCH] Fix bsdtar zero-length pattern issue.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-support/sqlite/sqlite3_3.51.0.bb
+@@ -0,0 +1,9 @@
++require sqlite3.inc
 +
-+Uses the sed-like way (and Java-like, and .Net-like, and Javascript-like…) to fix this issue of advancing the string to be processed by one if the match is zero-length.
++LICENSE = "PD"
++LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
 +
-+Fixes libarchive/libarchive#2725 and solves libarchive/libarchive#2438.
++SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz"
++SRC_URI[sha256sum] = "42e26dfdd96aa2e6b1b1be5c88b0887f9959093f650d693cb02eb9c36d146ca5"
 +
-+CVE: CVE-2025-60753
-+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/3150539edb18690c2c5f81c37fd2d3a35c69ace5]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ tar/subst.c              | 19 ++++++++++++-------
-+ tar/test/test_option_s.c |  8 +++++++-
-+ 2 files changed, 19 insertions(+), 8 deletions(-)
-+
-+diff --git a/tar/subst.c b/tar/subst.c
-+index 9747abb9..902a4d64 100644
-+--- a/tar/subst.c
-++++ b/tar/subst.c
-+@@ -235,7 +235,9 @@ apply_substitution(struct bsdtar *bsdtar, const char *name, char **result,
-+ 			(*result)[0] = 0;
-+ 		}
-+ 
-+-		while (1) {
-++		char isEnd = 0;
-++		do {
-++            isEnd = *name == '\0';
-+ 			if (regexec(&rule->re, name, 10, matches, 0))
-+ 				break;
-+ 
-+@@ -290,12 +292,15 @@ apply_substitution(struct bsdtar *bsdtar, const char *name, char **result,
-+ 			}
-+ 
-+ 			realloc_strcat(result, rule->result + j);
-+-
-+-			name += matches[0].rm_eo;
-+-
-+-			if (!rule->global)
-+-				break;
-+-		}
-++			if (matches[0].rm_eo > 0) {
-++                name += matches[0].rm_eo;
-++            } else {
-++                // We skip a character because the match is 0-length
-++                // so we need to add it to the output
-++                realloc_strncat(result, name, 1);
-++                name += 1;
-++            }
-++		} while (rule->global && !isEnd); // Testing one step after because sed et al. run 0-length patterns a last time on the empty string at the end
-+ 	}
-+ 
-+ 	if (got_match)
-+diff --git a/tar/test/test_option_s.c b/tar/test/test_option_s.c
-+index 564793b9..90b4c471 100644
-+--- a/tar/test/test_option_s.c
-++++ b/tar/test/test_option_s.c
-+@@ -42,7 +42,13 @@ DEFINE_TEST(test_option_s)
-+ 	systemf("%s -cf test1_2.tar -s /d1/d2/ in/d1/foo", testprog);
-+ 	systemf("%s -xf test1_2.tar -C test1", testprog);
-+ 	assertFileContents("foo", 3, "test1/in/d2/foo");
-+-
-++	systemf("%s -cf test1_3.tar -s /o/#/g in/d1/foo", testprog);
-++	systemf("%s -xf test1_3.tar -C test1", testprog);
-++	assertFileContents("foo", 3, "test1/in/d1/f##");
-++	// For the 0-length pattern check, remember that "test1/" isn't part of the string affected by the regexp
-++	systemf("%s -cf test1_4.tar -s /f*/\\<~\\>/g in/d1/foo", testprog);
-++	systemf("%s -xf test1_4.tar -C test1", testprog);
-++	assertFileContents("foo", 3, "test1/<>i<>n<>/<>d<>1<>/<f><>o<>o<>");
-+ 	/*
-+ 	 * Test 2: Basic substitution when extracting archive.
-+ 	 */
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-index da11e052a7..86ba53aaf2 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-@@ -42,6 +42,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://0001-Merge-pull-request-2749-from-KlaraSystems-des-tempdi.patch \
-            file://0001-Merge-pull-request-2753-from-KlaraSystems-des-temp-f.patch \
-            file://0001-Merge-pull-request-2768-from-Commandoss-master.patch \
-+           file://CVE-2025-60753.patch \
-            "
- UPSTREAM_CHECK_URI = "http://libarchive.org/"
- 
--- 
-2.43.0
-
++SRC_URI += "file://0001-Add-option-to-disable-zlib.patch"
 
