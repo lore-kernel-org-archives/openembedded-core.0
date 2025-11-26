@@ -2,140 +2,154 @@ Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 359C5D11194
-	for <webhook@archiver.kernel.org>; Wed, 26 Nov 2025 18:42:51 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1441.1764182569201676497
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35F68D11193
+	for <webhook@archiver.kernel.org>; Wed, 26 Nov 2025 18:43:31 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1457.1764182608058535551
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Nov 2025 10:42:49 -0800
+ Wed, 26 Nov 2025 10:43:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Sivyche/;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=CjAxo/u3;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AQGCx4u2855086
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 18:42:48 GMT
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=I/Sb05Rk;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=NgBOUWSy;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AQG2h5Z1234822
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 18:43:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=QtXGDNndRkuVcZceL2l/DXx2
-	agLw+xevBde17VwVR8g=; b=Sivyche/YUClSdl6gTbvnJL5RtAyHCewvB2QPpnU
-	nAv1CxoOWOIqfa+WEVMK5yXNrp2mw41T4rM/McgpGg1hp9pdNS/sywLyVmG12vsO
-	R+YNCtydMlJfOUC5HY3u0rVKzmBnZyqqa+IM3oUTB4NRjvGZzTUwFbm5xNywKmA7
-	Lv/poJO3bQmImEApY3lWbkllSRY2DGjVDnFi+nQbac1leEgR2JFqy0EVpQZ7Cnsp
-	xa+UyYUU+jYJSFBurc5AqJ2D5UZND7zSLmbjJQ/2RTmqIWozshb7W3MP3I6yZpNE
-	Apop5NOj/PmaSF+VBuB3UpJ2V3+ADZFF3fME6NHsOngskg==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ap4vh8dcc-1
+	:references:subject:to; s=qcppdkim1; bh=JKRDtOLX4FhwDlL4ptg8kHFE
+	l+ctCElfWmNINX0ENkI=; b=I/Sb05RkKNykgqOOi2QHBK6bH5h/sVEsD7f3OZJg
+	fm33h+ywaDmPbGTpQJeFT28nwgqSLQiDp0/IgPeFK6gVv2tUzxXPQmk5x3mVpddA
+	WnwWJukM+Qhl8lvKcx4w9wKkN8HrDzmk3nYOzrOOFi+BmUe7DbUEuqMLHVlfkRjl
+	iYbiCITNNftFwzV+qxbntoX6OmY6wyCsMaTQXmN4k8/Uf/b1nwdQS6p0ESPN8wBg
+	bANwe6Va1kdfdGLj/irMYgONZCK6cOrb219RE7Xoe+XmHO8NFIzOaPBct7pP1CdH
+	KheaU2VECwFzwBGm9lWv03cCPMPKBu9dOnpObB7zaSJvrw==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4anwd41wvk-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 18:42:48 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-29846a9efa5so1592055ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 10:42:47 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 18:43:27 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-297dabf9fd0so953625ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 10:43:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764182567; x=1764787367; darn=lists.openembedded.org;
+        d=oss.qualcomm.com; s=google; t=1764182606; x=1764787406; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QtXGDNndRkuVcZceL2l/DXx2agLw+xevBde17VwVR8g=;
-        b=CjAxo/u35lvj5TTIqhNsTbBYc/cT/D/dGELqtEsw6TFl9Q0Q7zyyV8LKYn7SLeTQh9
-         gtlFdx4Q1xN+NE4Pg6pna0DntoXAcZPfsafZrSSTKSEe998+b9nq7gTkVU6zOXObafar
-         rfkqcSto6I4S7g6XIXluPFFZFR2OEW61fEoRg2drxh3Q7TPIloEy4gYUjSnjiC6kcXhB
-         AdquOS0IjyNTSjyzsxlFlF94hqxEWdTzzfmA95Xjye7RTUlXknF6EVXqBRO0RaL5heyj
-         44sTH33mTG43fO2HjztAFOp3W/SDtSABfVm6Tzzc+/47YfLV/xdmuo3OG2TIRza2M/G5
-         rN+Q==
+        bh=JKRDtOLX4FhwDlL4ptg8kHFEl+ctCElfWmNINX0ENkI=;
+        b=NgBOUWSy/rTGtnRJ9shzsYFkv59N/P69IkXhweoE0ZVrawjg90W7/GeiscCqM8SRJu
+         K8YskgiESaq00zpgJ9rDWm1tfUFST9J+QfgarqFBHKq9/C3ITUebswx7vYTPHuTszKk1
+         5rkpZTqyR4UePUynMudkDdrU6u4C1lzQ/pK1OCZ5miR6URg4OdCte0Hzj7s/L0j02TKN
+         mhpUIBo7jndG1BUDeSEuqc536ecrmdu2dSGiLaVjfe8DO9jeNN6nr2clQziNv+bKahtH
+         +xXUKnXNJq53JILguPdZSuYwsiczE2Bh5KnInnwIMYoYVSZRHUevQR32Y+yzSd0tAK4w
+         GpVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764182567; x=1764787367;
+        d=1e100.net; s=20230601; t=1764182606; x=1764787406;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QtXGDNndRkuVcZceL2l/DXx2agLw+xevBde17VwVR8g=;
-        b=In5sOdTb6/+/fWL3NpBNu0Ov+dgFvs6F/RHFVmy3ylKbwvvoiii0r3laNF84SnVZqE
-         wjYQUMp4Iqt7AVRfzKrgsgd+O+i5LSbEe6tNVfy4h59a5ZS03YN4WYkCO5IIH9N5Yqx6
-         QuNtPcta28C6k/hlYv+X1VkI2dqG3dl1PEiQiX5eQP7ljUjRu4c/wUZbMzAL+twbnMZr
-         VEEZpmp9T+miGzH1u5T9rvOdAIxREILRAKmqQNhGIF0t5qJPC4ez6pfWOAUAPSoytyc5
-         vTp7NxjmEI6xIWbIIvjdCxEAvX7+aQGWe6068o3NcFA6zF0NjYsHqzX9R9WS60pC1WxT
-         9GVw==
-X-Gm-Message-State: AOJu0YwCnE9PQYKLFDCgXMxv3wenA6nbv05V9H2IiKI4Pu9q5odbEXUH
-	k8qQAKTu5tHBvmyRshwH5NOIG+iJ1qh1+eznXUG/krmIlX40qtDU0LZDOnnUlkb+rNGD4uvzIZY
-	IGQYb9GgIFQOeaV0g2V81rfoUfip9kXVICvu+W9WNDPlhbxL7jID8mW1ObkFfK4qRxwoyy+E3Xj
-	vtsJPS/9KD4q+lhGDtJQS2iBWbQhohGmFwtjOHy0WHNHfl6Iv0JBv3z6yTYg==
-X-Gm-Gg: ASbGncumJqUwJk9F3/9jHpy6+iX+oULz5I4BiTthH9s2QkJKUkSUM3MINXGI8Eu6zDm
-	+94eiQ9xCFFbTDDGJctEeaaBdCWPgBXIkc8Kn3FOb9paCceIwlmtiE/xyg1z2yyvdYDJApiGHt/
-	8D0uDH+x52Un2MAFUtBE/z/hXJP+Xh6GopTGljxKhUZTYnnwQ5BZ3FVPKxF0SWFiUho2f8vncB+
-	yZ7qTkQ
-X-Received: by 2002:a17:903:2448:b0:299:dc84:fd0 with SMTP id d9443c01a7336-29b6bead622mr230839145ad.17.1764182567180;
-        Wed, 26 Nov 2025 10:42:47 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE8kpaCvBHrL7jooQIPMnhhPig4w1I1CPDFXiy33x+UtwEjgykq/VRPgeVdVH8oPYojcUm7vBioAnt2FLNk98g=
-X-Received: by 2002:a17:903:2448:b0:299:dc84:fd0 with SMTP id
- d9443c01a7336-29b6bead622mr230838935ad.17.1764182566687; Wed, 26 Nov 2025
- 10:42:46 -0800 (PST)
+        bh=JKRDtOLX4FhwDlL4ptg8kHFEl+ctCElfWmNINX0ENkI=;
+        b=P4WKdjjX5lAymur1nd/2x+PyN3+SkdcakcXjCaNopVFfGn6Ucy97UGs1orHLxm+2pU
+         euNiLeexpMMoMp0HY+DL54pxhwJr5x1cXULE+ayih1wQ40+kq2gxBMGmXQs4VLEgND4A
+         bLqngcr4s1OBb8wnZP96y0BJlfO0lu+C/ZCzW0KaIB9lqAw2KuuS0GZJDtKjZvHhtbC7
+         H7W8yIs+4XsVtlP11nB+n0B9OQsrI5x3jm6rSubpNw5551yJeC0LXEQfwcpKLOlHuuuE
+         dzeVOUJHM/wShfpmRK1T5lbVU5rR9UhlIsgEm6/6UgLjtJ4dc3jkes7wrin7JIML8JBZ
+         UaDw==
+X-Gm-Message-State: AOJu0YwcVd1iIOLRo+bcLTjgQQERYLpmaz2kVaNASiJABz1Br+VMB8gP
+	2dpfV+MLIOpi9ptSPSoUffMHiO1y/elRUr8iNXtC0itqP1PmRTO3saQJppBs6JiwAzGsw6lM1os
+	D/N9rKon6WBE6nJAyA+hHxfSJJj+JFtM3eiJ29G4a27jANdUn1qLoXbzXUotpNhSiV/0FE6iCFI
+	zPLgzu+Vf2p3Bv9NdfTGPdWEWTXTAWEmPKfST3aZ5brzIBIRtsV47cQeNYTWHpHbaKaA==
+X-Gm-Gg: ASbGnctQ4+fx4jWGZONxKXgjB6TY7t5LVUBab2xXkqjUcxhFsmsG9XH7UhmWHnXWngn
+	qTX2xO7vcMmxnj7gupUmHcEx9d9xogTBAXwlOWJrDhDYVAagnQ+qgvOQLZUmgFI2lKCJL2xguaM
+	cR36hXUnP24AbcOiHYKJhfsaJMNkIVr/vm3RXem6DqC8A23AOuFSHp1Zgouz5OLSVmhaa2DFyaC
+	nFP+NbW
+X-Received: by 2002:a17:902:f70b:b0:297:d6c2:d06 with SMTP id d9443c01a7336-29b6c3e4c7bmr232628295ad.20.1764182606455;
+        Wed, 26 Nov 2025 10:43:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHfu9BBXyiLbvNbTsznvIpz/CER8T67LTJ0LdWDYgN5UU4aa2Yw4/IGq3QMzOeSixfFCyhgbFV7n56IKjqW6Sw=
+X-Received: by 2002:a17:902:f70b:b0:297:d6c2:d06 with SMTP id
+ d9443c01a7336-29b6c3e4c7bmr232627955ad.20.1764182605862; Wed, 26 Nov 2025
+ 10:43:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20251126140713.1414484-1-miaoqing.pan@oss.qualcomm.com> <20251126140713.1414484-4-miaoqing.pan@oss.qualcomm.com>
-In-Reply-To: <20251126140713.1414484-4-miaoqing.pan@oss.qualcomm.com>
+References: <20251126140713.1414484-1-miaoqing.pan@oss.qualcomm.com> <20251126140713.1414484-5-miaoqing.pan@oss.qualcomm.com>
+In-Reply-To: <20251126140713.1414484-5-miaoqing.pan@oss.qualcomm.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Wed, 26 Nov 2025 20:42:34 +0200
-X-Gm-Features: AWmQ_bnG9mWK7TG8eAg_JdMsKPDcR--JgX_r4cq4YQp-FSNUFKOaJzT_WchLAck
-Message-ID: <CAO9ioeWqXjrxBOGjT-ZpY9oy8cS0-S3-bnBn=a354MH7ize9vw@mail.gmail.com>
-Subject: Re: [PATCH 3/4] wpa-supplicant: enable 802.11be support
+Date: Wed, 26 Nov 2025 20:43:14 +0200
+X-Gm-Features: AWmQ_bnwtvsmS22jGvm2kXI6e4Vf6pZR3CqdGx7qXkAuSV3iCW8x1wgNtXpawiY
+Message-ID: <CAO9ioeVU7jKd9mKy_XCGGyfp-uwuqJWgM4OyDxfB02ApGw2k5w@mail.gmail.com>
+Subject: Re: [PATCH 4/4] wpa-supplicant: enable OWE support
 To: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDE1MiBTYWx0ZWRfX/bNK27hrsEmd
- kgK7ajwjh8ttbC4Yr02nP4MZtgcxM//XXiwtRc4guzfyNejyq8rE9rMX3KNzzSRuHvEK5P+NpPm
- HYSVrUbkHOAGwJSWUl6TyEYdTPQC6JKBU0lJhNaLXJ4/wmdmpopaTiDa590ZHcJGSjNMEL/8ZbO
- AiBOR3tqHcB6c8Dhozm/wZ1I3UWdVntwOWsbCRSli7zbhYfofhvyKYNEiALvozHi9/KNR/mK2YB
- VFYSWqxGyP7z8WJeG7BvRlyMiw6uv5oDeM/x5tX0qSnI2zfaIDHhUmbwXH32xZlxszan3EC0oW9
- gjYeU4zZyR63XKi8KxsuAFeCkWRFVEqeAFFGsTYaYqB9Z8RTy++1LmistPA9NwNzZ+ujgNHtTmd
- NavoHXeqUvN20lgZG0T/hZPNe9eA3w==
-X-Proofpoint-ORIG-GUID: q6-jlPVP8PAvWpFJIjmr4lRYyn7qHzWF
-X-Proofpoint-GUID: q6-jlPVP8PAvWpFJIjmr4lRYyn7qHzWF
-X-Authority-Analysis: v=2.4 cv=Lt6fC3dc c=1 sm=1 tr=0 ts=69274a28 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10
+X-Proofpoint-ORIG-GUID: 8i42WC74ICllciDiPJe70RhYysZcjdN3
+X-Authority-Analysis: v=2.4 cv=feqgCkQF c=1 sm=1 tr=0 ts=69274a4f cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10
  a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=T7FyCu7Z4WHDiU8PX1cA:9 a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
+ a=4qhpSsLw4rMaHShbg-MA:9 a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-GUID: 8i42WC74ICllciDiPJe70RhYysZcjdN3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDE1MiBTYWx0ZWRfX9b3wZofSTjyJ
+ bLAcfK9ziJr0sdilK4t3VxLuEv7+NRphovzeOhR+VFaD9YZtxIdgl7uI6W6TSiWpHr/SSEtcGpR
+ voCXwqopI4VjNXzcfd0xJknMFhdkz/Pv5pvPcvZjA6F4ISSycKJIMpQFpDArBiWJf0bwwN/kGF2
+ Xcsxo2U/X2Y0CP3jTwlIacE4WLzQiZrGLMde7xNRuKyQuaEzwd/YY4eD2FnYfG9T/1dtYdwz/EA
+ Sc1x+rvA+uB7RqrPOurPKaNOezEx9bNUM4UJ7Pd0Jfhi8rLE9+uHQ6Nx1pf5tLuJ13Vqzx+kkeU
+ 6b7jnWgG6+JOdP0ao5kYkR4dftaUPwURwJ8UvUYwmvADfOOrniunAOcWm4nhDebjamkPhXTYm4F
+ Pc+fhsKMZERarzxa3T2BWPnMm7pYfA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-25_02,2025-11-26_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 lowpriorityscore=0 impostorscore=0 phishscore=0
- priorityscore=1501 suspectscore=0 adultscore=0 spamscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511260152
+ clxscore=1015 malwarescore=0 bulkscore=0 suspectscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 spamscore=0 priorityscore=1501
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511260152
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 18:42:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226811
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 18:43:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226812
 
 On Wed, 26 Nov 2025 at 16:07, Miaoqing Pan
 <miaoqing.pan@oss.qualcomm.com> wrote:
 >
-> wpa_supplicant has supported IEEE 802.11be (Wi-Fi 7) for over three
-> years. With growing market demand for Wi-Fi 7, it is now an
-> appropriate time to enable IEEE 802.11be Extremely High Throughput
-> (EHT) support - mainly for AP mode.
+> OWE is now standardized under IEEE 802.11-2024 (RFC 8110, RFC 9672).
+> Enable CONFIG_OWE=y in defconfig for easier testing and examples.
+>
+> Disable OWE when PACKAGECONFIG selects gnutls to prevent build
+> failures.
 >
 > Signed-off-by: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
 > ---
 >  .../wpa-supplicant/wpa-supplicant/defconfig                     | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 >
 > diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
-> index 52befd8f15..e313894ecd 100644
+> index e313894ecd..8a68d56ffd 100644
 > --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
 > +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
-> @@ -510,7 +510,7 @@ CONFIG_IEEE80211AX=y
->  # Note: This is experimental and work in progress. The definitions are still
->  # subject to change and this should not be expected to interoperate with the
->  # final IEEE 802.11be version.
-
-While we are at it, could you please clarify here and upstream whether
-this is an implementation of the draft or whether it is supposedly
-conforming to the released version
-
-> -#CONFIG_IEEE80211BE=y
-> +CONFIG_IEEE80211BE=y
+> @@ -639,7 +639,7 @@ CONFIG_BGSCAN_SIMPLE=y
 >
->  # Wireless Network Management (IEEE Std 802.11v-2011)
->  # Note: This is experimental and not complete implementation.
+>  # Opportunistic Wireless Encryption (OWE)
+>  # Experimental implementation of draft-harkins-owe-07.txt
+
+Again, this mentions an outdated draft. Does it (supposedly) conform
+to the final standard?
+
+> -#CONFIG_OWE=y
+> +CONFIG_OWE=y
+>
+>  # Device Provisioning Protocol (DPP) (also known as Wi-Fi Easy Connect)
+>  CONFIG_DPP=y
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+> index 4a8ee1423f..971e55150d 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+> @@ -48,6 +48,7 @@ do_configure () {
+>                 echo 'CONFIG_TLS=gnutls' >>wpa_supplicant/.config
+>                 sed -i -e 's/\(^CONFIG_DPP=\)/#\1/' \
+>                     -e 's/\(^CONFIG_EAP_PWD=\)/#\1/' \
+> +                   -e 's/\(^CONFIG_OWE=\)/#\1/' \
+>                     -e 's/\(^CONFIG_SAE=\)/#\1/' wpa_supplicant/.config
+>         fi
+>
 > --
 > 2.34.1
 >
