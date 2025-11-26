@@ -1,146 +1,141 @@
-Return-Path: <michael.opdenacker@rootcommit.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22938D11183
-	for <webhook@archiver.kernel.org>; Thu, 27 Nov 2025 11:03:26 +0000 (UTC)
-Received: from elephant.ash.relay.mailchannels.net (elephant.ash.relay.mailchannels.net [23.83.222.57])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16170.1764241399166410453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E646D11183
+	for <webhook@archiver.kernel.org>; Thu, 27 Nov 2025 12:46:57 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14156.1764167919908326627
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Nov 2025 03:03:19 -0800
+ Wed, 26 Nov 2025 06:38:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@rootcommit.com header.s=hostingermail-a header.b=B3asDvSJ;
- spf=pass (domain: rootcommit.com, ip: 23.83.222.57, mailfrom: michael.opdenacker@rootcommit.com)
-X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 0B745160EA2;
-	Thu, 27 Nov 2025 11:03:18 +0000 (UTC)
-Received: from fr-int-smtpout26.hostinger.io (trex-green-1.trex.outbound.svc.cluster.local [100.98.35.108])
-	(Authenticated sender: hostingeremail)
-	by relay.mailchannels.net (Postfix) with ESMTPA id DC95E161059;
-	Thu, 27 Nov 2025 11:03:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
-	t=1764241397;
-	b=ylfmYalFPQ4sJc/DjfvRLb1d6Qgi25Ud6YfiH35+/yR0TYl6XMNAKPV7wu2O2z2WcKoj+L
-	EPCVD1I8GgYc/8Vk3KQuyqAEdD0yfxDjdSYanIy3zE1X8b7kRoG4kLZar1WS/OloVVdf2P
-	MgvfLgcibpWUFFXR9sLSnk76SCHwIhYW1lyXyKJIUUcncirNCiivNTHM3Ii5GGUOeSxuwI
-	tiwOFQIgbjratez5bg96LdwDZzzyw6l1BA7TmS9nutZ7f0VmHImMBmRiUYie4QqHFIk9s4
-	76CyqJS2C/6LhqG9Dr9KjdXbHveEsgvNvtTr0UIY4VRXzzwmDQ0KXlW0HpXELg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1764241397;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=oFIYk3ITs1IuxjL1jCbXbDP7fR3v9N7GMC5h44MM83Y=;
-	b=PqsEl63UZ/grWAqyWLcl9ILzvn0MpGWm31HgbUPakQQ0CHagucHmNxOyNY6dUeaajOYNsy
-	IB1JJv1FBK2cm68kB3nCl1HYhpPZ3i2zwn0Bgnhr73MCJ8K9blDp+a9GpWym9y+PxY5Xwn
-	kElErekjmHrayxw/fbaME4AmXihioF+THImAEqJJwNYOGOBv9V4PUNSnE/lLS/HxgDZ/nK
-	nc1X0HPdqs3rLTh0WgEtFliJgYi21ktXFvexgsRzL0H7dnnt4vScacsmfQ1lM/yKarxOmH
-	bHGd1ubtUVUgD+65qdPW6nEoeKQIx9I8W4JENh3lry5dOXw8NiOnLz+tzGvMmA==
-ARC-Authentication-Results: i=1;
-	rspamd-74f6bfdf88-kl698;
-	auth=pass smtp.auth=hostingeremail
- smtp.mailfrom=michael.opdenacker@rootcommit.com
-X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: 
- hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-X-MailChannels-Auth-Id: hostingeremail
-X-Skirt-Relation: 56c53cc56874ae18_1764241397745_616086390
-X-MC-Loop-Signature: 1764241397745:943598912
-X-MC-Ingress-Time: 1764241397745
-Received: from fr-int-smtpout26.hostinger.io (fr-int-smtpout26.hostinger.io
- [148.222.54.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.98.35.108 (trex/7.1.3);
-	Thu, 27 Nov 2025 11:03:17 +0000
-Received: from [IPV6:2001:861:4450:d360:2b5c:8d8d:ac9c:970a] (unknown [IPv6:2001:861:4450:d360:2b5c:8d8d:ac9c:970a])
-	(Authenticated sender: michael.opdenacker@rootcommit.com)
-	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4dHD766rrnz1xq2;
-	Thu, 27 Nov 2025 11:03:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rootcommit.com;
-	s=hostingermail-a; t=1764241395;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oFIYk3ITs1IuxjL1jCbXbDP7fR3v9N7GMC5h44MM83Y=;
-	b=B3asDvSJ7v2QCm3cl8MfoLgVNsLlNysVzrWCHgirff+u2/TfWpnT19INgWzMly/LR0A79i
-	YqebPn0rZQktPa7hzG+ZHAlF6fH6+RKXRAy1bJraGpfhmKZflQtUR5923+6VKoO7SgVH+i
-	pUwJzpb5QNA2V78oN/cLtJB1pRltJW//e2VP7s4Cl0EfzaN1I5ADq4yvIopcSialvuTfJX
-	bnCOhljSl3zlloHQymbXr0tAZA7kfTby5LOJHgheNWont1ErOzWRDXBfB2njRR05PooLjn
-	KXrKFNPpvZaxJ5tK03PBUDR/I5x9+MfNexOd7C6TJKTv2RJJQoPFk4cnqVtOSA==
-Message-ID: <7e4c03b7-8f5c-4e92-91b2-1535e5533f8d@rootcommit.com>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=R6yPYndg;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=N1tdNwdk;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: miaoqing.pan@oss.qualcomm.com)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AQB3rCL1667784
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 14:07:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=5j0e5TUCWuh
+	4BHfmG9IKL+cz357DxAltYxUdXfYrmuo=; b=R6yPYndgk2NLqngnlH4/i+4F3h0
+	Svq0Tli52tFwzCZl+gfC8A6QPTH6fL2E8++8T+77eI4iZHzrwEA3PVoss+g3iiBu
+	lmhqkdC9P1b+lbE0ikaOEPse2Mca5DqbCKebHtOTF6N6QAGIYhGQagqYXm3FPK3H
+	4BHS90Stsic8B0L9wveNg59xdKuwtlqqLIgUMA/hioXG52xBXw1uti0tl7EMeXX3
+	b6ZRdIw0MQO61a+l/FGjneFu7EpnFTKhkLzMIdgkEKZwB+1DJ55o0Vtrb7F1ore1
+	tD49r39LgbAco5dNcQMnspfn7ebpf90P3JNWRm761i9BJfupOnLZ6Zth6qQ==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ap0bmrebc-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 14:07:29 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-7b4933bc4aeso5974042b3a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 06:07:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1764166049; x=1764770849; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5j0e5TUCWuh4BHfmG9IKL+cz357DxAltYxUdXfYrmuo=;
+        b=N1tdNwdk9I/aWG4unpe0fenmjh57mutbAizAKyMkoM3v0WyiFDFl5QsbwHbOTHSnUA
+         5rPMoEDGdGUdJQZOLsoeiGio+8fJOUw9hg7atGHT0UEmKFolsm9XX4KXgqafSmx+TOK/
+         /bCmBuewL8D2dsyjUlCVbHzHQEMtnf8IlFZHU2g6+L6XseLZaQfcSjdewQjwR2PI/tXa
+         PgIekz7j5VpR7GGoy0kqkq3yCof0WqKVOxeUd/Kt2gGC9d+PeCYnVfznXSTrrntoth1N
+         xHVOZ4dh4VmdzRJFx00p/JkGx4F8uT2CVD+SkKCoYpQ29UQy2Plz566kvjhUcrnaB6Gs
+         KbNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764166049; x=1764770849;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5j0e5TUCWuh4BHfmG9IKL+cz357DxAltYxUdXfYrmuo=;
+        b=kuu2lRTtzcfy0IYy3RmekA4aHazwBQIFP4nFnf83C30EwztPuBjbntGlKtjNpggYBp
+         w5UOxaHoJE+2E0lW0M3ICyOMhdW4/GwyGBKom6lqB7UmUYBY56ltPDTMdrSfhAMfoKRX
+         7KpIIbghI8JzzlHV7rbIIvCw3thz02UzdISDD9GjmNRyb4d9NebW3yJA/L9/eZYi+15w
+         aquyYCCkih0H4nVZy21LWJ9ydMGd58aVL4QsPk0vmv1JB1XCQvRT/HsTsuZ69ZLjtQUT
+         KzUoRAY1OuMS5gI28Xs6dP9kSVdluOHIAODHPF0fgLgGafhTGy+pr+8eTTMfGTJWy9yW
+         Vt/A==
+X-Gm-Message-State: AOJu0Yy0QqfmJPfK6Ud9nPLII79cqtV7NBX1APNgGJxvvpX8By+whjM1
+	dtMj6DPgQHtRVNl4hNmp3TWqQX5/Lkr0vVjo0W2FMpFXPyGlcRimYxJmirZYn0JEvbKMePRJhLs
+	hJaKIedpSqTAG0AMcsE1ghv8HmT2ayWfmjYerV+w7MA6h4DV7PzyXmrZo88oQvSYANkFm2wxC6+
+	guJEseQuFyMHcZEKzuAQ==
+X-Gm-Gg: ASbGnctD5V8zCP5Qeq45MxnEJBt+oFtNTdZckI3llsguxN7FQu0cG/+oBb9Olw7cvgk
+	CFuBfPXnyheVVcd+ccaz34LehpkLiol8bZpm7mpu6M14eoIMRUaMhzTm6Flf3rxfrrOkgXMkcYM
+	oRrO+V7qBETJ2w0+RthEbukeNiVH3J/PawdxzdmLxQ8kOGADZW8/BSliudgulQ0Su4jSZTszV8+
+	fRfxwtmPg/wpTop9Uu+ZYl8jpfhyOcNjWOda0GpnoU/6h0C8uhjy+8/agTUfwd/Qxn4M5nt0+HL
+	v49vdnVjFNWBG/vgSwyUNQwJqFWVI+JBQYieLDf9ewAeUpiDjcJ+zCjAMuf1MnB4IYDfqxO7VC8
+	OwF5LM1E93Vo7wv2EWUohpmBCiKThxUeQwVF/L8kLS7CVAfNTK4GekL1bxXJnKqSQqhpK
+X-Received: by 2002:a05:6a20:918a:b0:35e:4f06:4fc6 with SMTP id adf61e73a8af0-3637de9f332mr8707286637.33.1764166048539;
+        Wed, 26 Nov 2025 06:07:28 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFJw22zbVdJQ7q3qHoqHkUXVJw8l7Zspxk/oxixaXwDNqEMfQCj5mqym6O0aNsEGMQ7F01c2w==
+X-Received: by 2002:a05:6a20:918a:b0:35e:4f06:4fc6 with SMTP id adf61e73a8af0-3637de9f332mr8707213637.33.1764166047818;
+        Wed, 26 Nov 2025 06:07:27 -0800 (PST)
+Received: from Z2-SFF-G9-MQ.ap.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f0b63dbcsm21624961b3a.50.2025.11.26.06.07.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Nov 2025 06:07:27 -0800 (PST)
+From: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: dmitry.baryshkov@oss.qualcomm.com,
+        Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+Subject: [PATCH 3/4] wpa-supplicant: enable 802.11be support
+Date: Wed, 26 Nov 2025 22:07:12 +0800
+Message-Id: <20251126140713.1414484-4-miaoqing.pan@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251126140713.1414484-1-miaoqing.pan@oss.qualcomm.com>
+References: <20251126140713.1414484-1-miaoqing.pan@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: michael.opdenacker@rootcommit.com, Khem Raj <raj.khem@gmail.com>
-Subject: Re: [OE-core] linux-yocto.inc: remove riscv-isa-clear.scc from
- KERNEL_FEATURES_RISCV?
-To: Gyorgy Sarvari <skandigraun@gmail.com>,
- OE-core <openembedded-core@lists.openembedded.org>
-References: <3a1b9adc-9ac6-44b7-824f-10f5e08f6d37@rootcommit.com>
- <73131023-79db-445a-8341-0b455dd586f6@gmail.com>
-Content-Language: en-US, fr
-From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
-Organization: Root Commit
-In-Reply-To: <73131023-79db-445a-8341-0b455dd586f6@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Date: Thu, 27 Nov 2025 11:03:14 +0000 (UTC)
-X-CM-Analysis: v=2.4 cv=GbNFnhXL c=1 sm=1 tr=0 ts=69282ff3 a=sLUQtW3OpqQ2zsHCe+MVTw==:617 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=iGHA9ds3AAAA:8 a=d70CFdQeAAAA:8 a=Q4-j1AaZAAAA:8 a=PeiXfoUJxh_y2VGVcWAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=NcxpMcIZDGm-g932nG_k:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-CM-Envelope: MS4xfPba4xsR8GigOWgdIYvVJqiq0+jaL1+E8dzZ1nfL7+VK+EzBY9PXCrKBDhyMQI31jp+2XFYkmbrzQRekWzYErtj4/25/f5ORjynb0kUgN2XptAmONYtb qW/xc38u0FSPPGHjh4MttpeDyba7UiVAEevktMTlbHmZBaH8rxnp8TeDqlpHc7gTa/XUjIhxnQMgjoPibFJc2PqYs8xzK5ngMIhG2l3ipTPvnt9M0TvoS/Rb x7pV6SIP/SAJhznRsN0B61blSvwMsCsu6xs3VYE3jBB/kzS66y4EEbXDsooJaxemrEbMX1CKRhNV/nv7O7s31C7d7NRl4wcRIhHyynPNzxUqKwpZDpX5/NCR QxILWXiTcXaIUn2pP/12wb5Jt516YqWUSA7+WmOzkCa+5tmE7P/Ded9TqQV1dPn2wwweHhlt5dS0C49oBHLAV+YJkSnnkKI/nwE9f2KrSGH84RbAi0Y=
-X-AuthUser: michael.opdenacker@rootcommit.com
-Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=AKyLkLWT c=1 sm=1 tr=0 ts=692709a1 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=TNsu8Qfd1aDV9B-InT4A:9 a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDExNiBTYWx0ZWRfX8PzeqAj5aqxt
+ kP93NdjcyHjrjH9GSUyeXBie6+nxgl0eHtQZRxonqHklYH5z+5wAtHe+tc3bfrG+YVojSgsIgUz
+ JR3KqWUZ+h37oYbYQF0/C7+BzXCuw5SKxZWOLM5pzziiRqeZDuXDtQnNllS+J9pJ/DZzp5rTAhm
+ BHNYEOg62e3ix1EkFvq0Oh5LDnHIepquZ+L198MBe5FSw0x7EBER8Krve8Urr5zzltRNJvHN1QP
+ 3RJjTmyAYaQ+Y8Qvwxp73+lHxsgqeef3MgwGgkGCyskFQOS4kx6f53F9Y78wkY3eIortPctSzKc
+ blWLB2vNgpyR6YmT8KbEjFS+arU/eDRftToxCYqTBFsrmCMuHo4oJslWbNNiDpOg+qyc65MDc9x
+ luC2blBhZM62WNimve+6uVbSqd4/bA==
+X-Proofpoint-GUID: z2hgIQ7c2cqCRjFBJbYoxepqqxeUYra-
+X-Proofpoint-ORIG-GUID: z2hgIQ7c2cqCRjFBJbYoxepqqxeUYra-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-25_02,2025-11-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 clxscore=1011 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 suspectscore=0 adultscore=0 malwarescore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511260116
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 11:03:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226837
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 12:46:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226839
 
-Hi=C2=A0Gyorgy
+wpa_supplicant has supported IEEE 802.11be (Wi-Fi 7) for over three
+years. With growing market demand for Wi-Fi 7, it is now an
+appropriate time to enable IEEE 802.11be Extremely High Throughput
+(EHT) support - mainly for AP mode.
 
-On 11/27/25 11:46, Gyorgy Sarvari wrote:
->
-> On 11/27/25 11:20, Michael Opdenacker via lists.openembedded.org wrote:
->> Greetings,
->>
->> I'm getting the same issue trying a master build on several RISC-V boa=
-rds:
->>
->> ERROR: linux-milkv-duo-dev-1.0-r0 do_kernel_metadata: Feature
->> 'arch/riscv/tunes/riscv-isa-clear.scc' not found, this will cause
->> configuration failures.
->> ERROR: linux-milkv-duo-dev-1.0-r0 do_kernel_metadata: Check the SRC_UR=
-I
->> for meta-data repositories or directories that may be missing
->> ERROR: linux-milkv-duo-dev-1.0-r0 do_kernel_metadata: Set
->> KERNEL_DANGLING_FEATURES_WARN_ONLY to ignore this issue
->>
->> OK, I can set
->> KERNEL_DANGLING_FEATURES_WARN_ONLY =3D "1"
->> but is this a clean solution?
->>
->> Where are all the arch/riscv/tunes/riscv-isa-*.scc files supposed to b=
-e?
->> I didn't manage to find them anywhere...
-> Do you have the yocto-kernel-cache[1] repo in your SRC_URI? The scc
-> files come from there
->
-> [1]: https://git.yoctoproject.org/yocto-kernel-cache/tree/arch/riscv/tu=
-nes
+Signed-off-by: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+---
+ .../wpa-supplicant/wpa-supplicant/defconfig                     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ho, thanks! That was exactly what I needed.
-I will add these to my kernel recipes.
-
-Thanks again,
-Cheers
-Michael.
-
---=20
-Michael Opdenacker
-Root Commit
-Yocto Project and OpenEmbedded Training course - Learn by doing:
-https://rootcommit.com/training/yocto/
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
+index 52befd8f15..e313894ecd 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
+@@ -510,7 +510,7 @@ CONFIG_IEEE80211AX=y
+ # Note: This is experimental and work in progress. The definitions are still
+ # subject to change and this should not be expected to interoperate with the
+ # final IEEE 802.11be version.
+-#CONFIG_IEEE80211BE=y
++CONFIG_IEEE80211BE=y
+ 
+ # Wireless Network Management (IEEE Std 802.11v-2011)
+ # Note: This is experimental and not complete implementation.
+-- 
+2.34.1
 
 
