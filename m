@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 964AFD116E0
-	for <webhook@archiver.kernel.org>; Wed, 26 Nov 2025 23:34:42 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7237.1764200081583496460
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8CED116E1
+	for <webhook@archiver.kernel.org>; Wed, 26 Nov 2025 23:35:02 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7242.1764200092340128337
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Nov 2025 15:34:41 -0800
+ Wed, 26 Nov 2025 15:34:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=YmqdjT3V;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-202511262334399a789189ae000207bb-t8tsb4@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202511262334399a789189ae000207bb
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=aUrfkrbF;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20251126233450fa8b23e3b800020770-m4tczq@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20251126233450fa8b23e3b800020770
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 27 Nov 2025 00:34:39 +0100
+        Thu, 27 Nov 2025 00:34:50 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=vhracfOuNhineIENQvGuBd3yGfyeyiPEchBP0BQ6S64=;
- b=YmqdjT3V2KH1bqbZLCbdBWgf/GF/jOyzxAjZovdqzQb8wWiyss1+oLNyJ0D+zPOilUx/a9
- abKzrOoHziZsFC7UbfMIITaQk4Abkurl9yC5K37CqfMabnC+40dda8qWJyCg7up2VpE7KjqZ
- G3ZbTa/fqeXLSnljR1nsLIMBhGHhEvOwtcHJf6hItWhmL5Cv2QNfugZ5xMuZTID5dGpnBRBS
- 2HmLS7R8cEhTHL/L7O2irItJ48XtPDXOPWbH/gI2oNVnSlDR9ThLGyEjyLXlFmuZacF7ZwJ2
- 0wSfaAzjqhxcSEtDc/9maW1PMshEFhtEEY7QN+cGJ6n0/yi5kQ870Zvg==;
+ bh=sDVZ+S2wv1IxoUypxrHz/8QkrX8xtRInH5tcCz7G86U=;
+ b=aUrfkrbFzz1s6CZar6eefNN5C0uP/sVR0zLAvKgMl2P01XnZQflyHpb8FlPsuLma4vZtmw
+ kAcrDmnyAykX3QyugeIegjlV3JG0jyv5xaIJKy3irnBp6mUMtL0S1RLkRDoc74a+ox7g8Ora
+ FcBj2tJGphN62OhUUbo8+S7Yce/1d1mau+jrKC8huS+JkZNYdYfMCMU7bOp3NQ0bIv40MeTf
+ 0jDT4xahbIE6r4EakMvHiAkdgK21bl1NKbOQbYVcuTiJ3Aa1d1HKzQwmnBRKvT2wDqf5gCT+
+ SHxEEHn897Yjh/U+YKb8KQeNeaus/UhqA8yM+/DGZXRUQQRr10DyHuQQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] gnutls: patch CVE-2025-9820
-Date: Thu, 27 Nov 2025 00:34:31 +0100
-Message-Id: <20251126233431.1243700-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] gnutls: patch CVE-2025-9820
+Date: Thu, 27 Nov 2025 00:34:47 +0100
+Message-Id: <20251126233447.1243719-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -37,8 +37,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 23:34:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226815
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 23:35:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226816
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -51,13 +51,13 @@ Pick commit which mentions this CVE per [2].
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../gnutls/gnutls/CVE-2025-9820.patch         | 250 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.8.4.bb   |   1 +
+ meta/recipes-support/gnutls/gnutls_3.7.4.bb   |   1 +
  2 files changed, 251 insertions(+)
  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
 
 diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
 new file mode 100644
-index 00000000000..99a6c11ee46
+index 00000000000..6ace251fed3
 --- /dev/null
 +++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
 @@ -0,0 +1,250 @@
@@ -104,13 +104,13 @@ index 00000000000..99a6c11ee46
 ++++ b/lib/pkcs11_write.c
 +@@ -28,6 +28,7 @@
 + #include "pkcs11x.h"
-+ #include "x509/common.h"
++ #include <x509/common.h>
 + #include "pk.h"
 ++#include "minmax.h"
 + 
 + static const ck_bool_t tval = 1;
 + static const ck_bool_t fval = 0;
-+@@ -1173,7 +1174,7 @@ int gnutls_pkcs11_delete_url(const char *object_url, unsigned int flags)
++@@ -1199,7 +1200,7 @@ int gnutls_pkcs11_delete_url(const char *object_url, unsigned int flags)
 +  * gnutls_pkcs11_token_init:
 +  * @token_url: A PKCS #11 URL specifying a token
 +  * @so_pin: Security Officer's PIN
@@ -119,25 +119,25 @@ index 00000000000..99a6c11ee46
 +  *
 +  * This function will initialize (format) a token. If the token is
 +  * at a factory defaults state the security officer's PIN given will be
-+@@ -1211,7 +1212,7 @@ int gnutls_pkcs11_token_init(const char *token_url, const char *so_pin,
++@@ -1238,7 +1239,7 @@ gnutls_pkcs11_token_init(const char *token_url,
 + 	/* so it seems memset has other uses than zeroing! */
 + 	memset(flabel, ' ', sizeof(flabel));
 + 	if (label != NULL)
 +-		memcpy(flabel, label, strlen(label));
 ++		memcpy(flabel, label, MIN(sizeof(flabel), strlen(label)));
 + 
-+ 	rv = pkcs11_init_token(module, slot, (uint8_t *)so_pin, strlen(so_pin),
-+ 			       (uint8_t *)flabel);
++ 	rv = pkcs11_init_token(module, slot, (uint8_t *) so_pin,
++ 			       strlen(so_pin), (uint8_t *) flabel);
 +diff --git a/tests/Makefile.am b/tests/Makefile.am
 +index be4966f4b..8327c90ca 100644
 +--- a/tests/Makefile.am
 ++++ b/tests/Makefile.am
-+@@ -496,7 +496,7 @@ pathbuf_CPPFLAGS = $(AM_CPPFLAGS) \
++@@ -485,7 +485,7 @@ buffer_CPPFLAGS = $(AM_CPPFLAGS) \
 + if ENABLE_PKCS11
 + if !WINDOWS
 + ctests += tls13/post-handshake-with-cert-pkcs11 pkcs11/tls-neg-pkcs11-no-key \
-+-	global-init-override pkcs11/distrust-after
-++	global-init-override pkcs11/distrust-after pkcs11/long-label
++-	global-init-override
+++	global-init-override pkcs11/long-label
 + tls13_post_handshake_with_cert_pkcs11_DEPENDENCIES = libpkcs11mock2.la libutils.la
 + tls13_post_handshake_with_cert_pkcs11_LDADD = $(LDADD) $(LIBDL)
 + pkcs11_tls_neg_pkcs11_no_key_DEPENDENCIES = libpkcs11mock2.la libutils.la
@@ -311,16 +311,16 @@ index 00000000000..99a6c11ee46
 ++	test(lib);
 ++}
 ++#endif /* _WIN32 */
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.4.bb b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-index dde3bc30145..026ae650f65 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-@@ -33,6 +33,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+index 8c8e08855bb..e4dd47aea48 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+@@ -38,6 +38,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
             file://CVE-2025-32988.patch \
             file://CVE-2025-32990.patch \
             file://CVE-2025-6395.patch \
 +           file://CVE-2025-9820.patch \
             "
  
- SRC_URI[sha256sum] = "2bea4e154794f3f00180fa2a5c51fe8b005ac7a31cd58bd44cdfa7f36ebc3a9b"
+ SRC_URI[sha256sum] = "e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f"
 
