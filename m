@@ -1,173 +1,222 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BD7ACFD2F6
-	for <webhook@archiver.kernel.org>; Thu, 27 Nov 2025 16:47:18 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22807.1764262028267402350
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8844DD111A8
+	for <webhook@archiver.kernel.org>; Thu, 27 Nov 2025 17:08:48 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23239.1764263318164458088
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Nov 2025 08:47:08 -0800
+ Thu, 27 Nov 2025 09:08:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=emCBzW1Y;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2956d816c10so12263115ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 08:47:08 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QvSNXIAE;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-477563e28a3so7791275e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 09:08:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764262027; x=1764866827; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=R/EAiBc1SnaiazvEgqkenJePLTALU6U2AgbQt7EnRXM=;
-        b=emCBzW1Y8irPZJYrAd0Z3A+X1fiqaPPHH/1q5i+O6IlINAe11hgFgdMYzOcVqs4E5D
-         r+188VVLuWOm1uLqIKGzal+5EtfLKKPrg/p1uHysie8ices1dzXMBSBg0NXtXAIaJAjd
-         OrGJZO/ytIKkNUGxZtWhidSAjdtHin8wcOcCYkpqTgeT1h/w3CwPsAgHW5GjmG5NPzjF
-         XRaCqRcrycwcW5ExMFQP81MmffZi0SrUYubj1hQCXGT7oYq7Hgkn+6XUDqcc9s/EUf1A
-         xEzINZDACkSm7ZeBpFsP5DeQmKGgZsFOC6ASrrqSJaqZNpHUjYYFjuIVyIxl7PB4mchQ
-         GM2g==
+        d=gmail.com; s=20230601; t=1764263316; x=1764868116; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Nbcd28sUkkDg3AlmukhohJB51VUC3/PvRPp11lPbZyg=;
+        b=QvSNXIAESlZ7unsjUwgsi4ijnkN/nT8/9RJQqFKxJv6pwP2DARteCJ8Y8ZqWcPHGwu
+         ElRAj0/JX5L8rwiPbYiQdvU6ioLFyQKQ8cveSy2IBlaZjeQkEB+g0fXiLloHHVe/OCAi
+         kiLFB7ZI37jKOPKNj9Z2/5c2+Rymfr3MW3zznAaydfojhJZaOJZ5mutoRn6ZS3/8abNz
+         Zgv84257pyd7oBxo3Z+r+96rmVXq7/7q7b08kJVSVSvP5OSY3tCmkAq2H4+3JhjhUDiX
+         vPfLxjJI7V2GglFKMsLsbyw+HJ1WMMzEVEDAzEXgKY+DalGom6eejNiP1Kj8UWDcwCJ8
+         rEWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764262027; x=1764866827;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R/EAiBc1SnaiazvEgqkenJePLTALU6U2AgbQt7EnRXM=;
-        b=HYF17kEvwdiFB/lvlyLSRJR3VwLOZuzdE34Y4wXxVZzH/R8IiUY6B01R6jo1wiItjk
-         l+6IZXeQYEDpP7lrXtQAxna595XxxDGbJFp/qORNhcIIdJ1jkfBI9d3MUlfqTIeQ1SXi
-         aE9LLMYDvP66Yr/K1F1D6wfJ+xaD6LJkDmPTKSZVyBGsYHWOHjjIRj8T7S+hziO9d8jT
-         bKaN7UBLcY/Gu5+Zct0Ilf0U7H/GP3CjIrdBRA9azrBArRclQw1ftoOqm3e5oueKW2US
-         dbayAhRPlAeQhVBTk0HoHjrwql4y1BavgT9EVzVV28GMYhw0iXvIZbRRWZ3EcybEIjI0
-         VZqA==
-X-Gm-Message-State: AOJu0YwlIBUYtktFR73a0y6R257/GgdLxNLXcLHeMps26nte5gybfH7T
-	PDoQvlSCbDMu8HzSiGRTntzfXdVldDPi5aDRs2P5aV/TFSVfMJNYPRBBMCdcFA==
-X-Gm-Gg: ASbGnct2rtKc6meCs9gRH1SV+m6cCYPREfKkCuZBuL0FEFTkDkfbH4F1qXtqFDvvGSn
-	kLDGTiskpxkw2E4jUH/HSUcpSUdsQnyKUyJVQA7b0bsH1FGZDbUNQ3DlNhN22kaNKUoYCv7vkxY
-	z1A2sGADhlzwcV1+RmVE8k5/+fMNTcoXFJ3mUOXCViEqEXXcXm47SVxfQfNOzNm/J345D9IfNO1
-	qgokOB45Km0GmeeKKNFoHx/nbYwryqTpSM8w1qqaWtI6rhyaQvPG+I21vanYDlLuesXcYPhEbSi
-	cTu3cSJbk7HKzle88mlVgJ9xYcywTIq2mApW2NyrttOuhZiNQ9IgM+s8LlyGPrMg3Ttr3JlYAYI
-	9cEhZWoj4MLT33G8AAo3mpu8M+TFRVOgAVUhrKq4ypO337t/lpUUof42HmGoHTcz3RTTNaZR9Oo
-	9C0dtZdpTCuRttbGH381fCUJ+mEIXhpnoo4p8AfaM7e74+N0e3rIXY/D6/Es7GvmJDwYo9X2lUx
-	JYxY6hUGR6uuV3V8Bnhpzo+DVhVyY5t
-X-Google-Smtp-Source: AGHT+IFEyMbkIsrVHjx5W4j8F1HcTbBOpdIv/etC+w+Zqf7IBmjKS3U11TybcrT5mBoKG7yNglF3sQ==
-X-Received: by 2002:a05:7023:b16:b0:119:e56c:189f with SMTP id a92af1059eb24-11c9d60ec70mr17042162c88.7.1764262027150;
-        Thu, 27 Nov 2025 08:47:07 -0800 (PST)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::7c49])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2a965ae9d06sm7483741eec.4.2025.11.27.08.47.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 08:47:06 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] binutils: Fix aarch64 BTI/GCS build issue with glibc 2.43
-Date: Thu, 27 Nov 2025 08:47:04 -0800
-Message-ID: <20251127164704.2290563-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        d=1e100.net; s=20230601; t=1764263316; x=1764868116;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Nbcd28sUkkDg3AlmukhohJB51VUC3/PvRPp11lPbZyg=;
+        b=MLFB46mu5vE5O7y7iX2ZMxhiM6eavr9T3F/RNKfWICd/MuOn85yFlClPg7lA5S0lbz
+         vDaCwxNek81o/jdfFz2rg6DAQhFopnyM1qP3nUtMb0mzJ1RgTljOby9reyuBUVEmO8f4
+         xS9HwC6sbqSVhL6b5G+H8bSH4K9Bk1pktGPcK3lT18kI5vfug4MQ6BQMxlqpGCL76BeC
+         HkHeaEDRZ5QvKd+vpEy4stVGdElHonRImBxvT/+IWtN/bSGf+fjNKjSkqmPSHrDtwEkW
+         f3S/PNhbkcbafhsEvWMxThouJMXsxAo3VWdPqXLyX2czoZwBK1lM+/1pnxFzu1XBhou8
+         uS8w==
+X-Forwarded-Encrypted: i=1; AJvYcCXReGIZz0n9GmqlqR3+vbIfUPTmUTvMqSaXOiQPz8IKgnFJPliv5JsFAVS7ZAbJK4WiFom3Zi4oBOkk+aUDhjkzng==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy7RP7E6fQF5WqfG8r0mEOG0l2EHkf3Dd7pBjVKJWAnJQ1dOqlA
+	WTbQOp71gqaeTHokI24BYSVFsKAuaVrsaZk0h4buEaNoEmDoUTgs0M+q
+X-Gm-Gg: ASbGncv6qru+1dAeplP5VXfNZlp8sxRPpWwGw5F91Qyr/ccUiaPbg23QZgc05janfVN
+	+UMUC2YG1oL19R0cevlBjDzDblqWHBRhvC3C0r1jmbm7+IQvMtOM9OTikIpi8Pr2mwQUZsN/mT1
+	/YaI1QNQLkEUE9It7cbVcNbTLhvTilFBoq7OTWNlzeqH7KGl/vMn0i3RfZA1Hy8puzNSY6ua5KX
+	MdQ2baqSvtj1+HZHZGgund4pnulOnf2B3wXqeHu5VPABI+4Fk7Fqh/TL4M8Lm1Sr07dVirL0t0F
+	kG12BqFXXA4RpME4tzq8ZCMou+/BX2Lg7Kqj83TP7TTu7Y9SmkLL9hmjx+xWcF19uXjDM/hOwkO
+	owEWLo7lponqUni2W3aVVAQ5Vt6DurjDgPDmW2RzFMtOEMDSEMXJ4qMK9FSirm9CO1dqHTO3fNa
+	TStG8I9zNFRKA9YhVMZHk=
+X-Google-Smtp-Source: AGHT+IHz+qMGPWD5yC4UB6i+lm+6XCKYMVBxh3TZzrdxbJLs/bTH9SaNS1PgJkSToKvcsxQWUyfPfQ==
+X-Received: by 2002:a05:600c:1e89:b0:477:a1bb:c58e with SMTP id 5b1f17b1804b1-477c04cfddcmr265769685e9.7.1764263316188;
+        Thu, 27 Nov 2025 09:08:36 -0800 (PST)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1c5d607csm4947314f8f.15.2025.11.27.09.08.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Nov 2025 09:08:35 -0800 (PST)
+Message-ID: <2da2af64-1607-49f3-a438-43525b4b8b02@gmail.com>
+Date: Thu, 27 Nov 2025 18:08:34 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH v4 2/2] opkg: upgrade 0.8.0 -> 0.9.0
+To: ecordonnier@snap.com, openembedded-core@lists.openembedded.org
+References: <20251023134656.2059483-1-ecordonnier@snap.com>
+ <20251023134656.2059483-2-ecordonnier@snap.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <20251023134656.2059483-2-ecordonnier@snap.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 16:47:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226851
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 17:08:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226852
 
-Backport a patch to use BTI and GCS functions with
-const qualifier
+I just tried this, but it seems that the ACL switch was toggled during
+the CMake transition. With Autotools ACL was disabled by default, but
+with CMake it seems to be enabled - and it complains that it can't find
+libacl on my machine.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../binutils/binutils-2.45.inc                |  1 +
- ...onstify-BTI-and-GCS-report-functions.patch | 74 +++++++++++++++++++
- 2 files changed, 75 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0001-aarch64-constify-BTI-and-GCS-report-functions.patch
+On 10/23/25 15:46, Etienne Cordonnier via lists.openembedded.org wrote:
+> From: Etienne Cordonnier <ecordonnier@snap.com>
+>
+> See release notes at
+> - http://downloads.yoctoproject.org/releases/opkg/opkg-0.9.0.release-notes
+>
+> [0.9.0] - 2025-06-27
+>
+> Semiannual opkg release.
+> Bumping the minor version as a result of the project build tooling changing from autotools to cmake.
+>
+> - Added a Dockerfile container definition (`:docker/`) for a valid developer build environment for opkg.
+>   - It's recommended that project contributors use this container to build and test their changes.
+> - The AutoTools-based build framework has [been replaced](https://git.yoctoproject.org/opkg/commit/?id=3f6040e321634471ec442fb0e80f140f1437e90b) with a more modern, CMake framework.
+>   - Refer to the `docs/CONTRIBUTING.md` documentation for updated build instructions.
+>
+> Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+> ---
+>  .../opkg/opkg/0002-config.h.in-fix-typo.patch | 27 +++++++++++++++++++
+>  meta/recipes-devtools/opkg/opkg/run-ptest     |  2 +-
+>  .../opkg/{opkg_0.8.0.bb => opkg_0.9.0.bb}     | 22 ++++++++-------
+>  3 files changed, 41 insertions(+), 10 deletions(-)
+>  create mode 100644 meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
+>  rename meta/recipes-devtools/opkg/{opkg_0.8.0.bb => opkg_0.9.0.bb} (76%)
+>
+> diff --git a/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch b/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
+> new file mode 100644
+> index 00000000000..626bbd01b68
+> --- /dev/null
+> +++ b/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
+> @@ -0,0 +1,27 @@
+> +From 5a81faadbc2397d554bc598d535fd2d44cbc8d10 Mon Sep 17 00:00:00 2001
+> +From: Etienne Cordonnier <ecordonnier@snap.com>
+> +Date: Mon, 20 Oct 2025 18:57:56 +0200
+> +Subject: [PATCH] config.h.in: fix typo
+> +
+> +Upstream-Status: Backport [https://git.yoctoproject.org/opkg/commit/?id=d723a90bfe6409c7ad983ed911225d4aefbfd09e]
+> +Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+> +---
+> + config.h.in | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/config.h.in b/config.h.in
+> +index 4fa9842..877b8c7 100644
+> +--- a/config.h.in
+> ++++ b/config.h.in
+> +@@ -2,7 +2,7 @@
+> + #cmakedefine01 WITH_XZ
+> + #cmakedefine01 WITH_BZIP2
+> + #cmakedefine01 WITH_LZ4
+> +-#cmakedefine01 WITH_LZSTD
+> ++#cmakedefine01 WITH_ZSTD
+> + #cmakedefine01 WITH_CURL
+> + #cmakedefine01 WITH_SSLCURL
+> + #cmakedefine01 WITH_ACL
+> +-- 
+> +2.43.0
+> +
+> diff --git a/meta/recipes-devtools/opkg/opkg/run-ptest b/meta/recipes-devtools/opkg/opkg/run-ptest
+> index 5fb7077eec9..d485a4aace5 100644
+> --- a/meta/recipes-devtools/opkg/opkg/run-ptest
+> +++ b/meta/recipes-devtools/opkg/opkg/run-ptest
+> @@ -2,4 +2,4 @@
+>  
+>  OPKG_PATH=$(which opkg)
+>  
+> -make OPKG_PATH=$OPKG_PATH run-tests
+> +make -C tests DATADIR=/share SYSCONFDIR=/etc VARDIR=/var OPKG_PATH=$OPKG_PATH
+> diff --git a/meta/recipes-devtools/opkg/opkg_0.8.0.bb b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
+> similarity index 76%
+> rename from meta/recipes-devtools/opkg/opkg_0.8.0.bb
+> rename to meta/recipes-devtools/opkg/opkg_0.9.0.bb
+> index 12e2edf7e3f..ed2f36d636b 100644
+> --- a/meta/recipes-devtools/opkg/opkg_0.8.0.bb
+> +++ b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
+> @@ -15,34 +15,35 @@ PE = "1"
+>  SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz \
+>             file://opkg.conf \
+>             file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
+> +           file://0002-config.h.in-fix-typo.patch \
+>             file://run-ptest \
+>             "
+>  
+> -SRC_URI[sha256sum] = "582a4c9e220cce0b7d08a0915c95db9f24ae43ad372ed5d42d5ec5f6cd413f0c"
+> +SRC_URI[sha256sum] = "440ef321862e01f83da4d02884a0cbb4d9d7b32f82faa81a6a85493f0c89d0f5"
+>  
+>  # This needs to be before ptest inherit, otherwise all ptest files end packaged
+>  # in libopkg package if OPKGLIBDIR == libdir, because default
+>  # PTEST_PATH ?= "${libdir}/${BPN}/ptest"
+>  PACKAGES =+ "libopkg"
+>  
+> -inherit autotools pkgconfig ptest
+> +inherit cmake pkgconfig ptest
+>  
+>  target_localstatedir := "${localstatedir}"
+>  OPKGLIBDIR ??= "${target_localstatedir}/lib"
+>  
+>  PACKAGECONFIG ??= "libsolv"
+>  
+> -PACKAGECONFIG[gpg] = "--enable-gpg,--disable-gpg,\
+> +PACKAGECONFIG[gpg] = "-DWITH_GPGME=ON,-DWITH_GPGME=OFF,\
+>      gnupg gpgme libgpg-error,\
+>      ${@ "gnupg" if ("native" in d.getVar("PN")) else "gnupg-gpg"}\
+>      "
+> -PACKAGECONFIG[curl] = "--enable-curl,--disable-curl,curl"
+> -PACKAGECONFIG[ssl-curl] = "--enable-ssl-curl,--disable-ssl-curl,curl openssl"
+> -PACKAGECONFIG[sha256] = "--enable-sha256,--disable-sha256"
+> -PACKAGECONFIG[libsolv] = "--with-libsolv,--without-libsolv,libsolv"
+> +PACKAGECONFIG[curl] = "-DWITH_CURL=ON,-DWITH_CURL=OFF,curl"
+> +PACKAGECONFIG[ssl-curl] = "-DWITH_SSLCURL=ON,-DWITH_SSLCURL=OFF,curl openssl"
+> +PACKAGECONFIG[sha256] = "-DWITH_SHA256=ON,-DWITH_SHA256=OFF"
+> +PACKAGECONFIG[libsolv] = "-DUSE_SOLVER_LIBSOLV=ON,-DUSE_SOLVER_LIBSOLV=OFF,libsolv"
+>  
+> -EXTRA_OECONF = "--enable-zstd"
+> -EXTRA_OECONF:append:class-native = " --localstatedir=/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIVE}')} --sysconfdir=/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATIVE}')}"
+> +EXTRA_OECMAKE = "-DWITH_ZSTD=ON"
+> +EXTRA_OECMAKE:append:class-native = " -DVARDIR=/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIVE}')} -DSYSCONFDIR=/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATIVE}')}"
+>  
+>  do_install:append () {
+>  	install -d ${D}${sysconfdir}/opkg
+> @@ -56,6 +57,9 @@ do_install:append () {
+>  }
+>  
+>  do_install_ptest () {
+> +	# the ptest class uses a Makefile for installation, but cmake uses Ninja per default so we need to install ptests manually:
+> +	cp -r ${S}/tests ${D}${PTEST_PATH}
+> +
+>  	sed -i -e '/@echo $^/d' ${D}${PTEST_PATH}/tests/Makefile
+>  	sed -i -e '/@PYTHONPATH=. $(PYTHON) $^/a\\t@if [ "$$?" != "0" ];then echo "FAIL:"$^;else echo "PASS:"$^;fi' ${D}${PTEST_PATH}/tests/Makefile
+>  }
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#225260): https://lists.openembedded.org/g/openembedded-core/message/225260
+> Mute This Topic: https://lists.openembedded.org/mt/115910660/6084445
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.45.inc b/meta/recipes-devtools/binutils/binutils-2.45.inc
-index acc3f17dc13..77c11b687e6 100644
---- a/meta/recipes-devtools/binutils/binutils-2.45.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.45.inc
-@@ -36,6 +36,7 @@ SRC_URI = "\
-      file://0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch \
-      file://0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
-      file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
-+	 file://0001-aarch64-constify-BTI-and-GCS-report-functions.patch \
-      file://0015-CVE-2025-11081.patch \
-      file://0016-CVE-2025-11082.patch \
-      file://0017-CVE-2025-11083.patch \
-diff --git a/meta/recipes-devtools/binutils/binutils/0001-aarch64-constify-BTI-and-GCS-report-functions.patch b/meta/recipes-devtools/binutils/binutils/0001-aarch64-constify-BTI-and-GCS-report-functions.patch
-new file mode 100644
-index 00000000000..adbcdb08dde
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0001-aarch64-constify-BTI-and-GCS-report-functions.patch
-@@ -0,0 +1,74 @@
-+From 0b5fa602e8a06293da734b80b0bc0a3421ed3bd4 Mon Sep 17 00:00:00 2001
-+From: Matthieu Longo <matthieu.longo@arm.com>
-+Date: Wed, 19 Nov 2025 17:01:56 +0000
-+Subject: [PATCH] aarch64: constify BTI and GCS report functions
-+
-+This patch consitifies the arguments of the functions used to report BTI
-+and GCS errors, and also renames the argument "ebfd" to "abfd" as this
-+naming is confusing and inconsistent with others places.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=12856136986380efff1dcba2ecd3be80e482ff15]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ bfd/elfxx-aarch64.c | 13 ++++++++-----
-+ bfd/elfxx-aarch64.h |  4 ++--
-+ 2 files changed, 10 insertions(+), 7 deletions(-)
-+
-+diff --git a/bfd/elfxx-aarch64.c b/bfd/elfxx-aarch64.c
-+index 551f74e3373..cb4566386ce 100644
-+--- a/bfd/elfxx-aarch64.c
-++++ b/bfd/elfxx-aarch64.c
-+@@ -1098,7 +1098,8 @@ _bfd_aarch64_elf_link_fixup_gnu_properties
-+
-+ /* Check AArch64 BTI report.  */
-+ void
-+-_bfd_aarch64_elf_check_bti_report (struct bfd_link_info *info, bfd *ebfd)
-++_bfd_aarch64_elf_check_bti_report (const struct bfd_link_info *info,
-++				   const bfd *abfd)
-+ {
-+   struct elf_aarch64_obj_tdata *tdata = elf_aarch64_tdata (info->output_bfd);
-+
-+@@ -1117,14 +1118,16 @@ _bfd_aarch64_elf_check_bti_report (struct bfd_link_info *info, bfd *ebfd)
-+     : _("%X%pB: error: BTI is required by -z force-bti, but this input object "
-+ 	"file lacks the necessary property note.\n");
-+
-+-  info->callbacks->einfo (msg, ebfd);
-++  info->callbacks->einfo (msg, abfd);
-+ }
-+
-++/* Check AArch64 GCS report.  */
-+ void
-+-_bfd_aarch64_elf_check_gcs_report (struct bfd_link_info *info, bfd *ebfd)
-++_bfd_aarch64_elf_check_gcs_report (const struct bfd_link_info *info,
-++				   const bfd *abfd)
-+ {
-+   struct elf_aarch64_obj_tdata *tdata = elf_aarch64_tdata (info->output_bfd);
-+-  bool dynamic_obj = (ebfd->flags & DYNAMIC) != 0;
-++  bool dynamic_obj = (abfd->flags & DYNAMIC) != 0;
-+
-+   if (dynamic_obj)
-+     {
-+@@ -1161,5 +1164,5 @@ _bfd_aarch64_elf_check_gcs_report (struct bfd_link_info *info, bfd *ebfd)
-+       : _("%X%pB: error: GCS is required by -z gcs, but this input object file "
-+ 	  "lacks the necessary property note.\n");
-+
-+-  info->callbacks->einfo (msg, ebfd);
-++  info->callbacks->einfo (msg, abfd);
-+ }
-+diff --git a/bfd/elfxx-aarch64.h b/bfd/elfxx-aarch64.h
-+index bd3642cbefe..35033059299 100644
-+--- a/bfd/elfxx-aarch64.h
-++++ b/bfd/elfxx-aarch64.h
-+@@ -247,10 +247,10 @@ _bfd_aarch64_elf_merge_gnu_properties (struct bfd_link_info *, bfd *,
-+ 				       uint32_t);
-+
-+ extern void
-+-_bfd_aarch64_elf_check_bti_report (struct bfd_link_info *, bfd *);
-++_bfd_aarch64_elf_check_bti_report (const struct bfd_link_info *, const bfd *);
-+
-+ extern void
-+-_bfd_aarch64_elf_check_gcs_report (struct bfd_link_info *, bfd *);
-++_bfd_aarch64_elf_check_gcs_report (const struct bfd_link_info *, const bfd *);
-+
-+ extern void
-+ _bfd_aarch64_elf_link_fixup_gnu_properties (struct bfd_link_info *,
 
