@@ -1,127 +1,120 @@
-Return-Path: <Moritz.Haase@bmw.de>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8B3FD11183
-	for <webhook@archiver.kernel.org>; Thu, 27 Nov 2025 10:32:05 +0000 (UTC)
-Received: from esa7.hc324-48.eu.iphmx.com (esa7.hc324-48.eu.iphmx.com [207.54.71.126])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15809.1764239519826062501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED45AD11183
+	for <webhook@archiver.kernel.org>; Thu, 27 Nov 2025 10:46:15 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15949.1764240371569557024
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Nov 2025 02:32:00 -0800
+ Thu, 27 Nov 2025 02:46:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=In6RClCb;
- spf=pass (domain: bmw.de, ip: 207.54.71.126, mailfrom: prvs=41907f1d1=moritz.haase@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=J9AijKPt;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: skandigraun@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-429c4c65485so679575f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 02:46:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1764239519; x=1795775519;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=N6n79t76EVea/2KEd3WOgQsPwFggYZOdfyx90vRcoUE=;
-  b=In6RClCbjQebW3Bo88/ag5jTE4EsMY9kSDSCyQgMECABEEUFNCahTBpw
-   HRFHxDzxkcn/PMe6mbR018OgH+i7TNrPhSwGxfyptsxmak+wZVRkcKU4E
-   Pga3w13bqrvNCn7AtlRHxtz6n93mLD7VhFlglrCJ5y1tbesZd2NlrjEzY
-   k=;
-X-CSE-ConnectionGUID: bMRPHYOjSyaV1DHzFSEddw==
-X-CSE-MsgGUID: 1MzfEbolRaKFevvO3fe/hQ==
-Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
- esa7.hc324-48.eu.iphmx.com with ESMTP/TLS; 27 Nov 2025 11:31:56 +0100
-Received: from unknown (HELO esabb4.muc) ([10.31.187.135]) by esagw3.muc with
- ESMTP/TLS; 27 Nov 2025 11:31:47 +0100
-Received: from smucmp18c.bmwgroup.net (HELO smucmp18c.europe.bmw.corp)
- ([10.30.13.161]) by esabb4.muc with ESMTP/TLS; 27 Nov 2025 11:31:48 +0100
-Received: from smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) by
- smucmp18c.europe.bmw.corp (2a03:1e80:a15:58f::1:5c) with Microsoft SMTP
- Server (version=TLS; Thu, 27 Nov 2025 11:31:47 +0100
-Received: from q1054628.de-cci.bmwgroup.net (10.30.85.209) by
- smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) with Microsoft SMTP
- Server (version=TLS; Thu, 27 Nov 2025 11:31:47 +0100
-X-CSE-ConnectionGUID: vv3jBr9eRX2jwSynja9GgA==
-X-CSE-MsgGUID: o+pv2a23QWCwCBOSpNHOCw==
-X-CSE-ConnectionGUID: kJb3eEHXQwCFe7dCLFwZ9w==
-X-CSE-MsgGUID: PORsSGrDQq6kpeAaPa/ksg==
-From: Moritz Haase <Moritz.Haase@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Moritz Haase <Moritz.Haase@bmw.de>, <matthias.schiffer@ew.tq-group.com>,
-	<Peter.Marko@siemens.com>
-Subject: [PATCH] curl: Use host CA bundle by default for native(sdk) builds
-Date: Thu, 27 Nov 2025 11:31:29 +0100
-Message-ID: <20251127103129.2564918-1-Moritz.Haase@bmw.de>
-X-Mailer: git-send-email 2.51.0
+        d=gmail.com; s=20230601; t=1764240370; x=1764845170; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Wqc1ecUyW9WMX52o0FG4qQm6X2Q9bldPUCnwpmYm9NU=;
+        b=J9AijKPttUvMQsSXWU9+RZT+ur48QW0NiC9XOeZ0HYk6LCiN6HIMIGo/UdDmgS+lQb
+         PzJpaQ3WhgdQ0TUQx7LtfL+nVX/sct5oiQxeaFDZuDrilUnftaFXne16Q3Dab51S5gR4
+         kNmiJ0FbXuKIMg+EnvH4Ts3VzqewQIKvc7vS8SJZZAUMo4GNlHrGQ8zm3fi3rr2ZFpbK
+         kG4MPBmuYu74TcYfYrpOS3lOnUwubqwurtNC6ke/eMV2zx/NgqtnbdAjc0TB3zlqwi2X
+         pP8IhsUt4SEF4ZOBgofACpvTstwE9XzJp75oVJuk7L6A2wlDy/lq1cn4GkrYhxCbTi1c
+         pupQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764240370; x=1764845170;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Wqc1ecUyW9WMX52o0FG4qQm6X2Q9bldPUCnwpmYm9NU=;
+        b=KFfui2TDDDG6xggl3I5tlqFJYhyPnDrdBIfsC1saUSNHH/vEi2jD3trKzsfS9+gBJ+
+         bA0pGhNc46Dw+DOWXH0dwIras5NnkQdBeqrRgOpABTw41z94gRzw3kH+ASw5TS8wFMRv
+         iLxCF7SLp9IPLUqIm7dvuzqhY6U9IdtmyOwK1vcaxko7o0jr982fCEHz5jwABglFM6DK
+         6U/BMTvO4EiYGu9PFbLPfiSjzODY8iYoNSLGjUa4TiyxOeNlZDSC3EFpUXYh6KXOp6YB
+         5rIovuW0b3t+TzfDr51BVZtiKaLsh34Q5tX6KpICb3lHU0hF9hzLCB41b12lfpoIbnoA
+         UwMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXoLDy4pm5Qu9xN/l4pHjFP2LlnItH/jCCaXwm685I7w+7I1QpVBsJVnI3ADRFyGxcg4WP3Ww8LMBFmB3qlbvDF1A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzA0r63/RP9OpWjC2usf//fYDO2JRfrAA4t2/NzvYHUwLPkzqYs
+	n9SDkCzg1IoWVgHeuKbilLhf+Lm/emTCX1HqDC8oJnz2PvC28mmz7ezF
+X-Gm-Gg: ASbGnctVqcGo0Xm5yUouFLqJLAzHfDD7qvGfA7sfZqinXbCZSGZ6B4WADTRj6KIEi/K
+	w1pNasN0dr3WUktumBg/gxEhUnPCjPJw1fjC1TP7aCk3HifVzytj023roGIT6B2vyVKWwiiO+/q
+	CNaDoeyxKaKGJ6BmjMrBFEs/t9lQEbVYZ+JQfDhfrcbbpa5EgFKpPdQzBOM5kFUvNQeZ+4+mrq7
+	5o8Zc8SBChYzmY/adbjZRQGOg6hgNnggcE9jAw6vOmaLD2XBOEkewy0mkcc6v8sjzMQuiwF9Mwr
+	tyuT0hUHcUoDQASkLAWsCruEnbRLDLdsPBOh/lP62pMV8ZQWRTyrEUw4PdiMfPSm3PuHS8WcQCc
+	vs0RhLgL/8jY7fnilI9WGcXRdtF9+vZoECbp+e/L43sRUy/tRPCbXIDN2/xDPhOrnRFdA94y6qP
+	sMjaCs1AdHMQCPUSBcdg4=
+X-Google-Smtp-Source: AGHT+IHmEWxEVfUvt6CCZl1+12RFI9HL3E/XIIPn3guqGjEgOTQgMVeqIHF506xZ0xm/qfqIiZawyA==
+X-Received: by 2002:a05:6000:2c11:b0:42b:3131:5436 with SMTP id ffacd0b85a97d-42cc1cedb16mr23496335f8f.16.1764240369758;
+        Thu, 27 Nov 2025 02:46:09 -0800 (PST)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1ca1a2easm3065632f8f.23.2025.11.27.02.46.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Nov 2025 02:46:09 -0800 (PST)
+Message-ID: <73131023-79db-445a-8341-0b455dd586f6@gmail.com>
+Date: Thu, 27 Nov 2025 11:46:08 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: smucmp17c.europe.bmw.corp (2a03:1e80:a15:58f::1:46) To
- smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] linux-yocto.inc: remove riscv-isa-clear.scc from
+ KERNEL_FEATURES_RISCV?
+To: michael.opdenacker@rootcommit.com,
+ OE-core <openembedded-core@lists.openembedded.org>
+Cc: Khem Raj <raj.khem@gmail.com>
+References: <3a1b9adc-9ac6-44b7-824f-10f5e08f6d37@rootcommit.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <3a1b9adc-9ac6-44b7-824f-10f5e08f6d37@rootcommit.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 10:32:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226829
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 10:46:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226830
 
-Fixes YOCTO #16077
 
-Commit 4909a46e broke HTTPS downloads in opkg in the SDK, they now fail with:
 
-> SSL certificate problem: self-signed certificate in certificate chain
+On 11/27/25 11:20, Michael Opdenacker via lists.openembedded.org wrote:
+> Greetings,
+>
+> I'm getting the same issue trying a master build on several RISC-V boards:
+>
+> ERROR: linux-milkv-duo-dev-1.0-r0 do_kernel_metadata: Feature 
+> 'arch/riscv/tunes/riscv-isa-clear.scc' not found, this will cause 
+> configuration failures.
+> ERROR: linux-milkv-duo-dev-1.0-r0 do_kernel_metadata: Check the SRC_URI 
+> for meta-data repositories or directories that may be missing
+> ERROR: linux-milkv-duo-dev-1.0-r0 do_kernel_metadata: Set 
+> KERNEL_DANGLING_FEATURES_WARN_ONLY to ignore this issue
+>
+> OK, I can set
+> KERNEL_DANGLING_FEATURES_WARN_ONLY = "1"
+> but is this a clean solution?
+>
+> Where are all the arch/riscv/tunes/riscv-isa-*.scc files supposed to be?
+> I didn't manage to find them anywhere...
 
-The root cause is a difference in the handling of related env vars between
-curl-cli and libcurl. The CLI will honour CURL_CA_BUNDLE and SSL_CERT_DIR|FILE
-(see [0]). Those are set in the SDK via env setup scripts like [1], so curl
-continued to work. The library however does not handle those env vars. Thus,
-unless the program utilizing libcurl has implemented a similar mechanism itself
-and configures libcurl accordingly via the API (like for example Git in [2] and
-[3]), there will be no default CA bundle configured to verify certificates
-against.
+Do you have the yocto-kernel-cache[1] repo in your SRC_URI? The scc
+files come from there
 
-Opkg only supports setting the CA bundle path via config options 'ssl_ca_file'
-and 'ssl_ca_path'. Upstreaming and then backporting a patch to add env var
-support is not a feasible short-time fix for the issue at hand. Instead it's
-better to ship libcurl in the SDK with a sensible built-in default - which also
-helps any other libcurl users.
+[1]: https://git.yoctoproject.org/yocto-kernel-cache/tree/arch/riscv/tunes
 
-This patch is based on a proposal by Peter.Marko@siemens.com in the related
-mailing list discussion at [4].
+> Thanks in advance
+> Cheers
+> Michael.
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#226828): https://lists.openembedded.org/g/openembedded-core/message/226828
+> Mute This Topic: https://lists.openembedded.org/mt/116498794/6084445
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
-[0]: https://github.com/curl/curl/blob/400fffa90f30c7a2dc762fa33009d24851bd2016/src/tool_operate.c#L2056-L2084
-[1]: https://git.openembedded.org/openembedded-core/tree/meta/recipes-support/curl/curl/environment.d-curl.sh?id=3a15ca2a784539098e95a3a06dec7c39f23db985
-[2]: https://github.com/git/git/blob/6ab38b7e9cc7adafc304f3204616a4debd49c6e9/http.c#L1389
-[3]: https://github.com/git/git/blob/6ab38b7e9cc7adafc304f3204616a4debd49c6e9/http.c#L1108-L1109
-[4]: https://lists.openembedded.org/g/openembedded-core/topic/115993530#msg226751
-
-Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-CC: matthias.schiffer@ew.tq-group.com
-CC: Peter.Marko@siemens.com
----
- meta/recipes-support/curl/curl_8.17.0.bb | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-support/curl/curl_8.17.0.bb b/meta/recipes-support/curl/curl_8.17.0.bb
-index 32585070eb..352f407d28 100644
---- a/meta/recipes-support/curl/curl_8.17.0.bb
-+++ b/meta/recipes-support/curl/curl_8.17.0.bb
-@@ -75,16 +75,21 @@ PACKAGECONFIG[websockets] = "--enable-websockets,--disable-websockets"
- PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_LIBDIR}/../,--without-zlib,zlib"
- PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
- 
-+# Use host certificates for non-target builds. As libcurl doesn't honor any of the env vars (like
-+# for example CURL_CA_PATH) that curl-cli does, we need to explicitly set '--with-ca-bundle'
-+# accordingly, so that there is a working, built-in default even for those tools that use libcurl,
-+# but don't have custom env var handling implemented (like opkg).
-+CURL_CA_BUNDLE_BASE_DIR ?= "/etc"
-+CURL_CA_BUNDLE_BASE_DIR:class-target = "${sysconfdir}"
-+
- EXTRA_OECONF = " \
-     --disable-libcurl-option \
-     --without-libpsl \
-     --enable-optimize \
-+    --with-ca-bundle=${CURL_CA_BUNDLE_BASE_DIR}/ssl/certs/ca-certificates.crt \
-     ${@'--without-ssl' if (bb.utils.filter('PACKAGECONFIG', 'gnutls mbedtls openssl', d) == '') else ''} \
-     WATT_ROOT=${STAGING_DIR_TARGET}${prefix} \
- "
--EXTRA_OECONF:append:class-target = " \
--    --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
--"
- 
- fix_absolute_paths () {
- 	# cleanup buildpaths from curl-config
 
