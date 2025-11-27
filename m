@@ -2,31 +2,32 @@ Return-Path: <kamel.bouhara@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09BFAD116EA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C72CFD2F6
 	for <webhook@archiver.kernel.org>; Thu, 27 Nov 2025 11:00:36 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16160.1764241225810270071
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16121.1764241229334541396
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Nov 2025 03:00:26 -0800
+ Thu, 27 Nov 2025 03:00:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: signature did not verify: crypto/rsa: verification error" header.i=@bootlin.com header.s=dkim header.b=lyqwRlr4;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: kamel.bouhara@bootlin.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=InUa7Zdp;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: kamel.bouhara@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 8C2551A1DBB;
-	Thu, 27 Nov 2025 11:00:23 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 5B0194E4190A;
+	Thu, 27 Nov 2025 11:00:27 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 621486068C;
-	Thu, 27 Nov 2025 11:00:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 73AE5102F2753;
-	Thu, 27 Nov 2025 12:00:21 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3009F6068C;
+	Thu, 27 Nov 2025 11:00:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 41CA0102F2753;
+	Thu, 27 Nov 2025 12:00:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764241222; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=8reKqpuyK6tBjrGQvzTyZUNbHkWPKRzXEpfvxps/3yY=;
-	b=lyqwRlr4LGQbojnyvjGdocO3RXUWHJM6gt1tbcZDGWCbL20zPVDP7y8KomIIQVSCEoP+H+
-	CNBG+F+LekN7Degr4Qo9V/W5pZZvPNLCye+6sAGVEeQBmXv0mxHXG0Iq9JPZWQ3iHgrWpm
-	OA1rXmLKb+zo6dmA/c+7FETriNBmak8Bb1ld6fuSrKT0g8Dh6IW4spvCQHSXTr4/EjjWfT
-	rfyVS318HCZuYH467DN4QM7m4FWY68/rykNPIx7wQp791eV9XluIKB+GRLCg2dvxrkSCGj
-	mxkumIHWB5SM6tb35EDzxLVGVqet64c+daBN/EH+gYGhq2LmeUunQUqS+32JUA==
+	t=1764241226; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=XoEUWAQFVGSJAltU7IZlWxtmE9UfWltG0Oyr+aly36A=;
+	b=InUa7ZdpLSUMQnfliD3EltK4uYVz0rEZyk6VB40fNrX0JGIOm6GI/IuD+ULg9QYWYm9pe5
+	40HBIEsmWIxf1uRzIruaaxHhGyN1O7/lMyq69TwLlnNG0EJ2D/6iFXtU8cq5DoN8UQoP7D
+	yaXzn211ORDVDgsLy+410s5mp11g10r2i3rTq1efAaL5+2DRvVVsrg3SHllsQSqQRsOzcv
+	T483Vyc8whkDlU7A4MXkHDuYeci5I3pFT+G6ugXoAH465MnwHxII5cWflI5xEzZQxbQweE
+	UYifdmjldEo+5XA/PSh49N4m5pjbARkEbB4RxBfBTGomrd9oXcWJyiBUcx9EMQ==
 From: Kamel Bouhara <kamel.bouhara@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: JPEWhacker@gmail.com,
@@ -36,10 +37,12 @@ Cc: JPEWhacker@gmail.com,
 	antonin.godard@bootlin.com,
 	Pascal Eberhard <pascal.eberhard@se.com>,
 	"Kamel Bouhara (Schneider Electric)" <kamel.bouhara@bootlin.com>
-Subject: [PATCH v4 0/3] spdx3: Add optional support for exporting build-time configuration metadata
-Date: Thu, 27 Nov 2025 12:00:15 +0100
-Message-ID: <20251127110018.183232-1-kamel.bouhara@bootlin.com>
+Subject: [PATCH v4 3/3] oeqa/selftest: oe-selftest: Add SPDX tests for kernel config and PACKAGECONFIG
+Date: Thu, 27 Nov 2025 12:00:18 +0100
+Message-ID: <20251127110018.183232-4-kamel.bouhara@bootlin.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251127110018.183232-1-kamel.bouhara@bootlin.com>
+References: <20251127110018.183232-1-kamel.bouhara@bootlin.com>
 MIME-Version: 1.0
 X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
@@ -47,33 +50,95 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 11:00:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226833
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226836
 
 From: "Kamel Bouhara (Schneider Electric)" <kamel.bouhara@bootlin.com>
 
-Hello,
+Add test_kernel_config_spdx and test_packageconfig_spdx to verify
+SPDX document generation includes kernel configuration and package
+feature metadata when enabled.
 
-v4 adds selftests to the spdx3 export series:
+Signed-off-by: Kamel Bouhara (Schneider Electric) <kamel.bouhara@bootlin.=
+com>
+---
+ meta/lib/oeqa/selftest/cases/spdx.py | 57 ++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
-    - Tests for kernel configuration export (SPDX_INCLUDE_KERNEL_CONFIG)
-    - Tests for PACKAGECONFIG feature export (SPDX_INCLUDE_PACKAGECONFIG)
-
-For context, see:
-https://lists.openembedded.org/g/openembedded-core/message/222245
-
-Kamel Bouhara (Schneider Electric) (3):
-  kernel.bbclass: Add task to export kernel configuration to SPDX
-  spdx30_tasks: Add support for exporting PACKAGECONFIG to SPDX
-  oeqa/selftest: oe-selftest: Add SPDX tests for kernel config and
-    PACKAGECONFIG
-
- meta/classes-recipe/kernel.bbclass   | 64 ++++++++++++++++++++++++++++
- meta/classes/create-spdx-3.0.bbclass | 11 +++++
- meta/lib/oe/spdx30_tasks.py          | 20 +++++++++
- meta/lib/oeqa/selftest/cases/spdx.py | 57 +++++++++++++++++++++++++
- 4 files changed, 152 insertions(+)
-
---
+diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftes=
+t/cases/spdx.py
+index 8cd4e83ca2..035f3fe336 100644
+--- a/meta/lib/oeqa/selftest/cases/spdx.py
++++ b/meta/lib/oeqa/selftest/cases/spdx.py
+@@ -286,3 +286,60 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase=
+):
+                 break
+         else:
+             self.assertTrue(False, "Unable to find imported Host SpdxID"=
+)
++
++    def test_kernel_config_spdx(self):
++        kernel_recipe =3D get_bb_var("PREFERRED_PROVIDER_virtual/kernel"=
+)
++        spdx_file =3D f"recipe-{kernel_recipe}.spdx.json"
++        spdx_path =3D f"{{DEPLOY_DIR_SPDX}}/{{SSTATE_PKGARCH}}/recipes/{=
+spdx_file}"
++
++        # Make sure kernel is configured first
++        bitbake(f"-c configure {kernel_recipe}")
++
++        objset =3D self.check_recipe_spdx(
++            kernel_recipe,
++            spdx_path,
++            task=3D"do_create_kernel_config_spdx",
++            extraconf=3D"""\
++                INHERIT +=3D "create-spdx"
++                SPDX_INCLUDE_KERNEL_CONFIG =3D "1"
++                """,
++        )
++
++        # Check that at least one CONFIG_* entry exists
++        found_kernel_config =3D False
++        for build_obj in objset.foreach_type(oe.spdx30.build_Build):
++            if getattr(build_obj, "build_buildType", "") =3D=3D "https:/=
+/openembedded.org/kernel-configuration":
++                found_kernel_config =3D True
++                self.assertTrue(
++                    len(getattr(build_obj, "build_parameter", [])) > 0,
++                    "Kernel configuration build_Build has no CONFIG_* en=
+tries"
++                )
++                break
++
++        self.assertTrue(found_kernel_config, "Kernel configuration build=
+_Build not found in SPDX output")
++
++    def test_packageconfig_spdx(self):
++        objset =3D self.check_recipe_spdx(
++            "tar",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/recipe-tar.spdx.=
+json",
++            extraconf=3D"""\
++                SPDX_INCLUDE_PACKAGECONFIG =3D "1"
++                """,
++        )
++
++        found_entries =3D []
++        for build_obj in objset.foreach_type(oe.spdx30.build_Build):
++            for param in getattr(build_obj, "build_parameter", []):
++                if param.key.startswith("PACKAGECONFIG:"):
++                    found_entries.append((param.key, param.value))
++
++        self.assertTrue(
++            found_entries,
++            "No PACKAGECONFIG entries found in SPDX output for 'tar'"
++        )
++
++        for key, value in found_entries:
++            self.assertIn(
++                value, ["enabled", "disabled"],
++                f"Unexpected PACKAGECONFIG value '{value}' for {key}"
++            )
+--=20
 2.43.0
 
 
