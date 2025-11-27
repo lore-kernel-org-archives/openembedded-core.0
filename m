@@ -2,53 +2,58 @@ Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E359D111A8
-	for <webhook@archiver.kernel.org>; Thu, 27 Nov 2025 15:49:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F3FBCFD2F6
+	for <webhook@archiver.kernel.org>; Thu, 27 Nov 2025 15:51:58 +0000 (UTC)
 Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21535.1764258574338815024
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21588.1764258717638851441
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Nov 2025 07:49:34 -0800
+ Thu, 27 Nov 2025 07:51:57 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
 Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 5ARFnSqA3156955;
-	Thu, 27 Nov 2025 09:49:28 -0600
+	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 5ARFpu0O3157115;
+	Thu, 27 Nov 2025 09:51:56 -0600
 Received: from [192.168.2.169] ([192.168.2.169])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 5ARFnRKI028047;
-	Thu, 27 Nov 2025 09:49:27 -0600
-Message-ID: <3d9974ea-dd6b-407a-8b78-b96b8f58db04@kernel.crashing.org>
-Date: Thu, 27 Nov 2025 09:49:27 -0600
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 5ARFpudl028067;
+	Thu, 27 Nov 2025 09:51:56 -0600
+Message-ID: <e57cb67b-f83f-45bb-a345-b11f49b3ca6b@kernel.crashing.org>
+Date: Thu, 27 Nov 2025 09:51:55 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core][scarthgap 14/21] lib/oe/go: document map_arch, and
  raise an error on unknown architecture
 Content-Language: en-US
-To: peter.kjellerstedt@axis.com, Steve Sakoman <steve@sakoman.com>,
+To: peter.marko@siemens.com, Steve Sakoman <steve@sakoman.com>,
         "openembedded-core@lists.openembedded.org"
  <openembedded-core@lists.openembedded.org>
 References: <cover.1763849517.git.steve@sakoman.com>
  <e6de433ccb2784581d6c775cce97f414ef9334b1.1763849517.git.steve@sakoman.com>
  <187BB63A9D5CD718.192695@lists.openembedded.org>
  <bc058d00-62fa-4c96-ba4d-7b9357f48651@kernel.crashing.org>
- <DB5PR02MB10213552B4B167D95FEF392F7EFDFA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <AS1PR10MB5697C9581D88FF708572830CFDDFA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <DB5PR02MB10213552B4B167D95FEF392F7EFDFA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <AS1PR10MB5697C9581D88FF708572830CFDDFA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 15:49:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226844
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 15:51:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226845
 
 
 
-On 11/26/25 10:45 PM, Peter Kjellerstedt via lists.openembedded.org wrote:
+On 11/27/25 1:00 AM, Peter Marko via lists.openembedded.org wrote:
+> 
+> 
 >> -----Original Message-----
->> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Mark Hatle
->> Sent: den 27 november 2025 02:02
->> To: Steve Sakoman <steve@sakoman.com>; openembedded-core@lists.openembedded.org
->> Subject: Re: [OE-core][scarthgap 14/21] lib/oe/go: document map_arch, and raise an error on unknown architecture
+>> From: openembedded-core@lists.openembedded.org <openembedded-
+>> core@lists.openembedded.org> On Behalf Of Mark Hatle
+>> Sent: Thursday, November 27, 2025 2:02
+>> To: Steve Sakoman <steve@sakoman.com>; openembedded-
+>> core@lists.openembedded.org
+>> Subject: Re: [OE-core][scarthgap 14/21] lib/oe/go: document map_arch, and raise
+>> an error on unknown architecture
 >>
 >> I have a possible workaround, for microblaze, for this.
 >>
@@ -56,40 +61,11 @@ On 11/26/25 10:45 PM, Peter Kjellerstedt via lists.openembedded.org wrote:
 >>
 >> python __anonymous() {
 >>       if bb.data.inherits_class('goarch', d):
->>           if d.getVar('TARGET_ARCH') in ['microblaze', 'microblazeel', 'microblazeeb']:
+>>           if d.getVar('TARGET_ARCH') in ['microblaze', 'microblazeel',
+>> 'microblazeeb']:
 >>               raise bb.parse.SkipRecipe("Go does not support microblaze.")
 >> }
-> 
-> What if you make the map_arch() function raise bb.parse.SkipRecipe rather
-> than KeyError? Wouldn't that achieve the same without having to hardcode
-> a solution for each architecture that is not supported by Go?
-
-_I_ can't make map_arch raise skiprecipe because it's part of oe-core and there 
-is no easy way to override it in a layer.
-
-But with that, said, raising an exception in map_arch() of KeyError really feels 
-anti-social.  Changing THAT exception to a SkipRecipe would make a lot more 
-sense and prevent anyone from using go that wasn't supported.
-
-Alternatively the caller of map_arch could catch the key error and raise the 
-skiprecipe with an appropriate message as well.
-
-I have a similar chunk like that anonymous python for rust for a similar reason. 
-  That might be another candidate to do some sort of automatic raise if it's 
-unsupported.
-
-In any case, I think there are really two issues here.
-
-1) Raising KeyError is antisocial to architectures that are out of tree and 
-don't support go.
-
-2) There should be a way for out of tree architectures to _easily_ add 
-themselves to the arch list, should they be supported by go.
-
---Mark
-
-> //Peter
-> 
+>>
 >> On 11/26/25 6:40 PM, Mark Hatle wrote:
 >>> This patch breaks Microblaze for me.
 >>>
@@ -101,18 +77,44 @@ themselves to the arch list, should they be supported by go.
 >>> WARNING: <recipe>: Exception during build_dependencies for GOARCH
 >>> WARNING: <recipe>: Error during finalize of <multiconfig>
 >>> ERROR: ExpansionError during parsing <recipe>
->>> bb.data_smart.ExceptionError: Failure expanding TARGET_GOARCH, expression was
->>> ${go_map_arch(d.getVar('TARGET_ARCH'), d)} which triggered exception KeyError:
+>>> bb.data_smart.ExceptionError: Failure expanding TARGET_GOARCH,
+>> expression was
+>>> ${go_map_arch(d.getVar('TARGET_ARCH'), d)} which triggered exception
+>> KeyError:
 >>> 'Cannot map architecture microblazeel'
 >>> The variable dependency chain for the failure is: TARGET_GOARCH -> GOARCH
 >>>
 >>> (at which point parsing stops)
 >>>
->>> I see no obvious way here to add an architecture that OE/Poky does not support,
+>>> I see no obvious way here to add an architecture that OE/Poky does not
+>> support,
 >>> which now makes this a hard error for any architecture not supported by the core
 >>> of OE and/or go.  (in the case of microblaze, rust and go are likely to never be
 >>> supported.  So there has to be a way for me to avoid the parse error in these
 >>> cases.)
+> 
+> OK, that's unfortunate.
+> 
+> However this is something that needed a review when pushed to master branch half a year ago.
+> This backport then just means you see it half a year ahead of migrating to new LTS release.
+> 
+> Possibly submit a revert or other adaptation to master branch and we can backport it then to scarthgap .
+
+I do NOT believe this should be reverted in master.  Master is different then 
+scarthgap, and per my other reply to Peter Kjellerstedt I think it should be 
+adjusted.  I'm willing to try to suggest the adjustments to master.
+
+It's scarthgap that I think this should be reverted.  It's a change in behavior 
+from prior scarthgap and absolutely broke my existing (functional) layer.  With 
+that said, I have a 'workaround' for it, but it's going to take me time to QA 
+everything and get it in for my scarthgap users.
+
+My objection is to changing system behavior in the LTS, nothing more in this case.
+
+--Mark
+
+> Peter
+> 
 >>>
 >>> On 11/22/25 4:14 PM, Steve Sakoman wrote:
 >>>> From: Ross Burton <ross.burton@arm.com>
@@ -143,7 +145,8 @@ themselves to the arch list, should they be supported by go.
 >>>>     def map_arch(a):
 >>>> +    """
 >>>> +    Map our architecture names to Go's GOARCH names.
->>>> +    See https://github.com/golang/go/blob/master/src/internal/syslist/syslist.go for the complete list.
+>>>> +    See https://github.com/golang/go/blob/master/src/internal/syslist/syslist.go
+>> for the complete list.
 >>>> +    """
 >>>>         if re.match('i.86', a):
 >>>>             return '386'
@@ -154,15 +157,23 @@ themselves to the arch list, should they be supported by go.
 >>>>             return 'loong64'
 >>>> -    return ''
 >>>> +    raise KeyError(f"Cannot map architecture {a}")
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#226826): https://lists.openembedded.org/g/openembedded-core/message/226826
-> Mute This Topic: https://lists.openembedded.org/mt/116430143/3616948
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>> Links: You receive all messages sent to this group.
+>>>> View/Reply Online (#226827): https://lists.openembedded.org/g/openembedded-core/message/226827
+>>>> Mute This Topic: https://lists.openembedded.org/mt/116430143/3616948
+>>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
+>>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>>
 
