@@ -1,326 +1,114 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8CED116E1
-	for <webhook@archiver.kernel.org>; Wed, 26 Nov 2025 23:35:02 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7242.1764200092340128337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF07D116E3
+	for <webhook@archiver.kernel.org>; Thu, 27 Nov 2025 00:40:43 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8362.1764204041380294073
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Nov 2025 15:34:52 -0800
+ Wed, 26 Nov 2025 16:40:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=aUrfkrbF;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20251126233450fa8b23e3b800020770-m4tczq@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20251126233450fa8b23e3b800020770
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 27 Nov 2025 00:34:50 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=sDVZ+S2wv1IxoUypxrHz/8QkrX8xtRInH5tcCz7G86U=;
- b=aUrfkrbFzz1s6CZar6eefNN5C0uP/sVR0zLAvKgMl2P01XnZQflyHpb8FlPsuLma4vZtmw
- kAcrDmnyAykX3QyugeIegjlV3JG0jyv5xaIJKy3irnBp6mUMtL0S1RLkRDoc74a+ox7g8Ora
- FcBj2tJGphN62OhUUbo8+S7Yce/1d1mau+jrKC8huS+JkZNYdYfMCMU7bOp3NQ0bIv40MeTf
- 0jDT4xahbIE6r4EakMvHiAkdgK21bl1NKbOQbYVcuTiJ3Aa1d1HKzQwmnBRKvT2wDqf5gCT+
- SHxEEHn897Yjh/U+YKb8KQeNeaus/UhqA8yM+/DGZXRUQQRr10DyHuQQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] gnutls: patch CVE-2025-9820
-Date: Thu, 27 Nov 2025 00:34:47 +0100
-Message-Id: <20251126233447.1243719-1-peter.marko@siemens.com>
+ dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
+	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 5AR0edjT3110398;
+	Wed, 26 Nov 2025 18:40:40 -0600
+Received: from [192.168.2.169] ([192.168.2.169])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 5AR0edIp025454;
+	Wed, 26 Nov 2025 18:40:39 -0600
+Message-ID: <ecf41074-e75d-4c24-a149-dcb411dc7a39@kernel.crashing.org>
+Date: Wed, 26 Nov 2025 18:40:39 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][scarthgap 14/21] lib/oe/go: document map_arch, and
+ raise an error on unknown architecture
+Content-Language: en-US
+To: Steve Sakoman <steve@sakoman.com>,
+        openembedded-core@lists.openembedded.org
+References: <cover.1763849517.git.steve@sakoman.com>
+ <e6de433ccb2784581d6c775cce97f414ef9334b1.1763849517.git.steve@sakoman.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+In-Reply-To: <e6de433ccb2784581d6c775cce97f414ef9334b1.1763849517.git.steve@sakoman.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Nov 2025 23:35:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226816
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 00:40:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226817
 
-From: Peter Marko <peter.marko@siemens.com>
+This patch breaks Microblaze for me.
 
-This CVE is announced under [1].
-Pick commit which mentions this CVE per [2].
+Microblazeel is not in the list of course, but go doesn't support this architecture.
 
-[1] https://www.gnutls.org/security-new.html#GNUTLS-SA-2025-11-18
-[2] https://security-tracker.debian.org/tracker/CVE-2025-9820
+During parsing of various things, instead of the component not being available I 
+now get many many lines similar to:
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../gnutls/gnutls/CVE-2025-9820.patch         | 250 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.7.4.bb   |   1 +
- 2 files changed, 251 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
+WARNING: <recipe>: Exception during build_dependencies for GOARCH
+WARNING: <recipe>: Error during finalize of <multiconfig>
+ERROR: ExpansionError during parsing <recipe>
+bb.data_smart.ExceptionError: Failure expanding TARGET_GOARCH, expression was 
+${go_map_arch(d.getVar('TARGET_ARCH'), d)} which triggered exception KeyError: 
+'Cannot map architecture microblazeel'
+The variable dependency chain for the failure is: TARGET_GOARCH -> GOARCH
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
-new file mode 100644
-index 00000000000..6ace251fed3
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
-@@ -0,0 +1,250 @@
-+From 1d56f96f6ab5034d677136b9d50b5a75dff0faf5 Mon Sep 17 00:00:00 2001
-+From: Daiki Ueno <ueno@gnu.org>
-+Date: Tue, 18 Nov 2025 13:17:55 +0900
-+Subject: [PATCH] pkcs11: avoid stack overwrite when initializing a token
-+
-+If gnutls_pkcs11_token_init is called with label longer than 32
-+characters, the internal storage used to blank-fill it would
-+overflow. This adds a guard to prevent that.
-+
-+Signed-off-by: Daiki Ueno <ueno@gnu.org>
-+
-+CVE: CVE-2025-9820
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/1d56f96f6ab5034d677136b9d50b5a75dff0faf5]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ NEWS                      |   4 +
-+ lib/pkcs11_write.c        |   5 +-
-+ tests/Makefile.am         |   2 +-
-+ tests/pkcs11/long-label.c | 164 ++++++++++++++++++++++++++++++++++++++
-+ 4 files changed, 172 insertions(+), 3 deletions(-)
-+ create mode 100644 tests/pkcs11/long-label.c
-+
-+diff --git a/NEWS b/NEWS
-+index 0ae3c9991..d6df70ee6 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -5,6 +5,10 @@ Copyright (C) 2000-2016 Free Software Foundation, Inc.
-+ Copyright (C) 2013-2019 Nikos Mavrogiannopoulos
-+ See the end for copying conditions.
-+ 
-++** libgnutls: Fix stack overwrite in gnutls_pkcs11_token_init
-++   Reported by Luigino Camastra from Aisle Research. [GNUTLS-SA-2025-11-18,
-++   CVSS: low] [CVE-2025-9820]
-++
-+ ** libgnutls: Fix NULL pointer dereference when 2nd Client Hello omits PSK
-+    Reported by Stefan Bühler. [GNUTLS-SA-2025-07-07-4, CVSS: medium]
-+    [CVE-2025-6395]
-+diff --git a/lib/pkcs11_write.c b/lib/pkcs11_write.c
-+index f5e9058e0..64b85a2df 100644
-+--- a/lib/pkcs11_write.c
-++++ b/lib/pkcs11_write.c
-+@@ -28,6 +28,7 @@
-+ #include "pkcs11x.h"
-+ #include <x509/common.h>
-+ #include "pk.h"
-++#include "minmax.h"
-+ 
-+ static const ck_bool_t tval = 1;
-+ static const ck_bool_t fval = 0;
-+@@ -1199,7 +1200,7 @@ int gnutls_pkcs11_delete_url(const char *object_url, unsigned int flags)
-+  * gnutls_pkcs11_token_init:
-+  * @token_url: A PKCS #11 URL specifying a token
-+  * @so_pin: Security Officer's PIN
-+- * @label: A name to be used for the token
-++ * @label: A name to be used for the token, at most 32 characters
-+  *
-+  * This function will initialize (format) a token. If the token is
-+  * at a factory defaults state the security officer's PIN given will be
-+@@ -1238,7 +1239,7 @@ gnutls_pkcs11_token_init(const char *token_url,
-+ 	/* so it seems memset has other uses than zeroing! */
-+ 	memset(flabel, ' ', sizeof(flabel));
-+ 	if (label != NULL)
-+-		memcpy(flabel, label, strlen(label));
-++		memcpy(flabel, label, MIN(sizeof(flabel), strlen(label)));
-+ 
-+ 	rv = pkcs11_init_token(module, slot, (uint8_t *) so_pin,
-+ 			       strlen(so_pin), (uint8_t *) flabel);
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index be4966f4b..8327c90ca 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -485,7 +485,7 @@ buffer_CPPFLAGS = $(AM_CPPFLAGS) \
-+ if ENABLE_PKCS11
-+ if !WINDOWS
-+ ctests += tls13/post-handshake-with-cert-pkcs11 pkcs11/tls-neg-pkcs11-no-key \
-+-	global-init-override
-++	global-init-override pkcs11/long-label
-+ tls13_post_handshake_with_cert_pkcs11_DEPENDENCIES = libpkcs11mock2.la libutils.la
-+ tls13_post_handshake_with_cert_pkcs11_LDADD = $(LDADD) $(LIBDL)
-+ pkcs11_tls_neg_pkcs11_no_key_DEPENDENCIES = libpkcs11mock2.la libutils.la
-+diff --git a/tests/pkcs11/long-label.c b/tests/pkcs11/long-label.c
-+new file mode 100644
-+index 000000000..a70bc9728
-+--- /dev/null
-++++ b/tests/pkcs11/long-label.c
-+@@ -0,0 +1,164 @@
-++/*
-++ * Copyright (C) 2025 Red Hat, Inc.
-++ *
-++ * Author: Daiki Ueno
-++ *
-++ * This file is part of GnuTLS.
-++ *
-++ * GnuTLS is free software; you can redistribute it and/or modify it
-++ * under the terms of the GNU General Public License as published by
-++ * the Free Software Foundation; either version 3 of the License, or
-++ * (at your option) any later version.
-++ *
-++ * GnuTLS is distributed in the hope that it will be useful, but
-++ * WITHOUT ANY WARRANTY; without even the implied warranty of
-++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++ * General Public License for more details.
-++ *
-++ * You should have received a copy of the GNU Lesser General Public License
-++ * along with this program.  If not, see <https://www.gnu.org/licenses/>
-++ */
-++
-++#ifdef HAVE_CONFIG_H
-++#include "config.h"
-++#endif
-++
-++#include <stdbool.h>
-++#include <stdio.h>
-++#include <stdlib.h>
-++
-++#if defined(_WIN32)
-++
-++int main(void)
-++{
-++	exit(77);
-++}
-++
-++#else
-++
-++#include <string.h>
-++#include <unistd.h>
-++#include <gnutls/gnutls.h>
-++
-++#include "cert-common.h"
-++#include "pkcs11/softhsm.h"
-++#include "utils.h"
-++
-++/* This program tests that a token can be initialized with
-++ * a label longer than 32 characters.
-++ */
-++
-++static void tls_log_func(int level, const char *str)
-++{
-++	fprintf(stderr, "server|<%d>| %s", level, str);
-++}
-++
-++#define PIN "1234"
-++
-++#define CONFIG_NAME "softhsm-long-label"
-++#define CONFIG CONFIG_NAME ".config"
-++
-++static int pin_func(void *userdata, int attempt, const char *url,
-++		    const char *label, unsigned flags, char *pin,
-++		    size_t pin_max)
-++{
-++	if (attempt == 0) {
-++		strcpy(pin, PIN);
-++		return 0;
-++	}
-++	return -1;
-++}
-++
-++static void test(const char *provider)
-++{
-++	int ret;
-++	size_t i;
-++
-++	gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
-++
-++	success("test with %s\n", provider);
-++
-++	if (debug) {
-++		gnutls_global_set_log_function(tls_log_func);
-++		gnutls_global_set_log_level(4711);
-++	}
-++
-++	/* point to SoftHSM token that libpkcs11mock4.so internally uses */
-++	setenv(SOFTHSM_ENV, CONFIG, 1);
-++
-++	gnutls_pkcs11_set_pin_function(pin_func, NULL);
-++
-++	ret = gnutls_pkcs11_add_provider(provider, "trusted");
-++	if (ret != 0) {
-++		fail("gnutls_pkcs11_add_provider: %s\n", gnutls_strerror(ret));
-++	}
-++
-++	/* initialize softhsm token */
-++	ret = gnutls_pkcs11_token_init(
-++		SOFTHSM_URL, PIN,
-++		"this is a very long label whose length exceeds 32");
-++	if (ret < 0) {
-++		fail("gnutls_pkcs11_token_init: %s\n", gnutls_strerror(ret));
-++	}
-++
-++	for (i = 0;; i++) {
-++		char *url = NULL;
-++
-++		ret = gnutls_pkcs11_token_get_url(i, 0, &url);
-++		if (ret < 0)
-++			break;
-++		if (strstr(url,
-++			   "token=this%20is%20a%20very%20long%20label%20whose"))
-++			break;
-++	}
-++	if (ret < 0)
-++		fail("gnutls_pkcs11_token_get_url: %s\n", gnutls_strerror(ret));
-++
-++	gnutls_pkcs11_deinit();
-++}
-++
-++void doit(void)
-++{
-++	const char *bin;
-++	const char *lib;
-++	char buf[128];
-++
-++	if (gnutls_fips140_mode_enabled())
-++		exit(77);
-++
-++	/* this must be called once in the program */
-++	global_init();
-++
-++	/* we call gnutls_pkcs11_init manually */
-++	gnutls_pkcs11_deinit();
-++
-++	/* check if softhsm module is loadable */
-++	lib = softhsm_lib();
-++
-++	/* initialize SoftHSM token that libpkcs11mock4.so internally uses */
-++	bin = softhsm_bin();
-++
-++	set_softhsm_conf(CONFIG);
-++	snprintf(buf, sizeof(buf),
-++		 "%s --init-token --slot 0 --label test --so-pin " PIN
-++		 " --pin " PIN,
-++		 bin);
-++	system(buf);
-++
-++	test(lib);
-++
-++	lib = getenv("P11MOCKLIB4");
-++	if (lib == NULL) {
-++		fail("P11MOCKLIB4 is not set\n");
-++	}
-++
-++	set_softhsm_conf(CONFIG);
-++	snprintf(buf, sizeof(buf),
-++		 "%s --init-token --slot 0 --label test --so-pin " PIN
-++		 " --pin " PIN,
-++		 bin);
-++	system(buf);
-++
-++	test(lib);
-++}
-++#endif /* _WIN32 */
-diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-index 8c8e08855bb..e4dd47aea48 100644
---- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-@@ -38,6 +38,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://CVE-2025-32988.patch \
-            file://CVE-2025-32990.patch \
-            file://CVE-2025-6395.patch \
-+           file://CVE-2025-9820.patch \
-            "
- 
- SRC_URI[sha256sum] = "e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f"
+(at which point parsing stops)
+
+I see no obvious way here to add an architecture that OE/Poky does not support, 
+which now makes this a hard error for any architecture not supported by the core 
+of OE and/or go.  (in the case of microblaze, rust and go are likely to never be 
+supported.  So there has to be a way for me to avoid the parse error in these 
+cases.)
+
+On 11/22/25 4:14 PM, Steve Sakoman wrote:
+> From: Ross Burton <ross.burton@arm.com>
+> 
+> Add a comment explaining what this function does and where the values
+> come from.
+> 
+> If the architecture isn't know, instead of returning an empty string
+> which could fail mysteriously, raise a KeyError so it fails quickly.
+> 
+> (From OE-Core rev: 025414c16319b068df1cd757ad9a3c987a6b871d)
+> 
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>   meta/lib/oe/go.py | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/lib/oe/go.py b/meta/lib/oe/go.py
+> index dfd957d157..4559dc63b2 100644
+> --- a/meta/lib/oe/go.py
+> +++ b/meta/lib/oe/go.py
+> @@ -7,6 +7,10 @@
+>   import re
+>   
+>   def map_arch(a):
+> +    """
+> +    Map our architecture names to Go's GOARCH names.
+> +    See https://github.com/golang/go/blob/master/src/internal/syslist/syslist.go for the complete list.
+> +    """
+>       if re.match('i.86', a):
+>           return '386'
+>       elif a == 'x86_64':
+> @@ -31,4 +35,4 @@ def map_arch(a):
+>           return 'riscv64'
+>       elif a == 'loongarch64':
+>           return 'loong64'
+> -    return ''
+> +    raise KeyError(f"Cannot map architecture {a}")
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#226712): https://lists.openembedded.org/g/openembedded-core/message/226712
+> Mute This Topic: https://lists.openembedded.org/mt/116430143/3616948
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
