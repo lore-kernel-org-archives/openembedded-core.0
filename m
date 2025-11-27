@@ -1,105 +1,105 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA14ED111A8
-	for <webhook@archiver.kernel.org>; Thu, 27 Nov 2025 17:41:53 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.214.1764265303936530624
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2E48CFD2F6
+	for <webhook@archiver.kernel.org>; Thu, 27 Nov 2025 18:03:13 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.703.1764266591985233790
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Nov 2025 09:41:44 -0800
+ Thu, 27 Nov 2025 10:03:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CRopWNuv;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: skandigraun@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so10454065e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 09:41:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764265302; x=1764870102; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jxZF00LexhWYpNNKmUHkaAQnIbrQHU/wtYy7MAO+sXY=;
-        b=CRopWNuv+w1L8l6CYey/GphZv0cJ7502FYsEXpXxDVsm8HTflA/U1YqSOeOqBgYbvd
-         LQo1VqAT8qGw9NEBKrO+POMNAU1Od07fyavUuW48/fh0TXCNRAhSCbrh78XS+Iwtzoc+
-         PDGNli54KhAKUwUesqXNWvwcE6ZWQ4OywNA1KZZ2L4p3knNo8RwXDDu093giDLF+0+Qc
-         X6rgB+SbpuBTtrAJQ5NHzEcZSuHDGnRrP4W5z19u7UUBbIksc5Y7QzS+HUFLH4S2NzfB
-         OCSmcpaAlLDmfOnzVC/I8+BKd6OvXDFqZ1jf5Xfp4xxCK6rohCB5eYEyN4POi5tlJeDq
-         SRQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764265302; x=1764870102;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jxZF00LexhWYpNNKmUHkaAQnIbrQHU/wtYy7MAO+sXY=;
-        b=tj6Ee2o6MHHYwd/HEQG2ndESyZQcUZdbiq2cicJpdsQ4hXqdSyavgp68jzN923NUOz
-         Yy+kom+q222hc6bnf2EYLCtLEcm8sr6lDSNHyPR8bQ6eQzMHUEiINEDI6n1IedpJyTl9
-         8faHBDlicFH7t+ARTysxGt1sk6Uc0UGqW5lhSiuezrQUBFtmU1sHpnzz1oWsl8lTol7n
-         uSbPipbY5OLoCJgc0dIhTwDQxoCPsOA6Zi3ky2coY9cM+0vGuQ4WlEpInQtTiw5Xwn1O
-         KOGwjPs50U3x3YActvqGOAWaxI7k7b9bmaorbYgrvwNm635UJ0uzWJGgLUaQx8FnH71Y
-         0dqA==
-X-Gm-Message-State: AOJu0YxG2TD+LoiahDB8tlhMk1lXPsiQUMnqnEU8xD2pUWuM9C+d+hOQ
-	IC9cMxSZQvMT0iOsVwmtbCbsSkk57AUze+DlB19dIO0JXNpuDYGgKCktKpmwOg==
-X-Gm-Gg: ASbGncuNGhzfMLiES3DO84obAmZXxZRDghaWtnuwUCuGgqDOyTnr93ePwGfo5phIXYF
-	YBO0eToZGSNckytpogM4LY4hA60jPpuq8XebiOjEPFGgCevNNd8qlkmKEJd4lEHWj9e/+MsBNwb
-	znVUNoT4XXFfThfc1bpEHc+xLjJ2IMBe4zI5PadhdifIdy4CKD5pQmlUlmiP+QqDhxhfcGcx2rL
-	8jSDwBSU0KXspvvxptITUUaCtpt6jeicv2OOYrwqcxHskH00e+BsaSWs2l3ojCLLxxbZp1gOjZQ
-	pHV1oEkLexGa4afdzbc+aTD5AlcTUjfaYAG2T0JsfSUYhW6+yuR9j+21n6ntbaYJA/Nqf38I+NK
-	f30XSRNv1PJhvoHndkGVSM2n2cianJWKEVY28zZ2TeOJSn4rcptCISUUDEaesJon6ihs7l1WYS5
-	tjBSC3WwIi
-X-Google-Smtp-Source: AGHT+IGZDdxEN7vucVrUH9ZGsxwOFAF6hyVuaMEdBJyD/uavCEVNc+6LxXQiIzRstB5P/f1d6SqU9w==
-X-Received: by 2002:a05:600c:3ba3:b0:477:aed0:f403 with SMTP id 5b1f17b1804b1-477c110d91dmr236395515e9.8.1764265302201;
-        Thu, 27 Nov 2025 09:41:42 -0800 (PST)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479052b3f5fsm72374025e9.4.2025.11.27.09.41.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 09:41:41 -0800 (PST)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ne4UmsZK;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20251127180308049a279d1c00020706-olompo@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20251127180308049a279d1c00020706
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 27 Nov 2025 19:03:09 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=Te5jNkSZeC9mpqo2DE1K06zBXOcN1d8gzjPsTjpAqiw=;
+ b=ne4UmsZK6jpOG26nzz5GmC6ZZuR6r6oRyhgfWNZE25v67+CgwWM3ot6GgtRh7Hsw2PWxXm
+ F+ruk9ZEJCDVqWxZsH4lZ6QGjp7DDHdiPFQv/98L2aCa7wM/0Tzz1KTeBVDrk6AJhLkxEspo
+ 1WV9x3hVVYic7E0QIMtmXZwhgvKzP8/hNalSxEa7sBQxQ+zXHdj9SKampYXYCSrqqKHskcIp
+ mTlcPY5QmO4kNd2MEp13gnacn9PMXLANjF0iSkrh4tkXF3mMoV5coNuibKVvPk4A4LYH18J4
+ /VeULKZtB4I0ap7fj2IRd8er2X10tJRgyaSlSI3MmH0RRlgC67ZIHhPA==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: ecordonnier@snap.com
-Subject: [PATCH] opkg: enable ACL only when present in DISTRO_FEATURES
-Date: Thu, 27 Nov 2025 18:41:40 +0100
-Message-ID: <20251127174140.906490-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.52.0
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] libpng: upgrade 1.6.50 -> 1.6.51
+Date: Thu, 27 Nov 2025 19:02:59 +0100
+Message-Id: <20251127180259.3347636-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 17:41:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226854
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Nov 2025 18:03:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226855
 
-During the last opkg update the application's ACL feature was
-enabled by default, which requires acl recipe as a dependency,
-however it wasn't enabled in the recipe, making compilation
-fail when libacl wasn't in the sysroot.
+From: Peter Marko <peter.marko@siemens.com>
 
-This change adds a PACKAGECONFIG that makes acl an optional
-dependency, and it is only enabled automatically if "acl"
-is present in DISTRO_FEATURES.
+Handles CVE-2025-64505, CVE-2025-64506, CVE-2025-64720 and CVE-2025-65018
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+Relase notes [1]:
+Version 1.6.51 [November 21, 2025]
+  Fixed CVE-2025-64505 (moderate severity):
+    Heap buffer overflow in `png_do_quantize` via malformed palette index.
+    (Reported by Samsung; analyzed by Fabio Gritti.)
+  Fixed CVE-2025-64506 (moderate severity):
+    Heap buffer over-read in `png_write_image_8bit` with 8-bit input and
+    `convert_to_8bit` enabled.
+    (Reported by Samsung and <weijinjinnihao@users.noreply.github.com>;
+    analyzed by Fabio Gritti.)
+  Fixed CVE-2025-64720 (high severity):
+    Buffer overflow in `png_image_read_composite` via incorrect palette
+    premultiplication.
+    (Reported by Samsung; analyzed by John Bowler.)
+  Fixed CVE-2025-65018 (high severity):
+    Heap buffer overflow in `png_combine_row` triggered via
+    `png_image_finish_read`.
+    (Reported by <yosiimich@users.noreply.github.com>.)
+  Fixed a memory leak in `png_set_quantize`.
+    (Reported by Samsung; analyzed by Fabio Gritti.)
+  Removed the experimental and incomplete ERROR_NUMBERS code.
+    (Contributed by Tobias Stoeckmann.)
+  Improved the RISC-V vector extension support; required RVV 1.0 or newer.
+    (Contributed by Filip Wasil.)
+  Added GitHub Actions workflows for automated testing.
+  Performed various refactorings and cleanups.
+
+[1] https://github.com/pnggroup/libpng/blob/v1.6.51/CHANGES#L6281C1-L6305C47
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-devtools/opkg/opkg_0.9.0.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../libpng/{libpng_1.6.50.bb => libpng_1.6.51.bb}           | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.50.bb => libpng_1.6.51.bb} (89%)
 
-diff --git a/meta/recipes-devtools/opkg/opkg_0.9.0.bb b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
-index ed2f36d636..0b3bb3d24c 100644
---- a/meta/recipes-devtools/opkg/opkg_0.9.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
-@@ -31,7 +31,7 @@ inherit cmake pkgconfig ptest
- target_localstatedir := "${localstatedir}"
- OPKGLIBDIR ??= "${target_localstatedir}/lib"
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.50.bb b/meta/recipes-multimedia/libpng/libpng_1.6.51.bb
+similarity index 89%
+rename from meta/recipes-multimedia/libpng/libpng_1.6.50.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.51.bb
+index aa2dc99f10..8cfb914917 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.50.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.51.bb
+@@ -10,13 +10,13 @@ DEPENDS = "zlib"
  
--PACKAGECONFIG ??= "libsolv"
-+PACKAGECONFIG ??= "libsolv ${@bb.utils.filter('DISTRO_FEATURES', 'acl', d)}"
+ LIBV = "16"
  
- PACKAGECONFIG[gpg] = "-DWITH_GPGME=ON,-DWITH_GPGME=OFF,\
-     gnupg gpgme libgpg-error,\
-@@ -41,6 +41,7 @@ PACKAGECONFIG[curl] = "-DWITH_CURL=ON,-DWITH_CURL=OFF,curl"
- PACKAGECONFIG[ssl-curl] = "-DWITH_SSLCURL=ON,-DWITH_SSLCURL=OFF,curl openssl"
- PACKAGECONFIG[sha256] = "-DWITH_SHA256=ON,-DWITH_SHA256=OFF"
- PACKAGECONFIG[libsolv] = "-DUSE_SOLVER_LIBSOLV=ON,-DUSE_SOLVER_LIBSOLV=OFF,libsolv"
-+PACKAGECONFIG[acl] = "-DUSE_ACL=ON, -DUSE_ACL=OFF, acl"
+-SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
++SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz \
+            file://run-ptest \
+ "
  
- EXTRA_OECMAKE = "-DWITH_ZSTD=ON"
- EXTRA_OECMAKE:append:class-native = " -DVARDIR=/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIVE}')} -DSYSCONFDIR=/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATIVE}')}"
+-SRC_URI[sha256sum] = "4df396518620a7aa3651443e87d1b2862e4e88cad135a8b93423e01706232307"
++SRC_URI[sha256sum] = "a050a892d3b4a7bb010c3a95c7301e49656d72a64f1fc709a90b8aded192bed2"
+ 
+-MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
++MIRRORS += "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
+ 
+ UPSTREAM_CHECK_URI = "http://libpng.org/pub/png/libpng.html"
+ 
 
