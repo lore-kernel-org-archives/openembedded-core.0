@@ -1,257 +1,214 @@
-Return-Path: <leon.anavi@konsulko.com>
+Return-Path: <michael.opdenacker@rootcommit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 296DDCFD376
-	for <webhook@archiver.kernel.org>; Fri, 28 Nov 2025 13:37:30 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16073.1764337042983959681
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4807ECFD376
+	for <webhook@archiver.kernel.org>; Fri, 28 Nov 2025 13:40:40 +0000 (UTC)
+Received: from bumble.maple.relay.mailchannels.net (bumble.maple.relay.mailchannels.net [23.83.214.25])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16131.1764337234238627895
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Nov 2025 05:37:23 -0800
+ Fri, 28 Nov 2025 05:40:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=AWgbehax;
- spf=pass (domain: konsulko.com, ip: 209.85.128.43, mailfrom: leon.anavi@konsulko.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4775ae77516so19623805e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Nov 2025 05:37:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1764337041; x=1764941841; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=82DGcDQQkshubN98eaqD3VUEewaGZbv1kRUM1iwOdy0=;
-        b=AWgbehaxmbwzCuSwVIxY32Zp8CqDowD+cZIn1l0jUbk3m1uWPAGEmkMwd3dUcmLxNN
-         Pj4Wr75Cp/lv8941XxjasHhY/uo5J0lWlB6p/maGL18SjaKDAByBYsigvglk5i7df8Zo
-         FC8ZYsXtlo52KgmpfMsza49iaUpsvsymFnIN4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764337041; x=1764941841;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=82DGcDQQkshubN98eaqD3VUEewaGZbv1kRUM1iwOdy0=;
-        b=SFR3qF5HV6b3fcHVTm96ZpnUIRBZKUhsd2aXsQDDns5DIr7T+gyC/j80HK+tX9OZ21
-         XVz+M5Wfr7ded83vy331Ys1jfEcmlTxOJYiaubeUngA/Wa89kTZ55+PNTd4Mw78GUMxj
-         Dm0HdWDnKcowQovmmnH00AL24X0f1G5X4P9ngzvND0Gk7DcP36mB0SRPaMY3y1qUy/iJ
-         0wBkitmceX46Q7QhhzNoh3hssjm8rXRhwX5goq4YPXBwkH8WfzRHGvGHwwIcEV5+tCdA
-         L2SPBipQdjsjIM68bQg5be0nguH3JYxKQWEsy0mydwo8L0ZesOOk1PMVEDFsJwNGEjIW
-         iUwQ==
-X-Gm-Message-State: AOJu0YzZ+zOV8DsLJAVBLzyInoF8JxRjYvCE/OIoq9eIxy3r+6K01Ru8
-	SFkAthImVtYTB6jzYUwaR0s3LuWYwFe0bq//cuOnZkSgBVFtWaQgElhdEtbPODwwu0CSCwMPed9
-	lReKq
-X-Gm-Gg: ASbGncs/mhYfToukMcMn5X9R6vdSy7zjDyUpYsU76LqfvSascmqi8qtMXI238gxcAL3
-	tU4/mohaV8z4Y4o4tURX1lASpo7WImbGIVPwptMOMpi1Jn3kmaYO6XDDgl7FgSsxzCciShkJ1Jk
-	qLxxn6w0bMF2L5glxLsLAEyEfRDUvL/cmzmcaf2YO8c5w/EpwkylKOhZfHXBjmc+jJNm0ThkDey
-	fN8Vy7vR12LscERuahjU2SdrMyD/nhZkO5lWhvaXbWXMdX79XsROH4BTqDW/GOZChf9ZQAPOYN2
-	JcElXwB8cFIhhI0i1A/OjCjQokaUybTD5LUaPa9P44VmYqWgauow0Yk04b4QhuKMU2Y+MX/SMjx
-	YEAHB+DwL0FRRR7ZeiTnJTFhUFPS6j0nXv4uq3dSQ7+akqyTzHQ77O3ijxANE0efM+k1863Qf6Z
-	1WpRt1JH72EzspaFz9eEBetl5p
-X-Google-Smtp-Source: AGHT+IGpagNc/SxQV5SNpC5z8RNnEs6ebnJPRhuYab+IhnLgRnj37FsPodWetoQb+2xInVNcyoX47Q==
-X-Received: by 2002:a05:600c:1ca5:b0:475:dde5:d91b with SMTP id 5b1f17b1804b1-477c1115ff6mr331558575e9.17.1764337040429;
-        Fri, 28 Nov 2025 05:37:20 -0800 (PST)
-Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4791116c3c0sm86999805e9.8.2025.11.28.05.37.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Nov 2025 05:37:20 -0800 (PST)
-From: Leon Anavi <leon.anavi@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Leon Anavi <leon.anavi@konsulko.com>
-Subject: [PATCH 1/2] glib-2.0: Upgrade 2.86.1 -> 2.87.0
-Date: Fri, 28 Nov 2025 15:37:15 +0200
-Message-ID: <20251128133716.3635989-1-leon.anavi@konsulko.com>
-X-Mailer: git-send-email 2.47.3
+ dkim=fail reason="dkim: body hash did not verify" header.i=@rootcommit.com header.s=hostingermail-a header.b=rgtbr1bR;
+ spf=pass (domain: rootcommit.com, ip: 23.83.214.25, mailfrom: michael.opdenacker@rootcommit.com)
+X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 895B86C197D;
+	Fri, 28 Nov 2025 13:40:33 +0000 (UTC)
+Received: from fr-int-smtpout15.hostinger.io (trex-green-2.trex.outbound.svc.cluster.local [100.99.170.120])
+	(Authenticated sender: hostingeremail)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 5B0996C07D3;
+	Fri, 28 Nov 2025 13:40:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
+	t=1764337233;
+	b=tkcURVa2IKfhn+2/ljou+BCi6a2zQ8TXXFPrX9vDA2yZVyIL3UxooY8INt7AwuE9Xe2Mpn
+	zYwYAhm7N56J+DdzcQZnjQ9XC5Bu5HH2b9b5Z9G5Y4xgsgYMsqPoz9NirU7+omyR16sQ/b
+	rMwVPn1iYrQ9dddmMrFfxS8ch1EDNR23kXNXs+HJCqvdHLtENBPKzMBKLYdlnwjRnNOaDb
+	Yt/m9Ei3YuXq1wjs/l5tchG6Fo4OxaH58CjVB77Y5TSY541tQdRY7iiDnnejoJP77JmQXk
+	2Xxy6M8fdaviZ3ZEA9nUDTVFrIThdbc5JIV92qFo8IUJqDz/zsrZ4YUhJN4j0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1764337233;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=wsXXkGuDpP878u/A+EpryC6Vvr19Q7xYnGRWUafppdI=;
+	b=5tF9xp9hJYziM2BLJg5oXlt9pVqmM3qm+wwQoERz/zaR7WhNAh2JQ4BhsJj3znFPChCXO/
+	eDJGZTZgf5DnixL/HjpY+nEEp2q1sCb/YXJznPTQ6+scdsJZhO8vM+xTGSu2/v5I5jAlBj
+	F77CrChZEdxAvHlJYtkQ6FxlYDFangtaq4SV8zdJNWcUmT7RZXvkGaTwMZQ8t7AKuvq602
+	fWiacZ1lt3l1pFvALQ1JDpJR6PqIAU5HpOrYGKXehMqjFeyRy9T2MzTutkJ4A2I5+9ge2X
+	Rq6NezjOABuAGCjeFAnt2g6+R9sz8fmOP38YF7Bdwz1qi2tQR0+K8Hb3vrM9FA==
+ARC-Authentication-Results: i=1;
+	rspamd-74f6bfdf88-wxv9c;
+	auth=pass smtp.auth=hostingeremail
+ smtp.mailfrom=michael.opdenacker@rootcommit.com
+X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: 
+ hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
+X-MailChannels-Auth-Id: hostingeremail
+X-Cure-Versed: 1584007b2cd21dd2_1764337233335_2095407685
+X-MC-Loop-Signature: 1764337233335:916727619
+X-MC-Ingress-Time: 1764337233335
+Received: from fr-int-smtpout15.hostinger.io (fr-int-smtpout15.hostinger.io
+ [148.222.54.41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.99.170.120 (trex/7.1.3);
+	Fri, 28 Nov 2025 13:40:33 +0000
+Received: from [IPV6:2001:861:4450:d360:db39:e8df:3f13:f095] (unknown [IPv6:2001:861:4450:d360:db39:e8df:3f13:f095])
+	(Authenticated sender: michael.opdenacker@rootcommit.com)
+	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4dHvZ61zsqz1xnv;
+	Fri, 28 Nov 2025 13:40:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rootcommit.com;
+	s=hostingermail-a; t=1764337230;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wsXXkGuDpP878u/A+EpryC6Vvr19Q7xYnGRWUafppdI=;
+	b=rgtbr1bR9SJy43oL3Lpj7OxG2Yh0FZPnhoerqw92/VhDjIRWc+C3kvm8OkcUzEgblVDAym
+	AdGd+JqBsklcs872prNMD0Qdi86zh1e6yZV45nzNG1DUFrEMG/ALElEYVjweo5v0U6DG6g
+	K7ArJchEq31P3Rbp7H8EwmgWNpts0RX3D6cV3CUxgQj9uLoaP7M6KAv1TQODgvhDOGsZj5
+	hqdmVGbm8QdA2nsS3Qlynex3HfVHihwKxDDwj6btIhEFGoqS7SLTeTXemUPub/pV5r8tX6
+	RMqQ0BSQwShFjHoc4veDjt70n0k51+iLulTUvt8BFExThiO5t0xbYWtuxkQ6oQ==
+Message-ID: <4cf47893-8d84-4a4f-8301-a8dcaf9eb510@rootcommit.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Cc: michael.opdenacker@rootcommit.com, Khem Raj <raj.khem@gmail.com>,
+ OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] linux-yocto.inc: remove riscv-isa-clear.scc from
+ KERNEL_FEATURES_RISCV?
+To: Gyorgy Sarvari <skandigraun@gmail.com>
+References: <3a1b9adc-9ac6-44b7-824f-10f5e08f6d37@rootcommit.com>
+ <73131023-79db-445a-8341-0b455dd586f6@gmail.com>
+ <7e4c03b7-8f5c-4e92-91b2-1535e5533f8d@rootcommit.com>
+Content-Language: en-US, fr
+From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
+Organization: Root Commit
+In-Reply-To: <7e4c03b7-8f5c-4e92-91b2-1535e5533f8d@rootcommit.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Date: Fri, 28 Nov 2025 13:40:30 +0000 (UTC)
+X-CM-Analysis: v=2.4 cv=DJTd4DNb c=1 sm=1 tr=0 ts=6929a64e a=YQrE8P1zjIj1qofBaZg0ow==:617 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=iGHA9ds3AAAA:8 a=d70CFdQeAAAA:8 a=Q4-j1AaZAAAA:8 a=Dg6HmOWyXyUJ4i4mhC4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=NcxpMcIZDGm-g932nG_k:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-CM-Envelope: MS4xfFjE+w+Mr6Qj16vWFX2JFYaZ2hkQJ79FvSGL+WVSNUFWZubDumkBHuvJLoMCP6W9coebdRrtoKIbrtebG+bUgzLm6oD6+JJTYnwevI6PduSpk/QtgfnM UKeUjT864DDq+xROv+kw1SnWG80vnHoBVgSD42pODSCndKwQswAzdpLt3OLiBxDoQZJqaw908cR5ONOGPtEzPbGal8wd0cm8Nhp9b/uVDOB2uhMIVWv/eHu+ 4ku4/mofDxYCDGexiRmCccKq/PmIlxDfU8NeW4Vo8MK0IMuQ+ahL+sHLb5In2jvoIvbgBdXeSaU3leTv5oTaofH7g0WbHFEhnw7ALqzc08n4lQIGw+VUpt+Z eRVMDyQNfPGShU9E5Cf6QSNIBirOzpdvO8fMi5fz3PR+NiEEQaUOJOBL+lSISaE6P0MGJSTs3fzJgYet6usWW5nWn9r8b7RRteEXvygSW6A0PppfmKA=
+X-AuthUser: michael.opdenacker@rootcommit.com
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Nov 2025 13:37:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226909
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Nov 2025 13:40:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226911
 
-Overview of changes in GLib 2.87.0, 2025-11-03
-==============================================
 
-* Update to Unicode 17.0.0 (!4793, work by Peng Wu)
+On 11/27/25 12:03, Michael Opdenacker wrote:
+> Hi=C2=A0Gyorgy
+>
+> On 11/27/25 11:46, Gyorgy Sarvari wrote:
+>>
+>> On 11/27/25 11:20, Michael Opdenacker via lists.openembedded.org wrote=
+:
+>>> Greetings,
+>>>
+>>> I'm getting the same issue trying a master build on several RISC-V=20
+>>> boards:
+>>>
+>>> ERROR: linux-milkv-duo-dev-1.0-r0 do_kernel_metadata: Feature
+>>> 'arch/riscv/tunes/riscv-isa-clear.scc' not found, this will cause
+>>> configuration failures.
+>>> ERROR: linux-milkv-duo-dev-1.0-r0 do_kernel_metadata: Check the SRC_U=
+RI
+>>> for meta-data repositories or directories that may be missing
+>>> ERROR: linux-milkv-duo-dev-1.0-r0 do_kernel_metadata: Set
+>>> KERNEL_DANGLING_FEATURES_WARN_ONLY to ignore this issue
+>>>
+>>> OK, I can set
+>>> KERNEL_DANGLING_FEATURES_WARN_ONLY =3D "1"
+>>> but is this a clean solution?
+>>>
+>>> Where are all the arch/riscv/tunes/riscv-isa-*.scc files supposed to=20
+>>> be?
+>>> I didn't manage to find them anywhere...
+>> Do you have the yocto-kernel-cache[1] repo in your SRC_URI? The scc
+>> files come from there
+>>
+>> [1]:=20
+>> https://git.yoctoproject.org/yocto-kernel-cache/tree/arch/riscv/tunes
+>
+> Ho, thanks! That was exactly what I needed.
+> I will add these to my kernel recipes.
 
-* Support runtime extensions to `gdbus-codegen` tool to allow modifying its
-  output in project-specific ways (!4812, work by Sebastian Wick)
+Interestingly, the Linux 6.18-rc7 kernel on my OrangePi RV2 board hates=20
+the change.
 
-* Use document portal to open all the URIs for snaps (!4822, work by
-  Marco Trevisan)
+It's not completely crashing, but many devices get initialized with the=20
+same kind of error:
 
-* Add g_markup_parse_context_get_offset() API for getting error locations in XML
-  files (!4879, work by Matthias Clasen)
+"device non-coherent but no non-coherent operations supported"
 
-* Bugs fixed:
-  - GNOME/ptyxis#490 new tab does not open in current directory when hostname
-    contains a period (Christian Hergert)
-  - #672 hash resize broken for large sizes (Tobias Stoeckmann)
-  - #2608 Support nanosecond time resolution with stat() on macOS (Andre Barnaba
-    Silva)
-  - #2949 gdbus-server-auth test intermittently fails on macOS
-  - #3070 gio/g-file-info test fails on macOS (Andre Barnaa Silva)
-  - #3523 g_filename_from_uri rejects valid host names according to RFC 1123
-    (Christian Hergert)
-  - #3745 GIRepository: union fields offsets for compiled typelibs all have
-    offset 0xffff (unknown) (Philip Chimento)
-  - #3771 Should opening a .desktop file fail if Exec key contains invalid
-    escapes? (Philip Withnall)
-  - #3780 `gio/tests/socket-listener` requires dlsym
-  - #3781 GLib.OptionContext's get_help() includes width of invisible options
-    (FeRD (Frank Dana))
-  - #3783 [CI] Pipeline on 'main' failed for commit c31c4a52 (Tobias Stoeckmann)
-  - #3784 Memory leak related to g_get_home_dir (Tobias Stoeckmann)
-  - #3785 "gio trash --empty" returns 0 even when it fails to remove files
-  - #3790 _g_log_abort() should check TracerPid from /proc before raising
-    SIGTRAP
-  - #3798 Gio.AppInfo.launch_default_for_uri_async crashes with non-existent
-    paths (Philip Withnall)
-  - #3803 GNetworkMonitor's netlink backend doesn't notify connectivity change
-    (Philip Withnall)
-  - #3805 [CI] Pipeline on 'main' failed for commit e6c52881
-  - #3806 fake-document-portal needs to use _g_fd_query_path() rather than
-    accessing /proc/self/fd directly (Marco Trevisan (Trevino))
-  - #3808 Uyghur language translation updated.
-  - #3809 GRegex tests fail with pcre2 10.47: different error for ^(a)\g{3
-    (Marco Trevisan (Trevino))
-  - #3811 g_get_user_special_dir doesn't strip trailing slash from $HOME/
-    (Tobias Stoeckmann)
-  - https://gitlab.gnome.org/Infrastructure/Infrastructure/-/issues/
-  - !4753 GIO/Win32: Remove custom definitions of system interfaces
-  - !4755 ghash: Fix entry_is_big for CHERI architecture
-  - !4756 ghash: Handle all table sizes in iterator
-  - !4759 GWin32AppInfo: Allow focus-stealing when requested via
-    GAppLaunchContext
-  - !4760 gbookmarkfile: Escape icon href and mime-type
-  - !4764 subprojects: Update libffi, pcre2, proxy-libintl
-  - !4773 docs: Add Luca Bacci as a co-maintainer of the Windows code
-  - !4775 Update Ukrainian translation
-  - !4776 Update Catalan translation
-  - !4777 Update Lithuanian translation
-  - !4778 tests: Fix clang compilation warnings
-  - !4779 gmem: Replace SIZE_OVERFLOWS with g_size_checked_mul
-  - !4780 Update Brazilian Portuguese translation
-  - !4781 Update eu translation
-  - !4782 Update Korean translation
-  - !4785 Update Japanese translation
-  - !4786 Update Galician translations
-  - !4787 Update Hungarian translation
-  - !4789 gio: add some nullable / zero-terminated annotations
-  - !4790 gstring: Support large strings in g_string_replace
-  - !4791 gstrfuncs: Check string length in g_strescape
-  - !4792 gtype: Define copy and free functions for GTypeClass and
-    GTypeInterface
-  - !4793 gunicode: Update the code for Unicode 17.0.0
-  - !4794 CI/MSYS2: Use builtin b_coverage option
-  - !4795 Meson: Add arguments and defines to all C-like languages
-  - !4798 GDBus: Add `(out)` annotation to quark in
-    g_dbus_error_register_error_domain()
-  - !4800 gutils: Improve load_user_special_dirs' user-dirs.dirs parser
-  - !4802 Update Turkish translation
-  - !4803 Add missing `(array length=n_values)` annotation to `GEnumClass` /
-    `GFlagsClass`
-  - !4806 build: Post-release version bump
-  - !4807 Add missing "nullable" to parameter docs of GList/GSList
-  - !4810 gutils: Mark load_user_special_dirs unlocked
-  - !4811 Update Esperanto translation
-  - !4812 gdbus-codegen: Support extensions and changing the
-    GDBusInterfaceSkeleton type to inherit from
-  - !4813 Update Serbian translation
-  - !4815 gfile: Expand documentation around file equality
-  - !4816 strfuncs: Check for overflows when joining strings
-  - !4817 Mark a couple of functions as constructors and not methods
-  - !4819 utils: Fix a leak when user-dirs.dirs declares a variable twice
-  - !4820 gio/tests: Fix a race condition in /gdbus/connection/flush
-  - !4822 GDesktopAppInfo: Use document portal to open all the URIs for snaps
-  - !4823 gio/gdocumentportal: Use the target name when opening a symlink
-  - !4825 gdbus-codegen: Supress coverity warning in skeleton finalization
-  - !4827 ghostutils: Treat 0x80 (and above) as non-ASCII
-  - !4829 docs: Fix typos in win32-build.md
-  - !4830 giowin32: Fix uninitialised variable error on msys2-clang64
-  - !4831 macros: Add C23/C++23 standards
-  - !4832 gtypes: Support more overflow check implementations
-  - !4835 Update Portuguese translation
-  - !4837 tests: Fix another clang compiler warning
-  - !4838 GLocalFile: keep suffix name when trashing
-  - !4840 gpattern: Support patterns/strings longer than G_MAXUINT
-  - !4843 tests: Use integer widths rather than maximum values for strfuncs
-    check
-  - !4844 Forward-port !4839 "Update Romanian translation" to main
-  - !4847 GFile entity tags: Update HTTP reference link to point to RFC9110
-    ETags description
-  - !4849 Update British English translation (main)
-  - !4851 Docs: New file-name-encodings image: light/dark, color
-  - !4855 glib-compile-resources: print error message when the temp file cannot
-    be created
-  - !4856 Mark return value of g_dbus_interface_get_info() as `nullable`
-  - !4857 Docs: Migrate gvariant-*.svg licenses to comments
-  - !4858 gsocketcontrolmessage: Fix a minor typo in a doc comment
-  - !4860 Fix `g_memory_monitor_base_query_mem_ratio` on Solaris
-  - !4861 gio/tests/gapplication: Check the values received on action activation
-  - !4862 ci: Temporarily disable macos-arm64 CI as it has issues creating temp
-    files
-  - !4863 ci: Temporarily disable msys2-mingw32 CI
-  - !4864 ci: Update Fedora CI image to Fedora 41
-  - !4866 Fix various scan-build errors
-  - !4870 Reenable MSYS2 CI
-  - !4874 ci: use APFS for macOS TMPDIR
-  - !4877 gresolver: Fix loopback detection of IPv6 addresses
-  - !4879 Add g_markup_parse_context_get_offset
-  - !4887 glib-unix: Add Solaris implementation of g_unix_fd_query_path
-  - !4893 ci: Use CI/CD file variable tokens for secrets
-  - !4894 gthread-win32: Ignore error when setting thread priority
-  - !4895 gunixmounts: fix out of bounds write in AIX mount table parser
-  - !4896 ci: Actually use token file for the issue bot
-  - !4897 Re-enable PCRE2 tests for 32-bit Visual Studio builds
+0.111641] ------------[ cut here ]------------
+[ 0.111652] spacemit,k1-ccu d4090000.clock-controller: device=20
+non-coherent but no non-coherent operations supported
+[ 0.111659] WARNING: CPU: 0 PID: 1 at=20
+/usr/src/kernel/arch/riscv/mm/dma-noncoherent.c:139=20
+arch_setup_dma_ops+0x96/0xfc
+[ 0.111673] Modules linked in:
+[ 0.111682] CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Tainted: G S 6.18.0-rc7=20
+#1 NONE
+[ 0.111690] Tainted: [S]=3DCPU_OUT_OF_SPEC
+[ 0.111693] Hardware name: OrangePi RV2 (DT)
+[ 0.111696] epc : arch_setup_dma_ops+0x96/0xfc
+[ 0.111703] ra : arch_setup_dma_ops+0x96/0xfc
+[ 0.111709] epc : ffffffff8001ea02 ra : ffffffff8001ea02 sp :=20
+ffffffc600043b70
+[ 0.111713] gp : ffffffff81a1ae08 tp : ffffffd700230000 t0 :=20
+ffffffff81829520
+[ 0.111717] t1 : ffffffff8181c228 t2 : 2d2d2d2d2d2d2d2d s0 :=20
+ffffffc600043b90
+[ 0.111720] s1 : ffffffd700b79c10 a0 : 0000000000000067 a1 :=20
+00000000fffff264
+[ 0.111724] a2 : 0000000000000000 a3 : 00000000fffff264 a4 :=20
+0000000000000000
+[ 0.111728] a5 : 0000000000000000 a6 : 0000000000000004 a7 :=20
+0000000000000000
+[ 0.111731] s2 : 0000000000000000 s3 : 0000000000000000 s4 :=20
+0000000000000000
+[ 0.111734] s5 : ffffffff80e30800 s6 : 0000000000000008 s7 :=20
+0000000000000000
+[ 0.111738] s8 : 0000000000000143 s9 : 0000000000000000 s10:=20
+0000000000000000
+[ 0.111742] s11: 0000000000000000 t3 : 0000000000000070 t4 :=20
+00007fffffffffff
+[ 0.111744] t5 : 00007fffffffffff t6 : ffffffff81a3de07
+[ 0.111747] status: 0000000200000120 badaddr: 0000000000000000 cause:=20
+0000000000000003
+[ 0.111752] [<ffffffff8001ea02>] arch_setup_dma_ops+0x96/0xfc
+[ 0.111761] [<ffffffff80918f30>] of_dma_configure_id+0x94/0x208
+[ 0.111770] [<ffffffff80720050>] platform_dma_configure+0xa4/0xac
+[ 0.111778] [<ffffffff8071d8cc>] really_probe+0x54/0x22c
+[ 0.111785] [<ffffffff8071db00>] __driver_probe_device+0x5c/0xd4
+[ 0.111791] [<ffffffff8071dc3e>] driver_probe_device+0x2e/0xf4
+[ 0.111796] [<ffffffff8071de66>] __driver_attach+0x6e/0x14c
+[ 0.111802] [<ffffffff8071bae0>] bus_for_each_dev+0x60/0xb0
+[ 0.111807] [<ffffffff8071d432>] driver_attach+0x1a/0x24
+[ 0.111813] [<ffffffff8071cc9a>] bus_add_driver+0xca/0x1d8
+[ 0.111820] [<ffffffff8071ebea>] driver_register+0x3e/0xdc
+[ 0.111827] [<ffffffff8071fde4>] __platform_driver_register+0x1c/0x24
+[ 0.111834] [<ffffffff80c2ee0a>] k1_ccu_driver_init+0x1a/0x24
+[ 0.111843] [<ffffffff8000f8aa>] do_one_initcall+0x4e/0x1b8
+[ 0.111849] [<ffffffff80c012ac>] kernel_init_freeable+0x264/0x2e4
+[ 0.111858] [<ffffffff80b761b8>] kernel_init+0x1c/0x144
+[ 0.111862] [<ffffffff800111b6>] ret_from_fork_kernel+0xe/0x60
+[ 0.111870] [<ffffffff80b8081e>] ret_from_fork_kernel_asm+0x16/0x18
+[ 0.111877] ---[ end trace 0000000000000000 ]---
 
-* Translation updates:
-  - Basque (Asier Saratsua Garmendia)
-  - Catalan (Jordi Mas)
-  - English (United Kingdom) (Bruce Cowan)
-  - Esperanto (Kristjan ESPERANTO)
-  - Galician (Fran Dieguez)
-  - Hungarian (BalazsUr)
-  - Japanese (Makoto Sakaguchi)
-  - Korean (Changwoo Ryu)
-  - Lithuanian (Aurimas Cernius)
-  - Portuguese (Hugo Carvalho)
-  - Portuguese (Brazil) (Rafael Fontenelle)
-  - Romanian (Antonio Marin)
-  - Serbian (Milos Popovic)
-  - Turkish (Sabri Unal)
-  - Uighur (Abduqadir Abliz)
-  - Ukrainian (Yuri Chornoivan)
+ =C2=A0Is this expected?
+Cheers
+Michael.
 
-This work was sponsored by GOVCERT.LU.
-
-Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
----
- .../{glib-2.0-initial_2.86.1.bb => glib-2.0-initial_2.87.0.bb}  | 0
- .../glib-2.0/{glib-2.0_2.86.1.bb => glib-2.0_2.87.0.bb}         | 0
- meta/recipes-core/glib-2.0/glib.inc                             | 2 +-
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.86.1.bb => glib-2.0-initial_2.87.0.bb} (100%)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.86.1.bb => glib-2.0_2.87.0.bb} (100%)
-
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.1.bb b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.87.0.bb
-similarity index 100%
-rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.1.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.87.0.bb
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.86.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.87.0.bb
-similarity index 100%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.86.1.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.87.0.bb
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 5909851896..2ba8ad7492 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -236,7 +236,7 @@ SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
-                               "
- 
--SRC_URI[archive.sha256sum] = "119d1708ca022556d6d2989ee90ad1b82bd9c0d1667e066944a6d0020e2d5e57"
-+SRC_URI[archive.sha256sum] = "926cf73d8eb90ea341cc2d6fc7b258901e1a086a3808b166b4476d69a98b2401"
- 
- # Find any meson cross files in FILESPATH that are relevant for the current
- # build (using siteinfo) and add them to EXTRA_OEMESON.
--- 
-2.47.3
+--=20
+Michael Opdenacker
+Root Commit
+Yocto Project and OpenEmbedded Training course - Learn by doing:
+https://rootcommit.com/training/yocto/
 
 
