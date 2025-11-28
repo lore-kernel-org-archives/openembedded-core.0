@@ -1,123 +1,173 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D05D1D116EA
-	for <webhook@archiver.kernel.org>; Fri, 28 Nov 2025 09:16:28 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12209.1764321383920012830
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E535FCFD376
+	for <webhook@archiver.kernel.org>; Fri, 28 Nov 2025 09:33:18 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12425.1764322389620788447
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Nov 2025 01:16:24 -0800
+ Fri, 28 Nov 2025 01:33:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=rBWsFUZN;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3427347a84=qi.chen@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AS4P7ub416364;
-	Fri, 28 Nov 2025 09:16:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=UriUAtDvf
-	vZt69vYfyGJ8OZ//qR7Z5iZl0NwZZBl7l0=; b=rBWsFUZNZ20iC3ccoWk1wxbxo
-	OO5cKRoJRgCs7XzlHZfdMzS5L2BEmTlGBx6aZdiO2aTVJE3u4buPnCKzfZhKsKyO
-	wtcbuzzgcPn66u+rm4j8CmMqojG0yxK8QoVIchEWtVSAbMIL51huG6pE7xJ8Fd8u
-	j6TXm4Wu+oicHAL7GBFL8HDWuoMRGQufOn2EVw6cEHtiwIL/w1uJiThE0EScnsCE
-	ZplA5XDqUVeRZ9xsZcVOxV70HdqaJrmhUoGh6DONjgx6iiA1n7Tq0Qp7ZIWhev4t
-	pkORRkfGn/qh3S5Ivk/1u4hkkBNYcqyY+iMCnYH2aHwrBpG+Ou+UJ91NS7opA==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ak2d0xt7y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 28 Nov 2025 09:16:08 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Fri, 28 Nov 2025 01:16:06 -0800
-Received: from oak-lpgbuild14.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Fri, 28 Nov 2025 01:16:06 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <alex@linutronix.de>
-Subject: [OE-core][PATCH] rootfs-postcommands.bbclass: fix adding 'no password' banner
-Date: Fri, 28 Nov 2025 09:16:06 +0000
-Message-ID: <20251128091606.3465381-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@snap.com header.s=google header.b=WSIwgn3U;
+ spf=pass (domain: snapchat.com, ip: 209.85.218.49, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b76b5afdf04so294727166b.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Nov 2025 01:33:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=snap.com; s=google; t=1764322388; x=1764927188; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=M6MvQeqPG2GBTFsudAVfus05uMDDWKWGMFO3SEY0AiI=;
+        b=WSIwgn3UTkkobHkIcNhYdwpAYT5wXxCwTl2T9DsmUu9LYInbiOXEzsjZoDqpLUat2b
+         vdY2Avfo+31cNwlQ9S9YGXh/BACM3Q+Y3GktOiIEygcQGk1qYNDDll8S5fMOP2Tjimlm
+         5L1X1/oWvwAQESCFu2F3lJSw61gXlCEXU5tXI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764322388; x=1764927188;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M6MvQeqPG2GBTFsudAVfus05uMDDWKWGMFO3SEY0AiI=;
+        b=iEETgeMCzmHrHel74h1xqCVbKarTWB8PL1xVtT1Sqa0UDsGjH96sWdOxieIuF94HCG
+         iOKvLC8qJv7QVCGRnvdQFO30XXhCM5d/XQXyMxpnxnlUaDUMhP2VDN1XUW1qPV5JmWw3
+         9w99WhEIpr/bX8vMsGm2jg0/B6wGlA7skFt53I272i1WzIwVmpB/y0H55Hx7ZtDxgMji
+         g/CWVhs/RVG1/GkekBHNfVVoTHjYHt5ejpdAaDZRhUqGY5exrekIPYfFBYJ4R7yRKset
+         8i0OifNGLIlU6oZymn3i5GWMBmmNj47jglm3S8kP844AznZsB2ebsXW0EFFzdVCvBi9C
+         AgQA==
+X-Forwarded-Encrypted: i=1; AJvYcCXfVae62F0d++K+XYwrz5ivcYSZnC0neZzGUXzRKy5xGHoVNQLHWKmb0LxlXDB8ecAMp0lf4G528MBQ6UdfO2u4sQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz3HeKebMdbzF2eUpVcnwaRFkCNtsh17VMMpZa8n4RlBG5GR3jc
+	p6lWkqHWFoK8qGWT3gTzUB/PGWGldq8Q8HNrPynFEAn0pUNOAKudCdTdSxA6DufkSrcF0SZoRke
+	UhMdOJiURF8ePDYFAumnXkfzk50mpjOBdwXIw+Ml3Qg==
+X-Gm-Gg: ASbGnctfcqD7RENz2LpAxir1c2JzIHoeC3snEQ4If23GB2h772ULvosXbw7mDAZFep3
+	snaBdYDnODL+hvI92pCX8Ais8fNXJ9K7dyMiNxN5HKdgN8xlR6O2BkzM6uUptz/dFo9J/M0pONJ
+	q+4V+VqptKBovaT15Lq62pcOjZieaST+4NXuGQVkAdFNEWOWnG1+BUdSexAH+NOghKsCK761w4I
+	DiKpAQEGyfrmrVOsgIrVUjD3ccaCP9+c1lRBwwgH66L7CGzbbBKqgRL12XF00wWOwyMbugWcyHa
+	qW3N4sjAvxqfHwu9hOgCZ7ebqR0=
+X-Google-Smtp-Source: AGHT+IF5zdgvB1apHW/xp8MWKJ8VyMyRFCnBYtMO/eCPW0anSItwp5JJ4sCOaRr5ufykobMfP2D3onD6/GqWECXcLe4=
+X-Received: by 2002:a17:906:fe48:b0:b76:5b73:75fb with SMTP id
+ a640c23a62f3a-b7671549d71mr2958266566b.9.1764322387884; Fri, 28 Nov 2025
+ 01:33:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI4MDA2NyBTYWx0ZWRfX2EwceMYIuD/K
- nXZj22WiySRmyzZVFWYPU7doZWkIhBB16GnSE7+rXMau9W7yfgs0zHGR7hKBl9suWPKD94n0C6V
- KYOrutWkQXmmSjrFHcZt1fNQYM+WtTMgyGLwVC1Q3MXi7pAeTtoOaxhDOczdApfVBbhL8q2vTi+
- 1VTYQ5XgFlAw/OiVncuYGZSmjWxeKpMF44hJSUNRkl9Ldx1sW5CP8PatYpW6SN//S1saw6CRjFf
- Rm8k97akk2q9fT9yKbmQBcr9qsKTQRF6iX9UcUxGf5dOXWHapY3lZJLxvDqBXwNFDsN2Cg7/cw9
- bRn6HoVM/L77T7PEmFEEqUIO5a2zSQBNqWKx3C7ubrtbsRiyHhWWPhK965q4s3EB6CaxoFJSiQz
- 3MYI/Wl+x5sAvhgBVskzyOWX5BWbKw==
-X-Authority-Analysis: v=2.4 cv=JcCxbEKV c=1 sm=1 tr=0 ts=69296858 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
- a=l-dwHlYZxiQgmx0VytIA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: VDvIOL1OSNceLDPbSVspBQGdbAGATae8
-X-Proofpoint-ORIG-GUID: VDvIOL1OSNceLDPbSVspBQGdbAGATae8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-28_03,2025-11-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- adultscore=0 spamscore=0 phishscore=0 clxscore=1011 bulkscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511280067
+References: <20251127174140.906490-1-skandigraun@gmail.com>
+ <CAHUKmYaChMBkis0gG8voSntJeC+xPM0+5D2Bk=de2_QdwOXmDw@mail.gmail.com>
+ <51e4d1b7-018e-4549-9be3-e66b6b1b0385@gmail.com> <CANNYZj8k_Lnj5GxchW+b9ZXeWB3DpneQ-vVGueeOu9jpcw4Ezg@mail.gmail.com>
+In-Reply-To: <CANNYZj8k_Lnj5GxchW+b9ZXeWB3DpneQ-vVGueeOu9jpcw4Ezg@mail.gmail.com>
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Fri, 28 Nov 2025 10:32:56 +0100
+X-Gm-Features: AWmQ_bnC90kCC2XX_PaEfjh6SaHf5oLW1Q1AMViTwd7jy7Vom7DDZmjAc0CpGks
+Message-ID: <CAHUKmYYTxCzVtqV43erGac7nJfaf0bVO5uzQaD-_XKBQxfecmQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] opkg: enable ACL only when present in DISTRO_FEATURES
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: skandigraun@gmail.com, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000003323760644a451ef"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Nov 2025 09:16:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226900
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Nov 2025 09:33:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226901
 
-From: Chen Qi <Qi.Chen@windriver.com>
+--0000000000003323760644a451ef
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It's possible that users use EXTRA_USERS_PARAMS to set password
-for root or explicitly expire root password. So we need to check
-these two cases to ensure the 'no password' banner is not misleading.
+"Option three: both patches are correct :)"
 
-We need to ensure that the function runs after set_user_group function
-from extrausers.bbclass. So change to use :append.
+I agree in general, but in this particular case both patches are logically
+interfering with each other (one patch adds a PACKAGECONFIG option for
+USE_ACL, and the other patch renames USE_ACL to WITH_ACL).
+I will wait a couple days in the hope that my opkg patch gets
+reviewed/merged upstream and then send a backport to oe-core.
 
-Besides the above check, the '\n' at the end of the banner is also
-removed. The '\n' in /etc/issue means hostname instead of new line.
+=C3=89tienne
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes-recipe/rootfs-postcommands.bbclass | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/classes-recipe/rootfs-postcommands.bbclass
-index d3a569ba3e..3c4edc0301 100644
---- a/meta/classes-recipe/rootfs-postcommands.bbclass
-+++ b/meta/classes-recipe/rootfs-postcommands.bbclass
-@@ -4,8 +4,8 @@
- # SPDX-License-Identifier: MIT
- #
- 
--# Zap the root password if empty-root-password feature is not enabled
--ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "empty-root-password", "add_empty_root_password_note", "zap_empty_root_password ",d)}'
-+# Zap the root password if empty-root-password feature is not enabled else add a 'no password' banner if appropriate
-+ROOTFS_POSTPROCESS_COMMAND:append = ' ${@bb.utils.contains("IMAGE_FEATURES", "empty-root-password", "add_empty_root_password_note", "zap_empty_root_password ",d)}'
- 
- # Allow dropbear/openssh to accept logins from accounts with an empty password string if allow-empty-password is enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "allow-empty-password", "ssh_allow_empty_password ", "",d)}'
-@@ -259,7 +259,11 @@ zap_empty_root_password () {
- # This function adds a note to the login banner that the system is configured for root logins without password
- #
- add_empty_root_password_note () {
--	echo "Type 'root' to login with superuser privileges (no password will be asked).\n" >> ${IMAGE_ROOTFS}/etc/issue
-+	rootpw="`grep '^root:' ${IMAGE_ROOTFS}/etc/shadow | cut -d':' -f2`"
-+	rootpw_lastchanged="`grep "^root:" ${IMAGE_ROOTFS}/etc/shadow | cut -d: -f3`"
-+	if [ -z "$rootpw" -a "$rootpw_lastchanged" != "0" ]; then
-+		echo "Type 'root' to login with superuser privileges (no password will be asked)." >> ${IMAGE_ROOTFS}/etc/issue
-+	fi
- }
- 
- #
--- 
-2.43.0
 
+
+On Thu, Nov 27, 2025 at 7:37=E2=80=AFPM Alexander Kanavin <alex.kanavin@gma=
+il.com>
+wrote:
+
+> On Thu, 27 Nov 2025 at 19:26, Gyorgy Sarvari via
+> lists.openembedded.org <skandigraun=3Dgmail.com@lists.openembedded.org>
+> wrote:
+> >
+> > On 11/27/25 19:22, Etienne Cordonnier wrote:
+> > > Hi Gyorgy,
+> > > I have sent a patch to opkg upstream to fix this issue
+> > > (
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.yoctoproject=
+.org_g_opkg_message_175&d=3DDwIBaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2e=
+pckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3Dskv6vITjRx1biFf=
+-pISzu3mA39-5qXt1NoaexzWpNijLhnsMTj14xC_aJdOuQ9uD&s=3DtbZyO5O988bK4-b-uyVVv=
+SeBbZ4hTvKf9TQGPps-bhQ&e=3D
+> ).
+> > > I think it would be better to either:
+> > > - add my opkg patch to oe-core and not merge yours
+> > > - or to keep your patch and not add mine, but at least add those line=
+s
+> > > as os-core patch:
+> > Please feel free to send your patch - I just sent this as one possible
+> > solution, but I am not particularly attached to it :)
+>
+> Option three: both patches are correct :) Regardless of upstream
+> behaviour, adding missing packageconfigs to recipes is always
+> desirable as it lowers the chance of build non-determinism and
+> floating configurations.
+>
+> Alex
+>
+
+--0000000000003323760644a451ef
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">&quot;Option three: both patches are correct :)&quot;<br><=
+br>I agree in general, but in this particular case both patches are logical=
+ly interfering with each other (one patch adds a PACKAGECONFIG option for U=
+SE_ACL, and the other patch renames USE_ACL to WITH_ACL).<br>I will wait a =
+couple days in the hope that my opkg patch gets reviewed/merged upstream an=
+d then send a backport to oe-core.<br><br>=C3=89tienne<div><br><br><br></di=
+v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Thu, Nov 27, 2025 at 7:37=E2=80=AFPM Alexander Kanavin &lt;<a href=3D"=
+mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On T=
+hu, 27 Nov 2025 at 19:26, Gyorgy Sarvari via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a> &lt;skandigraun=3D<a href=3D"mailto:gmail.co=
+m@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openembedded.or=
+g</a>&gt;<br>
+wrote:<br>
+&gt;<br>
+&gt; On 11/27/25 19:22, Etienne Cordonnier wrote:<br>
+&gt; &gt; Hi Gyorgy,<br>
+&gt; &gt; I have sent a patch to opkg upstream to fix this issue<br>
+&gt; &gt; ( <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3=
+A__lists.yoctoproject.org_g_opkg_message_175&amp;d=3DDwIBaQ&amp;c=3DncDTmph=
+kJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJ=
+TKUkSGa66m67E&amp;m=3Dskv6vITjRx1biFf-pISzu3mA39-5qXt1NoaexzWpNijLhnsMTj14x=
+C_aJdOuQ9uD&amp;s=3DtbZyO5O988bK4-b-uyVVvSeBbZ4hTvKf9TQGPps-bhQ&amp;e=3D" r=
+el=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint.com/v2/ur=
+l?u=3Dhttps-3A__lists.yoctoproject.org_g_opkg_message_175&amp;d=3DDwIBaQ&am=
+p;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_=
+Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3Dskv6vITjRx1biFf-pISzu3mA39-5qXt1NoaexzWp=
+NijLhnsMTj14xC_aJdOuQ9uD&amp;s=3DtbZyO5O988bK4-b-uyVVvSeBbZ4hTvKf9TQGPps-bh=
+Q&amp;e=3D</a>=C2=A0 ).<br>
+&gt; &gt; I think it would be better to either:<br>
+&gt; &gt; - add my opkg patch to oe-core and not merge yours<br>
+&gt; &gt; - or to keep your patch and not add mine, but at least add those =
+lines<br>
+&gt; &gt; as os-core patch:<br>
+&gt; Please feel free to send your patch - I just sent this as one possible=
+<br>
+&gt; solution, but I am not particularly attached to it :)<br>
+<br>
+Option three: both patches are correct :) Regardless of upstream<br>
+behaviour, adding missing packageconfigs to recipes is always<br>
+desirable as it lowers the chance of build non-determinism and<br>
+floating configurations.<br>
+<br>
+Alex<br>
+</blockquote></div>
+
+--0000000000003323760644a451ef--
 
