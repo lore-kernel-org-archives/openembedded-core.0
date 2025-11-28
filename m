@@ -1,139 +1,111 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <leon.anavi@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F055D116F3
-	for <webhook@archiver.kernel.org>; Fri, 28 Nov 2025 13:37:20 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16070.1764337035044569352
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A3F2D116F1
+	for <webhook@archiver.kernel.org>; Fri, 28 Nov 2025 13:37:30 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16133.1764337043087594399
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Nov 2025 05:37:15 -0800
+ Fri, 28 Nov 2025 05:37:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Pn5JAqBW;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=CdjiqlGA;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AS8rj2Y3989803
-	for <openembedded-core@lists.openembedded.org>; Fri, 28 Nov 2025 13:37:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=FHNZcgTd2mX/qrrSuyVamqOr
-	lcufyb9sOLvwg2fKBRE=; b=Pn5JAqBWozkPG6Y2iI8izzMAwK1bW8ac2pcXunjm
-	v6HiHypgOH69pC+MhGkL9J6ljwhObOt/y8oUixurssBYx7wGsUaR2ki7y7EgrncS
-	OYNKSpe3tcw9uWG4OwIbPULv6d0UcXD5EHybs/fM574e8j7qU1y8j7SSjgxEe1ZP
-	JfLJEw8iHtNrO8Va+hRjUlhNwCwA+KAsEn3kvwhDKn9VXehvFfvdFiG8S2/JBTEu
-	77N4U2Uw7ykI7FZp8h2Fr0wT4DNDjeFpNw8Zwwh7cl0bI0QNtktS/6+G7gAs3H+O
-	bzGJP1JvtX2Yoxu6dj51Sm6/PGwYs1sxDi88+EhGxfIGhA==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aq8mm8rrr-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 28 Nov 2025 13:37:13 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8804b9afe30so50483426d6.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Nov 2025 05:37:13 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=TUPCA2N5;
+ spf=pass (domain: konsulko.com, ip: 209.85.128.42, mailfrom: leon.anavi@konsulko.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-477bf34f5f5so12475355e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Nov 2025 05:37:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764337033; x=1764941833; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FHNZcgTd2mX/qrrSuyVamqOrlcufyb9sOLvwg2fKBRE=;
-        b=CdjiqlGAING0ENOBc/TyO2ArP/2g1TM69Kc2hUYmZ3zmMqWy8w76nhp+zv3yZUi5aN
-         EdpaJd9lsFJXvLLY/fEiNLJFjhiSwNNPPNDMrTtwM4uJ5Viwp7OFjmvPIYbVCmXyJk3/
-         zimBFWY54OYo/7f7MLrETJW6dmBMSKDd7ObAFgax6xOXPk3r/ypzEUa3F5bJ1wz1D/0h
-         z73ewe/9SZkzeXFd/tnr74TxRpBENW5froAyI9rc3NGZV1og61/7nzJPl+wpQac1VVeT
-         uQdRO1/iId5CZ3GRJ6crbvxNQh/GKTknJQRUf9PNlk5RYXVtxCBy7yXwCgVpaB3qBg+6
-         Ubdw==
+        d=konsulko.com; s=google; t=1764337041; x=1764941841; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=besa97OqOKI1OsCFQGbXHg7Tg0B9xGS0mvVM9XoHrGc=;
+        b=TUPCA2N5Mw0mAgrZdUmHBL/nXFcWwbxAlfHIMdtUlApmRwshmdgeRJLAYnwA3Ahzrc
+         vTekLRUxoaSZbXFSvGAvlFFCVZaByu/2nbMxJS7/fEPbZQVVhWA24D/sMfYEhqDnXLX4
+         tQci85UiB4qMeVDIFrf41k169DpztAbEIb+ko=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764337033; x=1764941833;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FHNZcgTd2mX/qrrSuyVamqOrlcufyb9sOLvwg2fKBRE=;
-        b=tyeybEF9njN3ATReM+jOYEa1UXHHdql6GOyAkpkpFsnyUyC7/LSsXE/gVRRp5yk+pT
-         TjCNMZ/A7U5E2sjxHNY+4DxvzqmQRl4EubPvTO7qA5R4RbLI4OKmA7g+BS3b4hMhiWwe
-         hjDvKm/CsPyYge3OSn2oCQ/BV3+PJJIzZ6FMtc2WjXmqnRUunP1/5acE4uYTziSi0E0N
-         m8y1zDEtqDbY+FzJDAn4OGhF+ZCK9knyNJI7E03CBkqyNvomsd9c6mEUNk6xc03z7cfv
-         2ndbln/eWjUBNsADFLpiqMIJMI1bMgKsYT7NrRsre+dwnEFhsVaUkhm9in+7v3xHt8Qs
-         lhOg==
-X-Gm-Message-State: AOJu0YywjBxY9O4PAB36GqXdhuA7F+UVLDW6LBPldbk8MzImxLRWe+X1
-	RYiUIij0bUoNY3a3bnq2tuVjblyJqGPlZD3APZP6Sz9l2+ep4wQOnGmRRnmuKV9WsabWECXT1zi
-	8GfQAkJQ0Q4FgMBBOVY6ZbVlTw71L3I5OxbybuXM81SJZ6k6ZXull0XQ6ePeAMSTgcyclc3cm3j
-	XB7wXvqkc=
-X-Gm-Gg: ASbGncsJvW45aib5C8I1rhy98AGfRf71IHm/xfUdSHatr283ZujeX+BVjnQyCezJYwk
-	j8jAtePthl6E9/3daZcd+K85otDNRWuJmPlcnEK6tZ56lAg9HeIw2B67zA1C73sbWtEdutZ72vl
-	It4K707kvwclU0JFHm7RGOt1WqdP/7BUr+MwtchCX6xvdn+Gj+EN3Trl1eQtkDeyzLkwZUS1Jex
-	8mAfTtrjb5D3QPXyymkiTKQtyhtcn7FJNQdK5JzvJCGRVNXySb6g9B/gw02nWYDAXpFyPPNuDDu
-	DPJNWDGyJtE46Xvr/1ABYft37R1vimNqZ/a7/PArYRZJrHhlM0obS0oPAeUlIfPizypQiupQ0gw
-	2giXKW/mxo6FgeJy1k90h7bWgAXJmFdHWwQEJqTIKzYhzBs7BVbOPVtUujvHJlpzjcSdPZlbNN7
-	ipGOezBjkFm0m8zSmTetlaBA0=
-X-Received: by 2002:a05:6214:5192:b0:882:489e:a7a4 with SMTP id 6a1803df08f44-8847c546256mr393115516d6.67.1764337033303;
-        Fri, 28 Nov 2025 05:37:13 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHiSWa0k4NNz+4vDNd0UQ0RZkb6jtMdX1e6vqz/3od51Ae/RU79ljJX3c6J3uq8p2GWAZaWjg==
-X-Received: by 2002:a05:6214:5192:b0:882:489e:a7a4 with SMTP id 6a1803df08f44-8847c546256mr393114696d6.67.1764337032788;
-        Fri, 28 Nov 2025 05:37:12 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-596bfa48d67sm1195875e87.74.2025.11.28.05.37.11
+        d=1e100.net; s=20230601; t=1764337041; x=1764941841;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=besa97OqOKI1OsCFQGbXHg7Tg0B9xGS0mvVM9XoHrGc=;
+        b=n5nDduTk2YYOHkBQ9EkpWb6DN/ezNsQ3RidI0b/VwzXTKcuE+ihskytjmUwrGK575i
+         4vdBSRMWadoKtdc/9/6lfewdoYKKjjrHxqxFqZnjWmJGVagu9zMjYmCHu1WWy9+EeRJT
+         HVXn92DP74sr2PDFMbsBDNVh0phVj4d7EoB1ZdSK5qNXumHiiHqc0lvI0bPz6k0tT9K5
+         9bFoWKPG47IpN+x86+6moriOSAnUXfYZ+P5XrNfu57hyUE0yoduEeiOblTNglDcd4iGA
+         pomJILgW7Y251gcIxdVk8Ph4OpesRzO2Ag2gvhj4GiEbE8yy7yMIxi9uSiyMHtL499j+
+         N8oA==
+X-Gm-Message-State: AOJu0YzDEePD3RtzqfTk0bTxvDol1xScBOInCXSlkeVMJZCZeMgV8hDm
+	qpmPpjpIlt9vz4cG+t3SKb4SijZYByYwyyLl7dPcBOAUxE9L/tt98KIpNTEZjz8TSdd2C8MUH3f
+	rzZqm
+X-Gm-Gg: ASbGncud7FGwYF28MPfjtDTYeoDPp/eMOlqnBu0cAqzTb3xyr5AMaV/JL3KIDT4mqVd
+	vnYVbnouoAIu4NukaOOujYBOyJKnBxfsLralUnHHFIvYreZxynXQYV5s2Lvr4GTqQh0Fdr7WH7r
+	h5c43XVw7JzuKQqbmKjwyOsJfgNzlEXul+3T9B88mrCbcrXgXEggsMKOnP2VlOztbLVMK0mg+ft
+	sFh8riSZ7jGPN4z1A74gZHDjJ1RWwP8JjkLMHCztcV3L8ZnRgetJCMFFkmmsigSTZUsGeUvAVSt
+	x5u/mdWnLlI4971ZVZrob9yoTlspQ7BQwclHYO8Xd7U4n72WLNaS5eEvRKHsuMykINyvzXOvGBI
+	QMh7c1lwgbTZKpqW9TCsQ/xogLe+irbkCcWXV2oc1awXn5NS3P9qGIIvFdgfZFvzYxUG2v/UH7F
+	4+z/i6DxpazUTOmNyJ5BmcbU1AG5ttTdfvMu8=
+X-Google-Smtp-Source: AGHT+IE/eS+nKWzLwomK26DHaWNYXG/1cbVcjDYX3Lm5pB/pGLiy7qNWmq3AAVtlhXfkdLzWa744lA==
+X-Received: by 2002:a05:600c:3b1a:b0:477:55ce:f3bc with SMTP id 5b1f17b1804b1-47904b12f1dmr155560435e9.19.1764337041159;
+        Fri, 28 Nov 2025 05:37:21 -0800 (PST)
+Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4791116c3c0sm86999805e9.8.2025.11.28.05.37.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Nov 2025 05:37:11 -0800 (PST)
-Date: Fri, 28 Nov 2025 15:37:10 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 0/4] wpa_supplicant: restore defconfig and enable new
- features
-Message-ID: <jearwy44bbbxmrghethvqc4z55vvaiajoc3e2r7fyccl4aci5a@jnrh6dtepgcq>
-References: <20251128013628.2187455-1-miaoqing.pan@oss.qualcomm.com>
+        Fri, 28 Nov 2025 05:37:20 -0800 (PST)
+From: Leon Anavi <leon.anavi@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Leon Anavi <leon.anavi@konsulko.com>
+Subject: [PATCH 2/2] gobject-introspection: Upgrade 1.84.0 -> 1.86.0
+Date: Fri, 28 Nov 2025 15:37:16 +0200
+Message-ID: <20251128133716.3635989-2-leon.anavi@konsulko.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251128133716.3635989-1-leon.anavi@konsulko.com>
+References: <20251128133716.3635989-1-leon.anavi@konsulko.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251128013628.2187455-1-miaoqing.pan@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: DV4XJHAOLb4ef0uiW3gP2aLVFGW-8Nfb
-X-Proofpoint-GUID: DV4XJHAOLb4ef0uiW3gP2aLVFGW-8Nfb
-X-Authority-Analysis: v=2.4 cv=Cvqys34D c=1 sm=1 tr=0 ts=6929a589 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=BpxJFrDDRfxiCVMP-o4A:9 a=CjuIK1q_8ugA:10
- a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI4MDEwMCBTYWx0ZWRfXzAxBxri14ufS
- vT3g29LxT5dutrmKrwZHM54kghm1eLmlTBH1ErZfuHLjjkzNJj55UO7C260HbMdyWwxhQIKwe33
- YNJk1I5Up1IRBT+O0Y01dXRZ4PajvZFaqkq4/8eC673TaAXcMir+SSuU5BIhV22jp6oBRD5MRzW
- iJDp42j/axMPLolKeIgt21QGmM/DFxxBShY3j50G1EZrptXt5g5je/d0PVFrK40mxAIs2/BrMzD
- DpDI/dofq+fnxh35iYgu/xWHzr7dIyBD+knIb6rrIRHodyTOJdB0k8sQgvXAZNlHZ9s6OAzWxrQ
- MoPfjiDEKNiP2aQHuA2heMgDkaO1CwzKRLKZK9PIW9rfiDmnKoxg/NjxgcCkbFDRMQgqAwBqCtl
- cYv4hY0YRbvt6Hx3QL+i8Q/z6up7YQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-28_03,2025-11-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
- suspectscore=0 clxscore=1015 lowpriorityscore=0 bulkscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511280100
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Nov 2025 13:37:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226908
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Nov 2025 13:37:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226910
 
-On Fri, Nov 28, 2025 at 09:36:24AM +0800, Miaoqing Pan wrote:
-> This series includes:
-> 
-> 1. Restore use of packaged defconfig.
-> 2. Fix sed indentation in build scripts.
-> 3. Enable 802.11be (Wi-Fi 7) support.
-> 4. Enable OWE (Opportunistic Wireless Encryption) support.
-> 
-> --
-> v2: updated commit messages.
-> v3: remove outdated comments in defconfig.
-> --
-> Miaoqing Pan (4):
->   wpa-supplicant: restore use of packaged defconfig
->   wpa-supplicant: fix sed indentation
->   wpa-supplicant: enable 802.11be support
->   wpa-supplicant: enable OWE support
+Upgrade to release 1.86.0:
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+- giscanner: Added ability to add wrapper script arguments
+- g-ir-tools: Support reading @rspfiles for arguments
+- Update gobject-introspection-tests
+- giscanner: support alignof expressions
+- dumper: Fix introspection binaries missing rpaths for uninstalled
+  ELF shlibs
+- meson: Fix fs.copyfile semantics breaking GIR build with Ninja 1.12+
+- giscanner: Deduplicate arguments and use response files for MSVC
+- scanner: Prefer some getters over others
+- girepository: Initialize the async functions parameters
 
+This work was sponsored by GOVCERT.LU.
+
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+---
+ ...-introspection_1.84.0.bb => gobject-introspection_1.86.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.84.0.bb => gobject-introspection_1.86.0.bb} (99%)
+
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+similarity index 99%
+rename from meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb
+rename to meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+index dfdb1eaa03..f8eab2797f 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
+                     file://girepository/giregisteredtypeinfo.c;endline=21;md5=661847611ae6979465415f31a759ba27 \
+                     "
+ 
+-SRC_URI[archive.sha256sum] = "945b57da7ec262e5c266b89e091d14be800cc424277d82a02872b7d794a84779"
++SRC_URI[archive.sha256sum] = "920d1a3fcedeadc32acff95c2e203b319039dd4b4a08dd1a2dfd283d19c0b9ae"
+ 
+ SRC_URI:append:class-native = " file://0001-Relocate-the-repository-directory-for-native-builds.patch"
+ 
 -- 
-With best wishes
-Dmitry
+2.47.3
+
 
