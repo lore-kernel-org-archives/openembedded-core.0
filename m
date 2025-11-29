@@ -1,100 +1,117 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C665FD116F3
-	for <webhook@archiver.kernel.org>; Sat, 29 Nov 2025 10:16:35 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12425.1764411388471254137
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 733A5D116F1
+	for <webhook@archiver.kernel.org>; Sat, 29 Nov 2025 12:36:56 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13719.1764419815812062250
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Nov 2025 02:16:28 -0800
+ Sat, 29 Nov 2025 04:36:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y3GztgnW;
- spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4ee328b8e38so23925331cf.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 29 Nov 2025 02:16:28 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X8dzvHb2;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-429c4c65485so2444082f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 29 Nov 2025 04:36:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764411387; x=1765016187; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MhGooQJO0JgauW55frN105/KPYubRm4CrJgaaPFhu+8=;
-        b=Y3GztgnWT3SpiGomq7UYMLymkYM1ulGsNQmQgHa+LbmPIYomBAOr+GX2OM3ZWEMCD+
-         Otxk5iJxXVyRm9z2xVwiKMdQ6m7XKbW537P/reYNvFuqHIPiWZNccHLOmJNd4oqwjI0f
-         FWDJ2xNsX4xkvDVc07DYMz2JKioIrDjIrFi3x3RGTB0yLYzd46cpQaT/kvSmqJA3NvnV
-         B53TVU5/cPVeH8BHyuH51FAZEhDf74nFGcGZQTWzoBrajf2CYB55SAUEqIVY02zD/PKj
-         JRPTdBi7Mk7xOJoJIF7ibJKxaAVaL/CqoytkeapfdXO9kCUA/rtOc2DhDimRZXWdilEF
-         aMUQ==
+        d=linuxfoundation.org; s=google; t=1764419814; x=1765024614; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=07OK+yLUzG/3ccV0nbuZ6hNEGBmieoVtFtk1wrLqMMM=;
+        b=X8dzvHb2Ut6tZAM45mEdTvO2FdWCBSkmgGaLsBx6Mck13HmEoELMDfu2irlBSPc7L/
+         39a275DMTyRvFU2wV4YAchVMnwKLeIBHujFAuUgeU7bqWg7+4Lo8r3e1bgRwLMnF853J
+         3T7erfbxVudmqVjUEEwl7JR7bY5Kpx6+/WppU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764411387; x=1765016187;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MhGooQJO0JgauW55frN105/KPYubRm4CrJgaaPFhu+8=;
-        b=lHgb1jQs3e0OS91Bfn0bbZLpIb+RjEiAOaRYcIZzMWZ7rUpITJKFKfng7thWL/BHpi
-         t9Hn34N2VQcpEUWdt6HFa+avvpechSdh3tpJotrWCUJV6nP6NjmAsmtkjL5E5rbRahLK
-         83jUBlXQOKNPTE0Jy0GOzm7Swo6AGliLFkLhtxaswR16pXgecK5HpONbXEX5cIKJjTna
-         PwSwCcpbbxMCQOiZ0Yd5mbhe7BEvM3R9twJam8fYE5DJ/XvDGXeetuWfbO4rOgzruKN7
-         S3AyMaiFRU9yk6uqpJ+MQ+aGGQO88PnXJrDqK980dH2aKVI9hDGXoezL8jQOhYRztsFt
-         nqEw==
-X-Gm-Message-State: AOJu0YwQ2eUimaxokLOoSWo5cAxa0aAQWQYMqGc25kuPojfXNAGlVAWF
-	6e0EVycmYCzCxT/nnH0hk8op6AX+3yJLxoUYybpWHPMKl9AAYxAR8+8NKOG6u708VPdWABPwkER
-	+TpGrFl2OCji9omlmLIPrCqpOqED5mMM=
-X-Gm-Gg: ASbGncsKl/8GBaG2j4aE2hKEh9QOdvouUbm4dglKvUcvzasPOcnhm9iWkwIIRGMgkjf
-	tJXrjCCXqY0Cnvp1CXSJKmXoO4nHc90rJ0sPUg5lcCAQ/EfZLVEKvoxO5rQ5OsUDn9GN+igB8Ng
-	Ycr7tmv2+Rxyy4zadXpy9mP0wC8SEoOrVbTaV7D7J6BU18YbPPOrCmkrofaM8+mtYDR+LCxeAuB
-	Oba4XTHhSEjfqmNsma4JSLVmN9jwVPPglYTU4Y1cq0DcgSS7DY3fnD4IwikIwMEze32zEqCjFcO
-	EecbrEZdHcganH+m+eN4HECaQJys7w==
-X-Google-Smtp-Source: AGHT+IGMvuUExYwrXSH80sYEjnSZBMyDuBE8OaMDcVZ0ofgOw2OZ/NgbZ4ttcPxnqXDjom1wbR1WtF5AFCpflzBW6ws=
-X-Received: by 2002:ac8:5908:0:b0:4ee:173e:c73 with SMTP id
- d75a77b69052e-4ee588aa717mr441606501cf.60.1764411387229; Sat, 29 Nov 2025
- 02:16:27 -0800 (PST)
-MIME-Version: 1.0
-References: <20251129035436.249679-1-Qi.Chen@windriver.com>
-In-Reply-To: <20251129035436.249679-1-Qi.Chen@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 29 Nov 2025 11:16:16 +0100
-X-Gm-Features: AWmQ_bmUYO3ArX73WWkcJunJuaOFLYJb-Sr5TU7TcgC1VYR94kiND7ioRcMgYJk
-Message-ID: <CANNYZj88Ohg3uETcRsn3FFw153XccZoziQugQirrzo+A045pEw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH V2 1/2] rootfs-postcommands.bbclass: fix adding
- 'no password' banner
-To: Qi.Chen@windriver.com
-Cc: openembedded-core@lists.openembedded.org, alex@linutronix.de
+        d=1e100.net; s=20230601; t=1764419814; x=1765024614;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=07OK+yLUzG/3ccV0nbuZ6hNEGBmieoVtFtk1wrLqMMM=;
+        b=wqWNd11rSF4umYAYq9Hhw1bbnEDP/V/AA+nw34ygtqxSSa9QFMsAnpLlYMP0vNdIU2
+         nx7bngJ5ZWVL5i9uwiDdn0DYcnrR/AExesotUDho+//rMiF56oFqUjiC2LNr4oKVsVq3
+         x7yGZjucW+XyjIzjF0FJow3mCr04/sPNP5jSlBELYr7oL7gEIB6oujnh1xBGizs9ftCS
+         +WwYOpgVsIJYgFJGGF17S6oojy8EX5yJvaB3VWI/dbOr8OR6tAuWOIUmatiVDeRRnMrB
+         H1m4SYCrBOsmoomt0ddjUc7to0YjDaQivW3o4wQtKFmy5cHBwg/IIkjKlPEK7CCFteuf
+         GuZw==
+X-Gm-Message-State: AOJu0Yxmt4WSQV/8y/lWbJnmq1qC4U31fP4dMWBl96y4x+9GtRZYZAiT
+	gCjy/s6F/Ixif6fQiKSdZtUn8KVdnXOgQghB5MIGEDOM+RHc76GhKzf0ND2G7+N0VWg=
+X-Gm-Gg: ASbGncsnCq4RZ9orfk10KbWp6byNAds4wTxVJ7M0SE317l0oQPegv3eapd3QgPFmAxp
+	dyytafJFPguoaMU97Qv6YQHCDmK8gm7UZ7jFHYgHW+jlh54fmWAvBStVBnL6uoYXDjlYopXoGjB
+	6dExaBHDBvMpdaBEVav/yZHE1gxjgzQt1niIyzhmONJqUH1uoi02JNX9neYFwNhgl23X7QTledD
+	xl5ZJ08uPrPS8FLioJSzkRoIOcyIM14EN1Lko+XEGs1LAnG/1o+mt4RM+sEvuMLT+H+HAFOB00S
+	HP8OqX6ixlXYW+8lkT7bjEIIY2FKGlAFBs6WmRzYiaFn3lzOmnrA+UcZ4GFmaKiD7YTDOTun1Nu
+	toKPFV0eGesrvtC7W6PmbHbCIGzfDnPeetWBRad0Wkw8la4Sx4fL5cL5yrshF60fvueh+vi0nk1
+	IoG2cVrN6l6aGYfPWcqBByqKKl8IMHD6F8OW0uY/AYzYc6oJI/UnLFQWYMHcZ2HyZuLMT7dEZx
+X-Google-Smtp-Source: AGHT+IFOi5BPJPDDXLqGzRF4HnypaQd+zLYBrBw24Id+M8xc4lEy9GnaQVVck1au79OTkhVOXFZjLw==
+X-Received: by 2002:a05:6000:428a:b0:42b:40df:2339 with SMTP id ffacd0b85a97d-42cc1d61959mr35390905f8f.57.1764419814200;
+        Sat, 29 Nov 2025 04:36:54 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9cf7:b95e:b79:bb48? ([2001:8b0:aba:5f3c:9cf7:b95e:b79:bb48])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1c5c3c81sm15355196f8f.3.2025.11.29.04.36.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 Nov 2025 04:36:53 -0800 (PST)
+Message-ID: <cb6c4438fceb407f39f6a0f540928c18474883d6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] lib/configfragments: match fragment prefixes
+ rather than full fragment names when disabling fragments
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alex.kanavin@gmail.com, Gyorgy Sarvari <skandigraun@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
+	 <alex@linutronix.de>
+Date: Sat, 29 Nov 2025 12:36:52 +0000
+In-Reply-To: <CANNYZj_evzQWBTw1gH9GpuqH=wGwmTwg9HhbyWFz_vUq+Z34tQ@mail.gmail.com>
+References: <20251128182713.4148461-1-alex.kanavin@gmail.com>
+	 <247791bb-e71b-402a-b14c-0f51a0bc709f@gmail.com>
+	 <CANNYZj_evzQWBTw1gH9GpuqH=wGwmTwg9HhbyWFz_vUq+Z34tQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 29 Nov 2025 10:16:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226932
+ <openembedded-core@lists.openembedded.org>; Sat, 29 Nov 2025 12:36:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226933
 
-On Sat, 29 Nov 2025 at 04:54, Chen Qi via lists.openembedded.org
-<Qi.Chen=windriver.com@lists.openembedded.org> wrote:
-> It's possible that users use EXTRA_USERS_PARAMS to set password
-> for root or explicitly expire root password. So we need to check
-> these two cases to ensure the 'no password' banner is not misleading.
->
-> As an example:
-> In conf/toolcfg.cfg:
-> OE_FRAGMENTS += "distro/poky core/yocto/root-login-with-empty-password
-> In local.conf:
-> INHERIT += "extrausers"
-> EXTRA_USERS_PARAMS += " passwd-expire root;"
->
-> Note that allowing 'empty-root-password' image feature + setting/expiring
-> root password has been working since available. This patch focuses on
-> the banner. We want to ensure that it's there only when root really has
-> empty password.
->
-> We need to ensure that the function runs after set_user_group function
-> from extrausers.bbclass. This is because the check is valid only after
-> things set in EXTRA_USERS_PARAMS are done. So change to use :append.
+On Sat, 2025-11-29 at 10:59 +0100, Alexander Kanavin via lists.openembedded=
+.org wrote:
+> On Sat, 29 Nov 2025 at 08:25, Gyorgy Sarvari <skandigraun@gmail.com> wrot=
+e:
+> > > This allows disabling classes of fragments without knowing their full=
+ names, e.g.
+> > > instead of
+> > >=20
+> > > $ bitbake-config-build disable-fragment machine/qemuarm
+> > >=20
+> > > one can issue
+> > >=20
+> > > $ bitbake-config-build disable-fragment machine
+> > >=20
+> > > to match and disable everything that starts with 'machine'.
+> > >=20
+> > > Add an --exact option to preserve exact maching (e.g. when
+> > > theres some/feature and some/feature-with-foobar both enabled
+> > > and only the first needs to be disabled).
+> >=20
+> > Why not add a --wildcard option instead, and keep the default behavior
+> > backwards compatible?
+>=20
+> I considered this, but I tohught most people would prefer prefix
+> matching to be the default, it's just more convenient. Fragments are
+> still very new, and situations where --exact is necessary are rare.
+>=20
+> This will be discussed in patch review. If preserving behaviour is the
+> outcome, I wouldn't add an option (that no one would know about), it
+> would be a separate command: disable-by-prefix.
 
-If you are setting a password for root, then why at the same time you
-add root-login-with-empty-password to fragments? Aren't they
-contradicting each other, and you should pick one or the other, but
-not both? Yes up to now EXTRA_USERS_PARAMS setting took priority over
-the empty-password setting, and gave you the desired outcome, but that
-does not in itself make the combination a valid configuration with a
-well-defined behaviour that needs to be preserved.
+Perhaps the compromise is to support:
 
-Alex
+bitbake-config-build disable-fragment machine/
+
+i.e. the prefix matching only triggers if the / is at the end?
+
+That is perhaps relatively explicit/intuitive enough?
+
+Cheers,
+
+Richard
 
