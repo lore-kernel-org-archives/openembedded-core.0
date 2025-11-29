@@ -2,114 +2,102 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C46CFD2F6
-	for <webhook@archiver.kernel.org>; Sat, 29 Nov 2025 17:42:55 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18694.1764438165167892912
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA51D116EA
+	for <webhook@archiver.kernel.org>; Sat, 29 Nov 2025 18:14:56 +0000 (UTC)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.203.1764440093524042012
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Nov 2025 09:42:45 -0800
+ Sat, 29 Nov 2025 10:14:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iUGB/8PF;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-88059c28da1so27256426d6.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 29 Nov 2025 09:42:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bF4I3vfU;
+ spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4ee2014c228so23072591cf.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 29 Nov 2025 10:14:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764438164; x=1765042964; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1764440092; x=1765044892; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1IPM56VIWHieq5laiWLiyvYgKsa8YFEHRHObpVIXaN8=;
-        b=iUGB/8PFV1UvNOs3aWdwj4I0Cc06c1glNY6XLHyQkk+tIqwDj4MZBlWXAqBuUIKbuE
-         +CXmoCoGeMZto42K+lHFhW8RzqQ8RzAyeTpWIRgJNmn3y+zI3mf3Ud7S5qy6h3Ogzu7Y
-         z0QIAdcWkDoUcM2d05Brg8To6Br6V/xlwW75xefyRS/Xcvtj9X45sC70F/WVsLOE6K79
-         cVx0BUC/+40q/kLvl1GqsbB9Lh+LvEPFqX0VcNa+UdO+EDuvmCYgye09zvVN+Ixyydlt
-         MuqOIZbND0v1tFINk0qb5x7ab4LzFayDwDmvEz2fW2ytsdc9PNrAUrwNs4adQBkV+4Jn
-         lpiw==
+        bh=nfNeoonIuLsL7HlxxBkH3SofWq49HiomNzY7nzFeAUc=;
+        b=bF4I3vfU+yLwW3oJQJ+OIejSmadVOZotiidaX60bIbAWoGbxXh2SNLgkKfr+1y8rsj
+         dv3I8Hn8jRgEdyHzpFDdTcRqidWqtrCN8UOQ1re56EcqzApsKpmUpx3d0WWXiVC4o8du
+         1l+KRJcEn+yPgRBXTdQIN4+x3SYHe62esi2CsUVbxz3t2McvrLApjQIbWP5xjk297Xh8
+         f/7/E6r/1a1l59sKlcD6gC+wvJl8AhyqvOJdInuXINy3dcP+B5LXqoKFxJ9hTSHd9u65
+         AAYQt/55i6c6hWAVxYvUqQKTEG3oaxBxR8ao9L+IXFGHOJOMzwgek13Tzgm1o32M1Zn3
+         sT1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764438164; x=1765042964;
+        d=1e100.net; s=20230601; t=1764440092; x=1765044892;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1IPM56VIWHieq5laiWLiyvYgKsa8YFEHRHObpVIXaN8=;
-        b=PPvLXqUjOXOe5rkE2BymuseLhB/i+tai7j8YQM71CaxdwaLs6II3it2d3CylSSfNu9
-         rgW6hndjyiNHonbt95oI1RHCE5P5s7mkmLGKu92UgaF3PwJZwIyzlcy49vWXaPlm5e/G
-         NEDFL2cqH7V+Y4hw42+k7qAyacqySGiujsXiOGcXzfZvPw9Z6kLNm6ok+K11pWV5nV9n
-         BRYygrcFBBMZ8duZvMqZ8SRpZMlBM68hAACTHEoi6k6UsN/qY+JHezH2SrPHg4ri9xxI
-         cqLbJopGphCPK/058N1CHp3rQDqCh/AES1tdbHXpUzoRO+yJewnxyjoqzIbq0t3PMn5y
-         ghnQ==
-X-Gm-Message-State: AOJu0YzMJBt4aqzhW2LQzEiuNZs+9NFfuHjFH86CRP8s6v5EsiMPAFOx
-	rcBNVM5d37H7QTVOCAEwnniyEOeyk5iV4dDvolrSbDdqGbXFXcFGHJRg77JUf2t/DCYitLkDUwb
-	7V0uXjmER5SfjQ24k12ZfcG6O63kUdR8=
-X-Gm-Gg: ASbGnctVbSfBQ00khCEQJDgYnrm154G535gSOyjah4my7hiFQc/UCSfKwDwxa6H8gxi
-	4z6FCuL4k0anBkZuu3zvAF/3G9BAL2T2ACnEEHpzSTARdjzqlza3EugrAQ4yo1ccQkcUGLutejy
-	sNtzMb6FtaJqe5HWqrXFTuzWiT55OjNUz3pYmhSmDue/RGNoH7WMLfbANKJas0NJp4L2vD9q7D/
-	6jWLnk3WIN/5mddbW8vJbSiQcZBVOMtPmEVfzWUZcjZG+okPHgwoJEs/Qzuza7ElvlwIxoXNM1G
-	8eZAIiBrOV+CzcXvvn81NzSxRZUKXQ==
-X-Google-Smtp-Source: AGHT+IEZi5WXlLKvo4/J/BScwxk1xE+yh9hNjvjFk+remcnoK0LfbnfrmdmyhqAdIG5FX76x5n6LBlZcf7Z4qMGl79w=
-X-Received: by 2002:a05:6214:21c6:b0:880:501f:608 with SMTP id
- 6a1803df08f44-8847c5666fbmr569972816d6.46.1764438163860; Sat, 29 Nov 2025
- 09:42:43 -0800 (PST)
+        bh=nfNeoonIuLsL7HlxxBkH3SofWq49HiomNzY7nzFeAUc=;
+        b=E+VTsmCFxxlRgtcWNrV/GofofbOS1sxXgMy0Zllrv5qevkUX1t5hXUOUGMDO6anXYT
+         dYJe8SShJM8LlnuCJm2XvyRcWfwSD3YiIcdTHSg9IWluO1T5ODdudjOpFxKpbJb+hI7A
+         Iv/bxP4JgW26JKTiifJE2jTLwqw+mPUpetIMyq8Q8avogbgzfjAzXt2hDlOqN/+xX61v
+         h1RO3PN4HRrpN8sgWANrxQAi+XKBajCqJvlUH84mLmpq5AWx16x93TdmMw9dVERNiFaQ
+         dPqzLMsaByevXH2cvRPTj/9eW/7V4E0pfVCfWy90O1hZIceZnKSlBRucA5yTxhLV3hQf
+         AWpw==
+X-Gm-Message-State: AOJu0YzjI14l4/vwScFT6JmSsQl0WGb9ieRlx7Izptb6XdTjaM8EsCuQ
+	ilyj14ak1Z+Uk95Qn/HoI8NAJrvpt8XCNMsS2LzdGGSCv2KyF6P+GyFg5q/yVrIn7Pj9FS7c2LY
+	qyHpDupMwv9s6HWGhl5bFmk8s9PPWc0E=
+X-Gm-Gg: ASbGnctN9FFJrfpKcc+WGe7qkBN3pIsIEwinMaDPXOobme+ZhDLQTpodcvFKj3mw6Vx
+	g+W0/i1LA3dvTY9Hes2MsDFalzrmfdnbYOjY7FnqRRBx1h3gAcbj7SQzbJjcGRJ1ZFCmCL11fx9
+	nyDX1M1+wBElEhAQPZpqmApVG4iYJ8ngWC6hq13WAgpAx+5l1ON6LGF1y+jH4GMUM5lmu/qq6WR
+	GHzyUbuGin5GFT7t8cYYE4/L9ASwjXgzOwWMUVnBoxri0apeB7cdApMZjQnsmsW4kq2M+SHjcmA
+	NgsP+FR+QjfOGncntX3GySEols56ng==
+X-Google-Smtp-Source: AGHT+IGTc5qFWdx05Dy9H08c0KLvlelFUOw4qEjWQCcBsIKWMW6a2kcl1zE2zmupMoGGM7B9Qc0lkWmOEeHJ8EYNav0=
+X-Received: by 2002:ac8:5755:0:b0:4e7:2210:295f with SMTP id
+ d75a77b69052e-4efbd90dbddmr297128851cf.13.1764440092460; Sat, 29 Nov 2025
+ 10:14:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20251129154130.505619-1-Qi.Chen@windriver.com> <20251129154130.505619-2-Qi.Chen@windriver.com>
-In-Reply-To: <20251129154130.505619-2-Qi.Chen@windriver.com>
+References: <20251129154130.505619-1-Qi.Chen@windriver.com>
+In-Reply-To: <20251129154130.505619-1-Qi.Chen@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 29 Nov 2025 18:42:32 +0100
-X-Gm-Features: AWmQ_bkAMdSg1VCd_PFVUdfqesxm-F22SNG8nC9XRk4cgO62rCEGlQoFRyl9DqA
-Message-ID: <CANNYZj8xJjxF_fiZZ+23ZBy2ZQd+jN5vvvCVLCmmatHZ+gjDXA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH V3 2/2] rootfs-postcommands.bbclass: fix echo +
- '\n' in 'no password' banner
+Date: Sat, 29 Nov 2025 19:14:41 +0100
+X-Gm-Features: AWmQ_bmjQ_xJFtv2NmoszTc1btMgz3zR4qGp8FiJChfy63j_jw5PGFGeC56drHA
+Message-ID: <CANNYZj-JX9NtKZ56R=f9XqJGRQKhKSkYnh80DjaWn69ZvJ7VGA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH V3 1/2] rootfs-postcommands.bbclass: fix adding
+ 'no password' banner
 To: Qi.Chen@windriver.com
 Cc: openembedded-core@lists.openembedded.org, alex@linutronix.de
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 29 Nov 2025 17:42:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226945
-
-This is ok, but you should probably order it to come first, so it can
-be taken regardless of what happens to the other patch in the set.
-
-Alex
+ <openembedded-core@lists.openembedded.org>; Sat, 29 Nov 2025 18:14:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226946
 
 On Sat, 29 Nov 2025 at 16:41, Chen Qi via lists.openembedded.org
 <Qi.Chen=windriver.com@lists.openembedded.org> wrote:
+> It's possible that users use EXTRA_USERS_PARAMS to set password
+> for root or explicitly expire root password. So we need to check
+> these two cases to ensure the 'no password' banner is not misleading.
 >
-> From: Chen Qi <Qi.Chen@windriver.com>
+> As an example:
+> In conf/toolcfg.cfg:
+> OE_FRAGMENTS += "distro/poky core/yocto/root-login-with-empty-password
+> In local.conf:
+> INHERIT += "extrausers"
+> EXTRA_USERS_PARAMS += " passwd-expire root;"
 >
-> The '\n' means hostname instead of new line in /etc/issues.
->
-> bash and dash have different behavior on echo + '\n'.
-> So we avoid this '\n' and use an extra echo "" instead.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes-recipe/rootfs-postcommands.bbclass | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/classes-recipe/rootfs-postcommands.bbclass
-> index bcc25798b9..a4e8517229 100644
-> --- a/meta/classes-recipe/rootfs-postcommands.bbclass
-> +++ b/meta/classes-recipe/rootfs-postcommands.bbclass
-> @@ -262,7 +262,8 @@ add_empty_root_password_note () {
->         rootpw="`grep '^root:' ${IMAGE_ROOTFS}/etc/shadow | cut -d':' -f2`"
->         rootpw_lastchanged="`grep "^root:" ${IMAGE_ROOTFS}/etc/shadow | cut -d: -f3`"
->         if [ -z "$rootpw" -a "$rootpw_lastchanged" != "0" ]; then
-> -               echo "Type 'root' to login with superuser privileges (no password will be asked).\n" >> ${IMAGE_ROOTFS}/etc/issue
-> +               echo "Type 'root' to login with superuser privileges (no password will be asked)." >> ${IMAGE_ROOTFS}/etc/issue
-> +               echo "" >> ${IMAGE_ROOTFS}/etc/issue
->         fi
->  }
->
-> --
-> 2.43.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#226942): https://lists.openembedded.org/g/openembedded-core/message/226942
-> Mute This Topic: https://lists.openembedded.org/mt/116527246/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> Note that allowing 'empty-root-password' image feature + setting/expiring
+> root password has been working since available. This patch focuses on
+> the banner. We want to ensure that it's there only when root really has
+> empty password.
+
+Ok, it took me a moment (and an image build/runqemu execution) to
+figure out the use case for the above. Which is: make an image that
+requires setting a root password on first boot, but without having to
+first enter a static initial password. In which case the banner is
+indeed misleading.
+
+The patch can probably be tweaked to ensure the check for needing to
+add a banner runs last (at the point where no further modifications to
+the root filesystem are going to happen), and it can be made
+unconditional, and only checking the actual content of the root
+filesystem, and not accessing IMAGE_FEATURES at all.
+
+Is that ok? Can you do it like that? And tweak the commit message to
+explain what that configuration actually does :)
+
+Alex
 
