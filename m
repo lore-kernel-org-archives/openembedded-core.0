@@ -1,77 +1,90 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F545D116F1
-	for <webhook@archiver.kernel.org>; Mon,  1 Dec 2025 13:37:20 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21668.1764596238091528553
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C3B9D116F3
+	for <webhook@archiver.kernel.org>; Mon,  1 Dec 2025 13:54:50 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22018.1764597281322843311
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Dec 2025 05:37:18 -0800
+ Mon, 01 Dec 2025 05:54:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=L6yR9ysM;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8823dfa84c5so43614236d6.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 05:37:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ft8/28hn;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: skandigraun@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-42b3c5defb2so3013189f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 05:54:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764596237; x=1765201037; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WRnIJLXFOgL6+K3iHPFIHyHpERWpUYI/AEu8sF5Lbnw=;
-        b=L6yR9ysMBvkSh1xA+CoS0HtQg99t3+LYy/OPcWvPrfY5WB0tUoEb5XHKdgkFtONTFH
-         ECrHjnCWhCeo3Rny8W25METmFJVPK2MWNS+jneRt2h7BAW/MDLHPQlB92sqw4nNN0y9A
-         JdQWHDK7oe97uNASt8se/x4QZDpVu4agM57m/rOUXM+KLCgaIkO2VFvQn9F9z5KE6CYQ
-         1ddkSYgDyfbkmArSLval6dCk7+D2E5kJJIKKZl4PfYS0pTsKin1/vaqNPrMsDifj6tL+
-         Grz4NL9lG9Ql87yXWeLj7AmCWW5Bwc9lNDS7HoveTZTabqgqdmNNUspUVisnfn/cKWgb
-         +p7A==
+        d=gmail.com; s=20230601; t=1764597280; x=1765202080; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8qqVOVm7zh8N6gcm3j39XgpeU+tQ36LDzFFATcTxYe4=;
+        b=ft8/28hnBSyM+Rpej0iKHH/XOuFKF+yPum8EYDdB9bnC58znwxPqk9YPvRb3xUfv1c
+         pWIk7mbybeBLWY9SVI/1Q3MCaQVh1d3KQvBX8IVEILS0pR5EeHpt9FWf7AHMf2kV7yUa
+         F6GNkVN+NljNrnktvlRpzxwbJVKgiZELkBx5hjCQHjKEe0/omp+wSymwoxKNowP83DXL
+         U+Wzl14a4mpbPVQR8ZmTsyimjp6MEGG59Gh0VRpaauvu+xoEzqy14ZAe+2+qgH/kPSKx
+         A2xp8+HyYLENWGPb/Mk3u+R81h+V4rSRh9snTUFbHm97ZNmp12NvTDge7tTy+d4nWA50
+         yOyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764596237; x=1765201037;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1764597280; x=1765202080;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WRnIJLXFOgL6+K3iHPFIHyHpERWpUYI/AEu8sF5Lbnw=;
-        b=jLd40ztKZiQa3ls8E6E2xXcZVAFjjA6SOIjNsMKrEN3cMq/5FywoTDt6r1Qrs1TAIY
-         9AL0zy6k5py7DlExlhhEWbh12a6Ych/nDSafJOWt54A2RFyDLgYa6OWrFLccbKzwldgg
-         NByKDuhDl+pEpR/aE+oarWKJtssUv7ZBfdIoTK9bsgJfgacJJRHpvMqU7+96gP1X4AMf
-         Gph75SNDVWv2AFzOtOg36PFwUVxt/gy2ehvjOcGsDn9dj6MoIRV9nN+2oAGjH3Wb+62V
-         RQqUpgGvmspNve89lgIoMTZ8pxwlsDoPKS+xt14CdKPWaZQk3m5GenRa1rXfewYSmdPX
-         f0Cw==
-X-Gm-Message-State: AOJu0YxRAFHZ6YIP5J3YYljdzCYICWNozGAr865Huj4pHzdFflWlTqx+
-	xsqPsUL9dm6o+jLgf1MuWC/or+JcjkE+oBSdfVYwMfh87cQd/EmG3zWlrAIWwVLE8wvAe24s10I
-	fbfT1Y/ZxwH+3TLWR+62K/aRMLmbpJIEItA==
-X-Gm-Gg: ASbGncug9w2X1V1P5VJypPRokUtQ7Wg3BUJ+0QDqUg3gAUvNRZ1oANqElTHZ0ye8pE2
-	9w4F0koHjAM11co/yVkSqNCsItZVfsJn4KVQ4m4CA2r8ApTRdDKPF8WvNTSg8DXLJY+NUcLNAkD
-	v1hAvLFIQxbnTu1zschFIY9oyaVLkqCnZisV26bAbOHA4akLK012hr3e5zyrVjRvjHZduxDqMwG
-	IRlfTNnaAXSPlXGMedzR44Oy20URyIc0sQmfGtSkzoAUQHREWjxc8rFu/QDfL5w5FwKHac/C0Cv
-	9JzhZmR28JjgFie1dELvHOgy1WlKqQ==
-X-Google-Smtp-Source: AGHT+IGUW79dyzT/83Gwx4K1AAl+2BaIJL8tsDl/w2h05znWXJh0RHmRm5SOHjjPTKIWZrV9GToMr9wSsCRsM8OtfGA=
-X-Received: by 2002:a05:6214:f21:b0:880:4aec:c4ed with SMTP id
- 6a1803df08f44-8847c48987cmr579015606d6.6.1764596236943; Mon, 01 Dec 2025
- 05:37:16 -0800 (PST)
-MIME-Version: 1.0
-References: <0101019ad85903d5-5660cc22-2638-4301-a3da-6ddd6d101c3d-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101019ad85903d5-5660cc22-2638-4301-a3da-6ddd6d101c3d-000000@us-west-2.amazonses.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 1 Dec 2025 14:37:05 +0100
-X-Gm-Features: AWmQ_bm3MS7mz4H4qNQJRCtyJGBt8kdqrhi5wVSh0IhqipFQMNmVAFPJwquBhGc
-Message-ID: <CANNYZj-O8pd6ZymoNtM9KGYAeY05Qf23LY3o-HWDNLzTgqZNgw@mail.gmail.com>
-Subject: Re: [OE-core] [AUH] Upgrade status: 2025-12-01
+        bh=8qqVOVm7zh8N6gcm3j39XgpeU+tQ36LDzFFATcTxYe4=;
+        b=oFHFvyosVPPYLy9ATRZ9b0zn7T+GiiNQhj2vW081pwkEMT1K2aE793VLBApfFZvDAx
+         LNTyHBb1FUDyKsBpz9e79+o6GbZRyI+4cIG7GsdUvTpJcWy1R34kHNfM15N4OAvGSyG3
+         Ba4aCc4LHcfHO6rlciXM1U2E1t4gx0xsTwTkEN7t4LaVqWfS3C0s5eUEfAL39+MgVoiH
+         fDn6ugCLidxupDqCxWRCQY4fQ6urtGRpWDCq4312uq7ixMrH/x4CQOiAbvuKoJGgdicC
+         4aOxLVnGXg2vz91xbXqn6dAWJLHD2YYpD++LuMaAGFs6lmVwID22Qw0qKwHQEtsSDFup
+         VEwQ==
+X-Gm-Message-State: AOJu0Yw05OFaNkIEPK9h0LJIr66JmjWPiDz8oCenJSeXPie0mLvWVNh1
+	pzougcuoCDLab15B+9XxBWH4oG9trywtV466qdUXwi3lEylQpmBcfrah1vPiJw==
+X-Gm-Gg: ASbGncsWogkWld279cZBO37kmQQCxwM6bCDChBlgoecBpSZBXdpJPg8NtjI3XVaQlpg
+	7scoR3OEM64VBFWJf8CJs9fGCH2tkKJfToyZsi1jgBQ+eBAM7irg9rCE6lGTTooT4kRilkaF5J/
+	/xE0yYFnnk1SLGyfDVAULMld61kNZ7iO+rSLCu2RF50N7/xwV+F3GbUII/Zi3j8EhczDmk7aSSn
+	m9iyUsKrxob8MrLOj+R21FC0hj3c6Ce4KNurv2GXSfPHCX2B/tn3mvd/VdxC1xVKHgMVQP+75VD
+	+TNMfuk+yxKMCypn2QPcroy3evdLKxvZCMgCdZnZTGKHYJowazxTr3cP+V/fI9ERWpWncUSf7U3
+	Cilhu0bDkvYnTMIz5qkTRvq7593/OmnrVKHavCpqIsZ+Ub5rWfdHzNGs7plDNtzcqboTF//jWQq
+	v33HHhw6F+
+X-Google-Smtp-Source: AGHT+IF5lrVoMyqKa8AyC7Uzk3pRQ4YO/0sd68V4Y8o/xhvwwORkAZrT6JOU+vZ8p6atHXHHZ5chWg==
+X-Received: by 2002:a05:6000:2410:b0:42b:396e:2817 with SMTP id ffacd0b85a97d-42cc1d199cdmr39257378f8f.40.1764597279432;
+        Mon, 01 Dec 2025 05:54:39 -0800 (PST)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1c5c3c81sm26835917f8f.3.2025.12.01.05.54.38
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Dec 2025 05:54:38 -0800 (PST)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: [kirkstone][PATCH] systemd-bootchart: update SRC_URI branch
+Date: Mon,  1 Dec 2025 14:54:38 +0100
+Message-ID: <20251201135438.2596961-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.52.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 13:37:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227125
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 13:54:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227126
 
-On Mon, 1 Dec 2025 at 06:20, Auto Upgrade Helper via
-lists.openembedded.org <auh=yoctoproject.org@lists.openembedded.org>
-wrote:
->     TOTAL: attempted=177 succeeded=0(0.00%) failed=177(100.00%)
+The branch was renamed from master to main.
 
-The mass fail is due to the autobuilder using fragments to set a
-machine, and AUH using MACHINE=xxx prefixes in bitbake invocations. I
-have a fix, and it will be tested when the AB is again available.
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+ .../recipes-devtools/systemd-bootchart/systemd-bootchart_234.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex
+diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_234.bb b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_234.bb
+index bc3eee2093..98237aba65 100644
+--- a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_234.bb
++++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_234.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-only & GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c \
+                     file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRC_URI = "git://github.com/systemd/systemd-bootchart.git;protocol=https;branch=master \
++SRC_URI = "git://github.com/systemd/systemd-bootchart.git;protocol=https;branch=main \
+            file://0001-architecture-Recognise-RISCV-32-RISCV-64.patch \
+            file://mips64.patch \
+            file://no_lto.patch \
 
