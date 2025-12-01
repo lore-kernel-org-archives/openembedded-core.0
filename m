@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33142D12676
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92AD3D12680
 	for <webhook@archiver.kernel.org>; Mon,  1 Dec 2025 05:18:14 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13918.1764566279865084820
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14091.1764566272084136270
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Nov 2025 21:18:05 -0800
+ Sun, 30 Nov 2025 21:18:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=HHr83WWR;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=c3Cf/0ft;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019ad858ba5d-b42783f1-1bd3-413c-82b0-c37af6a9d6d8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=FJ7b+LNC;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=rTZOE8nP;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019ad858d960-9ec3deb1-0ba7-4e2d-99aa-335f4b100edc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1764566285;
+	t=1764566292;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=7BrDmxK9Ck59MOTowHiVD41BaEe94/KOSFOW8xtZLBk=;
-	b=HHr83WWRcBRUgEnE7avbj/0sQT6X6zvxk0FbzSoZE0GmNzaeK3OhalBVPqEIu9BJ
-	FnK/Cc+f5VN6yyya40XzGvf3FykAnYv74ZXrCyHkHXB0G9gAu6hbgNjrEgcq8D/SgPM
-	HpjDmgUD7Xkywy+7+/3fIDS70TzcsgiKebinJdI4=
+	bh=ia5XCyjcpXkTI0nXs7h+7GTkNg1+yv5SKw9c3fO4x/Q=;
+	b=FJ7b+LNCk/M2GxgkU8GN2C8LCmidivVcyM+UaQiwG0bcXW9wpu2E379WtsDY7bap
+	UNsb/4pYW6Qhtb+9QQTIMl61cFDtMEqrG7IBxmZcGMhMUEeLmyFEXH+ajYegUAASEGd
+	h9QbNyuU+ee/q0rkF6nPnS+Q+rnBD/iHXbsBX0X4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1764566285;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1764566292;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=7BrDmxK9Ck59MOTowHiVD41BaEe94/KOSFOW8xtZLBk=;
-	b=c3Cf/0ftV2GuiQSGs92kY2iT+eyVxqEb+s9F3Ssud5NuAEdkXgWODPbPWiwhm2GS
-	oI+jUCJEWfMS32kth/XBS36AAxzxpQgPEAhpZ35GhPGxLKiqSQUcRGTj7IyFX4+iozt
-	o3Gjz75p1+uxCnsdA1zI8/ZSu/OQHGFM/ZDG1sq0=
-Content-Type: multipart/mixed; boundary="===============4398564033902572611=="
+	bh=ia5XCyjcpXkTI0nXs7h+7GTkNg1+yv5SKw9c3fO4x/Q=;
+	b=rTZOE8nPoZcVo7CMuMK3cUoeyPzc6odsDaEnhT7935K0sb/weQugSVRwYidCUP43
+	TU9g0R75FfVOGe4a0hqiHaBAK3dTPMg634HGmiiKFCV1KoJ+jMQWoi/JESj9koIddpc
+	DuTAd3kMnj90pDZ1KoiDh1DllE9yAKS37sxgghGQ=
+Content-Type: multipart/mixed; boundary="===============4195098180996345024=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-setuptools-scm: upgrading to 9.2.2 FAILED
-Message-ID: <0101019ad858ba5d-b42783f1-1bd3-413c-82b0-c37af6a9d6d8-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Dec 2025 05:18:04 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] gtk-doc: upgrading to 1.35.1 FAILED
+Message-ID: <0101019ad858d960-9ec3deb1-0ba7-4e2d-99aa-335f4b100edc-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Dec 2025 05:18:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.01-54.240.27.192
+X-SES-Outgoing: 2025.12.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 05:18:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227024
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227055
 
---===============4398564033902572611==
+--===============4195098180996345024==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,11 +51,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-setuptools-scm* to *9.2.2* has Failed(other errors).
+that the automatic attempt to upgrade the recipe(s) *gtk-doc* to *1.35.1* has Failed(other errors).
 
 Detailed error information:
 
-'MACHINE=qemux86-64 bitbake python3-setuptools-scm' failed
+'MACHINE=qemux86-64 bitbake gtk-doc' failed
 NOTE: Reconnecting to bitbake server...
 ERROR: A builtin fragment 'machine/qemux86-64' is used while MACHINE has already got an assignment.
 Please either disable the fragment or remove the value assignment.
@@ -74,5 +74,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4398564033902572611==--
+--===============4195098180996345024==--
 
