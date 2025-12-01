@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 200E4D11705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A83D11703
 	for <webhook@archiver.kernel.org>; Mon,  1 Dec 2025 05:18:00 +0000 (UTC)
 Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14088.1764566270927918135
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14091.1764566272084136270
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Nov 2025 21:17:50 -0800
+ Sun, 30 Nov 2025 21:17:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=0boMEdUd;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=VSbNr+fz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019ad8587f03-0b3c230b-3792-4e08-b352-6724ee61158e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=m0gZ+AXH;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=rtG7PJYb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019ad85885d5-e16c8ccd-a6e1-427a-b206-124848621798-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1764566270;
+	t=1764566271;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ng77IIz2dWd/KSPFm4gZRu+XwOKvbqlodMCPTXDgrBo=;
-	b=0boMEdUdAaE3AIE8reccBW9tZl8hnlnlZpKnrZQuJZHfnRMblLBDIHjZnZDHE2as
-	RMOStNRNAWFtBEaARh+Z759QZ0iDX0HeyCPQ5PANLpkeVQLTOjNlmFaoYHfkL/1K60t
-	GvGbYJ2HzIX7KXC/GVb8vvTB2WvOhRtwScLSJY50=
+	bh=nk/OkSnnDpVpa9c2gaAmwu2iwWwSZBWdmqLdONPDycQ=;
+	b=m0gZ+AXHo6CdjJ6VpBLJ8ndQqk93XRWilISJ4kC1QMKu9k1+us7pCngS37ONm9dH
+	1XyaNsOCDW4NRqKEAfyeGFUQVIs1ctClUmiID5HocPTWOR6w2mq03dTteJrkov0w1F2
+	17/p5CVBYFiK7KNl1CWynChaPGTKChy04kM2a6DI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1764566270;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1764566271;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ng77IIz2dWd/KSPFm4gZRu+XwOKvbqlodMCPTXDgrBo=;
-	b=VSbNr+fzKF5stVnPVB+c7hdSHIz2lcQxKfOw2Lu6V8+Ha4TAeV5SoU4CIZPEA/ep
-	n9jVMe9FhDLZofwkMOhqT8urvEqHmZHrMwk33oU25uXqz2YtSj1Yx7tz2/1aaBe+v+g
-	7TQMNjS5jvnIxUVCLw4GQrIbY8gDTl9mP12NZ5Gg=
-Content-Type: multipart/mixed; boundary="===============4665005025418666206=="
+	bh=nk/OkSnnDpVpa9c2gaAmwu2iwWwSZBWdmqLdONPDycQ=;
+	b=rtG7PJYb7bGCuz3hkd76XDSg+N/1oQG9zUxQXI7WpAE6sdwmstxHScqk/TixBDRZ
+	ypDGJaZlgYRLz+eYLaH/UA5DSyzh3E8L+RUqPtOzULWfJxZBBE2ftLpeT30/Wok4RuO
+	n01QjQyAIsLwgn5rJslNdCHEoNZL4ioSu1xIPXRc=
+Content-Type: multipart/mixed; boundary="===============7496770654594870277=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] kbd: upgrading to 2.9.0 FAILED
-Message-ID: <0101019ad8587f03-0b3c230b-3792-4e08-b352-6724ee61158e-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Dec 2025 05:17:49 +0000
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] ttyrun: upgrading to 2.39.0 FAILED
+Message-ID: <0101019ad85885d5-e16c8ccd-a6e1-427a-b206-124848621798-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Dec 2025 05:17:51 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.12.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 05:18:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226979
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/226980
 
---===============4665005025418666206==
+--===============7496770654594870277==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,11 +51,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *kbd* to *2.9.0* has Failed(other errors).
+that the automatic attempt to upgrade the recipe(s) *ttyrun* to *2.39.0* has Failed(other errors).
 
 Detailed error information:
 
-'MACHINE=qemux86-64 bitbake kbd' failed
+'MACHINE=qemux86-64 bitbake ttyrun' failed
 NOTE: Reconnecting to bitbake server...
 ERROR: A builtin fragment 'machine/qemux86-64' is used while MACHINE has already got an assignment.
 Please either disable the fragment or remove the value assignment.
@@ -74,5 +74,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4665005025418666206==--
+--===============7496770654594870277==--
 
