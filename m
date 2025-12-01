@@ -1,127 +1,162 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD696D116F1
-	for <webhook@archiver.kernel.org>; Mon,  1 Dec 2025 11:52:19 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19756.1764589930386844478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E18FD116F9
+	for <webhook@archiver.kernel.org>; Mon,  1 Dec 2025 12:15:50 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20101.1764591342677977203
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Dec 2025 03:52:10 -0800
+ Mon, 01 Dec 2025 04:15:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=J10CiDKS;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b736ffc531fso644931266b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 03:52:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FnV7BiBL;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-477b1cc8fb4so24392845e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 04:15:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764589929; x=1765194729; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=w3xs0HpgqPS6a6X4YvPNh/lL0l82HwzRkt7cGs/qja4=;
-        b=J10CiDKS5hSNr8bAglEbu847SYVcoCQu9qpT4RWmv1jjBhrtx1wxzoSRGVKL0b2Igy
-         Q9e96PtxcoMBkx6nqvmP/PGhRdOjXFaQmjFBfpat6F2x5aFEncjj2NkGYixrnGnCM/Vd
-         cYi1+HSyfKJmwudtJqruq6t3s5dYi0N+p6TJraSuirThg3udKqzrqda9Cmzu2zVX54Xy
-         z5Cv4HqIJb8ztx2Sbj4rIvaZBhLV+Z89EnTsZBQmSoYergwVoFkvGbj/G5YRzCFW8h2b
-         ikChWIYOQpRRVQXWA9L+QaGffAJY4A013zvbBCfX88PBoLSsUFeASpzZQllur4MNyDu2
-         timQ==
+        d=gmail.com; s=20230601; t=1764591341; x=1765196141; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eL4OCmlfKeXAWevWLdwsxEyqxPjNr7JKLnNW4PDxm38=;
+        b=FnV7BiBLEZAbNJnc8x+CiuLRpxQHvnjWScccKgSyZNQkQGO15XfO6uqVjQsgr9CXBS
+         HJ/CMcK69/3kwxyTPn5S4o76tZN1ZC1fCQ1Tk2Vay4WRhgbvPMqyojkZLO+uQfWeUmu7
+         uAheEcMbvHIHuDzGsGXv0CfbrMWA/UxIVR9U94Gb6cyDShVcnuvp8TJPi+96X/PbEinn
+         uAB/UuvRj5QYqgSwyR+T98Iqf8Zo6LfSaB88MncyFmpy347Cfg+fOXzWcmjFPATepEhP
+         hXfVVcth5opsOzSjwCgmyWEuZUiCF3WO+mCVUhxfQM66XAle14BDBWwOaerQ+ZZi8Q1W
+         76Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764589929; x=1765194729;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w3xs0HpgqPS6a6X4YvPNh/lL0l82HwzRkt7cGs/qja4=;
-        b=Q+18pmB6vsCTVrtp79AtLMSEu6OeeSl1Z40fbE9L8nJpZr6UiDGvo2rl3DwqU3ivMf
-         e57quWcNjL22mp5qZ7zeSOaUOZasoOW6ehQkHooaZ4MJhyHm/BL33dP+Rhhv4VOWQVB0
-         25PFrOSpV434JXLCC4jKbOo5vsdkjR25I8d+71zo8rQCIPDLANl9UYiMYs5atKtsC+mv
-         lTOyxAfFLnL4Cliu27SXYXEcS9vDJxwDcfYN1s7RHhV8ydaZWoAtVPV7dgTAxWGmifho
-         2x4ZKO2Nd6TOtcdNZ8dsyMHb1lZQRF8OdcV9E9FT72HOj7OsVluvm7i51vFlCO0sgpL2
-         HrZA==
-X-Gm-Message-State: AOJu0YxJzdk6O1hylTDK6lHpMCo2gKuJbwiBFrfBQBR+qUkaN9LavCUX
-	P4/Qy/Vcn2Npga8RZ945Bf7yZrvx8ow5z1tCuALV26F41nxoMTp6L4vqhVyZ0A==
-X-Gm-Gg: ASbGncsT1oVJcmu3N0PSt/8VOAJstjuQDgor3qhnI3PumiY7MgZa2OtXAtoNEDIpKk8
-	XRIKemSwKXxfUnaEzBAw/7hI6C7lXKiDN5Hpt6RJzfcJuVacCv/CR0MMM/QSD6ZHicXtjNhdSt5
-	i/o5j+snxzTRBeyjKJKpUO61ppmYPvhXATSDjojbGnc4+0Jl+2jf48dTls+tyzfQwLXC25pdil1
-	d7PO7PdCY5EnsjUrTWE2MCTgg0Uho6x1pGrj3uFICam+NcuDcQRAe7YH0N3IPNiAxE0QYcgsG95
-	UQaGD/EJhA1m+ozPj6vu1s8oIcFvf/Q4/aCWmBpewhG8bmWQqT/jsmzPRsxSHfcME+4gwag6RbF
-	a4VhS7LsMTpa05pDunOHyz8lYjm1IqzyCA9VwM92LsJj84P8y31a1+/PvtvBuOWkvjz1KD70syN
-	3liJyB2MbZDcqPsf9p2LhJN3nSSApuTD++VmLKKnUk0hG6UTQ=
-X-Google-Smtp-Source: AGHT+IH0uxavsPJTYlNvwnEuI/b9PKK3xFPEIJ17rga6aXHAQC5kW4fIEVaRn//m4IHgX/InIWtEaQ==
-X-Received: by 2002:a17:907:3cc5:b0:b71:51b:bd4c with SMTP id a640c23a62f3a-b767170c7dbmr3691807666b.50.1764589928565;
-        Mon, 01 Dec 2025 03:52:08 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64750a90c93sm12173596a12.9.2025.12.01.03.52.07
+        d=1e100.net; s=20230601; t=1764591341; x=1765196141;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=eL4OCmlfKeXAWevWLdwsxEyqxPjNr7JKLnNW4PDxm38=;
+        b=IZ4bfaErO6TUJXrrWvUdCZ7xRAzMuwAQ3T4D3kCS8KG/KSwds/40S0Dc17+YU/G9YG
+         4FTjM0HwkVXxfsNp3c6G4Zv2LZ8R0xVA1YKpDUnKj8KH6vw3lp/5X+53PzTWfkmZ8lME
+         pfL9/mbehbu1Alu/m059E0+hqhsUHg8ZwshL4n6nwRr5e+GlHX+ejzVtA5GR5SqZGT4M
+         iecDeAb3oMI5A8IK/wMO96uLTFszn7uyvumsaQWAmgJ6mszf84VmWPFEAn5mIPG3bcye
+         pdoDLyDF3sGsWcsbb/NOGnu0cVeoxaK83fqcQhyvPZty+C4MOA8gfKFKTDmI4RA4d4LZ
+         GoOQ==
+X-Gm-Message-State: AOJu0YxorWG87Nrn/1HYZ+ZIMgIUzBJDpdWSQK1WnT+EaIYRgyJZ9fFY
+	c6EGsRwmJpyJptpTGcPmzv1Px8TG8eBvAidvvB4RuJ5muVD2MXqaPXvz4/p/tw==
+X-Gm-Gg: ASbGncu1s7zvuKKru1YUHoOac9ynBgbNUJM+XDUALaNXiGQO6gaUSEUDVcfbgWv7UOx
+	J8FVPS3fP96QtK2/8J/DiHqzbebzTguVbVB96XY2qX53dwRA3AdUzWlVZjwYOAdYgeZIwRxaSw3
+	KfvAaQQ+bdZXTyKUfKM44sCnUDFjwObcXF4/cCG4NriBYhJ/uyVl1NoRprgf0MV80G9nWWCkc7G
+	Vh0TxedV/v2v5ia0i8L/7SVMgVl5xVQtZFpe6iVfUi78Pd30DwgAaAuFYm3Uw81t1n3T9sPZcpU
+	wuXlk+crPoInizc8ypMt/QbgA7ZOOgxp6EVyj162gQP/EV1Fbnen/P+JOFRNXwiIDNjkxD4WibF
+	X1CtdwE6f9uak0w71oRQD1xyy87kFcPUHEBu3PkcmyrWIm5ihDlNfuuGgCS73eKXJPCT8Nm3fFq
+	1TryJwbj8X
+X-Google-Smtp-Source: AGHT+IGZEnAW2/QC8nXX1EnTq8xY9buJW3V1aTjyH8m7cDhPihlmb9t5i5V3ffUMAlBRgg2GyZJ9bA==
+X-Received: by 2002:a5d:5c84:0:b0:429:d3a7:18bd with SMTP id ffacd0b85a97d-42e0f35c851mr26909606f8f.59.1764591340660;
+        Mon, 01 Dec 2025 04:15:40 -0800 (PST)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1ca9aea3sm25333180f8f.35.2025.12.01.04.15.39
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Dec 2025 03:52:08 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+        Mon, 01 Dec 2025 04:15:40 -0800 (PST)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH v2] lib/configfragments: when disabling fragments, treat fragment names as prefixes if they end with /
-Date: Mon,  1 Dec 2025 12:52:03 +0100
-Message-ID: <20251201115203.1223192-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.47.3
+Subject: [PATCH 2/2] utfcpp: add ptest support
+Date: Mon,  1 Dec 2025 13:15:38 +0100
+Message-ID: <20251201121538.2293818-2-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251201121538.2293818-1-skandigraun@gmail.com>
+References: <20251201121538.2293818-1-skandigraun@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 11:52:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227122
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 12:15:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227124
 
-From: Alexander Kanavin <alex@linutronix.de>
+Also untangle the licenses a bit: the tests/ftest.h header is covered by
+MIT license, however it is only included if tests are enabled.
 
-This allows disabling classes of fragments without knowing their full names, e.g.
-instead of
+The tests take less than 2 seconds to execute.
 
-$ bitbake-config-build disable-fragment machine/qemuarm
-
-one can issue
-
-$ bitbake-config-build disable-fragment machine/
-
-to match and disable everything that starts with 'machine/'.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- meta/lib/bbconfigbuild/configfragments.py | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ meta/recipes-support/utfcpp/utfcpp/run-ptest  | 23 +++++++++++++++++++
+ meta/recipes-support/utfcpp/utfcpp_4.0.8.bb   | 18 +++++++++++++--
+ 3 files changed, 40 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/utfcpp/utfcpp/run-ptest
 
-diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigbuild/configfragments.py
-index de521f0c149..47605f3ddb5 100644
---- a/meta/lib/bbconfigbuild/configfragments.py
-+++ b/meta/lib/bbconfigbuild/configfragments.py
-@@ -161,16 +161,16 @@ class ConfigFragmentsPlugin(LayerPlugin):
-         def disable_helper(varname, origvalue, op, newlines):
-             enabled_fragments = origvalue.split()
-             for f in args.fragmentname:
--                if f in enabled_fragments:
--                    enabled_fragments.remove(f)
--                else:
--                    print("Fragment {} not currently enabled in {}".format(f, args.confpath))
-+                for e in enabled_fragments[:]:
-+                    if (f.endswith('/') and e.startswith(f)) or f==e:
-+                        print("Removing fragment {} from {}".format(e, args.confpath))
-+                        enabled_fragments.remove(e)
-             return " ".join(enabled_fragments), None, 0, True
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 06d113e264..86c843e188 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -86,6 +86,7 @@ PTESTS_FAST = "\
+     rpm-sequoia \
+     sed \
+     slang \
++    utfcpp \
+     wayland \
+     xz \
+     zlib \
+diff --git a/meta/recipes-support/utfcpp/utfcpp/run-ptest b/meta/recipes-support/utfcpp/utfcpp/run-ptest
+new file mode 100644
+index 0000000000..85e18bd4d9
+--- /dev/null
++++ b/meta/recipes-support/utfcpp/utfcpp/run-ptest
+@@ -0,0 +1,23 @@
++#!/bin/sh
++RET=0
++cd tests
++
++for t in $(find . -type f -executable); do
++  case $t in
++    *negative)
++      ./$t ./test_data/utf8_invalid.txt
++      ;;
++    *)
++      ./$t
++      ;;
++  esac
++
++  if [ $? -eq 0 ]; then
++    echo PASS: $t
++  else
++    echo FAIL: $t
++    RET=1
++  fi
++done
++
++exit $RET
+diff --git a/meta/recipes-support/utfcpp/utfcpp_4.0.8.bb b/meta/recipes-support/utfcpp/utfcpp_4.0.8.bb
+index 7f6eb367f1..628e8ee0ce 100644
+--- a/meta/recipes-support/utfcpp/utfcpp_4.0.8.bb
++++ b/meta/recipes-support/utfcpp/utfcpp_4.0.8.bb
+@@ -2,14 +2,28 @@ SUMMARY = " UTF-8 with C++ in a Portable Way"
+ HOMEPAGE = "https://github.com/nemtrif/utfcpp"
  
-         self.create_conf(args.confpath)
-         modified = bb.utils.edit_metadata_file(args.confpath, ["OE_FRAGMENTS"], disable_helper)
--        if modified:
--            print("Fragment {} removed from {}.".format(", ".join(args.fragmentname), args.confpath))
-+        if not modified:
-+            print("Fragment names or prefixes {} matched nothing in {}.".format(", ".join(args.fragmentname), args.confpath))
+ LICENSE = "BSL-1.0 & MIT"
++LICENSE:${PN} = "BSL-1.0"
++LICENSE:${PN}-ptest = "BSL-1.0 & MIT"
  
-     def do_show_fragment(self, args):
-         """ Show the content of a fragment """
-@@ -210,7 +210,7 @@ class ConfigFragmentsPlugin(LayerPlugin):
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e4224ccaecb14d942c71d31bef20d78c \
+                     file://tests/ftest.h;endline=25;md5=d33c6488d3b003723a5f17ac984db030"
  
-         parser_disable_fragment = self.add_command(sp, 'disable-fragment', self.do_disable_fragment, parserecipes=False)
-         parser_disable_fragment.add_argument("--confpath", default=default_confpath, help='Configuration file which contains a list of enabled fragments (default is {}).'.format(default_confpath))
--        parser_disable_fragment.add_argument('fragmentname', help='The name of the fragment', nargs='+')
-+        parser_disable_fragment.add_argument('fragmentname', help='The name of the fragment, or a name prefix (ending with "/") to match', nargs='+')
+-SRC_URI = "git://github.com/nemtrif/utfcpp;protocol=https;branch=master;tag=v${PV}"
++SRC_URI = "git://github.com/nemtrif/utfcpp;protocol=https;branch=master;tag=v${PV} \
++           file://run-ptest"
  
-         parser_show_fragment = self.add_command(sp, 'show-fragment', self.do_show_fragment, parserecipes=False)
-         parser_show_fragment.add_argument('fragmentname', help='The name of the fragment')
--- 
-2.47.3
-
+ SRCREV = "f9319195dfddf369f68f18e7c0039b3f351797fd"
+ 
+-inherit cmake
++inherit cmake ptest
+ 
+ FILES:${PN}-dev += "${datadir}/utf8cpp/cmake"
++
++EXTRA_OECMAKE += "${@bb.utils.contains('PTEST_ENABLED', '1', '-DUTF8CPP_ENABLE_TESTS=ON', '', d)}"
++
++do_install_ptest(){
++	install -d ${D}${PTEST_PATH}/tests/test_data
++	install -m 0644 ${S}/tests/test_data/* ${D}${PTEST_PATH}/tests/test_data
++	find ${B}/tests -type f -executable -exec install {} ${D}${PTEST_PATH}/tests/ \;
++}
++
++# the main package is a header-only library, which produces an empty package
++RDEPENDS:${PN}-ptest = ""
 
