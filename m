@@ -1,184 +1,122 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <naftaly.ralamboarivony@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 107C8D116F3
-	for <webhook@archiver.kernel.org>; Mon,  1 Dec 2025 15:47:41 +0000 (UTC)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.24784.1764604054275226909
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BEB6D116F1
+	for <webhook@archiver.kernel.org>; Mon,  1 Dec 2025 16:31:51 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25965.1764606702366483873
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Dec 2025 07:47:34 -0800
+ Mon, 01 Dec 2025 08:31:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZgG21IQA;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.174, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-78a7af9ff1dso40456847b3.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 07:47:34 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=H0ynnPzJ;
+ spf=pass (domain: smile.fr, ip: 209.85.208.51, mailfrom: naftaly.ralamboarivony@smile.fr)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-640a3317b89so6899885a12.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 08:31:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1764604053; x=1765208853; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nbasHoDyT3aRlFGDgjuqbYrHH/Yz7Q3/9Kd+p9QStSc=;
-        b=ZgG21IQA6NYcZI5CZNYjZdZnSYtjWk/zuRBAwHeLvXiZmW67X4LgPHtt88ZQczKXPa
-         LDPk/yE1Ck/N8tVUBpSxhTavCUrSmhdLT1yLdLebZ54r2Ymznl3XPNfkjH72zRbWAe3B
-         OPIeiQ8GvQT4St15GanDkGEHg0OBL41dCZGlK2siUUrVUmHSwunB6zM8KHxYmHC9KVl5
-         NU09jUUvMjsSaEjqJgOBr4HdjONdBoL5sL0M/XaBJ4BgPblt3oKO5+m/31JMItjK+oxt
-         4lHYccAqelwg8G1ugg2VM7aVRXwhl5NpfgwTyeW/7aE7gPJAadfkp9O4IvIuRlOi2/SQ
-         1glQ==
+        d=smile.fr; s=google; t=1764606700; x=1765211500; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rj9TkxFdu5isGQ9OXGna9LM1/ciFtjAxo3pry0VaGdo=;
+        b=H0ynnPzJbP8JIFHpCCP5ODgU9oHAk7F2XkuEdKGd4hsaF4ARHmI895yhHAl9p3EkmG
+         zh2PBkOgknRqjnYD0PVFCNBpH592anKvJPZ3ou8w6dSZOXdXzQJ9a7gT0WDKZLpckdqY
+         An0ROt3YyVQNpHVSohfg+L/P8dK5UFg96kzDI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764604053; x=1765208853;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nbasHoDyT3aRlFGDgjuqbYrHH/Yz7Q3/9Kd+p9QStSc=;
-        b=Y0m2U4TMTFwZWNyag59kbQKIlX3r0GKNFlQrqfE9ANfvEtzW8sI3ZRzP/gcwXBK8YC
-         3z/wdBTGgBmg9Pnr63+xm32ltBer/0/2hQYdSHvM+SMKkBH1bstOxuUtCqLuYSd5QhXR
-         lNEyTLfGwaRQtsbr5vvRRx48E5iCc4+IJ2KoG+1NzPx+r5xvd3EW8eBbeKCiB/RLFJ5+
-         Wc8jDManjovfMoD4BjndEOlFy4O7QSYVMifaQBe2Mg2z8+9ALGYeIfU35vKjgRuf/soC
-         yfbEdIXyJn7mxcZDg9RIPkoQlv1f29GDy7B2zAhJF1KRuQI9Q1bWHanYvujaAmaQanG3
-         ULyg==
-X-Gm-Message-State: AOJu0YwCXF8hFpIsRbAVJ7HV6OwTr4YkJv1dFlGOCqNvnZwN60+vfBe3
-	8LFn9plVuxs+K3XmdLb5yJQHLHznlibuHriDFgETr7Zm0y9OSdHzCiUbYjN35+SoAbKVFakGQve
-	9FKOGcdKOAbfdwSkczPVXd5XzCHrNC5d46mrrgJVD3g==
-X-Gm-Gg: ASbGncttx7mQvZIvS//9vuv46vYkJB96CzOz4IK4xwTfq7PXodWsCOBKGJoV+PRACJ+
-	J/R3yh31Qfsacyg+LxkKRbPjg1alzcVjlul7YUj+c7zqAy/G5pU1fDysf2y/JQJ1znChNTVRPm6
-	m20HhZS+9q9vPRYMQpL4bBidY187ZqzSCtZwhF4r/OUqbTgIXf/nOFfPiaaZYT0CSYTotUjhmhA
-	Y1IAK1LdEwEp1345PmYbSvwhGMuQ9YZq/HewrorzGuVYyNgknVugFr2vgGUM4ysPysuMcQolSW/
-	JBnh3tKH3D0s6Y3WOrOZ0e6+vQ==
-X-Google-Smtp-Source: AGHT+IFCLwjLOdXNILWEN6RFul1XtR5M2apEXWjiferleSv5/q2kv9lHlScjw8XGTUR5pZxtop0eKS2XA+Ynvt07Qec=
-X-Received: by 2002:a53:c049:0:20b0:63f:ad6d:cbd5 with SMTP id
- 956f58d0204a3-64302b0833cmr23541437d50.60.1764604053156; Mon, 01 Dec 2025
- 07:47:33 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764606700; x=1765211500;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Rj9TkxFdu5isGQ9OXGna9LM1/ciFtjAxo3pry0VaGdo=;
+        b=VB+9EI2wiQz1/Nz+Bk5Y8cNPil66eH4tJW59pZW618zrsD9gvXla5YRGqH41ABCpvK
+         GuarjRECUJWrJoa88M1UQxFaN3+3XplqZ/TR0Eya+6+8TgE66aDH4Y1+NE0JeTYZni4D
+         2YP4yiM7Khmu/RS9aOBu3mEqzYTNNafZTrOB5dWHe3ys9O6pHS9SN8CA3ZP17QS9OMb1
+         EZaJZiwI+wYIEw8cYB/Ucp61UmKyOUZAkLO+/Eaii2RwUMwhaPppGIcB+0x4JzYoVb0v
+         4jEZ6pbYt9gORltZvJtcf27LKrPx06M9VkdK+08cQ96G7v1VSk9gj8XmLy75al1MHxjk
+         Rt8g==
+X-Gm-Message-State: AOJu0YwuSQJx4Y0BmK+Bq1+g7d5Txgs3nE2qacJenB8T4HYIZTW1HJ2m
+	hKeyOqtDtHiIJBtQO451VxI3Pvbxi1ybByGadiX5YRKTqdAmcSVSEy/M772akEAX9WNDJjIaSsf
+	CuDpC
+X-Gm-Gg: ASbGncvJUnWIAEabrOUHHd29j+yrUcZeZMiZbzHb1m1fbFAcE98inxjD/+qS1dEbKn8
+	Pg9UwOmDPuDuGXSGU4TR8LprdwoCVEhD4Lvseg2wdz8/yWmEpvf5CDMz68II9dOZHYvo6/3dkRS
+	Ph4cPoQw7FZwyoZY5Ed55wyqy4RWeDB+Yz7rekMFenUXShvImwj01JD2kbPcRZKhkxquU6etPRL
+	/GQaB43mjfG1RRwcPFDx9j4V/6SCgtlAegXD1aSpdf2DcyXl0Cxmdr8SAMYaY0oifOaFo/8voZ6
+	qelxwq1EvQaS85lxBlosVB4zeEhx9zehVWI6tuCgf+h5QRRVR9Yeg+xhclkvCuNKwfErPPALwUU
+	KMIPXSp1Z6PTs3KGreC1R14yjqOAOxEE62jkuXXJ6qctWRVChiRVCS6LDLN+mvzX20Vcn8QiJUT
+	2eOFzVtSCvCBLX1tHvkDzEiv231NjjZKHQpwc58odxzpIDws+a93z0iQPJuIze9a5y4pm/+Q/6k
+	xPpGTOKqDUoI+yDmCMNbMY=
+X-Google-Smtp-Source: AGHT+IEAApefWJnwbEpKEyOu1b/pvY742rgbqM0eM8gSrPbX3/Yg5fmgUfVN2zCjdKANY9Cli9tL2g==
+X-Received: by 2002:a05:6402:2787:b0:640:9d8f:3c73 with SMTP id 4fb4d7f45d1cf-645eb799fbamr23486372a12.32.1764606700407;
+        Mon, 01 Dec 2025 08:31:40 -0800 (PST)
+Received: from P-ASN-DERVAUX.. (2a02-8434-8fe1-4f01-3d1a-8466-8f7c-672d.rev.sfr.net. [2a02:8434:8fe1:4f01:3d1a:8466:8f7c:672d])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64750a90d45sm12980290a12.8.2025.12.01.08.31.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Dec 2025 08:31:40 -0800 (PST)
+From: naftaly.ralamboarivony@smile.fr
+To: openembedded-core@lists.openembedded.org
+Cc: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
+Subject: [PATCH v2 1/6] patchtest: fix failure when oe-core repo is in detached HEAD
+Date: Mon,  1 Dec 2025 17:30:55 +0100
+Message-Id: <20251201163100.143476-1-naftaly.ralamboarivony@smile.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20251128065840.4104806-1-yw.byun@lge.com>
-In-Reply-To: <20251128065840.4104806-1-yw.byun@lge.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 1 Dec 2025 07:47:21 -0800
-X-Gm-Features: AWmQ_bmWorZZkMa9DJ_Z7eS1Qd6L4UDka2_erp3Kdj-MdVMmxzaB7EM-47usmUU
-Message-ID: <CAOSpxdbRDF1g-u97-9Ndk3XOhahneZZtt+md00xDnUzaQJQ6tg@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH] Fix create_merged_usr_symlinks in image.bbclass
-To: yw.byun@lge.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 15:47:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227128
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 16:31:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227129
 
-Is this also an issue in the master branch?  If so, you will need to
-submit this patch for master first before I can take it for the
-scarthgap branch.
+From: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
 
-Thanks!
+Patchtest fails when oe-core git repo is in a "detached HEAD" state:
 
-Steve
+Error log:
 
-On Thu, Nov 27, 2025 at 10:58=E2=80=AFPM Yangwoo Byun via
-lists.openembedded.org <yw.byun=3Dlge.com@lists.openembedded.org> wrote:
->
-> Modifying FILESYSTEM_PERMS_TABLES does not change the UID and GID of
-> /usr/bin
->
-> I modified create_merged_usr_symlinks and
-> moved its execution order back
->
-> Signed-off-by: Yangwoo Byun <yw.byun@lge.com>
-> ---
->  meta/classes-recipe/image.bbclass | 50 ++++++++++++++++++++++++-------
->  1 file changed, 40 insertions(+), 10 deletions(-)
->
-> diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/imag=
-e.bbclass
-> index 00f1d58f237..2f5210d0e0b 100644
-> --- a/meta/classes-recipe/image.bbclass
-> +++ b/meta/classes-recipe/image.bbclass
-> @@ -684,21 +684,51 @@ deltask do_package_write_rpm
->  # Prepare the root links to point to the /usr counterparts.
->  create_merged_usr_symlinks() {
->      root=3D"$1"
-> -    install -d $root${base_bindir} $root${base_sbindir} $root${base_libd=
-ir}
-> -    ln -rs $root${base_bindir} $root/bin
-> -    ln -rs $root${base_sbindir} $root/sbin
-> -    ln -rs $root${base_libdir} $root/${baselib}
-> +
-> +    if [ ! -d "$root${base_bindir}" ]; then
-> +        install -d "$root${base_bindir}"
-> +    fi
-> +
-> +    if [ ! -d "$root${base_sbindir}" ]; then
-> +        install -d "$root${base_sbindir}"
-> +    fi
-> +
-> +    if [ ! -d "$root${base_libdir}" ]; then
-> +        install -d "$root${base_libdir}"
-> +    fi
-> +
-> +    if [ ! -e "$root/bin" ]; then
-> +        ln -rs "$root${base_bindir}" "$root/bin"
-> +    fi
-> +
-> +    if [ ! -e "$root/sbin" ]; then
-> +        ln -rs "$root${base_sbindir}" "$root/sbin"
-> +    fi
-> +
-> +    if [ ! -e "$root/${baselib}" ]; then
-> +        ln -rs "$root${base_libdir}" "$root/${baselib}"
-> +    fi
->
->      if [ "${nonarch_base_libdir}" !=3D "${base_libdir}" ]; then
-> -       install -d $root${nonarch_base_libdir}
-> -       ln -rs $root${nonarch_base_libdir} $root/lib
-> +        if [ ! -d "$root${nonarch_base_libdir}" ]; then
-> +            install -d "$root${nonarch_base_libdir}"
-> +        fi
-> +
-> +        if [ ! -e "$root/lib" ]; then
-> +            ln -rs "$root${nonarch_base_libdir}" "$root/lib"
-> +        fi
->      fi
->
->      # create base links for multilibs
->      multi_libdirs=3D"${@d.getVar('MULTILIB_VARIANTS')}"
->      for d in $multi_libdirs; do
-> -        install -d $root${exec_prefix}/$d
-> -        ln -rs $root${exec_prefix}/$d $root/$d
-> +        if [ ! -d "$root${exec_prefix}/$d" ]; then
-> +            install -d "$root${exec_prefix}/$d"
-> +        fi
-> +
-> +        if [ ! -e "$root/$d" ]; then
-> +            ln -rs "$root${exec_prefix}/$d" "$root/$d"
-> +        fi
->      done
->  }
->
-> @@ -710,8 +740,8 @@ create_merged_usr_symlinks_sdk() {
->      create_merged_usr_symlinks ${SDK_OUTPUT}${SDKTARGETSYSROOT}
->  }
->
-> -ROOTFS_PREPROCESS_COMMAND +=3D "${@bb.utils.contains('DISTRO_FEATURES', =
-'usrmerge', 'create_merged_usr_symlinks_rootfs', '',d)}"
-> -POPULATE_SDK_PRE_TARGET_COMMAND +=3D "${@bb.utils.contains('DISTRO_FEATU=
-RES', 'usrmerge', 'create_merged_usr_symlinks_sdk', '',d)}"
-> +ROOTFS_POSTPROCESS_COMMAND:append =3D " ${@bb.utils.contains('DISTRO_FEA=
-TURES', 'usrmerge', 'create_merged_usr_symlinks_rootfs', '',d)}"
-> +POPULATE_SDK_POST_TARGET_COMMAND:append =3D " ${@bb.utils.contains('DIST=
-RO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks_sdk', '',d)}"
->
->  reproducible_final_image_task () {
->      if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" =3D "" ]; then
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#226898): https://lists.openembedded.org/g/openembedde=
-d-core/message/226898
-> Mute This Topic: https://lists.openembedded.org/mt/116510532/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> File "/usr/lib/python3/dist-packages/git/repo/base.py", line 881, in
+active_branch return self.head.reference ^^^^^^^^^^^^^^^^^^^
+
+> File "/usr/lib/python3/dist-packages/git/refs/symbolic.py", line 311, in
+_get_reference raise TypeError("%s is a detached symbolic reference as it
+points to %r" % (self, sha)) TypeError: HEAD is a detached symbolic reference
+as it points to '3dd31d3b29730fa1130645d76bb71914ac036335' None
+
+In this case, no current branch is available for the clean operation.
+
+To fix this, updates the checkout logic:
+- if a current branch is available, use it,
+- otherwise, fall back to the commit pointed to by HEAD.
+
+This ensures that the script works correctly even when HEAD is detached.
+
+Signed-off-by: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
+---
+ meta/lib/patchtest/repo.py | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/meta/lib/patchtest/repo.py b/meta/lib/patchtest/repo.py
+index 2cdd6736e4..6a7d7d2d3b 100644
+--- a/meta/lib/patchtest/repo.py
++++ b/meta/lib/patchtest/repo.py
+@@ -21,7 +21,12 @@ class PatchTestRepo(object):
+         self.repodir = repodir
+         self.repo = git.Repo.init(repodir)
+         self.patch = mbox.PatchSeries(patch)
+-        self.current_branch = self.repo.active_branch.name
++
++        if self.repo.head.is_detached:
++            self.current_commit = self.repo.head.commit.hexsha
++            self.current_branch = None
++        else:
++            self.current_branch = self.repo.active_branch.name
+ 
+         # targeted branch defined on the patch may be invalid, so make sure there
+         # is a corresponding remote branch
+@@ -80,6 +85,6 @@ class PatchTestRepo(object):
+             self._patchmerged = True
+ 
+     def clean(self):
+-        self.repo.git.execute(['git', 'checkout', self.current_branch])
++        self.repo.git.execute(['git', 'checkout', self.current_branch if self.current_branch else self.current_commit])
+         self.repo.git.execute(['git', 'branch', '-D', self._workingbranch])
+         self._patchmerged = False
 
