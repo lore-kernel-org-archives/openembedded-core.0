@@ -1,154 +1,96 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFEFAD111A8
-	for <webhook@archiver.kernel.org>; Mon,  1 Dec 2025 11:05:59 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19369.1764587150649969526
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA86AD111A8
+	for <webhook@archiver.kernel.org>; Mon,  1 Dec 2025 11:31:39 +0000 (UTC)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19724.1764588693123889382
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Dec 2025 03:05:50 -0800
+ Mon, 01 Dec 2025 03:31:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kb3qhstg;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-882390f7952so45165086d6.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 03:05:50 -0800 (PST)
+ dkim=pass header.i=@snap.com header.s=google header.b=L7I6XOmI;
+ spf=pass (domain: snapchat.com, ip: 209.85.208.43, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-64088c6b309so7167954a12.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 03:31:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764587150; x=1765191950; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=igFg7pCj+NFqWUZf7sicSm/dYsBmrhEwhAqWMPr8sik=;
-        b=kb3qhstggiJ5UhLeKBhDrbMCh1RdWetEO1hxvnPPR8k8l0YQNdoQVPd98NHiXyhBdH
-         3R8lOYM2EyjYhORebbEw+h+1IKPo1KxClfLOhrscmLn0hp5LfEwVU0XcVHsipLg/lQk6
-         8Eszxi/NIijpMnp9GGjfiLW4eWMuST7jHbDzVTK3qCyxRKZIR8miC1tJs6F3eGLc+Qmj
-         6xX8+3dNa55VYn/ddK6k7tCYn/n8zElLTwlWscxG8z8ysj5sPb9lko17UHcY13lMQyDe
-         jVmJOc4ZbpFXatYCUMrPHMAJ+HXCqL6fRn16dx4S78jKiR5j7RPyb3g2p5OCLLNiSKHy
-         lyvA==
+        d=snap.com; s=google; t=1764588691; x=1765193491; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UqaoGXDOJH9C/YVK0P2U/JFDAqnikD7WH/yzCzWgbaU=;
+        b=L7I6XOmIdDC+ug1sWS4JYplXfWJONKf5oUtd9oG4jamt6+HBW203TpsulDuKrd+pZr
+         gHJcTT64Ab6e+kRKEYwhn/aCMCHjWCISp4wYzkLBijDYLBMcurk+DkxUoOIXqTaD6zv/
+         DeOvvh0CsFC7bhojxzah/owr/kyLONETd4BBE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764587150; x=1765191950;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1764588691; x=1765193491;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=igFg7pCj+NFqWUZf7sicSm/dYsBmrhEwhAqWMPr8sik=;
-        b=SRyfU/HLNFTvK1J/RfvgKpzIbOg9TVdv/VAJ49vY8kzTAEyRejX39Z8ImFMR7LuaT8
-         CvNVoiTeBRX6TQYCA99eHV7u/1Ve3TtnD14hG5cBdcrUTk0DNLzVOQVWRSSrzcJdD0vv
-         j8bxbmkkxA/1fjdCVtyddreeWJMzpMiof6Ru28lmRJebN6v7tMqyhIT30Q/iKeyBtxsV
-         Q3Jrdhsa0IwDQFS5hzhwliuYmp/FN4gWo26rxVG/Qg/U2Zz+hqHc5MSkSPfH7kZ044Fb
-         gaSuS8DSlLRrzKkEBQjPNJUPgHGEHsNbknlzuQp6/uOuS/R8DTADpcm2JP9NtGTcbpcr
-         /JEg==
-X-Gm-Message-State: AOJu0YyyzpOacc4+6awnHDgbVSdOGUQbGqqLwep7rYKodmGJld0bVG/8
-	7TaEMT/wUFCVYcqObIrHyY/Tw6TFJT97Q1qibW6zFmGtAXqpGAE920H4ub5Fcw9PuQ128MA6fXR
-	H8lc9v8qqsXraZtR5Pm+k4qtWyhcQwGpLTQ==
-X-Gm-Gg: ASbGnct76x2b43V/TyFOMoCUSYqe9C9cQnFo0ncnOLsXZXC9DpcBwjwJjFzBles7xGx
-	7LpL1EPacfIIZtoTj5RguhSNnQ07mntdvh0KPSALWV6aItW+kagyx//ud6ElaMONfSHEFPuh9Kw
-	bEy+IQhv7UpCcrhGHbQpCAPu2ROu2epKlEcJZ+PoRKqfqkqjSrMSgbwy3cZIMclepMFaqt2mYDh
-	VZ+1Zi6UPFpkKAczWwXYr3A9SbMgv/9KBPKJAuVk7RPOlm7KLan+A/PIm4ALYHcn+A4x+VaF1ZS
-	vOT5YeFirHjCQl8wYkRhe9Y/wgdlFA==
-X-Google-Smtp-Source: AGHT+IGDyzs4b3xEJzucDQegfaghJ1rzQ8006PQfasGGxk1tIQ243pacOpKos7+6RONRjyikoAsTf+jTYMEmtqB3ojk=
-X-Received: by 2002:a05:6214:f67:b0:882:4643:b0ad with SMTP id
- 6a1803df08f44-8847c546bc5mr546335466d6.67.1764587149432; Mon, 01 Dec 2025
- 03:05:49 -0800 (PST)
+        bh=UqaoGXDOJH9C/YVK0P2U/JFDAqnikD7WH/yzCzWgbaU=;
+        b=NncyjKuV0PqQbfiv/F4LOAo+H44FTlMHCVhHiMXcgIO7Lomq5oqggG6D0fXxNZyxFf
+         +SXAXRvdA7XM42cSjg7Q3M1l9AJn8Op9C7qRYf3K5rfocb+KaTzxw8SZNdhwxdIGcfbV
+         X09dT+9czLDVSN8X9OIsF3yzH3Y7ESKhYWzYpTSz/2ZOtHbym2eXHM2N88RJ6j8lZYED
+         RqPI/xvpIMGJ/TrSwVV/key5/+FpXR/1oX58pN2BDGC7ZItml7PKAxl21fP4Six6D9eV
+         8tpe/uHvGSbK+knxuq6R3N6uq93MWTGAB/fGVsVXx63OEJIri0CTyMPyy3G3o1t+272t
+         2xuA==
+X-Gm-Message-State: AOJu0YwY0JwaRwiNXkLIqvIo23nnqenoKWxn0/PuNeerC9m14meC5cOx
+	MZhBGondSY9hq9W6GlfLWGRAgeiWbEu96pY2pZFpcolP8rSuYvPQ0MqecU1lplGZN+fU6c4sI/d
+	g3W6gXnU=
+X-Gm-Gg: ASbGncv3GImBOQpbjfvDclSg6mDP9K1NWlwzq88YrhffOGexQTVnC4uSFbDYjiZv32e
+	zvHcIL5A2njHOk+MpYjHgQSg3e6Se3C62mVqUwyRkOfs9zv3j0rFRY8mg2gX2IE80thkY+0ENcr
+	f9kPwEqwkYUkIPfY/5jnJoxQsj2N3dAuQ0w95v41KKsODW3+/c5qbcO/ALL99gW0zxyF0B5ygq/
+	3a6+OpZd9EOgNZ0ksQQbie9WHGDZpjWn83lK021QpTgzTJ85dQU/3kcYwoWQajk3HvRXLf+9SDN
+	EAr15kVUv6ELmoMgzd9TwebtWDpoCgni/J13ZDqQoApOTCwsFz1WzZCwOnjkNsdvs04WbuxJ+Be
+	mLCSzF3zDJKweih0xppTNjV9QpCBwFfLCqK/VekK09gn68h2rcifNoNRz1FwJ5ZhTFL229lRa5u
+	KtArsg0ja1CO0/QUE7/CAE+BvHQC0ChU7R2SRnL0g3fkqfVtvL9LZzB5CEv3UtjyKg0Q==
+X-Google-Smtp-Source: AGHT+IHbh8T9rQsnqROa8iLi4aG+m7m2rWNQU40IRTDk8FHQ6nIqYQFIjRoCz+vbZVWdcIAnBSxKMA==
+X-Received: by 2002:a17:907:7f08:b0:b72:6b3c:1f0d with SMTP id a640c23a62f3a-b7671a469e7mr3343741466b.35.1764588691022;
+        Mon, 01 Dec 2025 03:31:31 -0800 (PST)
+Received: from lj8k2dq3.sc-core.net ([213.249.125.50])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b76f51c6c12sm1192746466b.29.2025.12.01.03.31.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Dec 2025 03:31:30 -0800 (PST)
+From: ecordonnier@snap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Etienne Cordonnier <ecordonnier@snap.com>
+Subject: [PATCH] ncurses-terminfo-base: add tmux and tmux-256color
+Date: Mon,  1 Dec 2025 12:31:26 +0100
+Message-ID: <20251201113126.1279071-1-ecordonnier@snap.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20251201052523.1222217-1-Qi.Chen@windriver.com> <20251201052523.1222217-2-Qi.Chen@windriver.com>
-In-Reply-To: <20251201052523.1222217-2-Qi.Chen@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 1 Dec 2025 12:05:37 +0100
-X-Gm-Features: AWmQ_blgsd8lDijW1n5Gd3yOpnwiRJX5bj9vgFH6PVWT94aibHw3K7Axd2wg_0E
-Message-ID: <CANNYZj-A9ZgSyXOhosCYEXqzKryfSUyuz3+wvVhr-UyM=J1XhQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH V4 2/2] rootfs-postcommands.bbclass: fix adding
- 'no password' banner
-To: Qi.Chen@windriver.com
-Cc: openembedded-core@lists.openembedded.org, alex@linutronix.de
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 11:05:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227120
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 11:31:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227121
 
-Thanks, I think this is fine.
+From: Etienne Cordonnier <ecordonnier@snap.com>
 
-Alex
+https://git.openembedded.org/openembedded-core/commit/?id=5624dfcea87da54c49ba1d63b528da020f351908 added support for tmux in ncurses-terminfo-base in 2015
+by adding "TERM=screen". However the value of TERM is now a build option of tmux, and it uses TERM="tmux-256color" in my testing on Ubuntu / macOS.
 
-On Mon, 1 Dec 2025 at 06:25, Chen Qi via lists.openembedded.org
-<Qi.Chen=windriver.com@lists.openembedded.org> wrote:
->
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> It's possible that users use EXTRA_USERS_PARAMS to set password
-> for root or explicitly expire root password. So we need to check
-> these two cases to ensure the 'no password' banner is not misleading.
->
-> As an example, below are configurations to make an image requiring
-> setting a root password on first boot, but without having to first enter
-> a static initial password:
->
->   In conf/toolcfg.cfg:
->   OE_FRAGMENTS += "distro/poky core/yocto/root-login-with-empty-password
->   In local.conf:
->   INHERIT += "extrausers"
->   EXTRA_USERS_PARAMS += " passwd-expire root;"
->
-> Checking and adding such a banner is ensured to run as last steps of
-> ROOTFS_POSTPROCESS_COMMAND, regardless of IMAGE_FEATURES. In particualr,
-> we want to ensure that the function runs after set_user_group function
-> from extrausers.bbclass. So unlike other commands in this bbclass using
-> the '+=', this function uses ':append'.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes-recipe/rootfs-postcommands.bbclass | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/classes-recipe/rootfs-postcommands.bbclass
-> index f4fbc4c57e..f57782b87b 100644
-> --- a/meta/classes-recipe/rootfs-postcommands.bbclass
-> +++ b/meta/classes-recipe/rootfs-postcommands.bbclass
-> @@ -5,7 +5,7 @@
->  #
->
->  # Zap the root password if empty-root-password feature is not enabled
-> -ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "empty-root-password", "add_empty_root_password_note", "zap_empty_root_password ",d)}'
-> +ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "empty-root-password", "", "zap_empty_root_password ",d)}'
->
->  # Allow dropbear/openssh to accept logins from accounts with an empty password string if allow-empty-password is enabled
->  ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "allow-empty-password", "ssh_allow_empty_password ", "",d)}'
-> @@ -64,6 +64,10 @@ ROOTFS_POSTPROCESS_COMMAND += '${SORT_PASSWD_POSTPROCESS_COMMAND}'
->  #
->  ROOTFS_POSTPROCESS_COMMAND += 'rootfs_reproducible'
->
-> +# Check and add 'no root password' banner.
-> +# This needs to done at the end of ROOTFS_POSTPROCESS_COMMAND, thus using :append.
-> +ROOTFS_POSTPROCESS_COMMAND:append = " add_empty_root_password_note"
-> +
->  # Resolve the ID as described in the sysusers.d(5) manual: ID can be a numeric
->  # uid, a couple uid:gid or uid:groupname or it is '-' meaning leaving it
->  # automatic or it can be a path. In the latter, the uid/gid matches the
-> @@ -259,8 +263,12 @@ zap_empty_root_password () {
->  # This function adds a note to the login banner that the system is configured for root logins without password
->  #
->  add_empty_root_password_note () {
-> -       echo "Type 'root' to login with superuser privileges (no password will be asked)." >> ${IMAGE_ROOTFS}/etc/issue
-> -       echo "" >> ${IMAGE_ROOTFS}/etc/issue
-> +       rootpw="`grep '^root:' ${IMAGE_ROOTFS}/etc/shadow | cut -d':' -f2`"
-> +       rootpw_lastchanged="`grep "^root:" ${IMAGE_ROOTFS}/etc/shadow | cut -d: -f3`"
-> +       if [ -z "$rootpw" -a "$rootpw_lastchanged" != "0" ]; then
-> +               echo "Type 'root' to login with superuser privileges (no password will be asked)." >> ${IMAGE_ROOTFS}/etc/issue
-> +               echo "" >> ${IMAGE_ROOTFS}/etc/issue
-> +       fi
->  }
->
->  #
-> --
-> 2.43.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#227114): https://lists.openembedded.org/g/openembedded-core/message/227114
-> Mute This Topic: https://lists.openembedded.org/mt/116551793/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+This commit restores support for tmux in ncurses-terminfo-base. This fixes e.g. `top` not working when starting `tmux`, then `adb shell`, then `top`.
+
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+---
+ meta/recipes-core/ncurses/ncurses.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index 951f96beb5..8482db7f6e 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -182,7 +182,7 @@ do_install() {
+ 
+         # include some basic terminfo files
+         # stolen ;) from gentoo and modified a bit
+-        for x in alacritty ansi console dumb linux rxvt screen screen-256color sun vt52 vt100 vt102 vt200 vt220 xterm-color xterm-xfree86 xterm-256color
++        for x in alacritty ansi console dumb linux rxvt screen screen-256color sun tmux tmux-256color vt52 vt100 vt102 vt200 vt220 xterm-color xterm-xfree86 xterm-256color
+         do
+                 local termfile="$(find "${D}${datadir}/terminfo/" -name "${x}" 2>/dev/null)"
+                 local basedir="$(basename $(dirname "${termfile}"))"
+-- 
+2.43.0
+
 
