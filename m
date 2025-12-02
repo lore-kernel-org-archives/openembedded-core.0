@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96343CFD2F6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C4C2D116F6
 	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 15:10:01 +0000 (UTC)
 Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9664.1764688193729204243
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9665.1764688197525487986
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Dec 2025 07:09:53 -0800
+ Tue, 02 Dec 2025 07:09:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Kwlas2/D;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=I55A/V7X;
  spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7ba49f92362so3219296b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 07:09:53 -0800 (PST)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7b8bbf16b71so6823153b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 07:09:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1764688193; x=1765292993; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1764688197; x=1765292997; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lluKorE/qs7jwUPCvAJZXYqPOdglcchOSu8HCTJ5hjQ=;
-        b=Kwlas2/DPpEAM89fAG8jxjczdYkhI17hTdAFpYPl6uvh1rJB8i6zfKfdLou+lP5Xq2
-         X95pAtWY/U3yJkwyZOkTBm5ooBhqObMF3KRX+msS+5+vfIl2QyZ0f7Z27J0c3As+nBd8
-         7YW7hmzyAZK91IKLxDcdHUygu55zMot/2YgnwInGTzN4IkJCni166w6je7aOcJCQmbyK
-         paTI6YXW0ZWJba+Oe35ijQylsjEGhayEpavWQPVdsj8LwnPv3nsnpT2WUiZrAEX6/veX
-         31DPV/JQsQ3lYa3SrO7PS5buqYxtKrG3JXuVgqpaecDjrhBjgBAZ1IAZt9WQGGBOpHLr
-         GgDA==
+        bh=G49MjZ/BoBQrjeY4WMc2r6r5hN/XFJxCl/1Cox2wVA8=;
+        b=I55A/V7XdnhcR5RIZVO/G6ASKfPtJs8Gz2Mv+P2HO7uzRLxjfkJfh/+ikuzOLHtTC9
+         /EtviYU1lNTStUdPW7bpGbkkQHYNpFHbaPt9FOVIRmAgQaU2Wrpuyw4biXTI51Wcr68Q
+         MFn0qX/d9nAy/mZiuuz7vuoTuHDRbO7FrhUl045UkbdiU6OA+HfEtEepPM3rid3XiiZz
+         bP2uL9PyaGtgEwCfDvPFEiGHxtux+aNw7XsT2y6pvoCJs4amzh2MmsEioimQ0/o2O6Q2
+         4/x3ZizVvqsk6LLN00aNh7Ckrt4PMfs3LVQ751CK1QmFWuv3n8+Vv+zUdqHO5/DWNBuN
+         oP6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764688193; x=1765292993;
+        d=1e100.net; s=20230601; t=1764688197; x=1765292997;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=lluKorE/qs7jwUPCvAJZXYqPOdglcchOSu8HCTJ5hjQ=;
-        b=RpfeZHZdBYV2NTkI+evoaOThrHr+N2fI51iVzY0IL4pdtLWJ6Tw6jz6abPezl01F2L
-         wk6CWqzf3/FsE0I0WTRHqyq7/GtNEW6N12gNYdfAl+weCGLjcuJnWxvqdQVTI/Y6Sw0s
-         fwccfafmFNILnlNuMm777+2vuCMuRs5HprtXXXCusAch+vO3nsD0VH30ZPj7L7BPgbcq
-         4SS2L2Mi1lzzB5G2b87b6gIH+CD48lLDuD46teWP2S+RhL4QuAnqKffo2nHdTmvVSDg8
-         T/4eZ8y5cTATo9b4Hdm5cikHvehx3big1DTtl0xAKwBbfX+n+kVF0WwZj8lJ2+OvXhZX
-         32jg==
-X-Gm-Message-State: AOJu0YxsvrWX53dv4MsvrkkLcRK/CgPXKKsmBN4qY8f2GbYDV1gqN+KI
-	y5KgEIG2m4R6FBh6CsLdBah2laaxOfks60/eH86Ogxynf780xKml15djleP77cbY5fxfFvzIDon
-	ZV0Jf
-X-Gm-Gg: ASbGnctFgyNO2H4CxvrAp0lwoCaixS1+9bzBj5koS+QULIeFZwA63Fu1wtHk1PpoVlm
-	YYZeJvZl37vb3xF5dItp/7dHf00dEqKNjripxoLPf/ST1wW7Xyd60aZjDX/CmMgHnmisDDEQWye
-	BbJR4O3N3dUhnQ6+XtxtAGoWVfQ6GmVEy3aphhXhXZ46TEl7kamwhJ4I+vIs/FZmvHM5FO9872F
-	zcJAJDV3X2maO0oPM8wjnrLjtBQatRCO8qhSnlWrqmFStorcAsPjFky2NpOa2CCFP9vKk/UAzYI
-	OovU3U1lgZy/OHC0Sau/5Q4ITKgLqOQ1Ra3OVc02DlLkA9beE0vDKZShTMObc23+gRoguHBlogR
-	LN1jFaZ+DKPEzD1Hz6AE3uV4wkiiELQsEtC+Bq43aE/I4nK3bIuuJgepAW3luwQHDiMxPuL/IUa
-	IBgQ==
-X-Google-Smtp-Source: AGHT+IENauZraWM/oTp4v//LQJMu12ejY7Jb3y0s8gLWdW/3yZyVi1MNCSkxUIDS5SiYEV0wRISCLQ==
-X-Received: by 2002:a05:6a20:94c8:b0:35f:84c7:4012 with SMTP id adf61e73a8af0-363e8d5b595mr3381317637.29.1764688192515;
-        Tue, 02 Dec 2025 07:09:52 -0800 (PST)
+        bh=G49MjZ/BoBQrjeY4WMc2r6r5hN/XFJxCl/1Cox2wVA8=;
+        b=emVz+TE2AwZ6Nf2Jvp3X45Di0rvcyjCp+YgKZlwa21+X7MClI2p3B7/K8WjYUL/rLy
+         tN1NR9aFeV7zR6J4d+magkkl0B8UyhSt+STsq1m+LowqNtrlFLl0oPcYnAWRRV1JMWHi
+         SeCRIXkkZYOVzoF6TPCaQeZBjN1MP748+sDriJc4J9iMBnpptOz/XqZ11PrZ849QRqMu
+         S3efVDivXFpc4a7rBy6VyFFpqJxilg6PszJBExppeqCRV/5irfqPqE+8HW9HKKapmH+D
+         /WfA7R8i6PkJodSeJARkuagsXAaqRMaMnfTe+H6N/Nd3KfF5JqMy05iS5aMV9z43kaMF
+         kkLw==
+X-Gm-Message-State: AOJu0YyuOSDE5F36SL/LxQApZYhimtMj0UNu/BuXrqR1acbV5DEVkUpJ
+	4l6SPVEPGAMVXDovtMziUdhxiDA43ntovRBHBfi2RtF0qPJC2+TnCGEeNnnj36qB+35mNeG3m4T
+	xAzQT
+X-Gm-Gg: ASbGncsfHJMnPDFJCcqthkW/ZyHOETlCNrlWyVGDHbTAYNh8JUQU/DoIAaMk0z0xT/X
+	Wq3+Uyf1PwOxdh8oPuCk+EG3LdhaPqiNL+ZbZfsgscmkIfVwYDRJbZqdPNI31KP1D+VvdkiH/KR
+	lkj/IUQP2c78ohWAag0PNdnxw96Z9fVYNMNI2G/+52nNHzKfHUzgCNL3KIpcAz5lKGfCDNIt74K
+	WiWpuMy1xC9oECm/7oVWpTVU/hq8x7ZGbMHF0+1btSSkn5q4sLACU1OFOhM4/ZbVIr832iaBbNS
+	0eUP4jmItRKr+4H9FIdGUmuKiI0QHtSXGkX0pD23CwoCY4tCrc0oZxEvRQw0MaC7KyaTSN64wqi
+	kCcMVqrsvSghoe7bpRmpWtWzAaM6b4L7+1UDV0trMIpDTxdBqpY9kEc7KO+gYzXucbx/Rdc/zwB
+	G7vpVZDoOll1MV
+X-Google-Smtp-Source: AGHT+IFN4iTIBo30oLfm+kbDp+8JydZv/uQk//1GsGWJANqlq/9N2i7aRjIcldpzbkQUYNyUKWonPw==
+X-Received: by 2002:a05:6a20:4306:b0:342:44f3:d1bc with SMTP id adf61e73a8af0-3614ed922b6mr47880550637.35.1764688196056;
+        Tue, 02 Dec 2025 07:09:56 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:b8d9:92cd:3fd4:9b7a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d1516f6621sm17175182b3a.16.2025.12.02.07.09.51
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d1516f6621sm17175182b3a.16.2025.12.02.07.09.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 07:09:52 -0800 (PST)
+        Tue, 02 Dec 2025 07:09:55 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 06/10] go: fix CVE-2025-58187
-Date: Tue,  2 Dec 2025 07:09:29 -0800
-Message-ID: <cea9fcf1b21b1b35b88986b676d712ab8ffa9d67.1764688054.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/10] go: fix CVE-2025-61723
+Date: Tue,  2 Dec 2025 07:09:31 -0800
+Message-ID: <cfafebef95330e531ab7bb590e5fb566dd5a3dce.1764688054.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1764688053.git.steve@sakoman.com>
 References: <cover.1764688053.git.steve@sakoman.com>
@@ -69,386 +69,257 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 15:10:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227165
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227167
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Due to the design of the name constraint checking algorithm, the processing time
-of some inputs scale non-linearly with respect to the size of the certificate.
-This affects programs which validate arbitrary certificate chains.
+The processing time for parsing some invalid inputs scales non-linearly with
+respect to the size of the input. This affects programs which parse untrusted PEM inputs.
 
 Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
  meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
- .../go/go-1.18/CVE-2025-58187.patch           | 349 ++++++++++++++++++
- 2 files changed, 350 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2025-58187.patch
+ .../go/go-1.18/CVE-2025-61723.patch           | 221 ++++++++++++++++++
+ 2 files changed, 222 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2025-61723.patch
 
 diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
-index 465f24e108..c5aa3f9786 100644
+index 61fee12cf9..b621fb189c 100644
 --- a/meta/recipes-devtools/go/go-1.17.13.inc
 +++ b/meta/recipes-devtools/go/go-1.17.13.inc
-@@ -69,6 +69,7 @@ SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main \
-            file://CVE-2025-47907.patch \
-            file://CVE-2025-47906.patch \
+@@ -71,6 +71,7 @@ SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main \
             file://CVE-2024-24783.patch \
-+           file://CVE-2025-58187.patch \
+            file://CVE-2025-58187.patch \
+            file://CVE-2025-58189.patch \
++           file://CVE-2025-61723.patch \
             "
  SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
  
-diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2025-58187.patch b/meta/recipes-devtools/go/go-1.18/CVE-2025-58187.patch
+diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2025-61723.patch b/meta/recipes-devtools/go/go-1.18/CVE-2025-61723.patch
 new file mode 100644
-index 0000000000..810487674c
+index 0000000000..8c838a6d8a
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.18/CVE-2025-58187.patch
-@@ -0,0 +1,349 @@
-+From f334417e71f8b078ad64035bddb6df7f8910da6c Mon Sep 17 00:00:00 2001
-+From: Neal Patel <nealpatel@google.com>
-+Date: Mon, 15 Sep 2025 16:31:22 -0400
-+Subject: [PATCH] crypto/x509: improve domain name verification
++++ b/meta/recipes-devtools/go/go-1.18/CVE-2025-61723.patch
+@@ -0,0 +1,221 @@
++From 74d4d836b91318a8764b94bc2b4b66ff599eb5f2 Mon Sep 17 00:00:00 2001
++From: Roland Shoemaker <bracewell@google.com>
++Date: Tue, 30 Sep 2025 11:16:56 -0700
++Subject: [PATCH] encoding/pem: make Decode complexity linear Because Decode
++ scanned the input first for the first BEGIN line, and then the first END
++ line, the complexity of Decode is quadratic. If the input contained a large
++ number of BEGINs and then a single END right at the end of the input, we
++ would find the first BEGIN, and then scan the entire input for the END, and
++ fail to parse the block, so move onto the next BEGIN, scan the entire input
++ for the END, etc.
 +
-+Don't use domainToReverseLabels to check if domain names are valid,
-+since it is not particularly performant, and can contribute to DoS
-+vectors. Instead just iterate over the name and enforce the properties
-+we care about.
++Instead, look for the first END in the input, and then the first BEGIN
++that precedes the found END. We then process the bytes between the BEGIN
++and END, and move onto the bytes after the END for further processing.
++This gives us linear complexity.
 +
-+This also enforces that DNS names, both in SANs and name constraints,
-+are valid. We previously allowed invalid SANs, because some
-+intermediates had these weird names (see #23995), but there are
-+currently no trusted intermediates that have this property, and since we
-+target the web PKI, supporting this particular case is not a high
-+priority.
++Fixes CVE-2025-61723
++For #75676
++Fixes #75708
 +
-+Thank you to Jakub Ciolek for reporting this issue.
-+
-+Fixes CVE-2025-58187
-+For #75681
-+Fixes #75714
-+
-+Change-Id: I6ebce847dcbe5fc63ef2f9a74f53f11c4c56d3d1
-+Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/2820
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/2982
++Change-Id: I813c4f63e78bca4054226c53e13865c781564ccf
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/2921
 +Reviewed-by: Nicholas Husin <husin@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/709839
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/2986
++Reviewed-on: https://go-review.googlesource.com/c/go/+/709842
++TryBot-Bypass: Michael Pratt <mpratt@google.com>
 +Auto-Submit: Michael Pratt <mpratt@google.com>
 +Reviewed-by: Carlos Amedee <carlos@golang.org>
-+TryBot-Bypass: Michael Pratt <mpratt@google.com>
 +
-+CVE: CVE-2025-58187
++CVE: CVE-2025-61723
 +
-+Upstream-Status: Backport [https://github.com/golang/go/commit/f334417e71f8b078ad64035bddb6df7f8910da6c]
++Upstream-Status: Backport [https://github.com/golang/go/commit/74d4d836b91318a8764b94bc2b4b66ff599eb5f2]
 +
 +Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ src/crypto/x509/name_constraints_test.go | 66 ++------------------
-+ src/crypto/x509/parser.go                | 77 ++++++++++++++----------
-+ src/crypto/x509/parser_test.go           | 43 +++++++++++++
-+ src/crypto/x509/verify.go                |  1 +
-+ 4 files changed, 95 insertions(+), 92 deletions(-)
++ src/encoding/pem/pem.go      | 67 +++++++++++++++++++-----------------
++ src/encoding/pem/pem_test.go | 13 +++----
++ 2 files changed, 43 insertions(+), 37 deletions(-)
 +
-+diff --git a/src/crypto/x509/name_constraints_test.go b/src/crypto/x509/name_constraints_test.go
-+index c59a7dc..d4f7d41 100644
-+--- a/src/crypto/x509/name_constraints_test.go
-++++ b/src/crypto/x509/name_constraints_test.go
-+@@ -1452,63 +1452,7 @@ var nameConstraintsTests = []nameConstraintsTest{
-+ 		requestedEKUs: []ExtKeyUsage{ExtKeyUsageServerAuth},
-+ 	},
-+ 
-+-	// An invalid DNS SAN should be detected only at validation time so
-+-	// that we can process CA certificates in the wild that have invalid SANs.
-+-	// See https://github.com/golang/go/issues/23995
-+-
-+-	// #77: an invalid DNS or mail SAN will not be detected if name constraint
-+-	// checking is not triggered.
-+-	{
-+-		roots: make([]constraintsSpec, 1),
-+-		intermediates: [][]constraintsSpec{
-+-			{
-+-				{},
-+-			},
-+-		},
-+-		leaf: leafSpec{
-+-			sans: []string{"dns:this is invalid", "email:this @ is invalid"},
-+-		},
-+-	},
-+-
-+-	// #78: an invalid DNS SAN will be detected if any name constraint checking
-+-	// is triggered.
-+-	{
-+-		roots: []constraintsSpec{
-+-			{
-+-				bad: []string{"uri:"},
-+-			},
-+-		},
-+-		intermediates: [][]constraintsSpec{
-+-			{
-+-				{},
-+-			},
-+-		},
-+-		leaf: leafSpec{
-+-			sans: []string{"dns:this is invalid"},
-+-		},
-+-		expectedError: "cannot parse dnsName",
-+-	},
-+-
-+-	// #79: an invalid email SAN will be detected if any name constraint
-+-	// checking is triggered.
-+-	{
-+-		roots: []constraintsSpec{
-+-			{
-+-				bad: []string{"uri:"},
-+-			},
-+-		},
-+-		intermediates: [][]constraintsSpec{
-+-			{
-+-				{},
-+-			},
-+-		},
-+-		leaf: leafSpec{
-+-			sans: []string{"email:this @ is invalid"},
-+-		},
-+-		expectedError: "cannot parse rfc822Name",
-+-	},
-+-
-+-	// #80: if several EKUs are requested, satisfying any of them is sufficient.
-++	// #77: if several EKUs are requested, satisfying any of them is sufficient.
-+ 	{
-+ 		roots: make([]constraintsSpec, 1),
-+ 		intermediates: [][]constraintsSpec{
-+@@ -1523,7 +1467,7 @@ var nameConstraintsTests = []nameConstraintsTest{
-+ 		requestedEKUs: []ExtKeyUsage{ExtKeyUsageClientAuth, ExtKeyUsageEmailProtection},
-+ 	},
-+ 
-+-	// #81: EKUs that are not asserted in VerifyOpts are not required to be
-++	// #78: EKUs that are not asserted in VerifyOpts are not required to be
-+ 	// nested.
-+ 	{
-+ 		roots: make([]constraintsSpec, 1),
-+@@ -1542,7 +1486,7 @@ var nameConstraintsTests = []nameConstraintsTest{
-+ 		},
-+ 	},
-+ 
-+-	// #82: a certificate without SANs and CN is accepted in a constrained chain.
-++	// #79: a certificate without SANs and CN is accepted in a constrained chain.
-+ 	{
-+ 		roots: []constraintsSpec{
-+ 			{
-+@@ -1559,7 +1503,7 @@ var nameConstraintsTests = []nameConstraintsTest{
-+ 		},
-+ 	},
-+ 
-+-	// #83: a certificate without SANs and with a CN that does not parse as a
-++	// #80: a certificate without SANs and with a CN that does not parse as a
-+ 	// hostname is accepted in a constrained chain.
-+ 	{
-+ 		roots: []constraintsSpec{
-+@@ -1578,7 +1522,7 @@ var nameConstraintsTests = []nameConstraintsTest{
-+ 		},
-+ 	},
-+ 
-+-	// #84: a certificate with SANs and CN is accepted in a constrained chain.
-++	// #81: a certificate with SANs and CN is accepted in a constrained chain.
-+ 	{
-+ 		roots: []constraintsSpec{
-+ 			{
-+diff --git a/src/crypto/x509/parser.go b/src/crypto/x509/parser.go
-+index 635e74b..0788210 100644
-+--- a/src/crypto/x509/parser.go
-++++ b/src/crypto/x509/parser.go
-+@@ -391,10 +391,14 @@ func parseSANExtension(der cryptobyte.String) (dnsNames, emailAddresses []string
-+ 			if err := isIA5String(email); err != nil {
-+ 				return errors.New("x509: SAN rfc822Name is malformed")
-+ 			}
-++			parsed, ok := parseRFC2821Mailbox(email)
-++			if !ok || (ok && !domainNameValid(parsed.domain, false)) {
-++				return errors.New("x509: SAN rfc822Name is malformed")
-++			}
-+ 			emailAddresses = append(emailAddresses, email)
-+ 		case nameTypeDNS:
-+ 			name := string(data)
-+-			if err := isIA5String(name); err != nil {
-++			if err := isIA5String(name); err != nil || (err == nil && !domainNameValid(name, false)) {
-+ 				return errors.New("x509: SAN dNSName is malformed")
-+ 			}
-+ 			dnsNames = append(dnsNames, string(name))
-+@@ -404,14 +408,9 @@ func parseSANExtension(der cryptobyte.String) (dnsNames, emailAddresses []string
-+ 				return errors.New("x509: SAN uniformResourceIdentifier is malformed")
-+ 			}
-+ 			uri, err := url.Parse(uriStr)
-+-			if err != nil {
-++			if err != nil || (err == nil && uri.Host != "" && !domainNameValid(uri.Host, false)) {
-+ 				return fmt.Errorf("x509: cannot parse URI %q: %s", uriStr, err)
-+ 			}
-+-			if len(uri.Host) > 0 {
-+-				if _, ok := domainToReverseLabels(uri.Host); !ok {
-+-					return fmt.Errorf("x509: cannot parse URI %q: invalid domain", uriStr)
-+-				}
-+-			}
-+ 			uris = append(uris, uri)
-+ 		case nameTypeIP:
-+ 			switch len(data) {
-+@@ -551,15 +550,7 @@ func parseNameConstraintsExtension(out *Certificate, e pkix.Extension) (unhandle
-+ 					return nil, nil, nil, nil, errors.New("x509: invalid constraint value: " + err.Error())
-+ 				}
-+ 
-+-				trimmedDomain := domain
-+-				if len(trimmedDomain) > 0 && trimmedDomain[0] == '.' {
-+-					// constraints can have a leading
-+-					// period to exclude the domain
-+-					// itself, but that's not valid in a
-+-					// normal domain name.
-+-					trimmedDomain = trimmedDomain[1:]
-+-				}
-+-				if _, ok := domainToReverseLabels(trimmedDomain); !ok {
-++				if !domainNameValid(domain, true) {
-+ 					return nil, nil, nil, nil, fmt.Errorf("x509: failed to parse dnsName constraint %q", domain)
-+ 				}
-+ 				dnsNames = append(dnsNames, domain)
-+@@ -600,12 +591,7 @@ func parseNameConstraintsExtension(out *Certificate, e pkix.Extension) (unhandle
-+ 						return nil, nil, nil, nil, fmt.Errorf("x509: failed to parse rfc822Name constraint %q", constraint)
-+ 					}
-+ 				} else {
-+-					// Otherwise it's a domain name.
-+-					domain := constraint
-+-					if len(domain) > 0 && domain[0] == '.' {
-+-						domain = domain[1:]
-+-					}
-+-					if _, ok := domainToReverseLabels(domain); !ok {
-++					if !domainNameValid(constraint, true) {
-+ 						return nil, nil, nil, nil, fmt.Errorf("x509: failed to parse rfc822Name constraint %q", constraint)
-+ 					}
-+ 				}
-+@@ -621,15 +607,7 @@ func parseNameConstraintsExtension(out *Certificate, e pkix.Extension) (unhandle
-+ 					return nil, nil, nil, nil, fmt.Errorf("x509: failed to parse URI constraint %q: cannot be IP address", domain)
-+ 				}
-+ 
-+-				trimmedDomain := domain
-+-				if len(trimmedDomain) > 0 && trimmedDomain[0] == '.' {
-+-					// constraints can have a leading
-+-					// period to exclude the domain itself,
-+-					// but that's not valid in a normal
-+-					// domain name.
-+-					trimmedDomain = trimmedDomain[1:]
-+-				}
-+-				if _, ok := domainToReverseLabels(trimmedDomain); !ok {
-++				if !domainNameValid(domain, true) {
-+ 					return nil, nil, nil, nil, fmt.Errorf("x509: failed to parse URI constraint %q", domain)
-+ 				}
-+ 				uriDomains = append(uriDomains, domain)
-+@@ -1011,3 +989,40 @@ func ParseCertificates(der []byte) ([]*Certificate, error) {
++diff --git a/src/encoding/pem/pem.go b/src/encoding/pem/pem.go
++index 1bee1c1..01bed75 100644
++--- a/src/encoding/pem/pem.go
+++++ b/src/encoding/pem/pem.go
++@@ -35,7 +35,7 @@ type Block struct {
++ // line bytes. The remainder of the byte array (also not including the new line
++ // bytes) is also returned and this will always be smaller than the original
++ // argument.
++-func getLine(data []byte) (line, rest []byte) {
+++func getLine(data []byte) (line, rest []byte, consumed int) {
++ 	i := bytes.IndexByte(data, '\n')
++ 	var j int
++ 	if i < 0 {
++@@ -47,7 +47,7 @@ func getLine(data []byte) (line, rest []byte) {
++ 			i--
++ 		}
 + 	}
-+ 	return certs, nil
++-	return bytes.TrimRight(data[0:i], " \t"), data[j:]
+++	return bytes.TrimRight(data[0:i], " \t"), data[j:], j
 + }
-++
-++// domainNameValid does minimal domain name validity checking. In particular it
-++// enforces the following properties:
-++//   - names cannot have the trailing period
-++//   - names can only have a leading period if constraint is true
-++//   - names must be <= 253 characters
-++//   - names cannot have empty labels
-++//   - names cannot labels that are longer than 63 characters
-++//
-++// Note that this does not enforce the LDH requirements for domain names.
-++func domainNameValid(s string, constraint bool) bool {
-++	if len(s) == 0 && constraint {
-++		return true
-++	}
-++	if len(s) == 0 || (!constraint && s[0] == '.') || s[len(s)-1] == '.' || len(s) > 253 {
-++		return false
-++	}
-++	lastDot := -1
-++	if constraint && s[0] == '.' {
-++		s = s[1:]
-++	}
-++
-++	for i := 0; i <= len(s); i++ {
-++		if i == len(s) || s[i] == '.' {
-++			labelLen := i
-++			if lastDot >= 0 {
-++				labelLen -= lastDot + 1
-++			}
-++			if labelLen == 0 || labelLen > 63 {
-++				return false
-++			}
-++			lastDot = i
++ 
++ // removeSpacesAndTabs returns a copy of its input with all spaces and tabs
++@@ -88,19 +88,29 @@ func Decode(data []byte) (p *Block, rest []byte) {
++ 	// the byte array, we'll accept the start string without it.
++ 	rest = data
++ 	for {
++-		if bytes.HasPrefix(rest, pemStart[1:]) {
++-			rest = rest[len(pemStart)-1:]
++-		} else if i := bytes.Index(rest, pemStart); i >= 0 {
++-			rest = rest[i+len(pemStart) : len(rest)]
++-		} else {
+++		// Find the first END line, and then find the last BEGIN line before
+++		// the end line. This lets us skip any repeated BEGIN lines that don't
+++		// have a matching END.
+++		endIndex := bytes.Index(rest, pemEnd)
+++		if endIndex < 0 {
++ 			return nil, data
++ 		}
++-
+++		endTrailerIndex := endIndex + len(pemEnd)
+++		beginIndex := bytes.LastIndex(rest[:endIndex], pemStart[1:])
+++		if beginIndex < 0 || beginIndex > 0 && rest[beginIndex-1] != '\n' {
+++			return nil, data
 ++		}
-++	}
-++
-++	return true
-++}
-+diff --git a/src/crypto/x509/parser_test.go b/src/crypto/x509/parser_test.go
-+index d7cf7ea..95ed116 100644
-+--- a/src/crypto/x509/parser_test.go
-++++ b/src/crypto/x509/parser_test.go
-+@@ -5,6 +5,7 @@ package x509
+++		rest = rest[beginIndex+len(pemStart)-1:]
+++		endIndex -= beginIndex + len(pemStart) - 1
+++		endTrailerIndex -= beginIndex + len(pemStart) - 1
++ 		var typeLine []byte
++-		typeLine, rest = getLine(rest)
+++		var consumed int
+++		typeLine, rest, consumed = getLine(rest)
++ 		if !bytes.HasSuffix(typeLine, pemEndOfLine) {
++ 			continue
++ 		}
+++		endIndex -= consumed
+++		endTrailerIndex -= consumed
++ 		typeLine = typeLine[0 : len(typeLine)-len(pemEndOfLine)]
 + 
-+ import (
-+ 	"encoding/asn1"
-++	"strings"
-+ 	"testing"
++ 		p = &Block{
++@@ -114,7 +124,7 @@ func Decode(data []byte) (p *Block, rest []byte) {
++ 			if len(rest) == 0 {
++ 				return nil, data
++ 			}
++-			line, next := getLine(rest)
+++			line, next, consumed := getLine(rest)
 + 
-+ 	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
-+@@ -100,3 +101,45 @@ func TestParseASN1String(t *testing.T) {
-+ 		})
++ 			i := bytes.IndexByte(line, ':')
++ 			if i == -1 {
++@@ -127,21 +137,13 @@ func Decode(data []byte) (p *Block, rest []byte) {
++ 			val = bytes.TrimSpace(val)
++ 			p.Headers[string(key)] = string(val)
++ 			rest = next
+++			endIndex -= consumed
+++			endTrailerIndex -= consumed
++ 		}
++ 
++-		var endIndex, endTrailerIndex int
++-
++-		// If there were no headers, the END line might occur
++-		// immediately, without a leading newline.
++-		if len(p.Headers) == 0 && bytes.HasPrefix(rest, pemEnd[1:]) {
++-			endIndex = 0
++-			endTrailerIndex = len(pemEnd) - 1
++-		} else {
++-			endIndex = bytes.Index(rest, pemEnd)
++-			endTrailerIndex = endIndex + len(pemEnd)
++-		}
++-
++-		if endIndex < 0 {
+++		// If there were headers, there must be a newline between the headers
+++		// and the END line, so endIndex should be >= 0.
+++		if len(p.Headers) > 0 && endIndex < 0 {
++ 			continue
++ 		}
++ 
++@@ -161,21 +163,24 @@ func Decode(data []byte) (p *Block, rest []byte) {
++ 		}
++ 
++ 		// The line must end with only whitespace.
++-		if s, _ := getLine(restOfEndLine); len(s) != 0 {
+++		if s, _, _ := getLine(restOfEndLine); len(s) != 0 {
++ 			continue
++ 		}
++ 
++-		base64Data := removeSpacesAndTabs(rest[:endIndex])
++-		p.Bytes = make([]byte, base64.StdEncoding.DecodedLen(len(base64Data)))
++-		n, err := base64.StdEncoding.Decode(p.Bytes, base64Data)
++-		if err != nil {
++-			continue
+++		p.Bytes = []byte{}
+++		if endIndex > 0 {
+++			base64Data := removeSpacesAndTabs(rest[:endIndex])
+++			p.Bytes = make([]byte, base64.StdEncoding.DecodedLen(len(base64Data)))
+++			n, err := base64.StdEncoding.Decode(p.Bytes, base64Data)
+++			if err != nil {
+++				continue
+++			}
+++			p.Bytes = p.Bytes[:n]
++ 		}
++-		p.Bytes = p.Bytes[:n]
++ 
++ 		// the -1 is because we might have only matched pemEnd without the
++ 		// leading newline if the PEM block was empty.
++-		_, rest = getLine(rest[endIndex+len(pemEnd)-1:])
+++		_, rest, _ = getLine(rest[endIndex+len(pemEnd)-1:])
++ 		return p, rest
 + 	}
 + }
++diff --git a/src/encoding/pem/pem_test.go b/src/encoding/pem/pem_test.go
++index c94b5ca..a326f9b 100644
++--- a/src/encoding/pem/pem_test.go
+++++ b/src/encoding/pem/pem_test.go
++@@ -34,7 +34,7 @@ var getLineTests = []GetLineTest{
++ 
++ func TestGetLine(t *testing.T) {
++ 	for i, test := range getLineTests {
++-		x, y := getLine([]byte(test.in))
+++		x, y, _ := getLine([]byte(test.in))
++ 		if string(x) != test.out1 || string(y) != test.out2 {
++ 			t.Errorf("#%d got:%+v,%+v want:%s,%s", i, x, y, test.out1, test.out2)
++ 		}
++@@ -46,6 +46,7 @@ func TestDecode(t *testing.T) {
++ 	if !reflect.DeepEqual(result, certificate) {
++ 		t.Errorf("#0 got:%#v want:%#v", result, certificate)
++ 	}
 ++
-++func TestDomainNameValid(t *testing.T) {
-++	for _, tc := range []struct {
-++		name       string
-++		dnsName    string
-++		constraint bool
-++		valid      bool
-++	}{
-++		{"empty name, name", "", false, false},
-++		{"empty name, constraint", "", true, true},
-++		{"empty label, name", "a..a", false, false},
-++		{"empty label, constraint", "a..a", true, false},
-++		{"period, name", ".", false, false},
-++		{"period, constraint", ".", true, false}, // TODO(roland): not entirely clear if this is a valid constraint (require at least one label?)
-++		{"valid, name", "a.b.c", false, true},
-++		{"valid, constraint", "a.b.c", true, true},
-++		{"leading period, name", ".a.b.c", false, false},
-++		{"leading period, constraint", ".a.b.c", true, true},
-++		{"trailing period, name", "a.", false, false},
-++		{"trailing period, constraint", "a.", true, false},
-++		{"bare label, name", "a", false, true},
-++		{"bare label, constraint", "a", true, true},
-++		{"254 char label, name", strings.Repeat("a.a", 84) + "aaa", false, false},
-++		{"254 char label, constraint", strings.Repeat("a.a", 84) + "aaa", true, false},
-++		{"253 char label, name", strings.Repeat("a.a", 84) + "aa", false, false},
-++		{"253 char label, constraint", strings.Repeat("a.a", 84) + "aa", true, false},
-++		{"64 char single label, name", strings.Repeat("a", 64), false, false},
-++		{"64 char single label, constraint", strings.Repeat("a", 64), true, false},
-++		{"63 char single label, name", strings.Repeat("a", 63), false, true},
-++		{"63 char single label, constraint", strings.Repeat("a", 63), true, true},
-++		{"64 char label, name", "a." + strings.Repeat("a", 64), false, false},
-++		{"64 char label, constraint", "a." + strings.Repeat("a", 64), true, false},
-++		{"63 char label, name", "a." + strings.Repeat("a", 63), false, true},
-++		{"63 char label, constraint", "a." + strings.Repeat("a", 63), true, true},
-++	} {
-++		t.Run(tc.name, func(t *testing.T) {
-++			if tc.valid != domainNameValid(tc.dnsName, tc.constraint) {
-++				t.Errorf("domainNameValid(%q, %t) = %v; want %v", tc.dnsName, tc.constraint, !tc.valid, tc.valid)
-++			}
-++		})
-++	}
-++}
-+diff --git a/src/crypto/x509/verify.go b/src/crypto/x509/verify.go
-+index 3e95808..fb2f4b2 100644
-+--- a/src/crypto/x509/verify.go
-++++ b/src/crypto/x509/verify.go
-+@@ -357,6 +357,7 @@ func parseRFC2821Mailbox(in string) (mailbox rfc2821Mailbox, ok bool) {
-+ // domainToReverseLabels converts a textual domain name like foo.example.com to
-+ // the list of labels in reverse order, e.g. ["com", "example", "foo"].
-+ func domainToReverseLabels(domain string) (reverseLabels []string, ok bool) {
-++	reverseLabels = make([]string, 0, strings.Count(domain, ".")+1)
-+ 	for len(domain) > 0 {
-+ 		if i := strings.LastIndexByte(domain, '.'); i == -1 {
-+ 			reverseLabels = append(reverseLabels, domain)
++ 	result, remainder = Decode(remainder)
++ 	if !reflect.DeepEqual(result, privateKey) {
++ 		t.Errorf("#1 got:%#v want:%#v", result, privateKey)
++@@ -68,7 +69,7 @@ func TestDecode(t *testing.T) {
++ 	}
++ 
++ 	result, remainder = Decode(remainder)
++-	if result == nil || result.Type != "HEADERS" || len(result.Headers) != 1 {
+++	if result == nil || result.Type != "VALID HEADERS" || len(result.Headers) != 1 {
++ 		t.Errorf("#5 expected single header block but got :%v", result)
++ 	}
++ 
++@@ -381,15 +382,15 @@ ZWAaUoVtWIQ52aKS0p19G99hhb+IVANC4akkdHV4SP8i7MVNZhfUmg==
++ 
++ # This shouldn't be recognised because of the missing newline after the
++ headers.
++------BEGIN HEADERS-----
+++-----BEGIN INVALID HEADERS-----
++ Header: 1
++------END HEADERS-----
+++-----END INVALID HEADERS-----
++ 
++ # This should be valid, however.
++------BEGIN HEADERS-----
+++-----BEGIN VALID HEADERS-----
++ Header: 1
++ 
++------END HEADERS-----`)
+++-----END VALID HEADERS-----`)
++ 
++ var certificate = &Block{Type: "CERTIFICATE",
++ 	Headers: map[string]string{},
 +-- 
 +2.40.0
 +
