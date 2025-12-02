@@ -1,112 +1,131 @@
-Return-Path: <schonm@gmail.com>
+Return-Path: <corentin.guillevic@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABDA9CFD2F6
-	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 15:11:21 +0000 (UTC)
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9762.1764688281229457548
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA080D116F6
+	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 15:51:05 +0000 (UTC)
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.344.1764690657698416615
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Dec 2025 07:11:21 -0800
+ Tue, 02 Dec 2025 07:50:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=H4QC7qMF;
- spf=pass (domain: gmail.com, ip: 74.125.224.47, mailfrom: schonm@gmail.com)
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-63f97c4eccaso5070293d50.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 07:11:21 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=qwZ7xtgC;
+ spf=pass (domain: smile.fr, ip: 209.85.128.68, mailfrom: corentin.guillevic@smile.fr)
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-477aa218f20so39119695e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 07:50:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764688280; x=1765293080; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=21gYNNaS5rj+CBmagtIDOj2YbH0UVUX+bKjeoNiB0og=;
-        b=H4QC7qMFVsrZ27GojreIF1rL+HYU3GrYoSz0TaSwH/lllOUm7QAZD6YwC0sdDE6cJl
-         k5dTBYZlUkbHFNrf9eDYc4YeTAqd/+eFNd4KvZOf5disq8C3dp+n120ze+dLBrO5WqFx
-         ywr0VA1SP1zWfcaxbGJ0MUbA/vmOu6emW3uZrQuQ7XlWacvie/NUreYVoBbqAIEOFmyI
-         I3LGkO8bQbhdJE7QljZ8tomJAxnT2BJN4jY3iUDCfNFAQIBncmpeqgBS3fA5LL9vvQwD
-         6Vb711VPyVfw1BGh+G50mQDTOZYpY+vGp/aSZDkc3VbjgoCzuUEAiLOWvrTiIZMCbtAO
-         uWfw==
+        d=smile.fr; s=google; t=1764690656; x=1765295456; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wJbP5DbUgmeGkEI2GBxOkpi1gqkUDBfeSzxl87woMwk=;
+        b=qwZ7xtgCiwGcg0IRu+SHvbejKm4b1gAWzlfL/xNZvwSXX3Wyd+rNvTfUtkj2IlaYdu
+         lgmFiNsUM7B7ixMRiNQx6lb4eHdhokqLeA7plXNOB92VzCLnk5Tp8oowXDXhfvXnIme8
+         hV2H/Ocs/LXXf41bbU2flp7TJqa9ssoFRh0PI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764688280; x=1765293080;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=21gYNNaS5rj+CBmagtIDOj2YbH0UVUX+bKjeoNiB0og=;
-        b=sWk+pCW46hTNVMZvExyg1Y1wMJVAlEJZkyLnGGHwmLR9roNC2jTktJMjvb6G1iyRCP
-         VWspdq98vgp9VRay4OJ3mxcQx/86UjuON2vQclYnceP26hSUjRq7LFiClszUOzOZPqbk
-         J843hCQF1DSKMKmrjeG6GOjo0HJ/fS7b0hRuTzTKClIV4hIApimnQt/fAhpry4TFGv3y
-         YFKgYQFd1iytijJ5fveBFWmyXdCMiFgmBx6u6HbWGFl3CV3GLu0tuJuEQ9+7ciccz1y7
-         ZyaaYN0iM60t5PSjajMFag+qGeoihacSlxIJ1ssRf+7B3seHw6xLp8/krd1kGLLjl2UX
-         aHvQ==
-X-Gm-Message-State: AOJu0YzowQfgVy59yMJVXlap6TuYTAoxth87iW8bOHuqlmArcXyOOywd
-	t9T2wKLUwnPx1XzgY2g+U5GSz5ZeBbU8zLVDF2zVkiVJdZIn9uvIfbk+3a8zlNUE
-X-Gm-Gg: ASbGncvHPVBbDcvAS6J2LlS1XHIWrDzn9Be5CogKpBOFK9JRvObiq3dMIotlWXq121Q
-	fAoroKLIhPhajPJol1Z/5N1OLjWUAHCwFXrKhSEoCtDNSLPzll+pIO+iok+sLTKLTRzU7H8g3Rp
-	hue8sDLgl1ZPcRR2Tovd8uKwJ30Z6hvaqZ1PbCfpwyXdLeODh0xhatANe+RmLeUOayKfEGVbRmv
-	3geDf/Qi9eta4y49aqK+KhOL1AFAViMsmvxJf6IMPXqo0dxp7WxEScbA4d/27OfO6O50JD4IgC9
-	GrOOV0A3muGW61rWnJzX+vfXEVgUoG6bzUk75l7tpm843BjrXgcn7XSgsCgsxtqJiQNAC4tx1V1
-	ycisEiyXZknbTG/v7f0tVj/WC1yXBzUOOU5QoamFD4kvn+V6vnIRnqoGWjftUqoQ0zcw2Y9NgK1
-	vvRVOnIjelKyoFGKu78REq3Ccmcck/gUALeYul8/Qf8i3m
-X-Google-Smtp-Source: AGHT+IEv6BbGWhP+pf5goOcr1iXf0uy5ohtZniNENT23qxjf/pkuRLXKChtNdyjtSJUgk9JGbut5Mw==
-X-Received: by 2002:a05:690e:144a:b0:63f:aef7:d009 with SMTP id 956f58d0204a3-64302a6060fmr30991168d50.5.1764688279865;
-        Tue, 02 Dec 2025 07:11:19 -0800 (PST)
-Received: from localhost.localdomain (71-208-12-78.ftmy.qwest.net. [71.208.12.78])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78ad0d5fe26sm63459527b3.18.2025.12.02.07.11.19
+        d=1e100.net; s=20230601; t=1764690656; x=1765295456;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wJbP5DbUgmeGkEI2GBxOkpi1gqkUDBfeSzxl87woMwk=;
+        b=VTqlC2vMWZEopHFKeAGFQt/GXtruavasqTOb7rGPhkZUS0uSKT9IMKUkTlJgxHTSC8
+         EH8NIcUJNOBwpKo8BONgF8X8++ZFff5kbZ9gLsPrMofrAmfZZhhBpiNdyNb4bJN1Yl7P
+         0GJgw01KI3SVvg4feGSwtMO7pMNR6lTEfpEgWY63a6kU91KDFie73Hw3VCpLO+wkAhoa
+         BdgHygb6FEHo+X5aQGOtyuGBgkFBk5XbH8tqHQvVFMYsj2xhFyp7UieJteDlpVC6LwXI
+         /xc8DNXcurv1SqejVv3NS/gp55axcN5hoDS4YmHglAzEWZj8C6/3zIeAQKEWgF2cR4TO
+         IukA==
+X-Gm-Message-State: AOJu0Yxz0imk8ICfrfsM0nqwc/xy6qwz+hOtcKen2vpctOCCFQFcGSaA
+	btQRheAlIAP/SvL7Go3MW4HGUY57DO7XcUH3WiS/AygVYx/ezImBIKHk/AakJBtu+IRyiq4YAxV
+	8ZkK47YHF/lKO
+X-Gm-Gg: ASbGncv+u0pEca6hfN6fnmekFhtNUQiyLId72EC4b04MXrTcbqH4gLp2n22Y5bcSzmC
+	IIvQwZkmRvxuLynNdL2HoZSbeY2V1/g9KUO9fN8DXic5KYQV3xkOSwfRzqBXUSJfd8znrviEm66
+	QlNf64ObdGkB8WnnEZJ6cXSU4baBJmQDd6rV3zCx7z1h3ejpXqp3UoEcaAe8Tw2DDkOx5uMFFYg
+	PQb8/jEbcOM/ZuI/FF6zq3+d7DnP9xideLi5KI56QFBm/nKzBzA50X3GaoA/+B/BehqBkqWhqLF
+	SpvhM9exf4FDBbyGmtHb5RG63orINuWrtYsuJ2mvd2eSvnPO6je3v5PsSFMktKHc9NgY97XJ/lp
+	kxAEeWad2wMMLFwhC6DZCM/Pc0iBUWFhvzW0ZIwxkDIaIrgGnXptCONmzddP7tsEMnf0FU9ymDb
+	2MF5jycYqSZIwS7nZ/RejXvw==
+X-Google-Smtp-Source: AGHT+IEB/JPjiKiI5+j62tCx6DZ+0AH83azIpaPaUvRQCFcl0HTChNMo/5Cx0VaJ2BwuzMxdHa3E1A==
+X-Received: by 2002:a05:600c:548b:b0:477:6d96:b3c8 with SMTP id 5b1f17b1804b1-477c01c4c03mr408878125e9.23.1764690655777;
+        Tue, 02 Dec 2025 07:50:55 -0800 (PST)
+Received: from heaven.lan ([2001:861:3080:b0f0:3dbf:6e88:6b4c:feb7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1c5d614asm33641446f8f.12.2025.12.02.07.50.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 07:11:19 -0800 (PST)
-From: Jason Schonberg <schonm@gmail.com>
+        Tue, 02 Dec 2025 07:50:55 -0800 (PST)
+From: Corentin Guillevic <corentin.guillevic@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Jason Schonberg <schonm@gmail.com>
-Subject: [PATCH 2/2] perl: upgrade 5.40.2 -> 5.42.0
-Date: Tue,  2 Dec 2025 10:10:31 -0500
-Message-ID: <20251202151032.15053-2-schonm@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251202151032.15053-1-schonm@gmail.com>
-References: <20251202151032.15053-1-schonm@gmail.com>
+Cc: Corentin Guillevic <corentin.guillevic@smile.fr>
+Subject: [PATCH] oe-setup-layers: support inline URI
+Date: Tue,  2 Dec 2025 16:50:43 +0100
+Message-ID: <20251202155043.815098-1-corentin.guillevic@smile.fr>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 15:11:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227171
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 15:51:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227172
 
-License-Update: Checksum changed because in the license, the physical address
-  of the Free Software Foundation has been exchanged for a web address.
+Most of the time, when we describe a remote, the layer data (also used by
+the script bitbake-setup) looks like this:
 
-Changes in perl 5.42.0: https://perldoc.perl.org/5.42.0/perldelta
+"bitbake": {
+    "git-remote": {
+        "remotes": {
+            "origin": {
+                "uri": "https://git.openembedded.org/bitbake"
+            }
+        },
+        ...
+    }
+}
 
-Signed-off-by: Jason Schonberg <schonm@gmail.com>
+i.e. an URI with the common name 'origin'. Alternatively, we could simplify this, by
+using a shorter structure with the property 'uri' only:
+
+"bitbake": {
+    "git-remote": {
+        "uri": "https://git.openembedded.org/bitbake",
+        ...
+    }
+}
+
+'uri' and 'remote' are then mutually exclusive.
+
+Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
 ---
- meta/recipes-devtools/perl/{perl_5.40.2.bb => perl_5.42.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/perl/{perl_5.40.2.bb => perl_5.42.0.bb} (99%)
+ scripts/oe-setup-layers | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.40.2.bb b/meta/recipes-devtools/perl/perl_5.42.0.bb
-similarity index 99%
-rename from meta/recipes-devtools/perl/perl_5.40.2.bb
-rename to meta/recipes-devtools/perl/perl_5.42.0.bb
-index a78d2ed0be..faab33163a 100644
---- a/meta/recipes-devtools/perl/perl_5.40.2.bb
-+++ b/meta/recipes-devtools/perl/perl_5.42.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.perl.org/"
- DESCRIPTION = "Perl is a highly capable, feature-rich programming language"
- SECTION = "devel"
- LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
--LIC_FILES_CHKSUM = "file://Copying;md5=5b122a36d0f6dc55279a0ebc69f3c60b \
-+LIC_FILES_CHKSUM = "file://Copying;md5=8f7dd0873e59530abbb36503972afcdb \
-                     file://Artistic;md5=71a4d5d9acc18c0952a6df2218bb68da \
-                     "
+diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
+index 31cb963251..bac685a209 100755
+--- a/scripts/oe-setup-layers
++++ b/scripts/oe-setup-layers
+@@ -60,6 +60,14 @@ def _write_layer_list(dest, repodirs):
+     with open(layers_f, 'w') as f:
+         json.dump({"version":"1.0","layers":layers}, f, sort_keys=True, indent=4)
  
-@@ -24,7 +24,7 @@ SRC_URI:append:class-target = " \
-            file://encodefix.patch \
- "
++def _handle_uri_shortcut(r_remote):
++    if 'remotes' in r_remote and 'uri' in r_remote:
++        raise Exception("Keys 'remotes' and 'uri' are mutually exclusive")
++
++    if 'uri' in r_remote:
++        r_remote['remotes'] = {'origin': {'uri': r_remote['uri']}}
++        del r_remote['uri']
++
+ def _do_checkout(args, json):
+     repos = json['sources']
+     repodirs = []
+@@ -80,6 +88,9 @@ def _do_checkout(args, json):
+         if not desc:
+             desc = rev[:10]
+         branch = r_remote['branch']
++
++        _handle_uri_shortcut(r_remote)
++
+         remotes = r_remote['remotes']
  
--SRC_URI[perl.sha256sum] = "10d4647cfbb543a7f9ae3e5f6851ec49305232ea7621aed24c7cfbb0bef4b70d"
-+SRC_URI[perl.sha256sum] = "e093ef184d7f9a1b9797e2465296f55510adb6dab8842b0c3ed53329663096dc"
- 
- B = "${WORKDIR}/perl-${PV}-build"
- 
+         print('\nSetting up source {}, revision {}, branch {}'.format(r_name, desc, branch))
 -- 
-2.43.0
+2.49.0
 
 
