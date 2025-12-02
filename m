@@ -1,105 +1,136 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C49EDD116FE
-	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 12:02:00 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6243.1764676917083358541
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA21CFD2F6
+	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 15:09:41 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9913.1764688180193169607
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Dec 2025 04:01:57 -0800
+ Tue, 02 Dec 2025 07:09:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NmUnH2yU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-47774d3536dso44054495e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 04:01:56 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=e0Mk5XLA;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7b22ffa2a88so5477273b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 07:09:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1764676915; x=1765281715; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:date:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=RiwWcYInXxqMhKWe9JtgaNWZgWHBXX5DsWxwPVfDo6w=;
-        b=NmUnH2yUlihCm2KaZlOwnYTosF+bsCeHCJwnKkXrXk2h4Q5Vgwg6syiiH5RURHK2Qk
-         JxH0Ee4JF1je8OzrAFM5iayGXVc9E/66W4ukREPtJWF5mJo+TSLcrzhQptcv4Eft8xoy
-         ax32AZc39HYOvc6MXkuupK8xXNjAj2Li4P4/w=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1764688179; x=1765292979; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C2GR11sgLAgWS07j6a2729uEH3HBWjaaKOElCZk2cgo=;
+        b=e0Mk5XLAYl1Q9OHK8GKq1AQGxgMB/Yl/FiZYT6sjQ7Qst7CsZX0Zwxa5BoMEqbrwt9
+         b2Q1J8JjVffxidnl+w5DvYMsNHAQTYqon58TghypOJDAAvYz4gblhU6Db2YpDcPp4hK7
+         y8nkjR8Pijxt5zR4h7mZqjq9q4QCQ/HVFQW+62Aa3BMcaS3TaPuc00XKg9YgZKeHZ911
+         hoO+VaKswJtwa5hWBog/urM2Erj+eEsLPGabpK/pbbWnrpIRWyDoHELHgy2M5Xq6GoGv
+         DBv9jAp52+smQ2Y/8/TbemmWGHzEDEE4a7I8/o90y1NcCjkYKkSCt87zzcivRbQ29kC5
+         JxwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764676915; x=1765281715;
-        h=mime-version:user-agent:content-transfer-encoding:date:to:from
-         :subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=RiwWcYInXxqMhKWe9JtgaNWZgWHBXX5DsWxwPVfDo6w=;
-        b=DXDyCY9/+ctdp2OcehPXSstTt27d2IWh38j50TpwD9qjYgKb2OI/rMGK8butAtQqkF
-         Sqhs4rRfHyHhy3COEfexMuaFsJZfWAHPol248zlAsRNlQSscNBWmkvQY0qC9oQbjTyHM
-         UOPo5NNxZ8fyBWChx2wefxipJTaK7XxpqWcEnFmGm7zAUjlwjvLZ3ibJbOcoo5h8m9xl
-         1TXjIetyRVcfIkC//V8ZbeqT7rjIdVgzKd+CNmyeo5JH2slXvTVr0bXX56qN3SL8bt5l
-         4HEYQKhusB/Lhyi2Z1++++VdWsHb9sZuW85OQ9iyvxUmGh5uIcCaditx4XD/jdbVrQS/
-         Ljrw==
-X-Forwarded-Encrypted: i=1; AJvYcCVFV//Vx0NOmvruP/1RP2AaadGQheZCi6hUKGKCx7fgOLr09bYx7pGMBrqhev+AjgRnaL08qyXxXfX5vgfM/oKBSA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwHKYFipur+kE+NhXo1ZzY8dOEnpi760IlQs1SCCNClJjT6Qv9E
-	2HwUYQ+i8KVjpNFd5OnPfuJB/SwGJt707I4BJOzA/kbmji6TvP4nnsgEwK115V85bAQ=
-X-Gm-Gg: ASbGncuCPaj/QsqnKfADMrW4ECGNHwRx6LLYn9Tou/GAj1U9rwtjoC5JcLWqL/ndmn+
-	2ICBq1NkLqAWzXyYEgLST/AM/PoQQmZP4ASgOKMD6L2v68Dx6UdYf8ZsInZZdj3EngFWrMOMxl2
-	M9BzAJ300u21avoFVb67W9Bi5rGh/cW5+Spa2fTJT14aZpMC4j12VpqSz93Wxn64tAojUsHIipO
-	mGt0ODlF07HvQisULGFhcHzxyM/nL0CnfydomXRmTnpOgIUXQ/6dpvX+kW4rayf8DSt7Q01XqAT
-	0W9WjZ2xD9ZkrdQU35plVMBO7e8nVbjP8x/d3eVFJpDyyEOcB342RURUaoGyxv/0WVtzJayr64+
-	52S3RSwGXC2R+t1l0qX+t2Nn7znrWhRmkXtakrAHFO+VYBCC92SctAtPdEINvIoOqA7i7hFVXKR
-	Seap+/tI6FJEs9GvxKsRBlpEr4sEcvqDrQR20YZsOYnDC+Iepff138rHfVzh1zoLGZLNkiFGWm7
-	5iOaej34GbpvQ==
-X-Google-Smtp-Source: AGHT+IGb5sGowVYkhYXKAgdMChfkvfz06e4dp7Lm0NGI3adfvTp07jOK5/Q99qDuJhUIwlNADSxoYw==
-X-Received: by 2002:a05:600c:1c9e:b0:477:9e0c:f59 with SMTP id 5b1f17b1804b1-47926f80703mr26873235e9.2.1764676915400;
-        Tue, 02 Dec 2025 04:01:55 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e6f5:c2db:4a3e:b000? ([2001:8b0:aba:5f3c:e6f5:c2db:4a3e:b000])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4792760e31asm55293595e9.1.2025.12.02.04.01.53
+        d=1e100.net; s=20230601; t=1764688179; x=1765292979;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C2GR11sgLAgWS07j6a2729uEH3HBWjaaKOElCZk2cgo=;
+        b=VkQnpFSpZcAElDH15RDVe0tJpKOybBOF2+oE+iWlm5cDzKr7MeC5d5gCv6T1mI5+Bv
+         MYPX8hAV5/ggnNmOWEDMBbBS2eA+Ls+AVdIIlZ8DuX57HbDc5wOL1K2XiwouYKY9/Dix
+         ZF89UtRoLJSjddp1eGeE1A6LvefZQcRgdM2mmjoeOJw9Fsjh0Yrl4yECQiWWgJHrxDm9
+         N+r7k92xN2HELd5OXL0I/XDhOqgwX6bQRvQZxx3ozRIt2h/GKesD6SXVAYpepeEP/DYb
+         ArYqWlmMVmB7rct6bi38dCFgm+5FMPzVCCT9VVfqyc6FX9Ypp6DAm/oCVus0emVvHxt9
+         2Zwg==
+X-Gm-Message-State: AOJu0YxIIgFuux1EyOkfcQfOSuktE09aw/EbOE8pxd14bov91EInPKi4
+	J7/o0971EsuTO6WRSqMF6Lf6oBuIoAn7Uv3NTwtbIx9YiY899XvYeIGh7+1kD04+q9IWJh1kSOR
+	qqp+M
+X-Gm-Gg: ASbGnctA5YZLCjt68MXDMtFl361KBg2ojW6sSAafzpiJOi2N67ek2xwJo9dtUPysmEF
+	Q2nH4KuezOCXNZiCbPGe7ROhCgyBqYj+/p09LkJS2M2GxSMXA89CwDOF+1B83SnICWJJY1/z3vF
+	G2CInw/Dfova/y+6n5YoVgSDHR+TfwfcDsIc98eZKnMuBJpHkU+Ql1yr3YwUiUU0doxN3scTZGi
+	8rT2d/QbA1QxLar0S9TTmuXRyAY38K6YNUrJk4pAUdQ2FmRzTXz0cMJI+RYo8yM+DtP2fN5LGwN
+	SK31eKaE8DXqy6lgRtq5yHDX2EE4YKSAFipCZWlZ0Cu+D4S9m+gmpm0hvTXWHrb4Kx7T9K4+nHC
+	2ThlIKIghurVCIAgr9f+VtPKUAcwYPqAlIAbNkXlo41G8xVAK1JbEC1K3EqamURBgRkEGdwhlGr
+	9kkrGpeRk3iF/X
+X-Google-Smtp-Source: AGHT+IFz5r64nYMvOTQLUvOxTmXkilH11+ZwYuoqEj2cbWSVY74M2kjQpESSEAWeyPhTlu04/vYbeQ==
+X-Received: by 2002:a05:6a00:1895:b0:7b6:ebcb:51a8 with SMTP id d2e1a72fcca58-7c58e0188f0mr48935647b3a.16.1764688179170;
+        Tue, 02 Dec 2025 07:09:39 -0800 (PST)
+Received: from hexa.. ([2602:feb4:3b:2100:b8d9:92cd:3fd4:9b7a])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d1516f6621sm17175182b3a.16.2025.12.02.07.09.38
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 04:01:53 -0800 (PST)
-Message-ID: <e48f35c8b286c03c0e423ffd5feccfccc995c282.camel@linuxfoundation.org>
-Subject: Project role announcements
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-architecture
-	 <openembedded-architecture@lists.openembedded.org>, openembedded-core
-	 <openembedded-core@lists.openembedded.org>, bitbake-devel
-	 <bitbake-devel@lists.openembedded.org>
-Date: Tue, 02 Dec 2025 12:01:52 +0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1ubuntu0.1 
+        Tue, 02 Dec 2025 07:09:38 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 00/10] Patch review
+Date: Tue,  2 Dec 2025 07:09:23 -0800
+Message-ID: <cover.1764688053.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 12:02:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227158
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 15:09:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227159
 
-It gives me great pleasure to be able to announce that we have filled
-the two recently advertised positions.
+Please review this set of changes for kirkstone and have comments back by
+end of day Thursday, December 4
 
-I'd like to welcome Paul Barker as our Ecosystem Engineering and
-Operations Lead. Paul has been around both the Yocto Project and
-OpenEmbedded for a long time and is a name many will recognise. You
-will start to see Paul helping out with the day to day running in
-various areas of the project, giving the project some redundancy and
-enabling me to take a break too.
+Passed a-full on autobuilder:
 
-I'd also like to announce Yoann Congal with backup from others at Smile
-as our new LTS maintainer as Steve Sakoman takes a well deserved
-retirement. Yoann/Smile have been doing great work on meta-openembedded
-with our various metrics and tracking tools as well as being active in
-various project meetings including bug fixing so many of you know him
-already. There will be an transition period as we transfer the role.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2808
 
-I want to take the opportunity to say a huge thanks to Steve Sakoman
-for looking after multiple LTS releases in a careful, considered and
-smooth way. I no longer had to worry about them, I could just trust
-everything was being handled which is probably the best way I can
-illustrate the job Steve has been doing. So a huge thanks to Steve, I
-(and the project) really do appreciate what you've achieved there and
-you set a high standard to follow!
+The following changes since commit ceef3cde9b761b7b5de6f7b6b1fb8e99663af9ca:
 
-I also want to thank all who applied for these roles, there were many
-good candidates and the final decision was a tough one so thanks to
-everyone who applied.
+  flac: patch seeking bug (2025-11-24 07:34:36 -0800)
 
-Cheers,
+are available in the Git repository at:
 
-Richard
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Archana Polampalli (4):
+  go: fix CVE-2025-58187
+  go: fix CVE-2025-58189
+  go: fix CVE-2025-61723
+  go: fix CVE-2025-61724
+
+Gyorgy Sarvari (1):
+  systemd-bootchart: update SRC_URI branch
+
+Peter Marko (5):
+  gnutls: patch CVE-2025-9820
+  libpng: patch CVE-2025-64505
+  libpng: patch CVE-2025-64506
+  libpng: patch CVE-2025-64720
+  libpng: patch CVE-2025-65018
+
+ meta/recipes-devtools/go/go-1.17.13.inc       |   4 +
+ .../go/go-1.18/CVE-2025-58187.patch           | 349 ++++++++++++++++++
+ .../go/go-1.18/CVE-2025-58189.patch           |  51 +++
+ .../go/go-1.18/CVE-2025-61723.patch           | 221 +++++++++++
+ .../go/go-1.18/CVE-2025-61724.patch           |  74 ++++
+ .../systemd-bootchart_234.bb                  |   2 +-
+ .../libpng/files/CVE-2025-64505-01.patch      | 111 ++++++
+ .../libpng/files/CVE-2025-64505-02.patch      | 163 ++++++++
+ .../libpng/files/CVE-2025-64505-03.patch      |  52 +++
+ .../libpng/files/CVE-2025-64506.patch         |  57 +++
+ .../libpng/files/CVE-2025-64720.patch         | 103 ++++++
+ .../libpng/files/CVE-2025-65018-01.patch      |  60 +++
+ .../libpng/files/CVE-2025-65018-02.patch      | 163 ++++++++
+ .../libpng/libpng_1.6.39.bb                   |   7 +
+ .../gnutls/gnutls/CVE-2025-9820.patch         | 250 +++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.7.4.bb   |   1 +
+ 16 files changed, 1667 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2025-58187.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2025-58189.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2025-61723.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2025-61724.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64505-01.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64505-02.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64505-03.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64506.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64720.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-65018-01.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-65018-02.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
+
+-- 
+2.43.0
 
 
