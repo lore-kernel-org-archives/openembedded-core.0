@@ -1,151 +1,196 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FDBDD12662
-	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 17:41:01 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1882.1764697253785954722
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32C4ED12662
+	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 17:44:31 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1911.1764697463719811663
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Dec 2025 09:40:54 -0800
+ Tue, 02 Dec 2025 09:44:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=AjSt8zli;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-477a1c28778so66774115e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 09:40:53 -0800 (PST)
+ dkim=pass header.i=@snap.com header.s=google header.b=RNt9/fYP;
+ spf=pass (domain: snapchat.com, ip: 209.85.208.49, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-645a13e2b17so2736989a12.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 09:44:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1764697252; x=1765302052; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kb3ZbDPnkE2nkvxab+fShyt/iTPaIrNz5+wTQ86lEnA=;
-        b=AjSt8zli8L7mLnmxdXFlZCC4I8P1tK2ZgcqAo+2WwS7JniCLtdHgqBxI1RncjlwL4N
-         IjfSLtBLCBrC48nebimug3PDR6LzdVgTn/fbuj1uONmD6nC6EoAKj+96gTIFZ8Sw7VdS
-         ozQkHcIWg4GT6e2ieua9UEZkfvpgIhCP8/vk0=
+        d=snap.com; s=google; t=1764697462; x=1765302262; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YMMzL2kMnHmPCEgiQQ8qTpWbeKFob2X7csegCo3Cj2Q=;
+        b=RNt9/fYPeBJlVB6GHVfz6EunXQi08b58OrtsnIY0Zif+dghexiiHD8kBwdoherdSSA
+         /Oc/3iOvZCQ2q+t+FlC74j4V6mXvpo3upMZsRaKH94iBYd7biHqxMphAiLO3Htvoa21E
+         0voPsXz5tmBqzxtBT7df5obSGu0xAOSjwrwu4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764697252; x=1765302052;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1764697462; x=1765302262;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Kb3ZbDPnkE2nkvxab+fShyt/iTPaIrNz5+wTQ86lEnA=;
-        b=EHm7YqT5MGDXRVuWu4kp1o9eZZyIaXGfSCKFN0vocLGZqlXKNYuJEKUxy6PNVsxpV3
-         9lrgV6vaS6fn+2jhPwJhMhh4CPFjEMe0frEjtNDQ0BI9yKcWsoASQaedphtGRXO6Z0PI
-         s1bZFjN3N+xeLiLzYAOt348k5hSo0V87QM0sXClgPWVc3O15jwBhsEu8XrARNhFam2eh
-         usgnga61f8/2fEYIAXn28GV9K30lI75JD6NSGzeaGvSeIJYUhyF2NvgTJd2pXzjR6yD7
-         OLayH+I2X4b88MgjWEn1NeW2MIOKALXXAxhq8zTZemXsdnjeSm0kxYtLkcXHq0PxQttN
-         KTgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUxYxPK6jlGZLpSm4TELnABlvpKRHqjk94bYH4SpP+0HSCmLSIqVriWBXI43R97fVw+13X1xfI23bJHvk9SFTvc6A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz/3K+yGe38hFY7OQ8iOHDVcswgF90BjvniEet0oWXcY8xYtL9O
-	BxyrF+n0R8KeO9uHPj17acZHIuN+otuti3gQSbEI6J8NlUPDzREFid8jvK8svlRIPv05nXkcyS5
-	SWS0LvYAhbghHCeuwXN0bGtJeTJYICbd87QqmqCtQVA==
-X-Gm-Gg: ASbGncuvU8bkC1SkpV1jAfWv0x6IUhoUr8xRIi+UinIHEpzajgZAAYuBqYerfsdIZlJ
-	f6F+kywiavNx6rajaEJdk0NQGait7J47Ra0R0w6VLkEi5mmhdpo55lSMr4mLkkbgkzLGpkFExkj
-	s6YG7HGXQvnDmV3/vkUYA8th3ZqTzqbfvf9/623AWVE+sb5WFJ37HY/s/AyoAEXdnyYe3n1PN1q
-	zzwJTU318BRC/UdfOZPlb09ljpR0OT2TmOTPfeWObCFIXi9tliIzf4C1dA8sjkmXHXfgKqkoTOt
-	7DkGIZUJQsDKYqxooZZrBME14mnI
-X-Google-Smtp-Source: AGHT+IGg9FmiqfshEVm9LPZ975KfvzYZfiRkhpd73TKpEMhdh+cRrLA7YhlG7SA1Ltysgi9bhHg2vfl2f2ntbvMUOK0=
-X-Received: by 2002:a05:600c:8b37:b0:477:569c:34e9 with SMTP id
- 5b1f17b1804b1-47904b1eda4mr260704245e9.23.1764697252013; Tue, 02 Dec 2025
- 09:40:52 -0800 (PST)
+        bh=YMMzL2kMnHmPCEgiQQ8qTpWbeKFob2X7csegCo3Cj2Q=;
+        b=nZHhtiTwMbX3ody+IMiqIfjA5i1aOn8nfHm57emdJ7S5+rJ07dKQlXqdutDZHmlRRo
+         TaMeIT8C4qGxHQBzHfdpRCNVxp0fKKR316LfxmbyL5p0OcMES84YVM5PG2CZrn1qfV3v
+         +LAE5rbdrYHVC3lJe0F+r908AEUFaP5N1LxSCEu6x+NB4X7wT2VwzCSpVRr9TDEe5/Y0
+         tuFSLacIMexd7sKXLUcJryZa4eJzCxKlXJrsboUUM79iGDOb7b88QXBQQsHVoq8Jb3Wn
+         OWL4r8gCyjbryWx+OPfCNRcoouj/x+k6y7W7sDaP4pqE5Q66/GPADcs1SYkukenz8Xq+
+         BWsA==
+X-Gm-Message-State: AOJu0YwXJ35mMBwv1DLTxLVw761DarhtH9Uo1ef4WVChE/tlLu2aR4Ko
+	3oiExujUCn39M4GCgK4l56o96c0G/L796+jS0ywf3ZyBMBSxdYYRUMe1kbjawfLAtVSu2JpTffJ
+	V3255+Go=
+X-Gm-Gg: ASbGnctQMacmZsW64pmi72RwAsA637FW0bnzoi3Xmkp0Mckv+BxEj3UDJTBwe9xiaY9
+	QgBby7bXu8RBSKfjK7HPHP0ipeFdY0M3phQDG6jW6tTpBRC2m9FEr+RJrktquTCafmUFug4/wnT
+	6I1ta8nKt7aQ2WGjppyb7anAPxM7Dn2Xnfzdjiy4p81mjhdsmz7fjENwjinIfUxQiWZAP9Q5C6X
+	RCqOEPb88kse1r+j0Syv+m53PYLeYhZw6fwmj1d94NZZGKciB+3VORAx/BGYSWRJQQ/Fxq/DmJG
+	36ngKBjHQxntxc8ad9XdgC6WGQV/cRHAq1Gy1WP8soGccpggjaI8KJOIkDSqcYeu0L+bSK/0lO0
+	9OBLXTYkkCpgYUw74tJ92VoSGIwQqG9SeOsKbHqZVgb30I4t+oWB1AbI8SyVGYIXbben4T78EQX
+	/XsW38FOola4lFcshdRbMWCHrvLgFCgDm5ZifoW9Gj5ir5GSvyfKHdxqE=
+X-Google-Smtp-Source: AGHT+IHYae3PGZVRgiwO02fS4fACr4imuWhSJUz7iRNWP53pZH8Lc/H24/cOvWdkde7tOd/mDNCqeg==
+X-Received: by 2002:a05:6402:2549:b0:647:6ec9:8d8b with SMTP id 4fb4d7f45d1cf-6476ec98dc4mr10849869a12.34.1764697461852;
+        Tue, 02 Dec 2025 09:44:21 -0800 (PST)
+Received: from lj8k2dq3.sc-core.net ([213.249.125.50])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-647641453d7sm11331329a12.13.2025.12.02.09.44.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Dec 2025 09:44:21 -0800 (PST)
+From: ecordonnier@snap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Etienne Cordonnier <ecordonnier@snap.com>
+Subject: [PATCH] opkg: fix WITH_ACL and USE_ATTR being enabled per default
+Date: Tue,  2 Dec 2025 18:44:14 +0100
+Message-ID: <20251202174414.2547206-1-ecordonnier@snap.com>
+X-Mailer: git-send-email 2.49.1
 MIME-Version: 1.0
-References: <e48f35c8b286c03c0e423ffd5feccfccc995c282.camel@linuxfoundation.org>
-In-Reply-To: <e48f35c8b286c03c0e423ffd5feccfccc995c282.camel@linuxfoundation.org>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Tue, 2 Dec 2025 18:40:26 +0100
-X-Gm-Features: AWmQ_blUYZ2VCfHzP6MnsZoIGq-bdL_JlqMYNLQnntETdWyw-SLwVlTbNz1aGuI
-Message-ID: <CAMSfU+6-pM5wXcjUc6QNmqYsUX75=74knAUw1iMbaZRnzczjAw@mail.gmail.com>
-Subject: Re: [bitbake-devel] Project role announcements
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	bitbake-devel <bitbake-devel@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d7b90d0644fb98da"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 17:41:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227181
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 17:44:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227182
 
---000000000000d7b90d0644fb98da
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Etienne Cordonnier <ecordonnier@snap.com>
 
-Le mar. 2 d=C3=A9c. 2025 =C3=A0 13:02, Richard Purdie via lists.openembedde=
-d.org
-<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> a =C3=A9crit =
-:
+ENABLE_XATTR and ENABLE_ACL were both "no" per default in autoconf, and this default
+value was mistakenly changed during the cmake migration. Change it back to OFF per default
 
-> It gives me great pleasure to be able to announce that we have filled
-> the two recently advertised positions.
->
-> [...]
->
-> I'd also like to announce Yoann Congal with backup from others at Smile
-> as our new LTS maintainer as Steve Sakoman takes a well deserved
-> retirement. Yoann/Smile have been doing great work on meta-openembedded
-> with our various metrics and tracking tools as well as being active in
-> various project meetings including bug fixing so many of you know him
-> already. There will be an transition period as we transfer the role.
->
-> I want to take the opportunity to say a huge thanks to Steve Sakoman
-> for looking after multiple LTS releases in a careful, considered and
-> smooth way. I no longer had to worry about them, I could just trust
-> everything was being handled which is probably the best way I can
-> illustrate the job Steve has been doing. So a huge thanks to Steve, I
-> (and the project) really do appreciate what you've achieved there and
-> you set a high standard to follow!
->
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+---
+ ...003-cmake-fix-WITH_ACL-and-USE_XATTR.patch | 95 +++++++++++++++++++
+ meta/recipes-devtools/opkg/opkg_0.9.0.bb      |  1 +
+ 2 files changed, 96 insertions(+)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0003-cmake-fix-WITH_ACL-and-USE_XATTR.patch
 
-I'm truly honored to take on this role. I hope to run the LTS maintenance
-process as smoothly as Steve has. And I know that is a high bar to clear!
+diff --git a/meta/recipes-devtools/opkg/opkg/0003-cmake-fix-WITH_ACL-and-USE_XATTR.patch b/meta/recipes-devtools/opkg/opkg/0003-cmake-fix-WITH_ACL-and-USE_XATTR.patch
+new file mode 100644
+index 0000000000..a041965515
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/0003-cmake-fix-WITH_ACL-and-USE_XATTR.patch
+@@ -0,0 +1,95 @@
++From 6d2eb69bb7b8f1ada6232eba4eb9c223be386d29 Mon Sep 17 00:00:00 2001
++From: Etienne Cordonnier <ecordonnier@snap.com>
++Date: Thu, 27 Nov 2025 19:05:16 +0100
++Subject: [PATCH] cmake: fix WITH_ACL and USE_XATTR
++
++- CMakeLists.txt was using USE_ACL, but config.h.in was using WITH_ACL.
++  Use the consistent logic that optional dependencies use the prefix HAVE_,
++  and thus since use WITH_ACL consistently (build dependency libacl).
++
++- opkg_archive.c was using ifdef instead of if for both USE_ACL and USE_XATTR.
++
++- ENABLE_XATTR and ENABLE_ACL were both "no" per default in autoconf, and this default
++  value was mistakenly changed during the cmake migration. Change it back to OFF per default.
++
++Upstream-Status: Backport [https://git.yoctoproject.org/opkg/commit/?id=6d2eb69bb7b8f1ada6232eba4eb9c223be386d29]
++Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
++Signed-off-by: Alex Stewart <alex.stewart@emerson.com>
++---
++ CMakeLists.txt         | 6 ++++--
++ config.h.in            | 2 +-
++ libopkg/CMakeLists.txt | 2 +-
++ libopkg/opkg_archive.c | 4 ++--
++ 4 files changed, 8 insertions(+), 6 deletions(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index f2c01b1..316e343 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -13,6 +13,7 @@ set(PROJECT_VERSION "${PROJECT_VERSION}+git")
++ set(VERSION ${PROJECT_VERSION})
++ 
++ option(STATIC_LIBOPKG "Statically link libopkg into opkg" OFF)
+++# Options which add optional dependencies are prefixed with "WITH_"
++ # The current libopkg API is deprecated so only build it if requested
++ option(WITH_LIBOPKG_API "Enable deprecated libopkg API" OFF)
++ option(WITH_XZ "Enable xz compressor support" ON)
++@@ -23,8 +24,9 @@ option(WITH_CURL "Enable downloading with curl" ON)
++ include(CMakeDependentOption)
++ cmake_dependent_option(WITH_SSLCURL "Enable certificate authentication with curl" ON "WITH_CURL" OFF)
++ option(WITH_SHA256 "Enable sha256sum check" OFF)
++-option(USE_ACL "Enable ACL support" ON)
++-option(USE_XATTR "Enable xattr support" ON)
+++option(WITH_ACL "Enable ACL support" OFF)
+++# Options which don't add optional dependencies are prefixed with "USE_"
+++option(USE_XATTR "Enable xattr support" OFF)
++ option(USE_SOLVER_LIBSOLV "Enable libsolv solver support if true. Enable the internal solver if false." ON)
++ if(USE_SOLVER_LIBSOLV)
++     set(USE_SOLVER_INTERNAL OFF CACHE BOOL "Disable internal solver")
++diff --git a/config.h.in b/config.h.in
++index 877b8c7..f2d74c5 100644
++--- a/config.h.in
+++++ b/config.h.in
++@@ -6,7 +6,7 @@
++ #cmakedefine01 WITH_CURL
++ #cmakedefine01 WITH_SSLCURL
++ #cmakedefine01 WITH_ACL
++-#cmakedefine01 WITH_XATTR
+++#cmakedefine01 USE_XATTR
++ #cmakedefine01 USE_SOLVER_LIBSOLV
++ #cmakedefine01 USE_SOLVER_INTERNAL
++ #cmakedefine01 WITH_GPGME
++diff --git a/libopkg/CMakeLists.txt b/libopkg/CMakeLists.txt
++index 628cb8c..39064c2 100644
++--- a/libopkg/CMakeLists.txt
+++++ b/libopkg/CMakeLists.txt
++@@ -182,7 +182,7 @@ if(WITH_SSLCURL)
++     target_link_libraries(libopkg OpenSSL::Crypto OpenSSL::SSL)
++ endif()
++ 
++-if(USE_ACL)
+++if(WITH_ACL)
++     pkg_check_modules(acl REQUIRED IMPORTED_TARGET libacl)
++     target_link_libraries(libopkg PkgConfig::acl)
++ endif()
++diff --git a/libopkg/opkg_archive.c b/libopkg/opkg_archive.c
++index 48f80c0..fb40db3 100644
++--- a/libopkg/opkg_archive.c
+++++ b/libopkg/opkg_archive.c
++@@ -914,11 +914,11 @@ struct opkg_ar *ar_open_pkg_data_archive(const char *filename)
++     ar->extract_flags = ARCHIVE_EXTRACT_OWNER | ARCHIVE_EXTRACT_PERM |
++         ARCHIVE_EXTRACT_TIME | ARCHIVE_EXTRACT_UNLINK | ARCHIVE_EXTRACT_NO_OVERWRITE;
++ 
++-#ifdef USE_ACL
+++#if WITH_ACL
++     ar->extract_flags |= ARCHIVE_EXTRACT_ACL;
++ #endif
++ 
++-#ifdef USE_XATTR
+++#if USE_XATTR
++     ar->extract_flags |= ARCHIVE_EXTRACT_FFLAGS | ARCHIVE_EXTRACT_XATTR;
++ #endif
++ 
++-- 
++2.43.0
++
+diff --git a/meta/recipes-devtools/opkg/opkg_0.9.0.bb b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
+index ed2f36d636..f021fd9b5a 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.9.0.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
+@@ -16,6 +16,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+            file://opkg.conf \
+            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
+            file://0002-config.h.in-fix-typo.patch \
++           file://0003-cmake-fix-WITH_ACL-and-USE_XATTR.patch \
+            file://run-ptest \
+            "
+ 
+-- 
+2.49.1
 
-We will give it our best effort to carry the torch and ensure our LTS users
-are
-well supported.
-
-Best Regards,
---=20
-Yoann Congal
-Smile ECS
-
---000000000000d7b90d0644fb98da
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Le=C2=A0mar. 2 d=C3=A9c. 2025 =C3=A0=C2=
-=A013:02, Richard Purdie via <a href=3D"http://lists.openembedded.org">list=
-s.openembedded.org</a> &lt;richard.purdie=3D<a href=3D"mailto:linuxfoundati=
-on.org@lists.openembedded.org">linuxfoundation.org@lists.openembedded.org</=
-a>&gt; a =C3=A9crit=C2=A0:</div><div class=3D"gmail_quote gmail_quote_conta=
-iner"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">It gives me great p=
-leasure to be able to announce that we have filled<br>
-the two recently advertised positions.<br><br>[...]<br>
-<br>
-I&#39;d also like to announce Yoann Congal with backup from others at Smile=
-<br>
-as our new LTS maintainer as Steve Sakoman takes a well deserved<br>
-retirement. Yoann/Smile have been doing great work on meta-openembedded<br>
-with our various metrics and tracking tools as well as being active in<br>
-various project meetings including bug fixing so many of you know him<br>
-already. There will be an transition period as we transfer the role.<br>
-<br>
-I want to take the opportunity to say a huge thanks to Steve Sakoman<br>
-for looking after multiple LTS releases in a careful, considered and<br>
-smooth way. I no longer had to worry about them, I could just trust<br>
-everything was being handled which is probably the best way I can<br>
-illustrate the job Steve has been doing. So a huge thanks to Steve, I<br>
-(and the project) really do appreciate what you&#39;ve achieved there and<b=
-r>
-you set a high standard to follow!<br></blockquote><div><br></div>I&#39;m t=
-ruly honored to take on this role. I hope to run the LTS maintenance <br>pr=
-ocess as smoothly as Steve has. And I know that is a high bar to clear!<br>=
-<br>We will give it our best effort to carry the torch and ensure our LTS u=
-sers are <br>well supported.</div><div class=3D"gmail_quote gmail_quote_con=
-tainer"><br></div><div class=3D"gmail_quote gmail_quote_container">Best Reg=
-ards,</div><span class=3D"gmail_signature_prefix">-- </span><br><div dir=3D=
-"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><font face=3D"Raleway, reg=
-ular">Yoann Congal</font><div><font face=3D"Raleway, regular">Smile ECS</fo=
-nt></div></div></div></div>
-
---000000000000d7b90d0644fb98da--
 
