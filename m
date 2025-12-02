@@ -1,99 +1,98 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <schonm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC5EBD116F6
-	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 15:10:11 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9926.1764688203761543038
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABC95D116F6
+	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 15:11:01 +0000 (UTC)
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9717.1764688256983726042
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Dec 2025 07:10:03 -0800
+ Tue, 02 Dec 2025 07:10:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DIJuRVBb;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7aace33b75bso5324099b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 07:10:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=g5EsTQ39;
+ spf=pass (domain: gmail.com, ip: 74.125.224.52, mailfrom: schonm@gmail.com)
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-63f96d5038dso4787843d50.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 07:10:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1764688203; x=1765293003; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sX/ai9mPh3CNPfpJj4yE7q3AzBon+d7NIjBo2EMIrq8=;
-        b=DIJuRVBbfwrs3ThoEFQSTQD+SVWl3N/8c3sgehmSoEXavyEsa7Doaa3EEN2D2VTzgM
-         2+Ps2rl4sy+a7DcTZBzsrsPpcN11vwTrllY2SntDQ5Ir45DRendnT2cMWnHuMmnV2ZTg
-         U43jEj3JFqkPTrR8s91n6v01izBpCIOWCSQ8D4OyI/2gjjhpT8OGylqhNK3bZ9WKRJ2A
-         oeyjEQRyxX4yRR2ZriPEBfI27NVzWX3QADG1fZeMlieCHgZj4g/b78/9ewh7KSPD6gPf
-         LsEedM+ScTTklGHf6BDWfSFGgVDYDRIws5X/PRX7qwf2ASmfLyYYeY+F3zphnO1Hjvus
-         eapg==
+        d=gmail.com; s=20230601; t=1764688256; x=1765293056; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hX81CrNeBV4Cb4G8ayMhi2Tu4rS4mwOR5KzWiSwR8Xk=;
+        b=g5EsTQ39g2j6Fl17qtLgtSviVqr70hETyowfBEWKFYgOleycmtuWkWzTgYn1PosKxb
+         GxHLVnS3G1F6oyBTWL6Qve7vL6JyjPHz2NHavhwWT6TnYK81TOhV3t0lQRP9G5IqpwF0
+         P4sMfO7xWTX+uOYswbeIhqX05LRLNzMweU+zMTRVWapLx9yheQW2+/2RMpVNmt/a+Y5+
+         Ccsu8Beo5NMhdwDpkzGsG7rbJ8T74+xd3hLfAaRDCXd+9/1NSw6/uCrs/3gqmfkvgHui
+         LovZ+ngzxrm27pCkGwLp0gC1E80dwKwHSIVweK/CL/BB7OwZ0jr8vkRpF1YzHjHisnZC
+         IiYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764688203; x=1765293003;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=sX/ai9mPh3CNPfpJj4yE7q3AzBon+d7NIjBo2EMIrq8=;
-        b=J0hWrTxSvdiAbMby9Bx4aRuv1nk3tgWM5WthFJc4cIOAd0HT9X/Ft73+60i3u579hi
-         QNpVtkumAGtQtlpjXwEa/wwbLsnn08twPn/TWKucQoTpwjonGQIHe1gH92rpJ4syu+54
-         K4aQA2D9UbXG9Foj0AcMyzM8Rl+G6pXpSw068yguOnV9OUb7Bho7OiK6/na7xsfuFINd
-         Dnk/jZEgzpqiw635xGxUUSi+zeyHUJp38yxOfyDvTu25ObL3/OQakudH52XRMaKMT6zx
-         ScNYVTsk99Wp7Gp4/YN2D3VsIhzBoN5JQ2IvZTcp6MzchAy51xNNkFhgV/a/J8zgkqtI
-         OB1w==
-X-Gm-Message-State: AOJu0YzRJsZW6tRsh1Q33QtLu/uA5UusQjR4aMEQRgfVEI2IeOLbPBw9
-	tpIPC8dIJJegzGsJqqtsC1HKJc9I/g+lRZ2DmpSRpeISDR5HzJnAlVQv29rzYg1vgJBxSiTKeOM
-	ZOZ5V
-X-Gm-Gg: ASbGncsns1WtI3dVbAAOpfQeLhu2V+Hc4bEe09BxPP9gdwf37saB7lXjJMziYq9dkZA
-	uAVfiMiFUIMrIRvaOP1koKVjl47Z6q/kBykDHGc0ZnDAYydocLaqv5jiduVyldWu7hvO+WNLAnf
-	/SmlrqLLlEy9nDr/fMKKzwV2shKvQX5BL/3SM5Dg3PKYCFsmHmOYNtEY9XgsKyAXUveNFAO5ELW
-	MxZRjSfwHdhpjg2KIlajLIy3nFQZ2vNQd2WGCGF/VzPpH0t8VIFs3xBJb18yKtRWvXj1LoPaZIX
-	gsiV50fqZBZ+ExEz7eUzEdnsUO6+Oo5Jl+Uryr5Whi3rShtKiQO3HXtmbIXu8m7RjlPnlP0YMAG
-	OC3gX0fnHEY6CGHHrbDDWoHbc22L+h23/WJs6yePPkEVov7WbjLlw0ra0I17yjn9seN2T2DKX04
-	BKvA==
-X-Google-Smtp-Source: AGHT+IHEKJXEHONkaYWkaY80cKGmwMwZ0JnTQ5p8pWkR3M/68mc0TorgCv1HxN/NNdk6S+kJGqJPEg==
-X-Received: by 2002:a05:6a20:3c8e:b0:35e:6c3:c8d6 with SMTP id adf61e73a8af0-36150f2d90dmr47071430637.41.1764688202782;
-        Tue, 02 Dec 2025 07:10:02 -0800 (PST)
-Received: from hexa.. ([2602:feb4:3b:2100:b8d9:92cd:3fd4:9b7a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d1516f6621sm17175182b3a.16.2025.12.02.07.10.01
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1764688256; x=1765293056;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hX81CrNeBV4Cb4G8ayMhi2Tu4rS4mwOR5KzWiSwR8Xk=;
+        b=VDyCUN1/U5TAk2Wtck7dUbyBePRgWFd3p5Mziz5n8kWAmdDuIuPpQUEWw/Woi1NWIX
+         NWL6w9OxVwF0ETTghnYbTZCUMg4f84Yj6Upa/YA/pB/TEy/Qj057Ey7aj7XHU7BXmUys
+         bJvDA8Pr5eeQLjgAcmMSBmv6KGXDCpCSJc7htQXjhnpHSEQCNtsS4GJgv1AYvsiL16EO
+         yWUDzw/1gGV8tPvOIf5KuFhdhuIXd7Pd6KBkAQsny00gcmOT0KauwUjluK40uTTJxw/t
+         qfCr3PPGlmBUs3wlpRxnSGtnJlj2sZeR8FSPpakRqfjm5PJYkkfpPAdkt3NvOjT1K8xA
+         +s2A==
+X-Gm-Message-State: AOJu0Yx8Iv8f8AL2X+qru6iBuLvG1dD/CgvmmeNG/ik0i564DDkfDyS+
+	SVVOQ+PBC+IpB0LHiDK7Yqcsi8EyHMkTXQ8YHDIVIW2LjQZKCMIz6FJYkCbHA3T4
+X-Gm-Gg: ASbGncs1yor3f6GFQIzVP/N9HiCzYLfK+PmEzyDwTuz4x9EOyELmfelHYcZRR/U/wjT
+	K4m3GoKXQ+r0ZpI1/TxNwddIGrwhm2xlNS0ALEWjKCA95FFHat9XN5YeKLwc61w8KaaQo+WJL7y
+	qAysg0A1TknYA1vrNsAr6z/fRi9nCPo4tnP5u4mPrSgOvkcmpbw5wRatWoZ8CqqwTE8iuNq+IEi
+	ANSY19VHOcRGjIxXaE6oWW7LIw+4W+Gvcy+kbKnqZ0rihTUbca+XKeFYP5vIhvqcpjGxndQ7995
+	1cHUaoBhsHe8KOrirTeMPrF0vD2sd4+xwDAG10eOYMrcAyi1ttU/aoQKw0wSOsAw7l5PKIVh5v2
+	3VCjZopsZcI2KbeY1icXfm7YjibTJTxgqWVSgLocBeW2CSKAVscXc8ta/O5gr88YphKq304W2rC
+	Ybx15yRwnhIsVsYtzLqxx/gNMzp8tab9QigLblJsGFlsbS
+X-Google-Smtp-Source: AGHT+IG+dtLL0Y/kNVVR863isB/oWtxuO4cqOVGBXjH3XYavakqBxg2N/6YhbkXa4YNxJFBdshsuag==
+X-Received: by 2002:a05:690e:1513:b0:63d:5d72:1918 with SMTP id 956f58d0204a3-64302acdb62mr31056906d50.63.1764688255552;
+        Tue, 02 Dec 2025 07:10:55 -0800 (PST)
+Received: from localhost.localdomain (71-208-12-78.ftmy.qwest.net. [71.208.12.78])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78ad0d5fe26sm63459527b3.18.2025.12.02.07.10.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 07:10:02 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+        Tue, 02 Dec 2025 07:10:55 -0800 (PST)
+From: Jason Schonberg <schonm@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/10] systemd-bootchart: update SRC_URI branch
-Date: Tue,  2 Dec 2025 07:09:33 -0800
-Message-ID: <80c7fd87fd95a79c6eb5f41b95cf70ccc70d9615.1764688054.git.steve@sakoman.com>
+Cc: Jason Schonberg <schonm@gmail.com>
+Subject: [PATCH 1/2] perlcross: upgrade 1.6.2 -> 1.6.3
+Date: Tue,  2 Dec 2025 10:10:30 -0500
+Message-ID: <20251202151032.15053-1-schonm@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1764688053.git.steve@sakoman.com>
-References: <cover.1764688053.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 15:10:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227169
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 15:11:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227170
 
-From: Gyorgy Sarvari <skandigraun@gmail.com>
+https://github.com/arsv/perl-cross/releases/tag/1.6.3
 
-The branch was renamed from master to main.
+Provide support for perl 5.42.0
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Jason Schonberg <schonm@gmail.com>
 ---
- .../recipes-devtools/systemd-bootchart/systemd-bootchart_234.bb | 2 +-
+ .../perl-cross/{perlcross_1.6.2.bb => perlcross_1.6.3.bb}       | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/perl-cross/{perlcross_1.6.2.bb => perlcross_1.6.3.bb} (92%)
 
-diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_234.bb b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_234.bb
-index bc3eee2093..98237aba65 100644
---- a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_234.bb
-+++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_234.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-only & GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c \
-                     file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb b/meta/recipes-devtools/perl-cross/perlcross_1.6.3.bb
+similarity index 92%
+rename from meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb
+rename to meta/recipes-devtools/perl-cross/perlcross_1.6.3.bb
+index debf2717ce..41a601b14a 100644
+--- a/meta/recipes-devtools/perl-cross/perlcross_1.6.2.bb
++++ b/meta/recipes-devtools/perl-cross/perlcross_1.6.3.bb
+@@ -18,7 +18,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/perl-cross-${PV}.tar.gz;name=perl-c
+            "
+ GITHUB_BASE_URI = "https://github.com/arsv/perl-cross/releases/"
  
--SRC_URI = "git://github.com/systemd/systemd-bootchart.git;protocol=https;branch=master \
-+SRC_URI = "git://github.com/systemd/systemd-bootchart.git;protocol=https;branch=main \
-            file://0001-architecture-Recognise-RISCV-32-RISCV-64.patch \
-            file://mips64.patch \
-            file://no_lto.patch \
+-SRC_URI[perl-cross.sha256sum] = "131f7496152ee32067dbac2bc9b44b2f582fc778140e545701b3b2faee782f1d"
++SRC_URI[perl-cross.sha256sum] = "cd57d8f8017727dc7e19cca55e1e9f22664edecf6c9f04c3515ecc13fd88e4f3"
+ 
+ S = "${UNPACKDIR}/perl-cross-${PV}"
+ 
 -- 
 2.43.0
 
