@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E385D1267B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77E13D1267A
 	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 22:19:52 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.935.1764713986067418491
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.937.1764713987761393959
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Dec 2025 14:19:46 -0800
+ Tue, 02 Dec 2025 14:19:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=nTt03iCa;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2956d816c10so61852825ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 14:19:46 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=He5iQDlV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-29568d93e87so61988725ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 14:19:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1764713985; x=1765318785; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1764713987; x=1765318787; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=j5htEAfREC8xB8bFuNLJBHLjcyIWjbBdBKtL+F8wvMA=;
-        b=nTt03iCaQg0vli9Oi1FlrxUQWKL3pknfX+WvarGvZdI130hYGzuSmLoT1+Zk0MIiYO
-         dc/NUwHkDN1xLBkTxcPd0ePHJGrKA+70pIpbk6fRljyDKN4xYh7sGI52OdqUzXbr712/
-         +6NjqrG4s5lVsj0aQW8O/SYTWt5BXLlF/08+Ns5nWSLIHyY0pFL3XFHQISooncby7Yo6
-         e2bZWjhJ+EPP5GOXN3kAJwWyTG1zMdWECpOMg//nvLTI6evrefXQSZ3yy6d4blXN9aYE
-         MZ2XFwuc6aJkhBGHSCzrT9dKYhsnJhDhZbCeWqKVLm9JkcfTN/zXmfmceQzQtW+YCbnK
-         2Zdw==
+        bh=gR0AQeQ7JZ0GF2uUTdEqKNahqE56J9Kp5zUFk9jXDfw=;
+        b=He5iQDlVRBIXu3dH80bjT0Xf4hf6IGAk3Phsq1d5H40by18CnPPblUdfXI2wj4/PnL
+         OSa0TU1n6MNkOACkiqHdlOiPGJK1GXKHmQbUAPkOSZvi9vvdBykMwpnYAG5c7pLNlFAJ
+         oktM6h9li8/fZLrxr9Jmb0mkXTKx71IvuGl7PWzz9lSfYyi3z+aeHNF9LPX6JxergQpx
+         uTSWFBl63BZEpw7d+YNGp3vFHQt4bKqNu0rcBtn+CDhbckmsyWsBVtgM5KMy5R59mNSm
+         BTTuLZet1Gezw1YcHEnjOsVmmlsu7SAOu1JKH6xnZ2kFXUItCpBwu6U55gxW2s9lf6dg
+         dB8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764713985; x=1765318785;
+        d=1e100.net; s=20230601; t=1764713987; x=1765318787;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=j5htEAfREC8xB8bFuNLJBHLjcyIWjbBdBKtL+F8wvMA=;
-        b=HxI/YCoEfG04BDVST9oQOrpsZ64jnK//XPXBPs6LFi9UAiN1dg5SB30N2nqri3QB54
-         NK9O6swABggDC/3cbpP3nKRELmg+kmQz7sMVNZRnaupc8T1wjRhBT9nOTJHbJhahZ49A
-         LCn8OakFQ+oCyZ2VGSpPuHqi+6CUkZTthDgi9YLZDepWCu2eZIVBy3Ql0BElwsjYS4Q0
-         7R2BxbBx9KOH5Sdmt/ObyVBZ2WB0o+DIprWTcv7Ug3hI0ycHGPul9UD/AKR62Phjfgvq
-         emRVj6Cnt81xRfb0tKRrnzn0rKUYb5k/9/hfpKi+QrpRs80yRgWgMlb5oXfutyKuEeJQ
-         ojUg==
-X-Gm-Message-State: AOJu0Yy58JHqp1hhQe2QzVb9W/7Tpd4W5oyp6USB6UGkgelyp53reeNf
-	2VrUqcLd+0ck/zlObLfSiGkZqM/XATsrLtUDdlhEIIhuoSrcvhvARGPjYNAXfEIhkozGEuSWpYr
-	Zh3hr
-X-Gm-Gg: ASbGncudm096StBrv91BJygfCkxeBmWaLVTYKlk5/955C8uogzUp9yxOsHe5/7CE670
-	LLpQRSZvzYIp9pS/tTd7mgGjrkaGUEzxWDo67mKVtv61Pnx2dTieR4U+qy9wI0jDhnHx6BZuQ2X
-	yShxKsyDaWOLipnx54bWK2MwF9LsO88SzPEZrcR8e+JPBbSN9O4TZmAZMKKuig71+bvRQFn6M87
-	cJDx0n3VXKQXVIl6dUtT/5eSKWhphXpCXS1uXu5Bk9lv991AOUvEsX/Oa3L/CGMdompU18/iQIC
-	y1oCXcHUMScQLxFIAfIkFdylfWhRr4m7ZzmE1kx1eeTqG9cuCxNqypuUqPnNK8C5URpbem3+dnd
-	ylthWlXoeRCUhpEibOzh5Rh0HAy8XJ1Atx+9UfhkomR80+OUGgfCnodxlnnJyvrqR/Pn5Dcf2c7
-	RyPw==
-X-Google-Smtp-Source: AGHT+IHAxlWwlEFgZ3znYWaQvSv+uekHkXVKlDfbP6Ft24w/HZUxchXAW44AAe67W7lDqGB1eFmaRg==
-X-Received: by 2002:a17:902:f605:b0:295:9cb5:ae2a with SMTP id d9443c01a7336-29d6833ced8mr1343765ad.9.1764713985245;
-        Tue, 02 Dec 2025 14:19:45 -0800 (PST)
+        bh=gR0AQeQ7JZ0GF2uUTdEqKNahqE56J9Kp5zUFk9jXDfw=;
+        b=DhEl8iVRZ8Tk7uRzs4wl/tIkPMBGsZDmB7km1nUXexFu04j9+xBqCWruyEHGCpjk+V
+         1KQ/GJZIE41pnNhmBCkvA3eGADSCO7dqmFFx1MeyL2Q7oWMmqx/l1kG7cJtrKzltezcK
+         4vHMmqno9ZQAcYM4A2bN5zxyDJEp7XVjcERGvNH1lfS2PlNXIjzxuip7FjX5S3hDwfd/
+         kdhZSChHdm5HOG7pMucq70bKC0YHLPM7EAlN5RBegjAl9Y1NO97ULmSZO+hM1tV3snEr
+         jAuUq/vocxS92GbYOj0c33kFpnboHEiU2D2UJl157KHclWotAZRXOMEMP59kzW/VOgeh
+         GIxQ==
+X-Gm-Message-State: AOJu0YwzLYJVd2Ay6ICWimi4Z9ejG0/SnoxHkNpUCMzAzsTjv56LpZ1T
+	ApgGUAftWudwg3LB6V39AMNR2HJcofy5ZD06L1paYOPcQ1BhQdw6ix7B5Ou299vkZObNJBpmp1L
+	ch9rH
+X-Gm-Gg: ASbGncsdbQDq8YA34lQCjOZLQ0M+izvTzgezk8XHC6UYtYn/Vp1AUZjIR0DJjRnHRBp
+	WciiyTRBm+Dgmgn+1VRq3W2ZnzcyAvJjMGr9PRPTL7H72aMFmE3yL4Lj33ghWRCwi+SbuNh0heB
+	J8OvVZNzZnZR7UhYxDfIWPHafYGnLTtWOutAhsFz7s4iZIT+SJGDiWR0YLI6SWTLf2rtR+/A7PA
+	xDDOC45thXyGeb5HMWtR5GJRrmmnSOYcXaRpIzQUMBo293gOZTHoewazssrrT3IaTaOGJF3Vw96
+	XsQlXDpdPX71Q4klY4x/kZ05Y+7OhtKRxkfHC+BdN06LtHV+J2pxKFYmSV04FI9p1lL8XSqQOGz
+	qCooeBGTXXQD99+SOXKeKiMwnqnH8Adnx/FkxMVeQ+opXv21Z/7w53+d+QV/RBVO9ApQHFIDYTU
+	BndA==
+X-Google-Smtp-Source: AGHT+IEfwwsbwtRjLXB++1i1JrDxz/RO/HE1XGuRawOF0FTrGjZoj4RevcBYvoSEm0zWq6RSn7o2Pg==
+X-Received: by 2002:a17:902:e787:b0:295:6427:87d4 with SMTP id d9443c01a7336-29d68489191mr963935ad.50.1764713986855;
+        Tue, 02 Dec 2025 14:19:46 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:b8d9:92cd:3fd4:9b7a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bce40acc7sm163700565ad.2.2025.12.02.14.19.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bce40acc7sm163700565ad.2.2025.12.02.14.19.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 14:19:44 -0800 (PST)
+        Tue, 02 Dec 2025 14:19:46 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 2/8] gnutls: patch CVE-2025-9820
-Date: Tue,  2 Dec 2025 14:19:24 -0800
-Message-ID: <f9da4802414121457f8231ddd939bbc5160aa33c.1764713862.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 3/8] python3: fix CVE-2025-6075
+Date: Tue,  2 Dec 2025 14:19:25 -0800
+Message-ID: <82c0e311ba99e2575e8a8c5cd91896f001696e0d.1764713862.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1764713862.git.steve@sakoman.com>
 References: <cover.1764713862.git.steve@sakoman.com>
@@ -70,292 +70,400 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 22:19:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227188
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227189
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Praveen Kumar <praveen.kumar@windriver.com>
 
-This CVE is announced under [1].
-Pick commit which mentions this CVE per [2].
+If the value passed to os.path.expandvars() is user-controlled a
+performance degradation is possible when expanding environment variables.
 
-[1] https://www.gnutls.org/security-new.html#GNUTLS-SA-2025-11-18
-[2] https://security-tracker.debian.org/tracker/CVE-2025-9820
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-6075
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Upstream-patch:
+https://github.com/python/cpython/commit/9ab89c026aa9611c4b0b67c288b8303a480fe742
+
+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../gnutls/gnutls/CVE-2025-9820.patch         | 250 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.8.4.bb   |   1 +
- 2 files changed, 251 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
+ .../python/python3/CVE-2025-6075.patch        | 355 ++++++++++++++++++
+ .../python/python3_3.12.12.bb                 |   1 +
+ 2 files changed, 356 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-6075.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch b/meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
+diff --git a/meta/recipes-devtools/python/python3/CVE-2025-6075.patch b/meta/recipes-devtools/python/python3/CVE-2025-6075.patch
 new file mode 100644
-index 0000000000..99a6c11ee4
+index 0000000000..346af4df94
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
-@@ -0,0 +1,250 @@
-+From 1d56f96f6ab5034d677136b9d50b5a75dff0faf5 Mon Sep 17 00:00:00 2001
-+From: Daiki Ueno <ueno@gnu.org>
-+Date: Tue, 18 Nov 2025 13:17:55 +0900
-+Subject: [PATCH] pkcs11: avoid stack overwrite when initializing a token
++++ b/meta/recipes-devtools/python/python3/CVE-2025-6075.patch
+@@ -0,0 +1,355 @@
++From 9ab89c026aa9611c4b0b67c288b8303a480fe742 Mon Sep 17 00:00:00 2001
++From: Łukasz Langa <lukasz@langa.pl>
++Date: Fri, 31 Oct 2025 17:58:09 +0100
++Subject: [PATCH] gh-136065: Fix quadratic complexity in os.path.expandvars()
++ (GH-134952) (GH-140845)
 +
-+If gnutls_pkcs11_token_init is called with label longer than 32
-+characters, the internal storage used to blank-fill it would
-+overflow. This adds a guard to prevent that.
++(cherry picked from commit f029e8db626ddc6e3a3beea4eff511a71aaceb5c)
 +
-+Signed-off-by: Daiki Ueno <ueno@gnu.org>
++Co-authored-by: Serhiy Storchaka <storchaka@gmail.com>
++Co-authored-by: Łukasz Langa <lukasz@langa.pl>
 +
-+CVE: CVE-2025-9820
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/1d56f96f6ab5034d677136b9d50b5a75dff0faf5]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++CVE: CVE-2025-6075
++
++Upstream-Status: Backport [https://github.com/python/cpython/commit/9ab89c026aa9611c4b0b67c288b8303a480fe742]
++
++Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
 +---
-+ NEWS                      |   4 +
-+ lib/pkcs11_write.c        |   5 +-
-+ tests/Makefile.am         |   2 +-
-+ tests/pkcs11/long-label.c | 164 ++++++++++++++++++++++++++++++++++++++
-+ 4 files changed, 172 insertions(+), 3 deletions(-)
-+ create mode 100644 tests/pkcs11/long-label.c
++ Lib/ntpath.py                                 | 126 ++++++------------
++ Lib/posixpath.py                              |  43 +++---
++ Lib/test/test_genericpath.py                  |  14 ++
++ Lib/test/test_ntpath.py                       |  18 ++-
++ ...-05-30-22-33-27.gh-issue-136065.bu337o.rst |   1 +
++ 5 files changed, 92 insertions(+), 110 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-136065.bu337o.rst
 +
-+diff --git a/NEWS b/NEWS
-+index 0ae3c9991..d6df70ee6 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -5,6 +5,10 @@ Copyright (C) 2000-2016 Free Software Foundation, Inc.
-+ Copyright (C) 2013-2019 Nikos Mavrogiannopoulos
-+ See the end for copying conditions.
-+ 
-++** libgnutls: Fix stack overwrite in gnutls_pkcs11_token_init
-++   Reported by Luigino Camastra from Aisle Research. [GNUTLS-SA-2025-11-18,
-++   CVSS: low] [CVE-2025-9820]
++diff --git a/Lib/ntpath.py b/Lib/ntpath.py
++index 1bef630..393d358 100644
++--- a/Lib/ntpath.py
+++++ b/Lib/ntpath.py
++@@ -409,17 +409,23 @@ def expanduser(path):
++ # XXX With COMMAND.COM you can use any characters in a variable name,
++ # XXX except '^|<>='.
++
+++_varpattern = r"'[^']*'?|%(%|[^%]*%?)|\$(\$|[-\w]+|\{[^}]*\}?)"
+++_varsub = None
+++_varsubb = None
 ++
-+ ** libgnutls: Fix NULL pointer dereference when 2nd Client Hello omits PSK
-+    Reported by Stefan Bühler. [GNUTLS-SA-2025-07-07-4, CVSS: medium]
-+    [CVE-2025-6395]
-+diff --git a/lib/pkcs11_write.c b/lib/pkcs11_write.c
-+index f5e9058e0..64b85a2df 100644
-+--- a/lib/pkcs11_write.c
-++++ b/lib/pkcs11_write.c
-+@@ -28,6 +28,7 @@
-+ #include "pkcs11x.h"
-+ #include "x509/common.h"
-+ #include "pk.h"
-++#include "minmax.h"
-+ 
-+ static const ck_bool_t tval = 1;
-+ static const ck_bool_t fval = 0;
-+@@ -1173,7 +1174,7 @@ int gnutls_pkcs11_delete_url(const char *object_url, unsigned int flags)
-+  * gnutls_pkcs11_token_init:
-+  * @token_url: A PKCS #11 URL specifying a token
-+  * @so_pin: Security Officer's PIN
-+- * @label: A name to be used for the token
-++ * @label: A name to be used for the token, at most 32 characters
-+  *
-+  * This function will initialize (format) a token. If the token is
-+  * at a factory defaults state the security officer's PIN given will be
-+@@ -1211,7 +1212,7 @@ int gnutls_pkcs11_token_init(const char *token_url, const char *so_pin,
-+ 	/* so it seems memset has other uses than zeroing! */
-+ 	memset(flabel, ' ', sizeof(flabel));
-+ 	if (label != NULL)
-+-		memcpy(flabel, label, strlen(label));
-++		memcpy(flabel, label, MIN(sizeof(flabel), strlen(label)));
-+ 
-+ 	rv = pkcs11_init_token(module, slot, (uint8_t *)so_pin, strlen(so_pin),
-+ 			       (uint8_t *)flabel);
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index be4966f4b..8327c90ca 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -496,7 +496,7 @@ pathbuf_CPPFLAGS = $(AM_CPPFLAGS) \
-+ if ENABLE_PKCS11
-+ if !WINDOWS
-+ ctests += tls13/post-handshake-with-cert-pkcs11 pkcs11/tls-neg-pkcs11-no-key \
-+-	global-init-override pkcs11/distrust-after
-++	global-init-override pkcs11/distrust-after pkcs11/long-label
-+ tls13_post_handshake_with_cert_pkcs11_DEPENDENCIES = libpkcs11mock2.la libutils.la
-+ tls13_post_handshake_with_cert_pkcs11_LDADD = $(LDADD) $(LIBDL)
-+ pkcs11_tls_neg_pkcs11_no_key_DEPENDENCIES = libpkcs11mock2.la libutils.la
-+diff --git a/tests/pkcs11/long-label.c b/tests/pkcs11/long-label.c
++ def expandvars(path):
++     """Expand shell variables of the forms $var, ${var} and %var%.
++
++     Unknown variables are left unchanged."""
++     path = os.fspath(path)
+++    global _varsub, _varsubb
++     if isinstance(path, bytes):
++         if b'$' not in path and b'%' not in path:
++             return path
++-        import string
++-        varchars = bytes(string.ascii_letters + string.digits + '_-', 'ascii')
++-        quote = b'\''
+++        if not _varsubb:
+++            import re
+++            _varsubb = re.compile(_varpattern.encode(), re.ASCII).sub
+++        sub = _varsubb
++         percent = b'%'
++         brace = b'{'
++         rbrace = b'}'
++@@ -428,94 +434,44 @@ def expandvars(path):
++     else:
++         if '$' not in path and '%' not in path:
++             return path
++-        import string
++-        varchars = string.ascii_letters + string.digits + '_-'
++-        quote = '\''
+++        if not _varsub:
+++            import re
+++            _varsub = re.compile(_varpattern, re.ASCII).sub
+++        sub = _varsub
++         percent = '%'
++         brace = '{'
++         rbrace = '}'
++         dollar = '$'
++         environ = os.environ
++-    res = path[:0]
++-    index = 0
++-    pathlen = len(path)
++-    while index < pathlen:
++-        c = path[index:index+1]
++-        if c == quote:   # no expansion within single quotes
++-            path = path[index + 1:]
++-            pathlen = len(path)
++-            try:
++-                index = path.index(c)
++-                res += c + path[:index + 1]
++-            except ValueError:
++-                res += c + path
++-                index = pathlen - 1
++-        elif c == percent:  # variable or '%'
++-            if path[index + 1:index + 2] == percent:
++-                res += c
++-                index += 1
++-            else:
++-                path = path[index+1:]
++-                pathlen = len(path)
++-                try:
++-                    index = path.index(percent)
++-                except ValueError:
++-                    res += percent + path
++-                    index = pathlen - 1
++-                else:
++-                    var = path[:index]
++-                    try:
++-                        if environ is None:
++-                            value = os.fsencode(os.environ[os.fsdecode(var)])
++-                        else:
++-                            value = environ[var]
++-                    except KeyError:
++-                        value = percent + var + percent
++-                    res += value
++-        elif c == dollar:  # variable or '$$'
++-            if path[index + 1:index + 2] == dollar:
++-                res += c
++-                index += 1
++-            elif path[index + 1:index + 2] == brace:
++-                path = path[index+2:]
++-                pathlen = len(path)
++-                try:
++-                    index = path.index(rbrace)
++-                except ValueError:
++-                    res += dollar + brace + path
++-                    index = pathlen - 1
++-                else:
++-                    var = path[:index]
++-                    try:
++-                        if environ is None:
++-                            value = os.fsencode(os.environ[os.fsdecode(var)])
++-                        else:
++-                            value = environ[var]
++-                    except KeyError:
++-                        value = dollar + brace + var + rbrace
++-                    res += value
++-            else:
++-                var = path[:0]
++-                index += 1
++-                c = path[index:index + 1]
++-                while c and c in varchars:
++-                    var += c
++-                    index += 1
++-                    c = path[index:index + 1]
++-                try:
++-                    if environ is None:
++-                        value = os.fsencode(os.environ[os.fsdecode(var)])
++-                    else:
++-                        value = environ[var]
++-                except KeyError:
++-                    value = dollar + var
++-                res += value
++-                if c:
++-                    index -= 1
+++
+++    def repl(m):
+++        lastindex = m.lastindex
+++        if lastindex is None:
+++            return m[0]
+++        name = m[lastindex]
+++        if lastindex == 1:
+++            if name == percent:
+++                return name
+++            if not name.endswith(percent):
+++                return m[0]
+++            name = name[:-1]
++         else:
++-            res += c
++-        index += 1
++-    return res
+++            if name == dollar:
+++                return name
+++            if name.startswith(brace):
+++                if not name.endswith(rbrace):
+++                    return m[0]
+++                name = name[1:-1]
+++
+++        try:
+++            if environ is None:
+++                return os.fsencode(os.environ[os.fsdecode(name)])
+++            else:
+++                return environ[name]
+++        except KeyError:
+++            return m[0]
+++
+++    return sub(repl, path)
++
++
++ # Normalize a path, e.g. A//B, A/./B and A/foo/../B all become A\B.
++diff --git a/Lib/posixpath.py b/Lib/posixpath.py
++index 90a6f54..6306f14 100644
++--- a/Lib/posixpath.py
+++++ b/Lib/posixpath.py
++@@ -314,42 +314,41 @@ def expanduser(path):
++ # This expands the forms $variable and ${variable} only.
++ # Non-existent variables are left unchanged.
++
++-_varprog = None
++-_varprogb = None
+++_varpattern = r'\$(\w+|\{[^}]*\}?)'
+++_varsub = None
+++_varsubb = None
++
++ def expandvars(path):
++     """Expand shell variables of form $var and ${var}.  Unknown variables
++     are left unchanged."""
++     path = os.fspath(path)
++-    global _varprog, _varprogb
+++    global _varsub, _varsubb
++     if isinstance(path, bytes):
++         if b'$' not in path:
++             return path
++-        if not _varprogb:
+++        if not _varsubb:
++             import re
++-            _varprogb = re.compile(br'\$(\w+|\{[^}]*\})', re.ASCII)
++-        search = _varprogb.search
+++            _varsubb = re.compile(_varpattern.encode(), re.ASCII).sub
+++        sub = _varsubb
++         start = b'{'
++         end = b'}'
++         environ = getattr(os, 'environb', None)
++     else:
++         if '$' not in path:
++             return path
++-        if not _varprog:
+++        if not _varsub:
++             import re
++-            _varprog = re.compile(r'\$(\w+|\{[^}]*\})', re.ASCII)
++-        search = _varprog.search
+++            _varsub = re.compile(_varpattern, re.ASCII).sub
+++        sub = _varsub
++         start = '{'
++         end = '}'
++         environ = os.environ
++-    i = 0
++-    while True:
++-        m = search(path, i)
++-        if not m:
++-            break
++-        i, j = m.span(0)
++-        name = m.group(1)
++-        if name.startswith(start) and name.endswith(end):
+++
+++    def repl(m):
+++        name = m[1]
+++        if name.startswith(start):
+++            if not name.endswith(end):
+++                return m[0]
++             name = name[1:-1]
++         try:
++             if environ is None:
++@@ -357,13 +356,11 @@ def expandvars(path):
++             else:
++                 value = environ[name]
++         except KeyError:
++-            i = j
+++            return m[0]
++         else:
++-            tail = path[j:]
++-            path = path[:i] + value
++-            i = len(path)
++-            path += tail
++-    return path
+++            return value
+++
+++    return sub(repl, path)
++
++
++ # Normalize a path, e.g. A//B, A/./B and A/foo/../B all become A/B.
++diff --git a/Lib/test/test_genericpath.py b/Lib/test/test_genericpath.py
++index 3eefb72..1cec587 100644
++--- a/Lib/test/test_genericpath.py
+++++ b/Lib/test/test_genericpath.py
++@@ -7,6 +7,7 @@ import os
++ import sys
++ import unittest
++ import warnings
+++from test import support
++ from test.support import is_emscripten
++ from test.support import os_helper
++ from test.support import warnings_helper
++@@ -443,6 +444,19 @@ class CommonTest(GenericTest):
++                   os.fsencode('$bar%s bar' % nonascii))
++             check(b'$spam}bar', os.fsencode('%s}bar' % nonascii))
++
+++    @support.requires_resource('cpu')
+++    def test_expandvars_large(self):
+++        expandvars = self.pathmodule.expandvars
+++        with os_helper.EnvironmentVarGuard() as env:
+++            env.clear()
+++            env["A"] = "B"
+++            n = 100_000
+++            self.assertEqual(expandvars('$A'*n), 'B'*n)
+++            self.assertEqual(expandvars('${A}'*n), 'B'*n)
+++            self.assertEqual(expandvars('$A!'*n), 'B!'*n)
+++            self.assertEqual(expandvars('${A}A'*n), 'BA'*n)
+++            self.assertEqual(expandvars('${'*10*n), '${'*10*n)
+++
++     def test_abspath(self):
++         self.assertIn("foo", self.pathmodule.abspath("foo"))
++         with warnings.catch_warnings():
++diff --git a/Lib/test/test_ntpath.py b/Lib/test/test_ntpath.py
++index ced9dc4..f4d5063 100644
++--- a/Lib/test/test_ntpath.py
+++++ b/Lib/test/test_ntpath.py
++@@ -7,6 +7,7 @@ import sys
++ import unittest
++ import warnings
++ from ntpath import ALLOW_MISSING
+++from test import support
++ from test.support import cpython_only, os_helper
++ from test.support import TestFailed, is_emscripten
++ from test.support.os_helper import FakePath
++@@ -58,7 +59,7 @@ def tester(fn, wantResult):
++     fn = fn.replace("\\", "\\\\")
++     gotResult = eval(fn)
++     if wantResult != gotResult and _norm(wantResult) != _norm(gotResult):
++-        raise TestFailed("%s should return: %s but returned: %s" \
+++        raise support.TestFailed("%s should return: %s but returned: %s" \
++               %(str(fn), str(wantResult), str(gotResult)))
++
++     # then with bytes
++@@ -74,7 +75,7 @@ def tester(fn, wantResult):
++         warnings.simplefilter("ignore", DeprecationWarning)
++         gotResult = eval(fn)
++     if _norm(wantResult) != _norm(gotResult):
++-        raise TestFailed("%s should return: %s but returned: %s" \
+++        raise support.TestFailed("%s should return: %s but returned: %s" \
++               %(str(fn), str(wantResult), repr(gotResult)))
++
++
++@@ -882,6 +883,19 @@ class TestNtpath(NtpathTestCase):
++             check('%spam%bar', '%sbar' % nonascii)
++             check('%{}%bar'.format(nonascii), 'ham%sbar' % nonascii)
++
+++    @support.requires_resource('cpu')
+++    def test_expandvars_large(self):
+++        expandvars = ntpath.expandvars
+++        with os_helper.EnvironmentVarGuard() as env:
+++            env.clear()
+++            env["A"] = "B"
+++            n = 100_000
+++            self.assertEqual(expandvars('%A%'*n), 'B'*n)
+++            self.assertEqual(expandvars('%A%A'*n), 'BA'*n)
+++            self.assertEqual(expandvars("''"*n + '%%'), "''"*n + '%')
+++            self.assertEqual(expandvars("%%"*n), "%"*n)
+++            self.assertEqual(expandvars("$$"*n), "$"*n)
+++
++     def test_expanduser(self):
++         tester('ntpath.expanduser("test")', 'test')
++
++diff --git a/Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-136065.bu337o.rst b/Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-136065.bu337o.rst
 +new file mode 100644
-+index 000000000..a70bc9728
++index 0000000..1d152bb
 +--- /dev/null
-++++ b/tests/pkcs11/long-label.c
-+@@ -0,0 +1,164 @@
-++/*
-++ * Copyright (C) 2025 Red Hat, Inc.
-++ *
-++ * Author: Daiki Ueno
-++ *
-++ * This file is part of GnuTLS.
-++ *
-++ * GnuTLS is free software; you can redistribute it and/or modify it
-++ * under the terms of the GNU General Public License as published by
-++ * the Free Software Foundation; either version 3 of the License, or
-++ * (at your option) any later version.
-++ *
-++ * GnuTLS is distributed in the hope that it will be useful, but
-++ * WITHOUT ANY WARRANTY; without even the implied warranty of
-++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++ * General Public License for more details.
-++ *
-++ * You should have received a copy of the GNU Lesser General Public License
-++ * along with this program.  If not, see <https://www.gnu.org/licenses/>
-++ */
-++
-++#ifdef HAVE_CONFIG_H
-++#include "config.h"
-++#endif
-++
-++#include <stdbool.h>
-++#include <stdio.h>
-++#include <stdlib.h>
-++
-++#if defined(_WIN32)
-++
-++int main(void)
-++{
-++	exit(77);
-++}
-++
-++#else
-++
-++#include <string.h>
-++#include <unistd.h>
-++#include <gnutls/gnutls.h>
-++
-++#include "cert-common.h"
-++#include "pkcs11/softhsm.h"
-++#include "utils.h"
-++
-++/* This program tests that a token can be initialized with
-++ * a label longer than 32 characters.
-++ */
-++
-++static void tls_log_func(int level, const char *str)
-++{
-++	fprintf(stderr, "server|<%d>| %s", level, str);
-++}
-++
-++#define PIN "1234"
-++
-++#define CONFIG_NAME "softhsm-long-label"
-++#define CONFIG CONFIG_NAME ".config"
-++
-++static int pin_func(void *userdata, int attempt, const char *url,
-++		    const char *label, unsigned flags, char *pin,
-++		    size_t pin_max)
-++{
-++	if (attempt == 0) {
-++		strcpy(pin, PIN);
-++		return 0;
-++	}
-++	return -1;
-++}
-++
-++static void test(const char *provider)
-++{
-++	int ret;
-++	size_t i;
-++
-++	gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
-++
-++	success("test with %s\n", provider);
-++
-++	if (debug) {
-++		gnutls_global_set_log_function(tls_log_func);
-++		gnutls_global_set_log_level(4711);
-++	}
-++
-++	/* point to SoftHSM token that libpkcs11mock4.so internally uses */
-++	setenv(SOFTHSM_ENV, CONFIG, 1);
-++
-++	gnutls_pkcs11_set_pin_function(pin_func, NULL);
-++
-++	ret = gnutls_pkcs11_add_provider(provider, "trusted");
-++	if (ret != 0) {
-++		fail("gnutls_pkcs11_add_provider: %s\n", gnutls_strerror(ret));
-++	}
-++
-++	/* initialize softhsm token */
-++	ret = gnutls_pkcs11_token_init(
-++		SOFTHSM_URL, PIN,
-++		"this is a very long label whose length exceeds 32");
-++	if (ret < 0) {
-++		fail("gnutls_pkcs11_token_init: %s\n", gnutls_strerror(ret));
-++	}
-++
-++	for (i = 0;; i++) {
-++		char *url = NULL;
-++
-++		ret = gnutls_pkcs11_token_get_url(i, 0, &url);
-++		if (ret < 0)
-++			break;
-++		if (strstr(url,
-++			   "token=this%20is%20a%20very%20long%20label%20whose"))
-++			break;
-++	}
-++	if (ret < 0)
-++		fail("gnutls_pkcs11_token_get_url: %s\n", gnutls_strerror(ret));
-++
-++	gnutls_pkcs11_deinit();
-++}
-++
-++void doit(void)
-++{
-++	const char *bin;
-++	const char *lib;
-++	char buf[128];
-++
-++	if (gnutls_fips140_mode_enabled())
-++		exit(77);
-++
-++	/* this must be called once in the program */
-++	global_init();
-++
-++	/* we call gnutls_pkcs11_init manually */
-++	gnutls_pkcs11_deinit();
-++
-++	/* check if softhsm module is loadable */
-++	lib = softhsm_lib();
-++
-++	/* initialize SoftHSM token that libpkcs11mock4.so internally uses */
-++	bin = softhsm_bin();
-++
-++	set_softhsm_conf(CONFIG);
-++	snprintf(buf, sizeof(buf),
-++		 "%s --init-token --slot 0 --label test --so-pin " PIN
-++		 " --pin " PIN,
-++		 bin);
-++	system(buf);
-++
-++	test(lib);
-++
-++	lib = getenv("P11MOCKLIB4");
-++	if (lib == NULL) {
-++		fail("P11MOCKLIB4 is not set\n");
-++	}
-++
-++	set_softhsm_conf(CONFIG);
-++	snprintf(buf, sizeof(buf),
-++		 "%s --init-token --slot 0 --label test --so-pin " PIN
-++		 " --pin " PIN,
-++		 bin);
-++	system(buf);
-++
-++	test(lib);
-++}
-++#endif /* _WIN32 */
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.4.bb b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-index dde3bc3014..026ae650f6 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-@@ -33,6 +33,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://CVE-2025-32988.patch \
-            file://CVE-2025-32990.patch \
-            file://CVE-2025-6395.patch \
-+           file://CVE-2025-9820.patch \
+++++ b/Misc/NEWS.d/next/Security/2025-05-30-22-33-27.gh-issue-136065.bu337o.rst
++@@ -0,0 +1 @@
+++Fix quadratic complexity in :func:`os.path.expandvars`.
++--
++2.40.0
+diff --git a/meta/recipes-devtools/python/python3_3.12.12.bb b/meta/recipes-devtools/python/python3_3.12.12.bb
+index 9a957c59bc..b70f434ca9 100644
+--- a/meta/recipes-devtools/python/python3_3.12.12.bb
++++ b/meta/recipes-devtools/python/python3_3.12.12.bb
+@@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+ 	   file://0001-test_deadlock-skip-problematic-test.patch \
+ 	   file://0001-test_active_children-skip-problematic-test.patch \
+            file://0001-test_readline-skip-limited-history-test.patch \
++           file://CVE-2025-6075.patch \
             "
  
- SRC_URI[sha256sum] = "2bea4e154794f3f00180fa2a5c51fe8b005ac7a31cd58bd44cdfa7f36ebc3a9b"
+ SRC_URI:append:class-native = " \
 -- 
 2.43.0
 
