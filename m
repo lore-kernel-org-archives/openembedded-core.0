@@ -2,155 +2,149 @@ Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C57CD116F1
-	for <webhook@archiver.kernel.org>; Mon,  1 Dec 2025 23:48:30 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5798.1764632904242356159
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60AA7D116F1
+	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 00:50:00 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7121.1764636595435147542
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Dec 2025 15:48:24 -0800
+ Mon, 01 Dec 2025 16:49:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=MQpj5tlq;
- dkim=fail reason="dkim: body hash did not verify" header.i=@oss.qualcomm.com header.s=google header.b=gUcvY+9L;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B1KA1Dt1740533
-	for <openembedded-core@lists.openembedded.org>; Mon, 1 Dec 2025 23:48:23 GMT
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Vmty2gFU;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=kxe7szdP;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B1KsClO1376059
+	for <openembedded-core@lists.openembedded.org>; Tue, 2 Dec 2025 00:49:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	vOv18fWzB1GZF1ekBdPk0vOG+OerqoyjC2zFhyGjctk=; b=MQpj5tlqB+1i5H+w
-	TnCDqatDqG9YbIijia5BKmlSHBTsu6lHg7jHJOSZywzj/zMZ2sEw4RsiDmIiyDR9
-	/PHgSbYoyECB61uI3M/LQ+fW0osKX1K2B73rDqs3NIMIGj/IYhnU5tsd/CEZA1PS
-	3AwApZBRbs0aqENBo9P8Jrpv0709LuSu7M04+dWg9laYxGKpdhzvzWYNgpEL/oZ3
-	pBmbWEjAH2LZt/eAsBTbJU7FWO+LyrWCmHHL9Uayk8R0NI5aOmLnWEUskYKcAaXK
-	umub6yKwomLY/g4JPieFVi0D9kxVbsAFUd3WPg8nuWFEziTme+C1b8evF053owsr
-	+OssyA==
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=Z3lgBfPjouvUsUfnDeV3nbS0j74/+/DZSGp
+	QAba9QOc=; b=Vmty2gFUNykqOibwFhyj6owxbquQLb6v1BcfsYzL2VUlqISrJRq
+	voNmDhkPgBDD2bD4lx2pLrseqOo6Q4FkEHimI5yYDrp6698LxcFgUKMG41wd+Bw/
+	FDhsy0SYPTs9UeWJaA9GCD5p+lMSSdZmN4bVGx0fHX6GEfWhcgvYDPT/M2skC1rJ
+	GIrzttECqHmeJkcqL3t3ltVJOYXb3dC4RNTXYMbEc07TTy5pL6SiU+8vx03CZSlC
+	e0HY3CUUV6gIDAEx4FdOrzniDTvqPeGWbGVfLBRjzuOmtqBRsHyRY2TSl4lRyAeR
+	O+cR9nKD+rQgN16Q463Qr27AQZoK23t3bKQ==
 Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ashtkrkh7-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4asjf78k7d-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 23:48:23 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8b2de6600c0so1125469485a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 15:48:22 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 00:49:54 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8b2f0be2cf0so1424114285a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 16:49:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764632902; x=1765237702; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vOv18fWzB1GZF1ekBdPk0vOG+OerqoyjC2zFhyGjctk=;
-        b=gUcvY+9Li/IRMThj8chV/6c1Xu2GlZ8GUh8RbiMH1PRgUjLPkmIgv7wGam6oLfh58s
-         x2d/NxY4oTn0QCYXAtZXE07k6GayAbgQHlmC5v8oUqn9QZlG5sHfbK0Kfg8goKgTouXx
-         uikH9O40T9LU4b22B91i8thKpyTTPM4vamD++pFOeae3G5h4/0R7pKRhBs9gayZtcuCW
-         cga15eQI5572cfX2I8NSs27EDRyoUoT8xTROd8MT9RwY5UfJHqWKbgaR7NEYGD/WqOLa
-         qLDH56rxTW8pbK05/OcZYh/PcdrW5bRcgTBVmlhSGJ9Y4SLEGMTWmwrcGGtfAPRMMkQi
-         vffQ==
+        d=oss.qualcomm.com; s=google; t=1764636593; x=1765241393; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z3lgBfPjouvUsUfnDeV3nbS0j74/+/DZSGpQAba9QOc=;
+        b=kxe7szdP/G8rNYVXukv4zcmy0TI4owHu7Q48yCJ1ik3k6EQ+0wpd+dtafhtWp1DSJA
+         2b/PnkMeiyrrPmMr/DwUuzk2Rl7OLa1wv9KiStENzn4eWckWWBQBHJvIFMjQsxCKbmX4
+         OTRW+Fg8Obwsa3UoHqoK3Sbd+9dQS8LnAemhU0Nnb/R+ZoGXZ0j2ByD4G2u888fUkj8F
+         /oV4+IgiKFCFybubMbM1ei01e3yPU5740bvFREkTYpqOuCVRXmVhvFVjCr0k6zHaJTyh
+         0QXZeVXfmD+L202LptUaz9ih64ZZxO3f4HwwfQOvw6vr4Gb3/7YoZyg+njxuBd+SZMS9
+         29xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764632902; x=1765237702;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1764636593; x=1765241393;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vOv18fWzB1GZF1ekBdPk0vOG+OerqoyjC2zFhyGjctk=;
-        b=YJjCUyc1WANTnAKL4Ar7Nx18DWjqy2Oo4vJ4UcuYHd5PiC8j/46qdFJk5J5ugPNN0w
-         RHLBWpc8sXSfaf0+drMaiGgjDcaZGZEfenYNc2DMk9km6o8UyV3AnztuBQJx8nxbW7eq
-         v6yVENazezP7+G8Heq/ERHEyYYgFe3OKMH2apGH8SD492FB1BMUWyeU+v+4Sfgn97+yM
-         E+Bh7Kq9Pvs8raNrMEPAC2SPIjcgHHytWLeMAjz6bO1F3BwgxUUQXkAhvd+fiaQP60ca
-         pjhZvQjFxE8jAqOhJkW4QsWuMw7Ok8ua2zD5fAd/5Z+x2DC409FObHZU+WMl5Gpq4vyc
-         w8Rg==
-X-Gm-Message-State: AOJu0Yyc7+dtFHhzfhUaLN52tOtUjzm4LYDBLkyA+3tD3FEo9heAjJTn
-	5HUo1zFS73Unn8pivOVYeKc0t5YPJzw3vLHZrVBFEab4AdXPXpjfLWTcHwUHRbvdrYhEW2gjsZu
-	HGdmU4FwMIcJ94YvO7TXjeUgwu8rwc5N2No5f+DEktKM4D6ew4+LeHlM8lRLYTc3EetlhbpIqcV
-	xsU7A5Wuk=
-X-Gm-Gg: ASbGncv4O5EKkTLMTNSGR9iAsrl0Dj1D78mquXaSfqi/pzIDVvCSs2wgGEx0gIKNpH9
-	yPDRBbdLojFOLj8ZDr2FP9+foJjssnv9S+HRqu7W719vfma/5vnEnTtnOUEVI6iJmrMlYXpeASO
-	e0DA5P2lceZMq6A1mKAbxDzfpTQXW+uhAOkuUGB01YDp6uECUZx9/WbWhjbKqFe55NWvo2Kkqmh
-	sCYZA0w+t59zSSHzq4L8nxBBweBYveOWvllT7UXBOafTOLHtNvGllTLP1uQMULRCkt5/HoiHgTJ
-	tQpVxFmRUYL21t9FhwJOLC9Ng4ttrkl5VLAk3YPaL8iynlWgFvJjWrn4GOokFX9rB/qegIjGZ+s
-	PnOicBewH8WSBUja9RhH2DzPbNaT0Ko1SA2UPZoH79SLb9kO1Qv7aZsvmLlMXgzAYAT6jNY8EGs
-	oj7xqi89p5Og2cehpIE9cjhq9BBJBS7eIblascYfApdUfXx0zK9Q==
-X-Received: by 2002:a05:620a:17a1:b0:8b2:e38d:2f03 with SMTP id af79cd13be357-8b33d1b13acmr4989859585a.9.1764632902282;
-        Mon, 01 Dec 2025 15:48:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH5+zgKjELc/OkDZKQthYj1XtPaF1XRTcgJJ+jytwMHAXgV662GtrOKlzA+es3/U/syqx+jCA==
-X-Received: by 2002:a05:620a:17a1:b0:8b2:e38d:2f03 with SMTP id af79cd13be357-8b33d1b13acmr4989854285a.9.1764632901675;
-        Mon, 01 Dec 2025 15:48:21 -0800 (PST)
-Received: from ?IPV6:2001:99a:252:3300:d706:9b57:5996:15b4? (n2i9bzmlzk2z87merp0-1.v6.elisa-laajakaista.fi. [2001:99a:252:3300:d706:9b57:5996:15b4])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37d236e6e5fsm33929241fa.18.2025.12.01.15.48.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Dec 2025 15:48:20 -0800 (PST)
-Message-ID: <d066656a-dc2e-463b-bac5-fc56b48fc859@oss.qualcomm.com>
-Date: Tue, 2 Dec 2025 01:48:20 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v4 2/2] mesa: drop freedreno-fdperf
- PACKAGECONFIG
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20251030115415.2566247-1-dmitry.baryshkov@oss.qualcomm.com>
- <20251030115415.2566247-2-dmitry.baryshkov@oss.qualcomm.com>
- <C831BC71-F6F4-4D2B-B8C7-BDE128F16745@arm.com>
-Content-Language: en-US
+        bh=Z3lgBfPjouvUsUfnDeV3nbS0j74/+/DZSGpQAba9QOc=;
+        b=KOFqo+M/zP1GCDPoSFQya5LMNzZgLdwrofHpGvMkseIuCYHgIE6K1LpkH6QMEmOsyx
+         cEj3LzIB6YSxaumDt1TBZrDWB0BtpdS7pDwiw8RoMqFnjwNkGvZx7jjOZ5vg/ADvKJGb
+         lRnk1qJTZ3tgzNSej2+cFoOsY/ucmNEY2zfflXzqjfn8T6QSMElfHLcghwPtXNFJR4F4
+         bM+KuAAYA6Le3e0ra1DdIpWrSnPJxltbjRYBt3r4eKg8Fp3qkedIPj8c1bhoHLFg8inh
+         shi7J3Ba20p7nZ89wdwkL/7tyQ3HaotkHM7z/tG4pquAO6v9iwcsU55zH8dUBK0d+kI8
+         fkOg==
+X-Gm-Message-State: AOJu0Yx2EQqmpYsfdOxt5dr2gkEuZhV/tXS9Tmv3DpcOXK02EuNgz/Gw
+	p18oSKAC6/KMj9rKQ1GYx62SkTT8RehMicaI2R/XKHZpK0ICOMxL5N5MUbJqcONvfxBMsHXqGa7
+	FCieUrog6CCqU97jotOrqXYkU462ZSccxFEapaSh4OeuB7tn/IZB82B28yN2QT+1I77Y6nJNm0M
+	42ShM06nQVlGDO2xQ=
+X-Gm-Gg: ASbGnctAfnn6jHU2LK6SKMzuwaCckoa4qCQyaoXALiSdpwDrgMeimDQ2jlXsAACzqWo
+	8mpiZHP0Nj+HNboJOlHkpJdy0h6h2x2/YHj4tl92zG9KzMCOVCarLawIbUfIjvmd8neu6R+U/34
+	0zWliQIJGov5Bm/xYaVnrlqf8xjJU16XRsf7LQ24/Rto+Rsf9JcAR4O3QwexeH95gBAgrD748im
+	mUEFMkmOWZBOre959IPVVNlRbE1ubMyB4w7sn6VPRoCdURH2ce4IqOcWFgdnbhSaOpAGI3004Kd
+	VpfPTyDbUoVODaZWsi3ir9SRqXj7pMgaFD3end3iUkAbsw0/exjWkSyQkDlgxpyCiNkMe3Slwql
+	hnEPSBMEoeYRohpMhzpXD5RWCQgzzCCjBs5HG0tEWqNAKIWpkFyKCTBC4B3jMB5G0RdcCE3Lxe3
+	xD+Qr9Xk+9niFHVICHUzcqaDQ=
+X-Received: by 2002:a05:620a:46a0:b0:8b2:7165:544f with SMTP id af79cd13be357-8b33d1fd878mr5597172185a.25.1764636593314;
+        Mon, 01 Dec 2025 16:49:53 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE4oZgyZRhmeTnP3vmTwJRBk/kVfVWE3XYsCu0GJw3VaDJiQSuofxgQATVmj34YIaERGeb8HA==
+X-Received: by 2002:a05:620a:46a0:b0:8b2:7165:544f with SMTP id af79cd13be357-8b33d1fd878mr5597168385a.25.1764636592738;
+        Mon, 01 Dec 2025 16:49:52 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-596bfa48d67sm4058173e87.74.2025.12.01.16.49.51
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Dec 2025 16:49:52 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <C831BC71-F6F4-4D2B-B8C7-BDE128F16745@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-Proofpoint-GUID: rhCPeERbcZm1b2cW5yP-3yb9gL5nXErv
-X-Proofpoint-ORIG-GUID: rhCPeERbcZm1b2cW5yP-3yb9gL5nXErv
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAxMDE5MSBTYWx0ZWRfX9/QlFpZj01ZM
- oC6KAMeRhiAzB8fJYykKVvxpAe0TjZwTKVDSo7zdJPrnmQK6pa7jdxZ2K6gbJB/pYetI+UQ9+GI
- PwJaxNmnYXzWBKPipuSFQS02PY3BpQ5wKm3UIOV9n/9++IWbt66aswHMih5rgunMZEuKC+FaDbe
- bqiuXXUomjz2ogVRg8T7dXguqA/bmiqdIgr0YEijB6DzgNeQLInkTTZ9wZUy/9mIdXar8BbWhgq
- Yh5j1uHV+uTslx7KG3lWGcnP0e98K7DGLvC9fZpIwvy4mScF/+S0oRdVhLfr1PRNqUD0ORvQRPt
- ZonlKzYUYQx61dXFf0xZ9YdZ9vA2UFoyrvZZiJO3Es1Yz+jmNgLUxyvJg8oYx/xCTqQRLwH1d4a
- nldBc4botn6UeaomP3HAcflu/WVM2g==
-X-Authority-Analysis: v=2.4 cv=DL2CIiNb c=1 sm=1 tr=0 ts=692e2947 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Q4-j1AaZAAAA:8 a=AKJX-EpgNPBJPy4Iw3kA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] mesa: fix drivers sorting order
+Date: Tue,  2 Dec 2025 02:49:48 +0200
+Message-ID: <20251202004951.2358784-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: BbYN3GXZ74cZQpAypfeTm0r1xmzoEYWF
+X-Authority-Analysis: v=2.4 cv=VfH6/Vp9 c=1 sm=1 tr=0 ts=692e37b2 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=Y1Gw0ai7vHqnVpeTwoQA:9 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAyMDAwMyBTYWx0ZWRfXym2m7xNsv05A
+ I3S0xRTYngIS4XCAXuYEILRT3miLUWhVB71oRcJW/+Ecj5dPmrKu85YHvG+YaVcQqYXrRTeFx3S
+ AExqSbohpPcK4rEuNPoGGkT0PJ2mZbp0leiJ77rJX6Y+VGymiLZhiK4DZastQXedfASvogjG7CG
+ iQIrw1kp3OCnaQ8zBH/qAWA+CvjgjOBJkC/BFjW3iZgv97bZRTgv5ny+lRuPBWb9z+CYi5As6gS
+ VfidowQVHCGxhzGSHy5T1SZROosXbMHpZIxix1Zr3whOKBfuozlU06o1mc+pIuTDC/Asf7zAx9b
+ 6DO4gE/lHGi6Aa862Ghea9dWhHEAyeUY/G4AXE1+F2jVx++PLUSSXqbqw7k8CJQVl89PYps8E0d
+ XFvBNE/sXaW7rAGjDfnY5rCkdrvsng==
+X-Proofpoint-GUID: BbYN3GXZ74cZQpAypfeTm0r1xmzoEYWF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-28_08,2025-11-27_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 phishscore=0 impostorscore=0 clxscore=1015
- bulkscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512010191
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 5B1KA1Dt1740533
+ priorityscore=1501 phishscore=0 malwarescore=0 lowpriorityscore=0
+ adultscore=0 bulkscore=0 suspectscore=0 impostorscore=0 clxscore=1015
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512020003
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Dec 2025 23:48:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227140
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 00:50:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227141
 
-On 01/12/2025 20:00, Ross Burton wrote:
->=20
->=20
->> On 30 Oct 2025, at 11:54, Dmitry Baryshkov via lists.openembedded.org =
-<dmitry.baryshkov=3Doss.qualcomm.com@lists.openembedded.org> wrote:
->>
->> # dependencies for tools.
->> -TOOLS_DEPS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedre=
-no', ' ncurses libxml2 ', '', d)}"
->> -
->> -# the fdperf tool requires libconfig (a part of meta-oe) so it needs =
-special
->> -# treatment in addition to the usual 'freedreno tools'.
->> -PACKAGECONFIG[freedreno-fdperf] =3D ",,libconfig"
->> +TOOLS_DEPS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedre=
-no', ' ncurses libconfig libxml2 ', '', d)}=E2=80=9D
->=20
-> TOOLS_DEPS is just set as this now:
->=20
-> TOOLS_DEPS =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', ' nc=
-urses libxml2 ', '', d)}=E2=80=9D
->=20
-> So just merge those together instead of having two assignments for the =
-same configuration.
+Fix few issues that were left unnoticed or breaking sorting order.
 
-This is exactly what should happen. The first line is removed by the patc=
-h.
+Fixes: 64108679ada8 ("mesa: sort out driver lists")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
---=20
-With best wishes
-Dmitry
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 3124db09864c..0cb7b504f485 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -129,8 +129,8 @@ VULKAN_DRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'broadcom', ',broadcom'
+ VULKAN_DRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', ',freedreno', '', d)}"
+ VULKAN_DRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'imagination', ',imagination-experimental', '', d)}"
+ VULKAN_DRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'intel libclc gallium-llvm', ',intel', '', d)}"
+-VULKAN_DRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', '${VULKAN_DRIVERS_SWRAST}', '', d)}"
+ VULKAN_DRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'panfrost libclc', ',panfrost', '', d)}"
++VULKAN_DRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', '${VULKAN_DRIVERS_SWRAST}', '', d)}"
+ 
+ PACKAGECONFIG[vulkan] = "-Dvulkan-drivers=${@strip_comma('${VULKAN_DRIVERS}')}, -Dvulkan-drivers='',glslang-native vulkan-loader vulkan-headers"
+ PACKAGECONFIG[vulkan-beta] = "-Dvulkan-beta=true,-Dvulkan-beta=false"
+@@ -180,9 +180,9 @@ GALLIUMDRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'amd gallium-llvm', ',r
+ GALLIUMDRIVERS .= "${GALLIUMDRIVERS_SOFTPIPE}"
+ GALLIUMDRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'svga gallium-llvm', ',svga', '', d)}"
+ GALLIUMDRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'tegra', ',tegra', '', d)}"
+-GALLIUMDRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'virgl', ',virgl', '', d)}"
+-GALLIUMDRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'vc4', ',vc4', '', d)}"
+ GALLIUMDRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'v3d', ',v3d', '', d)}"
++GALLIUMDRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'vc4', ',vc4', '', d)}"
++GALLIUMDRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'virgl', ',virgl', '', d)}"
+ GALLIUMDRIVERS .= "${@bb.utils.contains('PACKAGECONFIG', 'zink', ',zink', '', d)}"
+ 
+ PACKAGECONFIG[gallium] = "-Dgallium-drivers=${@strip_comma('${GALLIUMDRIVERS}')}, -Dgallium-drivers='', libdrm"
+-- 
+2.47.3
+
 
