@@ -1,131 +1,80 @@
-Return-Path: <corentin.guillevic@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA080D116F6
-	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 15:51:05 +0000 (UTC)
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.344.1764690657698416615
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4DADCFD2F6
+	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 15:56:45 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.596.1764691002421954613
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Dec 2025 07:50:58 -0800
+ Tue, 02 Dec 2025 07:56:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=qwZ7xtgC;
- spf=pass (domain: smile.fr, ip: 209.85.128.68, mailfrom: corentin.guillevic@smile.fr)
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-477aa218f20so39119695e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 07:50:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dB0P4xZR;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8804ca2a730so78667506d6.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 07:56:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1764690656; x=1765295456; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wJbP5DbUgmeGkEI2GBxOkpi1gqkUDBfeSzxl87woMwk=;
-        b=qwZ7xtgCiwGcg0IRu+SHvbejKm4b1gAWzlfL/xNZvwSXX3Wyd+rNvTfUtkj2IlaYdu
-         lgmFiNsUM7B7ixMRiNQx6lb4eHdhokqLeA7plXNOB92VzCLnk5Tp8oowXDXhfvXnIme8
-         hV2H/Ocs/LXXf41bbU2flp7TJqa9ssoFRh0PI=
+        d=gmail.com; s=20230601; t=1764691001; x=1765295801; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/e/lyK+4wSg94j3192y6VebhFXz2loqRiGthIAnpeUs=;
+        b=dB0P4xZRdCV0QTaDel1/TDKmRQkprm6o3WG872FmD0H/cfucaygVyQ6lvDPB/eSobT
+         kbKFHVUgGzS6liT0Hm3Oc9Pymg+5GZuQzqB/N0Y/WZJPseu3i5SlKTm+srdQ3bvj8Db7
+         WT2MC+Qq+vNqzJtzYCEYIhZKlKKZIzEgn1SJrcAK7Ea58lFjLTUA5XTfo2T5EE0UJUJj
+         Z/hc4xF3c45JM+AR6xbHnsbNbyjdbQ2ZmcWTeojQSORHsqj7xnKkdskRwKC+B0YL6ACm
+         vXqGPfxt6Nr99WiVyx9AXNS/jveJhZ0leBFaGWLTlGHAdKfjKLN5EkmKZMOGTOnJvt5/
+         VAWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764690656; x=1765295456;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1764691001; x=1765295801;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wJbP5DbUgmeGkEI2GBxOkpi1gqkUDBfeSzxl87woMwk=;
-        b=VTqlC2vMWZEopHFKeAGFQt/GXtruavasqTOb7rGPhkZUS0uSKT9IMKUkTlJgxHTSC8
-         EH8NIcUJNOBwpKo8BONgF8X8++ZFff5kbZ9gLsPrMofrAmfZZhhBpiNdyNb4bJN1Yl7P
-         0GJgw01KI3SVvg4feGSwtMO7pMNR6lTEfpEgWY63a6kU91KDFie73Hw3VCpLO+wkAhoa
-         BdgHygb6FEHo+X5aQGOtyuGBgkFBk5XbH8tqHQvVFMYsj2xhFyp7UieJteDlpVC6LwXI
-         /xc8DNXcurv1SqejVv3NS/gp55axcN5hoDS4YmHglAzEWZj8C6/3zIeAQKEWgF2cR4TO
-         IukA==
-X-Gm-Message-State: AOJu0Yxz0imk8ICfrfsM0nqwc/xy6qwz+hOtcKen2vpctOCCFQFcGSaA
-	btQRheAlIAP/SvL7Go3MW4HGUY57DO7XcUH3WiS/AygVYx/ezImBIKHk/AakJBtu+IRyiq4YAxV
-	8ZkK47YHF/lKO
-X-Gm-Gg: ASbGncv+u0pEca6hfN6fnmekFhtNUQiyLId72EC4b04MXrTcbqH4gLp2n22Y5bcSzmC
-	IIvQwZkmRvxuLynNdL2HoZSbeY2V1/g9KUO9fN8DXic5KYQV3xkOSwfRzqBXUSJfd8znrviEm66
-	QlNf64ObdGkB8WnnEZJ6cXSU4baBJmQDd6rV3zCx7z1h3ejpXqp3UoEcaAe8Tw2DDkOx5uMFFYg
-	PQb8/jEbcOM/ZuI/FF6zq3+d7DnP9xideLi5KI56QFBm/nKzBzA50X3GaoA/+B/BehqBkqWhqLF
-	SpvhM9exf4FDBbyGmtHb5RG63orINuWrtYsuJ2mvd2eSvnPO6je3v5PsSFMktKHc9NgY97XJ/lp
-	kxAEeWad2wMMLFwhC6DZCM/Pc0iBUWFhvzW0ZIwxkDIaIrgGnXptCONmzddP7tsEMnf0FU9ymDb
-	2MF5jycYqSZIwS7nZ/RejXvw==
-X-Google-Smtp-Source: AGHT+IEB/JPjiKiI5+j62tCx6DZ+0AH83azIpaPaUvRQCFcl0HTChNMo/5Cx0VaJ2BwuzMxdHa3E1A==
-X-Received: by 2002:a05:600c:548b:b0:477:6d96:b3c8 with SMTP id 5b1f17b1804b1-477c01c4c03mr408878125e9.23.1764690655777;
-        Tue, 02 Dec 2025 07:50:55 -0800 (PST)
-Received: from heaven.lan ([2001:861:3080:b0f0:3dbf:6e88:6b4c:feb7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1c5d614asm33641446f8f.12.2025.12.02.07.50.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 07:50:55 -0800 (PST)
-From: Corentin Guillevic <corentin.guillevic@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Corentin Guillevic <corentin.guillevic@smile.fr>
-Subject: [PATCH] oe-setup-layers: support inline URI
-Date: Tue,  2 Dec 2025 16:50:43 +0100
-Message-ID: <20251202155043.815098-1-corentin.guillevic@smile.fr>
-X-Mailer: git-send-email 2.49.0
+        bh=/e/lyK+4wSg94j3192y6VebhFXz2loqRiGthIAnpeUs=;
+        b=Uk+dGuQHSIIQgMQdZCgIwxesHYRn1c4mJhVZQsV9TeW2nlbeB5PrPtyabmYMLkNd5m
+         oT7NLyd7h295YD+RzK0F8k6BEMNEr8O4ViKbuvQDGXjsQqOB+uQDroKhqN7vwgy5KC2M
+         BYhsicicQDYHPjvOihGc/nYGADrDukcy7ilcE1H1SohEOMhB3gzlmq2TlQHu1zXBCzXu
+         RmUJPKYWp4/AYdD73z6TwG0KzLy61Z4ofbdmm6sSBMqaRevjf/LmYwq8Pk+bi0ILMLOW
+         xuFDnoAawmwwgrXr43WluzHK2ZE5nBGTYdwbRTa0i6pI02WF2nK/FssHWNdgWMnaLxRf
+         g8oA==
+X-Gm-Message-State: AOJu0Ywsn2/owFkejsgQHMIZwjBFOOkDJbskkkMk247h1+/5wuzuphXF
+	+7CaMUAxzzaTwKgzH1nY54Icstzla1aTYzcfd8rvkDELnd/epzGQjbMgaGzdkOSffcXqvCRMxz8
+	tHrfwQlyXPCWqivvMnU1Umq1K/64BN/Y=
+X-Gm-Gg: ASbGncuV73iyltCKJ3LaF+2HwllFgodx1AsC4VCvZUcA7TNe1solHpvXAUjn0DPFJ4c
+	pgfy6lfU5MLc8xaUwimeyFLVCRFBDpXaVpOUGrMMQh9rpzqM75Dlld9vbhV+ipfKa/8dGk5zGDV
+	6BIUnx/KdRJaD5idynqUExTP52Afc/dBbfmztbniZMuvz/gr7MJj8LcMp0lt5YrkYHDKx8zHUuU
+	dZkqsptS5rWKRB22T/UubHBZnT85RPqBKXb+aBUor4o/8KWfNw2hmDm9aAXu6S05XfHoZSeGBtu
+	rPux/cEukBWJStOh9L73tp6F0hlm2A==
+X-Google-Smtp-Source: AGHT+IHtMRSDt+uMaX+59Bx2R89KJ1P0DBhT9B9iKWeT+Ua3+/M0M+9BAUGClI5UcqGsnabacZk4EK0koiZwTIR3j3M=
+X-Received: by 2002:a05:6214:3c9b:b0:882:3b63:f7f5 with SMTP id
+ 6a1803df08f44-8847c515fd2mr588213986d6.41.1764691001390; Tue, 02 Dec 2025
+ 07:56:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251202155043.815098-1-corentin.guillevic@smile.fr>
+In-Reply-To: <20251202155043.815098-1-corentin.guillevic@smile.fr>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 2 Dec 2025 16:56:30 +0100
+X-Gm-Features: AWmQ_blXRJQ3lGDp-l0GOq7R8OSAabzTSN5vyAmeSDqVatKKxXKAJw_nifoeSh0
+Message-ID: <CANNYZj9qxZ4KmoP_8YeMUY9j12us8iNkhp3rs7UViSYpL5gRag@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] oe-setup-layers: support inline URI
+To: corentin.guillevic@smile.fr
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 15:51:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227172
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 15:56:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227173
 
-Most of the time, when we describe a remote, the layer data (also used by
-the script bitbake-setup) looks like this:
+On Tue, 2 Dec 2025 at 16:50, Corentin Guillevic via
+lists.openembedded.org
+<corentin.guillevic=smile.fr@lists.openembedded.org> wrote:
+>  scripts/oe-setup-layers | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 
-"bitbake": {
-    "git-remote": {
-        "remotes": {
-            "origin": {
-                "uri": "https://git.openembedded.org/bitbake"
-            }
-        },
-        ...
-    }
-}
+I like the idea, but this is extremely incomplete. You need to update
+the schema in bitbake repo, the sample file in meta-files, and the
+generator in 'bitbake-layers create-layers-setup'. You also need to
+update bitbake-setup and its tests.
 
-i.e. an URI with the common name 'origin'. Alternatively, we could simplify this, by
-using a shorter structure with the property 'uri' only:
-
-"bitbake": {
-    "git-remote": {
-        "uri": "https://git.openembedded.org/bitbake",
-        ...
-    }
-}
-
-'uri' and 'remote' are then mutually exclusive.
-
-Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
----
- scripts/oe-setup-layers | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
-index 31cb963251..bac685a209 100755
---- a/scripts/oe-setup-layers
-+++ b/scripts/oe-setup-layers
-@@ -60,6 +60,14 @@ def _write_layer_list(dest, repodirs):
-     with open(layers_f, 'w') as f:
-         json.dump({"version":"1.0","layers":layers}, f, sort_keys=True, indent=4)
- 
-+def _handle_uri_shortcut(r_remote):
-+    if 'remotes' in r_remote and 'uri' in r_remote:
-+        raise Exception("Keys 'remotes' and 'uri' are mutually exclusive")
-+
-+    if 'uri' in r_remote:
-+        r_remote['remotes'] = {'origin': {'uri': r_remote['uri']}}
-+        del r_remote['uri']
-+
- def _do_checkout(args, json):
-     repos = json['sources']
-     repodirs = []
-@@ -80,6 +88,9 @@ def _do_checkout(args, json):
-         if not desc:
-             desc = rev[:10]
-         branch = r_remote['branch']
-+
-+        _handle_uri_shortcut(r_remote)
-+
-         remotes = r_remote['remotes']
- 
-         print('\nSetting up source {}, revision {}, branch {}'.format(r_name, desc, branch))
--- 
-2.49.0
-
+Alex
 
