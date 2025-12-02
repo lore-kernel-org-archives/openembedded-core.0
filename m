@@ -1,85 +1,107 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <leon.anavi@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57A24CFD2F6
-	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 08:09:48 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3038.1764662983355544764
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 626ABCFD376
+	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 09:29:39 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4220.1764667776500332159
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Dec 2025 00:09:43 -0800
+ Tue, 02 Dec 2025 01:29:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=b4vVcWh8;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-882399d60baso41906476d6.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 00:09:43 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=S1pVqguc;
+ spf=pass (domain: konsulko.com, ip: 209.85.221.49, mailfrom: leon.anavi@konsulko.com)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42e2ce8681eso1991541f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 01:29:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764662982; x=1765267782; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=v5rMDh9NTn5uxrd7l67Li5CnbzLifygyhlfpruAVZUs=;
-        b=b4vVcWh8WDk+d0kEpsKLIhe6IUDC+JiCk1GKt/6r8flPMI2Z2nMoQ+iE9VInbvI3cN
-         0QQ37J/ruSCqe3MKzZtkd7kom5fBNJeWCBM23+DLuV1q2oxG0Cow94oaElgfhdHIAl2U
-         FhQWlexIkpAJKnVnD44F+C6V86tTBEuAli1A2SHMYrkq9GYzwwUEFgfW5DH3zsJhCVSN
-         50O0cKUnwCEq6GdwdwmMiMzxvljlDr1revMu8n3ba5Cu7Qt4Qvea1+xH02vUxqbwOMxv
-         f3BQYBdE3+qkGvswY7Mt7sBzxB8uPkUzRfG1ivG3VMLd7CLr3VtWmiFD75FJRlk0X8Ou
-         vW6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764662982; x=1765267782;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=konsulko.com; s=google; t=1764667775; x=1765272575; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v5rMDh9NTn5uxrd7l67Li5CnbzLifygyhlfpruAVZUs=;
-        b=nF8QeTsP9CTm7joZIGYvGjlYRAjn5TM3BPBTWjhhCSs8Yxe14gVoDZCeeM1kln1x/1
-         p7Fwpm6q+/1VY+P0PlpwZ7b5zTzJyajXP279n1rY9vStY5S/Y9M7jLbnJ2/Ryun7/DcA
-         NJ3IC3My5o0wP1DNVkYaWhT1OagiQISUNxCWWPKQPHpRNPfYz09iiYvdtnfuE7tRJBIx
-         dRPY2tDuQustH9vdFWjIuTYUSMfpUG0qZcn/zlinUOdgVKF7PgmQKL4XXO341sLd4aGu
-         O+90YrWQc1ReV3yd0dPox7exnMW1R3SCtHoqipSGJzHOkd/Cel/spbW3uTU6oyP3EY9i
-         M4jw==
-X-Gm-Message-State: AOJu0YxPBKKC6E1uIJHw70e/aT7q0odpGGH0c1vbjHC7HNlL9rO3tvgG
-	sqVSVN/RPlKM8uoPKrcjfNLykDj0vv2VLx9/tOhYmyoIWF5tjz4imh9n2irY4C+9ma/qO+CLHJ7
-	AJJxXCwbSwGDswKoR4SlUs0/Q6T+xgEs=
-X-Gm-Gg: ASbGncuqry0pi9V/ADlt1/AOaeJ8/3r8dNJHKnhB6GG3YRS84aRCnCZz1UXeaMrsmSJ
-	2QP7C38NAVH71yxQwemCVUeTscfDT3I/SwyubjxjwWtkzxf0/e4g4zbFkGQmecbH4TeVBjZlIzf
-	injamAi4mGcUDUrl8lZ5Nx9/CvxZhA/9XYS7quIErthvTGnyeR4Cj5MVytf9V8iz+SKfstJc5Sd
-	oa9gpnqOt7QS9q+7qvWC23jHZOk2M3JNo+nXDoZ3nytqtyT+H05Z7MTtD2GnpRSr/yLhyhlwLJB
-	HDZbb6jsKWkkBIemu++KiOjvaoEBjw==
-X-Google-Smtp-Source: AGHT+IG0TeQd+6F++ZHvoFhf6/m0ZxJazZ3EzHJYWEfxWfalFIt0/m9yMJ/QEgA/db+IeukYUm7ge1euJnQuG4U2g0Y=
-X-Received: by 2002:a05:6214:2f12:b0:880:5e62:ae90 with SMTP id
- 6a1803df08f44-8863ae61980mr434636086d6.9.1764662982216; Tue, 02 Dec 2025
- 00:09:42 -0800 (PST)
+        bh=mC8i75qQj+Tufo9rVRpL2hfdsju+sfyfMuCMJ5azxjY=;
+        b=S1pVqguc/ve4DH/XY31QqaaejTMwQhA1HE6twoj0aQxMCCjTTfpcPQuJdCm/KBmXEe
+         rhrOAnodso59Myzp82bSINlcjOgu5tNgEnsM6UrjLHvpXnN8/EzTkwTXr6z+3T2cyKE0
+         BQO7PAKf324k4CoRy9EZUqaPBIvXiPVVWmM8U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764667775; x=1765272575;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mC8i75qQj+Tufo9rVRpL2hfdsju+sfyfMuCMJ5azxjY=;
+        b=Tx9ejpzKqiSHe7PuxFnUbIlncpOgn4KHn6l8IcUNIRX0KAiex8qg3aUn6O0Gwf9xTQ
+         N1/E8tTOTeeNNwEmeL38glPxrzO+nNeVtyCnQhcDYXZf1vTBLNcvjahNDFnc3Gw1B39V
+         EmXK3Tz55g7ieKqULJnbi+5QVrGYw2jHLp9gfiz+L7/FBUOtzMGZoEoPo7OJEZoVnBP6
+         UYr5B25C5fd7nlrnZK83/3YH8YHR6zbHe/wg9jXz8s++FIVoZEflAGWTvmuOmSV2O6wK
+         Vj4n4W10DMeKxQnU4tCo/Qa+5/TEfB/hIT0+SKxFb3wA1QTbFfnz0MDP6ScDZqHQ2tTT
+         yglQ==
+X-Gm-Message-State: AOJu0YzB7o3/JFu1B3Pnhf7GtKqR8rbhtpdsc9oFXLcL0Qi2IrQym6k+
+	ZeqofxH1f4R6H+c4Iq2bqy440Rr9VjhK5A7esmwyaXw3DN9/TThb2/VWpQnTx379qQ1UEOtxeWi
+	o10Zo
+X-Gm-Gg: ASbGnctppVI50AV3TzbHurwA1CzJKcbsQnuBfPJuHHy9zLd/fq3x9r+NqjlC2uEQ9GJ
+	R77E+bq2vbREmdM2HVgLYzAuhJ87Tc3GYlqmq9Nhu4cW2ps0wHhnmlEaR494tphVeFiC6cXv4bR
+	n62ROQqkivazTIU1aHbcav+dwyeZAIGUrYKzPIn50Y/cZLHCuG+Q3hHyoRrdqAixjxfo6ACOk9m
+	TF5CWDdkV3LS2SsuZeQxAXIcSN5d3Ep1T25nbaXFIy/iuZiBlxb33D6f/Vu5NwIWOj40r5MpmEM
+	knLR6QsnESC8wpkNwPg50tnZawdxEwT/syw8Km6WqWvqSnGdsD4LUH1AMmnWR6tU0FxwCvLN+LE
+	X7Ey3KoX6wMgYb4khp0bj/oFO/YNTF7qoa88VwVT9xWxmtIkIAyZryN+wzdvZfRRyYf0X6qKlYV
+	DIiSIY3yc3PYojDv0wsF5pKd8Z
+X-Google-Smtp-Source: AGHT+IGymMMVwPri929HcwHh5RTxeMOR47hSZ8wiin2iy06qigsjdIY0M0NniXC4w35Gt8FJlUEoVQ==
+X-Received: by 2002:a05:6000:1448:b0:42b:3090:2683 with SMTP id ffacd0b85a97d-42cc1d23070mr42771595f8f.53.1764667774649;
+        Tue, 02 Dec 2025 01:29:34 -0800 (PST)
+Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1c5d607csm32148400f8f.15.2025.12.02.01.29.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Dec 2025 01:29:34 -0800 (PST)
+From: Leon Anavi <leon.anavi@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Leon Anavi <leon.anavi@konsulko.com>
+Subject: [PATCH 3/3] python3-docutils: Upgrade 0.22 -> 0.22.3
+Date: Tue,  2 Dec 2025 11:29:26 +0200
+Message-ID: <20251202092926.1370646-3-leon.anavi@konsulko.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251202092926.1370646-1-leon.anavi@konsulko.com>
+References: <20251202092926.1370646-1-leon.anavi@konsulko.com>
 MIME-Version: 1.0
-References: <20251202004951.2358784-1-dmitry.baryshkov@oss.qualcomm.com> <20251202004951.2358784-2-dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20251202004951.2358784-2-dmitry.baryshkov@oss.qualcomm.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 2 Dec 2025 09:09:31 +0100
-X-Gm-Features: AWmQ_bkqvCNGZ4WxZQEWlO_vnvvptIqnrxxvrcVikcckkEuF4rOBt7vWTly5Gqc
-Message-ID: <CANNYZj9smL_ouopyuuWUiKsdbUkzpHchFjib3ABo43+n5mLD3g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/4] mesa: enable virtio and gfxstream Vulkan drivers
-To: dmitry.baryshkov@oss.qualcomm.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 08:09:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227151
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 09:29:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227154
 
-On Tue, 2 Dec 2025 at 01:49, Dmitry Baryshkov via
-lists.openembedded.org
-<dmitry.baryshkov=oss.qualcomm.com@lists.openembedded.org> wrote:
-> +Subject: [PATCH] gfxstream: don't dump genvk.py args to generated files
-> +
-> +Full command lines include full path to the output file, which triggers
-> +the 'buildpath' QA warning. Drop the args and print only a basename of
-> +the script used to generate the file.
-> +
-> +Upstream-Status: Inappropriate [OE-Specific QA fix]
+Upgrade to release 0.22.3:
 
-This is a fix for a reproducibility issue, and even if you believe it
-is not appropriate for upstream submission, it still must include an
-upstream ticket reporting the issue. You can also attach the patch to
-the ticket to show how it's been worked around.
+- Do not flag uncategorized, auxiliary elements like
+  sphinx.addnodes.only when testing for invalid parents of topics
+  or sidebars
+- More informative error messages when a substitution definition
+  contains problematic or not supported content
+- Ignore combining characters when extracting a grid table block
+- Ignore combining characters when parsing the grid table structure
+- Fix handling of combining characters when extracting 2d-block
 
-Alex
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+---
+ .../{python3-docutils_0.22.bb => python3-docutils_0.22.3.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-docutils_0.22.bb => python3-docutils_0.22.3.bb} (85%)
+
+diff --git a/meta/recipes-devtools/python/python3-docutils_0.22.bb b/meta/recipes-devtools/python/python3-docutils_0.22.3.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-docutils_0.22.bb
+rename to meta/recipes-devtools/python/python3-docutils_0.22.3.bb
+index 2dafa034fb..a89e9941ca 100644
+--- a/meta/recipes-devtools/python/python3-docutils_0.22.bb
++++ b/meta/recipes-devtools/python/python3-docutils_0.22.3.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "CC0-1.0 & BSD-2-Clause & GPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING.rst;md5=ce467b04b35c7ac3429b6908fc8b318e"
+ 
+-SRC_URI[sha256sum] = "ba9d57750e92331ebe7c08a1bbf7a7f8143b86c476acd51528b042216a6aad0f"
++SRC_URI[sha256sum] = "21486ae730e4ca9f622677b1412b879af1791efcfba517e4c6f60be543fc8cdd"
+ 
+ inherit pypi python_flit_core
+ 
+-- 
+2.47.3
+
 
