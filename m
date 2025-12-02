@@ -2,335 +2,447 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F21AD11702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97F22D11700
 	for <webhook@archiver.kernel.org>; Tue,  2 Dec 2025 15:09:51 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9663.1764688191360257942
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9917.1764688184680041369
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Dec 2025 07:09:51 -0800
+ Tue, 02 Dec 2025 07:09:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LoeIBaZB;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7c66822dd6dso3504007b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 07:09:51 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FJh+OuDa;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7b8e49d8b35so6212515b3a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 07:09:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1764688190; x=1765292990; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1764688184; x=1765292984; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OrTeKnFWHKFFWOm4SRDqyYNp2nBiWmVJcgqkXR84ITM=;
-        b=LoeIBaZBkwgW9PXbNlrZ5xwVG422t0x3W1P0U1lxYRpMwixCSZG31lA8OqZel26yZ6
-         4f3iTkTJ5xRrVUO8NILUthnZrTSMwdz+e77AnTVrxl+QCrjsRcSe8AY63I/WdULJ+5kx
-         1PNmneD209gcr3iB+xjYYYh6F4tk55VjEbQvbyxqE0hQwPtxOxP1nCEkFqVA80N1ZemA
-         HrKYrc7cdQJ5nbxxkG3UDtkWi93c1zIgREGbtfY9daATgiM8xnbRh4eDkofX9ovb5rJH
-         t36ougqjgq/iqaBkb0462+31ZF2PozLgIF9bO2cdzFqa+4KCcrkFvldsONksvqBuArbH
-         GwpQ==
+        bh=7YzCbOsfhjFHkAwbyXcaOmRA8Ki/BUEgFGxafI2k0Fw=;
+        b=FJh+OuDa8EBbplB/yjup9kaLarn4zUNSfavBdy+4dkTWe3VR2wtTQG4dprYJx4WBha
+         CDVxn5dBNOUmmCSCi9bwRQymzc6ym5UBU0DtTDoujI5D+C1/NMUBDSuuUTTM4rgRYqVe
+         0JQsi/2X8UgIWQQ5IwkstLFaaJ0lk2QAZW+xZJ96Ytox/Xmwkp7xea4G97I0YGwLna7f
+         PtRYqgK8A1EDZ4CuwFHeSBaQwGxB4rXPtAfw5Bc0NR8AkQ1rRYQvNaXUvhnVFonFA4LW
+         PQ92CwOhUFTZo3sQRFFao+/jwKySpVTfEWvZEcjS5llCNd7VPTFLgy7btEM83Wc4jIhY
+         o+kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764688190; x=1765292990;
+        d=1e100.net; s=20230601; t=1764688184; x=1765292984;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=OrTeKnFWHKFFWOm4SRDqyYNp2nBiWmVJcgqkXR84ITM=;
-        b=gebzq6HV88zdLrfy4C/e2ST52BipkYF2L4sUaY3eeI4onseGRFP2kNqT1etNEfjLiO
-         Agg58onlxTpBJ2g4VRKBgjhjorbe0KDZZgkM2nRbKgucVR0/69np72rmNyCDyEHZxYtU
-         oz/j3oYyKZ9ox+TF6i5fvLZVLE5+X3eAyW/rFAPjwBeteEEqU1a1F/uRxDHoQH8eeMjI
-         PutHJu5ykWZwKHLpdnl+xFWY1Ha36idy/k5xLQ0h6N/74Rglbfq7O3hd3/114QuRus4g
-         1P/hMCtHPngjKNAdNJHcm1DA4pAAxwHjhwst00sWpsPM34EfpNGxax89IYlXz1byDMxM
-         SV5Q==
-X-Gm-Message-State: AOJu0YxRB+2/91XxqYiQBZQib4KnrD8KpFzg4Nba4LgwMUPq+VfPu8Fe
-	aBf9GVyp3cpNy8tFJidI0E+0QAydjHzpItRGfQ7BLoReER+tZUfH2KCQyCRjpraJxAlAuIUUfVQ
-	IJS1G
-X-Gm-Gg: ASbGncvvII/vJdp/L8czr1V/3mGQrXu3o46uHOnwZxCiG+ZEAfQDL5Aotvg4UxsSKT1
-	VufEtWMTi+CtW85N+pv7z/oYVCwOvQhbt1qJOrOd46BLJbSQVluNacHmGrVds7h7kxMh/Ta+PLN
-	S/vIVV26vHcS7IG/Y90pwekfiq9uD17PFGeJbELZYlQGDypp+f6CgHPXFiEuD4p6v0j6FUAQd66
-	1OqDDyNd8s/JkqWlTARWLiZwQybXiiwuLhYCay/g/sN05SIAWjmdStsOlWEjmAXIqn9ffEqFiGe
-	bzLisXVqGagFGotQFPjQUgBE6OrRhBH8N0vXd611QI1Ix8hwPag5dV5i048KkiVoNvn3IwF3Hms
-	L4ZJ9w2Ej/1qtLhtQJvARYBtlfaEKUzTUXujeTkVlnhjRkvO2OrnwWxUtCUoK35OFgZB7fsMQCC
-	54qQ==
-X-Google-Smtp-Source: AGHT+IHcxrKSWSHjKKXeN8xdZ2sWOoQcjPdLETTLZxF9LIy5iYret4Pe1N7xxwCsV7FGeX45zTJshA==
-X-Received: by 2002:a05:6a20:3d92:b0:334:b280:b12 with SMTP id adf61e73a8af0-363e8c79fe4mr3163132637.1.1764688190182;
-        Tue, 02 Dec 2025 07:09:50 -0800 (PST)
+        bh=7YzCbOsfhjFHkAwbyXcaOmRA8Ki/BUEgFGxafI2k0Fw=;
+        b=XHeuc8L7wYzaGxWXoVo6IhPjH/5wshyOLijJzjJbcIUvogyPC08qz0THzb+Ix65nU5
+         GOqVZl3RoyFvQaxsz53KHfQatNAoYJGV1YStMRoz5vLa7OHyhsldK7QSKItuqcU51JEY
+         guQN20ULpDGocBb7oAApthN9pgi3fKOeS9l10HZsunbnA3SnoI4HArFlXQ7zwlvjfnzC
+         txQd/kSpaZp35PjLFdusCRXhbEqhmwEf8NIRs4AC7jNv1sWhj43EuiVWhPBvPTq7QWs8
+         3GxjHSOrw4cCuAJsSJcH6f7PLVm9yapo5fhgA/8EMK37nK8uxtm3qj+/YXKe3ISoMg+W
+         JGww==
+X-Gm-Message-State: AOJu0YzD0Pk+NK/K14DdnDDKVbj1zqQ5QHMQvQ7Bv2FpAj0pBev/Zvmc
+	lkgK7DBXitUlN10+OlWwp4UwTQa+K8d9RkvVvjGe5e0t/DfawsCtdW4FLhxJDd9eM3fkAeTiUQx
+	+L9Xf
+X-Gm-Gg: ASbGncsgCSLmbW73Smx7gQXUZQfMq1H47ZIsvvczH1qmhk1knycAlWkpc+uVU8aYnQD
+	4pgovw/1Nnm3t7z4im368nmj3A8iVfHog+Yi0rAw8Cqa3MPHj9qGn4C+P5v1OeSUHc/E0es9jWP
+	ZJ26MZiT6mESaFk41Jil8SgQnG2r2TLdlmVlqjre5kUCj6F1avx/mCV6e5PPq/XHD1bLT7CC0GQ
+	6jLHygfaFFaQkR0lT1HEsYLVAzoixS5QLulDoW9l+mcS17DWx/M4u9X6SiIW4SkJPZVfGhQmYw1
+	G0lOP29e6KG7B+bZQVjWuvtPtB3uayQQUoRl/gvPIPolGTwkTaZ2w8Y8b8+UlwHEnfK+i8QTylG
+	Ua/ecl+1PZ1S/nNeGTN5W7fIHvdoxz1uo9B/zVbN5weK3U+OSXkEH7KPn7m9ccamtM8fgtdhwri
+	tV/A==
+X-Google-Smtp-Source: AGHT+IHTfblOoDYvDYjWuka5v8E+XZGaipfk60h07gklU1Z8T/dHNmM5zjwvDfp0gRqSBurk3Tvp3g==
+X-Received: by 2002:a05:6a20:9189:b0:334:a180:b7ac with SMTP id adf61e73a8af0-36150f05e9bmr44684636637.39.1764688183544;
+        Tue, 02 Dec 2025 07:09:43 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:b8d9:92cd:3fd4:9b7a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d1516f6621sm17175182b3a.16.2025.12.02.07.09.49
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d1516f6621sm17175182b3a.16.2025.12.02.07.09.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 07:09:49 -0800 (PST)
+        Tue, 02 Dec 2025 07:09:43 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/10] libpng: patch CVE-2025-65018
-Date: Tue,  2 Dec 2025 07:09:28 -0800
-Message-ID: <c46f841cdc8f7c1b0cce7da8fb587f65320a2163.1764688054.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/10] libpng: patch CVE-2025-64505
+Date: Tue,  2 Dec 2025 07:09:25 -0800
+Message-ID: <1470546924765d134c83b50e62974f048614b121.1764688053.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1764688053.git.steve@sakoman.com>
 References: <cover.1764688053.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 15:09:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227164
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227161
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick commits per NVD report.
+Pick commit per NVD report.
+Add two patches to apply it cleanly.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libpng/files/CVE-2025-65018-01.patch      |  60 +++++++
- .../libpng/files/CVE-2025-65018-02.patch      | 163 ++++++++++++++++++
- .../libpng/libpng_1.6.39.bb                   |   2 +
- 3 files changed, 225 insertions(+)
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-65018-01.patch
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-65018-02.patch
+ .../libpng/files/CVE-2025-64505-01.patch      | 111 ++++++++++++
+ .../libpng/files/CVE-2025-64505-02.patch      | 163 ++++++++++++++++++
+ .../libpng/files/CVE-2025-64505-03.patch      |  52 ++++++
+ .../libpng/libpng_1.6.39.bb                   |   3 +
+ 4 files changed, 329 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64505-01.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64505-02.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-64505-03.patch
 
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-65018-01.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-65018-01.patch
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-01.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-64505-01.patch
 new file mode 100644
-index 0000000000..a3e31ea6ac
+index 0000000000..c8ca222d14
 --- /dev/null
-+++ b/meta/recipes-multimedia/libpng/files/CVE-2025-65018-01.patch
-@@ -0,0 +1,60 @@
-+From 16b5e3823918840aae65c0a6da57c78a5a496a4d Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/libpng/files/CVE-2025-64505-01.patch
+@@ -0,0 +1,111 @@
++From 0fa3c0f698c2ca618a0fa44e10a822678df85373 Mon Sep 17 00:00:00 2001
 +From: Cosmin Truta <ctruta@gmail.com>
-+Date: Mon, 17 Nov 2025 20:38:47 +0200
-+Subject: [PATCH] Fix a buffer overflow in `png_image_finish_read`
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++Date: Thu, 15 Feb 2024 21:53:24 +0200
++Subject: [PATCH] chore: Clean up the spurious uses of `sizeof(png_byte)`; fix
++ the manual
 +
-+Reject bit-depth mismatches between IHDR and the requested output
-+format. When a 16-bit PNG is processed with an 8-bit output format
-+request, `png_combine_row` writes using the IHDR depth before
-+transformation, causing writes beyond the buffer allocated via
-+`PNG_IMAGE_SIZE(image)`.
++By definition, `sizeof(png_byte)` is 1.
 +
-+The validation establishes a safe API contract where
-+`PNG_IMAGE_SIZE(image)` is guaranteed to be sufficient across the
-+transformation pipeline.
++Remove all the occurences of `sizeof(png_byte)` from the code, and fix
++a related typo in the libpng manual.
 +
-+Example overflow (32×32 pixels, 16-bit RGB to 8-bit RGBA):
-+- Input format: 16 bits/channel × 3 channels = 6144 bytes
-+- Output buffer: 8 bits/channel × 4 channels = 4096 bytes
-+- Overflow: 6144 bytes - 4096 bytes = 2048 bytes
++Also update the main .editorconfig file to reflect the fixing expected
++by a FIXME note.
 +
-+Larger images produce proportionally larger overflows. For example,
-+for 256×256 pixels, the overflow is 131072 bytes.
-+
-+Reported-by: yosiimich <yosiimich@users.noreply.github.com>
-+
-+CVE: CVE-2025-65018
-+Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/16b5e3823918840aae65c0a6da57c78a5a496a4d]
++CVE: CVE-2025-64505
++Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/0fa3c0f698c2ca618a0fa44e10a822678df85373]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ pngread.c | 14 ++++++++++++++
-+ 1 file changed, 14 insertions(+)
++ libpng-manual.txt |  4 ++--
++ libpng.3          |  4 ++--
++ pngrtran.c        | 17 +++++++----------
++ 3 files changed, 11 insertions(+), 14 deletions(-)
 +
-+diff --git a/pngread.c b/pngread.c
-+index 212afb7d2..92571ec33 100644
-+--- a/pngread.c
-++++ b/pngread.c
-+@@ -4164,6 +4164,20 @@ png_image_finish_read(png_imagep image, png_const_colorp background,
-+                   int result;
-+                   png_image_read_control display;
++diff --git a/libpng-manual.txt b/libpng-manual.txt
++index eb24ef483..d2918ce31 100644
++--- a/libpng-manual.txt
+++++ b/libpng-manual.txt
++@@ -1180,11 +1180,11 @@ where row_pointers is an array of pointers to the pixel data for each row:
++ If you know your image size and pixel size ahead of time, you can allocate
++ row_pointers prior to calling png_read_png() with
 + 
-++                  /* Reject bit depth mismatches to avoid buffer overflows. */
-++                  png_uint_32 ihdr_bit_depth =
-++                      image->opaque->png_ptr->bit_depth;
-++                  int requested_linear =
-++                      (image->format & PNG_FORMAT_FLAG_LINEAR) != 0;
-++                  if (ihdr_bit_depth == 16 && !requested_linear)
-++                     return png_image_error(image,
-++                         "png_image_finish_read: "
-++                         "16-bit PNG must use 16-bit output format");
-++                  if (ihdr_bit_depth < 16 && requested_linear)
-++                     return png_image_error(image,
-++                         "png_image_finish_read: "
-++                         "8-bit PNG must not use 16-bit output format");
-++
-+                   memset(&display, 0, (sizeof display));
-+                   display.image = image;
-+                   display.buffer = buffer;
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-65018-02.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-65018-02.patch
++-   if (height > PNG_UINT_32_MAX/(sizeof (png_byte)))
+++   if (height > PNG_UINT_32_MAX / (sizeof (png_bytep)))
++       png_error (png_ptr,
++           "Image is too tall to process in memory");
++ 
++-   if (width > PNG_UINT_32_MAX/pixel_size)
+++   if (width > PNG_UINT_32_MAX / pixel_size)
++       png_error (png_ptr,
++           "Image is too wide to process in memory");
++ 
++diff --git a/libpng.3 b/libpng.3
++index 57d06f2db..8875b219a 100644
++--- a/libpng.3
+++++ b/libpng.3
++@@ -1699,11 +1699,11 @@ where row_pointers is an array of pointers to the pixel data for each row:
++ If you know your image size and pixel size ahead of time, you can allocate
++ row_pointers prior to calling png_read_png() with
++ 
++-   if (height > PNG_UINT_32_MAX/(sizeof (png_byte)))
+++   if (height > PNG_UINT_32_MAX / (sizeof (png_bytep)))
++       png_error (png_ptr,
++           "Image is too tall to process in memory");
++ 
++-   if (width > PNG_UINT_32_MAX/pixel_size)
+++   if (width > PNG_UINT_32_MAX / pixel_size)
++       png_error (png_ptr,
++           "Image is too wide to process in memory");
++ 
++diff --git a/pngrtran.c b/pngrtran.c
++index 74cca476b..041f9306c 100644
++--- a/pngrtran.c
+++++ b/pngrtran.c
++@@ -441,7 +441,7 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
++       int i;
++ 
++       png_ptr->quantize_index = (png_bytep)png_malloc(png_ptr,
++-          (png_alloc_size_t)((png_uint_32)num_palette * (sizeof (png_byte))));
+++          (png_alloc_size_t)num_palette);
++       for (i = 0; i < num_palette; i++)
++          png_ptr->quantize_index[i] = (png_byte)i;
++    }
++@@ -458,7 +458,7 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
++ 
++          /* Initialize an array to sort colors */
++          png_ptr->quantize_sort = (png_bytep)png_malloc(png_ptr,
++-             (png_alloc_size_t)((png_uint_32)num_palette * (sizeof (png_byte))));
+++             (png_alloc_size_t)num_palette);
++ 
++          /* Initialize the quantize_sort array */
++          for (i = 0; i < num_palette; i++)
++@@ -592,11 +592,9 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
++ 
++          /* Initialize palette index arrays */
++          png_ptr->index_to_palette = (png_bytep)png_malloc(png_ptr,
++-             (png_alloc_size_t)((png_uint_32)num_palette *
++-             (sizeof (png_byte))));
+++             (png_alloc_size_t)num_palette);
++          png_ptr->palette_to_index = (png_bytep)png_malloc(png_ptr,
++-             (png_alloc_size_t)((png_uint_32)num_palette *
++-             (sizeof (png_byte))));
+++             (png_alloc_size_t)num_palette);
++ 
++          /* Initialize the sort array */
++          for (i = 0; i < num_palette; i++)
++@@ -761,12 +759,11 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
++       size_t num_entries = ((size_t)1 << total_bits);
++ 
++       png_ptr->palette_lookup = (png_bytep)png_calloc(png_ptr,
++-          (png_alloc_size_t)(num_entries * (sizeof (png_byte))));
+++          (png_alloc_size_t)(num_entries));
++ 
++-      distance = (png_bytep)png_malloc(png_ptr, (png_alloc_size_t)(num_entries *
++-          (sizeof (png_byte))));
+++      distance = (png_bytep)png_malloc(png_ptr, (png_alloc_size_t)num_entries);
++ 
++-      memset(distance, 0xff, num_entries * (sizeof (png_byte)));
+++      memset(distance, 0xff, num_entries);
++ 
++       for (i = 0; i < num_palette; i++)
++       {
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-02.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-64505-02.patch
 new file mode 100644
-index 0000000000..b64a45e9f3
+index 0000000000..5a3e50b642
 --- /dev/null
-+++ b/meta/recipes-multimedia/libpng/files/CVE-2025-65018-02.patch
++++ b/meta/recipes-multimedia/libpng/files/CVE-2025-64505-02.patch
 @@ -0,0 +1,163 @@
-+From 218612ddd6b17944e21eda56caf8b4bf7779d1ea Mon Sep 17 00:00:00 2001
++From ea094764f3436e3c6524622724c2d342a3eff235 Mon Sep 17 00:00:00 2001
 +From: Cosmin Truta <ctruta@gmail.com>
-+Date: Wed, 19 Nov 2025 21:45:13 +0200
-+Subject: [PATCH] Rearchitect the fix to the buffer overflow in
-+ `png_image_finish_read`
++Date: Sat, 8 Nov 2025 17:16:59 +0200
++Subject: [PATCH] Fix a memory leak in function `png_set_quantize`; refactor
 +
-+Undo the fix from commit 16b5e3823918840aae65c0a6da57c78a5a496a4d.
-+That fix turned out to be unnecessarily limiting. It rejected all
-+16-to-8 bit transformations, although the vulnerability only affects
-+interlaced PNGs where `png_combine_row` writes using IHDR bit-depth
-+before the transformation completes.
++Release the previously-allocated array `quantize_index` before
++reallocating it. This avoids leaking memory when the function
++`png_set_quantize` is called multiple times on the same `png_struct`.
 +
-+The proper solution is to add an intermediate `local_row` buffer,
-+specifically for the slow but necessary step of 16-to-8 bit conversion
-+of interlaced images. (The processing of non-interlaced images remains
-+intact, using the fast path.) We added the flag `do_local_scale` and
-+the function `png_image_read_direct_scaled`, following the pattern that
-+involves `do_local_compose`.
++This function assumed single-call usage, but fuzzing revealed that
++repeated calls would overwrite the pointers without freeing the
++original allocations, leaking 256 bytes per call for `quantize_index`
++and additional memory for `quantize_sort` when histogram-based
++quantization is used.
 +
-+In conclusion:
-+- The 16-to-8 bit transformations of interlaced images are now safe,
-+  as they use an intermediate buffer.
-+- The 16-to-8 bit transformations of non-interlaced images remain safe,
-+  as the fast path remains unchanged.
-+- All our regression tests are now passing.
++Also remove the array `quantize_sort` from the list of `png_struct`
++members and make it a local variable. This array is initialized,
++used and released exclusively inside the function `png_set_quantize`.
 +
-+CVE: CVE-2025-65018
-+Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/218612ddd6b17944e21eda56caf8b4bf7779d1ea]
++Reported-by: Samsung-PENTEST <Samsung-PENTEST@users.noreply.github.com>
++Analyzed-by: degrigis <degrigis@users.noreply.github.com>
++Reviewed-by: John Bowler <jbowler@acm.org>
++
++CVE: CVE-2025-64505
++Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/ea094764f3436e3c6524622724c2d342a3eff235]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ pngread.c | 89 ++++++++++++++++++++++++++++++++++++++++++++++---------
-+ 1 file changed, 75 insertions(+), 14 deletions(-)
++ pngrtran.c  | 43 +++++++++++++++++++++++--------------------
++ pngstruct.h |  1 -
++ 2 files changed, 23 insertions(+), 21 deletions(-)
 +
-+diff --git a/pngread.c b/pngread.c
-+index 92571ec33..79917daaa 100644
-+--- a/pngread.c
-++++ b/pngread.c
-+@@ -3260,6 +3260,54 @@ png_image_read_colormapped(png_voidp argument)
-+    }
-+ }
-+ 
-++/* Row reading for interlaced 16-to-8 bit depth conversion with local buffer. */
-++static int
-++png_image_read_direct_scaled(png_voidp argument)
-++{
-++   png_image_read_control *display = png_voidcast(png_image_read_control*,
-++       argument);
-++   png_imagep image = display->image;
-++   png_structrp png_ptr = image->opaque->png_ptr;
-++   png_bytep local_row = png_voidcast(png_bytep, display->local_row);
-++   png_bytep first_row = png_voidcast(png_bytep, display->first_row);
-++   ptrdiff_t row_bytes = display->row_bytes;
-++   int passes;
-++
-++   /* Handle interlacing. */
-++   switch (png_ptr->interlaced)
-++   {
-++      case PNG_INTERLACE_NONE:
-++         passes = 1;
-++         break;
-++
-++      case PNG_INTERLACE_ADAM7:
-++         passes = PNG_INTERLACE_ADAM7_PASSES;
-++         break;
-++
-++      default:
-++         png_error(png_ptr, "unknown interlace type");
-++   }
-++
-++   /* Read each pass using local_row as intermediate buffer. */
-++   while (--passes >= 0)
-++   {
-++      png_uint_32 y = image->height;
-++      png_bytep output_row = first_row;
-++
-++      for (; y > 0; --y)
-++      {
-++         /* Read into local_row (gets transformed 8-bit data). */
-++         png_read_row(png_ptr, local_row, NULL);
-++
-++         /* Copy from local_row to user buffer. */
-++         memcpy(output_row, local_row, (size_t)row_bytes);
-++         output_row += row_bytes;
-++      }
-++   }
-++
-++   return 1;
-++}
-++
-+ /* Just the row reading part of png_image_read. */
-+ static int
-+ png_image_read_composite(png_voidp argument)
-+@@ -3678,6 +3726,7 @@ png_image_read_direct(png_voidp argument)
-+    int linear = (format & PNG_FORMAT_FLAG_LINEAR) != 0;
-+    int do_local_compose = 0;
-+    int do_local_background = 0; /* to avoid double gamma correction bug */
-++   int do_local_scale = 0; /* for interlaced 16-to-8 bit conversion */
-+    int passes = 0;
-+ 
-+    /* Add transforms to ensure the correct output format is produced then check
-+@@ -3804,8 +3853,16 @@ png_image_read_direct(png_voidp argument)
-+             png_set_expand_16(png_ptr);
-+ 
-+          else /* 8-bit output */
-++         {
-+             png_set_scale_16(png_ptr);
-+ 
-++            /* For interlaced images, use local_row buffer to avoid overflow
-++             * in png_combine_row() which writes using IHDR bit-depth.
-++             */
-++            if (png_ptr->interlaced != 0)
-++               do_local_scale = 1;
-++         }
-++
-+          change &= ~PNG_FORMAT_FLAG_LINEAR;
-+       }
-+ 
-+@@ -4081,6 +4138,24 @@ png_image_read_direct(png_voidp argument)
-+       return result;
-+    }
-+ 
-++   else if (do_local_scale != 0)
-++   {
-++      /* For interlaced 16-to-8 conversion, use an intermediate row buffer
-++       * to avoid buffer overflows in png_combine_row. The local_row is sized
-++       * for the transformed (8-bit) output, preventing the overflow that would
-++       * occur if png_combine_row wrote 16-bit data directly to the user buffer.
-++       */
-++      int result;
-++      png_voidp row = png_malloc(png_ptr, png_get_rowbytes(png_ptr, info_ptr));
-++
-++      display->local_row = row;
-++      result = png_safe_execute(image, png_image_read_direct_scaled, display);
-++      display->local_row = NULL;
-++      png_free(png_ptr, row);
-++
-++      return result;
-++   }
-++
-+    else
++diff --git a/pngrtran.c b/pngrtran.c
++index 1809db704..4632dd521 100644
++--- a/pngrtran.c
+++++ b/pngrtran.c
++@@ -440,6 +440,12 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
 +    {
-+       png_alloc_size_t row_bytes = (png_alloc_size_t)display->row_bytes;
-+@@ -4164,20 +4239,6 @@ png_image_finish_read(png_imagep image, png_const_colorp background,
-+                   int result;
-+                   png_image_read_control display;
++       int i;
 + 
-+-                  /* Reject bit depth mismatches to avoid buffer overflows. */
-+-                  png_uint_32 ihdr_bit_depth =
-+-                      image->opaque->png_ptr->bit_depth;
-+-                  int requested_linear =
-+-                      (image->format & PNG_FORMAT_FLAG_LINEAR) != 0;
-+-                  if (ihdr_bit_depth == 16 && !requested_linear)
-+-                     return png_image_error(image,
-+-                         "png_image_finish_read: "
-+-                         "16-bit PNG must use 16-bit output format");
-+-                  if (ihdr_bit_depth < 16 && requested_linear)
-+-                     return png_image_error(image,
-+-                         "png_image_finish_read: "
-+-                         "8-bit PNG must not use 16-bit output format");
+++      /* Initialize the array to index colors.
+++       *
+++       * Be careful to avoid leaking memory. Applications are allowed to call
+++       * this function more than once per png_struct.
+++       */
+++      png_free(png_ptr, png_ptr->quantize_index);
++       png_ptr->quantize_index = (png_bytep)png_malloc(png_ptr,
++           (png_alloc_size_t)num_palette);
++       for (i = 0; i < num_palette; i++)
++@@ -454,15 +460,14 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
++           * Perhaps not the best solution, but good enough.
++           */
++ 
++-         int i;
+++         png_bytep quantize_sort;
+++         int i, j;
++ 
++-         /* Initialize an array to sort colors */
++-         png_ptr->quantize_sort = (png_bytep)png_malloc(png_ptr,
+++         /* Initialize the local array to sort colors. */
+++         quantize_sort = (png_bytep)png_malloc(png_ptr,
++              (png_alloc_size_t)num_palette);
 +-
-+                   memset(&display, 0, (sizeof display));
-+                   display.image = image;
-+                   display.buffer = buffer;
++-         /* Initialize the quantize_sort array */
++          for (i = 0; i < num_palette; i++)
++-            png_ptr->quantize_sort[i] = (png_byte)i;
+++            quantize_sort[i] = (png_byte)i;
++ 
++          /* Find the least used palette entries by starting a
++           * bubble sort, and running it until we have sorted
++@@ -474,19 +479,18 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
++          for (i = num_palette - 1; i >= maximum_colors; i--)
++          {
++             int done; /* To stop early if the list is pre-sorted */
++-            int j;
++ 
++             done = 1;
++             for (j = 0; j < i; j++)
++             {
++-               if (histogram[png_ptr->quantize_sort[j]]
++-                   < histogram[png_ptr->quantize_sort[j + 1]])
+++               if (histogram[quantize_sort[j]]
+++                   < histogram[quantize_sort[j + 1]])
++                {
++                   png_byte t;
++ 
++-                  t = png_ptr->quantize_sort[j];
++-                  png_ptr->quantize_sort[j] = png_ptr->quantize_sort[j + 1];
++-                  png_ptr->quantize_sort[j + 1] = t;
+++                  t = quantize_sort[j];
+++                  quantize_sort[j] = quantize_sort[j + 1];
+++                  quantize_sort[j + 1] = t;
++                   done = 0;
++                }
++             }
++@@ -498,18 +502,18 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
++          /* Swap the palette around, and set up a table, if necessary */
++          if (full_quantize != 0)
++          {
++-            int j = num_palette;
+++            j = num_palette;
++ 
++             /* Put all the useful colors within the max, but don't
++              * move the others.
++              */
++             for (i = 0; i < maximum_colors; i++)
++             {
++-               if ((int)png_ptr->quantize_sort[i] >= maximum_colors)
+++               if ((int)quantize_sort[i] >= maximum_colors)
++                {
++                   do
++                      j--;
++-                  while ((int)png_ptr->quantize_sort[j] >= maximum_colors);
+++                  while ((int)quantize_sort[j] >= maximum_colors);
++ 
++                   palette[i] = palette[j];
++                }
++@@ -517,7 +521,7 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
++          }
++          else
++          {
++-            int j = num_palette;
+++            j = num_palette;
++ 
++             /* Move all the used colors inside the max limit, and
++              * develop a translation table.
++@@ -525,13 +529,13 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
++             for (i = 0; i < maximum_colors; i++)
++             {
++                /* Only move the colors we need to */
++-               if ((int)png_ptr->quantize_sort[i] >= maximum_colors)
+++               if ((int)quantize_sort[i] >= maximum_colors)
++                {
++                   png_color tmp_color;
++ 
++                   do
++                      j--;
++-                  while ((int)png_ptr->quantize_sort[j] >= maximum_colors);
+++                  while ((int)quantize_sort[j] >= maximum_colors);
++ 
++                   tmp_color = palette[j];
++                   palette[j] = palette[i];
++@@ -569,8 +573,7 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
++                }
++             }
++          }
++-         png_free(png_ptr, png_ptr->quantize_sort);
++-         png_ptr->quantize_sort = NULL;
+++         png_free(png_ptr, quantize_sort);
++       }
++       else
++       {
++diff --git a/pngstruct.h b/pngstruct.h
++index 084422bc1..fe5fa0415 100644
++--- a/pngstruct.h
+++++ b/pngstruct.h
++@@ -413,7 +413,6 @@ struct png_struct_def
++ 
++ #ifdef PNG_READ_QUANTIZE_SUPPORTED
++ /* The following three members were added at version 1.0.14 and 1.2.4 */
++-   png_bytep quantize_sort;          /* working sort array */
++    png_bytep index_to_palette;       /* where the original index currently is
++                                         in the palette */
++    png_bytep palette_to_index;       /* which original index points to this
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-64505-03.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-64505-03.patch
+new file mode 100644
+index 0000000000..ddda8678ce
+--- /dev/null
++++ b/meta/recipes-multimedia/libpng/files/CVE-2025-64505-03.patch
+@@ -0,0 +1,52 @@
++From 6a528eb5fd0dd7f6de1c39d30de0e41473431c37 Mon Sep 17 00:00:00 2001
++From: Cosmin Truta <ctruta@gmail.com>
++Date: Sat, 8 Nov 2025 23:58:26 +0200
++Subject: [PATCH] Fix a buffer overflow in `png_do_quantize`
++
++Allocate the quantize_index array to PNG_MAX_PALETTE_LENGTH (256 bytes)
++instead of num_palette bytes. This approach matches the allocation
++pattern for `palette[]`, `trans_alpha[]` and `riffled_palette[]` which
++were similarly oversized in libpng 1.2.1 to prevent buffer overflows
++from malformed PNG files with out-of-range palette indices.
++
++Out-of-range palette indices `index >= num_palette` will now read
++identity-mapped values from the `quantize_index` array (where index N
++maps to palette entry N). This prevents undefined behavior while
++avoiding runtime bounds checking overhead in the performance-critical
++pixel processing loop.
++
++Reported-by: Samsung-PENTEST <Samsung-PENTEST@users.noreply.github.com>
++Analyzed-by: degrigis <degrigis@users.noreply.github.com>
++
++CVE: CVE-2025-64505
++Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/6a528eb5fd0dd7f6de1c39d30de0e41473431c37]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ pngrtran.c | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/pngrtran.c b/pngrtran.c
++index 4632dd521..9c2475fde 100644
++--- a/pngrtran.c
+++++ b/pngrtran.c
++@@ -441,14 +441,18 @@ png_set_quantize(png_structrp png_ptr, png_colorp palette,
++       int i;
++ 
++       /* Initialize the array to index colors.
+++       *
+++       * Ensure quantize_index can fit 256 elements (PNG_MAX_PALETTE_LENGTH)
+++       * rather than num_palette elements. This is to prevent buffer overflows
+++       * caused by malformed PNG files with out-of-range palette indices.
++        *
++        * Be careful to avoid leaking memory. Applications are allowed to call
++        * this function more than once per png_struct.
++        */
++       png_free(png_ptr, png_ptr->quantize_index);
++       png_ptr->quantize_index = (png_bytep)png_malloc(png_ptr,
++-          (png_alloc_size_t)num_palette);
++-      for (i = 0; i < num_palette; i++)
+++          PNG_MAX_PALETTE_LENGTH);
+++      for (i = 0; i < PNG_MAX_PALETTE_LENGTH; i++)
++          png_ptr->quantize_index[i] = (png_byte)i;
++    }
++ 
 diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-index efb8eba372..47b76a704b 100644
+index 011eec94a2..62e3e81b4f 100644
 --- a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
 +++ b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-@@ -18,6 +18,8 @@ SRC_URI = "\
-            file://CVE-2025-64505-03.patch \
-            file://CVE-2025-64506.patch \
-            file://CVE-2025-64720.patch \
-+           file://CVE-2025-65018-01.patch \
-+           file://CVE-2025-65018-02.patch \
+@@ -13,6 +13,9 @@ LIBV = "16"
+ SRC_URI = "\
+            ${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
+            file://run-ptest \
++           file://CVE-2025-64505-01.patch \
++           file://CVE-2025-64505-02.patch \
++           file://CVE-2025-64505-03.patch \
  "
  
  SRC_URI[sha256sum] = "1f4696ce70b4ee5f85f1e1623dc1229b210029fa4b7aee573df3e2ba7b036937"
