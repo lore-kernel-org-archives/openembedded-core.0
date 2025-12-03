@@ -1,120 +1,99 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1610D116F3
-	for <webhook@archiver.kernel.org>; Wed,  3 Dec 2025 09:09:35 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10820.1764752962737371053
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97B70D116F3
+	for <webhook@archiver.kernel.org>; Wed,  3 Dec 2025 09:10:05 +0000 (UTC)
+Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10796.1764753004276503531
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Dec 2025 01:09:23 -0800
+ Wed, 03 Dec 2025 01:10:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Hc8ZCw6u;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: skandigraun@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47789cd2083so38746915e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 01:09:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764752961; x=1765357761; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KdlN1VQYNbwTOEDldPKXrsc/3baaeH5LJbzt5j3UClc=;
-        b=Hc8ZCw6ufJPv8QFG+4kGXPzv5yf/ThMBfWS4YULJEuZW5KVXuYKNcMK0gbo+VE6WR/
-         3OCqzLjdHD5WovEuZeaIq1Xgr+MaqGMYU4iPNI514dmJJ4dMkO0pdppRRCpiYBYLHrWp
-         Ji9TkpUjvtj/Z8kPfUPjbw80YFk+i7mhUVgogL4XvdEb/Gl5qmkf4o481R0FGz/AiWTc
-         mDrTaK5/1GPlorXtO9EW+8Qp0NbldSyf50Y4jNgYnIrX0dgXP8mBawITtETRn/dR71L3
-         VrVwsEq9OCso3NmtXt3ArFbsFUDLisYNHZumb0Xd4yPOmfWCCGd73/p/YFXAL1SZEmsK
-         8puA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764752961; x=1765357761;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KdlN1VQYNbwTOEDldPKXrsc/3baaeH5LJbzt5j3UClc=;
-        b=le9RAjy0eoYu7ho77hVryfSnszb0iiVlROcaKQW6or/u3C0V2JgDaoP396gcLhngBK
-         gjia2iaTLVZUnaJdtgXdudKMfi1F1k72EudRT+maHNWl9VvgP9oLCGaC/MoMDInLWaVs
-         8Vj6D7VswrYtInsxg8IQmZJVJc8Gz+k6ANcBYVXeocWl+Zv69T0VNBHW/j3J6QFEv+X3
-         oipG4Ph+m7NcUaHFa2/P6A+x4ciRKuC9/Ud6O0NMCFta/QwsvKyOLBmliVDQH03uAxGS
-         UY4xq39SLE9afz06rHiHgnuUVFrdIevggWhBqL1qJh7nJHyTcGjnnsPPOD2R5Nklxo2K
-         cB+w==
-X-Gm-Message-State: AOJu0YzcOGElJaG4QeutMlv9MIGGpIHeCPTcykucw5ZHl9IwZKDhhEcx
-	lvrb1w3Xa9ZZ5f7gWpKORW2b/xrBxuuqhcfHbMf8SJLU71OHolwOkjbo1h9xzw==
-X-Gm-Gg: ASbGnctvbO7KfG08G23kTm1h5D2qh/tLN4alAgwlRIzcjbGZkqecLKhpPqHoLdZcHg1
-	rdieE2Eos29/c6UoQi2oH/6hOHa9U6nV49ZI0FQLIcCpSoy+2UKXWhi0lgOeY9QUpJibzmR5B+i
-	fvvMTqNGMzKQqhfu76FZLjzJzrouWHutpwqxczBvce2SqNtPVwpV3R5KVmp/3Afj7JbH3IH9soe
-	1nQBEr8+sQEym0VcMo3s3/WMp8Z8UFJgZYv3PfsDJKxUeYyDynKkjEFLCFSpN1h2eKD+igumuIW
-	ozeuztiMc0DzQ036/GZUlyLOXygbD6XDnYDiK5BvbdnFB27JjqkmK0DVOWM/g5qRBcxFkO8IKMW
-	bQ7Q/8OuEQ87jegDwcnnm1EadUkYysvOQDrcesYOLSNvjntd47DAZyOhujeQW7gCfZFOQcE51IN
-	xaIbxEmMgT
-X-Google-Smtp-Source: AGHT+IEwtA7jZS/5V4YlMqFf3dbU4veld0HV6WpqPyoLdZrl1YU5YDhMWN58JHh05+mx6WLb8XHncQ==
-X-Received: by 2002:a05:600c:c492:b0:477:54cd:200a with SMTP id 5b1f17b1804b1-4792aed9dd5mr14407675e9.6.1764752960847;
-        Wed, 03 Dec 2025 01:09:20 -0800 (PST)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4792a79dd66sm38232205e9.6.2025.12.03.01.09.20
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Dec 2025 01:09:20 -0800 (PST)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=PmqOQAWy;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.225, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1764753003; x=1796289003;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IpYj/iy9aSMLku560ALOarqCBb5KiET84/PpSm/Ug24=;
+  b=PmqOQAWyFbQmpG/9tN5nbIy/MRW9hVgzIRhJZVTFROYfaKzjlVnnmdM4
+   IE/lI3Dx6TD9vUL0NuYAP9wjgwj5/L1tAh2fTc302raE9fUm4JXb8Q3h9
+   n8Maf/vUmI6f+nrYFr7E3yxowAebAbzKG1CKyUHe9DRvHoqgtNA5OBzCA
+   p2GyqUNVeSK3gry2UVjmIheqyxvHQVIaunF7AOlimYC0MXNG40U9HDocL
+   oVwvQTv05xu612ZtndRAQeom9kQqG9IH3MAyBSG9RlLhsgLonMV3n3eDs
+   091S8vQ0JXZsFdPzt/9W/nOVfN4D+1bIqfL/V4D97MX5hoOne1sxSpe5N
+   w==;
+X-CSE-ConnectionGUID: 4+q4sPC1TKySSqwwWoJ8sw==
+X-CSE-MsgGUID: a7ABIYSKTZ28SeiOHLkzqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="208758130"
+X-IronPort-AV: E=Sophos;i="6.20,245,1758553200"; 
+   d="scan'208";a="208758130"
+Received: from unknown (HELO az2nlsmgr4.o.css.fujitsu.com) ([20.61.8.234])
+  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 18:10:02 +0900
+Received: from az2nlsmgm3.fujitsu.com (unknown [10.150.26.205])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgr4.o.css.fujitsu.com (Postfix) with ESMTPS id C858F42A32D
+	for <openembedded-core@lists.openembedded.org>; Wed,  3 Dec 2025 09:10:02 +0000 (UTC)
+Received: from az2uksmom3.o.css.fujitsu.com (az2uksmom3.o.css.fujitsu.com [10.151.22.205])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm3.fujitsu.com (Postfix) with ESMTPS id 770BD1802AE4
+	for <openembedded-core@lists.openembedded.org>; Wed,  3 Dec 2025 09:10:02 +0000 (UTC)
+Received: from G08FNSTD190101.g08.fujitsu.local (unknown [10.193.135.3])
+	by az2uksmom3.o.css.fujitsu.com (Postfix) with ESMTP id 45B7A1000627
+	for <openembedded-core@lists.openembedded.org>; Wed,  3 Dec 2025 09:10:00 +0000 (UTC)
+From: Liu Yiding <liuyd.fnst@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] xeyes: upgrade 1.3.0 -> 1.3.1
-Date: Wed,  3 Dec 2025 10:09:19 +0100
-Message-ID: <20251203090919.3829002-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.52.0
+Subject: [OE-core][PATCH] gobject-introspection: upgrade 1.84.0 -> 1.86.0
+Date: Wed,  3 Dec 2025 17:09:45 +0800
+Message-ID: <20251203090945.14344-1-liuyd.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 09:09:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227210
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 09:10:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227211
 
-License-Update: added new copyright line "Copyright (c) 2023  q3k"
+Change log:
+- giscanner: Added ability to add wrapper script arguments [!530]
+- g-ir-tools: Support reading @rspfiles for arguments [!532]
+- Update gobject-introspection-tests [!536]
+- giscanner: support alignof expressions [!538]
+- dumper: Fix introspection binaries missing rpaths for uninstalled ELF shlibs [!540]
+- meson: Fix fs.copyfile semantics breaking GIR build with Ninja 1.12+ [!534]
+- giscanner: Deduplicate arguments and use response files for MSVC [!535]
+- scanner: Prefer some getters over others [!473]
+- girepository: Initialize the async functions parameters [!544]
 
-Shortlog:
-man page: fix warnings from `mandoc -T lint` and `groff -rCHECKSTYLE=10`
-Improve man page formatting
-meson: Add option to build with meson
-Cast Xlib XID types to xcb types
-Add unused attribute to unused parameters of callback functions
-Fix 5 -Wuseless-cast warnings from gcc 14.1
-Fix -Wcalloc-transposed-args warnings
-
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
 ---
- meta/conf/distro/include/maintainers.inc                      | 2 +-
- .../xorg-app/{xeyes_1.3.0.bb => xeyes_1.3.1.bb}               | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-app/{xeyes_1.3.0.bb => xeyes_1.3.1.bb} (66%)
+ ...-introspection_1.84.0.bb => gobject-introspection_1.86.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.84.0.bb => gobject-introspection_1.86.0.bb} (99%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 4a6f1ff6c2..dd963b7ad4 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -901,7 +901,7 @@ RECIPE_MAINTAINER:pn-xcursor-transparent-theme = "Unassigned <unassigned@yoctopr
- RECIPE_MAINTAINER:pn-xdg-utils = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xdpyinfo = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xev = "Unassigned <unassigned@yoctoproject.org>"
--RECIPE_MAINTAINER:pn-xeyes = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-xeyes = "Gyorgy Sarvari <skandigraun@gmail.com>"
- RECIPE_MAINTAINER:pn-xf86-input-evdev = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xf86-input-libinput = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xf86-input-synaptics = "Unassigned <unassigned@yoctoproject.org>"
-diff --git a/meta/recipes-graphics/xorg-app/xeyes_1.3.0.bb b/meta/recipes-graphics/xorg-app/xeyes_1.3.1.bb
-similarity index 66%
-rename from meta/recipes-graphics/xorg-app/xeyes_1.3.0.bb
-rename to meta/recipes-graphics/xorg-app/xeyes_1.3.1.bb
-index 3d1a7063ea..d412bfb4c8 100644
---- a/meta/recipes-graphics/xorg-app/xeyes_1.3.0.bb
-+++ b/meta/recipes-graphics/xorg-app/xeyes_1.3.1.bb
-@@ -6,9 +6,9 @@ follow the location of the mouse cursor around the screen."
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+similarity index 99%
+rename from meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb
+rename to meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+index dfdb1eaa03..f8eab2797f 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
+                     file://girepository/giregisteredtypeinfo.c;endline=21;md5=661847611ae6979465415f31a759ba27 \
+                     "
  
- PE = "1"
+-SRC_URI[archive.sha256sum] = "945b57da7ec262e5c266b89e091d14be800cc424277d82a02872b7d794a84779"
++SRC_URI[archive.sha256sum] = "920d1a3fcedeadc32acff95c2e203b319039dd4b4a08dd1a2dfd283d19c0b9ae"
  
--LIC_FILES_CHKSUM = "file://COPYING;md5=3ea51b365051ac32d1813a7dbaa4bfc6"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=29277094da1ef0646d5634a79cb0c1c5"
+ SRC_URI:append:class-native = " file://0001-Relocate-the-repository-directory-for-native-builds.patch"
  
- SRC_URI_EXT = "xz"
--SRC_URI[sha256sum] = "0950c600bf33447e169a539ee6655ef9f36d6cebf2c1be67f7ab55dacb753023"
-+SRC_URI[sha256sum] = "5608d76b7b1aac5ed7f22f1b6b5ad74ef98c8693220f32b4b87dccee4a956eaa"
- 
- DEPENDS += "libxau libxt libxext libxmu libxrender libxi"
+-- 
+2.43.0
+
 
