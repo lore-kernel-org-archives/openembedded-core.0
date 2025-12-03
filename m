@@ -1,138 +1,172 @@
-Return-Path: <ricardo.salveti@oss.qualcomm.com>
+Return-Path: <miaoqing.pan@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B1C3D1268B
-	for <webhook@archiver.kernel.org>; Wed,  3 Dec 2025 00:38:23 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4065.1764722300229498558
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E167D1268F
+	for <webhook@archiver.kernel.org>; Wed,  3 Dec 2025 01:37:03 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5109.1764725820097741889
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Dec 2025 16:38:20 -0800
+ Tue, 02 Dec 2025 17:37:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=hnWRxQwS;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=U0LGyc8r;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B2IROuJ386068
-	for <openembedded-core@lists.openembedded.org>; Wed, 3 Dec 2025 00:38:19 GMT
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=d3Ud5P6s;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=FpNiOki5;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: miaoqing.pan@oss.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B2ISlsJ4130364
+	for <openembedded-core@lists.openembedded.org>; Wed, 3 Dec 2025 01:36:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	zMfOz9V7qKlYSU04mNMIW0hKp/BIij83vFKVXBP6L/o=; b=hnWRxQwSxakQfsu6
-	EZlSAq7+XJcZx3LBePkgPCjupTPmqcFDlgWj0D/2k4rgwmljp+taWB0D5Z10bxti
-	Of/iEjubCZFyntYhJKvUvVoC8H13djuwFLK+l5V3fnflLOJjWsGF1Kxv8wGRdhGa
-	iQp0J7xo7U91WANYI28ysLKW1CEAwz9a+iRgeyvZlYWwH36kQSZVlXSMXqRSQ4xP
-	vKYa0HEnGBgq8w0trCdCp4PEmHVAocanAtTCVGxYmFWFbHw2pdZ+Gv86vXjrb6KP
-	ACxkHq0544MToJfvbCZ8dnvb3d7MMXD56jv3mY0znsltgMO3e+xEzzpnVsbG2FpL
-	WGF15A==
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com [209.85.128.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4at5db0w3r-1
+	TfKjU1QLaFm9SMsdCG5iBab98K2I2QmVFSrjEwJX1q4=; b=d3Ud5P6sHIYRCHHI
+	Xu3fT+sd8R6+PcIjg8rJTUL/QbmlKU1RkRMIuIzzzEw6lhSJAmGR/b1A8vr/9C4V
+	xpxkmu4ZrxSQa3RzjvD/y8WLkSpJHrve+tDXPFvRrQ8Jwnc5g3sact+2e6dyq1zX
+	FIQ0ESIrie1VGyEYCkxFH40mJVKE4FnP2XTOlV30FprWdn3gwbhCJBo+ekX8h+Dd
+	7dcay9kMy2H5ToBLDQ6g68CgqV/j2Q4sN324IF9nCXhrd2+szLsc1HqHE2GMMzHT
+	GFPvvxMhKgCEeK4zQT99E5e9m3jIb6QQmGwU/ufTWGtqypfHpH793IMd9YgwvnpY
+	uKMqDw==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4at5e7909h-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 00:38:19 +0000 (GMT)
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-78a82709389so87825217b3.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 16:38:19 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 01:36:59 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-7b8ed43cd00so6156100b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 17:36:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764722298; x=1765327098; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zMfOz9V7qKlYSU04mNMIW0hKp/BIij83vFKVXBP6L/o=;
-        b=U0LGyc8reMFYwRody0Yi0wT5Vj24734AagFgKqvS8m8UMmDOWPGcWM1iNQCqU5Wzwl
-         0PGAo8dKdglVh99IgMjKFT7n7PWc8Ki+hvTrWDl2pVtkIwzuTeZMwlyEBK0sv/hhxn6K
-         dh3CehElY25PrNcHE2YIxkM5iuVBtz9SeoUqwe5g2gKtU9Tx+YV9wIZ+rftvas3lFzdr
-         KTyFFkQozTtcYOGFUhvHpE1fYjHKGEvEXj9sUwL0+aNv+dOINKdx3pqZ0dz2kg2SEQaI
-         13BgyzMFmEA0GKMt5oPOGwkFat65pYqwJjGChqdSvyFVEMZPgK9Zt3QaD9yeXSK+BePE
-         OXPg==
+        d=oss.qualcomm.com; s=google; t=1764725819; x=1765330619; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TfKjU1QLaFm9SMsdCG5iBab98K2I2QmVFSrjEwJX1q4=;
+        b=FpNiOki5cRJiVKvnPoohbRwcqIseWB+skI2TzfpgyiVVatioybMMcjdXuYODT1zSzm
+         6sTqemoR6nDd9pizi9zIbajmFSF+ZFrgPnt6BxMkbypZ/TP4zl0gGFbe15FBc5en1onO
+         OMgrWqsTbA7VbvO3PvPYdjr2fiYwE1P04irsglWHo3vZHOpJHYTgUIbMoAzaWrFaY4oA
+         NtO5SgpNpcOxN1x9tFQvcjBSd1udz587mGizDE6ie/GACU5+0Gn+HxqK+jbv4fAZviGp
+         swYGZGQv2s5OhQw9xueXof2Qirkzt/OsJ4r/IIHEPFjsbgT96jIsD01Nce6O5OzMftNX
+         33sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764722298; x=1765327098;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zMfOz9V7qKlYSU04mNMIW0hKp/BIij83vFKVXBP6L/o=;
-        b=XyUVP2QosuP3D8nrHI6GFMU6ljbZa7aMUbFGR0Gps0pkwxqmIE8wqJAFLySDCQS0Iz
-         9qR/wYObr8ITBwHVubhWPEHRJkZ5IYG8neHNAmBvd79MY+dNHxspidp+HaN1D87/DMC3
-         67vrvi8j+84yigSAETmC8k8dJjxCyI7Opu1LPfMBG6H59HaUKD48M0MZ9a78KfAXnP8I
-         xqnHxObT6SS2oKO5rT3LKiTrtztRe6Id00l9KXk3xUvfHQVZS9PPOJliEzPVF4ftrwit
-         o25MQYw4uilW52SmhcBEPLHcimWDsmQMRxeZyoPqvs6Rlm41eQzu/W2yypAif9V0J8Ox
-         RwMw==
-X-Gm-Message-State: AOJu0Yxco3ed6KPMcIR4E34RYPTkgLJFZOKxLneG7ocyApiM/ygLDBoX
-	TV+VQpT7kRKp9o5BQm0qudOxxghvLLhgzoux1dp4wzpyCdxSE6XbChifjqL15qtTe9cLzbqFGMO
-	GEHIL5dGo0KRxa7jsvNpl90hn+0P8goDU63v6z+OqMpz6EgIpINXtCmKE+ml1KM5mxX27+/nErn
-	cwy4ciKRd3r3WroRnGUAUUPyROjUFmN3kCfGgU0uSlSoT6MLvzWgzPLazQ1g==
-X-Gm-Gg: ASbGncvA58efT6bAhNmNHsB1Z6RvNnLOetSJalF1DSVVf371DUXaZV9jAFJNsGFqM2X
-	FHb3mc/t9AOZFpYI4Ujj8bgcFx6GlGUjdWIUslj8SQ5Q2urPp+KVNJf3jWZ5BvarBhnqHzC7g6Z
-	KVBHsi59nTi0itsnKfadUsGem906YiU+F2PKH14bq0m0oA9QbJgKl6kBRN3lUZP4gc6MpK
-X-Received: by 2002:a05:690c:3393:b0:786:379a:51e7 with SMTP id 00721157ae682-78c0bf4151fmr4691587b3.16.1764722298557;
-        Tue, 02 Dec 2025 16:38:18 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IErOHHTp5YX0LW0mPnAle1jWRYZYHJHb7yoKhtfXLTelXZdPL/7nSNlFyknAIolIwka9xMw7q5faIVQLfyKGlc=
-X-Received: by 2002:a05:690c:3393:b0:786:379a:51e7 with SMTP id
- 00721157ae682-78c0bf4151fmr4691427b3.16.1764722298090; Tue, 02 Dec 2025
- 16:38:18 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764725819; x=1765330619;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TfKjU1QLaFm9SMsdCG5iBab98K2I2QmVFSrjEwJX1q4=;
+        b=ujYAp4iwH9F6I1yernMw718ABZuIL4x4RBqs19SHFppjI8LR9yMe14Qut+D8opxw6E
+         z8kvD3uk9l6gl3QfUFpY8Q8SWqXw9D47X4iEvcOg3aYariwzJb6ZOAGlS0u7lpSUOx0Z
+         ABkZkfo2M3blLIyBGqnT3RJj4454Ejfi7fao+XipIGina6Jnda2cAufdKuJTVbJjs3kS
+         9MZYpCR2HLfH7WtSj4VM0aoPvhpjzqG4eXJ+swJ9bj6BQUkfX/EaTZqXg/7Ps7/mGQjW
+         kzdwyUuD4b6S8dCqeB1WwzJmEq4vVmGFnqBFydvSiYmy0RAMostE0hKBalXkXmaVPVwn
+         ixJg==
+X-Gm-Message-State: AOJu0Yye52vfOVZSry43g5YZX2aupNXEfeOk7LL1oJbKUK0xD/tKyaEf
+	QrDuSwKfr2/fziqvuirSDZokuaMHYW16vJTqbxSYlcNCHRaps++Ho88RkSwOkJYbCbPsrl0Hadd
+	7lSMHRPUuDHhJ6AU5+HdLN2dZ68WtijFe0sDOwssAjQrY7XTUVf8uf524pZEG3DbLrVG9Mfj+Dr
+	DyLKDxYt0=
+X-Gm-Gg: ASbGnctjOUm3QzJLhTgnkdXzyQB88E34N6VvyTppvq2t4a6LnrEddxYPg+vUtkoSqdk
+	ikikL1UoiLztpdAfjevyqdLmI93oGYqPfDQuQgiEdH+2Ll4zT3XL5kZZnSRCzOYve6JxA/C7Z9S
+	WY89rg0/Z9mRz0ksHq7VXzhztD5G2PD3njcWnxK1u3fYgy4wXwdrA94jWWOzis81yz8DvXp0nQr
+	nliITVv6FX6BUvCnuvYybuX3xVw5MlgTKyqgqwJDG2awYqMHw1q71qH8T1IPRPmCB5MFtOYX0Y6
+	y8wCnyYo+5pnpCfCJxSbmQV6vhtkabGdBbtOihwxn4/Ct5zd7wIBWv6PhtDlrrNj7DB1nkLqyjk
+	33X/FsdZD7Xs8BdRmMblAqqGFx327D/9RqkPo5mt1b4WpVIYmqglF77pP9qJ287O5QU+6zQPlLE
+	/+H+S/
+X-Received: by 2002:a05:6a20:6a26:b0:34f:ce39:1f4b with SMTP id adf61e73a8af0-363f5e25339mr945634637.36.1764725818712;
+        Tue, 02 Dec 2025 17:36:58 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG7yBYsT1ZASlcPhrpbJEQjdb5bkimtF+0KEmD4XZPqLUSTWI3oFVxHv6ik//OZzHZs4moNHg==
+X-Received: by 2002:a05:6a20:6a26:b0:34f:ce39:1f4b with SMTP id adf61e73a8af0-363f5e25339mr945607637.36.1764725818141;
+        Tue, 02 Dec 2025 17:36:58 -0800 (PST)
+Received: from [10.133.33.78] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d151acee53sm18219424b3a.24.2025.12.02.17.36.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Dec 2025 17:36:57 -0800 (PST)
+Message-ID: <97ef8fca-f266-4e6a-b94d-469709500c62@oss.qualcomm.com>
+Date: Wed, 3 Dec 2025 09:36:52 +0800
 MIME-Version: 1.0
-References: <20251011095022.950420-1-kavinaya@qti.qualcomm.com>
-In-Reply-To: <20251011095022.950420-1-kavinaya@qti.qualcomm.com>
-From: "Ricardo de Araujo (Salveti)" <ricardo.salveti@oss.qualcomm.com>
-Date: Tue, 2 Dec 2025 21:37:40 -0300
-X-Gm-Features: AWmQ_bm5TkE0EfSfjqPkbKBrtBJV9dT5trlNANsL1ru1gNItQXzJywUnpa6H62Q
-Message-ID: <CAA_5youd+pUGbUN0uFJgM7OBBaFYf_OoQXRCn9Dq2usB+e5NHw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel-fit-image: allow passing additional
- options to uboot-mkimage
-To: kavinaya@qti.qualcomm.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: DAPqR-sQfZkmaJmcc3pp09UNgzZfjf_7
-X-Proofpoint-GUID: DAPqR-sQfZkmaJmcc3pp09UNgzZfjf_7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAzMDAwMiBTYWx0ZWRfX6PRgF92hEFle
- exfD/mRvAyVQVHXexwCcXx8Nir4gdshTYvuDiIF1sXVd9afokYSJwAE/Ju4vVpIPTDPPgHqcqec
- uIJbv/mb47vy7YcqXa8ZBZ7VWL/28v0lnbr8t4XggV3gjJ8Rr54E6APvVFd0wCPQ0695g20xRtQ
- +yxlhYOkSjpsa/Gpypag8PYhiwF0Uuc0rGP9hcmNNG37lyQYZlAclqH4YHU9KdGGd3Bk+b+gE/u
- zn2K+NW/sGlW01KynVWOKsQnMmeAz6zNG+olOOgbgfTziwtk9hwuCbgydA9sH4UhskC0KDHBsWV
- 9RctWK/hDF0VfXEyoZS44NOkXMMflvRIdk7tcAkEH8mfXtAL+roYST3FhwxAC/XQWWfgKLMlTT9
- QEDL3LSpo8+dhFSfdOAqx8FJaRCpfw==
-X-Authority-Analysis: v=2.4 cv=VoMuwu2n c=1 sm=1 tr=0 ts=692f867b cx=c_pps
- a=g1v0Z557R90hA0UpD/5Yag==:117 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Q4-j1AaZAAAA:8
- a=kX3kcMMahlKCl4ZqV48A:9 a=QEXdDO2ut3YA:10 a=MFSWADHSvvjO3QEy5MdX:22
- a=9H3Qd4_ONW2Ztcrla5EB:22
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v3 1/4] wpa-supplicant: restore use of packaged
+ defconfig
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+        dmitry.baryshkov@oss.qualcomm.com, jouni.malinen@oss.qualcomm.com
+References: <20251128013628.2187455-1-miaoqing.pan@oss.qualcomm.com>
+ <20251128013628.2187455-2-miaoqing.pan@oss.qualcomm.com>
+ <187C300838343AAE.236385@lists.openembedded.org>
+ <CANNYZj-41tXqMX2D=bUU2Q8E7=qAC8=5M_3uvMFcmq0aKV_sRA@mail.gmail.com>
+ <8d2218a0-3f94-459f-ac2f-8880d356db2b@oss.qualcomm.com>
+ <CANNYZj9J7aNyqi6vxeZr_6viF=gze87JaKJx7-ge_6GokcCLTQ@mail.gmail.com>
+Content-Language: en-US
+From: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
+In-Reply-To: <CANNYZj9J7aNyqi6vxeZr_6viF=gze87JaKJx7-ge_6GokcCLTQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAzMDAxMCBTYWx0ZWRfX4+VrblDpTuYY
+ 15/3p4da8UdjuswKuND0nodzh4DMk981i30iXfrBKj8/DwB4Se5NbVxhldg3os3l3pEJ2SL5Fnk
+ GwBg6vFulxnaevo6NBhGLHtO61K6JHiHomxhgiLH1MAF2rbUxrxDdaY+ZH2Sz3mSBAsv6PBbQgo
+ xXHWZ5vhcotByKIxxrdhfkFnI7xEb/xl3NhCzyHr/2xCxAG6CwUNTLLy/YBQ2hefTIr/tQrLbdt
+ OSyJRKVKf7a1CTt4s85SQhVmOjtjoa7ewpAouqHkUbheoqJ3D8tLW2Bcpo2NFPY5ykBZ1e3Wgxk
+ yy2VC712xTpneCNNieJMdNiC6y+nliHvbAYPoNEwxGnCtWG82fapyoZeBdxY1LRvfD6ZAEnE928
+ jjiVkz+NPittKgOeZVoOnQFRbWwJlQ==
+X-Authority-Analysis: v=2.4 cv=KcrfcAYD c=1 sm=1 tr=0 ts=692f943b cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=yaAG3qJ-AAAA:8 a=EUspDBNiAAAA:8
+ a=VRl91MJk67P3yT7-KngA:9 a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
+ a=oLVlbjkABFOu4cUI0CGI:22
+X-Proofpoint-GUID: uEYqGAsJIMNjB4ffnRmvOyUsDnmGlc-t
+X-Proofpoint-ORIG-GUID: uEYqGAsJIMNjB4ffnRmvOyUsDnmGlc-t
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-01_01,2025-11-27_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0 lowpriorityscore=0 bulkscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 clxscore=1015 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512030002
+ impostorscore=0 spamscore=0 adultscore=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 clxscore=1015 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512030010
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 00:38:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227196
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 01:37:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227197
 
-On Sat, Oct 11, 2025 at 6:50=E2=80=AFAM Kavinaya S via lists.openembedded.o=
-rg
-<kavinaya=3Dqti.qualcomm.com@lists.openembedded.org> wrote:
->
-> The uboot-mkimage supports various cmdline options such as -B, -E, -t, et=
-c.
-> which can be useful for customizing the behavior of FIT image generation.
-> Allow passing these additional options to uboot-mkimage to provide
-> flexibility for platforms that require specific mkimage flags.
->
-> To pass these extra options, define the variable UBOOT_MKIMAGE_EXTRA_OPTS
-> in your machine or local configuration. If this variable is not set,
-> the default behavior remains unchanged.
->
-> Example:
-> UBOOT_MKIMAGE_EXTRA_OPTS =3D "-B 0x00001000 -E"
-> will result in the mkimage command being invoked as:
-> `mkimage -B 0x00001000 -E -f fitImage.its fitImage.itb`
 
-This explains how to use it, but can you explain why you need to
-customize the mkimage process for generating fitimage?
 
-Thanks,
+On 12/2/2025 4:02 PM, Alexander Kanavin wrote:
+> On Tue, 2 Dec 2025 at 03:12, Miaoqing Pan <miaoqing.pan@oss.qualcomm.com> wrote:
+>>> I went and read the commit you reference:
+>>>
+>>>       wpa-supplicant: Use upstream defconfig
+>>>
+>>>       The copy of defconfig we were carrying was from 2014 and very out of
+>>>       date; drop it and use the upstream version with appropriate edits for
+>>>       our PACKAGECONFIG.
+>>>
+>>> So this was done for exactly the reasons I mentioned. Let's not go back there.
+>>
+>> Commit d97bedd8bdcc ("wpa-supplicant: Use upstream defconfig") uses the
+>> defconfig from http://w1.fi/releases/wpa_supplicant-2.11.tar.gz rather
+>> than from https://git.w1.fi/cgit/hostap/tree/wpa_supplicant/defconfig.
+>> In other words, the copied defconfig without any modifications. By
+>> maintaining own defconfig, ensure a consistent baseline and simplify the
+>> process of enabling additional options.
+> 
+> It may be simpler for you to copy a file from upstream into oe-core
+> and effectively make a fork, when you have modifications you'd like to
+> make, but this creates a significant maintenance burden for the
+> project that is already stretched very thin. How is the file going to
+> be kept in sync with upstream? Who is going to do it, and what ensures
+> they suddenly don't stop and disappear (this happens all the time)?
+> How is the situation described in the commit message not going to
+> repeat itself?
+> 
+> Neither you, nor Dmitry are answering this, so please propose your
+> needed changes to upstream, add them as backports, and devise a
+> configuration/packageconfig mechanism in the recipe for things that
+> need to be selected at build time. I know Debian does carry a copy,
+> that in itself is not a reason to mimic them.
+> 
+> Alex
 
-Ricards
+Add Jouni to the CC list, he is the maintainer of wpa_supplicant.
+
+The version of wpa_supplicant in oe-core is a fixed release version, and 
+its defconfig will not be updated. If we upgrade to v2.12 in the future, 
+the corresponding defconfig will need to be updated as well. This does 
+not require significant maintenance effort.
 
