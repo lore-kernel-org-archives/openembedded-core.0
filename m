@@ -2,286 +2,1892 @@ Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D6ED12690
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 824E8D1266D
 	for <webhook@archiver.kernel.org>; Wed,  3 Dec 2025 08:24:15 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10183.1764750249325832457
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10184.1764750249783195449
  for <openembedded-core@lists.openembedded.org>;
  Wed, 03 Dec 2025 00:24:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Vo+X3Gkm;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=ro0XFEFO;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=443253538a=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B36uWIc4050236
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B37wpMu2809790
 	for <openembedded-core@lists.openembedded.org>; Wed, 3 Dec 2025 08:24:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=f/pUV8sf4acpEgxLhmtE
-	IyEPsLtwka4KnVFFd83k/7w=; b=Vo+X3Gkm3CW2eUcH6ykhHdKLoEgqnbCRCqE6
-	h1jHBVd4ZLDKvEClRHZa2nkqG69CZoRLO0bycvxWERsxrvpSyCqOouw1eBA4Qd+U
-	cF+lzQ83OXjgJxl5P8WoZO6zSGp8u75v/0kFwNGwulWjhg81TIKVmApp7tKBmrUY
-	/xKwLGdTg1AedVbUsLgyrnFq9MQCMifJJwrN0NV/AKgBaB/zz6JGWjRgUGKBjfD2
-	KwbDkAUircGvsK7GLIo8pcTIDwC5C7mc6G5pjAZUxSFNuvw5WXdZQPh4mWfQmImC
-	SSuFpcny7nW9MrPFhbP9RC+j8GdzbAH9Sb78aeAX/RSmtktUow==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4aqp21vnvs-1
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=tntPNE/q9zdTPpeCVcAmJfKieDKlz9Ee21oixqDwhvc=; b=ro0XFEFO2BIa
+	d99s5UIElWI6ez629SoJHIZs2HiGwH96xZTk0CNWWawa3LmtxphVrEZhsrcV0kIg
+	A7T5oslMGEatwcK6SVnkFW5NO6UGy4YO60eTm5B0BVJud2sMFsU6028MtGL3rNHX
+	AqvCKAml/cZdU17t+z1pVQlJvn08+0NRAY94jr5aN4eeKQGlYpFcGDNSsbFOvdh0
+	42xkbvI0UfuP91OSR32NIScvc0BzxHP2I0uIQwnpzM4a92ma4ShfTuKMMw9VJSWp
+	qilRl0yIp5m1hkzaJbokRVCaQvE+9Db/dny27haI3yAJxldh8iOndmOSw+13BT4H
+	fhGL24iKlA==
+Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4aqqt6ckeb-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 08:24:08 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 08:24:07 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 3 Dec 2025 00:24:05 -0800
+ 15.1.2507.61; Wed, 3 Dec 2025 00:24:06 -0800
 Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 3 Dec 2025 00:24:04 -0800
+ 15.1.2507.61 via Frontend Transport; Wed, 3 Dec 2025 00:24:05 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/3] libxml2: upgrade 2.14.6 -> 2.15.1
-Date: Wed, 3 Dec 2025 16:24:02 +0800
-Message-ID: <20251203082404.2732162-1-hongxu.jia@windriver.com>
+Subject: [PATCH 2/3] itstool: switch from libxml2 to python3-lxml
+Date: Wed, 3 Dec 2025 16:24:03 +0800
+Message-ID: <20251203082404.2732162-2-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251203082404.2732162-1-hongxu.jia@windriver.com>
+References: <20251203082404.2732162-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: 9m6bIpXs3chgteckTEKuGqGipbegCg6x
-X-Authority-Analysis: v=2.4 cv=OLAqHCaB c=1 sm=1 tr=0 ts=692ff3a8 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAzMDA2NSBTYWx0ZWRfXw1pMNEXelQXW
+ MZEoJaYky57BibIaR1WA1sC3gGrOC7Yf3i4DKBJSGgUbQmFX+uVuJFpAf2oIoToiNNrG+IBBlv+
+ SoioYdNInHSj6YoAYQVnVDTzJiPGLV2ai0SzXMqI+LcB8TcGVkBmUCYIzCwX8v2hxAxVDwdu4JG
+ YPRUijfO4ZJYwPxsbQ6eqqW/OhLUoLMvzyZL9oCMFQWXJ05uQpiY74AhLTmdSBLlEF8eHCqmGuZ
+ l3J9eQIptHbATctWv436/iY57dszxpCu4HwUjlgVZyetPEjMc4tU2C7u9tWQusw7wg2fCEFljRJ
+ mUolqpTbrZ5sXfkjw87G9+0UnmVLBdHzcgTbp/L5ht6/I4tuUZ3LdjL3Rb6rP+MhuRTF193kOWN
+ YS8q6HrqKmOBXcJ3aPBHIQnXdW5ZQw==
+X-Authority-Analysis: v=2.4 cv=Adq83nXG c=1 sm=1 tr=0 ts=692ff3a8 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
  a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=GHR8O2WEAAAA:20
- a=Z5getJ8MAAAA:20 a=SSmOFEACAAAA:8 a=t7CeM3EgAAAA:8 a=7CQSdrXTAAAA:8
- a=ExU6LOvrz2DER-a3BZwA:9 a=m9p5bXcFLgAA:10 a=FdTzh2GWekK77mhwV6Dw:22
- a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAzMDA2NSBTYWx0ZWRfX4lTyF8zmjG/L
- Ts2ZzMdpG16I1fsPpe/Gf2fwq3WlsY0/jGL+TUMv4nkEhfMFPQ4uvf+IlO8mdTFCcB0hvKjaUh6
- BSRGaw8Tbv54ahpKRU379VIIVA4bi+u52sl1YJL4zR/WwLY5WuMR9naN6vN0+FOLEBKf1SAddcj
- 1E1IrHEVHFo/MYlJHgyRNJpJWntr9+HhvV/qi06ys5DynKUSeeSXQlmfYLp1ax/kZdl7KM/tV2U
- PTR52s1jVzEUVQlCw4QduuCbFdB7CM04LcyyRW37/ynmkKqgAGvhhhttXpQucU9KE+hPZDGtUwM
- u0aOmg/NIq6fubKWEhVx7/8Jr+HKmazeJHNWVuWIdVXyANeqJBRPmszVwF2FhC4Xn+U8FcqZdwU
- xv0n+J2cLRuRwgiEIcFc4RRW/Gf9Yg==
-X-Proofpoint-ORIG-GUID: 9m6bIpXs3chgteckTEKuGqGipbegCg6x
+ a=NEAV23lmAAAA:8 a=SSmOFEACAAAA:8 a=krw0MMW0AAAA:8 a=t7CeM3EgAAAA:8
+ a=4f701BjpGfvFzhklQDgA:9 a=f1eB2T652l5jwrjn:21 a=BoXMPqaLR_MA:10
+ a=m9p5bXcFLgAA:10 a=f4Yp5UThAr7mU8x9iE8m:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: GP1EOwLZ5ZZZZ-AWtkJ-odR9eWJ1RLEm
+X-Proofpoint-GUID: GP1EOwLZ5ZZZZ-AWtkJ-odR9eWJ1RLEm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-02_01,2025-11-27_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 phishscore=0 clxscore=1015 bulkscore=0
- impostorscore=0 spamscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
+ spamscore=0 priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015
+ impostorscore=0 phishscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512030065
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 08:24:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227204
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227206
 
-Due to upstream [Remove LZMA support][1], drop option --without-lzma
+Due to libxml2 deprecate python bindings[1], itstool is trying to switch
+from libxml2 to lxml[2], port them to Yocto
 
-Due to upstream [disable python bindings by default][2] and are
-planned to be removed in the 2.16 release[3][4]. If we still enable
-python bindings by --with-python=yes, due to upstream [doc: Build docs
-with Doxygen and xsltproc][5], build python binding requires doxygen
-otherwise build will fail, and we do not provide doxygen in oe-core,
-so remove python package directly.
-
-Refresh install-tests.patch and run-ptest to not install python test
-cases
-
-Drop CVE-2025-6021.patch which is obsolete
-
-[1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/1763281cd65ded4067ddf123eb7358690c214b0b
-[2] https://gitlab.gnome.org/GNOME/libxml2/-/commit/fa931566d2f541d3162c7b98c8a12e6b2a6ae542
-[3] https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.0.news
-[4] https://gitlab.gnome.org/GNOME/libxml2/-/issues/891
-[5] https://gitlab.gnome.org/GNOME/libxml2/-/commit/bbe5827c94cc9b0e393ff3e6eef6dec2376317e2
+[1] https://gitlab.gnome.org/GNOME/libxml2/-/issues/891
+[2] https://github.com/itstool/itstool/pull/57
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../libxml/libxml2/CVE-2025-6021.patch        | 31 -------------------
- .../libxml/libxml2/install-tests.patch        | 20 +++++++-----
- meta/recipes-core/libxml/libxml2/run-ptest    |  7 -----
- .../{libxml2_2.14.6.bb => libxml2_2.15.1.bb}  | 27 ++++------------
- 4 files changed, 18 insertions(+), 67 deletions(-)
- delete mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch
- rename meta/recipes-core/libxml/{libxml2_2.14.6.bb => libxml2_2.15.1.bb} (77%)
+ ...ficiently-quoted-regular-expressions.patch |   79 +
+ .../0002-Switch-from-libxml2-to-lxml.patch    | 1502 +++++++++++++++++
+ .../itstool/0003-Fix-element-check.patch      |   36 +
+ ...Rewrite-remaining-call-to-addContent.patch |   36 +
+ ...f-namespaced-attributes-from-langPoi.patch |   38 +
+ ...missing-placeholders-more-gracefully.patch |   36 +
+ meta/recipes-support/itstool/itstool_2.0.7.bb |   10 +-
+ 7 files changed, 1735 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/itstool/itstool/0001-Fix-insufficiently-quoted-regular-expressions.patch
+ create mode 100644 meta/recipes-support/itstool/itstool/0002-Switch-from-libxml2-to-lxml.patch
+ create mode 100644 meta/recipes-support/itstool/itstool/0003-Fix-element-check.patch
+ create mode 100644 meta/recipes-support/itstool/itstool/0004-Rewrite-remaining-call-to-addContent.patch
+ create mode 100644 meta/recipes-support/itstool/itstool/0005-Fix-extraction-of-namespaced-attributes-from-langPoi.patch
+ create mode 100644 meta/recipes-support/itstool/itstool/0006-Handle-missing-placeholders-more-gracefully.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch
-deleted file mode 100644
-index 0b73bceb24..0000000000
---- a/meta/recipes-core/libxml/libxml2/CVE-2025-6021.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From e546e423d69ec9b3c71167d3c3140fa1b9af93c7 Mon Sep 17 00:00:00 2001
--From: Nick Wellnhofer <wellnhofer@aevum.de>
--Date: Tue, 27 May 2025 12:53:17 +0200
--Subject: [PATCH] tree: Fix integer overflow in xmlBuildQName
--
--This issue affects memory safety and might receive a CVE ID later.
--
--Fixes #926.
--
--Signed-off-by: Nick Wellnhofer <wellnhofer@aevum.de>
--
--Add '#include <stdint.h>' to assure the definition of SIZE_MAX
--CVE: CVE-2025-6021
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/acbbeef9f5dcdcc901c5f3fa14d583ef8cfd22f0]
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- tree.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/tree.c b/tree.c
--index e14bc62..22ec11c 100644
----- a/tree.c
--+++ b/tree.c
--@@ -23,6 +23,7 @@
-- #include <limits.h>
-- #include <ctype.h>
-- #include <stdlib.h>
--+#include <stdint.h>
-- 
-- #ifdef LIBXML_ZLIB_ENABLED
-- #include <zlib.h>
-diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/recipes-core/libxml/libxml2/install-tests.patch
-index 4c1faa83cb..9269536af0 100644
---- a/meta/recipes-core/libxml/libxml2/install-tests.patch
-+++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
-@@ -1,34 +1,38 @@
--From 7e99fef6eae0642a3f1e511e4d24abf7d6d28f50 Mon Sep 17 00:00:00 2001
-+From 3381232bab7217b9cb47e7cc765c8380192069b0 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
--Date: Mon, 5 Dec 2022 17:02:32 +0000
-+Date: Fri, 17 Oct 2025 14:15:36 +0800
- Subject: [PATCH] add yocto-specific install-ptest target
- 
- Add a target to install the test suite.
- 
- Upstream-Status: Inappropriate
- Signed-off-by: Ross Burton <ross.burton@arm.com>
+diff --git a/meta/recipes-support/itstool/itstool/0001-Fix-insufficiently-quoted-regular-expressions.patch b/meta/recipes-support/itstool/itstool/0001-Fix-insufficiently-quoted-regular-expressions.patch
+new file mode 100644
+index 0000000000..64cb872bc3
+--- /dev/null
++++ b/meta/recipes-support/itstool/itstool/0001-Fix-insufficiently-quoted-regular-expressions.patch
+@@ -0,0 +1,79 @@
++From ab174542ab2682905444ff8fee02c0ef9ae030a4 Mon Sep 17 00:00:00 2001
++From: Nils Philippsen <nils@tiptoe.de>
++Date: Mon, 9 Oct 2023 14:26:43 +0200
++Subject: [PATCH 1/6] Fix insufficiently quoted regular expressions
 +
-+Do not install python test cases
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-- Makefile.am | 10 ++++++++++
-- 1 file changed, 10 insertions(+)
-+ Makefile.am | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
- 
- diff --git a/Makefile.am b/Makefile.am
--index 6f98144..ecb3b54 100644
-+index 19ec305..64bf28a 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -26,6 +26,16 @@ check_PROGRAMS = \
-+@@ -29,6 +29,14 @@ check_PROGRAMS = \
-  	testparser \
-  	testrecurse
-  
- +ptestdir=$(libexecdir)
- +install-test-data: $(check_PROGRAMS)
--+	install -d $(DESTDIR)$(ptestdir) $(DESTDIR)$(ptestdir)/python/
- +	for T in $(check_PROGRAMS); do \
- +		$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) $$T $(DESTDIR)$(ptestdir) ;\
- +	done
- +	cp -r $(srcdir)/test $(DESTDIR)$(ptestdir)
- +	cp -r $(srcdir)/result $(DESTDIR)$(ptestdir)
--+	cp -r $(srcdir)/python/tests $(DESTDIR)$(ptestdir)/python
- +
-  bin_PROGRAMS = xmllint
-  
-  bin_SCRIPTS = xml2-config
++These went under the radar until Python 3.12 started warning about them.
++
++Signed-off-by: Nils Philippsen <nils@tiptoe.de>
++
++Upstream-Status: Backport [https://github.com/itstool/itstool/commit/32c7d07664dc37765100285d1202d488cd6a27e8]
++Signed-off-by: Hongxu Jia <hongxu.jia@eng.windriver.com>
++---
++ itstool.in | 14 +++++++-------
++ 1 file changed, 7 insertions(+), 7 deletions(-)
++
++diff --git a/itstool.in b/itstool.in
++index c21ad4b..4452616 100755
++--- a/itstool.in
+++++ b/itstool.in
++@@ -220,7 +220,7 @@ class Message (object):
++         if not isinstance(text, ustr_type):
++             text = ustr(text, 'utf-8')
++         self._message[-1] += text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
++-        if re.sub('\s+', ' ', text).strip() != '':
+++        if re.sub(r'\s+', ' ', text).strip() != '':
++             self._empty = False
++ 
++     def add_entity_ref (self, name):
++@@ -318,7 +318,7 @@ class Message (object):
++                 message += '<_:%s-%i/>' % (msg.name, placeholder)
++                 placeholder += 1
++         if not self._preserve:
++-            message = re.sub('\s+', ' ', message).strip()
+++            message = re.sub(r'\s+', ' ', message).strip()
++         return message
++ 
++     def get_preserve_space (self):
++@@ -456,9 +456,9 @@ class LocNote (object):
++             if self._preserve_space:
++                 return self.locnote
++             else:
++-                return re.sub('\s+', ' ', self.locnote).strip()
+++                return re.sub(r'\s+', ' ', self.locnote).strip()
++         elif self.locnoteref is not None:
++-            return '(itstool) link: ' + re.sub('\s+', ' ', self.locnoteref).strip()
+++            return '(itstool) link: ' + re.sub(r'\s+', ' ', self.locnoteref).strip()
++         return ''
++ 
++ 
++@@ -889,7 +889,7 @@ class Document (object):
++         trans = translations.ugettext('_\x04translator-credits')
++         if trans is None or trans == 'translator-credits':
++             return
++-        regex = re.compile('(.*) \<(.*)\>, (.*)')
+++        regex = re.compile(r'(.*) \<(.*)\>, (.*)')
++         for credit in trans.split('\n'):
++             match = regex.match(credit)
++             if not match:
++@@ -924,7 +924,7 @@ class Document (object):
++             prevnode = None
++             if node.prev is not None and node.prev.type == 'text':
++                 prevtext = node.prev.content
++-                if re.sub('\s+', '', prevtext) == '':
+++                if re.sub(r'\s+', '', prevtext) == '':
++                     prevnode = node.prev
++             for lang in sorted(list(translations.keys()), reverse=True):
++                 locale = self.get_its_locale_filter(node)
++@@ -1468,7 +1468,7 @@ def match_locale(extrange, locale):
++         localei += 1
++     return True
++ 
++-_locale_pattern = re.compile('([a-zA-Z0-9-]+)(_[A-Za-z0-9]+)?(@[A-Za-z0-9]+)?(\.[A-Za-z0-9]+)?')
+++_locale_pattern = re.compile(r'([a-zA-Z0-9-]+)(_[A-Za-z0-9]+)?(@[A-Za-z0-9]+)?(\.[A-Za-z0-9]+)?')
++ def convert_locale (locale):
++     # Automatically convert POSIX-style locales to BCP47
++     match = _locale_pattern.match(locale)
 +-- 
-+2.34.1
++2.49.0
 +
-diff --git a/meta/recipes-core/libxml/libxml2/run-ptest b/meta/recipes-core/libxml/libxml2/run-ptest
-index cbbdd5592f..868649240b 100755
---- a/meta/recipes-core/libxml/libxml2/run-ptest
-+++ b/meta/recipes-core/libxml/libxml2/run-ptest
-@@ -11,10 +11,3 @@ for T in $TESTS; do
-     echo Running $T
-     ./$T && echo PASS: $T || echo FAIL: $T
- done
--
--if test -d python/tests; then
--    cd python/tests
--    for T in *.py; do
--        python3 ./$T && echo PASS: $T || echo FAIL: $T
--    done
--fi
-diff --git a/meta/recipes-core/libxml/libxml2_2.14.6.bb b/meta/recipes-core/libxml/libxml2_2.15.1.bb
-similarity index 77%
-rename from meta/recipes-core/libxml/libxml2_2.14.6.bb
-rename to meta/recipes-core/libxml/libxml2_2.15.1.bb
-index 6ed8760f4c..a010c84f77 100644
---- a/meta/recipes-core/libxml/libxml2_2.14.6.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.15.1.bb
-@@ -18,29 +18,20 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://run-ptest \
-            file://install-tests.patch \
-            file://0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch \
--           file://CVE-2025-6021.patch \
+diff --git a/meta/recipes-support/itstool/itstool/0002-Switch-from-libxml2-to-lxml.patch b/meta/recipes-support/itstool/itstool/0002-Switch-from-libxml2-to-lxml.patch
+new file mode 100644
+index 0000000000..7493d7eb02
+--- /dev/null
++++ b/meta/recipes-support/itstool/itstool/0002-Switch-from-libxml2-to-lxml.patch
+@@ -0,0 +1,1502 @@
++From c547dae5939617d94aae6493ae81d3881a2818cb Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Tue, 15 Apr 2025 02:51:25 +0200
++Subject: [PATCH 2/6] Switch from libxml2 to lxml
++
++Most of the transition is straight-forward, but some issues turned up.
++
++- lxml doesn't seem to expose the prefixes of attributes, requiring
++  an XPath evaluation as work-around.
++- Serializing the internal subset is a bit hacky.
++- lxml doesn't support attribute nodes, so we have to emulate them.
++- lxml doesn't support attributes as XPath context nodes, so some use
++  cases aren't supported. Using an `.` expression on an attribute
++  works, though.
++
++Changes to expected test results are mostly cosmetic.
++
++- Whitespace before and after the document element is processed more
++  faithfully.
++- lxml removes some superfluous namespace prefixes.
++- There's one superfluous namespace declaration which isn't removed
++  anymore.
++
++Fixes #10.
++
++Upstream-Status: Submitted [https://github.com/itstool/itstool/pull/57]
++Remove tests codes
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ configure.ac |    2 +-
++ itstool.in   | 1012 +++++++++++++++++++++++---------------------------
++ 2 files changed, 464 insertions(+), 550 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 9d04372..d94bead 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -12,7 +12,7 @@ AC_SUBST([DATADIR])
++ 
++ AM_PATH_PYTHON([2.6])
++ 
++-py_module=libxml2
+++py_module=lxml
++ AC_MSG_CHECKING(for python module $py_module)
++ echo "import $py_module" | $PYTHON - &>/dev/null
++ if test $? -ne 0; then
++diff --git a/itstool.in b/itstool.in
++index 4452616..052255e 100755
++--- a/itstool.in
+++++ b/itstool.in
++@@ -24,7 +24,8 @@ DATADIR="@DATADIR@"
++ 
++ import gettext
++ import hashlib
++-import libxml2
+++from copy import deepcopy
+++from lxml import etree
++ import optparse
++ import os
++ import os.path
++@@ -190,7 +191,7 @@ class Comment (object):
++ class Placeholder (object):
++     def __init__ (self, node):
++         self.node = node
++-        self.name = ustr(node.name, 'utf-8')
+++        self.name = ustr(xml_localname(node), 'utf-8')
++ 
++ 
++ class Message (object):
++@@ -243,32 +244,30 @@ class Message (object):
++     def add_start_tag (self, node):
++         if len(self._message) == 0 or not(isinstance(self._message[-1], string_types)):
++             self._message.append('')
++-        if node.ns() is not None and node.ns().name is not None:
++-            self._message[-1] += ('<%s:%s' % (ustr(node.ns().name, 'utf-8'), ustr(node.name, 'utf-8')))
++-        else:
++-            self._message[-1] += ('<%s' % ustr(node.name, 'utf-8'))
++-        for prop in xml_attr_iter(node):
++-            name = prop.name
++-            if prop.ns() is not None:
++-                name = prop.ns().name + ':' + name
++-            atval = prop.content
+++        self._message[-1] += ('<%s' % ustr(xml_qname(node), 'utf-8'))
+++        for name, atval in node.items():
+++            qname = etree.QName(name)
+++            if qname.namespace is not None:
+++                # lxml doesn't expose the prefix of attributes, so we use
+++                # an XPath expression to get the attribute's prefixed name.
+++                # This is horribly inefficient.
+++                expr = 'name(@*[local-name()="%s" and namespace-uri()="%s"])' % (
+++                    qname.localname, qname.namespace)
+++                name = node.xpath(expr)
++             if not isinstance(atval, ustr_type):
++                 atval = ustr(atval, 'utf-8')
++             atval = atval.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
++             self._message += " %s=\"%s\"" % (name, atval)
++-        if node.children is not None:
+++        if len(node) > 0 or node.text:
++             self._message[-1] += '>'
++         else:
++             self._message[-1] += '/>'
++ 
++     def add_end_tag (self, node):
++-        if node.children is not None:
+++        if len(node) > 0 or node.text:
++             if len(self._message) == 0 or not(isinstance(self._message[-1], string_types)):
++                 self._message.append('')
++-            if node.ns() is not None and node.ns().name is not None:
++-                self._message[-1] += ('</%s:%s>' % (ustr(node.ns().name, 'utf-8'), ustr(node.name, 'utf-8')))
++-            else:
++-                self._message[-1] += ('</%s>' % ustr(node.name, 'utf-8'))
+++            self._message[-1] += ('</%s>' % ustr(xml_qname(node), 'utf-8'))
++ 
++     def is_empty (self):
++         return self._empty
++@@ -379,67 +378,84 @@ class Message (object):
++         return ret
++ 
++ 
++-def xml_child_iter (node):
++-    child = node.children
++-    while child is not None:
++-        yield child
++-        child = child.next
++-
++-def xml_attr_iter (node):
++-    attr = node.get_properties()
++-    while attr is not None:
++-        yield attr
++-        attr = attr.next
++-
++-def xml_is_ns_name (node, ns, name):
++-    if node.type != 'element':
++-        return False
++-    return node.name == name and node.ns() is not None and node.ns().content == ns
+++def xml_localname (node):
+++    return etree.QName(node.tag).localname
+++
+++def xml_qname (node):
+++    qname = etree.QName(node.tag).localname
+++    if node.prefix is not None:
+++        qname = node.prefix + ':' + qname
+++    return qname
+++
+++def xml_content (node):
+++    if isinstance(node, string_types):
+++        return node
+++    if isinstance(node, XMLAttr):
+++        return node.parent.get(node.tag)
+++    return etree.tostring(node, method='text', encoding='unicode')
+++
+++def xml_delete_node (node):
+++    parent = node.getparent()
+++    prev = node.getprevious()
+++    tail = node.tail
+++    if parent is not None:
+++        parent.remove(node)
+++    if prev is not None:
+++        if prev.tail is None or re.fullmatch(r'\s+', prev.tail):
+++            prev.tail = tail
+++        else:
+++            prev.tail += tail
+++    elif parent is not None:
+++        if parent.text is None or re.fullmatch(r'\s+', parent.text):
+++            parent.text = tail
+++        else:
+++            parent.text += tail
++ 
++ def xml_get_node_path(node):
++     # The built-in nodePath() method only does numeric indexes
++     # when necessary for disambiguation. For various reasons,
++     # we prefer always using indexes.
++-    name = node.name
++-    if node.ns() is not None and node.ns().name is not None:
++-        name = node.ns().name + ':' + name
++-    if node.type == 'attribute':
+++    name = xml_qname(node)
+++    if isinstance(node, XMLAttr):
++         name = '@' + name
++     name = '/' + name
++-    if node.type == 'element' and node.parent.type == 'element':
+++    if node.getparent() is not None:
++         count = 1
++-        prev = node.previousElementSibling()
+++        prev = node.getprevious()
++         while prev is not None:
++-            if prev.name == node.name:
++-                if prev.ns() is None:
++-                    if node.ns() is None:
++-                        count += 1
++-                else:
++-                    if node.ns() is not None:
++-                        if prev.ns().name == node.ns().name:
++-                            count += 1
++-            prev = prev.previousElementSibling()
+++            if prev.tag == node.tag:
+++                count += 1
+++            prev = prev.getprevious()
++         name = '%s[%i]' % (name, count)
++-    if node.parent.type == 'element':
++-        name = xml_get_node_path(node.parent) + name
+++        name = xml_get_node_path(node.getparent()) + name
++     return name
++ 
++-def xml_error_catcher(doc, error):
++-    doc._xml_err += " %s" % error
++ 
++-def fix_node_ns (node, nsdefs):
++-    childnsdefs = nsdefs.copy()
++-    nsdef = node.nsDefs()
++-    while nsdef is not None:
++-        nextnsdef = nsdef.next
++-        if nsdef.name in nsdefs and nsdefs[nsdef.name] == nsdef.content:
++-            node.removeNsDef(nsdef.content)
++-        else:
++-            childnsdefs[nsdef.name] = nsdef.content
++-        nsdef = nextnsdef
++-    for child in xml_child_iter(node):
++-        if child.type == 'element':
++-            fix_node_ns(child, childnsdefs)
+++# lxml doesn't support attribute nodes, so we have to emulate them.
+++class XMLAttr (object):
+++    def __init__(self, element, tag):
+++        self.parent = element
+++        self.tag = tag
+++        self.attrib = {}
+++        self.sourceline = element.sourceline
+++
+++    def __repr__(self):
+++        return '%s@%s' % (repr(self.parent), self.tag)
+++
+++    def __eq__(self, other):
+++        return other and self.parent == other.parent and self.tag == other.tag
+++
+++    def __ne__(self, other):
+++        return not self.__eq__(other)
+++
+++    def __hash__(self):
+++        return hash(repr(self))
+++
+++    def getparent(self):
+++        return self.parent
+++
+++    def get(self, default=None):
+++        return default
++ 
++ 
++ class LocNote (object):
++@@ -464,82 +480,51 @@ class LocNote (object):
++ 
++ class Document (object):
++     def __init__ (self, filename, messages, load_dtd=False, keep_entities=False):
++-        self._xml_err = ''
++-        libxml2.registerErrorHandler(xml_error_catcher, self)
++-        try:
++-            ctxt = libxml2.createFileParserCtxt(filename)
++-        except:
++-            sys.stderr.write('Error: cannot open XML file %s\n' % filename)
++-            sys.exit(1)
++-        ctxt.lineNumbers(1)
++         self._load_dtd = load_dtd
++         self._keep_entities = keep_entities
++-        if load_dtd:
++-            ctxt.loadSubset(1)
++-        if keep_entities:
++-            ctxt.loadSubset(1)
++-            ctxt.ctxtUseOptions(libxml2.XML_PARSE_DTDLOAD)
++-            ctxt.replaceEntities(0)
++-        else:
++-            ctxt.replaceEntities(1)
++-        ctxt.parseDocument()
+++        parser = etree.XMLParser(load_dtd = load_dtd or keep_entities,
+++                                 resolve_entities = not(keep_entities))
+++        doc = etree.parse(filename, parser)
+++        doc.xinclude()
++         self._filename = filename
++-        self._doc = ctxt.doc()
+++        self._doc = doc
++         self._localrules = []
++-        def pre_process (node):
++-            for child in xml_child_iter(node):
++-                if xml_is_ns_name(child, 'http://www.w3.org/2001/XInclude', 'include'):
++-                    if child.nsProp('parse', None) == 'text':
++-                        child.xincludeProcessTree()
++-                elif xml_is_ns_name(child, NS_ITS, 'rules'):
++-                    if child.hasNsProp('href', NS_XLINK):
++-                        href = child.nsProp('href', NS_XLINK)
++-                        fileref = os.path.join(os.path.dirname(filename), href)
++-                        if not os.path.exists(fileref):
++-                            if opts.itspath is not None:
++-                                for pathdir in opts.itspath:
++-                                    fileref = os.path.join(pathdir, href)
++-                                    if os.path.exists(fileref):
++-                                        break
++-                        if not os.path.exists(fileref):
++-                            sys.stderr.write('Error: Could not locate ITS file %s\n' % href)
++-                            sys.exit(1)
++-                        hctxt = libxml2.createFileParserCtxt(fileref)
++-                        hctxt.replaceEntities(1)
++-                        hctxt.parseDocument()
++-                        root = hctxt.doc().getRootElement()
++-                        version = None
++-                        if root.hasNsProp('version', None):
++-                            version = root.nsProp('version', None)
++-                        else:
++-                            sys.stderr.write('Warning: ITS file %s missing version attribute\n' %
++-                                             os.path.basename(href))
++-                        if version is not None and version not in ('1.0', '2.0'):
++-                            sys.stderr.write('Warning: Skipping ITS file %s with unknown version %s\n' %
++-                                             (os.path.basename(href), root.nsProp('version', None)))
++-                        else:
++-                            self._localrules.append(root)
+++        for child in doc.iter():
+++            if child.tag == '{' + NS_ITS + '}rules':
+++                href = child.get('{' + NS_XLINK + '}href')
+++                if href is not None:
+++                    fileref = os.path.join(os.path.dirname(filename), href)
+++                    if not os.path.exists(fileref):
+++                        if opts.itspath is not None:
+++                            for pathdir in opts.itspath:
+++                                fileref = os.path.join(pathdir, href)
+++                                if os.path.exists(fileref):
+++                                    break
+++                    if not os.path.exists(fileref):
+++                        sys.stderr.write('Error: Could not locate ITS file %s\n' % href)
+++                        sys.exit(1)
+++                    root = etree.parse(fileref).getroot()
++                     version = None
++-                    if child.hasNsProp('version', None):
++-                        version = child.nsProp('version', None)
+++                    version = root.get('version')
+++                    if version is None:
+++                        sys.stderr.write('Warning: ITS file %s missing version attribute\n' %
+++                                         os.path.basename(href))
+++                    elif version not in ('1.0', '2.0'):
+++                        sys.stderr.write('Warning: Skipping ITS file %s with unknown version %s\n' %
+++                                         (os.path.basename(href), root.get('version')))
++                     else:
++-                        root = child.doc.getRootElement()
++-                        if root.hasNsProp('version', NS_ITS):
++-                            version = root.nsProp('version', NS_ITS)
++-                        else:
++-                            sys.stderr.write('Warning: Local ITS rules missing version attribute\n')
++-                    if version is not None and version not in ('1.0', '2.0'):
++-                        sys.stderr.write('Warning: Skipping local ITS rules with unknown version %s\n' %
++-                                         version)
++-                    else:
++-                        self._localrules.append(child)
++-                pre_process(child)
++-        pre_process(self._doc)
++-        try:
++-            self._check_errors()
++-        except libxml2.parserError as e:
++-            sys.stderr.write('Error: Could not parse document:\n%s\n' % ustr(e))
++-            sys.exit(1)
+++                        self._localrules.append(root)
+++                version = child.get('version')
+++                if version is None:
+++                    root = child.getroottree()
+++                    version = root.get('{' + NS_ITS + '}version')
+++                if version is None:
+++                    sys.stderr.write('Warning: Local ITS rules missing version attribute\n')
+++                elif version not in ('1.0', '2.0'):
+++                    sys.stderr.write('Warning: Skipping local ITS rules with unknown version %s\n' %
+++                                     version)
+++                else:
+++                    self._localrules.append(child)
++         self._msgs = messages
++         self._its_translate_nodes = {}
++         self._its_within_text_nodes = {}
++@@ -556,13 +541,6 @@ class Document (object):
++ 
++         self._clear_cache()
++ 
++-    def __del__ (self):
++-        self._doc.freeDoc()
++-
++-    def _check_errors(self):
++-        if self._xml_err:
++-            raise libxml2.parserError(self._xml_err)
++-
++     def _clear_cache(self):
++         self._its_translate_nodes_cache = {}
++         self._its_locale_filters_cache = {}
++@@ -570,123 +548,107 @@ class Document (object):
++ 
++     def get_its_params(self, rules):
++         params = {}
++-        for child in xml_child_iter(rules):
++-            if xml_is_ns_name(child, NS_ITS, 'param'):
++-                params[child.nsProp('name', None)] = child.getContent()
+++        for child in rules.iterchildren():
+++            if child.tag == '{' + NS_ITS + '}param':
+++                params[child.get('name')] = xml_content(child)
++         return params
++ 
++-    def register_its_params(self, xpath, params, userparams={}):
++-        for param in params:
++-            if param in userparams:
++-                xpath.xpathRegisterVariable(name, None, userparams[param])
+++    def register_its_params(self, var, params, userparams={}):
+++        for name in params:
+++            if name in userparams:
+++                var[name] = userparams[name]
++             else:
++-                xpath.xpathRegisterVariable(name, None, params[param])
+++                var[name] = params[name]
++ 
++     def apply_its_rule(self, rule, xpath):
++         self._clear_cache()
++-        if rule.type != 'element':
++-            return
++-        if xml_is_ns_name(rule, NS_ITS, 'translateRule'):
++-            if rule.nsProp('selector', None) is not None:
++-                for node in self._try_xpath_eval(xpath, rule.nsProp('selector', None)):
++-                    self._its_translate_nodes[node] = rule.nsProp('translate', None)
++-        elif xml_is_ns_name(rule, NS_ITS, 'withinTextRule'):
++-            if rule.nsProp('selector', None) is not None:
++-                for node in self._try_xpath_eval(xpath, rule.nsProp('selector', None)):
++-                    self._its_within_text_nodes[node] = rule.nsProp('withinText', None)
++-        elif xml_is_ns_name(rule, NS_ITST, 'preserveSpaceRule'):
++-            if rule.nsProp('selector', None) is not None:
++-                for node in self._try_xpath_eval(xpath, rule.nsProp('selector', None)):
++-                    val = rule.nsProp('preserveSpace', None)
+++        if rule.tag == '{' + NS_ITS + '}translateRule':
+++            sel = rule.get('selector')
+++            if sel is not None:
+++                for node in self._try_xpath_eval(xpath, sel):
+++                    self._its_translate_nodes[node] = rule.get('translate')
+++        elif rule.tag == '{' + NS_ITS + '}withinTextRule':
+++            sel = rule.get('selector')
+++            if sel is not None:
+++                for node in self._try_xpath_eval(xpath, sel):
+++                    self._its_within_text_nodes[node] = rule.get('withinText')
+++        elif rule.tag == '{' + NS_ITST + '}preserveSpaceRule':
+++            sel = rule.get('selector')
+++            if sel is not None:
+++                for node in self._try_xpath_eval(xpath, sel):
+++                    val = rule.get('preserveSpace')
++                     if val == 'yes':
++                         self._its_preserve_space_nodes[node] = 'preserve'
++-        elif xml_is_ns_name(rule, NS_ITS, 'preserveSpaceRule'):
++-            if rule.nsProp('selector', None) is not None:
++-                for node in self._try_xpath_eval(xpath, rule.nsProp('selector', None)):
++-                    self._its_preserve_space_nodes[node] = rule.nsProp('space', None)
++-        elif xml_is_ns_name(rule, NS_ITS, 'localeFilterRule'):
++-            if rule.nsProp('selector', None) is not None:
++-                if rule.hasNsProp('localeFilterList', None):
++-                    lst = rule.nsProp('localeFilterList', None)
++-                else:
++-                    lst = '*'
++-                if rule.hasNsProp('localeFilterType', None):
++-                    typ = rule.nsProp('localeFilterType', None)
++-                else:
++-                    typ = 'include'
++-                for node in self._try_xpath_eval(xpath, rule.nsProp('selector', None)):
+++        elif rule.tag == '{' + NS_ITS + '}preserveSpaceRule':
+++            sel = rule.get('selector')
+++            if sel is not None:
+++                for node in self._try_xpath_eval(xpath, sel):
+++                    self._its_preserve_space_nodes[node] = rule.get('space')
+++        elif rule.tag == '{' + NS_ITS + '}localeFilterRule':
+++            sel = rule.get('selector')
+++            if sel is not None:
+++                lst = rule.get('localeFilterList', '*')
+++                typ = rule.get('localeFilterType', 'include')
+++                for node in self._try_xpath_eval(xpath, sel):
++                     self._its_locale_filters[node] = (lst, typ)
++-        elif xml_is_ns_name(rule, NS_ITST, 'dropRule'):
++-            if rule.nsProp('selector', None) is not None:
++-                for node in self._try_xpath_eval(xpath, rule.nsProp('selector', None)):
++-                    self._itst_drop_nodes[node] = rule.nsProp('drop', None)
++-        elif xml_is_ns_name(rule, NS_ITS, 'idValueRule'):
++-            sel = rule.nsProp('selector', None)
++-            idv = rule.nsProp('idValue', None)
+++        elif rule.tag == '{' + NS_ITST + '}dropRule':
+++            sel = rule.get('selector')
+++            if sel is not None:
+++                for node in self._try_xpath_eval(xpath, sel):
+++                    self._itst_drop_nodes[node] = rule.get('drop')
+++        elif rule.tag == '{' + NS_ITS + '}idValueRule':
+++            sel = rule.get('selector')
+++            idv = rule.get('idValue')
++             if sel is not None and idv is not None:
++                 for node in self._try_xpath_eval(xpath, sel):
++-                    try:
++-                        oldnode = xpath.contextNode()
++-                    except:
++-                        oldnode = None
++-                    xpath.setContextNode(node)
++-                    idvalue = self._try_xpath_eval(xpath, idv)
+++                    idvalue = self._try_xpath_eval(xpath, idv, node=node)
++                     if isinstance(idvalue, string_types):
++                         self._its_id_values[node] = idvalue
++                     else:
++                         for val in idvalue:
++-                            self._its_id_values[node] = val.content
+++                            self._its_id_values[node] = xml_content(val)
++                             break
++-                    xpath.setContextNode(oldnode)
++             pass
++-        elif xml_is_ns_name(rule, NS_ITST, 'contextRule'):
++-            if rule.nsProp('selector', None) is not None:
++-                for node in self._try_xpath_eval(xpath, rule.nsProp('selector', None)):
++-                    if rule.hasNsProp('context', None):
++-                        self._itst_contexts[node] = rule.nsProp('context', None)
++-                    elif rule.hasNsProp('contextPointer', None):
++-                        try:
++-                            oldnode = xpath.contextNode()
++-                        except:
++-                            oldnode = None
++-                        xpath.setContextNode(node)
++-                        ctxt = self._try_xpath_eval(xpath, rule.nsProp('contextPointer', None))
+++        elif rule.tag == '{' + NS_ITST + '}contextRule':
+++            sel = rule.get('selector')
+++            if sel is not None:
+++                for node in self._try_xpath_eval(xpath, sel):
+++                    ctxt = rule.get('context')
+++                    cp = rule.get('contextPointer')
+++                    if ctxt is not None:
+++                        self._itst_contexts[node] = ctxt
+++                    elif cp is not None:
+++                        ctxt = self._try_xpath_eval(xpath, cp, node=node)
++                         if isinstance(ctxt, string_types):
++                             self._itst_contexts[node] = ctxt
++                         else:
++                             for ctxt in ctxt:
++-                                self._itst_contexts[node] = ctxt.content
+++                                self._itst_contexts[node] = xml_content(ctxt)
++                                 break
++-                        xpath.setContextNode(oldnode)
++-        elif xml_is_ns_name(rule, NS_ITS, 'locNoteRule'):
+++        elif rule.tag == '{' + NS_ITS + '}locNoteRule':
++             locnote = None
++-            notetype = rule.nsProp('locNoteType', None)
++-            for child in xml_child_iter(rule):
++-                if xml_is_ns_name(child, NS_ITS, 'locNote'):
++-                    locnote = LocNote(locnote=child.content, locnotetype=notetype)
++-                    break
+++            notetype = rule.get('locNoteType')
+++            for child in rule.iterchildren('{' + NS_ITS + '}locNote'):
+++                locnote = LocNote(locnote=xml_content(child), locnotetype=notetype)
+++                break
++             if locnote is None:
++-                if rule.hasNsProp('locNoteRef', None):
++-                    locnote = LocNote(locnoteref=rule.nsProp('locNoteRef', None), locnotetype=notetype)
++-            if rule.nsProp('selector', None) is not None:
++-                for node in self._try_xpath_eval(xpath, rule.nsProp('selector', None)):
+++                if 'locNoteRef' in rule.attrib:
+++                    locnote = LocNote(locnoteref=rule.get('locNoteRef'), locnotetype=notetype)
+++            sel = rule.get('selector')
+++            if sel is not None:
+++                for node in self._try_xpath_eval(xpath, sel):
++                     if locnote is not None:
++                         self._its_loc_notes.setdefault(node, []).append(locnote)
++                     else:
++-                        if rule.hasNsProp('locNotePointer', None):
++-                            sel = rule.nsProp('locNotePointer', None)
+++                        if 'locNotePointer' in rule.attrib:
+++                            sel = rule.get('locNotePointer')
++                             ref = False
++-                        elif rule.hasNsProp('locNoteRefPointer', None):
++-                            sel = rule.nsProp('locNoteRefPointer', None)
+++                        elif 'locNoteRefPointer' in rule.attrib:
+++                            sel = rule.get('locNoteRefPointer')
++                             ref = True
++                         else:
++                             continue
++-                        try:
++-                            oldnode = xpath.contextNode()
++-                        except:
++-                            oldnode = None
++-                        xpath.setContextNode(node)
++-                        note = self._try_xpath_eval(xpath, sel)
+++                        note = self._try_xpath_eval(xpath, sel, node=node)
++                         if isinstance(note, string_types):
++                             if ref:
++                                 nodenote = LocNote(locnoteref=note, locnotetype=notetype)
++@@ -695,55 +657,46 @@ class Document (object):
++                             self._its_loc_notes.setdefault(node, []).append(nodenote)
++                         else:
++                             for note in note:
+++                                text = xml_content(note)
++                                 if ref:
++-                                    nodenote = LocNote(locnoteref=note.content, locnotetype=notetype)
+++                                    nodenote = LocNote(locnoteref=text, locnotetype=notetype)
++                                 else:
++-                                    nodenote = LocNote(locnote=note.content, locnotetype=notetype,
+++                                    nodenote = LocNote(locnote=text, locnotetype=notetype,
++                                                        space=self.get_preserve_space(note))
++                                 self._its_loc_notes.setdefault(node, []).append(nodenote)
++                                 break
++-                        xpath.setContextNode(oldnode)
++-        elif xml_is_ns_name(rule, NS_ITS, 'langRule'):
++-            if rule.nsProp('selector', None) is not None and rule.nsProp('langPointer', None) is not None:
++-                for node in self._try_xpath_eval(xpath, rule.nsProp('selector', None)):
++-                    try:
++-                        oldnode = xpath.contextNode()
++-                    except:
++-                        oldnode = None
++-                    xpath.setContextNode(node)
++-                    res = self._try_xpath_eval(xpath, rule.nsProp('langPointer', None))
+++        elif rule.tag == '{' + NS_ITS + '}langRule':
+++            sel = rule.get('selector')
+++            lp = rule.get('langPointer')
+++            if sel is not None and lp is not None:
+++                for node in self._try_xpath_eval(xpath, sel):
+++                    res = self._try_xpath_eval(xpath, lp, node=node)
++                     if len(res) > 0:
++-                        self._its_lang[node] = res[0].content
+++                        self._its_lang[node] = xml_content(res[0])
++                     # We need to construct language attributes, not just read
++                     # language information. Technically, langPointer could be
++                     # any XPath expression. But if it looks like an attribute
++                     # accessor, just use the attribute name.
++-                    if rule.nsProp('langPointer', None)[0] == '@':
++-                        self._itst_lang_attr[node] = rule.nsProp('langPointer', None)[1:]
++-                    xpath.setContextNode(oldnode)
++-        elif xml_is_ns_name(rule, NS_ITST, 'credits'):
++-            if rule.nsProp('appendTo', None) is not None:
++-                for node in self._try_xpath_eval(xpath, rule.nsProp('appendTo', None)):
+++                    if lp[0] == '@':
+++                        self._itst_lang_attr[node] = lp[1:]
+++        elif rule.tag == '{' + NS_ITST + '}credits':
+++            sel = rule.get('appendTo')
+++            if sel is not None:
+++                for node in self._try_xpath_eval(xpath, sel):
++                     self._itst_credits = (node, rule)
++                     break
++-        elif (xml_is_ns_name(rule, NS_ITS, 'externalResourceRefRule') or
++-              xml_is_ns_name(rule, NS_ITST, 'externalRefRule')):
++-            sel = rule.nsProp('selector', None)
++-            if xml_is_ns_name(rule, NS_ITS, 'externalResourceRefRule'):
++-                ptr = rule.nsProp('externalResourceRefPointer', None)
+++        elif (rule.tag == '{' + NS_ITS  + '}externalResourceRefRule' or
+++              rule.tag == '{' + NS_ITST + '}externalRefRule'):
+++            sel = rule.get('selector')
+++            if rule.tag == '{' + NS_ITS + '}externalResourceRefRule':
+++                ptr = rule.get('externalResourceRefPointer')
++             else:
++-                ptr = rule.nsProp('refPointer', None)
+++                ptr = rule.get('refPointer')
++             if sel is not None and ptr is not None:
++                 for node in self._try_xpath_eval(xpath, sel):
++-                    try:
++-                        oldnode = xpath.contextNode()
++-                    except:
++-                        oldnode = None
++-                    xpath.setContextNode(node)
++-                    res = self._try_xpath_eval(xpath, ptr)
+++                    res = self._try_xpath_eval(xpath, ptr, node=node)
++                     if len(res) > 0:
++-                        self._its_externals[node] = res[0].content
++-                    xpath.setContextNode(oldnode)
+++                        self._its_externals[node] = xml_content(res[0])
++ 
++     def apply_its_rules(self, builtins, userparams={}):
++         self._clear_cache()
++@@ -773,94 +726,59 @@ class Document (object):
++ 
++     def apply_its_file(self, filename, userparams={}):
++         self._clear_cache()
++-        doc = libxml2.parseFile(filename)
++-        root = doc.getRootElement()
++-        if not xml_is_ns_name(root, NS_ITS, 'rules'):
+++        parser = etree.XMLParser(resolve_entities = False)
+++        root = etree.parse(filename, parser).getroot()
+++        if root.tag != '{' + NS_ITS + '}rules':
++             return
++-        version = None
++-        if root.hasNsProp('version', None):
++-            version = root.nsProp('version', None)
++-        else:
+++        version = root.get('version')
+++        if version is None:
++             sys.stderr.write('Warning: ITS file %s missing version attribute\n' %
++                              os.path.basename(filename))
++-        if version is not None and version not in ('1.0', '2.0'):
+++        elif version not in ('1.0', '2.0'):
++             sys.stderr.write('Warning: Skipping ITS file %s with unknown version %s\n' %
++-                             (os.path.basename(filename), root.nsProp('version', None)))
+++                             (os.path.basename(filename), root.get('version')))
++             return
++         matched = True
++-        for match in xml_child_iter(root):
++-            if xml_is_ns_name(match, NS_ITST, 'match'):
+++        for match in root.iterchildren():
+++            if match.tag == '{' + NS_ITST + '}match':
++                 matched = False
++-                xpath = self._doc.xpathNewContext()
++-                par = match
++-                nss = {}
++-                while par is not None:
++-                    nsdef = par.nsDefs()
++-                    while nsdef is not None:
++-                        if nsdef.name is not None:
++-                            if nsdef.name not in nss:
++-                                nss[nsdef.name] = nsdef.content
++-                                xpath.xpathRegisterNs(nsdef.name, nsdef.content)
++-                        nsdef = nsdef.next
++-                    par = par.parent
++-                if match.hasNsProp('selector', None):
++-                    if len(self._try_xpath_eval(xpath, match.nsProp('selector', None))) > 0:
+++                sel = match.get('selector')
+++                if sel is not None:
+++                    ns = { k: v for k, v in match.nsmap.items() if k is not None }
+++                    xpath = (ns, {})
+++                    if len(self._try_xpath_eval(xpath, sel)) > 0:
++                         matched = True
++                         break
++         if matched == False:
++             return
+++        ns = { k: v for k, v in match.nsmap.items() if k is not None }
+++        var = {}
++         params = self.get_its_params(root)
++-        for rule in xml_child_iter(root):
++-            xpath = self._doc.xpathNewContext()
++-            par = match
++-            nss = {}
++-            while par is not None:
++-                nsdef = par.nsDefs()
++-                while nsdef is not None:
++-                    if nsdef.name is not None:
++-                        if nsdef.name not in nss:
++-                            nss[nsdef.name] = nsdef.content
++-                            xpath.xpathRegisterNs(nsdef.name, nsdef.content)
++-                    nsdef = nsdef.next
++-                par = par.parent
++-            self.register_its_params(xpath, params, userparams=userparams)
+++        self.register_its_params(var, params, userparams=userparams)
+++        xpath = (ns, var)
+++        for rule in root.iterchildren():
++             self.apply_its_rule(rule, xpath)
++ 
++     def apply_local_its_rules(self, userparams={}):
++         self._clear_cache()
++         for rules in self._localrules:
++-            def reg_ns(xpath, node):
++-                if node.parent is not None:
++-                    reg_ns(xpath, node.parent)
++-                nsdef = node.nsDefs()
++-                while nsdef is not None:
++-                    if nsdef.name is not None:
++-                        xpath.xpathRegisterNs(nsdef.name, nsdef.content)
++-                    nsdef = nsdef.next
++-            xpath = self._doc.xpathNewContext()
++-            reg_ns(xpath, rules)
+++            var = {}
++             params = self.get_its_params(rules)
++-            self.register_its_params(xpath, params, userparams=userparams)
++-            for rule in xml_child_iter(rules):
++-                if rule.type != 'element':
++-                    continue
++-                if rule.nsDefs() is not None:
++-                    rule_xpath = self._doc.xpathNewContext()
++-                    reg_ns(rule_xpath, rule)
++-                    self.register_its_params(rule_xpath, params, userparams=userparams)
++-                else:
++-                    rule_xpath = xpath
+++            self.register_its_params(var, params, userparams=userparams)
+++            for rule in rules.iterchildren():
+++                ns = { k: v for k, v in rule.nsmap.items() if k is not None }
+++                rule_xpath = (ns, var)
++                 self.apply_its_rule(rule, rule_xpath)
++ 
++     def _append_credits(self, parent, node, trdata):
++-        if xml_is_ns_name(node, NS_ITST, 'for-each'):
++-            select = node.nsProp('select', None)
+++        if node.tag == '{' + NS_ITST + '}for-each':
+++            select = node.get('select')
++             if select == 'years':
++                 for year in trdata[2].split(','):
++-                    for child in xml_child_iter(node):
+++                    for child in node.iterchildren():
++                         self._append_credits(parent, child, trdata + (year.strip(),))
++-        elif xml_is_ns_name(node, NS_ITST, 'value-of'):
++-            select = node.nsProp('select', None)
+++        elif node.tag == '{' + NS_ITST + '}value-of':
+++            select = node.get('select')
++             val = None
++             if select == 'name':
++                 val = trdata[0]
++@@ -875,9 +793,9 @@ class Document (object):
++                     val = val.encode('utf-8')
++                 parent.addContent(val)
++         else:
++-            newnode = node.copyNode(2)
++-            parent.addChild(newnode)
++-            for child in xml_child_iter(node):
+++            newnode = parent.makeelement(node.tag, node.attrib)
+++            parent.append(newnode)
+++            for child in node.iterchildren():
++                 self._append_credits(newnode, child, trdata)
++ 
++     def merge_credits(self, translations, language, node):
++@@ -895,7 +813,7 @@ class Document (object):
++             if not match:
++                 continue
++             trdata = match.groups()
++-            for node in xml_child_iter(self._itst_credits[1]):
+++            for node in self._itst_credits[1].iterchildren():
++                 self._append_credits(self._itst_credits[0], node, trdata)
++ 
++     def join_translations(self, translations, node=None, strict=False):
++@@ -903,29 +821,30 @@ class Document (object):
++         if node is None:
++             is_root = True
++             self.generate_messages(comments=False)
++-            node = self._doc.getRootElement()
++-        if node is None or node.type != 'element':
+++            node = self._doc.getroot()
+++        if node is None:
++             return
++         if self.get_itst_drop(node) == 'yes':
++-            prev = node.prev
++-            node.unlinkNode()
++-            node.freeNode()
++-            if prev is not None and prev.isBlankNode():
++-                prev.unlinkNode()
++-                prev.freeNode()
+++            xml_delete_node(node)
++             return
++         msg = self._msgs.get_message_by_node(node)
++         if msg is None:
++-            self.translate_attrs(node, node)
++-            children = [child for child in xml_child_iter(node)]
++-            for child in children:
+++            #self.translate_attrs(node, node)
+++            for child in node.iterchildren():
++                 self.join_translations(translations, node=child, strict=strict)
++         else:
++-            prevnode = None
++-            if node.prev is not None and node.prev.type == 'text':
++-                prevtext = node.prev.content
++-                if re.sub(r'\s+', '', prevtext) == '':
++-                    prevnode = node.prev
+++            prevtext = None
+++            prev = node.getprevious()
+++            if prev is None:
+++                parent = node.getparent()
+++                if parent is not None:
+++                    prevtext = parent.text
+++            else:
+++                prevtext = prev.tail
+++            if prevtext is not None:
+++                if not re.fullmatch(r'\s+', prevtext):
+++                    prevtext = None
+++            i = 0
++             for lang in sorted(list(translations.keys()), reverse=True):
++                 locale = self.get_its_locale_filter(node)
++                 lmatch = match_locale_list(locale[0], lang)
++@@ -933,24 +852,26 @@ class Document (object):
++                     continue
++                 newnode = self.get_translated(node, translations[lang], strict=strict, lang=lang)
++                 if newnode != node:
++-                    newnode.setProp('xml:lang', lang)
++-                    node.addNextSibling(newnode)
++-                    if prevnode is not None:
++-                        node.addNextSibling(prevnode.copyNode(0))
++-        if is_root:
++-            # Because of the way we create nodes and rewrite the document,
++-            # we end up with lots of redundant namespace definitions. We
++-            # kill them off in one fell swoop at the end.
++-            fix_node_ns(node, {})
++-            self._check_errors()
+++                    newnode.set('{' + NS_XML + '}lang', lang)
+++                    node.addnext(newnode)
+++                    if i == 0:
+++                        # Move tail to first new node
+++                        newnode.tail = node.tail
+++                        if prevtext is not None:
+++                            node.tail = prevtext
+++                    else:
+++                        if prevtext is not None:
+++                            newnode.tail = prevtext
+++                    i += 1
+++
++ 
++     def merge_translations(self, translations, language, node=None, strict=False):
++         is_root = False
++         if node is None:
++             is_root = True
++             self.generate_messages(comments=False)
++-            node = self._doc.getRootElement()
++-        if node is None or node.type != 'element':
+++            node = self._doc.getroot()
+++        if node is None:
++             return
++         drop = False
++         locale = self.get_its_locale_filter(node)
++@@ -962,26 +883,23 @@ class Document (object):
++             if match_locale_list(locale[0], language):
++                 drop = True
++         if self.get_itst_drop(node) == 'yes' or drop:
++-            prev = node.prev
++-            node.unlinkNode()
++-            node.freeNode()
++-            if prev is not None and prev.isBlankNode():
++-                prev.unlinkNode()
++-                prev.freeNode()
+++            xml_delete_node(node)
++             return
++         if is_root:
++             self.merge_credits(translations, language, node)
++         msg = self._msgs.get_message_by_node(node)
++         if msg is None:
++             self.translate_attrs(node, node)
++-            children = [child for child in xml_child_iter(node)]
++-            for child in children:
+++            for child in node.iterchildren():
++                 self.merge_translations(translations, language, node=child, strict=strict)
++         else:
++             newnode = self.get_translated(node, translations, strict=strict, lang=language)
++             if newnode != node:
++                 self.translate_attrs(node, newnode)
++-                node.replaceNode(newnode)
+++                newnode.tail = node.tail
+++                parent = node.getparent()
+++                if parent is not None:
+++                    parent.replace(node, newnode)
++         if is_root:
++             # Apply language attributes to untranslated nodes. We don't do
++             # this before processing, because then these attributes would
++@@ -998,31 +916,27 @@ class Document (object):
++                     origlang = self._its_lang.get(lcpar)
++                     if origlang is not None:
++                         break
++-                    lcpar = lcpar.parent
+++                    lcpar = lcpar.getparent()
++                 if origlang is not None:
++-                    lcnode.setProp(attr, origlang)
+++                    lcnode.set(attr, origlang)
++             # And then set the language attribute on the root node.
++             if language is not None:
++                 attr = self._itst_lang_attr.get(node)
++                 if attr is not None:
++-                    node.setProp(attr, language)
++-            # Because of the way we create nodes and rewrite the document,
++-            # we end up with lots of redundant namespace definitions. We
++-            # kill them off in one fell swoop at the end.
++-            fix_node_ns(node, {})
++-            self._check_errors()
+++                    node.set(attr, language)
++ 
++     def translate_attrs(self, oldnode, newnode):
++-        trans_attrs = [attr for attr in xml_attr_iter(oldnode) if self._its_translate_nodes.get(attr, 'no') == 'yes']
++-        for attr in trans_attrs:
++-            srccontent = attr.get_content()
+++        for attrname, srccontent in oldnode.items():
+++            attr = XMLAttr(oldnode, attrname)
+++            if self._its_translate_nodes.get(attr, 'no') != 'yes':
+++                continue
++             if not PY3:
++                 srccontent = srccontent.decode('utf-8')
++             newcontent = translations.ugettext(srccontent)
++             if newcontent:
++                 if not PY3:
++                     newcontent = newcontent.encode('utf-8')
++-                newnode.setProp(attr.name, newcontent)
+++                newnode.set(attrname, newcontent)
++ 
++     def get_translated (self, node, translations, strict=False, lang=None):
++         msg = self._msgs.get_message_by_node(node)
++@@ -1037,106 +951,84 @@ class Document (object):
++         trans = translations.ugettext(msgstr)
++         if trans is None:
++             return node
++-        nss = {}
++-        def reg_ns(node, nss):
++-            if node.parent is not None:
++-                reg_ns(node.parent, nss)
++-            nsdef = node.nsDefs()
++-            while nsdef is not None:
++-                nss[nsdef.name] = nsdef.content
++-                nsdef = nsdef.next
++-        reg_ns(node, nss)
++-        nss['_'] = NS_BLANK
++-        try:
++-            blurb = node.doc.intSubset().serialize('utf-8')
++-        except Exception:
++-            blurb = ''
++-        blurb += '<' + ustr(node.name, 'utf-8')
++-        for nsname in list(nss.keys()):
+++        blurb = ''
+++        doc = node.getroottree()
+++        if doc.docinfo.internalDTD:
+++            # This is an ugly hack to serialize the DTD. We copy the
+++            # document, replace the document element, serialize the
+++            # document and remove the last line which contains the
+++            # document element, leaving only the DTD.
+++            copy = deepcopy(doc)
+++            root = copy.getroot()
+++            newroot = root.makeelement(root.tag)
+++            copy._setroot(newroot)
+++            blurb = re.sub('.*$', '', etree.tostring(copy, encoding='unicode'))
+++        localname = ustr(xml_localname(node), 'utf-8')
+++        blurb += '<' + localname
+++        blurb += ' xmlns:_="%s"' % NS_BLANK
+++        for nsname, nsuri in node.nsmap.items():
++             if nsname is None:
++-                blurb += ' xmlns="%s"' % nss[nsname]
+++                blurb += ' xmlns="%s"' % nsuri
++             else:
++-                blurb += ' xmlns:%s="%s"' % (nsname, nss[nsname])
++-        blurb += '>%s</%s>' % (trans, ustr(node.name, 'utf-8'))
++-        if not PY3:
++-            blurb = blurb.encode('utf-8')
++-        ctxt = libxml2.createDocParserCtxt(blurb)
++-        if self._load_dtd:
++-            ctxt.loadSubset(1)
++-        if self._keep_entities:
++-            ctxt.loadSubset(1)
++-            ctxt.ctxtUseOptions(libxml2.XML_PARSE_DTDLOAD)
++-            ctxt.replaceEntities(0)
++-        else:
++-            ctxt.replaceEntities(1)
++-        ctxt.parseDocument()
++-        trnode = ctxt.doc().getRootElement()
+++                blurb += ' xmlns:%s="%s"' % (nsname, nsuri)
+++        blurb += '>%s</%s>' % (trans, localname)
+++        parser = etree.XMLParser(load_dtd = self._load_dtd or self._keep_entities,
+++                                 resolve_entities = not(self._keep_entities))
++         try:
++-            self._check_errors()
++-        except libxml2.parserError:
+++            trnode = etree.fromstring(blurb, parser)
+++        except:
++             if strict:
++                 raise
++             else:
++                 sys.stderr.write('Warning: Could not merge %stranslation for msgid:\n%s\n' % (
++-                        (lang + ' ') if lang is not None else '',
++-                        msgstr.encode('utf-8')))
++-                self._xml_err = ''
+++                    (lang + ' ') if lang is not None else '',
+++                    msgstr.encode('utf-8')))
++                 return node
++-        def scan_node(node):
++-            children = [child for child in xml_child_iter(node)]
++-            for child in children:
++-                if child.type != 'element':
+++        try:
+++            for child in trnode.iterdescendants():
+++                if isinstance(child, (etree._Entity, etree._Comment, etree._ProcessingInstruction)):
++                     continue
++-                if child.ns() is not None and child.ns().content == NS_BLANK:
++-                    ph_node = msg.get_placeholder(child.name).node
++-                    if self.has_child_elements(ph_node):
+++                qname = etree.QName(child.tag)
+++                if qname.namespace == NS_BLANK:
+++                    ph_node = msg.get_placeholder(qname.localname).node
+++                    if len(ph_node):
++                         self.merge_translations(translations, None, ph_node, strict=strict)
++-                        newnode = ph_node.copyNode(1)
++-                        newnode.setTreeDoc(self._doc)
++-                        child.replaceNode(newnode)
+++                        newnode = deepcopy(ph_node)
+++                        newnode.tail = child.tail
+++                        child.getparent().replace(child, newnode)
++                     else:
++                         repl = self.get_translated(ph_node, translations, strict=strict, lang=lang)
++-                        child.replaceNode(repl)
++-                scan_node(child)
++-        try:
++-            scan_node(trnode)
+++                        repl.tail = child.tail
+++                        child.getparent().replace(child, repl)
++         except:
+++            raise
++             if strict:
++                 raise
++             else:
++                 sys.stderr.write('Warning: Could not merge %stranslation for msgid:\n%s\n' % (
++                     (lang + ' ') if lang is not None else '',
++                     msgstr.encode('utf-8')))
++-                self._xml_err = ''
++-                ctxt.doc().freeDoc()
++                 return node
++-        retnode = node.copyNode(2)
++-        retnode.setTreeDoc(self._doc)
++-        for child in xml_child_iter(trnode):
++-            newnode = child.copyNode(1)
++-            newnode.setTreeDoc(self._doc)
++-            retnode.addChild(newnode)
++-
++-        ctxt.doc().freeDoc()
+++        retnode = self._doc.getroot().makeelement(node.tag, node.attrib, node.nsmap)
+++        retnode.text = trnode.text
+++        for child in trnode.iterchildren():
+++            retnode.append(child)
+++
++         return retnode
++ 
++     def generate_messages(self, comments=True):
++         if self._itst_credits is not None:
++             self._msgs.add_credits()
++-        for child in xml_child_iter(self._doc):
++-            if child.type == 'element':
++-                self.generate_message(child, None, comments=comments)
++-                break
+++        if self._doc is not None:
+++            self.generate_message(self._doc.getroot(), None, comments=comments)
++ 
++     def generate_message(self, node, msg, comments=True, path=None):
++-        if node.type in ('text', 'cdata') and msg is not None:
++-            msg.add_text(node.content)
+++        if isinstance(node, etree._Entity):
+++            msg.add_entity_ref(node.name)
++             return
++-        if node.type == 'entity_ref':
++-            msg.add_entity_ref(node.name);
++-        if node.type != 'element':
+++        if isinstance(node, XMLAttr):
++             return
++-        if node.hasNsProp('drop', NS_ITST) and node.nsProp('drop', NS_ITST) == 'yes':
+++        if node.get('{' + NS_ITST + '}drop', 'no') == 'yes':
++             return
++         if self._itst_drop_nodes.get(node, 'no') == 'yes':
++             return
++@@ -1158,9 +1050,7 @@ class Document (object):
++                 if msg is not None:
++                     msg.add_placeholder(node)
++                 msg = Message()
++-                ctxt = None
++-                if node.hasNsProp('context', NS_ITST):
++-                    ctxt = node.nsProp('context', NS_ITST)
+++                ctxt = node.get('{' + NS_ITST + '}context')
++                 if ctxt is None:
++                     ctxt = self._itst_contexts.get(node)
++                 if ctxt is not None:
++@@ -1173,27 +1063,38 @@ class Document (object):
++                     msg.set_preserve_space()
++                 if self.get_its_locale_filter(node) != ('*', 'include'):
++                     msg.set_locale_filter(self.get_its_locale_filter(node))
++-                msg.add_source('%s:%i' % (self._doc.name, node.lineNo()))
++-                msg.add_marker('%s/%s' % (ustr(node.parent.name, 'utf-8'), ustr(node.name, 'utf-8')))
+++                msg.add_source('%s:%i' % (self._doc.docinfo.URL, node.sourceline))
+++                parent = node.getparent()
+++                if parent is None:
+++                    ptag = '#root'
+++                else:
+++                    ptag = xml_localname(parent)
+++                msg.add_marker('%s/%s' % (ustr(ptag, 'utf-8'), ustr(xml_localname(node), 'utf-8')))
++             else:
++                 withinText = True
++                 msg.add_start_tag(node)
++ 
++         if not withinText:
++             # Add msg for translatable node attributes
++-            for attr in xml_attr_iter(node):
+++            for attrname, attrval in node.items():
+++                attr = XMLAttr(node, attrname)
++                 if self._its_translate_nodes.get(attr, 'no') == 'yes':
++                     attr_msg = Message()
++                     if self.get_preserve_space(attr):
++                         attr_msg.set_preserve_space()
++-                    attr_msg.add_source('%s:%i' % (self._doc.name, node.lineNo()))
++-                    attr_msg.add_marker('%s/%s@%s' % (node.parent.name, node.name, attr.name))
++-                    attr_msg.add_text(attr.content)
+++                    attr_msg.add_source('%s:%i' % (self._doc.docinfo.URL, node.sourceline))
+++                    attr_msg.add_marker('%s/%s@%s' % (
+++                        xml_localname(node.getparent()),
+++                        xml_localname(node),
+++                        etree.QName(attrname).localname))
+++                    attr_msg.add_text(attrval)
++                     if comments:
++                         for locnote in self.get_its_loc_notes(attr):
++                             comment = Comment(locnote)
++                             comment.add_marker ('%s/%s@%s' % (
++-                                    node.parent.name, node.name, attr.name))
+++                                xml_localname(node.getparent()),
+++                                xml_localname(node),
+++                                etree.QName(attrname).localname))
++                             attr_msg.add_comment(comment)
++                     self._msgs.add_message(attr_msg, attr)
++ 
++@@ -1204,15 +1105,16 @@ class Document (object):
++                 for locnote in self.get_its_loc_notes(cnode, inherit=(not withinText)):
++                     comment = Comment(locnote)
++                     if withinText:
++-                        comment.add_marker('.%s/%s' % (path, cnode.name))
+++                        comment.add_marker('.%s/%s' % (path, xml_localname(cnode)))
++                     msg.add_comment(comment)
++                     hasnote = True
++                 if hasnote or not is_unit:
++                     break
++-                cnode = cnode.parent
+++                cnode = cnode.getparent()
++ 
++         self.generate_external_resource_message(node)
++-        for attr in xml_attr_iter(node):
+++        for attrname in node.keys():
+++            attr = XMLAttr(node, attrname)
++             self.generate_external_resource_message(attr)
++             idvalue = self.get_its_id_value(attr)
++             if idvalue is not None:
++@@ -1220,9 +1122,13 @@ class Document (object):
++                 msg.add_id_value(basename + '#' + idvalue)
++ 
++         if withinText:
++-            path = path + '/' + node.name
++-        for child in xml_child_iter(node):
+++            path = path + '/' + node.tag
+++        if node.text is not None and msg is not None:
+++            msg.add_text(node.text)
+++        for child in node.iterchildren():
++             self.generate_message(child, msg, comments=comments, path=path)
+++            if child.tail is not None and msg is not None:
+++                msg.add_text(child.tail)
++ 
++         if translate:
++             if is_unit and not msg.is_empty():
++@@ -1234,12 +1140,17 @@ class Document (object):
++         if node not in self._its_externals:
++             return
++         resref = self._its_externals[node]
++-        if node.type == 'element':
++-            translate = self.get_its_translate(node)
++-            marker = '%s/%s' % (node.parent.name, node.name)
+++        if isinstance(node, XMLAttr):
+++            elem = node.getparent()
+++            translate = self.get_its_translate(elem)
+++            marker = '%s/%s/@%s' % (
+++                xml_localname(elem.getparent()),
+++                xml_localname(elem),
+++                xml_localname(node))
++         else:
++-            translate = self.get_its_translate(node.parent)
++-            marker = '%s/%s/@%s' % (node.parent.parent.name, node.parent.name, node.name)
+++            translate = self.get_its_translate(node)
+++            marker = '%s/%s' % (xml_localname(node.getparent()),
+++                                xml_localname(node))
++         if translate == 'no':
++             return
++         msg = Message()
++@@ -1253,7 +1164,7 @@ class Document (object):
++         txt = "external ref='%s' md5='%s'" % (resref, filemd5)
++         msg.set_context('_')
++         msg.add_text(txt)
++-        msg.add_source('%s:%i' % (self._doc.name, node.lineNo()))
+++        msg.add_source('%s:%i' % (self._doc.docinfo.URL, node.sourceline))
++         msg.add_marker(marker)
++         msg.add_comment(Comment('This is a reference to an external file such as an image or'
++                                 ' video. When the file changes, the md5 hash will change to'
++@@ -1265,44 +1176,41 @@ class Document (object):
++     def is_translation_unit (self, node):
++         return self.get_its_within_text(node) != 'yes'
++ 
++-    def has_child_elements(self, node):
++-        return len([child for child in xml_child_iter(node) if child.type=='element'])
++-
++     def get_preserve_space (self, node):
++-        while node.type in ('attribute', 'element'):
++-            if node.getSpacePreserve() == 1:
+++        while node is not None:
+++            if node.get('{' + NS_XML + '}space') == 'preserve':
++                 return True
++             if node in self._its_preserve_space_nodes:
++                 return (self._its_preserve_space_nodes[node] == 'preserve')
++-            node = node.parent
+++            node = node.getparent()
++         return False
++ 
++     def get_its_translate(self, node):
++         if node in self._its_translate_nodes_cache:
++             return self._its_translate_nodes_cache[node]
++         val = None
++-        if node.hasNsProp('translate', NS_ITS):
++-            val = node.nsProp('translate', NS_ITS)
++-        elif xml_is_ns_name(node, NS_ITS, 'span') and node.hasNsProp('translate', None):
++-            val = node.nsProp('translate', None)
+++        if '{' + NS_ITS + '}translate' in node.attrib:
+++            val = node.get('{' + NS_ITS + '}translate')
+++        elif node.tag == '{' + NS_ITS + '}span' and 'translate' in node.attrib:
+++            val = node.get('translate')
++         elif node in self._its_translate_nodes:
++             val = self._its_translate_nodes[node]
++         if val is not None:
++             self._its_translate_nodes_cache[node] = val
++             return val
++-        if node.type == 'attribute':
+++        if isinstance(node, XMLAttr):
++             return 'no'
++-        if node.parent.type == 'element':
++-            parval = self.get_its_translate(node.parent)
+++        if node.getparent() is not None:
+++            parval = self.get_its_translate(node.getparent())
++             self._its_translate_nodes_cache[node] = parval
++             return parval
++         return 'yes'
++ 
++     def get_its_within_text(self, node):
++-        if node.hasNsProp('withinText', NS_ITS):
++-            val = node.nsProp('withinText', NS_ITS)
++-        elif xml_is_ns_name(node, NS_ITS, 'span') and node.hasNsProp('withinText', None):
++-            val = node.nsProp('withinText', None)
+++        if '{' + NS_ITS + '}withinText' in node.attrib:
+++            val = node.get('{' + NS_ITS + '}withinText')
+++        elif node.tag == '{' + NS_ITS + '}span' and 'withinText' in node.attrib:
+++            val = node.get('withinText')
++         else:
++             return self._its_within_text_nodes.get(node, 'no')
++         if val in ('yes', 'nested'):
++@@ -1312,73 +1220,63 @@ class Document (object):
++     def get_its_locale_filter(self, node):
++         if node in self._its_locale_filters_cache:
++             return self._its_locale_filters_cache[node]
++-        if node.hasNsProp('localeFilterList', NS_ITS) or node.hasNsProp('localeFilterType', NS_ITS):
++-            if node.hasNsProp('localeFilterList', NS_ITS):
++-                lst = node.nsProp('localeFilterList', NS_ITS)
++-            else:
++-                lst = '*'
++-            if node.hasNsProp('localeFilterType', NS_ITS):
++-                typ = node.nsProp('localeFilterType', NS_ITS)
++-            else:
++-                typ = 'include'
+++        if ('{' + NS_ITS + '}localeFilterList' in node.attrib or
+++            '{' + NS_ITS + '}localeFilterType' in node.attrib):
+++            lst = node.get('{' + NS_ITS + '}localeFilterList', '*')
+++            typ = node.get('{' + NS_ITS + '}localeFilterType', 'include')
++             return (lst, typ)
++-        if (xml_is_ns_name(node, NS_ITS, 'span') and
++-            (node.hasNsProp('localeFilterList', None) or node.hasNsProp('localeFilterType', None))):
++-            if node.hasNsProp('localeFilterList', None):
++-                lst = node.nsProp('localeFilterList', None)
++-            else:
++-                lst = '*'
++-            if node.hasNsProp('localeFilterType', None):
++-                typ = node.nsProp('localeFilterType', None)
++-            else:
++-                typ = 'include'
+++        if (node.tag == '{' + NS_ITS + '}span' and
+++            ('localeFilterList' in node.attrib or 'localeFilterType' in node.attrib)):
+++            lst = node.get('localeFilterList', '*')
+++            typ = node.get('localeFilterType', 'include')
++             return (lst, typ)
++         if node in self._its_locale_filters:
++             return self._its_locale_filters[node]
++-        if node.parent.type == 'element':
++-            parval = self.get_its_locale_filter(node.parent)
+++        if node.getparent() is not None:
+++            parval = self.get_its_locale_filter(node.getparent())
++             self._its_locale_filters_cache[node] = parval
++             return parval
++         return ('*', 'include')
++ 
++     def get_itst_drop(self, node):
++-        if node.hasNsProp('drop', NS_ITST) and node.nsProp('drop', NS_ITST) == 'yes':
+++        if node.get('{' + NS_ITST + '}drop') == 'yes':
++             return 'yes'
++         if self._itst_drop_nodes.get(node, 'no') == 'yes':
++             return 'yes'
++         return 'no'
++ 
++     def get_its_id_value(self, node):
++-        if node.hasNsProp('id', NS_XML):
++-            return node.nsProp('id', NS_XML)
+++        if '{' + NS_XML + '}id' in node.attrib:
+++            return node.get('{' + NS_XML + '}id')
++         return self._its_id_values.get(node, None)
++ 
++     def get_its_loc_notes(self, node, inherit=True):
++         if node in self._its_loc_notes_cache:
++             return self._its_loc_notes_cache[node]
++         ret = []
++-        if ( node.hasNsProp('locNote', NS_ITS)     or
++-             node.hasNsProp('locNoteRef', NS_ITS)  or
++-             node.hasNsProp('locNoteType', NS_ITS) ):
++-            notetype = node.nsProp('locNoteType', NS_ITS)
++-            if node.hasNsProp('locNote', NS_ITS):
++-                ret.append(LocNote(locnote=node.nsProp('locNote', NS_ITS), locnotetype=notetype))
++-            elif node.hasNsProp('locNoteRef', NS_ITS):
++-                ret.append(LocNote(locnoteref=node.nsProp('locNoteRef', NS_ITS), locnotetype=notetype))
++-        elif  xml_is_ns_name(node, NS_ITS, 'span'):
++-            if ( node.hasNsProp('locNote', None)     or
++-                 node.hasNsProp('locNoteRef', None)  or
++-                 node.hasNsProp('locNoteType', None) ):
++-                notetype = node.nsProp('locNoteType', None)
++-                if node.hasNsProp('locNote', None):
++-                    ret.append(LocNote(locnote=node.nsProp('locNote', None), locnotetype=notetype))
++-                elif node.hasNsProp('locNoteRef', None):
++-                    ret.append(LocNote(locnoteref=node.nsProp('locNoteRef', None), locnotetype=notetype))
+++        if ( '{' + NS_ITS + '}locNote'     in node.attrib or
+++             '{' + NS_ITS + '}locNoteRef'  in node.attrib or
+++             '{' + NS_ITS + '}locNoteType' in node.attrib ):
+++            notetype = node.get('{' + NS_ITS + '}locNoteType')
+++            if '{' + NS_ITS + '}locNote' in node.attrib:
+++                ret.append(LocNote(locnote=node.get('{' + NS_ITS + '}locNote'), locnotetype=notetype))
+++            elif '{' + NS_ITS + '}locNoteRef' in node.attrib:
+++                ret.append(LocNote(locnoteref=node.get('{' + NS_ITS + '}locNoteRef'), locnotetype=notetype))
+++        elif node.tag == '{' + NS_ITS + '}span':
+++            if ( 'locNote'     in node.attrib or
+++                 'locNoteRef'  in node.attrib or
+++                 'locNoteType' in node.attrib ):
+++                notetype = node.get('locNoteType')
+++                if 'locNote' in node.attrib:
+++                    ret.append(LocNote(locnote=node.get('locNote'), locnotetype=notetype))
+++                elif 'locNoteRef' in node.attrib:
+++                    ret.append(LocNote(locnoteref=node.get('locNoteRef'), locnotetype=notetype))
++         for locnote in reversed(self._its_loc_notes.get(node, [])):
++             ret.append(locnote)
++         if (len(ret) == 0 and inherit and
++-            node.type != 'attribute' and node.parent is not None and node.parent.type == 'element'):
++-            parval = self.get_its_loc_notes(node.parent)
+++            not isinstance(node, XMLAttr) and
+++            node.getparent() is not None):
+++            parval = self.get_its_loc_notes(node.getparent())
++             self._its_loc_notes_cache[node] = parval
++             return parval
++         self._its_loc_notes_cache[node] = ret
++@@ -1386,12 +1284,12 @@ class Document (object):
++ 
++     def output_test_data(self, category, out, node=None):
++         if node is None:
++-            node = self._doc.getRootElement()
+++            node = self._doc.getroot()
++         compval = ''
++         if category == 'translate':
++             compval = 'translate="%s"' % self.get_its_translate(node)
++         elif category == 'withinText':
++-            if node.type != 'attribute':
+++            if not isinstance(node, XMLAttr):
++                 compval = 'withinText="%s"' % self.get_its_within_text(node)
++         elif category == 'localeFilter':
++             compval = 'localeFilterList="%s"\tlocaleFilterType="%s"' % self.get_its_locale_filter(node)
++@@ -1422,16 +1320,32 @@ class Document (object):
++             out.write('%s\t%s\r\n' % (xml_get_node_path(node), compval))
++         else:
++             out.write('%s\r\n' % (xml_get_node_path(node)))
++-        for attr in sorted(xml_attr_iter(node), key=ustr):
+++        for attrname in sorted(node.keys(), key=ustr):
+++            attr = XMLAttr(node, attrname)
++             self.output_test_data(category, out, attr)
++-        for child in xml_child_iter(node):
++-            if child.type == 'element':
++-                self.output_test_data(category, out, child)
+++        for child in node.iterchildren():
+++            self.output_test_data(category, out, child)
++ 
++-    @staticmethod
++-    def _try_xpath_eval (xpath, expr):
+++    def _try_xpath_eval (self, xpath, expr, node=None):
+++        if node is None:
+++            node = self._doc
+++        elif isinstance(node, XMLAttr):
+++            # lxml doesn't support attributes as XPath context nodes.
+++            if expr == '.':
+++                return [ node ]
+++            sys.stderr.write('Warning: Unsupported XPath on attribute: %s\n' % expr)
+++            return []
++         try:
++-            return xpath.xpathEval(expr)
+++            result = node.xpath(expr, namespaces=xpath[0], **xpath[1])
+++            if not isinstance(result, str):
+++                for i in range(len(result)):
+++                    val = result[i]
+++                    # Use lxml's "smart string" feature to determine
+++                    # the attribute node.
+++                    if (isinstance(val, etree._ElementUnicodeResult) and
+++                        val.is_attribute):
+++                        result[i] = XMLAttr(val.getparent(), val.attrname)
+++            return result
++         except:
++             sys.stderr.write('Warning: Invalid XPath: %s\n' % expr)
++             return []
++@@ -1636,11 +1550,11 @@ if __name__ == '__main__':
++                 raise
++                 sys.stderr.write('Error: Could not merge translations:\n%s\n' % ustr(e))
++                 sys.exit(1)
++-            serialized = doc._doc.serialize('utf-8')
++-            if PY3:
++-                # For some reason, under py3, our serialized data is returns as a str.
++-                # Let's encode it to bytes
++-                serialized = serialized.encode('utf-8')
+++            # lxml generates XML declarations with single quotes.
+++            serialized = (
+++                b'<?xml version="1.0" encoding="utf-8"?>\n' +
+++                etree.tostring(doc._doc, encoding='utf-8') +
+++                b'\n')
++             fout = out
++             fout_is_str = isinstance(fout, string_types)
++             if fout_is_str:
++@@ -1675,11 +1589,11 @@ if __name__ == '__main__':
++             for itsfile in opts.itsfile:
++                 doc.apply_its_file(itsfile, userparams=userparams)
++         doc.join_translations(translations, strict=opts.strict)
++-        serialized = doc._doc.serialize('utf-8')
++-        if PY3:
++-            # For some reason, under py3, our serialized data is returns as a str.
++-            # Let's encode it to bytes
++-            serialized = serialized.encode('utf-8')
+++        # lxml generates XML declarations with single quotes.
+++        serialized = (
+++            b'<?xml version="1.0" encoding="utf-8"?>\n' +
+++            etree.tostring(doc._doc, encoding='utf-8') +
+++            b'\n')
++         out.write(serialized)
++         out.flush()
++ 
++-- 
++2.49.0
++
+diff --git a/meta/recipes-support/itstool/itstool/0003-Fix-element-check.patch b/meta/recipes-support/itstool/itstool/0003-Fix-element-check.patch
+new file mode 100644
+index 0000000000..8d71fa10ef
+--- /dev/null
++++ b/meta/recipes-support/itstool/itstool/0003-Fix-element-check.patch
+@@ -0,0 +1,36 @@
++From 5edd95cf8e1ed5b8aab8102f6ef9b3a24a77c09c Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Mon, 12 May 2025 17:11:31 +0200
++Subject: [PATCH 3/6] Fix element check
++
++Upstream-Status: Submitted [https://github.com/itstool/itstool/pull/57]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ itstool.in | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/itstool.in b/itstool.in
++index 052255e..4c39660 100755
++--- a/itstool.in
+++++ b/itstool.in
++@@ -864,7 +864,6 @@ class Document (object):
++                             newnode.tail = prevtext
++                     i += 1
++ 
++-
++     def merge_translations(self, translations, language, node=None, strict=False):
++         is_root = False
++         if node is None:
++@@ -1026,7 +1025,8 @@ class Document (object):
++         if isinstance(node, etree._Entity):
++             msg.add_entity_ref(node.name)
++             return
++-        if isinstance(node, XMLAttr):
+++        # Only allow elements
+++        if isinstance(node, XMLAttr) or not isinstance(node.tag, str):
++             return
++         if node.get('{' + NS_ITST + '}drop', 'no') == 'yes':
++             return
++-- 
++2.49.0
++
+diff --git a/meta/recipes-support/itstool/itstool/0004-Rewrite-remaining-call-to-addContent.patch b/meta/recipes-support/itstool/itstool/0004-Rewrite-remaining-call-to-addContent.patch
+new file mode 100644
+index 0000000000..0be797788a
+--- /dev/null
++++ b/meta/recipes-support/itstool/itstool/0004-Rewrite-remaining-call-to-addContent.patch
+@@ -0,0 +1,36 @@
++From f14b29d835b776c93e33400983ad6b27b8679ff7 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Tue, 27 May 2025 20:15:56 +0200
++Subject: [PATCH 4/6] Rewrite remaining call to `addContent`
++
++Upstream-Status: Submitted [https://github.com/itstool/itstool/pull/57]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ itstool.in | 11 ++++++++++-
++ 1 file changed, 10 insertions(+), 1 deletion(-)
++
++diff --git a/itstool.in b/itstool.in
++index 4c39660..78887ca 100755
++--- a/itstool.in
+++++ b/itstool.in
++@@ -791,7 +791,16 @@ class Document (object):
++             if val is not None:
++                 if not PY3:
++                     val = val.encode('utf-8')
++-                parent.addContent(val)
+++                if len(parent):
+++                    if parent[-1].tail:
+++                        parent[-1].tail += val
+++                    else:
+++                        parent[-1].tail = val
+++                else:
+++                    if parent.text:
+++                        parent.text += val
+++                    else:
+++                        parent.text = val
++         else:
++             newnode = parent.makeelement(node.tag, node.attrib)
++             parent.append(newnode)
++-- 
++2.49.0
++
+diff --git a/meta/recipes-support/itstool/itstool/0005-Fix-extraction-of-namespaced-attributes-from-langPoi.patch b/meta/recipes-support/itstool/itstool/0005-Fix-extraction-of-namespaced-attributes-from-langPoi.patch
+new file mode 100644
+index 0000000000..f096af7d58
+--- /dev/null
++++ b/meta/recipes-support/itstool/itstool/0005-Fix-extraction-of-namespaced-attributes-from-langPoi.patch
+@@ -0,0 +1,38 @@
++From 1913bb541447f82eab984270f1b430c27fbc0059 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Tue, 27 May 2025 21:45:06 +0200
++Subject: [PATCH 5/6] Fix extraction of namespaced attributes from langPointer
++
++Upstream-Status: Submitted [https://github.com/itstool/itstool/pull/57]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ itstool.in | 12 +++++++++++-
++ 1 file changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/itstool.in b/itstool.in
++index 78887ca..c7729fd 100755
++--- a/itstool.in
+++++ b/itstool.in
++@@ -677,8 +677,18 @@ class Document (object):
++                     # language information. Technically, langPointer could be
++                     # any XPath expression. But if it looks like an attribute
++                     # accessor, just use the attribute name.
+++                    # TODO: This should probably be skipped if langPointer
+++                    # equals '@xml:lang' which is the default.
++                     if lp[0] == '@':
++-                        self._itst_lang_attr[node] = lp[1:]
+++                        name = lp[1:]
+++                        if ':' in name:
+++                            prefix, lname = name.split(':', 2)
+++                            nsuri = node.nsmap.get(prefix)
+++                            if nsuri is None:
+++                                name = lname
+++                            else:
+++                                name = '{' + nsuri + '}' + lname
+++                        self._itst_lang_attr[node] = name
++         elif rule.tag == '{' + NS_ITST + '}credits':
++             sel = rule.get('appendTo')
++             if sel is not None:
++-- 
++2.49.0
++
+diff --git a/meta/recipes-support/itstool/itstool/0006-Handle-missing-placeholders-more-gracefully.patch b/meta/recipes-support/itstool/itstool/0006-Handle-missing-placeholders-more-gracefully.patch
+new file mode 100644
+index 0000000000..df96bf23b6
+--- /dev/null
++++ b/meta/recipes-support/itstool/itstool/0006-Handle-missing-placeholders-more-gracefully.patch
+@@ -0,0 +1,36 @@
++From 5ed7af9560ecd72e008ca76ac31369e4378f60bd Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Wed, 28 May 2025 19:46:44 +0200
++Subject: [PATCH 6/6] Handle missing placeholders more gracefully
++
++Print a warning to stderr instead of crashing.
++
++This is not related to the lxml migration but to issue #1.
++
++Upstream-Status: Submitted [https://github.com/itstool/itstool/pull/57]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ itstool.in | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/itstool.in b/itstool.in
++index c7729fd..eebd181 100755
++--- a/itstool.in
+++++ b/itstool.in
++@@ -1008,7 +1008,12 @@ class Document (object):
++                     continue
++                 qname = etree.QName(child.tag)
++                 if qname.namespace == NS_BLANK:
++-                    ph_node = msg.get_placeholder(qname.localname).node
+++                    ph = msg.get_placeholder(qname.localname)
+++                    if ph is None:
+++                        sys.stderr.write('Warning: Could not find placeholder %s\n' % (
+++                            qname.localname))
+++                        continue
+++                    ph_node = ph.node
++                     if len(ph_node):
++                         self.merge_translations(translations, None, ph_node, strict=strict)
++                         newnode = deepcopy(ph_node)
++-- 
++2.49.0
++
+diff --git a/meta/recipes-support/itstool/itstool_2.0.7.bb b/meta/recipes-support/itstool/itstool_2.0.7.bb
+index ddbc49b6cf..3f0e9aaa52 100644
+--- a/meta/recipes-support/itstool/itstool_2.0.7.bb
++++ b/meta/recipes-support/itstool/itstool_2.0.7.bb
+@@ -12,9 +12,15 @@ LIC_FILES_CHKSUM = "\
+ 
+ inherit autotools python3native
+ 
+-DEPENDS = "libxml2-native"
++DEPENDS = "python3-lxml-native"
+ 
+ SRC_URI = "http://files.itstool.org/${BPN}/${BPN}-${PV}.tar.bz2 \
++           file://0001-Fix-insufficiently-quoted-regular-expressions.patch \
++           file://0002-Switch-from-libxml2-to-lxml.patch \
++           file://0003-Fix-element-check.patch \
++           file://0004-Rewrite-remaining-call-to-addContent.patch \
++           file://0005-Fix-extraction-of-namespaced-attributes-from-langPoi.patch \
++           file://0006-Handle-missing-placeholders-more-gracefully.patch \
             "
+ UPSTREAM_CHECK_URI = "https://itstool.org/download.html"
  
--SRC_URI[archive.sha256sum] = "7ce458a0affeb83f0b55f1f4f9e0e55735dbfc1a9de124ee86fb4a66b597203a"
-+SRC_URI[archive.sha256sum] = "c008bac08fd5c7b4a87f7b8a71f283fa581d80d80ff8d2efd3b26224c39bc54c"
- SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
+@@ -26,4 +32,4 @@ SRC_URI[sha256sum] = "6b9a7cd29a12bb95598f5750e8763cee78836a1a207f85b74d8b3275b2
  
- CVE_STATUS[CVE-2025-6170] = "fixed-version: fixed in version 2.14.5"
+ BBCLASSEXTEND = "native nativesdk"
  
- BINCONFIG = "${bindir}/xml2-config"
- 
--PACKAGECONFIG ??= "python"
--PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python3"
--
- inherit autotools pkgconfig binconfig-disabled ptest
- 
--inherit_defer ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3targetconfig', '', d)}
--
- LDFLAGS:append:riscv64 = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld ptest', ' -fuse-ld=bfd', '', d)}"
- 
--RDEPENDS:${PN}-ptest += "bash make locale-base-en-us ${@bb.utils.contains('PACKAGECONFIG', 'python', 'libgcc python3-core python3-logging python3-shell python3-stringold python3-threading python3-unittest ${PN}-python', '', d)}"
--
--RDEPENDS:${PN}-python += "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3-core', '', d)}"
--
-+RDEPENDS:${PN}-ptest += "bash make locale-base-en-us"
- RDEPENDS:${PN}-ptest:append:libc-musl = " musl-locales"
- RDEPENDS:${PN}-ptest:append:libc-glibc = " glibc-gconv-ebcdic-us \
-                                            glibc-gconv-ibm1141 \
-@@ -49,10 +40,10 @@ RDEPENDS:${PN}-ptest:append:libc-glibc = " glibc-gconv-ebcdic-us \
-                                          "
- 
- # WARNING: zlib is required for RPM use
--EXTRA_OECONF = "--without-debug --without-legacy --with-catalog --with-c14n --without-lzma"
--EXTRA_OECONF:class-native = "--without-legacy --with-c14n --without-lzma --with-zlib"
--EXTRA_OECONF:class-nativesdk = "--without-legacy --with-c14n --without-lzma --with-zlib"
--EXTRA_OECONF:linuxstdbase = "--with-debug --with-legacy --with-c14n --without-lzma --with-zlib"
-+EXTRA_OECONF = "--without-debug --without-legacy --with-catalog --with-c14n"
-+EXTRA_OECONF:class-native = "--without-legacy --with-c14n --with-zlib"
-+EXTRA_OECONF:class-nativesdk = "--without-legacy --with-c14n --with-zlib"
-+EXTRA_OECONF:linuxstdbase = "--with-debug --with-legacy --with-c14n --with-zlib"
- 
- python populate_packages:prepend () {
-     # autonamer would call this libxml2-2, but we don't want that
-@@ -61,11 +52,9 @@ python populate_packages:prepend () {
- }
- 
- PACKAGE_BEFORE_PN += "${PN}-utils"
--PACKAGES += "${PN}-python"
- 
- FILES:${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/*.a"
- FILES:${PN}-utils = "${bindir}/*"
--FILES:${PN}-python = "${PYTHON_SITEPACKAGES_DIR}"
- 
- do_configure:prepend () {
- 	# executables take longer to package: these should not be executable
-@@ -76,10 +65,6 @@ do_install_ptest () {
-     oe_runmake DESTDIR=${D} ptestdir=${PTEST_PATH} install-test-data
- 
- 	cp -r ${S}/xmlconf ${D}${PTEST_PATH}
--
--    if ! ${@bb.utils.contains('PACKAGECONFIG', 'python', 'true', 'false', d)}; then
--        rm -rf ${D}${PTEST_DIR}/python
--    fi
- }
- 
- # with musl we need to enable icu support explicitly for these tests
+-RDEPENDS:${PN} += "libxml2-python"
++RDEPENDS:${PN} += "python3-lxml"
 -- 
 2.34.1
 
