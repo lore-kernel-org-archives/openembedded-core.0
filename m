@@ -1,109 +1,105 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC6C5D1268F
-	for <webhook@archiver.kernel.org>; Wed,  3 Dec 2025 02:26:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3586D1266D
+	for <webhook@archiver.kernel.org>; Wed,  3 Dec 2025 05:22:24 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5946.1764728791918248154
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8163.1764739338365219575
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Dec 2025 18:26:34 -0800
+ Tue, 02 Dec 2025 21:22:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=Q7+xjYG6;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=443295ddc8=changqing.li@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B30liaf1327787
-	for <openembedded-core@lists.openembedded.org>; Tue, 2 Dec 2025 18:26:31 -0800
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=QEfeez88;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4432e9699e=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B34uMIO1120387
+	for <openembedded-core@lists.openembedded.org>; Tue, 2 Dec 2025 21:22:18 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=m/2+3DRtLUTFYIGEq8Ue
-	yZTCWz0rdwj8LUXT0NqzADg=; b=Q7+xjYG6GwRJV8f9ukxUtBZdbjBJU6XkgYek
-	zh3zYMfOC1CwLHxkCI+al3QXEIjZ9TcX3JXrLDaL0vs+SyquF9t5CfX+jx/1uc+z
-	FHfGUuVRSFwwgzkwbQfphlvnBXGO76k/LtunBNsQ/riQSCZJ1+BoVAZMitq0Wj+x
-	P8k2ZpmlpxFsl001yPI/IfwqPaEi3JtRYaCgRQUE7IAnsYNJkZCNEM7XkEdPOtvC
-	bLASCILteLWZeCbuqQxeYnXG5OiFfg384DjYoasEhHNzctfynuwiCAzEV2trLCnk
-	05KGILJavid9XpJKVSW9lpdDoJCu9TRXvfLVQZPIpptORplBtA==
+	:mime-version:subject:to; s=PPS06212021; bh=cjv/9GgcNpmXdBUz0hQy
+	Q9Y5mADccKfxHxvwrbS4qDo=; b=QEfeez88rGtiPXdOg3or6bx/nS64//P6rvAA
+	dNviIkvMEmXUuzj+9zUdbumh6/yjlBLfv8XgHtWOIE+JxVjMZrdhivz26KZW1th9
+	xpZX092Wl1OWIgteQxFas7fuKp8xk45i5R3gbAVG3y6RJ95T4xKdsL80NLsPmzb6
+	Xw5hShPn20bVOsLiQf8G1fJ4BYKqZrRfTzh67sbZk4BAZ+sO8kAKNPPFRKIRCrbU
+	b8ymjvH2jttpFGwBHy46gNyJeERNNYyfexmB/BuxrFY/jHw5eDy7RK99GqB1hwx5
+	1+kp47wLC2cThvA/SPePAMedVn4GC/TPxWztUxGx7ujINmwJ/Q==
 Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4aqw05m0vs-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ar17mv3d8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 18:26:31 -0800 (PST)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+	for <openembedded-core@lists.openembedded.org>; Tue, 02 Dec 2025 21:22:17 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
  ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Tue, 2 Dec 2025 18:26:30 -0800
-Received: from pek-lpg-core6.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Tue, 2 Dec 2025 18:26:30 -0800
-From: <changqing.li@windriver.com>
+ 15.1.2507.61; Tue, 2 Dec 2025 21:22:17 -0800
+Received: from oak-lpgbuild14.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 2 Dec 2025 21:22:17 -0800
+From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] shadow: disable econf
-Date: Wed, 3 Dec 2025 10:26:29 +0800
-Message-ID: <20251203022629.292692-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][PATCH] oeqa/sdk/cases/meson.py: fix assertion for multilib
+Date: Wed, 3 Dec 2025 05:22:17 +0000
+Message-ID: <20251203052217.525069-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-GUID: sfG-xd9_XOtCDTjOfJoT1trQDTesNEEw
-X-Authority-Analysis: v=2.4 cv=ddyNHHXe c=1 sm=1 tr=0 ts=692f9fd7 cx=c_pps
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: MTjgwBQRzPyKPvKTDrjfMVD1mWRg8tHy
+X-Authority-Analysis: v=2.4 cv=Ws4m8Nfv c=1 sm=1 tr=0 ts=692fc909 cx=c_pps
  a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=t7CeM3EgAAAA:8 a=64m-eIDTx6xU9cptawUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: sfG-xd9_XOtCDTjOfJoT1trQDTesNEEw
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAzMDAxNyBTYWx0ZWRfXwyF8x1xF5BPM
- yEEEyz8Xt1xbYptqE9xKmcUh0LLAgpQjJCwvXu6y0Qmm+dC+Vg3172zlO3nlsHXk2e6i2FxStNq
- fQbPKjbqjF9IM39DdH+csr3nzLtvkjCcPfCdOZCtDSk1zFi4JPnFf57FnZYm2g6VPOI8HVTiCfM
- xorzw5iZuVOccoGcdhQYzcvL+tzerV9r3mCschLRnIOhUN3MktfX0Q+ddtU5YWu9aYrQJPyXU6q
- j+jbQJ5J1OvYVHn42uxtUY+WUEggSOwdDxgUflWomp5lnTes1lOq/KjuIZpzT79fyda5iQ+VURt
- LMMiK6Bv+ECtOCT/Wo2IpwkqvkJXg6Vw4fLHdo1KMzBFYS6kMAdDPQwaLe15++Fxnlcp0ex0kSQ
- buDWxW/8Q/pUPtb1PfdFLb1oXBELEw==
+ a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
+ a=Hti7gpGalilrelmGPPoA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: MTjgwBQRzPyKPvKTDrjfMVD1mWRg8tHy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAzMDAzOSBTYWx0ZWRfX0+quJp35/B6c
+ qHzE8CpAv2IpI9j70Rv+ESVReeuLapqLVY8BNZ4DugVA3D+EBRAUeJnGXZpJCoqGm+ZJdUvTvB4
+ yL0/b5I8e0OHg5XkYNVrDprtI/NTIgusIHuuYOFv4zSDcq1LwK2Hrub5APxOhQWZp6Hb/Kj8Fif
+ ag9ukYXEmSUn/uewr8b5cg3Clv8M8F2Qcwo5idE+G5R6fQJQCAmhN6H74FmZzitx1Dbovg/q0I1
+ c+RbZnDkfj2qmQdkbmgOBzTBFsUQ6qa/lUQRF7ffE3Mzw4e2oCN6QjqERZCgogHhhgOxF6Aw3JL
+ 1eLI6uKuw6fkyvpPOsUeyjn9NQJVmlXa7zdnuWFFO4pYMwPlE2yoSSNuZnjQs1cU23FbLfZvjH/
+ Yd4KATBFZnfuqSGRZRvgfUseWNNkHw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-01_01,2025-11-27_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0 phishscore=0
- clxscore=1011 impostorscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ impostorscore=0 malwarescore=0 spamscore=0 phishscore=0 suspectscore=0
+ bulkscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512030017
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5B30liaf1327787
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512030039
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 02:26:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227198
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 05:22:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227199
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-When libeconf is installed on the host and GCC from extended buildtools
-is used, the host=E2=80=99s libeconf is detected and -DUSE_ECONF=3D1 gets=
- enabled.
-However, the buildtools GCC cannot see the host header files, causing
-the shadow-native do_compile fail with error:
-../../shadow-4.17.3/lib/getdef.c:22:10: fatal error: libeconf.h: No such =
-file or directory
+In case of multilib, the values of CC and HOST_ARCH in self.td are
+not valid for lib32. We need to use the env vars sourced by the
+env script.
 
-This patch disable econf to workaround above issue.
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-extended/shadow/shadow_4.18.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/lib/oeqa/sdk/cases/meson.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/shadow/shadow_4.18.0.bb b/meta/recipes=
--extended/shadow/shadow_4.18.0.bb
-index ba65fc7196..9f2fe653ed 100644
---- a/meta/recipes-extended/shadow/shadow_4.18.0.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.18.0.bb
-@@ -46,6 +46,8 @@ EXTRA_OECONF +=3D " \
-                  --without-sssd \
-                  ${NSCDOPT}"
-=20
-+CACHED_CONFIGUREVARS =3D "ac_cv_lib_econf_econf_readDirs=3Dno"
-+
- CFLAGS:append:libc-musl =3D " -DLIBBSD_OVERLAY"
-=20
- NSCDOPT =3D ""
---=20
-2.34.1
+diff --git a/meta/lib/oeqa/sdk/cases/meson.py b/meta/lib/oeqa/sdk/cases/meson.py
+index a809ca3a53..7419988922 100644
+--- a/meta/lib/oeqa/sdk/cases/meson.py
++++ b/meta/lib/oeqa/sdk/cases/meson.py
+@@ -39,11 +39,11 @@ class MesonTestBase(OESDKTestCase):
+ 
+         # Check that the cross-compiler used is the one we set.
+         data = json.loads(self._run(f"meson introspect --compilers {builddir}"))
+-        self.assertIn(self.td.get("CC").split()[0], data["host"]["c"]["exelist"])
++        self.assertIn(self._run("echo $CC").split()[0], data["host"]["c"]["exelist"])
+ 
+         # Check that the target architectures was set correctly.
+         data = json.loads(self._run(f"meson introspect --machines {builddir}"))
+-        self.assertEqual(data["host"]["cpu"], self.td["HOST_ARCH"])
++        self.assertEqual(data["host"]["cpu"], self._run("echo -n $OECORE_MESON_HOST_CPU"))
+ 
+         self._run(f"meson compile -C {builddir} -v")
+ 
+-- 
+2.43.0
 
 
