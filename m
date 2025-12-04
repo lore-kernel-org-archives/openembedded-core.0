@@ -1,169 +1,189 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEDDAD1F9D2
-	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 12:15:15 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.42217.1764850506454662298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD06FD1F9D3
+	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 12:18:15 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.42072.1764850687184989540
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Dec 2025 04:15:08 -0800
+ Thu, 04 Dec 2025 04:18:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=EJ3LZ7XH;
- spf=pass (domain: cherry.de, ip: 52.101.84.50, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=B55ys+9sHUbzMsjbx2O+tGI+Af/pEnRdO/jGEun1HaxR/bxo4QXJfDCypWOT7yNeQlinNmR9kNT3ybQoVO9dVCbny10dnUxCkxP4UvrxgPWW+hwUt3VH39ZrQUIxT9arj1b1AN3SGhIveppDx64e/wumNkvqi+3wW2A+U8/ETrcwtDPfRsABiq71gJdbc7aZ3hV0qxixy6GBp0m6sPjFvL6usuWBkeKZWGF5dbF4KLTo+ClVdduLPEej0E1gvkmPG44XzSk/arYcUV/rca/BHgAOZ31pHWcwXf7mF4oK7HSc7/JK8IEghu0ICkQ8cFnCOC6Bd98O7f74ZglEUWZtVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CLQjlAYF0tGoXmknAdj94OhtC4LJi5MiFqrTmee6UWQ=;
- b=dziFsnCIvND3021mbhia21jENLyirlU9+tglyxN+GEEgrVVYK6XCk05rQL+r7eEDdkq11Qm1J24e+idaeX04xVKX5kZaJdj2E+o9POn7ZJwZ70W0SwCRai7cn0bFj47hnwipRBRca4e/gOKyUcFKhea5POScnI+CvEqzzxOEcr/Qo0wBCMMFRgXDUC+IttluLkc23IBw9ta0ZrmmKkS3wkW575RALUzhbC0l+l/IdPMMHZenxk48vBXCX0UJECP1OgAdaCXNa6799g8mFoaB5lbRCOgSrQFdDHJxTUDahSnyAtw2a0RfElrF5ozMc3C7H3ImTeLSwtjGCw2Cl4NkTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CLQjlAYF0tGoXmknAdj94OhtC4LJi5MiFqrTmee6UWQ=;
- b=EJ3LZ7XHMTAoKjErf1ukZ4LahALCVi+7YDNkfrFV1QnVwBRpPiGfPsEp35XaAL+XyT3p0T+SQsTKZvqByj7tputQFpeoWv1nIXncmiGr8CozuIonYg95mBSGxkomBIytYxWTVjqTDeVFzcLKXg9spTogGIVWp5edtEJJZ7c/e5k=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com (2603:10a6:150:2be::5)
- by FRWPR04MB11248.eurprd04.prod.outlook.com (2603:10a6:d10:172::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Thu, 4 Dec
- 2025 12:14:56 +0000
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::1033:5a9a:dc18:dad]) by GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::1033:5a9a:dc18:dad%4]) with mapi id 15.20.9388.009; Thu, 4 Dec 2025
- 12:14:55 +0000
-Message-ID: <87049290-600b-48ba-9902-71fecc75c247@cherry.de>
-Date: Thu, 4 Dec 2025 13:14:54 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] mesa: upgrade 25.2.5 -> 25.2.7
-To: dmitry.baryshkov@oss.qualcomm.com,
- openembedded-core@lists.openembedded.org
-References: <20251204104814.3255908-1-dmitry.baryshkov@oss.qualcomm.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20251204104814.3255908-1-dmitry.baryshkov@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0017.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:15::22) To GVXPR04MB12038.eurprd04.prod.outlook.com
- (2603:10a6:150:2be::5)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MQvjnNUb;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4775ae77516so9536425e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 04:18:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764850685; x=1765455485; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9sGLRv8w+4STJTkNtiQJlliWeHWuwFE6uIO4cH4/fuQ=;
+        b=MQvjnNUbMVfknx9XKffd4ZdTI3gWMWANnYHtH1yd5Xm9dKqADzSiTLO0ITOTx8xLBs
+         gMBFcOexCs++tIznnpgGa5GXJ2C6BgXmSU9SNMHjtdGLelmnIXrnBT0pbDvKFNsJS27+
+         /JHKtPPo26TgLp3Ns54C0eVIRjUsz5Di2/8MRUoHaN5SaRnBy2VAyamE6pI71u45MlSE
+         WN8JOZQ3Mx2pQL0Wuo+tBQhUqp+dEqdpjox6C2FToW0PtaMz8pfdqQ6vCsZg0Oacm1xc
+         8yvgtDoELS1jswHuELv8ePfgF1pvnrMWfnUrdMXBN+VMOIHx722C71tmKtx8e6yTaZs3
+         0lrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764850685; x=1765455485;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9sGLRv8w+4STJTkNtiQJlliWeHWuwFE6uIO4cH4/fuQ=;
+        b=KMFfZsy4gAMaJ0drlNXjMaZwt8TJSIM7aMoRndv+flRltWY6nlEuX4KuHlGya8K+Zm
+         ElznHdmuiSHjT6Ylzv85oLxb+Sij+9f67Lh9XOTGxeAn38WUPL7k9o5lAtavhY55hl0T
+         Xu2lzl7PCnJ4y35qE86i5u6k09dZ6dPXtugVLK2qKUxL5hKPmzvnyRE1HRSralBPhvlS
+         tD2rXy7627JjLVaciWyj9I9eltiuqU/Y4VhJTLpnJ1FOCMJcHWwopJIBVPWVz2jJ0HKv
+         HQ42sVNKsP16BZoOtFqb1wZPOastA+KcyohdypfUqrV5RIWrewUuEGfpzs+PuDTmUwKk
+         rufA==
+X-Gm-Message-State: AOJu0Yw1ZoL8kxNLl0z9kUkr6PqR8azpje9hYxPwDhUC+XiXeNBzzaU8
+	bhDQfyO2G3F7FDAaVOcudpXCSHUIluTdbhuZUggKHcYwgb9ooYU3/TV7SaSshg==
+X-Gm-Gg: ASbGnctj4NC4WySYIPudR9mMOKIlBz/NrQsOIiKxl6GVz5bLZghc1ppx4Sdjo7ctoK1
+	3RSwWc9FYIEWArbzaiIyxc5StVTLDchuHft+urkm8MY75UHysutJjTNGoJg4w8PYpxftTKx7FK4
+	yLXsBzxvwxkph5FoHdmZPcB8Ojb5f/bFuLLd9pdoEa7g2ymvwGh3hLLDQ2rJklX+o8UwpyMkgt5
+	+Oe1ITsxGD0YsLUx/2cJg7r+W53jKzpL499Qc5+J1iLRhGO6PviKrRF06YZxp3v31v96MDq5uB/
+	0tVQnaj6N00wBDsHW/wJII2hWXf5+eu9VaKpm33z0QLDF1XM8mzcouUpEXouLx2eOYMvU2ylskT
+	2eKbndhxqkdEhYuiOtAUnvVQLk3GrrWQe/BzuX6QarMhmUrx3eW2i9rH2ZiSOZ4ZzlAKxISWpfS
+	ELX9yeiCyYIyguRskq+VqudTUor7kVEXRJQWJwYB+WjPqWPd0=
+X-Google-Smtp-Source: AGHT+IEVZZbVummq2LYhjp1FSmj3baHeV7U/Ix7JfJYJiqXCTw98UoWsLieKDvgLcCFapKJEGfDMVA==
+X-Received: by 2002:a05:600c:198f:b0:46e:1abc:1811 with SMTP id 5b1f17b1804b1-4792af3e17dmr58018355e9.27.1764850685186;
+        Thu, 04 Dec 2025 04:18:05 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479311fbaf4sm25366625e9.15.2025.12.04.04.18.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Dec 2025 04:18:04 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] ffmpeg: add a (possible) build race fix
+Date: Thu,  4 Dec 2025 13:18:00 +0100
+Message-ID: <20251204121800.306162-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB12038:EE_|FRWPR04MB11248:EE_
-X-MS-Office365-Filtering-Correlation-Id: df8e1ff3-a383-4167-bd3d-08de332ebc62
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|10070799003|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?Ry9HMm5rM2tpVm5YVFJRdGNwak5rWUtCc0RTK1pWR2VZWmhuR3MrL3ZHVHhL?=
- =?utf-8?B?TXpuQU00UUJueXlVSHNIcjJKK2xVd3dheXdYbXhiNGVIbXp4d3dDQXduNFNq?=
- =?utf-8?B?UjBKSGJnRkoveEdLcGYyK294cGpIdTZhMGJ2UkJPK2ZubFVDNnNOVkVPTTV4?=
- =?utf-8?B?UHFNYkFmSlhwaXlOK3JuSjFEQnIwRjR6c3p1QTRsMndXMGMzMmNGSVB5TEhD?=
- =?utf-8?B?UlhLR1B4Mk81QlBlblFFa0wrZFNHbUVrRm1kaWJ5dUc5aDl2aC83NkZrd1dM?=
- =?utf-8?B?bXJvcjN3WXJUbHZrS29nbUdhTjdHVTVFbHNXVUl3TnV1N2ZFY3FyeFFxc0JC?=
- =?utf-8?B?TDkrZW5oSS9Ccjd1ZzgwTWJQUkZwd2pqWXFaNmpsREhlSk5xd2labEwvOE5T?=
- =?utf-8?B?TFFhL3VjWVlDNTBSN21ncGU2Mk9NZ1QvVUUydGpMZ3JxNGtpd3RUR0N2Z1p0?=
- =?utf-8?B?OWxmU3FCL2UvdFE5WnB1UDV1bDNNZTVILzI1U01ZMnIxWUdleGVia2tEeklC?=
- =?utf-8?B?L1NKb25hR3c1Z2VOT0hHenVvWTZ4T01uNkZSNjdyV2oyaWQ2TVVQeHZxTUNJ?=
- =?utf-8?B?bkgwdVBaRlhkRGRIUmVQUlc3YVRQM1FRMWFFbVd2UUhydHlmcWZQSFp4U0E0?=
- =?utf-8?B?OEJsT0o5N2VqODVNZDltZ1lOV0dxRU5CV29DdWVDRTlYbzFnVkwrL04xbS82?=
- =?utf-8?B?bm9ubUxPNENXcndIc3dqWVdwUU9WTDZlTDhMRUFPNHd3Y0NkeHBDMDZmaU1n?=
- =?utf-8?B?dEFZZ1JFR0tEenA0VnM1VTh3TXFaUFNDRG4rTlk5L1dnRk03ajE5aytMdjk4?=
- =?utf-8?B?YUswUGdGNDBrWEJ1Z1FKZXo0bXpaeUpubEppamhNS253MzdPT1N1ZnE1TjZn?=
- =?utf-8?B?ZWdsUjA4R1RvVTR4QklBWFFpVUdQcy92VktoTUEvT1JKTDI5NDdoclJsZEdF?=
- =?utf-8?B?dmxLa3EzVzVldUFvVURETDk1bndmbW9sb0Q4MGg2WXNmeXhkbXZvTE1HYWRC?=
- =?utf-8?B?WjZCajB4dVpHSVVyVnVsalVKNzRUMWoxNEMwdkpoUU9KR2p6MkpaTk5DMi9w?=
- =?utf-8?B?WnJibkQ5OHFVTDZSeHRDK3pNSG8vVTU5Wm5zOWlqTzJaSzNhclV0VnlDakx4?=
- =?utf-8?B?TDE2Tmp3Z1NVTERGZHZSZ0NLdTZ4aGs0OXJEcVhzb1dBb3RCOXRjZXU1Yjhn?=
- =?utf-8?B?RHV5cDVtaUp2cmw5WGhLVjV0bC9SdHozUzJ0S2tOS3NlbWRnNExPVUlhWUhX?=
- =?utf-8?B?QkhFbTZjTzBJNjVkN1dUSlhVQlVmRlZiNUxra0toSUpxVWhBcFZQTEJjNEtX?=
- =?utf-8?B?Q0toVUhRS1NjNWhGSmtnaWxqWUNWZmJGaS85QVlkaVI1RnFmNDJVQ1dyQlVr?=
- =?utf-8?B?a1FnYk1uVG9LZ2dJeFZBajltLzFxbTBMbVR3ZG15RTVGKzQrWGErazBHYUZl?=
- =?utf-8?B?ZE5jZVV0TkErOTg5ejBxWkFzMFk5WDhvT3hSWjhCckJRT2FtZVR0Ni8rZDJM?=
- =?utf-8?B?UzFmT2VyT3JnRlEyL2toeVdHM2U1aG4wTURtY05aM0tPT01Kb3EvVm80eTUz?=
- =?utf-8?B?QVNkT2szTHlxUFNocXBIdk9KNEF4V1h1NDkxcSticDI1UXlRdkhYeTVHbGNT?=
- =?utf-8?B?UGZBVFRuUmFVUnZ0WTRIanlIVUJCbklaczlNbkptcTNoOVhaYkpWcVZGaVZ4?=
- =?utf-8?B?TnhLdzRUdXNLYk10NGhxdE9RVXhaeThHd3VyMks0blV3TnVqeGd5M2lVenQ5?=
- =?utf-8?B?bnVzTmx5Rmo5Q3NNOUU4d3BMb3dubWJnN0UzVVVyMHYxMTI1ZjNCZlNMSGZL?=
- =?utf-8?B?N0tLbWhzSlB4RGg1RVJsNFFsWVdxWFZPNVgyQ1ZGWG9sMm8zcGhYQ1NZcS9v?=
- =?utf-8?B?YjhUOWpNWHRZdTh0QldmRHBNNUdxbG5NNk5xY1gwMkRpZ3N1ZTFIN2R4by9w?=
- =?utf-8?Q?uGOsk0mz4bqiCUF7XqNMYKsZJDZzHumB?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12038.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(10070799003)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?WklmM2h2K09lZHJ1WGk4NXE2czFwYXBNRmhxS05nM3lLUUxjdm4yVnNyK0ZT?=
- =?utf-8?B?SzIyYncvTUlLb3I5ck10WHZKK0FaV0Mzc0srVkhXRlltQis3bUh0dHVTN0ti?=
- =?utf-8?B?dzZHclhUR0xITm0wNGtyd0oyZ05vWmNCcVRZRnF4TzZ1WVZhcmpCcnhPKzhk?=
- =?utf-8?B?RFZWampJeStlbk1pblFKNzFZeDdXNU50SkhsSXgrNjNBWm9qdnQrVjZxakxv?=
- =?utf-8?B?cmQrNnMzd2lnUEwwQjI3SVg1aStqclIrRDVUWCtQbmMyN1ZMVHIraGF4bmxs?=
- =?utf-8?B?MzhKWlBpbDVhTHlod1VSUXpRNTdmdjFBaG5VZWNOaWFKQWR4aEFTdjVFZXlX?=
- =?utf-8?B?RWV0UkV3azZtZUpTMkt4YkRvbXE0am5pd0xGWDhJcENyYS81REdqelllK2lR?=
- =?utf-8?B?T3l0Tmcrc3M1V1JudWZXMXl6Y2d3ek45RmNxL0tEaWw4WU42YVJSUk5YTi9F?=
- =?utf-8?B?Uk9PL200MGpSSDhUMjE5NG1iYThGdGc3TzZZQmdSVTlNZmltejk1WkN5d1NS?=
- =?utf-8?B?RW5TUzdxTSt6UXJhY1hZdlhGR2Fnd3FJMTFrYUh3ZFJOd0svYTFZRjJ2Wm93?=
- =?utf-8?B?T2FsLzlXZUYwbkhQWnZXZXJhMlFMdFArSThqVkk3UUNSaGJ0Y04wWnY0eElW?=
- =?utf-8?B?S2hzKzJMZVc2OEl2YTZTSGY4NDEwRGNSNkR5bk1mcDRzWllIR28wc3cxU2VR?=
- =?utf-8?B?VHZDZ2U4UzdrOXgyMXZ5S0pCT2MrVkY3S2NiUU1tc0FmMkg0bU9mWnNPT1Uv?=
- =?utf-8?B?UXV5Mks2SUVjVUlXUHB2YlA4K3lhWXB1MkNpaDdkYktkQjdDQ0xvTEEvSWlm?=
- =?utf-8?B?S21WNmFrQ2kyUG5LeXNUaHFWRFlCUVBkTFJIZmo3Y3NCQUJVb3NkTHRGNlM3?=
- =?utf-8?B?OGtZTms4WmFRQjYwc1lWdzF3TlBHSjl6UnkxL0VFMFR4Zjd1SzdndGpwVjVu?=
- =?utf-8?B?WlpZS3pOVE1VdVZIcS9ZUGVVNVFGSTZ0R3lqNXM3QnYya2FQQzlaQTEyb2NQ?=
- =?utf-8?B?eUxRaERFSllhTm5WemtNTitaNktRRUx0a1AyS3J1T2NmdTZvM0kvdHdGUG5n?=
- =?utf-8?B?ajMvc1BWWTg1L0JzZk1VVkVTNU12Nklic1pUWnRuTDJzVTJrOXdFUzE0QktE?=
- =?utf-8?B?TGU3TjBiaVJ2Y3I5dml4a3JlR1dwcnhRZXNBWUN1aTFqZTRzcVp4OC9Hbm15?=
- =?utf-8?B?TURKZEt6M2NZWmE3WW5XNkx3QWJ5NDBvZzVJSXphcE03MXZ4V3c5YnVydnND?=
- =?utf-8?B?Q21SWjRoSVpwaitUdnc4Uklma1F5dDdjUWpCeTNIK0ovMXhudWs3S1NPWURQ?=
- =?utf-8?B?M1pFRGxiUU9LYXhHbEFlWm9Td1g2SWJOMTJKNE85V25Wai9kTFVMVGdWYVZU?=
- =?utf-8?B?bTFTN1lwdGhjODIwTW1lRDZPNXlMNGxXYWxwWDQ2UGE0VmtSV3lhWXFlTjBE?=
- =?utf-8?B?S2xaN2ZGYVlLTThaR283WXhYWEl2dnNNMkE4YXVxTmJLUnFoRUZtd0Q5ZlI4?=
- =?utf-8?B?QkV6NnRxRVcvZUtXY1lONFgxUyt6RlBmOWFRdzhyTVQ0VzJUM0ZSTHlNbHlm?=
- =?utf-8?B?Y3VNQW1XSjZMOTFYL0VBS0lzM3drTGNOYUdQL2dOaXhZNTFETTFtZnpEc1Vj?=
- =?utf-8?B?Y0tTZGhhcTM5MCtVWGw2UG5jMzZOM2drQkdYUjVMOHh3SDdqTEh4a3ZRaU1m?=
- =?utf-8?B?dFVSK2hrbFZHUjB1aHg3RlJjZ29na2o2bWF1NjNVZWpBZGptZGp6SkJHemdZ?=
- =?utf-8?B?NStQUnRvY1crWXBUNVBKSEFkV0c0cWU4ZHJHd1h3Zy9tS09GSGFSNHY3Ukc3?=
- =?utf-8?B?eS9zaGdQeUFEQVU4NHF3UHlZUG5KUlNva3Y5cTRpbTY1ODRsUFBJRHdqRmxl?=
- =?utf-8?B?YTFJd1VXdGk0RHZyYXRRRVRNdS9YalQxaG5QV09TM2hsYTkxd0NxTmxjQUdi?=
- =?utf-8?B?eTBSSDExd2huOEU0cGd0RzhHSDdpdHNZQWJNL2xZUzc2ZTg3UWgxRWx1R1ZN?=
- =?utf-8?B?aG42OXFhOWE1VFY0Sk5uazQ1V0wwdjhQK0l6NHRPdmc2NWt6b2phRDE1MmR0?=
- =?utf-8?B?TUFLM1RCQjkrMVhSWGI5VG1TTjRYdE9oUzdORkF6dndPRVNTUmZzNTJ2YjFn?=
- =?utf-8?B?UXIrV3V1UjJuZEJLYmNiR1U5LzNpdVN2aU5pUEw3T08xeUxtN3NBNnhVbE54?=
- =?utf-8?Q?MIE3laEXOwCkbDKhqSmzspU=3D?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: df8e1ff3-a383-4167-bd3d-08de332ebc62
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12038.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2025 12:14:55.6793
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 92k5+PcPdRncD6YhDP9MzjCGA4Ikl6CHgmJRfu1ZwOIWKeO2PJk7xaE2oaHJcsTlgULZZiX11SGewHOXDckvqaNmkrWzMCqLd+s+4gw6O+I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRWPR04MB11248
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 12:15:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227287
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 12:18:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227288
 
-Hi Dmitry,
+From: Alexander Kanavin <alex@linutronix.de>
 
-On 12/4/25 11:48 AM, Dmitry Baryshkov via lists.openembedded.org wrote:
-> Pick up the release from 25.2 branch, fixing several issues with the
-> drivers.
-> 
+There's been an intermittent build fail that looks like a race:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=16000
 
-The last release for 25.2 branch, 25.2.8, just got out, maybe we should 
-update to that as well?
+While I can't say for sure if this is fixing the issue,
+there's no harm in adding a backport that rearranges the
+faulty code, and someone can then try to add a real fix on top
+of it. Or the race goes away and we're good.
 
-Went through the log, nothing should require changes aside from the PV 
-and checksum like in this patch.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ ...s-Fix-double-build-by-disabling-.d-f.patch | 78 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb |  4 +-
+ 2 files changed, 81 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch
 
-Cheers,
-Quentin
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch
+new file mode 100644
+index 00000000000..20009c1022b
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch
+@@ -0,0 +1,78 @@
++From a789ffae9de93eb70c355a81f9dd2ebf5d6b17a7 Mon Sep 17 00:00:00 2001
++From: softworkz <softworkz@hotmail.com>
++Date: Mon, 23 Jun 2025 14:56:19 +0200
++Subject: [PATCH] fftools/resources: Fix double-build by disabling .d file
++ generation
++
++Signed-off-by: softworkz <softworkz@hotmail.com>
++
++Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/f52d9dd8693bc4628520258f18f89b4a3bf85533]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ ffbuild/common.mak         |  6 ++----
++ fftools/Makefile           |  1 +
++ fftools/resources/Makefile | 12 +++++++++---
++ 3 files changed, 12 insertions(+), 7 deletions(-)
++
++diff --git a/ffbuild/common.mak b/ffbuild/common.mak
++index ddf4892..81e8a46 100644
++--- a/ffbuild/common.mak
+++++ b/ffbuild/common.mak
++@@ -229,11 +229,9 @@ SKIPHEADERS += $(ARCH_HEADERS:%=$(ARCH)/%) $(SKIPHEADERS-)
++ SKIPHEADERS := $(SKIPHEADERS:%=$(SUBDIR)%)
++ HOBJS        = $(filter-out $(SKIPHEADERS:.h=.h.o),$(ALLHEADERS:.h=.h.o))
++ PTXOBJS      = $(filter %.ptx.o,$(OBJS))
++-RESOURCEOBJS = $(filter %.css.o %.html.o,$(OBJS))
++ $(HOBJS):     CCFLAGS += $(CFLAGS_HEADERS)
++ checkheaders: $(HOBJS)
++-.SECONDARY:   $(HOBJS:.o=.c) $(PTXOBJS:.o=.c) $(PTXOBJS:.o=.gz) $(PTXOBJS:.o=) $(RESOURCEOBJS:.o=.c) $(RESOURCEOBJS:%.css.o=%.css.min) $(RESOURCEOBJS:%.css.o=%.css.min.gz) $(RESOURCEOBJS:%.html.o=%.html.gz) $(RESOURCEOBJS:.o=)
++-
+++.SECONDARY:   $(HOBJS:.o=.c) $(PTXOBJS:.o=.c) $(PTXOBJS:.o=.gz) $(PTXOBJS:.o=)
++ alltools: $(TOOLS)
++ 
++ $(HOSTOBJS): %.o: %.c
++@@ -252,7 +250,7 @@ $(TOOLOBJS): | tools
++ 
++ OUTDIRS := $(OUTDIRS) $(dir $(OBJS) $(HOBJS) $(HOSTOBJS) $(SHLIBOBJS) $(STLIBOBJS) $(TESTOBJS))
++ 
++-CLEANSUFFIXES     = *.d *.gcda *.gcno *.h.c *.ho *.map *.o *.objs *.pc *.ptx *.ptx.gz *.ptx.c *.ver *.version *.html.gz *.html.c *.css.gz *.css.c  *$(DEFAULT_X86ASMD).asm *~ *.ilk *.pdb
+++CLEANSUFFIXES     = *.d *.gcda *.gcno *.h.c *.ho *.map *.o *.objs *.pc *.ptx *.ptx.gz *.ptx.c *.ver *.version *.html.gz *.html.c *.css.min.gz *.css.min *.css.c  *$(DEFAULT_X86ASMD).asm *~ *.ilk *.pdb
++ LIBSUFFIXES       = *.a *.lib *.so *.so.* *.dylib *.dll *.def *.dll.a
++ 
++ define RULES
++diff --git a/fftools/Makefile b/fftools/Makefile
++index b3c08ae..bdb44fc 100644
++--- a/fftools/Makefile
+++++ b/fftools/Makefile
++@@ -36,6 +36,7 @@ OBJS-ffmpeg +=                  \
++     fftools/textformat/tw_buffer.o    \
++     fftools/textformat/tw_stdout.o    \
++     $(OBJS-resman)                    \
+++    $(RESOBJS)                        \
++ 
++ OBJS-ffprobe +=                       \
++     fftools/textformat/avtextformat.o \
++diff --git a/fftools/resources/Makefile b/fftools/resources/Makefile
++index 8579a52..3c93648 100644
++--- a/fftools/resources/Makefile
+++++ b/fftools/resources/Makefile
++@@ -4,10 +4,16 @@ clean::
++ vpath %.html $(SRC_PATH)
++ vpath %.css  $(SRC_PATH)
++ 
++-# Uncomment to prevent deletion during build
++-#.PRECIOUS: %.css.c %.css.min %.css.gz %.css.min.gz %.html.gz %.html.c
++-
++ OBJS-resman +=                     \
++     fftools/resources/resman.o     \
+++
+++
+++RESOBJS +=                         \
++     fftools/resources/graph.html.o \
++     fftools/resources/graph.css.o  \
+++
+++
+++$(RESOBJS): CCDEP       =
+++$(RESOBJS): CC_DEPFLAGS =
+++
+++.SECONDARY: $(RESOBJS:.o=.gz) $(RESOBJS:.o=.c) $(RESOBJS:%.css.o=%.css.min) $(RESOBJS:%.css.o=%.css.min.gz) $(RESOBJS:%.html.o=%.html.gz) $(RESOBJS:.o=)
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb
+index 76be2b04f8a..6187f4cabbb 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.1.bb
+@@ -22,7 +22,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02 \
+                     "
+ 
+-SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz"
++SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
++           file://0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch \
++           "
+ 
+ SRC_URI[sha256sum] = "05ee0b03119b45c0bdb4df654b96802e909e0a752f72e4fe3794f487229e5a41"
+ 
+-- 
+2.47.3
+
 
