@@ -1,106 +1,97 @@
-Return-Path: <Jiaying.Song.CN@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AC0ED1D86D
-	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 06:01:03 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.37099.1764828055795850453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7631DD1D870
+	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 06:36:23 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.37413.1764830181662179321
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Dec 2025 22:00:57 -0800
+ Wed, 03 Dec 2025 22:36:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=LPn4qGaZ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=44335b1eee=jiaying.song.cn@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B45hDKB3941392
-	for <openembedded-core@lists.openembedded.org>; Wed, 3 Dec 2025 22:00:55 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=bhCVIVoxgqBCcnUWgbQ9
-	5xGZwKq4b00gI2JGAcjL1ec=; b=LPn4qGaZB//esUPnEhzE7B737Az/TEl3Fzek
-	GKW02pjmBvS3nkht83bFVaHBLYfL+YMgP/e2TvjzeBoBhI+mQSKqdXxBiGxDIwh8
-	uefv6lnD8jm0AQbtpE5VOeykqpcAnzw7+6KqSTGsu6ux3WoMYgedd8Wmb4uxiy9v
-	Bnwq0tNW1L6nTAG651X8I0tNGmyUblFX/Pm/KyPLXqdZgUZ2mVbHsnKOpvkigfFr
-	8sfsSjQhZrjlCoHcjx71sx0rm3V0SQC+fpms1ks06tdkXPybOxC/erMKYTFyLtGS
-	tXxXPcl+PL7n09A1f+NKqLpQcs6XXJTqt+gaVoQUUTMcQxfoAw==
-Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ar17mwsn2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 22:00:55 -0800 (PST)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 3 Dec 2025 22:00:54 -0800
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 3 Dec 2025 22:00:54 -0800
-From: <jiaying.song.cn@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] icu: exclude debug files from ptest execution
-Date: Thu, 4 Dec 2025 14:00:53 +0800
-Message-ID: <20251204060053.3858475-1-jiaying.song.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fhEkhCSw;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8823fa3bd95so15197326d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 22:36:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764830180; x=1765434980; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=S4DIuBr4DXfmbZYRJ4/rpWsSBfNWYe8hLxX8LVD5SOg=;
+        b=fhEkhCSwhn6JJ5sMImIMPwNrEsowZYNHZ/whCIvPpF0aSGlT2RID0pJ1RHAKaJpTYO
+         H4D2WQp+Wl0PL4b/cyE5ehqVL9jz8sxr3P+6lOAnIiB4jZTdp96cgM5lITyGgQDdtK5+
+         hQhkOpDepZy39/GrthXaOPXnx5s8k1VE+Wx2TaQArX5680iw1WgHL2g14qi8O97+4ojw
+         +bfuo8UGf30grYVxWMtGJ8EhKvRSGxU3h8SHyf0sjODC/B9OOoqAMjvkB9xwYVETDlCR
+         fDL7bApKJ+Oz0BxjLdibegt+fVtWbA+OTFa/tJe6Mx/5f/OpaHhi4TZQZLaD9WRmCNky
+         yu3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764830180; x=1765434980;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S4DIuBr4DXfmbZYRJ4/rpWsSBfNWYe8hLxX8LVD5SOg=;
+        b=XxvafNoJ3r5KfO5WIo6Ai5PQttOqmL8LiNPUIJ3xGeDr5UoXrWzdyZKN7THGBHNoyf
+         mh655PW61VVQbJMYRpTq6P7zza34VWSZ2pHtdlR9pyDkbiExdCe/T/j3Q7w/urZkAzjO
+         8WbhCHcIExXZFHdqGsKvk5x7NPy9RFkNd7NwbjNW5AhJwFccf1U3Thvc7eCi3/0WddTb
+         Z5BcM25sCQfvHGPwpc1kaToUavI6H09iLiTnG9NiUqhO3xCtjGGKt+YmrUkGUresHKpZ
+         f/ydqOeWbeZEm4Axrn+/xTLcMh3Qm/BGVVG9Yc8KCjFewAakYPiNLia1Djuds+PHiPNY
+         UkyA==
+X-Forwarded-Encrypted: i=1; AJvYcCXMAsgTBY2yCvROARyMPUVkISt5JTH6N+1yixePVm5NVyQ4LZcMVxxJ4rA8btGWih0wTj8zdmL11KCmKAEKc0F2KQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwrneP++Yoy0SqKH4JdIKKApHWR6lJV1DfiufiK5VhhWCkx2536
+	Wtoa55bYTIQH1GwrIXg4Ra4JFN7pJOIGoAKFyowYIGa6TtlOdm/fjzmqW/pSlnmFxX6Gy0HB8/i
+	4S2P9VSJ5v6PZqJwFeUcflf8E2G9kTFU=
+X-Gm-Gg: ASbGncuF+grMTBENsIzTXKMmB9g0oIV+uAMNNKP7T9bvKlP323RKSF3jsaESKKwJxFH
+	uETruKy71ybF/HEXtr3zV22/3vDqyxe7qwD4+f/z2h01V99B3HJ4iFVs2tCJLmxmKgnm7tAGqe0
+	wuWg+inmyFgeVVW35uY2L6gfUS4I9CGipQgj3MiCoCiLq5RpqCwkSaYjiDZ0PRcEdPD1ZcXRkyL
+	Y76BZSAVrdCBsyryv3NfZXKKk/58zAQgiXppweCWhhxjJmsp2md3GldFhg3edhF4FQMuYq26JMC
+	3yKSKTCzJGo23Ux7Nnuy9SDmpLIwSQ==
+X-Google-Smtp-Source: AGHT+IH29esGAlsLniJNBk65LRaHklNZLzNu/MycCen5+fHCeflmqeG1RgiOhFS2ngRoubOwE47SfpWmOjVvTpeLrPY=
+X-Received: by 2002:a05:6214:4113:b0:880:5589:54cd with SMTP id
+ 6a1803df08f44-88824579640mr35899996d6.19.1764830180526; Wed, 03 Dec 2025
+ 22:36:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Lu3KdY-gUl7v5RpxlaYoaVOQS_zZw1Po
-X-Authority-Analysis: v=2.4 cv=Ws4m8Nfv c=1 sm=1 tr=0 ts=69312397 cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
- a=Gf-UNYict4WktVKwc3IA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: Lu3KdY-gUl7v5RpxlaYoaVOQS_zZw1Po
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA0MDA0NyBTYWx0ZWRfX4Jx/8YqPCOQ7
- LHc/DVlsn9SkwoHyGpDmQcZ007tMWGsK5JfX6JqZW5uBo7bo1vWqUYnbe2I/V6synXpdUuf+0LI
- uP6LyXMWJSvPMpkYUoD8aDSrvMxeBBU5eDUM0/BlAaWAfTHZOxhrahL63HliqToFdJDkTQ9QOAd
- tJyGm/YkONIy0ytrCT4af8YEohgGTVsPkDPdDmPtGX3YSEOHWWbJEFPQLh6MnLqe67ubUe82HvB
- S8s6eUpyr7P561UB0AR7JpjmfyLa+cL9VoLt/MPyrb3Z4703E4uFTsrBTzOqaFvnR2cfbR54wJu
- JVIxhSO3LpeoHtCJ6m3nBDtcwEQBobF/Ds/wKOlW7CvhRuXupTGBhJ5/mfnqgTa4lyqnuGTSXxf
- p/QzBPb2WIhmNQL+YSCiETYc7U0dmQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-04_01,2025-12-03_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 spamscore=0 phishscore=0 suspectscore=0
- bulkscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512040047
+References: <20251202151032.15053-1-schonm@gmail.com> <20251202151032.15053-2-schonm@gmail.com>
+ <DEOKWAS5XALU.VTBEZYEYZL1J@bootlin.com> <CABTo8gDkybOgXP0ot4iOyJtnezNbMghuhSf9yLLewH4YkLVdOg@mail.gmail.com>
+ <CAMKF1speTaJmuv9+a-FSHBZ1s8gH-DpfJ0DQrEjUjNHprLtreQ@mail.gmail.com>
+In-Reply-To: <CAMKF1speTaJmuv9+a-FSHBZ1s8gH-DpfJ0DQrEjUjNHprLtreQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 4 Dec 2025 07:36:09 +0100
+X-Gm-Features: AWmQ_bkmHhBAU7wiCqFy38Hz7xm_HDPOl1VsiBeSKYJiitUtfK7Ah5J5Q318_0o
+Message-ID: <CANNYZj8MKJAhXM-gN9RFqgR6uf8Fk0u7giWCnppQ0pMxfztXuw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] perl: upgrade 5.40.2 -> 5.42.0
+To: raj.khem@gmail.com
+Cc: schonm@gmail.com, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 06:01:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227268
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 06:36:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227269
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+On Thu, 4 Dec 2025 at 05:14, Khem Raj via lists.openembedded.org
+<raj.khem=gmail.com@lists.openembedded.org> wrote:
+>> In the log files, I find
+>>
+>> Failed to load or import from ExtUtils::ParseXS (version 3.57). Please
+>> check that ExtUtils::ParseXS is installed correctly and that the
+>> newest version will be found in your @INC path
+>>
+>> I note that the version of libextutils-parsexs-perl provided by
+>> meta-openembeded is  3.35.  Which I guess is far out of date.
+>> Metacpan would suggest that is from a 2017 time frame.
+>>
+>
+> Right, you might upgrade it and also propose it to migrating into core layer at same time
+> and once merged send a patch to delete it from meta-perl as well.
 
-When EXTRA_IMAGE_FEATURES contains dbg-pkgs, a .debug directory is
-created containing debug symbol files that cannot be executed, causing
-ptest failures such as:
+I'm not sure that is going to help with the failing test. It is not
+using anything from meta-openembedded, and relies on things in core
+only. And this particular test has passed before the perl upgrade, and
+is failing with it, so it would be good to reproduce both the pass and
+the fail and check exactly what is triggering the fail and why it had
+previously passed.
 
-/usr/lib64/icu/ptest/run-ptest: line 7: ././.debug/cintltst: cannot execute binary file: Exec format error
-FAIL: ./.debug/cintltst
-
-Modify run-ptest script to skip .debug directory files during test
-execution.
-
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
----
- meta/recipes-support/icu/icu/run-ptest | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/icu/icu/run-ptest b/meta/recipes-support/icu/icu/run-ptest
-index e5bf27a822..ccf1d99a36 100755
---- a/meta/recipes-support/icu/icu/run-ptest
-+++ b/meta/recipes-support/icu/icu/run-ptest
-@@ -2,7 +2,7 @@
- 
- TOPDIR=$(dirname "$(realpath $0)")
- cd ${TOPDIR}/test/tests
--TESTS=$(find . -executable -type f)
-+TESTS=$(find . -executable -type f ! -path "*/.debug/*")
- for t in ${TESTS}; do
- 	./$t
- 	if [ "$?" = "0" ]; then
--- 
-2.34.1
-
+Alex
 
