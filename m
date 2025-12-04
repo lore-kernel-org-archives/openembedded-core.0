@@ -2,64 +2,64 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2854DD2446D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E669D24469
 	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 18:10:08 +0000 (UTC)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50366.1764871805925879240
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.50691.1764871801519413639
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Dec 2025 10:10:06 -0800
+ Thu, 04 Dec 2025 10:10:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=c4I7vLw+;
- spf=pass (domain: baylibre.com, ip: 209.85.160.180, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4eda26a04bfso12762331cf.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 10:10:05 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=F3+0TxQW;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.177, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8b28f983333so126039285a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 10:10:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1764871804; x=1765476604; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1764871800; x=1765476600; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DpO0MHJV9TmykGP4kODzWj86T5Q3YuGW/hZu3QoUQWg=;
-        b=c4I7vLw+XOgGPwGdk9lDlJzE2CU6JnFVh3TIhsy+vJVqDhuTId9bb75Or411l41KXb
-         7NtMkFs0ta8M2VSvg5CKz2eAXePcA8GVJBgg/rDWPi1UqV5qo2EElBgNwcJKBHuCXtuL
-         6FmIwCwfo6rGOPnC/96agcv5dDm+RcwOcrxP3NaBSZQTuYl53/4I5f4rjZ2JeqF2IdN2
-         0LRV6XRsDb9K/axg/213m6+xTgJqJQjOD/jsasAXXtS8yQsFQwYAAQaQuHEqJfdX6efA
-         uf8RQCOduUfdC8FRJ2jB/a9t3nPXga5McpD+gEX5wZxCrfKlDU1txJnq8R2HbKhB2OK6
-         3eAg==
+        bh=zhXVSms3IGraJR1AftbJj5A6wIbByeFMJyqlhT2Xiwg=;
+        b=F3+0TxQWmjR8QZEE6MQKo/vAB6dFBczfD75J0T9ui6FlSSaxG05hOhsEAKMpm1zNzs
+         Ssk1yx3ujafpOv2RF4Q7JIdfaipMjF+p5hNEOJ9Fb8bbaGOEmybfRngB+YaNqEiICj9P
+         hkv3+6s/YkYN7frFBXpM8/G1yCfxFC+Cqvw5X2qukoIs4cyW2Xz3Xx0tpRDFxbyXi6kv
+         0mTZO+UkQCRp+oWdYoN7ZeIVkpvPUCSiWt3P45ozzkMFmp2+DDf16xd4vpkivsevqGAA
+         C7gOfgmiyKDRW5yx9z1w7Y9iFbhRRrXWQ3R5n8LLcPEvDeLpMOBIDAs5ssIyR0SbTQIk
+         xvJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764871804; x=1765476604;
+        d=1e100.net; s=20230601; t=1764871800; x=1765476600;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=DpO0MHJV9TmykGP4kODzWj86T5Q3YuGW/hZu3QoUQWg=;
-        b=ldI2UNTwnhUn9NHRZiLtoVSHZFD/OTcxQkK2G0gs8f9xWS18oEz0+QRpv5Uv6P8Ae1
-         LjPaZQB8G/eJbhryZF+MXRIjgEPM5IBxv956S7FcxkE66d1D589YS2I6k1vxN8c4+YSI
-         EJj7zsLk0dk/xV1zK/VztP1/MYhbgERYCzCpqo+sGBQmQWylkc0fLbEaSrASuJGB3kjl
-         d0w+iHiwKDwiPcSrvSWFraM7JFo2hSt5ABJBqEGDdwjnBWRq4/zTuKSpoxyEwKiR8Lmi
-         6Ya2ynE1Qr3RUZjxftQo/UxZdNtf0awBUWbzZfSOjnQIBE/H5McUIxXNiAA4gSeUQXhU
-         tI/A==
-X-Gm-Message-State: AOJu0YzKyEuF+H0uqsGKv15dSE8goHnOGBbIFi+N3/4wzvZUA4iahIiZ
-	Ohyb3py7LPqqJkL9P0mWYOrIbV2jZ56DXd/J2/4hqPeVwxlfr555ry6rd4pM2x3c6ozUVZ61U/o
-	MFWqdl1k=
-X-Gm-Gg: ASbGncv7GnRDZFKWlJJrRpWQuz2FCWRr0R7tTfhCrr0ao+qAgyWfgZG622xxCx4tI1d
-	NyjLNV1f94t0X5kK6DJn6J//kWQ0lztQat0hT2IR/KxoslCn7st7h1fcHy2lmZ6JoqDo5JePp7+
-	p0Ekcdt82h4RRGpo0PzK0lR9f/xcGeXeZCH0z/KwSCzbpDLO74BQQanCRJtEGlP3XGJWz7NLHfK
-	vXRAfiqFiuZq0FLyVeSgrCJISu8F4EGO9j6qJ+AVVWiKe4a87YXP1MT2dJAEgbbXzqW3DFlSKt1
-	dJM7VR1oRmx5z7e1v5s63WEYDyT26MxGqD+4MDme93DfksKpYiZt4NXKpiWs7KcoDxcvGHaq9LW
-	QMQlp+ErsUAbptECBCG3X5MmBy/ECR47nukzAN6ASDBjH3vzuueXlzglidwbN6PGTcMc7QWbX6t
-	Pixgg4np7AkyR/Y+Y=
-X-Google-Smtp-Source: AGHT+IF83hirMmVmc7BXyao/rjk68NJGh5FvtDquenHoZcuuChFHmnvhp9mEVfjbbTOvRdI2dPNOLg==
-X-Received: by 2002:a05:622a:283:b0:4eb:7574:65f6 with SMTP id d75a77b69052e-4f0175064cemr98890461cf.7.1764871804307;
-        Thu, 04 Dec 2025 10:10:04 -0800 (PST)
+        bh=zhXVSms3IGraJR1AftbJj5A6wIbByeFMJyqlhT2Xiwg=;
+        b=g+U87WtQ94TRgxlP5rsrd7srMAVQH61bOz82M6x1Bn44zqutLSpNxG5f+S+Mz0e2Ox
+         qLfc0jxz05sPVuTGCoH4T6wneBVQSkZrZhwFyfBPU1Mckdv8OLOgjIECQTkX8BwEemLt
+         KXUJvnbpMMiOfaYnF0ebSznIS/0NXP6ihjc0NjIyJd2Cy4dEyWNetm8qPDmBjoZP5Mpq
+         QrvuIqG/D8K8hVORiBiT46r+ovjW52tDcc4JMLzZ57MGgEYa6ULPcnmGBYD2calu7lzI
+         KUeMxsbcyxC9RfzciQSKfVhtDv6TzYbGUdr9K32D+MoDOm3rgmbgPAdSlaZEJuz5QbKD
+         pSmQ==
+X-Gm-Message-State: AOJu0YyIaO0EOrozt0+D9I4z0LiOUq9vna0105AoFqTpjc3gbFqZ1VRS
+	tzZgv2bnWeTVWVuQR27pcG8HXKD2awfk8oF5ZzasmkKdoXZ7YbPQkxHTpSOR5SFSMxrckvdJatK
+	c9Tx6rQ8=
+X-Gm-Gg: ASbGncuOF3H2B14t6IN6QSUKTQ8iHRx7ZmTXWEgxdYj6b4H9i4yBEtyv5D8s25t7oO+
+	0kQ5zeJjT2CUVMU6NEG+3Rn0cB7W1KDhx2nb9z/6XQnR+X/DjOrzEZPWtEKWiy4Jk/YG8damAOt
+	pziyliuFPnXRGo55T3P0G8I5vovOUEoMx2ZP12esxESsUbbXXDpAED/lsmP7eTbfvFiXDy6WwMm
+	0yrlbNCIrUUswKLXdE8oi84Wj1NWMmKIuoQcVzgGx2mETlPFb4kEec007L9B9+hYaZkWZhq1ATd
+	sZ/P86Vo9Jf/FNHzk0VO+0jldYC13olvZ6Bf8ZE2LFFDdsilzZ6gLcD6lwyn/ezXM4Hhx9VwxTe
+	czHyeTk3t955klH+GGBm2jWw36Srq7l8IOA765PDb9jdK63zmTCYfzNxpnRmKrirmAxZp2rNBEd
+	QZFqu6+qrdZ4xTFUbbS1LriSGpTQ==
+X-Google-Smtp-Source: AGHT+IF5i9dPSxQesPd/yHKpXZrLbtvAIApWkAkkCXUt2+zLnKXBSAm7+B7mVGGyKZ7iOx4K4O8hKg==
+X-Received: by 2002:a05:622a:1301:b0:4ef:bd1c:69ea with SMTP id d75a77b69052e-4f023ac7091mr57541941cf.65.1764871799920;
+        Thu, 04 Dec 2025 10:09:59 -0800 (PST)
 Received: from localhost ([2001:1970:3847:e000:8598:5636:16ad:2a8f])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f027d58edbsm12317571cf.34.2025.12.04.10.10.02
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f027669f3bsm13547891cf.6.2025.12.04.10.09.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 10:10:03 -0800 (PST)
+        Thu, 04 Dec 2025 10:09:59 -0800 (PST)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 6/6] python3-jsonpointer: add python3-misc to RDEPENDS
-Date: Thu,  4 Dec 2025 13:09:45 -0500
-Message-ID: <20251204180945.3112334-7-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 4/6] rpm: handle CMake Python paths in do_configure
+Date: Thu,  4 Dec 2025 13:09:43 -0500
+Message-ID: <20251204180945.3112334-5-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251204180945.3112334-1-tgamblin@baylibre.com>
 References: <20251204180945.3112334-1-tgamblin@baylibre.com>
@@ -69,34 +69,43 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 18:10:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227321
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227319
 
-jsonpointer's ptest uses unittest, which depends on the internal
-_py_warnings module. This is part of the python3-misc split. However,
-there is also a warning displayed when simply trying to import
-jsonpointer in an interpreter running on the target:
+With the Python 3.14.0 upgrade, rpm is finding the wrong paths with
+CMake, leading to a QA issue for files that we have listed in FILES
+already:
 
-|warning: can't use pyrepl: No module named '_py_warnings'
+|ERROR: QA Issue: rpm: Files/directories were installed but not shipped in any package:
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/rpm/4.20.1/recipe-sysroot-native/usr/lib/python3.14/site-packages/rpm-4.20.1-py3.14.egg-info
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/rpm/4.20.1/recipe-sysroot-native/usr/lib/python3.14/site-packages/rpm/_rpm.so
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/rpm/4.20.1/recipe-sysroot-native/usr/lib/python3.14/site-packages/rpm/transaction.py
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/rpm/4.20.1/recipe-sysroot-native/usr/lib/python3.14/site-packages/rpm/__init__.py
+|Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+|rpm: 4 installed and not shipped files. [installed-vs-shipped]
 
-Add python3-misc to the package RDEPENDS to deal with both issues.
+Add a do_configure:prepend() step to make sure the right ones are found.
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/rpm/rpm_4.20.1.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb b/meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb
-index 0a23dc3100..0fc2a6301d 100644
---- a/meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-jsonpointer_3.0.0.bb
-@@ -17,6 +17,7 @@ do_install_ptest() {
+diff --git a/meta/recipes-devtools/rpm/rpm_4.20.1.bb b/meta/recipes-devtools/rpm/rpm_4.20.1.bb
+index ba967ec1fa..8aa63def61 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.20.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.20.1.bb
+@@ -101,6 +101,11 @@ WRAPPER_TOOLS = " \
  
- RDEPENDS:${PN} += " \
-     python3-json \
-+    python3-misc \
- "
+ base_bindir_progs = "sed tar rm mv mkdir cp cat chown chmod gzip grep"
  
- RDEPENDS:${PN}-ptest += " \
++do_configure:prepend() {
++    # Force CMake to use target Python paths, not native
++    sed -i 's|${Python3_SITEARCH}|${PYTHON_SITEPACKAGES_DIR}|g' ${S}/python/CMakeLists.txt
++}
++
+ do_install:append:class-native() {
+         for tool in ${WRAPPER_TOOLS}; do
+                 test -x ${D}$tool && create_wrapper ${D}$tool \
 -- 
 2.52.0
 
