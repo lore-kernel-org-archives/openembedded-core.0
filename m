@@ -1,165 +1,905 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE8FED1F9D6
-	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 12:46:25 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.42859.1764852379604008011
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C624DD1F9DD
+	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 12:54:15 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.42705.1764852854254935154
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Dec 2025 04:46:19 -0800
+ Thu, 04 Dec 2025 04:54:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=GRKo9WrS;
- spf=pass (domain: cherry.de, ip: 52.101.69.30, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XxcfcnexwW+6k0zYCe0p2jGHbiKiDaqU+IFTQEs/I+3q23SGrrdNlmpClIB5tMMqY2KvvpcqFjhMKry9Sa2tuJIBbATaleLsgoPCXx0iauaG1aQcGr2o5dfTIMCj+vxMIEBJ1I4sTYgMoJl3CnQ87VmMfWaNCZkJ1aSQ8XMW5UritI63+5NbnU19sPBOOlAOQ4HMSjmHCfRvMY4VHPSBMi8wbyneZjJvcnFcd6KPka7zlsyCoCsFqmAM2T3pmx+Kx5whlic77tMNZXGlGK8/7C5w5U+2cXcpvgJmwiRvW77Bs9tFY23pmJ2eKXrzeVr0LOm1QX0hls9yls1gsUyWwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ol90DgBJvGuLY6CdQ1xfRiFWNSiunIqmYdrXryGOnVk=;
- b=EKOgYz6TkXFJQJmBKwddLUX/aav3oGzwrF2+Jrlaf+wrzeI44XAF5I+GNuMDIQyc0RPL9qVQ3HkOUhmXYBfkhTy92vn5CFOUUvofQyfbwomQru/aTNRyQk5Bik1C+VTnQmCSRwT/LVl7a6AP6rCtbcscnDN3yCCDqAt+WkKLd+5BOni5SL16dawJ6ZNKw0XkSB43JXcw5ehF+PsiFVXTBdKr5OJ7r7gHGs9cLZuwjCURY2EqlMlODhW5sEHAH/sOWIXUJL10i/x4qzu6q9NB5kIkbgoVpjEkAAM7uCZe7d1ojULuJjWnOxxQtSE+VidhXUyncVk69apqN1wBU2e9NQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ol90DgBJvGuLY6CdQ1xfRiFWNSiunIqmYdrXryGOnVk=;
- b=GRKo9WrSrFqfDt1xSBTQYiF78di2fjyaTkXkmXpZCcF5SVPotwjnwTUAWqATI7w1uBJ2fNcPtPwA6SLobOqOXEhvFuFZ2Ar5FN8HU28OAL1eV3Z6Yw1fn+3FVzQR0RQnD4SVaGveVV6N5k6Km2EH0SM7WzMwnXkl1wzLjn8kjNM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com (2603:10a6:150:2be::5)
- by DU4PR04MB10742.eurprd04.prod.outlook.com (2603:10a6:10:58c::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.10; Thu, 4 Dec
- 2025 12:46:10 +0000
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::1033:5a9a:dc18:dad]) by GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::1033:5a9a:dc18:dad%4]) with mapi id 15.20.9388.009; Thu, 4 Dec 2025
- 12:46:10 +0000
-Message-ID: <aa6ddc07-4d7f-4914-b2d6-2731772a8852@cherry.de>
-Date: Thu, 4 Dec 2025 13:46:09 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] mesa: upgrade 25.2.5 -> 25.2.8
-To: dmitry.baryshkov@oss.qualcomm.com,
- openembedded-core@lists.openembedded.org
-References: <20251204124504.287824-1-dmitry.baryshkov@oss.qualcomm.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20251204124504.287824-1-dmitry.baryshkov@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: WA0P291CA0006.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1::18) To GVXPR04MB12038.eurprd04.prod.outlook.com
- (2603:10a6:150:2be::5)
+ dkim=pass header.i=@mvista.com header.s=google header.b=DuemEZMG;
+ spf=pass (domain: mvista.com, ip: 209.85.216.50, mailfrom: hprajapati@mvista.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3418ad69672so582838a91.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 04:54:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1764852853; x=1765457653; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HYEP0GZBWzAkv82d4bNsLmnqIhERyMLGaOCiCjPiass=;
+        b=DuemEZMG1FbeXKVQzAIMoCm4LCa2uh40TuTAa7p2RKZMwp31KcH0yoULxE96FyLAi3
+         MFIe+qynFvgs277uCePJ99wmdsQQqUgswqq+1o+NxQy3ZSQgh3TLcr8Lwy2F79Q1Tfsi
+         c16tnbF0F7+Q7a7tOgJFoKQpIuPPe4+m5ifyk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764852853; x=1765457653;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HYEP0GZBWzAkv82d4bNsLmnqIhERyMLGaOCiCjPiass=;
+        b=PX/0tz8XzMW472MP8Hc93hYbbiQqnL6pOY+GtZPtMRFrnLFIkA7F3IVjtxI0/wKSLU
+         a6cR11Ke/UvslnpB2x2TVXtMwwj9J2yltj2PnNN5EG9OwTDK3Wya5pak2k0tnIRJNB/G
+         lE0honA5HpN/RFdwvFXlhZw/fWKvX1h14CyDjyIy0CThONvw5zwyNrInoqtuU+5DxJ3t
+         RPukusw+zlrgzSxHfyDPIFTYs1OMfCckC1IM7VjlbEtKW5p1gbTNC3yaInd4FRGsBo7t
+         D6cPOS2XAn1egQOZzHIM6VPmz102+nfgmrrj143OC8OJ4om7gOMFvSz4IqJ96aBgaaZz
+         TFnA==
+X-Gm-Message-State: AOJu0YyRFtIAYbyeV/hnD3VXcOC44Bhz2zr1LDktaqRXxmGz+drnPFnF
+	asVXJ9MJeYWcpf9nOvt02KyCXggOE8TeojDqB1BarkYY5O2ujysuHV6lyXfk/0+ezKBQHaBRdU8
+	YyumiXFo=
+X-Gm-Gg: ASbGncvlIwizfniP2D0xXXHClJ2jOeCw3KQNE1NYDAFuY6Iqoeqf0d38twfgBlvFK04
+	0pv9IPkST44HuzBvb0g2cHQFWCOmyrR3keQ9wCOsn8ByWzX8WXtLVQPLFCnWkPuL0JBBV0SFHsA
+	KpFZI08cc/ZVd1rviIbn/uwB73UDvDdctSyvVDB8TWqcggNipSmnrlnPe2++3f5EECP/h6yMDMc
+	mJGl3NaPMw2ZLsjQ3wahOIYyjbOf6GwA+gb4V+gYdok8YxjpxA0MC+kQDxDMx1kpBQH7R2dPPor
+	OvF4fWvCLzcJ/V/4B5ZB/t8fMU1q1v628LreociOzjm3fxmZ2cQYyvQo3oqlqfkGNWXxcCMsz+y
+	RnhJoCgGGOQQ3eYMofH+ZG2Bilf5enPIuHsBJWKftx28GqFYp6xs1ejFv/MpQCGwws07UnSLzhx
+	BOhkY21R4bhVsuny84EpHVPIVZ
+X-Google-Smtp-Source: AGHT+IFuREDILi9+Fh+ZV322uqLTcQ0LGmV7G3d7W5hB/JAwxmhHfUB+hjiXnDCGjOaqEQ9LwIYLiw==
+X-Received: by 2002:a17:90b:3cd0:b0:341:88d5:a74e with SMTP id 98e67ed59e1d1-349126e111fmr7108072a91.29.1764852853063;
+        Thu, 04 Dec 2025 04:54:13 -0800 (PST)
+Received: from MVIN00013.mvista.com ([103.250.136.209])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3494f38a263sm1858130a91.3.2025.12.04.04.54.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Dec 2025 04:54:12 -0800 (PST)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] libxml2: Security fix for CVE-2025-7425
+Date: Thu,  4 Dec 2025 18:23:54 +0530
+Message-ID: <20251204125354.59609-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB12038:EE_|DU4PR04MB10742:EE_
-X-MS-Office365-Filtering-Correlation-Id: 625f2eea-84c4-4744-fc11-08de33331a12
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|10070799003|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?clRiVTJLQTJsc0FWVUdLWitaN2lxSXVtOGhYbGh0VGNKQWtSbytlUTRZdFJD?=
- =?utf-8?B?YWZsMFVmbTNhTStkV2FZa2w4MGpwSnVUWnpPR1hKZ1J3NnhUTFBkcFhmTXhy?=
- =?utf-8?B?UDBaS1RvMFluV05EZW5EMFlLaldYVGliaytsRzZGd0JyUGpOTVdPcHVYaDdX?=
- =?utf-8?B?RTViQ0syYndIYWs2b3hWTUozcmJzUW00VEY0VEYzVFdPU0o2MGtkR3RCVEFM?=
- =?utf-8?B?WTVwSHVSK1lkMGlNMHZtUkF4MEE2M1JldDU3YThwNEl3YVJsTmMwS0drMlhu?=
- =?utf-8?B?T3hGcGZqdUkxVUc0ZExYTngxZitzcGJxQmxIdnUxRG5sTGFuNEZOWW1Jazlo?=
- =?utf-8?B?cFp3MElJekVIQ1BTSUYrSG9lYXN6c0hQcTVyUkJoUVk0a2FUYTZOcGxkcXI3?=
- =?utf-8?B?MkJFMlBFZTAvVDdXQWlWY3lhQXlJK21iSmdrUVIvQnZLSHRsa1EzWENKMk5k?=
- =?utf-8?B?dlV3SElsenRwNUR4S1duc2s3RlUzYW1PMENlVkNMMG9keWllOG9jb3RiQWQ0?=
- =?utf-8?B?V3ZwY1Jac2FaWEJWUTJ5VzZHSmdtQTFBY2wxcDU1RkdaK0Y0R0YwclM2bnRT?=
- =?utf-8?B?bnV2cnNiUm9qcEtSa1F4dWg3cEg3TnBWdlQ0alg4dkRDSFZ0N21VaFR3TjdB?=
- =?utf-8?B?dHNKenJSTmlSNUxIL2lTVExrNktQUGMwVStVWE9CZFVSTW5Rb3VzRWdUNitz?=
- =?utf-8?B?QXFiYmFwT2tKaTRvdE1QRXZOSzZSL2VVMXBQN2g2ZjI1bzhMUmxZUENJWjFZ?=
- =?utf-8?B?WnphMW5pMUVzMWhiSllGUVEzQW91cmVKNkNjQTZYR0FVeitKUWZSeUtvbjBa?=
- =?utf-8?B?QTZURlBSekdzQUJRbW1OYmZHMU8wV3ZuKytsY2hZM2U2ZzdUY3piRTF2TVhv?=
- =?utf-8?B?OTFQVkRiUy9zbWtMazFsOUNBSFh2MVhmem1ZNGt2cmJ3MkFQaFB5WGNtbFdS?=
- =?utf-8?B?bmFza2tlWFd6MHdYOW1HQzMvK3FyVC9EUXNEd0FtQzJkeWh0MU84Qy8wTXVF?=
- =?utf-8?B?S1BabWpmZFZ1Mk0waHdKMVhSa1VlakhEemlEdU82RzRlV2l3bmdXV0JxcFlj?=
- =?utf-8?B?RFVEQk5BZ0N4T1o1OVczQmYzS2FjcVQ3Z1pxSW1DTTJzeDVpZjQ0dFd3MGpx?=
- =?utf-8?B?cUZhTkE5OGNZU2orTHZ4Vm5keU5qaGh5NXNlWDhqUWJweDlRKzVaKzNReXZH?=
- =?utf-8?B?b2J1MXdXdTFhRzF6K0cvWWJkVUtTRUxhaE5BVmRkcWZncXk2ajQ3NStpeFY1?=
- =?utf-8?B?citCcjNyakx2NHFWNW5pN3B4ejBuM21uLzJTSDFxdFpXNDRvaWlOY2xKVU1a?=
- =?utf-8?B?ZmNpWCthajNoM1NKWnJqUkZ1RStmbzROa1BybG91TXNUeHdnVnVENTRoRjNs?=
- =?utf-8?B?RFFuOE9Lb2ZHNERlVE1md3JUdFJKa01nTlMyQ1YwRnJ1ejBpTE96MGFsWHdY?=
- =?utf-8?B?eTlLZTF0YkdqU0VkamhvU1RCUk92ZWQ3VUVhdGU5QjFFNWtrVitYUVEwRFJx?=
- =?utf-8?B?SlR6Rmhmcytueno2U3VDZG9qY0VFZWdjR01jMzJwS1FMb3BKaE5VclA2SUlF?=
- =?utf-8?B?TWNwVkRkWXI5VVNTVURrQVZSL01SZ1I2ZEtvSUVCa0ptUmJrMFNTcURNVEZj?=
- =?utf-8?B?TXg4emFOYWhPUjd3bnVTcUM0UWQySlFDSDJ4WHBJUnlJK21GZjRaTHFzMjFn?=
- =?utf-8?B?bmd6OEFFWDlZQ3BFLzROQnFwLzg0ZzJqdHZCMS9sZStnY1NCdDlZZ1V2NFFT?=
- =?utf-8?B?TXVka2NRSHJkUStsc3JSdkwySnd5VHVXSmZUdFc0Q1NiWm5DWVZ1YVlFdXJm?=
- =?utf-8?B?Q3EvSGlBMFZJa1gwKzdtZXJJT2QrVFlaem41REp6QVdCSVV4ZFh4b3BpdzVO?=
- =?utf-8?B?aVFuTktvVWg2WG9OYlRWayt3eFRnQTdYcThmZDErVWVYWTd5SXVRNEF3TTZI?=
- =?utf-8?Q?EEg2Hy1IA9pC1Lh0IDlFdJI0ETBbgbD1?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12038.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(10070799003)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?YTdhOVVLTEdldUpkZHBmQW44dkgwV1EvYnVycS9QelE2Sjh0ZVI0a0RwbXU1?=
- =?utf-8?B?RzFGblVTN3JrWlkxUnZqR283MnlXZkVDZURkbElaVXVUb1ZTM3Znd2VBY0FD?=
- =?utf-8?B?bzRnNExQNnEzRmU5QTgvd0k1cUdQaklHbjYwNHNlYWxNOWZDSDMzQjV2MHV2?=
- =?utf-8?B?amhaa010VWo5RGdodVVONVRrcFljcXJtaE1uVVh0TXBqaVFIV2tIM2FDb2F0?=
- =?utf-8?B?cjVocUpxWWNWc2ltSklJaXBpMVovd3RnOWtBOW8wQlFOWFJDekJUNW1SUDF5?=
- =?utf-8?B?QXZmRjF2dnQrRi9mRVgzb1VrZGJFZUhKTlFBMXA5L0lmdHVjb3dRNHBEZ2lS?=
- =?utf-8?B?eGt0Ry9HV2tud0JRMFJEeTFUSTZaZ0lZai8yQzFqUDFsVVdkNzhsQmpraFd3?=
- =?utf-8?B?dkRZR1pGMWx5Y1c4YUxjUS9sYUQ3amlUWEZ5cmlKRVhraFllVjlYMnBkVjJl?=
- =?utf-8?B?NVBReWFkK2E5d3NJOUlvQ21HajNvcDRmaENJTFlDYmswTGYzZEpTYlkvcWxB?=
- =?utf-8?B?ZGVuNEF2WFlYeUlzaS9uRU96VTRsVzRHMWxOZm9VK016Ty85YWhIeDVVYjl5?=
- =?utf-8?B?R0pKWWwvWWdYNkJadmp4T1R0V0QrKzJVdFVOTVdxclMvY05Gbk5mejFEVWJq?=
- =?utf-8?B?c1VpSzhNTHVORXh3K2kxRmlFR2RNZ1NoL1owM2lRSE9UK2xKbEdkbDJaWkl6?=
- =?utf-8?B?NHh6cjBnMzZGVU41V0t3RTRlTXo5L1BPYVpSL3cyeFBaeHBvVEpnYklSRzJT?=
- =?utf-8?B?SFlISVlwWlBFOVp4QXB0WFp5bWNKa2JCeUZKMTM0b0x2Z2hyczBzbnI2aVF4?=
- =?utf-8?B?anBiZ0pTdGQ2UDN3ZGdNUm1TbTRxOStLSW1TdGJsRGI5eTZsck1xQTFNdUxZ?=
- =?utf-8?B?R202MFNJZGFEMmNMQ2MxbExTTi8zallGR25hVFY1K202RWIxRnlyVmszS0da?=
- =?utf-8?B?QXpuZk0zTXJtUkFVVkZidU5zTjdLWk9KUURrM04xbjhkT1RLWFFIUmRDOW9i?=
- =?utf-8?B?T2lYeHlkTUpOWFRjNVRRdkl3UldKQVV1Mm9aQ3NRemtBNEU1K3B2TXJ2ZDkx?=
- =?utf-8?B?MGNiTlMybHZwcVlNVXpuOEkwcnFWc0huVnFGL3JXeWp0V3NIZmt5VFY2VDVH?=
- =?utf-8?B?eFMxWHRNWDJ3QlVDa0pPbmZsd0VNemZnaGcvUjVXNGFNT3R0R2kzd2dHdzdl?=
- =?utf-8?B?MUZHREcwb2dObCtHQlI3TWhadDhJbVNQQXBocS9SRGs5K1NnWDMydU5wRHJl?=
- =?utf-8?B?M0l5dmxMM2FRSXE4alQyc09rSVptV0Y5MWF6cEJzVjFZM29QRzA0WCtIZHM2?=
- =?utf-8?B?VlhxaVRXYVZaZEFTMjE0TzFoOXAxdzBub2pJS1ViVUZsVS9ZWkpFMklXa1Y3?=
- =?utf-8?B?SGJsKzVPRFBJYUt4YzljTjJ3bVBrcjlvanB0T2FMSzNNY0dqSWxDSDF6OEh4?=
- =?utf-8?B?Z1drMXVyazdmQ0tjaVhoQ05mRnhwUFBLK3VGRGdsbmxxZHhyT0tsYUVJVnh0?=
- =?utf-8?B?WXBQaVlwSWNHQlVObC95R3N1LzlMWmxSR1JZVEdpMHA4UmVFc2IxbVBycThq?=
- =?utf-8?B?WXptcVVkaW14L1M1Z29TeU5QdDBOVTlPR3JlNmJOLzA4aWdSU0lOdkJEZE1n?=
- =?utf-8?B?cGtOTVhoWnJDMjlmaDE5QTc0U2VLbzF3U1JaK0hFTnRhNlB1ZVh6RnBnU3Fw?=
- =?utf-8?B?TmpqR1pibGkxdjc1cE5KRUEwYlZ2b1BHVnovcC8wdUhFTTRaTE01MHQyUG0w?=
- =?utf-8?B?bWtNWHhPbEFHTzA0MDNtajBvdUpDQmVXT0dIS1Y1SUFIUmZDOFB1N3g2eXNw?=
- =?utf-8?B?dVFESWZCY2cyYU5FRjcxQTltRGExNEI3c203RGFuUExOTWZFblhvS0R0MFRJ?=
- =?utf-8?B?VVZpMWhDR1BPMVZrekNjNHBmcC83YkJXdkhDTTlPdUhXSWNIazc2RkQ4U25U?=
- =?utf-8?B?OVZBQml0TXQ3MkZrNnFtNVNveFNmbzZUWGwwbVZVeWVlWmdzbUhUa2Q0RXJp?=
- =?utf-8?B?L3hvb2ZCNWlXblMvQWRSZXlkTWVjdDk2U1d2WStIV2hOK2YwS1QzSVZjWlZj?=
- =?utf-8?B?cUlVRkhsdWVTNGVIdHRmdTNPOHpBVXJjdlVZM0ZETUFNa2M5Y2poeVNISnkr?=
- =?utf-8?B?bGU1OTkvVFc1cU1NRW1XUkh3WEVKVndLRUJHQmVQbWw0R1Rwdzg4c2x2SUhO?=
- =?utf-8?Q?asLlPqHsjuq+63lsjn4axSI=3D?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 625f2eea-84c4-4744-fc11-08de33331a12
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12038.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2025 12:46:10.8333
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8U8CGPFB/E6gNkmCeB8XfpA0no33ERdtfzfMd9PJXgRUhUGNOjGFsQjounMEnDTFaGrCUj0cB+3M/x6bGd9onbb2wTpAdjpSitjTTrjheoY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10742
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 12:46:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227291
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 12:54:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227292
 
-Hi Dmitry,
+CVE-2025-7425
+libxslt: heap-use-after-free in xmlFreeID caused by `atype` corruption
 
-On 12/4/25 1:45 PM, Dmitry Baryshkov via lists.openembedded.org wrote:
-> Pick up the latest (and last) release from 25.2 branch, fixing several
-> issues with the drivers.
-> 
+Origin: https://launchpad.net/ubuntu/+source/libxml2/2.9.14+dfsg-1.3ubuntu3.6
+Ref : https://security-tracker.debian.org/tracker/CVE-2025-7425
 
-Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
+Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libxslt/-/issues/140
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../libxml/libxml2/CVE-2025-7425.patch        | 802 ++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |   1 +
+ 2 files changed, 803 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-7425.patch
 
-Thanks!
-Quentin
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-7425.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-7425.patch
+new file mode 100644
+index 0000000000..c8c9ace82d
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2025-7425.patch
+@@ -0,0 +1,802 @@
++From 87786d6200ae1f5ac98d21f04d451e17ff25a216 Mon Sep 17 00:00:00 2001
++From: David Kilzer <ddkilzer@apple.com>
++Reviewed-By: Aron Xu <aron@debian.org>
++Date: Mon, 23 Jun 2025 14:41:56 -0700
++Subject: [PATCH] libxslt: heap-use-after-free in xmlFreeID caused by `atype`
++ corruption
++
++* include/libxml/tree.h:
++(XML_ATTR_CLEAR_ATYPE): Add.
++(XML_ATTR_GET_ATYPE): Add.
++(XML_ATTR_SET_ATYPE): Add.
++(XML_NODE_ADD_EXTRA): Add.
++(XML_NODE_CLEAR_EXTRA): Add.
++(XML_NODE_GET_EXTRA): Add.
++(XML_NODE_SET_EXTRA): Add.
++(XML_DOC_ADD_PROPERTIES): Add.
++(XML_DOC_CLEAR_PROPERTIES): Add.
++(XML_DOC_GET_PROPERTIES): Add.
++(XML_DOC_SET_PROPERTIES): Add.
++- Add macros for accessing fields with upper bits that may be set by
++  libxslt.
++
++* HTMLparser.c:
++(htmlNewDocNoDtD):
++* SAX2.c:
++(xmlSAX2StartDocument):
++(xmlSAX2EndDocument):
++* parser.c:
++(xmlParseEntityDecl):
++(xmlParseExternalSubset):
++(xmlParseReference):
++(xmlCtxtParseDtd):
++* runxmlconf.c:
++(xmlconfTestInvalid):
++(xmlconfTestValid):
++* tree.c:
++(xmlNewDoc):
++(xmlFreeProp):
++(xmlNodeSetDoc):
++(xmlSetNsProp):
++(xmlDOMWrapAdoptBranch):
++* valid.c:
++(xmlFreeID):
++(xmlAddIDInternal):
++(xmlValidateAttributeValueInternal):
++(xmlValidateOneAttribute):
++(xmlValidateRef):
++* xmlreader.c:
++(xmlTextReaderStartElement):
++(xmlTextReaderStartElementNs):
++(xmlTextReaderValidateEntity):
++(xmlTextReaderRead):
++(xmlTextReaderNext):
++(xmlTextReaderIsEmptyElement):
++(xmlTextReaderPreserve):
++* xmlschemas.c:
++(xmlSchemaPValAttrNodeID):
++* xmlschemastypes.c:
++(xmlSchemaValAtomicType):
++- Adopt macros by renaming the struct fields, recompiling and fixing
++  compiler failures, then changing the struct field names back.
++Origin: https://launchpad.net/ubuntu/+source/libxml2/2.9.14+dfsg-1.3ubuntu3.6
++Ref : https://security-tracker.debian.org/tracker/CVE-2025-7425
++
++CVE: CVE-2025-7425
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/-/issues/140]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ HTMLparser.c          |  1 +
++ SAX2.c                |  6 ++--
++ include/libxml/tree.h | 14 ++++++++-
++ parser.c              |  8 ++---
++ runxmlconf.c          |  4 +--
++ tree.c                | 20 ++++++-------
++ valid.c               | 68 +++++++++++++++++++++----------------------
++ xmlreader.c           | 30 +++++++++----------
++ xmlschemas.c          |  4 +--
++ xmlschemastypes.c     | 12 ++++----
++ 10 files changed, 90 insertions(+), 77 deletions(-)
++
++diff --git a/HTMLparser.c b/HTMLparser.c
++index e720bb2..1307f71 100644
++--- a/HTMLparser.c
+++++ b/HTMLparser.c
++@@ -2514,6 +2514,7 @@ htmlNewDocNoDtD(const xmlChar *URI, const xmlChar *ExternalID) {
++     cur->refs = NULL;
++     cur->_private = NULL;
++     cur->charset = XML_CHAR_ENCODING_UTF8;
+++    XML_DOC_SET_PROPERTIES(cur, XML_DOC_HTML | XML_DOC_USERBUILT);
++     cur->properties = XML_DOC_HTML | XML_DOC_USERBUILT;
++     if ((ExternalID != NULL) ||
++ 	(URI != NULL))
++diff --git a/SAX2.c b/SAX2.c
++index f7c77c2..0d8e84a 100644
++--- a/SAX2.c
+++++ b/SAX2.c
++@@ -970,7 +970,7 @@ xmlSAX2StartDocument(void *ctx)
++ 	    xmlSAX2ErrMemory(ctxt, "xmlSAX2StartDocument");
++ 	    return;
++ 	}
++-	ctxt->myDoc->properties = XML_DOC_HTML;
+++	XML_DOC_SET_PROPERTIES(ctxt->myDoc, XML_DOC_HTML);
++ 	ctxt->myDoc->parseFlags = ctxt->options;
++ #else
++         xmlGenericError(xmlGenericErrorContext,
++@@ -983,9 +983,9 @@ xmlSAX2StartDocument(void *ctx)
++     } else {
++ 	doc = ctxt->myDoc = xmlNewDoc(ctxt->version);
++ 	if (doc != NULL) {
++-	    doc->properties = 0;
+++	    XML_DOC_CLEAR_PROPERTIES(doc);
++ 	    if (ctxt->options & XML_PARSE_OLD10)
++-	        doc->properties |= XML_DOC_OLD10;
+++	        XML_DOC_ADD_PROPERTIES(doc, XML_DOC_OLD10);
++ 	    doc->parseFlags = ctxt->options;
++ 	    if (ctxt->encoding != NULL)
++ 		doc->encoding = xmlStrdup(ctxt->encoding);
++diff --git a/include/libxml/tree.h b/include/libxml/tree.h
++index 1e79be9..61178b2 100644
++--- a/include/libxml/tree.h
+++++ b/include/libxml/tree.h
++@@ -365,7 +365,6 @@ struct _xmlElement {
++ #endif
++ };
++ 
++-
++ /**
++  * XML_LOCAL_NAMESPACE:
++  *
++@@ -446,6 +445,10 @@ struct _xmlAttr {
++     void            *psvi;	/* for type/PSVI information */
++ };
++ 
+++#define XML_ATTR_CLEAR_ATYPE(attr) (((attr)->atype) = 0)
+++#define XML_ATTR_GET_ATYPE(attr) (((attr)->atype) & ~(15U << 27))
+++#define XML_ATTR_SET_ATYPE(attr, type) ((attr)->atype = ((((attr)->atype) & (15U << 27)) | ((type) & ~(15U << 27))))
+++
++ /**
++  * xmlID:
++  *
++@@ -507,6 +510,11 @@ struct _xmlNode {
++     unsigned short   extra;	/* extra data for XPath/XSLT */
++ };
++ 
+++#define XML_NODE_ADD_EXTRA(node, type) ((node)->extra |= ((type) & ~(15U << 12)))
+++#define XML_NODE_CLEAR_EXTRA(node) (((node)->extra) = 0)
+++#define XML_NODE_GET_EXTRA(node) (((node)->extra) & ~(15U << 12))
+++#define XML_NODE_SET_EXTRA(node, type) ((node)->extra = ((((node)->extra) & (15U << 12)) | ((type) & ~(15U << 12))))
+++
++ /**
++  * XML_GET_CONTENT:
++  *
++@@ -585,6 +593,10 @@ struct _xmlDoc {
++ 				   set at the end of parsing */
++ };
++ 
+++#define XML_DOC_ADD_PROPERTIES(doc, type) ((doc)->properties |= ((type) & ~(15U << 27)))
+++#define XML_DOC_CLEAR_PROPERTIES(doc) (((doc)->properties) = 0)
+++#define XML_DOC_GET_PROPERTIES(doc) (((doc)->properties) & ~(15U << 27))
+++#define XML_DOC_SET_PROPERTIES(doc, type) ((doc)->properties = ((((doc)->properties) & (15U << 27)) | ((type) & ~(15U << 27))))
++ 
++ typedef struct _xmlDOMWrapCtxt xmlDOMWrapCtxt;
++ typedef xmlDOMWrapCtxt *xmlDOMWrapCtxtPtr;
++diff --git a/parser.c b/parser.c
++index 738dbee..772d883 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -5523,7 +5523,7 @@ xmlParseEntityDecl(xmlParserCtxtPtr ctxt) {
++ 			    xmlErrMemory(ctxt, "New Doc failed");
++ 			    return;
++ 			}
++-			ctxt->myDoc->properties = XML_DOC_INTERNAL;
+++			XML_DOC_SET_PROPERTIES(ctxt->myDoc, XML_DOC_INTERNAL);
++ 		    }
++ 		    if (ctxt->myDoc->intSubset == NULL)
++ 			ctxt->myDoc->intSubset = xmlNewDtd(ctxt->myDoc,
++@@ -5594,7 +5594,7 @@ xmlParseEntityDecl(xmlParserCtxtPtr ctxt) {
++ 			        xmlErrMemory(ctxt, "New Doc failed");
++ 				return;
++ 			    }
++-			    ctxt->myDoc->properties = XML_DOC_INTERNAL;
+++			    XML_DOC_SET_PROPERTIES(ctxt->myDoc, XML_DOC_INTERNAL);
++ 			}
++ 
++ 			if (ctxt->myDoc->intSubset == NULL)
++@@ -7035,7 +7035,7 @@ xmlParseExternalSubset(xmlParserCtxtPtr ctxt, const xmlChar *ExternalID,
++ 	    xmlErrMemory(ctxt, "New Doc failed");
++ 	    return;
++ 	}
++-	ctxt->myDoc->properties = XML_DOC_INTERNAL;
+++	XML_DOC_SET_PROPERTIES(ctxt->myDoc, XML_DOC_INTERNAL);
++     }
++     if ((ctxt->myDoc != NULL) && (ctxt->myDoc->intSubset == NULL))
++         xmlCreateIntSubset(ctxt->myDoc, NULL, ExternalID, SystemID);
++@@ -7419,7 +7419,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
++ 			    (nw != NULL) &&
++ 			    (nw->type == XML_ELEMENT_NODE) &&
++ 			    (nw->children == NULL))
++-			    nw->extra = 1;
+++			    XML_NODE_SET_EXTRA(nw, 1);
++ 
++ 			break;
++ 		    }
++diff --git a/runxmlconf.c b/runxmlconf.c
++index f43fdd3..82b7241 100644
++--- a/runxmlconf.c
+++++ b/runxmlconf.c
++@@ -197,7 +197,7 @@ xmlconfTestInvalid(const char *id, const char *filename, int options) {
++ 	         id, filename);
++     } else {
++     /* invalidity should be reported both in the context and in the document */
++-        if ((ctxt->valid != 0) || (doc->properties & XML_DOC_DTDVALID)) {
+++        if ((ctxt->valid != 0) || (XML_DOC_GET_PROPERTIES(doc) & XML_DOC_DTDVALID)) {
++ 	    test_log("test %s : %s failed to detect invalid document\n",
++ 		     id, filename);
++ 	    nb_errors++;
++@@ -229,7 +229,7 @@ xmlconfTestValid(const char *id, const char *filename, int options) {
++ 	ret = 0;
++     } else {
++     /* validity should be reported both in the context and in the document */
++-        if ((ctxt->valid == 0) || ((doc->properties & XML_DOC_DTDVALID) == 0)) {
+++        if ((ctxt->valid == 0) || ((XML_DOC_GET_PROPERTIES(doc) & XML_DOC_DTDVALID) == 0)) {
++ 	    test_log("test %s : %s failed to validate a valid document\n",
++ 		     id, filename);
++ 	    nb_errors++;
++diff --git a/tree.c b/tree.c
++index cdf863c..3bac0b8 100644
++--- a/tree.c
+++++ b/tree.c
++@@ -1192,7 +1192,7 @@ xmlNewDoc(const xmlChar *version) {
++     cur->compression = -1; /* not initialized */
++     cur->doc = cur;
++     cur->parseFlags = 0;
++-    cur->properties = XML_DOC_USERBUILT;
+++    XML_DOC_SET_PROPERTIES(cur, XML_DOC_USERBUILT);
++     /*
++      * The in memory encoding is always UTF8
++      * This field will never change and would
++@@ -2119,7 +2119,7 @@ xmlFreeProp(xmlAttrPtr cur) {
++ 	xmlDeregisterNodeDefaultValue((xmlNodePtr)cur);
++ 
++     /* Check for ID removal -> leading to invalid references ! */
++-    if ((cur->doc != NULL) && (cur->atype == XML_ATTRIBUTE_ID)) {
+++    if ((cur->doc != NULL) && (XML_ATTR_GET_ATYPE(cur) == XML_ATTRIBUTE_ID)) {
++ 	    xmlRemoveID(cur->doc, cur);
++     }
++     if (cur->children != NULL) xmlFreeNodeList(cur->children);
++@@ -2838,7 +2838,7 @@ xmlSetTreeDoc(xmlNodePtr tree, xmlDocPtr doc) {
++ 	if(tree->type == XML_ELEMENT_NODE) {
++ 	    prop = tree->properties;
++ 	    while (prop != NULL) {
++-                if (prop->atype == XML_ATTRIBUTE_ID) {
+++                if (XML_ATTR_GET_ATYPE(prop) == XML_ATTRIBUTE_ID) {
++                     xmlRemoveID(tree->doc, prop);
++                 }
++ 
++@@ -6953,9 +6953,9 @@ xmlSetNsProp(xmlNodePtr node, xmlNsPtr ns, const xmlChar *name,
++ 	/*
++ 	* Modify the attribute's value.
++ 	*/
++-	if (prop->atype == XML_ATTRIBUTE_ID) {
+++	if (XML_ATTR_GET_ATYPE(prop) == XML_ATTRIBUTE_ID) {
++ 	    xmlRemoveID(node->doc, prop);
++-	    prop->atype = XML_ATTRIBUTE_ID;
+++	    XML_ATTR_SET_ATYPE(prop, XML_ATTRIBUTE_ID);
++ 	}
++ 	if (prop->children != NULL)
++ 	    xmlFreeNodeList(prop->children);
++@@ -6975,7 +6975,7 @@ xmlSetNsProp(xmlNodePtr node, xmlNsPtr ns, const xmlChar *name,
++ 		tmp = tmp->next;
++ 	    }
++ 	}
++-	if (prop->atype == XML_ATTRIBUTE_ID)
+++	if (XML_ATTR_GET_ATYPE(prop) == XML_ATTRIBUTE_ID)
++ 	    xmlAddID(NULL, node->doc, value, prop);
++ 	return(prop);
++     }
++@@ -9252,7 +9252,7 @@ ns_end:
++ 		if (cur->type == XML_ELEMENT_NODE) {
++ 		    cur->psvi = NULL;
++ 		    cur->line = 0;
++-		    cur->extra = 0;
+++		    XML_NODE_CLEAR_EXTRA(cur);
++ 		    /*
++ 		    * Walk attributes.
++ 		    */
++@@ -9268,11 +9268,11 @@ ns_end:
++ 		    * Attributes.
++ 		    */
++ 		    if ((sourceDoc != NULL) &&
++-			(((xmlAttrPtr) cur)->atype == XML_ATTRIBUTE_ID))
+++			(XML_ATTR_GET_ATYPE((xmlAttrPtr) cur) == XML_ATTRIBUTE_ID))
++ 		    {
++ 			xmlRemoveID(sourceDoc, (xmlAttrPtr) cur);
++ 		    }
++-		    ((xmlAttrPtr) cur)->atype = 0;
+++		    XML_ATTR_CLEAR_ATYPE((xmlAttrPtr) cur);
++ 		    ((xmlAttrPtr) cur)->psvi = NULL;
++ 		}
++ 		break;
++@@ -9992,7 +9992,7 @@ xmlDOMWrapAdoptAttr(xmlDOMWrapCtxtPtr ctxt,
++     }
++ 
++     XML_TREE_ADOPT_STR(attr->name);
++-    attr->atype = 0;
+++    XML_ATTR_CLEAR_ATYPE(attr);
++     attr->psvi = NULL;
++     /*
++     * Walk content.
++diff --git a/valid.c b/valid.c
++index 36a0435..8e76cfa 100644
++--- a/valid.c
+++++ b/valid.c
++@@ -1906,7 +1906,7 @@ xmlScanIDAttributeDecl(xmlValidCtxtPtr ctxt, xmlElementPtr elem, int err) {
++     if (elem == NULL) return(0);
++     cur = elem->attributes;
++     while (cur != NULL) {
++-        if (cur->atype == XML_ATTRIBUTE_ID) {
+++        if (XML_ATTR_GET_ATYPE(cur) == XML_ATTRIBUTE_ID) {
++ 	    ret ++;
++ 	    if ((ret > 1) && (err))
++ 		xmlErrValidNode(ctxt, (xmlNodePtr) elem, XML_DTD_MULTIPLE_ID,
++@@ -2279,7 +2279,7 @@ xmlDumpAttributeDecl(xmlBufferPtr buf, xmlAttributePtr attr) {
++ 	xmlBufferWriteChar(buf, ":");
++     }
++     xmlBufferWriteCHAR(buf, attr->name);
++-    switch (attr->atype) {
+++    switch (XML_ATTR_GET_ATYPE(attr)) {
++ 	case XML_ATTRIBUTE_CDATA:
++ 	    xmlBufferWriteChar(buf, " CDATA");
++ 	    break;
++@@ -2758,7 +2758,7 @@ xmlAddID(xmlValidCtxtPtr ctxt, xmlDocPtr doc, const xmlChar *value,
++ 	return(NULL);
++     }
++     if (attr != NULL)
++-	attr->atype = XML_ATTRIBUTE_ID;
+++	XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ID);
++     return(ret);
++ }
++ 
++@@ -2837,7 +2837,7 @@ xmlIsID(xmlDocPtr doc, xmlNodePtr elem, xmlAttrPtr attr) {
++ 	if ((fullelemname != felem) && (fullelemname != elem->name))
++ 	    xmlFree(fullelemname);
++ 
++-        if ((attrDecl != NULL) && (attrDecl->atype == XML_ATTRIBUTE_ID))
+++        if ((attrDecl != NULL) && (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_ID))
++ 	    return(1);
++     }
++     return(0);
++@@ -2878,7 +2878,7 @@ xmlRemoveID(xmlDocPtr doc, xmlAttrPtr attr) {
++ 
++     xmlHashRemoveEntry(table, ID, xmlFreeIDTableEntry);
++     xmlFree(ID);
++-    attr->atype = 0;
+++    XML_ATTR_CLEAR_ATYPE(attr);
++     return(0);
++ }
++ 
++@@ -3157,8 +3157,8 @@ xmlIsRef(xmlDocPtr doc, xmlNodePtr elem, xmlAttrPtr attr) {
++ 		                         elem->name, attr->name);
++ 
++ 	if ((attrDecl != NULL) &&
++-	    (attrDecl->atype == XML_ATTRIBUTE_IDREF ||
++-	     attrDecl->atype == XML_ATTRIBUTE_IDREFS))
+++	    (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_IDREF ||
+++	     XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_IDREFS))
++ 	return(1);
++     }
++     return(0);
++@@ -3532,7 +3532,7 @@ xmlIsMixedElement(xmlDocPtr doc, const xmlChar *name) {
++ 
++ static int
++ xmlIsDocNameStartChar(xmlDocPtr doc, int c) {
++-    if ((doc == NULL) || (doc->properties & XML_DOC_OLD10) == 0) {
+++    if ((doc == NULL) || (XML_DOC_GET_PROPERTIES(doc) & XML_DOC_OLD10) == 0) {
++         /*
++ 	 * Use the new checks of production [4] [4a] amd [5] of the
++ 	 * Update 5 of XML-1.0
++@@ -3562,7 +3562,7 @@ xmlIsDocNameStartChar(xmlDocPtr doc, int c) {
++ 
++ static int
++ xmlIsDocNameChar(xmlDocPtr doc, int c) {
++-    if ((doc == NULL) || (doc->properties & XML_DOC_OLD10) == 0) {
+++    if ((doc == NULL) || (XML_DOC_GET_PROPERTIES(doc) & XML_DOC_OLD10) == 0) {
++         /*
++ 	 * Use the new checks of production [4] [4a] amd [5] of the
++ 	 * Update 5 of XML-1.0
++@@ -4112,7 +4112,7 @@ xmlValidCtxtNormalizeAttributeValue(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++ 
++     if (attrDecl == NULL)
++ 	return(NULL);
++-    if (attrDecl->atype == XML_ATTRIBUTE_CDATA)
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_CDATA)
++ 	return(NULL);
++ 
++     ret = xmlStrdup(value);
++@@ -4174,7 +4174,7 @@ xmlValidNormalizeAttributeValue(xmlDocPtr doc, xmlNodePtr elem,
++ 
++     if (attrDecl == NULL)
++ 	return(NULL);
++-    if (attrDecl->atype == XML_ATTRIBUTE_CDATA)
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_CDATA)
++ 	return(NULL);
++ 
++     ret = xmlStrdup(value);
++@@ -4189,7 +4189,7 @@ xmlValidateAttributeIdCallback(void *payload, void *data,
++ 	                       const xmlChar *name ATTRIBUTE_UNUSED) {
++     xmlAttributePtr attr = (xmlAttributePtr) payload;
++     int *count = (int *) data;
++-    if (attr->atype == XML_ATTRIBUTE_ID) (*count)++;
+++    if (XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_ID) (*count)++;
++ }
++ 
++ /**
++@@ -4221,7 +4221,7 @@ xmlValidateAttributeDecl(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++     /* Attribute Default Legal */
++     /* Enumeration */
++     if (attr->defaultValue != NULL) {
++-	val = xmlValidateAttributeValueInternal(doc, attr->atype,
+++	val = xmlValidateAttributeValueInternal(doc, XML_ATTR_GET_ATYPE(attr),
++ 	                                        attr->defaultValue);
++ 	if (val == 0) {
++ 	    xmlErrValidNode(ctxt, (xmlNodePtr) attr, XML_DTD_ATTRIBUTE_DEFAULT,
++@@ -4232,7 +4232,7 @@ xmlValidateAttributeDecl(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++     }
++ 
++     /* ID Attribute Default */
++-    if ((attr->atype == XML_ATTRIBUTE_ID)&&
+++    if ((XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_ID)&&
++         (attr->def != XML_ATTRIBUTE_IMPLIED) &&
++ 	(attr->def != XML_ATTRIBUTE_REQUIRED)) {
++ 	xmlErrValidNode(ctxt, (xmlNodePtr) attr, XML_DTD_ID_FIXED,
++@@ -4242,7 +4242,7 @@ xmlValidateAttributeDecl(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++     }
++ 
++     /* One ID per Element Type */
++-    if (attr->atype == XML_ATTRIBUTE_ID) {
+++    if (XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_ID) {
++         int nbId;
++ 
++ 	/* the trick is that we parse DtD as their own internal subset */
++@@ -4501,9 +4501,9 @@ xmlValidateOneAttribute(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++ 	       attr->name, elem->name, NULL);
++ 	return(0);
++     }
++-    attr->atype = attrDecl->atype;
+++    XML_ATTR_SET_ATYPE(attr, attrDecl->atype);
++ 
++-    val = xmlValidateAttributeValueInternal(doc, attrDecl->atype, value);
+++    val = xmlValidateAttributeValueInternal(doc, XML_ATTR_GET_ATYPE(attrDecl), value);
++     if (val == 0) {
++ 	    xmlErrValidNode(ctxt, elem, XML_DTD_ATTRIBUTE_VALUE,
++ 	   "Syntax of value for attribute %s of %s is not valid\n",
++@@ -4522,19 +4522,19 @@ xmlValidateOneAttribute(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++     }
++ 
++     /* Validity Constraint: ID uniqueness */
++-    if (attrDecl->atype == XML_ATTRIBUTE_ID) {
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_ID) {
++         if (xmlAddID(ctxt, doc, value, attr) == NULL)
++ 	    ret = 0;
++     }
++ 
++-    if ((attrDecl->atype == XML_ATTRIBUTE_IDREF) ||
++-	(attrDecl->atype == XML_ATTRIBUTE_IDREFS)) {
+++    if ((XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_IDREF) ||
+++	(XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_IDREFS)) {
++         if (xmlAddRef(ctxt, doc, value, attr) == NULL)
++ 	    ret = 0;
++     }
++ 
++     /* Validity Constraint: Notation Attributes */
++-    if (attrDecl->atype == XML_ATTRIBUTE_NOTATION) {
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_NOTATION) {
++         xmlEnumerationPtr tree = attrDecl->tree;
++         xmlNotationPtr nota;
++ 
++@@ -4564,7 +4564,7 @@ xmlValidateOneAttribute(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++     }
++ 
++     /* Validity Constraint: Enumeration */
++-    if (attrDecl->atype == XML_ATTRIBUTE_ENUMERATION) {
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_ENUMERATION) {
++         xmlEnumerationPtr tree = attrDecl->tree;
++ 	while (tree != NULL) {
++ 	    if (xmlStrEqual(tree->name, value)) break;
++@@ -4589,7 +4589,7 @@ xmlValidateOneAttribute(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++ 
++     /* Extra check for the attribute value */
++     ret &= xmlValidateAttributeValue2(ctxt, doc, attr->name,
++-				      attrDecl->atype, value);
+++				      XML_ATTR_GET_ATYPE(attrDecl), value);
++ 
++     return(ret);
++ }
++@@ -4688,7 +4688,7 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
++ 	return(0);
++     }
++ 
++-    val = xmlValidateAttributeValueInternal(doc, attrDecl->atype, value);
+++    val = xmlValidateAttributeValueInternal(doc, XML_ATTR_GET_ATYPE(attrDecl), value);
++     if (val == 0) {
++ 	if (ns->prefix != NULL) {
++ 	    xmlErrValidNode(ctxt, elem, XML_DTD_INVALID_DEFAULT,
++@@ -4738,7 +4738,7 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
++ #endif
++ 
++     /* Validity Constraint: Notation Attributes */
++-    if (attrDecl->atype == XML_ATTRIBUTE_NOTATION) {
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_NOTATION) {
++         xmlEnumerationPtr tree = attrDecl->tree;
++         xmlNotationPtr nota;
++ 
++@@ -4780,7 +4780,7 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
++     }
++ 
++     /* Validity Constraint: Enumeration */
++-    if (attrDecl->atype == XML_ATTRIBUTE_ENUMERATION) {
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_ENUMERATION) {
++         xmlEnumerationPtr tree = attrDecl->tree;
++ 	while (tree != NULL) {
++ 	    if (xmlStrEqual(tree->name, value)) break;
++@@ -4818,10 +4818,10 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
++     /* Extra check for the attribute value */
++     if (ns->prefix != NULL) {
++ 	ret &= xmlValidateAttributeValue2(ctxt, doc, ns->prefix,
++-					  attrDecl->atype, value);
+++					  XML_ATTR_GET_ATYPE(attrDecl), value);
++     } else {
++ 	ret &= xmlValidateAttributeValue2(ctxt, doc, BAD_CAST "xmlns",
++-					  attrDecl->atype, value);
+++					  XML_ATTR_GET_ATYPE(attrDecl), value);
++     }
++ 
++     return(ret);
++@@ -6574,7 +6574,7 @@ xmlValidateRef(xmlRefPtr ref, xmlValidCtxtPtr ctxt,
++ 	    while (IS_BLANK_CH(*cur)) cur++;
++ 	}
++ 	xmlFree(dup);
++-    } else if (attr->atype == XML_ATTRIBUTE_IDREF) {
+++    } else if (XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_IDREF) {
++ 	id = xmlGetID(ctxt->doc, name);
++ 	if (id == NULL) {
++ 	    xmlErrValidNode(ctxt, attr->parent, XML_DTD_UNKNOWN_ID,
++@@ -6582,7 +6582,7 @@ xmlValidateRef(xmlRefPtr ref, xmlValidCtxtPtr ctxt,
++ 		   attr->name, name, NULL);
++ 	    ctxt->valid = 0;
++ 	}
++-    } else if (attr->atype == XML_ATTRIBUTE_IDREFS) {
+++    } else if (XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_IDREFS) {
++ 	xmlChar *dup, *str = NULL, *cur, save;
++ 
++ 	dup = xmlStrdup(name);
++@@ -6782,7 +6782,7 @@ xmlValidateAttributeCallback(void *payload, void *data,
++ 
++     if (cur == NULL)
++ 	return;
++-    switch (cur->atype) {
+++    switch (XML_ATTR_GET_ATYPE(cur)) {
++ 	case XML_ATTRIBUTE_CDATA:
++ 	case XML_ATTRIBUTE_ID:
++ 	case XML_ATTRIBUTE_IDREF	:
++@@ -6797,7 +6797,7 @@ xmlValidateAttributeCallback(void *payload, void *data,
++ 	    if (cur->defaultValue != NULL) {
++ 
++ 		ret = xmlValidateAttributeValue2(ctxt, ctxt->doc, cur->name,
++-			                         cur->atype, cur->defaultValue);
+++			                         XML_ATTR_GET_ATYPE(cur), cur->defaultValue);
++ 		if ((ret == 0) && (ctxt->valid == 1))
++ 		    ctxt->valid = 0;
++ 	    }
++@@ -6805,14 +6805,14 @@ xmlValidateAttributeCallback(void *payload, void *data,
++ 		xmlEnumerationPtr tree = cur->tree;
++ 		while (tree != NULL) {
++ 		    ret = xmlValidateAttributeValue2(ctxt, ctxt->doc,
++-				    cur->name, cur->atype, tree->name);
+++				    cur->name, XML_ATTR_GET_ATYPE(cur), tree->name);
++ 		    if ((ret == 0) && (ctxt->valid == 1))
++ 			ctxt->valid = 0;
++ 		    tree = tree->next;
++ 		}
++ 	    }
++     }
++-    if (cur->atype == XML_ATTRIBUTE_NOTATION) {
+++    if (XML_ATTR_GET_ATYPE(cur) == XML_ATTRIBUTE_NOTATION) {
++ 	doc = cur->doc;
++ 	if (cur->elem == NULL) {
++ 	    xmlErrValid(ctxt, XML_ERR_INTERNAL_ERROR,
++diff --git a/xmlreader.c b/xmlreader.c
++index 67ff2cd..2a1a66a 100644
++--- a/xmlreader.c
+++++ b/xmlreader.c
++@@ -753,7 +753,7 @@ xmlTextReaderStartElement(void *ctx, const xmlChar *fullname,
++ 	if ((ctxt->node != NULL) && (ctxt->input != NULL) &&
++ 	    (ctxt->input->cur != NULL) && (ctxt->input->cur[0] == '/') &&
++ 	    (ctxt->input->cur[1] == '>'))
++-	    ctxt->node->extra = NODE_IS_EMPTY;
+++	    XML_NODE_SET_EXTRA(ctxt->node, NODE_IS_EMPTY);
++     }
++     if (reader != NULL)
++ 	reader->state = XML_TEXTREADER_ELEMENT;
++@@ -818,7 +818,7 @@ xmlTextReaderStartElementNs(void *ctx,
++ 	if ((ctxt->node != NULL) && (ctxt->input != NULL) &&
++ 	    (ctxt->input->cur != NULL) && (ctxt->input->cur[0] == '/') &&
++ 	    (ctxt->input->cur[1] == '>'))
++-	    ctxt->node->extra = NODE_IS_EMPTY;
+++	    XML_NODE_SET_EXTRA(ctxt->node, NODE_IS_EMPTY);
++     }
++     if (reader != NULL)
++ 	reader->state = XML_TEXTREADER_ELEMENT;
++@@ -1216,7 +1216,7 @@ skip_children:
++ 	        xmlNodePtr tmp;
++ 		if (reader->entNr == 0) {
++ 		    while ((tmp = node->last) != NULL) {
++-			if ((tmp->extra & NODE_IS_PRESERVED) == 0) {
+++			if ((XML_NODE_GET_EXTRA(tmp) & NODE_IS_PRESERVED) == 0) {
++ 			    xmlUnlinkNode(tmp);
++ 			    xmlTextReaderFreeNode(reader, tmp);
++ 			} else
++@@ -1467,7 +1467,7 @@ get_next_node:
++ 	if ((oldstate == XML_TEXTREADER_ELEMENT) &&
++             (reader->node->type == XML_ELEMENT_NODE) &&
++ 	    (reader->node->children == NULL) &&
++-	    ((reader->node->extra & NODE_IS_EMPTY) == 0)
+++	    ((XML_NODE_GET_EXTRA(reader->node) & NODE_IS_EMPTY) == 0)
++ #ifdef LIBXML_XINCLUDE_ENABLED
++ 	    && (reader->in_xinclude <= 0)
++ #endif
++@@ -1481,7 +1481,7 @@ get_next_node:
++ 	    xmlTextReaderValidatePop(reader);
++ #endif /* LIBXML_REGEXP_ENABLED */
++         if ((reader->preserves > 0) &&
++-	    (reader->node->extra & NODE_IS_SPRESERVED))
+++	    (XML_NODE_GET_EXTRA(reader->node) & NODE_IS_SPRESERVED))
++ 	    reader->preserves--;
++ 	reader->node = reader->node->next;
++ 	reader->state = XML_TEXTREADER_ELEMENT;
++@@ -1497,7 +1497,7 @@ get_next_node:
++ 	    (reader->node->prev != NULL) &&
++             (reader->node->prev->type != XML_DTD_NODE)) {
++ 	    xmlNodePtr tmp = reader->node->prev;
++-	    if ((tmp->extra & NODE_IS_PRESERVED) == 0) {
+++	    if ((XML_NODE_GET_EXTRA(tmp) & NODE_IS_PRESERVED) == 0) {
++                 if (oldnode == tmp)
++                     oldnode = NULL;
++ 		xmlUnlinkNode(tmp);
++@@ -1510,7 +1510,7 @@ get_next_node:
++     if ((oldstate == XML_TEXTREADER_ELEMENT) &&
++ 	(reader->node->type == XML_ELEMENT_NODE) &&
++ 	(reader->node->children == NULL) &&
++-	((reader->node->extra & NODE_IS_EMPTY) == 0)) {;
+++	((XML_NODE_GET_EXTRA(reader->node) & NODE_IS_EMPTY) == 0)) {;
++ 	reader->state = XML_TEXTREADER_END;
++ 	goto node_found;
++     }
++@@ -1519,7 +1519,7 @@ get_next_node:
++ 	xmlTextReaderValidatePop(reader);
++ #endif /* LIBXML_REGEXP_ENABLED */
++     if ((reader->preserves > 0) &&
++-	(reader->node->extra & NODE_IS_SPRESERVED))
+++	(XML_NODE_GET_EXTRA(reader->node) & NODE_IS_SPRESERVED))
++ 	reader->preserves--;
++     reader->node = reader->node->parent;
++     if ((reader->node == NULL) ||
++@@ -1546,7 +1546,7 @@ get_next_node:
++ #endif
++ 	    (reader->entNr == 0) &&
++ 	    (oldnode->type != XML_DTD_NODE) &&
++-	    ((oldnode->extra & NODE_IS_PRESERVED) == 0)) {
+++	    ((XML_NODE_GET_EXTRA(oldnode) & NODE_IS_PRESERVED) == 0)) {
++ 	    xmlUnlinkNode(oldnode);
++ 	    xmlTextReaderFreeNode(reader, oldnode);
++ 	}
++@@ -1559,7 +1559,7 @@ get_next_node:
++ #endif
++ 	(reader->entNr == 0) &&
++         (reader->node->last != NULL) &&
++-        ((reader->node->last->extra & NODE_IS_PRESERVED) == 0)) {
+++        ((XML_NODE_GET_EXTRA(reader->node->last) & NODE_IS_PRESERVED) == 0)) {
++ 	xmlNodePtr tmp = reader->node->last;
++ 	xmlUnlinkNode(tmp);
++ 	xmlTextReaderFreeNode(reader, tmp);
++@@ -1741,7 +1741,7 @@ xmlTextReaderNext(xmlTextReaderPtr reader) {
++         return(xmlTextReaderRead(reader));
++     if (reader->state == XML_TEXTREADER_END || reader->state == XML_TEXTREADER_BACKTRACK)
++         return(xmlTextReaderRead(reader));
++-    if (cur->extra & NODE_IS_EMPTY)
+++    if (XML_NODE_GET_EXTRA(cur) & NODE_IS_EMPTY)
++         return(xmlTextReaderRead(reader));
++     do {
++         ret = xmlTextReaderRead(reader);
++@@ -3167,7 +3167,7 @@ xmlTextReaderIsEmptyElement(xmlTextReaderPtr reader) {
++     if (reader->in_xinclude > 0)
++         return(1);
++ #endif
++-    return((reader->node->extra & NODE_IS_EMPTY) != 0);
+++    return((XML_NODE_GET_EXTRA(reader->node) & NODE_IS_EMPTY) != 0);
++ }
++ 
++ /**
++@@ -4035,15 +4035,15 @@ xmlTextReaderPreserve(xmlTextReaderPtr reader) {
++         return(NULL);
++ 
++     if ((cur->type != XML_DOCUMENT_NODE) && (cur->type != XML_DTD_NODE)) {
++-	cur->extra |= NODE_IS_PRESERVED;
++-	cur->extra |= NODE_IS_SPRESERVED;
+++	XML_NODE_ADD_EXTRA(cur, NODE_IS_PRESERVED);
+++	XML_NODE_ADD_EXTRA(cur, NODE_IS_SPRESERVED);
++     }
++     reader->preserves++;
++ 
++     parent = cur->parent;;
++     while (parent != NULL) {
++         if (parent->type == XML_ELEMENT_NODE)
++-	    parent->extra |= NODE_IS_PRESERVED;
+++	    XML_NODE_ADD_EXTRA(parent, NODE_IS_PRESERVED);
++ 	parent = parent->parent;
++     }
++     return(cur);
++diff --git a/xmlschemas.c b/xmlschemas.c
++index a2dd6cf..2e6c349 100644
++--- a/xmlschemas.c
+++++ b/xmlschemas.c
++@@ -6024,7 +6024,7 @@ xmlSchemaPValAttrNodeID(xmlSchemaParserCtxtPtr ctxt, xmlAttrPtr attr)
++ 	/*
++ 	* NOTE: the IDness might have already be declared in the DTD
++ 	*/
++-	if (attr->atype != XML_ATTRIBUTE_ID) {
+++	if (XML_ATTR_GET_ATYPE(attr) != XML_ATTRIBUTE_ID) {
++ 	    xmlIDPtr res;
++ 	    xmlChar *strip;
++ 
++@@ -6047,7 +6047,7 @@ xmlSchemaPValAttrNodeID(xmlSchemaParserCtxtPtr ctxt, xmlAttrPtr attr)
++ 		    NULL, NULL, "Duplicate value '%s' of simple "
++ 		    "type 'xs:ID'", value, NULL);
++ 	    } else
++-		attr->atype = XML_ATTRIBUTE_ID;
+++		XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ID);
++ 	}
++     } else if (ret > 0) {
++ 	ret = XML_SCHEMAP_S4S_ATTR_INVALID_VALUE;
++diff --git a/xmlschemastypes.c b/xmlschemastypes.c
++index af31be5..d40da49 100644
++--- a/xmlschemastypes.c
+++++ b/xmlschemastypes.c
++@@ -2867,7 +2867,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
++                 /*
++                  * NOTE: the IDness might have already be declared in the DTD
++                  */
++-                if (attr->atype != XML_ATTRIBUTE_ID) {
+++                if (XML_ATTR_GET_ATYPE(attr) != XML_ATTRIBUTE_ID) {
++                     xmlIDPtr res;
++                     xmlChar *strip;
++ 
++@@ -2880,7 +2880,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
++                     if (res == NULL) {
++                         ret = 2;
++                     } else {
++-                        attr->atype = XML_ATTRIBUTE_ID;
+++                        XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ID);
++                     }
++                 }
++             }
++@@ -2905,7 +2905,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
++                     xmlFree(strip);
++                 } else
++                     xmlAddRef(NULL, node->doc, value, attr);
++-                attr->atype = XML_ATTRIBUTE_IDREF;
+++                XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_IDREF);
++             }
++             goto done;
++         case XML_SCHEMAS_IDREFS:
++@@ -2919,7 +2919,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
++                 (node->type == XML_ATTRIBUTE_NODE)) {
++                 xmlAttrPtr attr = (xmlAttrPtr) node;
++ 
++-                attr->atype = XML_ATTRIBUTE_IDREFS;
+++                XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_IDREFS);
++             }
++             goto done;
++         case XML_SCHEMAS_ENTITY:{
++@@ -2950,7 +2950,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
++                     (node->type == XML_ATTRIBUTE_NODE)) {
++                     xmlAttrPtr attr = (xmlAttrPtr) node;
++ 
++-                    attr->atype = XML_ATTRIBUTE_ENTITY;
+++                    XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ENTITY);
++                 }
++                 goto done;
++             }
++@@ -2967,7 +2967,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
++                 (node->type == XML_ATTRIBUTE_NODE)) {
++                 xmlAttrPtr attr = (xmlAttrPtr) node;
++ 
++-                attr->atype = XML_ATTRIBUTE_ENTITIES;
+++                XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ENTITIES);
++             }
++             goto done;
++         case XML_SCHEMAS_NOTATION:{
++-- 
++2.50.1
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+index 932251da98..05a7dce95b 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+@@ -43,6 +43,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
+            file://CVE-2025-49794-CVE-2025-49796.patch \
+            file://CVE-2025-6170.patch \
+            file://CVE-2025-9714.patch \
++           file://CVE-2025-7425.patch \
+            "
+ 
+ SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
+-- 
+2.50.1
+
 
