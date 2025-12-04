@@ -1,905 +1,310 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C624DD1F9DD
-	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 12:54:15 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.42705.1764852854254935154
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2AD5D20682
+	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 12:57:25 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.42763.1764853036001868525
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Dec 2025 04:54:14 -0800
+ Thu, 04 Dec 2025 04:57:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=DuemEZMG;
- spf=pass (domain: mvista.com, ip: 209.85.216.50, mailfrom: hprajapati@mvista.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3418ad69672so582838a91.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 04:54:14 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=G18F0Qrx;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@oss.qualcomm.com header.s=google header.b=ONQ7Gvoe;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B4AEr7P926176
+	for <openembedded-core@lists.openembedded.org>; Thu, 4 Dec 2025 12:57:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	TEKayXRiLhOfbg76WooLxpAyOAALL1ZoipMeUDT9Yik=; b=G18F0QrxF6XMu1xF
+	a2FoAMLD983q8JQdtHVxeZJwrNXndeHWCoCLkrIV1dKmBWTbGRSF6qeREj2CHDIr
+	QcvpC6igokfSuu2vSqeB0EDN8w92/FkwQPvnXaE5ORebxMQm2BMDlho1bKAvHGeo
+	G+sPRzvLZYniR1xd6jWPqiqZ62pnt1JRGwtneHrFM2z2UC+wV7uQRu4myfNIADNt
+	fK2AFjT5amvy/CUyMtNb69e757H0N/iWplRCa0p7vfm4lEsbfjtpOGQ3NHQEgYOq
+	vsmaL8/0POuyMVOa83ObKVIlss9ilVcxeCQ7iUca8SARy8Y/MkTVvOxzUQRXDsoH
+	TE8pLw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4au5m311q5-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 12:57:14 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8b24383b680so312336385a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 04:57:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1764852853; x=1765457653; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HYEP0GZBWzAkv82d4bNsLmnqIhERyMLGaOCiCjPiass=;
-        b=DuemEZMG1FbeXKVQzAIMoCm4LCa2uh40TuTAa7p2RKZMwp31KcH0yoULxE96FyLAi3
-         MFIe+qynFvgs277uCePJ99wmdsQQqUgswqq+1o+NxQy3ZSQgh3TLcr8Lwy2F79Q1Tfsi
-         c16tnbF0F7+Q7a7tOgJFoKQpIuPPe4+m5ifyk=
+        d=oss.qualcomm.com; s=google; t=1764853034; x=1765457834; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=TEKayXRiLhOfbg76WooLxpAyOAALL1ZoipMeUDT9Yik=;
+        b=ONQ7GvoeYSnK0VzPiZNtH3HNq5Kr5OJYl6tBUbxp4+YOmhp8gr+Trj9EoHVt6qAdZj
+         skQV+7bMZ0kI/NRAdeklfBcKLA7ixGDMiDN1qTfCgsbLGmvwpb6QMkWI4CzEJ21Zp+Tx
+         xuS36LWx6jjflRZ1MLKGBBdPC1AEO0ZXc+U/dw7xcjbfooXsQqKlAEltoTtpzeMUWppl
+         YayjBmeoRGtboqHB2maGiKJb9j3Xx9R/VHbmJAa1zHxSRc4z1sxp+/HKnQAwrm7XI3Ix
+         W2GMniJ2uLmT3NtNtKPCU9lxKvvJp1aei1jw9asb4L4glqr9UnWOAABIsc+p8/1AQdbH
+         7Y2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764852853; x=1765457653;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HYEP0GZBWzAkv82d4bNsLmnqIhERyMLGaOCiCjPiass=;
-        b=PX/0tz8XzMW472MP8Hc93hYbbiQqnL6pOY+GtZPtMRFrnLFIkA7F3IVjtxI0/wKSLU
-         a6cR11Ke/UvslnpB2x2TVXtMwwj9J2yltj2PnNN5EG9OwTDK3Wya5pak2k0tnIRJNB/G
-         lE0honA5HpN/RFdwvFXlhZw/fWKvX1h14CyDjyIy0CThONvw5zwyNrInoqtuU+5DxJ3t
-         RPukusw+zlrgzSxHfyDPIFTYs1OMfCckC1IM7VjlbEtKW5p1gbTNC3yaInd4FRGsBo7t
-         D6cPOS2XAn1egQOZzHIM6VPmz102+nfgmrrj143OC8OJ4om7gOMFvSz4IqJ96aBgaaZz
-         TFnA==
-X-Gm-Message-State: AOJu0YyRFtIAYbyeV/hnD3VXcOC44Bhz2zr1LDktaqRXxmGz+drnPFnF
-	asVXJ9MJeYWcpf9nOvt02KyCXggOE8TeojDqB1BarkYY5O2ujysuHV6lyXfk/0+ezKBQHaBRdU8
-	YyumiXFo=
-X-Gm-Gg: ASbGncvlIwizfniP2D0xXXHClJ2jOeCw3KQNE1NYDAFuY6Iqoeqf0d38twfgBlvFK04
-	0pv9IPkST44HuzBvb0g2cHQFWCOmyrR3keQ9wCOsn8ByWzX8WXtLVQPLFCnWkPuL0JBBV0SFHsA
-	KpFZI08cc/ZVd1rviIbn/uwB73UDvDdctSyvVDB8TWqcggNipSmnrlnPe2++3f5EECP/h6yMDMc
-	mJGl3NaPMw2ZLsjQ3wahOIYyjbOf6GwA+gb4V+gYdok8YxjpxA0MC+kQDxDMx1kpBQH7R2dPPor
-	OvF4fWvCLzcJ/V/4B5ZB/t8fMU1q1v628LreociOzjm3fxmZ2cQYyvQo3oqlqfkGNWXxcCMsz+y
-	RnhJoCgGGOQQ3eYMofH+ZG2Bilf5enPIuHsBJWKftx28GqFYp6xs1ejFv/MpQCGwws07UnSLzhx
-	BOhkY21R4bhVsuny84EpHVPIVZ
-X-Google-Smtp-Source: AGHT+IFuREDILi9+Fh+ZV322uqLTcQ0LGmV7G3d7W5hB/JAwxmhHfUB+hjiXnDCGjOaqEQ9LwIYLiw==
-X-Received: by 2002:a17:90b:3cd0:b0:341:88d5:a74e with SMTP id 98e67ed59e1d1-349126e111fmr7108072a91.29.1764852853063;
-        Thu, 04 Dec 2025 04:54:13 -0800 (PST)
-Received: from MVIN00013.mvista.com ([103.250.136.209])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3494f38a263sm1858130a91.3.2025.12.04.04.54.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 04:54:12 -0800 (PST)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] libxml2: Security fix for CVE-2025-7425
-Date: Thu,  4 Dec 2025 18:23:54 +0530
-Message-ID: <20251204125354.59609-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20230601; t=1764853034; x=1765457834;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TEKayXRiLhOfbg76WooLxpAyOAALL1ZoipMeUDT9Yik=;
+        b=ubF8gt98XNq0b81MR5U8t2S/82qdGLKY4jGD+V5DG4e03pLtRiP6SUL4GafhS3L96u
+         P4MEaS7gEBrqtHljRNyWg4btnH78X6b776r7cVVTbmMhhhUEMisK+IiIE7ven989hQqr
+         zOkx3NbdGnNA57QKvU7/Y54Pxq15MtLEQ78krtfFJ5fHqqmWRdAeAYTanPRUFVrM7/Q1
+         SF5JkU0N9lWKZf86uuanESqgee+hCSQVWbvS7kQqfn1iqU1HDFt/CZHosyrrLlai+AzP
+         t2Utdg0vOPsARshd/LgSCqBYps6RXIIIA4j5p+DXnhAEcL40S/VOxyDf3NT8fwj05lee
+         aA8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVR5jDW1iBPqDkkzfqY1BmBqeScqGldXJLAYvqzMK+oWXpsXiQuPa8G/9hcr6H3CchPI1XOh33Dbe5DIud7Mz4c9w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzLj6o6D6hd26x+kLqug5rll91thcNfzAD692LxitSsbFr9bEod
+	wqPgZWecMIzdITNUdRqmWhFDtIRy2Vp534FvKZpvMgw5Mp3STTHzP/TMwfGByQYmdKTL0U/iCVJ
+	DtKiToLgv22b7begO9qzxynjljjMyZ6VELhH2u/0qbZvEvFwYot4KuFwefMUDQdbS1jjEVdLoUj
+	fi11xZCCM=
+X-Gm-Gg: ASbGncsVGz9Cm8bVP/xM0lIrhniFwzl7sE0X4PGxMU7yOX1AjJZHJ6tBP/CLrkZb510
+	GnDFCuNbfMyURMnoMSbZemQ6EQxbxaZlny/uXyULWwtYIhFQspR0WYI8l6c0HGyoOiGV1BlOzOu
+	QDYDlY9aaT3Tz3N5fZ/1zrbiy7jGCD2PF9sjgXP4usw83oSuJXlzvqpMew+avBJ4NDokk4Qwj59
+	POelkMSCqWM5e0eVvsEklpAfMp2hGU2ZQ0hsY8e5zIM95aNTjeXgE0313YFPqWU9zRIOzYyHy7b
+	xjTBQ1ESE/KJdKK88JRtnMi6Geluo7Mcc9WJnVBOsGwJK0be7I+N0Q6xe2eFE1DECDlnPrh5zll
+	eWcBdbbElSEoJ3fCv49Reg0WJ1G+WRHenx4LaamxN/1azR0OeCQisagpwu7+QfNsdP9OLS/zKvb
+	V8YprqntelhGqw
+X-Received: by 2002:a05:620a:2a15:b0:8b2:e284:1bd6 with SMTP id af79cd13be357-8b5e744f9e5mr843187185a.76.1764853034104;
+        Thu, 04 Dec 2025 04:57:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH+YwJKFec5FgU8/vhpaFBcv+BpVZFllZ2Ad4CoOlRqOG9OdPJOM5kXeV9QmYhS/WWkyEz+xg==
+X-Received: by 2002:a05:620a:2a15:b0:8b2:e284:1bd6 with SMTP id af79cd13be357-8b5e744f9e5mr843182485a.76.1764853033404;
+        Thu, 04 Dec 2025 04:57:13 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a0c3:3a00::4c9? (2001-14ba-a0c3-3a00--4c9.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::4c9])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37e70596bd4sm5300921fa.31.2025.12.04.04.57.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Dec 2025 04:57:12 -0800 (PST)
+Message-ID: <4a332969-32ee-450b-ba25-34f2b5dec81b@oss.qualcomm.com>
+Date: Thu, 4 Dec 2025 14:57:11 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 4/4] mesa: upgrade 25.2.5 -> 25.3.0
+To: Quentin Schulz <quentin.schulz@cherry.de>,
+        openembedded-core@lists.openembedded.org,
+        Ross Burton <Ross.Burton@arm.com>
+References: <20251202004951.2358784-1-dmitry.baryshkov@oss.qualcomm.com>
+ <20251202004951.2358784-4-dmitry.baryshkov@oss.qualcomm.com>
+ <cdf76069-ffd1-4b7f-b164-0a8b4ab1f5f5@cherry.de>
+Content-Language: en-US
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <cdf76069-ffd1-4b7f-b164-0a8b4ab1f5f5@cherry.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Proofpoint-GUID: y7ROi18XkjRTj-_5a718L4sUPcgbpU0o
+X-Proofpoint-ORIG-GUID: y7ROi18XkjRTj-_5a718L4sUPcgbpU0o
+X-Authority-Analysis: v=2.4 cv=esHSD4pX c=1 sm=1 tr=0 ts=6931852a cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=ZpVaWaFtAAAA:8 a=Q4-j1AaZAAAA:8 a=2f9kOfnec1gUK_NDvKMA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=6P56k4kqNu8A:10 a=IoWCM6iH3mJn3m4BftBB:22
+ a=5tn4MO8azEBWFjlAA-rn:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA0MDEwNSBTYWx0ZWRfX3PzjknKBP1kM
+ LvtV4O/+mksF9F0SDElruZHVySkZ4fqX+jtqYfi74vvG5cLDzoelbAxOObxBLbkoDnrV8HbHFou
+ 4SKV2UmkVmA5MsNljsARldSw7kQDoQqLyVTppeHvRIAgvjAuWJQMeeJscPl6Asz7HaZN7fOgwRa
+ /+HuRGo1fpt6WscfRjRxR7u8OQf5ab9glsT3NyT57dRQj5HtE+sm4YQAlA3e6LMYXgXjO8XIF6/
+ ZYMHZsor/6Dv+uLnH+CnowDcXv+D+KcNjccHzKcc0PprNAw20hND4yBaRlpd+Bqzd5oWOa6M3D3
+ T+hzoN/udkiVNtGAFCoQV+SZi6pUYHHVuLEUS/D9GrxT3jsP247wqBdsfyY0qQhIW4+C2QVgw1s
+ 6bC+cB7tvUYRp+dlTRdJfkIF3tpS8w==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-04_03,2025-12-03_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 adultscore=0 malwarescore=0 suspectscore=0
+ phishscore=0 lowpriorityscore=0 priorityscore=1501 impostorscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512040105
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 5B4AEr7P926176
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 12:54:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227292
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 12:57:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227293
 
-CVE-2025-7425
-libxslt: heap-use-after-free in xmlFreeID caused by `atype` corruption
+On 02/12/2025 12:35, Quentin Schulz wrote:
+> Hi Dmitry,
+>=20
+> On 12/2/25 1:49 AM, Dmitry Baryshkov via lists.openembedded.org wrote:
+>> Upgrade Mesa to the latest release. Drop VDPAU tracker (dropped
+>> upstream). Add support for ethosu and rocket Gallium drivers.
+>>
+>=20
+> Thanks for doing that!
+>=20
+> https://docs.mesa3d.org/relnotes/25.3.0.html for the release notes and=20
+> checksum.
+>=20
+> I'm wondering if we shouldn't add the buildpath QA check to upstream=20
+> mesa's CI so that we don't have to patch things up for every release?
+>=20
+> [...]
+>=20
+>> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-=20
+>> graphics/mesa/mesa.inc
+>> index 420ba2032b67..106767476ccc 100644
+>> --- a/meta/recipes-graphics/mesa/mesa.inc
+>> +++ b/meta/recipes-graphics/mesa/mesa.inc
+>> @@ -18,10 +18,12 @@ SRC_URI =3D "https://archive.mesa3d.org/mesa-=20
+>> ${PV}.tar.xz \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ file://0001-meson-misdetects-64bit-atomics-on-mips-=20
+>> clang.patch \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ file://0001-freedreno-don-t-encode-build-path-into-=20
+>> binaries.patch \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ file://0001-gfxstream-don-t-dump-genvk.py-args-to-=20
+>> generated-file.patch \
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://0=
+001-ethosu-drop-file-names-from-the-generated-=20
+>> file.patch \
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://0=
+002-rocket-drop-file-names-from-the-generated-=20
+>> file.patch \
+>> =C2=A0 "
+>> -SRC_URI[sha256sum] =3D=20
+>> "bb6243e7a6f525febfa1e6ab50827ca4d4bfdad73812377b0ca9b6c50998b03e"
+>> -PV =3D "25.2.5"
+>> +SRC_URI[sha256sum] =3D=20
+>> "0fd54fea7dbbddb154df05ac752b18621f26d97e27863db3be951417c6abe8ae"
+>> +PV =3D "25.3.0"
+>=20
+> Can we first bump to 25.2.7?
+>=20
+> We won't update mesa in whinlatter to 25.3.x I assume, so it'd be easie=
+r=20
+> if we had a commit we could backport for whinlatter right now before th=
+e=20
+> release (or right after for the first dot release).
+>=20
+>> =C2=A0 UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
+>> @@ -104,12 +106,14 @@ PACKAGECONFIG[amd] =3D ""
+>> =C2=A0 PACKAGECONFIG[asahi] =3D ""
+>> =C2=A0 PACKAGECONFIG[broadcom] =3D ""
+>> =C2=A0 PACKAGECONFIG[etnaviv] =3D ",,python3-pycparser-native"
+>> +PACKAGECONFIG[ethosu] =3D ""
+>> =C2=A0 PACKAGECONFIG[freedreno] =3D ""
+>> =C2=A0 PACKAGECONFIG[imagination] =3D "-Dimagination-srv=3Dtrue,-Dimag=
+ination-=20
+>> srv=3Dfalse"
+>> =C2=A0 PACKAGECONFIG[intel] =3D ""
+>> =C2=A0 PACKAGECONFIG[lima] =3D ""
+>> =C2=A0 PACKAGECONFIG[nouveau] =3D ""
+>> =C2=A0 PACKAGECONFIG[panfrost] =3D ""
+>> +PACKAGECONFIG[rockchip] =3D ""
+>=20
+> I'm not sure about the naming here. Rockchip also has Lima-supported,=20
+> Panfrost-supported, Panthor-supporter, Panvk-supported GPU in various=20
+> SoCs. I would expect that when selecting rockchip it would enable=20
+> support for "everything" one can find on SoCs from this vendor, which=20
+> isn't necessarily a good thing (c.f. amd and intel bringing in too many=
+=20
+> drivers you may not be interested in).
 
-Origin: https://launchpad.net/ubuntu/+source/libxml2/2.9.14+dfsg-1.3ubuntu3.6
-Ref : https://security-tracker.debian.org/tracker/CVE-2025-7425
+Yeah, I was trying to find a balance between having a per-driver=20
+PACKAGECONFIG entries (which would be a nightmare for GL vs VK drivers)=20
+and just declaring a "vendor", which enables all drivers, even if one=20
+doesn't need it.
 
-Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libxslt/-/issues/140
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../libxml/libxml2/CVE-2025-7425.patch        | 802 ++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |   1 +
- 2 files changed, 803 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-7425.patch
+For Intel / AMD / NVIDIA it historically went somewhat okay, having just=20
+a single vendor config entry.
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-7425.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-7425.patch
-new file mode 100644
-index 0000000000..c8c9ace82d
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2025-7425.patch
-@@ -0,0 +1,802 @@
-+From 87786d6200ae1f5ac98d21f04d451e17ff25a216 Mon Sep 17 00:00:00 2001
-+From: David Kilzer <ddkilzer@apple.com>
-+Reviewed-By: Aron Xu <aron@debian.org>
-+Date: Mon, 23 Jun 2025 14:41:56 -0700
-+Subject: [PATCH] libxslt: heap-use-after-free in xmlFreeID caused by `atype`
-+ corruption
-+
-+* include/libxml/tree.h:
-+(XML_ATTR_CLEAR_ATYPE): Add.
-+(XML_ATTR_GET_ATYPE): Add.
-+(XML_ATTR_SET_ATYPE): Add.
-+(XML_NODE_ADD_EXTRA): Add.
-+(XML_NODE_CLEAR_EXTRA): Add.
-+(XML_NODE_GET_EXTRA): Add.
-+(XML_NODE_SET_EXTRA): Add.
-+(XML_DOC_ADD_PROPERTIES): Add.
-+(XML_DOC_CLEAR_PROPERTIES): Add.
-+(XML_DOC_GET_PROPERTIES): Add.
-+(XML_DOC_SET_PROPERTIES): Add.
-+- Add macros for accessing fields with upper bits that may be set by
-+  libxslt.
-+
-+* HTMLparser.c:
-+(htmlNewDocNoDtD):
-+* SAX2.c:
-+(xmlSAX2StartDocument):
-+(xmlSAX2EndDocument):
-+* parser.c:
-+(xmlParseEntityDecl):
-+(xmlParseExternalSubset):
-+(xmlParseReference):
-+(xmlCtxtParseDtd):
-+* runxmlconf.c:
-+(xmlconfTestInvalid):
-+(xmlconfTestValid):
-+* tree.c:
-+(xmlNewDoc):
-+(xmlFreeProp):
-+(xmlNodeSetDoc):
-+(xmlSetNsProp):
-+(xmlDOMWrapAdoptBranch):
-+* valid.c:
-+(xmlFreeID):
-+(xmlAddIDInternal):
-+(xmlValidateAttributeValueInternal):
-+(xmlValidateOneAttribute):
-+(xmlValidateRef):
-+* xmlreader.c:
-+(xmlTextReaderStartElement):
-+(xmlTextReaderStartElementNs):
-+(xmlTextReaderValidateEntity):
-+(xmlTextReaderRead):
-+(xmlTextReaderNext):
-+(xmlTextReaderIsEmptyElement):
-+(xmlTextReaderPreserve):
-+* xmlschemas.c:
-+(xmlSchemaPValAttrNodeID):
-+* xmlschemastypes.c:
-+(xmlSchemaValAtomicType):
-+- Adopt macros by renaming the struct fields, recompiling and fixing
-+  compiler failures, then changing the struct field names back.
-+Origin: https://launchpad.net/ubuntu/+source/libxml2/2.9.14+dfsg-1.3ubuntu3.6
-+Ref : https://security-tracker.debian.org/tracker/CVE-2025-7425
-+
-+CVE: CVE-2025-7425
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/-/issues/140]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ HTMLparser.c          |  1 +
-+ SAX2.c                |  6 ++--
-+ include/libxml/tree.h | 14 ++++++++-
-+ parser.c              |  8 ++---
-+ runxmlconf.c          |  4 +--
-+ tree.c                | 20 ++++++-------
-+ valid.c               | 68 +++++++++++++++++++++----------------------
-+ xmlreader.c           | 30 +++++++++----------
-+ xmlschemas.c          |  4 +--
-+ xmlschemastypes.c     | 12 ++++----
-+ 10 files changed, 90 insertions(+), 77 deletions(-)
-+
-+diff --git a/HTMLparser.c b/HTMLparser.c
-+index e720bb2..1307f71 100644
-+--- a/HTMLparser.c
-++++ b/HTMLparser.c
-+@@ -2514,6 +2514,7 @@ htmlNewDocNoDtD(const xmlChar *URI, const xmlChar *ExternalID) {
-+     cur->refs = NULL;
-+     cur->_private = NULL;
-+     cur->charset = XML_CHAR_ENCODING_UTF8;
-++    XML_DOC_SET_PROPERTIES(cur, XML_DOC_HTML | XML_DOC_USERBUILT);
-+     cur->properties = XML_DOC_HTML | XML_DOC_USERBUILT;
-+     if ((ExternalID != NULL) ||
-+ 	(URI != NULL))
-+diff --git a/SAX2.c b/SAX2.c
-+index f7c77c2..0d8e84a 100644
-+--- a/SAX2.c
-++++ b/SAX2.c
-+@@ -970,7 +970,7 @@ xmlSAX2StartDocument(void *ctx)
-+ 	    xmlSAX2ErrMemory(ctxt, "xmlSAX2StartDocument");
-+ 	    return;
-+ 	}
-+-	ctxt->myDoc->properties = XML_DOC_HTML;
-++	XML_DOC_SET_PROPERTIES(ctxt->myDoc, XML_DOC_HTML);
-+ 	ctxt->myDoc->parseFlags = ctxt->options;
-+ #else
-+         xmlGenericError(xmlGenericErrorContext,
-+@@ -983,9 +983,9 @@ xmlSAX2StartDocument(void *ctx)
-+     } else {
-+ 	doc = ctxt->myDoc = xmlNewDoc(ctxt->version);
-+ 	if (doc != NULL) {
-+-	    doc->properties = 0;
-++	    XML_DOC_CLEAR_PROPERTIES(doc);
-+ 	    if (ctxt->options & XML_PARSE_OLD10)
-+-	        doc->properties |= XML_DOC_OLD10;
-++	        XML_DOC_ADD_PROPERTIES(doc, XML_DOC_OLD10);
-+ 	    doc->parseFlags = ctxt->options;
-+ 	    if (ctxt->encoding != NULL)
-+ 		doc->encoding = xmlStrdup(ctxt->encoding);
-+diff --git a/include/libxml/tree.h b/include/libxml/tree.h
-+index 1e79be9..61178b2 100644
-+--- a/include/libxml/tree.h
-++++ b/include/libxml/tree.h
-+@@ -365,7 +365,6 @@ struct _xmlElement {
-+ #endif
-+ };
-+ 
-+-
-+ /**
-+  * XML_LOCAL_NAMESPACE:
-+  *
-+@@ -446,6 +445,10 @@ struct _xmlAttr {
-+     void            *psvi;	/* for type/PSVI information */
-+ };
-+ 
-++#define XML_ATTR_CLEAR_ATYPE(attr) (((attr)->atype) = 0)
-++#define XML_ATTR_GET_ATYPE(attr) (((attr)->atype) & ~(15U << 27))
-++#define XML_ATTR_SET_ATYPE(attr, type) ((attr)->atype = ((((attr)->atype) & (15U << 27)) | ((type) & ~(15U << 27))))
-++
-+ /**
-+  * xmlID:
-+  *
-+@@ -507,6 +510,11 @@ struct _xmlNode {
-+     unsigned short   extra;	/* extra data for XPath/XSLT */
-+ };
-+ 
-++#define XML_NODE_ADD_EXTRA(node, type) ((node)->extra |= ((type) & ~(15U << 12)))
-++#define XML_NODE_CLEAR_EXTRA(node) (((node)->extra) = 0)
-++#define XML_NODE_GET_EXTRA(node) (((node)->extra) & ~(15U << 12))
-++#define XML_NODE_SET_EXTRA(node, type) ((node)->extra = ((((node)->extra) & (15U << 12)) | ((type) & ~(15U << 12))))
-++
-+ /**
-+  * XML_GET_CONTENT:
-+  *
-+@@ -585,6 +593,10 @@ struct _xmlDoc {
-+ 				   set at the end of parsing */
-+ };
-+ 
-++#define XML_DOC_ADD_PROPERTIES(doc, type) ((doc)->properties |= ((type) & ~(15U << 27)))
-++#define XML_DOC_CLEAR_PROPERTIES(doc) (((doc)->properties) = 0)
-++#define XML_DOC_GET_PROPERTIES(doc) (((doc)->properties) & ~(15U << 27))
-++#define XML_DOC_SET_PROPERTIES(doc, type) ((doc)->properties = ((((doc)->properties) & (15U << 27)) | ((type) & ~(15U << 27))))
-+ 
-+ typedef struct _xmlDOMWrapCtxt xmlDOMWrapCtxt;
-+ typedef xmlDOMWrapCtxt *xmlDOMWrapCtxtPtr;
-+diff --git a/parser.c b/parser.c
-+index 738dbee..772d883 100644
-+--- a/parser.c
-++++ b/parser.c
-+@@ -5523,7 +5523,7 @@ xmlParseEntityDecl(xmlParserCtxtPtr ctxt) {
-+ 			    xmlErrMemory(ctxt, "New Doc failed");
-+ 			    return;
-+ 			}
-+-			ctxt->myDoc->properties = XML_DOC_INTERNAL;
-++			XML_DOC_SET_PROPERTIES(ctxt->myDoc, XML_DOC_INTERNAL);
-+ 		    }
-+ 		    if (ctxt->myDoc->intSubset == NULL)
-+ 			ctxt->myDoc->intSubset = xmlNewDtd(ctxt->myDoc,
-+@@ -5594,7 +5594,7 @@ xmlParseEntityDecl(xmlParserCtxtPtr ctxt) {
-+ 			        xmlErrMemory(ctxt, "New Doc failed");
-+ 				return;
-+ 			    }
-+-			    ctxt->myDoc->properties = XML_DOC_INTERNAL;
-++			    XML_DOC_SET_PROPERTIES(ctxt->myDoc, XML_DOC_INTERNAL);
-+ 			}
-+ 
-+ 			if (ctxt->myDoc->intSubset == NULL)
-+@@ -7035,7 +7035,7 @@ xmlParseExternalSubset(xmlParserCtxtPtr ctxt, const xmlChar *ExternalID,
-+ 	    xmlErrMemory(ctxt, "New Doc failed");
-+ 	    return;
-+ 	}
-+-	ctxt->myDoc->properties = XML_DOC_INTERNAL;
-++	XML_DOC_SET_PROPERTIES(ctxt->myDoc, XML_DOC_INTERNAL);
-+     }
-+     if ((ctxt->myDoc != NULL) && (ctxt->myDoc->intSubset == NULL))
-+         xmlCreateIntSubset(ctxt->myDoc, NULL, ExternalID, SystemID);
-+@@ -7419,7 +7419,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
-+ 			    (nw != NULL) &&
-+ 			    (nw->type == XML_ELEMENT_NODE) &&
-+ 			    (nw->children == NULL))
-+-			    nw->extra = 1;
-++			    XML_NODE_SET_EXTRA(nw, 1);
-+ 
-+ 			break;
-+ 		    }
-+diff --git a/runxmlconf.c b/runxmlconf.c
-+index f43fdd3..82b7241 100644
-+--- a/runxmlconf.c
-++++ b/runxmlconf.c
-+@@ -197,7 +197,7 @@ xmlconfTestInvalid(const char *id, const char *filename, int options) {
-+ 	         id, filename);
-+     } else {
-+     /* invalidity should be reported both in the context and in the document */
-+-        if ((ctxt->valid != 0) || (doc->properties & XML_DOC_DTDVALID)) {
-++        if ((ctxt->valid != 0) || (XML_DOC_GET_PROPERTIES(doc) & XML_DOC_DTDVALID)) {
-+ 	    test_log("test %s : %s failed to detect invalid document\n",
-+ 		     id, filename);
-+ 	    nb_errors++;
-+@@ -229,7 +229,7 @@ xmlconfTestValid(const char *id, const char *filename, int options) {
-+ 	ret = 0;
-+     } else {
-+     /* validity should be reported both in the context and in the document */
-+-        if ((ctxt->valid == 0) || ((doc->properties & XML_DOC_DTDVALID) == 0)) {
-++        if ((ctxt->valid == 0) || ((XML_DOC_GET_PROPERTIES(doc) & XML_DOC_DTDVALID) == 0)) {
-+ 	    test_log("test %s : %s failed to validate a valid document\n",
-+ 		     id, filename);
-+ 	    nb_errors++;
-+diff --git a/tree.c b/tree.c
-+index cdf863c..3bac0b8 100644
-+--- a/tree.c
-++++ b/tree.c
-+@@ -1192,7 +1192,7 @@ xmlNewDoc(const xmlChar *version) {
-+     cur->compression = -1; /* not initialized */
-+     cur->doc = cur;
-+     cur->parseFlags = 0;
-+-    cur->properties = XML_DOC_USERBUILT;
-++    XML_DOC_SET_PROPERTIES(cur, XML_DOC_USERBUILT);
-+     /*
-+      * The in memory encoding is always UTF8
-+      * This field will never change and would
-+@@ -2119,7 +2119,7 @@ xmlFreeProp(xmlAttrPtr cur) {
-+ 	xmlDeregisterNodeDefaultValue((xmlNodePtr)cur);
-+ 
-+     /* Check for ID removal -> leading to invalid references ! */
-+-    if ((cur->doc != NULL) && (cur->atype == XML_ATTRIBUTE_ID)) {
-++    if ((cur->doc != NULL) && (XML_ATTR_GET_ATYPE(cur) == XML_ATTRIBUTE_ID)) {
-+ 	    xmlRemoveID(cur->doc, cur);
-+     }
-+     if (cur->children != NULL) xmlFreeNodeList(cur->children);
-+@@ -2838,7 +2838,7 @@ xmlSetTreeDoc(xmlNodePtr tree, xmlDocPtr doc) {
-+ 	if(tree->type == XML_ELEMENT_NODE) {
-+ 	    prop = tree->properties;
-+ 	    while (prop != NULL) {
-+-                if (prop->atype == XML_ATTRIBUTE_ID) {
-++                if (XML_ATTR_GET_ATYPE(prop) == XML_ATTRIBUTE_ID) {
-+                     xmlRemoveID(tree->doc, prop);
-+                 }
-+ 
-+@@ -6953,9 +6953,9 @@ xmlSetNsProp(xmlNodePtr node, xmlNsPtr ns, const xmlChar *name,
-+ 	/*
-+ 	* Modify the attribute's value.
-+ 	*/
-+-	if (prop->atype == XML_ATTRIBUTE_ID) {
-++	if (XML_ATTR_GET_ATYPE(prop) == XML_ATTRIBUTE_ID) {
-+ 	    xmlRemoveID(node->doc, prop);
-+-	    prop->atype = XML_ATTRIBUTE_ID;
-++	    XML_ATTR_SET_ATYPE(prop, XML_ATTRIBUTE_ID);
-+ 	}
-+ 	if (prop->children != NULL)
-+ 	    xmlFreeNodeList(prop->children);
-+@@ -6975,7 +6975,7 @@ xmlSetNsProp(xmlNodePtr node, xmlNsPtr ns, const xmlChar *name,
-+ 		tmp = tmp->next;
-+ 	    }
-+ 	}
-+-	if (prop->atype == XML_ATTRIBUTE_ID)
-++	if (XML_ATTR_GET_ATYPE(prop) == XML_ATTRIBUTE_ID)
-+ 	    xmlAddID(NULL, node->doc, value, prop);
-+ 	return(prop);
-+     }
-+@@ -9252,7 +9252,7 @@ ns_end:
-+ 		if (cur->type == XML_ELEMENT_NODE) {
-+ 		    cur->psvi = NULL;
-+ 		    cur->line = 0;
-+-		    cur->extra = 0;
-++		    XML_NODE_CLEAR_EXTRA(cur);
-+ 		    /*
-+ 		    * Walk attributes.
-+ 		    */
-+@@ -9268,11 +9268,11 @@ ns_end:
-+ 		    * Attributes.
-+ 		    */
-+ 		    if ((sourceDoc != NULL) &&
-+-			(((xmlAttrPtr) cur)->atype == XML_ATTRIBUTE_ID))
-++			(XML_ATTR_GET_ATYPE((xmlAttrPtr) cur) == XML_ATTRIBUTE_ID))
-+ 		    {
-+ 			xmlRemoveID(sourceDoc, (xmlAttrPtr) cur);
-+ 		    }
-+-		    ((xmlAttrPtr) cur)->atype = 0;
-++		    XML_ATTR_CLEAR_ATYPE((xmlAttrPtr) cur);
-+ 		    ((xmlAttrPtr) cur)->psvi = NULL;
-+ 		}
-+ 		break;
-+@@ -9992,7 +9992,7 @@ xmlDOMWrapAdoptAttr(xmlDOMWrapCtxtPtr ctxt,
-+     }
-+ 
-+     XML_TREE_ADOPT_STR(attr->name);
-+-    attr->atype = 0;
-++    XML_ATTR_CLEAR_ATYPE(attr);
-+     attr->psvi = NULL;
-+     /*
-+     * Walk content.
-+diff --git a/valid.c b/valid.c
-+index 36a0435..8e76cfa 100644
-+--- a/valid.c
-++++ b/valid.c
-+@@ -1906,7 +1906,7 @@ xmlScanIDAttributeDecl(xmlValidCtxtPtr ctxt, xmlElementPtr elem, int err) {
-+     if (elem == NULL) return(0);
-+     cur = elem->attributes;
-+     while (cur != NULL) {
-+-        if (cur->atype == XML_ATTRIBUTE_ID) {
-++        if (XML_ATTR_GET_ATYPE(cur) == XML_ATTRIBUTE_ID) {
-+ 	    ret ++;
-+ 	    if ((ret > 1) && (err))
-+ 		xmlErrValidNode(ctxt, (xmlNodePtr) elem, XML_DTD_MULTIPLE_ID,
-+@@ -2279,7 +2279,7 @@ xmlDumpAttributeDecl(xmlBufferPtr buf, xmlAttributePtr attr) {
-+ 	xmlBufferWriteChar(buf, ":");
-+     }
-+     xmlBufferWriteCHAR(buf, attr->name);
-+-    switch (attr->atype) {
-++    switch (XML_ATTR_GET_ATYPE(attr)) {
-+ 	case XML_ATTRIBUTE_CDATA:
-+ 	    xmlBufferWriteChar(buf, " CDATA");
-+ 	    break;
-+@@ -2758,7 +2758,7 @@ xmlAddID(xmlValidCtxtPtr ctxt, xmlDocPtr doc, const xmlChar *value,
-+ 	return(NULL);
-+     }
-+     if (attr != NULL)
-+-	attr->atype = XML_ATTRIBUTE_ID;
-++	XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ID);
-+     return(ret);
-+ }
-+ 
-+@@ -2837,7 +2837,7 @@ xmlIsID(xmlDocPtr doc, xmlNodePtr elem, xmlAttrPtr attr) {
-+ 	if ((fullelemname != felem) && (fullelemname != elem->name))
-+ 	    xmlFree(fullelemname);
-+ 
-+-        if ((attrDecl != NULL) && (attrDecl->atype == XML_ATTRIBUTE_ID))
-++        if ((attrDecl != NULL) && (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_ID))
-+ 	    return(1);
-+     }
-+     return(0);
-+@@ -2878,7 +2878,7 @@ xmlRemoveID(xmlDocPtr doc, xmlAttrPtr attr) {
-+ 
-+     xmlHashRemoveEntry(table, ID, xmlFreeIDTableEntry);
-+     xmlFree(ID);
-+-    attr->atype = 0;
-++    XML_ATTR_CLEAR_ATYPE(attr);
-+     return(0);
-+ }
-+ 
-+@@ -3157,8 +3157,8 @@ xmlIsRef(xmlDocPtr doc, xmlNodePtr elem, xmlAttrPtr attr) {
-+ 		                         elem->name, attr->name);
-+ 
-+ 	if ((attrDecl != NULL) &&
-+-	    (attrDecl->atype == XML_ATTRIBUTE_IDREF ||
-+-	     attrDecl->atype == XML_ATTRIBUTE_IDREFS))
-++	    (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_IDREF ||
-++	     XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_IDREFS))
-+ 	return(1);
-+     }
-+     return(0);
-+@@ -3532,7 +3532,7 @@ xmlIsMixedElement(xmlDocPtr doc, const xmlChar *name) {
-+ 
-+ static int
-+ xmlIsDocNameStartChar(xmlDocPtr doc, int c) {
-+-    if ((doc == NULL) || (doc->properties & XML_DOC_OLD10) == 0) {
-++    if ((doc == NULL) || (XML_DOC_GET_PROPERTIES(doc) & XML_DOC_OLD10) == 0) {
-+         /*
-+ 	 * Use the new checks of production [4] [4a] amd [5] of the
-+ 	 * Update 5 of XML-1.0
-+@@ -3562,7 +3562,7 @@ xmlIsDocNameStartChar(xmlDocPtr doc, int c) {
-+ 
-+ static int
-+ xmlIsDocNameChar(xmlDocPtr doc, int c) {
-+-    if ((doc == NULL) || (doc->properties & XML_DOC_OLD10) == 0) {
-++    if ((doc == NULL) || (XML_DOC_GET_PROPERTIES(doc) & XML_DOC_OLD10) == 0) {
-+         /*
-+ 	 * Use the new checks of production [4] [4a] amd [5] of the
-+ 	 * Update 5 of XML-1.0
-+@@ -4112,7 +4112,7 @@ xmlValidCtxtNormalizeAttributeValue(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
-+ 
-+     if (attrDecl == NULL)
-+ 	return(NULL);
-+-    if (attrDecl->atype == XML_ATTRIBUTE_CDATA)
-++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_CDATA)
-+ 	return(NULL);
-+ 
-+     ret = xmlStrdup(value);
-+@@ -4174,7 +4174,7 @@ xmlValidNormalizeAttributeValue(xmlDocPtr doc, xmlNodePtr elem,
-+ 
-+     if (attrDecl == NULL)
-+ 	return(NULL);
-+-    if (attrDecl->atype == XML_ATTRIBUTE_CDATA)
-++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_CDATA)
-+ 	return(NULL);
-+ 
-+     ret = xmlStrdup(value);
-+@@ -4189,7 +4189,7 @@ xmlValidateAttributeIdCallback(void *payload, void *data,
-+ 	                       const xmlChar *name ATTRIBUTE_UNUSED) {
-+     xmlAttributePtr attr = (xmlAttributePtr) payload;
-+     int *count = (int *) data;
-+-    if (attr->atype == XML_ATTRIBUTE_ID) (*count)++;
-++    if (XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_ID) (*count)++;
-+ }
-+ 
-+ /**
-+@@ -4221,7 +4221,7 @@ xmlValidateAttributeDecl(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
-+     /* Attribute Default Legal */
-+     /* Enumeration */
-+     if (attr->defaultValue != NULL) {
-+-	val = xmlValidateAttributeValueInternal(doc, attr->atype,
-++	val = xmlValidateAttributeValueInternal(doc, XML_ATTR_GET_ATYPE(attr),
-+ 	                                        attr->defaultValue);
-+ 	if (val == 0) {
-+ 	    xmlErrValidNode(ctxt, (xmlNodePtr) attr, XML_DTD_ATTRIBUTE_DEFAULT,
-+@@ -4232,7 +4232,7 @@ xmlValidateAttributeDecl(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
-+     }
-+ 
-+     /* ID Attribute Default */
-+-    if ((attr->atype == XML_ATTRIBUTE_ID)&&
-++    if ((XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_ID)&&
-+         (attr->def != XML_ATTRIBUTE_IMPLIED) &&
-+ 	(attr->def != XML_ATTRIBUTE_REQUIRED)) {
-+ 	xmlErrValidNode(ctxt, (xmlNodePtr) attr, XML_DTD_ID_FIXED,
-+@@ -4242,7 +4242,7 @@ xmlValidateAttributeDecl(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
-+     }
-+ 
-+     /* One ID per Element Type */
-+-    if (attr->atype == XML_ATTRIBUTE_ID) {
-++    if (XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_ID) {
-+         int nbId;
-+ 
-+ 	/* the trick is that we parse DtD as their own internal subset */
-+@@ -4501,9 +4501,9 @@ xmlValidateOneAttribute(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
-+ 	       attr->name, elem->name, NULL);
-+ 	return(0);
-+     }
-+-    attr->atype = attrDecl->atype;
-++    XML_ATTR_SET_ATYPE(attr, attrDecl->atype);
-+ 
-+-    val = xmlValidateAttributeValueInternal(doc, attrDecl->atype, value);
-++    val = xmlValidateAttributeValueInternal(doc, XML_ATTR_GET_ATYPE(attrDecl), value);
-+     if (val == 0) {
-+ 	    xmlErrValidNode(ctxt, elem, XML_DTD_ATTRIBUTE_VALUE,
-+ 	   "Syntax of value for attribute %s of %s is not valid\n",
-+@@ -4522,19 +4522,19 @@ xmlValidateOneAttribute(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
-+     }
-+ 
-+     /* Validity Constraint: ID uniqueness */
-+-    if (attrDecl->atype == XML_ATTRIBUTE_ID) {
-++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_ID) {
-+         if (xmlAddID(ctxt, doc, value, attr) == NULL)
-+ 	    ret = 0;
-+     }
-+ 
-+-    if ((attrDecl->atype == XML_ATTRIBUTE_IDREF) ||
-+-	(attrDecl->atype == XML_ATTRIBUTE_IDREFS)) {
-++    if ((XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_IDREF) ||
-++	(XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_IDREFS)) {
-+         if (xmlAddRef(ctxt, doc, value, attr) == NULL)
-+ 	    ret = 0;
-+     }
-+ 
-+     /* Validity Constraint: Notation Attributes */
-+-    if (attrDecl->atype == XML_ATTRIBUTE_NOTATION) {
-++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_NOTATION) {
-+         xmlEnumerationPtr tree = attrDecl->tree;
-+         xmlNotationPtr nota;
-+ 
-+@@ -4564,7 +4564,7 @@ xmlValidateOneAttribute(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
-+     }
-+ 
-+     /* Validity Constraint: Enumeration */
-+-    if (attrDecl->atype == XML_ATTRIBUTE_ENUMERATION) {
-++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_ENUMERATION) {
-+         xmlEnumerationPtr tree = attrDecl->tree;
-+ 	while (tree != NULL) {
-+ 	    if (xmlStrEqual(tree->name, value)) break;
-+@@ -4589,7 +4589,7 @@ xmlValidateOneAttribute(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
-+ 
-+     /* Extra check for the attribute value */
-+     ret &= xmlValidateAttributeValue2(ctxt, doc, attr->name,
-+-				      attrDecl->atype, value);
-++				      XML_ATTR_GET_ATYPE(attrDecl), value);
-+ 
-+     return(ret);
-+ }
-+@@ -4688,7 +4688,7 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
-+ 	return(0);
-+     }
-+ 
-+-    val = xmlValidateAttributeValueInternal(doc, attrDecl->atype, value);
-++    val = xmlValidateAttributeValueInternal(doc, XML_ATTR_GET_ATYPE(attrDecl), value);
-+     if (val == 0) {
-+ 	if (ns->prefix != NULL) {
-+ 	    xmlErrValidNode(ctxt, elem, XML_DTD_INVALID_DEFAULT,
-+@@ -4738,7 +4738,7 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
-+ #endif
-+ 
-+     /* Validity Constraint: Notation Attributes */
-+-    if (attrDecl->atype == XML_ATTRIBUTE_NOTATION) {
-++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_NOTATION) {
-+         xmlEnumerationPtr tree = attrDecl->tree;
-+         xmlNotationPtr nota;
-+ 
-+@@ -4780,7 +4780,7 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
-+     }
-+ 
-+     /* Validity Constraint: Enumeration */
-+-    if (attrDecl->atype == XML_ATTRIBUTE_ENUMERATION) {
-++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_ENUMERATION) {
-+         xmlEnumerationPtr tree = attrDecl->tree;
-+ 	while (tree != NULL) {
-+ 	    if (xmlStrEqual(tree->name, value)) break;
-+@@ -4818,10 +4818,10 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
-+     /* Extra check for the attribute value */
-+     if (ns->prefix != NULL) {
-+ 	ret &= xmlValidateAttributeValue2(ctxt, doc, ns->prefix,
-+-					  attrDecl->atype, value);
-++					  XML_ATTR_GET_ATYPE(attrDecl), value);
-+     } else {
-+ 	ret &= xmlValidateAttributeValue2(ctxt, doc, BAD_CAST "xmlns",
-+-					  attrDecl->atype, value);
-++					  XML_ATTR_GET_ATYPE(attrDecl), value);
-+     }
-+ 
-+     return(ret);
-+@@ -6574,7 +6574,7 @@ xmlValidateRef(xmlRefPtr ref, xmlValidCtxtPtr ctxt,
-+ 	    while (IS_BLANK_CH(*cur)) cur++;
-+ 	}
-+ 	xmlFree(dup);
-+-    } else if (attr->atype == XML_ATTRIBUTE_IDREF) {
-++    } else if (XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_IDREF) {
-+ 	id = xmlGetID(ctxt->doc, name);
-+ 	if (id == NULL) {
-+ 	    xmlErrValidNode(ctxt, attr->parent, XML_DTD_UNKNOWN_ID,
-+@@ -6582,7 +6582,7 @@ xmlValidateRef(xmlRefPtr ref, xmlValidCtxtPtr ctxt,
-+ 		   attr->name, name, NULL);
-+ 	    ctxt->valid = 0;
-+ 	}
-+-    } else if (attr->atype == XML_ATTRIBUTE_IDREFS) {
-++    } else if (XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_IDREFS) {
-+ 	xmlChar *dup, *str = NULL, *cur, save;
-+ 
-+ 	dup = xmlStrdup(name);
-+@@ -6782,7 +6782,7 @@ xmlValidateAttributeCallback(void *payload, void *data,
-+ 
-+     if (cur == NULL)
-+ 	return;
-+-    switch (cur->atype) {
-++    switch (XML_ATTR_GET_ATYPE(cur)) {
-+ 	case XML_ATTRIBUTE_CDATA:
-+ 	case XML_ATTRIBUTE_ID:
-+ 	case XML_ATTRIBUTE_IDREF	:
-+@@ -6797,7 +6797,7 @@ xmlValidateAttributeCallback(void *payload, void *data,
-+ 	    if (cur->defaultValue != NULL) {
-+ 
-+ 		ret = xmlValidateAttributeValue2(ctxt, ctxt->doc, cur->name,
-+-			                         cur->atype, cur->defaultValue);
-++			                         XML_ATTR_GET_ATYPE(cur), cur->defaultValue);
-+ 		if ((ret == 0) && (ctxt->valid == 1))
-+ 		    ctxt->valid = 0;
-+ 	    }
-+@@ -6805,14 +6805,14 @@ xmlValidateAttributeCallback(void *payload, void *data,
-+ 		xmlEnumerationPtr tree = cur->tree;
-+ 		while (tree != NULL) {
-+ 		    ret = xmlValidateAttributeValue2(ctxt, ctxt->doc,
-+-				    cur->name, cur->atype, tree->name);
-++				    cur->name, XML_ATTR_GET_ATYPE(cur), tree->name);
-+ 		    if ((ret == 0) && (ctxt->valid == 1))
-+ 			ctxt->valid = 0;
-+ 		    tree = tree->next;
-+ 		}
-+ 	    }
-+     }
-+-    if (cur->atype == XML_ATTRIBUTE_NOTATION) {
-++    if (XML_ATTR_GET_ATYPE(cur) == XML_ATTRIBUTE_NOTATION) {
-+ 	doc = cur->doc;
-+ 	if (cur->elem == NULL) {
-+ 	    xmlErrValid(ctxt, XML_ERR_INTERNAL_ERROR,
-+diff --git a/xmlreader.c b/xmlreader.c
-+index 67ff2cd..2a1a66a 100644
-+--- a/xmlreader.c
-++++ b/xmlreader.c
-+@@ -753,7 +753,7 @@ xmlTextReaderStartElement(void *ctx, const xmlChar *fullname,
-+ 	if ((ctxt->node != NULL) && (ctxt->input != NULL) &&
-+ 	    (ctxt->input->cur != NULL) && (ctxt->input->cur[0] == '/') &&
-+ 	    (ctxt->input->cur[1] == '>'))
-+-	    ctxt->node->extra = NODE_IS_EMPTY;
-++	    XML_NODE_SET_EXTRA(ctxt->node, NODE_IS_EMPTY);
-+     }
-+     if (reader != NULL)
-+ 	reader->state = XML_TEXTREADER_ELEMENT;
-+@@ -818,7 +818,7 @@ xmlTextReaderStartElementNs(void *ctx,
-+ 	if ((ctxt->node != NULL) && (ctxt->input != NULL) &&
-+ 	    (ctxt->input->cur != NULL) && (ctxt->input->cur[0] == '/') &&
-+ 	    (ctxt->input->cur[1] == '>'))
-+-	    ctxt->node->extra = NODE_IS_EMPTY;
-++	    XML_NODE_SET_EXTRA(ctxt->node, NODE_IS_EMPTY);
-+     }
-+     if (reader != NULL)
-+ 	reader->state = XML_TEXTREADER_ELEMENT;
-+@@ -1216,7 +1216,7 @@ skip_children:
-+ 	        xmlNodePtr tmp;
-+ 		if (reader->entNr == 0) {
-+ 		    while ((tmp = node->last) != NULL) {
-+-			if ((tmp->extra & NODE_IS_PRESERVED) == 0) {
-++			if ((XML_NODE_GET_EXTRA(tmp) & NODE_IS_PRESERVED) == 0) {
-+ 			    xmlUnlinkNode(tmp);
-+ 			    xmlTextReaderFreeNode(reader, tmp);
-+ 			} else
-+@@ -1467,7 +1467,7 @@ get_next_node:
-+ 	if ((oldstate == XML_TEXTREADER_ELEMENT) &&
-+             (reader->node->type == XML_ELEMENT_NODE) &&
-+ 	    (reader->node->children == NULL) &&
-+-	    ((reader->node->extra & NODE_IS_EMPTY) == 0)
-++	    ((XML_NODE_GET_EXTRA(reader->node) & NODE_IS_EMPTY) == 0)
-+ #ifdef LIBXML_XINCLUDE_ENABLED
-+ 	    && (reader->in_xinclude <= 0)
-+ #endif
-+@@ -1481,7 +1481,7 @@ get_next_node:
-+ 	    xmlTextReaderValidatePop(reader);
-+ #endif /* LIBXML_REGEXP_ENABLED */
-+         if ((reader->preserves > 0) &&
-+-	    (reader->node->extra & NODE_IS_SPRESERVED))
-++	    (XML_NODE_GET_EXTRA(reader->node) & NODE_IS_SPRESERVED))
-+ 	    reader->preserves--;
-+ 	reader->node = reader->node->next;
-+ 	reader->state = XML_TEXTREADER_ELEMENT;
-+@@ -1497,7 +1497,7 @@ get_next_node:
-+ 	    (reader->node->prev != NULL) &&
-+             (reader->node->prev->type != XML_DTD_NODE)) {
-+ 	    xmlNodePtr tmp = reader->node->prev;
-+-	    if ((tmp->extra & NODE_IS_PRESERVED) == 0) {
-++	    if ((XML_NODE_GET_EXTRA(tmp) & NODE_IS_PRESERVED) == 0) {
-+                 if (oldnode == tmp)
-+                     oldnode = NULL;
-+ 		xmlUnlinkNode(tmp);
-+@@ -1510,7 +1510,7 @@ get_next_node:
-+     if ((oldstate == XML_TEXTREADER_ELEMENT) &&
-+ 	(reader->node->type == XML_ELEMENT_NODE) &&
-+ 	(reader->node->children == NULL) &&
-+-	((reader->node->extra & NODE_IS_EMPTY) == 0)) {;
-++	((XML_NODE_GET_EXTRA(reader->node) & NODE_IS_EMPTY) == 0)) {;
-+ 	reader->state = XML_TEXTREADER_END;
-+ 	goto node_found;
-+     }
-+@@ -1519,7 +1519,7 @@ get_next_node:
-+ 	xmlTextReaderValidatePop(reader);
-+ #endif /* LIBXML_REGEXP_ENABLED */
-+     if ((reader->preserves > 0) &&
-+-	(reader->node->extra & NODE_IS_SPRESERVED))
-++	(XML_NODE_GET_EXTRA(reader->node) & NODE_IS_SPRESERVED))
-+ 	reader->preserves--;
-+     reader->node = reader->node->parent;
-+     if ((reader->node == NULL) ||
-+@@ -1546,7 +1546,7 @@ get_next_node:
-+ #endif
-+ 	    (reader->entNr == 0) &&
-+ 	    (oldnode->type != XML_DTD_NODE) &&
-+-	    ((oldnode->extra & NODE_IS_PRESERVED) == 0)) {
-++	    ((XML_NODE_GET_EXTRA(oldnode) & NODE_IS_PRESERVED) == 0)) {
-+ 	    xmlUnlinkNode(oldnode);
-+ 	    xmlTextReaderFreeNode(reader, oldnode);
-+ 	}
-+@@ -1559,7 +1559,7 @@ get_next_node:
-+ #endif
-+ 	(reader->entNr == 0) &&
-+         (reader->node->last != NULL) &&
-+-        ((reader->node->last->extra & NODE_IS_PRESERVED) == 0)) {
-++        ((XML_NODE_GET_EXTRA(reader->node->last) & NODE_IS_PRESERVED) == 0)) {
-+ 	xmlNodePtr tmp = reader->node->last;
-+ 	xmlUnlinkNode(tmp);
-+ 	xmlTextReaderFreeNode(reader, tmp);
-+@@ -1741,7 +1741,7 @@ xmlTextReaderNext(xmlTextReaderPtr reader) {
-+         return(xmlTextReaderRead(reader));
-+     if (reader->state == XML_TEXTREADER_END || reader->state == XML_TEXTREADER_BACKTRACK)
-+         return(xmlTextReaderRead(reader));
-+-    if (cur->extra & NODE_IS_EMPTY)
-++    if (XML_NODE_GET_EXTRA(cur) & NODE_IS_EMPTY)
-+         return(xmlTextReaderRead(reader));
-+     do {
-+         ret = xmlTextReaderRead(reader);
-+@@ -3167,7 +3167,7 @@ xmlTextReaderIsEmptyElement(xmlTextReaderPtr reader) {
-+     if (reader->in_xinclude > 0)
-+         return(1);
-+ #endif
-+-    return((reader->node->extra & NODE_IS_EMPTY) != 0);
-++    return((XML_NODE_GET_EXTRA(reader->node) & NODE_IS_EMPTY) != 0);
-+ }
-+ 
-+ /**
-+@@ -4035,15 +4035,15 @@ xmlTextReaderPreserve(xmlTextReaderPtr reader) {
-+         return(NULL);
-+ 
-+     if ((cur->type != XML_DOCUMENT_NODE) && (cur->type != XML_DTD_NODE)) {
-+-	cur->extra |= NODE_IS_PRESERVED;
-+-	cur->extra |= NODE_IS_SPRESERVED;
-++	XML_NODE_ADD_EXTRA(cur, NODE_IS_PRESERVED);
-++	XML_NODE_ADD_EXTRA(cur, NODE_IS_SPRESERVED);
-+     }
-+     reader->preserves++;
-+ 
-+     parent = cur->parent;;
-+     while (parent != NULL) {
-+         if (parent->type == XML_ELEMENT_NODE)
-+-	    parent->extra |= NODE_IS_PRESERVED;
-++	    XML_NODE_ADD_EXTRA(parent, NODE_IS_PRESERVED);
-+ 	parent = parent->parent;
-+     }
-+     return(cur);
-+diff --git a/xmlschemas.c b/xmlschemas.c
-+index a2dd6cf..2e6c349 100644
-+--- a/xmlschemas.c
-++++ b/xmlschemas.c
-+@@ -6024,7 +6024,7 @@ xmlSchemaPValAttrNodeID(xmlSchemaParserCtxtPtr ctxt, xmlAttrPtr attr)
-+ 	/*
-+ 	* NOTE: the IDness might have already be declared in the DTD
-+ 	*/
-+-	if (attr->atype != XML_ATTRIBUTE_ID) {
-++	if (XML_ATTR_GET_ATYPE(attr) != XML_ATTRIBUTE_ID) {
-+ 	    xmlIDPtr res;
-+ 	    xmlChar *strip;
-+ 
-+@@ -6047,7 +6047,7 @@ xmlSchemaPValAttrNodeID(xmlSchemaParserCtxtPtr ctxt, xmlAttrPtr attr)
-+ 		    NULL, NULL, "Duplicate value '%s' of simple "
-+ 		    "type 'xs:ID'", value, NULL);
-+ 	    } else
-+-		attr->atype = XML_ATTRIBUTE_ID;
-++		XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ID);
-+ 	}
-+     } else if (ret > 0) {
-+ 	ret = XML_SCHEMAP_S4S_ATTR_INVALID_VALUE;
-+diff --git a/xmlschemastypes.c b/xmlschemastypes.c
-+index af31be5..d40da49 100644
-+--- a/xmlschemastypes.c
-++++ b/xmlschemastypes.c
-+@@ -2867,7 +2867,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
-+                 /*
-+                  * NOTE: the IDness might have already be declared in the DTD
-+                  */
-+-                if (attr->atype != XML_ATTRIBUTE_ID) {
-++                if (XML_ATTR_GET_ATYPE(attr) != XML_ATTRIBUTE_ID) {
-+                     xmlIDPtr res;
-+                     xmlChar *strip;
-+ 
-+@@ -2880,7 +2880,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
-+                     if (res == NULL) {
-+                         ret = 2;
-+                     } else {
-+-                        attr->atype = XML_ATTRIBUTE_ID;
-++                        XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ID);
-+                     }
-+                 }
-+             }
-+@@ -2905,7 +2905,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
-+                     xmlFree(strip);
-+                 } else
-+                     xmlAddRef(NULL, node->doc, value, attr);
-+-                attr->atype = XML_ATTRIBUTE_IDREF;
-++                XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_IDREF);
-+             }
-+             goto done;
-+         case XML_SCHEMAS_IDREFS:
-+@@ -2919,7 +2919,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
-+                 (node->type == XML_ATTRIBUTE_NODE)) {
-+                 xmlAttrPtr attr = (xmlAttrPtr) node;
-+ 
-+-                attr->atype = XML_ATTRIBUTE_IDREFS;
-++                XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_IDREFS);
-+             }
-+             goto done;
-+         case XML_SCHEMAS_ENTITY:{
-+@@ -2950,7 +2950,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
-+                     (node->type == XML_ATTRIBUTE_NODE)) {
-+                     xmlAttrPtr attr = (xmlAttrPtr) node;
-+ 
-+-                    attr->atype = XML_ATTRIBUTE_ENTITY;
-++                    XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ENTITY);
-+                 }
-+                 goto done;
-+             }
-+@@ -2967,7 +2967,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
-+                 (node->type == XML_ATTRIBUTE_NODE)) {
-+                 xmlAttrPtr attr = (xmlAttrPtr) node;
-+ 
-+-                attr->atype = XML_ATTRIBUTE_ENTITIES;
-++                XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ENTITIES);
-+             }
-+             goto done;
-+         case XML_SCHEMAS_NOTATION:{
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-index 932251da98..05a7dce95b 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-@@ -43,6 +43,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
-            file://CVE-2025-49794-CVE-2025-49796.patch \
-            file://CVE-2025-6170.patch \
-            file://CVE-2025-9714.patch \
-+           file://CVE-2025-7425.patch \
-            "
- 
- SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
--- 
-2.50.1
 
+For ARM-based systems... you know. We have 'lima' for the oldest=20
+generation (gallium only), 'panfrost', which also enables panvk, now we=20
+are getting 'ethosu'. I was tempted to merge all of them into a single=20
+'arm' entry.
+
+>=20
+> I guess I would just name it rocket?
+
+Why not. Ross, any opinion from your side?
+
+>=20
+>> =C2=A0 PACKAGECONFIG[svga] =3D ""
+>> =C2=A0 PACKAGECONFIG[tegra] =3D ""
+>> =C2=A0 PACKAGECONFIG[v3d] =3D ""
+>> @@ -129,7 +133,7 @@ VULKAN_DRIVERS .=3D=20
+>> "${@bb.utils.contains('PACKAGECONFIG', 'asahi libclc gallium-l
+>> =C2=A0 VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'bro=
+adcom',=20
+>> ',broadcom', '', d)}"
+>> =C2=A0 VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG',=20
+>> 'freedreno', ',freedreno', '', d)}"
+>> =C2=A0 VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'vir=
+tio',=20
+>> ',gfxstream', '', d)}"
+>> -VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG',=20
+>> 'imagination', ',imagination-experimental', '', d)}"
+>> +VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG',=20
+>> 'imagination', ',imagination', '', d)}"
+>> =C2=A0 VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'int=
+el=20
+>> libclc gallium-llvm', ',intel', '', d)}"
+>> =C2=A0 VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'int=
+el',=20
+>> ',intel_hasvk', '', d)}"
+>> =C2=A0 VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'pan=
+frost=20
+>> libclc', ',panfrost', '', d)}"
+>> @@ -171,6 +175,7 @@ GALLIUMDRIVERS =3D ""
+>> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'asa=
+hi=20
+>> libclc gallium-llvm', ',asahi', '', d)}"
+>> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'int=
+el',=20
+>> ',crocus', '', d)}"
+>> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'etn=
+aviv',=20
+>> ',etnaviv', '', d)}"
+>> +GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'ethosu',=20
+
+Note for myself: move this one line up.
+
+>> ',ethosu', '', d)}"
+>> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG',=20
+>> 'freedreno', ',freedreno', '', d)}"
+>> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'int=
+el',=20
+>> ',i915', '', d)}"
+>> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'int=
+el=20
+>> libclc gallium-llvm', ',iris', '', d)}"
+>> @@ -181,6 +186,7 @@ GALLIUMDRIVERS .=3D=20
+>> "${@bb.utils.contains('PACKAGECONFIG', 'panfrost libclc', ',pa
+>> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'amd=
+=20
+>> gallium-llvm', ',r300', '', d)}"
+>> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'amd=
+',=20
+>> ',r600', '', d)}"
+>> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'amd=
+=20
+>> gallium-llvm', ',radeonsi', '', d)}"
+>> +GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'rockchip'=
+,=20
+>> ',rocket', '', d)}"
+>=20
+> Only useful if you enable teflon support as well, so we need teflon in=20
+> the PACKAGECONFIG check alongside rockchip (or rocket or whatever is th=
+e=20
+> chosen name for this PACKAGECONFIG option).
+
+Nice idea. And for ethosu too.
+
+>=20
+> Haven't had the time yet to dig into the diff between 25.2.7 and 25.3.0=
+=20
+> release, so I don't know if we've missed on something.
+>=20
+> Cheers,
+> Quentin
+
+
+--=20
+With best wishes
+Dmitry
 
