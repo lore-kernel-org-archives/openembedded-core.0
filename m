@@ -1,310 +1,202 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2AD5D20682
-	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 12:57:25 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.42763.1764853036001868525
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65C9ED20690
+	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 13:26:16 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.62])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43327.1764854766383029795
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Dec 2025 04:57:16 -0800
+ Thu, 04 Dec 2025 05:26:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=G18F0Qrx;
- dkim=fail reason="dkim: body hash did not verify" header.i=@oss.qualcomm.com header.s=google header.b=ONQ7Gvoe;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B4AEr7P926176
-	for <openembedded-core@lists.openembedded.org>; Thu, 4 Dec 2025 12:57:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	TEKayXRiLhOfbg76WooLxpAyOAALL1ZoipMeUDT9Yik=; b=G18F0QrxF6XMu1xF
-	a2FoAMLD983q8JQdtHVxeZJwrNXndeHWCoCLkrIV1dKmBWTbGRSF6qeREj2CHDIr
-	QcvpC6igokfSuu2vSqeB0EDN8w92/FkwQPvnXaE5ORebxMQm2BMDlho1bKAvHGeo
-	G+sPRzvLZYniR1xd6jWPqiqZ62pnt1JRGwtneHrFM2z2UC+wV7uQRu4myfNIADNt
-	fK2AFjT5amvy/CUyMtNb69e757H0N/iWplRCa0p7vfm4lEsbfjtpOGQ3NHQEgYOq
-	vsmaL8/0POuyMVOa83ObKVIlss9ilVcxeCQ7iUca8SARy8Y/MkTVvOxzUQRXDsoH
-	TE8pLw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4au5m311q5-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 12:57:14 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8b24383b680so312336385a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 04:57:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764853034; x=1765457834; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TEKayXRiLhOfbg76WooLxpAyOAALL1ZoipMeUDT9Yik=;
-        b=ONQ7GvoeYSnK0VzPiZNtH3HNq5Kr5OJYl6tBUbxp4+YOmhp8gr+Trj9EoHVt6qAdZj
-         skQV+7bMZ0kI/NRAdeklfBcKLA7ixGDMiDN1qTfCgsbLGmvwpb6QMkWI4CzEJ21Zp+Tx
-         xuS36LWx6jjflRZ1MLKGBBdPC1AEO0ZXc+U/dw7xcjbfooXsQqKlAEltoTtpzeMUWppl
-         YayjBmeoRGtboqHB2maGiKJb9j3Xx9R/VHbmJAa1zHxSRc4z1sxp+/HKnQAwrm7XI3Ix
-         W2GMniJ2uLmT3NtNtKPCU9lxKvvJp1aei1jw9asb4L4glqr9UnWOAABIsc+p8/1AQdbH
-         7Y2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764853034; x=1765457834;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TEKayXRiLhOfbg76WooLxpAyOAALL1ZoipMeUDT9Yik=;
-        b=ubF8gt98XNq0b81MR5U8t2S/82qdGLKY4jGD+V5DG4e03pLtRiP6SUL4GafhS3L96u
-         P4MEaS7gEBrqtHljRNyWg4btnH78X6b776r7cVVTbmMhhhUEMisK+IiIE7ven989hQqr
-         zOkx3NbdGnNA57QKvU7/Y54Pxq15MtLEQ78krtfFJ5fHqqmWRdAeAYTanPRUFVrM7/Q1
-         SF5JkU0N9lWKZf86uuanESqgee+hCSQVWbvS7kQqfn1iqU1HDFt/CZHosyrrLlai+AzP
-         t2Utdg0vOPsARshd/LgSCqBYps6RXIIIA4j5p+DXnhAEcL40S/VOxyDf3NT8fwj05lee
-         aA8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVR5jDW1iBPqDkkzfqY1BmBqeScqGldXJLAYvqzMK+oWXpsXiQuPa8G/9hcr6H3CchPI1XOh33Dbe5DIud7Mz4c9w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzLj6o6D6hd26x+kLqug5rll91thcNfzAD692LxitSsbFr9bEod
-	wqPgZWecMIzdITNUdRqmWhFDtIRy2Vp534FvKZpvMgw5Mp3STTHzP/TMwfGByQYmdKTL0U/iCVJ
-	DtKiToLgv22b7begO9qzxynjljjMyZ6VELhH2u/0qbZvEvFwYot4KuFwefMUDQdbS1jjEVdLoUj
-	fi11xZCCM=
-X-Gm-Gg: ASbGncsVGz9Cm8bVP/xM0lIrhniFwzl7sE0X4PGxMU7yOX1AjJZHJ6tBP/CLrkZb510
-	GnDFCuNbfMyURMnoMSbZemQ6EQxbxaZlny/uXyULWwtYIhFQspR0WYI8l6c0HGyoOiGV1BlOzOu
-	QDYDlY9aaT3Tz3N5fZ/1zrbiy7jGCD2PF9sjgXP4usw83oSuJXlzvqpMew+avBJ4NDokk4Qwj59
-	POelkMSCqWM5e0eVvsEklpAfMp2hGU2ZQ0hsY8e5zIM95aNTjeXgE0313YFPqWU9zRIOzYyHy7b
-	xjTBQ1ESE/KJdKK88JRtnMi6Geluo7Mcc9WJnVBOsGwJK0be7I+N0Q6xe2eFE1DECDlnPrh5zll
-	eWcBdbbElSEoJ3fCv49Reg0WJ1G+WRHenx4LaamxN/1azR0OeCQisagpwu7+QfNsdP9OLS/zKvb
-	V8YprqntelhGqw
-X-Received: by 2002:a05:620a:2a15:b0:8b2:e284:1bd6 with SMTP id af79cd13be357-8b5e744f9e5mr843187185a.76.1764853034104;
-        Thu, 04 Dec 2025 04:57:14 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH+YwJKFec5FgU8/vhpaFBcv+BpVZFllZ2Ad4CoOlRqOG9OdPJOM5kXeV9QmYhS/WWkyEz+xg==
-X-Received: by 2002:a05:620a:2a15:b0:8b2:e284:1bd6 with SMTP id af79cd13be357-8b5e744f9e5mr843182485a.76.1764853033404;
-        Thu, 04 Dec 2025 04:57:13 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a0c3:3a00::4c9? (2001-14ba-a0c3-3a00--4c9.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::4c9])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37e70596bd4sm5300921fa.31.2025.12.04.04.57.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Dec 2025 04:57:12 -0800 (PST)
-Message-ID: <4a332969-32ee-450b-ba25-34f2b5dec81b@oss.qualcomm.com>
-Date: Thu, 4 Dec 2025 14:57:11 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 4/4] mesa: upgrade 25.2.5 -> 25.3.0
-To: Quentin Schulz <quentin.schulz@cherry.de>,
-        openembedded-core@lists.openembedded.org,
-        Ross Burton <Ross.Burton@arm.com>
-References: <20251202004951.2358784-1-dmitry.baryshkov@oss.qualcomm.com>
- <20251202004951.2358784-4-dmitry.baryshkov@oss.qualcomm.com>
- <cdf76069-ffd1-4b7f-b164-0a8b4ab1f5f5@cherry.de>
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=Ruw+7TzV;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=Ruw+7TzV;
+ spf=pass (domain: arm.com, ip: 40.107.159.62, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=JY7lbzbKKggYxscWe7ovjUrWTl576c0mX4nD9fbdXlNnkkSYHdJuQzZWSpldfjMAMB+yRBNdVrp+ogKq7Nri7kxK4oEsnibJY8pfZ6LojyWTnRMQuS7+jKXVQTLcyo209VKObaEbWRmVGyzq92Rp41ijZJqSZdNIrjGgo/x9oEsjr1QSS7BMH9oEN7Qc6EdyDl2EgUO5+fzPQ6kcLanM4ZeVJBUrUCZ2zrCLQi9dZH0SoziBQ+dyUz5A843eniv1MrzSkqUA22IWps5z7ukBZPkLD5jS+7Exx4jkcGpNZxxEs/e9K7Ug2GGAuYyhIERFl39Mik8u6i8iG4Z3BVhcog==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9rlvsyXqGJCXa4mciforaUxA8359oPc1AlzgWKrN2J4=;
+ b=aLSCOMfz0az8vWoaWXqHzuplL3iCK5SUr9PaEwePgfnFfd3UfeDSD8RVy70PoKdgNWtKqezQsrYyVARvCYXGnSYf0HLJuX1wMENMX/fPzQLtYDjL2k5GI8s8rRpCIXy43+3H/hlrJtGuQhtDLFG79MmN9KUGjvIgiCxQpruJhpSgcT9fNO0b5X1/mYkU2UrwNvI+Q+yH4hsALkkn4mLGBwFolNHttFnQxGhL9XNzL+lrloT3wsdvFn+HrLsHwoVr+S3W7p3wclB6ldGpKZrUVOQI51wmpPfu7HzqIodJlNUPZzj8QqtVdAUL5/PJDLeXq+q57sWX6XUqHdrZQqat9A==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=est.tech smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9rlvsyXqGJCXa4mciforaUxA8359oPc1AlzgWKrN2J4=;
+ b=Ruw+7TzVWJTXaptfMLlxoQ+bpU4PEMR5fD8jaNiYKrcAKBSKJUlG208hq+DkHmE/srJ61+Roh4cWEExEnJG7sOUS6iiVfxCLlhh1lJ9AK/aIXx2K8x8WHvCJtA0KNZpOw0Kba+ia+P9tfbJdMzWWZMtXuYLeWCnc2sc+aWwGMiU=
+Received: from AM8P189CA0004.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:218::9)
+ by DB4PR08MB8029.eurprd08.prod.outlook.com (2603:10a6:10:38b::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Thu, 4 Dec
+ 2025 13:26:00 +0000
+Received: from AMS0EPF00000191.eurprd05.prod.outlook.com
+ (2603:10a6:20b:218:cafe::45) by AM8P189CA0004.outlook.office365.com
+ (2603:10a6:20b:218::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Thu,
+ 4 Dec 2025 13:26:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS0EPF00000191.mail.protection.outlook.com (10.167.16.216) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.8
+ via Frontend Transport; Thu, 4 Dec 2025 13:25:59 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=P6gaoTM8pME1HLK6CuUkQStrkEAsxs3AUHUtTV6BtzRBnNsmOAiufJrNyScq99ywvXhAAcVIn+SX3Z3XaK5kZu0KCcOseho2q6U+vqHwc8YyaP8f4ezm6pyKE6u26R2T+abnc6i7foy9iT2ZBhwpCN5KRrXPNqiRgW6BCe7jetNvBvMxHVxDY7BbakL2IRmj3hOdc3+rGZHyd/h4WoDNHEqBSlXr5+UhhYosZFAX2zPj94p4qbu3XR21G9J5YvfoP+/g6cZJaY5WQPiNeClBv6STVm4ukiViRfM1xK2iYK2JqxiVJAg+4OU8wcnByyMhu9tn1pDBrqSZRSHFBmApKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9rlvsyXqGJCXa4mciforaUxA8359oPc1AlzgWKrN2J4=;
+ b=s/TrJXfiy1zQnE5p7/uWQRwzamH3/jeN48aj0fUdLW+2sLNgvl/k3qpAqbh9UQ/xIGZQLqtlnJVgy02H9g136U0L2fx/osxPDh+biBndyPadpyMbAoGe0TozXScx/uZ04+Z1zCd8o732zMX6yVFLjf0qbBm0087ZHeF3k7reW46D3/q0xoQ8n9S/Rdzhu0KrHKJpFKPIyBlnb/i8P8N2RBJoa+ooGEu4oECgEoXPERqzdtQIxKBgdaQMVCR3RJNre/+bsaYaf9g6dtoPdGB6a5P54wgTxuQme9jF+weXvgTGQUhsO33A7KJc4m9a/2QxcZh7n5kISr5ASBF3Sn9urw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9rlvsyXqGJCXa4mciforaUxA8359oPc1AlzgWKrN2J4=;
+ b=Ruw+7TzVWJTXaptfMLlxoQ+bpU4PEMR5fD8jaNiYKrcAKBSKJUlG208hq+DkHmE/srJ61+Roh4cWEExEnJG7sOUS6iiVfxCLlhh1lJ9AK/aIXx2K8x8WHvCJtA0KNZpOw0Kba+ia+P9tfbJdMzWWZMtXuYLeWCnc2sc+aWwGMiU=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DB9PR08MB6393.eurprd08.prod.outlook.com (2603:10a6:10:25a::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Thu, 4 Dec
+ 2025 13:24:57 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9366.012; Thu, 4 Dec 2025
+ 13:24:50 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "pratik.farkase@est.tech" <pratik.farkase@est.tech>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "pratik.farkase@ericsson.com"
+	<pratik.farkase@ericsson.com>
+Subject: Re: [OE-core][PATCH v3] libyaml: add ptest support
+Thread-Topic: [OE-core][PATCH v3] libyaml: add ptest support
+Thread-Index: AQHcWuij1JkWGSnpOkG8vaK+MiYE2LURjN4A
+Date: Thu, 4 Dec 2025 13:24:50 +0000
+Message-ID: <56537EAE-D886-452E-8613-30E11147BF10@arm.com>
+References: <20251121115420.15308-1-pratik.farkase@est.tech>
+ <20251121131306.19079-1-pratik.farkase@est.tech>
+In-Reply-To: <20251121131306.19079-1-pratik.farkase@est.tech>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <cdf76069-ffd1-4b7f-b164-0a8b4ab1f5f5@cherry.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-Proofpoint-GUID: y7ROi18XkjRTj-_5a718L4sUPcgbpU0o
-X-Proofpoint-ORIG-GUID: y7ROi18XkjRTj-_5a718L4sUPcgbpU0o
-X-Authority-Analysis: v=2.4 cv=esHSD4pX c=1 sm=1 tr=0 ts=6931852a cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=ZpVaWaFtAAAA:8 a=Q4-j1AaZAAAA:8 a=2f9kOfnec1gUK_NDvKMA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=6P56k4kqNu8A:10 a=IoWCM6iH3mJn3m4BftBB:22
- a=5tn4MO8azEBWFjlAA-rn:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA0MDEwNSBTYWx0ZWRfX3PzjknKBP1kM
- LvtV4O/+mksF9F0SDElruZHVySkZ4fqX+jtqYfi74vvG5cLDzoelbAxOObxBLbkoDnrV8HbHFou
- 4SKV2UmkVmA5MsNljsARldSw7kQDoQqLyVTppeHvRIAgvjAuWJQMeeJscPl6Asz7HaZN7fOgwRa
- /+HuRGo1fpt6WscfRjRxR7u8OQf5ab9glsT3NyT57dRQj5HtE+sm4YQAlA3e6LMYXgXjO8XIF6/
- ZYMHZsor/6Dv+uLnH+CnowDcXv+D+KcNjccHzKcc0PprNAw20hND4yBaRlpd+Bqzd5oWOa6M3D3
- T+hzoN/udkiVNtGAFCoQV+SZi6pUYHHVuLEUS/D9GrxT3jsP247wqBdsfyY0qQhIW4+C2QVgw1s
- 6bC+cB7tvUYRp+dlTRdJfkIF3tpS8w==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-04_03,2025-12-03_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 adultscore=0 malwarescore=0 suspectscore=0
- phishscore=0 lowpriorityscore=0 priorityscore=1501 impostorscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512040105
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.700.81.1.3)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DB9PR08MB6393:EE_|AMS0EPF00000191:EE_|DB4PR08MB8029:EE_
+X-MS-Office365-Filtering-Correlation-Id: 56c6e336-ae24-4696-37a1-08de3338aa0e
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|38070700021;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?us-ascii?Q?IqCSRM/nNY2TXbgqabIddiBmTpc27H/VEm4dSpek6YPdCVFpDBkiHfmimlEy?=
+ =?us-ascii?Q?hfX3NhJvbPiDuXiPkJn1s8km1JY2Njw1bBiKfjYRdHSHRCfYRH3KYSXr15j9?=
+ =?us-ascii?Q?a1znEJoWNJSDeAFGir04HHmq4GDP+vbVYdK24XJax3zS1JFTaLx5U3boV/Gr?=
+ =?us-ascii?Q?PVfvQ0M0wCjtd4BiQZILIXadBwUv1LI4I30dV8rKJHePLQlqec7pwF6CKNyA?=
+ =?us-ascii?Q?MX3JC86j1xlQPPSnxno6eJfNqFAn0UPG22+8UQziqo9lf8+3/qza7HxVvxGY?=
+ =?us-ascii?Q?hX1YeT15OVBxsr06W70uAbwpDbrxq3c971BISWNaj8JUrMTGPnhb2pNSQno9?=
+ =?us-ascii?Q?Y+RJluMwjpn9YhfjBfFgRJ7RmSyx+pg08n/pLHqSAzhX2nZ3Acq9IZJwOENp?=
+ =?us-ascii?Q?iVnajn7qzstiEOx4zLl/DJIcMRckD1bj0l4sgXfVmuxupZMlQtbtYE25g9T/?=
+ =?us-ascii?Q?ASEdOZ0qE7L1tbUBmNhg6bC9zDKhWN003SE+8qx5hDNWEC5iLbs8vW8jlxPg?=
+ =?us-ascii?Q?FdzPtA2jFudLjjPRne3nSOa8CkACyj1xnB89N3D3BsW4ReKyrQRj2B/JmNHm?=
+ =?us-ascii?Q?a9+Ch7EOPPPqXkC1Xfu/4LVHZtNn6muK5sZBY9YfhkKpI19RUTZulsRLiGR9?=
+ =?us-ascii?Q?WyBM+1y6hN4Fa8vWvyS7/dzC3zfUGDR8lUQppmaVYHWWqZZBHKItM4ODZXf7?=
+ =?us-ascii?Q?jmDhpWbOgDh+Ol83fktak5o/zDTMShcuWAzFAbpfb1Hj8fBr0WpbPEQ4Vrc9?=
+ =?us-ascii?Q?8w3YTzb3IbEWeeT5mfrhh9DyzeLK8Bx/i7ZzYlHbNyIIY3r0LNtHwH/A9lNT?=
+ =?us-ascii?Q?095PR9g/HQv7qgE5z0QNZXTiyAQlncPyTQNLIIYZAYJ1A7F73li2zAK/nPyL?=
+ =?us-ascii?Q?bU0fpJQyRg9vgEL5dGcghIN2IP7GkhX+MUumfuubE6CGViXhFL7VsPyXWxjr?=
+ =?us-ascii?Q?RcK9+jpvStfSEsOxeFDEUWkKHmlUxxaEUzeLDqocqeH8JvMwazQe5IbpU10j?=
+ =?us-ascii?Q?Cep28lqJPBn7zjPq5fEw+2FeIEzx4kSkuq6H5A7R8EwbR3o759WRTv591yEF?=
+ =?us-ascii?Q?R13m69ljs6pE14TMJdn0XZ5uxi2Z6VYPGkoV3xtTL87xNIJJbpC/E1ZQMIgX?=
+ =?us-ascii?Q?31KCUkEdSqbXd5jN6qIpsZPA5b3etpQRDWNR9d9a6AVWoydyZkpq53UldoM4?=
+ =?us-ascii?Q?aI8A28mbXfH7qm0HEhQ8fhDc2UvPaT4dhng3H4icflK56nDgiviPv5nIiWdg?=
+ =?us-ascii?Q?LMlMRludJEugcDlqOvRzzWFwY1eGG7J4kEZsH+MmciRISLvdoYi0oYQJwSw1?=
+ =?us-ascii?Q?usazVvxYlZRwE/QVX6MtBdyJZxSt14PtoVhZRhcJwOHofCufAAFU8BGixh7D?=
+ =?us-ascii?Q?hSKKjavR1wkcBdaHfuQlUw9h1Y4HTfqYzpx4Bdvxit4y2KpxbmC7yVDv5gVZ?=
+ =?us-ascii?Q?Z4NqTWGVLQanI8fkQ/xLSBGI5lOWOifTJeagMBhgvxb2QPi9MAKDJwiLE1U8?=
+ =?us-ascii?Q?k1Yw7uKbkPiC0n83drGot4ciL/LwhQJngyy/?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <BA0409D51F2DD542B725DF5FFB51FDD9@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 5B4AEr7P926176
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6393
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AMS0EPF00000191.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	9e40c3ce-1977-458b-fc0c-08de333880d8
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|376014|1800799024|35042699022|14060799003|82310400026;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?Iimj0HSyBbMQhum7qPcwoMb5WEPCbcNnJEzCAamUAt5k8wQtRozrt8P7PxhC?=
+ =?us-ascii?Q?QiJydxFTqmjgLbd6HEJ2CNHjsqBEMCRjoBCXMQTnNH/UMo5K2uZDNg6DKJDu?=
+ =?us-ascii?Q?OifkfO2NAM5OQ+Btrj5t/rYvXfE3kVAzJSsPzPOGJcyu2w0m67nqrDBEpGE7?=
+ =?us-ascii?Q?/V3BfKIxVFAnUcmyxXzkOys1hCBBT5415t42D2qh2BiNyzsBneEahMdeXQv3?=
+ =?us-ascii?Q?TNNLubjJKPjJIXEwD2cD9qIJBLfQzqChRICFxECqHsEX+Eez/g5zZ8nbqSHr?=
+ =?us-ascii?Q?kNg5onaCqDtP4eoAF6BeQJ1RazPgsFtoNDRkYBHbBrrwA74nB+7U+hWdfzGa?=
+ =?us-ascii?Q?5ND1LwvOpCWb3xdS/NU5GwAVeTCCpxKjsrcRIFu5BNLyMVewv9ou4znB3xde?=
+ =?us-ascii?Q?xjzu68A1x3XyknsPkzSkvHG5n6uXblO0k3phVxegP2r7f1eIdjymCswXlLM6?=
+ =?us-ascii?Q?gc/iT9a8H6mYQ5T7WqsZfvxldTrfxP5Kri0lTirPXgiN5ssmZnI1rCQub6Am?=
+ =?us-ascii?Q?rirZ6UFeW/FS6utjLRIPXnkwrJ4jQYM9+fDKJB0LKAVp8qnmdpWmfkK01hSl?=
+ =?us-ascii?Q?MpqqcG3CUUVxrlmAYlm0AndVib9SpZCackHjGvNMUPwdU7lg03/+z3FhcPir?=
+ =?us-ascii?Q?CW7Ee0XChf+IU9Y1uKbysbP68/B+wL9ca0qe6mSay3jlOgEwfEJz34ZB1BlT?=
+ =?us-ascii?Q?LVnJyKzdBcEjRwmoQrZMam4iEU8QNxhsHqTOXjG4NBFA5jHenQT3WYO7qgob?=
+ =?us-ascii?Q?H8locsgo7hcX819D/tdi2Mqo0ka/tKgPhG1RJHTin/t1SbBu6GTRjdkHBTCv?=
+ =?us-ascii?Q?N/l5viY3yn9WxuDHUeNA+GY7Agqu+vFfVEFj5qllBRQQe9MnKeto1KZR9N2x?=
+ =?us-ascii?Q?jAPvQZH6fZiLsneRhK3heHTDJHcTmex8GAYfW0W0I9szYJJFvVW5/X6t0TrB?=
+ =?us-ascii?Q?j86LaEBlsRDKYX7DNrCrowL2oLYZc0bXlvtscfDmsMimmrlOdQGRNNXvRcC/?=
+ =?us-ascii?Q?oYKmK+Huz0y0hkxeltB0+HEBIcKhSvVg8SaKqkPkNms96slYcXMKYUBRZ7AL?=
+ =?us-ascii?Q?EQEPHzajnJtqvoH+Bhn/QT/0NPOeXILXFanG2aQfYAsA1wNCIPz4Bv8wYaeO?=
+ =?us-ascii?Q?usR5dAUWrUOgsazAgNgAVysX7hvKVTmxSZ9hUFkOA97yyBCnuclD3vKEb5/+?=
+ =?us-ascii?Q?dNEa1/jSISbKAgNT3ToLZ0seTlqG7X82YWejSxjnO238rJ96S7kE4+Jt7tPw?=
+ =?us-ascii?Q?zeh12SrOk6AYWGbCF/aN4UpaYK4FIeW9QrQjqlu0RNfrJOyoJsbM0SzinCCX?=
+ =?us-ascii?Q?VG79FhokypudV1cQMgKtlpNR2kKw7ss5nvlkn66eXcqCVWp4WWAglCK3F65M?=
+ =?us-ascii?Q?vVBnCIRWeGPrZaTORyOUgkEOhWW+jzp0Hmq4k3GruYwGRhofQ6E7yAAyegw9?=
+ =?us-ascii?Q?IAF2KP4J05BOnefVSPCVZNyMY+pBeEqpLfjDFyUco9KB7wZontwbp9RUlEhK?=
+ =?us-ascii?Q?gMcPw5CMvsc5/KOAoFbQv0r34Z0Y9VddEa2JTswLxnN8X302GmRcLNFSQcnf?=
+ =?us-ascii?Q?eiDdjhN+IVdu4TB9nRE=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(1800799024)(35042699022)(14060799003)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2025 13:25:59.6395
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56c6e336-ae24-4696-37a1-08de3338aa0e
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF00000191.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR08MB8029
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 12:57:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227293
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 13:26:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227294
 
-On 02/12/2025 12:35, Quentin Schulz wrote:
-> Hi Dmitry,
+On 21 Nov 2025, at 13:13, Pratik Farkase via lists.openembedded.org <pratik=
+.farkase=3Dest.tech@lists.openembedded.org> wrote:
 >=20
-> On 12/2/25 1:49 AM, Dmitry Baryshkov via lists.openembedded.org wrote:
->> Upgrade Mesa to the latest release. Drop VDPAU tracker (dropped
->> upstream). Add support for ethosu and rocket Gallium drivers.
->>
->=20
-> Thanks for doing that!
->=20
-> https://docs.mesa3d.org/relnotes/25.3.0.html for the release notes and=20
-> checksum.
->=20
-> I'm wondering if we shouldn't add the buildpath QA check to upstream=20
-> mesa's CI so that we don't have to patch things up for every release?
->=20
-> [...]
->=20
->> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-=20
->> graphics/mesa/mesa.inc
->> index 420ba2032b67..106767476ccc 100644
->> --- a/meta/recipes-graphics/mesa/mesa.inc
->> +++ b/meta/recipes-graphics/mesa/mesa.inc
->> @@ -18,10 +18,12 @@ SRC_URI =3D "https://archive.mesa3d.org/mesa-=20
->> ${PV}.tar.xz \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- file://0001-meson-misdetects-64bit-atomics-on-mips-=20
->> clang.patch \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- file://0001-freedreno-don-t-encode-build-path-into-=20
->> binaries.patch \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- file://0001-gfxstream-don-t-dump-genvk.py-args-to-=20
->> generated-file.patch \
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://0=
-001-ethosu-drop-file-names-from-the-generated-=20
->> file.patch \
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://0=
-002-rocket-drop-file-names-from-the-generated-=20
->> file.patch \
->> =C2=A0 "
->> -SRC_URI[sha256sum] =3D=20
->> "bb6243e7a6f525febfa1e6ab50827ca4d4bfdad73812377b0ca9b6c50998b03e"
->> -PV =3D "25.2.5"
->> +SRC_URI[sha256sum] =3D=20
->> "0fd54fea7dbbddb154df05ac752b18621f26d97e27863db3be951417c6abe8ae"
->> +PV =3D "25.3.0"
->=20
-> Can we first bump to 25.2.7?
->=20
-> We won't update mesa in whinlatter to 25.3.x I assume, so it'd be easie=
-r=20
-> if we had a commit we could backport for whinlatter right now before th=
-e=20
-> release (or right after for the first dot release).
->=20
->> =C2=A0 UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
->> @@ -104,12 +106,14 @@ PACKAGECONFIG[amd] =3D ""
->> =C2=A0 PACKAGECONFIG[asahi] =3D ""
->> =C2=A0 PACKAGECONFIG[broadcom] =3D ""
->> =C2=A0 PACKAGECONFIG[etnaviv] =3D ",,python3-pycparser-native"
->> +PACKAGECONFIG[ethosu] =3D ""
->> =C2=A0 PACKAGECONFIG[freedreno] =3D ""
->> =C2=A0 PACKAGECONFIG[imagination] =3D "-Dimagination-srv=3Dtrue,-Dimag=
-ination-=20
->> srv=3Dfalse"
->> =C2=A0 PACKAGECONFIG[intel] =3D ""
->> =C2=A0 PACKAGECONFIG[lima] =3D ""
->> =C2=A0 PACKAGECONFIG[nouveau] =3D ""
->> =C2=A0 PACKAGECONFIG[panfrost] =3D ""
->> +PACKAGECONFIG[rockchip] =3D ""
->=20
-> I'm not sure about the naming here. Rockchip also has Lima-supported,=20
-> Panfrost-supported, Panthor-supporter, Panvk-supported GPU in various=20
-> SoCs. I would expect that when selecting rockchip it would enable=20
-> support for "everything" one can find on SoCs from this vendor, which=20
-> isn't necessarily a good thing (c.f. amd and intel bringing in too many=
-=20
-> drivers you may not be interested in).
+> +    if ${test_bin} >/dev/null 2>&1; then
 
-Yeah, I was trying to find a balance between having a per-driver=20
-PACKAGECONFIG entries (which would be a nightmare for GL vs VK drivers)=20
-and just declaring a "vendor", which enables all drivers, even if one=20
-doesn't need it.
+If the test fails, it would be useful to have output to say why it failed. =
+ So I suggest not redirecting the output.
 
-For Intel / AMD / NVIDIA it historically went somewhat okay, having just=20
-a single vendor config entry.
-
-
-For ARM-based systems... you know. We have 'lima' for the oldest=20
-generation (gallium only), 'panfrost', which also enables panvk, now we=20
-are getting 'ethosu'. I was tempted to merge all of them into a single=20
-'arm' entry.
-
->=20
-> I guess I would just name it rocket?
-
-Why not. Ross, any opinion from your side?
-
->=20
->> =C2=A0 PACKAGECONFIG[svga] =3D ""
->> =C2=A0 PACKAGECONFIG[tegra] =3D ""
->> =C2=A0 PACKAGECONFIG[v3d] =3D ""
->> @@ -129,7 +133,7 @@ VULKAN_DRIVERS .=3D=20
->> "${@bb.utils.contains('PACKAGECONFIG', 'asahi libclc gallium-l
->> =C2=A0 VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'bro=
-adcom',=20
->> ',broadcom', '', d)}"
->> =C2=A0 VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG',=20
->> 'freedreno', ',freedreno', '', d)}"
->> =C2=A0 VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'vir=
-tio',=20
->> ',gfxstream', '', d)}"
->> -VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG',=20
->> 'imagination', ',imagination-experimental', '', d)}"
->> +VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG',=20
->> 'imagination', ',imagination', '', d)}"
->> =C2=A0 VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'int=
-el=20
->> libclc gallium-llvm', ',intel', '', d)}"
->> =C2=A0 VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'int=
-el',=20
->> ',intel_hasvk', '', d)}"
->> =C2=A0 VULKAN_DRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'pan=
-frost=20
->> libclc', ',panfrost', '', d)}"
->> @@ -171,6 +175,7 @@ GALLIUMDRIVERS =3D ""
->> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'asa=
-hi=20
->> libclc gallium-llvm', ',asahi', '', d)}"
->> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'int=
-el',=20
->> ',crocus', '', d)}"
->> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'etn=
-aviv',=20
->> ',etnaviv', '', d)}"
->> +GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'ethosu',=20
-
-Note for myself: move this one line up.
-
->> ',ethosu', '', d)}"
->> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG',=20
->> 'freedreno', ',freedreno', '', d)}"
->> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'int=
-el',=20
->> ',i915', '', d)}"
->> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'int=
-el=20
->> libclc gallium-llvm', ',iris', '', d)}"
->> @@ -181,6 +186,7 @@ GALLIUMDRIVERS .=3D=20
->> "${@bb.utils.contains('PACKAGECONFIG', 'panfrost libclc', ',pa
->> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'amd=
-=20
->> gallium-llvm', ',r300', '', d)}"
->> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'amd=
-',=20
->> ',r600', '', d)}"
->> =C2=A0 GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'amd=
-=20
->> gallium-llvm', ',radeonsi', '', d)}"
->> +GALLIUMDRIVERS .=3D "${@bb.utils.contains('PACKAGECONFIG', 'rockchip'=
-,=20
->> ',rocket', '', d)}"
->=20
-> Only useful if you enable teflon support as well, so we need teflon in=20
-> the PACKAGECONFIG check alongside rockchip (or rocket or whatever is th=
-e=20
-> chosen name for this PACKAGECONFIG option).
-
-Nice idea. And for ethosu too.
-
->=20
-> Haven't had the time yet to dig into the diff between 25.2.7 and 25.3.0=
-=20
-> release, so I don't know if we've missed on something.
->=20
-> Cheers,
-> Quentin
-
-
---=20
-With best wishes
-Dmitry
+Ross=
 
