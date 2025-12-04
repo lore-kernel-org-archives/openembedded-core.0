@@ -1,138 +1,165 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D32D1F9B6
-	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 10:48:25 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.40729.1764845298143363800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9985D1F9B8
+	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 10:55:34 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.40643.1764845728254884594
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Dec 2025 02:48:18 -0800
+ Thu, 04 Dec 2025 02:55:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=H6KFa5zi;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=QTejpOHV;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B4AEwpq1130992
-	for <openembedded-core@lists.openembedded.org>; Thu, 4 Dec 2025 10:48:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=lsd2ObiCYKESQGf4esBfadSWK197PTZAsIN
-	qpgaAMaI=; b=H6KFa5zi48tKBKxEe+jnBL6uMjvSdcMf/KRXpSz9qIEz8EqHP5x
-	d8eokGDE+ue3AoABWkFphdJZWqoOWhGy0MRhsyK6ig1pQaKwwx1Z8Ziy1O4MhNvY
-	fECOIOzmCUTqwNpu/F7S61MkgXwUKb85oXZtat/FwPZwenZIdoSu2pzSQJwfg/f2
-	OZfnPIfJfLKzBt8sLkyUtvDO98Vry5kmcAZ/TfLfP36YvAYBihFXAoITDnP72d+G
-	UvvarDyISmTQUYi7cQ3DT6Apeg2nqTinAP6DEQaNi41rC2+PrRGt0kSdOhzLsUmw
-	BKzyiEtaB3v4VWo677DZQfcovBixwoKvjVA==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4au1f01ecw-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 10:48:17 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8804b9afe30so21353256d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 02:48:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764845296; x=1765450096; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lsd2ObiCYKESQGf4esBfadSWK197PTZAsINqpgaAMaI=;
-        b=QTejpOHVxtfVpIIh9ti+KHqv9gRHznwYdBXNDbSM8zezcO8D4NcgFJTQoCBTDXnZJP
-         vjQd9QMUZ5AqwnjCVVZmYeMhiyU4OQI2VZEr2afprYfNFD1hTrPwS2q3S5hJfnWHiaK9
-         3P33xX5jVh6xZcR7zUIUiYpGlz2/kl8b6Aa8zSKsvQKc1t7ROaZKxrvVY3FcJa/mGpX4
-         ARsxoY1xbp2Sbwh5JhvDc4dvrNyEw/pSqo/hJsTZSJlBN98AnMErlBcrdMUqpsit0wm5
-         86Y0PF6IIf9VNVHkiYsBmjBxDzx7A2uGRcfhjwsIiqAuaAGl8ykgTdWHqleU0dbN4A5D
-         kaeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764845296; x=1765450096;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lsd2ObiCYKESQGf4esBfadSWK197PTZAsINqpgaAMaI=;
-        b=wbxx3rJUm0fTAEHw5M0qu+O8Iyc7juTHFaF6PTgDrVcT/wFRPfe3cLifs8TaA4tw/q
-         U0rYKjTEWR+xpAU3l0hQO+gtNi56lwAAs6nZOAjGNp0Nw+Ihs9Ou5oM1gaKV4w/drln4
-         UuNhdIVeO5ZQSoQ+l9TimdUhxi4rbk633Jvjo/dSciEYRv1qlhI5aYfGgLYHxaJsldjY
-         7LZx+WMS204zVNsNFAhZxkMKbOivJA4EKhndV5R1cLZvd/iDK2Tm7GdVPA/HRyC1mIYH
-         Af8uG9UJllANoLyYFsNP6zADFShILJgErhowf86pO58QCdxawbAzU/CjtZ199j8rpRDw
-         eahw==
-X-Gm-Message-State: AOJu0YzmuIMf3M87fMcqX74iX+PHh3hATd7lwrI5QglzIpAtLuZ7kXXs
-	6SwAlvbS+S/ispyZl5CveDsBkfK2k/jX0lKq7AMiT1xuCTHGp7dvddfx63HF/zdCpC/Cwm0ypZD
-	Uz4OR6aP4g8AdAqiNFgug0Yn5RZnTtUrXBJ31xBHkdxWdMw/FObfzy6GTx2P+ERnx6ZZIUrJ9aW
-	oY1cJZScb1MrhG7Sw=
-X-Gm-Gg: ASbGncs7YOlX7O5ErR4e6u5lRozrNzqVdZpjuzTVlLb7lZJdCqw/fDPtjxo/pvke+z1
-	JccXxvlxC3SbrrIuqlC0Q2XekPK+9+3mLc33l2dCRT1TznMG5IVA4MIG99qcuwSZStTOBN5R6tW
-	SkT2WFubAqVITAlLsiG2FDne+lj0WI4FSGHDk/ZioyuY7CXVjbc0AtQd2p0KmQJgvZRDWuc/HJY
-	rojbsKBh4QmxCfclEaQ5j+EJqgR/SfmMU3+kuN1WW7vRYwT9iUpoS8engX/xtNTxtYNOJM/eq7J
-	RSBeFSgkAmayYZKhDDogk0nkQsdhvDk8OIBmiS4s6LTZCagat3viHrdaNv9JnBS78arDfXc0GIj
-	sl8FbdKDghxRBmtuKVOVAwv02AYIcRO0hlzHgp5EHsLH0gBAxstFFttYZTgd2wbrlDWafX1J6uK
-	zgONwx2aTb0pTUwX+YqKBGz9Q=
-X-Received: by 2002:a05:6214:29ce:b0:880:4c2f:5075 with SMTP id 6a1803df08f44-888195995d0mr81055436d6.56.1764845296218;
-        Thu, 04 Dec 2025 02:48:16 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFRbAvdsh9MG4HXCUDtCdk+Behr2ftjonDNSoV6vY8USAXPzT9b+oloUw09URMgS/1K1LWW8Q==
-X-Received: by 2002:a05:6214:29ce:b0:880:4c2f:5075 with SMTP id 6a1803df08f44-888195995d0mr81055226d6.56.1764845295686;
-        Thu, 04 Dec 2025 02:48:15 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-597d7b1a416sm400355e87.17.2025.12.04.02.48.14
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 02:48:15 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] mesa: upgrade 25.2.5 -> 25.2.7
-Date: Thu,  4 Dec 2025 12:48:14 +0200
-Message-ID: <20251204104814.3255908-1-dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: git-send-email 2.47.3
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=QQRMhwNE;
+ spf=pass (domain: cherry.de, ip: 52.101.83.51, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WdUtn41JauosadgFCdBQFaD1t1AIUkIW9DFxbpmzy7ubr4TJmL4bCCrRcjE91NJMEm7sCnSNe7NCtX44+jT0ETKmaDujnPqqMIkk5lYhE2gef/G1vEFTVHGIJZLQVzpmIJ+lX0qSQuun0irq/SEctp46FSFyQITopiwyZK92mvKsIzxrwIvT8U8ab/Dk9YD7Mpwe1bhvIlDt0QvsbNWD1lml4Uue9OIky8Mdp+I+UN5Z3NCnqfDIPT+eeWGkFD2iYtUbmCTFD+32zjJG4i09p+lpNorpphBgKKE7wt2reQ+p7eMErpeQ85W4tC05znmEPJr2nIF5GUBP15S19WPvMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+vLzyAx+LX+KCvs2XSRIkFnv6a2spOHrYSn6WxpPfSA=;
+ b=y1kGMCd0t0M5AoaZaPfla08wfbxEXNfehiNmAssf4KTcIX6dbVulFq3egypCp9zNHslJ3qAHsydzVOVWz0LgptAcYSRX78IMsrK3JXAuwfJwoHDOWma8tuopQ7LCmjPTj9LMJHXfikcJL5KUzvDEOz0bkcGP0/LLv3J6hyQsqfkXpceWrcNXuM1QPEaW+e1CRU0UJUTM5fWH6bCZcuaJGAHDUQ8z3gHKAEQdPz10I9Hx9ouZDkz5CjQG6O3IWYmSRMxV/CNVuUhOUaf6wiEEkXShHsYb2oj+AdW+l6B5S8+6/hQ/ito1d6eaIjLRiQz0KA8asXcVwnolzbYLnTFU/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+vLzyAx+LX+KCvs2XSRIkFnv6a2spOHrYSn6WxpPfSA=;
+ b=QQRMhwNESigEfvrHTMoyW9q+E0Nl0tu360uWlLA5PwpmQZ/9OA69uWDWODQ6vxtdtfSJhA08ad8G2LN9XdMUchvfdC1D6zHgOhVb6oS+y13o9qd/pWyCRIhar7aDXBObww8iLuFd/vxw6gShISWJcyNnqzFeLMpPGCXjwex7SnM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from GVXPR04MB12038.eurprd04.prod.outlook.com (2603:10a6:150:2be::5)
+ by PAXPR04MB9024.eurprd04.prod.outlook.com (2603:10a6:102:20f::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Thu, 4 Dec
+ 2025 10:55:23 +0000
+Received: from GVXPR04MB12038.eurprd04.prod.outlook.com
+ ([fe80::1033:5a9a:dc18:dad]) by GVXPR04MB12038.eurprd04.prod.outlook.com
+ ([fe80::1033:5a9a:dc18:dad%4]) with mapi id 15.20.9388.009; Thu, 4 Dec 2025
+ 10:55:23 +0000
+Message-ID: <b4056671-539e-4248-9a27-5ba13f2ac30c@cherry.de>
+Date: Thu, 4 Dec 2025 11:55:22 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] mesa: upgrade 25.2.5 -> 25.2.7
+To: dmitry.baryshkov@oss.qualcomm.com,
+ openembedded-core@lists.openembedded.org
+References: <20251204104814.3255908-1-dmitry.baryshkov@oss.qualcomm.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20251204104814.3255908-1-dmitry.baryshkov@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: WA0P291CA0010.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1::12) To GVXPR04MB12038.eurprd04.prod.outlook.com
+ (2603:10a6:150:2be::5)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: _1dBc4EyTWXFeoj7cD3cfd0GgmoHlpIX
-X-Proofpoint-ORIG-GUID: _1dBc4EyTWXFeoj7cD3cfd0GgmoHlpIX
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA0MDA4NyBTYWx0ZWRfX4TEs3Bb8Ewty
- wgH6ABVJel1K7VdR37MnZQXImscZ7RqpVQbcrimZ0+7xq85jYpPwE0XN6j7D0pP4BvN7J+cvoMi
- Yzfm3PTGSW5LxY49FA38Qwiw8YgRLgcIZDMg+pxdvEyohNbOY68q56eyTlTJt7H5pCJ7vweihVL
- EuXwZlQL5QYLsJbIDqLZAx//3T2SDO4XT6z1DMNnBJtRdzbI8v5sIUsTQvWyEvBqi3WHKiC+AnP
- EPJvrABe6WRCKK7Ulh0AyBfZJ9hXx6FYGMgvY/9983GTxZzLr4rFLhqyJmwgRq/x//9hePv4AAa
- q8+W756Z59P40q2S7f6sG07B4GOAVmTN+4jF6Z+BR9HdcLXqPVJQW0VE3l9TlcL0wRsY73RNrm6
- DCvZpmsieQxjblIOu+VsJJ4CqDgQVw==
-X-Authority-Analysis: v=2.4 cv=Scz6t/Ru c=1 sm=1 tr=0 ts=693166f1 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=ZpVaWaFtAAAA:8 a=EUspDBNiAAAA:8
- a=LBTFswcSqxV6BzKNEaMA:9 a=OIgjcC2v60KrkQgK7BGD:22 a=5tn4MO8azEBWFjlAA-rn:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-04_02,2025-12-03_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015 impostorscore=0
- bulkscore=0 suspectscore=0 malwarescore=0 priorityscore=1501 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512040087
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXPR04MB12038:EE_|PAXPR04MB9024:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3cf630a8-4abd-4b28-0a1c-08de33239fb7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|10070799003|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?dWFwUnYrc1o2SDMrYUI3ZlMxR3czSGk4NHUxWk5yZ0lKY2ZJYVV6NFZwcC9o?=
+ =?utf-8?B?eVQ3d3plOWtkMlhMZ0RZN083UVd4ZGRQR2VGUU9OVkl3Mmx6eXJac09la1pz?=
+ =?utf-8?B?SDhyb0xOakRiSnhIaXF3Q0N2b2JwM1lvaGxlWkpCeExUMzR2ZGsxY2tQMy9Q?=
+ =?utf-8?B?TjBtQWR5MVdsNUtURHR6TmZUNE5PYy94VzZQcnhGdlNzRUNiRDFSa0JBeDM3?=
+ =?utf-8?B?NTNMUkFjemJDUnI5OTczamJ4QVRBQVhzMEhwampmb0lxWkxsckd0eDd1MjMr?=
+ =?utf-8?B?UzloS0FJNmVvOGxYZUI5M2oxT2g4VXZCQUgyeFYrazdGaFpZQ1c5OUpFOVFJ?=
+ =?utf-8?B?SHFDbEhuU1J2d2RUeGZGSkdFcFpoTmxML1JHdDZHUDhVQU1zeUduN2FCRFFD?=
+ =?utf-8?B?b0ViRW54UGpBeDVwa2NaRW9kM29kaFAyRWZsNTFFQzFyS053V3M1U3JONzRs?=
+ =?utf-8?B?SFZ6KzVvaXRRK0F5dnZ4QTB5dmpKT3htL1U0b3M2eVV1ZWRTbThnV3I5aHNw?=
+ =?utf-8?B?YXJ6OHVHY0Z3bmtoWkF4ZFN4UXpJVG5VRFdxQ05Yb0RCYTZHbW1EUi9WV1JM?=
+ =?utf-8?B?ZVZ0RW9QQ3dPUHk0ekYyWTcyRGVwR04rcTBzSjBIblUwNmJHRmRJYlViTGRm?=
+ =?utf-8?B?clp2cDc4TW4vaFVNVW9ZMWtWMjBhT095dEVOQTdnWGtubXVCclNWTS8wOGt5?=
+ =?utf-8?B?WEUrWE5JUmEwYmFBWUFzQXJlR24zbXU5NHhEWkU4Y1FKVUpGdFJaOEMvSzFV?=
+ =?utf-8?B?a0RzZkpHKzB1NnYza2NGUThFanJPTnQvbUNUampPT2RZUDg3NFVZVmxXY3I3?=
+ =?utf-8?B?clRvQ28xYitEbzRlZ0UxQURnalA4VmtyOW9MWUVLTjNDSFk3ZXBiTkxQc2Zy?=
+ =?utf-8?B?Tjg5NVlWSWNGT3BnVS92WWNnaE9tbWNoV2ZWUGZmTVFCZ0tpNEFoMFdXS0pX?=
+ =?utf-8?B?S21JMDNNcG5VWGZmdHJaa1VtUHFuTnRHMjg0b0ZQUWJGTW1Denp2QUFWb3FW?=
+ =?utf-8?B?OE5xSjF5bW01WTZBRlVkMldpSEhjVmJNUk9HRk5jaVNQbmZDdk1IQmdrRjVj?=
+ =?utf-8?B?SEpsL0RRTm1rM3VKa1dnb0szVVRLRGFyZU1xSHRjWEtwRHdaa0JHa2ZyZ2lW?=
+ =?utf-8?B?TVNJZytWcXlVWGlxOXVRM0d0L3hZZ2JrL0ZIdldPajNHVERzQlJQa1BDNy8w?=
+ =?utf-8?B?UUJSN01oOURmWFVaUnpwUGRBNDErTkNVZFRkZHVreUFJOXFISHlVOUV0cm9W?=
+ =?utf-8?B?Mk9jYStwM1hPL0FoVWh3ZFdibjl5SzcyVmZLUnVGZkVObVo4ZCtEUkd0UkhO?=
+ =?utf-8?B?ckEvZFVXS3Q3V1kyc0NlV2lUNmM1bDM1SWxYL2k5T25OU2JPTDFNcmM2WTdz?=
+ =?utf-8?B?V21nb3BHQ042a2NnZkFzTGcrc0J2ZERIZTRwL1c5QitNc1B6dy9CVFhjVE1w?=
+ =?utf-8?B?MzdKSzI2cHU5RGxOSWsrQlVrOWVYcjFsR21wNU9oaTRFMFNUT3lseVNHWkQ4?=
+ =?utf-8?B?ZFVsbXFMT2V3NXdLaVRGb2RucS80V1Noamg4ajJCcFg5L1pueWlLdUcxcmYx?=
+ =?utf-8?B?dkNITVhwWUU5MHZ1bk5QUnVCYjNoVUN4bUdFa3NwRld4VzU3MDFnT2xMZmpj?=
+ =?utf-8?B?VEV0Ry9aaU1EK2hXaktpbk05eThjZHpMRW44dmhrOHFXUTdyY3E5Wjlub0Ez?=
+ =?utf-8?B?MXZUUFlCN1RCcGJueXFoV1RaUGJUMElkL1h6a05uM0k0bjlUcDFJN0NZT1R1?=
+ =?utf-8?B?NUg5QVZrQWtuNHg4MFJ6cGtjZHljem4xaVFXOHVLV1J2eTBjUm16VlVtWkdl?=
+ =?utf-8?B?N1VWOHVZaW5NU0wvelpPMmFNMVhNN2d0SkFKWVQ0NTM3QUVHWEZGS0J2NkJm?=
+ =?utf-8?B?TmliKzJPUkFGaFFsRkRzMlVoTEFDZWRjTlZucVB1aUU3V3E0YVh5TUY4Y0xu?=
+ =?utf-8?Q?zg/gOqkhnuUJVD/06CmjE/L8pjNmt7sW?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12038.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?dVYrd2xPRFJNemUvMUlxT0JLT0M2ME1DN3dvdkxQZWZ5ZGZOQnhxdXhVa0Vn?=
+ =?utf-8?B?OWx4bitBNGRHU2FRMjlRdFNaY0I4UHJPbVcyS1hSTlhCOGV5VWVNR0xFdm1w?=
+ =?utf-8?B?d1c5WExDZ0p4MjNDMTVYOElpRHQ3TVYycHhpcG1NK0hYMWcxN0VNOWsrOWFJ?=
+ =?utf-8?B?SDF0NFBNVzdjQi9rSWQyWDRDMm45YnJLVkVnYU9nN0VsSWhiU2Mvei9QbGtL?=
+ =?utf-8?B?OTFIWkE3N3cvanA1R2EwRnBwTmRVRWlvSEVlL2ZONUJIdVNhenlLbC90MkFu?=
+ =?utf-8?B?aXc1WW9PS3lmKzRXcHBqYzhKZTgzYk9FK09wMmE0RE1HcmtkZWpXOURpN2E4?=
+ =?utf-8?B?djVyVDJCVGhrY2RMSXJpSVdjZVVYd054ZkpWaFZtdHZVTEZrNzIyUXpTcGRT?=
+ =?utf-8?B?RGlMOVZIRkhjbjlDL2R4OGhPc0JuZFhNSDFLWnd6VDU3eElEYWhHZkVKckgx?=
+ =?utf-8?B?WFIvM0ttcnVjd3R0Q28vcWNBUnA1WWw4ZHVuNGNPRExuZFQ0WEFIZ1VEVnpH?=
+ =?utf-8?B?Z05OcXg0UUpqMk9WMnI3bGo5UUY5ejZhOWI3WVhiemhjOVBlOE04KzQrOHEw?=
+ =?utf-8?B?NTh1ZlJVR1ZLWVBXMU9pWW9ld2VkWmF4ZFN4V3FsQXU1WmRkSVRJRU9OdHpJ?=
+ =?utf-8?B?UGRyTDQrVlpEcE1IWXhZY2haRzVMczE1alBPNDU5dkFKVE0vRVdSbEhudGR2?=
+ =?utf-8?B?WHo2VDViMWdMSU0zcUJEZXpKN0hOTDBJNDg5Ky8rNkdVclptZjhoenVyVE0r?=
+ =?utf-8?B?bU16WkZrSVhhWDJqd2N5TFBsdXNoK3A0WTdzdE5OQzRNdlBDMHlhbnRhaVZs?=
+ =?utf-8?B?OVpabUNaNDNaampzVlJ6UWFITVhFYnlleTk5cmhLK2JzY1NURmhhYk95VHM1?=
+ =?utf-8?B?UWh5ZnEzZFBLTkZmRU5DdGc1VDhJTHltWnhJS054TTI3anVYYWkyalJsZlp3?=
+ =?utf-8?B?QnVLRmF2YkpGT09ibW5DUXZpakxUV2RISk9aYXRlOTdLVElIVTlYdjV4VEtB?=
+ =?utf-8?B?aU5ocSs4MnN1dUgyZlF0eldyZjhRcno2VDZKSjQ2aVdzcWNoak1paVdtWC83?=
+ =?utf-8?B?THdFQ1AzVVI2RjI1VlJ0SDNGSHhZTDQvemVsS3BXczdMRmhpZnNiZzB1MGlT?=
+ =?utf-8?B?OFphdEZVbXl5ZjZoR1JqY2Z3Z05EemxiV0ZsU3crbFZTTEhyZ2pRbm1pZWZS?=
+ =?utf-8?B?UXZPWlpGTWtMeWl5aXk2Y2JYaCtrSnI5U0lMZVNIclVqOXFyVDJwZzZiOEs1?=
+ =?utf-8?B?ZUxMR1R2aEJvbTJ6WDIyWndYblZQelRGN0FydjI0MGhlZ2U0cGZvak9Dd2Jr?=
+ =?utf-8?B?RTAzQ0duZWRIZUxLa0RGa1VpYzJ3dCtiMXFTSk15UXhWR0h4VE5oays5Si9L?=
+ =?utf-8?B?MlhwaW92TjBWbFQ4cHZIK21ZZFFDY0dFdHk3RTNZbjhZK2FBVWh0OE9TYkVr?=
+ =?utf-8?B?dGFVL3Z1Wi8xYlB3aHh1ZGNJclphVXV6MHI0a1I2ZGdqUkRxSFJGM2c0YVVK?=
+ =?utf-8?B?cWJBbGdLVDR4MjhZNXlSWGlIU3ppcHBRWkVRUzJqSERkZDZGTUd4bnlyTU5h?=
+ =?utf-8?B?QkpERk5oV0U2dWlIbFkwdG1CR01iamkvM3l4SUI0L1l5Y2U5dTN2bjY2ckda?=
+ =?utf-8?B?czFFNUxQRmliQTlDV0hzZE5MaGYvdytBN0x5MzBXS1Rxc3p3eWlvckFVblpx?=
+ =?utf-8?B?TjREWFMvM3h4VnM2T3BOSEhvZEFQK2gvSWxVVE1FVllxQnFLa1BtRUR5ZWZY?=
+ =?utf-8?B?ZE9BZU5SWkF1M1hpa2N2U3FhakN4SjdZRkJFUzgrbXg4eUl0YjFteGJMWUtu?=
+ =?utf-8?B?b0JxdG5HdG9UcWNNUHRzdzFBS3h2Wm9URWRyZklGeVJZS0Y4YlpjWlVmQUV5?=
+ =?utf-8?B?bXBkbnYvMHgyL1R4UnNkUjZQd2p3NUxIZEJBRmRqYnpnVUI2TnI1Yjk2MmhX?=
+ =?utf-8?B?UllIRDMwU1pMNk1ncnNVSXhmOStTZk5lb09OYm01Y1BOanpjTUZxblgxRFJk?=
+ =?utf-8?B?QjFVOSt4YnppdnFpU3VQVzI3dy9SQUgyWnoxeWpBc2ZhektDTFgrenJPM0Nj?=
+ =?utf-8?B?a1ppMm91WHRGNnlxSmRtZ0VmWFlRcFFrSFhVZVR6UVByUHlESTlZVGZucjln?=
+ =?utf-8?B?TzdubUJsdzFGTmlodzhpeWpjVUVucGE5QzFja0NRbHpHQ1JUcjJNU3R2eFMv?=
+ =?utf-8?Q?dzkW4099hQhdgHXPYQyK68s=3D?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3cf630a8-4abd-4b28-0a1c-08de33239fb7
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12038.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2025 10:55:23.1204
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OZcYbxzrQrn7qp/MX1Bvm5QAPFg96xsd1e4iLyjbuO9UbwzN90JJr7CDupwBdOBAjSuidcGKfLpaw9vVE95OYQwd/CP0MUuZ3RiytO57jGM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9024
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 10:48:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227278
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 10:55:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227279
 
-Pick up the release from 25.2 branch, fixing several issues with the
-drivers.
+Hi Dmitry,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- meta/recipes-graphics/mesa/mesa.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 12/4/25 11:48 AM, Dmitry Baryshkov via lists.openembedded.org wrote:
+> Pick up the release from 25.2 branch, fixing several issues with the
+> drivers.
+> 
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index e8786aa2e986..d34b5ff07713 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -19,8 +19,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
- "
- 
--SRC_URI[sha256sum] = "bb6243e7a6f525febfa1e6ab50827ca4d4bfdad73812377b0ca9b6c50998b03e"
--PV = "25.2.5"
-+SRC_URI[sha256sum] = "b40232a642011820211aab5a9cdf754e106b0bce15044bc4496b0ac9615892ad"
-+PV = "25.2.7"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
--- 
-2.47.3
+Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
 
+Thanks!
+Quentin
 
