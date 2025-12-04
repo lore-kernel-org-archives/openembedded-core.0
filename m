@@ -1,154 +1,138 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38305D1D899
-	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 08:32:34 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.38820.1764837145209928168
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D32D1F9B6
+	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 10:48:25 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40729.1764845298143363800
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Dec 2025 00:32:25 -0800
+ Thu, 04 Dec 2025 02:48:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=bW7WObEh;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=44334587b6=qi.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B4763uh911639;
-	Thu, 4 Dec 2025 08:32:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=M3xZnso6e0c8L6CLpg8jDGpTqwRsxxuJb73aXY3tefU=; b=
-	bW7WObEhY+5KHCI3XhvL7KOkTv6jPXLwHmtIVtnxcFZttiUvaLKeBT76IsxJmsxE
-	+YxtV8balMdEkmFlJB88noXNMuruINlIJZpfy7mO9ONYXm9DM6r7kG8PuQN+XvKX
-	XVYsAZz3p7wU0mjhStAMc1dasJqMZqyRPTI/qLByNhmnKccDPn+nIf+TsOV0j1St
-	0q5kBiN27V1iDPoZezsY8oV+lPSkmMhkActlu27ybOWSxJhPs53Ks8/cwQ3WYQg7
-	C5+D6/VgwlBhbHJ+UQUbaKfQp+zt7esXzg+4++6BkrKPOB94wTYDaVNdFY2La6e7
-	RUianpoHKRgeqYn7rULcKQ==
-Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4aqqt6e4q5-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 04 Dec 2025 08:32:10 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Thu, 4 Dec 2025 00:32:08 -0800
-Received: from oak-lpgbuild14.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Thu, 4 Dec 2025 00:32:08 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <alex@linutronix.de>
-Subject: [OE-core][PATCH V5 2/2] rootfs-postcommands.bbclass: fix adding 'no password' banner
-Date: Thu, 4 Dec 2025 08:32:08 +0000
-Message-ID: <20251204083208.1046464-2-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251204083208.1046464-1-Qi.Chen@windriver.com>
-References: <20251204083208.1046464-1-Qi.Chen@windriver.com>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=H6KFa5zi;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=QTejpOHV;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B4AEwpq1130992
+	for <openembedded-core@lists.openembedded.org>; Thu, 4 Dec 2025 10:48:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=lsd2ObiCYKESQGf4esBfadSWK197PTZAsIN
+	qpgaAMaI=; b=H6KFa5zi48tKBKxEe+jnBL6uMjvSdcMf/KRXpSz9qIEz8EqHP5x
+	d8eokGDE+ue3AoABWkFphdJZWqoOWhGy0MRhsyK6ig1pQaKwwx1Z8Ziy1O4MhNvY
+	fECOIOzmCUTqwNpu/F7S61MkgXwUKb85oXZtat/FwPZwenZIdoSu2pzSQJwfg/f2
+	OZfnPIfJfLKzBt8sLkyUtvDO98Vry5kmcAZ/TfLfP36YvAYBihFXAoITDnP72d+G
+	UvvarDyISmTQUYi7cQ3DT6Apeg2nqTinAP6DEQaNi41rC2+PrRGt0kSdOhzLsUmw
+	BKzyiEtaB3v4VWo677DZQfcovBixwoKvjVA==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4au1f01ecw-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 10:48:17 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8804b9afe30so21353256d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 02:48:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1764845296; x=1765450096; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lsd2ObiCYKESQGf4esBfadSWK197PTZAsINqpgaAMaI=;
+        b=QTejpOHVxtfVpIIh9ti+KHqv9gRHznwYdBXNDbSM8zezcO8D4NcgFJTQoCBTDXnZJP
+         vjQd9QMUZ5AqwnjCVVZmYeMhiyU4OQI2VZEr2afprYfNFD1hTrPwS2q3S5hJfnWHiaK9
+         3P33xX5jVh6xZcR7zUIUiYpGlz2/kl8b6Aa8zSKsvQKc1t7ROaZKxrvVY3FcJa/mGpX4
+         ARsxoY1xbp2Sbwh5JhvDc4dvrNyEw/pSqo/hJsTZSJlBN98AnMErlBcrdMUqpsit0wm5
+         86Y0PF6IIf9VNVHkiYsBmjBxDzx7A2uGRcfhjwsIiqAuaAGl8ykgTdWHqleU0dbN4A5D
+         kaeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764845296; x=1765450096;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lsd2ObiCYKESQGf4esBfadSWK197PTZAsINqpgaAMaI=;
+        b=wbxx3rJUm0fTAEHw5M0qu+O8Iyc7juTHFaF6PTgDrVcT/wFRPfe3cLifs8TaA4tw/q
+         U0rYKjTEWR+xpAU3l0hQO+gtNi56lwAAs6nZOAjGNp0Nw+Ihs9Ou5oM1gaKV4w/drln4
+         UuNhdIVeO5ZQSoQ+l9TimdUhxi4rbk633Jvjo/dSciEYRv1qlhI5aYfGgLYHxaJsldjY
+         7LZx+WMS204zVNsNFAhZxkMKbOivJA4EKhndV5R1cLZvd/iDK2Tm7GdVPA/HRyC1mIYH
+         Af8uG9UJllANoLyYFsNP6zADFShILJgErhowf86pO58QCdxawbAzU/CjtZ199j8rpRDw
+         eahw==
+X-Gm-Message-State: AOJu0YzmuIMf3M87fMcqX74iX+PHh3hATd7lwrI5QglzIpAtLuZ7kXXs
+	6SwAlvbS+S/ispyZl5CveDsBkfK2k/jX0lKq7AMiT1xuCTHGp7dvddfx63HF/zdCpC/Cwm0ypZD
+	Uz4OR6aP4g8AdAqiNFgug0Yn5RZnTtUrXBJ31xBHkdxWdMw/FObfzy6GTx2P+ERnx6ZZIUrJ9aW
+	oY1cJZScb1MrhG7Sw=
+X-Gm-Gg: ASbGncs7YOlX7O5ErR4e6u5lRozrNzqVdZpjuzTVlLb7lZJdCqw/fDPtjxo/pvke+z1
+	JccXxvlxC3SbrrIuqlC0Q2XekPK+9+3mLc33l2dCRT1TznMG5IVA4MIG99qcuwSZStTOBN5R6tW
+	SkT2WFubAqVITAlLsiG2FDne+lj0WI4FSGHDk/ZioyuY7CXVjbc0AtQd2p0KmQJgvZRDWuc/HJY
+	rojbsKBh4QmxCfclEaQ5j+EJqgR/SfmMU3+kuN1WW7vRYwT9iUpoS8engX/xtNTxtYNOJM/eq7J
+	RSBeFSgkAmayYZKhDDogk0nkQsdhvDk8OIBmiS4s6LTZCagat3viHrdaNv9JnBS78arDfXc0GIj
+	sl8FbdKDghxRBmtuKVOVAwv02AYIcRO0hlzHgp5EHsLH0gBAxstFFttYZTgd2wbrlDWafX1J6uK
+	zgONwx2aTb0pTUwX+YqKBGz9Q=
+X-Received: by 2002:a05:6214:29ce:b0:880:4c2f:5075 with SMTP id 6a1803df08f44-888195995d0mr81055436d6.56.1764845296218;
+        Thu, 04 Dec 2025 02:48:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFRbAvdsh9MG4HXCUDtCdk+Behr2ftjonDNSoV6vY8USAXPzT9b+oloUw09URMgS/1K1LWW8Q==
+X-Received: by 2002:a05:6214:29ce:b0:880:4c2f:5075 with SMTP id 6a1803df08f44-888195995d0mr81055226d6.56.1764845295686;
+        Thu, 04 Dec 2025 02:48:15 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-597d7b1a416sm400355e87.17.2025.12.04.02.48.14
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Dec 2025 02:48:15 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] mesa: upgrade 25.2.5 -> 25.2.7
+Date: Thu,  4 Dec 2025 12:48:14 +0200
+Message-ID: <20251204104814.3255908-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA0MDA2OCBTYWx0ZWRfX9RkRYzFxnFSn
- SKbiNPCPYvQ6ssfldRL99hqrafYpQa1eWEgaKGDe6URjDsTwJMuHCleuJGR0XNdcZhrgCMjFzxq
- iR9FahWDQUsf490aYvDsx9DMle03V7F/JH63mCl1B96OzQhglPWsP8QPtUjZywsvMl+FfIenju2
- o65vpSk9+2tteEa8SfaSNW+2duLMwpH5+5m3/lzwL5wh4zw3MRh1g0qo6vbRTAdCBlYN7qHomOz
- jXfO6I4HZJrR7X3pF/olL0fBj6n5Nwvw3dX8NI1FvpWW6R5AmuiOZHBAG4DDuQipLiFjLvgOX0U
- +Da98Vcu+Xd3eCf3MisPD877pzedSEZvbTYRexezoOoHBNkSsXeL4G2T3ZejUz7IbyoWpmPcXoF
- wrprrQ+ApZYz+pWxLB9wVXNv9wOO0g==
-X-Authority-Analysis: v=2.4 cv=Adq83nXG c=1 sm=1 tr=0 ts=6931470a cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
- a=MkTlg00Ot9B_tvrZbC4A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: T50dYOuL4s9cswrSLg0yhcpNteSjmF1M
-X-Proofpoint-GUID: T50dYOuL4s9cswrSLg0yhcpNteSjmF1M
+X-Proofpoint-GUID: _1dBc4EyTWXFeoj7cD3cfd0GgmoHlpIX
+X-Proofpoint-ORIG-GUID: _1dBc4EyTWXFeoj7cD3cfd0GgmoHlpIX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA0MDA4NyBTYWx0ZWRfX4TEs3Bb8Ewty
+ wgH6ABVJel1K7VdR37MnZQXImscZ7RqpVQbcrimZ0+7xq85jYpPwE0XN6j7D0pP4BvN7J+cvoMi
+ Yzfm3PTGSW5LxY49FA38Qwiw8YgRLgcIZDMg+pxdvEyohNbOY68q56eyTlTJt7H5pCJ7vweihVL
+ EuXwZlQL5QYLsJbIDqLZAx//3T2SDO4XT6z1DMNnBJtRdzbI8v5sIUsTQvWyEvBqi3WHKiC+AnP
+ EPJvrABe6WRCKK7Ulh0AyBfZJ9hXx6FYGMgvY/9983GTxZzLr4rFLhqyJmwgRq/x//9hePv4AAa
+ q8+W756Z59P40q2S7f6sG07B4GOAVmTN+4jF6Z+BR9HdcLXqPVJQW0VE3l9TlcL0wRsY73RNrm6
+ DCvZpmsieQxjblIOu+VsJJ4CqDgQVw==
+X-Authority-Analysis: v=2.4 cv=Scz6t/Ru c=1 sm=1 tr=0 ts=693166f1 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=ZpVaWaFtAAAA:8 a=EUspDBNiAAAA:8
+ a=LBTFswcSqxV6BzKNEaMA:9 a=OIgjcC2v60KrkQgK7BGD:22 a=5tn4MO8azEBWFjlAA-rn:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-04_02,2025-12-03_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015
- impostorscore=0 phishscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ phishscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015 impostorscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 priorityscore=1501 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512040068
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512040087
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 08:32:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227276
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 10:48:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227278
 
-From: Chen Qi <Qi.Chen@windriver.com>
+Pick up the release from 25.2 branch, fixing several issues with the
+drivers.
 
-It's possible that users use EXTRA_USERS_PARAMS to set password
-for root or explicitly expire root password. So we need to check
-these two cases to ensure the 'no password' banner is not misleading.
-
-As an example, below are configurations to make an image requiring
-setting a root password on first boot, but without having to first enter
-a static initial password:
-
-  In conf/toolcfg.cfg:
-  OE_FRAGMENTS += "distro/poky core/yocto/root-login-with-empty-password
-  In local.conf:
-  INHERIT += "extrausers"
-  EXTRA_USERS_PARAMS += " passwd-expire root;"
-
-Checking and adding such a banner is ensured to run as last steps of
-ROOTFS_POSTPROCESS_COMMAND, regardless of IMAGE_FEATURES. In particualr,
-we want to ensure that the function runs after set_user_group function
-from extrausers.bbclass. So unlike other commands in this bbclass using
-the '+=', this function uses ':append'.
-
-Besides, adding such banner is only meaningful when base-passwd and
-baes-files are installed. In case of container image, they might not
-be installed (e.g., container-test-image). So add extra checking for it.
-With the above logic, we avoid breaking the following oe-selftest test case:
-containerimage.ContainerImageTests.test_expected_files
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- meta/classes-recipe/rootfs-postcommands.bbclass | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/mesa/mesa.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/classes-recipe/rootfs-postcommands.bbclass
-index f4fbc4c57e..8d7e5e7652 100644
---- a/meta/classes-recipe/rootfs-postcommands.bbclass
-+++ b/meta/classes-recipe/rootfs-postcommands.bbclass
-@@ -5,7 +5,7 @@
- #
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index e8786aa2e986..d34b5ff07713 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -19,8 +19,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
+ "
  
- # Zap the root password if empty-root-password feature is not enabled
--ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "empty-root-password", "add_empty_root_password_note", "zap_empty_root_password ",d)}'
-+ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "empty-root-password", "", "zap_empty_root_password ",d)}'
+-SRC_URI[sha256sum] = "bb6243e7a6f525febfa1e6ab50827ca4d4bfdad73812377b0ca9b6c50998b03e"
+-PV = "25.2.5"
++SRC_URI[sha256sum] = "b40232a642011820211aab5a9cdf754e106b0bce15044bc4496b0ac9615892ad"
++PV = "25.2.7"
  
- # Allow dropbear/openssh to accept logins from accounts with an empty password string if allow-empty-password is enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "allow-empty-password", "ssh_allow_empty_password ", "",d)}'
-@@ -64,6 +64,10 @@ ROOTFS_POSTPROCESS_COMMAND += '${SORT_PASSWD_POSTPROCESS_COMMAND}'
- #
- ROOTFS_POSTPROCESS_COMMAND += 'rootfs_reproducible'
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
  
-+# Check and add 'no root password' banner.
-+# This needs to done at the end of ROOTFS_POSTPROCESS_COMMAND, thus using :append.
-+ROOTFS_POSTPROCESS_COMMAND:append = " add_empty_root_password_note"
-+
- # Resolve the ID as described in the sysusers.d(5) manual: ID can be a numeric
- # uid, a couple uid:gid or uid:groupname or it is '-' meaning leaving it
- # automatic or it can be a path. In the latter, the uid/gid matches the
-@@ -259,8 +263,14 @@ zap_empty_root_password () {
- # This function adds a note to the login banner that the system is configured for root logins without password
- #
- add_empty_root_password_note () {
--	echo "Type 'root' to login with superuser privileges (no password will be asked)." >> ${IMAGE_ROOTFS}/etc/issue
--	echo "" >> ${IMAGE_ROOTFS}/etc/issue
-+	if [ -e ${IMAGE_ROOTFS}/etc/shadow -a -e ${IMAGE_ROOTFS}/etc/issue ]; then
-+		rootpw="`grep '^root:' ${IMAGE_ROOTFS}/etc/shadow | cut -d':' -f2`"
-+		rootpw_lastchanged="`grep "^root:" ${IMAGE_ROOTFS}/etc/shadow | cut -d: -f3`"
-+		if [ -z "$rootpw" -a "$rootpw_lastchanged" != "0" ]; then
-+			echo "Type 'root' to login with superuser privileges (no password will be asked)." >> ${IMAGE_ROOTFS}/etc/issue
-+			echo "" >> ${IMAGE_ROOTFS}/etc/issue
-+		fi
-+	fi
- }
- 
- #
 -- 
-2.43.0
+2.47.3
 
 
