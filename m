@@ -1,737 +1,145 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7676D1BDEC
-	for <webhook@archiver.kernel.org>; Wed,  3 Dec 2025 21:35:00 +0000 (UTC)
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.27346.1764797697950118536
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B3D8D1CDB2
+	for <webhook@archiver.kernel.org>; Thu,  4 Dec 2025 00:49:41 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.31725.1764809377232398252
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Dec 2025 13:34:58 -0800
+ Wed, 03 Dec 2025 16:49:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=j/A3f43k;
- spf=pass (domain: gmail.com, ip: 74.125.224.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-6430834244aso127868d50.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 13:34:57 -0800 (PST)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=HO0FxaCT;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=igAkEOQb;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B3FqhcT3147865
+	for <openembedded-core@lists.openembedded.org>; Thu, 4 Dec 2025 00:49:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=dIrbl0kzroo
+	lTrjn+9DTPvWD4tj5fuPmv89f94T3z7A=; b=HO0FxaCTi5AZ+JNfWPqPuksNBq0
+	8AGTQys+8/8IlyPy9Y1I6lM15Oqsdn/4SQhwBoyZedOhMrDYlheSiUI8xGN7Qdum
+	hN/cFWFl9FcE6os/NsAmq6+npCzKF4sq0ptqOHcwU6ySHwirZ66FML6rzpkqsGni
+	s+mILcUzwWRXyUtP0qRdj75QS3gYSz9DQUPa4sFFTrXjG64j7Eqa9UcqjNFq8qxi
+	57tI7cRJG5oGEI/vJGNjs/tQLy837+mDTROmnLwgY0PVMtVC2qrthBRv76RKcuif
+	bOXGYURF6zFvUFRojyG22TjjrWGXY6z60b7+CqBgNpvBXHMFpjqsmMJUAAw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4atr7yhf1y-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 00:49:36 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8b245c49d0cso71749585a.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 16:49:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764797697; x=1765402497; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yoql2tjh+BxGKNCNaU/Z7Twqm0ZHPiCDBgtqsKYcBFE=;
-        b=j/A3f43koHSC/q3aIiYBdIjs53s3UCBrmrGssiiGbOesbabR/Lg/CvsR8GqwBXdGNF
-         ZWRZkdqrBNTpNfmARJFKXcYPDvGMx+LyzSOya8AeEbpBCudZ7+bfrh5ViWYLa8qBU8H/
-         nIYFXjsfswgiXnW/W5l6eefGEBOlsAoN+MtR5cnsdl8K2mBkpAtNEfkm9W4BcS9CpDO0
-         CDwm93Z4yFZOTLWrU1nvYFME3gtPgy5UJafPzHG5b1D/jHKrYYwv1MrNkXvw+cqq451K
-         s3vcqYreFWoPIA2PPc6t5oqJdhwEhXeon+ULIc7r/H2yyF1YaeATIZoc7orCJCrvnqw2
-         Se5g==
+        d=oss.qualcomm.com; s=google; t=1764809375; x=1765414175; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dIrbl0kzroolTrjn+9DTPvWD4tj5fuPmv89f94T3z7A=;
+        b=igAkEOQbvJG62by0ogmhV7KKXeSwnmIRYLKaRKldvaUzIdiGzsSIHEiY8vvk0+kSVX
+         WSB2I5o+8YW43kkP4Z3r8kOig1K9+IN/915YC3A2B8ArogNBGFVQcFQQYTIKPj31S0i3
+         ShrYSgfj7loNaxUU9xuz9f2sjLRpBxovfBEq1TgjLNkJCHt81/wASi16Qn3hxkhXnByM
+         eETmmDHxFwTFvqnm47RidSbxOAaqNDrVOCuNGnZi5BIx3vdkmh3otLLh93PKC3Q57fBZ
+         p8bHlq0K7bfmUkVrPjyQBSQvERw872xz98BeXojNJcJ9pZxsvmfmI6yQ9rEkrq7bcnro
+         1Bqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764797697; x=1765402497;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yoql2tjh+BxGKNCNaU/Z7Twqm0ZHPiCDBgtqsKYcBFE=;
-        b=umG93hWh7M5zc3HvyD/1e/oRgrrx2lGDObpzZNpOztmNZIuYHcVnX4ZD/0+NW6GQWk
-         aHV2vgLc2xz4U2R2PR5S9eCiZYwPo5CzRPnBgWxB6MqZjoQOHJLZfZ1XJAWJOz+9sv7t
-         kF8OLVlVQ8dfeQVt80N7Zzo/Lce857NWRz3taNU1HzsGCqafilYM71ATbQDJ846frxwE
-         GSAnhJFD1AOZOdrGHm0OTRW2PYgS07mjF4VUKI01vH4URW19uCaMEhSg6UrkiroJI7Ww
-         uMZH7nJ3L42tSJTBGGZ1qFM2Gm6o4LSBpOtdHSnzmvVDECfzgiXDSEuNMNGWeJ9jkaD0
-         1t7w==
-X-Forwarded-Encrypted: i=1; AJvYcCVy7YaPL61b+SYF+2O3Cga3S0maX6ht6wpgDyWftqVXaeTbCdlMqscnkzb0RStjlTgl/GrkRo8hQ/gqeyDVwzz4GQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzjbELD/aIgO20KWlsfvr0SzcBYTXy0bnwIG0rP6zwI1SFNYW3D
-	s/Nh8/AaeNHNdn0NW+T6LmYWFp7IKMlY8vtpab5ItBIEa63nHM3HrvcwMfN4lyfdXVwDeXYjL12
-	udYb5KTiwWtc2+SwglCwhsGGJ8DlqDo0=
-X-Gm-Gg: ASbGncuqLKwERwBVCsETk34MSHN+K4Y+RxFQvUwjmVDefDicsqhPBYV7SoCcVj7cQ8d
-	APknlrMmiq9iPRuYYD/LK5E9rI5Rr9ECbm6AO/7eSvgFSLIIGJ7/e2gYMjIJjZd1zTAVkAbzetw
-	ff6ArkW69fxaraRJXif9SmqWzY8SQ9g54ZgyhbDZ0KGTfWnM1PuKhwkSqJPtAxHk0CQHZg+aXvC
-	v2a8djpj9fcV4uo+KnfU+nEaBOyEELb3OL6KuQNrc57WXpT22CX4AZkahqNbRCLxrEVB+TMoJrV
-	0jIbywiwLh2oJKfLrehxVR0YOYlOoDdOOnQ3qMAJH/xi+dBPkki0rg7Md1AMjMsoU2U/A8XwmQi
-	az29oAvTt+BQ=
-X-Google-Smtp-Source: AGHT+IH0vZBLKhahfBHTFySwdlEKgG+h7Bb5FZPdXv8otSnecuqkFAypAtaRqmkvzEFWAPXbx10rr8ttup2Ftt1zUkM=
-X-Received: by 2002:a05:690e:1288:b0:63e:2250:2210 with SMTP id
- 956f58d0204a3-6443d944213mr624042d50.59.1764797696952; Wed, 03 Dec 2025
- 13:34:56 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764809375; x=1765414175;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=dIrbl0kzroolTrjn+9DTPvWD4tj5fuPmv89f94T3z7A=;
+        b=HeWvlu1KInvqoaWHga4/E/T1HBLH81wuI7vg6G15JqSHgwmL1z5ucHCh7DoFRHw05h
+         xpt3aT21CS6GHoqMd9cuc/dMDpwHeKSJ0nzLchCNpHny+14oXMtph9ffIu+or2H8gVFN
+         aggGUU5mL1zRNnz4NHOkLJU4etYPTWAqju92GNsPd8S/XE8w1MGfgCZGCbibbRrSJVrW
+         5SjmIOXPMcjvudAdIjnkXR0oXfSyBgRkajRiIBinkqvwaDP+x78AMtcHNaOBUOcgC8m2
+         0mVByA+V43lDgf0U7nmIgaP/iAU7xFEtYMqmh5BVvyHrz7piEbQfAnUktb8VNL8JVyWE
+         NJiA==
+X-Gm-Message-State: AOJu0YzIR9tEw5Ml2llCzqpcg83sxSLIgUgS5/dawQ5742LAAo1ITLEO
+	9SJ0UKwQzA1+CnDxAs4tj9Yitc8jALe3tnqh6TnpIVdvdJ0v2Z3Q3BtIbJq9QvG8lBzLrz8zKEM
+	wg/tvkSbczK8uzxnQX0HqVlL1sLjlmpo1ewYBV90VSfmPPNpu3y3mQprd8YOZV+VszW9dvTwwEW
+	BHq+qr8qrRt7bmvNg=
+X-Gm-Gg: ASbGncv9syykJpy7Qst8RoDsSUiMgm6IGo62dv9bv/r3bEOtITYURCoICWzkFduQ4R0
+	nrHnhuwwBGf0rOerTdRowMRsAvtA9JZZRnvSgM28kG9l9fAaoBK1bQDcuNiCAlJjdv9606mKLjz
+	nPNH745qdMSWV14S1nKUne9qFaVuEFH21jaicHHAtYTI0Jrll3jBt7yeC3CAziJCPLeE5q5sMJI
+	ldvOy8YOpEHmiox3+aqHa9c8vQ5pmaqhwbk9VbPaaLz2SL+gcANR26sJ3wwyhoUAvVmQCDrokQn
+	/qmJpTR20+GicseCLDler1MJ4bEciCuuKJe9LrX6ccTy7GVTgwnMbLsHvotoyNBxnDapFgOT+Eg
+	KY+8s3sHkOkWC6J7pGc91ZPiPEpoK4PylV7htT/8ny9f6qEMHNUuW/gIMPdEqHsOTiq7E2ojspv
+	5M2Y7QWB0EryK+rFCwEst3Hd8=
+X-Received: by 2002:a05:620a:28c9:b0:8b2:2800:d646 with SMTP id af79cd13be357-8b5e7734a69mr688964385a.88.1764809375049;
+        Wed, 03 Dec 2025 16:49:35 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEF68XEq8BTu4ce3eUCm2ywNB/kouELtPVBnh6vVHBW4plYMORoZDz7atWKB+dQbJ/4TT9vdA==
+X-Received: by 2002:a05:620a:28c9:b0:8b2:2800:d646 with SMTP id af79cd13be357-8b5e7734a69mr688961185a.88.1764809374531;
+        Wed, 03 Dec 2025 16:49:34 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37e70674a60sm392761fa.49.2025.12.03.16.49.33
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Dec 2025 16:49:33 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v5 2/2] mesa: drop freedreno-fdperf PACKAGECONFIG
+Date: Thu,  4 Dec 2025 02:49:29 +0200
+Message-ID: <20251204004929.2617318-2-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251204004929.2617318-1-dmitry.baryshkov@oss.qualcomm.com>
+References: <20251204004929.2617318-1-dmitry.baryshkov@oss.qualcomm.com>
 MIME-Version: 1.0
-References: <20251023134656.2059483-1-ecordonnier@snap.com>
- <20251023134656.2059483-2-ecordonnier@snap.com> <2da2af64-1607-49f3-a438-43525b4b8b02@gmail.com>
- <CAHUKmYbfri0mDeJJ6FH1YVtNe9R_YTdC8iFQxOx7zLRqizvhKA@mail.gmail.com> <CAMKF1sqn_G1QjZB0SJhvWXKS8e5amjs5e2swZUZNsakivNs+Eg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqn_G1QjZB0SJhvWXKS8e5amjs5e2swZUZNsakivNs+Eg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 3 Dec 2025 13:34:30 -0800
-X-Gm-Features: AWmQ_bnx5n6xWMWl4h2OUrbHOpIiijd1tx4hfJXMEedQxotajdGwUus4qeYkFfI
-Message-ID: <CAMKF1so01+JEg5PD7A0e1dg9NQfz=DOC-JbKw22usNZNUgO02g@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v4 2/2] opkg: upgrade 0.8.0 -> 0.9.0
-To: ecordonnier@snap.com
-Cc: Gyorgy Sarvari <skandigraun@gmail.com>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000d3ceae064512fb7f"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: YARNSnGmnhRuz0ZcRrFWSAyB7GB-szz6
+X-Proofpoint-GUID: YARNSnGmnhRuz0ZcRrFWSAyB7GB-szz6
+X-Authority-Analysis: v=2.4 cv=ZMTaWH7b c=1 sm=1 tr=0 ts=6930daa0 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=D0dn3NXFWvdGU4tz9VIA:9 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA0MDAwMyBTYWx0ZWRfX/pbrv+a2q8PX
+ 7Bk9tCmHzqY0mX4z7tgGTlinIDqLLSdEmnmiXMbEZ0E7t4dVFcGmsgEaMb9ECLRNABZZP7exXFo
+ xvfzZG7bYbib/H66FId+WlOSZ4m+3dxCcepLOBXD0TJtipyIgwkGSSTssR15SMBp3CaZE9pWGPw
+ PtKrLG9ffvX6zivSl1zcv+5wTEwYXz1kM0dyffJmYnFmmhod9tlfRLiVYr1mNOxRUJySN/5Sj2n
+ 1mo7w5mZm4Osx9ii/SyTx447ih7Yl6RybEfqX8A1wRalp7VRIX6Q0NTDW2sQYHq6yTRxaVVskh8
+ O2qabnEEjj6T0oUpuTuRuM5cj7sqtZfEyX3iAAFqQqk3DXd+KMWF4tNb74jBYG9XXEGSdjliQnT
+ LnxiTOGmKiMCEzcPQxJOFg/cLSzh0Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-04_01,2025-12-03_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 priorityscore=1501 suspectscore=0 bulkscore=0
+ lowpriorityscore=0 clxscore=1015 adultscore=0 impostorscore=0 phishscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512040003
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Dec 2025 21:35:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227243
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Dec 2025 00:49:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227245
 
---000000000000d3ceae064512fb7f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+With libconfig being a part of OE-Core, we can now drop separate
+freedreno-fdperf config option and merge the dependency into other
+freedreno tools dependencies.
 
-It can be reproduced with direct invocation
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-kraj@apollo
-/mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/=
-1.0
-=E2=9D=AF recipe-sysroot-native/usr/bin/opkg \
-  --volatile-cache \
-  -f opkg.conf \
-  -t temp/ipktemp/ \
-  -o rootfs \
-  --force-postinstall \
-  --prefer-arch-to-version \
-  --force-depends \
-  remove glibc-binary-localedata-en-gb glibc-binary-localedata-c
-glibc-binary-localedata-en-us
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 3124db09864c..9624ce12cbb9 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -147,11 +147,7 @@ TOOLS .= "${@bb.utils.contains('PACKAGECONFIG', 'lima', ',lima', '', d)}"
+ TOOLS .= "${@bb.utils.contains('PACKAGECONFIG', 'panfrost', ',panfrost', '', d)}"
+ 
+ # dependencies for tools.
+-TOOLS_DEPS = "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', ' ncurses libxml2 ', '', d)}"
+-
+-# the fdperf tool requires libconfig (a part of meta-oe) so it needs special
+-# treatment in addition to the usual 'freedreno tools'.
+-PACKAGECONFIG[freedreno-fdperf] = ",,libconfig"
++TOOLS_DEPS = "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', ' ncurses libconfig libxml2 ', '', d)}"
+ 
+ PACKAGECONFIG[tools] = "-Dtools=${@strip_comma('${TOOLS}')}, -Dtools='', ${TOOLS_DEPS}"
+ PACKAGECONFIG[xmlconfig] = "-Dxmlconfig=enabled, -Dxmlconfig=disabled, expat"
+-- 
+2.47.3
 
-[1]    346156 segmentation fault (core dumped)
- recipe-sysroot-native/usr/bin/opkg --volatile-cache -f opkg.conf -t  -o
-roots
-
-I have a workaround by setting
-
-IMAGE_LINGUAS =3D "en-us"
-
-in local.conf which avoids the need for opkg remove operation which is
-crashing.
-
-On Wed, Dec 3, 2025 at 1:04=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote:
-
-> I am starting to see the following crash in opkg when building image.
-> Anyone seeing something like this?
->
-> (No debugging symbols found in
-> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-imag=
-e/1.0/recipe-sysroot-native/usr/bin/opkg)
-> [New LWP 34493]
-> [Thread debugging using libthread_db enabled]
-> Using host libthread_db library "/usr/lib/libthread_db.so.1".
-> Core was generated by
-> `/mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-ima=
-ge/1.0/recipe-sysroot-native/usr/bin/opkg
-> --volatile-cache -f
-> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-imag=
-e/1.0/opkg.conf
-> -t
-> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-imag=
-e/1.0/temp/ipktemp/
-> -o
-> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-imag=
-e/1.0/rootfs
-> --force-postinstall --prefer-arch-to-version --force-depends remove
-> glibc-binary-localedata-en-gb glibc-binary-localedata-c
-> glibc-binary-localedata-en-us'.
-> Program terminated with signal SIGSEGV, Segmentation fault.
-> #0  0x00007f50a8190d20 in stringpool_strn2id () from
-> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-imag=
-e/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv.so.1
-> (gdb) bt
-> #0  0x00007f50a8190d20 in stringpool_strn2id () from
-> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-imag=
-e/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv.so.1
-> #1  0x00007f50a818a3dc in pool_str2id () from
-> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-imag=
-e/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv.so.1
-> #2  0x00007f50a84fe4ad in ?? () from
-> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-imag=
-e/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1
-> #3  0x00007f50a84ff4df in opkg_solver_remove () from
-> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-imag=
-e/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1
-> #4  0x00007f50a84e9bfb in ?? () from
-> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-imag=
-e/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1
-> #5  0x00007f50a84eadb2 in opkg_cmd_exec () from
-> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-imag=
-e/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1
-> #6  0x00005557220b6a9d in ?? ()
-> #7  0x00007f50a8311f68 in __libc_start_call_main () from
-> /mnt/b/yoe/master/build/tmp/sysroots-uninative/x86_64-linux/lib/libc.so.6
-> #8  0x00007f50a831201b in __libc_start_main () from
-> /mnt/b/yoe/master/build/tmp/sysroots-uninative/x86_64-linux/lib/libc.so.6
-> #9  0x00005557220b6bf1 in ?? ()
->
-> On Thu, Nov 27, 2025 at 10:11=E2=80=AFAM Etienne Cordonnier via
-> lists.openembedded.org <ecordonnier=3Dsnap.com@lists.openembedded.org>
-> wrote:
->
->> Hi Gyorgy,
->> I have sent a patch to opkg upstream which disables the ACL option by
->> default again (it is https://lists.yoctoproject.org/g/opkg/message/175 ,
->> however the web-view doesn't seem to work at the moment. I only see
->> "Forbidden").
->>
->> =C3=89tienne
->>
->>
->>
->> On Thu, Nov 27, 2025 at 6:08=E2=80=AFPM Gyorgy Sarvari <skandigraun@gmai=
-l.com>
->> wrote:
->>
->>> I just tried this, but it seems that the ACL switch was toggled during
->>> the CMake transition. With Autotools ACL was disabled by default, but
->>> with CMake it seems to be enabled - and it complains that it can't find
->>> libacl on my machine.
->>>
->>> On 10/23/25 15:46, Etienne Cordonnier via lists.openembedded.org wrote:
->>> > From: Etienne Cordonnier <ecordonnier@snap.com>
->>> >
->>> > See release notes at
->>> > -
->>> https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__downloads.yoctopr=
-oject.org_releases_opkg_opkg-2D0.9.0.release-2Dnotes&d=3DDwICaQ&c=3DncDTmph=
-kJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUk=
-SGa66m67E&m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScvk4Y_QGHVaD7rHvEf9=
-Kx5&s=3Dqvmy1QT46Bl7mVt_XDbuHiic2IjU6z7Zku_Gid-CVYc&e=3D
->>> >
->>> > [0.9.0] - 2025-06-27
->>> >
->>> > Semiannual opkg release.
->>> > Bumping the minor version as a result of the project build tooling
->>> changing from autotools to cmake.
->>> >
->>> > - Added a Dockerfile container definition (`:docker/`) for a valid
->>> developer build environment for opkg.
->>> >   - It's recommended that project contributors use this container to
->>> build and test their changes.
->>> > - The AutoTools-based build framework has [been replaced](
->>> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctoproject=
-.org_opkg_commit_-3Fid-3D3f6040e321634471ec442fb0e80f140f1437e90b&d=3DDwICa=
-Q&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9T=
-sRih1DULJTKUkSGa66m67E&m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScvk4Y_=
-QGHVaD7rHvEf9Kx5&s=3DGgRxioBjt-ii5JWUrYQ0I-FmXvKxVxKNH3Nj22i_jiM&e=3D
->>> ) with a more modern, CMake framework.
->>> >   - Refer to the `docs/CONTRIBUTING.md` documentation for updated
->>> build instructions.
->>> >
->>> > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
->>> > ---
->>> >  .../opkg/opkg/0002-config.h.in-fix-typo.patch | 27 +++++++++++++++++=
-++
->>> >  meta/recipes-devtools/opkg/opkg/run-ptest     |  2 +-
->>> >  .../opkg/{opkg_0.8.0.bb =3D> opkg_0.9.0.bb}     | 22 ++++++++-------
->>> >  3 files changed, 41 insertions(+), 10 deletions(-)
->>> >  create mode 100644
->>> meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
->>> >  rename meta/recipes-devtools/opkg/{opkg_0.8.0.bb =3D> opkg_0.9.0.bb}
->>> (76%)
->>> >
->>> > diff --git
->>> a/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
->>> b/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
->>> > new file mode 100644
->>> > index 00000000000..626bbd01b68
->>> > --- /dev/null
->>> > +++ b/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
->>> > @@ -0,0 +1,27 @@
->>> > +From 5a81faadbc2397d554bc598d535fd2d44cbc8d10 Mon Sep 17 00:00:00 20=
-01
->>> > +From: Etienne Cordonnier <ecordonnier@snap.com>
->>> > +Date: Mon, 20 Oct 2025 18:57:56 +0200
->>> > +Subject: [PATCH] config.h.in: fix typo
->>> > +
->>> > +Upstream-Status: Backport [
->>> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctoproject=
-.org_opkg_commit_-3Fid-3Dd723a90bfe6409c7ad983ed911225d4aefbfd09e&d=3DDwICa=
-Q&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9T=
-sRih1DULJTKUkSGa66m67E&m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScvk4Y_=
-QGHVaD7rHvEf9Kx5&s=3D5scf6nlpBtSePSuPjyopoX7FmlAyiSwI03Ry11w4tl8&e=3D
->>> ]
->>> > +Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
->>> > +---
->>> > + config.h.in | 2 +-
->>> > + 1 file changed, 1 insertion(+), 1 deletion(-)
->>> > +
->>> > +diff --git a/config.h.in b/config.h.in
->>> > +index 4fa9842..877b8c7 100644
->>> > +--- a/config.h.in
->>> > ++++ b/config.h.in
->>> > +@@ -2,7 +2,7 @@
->>> > + #cmakedefine01 WITH_XZ
->>> > + #cmakedefine01 WITH_BZIP2
->>> > + #cmakedefine01 WITH_LZ4
->>> > +-#cmakedefine01 WITH_LZSTD
->>> > ++#cmakedefine01 WITH_ZSTD
->>> > + #cmakedefine01 WITH_CURL
->>> > + #cmakedefine01 WITH_SSLCURL
->>> > + #cmakedefine01 WITH_ACL
->>> > +--
->>> > +2.43.0
->>> > +
->>> > diff --git a/meta/recipes-devtools/opkg/opkg/run-ptest
->>> b/meta/recipes-devtools/opkg/opkg/run-ptest
->>> > index 5fb7077eec9..d485a4aace5 100644
->>> > --- a/meta/recipes-devtools/opkg/opkg/run-ptest
->>> > +++ b/meta/recipes-devtools/opkg/opkg/run-ptest
->>> > @@ -2,4 +2,4 @@
->>> >
->>> >  OPKG_PATH=3D$(which opkg)
->>> >
->>> > -make OPKG_PATH=3D$OPKG_PATH run-tests
->>> > +make -C tests DATADIR=3D/share SYSCONFDIR=3D/etc VARDIR=3D/var
->>> OPKG_PATH=3D$OPKG_PATH
->>> > diff --git a/meta/recipes-devtools/opkg/opkg_0.8.0.bb
->>> b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
->>> > similarity index 76%
->>> > rename from meta/recipes-devtools/opkg/opkg_0.8.0.bb
->>> > rename to meta/recipes-devtools/opkg/opkg_0.9.0.bb
->>> > index 12e2edf7e3f..ed2f36d636b 100644
->>> > --- a/meta/recipes-devtools/opkg/opkg_0.8.0.bb
->>> > +++ b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
->>> > @@ -15,34 +15,35 @@ PE =3D "1"
->>> >  SRC_URI =3D "
->>> https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__downloads.yoctopr=
-oject.org_releases_-24-257BBPN-257D_-24-257BBPN-257D-2D-24-257BPV-257D.tar.=
-gz&d=3DDwICaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVu=
-MIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj2=
-4AF_PScvk4Y_QGHVaD7rHvEf9Kx5&s=3DmKc8LzZ_Q2orQLqa_38Jr7E7tfyD4-rcsgI-wPkx_Z=
-g&e=3D
->>> \
->>> >             file://opkg.conf \
->>> >
->>>  file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch=
- \
->>> > +           file://0002-config.h.in-fix-typo.patch \
->>> >             file://run-ptest \
->>> >             "
->>> >
->>> > -SRC_URI[sha256sum] =3D
->>> "582a4c9e220cce0b7d08a0915c95db9f24ae43ad372ed5d42d5ec5f6cd413f0c"
->>> > +SRC_URI[sha256sum] =3D
->>> "440ef321862e01f83da4d02884a0cbb4d9d7b32f82faa81a6a85493f0c89d0f5"
->>> >
->>> >  # This needs to be before ptest inherit, otherwise all ptest files
->>> end packaged
->>> >  # in libopkg package if OPKGLIBDIR =3D=3D libdir, because default
->>> >  # PTEST_PATH ?=3D "${libdir}/${BPN}/ptest"
->>> >  PACKAGES =3D+ "libopkg"
->>> >
->>> > -inherit autotools pkgconfig ptest
->>> > +inherit cmake pkgconfig ptest
->>> >
->>> >  target_localstatedir :=3D "${localstatedir}"
->>> >  OPKGLIBDIR ??=3D "${target_localstatedir}/lib"
->>> >
->>> >  PACKAGECONFIG ??=3D "libsolv"
->>> >
->>> > -PACKAGECONFIG[gpg] =3D "--enable-gpg,--disable-gpg,\
->>> > +PACKAGECONFIG[gpg] =3D "-DWITH_GPGME=3DON,-DWITH_GPGME=3DOFF,\
->>> >      gnupg gpgme libgpg-error,\
->>> >      ${@ "gnupg" if ("native" in d.getVar("PN")) else "gnupg-gpg"}\
->>> >      "
->>> > -PACKAGECONFIG[curl] =3D "--enable-curl,--disable-curl,curl"
->>> > -PACKAGECONFIG[ssl-curl] =3D "--enable-ssl-curl,--disable-ssl-curl,cu=
-rl
->>> openssl"
->>> > -PACKAGECONFIG[sha256] =3D "--enable-sha256,--disable-sha256"
->>> > -PACKAGECONFIG[libsolv] =3D "--with-libsolv,--without-libsolv,libsolv=
-"
->>> > +PACKAGECONFIG[curl] =3D "-DWITH_CURL=3DON,-DWITH_CURL=3DOFF,curl"
->>> > +PACKAGECONFIG[ssl-curl] =3D "-DWITH_SSLCURL=3DON,-DWITH_SSLCURL=3DOF=
-F,curl
->>> openssl"
->>> > +PACKAGECONFIG[sha256] =3D "-DWITH_SHA256=3DON,-DWITH_SHA256=3DOFF"
->>> > +PACKAGECONFIG[libsolv] =3D
->>> "-DUSE_SOLVER_LIBSOLV=3DON,-DUSE_SOLVER_LIBSOLV=3DOFF,libsolv"
->>> >
->>> > -EXTRA_OECONF =3D "--enable-zstd"
->>> > -EXTRA_OECONF:append:class-native =3D "
->>> --localstatedir=3D/${@os.path.relpath('${localstatedir}',
->>> '${STAGING_DIR_NATIVE}')} --sysconfdir=3D/${@os.path.relpath('${sysconf=
-dir}',
->>> '${STAGING_DIR_NATIVE}')}"
->>> > +EXTRA_OECMAKE =3D "-DWITH_ZSTD=3DON"
->>> > +EXTRA_OECMAKE:append:class-native =3D "
->>> -DVARDIR=3D/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIV=
-E}')}
->>> -DSYSCONFDIR=3D/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATI=
-VE}')}"
->>> >
->>> >  do_install:append () {
->>> >       install -d ${D}${sysconfdir}/opkg
->>> > @@ -56,6 +57,9 @@ do_install:append () {
->>> >  }
->>> >
->>> >  do_install_ptest () {
->>> > +     # the ptest class uses a Makefile for installation, but cmake
->>> uses Ninja per default so we need to install ptests manually:
->>> > +     cp -r ${S}/tests ${D}${PTEST_PATH}
->>> > +
->>> >       sed -i -e '/@echo $^/d' ${D}${PTEST_PATH}/tests/Makefile
->>> >       sed -i -e '/@PYTHONPATH=3D. $(PYTHON) $^/a\\t@if [ "$$?" !=3D "=
-0"
->>> ];then echo "FAIL:"$^;else echo "PASS:"$^;fi'
->>> ${D}${PTEST_PATH}/tests/Makefile
->>> >  }
->>> >
->>> >
->>> >
->>>
->>>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#226864):
->> https://lists.openembedded.org/g/openembedded-core/message/226864
->> Mute This Topic: https://lists.openembedded.org/mt/115910660/1997914
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->> raj.khem@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
-
---000000000000d3ceae064512fb7f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">It can be reproduced with direct invocation<div><br></div>=
-<div>kraj@apollo /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux=
-/yoe-kiosk-image/1.0<br>=E2=9D=AF recipe-sysroot-native/usr/bin/opkg \<br>=
-=C2=A0 --volatile-cache \<br>=C2=A0 -f opkg.conf \<br>=C2=A0 -t temp/ipktem=
-p/ \<br>=C2=A0 -o rootfs \<br>=C2=A0 --force-postinstall \<br>=C2=A0 --pref=
-er-arch-to-version \<br>=C2=A0 --force-depends \<br>=C2=A0 remove glibc-bin=
-ary-localedata-en-gb glibc-binary-localedata-c glibc-binary-localedata-en-u=
-s<br><br>[1] =C2=A0 =C2=A0346156 segmentation fault (core dumped) =C2=A0rec=
-ipe-sysroot-native/usr/bin/opkg --volatile-cache -f opkg.conf -t =C2=A0-o r=
-oots</div><div><br></div><div>I have a workaround by setting</div><div><br>=
-</div><div>IMAGE_LINGUAS =3D &quot;en-us&quot;<br></div><div><br></div><div=
->in local.conf which avoids the need for=C2=A0opkg remove operation which i=
-s crashing.</div></div><br><div class=3D"gmail_quote gmail_quote_container"=
-><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 3, 2025 at 1:04=E2=80=AF=
-PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
-v dir=3D"ltr">I am starting to see the following crash in opkg when buildin=
-g image. Anyone seeing something=C2=A0like this?<div><br></div><div>(No deb=
-ugging symbols found in /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yo=
-e-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/opkg)<br>[New LWP=
- 34493]<br>[Thread debugging using libthread_db enabled]<br>Using host libt=
-hread_db library &quot;/usr/lib/libthread_db.so.1&quot;.<br>Core was genera=
-ted by `/mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kios=
-k-image/1.0/recipe-sysroot-native/usr/bin/opkg --volatile-cache -f /mnt/b/y=
-oe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/opkg=
-.conf -t /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kio=
-sk-image/1.0/temp/ipktemp/ -o /mnt/b/yoe/master/build/tmp/work/raspberrypi4=
-_64-yoe-linux/yoe-kiosk-image/1.0/rootfs --force-postinstall --prefer-arch-=
-to-version --force-depends remove glibc-binary-localedata-en-gb glibc-binar=
-y-localedata-c glibc-binary-localedata-en-us&#39;.<br>Program terminated wi=
-th signal SIGSEGV, Segmentation fault.<br>#0 =C2=A00x00007f50a8190d20 in st=
-ringpool_strn2id () from /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-y=
-oe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv=
-.so.1<br>(gdb) bt<br>#0 =C2=A00x00007f50a8190d20 in stringpool_strn2id () f=
-rom /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-im=
-age/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv.so.1<br>#1 =C2=A00x0=
-0007f50a818a3dc in pool_str2id () from /mnt/b/yoe/master/build/tmp/work/ras=
-pberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/..=
-/lib/./libsolv.so.1<br>#2 =C2=A00x00007f50a84fe4ad in ?? () from /mnt/b/yoe=
-/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe=
--sysroot-native/usr/bin/../lib/libopkg.so.1<br>#3 =C2=A00x00007f50a84ff4df =
-in opkg_solver_remove () from /mnt/b/yoe/master/build/tmp/work/raspberrypi4=
-_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/../lib/libo=
-pkg.so.1<br>#4 =C2=A00x00007f50a84e9bfb in ?? () from /mnt/b/yoe/master/bui=
-ld/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-na=
-tive/usr/bin/../lib/libopkg.so.1<br>#5 =C2=A00x00007f50a84eadb2 in opkg_cmd=
-_exec () from /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yo=
-e-kiosk-image/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1<br>#6 =
-=C2=A00x00005557220b6a9d in ?? ()<br>#7 =C2=A00x00007f50a8311f68 in __libc_=
-start_call_main () from /mnt/b/yoe/master/build/tmp/sysroots-uninative/x86_=
-64-linux/lib/libc.so.6<br>#8 =C2=A00x00007f50a831201b in __libc_start_main =
-() from /mnt/b/yoe/master/build/tmp/sysroots-uninative/x86_64-linux/lib/lib=
-c.so.6<br>#9 =C2=A00x00005557220b6bf1 in ?? ()</div></div><br><div class=3D=
-"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov 27, 2025 at=
- 10:11=E2=80=AFAM Etienne Cordonnier via <a href=3D"http://lists.openembedd=
-ed.org" target=3D"_blank">lists.openembedded.org</a> &lt;ecordonnier=3D<a h=
-ref=3D"mailto:snap.com@lists.openembedded.org" target=3D"_blank">snap.com@l=
-ists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex"><div dir=3D"ltr">Hi Gyorgy,<br>I have sent a patch to =
-opkg upstream which disables the ACL option by default again (it is <a href=
-=3D"https://lists.yoctoproject.org/g/opkg/message/175" target=3D"_blank">ht=
-tps://lists.yoctoproject.org/g/opkg/message/175</a> , however the web-view =
-doesn&#39;t seem to work at the moment. I only see &quot;Forbidden&quot;).<=
-br><br>=C3=89tienne<br><br><br></div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Thu, Nov 27, 2025 at 6:08=E2=80=AFPM Gyor=
-gy Sarvari &lt;<a href=3D"mailto:skandigraun@gmail.com" target=3D"_blank">s=
-kandigraun@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">I just tried this, but it seems that the ACL switch was=
- toggled during<br>
-the CMake transition. With Autotools ACL was disabled by default, but<br>
-with CMake it seems to be enabled - and it complains that it can&#39;t find=
-<br>
-libacl on my machine.<br>
-<br>
-On 10/23/25 15:46, Etienne Cordonnier via <a href=3D"http://lists.openembed=
-ded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wr=
-ote:<br>
-&gt; From: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.com" t=
-arget=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-&gt;<br>
-&gt; See release notes at<br>
-&gt; - <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__dow=
-nloads.yoctoproject.org_releases_opkg_opkg-2D0.9.0.release-2Dnotes&amp;d=3D=
-DwICaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonV=
-uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWW=
-RXTj24AF_PScvk4Y_QGHVaD7rHvEf9Kx5&amp;s=3Dqvmy1QT46Bl7mVt_XDbuHiic2IjU6z7Zk=
-u_Gid-CVYc&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefens=
-e.proofpoint.com/v2/url?u=3Dhttp-3A__downloads.yoctoproject.org_releases_op=
-kg_opkg-2D0.9.0.release-2Dnotes&amp;d=3DDwICaQ&amp;c=3DncDTmphkJTvjIDPh0hpF=
-_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E=
-&amp;m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScvk4Y_QGHVaD7rHvEf9Kx5&a=
-mp;s=3Dqvmy1QT46Bl7mVt_XDbuHiic2IjU6z7Zku_Gid-CVYc&amp;e=3D</a> <br>
-&gt;<br>
-&gt; [0.9.0] - 2025-06-27<br>
-&gt;<br>
-&gt; Semiannual opkg release.<br>
-&gt; Bumping the minor version as a result of the project build tooling cha=
-nging from autotools to cmake.<br>
-&gt;<br>
-&gt; - Added a Dockerfile container definition (`:docker/`) for a valid dev=
-eloper build environment for opkg.<br>
-&gt;=C2=A0 =C2=A0- It&#39;s recommended that project contributors use this =
-container to build and test their changes.<br>
-&gt; - The AutoTools-based build framework has [been replaced](<a href=3D"h=
-ttps://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctoproject.org_=
-opkg_commit_-3Fid-3D3f6040e321634471ec442fb0e80f140f1437e90b&amp;d=3DDwICaQ=
-&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRf=
-Px_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24=
-AF_PScvk4Y_QGHVaD7rHvEf9Kx5&amp;s=3DGgRxioBjt-ii5JWUrYQ0I-FmXvKxVxKNH3Nj22i=
-_jiM&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proo=
-fpoint.com/v2/url?u=3Dhttps-3A__git.yoctoproject.org_opkg_commit_-3Fid-3D3f=
-6040e321634471ec442fb0e80f140f1437e90b&amp;d=3DDwICaQ&amp;c=3DncDTmphkJTvjI=
-DPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSG=
-a66m67E&amp;m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScvk4Y_QGHVaD7rHvE=
-f9Kx5&amp;s=3DGgRxioBjt-ii5JWUrYQ0I-FmXvKxVxKNH3Nj22i_jiM&amp;e=3D</a> ) wi=
-th a more modern, CMake framework.<br>
-&gt;=C2=A0 =C2=A0- Refer to the `docs/CONTRIBUTING.md` documentation for up=
-dated build instructions.<br>
-&gt;<br>
-&gt; Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@sn=
-ap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../opkg/opkg/0002-config.h.in-fix-typo.patch | 27 +++++++++++++=
-++++++<br>
-&gt;=C2=A0 meta/recipes-devtools/opkg/opkg/run-ptest=C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 2 +-<br>
-&gt;=C2=A0 .../opkg/{<a href=3D"http://opkg_0.8.0.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">opkg_0.8.0.bb</a> =3D&gt; <a href=3D"http://opkg_0.9.0.bb" =
-rel=3D"noreferrer" target=3D"_blank">opkg_0.9.0.bb</a>}=C2=A0 =C2=A0 =C2=A0=
-| 22 ++++++++-------<br>
-&gt;=C2=A0 3 files changed, 41 insertions(+), 10 deletions(-)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-devtools/opkg/opkg/0002-config.h=
-.in-fix-typo.patch<br>
-&gt;=C2=A0 rename meta/recipes-devtools/opkg/{<a href=3D"http://opkg_0.8.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">opkg_0.8.0.bb</a> =3D&gt; <a href=
-=3D"http://opkg_0.9.0.bb" rel=3D"noreferrer" target=3D"_blank">opkg_0.9.0.b=
-b</a>} (76%)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo=
-.patch b/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch<br=
->
-&gt; new file mode 100644<br>
-&gt; index 00000000000..626bbd01b68<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch<=
-br>
-&gt; @@ -0,0 +1,27 @@<br>
-&gt; +From 5a81faadbc2397d554bc598d535fd2d44cbc8d10 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.com" =
-target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-&gt; +Date: Mon, 20 Oct 2025 18:57:56 +0200<br>
-&gt; +Subject: [PATCH] <a href=3D"http://config.h.in" rel=3D"noreferrer" ta=
-rget=3D"_blank">config.h.in</a>: fix typo<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://urldefense.proofpoint.c=
-om/v2/url?u=3Dhttps-3A__git.yoctoproject.org_opkg_commit_-3Fid-3Dd723a90bfe=
-6409c7ad983ed911225d4aefbfd09e&amp;d=3DDwICaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_=
-4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&=
-amp;m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScvk4Y_QGHVaD7rHvEf9Kx5&am=
-p;s=3D5scf6nlpBtSePSuPjyopoX7FmlAyiSwI03Ry11w4tl8&amp;e=3D" rel=3D"noreferr=
-er" target=3D"_blank">https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A=
-__git.yoctoproject.org_opkg_commit_-3Fid-3Dd723a90bfe6409c7ad983ed911225d4a=
-efbfd09e&amp;d=3DDwICaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw=
-&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D1A1uWL9SVAUWAO=
-RYc1-msE0HUGrhCWWRXTj24AF_PScvk4Y_QGHVaD7rHvEf9Kx5&amp;s=3D5scf6nlpBtSePSuP=
-jyopoX7FmlAyiSwI03Ry11w4tl8&amp;e=3D</a> ]<br>
-&gt; +Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@s=
-nap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + <a href=3D"http://config.h.in" rel=3D"noreferrer" target=3D"_blank">=
-config.h.in</a> | 2 +-<br>
-&gt; + 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; +<br>
-&gt; +diff --git a/<a href=3D"http://config.h.in" rel=3D"noreferrer" target=
-=3D"_blank">config.h.in</a> b/<a href=3D"http://config.h.in" rel=3D"norefer=
-rer" target=3D"_blank">config.h.in</a><br>
-&gt; +index 4fa9842..877b8c7 100644<br>
-&gt; +--- a/<a href=3D"http://config.h.in" rel=3D"noreferrer" target=3D"_bl=
-ank">config.h.in</a><br>
-&gt; ++++ b/<a href=3D"http://config.h.in" rel=3D"noreferrer" target=3D"_bl=
-ank">config.h.in</a><br>
-&gt; +@@ -2,7 +2,7 @@<br>
-&gt; + #cmakedefine01 WITH_XZ<br>
-&gt; + #cmakedefine01 WITH_BZIP2<br>
-&gt; + #cmakedefine01 WITH_LZ4<br>
-&gt; +-#cmakedefine01 WITH_LZSTD<br>
-&gt; ++#cmakedefine01 WITH_ZSTD<br>
-&gt; + #cmakedefine01 WITH_CURL<br>
-&gt; + #cmakedefine01 WITH_SSLCURL<br>
-&gt; + #cmakedefine01 WITH_ACL<br>
-&gt; +-- <br>
-&gt; +2.43.0<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-devtools/opkg/opkg/run-ptest b/meta/recipes-=
-devtools/opkg/opkg/run-ptest<br>
-&gt; index 5fb7077eec9..d485a4aace5 100644<br>
-&gt; --- a/meta/recipes-devtools/opkg/opkg/run-ptest<br>
-&gt; +++ b/meta/recipes-devtools/opkg/opkg/run-ptest<br>
-&gt; @@ -2,4 +2,4 @@<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 OPKG_PATH=3D$(which opkg)<br>
-&gt;=C2=A0 <br>
-&gt; -make OPKG_PATH=3D$OPKG_PATH run-tests<br>
-&gt; +make -C tests DATADIR=3D/share SYSCONFDIR=3D/etc VARDIR=3D/var OPKG_P=
-ATH=3D$OPKG_PATH<br>
-&gt; diff --git a/meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.8.0.b=
-b" rel=3D"noreferrer" target=3D"_blank">opkg_0.8.0.bb</a> b/meta/recipes-de=
-vtools/opkg/<a href=3D"http://opkg_0.9.0.bb" rel=3D"noreferrer" target=3D"_=
-blank">opkg_0.9.0.bb</a><br>
-&gt; similarity index 76%<br>
-&gt; rename from meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.8.0.bb=
-" rel=3D"noreferrer" target=3D"_blank">opkg_0.8.0.bb</a><br>
-&gt; rename to meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.9.0.bb" =
-rel=3D"noreferrer" target=3D"_blank">opkg_0.9.0.bb</a><br>
-&gt; index 12e2edf7e3f..ed2f36d636b 100644<br>
-&gt; --- a/meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.8.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">opkg_0.8.0.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.9.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">opkg_0.9.0.bb</a><br>
-&gt; @@ -15,34 +15,35 @@ PE =3D &quot;1&quot;<br>
-&gt;=C2=A0 SRC_URI =3D &quot;<a href=3D"https://urldefense.proofpoint.com/v=
-2/url?u=3Dhttp-3A__downloads.yoctoproject.org_releases_-24-257BBPN-257D_-24=
--257BBPN-257D-2D-24-257BPV-257D.tar.gz&amp;d=3DDwICaQ&amp;c=3DncDTmphkJTvjI=
-DPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSG=
-a66m67E&amp;m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScvk4Y_QGHVaD7rHvE=
-f9Kx5&amp;s=3DmKc8LzZ_Q2orQLqa_38Jr7E7tfyD4-rcsgI-wPkx_Zg&amp;e=3D" rel=3D"=
-noreferrer" target=3D"_blank">https://urldefense.proofpoint.com/v2/url?u=3D=
-http-3A__downloads.yoctoproject.org_releases_-24-257BBPN-257D_-24-257BBPN-2=
-57D-2D-24-257BPV-257D.tar.gz&amp;d=3DDwICaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4v=
-CHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&am=
-p;m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScvk4Y_QGHVaD7rHvEf9Kx5&amp;=
-s=3DmKc8LzZ_Q2orQLqa_38Jr7E7tfyD4-rcsgI-wPkx_Zg&amp;e=3D</a>=C2=A0 \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://opkg.conf \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-opkg_conf-c=
-reate-opkg.lock-in-run-instead-of-var-run.patch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-config.h.in-fix-=
-typo.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt;=C2=A0 <br>
-&gt; -SRC_URI[sha256sum] =3D &quot;582a4c9e220cce0b7d08a0915c95db9f24ae43ad=
-372ed5d42d5ec5f6cd413f0c&quot;<br>
-&gt; +SRC_URI[sha256sum] =3D &quot;440ef321862e01f83da4d02884a0cbb4d9d7b32f=
-82faa81a6a85493f0c89d0f5&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 # This needs to be before ptest inherit, otherwise all ptest fil=
-es end packaged<br>
-&gt;=C2=A0 # in libopkg package if OPKGLIBDIR =3D=3D libdir, because defaul=
-t<br>
-&gt;=C2=A0 # PTEST_PATH ?=3D &quot;${libdir}/${BPN}/ptest&quot;<br>
-&gt;=C2=A0 PACKAGES =3D+ &quot;libopkg&quot;<br>
-&gt;=C2=A0 <br>
-&gt; -inherit autotools pkgconfig ptest<br>
-&gt; +inherit cmake pkgconfig ptest<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 target_localstatedir :=3D &quot;${localstatedir}&quot;<br>
-&gt;=C2=A0 OPKGLIBDIR ??=3D &quot;${target_localstatedir}/lib&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 PACKAGECONFIG ??=3D &quot;libsolv&quot;<br>
-&gt;=C2=A0 <br>
-&gt; -PACKAGECONFIG[gpg] =3D &quot;--enable-gpg,--disable-gpg,\<br>
-&gt; +PACKAGECONFIG[gpg] =3D &quot;-DWITH_GPGME=3DON,-DWITH_GPGME=3DOFF,\<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 gnupg gpgme libgpg-error,\<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ${@ &quot;gnupg&quot; if (&quot;native&quot; in d.=
-getVar(&quot;PN&quot;)) else &quot;gnupg-gpg&quot;}\<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &quot;<br>
-&gt; -PACKAGECONFIG[curl] =3D &quot;--enable-curl,--disable-curl,curl&quot;=
-<br>
-&gt; -PACKAGECONFIG[ssl-curl] =3D &quot;--enable-ssl-curl,--disable-ssl-cur=
-l,curl openssl&quot;<br>
-&gt; -PACKAGECONFIG[sha256] =3D &quot;--enable-sha256,--disable-sha256&quot=
-;<br>
-&gt; -PACKAGECONFIG[libsolv] =3D &quot;--with-libsolv,--without-libsolv,lib=
-solv&quot;<br>
-&gt; +PACKAGECONFIG[curl] =3D &quot;-DWITH_CURL=3DON,-DWITH_CURL=3DOFF,curl=
-&quot;<br>
-&gt; +PACKAGECONFIG[ssl-curl] =3D &quot;-DWITH_SSLCURL=3DON,-DWITH_SSLCURL=
-=3DOFF,curl openssl&quot;<br>
-&gt; +PACKAGECONFIG[sha256] =3D &quot;-DWITH_SHA256=3DON,-DWITH_SHA256=3DOF=
-F&quot;<br>
-&gt; +PACKAGECONFIG[libsolv] =3D &quot;-DUSE_SOLVER_LIBSOLV=3DON,-DUSE_SOLV=
-ER_LIBSOLV=3DOFF,libsolv&quot;<br>
-&gt;=C2=A0 <br>
-&gt; -EXTRA_OECONF =3D &quot;--enable-zstd&quot;<br>
-&gt; -EXTRA_OECONF:append:class-native =3D &quot; --localstatedir=3D/${@os.=
-path.relpath(&#39;${localstatedir}&#39;, &#39;${STAGING_DIR_NATIVE}&#39;)} =
---sysconfdir=3D/${@os.path.relpath(&#39;${sysconfdir}&#39;, &#39;${STAGING_=
-DIR_NATIVE}&#39;)}&quot;<br>
-&gt; +EXTRA_OECMAKE =3D &quot;-DWITH_ZSTD=3DON&quot;<br>
-&gt; +EXTRA_OECMAKE:append:class-native =3D &quot; -DVARDIR=3D/${@os.path.r=
-elpath(&#39;${localstatedir}&#39;, &#39;${STAGING_DIR_NATIVE}&#39;)} -DSYSC=
-ONFDIR=3D/${@os.path.relpath(&#39;${sysconfdir}&#39;, &#39;${STAGING_DIR_NA=
-TIVE}&#39;)}&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 do_install:append () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${sysconfdir}/opkg<br>
-&gt; @@ -56,6 +57,9 @@ do_install:append () {<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 do_install_ptest () {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0# the ptest class uses a Makefile for installatio=
-n, but cmake uses Ninja per default so we need to install ptests manually:<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0cp -r ${S}/tests ${D}${PTEST_PATH}<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e &#39;/@echo $^/d&#39; ${D}${PTEST_=
-PATH}/tests/Makefile<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e &#39;/@PYTHONPATH=3D. $(PYTHON) $^=
-/a\\t@if [ &quot;$$?&quot; !=3D &quot;0&quot; ];then echo &quot;FAIL:&quot;=
-$^;else echo &quot;PASS:&quot;$^;fi&#39; ${D}${PTEST_PATH}/tests/Makefile<b=
-r>
-&gt;=C2=A0 }<br>
-&gt;<br>
-&gt; <br>
-&gt;<br>
-<br>
-</blockquote></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#226864): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/226864" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/226864</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/115910660/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/115910660/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-</blockquote></div>
-
---000000000000d3ceae064512fb7f--
 
