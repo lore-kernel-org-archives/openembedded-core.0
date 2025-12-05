@@ -1,99 +1,153 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91792D2F7DD
-	for <webhook@archiver.kernel.org>; Fri,  5 Dec 2025 11:16:40 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3242.1764933390222925827
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3A81D2F7E6
+	for <webhook@archiver.kernel.org>; Fri,  5 Dec 2025 12:02:40 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4081.1764936151005151332
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Dec 2025 03:16:30 -0800
+ Fri, 05 Dec 2025 04:02:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=E/yXjK5C;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8804f1bd6a7so16274446d6.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Dec 2025 03:16:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764933389; x=1765538189; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1jJ0XK7Rq81pHQqMic5+gl/4iXecEvf8EapUyFQSxhQ=;
-        b=E/yXjK5CrspM6/JjNWjTTbm62IujDoHdeLD20ja3Tblgx1Xnq2wcR5ZC7FtSsWNejs
-         P+d8hpEh+tet/bu1f3HMNTF7D+TIyRXzbTmRHIzAF62PT+araWgMNVrdfM9coszLzofd
-         WHYPFImB42qLY1ApEQ2xTGvs1aWXCDNcObZiv2yo0gS4AQ/2elICrTcFMCMn6Hckfzab
-         ZT6vwSECnhdhFUK6Fnl4Y+qGPgz2CHYTYYQplM5uS7XOmCaCdNWbG2tvhDnUCoFlqjr1
-         42f88JH8b0OpvJi7cWqpiftGwUW6Xo+mV0XJZjw8u+3M8WSbQjMGSFGbaBnbn0IBKNy+
-         a1nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764933389; x=1765538189;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1jJ0XK7Rq81pHQqMic5+gl/4iXecEvf8EapUyFQSxhQ=;
-        b=DlANQO4CfpwKm29UPkS7h7cBh+BbM1A8Zfd31BWph5IZvhuVeeXv0adkhIw/fSPf8j
-         8Q0FDnXNrCjVZlihdMwlJgJ3iq9rfN0KhnSF/UbbIOm/g2Q2qFBU4tMawG6okDhhvLDf
-         psZfImY6WDViHQr9zDlYCBvySaJcWkJNGrxLhPzAd+72tAztlN4pbPrl/Z6jp1d5p8EU
-         CDrmlZcYLDy3wZQesehekngLbpqo+npGRBgpNWVODbG9W/dsb3uFbWeFdjtSxnhtci9/
-         sh6qGMpWYmGMqxdLo2Lk/ImvQZt9QdOS5q+ztSsUdGkUPqQK47JJbVxAVqE5DbvkrfCu
-         gR2w==
-X-Gm-Message-State: AOJu0YyAdLyhqPUaJci+/x8HW8mb2JpYsTe9CZYD7I14WaiFqHAVZ1u6
-	MrC/Pxzhu2z5nn4YEBCmyySICi1GV0KxAJfUG0A4DkCc/DtGz+xgAZYnEFN/iYKSTailzIUqtqv
-	pa64eEh7YKrWWXVc/otIdnhub/arBMhc=
-X-Gm-Gg: ASbGncvlFTKO0M65ZpAtVQ6vnjOkvH20i+BjsBecwuoilf/P/Xdqu/m8plUSx2+358R
-	mj1X99PtuFoDlqLm3zJmh3QDsYPG0wOJT7b3037jeyazz/1oGE2RRI+qH8Eny4Qvf4zfV7aytFr
-	tfxBnnvMyq1Zpp6zf7nwlChSDu6t2RAQDvkGEpkOZWNxk8s6WboutK7Yuwa5Jxr1FWFrNPAZceE
-	Q4lP9piAFQTAzQAlEmC8HIvzFV9aOZk2uHlnpwJDjoAQhvqJuhHuBqEhJjihXrKNhPUBGxcTyEt
-	+1jZdbg6Q7Ow68WEIE1nffrrap1Wlw==
-X-Google-Smtp-Source: AGHT+IEQ4ChfCCDvi1wFADHsqhzr+l/p3DCPSmZyenS876/dpB+iAZ1UQ7QIPm4vxJKwNkDqcWo1mjBKlnRZOJJI+Yo=
-X-Received: by 2002:a05:6214:194b:b0:7c2:d5b7:dd54 with SMTP id
- 6a1803df08f44-88824834472mr85433286d6.18.1764933389219; Fri, 05 Dec 2025
- 03:16:29 -0800 (PST)
-MIME-Version: 1.0
-References: <20251204180945.3112334-1-tgamblin@baylibre.com> <20251204180945.3112334-5-tgamblin@baylibre.com>
-In-Reply-To: <20251204180945.3112334-5-tgamblin@baylibre.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 5 Dec 2025 12:16:17 +0100
-X-Gm-Features: AQt7F2quJhNwL5Sex1LN5DP1GCe31urUAOB9crPuES-F9UEgrtzhoARiuOHxihE
-Message-ID: <CANNYZj8tUMEVU-SPDbhyg4L+eiZK2PKdJebTigCS953aS4VhFw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 4/6] rpm: handle CMake Python paths in do_configure
-To: tgamblin@baylibre.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=x39O2hMc;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id A66204E41A6A
+	for <openembedded-core@lists.openembedded.org>; Fri,  5 Dec 2025 12:02:28 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4E56A606AC;
+	Fri,  5 Dec 2025 12:02:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 91EEF102F2334;
+	Fri,  5 Dec 2025 13:02:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1764936147; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=HCd0VXBrjzWa17K60D2uoOmyK3lef7owgvANjAv6O1U=;
+	b=x39O2hMcrxkUeAkvh/SySTxpoFrcbUS9DvThsN++/cbizQhlNJncHDhMgGUGfkwV6rWm0N
+	0H6gCsZcoyElazNVgvzwW32q/bHjbHlYs+3peYC8RVxjiQ6Wbq+5B5a3iTP4JEC2Uniab5
+	3i4iJmvayveMgwKymH7+zEQHlNrtv+UUETgwnbWr3xUyqAqoRy5Mmy61lYxfXDQnPQnsWU
+	siSAlI5GraW5kyeRnEJQ+r9GE4E9JkjlD+cloZ1MbwVh3JfvWYbtdNeqDz27wWYOgWyRdi
+	nz40SQBszKs6yoJ4MkoYG6NsBKIvH7+mw7uaV1S0mDKoFSkKp5Ia1XpIOuQ8KQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 05 Dec 2025 13:02:24 +0100
+Message-Id: <DEQ9NBR19R81.2AR83JOIBN2X@bootlin.com>
+Subject: Re: [OE-core][PATCH 0/6] python3: upgrade to 3.14.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Trevor Gamblin" <tgamblin@baylibre.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20251204180945.3112334-1-tgamblin@baylibre.com>
+In-Reply-To: <20251204180945.3112334-1-tgamblin@baylibre.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Dec 2025 11:16:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227350
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Dec 2025 12:02:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227351
 
-On Thu, 4 Dec 2025 at 19:10, Trevor Gamblin via lists.openembedded.org
-<tgamblin=baylibre.com@lists.openembedded.org> wrote:
+On Thu Dec 4, 2025 at 7:09 PM CET, Trevor Gamblin wrote:
+> Here goes the first attempt at upgrading the python3 recipe to 3.14.0. Th=
+is will
+> likely break some stuff, so it'd be good to start testing it early before
+> Wrynose begins the build phase. You can see the specific commits for more
+> details, but I will note that in addition to the buildall-qemu, reproduci=
+bility,
+> and ptest checks I've reported in the python3 upgrade patch itself, I've =
+also
+> done the following on my build machine (F43):
 >
-> With the Python 3.14.0 upgrade, rpm is finding the wrong paths with
-> CMake, leading to a QA issue for files that we have listed in FILES
-> already:
+> - bitbake core-image-ptest-all (which is how I found the problems fixed b=
+y the
+>   bcrypt, jsonpointer, and pytest changes);
+> - bitbake -k world (which IIRC is where I found the rpm issue).
 >
-> |ERROR: QA Issue: rpm: Files/directories were installed but not shipped in any package:
-> |  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/rpm/4.20.1/recipe-sysroot-native/usr/lib/python3.14/site-packages/rpm-4.20.1-py3.14.egg-info
-> |  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/rpm/4.20.1/recipe-sysroot-native/usr/lib/python3.14/site-packages/rpm/_rpm.so
-> |  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/rpm/4.20.1/recipe-sysroot-native/usr/lib/python3.14/site-packages/rpm/transaction.py
-> |  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/rpm/4.20.1/recipe-sysroot-native/usr/lib/python3.14/site-packages/rpm/__init__.py
-> |Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-> |rpm: 4 installed and not shipped files. [installed-vs-shipped]
->
-> Add a do_configure:prepend() step to make sure the right ones are found.
+> Trevor Gamblin (6):
+
+Hi Trevor,
+
+Thanks for your patches.
+
+It looks like we do have some issues on the autobuilder.
+
+A first one, maybe only with alternate distro?
+
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/qemux86-alt/build/layers/openembedded-c=
+ore/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/qemux86-alt/build/layers/openembedded-c=
+ore/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/qemux86-alt/build/layers/openembedded-c=
+ore/meta/lib/oeqa/runtime/cases/gi.py", line 20, in test_python
+    self.assertEqual(status, 0, msg=3D"Python failed (%s)" % (output))
+AssertionError: 1 !=3D 0 : Python failed (Traceback (most recent call last)=
+:
+  File "<string>", line 1, in <module>
+  File "/usr/lib/python3.14/site-packages/gi/__init__.py", line 40, in <mod=
+ule>
+    from . import _gi
+  File "/usr/lib/python3.14/asyncio/__init__.py", line 8, in <module>
+    from .base_events import *
+  File "/usr/lib/python3.14/asyncio/base_events.py", line 18, in <module>
+    import concurrent.futures
+  File "/usr/lib/python3.14/concurrent/futures/__init__.py", line 8, in <mo=
+dule>
+    from concurrent.futures._base import (FIRST_COMPLETED,
+  File "/usr/lib/python3.14/concurrent/futures/_base.py", line 7, in <modul=
+e>
+    import logging
+  File "/usr/lib/python3.14/logging/__init__.py", line 26, in <module>
+    import sys, os, time, io, re, traceback, warnings, weakref, collections=
+.abc
+  File "/usr/lib/python3.14/traceback.py", line 8, in <module>
+    import warnings
+  File "/usr/lib/python3.14/warnings.py", line 15, in <module>
+    from _py_warnings import (
+ModuleNotFoundError: No module named '_py_warnings')
 ...
-> +do_configure:prepend() {
-> +    # Force CMake to use target Python paths, not native
-> +    sed -i 's|${Python3_SITEARCH}|${PYTHON_SITEPACKAGES_DIR}|g' ${S}/python/CMakeLists.txt
-> +}
-> +
+RESULTS - gi.GObjectIntrospectionTest.test_python: FAILED (0.67s)
 
-This kind of tweak should be done with a proper patch.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/builds/2793
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/2804
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/95/builds/2785
 
-But before that, it would be good to investigate why the correct value
-was returned before and now it is not: even if we work around it in
-oe-core like this, the issue may pop up in other layers too. It's
-possible something needs to be fixed in python recipe still.
+And another one here:
 
-Alex
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/qemuarmv5/build/layers/openembedded-cor=
+e/meta/lib/oeqa/sdk/cases/maturin.py", line 30, in test_maturin_list_python
+    self.assertIn(expected, output)
+AssertionError: '3.14 at /srv/pokybuild/yocto-worker/qemuarmv5/build/build/=
+tmp/work/qemuarmv5-poky-linux-gnueabi/core-image-sato/1.0/testsdkext/buildt=
+ools/sysroots/x86_64-pokysdk-linux/usr/bin/python3' not found in '=F0=9F=90=
+=8D 1 python interpreter found:\n - CPython 3.9 at /srv/pokybuild/buildbot-=
+venv/bin/python3.9\n'
+...
+core-image-sato esdk (poky-glibc-x86_64-core-image-sato-armv5e-qemuarmv5-to=
+olchain-ext-5.2.99+snapshot.sh:environment-setup-armv5e-poky-linux-gnueabi)=
+ - Ran 30 tests in 616.844s
+core-image-sato esdk - FAIL - Required tests failed (successes=3D19, skippe=
+d=3D10, failures=3D1, errors=3D0)
+ERROR: core-image-sato-1.0-r0 do_testsdkext: core-image-sato - FAILED - che=
+ck the task log and the commands log
+...
+RESULTS - maturin.MaturinTest.test_maturin_list_python: FAILED (3.43s)
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/builds/2661
+
+Can you try to fix these?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
