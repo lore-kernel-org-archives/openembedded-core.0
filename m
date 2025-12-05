@@ -1,103 +1,86 @@
-Return-Path: <samuli.piippo@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04258D2F7CA
-	for <webhook@archiver.kernel.org>; Fri,  5 Dec 2025 09:22:30 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1866.1764926545722762301
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29F15D2F7CB
+	for <webhook@archiver.kernel.org>; Fri,  5 Dec 2025 09:44:00 +0000 (UTC)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2083.1764927830928229736
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Dec 2025 01:22:26 -0800
+ Fri, 05 Dec 2025 01:43:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HJisplWf;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: samuli.piippo@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5943d20f352so2093600e87.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Dec 2025 01:22:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ltQUuaxe;
+ spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8b2aa1ae006so240208485a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Dec 2025 01:43:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764926543; x=1765531343; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MRD/4NSg45KQwA0kpBM+TyWtZcGTnOBU6f42xULAHFs=;
-        b=HJisplWfl2gOwDhsE5zL7o8MlMS/+NuLahYV35IAQVWBRNlaoDoB8Oa2bPARg+S9DJ
-         7iInxES5seqvaoPNQY23AaAJnYQjpfOSL4At87n06yBoxr7qWsA7XqbptDILwPp2jO5l
-         mqu5v7AJhqJeK5mNNuhQ4y0opGFsVzzfgIT62of/q8DRFPJxOi+Z3t8O1oWaOrnoKesp
-         71nXydR9FOYZ11NAmTpmAbo5bWjUVdC4WEgHXphjpTH6L7IjwS7FoThlXIKx1yDdie/Z
-         e7ikZGmyuBEHSChuShFwMYQy2xitHar2OkC4QIaa9XOO7dcgC2cCNtcrcz2a8yCu65Lj
-         5faw==
+        d=gmail.com; s=20230601; t=1764927830; x=1765532630; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KOt4mCTBoDD/rc6WrWK1b5k2ck1ZirhN1uzMov8oUgg=;
+        b=ltQUuaxeQhX3CHRNPlK/yA+eRpjD5Y68P02goylOJhWeBIkc7hDoiD0LFGBgQiipkw
+         g9YWWyQZdjapfBb6ZX7IQrnUkTkd7p7Cz5GErLi1nOYB351oUuJVDroyNdUEsQvmsK9Z
+         fwFchviHYFVVPCJSVFLpC8ePqsKTTa25khItEr7oU0o5h1lfVCJYJb6XYojkZFog09D0
+         SpISXvVRj6fYB+75Ly0n+JGrtq+frJ3M+CTLVupM25m1pT5Z9Uw6qjY2fybBCtdZdkV6
+         XFqJCnnsI88MbQsqtJcTRzqzOKS+4m6fZkoCyZVIdu5F8WdIIE/EXIRwVj+pmtb0oeqV
+         g3vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764926543; x=1765531343;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MRD/4NSg45KQwA0kpBM+TyWtZcGTnOBU6f42xULAHFs=;
-        b=jL8wRzxbFMFryDu6UyjXI80Zh4/sD1GZb9xxPHBWuq1yCZ5Y9rxOqQSR6VE+9WhPWa
-         WPhpd3clyNHajjhMt70CYJt5bc9caiCMqfMeBBI4DxTTHULCsLIN+TJgupLVy4tpR9E6
-         N8/2akRIWUFHfe20VKkeO7QtpVC9ne1i6hwKBF7ThVcTCOE2ftPfLa6PKALqxEY4w4ty
-         bSAdlfwgCXbgDt12jnSLmI8SJbCsTHZApuWXEH61/eXoE0aUIF4zR6xEeEIhRxOeig/O
-         zEjCSajc+1I56wzYbAxHerJ27YxpCmlM1o/YGZXSHmMYSiebZrnjNobFIPOp6BxZC0lL
-         5WRg==
-X-Gm-Message-State: AOJu0YzQZJTLE88mFWPr/aqsJm0KGe1pU7ZtHVum2NJUxFkIvwvufzEa
-	9NR+iPGk/csfrIP9oESYhUCv/KDoRKRJGapJnZeFsduQQjyPcIrSKyjFaYQBU97R
-X-Gm-Gg: ASbGncviQNaQx6I0kZMb8TTU5/UZnGeCBzzQ1KKXSD690vj8JFdMoTPNRUg5pArWtsc
-	13uu/87qvpkOjZt1lZOUPP2p2zswn2ymYqnGyQcTuqIpTK8bf4w/DhvyuEXJ6iFdS1glENs2/Cn
-	kLdOGY8UZ/QvRSDGlLQ1YsF1FR88P5kiDHPt+1rP9ncgOxhI28MlQMFO4N31PW7diXm4ULek3U6
-	34JszLZEwBMPrjOkiTSxwgWHQhCXlQlB9rfAy+wzgxFUDkqE1sjhQfHCXVVipijszavBiT9Yndy
-	zu+8F/tCOFgkXhCfdV7TOtLowcs7Ij5fU4u1fDaqvJBEKCHpAaBlzYPX1Zn3zVmuuzmTfC/PI/j
-	LSRvI8s8DBKtWYs/erw1jYwdzbs205cPmRDFXGyJGFxDOGs4k2LRcpt/FEeN8Mr2RaxXUlkylO2
-	+hAITrtukEOwmD1t7Pr+dlUJrxtioGUsZHsD3uNuHfpwtr23M2IkBuFWRy5UNGj3k=
-X-Google-Smtp-Source: AGHT+IFRaoM2t46k0Cjuz5hRWex0Rmf/4WLt8Hq3/0At0gym5znXBH0ua8WBHmbdDLu6uHlUFnUsrQ==
-X-Received: by 2002:a05:6512:39cd:b0:597:d74e:d6f8 with SMTP id 2adb3069b0e04-597d74ed976mr1776139e87.37.1764926543078;
-        Fri, 05 Dec 2025 01:22:23 -0800 (PST)
-Received: from dcbuildsrv.ci.qt.io (ip-109-75-238-172.customer.as29154.net. [109.75.238.172])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-597d7b2481fsm1309641e87.41.2025.12.05.01.22.22
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Dec 2025 01:22:22 -0800 (PST)
-From: Samuli Piippo <samuli.piippo@gmail.com>
-X-Google-Original-From: Samuli Piippo <samuli.piippo@qt.io>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] curl: add PACKAGECONFIG for Schannel SSL/TLS support
-Date: Fri,  5 Dec 2025 09:21:51 +0000
-Message-ID: <20251205092151.165521-1-samuli.piippo@qt.io>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1764927830; x=1765532630;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KOt4mCTBoDD/rc6WrWK1b5k2ck1ZirhN1uzMov8oUgg=;
+        b=DtdyGoq4FNzW6VS7Rxrebn4IOWL04rYpWvk/hN0F15EMTJo7WVdI+O9NYlqPE4Is/z
+         USzlLx0rtlU/Gt5XTvP3giHneJjNFgGB12VTVEyNS9OQnMmy+tH5cCSio04fSulty80R
+         FjxaslQxd2CgPcNr3NuWG2eyGIDfSML4klYDT8+q8+7eddKPstKjdzZOX3IzeKnhWbMD
+         dwOpj7tpt7kSe53G6UAnCR35L3j5JkAC6zg84CTymEaY/nbdC/mBD/qjbe90xnX94jD1
+         1Mc0+gf/gIcln8248UWYAEBh2p1smNmDnzgCbrf9LyQbjQ5JfPEJuXE39X16By81c+/R
+         8vWw==
+X-Gm-Message-State: AOJu0YzGZqnBpbvBtz6RDHbfRJtqE3be0dHrQbwumo0ml5fvUNXciYkX
+	VivHX58VR52+zbfkAMw6i4tRU0SPGK4tpABQtO8yM/DJhpsSKbxUwiM62UOCt3rIpuNnN9GRPCl
+	c8Iq1XJqNbu6M5m76iB/cQRXaeR+k/0M=
+X-Gm-Gg: ASbGncsOfQlYkZpG0ST63jpt+O3g5raRYl7hM7HBspJSziNq3gYSblwGVC3ZlT7Zhnp
+	6/6cHdENjamhjN9O0F7SUwGhw88YGxEMqwAdzziS75ngHd0v4LWOkYu2w6/HXRrLAgAT2h169m6
+	ee4EtM3Ab1iph0jCnvRFt1Jcl8+qF7ybK0fBfQSakP67nV7BRelAoSR+O/0/3B/XK9jLe5avaED
+	JZAiyRhuk6RF5Pwbb5KXsymV7UhNQtUGNyK1UOTJkxif8G1okHNXn6BCOJJH7JCVQECxy0VC95T
+	r1h793JStA17tAILt7jIveWBGrpXrA==
+X-Google-Smtp-Source: AGHT+IF4SDEikrY7lRWRusvem35Z5Uitbu09wyEAso3EQNoPmmIPveeiW6siNRkZmYbL0002coRcKVrxEUaO49RqXzE=
+X-Received: by 2002:a05:620a:40cb:b0:893:2ba8:eec8 with SMTP id
+ af79cd13be357-8b5e6d88e9fmr1087526785a.79.1764927829809; Fri, 05 Dec 2025
+ 01:43:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251205083202.330982-1-Qi.Chen@windriver.com> <20251205083202.330982-2-Qi.Chen@windriver.com>
+In-Reply-To: <20251205083202.330982-2-Qi.Chen@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 5 Dec 2025 10:43:38 +0100
+X-Gm-Features: AQt7F2rB5nKuSlw-Hv-auAdBU8JhJXjNBLpAkVh2_QFpBUf7tKOuRGOu5jAKqag
+Message-ID: <CANNYZj_1RO49jZ1gQR9R1Nb4uHoHbbPxJ+QxXBq9cFiHBVY19A@mail.gmail.com>
+Subject: Re: [OE-core][PATCH V2 2/2] core-image-ptest.bb: use ?= for PTEST_EXPECT_FAILURE
+To: Qi.Chen@windriver.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Dec 2025 09:22:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227345
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Dec 2025 09:44:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227346
 
-Add new PACKAGECONFIG to enable the Windows native Schannel SSL/TLS
-library support to be available for mingw32 builds.
+On Fri, 5 Dec 2025 at 09:32, Chen Qi via lists.openembedded.org
+<Qi.Chen=windriver.com@lists.openembedded.org> wrote:
+>  # Sadly at the moment the full set of ptests is not robust enough and sporadically fails in random places
+> -PTEST_EXPECT_FAILURE = "1"
+> +PTEST_EXPECT_FAILURE ?= "1"
 
-Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
----
- meta/recipes-support/curl/curl_8.17.0.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I'd say let's rather drop this assignment and the comment. This was
+the case years ago when ptests were indeed flaky, but they've come a
+long way since. And even though because of this assignment ptest fails
+become AB warnings, de facto such warnings are still treated as fails
+that block the patch that caused them.
 
-diff --git a/meta/recipes-support/curl/curl_8.17.0.bb b/meta/recipes-support/curl/curl_8.17.0.bb
-index 32585070eb..4d27b68d93 100644
---- a/meta/recipes-support/curl/curl_8.17.0.bb
-+++ b/meta/recipes-support/curl/curl_8.17.0.bb
-@@ -65,6 +65,7 @@ PACKAGECONFIG[pop3] = "--enable-pop3,--disable-pop3,"
- PACKAGECONFIG[proxy] = "--enable-proxy,--disable-proxy,"
- PACKAGECONFIG[rtmpdump] = "--with-librtmp,--without-librtmp,rtmpdump"
- PACKAGECONFIG[rtsp] = "--enable-rtsp,--disable-rtsp,"
-+PACKAGECONFIG[schannel] = "--with-schannel,--without-schannel,"
- PACKAGECONFIG[smb] = "--enable-smb,--disable-smb,"
- PACKAGECONFIG[smtp] = "--enable-smtp,--disable-smtp,"
- PACKAGECONFIG[telnet] = "--enable-telnet,--disable-telnet,"
-@@ -79,7 +80,7 @@ EXTRA_OECONF = " \
-     --disable-libcurl-option \
-     --without-libpsl \
-     --enable-optimize \
--    ${@'--without-ssl' if (bb.utils.filter('PACKAGECONFIG', 'gnutls mbedtls openssl', d) == '') else ''} \
-+    ${@'--without-ssl' if (bb.utils.filter('PACKAGECONFIG', 'gnutls mbedtls openssl schannel', d) == '') else ''} \
-     WATT_ROOT=${STAGING_DIR_TARGET}${prefix} \
- "
- EXTRA_OECONF:append:class-target = " \
--- 
-2.43.0
+You'd also need to tweak the regexp in
+yocto-autobuilder2/steps/observer.py that Mathieu has recently
+introduced.
 
+Alex
 
