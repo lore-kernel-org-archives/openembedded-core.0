@@ -1,785 +1,823 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F2EFD374B4
-	for <webhook@archiver.kernel.org>; Fri,  5 Dec 2025 22:34:48 +0000 (UTC)
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.611.1764974080373152915
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88B04D374AE
+	for <webhook@archiver.kernel.org>; Fri,  5 Dec 2025 22:36:58 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.603.1764974216532481849
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Dec 2025 14:34:40 -0800
+ Fri, 05 Dec 2025 14:36:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Gs1bfkCr;
- spf=pass (domain: gmail.com, ip: 74.125.224.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-6444487b34cso1438383d50.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Dec 2025 14:34:40 -0800 (PST)
+ dkim=pass header.i=@snap.com header.s=google header.b=Ae0VIhgT;
+ spf=pass (domain: snapchat.com, ip: 209.85.218.45, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b72bf7e703fso427518766b.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Dec 2025 14:36:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764974079; x=1765578879; darn=lists.openembedded.org;
+        d=snap.com; s=google; t=1764974215; x=1765579015; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9bFc1yzHCo4t2BXIkQI4aShRRm5Q1huY4tqKOY4MlyQ=;
-        b=Gs1bfkCr5M7dh/rfQHS0+zXkvIXC9ST/11Pj4F7bnwCRs3e+4YkD/J+0xK7f1h6Er5
-         +6xRoVY6Wg9xGR4kQ+y2mfjkPDNubCjBEu8qNDkCLNF6BfRJIJXwMZ7lN4dgu5QOM3CG
-         dhRhI+s6xVvgYtuWicSWp41d9rUMUMtBDLr+TZ9+kxYK48v0KBWMLcJfJ114Q3+fbusd
-         K9lmbxoagijymKSZNcIIbF8PSUx7PRAOdxKd0YIMjZHxpDtl5h2xZMJCIfbZ+g5JxBGa
-         VxfGGoorwK+9G+cyAqBd9LDypczv0YJqUZjoCWC2+hMuzlX6b9zKBvgVK8lld93JvAjM
-         cxzQ==
+        bh=nsZwjQxrll8QoNZW0U4YrlL0yZMH/vOotE28kpbtxz8=;
+        b=Ae0VIhgT0tHm0i6ybyn4DLa46H7vWiuEtqIzlFXU+fLBDyDYZrhLNAwHmJQMcBx38R
+         CtD4rV2V/PhoRJk8+MgHCfd18KcEiUQvA9EAFWUDAQOxPgSbWTQwsT0X42VAoe5moBV1
+         DxTycXzUj5bkGfNwZ7r3iZdvPwle35RzM357c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764974079; x=1765578879;
+        d=1e100.net; s=20230601; t=1764974215; x=1765579015;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9bFc1yzHCo4t2BXIkQI4aShRRm5Q1huY4tqKOY4MlyQ=;
-        b=hBNAkvRHLIK+4Zj8bbp7ctYiuVi0vfINmPerxFaArkf/534PeJwNjsy8peqZD2rE8f
-         bn1SiDhq/VQ8BByc0FLy064hK23JOYI3UFfs7w+z/2giktUpXNU13B6hjopJJNtn/bLH
-         FG2REnX7poPuH3dXAtFQRwOaWWJZQTQBoReP4ep1PlzMb+VOULLMtRuMdAxKU2LhdFNW
-         ylHJlIPdeLGPLsQzonJxPK9C56G7xQjItV4hqf0YwPDlNmRHOSVOlkN4tjKEEpHsmKMs
-         Z7bZtBbr0gHywDFj/tbiedjuUPxy+voAaJLjrC++E+S42YIRsMx44Erkhh7iqrYSjgUv
-         NK6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUlakkoOcfQe3GjddfX30HQLoV7tc8arQaI0EdRCdki6ytly0w2VmmlqLX1MsmcaBOAbgczj8BAesM6khPiu9HMdQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxtwv0ro84YTGd3epS+UjofFI6jeiCLYQ5ZY1Mh9TA8Tn5nmQry
-	msNFE6GpjCexXZQoVNbT/0YQtIW9muh7OvbWwzWBzxnwv7A/+oT47x9M4Uq9MXDjMTZNNAQAl8B
-	yWkNIPAyfI2mwvRkO3CNn1tZ4HFYYTh+Aj6IK
-X-Gm-Gg: ASbGncuq86dbxsIBR8wukFVlwTjl+Pjqo6n4Zh8lB0UnbGKPQGlThGjfPuF+kUegSE0
-	S8qjS/KZmKiSB/xjQh1XBV3LmAUJzAxPnKqheEVpYfODQYM0FZo2BccGhWOS/qdqQF4mzqw012g
-	0S0ZazyzUVnU24ORVsX24ic50dJE07jOzOJDem7KqTWESdpZKKxSsT3D0wVUQm/gU5Zv2cblUzJ
-	uSLLdP95ZL+JQlwK2njRR29IYX0OLXZvqUDwyYTY1S/8RuT/ziXwDQSB3C1xM5fnnH2DMqcTtmb
-	sYvhwPJ93BtbXNXG/mJfiyEt0GpAuzKmNvyhXl62S9G6TmRnJ+0tevRlAqURDpgYACAbODP/8yZ
-	jfJR1kmqwxO8EOYt490I6ZKOxOKOxfh5XuSBPjc4bwg8cUQ==
-X-Google-Smtp-Source: AGHT+IE2pzoi0wD/bHjPXh0j/dVmT0uSjNZYmpwWy37wUeJf5BtBccQHBCf+HfhXBvat6qO7PYdy4G8pAWrM0JVtGb8=
-X-Received: by 2002:a53:d012:0:b0:644:478e:57ae with SMTP id
- 956f58d0204a3-6444e7b92d5mr411282d50.40.1764974079280; Fri, 05 Dec 2025
- 14:34:39 -0800 (PST)
+        bh=nsZwjQxrll8QoNZW0U4YrlL0yZMH/vOotE28kpbtxz8=;
+        b=sPI3wy8VHOXbusVmvSjrX43T+1azHgoIKWLL+FcLCt6+jElpU7JNdatgPqQin75D8K
+         fbxx9mvI7V9RByRsi9pqrP5sPp7EWN1Jn5G9qsuWQjqDWajwX3iqhPOOH/Gh4G4rO1AD
+         WZazl9y/p/m2AMJ39sCbcJ5yd8xKbtUHCcUqMysEbKTd19yHY2vfScOc/H9zET/CDJ2j
+         aW+1CBj5ujUnAftGqaLVHBaapk5TKkB3oyib2FkS5/k2K5agrFi0PmdWjWSi55FhjOFH
+         YyWe1CBaCzZjMxCW8Qi/mDflujeerNuTNgDuqK0LfcEBRlfZGqiPnJYgM+bV0rgauCe+
+         zbYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV893NS/wkCw3BgITBkSlkc0bYpwY53AHyXEgc1wUwHcsD3WELFpFuQjEAv6wHk7AxUGUQ/t5XqsVdVznu1HW2e6g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yyu1MwCT/rFAfPOIZlmx2Ue3WiXcqh/un2x01rOk3dy4KQsXsIz
+	7+RG+to0BTyADE/PXAju8rxCcKs4mr2gz/X8pmKdrSX6zlg7sH8EBtCGyxOyLA1XiXvg5k8cCB9
+	rBQ1ZSCvhRr9gBJaHvAcxUYT8xY83lM7/fM5gYuJUkw==
+X-Gm-Gg: ASbGncteiZ1m8FF3KAzTd8fIgwpPJ1UTNWBfBCZM8yZYmI1SMbJpFO9pyCc++g4mWP+
+	Vd1llgTVPzrb3pyQsxkfU1HWloOxIxZ31tkr3FUp0rJyA4Ex+bG/NZXBULkPNfKTiL37HpZGzcr
+	qerxyErit9phvyzUbVxv+xeUcDlgojNS1/RVK7eOg3QPa6w13yYfvAGp/XB1tKklJ0JdR90s3Et
+	GgA7tSa4epfaymqy1BrxjHz+n0eB/H/R0TfsLpp48eHXpevMFgxhll9WD0k4VC+QVqCNYNtUf1C
+	Ppcj/YTEDuJ3hk5TMlayWda/Qc0=
+X-Google-Smtp-Source: AGHT+IEyvikhGWyyaD/svC3vrA4dj9KFgboj/lFc/H3ZkAHsoZ63poHBES4mySJVbk9yXavCZPgSMDCzyd7bM9izpoY=
+X-Received: by 2002:a17:906:eecb:b0:b79:f5c0:26a1 with SMTP id
+ a640c23a62f3a-b7a2454d66fmr76005466b.33.1764974214662; Fri, 05 Dec 2025
+ 14:36:54 -0800 (PST)
 MIME-Version: 1.0
 References: <20251023134656.2059483-1-ecordonnier@snap.com>
  <20251023134656.2059483-2-ecordonnier@snap.com> <2da2af64-1607-49f3-a438-43525b4b8b02@gmail.com>
  <CAHUKmYbfri0mDeJJ6FH1YVtNe9R_YTdC8iFQxOx7zLRqizvhKA@mail.gmail.com>
  <CAMKF1sqn_G1QjZB0SJhvWXKS8e5amjs5e2swZUZNsakivNs+Eg@mail.gmail.com>
  <CAMKF1so01+JEg5PD7A0e1dg9NQfz=DOC-JbKw22usNZNUgO02g@mail.gmail.com>
- <CAHUKmYYLi9TOibJGYvHN66ZGwoCaDTmrKGBAVZ4atrG13XyD_w@mail.gmail.com> <CAHUKmYYeWWXXWpwjafwuVW9Or35m7PDRZ7b6=g8wgoNajSEtOA@mail.gmail.com>
-In-Reply-To: <CAHUKmYYeWWXXWpwjafwuVW9Or35m7PDRZ7b6=g8wgoNajSEtOA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 5 Dec 2025 14:34:28 -0800
-X-Gm-Features: AWmQ_bkIF-2LuHgtoQrVKg6j1rVypPGRL3JwwartKAOT5K3wApAVfNLEt_3EI68
-Message-ID: <CAMKF1so0cXMM_imqEkJQs7Lku+nFU-Hkc3vb=KOh=EhRdoD81g@mail.gmail.com>
+ <CAHUKmYYLi9TOibJGYvHN66ZGwoCaDTmrKGBAVZ4atrG13XyD_w@mail.gmail.com>
+ <CAHUKmYYeWWXXWpwjafwuVW9Or35m7PDRZ7b6=g8wgoNajSEtOA@mail.gmail.com> <CAMKF1so0cXMM_imqEkJQs7Lku+nFU-Hkc3vb=KOh=EhRdoD81g@mail.gmail.com>
+In-Reply-To: <CAMKF1so0cXMM_imqEkJQs7Lku+nFU-Hkc3vb=KOh=EhRdoD81g@mail.gmail.com>
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Fri, 5 Dec 2025 23:36:43 +0100
+X-Gm-Features: AWmQ_bnLHerFGgK0y81BT5348oqfuhIydUQ5_Uru_J3NO_ObGqb_1SgHasbLdpo
+Message-ID: <CAHUKmYaExFi28WnMFyrhhmydSQSjee-1KbdWpuDiYq93dBia6w@mail.gmail.com>
 Subject: Re: [OE-core][PATCH v4 2/2] opkg: upgrade 0.8.0 -> 0.9.0
-To: Etienne Cordonnier <ecordonnier@snap.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Gyorgy Sarvari <skandigraun@gmail.com>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000088c1806453c0d3d"
+Content-Type: multipart/alternative; boundary="0000000000001a733106453c154b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Dec 2025 22:34:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227354
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Dec 2025 22:36:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227355
 
---000000000000088c1806453c0d3d
+--0000000000001a733106453c154b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-My case is yoe distro rpi4-64 building yoe-kiosk-image I do not set
-IMAGE_LINGUAS to get into the problem if I set it then it works
+I also use yoe distro rpi4-64 building yoe-kiosk-image and I also tried
+without setting IMAGE_LINGUAS first.
+"it works on my machine" :-/
+Which commit do to youse?
 
-On Fri, Dec 5, 2025 at 2:16=E2=80=AFPM Etienne Cordonnier <ecordonnier@snap=
-.com>
-wrote:
+On Fri, Dec 5, 2025 at 11:34=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
+:
 
-> Hi Khem,
-> I've not managed to reproduce at the moment, neither on poky nor on
-> yoe-distro. I'm on Ubuntu 24.04. Can you maybe send me your local.conf?:
+> My case is yoe distro rpi4-64 building yoe-kiosk-image I do not set
+> IMAGE_LINGUAS to get into the problem if I set it then it works
 >
-> ecordonnier@lj8k2dq3:~/dev/yoe$ cat conf/local.conf
-> IMAGE_LINGUAS =3D "en-us en-gb"
-> ENABLE_BINARY_LOCALE_GENERATION =3D "1"
-> SSTATE_MIRRORS =3D " \
->     file://.*
-> https://sstate.yoctoproject.org/all/PATH;downloadfilename=3DPATH \
-> "
-> ecordonnier@lj8k2dq3:~/dev/yoe$ git rev-parse HEAD
-> 7ce0a300ea45d28cfd58094cb5e9e07651797226
-> cordonnier@lj8k2dq3:~/dev/yoe$ . ./envsetup.sh rpi4-64
-> Setting PROJECT=3Drpi4-64
-> Setting MACHINE=3Draspberrypi4-64
-> /home/ecordonnier/dev/yoe/conf/auto.conf has been updated
-> Setting DOCKER_REPO to yoedistro/yoe-build:trixie-x86_64
-> ecordonnier@lj8k2dq3:~/dev/yoe$ yoe_setup
-> ecordonnier@lj8k2dq3:~/dev/yoe$ bitbake yoe-kiosk-image
-> NOTE: Started PRServer with DBfile:
-> /home/ecordonnier/dev/yoe/cache/prserv.sqlite3, Address: 127.0.0.1:44795,
-> PID: 111
-> WARNING: You are using a local hash equivalence server but have configure=
-d
-> an sstate mirror. This will likely mean no sstate will match from the
-> mirror. You may wish to disable the hash equivalence use (BB_HASHSERVE), =
-or
-> use a hash equivalence server alongside the sstate mirror.
-> Loading cache: 100%
-> |########################################################################=
-###########################################################################=
-#################################################################|
-> Time: 0:00:02
-> Loaded 5831 entries from dependency cache.
-> NOTE: Resolving any missing task queue dependencies
->
-> Build Configuration:
-> BB_VERSION           =3D "2.16.0"
-> BUILD_SYS            =3D "x86_64-linux"
-> NATIVELSBSTRING      =3D "universal"
-> TARGET_SYS           =3D "aarch64-yoe-linux"
-> MACHINE              =3D "raspberrypi4-64"
-> DISTRO               =3D "yoe"
-> DISTRO_VERSION       =3D "2025.11"
-> TUNE_FEATURES        =3D "aarch64 crc cortexa72 nocrypto"
-> TARGET_FPU           =3D ""
-> meta-yoe             =3D "master:7ce0a300ea45d28cfd58094cb5e9e07651797226=
-"
-> meta-raspberrypi     =3D "HEAD:b667e177b1e6642cb11301801db44d4515c1652d"
-> meta-clang           =3D "HEAD:d0a67c76b7a3b585dbe2ba8ad509dc0fe0e58af2"
-> meta-qt6             =3D "HEAD:836b1c3212c3562c0909468ab415df98c1145759"
-> meta-filesystems
-> meta-gnome
-> meta-initramfs
-> meta-multimedia
-> meta-networking
-> meta-oe
-> meta-perl
-> meta-python
-> meta-webserver
-> meta-xfce            =3D "HEAD:219328f37cbf6aa4b2d7b77d21e00240543d73ad"
-> meta                 =3D "HEAD:ac7327583aef83fd400190506f3147623de38b68"
->
-> Sstate summary: Wanted 2 Local 0 Mirrors 2 Missed 0 Current 3493 (100%
-> match, 100%
-> complete)################################################################=
-#######################################################
->                      | ETA:  0:00:00
-> Initialising tasks: 100%
-> |########################################################################=
-###########################################################################=
-############################################################|
-> Time: 0:00:05
-> NOTE: Executing Tasks
-> NOTE: Tasks Summary: Attempted 7090 tasks of which 7088 didn't need to be
-> rerun and all succeeded.
-> NOTE: Writing buildhistory
-> NOTE: Writing buildhistory took: 5 seconds
->
-> Summary: There was 1 WARNING message.
->
-> On Thu, Dec 4, 2025 at 7:56=E2=80=AFPM Etienne Cordonnier <ecordonnier@sn=
+> On Fri, Dec 5, 2025 at 2:16=E2=80=AFPM Etienne Cordonnier <ecordonnier@sn=
 ap.com>
 > wrote:
 >
 >> Hi Khem,
->> I haven't had the time to debug yet, but I've seen your message.
+>> I've not managed to reproduce at the moment, neither on poky nor on
+>> yoe-distro. I'm on Ubuntu 24.04. Can you maybe send me your local.conf?:
 >>
->> =C3=89tienne
+>> ecordonnier@lj8k2dq3:~/dev/yoe$ cat conf/local.conf
+>> IMAGE_LINGUAS =3D "en-us en-gb"
+>> ENABLE_BINARY_LOCALE_GENERATION =3D "1"
+>> SSTATE_MIRRORS =3D " \
+>>     file://.*
+>> https://sstate.yoctoproject.org/all/PATH;downloadfilename=3DPATH
+>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__sstate.yoctoproj=
+ect.org_all_PATH-3Bdownloadfilename-3DPATH&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0=
+hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&=
+m=3D-NtkavIQQp5Iqw_UoaYZsC0r9-dP8qjeWtlDZh0jty5AiQ9z97d4-blVTpeRtBxx&s=3Dvu=
+V0954VFehkpPG9JVC6OqQz3b5Oyuo-Zeat1SNYv2U&e=3D>
+>> \
+>> "
+>> ecordonnier@lj8k2dq3:~/dev/yoe$ git rev-parse HEAD
+>> 7ce0a300ea45d28cfd58094cb5e9e07651797226
+>> cordonnier@lj8k2dq3:~/dev/yoe$ . ./envsetup.sh rpi4-64
+>> Setting PROJECT=3Drpi4-64
+>> Setting MACHINE=3Draspberrypi4-64
+>> /home/ecordonnier/dev/yoe/conf/auto.conf has been updated
+>> Setting DOCKER_REPO to yoedistro/yoe-build:trixie-x86_64
+>> ecordonnier@lj8k2dq3:~/dev/yoe$ yoe_setup
+>> ecordonnier@lj8k2dq3:~/dev/yoe$ bitbake yoe-kiosk-image
+>> NOTE: Started PRServer with DBfile:
+>> /home/ecordonnier/dev/yoe/cache/prserv.sqlite3, Address: 127.0.0.1:44795
+>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__127.0.0.1-3A44795=
+&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMI=
+GRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D-NtkavIQQp5Iqw_UoaYZsC0r9-dP8qjeWtlDZh=
+0jty5AiQ9z97d4-blVTpeRtBxx&s=3DPJMI5Who1QWr6q5cgr_vEwT478oi7c8luL5ThOzNZRc&=
+e=3D>,
+>> PID: 111
+>> WARNING: You are using a local hash equivalence server but have
+>> configured an sstate mirror. This will likely mean no sstate will match
+>> from the mirror. You may wish to disable the hash equivalence use
+>> (BB_HASHSERVE), or use a hash equivalence server alongside the sstate
+>> mirror.
+>> Loading cache: 100%
+>> |#######################################################################=
+###########################################################################=
+##################################################################|
+>> Time: 0:00:02
+>> Loaded 5831 entries from dependency cache.
+>> NOTE: Resolving any missing task queue dependencies
 >>
->> On Wed, Dec 3, 2025 at 10:35=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wr=
-ote:
+>> Build Configuration:
+>> BB_VERSION           =3D "2.16.0"
+>> BUILD_SYS            =3D "x86_64-linux"
+>> NATIVELSBSTRING      =3D "universal"
+>> TARGET_SYS           =3D "aarch64-yoe-linux"
+>> MACHINE              =3D "raspberrypi4-64"
+>> DISTRO               =3D "yoe"
+>> DISTRO_VERSION       =3D "2025.11"
+>> TUNE_FEATURES        =3D "aarch64 crc cortexa72 nocrypto"
+>> TARGET_FPU           =3D ""
+>> meta-yoe             =3D "master:7ce0a300ea45d28cfd58094cb5e9e0765179722=
+6"
+>> meta-raspberrypi     =3D "HEAD:b667e177b1e6642cb11301801db44d4515c1652d"
+>> meta-clang           =3D "HEAD:d0a67c76b7a3b585dbe2ba8ad509dc0fe0e58af2"
+>> meta-qt6             =3D "HEAD:836b1c3212c3562c0909468ab415df98c1145759"
+>> meta-filesystems
+>> meta-gnome
+>> meta-initramfs
+>> meta-multimedia
+>> meta-networking
+>> meta-oe
+>> meta-perl
+>> meta-python
+>> meta-webserver
+>> meta-xfce            =3D "HEAD:219328f37cbf6aa4b2d7b77d21e00240543d73ad"
+>> meta                 =3D "HEAD:ac7327583aef83fd400190506f3147623de38b68"
 >>
->>> It can be reproduced with direct invocation
->>>
->>> kraj@apollo
->>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-im=
-age/1.0
->>> =E2=9D=AF recipe-sysroot-native/usr/bin/opkg \
->>>   --volatile-cache \
->>>   -f opkg.conf \
->>>   -t temp/ipktemp/ \
->>>   -o rootfs \
->>>   --force-postinstall \
->>>   --prefer-arch-to-version \
->>>   --force-depends \
->>>   remove glibc-binary-localedata-en-gb glibc-binary-localedata-c
->>> glibc-binary-localedata-en-us
->>>
->>> [1]    346156 segmentation fault (core dumped)
->>>  recipe-sysroot-native/usr/bin/opkg --volatile-cache -f opkg.conf -t  -=
-o
->>> roots
->>>
->>> I have a workaround by setting
->>>
->>> IMAGE_LINGUAS =3D "en-us"
->>>
->>> in local.conf which avoids the need for opkg remove operation which is
->>> crashing.
->>>
->>> On Wed, Dec 3, 2025 at 1:04=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wr=
-ote:
->>>
->>>> I am starting to see the following crash in opkg when building image.
->>>> Anyone seeing something like this?
->>>>
->>>> (No debugging symbols found in
->>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-i=
-mage/1.0/recipe-sysroot-native/usr/bin/opkg)
->>>> [New LWP 34493]
->>>> [Thread debugging using libthread_db enabled]
->>>> Using host libthread_db library "/usr/lib/libthread_db.so.1".
->>>> Core was generated by
->>>> `/mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-=
-image/1.0/recipe-sysroot-native/usr/bin/opkg
->>>> --volatile-cache -f
->>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-i=
-mage/1.0/opkg.conf
->>>> -t
->>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-i=
-mage/1.0/temp/ipktemp/
->>>> -o
->>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-i=
-mage/1.0/rootfs
->>>> --force-postinstall --prefer-arch-to-version --force-depends remove
->>>> glibc-binary-localedata-en-gb glibc-binary-localedata-c
->>>> glibc-binary-localedata-en-us'.
->>>> Program terminated with signal SIGSEGV, Segmentation fault.
->>>> #0  0x00007f50a8190d20 in stringpool_strn2id () from
->>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-i=
-mage/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv.so.1
->>>> (gdb) bt
->>>> #0  0x00007f50a8190d20 in stringpool_strn2id () from
->>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-i=
-mage/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv.so.1
->>>> #1  0x00007f50a818a3dc in pool_str2id () from
->>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-i=
-mage/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv.so.1
->>>> #2  0x00007f50a84fe4ad in ?? () from
->>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-i=
-mage/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1
->>>> #3  0x00007f50a84ff4df in opkg_solver_remove () from
->>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-i=
-mage/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1
->>>> #4  0x00007f50a84e9bfb in ?? () from
->>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-i=
-mage/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1
->>>> #5  0x00007f50a84eadb2 in opkg_cmd_exec () from
->>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-i=
-mage/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1
->>>> #6  0x00005557220b6a9d in ?? ()
->>>> #7  0x00007f50a8311f68 in __libc_start_call_main () from
->>>> /mnt/b/yoe/master/build/tmp/sysroots-uninative/x86_64-linux/lib/libc.s=
-o.6
->>>> #8  0x00007f50a831201b in __libc_start_main () from
->>>> /mnt/b/yoe/master/build/tmp/sysroots-uninative/x86_64-linux/lib/libc.s=
-o.6
->>>> #9  0x00005557220b6bf1 in ?? ()
->>>>
->>>> On Thu, Nov 27, 2025 at 10:11=E2=80=AFAM Etienne Cordonnier via
->>>> lists.openembedded.org
->>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__lists.openembed=
-ded.org&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkb=
-NonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2D=
-Ufu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3D7Hhr9df0PBRkpiFWBooOX6tv5kZhGeHxO5S6v=
-VaNiw8&e=3D>
->>>> <ecordonnier=3Dsnap.com@lists.openembedded.org> wrote:
->>>>
->>>>> Hi Gyorgy,
->>>>> I have sent a patch to opkg upstream which disables the ACL option by
->>>>> default again (it is https://lists.yoctoproject.org/g/opkg/message/17=
-5
->>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.yoctopr=
-oject.org_g_opkg_message_175&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGk=
-ICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXi=
-gbzfameBp2CEOukeCpM2DUfu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3D4U1D3q2TfA7jjhTo=
-68DgNSOLopG_6Nlj6Ta9OG8TN_g&e=3D>
->>>>> , however the web-view doesn't seem to work at the moment. I only see
->>>>> "Forbidden").
->>>>>
->>>>> =C3=89tienne
->>>>>
->>>>>
->>>>>
->>>>> On Thu, Nov 27, 2025 at 6:08=E2=80=AFPM Gyorgy Sarvari <skandigraun@g=
-mail.com>
->>>>> wrote:
->>>>>
->>>>>> I just tried this, but it seems that the ACL switch was toggled duri=
-ng
->>>>>> the CMake transition. With Autotools ACL was disabled by default, bu=
-t
->>>>>> with CMake it seems to be enabled - and it complains that it can't
->>>>>> find
->>>>>> libacl on my machine.
->>>>>>
->>>>>> On 10/23/25 15:46, Etienne Cordonnier via lists.openembedded.org
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__lists.openemb=
-edded.org&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAh=
-kbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM=
-2DUfu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3D7Hhr9df0PBRkpiFWBooOX6tv5kZhGeHxO5S=
-6vVaNiw8&e=3D>
->>>>>> wrote:
->>>>>> > From: Etienne Cordonnier <ecordonnier@snap.com>
->>>>>> >
->>>>>> > See release notes at
->>>>>> > -
->>>>>> https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__downloads.yoct=
-oproject.org_releases_opkg_opkg-2D0.9.0.release-2Dnotes&d=3DDwICaQ&c=3DncDT=
-mphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJT=
-KUkSGa66m67E&m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScvk4Y_QGHVaD7rHv=
-Ef9Kx5&s=3Dqvmy1QT46Bl7mVt_XDbuHiic2IjU6z7Zku_Gid-CVYc&e=3D
->>>>>> >
->>>>>> > [0.9.0] - 2025-06-27
->>>>>> >
->>>>>> > Semiannual opkg release.
->>>>>> > Bumping the minor version as a result of the project build tooling
->>>>>> changing from autotools to cmake.
->>>>>> >
->>>>>> > - Added a Dockerfile container definition (`:docker/`) for a valid
->>>>>> developer build environment for opkg.
->>>>>> >   - It's recommended that project contributors use this container
->>>>>> to build and test their changes.
->>>>>> > - The AutoTools-based build framework has [been replaced](
->>>>>> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctoproj=
-ect.org_opkg_commit_-3Fid-3D3f6040e321634471ec442fb0e80f140f1437e90b&d=3DDw=
-ICaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Q=
-j9TsRih1DULJTKUkSGa66m67E&m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScvk=
-4Y_QGHVaD7rHvEf9Kx5&s=3DGgRxioBjt-ii5JWUrYQ0I-FmXvKxVxKNH3Nj22i_jiM&e=3D
->>>>>> ) with a more modern, CMake framework.
->>>>>> >   - Refer to the `docs/CONTRIBUTING.md` documentation for updated
->>>>>> build instructions.
->>>>>> >
->>>>>> > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
->>>>>> > ---
->>>>>> >  .../opkg/opkg/0002-config.h.in-fix-typo.patch | 27
->>>>>> +++++++++++++++++++
->>>>>> >  meta/recipes-devtools/opkg/opkg/run-ptest     |  2 +-
->>>>>> >  .../opkg/{opkg_0.8.0.bb
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.8.0.=
-bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVu=
-MIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0s=
-g0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DXvRK6ACbDsce-6GfM1z7bmWP89Drkdoim4UnjGId7j=
-E&e=3D>
->>>>>> =3D> opkg_0.9.0.bb
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.9.0.=
-bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVu=
-MIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0s=
-g0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DPCgmYCv6lZBoj7mQyNmGExGtaa-iO2KXWfMw-LSuRr=
-o&e=3D>}
->>>>>>    | 22 ++++++++-------
->>>>>> >  3 files changed, 41 insertions(+), 10 deletions(-)
->>>>>> >  create mode 100644
->>>>>> meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
->>>>>> >  rename meta/recipes-devtools/opkg/{opkg_0.8.0.bb
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.8.0.=
-bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVu=
-MIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0s=
-g0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DXvRK6ACbDsce-6GfM1z7bmWP89Drkdoim4UnjGId7j=
-E&e=3D>
->>>>>> =3D> opkg_0.9.0.bb
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.9.0.=
-bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVu=
-MIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0s=
-g0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DPCgmYCv6lZBoj7mQyNmGExGtaa-iO2KXWfMw-LSuRr=
-o&e=3D>}
->>>>>> (76%)
->>>>>> >
->>>>>> > diff --git
->>>>>> a/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
->>>>>> b/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
->>>>>> > new file mode 100644
->>>>>> > index 00000000000..626bbd01b68
->>>>>> > --- /dev/null
->>>>>> > +++
->>>>>> b/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
->>>>>> > @@ -0,0 +1,27 @@
->>>>>> > +From 5a81faadbc2397d554bc598d535fd2d44cbc8d10 Mon Sep 17 00:00:00
->>>>>> 2001
->>>>>> > +From: Etienne Cordonnier <ecordonnier@snap.com>
->>>>>> > +Date: Mon, 20 Oct 2025 18:57:56 +0200
->>>>>> > +Subject: [PATCH] config.h.in
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__config.h.in&d=
-=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGR=
-fPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0bB=
-32_yW13Nh-HmRl8UbCQaTnb5&s=3DdOZFRTTcPycQ3CB3uYzjTaJbkYiw-ptty6e5ymgao80&e=
-=3D>:
->>>>>> fix typo
->>>>>> > +
->>>>>> > +Upstream-Status: Backport [
->>>>>> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctoproj=
-ect.org_opkg_commit_-3Fid-3Dd723a90bfe6409c7ad983ed911225d4aefbfd09e&d=3DDw=
-ICaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Q=
-j9TsRih1DULJTKUkSGa66m67E&m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScvk=
-4Y_QGHVaD7rHvEf9Kx5&s=3D5scf6nlpBtSePSuPjyopoX7FmlAyiSwI03Ry11w4tl8&e=3D
->>>>>> ]
->>>>>> > +Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
->>>>>> > +---
->>>>>> > + config.h.in
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__config.h.in&d=
-=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGR=
-fPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0bB=
-32_yW13Nh-HmRl8UbCQaTnb5&s=3DdOZFRTTcPycQ3CB3uYzjTaJbkYiw-ptty6e5ymgao80&e=
-=3D>
->>>>>> | 2 +-
->>>>>> > + 1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>> > +
->>>>>> > +diff --git a/config.h.in
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__config.h.in&d=
-=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGR=
-fPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0bB=
-32_yW13Nh-HmRl8UbCQaTnb5&s=3DdOZFRTTcPycQ3CB3uYzjTaJbkYiw-ptty6e5ymgao80&e=
-=3D>
->>>>>> b/config.h.in
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__config.h.in&d=
-=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGR=
-fPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0bB=
-32_yW13Nh-HmRl8UbCQaTnb5&s=3DdOZFRTTcPycQ3CB3uYzjTaJbkYiw-ptty6e5ymgao80&e=
-=3D>
->>>>>> > +index 4fa9842..877b8c7 100644
->>>>>> > +--- a/config.h.in
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__config.h.in&d=
-=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGR=
-fPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0bB=
-32_yW13Nh-HmRl8UbCQaTnb5&s=3DdOZFRTTcPycQ3CB3uYzjTaJbkYiw-ptty6e5ymgao80&e=
-=3D>
->>>>>> > ++++ b/config.h.in
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__config.h.in&d=
-=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGR=
-fPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0bB=
-32_yW13Nh-HmRl8UbCQaTnb5&s=3DdOZFRTTcPycQ3CB3uYzjTaJbkYiw-ptty6e5ymgao80&e=
-=3D>
->>>>>> > +@@ -2,7 +2,7 @@
->>>>>> > + #cmakedefine01 WITH_XZ
->>>>>> > + #cmakedefine01 WITH_BZIP2
->>>>>> > + #cmakedefine01 WITH_LZ4
->>>>>> > +-#cmakedefine01 WITH_LZSTD
->>>>>> > ++#cmakedefine01 WITH_ZSTD
->>>>>> > + #cmakedefine01 WITH_CURL
->>>>>> > + #cmakedefine01 WITH_SSLCURL
->>>>>> > + #cmakedefine01 WITH_ACL
->>>>>> > +--
->>>>>> > +2.43.0
->>>>>> > +
->>>>>> > diff --git a/meta/recipes-devtools/opkg/opkg/run-ptest
->>>>>> b/meta/recipes-devtools/opkg/opkg/run-ptest
->>>>>> > index 5fb7077eec9..d485a4aace5 100644
->>>>>> > --- a/meta/recipes-devtools/opkg/opkg/run-ptest
->>>>>> > +++ b/meta/recipes-devtools/opkg/opkg/run-ptest
->>>>>> > @@ -2,4 +2,4 @@
->>>>>> >
->>>>>> >  OPKG_PATH=3D$(which opkg)
->>>>>> >
->>>>>> > -make OPKG_PATH=3D$OPKG_PATH run-tests
->>>>>> > +make -C tests DATADIR=3D/share SYSCONFDIR=3D/etc VARDIR=3D/var
->>>>>> OPKG_PATH=3D$OPKG_PATH
->>>>>> > diff --git a/meta/recipes-devtools/opkg/opkg_0.8.0.bb
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.8.0.=
-bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVu=
-MIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0s=
-g0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DXvRK6ACbDsce-6GfM1z7bmWP89Drkdoim4UnjGId7j=
-E&e=3D>
->>>>>> b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.9.0.=
-bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVu=
-MIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0s=
-g0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DPCgmYCv6lZBoj7mQyNmGExGtaa-iO2KXWfMw-LSuRr=
-o&e=3D>
->>>>>> > similarity index 76%
->>>>>> > rename from meta/recipes-devtools/opkg/opkg_0.8.0.bb
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.8.0.=
-bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVu=
-MIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0s=
-g0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DXvRK6ACbDsce-6GfM1z7bmWP89Drkdoim4UnjGId7j=
-E&e=3D>
->>>>>> > rename to meta/recipes-devtools/opkg/opkg_0.9.0.bb
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.9.0.=
-bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVu=
-MIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0s=
-g0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DPCgmYCv6lZBoj7mQyNmGExGtaa-iO2KXWfMw-LSuRr=
-o&e=3D>
->>>>>> > index 12e2edf7e3f..ed2f36d636b 100644
->>>>>> > --- a/meta/recipes-devtools/opkg/opkg_0.8.0.bb
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.8.0.=
-bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVu=
-MIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0s=
-g0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DXvRK6ACbDsce-6GfM1z7bmWP89Drkdoim4UnjGId7j=
-E&e=3D>
->>>>>> > +++ b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
->>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.9.0.=
-bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVu=
-MIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0s=
-g0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DPCgmYCv6lZBoj7mQyNmGExGtaa-iO2KXWfMw-LSuRr=
-o&e=3D>
->>>>>> > @@ -15,34 +15,35 @@ PE =3D "1"
->>>>>> >  SRC_URI =3D "
->>>>>> https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__downloads.yoct=
-oproject.org_releases_-24-257BBPN-257D_-24-257BBPN-257D-2D-24-257BPV-257D.t=
-ar.gz&d=3DDwICaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNo=
-nVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRX=
-Tj24AF_PScvk4Y_QGHVaD7rHvEf9Kx5&s=3DmKc8LzZ_Q2orQLqa_38Jr7E7tfyD4-rcsgI-wPk=
-x_Zg&e=3D
->>>>>> \
->>>>>> >             file://opkg.conf \
->>>>>> >
->>>>>>  file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.pa=
-tch \
->>>>>> > +           file://0002-config.h.in-fix-typo.patch \
->>>>>> >             file://run-ptest \
->>>>>> >             "
->>>>>> >
->>>>>> > -SRC_URI[sha256sum] =3D
->>>>>> "582a4c9e220cce0b7d08a0915c95db9f24ae43ad372ed5d42d5ec5f6cd413f0c"
->>>>>> > +SRC_URI[sha256sum] =3D
->>>>>> "440ef321862e01f83da4d02884a0cbb4d9d7b32f82faa81a6a85493f0c89d0f5"
->>>>>> >
->>>>>> >  # This needs to be before ptest inherit, otherwise all ptest file=
-s
->>>>>> end packaged
->>>>>> >  # in libopkg package if OPKGLIBDIR =3D=3D libdir, because default
->>>>>> >  # PTEST_PATH ?=3D "${libdir}/${BPN}/ptest"
->>>>>> >  PACKAGES =3D+ "libopkg"
->>>>>> >
->>>>>> > -inherit autotools pkgconfig ptest
->>>>>> > +inherit cmake pkgconfig ptest
->>>>>> >
->>>>>> >  target_localstatedir :=3D "${localstatedir}"
->>>>>> >  OPKGLIBDIR ??=3D "${target_localstatedir}/lib"
->>>>>> >
->>>>>> >  PACKAGECONFIG ??=3D "libsolv"
->>>>>> >
->>>>>> > -PACKAGECONFIG[gpg] =3D "--enable-gpg,--disable-gpg,\
->>>>>> > +PACKAGECONFIG[gpg] =3D "-DWITH_GPGME=3DON,-DWITH_GPGME=3DOFF,\
->>>>>> >      gnupg gpgme libgpg-error,\
->>>>>> >      ${@ "gnupg" if ("native" in d.getVar("PN")) else "gnupg-gpg"}=
-\
->>>>>> >      "
->>>>>> > -PACKAGECONFIG[curl] =3D "--enable-curl,--disable-curl,curl"
->>>>>> > -PACKAGECONFIG[ssl-curl] =3D
->>>>>> "--enable-ssl-curl,--disable-ssl-curl,curl openssl"
->>>>>> > -PACKAGECONFIG[sha256] =3D "--enable-sha256,--disable-sha256"
->>>>>> > -PACKAGECONFIG[libsolv] =3D "--with-libsolv,--without-libsolv,libs=
-olv"
->>>>>> > +PACKAGECONFIG[curl] =3D "-DWITH_CURL=3DON,-DWITH_CURL=3DOFF,curl"
->>>>>> > +PACKAGECONFIG[ssl-curl] =3D
->>>>>> "-DWITH_SSLCURL=3DON,-DWITH_SSLCURL=3DOFF,curl openssl"
->>>>>> > +PACKAGECONFIG[sha256] =3D "-DWITH_SHA256=3DON,-DWITH_SHA256=3DOFF=
-"
->>>>>> > +PACKAGECONFIG[libsolv] =3D
->>>>>> "-DUSE_SOLVER_LIBSOLV=3DON,-DUSE_SOLVER_LIBSOLV=3DOFF,libsolv"
->>>>>> >
->>>>>> > -EXTRA_OECONF =3D "--enable-zstd"
->>>>>> > -EXTRA_OECONF:append:class-native =3D "
->>>>>> --localstatedir=3D/${@os.path.relpath('${localstatedir}',
->>>>>> '${STAGING_DIR_NATIVE}')} --sysconfdir=3D/${@os.path.relpath('${sysc=
-onfdir}',
->>>>>> '${STAGING_DIR_NATIVE}')}"
->>>>>> > +EXTRA_OECMAKE =3D "-DWITH_ZSTD=3DON"
->>>>>> > +EXTRA_OECMAKE:append:class-native =3D "
->>>>>> -DVARDIR=3D/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NA=
-TIVE}')}
->>>>>> -DSYSCONFDIR=3D/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_N=
-ATIVE}')}"
->>>>>> >
->>>>>> >  do_install:append () {
->>>>>> >       install -d ${D}${sysconfdir}/opkg
->>>>>> > @@ -56,6 +57,9 @@ do_install:append () {
->>>>>> >  }
->>>>>> >
->>>>>> >  do_install_ptest () {
->>>>>> > +     # the ptest class uses a Makefile for installation, but cmak=
+>> Sstate summary: Wanted 2 Local 0 Mirrors 2 Missed 0 Current 3493 (100%
+>> match, 100%
+>> complete)###############################################################=
+########################################################
+>>                      | ETA:  0:00:00
+>> Initialising tasks: 100%
+>> |#######################################################################=
+###########################################################################=
+#############################################################|
+>> Time: 0:00:05
+>> NOTE: Executing Tasks
+>> NOTE: Tasks Summary: Attempted 7090 tasks of which 7088 didn't need to b=
 e
->>>>>> uses Ninja per default so we need to install ptests manually:
->>>>>> > +     cp -r ${S}/tests ${D}${PTEST_PATH}
->>>>>> > +
->>>>>> >       sed -i -e '/@echo $^/d' ${D}${PTEST_PATH}/tests/Makefile
->>>>>> >       sed -i -e '/@PYTHONPATH=3D. $(PYTHON) $^/a\\t@if [ "$$?" !=
+>> rerun and all succeeded.
+>> NOTE: Writing buildhistory
+>> NOTE: Writing buildhistory took: 5 seconds
+>>
+>> Summary: There was 1 WARNING message.
+>>
+>> On Thu, Dec 4, 2025 at 7:56=E2=80=AFPM Etienne Cordonnier <ecordonnier@s=
+nap.com>
+>> wrote:
+>>
+>>> Hi Khem,
+>>> I haven't had the time to debug yet, but I've seen your message.
+>>>
+>>> =C3=89tienne
+>>>
+>>> On Wed, Dec 3, 2025 at 10:35=E2=80=AFPM Khem Raj <raj.khem@gmail.com> w=
+rote:
+>>>
+>>>> It can be reproduced with direct invocation
+>>>>
+>>>> kraj@apollo
+>>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-i=
+mage/1.0
+>>>> =E2=9D=AF recipe-sysroot-native/usr/bin/opkg \
+>>>>   --volatile-cache \
+>>>>   -f opkg.conf \
+>>>>   -t temp/ipktemp/ \
+>>>>   -o rootfs \
+>>>>   --force-postinstall \
+>>>>   --prefer-arch-to-version \
+>>>>   --force-depends \
+>>>>   remove glibc-binary-localedata-en-gb glibc-binary-localedata-c
+>>>> glibc-binary-localedata-en-us
+>>>>
+>>>> [1]    346156 segmentation fault (core dumped)
+>>>>  recipe-sysroot-native/usr/bin/opkg --volatile-cache -f opkg.conf -t  =
+-o
+>>>> roots
+>>>>
+>>>> I have a workaround by setting
+>>>>
+>>>> IMAGE_LINGUAS =3D "en-us"
+>>>>
+>>>> in local.conf which avoids the need for opkg remove operation which is
+>>>> crashing.
+>>>>
+>>>> On Wed, Dec 3, 2025 at 1:04=E2=80=AFPM Khem Raj <raj.khem@gmail.com> w=
+rote:
+>>>>
+>>>>> I am starting to see the following crash in opkg when building image.
+>>>>> Anyone seeing something like this?
+>>>>>
+>>>>> (No debugging symbols found in
+>>>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-=
+image/1.0/recipe-sysroot-native/usr/bin/opkg)
+>>>>> [New LWP 34493]
+>>>>> [Thread debugging using libthread_db enabled]
+>>>>> Using host libthread_db library "/usr/lib/libthread_db.so.1".
+>>>>> Core was generated by
+>>>>> `/mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk=
+-image/1.0/recipe-sysroot-native/usr/bin/opkg
+>>>>> --volatile-cache -f
+>>>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-=
+image/1.0/opkg.conf
+>>>>> -t
+>>>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-=
+image/1.0/temp/ipktemp/
+>>>>> -o
+>>>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-=
+image/1.0/rootfs
+>>>>> --force-postinstall --prefer-arch-to-version --force-depends remove
+>>>>> glibc-binary-localedata-en-gb glibc-binary-localedata-c
+>>>>> glibc-binary-localedata-en-us'.
+>>>>> Program terminated with signal SIGSEGV, Segmentation fault.
+>>>>> #0  0x00007f50a8190d20 in stringpool_strn2id () from
+>>>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-=
+image/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv.so.1
+>>>>> (gdb) bt
+>>>>> #0  0x00007f50a8190d20 in stringpool_strn2id () from
+>>>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-=
+image/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv.so.1
+>>>>> #1  0x00007f50a818a3dc in pool_str2id () from
+>>>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-=
+image/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv.so.1
+>>>>> #2  0x00007f50a84fe4ad in ?? () from
+>>>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-=
+image/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1
+>>>>> #3  0x00007f50a84ff4df in opkg_solver_remove () from
+>>>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-=
+image/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1
+>>>>> #4  0x00007f50a84e9bfb in ?? () from
+>>>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-=
+image/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1
+>>>>> #5  0x00007f50a84eadb2 in opkg_cmd_exec () from
+>>>>> /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-=
+image/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1
+>>>>> #6  0x00005557220b6a9d in ?? ()
+>>>>> #7  0x00007f50a8311f68 in __libc_start_call_main () from
+>>>>> /mnt/b/yoe/master/build/tmp/sysroots-uninative/x86_64-linux/lib/libc.=
+so.6
+>>>>> #8  0x00007f50a831201b in __libc_start_main () from
+>>>>> /mnt/b/yoe/master/build/tmp/sysroots-uninative/x86_64-linux/lib/libc.=
+so.6
+>>>>> #9  0x00005557220b6bf1 in ?? ()
+>>>>>
+>>>>> On Thu, Nov 27, 2025 at 10:11=E2=80=AFAM Etienne Cordonnier via
+>>>>> lists.openembedded.org
+>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__lists.openembe=
+dded.org&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhk=
+bNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2=
+DUfu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3D7Hhr9df0PBRkpiFWBooOX6tv5kZhGeHxO5S6=
+vVaNiw8&e=3D>
+>>>>> <ecordonnier=3Dsnap.com@lists.openembedded.org> wrote:
+>>>>>
+>>>>>> Hi Gyorgy,
+>>>>>> I have sent a patch to opkg upstream which disables the ACL option b=
+y
+>>>>>> default again (it is
+>>>>>> https://lists.yoctoproject.org/g/opkg/message/175
+>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.yoctop=
+roject.org_g_opkg_message_175&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgG=
+kICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBX=
+igbzfameBp2CEOukeCpM2DUfu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3D4U1D3q2TfA7jjhT=
+o68DgNSOLopG_6Nlj6Ta9OG8TN_g&e=3D>
+>>>>>> , however the web-view doesn't seem to work at the moment. I only se=
+e
+>>>>>> "Forbidden").
+>>>>>>
+>>>>>> =C3=89tienne
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> On Thu, Nov 27, 2025 at 6:08=E2=80=AFPM Gyorgy Sarvari <skandigraun@=
+gmail.com>
+>>>>>> wrote:
+>>>>>>
+>>>>>>> I just tried this, but it seems that the ACL switch was toggled
+>>>>>>> during
+>>>>>>> the CMake transition. With Autotools ACL was disabled by default, b=
+ut
+>>>>>>> with CMake it seems to be enabled - and it complains that it can't
+>>>>>>> find
+>>>>>>> libacl on my machine.
+>>>>>>>
+>>>>>>> On 10/23/25 15:46, Etienne Cordonnier via lists.openembedded.org
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__lists.openem=
+bedded.org&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DA=
+hkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCp=
+M2DUfu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3D7Hhr9df0PBRkpiFWBooOX6tv5kZhGeHxO5=
+S6vVaNiw8&e=3D>
+>>>>>>> wrote:
+>>>>>>> > From: Etienne Cordonnier <ecordonnier@snap.com>
+>>>>>>> >
+>>>>>>> > See release notes at
+>>>>>>> > -
+>>>>>>> https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__downloads.yoc=
+toproject.org_releases_opkg_opkg-2D0.9.0.release-2Dnotes&d=3DDwICaQ&c=3DncD=
+TmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJ=
+TKUkSGa66m67E&m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScvk4Y_QGHVaD7rH=
+vEf9Kx5&s=3Dqvmy1QT46Bl7mVt_XDbuHiic2IjU6z7Zku_Gid-CVYc&e=3D
+>>>>>>> >
+>>>>>>> > [0.9.0] - 2025-06-27
+>>>>>>> >
+>>>>>>> > Semiannual opkg release.
+>>>>>>> > Bumping the minor version as a result of the project build toolin=
+g
+>>>>>>> changing from autotools to cmake.
+>>>>>>> >
+>>>>>>> > - Added a Dockerfile container definition (`:docker/`) for a vali=
+d
+>>>>>>> developer build environment for opkg.
+>>>>>>> >   - It's recommended that project contributors use this container
+>>>>>>> to build and test their changes.
+>>>>>>> > - The AutoTools-based build framework has [been replaced](
+>>>>>>> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctopro=
+ject.org_opkg_commit_-3Fid-3D3f6040e321634471ec442fb0e80f140f1437e90b&d=3DD=
+wICaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_=
+Qj9TsRih1DULJTKUkSGa66m67E&m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScv=
+k4Y_QGHVaD7rHvEf9Kx5&s=3DGgRxioBjt-ii5JWUrYQ0I-FmXvKxVxKNH3Nj22i_jiM&e=3D
+>>>>>>> ) with a more modern, CMake framework.
+>>>>>>> >   - Refer to the `docs/CONTRIBUTING.md` documentation for updated
+>>>>>>> build instructions.
+>>>>>>> >
+>>>>>>> > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+>>>>>>> > ---
+>>>>>>> >  .../opkg/opkg/0002-config.h.in-fix-typo.patch | 27
+>>>>>>> +++++++++++++++++++
+>>>>>>> >  meta/recipes-devtools/opkg/opkg/run-ptest     |  2 +-
+>>>>>>> >  .../opkg/{opkg_0.8.0.bb
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.8.0=
+.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonV=
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0=
+sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DXvRK6ACbDsce-6GfM1z7bmWP89Drkdoim4UnjGId7=
+jE&e=3D>
+>>>>>>> =3D> opkg_0.9.0.bb
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.9.0=
+.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonV=
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0=
+sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DPCgmYCv6lZBoj7mQyNmGExGtaa-iO2KXWfMw-LSuR=
+ro&e=3D>}
+>>>>>>>    | 22 ++++++++-------
+>>>>>>> >  3 files changed, 41 insertions(+), 10 deletions(-)
+>>>>>>> >  create mode 100644
+>>>>>>> meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
+>>>>>>> >  rename meta/recipes-devtools/opkg/{opkg_0.8.0.bb
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.8.0=
+.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonV=
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0=
+sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DXvRK6ACbDsce-6GfM1z7bmWP89Drkdoim4UnjGId7=
+jE&e=3D>
+>>>>>>> =3D> opkg_0.9.0.bb
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.9.0=
+.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonV=
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0=
+sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DPCgmYCv6lZBoj7mQyNmGExGtaa-iO2KXWfMw-LSuR=
+ro&e=3D>}
+>>>>>>> (76%)
+>>>>>>> >
+>>>>>>> > diff --git
+>>>>>>> a/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
+>>>>>>> b/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
+>>>>>>> > new file mode 100644
+>>>>>>> > index 00000000000..626bbd01b68
+>>>>>>> > --- /dev/null
+>>>>>>> > +++
+>>>>>>> b/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
+>>>>>>> > @@ -0,0 +1,27 @@
+>>>>>>> > +From 5a81faadbc2397d554bc598d535fd2d44cbc8d10 Mon Sep 17 00:00:0=
+0
+>>>>>>> 2001
+>>>>>>> > +From: Etienne Cordonnier <ecordonnier@snap.com>
+>>>>>>> > +Date: Mon, 20 Oct 2025 18:57:56 +0200
+>>>>>>> > +Subject: [PATCH] config.h.in
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__config.h.in&=
+d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIG=
+RfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0b=
+B32_yW13Nh-HmRl8UbCQaTnb5&s=3DdOZFRTTcPycQ3CB3uYzjTaJbkYiw-ptty6e5ymgao80&e=
+=3D>:
+>>>>>>> fix typo
+>>>>>>> > +
+>>>>>>> > +Upstream-Status: Backport [
+>>>>>>> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctopro=
+ject.org_opkg_commit_-3Fid-3Dd723a90bfe6409c7ad983ed911225d4aefbfd09e&d=3DD=
+wICaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_=
+Qj9TsRih1DULJTKUkSGa66m67E&m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWRXTj24AF_PScv=
+k4Y_QGHVaD7rHvEf9Kx5&s=3D5scf6nlpBtSePSuPjyopoX7FmlAyiSwI03Ry11w4tl8&e=3D
+>>>>>>> ]
+>>>>>>> > +Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+>>>>>>> > +---
+>>>>>>> > + config.h.in
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__config.h.in&=
+d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIG=
+RfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0b=
+B32_yW13Nh-HmRl8UbCQaTnb5&s=3DdOZFRTTcPycQ3CB3uYzjTaJbkYiw-ptty6e5ymgao80&e=
+=3D>
+>>>>>>> | 2 +-
+>>>>>>> > + 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>> > +
+>>>>>>> > +diff --git a/config.h.in
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__config.h.in&=
+d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIG=
+RfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0b=
+B32_yW13Nh-HmRl8UbCQaTnb5&s=3DdOZFRTTcPycQ3CB3uYzjTaJbkYiw-ptty6e5ymgao80&e=
+=3D>
+>>>>>>> b/config.h.in
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__config.h.in&=
+d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIG=
+RfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0b=
+B32_yW13Nh-HmRl8UbCQaTnb5&s=3DdOZFRTTcPycQ3CB3uYzjTaJbkYiw-ptty6e5ymgao80&e=
+=3D>
+>>>>>>> > +index 4fa9842..877b8c7 100644
+>>>>>>> > +--- a/config.h.in
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__config.h.in&=
+d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIG=
+RfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0b=
+B32_yW13Nh-HmRl8UbCQaTnb5&s=3DdOZFRTTcPycQ3CB3uYzjTaJbkYiw-ptty6e5ymgao80&e=
+=3D>
+>>>>>>> > ++++ b/config.h.in
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__config.h.in&=
+d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIG=
+RfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0b=
+B32_yW13Nh-HmRl8UbCQaTnb5&s=3DdOZFRTTcPycQ3CB3uYzjTaJbkYiw-ptty6e5ymgao80&e=
+=3D>
+>>>>>>> > +@@ -2,7 +2,7 @@
+>>>>>>> > + #cmakedefine01 WITH_XZ
+>>>>>>> > + #cmakedefine01 WITH_BZIP2
+>>>>>>> > + #cmakedefine01 WITH_LZ4
+>>>>>>> > +-#cmakedefine01 WITH_LZSTD
+>>>>>>> > ++#cmakedefine01 WITH_ZSTD
+>>>>>>> > + #cmakedefine01 WITH_CURL
+>>>>>>> > + #cmakedefine01 WITH_SSLCURL
+>>>>>>> > + #cmakedefine01 WITH_ACL
+>>>>>>> > +--
+>>>>>>> > +2.43.0
+>>>>>>> > +
+>>>>>>> > diff --git a/meta/recipes-devtools/opkg/opkg/run-ptest
+>>>>>>> b/meta/recipes-devtools/opkg/opkg/run-ptest
+>>>>>>> > index 5fb7077eec9..d485a4aace5 100644
+>>>>>>> > --- a/meta/recipes-devtools/opkg/opkg/run-ptest
+>>>>>>> > +++ b/meta/recipes-devtools/opkg/opkg/run-ptest
+>>>>>>> > @@ -2,4 +2,4 @@
+>>>>>>> >
+>>>>>>> >  OPKG_PATH=3D$(which opkg)
+>>>>>>> >
+>>>>>>> > -make OPKG_PATH=3D$OPKG_PATH run-tests
+>>>>>>> > +make -C tests DATADIR=3D/share SYSCONFDIR=3D/etc VARDIR=3D/var
+>>>>>>> OPKG_PATH=3D$OPKG_PATH
+>>>>>>> > diff --git a/meta/recipes-devtools/opkg/opkg_0.8.0.bb
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.8.0=
+.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonV=
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0=
+sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DXvRK6ACbDsce-6GfM1z7bmWP89Drkdoim4UnjGId7=
+jE&e=3D>
+>>>>>>> b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.9.0=
+.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonV=
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0=
+sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DPCgmYCv6lZBoj7mQyNmGExGtaa-iO2KXWfMw-LSuR=
+ro&e=3D>
+>>>>>>> > similarity index 76%
+>>>>>>> > rename from meta/recipes-devtools/opkg/opkg_0.8.0.bb
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.8.0=
+.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonV=
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0=
+sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DXvRK6ACbDsce-6GfM1z7bmWP89Drkdoim4UnjGId7=
+jE&e=3D>
+>>>>>>> > rename to meta/recipes-devtools/opkg/opkg_0.9.0.bb
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.9.0=
+.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonV=
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0=
+sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DPCgmYCv6lZBoj7mQyNmGExGtaa-iO2KXWfMw-LSuR=
+ro&e=3D>
+>>>>>>> > index 12e2edf7e3f..ed2f36d636b 100644
+>>>>>>> > --- a/meta/recipes-devtools/opkg/opkg_0.8.0.bb
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.8.0=
+.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonV=
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0=
+sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DXvRK6ACbDsce-6GfM1z7bmWP89Drkdoim4UnjGId7=
+jE&e=3D>
+>>>>>>> > +++ b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
+>>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__opkg-5F0.9.0=
+.bb&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonV=
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0=
+sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DPCgmYCv6lZBoj7mQyNmGExGtaa-iO2KXWfMw-LSuR=
+ro&e=3D>
+>>>>>>> > @@ -15,34 +15,35 @@ PE =3D "1"
+>>>>>>> >  SRC_URI =3D "
+>>>>>>> https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__downloads.yoc=
+toproject.org_releases_-24-257BBPN-257D_-24-257BBPN-257D-2D-24-257BPV-257D.=
+tar.gz&d=3DDwICaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbN=
+onVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D1A1uWL9SVAUWAORYc1-msE0HUGrhCWWR=
+XTj24AF_PScvk4Y_QGHVaD7rHvEf9Kx5&s=3DmKc8LzZ_Q2orQLqa_38Jr7E7tfyD4-rcsgI-wP=
+kx_Zg&e=3D
+>>>>>>> \
+>>>>>>> >             file://opkg.conf \
+>>>>>>> >
+>>>>>>>  file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.p=
+atch \
+>>>>>>> > +           file://0002-config.h.in-fix-typo.patch \
+>>>>>>> >             file://run-ptest \
+>>>>>>> >             "
+>>>>>>> >
+>>>>>>> > -SRC_URI[sha256sum] =3D
+>>>>>>> "582a4c9e220cce0b7d08a0915c95db9f24ae43ad372ed5d42d5ec5f6cd413f0c"
+>>>>>>> > +SRC_URI[sha256sum] =3D
+>>>>>>> "440ef321862e01f83da4d02884a0cbb4d9d7b32f82faa81a6a85493f0c89d0f5"
+>>>>>>> >
+>>>>>>> >  # This needs to be before ptest inherit, otherwise all ptest
+>>>>>>> files end packaged
+>>>>>>> >  # in libopkg package if OPKGLIBDIR =3D=3D libdir, because defaul=
+t
+>>>>>>> >  # PTEST_PATH ?=3D "${libdir}/${BPN}/ptest"
+>>>>>>> >  PACKAGES =3D+ "libopkg"
+>>>>>>> >
+>>>>>>> > -inherit autotools pkgconfig ptest
+>>>>>>> > +inherit cmake pkgconfig ptest
+>>>>>>> >
+>>>>>>> >  target_localstatedir :=3D "${localstatedir}"
+>>>>>>> >  OPKGLIBDIR ??=3D "${target_localstatedir}/lib"
+>>>>>>> >
+>>>>>>> >  PACKAGECONFIG ??=3D "libsolv"
+>>>>>>> >
+>>>>>>> > -PACKAGECONFIG[gpg] =3D "--enable-gpg,--disable-gpg,\
+>>>>>>> > +PACKAGECONFIG[gpg] =3D "-DWITH_GPGME=3DON,-DWITH_GPGME=3DOFF,\
+>>>>>>> >      gnupg gpgme libgpg-error,\
+>>>>>>> >      ${@ "gnupg" if ("native" in d.getVar("PN")) else "gnupg-gpg"=
+}\
+>>>>>>> >      "
+>>>>>>> > -PACKAGECONFIG[curl] =3D "--enable-curl,--disable-curl,curl"
+>>>>>>> > -PACKAGECONFIG[ssl-curl] =3D
+>>>>>>> "--enable-ssl-curl,--disable-ssl-curl,curl openssl"
+>>>>>>> > -PACKAGECONFIG[sha256] =3D "--enable-sha256,--disable-sha256"
+>>>>>>> > -PACKAGECONFIG[libsolv] =3D
+>>>>>>> "--with-libsolv,--without-libsolv,libsolv"
+>>>>>>> > +PACKAGECONFIG[curl] =3D "-DWITH_CURL=3DON,-DWITH_CURL=3DOFF,curl=
+"
+>>>>>>> > +PACKAGECONFIG[ssl-curl] =3D
+>>>>>>> "-DWITH_SSLCURL=3DON,-DWITH_SSLCURL=3DOFF,curl openssl"
+>>>>>>> > +PACKAGECONFIG[sha256] =3D "-DWITH_SHA256=3DON,-DWITH_SHA256=3DOF=
+F"
+>>>>>>> > +PACKAGECONFIG[libsolv] =3D
+>>>>>>> "-DUSE_SOLVER_LIBSOLV=3DON,-DUSE_SOLVER_LIBSOLV=3DOFF,libsolv"
+>>>>>>> >
+>>>>>>> > -EXTRA_OECONF =3D "--enable-zstd"
+>>>>>>> > -EXTRA_OECONF:append:class-native =3D "
+>>>>>>> --localstatedir=3D/${@os.path.relpath('${localstatedir}',
+>>>>>>> '${STAGING_DIR_NATIVE}')} --sysconfdir=3D/${@os.path.relpath('${sys=
+confdir}',
+>>>>>>> '${STAGING_DIR_NATIVE}')}"
+>>>>>>> > +EXTRA_OECMAKE =3D "-DWITH_ZSTD=3DON"
+>>>>>>> > +EXTRA_OECMAKE:append:class-native =3D "
+>>>>>>> -DVARDIR=3D/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_N=
+ATIVE}')}
+>>>>>>> -DSYSCONFDIR=3D/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_=
+NATIVE}')}"
+>>>>>>> >
+>>>>>>> >  do_install:append () {
+>>>>>>> >       install -d ${D}${sysconfdir}/opkg
+>>>>>>> > @@ -56,6 +57,9 @@ do_install:append () {
+>>>>>>> >  }
+>>>>>>> >
+>>>>>>> >  do_install_ptest () {
+>>>>>>> > +     # the ptest class uses a Makefile for installation, but
+>>>>>>> cmake uses Ninja per default so we need to install ptests manually:
+>>>>>>> > +     cp -r ${S}/tests ${D}${PTEST_PATH}
+>>>>>>> > +
+>>>>>>> >       sed -i -e '/@echo $^/d' ${D}${PTEST_PATH}/tests/Makefile
+>>>>>>> >       sed -i -e '/@PYTHONPATH=3D. $(PYTHON) $^/a\\t@if [ "$$?" !=
 =3D
->>>>>> "0" ];then echo "FAIL:"$^;else echo "PASS:"$^;fi'
->>>>>> ${D}${PTEST_PATH}/tests/Makefile
->>>>>> >  }
->>>>>> >
->>>>>> >
->>>>>> >
->>>>>>
->>>>>>
->>>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>>>> Links: You receive all messages sent to this group.
->>>>> View/Reply Online (#226864):
->>>>> https://lists.openembedded.org/g/openembedded-core/message/226864
->>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openemb=
-edded.org_g_openembedded-2Dcore_message_226864&d=3DDwMFaQ&c=3DncDTmphkJTvjI=
-DPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m=
-67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=
+>>>>>>> "0" ];then echo "FAIL:"$^;else echo "PASS:"$^;fi'
+>>>>>>> ${D}${PTEST_PATH}/tests/Makefile
+>>>>>>> >  }
+>>>>>>> >
+>>>>>>> >
+>>>>>>> >
+>>>>>>>
+>>>>>>>
+>>>>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>>>>> Links: You receive all messages sent to this group.
+>>>>>> View/Reply Online (#226864):
+>>>>>> https://lists.openembedded.org/g/openembedded-core/message/226864
+>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openem=
+bedded.org_g_openembedded-2Dcore_message_226864&d=3DDwMFaQ&c=3DncDTmphkJTvj=
+IDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66=
+m67E&m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=
 =3DRM3vVpXB68pNmt1v3I8UHhC8fbIHFusxWhHViuMiKjI&e=3D>
->>>>> Mute This Topic: https://lists.openembedded.org/mt/115910660/1997914
->>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openemb=
-edded.org_mt_115910660_1997914&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabg=
-GkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPgB=
-XigbzfameBp2CEOukeCpM2DUfu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DTfGnmOyEtO9VQX=
-e3p4174fbjQnzAW_wgb7-9bBzLre4&e=3D>
->>>>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
->>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openemb=
-edded.org_g_openembedded-2Dcore_unsub&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4=
-vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6=
-dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DHrgmZCb=
-tNYqyFd-8EM0T4MpJVrJzIQuEEgQV1qr3Mkg&e=3D>
->>>>> [raj.khem@gmail.com]
->>>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>>>>
->>>>>
+>>>>>> Mute This Topic: https://lists.openembedded.org/mt/115910660/1997914
+>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openem=
+bedded.org_mt_115910660_1997914&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvab=
+gGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D6dqwyPg=
+BXigbzfameBp2CEOukeCpM2DUfu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DTfGnmOyEtO9VQ=
+Xe3p4174fbjQnzAW_wgb7-9bBzLre4&e=3D>
+>>>>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>>>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsu=
+b
+>>>>>> <https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openem=
+bedded.org_g_openembedded-2Dcore_unsub&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_=
+4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D=
+6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&s=3DHrgmZC=
+btNYqyFd-8EM0T4MpJVrJzIQuEEgQV1qr3Mkg&e=3D>
+>>>>>> [raj.khem@gmail.com]
+>>>>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>>>>>
+>>>>>>
 
---000000000000088c1806453c0d3d
+--0000000000001a733106453c154b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">My case is yoe distro rpi4-64 building yoe-kiosk-image I =
-do not set IMAGE_LINGUAS to get into the problem if I set it then it works=
-=C2=A0</div><div dir=3D"auto"><br><div class=3D"gmail_quote gmail_quote_con=
-tainer" dir=3D"auto"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 5, 2=
-025 at 2:16=E2=80=AFPM Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier=
-@snap.com">ecordonnier@snap.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div dir=3D"ltr">Hi Khem,<br>I&#39;ve not managed to reproduc=
-e at the moment,=C2=A0neither=C2=A0on=C2=A0poky nor on yoe-distro. I&#39;m =
-on Ubuntu 24.04. Can you maybe send me your local.conf?:<br><br>ecordonnier=
-@lj8k2dq3:~/dev/yoe$ cat conf/local.conf<br>IMAGE_LINGUAS =3D &quot;en-us e=
-n-gb&quot;<br>ENABLE_BINARY_LOCALE_GENERATION =3D &quot;1&quot;<br>SSTATE_M=
-IRRORS =3D &quot; \<br>=C2=A0 =C2=A0 file://.* <a href=3D"https://sstate.yo=
-ctoproject.org/all/PATH;downloadfilename=3DPATH" target=3D"_blank">https://=
-sstate.yoctoproject.org/all/PATH;downloadfilename=3DPATH</a> \<br>&quot;<br=
->ecordonnier@lj8k2dq3:~/dev/yoe$ git rev-parse HEAD<br>7ce0a300ea45d28cfd58=
-094cb5e9e07651797226<br>cordonnier@lj8k2dq3:~/dev/yoe$ . ./envsetup.sh rpi4=
--64<br>Setting PROJECT=3Drpi4-64<br>Setting MACHINE=3Draspberrypi4-64<br>/h=
-ome/ecordonnier/dev/yoe/conf/auto.conf has been updated<br>Setting DOCKER_R=
-EPO to yoedistro/yoe-build:trixie-x86_64<br>ecordonnier@lj8k2dq3:~/dev/yoe$=
- yoe_setup<br>ecordonnier@lj8k2dq3:~/dev/yoe$ bitbake yoe-kiosk-image<br>NO=
-TE: Started PRServer with DBfile: /home/ecordonnier/dev/yoe/cache/prserv.sq=
-lite3, Address: <a href=3D"http://127.0.0.1:44795" target=3D"_blank">127.0.=
-0.1:44795</a>, PID: 111<br>WARNING: You are using a local hash equivalence =
-server but have configured an sstate mirror. This will likely mean no sstat=
-e will match from the mirror. You may wish to disable the hash equivalence =
-use (BB_HASHSERVE), or use a hash equivalence server alongside the sstate m=
-irror.<br>Loading cache: 100% |############################################=
+<div dir=3D"ltr">I also use yoe distro rpi4-64 building yoe-kiosk-image and=
+ I also tried without setting IMAGE_LINGUAS first.<br>&quot;it works on my =
+machine&quot; :-/<br>Which commit do to youse?</div><br><div class=3D"gmail=
+_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri,=
+ Dec 5, 2025 at 11:34=E2=80=AFPM Khem Raj &lt;<a href=3D"mailto:raj.khem@gm=
+ail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex"><div dir=3D"auto">My case is yoe distro rpi4-64 =
+building yoe-kiosk-image I do not set IMAGE_LINGUAS to get into the problem=
+ if I set it then it works=C2=A0</div><div dir=3D"auto"><br><div class=3D"g=
+mail_quote" dir=3D"auto"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec =
+5, 2025 at 2:16=E2=80=AFPM Etienne Cordonnier &lt;<a href=3D"mailto:ecordon=
+nier@snap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Hi Kh=
+em,<br>I&#39;ve not managed to reproduce at the moment,=C2=A0neither=C2=A0o=
+n=C2=A0poky nor on yoe-distro. I&#39;m on Ubuntu 24.04. Can you maybe send =
+me your local.conf?:<br><br>ecordonnier@lj8k2dq3:~/dev/yoe$ cat conf/local.=
+conf<br>IMAGE_LINGUAS =3D &quot;en-us en-gb&quot;<br>ENABLE_BINARY_LOCALE_G=
+ENERATION =3D &quot;1&quot;<br>SSTATE_MIRRORS =3D &quot; \<br>=C2=A0 =C2=A0=
+ file://.* <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A=
+__sstate.yoctoproject.org_all_PATH-3Bdownloadfilename-3DPATH&amp;d=3DDwMFaQ=
+&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRf=
+Px_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D-NtkavIQQp5Iqw_UoaYZsC0r9-dP8qjeWtlDZ=
+h0jty5AiQ9z97d4-blVTpeRtBxx&amp;s=3DvuV0954VFehkpPG9JVC6OqQz3b5Oyuo-Zeat1SN=
+Yv2U&amp;e=3D" target=3D"_blank">https://sstate.yoctoproject.org/all/PATH;d=
+ownloadfilename=3DPATH</a> \<br>&quot;<br>ecordonnier@lj8k2dq3:~/dev/yoe$ g=
+it rev-parse HEAD<br>7ce0a300ea45d28cfd58094cb5e9e07651797226<br>cordonnier=
+@lj8k2dq3:~/dev/yoe$ . ./envsetup.sh rpi4-64<br>Setting PROJECT=3Drpi4-64<b=
+r>Setting MACHINE=3Draspberrypi4-64<br>/home/ecordonnier/dev/yoe/conf/auto.=
+conf has been updated<br>Setting DOCKER_REPO to yoedistro/yoe-build:trixie-=
+x86_64<br>ecordonnier@lj8k2dq3:~/dev/yoe$ yoe_setup<br>ecordonnier@lj8k2dq3=
+:~/dev/yoe$ bitbake yoe-kiosk-image<br>NOTE: Started PRServer with DBfile: =
+/home/ecordonnier/dev/yoe/cache/prserv.sqlite3, Address: <a href=3D"https:/=
+/urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__127.0.0.1-3A44795&amp;d=3DDw=
+MFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuM=
+IGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D-NtkavIQQp5Iqw_UoaYZsC0r9-dP8qjeW=
+tlDZh0jty5AiQ9z97d4-blVTpeRtBxx&amp;s=3DPJMI5Who1QWr6q5cgr_vEwT478oi7c8luL5=
+ThOzNZRc&amp;e=3D" target=3D"_blank">127.0.0.1:44795</a>, PID: 111<br>WARNI=
+NG: You are using a local hash equivalence server but have configured an ss=
+tate mirror. This will likely mean no sstate will match from the mirror. Yo=
+u may wish to disable the hash equivalence use (BB_HASHSERVE), or use a has=
+h equivalence server alongside the sstate mirror.<br>Loading cache: 100% |#=
 ###########################################################################=
 ###########################################################################=
-##################| Time: 0:00:02<br>Loaded 5831 entries from dependency ca=
-che.<br>NOTE: Resolving any missing task queue dependencies<br><br>Build Co=
-nfiguration:<br>BB_VERSION =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;2.1=
-6.0&quot;<br>BUILD_SYS =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;x=
-86_64-linux&quot;<br>NATIVELSBSTRING =C2=A0 =C2=A0 =C2=A0=3D &quot;universa=
-l&quot;<br>TARGET_SYS =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;aarch64-=
-yoe-linux&quot;<br>MACHINE =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D &quot;raspberrypi4-64&quot;<br>DISTRO =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =3D &quot;yoe&quot;<br>DISTRO_VERSION =C2=A0 =C2=A0 =C2=
-=A0 =3D &quot;2025.11&quot;<br>TUNE_FEATURES =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D=
- &quot;aarch64 crc cortexa72 nocrypto&quot;<br>TARGET_FPU =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =3D &quot;&quot;<br>meta-yoe =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =3D &quot;master:7ce0a300ea45d28cfd58094cb5e9e07651797226&quo=
-t;<br>meta-raspberrypi =C2=A0 =C2=A0 =3D &quot;HEAD:b667e177b1e6642cb113018=
-01db44d4515c1652d&quot;<br>meta-clang =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=3D &quot;HEAD:d0a67c76b7a3b585dbe2ba8ad509dc0fe0e58af2&quot;<br>meta-qt6 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;HEAD:836b1c3212c3562c09=
-09468ab415df98c1145759&quot;<br>meta-filesystems =C2=A0 =C2=A0 <br>meta-gno=
-me =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>meta-initramfs =C2=A0 =C2=A0 =C2=
-=A0 <br>meta-multimedia =C2=A0 =C2=A0 =C2=A0<br>meta-networking =C2=A0 =C2=
-=A0 =C2=A0<br>meta-oe =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>m=
-eta-perl =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>meta-python =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0<br>meta-webserver =C2=A0 =C2=A0 =C2=A0 <br>meta=
--xfce =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;HEAD:219328f37cbf6=
-aa4b2d7b77d21e00240543d73ad&quot;<br>meta =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;HEAD:ac7327583aef83fd400190506f3147623de=
-38b68&quot;<br><br>Sstate summary: Wanted 2 Local 0 Mirrors 2 Missed 0 Curr=
-ent 3493 (100% match, 100% complete)#######################################=
+#############################################################| Time: 0:00:0=
+2<br>Loaded 5831 entries from dependency cache.<br>NOTE: Resolving any miss=
+ing task queue dependencies<br><br>Build Configuration:<br>BB_VERSION =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;2.16.0&quot;<br>BUILD_SYS =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;x86_64-linux&quot;<br>NATIVELSB=
+STRING =C2=A0 =C2=A0 =C2=A0=3D &quot;universal&quot;<br>TARGET_SYS =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;aarch64-yoe-linux&quot;<br>MACHINE =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;raspberrypi4-64&q=
+uot;<br>DISTRO =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;y=
+oe&quot;<br>DISTRO_VERSION =C2=A0 =C2=A0 =C2=A0 =3D &quot;2025.11&quot;<br>=
+TUNE_FEATURES =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;aarch64 crc cortexa72 no=
+crypto&quot;<br>TARGET_FPU =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;&qu=
+ot;<br>meta-yoe =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;master:=
+7ce0a300ea45d28cfd58094cb5e9e07651797226&quot;<br>meta-raspberrypi =C2=A0 =
+=C2=A0 =3D &quot;HEAD:b667e177b1e6642cb11301801db44d4515c1652d&quot;<br>met=
+a-clang =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;HEAD:d0a67c76b7a3b585d=
+be2ba8ad509dc0fe0e58af2&quot;<br>meta-qt6 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =3D &quot;HEAD:836b1c3212c3562c0909468ab415df98c1145759&quot;<br=
+>meta-filesystems =C2=A0 =C2=A0 <br>meta-gnome =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 <br>meta-initramfs =C2=A0 =C2=A0 =C2=A0 <br>meta-multimedia =C2=A0 =
+=C2=A0 =C2=A0<br>meta-networking =C2=A0 =C2=A0 =C2=A0<br>meta-oe =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>meta-perl =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0<br>meta-python =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>m=
+eta-webserver =C2=A0 =C2=A0 =C2=A0 <br>meta-xfce =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0=3D &quot;HEAD:219328f37cbf6aa4b2d7b77d21e00240543d73ad&qu=
+ot;<br>meta =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &qu=
+ot;HEAD:ac7327583aef83fd400190506f3147623de38b68&quot;<br><br>Sstate summar=
+y: Wanted 2 Local 0 Mirrors 2 Missed 0 Current 3493 (100% match, 100% compl=
+ete)#######################################################################=
+################################################ =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| ETA: =C2=A00:00:00<br=
+>Initialising tasks: 100% |################################################=
 ###########################################################################=
-##### =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0| ETA: =C2=A00:00:00<br>Initialising tasks: 100% |##################=
 ###########################################################################=
-###########################################################################=
-#######################################| Time: 0:00:05<br>NOTE: Executing T=
-asks<br>NOTE: Tasks Summary: Attempted 7090 tasks of which 7088 didn&#39;t =
-need to be rerun and all succeeded.<br>NOTE: Writing buildhistory<br>NOTE: =
-Writing buildhistory took: 5 seconds<br><br>Summary: There was 1 WARNING me=
-ssage.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
-attr">On Thu, Dec 4, 2025 at 7:56=E2=80=AFPM Etienne Cordonnier &lt;<a href=
-=3D"mailto:ecordonnier@snap.com" target=3D"_blank">ecordonnier@snap.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div=
- dir=3D"ltr">Hi Khem,<br>I haven&#39;t had the time to debug yet, but I&#39=
-;ve seen your message.<br><br>=C3=89tienne</div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 3, 2025 at 10:35=E2=
-=80=AFPM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blan=
-k">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex"><div dir=3D"ltr">It can be reproduced with direct invo=
-cation<div><br></div><div>kraj@apollo /mnt/b/yoe/master/build/tmp/work/rasp=
-berrypi4_64-yoe-linux/yoe-kiosk-image/1.0<br>=E2=9D=AF recipe-sysroot-nativ=
-e/usr/bin/opkg \<br>=C2=A0 --volatile-cache \<br>=C2=A0 -f opkg.conf \<br>=
-=C2=A0 -t temp/ipktemp/ \<br>=C2=A0 -o rootfs \<br>=C2=A0 --force-postinsta=
-ll \<br>=C2=A0 --prefer-arch-to-version \<br>=C2=A0 --force-depends \<br>=
-=C2=A0 remove glibc-binary-localedata-en-gb glibc-binary-localedata-c glibc=
--binary-localedata-en-us<br><br>[1] =C2=A0 =C2=A0346156 segmentation fault =
-(core dumped) =C2=A0recipe-sysroot-native/usr/bin/opkg --volatile-cache -f =
-opkg.conf -t =C2=A0-o roots</div><div><br></div><div>I have a workaround by=
- setting</div><div><br></div><div>IMAGE_LINGUAS =3D &quot;en-us&quot;<br></=
-div><div><br></div><div>in local.conf which avoids the need for=C2=A0opkg r=
-emove operation which is crashing.</div></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 3, 2025 at 1:04=E2=80=
-=AFPM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">=
-raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex"><div dir=3D"ltr">I am starting to see the following crash=
- in opkg when building image. Anyone seeing something=C2=A0like this?<div><=
-br></div><div>(No debugging symbols found in /mnt/b/yoe/master/build/tmp/wo=
-rk/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/=
-bin/opkg)<br>[New LWP 34493]<br>[Thread debugging using libthread_db enable=
-d]<br>Using host libthread_db library &quot;/usr/lib/libthread_db.so.1&quot=
-;.<br>Core was generated by `/mnt/b/yoe/master/build/tmp/work/raspberrypi4_=
-64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/opkg --volat=
-ile-cache -f /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe=
--kiosk-image/1.0/opkg.conf -t /mnt/b/yoe/master/build/tmp/work/raspberrypi4=
-_64-yoe-linux/yoe-kiosk-image/1.0/temp/ipktemp/ -o /mnt/b/yoe/master/build/=
-tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/rootfs --force-posti=
-nstall --prefer-arch-to-version --force-depends remove glibc-binary-localed=
-ata-en-gb glibc-binary-localedata-c glibc-binary-localedata-en-us&#39;.<br>=
-Program terminated with signal SIGSEGV, Segmentation fault.<br>#0 =C2=A00x0=
-0007f50a8190d20 in stringpool_strn2id () from /mnt/b/yoe/master/build/tmp/w=
-ork/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr=
-/bin/../lib/./libsolv.so.1<br>(gdb) bt<br>#0 =C2=A00x00007f50a8190d20 in st=
-ringpool_strn2id () from /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-y=
-oe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv=
-.so.1<br>#1 =C2=A00x00007f50a818a3dc in pool_str2id () from /mnt/b/yoe/mast=
-er/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysr=
-oot-native/usr/bin/../lib/./libsolv.so.1<br>#2 =C2=A00x00007f50a84fe4ad in =
-?? () from /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-k=
-iosk-image/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1<br>#3 =C2=
-=A00x00007f50a84ff4df in opkg_solver_remove () from /mnt/b/yoe/master/build=
-/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-nati=
-ve/usr/bin/../lib/libopkg.so.1<br>#4 =C2=A00x00007f50a84e9bfb in ?? () from=
- /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image=
-/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1<br>#5 =C2=A00x00007f=
-50a84eadb2 in opkg_cmd_exec () from /mnt/b/yoe/master/build/tmp/work/raspbe=
-rrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/../li=
-b/libopkg.so.1<br>#6 =C2=A00x00005557220b6a9d in ?? ()<br>#7 =C2=A00x00007f=
-50a8311f68 in __libc_start_call_main () from /mnt/b/yoe/master/build/tmp/sy=
-sroots-uninative/x86_64-linux/lib/libc.so.6<br>#8 =C2=A00x00007f50a831201b =
-in __libc_start_main () from /mnt/b/yoe/master/build/tmp/sysroots-uninative=
-/x86_64-linux/lib/libc.so.6<br>#9 =C2=A00x00005557220b6bf1 in ?? ()</div></=
-div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
- Thu, Nov 27, 2025 at 10:11=E2=80=AFAM Etienne Cordonnier via <a href=3D"ht=
-tps://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__lists.openembedded.org&=
-amp;d=3DDwMFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3D=
-AhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D6dqwyPgBXigbzfameBp2CEO=
-ukeCpM2DUfu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&amp;s=3D7Hhr9df0PBRkpiFWBooOX6tv5=
-kZhGeHxO5S6vVaNiw8&amp;e=3D" target=3D"_blank">lists.openembedded.org</a> &=
-lt;ecordonnier=3D<a href=3D"mailto:snap.com@lists.openembedded.org" target=
-=3D"_blank">snap.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Hi Gyorgy,<br>I=
- have sent a patch to opkg upstream which disables the ACL option by defaul=
-t again (it is <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttp=
-s-3A__lists.yoctoproject.org_g_opkg_message_175&amp;d=3DDwMFaQ&amp;c=3DncDT=
-mphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1D=
-ULJTKUkSGa66m67E&amp;m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0bB32_yW13Nh-=
-HmRl8UbCQaTnb5&amp;s=3D4U1D3q2TfA7jjhTo68DgNSOLopG_6Nlj6Ta9OG8TN_g&amp;e=3D=
-" target=3D"_blank">https://lists.yoctoproject.org/g/opkg/message/175</a> ,=
- however the web-view doesn&#39;t seem to work at the moment. I only see &q=
-uot;Forbidden&quot;).<br><br>=C3=89tienne<br><br><br></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov 27, 2025=
- at 6:08=E2=80=AFPM Gyorgy Sarvari &lt;<a href=3D"mailto:skandigraun@gmail.=
-com" target=3D"_blank">skandigraun@gmail.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">I just tried this, but it seems=
- that the ACL switch was toggled during<br>
+#########| Time: 0:00:05<br>NOTE: Executing Tasks<br>NOTE: Tasks Summary: A=
+ttempted 7090 tasks of which 7088 didn&#39;t need to be rerun and all succe=
+eded.<br>NOTE: Writing buildhistory<br>NOTE: Writing buildhistory took: 5 s=
+econds<br><br>Summary: There was 1 WARNING message.</div><br><div class=3D"=
+gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 4, 2025 at 7=
+:56=E2=80=AFPM Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.co=
+m" target=3D"_blank">ecordonnier@snap.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Hi Khem,<br>I hav=
+en&#39;t had the time to debug yet, but I&#39;ve seen your message.<br><br>=
+=C3=89tienne</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
+gmail_attr">On Wed, Dec 3, 2025 at 10:35=E2=80=AFPM Khem Raj &lt;<a href=3D=
+"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D=
+"ltr">It can be reproduced with direct invocation<div><br></div><div>kraj@a=
+pollo /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-=
+image/1.0<br>=E2=9D=AF recipe-sysroot-native/usr/bin/opkg \<br>=C2=A0 --vol=
+atile-cache \<br>=C2=A0 -f opkg.conf \<br>=C2=A0 -t temp/ipktemp/ \<br>=C2=
+=A0 -o rootfs \<br>=C2=A0 --force-postinstall \<br>=C2=A0 --prefer-arch-to-=
+version \<br>=C2=A0 --force-depends \<br>=C2=A0 remove glibc-binary-localed=
+ata-en-gb glibc-binary-localedata-c glibc-binary-localedata-en-us<br><br>[1=
+] =C2=A0 =C2=A0346156 segmentation fault (core dumped) =C2=A0recipe-sysroot=
+-native/usr/bin/opkg --volatile-cache -f opkg.conf -t =C2=A0-o roots</div><=
+div><br></div><div>I have a workaround by setting</div><div><br></div><div>=
+IMAGE_LINGUAS =3D &quot;en-us&quot;<br></div><div><br></div><div>in local.c=
+onf which avoids the need for=C2=A0opkg remove operation which is crashing.=
+</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
+attr">On Wed, Dec 3, 2025 at 1:04=E2=80=AFPM Khem Raj &lt;<a href=3D"mailto=
+:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">I=
+ am starting to see the following crash in opkg when building image. Anyone=
+ seeing something=C2=A0like this?<div><br></div><div>(No debugging symbols =
+found in /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kio=
+sk-image/1.0/recipe-sysroot-native/usr/bin/opkg)<br>[New LWP 34493]<br>[Thr=
+ead debugging using libthread_db enabled]<br>Using host libthread_db librar=
+y &quot;/usr/lib/libthread_db.so.1&quot;.<br>Core was generated by `/mnt/b/=
+yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/rec=
+ipe-sysroot-native/usr/bin/opkg --volatile-cache -f /mnt/b/yoe/master/build=
+/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/opkg.conf -t /mnt/b=
+/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/te=
+mp/ipktemp/ -o /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/y=
+oe-kiosk-image/1.0/rootfs --force-postinstall --prefer-arch-to-version --fo=
+rce-depends remove glibc-binary-localedata-en-gb glibc-binary-localedata-c =
+glibc-binary-localedata-en-us&#39;.<br>Program terminated with signal SIGSE=
+GV, Segmentation fault.<br>#0 =C2=A00x00007f50a8190d20 in stringpool_strn2i=
+d () from /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-ki=
+osk-image/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv.so.1<br>(gdb) =
+bt<br>#0 =C2=A00x00007f50a8190d20 in stringpool_strn2id () from /mnt/b/yoe/=
+master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-=
+sysroot-native/usr/bin/../lib/./libsolv.so.1<br>#1 =C2=A00x00007f50a818a3dc=
+ in pool_str2id () from /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yo=
+e-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/../lib/./libsolv.=
+so.1<br>#2 =C2=A00x00007f50a84fe4ad in ?? () from /mnt/b/yoe/master/build/t=
+mp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native=
+/usr/bin/../lib/libopkg.so.1<br>#3 =C2=A00x00007f50a84ff4df in opkg_solver_=
+remove () from /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/y=
+oe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1<br>#4 =
+=C2=A00x00007f50a84e9bfb in ?? () from /mnt/b/yoe/master/build/tmp/work/ras=
+pberrypi4_64-yoe-linux/yoe-kiosk-image/1.0/recipe-sysroot-native/usr/bin/..=
+/lib/libopkg.so.1<br>#5 =C2=A00x00007f50a84eadb2 in opkg_cmd_exec () from /=
+mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/yoe-kiosk-image/1=
+.0/recipe-sysroot-native/usr/bin/../lib/libopkg.so.1<br>#6 =C2=A00x00005557=
+220b6a9d in ?? ()<br>#7 =C2=A00x00007f50a8311f68 in __libc_start_call_main =
+() from /mnt/b/yoe/master/build/tmp/sysroots-uninative/x86_64-linux/lib/lib=
+c.so.6<br>#8 =C2=A00x00007f50a831201b in __libc_start_main () from /mnt/b/y=
+oe/master/build/tmp/sysroots-uninative/x86_64-linux/lib/libc.so.6<br>#9 =C2=
+=A00x00005557220b6bf1 in ?? ()</div></div><br><div class=3D"gmail_quote"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov 27, 2025 at 10:11=E2=80=AFA=
+M Etienne Cordonnier via <a href=3D"https://urldefense.proofpoint.com/v2/ur=
+l?u=3Dhttp-3A__lists.openembedded.org&amp;d=3DDwMFaQ&amp;c=3DncDTmphkJTvjID=
+Ph0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa=
+66m67E&amp;m=3D6dqwyPgBXigbzfameBp2CEOukeCpM2DUfu0sg0bB32_yW13Nh-HmRl8UbCQa=
+Tnb5&amp;s=3D7Hhr9df0PBRkpiFWBooOX6tv5kZhGeHxO5S6vVaNiw8&amp;e=3D" target=
+=3D"_blank">lists.openembedded.org</a> &lt;ecordonnier=3D<a href=3D"mailto:=
+snap.com@lists.openembedded.org" target=3D"_blank">snap.com@lists.openembed=
+ded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex"><div dir=3D"ltr">Hi Gyorgy,<br>I have sent a patch to opkg upstream =
+which disables the ACL option by default again (it is <a href=3D"https://ur=
+ldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.yoctoproject.org_g_opkg_=
+message_175&amp;d=3DDwMFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckf=
+diw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D6dqwyPgBXig=
+bzfameBp2CEOukeCpM2DUfu0sg0bB32_yW13Nh-HmRl8UbCQaTnb5&amp;s=3D4U1D3q2TfA7jj=
+hTo68DgNSOLopG_6Nlj6Ta9OG8TN_g&amp;e=3D" target=3D"_blank">https://lists.yo=
+ctoproject.org/g/opkg/message/175</a> , however the web-view doesn&#39;t se=
+em to work at the moment. I only see &quot;Forbidden&quot;).<br><br>=C3=89t=
+ienne<br><br><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">On Thu, Nov 27, 2025 at 6:08=E2=80=AFPM Gyorgy Sarvari &lt=
+;<a href=3D"mailto:skandigraun@gmail.com" target=3D"_blank">skandigraun@gma=
+il.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">I just tried this, but it seems that the ACL switch was toggled durin=
+g<br>
 the CMake transition. With Autotools ACL was disabled by default, but<br>
 with CMake it seems to be enabled - and it complains that it can&#39;t find=
 <br>
@@ -1133,6 +1171,7 @@ et=3D"_blank">raj.khem@gmail.com</a>]<br>
 </blockquote></div>
 </blockquote></div>
 </blockquote></div></div>
+</blockquote></div>
 
---000000000000088c1806453c0d3d--
+--0000000000001a733106453c154b--
 
