@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73123D3B7E7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74721D3B7E8
 	for <webhook@archiver.kernel.org>; Sat,  6 Dec 2025 23:43:14 +0000 (UTC)
 Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17561.1765064589263970707
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17543.1765064588495137139
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Dec 2025 15:43:10 -0800
+ Sat, 06 Dec 2025 15:43:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Xpbir6cJ;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-2025120623430724b8f4f4370002077e-qfjsj1@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 2025120623430724b8f4f4370002077e
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=mIfC95qt;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20251206234304aea177b45b000207ca-l__5ii@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20251206234304aea177b45b000207ca
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 07 Dec 2025 00:43:07 +0100
+        Sun, 07 Dec 2025 00:43:05 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=2Lhg6SIaJjXe9fhKthUxxD+sD0OKyBfH3SzuyMlcvug=;
- b=Xpbir6cJAOOcCYFtsfq5OlOejJ/aVpy04qFL3GWZRcRVXEFJeLj/0mdtx99nucZpIB/TjG
- dzthCWYIxuX/pc1wMsk4nHIRuiEyRPG/rm+zBD+gdfjGNLMqXHH2kN4XgQiWOoJGewV+uNqO
- b9oSxlztFl9rlUg3lG/qlxzk9HtiuRnQKc4nP6KQoPbHfeClTDkcCDLqfyDSOqReEbbkbUUD
- Ss+ygaxSaizyHKYmUUGeC/9bQE2vjQAySlZwhRK0lfzvk1bJk6xO1yQU2+0WlqBX0w19pQbM
- HGFjdtr1jApDV4WLu4EQrlVCBxiiSdL/oMZ1pfgDhwu9lR/1E0L7xgcQ==;
+ bh=il8pNN+0C5TEpqrVp0nZ9HHTealYvT5FOWXGQuukGnQ=;
+ b=mIfC95qtcOs9GoDgysm9XCGW1boGDhqOh9tb7dyncuLY+kUbN9e7exnAA6mIEqaXx/Q5SE
+ VX2yC0Y/u5RfkZxLf5ne434w8Dztb0ZA3JUtO8Pj9ZkI8N4E6u4X7M4eovDJMdCpfrav3gVh
+ oJclpW/cIzfh97j3rl/R+t4DO8G+nObLkthtrx6iSS3OGI5BmJFh5rX1HN9LTTKCgHYo0zja
+ fgAzZ68Nxkfz7WAakMPuiBoordSuLoj+VrId4jyxaOYJc9d76qJU5Uy2Kpj/Ygs/uYafw/Iq
+ J8wiKprYeSH4tpljguM3Xh/T9Jq2wRNv6w0oOzLSZMnay8UKs+J+J6hg==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] libpng: patch CVE-2025-66293
-Date: Sun,  7 Dec 2025 00:42:47 +0100
-Message-Id: <20251206234247.3948744-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] libpng: patch CVE-2025-66293
+Date: Sun,  7 Dec 2025 00:42:31 +0100
+Message-Id: <20251206234231.3948725-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -37,7 +37,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 06 Dec 2025 23:43:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227372
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227371
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -50,14 +50,14 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../libpng/files/CVE-2025-66293-01.patch      |  60 +++++++++
  .../libpng/files/CVE-2025-66293-02.patch      | 125 ++++++++++++++++++
- .../libpng/libpng_1.6.39.bb                   |   2 +
+ .../libpng/libpng_1.6.42.bb                   |   2 +
  3 files changed, 187 insertions(+)
  create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch
  create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch
 
 diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch
 new file mode 100644
-index 00000000000..d3db455cdf9
+index 00000000000..0b958b9f1be
 --- /dev/null
 +++ b/meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch
 @@ -0,0 +1,60 @@
@@ -104,7 +104,7 @@ index 00000000000..d3db455cdf9
 +index 79917daaa..ab62edd9d 100644
 +--- a/pngread.c
 ++++ b/pngread.c
-+@@ -3404,9 +3404,14 @@ png_image_read_composite(png_voidp argument)
++@@ -3406,9 +3406,14 @@ png_image_read_composite(png_voidp argument)
 +                         component += (255-alpha)*png_sRGB_table[outrow[c]];
 + 
 +                         /* So 'component' is scaled by 255*65535 and is
@@ -123,7 +123,7 @@ index 00000000000..d3db455cdf9
 + 
 diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch
 new file mode 100644
-index 00000000000..e725f1e0f22
+index 00000000000..ba563e1c5a5
 --- /dev/null
 +++ b/meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch
 @@ -0,0 +1,125 @@
@@ -169,7 +169,7 @@ index 00000000000..e725f1e0f22
 +index ab62edd9d..f8ca2b7e3 100644
 +--- a/pngread.c
 ++++ b/pngread.c
-+@@ -3338,6 +3338,7 @@ png_image_read_composite(png_voidp argument)
++@@ -3340,6 +3340,7 @@ png_image_read_composite(png_voidp argument)
 +       ptrdiff_t    step_row = display->row_bytes;
 +       unsigned int channels =
 +           (image->format & PNG_FORMAT_FLAG_COLOR) != 0 ? 3 : 1;
@@ -177,7 +177,7 @@ index 00000000000..e725f1e0f22
 +       int pass;
 + 
 +       for (pass = 0; pass < passes; ++pass)
-+@@ -3394,25 +3395,44 @@ png_image_read_composite(png_voidp argument)
++@@ -3396,25 +3397,44 @@ png_image_read_composite(png_voidp argument)
 + 
 +                      if (alpha < 255) /* else just use component */
 +                      {
@@ -252,11 +252,11 @@ index 00000000000..e725f1e0f22
 +          } /* color_type == PNG_COLOR_TYPE_PALETTE */
 + 
 +          /* if (png_ptr->background_gamma_type!=PNG_BACKGROUND_GAMMA_UNKNOWN) */
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-index 47b76a704b8..70685b68e7b 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-@@ -20,6 +20,8 @@ SRC_URI = "\
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
+index 2d5216cb655..6dc7ffe2722 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
+@@ -19,6 +19,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz
             file://CVE-2025-64720.patch \
             file://CVE-2025-65018-01.patch \
             file://CVE-2025-65018-02.patch \
@@ -264,5 +264,5 @@ index 47b76a704b8..70685b68e7b 100644
 +           file://CVE-2025-66293-02.patch \
  "
  
- SRC_URI[sha256sum] = "1f4696ce70b4ee5f85f1e1623dc1229b210029fa4b7aee573df3e2ba7b036937"
+ SRC_URI[sha256sum] = "c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450"
 
