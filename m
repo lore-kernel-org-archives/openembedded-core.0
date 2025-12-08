@@ -1,187 +1,87 @@
-Return-Path: <kamel.bouhara@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2156BD3B7E2
-	for <webhook@archiver.kernel.org>; Mon,  8 Dec 2025 09:49:41 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4843.1765187377271145947
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BA95D3B7E2
+	for <webhook@archiver.kernel.org>; Mon,  8 Dec 2025 10:40:01 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5573.1765190392385931603
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Dec 2025 01:49:38 -0800
+ Mon, 08 Dec 2025 02:39:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=O6SP7kQg;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: kamel.bouhara@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 4769BC180C4;
-	Mon,  8 Dec 2025 09:49:11 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 047E760707;
-	Mon,  8 Dec 2025 09:49:35 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A8DBF102F2486;
-	Mon,  8 Dec 2025 10:49:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1765187374; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=v3jQfxdOJ6tOxcQiXUmfIB2+hxDREoTnnjB7VOypO2U=;
-	b=O6SP7kQgPeXHtFSRS0w6g6m1K3Bxu5ibA2svivNVFvqca7j5h3V7jtGHMdORC27pAdSE+v
-	OOEvaKOROcvN2yNbWH8D7D7kJshtQOSxj+xs6Z7df16MRzzv8lGFGm1Dl+wrZnmCY6QajB
-	iKb8JmdS3aRQeBBAHPXtnmNRG7x443LAIhDN0RG22KUG0srtQAm/6szq9vJ0b2A66D1EKm
-	oyQIW0MUUWnj4v6Wo+pElDkQczgj+Y2R9uFn4cUCc3rFSQUBAhj8fvsCq6du1x3u/RcKt9
-	nGePB7ZzZBVlZW9uFdqzctUvpkGtmD5Es7QgrAjtjHgTL8tE5Fy9VyL/UZ5Zlw==
-From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: JPEWhacker@gmail.com,
-	thomas.petazzoni@bootlin.com,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	mathieu.dubois-briand@bootlin.com,
-	antonin.godard@bootlin.com,
-	Pascal Eberhard <pascal.eberhard@se.com>,
-	"Kamel Bouhara (Schneider Electric)" <kamel.bouhara@bootlin.com>
-Subject: [PATCH v5 1/3] kernel.bbclass: Add task to export kernel configuration to SPDX
-Date: Mon,  8 Dec 2025 10:49:27 +0100
-Message-ID: <20251208094929.46495-2-kamel.bouhara@bootlin.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251208094929.46495-1-kamel.bouhara@bootlin.com>
-References: <20251208094929.46495-1-kamel.bouhara@bootlin.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=c56E5/kr;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-88043139c35so42550116d6.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Dec 2025 02:39:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765190391; x=1765795191; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lp6tagZwUx8HOkvjkxwfUusw41kRLGbIzMKCKvCT40g=;
+        b=c56E5/krbh8+Z/16dmIovnzwRfGIGvtUO35i3Fr3mxRqoxtbKMMT6BXBaXCyAE7Put
+         pyrrl1T+EF3XzsAEnCsl1kMdItRkokDNaxi5EicH173pVvQHEUegxzVYX51jBTV0YWT7
+         G5+EROaPCUeSXawEuGLo40KIN91oCoVuSeWFVz3lQv1GTQCgaj1sEzPE51T3JJ4+kGr3
+         TUVwLtyy1sKZhaLy3gDTZFvrYDO18x2jyBTvqeRkegueLJC9KqqDe3ocJK2chTYqyOok
+         GcSst7CMW1LdxX0vSY5m3B2G15Shj5sFNdpw4SlESepxEeIABugFprLidJYX0Oya8Q9r
+         /ibw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765190391; x=1765795191;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Lp6tagZwUx8HOkvjkxwfUusw41kRLGbIzMKCKvCT40g=;
+        b=dNSH7NfbWUIoRxOZkmH7SDYFXSnOdLtQJ0CHfE7CmzDyNRM0h36k1dHsYMdLkiNMzY
+         CcbSD/dchFAXmXKhr6XTeX51KAIrfRZv+qYXY4cb9dD7Jy/cGLZ+am8LHA1+QWwjBKn6
+         nFGY4AwMzO327Hv5Ra/san5fnDLIMNlBwkQqUaX2xu99EKaw+KMFgPhRHp6hJdrb1j/W
+         Vo+VQiZjymSYDmCDtF/hI/bQWd0CeeXmpGVYrBGP3s/A33CsVSj15MionCrm49eFXuAx
+         xyezJkxd3oYaPVKnjGyPZGed+SKT3kpQuyrnZCnWZndqNvpE64Z/4E0nnuA0OvWY93lM
+         2UoQ==
+X-Gm-Message-State: AOJu0Yx7wSo+bWfZbL18H1d3CMdiTMS8CTKYSXHg2iXYi3/Zo9TcUkad
+	V5QQW3ViM6tqjZd0i5ynK6zFS8MadRUEMchCIo4qnTX0RIlDCqF9L4G3KWh7y1MteJ8PVDs5Y+h
+	KAkB07VuM03C1koYRVfnK/tF/ZOqhBahy+g==
+X-Gm-Gg: ASbGncsrZV82kqQ2DyuPjgP2laMjANgG91yti9735sRpPu5+700Sume2i9rethhi+0R
+	mfPnayGWZufK4tC3NL4Ta4mTrixsweGN58e8maeVAY3/KHlGuB/95SOd6cvUzI9cPojXk4V0LEw
+	UPqR8L1obuNrpxVw0bZ9+Sr5+Mhg0Aw1C/iwx6m7zmSIPGaRbrirducNQWR2nbkQgHKK7OIb8Oj
+	ocoPUM1IJEFkYf8S1WwA5igNTuB9aYttbpkoogqCwvfTDA2m9+6ByADWW68DKbWCWRUG3d1mfhV
+	TN7OUUEK8+7D6TLb3pGO50L8zKxkDpF+GvWF6Dw6
+X-Google-Smtp-Source: AGHT+IFaWy7DrLVWoSE1kS0983jmbMQAbZqYUJJ92StoK8Jxm/WaTlltzAqWkPZujqQFCpewLc91SC/p5azQsfH35ao=
+X-Received: by 2002:ac8:57d0:0:b0:4ed:b6aa:ee26 with SMTP id
+ d75a77b69052e-4f03fef6bb0mr97579011cf.55.1765190391118; Mon, 08 Dec 2025
+ 02:39:51 -0800 (PST)
 MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+References: <187F32821D48D4AA.919836@lists.openembedded.org> <a9ad5699-2bfb-431c-84b5-a72907ba4bb5@windriver.com>
+In-Reply-To: <a9ad5699-2bfb-431c-84b5-a72907ba4bb5@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 8 Dec 2025 11:39:40 +0100
+X-Gm-Features: AQt7F2owrv8qknbSdUSarLyHY1fAMThrVwoBeCeGNBmPtEOggpWI0qQkRglZb5o
+Message-ID: <CANNYZj_dF96XaooeJP90LMDCk5XMuw3swcyZtEBW46sS+3mfUQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] go.bbclass: change GOTMPDIR to improve reproducibility
+To: changqing.li@windriver.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Dec 2025 09:49:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227384
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Dec 2025 10:40:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227387
 
-From: "Kamel Bouhara (Schneider Electric)" <kamel.bouhara@bootlin.com>
+On Mon, 8 Dec 2025 at 10:18, Changqing Li via lists.openembedded.org
+<changqing.li=windriver.com@lists.openembedded.org> wrote:
+> In the following patch, you said "Additionally, the top level build directory cannot be named 'go-something'."
+>
+> https://git.openembedded.org/openembedded-core/commit/?id=9985b17a30bb9b9f1bc82a44662687db5cead66e
+>
+> Can you help to explain why it cannot be named 'go-something'?  "go-build-tmp" works well in my env.  if it cannot be named
+>
+> as "go-something",  how about "gobuild-tmp"?
 
-Introduce a new bitbake task do_create_kernel_config_spdx that extracts
-the kernel configuration from ${B}/.config and exports it into the
-recipe's SPDX document as a separate build_Build object.
+This was 4 years ago and honestly I don't remember anything about the
+patch, other than it was a pain to find the particular settings that
+work. You can probably set up a yocto build from the revision just
+before the patch and apply parts of it to see why 'go-something'
+didn't work at that point.
 
-The kernel config parameters are stored as SPDX DictionaryEntry objects
-and linked to the main kernel build using an ancestorOf relationship.
+We should be careful with further tweaks.
 
-This enables the kernel build's configuration to be explicitly captured
-in the SPDX document for compliance, auditing, and reproducibility.
-
-The task is gated by SPDX_INCLUDE_KERNEL_CONFIG (default =3D "0").
-
-Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
-Signed-off-by: Kamel Bouhara (Schneider Electric) <kamel.bouhara@bootlin.=
-com>
----
- meta/classes-recipe/kernel.bbclass   | 64 ++++++++++++++++++++++++++++
- meta/classes/create-spdx-3.0.bbclass |  6 +++
- 2 files changed, 70 insertions(+)
-
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ker=
-nel.bbclass
-index 003a155e79..f989b31c47 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -864,5 +864,69 @@ addtask deploy after do_populate_sysroot do_packaged=
-ata
-=20
- EXPORT_FUNCTIONS do_deploy
-=20
-+python __anonymous() {
-+    inherits =3D (d.getVar("INHERIT") or "")
-+    if "create-spdx" in inherits:
-+        bb.build.addtask('do_create_kernel_config_spdx', 'do_populate_li=
-c do_deploy', 'do_create_spdx', d)
-+}
-+
-+python do_create_kernel_config_spdx() {
-+    if d.getVar("SPDX_INCLUDE_KERNEL_CONFIG", True) =3D=3D "1":
-+        import oe.spdx30
-+        import oe.spdx30_tasks
-+        from pathlib import Path
-+        from datetime import datetime, timezone
-+
-+        pkg_arch =3D d.getVar("SSTATE_PKGARCH")
-+        deploydir =3D Path(d.getVar("SPDXDEPLOY"))
-+        pn =3D d.getVar("PN")
-+
-+        config_path =3D d.expand("${B}/.config")
-+        kernel_params =3D []
-+        if not os.path.exists(config_path):
-+            bb.warn(f"SPDX: Kernel config file not found at: {config_pat=
-h}")
-+            return
-+
-+        try:
-+            with open(config_path, 'r') as f:
-+                for line in f:
-+                    line =3D line.strip()
-+                    if not line or line.startswith("#"):
-+                        continue
-+                    if "=3D" in line:
-+                        key, value =3D line.split("=3D", 1)
-+                        kernel_params.append(oe.spdx30.DictionaryEntry(
-+                            key=3Dkey,
-+                            value=3Dvalue.strip('"')
-+                        ))
-+            bb.note(f"Parsed {len(kernel_params)} kernel config entries =
-from {config_path}")
-+        except Exception as e:
-+            bb.error(f"Failed to parse kernel config file: {e}")
-+
-+        build, build_objset =3D oe.sbom30.find_root_obj_in_jsonld(
-+            d, "recipes", f"recipe-{pn}", oe.spdx30.build_Build
-+        )
-+
-+        kernel_build =3D build_objset.add_root(
-+            oe.spdx30.build_Build(
-+                _id=3Dbuild_objset.new_spdxid("kernel-config"),
-+                creationInfo=3Dbuild_objset.doc.creationInfo,
-+                build_buildType=3D"https://openembedded.org/kernel-confi=
-guration",
-+                build_parameter=3Dkernel_params
-+            )
-+        )
-+
-+        oe.spdx30_tasks.set_timestamp_now(d, kernel_build, "build_buildS=
-tartTime")
-+
-+        build_objset.new_relationship(
-+            [build],
-+            oe.spdx30.RelationshipType.ancestorOf,
-+            [kernel_build]
-+        )
-+
-+        oe.sbom30.write_jsonld_doc(d, build_objset, deploydir / pkg_arch=
- / "recipes" / f"recipe-{pn}.spdx.json")
-+}
-+do_create_kernel_config_spdx[depends] =3D "virtual/kernel:do_configure"
-+
- # Add using Device Tree support
- inherit kernel-devicetree
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-s=
-pdx-3.0.bbclass
-index a6d2d44e34..f4f7a77d86 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -50,6 +50,12 @@ SPDX_INCLUDE_TIMESTAMPS[doc] =3D "Include time stamps =
-in SPDX output. This is \
-     useful if you want to know when artifacts were produced and when bui=
-lds \
-     occurred, but will result in non-reproducible SPDX output"
-=20
-+SPDX_INCLUDE_KERNEL_CONFIG ??=3D "0"
-+SPDX_INCLUDE_KERNEL_CONFIG[doc] =3D "If set to '1', the .config file for=
- the kernel will be parsed \
-+and each CONFIG_* value will be included in the Build.build_parameter li=
-st as DictionaryEntry \
-+items. Set to '0' to disable exporting kernel configuration to improve p=
-erformance or reduce \
-+SPDX document size."
-+
- SPDX_IMPORTS ??=3D ""
- SPDX_IMPORTS[doc] =3D "SPDX_IMPORTS is the base variable that describes =
-how to \
-     reference external SPDX ids. Each import is defined as a key in this=
- \
---=20
-2.43.0
-
+Alex
 
