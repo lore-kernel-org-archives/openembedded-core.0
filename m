@@ -1,133 +1,223 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D489D3B7EA
-	for <webhook@archiver.kernel.org>; Mon,  8 Dec 2025 16:50:03 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1549.1765212601908614261
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C07D6D3B7E2
+	for <webhook@archiver.kernel.org>; Mon,  8 Dec 2025 17:28:24 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.288.1765214895697399518
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Dec 2025 08:50:02 -0800
+ Mon, 08 Dec 2025 09:28:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=mDTeEBTW;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
-	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=kjBbVu+GUbVw12s6jOudv/7imFmI7JFAxKCtmmI917M=; b=mDTeEBTWcd5AZ+5yX2FSnfk5Mx
-	efr+wFtyvDWByW/RJu4+Gl6cW0jiYwpyh6Ah/gQyYApHuO02y5OnhS04X3SCnHwl9Rbksr+tm7Tdz
-	nAir9fZwpw40VK492PIOs5cRppiroRBPpUwA/FQQKDOqPqn16+QiTQ4PdcSvzCUz6E2SbhwuZhjX6
-	iJzuyXaRRvP7v4CTrSQB+b1MvMYCuHsZIsgyUrHcHxfbnqUCEABvMd2MeQu/nCUkShYi06rSoWiYc
-	nL25C0eRn4OAo4bPXRKZrs1N3j58MU1IXE4AjKGqm/d0bhh+hlVDuxA/Eq3N1e+3Pt2bKfRQuXTBf
-	9trJlnYg==;
-Received: from [147.129.179.166] (port=50328 helo=rday)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1vSeQy-0000000D0Ci-1IJX;
-	Mon, 08 Dec 2025 11:50:00 -0500
-Date: Mon, 8 Dec 2025 11:51:33 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] is there any reason for a ptest-enabled recipe to
- conditionally SRC_URI run-ptest?
-In-Reply-To: <CAO5Uq5TGQzSksy6V2LOGqDtvtiSR7_GG5puZc=_FtG3jZSvbtA@mail.gmail.com>
-Message-ID: <65285038-9a63-f5da-7ae2-f1642114ba01@crashcourse.ca>
-References: <a83fbc50-c122-a60e-176d-9c492664fb2d@crashcourse.ca> <CAO5Uq5TGQzSksy6V2LOGqDtvtiSR7_GG5puZc=_FtG3jZSvbtA@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=W0CiQTxH;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42e2e52cc04so1674168f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Dec 2025 09:28:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765214894; x=1765819694; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6JwZ0KoWTGKofn9zIFlLdf583ZcKXPVZxqYX3+UEfdU=;
+        b=W0CiQTxHwoKrNNylr+/J/0JL49sfeAmfJ5rvccwkxUM7ScjVg9LJ4EEockmeZy+q+6
+         b1s+A3reXGqEan74qCOK3JoENEI2af7XrLJGKQbEq//84F49c8FcsB+v0cnnRausrVUu
+         vWCdAHhkCrUpev0U3jDHQ04TqMUMzuw51ULCS1rozL5CW7xM5Z91ESGqd34tmJ0QEvtM
+         Uqbu8Wgnfw/hUuDHCTODS5NrBnbly7tDwT6eLQf2XoFnaOm4qk9VWwYKZiMx9g4PVr6+
+         7VUWa0D7BmYf/6LFd+TFirY5hiKcoQrdQaOl29NoyearZrZNh5vdGENBAM05+6m8OAAm
+         21BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765214894; x=1765819694;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6JwZ0KoWTGKofn9zIFlLdf583ZcKXPVZxqYX3+UEfdU=;
+        b=rG3uaBMcDDQXpeyChPPNtZlUI7Rgggujyn/G8BJgV1xDsM1uNp3SGW/BFd4pyfoRN2
+         wNL8YnHWxOR6Xl8u3+2JlAUKZ0oAXwf1er/DP50CFrKNGtW6OloPokLu4/cCyQ4O2ltW
+         KfDcnsYCwiCOkp0i2aKfp4yTvJHSkF9PLykTTvvGxNpA/CEs1TIqZlQZaKTIyOgEUypu
+         aupOHtA8kTKvLdZnVnCdqOb4iIay1vQhB3nsz9RCMNV5lewQip9xrJmW2MQ8qVQL8on2
+         w5Te5dlrdVIcrSbZPnVXySnld+iZInn8cg5BevNXlZmVL8uz/HaGAUlGqrWtOQwL++WS
+         P8zw==
+X-Gm-Message-State: AOJu0Yw1BPrgpPGkMgskIxqPjCUKnjHhVK0tIG9IyhknvqgHsfveeujd
+	bkNkk2Ul0qqWJohP/5l0XOOGk9s5ETNyjKv6M3CvH/eeW7MXmZEj+xIo
+X-Gm-Gg: ASbGncvs0y19GmCh0kq/2Wopa9dcZr8t0tiJuNdvUbdM0S9pBxBAvGv/OsHUjOlRUii
+	3UG+yu4uQR1qHduwzBsnjpmVld9EtpIvHcXJ6rDvtTF1XX4/9aoSYEzgUE/ykXYBA5a3fPYVvmB
+	5X2I94m6nBEbNWeaP4C61JR0ykPvxHjG8UBb5larlFKdrNQN/xjVou2I8TSWhsq+bTBFjECSCHy
+	gxMFWRStMzBz7OGot3n6AgGUqfGstRFGROOsosb+0F8Ur77KALEKjyaSKO099QlCBCgkUD3dlYg
+	IA1JBdJGNPkkcY5tGXz3yk6LQgaREn95Oahss7ZRzsUBQu9YKJOz8UTRxT7zC7w7ubP4iW1wdGZ
+	uw9ZlzQ+1rhRqVGE9VaE8IfzQieGoMvE8iQz/hda8Sphnm3PluzGAn53r5RZ95iXrdhGLGofDY/
+	PxDBfG+1hc6cPJm21Op+NbQjcYzOMCoXELIZf77pdls6Ao0t3gEQzYIa+aS2uF
+X-Google-Smtp-Source: AGHT+IGJwZod8l1M3JeuNcNIHbZop4S+gb4joTznQx6urDuU/PnzoP4z9iNBo3kSdpl7ajryh793Pg==
+X-Received: by 2002:a05:6000:1a85:b0:42b:40b5:e64c with SMTP id ffacd0b85a97d-42f89f6340dmr8708153f8f.30.1765214893765;
+        Mon, 08 Dec 2025 09:28:13 -0800 (PST)
+Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d331a4fsm29999505f8f.33.2025.12.08.09.28.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Dec 2025 09:28:13 -0800 (PST)
+Message-ID: <f74759654e7b562f1177b6fea9b4cabf6072e8ce.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH] bitbake: bblayers/query: Add --show-variants
+ option to display BBCLASSEXTEND variants
+From: adrian.freihofer@gmail.com
+To: osama.abdelkader@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 08 Dec 2025 18:28:12 +0100
+In-Reply-To: <20251024164008.4753-1-osama.abdelkader@gmail.com>
+References: <20251024164008.4753-1-osama.abdelkader@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1009606316-1765212696=:100481"
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Dec 2025 16:50:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227399
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Dec 2025 17:28:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227400
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+T24gRnJpLCAyMDI1LTEwLTI0IGF0IDE5OjQwICswMzAwLCBPc2FtYSBBYmRlbGthZGVyIHZpYQps
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOgo+IFRoZSBiaXRiYWtlLWxheWVycyBzaG93LXJl
+Y2lwZXMgY29tbWFuZCB3YXMgaGlkaW5nIEJCQ0xBU1NFWFRFTkQKPiByZWNpcGUKPiB2YXJpYW50
+cyAoZS5nLiwgZGV2dXBzdHJlYW0sIG5hdGl2ZXNkaywgY3Jvc3MtY2FuYWRpYW4pIGJ5IGRlc2ln
+biwgdG8KPiBhdm9pZCBjbHV0dGVyIGluIHRoZSBvdXRwdXQuIEhvd2V2ZXIsIHRoaXMgbWFkZSBp
+dCBpbXBvc3NpYmxlIHRvIHNlZQo+IHJlY2lwZXMgbGlrZSBsaW51eC1maXJtd2FyZSdzIGRldnVw
+c3RyZWFtIHZhcmlhbnQgd2hpY2ggdXNlcyBnaXQKPiBzbmFwc2hvdHMKPiBpbnN0ZWFkIG9mIHJl
+bGVhc2UgdGFyYmFsbHMuCj4gCj4gVGhpcyBwYXRjaCBhZGRzIGEgbmV3IC0tc2hvdy12YXJpYW50
+cyAoLXYpIG9wdGlvbiB0byBzaG93LXJlY2lwZXMKPiB0aGF0Cj4gYWxsb3dzIHVzZXJzIHRvIHZp
+ZXcgYWxsIEJCQ0xBU1NFWFRFTkQgdmFyaWFudHMgd2hlbiBuZWVkZWQsIHdoaWxlCj4gbWFpbnRh
+aW5pbmcgdGhlIGRlZmF1bHQgYmVoYXZpb3Igb2YgaGlkaW5nIHRoZW0gZm9yIGEgY2xlYW5lciBv
+dXRwdXQuCj4gCj4gRXhhbXBsZSB1c2FnZToKPiDCoCBiaXRiYWtlLWxheWVycyBzaG93LXJlY2lw
+ZXMgLXYgbGludXgtZmlybXdhcmUKPiAKPiBUaGlzIHdpbGwgbm93IHNob3cgYm90aDoKPiDCoCAt
+IEJhc2UgdmVyc2lvbjogMToyMDI1MTAxMQo+IMKgIC0gRGV2dXBzdHJlYW0gdmVyc2lvbjogMToy
+MDI1MTAxMStnaXQKPiAKPiBTaWduZWQtb2ZmLWJ5OiBPc2FtYSBBYmRlbGthZGVyIDxvc2FtYS5h
+YmRlbGthZGVyQGdtYWlsLmNvbT4KPiAtLS0KPiDCoGJpdGJha2UvbGliL2JibGF5ZXJzL3F1ZXJ5
+LnB5IHwgMjMgKysrKysrKysrKysrKysrKy0tLS0tLS0KPiDCoDEgZmlsZSBjaGFuZ2VkLCAxNiBp
+bnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9iaXRiYWtlL2xp
+Yi9iYmxheWVycy9xdWVyeS5weQo+IGIvYml0YmFrZS9saWIvYmJsYXllcnMvcXVlcnkucHkKPiBp
+bmRleCBlYjdjYjQ2NWI0Li4xMTM0MWQ1ZDUzIDEwMDY0NAo+IC0tLSBhL2JpdGJha2UvbGliL2Ji
+bGF5ZXJzL3F1ZXJ5LnB5Cj4gKysrIGIvYml0YmFrZS9saWIvYmJsYXllcnMvcXVlcnkucHkKPiBA
+QCAtNTIsNyArNTIsNyBAQCBsYXllciwgd2l0aCB0aGUgcHJlZmVycmVkIHZlcnNpb24gZmlyc3Qu
+IE5vdGUgdGhhdAo+IHNraXBwZWQgcmVjaXBlcyB0aGF0Cj4gwqBhcmUgb3ZlcmxheWVkIHdpbGwg
+YWxzbyBiZSBsaXN0ZWQsIHdpdGggYSAiIChza2lwcGVkKSIgc3VmZml4Lgo+IMKgIiIiCj4gwqAK
+PiAtwqDCoMKgwqDCoMKgwqAgaXRlbXNfbGlzdGVkID0gc2VsZi5saXN0X3JlY2lwZXMoJ092ZXJs
+YXllZCByZWNpcGVzJywgTm9uZSwKPiBUcnVlLCBhcmdzLnNhbWVfdmVyc2lvbiwgYXJncy5maWxl
+bmFtZXMsIEZhbHNlLCBUcnVlLCBOb25lLCBGYWxzZSwKPiBOb25lLCBhcmdzLm1jKQo+ICvCoMKg
+wqDCoMKgwqDCoCBpdGVtc19saXN0ZWQgPSBzZWxmLmxpc3RfcmVjaXBlcygnT3ZlcmxheWVkIHJl
+Y2lwZXMnLCBOb25lLAo+IFRydWUsIGFyZ3Muc2FtZV92ZXJzaW9uLCBhcmdzLmZpbGVuYW1lcywg
+RmFsc2UsIFRydWUsIE5vbmUsIEZhbHNlLAo+IE5vbmUsIGFyZ3MubWMsIEZhbHNlKQo+IMKgCj4g
+wqDCoMKgwqDCoMKgwqDCoCAjIENoZWNrIGZvciBvdmVybGF5ZWQgLmJiY2xhc3MgZmlsZXMKPiDC
+oMKgwqDCoMKgwqDCoMKgIGNsYXNzZXMgPSBjb2xsZWN0aW9ucy5kZWZhdWx0ZGljdChsaXN0KQo+
+IEBAIC0xMTksOSArMTE5LDkgQEAgc2tpcHBlZCByZWNpcGVzIHdpbGwgYWxzbyBiZSBsaXN0ZWQs
+IHdpdGggYSAiCj4gKHNraXBwZWQpIiBzdWZmaXguCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHRpdGxlID0gJ01hdGNoaW5nIHJlY2lwZXM6Jwo+IMKgwqDCoMKgwqDCoMKgwqAgZWxzZToKPiDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdGl0bGUgPSAnQXZhaWxhYmxlIHJlY2lwZXM6Jwo+IC3C
+oMKgwqDCoMKgwqDCoCBzZWxmLmxpc3RfcmVjaXBlcyh0aXRsZSwgYXJncy5wbnNwZWMsIEZhbHNl
+LCBGYWxzZSwKPiBhcmdzLmZpbGVuYW1lcywgYXJncy5yZWNpcGVzX29ubHksIGFyZ3MubXVsdGlw
+bGUsIGFyZ3MubGF5ZXIsCj4gYXJncy5iYXJlLCBpbmhlcml0bGlzdCwgYXJncy5tYykKPiArwqDC
+oMKgwqDCoMKgwqAgc2VsZi5saXN0X3JlY2lwZXModGl0bGUsIGFyZ3MucG5zcGVjLCBGYWxzZSwg
+RmFsc2UsCj4gYXJncy5maWxlbmFtZXMsIGFyZ3MucmVjaXBlc19vbmx5LCBhcmdzLm11bHRpcGxl
+LCBhcmdzLmxheWVyLAo+IGFyZ3MuYmFyZSwgaW5oZXJpdGxpc3QsIGFyZ3MubWMsIGFyZ3Muc2hv
+d192YXJpYW50cykKPiDCoAo+IC3CoMKgwqAgZGVmIGxpc3RfcmVjaXBlcyhzZWxmLCB0aXRsZSwg
+cG5zcGVjLCBzaG93X292ZXJsYXllZF9vbmx5LAo+IHNob3dfc2FtZV92ZXJfb25seSwgc2hvd19m
+aWxlbmFtZXMsIHNob3dfcmVjaXBlc19vbmx5LAo+IHNob3dfbXVsdGlfcHJvdmlkZXJfb25seSwg
+c2VsZWN0ZWRfbGF5ZXIsIGJhcmUsIGluaGVyaXRzLCBtYyk6Cj4gK8KgwqDCoCBkZWYgbGlzdF9y
+ZWNpcGVzKHNlbGYsIHRpdGxlLCBwbnNwZWMsIHNob3dfb3ZlcmxheWVkX29ubHksCj4gc2hvd19z
+YW1lX3Zlcl9vbmx5LCBzaG93X2ZpbGVuYW1lcywgc2hvd19yZWNpcGVzX29ubHksCj4gc2hvd19t
+dWx0aV9wcm92aWRlcl9vbmx5LCBzZWxlY3RlZF9sYXllciwgYmFyZSwgaW5oZXJpdHMsIG1jLAo+
+IHNob3dfdmFyaWFudHM9RmFsc2UpOgo+IMKgwqDCoMKgwqDCoMKgwqAgaWYgaW5oZXJpdHM6Cj4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJicGF0aCA9IHN0cihzZWxmLnRpbmZvaWwuY29uZmln
+X2RhdGEuZ2V0VmFyKCdCQlBBVEgnKSkKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZm9yIGNs
+YXNzbmFtZSBpbiBpbmhlcml0czoKPiBAQCAtMjAzLDggKzIwMywxMCBAQCBza2lwcGVkIHJlY2lw
+ZXMgd2lsbCBhbHNvIGJlIGxpc3RlZCwgd2l0aCBhICIKPiAoc2tpcHBlZCkiIHN1ZmZpeC4KPiDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAjIFdlIG9ubHkgZGlzcGxheSBvbmNlIHBl
+ciByZWNpcGUsIHdlIHNob3VsZCBwcmVmZXIKPiBub24gZXh0ZW5kZWQgdmVyc2lvbnMgb2YgdGhl
+Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIyByZWNpcGUgaWYgcHJlc2VudCAo
+c28gZS5nLiBpbiBPcGVuRW1iZWRkZWQsCj4gb3BlbnNzbCByYXRoZXIgdGhhbiBuYXRpdmVzZGst
+b3BlbnNzbAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICMgd2hpY2ggd291bGQg
+b3RoZXJ3aXNlIHNvcnQgZmlyc3QpLgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+IyBIb3dldmVyLCBpZiBzaG93X3ZhcmlhbnRzIGlzIFRydWUsIHdlIHNob3cgYWxsCj4gQkJDTEFT
+U0VYVEVORCB2YXJpYW50cy4KPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiBy
+ZWFsZm5bMV0gYW5kIHJlYWxmblswXSBpbgo+IHNlbGYudGluZm9pbC5jb29rZXIucmVjaXBlY2Fj
+aGVzW21jXS5wa2dfZm46Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGNvbnRpbnVlCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIG5v
+dCBzaG93X3ZhcmlhbnRzOgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIGNvbnRpbnVlCj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCBpZiBpbmhlcml0czoKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IG1hdGNoY291bnQgPSAwCj4gQEAgLTIyOSw3ICsyMzEsMTEgQEAgc2tpcHBlZCByZWNpcGVzIHdp
+bGwgYWxzbyBiZSBsaXN0ZWQsIHdpdGggYSAiCj4gKHNraXBwZWQpIiBzdWZmaXguCj4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmb3IgcHJvdiBpbiBhbGxwcm92aWRl
+cnNbcF06Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHByb3ZmaWxlID0KPiBiYi5jYWNoZS52aXJ0dWFsZm4ycmVhbGZuKHByb3ZbMV0pWzBdCj4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHByb3ZsYXllciA9
+IHNlbGYuZ2V0X2ZpbGVfbGF5ZXIocHJvdmZpbGUpCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHJvdnMuYXBwZW5kKChwcm92ZmlsZSwgcHJvdmxheWVy
+LCBwcm92WzBdKSkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCAjIFdoZW4gc2hvd192YXJpYW50cyBpcyBUcnVlLCB1c2UgdGhlCj4gdmlydHVhbCBmaWxl
+bmFtZSB0byBkaXN0aW5ndWlzaCBCQkNMQVNTRVhURU5EIHZhcmlhbnRzCj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgc2hvd192YXJpYW50czoKPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHBy
+b3ZzLmFwcGVuZCgocHJvdlsxXSwgcHJvdmxheWVyLAo+IHByb3ZbMF0pKQo+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVsc2U6Cj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwcm92cy5hcHBlbmQo
+KHByb3ZmaWxlLCBwcm92bGF5ZXIsCj4gcHJvdlswXSkpCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIHByb3ZsYXllciAhPSBwcmVmbGF5ZXI6Cj4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+bXVsdGlsYXllciA9IFRydWUKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgaWYgcHJvdlswXSAhPSBwcmVmWzBdOgo+IEBAIC0yMzgsMTAgKzI0NCwxMiBA
+QCBza2lwcGVkIHJlY2lwZXMgd2lsbCBhbHNvIGJlIGxpc3RlZCwgd2l0aCBhICIKPiAoc2tpcHBl
+ZCkiIHN1ZmZpeC4KPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgaWYgbm90IGl0ZW1zX2xpc3RlZDoKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsb2dnZXIucGxhaW4oJz09PSAlcyA9PT0nICUg
+dGl0bGUpCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgaXRlbXNfbGlzdGVkID0gVHJ1ZQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgICMgV2hlbiBzaG93X3ZhcmlhbnRzIGlzIFRydWUsIHVzZSB0
+aGUKPiB2aXJ0dWFsIGZpbGVuYW1lIGZvciBwcmVmZXJlbmNlIGNoZWNrCj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHJlZl9jbXBfZmlsZSA9IHByZWZb
+MV0gaWYgc2hvd192YXJpYW50cwo+IGVsc2UgcHJlZmZpbGUKPiDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHJpbnRfaXRlbShwcmVmZmlsZSwgcCwKPiBz
+ZWxmLnZlcnNpb25fc3RyKHByZWZbMF1bMF0sIHByZWZbMF1bMV0pLCBwcmVmbGF5ZXIsIFRydWUp
+Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZvciAo
+cHJvdmZpbGUsIHByb3ZsYXllciwgcHJvdnZlcikgaW4gcHJvdnM6Cj4gLcKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiBwcm92ZmlsZSAhPSBw
+cmVmZmlsZToKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgcHJpbnRfaXRlbShwcm92ZmlsZSwgcCwKPiBzZWxmLnZlcnNpb25f
+c3RyKHByb3Z2ZXJbMF0sIHByb3Z2ZXJbMV0pLCBwcm92bGF5ZXIsIEZhbHNlKQo+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgcHJvdmZp
+bGUgIT0gcHJlZl9jbXBfZmlsZToKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAKPiBwcmludF9pdGVtKGJiLmNhY2hlLnZpcnR1
+YWxmbjJyZWFsZm4ocHJvdmZpbGUpWzBdIGlmIHNob3dfdmFyaWFudHMKPiBlbHNlIHByb3ZmaWxl
+LCBwLCBzZWxmLnZlcnNpb25fc3RyKHByb3Z2ZXJbMF0sIHByb3Z2ZXJbMV0pLAo+IHByb3ZsYXll
+ciwgRmFsc2UpCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgICMgRW5zdXJlIHdlIGRvbid0IHNob3cgdHdvIGVudHJpZXMgZm9yCj4gQkJDTEFTU0VYVEVO
+RGVkIHJlY2lwZXMKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgcHJlZmZpbGVzLmFwcGVuZChwcmVmZmlsZSkKPiDCoAo+IEBAIC01MzAsNiArNTM4LDcg
+QEAgTk9URTogLmJiYXBwZW5kIGZpbGVzIGNhbiBpbXBhY3QgdGhlCj4gZGVwZW5kZW5jaWVzLgo+
+IMKgwqDCoMKgwqDCoMKgwqAgcGFyc2VyX3Nob3dfcmVjaXBlcy5hZGRfYXJndW1lbnQoJy1pJywg
+Jy0taW5oZXJpdHMnLAo+IGhlbHA9J29ubHkgbGlzdCByZWNpcGVzIHRoYXQgaW5oZXJpdCB0aGUg
+bmFtZWQgY2xhc3MoZXMpIC0gc2VwYXJhdGUKPiBtdWx0aXBsZSBjbGFzc2VzIHVzaW5nICwgKHdp
+dGhvdXQgc3BhY2VzKScsIG1ldGF2YXI9J0NMQVNTJywKPiBkZWZhdWx0PScnKQo+IMKgwqDCoMKg
+wqDCoMKgwqAgcGFyc2VyX3Nob3dfcmVjaXBlcy5hZGRfYXJndW1lbnQoJy1sJywgJy0tbGF5ZXIn
+LCBoZWxwPSdvbmx5Cj4gbGlzdCByZWNpcGVzIGZyb20gdGhlIHNlbGVjdGVkIGxheWVyJywgZGVm
+YXVsdD0nJykKPiDCoMKgwqDCoMKgwqDCoMKgIHBhcnNlcl9zaG93X3JlY2lwZXMuYWRkX2FyZ3Vt
+ZW50KCctYicsICctLWJhcmUnLAo+IGhlbHA9J291dHB1dCBqdXN0IG5hbWVzIHdpdGhvdXQgdGhl
+ICIoc2tpcHBlZCkiIG1hcmtlcicsCj4gYWN0aW9uPSdzdG9yZV90cnVlJykKPiArwqDCoMKgwqDC
+oMKgwqAgcGFyc2VyX3Nob3dfcmVjaXBlcy5hZGRfYXJndW1lbnQoJy12JywgJy0tc2hvdy12YXJp
+YW50cycsCj4gaGVscD0nc2hvdyBhbGwgQkJDTEFTU0VYVEVORCByZWNpcGUgdmFyaWFudHMgKGUu
+Zy4sIGRldnVwc3RyZWFtLAo+IG5hdGl2ZXNkayknLCBhY3Rpb249J3N0b3JlX3RydWUnKQoKCkR1
+cmluZyB0aGUgcGF0Y2ggcmV2aWV3IHNlc3Npb24sIHdlIGNvbmNsdWRlZCB0aGF0IC12IHVzdWFs
+bHkgc3RhbmRzCmZvciDigJx2ZXJib3Nl4oCdIG9yIG9mdGVuIGZvciDigJx2ZXJzaW9uLuKAnSBX
+b3VsZCBpdCBiZSBwb3NzaWJsZSB0byByZW1vdmUgLXYKZm9yIHRoaXMgc29tZXdoYXQgbW9yZSBz
+cGVjaWZpYyBmZWF0dXJlIGFuZCBvbmx5IGtlZXAgdGhlIGxvbmcgb3B0aW9uPwoKVGhhbmsgeW91
+LgpBZHJpYW4KCj4gwqDCoMKgwqDCoMKgwqDCoCBwYXJzZXJfc2hvd19yZWNpcGVzLmFkZF9hcmd1
+bWVudCgnLS1tYycsIGhlbHA9J3VzZSBzcGVjaWZpZWQKPiBtdWx0aWNvbmZpZycsIGRlZmF1bHQ9
+JycpCj4gwqDCoMKgwqDCoMKgwqDCoCBwYXJzZXJfc2hvd19yZWNpcGVzLmFkZF9hcmd1bWVudCgn
+cG5zcGVjJywgbmFyZ3M9JyonLAo+IGhlbHA9J29wdGlvbmFsIHJlY2lwZSBuYW1lIHNwZWNpZmlj
+YXRpb24gKHdpbGRjYXJkcyBhbGxvd2VkLCBlbmNsb3NlCj4gaW4gcXVvdGVzIHRvIGF2b2lkIHNo
+ZWxsIGV4cGFuc2lvbiknKQo+IMKgCj4gCj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0KPiBMaW5r
+czogWW91IHJlY2VpdmUgYWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4KPiBWaWV3L1Jl
+cGx5IE9ubGluZSAoIzIyNTMwMCk6Cj4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cv
+b3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8yMjUzMDAKPiBNdXRlIFRoaXMgVG9waWM6IGh0dHBz
+Oi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC8xMTU5MzEzNTgvNDQ1NDU4Mgo+IEdyb3VwIE93
+bmVyOiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnCj4gVW5z
+dWJzY3JpYmU6Cj4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVk
+LWNvcmUvdW5zdWLCoFsKPiBhZHJpYW4uZnJlaWhvZmVyQGdtYWlsLmNvbV0KPiAtPS09LT0tPS09
+LT0tPS09LT0tPS09LQo=
 
---8323329-1009606316-1765212696=:100481
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-
-On Mon, 8 Dec 2025, Alex Kiernan wrote:
-
-> On Mon, Dec 8, 2025 at 12:39 PM Robert P. J. Day via
-> lists.openembedded.org <rpjday=crashcourse.ca@lists.openembedded.org>
-> wrote:
-> >
-> >
-> >   working on a tutorial for ptest and i ran across an oddity under
-> > meta-openembedded, not sure if it means something or is just leftover
-> > cruft from days gone by. i found three recipes with the following
-> > construct (reformatted slightly for visual aesthetics):
-> >
-> > $ grep -r "PTEST_ENABLED.*run-ptest" *
-> >
-> > meta-oe/recipes-dbs/mysql/mariadb_11.4.9.bb:SRC_URI +=
-> > "${@bb.utils.contains('PTEST_ENABLED', '1', 'file://run-ptest', '', d)}"
-> >
-> > meta-oe/recipes-devtools/lapack/lapack_3.12.1.bb:
-> > ${@bb.utils.contains('PTEST_ENABLED', '1', 'file://run-ptest', '', d)} \
-> >
-> > meta-oe/recipes-support/re2/re2_2024.03.01.bb:
-> > ${@bb.utils.contains('PTEST_ENABLED', '1', 'file://run-ptest', '', d)} \
-> >
-> >   all three recipes check whether PTEST_ENABLED = 1 before adding
-> > file://run-ptest to SRC_URI.
-> >
-> >   is there any reason for this?
->
-> All three gained ptest support in 2023, two from the same author...
-> my money's on copy and paste from another recipe.
-
-  so you would agree that while the above PTEST_ENABLED conditional is
-technically acceptable in any recipe that provides a *static*
-file://run-ptest, it's really unnecessary and might as well use the
-simpler non-conditional form for overall consistency.
-
-> > all three recipes inherit ptest, so it
-> > seems that they *must* provide a run-ptest file. and even if one does
-> > not enable that setting with DISTRO_FEATURES += "ptest", if a recipe
-> > inherits ptest, does that not *require* that recipe to make sure a
-> > run-ptest file is available if called upon? or am i misreading
-> > something?
-> >
-> > rday
-> >
-> > p.s. i might ask a similar question about this snippet from
-> > ptest.bbclass:
-> >
-> >     do_install_ptest_base() {
-> >         if [ -f ${UNPACKDIR}/run-ptest ]; then
-> >             install -D ${UNPACKDIR}/run-ptest ${D}${PTEST_PATH}/run-ptest
-> >         fi
-> >
-> > if run-ptest does not come from UNPACKDIR, where would it come from?
-> > might the recipe generate that file dynamically upon package creation?
-> >
->
-> The golang classes do exactly that.
-
-  ah, perfect, that was the sort of example i was looking for. and in
-cases like that, SRC_URI would obviously *not* include
-'file://run-ptest' as that file would not exist.
-
-  good, clarifying stuff a little at a time, thanks.
-
-rday
---8323329-1009606316-1765212696=:100481--
 
