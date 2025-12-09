@@ -2,110 +2,302 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2437BD3B9A4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 425B1D3B9AB
 	for <webhook@archiver.kernel.org>; Tue,  9 Dec 2025 21:53:23 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2552.1765317195214833652
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2555.1765317199668106990
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Dec 2025 13:53:15 -0800
+ Tue, 09 Dec 2025 13:53:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ucByih5x;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-34a4078f669so1769437a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 13:53:15 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Dz/pOoVC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-297d4a56f97so77662035ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 13:53:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1765317194; x=1765921994; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rh9GlwImgKC2UzdbCX1Lac4sUnBs1oUooB5FxV7MLVY=;
-        b=ucByih5xWgBxKrpG3BkBvz1YrCUy3JyvSi/RzVqW0FXyQlElv2L2MfAOWDV0JzYeRd
-         EiSvr9/Qp3FooRtslz8lAOMSOXMEFQu3Dr6HmPe7c9ssIjkHmr3nM6lQPJfD987ueMvE
-         rE/XnhTOzxg1JDgfcWzHBv1Y+mULq0g67liHNO5UtvEDXfhvslcPHB9JxhgMHmjdRK0L
-         8b1J1bA0zXfLCi5YNW2Br8QrpFD7nvkPgq/4VgcAFDWR41C2dEzqQlRsOmKj5agz7ZBw
-         lkiwhF5sD8vi2W6TOc6h/j4cO8rk8tuGYPj8WoiDWw5+ZhkIhCu169E4DmjtBNTRe6jx
-         6I9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765317194; x=1765921994;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1765317199; x=1765921999; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Rh9GlwImgKC2UzdbCX1Lac4sUnBs1oUooB5FxV7MLVY=;
-        b=IUt6nygYHEYQbUI2MsCu2gRO53juHTA8LFuFq2YIUgFIRjo/ADZkkyCeE2BjZeTJOE
-         gBYbwmHB0vrU940nwSQcQsHYXwassLBS3Q5y+6wbqyDYc7HJu9BqtG/bWFdzSTJqxD54
-         leOrJlCpPtnVjFJ3x9EbA0s97AcOvJP5eqkA7DthjthJ35ZCJbZ8il3dvpbHhat9GuIX
-         KTMaCRdw12KTdRomgM9v5mXzb9HkRR+9nn2Lw+sLE1UOjcJOHPsElk0a1KNsIsX2jALW
-         Dl+7sPgjg375dDq9TTbKy+cAB7zhKp7RnwNb8WfKBVtaw5Ksi6xySDl2GD7ktYR8ybJp
-         Y/9g==
-X-Gm-Message-State: AOJu0YyWtKP0a59PkmUxK8nJISiHnE7Olh6cH7o4OfwerLHsspfaDoZW
-	9kXigL3gmMN1vIv803rg5YU9Di/cg8qMwgXwIM7uVakqHB/yjuA4tpjqFdZVgL2dsY20SQzaBMj
-	S1LnU
-X-Gm-Gg: AY/fxX6coNqR+cro04c2xhPLzPOrJGdSkUz2LUxHtokBJInVe/QBPJ8J9kVVEIIt/Ry
-	Zg5GDdUleCrIJlgJpRJNd9ns1YGnt5gJdqmMwqcvWn0rLpnbhOHGgZ3eL8Tm8C+VUGRNJ9h0ytn
-	UKmLYnMwcp2In6zZZpV8XrTH5HqpMvMIK9hUMHcClj6ULxtfa0VHK3pXUn/SipvyXO4pcH0cWPA
-	kbehFWhsGZANkUVCTTv+COaatt0Y25tN5tTjWhqC8ly2AvSdbbdnQwmhjTiwpP0RWp2nOjY2eaF
-	t9Jp7nPbiX7bJVCCixRkty5G1Rs1P4vSQZogRSHzzwpmypL/ZuQopIx9jPlXjYs/Bd8sBFsTHfi
-	7t6xsb56HmpZoK0tSBga51CYHJlgFKNnz9GREi63ETsdbjRhjROk5VaL51HytVQYbLhrIZVFioR
-	Q80A==
-X-Google-Smtp-Source: AGHT+IEQ9nkG2Td9wABYO3VpBrudGoeTQWkfIftZdQi8xK6CDbFumaPC3oT1hnRMgFMBjR20VfrSpw==
-X-Received: by 2002:a17:90b:3dd0:b0:340:b912:536 with SMTP id 98e67ed59e1d1-34a728da882mr170523a91.31.1765317194155;
-        Tue, 09 Dec 2025 13:53:14 -0800 (PST)
+        bh=KqRj/LDZm6+6C1utY/qRR821TZhOx+AkCJ0vxl7Wh3M=;
+        b=Dz/pOoVCo2iSV5laLDZaMTchy+Ve/7+kHll9VgMVtR94glb9QxcPf8OSeTQkHIif/4
+         RZkKrCOu+CnuYBph+ivTMMsH8+7ia+my2bGwslPCM2T5VPNtm5y5qauIcMDmYRBW3qIW
+         4LmhqN0KcwlFm0XMtlKC6K37wi8DhAwxKOfPfnZkX5s/+mhkm5zSW0abUt9XcSbrxTBA
+         6OCRlc/rgaAucsF22sTkWjxFduI1qtc2gUw15Eul6rZbgJ7+bgrQABdVBry2IsvwK3zA
+         mMIcqzBfTnCMB0zWTu/QcV3AL+qGsjDABsgACpS3aNTmMvWUvo5HSwH1qTXpU1dVtC/8
+         KYuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765317199; x=1765921999;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KqRj/LDZm6+6C1utY/qRR821TZhOx+AkCJ0vxl7Wh3M=;
+        b=Rm5O+yGgIs0Arj8uC+yq8inJM91AoK3eacyKaEoOXe9V/j1TygLQbIUy8UV1WOzMAw
+         Axe6Hz7mVGaobCO07kIWf6BNO0/yaFVn5QOCSGX76FCtBZCVPJ+h962VN/Meg00vG06g
+         7/UpExgXFma7a34Y0WDLya+wWG3WvBcTGUse5egbkDC3ZBXFIF2HAWCv0uY8J8jPiwFK
+         YuvYHWhMkiViaUub0E9LcX/mNvBBm0KddAeYYJyT5+qwX+8xlerf+/9iT8VRitWWAT7n
+         sMyYSlqHbWun9F9VmeYhtXBgS3+HaPuQLnWp2if3kK78wFR/Atp8PaL5zWqwNLLzXbne
+         OSXA==
+X-Gm-Message-State: AOJu0YylaMeiVUVEhB8KXN3ZOmRU7+thFkVRmQNKlWmuASrxYbK5RIaP
+	chTE/R9wWp6mFI0l7wxGaiDG61UvuSo5jR477ZZFq4IZA1YnOPMLFbt+hMnBeXpX0xs/KUthYjG
+	d0gHw
+X-Gm-Gg: AY/fxX4FbgNiQoO8uYHNSjtFqK5kjHz3IzPyUtgUN+MqoRrtACv2g6arDuK7RKI8M49
+	M9z+c21saYe8BTbS2RPdruHISzas37wsQKE4UJpHgUuBUKFEfb9DIHQLojQp1v5O1aaBzirFCs1
+	IKC6ngp6+UMIpwzz9572Nwl0msBeHdYMXxKOVkLpVJKBwPePEOuiI98EY0+4tpYZC+DPDPEpbHU
+	DQTrvS/EfAoeWro1eA4sPkYWpOpzFF+S2+INrbhsG6NcHgxRXIK+GT/e+5Q9X70Klx4lOUHKEC9
+	cxdDXmdbrqwW8QR6j8jhcGq/F1OWWu54IOrqwegSG1s1I7shvD8TQLeidAQfaXriN5VtbtpshLi
+	ENfWvfw/uD5atjzPT9tUmOl09Eh64wlSLUIgWZfQKJBMnIvjLEutVcBRqtACmu2Egl05DyEgGkk
+	usMg==
+X-Google-Smtp-Source: AGHT+IEjWjlGYYLcMU65iOLQuKrML0HI2tt2MT8qKmF3ylUY4fduymWl4oCfjeeY6th3BN9uGu9XYg==
+X-Received: by 2002:a17:90b:2e10:b0:349:3fe8:e7de with SMTP id 98e67ed59e1d1-34a728d5ff7mr157880a91.28.1765317198662;
+        Tue, 09 Dec 2025 13:53:18 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:5aef:241f:68f0:d970])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34a6ff012e6sm412296a91.2.2025.12.09.13.53.13
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34a6ff012e6sm412296a91.2.2025.12.09.13.53.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 13:53:13 -0800 (PST)
+        Tue, 09 Dec 2025 13:53:18 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/4] Patch review
-Date: Tue,  9 Dec 2025 13:53:03 -0800
-Message-ID: <cover.1765317045.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 2/4] libpng: patch CVE-2025-66293
+Date: Tue,  9 Dec 2025 13:53:05 -0800
+Message-ID: <c33ebd0882288a962c089b423cc2468a7c84c2e7.1765317045.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1765317045.git.steve@sakoman.com>
+References: <cover.1765317045.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 21:53:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227447
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227449
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Thursday, December 11
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
+Pick patches per nvd report [1] and github advisory [2].
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2836
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-66293
+[2] https://github.com/pnggroup/libpng/security/advisories/GHSA-9mpm-9pxh-mg4f
 
-The following changes since commit 80c7fd87fd95a79c6eb5f41b95cf70ccc70d9615:
-
-  systemd-bootchart: update SRC_URI branch (2025-12-01 07:13:56 -0800)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Hitendra Prajapati (2):
-  libxml2: Security fix for CVE-2025-7425
-  openssh: fix CVE-2025-61984
-
-Peter Marko (2):
-  libpng: patch CVE-2025-66293
-  libmicrohttpd: disable experimental code by default
-
- .../openssh/openssh/CVE-2025-61984.patch      |  98 +++
- .../openssh/openssh_8.9p1.bb                  |   1 +
- .../libxml/libxml2/CVE-2025-7425.patch        | 802 ++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |   1 +
- .../libpng/files/CVE-2025-66293-01.patch      |  60 ++
- .../libpng/files/CVE-2025-66293-02.patch      | 125 +++
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libpng/files/CVE-2025-66293-01.patch      |  60 +++++++++
+ .../libpng/files/CVE-2025-66293-02.patch      | 125 ++++++++++++++++++
  .../libpng/libpng_1.6.39.bb                   |   2 +
- .../libmicrohttpd/libmicrohttpd_0.9.76.bb     |   3 +
- 8 files changed, 1092 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-61984.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-7425.patch
+ 3 files changed, 187 insertions(+)
  create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch
  create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch
 
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch
+new file mode 100644
+index 0000000000..d3db455cdf
+--- /dev/null
++++ b/meta/recipes-multimedia/libpng/files/CVE-2025-66293-01.patch
+@@ -0,0 +1,60 @@
++From 788a624d7387a758ffd5c7ab010f1870dea753a1 Mon Sep 17 00:00:00 2001
++From: Cosmin Truta <ctruta@gmail.com>
++Date: Sat, 29 Nov 2025 00:39:16 +0200
++Subject: [PATCH] Fix an out-of-bounds read in `png_image_read_composite`
++
++Add a defensive bounds check before calling PNG_sRGB_FROM_LINEAR to
++prevent reading up to 506 entries (1012 bytes) past `png_sRGB_base[]`.
++
++For palette images with gamma, `png_init_read_transformations`
++clears PNG_COMPOSE after compositing on the palette, but it leaves
++PNG_FLAG_OPTIMIZE_ALPHA set. The simplified API then calls
++`png_image_read_composite` with sRGB data (not linear premultiplied),
++causing the index to reach 1017. (The maximum valid index is 511.)
++
++NOTE:
++This is a defensive fix that addresses the security issue (out-of-bounds
++read) but *NOT* the correctness issue (wrong output). When the clamp
++triggers, the affected pixels are clamped to white instead of the
++correct composited color. Valid PNG images may render incorrectly with
++the simplified API.
++
++TODO:
++We already know the root cause is a flag synchronization error.
++For palette images with gamma, `png_init_read_transformations`
++clears PNG_COMPOSE but leaves PNG_FLAG_OPTIMIZE_ALPHA set, causing
++`png_image_read_composite` to misinterpret sRGB data as linear
++premultiplied. However, we have yet to implement an architectural fix
++that requires coordinating the simplified API with the transformation
++pipeline.
++
++Reported-by: flyfish101 <flyfish101@users.noreply.github.com>
++
++CVE: CVE-2025-66293
++Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/788a624d7387a758ffd5c7ab010f1870dea753a1]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ pngread.c | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/pngread.c b/pngread.c
++index 79917daaa..ab62edd9d 100644
++--- a/pngread.c
+++++ b/pngread.c
++@@ -3404,9 +3404,14 @@ png_image_read_composite(png_voidp argument)
++                         component += (255-alpha)*png_sRGB_table[outrow[c]];
++ 
++                         /* So 'component' is scaled by 255*65535 and is
++-                         * therefore appropriate for the sRGB to linear
++-                         * conversion table.
+++                         * therefore appropriate for the sRGB-to-linear
+++                         * conversion table.  Clamp to the valid range
+++                         * as a defensive measure against an internal
+++                         * libpng bug where the data is sRGB rather than
+++                         * linear premultiplied.
++                          */
+++                        if (component > 255*65535)
+++                           component = 255*65535;
++                         component = PNG_sRGB_FROM_LINEAR(component);
++                      }
++ 
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch b/meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch
+new file mode 100644
+index 0000000000..e725f1e0f2
+--- /dev/null
++++ b/meta/recipes-multimedia/libpng/files/CVE-2025-66293-02.patch
+@@ -0,0 +1,125 @@
++From a05a48b756de63e3234ea6b3b938b8f5f862484a Mon Sep 17 00:00:00 2001
++From: Cosmin Truta <ctruta@gmail.com>
++Date: Mon, 1 Dec 2025 22:31:54 +0200
++Subject: [PATCH] Finalize the fix for out-of-bounds read in
++ `png_image_read_composite`
++
++Following up on commit 788a624d7387a758ffd5c7ab010f1870dea753a1.
++
++The previous commit added a defensive bounds check to address the
++security issue (out-of-bounds read), but noted that the correctness
++issue remained: when the clamp triggered, the affected pixels were
++clamped to white instead of the correct composited color.
++
++This commit addresses the correctness issue by fixing the flag
++synchronization error identified in the previous commit's TODO:
++
++1. In `png_init_read_transformations`:
++   Clear PNG_FLAG_OPTIMIZE_ALPHA when clearing PNG_COMPOSE for palette
++   images. This correctly signals that the data is sRGB, not linear
++   premultiplied.
++
++2. In `png_image_read_composite`:
++   Check PNG_FLAG_OPTIMIZE_ALPHA and use the appropriate composition
++   formula. When set, use the existing linear composition. When cleared
++   (palette composition already done), use sRGB composition to match
++   what was done to the palette.
++
++Retain the previous clamp to the valid range as belt-and-suspenders
++protection against any other unforeseen cases.
++
++CVE: CVE-2025-66293
++Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/a05a48b756de63e3234ea6b3b938b8f5f862484a]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ pngread.c  | 56 ++++++++++++++++++++++++++++++++++++------------------
++ pngrtran.c |  1 +
++ 2 files changed, 39 insertions(+), 18 deletions(-)
++
++diff --git a/pngread.c b/pngread.c
++index ab62edd9d..f8ca2b7e3 100644
++--- a/pngread.c
+++++ b/pngread.c
++@@ -3338,6 +3338,7 @@ png_image_read_composite(png_voidp argument)
++       ptrdiff_t    step_row = display->row_bytes;
++       unsigned int channels =
++           (image->format & PNG_FORMAT_FLAG_COLOR) != 0 ? 3 : 1;
+++      int optimize_alpha = (png_ptr->flags & PNG_FLAG_OPTIMIZE_ALPHA) != 0;
++       int pass;
++ 
++       for (pass = 0; pass < passes; ++pass)
++@@ -3394,25 +3395,44 @@ png_image_read_composite(png_voidp argument)
++ 
++                      if (alpha < 255) /* else just use component */
++                      {
++-                        /* This is PNG_OPTIMIZED_ALPHA, the component value
++-                         * is a linear 8-bit value.  Combine this with the
++-                         * current outrow[c] value which is sRGB encoded.
++-                         * Arithmetic here is 16-bits to preserve the output
++-                         * values correctly.
++-                         */
++-                        component *= 257*255; /* =65535 */
++-                        component += (255-alpha)*png_sRGB_table[outrow[c]];
+++                        if (optimize_alpha != 0)
+++                        {
+++                           /* This is PNG_OPTIMIZED_ALPHA, the component value
+++                            * is a linear 8-bit value.  Combine this with the
+++                            * current outrow[c] value which is sRGB encoded.
+++                            * Arithmetic here is 16-bits to preserve the output
+++                            * values correctly.
+++                            */
+++                           component *= 257*255; /* =65535 */
+++                           component += (255-alpha)*png_sRGB_table[outrow[c]];
++ 
++-                        /* So 'component' is scaled by 255*65535 and is
++-                         * therefore appropriate for the sRGB-to-linear
++-                         * conversion table.  Clamp to the valid range
++-                         * as a defensive measure against an internal
++-                         * libpng bug where the data is sRGB rather than
++-                         * linear premultiplied.
++-                         */
++-                        if (component > 255*65535)
++-                           component = 255*65535;
++-                        component = PNG_sRGB_FROM_LINEAR(component);
+++                           /* Clamp to the valid range to defend against
+++                            * unforeseen cases where the data might be sRGB
+++                            * instead of linear premultiplied.
+++                            * (Belt-and-suspenders for GitHub Issue #764.)
+++                            */
+++                           if (component > 255*65535)
+++                              component = 255*65535;
+++
+++                           /* So 'component' is scaled by 255*65535 and is
+++                            * therefore appropriate for the sRGB-to-linear
+++                            * conversion table.
+++                            */
+++                           component = PNG_sRGB_FROM_LINEAR(component);
+++                        }
+++                        else
+++                        {
+++                           /* Compositing was already done on the palette
+++                            * entries.  The data is sRGB premultiplied on black.
+++                            * Composite with the background in sRGB space.
+++                            * This is not gamma-correct, but matches what was
+++                            * done to the palette.
+++                            */
+++                           png_uint_32 background = outrow[c];
+++                           component += ((255-alpha) * background + 127) / 255;
+++                           if (component > 255)
+++                              component = 255;
+++                        }
++                      }
++ 
++                      outrow[c] = (png_byte)component;
++diff --git a/pngrtran.c b/pngrtran.c
++index 2f5202255..507d11381 100644
++--- a/pngrtran.c
+++++ b/pngrtran.c
++@@ -1760,6 +1760,7 @@ png_init_read_transformations(png_structrp png_ptr)
++              * transformations elsewhere.
++              */
++             png_ptr->transformations &= ~(PNG_COMPOSE | PNG_GAMMA);
+++            png_ptr->flags &= ~PNG_FLAG_OPTIMIZE_ALPHA;
++          } /* color_type == PNG_COLOR_TYPE_PALETTE */
++ 
++          /* if (png_ptr->background_gamma_type!=PNG_BACKGROUND_GAMMA_UNKNOWN) */
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
+index 47b76a704b..70685b68e7 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
+@@ -20,6 +20,8 @@ SRC_URI = "\
+            file://CVE-2025-64720.patch \
+            file://CVE-2025-65018-01.patch \
+            file://CVE-2025-65018-02.patch \
++           file://CVE-2025-66293-01.patch \
++           file://CVE-2025-66293-02.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "1f4696ce70b4ee5f85f1e1623dc1229b210029fa4b7aee573df3e2ba7b036937"
 -- 
 2.43.0
 
