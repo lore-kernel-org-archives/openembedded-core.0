@@ -1,113 +1,92 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Pascal.Weisser.ext@karlstorz.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DE54D3B7EA
-	for <webhook@archiver.kernel.org>; Tue,  9 Dec 2025 13:07:32 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7291.1765285649788390911
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B909D3B7F3
+	for <webhook@archiver.kernel.org>; Tue,  9 Dec 2025 13:22:32 +0000 (UTC)
+Received: from mx08-0040c702.pphosted.com (mx08-0040c702.pphosted.com [185.183.31.154])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7512.1765286551641580374
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Dec 2025 05:07:30 -0800
+ Tue, 09 Dec 2025 05:22:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eQbp/sTD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.218.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b7633027cb2so884753066b.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 05:07:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1765285648; x=1765890448; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=LYCxmzS+epT7neJHPKytwmAaIa+iSy1dx1YsWnuwyUE=;
-        b=eQbp/sTDfmvs9s3Jb42LKX/AkFkjtdoDs+UQ5e90R0qEYgAo8Lr64sb1D50bYK+m8C
-         hZ7Hv0bEkHpJW5nP7Y7o4VTUj+C+q4zhR6VkTKEm+gM+5Oaf8RQ8ZW5xVyXg26z2RXWD
-         NrNLD08TbLjV9/cMErbm+1H3Bbtt5F7uKVyRE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765285648; x=1765890448;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LYCxmzS+epT7neJHPKytwmAaIa+iSy1dx1YsWnuwyUE=;
-        b=pC7kCNZGQ62E+Wdwo7DUWShP7oUiaf8AVE+qiWxNZaITs9hjIB45L4CRXyOpTbuVe9
-         1x9xY+r4jA6jtKFvIejBaKXQKKQB/r0N+DpKJGlBnSFq8MD37E4T+BAIiO99gcz/qNeh
-         QjIfw9HWbO7gF+KgPcR1t/1vuDHIFI7hgwRhgTf37WNuNOaW9b8cHfJ6gSY50sUsuwtx
-         B1fzl6a561HL3EnvfOymb6rXStxnDkPx9Z6N/n3oHKIDJOwDwzfBm4IBZFXQV0hwhkES
-         w8WGU7ivERj7C5/uNKJ3UjKfagar+ozl8dezf5wBnXQlRbWpsbDDxunEmDZ5cfm1Al/p
-         gxZw==
-X-Forwarded-Encrypted: i=1; AJvYcCX7FwvLF058orD68irnLR5SdE1iRX8pC6Wc0FEkwZBaUqKIFmc+/z1Z5M6w2kTF3o/Or73XD/1N49lI0+eNWVJs2w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwoCZM0z9ghyf3pNlsyht1N2i0j27PucNU5SR0hCRs0S/QUx5xT
-	mrM84D6ATyY6aq0CDlTV2V0d0QoKJlP9n6A8CnjU/JcaFAOymohUlOQJ2rvmQdNe/UA=
-X-Gm-Gg: ASbGncsv3Ee6u7SXhQGubiYe/xlrUQOrzBtjyrvI7hlF9R+WeA6cLZKoGnIdgcmDTuh
-	Gi5Ybn3u1yPRBVJWLmWyaEVRXS7vQDHyQhBMZdLu8ZxOU4IA/2K7LtuIPZD7gSuv0uuQY4xopFc
-	awkiu1oOsq+7e6qV5AufkE8r7zS9D8eE6Y0VuGLO4k11RnEowsaf7srCBASVadw6NMjIlEz0WLr
-	mGIh6ix5jkYqds0TT87EmwFyDdoEMzRIeSR/jGAZlr2MVOATqC9mSvRKt6R2msCZqohGA9dl1NU
-	mgwjRhFlF0+8TzR+uaPtLNqXcOIZysvGZmyfzGH8Qvmw/QuU4B+4hcp2fxZ4mi+GkAkZHk05A6i
-	SiwfuI2OxCLYL7r30rWbikucqbRpuKFScpyA+iuTfwQkKU48wIjKk1IgDIsPeDubbpqRhN+fZID
-	X0SMRmp4O5QqCV5AdNTzI12llat9UNg1Gwhu1yZaipz66d898x/ByDU6TeuYaei88dopv7ibpzR
-	nQ=
-X-Google-Smtp-Source: AGHT+IHrXh0i69zq7eWeXOFW70y2NVCJ0MUvQcE0Ui+No6kkwWG44+yPua4i/ZTdoq8gIctGxXAoIA==
-X-Received: by 2002:a17:907:98a:b0:b79:e99d:913b with SMTP id a640c23a62f3a-b7a247f96acmr1273467466b.54.1765285648028;
-        Tue, 09 Dec 2025 05:07:28 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:31fe:6f5a:7771:4340? ([2001:8b0:aba:5f3c:31fe:6f5a:7771:4340])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7a01a33379sm1219383866b.62.2025.12.09.05.07.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 05:07:27 -0800 (PST)
-Message-ID: <a65db7a8c4cca0cd162e74f57302a038e5935887.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] cpio_2.15.bb: delete superfluous ptest
- RDEPENDS on "ptest-runner"
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 09 Dec 2025 13:07:26 +0000
-In-Reply-To: <CANNYZj9+ms2uySPOy96hgMgy07rF2eUTLMNfKyQaB=zyXOwzSw@mail.gmail.com>
-References: <f5199a88-ed0b-0423-3aae-61f882f8e6ca@crashcourse.ca>
-	 <e6e064db5ac30f5e711d45b657dfa89f1ad9e2b3.camel@linuxfoundation.org>
-	 <CANNYZj9+ms2uySPOy96hgMgy07rF2eUTLMNfKyQaB=zyXOwzSw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1ubuntu0.1 
+ dkim=pass header.i=@karlstorz.com header.s=S-DKIM-20210427 header.b=ObrWpHSj;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: karlstorz.com, ip: 185.183.31.154, mailfrom: prvs=24386082c6=pascal.weisser.ext@karlstorz.com)
+Received: from pps.filterd (m0267678.ppops.net [127.0.0.1])
+	by mx07-0040c702.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B93rIU21023017
+	for <openembedded-core@lists.openembedded.org>; Tue, 9 Dec 2025 13:22:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karlstorz.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	S-DKIM-20210427; bh=p27WNGkI3LUb8TBfwSx5Ebyw2dLoJrxWRuQzXyvYKEs=; b=
+	ObrWpHSjJ+58FWK7FlBH85jRX1eOIj+L9XpMnpLedCOUhI0xzWnkjReoYeSFRX7W
+	7BUiKfskPFXOqkB0z0Zd8TWxb0DVWZsVk34MNT61hHQTbZ4okapS9tZ4+2WghBt4
+	nFit+7STvTSzm/sjDIbuZsknv2vunLGxdReSOQxEpJ7WRd8VWx2JlDhQueM6w8gm
+	cAPwqM0pVJSrtqIIBy5Z5uUbdPXNAMwXNMdVWJqHEd8NyH/fAapuBAAc61TMUrCy
+	Af6W2chey+4cpzpO2HNvnbdmiwTmkw1Rgi8/SlpZ0Qi5r+jRMCyo4En56VDBnqak
+	pMzfkBMckyjXsI7F6ZWF4w==
+Received: from tut-ex01-pv.kstg.corp ([62.134.76.232])
+	by mx07-0040c702.pphosted.com (PPS) with ESMTPS id 4ax6s4a9k5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 13:22:29 +0000 (GMT)
+Received: from TUT-EX01-PV.KSTG.corp (10.0.10.190) by TUT-EX01-PV.KSTG.corp
+ (10.0.10.190) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Tue, 9 Dec
+ 2025 14:22:29 +0100
+Received: from tutn-bpfb5m3.kstg.corp (10.0.10.41) by
+ InternalSMTPRelay.KSTG.corp (10.0.10.190) with Microsoft SMTP Server id
+ 15.2.2562.29 via Frontend Transport; Tue, 9 Dec 2025 14:22:28 +0100
+From: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
+Subject: [PATCH 1/3] ssh-pregen-hostkeys: Add HOMEPAGE variable
+Date: Tue, 9 Dec 2025 14:22:06 +0100
+Message-ID: <20251209132208.402718-2-pascal.weisser.ext@karlstorz.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20251209132208.402718-1-pascal.weisser.ext@karlstorz.com>
+References: <20251209132208.402718-1-pascal.weisser.ext@karlstorz.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA5MDA5NyBTYWx0ZWRfXy0SrL+N1yWVn
+ ID+yonSTmQIRZZdDanYZZfT12r+bu0mh482Pbx9xyU/GGq0zERvsHvv+4gnkGX01Ol/bKheY41O
+ RM12a+LVgVFaBnLg/JD2agKIWLTkglRmvBZRVizyUg4Kq3ParGhTJS4G2YabZZkGRxJgFhiug5u
+ JIm8GbIbQLrac6LjAeSeiKSq26X0lAc71EszkqEBJ8XUFcmT8t5oXdKkBi/63BmJ958WHJn5lnu
+ qnZbW8z1AwEAroz6z+yZO3aVCq6/btxqonQSZU0/TeQEYk0kvT4OvYgy0xGy+UpHlUbUIRt266t
+ nN12sNletyiXDTc2aX/llsLGuCit2kLQx7R6n9n4ka00D5Jpt+jvdAvK/wsy+u45OuJcNf7w3Xv
+ xv1wtmgY/VNkvfQEZW9KLDBrc62PAA==
+X-Proofpoint-ORIG-GUID: WfJAKxuDXqafB-D2m05yk_5b3e47iej3
+X-Proofpoint-GUID: WfJAKxuDXqafB-D2m05yk_5b3e47iej3
+X-Authority-Analysis: v=2.4 cv=N/ck1m9B c=1 sm=1 tr=0 ts=69382295 cx=c_pps
+ a=OToaj9FDvIz41JSycRbD4A==:117 a=OToaj9FDvIz41JSycRbD4A==:17
+ a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=iGHA9ds3AAAA:8 a=n9SCklZpAAAA:8
+ a=nTKLNXIB1qaK_ikyiaUA:9 a=nM-MV4yxpKKO9kiQg6Ot:22 a=MDYma9B3dblYkEs0OMj2:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-09_04,2025-12-04_04,2025-10-01_01
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 13:07:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227435
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 13:22:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227437
 
-On Tue, 2025-12-09 at 13:19 +0100, Alexander Kanavin wrote:
-> On Tue, 9 Dec 2025 at 13:06, Richard Purdie via
-> lists.openembedded.org
-> <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-> > > =C2=A0DEPENDS:append:class-target =3D "
-> > > ${@bb.utils.contains('PTEST_ENABLED', '1', 'ptest-runner', '',
-> > > d)}"
-> > > =C2=A0PACKAGE_WRITE_DEPS:append:class-target =3D "
-> > > ${@bb.utils.contains('PTEST_ENABLED', '1', 'ptest-runner', '',
-> > > d)}"
-> > >=20
-> > > -RDEPENDS:${PN}-ptest +=3D "ptest-runner coreutils"
-> > > +RDEPENDS:${PN}-ptest +=3D "coreutils"
-> > The reason is this package requires the user from that dependency,
-> > it
-> > doesn't work without out. That is an RDEPENDS, not a RRECOMMENDS.
-> >=20
-> > So whilst it isn't too obvious, I'd say the recipe is in fact
-> > correct?
->=20
-> ptest-runner dependency is set in three different ways as seen above.
-> Are all three really necessary for ensuring the ptest user
-> requirement
-> is fulfilled?
+Add HOMEPAGE variable to ssh-pregen-hostkeys recipe.
 
-user group dependencies between recipes are tricky to get right and
-each of the above pieces does appear to fulfil a specific need. I have
-a suspicion that yes, the bits are all needed.
+Signed-off-by: Weisser, Pascal <pascal.weisser.ext@karlstorz.com>
+---
+ .../ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb               | 1 +
+ 1 file changed, 1 insertion(+)
 
-I don't like that 'design' but right now, it is probably where we end
-up.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb
+index 57b0534929..05c455a435 100644
+--- a/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb
++++ b/meta/recipes-connectivity/ssh-pregen-hostkeys/ssh-pregen-hostkeys_1.0.bb
+@@ -1,4 +1,5 @@
+ SUMMARY = "Pre generated host keys mainly for speeding up our qemu tests"
++HOMEPAGE = "https://www.yoctoproject.org/"
+ 
+ SRC_URI = "file://dropbear_rsa_host_key \
+            file://openssh"
+-- 
+2.50.1
 
 
