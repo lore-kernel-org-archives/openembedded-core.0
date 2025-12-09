@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34600D3B9A8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 382BDD3B9A9
 	for <webhook@archiver.kernel.org>; Tue,  9 Dec 2025 21:53:23 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2557.1765317200955910996
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2580.1765317197632112683
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Dec 2025 13:53:21 -0800
+ Tue, 09 Dec 2025 13:53:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dHeKZkcf;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-34a4079cfaeso1678669a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 13:53:20 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jfL64Xoa;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3436d6bdce8so6610970a91.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 13:53:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1765317200; x=1765922000; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1765317197; x=1765921997; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Uxpo+ePC9VABm+CJ0P9Vb5Etcjh7bRRZuSYiKKw3jYg=;
-        b=dHeKZkcf1p1BWFwtxlwEdUuy1+JOhShKGwznJiroVAL1fDslwKBU5R2Hv2OoEFzvNq
-         ifyt0D8WDcxCcjEBWk9TaILzzNPWYQorqihOazFTRIRhTArazsy2YVIrqecyuHp3/LXP
-         mJRdY5Ch5zwmIzdZKnfUFPcjAu4ri2Ntpjjm0/r3BL5QqRvrtXO80DO2fkTCEjYmEJeD
-         OlAC47ndGXUBySlV5MHcR7jDMGjTuTwgfllquGo4k1Qw+pgkKaOAmxbZ9JJApOPfhuh2
-         MVVzSQxw/2Rl8TqHp1GkjNGAxxSiGLJHGtdSYsPUUgsQ59u+4xLtFL/79NH8HnSqbHXr
-         2wng==
+        bh=ZCWPL4ymQU6xesTJsELlYZgPpLe8WtL8djwkwKINZuM=;
+        b=jfL64XoaB94KbF27Bp3ZKQp/sFNQGsIpR0aY9SwifObVYoLEuJFTDxoPl6AHQfd9oG
+         K9ev+WPq6r2hwii07TMCGRTbLGznagTPGYD5N3CDHt0KD6sAWL4krWEaeC/dA2fD+xQF
+         IKm0kaL62RJR4/Ktsxx3d8VO3XTdBVK664flE/cF/OiV/Q8AH2p+7xkPT5a4+mnGB3uQ
+         jEXYlvi0s6wgpFu8HWRDjmhTQJ4s4jfFDri13+ivTjPr1wb+XONCIEtAXgk9tjxRmgQ2
+         6eXSZsDuJ59G9YYl1yW1FhKDkc6BLoay/e+MynD+ShOYntTHrxt3zXUXcys/6gc2V0FI
+         zW0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765317200; x=1765922000;
+        d=1e100.net; s=20230601; t=1765317197; x=1765921997;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Uxpo+ePC9VABm+CJ0P9Vb5Etcjh7bRRZuSYiKKw3jYg=;
-        b=b/N8+BxfwARTomrWSi5OGMi83qoPqyI6Iki2RC6i1XZg+qH6wh4nOSDGg/D0oAvv/m
-         7IxbCWMk5/oz3a/sfU9Ux/kgFdVFQA3SIawT0bFm060LR6dwhS4BvCA9dEEF4DJfHJq0
-         nvABXkhe7Tn1l/Ys3QDd2whP8Mye09je8WSAwS6Aw4i0PngDB7MLljEl6pTHMdqAKEg2
-         BAGD5R9iLWTJ9lGBlrIap1w4/YlMlt9fJKbzUwoaNlF5Sxi5uadllPIhX2V38yO3wKOl
-         oOAahx1HvzhFUyFO27JmyLH85WV3vC97TIjDFuBHY7AouXTXiEPSCeaJP07Rq2Gj8Ed1
-         BfLw==
-X-Gm-Message-State: AOJu0Yw2hgF4hjLgKglVVgJzQlrdfol5iqDPoxWgnZjEdZclN2+7ghMv
-	ttOhAZ8S1v/r4ua0pV+DafBw/J1m9cx/EwNwpY1/+HSx0V696pSInMUDO2S3bX5gDqgoiO+nr8P
-	ED2QT
-X-Gm-Gg: AY/fxX6T+zlOtLUHBbbrflefdj10NYWQpK3CRaOqopUe8UKOwGGC36GccW/zzAF29V0
-	Wm3EzhREz/1T9rrKizkkuVRX7JLGNIodqOnfwNIgdOfmTxE8UBnLucy1Wclyeja/hkqcYYqU1VQ
-	n02m/IQzjhWbTKc/YzdQrxsIVukidKoAX48T+wsaQyZZ3omVVEy6kW1SXELbNB3CuVEHcr3t3IP
-	w2ybplTkoFKtQaD6goCst7wqsQf2bC/oqIYPdGbwhXhkHEOpHaZV7vhta6f0aD6SMDnt7ZVKpzZ
-	H9c/KfzpbMDyCKHvnM5gscaX2isy2PqDaj84/LZc9EvI3YDyAK/4VWlDvMYwm2k6qUfd73feBen
-	71B1OXBcAQ2T4k0ZCtOwC9DRNEIZIn0tlHdqTqE/+iSDwqEC9EdKtvjHze6Gm6O91y+DHXTnqoO
-	aPPA==
-X-Google-Smtp-Source: AGHT+IH70BSgwvH9wW5vt8rvHmygANAgorhFzSQtY4Fl1d6Q/RqGbm12VFlHKPs4KzKtuJ3p82n7lg==
-X-Received: by 2002:a17:90b:3e46:b0:340:f05a:3ec3 with SMTP id 98e67ed59e1d1-34a7285c684mr221557a91.33.1765317200133;
-        Tue, 09 Dec 2025 13:53:20 -0800 (PST)
+        bh=ZCWPL4ymQU6xesTJsELlYZgPpLe8WtL8djwkwKINZuM=;
+        b=XDmq8bBNsjI6ZzXAV1rKnAncGzaSU0C1NHu7FRJ5cbIR5YN2GSrfBDngUymPyTxPz8
+         VXW0tKDIAirU8ReaZgXza29F57qXKzogkjXC6+39cVKuWVrthajdoGEqqNel8jDVucNB
+         6Kaqfpz2DD7YSY7PR+kRbWWcZvRrTUc10vkJKIgO5X4Q4Vje4BkTzvG8K4h2j6mHMDlX
+         q78l54rMdDxCZ4aYwFLfHjV4k4dd7r5sbGbi4Gu1D/05HtXy3CT33UMiK/KZXWmiei1U
+         UegMCh9T8Lms/ZeUhBfA61hLTP2x2OXfRYdL/cr5vtE/IHtJcsdQUTNJ/i5nxbcsntAS
+         V4iw==
+X-Gm-Message-State: AOJu0YxcQZor5IW3FbJ5Yf8b/5sOIM6OQi+87IKxzNyxDgqP41wAcXaK
+	yCBWv53dLkHiacu/+er0O7xNJIJnrCHjDG5dDdk4JtF4rqxlilmN+OqeTIV0ys6EDo0KG8z0QLR
+	UnMfB
+X-Gm-Gg: AY/fxX6rlfrUqvMEoevNfVpyZENq+h+PRUYsKRYt5u9Qhv94PbWPIa0aQ0EGW80K8B0
+	rQjyxQJUmafmtSr4zmicB04QU7OtO4aULKlF41TSihFDX7ZUgvbdj9wMowt/vZCUYOV1d9zpOWh
+	GQCCpHfsmixX/63SWxJ6GhA4tqOUz5WOlHuJcNTRDN0z4YNBuvhfPi43OWBwbGAj52TdOVuyCFf
+	MwkCrc2smNN052iptc9xgZcAgUO+451TvfKlvRjZJISWcg2wO/hnk1PpYU4iDRS1Ak3VtXy/MK1
+	dkV21g+k/90Lwc/1U2hJ0D8Q1ToMeXEN2aik0e4nJTA+iOOVOMfzxsOwCCfgMP7341aE7Tb/HPU
+	C3Urad1qKgGqn1xJO+WSQFOcXMteJHm37/EX0crXahME+t6I7UMXlqzRhty3gSJOTqKy7USYfKw
+	nn2w==
+X-Google-Smtp-Source: AGHT+IEP9qMO+ZazxDax40u9jdMtsr5W0Cf2ivwi8feKx+dH8NdtF7Dpn9aNEpJkYKQ1ccKFn3oEfw==
+X-Received: by 2002:a17:90b:1c83:b0:340:f009:ca89 with SMTP id 98e67ed59e1d1-34a72900fffmr156962a91.22.1765317196475;
+        Tue, 09 Dec 2025 13:53:16 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:5aef:241f:68f0:d970])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34a6ff012e6sm412296a91.2.2025.12.09.13.53.19
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34a6ff012e6sm412296a91.2.2025.12.09.13.53.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 13:53:19 -0800 (PST)
+        Tue, 09 Dec 2025 13:53:16 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 3/4] openssh: fix CVE-2025-61984
-Date: Tue,  9 Dec 2025 13:53:06 -0800
-Message-ID: <7ca0c7a4d17c707658669e255689ecd4183c7e9b.1765317045.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 1/4] libxml2: Security fix for CVE-2025-7425
+Date: Tue,  9 Dec 2025 13:53:04 -0800
+Message-ID: <cf260bef4495186662b74b8324d01efcfc2121fd.1765317045.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1765317045.git.steve@sakoman.com>
 References: <cover.1765317045.git.steve@sakoman.com>
@@ -69,148 +69,845 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 21:53:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227450
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227448
 
 From: Hitendra Prajapati <hprajapati@mvista.com>
 
-ssh in OpenSSH before 10.1 allows control characters in usernames that
-originate from certain possibly untrusted sources, potentially leading
-to code execution when a ProxyCommand is used. The untrusted sources
-are the command line and %-sequence expansion of a configuration file.
+CVE-2025-7425
+libxslt: heap-use-after-free in xmlFreeID caused by `atype` corruption
 
-Note:
-openssh does not support variable expansion until 10.0, so backport
-adapts for this.
+Origin: https://launchpad.net/ubuntu/+source/libxml2/2.9.14+dfsg-1.3ubuntu3.6
+Ref : https://security-tracker.debian.org/tracker/CVE-2025-7425
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-61984
-
-Upstream-Status: Backport from https://github.com/openssh/openssh-portable/commit/35d5917652106aede47621bb3f64044604164043
-
+Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libxslt/-/issues/140
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssh/openssh/CVE-2025-61984.patch      | 98 +++++++++++++++++++
- .../openssh/openssh_8.9p1.bb                  |  1 +
- 2 files changed, 99 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-61984.patch
+ .../libxml/libxml2/CVE-2025-7425.patch        | 802 ++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |   1 +
+ 2 files changed, 803 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-7425.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2025-61984.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2025-61984.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-7425.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-7425.patch
 new file mode 100644
-index 0000000000..aee237e507
+index 0000000000..c8c9ace82d
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2025-61984.patch
-@@ -0,0 +1,98 @@
-+From 35d5917652106aede47621bb3f64044604164043 Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Thu, 4 Sep 2025 00:29:09 +0000
-+Subject: [PATCH] upstream: Improve rules for %-expansion of username.
++++ b/meta/recipes-core/libxml/libxml2/CVE-2025-7425.patch
+@@ -0,0 +1,802 @@
++From 87786d6200ae1f5ac98d21f04d451e17ff25a216 Mon Sep 17 00:00:00 2001
++From: David Kilzer <ddkilzer@apple.com>
++Reviewed-By: Aron Xu <aron@debian.org>
++Date: Mon, 23 Jun 2025 14:41:56 -0700
++Subject: [PATCH] libxslt: heap-use-after-free in xmlFreeID caused by `atype`
++ corruption
 +
-+Usernames passed on the commandline will no longer be subject to
-+% expansion. Some tools invoke ssh with connection information
-+(i.e. usernames and host names) supplied from untrusted sources.
-+These may contain % expansion sequences which could yield
-+unexpected results.
++* include/libxml/tree.h:
++(XML_ATTR_CLEAR_ATYPE): Add.
++(XML_ATTR_GET_ATYPE): Add.
++(XML_ATTR_SET_ATYPE): Add.
++(XML_NODE_ADD_EXTRA): Add.
++(XML_NODE_CLEAR_EXTRA): Add.
++(XML_NODE_GET_EXTRA): Add.
++(XML_NODE_SET_EXTRA): Add.
++(XML_DOC_ADD_PROPERTIES): Add.
++(XML_DOC_CLEAR_PROPERTIES): Add.
++(XML_DOC_GET_PROPERTIES): Add.
++(XML_DOC_SET_PROPERTIES): Add.
++- Add macros for accessing fields with upper bits that may be set by
++  libxslt.
 +
-+Since openssh-9.6, all usernames have been subject to validity
-+checking. This change tightens the validity checks by refusing
-+usernames that include control characters (again, these can cause
-+surprises when supplied adversarially).
++* HTMLparser.c:
++(htmlNewDocNoDtD):
++* SAX2.c:
++(xmlSAX2StartDocument):
++(xmlSAX2EndDocument):
++* parser.c:
++(xmlParseEntityDecl):
++(xmlParseExternalSubset):
++(xmlParseReference):
++(xmlCtxtParseDtd):
++* runxmlconf.c:
++(xmlconfTestInvalid):
++(xmlconfTestValid):
++* tree.c:
++(xmlNewDoc):
++(xmlFreeProp):
++(xmlNodeSetDoc):
++(xmlSetNsProp):
++(xmlDOMWrapAdoptBranch):
++* valid.c:
++(xmlFreeID):
++(xmlAddIDInternal):
++(xmlValidateAttributeValueInternal):
++(xmlValidateOneAttribute):
++(xmlValidateRef):
++* xmlreader.c:
++(xmlTextReaderStartElement):
++(xmlTextReaderStartElementNs):
++(xmlTextReaderValidateEntity):
++(xmlTextReaderRead):
++(xmlTextReaderNext):
++(xmlTextReaderIsEmptyElement):
++(xmlTextReaderPreserve):
++* xmlschemas.c:
++(xmlSchemaPValAttrNodeID):
++* xmlschemastypes.c:
++(xmlSchemaValAtomicType):
++- Adopt macros by renaming the struct fields, recompiling and fixing
++  compiler failures, then changing the struct field names back.
++Origin: https://launchpad.net/ubuntu/+source/libxml2/2.9.14+dfsg-1.3ubuntu3.6
++Ref : https://security-tracker.debian.org/tracker/CVE-2025-7425
 +
-+This change also relaxes the validity checks in one small way:
-+usernames supplied via the configuration file as literals (i.e.
-+include no % expansion characters) are not subject to these
-+validity checks. This allows usernames that contain arbitrary
-+characters to be used, but only via configuration files. This
-+is done on the basis that ssh's configuration is trusted.
-+
-+Pointed out by David Leadbeater, ok deraadt@
-+
-+OpenBSD-Commit-ID: e2f0c871fbe664aba30607321575e7c7fc798362
-+
-+CVE: CVE-2025-61984
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/35d5917652106aede47621bb3f64044604164043]
++CVE: CVE-2025-7425
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/-/issues/140]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ ssh.c | 11 +++++++++++++++--
-+ 1 file changed, 11 insertions(+), 2 deletions(-)
++ HTMLparser.c          |  1 +
++ SAX2.c                |  6 ++--
++ include/libxml/tree.h | 14 ++++++++-
++ parser.c              |  8 ++---
++ runxmlconf.c          |  4 +--
++ tree.c                | 20 ++++++-------
++ valid.c               | 68 +++++++++++++++++++++----------------------
++ xmlreader.c           | 30 +++++++++----------
++ xmlschemas.c          |  4 +--
++ xmlschemastypes.c     | 12 ++++----
++ 10 files changed, 90 insertions(+), 77 deletions(-)
 +
-+diff --git a/ssh.c b/ssh.c
-+index 82ed15f..d4e2040 100644
-+--- a/ssh.c
-++++ b/ssh.c
-+@@ -634,6 +634,8 @@ valid_ruser(const char *s)
-+ 	if (*s == '-')
-+ 		return 0;
-+ 	for (i = 0; s[i] != 0; i++) {
-++		if (iscntrl((u_char)s[i]))
-++			return 0;
-+ 		if (strchr("'`\";&<>|(){}", s[i]) != NULL)
-+ 			return 0;
-+ 		/* Disallow '-' after whitespace */
-+@@ -655,6 +657,7 @@ main(int ac, char **av)
-+ 	struct ssh *ssh = NULL;
-+ 	int i, r, opt, exit_status, use_syslog, direct, timeout_ms;
-+ 	int was_addr, config_test = 0, opt_terminated = 0, want_final_pass = 0;
-++	int user_on_commandline = 0, user_was_default = 0, user_expanded = 0;
-+ 	char *p, *cp, *line, *argv0, *logfile, *host_arg;
-+ 	char cname[NI_MAXHOST], thishost[NI_MAXHOST];
-+ 	struct stat st;
-+@@ -995,8 +998,10 @@ main(int ac, char **av)
++diff --git a/HTMLparser.c b/HTMLparser.c
++index e720bb2..1307f71 100644
++--- a/HTMLparser.c
+++++ b/HTMLparser.c
++@@ -2514,6 +2514,7 @@ htmlNewDocNoDtD(const xmlChar *URI, const xmlChar *ExternalID) {
++     cur->refs = NULL;
++     cur->_private = NULL;
++     cur->charset = XML_CHAR_ENCODING_UTF8;
+++    XML_DOC_SET_PROPERTIES(cur, XML_DOC_HTML | XML_DOC_USERBUILT);
++     cur->properties = XML_DOC_HTML | XML_DOC_USERBUILT;
++     if ((ExternalID != NULL) ||
++ 	(URI != NULL))
++diff --git a/SAX2.c b/SAX2.c
++index f7c77c2..0d8e84a 100644
++--- a/SAX2.c
+++++ b/SAX2.c
++@@ -970,7 +970,7 @@ xmlSAX2StartDocument(void *ctx)
++ 	    xmlSAX2ErrMemory(ctxt, "xmlSAX2StartDocument");
++ 	    return;
++ 	}
++-	ctxt->myDoc->properties = XML_DOC_HTML;
+++	XML_DOC_SET_PROPERTIES(ctxt->myDoc, XML_DOC_HTML);
++ 	ctxt->myDoc->parseFlags = ctxt->options;
++ #else
++         xmlGenericError(xmlGenericErrorContext,
++@@ -983,9 +983,9 @@ xmlSAX2StartDocument(void *ctx)
++     } else {
++ 	doc = ctxt->myDoc = xmlNewDoc(ctxt->version);
++ 	if (doc != NULL) {
++-	    doc->properties = 0;
+++	    XML_DOC_CLEAR_PROPERTIES(doc);
++ 	    if (ctxt->options & XML_PARSE_OLD10)
++-	        doc->properties |= XML_DOC_OLD10;
+++	        XML_DOC_ADD_PROPERTIES(doc, XML_DOC_OLD10);
++ 	    doc->parseFlags = ctxt->options;
++ 	    if (ctxt->encoding != NULL)
++ 		doc->encoding = xmlStrdup(ctxt->encoding);
++diff --git a/include/libxml/tree.h b/include/libxml/tree.h
++index 1e79be9..61178b2 100644
++--- a/include/libxml/tree.h
+++++ b/include/libxml/tree.h
++@@ -365,7 +365,6 @@ struct _xmlElement {
++ #endif
++ };
++ 
++-
++ /**
++  * XML_LOCAL_NAMESPACE:
++  *
++@@ -446,6 +445,10 @@ struct _xmlAttr {
++     void            *psvi;	/* for type/PSVI information */
++ };
++ 
+++#define XML_ATTR_CLEAR_ATYPE(attr) (((attr)->atype) = 0)
+++#define XML_ATTR_GET_ATYPE(attr) (((attr)->atype) & ~(15U << 27))
+++#define XML_ATTR_SET_ATYPE(attr, type) ((attr)->atype = ((((attr)->atype) & (15U << 27)) | ((type) & ~(15U << 27))))
+++
++ /**
++  * xmlID:
++  *
++@@ -507,6 +510,11 @@ struct _xmlNode {
++     unsigned short   extra;	/* extra data for XPath/XSLT */
++ };
++ 
+++#define XML_NODE_ADD_EXTRA(node, type) ((node)->extra |= ((type) & ~(15U << 12)))
+++#define XML_NODE_CLEAR_EXTRA(node) (((node)->extra) = 0)
+++#define XML_NODE_GET_EXTRA(node) (((node)->extra) & ~(15U << 12))
+++#define XML_NODE_SET_EXTRA(node, type) ((node)->extra = ((((node)->extra) & (15U << 12)) | ((type) & ~(15U << 12))))
+++
++ /**
++  * XML_GET_CONTENT:
++  *
++@@ -585,6 +593,10 @@ struct _xmlDoc {
++ 				   set at the end of parsing */
++ };
++ 
+++#define XML_DOC_ADD_PROPERTIES(doc, type) ((doc)->properties |= ((type) & ~(15U << 27)))
+++#define XML_DOC_CLEAR_PROPERTIES(doc) (((doc)->properties) = 0)
+++#define XML_DOC_GET_PROPERTIES(doc) (((doc)->properties) & ~(15U << 27))
+++#define XML_DOC_SET_PROPERTIES(doc, type) ((doc)->properties = ((((doc)->properties) & (15U << 27)) | ((type) & ~(15U << 27))))
++ 
++ typedef struct _xmlDOMWrapCtxt xmlDOMWrapCtxt;
++ typedef xmlDOMWrapCtxt *xmlDOMWrapCtxtPtr;
++diff --git a/parser.c b/parser.c
++index 738dbee..772d883 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -5523,7 +5523,7 @@ xmlParseEntityDecl(xmlParserCtxtPtr ctxt) {
++ 			    xmlErrMemory(ctxt, "New Doc failed");
++ 			    return;
 + 			}
-+ 			break;
-+ 		case 'l':
-+-			if (options.user == NULL)
-++			if (options.user == NULL) {
-+ 				options.user = optarg;
-++				user_on_commandline = 1;
-++			}
-+ 			break;
-+ 
-+ 		case 'L':
-+@@ -1099,6 +1104,7 @@ main(int ac, char **av)
-+ 			if (options.user == NULL) {
-+ 				options.user = tuser;
-+ 				tuser = NULL;
-++				user_on_commandline = 1;
++-			ctxt->myDoc->properties = XML_DOC_INTERNAL;
+++			XML_DOC_SET_PROPERTIES(ctxt->myDoc, XML_DOC_INTERNAL);
++ 		    }
++ 		    if (ctxt->myDoc->intSubset == NULL)
++ 			ctxt->myDoc->intSubset = xmlNewDtd(ctxt->myDoc,
++@@ -5594,7 +5594,7 @@ xmlParseEntityDecl(xmlParserCtxtPtr ctxt) {
++ 			        xmlErrMemory(ctxt, "New Doc failed");
++ 				return;
++ 			    }
++-			    ctxt->myDoc->properties = XML_DOC_INTERNAL;
+++			    XML_DOC_SET_PROPERTIES(ctxt->myDoc, XML_DOC_INTERNAL);
 + 			}
-+ 			free(tuser);
-+ 			if (options.port == -1 && tport != -1)
-+@@ -1113,6 +1119,7 @@ main(int ac, char **av)
-+ 				if (options.user == NULL) {
-+ 					options.user = p;
-+ 					p = NULL;
-++					user_on_commandline = 1;
-+ 				}
-+ 				*cp++ = '\0';
-+ 				host = xstrdup(cp);
-+@@ -1265,8 +1272,10 @@ main(int ac, char **av)
-+ 	if (fill_default_options(&options) != 0)
-+ 		cleanup_exit(255);
 + 
-+-	if (options.user == NULL)
-++	if (options.user == NULL) {
-++		user_was_default = 1;
-+ 		options.user = xstrdup(pw->pw_name);
-++	}
++ 			if (ctxt->myDoc->intSubset == NULL)
++@@ -7035,7 +7035,7 @@ xmlParseExternalSubset(xmlParserCtxtPtr ctxt, const xmlChar *ExternalID,
++ 	    xmlErrMemory(ctxt, "New Doc failed");
++ 	    return;
++ 	}
++-	ctxt->myDoc->properties = XML_DOC_INTERNAL;
+++	XML_DOC_SET_PROPERTIES(ctxt->myDoc, XML_DOC_INTERNAL);
++     }
++     if ((ctxt->myDoc != NULL) && (ctxt->myDoc->intSubset == NULL))
++         xmlCreateIntSubset(ctxt->myDoc, NULL, ExternalID, SystemID);
++@@ -7419,7 +7419,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
++ 			    (nw != NULL) &&
++ 			    (nw->type == XML_ELEMENT_NODE) &&
++ 			    (nw->children == NULL))
++-			    nw->extra = 1;
+++			    XML_NODE_SET_EXTRA(nw, 1);
 + 
++ 			break;
++ 		    }
++diff --git a/runxmlconf.c b/runxmlconf.c
++index f43fdd3..82b7241 100644
++--- a/runxmlconf.c
+++++ b/runxmlconf.c
++@@ -197,7 +197,7 @@ xmlconfTestInvalid(const char *id, const char *filename, int options) {
++ 	         id, filename);
++     } else {
++     /* invalidity should be reported both in the context and in the document */
++-        if ((ctxt->valid != 0) || (doc->properties & XML_DOC_DTDVALID)) {
+++        if ((ctxt->valid != 0) || (XML_DOC_GET_PROPERTIES(doc) & XML_DOC_DTDVALID)) {
++ 	    test_log("test %s : %s failed to detect invalid document\n",
++ 		     id, filename);
++ 	    nb_errors++;
++@@ -229,7 +229,7 @@ xmlconfTestValid(const char *id, const char *filename, int options) {
++ 	ret = 0;
++     } else {
++     /* validity should be reported both in the context and in the document */
++-        if ((ctxt->valid == 0) || ((doc->properties & XML_DOC_DTDVALID) == 0)) {
+++        if ((ctxt->valid == 0) || ((XML_DOC_GET_PROPERTIES(doc) & XML_DOC_DTDVALID) == 0)) {
++ 	    test_log("test %s : %s failed to validate a valid document\n",
++ 		     id, filename);
++ 	    nb_errors++;
++diff --git a/tree.c b/tree.c
++index cdf863c..3bac0b8 100644
++--- a/tree.c
+++++ b/tree.c
++@@ -1192,7 +1192,7 @@ xmlNewDoc(const xmlChar *version) {
++     cur->compression = -1; /* not initialized */
++     cur->doc = cur;
++     cur->parseFlags = 0;
++-    cur->properties = XML_DOC_USERBUILT;
+++    XML_DOC_SET_PROPERTIES(cur, XML_DOC_USERBUILT);
++     /*
++      * The in memory encoding is always UTF8
++      * This field will never change and would
++@@ -2119,7 +2119,7 @@ xmlFreeProp(xmlAttrPtr cur) {
++ 	xmlDeregisterNodeDefaultValue((xmlNodePtr)cur);
++ 
++     /* Check for ID removal -> leading to invalid references ! */
++-    if ((cur->doc != NULL) && (cur->atype == XML_ATTRIBUTE_ID)) {
+++    if ((cur->doc != NULL) && (XML_ATTR_GET_ATYPE(cur) == XML_ATTRIBUTE_ID)) {
++ 	    xmlRemoveID(cur->doc, cur);
++     }
++     if (cur->children != NULL) xmlFreeNodeList(cur->children);
++@@ -2838,7 +2838,7 @@ xmlSetTreeDoc(xmlNodePtr tree, xmlDocPtr doc) {
++ 	if(tree->type == XML_ELEMENT_NODE) {
++ 	    prop = tree->properties;
++ 	    while (prop != NULL) {
++-                if (prop->atype == XML_ATTRIBUTE_ID) {
+++                if (XML_ATTR_GET_ATYPE(prop) == XML_ATTRIBUTE_ID) {
++                     xmlRemoveID(tree->doc, prop);
++                 }
++ 
++@@ -6953,9 +6953,9 @@ xmlSetNsProp(xmlNodePtr node, xmlNsPtr ns, const xmlChar *name,
 + 	/*
-+ 	 * If ProxyJump option specified, then construct a ProxyCommand now.
++ 	* Modify the attribute's value.
++ 	*/
++-	if (prop->atype == XML_ATTRIBUTE_ID) {
+++	if (XML_ATTR_GET_ATYPE(prop) == XML_ATTRIBUTE_ID) {
++ 	    xmlRemoveID(node->doc, prop);
++-	    prop->atype = XML_ATTRIBUTE_ID;
+++	    XML_ATTR_SET_ATYPE(prop, XML_ATTRIBUTE_ID);
++ 	}
++ 	if (prop->children != NULL)
++ 	    xmlFreeNodeList(prop->children);
++@@ -6975,7 +6975,7 @@ xmlSetNsProp(xmlNodePtr node, xmlNsPtr ns, const xmlChar *name,
++ 		tmp = tmp->next;
++ 	    }
++ 	}
++-	if (prop->atype == XML_ATTRIBUTE_ID)
+++	if (XML_ATTR_GET_ATYPE(prop) == XML_ATTRIBUTE_ID)
++ 	    xmlAddID(NULL, node->doc, value, prop);
++ 	return(prop);
++     }
++@@ -9252,7 +9252,7 @@ ns_end:
++ 		if (cur->type == XML_ELEMENT_NODE) {
++ 		    cur->psvi = NULL;
++ 		    cur->line = 0;
++-		    cur->extra = 0;
+++		    XML_NODE_CLEAR_EXTRA(cur);
++ 		    /*
++ 		    * Walk attributes.
++ 		    */
++@@ -9268,11 +9268,11 @@ ns_end:
++ 		    * Attributes.
++ 		    */
++ 		    if ((sourceDoc != NULL) &&
++-			(((xmlAttrPtr) cur)->atype == XML_ATTRIBUTE_ID))
+++			(XML_ATTR_GET_ATYPE((xmlAttrPtr) cur) == XML_ATTRIBUTE_ID))
++ 		    {
++ 			xmlRemoveID(sourceDoc, (xmlAttrPtr) cur);
++ 		    }
++-		    ((xmlAttrPtr) cur)->atype = 0;
+++		    XML_ATTR_CLEAR_ATYPE((xmlAttrPtr) cur);
++ 		    ((xmlAttrPtr) cur)->psvi = NULL;
++ 		}
++ 		break;
++@@ -9992,7 +9992,7 @@ xmlDOMWrapAdoptAttr(xmlDOMWrapCtxtPtr ctxt,
++     }
++ 
++     XML_TREE_ADOPT_STR(attr->name);
++-    attr->atype = 0;
+++    XML_ATTR_CLEAR_ATYPE(attr);
++     attr->psvi = NULL;
++     /*
++     * Walk content.
++diff --git a/valid.c b/valid.c
++index 36a0435..8e76cfa 100644
++--- a/valid.c
+++++ b/valid.c
++@@ -1906,7 +1906,7 @@ xmlScanIDAttributeDecl(xmlValidCtxtPtr ctxt, xmlElementPtr elem, int err) {
++     if (elem == NULL) return(0);
++     cur = elem->attributes;
++     while (cur != NULL) {
++-        if (cur->atype == XML_ATTRIBUTE_ID) {
+++        if (XML_ATTR_GET_ATYPE(cur) == XML_ATTRIBUTE_ID) {
++ 	    ret ++;
++ 	    if ((ret > 1) && (err))
++ 		xmlErrValidNode(ctxt, (xmlNodePtr) elem, XML_DTD_MULTIPLE_ID,
++@@ -2279,7 +2279,7 @@ xmlDumpAttributeDecl(xmlBufferPtr buf, xmlAttributePtr attr) {
++ 	xmlBufferWriteChar(buf, ":");
++     }
++     xmlBufferWriteCHAR(buf, attr->name);
++-    switch (attr->atype) {
+++    switch (XML_ATTR_GET_ATYPE(attr)) {
++ 	case XML_ATTRIBUTE_CDATA:
++ 	    xmlBufferWriteChar(buf, " CDATA");
++ 	    break;
++@@ -2758,7 +2758,7 @@ xmlAddID(xmlValidCtxtPtr ctxt, xmlDocPtr doc, const xmlChar *value,
++ 	return(NULL);
++     }
++     if (attr != NULL)
++-	attr->atype = XML_ATTRIBUTE_ID;
+++	XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ID);
++     return(ret);
++ }
++ 
++@@ -2837,7 +2837,7 @@ xmlIsID(xmlDocPtr doc, xmlNodePtr elem, xmlAttrPtr attr) {
++ 	if ((fullelemname != felem) && (fullelemname != elem->name))
++ 	    xmlFree(fullelemname);
++ 
++-        if ((attrDecl != NULL) && (attrDecl->atype == XML_ATTRIBUTE_ID))
+++        if ((attrDecl != NULL) && (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_ID))
++ 	    return(1);
++     }
++     return(0);
++@@ -2878,7 +2878,7 @@ xmlRemoveID(xmlDocPtr doc, xmlAttrPtr attr) {
++ 
++     xmlHashRemoveEntry(table, ID, xmlFreeIDTableEntry);
++     xmlFree(ID);
++-    attr->atype = 0;
+++    XML_ATTR_CLEAR_ATYPE(attr);
++     return(0);
++ }
++ 
++@@ -3157,8 +3157,8 @@ xmlIsRef(xmlDocPtr doc, xmlNodePtr elem, xmlAttrPtr attr) {
++ 		                         elem->name, attr->name);
++ 
++ 	if ((attrDecl != NULL) &&
++-	    (attrDecl->atype == XML_ATTRIBUTE_IDREF ||
++-	     attrDecl->atype == XML_ATTRIBUTE_IDREFS))
+++	    (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_IDREF ||
+++	     XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_IDREFS))
++ 	return(1);
++     }
++     return(0);
++@@ -3532,7 +3532,7 @@ xmlIsMixedElement(xmlDocPtr doc, const xmlChar *name) {
++ 
++ static int
++ xmlIsDocNameStartChar(xmlDocPtr doc, int c) {
++-    if ((doc == NULL) || (doc->properties & XML_DOC_OLD10) == 0) {
+++    if ((doc == NULL) || (XML_DOC_GET_PROPERTIES(doc) & XML_DOC_OLD10) == 0) {
++         /*
++ 	 * Use the new checks of production [4] [4a] amd [5] of the
++ 	 * Update 5 of XML-1.0
++@@ -3562,7 +3562,7 @@ xmlIsDocNameStartChar(xmlDocPtr doc, int c) {
++ 
++ static int
++ xmlIsDocNameChar(xmlDocPtr doc, int c) {
++-    if ((doc == NULL) || (doc->properties & XML_DOC_OLD10) == 0) {
+++    if ((doc == NULL) || (XML_DOC_GET_PROPERTIES(doc) & XML_DOC_OLD10) == 0) {
++         /*
++ 	 * Use the new checks of production [4] [4a] amd [5] of the
++ 	 * Update 5 of XML-1.0
++@@ -4112,7 +4112,7 @@ xmlValidCtxtNormalizeAttributeValue(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++ 
++     if (attrDecl == NULL)
++ 	return(NULL);
++-    if (attrDecl->atype == XML_ATTRIBUTE_CDATA)
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_CDATA)
++ 	return(NULL);
++ 
++     ret = xmlStrdup(value);
++@@ -4174,7 +4174,7 @@ xmlValidNormalizeAttributeValue(xmlDocPtr doc, xmlNodePtr elem,
++ 
++     if (attrDecl == NULL)
++ 	return(NULL);
++-    if (attrDecl->atype == XML_ATTRIBUTE_CDATA)
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_CDATA)
++ 	return(NULL);
++ 
++     ret = xmlStrdup(value);
++@@ -4189,7 +4189,7 @@ xmlValidateAttributeIdCallback(void *payload, void *data,
++ 	                       const xmlChar *name ATTRIBUTE_UNUSED) {
++     xmlAttributePtr attr = (xmlAttributePtr) payload;
++     int *count = (int *) data;
++-    if (attr->atype == XML_ATTRIBUTE_ID) (*count)++;
+++    if (XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_ID) (*count)++;
++ }
++ 
++ /**
++@@ -4221,7 +4221,7 @@ xmlValidateAttributeDecl(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++     /* Attribute Default Legal */
++     /* Enumeration */
++     if (attr->defaultValue != NULL) {
++-	val = xmlValidateAttributeValueInternal(doc, attr->atype,
+++	val = xmlValidateAttributeValueInternal(doc, XML_ATTR_GET_ATYPE(attr),
++ 	                                        attr->defaultValue);
++ 	if (val == 0) {
++ 	    xmlErrValidNode(ctxt, (xmlNodePtr) attr, XML_DTD_ATTRIBUTE_DEFAULT,
++@@ -4232,7 +4232,7 @@ xmlValidateAttributeDecl(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++     }
++ 
++     /* ID Attribute Default */
++-    if ((attr->atype == XML_ATTRIBUTE_ID)&&
+++    if ((XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_ID)&&
++         (attr->def != XML_ATTRIBUTE_IMPLIED) &&
++ 	(attr->def != XML_ATTRIBUTE_REQUIRED)) {
++ 	xmlErrValidNode(ctxt, (xmlNodePtr) attr, XML_DTD_ID_FIXED,
++@@ -4242,7 +4242,7 @@ xmlValidateAttributeDecl(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++     }
++ 
++     /* One ID per Element Type */
++-    if (attr->atype == XML_ATTRIBUTE_ID) {
+++    if (XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_ID) {
++         int nbId;
++ 
++ 	/* the trick is that we parse DtD as their own internal subset */
++@@ -4501,9 +4501,9 @@ xmlValidateOneAttribute(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++ 	       attr->name, elem->name, NULL);
++ 	return(0);
++     }
++-    attr->atype = attrDecl->atype;
+++    XML_ATTR_SET_ATYPE(attr, attrDecl->atype);
++ 
++-    val = xmlValidateAttributeValueInternal(doc, attrDecl->atype, value);
+++    val = xmlValidateAttributeValueInternal(doc, XML_ATTR_GET_ATYPE(attrDecl), value);
++     if (val == 0) {
++ 	    xmlErrValidNode(ctxt, elem, XML_DTD_ATTRIBUTE_VALUE,
++ 	   "Syntax of value for attribute %s of %s is not valid\n",
++@@ -4522,19 +4522,19 @@ xmlValidateOneAttribute(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++     }
++ 
++     /* Validity Constraint: ID uniqueness */
++-    if (attrDecl->atype == XML_ATTRIBUTE_ID) {
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_ID) {
++         if (xmlAddID(ctxt, doc, value, attr) == NULL)
++ 	    ret = 0;
++     }
++ 
++-    if ((attrDecl->atype == XML_ATTRIBUTE_IDREF) ||
++-	(attrDecl->atype == XML_ATTRIBUTE_IDREFS)) {
+++    if ((XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_IDREF) ||
+++	(XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_IDREFS)) {
++         if (xmlAddRef(ctxt, doc, value, attr) == NULL)
++ 	    ret = 0;
++     }
++ 
++     /* Validity Constraint: Notation Attributes */
++-    if (attrDecl->atype == XML_ATTRIBUTE_NOTATION) {
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_NOTATION) {
++         xmlEnumerationPtr tree = attrDecl->tree;
++         xmlNotationPtr nota;
++ 
++@@ -4564,7 +4564,7 @@ xmlValidateOneAttribute(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++     }
++ 
++     /* Validity Constraint: Enumeration */
++-    if (attrDecl->atype == XML_ATTRIBUTE_ENUMERATION) {
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_ENUMERATION) {
++         xmlEnumerationPtr tree = attrDecl->tree;
++ 	while (tree != NULL) {
++ 	    if (xmlStrEqual(tree->name, value)) break;
++@@ -4589,7 +4589,7 @@ xmlValidateOneAttribute(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++ 
++     /* Extra check for the attribute value */
++     ret &= xmlValidateAttributeValue2(ctxt, doc, attr->name,
++-				      attrDecl->atype, value);
+++				      XML_ATTR_GET_ATYPE(attrDecl), value);
++ 
++     return(ret);
++ }
++@@ -4688,7 +4688,7 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
++ 	return(0);
++     }
++ 
++-    val = xmlValidateAttributeValueInternal(doc, attrDecl->atype, value);
+++    val = xmlValidateAttributeValueInternal(doc, XML_ATTR_GET_ATYPE(attrDecl), value);
++     if (val == 0) {
++ 	if (ns->prefix != NULL) {
++ 	    xmlErrValidNode(ctxt, elem, XML_DTD_INVALID_DEFAULT,
++@@ -4738,7 +4738,7 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
++ #endif
++ 
++     /* Validity Constraint: Notation Attributes */
++-    if (attrDecl->atype == XML_ATTRIBUTE_NOTATION) {
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_NOTATION) {
++         xmlEnumerationPtr tree = attrDecl->tree;
++         xmlNotationPtr nota;
++ 
++@@ -4780,7 +4780,7 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
++     }
++ 
++     /* Validity Constraint: Enumeration */
++-    if (attrDecl->atype == XML_ATTRIBUTE_ENUMERATION) {
+++    if (XML_ATTR_GET_ATYPE(attrDecl) == XML_ATTRIBUTE_ENUMERATION) {
++         xmlEnumerationPtr tree = attrDecl->tree;
++ 	while (tree != NULL) {
++ 	    if (xmlStrEqual(tree->name, value)) break;
++@@ -4818,10 +4818,10 @@ xmlNodePtr elem, const xmlChar *prefix, xmlNsPtr ns, const xmlChar *value) {
++     /* Extra check for the attribute value */
++     if (ns->prefix != NULL) {
++ 	ret &= xmlValidateAttributeValue2(ctxt, doc, ns->prefix,
++-					  attrDecl->atype, value);
+++					  XML_ATTR_GET_ATYPE(attrDecl), value);
++     } else {
++ 	ret &= xmlValidateAttributeValue2(ctxt, doc, BAD_CAST "xmlns",
++-					  attrDecl->atype, value);
+++					  XML_ATTR_GET_ATYPE(attrDecl), value);
++     }
++ 
++     return(ret);
++@@ -6574,7 +6574,7 @@ xmlValidateRef(xmlRefPtr ref, xmlValidCtxtPtr ctxt,
++ 	    while (IS_BLANK_CH(*cur)) cur++;
++ 	}
++ 	xmlFree(dup);
++-    } else if (attr->atype == XML_ATTRIBUTE_IDREF) {
+++    } else if (XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_IDREF) {
++ 	id = xmlGetID(ctxt->doc, name);
++ 	if (id == NULL) {
++ 	    xmlErrValidNode(ctxt, attr->parent, XML_DTD_UNKNOWN_ID,
++@@ -6582,7 +6582,7 @@ xmlValidateRef(xmlRefPtr ref, xmlValidCtxtPtr ctxt,
++ 		   attr->name, name, NULL);
++ 	    ctxt->valid = 0;
++ 	}
++-    } else if (attr->atype == XML_ATTRIBUTE_IDREFS) {
+++    } else if (XML_ATTR_GET_ATYPE(attr) == XML_ATTRIBUTE_IDREFS) {
++ 	xmlChar *dup, *str = NULL, *cur, save;
++ 
++ 	dup = xmlStrdup(name);
++@@ -6782,7 +6782,7 @@ xmlValidateAttributeCallback(void *payload, void *data,
++ 
++     if (cur == NULL)
++ 	return;
++-    switch (cur->atype) {
+++    switch (XML_ATTR_GET_ATYPE(cur)) {
++ 	case XML_ATTRIBUTE_CDATA:
++ 	case XML_ATTRIBUTE_ID:
++ 	case XML_ATTRIBUTE_IDREF	:
++@@ -6797,7 +6797,7 @@ xmlValidateAttributeCallback(void *payload, void *data,
++ 	    if (cur->defaultValue != NULL) {
++ 
++ 		ret = xmlValidateAttributeValue2(ctxt, ctxt->doc, cur->name,
++-			                         cur->atype, cur->defaultValue);
+++			                         XML_ATTR_GET_ATYPE(cur), cur->defaultValue);
++ 		if ((ret == 0) && (ctxt->valid == 1))
++ 		    ctxt->valid = 0;
++ 	    }
++@@ -6805,14 +6805,14 @@ xmlValidateAttributeCallback(void *payload, void *data,
++ 		xmlEnumerationPtr tree = cur->tree;
++ 		while (tree != NULL) {
++ 		    ret = xmlValidateAttributeValue2(ctxt, ctxt->doc,
++-				    cur->name, cur->atype, tree->name);
+++				    cur->name, XML_ATTR_GET_ATYPE(cur), tree->name);
++ 		    if ((ret == 0) && (ctxt->valid == 1))
++ 			ctxt->valid = 0;
++ 		    tree = tree->next;
++ 		}
++ 	    }
++     }
++-    if (cur->atype == XML_ATTRIBUTE_NOTATION) {
+++    if (XML_ATTR_GET_ATYPE(cur) == XML_ATTRIBUTE_NOTATION) {
++ 	doc = cur->doc;
++ 	if (cur->elem == NULL) {
++ 	    xmlErrValid(ctxt, XML_ERR_INTERNAL_ERROR,
++diff --git a/xmlreader.c b/xmlreader.c
++index 67ff2cd..2a1a66a 100644
++--- a/xmlreader.c
+++++ b/xmlreader.c
++@@ -753,7 +753,7 @@ xmlTextReaderStartElement(void *ctx, const xmlChar *fullname,
++ 	if ((ctxt->node != NULL) && (ctxt->input != NULL) &&
++ 	    (ctxt->input->cur != NULL) && (ctxt->input->cur[0] == '/') &&
++ 	    (ctxt->input->cur[1] == '>'))
++-	    ctxt->node->extra = NODE_IS_EMPTY;
+++	    XML_NODE_SET_EXTRA(ctxt->node, NODE_IS_EMPTY);
++     }
++     if (reader != NULL)
++ 	reader->state = XML_TEXTREADER_ELEMENT;
++@@ -818,7 +818,7 @@ xmlTextReaderStartElementNs(void *ctx,
++ 	if ((ctxt->node != NULL) && (ctxt->input != NULL) &&
++ 	    (ctxt->input->cur != NULL) && (ctxt->input->cur[0] == '/') &&
++ 	    (ctxt->input->cur[1] == '>'))
++-	    ctxt->node->extra = NODE_IS_EMPTY;
+++	    XML_NODE_SET_EXTRA(ctxt->node, NODE_IS_EMPTY);
++     }
++     if (reader != NULL)
++ 	reader->state = XML_TEXTREADER_ELEMENT;
++@@ -1216,7 +1216,7 @@ skip_children:
++ 	        xmlNodePtr tmp;
++ 		if (reader->entNr == 0) {
++ 		    while ((tmp = node->last) != NULL) {
++-			if ((tmp->extra & NODE_IS_PRESERVED) == 0) {
+++			if ((XML_NODE_GET_EXTRA(tmp) & NODE_IS_PRESERVED) == 0) {
++ 			    xmlUnlinkNode(tmp);
++ 			    xmlTextReaderFreeNode(reader, tmp);
++ 			} else
++@@ -1467,7 +1467,7 @@ get_next_node:
++ 	if ((oldstate == XML_TEXTREADER_ELEMENT) &&
++             (reader->node->type == XML_ELEMENT_NODE) &&
++ 	    (reader->node->children == NULL) &&
++-	    ((reader->node->extra & NODE_IS_EMPTY) == 0)
+++	    ((XML_NODE_GET_EXTRA(reader->node) & NODE_IS_EMPTY) == 0)
++ #ifdef LIBXML_XINCLUDE_ENABLED
++ 	    && (reader->in_xinclude <= 0)
++ #endif
++@@ -1481,7 +1481,7 @@ get_next_node:
++ 	    xmlTextReaderValidatePop(reader);
++ #endif /* LIBXML_REGEXP_ENABLED */
++         if ((reader->preserves > 0) &&
++-	    (reader->node->extra & NODE_IS_SPRESERVED))
+++	    (XML_NODE_GET_EXTRA(reader->node) & NODE_IS_SPRESERVED))
++ 	    reader->preserves--;
++ 	reader->node = reader->node->next;
++ 	reader->state = XML_TEXTREADER_ELEMENT;
++@@ -1497,7 +1497,7 @@ get_next_node:
++ 	    (reader->node->prev != NULL) &&
++             (reader->node->prev->type != XML_DTD_NODE)) {
++ 	    xmlNodePtr tmp = reader->node->prev;
++-	    if ((tmp->extra & NODE_IS_PRESERVED) == 0) {
+++	    if ((XML_NODE_GET_EXTRA(tmp) & NODE_IS_PRESERVED) == 0) {
++                 if (oldnode == tmp)
++                     oldnode = NULL;
++ 		xmlUnlinkNode(tmp);
++@@ -1510,7 +1510,7 @@ get_next_node:
++     if ((oldstate == XML_TEXTREADER_ELEMENT) &&
++ 	(reader->node->type == XML_ELEMENT_NODE) &&
++ 	(reader->node->children == NULL) &&
++-	((reader->node->extra & NODE_IS_EMPTY) == 0)) {;
+++	((XML_NODE_GET_EXTRA(reader->node) & NODE_IS_EMPTY) == 0)) {;
++ 	reader->state = XML_TEXTREADER_END;
++ 	goto node_found;
++     }
++@@ -1519,7 +1519,7 @@ get_next_node:
++ 	xmlTextReaderValidatePop(reader);
++ #endif /* LIBXML_REGEXP_ENABLED */
++     if ((reader->preserves > 0) &&
++-	(reader->node->extra & NODE_IS_SPRESERVED))
+++	(XML_NODE_GET_EXTRA(reader->node) & NODE_IS_SPRESERVED))
++ 	reader->preserves--;
++     reader->node = reader->node->parent;
++     if ((reader->node == NULL) ||
++@@ -1546,7 +1546,7 @@ get_next_node:
++ #endif
++ 	    (reader->entNr == 0) &&
++ 	    (oldnode->type != XML_DTD_NODE) &&
++-	    ((oldnode->extra & NODE_IS_PRESERVED) == 0)) {
+++	    ((XML_NODE_GET_EXTRA(oldnode) & NODE_IS_PRESERVED) == 0)) {
++ 	    xmlUnlinkNode(oldnode);
++ 	    xmlTextReaderFreeNode(reader, oldnode);
++ 	}
++@@ -1559,7 +1559,7 @@ get_next_node:
++ #endif
++ 	(reader->entNr == 0) &&
++         (reader->node->last != NULL) &&
++-        ((reader->node->last->extra & NODE_IS_PRESERVED) == 0)) {
+++        ((XML_NODE_GET_EXTRA(reader->node->last) & NODE_IS_PRESERVED) == 0)) {
++ 	xmlNodePtr tmp = reader->node->last;
++ 	xmlUnlinkNode(tmp);
++ 	xmlTextReaderFreeNode(reader, tmp);
++@@ -1741,7 +1741,7 @@ xmlTextReaderNext(xmlTextReaderPtr reader) {
++         return(xmlTextReaderRead(reader));
++     if (reader->state == XML_TEXTREADER_END || reader->state == XML_TEXTREADER_BACKTRACK)
++         return(xmlTextReaderRead(reader));
++-    if (cur->extra & NODE_IS_EMPTY)
+++    if (XML_NODE_GET_EXTRA(cur) & NODE_IS_EMPTY)
++         return(xmlTextReaderRead(reader));
++     do {
++         ret = xmlTextReaderRead(reader);
++@@ -3167,7 +3167,7 @@ xmlTextReaderIsEmptyElement(xmlTextReaderPtr reader) {
++     if (reader->in_xinclude > 0)
++         return(1);
++ #endif
++-    return((reader->node->extra & NODE_IS_EMPTY) != 0);
+++    return((XML_NODE_GET_EXTRA(reader->node) & NODE_IS_EMPTY) != 0);
++ }
++ 
++ /**
++@@ -4035,15 +4035,15 @@ xmlTextReaderPreserve(xmlTextReaderPtr reader) {
++         return(NULL);
++ 
++     if ((cur->type != XML_DOCUMENT_NODE) && (cur->type != XML_DTD_NODE)) {
++-	cur->extra |= NODE_IS_PRESERVED;
++-	cur->extra |= NODE_IS_SPRESERVED;
+++	XML_NODE_ADD_EXTRA(cur, NODE_IS_PRESERVED);
+++	XML_NODE_ADD_EXTRA(cur, NODE_IS_SPRESERVED);
++     }
++     reader->preserves++;
++ 
++     parent = cur->parent;;
++     while (parent != NULL) {
++         if (parent->type == XML_ELEMENT_NODE)
++-	    parent->extra |= NODE_IS_PRESERVED;
+++	    XML_NODE_ADD_EXTRA(parent, NODE_IS_PRESERVED);
++ 	parent = parent->parent;
++     }
++     return(cur);
++diff --git a/xmlschemas.c b/xmlschemas.c
++index a2dd6cf..2e6c349 100644
++--- a/xmlschemas.c
+++++ b/xmlschemas.c
++@@ -6024,7 +6024,7 @@ xmlSchemaPValAttrNodeID(xmlSchemaParserCtxtPtr ctxt, xmlAttrPtr attr)
++ 	/*
++ 	* NOTE: the IDness might have already be declared in the DTD
++ 	*/
++-	if (attr->atype != XML_ATTRIBUTE_ID) {
+++	if (XML_ATTR_GET_ATYPE(attr) != XML_ATTRIBUTE_ID) {
++ 	    xmlIDPtr res;
++ 	    xmlChar *strip;
++ 
++@@ -6047,7 +6047,7 @@ xmlSchemaPValAttrNodeID(xmlSchemaParserCtxtPtr ctxt, xmlAttrPtr attr)
++ 		    NULL, NULL, "Duplicate value '%s' of simple "
++ 		    "type 'xs:ID'", value, NULL);
++ 	    } else
++-		attr->atype = XML_ATTRIBUTE_ID;
+++		XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ID);
++ 	}
++     } else if (ret > 0) {
++ 	ret = XML_SCHEMAP_S4S_ATTR_INVALID_VALUE;
++diff --git a/xmlschemastypes.c b/xmlschemastypes.c
++index af31be5..d40da49 100644
++--- a/xmlschemastypes.c
+++++ b/xmlschemastypes.c
++@@ -2867,7 +2867,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
++                 /*
++                  * NOTE: the IDness might have already be declared in the DTD
++                  */
++-                if (attr->atype != XML_ATTRIBUTE_ID) {
+++                if (XML_ATTR_GET_ATYPE(attr) != XML_ATTRIBUTE_ID) {
++                     xmlIDPtr res;
++                     xmlChar *strip;
++ 
++@@ -2880,7 +2880,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
++                     if (res == NULL) {
++                         ret = 2;
++                     } else {
++-                        attr->atype = XML_ATTRIBUTE_ID;
+++                        XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ID);
++                     }
++                 }
++             }
++@@ -2905,7 +2905,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
++                     xmlFree(strip);
++                 } else
++                     xmlAddRef(NULL, node->doc, value, attr);
++-                attr->atype = XML_ATTRIBUTE_IDREF;
+++                XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_IDREF);
++             }
++             goto done;
++         case XML_SCHEMAS_IDREFS:
++@@ -2919,7 +2919,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
++                 (node->type == XML_ATTRIBUTE_NODE)) {
++                 xmlAttrPtr attr = (xmlAttrPtr) node;
++ 
++-                attr->atype = XML_ATTRIBUTE_IDREFS;
+++                XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_IDREFS);
++             }
++             goto done;
++         case XML_SCHEMAS_ENTITY:{
++@@ -2950,7 +2950,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
++                     (node->type == XML_ATTRIBUTE_NODE)) {
++                     xmlAttrPtr attr = (xmlAttrPtr) node;
++ 
++-                    attr->atype = XML_ATTRIBUTE_ENTITY;
+++                    XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ENTITY);
++                 }
++                 goto done;
++             }
++@@ -2967,7 +2967,7 @@ xmlSchemaValAtomicType(xmlSchemaTypePtr type, const xmlChar * value,
++                 (node->type == XML_ATTRIBUTE_NODE)) {
++                 xmlAttrPtr attr = (xmlAttrPtr) node;
++ 
++-                attr->atype = XML_ATTRIBUTE_ENTITIES;
+++                XML_ATTR_SET_ATYPE(attr, XML_ATTRIBUTE_ENTITIES);
++             }
++             goto done;
++         case XML_SCHEMAS_NOTATION:{
 +-- 
 +2.50.1
 +
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-index 780ece8999..6ba85712b3 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-@@ -40,6 +40,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://CVE-2025-26465.patch \
-            file://CVE-2025-32728.patch \
-            file://CVE-2025-61985.patch \
-+           file://CVE-2025-61984.patch \
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+index 932251da98..05a7dce95b 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+@@ -43,6 +43,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
+            file://CVE-2025-49794-CVE-2025-49796.patch \
+            file://CVE-2025-6170.patch \
+            file://CVE-2025-9714.patch \
++           file://CVE-2025-7425.patch \
             "
- SRC_URI[sha256sum] = "fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdaccd262380ae58bec5e7"
  
+ SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
 -- 
 2.43.0
 
