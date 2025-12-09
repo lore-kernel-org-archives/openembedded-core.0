@@ -2,182 +2,177 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4063D3B7EA
-	for <webhook@archiver.kernel.org>; Tue,  9 Dec 2025 02:30:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18370D3B7E2
+	for <webhook@archiver.kernel.org>; Tue,  9 Dec 2025 02:37:50 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10670.1765247448502347271
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10545.1765247869092639942
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Dec 2025 18:30:48 -0800
+ Mon, 08 Dec 2025 18:37:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=J74huL01;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=Oj3Cy+Wf;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4438aff1f5=changqing.li@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B90djEb3215566
-	for <openembedded-core@lists.openembedded.org>; Mon, 8 Dec 2025 18:30:48 -0800
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B90ai5H3209943
+	for <openembedded-core@lists.openembedded.org>; Mon, 8 Dec 2025 18:37:48 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=ZgVS7bUuOacRqaRtGGgmnY
-	TgkpkeapZr3Pf00jD+sUc=; b=J74huL01QRGqO96DTUciFHwniK0D+n7n4EhjI0
-	QhGjIlcE9a6f5ZGZO2AOIoHjQVYaVrW24gXtji0JGIjCVyJQ82wkbVimwGx1RqIR
-	tnBaQIBhuDvfQBhTo0jkhZnXyPu/+Cof6EOgdFRbU56e/ZJ6eZ0Fee20x7P76zMD
-	DMbupwkdLTpjmyq9HzSp61Iw9OuanQKnAq2fqMGQHLpAfhYY3kw3jHAJL24VsVgx
-	2G6B5CV/VcBarMdVPrZWPWI2GAO4GbqKFuI7UTmjsAavl3yDGntjJjDEvwm+njcL
-	ikg5uuGsywLigWnL+p6yrdqYRC28n9lIKB+AsD+/Cm+xP4VQ==
-Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010055.outbound.protection.outlook.com [40.93.198.55])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4avgn5ja48-1
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=APjD9t0Qxxs6UwRtsqiECm
+	pr1ewJ3/oaIbUY/5UBQXQ=; b=Oj3Cy+WfcpfSYg9SFXoYmw9u+L0XUH+/oKmQjp
+	BtUL+rrxI5LYXFb+7zzh3JhNYoAPJkoDUeva2U0yhzWeJgBNcaUhqqQCHRnu8lak
+	t0OX4WdKjJNp8KkCOaFBFJkpqWCFn6K77oMnpgsS2JeKocH0gsZij4sgGZiM5Pe0
+	1XxkuQxFtolCzLaeHtohHCDYD5C9G0To8P3ir/Oxyls0VpBNFyeyK8A1hq98U6vL
+	QI402QZVlTL1Ai13JFOeiR6XQVcybdxwHz4qoSO/zsTT6XCRr6ssO7AwDVyZLeG2
+	cIab7RAeroBwrirR/gcmm7o0NSWuUENwLqE6WCykAurXwkgw==
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011036.outbound.protection.outlook.com [52.101.52.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4avgn5jacp-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 08 Dec 2025 18:30:47 -0800 (PST)
+	Mon, 08 Dec 2025 18:37:48 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XNsCLzvlp3ee/oGS/G1887XLGbsat/8+0BSn/RHxSPXhLryHi8iVz0GWm9Q6UMVfcXzjQrJSrbCMWeYxKpovAHTrW0O3kLveWP2nzplpaO/jxmzxr0NRWG5xWEBHkJKDgWUYrR4cT3BOL4cbuIt6t96nMLgJswa+3/95JoymLUP0r3HygB6yyIAqFja0g/VbG7OslEiYWz5Cmal+PhGbT0azV4ijEc4wI+XSmiw3kmcpW9BBX01+l5vPPelWmZx/3LbAAzvZKcBpskQ7BF5B/gvf6MKpm7vcWdL9f0Tld+1ZhtGRW9DsJ5kSIBC6HJezXdZbZ4wKL7wFl4TDPymHcg==
+ b=j8uZQtz0S9HeFX/m8fsMfWx/nHMWtJcq1UqL51xq6rhg+zDaCljCxH2mtoMc9GuX3BMZ33A4kwIVS7R5WukF3Vfz9L/WBZRKch4NxFPQU+cZVFxA/FEtstT3SFRkUntkYr5Ur+zNtPEo9RqF90f6Wd0fPbAEnXQRpYcP51RB5F5akuuf7wTxap/jSBml+oKOTVq4WlXS88F1IjIuIYq0b0ZKfcgoTDhajvNP4Qum2ZbnOVndR9EJb0rK2q5rLKMOB+YT9dHAWRxEbFgnUvwDulxsevYOUY75iaWV/ZwmgFEwSnwuDyr9IkKapazQysxYz1VcvUktApehCMzMnyWn5Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZgVS7bUuOacRqaRtGGgmnYTgkpkeapZr3Pf00jD+sUc=;
- b=ZU1OERoeWsCwL0u4kgfv+kcvWW7orlSfPZwSeblbTv1Pd9F4pga/vhICvMYyIWD30H6Uc1leInsoI+db4nXOyncCR2g7hmasRJ4UOPO83IGyDVJPjLIECeJwfzb4MB7SK4R5oZD6pYTAxv95Vi9cvKzSDd1eVD3sZWxGo3M8aNRTcpTldhNaYYYLZlPyOgXdg6DXI5y6SpP4fo8Or+rxVZ3zVtSkCYzDqjTXDNmyqZPGH+vsuZxZ2q0UbM5iEp8+z9+X23iLN0LQeDhqsLOHpbMYTUfEaNl4Bq8zRWbJMAruKbKyaObQ4H0HbquyaVE6an/+GtLwgeHC2PdJPoI19Q==
+ bh=APjD9t0Qxxs6UwRtsqiECmpr1ewJ3/oaIbUY/5UBQXQ=;
+ b=H5jHUINYV/qPBO6SfVfJ+9POtdyY13rIYzV8vrcv9pBjahetYgrl4+rVfvXfkpCmDH10LU2vWJJloNwEjkDaMXEpGl8EAOpIEApSSvhReS5grxQX1OdVg+mN4SA65gm8SmsafAypkF9XCb9WkV/WF4q4HsJPpZCS0nE8j4DSqe6pwC1SKf8ub37aHLuBphWDxLNHxEehwNIhmYsUQt6JqQJr6j4pnKJudrn3bcSQhSquvoSA0QBRQTfc8EOkm8ErrywXUOOtJjpItALcXF7jx185Obnj0tJSbB66Hqg2UvSK4hjtvmzKL3D9TXmnujJ53eF0vuYBMQ922XnoHkGxeg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
- by SJ5PPFED9C9AC99.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::85d) with
+ by CH3PR11MB8140.namprd11.prod.outlook.com (2603:10b6:610:15b::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.14; Tue, 9 Dec
- 2025 02:30:45 +0000
+ 2025 02:37:41 +0000
 Received: from DS0PR11MB7312.namprd11.prod.outlook.com
  ([fe80::8436:b2d3:31a9:1c8c]) by DS0PR11MB7312.namprd11.prod.outlook.com
  ([fe80::8436:b2d3:31a9:1c8c%4]) with mapi id 15.20.9388.012; Tue, 9 Dec 2025
- 02:30:44 +0000
+ 02:37:41 +0000
 Content-Type: multipart/alternative;
- boundary="------------cP0075CpJWACNqvucg8l4E6M"
-Message-ID: <f8fece40-cfdd-4e0b-a200-b52d78c25fa5@windriver.com>
-Date: Tue, 9 Dec 2025 10:30:38 +0800
+ boundary="------------FqYsgX3MA7LS53MxuENikwnW"
+Message-ID: <47201384-ce8d-4188-be45-4bbde9a27601@windriver.com>
+Date: Tue, 9 Dec 2025 10:37:35 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 2/2] go.bbclass: set buildid to empty string to
- improve reproducibility
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-        "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/2] go.bbclass: change GOTMPDIR to improve
+ reproducibility
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 References: <20251208091148.368769-1-changqing.li@windriver.com>
- <20251208091148.368769-2-changqing.li@windriver.com>
- <DB5PR02MB10213CFA39B1989410B8D5AFFEFA2A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <CANNYZj8TPT+Y0-ni63tyGPWZHZ4zweaAm7nKdMM_KA40AOkwGg@mail.gmail.com>
 Content-Language: en-US
 From: Changqing Li <changqing.li@windriver.com>
-In-Reply-To: <DB5PR02MB10213CFA39B1989410B8D5AFFEFA2A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-X-ClientProxiedBy: SG2PR02CA0016.apcprd02.prod.outlook.com
- (2603:1096:3:17::28) To DS0PR11MB7312.namprd11.prod.outlook.com
+In-Reply-To: <CANNYZj8TPT+Y0-ni63tyGPWZHZ4zweaAm7nKdMM_KA40AOkwGg@mail.gmail.com>
+X-ClientProxiedBy: SG2PR02CA0103.apcprd02.prod.outlook.com
+ (2603:1096:4:92::19) To DS0PR11MB7312.namprd11.prod.outlook.com
  (2603:10b6:8:11f::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|SJ5PPFED9C9AC99:EE_
-X-MS-Office365-Filtering-Correlation-Id: 98d2ef78-5ae1-43da-2528-08de36caf46b
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|CH3PR11MB8140:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81d137f0-dd7b-454b-e6ae-08de36cbecc8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|13003099007|8096899003;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|8096899003;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?bFJ6UmJKYkxOUmVRT29iLzJkenJIS3MwT0dvWFRvb2VZQThpSk5jc0lKbDdt?=
- =?utf-8?B?dlRLNkN5b3RLeXlyOG01YzhtWEU3MTNPTGVuYTRlSmZMU2UzS2J1T2pOeVJD?=
- =?utf-8?B?SmJoSmxxZmNTdlp4SVd5SjhRelBEdTBzb1U1ZmcrMGNoQlkxcDM1RWxyZTQ0?=
- =?utf-8?B?YzFFMm5rWG8xT1VPZlFHcjh4bVBKN1N2UEdTYlBFRDZSUmgvdlBvbG43WVBi?=
- =?utf-8?B?cUxhRnR1VURDYVAyZjRnS0w2L2FJaFhhYVJpWEdncnZtbFliYU5MdDE4UnNj?=
- =?utf-8?B?S1hEQlJib2k1NHo2YUFlRC9sYjlOTGhyZzRiTWQyQzJocGFrWTBpQzZ5MWxN?=
- =?utf-8?B?aW1BTHpJbzZjNUh3YXJMQk1BVWhSWms0aDRncmxidFBvVFl5d2FjYWFlNEdJ?=
- =?utf-8?B?eHpzc0dHZk1DR2RkUGVZZUJVS29sbmxDL0JJYXpXTDVQanA2MTRYVkV4MXU0?=
- =?utf-8?B?RzBZcE51cUlNZHdvbnVvWlZ5aWo3MDA4TUZ2MDlRZ3JIQkdFelhCQUk1aGQv?=
- =?utf-8?B?VnVnYlAwejlEdXhITjBqL0hCWE5FTkIzL05UUGUrSTRrRm8zNi9CZHZ5NmNK?=
- =?utf-8?B?Q0xCb09oS0J1Wk1ybzZuL2VXekd0WGk3bGZhdXc1MXlxa2Q2LzBwNS9GQWU3?=
- =?utf-8?B?NnM1OUVLY3MwNHJBRlQwN3V2RTNBY1Z4dUxNR0RwaW5JSEpsVUVNMkxtL215?=
- =?utf-8?B?THhVZFl2SUVxN3FJN2VzZ3pnMy9SN1NnMHZmMWJjOTdwQ1d3VVprMC9ZWjdl?=
- =?utf-8?B?VmM0Ynl1R0s4K3NZdEpCYUZUQjZ4b3lpWHZoUi80Q0lwVzNLTHp6cmoyZkVJ?=
- =?utf-8?B?RUNxbk1lMytvSGprdFVhM3ZTT3EyRk85N3VySGwxVmx2NnQ4MVNMVWV1SGht?=
- =?utf-8?B?SG5laGRFcHhhR3hhL2VteDFJR0lYUnhnVEUramw0WHhGenVCNkM0Y1hwZDBi?=
- =?utf-8?B?OGpidVdGaVlaTGxkTHIycFZ6MVo1amhNWGt2ZU12MERaQ1B5TWs3NWpLcWZS?=
- =?utf-8?B?WGlPSXYvYURLd3lFVjZSZUJJc21WOUxZMm1haGxwWU03MXRjL21TUlp2QjVv?=
- =?utf-8?B?ckV6Y1NGaUV0UXJUNFBzTjhVUlhaZUhYSWVuOWVXYk56SUZUTnplak1XUjQy?=
- =?utf-8?B?NlhiangvT003M2wyazBhM0ppR0xqUFNGVFJmeGdXN0h3QlJLRG5pdXhDcWdW?=
- =?utf-8?B?aDFUU05TRkJMenovMnpWenFkQUNXV2NJbkk1ZFMwUUNiTjFkZzdlNk03K3FI?=
- =?utf-8?B?U0lsZWpsMWZoQjd4ZTRJdXFJTkkyYitnSU0rZUJEL1BxTUo2SzdleHNpZUtF?=
- =?utf-8?B?TXhlY3FNMXU2WCsyTWVmajlWVDQrQWtieE1oYXhvelBJbUtuYnZ2eHhXUld4?=
- =?utf-8?B?bkRHL2xXVVVWa2xVQ1V6Um9YQS9TOWptVjBwb3dPWUFnUkNWRHAvNWF0YWNn?=
- =?utf-8?B?ckJ4MUNSek1vVlBHTjJHSGMvakhMR3kyZHYrMjlmZ21XaWFPMnFLS1FYT2FM?=
- =?utf-8?B?WHVDN2t0TzNKWi9ZdDB1T3B2c3M4WUlEU2M4OVF0UW9VelNCbVdZWHZvQjFK?=
- =?utf-8?B?V29SRk9tVjVlME5oKytJdUpNTHNMdUk0K093Q3FMYUR4bWNNOGZRQ1FZazZv?=
- =?utf-8?B?WUd2cTdnUjFFajc2bllUZ1lzY0d0amFNRVBKa1hqVktVNkRSN090MW1udjlY?=
- =?utf-8?B?MkU3ZzM5SzRPVUJHWmxha2grbWtFSTBjUlYxSHdRYlZqM3E0RmQwOTczMUly?=
- =?utf-8?B?T0xSaEVFdkNrKzdWMzNweUdUUHRVdGFMYThLeExpRW1aM2ZJNDg5Qk1VUVcv?=
- =?utf-8?B?cnVWNGJlODBrd2VsZWY1bVVUbm5vQTV2NmE4WS92V2JHYkpiMG9JQzM5SkZP?=
- =?utf-8?B?VmxZbm1IdytFb2dydUFvZms2Vk1hek54SG9Ua0Q0UC9iY0I5WUxNWW5CNEwy?=
- =?utf-8?B?bThHM1lpVWFNTnZESU1JOXpJWWFtY0dzT2dRZUFJRlNOOExqallwSk9PZFlp?=
- =?utf-8?B?T25LS21USW9RPT0=?=
+	=?utf-8?B?a2ZacVd5cU4xZjFwQkI2bjIvdTNaS3F0OG9JcmgzbVNJcmtySG50aDV5cUpN?=
+ =?utf-8?B?bE9ObFlBVWJFTFFGZ0pQb1U2cTdpTTJjaTF1Rnd5SnB6SjlISmRzK3BQK2ZS?=
+ =?utf-8?B?L2FOUVlHUmVOL05LQWZqSUpiY1lEOXcrYlRtZkI4VU1TWHdmd1pjcE4weUpC?=
+ =?utf-8?B?STFUeW82VVZkWCs0YXVTZGtiZGpHaldmL1RhTVhNN0ppd2VGUFF2cUNVUVlJ?=
+ =?utf-8?B?eW9VZkZlSDhHYWV0WXVkSWw2Mzl1MXlndXp5ZTJMcGlxL2ZDYi9acTBtQWp1?=
+ =?utf-8?B?R0VySTRlbmNjaEN6QjVhcUlyRUNIR3JOdzlDaWRxSHFYWm8vakl3MFhVS3Mv?=
+ =?utf-8?B?d24zeU9TcE95eUc5VzZLVkhVWVVPQ091ZStSdFFubEhzM2hCNDREV1pGRjd4?=
+ =?utf-8?B?KzRJdjczdFE1alZWMHpOZDhsbmJtSUp5Y29IaERjNWtsUlBXeXUwTTYyMUJN?=
+ =?utf-8?B?NUw1RmJaUno0RUFHTmNUZWdUdXgwcm9zUGFpSkJUcEMySlFoVFZXN3A3cE5l?=
+ =?utf-8?B?NXhCbE82VHRadEhlNjRFM3pmR1k0YTluQzZncHBoTkRNam56ZktwZzlHTkNa?=
+ =?utf-8?B?b2Z0R1VOMWQrNzBIcUZna05IWEVKWHVXdXI2TkdHTE5QSkJ6L2U0S0swMWhm?=
+ =?utf-8?B?Z0tTOWdmOExUNm53c210ZExUckMyTUhnM3g0Zkw0U0FzN0ZZTHRrTkRmcDUv?=
+ =?utf-8?B?cXk0alhubG5wQlk0RU8wakhxL2VaL1BWbHBXT3hpZ21wODFVSUs5RGs2LzJF?=
+ =?utf-8?B?NVZ4KzRIQnhlTHBQSGJNbkZpSEdSWDNtRHdJazR1Z2NkTlBkTXVQbzM2ZUZC?=
+ =?utf-8?B?TjcybXh4US9Xd3R5a3lBSWdyTTRrR2ZqQm1Edk1VazZURllKK0lzTVRJTWRZ?=
+ =?utf-8?B?U09vemlGNlZJeWJMWEhRbHZYV25YWHJZZHpIU2lhOStBRzZtam9zVDFIQm5P?=
+ =?utf-8?B?UHQvZXZWRXhWT1lMS0RldVh0OWNLbXNYTmp0cnNPbkFONnM0UHl3V0RZd0lC?=
+ =?utf-8?B?WUU5R2xKQ0VjaTFjQkE2ZDM3WGtBYTkyQzBkN1BuWndVbCtUMmw1YXlrWEIv?=
+ =?utf-8?B?WTVXdE9ad20rZWhVeHQ1aFB3am5HUkNRVDJaSWgreDlXdWRxMmt1Um1GNUFD?=
+ =?utf-8?B?U3ltOTVjUFNpYzVENmwvbEVWMHdUeHl3VlRCNXdtWDh1NmptT29qVHpkQ0dE?=
+ =?utf-8?B?ZG5yRWlDVFh1ODhtclVMNHJDT1A3US9adFFHNUNOL0ZpR09Vb3NHWDROOTlI?=
+ =?utf-8?B?UlozRVB3YkdOSVdIQ0VLeE5LUjcrM1JQRThmRWw2M2hLMVA2VFMvUUpYb1h2?=
+ =?utf-8?B?RGZYd0ZoZmlhNTJoS1Z3a0FtV0s5R2YzbjRjU2xoSitJT1lOdnVEN2dXaUk2?=
+ =?utf-8?B?MTQzSzNCbG9YSnlrdHpHbjRpMWwrRE14RGN3UmpvSUpGS0lXWFcvTTJSSnlp?=
+ =?utf-8?B?YVNYRytlZ0pJaWlKbUowTEpJTnpWaTlVeUpDaXc2U0ZDcThHRFBXcXVMcThP?=
+ =?utf-8?B?SUQ1UnFqVlVYYU9xQXJLWm9KOER5SG5Jbm4rTVFEdkxYczZ1MEJkMTBnWWRH?=
+ =?utf-8?B?YlNicGR1KzVTd3dLVk11c2pta04rY0I4TUNKOHJUYWg0dWp6U3p6ZnUrcUV5?=
+ =?utf-8?B?L1FScndPZGFrdlhsamJVWmwrQ2pwODNOWUtWV2FRdFdoVnF4QVdMM2dmK3V2?=
+ =?utf-8?B?RU14T0x4NnVSRE9FenFrVHJ1YVB4bUJIcHBtbGVLWXdkSDQxTlExa2trQVd5?=
+ =?utf-8?B?SGhLbU0yR0FZcllMVmxSbjd2a0dxRXlUYlJ6WGcyVnFCVUpHQXBzNlhTb05r?=
+ =?utf-8?B?a2g1aUkzMWdHNjZremEydytDdlNERFhBeFlaaVVGSGgyY1RoYlV4eFRUZEcr?=
+ =?utf-8?B?OTBFcVVHcmR3QnpCZUpFcEpDNC9tQTZTMnVGNEs3S3EvZ0t6V3VMcmkyWWV2?=
+ =?utf-8?Q?G0V/DTKIpix3Wazo5lcy41EAE9Y5FgZc?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(13003099007)(8096899003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(8096899003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?VHo5cDVCY3NlODFXQ2dWeUMxckV3a3Y3aFFEZ08vREQ0STJVaXZUOUpCRko0?=
- =?utf-8?B?MWZCRDBwekl1TVp3QnBwWDJRejdBTWllT2NSSFJBZ293MFcyYStPeS9kN2Vt?=
- =?utf-8?B?WmhBTmNoVldGTk1JMEVNWVk0YXpCbDk5Sm9RNGhVcmVkc2F2MDgxZzB3VW4w?=
- =?utf-8?B?RXE0L2lwSHhPZnIycXl3enpMRFdlTHNydEVGanRmSURKbzVpdkk4Z1c3TXZj?=
- =?utf-8?B?MDR6NnVaeWJyQ0xrSlBnVVRkS0g4S0JLQk81dDBFanR2amdlVzRvUXhQR0VG?=
- =?utf-8?B?UkJQdjNhMTNHZG5RU3BuSzBvanhVemVBRXU4TDZYdHY3SXJkV1lzQTNaVEJB?=
- =?utf-8?B?aU81dWRTK3l2bnBBV2g0ei80WEpsbUxOVGw1bEVXZmpvc3lDYTZ2cUxVUVFm?=
- =?utf-8?B?U1MvRytqb3dTMlpuOXBxODlCNVRFT3VPYzZVTExSNE0zYkY0S2FubFZzd1ZF?=
- =?utf-8?B?MElhNGhHajlvdkpwQTdSUVk4dGYwWjBjSWtEdXZTaFpvSnZDVFZNRDRMSGor?=
- =?utf-8?B?TnFKVHlXTUpDZDJxN0N1am9vZlQvVkQ0aUx3RWNPZWtjMEVrSXpPaWFaNEJu?=
- =?utf-8?B?NHhEUGNTQnZTNzlKa2Vhd1FPbkJ0VUg3QkRoZ0NvNmhPL0NNcjJUcGh5Mzlh?=
- =?utf-8?B?QkgrQ1VRMm1xMVRmZC9Cd0FHcHlONGlkUWxtUHhJQkQ2akd5akczeG1kaEU3?=
- =?utf-8?B?ZlMwbEZDTzVDbDgwdGZ0K0NTaXMvSkZDcVNSSjlHak5DRHpVaTRzWnVpNDF5?=
- =?utf-8?B?Y2kra0t1bEQyU2RkRXE0NDFRVEFsMEpMdTZtbmI4S2N5MUJmdzNnK2xuTlJr?=
- =?utf-8?B?NDhSbW1YeTZnc2xYYTFjTkxSS082QjhJeURtMnNScFh1ZFpnZHY3VzRSUjNx?=
- =?utf-8?B?TzhydlJkSTRuOTVuUTVsS3hTMTNjVTZSTyt3NGFzbmt2RXdKWmVHays2Lytk?=
- =?utf-8?B?QysvZUJHRmNVajltdWlhYlJPVjNHd01rNVpBY0dVSzJYTnBhQS9xS1hLSXVT?=
- =?utf-8?B?b2FLUkJUR1FZeFZQWEw4VjVSUnZoZmloVjJsVUZmdHFlOVVycWRNYXlQZVpj?=
- =?utf-8?B?Q3EwRWlqcWU3ZmdSS0p3ZTM3SGx4b2RmOWNKMTJLYkovcUdHdXZrb250ODEv?=
- =?utf-8?B?cHNTWUZZU3FpT0tHejRMMkhseUNuVVlMOEgxZENCMU9KT2xlVTA0VVdubHJm?=
- =?utf-8?B?c0RrVDJHbzVMWjNGZ0F0U1ZLTjVVRmxzajRlbEtidlhkUko0OFMzYXdIeFdS?=
- =?utf-8?B?Y0lnNTJzNW81SXRqSUsxZ0pJWjV5TCtreFJSRjV2Qk9OSlFTSFVTSFNaSDNW?=
- =?utf-8?B?NnZKRnlJSGpBRGRjSVh3R2NqNmZKS2xTVFdjVmdXOFRuU0JKa3dLeWt4RG9q?=
- =?utf-8?B?N2FkNHp4WWJETW5HMlNsZ3FDRHh4SWxLNjR3UGxEdVQyL2lJRCtCV1NxVlVK?=
- =?utf-8?B?NDFPQyt0UStMcWhGTFptRWZ3VDRCMGNaaER3aVVzdWphRGhQMmhyVGJ0TllV?=
- =?utf-8?B?MGFvbUJ4M0NvdURUQzFudURHdDZMWkJkUFQxTFpkN1B0NUY2SHhId2ZMZ1hK?=
- =?utf-8?B?UDJ3OEhwcUVpTkxOdG4ydFV6aDFpN0pkU2twbXBURnZaT2xpSkVIdXJxRlpB?=
- =?utf-8?B?N0xBOUx0VkFVN0tpQ293RHBwVFkySURLSUpnalEzcnROQzBJYzNBRFZZSkw1?=
- =?utf-8?B?RklJQWh3Q3pUbUxFN2F5dlN4dldEdlRTT3FnRkpXL3FYek5mNkJhaXZoU2NX?=
- =?utf-8?B?Yk1vc0ZwNWtwRk5lK2tSZkJzaWdFcGVETTJzYmVONXdzMHhjMU51Y0xiUjNP?=
- =?utf-8?B?VHh6dlFJU3JYbHpwZXl2eGh5eWRkSkpmUlZOM3FWUGZ2TlJsMUdFOWU3L09t?=
- =?utf-8?B?bmRDZ2NubVVmTkkwa09SOFU4V0xrNDdXbjIxb1ppQ3NFd2h3c1IyeldsU2V0?=
- =?utf-8?B?MEoweE16RXZ5T3NTd0gzakU2UFp4SjNvMDY1THF3c2tXWHRLOXo4SStzVS9z?=
- =?utf-8?B?YjhNODA3UzhuQ3U4aUJEMXg2NDZXWEtxclQ2WGdwOWJDbGlTVWNqeHloVGJU?=
- =?utf-8?B?NHQ1cFFwczV1NFlnVHlIQmhveHpJQ1B1NkN5V0RzbzhySnF3cEtwamEwT0Fn?=
- =?utf-8?B?eDF6eUlGb01VM2lzNWpsUmtCaUdpS3FPOGJ6VzRVT0U2T0FzUk5xNS9PcXJU?=
- =?utf-8?B?d0E9PQ==?=
+	=?utf-8?B?bjY2YmIxSWZuTXpZTnV6UEhtN285TWExN040dXJpTU9vOEsrN3YzWldTL1do?=
+ =?utf-8?B?Skp5VTFFTlFNTGFpaEg2aUcwRTZTQWlOczJzWlRaREtHZ1c5R0Z6aGg1N3Zm?=
+ =?utf-8?B?TVFhTllUUzZyR0djNEJXWS9ncXByMTlIbFViY05nTTFUSE9wOWFEbjN0dTda?=
+ =?utf-8?B?TVRBTzhkV0pielZJL1R6NWczSW51TGJxa0FJZ3VTdG0rWlE1SEwrOG5YYjB1?=
+ =?utf-8?B?b2EreG1zYllrRXgrWjZNSDVSVW5xMTdBcXFRNU9CcDRlUGdIamtWK1hsT0dy?=
+ =?utf-8?B?bFM1UlNVSEl0Ky9zK1hxVzBySXozQVdTb3paNnlPRWMyVVArRkk1WkdaNUEx?=
+ =?utf-8?B?R3FaOWNDenRpRnpjejYwMmxPMmFmNThlNGhOYUI0U3UxUUN2Z3VGWUNxRFdO?=
+ =?utf-8?B?ZDJyc1pwRXkzdnBOQTQ4YmZwVytxbzFEMTExRUZJRDlSYm1vb2JKN3JQSDlS?=
+ =?utf-8?B?QnpQbkhGaFFlQlhJTVU4SDV5VzYvaFB0ay9icStnUFZVUXdyM1BWNlRMK3dK?=
+ =?utf-8?B?U0hhbi9lZnNpREx3QXJTTHRxNHV5bXY5c2NPdlp0R3VFNlpXSXdFdDU5VDlv?=
+ =?utf-8?B?aGVEeXU2d3hkRHBhQkdNc092a1FZanBvbEFOZFVNdm9LQmdLTXhpaGg5M2l6?=
+ =?utf-8?B?LzdVd3ZTNjV3V3NkR3dqTXZCcFFZcHlpMUluWk5MVHVoeHpwWnpaeDFrcS9H?=
+ =?utf-8?B?WFJHbG91cE96dTJTVDBHN0tMdW00R3JWZFhmY0dEZllHemwyK0ZqeGtJRGlO?=
+ =?utf-8?B?Z2JXeUk2MmsrMTRERHVnZ05qY2YraWg4SWlYSnpxYzBDU2hIdVlycTVvazNY?=
+ =?utf-8?B?OFhVczEzK2tRdmlZZnJwbkVKQ1dFNkcxalRLRnpwdXFKc21wVXVKeUVvS0RF?=
+ =?utf-8?B?angyMWYzU2cvdTJySC9kSEJNZnVTUGZZVTdNVWZtSnVYQmxCSWVlM2F0WERj?=
+ =?utf-8?B?OXo5NThYSGVLRS95dDc2azJveVFrWkRZdkpHYTZUa3BjVXpSYkZpTEF1QnNR?=
+ =?utf-8?B?S0Zkb0J1UFhseWpKVEhoaGVJZmRpMFFtcUszSU1zdkVaUHdYUjlFaklTTE1x?=
+ =?utf-8?B?bHIxZXNiK3ZjQmhkemJtRzJBU2k2K3FXVWFJb2dyL3NmU0lZZVRkRmtuaDZD?=
+ =?utf-8?B?Y1FwdTAra2p2c3prOWRmYU9MMkJvdG90bDU3R3lkbDFRRFlHMUgvM201dEcz?=
+ =?utf-8?B?bWROMytiS3dldVo0amVkcmRrMG55d0J2WXhOWUNZczQzb29XcFkyVjcveEdz?=
+ =?utf-8?B?bU1MWFJwY28yT3Q3eGg4dGhqTVlVeFVrQUx4dVlyRENHTWs2WHE1dDU4UnBl?=
+ =?utf-8?B?ZDBUSlp6U1grdlhoU0l0anp5QWIwWnUvWlBOUk04L2IvYVhjK0RiVjFoMDh5?=
+ =?utf-8?B?SzR6VzR3TUY3R01tTXlRMTFrcnNhQ3BLbG5HQVVmUW5GbnpVK3VWME9uYlpv?=
+ =?utf-8?B?NFZNbVFZM1BOelhBTXRDdkMzRXlvaXlEdnQ4SnJPUWdzaTR6R0c4bWhodmR5?=
+ =?utf-8?B?b3hKZGgrZ2JmQzdoOTFEak9XR1BnK3JMYVhRUGRsb1RWaExpV3J0Z0xHSDVW?=
+ =?utf-8?B?blloNmxKMjNEblZTU29VNENQdHpNUVBtL1lUK2VERTRqUVlsYTdjNUZ0U3l6?=
+ =?utf-8?B?dEpRTUNGVzk4N2FQTXFZbVRCS3Z5cXZNMldmUmpUWWI1a0FoS0ZsZHRJck00?=
+ =?utf-8?B?WnJLUWhQUGl4RXM4dlUwRkhBQzBCMXYrOFRKNXhlNjVrajdpR2JWall1ckNP?=
+ =?utf-8?B?TW0rRDg5dkhOOTF2K3Q3V2Q0RVpFWTF4SHJNTXg0ZjRNZHhTUmlxSmZESVk2?=
+ =?utf-8?B?b1BmTDdpdHZPcUp2ejFYMG8vQXRBUHNQMktsNDFud1YyQjhRalRNd2RyVDc3?=
+ =?utf-8?B?a2JlYjd6R0NIVURUYkpFbFFHMlZaSWdVUG1YVzdjSVF2ZmpyaXVhQ0taWG1R?=
+ =?utf-8?B?U0FvRmEzRk5vZjVvTFVpRi9Jc1BoVTZCR2IrclQ0Y25iSmIwZmEzb1l6L044?=
+ =?utf-8?B?TEZudlZtVWhXb1ZNTWxoODhRK3lEWlN1S1pSK3hTVHM2Rm9YN0ZzOWhRYjFa?=
+ =?utf-8?B?dlV4YksyZ1RScGhlNmNwR2NZZjRTc3djYUVFbk5ueUdaQjFtcWhQMXhHYjdZ?=
+ =?utf-8?B?ZE9lak9NTmxsMWFFQ0UzbzViOEFwVlh1Q1BzNWpBVW1ZNFpaSkYwZU1QelM5?=
+ =?utf-8?B?K2c9PQ==?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 98d2ef78-5ae1-43da-2528-08de36caf46b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81d137f0-dd7b-454b-e6ae-08de36cbecc8
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2025 02:30:44.9000
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2025 02:37:41.5235
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: frY5kXjhZROO9+20wp+wBzYQ3tJEhXf9VanMtGntnXe4vH4QcEixfEFBNL/YLEjh7IPJnyi79cAx6tSdECvB/VVYirzV5HcZ5xSwrA4FkYo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFED9C9AC99
+X-MS-Exchange-CrossTenant-UserPrincipalName: lAmlg3ZtQPwb25DsDGc8Uzmwic0TfBOQLjzDRtWqN1PhSDWGAvgxh+4TiWqAzqTggh7Q5g/hPImms3sFUhGVycoxvHn7QGFIZ5m+4Gqxqbg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8140
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: adu55Yx2Ik7nIcbk_FKRTwjld8St13GD
-X-Authority-Analysis: v=2.4 cv=MtJfKmae c=1 sm=1 tr=0 ts=693789d8 cx=c_pps
- a=aDjbMzJe6/auvryAEMJQMw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-GUID: o7PGmYCsg5pewiK0SCbSeNnIhbjxlY1f
+X-Authority-Analysis: v=2.4 cv=MtJfKmae c=1 sm=1 tr=0 ts=69378b7c cx=c_pps
+ a=VYnc1ZjkwFV8r4Zgssgzxg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=Gx2nT7eDiwncn7tCOvkA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=UqCG9HQmAAAA:8 a=yj-aMKAYKbz0kkd27lYA:9
- a=XaAa6V0GyomdkYRG:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA5MDAxNiBTYWx0ZWRfX+237+1JG5hhg
- zeFdtgGhsdtfcTvr6sZL+lr+PfrQvAYxKE1A8V+PNSf0Wi8KDiJdRTcMdH3YXtkB0B1OA0E8w54
- FHhM9GoNonQ2+eKCoPD98rgWSOTX5fXNcJLfCct5qDEnw2Kx5LOkOY6bNeP9wYEgsfWrEkl/0eb
- mhB9Mh1m8oz6UnJX9qNb1Z7sAuBRhtPHDdEnS3Gp18CPGSN64U7zRtmNRs8hYwU+UzzCgRGaauK
- KQ9bIW1RUCmT91ad/uPlKl+O0nC8xZI9Wv/cexGqFC2x40Uji6ocSBVC3EtTbRe5D52QrWHCXUV
- J6rL7auUkLXPxLSOJ6oYOtCohCm8tHCdzfoj/SdCIeNnEn+If57aR+VV5jDQvgnfEXXRhjGmtMK
- C9C/bq0MHqY+C7bldbHkV9hKuzIEVw==
-X-Proofpoint-ORIG-GUID: EQaBLLSoSC5TEWmpSdKUEBIsJtW1JzKl
+ a=Q4-j1AaZAAAA:8 a=xS8pIiRQ-qf2PX0N_gcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=pGLkceISAAAA:8 a=wvPkM9v7g1_ikmSEda4A:9 a=3_tVXwlE9Po0EL3_:21
+ a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA5MDAxOCBTYWx0ZWRfXwOQdF8REKCbV
+ XxDLg6AU96MjOXoIX4FK/JS3mSykYF6nxKus3otYL67dQdRkZv+Yf1CFaDiIAROUouX0E+Ak4PQ
+ f6gcPzx2qL3wB3SKpsCvpEt11bqoXh+5zBimUkNKlA95hv/SI7r7VKc62ppS3yvLfOTJdyH/g7s
+ +OB6qeGhr7uChy8wh6khZjl5DOQLucBULUN7vPDHG36q6lokUile8YR5ze8KvubnyXGOAn4FcQK
+ 0Lno0boj+IUwDHBd6vR/1tnMBf4denAVsZ8Fqm2T7xD4FoKTHdTP6YaAZdCwzBEzQ97sMKvp4lc
+ e7u6vSG0+POumUHCCkG2qFFNQJg0vpZ5in/eeaeYoB+x08LyQMqS/swXs/LGSLPeYGzOhRQZCV7
+ 6wcZ0BT3yzxMVsESTUS05J5OW0A3xw==
+X-Proofpoint-ORIG-GUID: TjDvbC8zLKQyDc-TXnl6KMSnz-HymiGh
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-08_07,2025-12-04_04,2025-10-01_01
@@ -185,83 +180,62 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  adultscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
  phishscore=0 malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512090016
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512090018
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 02:30:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227413
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 02:37:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227414
 
---------------cP0075CpJWACNqvucg8l4E6M
+--------------FqYsgX3MA7LS53MxuENikwnW
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5B90djEb3215566
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5B90ai5H3209943
 
 
-On 12/9/25 03:14, Peter Kjellerstedt wrote:
+On 12/8/25 18:41, Alexander Kanavin wrote:
 > CAUTION: This email comes from a non Wind River email account!
 > Do not click links or open attachments unless you recognize the sender =
 and know the content is safe.
 >
->> -----Original Message-----
->> From:openembedded-core@lists.openembedded.org <openembedded-core@lists=
-.openembedded.org> On Behalf Of Changqing Li via lists.openembedded.org
->> Sent: den 8 december 2025 10:12
->> To:openembedded-core@lists.openembedded.org
->> Subject: [OE-core] [PATCH 2/2] go.bbclass: set buildid to empty string=
- to improve reproducibility
->>
->> From: Changqing Li<changqing.li@windriver.com>
->>
->> Seems there are other things making Go BuildID not reproducible, set
->> buildid to empty string to improve reproducibility, open a new issue
->> [1], and refer an old issue [2].
->>
->> Refer:
->> [1]https://github.com/golang/go/issues/76743
->> [2]https://github.com/golang/go/issues/34186
->>
->> Signed-off-by: Changqing Li<changqing.li@windriver.com>
->> ---
->>   meta/classes-recipe/go.bbclass | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes-recipe/go.bbclass b/meta/classes-recipe/go.b=
-bclass
->> index ed986ff5d4..2593368af7 100644
->> --- a/meta/classes-recipe/go.bbclass
->> +++ b/meta/classes-recipe/go.bbclass
->> @@ -50,7 +50,7 @@ GO_RPATH:class-native =3D "${@'-r
->> ${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE
->>   GO_RPATH_LINK:class-native =3D"${@'-Wl,-rpath-link=3D${STAGING_LIBDI=
-R_NATIVE}/go/pkg/${TARGET_GOTUPLE}_dynlink'=20
->> if d.getVar('GO_DYNLINK') else ''}"
->>   GO_EXTLDFLAGS ?=3D "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${GO_RPATH_L=
-INK} ${LDFLAGS}"
->>   GO_LINKMODE ?=3D ""
->> -GO_EXTRA_LDFLAGS ?=3D ""
->> +GO_EXTRA_LDFLAGS ?=3D "-buildid=3D"
-> Adding it to GO_EXTRA_LDFLAGS will probably not have the intended effec=
-t
-> as some recipes already set that variable and thus will not receive thi=
-s
-> option. You should probably add a new variable for it instead, like the
-> other options that are set in GO_LDFLAGS.
+> On Mon, 8 Dec 2025 at 10:11, Changqing Li via lists.openembedded.org
+> <changqing.li=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+>> This patch changes GOTMPDIR from ${WORKDIR}/build-tmp to
+>> ${WORKDIR}/go-build-tmp so that the path no longer matches ${B}. This
+>> prevents unintended replacements by OE's DEBUG_PREFIX_MAP and
+>> restores reproducibility.
+> Wait. Go does not have reproducibility problems right now: it is a
+> part of reproducibility test, and not in the exclusion list. So how
+> can the issues that this patch set aims to fix be observed?
 
-Good suggestion.=C2=A0 Maybe I can add a varibale GO_BUILDID ?=3D "-build=
-id=3D"
+I checked autobuilder configs,=C2=A0 although we have reproducible test, =
+but=20
+only test with openembeded-core
+
+and layers under meta-openembeded,=C2=A0=C2=A0 and there is no recipe inh=
+erit=20
+go.bbclass(except etcd under meta-oe,=C2=A0 but already skipped)
+
+So actually,=C2=A0 we don't have reproducible test for recipes that compi=
+le=20
+with go.
+
+And I tested with this step:
+
+on a host,=C2=A0 with build path ra,=C2=A0 and another build path rb-exte=
+nd,=20
+bitbake buildah under both project,
+
+the rpm of ra, and rb-extend is different,=C2=A0=C2=A0 and with these 2 p=
+atches,=C2=A0=20
+the rpm will be the same.
 
 //Changqing
 
->>   GO_LINUXLOADER ?=3D "-I ${@get_linuxloader(d)}"
->>   # Use system loader. If uninative is used, the uninative loader will=
- be patched automatically
->>   GO_LINUXLOADER:class-native =3D ""
->> --
->> 2.34.1
-> //Peter
 >
---------------cP0075CpJWACNqvucg8l4E6M
+> Alex
+--------------FqYsgX3MA7LS53MxuENikwnW
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -271,77 +245,53 @@ Content-Transfer-Encoding: 8bit
   <body text="#000000" bgcolor="#cceed0">
     <p><br>
     </p>
-    <div class="moz-cite-prefix">On 12/9/25 03:14, Peter Kjellerstedt
+    <div class="moz-cite-prefix">On 12/8/25 18:41, Alexander Kanavin
       wrote:<br>
     </div>
-    <blockquote type="cite" cite="mid:DB5PR02MB10213CFA39B1989410B8D5AFFEFA2A@DB5PR02MB10213.eurprd02.prod.outlook.com">
+    <blockquote type="cite" cite="mid:CANNYZj8TPT+Y0-ni63tyGPWZHZ4zweaAm7nKdMM_KA40AOkwGg@mail.gmail.com">
       <pre wrap="" class="moz-quote-pre">CAUTION: This email comes from a non Wind River email account!
 Do not click links or open attachments unless you recognize the sender and know the content is safe.
 
+On Mon, 8 Dec 2025 at 10:11, Changqing Li via lists.openembedded.org
+<a class="moz-txt-link-rfc2396E" href="mailto:changqing.li=windriver.com@lists.openembedded.org">&lt;changqing.li=windriver.com@lists.openembedded.org&gt;</a> wrote:
+
 </pre>
       <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">-----Original Message-----
-From: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a> <a class="moz-txt-link-rfc2396E" href="mailto:openembedded-core@lists.openembedded.org">&lt;openembedded-core@lists.openembedded.org&gt;</a> On Behalf Of Changqing Li via lists.openembedded.org
-Sent: den 8 december 2025 10:12
-To: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>
-Subject: [OE-core] [PATCH 2/2] go.bbclass: set buildid to empty string to improve reproducibility
-
-From: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
-
-Seems there are other things making Go BuildID not reproducible, set
-buildid to empty string to improve reproducibility, open a new issue
-[1], and refer an old issue [2].
-
-Refer:
-[1] <a class="moz-txt-link-freetext" href="https://github.com/golang/go/issues/76743">https://github.com/golang/go/issues/76743</a>
-[2] <a class="moz-txt-link-freetext" href="https://github.com/golang/go/issues/34186">https://github.com/golang/go/issues/34186</a>
-
-Signed-off-by: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
----
- meta/classes-recipe/go.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes-recipe/go.bbclass b/meta/classes-recipe/go.bbclass
-index ed986ff5d4..2593368af7 100644
---- a/meta/classes-recipe/go.bbclass
-+++ b/meta/classes-recipe/go.bbclass
-@@ -50,7 +50,7 @@ GO_RPATH:class-native = &quot;${@'-r
-${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE
- GO_RPATH_LINK:class-native = <a class="moz-txt-link-rfc2396E" href="mailto:${@'-Wl,-rpath-link=${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE}_dynlink'ifd.getVar('GO_DYNLINK')else''}">&quot;${@'-Wl,-rpath-link=${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE}_dynlink' if d.getVar('GO_DYNLINK') else ''}&quot;</a>
- GO_EXTLDFLAGS ?= &quot;${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${GO_RPATH_LINK} ${LDFLAGS}&quot;
- GO_LINKMODE ?= &quot;&quot;
--GO_EXTRA_LDFLAGS ?= &quot;&quot;
-+GO_EXTRA_LDFLAGS ?= &quot;-buildid=&quot;
+        <pre wrap="" class="moz-quote-pre">This patch changes GOTMPDIR from ${WORKDIR}/build-tmp to
+${WORKDIR}/go-build-tmp so that the path no longer matches ${B}. This
+prevents unintended replacements by OE's DEBUG_PREFIX_MAP and
+restores reproducibility.
 </pre>
       </blockquote>
       <pre wrap="" class="moz-quote-pre">
-Adding it to GO_EXTRA_LDFLAGS will probably not have the intended effect
-as some recipes already set that variable and thus will not receive this
-option. You should probably add a new variable for it instead, like the
-other options that are set in GO_LDFLAGS.
-</pre>
+Wait. Go does not have reproducibility problems right now: it is a
+part of reproducibility test, and not in the exclusion list. So how
+can the issues that this patch set aims to fix be observed?</pre>
     </blockquote>
-    <p>Good suggestion.&nbsp; Maybe I can add a varibale GO_BUILDID ?= &quot;<span style="white-space: pre-wrap">-buildid=&quot;</span></p>
-    <p><span style="white-space: pre-wrap">//Changqing
-</span></p>
-    <blockquote type="cite" cite="mid:DB5PR02MB10213CFA39B1989410B8D5AFFEFA2A@DB5PR02MB10213.eurprd02.prod.outlook.com">
+    <p>I checked autobuilder configs,&nbsp; although we have reproducible
+      test, but only test with openembeded-core</p>
+    <p>and layers under meta-openembeded,&nbsp;&nbsp; and there is no recipe
+      inherit go.bbclass(except etcd under meta-oe,&nbsp; but already
+      skipped)</p>
+    <p>So actually,&nbsp; we don't have reproducible test for recipes that
+      compile with go.&nbsp; <br>
+    </p>
+    <p>And I tested with this step:</p>
+    <p>on a host,&nbsp; with build path ra,&nbsp; and another build path
+      rb-extend, bitbake buildah under both project, <br>
+    </p>
+    <p>the rpm of ra, and rb-extend is different,&nbsp;&nbsp; and with these 2
+      patches,&nbsp; the rpm will be the same.</p>
+    <p>//Changqing<br>
+    </p>
+    <blockquote type="cite" cite="mid:CANNYZj8TPT+Y0-ni63tyGPWZHZ4zweaAm7nKdMM_KA40AOkwGg@mail.gmail.com">
       <pre wrap="" class="moz-quote-pre">
-</pre>
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre"> GO_LINUXLOADER ?= &quot;-I ${@get_linuxloader(d)}&quot;
- # Use system loader. If uninative is used, the uninative loader will be patched automatically
- GO_LINUXLOADER:class-native = &quot;&quot;
---
-2.34.1
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-//Peter
 
+Alex
 </pre>
     </blockquote>
   </body>
 </html>
 
---------------cP0075CpJWACNqvucg8l4E6M--
+--------------FqYsgX3MA7LS53MxuENikwnW--
 
