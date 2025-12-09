@@ -2,64 +2,64 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22E52D3B7EA
-	for <webhook@archiver.kernel.org>; Tue,  9 Dec 2025 12:11:12 +0000 (UTC)
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6270.1765282266155002779
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 253B9D1CDC6
+	for <webhook@archiver.kernel.org>; Tue,  9 Dec 2025 12:15:52 +0000 (UTC)
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6348.1765282549426009990
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Dec 2025 04:11:06 -0800
+ Tue, 09 Dec 2025 04:15:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZXstsOrY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-477ba2c1ca2so72370845e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 04:11:05 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DqrocboB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-477a1c28778so70669535e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 04:15:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1765282264; x=1765887064; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1765282548; x=1765887348; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=X7oySnJewEqtmwbZNUDvu+aw7zRBMe26ftsStMjqVD0=;
-        b=ZXstsOrYhloB9KdlBkmMRYiOTfWaJ+L5+HNWIwn8xQ3+PVFcDStbWEMMeD7mCq1sVV
-         eDzJkbSwFw2r4qB/Q0ZAZrvSLDmTTuaNnbSYREujflamlFhyAR3G1gK+rHTyEFGDieLF
-         0VGhEP3WmQOeAFFXZG1gaRQOB0/0EkRU/ATTc=
+        bh=Hr31ebGWEu2XkrBX3US9I+qFyF9HDohsiw9BZQo56BI=;
+        b=DqrocboB8XWrJqD+Rv+/sEDdW8UXad2E7+ulQ1EgR+w4iggqI2+zEMpjXkZEvVPe1X
+         g4zVxFFLa1bugVq6LDONcWiQn0HsAzg48hFCl6fPsR4lxsi27vi1WsPDrOiSM3a7SLsX
+         GqzllNcMjZT+ANEBzUhekqTMaL0HC/KpEEDUw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765282264; x=1765887064;
+        d=1e100.net; s=20230601; t=1765282548; x=1765887348;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X7oySnJewEqtmwbZNUDvu+aw7zRBMe26ftsStMjqVD0=;
-        b=xNbkTjWlezhusHjXAx0mqbKjYp34Q7aPpkn9Rd3+8DBx6agkkG4Zs461klwkxVu7PU
-         uAMSO+psm32zJlaHDgIxcHDXO+h68Ae8vO3bPFYChJR0H1tb79BFBzCoz0xb3h5F7HEH
-         3vuZig/K1TLa2iLpBv32JEoxWn3EKfxzrpXbqdSfIJLDz421ZrNTu5iQVr9vwGERu1T9
-         xSp2KdoAJ/0Y+hyaWL2D73EODew/pI9RUDFzH4kHL7Ai+edc/NyVwdXpY688kcHw4F8u
-         pVjLJGkLJ2R4OCkn5MsFLvNjaPjpQmuI1pLKW+mhhlQb6ct6M1F/LfklKjUtGVQvBMTM
-         5lpw==
-X-Forwarded-Encrypted: i=1; AJvYcCXx2M3f5CbSDm426HSjGxOtSc00mnlvAO0T7uvo7EcT5v0Pb16B2LzlOllSptfnG4QKq5/spEvurfbMtKA3Lhly2A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxLVU2jyE+ko0PJk8+i6ir44ZaoM1tAXnzmNRXFltADVosgWCrZ
-	XZkWLrvgsEPb4WMP+U1vJ2lf7jSVJUIUbq0S80pen11/mNN/kFXmIOR7M7QT03811nQD7CKp9P2
-	8nAlnXZZlbQ==
-X-Gm-Gg: ASbGncuSVKd7kuEV35xUm9yLJyK/OtKSzrgxjjA5rVd5c8izy8+mCWl8VrQo01OJfpE
-	bFEkVAQQI3nOFSTTkkLVWQ+MPu2n1oiFgYZtWu9HbDfoNsNGG2GPOXgfJvk3XN6d/I5YtNOJb/M
-	GID98ijHhsAtiEUqESm9WkhNsqcGnkUzs7w7ysBmptJSWPJ5wMyS5ej2PeaIsXijc39lRDzGr22
-	Lt1y+7+Xmb7xktN3IKmuCczhwJFFVJoUoqCDK32w/DenItaLBKGLOPGlqxqEacdOVZcjs1rbt9E
-	jKb6ml0EF6hlchFTWoV7ddfBBBib+y+JsNBIJEgZExhCu/ImKMeJNBShnXgNxxbHcn8RJZV+QxH
-	pO7kSAZGjYLfv9FpzepP5Xb0cuazIU7TryTbSoi2WFzu0nxbgd2Kdik7D9LL+NlRyAMOUS9ckNL
-	DvbIGeop61JL3q6cJadcttCiLRog0ohuhzQS7dzWCxTrVGBCZqwi/ZG+9c2Ajz3ICjo6CdcPHhd
-	gLvCTVGu7VgOg==
-X-Google-Smtp-Source: AGHT+IEjnbOyST1jIjUXoaTFPqcRvVx6DvJLuvXM9q3eZkEmjz1uSv7sRyrQ4ol513pi/Y+1DLw19w==
-X-Received: by 2002:a05:600c:c4ac:b0:475:e09c:960e with SMTP id 5b1f17b1804b1-47939e48f56mr99991725e9.32.1765282264430;
-        Tue, 09 Dec 2025 04:11:04 -0800 (PST)
+        bh=Hr31ebGWEu2XkrBX3US9I+qFyF9HDohsiw9BZQo56BI=;
+        b=fuImr4R0bB5lKX0KlxJJNoEYgBjmMFG480Do6TW6qFSvRbLq0J14KRsw9Ua61KezbV
+         4d2SrL+Hf/0p56BReYxRL8jApLUXb7vmzP0Msk+pDXBujqHkTR3xNDnvQUkbi8dLSfs9
+         CoIICw2uJRIjbY9lKOP4GTCyiCjxFmr93q/v2tSg71DN7vk3ZVsxLnDudHsdI2BHNYO8
+         jxasQBLJv9TNE62OkqVClvKV9ofsxptw47qzgdt/DjwLMCZLekcRhh3VWwrA7oq/Q2JE
+         GoKC4TBbEa3evBUZ3SNMK9T+5BTCGGCBacmsgNOLtOGQDLMXBvk2gH+8tG1G1QUPbXCi
+         tEAA==
+X-Forwarded-Encrypted: i=1; AJvYcCW6CSvSGuVBfBWPlszT+M3U8vAAdsYCJG9AvGan01tOo6dleLBbM0LJN/s0FxXfKm7kzXfG69ETfpc6Bwmcaq/EZg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzulzOtC+EYE3ZDKhcgCcjwQaNhSQszT6K28g2SDoG6JAdu+rov
+	WJliraDfdKpr8pvh5O9eZb0LFv5t7Tde0Y7KuEDR0+UdJymjNgR+sNg0lzS4lW/kOz3a1mZPLC0
+	V762YWAD20g==
+X-Gm-Gg: ASbGncsuHaHWeohov1JmzmTIubeSBMtRKbixB43qZVHTzhxZpFZS+1oVp3SwSzdaQeN
+	VNI7ZEXwSIm3b2jP+yn6cIv88sIkJeyDKyClMuZSUCnEE+AJgGiodugfqK/OtrbqqC0u1oUi6K0
+	Feg4v+FfzJ9fQGVvyzr8yoERP0FuRH5r5Y/ETskJEFe2HFCIrPfVReIeAtm8O7hVFmfQ4eTrVdi
+	Rk3vyIHpOEwoN84oL1/xZv63WU2WRyXmHP0VUVOCPAvowvutJzsNXbWnjHV1fa/IZxig17SB5Kp
+	A6xGiJ8D95M0gyl3cOyXQTIRiYtMn19zSa/17XSQSmoPLOOWsKof9hwJQCD8UflYMvnbG098rPm
+	6HoqZDgulQVgLDCr3Fnko7PgyeDMiWEvZDtGz2V4H8RgzzGICajpxQwdydZDhjTlrfLEbj7Su6E
+	Rh/TIEYHkcXrgQhqvwnur8Z5dNFgdZ6SJWsQdUSZCYvKgI30yZHp/CaVrjNoa2KPieBNS6XvYIL
+	ILEhsHRS2+OgA==
+X-Google-Smtp-Source: AGHT+IEfA+5KnQ5Qg3alvHNLzc1h0BVtvpsj1TfgvDSJDCnvenpjIZP/n39MwUrsFqZqc0JjDSXa+g==
+X-Received: by 2002:a05:600c:b93:b0:477:76c2:49c9 with SMTP id 5b1f17b1804b1-47a6f9e7da9mr89419095e9.2.1765282547663;
+        Tue, 09 Dec 2025 04:15:47 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:31fe:6f5a:7771:4340? ([2001:8b0:aba:5f3c:31fe:6f5a:7771:4340])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a7d3749bbsm17344965e9.3.2025.12.09.04.11.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a7d2e7110sm19766095e9.0.2025.12.09.04.15.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 04:11:02 -0800 (PST)
-Message-ID: <96bf25fde10bb6d163ab8c268d5994fd862def21.camel@linuxfoundation.org>
+        Tue, 09 Dec 2025 04:15:47 -0800 (PST)
+Message-ID: <21ecfe93e87cc6126ceee4d520125e2819b2f1e0.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] gcc.bbclass: set -fcanon-prefix-map for
  class-target only
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: skandigraun@gmail.com, openembedded-core@lists.openembedded.org
 Cc: Mingli Yu <mingli.yu@windriver.com>
-Date: Tue, 09 Dec 2025 12:11:02 +0000
+Date: Tue, 09 Dec 2025 12:15:46 +0000
 In-Reply-To: <20251202075844.3270075-1-skandigraun@gmail.com>
 References: <20251202075844.3270075-1-skandigraun@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -69,8 +69,8 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 12:11:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227432
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 12:15:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227433
 
 On Tue, 2025-12-02 at 08:58 +0100, Gyorgy Sarvari via lists.openembedded.or=
 g wrote:
@@ -110,15 +110,22 @@ ian =3D "nativesdk-gcc-runtime"
 > =C2=A0
 > =C2=A0TCOVERRIDE =3D "toolchain-gcc"
 
-Why are DEBUG_PREFIX_MAP being passed to the host gcc?
+Just to be clear, this patch does have other concerns, for example, we
+should be passing that value to nativesdk too which the above patch
+also breaks.
 
-We only use it in target flags or nativesdk flags, both of which would
-use our cross compiler, not the host gcc. If it is being passed to the
-host gcc, that is a bug and should be fixed.
+In some ways the opposite would be better:
 
-I appreciate there are some rust bugs in this area but those need to
-get fixed, we don't want a global workaround we could then never get
-rid of.
+DEBUG_PREFIX_MAP_EXTRA =3D "-fcanon-prefix-map"
+DEBUG_PREFIX_MAP_EXTRA:class-native =3D ""
+
+however my original concerns stand, we shouldn't be passing this to the
+host gcc at all in the first place :/. These complexities are really
+why we need to fix the underlying issue.
+
+I did take some hacks into the release since it fixing this properly
+will take more time than we had available but for master, we do really
+need to get to the bottom of it.
 
 Cheers,
 
