@@ -1,92 +1,132 @@
-Return-Path: <Pascal.Weisser.ext@karlstorz.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F767D3B7EA
-	for <webhook@archiver.kernel.org>; Tue,  9 Dec 2025 13:22:42 +0000 (UTC)
-Received: from mx08-0040c702.pphosted.com (mx08-0040c702.pphosted.com [185.183.31.154])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7545.1765286553559248391
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDEADD3B7EA
+	for <webhook@archiver.kernel.org>; Tue,  9 Dec 2025 14:22:52 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8752.1765290162179377187
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Dec 2025 05:22:34 -0800
+ Tue, 09 Dec 2025 06:22:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@karlstorz.com header.s=S-DKIM-20210427 header.b=cfFLT5EV;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: karlstorz.com, ip: 185.183.31.154, mailfrom: prvs=24386082c6=pascal.weisser.ext@karlstorz.com)
-Received: from pps.filterd (m0267678.ppops.net [127.0.0.1])
-	by mx07-0040c702.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B94eTvc1105462
-	for <openembedded-core@lists.openembedded.org>; Tue, 9 Dec 2025 13:22:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karlstorz.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	S-DKIM-20210427; bh=zxRVQe+O6MJNRo/vOqQpTE+QYBfu81RF/dfbwzUeIfI=; b=
-	cfFLT5EVjst/P/b/ORcR1DAk8kQzVTFEl/UaqRkfY2fwT/qHw2hMJJlg4QmOnVLv
-	MbHE73M8PmzsmxWqTAdsKE8Y7ad9pOJVmj6qxqKJv+5cIis3bD1RVwe75TsZlMJa
-	7Lyz87GTEwK6hTDMnudZjfFMkwXwask+zgHKiTy9Mq00RiHPDEfv3msX1VGsl//I
-	M8WbMbFBU+t45KiLUkZpfwKlI35L3KNkATHmu+btU6tlbuwLRxN8EATbrR+K5BP9
-	U9ouMqKfdGgaDy76F91++zYoQj15wXKEPEkpZNR1GMiSjz0kRcW5v+sqSDmOwMVp
-	C3wY+1jvuiFTpSEU/QjAaQ==
-Received: from tut-ex02-pv.kstg.corp ([62.134.76.232])
-	by mx07-0040c702.pphosted.com (PPS) with ESMTPS id 4ax6s4a9k9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 13:22:32 +0000 (GMT)
-Received: from TUT-EX01-PV.KSTG.corp (10.0.10.190) by TUT-EX02-PV.KSTG.corp
- (10.0.10.191) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Tue, 9 Dec
- 2025 14:22:31 +0100
-Received: from tutn-bpfb5m3.kstg.corp (10.0.10.41) by
- InternalSMTPRelay.KSTG.corp (10.0.10.190) with Microsoft SMTP Server id
- 15.2.2562.29 via Frontend Transport; Tue, 9 Dec 2025 14:22:31 +0100
-From: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: "Weisser, Pascal" <pascal.weisser.ext@karlstorz.com>
-Subject: [PATCH 2/3] weston-init: Add HOMEPAGE variable
-Date: Tue, 9 Dec 2025 14:22:07 +0100
-Message-ID: <20251209132208.402718-3-pascal.weisser.ext@karlstorz.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20251209132208.402718-1-pascal.weisser.ext@karlstorz.com>
-References: <20251209132208.402718-1-pascal.weisser.ext@karlstorz.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GbXQrbxF;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47755de027eso39698675e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 06:22:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765290160; x=1765894960; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6ZUdeCwTsXa6j7lXMKfp6kCBvQkGtUNIn2qbzLbKOog=;
+        b=GbXQrbxFh+AaXrbUOcVbAtTUXJnG2s+A405Vn01bViKg1K7/NpsF0ZzdoRMC8GG+ym
+         vIE7iXoduingCSuNVwNKNpfUJaV/UnNhxx12yBbxj/AFPvga5jxwOvO0BotGlDYGRpav
+         md7y2zZBhDoBkvlVpY6dNMZUo8vz1U3C43WzJUwAlMLaOQlOQmLyRr4oeeQez4NCA+B7
+         i8UP8Y0dUhxkT8r83DWhnSYJDZ/wSODByTW2rTAyFm5laea2UNgmAY/pMqVvwH5Yqyg+
+         H7sIoB6D4gdyGkL9VWaQyQ//h6djgUzTlyk2Rvah92JP/4CCG9uCX/BhSpN7PSIZLWpG
+         rkyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765290160; x=1765894960;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6ZUdeCwTsXa6j7lXMKfp6kCBvQkGtUNIn2qbzLbKOog=;
+        b=ph/S4/LrO70rEq/qG5Yrm0kdNwD+hustUStTRKiUsHFM4TJyju7TbcBnbys0U8maKO
+         1Q4QGRL/Yp+UpZkbC7aj7CfM3DkRg8rU8+8KTvIyK/WQLS7afqDwxT6BlAhCZvoNfjWv
+         OcKrS8EbznpGnSJa2sYH6fAciLuqpbOLbGsr50zM6eW+AwK9267exfeTX44KwxKRXg+4
+         0DPdFyIDS/sWAau67axvRkCMXcjvuyjGGnhlaqoOvE8BFVQIRQdrL3Yzvnyh7IqMIbM6
+         NB0jZOoU+2iUxDaiEaOqgddo0A9Xpg33KWstmOCIWdmjk5ipa4mpAnRUNJyTmlmwJZrh
+         oUkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVSBqfxEA7wQgO6jKA63u/6VBAOYs1mhHOm6CCEqZCE05HYf64AsfBPFdR+0dQX3qrCmmT0Gymwhx8EYDZfoSesKQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwoPVakxmk/5Ru4ZGFAkfUnJu/OouXxQHZPGd/XJs9Z1IX/ddkY
+	ywzSvziqWMirvlmoPCIhxDkXv/YLaZ/+8iM2fJmmGa8rVlCGsPCrQZXXErJwXg==
+X-Gm-Gg: ASbGncutlA5iHAQJp2vJTO1FOMc9sv1l7CS5niL2KYUS0/J/OTqBjcCRUUHOHsf+O4C
+	xSTOeo6EhccpzzdBX0No+Hl3iqsRNBhBvBy31/zhJPAys/vcCV3gfxS3Pr/F97TP2zGpRQFtWGj
+	TqnITZotlWHwbDPdOunHkCzLlyr+iCu/fbSoJ+6emMsQUje0d890sxVOFSoSodlYLTY1o9wHDZt
+	XvgUqYPg5C8mY6lwdL4Lk+aHmFSzQmDV3jUI52xYAml1qxLELSsvQm3X9fNvUQgakHS4BlN3e4S
+	FKOqcIOdT27ixLdr1Pogo31MMdKIMYXGijU2ag82fkqexckU21pppyliuVfR7mujD6ntbKARHzS
+	d9BgOYnMtjgX3p6TXkWXxKPZZyEddZmWtkmZY3AGvqJ2RMmMCjoqtiBHBUS6Kp3XYKGed42TeDg
+	yTycQMoSt8IoPB1G1jQwI=
+X-Google-Smtp-Source: AGHT+IEv7eacj8yZ8ytO5HxSRlO+240cFKOT492QLDVIIs/0sM5h4oCVLYXhLy1ozZcQ8NsGuMys5w==
+X-Received: by 2002:a05:600c:c4ac:b0:475:e09c:960e with SMTP id 5b1f17b1804b1-47939e48f56mr104041055e9.32.1765290160196;
+        Tue, 09 Dec 2025 06:22:40 -0800 (PST)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d353f8bsm32303897f8f.43.2025.12.09.06.22.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Dec 2025 06:22:39 -0800 (PST)
+Message-ID: <e0819c20-eb5a-4af6-af5b-321f1021ce59@gmail.com>
+Date: Tue, 9 Dec 2025 15:22:39 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+Subject: Re: [OE-core] [PATCH] gcc.bbclass: set -fcanon-prefix-map for
+ class-target only
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Mingli Yu <mingli.yu@windriver.com>
+References: <20251202075844.3270075-1-skandigraun@gmail.com>
+ <96bf25fde10bb6d163ab8c268d5994fd862def21.camel@linuxfoundation.org>
+Content-Language: en-US
+In-Reply-To: <96bf25fde10bb6d163ab8c268d5994fd862def21.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA5MDA5NyBTYWx0ZWRfX4FxkrFy4229G
- leudRklwQiFcs/TYlMBKY85SRnd+44nv5BLENI0DH/012wthLJaR6QlULOOM4NWI03M8Bpw5CWk
- oWglEnt/WWyETFieoXpCDRKF2uPlqsG1leDpTnWuRXIu9Utd/cCn/w2fXvnFHyDJydpuICNIzRP
- P2rNck0n+2veSRbeMITU7RlRqvgZAqYIiMb+Dn1WjqP0j8wPb3+5Kt0iClKQEovkKIElclxidFi
- 5qKcixvPUTMIM52yDZ1JWx/ufEqMobfuz0C1GVOcx+f8bIrSs5vrqyPW1X9ExbNdARxWf4rsc8g
- WpsjipEdg4ytMm1lQKqVW/7+qOlwt3b1a/VZt/biqotAq73kNkea9grhPYRgCyY+NPBvBm2PbHG
- p85FTmUeuExfTBBAjXWOEMuWztb74g==
-X-Proofpoint-ORIG-GUID: 5TVLyYuFCfQMFTfxtTnlvGZYKOroqoDd
-X-Proofpoint-GUID: 5TVLyYuFCfQMFTfxtTnlvGZYKOroqoDd
-X-Authority-Analysis: v=2.4 cv=N/ck1m9B c=1 sm=1 tr=0 ts=69382298 cx=c_pps
- a=OToaj9FDvIz41JSycRbD4A==:117 a=OToaj9FDvIz41JSycRbD4A==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=iGHA9ds3AAAA:8 a=n9SCklZpAAAA:8
- a=e2mEn3olZKEtDfV7IA8A:9 a=nM-MV4yxpKKO9kiQg6Ot:22 a=MDYma9B3dblYkEs0OMj2:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-09_04,2025-12-04_04,2025-10-01_01
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 13:22:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227438
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Dec 2025 14:22:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227440
 
-Add HOMEPAGE variable to weston-init recipe.
+On 12/9/25 13:11, Richard Purdie wrote:
+> On Tue, 2025-12-02 at 08:58 +0100, Gyorgy Sarvari via lists.openembedded.org wrote:
+>> -fcanon-prefix-map is not supported by all host gcc version that is supported
+>> by the Yocto project, which causes build failures when building recipes
+>> for the host machine.
+>>
+>> This flag was supposed to be set for class-target anyway when gcc is the toolchain,
+>> but even when a native target is compiled with gcc, both gcc and gcc-native classes
+>> are loaded, and gcc.bbclass overwrites the DEBUG_PREFIX_MAP_EXTRA value.
+>>
+>> To avoid this, set this variable for only for class-target, explicitly.
+>>
+>> Reported-by: Mingli Yu <mingli.yu@windriver.com>
+>> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+>> ---
+>>  meta/classes/toolchain/gcc.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/toolchain/gcc.bbclass b/meta/classes/toolchain/gcc.bbclass
+>> index 0ed49ba892..5ec98bf7c5 100644
+>> --- a/meta/classes/toolchain/gcc.bbclass
+>> +++ b/meta/classes/toolchain/gcc.bbclass
+>> @@ -30,6 +30,6 @@ PREFERRED_PROVIDER_virtual/nativesdk-cross-cc:class-cross-canadian = "gcc-crosss
+>>  PREFERRED_PROVIDER_virtual/nativesdk-cross-c++:class-cross-canadian = "gcc-crosssdk-${SDK_SYS}"
+>>  PREFERRED_PROVIDER_virtual/nativesdk-compilerlibs:class-cross-canadian = "nativesdk-gcc-runtime"
+>>  
+>> -DEBUG_PREFIX_MAP_EXTRA = "-fcanon-prefix-map"
+>> +DEBUG_PREFIX_MAP_EXTRA:class-target = "-fcanon-prefix-map"
+>>  
+>>  TCOVERRIDE = "toolchain-gcc"
+> Why are DEBUG_PREFIX_MAP being passed to the host gcc?
+>
+> We only use it in target flags or nativesdk flags, both of which would
+> use our cross compiler, not the host gcc. If it is being passed to the
+> host gcc, that is a bug and should be fixed.
+>
+> I appreciate there are some rust bugs in this area but those need to
+> get fixed, we don't want a global workaround we could then never get
+> rid of.
 
-Signed-off-by: Weisser, Pascal <pascal.weisser.ext@karlstorz.com>
----
- meta/recipes-graphics/wayland/weston-init.bb | 1 +
- 1 file changed, 1 insertion(+)
+Hmmm... looking a bit more into the original issue, I think you are
+right, and this patch should be indeed dropped.
+This change was triggered by a (not rust related) build issue reported
+for a meta-oe recipe, but taking a second look into that recipe, it
+passes the DEBUG_PREFIX_MAP directly to the compiler when building for
+class-native, which is most likely triggering the issue in the first place.
 
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-index e236bdb253..29cfba0833 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -1,4 +1,5 @@
- SUMMARY = "Startup script and systemd unit file for the Weston Wayland compositor"
-+HOMEPAGE = "https://www.yoctoproject.org/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
--- 
-2.50.1
+Sorry for the noise.
+
+> Cheers,
+>
+> Richard
 
 
