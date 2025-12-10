@@ -2,98 +2,106 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6710D3C539
-	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 12:35:02 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14650.1765370101192515529
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0B35D3C53B
+	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 12:39:02 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14476.1765370341533210650
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Dec 2025 04:35:02 -0800
+ Wed, 10 Dec 2025 04:39:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=QcTgoD3H;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=bu0va/RV;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 0B5601A20A7
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 12:34:59 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 6D7C9C19640
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 12:38:35 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id CCDF960714;
-	Wed, 10 Dec 2025 12:34:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A3A7B11931684;
-	Wed, 10 Dec 2025 13:34:57 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 355FA60714;
+	Wed, 10 Dec 2025 12:38:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 30E06119316B8;
+	Wed, 10 Dec 2025 13:38:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1765370098; h=from:subject:date:message-id:to:mime-version:content-type:
+	t=1765370338; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=GkxXW419jxUpAaATD43Hgp/daXfmTWnuD5lfckXR+C0=;
-	b=QcTgoD3HqqaefyYIdlR2sNkhp3SlEIs4LZgLJHSek/RoGtNHOmsjjkjyfiVBPrP6QsPHK7
-	L8B2wUaBs29KGqLdPhTrvbwGHpyNTvgx4e8Yx71kZSXZItU+SQFHg5yz+Y8N/CVU3gSAan
-	J+S2bIMhEcV7L5wAki7aAoJjtWqyZx3NnIkPkj8gjSR9EtA4DzQJQ1/3izj38fZF7f22IN
-	GLtB5xfPMZJVOUTC1rOi5pda8fBF6Qruqp9aevqQb5X7g/0CmotFy7feAHJ3reewK6NY01
-	q4/HuETxtkxdLnZ9vLkfeQdFWgOLBAE6bw/968tRzBYQ8jGZTarHQkVu8mxe9Q==
+	bh=ncaueO3YZUA+lS2T59tZaD121PYZPj0POpCenKfjwSw=;
+	b=bu0va/RVSQmw6BNr5i22qkRAeTFLYAjVZv7mhHGTeFLVQvgSpr1Gc9OXDN3FSyJJQHOYn1
+	mDoKP5hOpg196dOrcsyvOVGrxz9MKWQukL/RLK3+rLoRXEIM0/OFhT4B5I4FVFL3vQYZVO
+	+ZrlV8v4GgDRAyzLGM1djEShbE+dvTuMkCZZ0hjLqEBHeDRSostdWteFkuhJROBrsF7LRT
+	/8d3pCKEe5LXw5WpLgoiOlZ80TpYBmZ+fPpYLoD2o8yiX7h1isVTD90ePEVuC0cTJ18YAB
+	rotYjH5WuMhXe8RaNsoMKDzVt9pJqj9EvyZI96yhv3lr3/4jWiViJ+Ov1V9n7w==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 10 Dec 2025 13:34:56 +0100
-Message-Id: <DEUJGY7DX7HR.18JETI2LY83QZ@bootlin.com>
-Subject: Re: [OE-core] [PATCH] meson: upgrade to 1.9.2
+Date: Wed, 10 Dec 2025 13:38:56 +0100
+Message-Id: <DEUJK0SSKEAH.850A8C91DLFT@bootlin.com>
+Subject: Re: [OE-core][PATCH v3 6/6] patchtest/selftest: Ensure HEAD is
+ attached before running attach tests case
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <ross.burton@arm.com>, <openembedded-core@lists.openembedded.org>
+To: <naftaly.ralamboarivony@smile.fr>,
+ <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20251209174220.2972106-1-ross.burton@arm.com>
-In-Reply-To: <20251209174220.2972106-1-ross.burton@arm.com>
+References: <20251209105513.273859-1-naftaly.ralamboarivony@smile.fr>
+ <20251209105513.273859-6-naftaly.ralamboarivony@smile.fr>
+In-Reply-To: <20251209105513.273859-6-naftaly.ralamboarivony@smile.fr>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 12:35:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227473
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 12:39:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227474
 
-On Tue Dec 9, 2025 at 6:42 PM CET, Ross Burton via lists.openembedded.org w=
-rote:
-> Release notes:
-> - Array `.flatten()` method
-> - clang-tidy's auto-generated targets correctly select source files
-> - Added Qualcomm's embedded linker, eld
-> - Added suffix function to the FS module
-> - Support response files for custom targets
-> - meson format now has a --source-file-path argument when reading from st=
-din
-> - Added license keyword to pkgconfig.generate
-> - New experimental option `rust_dynamic_std`
-> - Rust and non-Rust sources in the same target
-> - Swift/C++ interoperability is now supported
-> - Explicitly setting Swift module name is now supported
-> - Top-level statement handling in Swift libraries
-> - Swift compiler receives select C family compiler options
-> - Support for MASM in Visual Studio backends
-> - Limited support for WrapDB v1
+On Tue Dec 9, 2025 at 11:55 AM CET, naftaly.ralamboarivony via lists.openem=
+bedded.org wrote:
+> From: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
 >
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> If the repo is in a detached HEAD state, create and check out a temporary=
+ branch
+> to attach HEAD. If the branch already exists, the error is raised via run=
+_sh.
+>
+> Add a check to verify that the Git state has not changed before and
+> after the test in the attached HEAD.
+>
+> Signed-off-by: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
 > ---
 
-Hi Ross,
+Hi Naftaly,
 
-Thanks for your patch.
+Thanks for your patches.
 
-I suspect this update is the source of the following error:
+> --- a/meta/lib/patchtest/selftest/selftest
+> +++ b/meta/lib/patchtest/selftest/selftest
+> @@ -120,6 +120,9 @@ def is_git_state_same(before, after):
+> =20
+>  def run_tests(patches, counts):
+> +    temp_branch =3D "test_patchtest_head_attached"
+>      git_state =3D get_git_state()
+> -    counts =3D test_head_attached(patches, counts)
+> +    assert git_state['branch'] !=3D temp_branch, f"Cannot run patchtest =
+selftest while on branch '{temp_branch}'"
 
-oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '. /srv/pokybu=
-ild/yocto-worker/qemuarm-oecore/build/build/tmp/work/qemuarm-oe-linux-gnuea=
-bi/core-image-sato/1.0/testimage-sdk/environment-setup-cortexa15t2hf-neon-o=
-e-linux-gnueabi > /dev/null; meson setup --warnlevel 1 /srv/pokybuild/yocto=
--worker/qemuarm-oecore/build/build/tmp/work/qemuarm-oe-linux-gnueabi/core-i=
-mage-sato/1.0/testimage-sdk/epoxygccq2bbt/build /srv/pokybuild/yocto-worker=
-/qemuarm-oecore/build/build/tmp/work/qemuarm-oe-linux-gnueabi/core-image-sa=
-to/1.0/testimage-sdk/epoxygccq2bbt/libepoxy-1.5.3 -Degl=3Dno -Dglx=3Dno -Dx=
-11=3Dfalse;' returned non-zero exit status 1.
-...
-tmp/work/qemuarm-oe-linux-gnueabi/core-image-sato/1.0/testimage-sdk/epoxygc=
-cq2bbt/libepoxy-1.5.3/src/meson.build:100:4: ERROR: required dependency mus=
-t not be empty, "" was provided.
+It looks like we are hitting this error on the autobuilder.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/2819
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/67/builds/2864
+So it means either we have to selftest, or we have to modify how this is
+running on the autobuilder.
 
-I tried to get more log files from the worker, but it looks like they
-are gone. Please tell me if I need to rerun builds to get more data.
++ /srv/pokybuild/yocto-worker/patchtest-selftest/build/layers/openembedded-=
+core//meta/lib/patchtest/selftest/selftest
+Not a Git repository
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/patchtest-selftest/build/layers/openemb=
+edded-core//meta/lib/patchtest/selftest/selftest", line 198, in <module>
+    counts =3D run_tests(patches, counts)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/patchtest-selftest/build/layers/openemb=
+edded-core//meta/lib/patchtest/selftest/selftest", line 173, in run_tests
+    assert git_state['branch'] !=3D temp_branch, f"Cannot run patchtest sel=
+ftest while on branch '{temp_branch}'"
+           ~~~~~~~~~^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/71/builds/2829
+
+Any clue about what might be done here?
 
 Thanks,
 Mathieu
