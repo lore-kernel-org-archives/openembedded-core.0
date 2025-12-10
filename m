@@ -1,160 +1,1171 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAF87D3E76B
-	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 18:00:23 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2321.1765389614400631112
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19523D3E76C
+	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 18:07:34 +0000 (UTC)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2501.1765390053013528048
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Dec 2025 10:00:14 -0800
+ Wed, 10 Dec 2025 10:07:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=khRPYIu8;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=Dtww2I8Q;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BAAU0sM1603105
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 18:00:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=wFAl5wn6wZApiBjkvGwX9bG3
-	/FZolBOZm+LDJoJieII=; b=khRPYIu8lo4vdB5hcExxZcge1xj8dm/U7mk+1C35
-	iR4KftOwk6fNGVV41evP3Fxmt7WIBQx6+Zm6eoCkYMU4IRjT/sD1YjtiOokoecS9
-	drraP920c/LZKdpUG9bLKFilajzlySIvsnmPoyYITZR2aXoFsEnKe9UlJlLWWQCG
-	s/ED9+SoS5HWT55gcPnAah1YophYqbO+m2r489sHmdnvGwEgTb32MRexFniU1CSc
-	XL8y+7eJj2G8I8KZQKoFNjt9aODvtkgU7oOmQ12r44s7BXa32SfLpOOW1Kk1rYIz
-	uJx0MW/TWX9bTOGLv07ZMbICh6O+A9isqrN8Ld9rO1RbHA==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ay75q9epr-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 18:00:13 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-340c07119bfso217449a91.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 10:00:13 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=US3rnzGu;
+ spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-78c5adeb964so1218897b3.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 10:07:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765389612; x=1765994412; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765390052; x=1765994852; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wFAl5wn6wZApiBjkvGwX9bG3/FZolBOZm+LDJoJieII=;
-        b=Dtww2I8QpKVGEs42to9IpUUCOalq54D0yRugjFoWhKt+UXF47IcosfWoTCLVPoEI9v
-         weNFRYd0K8bvJtChXQcnP/OTcfdRoVLzfXkVx+Mq5ziac7l+EW3luQ9WpqNL98+K8ad0
-         CBeXSicbmRvfPkI/LK+2FbOb93V0/9BnZaBgaHHpfkGOlUj2CklTF1w2g4yTO08iuLTD
-         Zyke1rbMlAvgdvep6l+ljjq3EU2iJFmCxh29lRedw+y2oO9eWr0VHtz9AG9zaSMxstHT
-         Pj/0MpH7kpXoZvcu7bQ+U7/ECQxaO1HfirwoC8e70z+nwyHEMAM82QXLWCU6VkDm14Rd
-         jLww==
+        bh=nTfl9E8suqiweRYqG/xW/6jCbdeRPHIFw3qyLQn+890=;
+        b=US3rnzGu3m343g5k5FChVtPrVmiJFFXq50hdaLKuSOKRswK68VRczga2W6Jxym2Xx6
+         a1VP4bCrnBGqisBc1EpUmB5oX0tnltslD9Miidzqgmmi6RsOgb6iP2Qu7ka0NOZRBpqk
+         pKJQd5Au8cjb4jt3Tl1ta6QI5KF3qlsfbvLBPlZMmJrx2PEu0G5yDlk4Ogk2dkFIcxUF
+         Qa24++BUfwFpnbd4gME9VTYVqrblUuGhHSQ9miyYitUCAkIfjAV8LSWNF2CgBciOUquZ
+         pXnwr1xyR/tuP3FMJ4srAac6TfU+Pfj5ZEr++LYbSLf0yEgymSGabsqRCE9WZGx5Fwph
+         Wdcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765389612; x=1765994412;
+        d=1e100.net; s=20230601; t=1765390052; x=1765994852;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wFAl5wn6wZApiBjkvGwX9bG3/FZolBOZm+LDJoJieII=;
-        b=Gm9x6/fIyN8rbJ9iWHH4PjjInoWeiijrFvmlywNyoK53SYwmtXD8pUJqjnwyAsaFCJ
-         A2FOYFRihEUgcM/o/u5uTyX2de3miLTyv1GPep6akt5fjf3Ff/y9VdcIZgL+BJeOUa69
-         CeDC8MoFZ58iVHxNSTw+GGkQ+g/fiCQeC/9UO1gBv7DX1EJjoq7lD72XkdN7pNbUO/OF
-         42Kii25YML4ygtrwsHeWLxBK6yt1H2P6l6+7iNcqt3soR8a7WDyDcBORI5v3o0h2oMjV
-         YqASJCRAYTidB7FxLOYZSQopslKDeR9SwG8VWViMehWjmPMUeNhneEetRs6ZgQkNgltF
-         +MfQ==
-X-Gm-Message-State: AOJu0YxigR0OwRyEVYgIoCYUHYbA0MilxUzgE+JhC8iHIFyNpAZX034v
-	YZKYtEUVSxAxsMLgOYm4YYEJjJYEIFBtVH4oMOrFY9j7bowe3T1SLdqS3AjDHsxkx+LQW2FhjP3
-	PBfuy07dc+ydDRUVEW0veusncvMs9SDoYxcGgXPjpxsBAEH+2KSX+EBibObL+pGz8qe2skk3qzk
-	c11vUYjM8I2TQ93bipqffKZElyHuu2N4xXDttTdM9O7E7milaPfbgymzR+9LYub1caXQ==
-X-Gm-Gg: AY/fxX6I4sWmPG0PIqBIk1K00koyEHppvaz0BQ38ZOaJaBscfYdWJ2beTOA62/puDpu
-	JHa7juX4KXtFEwQaN9LbHu+l14XjO1L2LiLgbilGrroEeXRt03QPIfirsb03gAv/1waQWGlXzAx
-	eRtKFo339UrXX6eMZWh6X3EM1XK6DBvW/UVkZufmQDBnuCk6pO96uKNCK9gIikARJQLtFnBm9tg
-	OynVA+w
-X-Received: by 2002:a17:90b:4b0d:b0:32e:a5ae:d00 with SMTP id 98e67ed59e1d1-34a728a1d1emr3029124a91.13.1765389612247;
-        Wed, 10 Dec 2025 10:00:12 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEaJw5gNTtf/WMIm3YA+lyGWYHGMaSkpxP7EPjw+wt6y58nTQol1ZERqag7ha09LPDWVKvONaD7LScW7c+zI2k=
-X-Received: by 2002:a17:90b:4b0d:b0:32e:a5ae:d00 with SMTP id
- 98e67ed59e1d1-34a728a1d1emr3029061a91.13.1765389611540; Wed, 10 Dec 2025
- 10:00:11 -0800 (PST)
+        bh=nTfl9E8suqiweRYqG/xW/6jCbdeRPHIFw3qyLQn+890=;
+        b=CmI7QcjxqGEDjedIpV1MF6sgj8ZT4G6iHr14F0eh+9Y4VUJeNG/fyE7k1vCEHE+3pV
+         u2XQFjc3xPPxcIJCOnWZ5BjCT+QHeViqSZa5Mkbhv3WOerXN9dsfrEsgl6luH5QQAVWb
+         mIjc2O4f6rznk9qIxdTVF+LjTXe8V+U7SzBU62Vn/Uzmx8YpNHE+lX/44K99tAY+9vLJ
+         stgDgJ750tya3eNglChMXdL03fwC7rPbkMAnu/KBFFnfrAU6KoViOsqSAOo+9OdiIXpz
+         9JjjzSOJcDJPWAQrRJlFancgQEpdkhs7XxJAjlI7Xp6CkuCuhnZdlBPGTsppo2P7q3Zr
+         ui5Q==
+X-Gm-Message-State: AOJu0YxfH4jl+qe9Qw5XN/UFbP7CLysOuBQ6gxO7f0iFMZ/8zOy2f9Z5
+	hLNilpPdkILDxKQp9pWT+AQyn1d1L71+rldtS/ZwGaa9t4HGM9OnT6fwd5Frtia8s270RaOj3sB
+	W5I479Qz2XBUYa+EsC8ZMIS/tgrLMRkU=
+X-Gm-Gg: AY/fxX7iq6MIU61/aDdLNLVTwZhnwYVq34PKzvrX31DladIWMKOOjVKz5lB6Ssipa6C
+	5kKIkRLDEHTXZ3Cq9RK8ktRN/G05h2Kgj3+mW4eNwdzK0Ua9/nD4VyZqz0lg5QAX4xkOidT6bCN
+	eueG/TnIBLGdQD9PwIm+lpPn/RqNOHg0aVBEZBWvoBvFB0hGIdR5jL6QrEgkZSQd788Z+vKECqb
+	VI2+6nWjSROhyNaXzOI8pLsQuiFjtkVzRm3YLVs+zuvsgkzd5rEry2YxbHqYZcJ9pcHS5tZqabI
+	xT3nWpugmhYJLBheHgRlWUXC41U2U239kmUb5+7xkaUfA5W/tC024YslYnbZGrk0kju3k94lEFG
+	7oOKVZU7GvsgV3m9LDpCN6lGb7SO57UDXTCPa1gnYRVOGiZYoieJd9Q3y
+X-Google-Smtp-Source: AGHT+IHOzFDwmnkNGHGgAClE6vShyBCQXTWz7015PmGtwTuEf20EZvb2UB9QXepbZDERgacEcYQ6YREg96tU51lzh5Y=
+X-Received: by 2002:a05:690c:7449:b0:78c:6ae6:3c7c with SMTP id
+ 00721157ae682-78c9d84cd32mr30462727b3.48.1765390051682; Wed, 10 Dec 2025
+ 10:07:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20251210043728.847548-1-dmitry.baryshkov@oss.qualcomm.com>
- <20251210043728.847548-4-dmitry.baryshkov@oss.qualcomm.com>
- <DEUJN3MKRQKB.3HDWIDZ835RP7@bootlin.com> <DEUO1OQO7N35.1HMYKQAHAWR3A@bootlin.com>
-In-Reply-To: <DEUO1OQO7N35.1HMYKQAHAWR3A@bootlin.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Wed, 10 Dec 2025 20:00:00 +0200
-X-Gm-Features: AQt7F2q_4q8BKTYipUPUgftZQPZc2dFEsA4GBypCDirMCIik06m4MrrWZeAuzUk
-Message-ID: <CAO9ioeVhFtK9C=ojUc-oDGrCzrC6YWHZPRRP_+vAGAHEr8mSgg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 4/4] mesa: upgrade 25.2.5 -> 25.3.1
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+References: <20251126034801.1997488-1-ankur.tyagi85@gmail.com>
+In-Reply-To: <20251126034801.1997488-1-ankur.tyagi85@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 10 Dec 2025 10:07:05 -0800
+X-Gm-Features: AQt7F2oFV5dnnKX2g1XaPv09fU31mYX0CAIh78Ea4n-N2sGbH7FAO6x-i4HNw7s
+Message-ID: <CAMKF1so2MHdvOJsn_mF2Gb_yBzPoWq4qwi6-F2Qx1HJmQPM+Sw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v3 1/2] nasm: upgrade 2.16.03 -> 3.01
+To: ankur.tyagi85@gmail.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-GUID: 4QB9QjDNJ9yIhMOomAheOQDyk0l6RTVG
-X-Proofpoint-ORIG-GUID: 4QB9QjDNJ9yIhMOomAheOQDyk0l6RTVG
-X-Authority-Analysis: v=2.4 cv=NtrcssdJ c=1 sm=1 tr=0 ts=6939b52d cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=iGHA9ds3AAAA:8 a=P-IC7800AAAA:8
- a=Q4-j1AaZAAAA:8 a=EUspDBNiAAAA:8 a=LcC5-ItTgs3dqIkAQuoA:9 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=d3PnA9EDa4IxuAV0gXij:22
- a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEwMDE0NiBTYWx0ZWRfX2UocgF2aI9HD
- amzTCVQ4iaH46ed8u8ItP8GiJdAF2ggD2Loi3Us70XwqVwt9qfp23deqtRmkHrgRLmAH0/YRUsS
- PV/xbYcU6rBeOvHhyQBoMShbt3pFlww2gyKOxqUE4Cir1B5+f0byAHnQKeWKNGG8Q5fltvgD5qP
- YwRZlrbU9mz178NuIeNh+Keksy8SWTPdX2+/8Jo6MmU1iTYB+1e/t+xSTRLE5Huxh9/vJtLCRke
- j4xe6AVGeccSRPNXMHntGrdnnMSkNXy8rTx3rBSLbgUPep9V4VcI4JgG4ejiWOXStaL4ikqFLVv
- Z/wzQHKEK5zCmJUrhE8uEEMrDA5KXLB6uF/Zlk0YzniNrd1J69MP6pO/L44WamikBYiXOyWIC60
- UZVEtzJeb82OHqmqpq2jWPOzGK8Oug==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-10_02,2025-12-09_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- clxscore=1015 suspectscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512100146
+Content-Type: multipart/alternative; boundary="000000000000ebacbc06459ce6ae"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 18:00:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227493
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 18:07:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227494
 
-On Wed, 10 Dec 2025 at 18:10, Mathieu Dubois-Briand
-<mathieu.dubois-briand@bootlin.com> wrote:
->
-> On Wed Dec 10, 2025 at 1:42 PM CET, Mathieu Dubois-Briand wrote:
-> > On Wed Dec 10, 2025 at 5:37 AM CET, Dmitry Baryshkov via lists.openembedded.org wrote:
-> >> Upgrade Mesa to the latest release. Drop VDPAU tracker (dropped
-> >> upstream). Add support for ethosu and rocket Gallium drivers.
-> >>
-> >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> >> ---
-> >
-> > Hi Dmitry,
-> >
-> > Thanks for your patches.
-> >
-> > It looks like the new version is not building correctly for armv5:
-> >
-> > ERROR: mesa-2_25.3.1-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/qemuarmv5/build/build/tmp/work/armv5e-poky-linux-gnueabi/mesa/25.3.1/temp/run.do_compile.92740' failed with exit code 1
-> > ...
-> > | In file included from ../sources/mesa-25.3.1/src/virtio/venus-protocol/vn_protocol_driver_cs.h:11,
-> > |                  from ../sources/mesa-25.3.1/src/virtio/venus-protocol/vn_protocol_driver_types.h:11,
-> > |                  from ../sources/mesa-25.3.1/src/virtio/venus-protocol/vn_protocol_driver_handles.h:11,
-> > |                  from ../sources/mesa-25.3.1/src/virtio/venus-protocol/vn_protocol_driver_structs.h:11,
-> > |                  from ../sources/mesa-25.3.1/src/virtio/venus-protocol/vn_protocol_driver_transport.h:12,
-> > |                  from ../sources/mesa-25.3.1/src/virtio/vulkan/vn_ring.c:10:
-> > | ../sources/mesa-25.3.1/src/virtio/vulkan/vn_ring.c:18:1: error: static assertion failed: "vn_ring_shared requires lock-free 32-bit atomic_uint"
-> > |    18 | static_assert(ATOMIC_INT_LOCK_FREE == 2 && sizeof(atomic_uint) == 4,
-> > |       | ^~~~~~~~~~~~~
-> >
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/builds/2673
-> >
-> > Can you have a look at the issue?
-> >
-> > Thanks,
-> > Mathieu
->
-> Just a quick follow-up: it looks like the issue does not come from the
-> update but probably from another commit in this series. I dropped just
-> the last commit and still got the error:
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/builds/2675
+--000000000000ebacbc06459ce6ae
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I've sent v3, fixing the error. Indeed the issue existed even before
-the update. We didn't have the driver enabled.
+there is aom recipe in meta-openembedded which now fails to build with this
+version
 
--- 
-With best wishes
-Dmitry
+-- The ASM_NASM compiler identification is NASM
+   -- Found assembler:
+/home/kraj200/yoe/build/tmp/work/x86-64-v3-yoe-linux/aom/3.12.1/recipe-sysr=
+oot-native/usr/bin/nasm
+   CMake Error at build/cmake/aom_optimization.cmake:219 (message):
+     Unsupported nasm: multipass optimization not supported.
+   Call Stack (most recent call first):
+     build/cmake/aom_configure.cmake:172 (test_nasm)
+     CMakeLists.txt:69 (include)
+
+On Tue, Nov 25, 2025 at 7:48=E2=80=AFPM Ankur Tyagi via lists.openembedded.=
+org
+<ankur.tyagi85=3Dgmail.com@lists.openembedded.org> wrote:
+
+> From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+>
+> License-Update: Copyright year updated to 2025 and upstream replaced
+> verbose copyright headers with SPDX tags
+>
+> Refreshed patches for the new version.
+>
+> Release Note:
+> https://www.nasm.us/docs/3.01/nasmac.html
+>
+> Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+> ---
+> Changes in v3:
+> - no change
+> Changes in v2:
+> - updated license checksum
+> ---
+>  .../nasm/nasm/0001-stdlib-Add-strlcat.patch   |  43 ++++---
+>  .../0002-Add-debug-prefix-map-option.patch    | 114 +++++++++---------
+>  .../nasm/{nasm_2.16.03.bb =3D> nasm_3.01.bb}    |   4 +-
+>  3 files changed, 81 insertions(+), 80 deletions(-)
+>  rename meta/recipes-devtools/nasm/{nasm_2.16.03.bb =3D> nasm_3.01.bb} (7=
+8%)
+>
+> diff --git a/meta/recipes-devtools/nasm/nasm/0001-stdlib-Add-strlcat.patc=
+h
+> b/meta/recipes-devtools/nasm/nasm/0001-stdlib-Add-strlcat.patch
+> index 1b8e947c56..9d74742072 100644
+> --- a/meta/recipes-devtools/nasm/nasm/0001-stdlib-Add-strlcat.patch
+> +++ b/meta/recipes-devtools/nasm/nasm/0001-stdlib-Add-strlcat.patch
+> @@ -12,64 +12,64 @@ Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+>   Makefile.in        |  2 +-
+>   configure.ac       |  2 ++
+>   include/compiler.h |  4 ++++
+> - stdlib/strlcat.c   | 43 +++++++++++++++++++++++++++++++++++++++++++
+> - 4 files changed, 50 insertions(+), 1 deletion(-)
+> + stdlib/strlcat.c   | 42 ++++++++++++++++++++++++++++++++++++++++++
+> + 4 files changed, 49 insertions(+), 1 deletion(-)
+>   create mode 100644 stdlib/strlcat.c
+>
+>  diff --git a/Makefile.in b/Makefile.in
+> -index b85ebee..045fabe 100644
+> +index fcf33ab..d91f7ab 100644
+>  --- a/Makefile.in
+>  +++ b/Makefile.in
+> -@@ -104,7 +104,7 @@ PROGOBJ =3D $(NASM) $(NDISASM)
+> - PROGS   =3D nasm$(X) ndisasm$(X)
+> -
+> - LIBOBJ_NW =3D stdlib/snprintf.$(O) stdlib/vsnprintf.$(O)
+> stdlib/strlcpy.$(O) \
+> +@@ -174,7 +174,7 @@ LIBOBJ_W =3D \
+> + # files to LIBOBJ_W, notably $(OUTPUTOBJ)
+> + LIBOBJ_NW =3D \
+> +       stdlib/snprintf.$(O) stdlib/vsnprintf.$(O) stdlib/strlcpy.$(O) \
+>  -      stdlib/strnlen.$(O) stdlib/strrchrnul.$(O) \
+>  +      stdlib/strnlen.$(O) stdlib/strrchrnul.$(O) stdlib/strlcat.$(O) \
+>         \
+> -       nasmlib/ver.$(O) \
+> -       nasmlib/alloc.$(O) nasmlib/asprintf.$(O) nasmlib/errfile.$(O) \
+> +       asm/directbl.$(O) \
+> +       asm/pptok.$(O) \
+>  diff --git a/configure.ac b/configure.ac
+> -index 42cd198..e206338 100644
+> +index 448eeb2..f79c96c 100644
+>  --- a/configure.ac
+>  +++ b/configure.ac
+> -@@ -236,6 +236,7 @@ PA_FUNC_SNPRINTF
+> +@@ -229,6 +229,7 @@ PA_FUNC_SNPRINTF
+>   PA_FUNC_VSNPRINTF
+>   AC_CHECK_FUNCS([strlcpy])
+>   AC_CHECK_FUNCS([strrchrnul])
+>  +AC_CHECK_FUNCS([strlcat])
+>
+>   dnl These types are POSIX-specific, and Windows does it differently...
+> - AC_CHECK_TYPES([struct _stati64])
+> -@@ -255,6 +256,7 @@ AC_CHECK_DECLS(strsep)
+> + AC_CHECK_TYPES([struct stat], [AC_CHECK_FUNCS([stat fstat])])
+> +@@ -246,6 +247,7 @@ AC_CHECK_DECLS(strsep)
+>   AC_CHECK_DECLS(strlcpy)
+>   AC_CHECK_DECLS(strnlen)
+>   AC_CHECK_DECLS(strrchrnul)
+>  +AC_CHECK_DECLS(strlcat)
+>
+>   dnl Check for missing types
+> - AC_TYPE_UINTPTR_T
+> + AC_TYPE_UINTMAX_T
+>  diff --git a/include/compiler.h b/include/compiler.h
+> -index 407c160..b64da6a 100644
+> +index 0ecd4e8..41c1cbf 100644
+>  --- a/include/compiler.h
+>  +++ b/include/compiler.h
+> -@@ -169,6 +169,10 @@ size_t strlcpy(char *, const char *, size_t);
+> - char *strrchrnul(const char *, int);
+> +@@ -181,6 +181,10 @@ size_t strlcpy(char *, const char *, size_t);
+> + char * pure_func strrchrnul(const char *, int);
+>   #endif
+>
+>  +#if !defined(HAVE_STRLCAT) || !HAVE_DECL_STRLCAT
+>  +size_t strlcat(char *, const char *, size_t);
+>  +#endif
+>  +
+> - #ifndef __cplusplus           /* C++ has false, true, bool as keywords =
+*/
+> + #if !defined(__cplusplus) || (__STDC_VERSION >=3D 202311L)
+> + /* C++ and C23 have bool, false, and true as proper keywords */
+>   # ifdef HAVE_STDBOOL_H
+> - #  include <stdbool.h>
+>  diff --git a/stdlib/strlcat.c b/stdlib/strlcat.c
+>  new file mode 100644
+> -index 0000000..7084d46
+> +index 0000000..c7cbd59
+>  --- /dev/null
+>  +++ b/stdlib/strlcat.c
+> -@@ -0,0 +1,43 @@
+> +@@ -0,0 +1,42 @@
+>  +/*
+>  + * Copyright (c) 2019 Garmin Ltd. or its subsidiaries
+>  + *
+> @@ -112,4 +112,3 @@ index 0000000..7084d46
+>  +}
+>  +
+>  +#endif
+> -+
+> diff --git
+> a/meta/recipes-devtools/nasm/nasm/0002-Add-debug-prefix-map-option.patch
+> b/meta/recipes-devtools/nasm/nasm/0002-Add-debug-prefix-map-option.patch
+> index 84fcca0fe1..f5b67fe3bb 100644
+> ---
+> a/meta/recipes-devtools/nasm/nasm/0002-Add-debug-prefix-map-option.patch
+> +++
+> b/meta/recipes-devtools/nasm/nasm/0002-Add-debug-prefix-map-option.patch
+> @@ -1,4 +1,4 @@
+> -From e28c8883050d34d18ee2d66dfeece51e13adb6d5 Mon Sep 17 00:00:00 2001
+> +From 10baf9f75e4e4e2fb37a579c68672141858aea5e Mon Sep 17 00:00:00 2001
+>  From: Joshua Watt <JPEWhacker@gmail.com>
+>  Date: Tue, 19 Nov 2019 13:12:17 -0600
+>  Subject: [PATCH] Add --debug-prefix-map option
+> @@ -9,11 +9,10 @@ be built in a reproducible manner regardless of the
+> build directory.
+>
+>  Upstream-Status: Submitted [
+> https://bugzilla.nasm.us/show_bug.cgi?id=3D3392635]
+>  Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> -
+>  ---
+> - asm/nasm.c              | 24 ++++++++++++++++++++++++
+> + asm/nasm.c              | 28 ++++++++++++++++++++++++++--
+>   include/nasmlib.h       |  9 +++++++++
+> - nasm.txt                |  4 ++++
+> + nasm.txt                |  3 +++
+>   nasmlib/filename.c      | 20 ++++++++++++++++++++
+>   output/outas86.c        |  4 +++-
+>   output/outcoff.c        |  4 ++--
+> @@ -21,32 +20,34 @@ Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+>   output/outieee.c        |  2 +-
+>   output/outobj.c         |  2 +-
+>   stdlib/strlcat.c        |  2 +-
+> - test/elfdebugprefix.asm |  6 ++++++
+> + test/elfdebugprefix.asm |  5 +++++
+>   test/performtest.pl     | 12 ++++++++++--
+> - 12 files changed, 89 insertions(+), 13 deletions(-)
+> + 12 files changed, 89 insertions(+), 15 deletions(-)
+>   create mode 100644 test/elfdebugprefix.asm
+>
+>  diff --git a/asm/nasm.c b/asm/nasm.c
+> -index 76c70f6..08ff119 100644
+> +index 49fa00e..ff117cf 100644
+>  --- a/asm/nasm.c
+>  +++ b/asm/nasm.c
+> -@@ -939,6 +939,7 @@ enum text_options {
+> -     OPT_KEEP_ALL,
+> -     OPT_NO_LINE,
+> +@@ -913,7 +913,8 @@ enum text_options {
+>       OPT_DEBUG,
+> -+    OPT_DEBUG_PREFIX_MAP,
+> -     OPT_REPRODUCIBLE
+> +     OPT_INFO,
+> +     OPT_REPRODUCIBLE,
+> +-    OPT_BITS
+> ++    OPT_BITS,
+> ++    OPT_DEBUG_PREFIX_MAP
+>   };
+>   enum need_arg {
+> -@@ -971,6 +972,7 @@ static const struct textargs textopts[] =3D {
+> -     {"keep-all", OPT_KEEP_ALL, ARG_NO, 0},
+> -     {"no-line",  OPT_NO_LINE, ARG_NO, 0},
+> +     ARG_NO,
+> +@@ -952,6 +953,7 @@ static const struct textargs textopts[] =3D {
+>       {"debug",    OPT_DEBUG, ARG_MAYBE, 0},
+> -+    {"debug-prefix-map", OPT_DEBUG_PREFIX_MAP, true, 0},
+>       {"reproducible", OPT_REPRODUCIBLE, ARG_NO, 0},
+> +     {"bits",     OPT_BITS, ARG_YES, 0},
+> ++    {"debug-prefix-map", OPT_DEBUG_PREFIX_MAP, true, 0},
+>       {NULL, OPT_BOGUS, ARG_NO, 0}
+>   };
+> -@@ -1335,6 +1337,26 @@ static bool process_arg(char *p, char *q, int pas=
+s)
+> +
+> +@@ -1337,6 +1339,26 @@ static bool process_arg(char *p, char *q, int pas=
+s)
+>                   case OPT_REPRODUCIBLE:
+>                       reproducible =3D true;
+>                       break;
+> @@ -71,22 +72,24 @@ index 76c70f6..08ff119 100644
+>  +                    }
+>  +                    break;
+>                   case OPT_HELP:
+> -                     help(stdout);
+> -                     exit(0);
+> -@@ -2298,6 +2320,8 @@ static void help(FILE *out)
+> -         "    -w-x          disable warning x (also -Wno-x)\n"
+> -         "    -w[+-]error   promote all warnings to errors (also
+> -Werror)\n"
+> -         "    -w[+-]error=3Dx promote warning x to errors (also
+> -Werror=3Dx)\n"
+> -+        "   --debug-prefix-map base=3Ddest\n"
+> -+        "                  remap paths starting with 'base' to 'dest' i=
+n
+> output files\n"
+> -         , out);
+> -
+> -     fprintf(out, "       %-20s %s\n",
+> +                     /* Allow --help topic without *requiring* topic */
+> +                     if (!param)
+> +@@ -2428,7 +2450,9 @@ static void help(FILE *out, const char *what)
+> +                 "    -w+x           enable warning x %s(also -Wx)\n"
+> +                 "    -w-x           disable warning x (also -Wno-x)\n"
+> +                 "    -w[+-]error    promote all warnings to errors (als=
+o
+> -Werror)\n"
+> +-                "    -w[+-]error=3Dx  promote warning x to errors (also
+> -Werror=3Dx)\n",
+> ++                "    -w[+-]error=3Dx  promote warning x to errors (also
+> -Werror=3Dx)\n"
+> ++                "   --debug-prefix-map base=3Ddest\n"
+> ++                "                  remap paths starting with 'base' to
+> 'dest' in output files\n",
+> +                 SEE("-w"));
+> +     }
+> +     if (help_is(with, 'w')) {
+>  diff --git a/include/nasmlib.h b/include/nasmlib.h
+> -index 87a7fc6..a3e5144 100644
+> +index ed4222b..aafbf00 100644
+>  --- a/include/nasmlib.h
+>  +++ b/include/nasmlib.h
+> -@@ -250,10 +250,19 @@ int64_t readstrnum(char *str, int length, bool
+> *warn);
+> +@@ -334,10 +334,19 @@ static inline const char *nasm_digit_chars(bool
+> ucase)
+>    */
+>   int32_t seg_alloc(void);
+>
+> @@ -107,25 +110,24 @@ index 87a7fc6..a3e5144 100644
+>   /*
+>    * Utility macros...
+>  diff --git a/nasm.txt b/nasm.txt
+> -index 950c361..784618c 100644
+> +index 950c361..8447409 100644
+>  --- a/nasm.txt
+>  +++ b/nasm.txt
+> -@@ -147,6 +147,10 @@ OPTIONS
+> +@@ -146,6 +146,9 @@ OPTIONS
+> + --postfix::
+>         Prepend or append (respectively) the given argument to all global
+> or
+>         extern variables.
+> -
+>  +--debug-prefix-map 'BASE=3DDEST'::
+>  +    Map file names beginning with 'BASE' to 'DEST' when encoding them i=
+n
+>  +    output object files.
+> -+
+> +
+>   SYNTAX
+>   ------
+> - This man page does not fully describe the syntax of *nasm*'s assembly
+> language,
+>  diff --git a/nasmlib/filename.c b/nasmlib/filename.c
+> -index 172ae0b..fda2be4 100644
+> +index 2c29d38..0e27f69 100644
+>  --- a/nasmlib/filename.c
+>  +++ b/nasmlib/filename.c
+> -@@ -39,6 +39,8 @@
+> +@@ -9,6 +9,8 @@
+>   #include "nasmlib.h"
+>   #include "error.h"
+>
+> @@ -134,7 +136,7 @@ index 172ae0b..fda2be4 100644
+>   /*
+>    * Add/modify a filename extension, assumed to be a period-delimited
+>    * field at the very end of the filename.  Returns a newly allocated
+> -@@ -61,3 +63,21 @@ const char *filename_set_extension(const char *inname=
+,
+> const char *extension)
+> +@@ -31,3 +33,21 @@ const char *filename_set_extension(const char *inname=
+,
+> const char *extension)
+>
+>       return p;
+>   }
+> @@ -156,11 +158,12 @@ index 172ae0b..fda2be4 100644
+>  +    strlcpy(dest, in, len);
+>  +    return dest;
+>  +}
+> +\ No newline at end of file
+>  diff --git a/output/outas86.c b/output/outas86.c
+> -index 54b22f8..c4a412c 100644
+> +index 0640af7..c654bbe 100644
+>  --- a/output/outas86.c
+>  +++ b/output/outas86.c
+> -@@ -110,6 +110,8 @@ static void as86_sect_write(struct Section *, const
+> uint8_t *,
+> +@@ -80,6 +80,8 @@ static void as86_sect_write(struct Section *, const
+> uint8_t *,
+>
+>   static void as86_init(void)
+>   {
+> @@ -169,7 +172,7 @@ index 54b22f8..c4a412c 100644
+>       stext.data =3D saa_init(1L);
+>       stext.datalen =3D 0L;
+>       stext.head =3D stext.last =3D NULL;
+> -@@ -131,7 +133,7 @@ static void as86_init(void)
+> +@@ -101,7 +103,7 @@ static void as86_init(void)
+>       strslen =3D 0;
+>
+>       /* as86 module name =3D input file minus extension */
+> @@ -179,10 +182,10 @@ index 54b22f8..c4a412c 100644
+>
+>   static void as86_cleanup(void)
+>  diff --git a/output/outcoff.c b/output/outcoff.c
+> -index c2b4eb6..e242db2 100644
+> +index d38085d..b490bb6 100644
+>  --- a/output/outcoff.c
+>  +++ b/output/outcoff.c
+> -@@ -1259,7 +1259,7 @@ static void coff_symbol(char *name, int32_t strpos=
+,
+> int32_t value,
+> +@@ -1231,7 +1231,7 @@ static void coff_symbol(char *name, int32_t strpos=
+,
+> int32_t value,
+>
+>   static void coff_write_symbols(void)
+>   {
+> @@ -191,7 +194,7 @@ index c2b4eb6..e242db2 100644
+>       uint32_t i;
+>
+>       /*
+> -@@ -1269,7 +1269,7 @@ static void coff_write_symbols(void)
+> +@@ -1241,7 +1241,7 @@ static void coff_write_symbols(void)
+>       if (reproducible)
+>           memset(filename, 0, 18);
+>       else
+> @@ -201,10 +204,10 @@ index c2b4eb6..e242db2 100644
+>
+>       /*
+>  diff --git a/output/outelf.c b/output/outelf.c
+> -index ad8d210..29f1dc1 100644
+> +index 7288dda..9847c6e 100644
+>  --- a/output/outelf.c
+>  +++ b/output/outelf.c
+> -@@ -546,8 +546,8 @@ static void elf_init(void)
+> +@@ -516,8 +516,8 @@ static void elf_init(void)
+>       const char * const *p;
+>       const char * cur_path =3D nasm_realpath(inname);
+>
+> @@ -215,7 +218,7 @@ index ad8d210..29f1dc1 100644
+>       sects =3D NULL;
+>       nsects =3D sectlen =3D 0;
+>       syms =3D saa_init((int32_t)sizeof(struct elf_symbol));
+> -@@ -3590,13 +3590,17 @@ static void dwarf_findfile(const char * fname)
+> +@@ -3551,13 +3551,17 @@ static void dwarf_findfile(const char * fname)
+>       if (dwarf_clist && !(strcmp(fname, dwarf_clist->filename)))
+>           return;
+>
+> @@ -234,7 +237,7 @@ index ad8d210..29f1dc1 100644
+>                   return;
+>               }
+>               match =3D match->next;
+> -@@ -3607,8 +3611,7 @@ static void dwarf_findfile(const char * fname)
+> +@@ -3568,8 +3572,7 @@ static void dwarf_findfile(const char * fname)
+>       dwarf_clist =3D nasm_malloc(sizeof(struct linelist));
+>       dwarf_numfiles++;
+>       dwarf_clist->line =3D dwarf_numfiles;
+> @@ -245,10 +248,10 @@ index ad8d210..29f1dc1 100644
+>       if (!dwarf_flist) {     /* if first entry */
+>           dwarf_flist =3D dwarf_elist =3D dwarf_clist;
+>  diff --git a/output/outieee.c b/output/outieee.c
+> -index 7ba9036..796e5af 100644
+> +index 9e26cec..3643eeb 100644
+>  --- a/output/outieee.c
+>  +++ b/output/outieee.c
+> -@@ -207,7 +207,7 @@ static void ieee_unqualified_name(char *, char *);
+> +@@ -178,7 +178,7 @@ static void ieee_unqualified_name(char *, char *);
+>    */
+>   static void ieee_init(void)
+>   {
+> @@ -258,10 +261,10 @@ index 7ba9036..796e5af 100644
+>       fpubhead =3D NULL;
+>       fpubtail =3D &fpubhead;
+>  diff --git a/output/outobj.c b/output/outobj.c
+> -index 281839d..fc336c1 100644
+> +index 685c593..e3eb34a 100644
+>  --- a/output/outobj.c
+>  +++ b/output/outobj.c
+> -@@ -644,7 +644,7 @@ static enum directive_result obj_directive(enum
+> directive, char *);
+> +@@ -656,7 +656,7 @@ static const char *get_default_class(const char
+> *segment)
+>
+>   static void obj_init(void)
+>   {
+> @@ -271,7 +274,7 @@ index 281839d..fc336c1 100644
+>       any_segs =3D false;
+>       fpubhead =3D NULL;
+>  diff --git a/stdlib/strlcat.c b/stdlib/strlcat.c
+> -index 7084d46..ee93dea 100644
+> +index c7cbd59..92a873d 100644
+>  --- a/stdlib/strlcat.c
+>  +++ b/stdlib/strlcat.c
+>  @@ -29,7 +29,7 @@ size_t strlcat(char *dest, const char *src, size_t siz=
+e)
+> @@ -285,16 +288,15 @@ index 7084d46..ee93dea 100644
+>       /* destination was not NULL terminated. Return the initial size */
+>  diff --git a/test/elfdebugprefix.asm b/test/elfdebugprefix.asm
+>  new file mode 100644
+> -index 0000000..a67ba29
+> +index 0000000..bf845ce
+>  --- /dev/null
+>  +++ b/test/elfdebugprefix.asm
+> -@@ -0,0 +1,6 @@
+> +@@ -0,0 +1,5 @@
+>  +;Testname=3Dunoptimized; Arguments=3D-O0 --debug-prefix-map elf=3DELF -=
+felf
+> -oelfdebugprefix.o; Files=3Dstdout stderr elfdebugprefix.o; Validate=3Dre=
+adelf
+> --wide --symbols elfdebugprefix.o | grep 'FILE.*ELFdebugprefix.asm'
+>  +
+>  +        SECTION .text
+>  +test:                 ; [1]
+>  +        ret
+> -+
+>  diff --git a/test/performtest.pl b/test/performtest.pl
+>  index 46b1bdf..2426848 100755
+>  --- a/test/performtest.pl
+> diff --git a/meta/recipes-devtools/nasm/nasm_2.16.03.bb
+> b/meta/recipes-devtools/nasm/nasm_3.01.bb
+> similarity index 78%
+> rename from meta/recipes-devtools/nasm/nasm_2.16.03.bb
+> rename to meta/recipes-devtools/nasm/nasm_3.01.bb
+> index 281f3940e7..4f4b47d665 100644
+> --- a/meta/recipes-devtools/nasm/nasm_2.16.03.bb
+> +++ b/meta/recipes-devtools/nasm/nasm_3.01.bb
+> @@ -3,14 +3,14 @@ SECTION =3D "devel"
+>  HOMEPAGE =3D "http://www.nasm.us/"
+>  DESCRIPTION =3D "The Netwide Assembler (NASM) is an assembler and
+> disassembler for the Intel x86 architecture."
+>  LICENSE =3D "BSD-2-Clause"
+> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D90904486f8fbf1861cf42752e1a39=
+efe"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D6178dc4f5355e40552448080e67a2=
+14b"
+>
+>  SRC_URI =3D "
+> http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 \
+>             file://0001-stdlib-Add-strlcat.patch \
+>             file://0002-Add-debug-prefix-map-option.patch \
+>             "
+>
+> -SRC_URI[sha256sum] =3D
+> "bef3de159bcd61adf98bb7cc87ee9046e944644ad76b7633f18ab063edb29e57"
+> +SRC_URI[sha256sum] =3D
+> "7a7b1ff3b0eef3247862f2fbe4ca605ccef770545d7af7979eba84a9d045c0b1"
+>
+>  EXTRA_AUTORECONF:append =3D " -I autoconf/m4"
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#226798):
+> https://lists.openembedded.org/g/openembedded-core/message/226798
+> Mute This Topic: https://lists.openembedded.org/mt/116480717/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000ebacbc06459ce6ae
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">there is aom recipe in meta-openembedded which now fails t=
+o build with this version<div><br></div><div>-- The ASM_NASM compiler ident=
+ification is NASM<br>=C2=A0 =C2=A0-- Found assembler: /home/kraj200/yoe/bui=
+ld/tmp/work/x86-64-v3-yoe-linux/aom/3.12.1/recipe-sysroot-native/usr/bin/na=
+sm<br>=C2=A0 =C2=A0CMake Error at build/cmake/aom_optimization.cmake:219 (m=
+essage):<br>=C2=A0 =C2=A0 =C2=A0Unsupported nasm: multipass optimization no=
+t supported.<br>=C2=A0 =C2=A0Call Stack (most recent call first):<br>=C2=A0=
+ =C2=A0 =C2=A0build/cmake/aom_configure.cmake:172 (test_nasm)<br>=C2=A0 =C2=
+=A0 =C2=A0CMakeLists.txt:69 (include)<br></div></div><br><div class=3D"gmai=
+l_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue=
+, Nov 25, 2025 at 7:48=E2=80=AFPM Ankur Tyagi via <a href=3D"http://lists.o=
+penembedded.org">lists.openembedded.org</a> &lt;ankur.tyagi85=3D<a href=3D"=
+mailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fr=
+om: Ankur Tyagi &lt;<a href=3D"mailto:ankur.tyagi85@gmail.com" target=3D"_b=
+lank">ankur.tyagi85@gmail.com</a>&gt;<br>
+<br>
+License-Update: Copyright year updated to 2025 and upstream replaced verbos=
+e copyright headers with SPDX tags<br>
+<br>
+Refreshed patches for the new version.<br>
+<br>
+Release Note:<br>
+<a href=3D"https://www.nasm.us/docs/3.01/nasmac.html" rel=3D"noreferrer" ta=
+rget=3D"_blank">https://www.nasm.us/docs/3.01/nasmac.html</a><br>
+<br>
+Signed-off-by: Ankur Tyagi &lt;<a href=3D"mailto:ankur.tyagi85@gmail.com" t=
+arget=3D"_blank">ankur.tyagi85@gmail.com</a>&gt;<br>
+---<br>
+Changes in v3:<br>
+- no change<br>
+Changes in v2:<br>
+- updated license checksum<br>
+---<br>
+=C2=A0.../nasm/nasm/0001-stdlib-Add-strlcat.patch=C2=A0 =C2=A0|=C2=A0 43 ++=
+++---<br>
+=C2=A0.../0002-Add-debug-prefix-map-option.patch=C2=A0 =C2=A0 | 114 +++++++=
+++---------<br>
+=C2=A0.../nasm/{<a href=3D"http://nasm_2.16.03.bb" rel=3D"noreferrer" targe=
+t=3D"_blank">nasm_2.16.03.bb</a> =3D&gt; <a href=3D"http://nasm_3.01.bb" re=
+l=3D"noreferrer" target=3D"_blank">nasm_3.01.bb</a>}=C2=A0 =C2=A0 |=C2=A0 =
+=C2=A04 +-<br>
+=C2=A03 files changed, 81 insertions(+), 80 deletions(-)<br>
+=C2=A0rename meta/recipes-devtools/nasm/{<a href=3D"http://nasm_2.16.03.bb"=
+ rel=3D"noreferrer" target=3D"_blank">nasm_2.16.03.bb</a> =3D&gt; <a href=
+=3D"http://nasm_3.01.bb" rel=3D"noreferrer" target=3D"_blank">nasm_3.01.bb<=
+/a>} (78%)<br>
+<br>
+diff --git a/meta/recipes-devtools/nasm/nasm/0001-stdlib-Add-strlcat.patch =
+b/meta/recipes-devtools/nasm/nasm/0001-stdlib-Add-strlcat.patch<br>
+index 1b8e947c56..9d74742072 100644<br>
+--- a/meta/recipes-devtools/nasm/nasm/0001-stdlib-Add-strlcat.patch<br>
++++ b/meta/recipes-devtools/nasm/nasm/0001-stdlib-Add-strlcat.patch<br>
+@@ -12,64 +12,64 @@ Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWha=
+cker@gmail.com" target=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
+=C2=A0 Makefile.in=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A0 <a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
+>configure.ac</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 ++<br>
+=C2=A0 include/compiler.h |=C2=A0 4 ++++<br>
+- stdlib/strlcat.c=C2=A0 =C2=A0| 43 +++++++++++++++++++++++++++++++++++++++=
+++++<br>
+- 4 files changed, 50 insertions(+), 1 deletion(-)<br>
++ stdlib/strlcat.c=C2=A0 =C2=A0| 42 +++++++++++++++++++++++++++++++++++++++=
++++<br>
++ 4 files changed, 49 insertions(+), 1 deletion(-)<br>
+=C2=A0 create mode 100644 stdlib/strlcat.c<br>
+<br>
+=C2=A0diff --git a/Makefile.in b/Makefile.in<br>
+-index b85ebee..045fabe 100644<br>
++index fcf33ab..d91f7ab 100644<br>
+=C2=A0--- a/Makefile.in<br>
+=C2=A0+++ b/Makefile.in<br>
+-@@ -104,7 +104,7 @@ PROGOBJ =3D $(NASM) $(NDISASM)<br>
+- PROGS=C2=A0 =C2=A0=3D nasm$(X) ndisasm$(X)<br>
+- <br>
+- LIBOBJ_NW =3D stdlib/snprintf.$(O) stdlib/vsnprintf.$(O) stdlib/strlcpy.$=
+(O) \<br>
++@@ -174,7 +174,7 @@ LIBOBJ_W =3D \<br>
++ # files to LIBOBJ_W, notably $(OUTPUTOBJ)<br>
++ LIBOBJ_NW =3D \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0stdlib/snprintf.$(O) stdlib/vsnprintf.$(O) stdl=
+ib/strlcpy.$(O) \<br>
+=C2=A0-=C2=A0 =C2=A0 =C2=A0 stdlib/strnlen.$(O) stdlib/strrchrnul.$(O) \<br=
+>
+=C2=A0+=C2=A0 =C2=A0 =C2=A0 stdlib/strnlen.$(O) stdlib/strrchrnul.$(O) stdl=
+ib/strlcat.$(O) \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0nasmlib/ver.$(O) \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0nasmlib/alloc.$(O) nasmlib/asprintf.$(O) nasmli=
+b/errfile.$(O) \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0asm/directbl.$(O) \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0asm/pptok.$(O) \<br>
+=C2=A0diff --git a/<a href=3D"http://configure.ac" rel=3D"noreferrer" targe=
+t=3D"_blank">configure.ac</a> b/<a href=3D"http://configure.ac" rel=3D"nore=
+ferrer" target=3D"_blank">configure.ac</a><br>
+-index 42cd198..e206338 100644<br>
++index 448eeb2..f79c96c 100644<br>
+=C2=A0--- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
+lank">configure.ac</a><br>
+=C2=A0+++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
+lank">configure.ac</a><br>
+-@@ -236,6 +236,7 @@ PA_FUNC_SNPRINTF<br>
++@@ -229,6 +229,7 @@ PA_FUNC_SNPRINTF<br>
+=C2=A0 PA_FUNC_VSNPRINTF<br>
+=C2=A0 AC_CHECK_FUNCS([strlcpy])<br>
+=C2=A0 AC_CHECK_FUNCS([strrchrnul])<br>
+=C2=A0+AC_CHECK_FUNCS([strlcat])<br>
+<br>
+=C2=A0 dnl These types are POSIX-specific, and Windows does it differently.=
+..<br>
+- AC_CHECK_TYPES([struct _stati64])<br>
+-@@ -255,6 +256,7 @@ AC_CHECK_DECLS(strsep)<br>
++ AC_CHECK_TYPES([struct stat], [AC_CHECK_FUNCS([stat fstat])])<br>
++@@ -246,6 +247,7 @@ AC_CHECK_DECLS(strsep)<br>
+=C2=A0 AC_CHECK_DECLS(strlcpy)<br>
+=C2=A0 AC_CHECK_DECLS(strnlen)<br>
+=C2=A0 AC_CHECK_DECLS(strrchrnul)<br>
+=C2=A0+AC_CHECK_DECLS(strlcat)<br>
+<br>
+=C2=A0 dnl Check for missing types<br>
+- AC_TYPE_UINTPTR_T<br>
++ AC_TYPE_UINTMAX_T<br>
+=C2=A0diff --git a/include/compiler.h b/include/compiler.h<br>
+-index 407c160..b64da6a 100644<br>
++index 0ecd4e8..41c1cbf 100644<br>
+=C2=A0--- a/include/compiler.h<br>
+=C2=A0+++ b/include/compiler.h<br>
+-@@ -169,6 +169,10 @@ size_t strlcpy(char *, const char *, size_t);<br>
+- char *strrchrnul(const char *, int);<br>
++@@ -181,6 +181,10 @@ size_t strlcpy(char *, const char *, size_t);<br>
++ char * pure_func strrchrnul(const char *, int);<br>
+=C2=A0 #endif<br>
+<br>
+=C2=A0+#if !defined(HAVE_STRLCAT) || !HAVE_DECL_STRLCAT<br>
+=C2=A0+size_t strlcat(char *, const char *, size_t);<br>
+=C2=A0+#endif<br>
+=C2=A0+<br>
+- #ifndef __cplusplus=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* C++ has fa=
+lse, true, bool as keywords */<br>
++ #if !defined(__cplusplus) || (__STDC_VERSION &gt;=3D 202311L)<br>
++ /* C++ and C23 have bool, false, and true as proper keywords */<br>
+=C2=A0 # ifdef HAVE_STDBOOL_H<br>
+- #=C2=A0 include &lt;stdbool.h&gt;<br>
+=C2=A0diff --git a/stdlib/strlcat.c b/stdlib/strlcat.c<br>
+=C2=A0new file mode 100644<br>
+-index 0000000..7084d46<br>
++index 0000000..c7cbd59<br>
+=C2=A0--- /dev/null<br>
+=C2=A0+++ b/stdlib/strlcat.c<br>
+-@@ -0,0 +1,43 @@<br>
++@@ -0,0 +1,42 @@<br>
+=C2=A0+/*<br>
+=C2=A0+ * Copyright (c) 2019 Garmin Ltd. or its subsidiaries<br>
+=C2=A0+ *<br>
+@@ -112,4 +112,3 @@ index 0000000..7084d46<br>
+=C2=A0+}<br>
+=C2=A0+<br>
+=C2=A0+#endif<br>
+-+<br>
+diff --git a/meta/recipes-devtools/nasm/nasm/0002-Add-debug-prefix-map-opti=
+on.patch b/meta/recipes-devtools/nasm/nasm/0002-Add-debug-prefix-map-option=
+.patch<br>
+index 84fcca0fe1..f5b67fe3bb 100644<br>
+--- a/meta/recipes-devtools/nasm/nasm/0002-Add-debug-prefix-map-option.patc=
+h<br>
++++ b/meta/recipes-devtools/nasm/nasm/0002-Add-debug-prefix-map-option.patc=
+h<br>
+@@ -1,4 +1,4 @@<br>
+-From e28c8883050d34d18ee2d66dfeece51e13adb6d5 Mon Sep 17 00:00:00 2001<br>
++From 10baf9f75e4e4e2fb37a579c68672141858aea5e Mon Sep 17 00:00:00 2001<br>
+=C2=A0From: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com" target=
+=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
+=C2=A0Date: Tue, 19 Nov 2019 13:12:17 -0600<br>
+=C2=A0Subject: [PATCH] Add --debug-prefix-map option<br>
+@@ -9,11 +9,10 @@ be built in a reproducible manner regardless of the build=
+ directory.<br>
+<br>
+=C2=A0Upstream-Status: Submitted [<a href=3D"https://bugzilla.nasm.us/show_=
+bug.cgi?id=3D3392635" rel=3D"noreferrer" target=3D"_blank">https://bugzilla=
+.nasm.us/show_bug.cgi?id=3D3392635</a>]<br>
+=C2=A0Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com=
+" target=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
+-<br>
+=C2=A0---<br>
+- asm/nasm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 24 +++++++++=
++++++++++++++++<br>
++ asm/nasm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 28 +++++++++=
++++++++++++++++++--<br>
+=C2=A0 include/nasmlib.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 9 +++++++++<br>
+- nasm.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4=
+ ++++<br>
++ nasm.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3=
+ +++<br>
+=C2=A0 nasmlib/filename.c=C2=A0 =C2=A0 =C2=A0 | 20 ++++++++++++++++++++<br>
+=C2=A0 output/outas86.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 +++-<br>
+=C2=A0 output/outcoff.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 ++--<br>
+@@ -21,32 +20,34 @@ Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWha=
+cker@gmail.com" target=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
+=C2=A0 output/outieee.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A0 output/outobj.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
+=C2=A0 stdlib/strlcat.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+- test/elfdebugprefix.asm |=C2=A0 6 ++++++<br>
++ test/elfdebugprefix.asm |=C2=A0 5 +++++<br>
+=C2=A0 test/<a href=3D"http://performtest.pl" rel=3D"noreferrer" target=3D"=
+_blank">performtest.pl</a>=C2=A0 =C2=A0 =C2=A0| 12 ++++++++++--<br>
+- 12 files changed, 89 insertions(+), 13 deletions(-)<br>
++ 12 files changed, 89 insertions(+), 15 deletions(-)<br>
+=C2=A0 create mode 100644 test/elfdebugprefix.asm<br>
+<br>
+=C2=A0diff --git a/asm/nasm.c b/asm/nasm.c<br>
+-index 76c70f6..08ff119 100644<br>
++index 49fa00e..ff117cf 100644<br>
+=C2=A0--- a/asm/nasm.c<br>
+=C2=A0+++ b/asm/nasm.c<br>
+-@@ -939,6 +939,7 @@ enum text_options {<br>
+-=C2=A0 =C2=A0 =C2=A0OPT_KEEP_ALL,<br>
+-=C2=A0 =C2=A0 =C2=A0OPT_NO_LINE,<br>
++@@ -913,7 +913,8 @@ enum text_options {<br>
+=C2=A0 =C2=A0 =C2=A0 OPT_DEBUG,<br>
+-+=C2=A0 =C2=A0 OPT_DEBUG_PREFIX_MAP,<br>
+-=C2=A0 =C2=A0 =C2=A0OPT_REPRODUCIBLE<br>
++=C2=A0 =C2=A0 =C2=A0OPT_INFO,<br>
++=C2=A0 =C2=A0 =C2=A0OPT_REPRODUCIBLE,<br>
++-=C2=A0 =C2=A0 OPT_BITS<br>
+++=C2=A0 =C2=A0 OPT_BITS,<br>
+++=C2=A0 =C2=A0 OPT_DEBUG_PREFIX_MAP<br>
+=C2=A0 };<br>
+=C2=A0 enum need_arg {<br>
+-@@ -971,6 +972,7 @@ static const struct textargs textopts[] =3D {<br>
+-=C2=A0 =C2=A0 =C2=A0{&quot;keep-all&quot;, OPT_KEEP_ALL, ARG_NO, 0},<br>
+-=C2=A0 =C2=A0 =C2=A0{&quot;no-line&quot;,=C2=A0 OPT_NO_LINE, ARG_NO, 0},<b=
+r>
++=C2=A0 =C2=A0 =C2=A0ARG_NO,<br>
++@@ -952,6 +953,7 @@ static const struct textargs textopts[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 {&quot;debug&quot;,=C2=A0 =C2=A0 OPT_DEBUG, ARG_MAYBE,=
+ 0},<br>
+-+=C2=A0 =C2=A0 {&quot;debug-prefix-map&quot;, OPT_DEBUG_PREFIX_MAP, true, =
+0},<br>
+=C2=A0 =C2=A0 =C2=A0 {&quot;reproducible&quot;, OPT_REPRODUCIBLE, ARG_NO, 0=
+},<br>
++=C2=A0 =C2=A0 =C2=A0{&quot;bits&quot;,=C2=A0 =C2=A0 =C2=A0OPT_BITS, ARG_YE=
+S, 0},<br>
+++=C2=A0 =C2=A0 {&quot;debug-prefix-map&quot;, OPT_DEBUG_PREFIX_MAP, true, =
+0},<br>
+=C2=A0 =C2=A0 =C2=A0 {NULL, OPT_BOGUS, ARG_NO, 0}<br>
+=C2=A0 };<br>
+-@@ -1335,6 +1337,26 @@ static bool process_arg(char *p, char *q, int pass)=
+<br>
++ <br>
++@@ -1337,6 +1339,26 @@ static bool process_arg(char *p, char *q, int pass)=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case OPT_REP=
+RODUCIBLE:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 reproducible =3D true;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 break;<br>
+@@ -71,22 +72,24 @@ index 76c70f6..08ff119 100644<br>
+=C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 }<br>
+=C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 break;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case OPT_HEL=
+P:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0help(stdout);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0exit(0);<br>
+-@@ -2298,6 +2320,8 @@ static void help(FILE *out)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=A0 -w-x=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 disable warning x (also -Wno-x)\n&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=A0 -w[+-]error=C2=A0 =
+=C2=A0promote all warnings to errors (also -Werror)\n&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0 =C2=A0 -w[+-]error=3Dx prom=
+ote warning x to errors (also -Werror=3Dx)\n&quot;<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;=C2=A0 =C2=A0--debug-prefix-map base=3D=
+dest\n&quot;<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 remap paths starting with &#39;base&#39; to &#39;d=
+est&#39; in output files\n&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0, out);<br>
+- <br>
+-=C2=A0 =C2=A0 =C2=A0fprintf(out, &quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0%-20s %s=
+\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0/* Allow --help topic without *requiring* topic */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0if (!param)<br>
++@@ -2428,7 +2450,9 @@ static void help(FILE *out, const char *what)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0=
+ =C2=A0 -w+x=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0enable warning x %s(al=
+so -Wx)\n&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0=
+ =C2=A0 -w-x=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0disable warning x (als=
+o -Wno-x)\n&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=C2=A0=
+ =C2=A0 -w[+-]error=C2=A0 =C2=A0 promote all warnings to errors (also -Werr=
+or)\n&quot;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;=C2=A0 =C2=
+=A0 -w[+-]error=3Dx=C2=A0 promote warning x to errors (also -Werror=3Dx)\n&=
+quot;,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;=C2=A0 =C2=
+=A0 -w[+-]error=3Dx=C2=A0 promote warning x to errors (also -Werror=3Dx)\n&=
+quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;=C2=A0 =C2=
+=A0--debug-prefix-map base=3Ddest\n&quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 remap paths starting w=
+ith &#39;base&#39; to &#39;dest&#39; in output files\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0SEE(&quot;-w=
+&quot;));<br>
++=C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0if (help_is(with, &#39;w&#39;)) {<br>
+=C2=A0diff --git a/include/nasmlib.h b/include/nasmlib.h<br>
+-index 87a7fc6..a3e5144 100644<br>
++index ed4222b..aafbf00 100644<br>
+=C2=A0--- a/include/nasmlib.h<br>
+=C2=A0+++ b/include/nasmlib.h<br>
+-@@ -250,10 +250,19 @@ int64_t readstrnum(char *str, int length, bool *warn=
+);<br>
++@@ -334,10 +334,19 @@ static inline const char *nasm_digit_chars(bool ucas=
+e)<br>
+=C2=A0 =C2=A0*/<br>
+=C2=A0 int32_t seg_alloc(void);<br>
+<br>
+@@ -107,25 +110,24 @@ index 87a7fc6..a3e5144 100644<br>
+=C2=A0 /*<br>
+=C2=A0 =C2=A0* Utility macros...<br>
+=C2=A0diff --git a/nasm.txt b/nasm.txt<br>
+-index 950c361..784618c 100644<br>
++index 950c361..8447409 100644<br>
+=C2=A0--- a/nasm.txt<br>
+=C2=A0+++ b/nasm.txt<br>
+-@@ -147,6 +147,10 @@ OPTIONS<br>
++@@ -146,6 +146,9 @@ OPTIONS<br>
++ --postfix::<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Prepend or append (respectively) the given argu=
+ment to all global or<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 extern variables.<br>
+- <br>
+=C2=A0+--debug-prefix-map &#39;BASE=3DDEST&#39;::<br>
+=C2=A0+=C2=A0 =C2=A0 Map file names beginning with &#39;BASE&#39; to &#39;D=
+EST&#39; when encoding them in<br>
+=C2=A0+=C2=A0 =C2=A0 output object files.<br>
+-+<br>
++ <br>
+=C2=A0 SYNTAX<br>
+=C2=A0 ------<br>
+- This man page does not fully describe the syntax of *nasm*&#39;s assembly=
+ language,<br>
+=C2=A0diff --git a/nasmlib/filename.c b/nasmlib/filename.c<br>
+-index 172ae0b..fda2be4 100644<br>
++index 2c29d38..0e27f69 100644<br>
+=C2=A0--- a/nasmlib/filename.c<br>
+=C2=A0+++ b/nasmlib/filename.c<br>
+-@@ -39,6 +39,8 @@<br>
++@@ -9,6 +9,8 @@<br>
+=C2=A0 #include &quot;nasmlib.h&quot;<br>
+=C2=A0 #include &quot;error.h&quot;<br>
+<br>
+@@ -134,7 +136,7 @@ index 172ae0b..fda2be4 100644<br>
+=C2=A0 /*<br>
+=C2=A0 =C2=A0* Add/modify a filename extension, assumed to be a period-deli=
+mited<br>
+=C2=A0 =C2=A0* field at the very end of the filename.=C2=A0 Returns a newly=
+ allocated<br>
+-@@ -61,3 +63,21 @@ const char *filename_set_extension(const char *inname, =
+const char *extension)<br>
++@@ -31,3 +33,21 @@ const char *filename_set_extension(const char *inname, =
+const char *extension)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 return p;<br>
+=C2=A0 }<br>
+@@ -156,11 +158,12 @@ index 172ae0b..fda2be4 100644<br>
+=C2=A0+=C2=A0 =C2=A0 strlcpy(dest, in, len);<br>
+=C2=A0+=C2=A0 =C2=A0 return dest;<br>
+=C2=A0+}<br>
++\ No newline at end of file<br>
+=C2=A0diff --git a/output/outas86.c b/output/outas86.c<br>
+-index 54b22f8..c4a412c 100644<br>
++index 0640af7..c654bbe 100644<br>
+=C2=A0--- a/output/outas86.c<br>
+=C2=A0+++ b/output/outas86.c<br>
+-@@ -110,6 +110,8 @@ static void as86_sect_write(struct Section *, const ui=
+nt8_t *,<br>
++@@ -80,6 +80,8 @@ static void as86_sect_write(struct Section *, const uint=
+8_t *,<br>
+<br>
+=C2=A0 static void as86_init(void)<br>
+=C2=A0 {<br>
+@@ -169,7 +172,7 @@ index 54b22f8..c4a412c 100644<br>
+=C2=A0 =C2=A0 =C2=A0 stext.data =3D saa_init(1L);<br>
+=C2=A0 =C2=A0 =C2=A0 stext.datalen =3D 0L;<br>
+=C2=A0 =C2=A0 =C2=A0 stext.head =3D stext.last =3D NULL;<br>
+-@@ -131,7 +133,7 @@ static void as86_init(void)<br>
++@@ -101,7 +103,7 @@ static void as86_init(void)<br>
+=C2=A0 =C2=A0 =C2=A0 strslen =3D 0;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 /* as86 module name =3D input file minus extension */<=
+br>
+@@ -179,10 +182,10 @@ index 54b22f8..c4a412c 100644<br>
+<br>
+=C2=A0 static void as86_cleanup(void)<br>
+=C2=A0diff --git a/output/outcoff.c b/output/outcoff.c<br>
+-index c2b4eb6..e242db2 100644<br>
++index d38085d..b490bb6 100644<br>
+=C2=A0--- a/output/outcoff.c<br>
+=C2=A0+++ b/output/outcoff.c<br>
+-@@ -1259,7 +1259,7 @@ static void coff_symbol(char *name, int32_t strpos, =
+int32_t value,<br>
++@@ -1231,7 +1231,7 @@ static void coff_symbol(char *name, int32_t strpos, =
+int32_t value,<br>
+<br>
+=C2=A0 static void coff_write_symbols(void)<br>
+=C2=A0 {<br>
+@@ -191,7 +194,7 @@ index c2b4eb6..e242db2 100644<br>
+=C2=A0 =C2=A0 =C2=A0 uint32_t i;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 /*<br>
+-@@ -1269,7 +1269,7 @@ static void coff_write_symbols(void)<br>
++@@ -1241,7 +1241,7 @@ static void coff_write_symbols(void)<br>
+=C2=A0 =C2=A0 =C2=A0 if (reproducible)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memset(filename, 0, 18);<br>
+=C2=A0 =C2=A0 =C2=A0 else<br>
+@@ -201,10 +204,10 @@ index c2b4eb6..e242db2 100644<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 /*<br>
+=C2=A0diff --git a/output/outelf.c b/output/outelf.c<br>
+-index ad8d210..29f1dc1 100644<br>
++index 7288dda..9847c6e 100644<br>
+=C2=A0--- a/output/outelf.c<br>
+=C2=A0+++ b/output/outelf.c<br>
+-@@ -546,8 +546,8 @@ static void elf_init(void)<br>
++@@ -516,8 +516,8 @@ static void elf_init(void)<br>
+=C2=A0 =C2=A0 =C2=A0 const char * const *p;<br>
+=C2=A0 =C2=A0 =C2=A0 const char * cur_path =3D nasm_realpath(inname);<br>
+<br>
+@@ -215,7 +218,7 @@ index ad8d210..29f1dc1 100644<br>
+=C2=A0 =C2=A0 =C2=A0 sects =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0 nsects =3D sectlen =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0 syms =3D saa_init((int32_t)sizeof(struct elf_symbol));=
+<br>
+-@@ -3590,13 +3590,17 @@ static void dwarf_findfile(const char * fname)<br>
++@@ -3551,13 +3551,17 @@ static void dwarf_findfile(const char * fname)<br>
+=C2=A0 =C2=A0 =C2=A0 if (dwarf_clist &amp;&amp; !(strcmp(fname, dwarf_clist=
+-&gt;filename)))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+<br>
+@@ -234,7 +237,7 @@ index ad8d210..29f1dc1 100644<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 match =3D match-&gt;next;<=
+br>
+-@@ -3607,8 +3611,7 @@ static void dwarf_findfile(const char * fname)<br>
++@@ -3568,8 +3572,7 @@ static void dwarf_findfile(const char * fname)<br>
+=C2=A0 =C2=A0 =C2=A0 dwarf_clist =3D nasm_malloc(sizeof(struct linelist));<=
+br>
+=C2=A0 =C2=A0 =C2=A0 dwarf_numfiles++;<br>
+=C2=A0 =C2=A0 =C2=A0 dwarf_clist-&gt;line =3D dwarf_numfiles;<br>
+@@ -245,10 +248,10 @@ index ad8d210..29f1dc1 100644<br>
+=C2=A0 =C2=A0 =C2=A0 if (!dwarf_flist) {=C2=A0 =C2=A0 =C2=A0/* if first ent=
+ry */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dwarf_flist =3D dwarf_elist =3D dwarf_cl=
+ist;<br>
+=C2=A0diff --git a/output/outieee.c b/output/outieee.c<br>
+-index 7ba9036..796e5af 100644<br>
++index 9e26cec..3643eeb 100644<br>
+=C2=A0--- a/output/outieee.c<br>
+=C2=A0+++ b/output/outieee.c<br>
+-@@ -207,7 +207,7 @@ static void ieee_unqualified_name(char *, char *);<br>
++@@ -178,7 +178,7 @@ static void ieee_unqualified_name(char *, char *);<br>
+=C2=A0 =C2=A0*/<br>
+=C2=A0 static void ieee_init(void)<br>
+=C2=A0 {<br>
+@@ -258,10 +261,10 @@ index 7ba9036..796e5af 100644<br>
+=C2=A0 =C2=A0 =C2=A0 fpubhead =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0 fpubtail =3D &amp;fpubhead;<br>
+=C2=A0diff --git a/output/outobj.c b/output/outobj.c<br>
+-index 281839d..fc336c1 100644<br>
++index 685c593..e3eb34a 100644<br>
+=C2=A0--- a/output/outobj.c<br>
+=C2=A0+++ b/output/outobj.c<br>
+-@@ -644,7 +644,7 @@ static enum directive_result obj_directive(enum direct=
+ive, char *);<br>
++@@ -656,7 +656,7 @@ static const char *get_default_class(const char *segme=
+nt)<br>
+<br>
+=C2=A0 static void obj_init(void)<br>
+=C2=A0 {<br>
+@@ -271,7 +274,7 @@ index 281839d..fc336c1 100644<br>
+=C2=A0 =C2=A0 =C2=A0 any_segs =3D false;<br>
+=C2=A0 =C2=A0 =C2=A0 fpubhead =3D NULL;<br>
+=C2=A0diff --git a/stdlib/strlcat.c b/stdlib/strlcat.c<br>
+-index 7084d46..ee93dea 100644<br>
++index c7cbd59..92a873d 100644<br>
+=C2=A0--- a/stdlib/strlcat.c<br>
+=C2=A0+++ b/stdlib/strlcat.c<br>
+=C2=A0@@ -29,7 +29,7 @@ size_t strlcat(char *dest, const char *src, size_t =
+size)<br>
+@@ -285,16 +288,15 @@ index 7084d46..ee93dea 100644<br>
+=C2=A0 =C2=A0 =C2=A0 /* destination was not NULL terminated. Return the ini=
+tial size */<br>
+=C2=A0diff --git a/test/elfdebugprefix.asm b/test/elfdebugprefix.asm<br>
+=C2=A0new file mode 100644<br>
+-index 0000000..a67ba29<br>
++index 0000000..bf845ce<br>
+=C2=A0--- /dev/null<br>
+=C2=A0+++ b/test/elfdebugprefix.asm<br>
+-@@ -0,0 +1,6 @@<br>
++@@ -0,0 +1,5 @@<br>
+=C2=A0+;Testname=3Dunoptimized; Arguments=3D-O0 --debug-prefix-map elf=3DEL=
+F -felf -oelfdebugprefix.o; Files=3Dstdout stderr elfdebugprefix.o; Validat=
+e=3Dreadelf --wide --symbols elfdebugprefix.o | grep &#39;FILE.*ELFdebugpre=
+fix.asm&#39;<br>
+=C2=A0+<br>
+=C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0 SECTION .text<br>
+=C2=A0+test:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;=
+ [1]<br>
+=C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret<br>
+-+<br>
+=C2=A0diff --git a/test/<a href=3D"http://performtest.pl" rel=3D"noreferrer=
+" target=3D"_blank">performtest.pl</a> b/test/<a href=3D"http://performtest=
+.pl" rel=3D"noreferrer" target=3D"_blank">performtest.pl</a><br>
+=C2=A0index 46b1bdf..2426848 100755<br>
+=C2=A0--- a/test/<a href=3D"http://performtest.pl" rel=3D"noreferrer" targe=
+t=3D"_blank">performtest.pl</a><br>
+diff --git a/meta/recipes-devtools/nasm/<a href=3D"http://nasm_2.16.03.bb" =
+rel=3D"noreferrer" target=3D"_blank">nasm_2.16.03.bb</a> b/meta/recipes-dev=
+tools/nasm/<a href=3D"http://nasm_3.01.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">nasm_3.01.bb</a><br>
+similarity index 78%<br>
+rename from meta/recipes-devtools/nasm/<a href=3D"http://nasm_2.16.03.bb" r=
+el=3D"noreferrer" target=3D"_blank">nasm_2.16.03.bb</a><br>
+rename to meta/recipes-devtools/nasm/<a href=3D"http://nasm_3.01.bb" rel=3D=
+"noreferrer" target=3D"_blank">nasm_3.01.bb</a><br>
+index 281f3940e7..4f4b47d665 100644<br>
+--- a/meta/recipes-devtools/nasm/<a href=3D"http://nasm_2.16.03.bb" rel=3D"=
+noreferrer" target=3D"_blank">nasm_2.16.03.bb</a><br>
++++ b/meta/recipes-devtools/nasm/<a href=3D"http://nasm_3.01.bb" rel=3D"nor=
+eferrer" target=3D"_blank">nasm_3.01.bb</a><br>
+@@ -3,14 +3,14 @@ SECTION =3D &quot;devel&quot;<br>
+=C2=A0HOMEPAGE =3D &quot;<a href=3D"http://www.nasm.us/" rel=3D"noreferrer"=
+ target=3D"_blank">http://www.nasm.us/</a>&quot;<br>
+=C2=A0DESCRIPTION =3D &quot;The Netwide Assembler (NASM) is an assembler an=
+d disassembler for the Intel x86 architecture.&quot;<br>
+=C2=A0LICENSE =3D &quot;BSD-2-Clause&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D90904486f8fbf1861cf42752e1=
+a39efe&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D6178dc4f5355e40552448080e6=
+7a214b&quot;<br>
+<br>
+=C2=A0SRC_URI =3D &quot;<a href=3D"http://www.nasm.us/pub/nasm/releasebuild=
+s/$%7BPV%7D/nasm-$%7BPV%7D.tar.bz2" rel=3D"noreferrer" target=3D"_blank">ht=
+tp://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-stdlib-Add-strlcat.pa=
+tch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0002-Add-debug-prefix-map-=
+option.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+-SRC_URI[sha256sum] =3D &quot;bef3de159bcd61adf98bb7cc87ee9046e944644ad76b7=
+633f18ab063edb29e57&quot;<br>
++SRC_URI[sha256sum] =3D &quot;7a7b1ff3b0eef3247862f2fbe4ca605ccef770545d7af=
+7979eba84a9d045c0b1&quot;<br>
+<br>
+=C2=A0EXTRA_AUTORECONF:append =3D &quot; -I autoconf/m4&quot;<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#226798): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/226798" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/226798</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/116480717/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/116480717/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000ebacbc06459ce6ae--
 
