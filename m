@@ -1,245 +1,751 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18AA2D3C91E
-	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 15:08:34 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.27])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17747.1765379308439964985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9640D3C91F
+	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 15:09:23 +0000 (UTC)
+Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17770.1765379355997588270
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Dec 2025 07:08:29 -0800
+ Wed, 10 Dec 2025 07:09:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=oLPX+Vz1;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=oLPX+Vz1;
- spf=pass (domain: arm.com, ip: 52.101.84.27, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=AxUdA3Suo5Y0LUe4nxSJ+jal5keD1Tcy3XBOFS8eaSJSwT/j4Ml5RgQCBUzdn52ELG3cDHgs+WhPAngMKCwqZxKm3Hj9SdbPDJ4mVpRe59NwJtyCvo8dVBb1OtY7+TkekXSiZFMhTpg9toS1XuDsOR7obFUWX5zkGNRIViB0ei60xOu+PLAjZQIazmgXFFwpE/94u9rrYJOfRL+ZAQcrNat+eDuBSNDZ7pnyaaVyoyDkmMM0T+ggxqjLoIdPKsTrN/to4x9lfE9pHiKWM8FVuUBbeKplPV4qOAw+gmRKPnVrRUa+rqk3kI1j55QX3cXyb0RtX5EwPjdt/PN6dVdy4Q==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GVQquIv2y9cJwL/dOgN0C05G0xhJZ6MP9jCiW1o90ZU=;
- b=FS8FnfW0Bqwm+NVLmx8sL+s2UdaNNmmOckdASGJZCE7Q19RrDZYG79/6mh/e71b/YVFJbfMk2O7Ao2BeMLx6vu8V87wrdo2yq0ITKpBloeq0nFAClKNhBRnFC4lYiaAT/9iM+LR53kBIAilLmg8MyXeDe7YJBpw2KOuRV9RruNJDn3q5wQsTtMbRREv1UWhzzV2D+xBLacUj+nzyDfwKy1bSPyzzdnu9zDiEk0sEuVtYjDXAQ+czMzbNkanh5Bjjz1DWU0UbAKi+oVDB28MXXSRB60meU9hoW5Gn8/kyqv3WTDmzCSDZRtqvY212d7/aTFAhQC2RURk0Fi9Lge+X1g==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=bootlin.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GVQquIv2y9cJwL/dOgN0C05G0xhJZ6MP9jCiW1o90ZU=;
- b=oLPX+Vz1+xuQafxjfHBPIbr9p52qOdvgYPAQ0dq1I85hZoTQAOnMRtWbpBjlPZ4lmaL6GtSPhJ+Mj5TAERL7JndnuAoYDNpto8pzT9OscTuII8++4Mw3H5pGLMvesZ52zmkqtglQw42AcN5u4JBYKI+9cd3yPzW//iM2SoL2t14=
-Received: from CWLP265CA0535.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:18d::7)
- by PA4PR08MB6239.eurprd08.prod.outlook.com (2603:10a6:102:ef::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.7; Wed, 10 Dec
- 2025 15:08:23 +0000
-Received: from AMS0EPF000001AE.eurprd05.prod.outlook.com
- (2603:10a6:400:18d:cafe::2a) by CWLP265CA0535.outlook.office365.com
- (2603:10a6:400:18d::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.7 via Frontend Transport; Wed,
- 10 Dec 2025 15:08:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS0EPF000001AE.mail.protection.outlook.com (10.167.16.154) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.8
- via Frontend Transport; Wed, 10 Dec 2025 15:08:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=i3NGjdIxZf+qgb3RCPnzTCjtuFOrEv69lMB7/qRizmUypDEJ1PS5ylLDeTlnJv+oKGLD3Q2VPJaB9FIFH77i/p/QZqXzwHbeKXUH5SXl94+32GuFr+XvP0th89C01TEfwtlExBFVbUXhs86pdNKIcNJN0uO0mBJ4lOnapKUbpRgKtYEp4BisruGJwd2xpd06oJ6YQ2ZhMBKOstf3h818E1WRsHeL0YWivM2CDVe9tbrKHX9qkU3Old84Go13RoGNOol22j/YNr7KrVV760EZydHjTiDf3sUlVJMIpRqnfZ5KdZw1uhHzBSVWi9w43smMaQq1+gQXj+Ic5qcXxd+9Mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GVQquIv2y9cJwL/dOgN0C05G0xhJZ6MP9jCiW1o90ZU=;
- b=VjNhyYIi0LP9iu1pxd2PYZXLqbigHPvX10IiJ2bLUqklnaeMFl29pVr3robwQIRUVRInlbuqynDJHTvB5NaoJFr1R7wfsi87I+1svW+IKq4eALtyvIF89E/OamBI86J24DLu0bbw3aWUrWbmkCUmoEgERkjuoeg8m96AoIAnhMuXdwOMWPRwohOLdbfgmg3Tdi+0RdqJKD0Tv86hOMUSbGwLSbQLn4ADRhAeWd22NjCESPkHZ8robDm9/IvXbZ4BYEFKEcUBTJRUPa5fJNCZ6TnyUpD/TJnkSChI8rUdPfRy/gcJehnfXFiSKpAmC3gKWDaFBV1G7tp4UQGIH6r0iQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GVQquIv2y9cJwL/dOgN0C05G0xhJZ6MP9jCiW1o90ZU=;
- b=oLPX+Vz1+xuQafxjfHBPIbr9p52qOdvgYPAQ0dq1I85hZoTQAOnMRtWbpBjlPZ4lmaL6GtSPhJ+Mj5TAERL7JndnuAoYDNpto8pzT9OscTuII8++4Mw3H5pGLMvesZ52zmkqtglQw42AcN5u4JBYKI+9cd3yPzW//iM2SoL2t14=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by FRZPR08MB10950.eurprd08.prod.outlook.com (2603:10a6:d10:135::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.7; Wed, 10 Dec
- 2025 15:07:18 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9388.013; Wed, 10 Dec 2025
- 15:07:17 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] meson: upgrade to 1.9.2
-Thread-Topic: [OE-core] [PATCH] meson: upgrade to 1.9.2
-Thread-Index: AQHcaTM4hsWkcvTRZUWC43ys6p3SWrUa0GEAgAAqhYA=
-Date: Wed, 10 Dec 2025 15:07:17 +0000
-Message-ID: <C690B7BA-DDEE-49E6-A2AA-C40B18E80F13@arm.com>
-References: <20251209174220.2972106-1-ross.burton@arm.com>
- <DEUJGY7DX7HR.18JETI2LY83QZ@bootlin.com>
-In-Reply-To: <DEUJGY7DX7HR.18JETI2LY83QZ@bootlin.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81.1.3)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|FRZPR08MB10950:EE_|AMS0EPF000001AE:EE_|PA4PR08MB6239:EE_
-X-MS-Office365-Filtering-Correlation-Id: 389ad009-0d6c-4518-e5b3-08de37fdf687
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|366016|1800799024|376014|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?us-ascii?Q?Zxx6kKwtFMnq/2ivUhWLsxWvhq2AoAgmBO8m3QULoFmr8WdRhkxyt3czkYha?=
- =?us-ascii?Q?paFfJt2cvA84QhpeNAg+IqUPtgxLgmVB5YN0hl38m2OkOvFMWwBqbxTnhi5f?=
- =?us-ascii?Q?asB+vy+WNrCdp117D9C5Jw+O0RU+eLVvCncUWk+x9AcGdN3qMNQKfuuN26Ym?=
- =?us-ascii?Q?VDYrULTWpdBbHAi+p7i7aUOO6vsGBoTlzWT+hz6iP8K36KNEBO4AefWRXr3I?=
- =?us-ascii?Q?Ya9lfMqw5MqaC6F6WW15MqioVTKoCk8GLwez9ZpMQtPDnxUIey98O/EhIXkj?=
- =?us-ascii?Q?dHL0+q843xPfckZzgjBJ47sCUvhk4YaUxTuSJd5WNDw2TrPOfKAb/0lE/6/P?=
- =?us-ascii?Q?dADbGrOjCKUNB5jtJMoghAKrtEpVM5+HFrjkPmA+H8n3prAeaqwv82uweut5?=
- =?us-ascii?Q?VJL68IARB0eumzGLv3d4dFcoOhzoVtx4zuIWZHG97TMlx5Kk/9ZynHg+vJzm?=
- =?us-ascii?Q?RSKnLRf/DtGvOjJwCACWFvCnUOnmoElCV4nX82twAiiJ2C7oDqpKz/oGDLeR?=
- =?us-ascii?Q?ZhIDHv4AZY99F1f8+gCXxtMrxNVn5aNZtrBcBgIcq6JKb+mwk5jCx56VLBES?=
- =?us-ascii?Q?5sZWHzsDqrSZiWAUoSprD4oS/gNPm9DMHMZftNvML9AXba7df1iZdZQhVcNc?=
- =?us-ascii?Q?VIzaCUMvzyrHvM0GRQLrO+iqOf7gyiE5jMExFs41S5ysn7oHG72nXbs5zZaf?=
- =?us-ascii?Q?4NUVcJ3R83e5dtIMly4fxveKJAPG6dYTZdovd4r0s5JIn7hqCT/24qaG1Y7f?=
- =?us-ascii?Q?bPQambU7oTAUOo358ZoHAR4q9JTsnBRRQ/U1j1IwUOmRoEcF3Irsq+0RdJkE?=
- =?us-ascii?Q?rleRLo+Iy4p0+FcHegQ504kA1tngjnSX+rEuKk5aKU+FNPpE0H/qiXI3+h97?=
- =?us-ascii?Q?rXf2CXp7Wgza/0KPBs5Ayx2UWUKQ2D1Rpnh31YlftNDIIKeVMmmV3WkatKre?=
- =?us-ascii?Q?uPgajY3dQv0IYGOFDLo61bO8o9EY2meZuaZRfv/JfY85bNGZmU8hw1VOilyu?=
- =?us-ascii?Q?EJTEXyKZPs/byVZVbOyxiVS1Wli6HPiSBqaYGXO4pdCTq0ULFT3Gm9Fz3PWa?=
- =?us-ascii?Q?jIuRiv/Bak4HBn4ZEbJmzFm5cZajkF354mGwTVS5FuSVtHOKFq6mAX33IBki?=
- =?us-ascii?Q?3luBpQbI7cpM9qVuzwqr4PMzALcXrY1o65FoF2bZ2Nnm7499KC9rLR2cyYn5?=
- =?us-ascii?Q?AN1TrtPbILuc0Y9DORmSpcqMFljRkVokfSgfaKSMHvC6tGRfvk2/Kfl15lVB?=
- =?us-ascii?Q?DTWs9lDJdM/T7WtBtEbONeagx59NZhjXee2lg2xJy2OQpaTqIwsAxH6mVAb7?=
- =?us-ascii?Q?U0Tf3iIiJId4oWMrhmxa1U45jt+EFPVhgQmLZ+q44ZF8W1SgturdN34MH4qk?=
- =?us-ascii?Q?Sw/JIjb68NSOHRRUYe2c8ZBVBhXSnQsHivHERujURgl9O08ugBXXtnr+6Q+B?=
- =?us-ascii?Q?iPztZAK/2jz91fQDzgEWzBorYpz325Lh6H/J5J/b6GpUPi4garbXpkeE5Mkx?=
- =?us-ascii?Q?DQG6Y9H3VeW1j+608hmuQkBZrs67SwUijH0a?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <45BC78DC1A121B4692D24481F19CA94C@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=btVDxctV;
+ spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: deeratho@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=21943; q=dns/txt;
+  s=iport01; t=1765379356; x=1766588956;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nifh4gWTV7lEvLb0GkA0K53vFsf6nLz0Huv/+7L9TKc=;
+  b=btVDxctVhMo2hj8nkBR8iU91TTPj4NrYeSXVloTI+rNnQZIlcicazjkj
+   MZA01Ntm83WJPHjLOPIojqY95f2D1TVjkgJJW8eBQm+tq3SzAxjCbue3c
+   akP1Py1gvHtQCtoEF3465XFsxZdAk7lvyrO7452QFzsKc7m5q6WTHtPND
+   JYjQydGNMSWBzQDcVsS8nlfl7lGyCKT2BndTkEfor2LEBXfRpbovFKvhn
+   IGnKE2mLFc5MZylVpPU1OUA/aVzeGlB8PzQfZy4YPqZgRJEVsVdHliuwZ
+   HKoJhVGg8VTgyaoOLbaB/BiLVsa3IQEcCkHr72S3Tnf07w1u2/mgCbTW/
+   A==;
+X-CSE-ConnectionGUID: V1dFoatURnyfVLU0itiijg==
+X-CSE-MsgGUID: txyZhY6+TmmuLDWI+XGpFg==
+X-IPAS-Result: =?us-ascii?q?A0ArAAA6jDlp/5X/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
+ =?us-ascii?q?AcBAQsBghcvf19CSYxwhzeCIZ4dFIFrDwEBAQ89FAQBAZFwAiY0CQ4BAgQBA?=
+ =?us-ascii?q?QEBAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4YVAQcyDYZaASANCwFyA?=
+ =?us-ascii?q?wECWiMhgipYAYJzAgERBrITGjeBeTOBAYNoAkNP2yYGgUsBhTqCfYEPhApYG?=
+ =?us-ascii?q?AGEeAcBHxsbgXKBFYE7gi2BBYFcAQGBIiQChlwEgiKBDoYfeIErAyseEIZ5B?=
+ =?us-ascii?q?olBSIEeA1ksAVUTDQoLBwWBYwM1DAsqFW4yHYEjPhdzhF0eaA8GgRGDT4Eyh?=
+ =?us-ascii?q?2MPiXs7AwsYDUgRLDcUGwY+bgeUGE6BPwFwAgEVFwQMPhMBBxQPAYEFEysKH?=
+ =?us-ascii?q?xwBHgUOAz2SVwkIAQEHO49ZgiGBNZ9ZCiiDdIwelTkaM4QElBWSUguYe44Il?=
+ =?us-ascii?q?TYqIFCEaIFoPIFHCwdwFYMiUhkPhyqEPYJDAwEKC4NegX+9WSI1PAIHCwEBA?=
+ =?us-ascii?q?wmTB2ABAQ?=
+IronPort-Data: A9a23:KpboI6jo7GI97fb8dh73IpVpX161MREKZh0ujC45NGQN5FlHY01je
+ htvC22DO/6KNjb9fdFyb9vi/UlXvcXTx4M3GwBrqCw2EyljpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FH1dOOn9SUgvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeHULOZ82QsaD9Nsfvb8EkHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUmo+pZBmhSy
+ MYeOT4zSi3bhv63wbC0H7wEasQLdKEHPasFsX1miDWcBvE8TNWaGePB5MRT23E7gcUm8fT2P
+ pVCL2EwKk6dPlsWZgZ/5JEWxI9EglHzfjBCoU6VooI84nPYy0p6172F3N/9JoXQGJsMwhrJz
+ o7A13jpEyMaBYLc9T+A71aAuc6MrQzjdo1HQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
+ UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBF2QHY909v8hwTjsvv
+ rOUo+7U6fVUmOX9YRqgGn289Fte5QB9wbc+WBI5
+IronPort-HdrOrdr: A9a23:a93biKh3o55OzzymS03FOANeonBQXs8ji2hC6mlwRA09TyX+rb
+ HNoB1173HJYVoqNU3I+urwW5VoP0m8yXcd2+B4Vt2ftWLd11dAQrsP0WKb+V3d8+mUzJ846U
+ +mGJIObeHNMQ==
+X-Talos-CUID: 9a23:kP/5QGOcMfXIHO5DZnBr2kkdBv0fdGzT8lPte06kCGdrR+jA
+X-Talos-MUID: 9a23:vvHbBQVnD3fIcn7q/CP8lQNiBZkr36GrFWQhrrRFi+acGyMlbg==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.20,264,1758585600"; 
+   d="scan'208";a="412561449"
+Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
+  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 10 Dec 2025 15:09:13 +0000
+Received: from sjc-ads-3552.cisco.com (sjc-ads-3552.cisco.com [171.68.249.250])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id D34B4180001C6
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 15:09:12 +0000 (GMT)
+Received: by sjc-ads-3552.cisco.com (Postfix, from userid 1795984)
+	id 76ABDCC12B5; Wed, 10 Dec 2025 07:09:11 -0800 (PST)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [scarthgap] [PATCH 1/2] cups 2.4.11: Fix CVE-2025-58436
+Date: Wed, 10 Dec 2025 07:08:57 -0800
+Message-Id: <20251210150857.2780243-1-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRZPR08MB10950
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS0EPF000001AE.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	894834cd-eb2c-46d7-0bcd-08de37fdcf5c
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|35042699022|14060799003|376014|1800799024|36860700013|13003099007|7053199007;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?NJyIFB+95JfTSbPpWwTBWb9BREfk7Hod6hOXIVhvbp6iTbgHnPQL9ByA+YvF?=
- =?us-ascii?Q?pHnKSTlDUW96tWHAOzgxrUcUcARJ6vbhhJKczwJ967YeltWToKaMLndA6Cj4?=
- =?us-ascii?Q?+4pPqCLp9yTpEivVoMGviJ5jo9Grwpi2IAfnUhLMYz8eoZOgrWxYfBuuHjyC?=
- =?us-ascii?Q?zqjWFI7ltViCpICR0biLrPyyrnvvPhIj3KTULwNnj23LlRRbqYW37BaRSsOb?=
- =?us-ascii?Q?z7Ew5vahEz3yi8Vl2zgKx3trhSt9bN3dPR68YBQ//5Ab22P2/LcyigSvkWJc?=
- =?us-ascii?Q?FPrchPhxl+TIEunoMD6tBOB5/Tu8PjF1xLRtwyoR6ZnC0WbnykE0eRxnvKvV?=
- =?us-ascii?Q?eB1B1ujfXOVypEGfGwe0lgfih5C+s8PRdyqbJhS+EUN6XIdD6bvD2uemmblO?=
- =?us-ascii?Q?ZY02XQB0VkkGN/uwg/TWwOkvAQXawUwt7St00lfh5Mf7FhLkp5Lh/SpbHeqE?=
- =?us-ascii?Q?3Temv/jowxmySAJWlX5STxpvYk2tR4dN3BiMRwrF4VAQ1z5O0KiWETGIS1KK?=
- =?us-ascii?Q?uqSCqqihGwAsv9WhTcupufAAJLMjIITew+wJM5V1DwPLHyr7St/sKizPstJ0?=
- =?us-ascii?Q?JZG39KGvUMXvpA9k9wyOlXfVXn5+9fLa3tq1nXlj21995itrxX5i4p6yUu9r?=
- =?us-ascii?Q?3TM9w5R0IKLYFqEHzFSSKG4RY6s6qKGo/mSJMGbaDCPz9m64MNLc7LN8pIZn?=
- =?us-ascii?Q?u20iodUgsQw62EQw21+QmdgOww9wVBCp1AiplXYr4ELMEstEhe00Q2eHGjer?=
- =?us-ascii?Q?ScUlDzUT8E8KkkgecJ5KPxdqUwmYH8QPVxlfjcj2trftEDgkOlqbI8nZZz6C?=
- =?us-ascii?Q?UC87bQZNcouJwnVaNhyRLzlOcXbrTJLOJZ+2DE4z18KKDEt5+gUDy0wdnrC7?=
- =?us-ascii?Q?q3SM4qtLHUm94w+Alz64AUIQpVr5ESgY/dnnmCVZnWxxxfWfcYvM3dNwTCi6?=
- =?us-ascii?Q?4ytkfPtRNQf8cbOuJEH69zq2VgMcs6aY7XOais+c4sQq9lQqMXdj5T5/hhwu?=
- =?us-ascii?Q?hvyeDpqFg7gH6vRwZP2Ryi6rsnJaXc3TmzQc9jvir6K/GgzdRROhILlZoVch?=
- =?us-ascii?Q?luu9Boaj3yExbB/FXjosEbdajO3vxnA1xjICvR3G8ZX9UB7ryMfNehegPt48?=
- =?us-ascii?Q?NtfLP/hs9r5qyJ4b2TQoiI+H96aJK/SeffLh+1Pyo9xZVSpKEYavp9f1g/kX?=
- =?us-ascii?Q?AyXYsP3MiOGCO1NeUiJFP7eoEu7hw1+SEZxJFPBMjIuf4vv28NAq8KaCwKUz?=
- =?us-ascii?Q?fNkv1gLhUzWpgiV1Y71gp8/n8UsYhhtINL7fZoJfpzP12RR5Tj0xwOSwox+m?=
- =?us-ascii?Q?W/KVSfUAiAjB/cqMVGokfiNRE4L3tgpDS+OaMr/8KXI/QhIaO5+BFFYyKgX3?=
- =?us-ascii?Q?Y1mZVxMw0PeUZgQVPoaV1rc7MPsRhLdY31UKbKLWbQBRVDcVE3tDDUyXO6t5?=
- =?us-ascii?Q?Ko4+whzwh3n/CssdgU4Rum4/E/090KorV2FKHayqiDVJ5YgfgxAnItJPBP8U?=
- =?us-ascii?Q?2QK6XEyOQwAqRCEUf0li8PmWmb/7i+pbZ/ctK6UsmnOFA7mWy5RKK6b6/r5k?=
- =?us-ascii?Q?75OrG2HVxoUnAKWRZQA=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(35042699022)(14060799003)(376014)(1800799024)(36860700013)(13003099007)(7053199007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2025 15:08:23.5138
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 389ad009-0d6c-4518-e5b3-08de37fdf687
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF000001AE.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6239
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.68.249.250, sjc-ads-3552.cisco.com
+X-Outbound-Node: rcdn-l-core-12.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 15:08:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227482
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 15:09:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227483
 
-On 10 Dec 2025, at 12:34, Mathieu Dubois-Briand <mathieu.dubois-briand@boot=
-lin.com> wrote:
->=20
-> On Tue Dec 9, 2025 at 6:42 PM CET, Ross Burton via lists.openembedded.org=
- wrote:
->> Release notes:
->> - Array `.flatten()` method
->> - clang-tidy's auto-generated targets correctly select source files
->> - Added Qualcomm's embedded linker, eld
->> - Added suffix function to the FS module
->> - Support response files for custom targets
->> - meson format now has a --source-file-path argument when reading from s=
-tdin
->> - Added license keyword to pkgconfig.generate
->> - New experimental option `rust_dynamic_std`
->> - Rust and non-Rust sources in the same target
->> - Swift/C++ interoperability is now supported
->> - Explicitly setting Swift module name is now supported
->> - Top-level statement handling in Swift libraries
->> - Swift compiler receives select C family compiler options
->> - Support for MASM in Visual Studio backends
->> - Limited support for WrapDB v1
->>=20
->> Signed-off-by: Ross Burton <ross.burton@arm.com>
->> ---
->=20
-> Hi Ross,
->=20
-> Thanks for your patch.
->=20
-> I suspect this update is the source of the following error:
->=20
-> oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '. /srv/poky=
-build/yocto-worker/qemuarm-oecore/build/build/tmp/work/qemuarm-oe-linux-gnu=
-eabi/core-image-sato/1.0/testimage-sdk/environment-setup-cortexa15t2hf-neon=
--oe-linux-gnueabi > /dev/null; meson setup --warnlevel 1 /srv/pokybuild/yoc=
-to-worker/qemuarm-oecore/build/build/tmp/work/qemuarm-oe-linux-gnueabi/core=
--image-sato/1.0/testimage-sdk/epoxygccq2bbt/build /srv/pokybuild/yocto-work=
-er/qemuarm-oecore/build/build/tmp/work/qemuarm-oe-linux-gnueabi/core-image-=
-sato/1.0/testimage-sdk/epoxygccq2bbt/libepoxy-1.5.3 -Degl=3Dno -Dglx=3Dno -=
-Dx11=3Dfalse;' returned non-zero exit status 1.
-> ...
-> tmp/work/qemuarm-oe-linux-gnueabi/core-image-sato/1.0/testimage-sdk/epoxy=
-gccq2bbt/libepoxy-1.5.3/src/meson.build:100:4: ERROR: required dependency m=
-ust not be empty, "" was provided.
+From: Deepak Rathore <deeratho@cisco.com>
 
-Yes, that would be https://github.com/anholt/libepoxy/pull/313.
+Upstream Repository: https://github.com/OpenPrinting/cups.git
 
-I should try and find something better than libepoxy as a test, considering=
- we disable almost everything to make it minimal and in doing so hit build =
-configurations that nobody in their right mind would use...
+Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2025-58436
+Type: Security Fix
+CVE: CVE-2025-58436
+Score: 5.5
+Patch: https://github.com/OpenPrinting/cups/commit/5d414f1f91bd
 
-Ross=
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 0a26a9b6de..cf3df32306 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -17,6 +17,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
+            file://cups-volatiles.conf \
+            file://CVE-2025-58060.patch \
+            file://CVE-2025-58364.patch \
++           file://CVE-2025-58436.patch \
+            "
+ 
+ GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
+diff --git a/meta/recipes-extended/cups/cups/CVE-2025-58436.patch b/meta/recipes-extended/cups/cups/CVE-2025-58436.patch
+new file mode 100644
+index 0000000000..ebb68dabe9
+--- /dev/null
++++ b/meta/recipes-extended/cups/cups/CVE-2025-58436.patch
+@@ -0,0 +1,634 @@
++From d8707cbc36ce3daf03a8bc683b347359e058b9f6 Mon Sep 17 00:00:00 2001
++From: Zdenek Dohnal <zdohnal@redhat.com>
++Date: Mon, 13 Oct 2025 10:16:48 +0200
++Subject: [PATCH] Fix unresponsive cupsd process caused by a slow client
++
++If client is very slow, it will slow cupsd process for other clients.
++The fix is the best effort without turning scheduler cupsd into
++multithreaded process which would be too complex and error-prone when
++backporting to 2.4.x series.
++
++The fix for unencrypted communication is to follow up on communication
++only if there is the whole line on input, and the waiting time is
++guarded by timeout.
++
++Encrypted communication now starts after we have the whole client hello
++packet, which conflicts with optional upgrade support to HTTPS via
++methods other than method OPTIONS, so this optional support defined in
++RFC 2817, section 3.1 is removed. Too slow or incomplete requests are
++handled by connection timeout.
++
++Fixes CVE-2025-58436
++
++CVE: CVE-2025-58436
++Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/5d414f1f91bd]
++
++(cherry picked from commit 5d414f1f91bdca118413301b148f0b188eb1cdc6)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ cups/http-private.h |   7 +-
++ cups/http.c         |  80 +++++++++++++-------
++ cups/tls-openssl.c  |  15 +++-
++ scheduler/client.c  | 178 ++++++++++++++++++++++++++++----------------
++ scheduler/client.h  |   3 +
++ scheduler/select.c  |  12 +++
++ 6 files changed, 198 insertions(+), 97 deletions(-)
++
++diff --git a/cups/http-private.h b/cups/http-private.h
++index 5f77b8ef0..b8e200bf6 100644
++--- a/cups/http-private.h
+++++ b/cups/http-private.h
++@@ -121,6 +121,7 @@ extern "C" {
++  * Constants...
++  */
++
+++#  define _HTTP_MAX_BUFFER	32768	/* Size of read buffer */
++ #  define _HTTP_MAX_SBUFFER	65536	/* Size of (de)compression buffer */
++ #  define _HTTP_RESOLVE_DEFAULT	0	/* Just resolve with default options */
++ #  define _HTTP_RESOLVE_STDERR	1	/* Log resolve progress to stderr */
++@@ -232,8 +233,8 @@ struct _http_s				/**** HTTP connection structure ****/
++   http_encoding_t	data_encoding;	/* Chunked or not */
++   int			_data_remaining;/* Number of bytes left (deprecated) */
++   int			used;		/* Number of bytes used in buffer */
++-  char			buffer[HTTP_MAX_BUFFER];
++-					/* Buffer for incoming data */
+++  char			_buffer[HTTP_MAX_BUFFER];
+++					/* Old read buffer (deprecated) */
++   int			_auth_type;	/* Authentication in use (deprecated) */
++   unsigned char		_md5_state[88];	/* MD5 state (deprecated) */
++   char			nonce[HTTP_MAX_VALUE];
++@@ -307,6 +308,8 @@ struct _http_s				/**** HTTP connection structure ****/
++					/* Allocated field values */
++			*default_fields[HTTP_FIELD_MAX];
++					/* Default field values, if any */
+++  char			buffer[_HTTP_MAX_BUFFER];
+++					/* Read buffer */
++ };
++ #  endif /* !_HTTP_NO_PRIVATE */
++
++diff --git a/cups/http.c b/cups/http.c
++index 31a8be361..599703c7b 100644
++--- a/cups/http.c
+++++ b/cups/http.c
++@@ -53,7 +53,7 @@ static http_t		*http_create(const char *host, int port,
++ static void		http_debug_hex(const char *prefix, const char *buffer,
++			               int bytes);
++ #endif /* DEBUG */
++-static ssize_t		http_read(http_t *http, char *buffer, size_t length);
+++static ssize_t		http_read(http_t *http, char *buffer, size_t length, int timeout);
++ static ssize_t		http_read_buffered(http_t *http, char *buffer, size_t length);
++ static ssize_t		http_read_chunk(http_t *http, char *buffer, size_t length);
++ static int		http_send(http_t *http, http_state_t request,
++@@ -1200,7 +1200,7 @@ httpGets(char   *line,			/* I - Line to read into */
++         return (NULL);
++       }
++
++-      bytes = http_read(http, http->buffer + http->used, (size_t)(HTTP_MAX_BUFFER - http->used));
+++      bytes = http_read(http, http->buffer + http->used, (size_t)(_HTTP_MAX_BUFFER - http->used), http->wait_value);
++
++       DEBUG_printf(("4httpGets: read " CUPS_LLFMT " bytes.", CUPS_LLCAST bytes));
++
++@@ -1720,24 +1720,13 @@ httpPeek(http_t *http,			/* I - HTTP connection */
++
++     ssize_t	buflen;			/* Length of read for buffer */
++
++-    if (!http->blocking)
++-    {
++-      while (!httpWait(http, http->wait_value))
++-      {
++-	if (http->timeout_cb && (*http->timeout_cb)(http, http->timeout_data))
++-	  continue;
++-
++-	return (0);
++-      }
++-    }
++-
++     if ((size_t)http->data_remaining > sizeof(http->buffer))
++       buflen = sizeof(http->buffer);
++     else
++       buflen = (ssize_t)http->data_remaining;
++
++     DEBUG_printf(("2httpPeek: Reading %d bytes into buffer.", (int)buflen));
++-    bytes = http_read(http, http->buffer, (size_t)buflen);
+++    bytes = http_read(http, http->buffer, (size_t)buflen, http->wait_value);
++
++     DEBUG_printf(("2httpPeek: Read " CUPS_LLFMT " bytes into buffer.",
++                   CUPS_LLCAST bytes));
++@@ -1758,9 +1747,9 @@ httpPeek(http_t *http,			/* I - HTTP connection */
++     int		zerr;			/* Decompressor error */
++     z_stream	stream;			/* Copy of decompressor stream */
++
++-    if (http->used > 0 && ((z_stream *)http->stream)->avail_in < HTTP_MAX_BUFFER)
+++    if (http->used > 0 && ((z_stream *)http->stream)->avail_in < _HTTP_MAX_BUFFER)
++     {
++-      size_t buflen = HTTP_MAX_BUFFER - ((z_stream *)http->stream)->avail_in;
+++      size_t buflen = _HTTP_MAX_BUFFER - ((z_stream *)http->stream)->avail_in;
++					/* Number of bytes to copy */
++
++       if (((z_stream *)http->stream)->avail_in > 0 &&
++@@ -2018,7 +2007,7 @@ httpRead2(http_t *http,			/* I - HTTP connection */
++
++       if (bytes == 0)
++       {
++-        ssize_t buflen = HTTP_MAX_BUFFER - (ssize_t)((z_stream *)http->stream)->avail_in;
+++        ssize_t buflen = _HTTP_MAX_BUFFER - (ssize_t)((z_stream *)http->stream)->avail_in;
++					/* Additional bytes for buffer */
++
++         if (buflen > 0)
++@@ -2768,7 +2757,7 @@ int					/* O - 1 to continue, 0 to stop */
++ _httpUpdate(http_t        *http,	/* I - HTTP connection */
++             http_status_t *status)	/* O - Current HTTP status */
++ {
++-  char		line[32768],		/* Line from connection... */
+++  char		line[_HTTP_MAX_BUFFER],	/* Line from connection... */
++		*value;			/* Pointer to value on line */
++   http_field_t	field;			/* Field index */
++   int		major, minor;		/* HTTP version numbers */
++@@ -2776,12 +2765,46 @@ _httpUpdate(http_t        *http,	/* I - HTTP connection */
++
++   DEBUG_printf(("_httpUpdate(http=%p, status=%p), state=%s", (void *)http, (void *)status, httpStateString(http->state)));
++
+++  /* When doing non-blocking I/O, make sure we have a whole line... */
+++  if (!http->blocking)
+++  {
+++    ssize_t	bytes;			/* Bytes "peeked" from connection */
+++
+++    /* See whether our read buffer is full... */
+++    DEBUG_printf(("2_httpUpdate: used=%d", http->used));
+++
+++    if (http->used > 0 && !memchr(http->buffer, '\n', (size_t)http->used) && (size_t)http->used < sizeof(http->buffer))
+++    {
+++      /* No, try filling in more data... */
+++      if ((bytes = http_read(http, http->buffer + http->used, sizeof(http->buffer) - (size_t)http->used, /*timeout*/0)) > 0)
+++      {
+++	DEBUG_printf(("2_httpUpdate: Read %d bytes.", (int)bytes));
+++	http->used += (int)bytes;
+++      }
+++    }
+++
+++    /* Peek at the incoming data... */
+++    if (!http->used || !memchr(http->buffer, '\n', (size_t)http->used))
+++    {
+++      /* Don't have a full line, tell the reader to try again when there is more data... */
+++      DEBUG_puts("1_htttpUpdate: No newline in buffer yet.");
+++      if ((size_t)http->used == sizeof(http->buffer))
+++	*status = HTTP_STATUS_ERROR;
+++      else
+++	*status = HTTP_STATUS_CONTINUE;
+++      return (0);
+++    }
+++
+++    DEBUG_puts("2_httpUpdate: Found newline in buffer.");
+++  }
+++
++  /*
++   * Grab a single line from the connection...
++   */
++
++   if (!httpGets(line, sizeof(line), http))
++   {
+++    DEBUG_puts("1_httpUpdate: Error reading request line.");
++     *status = HTTP_STATUS_ERROR;
++     return (0);
++   }
++@@ -4134,7 +4157,8 @@ http_debug_hex(const char *prefix,	/* I - Prefix for line */
++ static ssize_t				/* O - Number of bytes read or -1 on error */
++ http_read(http_t *http,			/* I - HTTP connection */
++           char   *buffer,		/* I - Buffer */
++-          size_t length)		/* I - Maximum bytes to read */
+++          size_t length,		/* I - Maximum bytes to read */
+++          int    timeout)		/* I - Wait timeout */
++ {
++   ssize_t	bytes;			/* Bytes read */
++
++@@ -4143,7 +4167,7 @@ http_read(http_t *http,			/* I - HTTP connection */
++
++   if (!http->blocking || http->timeout_value > 0.0)
++   {
++-    while (!httpWait(http, http->wait_value))
+++    while (!_httpWait(http, timeout, 1))
++     {
++       if (http->timeout_cb && (*http->timeout_cb)(http, http->timeout_data))
++	continue;
++@@ -4246,7 +4270,7 @@ http_read_buffered(http_t *http,	/* I - HTTP connection */
++     else
++       bytes = (ssize_t)length;
++
++-    DEBUG_printf(("8http_read: Grabbing %d bytes from input buffer.",
+++    DEBUG_printf(("8http_read_buffered: Grabbing %d bytes from input buffer.",
++                   (int)bytes));
++
++     memcpy(buffer, http->buffer, (size_t)bytes);
++@@ -4256,7 +4280,7 @@ http_read_buffered(http_t *http,	/* I - HTTP connection */
++       memmove(http->buffer, http->buffer + bytes, (size_t)http->used);
++   }
++   else
++-    bytes = http_read(http, buffer, length);
+++    bytes = http_read(http, buffer, length, http->wait_value);
++
++   return (bytes);
++ }
++@@ -4597,15 +4621,15 @@ http_set_timeout(int    fd,		/* I - File descriptor */
++ static void
++ http_set_wait(http_t *http)		/* I - HTTP connection */
++ {
++-  if (http->blocking)
++-  {
++-    http->wait_value = (int)(http->timeout_value * 1000);
+++  http->wait_value = (int)(http->timeout_value * 1000);
++
++-    if (http->wait_value <= 0)
+++  if (http->wait_value <= 0)
+++  {
+++    if (http->blocking)
++       http->wait_value = 60000;
+++    else
+++      http->wait_value = 1000;
++   }
++-  else
++-    http->wait_value = 10000;
++ }
++
++
++diff --git a/cups/tls-openssl.c b/cups/tls-openssl.c
++index 9fcbe0af3..f746f4cba 100644
++--- a/cups/tls-openssl.c
+++++ b/cups/tls-openssl.c
++@@ -215,12 +215,14 @@ cupsMakeServerCredentials(
++   // Save them...
++   if ((bio = BIO_new_file(keyfile, "wb")) == NULL)
++   {
+++    DEBUG_printf(("1cupsMakeServerCredentials: Unable to create private key file '%s': %s", keyfile, strerror(errno)));
++     _cupsSetError(IPP_STATUS_ERROR_INTERNAL, strerror(errno), 0);
++     goto done;
++   }
++
++   if (!PEM_write_bio_PrivateKey(bio, pkey, NULL, NULL, 0, NULL, NULL))
++   {
+++    DEBUG_puts("1cupsMakeServerCredentials: PEM_write_bio_PrivateKey failed.");
++     _cupsSetError(IPP_STATUS_ERROR_INTERNAL, _("Unable to write private key."), 1);
++     BIO_free(bio);
++     goto done;
++@@ -230,12 +232,14 @@ cupsMakeServerCredentials(
++
++   if ((bio = BIO_new_file(crtfile, "wb")) == NULL)
++   {
+++    DEBUG_printf(("1cupsMakeServerCredentials: Unable to create certificate file '%s': %s", crtfile, strerror(errno)));
++     _cupsSetError(IPP_STATUS_ERROR_INTERNAL, strerror(errno), 0);
++     goto done;
++   }
++
++   if (!PEM_write_bio_X509(bio, cert))
++   {
+++    DEBUG_puts("1cupsMakeServerCredentials: PEM_write_bio_X509 failed.");
++     _cupsSetError(IPP_STATUS_ERROR_INTERNAL, _("Unable to write X.509 certificate."), 1);
++     BIO_free(bio);
++     goto done;
++@@ -1082,10 +1086,10 @@ _httpTLSStart(http_t *http)		// I - Connection to server
++
++       if (!cupsMakeServerCredentials(tls_keypath, cn, 0, NULL, time(NULL) + 3650 * 86400))
++       {
++-	DEBUG_puts("4_httpTLSStart: cupsMakeServerCredentials failed.");
+++	DEBUG_printf(("4_httpTLSStart: cupsMakeServerCredentials failed: %s", cupsLastErrorString()));
++	http->error  = errno = EINVAL;
++	http->status = HTTP_STATUS_ERROR;
++-	_cupsSetError(IPP_STATUS_ERROR_INTERNAL, _("Unable to create server credentials."), 1);
+++//	_cupsSetError(IPP_STATUS_ERROR_INTERNAL, _("Unable to create server credentials."), 1);
++	SSL_CTX_free(context);
++         _cupsMutexUnlock(&tls_mutex);
++
++@@ -1346,14 +1350,17 @@ http_bio_read(BIO  *h,			// I - BIO data
++
++   http = (http_t *)BIO_get_data(h);
++
++-  if (!http->blocking)
+++  if (!http->blocking || http->timeout_value > 0.0)
++   {
++    /*
++     * Make sure we have data before we read...
++     */
++
++-    if (!_httpWait(http, 10000, 0))
+++    while (!_httpWait(http, http->wait_value, 0))
++     {
+++      if (http->timeout_cb && (*http->timeout_cb)(http, http->timeout_data))
+++	continue;
+++
++ #ifdef WIN32
++       http->error = WSAETIMEDOUT;
++ #else
++diff --git a/scheduler/client.c b/scheduler/client.c
++index 233f9017d..d495d9a75 100644
++--- a/scheduler/client.c
+++++ b/scheduler/client.c
++@@ -34,11 +34,11 @@
++
++ static int		check_if_modified(cupsd_client_t *con,
++			                  struct stat *filestats);
++-static int		compare_clients(cupsd_client_t *a, cupsd_client_t *b,
++-			                void *data);
++ #ifdef HAVE_TLS
++-static int		cupsd_start_tls(cupsd_client_t *con, http_encryption_t e);
+++static int		check_start_tls(cupsd_client_t *con);
++ #endif /* HAVE_TLS */
+++static int		compare_clients(cupsd_client_t *a, cupsd_client_t *b,
+++			                void *data);
++ static char		*get_file(cupsd_client_t *con, struct stat *filestats,
++			          char *filename, size_t len);
++ static http_status_t	install_cupsd_conf(cupsd_client_t *con);
++@@ -360,14 +360,20 @@ cupsdAcceptClient(cupsd_listener_t *lis)/* I - Listener socket */
++   if (lis->encryption == HTTP_ENCRYPTION_ALWAYS)
++   {
++    /*
++-    * https connection; go secure...
+++    * HTTPS connection, force TLS negotiation...
++     */
++
++-    if (cupsd_start_tls(con, HTTP_ENCRYPTION_ALWAYS))
++-      cupsdCloseClient(con);
+++    con->tls_start = time(NULL);
+++    con->encryption = HTTP_ENCRYPTION_ALWAYS;
++   }
++   else
+++  {
+++   /*
+++    * HTTP connection, but check for HTTPS negotiation on first data...
+++    */
+++
++     con->auto_ssl = 1;
+++  }
++ #endif /* HAVE_TLS */
++ }
++
++@@ -606,17 +612,46 @@ cupsdReadClient(cupsd_client_t *con)	/* I - Client to read from */
++
++     con->auto_ssl = 0;
++
++-    if (recv(httpGetFd(con->http), buf, 1, MSG_PEEK) == 1 &&
++-        (!buf[0] || !strchr("DGHOPT", buf[0])))
+++    if (recv(httpGetFd(con->http), buf, 5, MSG_PEEK) == 5 && buf[0] == 0x16 && buf[1] == 3 && buf[2])
++     {
++      /*
++-      * Encrypt this connection...
+++      * Client hello record, encrypt this connection...
++       */
++
++-      cupsdLogClient(con, CUPSD_LOG_DEBUG2, "Saw first byte %02X, auto-negotiating SSL/TLS session.", buf[0] & 255);
+++      cupsdLogClient(con, CUPSD_LOG_DEBUG2, "Saw client hello record, auto-negotiating TLS session.");
+++      con->tls_start = time(NULL);
+++      con->encryption = HTTP_ENCRYPTION_ALWAYS;
+++    }
+++  }
++
++-      if (cupsd_start_tls(con, HTTP_ENCRYPTION_ALWAYS))
++-        cupsdCloseClient(con);
+++  if (con->tls_start)
+++  {
+++   /*
+++    * Try negotiating TLS...
+++    */
+++
+++    int tls_status = check_start_tls(con);
+++
+++    if (tls_status < 0)
+++    {
+++     /*
+++      * TLS negotiation failed, close the connection.
+++      */
+++
+++      cupsdCloseClient(con);
+++      return;
+++    }
+++    else if (tls_status == 0)
+++    {
+++     /*
+++      * Nothing to do yet...
+++      */
+++
+++      if ((time(NULL) - con->tls_start) > 5)
+++      {
+++	// Timeout, close the connection...
+++	cupsdCloseClient(con);
+++      }
++
++       return;
++     }
++@@ -780,9 +815,7 @@ cupsdReadClient(cupsd_client_t *con)	/* I - Client to read from */
++         * Parse incoming parameters until the status changes...
++	*/
++
++-        while ((status = httpUpdate(con->http)) == HTTP_STATUS_CONTINUE)
++-	  if (!httpGetReady(con->http))
++-	    break;
+++	status = httpUpdate(con->http);
++
++	if (status != HTTP_STATUS_OK && status != HTTP_STATUS_CONTINUE)
++	{
++@@ -944,11 +977,10 @@ cupsdReadClient(cupsd_client_t *con)	/* I - Client to read from */
++	  return;
++	}
++
++-        if (cupsd_start_tls(con, HTTP_ENCRYPTION_REQUIRED))
++-        {
++-	  cupsdCloseClient(con);
++-	  return;
++-	}
+++	con->tls_start = time(NULL);
+++	con->tls_upgrade = 1;
+++	con->encryption = HTTP_ENCRYPTION_REQUIRED;
+++	return;
++ #else
++	if (!cupsdSendError(con, HTTP_STATUS_NOT_IMPLEMENTED, CUPSD_AUTH_NONE))
++	{
++@@ -987,32 +1019,11 @@ cupsdReadClient(cupsd_client_t *con)	/* I - Client to read from */
++       if (!_cups_strcasecmp(httpGetField(con->http, HTTP_FIELD_CONNECTION),
++                             "Upgrade") && !httpIsEncrypted(con->http))
++       {
++-#ifdef HAVE_TLS
++-       /*
++-        * Do encryption stuff...
++-	*/
++-
++-        httpClearFields(con->http);
++-
++-	if (!cupsdSendHeader(con, HTTP_STATUS_SWITCHING_PROTOCOLS, NULL,
++-	                     CUPSD_AUTH_NONE))
++-	{
++-	  cupsdCloseClient(con);
++-	  return;
++-	}
++-
++-        if (cupsd_start_tls(con, HTTP_ENCRYPTION_REQUIRED))
++-        {
++-	  cupsdCloseClient(con);
++-	  return;
++-	}
++-#else
++	if (!cupsdSendError(con, HTTP_STATUS_NOT_IMPLEMENTED, CUPSD_AUTH_NONE))
++	{
++	  cupsdCloseClient(con);
++	  return;
++	}
++-#endif /* HAVE_TLS */
++       }
++
++       if ((status = cupsdIsAuthorized(con, NULL)) != HTTP_STATUS_OK)
++@@ -2685,6 +2696,69 @@ check_if_modified(
++ }
++
++
+++#ifdef HAVE_TLS
+++/*
+++ * 'check_start_tls()' - Start encryption on a connection.
+++ */
+++
+++static int				/* O - 0 to continue, 1 on success, -1 on error */
+++check_start_tls(cupsd_client_t *con)	/* I - Client connection */
+++{
+++  unsigned char	chello[4096];		/* Client hello record */
+++  ssize_t	chello_bytes;		/* Bytes read/peeked */
+++  int		chello_len;		/* Length of record */
+++
+++
+++ /*
+++  * See if we have a good and complete client hello record...
+++  */
+++
+++  if ((chello_bytes = recv(httpGetFd(con->http), (char *)chello, sizeof(chello), MSG_PEEK)) < 5)
+++    return (0);				/* Not enough bytes (yet) */
+++
+++  if (chello[0] != 0x016 || chello[1] != 3 || chello[2] == 0)
+++    return (-1);			/* Not a TLS Client Hello record */
+++
+++  chello_len = (chello[3] << 8) | chello[4];
+++
+++  if ((chello_len + 5) > chello_bytes)
+++    return (0);				/* Not enough bytes yet */
+++
+++ /*
+++  * OK, we do, try negotiating...
+++  */
+++
+++  con->tls_start = 0;
+++
+++  if (httpEncryption(con->http, con->encryption))
+++  {
+++    cupsdLogClient(con, CUPSD_LOG_ERROR, "Unable to encrypt connection: %s", cupsLastErrorString());
+++    return (-1);
+++  }
+++
+++  cupsdLogClient(con, CUPSD_LOG_DEBUG, "Connection now encrypted.");
+++
+++  if (con->tls_upgrade)
+++  {
+++    // Respond to the original OPTIONS command...
+++    con->tls_upgrade = 0;
+++
+++    httpClearFields(con->http);
+++    httpClearCookie(con->http);
+++    httpSetField(con->http, HTTP_FIELD_CONTENT_LENGTH, "0");
+++
+++    if (!cupsdSendHeader(con, HTTP_STATUS_OK, NULL, CUPSD_AUTH_NONE))
+++    {
+++      cupsdCloseClient(con);
+++      return (-1);
+++    }
+++  }
+++
+++  return (1);
+++}
+++#endif /* HAVE_TLS */
+++
+++
++ /*
++  * 'compare_clients()' - Compare two client connections.
++  */
++@@ -2705,28 +2779,6 @@ compare_clients(cupsd_client_t *a,	/* I - First client */
++ }
++
++
++-#ifdef HAVE_TLS
++-/*
++- * 'cupsd_start_tls()' - Start encryption on a connection.
++- */
++-
++-static int				/* O - 0 on success, -1 on error */
++-cupsd_start_tls(cupsd_client_t    *con,	/* I - Client connection */
++-                http_encryption_t e)	/* I - Encryption mode */
++-{
++-  if (httpEncryption(con->http, e))
++-  {
++-    cupsdLogClient(con, CUPSD_LOG_ERROR, "Unable to encrypt connection: %s",
++-                   cupsLastErrorString());
++-    return (-1);
++-  }
++-
++-  cupsdLogClient(con, CUPSD_LOG_DEBUG, "Connection now encrypted.");
++-  return (0);
++-}
++-#endif /* HAVE_TLS */
++-
++-
++ /*
++  * 'get_file()' - Get a filename and state info.
++  */
++diff --git a/scheduler/client.h b/scheduler/client.h
++index 9fe4e2ea6..2939ce997 100644
++--- a/scheduler/client.h
+++++ b/scheduler/client.h
++@@ -53,6 +53,9 @@ struct cupsd_client_s
++   cups_lang_t		*language;	/* Language to use */
++ #ifdef HAVE_TLS
++   int			auto_ssl;	/* Automatic test for SSL/TLS */
+++  time_t		tls_start;	/* Do TLS negotiation? */
+++  int			tls_upgrade;	/* Doing TLS upgrade via OPTIONS? */
+++  http_encryption_t	encryption;	/* Type of TLS negotiation */
++ #endif /* HAVE_TLS */
++   http_addr_t		clientaddr;	/* Client's server address */
++   char			clientname[256];/* Client's server name for connection */
++diff --git a/scheduler/select.c b/scheduler/select.c
++index 2e64f2a7e..ac6205c51 100644
++--- a/scheduler/select.c
+++++ b/scheduler/select.c
++@@ -408,6 +408,9 @@ cupsdDoSelect(long timeout)		/* I - Timeout in seconds */
++
++   cupsd_in_select = 1;
++
+++  // Prevent 100% CPU by releasing control before the kevent call...
+++  usleep(1);
+++
++   if (timeout >= 0 && timeout < 86400)
++   {
++     ktimeout.tv_sec  = timeout;
++@@ -452,6 +455,9 @@ cupsdDoSelect(long timeout)		/* I - Timeout in seconds */
++     struct epoll_event	*event;		/* Current event */
++
++
+++    // Prevent 100% CPU by releasing control before the epoll_wait call...
+++    usleep(1);
+++
++     if (timeout >= 0 && timeout < 86400)
++       nfds = epoll_wait(cupsd_epoll_fd, cupsd_epoll_events, MaxFDs,
++			timeout * 1000);
++@@ -544,6 +550,9 @@ cupsdDoSelect(long timeout)		/* I - Timeout in seconds */
++     }
++   }
++
+++  // Prevent 100% CPU by releasing control before the poll call...
+++  usleep(1);
+++
++   if (timeout >= 0 && timeout < 86400)
++     nfds = poll(cupsd_pollfds, (nfds_t)count, timeout * 1000);
++   else
++@@ -597,6 +606,9 @@ cupsdDoSelect(long timeout)		/* I - Timeout in seconds */
++   cupsd_current_input  = cupsd_global_input;
++   cupsd_current_output = cupsd_global_output;
++
+++  // Prevent 100% CPU by releasing control before the select call...
+++  usleep(1);
+++
++   if (timeout >= 0 && timeout < 86400)
++   {
++     stimeout.tv_sec  = timeout;
++--
++2.44.1
+-- 
+2.35.6
+
 
