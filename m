@@ -1,84 +1,111 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3D6DD3C91A
-	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 14:41:13 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17011.1765377665362456583
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7640D3C91C
+	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 14:53:03 +0000 (UTC)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17363.1765378383538806660
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Dec 2025 06:41:05 -0800
+ Wed, 10 Dec 2025 06:53:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KMm+Z5Jj;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-88677f91e9dso8951856d6.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 06:41:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=a/FB4JIQ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8b2dcdde65bso1047054085a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 06:53:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765377664; x=1765982464; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5zEvn/rzJrUe1OOBh44fZaewKxIuQEjuJPLC7BTrwnM=;
-        b=KMm+Z5Jj4tRVeD3GnElaOr4aRvLMAl65LcbTbej6P2AjjdYAeeQbVdlZg3SlSljD/w
-         rrcRJaab59IKU9gI5wVFZU4uVR7LlEmJSskgy9GwO0JSVik/eiQ650bIuUvHDV+vdnYn
-         JcFnsmD8eKvDdRUbeRoJyf1wKSzBvsc3ZpZ4Dz7f1t8KZlcibyjmEw86rAWBMbnU033S
-         bZ+gyRRdPg9dParfHxQn53VKuFCDcfTGwTfsYUr8B02Jiw5Gr3hVjjnx8rzekjITe7BT
-         riYgkXpOlWGsT594MIq/daLBfDsG1elTFlgItwT5+5qVQSzGHhysM3cficC48N++7ZKp
-         3gZA==
+        d=gmail.com; s=20230601; t=1765378382; x=1765983182; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=83AGhFhlXfThfBYiluU9KRtRs1HjZ25XXU10Ptgl+Hs=;
+        b=a/FB4JIQoTLPMeS1ElKWQ/63xkEvQLq7OsHRCOi8XvrTMUg3yy+SZVpEbcU4PRR/Fh
+         pzwqFx66RdSjserWKd3l+heE4BDpQT0z3uPNKS4VoL9TBsR+8ikK9yaqaVlRNxC/wOU7
+         qx8MTZflBkHTYNakK3ySjc6XxYBJh8PttE7Dyky+qdz43Nf+VNejgm5oqgDA7I05MI08
+         zq551whX0oa53tlI/tjWFfbd8NqbWJnKZmZk+hVhvzw6QjcsJdSw8kub5YYxkofycNTe
+         zuBOlpE+nf9T2GZCCgqaIHnygGXldGoTxnaB3KdCqBx41ch0jnRXAlN91aHFmDNKvXBP
+         AV2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765377664; x=1765982464;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1765378382; x=1765983182;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5zEvn/rzJrUe1OOBh44fZaewKxIuQEjuJPLC7BTrwnM=;
-        b=R+bNHAZ5EPgFe7IPRW1Dw+tnwvxmSf/svT+AtZCY0neuZufLKnvXClsaLA72u29bWr
-         Lb/y0WEVK6VuNRWBJE+AaTKcfIPBJMrwGTGWv2wINzQ7qwBGdrRQkaCQASjdFqYx00jA
-         Irv9U9n0XfOUskaixe4B4DyVSm0aul029TKQk/xTTKN6EFKrlw865YGwoRU8YHwmaRAg
-         wG0tqLf72b+vHAbEr3V9cTtKOeCdH/1gvf5vLrtB1QbUwlQIWKVaeLedObcqTqK1JfZ6
-         Vuqolt4rBkQEV6njCoWgBmvbkkcHNWKKiO9L8q7yFOzxy+KjFYahZeWWRpGHQY3mk9kc
-         4b4w==
-X-Forwarded-Encrypted: i=1; AJvYcCX1sFvRglwiTnx9FIwDZFv+kp8ZmIM8LMtP4xdeie/fJJZEDF3wDXFSM0FwdEy14583q/4en4U4g29nBZUemP+IXw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzZAd3yyN6hO9N42cXUYHBzxjO1jRylLyM2ftcjY+hEyknFi+cg
-	4kAx8XbulbRMZh4lhv2QXqDR4cCcM8QQ2J5N3W++HCE/tq1SfrO7UDK7kMThwT8z0xkvimMzLEV
-	I82Mq76+SyjcYTQ/tPErrJ8qDt36+Jhc=
-X-Gm-Gg: AY/fxX6RIhezIYqRB//yGGqN9oqZIJxUdaV+cFQqkfOjxsKENcfXgnR0Pg/j4wdPKzm
-	QoZWzmXABCRyT8Uqw3Exi9L8/EwkT/Y6OryVTCKSOKgT8IafSSxlvaZlaQlyfNcis3VqmHH4x9d
-	JuPjJvwsIkgBLf8p16GWuniYYUj+d+XSR+j1AvFIVjhy7iF9yhp5vsQYpE/H+qe17vAZcB8nnEq
-	B0b02fF8bo7ZqBTZbVRhJob+3fg2qtKfRlEm3en+f3G/8S4HVKhMcEMq0qpWaU4UtipkaA9Euwa
-	iE/R6W0qtkC57LKiapyMrp2GpZB7/8Kt38EvcdA8
-X-Google-Smtp-Source: AGHT+IEVAe/0F1rwfB3C1VUxd9/+ZzOgO7tIQqBCGLBO6l9FlWifQRuwlkiLWnqQ3LzlaTpusOSq3w5NTg6OeKZXa1k=
-X-Received: by 2002:a05:6214:5789:b0:888:5a84:b5e3 with SMTP id
- 6a1803df08f44-888639874f9mr30119226d6.8.1765377664311; Wed, 10 Dec 2025
- 06:41:04 -0800 (PST)
+        bh=83AGhFhlXfThfBYiluU9KRtRs1HjZ25XXU10Ptgl+Hs=;
+        b=IcCi41Qb07abmzNrBFfn4+1QkKemP9LEKwNlwB+cpVm5scvbHBt6QcI99DbjzNtE6F
+         28vZs3BQMl+pi/V+Vu/p7eZeTEqUWCWRliT5xGHpj+z4O/CkddFiHqrG6nxgXaTaZFzv
+         Z/RMKfgIV1M9CUX9PZQlC9abVtIMmyJ6FMDNNweOGl35fMl3tqQnuGLjgX2ARMzAKrvp
+         WIJ9ARgjkG1o+pg1NNtTMXiUvSq1FVANQAIkiSgrvcAumi7HgH1VRZCPfVSE9vOuEWfZ
+         v63W43RUNErgXrSQP67wj4HV4szDQ5geki6l1+xZ4Ex4EmoOBbr7YKNeG7L5mPlhvdqc
+         RvEA==
+X-Gm-Message-State: AOJu0Yz2va6jyZWPH7iuXc9RAgegfoUzRKriMH1V8Y3uPmizYm1ZUTOV
+	y8+vks9vNytSf4qMzdvQT3V+eBl/MntYER6QquYu94I5SLrAYtpAB3HQ
+X-Gm-Gg: ASbGncueXouQP9w88jPtgGzATYnSLzHYcF7GM9XwVdXAF7rp9TYrdzy7JxlObfekMop
+	0LNgezD/DrM7Oph5eZjC20Ga8fK9GyxEobicBn238xbk+iQALdmcpDSUQgLWgRQmSupVLf9QdSn
+	MNZOD8x14tjSxdhkOM9/ref0/l4EXV2OhCJ5XtocbgHb4ZbrByGGU6Qq6R2sAAg7tPIoq/PEt8x
+	Gn2oaepJJM3OD3dGQDd3shEf3Hrw8S9bjFcQBkmnAHYdZNrQlAHNEKzGOavcsUnXsj0PwlWe3Gb
+	JSnHR2HaB000PgjDGRFbpovn7RoUQQOeiBvsh/UfoeBExBe9cnTIyj4l8JqN36jtvodL+l3kEgN
+	75SEl9PNIwIx8aVGArBxP1NO/lcKRfHcBOvjLxkImGO5qnEU5VqvNtY2Eg5+9XbKJFPn9PUtVN/
+	4gwebxYQi49LXSsGN+LFb+wmSGzwcPIrlni/w63hdJVsjHhxEfOEQXR4dvrMuNbvQK7MtWKo5ie
+	y/5U/QlA54AHMM=
+X-Google-Smtp-Source: AGHT+IGtEQM8BL7MeQSNqN3oPbURBULDPYEOO+0WM9ojEq1Lri7JZGDXNVtAO83TpHWrlDklxLuhJw==
+X-Received: by 2002:ac8:5dce:0:b0:4ee:483:3123 with SMTP id d75a77b69052e-4f1b1ada6f6mr34938581cf.67.1765378382431;
+        Wed, 10 Dec 2025 06:53:02 -0800 (PST)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f0276b210dsm125804431cf.14.2025.12.10.06.53.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Dec 2025 06:53:01 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] kernel-devsrc: add files for 6.18+
+Date: Wed, 10 Dec 2025 09:53:00 -0500
+Message-Id: <20251210145300.2818964-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20251210110340.3631065-1-adam.duskett@amarulasolutions.com>
- <20251210110340.3631065-5-adam.duskett@amarulasolutions.com> <b1e90355-721c-4942-aaca-209e43e29096@gmail.com>
-In-Reply-To: <b1e90355-721c-4942-aaca-209e43e29096@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 10 Dec 2025 15:40:53 +0100
-X-Gm-Features: AQt7F2pnELJcyqh7rIValiHqXmABUlFTRvyrGDViv9_oe_m9yJl4f2JvlEM3wWA
-Message-ID: <CANNYZj8CrX4M+0ye2Pe9ov1D0PCNXCrC2Ni0jKqYe8PBa7vMKw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 5/5] dnf5: bump to 5.3.0.0
-To: skandigraun@gmail.com
-Cc: adam.duskett@amarulasolutions.com, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 14:41:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227479
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 14:53:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227480
 
-On Wed, 10 Dec 2025 at 15:27, Gyorgy Sarvari via
-lists.openembedded.org <skandigraun=gmail.com@lists.openembedded.org>
-wrote:
-> > +PACKAGECONFIG[plugin-manifest] = "-DWITH_PLUGIN_MANIFEST=ON,-DWITH_PLUGIN_MANIFEST=OFF,sdbus-c++ libpkgmanifest"
->
-> In which layer is libpkgmanifest? I couldn't find it the layer index.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-It is okay to have packageconfigs for features that are off by default
-and require components for which no one has yet written a recipe. If
-someone wants the feature, they'll make the needed recipe and find a
-layer for it.
+kernel's 6.18+ have added a dependency on rq-offsets.
 
-Alex
+The rq-offsets compile pulls in kernel/sched/rq-offsets.c plus the
+scheduler-local headers (sched.h, cpudeadline.h, cpupri.h, features.h,
+stats.h, ext.h) and kernel/workqueue_internal.h; those weren’t
+previously in the devsrc payload, so kernel/ sched/rq-offsets.s
+couldn’t be built on target.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 95dafa351f..a7e8162eca 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -348,6 +348,16 @@ do_install() {
+         cp -a --parents kernel/time/timeconst.bc $kerneldir/build 2>/dev/null || :
+         cp -a --parents kernel/bounds.c $kerneldir/build 2>/dev/null || :
+ 
++        # v6.18+ rq offset generation needs these scheduler sources/headers
++        cp -a --parents kernel/sched/rq-offsets.c $kerneldir/build 2>/dev/null || :
++        cp -a --parents kernel/sched/sched.h $kerneldir/build 2>/dev/null || :
++        cp -a --parents kernel/sched/cpudeadline.h $kerneldir/build 2>/dev/null || :
++        cp -a --parents kernel/sched/cpupri.h $kerneldir/build 2>/dev/null || :
++        cp -a --parents kernel/sched/features.h $kerneldir/build 2>/dev/null || :
++        cp -a --parents kernel/sched/stats.h $kerneldir/build 2>/dev/null || :
++        cp -a --parents kernel/sched/ext.h $kerneldir/build 2>/dev/null || :
++        cp -a --parents kernel/workqueue_internal.h $kerneldir/build 2>/dev/null || :
++
+         if [ "${ARCH}" = "mips" ]; then
+             cp -a --parents arch/mips/Kbuild.platforms $kerneldir/build/
+             cp --parents $(find -type f -name "Platform") $kerneldir/build
+-- 
+2.39.2
+
 
