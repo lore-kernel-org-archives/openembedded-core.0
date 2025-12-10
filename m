@@ -2,108 +2,93 @@ Return-Path: <adam.duskett@amarulasolutions.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74BDFD3C529
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73684D3C527
 	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 11:03:52 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13162.1765364625081091707
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13164.1765364626362404819
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Dec 2025 03:03:45 -0800
+ Wed, 10 Dec 2025 03:03:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=baDrtHFb;
- spf=pass (domain: amarulasolutions.com, ip: 209.85.218.47, mailfrom: adam.duskett@amarulasolutions.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b735c1fe67aso74512466b.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 03:03:44 -0800 (PST)
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=mdsqqOBm;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.208.48, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6415fc4093bso982989a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 03:03:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1765364623; x=1765969423; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dweruoFS2hSzD89842ZkHTQ+jWI4ilFOHwDM6py/yME=;
-        b=baDrtHFbmgpapUDVLKtDOC5x/6Eb6T0epUykT/Gigkj+p0UQ+7sArFHDuo6AFOOBoI
-         sh7Of6WHaScyabm2f+ppnH9cVVib0I4dwX4TIwzJhz8Q8DgkcEZo/+oPLe+jbZbh5zoM
-         0FAHJI4B2r8Pv7AzMlefkSjvV+VT0rW/r7trw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765364623; x=1765969423;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=amarulasolutions.com; s=google; t=1765364625; x=1765969425; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dweruoFS2hSzD89842ZkHTQ+jWI4ilFOHwDM6py/yME=;
-        b=aQz0IeUAdN821paP6gEjxt2LiEkJZNjnBSCWfA1ausQ4Kqzjqx7gD96CjY7Sv67jtd
-         xZH1QbDhJK82aSq2t7N7Ib59gwlskQtVuscoGnd7wYlxAYvV4aee/Na+D4Fs82RPstQh
-         BpFqj9S2+fbWcc4BQHO3rRJOd7seEW7MDBC8v9Z5T34LpxBRc+WxP75K6h/vYxlMypoA
-         eBsFGsU4j0rjHdg51U0r2+sgTpnMHHHOnIT7/XqEZkZ3yBNzRAIzywFtmtXqLN+gjpad
-         TmxoXWBzlwBbCUomKBvpryQwD7uxdFu1x6u4vBeYKytUyJ7dwgf318heMEsMZWbC5kOJ
-         X+TA==
-X-Gm-Message-State: AOJu0YwuZ8dBLgyMvLV4zCVTAew5QZY/fVDbxNql94A65IQSium7brVK
-	eN3j/aqP40uxevSxHrloVQaURl5opDC6hdfKSbMB/eEzlh8enemUupzQOwnaEJBSDZVuA0VMVn0
-	/hF4K
-X-Gm-Gg: AY/fxX73lFptsiCSChFuJR/B2gPt7UAk20SasaoAN6LKdaDx7ynG8jpYkEhC9Z777xM
-	IO9a19BHwPx6C1IIU+/anJx1ck8Sq/+WzU0Nx3imXovJz4Afj3ARlCXk4LMASkK8s0rxkMBmAxe
-	7EfW9hiH+qKta2BRzLNn95TvNXeqFfFlYmug5hk1mdJtNGx6uxhKdEiY3+l5IV9bvLh6d+bXma6
-	8/zYpdg/nSUeM4kKnYVPNutpOsnQpqklc4IeGxtJrGFvpDHuiom/Ck9blUArbdi7atAIugxcztX
-	jVFNgzDlMRYsP2hey7Z7iMEuxwO8C4obXC0/P7GRDLDvsJJw7d6c4UBHE1OXYQ0ck3AV9GRX7gK
-	eHbFcivVaSj0JqiUw2twZXfaYZg93RBeWoMkDYE2OmSoFyZ32+mPjUsI6pconN/Kaa9f+0YRQMX
-	3blW6an329R5rtAFpplJyMZSkZdXdXg12MfayhWV5CsgvXT3M6MA4yQ6bxFN9veOSLAMUnuzhkS
-	2xS86+VIxWPasLUiDY9ecHjPud2teTG1gv71QYgIg3AMF3TBOyw
-X-Google-Smtp-Source: AGHT+IErE8yNXscqauDl49zxd98pI95NqwWYfI5q2BOEfColmDyr+G2Vz2v60WfwN/jv/DgPNxHkag==
-X-Received: by 2002:a05:6402:40d6:b0:645:4607:ab94 with SMTP id 4fb4d7f45d1cf-6496cbdb4e6mr1083510a12.2.1765364623341;
-        Wed, 10 Dec 2025 03:03:43 -0800 (PST)
+        bh=Rr7gIuDm4NBc47Dk+FZvMdqdV+j8DGLfSt/7BpLfNlk=;
+        b=mdsqqOBmBHXrd7MnyZvGvlY0Q2cgx4GtdWEg41qWveAxWUht3YNcaTzsUjgGUTncsM
+         8U0a74+f9qdxf0abKfQbSxbIglKzYB+9X32BF2uZnTawLWnILqvewBtt7oB/+MSAEQHR
+         U2sX6WWnrRos6lzfw+HBBvmWdOYXKpnnlH0jU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765364625; x=1765969425;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Rr7gIuDm4NBc47Dk+FZvMdqdV+j8DGLfSt/7BpLfNlk=;
+        b=nD7DvOetzCQQUbfy+nvA7gVBajD4ztESVBiMO+LlUBO+Y7Um8ZDTHsXtNrSVYeyPhH
+         Q15yt/+SBDgqOU1k6rKpvrHG6aF6VNB0VoHXFYBS27Q1CDKJm9olTARp/jiUDYhDER0R
+         L6yMXei7d4aPQ3W1oFkFtPjTuFs9XEi8L0gy61H7D/H9oSxcuG9FbepbDPWgrdsmZYPJ
+         CoF/dDl1xk0gQEqJmIudLjNNCto9UCoyLhC0sP93+2rGyJBXGyw96bKRsvOwjV2TdXsC
+         BJEpVrCCPPBoPaFET4yjAUVs4TdvPyk+n11TYzzfTfJQFMnHbtPzcW2Lw88SaMhLb8qo
+         9PIA==
+X-Gm-Message-State: AOJu0YxGAtgmPyqydIPGa7GBWVRBsW8R78np/XFD1KzF2za+IOb5cIQ5
+	IHgKYGjOyA/8ca75PYj+I6g9C8V7+KKzHHolRThdFyNpZbujCRWKzUWeajUlhkhrw+t6KjMGSqe
+	FjSfG
+X-Gm-Gg: AY/fxX7bZ4HxOaeCRXepR50FKDiaBLD45vMU6PFbzvnfZowkZ+ET9jGeI8HSENKZpLn
+	4FjKOMhdhwncmYzAcTgKUNH03Dy1vAHrq4vXAmMEWaUT0L4OyNM6DBdQwupD12sKKniFhD1QU21
+	5RYIA1+MkqnxdNJ94VhzXfTQeBzBVsTaO5CRrw7ownLYwfKySy9m4z82M9AcjCrcLrdeRSNGZFb
+	04enS3WoeSAv43/hKQNgi1gN+CT6HGGe7m90ou1bxYmsdRB20NnHdYW5d4RnblsAfkDlTscgg2s
+	QTOY5sPlb7OMTIWjqwQ86ZBsIh+5mpIzOwOGm4t2n/nzy/ooruReZrUWqL7kcIot1ABMuyzqScQ
+	NyFWDfeFdryHNuXSmIKRzxQhxJURScUNobf5/8A5UXCql5Va8ey0Efu32SMs64rw4HaAVAAR12K
+	u5+PX4rBYAoG0Uhr2nmzX3xUYzMSKl7OkDo4G5bpS9mC++fCHMtz5mgl5e1rJscS6jiYHze8Kga
+	F2bUfC/twuFJDgPl48EEEba3Kk23BoMs8Tin2BD3AzlpQtDPicE
+X-Google-Smtp-Source: AGHT+IHMfIGbHY544ADiQ5VAptc6u0UrWuHUYalVQdPuuD4nbrQtpQBph72R6ycaKz8GY27EYW/B+g==
+X-Received: by 2002:a05:6402:40d1:b0:645:7d1b:e151 with SMTP id 4fb4d7f45d1cf-6496cb4d5famr1132253a12.1.1765364624750;
+        Wed, 10 Dec 2025 03:03:44 -0800 (PST)
 Received: from adam.arnhem.chello.nl (2001-1c00-8101-1200-3ddc-5bb8-0efa-16f1.cable.dynamic.v6.ziggo.nl. [2001:1c00:8101:1200:3ddc:5bb8:efa:16f1])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-647b2ec31a7sm16227636a12.2.2025.12.10.03.03.42
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-647b2ec31a7sm16227636a12.2.2025.12.10.03.03.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 03:03:42 -0800 (PST)
+        Wed, 10 Dec 2025 03:03:44 -0800 (PST)
 From: Adam Duskett <adam.duskett@amarulasolutions.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
-Subject: [PATCH 1/5] signing-keys.bb: Fix DISTRO_CODENAME truncation
-Date: Wed, 10 Dec 2025 12:03:36 +0100
-Message-ID: <20251210110340.3631065-1-adam.duskett@amarulasolutions.com>
+Subject: [PATCH 3/5] libsolv: explicitly enable comps for rpm packageconfig
+Date: Wed, 10 Dec 2025 12:03:38 +0100
+Message-ID: <20251210110340.3631065-3-adam.duskett@amarulasolutions.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251210110340.3631065-1-adam.duskett@amarulasolutions.com>
+References: <20251210110340.3631065-1-adam.duskett@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 11:03:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227466
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227468
 
-If DISTRO_CODENAME is not set in the environment, bash quietly
-drops the string resulting in a key such as PACKAGEFEED-GPG-KEY-defaultsetup-
-
-However, when python calls self.d.getVar('DISTRO_CODENAME'), the resulting
-string is 'None', leading to a configuration file pointing to a key such
-as PACKAGEFEED-GPG-KEY-defaultsetup-None
-
-Add a default value in signing-keys.bb to set DISTRO_CODENAME to None if
-DISTRO_CODENAME is not set.
+dnf5 requires solv/repo_comps.h
 
 Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
 ---
- meta/recipes-core/meta/signing-keys.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-extended/libsolv/libsolv_0.7.35.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/meta/signing-keys.bb b/meta/recipes-core/meta/signing-keys.bb
-index 94f4032911..c7713ed4a6 100644
---- a/meta/recipes-core/meta/signing-keys.bb
-+++ b/meta/recipes-core/meta/signing-keys.bb
-@@ -45,6 +45,10 @@ addtask get_public_keys before do_install
- do_get_public_keys[depends] += "gnupg-native:do_populate_sysroot"
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.35.bb b/meta/recipes-extended/libsolv/libsolv_0.7.35.bb
+index ec74308bb5..52bbc1c4a3 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.7.35.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.7.35.bb
+@@ -19,7 +19,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ inherit cmake
  
- do_install () {
-+    # Python evalutes an empty DISTRO_CODENAME to "None" which would cause mismatched files
-+    # as the update config file would show GPG-KEY-${DISTRO}-None but the filename is
-+    # installed as GPG-KEY-${DISTRO}-
-+    DISTRO_CODENAME="${DISTRO_CODENAME:-None}"
-     if [ -f "${B}/rpm-key" ]; then
-         install -D -m 0644 "${B}/rpm-key" "${D}${sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-${DISTRO}-${DISTRO_CODENAME}"
-     fi
-@@ -57,6 +61,7 @@ do_install () {
- }
+ PACKAGECONFIG ??= "${@bb.utils.contains('PACKAGE_CLASSES','package_rpm','rpm','',d)}"
+-PACKAGECONFIG[rpm] = "-DENABLE_RPMMD=ON -DENABLE_RPMDB=ON,,rpm"
++PACKAGECONFIG[rpm] = "-DENABLE_RPMMD=ON -DENABLE_RPMDB=ON -DENABLE_COMPS=ON,,rpm"
  
- do_deploy () {
-+    DISTRO_CODENAME="${DISTRO_CODENAME:-None}"
-     if [ -f "${B}/rpm-key" ]; then
-         install -D -m 0644 "${B}/rpm-key" "${DEPLOYDIR}/RPM-GPG-KEY-${DISTRO}-${DISTRO_CODENAME}"
-     fi
+ EXTRA_OECMAKE = "-DMULTI_SEMANTICS=ON -DENABLE_COMPLEX_DEPS=ON -DENABLE_ZSTD_COMPRESSION=ON -DENABLE_STATIC=ON"
+ 
 -- 
 2.52.0
 
