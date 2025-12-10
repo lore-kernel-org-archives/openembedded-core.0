@@ -1,111 +1,108 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7640D3C91C
-	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 14:53:03 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17363.1765378383538806660
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F13F4D3C91D
+	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 14:59:13 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17812.1765378745841882995
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Dec 2025 06:53:03 -0800
+ Wed, 10 Dec 2025 06:59:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=a/FB4JIQ;
- spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8b2dcdde65bso1047054085a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 06:53:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=J8MSKHv3;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-477aa218f20so46535135e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 06:59:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765378382; x=1765983182; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=83AGhFhlXfThfBYiluU9KRtRs1HjZ25XXU10Ptgl+Hs=;
-        b=a/FB4JIQoTLPMeS1ElKWQ/63xkEvQLq7OsHRCOi8XvrTMUg3yy+SZVpEbcU4PRR/Fh
-         pzwqFx66RdSjserWKd3l+heE4BDpQT0z3uPNKS4VoL9TBsR+8ikK9yaqaVlRNxC/wOU7
-         qx8MTZflBkHTYNakK3ySjc6XxYBJh8PttE7Dyky+qdz43Nf+VNejgm5oqgDA7I05MI08
-         zq551whX0oa53tlI/tjWFfbd8NqbWJnKZmZk+hVhvzw6QjcsJdSw8kub5YYxkofycNTe
-         zuBOlpE+nf9T2GZCCgqaIHnygGXldGoTxnaB3KdCqBx41ch0jnRXAlN91aHFmDNKvXBP
-         AV2Q==
+        d=gmail.com; s=20230601; t=1765378744; x=1765983544; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GmHN4fkB+QAIgZK5GGdcnggEbKlBRMTzeeQjMFQe6SU=;
+        b=J8MSKHv3v38lMES4TeZ8n5LgonHf2aWe6Wddx9QE3aLFhhm2vypgh6d1+2Aas+Dx63
+         wwRF6CtqAAqXDIhrlljLLeivFgpFwjXnflHSisio9BLJ/0FF96OWf6SgFNajAHEzVpjT
+         ApP/HgPpqQ0hseqEEJfjsws+tLP8St73BI0h/cGv9xOJx6q5mg7wvQ4vlPH7+67w5xJU
+         sBcbhDYDMuHOhRLEUfJrNLkm59DaT7frL0AgR/vDUepfn79tsdfTLKsmEV0vFr8gO/+m
+         phrYw5AVnk6OFYrT3ek/g9I0Gr5eH0gapPFzhfdRaxYeDPgC3LenKFf9XK3nJzHvNBfh
+         0xcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765378382; x=1765983182;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=83AGhFhlXfThfBYiluU9KRtRs1HjZ25XXU10Ptgl+Hs=;
-        b=IcCi41Qb07abmzNrBFfn4+1QkKemP9LEKwNlwB+cpVm5scvbHBt6QcI99DbjzNtE6F
-         28vZs3BQMl+pi/V+Vu/p7eZeTEqUWCWRliT5xGHpj+z4O/CkddFiHqrG6nxgXaTaZFzv
-         Z/RMKfgIV1M9CUX9PZQlC9abVtIMmyJ6FMDNNweOGl35fMl3tqQnuGLjgX2ARMzAKrvp
-         WIJ9ARgjkG1o+pg1NNtTMXiUvSq1FVANQAIkiSgrvcAumi7HgH1VRZCPfVSE9vOuEWfZ
-         v63W43RUNErgXrSQP67wj4HV4szDQ5geki6l1+xZ4Ex4EmoOBbr7YKNeG7L5mPlhvdqc
-         RvEA==
-X-Gm-Message-State: AOJu0Yz2va6jyZWPH7iuXc9RAgegfoUzRKriMH1V8Y3uPmizYm1ZUTOV
-	y8+vks9vNytSf4qMzdvQT3V+eBl/MntYER6QquYu94I5SLrAYtpAB3HQ
-X-Gm-Gg: ASbGncueXouQP9w88jPtgGzATYnSLzHYcF7GM9XwVdXAF7rp9TYrdzy7JxlObfekMop
-	0LNgezD/DrM7Oph5eZjC20Ga8fK9GyxEobicBn238xbk+iQALdmcpDSUQgLWgRQmSupVLf9QdSn
-	MNZOD8x14tjSxdhkOM9/ref0/l4EXV2OhCJ5XtocbgHb4ZbrByGGU6Qq6R2sAAg7tPIoq/PEt8x
-	Gn2oaepJJM3OD3dGQDd3shEf3Hrw8S9bjFcQBkmnAHYdZNrQlAHNEKzGOavcsUnXsj0PwlWe3Gb
-	JSnHR2HaB000PgjDGRFbpovn7RoUQQOeiBvsh/UfoeBExBe9cnTIyj4l8JqN36jtvodL+l3kEgN
-	75SEl9PNIwIx8aVGArBxP1NO/lcKRfHcBOvjLxkImGO5qnEU5VqvNtY2Eg5+9XbKJFPn9PUtVN/
-	4gwebxYQi49LXSsGN+LFb+wmSGzwcPIrlni/w63hdJVsjHhxEfOEQXR4dvrMuNbvQK7MtWKo5ie
-	y/5U/QlA54AHMM=
-X-Google-Smtp-Source: AGHT+IGtEQM8BL7MeQSNqN3oPbURBULDPYEOO+0WM9ojEq1Lri7JZGDXNVtAO83TpHWrlDklxLuhJw==
-X-Received: by 2002:ac8:5dce:0:b0:4ee:483:3123 with SMTP id d75a77b69052e-4f1b1ada6f6mr34938581cf.67.1765378382431;
-        Wed, 10 Dec 2025 06:53:02 -0800 (PST)
-Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f0276b210dsm125804431cf.14.2025.12.10.06.53.01
+        d=1e100.net; s=20230601; t=1765378744; x=1765983544;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GmHN4fkB+QAIgZK5GGdcnggEbKlBRMTzeeQjMFQe6SU=;
+        b=kmiMwPxXO0Zc5CqJqGJibOKF8W2l0LUgbC5okaLx6X9Lo03kqsk2r+Mh2Slg8lXktI
+         hQGUQxtNxj2CkAcjlrUG6HQvlV2OcE9jQhW7buegZvoeJWRX53QOqk0brc5QFi4++Mgi
+         LpxjIEszLU227R07/nYqE5kmTs4lbfoDNfHp599zZVpVaGf6eSmVO9ILVmy1HmhyHmdz
+         E5rlcLEhvWHcnTn41SzVlIKj+UHL6PP/30Kr3fHjEZ2+ijK7ad0X3HwjKRW5CS6uOVg9
+         qtgJlGraY2P42qV4Z30OB8I/FHv+HhVbsKgj1oecDLoFDBsE/o2KM4lpO9E2qKIyfqw6
+         Z2kQ==
+X-Gm-Message-State: AOJu0Yy7md2XzQaU7UdNwSCJVnxfA7yXE1DJHapKn/9aB6B1njtXRqFi
+	ZblNE3dxz3RKMXTNJQkcZM4igOEQCC39fCp0QT7avT9mIe/eofDp1qwxUjMLsw==
+X-Gm-Gg: ASbGncvD8lFctcW3wIzfFdWqXGw0/XdWLfV0Ee7g0GRNpT1ajti/tpqgqXCWihTCoJB
+	3Pgypiatp46kbY2zYzmXT/ZReoD91a55d+an4+toYzQ4viUy0zZTGmmC/gDjD68kGDATI6Tay58
+	J2RKnJg4H6JevHiORrpb54Hs6jHuC/IKrOG8EP2EU1kW6mpRDMpEJEyAA+yisntEdupIWbjjFnC
+	vkxLwF236NImEx/gDd4tO25WsUATRYRHPxoD4Ak6gBqIKj7cPU45+BCviwWTpuM17hYr0eI/khv
+	M2zElgRqDM+GWkuuvko8UuP8aYCi7tKDgteqiudWhk+OM0n5r5B73zA6t5kU0ZTTH1jgdVlNe7G
+	+qAsk0JcTUKtCaV0pIAKH544pbnvQH/D4QXQO+HFhghBmk2TzU+WrmfyWinj4myfbRItF2F8qsJ
+	ydEOC10zfDiiokTUYBZPQ=
+X-Google-Smtp-Source: AGHT+IF7pc6Nj346aEf1mBETAcwpb0wedp6ziWujMjrBJEJoYb1IKa3/9m2VKGvCTzETgy43uw5nzg==
+X-Received: by 2002:a05:600c:3e1a:b0:46e:32d4:46a1 with SMTP id 5b1f17b1804b1-47a83790b5fmr26736435e9.22.1765378743946;
+        Wed, 10 Dec 2025 06:59:03 -0800 (PST)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a7d397a2fsm43295635e9.5.2025.12.10.06.59.03
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 06:53:01 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kernel-devsrc: add files for 6.18+
-Date: Wed, 10 Dec 2025 09:53:00 -0500
-Message-Id: <20251210145300.2818964-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        Wed, 10 Dec 2025 06:59:03 -0800 (PST)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] maintainers.inc: remove self
+Date: Wed, 10 Dec 2025 15:59:02 +0100
+Message-ID: <20251210145902.725552-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 14:53:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227480
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 14:59:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227481
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Remove myself from the maintained recipes.
 
-kernel's 6.18+ have added a dependency on rq-offsets.
-
-The rq-offsets compile pulls in kernel/sched/rq-offsets.c plus the
-scheduler-local headers (sched.h, cpudeadline.h, cpupri.h, features.h,
-stats.h, ext.h) and kernel/workqueue_internal.h; those weren’t
-previously in the devsrc payload, so kernel/ sched/rq-offsets.s
-couldn’t be built on target.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/conf/distro/include/maintainers.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 95dafa351f..a7e8162eca 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -348,6 +348,16 @@ do_install() {
-         cp -a --parents kernel/time/timeconst.bc $kerneldir/build 2>/dev/null || :
-         cp -a --parents kernel/bounds.c $kerneldir/build 2>/dev/null || :
- 
-+        # v6.18+ rq offset generation needs these scheduler sources/headers
-+        cp -a --parents kernel/sched/rq-offsets.c $kerneldir/build 2>/dev/null || :
-+        cp -a --parents kernel/sched/sched.h $kerneldir/build 2>/dev/null || :
-+        cp -a --parents kernel/sched/cpudeadline.h $kerneldir/build 2>/dev/null || :
-+        cp -a --parents kernel/sched/cpupri.h $kerneldir/build 2>/dev/null || :
-+        cp -a --parents kernel/sched/features.h $kerneldir/build 2>/dev/null || :
-+        cp -a --parents kernel/sched/stats.h $kerneldir/build 2>/dev/null || :
-+        cp -a --parents kernel/sched/ext.h $kerneldir/build 2>/dev/null || :
-+        cp -a --parents kernel/workqueue_internal.h $kerneldir/build 2>/dev/null || :
-+
-         if [ "${ARCH}" = "mips" ]; then
-             cp -a --parents arch/mips/Kbuild.platforms $kerneldir/build/
-             cp --parents $(find -type f -name "Platform") $kerneldir/build
--- 
-2.39.2
-
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 8971b9b552..523ac09b53 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -170,7 +170,7 @@ RECIPE_MAINTAINER:pn-efivar = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-efibootmgr = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-elfutils = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-ell = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-enchant2 = "Gyorgy Sarvari <skandigraun@gmail.com>"
++RECIPE_MAINTAINER:pn-enchant2 = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-encodings = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-epiphany = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-erofs-utils = "Unassigned <unassigned@yoctoproject.org>"
+@@ -856,7 +856,7 @@ RECIPE_MAINTAINER:pn-usbutils = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-util-linux = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-util-linux-libuuid = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-util-macros = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-utfcpp = "Gyorgy Sarvari <skandigraun@gmail.com>"
++RECIPE_MAINTAINER:pn-utfcpp = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-v86d = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-vala = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-valgrind = "Mingli Yu <mingli.yu@windriver.com>"
+@@ -903,7 +903,7 @@ RECIPE_MAINTAINER:pn-xcursor-transparent-theme = "Unassigned <unassigned@yoctopr
+ RECIPE_MAINTAINER:pn-xdg-utils = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-xdpyinfo = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-xev = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-xeyes = "Gyorgy Sarvari <skandigraun@gmail.com>"
++RECIPE_MAINTAINER:pn-xeyes = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-xf86-input-evdev = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-xf86-input-libinput = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-xf86-input-synaptics = "Unassigned <unassigned@yoctoproject.org>"
 
