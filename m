@@ -1,167 +1,236 @@
-Return-Path: <kavinaya@qti.qualcomm.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 722A9D3C52B
-	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 11:05:12 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12984.1765364706552842916
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A22F6D3C52D
+	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 11:41:42 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13519.1765366894270520013
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Dec 2025 03:05:06 -0800
+ Wed, 10 Dec 2025 03:41:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=YuPTOTcm;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: kavinaya@qti.qualcomm.com)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BA8e0DW1917966
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 11:05:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=pfeMH12EP3iA5jsqMTksvJ
-	Tvk60av/JCfp/8jLbQKqY=; b=YuPTOTcm3Amc737Ufthu7QgEUEOgGn0z6XVFZu
-	C//+K7lf+Pb1qOUwB+rKOjd0sc9LlHhA1JpgolOPIwh8TU/5L7Dl0bGonfi1nqIo
-	XMu5av31rf4JdbAQVL/0qZzrI9VkqeKI9pBqQX5asVUseqauk9rLkMvCOOCH92dX
-	sNwJuV0bvxz7stR/QBgsbSCd1G7rONvXaBp2b/kgq4XRbmj0/v6FJR7T8FHth8FN
-	VvMLpbCkuOsOjaKjX9jurqYDcKvOh8MkydJhLyoNy0hu5xwJX9jpkb60lDCvAYPZ
-	5SNwO7n5DEyU6sz/rvaa9+QD006ILrlze4VZF4HJO+KQxVAg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ay1xp153t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 11:05:05 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5BAB55Vl022392
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 11:05:05 GMT
-Received: from hu-kavinaya-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 10 Dec 2025 03:05:03 -0800
-From: Kavinaya S <kavinaya@qti.qualcomm.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Kavinaya S <kavinaya@qti.qualcomm.com>
-Subject: [PATCH v2] fitimage: Add support for UBOOT_MKIMAGE_EXTRA_OPTS
-Date: Wed, 10 Dec 2025 16:34:43 +0530
-Message-ID: <20251210110443.3230272-1-kavinaya@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SoCW+m36;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: skandigraun@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42e2e445dbbso3061970f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 03:41:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765366893; x=1765971693; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IFwRiNdPSUAK//oruWNeANzDzi31oQlReFdOvbfOhAM=;
+        b=SoCW+m36u5wV+l1rryQy0LjoENPRxMS+eECgMyFmm3UL9Hvw3gMI3kl9c4JqBjS8s6
+         kDiP/IribUSYD6covwMM13sv4HIVFV0squ8X63bnZiej9zxBIy9yF6cZ1MD6lutkVdL6
+         KwJ8uxhXUvCVyIbcDXNrZiaiAnr6+5zSvBqw93pWJ8ouLQWetW3pnlh/XviYuhqxINKP
+         x6MhSiWIB5KS/b4S+RDgfIW/kribFHc5qWwxq+np9Ie29eTJ/jyLNgfTCq5ANCrYKlVR
+         GGzUB7vDOXGjAAQIzuTZiMIRP5H4W23yLA4EvrnN/Q3byhIBWeSJsUgnfrFfaGmKDvPa
+         3WsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765366893; x=1765971693;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IFwRiNdPSUAK//oruWNeANzDzi31oQlReFdOvbfOhAM=;
+        b=teXh6H/4ULlg4zmZ0bBiNyWbqjLiwIHxJmXZ/Uxk2E/A6xclH7/lErJJPvvOCogWLx
+         PslMbtX5TWTj19tQ9bVOil1SzavIKN5I3NAOxkcAyu4Udj0I0JbVCMxtsB7W/4IekFGN
+         yu3PJeOHghYKD9bQXzssyScmfxKKMl6T9L4XZ2kR/9SOMg+oYHzZ0XVEow86XrpF82x7
+         KCyvY+nKdSKpPJVebcwK6QshT8mEEkterf/LfvAX9Mc4w8JeUPjvRwlgy4yllFMycgI8
+         0r9qW0RICaBLM3lbgjxyq51+msiKHapR8FacUTQTVwPseQLGO95QId+UDvfvggX0sYBK
+         vBTg==
+X-Forwarded-Encrypted: i=1; AJvYcCWJwwqVqlLw4mBtrNCiIqzx5QsltEjEOwGBbhy8Xbn4/QMLbn5+8dHxWt7mygPxVn6amjJDFzxMUQkBytysI3xo4w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzG3RG1NnUygltZVq/3pXEKfXrfKQHdC6n493BrzHKwIEhdoKXp
+	ExspevC9q83d4mWH5/aDP31ggAMr+IYN77BScT2QBsOl/r5S5EZzMjp6
+X-Gm-Gg: AY/fxX4Wme217pJmT0VsKeA74NLKA2rfxcYIHG4Txs7ePzrQdg4qnaSmmaTyOYVqObr
+	6FFS8RU4YS1GuUWvq5fkbhUF5W3CIFIlkV2sJH8jMuf+M9xpbyTT9qgzPMZyu2Ew2JrcP2CFM8D
+	pgnjaTT4vxMKh94tzvn7Wxf/BiYbA4o38i0XSQCe//ivTZd515KTSRDJS4cupkmU5laRATHIwfr
+	ECtKk87ClpD1Jt4CKZQqqzPbWYGw9RIkCUz5gprnD6Rv0CE8gVDjW6/c/k6DRRZFlOM6Pks4Kck
+	pMK7N7hn/+IGLU4/tV4XChZEUEUQCWPLCCOGtUkQqObynau6/SMNYN7qnh4cH18Kin3shonZdxE
+	fYVvqQXOoGQX7zZwYL1yIFbZ65MNRXQP516jBoebLrZc66Jwr5CLDebMt7poeOKBhMekgLGp75O
+	igdPigxhQwtrl4fyb9Vbm4pco0gN5Clw==
+X-Google-Smtp-Source: AGHT+IE41HC5iYdAtT8trgARTUALftr0VQQw8x/rPOnyuPUsNaiHCXPlIsKQVocBASldbWobGxH2Nw==
+X-Received: by 2002:a05:6000:2f8a:b0:429:cacf:1078 with SMTP id ffacd0b85a97d-42fa39d881emr2012382f8f.28.1765366892313;
+        Wed, 10 Dec 2025 03:41:32 -0800 (PST)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d331092sm37712904f8f.30.2025.12.10.03.41.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Dec 2025 03:41:31 -0800 (PST)
+Message-ID: <8ae421be-bc8d-4a46-b346-13af5345a671@gmail.com>
+Date: Wed, 10 Dec 2025 12:41:31 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEwMDA4NyBTYWx0ZWRfX2gB9TJ8A+VYH
- mwngTtknI/np8f4hgjMVAV00oiBXkWguA/5zXnmfsAolYdEiCc9v+ATpjeAEwCnrZG23uJ9Lc42
- 13gvhWquyZZokzZ3zrWQGAvRL6o5Dk+MLiCnDAou6IdLUSeIOo71AcXYOJI4kuEtKz4oUWXsJhM
- ToCkCwW4O0wPXYfsdJBkdfrjF5q3KQUGJUSfK6y2no7U7kh7IK/YpvbS8Rt6Ce+QoMG6j96XyM8
- UpyTD+CixR29lDQ1dHR5X6B1kBnbLDtU6QOGUNxqgY7XOak3lgZgfwORuaUuywsrIRvJ/YqJa/D
- ovnUgZdvbayhEvax56bn7mUdiBqxYdUv/2raOP9FNNSFQE0btfcil7wGiXVv6Aa4SuR0es8MCrF
- W6h50yG0DIOqbnABNAMmZHYi8XaqsA==
-X-Proofpoint-ORIG-GUID: ftIS93ImaLwY2CXQoDsAZgM5EmYydJIL
-X-Proofpoint-GUID: ftIS93ImaLwY2CXQoDsAZgM5EmYydJIL
-X-Authority-Analysis: v=2.4 cv=A/Zh/qWG c=1 sm=1 tr=0 ts=693953e2 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=TlCpYMT3hOQbURhLKdoA:9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-09_05,2025-12-09_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 adultscore=0 spamscore=0 malwarescore=0
- bulkscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512100087
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 2/5] libtoml: new recipe
+To: adam.duskett@amarulasolutions.com,
+ openembedded-core@lists.openembedded.org
+References: <20251210110340.3631065-1-adam.duskett@amarulasolutions.com>
+ <20251210110340.3631065-2-adam.duskett@amarulasolutions.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <20251210110340.3631065-2-adam.duskett@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 11:05:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227471
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 11:41:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227472
 
-Currently, mkimage options in U-Boot recipes are fixed, which limits
-flexibility for platforms that require additional mkimage arguments.
-Introduce UBOOT_MKIMAGE_EXTRA_OPTS to allow passing extra options to
-mkimage during image generation.
+On 12/10/25 12:03, Adam Duskett via lists.openembedded.org wrote:
+> DNF5 requires libtoml. As such, copy libtoml from
+> meta-openembedded to openembedded-core.
 
-This is a generic need because different SoCs and boot configurations
-often require mkimage flags beyond the defaults. For example:
-- `-E` enables external data in FIT images, which is essential for
-  modular boot setups, secure boot workflows, and reducing image size.
-- `-B 8` enforces 8-byte alignment, ensuring compatibility with boot
-  ROM requirements, improving memory access efficiency, and supporting
-  predictable offsets for multi-component FIT images.
+I realize that this recipe is a verbatim copy from meta-oe, but since it
+is being touched, maybe it could be improved a bit. Added some comments
+below.
 
-By exposing this variable, we provide a clean and extensible mechanism
-for developers to meet hardware-specific and security requirements
-without hardcoding options in recipes.
+> Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
+> ---
+>  .../0001-Remove-whitespace-in-operator.patch  | 46 +++++++++++++++++++
+>  .../libtoml11/files/run-ptest                 | 12 +++++
+>  .../libtoml11/libtoml11_4.4.0.bb              | 40 ++++++++++++++++
+>  3 files changed, 98 insertions(+)
+>  create mode 100644 meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-in-operator.patch
+>  create mode 100755 meta/recipes-devtools/libtoml11/files/run-ptest
+>  create mode 100644 meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
+>
+> diff --git a/meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-in-operator.patch b/meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-in-operator.patch
+> new file mode 100644
+> index 0000000000..c8c9922d55
+> --- /dev/null
+> +++ b/meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-in-operator.patch
+> @@ -0,0 +1,46 @@
+> +From dee78f822d8a5b985e565e5c1ef42a59557aa8fc Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Fri, 7 Mar 2025 11:35:46 -0800
+> +Subject: [PATCH] Remove whitespace in operator""
+> +
+> +Clang 20+ errors about this whitespace.
+> +
+> +Fixes
+> +include/toml11/impl/../fwd/literal_fwd.hpp:22:26: error: identifier '_toml' preceded by whitespace in a literal operator declaration is deprecated [-Werror,-Wdeprecated-literal-operator]
+> +|    22 | ::toml::value operator"" _toml(const char* str, std::size_t len);
+> +|       |               ~~~~~~~~~~~^~~~~
+> +|       |               operator""_toml
+> +
+> +Upstream-Status: Submitted [https://github.com/ToruNiina/toml11/pull/285]
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +---
+> + include/toml11/fwd/literal_fwd.hpp   | 2 +-
+> + include/toml11/impl/literal_impl.hpp | 2 +-
+> + 2 files changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/include/toml11/fwd/literal_fwd.hpp b/include/toml11/fwd/literal_fwd.hpp
+> +index e46612c..82f62b7 100644
+> +--- a/include/toml11/fwd/literal_fwd.hpp
+> ++++ b/include/toml11/fwd/literal_fwd.hpp
+> +@@ -19,7 +19,7 @@ inline namespace literals
+> + inline namespace toml_literals
+> + {
+> + 
+> +-::toml::value operator"" _toml(const char* str, std::size_t len);
+> ++::toml::value operator""_toml(const char* str, std::size_t len);
+> + 
+> + #if defined(TOML11_HAS_CHAR8_T)
+> + // value of u8"" literal has been changed from char to char8_t and char8_t is
+> +diff --git a/include/toml11/impl/literal_impl.hpp b/include/toml11/impl/literal_impl.hpp
+> +index e8298c2..067d4ed 100644
+> +--- a/include/toml11/impl/literal_impl.hpp
+> ++++ b/include/toml11/impl/literal_impl.hpp
+> +@@ -115,7 +115,7 @@ inline namespace toml_literals
+> + {
+> + 
+> + TOML11_INLINE ::toml::value
+> +-operator"" _toml(const char* str, std::size_t len)
+> ++operator""_toml(const char* str, std::size_t len)
+> + {
+> +     if(len == 0)
+> +     {
+> diff --git a/meta/recipes-devtools/libtoml11/files/run-ptest b/meta/recipes-devtools/libtoml11/files/run-ptest
+> new file mode 100755
+> index 0000000000..9bc480aa7f
+> --- /dev/null
+> +++ b/meta/recipes-devtools/libtoml11/files/run-ptest
+> @@ -0,0 +1,12 @@
+> +#!/bin/sh
+> +
+> +cd tests
+> +for atest in test_* ; do
+> +    rm -rf tests.log
+> +    ./${atest} > tests.log 2>&1
+> +    if [ $? = 0 ] ; then
+> +        echo "PASS: ${atest}"
+> +    else
+> +        echo "FAIL: ${atest}"
+> +    fi
+> +done
+> diff --git a/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb b/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
+> new file mode 100644
+> index 0000000000..b68e787e03
+> --- /dev/null
+> +++ b/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
+> @@ -0,0 +1,40 @@
+> +SUMMARY = "TOML for Modern C++"
+> +DESCRIPTION = "toml11 is a feature-rich TOML language library for \
+> +               C++11/14/17/20."
+> +
+> +HOMEPAGE = "https://github.com/ToruNiina/toml11"
+> +
+> +SECTION = "libs"
+> +
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=44d1fcf70c7aa6991533c38daf7befa3"
+> +
+> +PE = "1"
+> +
+> +SRCREV = "be08ba2be2a964edcdb3d3e3ea8d100abc26f286"
+> +SRCREV_json = "8c391e04fe4195d8be862c97f38cfe10e2a3472e"
+> +SRCREV_doctest = "ae7a13539fb71f270b87eb2e874fbac80bc8dda2"
+> +
+> +SRC_URI = "git://github.com/ToruNiina/toml11;branch=main;protocol=https \
+> +           git://github.com/nlohmann/json;destsuffix=${BB_GIT_DEFAULT_DESTSUFFIX}/tests/extlib/json;name=json;branch=develop;protocol=https \
+> +           git://github.com/doctest/doctest;destsuffix=${BB_GIT_DEFAULT_DESTSUFFIX}/tests/extlib/doctest;name=doctest;branch=master;protocol=https \
 
-Example:
+The main and _json SRCREVs point to a tag, so ;tag= could be added to
+the corresponding SRC_URIs
 
-UBOOT_MKIMAGE_EXTRA_OPTS = "-B 8 -E"
-will result in the mkimage command being invoked as:
-`mkimage -B 8 -E -f fitImage.its fitImage.itb`
+> +           file://0001-Remove-whitespace-in-operator.patch \
+> +           file://run-ptest \
+> +"
+> +SRCREV_FORMAT = "json_doctest"
 
-Signed-off-by: Kavinaya S <kavinaya@qti.qualcomm.com>
----
- meta/classes-recipe/kernel-fit-image.bbclass | 1 +
- meta/conf/image-fitimage.conf                | 3 +++
- meta/lib/oe/fitimage.py                      | 3 +++
- 3 files changed, 7 insertions(+)
+Are json and doctest only part of tests, or are they required by the
+main library also, and it's just interesting folder structure?
+If the former, then I think the main repo should get a name tag also,
+and that should go in the SRCREV_FORMAT instead of these.
 
-diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
-index fd0d21ceee..5456311f00 100644
---- a/meta/classes-recipe/kernel-fit-image.bbclass
-+++ b/meta/classes-recipe/kernel-fit-image.bbclass
-@@ -56,6 +56,7 @@ python do_compile() {
-         d.getVar('HOST_PREFIX'), d.getVar('UBOOT_ARCH'),  d.getVar("FIT_CONF_PREFIX"),
-         oe.types.boolean(d.getVar('FIT_KERNEL_SIGN_ENABLE')), d.getVar("FIT_KERNEL_SIGN_KEYDIR"),
-         d.getVar("UBOOT_MKIMAGE"), d.getVar("UBOOT_MKIMAGE_DTCOPTS"),
-+        d.getVar('UBOOT_MKIMAGE_EXTRA_OPTS'),
-         d.getVar("UBOOT_MKIMAGE_SIGN"), d.getVar("UBOOT_MKIMAGE_SIGN_ARGS"),
-         d.getVar('FIT_HASH_ALG'), d.getVar('FIT_SIGN_ALG'), d.getVar('FIT_PAD_ALG'),
-         d.getVar('FIT_KERNEL_SIGN_KEYNAME'),
-diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.conf
-index 090ee148f4..e470adad5c 100644
---- a/meta/conf/image-fitimage.conf
-+++ b/meta/conf/image-fitimage.conf
-@@ -47,6 +47,9 @@ FIT_LINUX_BIN ?= "linux.bin"
- # Allow user to select the default DTB for FIT image when multiple dtb's exists.
- FIT_CONF_DEFAULT_DTB ?= ""
- 
-+# Additional mkimage options for FIT image creation
-+UBOOT_MKIMAGE_EXTRA_OPTS ?= ""
-+
- # length of address in number of <u32> cells
- # ex: 1 32bits address, 2 64bits address
- FIT_ADDRESS_CELLS ?= "1"
-diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
-index f303799155..15a36310e0 100644
---- a/meta/lib/oe/fitimage.py
-+++ b/meta/lib/oe/fitimage.py
-@@ -156,6 +156,7 @@ class ItsNodeRootKernel(ItsNode):
-     def __init__(self, description, address_cells, host_prefix, arch, conf_prefix,
-                  sign_enable=False, sign_keydir=None,
-                  mkimage=None, mkimage_dtcopts=None,
-+                 mkimage_extra_opts=None,
-                  mkimage_sign=None, mkimage_sign_args=None,
-                  hash_algo=None, sign_algo=None, pad_algo=None,
-                  sign_keyname_conf=None,
-@@ -177,6 +178,7 @@ class ItsNodeRootKernel(ItsNode):
-         self._sign_keydir = sign_keydir
-         self._mkimage = mkimage
-         self._mkimage_dtcopts = mkimage_dtcopts
-+        self._mkimage_extra_opts = shlex.split(mkimage_extra_opts)
-         self._mkimage_sign = mkimage_sign
-         self._mkimage_sign_args = mkimage_sign_args
-         self._hash_algo = hash_algo
-@@ -483,6 +485,7 @@ class ItsNodeRootKernel(ItsNode):
-     def run_mkimage_assemble(self, itsfile, fitfile):
-         cmd = [
-             self._mkimage,
-+            *self._mkimage_extra_opts,
-             '-f', itsfile,
-             fitfile
-         ]
--- 
-2.34.1
+> +
+> +
+> +inherit cmake ptest
+> +
+> +EXTRA_OECMAKE += "-DTOML11_PRECOMPILE=ON \
+> +                  -DTOML11_BUILD_TESTS=${@bb.utils.contains("DISTRO_FEATURES", "ptest", "ON", "OFF", d)} \
+
+Checking the PTEST_ENABLED variable's value is more idiomatic (and
+allows disabling ptests per recipe)
+
+> +"
+> +
+> +ALLOW_EMPTY:${PN} = "1"
+> +
+> +do_install_ptest () {
+> +    install -d ${D}${PTEST_PATH}/tests
+> +    cp -r ${B}/tests/test_* ${D}${PTEST_PATH}/tests
+> +}
+> +
+> +BBCLASSEXTEND = "native nativesdk"
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#227467): https://lists.openembedded.org/g/openembedded-core/message/227467
+> Mute This Topic: https://lists.openembedded.org/mt/116710027/6084445
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
 
