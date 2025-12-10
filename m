@@ -1,608 +1,733 @@
-Return-Path: <deeratho@cisco.com>
+Return-Path: <adam.duskett@amarulasolutions.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B0F7D3C920
-	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 15:10:44 +0000 (UTC)
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17807.1765379437901600621
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D36A0D3C925
+	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 15:45:28 +0000 (UTC)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.153.1765381520772296447
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Dec 2025 07:10:38 -0800
+ Wed, 10 Dec 2025 07:45:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Pz/lJh/k;
- spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: deeratho@cisco.com)
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=GgPXDKIm;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.208.45, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-64124874e6dso1095158a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 07:45:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=19995; q=dns/txt;
-  s=iport01; t=1765379437; x=1766589037;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=M8sjJZ3FBI9MG7MjU1YtEOuQCnppG86SGayBDO61MT0=;
-  b=Pz/lJh/k2ju6uI3rcDrrWlEYTHHkfrmd7dJHHbrakK8e0yNVWIGGLevr
-   EmvrFJQQQ3E9uV4j8d/XaztqU48B1PBk7fC4dwGBeHQXh9cU7YdYC7SXU
-   U/PPiulIfSzfCGKlC34I9i002Cd4LI7S4ZaWXGCDgMIZybOMiWEFLoJy4
-   dV73g5JGNZxJVbJWSoofwdwqDe5u0yCtwJRZO4FPf6P6331NoGZkYkscz
-   QLegAhpD27SyGgFsKasJSxSc1vfPyUgIpWp+f0KP/z++2eYbzZdLWDCw7
-   AOKQftfj4Y3aKqnSx9bsrEwUpnQmwwIPbX/eM4NMbuMU6ANgLw3CWogWZ
-   g==;
-X-CSE-ConnectionGUID: 24WGX/N7Saye8HJ+yRVvSA==
-X-CSE-MsgGUID: XsEyhbLpSMiSbYitGnLFlA==
-X-IPAS-Result: =?us-ascii?q?A0CsAwDAizlp/5P/Ja1agQmBUIJHf19CSYRUj1OCIZ4dF?=
- =?us-ascii?q?IFrDwEBAQ89FAQBAYITj10CJjQJDgECBAEBAQEDAgMBAQEBAQEBAQEBAQsBA?=
- =?us-ascii?q?QUBAQECAQcFgQ4Thk8NhloBKQQLAXIDAQIDAiYCLSMhgwIBgnMCAREGmmaXH?=
- =?us-ascii?q?Ro3en8zgQGDaAJDT9ssgR0uhTuDGAGEfVgYAYR4JxsbgXKBFYE7NoF3gQWBX?=
- =?us-ascii?q?AEBgSMVdoMNgmkEgiKBDoYfeIErAyseEJBASIECHANZLAFVEw0KCwcFgWMDN?=
- =?us-ascii?q?QwLKhVuMh2BIz4Xc4EUg0keaA8GgRGDT4Eyh2MPiXs7AwsYDUgRLDcUGwY9A?=
- =?us-ascii?q?W4HlBhOgWNIBwEwBiMhEwEoAQEBIl4QVUccAQEwklcTMY9qgiGhDgoog3SMH?=
- =?us-ascii?q?pU5GjOEBIFXkj6LIYcxC5h7jgiVNAIkGV2EaIFoPIFHCwdwFRqDCAlJGQ+OL?=
- =?us-ascii?q?QsLg16Bf1eDerkIIjUCATkCBwEKAQEDCZFrgXwBAQ?=
-IronPort-Data: A9a23:IjL9UajHJQt83/tmf7dLoQxpX161MREKZh0ujC45NGQN5FlHY01je
- htvXGuObq2KamCjLdAjbd/io0kAupXVmIBhSAE+qHo1HiJjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FH1dOOn9SUgvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeHULOZ82QsaD9Nsfvb8EkHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqVCptlYMSZoq
- scROT1dTjLAltiI3omSH7wEasQLdKEHPasFsX1miDWcBvE8TNWaG+PB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWZgh/5JEWxI9EglHzfjBCoU6VooI84nPYy0p6172F3N/9JobVHZ8KwxnGz
- o7A11TiLwAaPviH8h+EyXidh/PgmwfVXKtHQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
- UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBF2YHY909v8hwTjsvv
- rOUo+7U6fVUmOX9YRqgGn289Fte5QB9wbc+WBI5
-IronPort-HdrOrdr: A9a23:A2kjNqFlFjwrpo6fpLqE48eALOsnbusQ8zAXPidKOHlom62j5q
- KTdZsguyMc5Ax9ZJhCo6HiBED/exLhHPdOiOF7V4tKNzOIhILHFu1fBPPZowEJ30bFh4lgPW
- AKSdkbNOHN
-X-Talos-CUID: 9a23:IYAnTmPi99hcO+5DAnVY235TPJ8ee2zQnFfyYF6CN3hSYejA
-X-Talos-MUID: 9a23:qfFHCATfJu+xsjNRRXTcnxxzNM1M+5+LCXsHoJQalM+gGyhZbmI=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.20,264,1758585600"; 
-   d="scan'208";a="427027576"
-Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 10 Dec 2025 15:10:35 +0000
-Received: from sjc-ads-3552.cisco.com (sjc-ads-3552.cisco.com [171.68.249.250])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id EAD2418000244
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 15:10:34 +0000 (GMT)
-Received: by sjc-ads-3552.cisco.com (Postfix, from userid 1795984)
-	id 76DD9CC12B5; Wed, 10 Dec 2025 07:10:33 -0800 (PST)
-From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [scarthgap] [PATCH 2/2] cups 2.4.11: Fix CVE-2025-61915
-Date: Wed, 10 Dec 2025 07:10:21 -0800
-Message-Id: <20251210151021.2784035-1-deeratho@cisco.com>
-X-Mailer: git-send-email 2.35.6
+        d=amarulasolutions.com; s=google; t=1765381519; x=1765986319; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ytW+SgC50NxmzKHm6ZzGl1HdARtj68onYfHne7wEw54=;
+        b=GgPXDKImPekPee9XgZ7C5h1eGFPKKNdVHieqt0OHBPSEBjjU4bd1vlNgS/Bnufs1lw
+         /DZNnj7gh+vXyuFEmVNqcHRJzTjmpqiGVgI4pSkjhDCGxmPcsrotOytSjww7dK+h7o+d
+         Sn/fQeZgQRfIVm+OsPVF8nC1+eeLJs1Plvi+s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765381519; x=1765986319;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ytW+SgC50NxmzKHm6ZzGl1HdARtj68onYfHne7wEw54=;
+        b=Szq09yYaxSFv6k9hb3p9Ja6fd7OiPee5Ccu+zOVJ7aNmtfRoMk72B+vSh06x8ffsiU
+         TWnRJPyi4jp6a9/VGD+ISBhqyrWH9o7pG9/O1VatbRBpR8kNZgG1bXasZ2TdK6CDHIZ7
+         2XmadN+0kKzsKkH0BXGjv9tGz59wbQJbXMmyAmUbT1Z6wRRLPn8ZOrhA9o7LPRkCiUmB
+         hMPc33KhYWzDWpoSMrNwIDIjoSBrDPmjDWON5Vz+dUXbIOmHwaz1Ncl+nbpIfxSvnVQ3
+         FVOoq+cW50b6ezuRUU8FqWdHQCyPaqns+bfxnkIiCpfPfma88vpVhcwPh3EnKjOQXrL/
+         sABQ==
+X-Gm-Message-State: AOJu0YyZwRO9PeEh+56+O4n4f1oYAe2p5ahNcFDU5Q3toLNEmzV+ZXuF
+	AHFH0C51zAr6Y5fp7XoCHwzLaz5UTSe4nB3byGgP3oPrjAr3Vz4pujRy3NgGhkZ3tlIuLYTTVGY
+	uTpG0nwKDy80A4up/fn9EuX2JmFif6Df9ouD9T8sysQ==
+X-Gm-Gg: AY/fxX6I8BeB1v2DR0hBt5eI8HZxUbAsKn5NA2UTFQMmXjvPk18eVfxzHyqkJCvhZnE
+	mt1Vg+IfJblWNlAaVAFndpjeGTpEymg2SM49UzFfhvSt6DGM0I1DbA6uKIftnJPCeQiZmAPe2rR
+	ZdV+2VN1Sh4+/cf6HHR9zmh42/2sUxfr8mHfOlB4k8f0hhSHnjQDl4cur1Jt9cpFY2a2FIkcLaS
+	tBcdu56An8db+5Xd4P9US4mYId45KwObHdXrk0EQ1gvWE/xQhZ0POmMy6EDa0HN1WUxLq/pJgKj
+	R/4wkVHLfg+Q9GK76mnVz2JCzCa7
+X-Google-Smtp-Source: AGHT+IEVbACf45ulyIGFGxOUotMN69zkkw1eokwbHuJM7jNxirGKVaQ+XaNLwOUgsU5rIfa7PdgKC6KuIBDwxK37fbY=
+X-Received: by 2002:a05:6402:354f:b0:645:5b1f:275b with SMTP id
+ 4fb4d7f45d1cf-6496d3c386emr1547214a12.4.1765381518797; Wed, 10 Dec 2025
+ 07:45:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 171.68.249.250, sjc-ads-3552.cisco.com
-X-Outbound-Node: rcdn-l-core-10.cisco.com
+References: <20251210110340.3631065-1-adam.duskett@amarulasolutions.com>
+ <20251210110340.3631065-5-adam.duskett@amarulasolutions.com> <b1e90355-721c-4942-aaca-209e43e29096@gmail.com>
+In-Reply-To: <b1e90355-721c-4942-aaca-209e43e29096@gmail.com>
+From: Adam Duskett <adam.duskett@amarulasolutions.com>
+Date: Wed, 10 Dec 2025 16:45:07 +0100
+X-Gm-Features: AQt7F2oHzFpwMmOyBu_0cGSl2EldVcSp7Y_Np9IQdWTqN8NxUnCKSKqwE-bdbNk
+Message-ID: <CAHDQB6OP47nzeV+bD8MSUNOL8ZRT9uDT+H+zvnSWPRS_7Jzi-g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 5/5] dnf5: bump to 5.3.0.0
+To: Gyorgy Sarvari <skandigraun@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000523c2d06459aeadf"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 15:10:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227484
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 15:45:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227485
 
-From: Deepak Rathore <deeratho@cisco.com>
+--000000000000523c2d06459aeadf
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Upstream Repository: https://github.com/OpenPrinting/cups.git
+Hi Gyorgy! Thanks for the review!
 
-Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2025-61915
-Type: Security Fix
-CVE: CVE-2025-61915
-Score: 6.7
-Patch: https://github.com/OpenPrinting/cups/commit/db8d560262c2
 
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index cf3df32306..12668ca023 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -18,6 +18,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
-            file://CVE-2025-58060.patch \
-            file://CVE-2025-58364.patch \
-            file://CVE-2025-58436.patch \
-+           file://CVE-2025-61915.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/CVE-2025-61915.patch b/meta/recipes-extended/cups/cups/CVE-2025-61915.patch
-new file mode 100644
-index 0000000000..ad91c66b73
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2025-61915.patch
-@@ -0,0 +1,491 @@
-+From 3ff24bbe1d0e11a2edb5cac0ae421b8e95220651 Mon Sep 17 00:00:00 2001
-+From: Zdenek Dohnal <zdohnal@redhat.com>
-+Date: Fri, 21 Nov 2025 07:36:36 +0100
-+Subject: [PATCH] Fix various issues in cupsd
-+
-+Various issues were found by @SilverPlate3, recognized as CVE-2025-61915:
-+
-+- out of bound write when handling IPv6 addresses,
-+- cupsd crash caused by null dereference when ErrorPolicy value is empty,
-+
-+On the top of that, Mike Sweet noticed vulnerability via domain socket,
-+exploitable locally if attacker has access to domain socket and knows username
-+of user within a group which is present in CUPS system groups:
-+
-+- rewrite of cupsd.conf via PeerCred authorization via domain socket
-+
-+The last vulnerability is fixed by introducing PeerCred directive for cups-files.conf,
-+which controls whether PeerCred is enabled/disabled for user in CUPS system groups.
-+
-+Fixes CVE-2025-61915
-+
-+CVE: CVE-2025-61915
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/db8d560262c2]
-+
-+(cherry picked from commit db8d560262c22a21ee1e55dfd62fa98d9359bcb0)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ conf/cups-files.conf.in              |  3 ++
-+ config-scripts/cups-defaults.m4      |  9 +++++
-+ config.h.in                          |  7 ++++
-+ configure                            | 22 ++++++++++
-+ doc/help/man-cups-files.conf.html    |  9 ++++-
-+ man/cups-files.conf.5                | 17 ++++++--
-+ scheduler/auth.c                     |  8 +++-
-+ scheduler/auth.h                     |  7 ++++
-+ scheduler/client.c                   |  2 +-
-+ scheduler/conf.c                     | 60 ++++++++++++++++++++++++----
-+ test/run-stp-tests.sh                |  2 +-
-+ vcnet/config.h                       |  7 ++++
-+ xcode/CUPS.xcodeproj/project.pbxproj |  2 -
-+ xcode/config.h                       |  7 ++++
-+ 14 files changed, 145 insertions(+), 17 deletions(-)
-+
-+diff --git a/conf/cups-files.conf.in b/conf/cups-files.conf.in
-+index 27d8be96f..bc999e420 100644
-+--- a/conf/cups-files.conf.in
-++++ b/conf/cups-files.conf.in
-+@@ -22,6 +22,9 @@
-+ SystemGroup @CUPS_SYSTEM_GROUPS@
-+ @CUPS_SYSTEM_AUTHKEY@
-+
-++# Are Unix domain socket peer credentials used for authorization?
-++PeerCred @CUPS_PEER_CRED@
-++
-+ # User that is substituted for unauthenticated (remote) root accesses...
-+ #RemoteRoot remroot
-+
-+diff --git a/config-scripts/cups-defaults.m4 b/config-scripts/cups-defaults.m4
-+index 27e5bc472..b4f03d624 100644
-+--- a/config-scripts/cups-defaults.m4
-++++ b/config-scripts/cups-defaults.m4
-+@@ -129,6 +129,15 @@ AC_ARG_WITH([log_level], AS_HELP_STRING([--with-log-level], [set default LogLeve
-+ AC_SUBST([CUPS_LOG_LEVEL])
-+ AC_DEFINE_UNQUOTED([CUPS_DEFAULT_LOG_LEVEL], ["$CUPS_LOG_LEVEL"], [Default LogLevel value.])
-+
-++dnl Default PeerCred
-++AC_ARG_WITH([peer_cred], AS_HELP_STRING([--with-peer-cred], [set default PeerCred value (on/off/root-only), default=on]), [
-++    CUPS_PEER_CRED="$withval"
-++], [
-++    CUPS_PEER_CRED="on"
-++])
-++AC_SUBST([CUPS_PEER_CRED])
-++AC_DEFINE_UNQUOTED([CUPS_DEFAULT_PEER_CRED], ["$CUPS_PEER_CRED"], [Default PeerCred value.])
-++
-+ dnl Default AccessLogLevel
-+ AC_ARG_WITH(access_log_level, [  --with-access-log-level set default AccessLogLevel value, default=none],
-+	CUPS_ACCESS_LOG_LEVEL="$withval",
-+diff --git a/config.h.in b/config.h.in
-+index 6940b9604..222b3b5bf 100644
-+--- a/config.h.in
-++++ b/config.h.in
-+@@ -86,6 +86,13 @@
-+ #define CUPS_DEFAULT_ERROR_POLICY "stop-printer"
-+
-+
-++/*
-++ * Default PeerCred value...
-++ */
-++
-++#define CUPS_DEFAULT_PEER_CRED "on"
-++
-++
-+ /*
-+  * Default MaxCopies value...
-+  */
-+diff --git a/configure b/configure
-+index f8147c9d6..f456c8588 100755
-+--- a/configure
-++++ b/configure
-+@@ -672,6 +672,7 @@ CUPS_BROWSING
-+ CUPS_SYNC_ON_CLOSE
-+ CUPS_PAGE_LOG_FORMAT
-+ CUPS_ACCESS_LOG_LEVEL
-++CUPS_PEER_CRED
-+ CUPS_LOG_LEVEL
-+ CUPS_FATAL_ERRORS
-+ CUPS_ERROR_POLICY
-+@@ -925,6 +926,7 @@ with_max_log_size
-+ with_error_policy
-+ with_fatal_errors
-+ with_log_level
-++with_peer_cred
-+ with_access_log_level
-+ enable_page_logging
-+ enable_sync_on_close
-+@@ -1661,6 +1663,8 @@ Optional Packages:
-+   --with-error-policy     set default ErrorPolicy value, default=stop-printer
-+   --with-fatal-errors     set default FatalErrors value, default=config
-+   --with-log-level        set default LogLevel value, default=warn
-++  --with-peer-cred        set default PeerCred value (on/off/root-only),
-++                          default=on
-+   --with-access-log-level set default AccessLogLevel value, default=none
-+   --with-local-protocols  set default BrowseLocalProtocols, default=""
-+   --with-cups-user        set default user for CUPS
-+@@ -11718,6 +11722,24 @@ printf "%s\n" "#define CUPS_DEFAULT_LOG_LEVEL \"$CUPS_LOG_LEVEL\"" >>confdefs.h
-+
-+
-+
-++# Check whether --with-peer_cred was given.
-++if test ${with_peer_cred+y}
-++then :
-++  withval=$with_peer_cred;
-++    CUPS_PEER_CRED="$withval"
-++
-++else $as_nop
-++
-++    CUPS_PEER_CRED="on"
-++
-++fi
-++
-++
-++
-++printf "%s\n" "#define CUPS_DEFAULT_PEER_CRED \"$CUPS_PEER_CRED\"" >>confdefs.h
-++
-++
-++
-+ # Check whether --with-access_log_level was given.
-+ if test ${with_access_log_level+y}
-+ then :
-+diff --git a/doc/help/man-cups-files.conf.html b/doc/help/man-cups-files.conf.html
-+index c0c775dec..5a9ddefeb 100644
-+--- a/doc/help/man-cups-files.conf.html
-++++ b/doc/help/man-cups-files.conf.html
-+@@ -119,6 +119,13 @@ The default is "/var/log/cups/page_log".
-+ <dt><a name="PassEnv"></a><b>PassEnv </b><i>variable </i>[ ... <i>variable </i>]
-+ <dd style="margin-left: 5.0em">Passes the specified environment variable(s) to child processes.
-+ Note: the standard CUPS filter and backend environment variables cannot be overridden using this directive.
-++<dt><a name="PeerCred"></a><b>PeerCred off</b>
-++<dd style="margin-left: 5.0em"><dt><b>PeerCred on</b>
-++<dd style="margin-left: 5.0em"><dt><b>PeerCred root-only</b>
-++<dd style="margin-left: 5.0em">Specifies whether peer credentials are used for authorization when communicating over the UNIX domain socket.
-++When <b>on</b>, the peer credentials of any user are accepted for authorization.
-++The value <b>off</b> disables the use of peer credentials entirely, while the value <b>root-only</b> allows peer credentials only for the root user.
-++Note: for security reasons, the <b>on</b> setting is reduced to <b>root-only</b> for authorization of PUT requests.
-+ <dt><a name="RemoteRoot"></a><b>RemoteRoot </b><i>username</i>
-+ <dd style="margin-left: 5.0em">Specifies the username that is associated with unauthenticated accesses by clients claiming to be the root user.
-+ The default is "remroot".
-+@@ -207,7 +214,7 @@ command is used instead.
-+ <a href="man-subscriptions.conf.html?TOPIC=Man+Pages"><b>subscriptions.conf</b>(5),</a>
-+ CUPS Online Help (<a href="http://localhost:631/help">http://localhost:631/help</a>)
-+ <h2 class="title"><a name="COPYRIGHT">Copyright</a></h2>
-+-Copyright &copy; 2020-2023 by OpenPrinting.
-++Copyright &copy; 2020-2025 by OpenPrinting.
-+
-+ </body>
-+ </html>
-+diff --git a/man/cups-files.conf.5 b/man/cups-files.conf.5
-+index 8358b62a1..107072c3c 100644
-+--- a/man/cups-files.conf.5
-++++ b/man/cups-files.conf.5
-+@@ -1,14 +1,14 @@
-+ .\"
-+ .\" cups-files.conf man page for CUPS.
-+ .\"
-+-.\" Copyright © 2020-2024 by OpenPrinting.
-++.\" Copyright © 2020-2025 by OpenPrinting.
-+ .\" Copyright © 2007-2019 by Apple Inc.
-+ .\" Copyright © 1997-2006 by Easy Software Products.
-+ .\"
-+ .\" Licensed under Apache License v2.0.  See the file "LICENSE" for more
-+ .\" information.
-+ .\"
-+-.TH cups-files.conf 5 "CUPS" "2021-03-06" "OpenPrinting"
-++.TH cups-files.conf 5 "CUPS" "2025-10-08" "OpenPrinting"
-+ .SH NAME
-+ cups\-files.conf \- file and directory configuration file for cups
-+ .SH DESCRIPTION
-+@@ -166,6 +166,17 @@ The default is "/var/log/cups/page_log".
-+ \fBPassEnv \fIvariable \fR[ ... \fIvariable \fR]
-+ Passes the specified environment variable(s) to child processes.
-+ Note: the standard CUPS filter and backend environment variables cannot be overridden using this directive.
-++.\"#PeerCred
-++.TP 5
-++\fBPeerCred off\fR
-++.TP 5
-++\fBPeerCred on\fR
-++.TP 5
-++\fBPeerCred root-only\fR
-++Specifies whether peer credentials are used for authorization when communicating over the UNIX domain socket.
-++When \fBon\fR, the peer credentials of any user are accepted for authorization.
-++The value \fBoff\fR disables the use of peer credentials entirely, while the value \fBroot-only\fR allows peer credentials only for the root user.
-++Note: for security reasons, the \fBon\fR setting is reduced to \fBroot-only\fR for authorization of PUT requests.
-+ .\"#RemoteRoot
-+ .TP 5
-+ \fBRemoteRoot \fIusername\fR
-+@@ -289,4 +300,4 @@ command is used instead.
-+ .BR subscriptions.conf (5),
-+ CUPS Online Help (http://localhost:631/help)
-+ .SH COPYRIGHT
-+-Copyright \[co] 2020-2024 by OpenPrinting.
-++Copyright \[co] 2020-2025 by OpenPrinting.
-+diff --git a/scheduler/auth.c b/scheduler/auth.c
-+index 3c9aa72aa..bd0d28a0e 100644
-+--- a/scheduler/auth.c
-++++ b/scheduler/auth.c
-+@@ -398,7 +398,7 @@ cupsdAuthorize(cupsd_client_t *con)	/* I - Client connection */
-+   }
-+ #endif /* HAVE_AUTHORIZATION_H */
-+ #if defined(SO_PEERCRED) && defined(AF_LOCAL)
-+-  else if (!strncmp(authorization, "PeerCred ", 9) &&
-++  else if (PeerCred != CUPSD_PEERCRED_OFF && !strncmp(authorization, "PeerCred ", 9) &&
-+            con->http->hostaddr->addr.sa_family == AF_LOCAL && con->best)
-+   {
-+    /*
-+@@ -441,6 +441,12 @@ cupsdAuthorize(cupsd_client_t *con)	/* I - Client connection */
-+     }
-+ #endif /* HAVE_AUTHORIZATION_H */
-+
-++    if ((PeerCred == CUPSD_PEERCRED_ROOTONLY || httpGetState(con->http) == HTTP_STATE_PUT_RECV) && strcmp(authorization + 9, "root"))
-++    {
-++      cupsdLogClient(con, CUPSD_LOG_INFO, "User \"%s\" is not allowed to use peer credentials.", authorization + 9);
-++      return;
-++    }
-++
-+     if ((pwd = getpwnam(authorization + 9)) == NULL)
-+     {
-+       cupsdLogClient(con, CUPSD_LOG_ERROR, "User \"%s\" does not exist.", authorization + 9);
-+diff --git a/scheduler/auth.h b/scheduler/auth.h
-+index ee98e92c7..fdf71213f 100644
-+--- a/scheduler/auth.h
-++++ b/scheduler/auth.h
-+@@ -50,6 +50,10 @@
-+ #define CUPSD_AUTH_LIMIT_ALL	127	/* Limit all requests */
-+ #define CUPSD_AUTH_LIMIT_IPP	128	/* Limit IPP requests */
-+
-++#define CUPSD_PEERCRED_OFF	0	/* Don't allow PeerCred authorization */
-++#define CUPSD_PEERCRED_ON	1	/* Allow PeerCred authorization for all users */
-++#define CUPSD_PEERCRED_ROOTONLY	2	/* Allow PeerCred authorization for root user */
-++
-+ #define IPP_ANY_OPERATION	(ipp_op_t)0
-+					/* Any IPP operation */
-+ #define IPP_BAD_OPERATION	(ipp_op_t)-1
-+@@ -105,6 +109,9 @@ typedef struct
-+
-+ VAR cups_array_t	*Locations	VALUE(NULL);
-+					/* Authorization locations */
-++VAR int			PeerCred	VALUE(CUPSD_PEERCRED_ON);
-++					/* Allow PeerCred authorization? */
-++
-+ #ifdef HAVE_TLS
-+ VAR http_encryption_t	DefaultEncryption VALUE(HTTP_ENCRYPT_REQUIRED);
-+					/* Default encryption for authentication */
-+diff --git a/scheduler/client.c b/scheduler/client.c
-+index d495d9a75..81db4aa52 100644
-+--- a/scheduler/client.c
-++++ b/scheduler/client.c
-+@@ -2204,7 +2204,7 @@ cupsdSendHeader(
-+       auth_size = sizeof(auth_str) - (size_t)(auth_key - auth_str);
-+
-+ #if defined(SO_PEERCRED) && defined(AF_LOCAL)
-+-      if (httpAddrFamily(httpGetAddress(con->http)) == AF_LOCAL)
-++      if (PeerCred != CUPSD_PEERCRED_OFF && httpAddrFamily(httpGetAddress(con->http)) == AF_LOCAL)
-+       {
-+         strlcpy(auth_key, ", PeerCred", auth_size);
-+         auth_key += 10;
-+diff --git a/scheduler/conf.c b/scheduler/conf.c
-+index 3184d72f0..6accf0590 100644
-+--- a/scheduler/conf.c
-++++ b/scheduler/conf.c
-+@@ -47,6 +47,7 @@ typedef enum
-+ {
-+   CUPSD_VARTYPE_INTEGER,		/* Integer option */
-+   CUPSD_VARTYPE_TIME,			/* Time interval option */
-++  CUPSD_VARTYPE_NULLSTRING,		/* String option or NULL/empty string */
-+   CUPSD_VARTYPE_STRING,			/* String option */
-+   CUPSD_VARTYPE_BOOLEAN,		/* Boolean option */
-+   CUPSD_VARTYPE_PATHNAME,		/* File/directory name option */
-+@@ -69,7 +70,7 @@ static const cupsd_var_t	cupsd_vars[] =
-+ {
-+   { "AutoPurgeJobs", 		&JobAutoPurge,		CUPSD_VARTYPE_BOOLEAN },
-+ #ifdef HAVE_DNSSD
-+-  { "BrowseDNSSDSubTypes",	&DNSSDSubTypes,		CUPSD_VARTYPE_STRING },
-++  { "BrowseDNSSDSubTypes",	&DNSSDSubTypes,		CUPSD_VARTYPE_NULLSTRING },
-+ #endif /* HAVE_DNSSD */
-+   { "BrowseWebIF",		&BrowseWebIF,		CUPSD_VARTYPE_BOOLEAN },
-+   { "Browsing",			&Browsing,		CUPSD_VARTYPE_BOOLEAN },
-+@@ -120,7 +121,7 @@ static const cupsd_var_t	cupsd_vars[] =
-+   { "MaxSubscriptionsPerPrinter",&MaxSubscriptionsPerPrinter,	CUPSD_VARTYPE_INTEGER },
-+   { "MaxSubscriptionsPerUser",	&MaxSubscriptionsPerUser,	CUPSD_VARTYPE_INTEGER },
-+   { "MultipleOperationTimeout",	&MultipleOperationTimeout,	CUPSD_VARTYPE_TIME },
-+-  { "PageLogFormat",		&PageLogFormat,		CUPSD_VARTYPE_STRING },
-++  { "PageLogFormat",		&PageLogFormat,		CUPSD_VARTYPE_NULLSTRING },
-+   { "PreserveJobFiles",		&JobFiles,		CUPSD_VARTYPE_TIME },
-+   { "PreserveJobHistory",	&JobHistory,		CUPSD_VARTYPE_TIME },
-+   { "ReloadTimeout",		&ReloadTimeout,		CUPSD_VARTYPE_TIME },
-+@@ -791,6 +792,13 @@ cupsdReadConfiguration(void)
-+   IdleExitTimeout = 60;
-+ #endif /* HAVE_ONDEMAND */
-+
-++  if (!strcmp(CUPS_DEFAULT_PEER_CRED, "off"))
-++    PeerCred = CUPSD_PEERCRED_OFF;
-++  else if (!strcmp(CUPS_DEFAULT_PEER_CRED, "root-only"))
-++    PeerCred = CUPSD_PEERCRED_ROOTONLY;
-++  else
-++    PeerCred = CUPSD_PEERCRED_ON;
-++
-+  /*
-+   * Setup environment variables...
-+   */
-+@@ -1831,7 +1839,7 @@ get_addr_and_mask(const char *value,	/* I - String from config file */
-+
-+     family  = AF_INET6;
-+
-+-    for (i = 0, ptr = value + 1; *ptr && i < 8; i ++)
-++    for (i = 0, ptr = value + 1; *ptr && i >= 0 && i < 8; i ++)
-+     {
-+       if (*ptr == ']')
-+         break;
-+@@ -1977,7 +1985,7 @@ get_addr_and_mask(const char *value,	/* I - String from config file */
-+ #ifdef AF_INET6
-+       if (family == AF_INET6)
-+       {
-+-        if (i > 128)
-++        if (i < 0 || i > 128)
-+	  return (0);
-+
-+         i = 128 - i;
-+@@ -2011,7 +2019,7 @@ get_addr_and_mask(const char *value,	/* I - String from config file */
-+       else
-+ #endif /* AF_INET6 */
-+       {
-+-        if (i > 32)
-++        if (i < 0 || i > 32)
-+	  return (0);
-+
-+         mask[0] = 0xffffffff;
-+@@ -2921,7 +2929,17 @@ parse_variable(
-+	cupsdSetString((char **)var->ptr, temp);
-+	break;
-+
-++    case CUPSD_VARTYPE_NULLSTRING :
-++	cupsdSetString((char **)var->ptr, value);
-++	break;
-++
-+     case CUPSD_VARTYPE_STRING :
-++        if (!value)
-++        {
-++	  cupsdLogMessage(CUPSD_LOG_ERROR, "Missing value for %s on line %d of %s.", line, linenum, filename);
-++	  return (0);
-++        }
-++
-+	cupsdSetString((char **)var->ptr, value);
-+	break;
-+   }
-+@@ -3436,9 +3454,10 @@ read_cupsd_conf(cups_file_t *fp)	/* I - File to read from */
-+		      line, value ? " " : "", value ? value : "", linenum,
-+		      ConfigurationFile, CupsFilesFile);
-+     }
-+-    else
-+-      parse_variable(ConfigurationFile, linenum, line, value,
-+-                     sizeof(cupsd_vars) / sizeof(cupsd_vars[0]), cupsd_vars);
-++    else if (!parse_variable(ConfigurationFile, linenum, line, value,
-++			     sizeof(cupsd_vars) / sizeof(cupsd_vars[0]), cupsd_vars) &&
-++	     (FatalErrors & CUPSD_FATAL_CONFIG))
-++      return (0);
-+   }
-+
-+   return (1);
-+@@ -3597,6 +3616,31 @@ read_cups_files_conf(cups_file_t *fp)	/* I - File to read from */
-+	    break;
-+       }
-+     }
-++    else if (!_cups_strcasecmp(line, "PeerCred") && value)
-++    {
-++     /*
-++      * PeerCred {off,on,root-only}
-++      */
-++
-++      if (!_cups_strcasecmp(value, "off"))
-++      {
-++        PeerCred = CUPSD_PEERCRED_OFF;
-++      }
-++      else if (!_cups_strcasecmp(value, "on"))
-++      {
-++        PeerCred = CUPSD_PEERCRED_ON;
-++      }
-++      else if (!_cups_strcasecmp(value, "root-only"))
-++      {
-++        PeerCred = CUPSD_PEERCRED_ROOTONLY;
-++      }
-++      else
-++      {
-++	cupsdLogMessage(CUPSD_LOG_ERROR, "Unknown PeerCred \"%s\" on line %d of %s.", value, linenum, CupsFilesFile);
-++        if (FatalErrors & CUPSD_FATAL_CONFIG)
-++          return (0);
-++      }
-++    }
-+     else if (!_cups_strcasecmp(line, "PrintcapFormat") && value)
-+     {
-+      /*
-+diff --git a/test/run-stp-tests.sh b/test/run-stp-tests.sh
-+index 39b53c3e4..2089f7944 100755
-+--- a/test/run-stp-tests.sh
-++++ b/test/run-stp-tests.sh
-+@@ -512,7 +512,7 @@ fi
-+
-+ cat >$BASE/cups-files.conf <<EOF
-+ FileDevice yes
-+-Printcap
-++Printcap $BASE/printcap
-+ User $user
-+ ServerRoot $BASE
-+ StateDir $BASE
-+diff --git a/vcnet/config.h b/vcnet/config.h
-+index 7fc459217..76f5adbb7 100644
-+--- a/vcnet/config.h
-++++ b/vcnet/config.h
-+@@ -169,6 +169,13 @@ typedef unsigned long useconds_t;
-+ #define CUPS_DEFAULT_ERROR_POLICY "stop-printer"
-+
-+
-++/*
-++ * Default PeerCred value...
-++ */
-++
-++#define CUPS_DEFAULT_PEER_CRED "on"
-++
-++
-+ /*
-+  * Default MaxCopies value...
-+  */
-+diff --git a/xcode/CUPS.xcodeproj/project.pbxproj b/xcode/CUPS.xcodeproj/project.pbxproj
-+index 597946440..54ac652a1 100644
-+--- a/xcode/CUPS.xcodeproj/project.pbxproj
-++++ b/xcode/CUPS.xcodeproj/project.pbxproj
-+@@ -3433,7 +3433,6 @@
-+		72220FB313330BCE00FCA411 /* mime.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mime.c; path = ../scheduler/mime.c; sourceTree = "<group>"; };
-+		72220FB413330BCE00FCA411 /* mime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mime.h; path = ../scheduler/mime.h; sourceTree = "<group>"; };
-+		72220FB513330BCE00FCA411 /* type.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = type.c; path = ../scheduler/type.c; sourceTree = "<group>"; };
-+-		7226369B18AE6D19004ED309 /* org.cups.cups-lpd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "org.cups.cups-lpd.plist"; path = "../scheduler/org.cups.cups-lpd.plist"; sourceTree = SOURCE_ROOT; };
-+		7226369C18AE6D19004ED309 /* org.cups.cupsd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = org.cups.cupsd.plist; path = ../scheduler/org.cups.cupsd.plist; sourceTree = SOURCE_ROOT; };
-+		7226369D18AE73BB004ED309 /* config.h.in */ = {isa = PBXFileReference; lastKnownFileType = text; name = config.h.in; path = ../config.h.in; sourceTree = "<group>"; };
-+		722A24EE2178D00C000CAB20 /* debug-internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "debug-internal.h"; path = "../cups/debug-internal.h"; sourceTree = "<group>"; };
-+@@ -5055,7 +5054,6 @@
-+			isa = PBXGroup;
-+			children = (
-+				72E65BDC18DC852700097E89 /* Makefile */,
-+-				7226369B18AE6D19004ED309 /* org.cups.cups-lpd.plist */,
-+				72E65BD518DC818400097E89 /* org.cups.cups-lpd.plist.in */,
-+				7226369C18AE6D19004ED309 /* org.cups.cupsd.plist */,
-+				72220F6913330B0C00FCA411 /* auth.c */,
-+diff --git a/xcode/config.h b/xcode/config.h
-+index e4a63f69d..366da777e 100644
-+--- a/xcode/config.h
-++++ b/xcode/config.h
-+@@ -88,6 +88,13 @@
-+ #define CUPS_DEFAULT_ERROR_POLICY "stop-printer"
-+
-+
-++/*
-++ * Default PeerCred value...
-++ */
-++
-++#define CUPS_DEFAULT_PEER_CRED "on"
-++
-++
-+ /*
-+  * Default MaxCopies value...
-+  */
-+--
-+2.44.1
--- 
-2.35.6
+On Wed, Dec 10, 2025 at 3:27=E2=80=AFPM Gyorgy Sarvari <skandigraun@gmail.c=
+om>
+wrote:
 
+> On 12/10/25 12:03, Adam Duskett via lists.openembedded.org wrote:
+> <SNIP>
+> > diff --git a/meta/recipes-devtools/dnf/dnf_5.3.0.0.bb
+> b/meta/recipes-devtools/dnf/dnf_5.3.0.0.bb
+> > new file mode 100644
+> > index 0000000000..961e889fdb
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/dnf/dnf_5.3.0.0.bb
+> > @@ -0,0 +1,196 @@
+> > +SUMMARY =3D "DNF package manager rewritten in C++, using libsolv as a
+> dependency resolver"
+> > +DESCRIPTION =3D "\
+> > +    DNF5 is a command-line package manager that automates the process
+> of \
+> > +    installing, upgrading, configuring, and removing computer programs
+> in a \
+> > +    consistent manner. It supports RPM packages, modulemd modules, and
+> comps \
+> > +    groups and environments. \
+> > +"
+> > +HOMEPAGE =3D "https://github.com/rpm-software-management/dnf5"
+> > +BUGTRACKER =3D "https://github.com/rpm-software-management/dnf5/issues=
+"
+> > +CVE_PRODUCT =3D "RPM:Dnf5"
+>
+> While the cpe-vendor is matched case-insensitive way, product matching
+> is case-sensitive, it should be lowercase. Also, there seem to be at
+> least 2 valid CVE_PRODUCTS:
+> $ sqlite3 nvdfkie_1-1.db "select vendor, product from products where
+> product like 'dnf5';"
+> rpm|dnf5
+> rpm-software-management|dnf5
+>
+Great catch! I'll add them properly and keep the sqlite query in the back
+of my head from now on!
+
+
+>
+> > +SECTION =3D "base"
+> > +
+> > +LICENSE =3D "GPL-2.0-or-later & LGPL-2.1-only"
+> > +LIC_FILES_CHKSUM =3D "\
+> > +    file://COPYING.md;md5=3D9733192df318d0f806fd668b92ba0ba6 \
+> > +    file://gpl-2.0.txt;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
+> > +    file://lgpl-2.1.txt;md5=3D4b54a1fd55a448865a0b32d41598759d \
+> > +"
+> > +
+> > +DEPENDS =3D "\
+> > +    fmt \
+> > +    glib-2.0 \
+> > +    json-c \
+> > +    libcomps \
+> > +    libmodulemd \
+> > +    librepo \
+> > +    libsolv \
+> > +    libtoml11 \
+> > +    libxml2 \
+> > +    sqlite3 \
+> > +    util-linux \
+> > +"
+> > +
+> > +SRC_URI =3D "\
+> > +    git://
+> github.com/rpm-software-management/dnf5.git;branch=3Dmain;protocol=3Dhttp=
+s \
+>
+> You could add ;tag=3D${PV} at the end.
+>
+No worries! I'll also change the order
+to  ;protocol=3Dhttps;branch=3Dmain;tag=3D${PV}
+
+>
+> > +    file://0002-cmake-set-CMP0190-to-OLD.patch \
+> > +    file://0003-Do-not-hardcode-system_cachedir.patch \
+> > +    file://0004-add-support-for-gcc-12-and-below.patch \
+> > +    file://0005-fix-string-concatenation-errors-for-musl.patch \
+> > +    file://0006-add-missing-headers-for-musl.patch \
+> > +    file://0007-Define-FNM_EXTMATCH-for-musl.patch \
+> > +    file://0008-libdnf-fix-arm-arch-mapping-issues-for-qemuarmv5.patch=
+ \
+> > +"
+> > +SRC_URI:append:class-native =3D "
+> file://0001-Do-not-hardcode-the-systemd-unit-directory.patch"
+> > +SRCREV =3D "c6a42c2e7e9ee0a04d46e6820a5962925a99b085"
+> > +
+> > +UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+(\.\d+)+)"
+> > +
+> > +inherit bash-completion cmake gettext pkgconfig siteinfo systemd
+> > +inherit_defer ${@bb.utils.contains('PACKAGECONFIG', 'python3',
+> 'python3targetconfig', '', d)}
+> > +
+> > +PACKAGECONFIG[dnfdaemon-client] =3D
+> "-DWITH_DNF5DAEMON_CLIENT=3DON,-DWITH_DNF5DAEMON_CLIENT=3DOFF,sdbus-c++"
+> > +PACKAGECONFIG[dnfdaemon-server] =3D
+> "-DWITH_DNF5DAEMON_SERVER=3DON,-DWITH_DNF5DAEMON_SERVER=3DOFF,sdbus-c++"
+> > +PACKAGECONFIG[plugins] =3D
+> "-DWITH_DNF5_PLUGINS=3DON,-DWITH_DNF5_PLUGINS=3DOFF,curl sdbus-c++ zlib"
+> > +PACKAGECONFIG[plugin-actions] =3D
+> "-DWITH_PLUGIN_ACTIONS=3DON,-DWITH_PLUGIN_ACTIONS=3DOFF"
+> > +PACKAGECONFIG[plugin-appstream] =3D
+> "-DWITH_PLUGIN_APPSTREAM=3DON,-DWITH_PLUGIN_APPSTREAM=3DOFF,appstream"
+> > +PACKAGECONFIG[plugin-expired-pgp-keys] =3D
+> "-DWITH_PLUGIN_EXPIRED_PGP_KEYS=3DON,-DWITH_PLUGIN_EXPIRED_PGP_KEYS=3DOFF=
+,gnupg"
+> > +PACKAGECONFIG[plugin-manifest] =3D
+> "-DWITH_PLUGIN_MANIFEST=3DON,-DWITH_PLUGIN_MANIFEST=3DOFF,sdbus-c++
+> libpkgmanifest"
+>
+> In which layer is libpkgmanifest? I couldn't find it the layer index.
+>
+> > +PACKAGECONFIG[plugin-local] =3D
+> "-DWITH_PLUGIN_LOCAL=3DON,-DWITH_PLUGIN_LOCAL=3DOFF"
+> > +
+> > +# sdbus-c++ and journalctl integration.
+> > +PACKAGECONFIG[systemd] =3D
+> "-DWITH_SYSTEMD=3DON,-DWITH_SYSTEMD=3DOFF,sdbus-c++"
+> > +
+> > +# build options - bindings
+> > +PACKAGECONFIG[python3] =3D "-DWITH_PYTHON3=3DON,-DWITH_PYTHON3=3DOFF, =
+python3
+> swig-native"
+> > +
+> > +# No sdbus-c++-native package.
+> > +PACKAGECONFIG:remove:class-native =3D "\
+> > +    dnfdaemon-client \
+> > +    dnfdaemon-server \
+> > +    plugins \
+> > +    plugin-manifest \
+> > +    systemd \
+> > +"
+> > +
+> > +PACKAGE_BEFORE_PN +=3D "\
+> > +    ${PN}-dnfdaemon-server \
+> > +    ${PN}-plugins \
+> > +    ${PN}-python3 \
+> > +"
+> > +
+> > +# manpages generation requires http://www.sphinx-doc.org/
+> > +EXTRA_OECMAKE:append =3D " \
+> > +    -DENABLE_SOLV_FOCUSNEW=3DON \
+> > +    -DWITH_DNF5_OBSOLETES_DNF=3DOFF \
+> > +    -DWITH_DNF5=3DON \
+> > +    -DWITH_GO=3DOFF \
+> > +    -DWITH_HTML=3DOFF \
+> > +    -DWITH_LIBDNF5_CLI=3DON \
+> > +    -DWITH_MAN=3DOFF \
+> > +    -DWITH_PERL5=3DOFF \
+> > +    -DWITH_PLUGIN_RHSM=3DOFF \
+> > +    -DWITH_RUBY=3DOFF \
+> > +    -DWITH_TESTS=3DOFF \
+> > +"
+> > +
+> > +# No sdbus-c++-native package exists so remove all options that depend
+> on it.
+> > +EXTRA_OECMAKE:append:class-native =3D " \
+> > +    -DWITH_DNF5DAEMON_CLIENT=3DOFF \
+> > +    -DWITH_DNF5DAEMON_SERVER=3DOFF \
+> > +    -DWITH_DNF5_PLUGINS=3DOFF \
+> > +    -DWITH_PLUGIN_MANIFEST=3DOFF \
+> > +    -DWITH_SYSTEMD=3DOFF \
+> > +"
+> > +
+> > +# Create a symlink called 'dnf' as 'make install' does not do it, but
+> > +# .spec file in dnf source tree does (and then Fedora and dnf
+> documentation
+> > +# says that dnf binary is plain 'dnf').
+> > +do_install:append() {
+> > +    ln -rs ${D}/${bindir}/dnf5 ${D}/${bindir}/dnf
+> > +    install -d ${D}${sysconfdir}/dnf
+> > +
+> > +    # DNF always installs service files to /usr/lib/systemd, even if
+> usrmerge is not
+> > +    # selected. Also, remove systemd files if systemd isn't selected.
+> > +    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'false',
+> 'true', d)}; then
+> > +        rm -rf ${D}${libdir}/systemd
+> > +    fi
+> > +
+> > +    # Breaks dnf because the builddep plugin is provided in the
+> > +    # dnf-plugins-core package which is not available in oe-core.
+> > +    rm -f ${D}${datadir}/dnf5/aliases.d/compatibility-plugins.conf
+> > +}
+> > +
+> > +do_install:append:${PN}-plugins() {
+> > +    ln -rs ${D}/${bindir}/dnf5-automatic ${D}/${bindir}/dnf-automatic
+> > +}
+>
+> 1. Is that ${PN}-plugins override needed? Couldn't it just be part of
+> the do_install, if the file exists?
+> 2. The cmake file does install[1] a wrapper script[2] with the same name
+> and location. Does it not have the same function? (I'm asking, it might
+> be different)
+>
+Good call. It's not needed  and was left over cruft from debugging. I'll
+remove it entirely!
+
+>
+> [1]:
+>
+> https://github.com/rpm-software-management/dnf5/blob/5.3.0.0/dnf5-plugins=
+/automatic_plugin/CMakeLists.txt#L17
+> [2]:
+>
+> https://github.com/rpm-software-management/dnf5/blob/5.3.0.0/dnf5-plugins=
+/automatic_plugin/bin/dnf-automatic
+>
+> > +
+> > +# Direct dnf-native to read rpm configuration from our sysroot, not th=
+e
+> one it was compiled in
+> > +do_install:append:class-native() {
+> > +    create_wrapper ${D}/${bindir}/dnf \
+> > +
+> SEQUOIA_CRYPTO_POLICY=3D${STAGING_DATADIR_NATIVE}/crypto-policies/back-en=
+ds/rpm-sequoia.config
+> \
+> > +        RPM_CONFIGDIR=3D${STAGING_LIBDIR_NATIVE}/rpm \
+> > +        RPM_NO_CHROOT_FOR_SCRIPTS=3D1
+> > +}
+> > +
+> > +do_install:append:class-nativesdk() {
+> > +    create_wrapper ${D}/${bindir}/dnf \
+> > +        RPM_CONFIGDIR=3D${SDKPATHNATIVE}${libdir_nativesdk}/rpm \
+> > +        RPM_NO_CHROOT_FOR_SCRIPTS=3D1
+> > +}
+> > +
+> > +SYSTEMD_SERVICE:${PN} =3D "\
+> > +    dnf5-makecache.service \
+> > +    dnf5-makecache.timer \
+> > +"
+> > +
+> > +SYSTEMD_AUTO_ENABLE ?=3D "disable"
+> > +
+> > +# Packages for testing purposes
+> > +PACKAGES +=3D "${PN}-test-main ${PN}-test-dep"
+> > +
+> > +FILES:${PN} +=3D "\
+> > +    ${bindir}/dnf* \
+> > +    ${datadir}/dbus-1/system-services/org.rpm.dnf.v0.service \
+> > +    ${datadir}/dnf5 \
+> > +    ${datadir}/polkit-1/actions/org.rpm.dnf* \
+> > +    ${datadir}/polkit-1/rules.d/org.rpm.dnf* \
+> > +    ${libdir}/dnf5 \
+> > +    ${libdir}/libdnf5* \
+> > +    ${sysconfdir}/dnf \
+> > +"
+> > +
+> > +FILES:${PN}-bash-completion +=3D "\
+> > +    ${datadir}/bash-completion/completions/dnf5 \
+> > +"
+> > +
+> > +FILES:${PN}-dnfdaemon-server +=3D "\
+> > +    ${systemd_system_unitdir}/dnf5daemon-server.service \
+> > +    ${datadir}/dbus-1/interfaces/org.rpm.dnf* \
+> > +    ${datadir}/dbus-1/system.d/org.rpm.dnf* \
+> > +"
+> > +
+> > +FILES:${PN}-plugins +=3D "\
+> > +    ${systemd_system_unitdir}/dnf-automatic.service \
+> > +    ${systemd_system_unitdir}/dnf-automatic.timer \
+> > +    ${systemd_system_unitdir}/dnf5-automatic.service \
+> > +    ${systemd_system_unitdir}/dnf5-automatic.timer \
+> > +"
+> > +
+> > +FILES:${PN}-python3 +=3D "\
+> > +    ${libdir}/${PYTHON_DIR}/site-packages/libdnf* \
+> > +"
+> > +
+> > +FILES:${PN}-systemd +=3D "\
+> > +    ${systemd_system_unitdir}/dnf5-offline-transaction.service \
+> > +    ${systemd_system_unitdir}/dnf5-offline-transaction-cleanup.service=
+ \
+> > +"
+> > +
+> > +RRECOMMENDS:${PN}:class-target +=3D "bash-completion gnupg"
+> > +RRECOMMENDS:${PN}-test-main =3D "${PN}-test-dep"
+> > +ALLOW_EMPTY:${PN}-test-main =3D "1"
+> > +ALLOW_EMPTY:${PN}-test-dep =3D "1"
+> > +
+> > +SKIP_RECIPE[dnf] ?=3D "${@bb.utils.contains('PACKAGE_CLASSES',
+> 'package_rpm', '', 'does not build without package_rpm in PACKAGE_CLASSES
+> due disabled rpm support in libsolv', d)}"
+>
+> Since it is being updated, could you please also fix this typo: "due" ->
+> "due to" ?
+>
+No problem!
+
+>
+> > +
+> > +BBCLASSEXTEND =3D "native nativesdk"
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#227470):
+> https://lists.openembedded.org/g/openembedded-core/message/227470
+> > Mute This Topic: https://lists.openembedded.org/mt/116710030/6084445
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> skandigraun@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+
+--000000000000523c2d06459aeadf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi Gyorgy! Thanks for the review!=C2=
+=A0</div><div><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><=
+span><div><br></div></span></div></div></div><br></div><br><div class=3D"gm=
+ail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On W=
+ed, Dec 10, 2025 at 3:27=E2=80=AFPM Gyorgy Sarvari &lt;<a href=3D"mailto:sk=
+andigraun@gmail.com">skandigraun@gmail.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">On 12/10/25 12:03, Adam Duskett v=
+ia <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_=
+blank">lists.openembedded.org</a> wrote:<br>
+&lt;SNIP&gt;<br>
+&gt; diff --git a/meta/recipes-devtools/dnf/<a href=3D"http://dnf_5.3.0.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">dnf_5.3.0.0.bb</a> b/meta/recipes-d=
+evtools/dnf/<a href=3D"http://dnf_5.3.0.0.bb" rel=3D"noreferrer" target=3D"=
+_blank">dnf_5.3.0.0.bb</a><br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..961e889fdb<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-devtools/dnf/<a href=3D"http://dnf_5.3.0.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">dnf_5.3.0.0.bb</a><br>
+&gt; @@ -0,0 +1,196 @@<br>
+&gt; +SUMMARY =3D &quot;DNF package manager rewritten in C++, using libsolv=
+ as a dependency resolver&quot;<br>
+&gt; +DESCRIPTION =3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 DNF5 is a command-line package manager that automates t=
+he process of \<br>
+&gt; +=C2=A0 =C2=A0 installing, upgrading, configuring, and removing comput=
+er programs in a \<br>
+&gt; +=C2=A0 =C2=A0 consistent manner. It supports RPM packages, modulemd m=
+odules, and comps \<br>
+&gt; +=C2=A0 =C2=A0 groups and environments. \<br>
+&gt; +&quot;<br>
+&gt; +HOMEPAGE =3D &quot;<a href=3D"https://github.com/rpm-software-managem=
+ent/dnf5" rel=3D"noreferrer" target=3D"_blank">https://github.com/rpm-softw=
+are-management/dnf5</a>&quot;<br>
+&gt; +BUGTRACKER =3D &quot;<a href=3D"https://github.com/rpm-software-manag=
+ement/dnf5/issues" rel=3D"noreferrer" target=3D"_blank">https://github.com/=
+rpm-software-management/dnf5/issues</a>&quot;<br>
+&gt; +CVE_PRODUCT =3D &quot;RPM:Dnf5&quot;<br>
+<br>
+While the cpe-vendor is matched case-insensitive way, product matching<br>
+is case-sensitive, it should be lowercase. Also, there seem to be at<br>
+least 2 valid CVE_PRODUCTS:<br>
+$ sqlite3 nvdfkie_1-1.db &quot;select vendor, product from products where<b=
+r>
+product like &#39;dnf5&#39;;&quot;<br>
+rpm|dnf5<br>
+rpm-software-management|dnf5<br></blockquote><div>Great catch! I&#39;ll add=
+ them properly and keep the sqlite query in the back of my head from now on=
+!</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; +SECTION =3D &quot;base&quot;<br>
+&gt; +<br>
+&gt; +LICENSE =3D &quot;GPL-2.0-or-later &amp; LGPL-2.1-only&quot;<br>
+&gt; +LIC_FILES_CHKSUM =3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 file://COPYING.md;md5=3D9733192df318d0f806fd668b92ba0ba=
+6 \<br>
+&gt; +=C2=A0 =C2=A0 file://gpl-2.0.txt;md5=3Db234ee4d69f5fce4486a80fdaf4a42=
+63 \<br>
+&gt; +=C2=A0 =C2=A0 file://lgpl-2.1.txt;md5=3D4b54a1fd55a448865a0b32d415987=
+59d \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +DEPENDS =3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 fmt \<br>
+&gt; +=C2=A0 =C2=A0 glib-2.0 \<br>
+&gt; +=C2=A0 =C2=A0 json-c \<br>
+&gt; +=C2=A0 =C2=A0 libcomps \<br>
+&gt; +=C2=A0 =C2=A0 libmodulemd \<br>
+&gt; +=C2=A0 =C2=A0 librepo \<br>
+&gt; +=C2=A0 =C2=A0 libsolv \<br>
+&gt; +=C2=A0 =C2=A0 libtoml11 \<br>
+&gt; +=C2=A0 =C2=A0 libxml2 \<br>
+&gt; +=C2=A0 =C2=A0 sqlite3 \<br>
+&gt; +=C2=A0 =C2=A0 util-linux \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +SRC_URI =3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 git://<a href=3D"http://github.com/rpm-software-managem=
+ent/dnf5.git;branch=3Dmain;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_=
+blank">github.com/rpm-software-management/dnf5.git;branch=3Dmain;protocol=
+=3Dhttps</a> \<br>
+<br>
+You could add ;tag=3D${PV} at the end.<br></blockquote><div>No worries! I&#=
+39;ll also change the order to=C2=A0=C2=A0;protocol=3Dhttps;branch=3Dmain;t=
+ag=3D${PV}</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; +=C2=A0 =C2=A0 file://0002-cmake-set-CMP0190-to-OLD.patch \<br>
+&gt; +=C2=A0 =C2=A0 file://0003-Do-not-hardcode-system_cachedir.patch \<br>
+&gt; +=C2=A0 =C2=A0 file://0004-add-support-for-gcc-12-and-below.patch \<br=
+>
+&gt; +=C2=A0 =C2=A0 file://0005-fix-string-concatenation-errors-for-musl.pa=
+tch \<br>
+&gt; +=C2=A0 =C2=A0 file://0006-add-missing-headers-for-musl.patch \<br>
+&gt; +=C2=A0 =C2=A0 file://0007-Define-FNM_EXTMATCH-for-musl.patch \<br>
+&gt; +=C2=A0 =C2=A0 file://0008-libdnf-fix-arm-arch-mapping-issues-for-qemu=
+armv5.patch \<br>
+&gt; +&quot;<br>
+&gt; +SRC_URI:append:class-native =3D &quot; file://0001-Do-not-hardcode-th=
+e-systemd-unit-directory.patch&quot;<br>
+&gt; +SRCREV =3D &quot;c6a42c2e7e9ee0a04d46e6820a5962925a99b085&quot;<br>
+&gt; +<br>
+&gt; +UPSTREAM_CHECK_GITTAGREGEX =3D &quot;(?P&lt;pver&gt;\d+(\.\d+)+)&quot=
+;<br>
+&gt; +<br>
+&gt; +inherit bash-completion cmake gettext pkgconfig siteinfo systemd<br>
+&gt; +inherit_defer ${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;pyth=
+on3&#39;, &#39;python3targetconfig&#39;, &#39;&#39;, d)}<br>
+&gt; +<br>
+&gt; +PACKAGECONFIG[dnfdaemon-client] =3D &quot;-DWITH_DNF5DAEMON_CLIENT=3D=
+ON,-DWITH_DNF5DAEMON_CLIENT=3DOFF,sdbus-c++&quot;<br>
+&gt; +PACKAGECONFIG[dnfdaemon-server] =3D &quot;-DWITH_DNF5DAEMON_SERVER=3D=
+ON,-DWITH_DNF5DAEMON_SERVER=3DOFF,sdbus-c++&quot;<br>
+&gt; +PACKAGECONFIG[plugins] =3D &quot;-DWITH_DNF5_PLUGINS=3DON,-DWITH_DNF5=
+_PLUGINS=3DOFF,curl sdbus-c++ zlib&quot;<br>
+&gt; +PACKAGECONFIG[plugin-actions] =3D &quot;-DWITH_PLUGIN_ACTIONS=3DON,-D=
+WITH_PLUGIN_ACTIONS=3DOFF&quot;<br>
+&gt; +PACKAGECONFIG[plugin-appstream] =3D &quot;-DWITH_PLUGIN_APPSTREAM=3DO=
+N,-DWITH_PLUGIN_APPSTREAM=3DOFF,appstream&quot;<br>
+&gt; +PACKAGECONFIG[plugin-expired-pgp-keys] =3D &quot;-DWITH_PLUGIN_EXPIRE=
+D_PGP_KEYS=3DON,-DWITH_PLUGIN_EXPIRED_PGP_KEYS=3DOFF,gnupg&quot;<br>
+&gt; +PACKAGECONFIG[plugin-manifest] =3D &quot;-DWITH_PLUGIN_MANIFEST=3DON,=
+-DWITH_PLUGIN_MANIFEST=3DOFF,sdbus-c++ libpkgmanifest&quot;<br>
+<br>
+In which layer is libpkgmanifest? I couldn&#39;t find it the layer index.<b=
+r>
+<br>
+&gt; +PACKAGECONFIG[plugin-local] =3D &quot;-DWITH_PLUGIN_LOCAL=3DON,-DWITH=
+_PLUGIN_LOCAL=3DOFF&quot;<br>
+&gt; +<br>
+&gt; +# sdbus-c++ and journalctl integration.<br>
+&gt; +PACKAGECONFIG[systemd] =3D &quot;-DWITH_SYSTEMD=3DON,-DWITH_SYSTEMD=
+=3DOFF,sdbus-c++&quot;<br>
+&gt; +<br>
+&gt; +# build options - bindings<br>
+&gt; +PACKAGECONFIG[python3] =3D &quot;-DWITH_PYTHON3=3DON,-DWITH_PYTHON3=
+=3DOFF, python3 swig-native&quot;<br>
+&gt; +<br>
+&gt; +# No sdbus-c++-native package.<br>
+&gt; +PACKAGECONFIG:remove:class-native =3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 dnfdaemon-client \<br>
+&gt; +=C2=A0 =C2=A0 dnfdaemon-server \<br>
+&gt; +=C2=A0 =C2=A0 plugins \<br>
+&gt; +=C2=A0 =C2=A0 plugin-manifest \<br>
+&gt; +=C2=A0 =C2=A0 systemd \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +PACKAGE_BEFORE_PN +=3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 ${PN}-dnfdaemon-server \<br>
+&gt; +=C2=A0 =C2=A0 ${PN}-plugins \<br>
+&gt; +=C2=A0 =C2=A0 ${PN}-python3 \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +# manpages generation requires <a href=3D"http://www.sphinx-doc.org/"=
+ rel=3D"noreferrer" target=3D"_blank">http://www.sphinx-doc.org/</a><br>
+&gt; +EXTRA_OECMAKE:append =3D &quot; \<br>
+&gt; +=C2=A0 =C2=A0 -DENABLE_SOLV_FOCUSNEW=3DON \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_DNF5_OBSOLETES_DNF=3DOFF \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_DNF5=3DON \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_GO=3DOFF \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_HTML=3DOFF \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_LIBDNF5_CLI=3DON \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_MAN=3DOFF \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_PERL5=3DOFF \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_PLUGIN_RHSM=3DOFF \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_RUBY=3DOFF \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_TESTS=3DOFF \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +# No sdbus-c++-native package exists so remove all options that depen=
+d on it.<br>
+&gt; +EXTRA_OECMAKE:append:class-native =3D &quot; \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_DNF5DAEMON_CLIENT=3DOFF \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_DNF5DAEMON_SERVER=3DOFF \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_DNF5_PLUGINS=3DOFF \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_PLUGIN_MANIFEST=3DOFF \<br>
+&gt; +=C2=A0 =C2=A0 -DWITH_SYSTEMD=3DOFF \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +# Create a symlink called &#39;dnf&#39; as &#39;make install&#39; doe=
+s not do it, but<br>
+&gt; +# .spec file in dnf source tree does (and then Fedora and dnf documen=
+tation<br>
+&gt; +# says that dnf binary is plain &#39;dnf&#39;).<br>
+&gt; +do_install:append() {<br>
+&gt; +=C2=A0 =C2=A0 ln -rs ${D}/${bindir}/dnf5 ${D}/${bindir}/dnf<br>
+&gt; +=C2=A0 =C2=A0 install -d ${D}${sysconfdir}/dnf<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 # DNF always installs service files to /usr/lib/systemd=
+, even if usrmerge is not<br>
+&gt; +=C2=A0 =C2=A0 # selected. Also, remove systemd files if systemd isn&#=
+39;t selected.<br>
+&gt; +=C2=A0 =C2=A0 if ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39=
+;systemd&#39;, &#39;false&#39;, &#39;true&#39;, d)}; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf ${D}${libdir}/systemd<br>
+&gt; +=C2=A0 =C2=A0 fi<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 # Breaks dnf because the builddep plugin is provided in=
+ the<br>
+&gt; +=C2=A0 =C2=A0 # dnf-plugins-core package which is not available in oe=
+-core.<br>
+&gt; +=C2=A0 =C2=A0 rm -f ${D}${datadir}/dnf5/aliases.d/compatibility-plugi=
+ns.conf<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +do_install:append:${PN}-plugins() {<br>
+&gt; +=C2=A0 =C2=A0 ln -rs ${D}/${bindir}/dnf5-automatic ${D}/${bindir}/dnf=
+-automatic<br>
+&gt; +}<br>
+<br>
+1. Is that ${PN}-plugins override needed? Couldn&#39;t it just be part of<b=
+r>
+the do_install, if the file exists?<br>
+2. The cmake file does install[1] a wrapper script[2] with the same name<br=
+>
+and location. Does it not have the same function? (I&#39;m asking, it might=
+<br>
+be different)<br></blockquote><div>Good call. It&#39;s not needed=C2=A0 and=
+ was left over cruft from debugging. I&#39;ll remove it entirely!</div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+[1]:<br>
+<a href=3D"https://github.com/rpm-software-management/dnf5/blob/5.3.0.0/dnf=
+5-plugins/automatic_plugin/CMakeLists.txt#L17" rel=3D"noreferrer" target=3D=
+"_blank">https://github.com/rpm-software-management/dnf5/blob/5.3.0.0/dnf5-=
+plugins/automatic_plugin/CMakeLists.txt#L17</a><br>
+[2]:<br>
+<a href=3D"https://github.com/rpm-software-management/dnf5/blob/5.3.0.0/dnf=
+5-plugins/automatic_plugin/bin/dnf-automatic" rel=3D"noreferrer" target=3D"=
+_blank">https://github.com/rpm-software-management/dnf5/blob/5.3.0.0/dnf5-p=
+lugins/automatic_plugin/bin/dnf-automatic</a><br>
+<br>
+&gt; +<br>
+&gt; +# Direct dnf-native to read rpm configuration from our sysroot, not t=
+he one it was compiled in<br>
+&gt; +do_install:append:class-native() {<br>
+&gt; +=C2=A0 =C2=A0 create_wrapper ${D}/${bindir}/dnf \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 SEQUOIA_CRYPTO_POLICY=3D${STAGING_DATADIR=
+_NATIVE}/crypto-policies/back-ends/rpm-sequoia.config \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 RPM_CONFIGDIR=3D${STAGING_LIBDIR_NATIVE}/=
+rpm \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 RPM_NO_CHROOT_FOR_SCRIPTS=3D1<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +do_install:append:class-nativesdk() {<br>
+&gt; +=C2=A0 =C2=A0 create_wrapper ${D}/${bindir}/dnf \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 RPM_CONFIGDIR=3D${SDKPATHNATIVE}${libdir_=
+nativesdk}/rpm \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 RPM_NO_CHROOT_FOR_SCRIPTS=3D1<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +SYSTEMD_SERVICE:${PN} =3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 dnf5-makecache.service \<br>
+&gt; +=C2=A0 =C2=A0 dnf5-makecache.timer \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +SYSTEMD_AUTO_ENABLE ?=3D &quot;disable&quot;<br>
+&gt; +<br>
+&gt; +# Packages for testing purposes<br>
+&gt; +PACKAGES +=3D &quot;${PN}-test-main ${PN}-test-dep&quot;<br>
+&gt; +<br>
+&gt; +FILES:${PN} +=3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 ${bindir}/dnf* \<br>
+&gt; +=C2=A0 =C2=A0 ${datadir}/dbus-1/system-services/org.rpm.dnf.v0.servic=
+e \<br>
+&gt; +=C2=A0 =C2=A0 ${datadir}/dnf5 \<br>
+&gt; +=C2=A0 =C2=A0 ${datadir}/polkit-1/actions/org.rpm.dnf* \<br>
+&gt; +=C2=A0 =C2=A0 ${datadir}/polkit-1/rules.d/org.rpm.dnf* \<br>
+&gt; +=C2=A0 =C2=A0 ${libdir}/dnf5 \<br>
+&gt; +=C2=A0 =C2=A0 ${libdir}/libdnf5* \<br>
+&gt; +=C2=A0 =C2=A0 ${sysconfdir}/dnf \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +FILES:${PN}-bash-completion +=3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 ${datadir}/bash-completion/completions/dnf5 \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +FILES:${PN}-dnfdaemon-server +=3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 ${systemd_system_unitdir}/dnf5daemon-server.service \<b=
+r>
+&gt; +=C2=A0 =C2=A0 ${datadir}/dbus-1/interfaces/org.rpm.dnf* \<br>
+&gt; +=C2=A0 =C2=A0 ${datadir}/dbus-1/system.d/org.rpm.dnf* \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +FILES:${PN}-plugins +=3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 ${systemd_system_unitdir}/dnf-automatic.service \<br>
+&gt; +=C2=A0 =C2=A0 ${systemd_system_unitdir}/dnf-automatic.timer \<br>
+&gt; +=C2=A0 =C2=A0 ${systemd_system_unitdir}/dnf5-automatic.service \<br>
+&gt; +=C2=A0 =C2=A0 ${systemd_system_unitdir}/dnf5-automatic.timer \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +FILES:${PN}-python3 +=3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 ${libdir}/${PYTHON_DIR}/site-packages/libdnf* \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +FILES:${PN}-systemd +=3D &quot;\<br>
+&gt; +=C2=A0 =C2=A0 ${systemd_system_unitdir}/dnf5-offline-transaction.serv=
+ice \<br>
+&gt; +=C2=A0 =C2=A0 ${systemd_system_unitdir}/dnf5-offline-transaction-clea=
+nup.service \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +RRECOMMENDS:${PN}:class-target +=3D &quot;bash-completion gnupg&quot;=
+<br>
+&gt; +RRECOMMENDS:${PN}-test-main =3D &quot;${PN}-test-dep&quot;<br>
+&gt; +ALLOW_EMPTY:${PN}-test-main =3D &quot;1&quot;<br>
+&gt; +ALLOW_EMPTY:${PN}-test-dep =3D &quot;1&quot;<br>
+&gt; +<br>
+&gt; +SKIP_RECIPE[dnf] ?=3D &quot;${@bb.utils.contains(&#39;PACKAGE_CLASSES=
+&#39;, &#39;package_rpm&#39;, &#39;&#39;, &#39;does not build without packa=
+ge_rpm in PACKAGE_CLASSES due disabled rpm support in libsolv&#39;, d)}&quo=
+t;<br>
+<br>
+Since it is being updated, could you please also fix this typo: &quot;due&q=
+uot; -&gt;<br>
+&quot;due to&quot; ?<br></blockquote><div>No problem!=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; +<br>
+&gt; +BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#227470): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/227470" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/227470</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/11671003=
+0/6084445" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
+org/mt/116710030/6084445</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:skandigraun@gmail.com=
+" target=3D"_blank">skandigraun@gmail.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+<br>
+</blockquote></div></div>
+
+--000000000000523c2d06459aeadf--
 
