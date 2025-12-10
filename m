@@ -1,1398 +1,167 @@
-Return-Path: <adam.duskett@amarulasolutions.com>
+Return-Path: <kavinaya@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B4CD3C52B
-	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 11:04:02 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12954.1765364628863918749
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 722A9D3C52B
+	for <webhook@archiver.kernel.org>; Wed, 10 Dec 2025 11:05:12 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12984.1765364706552842916
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Dec 2025 03:03:49 -0800
+ Wed, 10 Dec 2025 03:05:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=A/LCmgBh;
- spf=pass (domain: amarulasolutions.com, ip: 209.85.208.46, mailfrom: adam.duskett@amarulasolutions.com)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6478e8f6bc4so1208679a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 03:03:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1765364627; x=1765969427; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tc2iL/BAgFfnJr8pJGs/EEZ9Xs3HwDhPAwVtn4oxB0Q=;
-        b=A/LCmgBhrEXtMVP3uGn4TgBxy02yDjy+1csh/wd1/kmHYbiT3r+rW0opEAUV9Eg7pK
-         TjrEsbL4TsuJ7MuZLWc1wS9xUeOyQPKRqIu37d2jpu+ZFLT0Z5Ih2cANMhQYgFMSoUal
-         DmF4L8zCHnfE89hPlA/BsyFc+MeYXYCQOjVac=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765364627; x=1765969427;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Tc2iL/BAgFfnJr8pJGs/EEZ9Xs3HwDhPAwVtn4oxB0Q=;
-        b=AfBNPTK3kZmkZF49vVitR8o6VT/GDShjxsRjoMzUfVdQTzJPtdYrDHTQndZyxQakug
-         2k5RLZe5uq3nT7WnozsHf7gzcDaxZFfVoXhLnDzWFK78XB5m5OXY9RXZfNwryKPYccP1
-         E0CycmBWsGfA9PkgkzjDgXNwXeIJYoqSbMZg778pjwBFohoRSr9HZKwmRh6foTuDUbQ0
-         IzMBxu3VHbZ9TujSaKg8pcf//yDHwShZ7/3GxzueoLRyemhwoljRvhFwiJPm7F7txqyy
-         rqI4FAJddQbeakxrNRYxh0FgqBWv505x47QABAbXQlqj4D9I/dY4xfUxorlTxvQdSW2q
-         Kt9g==
-X-Gm-Message-State: AOJu0YwsqQe4yAKq+RJd78rx669MvGj6YIMzKsJZr2/FX8m3noGathU0
-	oc3j05Rtrl+T18CtJTyA2fKU9FAhfBWdLJpls0CeTcmRNQFGhWDrFCnneDdsd8tdHRdApLANd6D
-	2FQcJ
-X-Gm-Gg: AY/fxX4K+xgdKQX1SVX1pKWdOsqOIMrsml/EZszsvomEpwo7OT253Gv5eLBaPFp8gDP
-	k4GJNNAoXGO/xrCr8DrF/kjfPjIY/o3sxUeIjLjCgFPSr30xUuKgFN09l3F0O1yCokiv/pOvCId
-	BO8QxpORp+VNGFLXpvKdnRjg8gBBgKYE9cSgK0zo0LQF14UF8Uw9tWRme4CZaDkztrZnBeyx098
-	nAQeqj+Oq6ZR/D9ggNCyvAPC21uQ5B+L+HcvGqDnotZy6+14/rkNTqCU52/7iJZ8SZSjPxTGj3+
-	zDDBu7WYBaE/zrfQ0pgHN7BhQJWwy69yxxaSUK4oEVd0du1zbyhrVzzJ9g7Qfd1Bbl/z993psxt
-	LMVRkTqT2uoCJRothy0Hd+WcxEd/35HP6wgL0QVaIbKDvemGKr2Fnv/yFRs0b8LLqNxNok9AMm+
-	dCsG4vo3CkiDMXMJJiabeSot2bg0CgYl3Bgc1fIhh6+q7/dmeK4q9N0SE5VhFYHxahBxK1wGomm
-	0l7j4FTpg52r2/eYqjw8/HzFmbD+PW12VQjWIdF2irMp2NgxAM5
-X-Google-Smtp-Source: AGHT+IEGU5MaLTTQrC3elUGIxi9EmAJ/Yd9fqmJYdOe++w/GLXe4wcHLbz7tu48byeUZp3R9c//zbg==
-X-Received: by 2002:a05:6402:254d:b0:645:e986:5f08 with SMTP id 4fb4d7f45d1cf-6496d5d0b12mr1075329a12.8.1765364626527;
-        Wed, 10 Dec 2025 03:03:46 -0800 (PST)
-Received: from adam.arnhem.chello.nl (2001-1c00-8101-1200-3ddc-5bb8-0efa-16f1.cable.dynamic.v6.ziggo.nl. [2001:1c00:8101:1200:3ddc:5bb8:efa:16f1])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-647b2ec31a7sm16227636a12.2.2025.12.10.03.03.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 03:03:45 -0800 (PST)
-From: Adam Duskett <adam.duskett@amarulasolutions.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
-Subject: [PATCH 5/5] dnf5: bump to 5.3.0.0
-Date: Wed, 10 Dec 2025 12:03:40 +0100
-Message-ID: <20251210110340.3631065-5-adam.duskett@amarulasolutions.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251210110340.3631065-1-adam.duskett@amarulasolutions.com>
-References: <20251210110340.3631065-1-adam.duskett@amarulasolutions.com>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=YuPTOTcm;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: kavinaya@qti.qualcomm.com)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BA8e0DW1917966
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 11:05:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=pfeMH12EP3iA5jsqMTksvJ
+	Tvk60av/JCfp/8jLbQKqY=; b=YuPTOTcm3Amc737Ufthu7QgEUEOgGn0z6XVFZu
+	C//+K7lf+Pb1qOUwB+rKOjd0sc9LlHhA1JpgolOPIwh8TU/5L7Dl0bGonfi1nqIo
+	XMu5av31rf4JdbAQVL/0qZzrI9VkqeKI9pBqQX5asVUseqauk9rLkMvCOOCH92dX
+	sNwJuV0bvxz7stR/QBgsbSCd1G7rONvXaBp2b/kgq4XRbmj0/v6FJR7T8FHth8FN
+	VvMLpbCkuOsOjaKjX9jurqYDcKvOh8MkydJhLyoNy0hu5xwJX9jpkb60lDCvAYPZ
+	5SNwO7n5DEyU6sz/rvaa9+QD006ILrlze4VZF4HJO+KQxVAg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ay1xp153t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 11:05:05 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5BAB55Vl022392
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 11:05:05 GMT
+Received: from hu-kavinaya-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Wed, 10 Dec 2025 03:05:03 -0800
+From: Kavinaya S <kavinaya@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Kavinaya S <kavinaya@qti.qualcomm.com>
+Subject: [PATCH v2] fitimage: Add support for UBOOT_MKIMAGE_EXTRA_OPTS
+Date: Wed, 10 Dec 2025 16:34:43 +0530
+Message-ID: <20251210110443.3230272-1-kavinaya@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEwMDA4NyBTYWx0ZWRfX2gB9TJ8A+VYH
+ mwngTtknI/np8f4hgjMVAV00oiBXkWguA/5zXnmfsAolYdEiCc9v+ATpjeAEwCnrZG23uJ9Lc42
+ 13gvhWquyZZokzZ3zrWQGAvRL6o5Dk+MLiCnDAou6IdLUSeIOo71AcXYOJI4kuEtKz4oUWXsJhM
+ ToCkCwW4O0wPXYfsdJBkdfrjF5q3KQUGJUSfK6y2no7U7kh7IK/YpvbS8Rt6Ce+QoMG6j96XyM8
+ UpyTD+CixR29lDQ1dHR5X6B1kBnbLDtU6QOGUNxqgY7XOak3lgZgfwORuaUuywsrIRvJ/YqJa/D
+ ovnUgZdvbayhEvax56bn7mUdiBqxYdUv/2raOP9FNNSFQE0btfcil7wGiXVv6Aa4SuR0es8MCrF
+ W6h50yG0DIOqbnABNAMmZHYi8XaqsA==
+X-Proofpoint-ORIG-GUID: ftIS93ImaLwY2CXQoDsAZgM5EmYydJIL
+X-Proofpoint-GUID: ftIS93ImaLwY2CXQoDsAZgM5EmYydJIL
+X-Authority-Analysis: v=2.4 cv=A/Zh/qWG c=1 sm=1 tr=0 ts=693953e2 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=TlCpYMT3hOQbURhLKdoA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-09_05,2025-12-09_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 adultscore=0 spamscore=0 malwarescore=0
+ bulkscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512100087
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 11:04:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227470
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Dec 2025 11:05:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227471
 
-Completely rewritten in C++, there are several changes needed
-to facilitate moving from DNF4 to DNF5. Below are some significant
-items to note:
+Currently, mkimage options in U-Boot recipes are fixed, which limits
+flexibility for platforms that require additional mkimage arguments.
+Introduce UBOOT_MKIMAGE_EXTRA_OPTS to allow passing extra options to
+mkimage during image generation.
 
-    - The "-v/--verbose" cli option is removed. As such, remove the argument
-    everywhere it was called.[1]
+This is a generic need because different SoCs and boot configurations
+often require mkimage flags beyond the defaults. For example:
+- `-E` enables external data in FIT images, which is essential for
+  modular boot setups, secure boot workflows, and reducing image size.
+- `-B 8` enforces 8-byte alignment, ensuring compatibility with boot
+  ROM requirements, improving memory access efficiency, and supporting
+  predictable offsets for multi-component FIT images.
 
-    - the rpmverbosity cli option is replaced with --setopt=rpmverbosity
+By exposing this variable, we provide a clean and extensible mechanism
+for developers to meet hardware-specific and security requirements
+without hardcoding options in recipes.
 
-    - Change gpgcheck to pkg_gpgcheck as this is what the documentation
-    recommends.[2]
+Example:
 
-    - --nogpgcheck is now --no-gpgchecks
+UBOOT_MKIMAGE_EXTRA_OPTS = "-B 8 -E"
+will result in the mkimage command being invoked as:
+`mkimage -B 8 -E -f fitImage.its fitImage.itb`
 
-    - --setopt=protect_running_kernel=False has to be set or else every dnf
-    transaction complains that /boot/vmlinuz-${kernel_version} does not
-    exist in /var/log/dnf5.log. There is an open issue on github[3] to enable
-    the currently not-yet implemented `autocheck_running_kernel option`, but
-    it has been open for quite some time and the protect_running_kernel
-    option supresses the message.
-
-    - /var/cache/dnf is replaced with /var/cache/libdnf5
-
-    - Add `features += 'PACKAGECONFIG:append:pn-rpm = " sequoia"\n'`
-          ``features += 'PACKAGECONFIG:append:pn-librepo = " sequoia"\n'`
-      to test_testimage_dnf as librepo currently does not work
-      with gpgme.
-
-While DNF5 has many config options, unfortunately, the majority
-of them depends on sdbus-c++, which is not included in OE-core.
-However, the package is included in meta-openembedded, so it's
-best to include the PACKAGECONFIG options in the recipe and
-leave them off.
-
-1: https://github.com/rpm-software-management/dnf5/issues/464
-2: https://dnf5.readthedocs.io/en/latest/dnf5.conf.5.html
-3: https://github.com/rpm-software-management/dnf5/issues/1255
-
-Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
+Signed-off-by: Kavinaya S <kavinaya@qti.qualcomm.com>
 ---
- .../lib/oeqa/runtime/cases/dnf_runtime.py     |   6 +-
- meta/conf/distro/include/maintainers.inc      |   2 +-
- meta/lib/oe/package_manager/rpm/__init__.py   |  13 +-
- meta/lib/oeqa/runtime/cases/dnf.py            |  16 +-
- meta/lib/oeqa/selftest/cases/runtime_test.py  |   5 +
- ...tly-install-tmpfiles.d-configuration.patch |  18 --
- ...ode-etc-and-systemd-unit-directories.patch |  26 ---
- ...-hardcode-the-systemd-unit-directory.patch |  29 +++
- .../0001-dnf-write-the-log-lock-to-root.patch |  29 ---
- .../0001-lock.py-fix-Exception-handling.patch |  62 ------
- ...et-python-path-for-completion_helper.patch |  21 --
- .../dnf/0002-cmake-set-CMP0190-to-OLD.patch   |  51 +++++
- ...0003-Do-not-hardcode-system_cachedir.patch |  36 ++++
- ...004-add-support-for-gcc-12-and-below.patch |  96 +++++++++
- ...Do-not-prepend-installroot-to-logdir.patch |  28 ---
- ...string-concatenation-errors-for-musl.patch | 100 +++++++++
- .../0006-add-missing-headers-for-musl.patch   |  41 ++++
- .../0007-Define-FNM_EXTMATCH-for-musl.patch   |  36 ++++
- ...rm-arch-mapping-issues-for-qemuarmv5.patch |  59 ++++++
- ...PYTHON_INSTALL_DIR-by-running-python.patch |  24 ---
- .../0030-Run-python-scripts-using-env.patch   |  34 ---
- meta/recipes-devtools/dnf/dnf_4.24.0.bb       |  96 ---------
- meta/recipes-devtools/dnf/dnf_5.3.0.0.bb      | 196 ++++++++++++++++++
- 23 files changed, 670 insertions(+), 354 deletions(-)
- delete mode 100644 meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
- delete mode 100644 meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-the-systemd-unit-directory.patch
- delete mode 100644 meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch
- delete mode 100644 meta/recipes-devtools/dnf/dnf/0001-lock.py-fix-Exception-handling.patch
- delete mode 100644 meta/recipes-devtools/dnf/dnf/0001-set-python-path-for-completion_helper.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0002-cmake-set-CMP0190-to-OLD.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0003-Do-not-hardcode-system_cachedir.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0004-add-support-for-gcc-12-and-below.patch
- delete mode 100644 meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0005-fix-string-concatenation-errors-for-musl.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0006-add-missing-headers-for-musl.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0007-Define-FNM_EXTMATCH-for-musl.patch
- create mode 100644 meta/recipes-devtools/dnf/dnf/0008-libdnf-fix-arm-arch-mapping-issues-for-qemuarmv5.patch
- delete mode 100644 meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
- delete mode 100644 meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
- delete mode 100644 meta/recipes-devtools/dnf/dnf_4.24.0.bb
- create mode 100644 meta/recipes-devtools/dnf/dnf_5.3.0.0.bb
+ meta/classes-recipe/kernel-fit-image.bbclass | 1 +
+ meta/conf/image-fitimage.conf                | 3 +++
+ meta/lib/oe/fitimage.py                      | 3 +++
+ 3 files changed, 7 insertions(+)
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-index d2f0f88f7d..27158b5193 100644
---- a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-+++ b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-@@ -41,11 +41,11 @@ class DnfSelftest(DnfTest):
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
+index fd0d21ceee..5456311f00 100644
+--- a/meta/classes-recipe/kernel-fit-image.bbclass
++++ b/meta/classes-recipe/kernel-fit-image.bbclass
+@@ -56,6 +56,7 @@ python do_compile() {
+         d.getVar('HOST_PREFIX'), d.getVar('UBOOT_ARCH'),  d.getVar("FIT_CONF_PREFIX"),
+         oe.types.boolean(d.getVar('FIT_KERNEL_SIGN_ENABLE')), d.getVar("FIT_KERNEL_SIGN_KEYDIR"),
+         d.getVar("UBOOT_MKIMAGE"), d.getVar("UBOOT_MKIMAGE_DTCOPTS"),
++        d.getVar('UBOOT_MKIMAGE_EXTRA_OPTS'),
+         d.getVar("UBOOT_MKIMAGE_SIGN"), d.getVar("UBOOT_MKIMAGE_SIGN_ARGS"),
+         d.getVar('FIT_HASH_ALG'), d.getVar('FIT_SIGN_ALG'), d.getVar('FIT_PAD_ALG'),
+         d.getVar('FIT_KERNEL_SIGN_KEYNAME'),
+diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.conf
+index 090ee148f4..e470adad5c 100644
+--- a/meta/conf/image-fitimage.conf
++++ b/meta/conf/image-fitimage.conf
+@@ -47,6 +47,9 @@ FIT_LINUX_BIN ?= "linux.bin"
+ # Allow user to select the default DTB for FIT image when multiple dtb's exists.
+ FIT_CONF_DEFAULT_DTB ?= ""
  
-         import re
-         # Use '-y' for non-interactive mode: automatically import the feed signing key
--        output_makecache = self.dnf('-vy makecache')
-+        output_makecache = self.dnf('-y makecache')
-         self.assertTrue(re.match(r".*Failed to synchronize cache", output_makecache, re.DOTALL) is None, msg = "dnf makecache failed to synchronize repo: %s" %(output_makecache))
-         self.assertTrue(re.match(r".*Metadata cache created", output_makecache, re.DOTALL) is not None, msg = "dnf makecache failed: %s" %(output_makecache))
- 
--        output_repoinfo = self.dnf('-v repoinfo')
--        matchobj = re.match(r".*Repo-pkgs\s*:\s*(?P<n_pkgs>[0-9]+)", output_repoinfo, re.DOTALL)
-+        output_repoinfo = self.dnf('repoinfo')
-+        matchobj = re.match(r".*Total packages\s*:\s*(?P<n_pkgs>[0-9]+)", output_repoinfo, re.DOTALL)
-         self.assertTrue(matchobj is not None, msg = "Could not find the amount of packages in dnf repoinfo output: %s" %(output_repoinfo))
-         self.assertTrue(int(matchobj.group('n_pkgs')) > 0, msg = "Amount of remote packages is not more than zero: %s\n" %(output_repoinfo))
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 8971b9b552..c6256f823d 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -155,7 +155,7 @@ RECIPE_MAINTAINER:pn-diffutils = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-distcc = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER:pn-distcc-config = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-dmidecode = "Unassigned <unassigned@yoctoproject.org>"
--RECIPE_MAINTAINER:pn-dnf = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-dnf = "Adam Duskett <adam.duskett@amarulasolutions.com>"
- RECIPE_MAINTAINER:pn-docbook-xml-dtd4 = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-docbook-xsl-stylesheets = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-dos2unix = "Khem Raj <raj.khem@gmail.com>"
-diff --git a/meta/lib/oe/package_manager/rpm/__init__.py b/meta/lib/oe/package_manager/rpm/__init__.py
-index 1d831745ff..12e8bb76ef 100644
---- a/meta/lib/oe/package_manager/rpm/__init__.py
-+++ b/meta/lib/oe/package_manager/rpm/__init__.py
-@@ -163,7 +163,7 @@ class RpmPM(PackageManager):
-             gpg_opts += 'gpgkey=file://%s/pki/packagefeed-gpg/PACKAGEFEED-GPG-KEY-%s-%s\n' % (self.d.getVar('sysconfdir'), self.d.getVar('DISTRO'), self.d.getVar('DISTRO_CODENAME'))
- 
-         if self.d.getVar('RPM_SIGN_PACKAGES') != '1':
--            gpg_opts += 'gpgcheck=0\n'
-+            gpg_opts += 'pkg_gpgcheck=0\n'
- 
-         bb.utils.mkdirhier(oe.path.join(self.target_rootfs, "etc", "yum.repos.d"))
-         remote_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
-@@ -203,7 +203,7 @@ class RpmPM(PackageManager):
-         output = self._invoke_dnf((["--skip-broken"] if attempt_only else []) +
-                          (["-x", ",".join(exclude_pkgs)] if len(exclude_pkgs) > 0 else []) +
-                          (["--setopt=install_weak_deps=False"] if (hard_depends_only or self.d.getVar('NO_RECOMMENDATIONS') == "1") else []) +
--                         (["--nogpgcheck"] if self.d.getVar('RPM_SIGN_PACKAGES') != '1' else ["--setopt=gpgcheck=True"]) +
-+                         (["--no-gpgchecks"] if self.d.getVar('RPM_SIGN_PACKAGES') != '1' else ["--setopt=pkg_gpgcheck=True"]) +
-                          ["install"] +
-                          pkgs)
- 
-@@ -313,10 +313,15 @@ class RpmPM(PackageManager):
-     def _invoke_dnf(self, dnf_args, fatal = True, print_output = True ):
-         os.environ['RPM_ETCCONFIGDIR'] = self.target_rootfs
- 
-+        # Set XDG_CACHE_HOME to avoid dnf attempting to install oe-repo system cache to a /tmp/ directory on the host.
-+        os.environ['XDG_CACHE_HOME'] = oe.path.join(os.path.join(self.target_rootfs, "var/cache/libdnf5"))
-+
-         dnf_cmd = bb.utils.which(os.getenv('PATH'), "dnf")
--        standard_dnf_args = ["-v", "--rpmverbosity=info", "-y",
--                             "-c", oe.path.join(self.target_rootfs, "etc/dnf/dnf.conf"),
-+        standard_dnf_args = ["-y",
-+                             "--config", oe.path.join(self.target_rootfs, "etc/dnf/dnf.conf"),
-+                             "--setopt=rpmverbosity=info",
-                              "--setopt=reposdir=%s" %(oe.path.join(self.target_rootfs, "etc/yum.repos.d")),
-+                             "--setopt=pluginconfpath=%s" %(os.path.join(self.d.getVar('STAGING_DIR_NATIVE'), "etc/dnf/dnf.conf")),
-                              "--installroot=%s" % (self.target_rootfs),
-                              "--setopt=logdir=%s" % (self.d.getVar('T'))
-                             ]
-diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
-index 3ccb18ce83..1becc8d8a0 100644
---- a/meta/lib/oeqa/runtime/cases/dnf.py
-+++ b/meta/lib/oeqa/runtime/cases/dnf.py
-@@ -17,7 +17,7 @@ from oeqa.runtime.decorator.package import OEHasPackage
- class DnfTest(OERuntimeTestCase):
- 
-     def dnf(self, command, expected = 0):
--        command = 'dnf %s' % command
-+        command = 'dnf --setopt=protect_running_kernel=False %s' % command
-         status, output = self.target.run(command, 1500)
-         message = os.linesep.join([command, output])
-         self.assertEqual(status, expected, message)
-@@ -48,7 +48,7 @@ class DnfBasicTest(DnfTest):
- 
-     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
-     def test_dnf_history(self):
--        self.dnf('history')
-+        self.dnf('history list')
- 
- class DnfRepoTest(DnfTest):
- 
-@@ -68,7 +68,7 @@ class DnfRepoTest(DnfTest):
-         deploy_url = 'http://%s:%s/' %(self.target.server_ip, self.repo_server.port)
-         cmdlinerepoopts = ["--repofrompath=oe-testimage-repo-%s,%s%s" %(arch, deploy_url, arch) for arch in pkgarchs]
- 
--        output = self.dnf(" ".join(cmdlinerepoopts) + " --nogpgcheck " + command)
-+        output = self.dnf(" ".join(cmdlinerepoopts) + " --no-gpgchecks " + command)
-         return output
- 
-     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
-@@ -96,7 +96,7 @@ class DnfRepoTest(DnfTest):
-     def test_dnf_install_from_disk(self):
-         self.dnf_with_repo('remove -y dnf-test-dep')
-         self.dnf_with_repo('install -y --downloadonly dnf-test-dep')
--        status, output = self.target.run('find /var/cache/dnf -name dnf-test-dep*rpm')
-+        status, output = self.target.run('find /var/cache/libdnf5 -name dnf-test-dep*rpm')
-         self.assertEqual(status, 0, output)
-         self.dnf_with_repo('install -y %s' % output)
- 
-@@ -134,8 +134,8 @@ class DnfRepoTest(DnfTest):
-         self.target.run('cp -r /etc/dnf %s/etc' % rootpath, 1500)
-         self.target.run('cp /bin/sh %s/bin' % rootpath, 1500)
-         self.target.run('mount -o bind /dev %s/dev/' % rootpath, 1500)
--        self.dnf_with_repo('install --installroot=%s -v -y --rpmverbosity=debug busybox' % rootpath)
--        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
-+        self.dnf_with_repo('install --installroot=%s -y busybox' % rootpath)
-+        status, output = self.target.run('test -e %s/var/cache/libdnf5' % rootpath, 1500)
-         self.assertEqual(0, status, output)
-         status, output = self.target.run('test -e %s/bin/busybox' % rootpath, 1500)
-         self.assertEqual(0, status, output)
-@@ -158,8 +158,8 @@ class DnfRepoTest(DnfTest):
-         self.target.run('cp -r /etc/dnf %s/etc' % rootpath)
-         self.target.run('cp /bin/busybox %s/bin/sh' % rootpath)
-         self.target.run('mount -o bind /dev %s/dev/' % rootpath)
--        self.dnf_with_repo('install --installroot=%s -v -y --rpmverbosity=debug busybox' % rootpath)
--        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath)
-+        self.dnf_with_repo('install --installroot=%s -y busybox' % rootpath)
-+        status, output = self.target.run('test -e %s/var/cache/libdnf5' % rootpath)
-         self.assertEqual(0, status, output)
-         status, output = self.target.run('test -e %s/bin/busybox' % rootpath)
-         self.assertEqual(0, status, output)
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index d58ffa80f5..f6d441b50a 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -163,6 +163,11 @@ TEST_RUNQEMUPARAMS += " slirp"
-         features += 'EXTRA_IMAGE_FEATURES += "package-management"\n'
-         features += 'PACKAGE_CLASSES = "package_rpm"\n'
- 
-+        # librepo and rpm require sequoia
-+        # https://github.com/rpm-software-management/dnf5/issues/2539
-+        features += 'PACKAGECONFIG:append:pn-rpm = " sequoia"\n'
-+        features += 'PACKAGECONFIG:append:pn-librepo = " sequoia"\n'
-+
-         bitbake('gnupg-native -c addto_recipe_sysroot')
- 
-         # Enable package feed signing
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch b/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
-deleted file mode 100644
-index fd942228b9..0000000000
---- a/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
-+++ /dev/null
-@@ -1,18 +0,0 @@
--From f70eb308c837f2c944e23bb680a501a605004d65 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 26 Jan 2017 16:36:20 +0200
--Subject: [PATCH] Corretly install tmpfiles.d configuration
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- etc/tmpfiles.d/CMakeLists.txt | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/etc/tmpfiles.d/CMakeLists.txt b/etc/tmpfiles.d/CMakeLists.txt
--index f69c773e..3eb6d0e8 100644
----- a/etc/tmpfiles.d/CMakeLists.txt
--+++ b/etc/tmpfiles.d/CMakeLists.txt
--@@ -1 +1 @@
---INSTALL (FILES dnf.conf DESTINATION /usr/lib/tmpfiles.d/)
--+INSTALL (FILES dnf.conf DESTINATION ${SYSCONFDIR}/tmpfiles.d/)
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-deleted file mode 100644
-index 9d978cdc5f..0000000000
---- a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--From c2b2b91b58f4531d4baf0a01f5d868d71e577a84 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 26 Jan 2017 16:25:47 +0200
--Subject: [PATCH] Do not hardcode /etc and systemd unit directories
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- CMakeLists.txt | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index e71e9517..8fcb2069 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -3,8 +3,8 @@ PROJECT (dnf NONE)
-- 
-- INCLUDE (${CMAKE_SOURCE_DIR}/VERSION.cmake)
-- 
---SET( SYSCONFDIR /etc)
---SET( SYSTEMD_DIR /usr/lib/systemd/system)
--+SET( SYSCONFDIR ${CMAKE_INSTALL_SYSCONFDIR})
--+SET( SYSTEMD_DIR $ENV{systemd_system_unitdir})
-- 
-- IF (NOT PYTHON_DESIRED)
--     FIND_PACKAGE (PythonInterp REQUIRED)
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-the-systemd-unit-directory.patch b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-the-systemd-unit-directory.patch
-new file mode 100644
-index 0000000000..f82a0fca3c
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-the-systemd-unit-directory.patch
-@@ -0,0 +1,29 @@
-+From c263a746dac19d140fb31d07f1c4d4cb96750666 Mon Sep 17 00:00:00 2001
-+From: Adam Duskett <adam.duskett@amarulasolutions.com>
-+Date: Thu, 27 Nov 2025 11:07:48 +0100
-+Subject: [PATCH] Do not hardcode the systemd unit directory
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+
-+Rebased for 5.3.0.0
-+Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-+---
-+ CMakeLists.txt | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 0507e30..0537e85 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -7,7 +7,7 @@ project(dnf5 LANGUAGES CXX C VERSION ${VERSION_PRIME}.${VERSION_MAJOR}.${VERSION
-+ cmake_policy(VERSION ${CMAKE_VERSION})
-+ 
-+ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-+-set(SYSTEMD_DIR "/usr/lib/systemd/system")
-++set(SYSTEMD_DIR $ENV{systemd_system_unitdir})
-+ 
-+ message("Building ${PROJECT_NAME} version ${PROJECT_VERSION}")
-+ 
-+-- 
-+2.52.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch b/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch
-deleted file mode 100644
-index 18f9a30949..0000000000
---- a/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 049e2832284ab883e185d9020c881518a68e6c38 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 28 Apr 2020 15:55:00 +0200
--Subject: [PATCH] dnf: write the log lock to root
--
--Writing it to /var/log appears to be racing with installation
--of base-files, and if lock is created first, base-files
--will refuse to install (due to the target directory
--already existing, and base-files creating it as a symlink).
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- dnf/logging.py | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/dnf/logging.py b/dnf/logging.py
--index ef0b25f3..94610af6 100644
----- a/dnf/logging.py
--+++ b/dnf/logging.py
--@@ -118,7 +118,7 @@ class MultiprocessRotatingFileHandler(logging.handlers.RotatingFileHandler):
--     def __init__(self, filename, mode='a', maxBytes=0, backupCount=0, encoding=None, delay=False):
--         super(MultiprocessRotatingFileHandler, self).__init__(
--             filename, mode, maxBytes, backupCount, encoding, delay)
---        self.rotate_lock = dnf.lock.build_log_lock("/var/log/", True)
--+        self.rotate_lock = dnf.lock.build_log_lock("/", True)
-- 
--     def emit(self, record):
--         while True:
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-lock.py-fix-Exception-handling.patch b/meta/recipes-devtools/dnf/dnf/0001-lock.py-fix-Exception-handling.patch
-deleted file mode 100644
-index 6bffe9af0a..0000000000
---- a/meta/recipes-devtools/dnf/dnf/0001-lock.py-fix-Exception-handling.patch
-+++ /dev/null
-@@ -1,62 +0,0 @@
--From 3881757eabfde2ff54400ab127b106ab085d83f0 Mon Sep 17 00:00:00 2001
--From: Changqing Li <changqing.li@windriver.com>
--Date: Wed, 13 Mar 2024 11:22:05 +0800
--Subject: [PATCH] lock.py: fix Exception handling
--
--Before, when logdir is not writable, _try_lock will raise an Exception
--like "Permission denied: '/var/log/log_lock.pid'", and in this case,
--_unlock_thread will not be called and the variable count will not be
--handled, it maybe cause log_lock.pid not be deleted in case like [1].
--
--For [1], it is an cross compile case, when dnf install some packages to
--rootfs, seems like some threads don't do chroot like work, some threads
--do chroot like work. so for the threads don't do chroot, "Permission denied"
--Exception happend, for the threads that do chroot, log_lock.pid will be
--created under installroot/var/log/log_lock.pid, since variable count not
--handled correct before, log_lock.pid may not be deleted correctly.
--
--So fixed like this, if _try_lock raise Exception, _unlock_thread first,
--then raise the Exception.
--
--[1] https://github.com/rpm-software-management/dnf/issues/1963
--
--Upstream-Status: Submitted [ https://github.com/rpm-software-management/dnf/pull/2065 ]
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- dnf/lock.py | 12 ++++++++++--
-- 1 file changed, 10 insertions(+), 2 deletions(-)
--
--diff --git a/dnf/lock.py b/dnf/lock.py
--index 6817aac9..5718062a 100644
----- a/dnf/lock.py
--+++ b/dnf/lock.py
--@@ -128,7 +128,11 @@ class ProcessLock(object):
--         self._lock_thread()
--         prev_pid = -1
--         my_pid = os.getpid()
---        pid = self._try_lock(my_pid)
--+        try:
--+            pid = self._try_lock(my_pid)
--+        except Exception:
--+            self._unlock_thread()
--+            raise
--         while pid != my_pid:
--             if pid != -1:
--                 if not self.blocking:
--@@ -140,7 +144,11 @@ class ProcessLock(object):
--                     logger.info(msg)
--                     prev_pid = pid
--             time.sleep(1)
---            pid = self._try_lock(my_pid)
--+            try:
--+                pid = self._try_lock(my_pid)
--+            except Exception:
--+                self._unlock_thread()
--+                raise
-- 
--     def __exit__(self, *exc_args):
--         if self.count == 1:
---- 
--2.25.1
--
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-set-python-path-for-completion_helper.patch b/meta/recipes-devtools/dnf/dnf/0001-set-python-path-for-completion_helper.patch
-deleted file mode 100644
-index fcd970a7ae..0000000000
---- a/meta/recipes-devtools/dnf/dnf/0001-set-python-path-for-completion_helper.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--From fa32c7dcabaa3c00d3620a3266e49629365c0cbe Mon Sep 17 00:00:00 2001
--From: Jeremy Puhlman <jpuhlman@mvista.com>
--Date: Wed, 11 Mar 2020 22:10:02 +0000
--Subject: [PATCH] set python path for completion_helper
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-----
-- dnf/cli/completion_helper.py.in | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/dnf/cli/completion_helper.py.in b/dnf/cli/completion_helper.py.in
--index 0da0f2a2..9330d15b 100644
----- a/dnf/cli/completion_helper.py.in
--+++ b/dnf/cli/completion_helper.py.in
--@@ -1,4 +1,4 @@
---#!@PYTHON_EXECUTABLE@
--+#!/usr/bin/env python3
-- #
-- # This file is part of dnf.
-- #
-diff --git a/meta/recipes-devtools/dnf/dnf/0002-cmake-set-CMP0190-to-OLD.patch b/meta/recipes-devtools/dnf/dnf/0002-cmake-set-CMP0190-to-OLD.patch
-new file mode 100644
-index 0000000000..3ac3923956
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0002-cmake-set-CMP0190-to-OLD.patch
-@@ -0,0 +1,51 @@
-+From 8eb5a6208fd9edfa7796d974b2e5256b05ffe001 Mon Sep 17 00:00:00 2001
-+From: Adam Duskett <adam.duskett@amarulasolutions.com>
-+Date: Thu, 27 Nov 2025 11:49:43 +0100
-+Subject: [PATCH] cmake: set CMP0190 to OLD
-+
-+Starting with CMake 4.1, cross-compiling python3 requires setting
-+-DCMAKE_CROSSCOMPILING_EMULATOR which can be done by inheriting
-+cmake-qemu. However, this leads to the following error:
-+Interpreter: Cannot run the interpreter ".../python3-native/python3"
-+
-+This is due to the target sysroot python3 binary not being installed
-+because it can't be executed.
-+
-+Set CMP0190 to old to force the old behavior.
-+
-+https://cmake.org/cmake/help/latest/policy/CMP0190.html
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-+---
-+ bindings/python3/CMakeLists.txt                      | 1 +
-+ libdnf5-plugins/python_plugins_loader/CMakeLists.txt | 1 +
-+ 2 files changed, 2 insertions(+)
-+
-+diff --git a/bindings/python3/CMakeLists.txt b/bindings/python3/CMakeLists.txt
-+index fa7033d..4bfa434 100644
-+--- a/bindings/python3/CMakeLists.txt
-++++ b/bindings/python3/CMakeLists.txt
-+@@ -6,6 +6,7 @@ endif()
-+ message("Building bindings for python3")
-+ 
-+ 
-++cmake_policy(SET CMP0190 OLD)
-+ find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
-+ include_directories(${Python3_INCLUDE_DIRS})
-+ 
-+diff --git a/libdnf5-plugins/python_plugins_loader/CMakeLists.txt b/libdnf5-plugins/python_plugins_loader/CMakeLists.txt
-+index 5454a5d..d4a9915 100644
-+--- a/libdnf5-plugins/python_plugins_loader/CMakeLists.txt
-++++ b/libdnf5-plugins/python_plugins_loader/CMakeLists.txt
-+@@ -6,6 +6,7 @@ if(NOT WITH_PYTHON_PLUGINS_LOADER)
-+     return()
-+ endif()
-+ 
-++cmake_policy(SET CMP0190 OLD)
-+ find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
-+ find_package(SWIG REQUIRED)
-+ include_directories(${Python3_INCLUDE_DIRS})
-+-- 
-+2.52.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0003-Do-not-hardcode-system_cachedir.patch b/meta/recipes-devtools/dnf/dnf/0003-Do-not-hardcode-system_cachedir.patch
-new file mode 100644
-index 0000000000..825368b760
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0003-Do-not-hardcode-system_cachedir.patch
-@@ -0,0 +1,36 @@
-+From d0718ed10c1c255850fff5922f533bceef10f659 Mon Sep 17 00:00:00 2001
-+From: Adam Duskett <adam.duskett@amarulasolutions.com>
-+Date: Thu, 27 Nov 2025 11:50:20 +0100
-+Subject: [PATCH] Do not hardcode system_cachedir
-+
-+Because dnf is ran in a fakeroot environment, the UID of the
-+"user" is 0, and the hardcoded paths to the host system are
-+attempted, leading to the following error:
-+
-+[log_check] DEBUG: Failed to expire repository cache in path "/var/cache/libdnf5/
-+
-+Remove the check for geteuid() == 0 and rely only on the
-+user cache dir.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-+---
-+ libdnf5/conf/config_main.cpp | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libdnf5/conf/config_main.cpp b/libdnf5/conf/config_main.cpp
-+index a83e4a2..ebdea4d 100644
-+--- a/libdnf5/conf/config_main.cpp
-++++ b/libdnf5/conf/config_main.cpp
-+@@ -237,7 +237,7 @@ class ConfigMain::Impl {
-+     // Repo main config
-+ 
-+     OptionNumber<std::uint32_t> retries{10};
-+-    OptionPath cachedir{geteuid() == 0 ? SYSTEM_CACHEDIR : libdnf5::xdg::get_user_cache_dir() / "libdnf5"};
-++    OptionPath cachedir{libdnf5::xdg::get_user_cache_dir() / "libdnf5"};
-+     OptionBool fastestmirror{false};
-+     OptionStringAppendList excludeenvs{std::vector<std::string>{}};
-+     OptionStringAppendList excludegroups{std::vector<std::string>{}};
-+-- 
-+2.52.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0004-add-support-for-gcc-12-and-below.patch b/meta/recipes-devtools/dnf/dnf/0004-add-support-for-gcc-12-and-below.patch
-new file mode 100644
-index 0000000000..e0684434b1
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0004-add-support-for-gcc-12-and-below.patch
-@@ -0,0 +1,96 @@
-+From cb0a8fcf3676dcebc87880872ea5b4ddfadd9c5c Mon Sep 17 00:00:00 2001
-+From: Adam Duskett <adam.duskett@amarulasolutions.com>
-+Date: Thu, 27 Nov 2025 11:08:41 +0100
-+Subject: [PATCH] add support for gcc 12 and below
-+
-+  - Add missing headers for gcc <= 12
-+  - Add support for libfmt if the format header is not found
-+
-+Note: This patch should be removed once the minimum GCC version
-+for Yocto is >= 13.
-+  
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-+---
-+ libdnf5/CMakeLists.txt                  | 8 ++++++++
-+ libdnf5/base/goal_elements.cpp          | 2 +-
-+ libdnf5/conf/config_main.cpp            | 8 ++++++++
-+ libdnf5/logger/memory_buffer_logger.cpp | 1 +
-+ 4 files changed, 18 insertions(+), 1 deletion(-)
-+
-+diff --git a/libdnf5/CMakeLists.txt b/libdnf5/CMakeLists.txt
-+index fa4c9d1..06a1f01 100644
-+--- a/libdnf5/CMakeLists.txt
-++++ b/libdnf5/CMakeLists.txt
-+@@ -7,6 +7,9 @@ if (NOT WITH_MODULEMD)
-+     list(REMOVE_ITEM LIBDNF5_SOURCES ${LIBDNF5_SOURCES_MODULES})
-+ endif()
-+ 
-++include(CheckIncludeFileCXX)
-++check_include_file_cxx("format" CXX_FORMAT_SUPPORT)
-++
-+ # create config header file
-+ configure_file("config.h.in" ${CMAKE_CURRENT_SOURCE_DIR}/conf/config.h)
-+ 
-+@@ -47,6 +50,11 @@ set_target_properties(libdnf5 PROPERTIES OUTPUT_NAME "dnf5")
-+ set_target_properties(libdnf5 PROPERTIES SOVERSION ${DNF_SO_VERSION})
-+ # required to have dlopen symbol
-+ target_link_libraries(libdnf5 PUBLIC ${CMAKE_DL_LIBS})
-++if (NOT CXX_FORMAT_SUPPORT)
-++	find_package(fmt REQUIRED)
-++	target_link_libraries(libdnf5_obj PRIVATE fmt::fmt)
-++	target_compile_definitions(libdnf5_obj PUBLIC USE_FMTLIB)
-++endif()
-+ 
-+ # required by clang
-+ target_link_libraries(libdnf5 PUBLIC stdc++)
-+diff --git a/libdnf5/base/goal_elements.cpp b/libdnf5/base/goal_elements.cpp
-+index 9caaf54..572f327 100644
-+--- a/libdnf5/base/goal_elements.cpp
-++++ b/libdnf5/base/goal_elements.cpp
-+@@ -17,7 +17,7 @@
-+ // You should have received a copy of the GNU Lesser General Public License
-+ // along with libdnf.  If not, see <https://www.gnu.org/licenses/>.
-+ 
-+-
-++#include <optional>
-+ #include "libdnf5/base/goal_elements.hpp"
-+ 
-+ #include "libdnf5/common/exception.hpp"
-+diff --git a/libdnf5/conf/config_main.cpp b/libdnf5/conf/config_main.cpp
-+index ebdea4d..a93b545 100644
-+--- a/libdnf5/conf/config_main.cpp
-++++ b/libdnf5/conf/config_main.cpp
-+@@ -37,9 +37,17 @@
-+ #include <algorithm>
-+ #include <array>
-+ #include <cctype>
-++#include <optional>
-+ #include <sstream>
-+ #include <utility>
-+ 
-++#ifdef USE_FMTLIB
-++#include <fmt/core.h>
-++namespace std {
-++    using fmt::format;
-++}
-++#endif
-++
-+ namespace libdnf5 {
-+ 
-+ /// @brief Converts a friendly bandwidth option to bytes
-+diff --git a/libdnf5/logger/memory_buffer_logger.cpp b/libdnf5/logger/memory_buffer_logger.cpp
-+index 85bf707..89307e9 100644
-+--- a/libdnf5/logger/memory_buffer_logger.cpp
-++++ b/libdnf5/logger/memory_buffer_logger.cpp
-+@@ -20,6 +20,7 @@
-+ #include "libdnf5/logger/memory_buffer_logger.hpp"
-+ 
-+ #include <mutex>
-++#include <vector>
-+ 
-+ namespace libdnf5 {
-+ 
-+-- 
-+2.52.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch b/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
-deleted file mode 100644
-index a1c58d6563..0000000000
---- a/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 0e7fc4a8523aad616493e6ad33c509e1e530d852 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Wed, 11 Jan 2017 15:10:13 +0200
--Subject: [PATCH] Do not prepend installroot to logdir.
--
--This would otherwise write the logs into rootfs/var/log
--(whereas we want them in $T),
--and will break installation of base-files rpm.
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- dnf/cli/cli.py | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/dnf/cli/cli.py b/dnf/cli/cli.py
--index d3844df3..ac080f79 100644
----- a/dnf/cli/cli.py
--+++ b/dnf/cli/cli.py
--@@ -954,7 +954,7 @@ class Cli(object):
--             logger.warning(_("Unable to detect release version (use '--releasever' to specify "
--                              "release version)"))
-- 
---        for opt in ('cachedir', 'logdir', 'persistdir'):
--+        for opt in ('cachedir', 'persistdir'):
--             conf.prepend_installroot(opt)
-- 
--         self.base._logging._setup_from_dnf_conf(conf)
-diff --git a/meta/recipes-devtools/dnf/dnf/0005-fix-string-concatenation-errors-for-musl.patch b/meta/recipes-devtools/dnf/dnf/0005-fix-string-concatenation-errors-for-musl.patch
-new file mode 100644
-index 0000000000..537cf1fa5d
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0005-fix-string-concatenation-errors-for-musl.patch
-@@ -0,0 +1,100 @@
-+From 9ffae0be82214e80d3476bce53efc7c9fc23f494 Mon Sep 17 00:00:00 2001
-+From: Adam Duskett <adam.duskett@amarulasolutions.com>
-+Date: Thu, 27 Nov 2025 11:53:43 +0100
-+Subject: [PATCH] fix string concatenation errors for musl
-+
-+Glibc uses some fancy overloading to ensure strchr returns a const char *
-+if a char * is passed as an argument. However, musl does not, which leads
-+to several `error: no matching function for call to 'std::__cxx11::basic_string<char>::basic_string(const char*&, char*&)'`
-+errors.
-+
-+Change the variables declaration to const auto * const to fix
-+the problem.
-+
-+Upstream-Status: Backport [https://github.com/rpm-software-management/dnf5/commit/5902c3b4e90410df2c604e429ec03f72137c9b19]
-+Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-+---
-+ dnf5-plugins/config-manager_plugin/addrepo.cpp | 2 +-
-+ dnf5-plugins/config-manager_plugin/setopt.cpp  | 2 +-
-+ dnf5-plugins/config-manager_plugin/setvar.cpp  | 2 +-
-+ dnf5/main.cpp                                  | 4 ++--
-+ dnf5daemon-client/main.cpp                     | 2 +-
-+ 5 files changed, 6 insertions(+), 6 deletions(-)
-+
-+diff --git a/dnf5-plugins/config-manager_plugin/addrepo.cpp b/dnf5-plugins/config-manager_plugin/addrepo.cpp
-+index 18437be2..6ee99338 100644
-+--- a/dnf5-plugins/config-manager_plugin/addrepo.cpp
-++++ b/dnf5-plugins/config-manager_plugin/addrepo.cpp
-+@@ -163,7 +163,7 @@ void ConfigManagerAddRepoCommand::set_argument_parser() {
-+                                      [[maybe_unused]] cli::ArgumentParser::NamedArg * arg,
-+                                      [[maybe_unused]] const char * option,
-+                                      const char * value) {
-+-        auto val = strchr(value + 1, '=');
-++        const auto * const val = strchr(value + 1, '=');
-+         if (!val) {
-+             throw cli::ArgumentParserError(
-+                 M_("{}: Badly formatted argument value \"{}\""), std::string{"set"}, std::string{value});
-+diff --git a/dnf5-plugins/config-manager_plugin/setopt.cpp b/dnf5-plugins/config-manager_plugin/setopt.cpp
-+index 97fe89d7..973431e2 100644
-+--- a/dnf5-plugins/config-manager_plugin/setopt.cpp
-++++ b/dnf5-plugins/config-manager_plugin/setopt.cpp
-+@@ -77,7 +77,7 @@ void ConfigManagerSetOptCommand::set_argument_parser() {
-+                                        const char * const argv[]) {
-+         for (int i = 0; i < argc; ++i) {
-+             auto value = argv[i];
-+-            auto val = strchr(value + 1, '=');
-++            const auto * const val = strchr(value + 1, '=');
-+             if (!val) {
-+                 throw cli::ArgumentParserError(
-+                     M_("{}: Badly formatted argument value \"{}\""), std::string{"optval"}, std::string{value});
-+diff --git a/dnf5-plugins/config-manager_plugin/setvar.cpp b/dnf5-plugins/config-manager_plugin/setvar.cpp
-+index d6361642..62722b5f 100644
-+--- a/dnf5-plugins/config-manager_plugin/setvar.cpp
-++++ b/dnf5-plugins/config-manager_plugin/setvar.cpp
-+@@ -43,7 +43,7 @@ void ConfigManagerSetVarCommand::set_argument_parser() {
-+         [this, &ctx]([[maybe_unused]] cli::ArgumentParser::PositionalArg * arg, int argc, const char * const argv[]) {
-+             for (int i = 0; i < argc; ++i) {
-+                 auto value = argv[i];
-+-                auto val = strchr(value + 1, '=');
-++                const auto * const val = strchr(value + 1, '=');
-+                 if (!val) {
-+                     throw cli::ArgumentParserError(
-+                         M_("{}: Badly formatted argument value \"{}\""), std::string{"varval"}, std::string{value});
-+diff --git a/dnf5/main.cpp b/dnf5/main.cpp
-+index 9f102b26..f51b8094 100644
-+--- a/dnf5/main.cpp
-++++ b/dnf5/main.cpp
-+@@ -243,7 +243,7 @@ void RootCommand::set_argument_parser() {
-+     setopt->set_parse_hook_func(
-+         [&ctx](
-+             [[maybe_unused]] ArgumentParser::NamedArg * arg, [[maybe_unused]] const char * option, const char * value) {
-+-            auto val = strchr(value + 1, '=');
-++            const auto * const val = strchr(value + 1, '=');
-+             if (!val) {
-+                 throw libdnf5::cli::ArgumentParserError(
-+                     M_("{}: Badly formatted argument value \"{}\""), std::string{"setopt"}, std::string(value));
-+@@ -282,7 +282,7 @@ void RootCommand::set_argument_parser() {
-+     setvar->set_parse_hook_func(
-+         [&ctx](
-+             [[maybe_unused]] ArgumentParser::NamedArg * arg, [[maybe_unused]] const char * option, const char * value) {
-+-            auto val = strchr(value + 1, '=');
-++            const auto * const val = strchr(value + 1, '=');
-+             if (!val) {
-+                 throw libdnf5::cli::ArgumentParserError(
-+                     M_("{}: Badly formatted argument value \"{}\""), std::string{"setvar"}, std::string(value));
-+diff --git a/dnf5daemon-client/main.cpp b/dnf5daemon-client/main.cpp
-+index 385a32bd..dfd1ee05 100644
-+--- a/dnf5daemon-client/main.cpp
-++++ b/dnf5daemon-client/main.cpp
-+@@ -160,7 +160,7 @@ void RootCommand::set_argument_parser() {
-+                                     [[maybe_unused]] libdnf5::cli::ArgumentParser::NamedArg * arg,
-+                                     [[maybe_unused]] const char * option,
-+                                     const char * value) {
-+-        auto val = strchr(value + 1, '=');
-++        const auto * const val = strchr(value + 1, '=');
-+         if (!val) {
-+             throw std::runtime_error(std::string("setopt: Badly formatted argument value") + value);
-+         }
-+-- 
-+2.52.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0006-add-missing-headers-for-musl.patch b/meta/recipes-devtools/dnf/dnf/0006-add-missing-headers-for-musl.patch
-new file mode 100644
-index 0000000000..dbe9304d4d
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0006-add-missing-headers-for-musl.patch
-@@ -0,0 +1,41 @@
-+From dbe4c82deca42b6fc13f5bce01b35c0406a73db2 Mon Sep 17 00:00:00 2001
-+From: Adam Duskett <adam.duskett@amarulasolutions.com>
-+Date: Thu, 27 Nov 2025 11:54:40 +0100
-+Subject: [PATCH] add missing headers for musl
-+
-+cstdint needs to be implicitly added for musl
-+
-+Upstream-Status: Backport [https://github.com/rpm-software-management/dnf5/commit/00e5077e041139fab8ffcabe099b858a9559178c]
-+Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-+---
-+ include/libdnf5-cli/utils/units.hpp | 1 +
-+ libdnf5-cli/utils/utf8.cpp          | 1 +
-+ 2 files changed, 2 insertions(+)
-+
-+diff --git a/include/libdnf5-cli/utils/units.hpp b/include/libdnf5-cli/utils/units.hpp
-+index 0ee19fa4..349fbd35 100644
-+--- a/include/libdnf5-cli/utils/units.hpp
-++++ b/include/libdnf5-cli/utils/units.hpp
-+@@ -23,6 +23,7 @@
-+ 
-+ #include "libdnf5-cli/defs.h"
-+ 
-++#include <cstdint>
-+ #include <string>
-+ #include <utility>
-+ 
-+diff --git a/libdnf5-cli/utils/utf8.cpp b/libdnf5-cli/utils/utf8.cpp
-+index ebeb59f0..d3e0464b 100644
-+--- a/libdnf5-cli/utils/utf8.cpp
-++++ b/libdnf5-cli/utils/utf8.cpp
-+@@ -21,6 +21,7 @@
-+ #include "utf8.hpp"
-+ 
-+ #include <clocale>
-++#include <cstdint>
-+ #include <cstring>
-+ #include <cwchar>
-+ 
-+-- 
-+2.52.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0007-Define-FNM_EXTMATCH-for-musl.patch b/meta/recipes-devtools/dnf/dnf/0007-Define-FNM_EXTMATCH-for-musl.patch
-new file mode 100644
-index 0000000000..203785a5e1
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0007-Define-FNM_EXTMATCH-for-musl.patch
-@@ -0,0 +1,36 @@
-+From 8c65576fb01d8a7bbe954dca8e9eb528795e0090 Mon Sep 17 00:00:00 2001
-+From: Adam Duskett <adam.duskett@amarulasolutions.com>
-+Date: Thu, 27 Nov 2025 11:56:23 +0100
-+Subject: [PATCH] Define FNM_EXTMATCH for musl
-+
-+Fixes the following compilation errors with musl that does not have
-+FNM_EXTMATCH defined:
-+```
-+error: 'FNM_EXTMATCH' undeclared (first use in this
-+function); did you mean 'FNM_NOMATCH'?
-+```
-+
-+Upstream-Status: Backport [https://github.com/rpm-software-management/dnf5/commit/3739c4a34db6e7abcd8b4faf0db7d5307f37d340]
-+Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-+---
-+ libdnf5/common/sack/match_string.cpp | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/libdnf5/common/sack/match_string.cpp b/libdnf5/common/sack/match_string.cpp
-+index 78cc4dde..c41894d1 100644
-+--- a/libdnf5/common/sack/match_string.cpp
-++++ b/libdnf5/common/sack/match_string.cpp
-+@@ -29,6 +29,10 @@
-+ #include <regex>
-+ #include <stdexcept>
-+ 
-++// TODO: Implement proper FNM_EXTMATCH support to fix MUSL errors.
-++#if !defined(FNM_EXTMATCH)
-++#define FNM_EXTMATCH (0)
-++#endif
-+ 
-+ namespace libdnf5::sack {
-+ 
-+-- 
-+2.52.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0008-libdnf-fix-arm-arch-mapping-issues-for-qemuarmv5.patch b/meta/recipes-devtools/dnf/dnf/0008-libdnf-fix-arm-arch-mapping-issues-for-qemuarmv5.patch
-new file mode 100644
-index 0000000000..213382a4df
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0008-libdnf-fix-arm-arch-mapping-issues-for-qemuarmv5.patch
-@@ -0,0 +1,59 @@
-+From 32e926c627a3d0e81ce14890464abc5e5be74558 Mon Sep 17 00:00:00 2001
-+From: Adam Duskett <adam.duskett@amarulasolutions.com>
-+Date: Thu, 27 Nov 2025 11:48:43 +0100
-+Subject: [PATCH] libdnf: fix arm arch mapping issues for qemuarmv5
-+
-+We change the way rpm architectures work, we make the machine name the default
-+machine specific package architecture.
-+
-+This arm mapping code can work or in the case of qemuarmv5, it doesn't as it
-+creates armv5hl which doesn't exist and causes errrors. We can simply remove
-+it, we don't need it.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Rebased for 5.3.0.0
-+Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-+---
-+ libdnf5/utils/system.cpp | 24 ------------------------
-+ 1 file changed, 24 deletions(-)
-+
-+diff --git a/libdnf5/utils/system.cpp b/libdnf5/utils/system.cpp
-+index ecdc57e..35d8801 100644
-+--- a/libdnf5/utils/system.cpp
-++++ b/libdnf5/utils/system.cpp
-+@@ -52,30 +52,6 @@ std::string detect_arch() {
-+         throw RuntimeError(M_("Failed to execute uname()"));
-+     }
-+ 
-+-    if (!strncmp(un.machine, "armv", 4)) {
-+-        /* un.machine is armvXE, where X is version number and E is
-+-         * endianness (b or l); we need to add modifiers such as
-+-         * h (hardfloat), n (neon). Neon is a requirement of armv8 so
-+-         * as far as rpm is concerned armv8l is the equivalent of armv7hnl
-+-         * (or 7hnb) so we don't explicitly add 'n' for 8+ as it's expected. */
-+-        char endian = un.machine[strlen(un.machine) - 1];
-+-        char * modifier = un.machine + 5;
-+-        while (isdigit(*modifier)) /* keep armv7, armv8, armv9, armv10, armv100, ... */
-+-            modifier++;
-+-        if (getauxval(AT_HWCAP) & HWCAP_ARM_VFP)
-+-            *modifier++ = 'h';
-+-        if ((atoi(un.machine + 4) == 7) && (getauxval(AT_HWCAP) & HWCAP_ARM_NEON))
-+-            *modifier++ = 'n';
-+-        *modifier++ = endian;
-+-        *modifier = 0;
-+-    }
-+-#ifdef __MIPSEL__
-+-    // support for little endian MIPS
-+-    if (!strcmp(un.machine, "mips"))
-+-        strcpy(un.machine, "mipsel");
-+-    else if (!strcmp(un.machine, "mips64"))
-+-        strcpy(un.machine, "mips64el");
-+-#endif
-+     return un.machine;
-+ }
-+ 
-+-- 
-+2.52.0
-+
-diff --git a/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-deleted file mode 100644
-index 64ea7874d3..0000000000
---- a/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--From d5b154ea69afdcd862299a0b7f255f6ece3686c6 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 30 Dec 2016 18:29:07 +0200
--Subject: [PATCH] Do not set PYTHON_INSTALL_DIR by running python
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- CMakeLists.txt | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 9e2e9e9e..2056089d 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -19,7 +19,7 @@ ELSE ()
--     MESSAGE (FATAL_ERROR "Invalid PYTHON_DESIRED value: " ${PYTHON_DESIRED})
-- ENDIF()
-- 
---EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from sysconfig import get_path; stdout.write(get_path('purelib'))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
--+#EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from sysconfig import get_path; stdout.write(get_path('purelib'))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-- MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
-- 
-- ADD_SUBDIRECTORY (dnf)
-diff --git a/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch b/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
-deleted file mode 100644
-index eb46113f3a..0000000000
---- a/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From d3556767b84f3687743fdad0a88af0739d736ea9 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 30 Dec 2016 18:29:37 +0200
--Subject: [PATCH] Run python scripts using env
--
--Otherwise the build tools hardcode the python path into them.
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- bin/dnf-automatic.in | 2 +-
-- bin/dnf.in           | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/bin/dnf-automatic.in b/bin/dnf-automatic.in
--index 17e35a05..28827e38 100755
----- a/bin/dnf-automatic.in
--+++ b/bin/dnf-automatic.in
--@@ -1,4 +1,4 @@
---#!@PYTHON_EXECUTABLE@
--+#!/usr/bin/env python3
-- # dnf-automatic executable.
-- #
-- # Copyright (C) 2014-2016 Red Hat, Inc.
--diff --git a/bin/dnf.in b/bin/dnf.in
--index 55ceb3f2..e38973c7 100755
----- a/bin/dnf.in
--+++ b/bin/dnf.in
--@@ -1,4 +1,4 @@
---#!@PYTHON_EXECUTABLE@
--+#!/usr/bin/env python3
-- # The dnf executable script.
-- #
-- # Copyright (C) 2012-2016 Red Hat, Inc.
-diff --git a/meta/recipes-devtools/dnf/dnf_4.24.0.bb b/meta/recipes-devtools/dnf/dnf_4.24.0.bb
-deleted file mode 100644
-index d40b85c4b0..0000000000
---- a/meta/recipes-devtools/dnf/dnf_4.24.0.bb
-+++ /dev/null
-@@ -1,96 +0,0 @@
--SUMMARY = "Package manager forked from Yum, using libsolv as a dependency resolver"
--DESCRIPTION = "Software package manager that installs, updates, and removes \
--packages on RPM-based Linux distributions. It automatically computes \
--dependencies and determines the actions required to install packages."
--HOMEPAGE = "https://github.com/rpm-software-management/dnf"
--LICENSE = "GPL-2.0-only"
--LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://PACKAGE-LICENSING;md5=4a0548e303dbc77f067335b4d688e745 \
--                    "
--
--SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protocol=https \
--           file://0001-Corretly-install-tmpfiles.d-configuration.patch \
--           file://0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch \
--           file://0005-Do-not-prepend-installroot-to-logdir.patch \
--           file://0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
--           file://0030-Run-python-scripts-using-env.patch \
--           file://0001-set-python-path-for-completion_helper.patch \
--           file://0001-lock.py-fix-Exception-handling.patch \
--           "
--
--SRC_URI:append:class-native = " file://0001-dnf-write-the-log-lock-to-root.patch"
--
--SRCREV = "e47634fbe3565d0580e89ec21adb7c1b308642ce"
--UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
--
--inherit cmake gettext bash-completion setuptools3-base systemd
--
--DEPENDS += "libdnf librepo libcomps"
--
--# manpages generation requires http://www.sphinx-doc.org/
--EXTRA_OECMAKE = " -DWITH_MAN=0 -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3"
--
--BBCLASSEXTEND = "native nativesdk"
--
--RDEPENDS:${PN} += " \
--  python3-core \
--  python3-codecs \
--  python3-ctypes \
--  python3-netclient \
--  python3-email \
--  python3-threading \
--  python3-logging \
--  python3-fcntl \
--  librepo \
--  python3-shell \
--  libcomps \
--  libdnf \
--  python3-sqlite3 \
--  python3-compression \
--  python3-rpm \
--  python3-json \
--  python3-curses \
--  python3-misc \
--  "
--
--RDEPENDS:${PN}:class-native = ""
--
--RRECOMMENDS:${PN}:class-target += "gnupg"
--
--# Create a symlink called 'dnf' as 'make install' does not do it, but
--# .spec file in dnf source tree does (and then Fedora and dnf documentation
--# says that dnf binary is plain 'dnf').
--do_install:append() {
--        ln -rs ${D}/${bindir}/dnf-3 ${D}/${bindir}/dnf
--        ln -rs ${D}/${bindir}/dnf-automatic-3 ${D}/${bindir}/dnf-automatic
--}
--
--# Direct dnf-native to read rpm configuration from our sysroot, not the one it was compiled in
--do_install:append:class-native() {
--        create_wrapper ${D}/${bindir}/dnf \
--                SEQUOIA_CRYPTO_POLICY=${STAGING_DATADIR_NATIVE}/crypto-policies/back-ends/rpm-sequoia.config \
--                RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
--                RPM_NO_CHROOT_FOR_SCRIPTS=1
--}
--
--do_install:append:class-nativesdk() {
--        create_wrapper ${D}/${bindir}/dnf \
--                RPM_CONFIGDIR=${SDKPATHNATIVE}${libdir_nativesdk}/rpm \
--                RPM_NO_CHROOT_FOR_SCRIPTS=1
--}
--
--SYSTEMD_SERVICE:${PN} = "dnf-makecache.service dnf-makecache.timer \
--                         dnf-automatic.service dnf-automatic.timer \
--                         dnf-automatic-download.service dnf-automatic-download.timer \
--                         dnf-automatic-install.service dnf-automatic-install.timer \
--                         dnf-automatic-notifyonly.service dnf-automatic-notifyonly.timer \
--"
--SYSTEMD_AUTO_ENABLE ?= "disable"
--
--SKIP_RECIPE[dnf] ?= "${@bb.utils.contains('PACKAGE_CLASSES', 'package_rpm', '', 'does not build without package_rpm in PACKAGE_CLASSES due disabled rpm support in libsolv', d)}"
--
--# Packages for testing purposes
--PACKAGES += "${PN}-test-main ${PN}-test-dep"
--ALLOW_EMPTY:${PN}-test-main = "1"
--ALLOW_EMPTY:${PN}-test-dep = "1"
--RRECOMMENDS:${PN}-test-main = "${PN}-test-dep"
-diff --git a/meta/recipes-devtools/dnf/dnf_5.3.0.0.bb b/meta/recipes-devtools/dnf/dnf_5.3.0.0.bb
-new file mode 100644
-index 0000000000..961e889fdb
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf_5.3.0.0.bb
-@@ -0,0 +1,196 @@
-+SUMMARY = "DNF package manager rewritten in C++, using libsolv as a dependency resolver"
-+DESCRIPTION = "\
-+    DNF5 is a command-line package manager that automates the process of \
-+    installing, upgrading, configuring, and removing computer programs in a \
-+    consistent manner. It supports RPM packages, modulemd modules, and comps \
-+    groups and environments. \
-+"
-+HOMEPAGE = "https://github.com/rpm-software-management/dnf5"
-+BUGTRACKER = "https://github.com/rpm-software-management/dnf5/issues"
-+CVE_PRODUCT = "RPM:Dnf5"
-+SECTION = "base"
-+
-+LICENSE = "GPL-2.0-or-later & LGPL-2.1-only"
-+LIC_FILES_CHKSUM = "\
-+    file://COPYING.md;md5=9733192df318d0f806fd668b92ba0ba6 \
-+    file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+    file://lgpl-2.1.txt;md5=4b54a1fd55a448865a0b32d41598759d \
-+"
-+
-+DEPENDS = "\
-+    fmt \
-+    glib-2.0 \
-+    json-c \
-+    libcomps \
-+    libmodulemd \
-+    librepo \
-+    libsolv \
-+    libtoml11 \
-+    libxml2 \
-+    sqlite3 \
-+    util-linux \
-+"
-+
-+SRC_URI = "\
-+    git://github.com/rpm-software-management/dnf5.git;branch=main;protocol=https \
-+    file://0002-cmake-set-CMP0190-to-OLD.patch \
-+    file://0003-Do-not-hardcode-system_cachedir.patch \
-+    file://0004-add-support-for-gcc-12-and-below.patch \
-+    file://0005-fix-string-concatenation-errors-for-musl.patch \
-+    file://0006-add-missing-headers-for-musl.patch \
-+    file://0007-Define-FNM_EXTMATCH-for-musl.patch \
-+    file://0008-libdnf-fix-arm-arch-mapping-issues-for-qemuarmv5.patch \
-+"
-+SRC_URI:append:class-native = " file://0001-Do-not-hardcode-the-systemd-unit-directory.patch"
-+SRCREV = "c6a42c2e7e9ee0a04d46e6820a5962925a99b085"
-+
-+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
-+
-+inherit bash-completion cmake gettext pkgconfig siteinfo systemd
-+inherit_defer ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3targetconfig', '', d)}
-+
-+PACKAGECONFIG[dnfdaemon-client] = "-DWITH_DNF5DAEMON_CLIENT=ON,-DWITH_DNF5DAEMON_CLIENT=OFF,sdbus-c++"
-+PACKAGECONFIG[dnfdaemon-server] = "-DWITH_DNF5DAEMON_SERVER=ON,-DWITH_DNF5DAEMON_SERVER=OFF,sdbus-c++"
-+PACKAGECONFIG[plugins] = "-DWITH_DNF5_PLUGINS=ON,-DWITH_DNF5_PLUGINS=OFF,curl sdbus-c++ zlib"
-+PACKAGECONFIG[plugin-actions] = "-DWITH_PLUGIN_ACTIONS=ON,-DWITH_PLUGIN_ACTIONS=OFF"
-+PACKAGECONFIG[plugin-appstream] = "-DWITH_PLUGIN_APPSTREAM=ON,-DWITH_PLUGIN_APPSTREAM=OFF,appstream"
-+PACKAGECONFIG[plugin-expired-pgp-keys] = "-DWITH_PLUGIN_EXPIRED_PGP_KEYS=ON,-DWITH_PLUGIN_EXPIRED_PGP_KEYS=OFF,gnupg"
-+PACKAGECONFIG[plugin-manifest] = "-DWITH_PLUGIN_MANIFEST=ON,-DWITH_PLUGIN_MANIFEST=OFF,sdbus-c++ libpkgmanifest"
-+PACKAGECONFIG[plugin-local] = "-DWITH_PLUGIN_LOCAL=ON,-DWITH_PLUGIN_LOCAL=OFF"
-+
-+# sdbus-c++ and journalctl integration.
-+PACKAGECONFIG[systemd] = "-DWITH_SYSTEMD=ON,-DWITH_SYSTEMD=OFF,sdbus-c++"
-+
-+# build options - bindings
-+PACKAGECONFIG[python3] = "-DWITH_PYTHON3=ON,-DWITH_PYTHON3=OFF, python3 swig-native"
-+
-+# No sdbus-c++-native package.
-+PACKAGECONFIG:remove:class-native = "\
-+    dnfdaemon-client \
-+    dnfdaemon-server \
-+    plugins \
-+    plugin-manifest \
-+    systemd \
-+"
-+
-+PACKAGE_BEFORE_PN += "\
-+    ${PN}-dnfdaemon-server \
-+    ${PN}-plugins \
-+    ${PN}-python3 \
-+"
-+
-+# manpages generation requires http://www.sphinx-doc.org/
-+EXTRA_OECMAKE:append = " \
-+    -DENABLE_SOLV_FOCUSNEW=ON \
-+    -DWITH_DNF5_OBSOLETES_DNF=OFF \
-+    -DWITH_DNF5=ON \
-+    -DWITH_GO=OFF \
-+    -DWITH_HTML=OFF \
-+    -DWITH_LIBDNF5_CLI=ON \
-+    -DWITH_MAN=OFF \
-+    -DWITH_PERL5=OFF \
-+    -DWITH_PLUGIN_RHSM=OFF \
-+    -DWITH_RUBY=OFF \
-+    -DWITH_TESTS=OFF \
-+"
-+
-+# No sdbus-c++-native package exists so remove all options that depend on it.
-+EXTRA_OECMAKE:append:class-native = " \
-+    -DWITH_DNF5DAEMON_CLIENT=OFF \
-+    -DWITH_DNF5DAEMON_SERVER=OFF \
-+    -DWITH_DNF5_PLUGINS=OFF \
-+    -DWITH_PLUGIN_MANIFEST=OFF \
-+    -DWITH_SYSTEMD=OFF \
-+"
-+
-+# Create a symlink called 'dnf' as 'make install' does not do it, but
-+# .spec file in dnf source tree does (and then Fedora and dnf documentation
-+# says that dnf binary is plain 'dnf').
-+do_install:append() {
-+    ln -rs ${D}/${bindir}/dnf5 ${D}/${bindir}/dnf
-+    install -d ${D}${sysconfdir}/dnf
-+
-+    # DNF always installs service files to /usr/lib/systemd, even if usrmerge is not
-+    # selected. Also, remove systemd files if systemd isn't selected.
-+    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'false', 'true', d)}; then
-+        rm -rf ${D}${libdir}/systemd
-+    fi
-+
-+    # Breaks dnf because the builddep plugin is provided in the
-+    # dnf-plugins-core package which is not available in oe-core.
-+    rm -f ${D}${datadir}/dnf5/aliases.d/compatibility-plugins.conf
-+}
-+
-+do_install:append:${PN}-plugins() {
-+    ln -rs ${D}/${bindir}/dnf5-automatic ${D}/${bindir}/dnf-automatic
-+}
-+
-+# Direct dnf-native to read rpm configuration from our sysroot, not the one it was compiled in
-+do_install:append:class-native() {
-+    create_wrapper ${D}/${bindir}/dnf \
-+        SEQUOIA_CRYPTO_POLICY=${STAGING_DATADIR_NATIVE}/crypto-policies/back-ends/rpm-sequoia.config \
-+        RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
-+        RPM_NO_CHROOT_FOR_SCRIPTS=1
-+}
-+
-+do_install:append:class-nativesdk() {
-+    create_wrapper ${D}/${bindir}/dnf \
-+        RPM_CONFIGDIR=${SDKPATHNATIVE}${libdir_nativesdk}/rpm \
-+        RPM_NO_CHROOT_FOR_SCRIPTS=1
-+}
-+
-+SYSTEMD_SERVICE:${PN} = "\
-+    dnf5-makecache.service \
-+    dnf5-makecache.timer \
-+"
-+
-+SYSTEMD_AUTO_ENABLE ?= "disable"
-+
-+# Packages for testing purposes
-+PACKAGES += "${PN}-test-main ${PN}-test-dep"
-+
-+FILES:${PN} += "\
-+    ${bindir}/dnf* \
-+    ${datadir}/dbus-1/system-services/org.rpm.dnf.v0.service \
-+    ${datadir}/dnf5 \
-+    ${datadir}/polkit-1/actions/org.rpm.dnf* \
-+    ${datadir}/polkit-1/rules.d/org.rpm.dnf* \
-+    ${libdir}/dnf5 \
-+    ${libdir}/libdnf5* \
-+    ${sysconfdir}/dnf \
-+"
-+
-+FILES:${PN}-bash-completion += "\
-+    ${datadir}/bash-completion/completions/dnf5 \
-+"
-+
-+FILES:${PN}-dnfdaemon-server += "\
-+    ${systemd_system_unitdir}/dnf5daemon-server.service \
-+    ${datadir}/dbus-1/interfaces/org.rpm.dnf* \
-+    ${datadir}/dbus-1/system.d/org.rpm.dnf* \
-+"
-+
-+FILES:${PN}-plugins += "\
-+    ${systemd_system_unitdir}/dnf-automatic.service \
-+    ${systemd_system_unitdir}/dnf-automatic.timer \
-+    ${systemd_system_unitdir}/dnf5-automatic.service \
-+    ${systemd_system_unitdir}/dnf5-automatic.timer \
-+"
-+
-+FILES:${PN}-python3 += "\
-+    ${libdir}/${PYTHON_DIR}/site-packages/libdnf* \
-+"
-+
-+FILES:${PN}-systemd += "\
-+    ${systemd_system_unitdir}/dnf5-offline-transaction.service \
-+    ${systemd_system_unitdir}/dnf5-offline-transaction-cleanup.service \
-+"
-+
-+RRECOMMENDS:${PN}:class-target += "bash-completion gnupg"
-+RRECOMMENDS:${PN}-test-main = "${PN}-test-dep"
-+ALLOW_EMPTY:${PN}-test-main = "1"
-+ALLOW_EMPTY:${PN}-test-dep = "1"
-+
-+SKIP_RECIPE[dnf] ?= "${@bb.utils.contains('PACKAGE_CLASSES', 'package_rpm', '', 'does not build without package_rpm in PACKAGE_CLASSES due disabled rpm support in libsolv', d)}"
-+
-+BBCLASSEXTEND = "native nativesdk"
++# Additional mkimage options for FIT image creation
++UBOOT_MKIMAGE_EXTRA_OPTS ?= ""
++
+ # length of address in number of <u32> cells
+ # ex: 1 32bits address, 2 64bits address
+ FIT_ADDRESS_CELLS ?= "1"
+diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
+index f303799155..15a36310e0 100644
+--- a/meta/lib/oe/fitimage.py
++++ b/meta/lib/oe/fitimage.py
+@@ -156,6 +156,7 @@ class ItsNodeRootKernel(ItsNode):
+     def __init__(self, description, address_cells, host_prefix, arch, conf_prefix,
+                  sign_enable=False, sign_keydir=None,
+                  mkimage=None, mkimage_dtcopts=None,
++                 mkimage_extra_opts=None,
+                  mkimage_sign=None, mkimage_sign_args=None,
+                  hash_algo=None, sign_algo=None, pad_algo=None,
+                  sign_keyname_conf=None,
+@@ -177,6 +178,7 @@ class ItsNodeRootKernel(ItsNode):
+         self._sign_keydir = sign_keydir
+         self._mkimage = mkimage
+         self._mkimage_dtcopts = mkimage_dtcopts
++        self._mkimage_extra_opts = shlex.split(mkimage_extra_opts)
+         self._mkimage_sign = mkimage_sign
+         self._mkimage_sign_args = mkimage_sign_args
+         self._hash_algo = hash_algo
+@@ -483,6 +485,7 @@ class ItsNodeRootKernel(ItsNode):
+     def run_mkimage_assemble(self, itsfile, fitfile):
+         cmd = [
+             self._mkimage,
++            *self._mkimage_extra_opts,
+             '-f', itsfile,
+             fitfile
+         ]
 -- 
-2.52.0
+2.34.1
 
 
