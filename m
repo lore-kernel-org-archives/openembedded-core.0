@@ -1,190 +1,174 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98524D41D58
-	for <webhook@archiver.kernel.org>; Thu, 11 Dec 2025 15:23:13 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11737.1765466585144149840
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F53D41D5A
+	for <webhook@archiver.kernel.org>; Thu, 11 Dec 2025 15:29:43 +0000 (UTC)
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11923.1765466980625374345
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Dec 2025 07:23:05 -0800
+ Thu, 11 Dec 2025 07:29:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=s3LYmGHg;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42e2d5e119fso132356f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 07:23:04 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UyALxbky;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-477a1c28778so2422485e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 07:29:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1765466583; x=1766071383; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l2wdl7eHmZcLkX9GRSc3Hfnce+YRCKNWgKEBjv8A/rM=;
-        b=s3LYmGHgfgfBmfLJxpe/WWSquUmJyxzqECXBsPt/rw6aVLVMAgNrG2i18zhG93Ix5X
-         ybxGJGPs5OgZHgFwsEK6+4mWYOgtWPhsM5R4hLjbk6rZ7K/mpAp5CYY8/fX2uPK9suVC
-         7FbNSbew8GJsJO8DWOAcAhImFubOjqU27hq78=
+        d=linuxfoundation.org; s=google; t=1765466978; x=1766071778; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0ILGm81oGz6TsRd94CckL0ifVmJHdBipztdkNRx4bfI=;
+        b=UyALxbkyCSlqcBe0cerfN/bEgbaadTfB7L8xn/EWMJ+Xbz8TJ4NY2BvkicwLQfGepZ
+         XZO0MbRZ32+RaEuM9kBXASd6GreBf7Rc2zejEsyig80vfC7zE2Peo04qBtq5VavRGyul
+         +P2x3EDIEdStqg4yC6UfMzqcQS+pCXN/51q3s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765466583; x=1766071383;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=l2wdl7eHmZcLkX9GRSc3Hfnce+YRCKNWgKEBjv8A/rM=;
-        b=FyRvZmgh29/8xbEDhcVRFQNFNcHLct9qpuSftLRYt3B6la+H5DPskNWuzdKBjLa2Hk
-         gL7to6hzHNqj8zgmlgR0RLrTJiWE1RDMjSsS821Zs9EBOCXuH1/W2NlwdfV9i3FBPD0e
-         IJE7qVSff+Ga6R5IeemB91N8Stq+PHhxWc5JOFvtEXr0UcAvBOgUkvdY4RcRoKmjnz1E
-         hXtXOL3uXkrSNfehtjZisRXmSIU1bu+UFbgWT5i5UKRqxkfaR0d0zTFOCmz7i6VIAAOG
-         ODf7S6fEwVo8AWHDi2Odbm5T2lil5vxCwcEA+uquY9FV55aBnFuVrAng56KlEC0bfYjM
-         01OA==
-X-Gm-Message-State: AOJu0YwSWdS6GqPqi3EyBNTluqDEwsU5xOa+HEyEr/hoNoWrq/7wrvfY
-	Q4Uu98pzOIppkuobCIBC0cDCWLndag7J6wak9F1CXnhKmnBuPWX0P+Ud/A4eJWsu1FLeSHsQj+F
-	rwDiEInWuUmu4JKtD0J2Vw8q/uh0qEQCmP9+3NCK9tQ==
-X-Gm-Gg: AY/fxX5ECpF5DlOBw7M5oSusxj73MC7H4VrANWRQogA73/BZAlEpiyRvMmBKuHHDcDo
-	0EhKYgnwwxVnO9CMe38MI5HzXt7H7qZ1u/BA5AVtjcssZyU/m5ZCqyp5uNYNycUX777RPwm0zUe
-	LvVR3ByrE10QFq7M5/M4bQcZAArD+45QmgNwYcCdclgbt0goUc/BKZBecSdB+qCutsayx/G1SAN
-	AuCHsY5PZHMkAcb1VlaeHPdOOxOB/YjGvRjJ10J6gHlsFD2eqA5BKn+s3cs0pOjO156gu39wg3i
-	328045UlVZnuk7Q7yVdzd10+vmR+
-X-Google-Smtp-Source: AGHT+IH5WB3bHN1R+lOZkTDC4Nw5ZVW1c9rGdwidVc6HxYzX876rnnFr+DqOcZzjmNKeu2SY+KvwWVkN2hDHDevR/ws=
-X-Received: by 2002:a05:6000:220c:b0:429:d0b8:3850 with SMTP id
- ffacd0b85a97d-42fa3b1884amr7041572f8f.48.1765466583406; Thu, 11 Dec 2025
- 07:23:03 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765466978; x=1766071778;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0ILGm81oGz6TsRd94CckL0ifVmJHdBipztdkNRx4bfI=;
+        b=l+CoJyZvFybmtbgtY62+RfTPbtR22xrq8/O0HpLlOt3yt/JfAcBLnXpGNSda0scnCn
+         qRVw8AYJQh54/hVaTePE0Rt8mUgkB02AT0LyybOpb9r9TDrSu+CcQl2W25pXGTN1xNgV
+         qnWChSw/pt3tRYNGTLofiJLXQcgOrlaA/gD+OHOwzETQE/0guM+JtK6gnDGzv0iplbz5
+         nnZt0Nbyp/XxiDyo9oRHLaLQfhhhaeFGKAq3S0LKteLxoIGrtD8Yr4Sx9s3UrJXckc/o
+         E3Sd+Z5z/iGrg+hTNA7Cfmgv3KH9/v6CQZ4U0mS+wpFIfgyJZcvhMxHFkuSI8l40ezis
+         Mzxg==
+X-Gm-Message-State: AOJu0YxztjvTHUb6fF0yY9jwlmnEbMa0lZRFnDzB1nvaBWKCwwBXI2Fw
+	tG39BnzEkqE5Irv/d1srbKNLvJ6YZDi9zp+wcFhcq9SDeJ8ZIboHgOhPwKIBlmy3cQMFYwS2/Dl
+	Xu82kZs1ZIQ==
+X-Gm-Gg: AY/fxX5Q6yyUa4cmnugZBOABTmy0jINbnGyTgWhS0adppb6Alm2nYMp4l2vzQ3f43DW
+	TuYDARhBwA1xCa7f0Zakj7tDiU4XInQ5KlVyhCQ0x5fJpn2kYRgp/ymK93QVRsI9PMQDCkV+woM
+	wYFmVf3hGzPoQdENB8EsKgu6LNntNvxJEMR5w7F6NWxz9d+bV0RjygxFTc5SBt5jiiPmZyag/IZ
+	BAZKSUgTxaS/1BBLes69+MnkH5JKC/qEK9b5HUVIYxeIIpqYWYCnvGwMByDOrgkoqo6gOs1N5sv
+	y15+Bzk4LRA2n32fLlTDSpbukx0WE2skBvzaXTfFEICAIDb18ZHrfrUB4vpuch39O48e3g/uJMZ
+	PK0f/ASZBPRsQRWJYWMp6Cx1McePls5V7LSKRFQiB4RksY/Fevg9wVjSDbALTRMBjP1/nw3ZT/b
+	cDGtBYIQXEJnBl0jwlpcL+sLZhnZfKn7Q2aJl9pBkbXOoFQepE2Q==
+X-Google-Smtp-Source: AGHT+IHtQSvXjf6un0ePt9Zuido/jx+AjiBeNFPCCEoxdjEdc2SS8wycX5/miVD3I386/YL3EvjfIA==
+X-Received: by 2002:a05:600c:1c9a:b0:477:55ce:f3bc with SMTP id 5b1f17b1804b1-47a8378cd34mr65830665e9.19.1765466978266;
+        Thu, 11 Dec 2025 07:29:38 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:d9a5:9dbc:9018:5f05])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a89f8b31bsm43149445e9.13.2025.12.11.07.29.37
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Dec 2025 07:29:37 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] oelint: Remove obsolete class
+Date: Thu, 11 Dec 2025 15:29:36 +0000
+Message-ID: <20251211152936.1267124-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-References: <20251211144527.43224-1-amaury.couderc@est.tech>
-In-Reply-To: <20251211144527.43224-1-amaury.couderc@est.tech>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Thu, 11 Dec 2025 16:22:37 +0100
-X-Gm-Features: AQt7F2p4pISnUJux2Nmf7u-l25qub69lNUMDKFdaT_zJVrGce8WHZLQWx8d45eI
-Message-ID: <CAMSfU+4L=O=Xj+UsO4VZO819uNZMORo5pE3ZY8RgfC4xiEB4Zg@mail.gmail.com>
-Subject: Re: [review][OE-core][scarthgap][PATCH] procps: fixed large pid issue
- with top
-To: amaury.couderc@est.tech
-Cc: openembedded-core@lists.openembedded.org, david.nystrom@est.tech
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 15:23:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227546
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 15:29:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227547
 
-Hello,
+Most of the checks in this class are covered by other areas of the code now.
+If there is anyting important missing, it should be added elsewhere. The
+code hasn't had meaningful changes since 2014. Drop it.
 
-Le jeu. 11 d=C3=A9c. 2025 =C3=A0 15:46, amaury.couderc via
-lists.openembedded.org
-<amaury.couderc=3Dest.tech@lists.openembedded.org> a =C3=A9crit :
->
-> From: Amaury Couderc <amaury.couderc@est.tech>
->
-> procps: fixed large pid issue with top
->
-> top -b -n1 -H -p 92233720368547758071
-> signal 11 (SEGV) was caught by top, please
->
-> Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/oelint.bbclass | 90 -------------------------------------
+ 1 file changed, 90 deletions(-)
+ delete mode 100644 meta/classes/oelint.bbclass
 
-It looks like this patch is also applicable&needed on master (the
-fixing patch has not been in a procps release yet).
-Can you send it there, then, ask for a backport on scarthgap when it
-gets merged?
-
-Thanks!
-
-> ---
->  .../procps/procps/top_large_pid_fix.patch     | 52 +++++++++++++++++++
->  meta/recipes-extended/procps/procps_4.0.4.bb  |  1 +
->  2 files changed, 53 insertions(+)
->  create mode 100644 meta/recipes-extended/procps/procps/top_large_pid_fix=
-.patch
->
-> diff --git a/meta/recipes-extended/procps/procps/top_large_pid_fix.patch =
-b/meta/recipes-extended/procps/procps/top_large_pid_fix.patch
-> new file mode 100644
-> index 0000000000..d7e3141e06
-> --- /dev/null
-> +++ b/meta/recipes-extended/procps/procps/top_large_pid_fix.patch
-> @@ -0,0 +1,52 @@
-> +From f21fc624d960d12afa399af7333d4f9193fb2ffb Mon Sep 17 00:00:00 2001
-> +From: Jim Warner <james.warner@comcast.net>
-> +Date: Tue, 16 Sep 2025 12:00:00 -0500
-> +Subject: [PATCH] library: avoid possible segmentation fault, <pids> api
-> +Upstream-Status: Backport
-> +[https://gitlab.com/procps-ng/procps/-/commit/5461b50b1a85c5e556c4cd2739=
-ca8ffdbc69399a]
-> +
-> +In the issue referenced below, that SEGV was caused by
-> +passing a '-1' pid to the procps_pids_select function.
-> +That value, in turn, is caused by providing a LONG_MAX
-> +or greater number for what was assigned to an integer.
-> +
-> +So, this commit will help ensure we avoid a match when
-> +we should fail plus skip some unproductive libc calls.
-> +
-> +[ the same problem occurs in that old 3.3.17 library ]
-> +
-> +Reference(s):
-> +https://gitlab.com/procps-ng/procps/-/issues/394
-> +
-> +Signed-off-by: Jim Warner <james.warner@comcast.net>
-> +Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
-> +
-> +---
-> + library/readproc.c | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/library/readproc.c b/library/readproc.c
-> +index 2dfe4c9e..d0e039bf 100644
-> +--- a/library/readproc.c
-> ++++ b/library/readproc.c
-> +@@ -1434,7 +1434,7 @@ static int listed_nextpid (PROCTAB *PT, proc_t *p)=
- {
-> +   pid_t pid =3D *(PT->pids)++;
-> +   char *path =3D PT->path;
-> +
-> +-  if (pid) {
-> ++  if (pid > 0) {
-> +     snprintf(path, PROCPATHLEN, "/proc/%d", pid);
-> +     p->tid =3D p->tgid =3D pid;        // this tgid may be a huge fib |
-> +
-> +@@ -1546,7 +1546,7 @@ PROCTAB *openproc(unsigned flags, ...) {
-> +         did_stat =3D 1;
-> +     }
-> +     PT->taskdir =3D NULL;
-> +-    PT->taskdir_user =3D -1;
-> ++    PT->taskdir_user =3D -2;
-> +     PT->taskfinder =3D simple_nexttid;
-> +     PT->taskreader =3D simple_readtask;
-> +
-> +--
-> +2.43.0
-> +
-> diff --git a/meta/recipes-extended/procps/procps_4.0.4.bb b/meta/recipes-=
-extended/procps/procps_4.0.4.bb
-> index ec8c4b0261..3c15f28a5b 100644
-> --- a/meta/recipes-extended/procps/procps_4.0.4.bb
-> +++ b/meta/recipes-extended/procps/procps_4.0.4.bb
-> @@ -15,6 +15,7 @@ inherit autotools gettext pkgconfig update-alternatives
->  SRC_URI =3D "git://gitlab.com/procps-ng/procps.git;protocol=3Dhttps;bran=
-ch=3Dmaster \
->             file://sysctl.conf \
->             file://pidfd.patch \
-> +           file://top_large_pid_fix.patch \
->             "
->  SRCREV =3D "4ddcef2fd843170c8e2d59a83042978f41037a2b"
->
-> --
-> 2.50.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#227538): https://lists.openembedded.org/g/openembedde=
-d-core/message/227538
-> Mute This Topic: https://lists.openembedded.org/mt/116729698/4316185
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [yo=
-ann.congal@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/classes/oelint.bbclass b/meta/classes/oelint.bbclass
+deleted file mode 100644
+index 458a25ecc39..00000000000
+--- a/meta/classes/oelint.bbclass
++++ /dev/null
+@@ -1,90 +0,0 @@
+-#
+-# Copyright OpenEmbedded Contributors
+-#
+-# SPDX-License-Identifier: MIT
+-#
+-
+-addtask lint before do_build
+-do_lint[nostamp] = "1"
+-python do_lint() {
+-    pkgname = d.getVar("PN")
+-
+-    ##############################
+-    # Test that DESCRIPTION exists
+-    #
+-    description = d.getVar("DESCRIPTION", False)
+-    if description[1:10] == '{SUMMARY}':
+-        bb.warn("%s: DESCRIPTION is not set" % pkgname)
+-
+-
+-    ##############################
+-    # Test that HOMEPAGE exists
+-    #
+-    homepage = d.getVar("HOMEPAGE", False)
+-    if homepage == '':
+-        bb.warn("%s: HOMEPAGE is not set" % pkgname)
+-    elif not homepage.startswith("http://") and not homepage.startswith("https://"):
+-        bb.warn("%s: HOMEPAGE doesn't start with http:// or https://" % pkgname)
+-
+-
+-    ##############################
+-    # Test for valid SECTION
+-    #
+-    section = d.getVar("SECTION", False)
+-    if section == '':
+-        bb.warn("%s: SECTION is not set" % pkgname)
+-    elif not section.islower():
+-        bb.warn("%s: SECTION should only use lower case" % pkgname)
+-
+-
+-    ##############################
+-    # Check that all patches have Signed-off-by and Upstream-Status
+-    #
+-    srcuri = d.getVar("SRC_URI", False).split()
+-    fpaths = (d.getVar('FILESPATH') or '').split(':')
+-
+-    def findPatch(patchname):
+-        for dir in fpaths:
+-            patchpath = dir + patchname
+-            if os.path.exists(patchpath):
+-                 return patchpath
+-
+-    def findKey(path, key):
+-        ret = True
+-        f = open('%s' % path, mode = 'r')
+-        line = f.readline()
+-        while line:
+-            if line.find(key) != -1:
+-                ret = False
+-            line = f.readline()
+-        f.close()
+-        return ret
+-
+-    def checkPN(pkgname, varname, str):
+-        if str.find("{PN}") != -1:
+-            bb.warn("%s: should use BPN instead of PN in %s" % (pkgname, varname))
+-        if str.find("{P}") != -1:
+-            bb.warn("%s: should use BP instead of P in %s" % (pkgname, varname))
+-
+-    length = len("file://")
+-    for item in srcuri:
+-        if item.startswith("file://"):
+-            item = item[length:]
+-            if item.endswith(".patch") or item.endswith(".diff"):
+-                path = findPatch(item)
+-                if findKey(path, "Signed-off-by"):
+-                    bb.warn("%s: %s doesn't have Signed-off-by" % (pkgname, item))
+-                if findKey(path, "Upstream-Status"):
+-                    bb.warn("%s: %s doesn't have Upstream-Status" % (pkgname, item))
+-
+-
+-    ##############################
+-    # Check for ${PN} or ${P} usage in SRC_URI or S
+-    # Should use ${BPN} or ${BP} instead to avoid breaking multilib
+-    #
+-    for s in srcuri:
+-        if not s.startswith("file://"):
+-            checkPN(pkgname, 'SRC_URI', s)
+-
+-    checkPN(pkgname, 'S', d.getVar('S', False))
+-}
 
