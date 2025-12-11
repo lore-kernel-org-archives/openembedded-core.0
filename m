@@ -2,52 +2,52 @@ Return-Path: <naftaly.ralamboarivony@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8129BD41D54
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88844D41D4C
 	for <webhook@archiver.kernel.org>; Thu, 11 Dec 2025 15:06:53 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11400.1765465612505832462
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11401.1765465612897899458
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Dec 2025 07:06:52 -0800
+ Thu, 11 Dec 2025 07:06:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=NBoew8LX;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: naftaly.ralamboarivony@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4779cb0a33fso2877525e9.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=lslvLYWi;
+ spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: naftaly.ralamboarivony@smile.fr)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-429ce7e79f8so157019f8f.0
         for <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 07:06:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1765465611; x=1766070411; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qKnez7GlkVraC4ABlrfa6SvP4abbv+FEIadWzy/e1Fs=;
-        b=NBoew8LXg0AN9CsLlTPn1WJQvdFoWafnNnl71V70DBI9LunEwsKxU07vnehJ+33NCE
-         eOf9aItm/2PP14HeaY2VFZVL/jht4r+GHZPjfmNaRVNsFQSlhqMECH4emI0RMn8dxfHh
-         Jqqwn2R5Y7cUNSbe0Q+/rFZfeZbsmrQqFpPDY=
+        bh=twKBVRHbffrPEQrPPJr1jRsb7pPLZYA9hoYZqN9VNvg=;
+        b=lslvLYWiaN1x+knf1u6Ebt4JMFTfn1twb/zU1/srf5AKThg0LBNFfDCVVfSzCHSNhe
+         aU3rMVQPYDUFbPjX18mfJBjSCxJlk7+qHNfrPatxIJxzkUvW2n5QzJSvB4ayoIph755R
+         lFjeNEGr5YRbIPn9G6iofSNG3LoCqOP+pL3K8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1765465611; x=1766070411;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=qKnez7GlkVraC4ABlrfa6SvP4abbv+FEIadWzy/e1Fs=;
-        b=MNaYd6UZbQGU1PivRCcbYoe1WQrG3iJb/0kVSjyftqihvLNlOtNOCl9aHHpKJjYCIy
-         /E2zpEzWDp75WhotvJPYqz4+56lFAp1mdB8h6ildTmuLTeUxIOooM8mML2YKqsOmiREW
-         szfsZMZyIkN3OYM2DPoEwle2p7Pbu7XYpZ3i766lTGK1P2SjSUYieZNlMNIZRpQSfhUP
-         tjuaTRkmmpZ1vKRX07qQl1xZcIco23h40VrDjr3wZ5tnCrTpF75nIOOCXo+lOH38SudY
-         pOeKfbxWA+5TDZyCFjt8DkgncmNl2OqwltyJepSeur1vbKdWXFBIoODytk4/DbZgoypw
-         qOIQ==
-X-Gm-Message-State: AOJu0YzNYY17DC2XxoLhx6nr/ljygNZL75pxgVo1MIbDfMFsE1bjKn50
-	HtgKiLnMRsenX6UNDTvXoi8HhPea+lyHGhMze5t0wFyOczUuRqIz0qHfEC+6GWVjHMc8CdlUe6K
-	PhJvn
-X-Gm-Gg: AY/fxX7PplaAzjLRAXiiyEH15gSijtp0CIYUNmjq20Govt5sRcmkba4Zfjnt/n9MQnY
-	iexWNTheYvPLFpjfA8v7D/40VcLSW0DpBVnQsFuDV8lCIm6yMc18NG/aZaRJ6+BNUt6BBocyK2f
-	E56RDvu7oqWUqST6hekq2bq3WuJs56I1wacklCtafQhFYpZoxoLzjFmREBMhBVAk7K26csK+Mbw
-	CzaUs5wjQDgxzqdVZjxgJRiHKXdRa2BB/4LwAiJU2MUWEdnmV6Hs+boqfGEHaiL4xKp0pmRjY96
-	HGmgy7BXepvY/3WV64aUgNVaJb8y+9jsM2RPDSAW1SKzXx/i/3F3+NX7sUH3RthzdyxaE+7Hb8A
-	NW/1zmfi47P2byhqL1Tsh2jFiPx41DycrUZFUL4NrgA7vH7t5xgyUTjgg0asnnzAcA/NmdOhhx6
-	vKf2ZdjFr3avauwor/2tE+e6YRaDsaEFP4b9eB9DwAUaZAV+Zj6N4s4geRyYVf+vQCqva58fzMd
-	TEuLewScSafGRt+D1rpAQ==
-X-Google-Smtp-Source: AGHT+IGHrtJxzvsOzyDgsJuFP5+51mZg8UoWd3jhT9HEV1lb5FbBa2HdrOqHE59WO+2jS/HElahrsg==
-X-Received: by 2002:a05:6000:2f84:b0:42b:3366:6330 with SMTP id ffacd0b85a97d-42fa3b0cecfmr7231708f8f.57.1765465610540;
-        Thu, 11 Dec 2025 07:06:50 -0800 (PST)
+        bh=twKBVRHbffrPEQrPPJr1jRsb7pPLZYA9hoYZqN9VNvg=;
+        b=etyXA9nKCWF5kNHqFHzKA9okFDW3MRuwKgfLgBHKxMWvu/ftKLXDAbJVrA1SYVHbZg
+         yPbu3inSVkXWlQsnSX0qerCv9yBv7/uU/nVhqZB7y9i/QWaCtiZkwDEVHBF41JLx2eMg
+         2gsNGTS1rZ2z8+yVIbBet5YEYRYujO2g+cWHCXI9/WUq1fNOIDsvCYsdoz+EgkFI1Kc6
+         ZWQPp0UEZSdomZMsOLJIfQR7cfFOg8lcEVN9kwLyvvfK3slZQcYHf1MV6upvnEZ4c8iR
+         fPN/Ld8i45e3a7Ak/pPIr5J+aoJ5XjLBYbCeLENULo3uJYLZePUerKd94iR0aLgD5Ypu
+         cyIg==
+X-Gm-Message-State: AOJu0Yz9SYACWerWx6rp7ytQOC2oF1l22XS3gUiY2pV0Zk2vpcP2ih4A
+	oKiZr3mhlwEr+K7KW6zdx+iY6tCFVexx7SJbKAzYANy/UYD63u/0a3FjNFRr378zey/UuHzwCue
+	MqBtb
+X-Gm-Gg: AY/fxX45+Yi4wwncHzaEAB7YcNtMMbjI2bQlJRPxYonSlgHIjvpFCv2tunLHXTbe+s7
+	3y5j+LcwL/mXVl0/42hdGQIcrUbsK+xZARDTnV/TMBqbjvntJe8uH23b1PxVwfKg5PfYixroBum
+	F1tg45aJ2qSdNTrmnkl/QdKL6tDOjKkA1QfKOEaPIuBvsrN1wR52P9EPntNy06gvdTI0LAzomMp
+	RuyX9kpTxLnbb7Ujp0H9I0UmS75rWyBSIwVp0XpYaFyXIxrV56GgJX/igJPpxUOFfhzvKh0I31D
+	OHBY7ItyhsqFudplTODRpMxBWt9tAyWgKGxlMc/4nB/ZiFKp2ISoRan9ITWMoMUR0IWywvOUsNt
+	qp6WRbvm/tOpDPjl2Zg9NrMA+Cgv9FlGXtLvzgTVoFBIguXnfweh580hw9cFlfNcGf/I/OaB7CC
+	13SNiS8FrPfPUa0xE/CblcHoZ3JD+3nN4wM3S5Dgs+Jf3Um4H90O6UHTMACzBxoXge4w8bNadcQ
+	J14wConfBsqEW9KeK//GA==
+X-Google-Smtp-Source: AGHT+IG2n63FxNi5p/6EgGtMW2Njl9fmLMQPGWm+XRPkTaZ6aXT4I6zs+9TjCzHgGTnyH1WwJ7lTPQ==
+X-Received: by 2002:a05:6000:612:b0:425:73c9:7159 with SMTP id ffacd0b85a97d-42fa3afe908mr6858989f8f.33.1765465611003;
+        Thu, 11 Dec 2025 07:06:51 -0800 (PST)
 Received: from P-ASN-DERVAUX.. (2a02-8434-8fe1-4f01-5250-bba4-03e6-c67a.rev.sfr.net. [2a02:8434:8fe1:4f01:5250:bba4:3e6:c67a])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8a70379sm6504043f8f.11.2025.12.11.07.06.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -55,9 +55,9 @@ Received: from P-ASN-DERVAUX.. (2a02-8434-8fe1-4f01-5250-bba4-03e6-c67a.rev.sfr.
 From: naftaly.ralamboarivony@smile.fr
 To: openembedded-core@lists.openembedded.org
 Cc: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
-Subject: [OE-core][PATCH v4 2/6] patchtest/selftest: convert separate count variables into a results dictionary
-Date: Thu, 11 Dec 2025 16:06:42 +0100
-Message-Id: <20251211150646.2647853-2-naftaly.ralamboarivony@smile.fr>
+Subject: [OE-core][PATCH v4 3/6] patchtest/selftest: refactor patch retrieval and result analysis
+Date: Thu, 11 Dec 2025 16:06:43 +0100
+Message-Id: <20251211150646.2647853-3-naftaly.ralamboarivony@smile.fr>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251211150646.2647853-1-naftaly.ralamboarivony@smile.fr>
 References: <20251211150646.2647853-1-naftaly.ralamboarivony@smile.fr>
@@ -67,119 +67,136 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 15:06:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227540
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227541
 
 From: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
 
-Change the variables used to count test results:
-- passcount
-- failcount
-- skipcount
-- xpasscount
-- xfailcount
-- xskipcount
-- errorcount
+Move the code responsible for collecting patches into a new get_patches()
+function. It returns a list of dictionaries containing:
+- test ID
+- patch name
+- expected result
+- root path
 
-into a single dictionary named counts, in order to make it easier
-to pass these values to a result analysis and display function
-(print_results).
+Refactor result analysis code into an analyze_result() function that updates the
+counts dictionary.
+
+These two refactorings will make it easier to add a new test in detached HEAD
+mode.
 
 Signed-off-by: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
 ---
- meta/lib/patchtest/selftest/selftest | 52 +++++++++++++++-------------
- 1 file changed, 27 insertions(+), 25 deletions(-)
+ meta/lib/patchtest/selftest/selftest | 94 +++++++++++++++++-----------
+ 1 file changed, 56 insertions(+), 38 deletions(-)
 
 diff --git a/meta/lib/patchtest/selftest/selftest b/meta/lib/patchtest/selftest/selftest
-index 3cf1c361f7..c2f274b15b 100755
+index c2f274b15b..a1be478e1a 100755
 --- a/meta/lib/patchtest/selftest/selftest
 +++ b/meta/lib/patchtest/selftest/selftest
-@@ -18,19 +18,19 @@ parentdir  = os.path.dirname(topdir)
- # path to the repo root
- repodir = os.path.dirname(os.path.dirname(parentdir))
- 
--def print_results(passcount, failcount, skipcount, xpasscount, xfailcount, xskipcount, errorcount):
--    total = passcount + skipcount + failcount + xpasscount + xfailcount + xskipcount + errorcount
-+def print_results(counts):
-+    total = sum(counts.values())
-     print("============================================================================")
-     print("Testsuite summary for %s" % os.path.basename(topdir))
-     print("============================================================================")
--    print("# TOTAL: %s" % str(total))
--    print("# XPASS: %s" % str(xpasscount))
--    print("# XFAIL: %s" % str(xfailcount))
--    print("# XSKIP: %s" % str(xskipcount))
--    print("# PASS: %s" % str(passcount))
--    print("# FAIL: %s" % str(failcount))
--    print("# SKIP: %s" % str(skipcount))
--    print("# ERROR: %s" % str(errorcount))
-+    print("# TOTAL: " + str(total))
-+    print("# XPASS: " + str(counts["xpass"]))
-+    print("# XFAIL: " + str(counts["xfail"]))
-+    print("# XSKIP: " + str(counts["xskip"]))
-+    print("# PASS: " + str(counts["pass"]))
-+    print("# FAIL: " + str(counts["fail"]))
-+    print("# SKIP: " + str(counts["skip"]))
-+    print("# ERROR: " + str(counts["error"]))
+@@ -33,6 +33,58 @@ def print_results(counts):
+     print("# ERROR: " + str(counts["error"]))
      print("============================================================================")
  
++def get_patches(patchesdir):
++    """
++    Return a list of dict mapping test IDs to patch filenames and expected results.
++    """
++    patch_list = []
++    for root, dirs, patches in os.walk(patchesdir):
++        for patch in patches:
++            part = patch.split('.')
++            klass, testname, expected_result = part[0], part[1], part[-1]
++            testid = f".{klass}.{testname}"
++            patch_list.append({
++                "testid": testid,
++                "patch": patch,
++                "expected": expected_result,
++                "root" : root,
++            })
++    return patch_list
++
++def analyze_result(results, patch, counts):
++    testid   = patch["testid"]
++    expected_result = str(patch["expected"])
++    for resultline in results.splitlines():
++        if testid in resultline:
++            result, _ = resultline.split(':', 1)
++
++            if expected_result.upper() == "FAIL" and result.upper() == "FAIL":
++                    counts["xfail"] = counts["xfail"] + 1
++                    print("XFAIL: %s (file: %s)" % (testid.strip("."), os.path.basename(patch["patch"])))
++            elif expected_result.upper() == "PASS" and result.upper() == "PASS":
++                    counts["xpass"] = counts["xpass"] + 1
++                    print("XPASS: %s (file: %s)" % (testid.strip("."), os.path.basename(patch["patch"])))
++            elif expected_result.upper() == "SKIP" and result.upper() == "SKIP":
++                    counts["xskip"] = counts["xskip"] + 1
++                    print("XSKIP: %s (file: %s)" % (testid.strip("."), os.path.basename(patch["patch"])))
++            else:
++                print("%s: %s (%s)" % (result.upper(), testid.strip("."),os.path.basename(patch["patch"])))
++                if result.upper() == "PASS":
++                    counts["pass"] = counts["pass"] + 1
++                elif result.upper() == "FAIL":
++                    counts["fail"] = counts["fail"] + 1
++                elif result.upper() == "SKIP":
++                    counts["skip"] = counts["skip"] + 1
++                else:
++                     print("Bad result on test %s against %s" % (testid.strip("."),os.path.basename(patch["patch"])))
++                     counts["error"] = counts["error"] + 1
++            break
++    else:
++        print ("No test for=%s" % patch["patch"])
++
++    return counts
++
++
  # Once the tests are in oe-core, we can remove the testdir param and use os.path.dirname to get relative paths
-@@ -44,13 +44,15 @@ def test(root, patch):
-     return results
- 
- if __name__ == '__main__':
--    passcount = 0
--    failcount = 0
--    skipcount = 0
--    xpasscount = 0
--    xfailcount = 0
--    xskipcount = 0
--    errorcount = 0
-+    counts = {
-+        "pass": 0,
-+        "fail": 0,
-+        "skip": 0,
-+        "xpass": 0,
-+        "xfail": 0,
-+        "xskip": 0,
-+        "error": 0,
-+    }
+ def test(root, patch):
+     res = True
+@@ -55,42 +107,8 @@ if __name__ == '__main__':
+     }
  
      results = None
-         
-@@ -68,27 +70,27 @@ if __name__ == '__main__':
-                     result, _ = resultline.split(':', 1)
- 
-                     if expected_result.upper() == "FAIL" and result.upper() == "FAIL":
--                        xfailcount = xfailcount + 1
-+                        counts["xfail"] = counts["xfail"] + 1
-                         print("XFAIL: %s (file: %s)" % (testid.strip("."), os.path.basename(patch)))
-                     elif expected_result.upper() == "PASS" and result.upper() == "PASS":
--                        xpasscount = xpasscount + 1
-+                        counts["xpass"] = counts["xpass"] + 1
-                         print("XPASS: %s (file: %s)" % (testid.strip("."), os.path.basename(patch)))
-                     elif expected_result.upper() == "SKIP" and result.upper() == "SKIP":
--                        xskipcount = xskipcount + 1
-+                        counts["xskip"] = counts["xskip"] + 1
-                         print("XSKIP: %s (file: %s)" % (testid.strip("."), os.path.basename(patch)))
-                     else:
-                         print("%s: %s (%s)" % (result.upper(), testid.strip("."), os.path.basename(patch)))
-                         if result.upper() == "PASS":
--                            passcount = passcount + 1
-+                            counts["pass"] = counts["pass"] + 1
-                         elif result.upper() == "FAIL":
--                            failcount = failcount + 1
-+                            counts["fail"] = counts["fail"] + 1
-                         elif result.upper() == "SKIP":
--                            skipcount = skipcount + 1
-+                            counts["skip"] = counts["skip"] + 1
-                         else:
-                             print("Bad result on test %s against %s" % (testid.strip("."), os.path.basename(patch)))
--                            errorcount = errorcount + 1
-+                            counts["error"] = counts["error"] + 1
-                     break
-             else:
-                 print ("No test for=%s" % patch)
- 
--    print_results(passcount, failcount, skipcount, xpasscount, xfailcount, xskipcount, errorcount)
-+    print_results(counts)
+-        
+-    for root, dirs, patches in os.walk(patchesdir):
+-        for patch in patches:
+-            results = test(root, patch)
+-
+-            a = patch.split('.')
+-            klass, testname = a[0], a[1]
+-            expected_result = a[-1]
+-            testid          = ".%s.%s" % (klass,testname)
+-
+-            for resultline in results.splitlines():
+-                if testid in resultline:
+-                    result, _ = resultline.split(':', 1)
+-
+-                    if expected_result.upper() == "FAIL" and result.upper() == "FAIL":
+-                        counts["xfail"] = counts["xfail"] + 1
+-                        print("XFAIL: %s (file: %s)" % (testid.strip("."), os.path.basename(patch)))
+-                    elif expected_result.upper() == "PASS" and result.upper() == "PASS":
+-                        counts["xpass"] = counts["xpass"] + 1
+-                        print("XPASS: %s (file: %s)" % (testid.strip("."), os.path.basename(patch)))
+-                    elif expected_result.upper() == "SKIP" and result.upper() == "SKIP":
+-                        counts["xskip"] = counts["xskip"] + 1
+-                        print("XSKIP: %s (file: %s)" % (testid.strip("."), os.path.basename(patch)))
+-                    else:
+-                        print("%s: %s (%s)" % (result.upper(), testid.strip("."), os.path.basename(patch)))
+-                        if result.upper() == "PASS":
+-                            counts["pass"] = counts["pass"] + 1
+-                        elif result.upper() == "FAIL":
+-                            counts["fail"] = counts["fail"] + 1
+-                        elif result.upper() == "SKIP":
+-                            counts["skip"] = counts["skip"] + 1
+-                        else:
+-                            print("Bad result on test %s against %s" % (testid.strip("."), os.path.basename(patch)))
+-                            counts["error"] = counts["error"] + 1
+-                    break
+-            else:
+-                print ("No test for=%s" % patch)
+-
++    patches = get_patches(patchesdir)
++    for patch_info in patches:
++        results = test(patch_info["root"], patch_info["patch"])
++        counts = analyze_result(results, patch_info, counts)
+     print_results(counts)
 
