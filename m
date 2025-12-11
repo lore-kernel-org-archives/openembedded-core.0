@@ -1,180 +1,228 @@
-Return-Path: <m.schwan@phytec.de>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6099D41C37
-	for <webhook@archiver.kernel.org>; Thu, 11 Dec 2025 13:23:42 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.115])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9037.1765459416959114235
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7D77D41C39
+	for <webhook@archiver.kernel.org>; Thu, 11 Dec 2025 13:51:32 +0000 (UTC)
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9591.1765461087652742430
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Dec 2025 05:23:39 -0800
+ Thu, 11 Dec 2025 05:51:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@phytec.de header.s=selector2 header.b=gGpEcjgK;
- spf=pass (domain: phytec.de, ip: 40.107.159.115, mailfrom: m.schwan@phytec.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bSoDEYFVJluhCCVkUvPPY8zjZfqBTqU2E+TyH5JMDWmUwjhFuYyZm8uYqVIFMpEC1kdQkWYoAuFII2qnsINMrYTCbuW+IwsM6QRYQAolY7IwAKULgMTKlzLkFjgqZhj62SS331zK//J6ujz42loKmi7XbgiE9yX/YwxWviMwnD0mn00IjspYJaClTbusZjzvd1iV4jUsIShKWfY6+YnrOpH4rv/Ci42bFVxXQab+XSMIYAIgwiEExcEWqvLiYV6TatAQCLfTnDDQi+wojuuq8mhm4LeJ7v6egoCit4wm/NjtKh25xdC5a9HlR+qHXTxE6B4xZWRVyGKSWmzXRte6sA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Pn/jOUiSxbJC48rSve0wjmvUTMag0RzUWGmsBj4afgc=;
- b=P5Xv+kIvoY26uhLI1zeBWVpxAi06XO7GZ67k3WgB331gDeJPkR8MPikn3ycmziZ5xW3lPaaMtcLjXtxr3jlNhYFJ6eSKnENGStYgmooBj+UqyNpGYzZIGr1xEPO2l8ZD8LFpdLtAloX1WuSp7zfW5ExoWwbaF8Xkh7pjHqWPjsJK5ZGQo4+gNxAggaCwtbKY2vbOk+8AZettzlkagJf4Lt3Hp72ttVcuMeBef+7aexIm2UNVloNbADeYd0z5+ucM1wrvN3O/DKm/nuzzWVnqnehB0cz5QzvzeF9sW+OgWDyjniVmm1wWv/0wQoHFbjt8TRWLcp/gUmJQe3W/spC9NQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=phytec.de; dmarc=pass action=none header.from=phytec.de;
- dkim=pass header.d=phytec.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pn/jOUiSxbJC48rSve0wjmvUTMag0RzUWGmsBj4afgc=;
- b=gGpEcjgKfX/6sFBoYrC3a6VSGPE0ftsYS/IrD1B42J+SDlTxsVyjlzUfCFv5gt7wyZUvvl9OBtm1+W002Z/Z9+ECFYPQmMVHVwEHwD/gAf3yA45U3Th58UTaaG4YCkNqfh2qHu/h68r5B/U3ZP0FVzEzENBoPuxwc70O+viQYIbCHVSyeJ7jYLpZi/eiboFapcB9/pSewBdO6VzDhC1PJkrh8UoQH3U7MgGgp2qBcwcH9Evg+iOh96jbap18zWVsRRXVcuCb8O13WSfTzW7RqRuhwV7RfvxWb/oHPZX6fGERzEP40g1WUwxdbyws+c9dQr2l9zpFWb+h3BOOQczS4A==
-Received: from VI2P195MB2489.EURP195.PROD.OUTLOOK.COM (2603:10a6:800:22f::12)
- by DU0P195MB1771.EURP195.PROD.OUTLOOK.COM (2603:10a6:10:3b5::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.10; Thu, 11 Dec
- 2025 13:23:32 +0000
-Received: from VI2P195MB2489.EURP195.PROD.OUTLOOK.COM
- ([fe80::83ab:361:2a81:b582]) by VI2P195MB2489.EURP195.PROD.OUTLOOK.COM
- ([fe80::83ab:361:2a81:b582%4]) with mapi id 15.20.9412.005; Thu, 11 Dec 2025
- 13:23:32 +0000
-From: Martin Schwan <M.Schwan@phytec.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] cargo-update-recipe-crates: Don't fail for
- partially empty Cargo.lock
-Thread-Topic: [OE-core] [PATCH] cargo-update-recipe-crates: Don't fail for
- partially empty Cargo.lock
-Thread-Index: AQHcXfWRtG5Dds9CxE26HvW0hj0qQ7UchsSA
-Date: Thu, 11 Dec 2025 13:23:31 +0000
-Message-ID: <cd485373cfa253d77f0e94ce6434cf90f61bc715.camel@phytec.de>
-References: <20251125090059.3155853-1-m.schwan@phytec.de>
-	 <CANNYZj96iASKujEQRjxVn9AMSRjHV7ep=oh6JbaZw+kWnOOsqQ@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj96iASKujEQRjxVn9AMSRjHV7ep=oh6JbaZw+kWnOOsqQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=phytec.de;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: VI2P195MB2489:EE_|DU0P195MB1771:EE_
-x-ms-office365-filtering-correlation-id: 33f6c6aa-c0f7-4620-8df0-08de38b87af4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700021;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?eXVyV0krZTlrOFB6d1FFOWtmOGxsdjcyYVdtMWxBMmdjbHErZi9za3I2VVhn?=
- =?utf-8?B?UVRreWJCMnpBSExpdnFBeUFFV3BEaEtZY1lBTkpRcVdZN1BWMVhlOS9HNWVC?=
- =?utf-8?B?L1JGa1NTOCttWWROWnpyT3BFbjk5OEJCUjdtVGwydDB2SXpEc20rbUdLTFJH?=
- =?utf-8?B?cTVYQ2hzQnpzaE11Sk1palFidHNLdm9LRXpkbVVPTW95NGtudnNYaWNjQllY?=
- =?utf-8?B?Y2ZpQTBvMUpUVmJsdHJTZHN4cEtBV05qVTBXQXpnc3FMbHRiRmhReXZBU014?=
- =?utf-8?B?MEFTTHZjNWRxWXl3TC9adnhNYlZZUkVBWlRiNDlnbkhrV3Y5c3lzaGsvVnhl?=
- =?utf-8?B?bUxHZFpteFBObkY5UklhaUVGVVl1aEJOM05FVmZyRVlPQmF0VGsyK1NabVJs?=
- =?utf-8?B?c3VqdVQwV2hLWDZJenBpZ1dVQ0Z0WDc1RVBnQnVxaytSYjlmY2VkNmd5ajEr?=
- =?utf-8?B?NmkyV09oUkZNK1JzWXcxVld4eWdVb3JxckJ6RHpOSjhUdTRudmxRN1kyYXBp?=
- =?utf-8?B?OUxWRlI0ZlM2ZFNEcU9YMGhiZkRYTUkvaGZSNVB2MFRVbVQzZFpUeEZZck9u?=
- =?utf-8?B?eVFOMHpkRHNmR1BLTi9GKy9wbWdsWXcvR3JrVFYvMGxYc3p3dHZsUXdSU1Bj?=
- =?utf-8?B?a3dJd3VtbkE4WjJCWXIxOUxpMEoyb1JJK29YY2t4SlBHeVlWYmloS2k5d0Zw?=
- =?utf-8?B?SUFlQVNBaXpMTWxnYVI3NTdpRDNXMnFKYVdwdXVXMnFUUHNLSUJodDFjbG8v?=
- =?utf-8?B?OXVyWWlObFJCVkpQM09nZXZsMDJ5c25rbXVMRUNxQitUWTU4V0Y4UW5pUTVk?=
- =?utf-8?B?Y2xDWmMzNmtWR0ZvWHA2L21wTnNiaFJ3Vm4rWUNxRXQ2Y3dXY3orTS9sMDl1?=
- =?utf-8?B?SU5xSlBtOFdoZ3N1Sld5Wk82L3BzSkZjWFhEQkRoNEZUcndsZXpRUmRLZW1m?=
- =?utf-8?B?ekNCMW90Z0w1Sk8zNElOSHZlTHR0eXRudXRoYTZHY0p5UEVKRGZ6Mk8vcVJn?=
- =?utf-8?B?bERsYnRhVDdyK2t0TC9JSmxST3k1c1dQVkI4dHRWMG9KcTdTQ0YvNC9mRzN6?=
- =?utf-8?B?MDRNNm5SY0NiQnJIdktuOFZISEpjcDhBN3ZQZlUwNnNOT3pHOTFETURxeGRz?=
- =?utf-8?B?SHQ0QmtBU0hDWjRMdStWL1kweTRqT0RRRThwNVFwSFpEcGZNMFlrS1JFR2N5?=
- =?utf-8?B?Wmk0czQ5NS91S1Y3ZHpZdmNoNWlLbGFZNkU0U3ZTR0tMUTNoYSszaTFBeUd2?=
- =?utf-8?B?WGF3a0NjNzhtK0VTWVEvampHQUMwclR5N3czd3QwWXkxSjFjOGxxejEyLzY5?=
- =?utf-8?B?RjZ6ZURyYlBTZVRVUyt6a2Q3ekJGeUlBUEJhQ0tHeHVvVm1JZTBDZnd3WDl4?=
- =?utf-8?B?eXVIVXpMVm81WTlLM2tLdlJ6N1FZNCtFU0MxMytTMkdQTmxvOEpYUnpTMnA5?=
- =?utf-8?B?ZTQ3bHB4VGtzRmJQZU9MTjJza0U5Q0d1YkpNU1Q2MWZEL1Jpamw3RFhqbkgy?=
- =?utf-8?B?WDh5Ykw3MENyVmNDZWJDc0oxVW9UVzEzcEhYYUE4NHR6WGdKdnJ3NjZub3dp?=
- =?utf-8?B?WG1BTGN1SitKZjJZUjY3SEYxTU1Na29nOFJhaWR3SVI2dzYzRlZOdDFVM29U?=
- =?utf-8?B?WFI1UHlidzVFTGdGaEp2SkN0d21BNEZnSWVZT2I3bi9ZMzkwMzJHVHA4MFZM?=
- =?utf-8?B?U1lydlBtL3R0YlBHUzFRbWVWVTRTV2hWejhpZHNYaWczZ3A0RW9KUCtPbmxQ?=
- =?utf-8?B?OVV4eHhBU0pqTmh1N0d4NDNhcjdSdnF0N1Z6MVI1YlFMclFtRXhpRlZtMnZS?=
- =?utf-8?B?VU96WWtqU0wyN1JIa1hjYXFacUhFMlIrOTdMN0xYZmVOWlRUbVZLbUlFNlk3?=
- =?utf-8?B?STVEQmwzQ1RTNVlmVWFicWdaODdKclFIOFZnQXNSQXZiUW5tZDk2eTViMWxs?=
- =?utf-8?B?aXp3ZnRndHphaDU0cC8xVWpsMjRBNytQSGR2RHYxZHNmdHhiRjErRjBiRXlC?=
- =?utf-8?B?dWNUMVF6NVo4Z3VVNklYczBhVHIvL2F2R2lrL2FEMjAyaDhQbm55aXJIek9r?=
- =?utf-8?Q?9BgyHm?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI2P195MB2489.EURP195.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?NERXUGdCaTBmSnluOEg5ZVA1WmF0LzFobmN6cUY4RU41c2JtSit2bDJYUkJY?=
- =?utf-8?B?ZFBIVFJITFQvNVgvTTh1a0Z3ckRDK04zc1JKcDMwSzA2Ni84M3owU3FWM096?=
- =?utf-8?B?Wk9SeHh0bHMvemtJSHZPWVh3dUR4M2dmZnA3aDI4UTBHUUpIc29laUdhUDds?=
- =?utf-8?B?cE1DcVdjZ3NscjZGbENpQlFreE4vZjVyMTlJemxVVThHdk0rc1JSTFJhTUsr?=
- =?utf-8?B?K2RhQm1GVHhDaS83cmhSOGN0NUFoaHlsSnRWVGlJNFZNVmJrdmNZY0V0RFo4?=
- =?utf-8?B?STlJaEZ1ZXFTMDFWS3J6OWVaanY3bklwdUZlbzFDVGQ3cC91dk5DZWVwWWs3?=
- =?utf-8?B?aXNMYTg3eUM4ME1kU3VSMHNDbUJNUEVVaVJyUlJDUTl2RERiSTFJYThHQ1JH?=
- =?utf-8?B?UXJ2T0k0aXlGQjZpNDhVTkRPczhVVzI5dExJZ2QrWi9FaHhnSDBkU2VKcitW?=
- =?utf-8?B?eHJSVlJLZTRMR0I0UGFnVEc2OENBL3BQUklyUmpiVFNNZHZPMFhWOUY0d053?=
- =?utf-8?B?T2s1akR1K01jZCt2Y3pVQUFVeUwzR1g5cEUvcWNBVkJCbHB5QzlMVmxVNitv?=
- =?utf-8?B?b2E2NUw5TkxXUXBDWGlqbTJCR1Jvd3hHSG9YaFM5a0ZXT0RucDk4bXB0QlVV?=
- =?utf-8?B?WmpwZlZSVldIYXNOb1gzYWFwR092MWVabDlXWEFZUUZHQVlzVGxCdDhSNU4r?=
- =?utf-8?B?VWJ1RmxpM0U4VXdUcFRaN0RHVWtDekgxa2U4c0g1Qk5wMHpnN1MwWnd5a2hm?=
- =?utf-8?B?aWlDb09Kem92Q2w0SnZieUlVVUxMaGlLZGhzQm9JTTBhYlM3eDJJQ0RzblE1?=
- =?utf-8?B?ODd3VUtCRTVpWXd2T3JZWmEyN2RMZU5FQWNKUS9EeFRhMXIwcitZVnkrcjFz?=
- =?utf-8?B?Q2FlNFJRb3ZWUTNpblJFZ3R0dm1jbjlYSTRxUWtNQWVRUmhVaENheWVvVk14?=
- =?utf-8?B?ejlrOE8rcEhJczI2RjdwazRVRC9hTzBaRnh3ZXlRVVlKSmtONlRZYVNZYXZN?=
- =?utf-8?B?WE9DSGlpNWs0MXlJdlNrNURnMnRCdHZRaU40VTd3RCswRmdtVmk0ampBdStn?=
- =?utf-8?B?dFpwL3ZJUHVKb3phZ3FBVHcrZG50a2xVZXhvT21LZk9JeUpBTmJENThYVlpz?=
- =?utf-8?B?UnBiR00zQWFYcm9UbEhoV1RyK1FSd0t1UFUvSm0vSnprSWNSY25MVjNCREFl?=
- =?utf-8?B?R1lmeFZ0SUhFc084bDZyYjliZXUrN1I5aWI3N0s5NXAvOG4yNWpWWFB2NFZJ?=
- =?utf-8?B?Z2c5NklQTmg3ZStNYjVURmo4MklrelZUdnB3V1F6R1NxWTJrY01DcHVEY2dL?=
- =?utf-8?B?TW8ySkZaa0xLTDMvT25zbzhBeml1REYzR1pPL25IVW5UcGNKK1dDVG54b3E5?=
- =?utf-8?B?ZWN3NmlIQ254c0dITjZLejZtY3BqZlBzUmwwNFFjTUZNUVhPWHRidm1iQkV5?=
- =?utf-8?B?RDZJUkkwNW5uaXQzeDhFd2VYdmVkdGtqSDVGaldQT1pLRzJ0TzZEZnRZM0hn?=
- =?utf-8?B?dUNabWhzREZCUXRnNEZ2QzlFM0ZQWVA5WlFMTk1ZZ1dIenFDNzY5eHFBRzc0?=
- =?utf-8?B?SkpVcW1uV0hTVTM0Ykk2VTFTbEJYWnhxYm0xbGRIYjZ6MS8xV2RxZ3JsZFFx?=
- =?utf-8?B?b08vaVZNdUhRbVFHbE5KSHA0ZS8yRE5Sa0ZKRmU0bHRsNWE1Y1hrRUY4VGhK?=
- =?utf-8?B?MzhPYjdkUlhwWEV0dE5VaHFIR1RWamtnU2UreGVkVW5ncmZzRjVQUE1OTGN6?=
- =?utf-8?B?ZFV4K1REQmhNSkhiMXVkalVReGVTazZGV25Ia0VhK1ZtczJOL0dkK2ZNV3M3?=
- =?utf-8?B?M0VRUFczYzRUajZhb3UrcWhERDhTNnVVekVXekNERG01OXk4WDkzUFhUeENP?=
- =?utf-8?B?VGZwbGFxa2hLRTVoMTRxdGVHS1pPcFgxWWZEY0RNVE9WWVZBeTRTcUdQWEMw?=
- =?utf-8?B?SEhqaSt1MGZ3SVFTQjBwVXVzcFlabmJCLzZOcFpSV2NwUG5wdEExS0VkYUlr?=
- =?utf-8?B?eVU1Y3Z6UDgrRVZXUlBiRXQ3cDlLZDRNUlFHN0owalVRcmcrUTMvb3dqY0tX?=
- =?utf-8?B?U3FadlVldmhRemdZa3lMY1AxQ28ydWw2dWxES1lHNFlJQlRUVHp1ZTRZbW8x?=
- =?utf-8?Q?1nvg=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <FC8B676D9571B4448160AD492A2A9DF7@EURP195.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=dfRTEk69;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=ZFk/1kPK;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.147, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfout.stl.internal (Postfix) with ESMTP id D989E1D0007B;
+	Thu, 11 Dec 2025 08:51:26 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Thu, 11 Dec 2025 08:51:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1765461086; x=1765547486; bh=Jo3K+k/URB
+	Y5ILTEHo0PtkghrmQ4D2ZUSi4DRDJBPiw=; b=dfRTEk69ibHN9i5fjBZz+xv+EA
+	DeW5I1H6TmtrX1wRvdeYj83LMSMlXNYZJTkBEDiwMaK2R+eCHPVkMKfP/6CAVYcj
+	If19bHACCkA8IvPy2fy8Q/uAFULEO/vil+es0CbFHjdfRDZVrZ0IJMisd7lcLMiq
+	N8OYf/N2h3Z8+Anvq6OjN7RUKlVaLwhVeYegMyAvb8mmDwCRzxqk8F2t0RsOGj4J
+	FLE7HzfJ3eA4TFWEE9ahwG6Jw+zNQJNeoki6LCxhP+SZTBsW44y30r3lzj3RFE9g
+	GFcINhhX9BIAetJMUAVLiFzH/dvUqf7J/wvo7AdyNLf/ROrCCk/6hSaXnpEg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1765461086; x=1765547486; bh=Jo3K+k/URBY5ILTEHo0PtkghrmQ4D2ZUSi4
+	DRDJBPiw=; b=ZFk/1kPKK/9+Mq9saZqxIr/xV5sPE14iqtBGEEwvx2rgK0KJbHX
+	9++5VCsLPquNXWMcSgATo9fM4+s3S6XNwy7pE/bSRSRZiFv+qTCMu4agoZxryhMB
+	Ow0A6XxEhqs/W1jsGwfKzX8gQwM2rOLXzhih2Hdqve6Jv7AKraIpTFLvg8sPPcGR
+	qAmERunGBx3FHyfVQ8nm5bwy855K6HwOuDu8rY5kFaYf3WaDSI6VSHh6k6v04EQU
+	K4tZ/XyrOeME1aIdvK9tYPxeoqOCGmttvkmSo9r5Sg+DLm/zZE59RkM6vSpG5gpJ
+	AkVD5KWKb/wZIilyhYHav+hlGQowjWAd5xg==
+X-ME-Sender: <xms:Xsw6aUhMcb81S_k6svAxGRejKIq-_RR7Ce4f49bxr7zadE2TveD_1w>
+    <xme:Xsw6aUci-MH_95uBxXC7MnA7tjGXjXXKJzTJwjNFhRDNzNx7N46616NZfoSmM2qd-
+    LqctT7_f_T4EFFTndu9_Z7ISjWmDvH0NxZDq7b2TTdA3BLiS2MBY5E>
+X-ME-Received: <xmr:Xsw6aZdqZOU3uX50caNldaS9eQIPUR8GFIPzp0qzd9zVaAoR7VXFmiYeJF5ebVsE1iOYk4m9ztMOrp8QKbl0jDfZ2xMBm-tLA4_WLeWqNMwu>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvheegjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecunecujfgurhepkffuhffvveffjghftggfggesghdtreertd
+    erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
+    uggvvheqnecuggftrfgrthhtvghrnhepfeejuedugeffkeegffdvtdeigfeltdfhveeiie
+    ejgffggeffvdefleffteeffedvnecuffhomhgrihhnpegssggtlhgrshhsrdhsohenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesph
+    gsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepfedpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtohepqhhirdgthhgvnhesfihinhgurhhivhgvrhdrtghomhdprhgtphhtth
+    hopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvggu
+    uggvugdrohhrghdprhgtphhtthhopegrlhgvgieslhhinhhuthhrohhnihigrdguvg
+X-ME-Proxy: <xmx:Xsw6ae-PgwEJMiPoY9JCV_dRWNohJdREz0lF1rrtvjVkdWEs6iOZ3Q>
+    <xmx:Xsw6aVl-CjU3VPVXrz406OWsi-MpdOnj8UjP8ex7HB4uz9XDcuP02g>
+    <xmx:Xsw6aQ9DmbWNSsFhbEQa4Jii4j6c0CbhWcR2ii3_sLRtSdaGiMBXvw>
+    <xmx:Xsw6aTkRKEZ6qqJQKTtk-k9R_E0g5zlJCEMEpUrfWxqMx7H7ofOM4A>
+    <xmx:Xsw6aYcLGLRHh1HnujkdP89mgRMme4uXADtfzmRuKHok_UAmljQ1yM2p>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 11 Dec 2025 08:51:25 -0500 (EST)
+Message-ID: <09078a17ec73a43bfbda989cdc9f4a2ece5d4384.camel@pbarker.dev>
+Subject: Re: [OE-core][PATCH V5 2/2] rootfs-postcommands.bbclass: fix adding
+ 'no password' banner
+From: Paul Barker <paul@pbarker.dev>
+To: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
+Cc: alex@linutronix.de
+Date: Thu, 11 Dec 2025 13:51:17 +0000
+In-Reply-To: <20251204083208.1046464-2-Qi.Chen@windriver.com>
+References: <20251204083208.1046464-1-Qi.Chen@windriver.com>
+	 <20251204083208.1046464-2-Qi.Chen@windriver.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ ep0k17xg==
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-kOZ7EBOT/T4Pc1JCwvuQ"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-X-OriginatorOrg: phytec.de
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI2P195MB2489.EURP195.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33f6c6aa-c0f7-4620-8df0-08de38b87af4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2025 13:23:32.0789
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: e609157c-80e2-446d-9be3-9c99c2399d29
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7egbSCDQfAeAA6v5TVM3M2zTORdO7UzQ4hZOYNqkdcb24s9zaF26k1t9YYbjz7PZnGtE6PW/L70BbsVVcNg1fA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P195MB1771
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 13:23:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227529
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 13:51:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227530
 
-T24gVHVlLCAyMDI1LTExLTI1IGF0IDExOjIzICswMTAwLCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90
-ZToKPiBPbiBUdWUsIDI1IE5vdiAyMDI1IGF0IDEwOjAxLCBNYXJ0aW4gU2Nod2FuIHZpYQo+IGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcKPiA8bS5zY2h3YW49cGh5dGVjLmRlQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmc+IHdyb3RlOgo+ID4gCj4gPiBEbyBub3QgZmFpbCBpZiBvbmx5IHNvbWUgQ2FyZ28u
-bG9jayBmaWxlcyBhcmUgZW1wdHkuIE9ubHkgZmFpbCwgaWYKPiA+IHRoZXJlCj4gPiBhcmUgYWJz
-b2x1dGVseSBubyBkZXBlbmRlbmNpZXMgZm91bmQgaW4gYW55IENhcmdvLmxvY2suCj4gCj4gLi4u
-Cj4gCj4gPiBXaGlsZSBhdCBpdCwgcmVzdHJ1Y3R1cmUgZG9fdXBkYXRlX2NyYXRlcygpIHRvIGJl
-IGEgcmVhbCBQeXRob24KPiA+IGZ1bmN0aW9uCj4gPiBhbmQgdXNlIHRoZSBjb3JyZXNwb25kaW5n
-IGNvZGUgZGlyZWN0bHkgaW5saW5lLgo+IAo+IFRoaXMsIGFzIGEgZGlmZiBvbiB0aGUgbWFpbGlu
-ZyBsaXN0LCBpcyBpbmNyZWRpYmx5IGhhcmQgdG8gcmV2aWV3LAo+IGFuZAo+IG5lZWRzIHRvIGJl
-IHNwbGl0IHVwLiBSZWZhY3RvcmluZyBpbiBvbmUgY29tbWl0IChleHBsYWluaW5nIHRoZQo+IGJl
-bmVmaXRzKSwgZnVuY3Rpb25hbCBjaGFuZ2VzIGluIGFub3RoZXIgcGxlYXNlLiBFdmVuIGJldHRl
-ciBpZiB5b3UKPiBjYW4gc3BsaXQgdGhpbmdzIGZ1cnRoZXIsIGFuZCBleHBsYWluIHdoYXQgdGhl
-IHBhcnRpY3VsYXIKPiBtb2RpZmljYXRpb25zIGFyZSAocmF0aGVyIHRoYW4gdXNlIHRlcm1zIGxp
-a2UgJ3Jlc3RydWN0dXJlJykuCgpUaGFua3MgZm9yIHRoZSBmZWVkYmFjay4gQWRtaXR0ZWRseSwg
-SSB3YXMgYSBiaXQgbGF6eSB3aXRoIHRoaXMgb25lLCBhcwp0aGUgY2hhbmdlcyB3ZXJlIHF1aXRl
-IGludGVyd292ZW4uIEknbGwgc2VuZCBhIHYyIGFuZCBzcGxpdCB0aGluZ3MgdXAsCmFzIGJlc3Qg
-YXMgSSBjYW4uCgpSZWdhcmRzLApNYXJ0aW4KCj4gCj4gQWVseAo=
+
+--=-kOZ7EBOT/T4Pc1JCwvuQ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 2025-12-04 at 08:32 +0000, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>=20
+> It's possible that users use EXTRA_USERS_PARAMS to set password
+> for root or explicitly expire root password. So we need to check
+> these two cases to ensure the 'no password' banner is not misleading.
+>=20
+> As an example, below are configurations to make an image requiring
+> setting a root password on first boot, but without having to first enter
+> a static initial password:
+>=20
+>   In conf/toolcfg.cfg:
+>   OE_FRAGMENTS +=3D "distro/poky core/yocto/root-login-with-empty-passwor=
+d
+>   In local.conf:
+>   INHERIT +=3D "extrausers"
+>   EXTRA_USERS_PARAMS +=3D " passwd-expire root;"
+>=20
+> Checking and adding such a banner is ensured to run as last steps of
+> ROOTFS_POSTPROCESS_COMMAND, regardless of IMAGE_FEATURES. In particualr,
+> we want to ensure that the function runs after set_user_group function
+> from extrausers.bbclass. So unlike other commands in this bbclass using
+> the '+=3D', this function uses ':append'.
+>=20
+> Besides, adding such banner is only meaningful when base-passwd and
+> baes-files are installed. In case of container image, they might not
+> be installed (e.g., container-test-image). So add extra checking for it.
+> With the above logic, we avoid breaking the following oe-selftest test ca=
+se:
+> containerimage.ContainerImageTests.test_expected_files
+>=20
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/classes-recipe/rootfs-postcommands.bbclass | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/class=
+es-recipe/rootfs-postcommands.bbclass
+> index f4fbc4c57e..8d7e5e7652 100644
+> --- a/meta/classes-recipe/rootfs-postcommands.bbclass
+> +++ b/meta/classes-recipe/rootfs-postcommands.bbclass
+> @@ -5,7 +5,7 @@
+>  #
+> =20
+>  # Zap the root password if empty-root-password feature is not enabled
+> -ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", =
+"empty-root-password", "add_empty_root_password_note", "zap_empty_root_pass=
+word ",d)}'
+> +ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", =
+"empty-root-password", "", "zap_empty_root_password ",d)}'
+> =20
+>  # Allow dropbear/openssh to accept logins from accounts with an empty pa=
+ssword string if allow-empty-password is enabled
+>  ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", =
+"allow-empty-password", "ssh_allow_empty_password ", "",d)}'
+> @@ -64,6 +64,10 @@ ROOTFS_POSTPROCESS_COMMAND +=3D '${SORT_PASSWD_POSTPRO=
+CESS_COMMAND}'
+>  #
+>  ROOTFS_POSTPROCESS_COMMAND +=3D 'rootfs_reproducible'
+> =20
+> +# Check and add 'no root password' banner.
+> +# This needs to done at the end of ROOTFS_POSTPROCESS_COMMAND, thus usin=
+g :append.
+> +ROOTFS_POSTPROCESS_COMMAND:append =3D " add_empty_root_password_note"
+
+We should use +=3D instead of :append in all cases unless the semantics of
+append are actually needed. My understanding is that we just need to
+ensure that add_empty_root_password_note appears after
+zap_empty_root_password in ROOTFS_POSTPROCESS_COMMAND, and we don't need
+to use append to do that.
+
+It would also be better to keep the root password related modifications
+of ROOTFS_POSTPROCESS_COMMAND together, so please move these lines up so
+they are immediately after the zap_empty_root_password change above.
+
+Thanks,
+
+--=20
+Paul Barker
+
+
+--=-kOZ7EBOT/T4Pc1JCwvuQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaTrMVREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bgb3AP9KLWAedLbX4OKivKYJXB7dDa+G3WEXdjP+
+z+E2akSdNgD+I97y1IEBymk+XgEXZRkmRsH91IHBQw79aO2n/dMhrQc=
+=5koE
+-----END PGP SIGNATURE-----
+
+--=-kOZ7EBOT/T4Pc1JCwvuQ--
 
