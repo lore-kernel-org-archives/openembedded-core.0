@@ -1,575 +1,735 @@
-Return-Path: <Jiaying.Song.CN@windriver.com>
+Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAE59D3E78C
-	for <webhook@archiver.kernel.org>; Thu, 11 Dec 2025 03:32:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08C60D41C04
+	for <webhook@archiver.kernel.org>; Thu, 11 Dec 2025 08:10:51 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.308.1765423919664819897
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4529.1765440642739778813
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Dec 2025 19:31:59 -0800
+ Thu, 11 Dec 2025 00:10:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=j3BqrHAf;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4440b3d018=jiaying.song.cn@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BB3O94B764251
-	for <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 03:31:58 GMT
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=BfOVpXoS;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4440256309=yash.shinde@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BB6US6V2546052
+	for <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 08:10:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=nVZciGfi8DDFPJdw5qe2v6JvxVTUrNWH8KYesZKzVBE=; b=j3BqrHAfy6Q0
-	aWotn8RRQ/6byVle/BPHVToIIz0zPJFqlHb3/4N1hnC0PgpYa/wV0nnw8YuBF881
-	UBfnynDOfnNp3ssfOzPUfi5wQD6Gv+5Dh7BrwUBzYUm0HIgJdXqYrhA4EZWHlnhE
-	dFZpT/FVPPMHyGHXsSuD2+IXTwQtuJV7++04ciAVRFYsyMtC8zFgbdTZDFryh6Rt
-	vCDc/fXvFVHG7yiG5/bL6JsKUpC3PVQZ3Ar43r97fpeA+AvWvvFT/R5qP8oi6fMz
-	UIEaqm3X8RKMBLczcA4/YjH2cdXxlJ/fTVYKO8L/RZ5WWDfViWF8Xqbbt4RlSYD5
-	TJdNPtj2vw==
-Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010016.outbound.protection.outlook.com [40.93.198.16])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ay01nhgjs-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 03:31:58 +0000 (GMT)
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=xoADiRvcFP9hV+eHUem2S6
+	bjkcFO7gAsx/yv0ci6rlo=; b=BfOVpXoS/QfVPDM/3sFzXsoO36H4fAgQZ1F6+7
+	znafXTwG3B8fAChm0MDBVy0McCDKQzx0Uilz3S57HfKdtgyZtkrCZbA71rfEP3tU
+	SBQA2F1B6xocKR9RsQ4+O1Fj6iB42UrRGfQdvEhi8H/IvJ9gskFM8WdlKhGtHS5C
+	701zO4uxwQP1oZsq9FWngHqIog3LmDEW3OZnwmZVviE7AbsoMzC5b+8U7usNH67V
+	E6ZMe9wKi8e1n5a18tboPQ/fzhdxb81nrRGhVGJ9YpGvCexWh891t4IGzxYr3PX9
+	uNN2D8GlylMQRYZbuGwYg6VAdN8mESHAZEbDTmzdt9vTc1rA==
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013002.outbound.protection.outlook.com [40.93.201.2])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ay07hsqr2-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 11 Dec 2025 08:10:40 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yw9ZY2Ww2XDh4JEEL9gMQv/cnLH4pER5O+lXSI1Gzfa1K3kZKqJxprHOYtT8fZrM9qd/CpNRqeDMo2LL5Ljo/EZus03s2HuxAtyO3Tbanmpo+EHZ8zeW+i5/YBbBZKFzCIXE8h29doHXBDsiFyGSPnAq6nNDcawGGeIdyA5RDWqbFyUua1iR/uSiBgzQ9nlIi6f11LRbE/v+eN03UNsrioTQUvA3HV1eat3DRdkFbVhDMr1MSfixxQXpk6j1So3/G+smbz1f4U+K5Rw8RhN/Uc5OZSgzQ/NufzJYXy+BVCeO5Ko8ce76+FrOPNKrrvDAx/8M4LVXWd2GhGkIQ/Sh0Q==
+ b=Cwtfc6G8cNBLcCppKtTXtf40lm5RIy+554HGjZWp+hfR7K+QTuJnKHKkoyiLAHaydWJVrjy+o2TmWFmMYiRvVo54K5MkcPDcxNCts1xZyNT3Z7ymTEC9/v3oFzFDCJeTC2RRetQvgZRdcnBSbCJv0cZxDs9ZdtIsddXWVKse7dgKw118iZZRGWq2m5pH/7HEHzj5CFlhEQRDQk1aPzC+4Avx4Qid3GbLcwyX3VFqaXtiTusNr2H2z7MtSoy0d9harfEQ890RUqui6sWDLpqZ11GxxTTSJl85kQpMRdThasD9SldwJO9etBGKeikY+XFtlftQECC2S6MQ47ZuQK/JPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nVZciGfi8DDFPJdw5qe2v6JvxVTUrNWH8KYesZKzVBE=;
- b=FTLxvp+g1QkmYjcDalojx9yoGpxSO05I+HWzrGuBQQXQJjNNeYAzIuP6jfzgG+8VSi4QWnvzKkbiNaMMejVfLoBPbSDYi4ICLLfg3Elgu14MqhYQn1DpTKGo8yE5HVXpwDkDhAqM5MhmIS/qZjQCvCwBnmegSIXkyESxPRbkz5s23KU6lsqjmUJUcGYaBhoxSoNteFjSQeWI7UAGOHsR1NKdj6tBuabFKy4JGqI5gN3K+ytbD1hhz603ENaRV/3O18za72JB+euou8LvV0E/N1PZZn9sVFG6W3BXr5Xi2oKfeSyF4YQqHCJK0xyMCZRqMQgctbt9V1GTdM4flMo6zw==
+ bh=xoADiRvcFP9hV+eHUem2S6bjkcFO7gAsx/yv0ci6rlo=;
+ b=XCfjLIn7j+XDQ3IyZT5tI/yhPzIxYIQ6DYt9V/iYmlwG/8VY/8FHZ2mgzSkUOKdzFo8O7qN2Mq+g+UoNZwmS/g1OZ0Z3cDOrMHmM5dpuz+pOg2f+5f33txk5dNzPdWrg22dSU0D6yuZgQR26/OoVbxKNTfABkvdV0D3FUiFLOvPXS90wgY+2J/bJJ0rkw7yC1qS4oT/OHc2cx/eFrY4zn5U+3/dQC/As9uGwRPnlM9nLqidPS3B6J7qTbmEt+VokmVTjFxiX2MGKZESEBQ7gP8rzTxUuj3z4smSGVW8CJm2S62KYjp7b3fkhu5w+r5l1vKGsOwrzA+cybIIdCsU2uw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from IA4PR11MB9420.namprd11.prod.outlook.com (2603:10b6:208:563::13)
- by SA2PR11MB4810.namprd11.prod.outlook.com (2603:10b6:806:116::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Thu, 11 Dec
- 2025 03:31:55 +0000
-Received: from IA4PR11MB9420.namprd11.prod.outlook.com
- ([fe80::2714:5169:aa4d:163e]) by IA4PR11MB9420.namprd11.prod.outlook.com
- ([fe80::2714:5169:aa4d:163e%4]) with mapi id 15.20.9412.005; Thu, 11 Dec 2025
- 03:31:55 +0000
-From: "Song, Jiaying (CN)" <Jiaying.Song.CN@windriver.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [oe-core][walnascar][PATCH V2 1/1] python3-xmltodict: fix
- CVE-2025-9375
-Thread-Topic: [oe-core][walnascar][PATCH V2 1/1] python3-xmltodict: fix
- CVE-2025-9375
-Thread-Index: AQHcPDbqVHSQ9VYMPkOhawnOIDUI2LUcJMcQ
-Date: Thu, 11 Dec 2025 03:31:54 +0000
-Message-ID: 
- <IA4PR11MB9420D69D8EC831A52ED9951FB8A1A@IA4PR11MB9420.namprd11.prod.outlook.com>
-References: 
- <20251013114454.2265433-1-saravanan.kadambathursubramaniyam@windriver.com>
-In-Reply-To: 
- <20251013114454.2265433-1-saravanan.kadambathursubramaniyam@windriver.com>
-Accept-Language: en-AS, zh-CN, en-US
+Received: from PH7PR11MB7593.namprd11.prod.outlook.com (2603:10b6:510:27f::9)
+ by DM4PR11MB6333.namprd11.prod.outlook.com (2603:10b6:8:b4::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9412.9; Thu, 11 Dec 2025 08:10:35 +0000
+Received: from PH7PR11MB7593.namprd11.prod.outlook.com
+ ([fe80::2688:e731:421b:5ebc]) by PH7PR11MB7593.namprd11.prod.outlook.com
+ ([fe80::2688:e731:421b:5ebc%5]) with mapi id 15.20.9412.005; Thu, 11 Dec 2025
+ 08:10:35 +0000
+Content-Type: multipart/alternative;
+ boundary="------------BrzidIFzcCTUtF10HppgW0wV"
+Message-ID: <a94bfb6f-657b-444f-80c0-ffcbfd105305@windriver.com>
+Date: Thu, 11 Dec 2025 13:40:30 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] rust: add missing zlib and zstd dependencies
+To: Randy MacLeod <randy.macleod@windriver.com>,
+        openembedded-core@lists.openembedded.org,
+        Khem Raj <raj.khem@gmail.com>, peter.tatrai.ext@siemens.com
+Cc: Sundeep.Kokkonda@windriver.com, sunilkumar.dora@windriver.com
+References: <20251210101803.1120711-1-Yash.Shinde@windriver.com>
+ <818e8b90-9aa1-45e4-aa1d-6a903676408e@windriver.com>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ActionId=fbd7c000-81a9-4e64-953b-d65e43e2120a;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ContentBits=0;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Enabled=true;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Method=Standard;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Name=INTERNAL;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SetDate=2025-12-11T03:31:14Z;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SiteId=8ddb2873-a1ad-4a18-ae4e-4644631433be;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Tag=10,
- 3, 0, 1;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA4PR11MB9420:EE_|SA2PR11MB4810:EE_
-x-ms-office365-filtering-correlation-id: 268dd084-36a6-47a9-9c38-08de3865d50d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|376014|366016|7053199007|38070700021|13003099007;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?wuAJi9b8yU7PoTBnZ8Yk+sy3Rs4chuUJoIdBMl2Ffx73kOs4VnwThcPGUmxJ?=
- =?us-ascii?Q?9wt9vZGy4gji7tH7KZfRV0O2wGlW9W/ie4M5O37UokhjlN+WvKj9TLDjgWvz?=
- =?us-ascii?Q?RQfns28jWPsdUvsvfZrts4ThIqz2DRWm2Fax7v1EpKj186Bt5jFcrwHD3a+C?=
- =?us-ascii?Q?QaWF4e6ZI35GMN1YKeX92RRNjFhYMhn5KaWWEa5IHZC9RLYkSTClubafllBD?=
- =?us-ascii?Q?b04J1VHBXoQSofU8Tz6cxKIHPPmlj3O3FyH7+3bLGXv3grhFradPWyYqMS4K?=
- =?us-ascii?Q?YjL9iQUvqx1fBGaHn40TaKf7toiSWEOhQ55MS9O2LsMA+5BmWSCR16wQu5eg?=
- =?us-ascii?Q?/m8jNyZA1pWEEeIru/+PU3alN8A9Og4X043uuHupzSWRKSCPN7x8HaYQ0VZ+?=
- =?us-ascii?Q?ZvfTij5KeoEwLaApzUMUmvCOiWrz3/kZJUu1hU2nWnkOuCMwerhT+dl6o6al?=
- =?us-ascii?Q?gwserKy+tbgvdfa10VRMbL+7JNdUPXl7ygz88pO0ZzUnKsBadsymfdYpcPiR?=
- =?us-ascii?Q?6/HaX9n5RH3QBmy5M96OGBTL2xQPsK1vIWVqGEGHLI+3CzGix4M+Th2zkzJ7?=
- =?us-ascii?Q?8XbinuMtW/e6i8+QtEggpW0H/dV5rGuctfDlFTd8XzVC33HXMrARH3kLOSIr?=
- =?us-ascii?Q?GLIXYcxyqFG58zqUk0qETofX2ESkinkymoN8zskvQx9/ihzLtWR1y9AYsyf1?=
- =?us-ascii?Q?u8PQJMZVKpB7Snaoo/AIrzM7nfwCC3Q6krN1EXOAAGJHBLNfxUpAe1V1ihaQ?=
- =?us-ascii?Q?YSOoIwqZz2MY59JBEm1/Qsydx9osQkPD+JCEk4YhSSjrzD/eprd+FVoEEXoT?=
- =?us-ascii?Q?wQ+R/KonxZ/dfS4k9GaD+DrCEX+O1oisIQzezRBNHxAWsMMkJQXyRiv54I5j?=
- =?us-ascii?Q?v3Rf/Dirk7aqGS6ArJNnUPeJGMx1ogA90j08w0we1/tAgmFJOiVO6nZLZk+T?=
- =?us-ascii?Q?WJr7VlRhSkL3lirq2cl/VehVFFUkezzI/Hslq+/Kd0mOoceZ9skzC1wPqwhz?=
- =?us-ascii?Q?2AiSXoYbR+0OIm02i7/gifLY521zjxjHHrXydC5yKtKFUpGpvbs+jdlZjojh?=
- =?us-ascii?Q?dgzIKmuslR1eyIXDoNRtaWJKQ9FqxmUAfeJYMgytUQ2SL5FK+SK+uisR4pE/?=
- =?us-ascii?Q?PJl1S4AKOd3rLQnS2zQQjjBLgm4bpHnDK9CNDmNULdrlddoZ1gt03f07Z7zP?=
- =?us-ascii?Q?pJlUzVUPMsn2nXZ68gk2PeNOflFBltT9SG8e2lp9q+ftvGLUrCPsvKuQJ2Jh?=
- =?us-ascii?Q?bqM0fo+VGMi3JND0cWk9kjHFaelg6Nrwv3/h77xaJDSLsnDTZuftG1+vb1oC?=
- =?us-ascii?Q?Q3rRgAlYCeqZbKzHk+cc5jkV1+xYR6gr22ykSo+K/XzmIC6q443mGvLZVp6p?=
- =?us-ascii?Q?3oA+g1saZOctimlSnXyGsnnwCJyX1t/HaJRCHG2RjBErHFGDJZFEtIc44ROX?=
- =?us-ascii?Q?vrAPDzFKZMG6nCwIf/nmxfJsWX72b86AgoMjQdBNm1KxgqaJJheoKw=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA4PR11MB9420.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007)(38070700021)(13003099007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?m5Iy2DMNhcKzpPFa3OWbr/y2hB5Fi0kN5XJzxS6RCM9FnvghnWVyow31scVA?=
- =?us-ascii?Q?srDHsIImXczoiCE6L+/ioH2Uf8Bukb12Q9/3rt56iFDQvacMcn2wJp1lbmVl?=
- =?us-ascii?Q?TjwTKvqp9ALnhocp99nx5fDEZEIChKbHwt87XXsV9UxPXR4vS/nOarvsHgI0?=
- =?us-ascii?Q?RjD8438FxOmfpSsNdW/YVtI8cYp/IHM8Ad8qJipekiIcSOqmPY1lg/Jq8IPZ?=
- =?us-ascii?Q?I/H0yzEhw0smGFi2Y0veIwXvPLfEudq8gYHWJNBhz323SaEZTcybaIWKwja+?=
- =?us-ascii?Q?w0mHZOoxc7TMqcueXYT2RvIrpaSheBOF8Or+/OTb5mjOKsJG+lbJVDeLbM4J?=
- =?us-ascii?Q?PSxtc8VSR2LZo3sJL9KM3dCRi/UzE1txUCKDZJZ9LGyTi6uCKZ2KlItAAimE?=
- =?us-ascii?Q?pqnf2mUQyTEDCTLjfl0RKuwmyPU5P+QCUwALWqb0CrCUke1oS1Mb/aB2AxBN?=
- =?us-ascii?Q?ch/iZaIeiCj1Kmn6qooVoEohSRphrnefAV2kbBzIoSye6EAK2UEjbjxAQrfT?=
- =?us-ascii?Q?rvVLtzcGGI0dHafc/shCSCGllf1UmgnRCH1STAeFAmMN7Axl1XPmb0EkxGGq?=
- =?us-ascii?Q?a7Rp9vw0cynGA4Z/9drlU0G/KQYbTqiVn7T0Rcys7syM+CYscpZB9jGGPWK2?=
- =?us-ascii?Q?cqIO6ARmi0+hOyYf+tLSduVQHauzQqmzEcxId2HGiZbkzyG4XZzxO3kvnC3V?=
- =?us-ascii?Q?bJzXQYJ57a1NYH4pLSVu1HOdEFnXS8PlS1Q17Pal0wm5Ckz1tJIt6DJlbAYh?=
- =?us-ascii?Q?Xd/7c5w4JbQOYDIWsZ4hmTiz10/ZeHhjVgfHb8YsvET+ThmvG0Em4v2/WyER?=
- =?us-ascii?Q?6L90eXDf4THTV5CyLhvSBRXcyJH0C1aeDfcR3r5/WQjX2eQFrof6C6gAfkkB?=
- =?us-ascii?Q?xTxG8MkGUcGeh4wnFZgzNitsSOYMpOEiZFN84CX/OkOX5Kjv2Kn1rGYiWXIu?=
- =?us-ascii?Q?GFG990QK4KrGZFOfGXcueWWr751pc4onaKBlLSvc21ReLeYTcbY0Kv0O3M7I?=
- =?us-ascii?Q?sMTdtVhb5TGfKO1sodqv32F6ZidCpCok3h9W18/8o/Dpux5q8WrNe2t6eENr?=
- =?us-ascii?Q?T21aV+mgAhz90qjodFS5/qJd9oH1GjALoutPD6tgJrrOVrzhLIlixIcT35W+?=
- =?us-ascii?Q?/eCYSINZmxQrvcuj8+enGOSpUuzd+R8YXATuAzyoBCXv6bJE/MLpOrasEi9o?=
- =?us-ascii?Q?sgXddmo1KPJBfiOFyL28nbTnNTkHohXXUXIclH8jki4NPJ9qiQJauPXiC5Dc?=
- =?us-ascii?Q?wPLf85TR+JqreW8hpIyV2h9MGConNSHqWRORye9Io4xBYup0qS8pMaKurdsb?=
- =?us-ascii?Q?Q7boBHq2PA1ekXGgS7vWbaBqV0cRvm9OLTSg062kWgo2ySQIZ3B8Oi6pZfOk?=
- =?us-ascii?Q?fsjmOpXudTt9EXXTK3pUTYOgLO80pCNXMRI6X4K0GMHcMp5wqVrn3kiViKQR?=
- =?us-ascii?Q?G2QHQ0oBRSa3ZDYOXoSuPqryzriP5RGSNqekA7ZlcWvwh3G+ktQjCxtM11LE?=
- =?us-ascii?Q?Na5McwSTZJfEIeeAwFHvMNCVj2Rxj9SSPCKKbZQUCWb4HX9t3n8fWT569ieL?=
- =?us-ascii?Q?LJDNX18X8AQTdT8+V8EIuqTx4QEz7TXqn3q7YyyQFW79TJYg1QKuZeDd6cwt?=
- =?us-ascii?Q?/g=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+From: Yash Shinde <Yash.Shinde@windriver.com>
+In-Reply-To: <818e8b90-9aa1-45e4-aa1d-6a903676408e@windriver.com>
+X-ClientProxiedBy: MA5PR01CA0097.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1a8::15) To PH7PR11MB7593.namprd11.prod.outlook.com
+ (2603:10b6:510:27f::9)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7593:EE_|DM4PR11MB6333:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6dd0be4c-6f58-4c26-82dd-08de388cc337
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|366016|8096899003|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?enlCTjRjSER6M2pLVUZ0a29pVlU3dEJna3kzbkVFZisvQlgrUmNSNEtQaEYw?=
+ =?utf-8?B?WnNyQ2JieDN0K09zZDAvVGJ3RWpCNjd4MFJhaGhXZ3hyTkJKbmpiRnRtb2Rr?=
+ =?utf-8?B?NkNuVjdjMW9mbnd4NkRkNFUwak9wQ1hheHRuOHlRa0VzN3JqVEJUQ3FjM0lB?=
+ =?utf-8?B?NzRsRHFlN1pBOG1WNU9lVzZHWW5kOG1vOEtQUmZvbytHY3VvNXY0VFRBMndy?=
+ =?utf-8?B?dEFSeE8wMDU3RHRGRnNwZFkwVGxEWVpwN3FoRFpXZHE1SVByV2RwcVN6bXJy?=
+ =?utf-8?B?S3lPYXNjVk9HcXA2VlJrczVnNHVJdHFzdjM1RmMySlM2UmtKcS93emE4cjBJ?=
+ =?utf-8?B?WC9aazBLT1BSNWd1S0RqaDhxbFpQT2daeXM2UldlaFV3dE5wRmRLWDRxemxL?=
+ =?utf-8?B?Sm1QR1FaV3REdjVoekd4MDhPRXdMT3k2Rk0zU3BWZHFHSkE2MmtVaWoyRG1E?=
+ =?utf-8?B?NFRDblpqQU5hTEZGZnZsUEF3MHFGdytCMzNnZHhhK3NmRUVtMGYzcXBBalhj?=
+ =?utf-8?B?Y1lSKzRPNjFGRzNGeW5OeWtheHFCR2wvZXUyUTYzOXZ0Y2tGcGk3dVErSW02?=
+ =?utf-8?B?WkdVaXdFUncwWUVGcmVSOWFQdnJyVFhRcTlzWGpTWEtRN0VDZ1BkUFIyN01Y?=
+ =?utf-8?B?WGh3djdFd1ZMV25mYW5RdHphOGh0b0hzZmtDZHNWWnd4OE82YndmQzNoYzF4?=
+ =?utf-8?B?emhOMm91QWd4Yml4ZlBONjdqdldsV0s1aGplcWhrNFFlK2w3aDhUd05mcU1U?=
+ =?utf-8?B?czF4WHFpRUsvdUtxSytTMy9QdXZkVVh5NjRRYkdsL1MveVd2cWJFaXFrQkcz?=
+ =?utf-8?B?V0wxYm1tSWF3SlBueXc5cDJWYVF0Tkt0Q1ZQc3FibnZmejRZeWJLbzJPM2dC?=
+ =?utf-8?B?cW5uS3pobUFvZE9RYWZLaGVyMkhzZ0VJY1JlWm5nMmlMZW5Ea2J2QXcxejdo?=
+ =?utf-8?B?cWxXMlpheERTaEJ5TC96a3Q3UmdEdllJSEVqWXk3ekJ6ckJYRENVb1I2UXY1?=
+ =?utf-8?B?MW8ycm1yNjkydkZWaGNRZ0ZCTFBVTjhRUHkzRWFVUnJVQjh4bUkvNDJOL1Ny?=
+ =?utf-8?B?V2FML2NaSnZRRFU0ZituS2hSQUhHMlhkaDY4RHRlVnhYekQrV2J6VURwelIw?=
+ =?utf-8?B?c1pMd2xjMTQ2R0gxU28yVjhSZzBGaWtuaHpBKy9kL3RzTlk4Rk1MOEJDbEpo?=
+ =?utf-8?B?eEZmZmc0S0hnNElhMllZOWN1dGFXNzNZY0dHLzg4QXVHT1ZwaWxGWHFsbkFT?=
+ =?utf-8?B?OWorVmV3STZFRmZ5MjVBeTgvT1hWYW5JZWp3R3l1dSt6MHpHUDRrSk1lc2I3?=
+ =?utf-8?B?eXkzZWdMcU4wMFhDVVFXR0xKUnVjSTN0N0Z2SkpZdXJLVkFvWXBNU3BSbUdi?=
+ =?utf-8?B?YzZxV2JOMDZWajFGSFhkK1BhTlBCbGlRRXdDai9LdnEvU0VEcHdIaGJlVmh6?=
+ =?utf-8?B?cHJodWFQYUFneDZ5c0FrSTZqZW5qNVg5OVVvMi9NSGJFTmNNREh6L3FXSHJF?=
+ =?utf-8?B?WWtTTmRrOHZzL0FSWnlaOWJxRE9wMGx3ZzJlZm5GY01LaDJyM1JxejlCNE9w?=
+ =?utf-8?B?cnl2MmlRaXF6STFHWXF0VFpxWHdLRk54SWgxWkVxTGk4OGwzMktCaTQvbW96?=
+ =?utf-8?B?VWVyLzFLWnNtQmVLN2tMRSszSlh5c1ZDeWFkZDR1TEVpREl6T0dqZkJXdytv?=
+ =?utf-8?B?N092Nk9mV1NjUXVVY3pIb0xVeFRYa1ZCMmt0SDhYYnBhYVc2M2hFYU5EWEFP?=
+ =?utf-8?B?TzVtd000K1ZUS2VhODV2WU1yU0d3T21HKzh2SG9OMUxsUUlWampjaE13c0lm?=
+ =?utf-8?B?YWRQNThQeWZrOTRJaGI3Q0FOa0dPUkc4V0draVZIRlUrYzBVRnJMdWVNK0o3?=
+ =?utf-8?B?NmNIY1NSaE42RllScy81T0VIMVRmcWxjNE5ybEN5QUtRUEVJckdzODErUzF2?=
+ =?utf-8?B?VEYycWU5aXl4RDFKTXZJZ2JtOTdsaWVyWUZINEZkY09FSEt6Zi9PaGE0YmJZ?=
+ =?utf-8?B?T3h0NDBRUHRnPT0=?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(8096899003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?VWVCSXh0VlhXdjJkc1VWazAvMFdWOGtyNTFGL01yUzFqbFpTYUNFVWFpUDNS?=
+ =?utf-8?B?cTFWY29jdlR4WTJGOXRnVnZNQmd1eGdldEdlNUtiT2VjSWlXenN1aHh5RDVD?=
+ =?utf-8?B?RzFERVVucDV6cXZGOVROQVpQL0tBMTkwL2VLTk43VHpzZ0ZsVFVVL20rVXR5?=
+ =?utf-8?B?S2s5TXJmNjlNbzJaL0c3RUVuRGRjNlRycTVMRXJEZ3BqZExpdk5qUG5pSGNa?=
+ =?utf-8?B?bzI4TlV3YVFrUHpreGtXbHpOZXpqbzVWaFRKMDhuTkNkd2tlODRDbjNROHNy?=
+ =?utf-8?B?bG15c3JTMjRhWGp1K01rSTIzbmFUbnFiU05Sem1oUWxkQUN2VzMwTXZRR3dl?=
+ =?utf-8?B?K2FjUTdoUUpHUC81bEFDVUo2dmJkMTBha0Fqa0o3bnRYZGZtMjZqZTBOUTVX?=
+ =?utf-8?B?cE1XN3ZIUXg3UitVeitCK1hoUU5kTVlJbmJtOTAvT2d6b0psbGs5dGZPdEdF?=
+ =?utf-8?B?R3RSTG80MWZldjhrRDR2MzQxTFc5clVUbXpDVE94UHNMb2w0V0RvZnFPTUJZ?=
+ =?utf-8?B?U0JLenM3cDQ1YlVJNEprajliSmlVOWxkRDlNL3RFYk5IQ1Jja3JSUklhVTln?=
+ =?utf-8?B?QjY0R21oS0d6MU9PUUwxVnpacGZMcUV0Yms0OWVVbDc3ZHdNcFRrU3VRenA1?=
+ =?utf-8?B?Y2JzUnVTTEdhM0RQcFZsbkljNmEwUC9weFl6NnBQZkI5K1poSGx3N2lyUDJP?=
+ =?utf-8?B?WDc4eC9tQkVYV21ZTjNVWWQvMmpiTm9aeHh5SjJUSE1lMzQ3VTNlQndsMzR1?=
+ =?utf-8?B?K1p1eDY3UWUwNFJBc3IrS2poSktmajQ1YVcxMkxQb1M3SWx3aEVPRHBMRTRB?=
+ =?utf-8?B?UUtLNTdHZExQZDI5U1BNWjhydGJtb1ZwcjhRbFJhd1QvaUxtUFlxOGt3cHhq?=
+ =?utf-8?B?NUN3TnhCeTdwV3RwQ2VobmRWZHhMbEhGb0lVazh4eFpDMFJtVDhEV1p5bEZ4?=
+ =?utf-8?B?aU1tUk05N1pYS09VNSt3TFRkN3M0L0NHcXFUWkdmclo1QUhTaWV6RmE3UmJ3?=
+ =?utf-8?B?NFp4dHhWRHJOV2xGTERydGRtcGNOei9adkpzMVBPZGNxWHlPVTMwYm8rbkF4?=
+ =?utf-8?B?K3VzQUZhS1FnWk9sWXVRU0hGZnQxOUN2VzQyN1ZaRGU1cHF5YlVZeGhvS0tz?=
+ =?utf-8?B?Sk5vMHZJc0txMDR1Ky95UWVxRVhjOC81OGlQN2xtUmFHTmpYdTlWZG9uT2dM?=
+ =?utf-8?B?SEJOU3dTWnVqaWxHb3ZGM3lnM2FlRWdVZmMyTjRVV0tlTW95QW56T1d3VXhi?=
+ =?utf-8?B?enk0ZmZscGRFWTJldUQ3RmRTNVhtRWx2U1hlSmdld1A4YTFsQWFSQzg4SXlW?=
+ =?utf-8?B?QjlsbXFBYVBaRTMyQ0llcXhwdUVoWUZLTm9aOTJTQ04yNlM0YjFJRDJhQlJP?=
+ =?utf-8?B?a2ZUN0lIdFU2YXh6NCtab1ZhYzVvc2pPcjV2Zm8vZ2ZEQnRBcnBxckFrSEN4?=
+ =?utf-8?B?azlSeWdPdlVFdUl2elhiK1VFUlZnblhmOHpaUW9QMUpwVjdUVEcvcWd2Mjd4?=
+ =?utf-8?B?RGRsRHNCTUg1UXVITml2czN6NTFnYmJCT3JVNThZWVNUTTJDaGlHRE0zYU80?=
+ =?utf-8?B?aTdnT2ZHUlE1cTRJMEowQmZ2VE9GY08rSWl2RzhHL0JZbmJUV2duQ3k0a2ZG?=
+ =?utf-8?B?aDB3UnJKWlAyeG9CU0xxckxYRnV1MEI3VlZ6NHBXbE4xandGSDQ3cVBqTG94?=
+ =?utf-8?B?bHZidEhBSDF3WE5MblNwMDd3VndaU2UvQWU3MGVleEF4Rk02UWVhUGFad0V0?=
+ =?utf-8?B?NEFHWW1taUJOK1l3eFg1WjJMODNRWk1LaEx5UzRTV2tpTEpaSWlJRFpqQjBq?=
+ =?utf-8?B?aW5TWHBVMFlZUnBqS216VUZMRlhIa0dRZXlQdS9rUkFSTGk3M2x3ZXY5Zi9m?=
+ =?utf-8?B?eXhhd3FxSVBPTFVvNzdJZVFhTXdXMHZHdXhxSzQ0cEEvaDh2SWhzQ3BOTFU2?=
+ =?utf-8?B?akFCUnJocFp3bkNiblh0VFdiUGFZYlhGQUs0a0xLZnlOQkR0SkJXUmJ0L21S?=
+ =?utf-8?B?dW13WlhlaWVJYWZGQXl2M2c1dXBzWHB2c3grRExaZjJZWUU5QXFwKzcvd2tu?=
+ =?utf-8?B?YTRQOGY3YW5aQ25UeFdFTVQ3Tk9IZTRxMGZEcERzTGFOVmIxaTR5RmlvQTkr?=
+ =?utf-8?B?SUlFMWJDQzhQc3psY3V6NWEwditpdGk1RngyQUx6aXVtcmJUeGFXbWRwVmgw?=
+ =?utf-8?B?Q1E9PQ==?=
 X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6dd0be4c-6f58-4c26-82dd-08de388cc337
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7593.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA4PR11MB9420.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 268dd084-36a6-47a9-9c38-08de3865d50d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2025 03:31:55.0355
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2025 08:10:35.6196
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ELkndmnTCYoobCoFYwRjMQEmghdKZ6vhHPLz88xP0t7nREsfTAWHbrE0tpR76Q9q086nPCmCZnX9ioEOGQjtDr/9F5kz2AeL4YEhXm+o6ac=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4810
-X-Authority-Analysis: v=2.4 cv=d5/4CBjE c=1 sm=1 tr=0 ts=693a3b2e cx=c_pps
- a=YvyvOXr+GU2iduXSFDI6sw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=PYnjg3YJAAAA:8 a=xNf9USuDAAAA:8
- a=NEAV23lmAAAA:8 a=yEquWHxyAAAA:8 a=A1X0JdhQAAAA:8 a=Q4-j1AaZAAAA:8
- a=t7CeM3EgAAAA:8 a=tIz6uIG67LviHY3KV-8A:9 a=CjuIK1q_8ugA:10 a=s5zKW874KtQA:10
- a=_j3XSMEICZ-j_p4bQif0:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: NGSCQvOxsBH0ykVI4E2S3mA7BMaAwfYq
-X-Proofpoint-ORIG-GUID: NGSCQvOxsBH0ykVI4E2S3mA7BMaAwfYq
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDAyMCBTYWx0ZWRfX9HprIa0ba8/2
- 9zj5gO/aevj6aepU7DlC3de+2B3FJJKqfN2jowOl0maNqJPUk//OjllWKBpAseQ1qnaANnp7xxh
- QdKi6JzMFWvcN+pl5CuooW1+x7QfOcOtXxJgKRE4QiJ6tBwL8uT0fc6vYG7q/X1JnN0U3uBuY0H
- 2XUg9KOn104SJ7fH/JnkcaBHDdfx8G2LcLUELxBp/heT2Gzs6f8YmpRG+ogwOZKPcnwLrPtSYAh
- ok2HfoOJkJkaer97/6+IHxhEctpwR02ggLaAesEnQwn3WBuOAmi7BKiK8fAqCh30pfRebleSPeS
- 3Etvr+z2HngEj9i8BzCPZirG5ZTix1apmoFudRwBmmUl7+/4acx4ZP4uLH5HRKQhEDPduG5JeHk
- v/wLjGxM+HnQUzMCthwX7C1f4DYVhQ==
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7RlYCsouGRkTCLO37sDK16l+RMJy9mxMd185HaOzftJaStEvkEnQViNom1oCd80evohRbw2G1VT74McmMEoMCEZ2635AI7I7PFU8MssKn8A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6333
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDA1OSBTYWx0ZWRfXw0ZnIYaRX8dh
+ ILS6LbuqqL1mmh7TJ4gDloEogylp10HZod4x0frmebj4mnGNs+tUxBgFkxbqZOGNQkpuZIVa/9l
+ P5HLEn+my3QjRocs9VeQJYDdG547Pz9n03sU0Zuu36kLCUz/bRzPte8StCH6fuFCZoYOy+5Bvk0
+ FH9V0FPx7dZ/oZB9KETm8SGycqQG7vTrA6gGKbLvEEGfvxWfcMStszvg+ZvurhSpjV5sn7wfG4H
+ gOKQPDuktX0ATKXtDCdPkGptYyyaJF0eQttSmwfM3rOFkZplGI//1fKDai65WLgSPclmOdjnzjx
+ 4DZdRHp1RNPMxpThquJ6p+DFqtyEwL3bBK202rNtydZF+IIF2FfFRRriu/yNBIsrWBlPWlxbhrQ
+ JKFjA5JCT+A+YSWfVTqAPtitv3HCKA==
+X-Proofpoint-ORIG-GUID: bhFvVJnpyaclNpapUXft4wWLS24_jRU9
+X-Proofpoint-GUID: HNgRIu7vtRsd9XOYiqb33hEijOdTxk3T
+X-Authority-Analysis: v=2.4 cv=dbyNHHXe c=1 sm=1 tr=0 ts=693a7c81 cx=c_pps
+ a=IyT5loBvHZYA5YPQi3EYsQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Q4-j1AaZAAAA:8 a=NEAV23lmAAAA:8 a=danhDmx_AAAA:8 a=Twlkf-z8AAAA:8
+ a=t7CeM3EgAAAA:8 a=a_U1oVfrAAAA:8 a=pGLkceISAAAA:8 a=0r3lOOKFftw2IsxWJ-0A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=j9TAL7x8aGYBsfzJFCgA:9
+ a=Vfhzm9NQ3DZQ7AaQ:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=-74SuR6ZdpOK_LpdRCUo:22 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-10_03,2025-12-09_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 suspectscore=0 adultscore=0 bulkscore=0
- lowpriorityscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512110020
+ clxscore=1015 bulkscore=0 suspectscore=0 adultscore=0 phishscore=0
+ spamscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512110059
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 03:32:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227512
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 08:10:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227513
+
+--------------BrzidIFzcCTUtF10HppgW0wV
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5BB6US6V2546052
 
 
-kindly ping for walnascar branch
+On 10-12-2025 23:06, Randy MacLeod wrote:
+> Add Peter since this is/was his patch and you have his SOB line.
+> Please do that in the future.
+>
+> I have some comments and questions that could go contribute to a v2
+> but so far, I don't object, too strongly, to merging patch 1/5 at least=
+!
+>
+>
+> On 2025-12-10 5:17 a.m., Yash.Shinde@windriver.com wrote:
+>> From: Peter Tatrai<peter.tatrai.ext@siemens.com>
+>>
+>> Rust's internal LLVM
+> Is this an old comment? llvm is now an oe-core=C2=A0 recipe and we don'=
+t=20
+> use rust's internal llvm
+> as far as I know (which isn't very far!).
 
------Original Message-----
-From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> On Behalf Of Kadambathur Subramaniyam, Saravanan via lists.o=
-penembedded.org
-Sent: Monday, October 13, 2025 7:45 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][walnascar][PATCH V2 1/1] python3-xmltodict: fix CVE-2025=
--9375
+I kept the message from Peter's patch unchanged which was submitted=20
+around the same time when
+ =C2=A0rust-llvm was dropped. I will reword the commit message in v2, if=20
+required.
 
-Reference:
-	https://nvd.nist.gov/vuln/detail/CVE-2025-9375
-	https://security-tracker.debian.org/tracker/CVE-2025-9375
+For more details:=20
+https://lists.openembedded.org/g/openembedded-core/message/225636
 
-Upstream-patch:
-	https://github.com/martinblech/xmltodict/commit/ecd456ab88d379514b116ef929=
-3318b74e5ed3ee
-	https://github.com/martinblech/xmltodict/commit/f98c90f071228ed73df9978072=
-98e1df4f790c33
+>
+>> requires zlib and zstd compression libraries when
+> Yes, we have a patch for clang for this:
+> meta/recipes-devtools/clang/clang/0024-llvm-Do-not-use-cmake-infra-to-d=
+etect-libzstd.patch
+> adding in meta-clang in 2022:
+> https://github.com/kraj/meta-clang/commit/0f38186ae93400b870f7f92938bbf=
+8643e7da958
+> and the llvm-project commit is (1).
 
-Signed-off-by: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
+The selftest execution environment requires the zlib and zstd features
+as llvm enables them unless explicitly disabled.
+
+The rust recipe level RUSTFLAGS aren't propagated to qemu image for testi=
+ng.
+This requires explicit passing of the flags for zstd lib.
+(zlib is already available by default in core-image-minimal)
+
+The following error confirms that rust via llvm expects these libs to be=20
+available in the image for testing.
+
+> Anyway, Khem,
+>
+> What are your thoughts about this patch and about using cmake for llvm?
+>
+>> building rustc_codegen_llvm and other compiler components.
+>> Without these dependencies, building Rust for target fails
+>> with linker errors:
+>>
+>>    error: linking with `target-rust-ccld` failed: exit status: 1
+>>    =3D note: undefined reference to `compress2'
+>>    =3D note: undefined reference to `uncompress'
+>>    =3D note: undefined reference to `ZSTD_decompress'
+>>    =3D note: undefined reference to `ZSTD_isError'
+>>    =3D note: undefined reference to `ZSTD_compress2'
+>>    =3D note: undefined reference to `crc32'
+>>
+>> This manifested in oe-selftest failure on qemuppc:
+>>    oe-selftest -r rust.RustSelfTestSystemEmulated.test_rust
+>>
+>> Additionally, this was observed while testing with other targets as we=
+ll.
+> If you have a list on hand of which targets had this problem,
+> that might be useful to include in the log. It might help
+> us understand why the problem seems to be arch-specific.
+
+Peter reported it for ppc target but eventually it was observed on all=20
+targets in our testings,
+i.e arm32, arm64, riscv-64, x86-32 and x86-64.
+So, this is a generic requirement rather than arch-specific.
+
+>> Signed-off-by: Peter Tatrai<peter.tatrai.ext@siemens.com>
+>> Signed-off-by: Yash Shinde<Yash.Shinde@windriver.com>
+>> ---
+>>   meta/lib/oeqa/selftest/cases/rust.py | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/self=
+test/cases/rust.py
+>> index 31222e2456..01a98339a6 100644
+>> --- a/meta/lib/oeqa/selftest/cases/rust.py
+>> +++ b/meta/lib/oeqa/selftest/cases/rust.py
+>> @@ -47,7 +47,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase,=
+ OEPTestResultTestCase):
+>>           bitbake("{} -c test_compile".format(recipe))
+>>           builddir =3D get_bb_var("RUSTSRC", "rust")
+>>           # build core-image-minimal with required packages
+>> -        default_installed_packages =3D ["libgcc", "libstdc++", "libat=
+omic", "libgomp"]
+>> +        default_installed_packages =3D ["libgcc", "libstdc++", "libat=
+omic", "libgomp", "libzstd"]
+>>
+> This has been present since the original rust.py selftest was added.
+> It seems like a hack in that things are added to (blindly?) fix=20
+> linking errors
+> rather than getting to the root cause of the problem.
+>
+> That may be acceptable in the short run but shouldn't the list should b=
+e
+> just what rustc/cargo from rustup depend on:
+> =E2=9D=AF which rustc
+> /home/rmacleod/.cargo/bin/rustc
+> =E2=9D=AF ldd `which rustc`
+> =C2=A0=C2=A0=C2=A0 linux-vdso.so.1 (0x00007a636834b000)
+> =C2=A0=C2=A0=C2=A0 libgcc_s.so.1 =3D> /lib/x86_64-linux-gnu/libgcc_s.so=
+.1=20
+> (0x00007a636830b000)
+> =C2=A0=C2=A0=C2=A0 librt.so.1 =3D> /lib/x86_64-linux-gnu/librt.so.1 (0x=
+00007a6368306000)
+> =C2=A0=C2=A0=C2=A0 libpthread.so.0 =3D> /lib/x86_64-linux-gnu/libpthrea=
+d.so.0=20
+> (0x00007a6368301000)
+> =C2=A0=C2=A0=C2=A0 libm.so.6 =3D> /lib/x86_64-linux-gnu/libm.so.6 (0x00=
+007a636821a000)
+> =C2=A0=C2=A0=C2=A0 libdl.so.2 =3D> /lib/x86_64-linux-gnu/libdl.so.2 (0x=
+00007a6368215000)
+> =C2=A0=C2=A0=C2=A0 libc.so.6 =3D> /lib/x86_64-linux-gnu/libc.so.6 (0x00=
+007a6366a00000)
+> =C2=A0=C2=A0=C2=A0 /lib64/ld-linux-x86-64.so.2 (0x00007a636834d000)
+>
+> =E2=9D=AF cargo --version
+> cargo 1.91.1 (ea2d97820 2025-10-10)
+> =E2=9D=AF which cargo
+> /home/rmacleod/.cargo/bin/cargo
+> =E2=9D=AF ldd `which cargo`
+> =C2=A0=C2=A0=C2=A0 linux-vdso.so.1 (0x0000789ffe470000)
+> =C2=A0=C2=A0=C2=A0 libgcc_s.so.1 =3D> /lib/x86_64-linux-gnu/libgcc_s.so=
+.1=20
+> (0x0000789ffe430000)
+> =C2=A0=C2=A0=C2=A0 librt.so.1 =3D> /lib/x86_64-linux-gnu/librt.so.1 (0x=
+0000789ffe42b000)
+> =C2=A0=C2=A0=C2=A0 libpthread.so.0 =3D> /lib/x86_64-linux-gnu/libpthrea=
+d.so.0=20
+> (0x0000789ffe426000)
+> =C2=A0=C2=A0=C2=A0 libm.so.6 =3D> /lib/x86_64-linux-gnu/libm.so.6 (0x00=
+00789ffcf19000)
+> =C2=A0=C2=A0=C2=A0 libdl.so.2 =3D> /lib/x86_64-linux-gnu/libdl.so.2 (0x=
+0000789ffe421000)
+> =C2=A0=C2=A0=C2=A0 libc.so.6 =3D> /lib/x86_64-linux-gnu/libc.so.6 (0x00=
+00789ffcc00000)
+> =C2=A0=C2=A0=C2=A0 /lib64/ld-linux-x86-64.so.2 (0x0000789ffe472000)
+>
+> perhaps with the exception of libatomic and libgomp which seem like=20
+> valid requirements.
+> I guess I'm really wondering if libzstd even libatomic and libgomp,=20
+> should be RDEPENDs for some recipe.
+
+The list of packages in "default_installed_packages" is needed to=20
+include additional selftest requirements apart from the default ones=20
+used in core-image-minimal. These are actual requirements rather than=20
+hack. Adding them in DEPENDS/RDEPENDS do not propagate the dependencies=20
+in selftest qemu image.
+
+
+>
+>>           features =3D []
+>>           features.append('IMAGE_FEATURES +=3D "ssh-server-dropbear"')
+>>           features.append('CORE_IMAGE_EXTRA_INSTALL +=3D "{0}"'.format=
+(" ".join(default_installed_packages)))
+>> @@ -124,7 +124,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCas=
+e, OEPTestResultTestCase):
+>>               cmd =3D cmd + " export RUST_TARGET_PATH=3D%s/rust-target=
+s;" % rustlibpath
+>>               # Strip debug symbols from test binaries to reduce size =
+(300+ MB -> ~140 MB)
+>>               # PowerPC mac99 QEMU has 768MB RAM limit, so we need to =
+minimize test binary sizes
+>> -            cmd =3D cmd + " export RUSTFLAGS=3D'-C strip=3Ddebuginfo'=
+;"
+>> +            cmd =3D cmd + " export RUSTFLAGS=3D'-C strip=3Ddebuginfo =
+-Clink-arg=3D-lz -Clink-arg=3D-lzstd';"
+>>               # Trigger testing.
+>>               cmd =3D cmd + " export TEST_DEVICE_ADDR=3D\"%s:12345\";"=
+ % qemu.ip
+>>               cmd =3D cmd + " cd %s; python3 src/bootstrap/bootstrap.p=
+y test %s --target %s" % (builddir, testargs, targetsys)
+>
+> ../Randy
+>
+>
+> 1)=20
+> https://github.com/llvm/llvm-project/commit/e939bf67e34037970192fa90ad2=
+2ab7628f5de33
+>
+> commit e939bf67e34037970192fa90ad22ab7628f5de33
+> Author: Cole Kissane <cole.kissane@gmail.com>
+> Date:=C2=A0=C2=A0 Tue Jul 19 13:54:35 2022
+>
+> =C2=A0=C2=A0=C2=A0 [llvm] add zstd to `llvm::compression` namespace
+>
+> =C2=A0=C2=A0=C2=A0 - add zstd to `llvm::compression` namespace
+> =C2=A0=C2=A0=C2=A0 - add a CMake option `LLVM_ENABLE_ZSTD` with behavio=
+r mirroring=20
+> that of `LLVM_ENABLE_ZLIB`
+> =C2=A0=C2=A0=C2=A0 - add tests for zstd to `llvm/unittests/Support/Comp=
+ressionTest.cpp`
+> =C2=A0=C2=A0=C2=A0 - debian users should install libzstd when using=20
+> `LLVM_ENABLE_ZSTD=3DFORCE_ON` from source due to this bug=20
+> https://bugs.launchpad.net/ubuntu/+source/libzstd/+bug/1941956
+>
+> =C2=A0=C2=A0=C2=A0 Reviewed By: leonardchan, MaskRay
+>
+> =C2=A0=C2=A0=C2=A0 Differential Revision: https://reviews.llvm.org/D128=
+465
+>
+>
+>
+>
+> --=20
+> # Randy MacLeod
+> # Wind River Linux
+--------------BrzidIFzcCTUtF10HppgW0wV
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5BB6US6V2546052
+
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 10-12-2025 23:06, Randy MacLeod
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:818e8b90-9aa1-45e4-aa1d-6a90367=
+6408e@windriver.com">
+     =20
+      <div class=3D"moz-cite-prefix">Add Peter since this is/was his patc=
+h
+        and you have his SOB line. <br>
+        Please do that in the future.</div>
+      <div class=3D"moz-cite-prefix"><br>
+      </div>
+      <div class=3D"moz-cite-prefix">I have some comments and questions
+        that could go contribute to a v2<br>
+        but so far, I don't object, too strongly, to merging patch 1/5
+        at least! <br>
+        <br>
+      </div>
+      <br>
+      <div class=3D"moz-cite-prefix">On 2025-12-10 5:17 a.m., <a class=3D=
+"moz-txt-link-abbreviated moz-txt-link-freetext" href=3D"mailto:Yash.Shin=
+de@windriver.com" moz-do-not-send=3D"true">Yash.Shinde@windriver.com</a>
+        wrote:<br>
+      </div>
+      <blockquote type=3D"cite" cite=3D"mid:20251210101803.1120711-1-Yash=
+.Shinde@windriver.com">
+        <pre wrap=3D"" class=3D"moz-quote-pre">From: Peter Tatrai <a clas=
+s=3D"moz-txt-link-rfc2396E" href=3D"mailto:peter.tatrai.ext@siemens.com" =
+moz-do-not-send=3D"true">&lt;peter.tatrai.ext@siemens.com&gt;</a>
+
+Rust's internal LLVM </pre>
+      </blockquote>
+      Is this an old comment? llvm is now an oe-core&nbsp; recipe and we
+      don't use rust's internal llvm <br>
+      as far as I know (which isn't very far!).<br>
+    </blockquote>
+    <br>
+    I kept the message from Peter's patch unchanged which was submitted
+    around the same time when<br>
+    &nbsp;rust-llvm was dropped. I will reword the commit message in v2, =
+if
+    required.<br>
+    <br>
+    For more details:
+    <a class=3D"moz-txt-link-freetext" href=3D"https://lists.openembedded=
+.org/g/openembedded-core/message/225636">https://lists.openembedded.org/g=
+/openembedded-core/message/225636</a><br>
+    <br>
+    <blockquote type=3D"cite" cite=3D"mid:818e8b90-9aa1-45e4-aa1d-6a90367=
+6408e@windriver.com"><br>
+      <blockquote type=3D"cite" cite=3D"mid:20251210101803.1120711-1-Yash=
+.Shinde@windriver.com">
+        <pre wrap=3D"" class=3D"moz-quote-pre">requires zlib and zstd com=
+pression libraries when</pre>
+      </blockquote>
+      Yes, we have a patch for clang for this:<br>
+      &nbsp;&nbsp;
+meta/recipes-devtools/clang/clang/0024-llvm-Do-not-use-cmake-infra-to-det=
+ect-libzstd.patch<br>
+      adding in meta-clang in 2022:<br>
+      &nbsp;&nbsp;
+      <a class=3D"moz-txt-link-freetext" href=3D"https://github.com/kraj/=
+meta-clang/commit/0f38186ae93400b870f7f92938bbf8643e7da958" moz-do-not-se=
+nd=3D"true">https://github.com/kraj/meta-clang/commit/0f38186ae93400b870f=
+7f92938bbf8643e7da958</a><br>
+      and the llvm-project commit is (1).<br>
+    </blockquote>
+    <br>
+    The selftest execution environment requires the zlib and zstd
+    features<br>
+    as llvm enables them unless explicitly disabled.<br>
+    <p>The rust recipe level RUSTFLAGS aren't propagated to qemu image
+      for testing.<br>
+      This requires explicit passing of the flags for zstd lib.&nbsp;<br>
+      (zlib is already available by default in core-image-minimal)<br>
+      <br>
+      The following error confirms that rust via llvm expects these libs
+      to be available in the image for testing.</p>
+    <blockquote type=3D"cite" cite=3D"mid:818e8b90-9aa1-45e4-aa1d-6a90367=
+6408e@windriver.com">
+      <p>Anyway, Khem,<br>
+        <br>
+        What are your thoughts about this patch and about using cmake
+        for llvm?</p>
+      <blockquote type=3D"cite" cite=3D"mid:20251210101803.1120711-1-Yash=
+.Shinde@windriver.com">
+        <pre wrap=3D"" class=3D"moz-quote-pre">building rustc_codegen_llv=
+m and other compiler components.
+Without these dependencies, building Rust for target fails
+with linker errors:
+
+  error: linking with `target-rust-ccld` failed: exit status: 1
+  =3D note: undefined reference to `compress2'
+  =3D note: undefined reference to `uncompress'
+  =3D note: undefined reference to `ZSTD_decompress'
+  =3D note: undefined reference to `ZSTD_isError'
+  =3D note: undefined reference to `ZSTD_compress2'
+  =3D note: undefined reference to `crc32'
+
+This manifested in oe-selftest failure on qemuppc:
+  oe-selftest -r rust.RustSelfTestSystemEmulated.test_rust
+
+Additionally, this was observed while testing with other targets as well.=
+</pre>
+      </blockquote>
+      If you have a list on hand of which targets had this problem,<br>
+      that might be useful to include in the log. It might help<br>
+      us understand why the problem seems to be arch-specific.<br>
+    </blockquote>
+    <p>Peter reported it for ppc target but eventually it was observed
+      on all targets in our testings,&nbsp;&nbsp;<br>
+      i.e arm32, arm64, riscv-64, x86-32 and x86-64.<br>
+      So, this is a generic requirement rather than arch-specific.<br>
+      <br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:818e8b90-9aa1-45e4-aa1d-6a90367=
+6408e@windriver.com">
+      <blockquote type=3D"cite" cite=3D"mid:20251210101803.1120711-1-Yash=
+.Shinde@windriver.com">
+        <pre wrap=3D"" class=3D"moz-quote-pre">Signed-off-by: Peter Tatra=
+i <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:peter.tatrai.ext@siem=
+ens.com" moz-do-not-send=3D"true">&lt;peter.tatrai.ext@siemens.com&gt;</a=
+>
+Signed-off-by: Yash Shinde <a class=3D"moz-txt-link-rfc2396E" href=3D"mai=
+lto:Yash.Shinde@windriver.com" moz-do-not-send=3D"true">&lt;Yash.Shinde@w=
+indriver.com&gt;</a>
 ---
- .../python3-xmltodict/CVE-2025-9375-01.patch  | 113 +++++++++++  .../pytho=
-n3-xmltodict/CVE-2025-9375-02.patch  | 178 ++++++++++++++++++
- .../python/python3-xmltodict_0.14.2.bb        |   4 +
- 3 files changed, 295 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-xmltodict/CVE-2025=
--9375-01.patch
- create mode 100644 meta/recipes-devtools/python/python3-xmltodict/CVE-2025=
--9375-02.patch
+ meta/lib/oeqa/selftest/cases/rust.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-0=
-1.patch b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-01.p=
-atch
-new file mode 100644
-index 0000000000..7835dc9f51
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-01.pa
-+++ tch
-@@ -0,0 +1,113 @@
-+From ecd456ab88d379514b116ef9293318b74e5ed3ee Mon Sep 17 00:00:00 2001
-+From: Martin Blech <78768+martinblech@users.noreply.github.com>
-+Date: Thu, 4 Sep 2025 17:25:39 -0700
-+Subject: [PATCH] Prevent XML injection: reject '<'/'>' in element/attr=20
-+names  (incl. @xmlns)
-+
-+* Add tests for tag names, attribute names, and @xmlns prefixes; confirm a=
-ttr values are escaped.
-+
-+CVE: CVE-2025-9375
-+
-+Upstream-Status: Backport
-+https://github.com/martinblech/xmltodict/commit/ecd456ab88d379514b116ef
-+9293318b74e5ed3ee
-+
-+Signed-off-by: Saravanan=20
-+<saravanan.kadambathursubramaniyam@windriver.com>
-+
-+---
-+ tests/test_dicttoxml.py | 32 ++++++++++++++++++++++++++++++++
-+ xmltodict.py            | 20 +++++++++++++++++++-
-+ 2 files changed, 51 insertions(+), 1 deletion(-)
-+
-+diff --git a/tests/test_dicttoxml.py b/tests/test_dicttoxml.py index=20
-+470aca9..67e3a88 100644
-+--- a/tests/test_dicttoxml.py
-++++ b/tests/test_dicttoxml.py
-+@@ -231,3 +231,35 @@ xmlns:b=3D"http://b.com/"><x a:attr=3D"val">1</x><a:y=
->2</a:y><b:z>3</b:z></root>'''
-+         expected_xml =3D '<?xml version=3D"1.0" encoding=3D"utf-8"?>\n<x>=
-false</x>'
-+         xml =3D unparse(dict(x=3DFalse))
-+         self.assertEqual(xml, expected_xml)
-++
-++    def test_rejects_tag_name_with_angle_brackets(self):
-++        # Minimal guard: disallow '<' or '>' to prevent breaking tag cont=
-ext
-++        with self.assertRaises(ValueError):
-++            unparse({"m><tag>content</tag": "unsafe"},=20
-++ full_document=3DFalse)
-++
-++    def test_rejects_attribute_name_with_angle_brackets(self):
-++        # Now we expect bad attribute names to be rejected
-++        with self.assertRaises(ValueError):
-++            unparse(
-++                {"a": {"@m><tag>content</tag": "unsafe", "#text": "x"}},
-++                full_document=3DFalse,
-++            )
-++
-++    def test_rejects_malicious_xmlns_prefix(self):
-++        # xmlns prefixes go under @xmlns mapping; reject angle brackets i=
-n prefix
-++        with self.assertRaises(ValueError):
-++            unparse(
-++                {
-++                    "a": {
-++                        "@xmlns": {"m><bad": "http://example.com/"},
-++                        "#text": "x",
-++                    }
-++                },
-++                full_document=3DFalse,
-++            )
-++
-++    def test_attribute_values_with_angle_brackets_are_escaped(self):
-++        # Attribute values should be escaped by XMLGenerator
-++        xml =3D unparse({"a": {"@attr": "1<middle>2", "#text": "x"}}, ful=
-l_document=3DFalse)
-++        # The generated XML should contain escaped '<' and '>' within the=
- attribute value
-++        self.assertIn('attr=3D"1&lt;middle&gt;2"', xml)
-+diff --git a/xmltodict.py b/xmltodict.py index 098f627..9fb249d 100755
-+--- a/xmltodict.py
-++++ b/xmltodict.py
-+@@ -360,6 +360,14 @@ def parse(xml_input, encoding=3DNone, expat=3Dexpat, =
-process_namespaces=3DFalse,
-+     return handler.item
-+=20
-+=20
-++def _has_angle_brackets(value):
-++    """Return True if value (a str) contains '<' or '>'.
-++
-++    Non-string values return False. Uses fast substring checks implemente=
-d in C.
-++    """
-++    return isinstance(value, str) and ("<" in value or ">" in value)
-++
-++
-+ def _process_namespace(name, namespaces, ns_sep=3D':', attr_prefix=3D'@')=
-:
-+     if not namespaces:
-+         return name
-+@@ -393,6 +401,9 @@ def _emit(key, value, content_handler,
-+         if result is None:
-+             return
-+         key, value =3D result
-++    # Minimal validation to avoid breaking out of tag context
-++    if _has_angle_brackets(key):
-++        raise ValueError('Invalid element name: "<" or ">" not=20
-++ allowed')
-+     if not hasattr(value, '__iter__') or isinstance(value, (str, dict)):
-+         value =3D [value]
-+     for index, v in enumerate(value):
-+@@ -421,12 +432,19 @@ def _emit(key, value, content_handler,
-+                                         attr_prefix)
-+                 if ik =3D=3D '@xmlns' and isinstance(iv, dict):
-+                     for k, v in iv.items():
-++                        if _has_angle_brackets(k):
-++                            raise ValueError(
-++                                'Invalid attribute name: "<" or ">" not a=
-llowed'
-++                            )
-+                         attr =3D 'xmlns{}'.format(f':{k}' if k else '')
-+                         attrs[attr] =3D str(v)
-+                     continue
-+                 if not isinstance(iv, str):
-+                     iv =3D str(iv)
-+-                attrs[ik[len(attr_prefix):]] =3D iv
-++                attr_name =3D ik[len(attr_prefix) :]
-++                if _has_angle_brackets(attr_name):
-++                    raise ValueError('Invalid attribute name: "<" or ">" =
-not allowed')
-++                attrs[attr_name] =3D iv
-+                 continue
-+             children.append((ik, iv))
-+         if isinstance(indent, int):
-+--
-+2.40.0
-+
-diff --git a/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-0=
-2.patch b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-02.p=
-atch
-new file mode 100644
-index 0000000000..d8cd83469a
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-02.pa
-+++ tch
-@@ -0,0 +1,178 @@
-+From f98c90f071228ed73df997807298e1df4f790c33 Mon Sep 17 00:00:00 2001
-+From: Martin Blech <78768+martinblech@users.noreply.github.com>
-+Date: Mon, 8 Sep 2025 11:18:33 -0700
-+Subject: [PATCH] Enhance unparse() XML name validation with stricter=20
-+rules and  tests
-+
-+Extend existing validation (previously only for "<" and ">") to also=20
-+reject element, attribute, and xmlns prefix names that are non-string,=20
-+start with "?" or "!", or contain "/", spaces, tabs, or newlines.
-+Update _emit and namespace handling to use _validate_name. Add tests=20
-+covering these new invalid name cases.
-+
-+CVE: CVE-2025-9375
-+
-+Upstream-Status: Backport
-+https://github.com/martinblech/xmltodict/commit/f98c90f071228ed73df9978
-+07298e1df4f790c33
-+
-+Signed-off-by: Saravanan=20
-+<saravanan.kadambathursubramaniyam@windriver.com>
-+---
-+ tests/test_dicttoxml.py | 60 +++++++++++++++++++++++++++++++++++++++++
-+ xmltodict.py            | 48 ++++++++++++++++++++++++++-------
-+ 2 files changed, 99 insertions(+), 9 deletions(-)
-+
-+diff --git a/tests/test_dicttoxml.py b/tests/test_dicttoxml.py index=20
-+67e3a88..180d767 100644
-+--- a/tests/test_dicttoxml.py
-++++ b/tests/test_dicttoxml.py
-+@@ -263,3 +263,63 @@ xmlns:b=3D"http://b.com/"><x a:attr=3D"val">1</x><a:y=
->2</a:y><b:z>3</b:z></root>'''
-+         xml =3D unparse({"a": {"@attr": "1<middle>2", "#text": "x"}}, ful=
-l_document=3DFalse)
-+         # The generated XML should contain escaped '<' and '>' within the=
- attribute value
-+         self.assertIn('attr=3D"1&lt;middle&gt;2"', xml)
-++
-++    def test_rejects_tag_name_starting_with_question(self):
-++        with self.assertRaises(ValueError):
-++            unparse({"?pi": "data"}, full_document=3DFalse)
-++
-++    def test_rejects_tag_name_starting_with_bang(self):
-++        with self.assertRaises(ValueError):
-++            unparse({"!decl": "data"}, full_document=3DFalse)
-++
-++    def test_rejects_attribute_name_starting_with_question(self):
-++        with self.assertRaises(ValueError):
-++            unparse({"a": {"@?weird": "x"}}, full_document=3DFalse)
-++
-++    def test_rejects_attribute_name_starting_with_bang(self):
-++        with self.assertRaises(ValueError):
-++            unparse({"a": {"@!weird": "x"}}, full_document=3DFalse)
-++
-++    def test_rejects_xmlns_prefix_starting_with_question_or_bang(self):
-++        with self.assertRaises(ValueError):
-++            unparse({"a": {"@xmlns": {"?p": "http://e/"}}}, full_document=
-=3DFalse)
-++        with self.assertRaises(ValueError):
-++            unparse({"a": {"@xmlns": {"!p": "http://e/"}}},=20
-++ full_document=3DFalse)
-++
-++    def test_rejects_non_string_names(self):
-++        class Weird:
-++            def __str__(self):
-++                return "bad>name"
-++
-++        # Non-string element key
-++        with self.assertRaises(ValueError):
-++            unparse({Weird(): "x"}, full_document=3DFalse)
-++        # Non-string attribute key
-++        with self.assertRaises(ValueError):
-++            unparse({"a": {Weird(): "x"}}, full_document=3DFalse)
-++
-++    def test_rejects_tag_name_with_slash(self):
-++        with self.assertRaises(ValueError):
-++            unparse({"bad/name": "x"}, full_document=3DFalse)
-++
-++    def test_rejects_tag_name_with_whitespace(self):
-++        for name in ["bad name", "bad\tname", "bad\nname"]:
-++            with self.assertRaises(ValueError):
-++                unparse({name: "x"}, full_document=3DFalse)
-++
-++    def test_rejects_attribute_name_with_slash(self):
-++        with self.assertRaises(ValueError):
-++            unparse({"a": {"@bad/name": "x"}}, full_document=3DFalse)
-++
-++    def test_rejects_attribute_name_with_whitespace(self):
-++        for name in ["@bad name", "@bad\tname", "@bad\nname"]:
-++            with self.assertRaises(ValueError):
-++                unparse({"a": {name: "x"}}, full_document=3DFalse)
-++
-++    def test_rejects_xmlns_prefix_with_slash_or_whitespace(self):
-++        # Slash
-++        with self.assertRaises(ValueError):
-++            unparse({"a": {"@xmlns": {"bad/prefix": "http://e/"}}}, full_=
-document=3DFalse)
-++        # Whitespace
-++        with self.assertRaises(ValueError):
-++            unparse({"a": {"@xmlns": {"bad prefix": "http://e/"}}},=20
-++ full_document=3DFalse)
-+diff --git a/xmltodict.py b/xmltodict.py index c8491b3..7b7f8a8 100755
-+--- a/xmltodict.py
-++++ b/xmltodict.py
-+@@ -368,7 +368,42 @@ def _has_angle_brackets(value):
-+     return isinstance(value, str) and ("<" in value or ">" in value)
-+=20
-+=20
-++def _has_invalid_name_chars(value):
-++    """Return True if value (a str) contains any disallowed name characte=
-rs.
-++
-++    Disallowed: '<', '>', '/', or any whitespace character.
-++    Non-string values return False.
-++    """
-++    if not isinstance(value, str):
-++        return False
-++    if "<" in value or ">" in value or "/" in value:
-++        return True
-++    # Check for any whitespace (spaces, tabs, newlines, etc.)
-++    return any(ch.isspace() for ch in value)
-++
-++
-++def _validate_name(value, kind):
-++    """Validate an element/attribute name for XML safety.
-++
-++    Raises ValueError with a specific reason when invalid.
-++
-++    kind: 'element' or 'attribute' (used in error messages)
-++    """
-++    if not isinstance(value, str):
-++        raise ValueError(f"{kind} name must be a string")
-++    if value.startswith("?") or value.startswith("!"):
-++        raise ValueError(f'Invalid {kind} name: cannot start with "?" or =
-"!"')
-++    if "<" in value or ">" in value:
-++        raise ValueError(f'Invalid {kind} name: "<" or ">" not allowed')
-++    if "/" in value:
-++        raise ValueError(f'Invalid {kind} name: "/" not allowed')
-++    if any(ch.isspace() for ch in value):
-++        raise ValueError(f"Invalid {kind} name: whitespace not=20
-++ allowed")
-++
-++
-+ def _process_namespace(name, namespaces, ns_sep=3D':', attr_prefix=3D'@')=
-:
-++    if not isinstance(name, str):
-++        return name
-+     if not namespaces:
-+         return name
-+     try:
-+@@ -402,8 +437,7 @@ def _emit(key, value, content_handler,
-+             return
-+         key, value =3D result
-+     # Minimal validation to avoid breaking out of tag context
-+-    if _has_angle_brackets(key):
-+-        raise ValueError('Invalid element name: "<" or ">" not allowed')
-++    _validate_name(key, "element")
-+     if not hasattr(value, '__iter__') or isinstance(value, (str, dict)):
-+         value =3D [value]
-+     for index, v in enumerate(value):
-+@@ -427,23 +461,19 @@ def _emit(key, value, content_handler,
-+             if ik =3D=3D cdata_key:
-+                 cdata =3D iv
-+                 continue
-+-            if ik.startswith(attr_prefix):
-++            if isinstance(ik, str) and ik.startswith(attr_prefix):
-+                 ik =3D _process_namespace(ik, namespaces, namespace_separ=
-ator,
-+                                         attr_prefix)
-+                 if ik =3D=3D '@xmlns' and isinstance(iv, dict):
-+                     for k, v in iv.items():
-+-                        if _has_angle_brackets(k):
-+-                            raise ValueError(
-+-                                'Invalid attribute name: "<" or ">" not a=
-llowed'
-+-                            )
-++                        _validate_name(k, "attribute")
-+                         attr =3D 'xmlns{}'.format(f':{k}' if k else '')
-+                         attrs[attr] =3D str(v)
-+                     continue
-+                 if not isinstance(iv, str):
-+                     iv =3D str(iv)
-+                 attr_name =3D ik[len(attr_prefix) :]
-+-                if _has_angle_brackets(attr_name):
-+-                    raise ValueError('Invalid attribute name: "<" or ">" =
-not allowed')
-++                _validate_name(attr_name, "attribute")
-+                 attrs[attr_name] =3D iv
-+                 continue
-+             children.append((ik, iv))
-+--
-+2.40.0
-+
-diff --git a/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb b/met=
-a/recipes-devtools/python/python3-xmltodict_0.14.2.bb
-index 56cdf6ff4a..3cacb72f26 100644
---- a/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
-+++ b/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
-@@ -5,6 +5,10 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D01441d50dc74476=
-db58a41ac10cb9fa2"
-=20
- SRC_URI[sha256sum] =3D "201e7c28bb210e374999d1dde6382923ab0ed1a8a5faeece48=
-ab525b7810a553"
-=20
-+SRC_URI +=3D " \
-+	file://CVE-2025-9375-01.patch \
-+	file://CVE-2025-9375-02.patch"
-+
- PYPI_PACKAGE =3D "xmltodict"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
---
-2.49.1
+diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftes=
+t/cases/rust.py
+index 31222e2456..01a98339a6 100644
+--- a/meta/lib/oeqa/selftest/cases/rust.py
++++ b/meta/lib/oeqa/selftest/cases/rust.py
+@@ -47,7 +47,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OE=
+PTestResultTestCase):
+         bitbake(&quot;{} -c test_compile&quot;.format(recipe))
+         builddir =3D get_bb_var(&quot;RUSTSRC&quot;, &quot;rust&quot;)
+         # build core-image-minimal with required packages
+-        default_installed_packages =3D [&quot;libgcc&quot;, &quot;libstd=
+c++&quot;, &quot;libatomic&quot;, &quot;libgomp&quot;]
++        default_installed_packages =3D [&quot;libgcc&quot;, &quot;libstd=
+c++&quot;, &quot;libatomic&quot;, &quot;libgomp&quot;, &quot;libzstd&quot=
+;]
 
+</pre>
+      </blockquote>
+      This has been present since the original rust.py selftest was
+      added.<br>
+      It seems like a hack in that things are added to (blindly?) fix
+      linking errors<br>
+      rather than getting to the root cause of the problem.<br>
+      <br>
+      That may be acceptable in the short run but shouldn't the list
+      should be<br>
+      just what rustc/cargo from rustup depend on:<br>
+      =E2=9D=AF which rustc<br>
+      /home/rmacleod/.cargo/bin/rustc<br>
+      =E2=9D=AF ldd `which rustc`<br>
+      &nbsp;&nbsp;&nbsp; linux-vdso.so.1 (0x00007a636834b000)<br>
+      &nbsp;&nbsp;&nbsp; libgcc_s.so.1 =3D&gt; /lib/x86_64-linux-gnu/libg=
+cc_s.so.1
+      (0x00007a636830b000)<br>
+      &nbsp;&nbsp;&nbsp; librt.so.1 =3D&gt; /lib/x86_64-linux-gnu/librt.s=
+o.1
+      (0x00007a6368306000)<br>
+      &nbsp;&nbsp;&nbsp; libpthread.so.0 =3D&gt; /lib/x86_64-linux-gnu/li=
+bpthread.so.0
+      (0x00007a6368301000)<br>
+      &nbsp;&nbsp;&nbsp; libm.so.6 =3D&gt; /lib/x86_64-linux-gnu/libm.so.=
+6
+      (0x00007a636821a000)<br>
+      &nbsp;&nbsp;&nbsp; libdl.so.2 =3D&gt; /lib/x86_64-linux-gnu/libdl.s=
+o.2
+      (0x00007a6368215000)<br>
+      &nbsp;&nbsp;&nbsp; libc.so.6 =3D&gt; /lib/x86_64-linux-gnu/libc.so.=
+6
+      (0x00007a6366a00000)<br>
+      &nbsp;&nbsp;&nbsp; /lib64/ld-linux-x86-64.so.2 (0x00007a636834d000)=
+<br>
+      <br>
+      =E2=9D=AF cargo --version<br>
+      cargo 1.91.1 (ea2d97820 2025-10-10)<br>
+      =E2=9D=AF which cargo<br>
+      /home/rmacleod/.cargo/bin/cargo<br>
+      =E2=9D=AF ldd `which cargo`<br>
+      &nbsp;&nbsp;&nbsp; linux-vdso.so.1 (0x0000789ffe470000)<br>
+      &nbsp;&nbsp;&nbsp; libgcc_s.so.1 =3D&gt; /lib/x86_64-linux-gnu/libg=
+cc_s.so.1
+      (0x0000789ffe430000)<br>
+      &nbsp;&nbsp;&nbsp; librt.so.1 =3D&gt; /lib/x86_64-linux-gnu/librt.s=
+o.1
+      (0x0000789ffe42b000)<br>
+      &nbsp;&nbsp;&nbsp; libpthread.so.0 =3D&gt; /lib/x86_64-linux-gnu/li=
+bpthread.so.0
+      (0x0000789ffe426000)<br>
+      &nbsp;&nbsp;&nbsp; libm.so.6 =3D&gt; /lib/x86_64-linux-gnu/libm.so.=
+6
+      (0x0000789ffcf19000)<br>
+      &nbsp;&nbsp;&nbsp; libdl.so.2 =3D&gt; /lib/x86_64-linux-gnu/libdl.s=
+o.2
+      (0x0000789ffe421000)<br>
+      &nbsp;&nbsp;&nbsp; libc.so.6 =3D&gt; /lib/x86_64-linux-gnu/libc.so.=
+6
+      (0x0000789ffcc00000)<br>
+      &nbsp;&nbsp;&nbsp; /lib64/ld-linux-x86-64.so.2 (0x0000789ffe472000)=
+<br>
+      <br>
+      perhaps with the exception of <span style=3D"white-space: pre-wrap"=
+>libatomic and libgomp</span>
+      which seem like valid requirements.<br>
+      I guess I'm really wondering if libzstd even libatomic and
+      libgomp, should be RDEPENDs for some recipe.<br>
+    </blockquote>
+    <p>The list of packages in &quot;<span style=3D"white-space: pre-wrap=
+">default_installed_packages&quot; is needed to include additional selfte=
+st requirements=20
+apart from the default ones used in core-image-minimal. These are actual =
+requirements rather than hack.
+
+Adding them in DEPENDS/RDEPENDS do not propagate the dependencies in self=
+test qemu image.</span></p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:818e8b90-9aa1-45e4-aa1d-6a90367=
+6408e@windriver.com"><br>
+      <blockquote type=3D"cite" cite=3D"mid:20251210101803.1120711-1-Yash=
+.Shinde@windriver.com">
+        <pre wrap=3D"" class=3D"moz-quote-pre">         features =3D []
+         features.append('IMAGE_FEATURES +=3D &quot;ssh-server-dropbear&q=
+uot;')
+         features.append('CORE_IMAGE_EXTRA_INSTALL +=3D &quot;{0}&quot;'.=
+format(&quot; &quot;.join(default_installed_packages)))
+@@ -124,7 +124,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, =
+OEPTestResultTestCase):
+             cmd =3D cmd + &quot; export RUST_TARGET_PATH=3D%s/rust-targe=
+ts;&quot; % rustlibpath
+             # Strip debug symbols from test binaries to reduce size (300=
++ MB -&gt; ~140 MB)
+             # PowerPC mac99 QEMU has 768MB RAM limit, so we need to mini=
+mize test binary sizes
+-            cmd =3D cmd + &quot; export RUSTFLAGS=3D'-C strip=3Ddebuginf=
+o';&quot;
++            cmd =3D cmd + &quot; export RUSTFLAGS=3D'-C strip=3Ddebuginf=
+o -Clink-arg=3D-lz -Clink-arg=3D-lzstd';&quot;
+             # Trigger testing.
+             cmd =3D cmd + &quot; export TEST_DEVICE_ADDR=3D\&quot;%s:123=
+45\&quot;;&quot; % qemu.ip
+             cmd =3D cmd + &quot; cd %s; python3 src/bootstrap/bootstrap.=
+py test %s --target %s&quot; % (builddir, testargs, targetsys)
+</pre>
+      </blockquote>
+      <p>../Randy</p>
+      <p><br>
+      </p>
+      <p>1)
+        <a class=3D"moz-txt-link-freetext" href=3D"https://github.com/llv=
+m/llvm-project/commit/e939bf67e34037970192fa90ad22ab7628f5de33" moz-do-no=
+t-send=3D"true">https://github.com/llvm/llvm-project/commit/e939bf67e3403=
+7970192fa90ad22ab7628f5de33</a><br>
+      </p>
+      <p>commit e939bf67e34037970192fa90ad22ab7628f5de33<br>
+        Author: Cole Kissane <a class=3D"moz-txt-link-rfc2396E" href=3D"m=
+ailto:cole.kissane@gmail.com" moz-do-not-send=3D"true">&lt;cole.kissane@g=
+mail.com&gt;</a><br>
+        Date:&nbsp;&nbsp; Tue Jul 19 13:54:35 2022<br>
+        <br>
+        &nbsp;&nbsp;&nbsp; [llvm] add zstd to `llvm::compression` namespa=
+ce<br>
+        &nbsp;&nbsp; &nbsp;<br>
+        &nbsp;&nbsp;&nbsp; - add zstd to `llvm::compression` namespace<br=
+>
+        &nbsp;&nbsp;&nbsp; - add a CMake option `LLVM_ENABLE_ZSTD` with b=
+ehavior
+        mirroring that of `LLVM_ENABLE_ZLIB`<br>
+        &nbsp;&nbsp;&nbsp; - add tests for zstd to
+        `llvm/unittests/Support/CompressionTest.cpp`<br>
+        &nbsp;&nbsp;&nbsp; - debian users should install libzstd when usi=
+ng
+        `LLVM_ENABLE_ZSTD=3DFORCE_ON` from source due to this bug <a clas=
+s=3D"moz-txt-link-freetext" href=3D"https://bugs.launchpad.net/ubuntu/+so=
+urce/libzstd/+bug/1941956" moz-do-not-send=3D"true">https://bugs.launchpa=
+d.net/ubuntu/+source/libzstd/+bug/1941956</a><br>
+        &nbsp;&nbsp; &nbsp;<br>
+        &nbsp;&nbsp;&nbsp; Reviewed By: leonardchan, MaskRay<br>
+        &nbsp;&nbsp; &nbsp;<br>
+        &nbsp;&nbsp;&nbsp; Differential Revision: <a class=3D"moz-txt-lin=
+k-freetext" href=3D"https://reviews.llvm.org/D128465" moz-do-not-send=3D"=
+true">https://reviews.llvm.org/D128465</a><br>
+        <br>
+      </p>
+      <p><br>
+      </p>
+      <p><br>
+      </p>
+      <p><br>
+      </p>
+      <pre class=3D"moz-signature" cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------BrzidIFzcCTUtF10HppgW0wV--
 
