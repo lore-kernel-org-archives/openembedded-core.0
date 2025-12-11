@@ -1,228 +1,317 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7D77D41C39
-	for <webhook@archiver.kernel.org>; Thu, 11 Dec 2025 13:51:32 +0000 (UTC)
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9591.1765461087652742430
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F376CD41C3E
+	for <webhook@archiver.kernel.org>; Thu, 11 Dec 2025 14:08:52 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9998.1765462125697841845
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Dec 2025 05:51:27 -0800
+ Thu, 11 Dec 2025 06:08:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=dfRTEk69;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=ZFk/1kPK;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.147, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfout.stl.internal (Postfix) with ESMTP id D989E1D0007B;
-	Thu, 11 Dec 2025 08:51:26 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Thu, 11 Dec 2025 08:51:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1765461086; x=1765547486; bh=Jo3K+k/URB
-	Y5ILTEHo0PtkghrmQ4D2ZUSi4DRDJBPiw=; b=dfRTEk69ibHN9i5fjBZz+xv+EA
-	DeW5I1H6TmtrX1wRvdeYj83LMSMlXNYZJTkBEDiwMaK2R+eCHPVkMKfP/6CAVYcj
-	If19bHACCkA8IvPy2fy8Q/uAFULEO/vil+es0CbFHjdfRDZVrZ0IJMisd7lcLMiq
-	N8OYf/N2h3Z8+Anvq6OjN7RUKlVaLwhVeYegMyAvb8mmDwCRzxqk8F2t0RsOGj4J
-	FLE7HzfJ3eA4TFWEE9ahwG6Jw+zNQJNeoki6LCxhP+SZTBsW44y30r3lzj3RFE9g
-	GFcINhhX9BIAetJMUAVLiFzH/dvUqf7J/wvo7AdyNLf/ROrCCk/6hSaXnpEg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1765461086; x=1765547486; bh=Jo3K+k/URBY5ILTEHo0PtkghrmQ4D2ZUSi4
-	DRDJBPiw=; b=ZFk/1kPKK/9+Mq9saZqxIr/xV5sPE14iqtBGEEwvx2rgK0KJbHX
-	9++5VCsLPquNXWMcSgATo9fM4+s3S6XNwy7pE/bSRSRZiFv+qTCMu4agoZxryhMB
-	Ow0A6XxEhqs/W1jsGwfKzX8gQwM2rOLXzhih2Hdqve6Jv7AKraIpTFLvg8sPPcGR
-	qAmERunGBx3FHyfVQ8nm5bwy855K6HwOuDu8rY5kFaYf3WaDSI6VSHh6k6v04EQU
-	K4tZ/XyrOeME1aIdvK9tYPxeoqOCGmttvkmSo9r5Sg+DLm/zZE59RkM6vSpG5gpJ
-	AkVD5KWKb/wZIilyhYHav+hlGQowjWAd5xg==
-X-ME-Sender: <xms:Xsw6aUhMcb81S_k6svAxGRejKIq-_RR7Ce4f49bxr7zadE2TveD_1w>
-    <xme:Xsw6aUci-MH_95uBxXC7MnA7tjGXjXXKJzTJwjNFhRDNzNx7N46616NZfoSmM2qd-
-    LqctT7_f_T4EFFTndu9_Z7ISjWmDvH0NxZDq7b2TTdA3BLiS2MBY5E>
-X-ME-Received: <xmr:Xsw6aZdqZOU3uX50caNldaS9eQIPUR8GFIPzp0qzd9zVaAoR7VXFmiYeJF5ebVsE1iOYk4m9ztMOrp8QKbl0jDfZ2xMBm-tLA4_WLeWqNMwu>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvheegjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhepkffuhffvveffjghftggfggesghdtreertd
-    erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
-    uggvvheqnecuggftrfgrthhtvghrnhepfeejuedugeffkeegffdvtdeigfeltdfhveeiie
-    ejgffggeffvdefleffteeffedvnecuffhomhgrihhnpegssggtlhgrshhsrdhsohenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesph
-    gsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepfedpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtohepqhhirdgthhgvnhesfihinhgurhhivhgvrhdrtghomhdprhgtphhtth
-    hopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvggu
-    uggvugdrohhrghdprhgtphhtthhopegrlhgvgieslhhinhhuthhrohhnihigrdguvg
-X-ME-Proxy: <xmx:Xsw6ae-PgwEJMiPoY9JCV_dRWNohJdREz0lF1rrtvjVkdWEs6iOZ3Q>
-    <xmx:Xsw6aVl-CjU3VPVXrz406OWsi-MpdOnj8UjP8ex7HB4uz9XDcuP02g>
-    <xmx:Xsw6aQ9DmbWNSsFhbEQa4Jii4j6c0CbhWcR2ii3_sLRtSdaGiMBXvw>
-    <xmx:Xsw6aTkRKEZ6qqJQKTtk-k9R_E0g5zlJCEMEpUrfWxqMx7H7ofOM4A>
-    <xmx:Xsw6aYcLGLRHh1HnujkdP89mgRMme4uXADtfzmRuKHok_UAmljQ1yM2p>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 11 Dec 2025 08:51:25 -0500 (EST)
-Message-ID: <09078a17ec73a43bfbda989cdc9f4a2ece5d4384.camel@pbarker.dev>
-Subject: Re: [OE-core][PATCH V5 2/2] rootfs-postcommands.bbclass: fix adding
- 'no password' banner
-From: Paul Barker <paul@pbarker.dev>
-To: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
-Cc: alex@linutronix.de
-Date: Thu, 11 Dec 2025 13:51:17 +0000
-In-Reply-To: <20251204083208.1046464-2-Qi.Chen@windriver.com>
-References: <20251204083208.1046464-1-Qi.Chen@windriver.com>
-	 <20251204083208.1046464-2-Qi.Chen@windriver.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- ep0k17xg==
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-kOZ7EBOT/T4Pc1JCwvuQ"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Jn47L3ao;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4440256309=yash.shinde@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BB4dHJ8886193
+	for <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 14:08:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=2KReVMt+Mt2mbtn1qA24zSqKYXe6/BsS00mp0h44pc0=; b=
+	Jn47L3aokP2exEoSWEvec01u/B2W1XMlegFKCMwVMQ4g2DoBlFUmZKdO6qov663v
+	H1QCuC9UsChVzFtyEMeHbcrRqEPOl0DjkyJMGsirBqXCcm3HFmt7sxQaIQl5GMIU
+	Gzde1tTvtaI/gkUayRxlhCI/G1a6EGS35C/oT5KDRDgkJvshph6i36jbcts9bAtv
+	OX2/fLOXX+lnbsUg8utL9dDi/AE27IVsq6timLyUv+df1yreOMaAqkjilT52u5U5
+	nNUT4rj/JbMgxdu1wCeTE5HyBJI4F2qZzXyPaqOi5eUvd+jluj+AhboK0pPYZuJv
+	eDZomT5MIfMfAg/Hd94/dQ==
+Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010070.outbound.protection.outlook.com [52.101.193.70])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ay01nj2a5-3
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 11 Dec 2025 14:08:43 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yd7dRfqx0f417Rvg6Z5gm0BsVlQ7uLj7bQoJJYabYnYSFVIgw53JSoohwclwo6v91od0YYJUY1t28yfSwo6JiiaVmz5lgrxubWtCgIF1BBJUlTZL42hIyAXjB7uzBupsjh1RtBQ/+hLCzPwVzVpy8v4vMYO7DtVm0871iah8RZqsJCgGOyW5uTlzmw7nXD7BqpsGl9L2eWO8sWgbTTU+r2ngRn0oKs6MYWryh4cSCyL3rQas/kTEo/TxVBK/DNFVw7Pzrv75G01y5GCru1vQp0l9BGafMew4IR++ELDg6iNn18+lceS6q/dIciXvvopCtKcc3icfPKYqXwZX2Q/a+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2KReVMt+Mt2mbtn1qA24zSqKYXe6/BsS00mp0h44pc0=;
+ b=LQt2Yk/r4jKBrDEgz49rJzCVIP2sgwVEDe8WJPyNnIXhQy+psDx9X83Apkrd0/sNpxucx8eB0pOH8zcz7w7ePKZ0OqKakd2dj4JLbzurWkqPmJWJthDgQJtqYJmxx0Y/aTXrvbMskNdmhii4/vljCnvOV0G3OXbOq7hEU9VW0+GE1vqKVvb3h/5Gm4KhQZqFFhyqi9VuikWEq5eNexD9k8p/eBTjPQA5w8uCW5vKHpWYgj4UNy6kkWKxmG6hu5BMPYWStIcVraZ1yZ1/PUZ0Iegx2BeCoNn3yPOqdWXlFe34H1Z5/I6rUxyh0xbDPBH9k6/6T+LsIXO3nlJmIs9oHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH7PR11MB7593.namprd11.prod.outlook.com (2603:10b6:510:27f::9)
+ by IA0PR11MB7329.namprd11.prod.outlook.com (2603:10b6:208:437::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Thu, 11 Dec
+ 2025 14:08:41 +0000
+Received: from PH7PR11MB7593.namprd11.prod.outlook.com
+ ([fe80::2688:e731:421b:5ebc]) by PH7PR11MB7593.namprd11.prod.outlook.com
+ ([fe80::2688:e731:421b:5ebc%5]) with mapi id 15.20.9412.005; Thu, 11 Dec 2025
+ 14:08:41 +0000
+From: Yash.Shinde@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com,
+        sunilkumar.dora@windriver.com, peter.tatrai.ext@siemens.com,
+        Yash.Shinde@windriver.com
+Subject: [PATCH v2 4/5] rust: remove passing tests from excluded and ignored list.
+Date: Thu, 11 Dec 2025 06:08:16 -0800
+Message-ID: <20251211140817.1250831-4-Yash.Shinde@windriver.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20251211140817.1250831-1-Yash.Shinde@windriver.com>
+References: <20251211140817.1250831-1-Yash.Shinde@windriver.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BL0PR0102CA0004.prod.exchangelabs.com
+ (2603:10b6:207:18::17) To PH7PR11MB7593.namprd11.prod.outlook.com
+ (2603:10b6:510:27f::9)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7593:EE_|IA0PR11MB7329:EE_
+X-MS-Office365-Filtering-Correlation-Id: 445753f2-a92f-417d-a415-08de38bec9f8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?Se5KvpSpH2fexvUvTAu1MMeActJOBu/wh64vlRhFC1RIQSrq3TWiDxI0jLHB?=
+ =?us-ascii?Q?r96f7s9ZFdZxSXEFOkR0MoDUofBnwCI57aVl0OvrwXbf9/774qO7y61Pznsg?=
+ =?us-ascii?Q?4OqpJcVawVH/ofJFUj+A2DctAXzhXhrfN+jEy5RaLFZ6NTS4624QJga6WO1n?=
+ =?us-ascii?Q?9C+dIaPbtJnZzVW2BnwYe/xtmdCKDshOHhjrcbygHqojUKv8qEWnTxAo/Hcm?=
+ =?us-ascii?Q?hMWNzbcMFXy5kOj8FpZbcooxdx4k5euPjIJdKV1coDHvpohDyNVqsT/RWkyR?=
+ =?us-ascii?Q?ry3l0WeZmFELAOggmy46TPpu1YlZIS1aHzlZIIpEiJINXBAjJqNMfDTYJT+g?=
+ =?us-ascii?Q?Glejdt6gwieplsWl16nAK2Zz1WRNYtMOW0JolZjs/VaB07Wzjs4vEqIa70WB?=
+ =?us-ascii?Q?e44DVT3zOD/vxLcAtmbgsWSX22eVlZtcNPwc0NqCrDpY1efXHqU6zH01kT0N?=
+ =?us-ascii?Q?sdz1/hg8tUQipocI/1y5uaNrOKDIMMXcQwb3uX8YK6u5Ed1p06AgA912pycK?=
+ =?us-ascii?Q?CLQQlB7nP3Dl4t18RKbYcaO+bwiFCfLF5rQ/cvPGpY1f7Vk3Gs+Y4OBm90Hy?=
+ =?us-ascii?Q?1CQYhDnNk7KIph+6SnVf2Gk+/7UTFRyv0JF3Yd0CGC1QcEWrB0IbBYnRbVFn?=
+ =?us-ascii?Q?VQ+jEFGh5L6c7ZgfdYB83dyQeU3BMyxYYfsDb0EispfNVXmYFVvyk0Xzbt97?=
+ =?us-ascii?Q?5chb0feSt7dP29JrjPlReiM2XvR1oi+3sgtBz7iNmViPY1bfpBJtgeOuWBT6?=
+ =?us-ascii?Q?p0HMcHgJlLPtX9qRqHCo1zAgZmkMc6Z1BiwZJZFF+06Z2Zuc6f2zlAFHC/Qo?=
+ =?us-ascii?Q?z6em+OtwDr9ZSMrTXL0goFTsU+tpdYqXyIhobWsYLxRpcSOFrtfYIDRxOZ3I?=
+ =?us-ascii?Q?c50CnLdihkc4bjZNoOHPZQACn3j+5JY7XjBCNRjZgb1mWvoQYiTM4WFgvClM?=
+ =?us-ascii?Q?hcLziH1R92EnZsTwsjTCsCwqVWpd5hUL7QaBIV5fDcuCpxTTUQNQsO99cue+?=
+ =?us-ascii?Q?4ApUWIvxbNWv0Jy6fxb/U3bi7eWKT/i6AZCL66812CN5mUn2D7jsE4h6VFxc?=
+ =?us-ascii?Q?Y6PqEm2Z7BUvG/PanAAAvaYMGchXxctRtj7Bo0jfoOWFQ10ftNVu/cYTE0OM?=
+ =?us-ascii?Q?Th/pApMijHuabD1iC3c6JZPUnlJi6TZsXoWn4b8C7Vx5q/pv9bjkiCTe2/dR?=
+ =?us-ascii?Q?Lcwi5BrV8jg2pNIyCo2QMNkTw7lDbSFU3qqO9UmtYHTNVWTPhvyJyksiyEU3?=
+ =?us-ascii?Q?ekaIuQIjCT5qvgRr+8jhsIUXiHL7zyoQSN1dsXD08jWKJJLmmQpK8IhTMCWd?=
+ =?us-ascii?Q?4tarmolNerf5wlbhRBbiqgr7KNE6pWAH4Vcr8sNUjLjTEGMw+sbBuPRRiwAI?=
+ =?us-ascii?Q?Oxnr0gkn8jBDYxyifKQvm+EAUvrLD9kEK/R07QoPcCN2FGPqPu6vrjUPlnUP?=
+ =?us-ascii?Q?oPFvui3dLkcQKjLIP4o8DDmN+6kl8Bk7jCqtqbaz3azaYC6GcCWPGw4HnqUj?=
+ =?us-ascii?Q?eiv3gKo2tIHj5Wt3xIQ/rthqx6y4dLzhbEbiC5SSIFj1hStsfQPv6OPCQQ?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?UcIer1rvAT9QqxLtutid88qbA87vpy0mbT1CQhul5Wz/FaFLY5cwIYmpdhdW?=
+ =?us-ascii?Q?9+G3h4IgkfeDjrIXVbwMldXOFn2xOcKIw2cHmiaHd0kPqui3Pt0GCQ0fBk6b?=
+ =?us-ascii?Q?f98LMO/G5uwtmMY4xHm6jAYXppCL1aJd5m2Fn88KJZh+8jEf6jltKKt6IXFm?=
+ =?us-ascii?Q?FyggiI246rKHGCFWhP/k0uM0QbtPGwuT9BXFzc2yoSJVYrcgWv+2/hwQ8YAu?=
+ =?us-ascii?Q?BpTcecRCJuc7bcPVlhxIcoF5cOjqJknOOJ6CpZ+w28ibKKx7aQHfpt07md5j?=
+ =?us-ascii?Q?uiQgq0SY5CQrWUECy8i2ZyJzZw56fbVtZNlRZbcJa6qYBxEnRu4J6WQkoJAE?=
+ =?us-ascii?Q?GsuvIlZc3I25eec3ykKfjvaHEtxe+bIrj5AD8GzWFToCLO5Y0Id5PaC1mp+D?=
+ =?us-ascii?Q?2u0NFUutIBp7l3Czyum95JA/sUrRdH27PnowcmABbITzv9ecYmeljuFwogJa?=
+ =?us-ascii?Q?QLJR8dkpStrA+AhiZc4TwFaIuItZ02h94DCmbrQvzyQq0we+MFop5Q56uamU?=
+ =?us-ascii?Q?UVc2Gl9CsZC39ZUuGIkdEGkmb0/4kNpVRdd3MXfAi6MkXHmvx+LvuH0r26+y?=
+ =?us-ascii?Q?movX1ifhmm7MISPiXwnsNXxbhNVT/ArEOFy46zHEn7Omsl6DANoMPJkRm0TG?=
+ =?us-ascii?Q?Rtb1etWK4jIRaMT3LaT5nRy6kSgEXP26Laj6F5+NxjJbQzWY6jg0lzioSlBT?=
+ =?us-ascii?Q?7qxak6opbYqqiMgQ+qkkm50VizXh2fowga9o/mVlw5wi3UZVYO4bSKDRUSet?=
+ =?us-ascii?Q?gH54E4STbghsH3LDWcwMdOrBJubQNwv73LvS4K07TXBxF+RrFnjp1yg/7Lgl?=
+ =?us-ascii?Q?n91/CEyFQrFS5ifLuJpXSkdaVRdIYOPf1kfg3XdnaMvdZ1+izl3H8aMUwujN?=
+ =?us-ascii?Q?OI2ZdSSXakcsNyIAXWfHIo+Ilfi27vchZbgmdwGL2n3qvu7ua1A14pMFGv7o?=
+ =?us-ascii?Q?pAthN0UTvopXqXN7UTfmv3HeudDuRbk88gQy5uRKPMuNjLYT5Kt+ULzPkB6u?=
+ =?us-ascii?Q?eDNo2AUEt1FUtktBw9oUTIPu0jxpxt+yHnv29NeRKMXCKA4WYZ76mQHvDNB+?=
+ =?us-ascii?Q?rRln2R8U+HCBZmVeYVLYlddpVuttjaGwmUs04fZvEvO8n8VggYbmAUV3Yfg1?=
+ =?us-ascii?Q?a4t+4Z5Dull54VDlLqP+LmvTM4F/2umM8N9DRAYIyMPySS+8F3TiyRmOzrrh?=
+ =?us-ascii?Q?FtnE/FoBWBn3GFVmXANdx3N+jdxrVbXXjqO6/pfM/12KdnxZlDZZ1b+85j9s?=
+ =?us-ascii?Q?xO9X3J0OWzBE/vx7ZEw77iQ+z3uSglzg+JdnWJsJnq3C7s/NpAgKfqIdxegN?=
+ =?us-ascii?Q?UfKqrL8o4Sx8txYCLmYRRPXZzbvhU/SM46RXSrBQEnLdOaiu8FuvECcOCpx+?=
+ =?us-ascii?Q?9PTinGN4R/zFncTdGXRgT2Duah/+QP+4xViF7O4nYBfWSaDBhmGMd0sYSrbQ?=
+ =?us-ascii?Q?T8f0czKbR4JxGqFAgFScMwe/AGeCvPCTnMQfsjdRmRHkuvkgODXTM9cquyw1?=
+ =?us-ascii?Q?gShV2S/m//Fdll8/S7dV8xWDQIMq79EhiRPMeaeNtXFhSofqAd+3U7eFA+5i?=
+ =?us-ascii?Q?UHqDluuftnFM5hsyhh1cToQdYbk5S4EVxKWzdyUazpfnPawFNwG72tIPejDJ?=
+ =?us-ascii?Q?/A=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 445753f2-a92f-417d-a415-08de38bec9f8
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7593.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2025 14:08:41.7925
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2mOoLeCunpR5zgwYXpsDrBkY6/Bqnj2qbv6OupA1/7bXoWrJIODr8l4LlGNVPNal7vDB4S2QXzYYFh4pgx7zZIweeR+tAPLkMHsisZtYoGA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7329
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=d5/4CBjE c=1 sm=1 tr=0 ts=693ad06c cx=c_pps
+ a=HD3DV6xNHsutM5VcLnEsTw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=Fi9ycsKON-C4BOGCTiEA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: o7iWKFDWFakZfGcc4tqjI9rllVDPZhIZ
+X-Proofpoint-ORIG-GUID: ioqSV2gNB6Q0JRE8-6nuG6_M175q5AyZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDExMSBTYWx0ZWRfX51UqnaFLWE1G
+ uzlQ9+LBEnNijrAyDIIeY/1LenfAMVXKSXhnGx+vjvtmUj3oHwiGOWT7TnlP23HG2Q85B3iAHLG
+ 1jXB5lh02wh7086bp36UPXsb/d4OYKmrlq2yPpz0VRb3wueEFiiwgXO5DUsU70CXqLqNrFrsFLW
+ gMHgp6PEs4WhB+jEfMMM23PavCtNbISPjkfO5DovyoPekLyxd2yi6JppMaeLYxYbH5EtbdLjehr
+ Iqq3wHcnJZY+rCpsDOIP5E3ZLcr3EtgTXxIzIHdSmURQ4wg+zuzTa2UdtIWwJzV22f4cvx+QCCe
+ Q6z0a5SguhqpA3Z+YtLSfimAPlEVcdC4fdcwg2GuXuTWukMEEJaGABhsgiENbPrTOG+Im4h4gnc
+ Gc7Vrt8JNJh8vPFBE3QRHvgLDsd6eg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-11_01,2025-12-09_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 suspectscore=0 adultscore=0 bulkscore=0
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512110111
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 13:51:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227530
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 14:08:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227533
 
+From: Yash Shinde <Yash.Shinde@windriver.com>
 
---=-kOZ7EBOT/T4Pc1JCwvuQ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Remove the ignore tags for passing riscv64 tests and
+drop obsolete "tests/codegen-llvm/issues/issue-122805.rs"
+from exclude test list.
 
-On Thu, 2025-12-04 at 08:32 +0000, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->=20
-> It's possible that users use EXTRA_USERS_PARAMS to set password
-> for root or explicitly expire root password. So we need to check
-> these two cases to ensure the 'no password' banner is not misleading.
->=20
-> As an example, below are configurations to make an image requiring
-> setting a root password on first boot, but without having to first enter
-> a static initial password:
->=20
->   In conf/toolcfg.cfg:
->   OE_FRAGMENTS +=3D "distro/poky core/yocto/root-login-with-empty-passwor=
-d
->   In local.conf:
->   INHERIT +=3D "extrausers"
->   EXTRA_USERS_PARAMS +=3D " passwd-expire root;"
->=20
-> Checking and adding such a banner is ensured to run as last steps of
-> ROOTFS_POSTPROCESS_COMMAND, regardless of IMAGE_FEATURES. In particualr,
-> we want to ensure that the function runs after set_user_group function
-> from extrausers.bbclass. So unlike other commands in this bbclass using
-> the '+=3D', this function uses ':append'.
->=20
-> Besides, adding such banner is only meaningful when base-passwd and
-> baes-files are installed. In case of container image, they might not
-> be installed (e.g., container-test-image). So add extra checking for it.
-> With the above logic, we avoid breaking the following oe-selftest test ca=
-se:
-> containerimage.ContainerImageTests.test_expected_files
->=20
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes-recipe/rootfs-postcommands.bbclass | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/class=
-es-recipe/rootfs-postcommands.bbclass
-> index f4fbc4c57e..8d7e5e7652 100644
-> --- a/meta/classes-recipe/rootfs-postcommands.bbclass
-> +++ b/meta/classes-recipe/rootfs-postcommands.bbclass
-> @@ -5,7 +5,7 @@
->  #
-> =20
->  # Zap the root password if empty-root-password feature is not enabled
-> -ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", =
-"empty-root-password", "add_empty_root_password_note", "zap_empty_root_pass=
-word ",d)}'
-> +ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", =
-"empty-root-password", "", "zap_empty_root_password ",d)}'
-> =20
->  # Allow dropbear/openssh to accept logins from accounts with an empty pa=
-ssword string if allow-empty-password is enabled
->  ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", =
-"allow-empty-password", "ssh_allow_empty_password ", "",d)}'
-> @@ -64,6 +64,10 @@ ROOTFS_POSTPROCESS_COMMAND +=3D '${SORT_PASSWD_POSTPRO=
-CESS_COMMAND}'
->  #
->  ROOTFS_POSTPROCESS_COMMAND +=3D 'rootfs_reproducible'
-> =20
-> +# Check and add 'no root password' banner.
-> +# This needs to done at the end of ROOTFS_POSTPROCESS_COMMAND, thus usin=
-g :append.
-> +ROOTFS_POSTPROCESS_COMMAND:append =3D " add_empty_root_password_note"
+The test was renamed to "dont-shuffle-bswaps.rs" and passes now:
+https://github.com/rust-lang/rust/commit/3580698996f6da6f006477809d7959bffcfd3bf0
 
-We should use +=3D instead of :append in all cases unless the semantics of
-append are actually needed. My understanding is that we just need to
-ensure that add_empty_root_password_note appears after
-zap_empty_root_password in ROOTFS_POSTPROCESS_COMMAND, and we don't need
-to use append to do that.
+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+---
+ meta/lib/oeqa/selftest/cases/rust.py          |   1 -
+ .../rust/files/rust-oe-selftest.patch         | 100 ------------------
+ 2 files changed, 101 deletions(-)
 
-It would also be better to keep the root password related modifications
-of ROOTFS_POSTPROCESS_COMMAND together, so please move these lines up so
-they are immediately after the zap_empty_root_password change above.
+diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
+index ebc9204420..3a41391101 100644
+--- a/meta/lib/oeqa/selftest/cases/rust.py
++++ b/meta/lib/oeqa/selftest/cases/rust.py
+@@ -80,7 +80,6 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
+                             'src/tools/tidy',
+                             'tests/assembly-llvm/asm/aarch64-outline-atomics.rs',
+                             'tests/assembly-llvm/c-variadic-arm.rs',
+-                            'tests/codegen-llvm/issues/issue-122805.rs',
+                             'tests/codegen-llvm/thread-local.rs',
+                             'tests/mir-opt/',
+                             'tests/run-make',
+diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+index 7d26d75820..b39b326455 100644
+--- a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
++++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+@@ -202,106 +202,6 @@ index a05f274136..0e69b4cb98 100644
+  fn sparse_inserts() {
+      let cache: VecCache<u32, u8, u32> = VecCache::default();
+      let end = if cfg!(target_pointer_width = "64") && cfg!(target_os = "linux") {
+-diff --git a/tests/assembly-llvm/dwarf-mixed-versions-lto.rs b/tests/assembly-llvm/dwarf-mixed-versions-lto.rs
+-index 828328df843..30753c56c76 100644
+---- a/tests/assembly-llvm/dwarf-mixed-versions-lto.rs
+-+++ b/tests/assembly-llvm/dwarf-mixed-versions-lto.rs
+-@@ -8,6 +8,7 @@
+- //@ compile-flags: -C lto -g -Cdwarf-version=5
+- //@ assembly-output: emit-asm
+- //@ no-prefer-dynamic
+-+//@ ignore-riscv64
+- 
+- extern crate dwarf_mixed_versions_lto_aux;
+- 
+-diff --git a/tests/codegen-llvm/const-vector.rs b/tests/codegen-llvm/const-vector.rs
+-index f4307492341..617e31140e9 100644
+---- a/tests/codegen-llvm/const-vector.rs
+-+++ b/tests/codegen-llvm/const-vector.rs
+-@@ -3,6 +3,7 @@
+- //@ [OPT0_S390X] only-s390x
+- //@ [OPT0] compile-flags: -C no-prepopulate-passes -Copt-level=0
+- //@ [OPT0_S390X] compile-flags: -C no-prepopulate-passes -Copt-level=0 -C target-cpu=z13
+-+//@ ignore-riscv64
+- 
+- // This test checks that constants of SIMD type are passed as immediate vectors.
+- // We ensure that both vector representations (struct with fields and struct wrapping array) work.
+-diff --git a/tests/codegen-llvm/enum/enum-aggregate.rs b/tests/codegen-llvm/enum/enum-aggregate.rs
+-index 0161e5f3fa1..773a06fabb4 100644
+---- a/tests/codegen-llvm/enum/enum-aggregate.rs
+-+++ b/tests/codegen-llvm/enum/enum-aggregate.rs
+-@@ -1,6 +1,7 @@
+- //@ compile-flags: -Copt-level=0 -Cno-prepopulate-passes
+- //@ min-llvm-version: 19
+- //@ only-64bit
+-+//@ ignore-riscv64
+- 
+- #![crate_type = "lib"]
+- 
+-diff --git a/tests/codegen-llvm/enum/enum-match.rs b/tests/codegen-llvm/enum/enum-match.rs
+-index 57db44ec74e..1e2507f7c90 100644
+---- a/tests/codegen-llvm/enum/enum-match.rs
+-+++ b/tests/codegen-llvm/enum/enum-match.rs
+-@@ -1,5 +1,6 @@
+- //@ compile-flags: -Copt-level=1
+- //@ only-64bit
+-+//@ ignore-riscv64
+- 
+- #![crate_type = "lib"]
+- #![feature(core_intrinsics)]
+-diff --git a/tests/codegen-llvm/enum/enum-transparent-extract.rs b/tests/codegen-llvm/enum/enum-transparent-extract.rs
+-index c5efb8d472b..e79b8916fc1 100644
+---- a/tests/codegen-llvm/enum/enum-transparent-extract.rs
+-+++ b/tests/codegen-llvm/enum/enum-transparent-extract.rs
+-@@ -1,5 +1,6 @@
+- //@ compile-flags: -Copt-level=0
+- //@ only-64bit
+-+//@ ignore-riscv64
+- 
+- #![crate_type = "lib"]
+- 
+-diff --git a/tests/codegen-llvm/repeat-operand-zero-len.rs b/tests/codegen-llvm/repeat-operand-zero-len.rs
+-index b4cec42a07c..d450fead9a4 100644
+---- a/tests/codegen-llvm/repeat-operand-zero-len.rs
+-+++ b/tests/codegen-llvm/repeat-operand-zero-len.rs
+-@@ -1,4 +1,5 @@
+- //@ compile-flags: -Copt-level=1 -Cno-prepopulate-passes
+-+//@ ignore-riscv64
+- 
+- // This test is here to hit the `Rvalue::Repeat` case in `codegen_rvalue_operand`.
+- // It only applies when the resulting array is a ZST, so the test is written in
+-diff --git a/tests/codegen-llvm/simd/extract-insert-dyn.rs b/tests/codegen-llvm/simd/extract-insert-dyn.rs
+-index 729f0145314..2b1d1beb86a 100644
+---- a/tests/codegen-llvm/simd/extract-insert-dyn.rs
+-+++ b/tests/codegen-llvm/simd/extract-insert-dyn.rs
+-@@ -1,4 +1,5 @@
+- //@compile-flags: -C opt-level=3 -C no-prepopulate-passes
+-+//@ ignore-riscv64
+- 
+- #![feature(
+-     core_intrinsics,
+-diff --git a/tests/codegen-llvm/transmute-scalar.rs b/tests/codegen-llvm/transmute-scalar.rs
+-index ce1b0558b2e..e8fda2cd566 100644
+---- a/tests/codegen-llvm/transmute-scalar.rs
+-+++ b/tests/codegen-llvm/transmute-scalar.rs
+-@@ -1,6 +1,7 @@
+- //@ add-core-stubs
+- //@ compile-flags: -C opt-level=0 -C no-prepopulate-passes --target=x86_64-unknown-linux-gnu
+- //@ needs-llvm-components: x86
+-+//@ ignore-riscv64
+- 
+- #![crate_type = "lib"]
+- #![feature(no_core, repr_simd)]
+-diff --git a/tests/codegen-llvm/uninhabited-transparent-return-abi.rs b/tests/codegen-llvm/uninhabited-transparent-return-abi.rs
+-index face1577c3f..09e0846bad0 100644
+---- a/tests/codegen-llvm/uninhabited-transparent-return-abi.rs
+-+++ b/tests/codegen-llvm/uninhabited-transparent-return-abi.rs
+-@@ -1,4 +1,5 @@
+- //@ compile-flags: -Copt-level=3
+-+//@ ignore-riscv64
+- 
+- // See https://github.com/rust-lang/rust/issues/135802
+- 
+ diff --git a/tests/ui/abi/rust-cold-works-with-rustic-args.rs b/tests/ui/abi/rust-cold-works-with-rustic-args.rs
+ index 551485469d3..575db924968 100644
+ --- a/tests/ui/abi/rust-cold-works-with-rustic-args.rs
+-- 
+2.49.0
 
-Thanks,
-
---=20
-Paul Barker
-
-
---=-kOZ7EBOT/T4Pc1JCwvuQ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaTrMVREccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bgb3AP9KLWAedLbX4OKivKYJXB7dDa+G3WEXdjP+
-z+E2akSdNgD+I97y1IEBymk+XgEXZRkmRsH91IHBQw79aO2n/dMhrQc=
-=5koE
------END PGP SIGNATURE-----
-
---=-kOZ7EBOT/T4Pc1JCwvuQ--
 
