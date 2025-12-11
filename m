@@ -1,131 +1,119 @@
-Return-Path: <naftaly.ralamboarivony@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62EA7D41D57
-	for <webhook@archiver.kernel.org>; Thu, 11 Dec 2025 15:07:03 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11402.1765465614488200924
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 982D2D41D57
+	for <webhook@archiver.kernel.org>; Thu, 11 Dec 2025 15:20:03 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11670.1765466397826364987
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Dec 2025 07:06:54 -0800
+ Thu, 11 Dec 2025 07:19:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=3qigTea2;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: naftaly.ralamboarivony@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-477b198f4bcso1711385e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 07:06:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nRLuW1dV;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-88056cab4eeso1506926d6.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 07:19:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1765465613; x=1766070413; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1765466397; x=1766071197; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E3kS3vunvv2kQRP1rLXVgo+ylMa2Jc/DyHA3Yh060bo=;
-        b=3qigTea22fHH6z4gQLh0apTTp5amtuctGMBU58kaenG2tbI+4j1IicK5MphBpuhna/
-         3Rrn57jAL/4IvlP+IIhkAxpSy2ohRTfq/mnlJ97K04SlLVSfNCRsgwtYQp9AxF/D45Mr
-         BRZYCzQ4NzSLDvKeZth+v/GGmIK+BzHx31BNw=
+        bh=GGJgrcHN2RVObO4FdyZCViVTVuOa987vNEe9CYW1F1A=;
+        b=nRLuW1dVjsW5pBZdSMROxPtYHdGlMU8gZaCtlkFpBUDlaJ3tlZmNeh4+Ab/7l8iFXB
+         3Np3v2P/8/p/HcSEXrj20c70wi/XWiQ2XBrTdm55fYGFm3iNWcZfmGVf+1LsqWybtMMZ
+         iOiKaZuBh1AgCenuR4YkUGgK6lkCzM556/BPnfLcKE4KE93LBtheIYRzjjUXneqj4iMj
+         D4Skmv7kZ0e7mHNuRI/TL1/8ly2TO8YLXOIMeyw+d8kKzlEg/H4wRpOo9wRhALDkwGpj
+         0ZgENeO7HmjKVQ8ZBnNc9VCG9IHEOlOnVapRTKOKISDho4FN4y2kK//jBWyB25zRar5d
+         BP5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765465613; x=1766070413;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1765466397; x=1766071197;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=E3kS3vunvv2kQRP1rLXVgo+ylMa2Jc/DyHA3Yh060bo=;
-        b=YVyYjaDeaFiWDUUvSqxvy3xcDQNvKUzzFvqXxCxI/L7497LBofp/I12KwBch3mTO/o
-         2iem3tIUkXG5ejckCHMAIo2Ck0K32cpX7pylEvTafPU1++E1nm1eKx/tMTiKcYCIxcIl
-         u7HWnAykZ4uHfUIQz56Cd7AJk/fic/fhMK7TYFWoDLhOfnkCg6znENejkFhRDnVe+lQ0
-         IF0gGPFOJHG3nH8/Bt8xLHDV1UimFd9w9KAjBx79MXahW3bcwebJ/nxstAHB+uO8Kk5M
-         IhvEiQRGzDJ0NJBROnyvYXC4p+NnwTQxTb8TYuAM1xY5SyqhPW2BYBrTGnjyu5Ky5aWe
-         54ew==
-X-Gm-Message-State: AOJu0YzLdjj7TeOe4+xCS2r0mXTaMaPCaQVRp1apx14geHKDls3UcyGn
-	RZkf7vDlV4rFfrNN7G8zoSTrWnQVUV8PWQsQ1uqFvZeeyQgqEY9W/lktiK3lnJJHbV/3AawH6FU
-	JGf59
-X-Gm-Gg: AY/fxX6so8p9SCv6jgUjHL+jo2Znrka9XErVGpwFIpqVmyg+PmjTEGQgjFpuTnN+pX4
-	IsuZ9mrcWJGc06/RA8mp7w0hNQF3S7SWWaJPcRt4v2OJKcXZOyJ4aYeQ0Ecaf2SoWHu9oAtpASk
-	x52TgjO+r39WCxBq77xG0yRqMvjBHZQZmHURLbnBlPyy/Aed1MUVLvxIOCkNnL8n25/V7WWzNQD
-	qY1KYbfu5DY3SOL1eY+vtaTHLc7qWIsROYHaVVdXyP8GYsual9HbL8hh/O3N8JS1PIXgNCXB3Kh
-	A9qeB7pvi3XKbdz1qENcbyq2Vkt6svKJzTFOs1dfR9JQRcKFnwQPSR2ZeIGD9D6ndTsT4t/u5Y9
-	dgi71K3A0VYsndqWOeMYrrpUhvcZTcae/2JfnmFIxJ3jaMBU8lMhR9lroHZT8/22/+kXenUBaRY
-	oIv/p7v0wdpS09xQkHAcN15qUP8pTfaB6RILj3KeF2Fdnnw9ARqmAxXhtzYz2jUavlBt4Frd5kj
-	kPkVrJfr3AQtFClHNA5/y/xLw5mn6dZ
-X-Google-Smtp-Source: AGHT+IH1xk7J+PROxOyUNfQXdeh3fqBWUsPMk2BSQmJkcB4MR9r8x/LG679MGbLr0/xIl+2MaiikiA==
-X-Received: by 2002:a05:600c:4851:b0:479:3a86:dc1e with SMTP id 5b1f17b1804b1-47a83c61a6dmr38039145e9.36.1765465612627;
-        Thu, 11 Dec 2025 07:06:52 -0800 (PST)
-Received: from P-ASN-DERVAUX.. (2a02-8434-8fe1-4f01-5250-bba4-03e6-c67a.rev.sfr.net. [2a02:8434:8fe1:4f01:5250:bba4:3e6:c67a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8a70379sm6504043f8f.11.2025.12.11.07.06.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 07:06:52 -0800 (PST)
-From: naftaly.ralamboarivony@smile.fr
-To: openembedded-core@lists.openembedded.org
-Cc: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
-Subject: [OE-core][PATCH v4 6/6] patchtest/selftest: Ensure HEAD is attached before running attach tests case
-Date: Thu, 11 Dec 2025 16:06:46 +0100
-Message-Id: <20251211150646.2647853-6-naftaly.ralamboarivony@smile.fr>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251211150646.2647853-1-naftaly.ralamboarivony@smile.fr>
-References: <20251211150646.2647853-1-naftaly.ralamboarivony@smile.fr>
+        bh=GGJgrcHN2RVObO4FdyZCViVTVuOa987vNEe9CYW1F1A=;
+        b=aB6Fc1aBe3rqRYYsDlKCv0CDNgsLBR+1NwvT0T3ZqhVE5W1l/skrxQn7H7Gqn5X+Ka
+         HiyoI4VBFwcd05v+oN7G7pkKWxfNPIvPI1LLLNiiNIMnQL4lUjKAN5EwVYtMFCkOcCiF
+         bVTgbmwHt6TIUssRZyvmszktReZ68QT9UeE39SR1yZjdc/i6tIQHCHhvVa3V7dfl4ceG
+         C2SMqFZz1mAkokf1py/uj6tZTAEHtBmmwGFZI4uHt41o3bbs7+KjuS8klu/QcIucjcBv
+         InAfsVQzUruvzAdClUVl8M9mnEFyxaPhI9GpNIXmolU79rUQ/v30IrHrLmHc1pIFi+4H
+         s8/A==
+X-Gm-Message-State: AOJu0YyCwR4OK+ULkj0nMQvGB6I4IEdNjQuPvQi5HNDW82Hqc2g/FigR
+	OcIK5DWx135IZyIcji/dVpwQ1UBbdhChmNDt69yLrQyA2clWrJwnpSv/m1f0VP3HcOFxLrK4HRc
+	9b8lrC/FMHqTb4AUMkgYGist4INlvyn8=
+X-Gm-Gg: AY/fxX6lBCpdF8xjZU79w5z9jnHQS9BcufnLWk7uCj8j5FMSxQeHb/HotYBx5E2PxNX
+	a7BPYcWYcAWY+FXIflD6XHvmA5U2yQ2pluU96SmimMGpGpDMdkSWwTY8v9b9QciJXwTLGif1cQF
+	2tL4UiaFdTbvbhAzbUUmOC3+h+8aayMPGrbcYthIjvafMi94DSBAKpD3NRbma7y/ddp4erflRcJ
+	3sliDub0eFHKqY1pDjQeynDj5Mdp9oicmbiRPoTNIZAsKKpRq5YyK4/hXrVJLMIj/Zrz1e9d8wG
+	XcD+O4ZfP4B4YSznNin4D0tF69AJCQ==
+X-Google-Smtp-Source: AGHT+IEJ0argT9oepRehApIYPUdicuxaS3evXXPwAMqN0waYJ7Db6yfJg/AklQVJZ3UE72GzzpFKcn99xQLTNV0QMYs=
+X-Received: by 2002:a05:6214:1309:b0:880:477f:88eb with SMTP id
+ 6a1803df08f44-88863ad4edfmr107013106d6.66.1765466396692; Thu, 11 Dec 2025
+ 07:19:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251209132208.402718-1-pascal.weisser.ext@karlstorz.com>
+ <9bc6fecf-3234-4b46-8bad-84d93a5e030f@cherry.de> <952C109B-6A6C-4388-B937-6200BFE718E1@arm.com>
+ <120671.1765463343248308488@lists.openembedded.org>
+In-Reply-To: <120671.1765463343248308488@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 11 Dec 2025 16:19:45 +0100
+X-Gm-Features: AQt7F2rBv_OZINk2LM0bBzjT7l2_8Yly9Zgyyo6AEPbF-ZzZc7QcwoypSatHlrc
+Message-ID: <CANNYZj8eLa=GtnkdxmriVmzRt-kh832c2sx_FsJgSef-HcrOLg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/3] Add HOMEPAGE variable to several recipes.
+To: Pascal.Weisser.ext@karlstorz.com, 
+	Quentin Schulz <quentin.schulz@cherry.de>, Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 15:07:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227544
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 15:20:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227545
 
-From: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
+On Thu, 11 Dec 2025 at 15:29, Weisser, Pascal.ext via
+lists.openembedded.org
+<Pascal.Weisser.ext=3Dkarlstorz.com@lists.openembedded.org> wrote:
+>
+> There are several reasons for this change:
+>
+> First, according to the recipe style guide, HOMEPAGE is a required variab=
+le and should be contained in all recipes:
+>
+> https://docs.yoctoproject.org/dev/contributor-guide/recipe-style-guide.ht=
+ml#required-variables
+>
+> Second, the recipe linter oelint-adv also wants HOMEPAGE to be set.
 
-If the repo is in a detached HEAD state, create and check out a temporary branch
-to attach HEAD. If the branch already exists, the error is raised via run_sh.
+Sadly the docs are somewhat inconsistent there. The section says
+'required', but on the other hand 'should' is usually interpreted as a
+recommendation, but not a strict requirement.
 
-Add a check to verify that the Git state has not changed before and
-after the test in the attached HEAD.
+The actual enforced requirements are in the recipe_qa task, and from
+what I just checked, only SUMMARY must be always present, while
+HOMEPAGE is required only when SRC_URI is fetching from external
+sources on the network.
 
-Signed-off-by: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
----
- meta/lib/patchtest/selftest/selftest | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+oelint-adv is a 3rd party linter, and things it suggests when using
+its default configuration should not be taken as guidelines for
+oe-core contributions.
 
-diff --git a/meta/lib/patchtest/selftest/selftest b/meta/lib/patchtest/selftest/selftest
-index 01a0888499..43cccf4c85 100755
---- a/meta/lib/patchtest/selftest/selftest
-+++ b/meta/lib/patchtest/selftest/selftest
-@@ -120,6 +120,9 @@ def is_git_state_same(before, after):
- 
-     return ret
- 
-+def git_attach_head(temp_branch):
-+    run_sh(f"git switch -C {temp_branch}")
-+
- def git_detach_head():
-     run_sh("git switch --detach HEAD")
-     assert run_sh("git rev-parse --abbrev-ref HEAD") == "HEAD", "Failed to enter detached HEAD state"
-@@ -136,10 +139,15 @@ def test(root, patch):
- 
-     return results
- 
--def test_head_attached(patches, counts):
-+def test_head_attached(patches, counts, branch):
-+
-+    git_attach_head(branch)
-+    git_state_before = get_git_state()
-     for patch_info in patches:
-         results = test(patch_info["root"], patch_info["patch"])
-         counts = analyze_result(results, patch_info, counts)
-+    git_state_after = get_git_state()
-+    assert is_git_state_same(git_state_before, git_state_after), "Repository state changed after attached HEAD test."
-     return counts
- 
- def test_head_detached(patches, counts):
-@@ -160,10 +168,13 @@ def test_head_detached(patches, counts):
-     return counts
- 
- def run_tests(patches, counts):
-+    temp_branch = "test_patchtest_head_attached"
-     git_state = get_git_state()
--    counts = test_head_attached(patches, counts)
-+    assert git_state['branch'] != temp_branch, f"Cannot run patchtest selftest while on branch '{temp_branch}'"
-+    counts = test_head_attached(patches, counts, temp_branch)
-     counts = test_head_detached(patches, counts)
-     restore_git_state(git_state)
-+    run_sh(f"git branch -D {temp_branch}")
- 
-     return counts
- 
+> Third, the HOMEPAGE is included in the SBOM if it is set. It would be gre=
+at, if every component would contain the HOMEPAGE to be consistent.
+
+The issue is that following this principle mechanically clutters
+recipes, packages, and various other derived items (such as sboms)
+with entries that aren't actually useful or helpful to humans. So I'd
+rather not do it.
+
+> I checked what other recipes are doing when they just provide local files=
+. The recipes mini-x-session or python3-dtschema-wrapper also set HOMEPAGE =
+to "https://yoctoproject.org", so I thought that would be the accepted way =
+to have a HOMEPAGE for recipes that only provide local files.
+>
+
+This patchset has now merged (no one made objections in the patch
+review, and RP took it), so if any interested parties feel strongly
+about further tweaks, they should make them on top of master.
+
+Alex
 
