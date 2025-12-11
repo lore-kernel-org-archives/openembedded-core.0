@@ -2,400 +2,437 @@ Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B432BD41C34
-	for <webhook@archiver.kernel.org>; Thu, 11 Dec 2025 12:57:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6E8FD41C35
+	for <webhook@archiver.kernel.org>; Thu, 11 Dec 2025 12:59:42 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8611.1765457832916548175
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8598.1765457977798218611
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Dec 2025 04:57:12 -0800
+ Thu, 11 Dec 2025 04:59:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=Vb+kCtkd;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=exfqDOJt;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=444065b617=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BBC0vJ6174128
-	for <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 04:57:12 -0800
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BB5IiJJ037101
+	for <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 04:59:37 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=jT2UY4M00GCdYtZrf1Kw1s
-	EhX3+BVgfBmk4RNx3Ikic=; b=Vb+kCtkdS1/T3HrSAUgZBgF5L/VfPbyy2Rb+F0
-	k2WCjlcoNMfqjOOjzPurcWXXmbrGwmtijZrgaaggep5CPmxR96+VJ40GaGTRwR0J
-	u1RehWbyNQgKE5oDis3ZD27gaKsHogx71mZYB4bSQsvivT7fht2D74YlrNlQYK7R
-	hojPGqu5vkf1ByT5Pl6N7P+9xG0sg2l4AT3JC8otRRmp9orxWMfryciSaiBmlLHp
-	SWQxJSwq+ITcwMvd8bUx5HsSMiRmoc1KGi499lJ1TPBhocgrNWqOf11hqCedjXFO
-	YhfCPac7LFX72Vl0cToMoHjFJlcIXAu1LfZbx6M5iTfD5+Pg==
-Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11011013.outbound.protection.outlook.com [40.107.208.13])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ay07u22u2-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 04:57:12 -0800 (PST)
+	:references:subject:to; s=PPS06212021; bh=BLQLTijgi6Ih5NhOTLVi8L
+	eRByyNFCyFAFtoZcOpewc=; b=exfqDOJtUHMkFi0HXld+y41J6dAU2zYyEo18uW
+	AxzkntOSoJ45M1Lvn6yHiHyjJjimx2rTYkgAI4zpBPFBbAHBPJ/4+aL0v44aqXQz
+	2dghGMgSYCMQDxg5egnGHU8LuiGQgvIKDrR3hcS+DVvjW4lFUOKxuD63UULaBHev
+	XTgU1BSTXLsqaSY6aka6m9MXrA59mBt/gSeLKRNgi9xx82Y8tWFyURy4W3FMnMdy
+	mCr++mF/5+hXGVJdrlw1QTpu6xO3JKepIYUCKYdPc61RuObfR6WROHDLhbySxz66
+	lHy7LEVRdvTG08EFQt1eOs44yfM5jU+ssLzeJb4AP/Be/PoQ==
+Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013012.outbound.protection.outlook.com [40.93.196.12])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ay022t2ya-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 11 Dec 2025 04:59:36 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Eo0G7/2H0b6RSpddvs014Cywo3fpZl61iBZNfEtaVKIQXApbFrL1NxTXIADJr9JNOf8zcqTX5eF09ey0eXJPoIFXzvlBhVFWvWXpYjnL1D4qUHxmkzBCZ7HF96C0sX7EdlfAFhEVskiZnakEZ0fsoz7uiRYkyzyAGdEDEmqrpdI20cy28nxUOzfNkLQppjzgierpeS2qKL9vU3+yuC5rcYhBd1nNLHq8gnfQJYhiC8nBGdUVPIJDaKIRtcsGYTkVsmCqe0glHU3UIOIfn/qO3J88sL/XISBsB8axkxGDACJtEgOAs4UwLyd2KRKpsHUau0hCNeK0xO2jD6e1/CcPRg==
+ b=FUNb5UtXf6UP81BTUO9K89OiL/lcmTWHhrLvp4UbhEexAIoH7l/DDB7hDplJwF/2Y9FcP449byA0xee6UfkFP8tokQxb1K7zGBByY/zAJrl/NEhc47LUOIk76T+o3kgQxdRPlOZgytrAYcv7rCdzHjfIkhC7De0OQ9yuzf829NuJ8OEkA7paQAhmt31lqcGS+Bbj/82RGx9AYBarGhRS054uBiINDgSyITh/k+A1PjUx/KDRD/6UBLIsTpLWpMf2RuTMWubtsduFTRL2L3vZ+KpER6eqi/b1gmUMwZd4/zFhjDp+/eusXbQ12CfdHjygeGb9RcFYYwUoZ5JpxPEsJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jT2UY4M00GCdYtZrf1Kw1sEhX3+BVgfBmk4RNx3Ikic=;
- b=x76WRfuPfLeIZKHz6oPqAeTnN1mJd4crLSfTz9UGr5mdZ77/NfqOZXlGXZ0TPTGdl5iNvDmVCNVGQfYA+HXA7uoJmTomlF6XHcMV69DX5DxbF/0px3+10smjIG4BYcP+Xlr6A784SdCqn1F+BQbOleFtxRbStWrXkiiKQG1DHH+8nRHyzFcxY1JHpWIMpnUD4SQzvnop32CHc3mYFk3zablH4d10QHFTeDg2oM/eVKNqbY6dpqn/jNIQLPmpjGtlNxzu8rdGk/BXi8hp2QGjgemxy3Y6TijMcE3qFoJEe8KbCR5V8c6oPb2INmsKwtR3IjsCXHR5DFcr3QU50mPEjQ==
+ bh=BLQLTijgi6Ih5NhOTLVi8LeRByyNFCyFAFtoZcOpewc=;
+ b=yCG/g6rUzcjvigHQ0zNbAPpHcuuMIHtiKTB3rLBuzJytJGpofMJqYqYqD0JfACOuNNOi0qeLIDyan8YQ933MOQ0WeGvqCJ4WAtiuoj1zZMBJqGV0Ozfia1w2OPiJ1Rv1W+2VPvckaKIBkl3zQIJSoI629mfZQ7FzRtWyfZvixAFiY7VMEQAvCYq/iPVx+GIf9rpcX880n7CIqIfo+/nmJpvitHE6QgJVTircm6wexRu3pEXZu6DE2yu3hH//x+uQkXV/z9ug/2kFSzq6m5TvbQCOGA3hx+OqtN7RCpprIkEVZ+fvSgfzvd+pGnjf5lh+R+vKvEWZTbF+dViL700kDQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from LV3PR11MB8505.namprd11.prod.outlook.com (2603:10b6:408:1b7::21)
- by DM6PR11MB4689.namprd11.prod.outlook.com (2603:10b6:5:2a0::14) with
+ by MW4PR11MB6862.namprd11.prod.outlook.com (2603:10b6:303:220::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.10; Thu, 11 Dec
- 2025 12:57:09 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.8; Thu, 11 Dec
+ 2025 12:59:33 +0000
 Received: from LV3PR11MB8505.namprd11.prod.outlook.com
  ([fe80::e59d:2e70:4371:48cf]) by LV3PR11MB8505.namprd11.prod.outlook.com
  ([fe80::e59d:2e70:4371:48cf%6]) with mapi id 15.20.9412.005; Thu, 11 Dec 2025
- 12:57:07 +0000
+ 12:59:33 +0000
 Content-Type: multipart/alternative;
- boundary="------------OUVmQtiBZXHGn601s1tOti8W"
-Message-ID: <6d5e1aae-6ab6-4425-b5c1-d553f44ab0a6@windriver.com>
-Date: Thu, 11 Dec 2025 07:57:04 -0500
+ boundary="------------NoEzZriwy6bXYNPo4uekTWuG"
+Message-ID: <df51a41b-7725-48dd-84f5-e69cf5902b72@windriver.com>
+Date: Thu, 11 Dec 2025 07:59:29 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] rust: remove passing tests from excluded and ignored
- list.
+Subject: Re: [PATCH 1/5] rust: add missing zlib and zstd dependencies
 To: Yash Shinde <Yash.Shinde@windriver.com>,
-        openembedded-core@lists.openembedded.org
+        openembedded-core@lists.openembedded.org,
+        Khem Raj <raj.khem@gmail.com>, peter.tatrai.ext@siemens.com
 Cc: Sundeep.Kokkonda@windriver.com, sunilkumar.dora@windriver.com
 References: <20251210101803.1120711-1-Yash.Shinde@windriver.com>
- <20251210101803.1120711-4-Yash.Shinde@windriver.com>
- <c1d25645-bafb-4d28-b1f2-31931288133c@windriver.com>
- <32af68a4-a8f5-404c-b7cd-baab63223a9c@windriver.com>
+ <818e8b90-9aa1-45e4-aa1d-6a903676408e@windriver.com>
+ <a94bfb6f-657b-444f-80c0-ffcbfd105305@windriver.com>
 Content-Language: en-CA
 From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <32af68a4-a8f5-404c-b7cd-baab63223a9c@windriver.com>
-X-ClientProxiedBy: SJ0PR05CA0081.namprd05.prod.outlook.com
- (2603:10b6:a03:332::26) To LV3PR11MB8505.namprd11.prod.outlook.com
+In-Reply-To: <a94bfb6f-657b-444f-80c0-ffcbfd105305@windriver.com>
+X-ClientProxiedBy: SJ2PR07CA0014.namprd07.prod.outlook.com
+ (2603:10b6:a03:505::7) To LV3PR11MB8505.namprd11.prod.outlook.com
  (2603:10b6:408:1b7::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8505:EE_|DM6PR11MB4689:EE_
-X-MS-Office365-Filtering-Correlation-Id: daeb552e-cf78-4202-0c7a-08de38b4ca63
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8505:EE_|MW4PR11MB6862:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5d090a45-99a3-4e07-7457-08de38b52187
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|13003099007|8096899003;
+	BCL:0;ARA:13230040|1800799024|376014|366016|8096899003|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?bzNycUVEWHMwVStRbVNTejU4N1NUcDdjOGR3QjZ0VkhRMXpoemtrL1NpYU9K?=
- =?utf-8?B?YUZQeG9CYTNac2s3eGxCdGRGTis4OUJhbVhPWVFxQXV6dTAySGZ4Z1BtRWtw?=
- =?utf-8?B?R251Y0g5a0lGZk8wampPdVR3TVJOTHJqNVpGeUlFODFYZCtJOSt3TG9JZ2tz?=
- =?utf-8?B?VGRmbG5hdE5tcjdOWEt6UkdNeGxleFZ6M0tvY2VHdEZhRmg2Y0ZQSWVLWDJU?=
- =?utf-8?B?VG1NS3hhOVUxNUkvKzB1TG9HZVFLRHFEdzhtc3MzWGNRcG92ekhPUGc1NUM5?=
- =?utf-8?B?Q1dBc2k4QkxiamxBV2xmWHBsMlBKeDd3b3g3VVhJeklxdnBYOFdFc0dxS0xL?=
- =?utf-8?B?QnBreWtPWm5DendCL0JON2lHcm9jdnRJejErc2RhSWxYeUxGQmpFdktFenNZ?=
- =?utf-8?B?eDJaQjF3MUhwalliTVBpa1ZiUVl0RDc4VnkyUHFLKzRqektvM0hVd1NramN1?=
- =?utf-8?B?ZFhVeDdMeEVmTksxSjVrSVBHeXVrbGtuWDZKWWxZQlFjYWpHdDAwODNodktQ?=
- =?utf-8?B?VExNQnZtRGZNUkRYaXdQckVFQVhKRDg2TE9RdDRWdVRhKzJQK2hZa1d4c1BF?=
- =?utf-8?B?Vzk1cVZNWUFHTEViYW5Xd3VvQjhScS9lay9Xb1hZNkZ4SmpuNXh6M3o0Mkc5?=
- =?utf-8?B?blYvYno5eTBLNis4ZjVPQlFLK1JwZFlYZzJETS8rT2JaaDVVd1p5WFVyaGtB?=
- =?utf-8?B?ZFJ6TEVQWTQ1S2Q0akZTN2czYXdYd3F4N25sTHVqeGZ0S3lsa3IvenhjVzVN?=
- =?utf-8?B?VStYT21xWDc0Ulk2elJ0RUIxQktab01nU3IzcWpLK3RpNERHTnZkSEdZaWV0?=
- =?utf-8?B?UmVxcGFKT08xb28wQ2xVNXJWMjRKbUVPWDVLeGJ6N1lZSlhobGh6MG5MeS9N?=
- =?utf-8?B?ZmZPRkNuUVk0VFBPN1djbHlWd2VKUGlhckM3NG12UDVBd3RtbmJFUXh2Y0dF?=
- =?utf-8?B?MktFTjI3V0t3emdSWTI3TWt5dTBmVnhaa2hKNTV1b2l6VkV0QkR4MCtrbUQv?=
- =?utf-8?B?bi9NQ3lCL0RXc1VuVG1SNWprcVRodW5NNlN6bjBVQXB3M2RLcnU3M0VuVUJj?=
- =?utf-8?B?bnpNNlFsaXlpaEkyTlJ0RE9HY0lLaXh1N3ErWERiUkZKbDBtV2piMDlyekcz?=
- =?utf-8?B?K29yME5EcGFQVlBpRllzbEhBTXhIYkxVREt6UDRpc0xHVlZVZXhWN3BRUmYy?=
- =?utf-8?B?OE44M3MwWG9qVTBuSXN2NkhlRUZYQzQ5eWVvRnhnQXZ1anRPbThlSzZIVzVt?=
- =?utf-8?B?UmtTakQzZEtrMUd6dTVmTGJES1V0QitGa1Q2dkVuZE84UWJnRDUxNnovQ2E5?=
- =?utf-8?B?RnFieTA1SVhxNE1qTWVkZHc4a3pDRWtKZmFFaEFMTlROelFzT1VtVHVvbXBx?=
- =?utf-8?B?QjV6QlpWSHBNTVdsUWxhWTBsQVQ0dXNkZEZUT2hOejlvSDMzeE9xa0tDcEQ2?=
- =?utf-8?B?Vkg2TDk2RHF1bTRvb05SaFdwV01hOXc2THpqaDFMNkVZYnlWZFlRQVp4aGdk?=
- =?utf-8?B?ZFprWHA2R1hxQlNGUVhkZ2V1bnpzQXBkNXlabVFBcEVwVWVycG1IYTY3S0FC?=
- =?utf-8?B?a2dnQ0VIMDd0TTdsbENwYy9uQlhnY1pqbVIzSjI3dGdWYWhvV29jdWw0Umhm?=
- =?utf-8?B?Z2s3OWt3U1JhenpXUWZ2bjZxMW0vVU5jVm1tMjB5NHlvWEdPRTdXSGdwWk9R?=
- =?utf-8?B?cUFnTkVWTTFKbnBuLzc4SXN3M2I2bndmMzJCdC80Q3ZWVjdoS1pnT1ZJaHZJ?=
- =?utf-8?B?dmU0bWRwUXZwRnA1a2JKRWVGTFJ1QVNYcFVOOVIxb2IxQXU1bzFneGV0YS9x?=
- =?utf-8?B?VDg2T1BER1FEQi9iQ2lvdzU4T3krL0pHNUEvUlB6bUdNNDJheSt1czN3QkNL?=
- =?utf-8?B?eVBNdW5hYVJWdDBhUS9IcEszejFjS0dTYitNUEg2TWc1bTk1NThRdmFoZWty?=
- =?utf-8?B?RE5TRVZVbXA1c1lPWmRhRWxFdUt4Tks3NWFmOUdhdVBIcFkrVU10a0ZCdGdl?=
- =?utf-8?B?cVFOeitzdENRPT0=?=
+	=?utf-8?B?MkhkQ0xCM1lMUnBsSjBaM3hYU0FnNjN1Vnk1VWJFeFFxem9GeHNmQUpQRHh4?=
+ =?utf-8?B?dDVmK1NTVCsxRjVKYVFHa09XWFB3Sy95djVRdlhwRGJadTAxRGR2RmZKa1VQ?=
+ =?utf-8?B?YVhSdWxVTFdvRVRDYjNDS0UwR1RNWU44RFRlZUhpa2NLQWpESmQvQkJXOC90?=
+ =?utf-8?B?UTlLcnEvQ09kbVpvd0x2RWpkOFI0Rlp0cjNxUC8rQ0QxT2lCeXBXWWhwU25u?=
+ =?utf-8?B?KzN2bVVtYVhkMk1FWjRXZFFHTW5ESkpDekZ1blFDb0FoeUhvcjZpdFJPMkxk?=
+ =?utf-8?B?Rm40RmNwUE43Ty9UZkJXdmZFODZIOWR1T0FoNE4waGVRa0FId2Z4bE9DaUE0?=
+ =?utf-8?B?blJaK3VTZGtOT0VqUUp2UUdnYUtVWGZzdkVwNUc4SU5JYzQyd2hHTDBZRXpD?=
+ =?utf-8?B?Q2RKc3NuWDZzeU5yNmlrQ1pmb1JoTHhvYUd3MGNKMjVyb2RVRW15alkrcHR0?=
+ =?utf-8?B?Ym1DTWplNGVyMjY0WkVTVHZKOFZ1Uk1qbGpBK3YzZTBOSFA0NW5Oa2ltMHNE?=
+ =?utf-8?B?R2VvZndOWTU5VWYwdEFpNEJmMDhjeHdnNm1rdVlNTDZaZGJoR3c5REk3OWdK?=
+ =?utf-8?B?T1JiL3hrbFRKbkZJUmxGa0hPRWUzUHpLZkVsUkI2S1NRdmhPdFVjbkhQbkFY?=
+ =?utf-8?B?OFEvamEwRVJZLzlNRmMzU29NNGFubTlRUy9EcXQ4ZDRLVmVYSU1pVHEyQ3VJ?=
+ =?utf-8?B?VHRsTHg3cEdsOWxKdnNZejd6WnNBbDd4SzhwaUwzLzdhWTJXZktVRmZHVzJS?=
+ =?utf-8?B?a3BmNzY1eW0yWHAxTFlsYnMyNE5PRVdIU0EwVy9iMVNzd29SbmZhUEQ4c0tl?=
+ =?utf-8?B?VnVUR21oeHJLcUxOeXZZUjRzaDAwZ2dBbnoxTk5Iam9KTC9jeDVPQjZjUllI?=
+ =?utf-8?B?WVVoWVN4WXpMeVVGbDF1MmU4aGczNzBWUkxWSzNQUloyUyt6Q09WMjhKd0NE?=
+ =?utf-8?B?SXdxZm4xQnorR21Uc1ZMVXNGcnR4ZHdZWkU0aHBDeXkrK0NRN0lZRUdHekUr?=
+ =?utf-8?B?b21IU2hkVk54VDBiazF3MXRpQTNxcDMzQVNRM0tWVGJIN1ZCdzgzVXRrM2p4?=
+ =?utf-8?B?czhIZEdWbWtSMGllOG4rN2xsbVRobWxUUHVZMTNTQkFzbUNpWEdjMFFBcjV5?=
+ =?utf-8?B?N0JIZHM2eXdJekVsUERERyt2bnI0RWFRWWh3MjBHazBqNzlobThRZHhWOTZL?=
+ =?utf-8?B?ZVR1UnRZN1RndE1CZVA4REMzYldSalZielRyWG1vbC9hZlZBSzJPcmNZaitP?=
+ =?utf-8?B?bzZPdTAyNThESzViYTFyTFBweUtuZ2lPdmlkV3FCQkhZQlBMSVdPL1BGdDRl?=
+ =?utf-8?B?Mk5nUmRjMDE0YmpzRGRJV21TWENlbENKSDdyMUpvOEtxUmNvM1BqQW5ZQldS?=
+ =?utf-8?B?RVBqUGVTR2hSZlFORnhtdXdSQmRqMDc0T3NWQUNiTlV0ZnFsK0o5VVRnYWwz?=
+ =?utf-8?B?QWNOd0FaNDByQitIT2xHN3p1UEZSMkdqVmtwbGRiOEtETFZpdFh2OXd2MDZZ?=
+ =?utf-8?B?S0w0Wmh2b0ZpM0tYVmJWZUROcDhPTVk5eXhidlphUjR1Yk1lZUFreW1KTk04?=
+ =?utf-8?B?VHR1MlRaVCs5RStnQVZsTkJUcDloaUJUWDlZMVh1QnAyMDZzUlRlY3d6K0Qv?=
+ =?utf-8?B?aTMzZ2YzNGQvUEFzc3FteWRWQkxpdjloa1lwekJ2bnNIa1J2TjVsd0ltMG8v?=
+ =?utf-8?B?MUVQbTllWWtqcGZvZUU2Y0QwSGFyOU9HUC9GVTJUdWVXMTlHUysvQzNHOG5B?=
+ =?utf-8?B?T3lYQmt2eGkwWjRJQVd2SXZLbHVwb2dndFFxcW94SDk5VXJmbG1uMFBDQXY4?=
+ =?utf-8?B?TklLcGhUb1dZTnlhZ05KVEIyUHZQenlPeWNNOFFoTENDZkJwVE94VmhZdm1E?=
+ =?utf-8?B?UnROM0Z1QWdiN0ZMK2ZER2tLSE5oZWtJMXhubXE1NlRCNjBhQ0R4NlZteENy?=
+ =?utf-8?B?emkzT0NtK0FzWXNoRWFCU3QwVGplampxeDFBcXpnWFR0R2kxejJWdW82YXVB?=
+ =?utf-8?B?QUwrcWRmUlFnPT0=?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8505.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(13003099007)(8096899003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8505.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(8096899003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?REFuaDA2Z0p1Z0hYb3pUUDhRYmxRS2pia0NJZ3VHdE9rdEpmR1FJcDFhbE1j?=
- =?utf-8?B?c2FhNlNzdFZPdDJjaXVkYnM0M0JqUXdzWERlanhRcitLUHJYNi9IdE5IMXI5?=
- =?utf-8?B?L1ltTlE2Q0dzNG9XS0E4NUlTREtWZDYwVGw4NHdJMG9sR01TMVF5MlVrdzVj?=
- =?utf-8?B?bU8rWHcwbWFLMTV4K1NjVW0zQ2RUYnZ2Z0dpbmJsdHNvQUxOeVFuTmlCWWhY?=
- =?utf-8?B?WjBweTlMT1B3R0p6OW1valJXMWpBRFlhcEkzZDROK3hBcGxLODBpY2pub3Vs?=
- =?utf-8?B?alh0WGF4d09mQlVRbERhVDRCeUphOE1sclc4UTQ1OXE1dnFYU1pLRG9Oc0ZX?=
- =?utf-8?B?cllNT2dHN3B2YS9Xd1VBbWdlb3M1Q1BYekdzY3Z0ZXptd2VHY1dObnpBUDVF?=
- =?utf-8?B?Y2RHUXBPME00ektySFBIL1cvRjVhN09tTHlhcFZuL2JwVUYrSFNXamlOQ2FY?=
- =?utf-8?B?OG5neTg0bEEyL0o1UjVSenR4K0w1dUJTcGJoZmNQU2EzT2tHWnpZSzNSb0Nq?=
- =?utf-8?B?R0xyNHAvWEU3cWJndVZDQ3BLMWhqSC9Vd1F5bXpXR0prUlYwT2F4ZnRQRVI2?=
- =?utf-8?B?T0YzSXNaOW5HSEhDeHBwdDlpbU1ReDU5ZDYrODFIUkdGMFhYRnVtaVNISHpJ?=
- =?utf-8?B?RzFVY0VpTGV2ay83cFV1RnZQeGUvWitwYWZSam1ueFQ4Z0UxbW55ZnpMVllr?=
- =?utf-8?B?WWQwSVdhZ2NSZmtGcUxmWk9PbXNrdGQ4emhXb1dXUkZRSjhaM2doN21KY1RO?=
- =?utf-8?B?ZmtpNmpJZWhtaVpiQWlBVEVEVDdNVE4vVDIyOC9tb3BTblFoUGRsTUpLRjJ2?=
- =?utf-8?B?ZWt5M0NxQkxOekMzdUlkd3VsL2NEQnd1NXVjZFZHWVJvZnRhcDhwTUxTdExy?=
- =?utf-8?B?dmgrbUIzYlV2SjdwSlhoaXRkVHNKWUlJREdaZE8yNThONUFCclpzSFRXMEpR?=
- =?utf-8?B?K1ZKbGlBRVZrdkd0ay9JSWZMNkU0OHZMRkJZWGh4VTd6enRvV3UxaXlUZzZ3?=
- =?utf-8?B?TEQ3QVR2b1QwQXBZZHllWDZwdUpQU2NFYm9sdUg2eXprRm9vSXNYRDJtTFZ5?=
- =?utf-8?B?VEtwRFdxNmNtenpFTU82MC9JY0ZpWFR4S2U5YTBHZnhqYnVtTDdQUTVGTm1J?=
- =?utf-8?B?cjNMQWt6Q2pLZkNiT085K3B3NTVwaGJMRFROYm1acGFtVjZDdHdpWnFvU0lj?=
- =?utf-8?B?Q29SL09sNDNCSVEyeDlRRW81STNudFdXWGl5Y1ZXeVJpSGlSTVZ5NldVdDd3?=
- =?utf-8?B?VGJtZG9ZanUzcjFDenFZSFg5VWtsSlo0UXQ1L0dTUTVvd3dXbE1oMisxclRB?=
- =?utf-8?B?cWVWSm44bVdQVDcvNktCZDlBVGQ4cE93UCs0NldLV0wxMzJDdjYxY0lsdkZj?=
- =?utf-8?B?eS96eWppL3NqN0pzMnVybUYxWngrYTJvNVJKbU03cE5zQTZWYm1aY2tVTktE?=
- =?utf-8?B?TjNTSU1Rb1hXNzcvdkp4djZRdnBSZG5XWStvZG14L2IrUEJsUFpQcVBCSmQ1?=
- =?utf-8?B?UDJCRVUwY2hpbWcxQlVsM0dDTEdPNlpkU1lIMVFmQVRYK21pWXZLNUUxT0Yx?=
- =?utf-8?B?NC9acnhHcjB4TzhZMGI4RGRnNEpQc1hRRmUyQ1dyRFRQeFo2UDhZY2xLc3pv?=
- =?utf-8?B?M2hjSk5razVLWTRzRllZb3RhWkRSM0tCVWtKZXJaQXhyMkhOdERPS2pGZXlT?=
- =?utf-8?B?UTlkeGpwVEFhOExpdmFjd2VNZ3VFdTZiMjd1SFBneDg1bUEvWmVwYkZnQVNF?=
- =?utf-8?B?a2l6U3Q4K0w3UCtuenRmZllNaEVjdUZMQStxVm8vbUJKN0NsM0RxTURzODFl?=
- =?utf-8?B?SnFybnpiK2VJUkFzdTJvU0hSKyt5dmppNGxwOHBWZFRRSkZvVVJ1b3dSWStU?=
- =?utf-8?B?eSttNEN4eTRDZ3BQOHR5TWpJc3dSSXhCQktwUGZDRmtRdGpBVTAxdWFDN2JX?=
- =?utf-8?B?UWd5NkExTzhPb0ZWK05CMzJ6bVd5NFh0bzRHZEFlYXprKzNETGc5bmYvZEkr?=
- =?utf-8?B?QlkxcHlkbVloVTQyM05FVjZOT2w5S200dHNaTFhpaXBCbjJKcDUwWUJ4RjZp?=
- =?utf-8?B?bHlEODB2NGV6emUvNWZrUHRqU0ZOYThMK0t3bk1SbElmV25XT1RXaFZ5Qkpk?=
- =?utf-8?B?ZDJlaVMzQmJVMjIxbjFIM0FlNVRCUGxxUW5ibHBjaG04Yjg3L3llejRaMzJG?=
- =?utf-8?B?QVE9PQ==?=
+	=?utf-8?B?aWJSU01UT2FzUU93bVlpdE1IQTdONHBtb1FTNlZibHIyL290QVYzWFN1YU1m?=
+ =?utf-8?B?cEVweVV3anp5bk1sN2ZYOXo0VGZtK2VRTFh4RkwxQlFhYk9KVFFQZWx0RWQx?=
+ =?utf-8?B?T0hHRGxreHZmUFhFb2REaFBqWlN5TlpwdXhoL2d6Y3d0ME5wNmZ2TGROQisr?=
+ =?utf-8?B?OHhscVBGeU9vb3NkckN0SmE0MzVHN21QUUU1OHF6UXk0cEgvUHlKbFMzdFR1?=
+ =?utf-8?B?ekRDUW9xQWpCQ2grVjdaSHgvSmdPUEJUd0g2VENROFhoS3NVbC9FQlB0VGJT?=
+ =?utf-8?B?bkhDVUVFdk55T0I3eWJnMmRxbGhncDBUd3o4RDJVTG83SmFNYyt5N1VCcFRX?=
+ =?utf-8?B?c1FUVkdXU2JvU1cwV3FGUEJhb1ZOeTJSN3R5MEJVNEg3R2w2aElPa0FDVGtM?=
+ =?utf-8?B?OHdaRWN3M1kvN2p6K2k3VEd4ZTdRaHp2WHlmNFpEdnJwWFhTZGgwdlNYV0dn?=
+ =?utf-8?B?NzBBY0dUVHBRUS9SMVNtMSswRHFaMmsvWXpkSDdDR2pyN1hQVmlvYUVxMlRZ?=
+ =?utf-8?B?NG01RktDOTdaM0thVHdsb2xCNm1HSWxRaGU2bmFZMHVmZ1dCenYzUzdKYWlu?=
+ =?utf-8?B?VWo3eHNvQ0IxZXBVUW5Dd2x6NkljQm5pWGtsU09ac0RJQUNLd0JRUkdGa2pV?=
+ =?utf-8?B?dFRIeE16ZTNDeGw1emNXNzlpaWdsRDRiZWxQanZjTmxrMlMrL2pNMDRPYjdF?=
+ =?utf-8?B?WUZQQ1FTbnRXcnZoaGhPdnloa3RRaTA3dktTcUpjQzFyMElSRndiRUxXQTRh?=
+ =?utf-8?B?OGtpcDYwRmtXREQ0ZGIrcXdaaWV1THpDWHdMcExUdVpKaHRDWWtOT1I1dXdB?=
+ =?utf-8?B?cWQrMCsyYlhWcHlMMzFTdTNlK1MwMHMzdW9KT3RuZnJLQzhKZUkvcUVoM2lj?=
+ =?utf-8?B?bkExazZ5MVk5SDdpV0YrZ08veTFSb2VyWG13R1FmQ2Q2eWs4T25BdjliaXc2?=
+ =?utf-8?B?Z2dYMW1OSDBZRytHVCthVnVmSU9DMFhVWGpLcXNrRzFNUkhvY1hCRlRTSU40?=
+ =?utf-8?B?UXdqdnNkS1lzT2RCbmYwR3QrRXBtUlU2OTlmQmt0YlIxTEp5VmVVS1NIKzdt?=
+ =?utf-8?B?STFsYVZqdWwzbllyamZQMW1uOFJuWFE1YkYyZkR6UXpJT0gyb05BS0IrQjFh?=
+ =?utf-8?B?Z0VjYUVWY2VhVSswMHMvS2VaQ0EzRitCTlRLVE42MkgrNTVpRTVQR1k3ODNN?=
+ =?utf-8?B?ZU0wdHpxTG0wR29CbFlBVWEveWVmVWhWYTZuS2o5QjdYTFZNTmVCVE1md1Ru?=
+ =?utf-8?B?SGgrQVRrTisreWRSa1pvaDEvWjVjYnhVQ2tOWDZUa1ZNRUVnbWtCenpwNzd5?=
+ =?utf-8?B?L1U2blllK2FjTmoxTmpLNzUyZGMxT1U3QVo2SGVzNVdVelVYczZNN0czd0U4?=
+ =?utf-8?B?aXJaVUtvVU1xU0JCei9QblpSTENJMFlhZWVBS1FTTXptR0lKc2gzWTJxTDBu?=
+ =?utf-8?B?SHMzbllCY3BYUVk5bDlqMkFBNTVXZEY0QmdkcEF6ZUZXcnF0ZVhwbzlrWGhj?=
+ =?utf-8?B?T0diSVYrVUpqaktCckRYb3RHdWMvMjI2Uk1VQXU1U2Nja3NYS1BJdmdLQjZu?=
+ =?utf-8?B?RGl0UkVCTkdRVEtOYjJuVVVXaDh2OUVvRWRjZi9KeVdmZDFqdTRFdUt3dThj?=
+ =?utf-8?B?OVJTZWNpcVgzSE4rd3MyMUJTMEtXbXdTSEt6YmJaTHQ5UFRWQjQyZDJHa0ZG?=
+ =?utf-8?B?dmZtQjJBZ1Mrd1lGOWNGRVRhaS9NSG50dnJWL21BMlVIMGVpWXZXUGg2Qkxp?=
+ =?utf-8?B?SEVXaHUxNEFZYnVjL1FrcElQVUdtRkowdWNOWllRcDkzTUFQUmxCY3JJZVJj?=
+ =?utf-8?B?K01OZjlqbXVPTElSSldxckkxWlJsZ1hnQU0xbXlEYWpjMnB2MkwraFZnTmtW?=
+ =?utf-8?B?QkZneHFRMkpBbDR4N1NGaUpoSVB4QjFidmVRREtFU0ZUak1ReHFTRDZXZTFR?=
+ =?utf-8?B?THRKTjd2Z2NYQWJZNW8zNmZqcmgxbWdQcHlwYTJkWGRJTC8yV1FESHJqWlNP?=
+ =?utf-8?B?ZytMVjhaMDVOM0NtSnNHejJieThUdStVQzRuMFc5bjFGMGQ4cnpWa2NuR0Nt?=
+ =?utf-8?B?SkRxYnZZOFNTa0VybC84OWljS29BUGw2MFZyejhNSFBRQ0xybmc4c2dkdVFp?=
+ =?utf-8?B?aGdyQnQrWEQzQzg4Y2x3OXdFME9vcHVjOXZCb3hlc2crRmV4TlBNMUJQU2pH?=
+ =?utf-8?B?Vmc9PQ==?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: daeb552e-cf78-4202-0c7a-08de38b4ca63
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d090a45-99a3-4e07-7457-08de38b52187
 X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8505.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2025 12:57:07.5316
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2025 12:59:33.7606
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ao6AiS1toZ8jV66IiHvcLPPmrWldStqVC1xhmSoNN6A2SjK9PhoTss7w7Jbf32BHnv8MXmh/cTzWeVxw0pPB/UgZDG09ztT6HSgeo3MA3AQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4689
-X-Proofpoint-ORIG-GUID: 7KCIQmW0FsDWDZ-R6pWppSUG-XqaGqL8
-X-Authority-Analysis: v=2.4 cv=Cb0FJbrl c=1 sm=1 tr=0 ts=693abfa8 cx=c_pps
- a=ERW18fiFji9WgYXv9zI75g==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: hWVXefZJvDleAgnYsFQYeUhwv8BPZCC4JriB0zTq0TPPZTyDuFzONsc1vWV91cfq07Dqv6CRCvXspUJQ0lXgJLEY9PapbXxhmx9C66qMaGw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6862
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=bf1mkePB c=1 sm=1 tr=0 ts=693ac039 cx=c_pps
+ a=ck9HhUZGATh9INII0mabYg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=eZRnEHul_4LIrg9YV5QA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=0il7YRNZH48MuYptpaoA:9 a=8efX19y_EgDkR0Ez:21
- a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: 7KCIQmW0FsDWDZ-R6pWppSUG-XqaGqL8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDEwMSBTYWx0ZWRfX/2QIGtg8iDvU
- 9VCkVuOzCRLzUUyufRDGMSG5MQqREGoGRiuLzu9aYraLXh3aDykkvg1KYmIl5e4Eb7UGpytk3/G
- /TjPRPJcE7X7u+O8NBQXz+cRt2793uXQy7gmkpjRY+UJLICsv74bjBn/7Yy6pG0EEvSqZozBjSq
- ggB1UBINMUMsZ4GX91e4kVxlMQ6vXo+6SApdtf8AzbBREkU3ZezBAZlmXfzI/HuJzoO8f6pmRuR
- dKl17YUtRa7xurZHTAR6hM7A+m2w5chEIG9u/dthL6WTPsV6Y7YC7gqJehunTZFTKq5Z8Y4b/GV
- pbMvwZp5QKbBNXW8h3j6QKo5BolBEm+Ps1Y5YxTTWTwdzeF5X02XoF8OJucp4i82ISPmkIfCGrY
- QDd7AYS1kejGz7H4ocLbfq6ww0oLAQ==
+ a=Q4-j1AaZAAAA:8 a=NEAV23lmAAAA:8 a=danhDmx_AAAA:8 a=Twlkf-z8AAAA:8
+ a=t7CeM3EgAAAA:8 a=a_U1oVfrAAAA:8 a=pGLkceISAAAA:8 a=6WRdJMKRq3fSzsxWugQA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=yF1ei_Cxrn0YWHVXm3sA:9
+ a=X1XM3rZlyMaIuYdU:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=-74SuR6ZdpOK_LpdRCUo:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: me2ePQSchVvWDQ7j19nHwUXippPgYZRf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDEwMSBTYWx0ZWRfX+BRXo6zEeA8d
+ 7/DSnNOKWuL9KPlEQ7mBIA51k076b6BpAeCBZD4M+kiKUwfNiVoeK+UNDi5l8JLPOk2Oms3Rmk9
+ 395KY+EZsNY7+4qAFvXhiruVgbW5sTwZNPm/fQ3U909XfHK3k1fm81uo8t0QpO6mqBrICBS9hgb
+ a2Tzz4w8Jas5gDKMLfPLIGOhIY9Ztc+A88Wb18BUniMEf2YSALe6YY4TAZh1JVny+P5i0bm7odj
+ ImHIGPEaKV/MpC593JLvZqYwawFZIgBHuV1zoitGQjlnZDRfNsUQ6HwShBr1pLs4gldqPesubBa
+ xfwQstqTzd7zwFFISrpv7eGPB+poGWdWNI/7KYSzEk01v4n5vjp2DhBRWX1oru4LNam081IDWYk
+ 040N5SJmWcdqvkizhtrQyDArxk7uIg==
+X-Proofpoint-GUID: SzhUrHb_VHtnDXWADFPsrglXfOzpIFSc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-11_01,2025-12-09_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 priorityscore=1501 spamscore=0 phishscore=0 lowpriorityscore=0
- clxscore=1015 malwarescore=0 impostorscore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512110101
+ malwarescore=0 impostorscore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 spamscore=0 clxscore=1015 suspectscore=0 adultscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512110101
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 12:57:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227526
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Dec 2025 12:59:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227527
 
---------------OUVmQtiBZXHGn601s1tOti8W
+--------------NoEzZriwy6bXYNPo4uekTWuG
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5BBC0vJ6174128
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5BB5IiJJ037101
 
 On 2025-12-11 3:10 a.m., Yash Shinde wrote:
 >
-> On 10-12-2025 23:50, Randy MacLeod wrote:
->> On 2025-12-10 5:18 a.m., Yash.Shinde@windriver.com wrote:
->>> From: Yash Shinde<Yash.Shinde@windriver.com>
+>
+> On 10-12-2025 23:06, Randy MacLeod wrote:
+>> Add Peter since this is/was his patch and you have his SOB line.
+>> Please do that in the future.
+>>
+>> I have some comments and questions that could go contribute to a v2
+>> but so far, I don't object, too strongly, to merging patch 1/5 at leas=
+t!
+>>
+>>
+>> On 2025-12-10 5:17 a.m., Yash.Shinde@windriver.com wrote:
+>>> From: Peter Tatrai<peter.tatrai.ext@siemens.com>
 >>>
->>> Remove the ignore tags for passing riscv64 tests and
->>> drop obsolete "tests/codegen-llvm/issues/issue-122805.rs"
->> Can you add the upstream commit id/shortlog that removed the test?
->> The issue is still open it seems:
->> https://github.com/llvm/llvm-project/issues/122805
+>>> Rust's internal LLVM
+>> Is this an old comment? llvm is now an oe-core=C2=A0 recipe and we don=
+'t=20
+>> use rust's internal llvm
+>> as far as I know (which isn't very far!).
+>
+> I kept the message from Peter's patch unchanged which was submitted=20
+> around the same time when
+> =C2=A0rust-llvm was dropped. I will reword the commit message in v2, if=
+=20
+> required.
+>
+> For more details:=20
+> https://lists.openembedded.org/g/openembedded-core/message/225636
+
+
+Good.
+
+
+>
 >>
->> so you should explain that as well.
+>>> requires zlib and zstd compression libraries when
+>> Yes, we have a patch for clang for this:
+>> meta/recipes-devtools/clang/clang/0024-llvm-Do-not-use-cmake-infra-to-=
+detect-libzstd.patch
+>> adding in meta-clang in 2022:
+>> https://github.com/kraj/meta-clang/commit/0f38186ae93400b870f7f92938bb=
+f8643e7da958
+>> and the llvm-project commit is (1).
+>
+> The selftest execution environment requires the zlib and zstd features
+> as llvm enables them unless explicitly disabled.
+>
+> The rust recipe level RUSTFLAGS aren't propagated to qemu image for=20
+> testing.
+> This requires explicit passing of the flags for zstd lib.
+> (zlib is already available by default in core-image-minimal)
+>
+> The following error confirms that rust via llvm expects these libs to=20
+> be available in the image for testing.
+>
+
+Okay.
+
+
+>> Anyway, Khem,
 >>
-> Actually, the issue is:
-> https://github.com/rust-lang/rust/issues/122805
-> https://github.com/rust-lang/rust/issues/122805#issuecomment-2012121917
+>> What are your thoughts about this patch and about using cmake for llvm=
+?
+>>
+>>> building rustc_codegen_llvm and other compiler components.
+>>> Without these dependencies, building Rust for target fails
+>>> with linker errors:
+>>>
+>>>    error: linking with `target-rust-ccld` failed: exit status: 1
+>>>    =3D note: undefined reference to `compress2'
+>>>    =3D note: undefined reference to `uncompress'
+>>>    =3D note: undefined reference to `ZSTD_decompress'
+>>>    =3D note: undefined reference to `ZSTD_isError'
+>>>    =3D note: undefined reference to `ZSTD_compress2'
+>>>    =3D note: undefined reference to `crc32'
+>>>
+>>> This manifested in oe-selftest failure on qemuppc:
+>>>    oe-selftest -r rust.RustSelfTestSystemEmulated.test_rust
+>>>
+>>> Additionally, this was observed while testing with other targets as w=
+ell.
+>> If you have a list on hand of which targets had this problem,
+>> that might be useful to include in the log. It might help
+>> us understand why the problem seems to be arch-specific.
 >
+> Peter reported it for ppc target but eventually it was observed on all=20
+> targets in our testings,
+> i.e arm32, arm64, riscv-64, x86-32 and x86-64.
+> So, this is a generic requirement rather than arch-specific.
 >
-> and the test-case was renamed to "dont-shuffle-bswaps.rs" which passes=20
-> now:
-> https://github.com/rust-lang/rust/commit/3580698996f6da6f006477809d7959=
-bffcfd3bf0=20
->
+Good so please revise your v2 commit log to indicate exactly what you=20
+observed.
 
-
-Ah, wrong project.
-Please include this info in your v2 commit log.
-
-Thanks,
 
 ../Randy
 
 >
->>
->> ../Randy
->>> from exclude test list.
->>>
+>>> Signed-off-by: Peter Tatrai<peter.tatrai.ext@siemens.com>
 >>> Signed-off-by: Yash Shinde<Yash.Shinde@windriver.com>
 >>> ---
->>> =C2=A0 meta/lib/oeqa/selftest/cases/rust.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 -
->>> =C2=A0 .../rust/files/rust-oe-selftest.patch=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 100=20
->>> ------------------
->>> =C2=A0 2 files changed, 101 deletions(-)
+>>>   meta/lib/oeqa/selftest/cases/rust.py | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
 >>>
->>> diff --git a/meta/lib/oeqa/selftest/cases/rust.py=20
->>> b/meta/lib/oeqa/selftest/cases/rust.py
->>> index ebc9204420..3a41391101 100644
+>>> diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/sel=
+ftest/cases/rust.py
+>>> index 31222e2456..01a98339a6 100644
 >>> --- a/meta/lib/oeqa/selftest/cases/rust.py
 >>> +++ b/meta/lib/oeqa/selftest/cases/rust.py
->>> @@ -80,7 +80,6 @@ class=20
->>> RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase)=
-:
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'src/tools/tidy',
->>> 'tests/assembly-llvm/asm/aarch64-outline-atomics.rs',
->>> 'tests/assembly-llvm/c-variadic-arm.rs',
->>> - 'tests/codegen-llvm/issues/issue-122805.rs',
->>> 'tests/codegen-llvm/thread-local.rs',
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'tests/mir-opt/',
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'tests/run-make',
->>> diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch=20
->>> b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
->>> index 7d26d75820..b39b326455 100644
->>> --- a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
->>> +++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
->>> @@ -202,106 +202,6 @@ index a05f274136..0e69b4cb98 100644
->>> =C2=A0=C2=A0 fn sparse_inserts() {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let cache: VecCache<u32, u8, u32=
-> =3D VecCache::default();
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let end =3D if cfg!(target_point=
-er_width =3D "64") &&=20
->>> cfg!(target_os =3D "linux") {
->>> -diff --git a/tests/assembly-llvm/dwarf-mixed-versions-lto.rs=20
->>> b/tests/assembly-llvm/dwarf-mixed-versions-lto.rs
->>> -index 828328df843..30753c56c76 100644
->>> ---- a/tests/assembly-llvm/dwarf-mixed-versions-lto.rs
->>> -+++ b/tests/assembly-llvm/dwarf-mixed-versions-lto.rs
->>> -@@ -8,6 +8,7 @@
->>> - //@ compile-flags: -C lto -g -Cdwarf-version=3D5
->>> - //@ assembly-output: emit-asm
->>> - //@ no-prefer-dynamic
->>> -+//@ ignore-riscv64
->>> -
->>> - extern crate dwarf_mixed_versions_lto_aux;
->>> -
->>> -diff --git a/tests/codegen-llvm/const-vector.rs=20
->>> b/tests/codegen-llvm/const-vector.rs
->>> -index f4307492341..617e31140e9 100644
->>> ---- a/tests/codegen-llvm/const-vector.rs
->>> -+++ b/tests/codegen-llvm/const-vector.rs
->>> -@@ -3,6 +3,7 @@
->>> - //@ [OPT0_S390X] only-s390x
->>> - //@ [OPT0] compile-flags: -C no-prepopulate-passes -Copt-level=3D0
->>> - //@ [OPT0_S390X] compile-flags: -C no-prepopulate-passes=20
->>> -Copt-level=3D0 -C target-cpu=3Dz13
->>> -+//@ ignore-riscv64
->>> -
->>> - // This test checks that constants of SIMD type are passed as=20
->>> immediate vectors.
->>> - // We ensure that both vector representations (struct with fields=20
->>> and struct wrapping array) work.
->>> -diff --git a/tests/codegen-llvm/enum/enum-aggregate.rs=20
->>> b/tests/codegen-llvm/enum/enum-aggregate.rs
->>> -index 0161e5f3fa1..773a06fabb4 100644
->>> ---- a/tests/codegen-llvm/enum/enum-aggregate.rs
->>> -+++ b/tests/codegen-llvm/enum/enum-aggregate.rs
->>> -@@ -1,6 +1,7 @@
->>> - //@ compile-flags: -Copt-level=3D0 -Cno-prepopulate-passes
->>> - //@ min-llvm-version: 19
->>> - //@ only-64bit
->>> -+//@ ignore-riscv64
->>> -
->>> - #![crate_type =3D "lib"]
->>> -
->>> -diff --git a/tests/codegen-llvm/enum/enum-match.rs=20
->>> b/tests/codegen-llvm/enum/enum-match.rs
->>> -index 57db44ec74e..1e2507f7c90 100644
->>> ---- a/tests/codegen-llvm/enum/enum-match.rs
->>> -+++ b/tests/codegen-llvm/enum/enum-match.rs
->>> -@@ -1,5 +1,6 @@
->>> - //@ compile-flags: -Copt-level=3D1
->>> - //@ only-64bit
->>> -+//@ ignore-riscv64
->>> -
->>> - #![crate_type =3D "lib"]
->>> - #![feature(core_intrinsics)]
->>> -diff --git a/tests/codegen-llvm/enum/enum-transparent-extract.rs=20
->>> b/tests/codegen-llvm/enum/enum-transparent-extract.rs
->>> -index c5efb8d472b..e79b8916fc1 100644
->>> ---- a/tests/codegen-llvm/enum/enum-transparent-extract.rs
->>> -+++ b/tests/codegen-llvm/enum/enum-transparent-extract.rs
->>> -@@ -1,5 +1,6 @@
->>> - //@ compile-flags: -Copt-level=3D0
->>> - //@ only-64bit
->>> -+//@ ignore-riscv64
->>> -
->>> - #![crate_type =3D "lib"]
->>> -
->>> -diff --git a/tests/codegen-llvm/repeat-operand-zero-len.rs=20
->>> b/tests/codegen-llvm/repeat-operand-zero-len.rs
->>> -index b4cec42a07c..d450fead9a4 100644
->>> ---- a/tests/codegen-llvm/repeat-operand-zero-len.rs
->>> -+++ b/tests/codegen-llvm/repeat-operand-zero-len.rs
->>> -@@ -1,4 +1,5 @@
->>> - //@ compile-flags: -Copt-level=3D1 -Cno-prepopulate-passes
->>> -+//@ ignore-riscv64
->>> -
->>> - // This test is here to hit the `Rvalue::Repeat` case in=20
->>> `codegen_rvalue_operand`.
->>> - // It only applies when the resulting array is a ZST, so the test=20
->>> is written in
->>> -diff --git a/tests/codegen-llvm/simd/extract-insert-dyn.rs=20
->>> b/tests/codegen-llvm/simd/extract-insert-dyn.rs
->>> -index 729f0145314..2b1d1beb86a 100644
->>> ---- a/tests/codegen-llvm/simd/extract-insert-dyn.rs
->>> -+++ b/tests/codegen-llvm/simd/extract-insert-dyn.rs
->>> -@@ -1,4 +1,5 @@
->>> - //@compile-flags: -C opt-level=3D3 -C no-prepopulate-passes
->>> -+//@ ignore-riscv64
->>> -
->>> - #![feature(
->>> -=C2=A0=C2=A0=C2=A0=C2=A0 core_intrinsics,
->>> -diff --git a/tests/codegen-llvm/transmute-scalar.rs=20
->>> b/tests/codegen-llvm/transmute-scalar.rs
->>> -index ce1b0558b2e..e8fda2cd566 100644
->>> ---- a/tests/codegen-llvm/transmute-scalar.rs
->>> -+++ b/tests/codegen-llvm/transmute-scalar.rs
->>> -@@ -1,6 +1,7 @@
->>> - //@ add-core-stubs
->>> - //@ compile-flags: -C opt-level=3D0 -C no-prepopulate-passes=20
->>> --target=3Dx86_64-unknown-linux-gnu
->>> - //@ needs-llvm-components: x86
->>> -+//@ ignore-riscv64
->>> -
->>> - #![crate_type =3D "lib"]
->>> - #![feature(no_core, repr_simd)]
->>> -diff --git=20
->>> a/tests/codegen-llvm/uninhabited-transparent-return-abi.rs=20
->>> b/tests/codegen-llvm/uninhabited-transparent-return-abi.rs
->>> -index face1577c3f..09e0846bad0 100644
->>> ---- a/tests/codegen-llvm/uninhabited-transparent-return-abi.rs
->>> -+++ b/tests/codegen-llvm/uninhabited-transparent-return-abi.rs
->>> -@@ -1,4 +1,5 @@
->>> - //@ compile-flags: -Copt-level=3D3
->>> -+//@ ignore-riscv64
->>> -
->>> - // Seehttps://github.com/rust-lang/rust/issues/135802
->>> -
->>> =C2=A0 diff --git a/tests/ui/abi/rust-cold-works-with-rustic-args.rs=20
->>> b/tests/ui/abi/rust-cold-works-with-rustic-args.rs
->>> =C2=A0 index 551485469d3..575db924968 100644
->>> =C2=A0 --- a/tests/ui/abi/rust-cold-works-with-rustic-args.rs
+>>> @@ -47,7 +47,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase=
+, OEPTestResultTestCase):
+>>>           bitbake("{} -c test_compile".format(recipe))
+>>>           builddir =3D get_bb_var("RUSTSRC", "rust")
+>>>           # build core-image-minimal with required packages
+>>> -        default_installed_packages =3D ["libgcc", "libstdc++", "liba=
+tomic", "libgomp"]
+>>> +        default_installed_packages =3D ["libgcc", "libstdc++", "liba=
+tomic", "libgomp", "libzstd"]
+>>>
+>> This has been present since the original rust.py selftest was added.
+>> It seems like a hack in that things are added to (blindly?) fix=20
+>> linking errors
+>> rather than getting to the root cause of the problem.
+>>
+>> That may be acceptable in the short run but shouldn't the list should =
+be
+>> just what rustc/cargo from rustup depend on:
+>> =E2=9D=AF which rustc
+>> /home/rmacleod/.cargo/bin/rustc
+>> =E2=9D=AF ldd `which rustc`
+>> =C2=A0=C2=A0=C2=A0 linux-vdso.so.1 (0x00007a636834b000)
+>> =C2=A0=C2=A0=C2=A0 libgcc_s.so.1 =3D> /lib/x86_64-linux-gnu/libgcc_s.s=
+o.1=20
+>> (0x00007a636830b000)
+>> =C2=A0=C2=A0=C2=A0 librt.so.1 =3D> /lib/x86_64-linux-gnu/librt.so.1 (0=
+x00007a6368306000)
+>> =C2=A0=C2=A0=C2=A0 libpthread.so.0 =3D> /lib/x86_64-linux-gnu/libpthre=
+ad.so.0=20
+>> (0x00007a6368301000)
+>> =C2=A0=C2=A0=C2=A0 libm.so.6 =3D> /lib/x86_64-linux-gnu/libm.so.6 (0x0=
+0007a636821a000)
+>> =C2=A0=C2=A0=C2=A0 libdl.so.2 =3D> /lib/x86_64-linux-gnu/libdl.so.2 (0=
+x00007a6368215000)
+>> =C2=A0=C2=A0=C2=A0 libc.so.6 =3D> /lib/x86_64-linux-gnu/libc.so.6 (0x0=
+0007a6366a00000)
+>> =C2=A0=C2=A0=C2=A0 /lib64/ld-linux-x86-64.so.2 (0x00007a636834d000)
+>>
+>> =E2=9D=AF cargo --version
+>> cargo 1.91.1 (ea2d97820 2025-10-10)
+>> =E2=9D=AF which cargo
+>> /home/rmacleod/.cargo/bin/cargo
+>> =E2=9D=AF ldd `which cargo`
+>> =C2=A0=C2=A0=C2=A0 linux-vdso.so.1 (0x0000789ffe470000)
+>> =C2=A0=C2=A0=C2=A0 libgcc_s.so.1 =3D> /lib/x86_64-linux-gnu/libgcc_s.s=
+o.1=20
+>> (0x0000789ffe430000)
+>> =C2=A0=C2=A0=C2=A0 librt.so.1 =3D> /lib/x86_64-linux-gnu/librt.so.1 (0=
+x0000789ffe42b000)
+>> =C2=A0=C2=A0=C2=A0 libpthread.so.0 =3D> /lib/x86_64-linux-gnu/libpthre=
+ad.so.0=20
+>> (0x0000789ffe426000)
+>> =C2=A0=C2=A0=C2=A0 libm.so.6 =3D> /lib/x86_64-linux-gnu/libm.so.6 (0x0=
+000789ffcf19000)
+>> =C2=A0=C2=A0=C2=A0 libdl.so.2 =3D> /lib/x86_64-linux-gnu/libdl.so.2 (0=
+x0000789ffe421000)
+>> =C2=A0=C2=A0=C2=A0 libc.so.6 =3D> /lib/x86_64-linux-gnu/libc.so.6 (0x0=
+000789ffcc00000)
+>> =C2=A0=C2=A0=C2=A0 /lib64/ld-linux-x86-64.so.2 (0x0000789ffe472000)
+>>
+>> perhaps with the exception of libatomic and libgomp which seem like=20
+>> valid requirements.
+>> I guess I'm really wondering if libzstd even libatomic and libgomp,=20
+>> should be RDEPENDs for some recipe.
+>
+> The list of packages in "default_installed_packages" is needed to=20
+> include additional selftest requirements apart from the default ones=20
+> used in core-image-minimal. These are actual requirements rather than=20
+> hack. Adding them in DEPENDS/RDEPENDS do not propagate the=20
+> dependencies in selftest qemu image.
+>
+>
+>>
+>>>           features =3D []
+>>>           features.append('IMAGE_FEATURES +=3D "ssh-server-dropbear"'=
+)
+>>>           features.append('CORE_IMAGE_EXTRA_INSTALL +=3D "{0}"'.forma=
+t(" ".join(default_installed_packages)))
+>>> @@ -124,7 +124,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCa=
+se, OEPTestResultTestCase):
+>>>               cmd =3D cmd + " export RUST_TARGET_PATH=3D%s/rust-targe=
+ts;" % rustlibpath
+>>>               # Strip debug symbols from test binaries to reduce size=
+ (300+ MB -> ~140 MB)
+>>>               # PowerPC mac99 QEMU has 768MB RAM limit, so we need to=
+ minimize test binary sizes
+>>> -            cmd =3D cmd + " export RUSTFLAGS=3D'-C strip=3Ddebuginfo=
+';"
+>>> +            cmd =3D cmd + " export RUSTFLAGS=3D'-C strip=3Ddebuginfo=
+ -Clink-arg=3D-lz -Clink-arg=3D-lzstd';"
+>>>               # Trigger testing.
+>>>               cmd =3D cmd + " export TEST_DEVICE_ADDR=3D\"%s:12345\";=
+" % qemu.ip
+>>>               cmd =3D cmd + " cd %s; python3 src/bootstrap/bootstrap.=
+py test %s --target %s" % (builddir, testargs, targetsys)
+>>
+>> ../Randy
+>>
+>>
+>> 1)=20
+>> https://github.com/llvm/llvm-project/commit/e939bf67e34037970192fa90ad=
+22ab7628f5de33
+>>
+>> commit e939bf67e34037970192fa90ad22ab7628f5de33
+>> Author: Cole Kissane <cole.kissane@gmail.com>
+>> Date:=C2=A0=C2=A0 Tue Jul 19 13:54:35 2022
+>>
+>> =C2=A0=C2=A0=C2=A0 [llvm] add zstd to `llvm::compression` namespace
+>>
+>> =C2=A0=C2=A0=C2=A0 - add zstd to `llvm::compression` namespace
+>> =C2=A0=C2=A0=C2=A0 - add a CMake option `LLVM_ENABLE_ZSTD` with behavi=
+or mirroring=20
+>> that of `LLVM_ENABLE_ZLIB`
+>> =C2=A0=C2=A0=C2=A0 - add tests for zstd to `llvm/unittests/Support/Com=
+pressionTest.cpp`
+>> =C2=A0=C2=A0=C2=A0 - debian users should install libzstd when using=20
+>> `LLVM_ENABLE_ZSTD=3DFORCE_ON` from source due to this bug=20
+>> https://bugs.launchpad.net/ubuntu/+source/libzstd/+bug/1941956
+>>
+>> =C2=A0=C2=A0=C2=A0 Reviewed By: leonardchan, MaskRay
+>>
+>> =C2=A0=C2=A0=C2=A0 Differential Revision: https://reviews.llvm.org/D12=
+8465
+>>
+>>
 >>
 >>
 >> --=20
@@ -407,383 +444,354 @@ er_width =3D "64") &&=20
 # Randy MacLeod
 # Wind River Linux
 
---------------OUVmQtiBZXHGn601s1tOti8W
+--------------NoEzZriwy6bXYNPo4uekTWuG
 Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5BB5IiJJ037101
 
 <!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
   </head>
   <body>
-    <div class="moz-cite-prefix">On 2025-12-11 3:10 a.m., Yash Shinde
+    <div class=3D"moz-cite-prefix">On 2025-12-11 3:10 a.m., Yash Shinde
       wrote:<br>
     </div>
-    <blockquote type="cite" cite="mid:32af68a4-a8f5-404c-b7cd-baab63223a9c@windriver.com">
-      <br>
-      On 10-12-2025 23:50, Randy MacLeod wrote:
-      <br>
-      <blockquote type="cite">On 2025-12-10 5:18 a.m.,
-        <a class="moz-txt-link-abbreviated" href="mailto:Yash.Shinde@windriver.com">Yash.Shinde@windriver.com</a> wrote:
+    <blockquote type=3D"cite" cite=3D"mid:a94bfb6f-657b-444f-80c0-ffcbfd1=
+05305@windriver.com">
+     =20
+      <p><br>
+      </p>
+      <div class=3D"moz-cite-prefix">On 10-12-2025 23:06, Randy MacLeod
+        wrote:<br>
+      </div>
+      <blockquote type=3D"cite" cite=3D"mid:818e8b90-9aa1-45e4-aa1d-6a903=
+676408e@windriver.com">
+        <div class=3D"moz-cite-prefix">Add Peter since this is/was his
+          patch and you have his SOB line. <br>
+          Please do that in the future.</div>
+        <div class=3D"moz-cite-prefix"><br>
+        </div>
+        <div class=3D"moz-cite-prefix">I have some comments and questions
+          that could go contribute to a v2<br>
+          but so far, I don't object, too strongly, to merging patch 1/5
+          at least! <br>
+          <br>
+        </div>
         <br>
-        <blockquote type="cite">From: Yash
-          Shinde<a class="moz-txt-link-rfc2396E" href="mailto:Yash.Shinde@windriver.com">&lt;Yash.Shinde@windriver.com&gt;</a>
-          <br>
-          <br>
-          Remove the ignore tags for passing riscv64 tests and
-          <br>
-          drop obsolete &quot;tests/codegen-llvm/issues/issue-122805.rs&quot;
-          <br>
+        <div class=3D"moz-cite-prefix">On 2025-12-10 5:17 a.m., <a class=3D=
+"moz-txt-link-abbreviated moz-txt-link-freetext" href=3D"mailto:Yash.Shin=
+de@windriver.com" moz-do-not-send=3D"true">Yash.Shinde@windriver.com</a> =
+wrote:<br>
+        </div>
+        <blockquote type=3D"cite" cite=3D"mid:20251210101803.1120711-1-Ya=
+sh.Shinde@windriver.com">
+          <pre wrap=3D"" class=3D"moz-quote-pre">From: Peter Tatrai <a cl=
+ass=3D"moz-txt-link-rfc2396E" href=3D"mailto:peter.tatrai.ext@siemens.com=
+">&lt;peter.tatrai.ext@siemens.com&gt;</a>
+
+Rust's internal LLVM </pre>
         </blockquote>
-        Can you add the upstream commit id/shortlog that removed the
-        test?
-        <br>
-        The issue is still open it seems:
-        <br>
-        <a class="moz-txt-link-freetext" href="https://github.com/llvm/llvm-project/issues/122805">https://github.com/llvm/llvm-project/issues/122805</a>
-        <br>
-        <br>
-        so you should explain that as well.
-        <br>
-        <br>
+        Is this an old comment? llvm is now an oe-core&nbsp; recipe and w=
+e
+        don't use rust's internal llvm <br>
+        as far as I know (which isn't very far!).<br>
       </blockquote>
-      Actually, the issue is:
       <br>
-      <a class="moz-txt-link-freetext" href="https://github.com/rust-lang/rust/issues/122805">https://github.com/rust-lang/rust/issues/122805</a>
+      I kept the message from Peter's patch unchanged which was
+      submitted around the same time when<br>
+      &nbsp;rust-llvm was dropped. I will reword the commit message in v2=
+, if
+      required.<br>
       <br>
-<a class="moz-txt-link-freetext" href="https://github.com/rust-lang/rust/issues/122805#issuecomment-2012121917">https://github.com/rust-lang/rust/issues/122805#issuecomment-2012121917</a>
-      <br>
-      <br>
-      <br>
-      and the test-case was renamed to &quot;dont-shuffle-bswaps.rs&quot; which
-      passes now:
-      <br>
-<a class="moz-txt-link-freetext" href="https://github.com/rust-lang/rust/commit/3580698996f6da6f006477809d7959bffcfd3bf0">https://github.com/rust-lang/rust/commit/3580698996f6da6f006477809d7959bffcfd3bf0</a>
-      <br>
+      For more details: <a class=3D"moz-txt-link-freetext" href=3D"https:=
+//lists.openembedded.org/g/openembedded-core/message/225636" moz-do-not-s=
+end=3D"true">https://lists.openembedded.org/g/openembedded-core/message/2=
+25636</a><br>
     </blockquote>
     <p><br>
     </p>
-    <p>Ah, wrong project. <br>
-      Please include this info in your v2 commit log.</p>
-    <p>Thanks,</p>
+    <p>Good.</p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:a94bfb6f-657b-444f-80c0-ffcbfd1=
+05305@windriver.com"> <br>
+      <blockquote type=3D"cite" cite=3D"mid:818e8b90-9aa1-45e4-aa1d-6a903=
+676408e@windriver.com"><br>
+        <blockquote type=3D"cite" cite=3D"mid:20251210101803.1120711-1-Ya=
+sh.Shinde@windriver.com">
+          <pre wrap=3D"" class=3D"moz-quote-pre">requires zlib and zstd c=
+ompression libraries when</pre>
+        </blockquote>
+        Yes, we have a patch for clang for this:<br>
+        &nbsp;&nbsp;
+meta/recipes-devtools/clang/clang/0024-llvm-Do-not-use-cmake-infra-to-det=
+ect-libzstd.patch<br>
+        adding in meta-clang in 2022:<br>
+        &nbsp;&nbsp; <a class=3D"moz-txt-link-freetext" href=3D"https://g=
+ithub.com/kraj/meta-clang/commit/0f38186ae93400b870f7f92938bbf8643e7da958=
+" moz-do-not-send=3D"true">https://github.com/kraj/meta-clang/commit/0f38=
+186ae93400b870f7f92938bbf8643e7da958</a><br>
+        and the llvm-project commit is (1).<br>
+      </blockquote>
+      <br>
+      The selftest execution environment requires the zlib and zstd
+      features<br>
+      as llvm enables them unless explicitly disabled.<br>
+      <p>The rust recipe level RUSTFLAGS aren't propagated to qemu image
+        for testing.<br>
+        This requires explicit passing of the flags for zstd lib.&nbsp;<b=
+r>
+        (zlib is already available by default in core-image-minimal)<br>
+        <br>
+        The following error confirms that rust via llvm expects these
+        libs to be available in the image for testing.</p>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Okay.</p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:a94bfb6f-657b-444f-80c0-ffcbfd1=
+05305@windriver.com">
+      <blockquote type=3D"cite" cite=3D"mid:818e8b90-9aa1-45e4-aa1d-6a903=
+676408e@windriver.com">
+        <p>Anyway, Khem,<br>
+          <br>
+          What are your thoughts about this patch and about using cmake
+          for llvm?</p>
+        <blockquote type=3D"cite" cite=3D"mid:20251210101803.1120711-1-Ya=
+sh.Shinde@windriver.com">
+          <pre wrap=3D"" class=3D"moz-quote-pre">building rustc_codegen_l=
+lvm and other compiler components.
+Without these dependencies, building Rust for target fails
+with linker errors:
+
+  error: linking with `target-rust-ccld` failed: exit status: 1
+  =3D note: undefined reference to `compress2'
+  =3D note: undefined reference to `uncompress'
+  =3D note: undefined reference to `ZSTD_decompress'
+  =3D note: undefined reference to `ZSTD_isError'
+  =3D note: undefined reference to `ZSTD_compress2'
+  =3D note: undefined reference to `crc32'
+
+This manifested in oe-selftest failure on qemuppc:
+  oe-selftest -r rust.RustSelfTestSystemEmulated.test_rust
+
+Additionally, this was observed while testing with other targets as well.=
+</pre>
+        </blockquote>
+        If you have a list on hand of which targets had this problem,<br>
+        that might be useful to include in the log. It might help<br>
+        us understand why the problem seems to be arch-specific.<br>
+      </blockquote>
+      <p>Peter reported it for ppc target but eventually it was observed
+        on all targets in our testings,&nbsp;&nbsp;<br>
+        i.e arm32, arm64, riscv-64, x86-32 and x86-64.<br>
+        So, this is a generic requirement rather than arch-specific.<br>
+      </p>
+    </blockquote>
+    Good so please revise your v2 commit log to indicate exactly what
+    you observed.<br>
+    <p><br>
+    </p>
     <p>../Randy<br>
     </p>
-    <blockquote type="cite" cite="mid:32af68a4-a8f5-404c-b7cd-baab63223a9c@windriver.com">
-      <br>
-      <blockquote type="cite">
-        <br>
-        ../Randy
-        <br>
-        <blockquote type="cite">from exclude test list.
-          <br>
-          <br>
-          Signed-off-by: Yash Shinde<a class="moz-txt-link-rfc2396E" href="mailto:Yash.Shinde@windriver.com">&lt;Yash.Shinde@windriver.com&gt;</a>
-          <br>
-          ---
-          <br>
-          &nbsp; meta/lib/oeqa/selftest/cases/rust.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 1 -
-          <br>
-          &nbsp; .../rust/files/rust-oe-selftest.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 100
-          ------------------
-          <br>
-          &nbsp; 2 files changed, 101 deletions(-)
-          <br>
-          <br>
-          diff --git a/meta/lib/oeqa/selftest/cases/rust.py
-          b/meta/lib/oeqa/selftest/cases/rust.py
-          <br>
-          index ebc9204420..3a41391101 100644
-          <br>
-          --- a/meta/lib/oeqa/selftest/cases/rust.py
-          <br>
-          +++ b/meta/lib/oeqa/selftest/cases/rust.py
-          <br>
-          @@ -80,7 +80,6 @@ class
-          RustSelfTestSystemEmulated(OESelftestTestCase,
-          OEPTestResultTestCase):
-          <br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'src/tools/tidy',
-          <br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          'tests/assembly-llvm/asm/aarch64-outline-atomics.rs',
-          <br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          'tests/assembly-llvm/c-variadic-arm.rs',
-          <br>
-          -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          'tests/codegen-llvm/issues/issue-122805.rs',
-          <br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          'tests/codegen-llvm/thread-local.rs',
-          <br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'tests/mir-opt/',
-          <br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'tests/run-make',
-          <br>
-          diff --git
-          a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
-          b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
-          <br>
-          index 7d26d75820..b39b326455 100644
-          <br>
-          --- a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
-          <br>
-          +++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
-          <br>
-          @@ -202,106 +202,6 @@ index a05f274136..0e69b4cb98 100644
-          <br>
-          &nbsp;&nbsp; fn sparse_inserts() {
-          <br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let cache: VecCache&lt;u32, u8, u32&gt; =
-          VecCache::default();
-          <br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let end = if cfg!(target_pointer_width = &quot;64&quot;)
-          &amp;&amp; cfg!(target_os = &quot;linux&quot;) {
-          <br>
-          -diff --git a/tests/assembly-llvm/dwarf-mixed-versions-lto.rs
-          b/tests/assembly-llvm/dwarf-mixed-versions-lto.rs
-          <br>
-          -index 828328df843..30753c56c76 100644
-          <br>
-          ---- a/tests/assembly-llvm/dwarf-mixed-versions-lto.rs
-          <br>
-          -+++ b/tests/assembly-llvm/dwarf-mixed-versions-lto.rs
-          <br>
-          -@@ -8,6 +8,7 @@
-          <br>
-          - //@ compile-flags: -C lto -g -Cdwarf-version=5
-          <br>
-          - //@ assembly-output: emit-asm
-          <br>
-          - //@ no-prefer-dynamic
-          <br>
-          -+//@ ignore-riscv64
-          <br>
-          -
-          <br>
-          - extern crate dwarf_mixed_versions_lto_aux;
-          <br>
-          -
-          <br>
-          -diff --git a/tests/codegen-llvm/const-vector.rs
-          b/tests/codegen-llvm/const-vector.rs
-          <br>
-          -index f4307492341..617e31140e9 100644
-          <br>
-          ---- a/tests/codegen-llvm/const-vector.rs
-          <br>
-          -+++ b/tests/codegen-llvm/const-vector.rs
-          <br>
-          -@@ -3,6 +3,7 @@
-          <br>
-          - //@ [OPT0_S390X] only-s390x
-          <br>
-          - //@ [OPT0] compile-flags: -C no-prepopulate-passes
-          -Copt-level=0
-          <br>
-          - //@ [OPT0_S390X] compile-flags: -C no-prepopulate-passes
-          -Copt-level=0 -C target-cpu=z13
-          <br>
-          -+//@ ignore-riscv64
-          <br>
-          -
-          <br>
-          - // This test checks that constants of SIMD type are passed
-          as immediate vectors.
-          <br>
-          - // We ensure that both vector representations (struct with
-          fields and struct wrapping array) work.
-          <br>
-          -diff --git a/tests/codegen-llvm/enum/enum-aggregate.rs
-          b/tests/codegen-llvm/enum/enum-aggregate.rs
-          <br>
-          -index 0161e5f3fa1..773a06fabb4 100644
-          <br>
-          ---- a/tests/codegen-llvm/enum/enum-aggregate.rs
-          <br>
-          -+++ b/tests/codegen-llvm/enum/enum-aggregate.rs
-          <br>
-          -@@ -1,6 +1,7 @@
-          <br>
-          - //@ compile-flags: -Copt-level=0 -Cno-prepopulate-passes
-          <br>
-          - //@ min-llvm-version: 19
-          <br>
-          - //@ only-64bit
-          <br>
-          -+//@ ignore-riscv64
-          <br>
-          -
-          <br>
-          - #![crate_type = &quot;lib&quot;]
-          <br>
-          -
-          <br>
-          -diff --git a/tests/codegen-llvm/enum/enum-match.rs
-          b/tests/codegen-llvm/enum/enum-match.rs
-          <br>
-          -index 57db44ec74e..1e2507f7c90 100644
-          <br>
-          ---- a/tests/codegen-llvm/enum/enum-match.rs
-          <br>
-          -+++ b/tests/codegen-llvm/enum/enum-match.rs
-          <br>
-          -@@ -1,5 +1,6 @@
-          <br>
-          - //@ compile-flags: -Copt-level=1
-          <br>
-          - //@ only-64bit
-          <br>
-          -+//@ ignore-riscv64
-          <br>
-          -
-          <br>
-          - #![crate_type = &quot;lib&quot;]
-          <br>
-          - #![feature(core_intrinsics)]
-          <br>
-          -diff --git
-          a/tests/codegen-llvm/enum/enum-transparent-extract.rs
-          b/tests/codegen-llvm/enum/enum-transparent-extract.rs
-          <br>
-          -index c5efb8d472b..e79b8916fc1 100644
-          <br>
-          ---- a/tests/codegen-llvm/enum/enum-transparent-extract.rs
-          <br>
-          -+++ b/tests/codegen-llvm/enum/enum-transparent-extract.rs
-          <br>
-          -@@ -1,5 +1,6 @@
-          <br>
-          - //@ compile-flags: -Copt-level=0
-          <br>
-          - //@ only-64bit
-          <br>
-          -+//@ ignore-riscv64
-          <br>
-          -
-          <br>
-          - #![crate_type = &quot;lib&quot;]
-          <br>
-          -
-          <br>
-          -diff --git a/tests/codegen-llvm/repeat-operand-zero-len.rs
-          b/tests/codegen-llvm/repeat-operand-zero-len.rs
-          <br>
-          -index b4cec42a07c..d450fead9a4 100644
-          <br>
-          ---- a/tests/codegen-llvm/repeat-operand-zero-len.rs
-          <br>
-          -+++ b/tests/codegen-llvm/repeat-operand-zero-len.rs
-          <br>
-          -@@ -1,4 +1,5 @@
-          <br>
-          - //@ compile-flags: -Copt-level=1 -Cno-prepopulate-passes
-          <br>
-          -+//@ ignore-riscv64
-          <br>
-          -
-          <br>
-          - // This test is here to hit the `Rvalue::Repeat` case in
-          `codegen_rvalue_operand`.
-          <br>
-          - // It only applies when the resulting array is a ZST, so the
-          test is written in
-          <br>
-          -diff --git a/tests/codegen-llvm/simd/extract-insert-dyn.rs
-          b/tests/codegen-llvm/simd/extract-insert-dyn.rs
-          <br>
-          -index 729f0145314..2b1d1beb86a 100644
-          <br>
-          ---- a/tests/codegen-llvm/simd/extract-insert-dyn.rs
-          <br>
-          -+++ b/tests/codegen-llvm/simd/extract-insert-dyn.rs
-          <br>
-          -@@ -1,4 +1,5 @@
-          <br>
-          - //@compile-flags: -C opt-level=3 -C no-prepopulate-passes
-          <br>
-          -+//@ ignore-riscv64
-          <br>
-          -
-          <br>
-          - #![feature(
-          <br>
-          -&nbsp;&nbsp;&nbsp;&nbsp; core_intrinsics,
-          <br>
-          -diff --git a/tests/codegen-llvm/transmute-scalar.rs
-          b/tests/codegen-llvm/transmute-scalar.rs
-          <br>
-          -index ce1b0558b2e..e8fda2cd566 100644
-          <br>
-          ---- a/tests/codegen-llvm/transmute-scalar.rs
-          <br>
-          -+++ b/tests/codegen-llvm/transmute-scalar.rs
-          <br>
-          -@@ -1,6 +1,7 @@
-          <br>
-          - //@ add-core-stubs
-          <br>
-          - //@ compile-flags: -C opt-level=0 -C no-prepopulate-passes
-          --target=x86_64-unknown-linux-gnu
-          <br>
-          - //@ needs-llvm-components: x86
-          <br>
-          -+//@ ignore-riscv64
-          <br>
-          -
-          <br>
-          - #![crate_type = &quot;lib&quot;]
-          <br>
-          - #![feature(no_core, repr_simd)]
-          <br>
-          -diff --git
-          a/tests/codegen-llvm/uninhabited-transparent-return-abi.rs
-          b/tests/codegen-llvm/uninhabited-transparent-return-abi.rs
-          <br>
-          -index face1577c3f..09e0846bad0 100644
-          <br>
-          ----
-          a/tests/codegen-llvm/uninhabited-transparent-return-abi.rs
-          <br>
-          -+++
-          b/tests/codegen-llvm/uninhabited-transparent-return-abi.rs
-          <br>
-          -@@ -1,4 +1,5 @@
-          <br>
-          - //@ compile-flags: -Copt-level=3
-          <br>
-          -+//@ ignore-riscv64
-          <br>
-          -
-          <br>
-          - // Seehttps://github.com/rust-lang/rust/issues/135802
-          <br>
-          -
-          <br>
-          &nbsp; diff --git
-          a/tests/ui/abi/rust-cold-works-with-rustic-args.rs
-          b/tests/ui/abi/rust-cold-works-with-rustic-args.rs
-          <br>
-          &nbsp; index 551485469d3..575db924968 100644
-          <br>
-          &nbsp; --- a/tests/ui/abi/rust-cold-works-with-rustic-args.rs
-          <br>
+    <blockquote type=3D"cite" cite=3D"mid:a94bfb6f-657b-444f-80c0-ffcbfd1=
+05305@windriver.com">
+      <p> <br>
+      </p>
+      <blockquote type=3D"cite" cite=3D"mid:818e8b90-9aa1-45e4-aa1d-6a903=
+676408e@windriver.com">
+        <blockquote type=3D"cite" cite=3D"mid:20251210101803.1120711-1-Ya=
+sh.Shinde@windriver.com">
+          <pre wrap=3D"" class=3D"moz-quote-pre">Signed-off-by: Peter Tat=
+rai <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:peter.tatrai.ext@si=
+emens.com">&lt;peter.tatrai.ext@siemens.com&gt;</a>
+Signed-off-by: Yash Shinde <a class=3D"moz-txt-link-rfc2396E" href=3D"mai=
+lto:Yash.Shinde@windriver.com">&lt;Yash.Shinde@windriver.com&gt;</a>
+---
+ meta/lib/oeqa/selftest/cases/rust.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftes=
+t/cases/rust.py
+index 31222e2456..01a98339a6 100644
+--- a/meta/lib/oeqa/selftest/cases/rust.py
++++ b/meta/lib/oeqa/selftest/cases/rust.py
+@@ -47,7 +47,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OE=
+PTestResultTestCase):
+         bitbake(&quot;{} -c test_compile&quot;.format(recipe))
+         builddir =3D get_bb_var(&quot;RUSTSRC&quot;, &quot;rust&quot;)
+         # build core-image-minimal with required packages
+-        default_installed_packages =3D [&quot;libgcc&quot;, &quot;libstd=
+c++&quot;, &quot;libatomic&quot;, &quot;libgomp&quot;]
++        default_installed_packages =3D [&quot;libgcc&quot;, &quot;libstd=
+c++&quot;, &quot;libatomic&quot;, &quot;libgomp&quot;, &quot;libzstd&quot=
+;]
+
+</pre>
         </blockquote>
+        This has been present since the original rust.py selftest was
+        added.<br>
+        It seems like a hack in that things are added to (blindly?) fix
+        linking errors<br>
+        rather than getting to the root cause of the problem.<br>
         <br>
+        That may be acceptable in the short run but shouldn't the list
+        should be<br>
+        just what rustc/cargo from rustup depend on:<br>
+        =E2=9D=AF which rustc<br>
+        /home/rmacleod/.cargo/bin/rustc<br>
+        =E2=9D=AF ldd `which rustc`<br>
+        &nbsp;&nbsp;&nbsp; linux-vdso.so.1 (0x00007a636834b000)<br>
+        &nbsp;&nbsp;&nbsp; libgcc_s.so.1 =3D&gt; /lib/x86_64-linux-gnu/li=
+bgcc_s.so.1
+        (0x00007a636830b000)<br>
+        &nbsp;&nbsp;&nbsp; librt.so.1 =3D&gt; /lib/x86_64-linux-gnu/librt=
+.so.1
+        (0x00007a6368306000)<br>
+        &nbsp;&nbsp;&nbsp; libpthread.so.0 =3D&gt; /lib/x86_64-linux-gnu/=
+libpthread.so.0
+        (0x00007a6368301000)<br>
+        &nbsp;&nbsp;&nbsp; libm.so.6 =3D&gt; /lib/x86_64-linux-gnu/libm.s=
+o.6
+        (0x00007a636821a000)<br>
+        &nbsp;&nbsp;&nbsp; libdl.so.2 =3D&gt; /lib/x86_64-linux-gnu/libdl=
+.so.2
+        (0x00007a6368215000)<br>
+        &nbsp;&nbsp;&nbsp; libc.so.6 =3D&gt; /lib/x86_64-linux-gnu/libc.s=
+o.6
+        (0x00007a6366a00000)<br>
+        &nbsp;&nbsp;&nbsp; /lib64/ld-linux-x86-64.so.2 (0x00007a636834d00=
+0)<br>
         <br>
-        --&nbsp;<br>
-        # Randy MacLeod
+        =E2=9D=AF cargo --version<br>
+        cargo 1.91.1 (ea2d97820 2025-10-10)<br>
+        =E2=9D=AF which cargo<br>
+        /home/rmacleod/.cargo/bin/cargo<br>
+        =E2=9D=AF ldd `which cargo`<br>
+        &nbsp;&nbsp;&nbsp; linux-vdso.so.1 (0x0000789ffe470000)<br>
+        &nbsp;&nbsp;&nbsp; libgcc_s.so.1 =3D&gt; /lib/x86_64-linux-gnu/li=
+bgcc_s.so.1
+        (0x0000789ffe430000)<br>
+        &nbsp;&nbsp;&nbsp; librt.so.1 =3D&gt; /lib/x86_64-linux-gnu/librt=
+.so.1
+        (0x0000789ffe42b000)<br>
+        &nbsp;&nbsp;&nbsp; libpthread.so.0 =3D&gt; /lib/x86_64-linux-gnu/=
+libpthread.so.0
+        (0x0000789ffe426000)<br>
+        &nbsp;&nbsp;&nbsp; libm.so.6 =3D&gt; /lib/x86_64-linux-gnu/libm.s=
+o.6
+        (0x0000789ffcf19000)<br>
+        &nbsp;&nbsp;&nbsp; libdl.so.2 =3D&gt; /lib/x86_64-linux-gnu/libdl=
+.so.2
+        (0x0000789ffe421000)<br>
+        &nbsp;&nbsp;&nbsp; libc.so.6 =3D&gt; /lib/x86_64-linux-gnu/libc.s=
+o.6
+        (0x0000789ffcc00000)<br>
+        &nbsp;&nbsp;&nbsp; /lib64/ld-linux-x86-64.so.2 (0x0000789ffe47200=
+0)<br>
         <br>
-        # Wind River Linux
-        <br>
+        perhaps with the exception of <span style=3D"white-space: pre-wra=
+p">libatomic and libgomp</span> which
+        seem like valid requirements.<br>
+        I guess I'm really wondering if libzstd even libatomic and
+        libgomp, should be RDEPENDs for some recipe.<br>
+      </blockquote>
+      <p>The list of packages in &quot;<span style=3D"white-space: pre-wr=
+ap">default_installed_packages&quot; is needed to include additional self=
+test requirements=20
+apart from the default ones used in core-image-minimal. These are actual =
+requirements rather than hack.
+
+Adding them in DEPENDS/RDEPENDS do not propagate the dependencies in self=
+test qemu image.</span></p>
+      <p><br>
+      </p>
+      <blockquote type=3D"cite" cite=3D"mid:818e8b90-9aa1-45e4-aa1d-6a903=
+676408e@windriver.com"><br>
+        <blockquote type=3D"cite" cite=3D"mid:20251210101803.1120711-1-Ya=
+sh.Shinde@windriver.com">
+          <pre wrap=3D"" class=3D"moz-quote-pre">         features =3D []
+         features.append('IMAGE_FEATURES +=3D &quot;ssh-server-dropbear&q=
+uot;')
+         features.append('CORE_IMAGE_EXTRA_INSTALL +=3D &quot;{0}&quot;'.=
+format(&quot; &quot;.join(default_installed_packages)))
+@@ -124,7 +124,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, =
+OEPTestResultTestCase):
+             cmd =3D cmd + &quot; export RUST_TARGET_PATH=3D%s/rust-targe=
+ts;&quot; % rustlibpath
+             # Strip debug symbols from test binaries to reduce size (300=
++ MB -&gt; ~140 MB)
+             # PowerPC mac99 QEMU has 768MB RAM limit, so we need to mini=
+mize test binary sizes
+-            cmd =3D cmd + &quot; export RUSTFLAGS=3D'-C strip=3Ddebuginf=
+o';&quot;
++            cmd =3D cmd + &quot; export RUSTFLAGS=3D'-C strip=3Ddebuginf=
+o -Clink-arg=3D-lz -Clink-arg=3D-lzstd';&quot;
+             # Trigger testing.
+             cmd =3D cmd + &quot; export TEST_DEVICE_ADDR=3D\&quot;%s:123=
+45\&quot;;&quot; % qemu.ip
+             cmd =3D cmd + &quot; cd %s; python3 src/bootstrap/bootstrap.=
+py test %s --target %s&quot; % (builddir, testargs, targetsys)
+</pre>
+        </blockquote>
+        <p>../Randy</p>
+        <p><br>
+        </p>
+        <p>1) <a class=3D"moz-txt-link-freetext" href=3D"https://github.c=
+om/llvm/llvm-project/commit/e939bf67e34037970192fa90ad22ab7628f5de33" moz=
+-do-not-send=3D"true">https://github.com/llvm/llvm-project/commit/e939bf6=
+7e34037970192fa90ad22ab7628f5de33</a><br>
+        </p>
+        <p>commit e939bf67e34037970192fa90ad22ab7628f5de33<br>
+          Author: Cole Kissane <a class=3D"moz-txt-link-rfc2396E" href=3D=
+"mailto:cole.kissane@gmail.com" moz-do-not-send=3D"true">&lt;cole.kissane=
+@gmail.com&gt;</a><br>
+          Date:&nbsp;&nbsp; Tue Jul 19 13:54:35 2022<br>
+          <br>
+          &nbsp;&nbsp;&nbsp; [llvm] add zstd to `llvm::compression` names=
+pace<br>
+          &nbsp;&nbsp; &nbsp;<br>
+          &nbsp;&nbsp;&nbsp; - add zstd to `llvm::compression` namespace<=
+br>
+          &nbsp;&nbsp;&nbsp; - add a CMake option `LLVM_ENABLE_ZSTD` with=
+ behavior
+          mirroring that of `LLVM_ENABLE_ZLIB`<br>
+          &nbsp;&nbsp;&nbsp; - add tests for zstd to
+          `llvm/unittests/Support/CompressionTest.cpp`<br>
+          &nbsp;&nbsp;&nbsp; - debian users should install libzstd when u=
+sing
+          `LLVM_ENABLE_ZSTD=3DFORCE_ON` from source due to this bug <a cl=
+ass=3D"moz-txt-link-freetext" href=3D"https://bugs.launchpad.net/ubuntu/+=
+source/libzstd/+bug/1941956" moz-do-not-send=3D"true">https://bugs.launch=
+pad.net/ubuntu/+source/libzstd/+bug/1941956</a><br>
+          &nbsp;&nbsp; &nbsp;<br>
+          &nbsp;&nbsp;&nbsp; Reviewed By: leonardchan, MaskRay<br>
+          &nbsp;&nbsp; &nbsp;<br>
+          &nbsp;&nbsp;&nbsp; Differential Revision: <a class=3D"moz-txt-l=
+ink-freetext" href=3D"https://reviews.llvm.org/D128465" moz-do-not-send=3D=
+"true">https://reviews.llvm.org/D128465</a><br>
+          <br>
+        </p>
+        <p><br>
+        </p>
+        <p><br>
+        </p>
+        <p><br>
+        </p>
+        <pre class=3D"moz-signature" cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
       </blockquote>
     </blockquote>
     <p><br>
     </p>
-    <pre class="moz-signature" cols="72">-- 
+    <pre class=3D"moz-signature" cols=3D"72">--=20
 # Randy MacLeod
 # Wind River Linux</pre>
   </body>
 </html>
 
---------------OUVmQtiBZXHGn601s1tOti8W--
+--------------NoEzZriwy6bXYNPo4uekTWuG--
 
