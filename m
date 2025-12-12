@@ -2,108 +2,199 @@ Return-Path: <adam.duskett@amarulasolutions.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 298E0D4417D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37280D4417F
 	for <webhook@archiver.kernel.org>; Fri, 12 Dec 2025 10:33:24 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9992.1765535595698036744
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9994.1765535597020551465
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Dec 2025 02:33:16 -0800
+ Fri, 12 Dec 2025 02:33:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=BBeZKap7;
- spf=pass (domain: amarulasolutions.com, ip: 209.85.208.43, mailfrom: adam.duskett@amarulasolutions.com)
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6415bc0cab2so115369a12.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 02:33:15 -0800 (PST)
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=Wfx4vQcB;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.208.48, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6415fc4093bso143189a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 02:33:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1765535594; x=1766140394; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dweruoFS2hSzD89842ZkHTQ+jWI4ilFOHwDM6py/yME=;
-        b=BBeZKap7I5REDFePx5D1jafOtre9xorH2N2KHfzqssUoEO9WkxP6rpZXRbra6UytZ1
-         oVxxVmrCrG7fhMPXMNqxz/fQgMpNH6niYTeTRoKQuwKTWTSLjrsl6kJEjXzaLUUf9FdG
-         9CBeo8Brz76kmWbnwFODmqPTnu2Kyp6wfT3Wo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765535594; x=1766140394;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=amarulasolutions.com; s=google; t=1765535595; x=1766140395; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dweruoFS2hSzD89842ZkHTQ+jWI4ilFOHwDM6py/yME=;
-        b=uHpXtoRs7aFvCvuSPotdT8NcmlLe2gqaUoZRCLjgHI68pIlGClHXl/DmAikglsJbkd
-         1SX0rp3wFgVIModvso+WofUd2pNSgUirfcFdIv8aVboPrYnbzSDb/u32VUNRNcK/LD6K
-         f1VfOPpObyZac+dOKORew4j9aY/z/VE/mHPCStlEdC04Z9r2I+AIyp2boV+DBatYrbjC
-         gnQDmnWtABFoLs1i9hnNZQBzRFE4aszU4Mh3JkRmRg/cgofuwKqznR0tD+zZeWhGMxcb
-         zWu7eHM/MVdm4dO4rNMbFFOw6LVqq9BZT0lXXZm+CztB9dOof6+/hijmQe9eZIDGFU/N
-         Mgwg==
-X-Gm-Message-State: AOJu0YzuhbDchOxk9mN78i1k7rZ7Bsv+p3655XcztXeLb2quouN1exV/
-	65fVlVriDCl6DghV2ewuBDPRG/Bj6Ypc7R7j+HE+szctljDx+u87Ayv2wmRJwHSuaKEZPQzvbAm
-	7vJWt
-X-Gm-Gg: AY/fxX71NQBu7VBf1I0RsMwWa0PMKPJ22CGgkCp+QEsw4Ua7YXz6U/eo04EEeijXHwa
-	2bcGo4565UgdBXOGjU/4sP08ZBBwvJKNJs/+qfloVSJsDBeCV4mBgZ8ggfrG941v77KymFBN9aO
-	ppTOUeCX6BH5Ncrvu6p9QUU2H2YVQ9HxfPffp5HDTpSYmU9la8J0SYBMoDAlkqlnVqMcg9RrBBf
-	mOWRCuAtMjXVv+DdzUVrWVoq5AJX1kzH5ZDMFwqeBPxXbf8qtKt9baTZEEKeJIEKCDR+Ik8cWtd
-	DHS91GYR6Aj2tU7TD0G8bj/gwjEKTjm9Nlyqk8YekGUhkkERCblQKOoRElhwW2Za4pPkqQMk30A
-	4FR/CGGcRU2KwtkJG7MVgNC8gj32S5mI5ATjdvSCP/7tC4lTSoFyQpZVe+SXmMKWiBkt3jLHstO
-	CiBoNgCQlqoQC8eiTUxmLtXHGiuWstbiXleT/IgmkLVS/Cc6LZVa681/Yyjbpfycbp8W6B2XWNP
-	jqjW9iIjCKnDIdmGaTvCIfjF2fQ2v8nHIQQwpO+KC8DdkF00LgceZ9onA==
-X-Google-Smtp-Source: AGHT+IGf8XQCh90krxOfUcEDELmgBx1OKioBnIv5JRCCZFa9GGUxLnpecove7Ln1kEoFSNzrsO80ag==
-X-Received: by 2002:a05:6402:34c6:b0:643:4e9c:d17c with SMTP id 4fb4d7f45d1cf-6499b03ddb5mr862938a12.0.1765535594004;
-        Fri, 12 Dec 2025 02:33:14 -0800 (PST)
+        bh=lfbymjVqmTRLCGavhA4WUXJdBy1KHmliPei8eahndYs=;
+        b=Wfx4vQcBAnBZ/KVHpR4qEwiZq/S2oGQ/tlThl/71OTTjQZURq3zM2gUH42oei5a0W/
+         1Ip6fVOMyHY2YAJ4gJEGpOpR+NP0ntUZcK//t76mXg1t4EhxTJScaoJFPOwsEtI+ewpP
+         jynUi0kVEOIhhuVhLtm3ZCj9oREnR1kcP+Q5k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765535595; x=1766140395;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lfbymjVqmTRLCGavhA4WUXJdBy1KHmliPei8eahndYs=;
+        b=TTAEH72Qh3FxvOEEMni3h9AY9+eipDzXMONhCUjZyGom2ysXW4wWr6mKOpgBZqQFKi
+         QOiX9yagPw/zEbobA2Ib9/F1Ngvg3JhTkk3dwZWhsaSffvYJed41J9c4+DzyYN7uULT9
+         xubJhyQ9PsGMp6OZ3JOR/XVGdwaYaqUq0CvUPRvi5Gb6rdQjhBQGUSradZd83kYPKB0w
+         c0rY2WrgcMrh9ni3Ur1WhXj+D+s4SwFqNYiAUlrEVckHJGPOsOVGkMQv0MDVvXM3gy3i
+         MQlFaAxwFgH4krJ1vG7DLoPXGZDD0L+8AWW/+ZaXnFPzYZdRih3G6qNlPWRlgWZmTUVn
+         dxJg==
+X-Gm-Message-State: AOJu0YzDvRaYb5WyKlj11qzM7RaH7jf9ECc1nwVVuUTGdVkLWkagBJoA
+	rjbaFV6nbu54WAkEE0I4kLU7GCDETzl8+J9xzunC69Q8EInmq5K8KhJCFxsKrZgFu0F68uFc8m5
+	fuGQp
+X-Gm-Gg: AY/fxX6GaCsPpZoVCgxPa+rDaYe3FQRwRLntFQBFr5dZ1dCoTs2b8oAEunjgPhB+Cbp
+	By1YxzVh+THqD0K/GEd2Fe8AUHwVEjTOgtCo8ecWr2g3WKtPzDh51drLcM5TmeIdCDB9+AeAOD2
+	5a5u/3fCV2PRJGznku1aDMF8sPsiEJSNlF+eifiz/zog8teG++Leyw0huKo/B0qZqV7KkiqY7TD
+	xf38PfSdensuaThcc9jYPNuol8hCfIKp0zz96lMb4H0VSzhvFbVXMTzWozju1X5X28zf6kQI+Xg
+	gTpnr/Pzl8proELBkoJIIXIygsgl7v+Q5ElozvLP9Zx3VE/bd4bFXvoFpk5vOsJ26H8x3UrzfoK
+	1Yoan3FQkUZndVmk5jA90cnam3o7MUqXk854T9EHH0ip0FLNSufuA+KyLrruIIEwopMAG9jr3PT
+	XcAidAVsRNHrFQYyw+4w5zueZPWq0EjJCWIKXybyWURK/aMe7DDLGOdJRudkvHSyM2bql+xEoIx
+	Ac9Er8RF4c9PxeXz7z7pEnN49awHJY6UGGTV+9+4BmuJP0yaHOAXm4sf1qvG6/+cCx9
+X-Google-Smtp-Source: AGHT+IHtLRxqAr8qJuOhOS2H2Eu/nIU3lGzBvNv/pFDqVE+jFUtzMYwdmGyxlWmkPCfhuCjQXFTXuw==
+X-Received: by 2002:a05:6402:348a:b0:645:7d1b:e151 with SMTP id 4fb4d7f45d1cf-6499b1836dfmr767585a12.1.1765535595334;
+        Fri, 12 Dec 2025 02:33:15 -0800 (PST)
 Received: from adam.amarulasolutions.com (2001-1c00-8101-1200-3ddc-5bb8-0efa-16f1.cable.dynamic.v6.ziggo.nl. [2001:1c00:8101:1200:3ddc:5bb8:efa:16f1])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-649820516desm4935216a12.14.2025.12.12.02.33.13
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-649820516desm4935216a12.14.2025.12.12.02.33.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Dec 2025 02:33:13 -0800 (PST)
+        Fri, 12 Dec 2025 02:33:14 -0800 (PST)
 From: Adam Duskett <adam.duskett@amarulasolutions.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
-Subject: [PATCH v2 1/6] signing-keys.bb: Fix DISTRO_CODENAME truncation
-Date: Fri, 12 Dec 2025 11:33:07 +0100
-Message-ID: <20251212103312.2077322-1-adam.duskett@amarulasolutions.com>
+Subject: [PATCH v2 3/6] libtoml11: cleanup package to adhere to the recipe style guide
+Date: Fri, 12 Dec 2025 11:33:09 +0100
+Message-ID: <20251212103312.2077322-3-adam.duskett@amarulasolutions.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251212103312.2077322-1-adam.duskett@amarulasolutions.com>
+References: <20251212103312.2077322-1-adam.duskett@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 10:33:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227580
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227582
 
-If DISTRO_CODENAME is not set in the environment, bash quietly
-drops the string resulting in a key such as PACKAGEFEED-GPG-KEY-defaultsetup-
+  - Add a BUGTRACKER link
 
-However, when python calls self.d.getVar('DISTRO_CODENAME'), the resulting
-string is 'None', leading to a configuration file pointing to a key such
-as PACKAGEFEED-GPG-KEY-defaultsetup-None
+  - Move SRCREV to below SRC_URI
 
-Add a default value in signing-keys.bb to set DISTRO_CODENAME to None if
-DISTRO_CODENAME is not set.
+  - Use gitsm instead of multiple git entries in the SRC_URI
+
+  - Remove SRCEV_FORMAT as it is not needed.
+
+  - Add a tag to the SRC_URI
+
+  - Add a UPSTREAM_CHECK_GITTAGREGEX field
+
+  - Use `PTEST_ENABLED 1` instead of `DISTRO_FEATURES ptest`
+
+  - Change "Submitted" in 0001-Remove-whitespace-in-operator.patch
+    to "Backport" with the appropraite link to the relevant commit hash.
+
+  - Clean up run-ptest.
+
+  - Add libtoml11 to maintainers.inc and ptest-packagelist.inc
 
 Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
 ---
- meta/recipes-core/meta/signing-keys.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+V1 -> V2: Add this patch to the series
 
-diff --git a/meta/recipes-core/meta/signing-keys.bb b/meta/recipes-core/meta/signing-keys.bb
-index 94f4032911..c7713ed4a6 100644
---- a/meta/recipes-core/meta/signing-keys.bb
-+++ b/meta/recipes-core/meta/signing-keys.bb
-@@ -45,6 +45,10 @@ addtask get_public_keys before do_install
- do_get_public_keys[depends] += "gnupg-native:do_populate_sysroot"
+ .../0001-Remove-whitespace-in-operator.patch  |  2 +-
+ .../libtoml11/files/run-ptest                 | 15 +++++----
+ .../libtoml11/libtoml11_4.4.0.bb              | 33 +++++++++----------
+ 3 files changed, 25 insertions(+), 25 deletions(-)
+
+diff --git a/meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-in-operator.patch b/meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-in-operator.patch
+index c8c9922d55..9516ee5cb1 100644
+--- a/meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-in-operator.patch
++++ b/meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-in-operator.patch
+@@ -11,7 +11,7 @@ include/toml11/impl/../fwd/literal_fwd.hpp:22:26: error: identifier '_toml' prec
+ |       |               ~~~~~~~~~~~^~~~~
+ |       |               operator""_toml
  
- do_install () {
-+    # Python evalutes an empty DISTRO_CODENAME to "None" which would cause mismatched files
-+    # as the update config file would show GPG-KEY-${DISTRO}-None but the filename is
-+    # installed as GPG-KEY-${DISTRO}-
-+    DISTRO_CODENAME="${DISTRO_CODENAME:-None}"
-     if [ -f "${B}/rpm-key" ]; then
-         install -D -m 0644 "${B}/rpm-key" "${D}${sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-${DISTRO}-${DISTRO_CODENAME}"
+-Upstream-Status: Submitted [https://github.com/ToruNiina/toml11/pull/285]
++Upstream-Status: Backport [https://github.com/ToruNiina/toml11/commit/dee78f822d8a5b985e565e5c1ef42a59557aa8fc]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+  include/toml11/fwd/literal_fwd.hpp   | 2 +-
+diff --git a/meta/recipes-devtools/libtoml11/files/run-ptest b/meta/recipes-devtools/libtoml11/files/run-ptest
+index 9bc480aa7f..22d6f7e0e1 100755
+--- a/meta/recipes-devtools/libtoml11/files/run-ptest
++++ b/meta/recipes-devtools/libtoml11/files/run-ptest
+@@ -1,12 +1,13 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ cd tests
+-for atest in test_* ; do
+-    rm -rf tests.log
+-    ./${atest} > tests.log 2>&1
+-    if [ $? = 0 ] ; then
+-        echo "PASS: ${atest}"
++
++rm -rf tests.log
++
++for i in test_* ; do
++    if ./"${i}" >> tests.log 2>&1; then
++        echo "PASS: ${i}"
+     else
+-        echo "FAIL: ${atest}"
++        echo "FAIL: ${i}"
      fi
-@@ -57,6 +61,7 @@ do_install () {
+ done
+diff --git a/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb b/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
+index 38786b79ed..c3b00511ae 100644
+--- a/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
++++ b/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
+@@ -1,9 +1,10 @@
+ SUMMARY = "TOML for Modern C++"
+-DESCRIPTION = "toml11 is a feature-rich TOML language library for \
+-               C++11/14/17/20."
+-
++DESCRIPTION = "\
++    toml11 is a feature-rich TOML language library for \
++    C++11/14/17/20. \
++"
+ HOMEPAGE = "https://github.com/ToruNiina/toml11"
+-
++BUGTRACKER = "https://github.com/ToruNiina/toml11/issues"
+ SECTION = "libs"
+ 
+ LICENSE = "MIT"
+@@ -11,23 +12,19 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=44d1fcf70c7aa6991533c38daf7befa3"
+ 
+ PE = "1"
+ 
+-SRCREV = "be08ba2be2a964edcdb3d3e3ea8d100abc26f286"
+-SRCREV_json = "8c391e04fe4195d8be862c97f38cfe10e2a3472e"
+-SRCREV_doctest = "ae7a13539fb71f270b87eb2e874fbac80bc8dda2"
+-
+-SRC_URI = "git://github.com/ToruNiina/toml11;branch=main;protocol=https \
+-           git://github.com/nlohmann/json;destsuffix=${BB_GIT_DEFAULT_DESTSUFFIX}/tests/extlib/json;name=json;branch=develop;protocol=https \
+-           git://github.com/doctest/doctest;destsuffix=${BB_GIT_DEFAULT_DESTSUFFIX}/tests/extlib/doctest;name=doctest;branch=master;protocol=https \
+-           file://0001-Remove-whitespace-in-operator.patch \
+-           file://run-ptest \
++SRC_URI = "\
++    gitsm://github.com/ToruNiina/toml11.git;protocol=https;branch=main;tag=v${PV} \
++    file://0001-Remove-whitespace-in-operator.patch \
++    file://run-ptest \
+ "
+-SRCREV_FORMAT = "json_doctest"
+-
++SRCREV = "be08ba2be2a964edcdb3d3e3ea8d100abc26f286"
++UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ 
+ inherit cmake ptest
+ 
+-EXTRA_OECMAKE += "-DTOML11_PRECOMPILE=ON \
+-                  -DTOML11_BUILD_TESTS=${@bb.utils.contains("DISTRO_FEATURES", "ptest", "ON", "OFF", d)} \
++EXTRA_OECMAKE += "\
++    -DTOML11_PRECOMPILE=ON \
++    -DTOML11_BUILD_TESTS=${@bb.utils.contains("PTEST_ENABLED", "1", "ON", "OFF", d)} \
+ "
+ 
+ ALLOW_EMPTY:${PN} = "1"
+@@ -36,3 +33,5 @@ do_install_ptest () {
+     install -d ${D}${PTEST_PATH}/tests
+     cp -r ${B}/tests/test_* ${D}${PTEST_PATH}/tests
  }
- 
- do_deploy () {
-+    DISTRO_CODENAME="${DISTRO_CODENAME:-None}"
-     if [ -f "${B}/rpm-key" ]; then
-         install -D -m 0644 "${B}/rpm-key" "${DEPLOYDIR}/RPM-GPG-KEY-${DISTRO}-${DISTRO_CODENAME}"
-     fi
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.52.0
 
