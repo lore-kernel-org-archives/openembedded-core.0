@@ -1,291 +1,286 @@
-Return-Path: <hongxu.jia@windriver.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C560D49227
-	for <webhook@archiver.kernel.org>; Fri, 12 Dec 2025 13:39:15 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12880.1765546744707388865
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 769B1D4922B
+	for <webhook@archiver.kernel.org>; Fri, 12 Dec 2025 13:49:55 +0000 (UTC)
+Received: from GVAP278CU002.outbound.protection.outlook.com (GVAP278CU002.outbound.protection.outlook.com [52.101.188.80])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13023.1765547238976542119
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Dec 2025 05:39:05 -0800
+ Fri, 12 Dec 2025 05:47:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=IS0J+Jgr;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=444187e08a=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BC7nLe53574611
-	for <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 13:39:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=Q40Cf6ZMawJK7ZPNm0aN
-	dbchaJu9++PrzJqHmjJnlVs=; b=IS0J+JgrqHDXJ6DoLu7yuLCNADIJEyznynpk
-	8jG9XCiU7GeJetWjOmEQGL78ft2kcTPTAQzx475wj4qWk6M+LEo5lVgb5WXtHOXW
-	nmy+v6h7g2f+yLAXJdDx/7XwFgJfcwaHlJzbfbvCuAzFFHJBIe4idE2jib6UE9rZ
-	a5bSCK3HDeInnXt+LFv41uXBmuiqrKLzEW8+DHISsJLmP0wxxUhSolHfln04hx6d
-	KAd0mInJSIPJxrhsk+sFiDuYaCLDvLBs45ZPphtlP1KdW5XHHnRkL7EeTugOqQi1
-	mMRHxNdPxLRqLCcEqlMbO7qT9q58EVRd0uf1zz0dGVNe4K2EeA==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ay01nkeg4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 13:39:03 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Fri, 12 Dec 2025 05:39:02 -0800
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Fri, 12 Dec 2025 05:39:01 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v2] gstreamer1.0: install Gst-1.0.gir to ${libdir} for multilib
-Date: Fri, 12 Dec 2025 21:39:00 +0800
-Message-ID: <20251212133900.344838-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@duagon.com header.s=selector1 header.b=MhyPZ6q9;
+ spf=pass (domain: duagon.com, ip: 52.101.188.80, mailfrom: bastian.germann@duagon.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XKxeRHLS4sLnR1Fm9ry0TJVOcAR5z13WrkVuT07GZ167AgFoKl5WKJS5i8qmxRkz08Y8yOTsuEdI9FhaEwHGiNcCgg3vh5u0lbEIwsHQLEyQ6Ye/9Imm+eUD/9HPLDx8VsjNt5eyfxs/z6TVtzTiCk4QkHGx0vEHWapPUzWp7RD4KWLHMM1KQyQeHj+sq6FhVJord1LxBki53vNgtVoIAy3eJNUiA7os6faQHgBhNcUB04xAutFk6dqQYuKiC0EJih2mrECUZVUluK27IkhbcT+EBMTs3VRl5HGTbXOerDLQnEXgmCVBbWlSQEgtSzjCarXzaDB4I+iLHXFMK5cs7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oBLPuV5wkUhZrU356cYuC7zEsMRJ3Dxgq9ZsRtzUVkw=;
+ b=lSQ6dfYHaES3H9+VmAUPNtw39IMMqxjwREKRiHXHwTukwyBPz8qTne3XIiLGZuRKLaIXR3+OCsT3qQjrH26yYmPOK1aDGF3+morsZ5Fca0hGwJbhwZwievOo9NvwalM9NIya9plGiojdTXA2lRjxHQC+rXn0Nz6RQQf76npZ0s66fOjecNuyRLmIhPAPBBVbS2cYIXjNqnCyWWi+uDl7Xehaz9CIw3xXSVTNUqYw1vhExJzk8LzdL0hYUILTqZbG+RvcMUdCeM1CaP9hCPPSbMMHgPOqCNmRqNMbc8NbhAIAJiAqIK/1paC9kwSLlhn2+4dkQGcD4e4kqNbEcKnJ4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 40.93.86.6) smtp.rcpttodomain=gmail.com smtp.mailfrom=duagon.com; dmarc=pass
+ (p=reject sp=reject pct=100) action=none header.from=duagon.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=duagon.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oBLPuV5wkUhZrU356cYuC7zEsMRJ3Dxgq9ZsRtzUVkw=;
+ b=MhyPZ6q9nWGMmuwxKYpWF80Zs62N0Wj6g2+uR/nCNTOoMclwUPzq+E3GjCWaaITOqmXO1FyI2BO9p/SHZCZd6pdwigiN08Uc0oIxVehIJRKOIbsqC0yvYGhvhr/OEtpf6b+uaBVuviqe8QPOm9UhnbCbHwsWwqE6PIRDTzLDehM=
+Received: from DUZPR01CA0034.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:468::10) by ZR3P278MB1273.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:71::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.11; Fri, 12 Dec
+ 2025 13:47:13 +0000
+Received: from DB1PEPF000509EF.eurprd03.prod.outlook.com
+ (2603:10a6:10:468:cafe::83) by DUZPR01CA0034.outlook.office365.com
+ (2603:10a6:10:468::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.10 via Frontend Transport; Fri,
+ 12 Dec 2025 13:47:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 40.93.86.6)
+ smtp.mailfrom=duagon.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=duagon.com;
+Received-SPF: Pass (protection.outlook.com: domain of duagon.com designates
+ 40.93.86.6 as permitted sender) receiver=protection.outlook.com;
+ client-ip=40.93.86.6; helo=GVAP278CU002.outbound.protection.outlook.com; pr=C
+Received: from hz-deliver01.de.seppmail.cloud (2a01:4f8:a0:900b::219) by
+ DB1PEPF000509EF.mail.protection.outlook.com (2603:10a6:18:3::629) with
+ Microsoft SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id
+ 15.20.9388.8 via Frontend Transport; Fri, 12 Dec 2025 13:47:12 +0000
+Received: from hz-glue03.de.seppmail.cloud (unknown [10.11.0.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hz-deliver01.de.seppmail.cloud (Postfix) with ESMTPS id 4dSW3N1cVsz4wyG;
+	Fri, 12 Dec 2025 14:47:12 +0100 (CET)
+Received: from hz-glue03.de.seppmail.cloud (unknown [172.18.0.6])
+	by hz-glue03.de.seppmail.cloud (Postfix) with SMTP id 4dSW3N1N5wz1xZv;
+	Fri, 12 Dec 2025 14:47:12 +0100 (CET)
+X-SEPP-Suspect: 5d08d76d1f9d4003b6f895c2136b35eb
+Received: from hz-scan09.de.seppmail.cloud (unknown [10.11.0.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by hz-glue03.de.seppmail.cloud (Postfix) with ESMTPS id 4dSW3N0vW0z1xZZ;
+	Fri, 12 Dec 2025 14:47:12 +0100 (CET)
+Received: from hz-scan09 (localhost [127.0.0.1])
+	by hz-scan09.de.seppmail.cloud (Postfix) with SMTP id 4dSW3N0M6gz19B4;
+	Fri, 12 Dec 2025 14:47:12 +0100 (CET)
+Received: from hz-m365gate03.de.seppmail.cloud (unknown [10.11.0.36])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hz-scan09.de.seppmail.cloud (Postfix) with ESMTPS;
+	Fri, 12 Dec 2025 14:47:10 +0100 (CET)
+Received: from GVAP278CU002.outbound.protection.outlook.com (mail-switzerlandwestazlp17010006.outbound.protection.outlook.com [40.93.86.6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
+	(Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (not verified))
+	by hz-m365gate03.de.seppmail.cloud (Postfix) with ESMTPS id 4dSW3J6gN5z1wJ8;
+	Fri, 12 Dec 2025 14:47:08 +0100 (CET)
+Received: from GV0P278MB0688.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:44::7) by
+ ZR1P278MB1137.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:5c::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9412.12; Fri, 12 Dec 2025 13:47:07 +0000
+Received: from GV0P278MB0688.CHEP278.PROD.OUTLOOK.COM
+ ([fe80::4ee4:c505:4a4d:6b1b]) by GV0P278MB0688.CHEP278.PROD.OUTLOOK.COM
+ ([fe80::4ee4:c505:4a4d:6b1b%5]) with mapi id 15.20.9388.013; Fri, 12 Dec 2025
+ 13:47:07 +0000
+From: "Germann, Bastian" <Bastian.Germann@duagon.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCH] run-postinsts: propagate exit state to run-postinsts.service
+Thread-Topic: [PATCH] run-postinsts: propagate exit state to
+ run-postinsts.service
+Thread-Index: AQHca23ObLkmjxEWVUKP4ARNdYsbig==
+Date: Fri, 12 Dec 2025 13:47:07 +0000
+Message-ID: 
+ <GV0P278MB0688BAE9BDECB0FBFF31582993AEA@GV0P278MB0688.CHEP278.PROD.OUTLOOK.COM>
+References: 
+ <GV0P278MB06880222F486E5880988044993A1A@GV0P278MB0688.CHEP278.PROD.OUTLOOK.COM>
+ <CANNYZj95ZV1CTMFDTLPR_0WQf-7XW4ypo9ihdM0VTJr6ERwQqA@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj95ZV1CTMFDTLPR_0WQf-7XW4ypo9ihdM0VTJr6ERwQqA@mail.gmail.com>
+Accept-Language: de-DE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-codetwo-clientsignature-inserted: true
+x-codetwoprocessed: true
+x-ms-traffictypediagnostic: 
+	GV0P278MB0688:EE_|ZR1P278MB1137:EE_|DB1PEPF000509EF:EE_|ZR3P278MB1273:EE_
+X-MS-Office365-Filtering-Correlation-Id: de1de9c5-b201-4562-0d41-08de3984f448
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|376014|366016|1800799024|38070700021;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?iso-8859-1?Q?gxe6BB0kMAmOibkdtIFOmqVFhIxk946EaCKPS91VC7/mNQkDAhNF1l4Mo3?=
+ =?iso-8859-1?Q?3SWDVyK6kcC2VflBNmKhDvahx1IDsFYGoWEoZjebQF/drmwTCzchkpmTkZ?=
+ =?iso-8859-1?Q?vg4bfez2lExYuLI/5hA3BbqbV9bHpttTsQ2tc3ktOCkKiCawZHnr0DpDEc?=
+ =?iso-8859-1?Q?ZwO8oH6KimOpHbJ9mNSvPxcGKGYOxypM0xFFfwTkbwPYT2K6Hy2KBZzmV0?=
+ =?iso-8859-1?Q?FCl4jZW9CHme+uWNgoC2o/acVBl+XNuGg2VXqaVb6lce3MFs7JIrLf6BTN?=
+ =?iso-8859-1?Q?QDM3cQauf/+lgiT3MxjNklQGY4hyTtj8U5tmDHO33RJmW1YQuxle7Fg3rm?=
+ =?iso-8859-1?Q?VwMtwI0QtMDnHn8z+0JQyWKvtOcHflCN5fbImQ8un24mu9mnohvifm/ZP0?=
+ =?iso-8859-1?Q?oDfUUiqKvAtviPc9Tq7iVwkWbubYOT3SpT8ORwHggou7WyDA1rZ+Fge94e?=
+ =?iso-8859-1?Q?v6HWEC5NA6JVScW0vBWf/Cti40ntZtqB+ZsPRlm8hSkPifs97KBKYm21cp?=
+ =?iso-8859-1?Q?nxvDOTOArF5BU+KdZxbRIkhgE1mVIW1jcehRgqcu2uJXSxlosHwVNDM6wO?=
+ =?iso-8859-1?Q?ic6t1DTqeW9aKjGPckNzDIjiBPHgVxLQ04Rkhq1fJ7ZhkVjsT64pbwWd+P?=
+ =?iso-8859-1?Q?JtnKJpik76JYjwAGw8LdvOxQSTp0hAA0+5NdU5TpOff/jBL60jgAC9b2+u?=
+ =?iso-8859-1?Q?yrQ92nhVmNDu8IK2jQiQsxwRRFfTqdpIqacJW5VVNSd0xfTLuCgLBbOuau?=
+ =?iso-8859-1?Q?Bro0lBGlelbZS0gs4zRN5qsVJ1VjVmIVQAMOsiFCtlmhcdO8QQzzYCMj6E?=
+ =?iso-8859-1?Q?W0860R4gwaF9fjHfrEvzQWU5dj8bnXC4eNG0HY2wJ8vqCFtzCvKdlTBnbh?=
+ =?iso-8859-1?Q?W3mX1cwTvXNUt0JWgoYNbuQlWWgHDu8kHk2AlVSAVLzJuRHcZKILDd34pa?=
+ =?iso-8859-1?Q?DPvtdZ+IyFmyiMg9SE1hZLPb05SwEKBuFQWf4u8lbOSJPS0sJ2+6wkVhm0?=
+ =?iso-8859-1?Q?xQpW6f3wSzeuDzdnbrGbBGgS3ePj4BNCbHa7XTa9y4sJo7dXiIxhvFeHat?=
+ =?iso-8859-1?Q?iXCylMosA3DUXgtP3jrsMAby2iJKMoczYmlrKw+6ok4CrK+s54QgzZJ8aO?=
+ =?iso-8859-1?Q?pvVDDW87FaWVJLwvPtx8CtyOqPL8A0nnBj55sVIBgSCOvUfqAtWednjCea?=
+ =?iso-8859-1?Q?0fe3Y4XAfD5AMcz7GGafAFTfA0EwuZNuUxHguhUYBvsMXxmVoI2a3VFDCg?=
+ =?iso-8859-1?Q?DEc0L/EDBqUf3Xgm6KYrKvZ8fS25rirHVfIk411YcBXTDX++e1uEXmq/rI?=
+ =?iso-8859-1?Q?wlTU8OTgde0Xij8F2guK4tC7cZ7ZfjGiueF3usX19C6jrHOJTOe02DWj7w?=
+ =?iso-8859-1?Q?qVTPHxyC07NuhZmSQ4fqGmZ74bsKb3mZ7OcnXsUsyZ1QFooRPl0790UHY0?=
+ =?iso-8859-1?Q?ZIesvXUNEvnUAsTXEWZtlSjoBKZLSP6sfLuGcWwl4EPjIIZHotd5v3JOEJ?=
+ =?iso-8859-1?Q?g3L9IAGqD10kF27xur0DXSSxMSfhpDHKhdIXD+HGn7d6iqpr4HXqJqQZsH?=
+ =?iso-8859-1?Q?aF+EEi41Xc5wJ7YD0f/cT/q+Z951?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV0P278MB0688.CHEP278.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1102;
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=d5/4CBjE c=1 sm=1 tr=0 ts=693c1af7 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=e5mUnYsNAAAA:8 a=t7CeM3EgAAAA:8
- a=OefPE4xtCbCOlgiW4O0A:9 a=Vxmtnl_E_bksehYqCbjh:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: jw9IQtX9pJFOZl2uIQVyloNRwYoOkQAu
-X-Proofpoint-ORIG-GUID: jw9IQtX9pJFOZl2uIQVyloNRwYoOkQAu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEyMDEwNyBTYWx0ZWRfXwh1y8qpjJ1CP
- TYEZRuip9P69kbDLlhdvRnMRkvtELCEw8+wDpenaCeJvfohj42PizJYvvRPAVW+lCmviEX80/rJ
- Q2xv8owAQGBSYBsJNyDkPOjesKTI93loug7RGFE6Igv2ey2j1GwmBV9xvP0ccFS4tKA6lk03xiJ
- 4FbnPL7e7SusAGRPq4Dv91AdOc6VdYzmykdlpbOi1Sb0mO8i+U1apuBz+2LOMnZOJhtT1K6Ixty
- WVPM4W+KkEg8GkZBZ66QBf7mX0iI8+aj3KY0A9lWeEaCsF9gyYQNNNQCl3qZW1p8XX/44SqlPBE
- 7HjU9vFuUE0ksk3SYnzQL+FaJGpK6LEvxJEEJNKernWKAPj91eMYf/4ME/5i23BlX57mNMeX7tg
- NFRbs9iWSP9sNQI+jaZE1Q86c8JpAQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-12_03,2025-12-11_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 suspectscore=0 adultscore=0 bulkscore=0
- lowpriorityscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512120107
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR1P278MB1137
+X-SEPP-CCCVersion: 2025-12-11T08:12:51+01:00 9ed91da2
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender: 
+ ip=[40.93.86.6];domain=GVAP278CU002.outbound.protection.outlook.com
+X-MS-Exchange-ExternalOriginalInternetSender: 
+ ip=[40.93.86.6];domain=GVAP278CU002.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB1PEPF000509EF.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	cf3a34c7-809b-4edd-8867-08de3984f0d6
+X-SM-ruleversion: 2.1.0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|376014|10070799003|14060799003|1800799024|35042699022|82310400026;
+X-Microsoft-Antispam-Message-Info: 
+	=?iso-8859-1?Q?mH79DRvaadZBH83SLzCUiKn1FgN6Vx+wii3xgC3Uso9wOiOzXa9iAIXSdB?=
+ =?iso-8859-1?Q?as9dT9Emy8ADhELCo/WGpfZ1XWdcpjPOLV2ks9okIK5MXnndSzJmamXfFt?=
+ =?iso-8859-1?Q?V3QOQLSVGH+PaQ6TChVy+WoLzbMop00ue73oN65/7tvKDB7CNnhKCHfsKQ?=
+ =?iso-8859-1?Q?qmLzQDsUIh5b/VxOENATWczU3ffIUSsJkGOX4AaGpX9JKRxpdzmRZXKmlT?=
+ =?iso-8859-1?Q?N6GNr4+PMyZrL8zKeoGgIe0/qGs4aOS7QPikj+noa7/I5BfCFemTmJLSiM?=
+ =?iso-8859-1?Q?WsQ/kwRGK3VVzFJbiaeeFGpMAi+j/TR06Vaa2+hCj9yRxrAYiLAum9NdC9?=
+ =?iso-8859-1?Q?LM6gOQhWqJeo7qeDXvs1ITAendI8OWXxxuDHtgZT0AMLLC4pOi0CzuC9CM?=
+ =?iso-8859-1?Q?QbnhwqMeA8aEQwOGhiK/ThtTc4DSJr5QDRnWWAPMQuL3J5y1w7GpI8N9dA?=
+ =?iso-8859-1?Q?w0VvGREXUnPlEDDBLA0Fuh280dmxdUbvxwqg50PnC8AjAkaqcUDiWEEwn7?=
+ =?iso-8859-1?Q?G734U+PT/PusWIpYqmXhla8UkGfxTJ0EbHc9awD7SGSeah8SFvVECxme5E?=
+ =?iso-8859-1?Q?+LOCfUYuBW2kVw4FgEPRxbC8ClJJFSTNvZebP3MxionNW+bYP8lSha1FtK?=
+ =?iso-8859-1?Q?06udOZT7T425FT64BUrwV4JYK02opJcWKlsqkX88eptZbIqQR9jrCn988s?=
+ =?iso-8859-1?Q?hO1yNRjyDrKLju1e8uoYUhN4QcHPguIB5wPEej/3APCx4l48seVWXKcclV?=
+ =?iso-8859-1?Q?xixdS5eobW735vYqBqePA154lBFK0Dhu7vQfgALPWKATArqPfK3/y30zDh?=
+ =?iso-8859-1?Q?JWdMbfMeXbArSnB153u9pxpen/70AvbYCN6uazQ3r7FzromtvqNdG1ggUT?=
+ =?iso-8859-1?Q?xaY9dT7B7u/6H7ZHOWq8RbppBijldwA8MIP8X1flascj8M4L7/vVicZ+Tz?=
+ =?iso-8859-1?Q?9eTMqeRpkPcWOIhJ2pLemcXzjEkf2BwSZPJoFhFIdW9Pkzh18UJu8BTF4z?=
+ =?iso-8859-1?Q?0rSdgjHyyIOx6Oy1LHclwe1HABeWziYW7gTesuKuiPcJSZ1ILmlTUpzhOa?=
+ =?iso-8859-1?Q?zF5we0z0mWCHiCClgxLHSnlHJA1xaTlq64HM/jPSs0/cacTueBBP2RvkXx?=
+ =?iso-8859-1?Q?3McgBqt+OD6m/BIXmO/7WzqVeL6MI66i5KezJ83azCuaZqbPUD?=
+X-Forefront-Antispam-Report: 
+	CIP:2a01:4f8:a0:900b::219;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVAP278CU002.outbound.protection.outlook.com;PTR:mail-switzerlandwestazlp17010006.outbound.protection.outlook.com;CAT:NONE;SFS:(13230040)(36860700013)(376014)(10070799003)(14060799003)(1800799024)(35042699022)(82310400026);DIR:OUT;SFP:1102;
+X-OriginatorOrg: duagon.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 13:47:12.9022
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: de1de9c5-b201-4562-0d41-08de3984f448
+X-MS-Exchange-CrossTenant-Id: e5e7e96e-8a28-45d6-9093-a40dd5b51a57
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5e7e96e-8a28-45d6-9093-a40dd5b51a57;Ip=[2a01:4f8:a0:900b::219];Helo=[hz-deliver01.de.seppmail.cloud]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509EF.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR3P278MB1273
+Content-Language: de-DE
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 13:39:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227590
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 13:49:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227591
 
-While installing 32 bit gstreamer package and 64 bit gstreamer package to
-one rootfs, package management (dnf) reported a conflict failure
-|Error: Transaction test error:
-|  file /usr/share/gir-1.0/Gst-1.0.gir conflicts between attempted installs of
-gstreamer1.0-dev-1.26.7-r0.wr2500.corei7_64 and lib32-gstreamer1.0-dev-1.26.7-r0.wr2500.corei7_32
-
-Due to upstream commit [1], the size of padding differs between 32 bit
-arch and 64 bit arch
-...
-|typedef struct {
-|  /* < private > */
-|  gpointer pointer;
-|#if GLIB_SIZEOF_VOID_P == 8
-|  guint8 padding[8];
-|#elif GLIB_SIZEOF_VOID_P == 4
-|  guint8 padding[12];
-|#else
-|  #error "Only 32 bit and 64 bit pointers supported currently"
-|#endif
-|} GstIdStr;
-...
-
-It made the generated Gst-1.0.gir be different for 32 bit and 64 bit packages,
-Install Gst-1.0.gir to ${libdir} which splits 32 bit and 64 bit libraries
-
-Submit a patch to upstream to add meson option (gir_dir_prefix) to override default
-gir install location (datadir). When multilib is enabled, install .gir files to
-${libdir} other than ${datadir}
-
-[1] https://gitlab.freedesktop.org/-/commit/0ee18781f9b210129da23a85236266bf84bafa83#f9880c83c8bdc4d61ac7d51a4a212f602cad5d86_0_39
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...ir_prefix-option-to-override-gir-def.patch | 149 ++++++++++++++++++
- .../gstreamer/gstreamer1.0_1.26.7.bb          |   3 +
- 2 files changed, 152 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-meson-Add-gir_dir_prefix-option-to-override-gir-def.patch
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-meson-Add-gir_dir_prefix-option-to-override-gir-def.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-meson-Add-gir_dir_prefix-option-to-override-gir-def.patch
-new file mode 100644
-index 0000000000..506e33c61f
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-meson-Add-gir_dir_prefix-option-to-override-gir-def.patch
-@@ -0,0 +1,149 @@
-+From 6fb2149fc5c7b1805c138a52990305a4f53170fa Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@eng.windriver.com>
-+Date: Thu, 11 Dec 2025 18:38:24 -0800
-+Subject: [PATCH] meson: Add gir_dir_prefix option to override gir default
-+ location
-+
-+Originally, the .gir files would always get installed into the default
-+location (datadir).
-+
-+This commit adds meson option (gir_dir_prefix) to override it as intermediate
-+prefix for gir installation under ${prefix}, such as
-+
-+  $ meson setup -Dgir_dir_prefix=lib64
-+
-+The .gir files are installed to /usr/lib64/gir-1.0
-+
-+  Installing gst/Gst-1.0.gir to /usr/lib64/gir-1.0
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/10363]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@eng.windriver.com>
-+---
-+ gst/meson.build                 |  1 +
-+ libs/gst/base/meson.build       |  1 +
-+ libs/gst/check/meson.build      |  1 +
-+ libs/gst/controller/meson.build |  1 +
-+ libs/gst/net/meson.build        |  1 +
-+ meson.build                     | 23 ++++++++++++++++++++++-
-+ meson_options.txt               |  3 +++
-+ 7 files changed, 30 insertions(+), 1 deletion(-)
-+
-+diff --git a/gst/meson.build b/gst/meson.build
-+index c69a6dc..ebe673d 100644
-+--- a/gst/meson.build
-++++ b/gst/meson.build
-+@@ -322,6 +322,7 @@ if build_gir
-+     'export_packages' : pkg_name,
-+     'includes' : ['GLib-2.0', 'GObject-2.0', 'GModule-2.0' ],
-+     'install' : true,
-++    'install_dir_gir': gst_girdir,
-+     'extra_args' : gst_gir_extra_args,
-+   }
-+   library_def += {'gir': [gir]}
-+diff --git a/libs/gst/base/meson.build b/libs/gst/base/meson.build
-+index b7aca73..2fb0590 100644
-+--- a/libs/gst/base/meson.build
-++++ b/libs/gst/base/meson.build
-+@@ -89,6 +89,7 @@ if build_gir
-+     'include_directories' : [configinc, libsinc, privinc],
-+     'includes' : ['GLib-2.0', 'GObject-2.0', 'GModule-2.0', 'Gst-1.0'],
-+     'install' : true,
-++    'install_dir_gir': gst_girdir,
-+     'extra_args' : gst_gir_extra_args,
-+   }
-+ 
-+diff --git a/libs/gst/check/meson.build b/libs/gst/check/meson.build
-+index 679a15d..e934526 100644
-+--- a/libs/gst/check/meson.build
-++++ b/libs/gst/check/meson.build
-+@@ -86,6 +86,7 @@ if build_gir
-+     'include_directories' : [configinc, libsinc, privinc],
-+     'includes' : ['GLib-2.0', 'GObject-2.0', 'GModule-2.0', 'Gst-1.0'],
-+     'install' : true,
-++    'install_dir_gir': gst_girdir,
-+     'extra_args' : gst_gir_extra_args,
-+   }
-+   library_def += {'gir': [gir]}
-+diff --git a/libs/gst/controller/meson.build b/libs/gst/controller/meson.build
-+index 9d38af8..411b951 100644
-+--- a/libs/gst/controller/meson.build
-++++ b/libs/gst/controller/meson.build
-+@@ -81,6 +81,7 @@ if build_gir
-+     'include_directories' : [configinc, libsinc, privinc],
-+     'includes' : ['GLib-2.0', 'GObject-2.0', 'GModule-2.0', 'Gst-1.0'],
-+     'install' : true,
-++    'install_dir_gir': gst_girdir,
-+     'extra_args' : gst_gir_extra_args,
-+   }
-+   library_def += {'gir': [gir]}
-+diff --git a/libs/gst/net/meson.build b/libs/gst/net/meson.build
-+index 60ed92c..b81139e 100644
-+--- a/libs/gst/net/meson.build
-++++ b/libs/gst/net/meson.build
-+@@ -67,6 +67,7 @@ if build_gir
-+     'include_directories' : [configinc, libsinc],
-+     'includes' : ['GLib-2.0', 'GObject-2.0', 'GModule-2.0', 'Gio-2.0', 'Gst-1.0'],
-+     'install' : true,
-++    'install_dir_gir': gst_girdir,
-+     'extra_args' : gst_gir_extra_args,
-+   }
-+   library_def += {'gir': [gir]}
-+diff --git a/meson.build b/meson.build
-+index e2127f6..7ecfc2d 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -629,6 +629,27 @@ if static_build
-+   gst_c_args += ['-DGST_STATIC_COMPILATION']
-+ endif
-+ 
-++gir_dir_prefix = get_option('gir_dir_prefix')
-++if gir_dir_prefix == '' or gir_dir_prefix == get_option('datadir')
-++  gir_dir_prefix = get_option('datadir')
-++  gir_dir_pc_prefix = '${datadir}'
-++else
-++  gir_dir_pc_prefix = '${prefix}' / gir_dir_prefix
-++endif
-++
-++# This is effectively the GIR XML format major version
-++gir_suffix = 'gir-1.0'
-++
-++gst_girdir = prefix / gir_dir_prefix / gir_suffix
-++
-++
-++if build_gir
-++  gst_c_args += [
-++    '-DGIR_SUFFIX="@0@"'.format(gir_suffix),
-++    '-DGIR_DIR="@0@"'.format(gst_girdir),
-++  ]
-++endif
-++
-+ # Used in gst/parse/meson.build and below
-+ python3 = import('python').find_installation()
-+ 
-+@@ -680,7 +701,7 @@ pkgconfig_variables = [
-+   'exec_prefix=${prefix}',
-+   'toolsdir=${exec_prefix}/bin',
-+   'pluginsdir=${libdir}/gstreamer-1.0',
-+-  'girdir=${datadir}/gir-1.0',
-++  'girdir=' + gir_dir_pc_prefix / gir_suffix,
-+   'typelibdir=${libdir}/girepository-1.0',
-+   'pluginscannerdir=${libexecdir}/gstreamer-1.0'
-+ ]
-+diff --git a/meson_options.txt b/meson_options.txt
-+index 78af552..97c03c6 100644
-+--- a/meson_options.txt
-++++ b/meson_options.txt
-+@@ -32,6 +32,9 @@ option('examples', type : 'feature', value : 'auto', yield : true)
-+ option('tests', type : 'feature', value : 'auto', yield : true)
-+ option('benchmarks', type : 'feature', value : 'auto', yield : true)
-+ option('tools', type : 'feature', value : 'auto', yield : true)
-++option('gir_dir_prefix',
-++       type: 'string',
-++       description: 'Intermediate prefix for gir installation under ${prefix}')
-+ option('introspection', type : 'feature', value : 'auto', yield : true, description : 'Generate gobject-introspection bindings')
-+ option('nls', type : 'feature', value : 'auto', yield: true, description : 'Enable native language support (translations)')
-+ option('extra-checks', type : 'feature', value : 'enabled', yield : true, description : 'Enable extra runtime checks')
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.7.bb
-index 444165a869..88b1af0796 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.7.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.26.7.bb
-@@ -21,6 +21,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0002-tests-add-support-for-install-the-tests.patch \
-            file://0003-tests-use-a-dictionaries-for-environment.patch \
-            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
-+           file://0001-meson-Add-gir_dir_prefix-option-to-override-gir-def.patch \
-            "
- SRC_URI[sha256sum] = "18a5e214114dc501407697dd458514bba62cadd5414c60f793cf70141a4d0bb3"
- 
-@@ -56,6 +57,8 @@ EXTRA_OEMESON += " \
-     ${@gettext_oemeson(d)} \
- "
- 
-+EXTRA_OEMESON:append:class-target = " ${@'-Dgir_dir_prefix=${baselib}' if d.getVar('MULTILIBS') else ''}"
-+
- GIR_MESON_ENABLE_FLAG = "enabled"
- GIR_MESON_DISABLE_FLAG = "disabled"
- 
--- 
-2.34.1
-
+In case an exec_postinst_scriptlets child process fails during installation=
+ we=0A=
+want indication that the run-postinsts.service had a problem.=0A=
+=0A=
+We still try to install all scriptlets and only run remove_rcsd_link if all=
+=0A=
+postinst scripts ran without error. Otherwise on every following boot a new=
+=0A=
+install attempt of the missing scriptlet(s) is performed.=0A=
+=0A=
+Signed-off-by: Bastian Germann <Bastian.Germann@duagon.com>=0A=
+---=0A=
+ .../run-postinsts/run-postinsts/run-postinsts | 34 +++++++++++--------=0A=
+ 1 file changed, 20 insertions(+), 14 deletions(-)=0A=
+=0A=
+diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinst=
+s b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts=0A=
+index a94a769b59..b7352aa24d 100755=0A=
+--- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts=0A=
++++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts=0A=
+@@ -62,22 +62,29 @@ if [ "$POSTINST_LOGGING" =3D "1" ]; then=0A=
+ fi=0A=
+ =0A=
+ exec_postinst_scriptlets() {=0A=
+-	for i in `ls $pi_dir`; do=0A=
+-		i=3D$pi_dir/$i=0A=
++	ret=3D0=0A=
++	for i in "$pi_dir"/*; do=0A=
+ 		echo "Running postinst $i..."=0A=
+ 		[ "$POSTINST_LOGGING" =3D "1" ] && eval echo "Running postinst $i..." $a=
+ppend_log=0A=
+-		if [ -x $i ]; then=0A=
+-			(sh -c $i $append_log)=0A=
+-			rm $i=0A=
++		if [ -x "$i" ]; then=0A=
++			(sh -c "$i" $append_log)=0A=
++			status=3D$?=0A=
++			if [ $status -ne 0 ]; then=0A=
++				echo "ERROR: postinst $i failed with exit code $status."=0A=
++				[ "$POSTINST_LOGGING" =3D "1" ] && eval echo "ERROR: postinst $i faile=
+d with exit code $status." $append_log=0A=
++				ret=3D1=0A=
++			else=0A=
++				rm -f "$i"=0A=
++			fi=0A=
+ 		else=0A=
+-			echo "ERROR: postinst $i failed."=0A=
+-			[ "$POSTINST_LOGGING" =3D "1" ] && eval echo "ERROR: postinst $i failed=
+." $append_log=0A=
+-			remove_rcsd_link=3D0=0A=
++			echo "ERROR: postinst $i is not executable."=0A=
++			[ "$POSTINST_LOGGING" =3D "1" ] && eval echo "ERROR: postinst $i is not=
+ executable." $append_log=0A=
++			ret=3D1=0A=
+ 		fi=0A=
+ 	done=0A=
++	return $ret=0A=
+ }=0A=
+ =0A=
+-remove_rcsd_link=3D1=0A=
+ if $pm_installed; then=0A=
+ 	case $pm in=0A=
+ 		"ipk")=0A=
+@@ -96,10 +103,9 @@ if $pm_installed; then=0A=
+ 			;;=0A=
+ 	esac=0A=
+ else=0A=
+-	exec_postinst_scriptlets=0A=
+-fi=0A=
+-=0A=
+-# since all postinstalls executed successfully, remove the rcS.d link=0A=
+-if [ $remove_rcsd_link =3D 1 ]; then=0A=
++	if ! exec_postinst_scriptlets; then=0A=
++		exit 1=0A=
++	fi=0A=
++	# since all postinstalls executed successfully, remove the rcS.d link=0A=
+ 	remove_rcsd_link=0A=
+ fi=
 
