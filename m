@@ -1,232 +1,108 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9FA4D59D68
-	for <webhook@archiver.kernel.org>; Fri, 12 Dec 2025 15:37:25 +0000 (UTC)
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15294.1765553838442511494
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18AECD59D68
+	for <webhook@archiver.kernel.org>; Fri, 12 Dec 2025 15:40:16 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15354.1765554013341230784
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Dec 2025 07:37:18 -0800
+ Fri, 12 Dec 2025 07:40:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=xbD/4trJ;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=yBDx4XZ+;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.148, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfout.phl.internal (Postfix) with ESMTP id 9347BEC04C7;
-	Fri, 12 Dec 2025 10:37:17 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Fri, 12 Dec 2025 10:37:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1765553837; x=1765640237; bh=/ZANz9RIZ5
-	3+ab5ewi8DnDz0FI9K8REOpX0m4Nsa0Ro=; b=xbD/4trJZwVOHl/BT3yqaHdzpU
-	ZZWwmFYWnTbJ0fleJSjW1GvAWLfmuZfLaxgQTpsFasRKhF3KvHqU+hYNqknvJOSF
-	jfJ4gVPoGZ2C5X70ofiMfPZ18csc1FMJhLz2IhBMju6WvsBqDkxeXUKZ5MHl4L4D
-	+1cC2v1JwKRhXS8acVzBCZr3ecm+ZXiUowbOof+o5WlGh89RrAPAhEqzMqNtA8PQ
-	qOtNFZFBcaqqEtEIrSFnJGrVcJIvSmoQIBETqbBgTLcdUrIPoBJtk85GiNTz2iGL
-	SDnBfUoPkiSc50b2Exx2uRJb/5twcvPG4GVIwc5K1L8aQUKNA+/IgwUcYy1A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1765553837; x=1765640237; bh=/ZANz9RIZ53+ab5ewi8DnDz0FI9K8REOpX0
-	m4Nsa0Ro=; b=yBDx4XZ+nl3hdmbzh5jD3oLk/sRGVUjIKi8+UVojWDrgNkiCRmh
-	HjuVLJWu9zJSuzElp/Cx1p4X7j/BoXdSsxG4BbtmF3zdzQ7wz/CPPcCc1vXCkCSP
-	G9+SyfTZVbhuAIMpip/hWs2SLrjIfmqW5wgpjWH5cMVzggciZNj5+PYCEyrRtYK4
-	BHNxUMSgw9HekqjLugaR3GvOK94fJBwt2jzFhlY7VIgpZHVfPgytEfdeX70AaX0C
-	YKZ37Oo2f/UfT3tgkvJPsVVXQhWcrTfW8l8wlS5wWMa+NRm0/0VB0pdJuKqaZ1b0
-	52YUd4URueJXDQRjmiH8bAus+ntpErti48w==
-X-ME-Sender: <xms:rTY8adBkjNz_-Fyut4MxV3EurS-cuDkPLgWu__gXkfAQifeufmcwQQ>
-    <xme:rTY8aZXaOTMKX5c9YZGZJyVTGWRy_T10mku02EcyDgvn6IiQ4UKL8QU04J0z7IJpJ
-    GbBNQL5nD5g2ToAwvcS4hoad0n88y800MZYpG3Qa6FeaVPB4xbxDQQ>
-X-ME-Received: <xmr:rTY8aTAloS5I8Lu3qaB2iMdxxlpkUYaUSEa6KjboDWYdMZiIp0WV3iXTzoJ4mIK0w4l_tmJ8tF5k1imRMyrXiAERIW9c-rrB7T5Ht_RZ_jmf>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvkeehhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecufghrlhcuvffnffculddqiedmnecujfgurhepkffuhffvve
-    ffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehp
-    rghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnhepveekvdffffeugf
-    fgtefghffgleeigfetheelteefjeetueefleefteelveevuedvnecuffhomhgrihhnpeho
-    phgvnhgvmhgsvgguuggvugdrohhrghdphihotghtohhprhhojhgvtghtrdhorhhgpdhmih
-    htrhgvrdhorhhgpdhnihhsthdrghhovhenucevlhhushhtvghrufhiiigvpedtnecurfgr
-    rhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtg
-    hpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepqhhuvghnthhinhdr
-    shgthhhulhiisegthhgvrhhrhidruggvpdhrtghpthhtohepshhkrghnughighhrrghunh
-    esghhmrghilhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgv
-    sehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopeihohgtth
-    hoqdhsvggtuhhrihhthieslhhishhtshdrhihotghtohhprhhojhgvtghtrdhorhhg
-X-ME-Proxy: <xmx:rTY8aU9D3Ni_0jEOe6kYqDnZgfKdj-XtnNTVYxHpxIXCaApDc_-SyQ>
-    <xmx:rTY8aSG2AFFhNi2ubC2CN5bKR-0ckLD8IBX4rLzwsrDR7kZO-NRdGg>
-    <xmx:rTY8aaMYiMCWkRxNlMxRYe_GA6InmcHQ6-NBXtQEFyH0ERCkOgs1Dw>
-    <xmx:rTY8aUeCa_NBCZez5YSqRBOOh5Yvd0LxswARDAUYh7KayE_SdyrGKQ>
-    <xmx:rTY8aUkceafNTV76Ik7hTsYkR4LuQGSggbmlNKeNFSaG-jCyLCBk7XJS>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 12 Dec 2025 10:37:16 -0500 (EST)
-Message-ID: <93b6f0d389078f51a88571aab24a90c60b6f9db1.camel@pbarker.dev>
-Subject: Re: [OE-core] [PoC 0/1] LLM enriched CVE entries
-From: Paul Barker <paul@pbarker.dev>
-To: quentin.schulz@cherry.de, skandigraun@gmail.com, 
-	openembedded-core@lists.openembedded.org
-Cc: yocto-security@lists.yoctoproject.org
-Date: Fri, 12 Dec 2025 15:37:13 +0000
-In-Reply-To: <85c873ac-7ce6-463c-8a85-c7847ff842d8@cherry.de>
-References: <20251205091632.1268768-1-skandigraun@gmail.com>
-	 <85c873ac-7ce6-463c-8a85-c7847ff842d8@cherry.de>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- ep0k17xg==
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-2WkHC6QeS0WbWsWCng7y"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qvJ2xcIR;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-295548467c7so16134715ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 07:40:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1765554012; x=1766158812; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RZcbCTznQpLU7e3tx45mfU0avwWWUvLdma7vm5TVduU=;
+        b=qvJ2xcIRRgB+LGq+KQLLK61u/a6g7E5B9nQ3GIn00jHlWxvDZi2wm/CuioIoaVXqLH
+         zMlNJiT6uVV9aIuK5rVlGWNaVmQ8rOynKOIu7yDOxoqaborFuaGGP+rTMLWAr2syzCQ0
+         eLkBUTEfmsMZPLvLK7mcFAk7EXFV0vWYIi1epP8BDw4telHMXCBEK5lm/Zw8GuNM7E+q
+         r97VD34PVemCfILHeqJ2YHcxFchX9x+mZLhjCb8bJ/Kfbhf3eUEtFxES8fzDEd5AUC/0
+         PEYseaOoxd0svs4bWmrVfv7aqa3MLtGiEcfoUBhHFL/yKjOzST4ZKmIs2iAR6+JADzJL
+         LnCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765554012; x=1766158812;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=RZcbCTznQpLU7e3tx45mfU0avwWWUvLdma7vm5TVduU=;
+        b=r3ssNEtzWD5pxFfjszzZZZfsfuoulA3JfNDR70EscaXA8jFVj+2vPKsedR+4jVSHfM
+         tIQIgRReDN/H4PSTbU1m6vXvxd4zp2Ssu6c1+VMPHu7YOuyWvo/wi0mgitnXDn41kLhn
+         9w1vcoUp2Y9NGId6UVHtO+APnV57Lx6h1LVGaus6nFz6ALQdVBTbslJpxMAMdp7pLIA9
+         SJeeLqqTFGsyrjPuQe3kDiADUdJD4sQIrE6DYJl8q1tNdvwZgto4x2ajDT8EwceVQB+D
+         dpf+0AxdATJiyOU71zgXdDiFSC3eUSa5ubqqlt83zZHeYrVAMcHUVYINPT9KSDrzOCSZ
+         x96Q==
+X-Gm-Message-State: AOJu0YzfdmG+xFLecFREPzuHHoIiAeVC1d5fH1KWceqXVJK1xqo+Fp+l
+	/HfkD6Ii3ulCrqwR+2HLLREdpbsOVExZpvKVzv2xJg30HvJQKIVyofZloFkrOzvwlnLwBqe42Ue
+	QjkYJ
+X-Gm-Gg: AY/fxX7e47snw71kb1f6V5bCV8vo/fqUzjsZTGEf3lmDCWTGmx3KYxB08Ti/JbsULwP
+	3G9HOwzrcaKycPHLz+iGMzeeyEeEM3rKpZfCcrTb2uKuRcBnLaKnDTILechKE0rG4y7pXKsSFnX
+	Y72rnKcW3m/FrfUB+IkbojVm4xCQWYKk/f0bTfcoU29f7JV7TS4XKsqkZBh0x3NkKHd4/6OBIng
+	qkhB8Y40lAQ7gdB49u/te7JU8AHN0iQDpmoEFkcSd/HVhYTXWg9+IWMtGWRC3nOC3in3CzEe7rw
+	DG8TNYgyC8/YWPvLbe4slrCt2f14v4LvVmwVRWJRfwVrRP5MhAKMOA4JviJ3TN6mTD7CI7xPeMh
+	p1gcnq3dA7h5sI8t4iZXY155ZkV6cL4mjNAwixj+05RmXmCDQAvcwM5k+BET2lXds1srL/vC/wF
+	4eig==
+X-Google-Smtp-Source: AGHT+IHssg9Xgeant2yZEOLgAqpeUx4P0L7SsJuusDZ6HJKqA7MW3db9gvuPYHQcW80oP6fkUfbH4Q==
+X-Received: by 2002:a17:902:d4cb:b0:29f:1bc6:ac92 with SMTP id d9443c01a7336-29f26eefe9dmr17547185ad.51.1765554012585;
+        Fri, 12 Dec 2025 07:40:12 -0800 (PST)
+Received: from hexa.. ([2602:feb4:3b:2100:5e34:462b:e2f0:5898])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34abe23edc4sm917549a91.1.2025.12.12.07.40.12
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Dec 2025 07:40:12 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 1/7] classes/create-spdx-2.2: Define SPDX_VERSION to 2.2
+Date: Fri, 12 Dec 2025 07:39:54 -0800
+Message-ID: <04cc49593a0ba2c51e4f4d477d4587079735b624.1765553842.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1765553842.git.steve@sakoman.com>
+References: <cover.1765553842.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 15:37:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227599
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 15:40:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227601
 
+From: Daniel Turull <daniel.turull@ericsson.com>
 
---=-2WkHC6QeS0WbWsWCng7y
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+SPDX_VERSION is used in DEPLOY_DIR_SPDX but if is not defined,
+will default to SPDX-1.1
 
-On Fri, 2025-12-12 at 13:40 +0100, Quentin Schulz via
-lists.openembedded.org wrote:
-> Hi Gyorgy,
->=20
-> On 12/5/25 10:16 AM, Gyorgy Sarvari via lists.openembedded.org wrote:
-> > Hello,
-> >=20
-> > tl;dr: This is a proof of concept about using an LLM to enrich CVE feed=
-s.
-> > Links are somewhere down below to see the difference. If you think it's
-> > useful, please say so. If you think it's not useful, please say so too.
-> >=20
-> > Motivation: the CVE checker associates CVEs with recipes based on the
-> > CPE information in the CVE entry. Unfortunately there are quite a few
-> > CVE entries missing this information entirely, making it impossible to
-> > associate them with any recipes. Looking at this year so far there are
-> > over 66000 CVE's opened, of which over 15000 are missing CPEs. Though
-> > older entries seem to have better CPE-to-CVE ratio, but for this PoC
-> > I'm mostly interested in the latest vulnerabilities.
-> >=20
-> > The idea: in case CPE information is missing, try to derive it from
-> > the human language description and the reference links of the CVE,
-> > using an LLM. The intuition would be that a good portion of the derived
-> > data would be usable, and even though it wouldn't be perfect, it would
-> > catch more valid CVEs than without it.
-> >=20
-> [...]
-> > This patch is just a proof of concept.
-> > I'm not sure if/how it could be integrated in the project's
-> > infra - especially the initial load is very heavy, and the patch requir=
-es GPU(s).
-> >=20
->=20
-> I've no interest in the technical implementation of this, just=20
-> commenting on the reason for this to exist in the first place.
->=20
-> This all comes from "CVEs without CPE exist". This is not a Yocto=20
-> problem, and it doesn't seem right for Yocto to be the one fixing it.=20
-> Someone should fix the database everyone is using. This suggested=20
-> approach may be a way to fix the current content of the database, though=
-=20
-> I don't know if *we* want this in Yocto for helping and maintain it to=
-=20
-> some degree, or if living outside of it in a fork or something is better=
-=20
-> suited.
->=20
-> I don't know what will be the stance of NIST, MITRE or whatever entity=
-=20
-> is responsible for the database(s) wrt using LLMs to identify CPE for=20
-> CVEs. I don't understand how they can even accept CVEs without a CPE:=20
-> "here's a vuln, figure out which piece of software in the world this=20
-> applies to" is madness to me.
->=20
-> I'm Cc'ing the security folks as that would probably be the people with=
-=20
-> the most to say about this and with some idea on how to fix processes or=
-=20
-> bring up issues with the impacted entities.
+Define SPDX_VERSION to have the correct deploy path, to align
+with master branch behaviour.
 
-To give another idea here: When I was looking at bug #15932 [1] where we
-wanted the CPE to be added for CVE-2025-26519, the CPE information was
-available via the MITRE API [2] but not in the NVD entry [3].
+The change in path was introduced in 8996d0899d
 
-So, before we consult a stochastic parrot, we may want to automate the
-process of collecting data from other available sources. We may want to
-cache that additional data within our metadata layers as well as sending
-it to NIST to get the NVD updated.
+CC: Kamel Bouhara (Schneider Electric) <kamel.bouhara@bootlin.com>
+CC: JPEWhacker@gmail.com
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/classes/create-spdx-2.2.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Over time we need to move away from relying on the NVD as a single point
-of failure.
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+index 2351a3d5a1..aaa2e78fe2 100644
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ b/meta/classes/create-spdx-2.2.bbclass
+@@ -4,6 +4,8 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ 
++SPDX_VERSION = "2.2"
++
+ DEPLOY_DIR_SPDX ??= "${DEPLOY_DIR}/spdx/${SPDX_VERSION}"
+ 
+ # The product name that the CVE database uses.  Defaults to BPN, but may need to
+-- 
+2.43.0
 
-[1]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15932
-[2]: https://cveawg.mitre.org/api/cve/CVE-2025-26519
-[3]: https://nvd.nist.gov/vuln/detail/CVE-2025-26519
-
-Best regards,
-
---=20
-Paul Barker
-
-
---=-2WkHC6QeS0WbWsWCng7y
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaTw2qhEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bkF0AP9jafxhoFEfBbAb6/170qUSshJjeqTNcEKG
-viMc4loJowEAtsSGlCwj3gvWPaUcMjETSCrAbfuXyfLY/qmxrAebSwM=
-=fzrY
------END PGP SIGNATURE-----
-
---=-2WkHC6QeS0WbWsWCng7y--
 
