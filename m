@@ -1,189 +1,232 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B8D6D59D67
-	for <webhook@archiver.kernel.org>; Fri, 12 Dec 2025 15:36:56 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15430.1765553809307084189
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9FA4D59D68
+	for <webhook@archiver.kernel.org>; Fri, 12 Dec 2025 15:37:25 +0000 (UTC)
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15294.1765553838442511494
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Dec 2025 07:36:49 -0800
+ Fri, 12 Dec 2025 07:37:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Yg27E4ty;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-340bcc92c7dso734201a91.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 07:36:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1765553808; x=1766158608; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kNNg1TifsI5+LcgOq1NXZzFuT4vZnEm9B2V2JrR9lxA=;
-        b=Yg27E4ty7Yr73r3jmXQCOaSz3oc5Q+UfvRkBrgNfqt3JWPy0mKs39ul6gdwnneiXZn
-         8b6xXLAPf9/PLkeUrQSp2FlRDzXzV1MFEX98+aCR2hqaY9Pdf7RdZg7KIxbZ3k98k4wn
-         pevYqkFeAZBL36jmXRqZHs3/eyDYSD2VmMQHLgR11wge13QSVJN4HLkgy7io5ipSQzgC
-         Re0hDQW+q6FFZnizI78M6dFrSgVgwviTkT3NR2tv//vb9moH+Q13aowe4Cm634dzzQb2
-         sG7o8bAllosTkxBfm6d/PhI74vunO1Bft0gf+ZoZgjj/erRU37NvGo5PsLuwOVkra3O7
-         PWbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765553808; x=1766158608;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=kNNg1TifsI5+LcgOq1NXZzFuT4vZnEm9B2V2JrR9lxA=;
-        b=b6ZoQfU8JlLr/8UPuApD2ofFn2a/z5//9XRbXJKP8hRVfqvapoqNAsZXriCam9NBSM
-         W4yZOiHfuKt/ehJMMeT1ylctoGowhXEZR5xtGfAbfD6h79MxAWcV8uZ6drVVtQG8dx8u
-         dmi4wN64BIQLnAVHofVh9dPxN/MK1qbwszIyd2DYCrgNBc9F8b0p17yfmFxdXeqvnzSb
-         2rzXDuU/FBrqiby8sMwJroQRN0XFpGaLYvAbwGXzqp2Y4PmadSCSyRv1IY3BTYwOniaI
-         imPBnCiNfAEgv33sAIpxGdG3UleTgfcg1ycilmwwGydEvlbOvTwN+KNVgnG4nF56b5bE
-         kYSg==
-X-Gm-Message-State: AOJu0Yyn7i2EkFUUat8LsPKNUJCH8Xh2LKJ2r0yAZe0n76iSL74+YV0Q
-	av0VDARhF8gh//rvYLpyOaczLmHSAYUJwJ0TZ/IXxyOLYc3kZVK7XPAmXB9d8jUq0kZg1q3+1hz
-	quTXe
-X-Gm-Gg: AY/fxX4lcdOFF+Spd5zkEF2AEpGVa5SM4pCiX5O9Mkx2LoJeXJ8lti4zGZhwPZp8z5G
-	egvgXC66upqTyDWb0a/4+dG/hYKKqA2Ho5FSx3049n/3mSwbMOuerhAEFYQG/iG6RJPNsNsBrog
-	aTxfitYddIn21PnB85jf22/4pJMafuPDW7A9wJjFg5XLfX1zNPKvLkai5TKLS3rvTQl/Oiv7B63
-	ChF8drJGphKpsBbK43HfAMPXRKHKYV0lSZKuZowH7NpEwryPF45ptM8c1kugu/HqTPTG9IFrvOy
-	WgL3bwq9/vnwJrIpCHMmbDxnCHlwjLqp2CfEqPaKtRPYRa7RFxEqaqj7SQGITbRqpk5TLse0kGm
-	3HhJytFSUWF042gaKKgezZHpLpuJxRgFbfhttvV68b1/RdwKgbQ+Su8HiH2QvoT2b4ePiNvgaGi
-	h5nwvJy7C491zD
-X-Google-Smtp-Source: AGHT+IG7L7K4ZPYLMec2Mc4eVm5bj7f64XR6TS6wD7erW0FintXaceclQNSMUFWr8951PPCRHxYjBw==
-X-Received: by 2002:a17:90b:2e4b:b0:34a:be93:72ee with SMTP id 98e67ed59e1d1-34abe937547mr1958375a91.8.1765553808412;
-        Fri, 12 Dec 2025 07:36:48 -0800 (PST)
-Received: from hexa.. ([2602:feb4:3b:2100:5e34:462b:e2f0:5898])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34abe2948d1sm2297797a91.9.2025.12.12.07.36.47
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Dec 2025 07:36:48 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter] libssh2: fix regression in KEX method validation (GH-1553)
-Date: Fri, 12 Dec 2025 07:36:43 -0800
-Message-ID: <ae4b5fe1f13edfb026c02693e453402caf137b4e.1765553691.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1765553691.git.steve@sakoman.com>
-References: <cover.1765553691.git.steve@sakoman.com>
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=xbD/4trJ;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=yBDx4XZ+;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.148, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfout.phl.internal (Postfix) with ESMTP id 9347BEC04C7;
+	Fri, 12 Dec 2025 10:37:17 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Fri, 12 Dec 2025 10:37:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1765553837; x=1765640237; bh=/ZANz9RIZ5
+	3+ab5ewi8DnDz0FI9K8REOpX0m4Nsa0Ro=; b=xbD/4trJZwVOHl/BT3yqaHdzpU
+	ZZWwmFYWnTbJ0fleJSjW1GvAWLfmuZfLaxgQTpsFasRKhF3KvHqU+hYNqknvJOSF
+	jfJ4gVPoGZ2C5X70ofiMfPZ18csc1FMJhLz2IhBMju6WvsBqDkxeXUKZ5MHl4L4D
+	+1cC2v1JwKRhXS8acVzBCZr3ecm+ZXiUowbOof+o5WlGh89RrAPAhEqzMqNtA8PQ
+	qOtNFZFBcaqqEtEIrSFnJGrVcJIvSmoQIBETqbBgTLcdUrIPoBJtk85GiNTz2iGL
+	SDnBfUoPkiSc50b2Exx2uRJb/5twcvPG4GVIwc5K1L8aQUKNA+/IgwUcYy1A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1765553837; x=1765640237; bh=/ZANz9RIZ53+ab5ewi8DnDz0FI9K8REOpX0
+	m4Nsa0Ro=; b=yBDx4XZ+nl3hdmbzh5jD3oLk/sRGVUjIKi8+UVojWDrgNkiCRmh
+	HjuVLJWu9zJSuzElp/Cx1p4X7j/BoXdSsxG4BbtmF3zdzQ7wz/CPPcCc1vXCkCSP
+	G9+SyfTZVbhuAIMpip/hWs2SLrjIfmqW5wgpjWH5cMVzggciZNj5+PYCEyrRtYK4
+	BHNxUMSgw9HekqjLugaR3GvOK94fJBwt2jzFhlY7VIgpZHVfPgytEfdeX70AaX0C
+	YKZ37Oo2f/UfT3tgkvJPsVVXQhWcrTfW8l8wlS5wWMa+NRm0/0VB0pdJuKqaZ1b0
+	52YUd4URueJXDQRjmiH8bAus+ntpErti48w==
+X-ME-Sender: <xms:rTY8adBkjNz_-Fyut4MxV3EurS-cuDkPLgWu__gXkfAQifeufmcwQQ>
+    <xme:rTY8aZXaOTMKX5c9YZGZJyVTGWRy_T10mku02EcyDgvn6IiQ4UKL8QU04J0z7IJpJ
+    GbBNQL5nD5g2ToAwvcS4hoad0n88y800MZYpG3Qa6FeaVPB4xbxDQQ>
+X-ME-Received: <xmr:rTY8aTAloS5I8Lu3qaB2iMdxxlpkUYaUSEa6KjboDWYdMZiIp0WV3iXTzoJ4mIK0w4l_tmJ8tF5k1imRMyrXiAERIW9c-rrB7T5Ht_RZ_jmf>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvkeehhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecufghrlhcuvffnffculddqiedmnecujfgurhepkffuhffvve
+    ffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehp
+    rghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnhepveekvdffffeugf
+    fgtefghffgleeigfetheelteefjeetueefleefteelveevuedvnecuffhomhgrihhnpeho
+    phgvnhgvmhgsvgguuggvugdrohhrghdphihotghtohhprhhojhgvtghtrdhorhhgpdhmih
+    htrhgvrdhorhhgpdhnihhsthdrghhovhenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtg
+    hpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepqhhuvghnthhinhdr
+    shgthhhulhiisegthhgvrhhrhidruggvpdhrtghpthhtohepshhkrghnughighhrrghunh
+    esghhmrghilhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgv
+    sehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopeihohgtth
+    hoqdhsvggtuhhrihhthieslhhishhtshdrhihotghtohhprhhojhgvtghtrdhorhhg
+X-ME-Proxy: <xmx:rTY8aU9D3Ni_0jEOe6kYqDnZgfKdj-XtnNTVYxHpxIXCaApDc_-SyQ>
+    <xmx:rTY8aSG2AFFhNi2ubC2CN5bKR-0ckLD8IBX4rLzwsrDR7kZO-NRdGg>
+    <xmx:rTY8aaMYiMCWkRxNlMxRYe_GA6InmcHQ6-NBXtQEFyH0ERCkOgs1Dw>
+    <xmx:rTY8aUeCa_NBCZez5YSqRBOOh5Yvd0LxswARDAUYh7KayE_SdyrGKQ>
+    <xmx:rTY8aUkceafNTV76Ik7hTsYkR4LuQGSggbmlNKeNFSaG-jCyLCBk7XJS>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 12 Dec 2025 10:37:16 -0500 (EST)
+Message-ID: <93b6f0d389078f51a88571aab24a90c60b6f9db1.camel@pbarker.dev>
+Subject: Re: [OE-core] [PoC 0/1] LLM enriched CVE entries
+From: Paul Barker <paul@pbarker.dev>
+To: quentin.schulz@cherry.de, skandigraun@gmail.com, 
+	openembedded-core@lists.openembedded.org
+Cc: yocto-security@lists.yoctoproject.org
+Date: Fri, 12 Dec 2025 15:37:13 +0000
+In-Reply-To: <85c873ac-7ce6-463c-8a85-c7847ff842d8@cherry.de>
+References: <20251205091632.1268768-1-skandigraun@gmail.com>
+	 <85c873ac-7ce6-463c-8a85-c7847ff842d8@cherry.de>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ ep0k17xg==
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-2WkHC6QeS0WbWsWCng7y"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 15:36:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227598
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 15:37:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227599
 
-From: Vijay Anusuri <vanusuri@mvista.com>
 
-Resolves: https://github.com/libssh2/libssh2/issues/1553
+--=-2WkHC6QeS0WbWsWCng7y
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Regression caused by
-https://github.com/libssh2/libssh2/commit/00e2a07e824db8798d94809156e9fb4e70a42f89
+On Fri, 2025-12-12 at 13:40 +0100, Quentin Schulz via
+lists.openembedded.org wrote:
+> Hi Gyorgy,
+>=20
+> On 12/5/25 10:16 AM, Gyorgy Sarvari via lists.openembedded.org wrote:
+> > Hello,
+> >=20
+> > tl;dr: This is a proof of concept about using an LLM to enrich CVE feed=
+s.
+> > Links are somewhere down below to see the difference. If you think it's
+> > useful, please say so. If you think it's not useful, please say so too.
+> >=20
+> > Motivation: the CVE checker associates CVEs with recipes based on the
+> > CPE information in the CVE entry. Unfortunately there are quite a few
+> > CVE entries missing this information entirely, making it impossible to
+> > associate them with any recipes. Looking at this year so far there are
+> > over 66000 CVE's opened, of which over 15000 are missing CPEs. Though
+> > older entries seem to have better CPE-to-CVE ratio, but for this PoC
+> > I'm mostly interested in the latest vulnerabilities.
+> >=20
+> > The idea: in case CPE information is missing, try to derive it from
+> > the human language description and the reference links of the CVE,
+> > using an LLM. The intuition would be that a good portion of the derived
+> > data would be usable, and even though it wouldn't be perfect, it would
+> > catch more valid CVEs than without it.
+> >=20
+> [...]
+> > This patch is just a proof of concept.
+> > I'm not sure if/how it could be integrated in the project's
+> > infra - especially the initial load is very heavy, and the patch requir=
+es GPU(s).
+> >=20
+>=20
+> I've no interest in the technical implementation of this, just=20
+> commenting on the reason for this to exist in the first place.
+>=20
+> This all comes from "CVEs without CPE exist". This is not a Yocto=20
+> problem, and it doesn't seem right for Yocto to be the one fixing it.=20
+> Someone should fix the database everyone is using. This suggested=20
+> approach may be a way to fix the current content of the database, though=
+=20
+> I don't know if *we* want this in Yocto for helping and maintain it to=
+=20
+> some degree, or if living outside of it in a fork or something is better=
+=20
+> suited.
+>=20
+> I don't know what will be the stance of NIST, MITRE or whatever entity=
+=20
+> is responsible for the database(s) wrt using LLMs to identify CPE for=20
+> CVEs. I don't understand how they can even accept CVEs without a CPE:=20
+> "here's a vuln, figure out which piece of software in the world this=20
+> applies to" is madness to me.
+>=20
+> I'm Cc'ing the security folks as that would probably be the people with=
+=20
+> the most to say about this and with some idea on how to fix processes or=
+=20
+> bring up issues with the impacted entities.
 
-Backport fix
-https://github.com/libssh2/libssh2/commit/4beed7245889ba149cc372f845d5969ce5103a5d
+To give another idea here: When I was looking at bug #15932 [1] where we
+wanted the CPE to be added for CVE-2025-26519, the CPE information was
+available via the MITRE API [2] but not in the NVD entry [3].
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7a7e83123e985c1c27036503203fa7d839964271)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- ...rror-if-user-KEX-methods-are-invalid.patch | 73 +++++++++++++++++++
- .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-support/libssh2/libssh2/0001-Return-error-if-user-KEX-methods-are-invalid.patch
+So, before we consult a stochastic parrot, we may want to automate the
+process of collecting data from other available sources. We may want to
+cache that additional data within our metadata layers as well as sending
+it to NIST to get the NVD updated.
 
-diff --git a/meta/recipes-support/libssh2/libssh2/0001-Return-error-if-user-KEX-methods-are-invalid.patch b/meta/recipes-support/libssh2/libssh2/0001-Return-error-if-user-KEX-methods-are-invalid.patch
-new file mode 100644
-index 0000000000..9e7bb9a905
---- /dev/null
-+++ b/meta/recipes-support/libssh2/libssh2/0001-Return-error-if-user-KEX-methods-are-invalid.patch
-@@ -0,0 +1,73 @@
-+From 4beed7245889ba149cc372f845d5969ce5103a5d Mon Sep 17 00:00:00 2001
-+From: Will Cosgrove <will@panic.com>
-+Date: Fri, 28 Feb 2025 09:32:30 -0800
-+Subject: [PATCH] Return error if user KEX methods are invalid #1553 (#1554)
-+
-+Notes:
-+Fixes #1553. Restores error case if user passes in invalid KEX method value to libssh2_session_method_pref.
-+
-+Credit:
-+Amy Lin
-+
-+Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/4beed7245889ba149cc372f845d5969ce5103a5d]
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ src/kex.c | 33 +++++++++++++++++++++------------
-+ 1 file changed, 21 insertions(+), 12 deletions(-)
-+
-+diff --git a/src/kex.c b/src/kex.c
-+index ebee54f987..bafda0e611 100644
-+--- a/src/kex.c
-++++ b/src/kex.c
-+@@ -4196,23 +4196,11 @@ libssh2_session_method_pref(LIBSSH2_SESSION * session, int method_type,
-+     char *tmpprefs = NULL;
-+     size_t prefs_len = strlen(prefs);
-+     const LIBSSH2_COMMON_METHOD **mlist;
-+-    const char *kex_extensions = "ext-info-c,kex-strict-c-v00@openssh.com,";
-+-    size_t kex_extensions_len = strlen(kex_extensions);
-+ 
-+     switch(method_type) {
-+     case LIBSSH2_METHOD_KEX:
-+         prefvar = &session->kex_prefs;
-+         mlist = (const LIBSSH2_COMMON_METHOD **)libssh2_kex_methods;
-+-        tmpprefs = LIBSSH2_ALLOC(session, kex_extensions_len + prefs_len + 1);
-+-        if(!tmpprefs) {
-+-            return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-+-                                  "Error allocated space for kex method"
-+-                                  " preferences");
-+-        }
-+-        memcpy(tmpprefs, kex_extensions, kex_extensions_len);
-+-        memcpy(tmpprefs + kex_extensions_len, prefs, prefs_len + 1);
-+-        prefs = tmpprefs;
-+-        prefs_len = strlen(prefs);
-+         break;
-+ 
-+     case LIBSSH2_METHOD_HOSTKEY:
-+@@ -4314,6 +4302,27 @@ libssh2_session_method_pref(LIBSSH2_SESSION * session, int method_type,
-+                               "supported");
-+     }
-+ 
-++    /* add method kex extension to the start of the user list */
-++    if(method_type == LIBSSH2_METHOD_KEX) {
-++        const char *kex_extensions =
-++                    "ext-info-c,kex-strict-c-v00@openssh.com,";
-++        size_t kex_extensions_len = strlen(kex_extensions);
-++        size_t tmp_len = kex_extensions_len + strlen(newprefs);
-++        tmpprefs = LIBSSH2_ALLOC(session, tmp_len + 1);
-++        if(!tmpprefs) {
-++            return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-++                                  "Error allocated space for kex method"
-++                                  " preferences");
-++        }
-++
-++        memcpy(tmpprefs, kex_extensions, kex_extensions_len);
-++        memcpy(tmpprefs + kex_extensions_len, newprefs, strlen(newprefs));
-++        tmpprefs[tmp_len] = '\0';
-++
-++        LIBSSH2_FREE(session, newprefs);
-++        newprefs = tmpprefs;
-++    }
-++
-+     if(*prefvar) {
-+         LIBSSH2_FREE(session, *prefvar);
-+     }
-diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-index 6d2580072b..11d7448687 100644
---- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-+++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2fbf8f834408079bf1fcbadb9814b1bc"
- 
- SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
-            file://run-ptest \
-+           file://0001-Return-error-if-user-KEX-methods-are-invalid.patch \
-            "
- 
- SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
--- 
-2.43.0
+Over time we need to move away from relying on the NVD as a single point
+of failure.
 
+[1]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15932
+[2]: https://cveawg.mitre.org/api/cve/CVE-2025-26519
+[3]: https://nvd.nist.gov/vuln/detail/CVE-2025-26519
+
+Best regards,
+
+--=20
+Paul Barker
+
+
+--=-2WkHC6QeS0WbWsWCng7y
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaTw2qhEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bkF0AP9jafxhoFEfBbAb6/170qUSshJjeqTNcEKG
+viMc4loJowEAtsSGlCwj3gvWPaUcMjETSCrAbfuXyfLY/qmxrAebSwM=
+=fzrY
+-----END PGP SIGNATURE-----
+
+--=-2WkHC6QeS0WbWsWCng7y--
 
