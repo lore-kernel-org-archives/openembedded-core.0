@@ -1,206 +1,226 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <amaury.couderc@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D762D49221
-	for <webhook@archiver.kernel.org>; Fri, 12 Dec 2025 12:40:25 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.24])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11778.1765543222566469004
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 925BCD49226
+	for <webhook@archiver.kernel.org>; Fri, 12 Dec 2025 13:37:25 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12845.1765546639162676451
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Dec 2025 04:40:22 -0800
+ Fri, 12 Dec 2025 05:37:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=RglfvWK2;
- spf=pass (domain: cherry.de, ip: 52.101.70.24, mailfrom: quentin.schulz@cherry.de)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=PAjBEgyk;
+ spf=pass (domain: est.tech, ip: 52.101.84.50, mailfrom: amaury.couderc@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GbJOi3oO1csytWKAOWGUk53MX+RWFlL5TLg1ezmoLb4ItxxM/U0TmWLQvSwMWK5JuWdxeVgU1nqhQoxawPv6jDz5qA9YHt/mXzlFW1Rp0Nb86ZuPFY5/ie2eHBj3OkPPlv4dcf7ZnjtjiM5hW54rFD4BgyzZr0Llw04xTm03FizG7MdfKQL7QATkXguI/OoNvF5RYsbPmUWhocEnjBCrN8ZG85NVVT7CFyn8p/tf3cAv+kpFHekcwoJGrzK4pLen0YChuK+O6Xvi09qWOywHL0yhSx/aFcI9ZEAoUShxlD7VTqZUX8TNx179qqzZtxObWjqvqGQ9pwVgYtxguAJE7w==
+ b=rUSwaqyVHlEkVqO3S+9bE2IgAuGR94PAJAYf6C5noAnswYsfZzE2y8tKWix7DZrq40/QgvGvsreFzDZAx6L/xUyBQH6h2fjS8nhLBy6ywDfK1UcmM7nZc7Bw7j7lWpJxRjWOD2t7VtGDIoLBnDJpjClkyOJE5fE7H12nqufpjUN87qZ00sp1lbrEjkd1i46DkHl0ofH4N/7Fu7Jz2rJE2fLpzSzOEyObaDGy8OXjAbMEiVN2PMFh9kTulLbnbEiiKHurDmY05dXJFrfVPI7F9RU0wPWAj+l6MUfK9YprLCpRG8OXHpDRp3ItyeLtZmiYEnfhphVyjFTy7odCqXTJmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uP+XX9miIAo7JObcKX/fqeKrdZiPZljQDpSHiQb6nyQ=;
- b=TQkNTIsDddgdGWhot0ZiRTsURh6A7IMIxflW+SDaxATUbPVDCM0cbi2c17+VsJTeqNV6GmcHuq/sDt5oLT7DvGDLTsPrEAl6GdVRocmS/EItjPKGma6TvMwbL01ObVn0/wZOdQOrVH7yV5Ad33fSZ8qgaO98JF31tm2/eD50nFXtwd2Y6SiwRzQGCpCXXO3JNwnI7V5zBlJCkzHNU9JDqce+Elfl+HLQ6w69czfnp6+0RWh3QoTy4qlsGehC825q23txwHIF9uY6tGeJRQsuH1NHBGoO4+5F4SAn2f3aQ+38zew34/XNfcHIo3qqkeZBUECUa72HwEFi7Z7U+T/OYg==
+ bh=LcZj+CBW+RiTgg+9lDGV0aRNS5ePANsLiwCMUoAFmbE=;
+ b=snVBg1X6xeQLPkhCGZnpVxrYnO7aOZ+rjQYHgkkBwZ/XekdoRQj3JHWKVyTAbh8WFsD2oce4dtFAMxj2Uvj15yjHKENlN9Ra6sPkRjUyGWX6MnxgTYPamwArQV7ttIUW84QicnJ3sS12S5uVk0x/Ya/QayaDxmWtyGof9fg/RUdzAfFxnV0tJ7lS2eJxxe6o+eaZJguvoEg9l1Q8ZWbadI2qdsKfa6nahsea20Y+Tew84WbafiPtoioReQs6lEYiOKBheiphteGVAqdfQ5UTKAG+GIOeOpZvDUp59SF0l+kWAtl7G3/eEy6yB+saoU/zDan0/h8/+NRij5Sjh1LXXw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uP+XX9miIAo7JObcKX/fqeKrdZiPZljQDpSHiQb6nyQ=;
- b=RglfvWK26HtElx/AHBhwdWHe+DbAChlmdVcQuopn9IC3L3d5HILh3nxnjuzqa4rmmGrGpNlAD9b8+bAEyR2d3DHmgkc0DcCL3dci1TMq10T6qEwnqqwEkhu6GvWstTUfX+OzkEVujsWbUR8c0KTfv/OJCqoFosIXb4PyeUXvSFo=
+ bh=LcZj+CBW+RiTgg+9lDGV0aRNS5ePANsLiwCMUoAFmbE=;
+ b=PAjBEgykimQnrMVtux6heOnDcbZvj6R+4f1vDPF5jjXOp4q464ayzpLuYXxsdl4oHqaJRQQxx1sY668NeLI3VaSKePj7XGmeaTZaO0QGxL8/NhWdxp75fY7C1MUo489sU9B0uSgGrbdqmqUH4YJIPKwsw/Kv1bF8ci18J7woymPwRKz+JieTvAM/xxIlTEzVfM26UWaCcylUHVGJQboY2o3Jq1iJYNzIH+GP/haWuFQr/aO6/V5Dl8tNKC0PJWkx2IjEOOelFCCg1vBoBKzfmdr0KbbaS+YZOfHupz3aUxhMYWNSaahBF+XHBvtJd62ccnTp3ToxU8J4gCpnvA5Dag==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com (2603:10a6:150:2be::5)
- by PAXPR04MB8669.eurprd04.prod.outlook.com (2603:10a6:102:21c::8) with
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6ad::11)
+ by DB8P189MB1094.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:148::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.11; Fri, 12 Dec
- 2025 12:40:18 +0000
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::1033:5a9a:dc18:dad]) by GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::1033:5a9a:dc18:dad%4]) with mapi id 15.20.9412.005; Fri, 12 Dec 2025
- 12:40:18 +0000
-Message-ID: <85c873ac-7ce6-463c-8a85-c7847ff842d8@cherry.de>
-Date: Fri, 12 Dec 2025 13:40:06 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PoC 0/1] LLM enriched CVE entries
-To: skandigraun@gmail.com, openembedded-core@lists.openembedded.org
-References: <20251205091632.1268768-1-skandigraun@gmail.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: yocto-security@lists.yoctoproject.org
-In-Reply-To: <20251205091632.1268768-1-skandigraun@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0022.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c9::17) To GVXPR04MB12038.eurprd04.prod.outlook.com
- (2603:10a6:150:2be::5)
+ 2025 13:37:15 +0000
+Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ ([fe80::3cc6:ccd5:b124:2a6a]) by AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ ([fe80::3cc6:ccd5:b124:2a6a%7]) with mapi id 15.20.9388.013; Fri, 12 Dec 2025
+ 13:37:15 +0000
+From: amaury.couderc@est.tech
+To: openembedded-core@lists.openembedded.org
+CC: david.nystrom@est.tech,
+	Amaury Couderc <amaury.couderc@est.tech>
+Subject: [review][OE-core][PATCH] procps: fixed large pid issue with top
+Date: Fri, 12 Dec 2025 14:35:54 +0100
+Message-ID: <20251212133647.55499-1-amaury.couderc@est.tech>
+X-Mailer: git-send-email 2.43.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: DB3PR06CA0026.eurprd06.prod.outlook.com (2603:10a6:8:1::39)
+ To AMBP189MB3196.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6ad::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB12038:EE_|PAXPR04MB8669:EE_
-X-MS-Office365-Filtering-Correlation-Id: e4724b42-5829-4c9d-367a-08de397b9b2a
+X-MS-TrafficTypeDiagnostic: AMBP189MB3196:EE_|DB8P189MB1094:EE_
+X-MS-Office365-Filtering-Correlation-Id: 237ff94d-2511-47c2-51b6-08de39838fce
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|10070799003|376014|366016;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?dGpDbGdUQWxlLzR5ZXVBeERWaEhDdG80STlCOU5ha1RqajBPTGJ0aERpelNJ?=
- =?utf-8?B?NzB5NDlvVkl2bXNxYndpbWk2WGxocW5IRGdia2tzbDNzaU5YR3lVWGtIMGJp?=
- =?utf-8?B?cklxY3F3Z1NwMjgvZ2xLcERoODJSM0RYL2pvUThEQnlNQzRZRHpYM0wvVXJh?=
- =?utf-8?B?UWhLN0hGd2RWUEtZVlJPVm9GR3psR0ZVVUZKeTdid3hOeEJMZTUzWjVIaHdh?=
- =?utf-8?B?NnluYTBrTDBOalFHNWlhUjM5dFJuRTBieWlxOE15MWR4ZFVOZVVLRnRTNWFP?=
- =?utf-8?B?bkNOTmxHL1crWGpPWmpxQnhOSVBZdG55Ym9heDFIQkp6S3JYd0JHdFlGU2xi?=
- =?utf-8?B?aCsvZ1hwUUY0Umorc1dCTi9oQnZYMmh0SDBFK3ZOSnhVYnpGR3FkS2tyak9M?=
- =?utf-8?B?T1M3b3pJSnc3VnNPN0ttc1lWZ0ZVOUV2amlDYWU4WVhxTVM5ekI2K2ZseHk5?=
- =?utf-8?B?SlFndDJDM1F6UExiUWQ1YUZYd2dvbDlVcEdFaldOM1hNRVJUMkFHbWNrV1pX?=
- =?utf-8?B?NHNYbURTWEVoT2swL2wyekllaG1vcjNiQlVmOXlFTll4MHFYODdmbVpwdUg2?=
- =?utf-8?B?elUwT0RKb2c2R1NORU9JT0NIMW00NXZ5RkQ4OGVsRHEzelN5dElrL3hyZ2F1?=
- =?utf-8?B?NnYzZlEva3hyT2dHL2RndXV5ZUxVRm5iU09YZjJtNG5lMGN3M1ZaYW01dm0y?=
- =?utf-8?B?VDl5cVVNNkpWVTNSYlBBQkpBOW84LzRsZ0ZET1BIUVJZL2w0RnpnNGZYUldl?=
- =?utf-8?B?RTZ4TnZqemdGYnhGVzcvZmJ4ZXcyNVNId0xnZFYvN211VGNQZWdnL0FaR25H?=
- =?utf-8?B?eWxjcGRYcnZFS0R3TmQ0ajVLdzFlVGVQNnpaK3NXZEVJY3M5aEE1alFGNU4y?=
- =?utf-8?B?RC91aXc3M1hwZTBXWVlrZWRnblBtUHhHd29WQjhrUkUrNWxpZG1YL3QwTXVP?=
- =?utf-8?B?bnRUdWhueVRoaCt2c0U4Q3JQMDVHUm13RmM5U0xhQ3V0aHIvdjMxNjZhM2Rm?=
- =?utf-8?B?TjZObEZuZW1mR0dEOFN5RCtCa1RvTC9ocDhNNUxTNkVTWDVjOVBwb0I5cEx3?=
- =?utf-8?B?c2NIdmlDOFpicnBMZ3M5cUh1SEp4TDUrNFpDRFJVY1NzU0ZTaEVERHM5S3Bw?=
- =?utf-8?B?bFFLU3NRcWhuRStNWmZDNU1McVlBWm84NkRlemlEdzZrbmZsVWR3UUVzZ21V?=
- =?utf-8?B?YzZ2UVJmVTBJUmlmRkhySlJSMWVpV2FEbFM0b25hRitZelJvc0ordHM1MDZU?=
- =?utf-8?B?RTN6dlJhWTBOU0t5MFB2YUtXNmhYVi9kekNIeWNqSERnZ09COFpkOVVYWmJP?=
- =?utf-8?B?TU1seVlhUlhhbUU1bFY5dk1EdmJlb1VCSzhCbXhnNUVXUlBxSkw1L2ZCWXA1?=
- =?utf-8?B?YzhzdTh6VXIrRDJHVVZpcUx3NEgxdUM2WGtnVnpaeXZyVkxlZC9GTTlPYnlj?=
- =?utf-8?B?T25PWlkzZWpMbVQxOXBNZW9GNS85SS9iZ3hLdFBvNGVrUXRUNnE3RzErM1o0?=
- =?utf-8?B?REIra1Q5MnhzZ0t0Q0lsL21nWG90MFRBL1RaTEdjdGtMbHloUTY4UUhqTmhx?=
- =?utf-8?B?Y1hjajlQdWNYU2t3bUxBUmsyM3ZEbzQzUEVQeU9mTUxTUFJqQkVpbE5Ja0VG?=
- =?utf-8?B?Y2JmVEthWjJLV294ZVl3VHFQa1pId2pVallyaGtTU2NQUXliVkkxRnUvYThE?=
- =?utf-8?B?K3h2cll2SWhESmo3K2JQb1BYR1JRallQc1pkTUZyZk04WmFzemc4Qk1LUmZH?=
- =?utf-8?B?d3B4ZkV6QUNGdmR6enY0UkEyQ3Z2T0NOZkw5YzNyRS9lM3ZwY2JvSU50bklC?=
- =?utf-8?B?N3lOdmhYdDE5MmhLWW9TREVVaHpVSFhqczN5bkZtanhGMVAwV3VnZ2Mxakwr?=
- =?utf-8?B?aFNDdXVhNENwTW4zRkdhL2ErVWFwQlNhRGN3MU5rdzlMWXZaQUt0SE9ubndh?=
- =?utf-8?Q?fdgFMMPPCmOu6NXEnl0rIukigdVpUTo0?=
+	=?us-ascii?Q?HjAwcqmxjmykkXhmMd+FQq7bMLwc5pLE9xAZgykBYWSDNtBgB74XV2TylXqz?=
+ =?us-ascii?Q?yVxKq1hzVi5SF3OVXqO51cg13z5OOrs+cHsCBcUVgcrUqISJN39lAYCF0Few?=
+ =?us-ascii?Q?sHKcWCKhV6E675gHZ53eeRQqOftoFolPuPiuBRTGUDZU/mRq6ZGRSzcBWaNm?=
+ =?us-ascii?Q?4rEWHaWm8yf1fMz+3+cWD2z/L063wBY02kx2VARDXSNLWPmfcWyelHLjltEV?=
+ =?us-ascii?Q?NfwDUBNEFFo6kM7pgDPgjZ3d5/fsFWYKAkEtnToptCSPSYI5B1ejKKwfU5ht?=
+ =?us-ascii?Q?6NdohRQDLvcGuWCwNTtX/cKkQUXdS9ZalXpwUgx2xjC1wRHb3MUZ3RByBd8R?=
+ =?us-ascii?Q?O/O29VfeypR+HtZpcdZWPPblsLMS7csSmeOiYQdZikoUu6QLqZX21XGwkDY1?=
+ =?us-ascii?Q?SHRpr8uG76OR30g0X2V8KGfLi/ClfwtkiOCZfm+opG0uw5O+OZSzyroDR1m/?=
+ =?us-ascii?Q?DctyKGXSzseRGjIEi1hDw646x/35GQ3S75QXAaPOsGpncZfT9LNJ+6lPDWfX?=
+ =?us-ascii?Q?zPr48Ams7M+Sa3bgTygjtiXUML4gmzeoNgpBVSistsbinPI0B0lOEx9cEBOG?=
+ =?us-ascii?Q?4ZqP6iUMPOBogjyVklFBEnAMcysGEHSvbqZ3WYh3VncU1J43t0HSSunFIddP?=
+ =?us-ascii?Q?r6pByanmbUZPdoY6xZRZQTJUFpAvuRVrIigdUQg0aFEoFz0M5a8mTagM+woU?=
+ =?us-ascii?Q?6lwvHCmKIrrreIPMYKSo/9e12abPwwJ1UCbhj47r/pyYpAaOV++Z4Isixf+T?=
+ =?us-ascii?Q?Karjr9yBMLOe25KHRqpL0FqOk2pwp+U2f7RjulM04MlFEgig4zo0MHDvbSuQ?=
+ =?us-ascii?Q?R3PsK+zJTRlGvhmeu/YgAvx2U4vqZzVH7Lc2hWhsjL5bmw9fr2VM/oEdvSgu?=
+ =?us-ascii?Q?77M2KDYxIeYX8fb1F7tWq4S8XEDCzJRLRufFQZlcQFTTVtkzC7ve8qg4h25o?=
+ =?us-ascii?Q?tNizjxDCkGVb73hTH3na8tKUPNFYccn/MFWY9NR2ov7KVWMm1B1k1qp0mW5M?=
+ =?us-ascii?Q?Q+VCkCqE1HgEpCHbXd2GBydLrCQkj7OkHa+ZYAQq/Vhp8J8WqDoqd5YIRsfO?=
+ =?us-ascii?Q?FJ4UfrhbmGmlK5fmrYSqIsxwXzPtzJGK09PbnNALONU2aqCBodI0KwwROdV9?=
+ =?us-ascii?Q?ucc/S622eL6/Y1/w9H5l7RuLz0s4RRgYAx/lS9ar/ELOEHQJu6B6xWI8n3nS?=
+ =?us-ascii?Q?cM/YDbF+kdVVeJ04/V3zG7pBmu8swYHsCHbj2H2Sds++gEdLs2YfW6QndBLf?=
+ =?us-ascii?Q?zy5ZomHfZ2qphm+pK43c87JM7gPFPzQnZwtxGJNOlweMDsKQBF+c14sO8NE5?=
+ =?us-ascii?Q?tYqDO0Sgiu19wmb/WpUguCHmeoI6PYF7RNJU7Iy6no//rQRr9yqLZdgr03Ra?=
+ =?us-ascii?Q?1o/UWgsWk93ieCmgSVNkHU7kwDPR64eoPAAILGtkrm1xnDlNzKIhKo/Wgcxf?=
+ =?us-ascii?Q?Ko4+n74UGOHch9OTubYlkQtcAmLkQLRT?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12038.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(376014)(366016);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AMBP189MB3196.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?WHJsd0ZyQTU0WmNxQVV1VE5NeGZxdzJTVE4vRjdKNmp1YU9hcGN4UmIraS9M?=
- =?utf-8?B?LzVhZGNBV3Z4U09MR0MwRUFsUFhMaFFaL0NPWXZVTGhzMTcxZzAzZjNKalJM?=
- =?utf-8?B?UHlzN1RBaHluQ2pJMmY5MEppK2MrSVM2c09EN2l3dU81MkpxNkFDWDEyN0Zm?=
- =?utf-8?B?V0Zhd0ZldEo5dUxnSFV0QVhLWlQ1UE9mL09XWnhRVWcxdUlwTWluT1l0blpy?=
- =?utf-8?B?amxZL3pySlFGbC96ZTc1ejhlNW9NMW55MDloT2haYUdUMGxtLzRRZUlwSEwv?=
- =?utf-8?B?WllkUnFDWWM1U09wWkk5UFNObUQzKzdkME0rbldwUnNNSjlMMWhHMG9zZWFz?=
- =?utf-8?B?NlMvUlVOVlZlTkFrSlBEKzhGRkRDMm1vRlgzMHp1OEo3UWp4Ym1qTUdvVXNI?=
- =?utf-8?B?NFpaQlNIajVIK3lTRTdXa2RNVEtlQUNQQmo3TjNqaTBTbzZDR1ZMbGVUYTlS?=
- =?utf-8?B?UkdtektOU1pTbW5ycHNFWGJmYXRnUkpjSzVtZER3ekJTVERnd3QvckhrY0Nw?=
- =?utf-8?B?Ny9Jc2g3TUdvUnVON0oyeGxjdW05eHFqL3dOVmtNV1J5OWRSSmhEUG1LYXd6?=
- =?utf-8?B?ZHVYdjc4UEJUbDFKV2daTGhxeUt0U1AwSmVrd2dCWWdBQTRoTHEzdWE2Q2sx?=
- =?utf-8?B?L3J5MXF2WmxtOTZnRXRKT0R2K2RBZ0RGZ1ZURTFuVFRsR3FObFVteHRoUFRP?=
- =?utf-8?B?c2ExbXBYb1VxVkNZUUdSQk0wOGQzdkVDQWNTWFh2L0YvaTRRS3JVNFB0a3Bj?=
- =?utf-8?B?djA3b2JWYXhaZ29RMFFOdkRiQ2JlVmw5cGhkZ25kN3FMeldzQkJSTGJoNmlP?=
- =?utf-8?B?U3JCTUtFbmsrWUpPdUFKN2JZQm9OVDA5TGlRNk13bmU5azJNRTJxMStrREJP?=
- =?utf-8?B?Sk8xdFVObEV4QzJQMkNjQ2VLYlRCazZXUEJYSkRtMkxmaTZhcWRQM0VJemd3?=
- =?utf-8?B?NDc1ZThHRHcrdXpraHlGRHJpOXhmditDZnNKQThkTzNHUytLSHc1elJjUi9T?=
- =?utf-8?B?Qk0vSU1IN1hTN2V1MnVGS1djNzY1M3EvbnYvdEUyNUFjVnp3WnVoZEplZzhI?=
- =?utf-8?B?dFZ1ai9FaDdzMFVKbEJmWVpESytRQU90WUtrSmFLYjB2M29XeG0rZEJWdXJ5?=
- =?utf-8?B?SWRzZFdwVGtvMGw3MWEzYmM4WXg0bjV1KytmWTM4QWZiL2l1cHlYanZVMU8x?=
- =?utf-8?B?YUdLM29EYVNxMkNSKzJDMHp4bDYzSTFRY2JJNmNWTUVUUnZ2T1dhOEl6LzRv?=
- =?utf-8?B?Q3Y1Z0lkSTFYd0FUaVAzemhzYTN5REFtaUhVbDNlTkY5MXhPR1pQUVp5N0Ja?=
- =?utf-8?B?V1Z6RTBhSW1KSFgrZlZ5NW1XbWFEemhFWHlsdzUyU1hvZ0F4YXVJWGtPQ2Qz?=
- =?utf-8?B?bndycGdmTEhWUHAzWHVkK0JQeDA5bFJTNjJlcVhhK3VKbEpoNjhyeHZtRm95?=
- =?utf-8?B?cU50aVk5SVBiTUVKUEM5VXRZR1pDVlRmSXBVT3dxK01nL01pSytNSklFNmJa?=
- =?utf-8?B?WXpkcit3eEY2UWtzL3N5VXVTUXkveWFKQnA2V0R3bGJCazdGZm1qVWtJbmg3?=
- =?utf-8?B?ek9ZNkRxNWxkdHlmaTF1b2dvdDE2VUN3T05keFBVMlhNQTZvaVBLTU1RY20x?=
- =?utf-8?B?Qy83SkpIVkd1NmJaN1V2cmlCOXoxTE5ybTg4elEzRlJuM2VKSnRxbWNRcnlW?=
- =?utf-8?B?UlEvclVoejNOTThtK1cwb3FDaE51S1NkU281Rks3SFNsNHQ3YXFqUjU0NzR0?=
- =?utf-8?B?QnBrYWdjTXZmTHg4aHdiRW5xQjBVdSsrR3BKZFc5WnhCZDRITUwyUXJCaEh5?=
- =?utf-8?B?dTdHVFZaQ0hEdDY4dnltZEZZUVhRdERNQktycjQrWU11SENUTHJKNTRsS1NO?=
- =?utf-8?B?ajFpWGFwNFJuTmE3cklpZTFZTDlNRVlVMzlHRy9xZkNaZnBTSHhxL251M01D?=
- =?utf-8?B?VE1NSm53aGpHQ2hSRW5SdExUY05xZHlhZ3poYlN0bE9ZbDlEUFNJWXorQzJs?=
- =?utf-8?B?K3FFY2s1RVlvcjN3WjZSaTBaMTA3UDJVd2R5QTBCSmJzbHdPTFlkdzdWTjlo?=
- =?utf-8?B?dWxkeWRLQkpSblBNNms1czlyZkR0TUhKNTg3blordVFDK0h1cHZ1encwUDVs?=
- =?utf-8?B?RHp5Zk9yWmFsTi9hWUJibzJXV2VieW9mMldFdzZpd2EvUU1CVk1wRU1LZTJH?=
- =?utf-8?Q?VlpARdpVpsCAVyJDR66SQnY=3D?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4724b42-5829-4c9d-367a-08de397b9b2a
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12038.eurprd04.prod.outlook.com
+	=?us-ascii?Q?sKgkqeozbi/S3z1VlJDqMrSpTbUh5Nzr1eYrL+pflxLY42lls5uJV2bLwZSP?=
+ =?us-ascii?Q?M4+QudAGCJYqGOnNilV8zLz4OHGJo3V7n0VbDTYP8IQtxHQS0gpyPYlyYfOL?=
+ =?us-ascii?Q?Ex5cdgufW1WT5H6jeHt198gYRM0ZXsS7aZ6qE8RYX8XsRsFg+mZMGuA1PhPH?=
+ =?us-ascii?Q?MZ+r+DEbf6JvouJB/JgeStAq1hwfOFHcVCWfA8SyT+rieY/PzZ20vpqZmcwd?=
+ =?us-ascii?Q?SyEW7jN/pDnfmMxTLmO2bih1c5ddB15PwL9RXzg9SVEcqOuUU2eMJJfImBWj?=
+ =?us-ascii?Q?6avtugY+cZRTlGAr7DgGUFsBHoIrdMawOOFLf1yMLgzPh70GUw/1eZvtj78A?=
+ =?us-ascii?Q?GKbF4fuX3gin/P3OaJIz5Eyqw/xqilBx2xTqtdyrqAfWO+GDtJQZ/4QT4Yrv?=
+ =?us-ascii?Q?j1y4NTBz4cZRTv+O5AVHqxoQfINY+8VcXYgoVCcPQc9VW+H0y2Lpvpxdtlif?=
+ =?us-ascii?Q?uEu6xkDLBSHEA3WToe6ert+lJC63/vIwVTO4x4Fgi6oykTR+VX1eC47EF7ZS?=
+ =?us-ascii?Q?QCdQvqgRaSmAh1gYNXvGbZTnLabuImg1hvAEJ0wBioizSRapRu9aCMeGILkG?=
+ =?us-ascii?Q?DNvRGb50KzkCmU8/91HwureEJUMT5aEHvPdFEazFLeFgw6e2vkcitdyrMvCn?=
+ =?us-ascii?Q?HauuGYxHpRRtpGB6bkEby2Fx02xAHJoK45Ae4m0GQjabjLYEXI3R1Q6WD+Jn?=
+ =?us-ascii?Q?f11hGXSjUz4y9heY27GzNS7Z4linRaFKty/9fGxXqPPuPp9/Zty6y1+VmBEG?=
+ =?us-ascii?Q?9IGVeVn/Z6nSgw6Kuq534HZxsR4KWVScAUR48RwUBin677uM0xZmcciLI1aL?=
+ =?us-ascii?Q?sh4IIgoVFNOKTFIkO9sCz9ynM3O+SCNynd/bRv1M4kdK544iwhdnoLQukudN?=
+ =?us-ascii?Q?gZFz3jOp6/wMqvjlGYP10RhXFRyVEnNRGt90nERAfiSLnLapbEuXvJddKiIS?=
+ =?us-ascii?Q?RFsOQMCiuVZ6s6ptNT4D0HPHBgAATZuwb3lNZVbuZUrRDM8T3TzGhFNQHk9e?=
+ =?us-ascii?Q?9MFK/eyA9/jtJVjkjWBRA78Afu/wONrGyrkDSMvos3OXyj4grIIRkKgna/35?=
+ =?us-ascii?Q?RNGaoaxxCV6LdOAnmR1gkbBRSsJ21laxBV5Nbbsb3KrEQl4/sCVMCs7foczL?=
+ =?us-ascii?Q?aPTDUJ59pr6zx8Dh4SlWr5jT4WbkzKzQSC/D3fP5WSraBO3Do1JCczGx1yLI?=
+ =?us-ascii?Q?SKsoVk1VHFWB8c14vzdtG3GwA8CVo1YcbCyrtoo+EzDmNTJn9mgFDj9+KvyN?=
+ =?us-ascii?Q?hvRN3yJDlkDoeAUDb3dXnzo9Erv8HlCczC1eq7o9mLv8zdAm72SCxFGWr9eV?=
+ =?us-ascii?Q?Hbw72ZKIVZMvzcvQObDTMx+AHlhDrOX5i4yrSS2vVKQxNkU3ctyujCAyNeD1?=
+ =?us-ascii?Q?lxv16FLZwuJitVqsXQ9tDh6bcwwSmEk3Lftj0ARVRY7PGjib/vc1FCrDjy5N?=
+ =?us-ascii?Q?l158tHZ/UwQx0kcJkeVtz3HwoyZO6cd3rPSFHS9Sf7Aap6+JclOnYmEBe+v3?=
+ =?us-ascii?Q?vHyOJGvRQHtPCVXR1Ptr1SytCm066KDhFK/4lvFefxeEjscQXMSIoQm+CxDH?=
+ =?us-ascii?Q?uVCRxEoKVUjHEOUi3ZBMQQAYyp+ETQwnhCU1zjfF?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 237ff94d-2511-47c2-51b6-08de39838fce
+X-MS-Exchange-CrossTenant-AuthSource: AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 12:40:18.1097
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 13:37:15.0311
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RwgjBKV3lm20kzSSDJY2dCnPK80eFTNQ5mhrN8HtExN1BXWrkd5Zg9iiyKQsRkRTFZBEAImrWuf3U50qkeRZk/1APRnNpfpLRoOnOUALxYw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8669
+X-MS-Exchange-CrossTenant-UserPrincipalName: kzhU+KZFunyjUnMcSYf8i7Q4bpJfM0uQoBaJx1eFjJY3TPnJ6r/593vgKqDYvDcJpuARZhkkm/YA8jwe97Lw9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB1094
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 12:40:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227588
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 13:37:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227589
 
-Hi Gyorgy,
+From: Amaury Couderc <amaury.couderc@est.tech>
 
-On 12/5/25 10:16 AM, Gyorgy Sarvari via lists.openembedded.org wrote:
-> Hello,
-> 
-> tl;dr: This is a proof of concept about using an LLM to enrich CVE feeds.
-> Links are somewhere down below to see the difference. If you think it's
-> useful, please say so. If you think it's not useful, please say so too.
-> 
-> Motivation: the CVE checker associates CVEs with recipes based on the
-> CPE information in the CVE entry. Unfortunately there are quite a few
-> CVE entries missing this information entirely, making it impossible to
-> associate them with any recipes. Looking at this year so far there are
-> over 66000 CVE's opened, of which over 15000 are missing CPEs. Though
-> older entries seem to have better CPE-to-CVE ratio, but for this PoC
-> I'm mostly interested in the latest vulnerabilities.
-> 
-> The idea: in case CPE information is missing, try to derive it from
-> the human language description and the reference links of the CVE,
-> using an LLM. The intuition would be that a good portion of the derived
-> data would be usable, and even though it wouldn't be perfect, it would
-> catch more valid CVEs than without it.
-> 
-[...]
-> This patch is just a proof of concept.
-> I'm not sure if/how it could be integrated in the project's
-> infra - especially the initial load is very heavy, and the patch requires GPU(s).
-> 
+procps: fixed large pid issue with top
 
-I've no interest in the technical implementation of this, just 
-commenting on the reason for this to exist in the first place.
+top -b -n1 -H -p 92233720368547758071
+=E2=80=83=E2=80=83signal 11 (SEGV) was caught by top, please
 
-This all comes from "CVEs without CPE exist". This is not a Yocto 
-problem, and it doesn't seem right for Yocto to be the one fixing it. 
-Someone should fix the database everyone is using. This suggested 
-approach may be a way to fix the current content of the database, though 
-I don't know if *we* want this in Yocto for helping and maintain it to 
-some degree, or if living outside of it in a fork or something is better 
-suited.
+This patch should be backported to the scarthgap branch once it is merged.
 
-I don't know what will be the stance of NIST, MITRE or whatever entity 
-is responsible for the database(s) wrt using LLMs to identify CPE for 
-CVEs. I don't understand how they can even accept CVEs without a CPE: 
-"here's a vuln, figure out which piece of software in the world this 
-applies to" is madness to me.
+Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
+---
+ .../procps/procps/top_large_pid_fix.patch     | 52 +++++++++++++++++++
+ meta/recipes-extended/procps/procps_4.0.4.bb  |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-extended/procps/procps/top_large_pid_fix.p=
+atch
 
-I'm Cc'ing the security folks as that would probably be the people with 
-the most to say about this and with some idea on how to fix processes or 
-bring up issues with the impacted entities.
+diff --git a/meta/recipes-extended/procps/procps/top_large_pid_fix.patch b/=
+meta/recipes-extended/procps/procps/top_large_pid_fix.patch
+new file mode 100644
+index 0000000000..d7e3141e06
+--- /dev/null
++++ b/meta/recipes-extended/procps/procps/top_large_pid_fix.patch
+@@ -0,0 +1,52 @@
++From f21fc624d960d12afa399af7333d4f9193fb2ffb Mon Sep 17 00:00:00 2001
++From: Jim Warner <james.warner@comcast.net>
++Date: Tue, 16 Sep 2025 12:00:00 -0500
++Subject: [PATCH] library: avoid possible segmentation fault, <pids> api
++Upstream-Status: Backport
++[https://gitlab.com/procps-ng/procps/-/commit/5461b50b1a85c5e556c4cd2739ca=
+8ffdbc69399a]
++
++In the issue referenced below, that SEGV was caused by
++passing a '-1' pid to the procps_pids_select function.
++That value, in turn, is caused by providing a LONG_MAX
++or greater number for what was assigned to an integer.
++
++So, this commit will help ensure we avoid a match when
++we should fail plus skip some unproductive libc calls.
++
++[ the same problem occurs in that old 3.3.17 library ]
++
++Reference(s):
++https://gitlab.com/procps-ng/procps/-/issues/394
++
++Signed-off-by: Jim Warner <james.warner@comcast.net>
++Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
++
++---
++ library/readproc.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/library/readproc.c b/library/readproc.c
++index 2dfe4c9e..d0e039bf 100644
++--- a/library/readproc.c
+++++ b/library/readproc.c
++@@ -1434,7 +1434,7 @@ static int listed_nextpid (PROCTAB *PT, proc_t *p) {
++   pid_t pid =3D *(PT->pids)++;
++   char *path =3D PT->path;
++=20
++-  if (pid) {
+++  if (pid > 0) {
++     snprintf(path, PROCPATHLEN, "/proc/%d", pid);
++     p->tid =3D p->tgid =3D pid;        // this tgid may be a huge fib |
++=20
++@@ -1546,7 +1546,7 @@ PROCTAB *openproc(unsigned flags, ...) {
++         did_stat =3D 1;
++     }
++     PT->taskdir =3D NULL;
++-    PT->taskdir_user =3D -1;
+++    PT->taskdir_user =3D -2;
++     PT->taskfinder =3D simple_nexttid;
++     PT->taskreader =3D simple_readtask;
++=20
++--=20
++2.43.0
++
+diff --git a/meta/recipes-extended/procps/procps_4.0.4.bb b/meta/recipes-ex=
+tended/procps/procps_4.0.4.bb
+index ec8c4b0261..3c15f28a5b 100644
+--- a/meta/recipes-extended/procps/procps_4.0.4.bb
++++ b/meta/recipes-extended/procps/procps_4.0.4.bb
+@@ -15,6 +15,7 @@ inherit autotools gettext pkgconfig update-alternatives
+ SRC_URI =3D "git://gitlab.com/procps-ng/procps.git;protocol=3Dhttps;branch=
+=3Dmaster \
+            file://sysctl.conf \
+            file://pidfd.patch \
++           file://top_large_pid_fix.patch \
+            "
+ SRCREV =3D "4ddcef2fd843170c8e2d59a83042978f41037a2b"
+=20
+--=20
+2.50.1
 
-Cheers,
-Quentin
 
