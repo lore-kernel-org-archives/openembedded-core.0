@@ -1,98 +1,152 @@
-Return-Path: <t.f.g.geelen@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1407D5B15D
-	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 16:58:31 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8945.1765645108445074971
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFAB0D5B15E
+	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 17:40:01 +0000 (UTC)
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9797.1765647596117077281
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Dec 2025 08:58:28 -0800
+ Sat, 13 Dec 2025 09:39:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KdD3J2Js;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: t.f.g.geelen@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-63c489f1e6cso4593256a12.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 08:58:28 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lRnjNV+d;
+ spf=pass (domain: gmail.com, ip: 74.125.224.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6446c924f9eso2232304d50.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 09:39:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765645106; x=1766249906; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XKVWpqYMhME5NZzClFh6TrNob0eTrxHS69YYfJp9Ajs=;
-        b=KdD3J2Jszul4PIJBlTcvYCjwvq2fp/SRhYpy6IjJytHiqxT33bL5PDpqq+TaFjzjvY
-         f00sWAi0gmwnNDFrTwgdE8Mz0cW8MARNtf5y2OpG2UnMgZXjAXJ00Q7ckejKtNTJD6Ix
-         oHk70ELkGbQZXo5eVefiQkCkOr3LRfyy05GrcSO830xZ4KajEFxNIu3x1ML0om0obbKQ
-         ABNv5jynYFdE2v8Eo4winnFevr1nTf92N1k4jYr7HdZG/eCwUzFlqP3tayqPlHDndN+H
-         KLYe1G9Qvh7uTOU7PhBhnkEzDQfYi2GV/+Qi7YtzyxFU6RRBRbCctJnMZUsJeXuEHttN
-         zwHg==
+        d=gmail.com; s=20230601; t=1765647595; x=1766252395; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nGQEWWm1Ku0auZZuSGLIFt/mZzRw0djlsF4ENgWIJI4=;
+        b=lRnjNV+dNv47ta3xvHUW7UxyNm5Rl+Zvz+fmaPNM7lrmVgkrswV4FaXu2gYvrQ/wvZ
+         J9cdgnJrgdtxKe7klqP4xGsHh++QqoPnnJ2g0WKsAFijvi4fhDeykHEjl68kbzX6x9BC
+         en9qeedYmpN4f9E2NtwJv8zmducUO9QO9rZ15y6LfnlCLayxhwrnVbsG6lQZHccktuYw
+         VPeP3irDgYFJn7QFhxuHZXw29KADkT9EDzG0L1jfR3IAaCjM/PDg0QfX1fOwUM6Q897a
+         T2UCIYEwvl9jy1Kx7CwqI6rl2gYQvykF7N7vewKSvCS5VIVF06+hCgQYlUlEkdKetikp
+         1kcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765645106; x=1766249906;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1765647595; x=1766252395;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XKVWpqYMhME5NZzClFh6TrNob0eTrxHS69YYfJp9Ajs=;
-        b=YwhmszFVSJGe6au1d5PuHg7TvqLuyNh3y0FqZX5O+zjmnzJjPX0DHGPdqF1NhsVbQo
-         iUSvgIxMXRPAjb2mtfCaNYWHvwp259wHyMCmndLBYABzQI4y6RfoAdVdAWnuFhXkUUZf
-         pdE37CFdJjUk+Zj7f7ibn6iIVtUq43U3zK0Nui+Nz/PfNkeoPDMDDUK/Vi6b0JX9VMmG
-         ILlQCOMtlkBiqJDfkzWE/7Em0Le+unfNGUFm6fGcaaP3Aqwg4c/lSpnnuLU/3UCaYETN
-         uUosgYKFqgIh+Dgyt2g2qfuqYEXGN7vSzACfDIFkBBGsVTkGIcPK1c5VEpW3GGMVs108
-         EWoQ==
-X-Gm-Message-State: AOJu0YwLrk07p6l+3uB1uIXyrGWGDpoqdd/Hcc/5LHaenLzjMxmHLNC1
-	dm9vM0lUV6n/yPK8RpIMQEqSzkHLHeVcaxsuaHNh4gNlF2uoKrDog1lTJZk7OA==
-X-Gm-Gg: AY/fxX56IlLAS17pQFoMT4rULDzjVS1YmWdLfhqBF9VC/i8qQXY4CpO+ZZun+q9GC4F
-	SMp7tSW9E46OL2stOB6tYTwoE0MEajn5RGxZjYoD3K4EQd0EUSMQNhVbI4HggPt467q8ce78mPf
-	ZyWvDg1sk+OXwAkEBiSp7T8ru+4nTVccTEoEHymsUSj7bQ3hy/zL1o6zkCCy19VO8GrABGkYWtU
-	4pCydPOo6u7DF7iyH3uV+l3IZxlWadygpDAzSNpIprBue9t3lWN89NrPfDmLKJzedvBhR3qxQEi
-	bBYHYU4U1dJQTYYhVSpcpOG7gem5S4fm3aSCa0Ug2ZtMhhGnsN7VFW0auOizVUIcNvLmAo6nkXr
-	ZYaGoJ5Mbbx3Gxw9pOkJ4m8kECJgFC1TQdxP1JR/cTDHO8sLla7PoILyHA20zj8fKolskpAYvvh
-	yUj76VB0nS6pE9rYBIKkMUX5tV2qvNApG54IWoSO0pKjG1LY+idZNwTA1siYEF8iUn
-X-Google-Smtp-Source: AGHT+IHEI9WyiCPaS5Ff336iHhb3JXS/A9thMAJPfUei79aaVsra4sQtDiqEkurFH37KWUkj6Ze3QA==
-X-Received: by 2002:a17:907:3d43:b0:b73:9222:6a64 with SMTP id a640c23a62f3a-b7d2166d010mr645715466b.3.1765645106109;
-        Sat, 13 Dec 2025 08:58:26 -0800 (PST)
-Received: from control-center.fritz.box (150-12-20-31.ftth.glasoperator.nl. [31.20.12.150])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa56a7f9sm885897166b.51.2025.12.13.08.58.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Dec 2025 08:58:25 -0800 (PST)
-From: Tom Geelen <t.f.g.geelen@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tom Geelen <t.f.g.geelen@gmail.com>
-Subject: [PATCH] python3-psutil: upgrade 7.0.0 -> 7.1.3
-Date: Sat, 13 Dec 2025 17:58:09 +0100
-Message-ID: <20251213165808.1616658-2-t.f.g.geelen@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=nGQEWWm1Ku0auZZuSGLIFt/mZzRw0djlsF4ENgWIJI4=;
+        b=M8DqPQBqPXK0GQJFRLpA0nBusnrkVbly9EFTuh1FPJJ5uxllNPLU/IWW0gECSA2Hai
+         0pTMNI+CZViqRQYinTudVxBXpQNCzTN8Lps2ap+DHHY+zt2HsvA4S6eFipdTbtKKK9CU
+         3R00+fjgKpEq6dm42Je6r/HLqSpq3ShfMVuGRM5pZGwNwo/KM8ePbrP1tiKyvNMViVwu
+         J73N+fi1HZ09eXiJfWfLn3FiPU65LZX3FbMskGsiRHX+svkrOuIt413uRDHcUqfvRC4n
+         GnN26o/hVyo/nkCAsVorFqn4v7c92x0NYQ4JnCMmSZRm+Yu6rZsO4ls9cagVmGUg2b1t
+         pVXg==
+X-Gm-Message-State: AOJu0YxFAcqroRgPd4yPuZ+aPpRMIYg5mLR4cYoc245/G6iWWVY91FwY
+	RU0eX6ggAF32Vtl8BTBXjhvyyqEBoGhGUCL+8VF4hE1ds/FT+fzOqs6niX41gZUyUjeQDEaclmS
+	hf+DW10EuAdj1uwhVE8Hn8f1JmF1odZfmkmhtV3E=
+X-Gm-Gg: AY/fxX4F5Kd5DrYBT4WftCL9Xaav+8dZcORLf98x8OURExXL8aRvCUWGTek1+lj7jkE
+	/cOjU7lowTnGQJ/+yR5p/4uw7a7t5pIR9104fexNBt/AZIrGs1ZbpNp7WHPwXKzAu2cPTSvM1Uy
+	k39BSg5NPeoQgx/at3010XIeg77N6nb8ukxiKodf2Ht8lKTO90NUZLbCuWlMP15JpI60dXtc784
+	jO4YxzcAzgiD/TQoUpDdcgloDNUVvhsdcPJcnfy6loTOW8T7PJIS3Dh0HTKUo+pCD8WifoLcMDJ
+	fetUCgEHeirKbQ8TB7cOvkWptX3faLPcZ4s4AVjtbaDx+PItacQ9B1yGAn/7dPgQMomQ/HP4ahY
+	rU5RgADQaJVmqycuV4F8vFV16epodrT0jxkWXIPrp292GLg==
+X-Google-Smtp-Source: AGHT+IFbWhM9tJNchKzzPzGnatYF+hPkolGxLcA3IHFbFwEyIhGNAjx0d7gxKjjufqMnotQwXk/RcKoiivtI8YjAfKc=
+X-Received: by 2002:a05:690c:3507:b0:78a:722f:a7f3 with SMTP id
+ 00721157ae682-78e68445a08mr56121997b3.62.1765647595065; Sat, 13 Dec 2025
+ 09:39:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251213095547.1028402-1-raj.khem@gmail.com> <dedf101cfde93ffee140e1262c79beab5f0e6bef.camel@linuxfoundation.org>
+In-Reply-To: <dedf101cfde93ffee140e1262c79beab5f0e6bef.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 13 Dec 2025 09:39:28 -0800
+X-Gm-Features: AQt7F2qsFNorR0CcvIMI0Z9n5B8QzuWkHG9siPhlsDubNYJuKBX4WJ84T4R5ms8
+Message-ID: <CAMKF1so1F48RMYYTuwuuptWZ7w-Ew6DXooHX8n7p9A_Vj=dKQw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] default-providers.inc: Let libva-native provide libva-dev-native
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000b3d73c0645d8ddeb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 16:58:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227689
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 17:40:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227690
 
-Release notes:
-https://github.com/giampaolo/psutil/blob/master/HISTORY.rst
+--000000000000b3d73c0645d8ddeb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Tom Geelen <t.f.g.geelen@gmail.com>
----
- .../python/{python3-psutil_7.0.0.bb => python3-psutil_7.1.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-psutil_7.0.0.bb => python3-psutil_7.1.3.bb} (90%)
+On Sat, Dec 13, 2025 at 3:22=E2=80=AFAM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-diff --git a/meta/recipes-devtools/python/python3-psutil_7.0.0.bb b/meta/recipes-devtools/python/python3-psutil_7.1.3.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-psutil_7.0.0.bb
-rename to meta/recipes-devtools/python/python3-psutil_7.1.3.bb
-index a2af198083..67d2080f21 100644
---- a/meta/recipes-devtools/python/python3-psutil_7.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-psutil_7.1.3.bb
-@@ -3,7 +3,7 @@ LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a9c72113a843d0d732a0ac1c200d81b1"
- HOMEPAGE = "https://pypi.org/project/psutil/"
- 
--SRC_URI[sha256sum] = "7be9c3eba38beccb6495ea33afd982a44074b78f28c434a1f51cc07fd315c456"
-+SRC_URI[sha256sum] = "6c86281738d77335af7aec228328e944b30930899ea760ecf33a4dba66be5e74"
- 
- inherit pypi python_setuptools_build_meta
- 
--- 
-2.43.0
+> On Sat, 2025-12-13 at 01:55 -0800, Khem Raj via lists.openembedded.org
+> wrote:
+> > This fixes parsing errors e.g.
+> > NOTE: Multiple providers are available for runtime libva-dev-native
+> (libva-initial-native, libva-native)
+> > Consider defining a PREFERRED_RPROVIDER entry to match libva-dev-native
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/conf/distro/include/default-providers.inc | 3 +++
+> >  1 file changed, 3 insertions(+)
+>
+> This isn't the right way to fix this. Why is libva-initial-native
+> providing this?
+>
 
+
+bitbake -c fetch universe --dry-run -k
+
+revealed this. I also wondered if we could just do something like below in
+libva-initial recipe.
+RPROVIDES:${PN}-dev:remove =3D "libva-dev"
+
+
+
+>
+> Cheers,
+>
+> Richard
+>
+
+--000000000000b3d73c0645d8ddeb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Dec 13,=
+ 2025 at 3:22=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdi=
+e@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">On Sat, 2025-12-13=
+ at 01:55 -0800, Khem Raj via <a href=3D"http://lists.openembedded.org" rel=
+=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt; This fixes parsing errors e.g.<br>
+&gt; NOTE: Multiple providers are available for runtime libva-dev-native (l=
+ibva-initial-native, libva-native)<br>
+&gt; Consider defining a PREFERRED_RPROVIDER entry to match libva-dev-nativ=
+e<br>
+&gt; <br>
+&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
+et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0meta/conf/distro/include/default-providers.inc | 3 +++<br>
+&gt; =C2=A01 file changed, 3 insertions(+)<br>
+<br>
+This isn&#39;t the right way to fix this. Why is libva-initial-native provi=
+ding this?<br></blockquote><div><br></div><div><br></div><div>bitbake -c fe=
+tch universe --dry-run -k=C2=A0</div><div><br></div><div>revealed this. I a=
+lso wondered if we could just do something like below in libva-initial reci=
+pe.</div><div style=3D"color:rgb(59,59,59);font-family:&quot;JetBrainsMonoN=
+L Nerd Font Mono&quot;,Menlo,Monaco,&quot;Courier New&quot;,monospace;font-=
+size:12px;line-height:17px;white-space:pre"><div><span style=3D"color:rgb(0=
+,16,128)">RPROVIDES</span>:<span style=3D"color:rgb(0,0,255)">${</span><spa=
+n style=3D"color:rgb(0,16,128)">PN</span><span style=3D"color:rgb(0,0,255)"=
+>}</span>-<span style=3D"color:rgb(0,16,128)">dev</span>:<span style=3D"col=
+or:rgb(175,0,219)">remove</span> <span style=3D"color:rgb(0,0,0)">=3D</span=
+> <span style=3D"color:rgb(163,21,21)">&quot;libva-dev&quot;</span></div><b=
+r></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div></div>
+
+--000000000000b3d73c0645d8ddeb--
 
