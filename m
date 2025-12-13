@@ -2,66 +2,65 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA5B8D5B140
-	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 10:02:19 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3018.1765620137172435982
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB8EFD5B146
+	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 10:02:29 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2924.1765620148496925432
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Dec 2025 02:02:17 -0800
+ Sat, 13 Dec 2025 02:02:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ckH9FxCD;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a07fac8aa1so9328125ad.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 02:02:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hOOGamE9;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2984dfae043so19377095ad.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 02:02:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765620136; x=1766224936; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765620148; x=1766224948; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nzspoOzdQQcwqInV2ySTIsB9fsgdL4qo6wiz3CADywY=;
-        b=ckH9FxCD1jOUK4Xzxr45YdGFRn8Of/JoAtqElA07ZttA40LF11I/47Yb5w5QePhLyK
-         vWg0H5LXV23D6ivGb1ildEAuYobcI1gUlwJW7SuiGfOSVapBFL+IRsDs0xtXtL6aN18l
-         uS1EH9kry6rk/RLyOr/3ESnqUnSIovzNoMZsLJEpAJk8WW2TvelmrNE2TvxoO/xKUNjG
-         kE5E3c5kuAw+idUXcuhPmPWTxhP9OUG5G/NRoOv3RRvtGHzeWalJde5jPkNB0p3h560d
-         RjP67v3N/z9UlqNOCX68EKxNZiGMFdQVJJ2MOWDSaA8ei6vx7L7z0zMCfL9dz6RzZD0w
-         t6yQ==
+        bh=PcjMPSyFur+ukLwYd0wwUWqeD2CbQW8Wtva84nAYRy0=;
+        b=hOOGamE94My2eqGBIOukTYy0SUIrYskCiO/Scx/09DAFoXBYK0DYFwwTwiAl2k7OfJ
+         05DRHTO7ebWzuXQxCBN2lBAx36TqLI5d7FML4Mr3+lakc8/4ehD1A+d197H0olabXSCl
+         3igoRZrPHUqkfhJ4IdBE5WnBpaaZ7prXhvMAmigS4I4uxT02kgX2bRyNnvQt1LAF4y/T
+         bQ8LfO1fGCUVSxEk1lv16QuET5cSiQjJZQM1A5TvghXLa1628wuZcljYAqZtq1+pqYP6
+         pjEHM8btkbz4uUbGw1nmmpbU0GBuR2IOIuoluDmE3MQ1K1AzmkzrifDVXmQ969Cz/ogY
+         pbRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765620136; x=1766224936;
+        d=1e100.net; s=20230601; t=1765620148; x=1766224948;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=nzspoOzdQQcwqInV2ySTIsB9fsgdL4qo6wiz3CADywY=;
-        b=b/0hr3528uh7yTvH59+VrjT3lbOR8dB4fP1aAUL8IgZIHehbnlPr4DxzW6yGsaGJI7
-         l3op0yXrsMkSRwqX84EKrboIVkS1PKTkmsyRTnvz2FIxzEbTgtmrocob3PLUkGqbp/nX
-         Zowo9dEY72KC2ybm0kpFeZl4t3yUdFzMVOMNCokX/FIDV7bMbZTz/bsZZNQ1Yq2GRScs
-         oHXwcGzDwBjRHC4K7t3QxKm587euxNv2+O8ol8w7umZuJXF7KVAxgw2HNkq2JpKhgnyr
-         cF4TzpUGLc9fp+77RSp/LJKEarT2PleN/3ktWx4H++M++FsAl0td/5oQDjHdNL10iqte
-         iLWw==
-X-Gm-Message-State: AOJu0YzOwq8hsqgK5/S11Yy6i6y4hPcbSr7gFpuDsgXSJjnPvcFT+n+V
-	MtNQmEWzafdBaUoy8oIad90PKBaIB9abft0+gKYckiK0FVSDuw5DTy64e1PpjPFN
-X-Gm-Gg: AY/fxX6IO0c2WRoYYTHwm+/qnszCSNc1+X7BU8QNNjkWXef6euVmUVOQYM0/ttEO7F/
-	18dw3/azsVXx1TgnCi2W5X+7t8nYC4ytr+wJ5dXeqUNHCPvymdFcF+Sz78cf0miXgLeqhHktYkC
-	Jrwg/zQTCLE/iUrMt+DSbmLL19q+iJ6Hx2e0FPrXqYIgEIeG7KPmKuB8BhJC+kqQv5wT/roE6ML
-	jA52aFbfCS8YVZeDd7xSnW896MtBb78JZsXhzExAP7x9h92JxtvZlrSpaOpGO/ek2EwL2b9rS9N
-	8ZieTqqgo2uagV/X2tpu5KGl1NVF2TE5umXQ4AWISk0h0vNVcYMsgd6b5SR2GYBZN9K+aKt8Jrp
-	BsO2mCMHUMdzN3V6pyCTocZPanzR/H0cuii4QTQ/e11W4WO1zdqrz0zy2fF5VHGGLPQ47fubuiD
-	FgzwIkZIzq1qrjT7/WVv5bM0Dj
-X-Google-Smtp-Source: AGHT+IEcoSz1qLDtQq6CYu+2RhfdW9L0MeIZ13rzwiMTjPV4XujO8VC3ZLlvG18EsUFRURBsANiMrQ==
-X-Received: by 2002:a17:903:1a03:b0:2a0:afeb:fbb6 with SMTP id d9443c01a7336-2a0afec014amr201825ad.8.1765620136394;
-        Sat, 13 Dec 2025 02:02:16 -0800 (PST)
+        bh=PcjMPSyFur+ukLwYd0wwUWqeD2CbQW8Wtva84nAYRy0=;
+        b=dRohCFOQVdzGhEqK0RsUJk9R5tYOSY2kHKQb8NpYN/jWQQ9fy5G8bx3awQP9sP1HSR
+         O0CNCGlm8ycvjqmHheCYX5RFUR1negq9Ef6EbD3CtpkkA3jWG7Kf8oDk0/ATnKVKoBlf
+         H1HrfKRBTEA9FCgDk3d6QqjgkE6nsznV1TLR5z4JobxTcgrA/XcBjQwoDe11ClI3uFOF
+         +T9jRnjFlxe/JxleltLQzhX6U2BeAb5mrh67WrwY4ejpUWw++Kq3YCLOylkhVgHnUfTo
+         Nw1Q4FskuWC/T2dTLpUm7BLMQrnbXgoXESBLmc9DeGjLsLzx9t0WhljmWp1ias4q4pTT
+         ARYA==
+X-Gm-Message-State: AOJu0Yz+yikl7EL5m0KoWJbjrVPXKylL/GKU2teA8gL/epDAYrLgPNvb
+	/3gUxK8fShvwb+KLqODdoAh3aZsiU9qrqQjLzxSjfWzuhNtpparmE3iCEW55QdE9
+X-Gm-Gg: AY/fxX6aPtd+8fQNaZinNzPqHRGo432hO46AoQ67cloie2ub9KtWSaAtrbb/gvRAa1G
+	avAJxO0buOpYx8bPqqGYIUrlzMzCQ6qcbMhrIJQS2kqGOGyIyA2B5kpBg2ncQKc8APGHx2hkt2O
+	RYMR5iQa87RMuBAieXjLiNakUu52MHzyfpnvz4crgI7m6o6rgG4B/ZM71LAs7MoFuW+p66XxISW
+	0sfw6N5/4DiY6R5NY0gMhX9NpI3cOx96qIldIN8exvYH2Ya9pRuAKqI3FERKUf7kLlyQbhvwflR
+	2ZBJE/tsJxkAJSJyQqiRK/0nlvAjFQ8/eVi2XXaZdxWeK/MASPWk16T8b+EZa+lkbK8JmoBtD4E
+	OkwjwCtEF55T3IfxeXkoBXI79iBop+Zq3a5ORtqQ9xy/FnqcD3mjNiPL2wVhoDuhUGyRiCi0xhE
+	fwSF8eXQuvosAAhqwJdFvmWLs3
+X-Google-Smtp-Source: AGHT+IEQRhX7wL3iztJoLaj8HD58aZaBBrwcwqkmdGbScrFeeFOaATVIPF07fxjBUOGIyw6hzgIMZA==
+X-Received: by 2002:a17:902:e80f:b0:2a0:acca:f3f0 with SMTP id d9443c01a7336-2a0accaf767mr1239855ad.49.1765620147682;
+        Sat, 13 Dec 2025 02:02:27 -0800 (PST)
 Received: from NVAPF55DW0D-IPD.. ([136.226.230.115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.02.02.13
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.02.02.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Dec 2025 02:02:16 -0800 (PST)
+        Sat, 13 Dec 2025 02:02:27 -0800 (PST)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Changqing Li <changqing.li@windriver.com>,
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][whinlatter][PATCH 56/67] python3-numpy: fix run-ptest
-Date: Sat, 13 Dec 2025 15:29:20 +0530
-Message-ID: <20251213095931.2571498-56-ankur.tyagi85@gmail.com>
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][whinlatter][PATCH 60/67] base-passwd: upgrade 3.6.7 -> 3.6.8
+Date: Sat, 13 Dec 2025 15:29:24 +0530
+Message-ID: <20251213095931.2571498-60-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
 References: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
@@ -70,60 +69,35 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 10:02:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227674
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 10:02:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227678
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-Hardcode path will make run-ptest not work when package is installed
-under /usr/lib64, error like:
-ERROR: file or directory not found: /usr/lib/python3.*/site-packages/numpy
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8a83d9cf127e28aecd3d737e20719c5e01d9c9cf)
+(cherry picked from commit a020f8ddbb7acf208992962eb07360a39d0a7972)
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- meta/recipes-devtools/python/python3-numpy/run-ptest | 4 ++--
- meta/recipes-devtools/python/python3-numpy_2.3.4.bb  | 6 ++++++
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ .../base-passwd/{base-passwd_3.6.7.bb => base-passwd_3.6.8.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/base-passwd/{base-passwd_3.6.7.bb => base-passwd_3.6.8.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python3-numpy/run-ptest b/meta/recipes-devtools/python/python3-numpy/run-ptest
-index a1c80323d6..b5edc5cf48 100644
---- a/meta/recipes-devtools/python/python3-numpy/run-ptest
-+++ b/meta/recipes-devtools/python/python3-numpy/run-ptest
-@@ -5,7 +5,7 @@
- # the tests to report "no space left on device" errors. Create a custom
- # directory for these and point pytest at it so we can take advantage of the
- # storage provided in the rootfs.
--export PYTEST_DEBUG_TEMPROOT="/usr/lib/python3-numpy/ptest/tmp"
-+export PYTEST_DEBUG_TEMPROOT="@PTEST_PATH@/tmp"
- mkdir -p "$PYTEST_DEBUG_TEMPROOT"
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb b/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb
+similarity index 98%
+rename from meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
+rename to meta/recipes-core/base-passwd/base-passwd_3.6.8.bb
+index 177927d674..609f67037a 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb
+@@ -15,7 +15,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
+            file://0001-base-passwd-Add-the-sgx-group.patch \
+            "
  
- # test_mem_policy fails if there's no C compiler present, but we don't want to
-@@ -13,5 +13,5 @@ mkdir -p "$PYTEST_DEBUG_TEMPROOT"
- # large amount of storage, so skip that too.
- # remove test_validate_transcendentals if
- # https://github.com/numpy/numpy/issues/27460 is resolved
--pytest --automake -m "not slow" -k "not test_mem_policy and not test_big_arrays and not test_validate_transcendentals" /usr/lib/python3.*/site-packages/numpy
-+pytest --automake -m "not slow" -k "not test_mem_policy and not test_big_arrays and not test_validate_transcendentals" @PYTHON_SITEPACKAGES_DIR@/numpy
- rm -rf "$PYTEST_DEBUG_TEMPROOT"
-diff --git a/meta/recipes-devtools/python/python3-numpy_2.3.4.bb b/meta/recipes-devtools/python/python3-numpy_2.3.4.bb
-index 7f82ca87a7..520c567bd4 100644
---- a/meta/recipes-devtools/python/python3-numpy_2.3.4.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_2.3.4.bb
-@@ -39,6 +39,12 @@ do_install:append() {
-     nativepython3 -mcompileall -s ${D} ${D}${PYTHON_SITEPACKAGES_DIR}/numpy/__config__.py
- }
+-SRC_URI[sha256sum] = "cf869870fed7862b57bfa9e99cd5cd6f365e2349705a1b65af7fc182629bd1ab"
++SRC_URI[sha256sum] = "fab3d0e6e8b641e116bda9bd5f7a7ed24482384c1513f6a369b506327fbc8dde"
  
-+do_install_ptest:append() {
-+    sed -i \
-+        -e 's|@PYTHON_SITEPACKAGES_DIR@|${PYTHON_SITEPACKAGES_DIR}|g' \
-+        -e 's|@PTEST_PATH@|${PTEST_PATH}|g' ${D}${PTEST_PATH}/run-ptest
-+}
-+
- FILES:${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/_core/lib/*.a \
-                           ${PYTHON_SITEPACKAGES_DIR}/numpy/random/lib/*.a \
- "
+ # the package is taken from launchpad; that source is static and goes stale
+ # so we check the latest upstream from a directory that does get updated
 
