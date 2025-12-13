@@ -2,68 +2,65 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E03FAD5AE47
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9710D5AE4A
 	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 09:59:48 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2953.1765619982787065977
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2951.1765619980066315408
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Dec 2025 01:59:42 -0800
+ Sat, 13 Dec 2025 01:59:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gJLZWQbY;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a0a33d0585so865945ad.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 01:59:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eb3bTz4w;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a087b2a9c0so8928935ad.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 01:59:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765619982; x=1766224782; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S4L83Y7VxtI5b9BWl2t1emCdJuUcvnl/K5vZlp3I/YE=;
-        b=gJLZWQbYY4hMHPFjl84wpvktBfMKUaKoUEx2uCEgsBYFZgOgpNpWS0+sUfTSbsCy9t
-         P2urM6Rl6ge6YZpzzbkoBKV0lRRHUAMifLCaBFlnNScfc6MdKUjwwkV138e76g+dHL4s
-         PwnYbGshjLc1w8Ip/tSpnYw0Ty0tzaxPIxJfDBYkGOOGQzriHm44ol3by0w2d2Ktv8aR
-         x0XeOu3duW+1QhSnTd+6F0qoyi1r9J4uYcPFjzo4YozDQnDy7TAfTpdclwq+UiRMDCCT
-         lN72l9lXg2GAsiuOzumRH4LO4gamm0ERmxC3Kdr3AKVGDGbLiXc+vt5OmusFiB1F+eQK
-         Oybg==
+        d=gmail.com; s=20230601; t=1765619979; x=1766224779; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uRbr4U0ZX8Vnp88OBxXIr5A61trsNsSBbczJAof0NJE=;
+        b=eb3bTz4wfSNZHiYYTAK01FkbSotkk0l55Q/LRe9GcGmyhfbngc+rpHf/2M9x0lQ6sF
+         X/wxYhlG2a4vpXK6wKzzJNFqgqx7pPlUd9quPLeGM+Tf24Fyj+Hs48epzGCcW00Q5AFR
+         7wG6KtbjsX4lNK/MKdPQwaaT3vyx5ffCKpNGBt7Wl4zg8mb5md/4xKWQupHrFAUNvlGO
+         xkjAtDoGkTV3G0xBJtACuKk/VorzXrfL020aIeTHhI893cnyaEPRD1wLCeVVz0EX3W7y
+         i/diSYadTLyXzUKTpIkCz+iidSlYoJFlRTodEF2cE1FNACEHMdNq1GjxZe1tRJyhNL7Q
+         qUZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765619982; x=1766224782;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=S4L83Y7VxtI5b9BWl2t1emCdJuUcvnl/K5vZlp3I/YE=;
-        b=QdlRnec+0vbSd2QXY9XuWn/kv+3NmYpWPQHlbtb6syiQ4Dy2BXHhSmRu9Af729FQIo
-         6+K0/t5hI9EsxXyMn2TNplq8pOWqJ+RrEFJq8tx8IqX3958D7DFhs3Pb6taL1izXpVNh
-         HB8NmrfZo72JMcx38rv9LgPSrMDbla21HxDeA33oNJdoVoImui48CEsNq7TJ6i5X3TgZ
-         Bw9WZ7RlufnB+hU5tOR+q+3DpOgAyBWsr/Gv+NOQ5GL3M84VnTbdg4+SBlT+Xt9TZm3E
-         iEUYwc+az5WYLLbJqlUwJQRLdgC57ynhgb7q6JfiUv8EaBCLtjpAih9CJLoSqMnaSeT4
-         XmiQ==
-X-Gm-Message-State: AOJu0Yz1WeUoJasmyiraHvq7FumDvn3aLY/g4RJDYmknAsCY3gJCmG/2
-	A+1LUi28kn+NfyL6E9S/Z5PFHAUz6TJbCPVHnPMWhs+fymAmu/pyT0A9M0+g+A==
-X-Gm-Gg: AY/fxX5dNON5zx2Rccv1sPSEkw+RsDeo9iKBYcwn2W8+MfjUEYbjxzdUf2UPf26neuD
-	twGfqNTa8w1IAEqRf0VinlAc8539kFzCgwDMKCE8OFORUehK/vDr8VMqIvXRpseodJKPExqGwsF
-	Sdr8KaObT98Am+RsvKUbam9yJW3qsULpw7/ZWueAGjEdCym0lylaPGqMgXDAwqBqgaGEdZTHzJg
-	mWoutkwhemyIOFRC1A+N1EoadmIZh1ecMYPIBevNTCLLLp0V69sNd1AbvgX85+3sPmOAJz+vGvu
-	a1KURM4K2qXIb+s00BvoypcAU9g7VQiul+hPM9BZFPyu6RYYoZD4CZl/6w0wiir/NY3PyFU4/zS
-	nwjRS8oBnmBq2qXPzuApHR4EgYw6TNRUNYLdnbYKa7mum0MJnWve/lp8lLB2DlB2Z1mnWY7qHrD
-	ymuSxtWt0lYIYfcGzFGoSsC21i
-X-Google-Smtp-Source: AGHT+IEoY1mJvgtL26ttUOhqDmyj6ndISI0TVvY+HxnQ/aVzAkBfwqe3gZWiIERy5HvHAGxyCsBCFw==
-X-Received: by 2002:a17:903:41d1:b0:29f:301a:f6d2 with SMTP id d9443c01a7336-29f301af82amr32008905ad.19.1765619981890;
-        Sat, 13 Dec 2025 01:59:41 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765619979; x=1766224779;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uRbr4U0ZX8Vnp88OBxXIr5A61trsNsSBbczJAof0NJE=;
+        b=hsvDWROD6H+djlhz1hsg7zN/KYNANhnv8RgPmGJxND/dp893vRrlybWCnWvPRMH1ZK
+         RYun1Yvf0q4ZNl4be6QC9MB5KBRYooX2UzqNpPa5FDITkuifSDtFtUZ3bLX4nhygnzJD
+         YYghH3J9Hy11y37QizFpRq7VRvlSPk4Y4QWbWMz5/9qlQo1T9kT0Y3b9xNmna/TZg9fz
+         IGJsf1K/FR8T7WmubqEEHtXLZm76dfl5krtTv9MjglHrwJcWRsueiZNYiHRwAcF79tgs
+         TYtK1DHU3ZNyemyxBdGnCjVa0hkjC1jCd9G9LoTWt4tqXgfE4NUb+oHz0Apj+aLxHQRZ
+         wb5A==
+X-Gm-Message-State: AOJu0YxzbkJxx79IeTuW+xRx19SMNk30OMVrbRclVVbmr7ywySrbKQc1
+	cEkhDcdltPjIrggqU4bDNrfsGNAQhuxeJaydrX4E6imO96dmcE18AwzR8zEoKQ==
+X-Gm-Gg: AY/fxX6PYKbKzJo4hM0q9di95QyMuh1tyBNR8vhdGxiG2w1OLGcO603c9SbFekXD2tT
+	e/4cJ2ZP3KntLUZKNTQkTmHq3TSKrraZ+eWYK6e3ORRmsg1yM3fHwaDvG8m2uSxKrKEbLsWyPLf
+	T01RMiaVy+98qr5DNtgwz9yfzkTD4dIcpykLQ76fMbt/yWa/8z4JKJhFr+xaPonNtTU1U6ocwli
+	weGKhDITWRCT3gVmOqa7eWRqdK/jjZ4R7luQXzAhVv/WikgcFW8WNDsqbjBFWieZvNMf5bblbQr
+	kgPra5ro2borbp0f9RjcQpuz0YKz5BmsD65E0hK7cwCzP7AD9L2+h1vhF0ywk9sbZYuW6MRvcfe
+	rFOfYV4S017+0LX1zQWWa6xJlma1duu30YfJ1KYBHJ7mB/HOQVwa9cM2FdzhRZ8iR9B1u3WP6NV
+	EdFc29ZSsf6HyZUGd+Qv/FY/95
+X-Google-Smtp-Source: AGHT+IFkye+v8OhXBcmWuHedJb7cN/nubmNn2hAVfRG0vRajrKp45Ol0kSnjUIz3iYzRPcxEhEdt/A==
+X-Received: by 2002:a17:903:110e:b0:295:98a1:7ddb with SMTP id d9443c01a7336-29f244d4d15mr43032035ad.61.1765619978962;
+        Sat, 13 Dec 2025 01:59:38 -0800 (PST)
 Received: from NVAPF55DW0D-IPD.. ([136.226.230.115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.01.59.39
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.01.59.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Dec 2025 01:59:41 -0800 (PST)
+        Sat, 13 Dec 2025 01:59:38 -0800 (PST)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>,
+Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][whinlatter][PATCH 02/67] barebox: upgrade 2025.09.0 -> 2025.11.0
-Date: Sat, 13 Dec 2025 15:28:26 +0530
-Message-ID: <20251213095931.2571498-2-ankur.tyagi85@gmail.com>
+Subject: [OE-core][whinlatter][PATCH 01/67] bluez5: upgrade 5.84 -> 5.85
+Date: Sat, 13 Dec 2025 15:28:25 +0530
+Message-ID: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
-References: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -71,56 +68,106 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 09:59:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227620
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227619
 
-From: Enrico Jörns <ejo@pengutronix.de>
+From: Guðni Már Gilbert <gudni.m.g@gmail.com>
 
-Changes in 2025.11.0
---------------------
+Changelog:
+- Fix issue with handling display of battery charge level.
+- Fix issue with BASS permissions not requiring encryption.
+- Fix issue with handling abort for OBEX SRM operation.
+- Fix issue with handling device privacy.
+- Add support for HFP call answer support.
+- Add support for HFP simple 3-way call support.
 
-* New boards supported: i.MX93 FRDM, Enclustra Mercury+ SA2.
-* Stricter validation of network data in NFS client code.
-* Enhance 'parted' command: allows creating partitions up to the end of the
-  device.
-* Various fixes and improvements.
+Full changelog:
+https://github.com/bluez/bluez/compare/5.84...5.85
 
-Release Notes:
-https://github.com/barebox/barebox/releases/tag/v2025.11.0
+----
+Other notes:
+- A new testing tool is added called 6lowpan-tester
+- A patch is removed since it is included in the 5.85 release
 
-Changes in 2025.10.0
---------------------
-
-* Added support for device mapper and dm-verity.
-  Prepares for secure boot without the need for FIT images.
-* Added security policy support.
-  Kconfig-level decision of operations allowed/forbidden in a specific
-  security mode.
-* New boards supported: Samsung Galaxy S8, Samsung Galaxy S20 5G, Radxa
-  Rock-5T and Protonic PRT8ML.
-* Various fixes and improvements.
-
-Release Notes:
-https://github.com/barebox/barebox/releases/tag/v2025.10.0
-
-Signed-off-by: Enrico Jörns <ejo@pengutronix.de>
+Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit c596157f82ebd8dd3703bf7a5193bd3080743b53)
+(cherry picked from commit 83812b010cf9c8bd022ad9702be2285de21ac67e)
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 -
+ ...-fix-pac_config_cb-error-code-return.patch | 29 -------------------
+ .../bluez5/{bluez5_5.84.bb => bluez5_5.85.bb} |  3 +-
+ 3 files changed, 2 insertions(+), 31 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-media-fix-pac_config_cb-error-code-return.patch
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.84.bb => bluez5_5.85.bb} (93%)
 
-diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-bsp/barebox/barebox-common.inc
-index e41d0858fd..0ad9166aa2 100644
---- a/meta/recipes-bsp/barebox/barebox-common.inc
-+++ b/meta/recipes-bsp/barebox/barebox-common.inc
-@@ -3,6 +3,6 @@ SECTION = "bootloaders"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index aac38a54a9..24a41f92df 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -64,7 +64,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://init \
+            file://run-ptest \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+-           file://0001-media-fix-pac_config_cb-error-code-return.patch \
+            "
+ S = "${UNPACKDIR}/bluez-${PV}"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-media-fix-pac_config_cb-error-code-return.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-media-fix-pac_config_cb-error-code-return.patch
+deleted file mode 100644
+index a67fd07137..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-media-fix-pac_config_cb-error-code-return.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From d7966dbb7bcf39f9615c906c47ef7ad895796756 Mon Sep 17 00:00:00 2001
+-From: Pauli Virtanen <pav@iki.fi>
+-Date: Thu, 18 Sep 2025 20:19:35 +0300
+-Subject: [PATCH] media: fix pac_config_cb() error code return
+-
+-Fixes: a887b1a1b91f ("audio: Add support for specific error codes for A2DP configuration")
+-
+-Upstream-Status: Backport [https://github.com/bluez/bluez/commit/6b0a08776ae44a9102d7c6875a77e83dc6a11a37]
+-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+----
+- profiles/audio/media.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/profiles/audio/media.c b/profiles/audio/media.c
+-index 332f643bb..deb321e6c 100644
+---- a/profiles/audio/media.c
+-+++ b/profiles/audio/media.c
+-@@ -1110,7 +1110,7 @@ static void pac_config_cb(struct media_endpoint *endpoint, void *ret, int size,
+- 	if (!transport)
+- 		return;
+- 
+--	data->cb(data->stream, error_code == 0 ? 0 : -EINVAL);
+-+	data->cb(data->stream, (error_code && *error_code == 0) ? 0 : -EINVAL);
+- }
+- 
+- static struct media_transport *pac_ucast_config(struct bt_bap_stream *stream,
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.84.bb b/meta/recipes-connectivity/bluez5/bluez5_5.85.bb
+similarity index 93%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.84.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.85.bb
+index 874db9df64..d8965fef4b 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.84.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.85.bb
+@@ -1,6 +1,6 @@
+ require bluez5.inc
  
--PV = "2025.09.0"
-+PV = "2025.11.0"
- SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
--SRC_URI[sha256sum] = "7df1aa47bb7bf1763a729137ac773e69a4052812af094475d739fc63a9295f0d"
-+SRC_URI[sha256sum] = "6a487eb975169ef4ecc912d3e1044fb9ee4aa164c21d4db960a384a60d0914f6"
+-SRC_URI[sha256sum] = "5ba73d030f7b00087d67800b0e321601aec0f892827c72e5a2c8390d8c886b11"
++SRC_URI[sha256sum] = "ad028e49254bc4551a13f08fe7904c63d02ba650d77be8ae15bb3b0a0ad94a6f"
+ 
+ CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
+ 
+@@ -35,6 +35,7 @@ NOINST_TOOLS_TESTING ?= " \
+     tools/iso-tester \
+     tools/mesh-tester \
+     tools/ioctl-tester \
++    tools/6lowpan-tester \
+ "
+ 
+ # noinst programs in Makefile.tools that are conditional on TOOLS
 
