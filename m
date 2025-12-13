@@ -2,64 +2,65 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8209ED5AE74
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 762B7D5AE70
 	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 10:01:39 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2900.1765620098236516562
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2899.1765620090769147055
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Dec 2025 02:01:38 -0800
+ Sat, 13 Dec 2025 02:01:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=c3dsIbsn;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a09d981507so1093155ad.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 02:01:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bMSDbFwC;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-297d4ac44fbso9950955ad.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 02:01:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765620097; x=1766224897; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765620090; x=1766224890; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tc74VvfCPhWbQsc1Qs00xSDnYrKCWRc+oK9vZR5f4mA=;
-        b=c3dsIbsnIbnIep8SCHRYP9e5WxaqM2tZO4RbnszqIrSyeQ29jxzmQlxj6ih8H/pRVc
-         iwoPKtuYQUIj8fKAyKBlo3wa2k17sVnvjN4M9fB/m6qRsU3D47TCqMo5cBav6Tvq4OhC
-         elq8aRAof3z5PSef+72Z5dtpq2xXahtCY3SCM4eL5Vv0+TWQ77nyjGuhBA1mwvKd1CAE
-         7wsl93uu3i48jiJON6AdvUz4nG/76ClFvFNpPYBxXgoHbhQnYxJfE/T2RxwcIDdtBICv
-         dQ6nub+TBpYE7++3uy1ydS58gsKlK2Igp/zpaD+AEv4eGX0P14EiBap736e8rSEpIGVV
-         3q9A==
+        bh=3EOZg6skddjv8lzRGbd6WHhnm2X3PRF5ffVM1ZMCaG0=;
+        b=bMSDbFwCHhQc2cPNAVGrI0o6qICneQ4KNEmvZKu1idMxJQ8+krC6aTErabWSpu7mlN
+         oHyJOtBl7GlrPrtEnvL46KemTRqPAXmFbFejmzbfLOe0PH9Via3kky1gexWQdnv4yK/W
+         QTNY09IZXcPhjdO9bE+g3xsJJZvrw3na9tNWyYxqVdvemS8hcalfDreawXoxhAPpRNUT
+         JyKdohvlXHLQ94Gi/SkJk3AtpkIKvrbbybHGorpZ7d16yY/bjRV81uliaVjRW/H/veHx
+         /pMDCTrNu/98ZcmS8SafRrd8ElI2r5m0Gq68JzOt8e0jp8FGofhANdvfOT4pw/X2YSDP
+         3rQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765620097; x=1766224897;
+        d=1e100.net; s=20230601; t=1765620090; x=1766224890;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=tc74VvfCPhWbQsc1Qs00xSDnYrKCWRc+oK9vZR5f4mA=;
-        b=Eo1cNPOLDqeQgsmBMLpezs6vJk2AJZrFUas2q6f9Zc7ltm6D6RtNe6oFaMkUnvtRfk
-         r51NpQrSu88+vhhgVpV7o2TW2FTv7+brfM7K1JJrv3ZWDjg9+gFSGDGMVvlVIERKNwXg
-         ZZbIFirhl90Ju7YpRQpYef7DkK9h3nHzwp5JzxWuXAtAMwn72N+6Til1plv6Br6/Rxoi
-         XAUm0nVJB+Uod1PGgJlIXIQc31c3GF6r2dvmYo59YFcvXykRhTth+d+QQS/+2lLrTi1W
-         hopPOS8S3h7mIx1LG62lAXhCvQzFXegqOSM8Yux0Ze+2KtEJbeIeVmEm4WEJ76/8rqui
-         eMSg==
-X-Gm-Message-State: AOJu0Yw1yD2L1tSsXx34EQQnEQBKMXEwBjKeBn/XiB0UsrYm3//aWQEg
-	bGCWPeD14XXwapqZQAn4fikTLhW27dHqxjIEG+FuzCp/6mPMIkd/reU+sLToQafq
-X-Gm-Gg: AY/fxX4+jginDRG9ztOLHS8e07Ps4BZ99IHowe7shVJ6EFzIBbscstrf7TTHaA7NEre
-	ttFi5P9xmms1nqHKNCusq8VWJE+etqDfkXS83nEEatBQDtF5dp7L2KfRSNHpxxyDsxDUPLVNdgg
-	z154SIdxb8qsKyqYK/p5jyT42oF5rxYfJYmXZUO9LzX5eD4MLv8YoruQMQUJZa/HpMyg9AZjAUK
-	U3SykLoN/BpHROme34voiVhXO7YAJB7FG69C0Izmpx6oj9ssUCqa4MULxkb+NA501i6yql24W+K
-	f/GGLqgY48htVf5yuN2nalZz1HLK9gntmd5RtOWamyGhLUpe5+DexBViwQ+XAAuSgnkM9GlYBv8
-	UZ6QR2etjCG63gBb+ipgZZHmEKEIXcZg5T7IbZhh+LL2B5uHOo4zg76f54SSVMBKM9fYBmbRjlx
-	G453R3baO87Sf2lQAFTGp0Xvbb
-X-Google-Smtp-Source: AGHT+IHrDbhR3c6yLrukpblYkJd1pvX08YOwDsdJSH6Oxxm2Bw4mjuIHx1zA+i+UR6F0ypgockSEEw==
-X-Received: by 2002:a17:902:e546:b0:29f:175b:1ec7 with SMTP id d9443c01a7336-29f24e6fbacmr45153545ad.16.1765620097315;
-        Sat, 13 Dec 2025 02:01:37 -0800 (PST)
+        bh=3EOZg6skddjv8lzRGbd6WHhnm2X3PRF5ffVM1ZMCaG0=;
+        b=M712JS/XHiLGhYgaA6XLy/ksZnsK85AI9ZRt4UiF8HgR1OSDMthmFwlw/FyA95wcor
+         5santyiAZFaBrgYvWJ5gxC1A967YJXH4q1ieN/nJFjwgAldDr+iMdMoGfpdcONX2qdAS
+         lIaC6/kXFBTcsLHt6v4/b+KHIy+AhVb3ai5CwueWfo/6BCpwooTzkqyBsbXm5qKJzDNl
+         yAb2pmCMa8KuML+8wb8A7eobog6N7Tog91BT/jEBxjb26K3go/MFsgdgSSOGcASRt8Ge
+         EEbe6fu2tbOqa7NlLOJiGv9p/XvbtzVprky1K/u+uN15vGa9D5MFYWje4fI5BChgjHgQ
+         GHEg==
+X-Gm-Message-State: AOJu0YxS20CfRlECIfyDXmRCqO0sA8/0uvMy8J33BkItN9LdTyWfckQz
+	2n+NZmJmUbRPMjYr/uYNHx3+q6he3t43r9b6W83fPyZINo22yQecDc/8pC1+/lDd
+X-Gm-Gg: AY/fxX72qZFn1eWP70IvIwAM3yFLQYieRa2pPWPDGmEvVEeS1E2dOq3AFFXQRWcyuMm
+	QKAbAm0jRNfBzu20IME1P9b0DcCAkh6pgbK6FrfhI5CeA1Jb5ZCblQW8iEPUTGFpyIZs0008S+3
+	wSV8WRC/nmMvw9c8lsvEemH/zCIet2zOfh/ZZbROClmWoL55VuFZ74o7zqe4OhZsGylfGqdGfDC
+	bpf7L1m1kvSz+zUhUuE3IuO1ZRepRxDa6BqK4M+HJmXG21Xf2riwA+mAS53Epl7Pvi4CZ5rQpfX
+	JjIiFREOdgbtglk8AHvsPgzz/73IRHASN5hy6Xo6NmWSwIsucdEg3PvOB956n7uRBXh5iAKMAXY
+	L9lLW30sQErU/ka19ITFQkWhglr0MTdAoefiQR0Q71pzSx1MeC5r3PiCC0iKhZR92unyAaD6NSu
+	ytlbZzJ2l6kC78Lnn9BX2zWwmv
+X-Google-Smtp-Source: AGHT+IFrgiOVlSWCc4600Y7zqxAfpGQI0XfBoBsRpizkLCX7FSZxp+sodTF9/7qdIQ2bU6CRQoIL/A==
+X-Received: by 2002:a17:903:2344:b0:262:f975:fcba with SMTP id d9443c01a7336-29f24d88dfemr41174575ad.9.1765620089905;
+        Sat, 13 Dec 2025 02:01:29 -0800 (PST)
 Received: from NVAPF55DW0D-IPD.. ([136.226.230.115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.02.01.35
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.02.01.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Dec 2025 02:01:36 -0800 (PST)
+        Sat, 13 Dec 2025 02:01:29 -0800 (PST)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: [OE-core][whinlatter][PATCH 43/67] mpg123: upgrade 1.33.2 -> 1.33.3
-Date: Sat, 13 Dec 2025 15:29:07 +0530
-Message-ID: <20251213095931.2571498-43-ankur.tyagi85@gmail.com>
+Cc: Hongxu Jia <hongxu.jia@windriver.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Ankur Tyagi <ankur.tyagi85@gmail.com>
+Subject: [OE-core][whinlatter][PATCH 40/67] vte: support reproducibility when debug build is enabled
+Date: Sat, 13 Dec 2025 15:29:04 +0530
+Message-ID: <20251213095931.2571498-40-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
 References: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
@@ -69,39 +70,99 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 10:01:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227661
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227658
 
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-Changelog:
-* Fix build with newer toolchain on Android by using __ANDROID__ macro (bug 380).
-* Consolidate and more consistently use .rodata switch in macro.
+When debug build is enabled, there is a build path issue in source file
+which caused build is not reproducible
+...subprojects/simdutf/simdutf.h...
+ 1 /* auto-generated on 2025-03-17 16:13:41 -0400. Do not edit! */
+ 2 /* begin file include/simdutf.h */
+ 3 // /build-dir/vte-0.82.1/subprojects/simdutf/include/simdutf.h:1
+ 4 #ifndef SIMDUTF_H
+...subprojects/simdutf/simdutf.h...
 
-https://github.com/madebr/mpg123/blob/master-with-github-ci/NEWS
+The source file is auto generated by python script amalgamate.py,
+apply a fix to the script to use relative path to instead
 
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit 3436917ee9d22736a685357dbac51d44870c1006)
+(cherry picked from commit adcec46bc3f95df865e098813af2d899c2d8ef73)
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- .../mpg123/{mpg123_1.33.2.bb => mpg123_1.33.3.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/mpg123/{mpg123_1.33.2.bb => mpg123_1.33.3.bb} (96%)
+ ...rt-reproducibility-for-debug-sources.patch | 48 +++++++++++++++++++
+ meta/recipes-support/vte/vte_0.82.1.bb        |  4 +-
+ 2 files changed, 51 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/vte/vte/0001-support-reproducibility-for-debug-sources.patch
 
-diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.33.2.bb b/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb
-similarity index 96%
-rename from meta/recipes-multimedia/mpg123/mpg123_1.33.2.bb
-rename to meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb
-index 23bb400ce5..b1897fe95d 100644
---- a/meta/recipes-multimedia/mpg123/mpg123_1.33.2.bb
-+++ b/meta/recipes-multimedia/mpg123/mpg123_1.33.3.bb
-@@ -10,7 +10,7 @@ LICENSE = "LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e7b9c15fcfb986abb4cc5e8400a24169"
+diff --git a/meta/recipes-support/vte/vte/0001-support-reproducibility-for-debug-sources.patch b/meta/recipes-support/vte/vte/0001-support-reproducibility-for-debug-sources.patch
+new file mode 100644
+index 0000000000..20e8f71c0e
+--- /dev/null
++++ b/meta/recipes-support/vte/vte/0001-support-reproducibility-for-debug-sources.patch
+@@ -0,0 +1,48 @@
++From 0959004adbe46f88d558d2ce61b496c662c196f5 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Mon, 3 Nov 2025 06:13:11 +0000
++Subject: [PATCH] support reproducibility for debug sources
++
++While option --debug-sources is used, the generated source file contains
++build path comments which caused the build is not reproducible [1]
++...subprojects/simdutf/simdutf.h...
++ 1 /* auto-generated on 2025-03-17 16:13:41 -0400. Do not edit! */
++ 2 /* begin file include/simdutf.h */
++ 3 // /build-dir/vte-0.82.1/subprojects/simdutf/include/simdutf.h:1
++ 4 #ifndef SIMDUTF_H
++...subprojects/simdutf/simdutf.h...
++
++After apply this commit, use relative path to instead
++...subprojects/simdutf/simdutf.h...
++ 1 /* auto-generated on 2025-03-17 16:13:41 -0400. Do not edit! */
++ 2 /* begin file include/simdutf.h */
++ 3 // include/simdutf.h:1
++ 4 #ifndef SIMDUTF_H
++...subprojects/simdutf/simdutf.h...
++
++[1] https://reproducible-builds.org/
++
++Upstream-Status: Submitted [https://github.com/simdutf/simdutf/pull/848]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ singleheader/amalgamate.py | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/singleheader/amalgamate.py b/singleheader/amalgamate.py
++index 190b2f6..75e0d78 100755
++--- a/singleheader/amalgamate.py
+++++ b/singleheader/amalgamate.py
++@@ -385,7 +385,8 @@ def filter_features(file):
++                 current_features = None
++             elif enabled:
++                 if context.args.debug_sources and not prev_line.endswith('\\'):
++-                    yield f"// {file}:{lineno}"
+++                    RELFILE = os.path.relpath(file, PROJECTPATH)
+++                    yield f"// {RELFILE}:{lineno}"
++ 
++                 if line or (not line and prev_line):
++                     yield line
++-- 
++2.48.1
++
+diff --git a/meta/recipes-support/vte/vte_0.82.1.bb b/meta/recipes-support/vte/vte_0.82.1.bb
+index 4fa8115a20..b5d6f2fb62 100644
+--- a/meta/recipes-support/vte/vte_0.82.1.bb
++++ b/meta/recipes-support/vte/vte_0.82.1.bb
+@@ -17,7 +17,9 @@ GIR_MESON_OPTION = 'gir'
+ GIDOCGEN_MESON_OPTION = "docs"
+ inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection systemd vala
  
- SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "2c54fabbfa696dce8f9b137c8ef7a429a061f8fe633cd7d0a511809855f2c219"
-+SRC_URI[sha256sum] = "6a0c6472dd156e213c2068f40115ebbb73978c2d873e66bae2a250e2d2198d26"
+-SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
++SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
++            file://0001-support-reproducibility-for-debug-sources.patch;patchdir=./subprojects/simdutf \
++"
  
- UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
+ SRC_URI[archive.sha256sum] = "79376d70402d271e2d38424418e1aea72357934d272e321e3906b71706a78e3a"
  
 
