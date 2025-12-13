@@ -2,65 +2,66 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B055BD5B14E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B051FD5B149
 	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 10:02:49 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2927.1765620160682156400
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3023.1765620163566210864
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Dec 2025 02:02:40 -0800
+ Sat, 13 Dec 2025 02:02:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IFIY84rE;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-29808a9a96aso27499735ad.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 02:02:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Gw0qxw43;
+ spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2a07f8dd9cdso8310905ad.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 02:02:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765620160; x=1766224960; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765620163; x=1766224963; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HTBAga1YLw8pxrefzHKXmJQwkOQh+mROx71/k7UTpHo=;
-        b=IFIY84rEDk345SmUM42aBo4IbWloYeqRVXj9t4944oA1AaIJ5MWPLA0r3h4gOxnSb0
-         HLDpzPQERGYfr75cxRSGdCfmV6gRW8tyoJypw5Ap4c/HRly5R58i6oxBG8ignX8Bakum
-         z0rFbgMLZEXvVwiC0pbDWPAOcxfdYtzMSbVPvZObeLqkiuZ2c7Eli1qWDBXAHI9g6J50
-         IE8zNMfteRpKt9SGZF1ihSSmQiNmglFlnGw/rJnYBz+gt3zwW7QCNCF2AwvJEv/SSdam
-         mnmRx/6qA5qDp88WSMnn5lFkSOx7snqcLAVfeLxcCfd7hOzh+DNjvaj2Fh8plHMniuUQ
-         HdBA==
+        bh=X4xDaOE8O5HJWkCTIKS5lPZfcvWwrFJ9NHRLasL1/6A=;
+        b=Gw0qxw43yaP8Dscr+bwj9853JaWsHyS93CNbhzzIueJ13Ex9vlWcDJ4ONXjooHGuZi
+         Gcaba0nyK4ZRPrVkjDrffyy1/t5WBL5IAbHxRZUuKkWoR0Pw2vMRp9PAvd8Gnq3zeRfy
+         ZnkgH3+/6Jm724o16qcPhakAE6DMkdu7nK5nwkHSUzYXqjKYPYDQGNGeaGhY8+h5AHTM
+         oB5Ldx3DYV+tP7hre+BuvX9fq4mB35QHx86w8xjMTZcOuYXzskvKxV4Lrsqgmvu7Oyji
+         Hp9Iq97Y6C9doJLojApuJYeSsyafj7q//IqXKI97riEe1L42fBL0GcGu2zhngQBq1dA0
+         i29g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765620160; x=1766224960;
+        d=1e100.net; s=20230601; t=1765620163; x=1766224963;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=HTBAga1YLw8pxrefzHKXmJQwkOQh+mROx71/k7UTpHo=;
-        b=OSjvKiXRBOOZT3hbTv9SrdkfunO6Qq6nNfow/3apE10b0FKcmLv4ZHwRAzLhPrWTXG
-         U9e8lzHjyLmU1LY4U/GNvof6lMvvvs0SQzbA3WROsCKhnJ00dcdtl1tgOGGS6bySlJyJ
-         kLb5Qflrm62I7mksQDtRgIb2/iU7Gumq81wlMKrt9Wtl6ItH3L2RCgchHzE8RpEABBdW
-         vVZCmffZm3FhMX2X2hKBU2wJviRvPx2Y2cr1jb6+5cjvA8kRc4cv0CqQdyvAtIPgZm46
-         aXGE4U1z/ns96uvqpbS/8/aYa2UCnaHxZXE5BbDm9LHFIUb7c1oQK3VAtJPeclSjdtQW
-         hZBA==
-X-Gm-Message-State: AOJu0Ywya0lyEU898AwIq5Uv4t1Go+HSVMgxqYaOP0cgBpmAfg5E3x+x
-	H3qakc6FbAhOUjYA4FfPEuOQY1vlY2vy+4nquhavG2Bd+WTsKWCkoA0X62lpTdXk
-X-Gm-Gg: AY/fxX4g1fvNwIm5KCN1Y9ux0bBoubnbFPHUHgAEi5gfuM3huxn1uJdtaOVg7QouGeb
-	aPT6yuQQPplIKutum21/mAubXgFEwa9CRjlHXyY6JUx+3KEXZdF5wIYDoMNtqOQA7YXCLnG2UGY
-	e/KUPhY2+1ZvSL3KQ2PbATO1pmeBauuSA2A0Ok5OQtzKpo4AOoujdimUZemNIl3Mn1KuBYBXAXc
-	G16nVAYelLdJqf/83MrhYdBGuUNe2Sy3Qxv06Yy4F7oktADypQhq8ArzJibh4iQO6nJeDfvHXQJ
-	OyJvPckOwaj8nTezAJfHQGrgLqJ2NgAV9QoqZa9Hl25d9nR/B5KYp5HitjKTO92Me2Oq285Gy4y
-	PfNkNi/IJG2nDRtWspMoCnKN5uBfYrsQQCnQ9XjpjklZ0Xb7MUEE34f2Xq8YhYOIsh1Qnznv+qG
-	uDc2lROknjDGO21x/wH9EnrXPx
-X-Google-Smtp-Source: AGHT+IFQUcgD88lr9BroR8IMJ8DKFmPFLTdOFaLad3PyWXUbKFh1+qJVNumutWkxXIoUEALLo+5LcQ==
-X-Received: by 2002:a17:903:17cc:b0:29f:178f:f363 with SMTP id d9443c01a7336-29f24151688mr42423625ad.32.1765620159874;
-        Sat, 13 Dec 2025 02:02:39 -0800 (PST)
+        bh=X4xDaOE8O5HJWkCTIKS5lPZfcvWwrFJ9NHRLasL1/6A=;
+        b=Q0dYq5yUsKjwiLU+HPcCM11AnbQUfv4HCUo2yRr3KLaLG2OqnNw8OaDIatM623LUkT
+         Q/rjMHv0HJv8VYOjGtX+oUKFG/Xp/DHqqouaunflqjXdAVnK1p3XqHm3JQ5sgtQGI1Zp
+         9C3R2+ubjXYjOVGyDu/Hfzs4iJxL52E7LEAGGoD1N7zbyfpl5+E+0gY4SgDRIfCmqIZE
+         Ic2BChknNV/CsrxTLEvDAJpIlUAxvnvUqYd1gw1YnoWdwV//NhD0aln4W3roDs63Puzl
+         ybnjAVIJ4fohfuWwf4O7avkwMcULVWLRLwsFhIfrz0fVwuL9h5lmcUMbbIivjmwg+FLb
+         23/Q==
+X-Gm-Message-State: AOJu0YyKYAkRTWpwEDSAHGjgUoQtoZQdXGP5+b0dtfTsPQSgtyBePJy1
+	WPikRwuW5XK05VboqWAFBlqg7XhVNeimye2iDcwvE4YOar1sh7LESiN7EPtVQUoA
+X-Gm-Gg: AY/fxX56v2XyBfro/oZYeqncCTSu14/WpG42BXgi5u+O/9heTOm1Aq/lzmWv0VtpbZJ
+	Y2ZNWgsXmxD3wYmOe1w3asuwGvmT9cDM4GcprBS+d8lHd9Qgb3Wg8Adhy5ABp9quKrqin/G4j8B
+	5arOro8g9hFp1K1CDBkyGFBxUCMDZYxbGpP9NLfouDNA3YCHzn4w2bry/k0yWoJkfpoEzT++GSu
+	7wc/QwtQ27dgArDb0KZ9DZu1srYvMN+LnpPEuYiALADqi0jZHQt5p98kMzTqLQTB3wVGBFEpNZm
+	efBknnVLp5mIFAAR62YdYlb7Xh8ChD0CrnkandbodHqC5+dPl/7G/CIlvE7sGJxZy/Az8G8ol3T
+	fEJoAngf7sU/YmvgNmDeH3iGF0a+uBv0vjzjstAV6MO1Y7Z1xXkgiOiOySaCa2AdBfp8scv/Lmw
+	9NmuO3UwcTD1vKpwE5ytLNm7Oo
+X-Google-Smtp-Source: AGHT+IGrNfP1OfxR+UEMhxxgDg27A95P3l3FSFgNUC/DrvNC4iyFSMdNE7yOcQLbOd+Z2M1/mgNqOw==
+X-Received: by 2002:a17:903:2cd:b0:269:82a5:f9e9 with SMTP id d9443c01a7336-29f2404b62emr41623775ad.29.1765620162764;
+        Sat, 13 Dec 2025 02:02:42 -0800 (PST)
 Received: from NVAPF55DW0D-IPD.. ([136.226.230.115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.02.02.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.02.02.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Dec 2025 02:02:39 -0800 (PST)
+        Sat, 13 Dec 2025 02:02:42 -0800 (PST)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>,
+Cc: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][whinlatter][PATCH 64/67] libinput: upgrade 1.29.1 -> 1.29.2
-Date: Sat, 13 Dec 2025 15:29:28 +0530
-Message-ID: <20251213095931.2571498-64-ankur.tyagi85@gmail.com>
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Ankur Tyagi <ankur.tyagi85@gmail.com>
+Subject: [OE-core][whinlatter][PATCH 65/67] llvm/clang: Upgrade to 21.1.7 release
+Date: Sat, 13 Dec 2025 15:29:29 +0530
+Message-ID: <20251213095931.2571498-65-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
 References: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
@@ -70,37 +71,65 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 10:02:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227682
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227683
 
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-Release Notes:
-https://gitlab.freedesktop.org/libinput/libinput/-/releases/1.29.2
+Brings following bugfixes on top of 21.1.6
 
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+292dc2b86f66 (HEAD, tag: llvmorg-21.1.7) [LLD][COFF] Align EC code ranges to page boundaries (#168222)
+9ed1927442a4 [server-llvm-21][MC] Fixing vector overflow
+922c9914e14b [clangd] Clangd running with `--experimental-modules-support` crashes when the compilation database is unavailable (#153802)
+33e1a55a8bc7 Bump version to 21.1.7
+
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4cd78e63cbf4edaeac1fc9f46fb737e1356e3f1b)
+(cherry picked from commit 2351cc82dca18e159c9630266a81571a95394bfe)
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- .../wayland/{libinput_1.29.1.bb => libinput_1.29.2.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/wayland/{libinput_1.29.1.bb => libinput_1.29.2.bb} (97%)
+ meta/conf/distro/include/maintainers.inc     | 2 +-
+ meta/recipes-devtools/clang/common-clang.inc | 2 +-
+ meta/recipes-devtools/clang/common.inc       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.29.1.bb b/meta/recipes-graphics/wayland/libinput_1.29.2.bb
-similarity index 97%
-rename from meta/recipes-graphics/wayland/libinput_1.29.1.bb
-rename to meta/recipes-graphics/wayland/libinput_1.29.2.bb
-index 809c291e23..f771085388 100644
---- a/meta/recipes-graphics/wayland/libinput_1.29.1.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.29.2.bb
-@@ -15,7 +15,7 @@ DEPENDS = "libevdev udev mtdev"
- SRC_URI = "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=https;branch=1.29-branch;tag=${PV} \
-            file://run-ptest \
-            "
--SRCREV = "dc2c1ad181be88e1487468f7ca6f9d320981f133"
-+SRCREV = "917783150a5bab7d55eedc5714f1b49b192426ac"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index f17a622c44..b6dc20e9de 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -481,7 +481,7 @@ RECIPE_MAINTAINER:pn-linux-yocto-rt = "Bruce Ashfield <bruce.ashfield@gmail.com>
+ RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-lld = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-lldb = "Khem Raj <raj.khem@gmail.com>"
+-RECIPE_MAINTAINER:pn-llvm-project-source-21.1.6 = "Khem Raj <raj.khem@gmail.com>"
++RECIPE_MAINTAINER:pn-llvm-project-source-21.1.7 = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-llvm-tblgen-native = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-llvm = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
+diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
+index 4051ce6085..ae0caa6f01 100644
+--- a/meta/recipes-devtools/clang/common-clang.inc
++++ b/meta/recipes-devtools/clang/common-clang.inc
+@@ -5,7 +5,7 @@ LLVM_HTTP ?= "https://github.com/llvm"
  
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ MAJOR_VER = "21"
+ MINOR_VER = "1"
+-PATCH_VER = "6"
++PATCH_VER = "7"
+ # could be 'rcX' or 'git' or empty ( for release )
+ VER_SUFFIX = ""
  
+diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
+index 4ea22fe5fa..e852f03c1e 100644
+--- a/meta/recipes-devtools/clang/common.inc
++++ b/meta/recipes-devtools/clang/common.inc
+@@ -17,7 +17,7 @@ BASEURI ?= "${LLVM_HTTP}/llvm-project/releases/download/llvmorg-${PV}${VER_SUFFI
+ UPSTREAM_CHECK_URI = "${LLVM_HTTP}/llvm-project/releases/"
+ UPSTREAM_CHECK_REGEX = "releases/tag/llvmorg-?(?P<pver>\d+(\.\d+)+)"
+ SOURCEDIR ?= "llvm-project-${PV}${VER_SUFFIX}.src"
+-SRC_URI[sha256sum] = "ae67086eb04bed7ca11ab880349b5f1ab6f50e1b88cda376eaf8a845b935762b"
++SRC_URI[sha256sum] = "e5b65fd79c95c343bb584127114cb2d252306c1ada1e057899b6aacdd445899e"
+ 
+ SRC_URI = "\
+     ${BASEURI} \
 
