@@ -2,90 +2,91 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72A02D59F7D
-	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 07:57:28 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1818.1765612640827021194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81105D59F7E
+	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 08:24:38 +0000 (UTC)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2106.1765614277785583935
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Dec 2025 23:57:20 -0800
+ Sat, 13 Dec 2025 00:24:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=V/Qvq5VN;
- spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3438231df5fso2347468a91.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Dec 2025 23:57:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Vic50Dpj;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-bd1b0e2c1eeso1475938a12.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 00:24:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765612640; x=1766217440; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765614277; x=1766219077; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=q08AKMKlsz5YrRya56dn2AkMZAMXb1oB0+gDufPM4aM=;
-        b=V/Qvq5VNEyGDyLdkbRQ/QXz640iwes1K9XatN3aM6WbI3Ez01O5cm600+O2zfPa3Qe
-         D2YNsN+EWOGJ3Mc8i6mBjJFMRy4IF/8e/FjVM2/IuABG+1pHIdWhKo4zWqQ7EDErEG7d
-         wsL2CCzmtvWl/WTi4dpWTgrxRlrBZ0Q84CEkw7BLNlj/I1txZFv38xCWGnDfb2tc1Ng3
-         dveKzcAT0LCYT/MPXxge5S/KuHTz5YyLU0XOwwyDl/8XzLuAh4ncNwsS+vIbs2bFx0d/
-         Z2nNwRwACU9zkA3wetO4XBWbaJmoxyWngrDfXBY1VbR/zwFX5FpUAx9gJ5dqL5S8un6H
-         554g==
+        bh=nZCEa9aaR15V/P5ZJ5glsm9Y1Dcj7DyxdW/wdifL1PM=;
+        b=Vic50DpjUzl9lq7TrTVAH4Y3zKEWS6KfJxxHRZsfcFdAoCb3apKvS4S3CtoufkAU34
+         DllqN9WtB2ZqDsPNrh33Xwn7Ei0HBcgAJCXLQIhdfEtq68p2fltXfmfw6CLCl+YDahHG
+         5BDDPW5idNWW8do58yoKdxL/tftQGPizwyDlY2sxnM/4BUHWKWNlDEeY5Ia8BVe4mgcG
+         WII0Vl7CZgvTbgfn4csj3vHh/7vz5hwooCQ2wzjJkPmxGjLDfyGc9+zsOefV5uIQVQrH
+         o2wJ75gZP7X4bi+uo3woGUoyh0tKTkAaScR7bwlB48Csvo8o4y/nhZVZE38EeOU9Meeh
+         h6Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765612640; x=1766217440;
+        d=1e100.net; s=20230601; t=1765614277; x=1766219077;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q08AKMKlsz5YrRya56dn2AkMZAMXb1oB0+gDufPM4aM=;
-        b=IJoU2DITySJLcbcxebly16FdbjAkPYrnMustYRanXjBMeXmTYBJDwZlQBht4WORGkQ
-         h+Mfuudo/yLS3kHR6KNXHzaQuhE8KXUogAW1UJmaTjTn0uenZ1pxO+CFHkWjFJRB4xVp
-         nqv0piYGhiFrP9ZsJ1EffXaRBLp8abfNtNIAz3TJK4WIKBJjsGy2p4DqRBazS7bewvLF
-         1PZ+kI+XN4wqDeue8xI5P56wCcBoJBCfonZlUFGJB7KiDK7jjIfFEEPBrDh1fJv/oqqG
-         EGcI8nx9M8oI1Xiu6cwIKAtrFpFlUJZmeawW/aZLs9hPci6yzagdu4QT/FB6lkJnOj4N
-         ucCQ==
-X-Gm-Message-State: AOJu0Yx2XHo91PLILvYnGT97IDE3Mc+t852LUNLw1mGcxTZCfNDDo9Ea
-	LaH2Lw05t5/GB9/5zWkFvvbvw9dnPPUJ4b62/PmY4PmOGJmbaZvfox9m+rxWz/ph
-X-Gm-Gg: AY/fxX73vprH28l/AkFyWAqHBb7CusCfYyuQFvwV3CRc1WTTetlw4+mDKUp5B6q4q2H
-	MjZ1e3o0yuWW2U8dPNsyIx3ECZD9Xa2QlsSeaLlQtxzjSnNEVc7zKuX4vQRsa8eZXnhJY/KeV5Q
-	4LYAyPKV9R7QAm5IwbdFU+opBQfbeGO+S2BThWRmdWhSAlmykxcXSnJG/evBJowVBlcxPcXT6Qo
-	2YmhTpreP69TCaef19UmOC4KQjVq9mm4bihisDPBcJ3nkGbQRlAv7JcZVBr6cdTKU1fDaZrhSlM
-	B+g34MxFGg3QHsInR7KfMwKjvXhYAX0F4bIN4+Yi4Gc4xp5v+JkhK4aynO+OyLKYJoGhD/fG/o1
-	mXflTG3ozPjf45VGk4sypJaA1pV+n9SmYXlG33uVaYg4+tV+Q4Fl1L8iha4jdZB3hx0YQro4Fb3
-	uiLoJ53EFslAj8UdPG968xgS3H9204TVNZncKlL2E9ZLEH2Svz0LJzREGnD06/IC0XDO3zmI+4i
-	rDZLsVwccRqJiftXKrQ85I13xvAN38W
-X-Google-Smtp-Source: AGHT+IFBPv4fa12fmi0tJyv9hL/tPWCABrR8GTXgH3iHdHxMdP4QZ5fjNjK0bif+zqH/zdDTE2eaVQ==
-X-Received: by 2002:a05:7022:618c:b0:119:e56b:c73e with SMTP id a92af1059eb24-11f39b05409mr2528815c88.3.1765612639517;
-        Fri, 12 Dec 2025 23:57:19 -0800 (PST)
+        bh=nZCEa9aaR15V/P5ZJ5glsm9Y1Dcj7DyxdW/wdifL1PM=;
+        b=LzLOoGS9vAQEC6PB0l4pjspfKAK0YUabEus4LjAfyIJ9nmLm18m3iWvaxqedmwoqme
+         hQjhKypU2atwocY753YyJfQg1nBLPyvIlu2iYk24S89XpzdMledGrCVYNIyXQAp0ZzPl
+         Ax7VKt0w65cqOlKr8sgYX918mokATakSHZJyqmx86+rS5z1FDav6XkAyC61JsBAU+UI9
+         QxWN+IvMJE6Gpn4X5DcVzi+zifT1X6UDAknxGqTF7EUnLW+8dxlFKHfIY1BGRHeY7LpL
+         Q+QOmONDKRc4z+EhZ633SqdX5nBsNDLKUFYEYrSt5gVoC5ySb5vCVaztf4foWRmms4BU
+         SgXA==
+X-Gm-Message-State: AOJu0YxmsQlwchyytO8SlpHKXiW3fNtrB5QdnzVvgnh8f7fO0k/TDEzk
+	7jlrvI7GGGmIgbNsUp2ngvd/aQAkGImt6V7fqId642TbNdBqT2y3nEAW+zH5Ezl3
+X-Gm-Gg: AY/fxX5bzgpaeLU6ImJyt/5WohTbI/HHQRtGnyZOOMfp30fOLDNImDhn1v/RYMnK2zs
+	/WUlz6B2VhIheL6ECA5ewOI+cSr0d27OW/m6QTW7FnPwvrJ+RxwndPzpq7ZbLIF3m39OQzmzupO
+	9dX2RoqkcMRO72mx9gyb3uzhhE7g+c3cWs0qF8PgSwDWNwFVTKD7yZwKfg7GNxtLXk3YXHS/wXK
+	+c5IFTw2O6oiF0yuoVGv8VCjjA5zV9O0rFOlNp3raMDollDdy77ydZVRt9f3YMtYqaRA6m62Bsc
+	Ehrn3afkkw4wJ8InSOOHv4OcTQ1B0rGpS4qYqmpkJhhG17qjM7zT7qTWCMIkDlnw3j8ag1etXMA
+	h1y/XTQWs/fm0563wDntkW772PpRlH7SdfiG0gWx34TdqlTdGrMKvhgqtiwGMWwv4bSOYv+JfxU
+	T+zkYRtb8H4XQYOK9Ws5+mLPFmBlSSFoHI3EQhDJr8BeOJ2iZdyIS+jgyr/tmAmGMgXWCz40SFs
+	a/DHQmk5eWxwlfDRmxx9zSgzSDeO63Q
+X-Google-Smtp-Source: AGHT+IFXosVNZxn/mvHSlVx55IV4n/mIvbXJReEvPo4M27yciF/2LkHRd2tT2k8fMXrMRvDF2SyujQ==
+X-Received: by 2002:a05:7300:d409:b0:2a4:3593:c7d1 with SMTP id 5a478bee46e88-2ac2f8b1e69mr2626907eec.17.1765614276615;
+        Sat, 13 Dec 2025 00:24:36 -0800 (PST)
 Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::69b8])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e2ffae2sm20051315c88.9.2025.12.12.23.57.18
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e30497fsm24566161c88.15.2025.12.13.00.24.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Dec 2025 23:57:19 -0800 (PST)
+        Sat, 13 Dec 2025 00:24:36 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] systemtap: Enable riscv32 builds
-Date: Fri, 12 Dec 2025 23:57:17 -0800
-Message-ID: <20251213075717.924074-1-raj.khem@gmail.com>
+Subject: [PATCH] ptest-packagelists: Include libseccomp only when seccomp distro feature is enabled
+Date: Sat, 13 Dec 2025 00:24:33 -0800
+Message-ID: <20251213082433.930428-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 07:57:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227615
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 08:24:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227616
 
-This builds fine for qemuriscv32 these days
+This package does not get included without this distro features so there
+is no need to synthesize ptest image for libseccomp without it.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-kernel/systemtap/systemtap_git.inc | 2 +-
+ meta/conf/distro/include/ptest-packagelists.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 86336b0779..c5d10c8fd5 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -9,7 +9,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git;protocol=https;branch=master;t
- 
- SRCREV = "c4fc655170b534478a6b131292b987630c7c0865"
- 
--COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips|riscv64).*-linux'
-+COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips|riscv64|riscv32).*-linux'
- COMPATIBLE_HOST:libc-musl = 'null'
- 
- # systemtap can't be built without optimization, if someone tries to compile an
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index eb1c2a440d..5cde60fb52 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -116,7 +116,7 @@ PTESTS_SLOW = "\
+     libgcrypt \
+     libmodule-build-perl \
+     libpng \
+-    libseccomp \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'libseccomp', '',d)} \
+     lttng-tools \
+     lz4 \
+     openssh \
 
