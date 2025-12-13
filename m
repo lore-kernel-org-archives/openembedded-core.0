@@ -2,65 +2,65 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60276D5AE66
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50466D5AE62
 	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 10:00:59 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2991.1765620059011564540
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2885.1765620050222329396
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Dec 2025 02:00:59 -0800
+ Sat, 13 Dec 2025 02:00:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=STnsmtAy;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-29f0f875bc5so24822795ad.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 02:00:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Fmv6py5M;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-29812589890so25550735ad.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 02:00:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765620058; x=1766224858; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765620049; x=1766224849; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RytcawXprBtdZavteg/YAT+ca6HHAFbtH0jF11YwVIs=;
-        b=STnsmtAyFl1dTCeqM/7FY/9lmvL7UUIXrbG/iS4i+LIJ2uYVtbIX29++05eU9adBrC
-         wqOjer/GQZ0OemEjdlhJ4Nrl4fJC7oyXyAF/rDJ6eHVzMKbw7b/ev1OljPToxc44JSj5
-         9f/b1NOeTVEO/KJJcaslUXls8ZV0bRTOZUoL3dmuhzKFzKC8VRPLQJ8/gpq3iwZ4QiME
-         kMouaAyzH13PbOnpjeAt92TojgxBWksdeULOYIlYFJa4tBgolUmUG4akfITPVS9BWCow
-         uBuCfabS6qHDM3tETSGdCyKiUuPlY0RLJQ30upt0gFqU1FWn99nLi7yL+IhJCYJRLy0Y
-         k0pw==
+        bh=XQw7CIST8rm7H08RPs9/B+ds/P5E8XOilBwUOg+20Nk=;
+        b=Fmv6py5MuQyw63ECjBM1SvO5rq5Rh5z3WEW3LYgGXL1NuPucfONUQl8vcml54/6jFj
+         ypDFCWKmRPYIgv7IAkT8xq3CuhAJi6tdfaJVLpZSEsRYW2P09dpoynUcsEZdm8XlAzgS
+         w9HbUzZdNT3UKScV7I+uQ/Q5Q74j+S4CDFSWuWMIwyewWvsmMg6hLFC4rGXorKRuNzf8
+         /BCSAQRfJdZIK7UpcsLqDB4kyZgEI7cOXZmvJnKCfc+bgrSmLA2EPNz+QTH1jjT+TQ5H
+         c59wG+ggQcOrdcVIslmFpHu4A3h/SiZ2aKf6U6w4v7vlbWgn8NjQxGsmHYXFbMNjS2o6
+         sC2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765620058; x=1766224858;
+        d=1e100.net; s=20230601; t=1765620049; x=1766224849;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RytcawXprBtdZavteg/YAT+ca6HHAFbtH0jF11YwVIs=;
-        b=kjpoSf6fULAYdPmyyE0L/enr4e1PQz4ma8mT3s+/efgHogO63+fKJBiv5Q4wMoNE9U
-         easKuhhO/2qfJ9p55ki1IqB+8qUnSM0iUirordMjLokpIKADZvQcoPHJpl535xVfmsiM
-         hqEFf3i7MLCv/8pQUJkHRUAkFtCmGSvQ7gyAtzfCItlaCojhaq9dgosaCbMZoMW1keZq
-         vR1IycvP50OvzcEaUZ0fT03cTx5+3uJZ4oi+ZTeuuURjmmShcBXLIRe5MrtJ9KTpVl46
-         uQ0mbXTRaxJTEuOTLmjvaLNAsHu8+E5H0+IzF0wShxD6gMMwQb0LqmDnZvTT15cX6/RC
-         UTWQ==
-X-Gm-Message-State: AOJu0Yw3xTd91zYYGMSo2gqwzhJ10uDOojkp6It8+rmrtHLoAjmQIY44
-	t7hsiejAMTwuqztOGaRnc7eCaS1q+zmr+8n9N/yOSiEVn13WXyMiV8ERYg6jEtGY
-X-Gm-Gg: AY/fxX4IQ+TcN8EbuJVt9JoBBXdd8WNb9F0npkgigrInk1uIo3aGlJglcmJLmRO3aMu
-	Cmtf4nPoJHVvHZg7EBc+56WdJb5e9P+RC/oX9Yo2dc+Aj0wXtZlQ5e4mGjPH3wrTrXOhAlX394k
-	jyZs7N/kwqeU4P/MIijNWZt2/ALL7sj6nL1pCieKyT6p01BhjjEqO4EGIN8Kipsp0fGrK4MMVBw
-	R+iBz94y6GJ3Tns+NgOJHAXEasjeG6jIAUZ/E+vplGbB4M9y9U8ckawcdlYB+r1b+q0oAXDxOkF
-	mD7AR5D0zwbJvsfNGCP4r2r8GQnyQduhzjVhIzG1exD+ZCKY5rqCo3LHhrG8gMC6IPf4jXH+fa7
-	nEE/YkHdjg6T631QVRmJvgl24JzwUUrR74HjBsqP2lBYjkojO6eaESUF7YYumijkNJWGJMXx3MC
-	QnSAny4wDSohBtjWeEprxn/DIJ
-X-Google-Smtp-Source: AGHT+IHGmyPuFwaq2+K1K3T14gYhNxk1Es2XCnW4L7eIH06gpD5Yc0UXkjm/hSgTTRTBOPt4C6oh7g==
-X-Received: by 2002:a17:902:cecf:b0:2a0:8df5:2f6f with SMTP id d9443c01a7336-2a08df53433mr20478065ad.15.1765620058219;
-        Sat, 13 Dec 2025 02:00:58 -0800 (PST)
+        bh=XQw7CIST8rm7H08RPs9/B+ds/P5E8XOilBwUOg+20Nk=;
+        b=DO6f8YX4AUOqsZXKLlD7cmTMSDh86/4ELbgtoE6fiQvEwgKkVIV+JcMy0+0NjjISoq
+         yOBVbnM7iO94YvZLI8CwuZRAmPxVqZVrFOEhDVeII1p85TmREfmkBLMvPdgRg4bg9116
+         Pc5F0fwhZzDDm1C4NhIstuhO896feyAtzYIoNN2eYriPaQK7t2EzJQh4Y+1vUk+vgjU0
+         BJIehMSABFEVlIiZQXmedWkQ2N2UJADFZ8Vi+cRCUEIjd57grkDiK7u1fflgqXZmhQTo
+         MlyD3F66YFC+wOHo6pJRaPZiivSIP6d+svZu55x31HH77yTtjT3D71o6Lo7wA8kh1F/a
+         jDzw==
+X-Gm-Message-State: AOJu0Yz3HH6yCskmq1JAF5XMzBfFHk0aylL+flQuU+l+GXsXAWpw+cfo
+	fWTc8lObVVnbb/aIMHDA15TzgUo0O0YrkkXPa6Ib6Z97ANwuu46A2aKRUmGF28b8
+X-Gm-Gg: AY/fxX7zO4FDJoKNo/NjIfoDUBfO6yPFxni7VdbOdv2zNrVhd0er2cHWQSgPlhtyH+p
+	F7DmlbWmeNqs1EqfHMjZh66wohl8PdaFTGlJaiXNh9J7X+P5qzM03BGI0t9Rr9DlXmu6wxXwsV1
+	gTsZuzRoX6ZmdiHFpgeXjwC3okcLz2ub2l8aEqS8xQO9XAnaKTs2HmcyaL9II6+1xjf14FhnFtq
+	bdOe8g6K6dlfQzHxK+qU1TRlM9L6G+p5jsdDvcgsFvkY1B3Y2hhZTNthjMqL5nvio81zGhmRDdt
+	+b/7CvNGznpM6o2d0j/HMMQLIJVKekixarPAjBbifLmiyem8Myxh8itH414fbq3pVVB7HF8NW/a
+	ts3GeFZrrdHE0m+T4SCGMokEecmISo5usSnasJLYr7m42qJOcSTq5PnIcytox1tXleXiVn3pzMk
+	jbv8Xo3LMBZ5kEUNcUR+/Ba64NgRj0irc3ZDs=
+X-Google-Smtp-Source: AGHT+IHCcmhIGQDbx4+SYbJd7LYZEp9769d+cWK4jZs6AUo4nibdlVRE48NxszguzV/fSrKPABLStA==
+X-Received: by 2002:a17:902:e551:b0:295:9b3a:16b7 with SMTP id d9443c01a7336-29f26ce9dd2mr43328725ad.4.1765620049435;
+        Sat, 13 Dec 2025 02:00:49 -0800 (PST)
 Received: from NVAPF55DW0D-IPD.. ([136.226.230.115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.02.00.55
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.02.00.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Dec 2025 02:00:57 -0800 (PST)
+        Sat, 13 Dec 2025 02:00:48 -0800 (PST)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][whinlatter][PATCH 29/67] gstreamer1.0-plugins-base: upgrade 1.26.5 -> 1.26.7
-Date: Sat, 13 Dec 2025 15:28:53 +0530
-Message-ID: <20251213095931.2571498-29-ankur.tyagi85@gmail.com>
+Subject: [OE-core][whinlatter][PATCH 26/67] gst-examples: upgrade 1.26.5 -> 1.26.7
+Date: Sat, 13 Dec 2025 15:28:50 +0530
+Message-ID: <20251213095931.2571498-26-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
 References: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
@@ -70,33 +70,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 10:00:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227647
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227644
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit 6719158979df0fd8eed2c1730dd0f3dc2d67baea)
+(cherry picked from commit 5d45726d07f049be7d131b4fa0ed1b2716060dff)
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- ...ugins-base_1.26.5.bb => gstreamer1.0-plugins-base_1.26.7.bb} | 2 +-
+ .../{gst-examples_1.26.5.bb => gst-examples_1.26.7.bb}          | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.26.5.bb => gstreamer1.0-plugins-base_1.26.7.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gst-examples_1.26.5.bb => gst-examples_1.26.7.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.7.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.7.bb
-index f12d81cda9..4dfd0a207c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.7.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
+diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.26.5.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.26.7.bb
+similarity index 96%
+rename from meta/recipes-multimedia/gstreamer/gst-examples_1.26.5.bb
+rename to meta/recipes-multimedia/gstreamer/gst-examples_1.26.7.bb
+index 2fa4ef11fe..6790f0b038 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-examples_1.26.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.26.7.bb
+@@ -12,7 +12,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gstreamer.git;protocol=https;b
+            file://gst-player.desktop \
             "
--SRC_URI[sha256sum] = "f0c0e26cbedaa57732cb6a578e8cc13a1164bf18d737d55c333061c52f0c48d7"
-+SRC_URI[sha256sum] = "969e3cbf05dfab92cf37e94840fbe398517d7ba3275331d1c216a2e30a7208d0"
  
- S = "${UNPACKDIR}/gst-plugins-base-${PV}"
+-SRCREV = "82cbccedf7946a32d28a5aaec8ebbcb627770c19"
++SRCREV = "c5a5c302f5e7218182c0633decec16b25de82add"
+ 
+ S = "${UNPACKDIR}/${BP}/subprojects/gst-examples"
  
 
