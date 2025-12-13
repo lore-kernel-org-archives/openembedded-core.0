@@ -2,66 +2,67 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B051FD5B149
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBE28D5B154
 	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 10:02:49 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3023.1765620163566210864
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3024.1765620166806494595
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Dec 2025 02:02:43 -0800
+ Sat, 13 Dec 2025 02:02:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Gw0qxw43;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2a07f8dd9cdso8310905ad.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 02:02:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mBQ85pau;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a0a33d0585so885635ad.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 02:02:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765620163; x=1766224963; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765620166; x=1766224966; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=X4xDaOE8O5HJWkCTIKS5lPZfcvWwrFJ9NHRLasL1/6A=;
-        b=Gw0qxw43yaP8Dscr+bwj9853JaWsHyS93CNbhzzIueJ13Ex9vlWcDJ4ONXjooHGuZi
-         Gcaba0nyK4ZRPrVkjDrffyy1/t5WBL5IAbHxRZUuKkWoR0Pw2vMRp9PAvd8Gnq3zeRfy
-         ZnkgH3+/6Jm724o16qcPhakAE6DMkdu7nK5nwkHSUzYXqjKYPYDQGNGeaGhY8+h5AHTM
-         oB5Ldx3DYV+tP7hre+BuvX9fq4mB35QHx86w8xjMTZcOuYXzskvKxV4Lrsqgmvu7Oyji
-         Hp9Iq97Y6C9doJLojApuJYeSsyafj7q//IqXKI97riEe1L42fBL0GcGu2zhngQBq1dA0
-         i29g==
+        bh=Ix8gH9ZPmCqL7Xh8TSaK1REyVINGz6Tf91/6AlI8qlA=;
+        b=mBQ85pauPvc1x6EOAleZF9Vfls9HqN/5eBrCKCznk2jgX1WbAcC9reAzJu6Li1leRK
+         PiDvuylEdYGjDqaq0HWsfFBTYBD7f9roUeG7b/YjJ5aVlseJrIR+TgCVKAjKUaO8iiGO
+         yVUSQ+K9dcadTp06MKmcp4mFX2h4n8ShjtJuW+jVu7p6GiiuE5UOwzVDYR+snzZq4cuH
+         9EatzMPXiE8oXNlvw27k7YEI5As9cqKNuReI23i/OhQzXFSzheXnmqgPIX5M/IfE0ru0
+         KlYP6tz94kbltsRpBOYg0uQO3e9ol4OEbTYBsFkcLDTKms5oaOXwGA196EInD2kx+a9t
+         cAXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765620163; x=1766224963;
+        d=1e100.net; s=20230601; t=1765620166; x=1766224966;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=X4xDaOE8O5HJWkCTIKS5lPZfcvWwrFJ9NHRLasL1/6A=;
-        b=Q0dYq5yUsKjwiLU+HPcCM11AnbQUfv4HCUo2yRr3KLaLG2OqnNw8OaDIatM623LUkT
-         Q/rjMHv0HJv8VYOjGtX+oUKFG/Xp/DHqqouaunflqjXdAVnK1p3XqHm3JQ5sgtQGI1Zp
-         9C3R2+ubjXYjOVGyDu/Hfzs4iJxL52E7LEAGGoD1N7zbyfpl5+E+0gY4SgDRIfCmqIZE
-         Ic2BChknNV/CsrxTLEvDAJpIlUAxvnvUqYd1gw1YnoWdwV//NhD0aln4W3roDs63Puzl
-         ybnjAVIJ4fohfuWwf4O7avkwMcULVWLRLwsFhIfrz0fVwuL9h5lmcUMbbIivjmwg+FLb
-         23/Q==
-X-Gm-Message-State: AOJu0YyKYAkRTWpwEDSAHGjgUoQtoZQdXGP5+b0dtfTsPQSgtyBePJy1
-	WPikRwuW5XK05VboqWAFBlqg7XhVNeimye2iDcwvE4YOar1sh7LESiN7EPtVQUoA
-X-Gm-Gg: AY/fxX56v2XyBfro/oZYeqncCTSu14/WpG42BXgi5u+O/9heTOm1Aq/lzmWv0VtpbZJ
-	Y2ZNWgsXmxD3wYmOe1w3asuwGvmT9cDM4GcprBS+d8lHd9Qgb3Wg8Adhy5ABp9quKrqin/G4j8B
-	5arOro8g9hFp1K1CDBkyGFBxUCMDZYxbGpP9NLfouDNA3YCHzn4w2bry/k0yWoJkfpoEzT++GSu
-	7wc/QwtQ27dgArDb0KZ9DZu1srYvMN+LnpPEuYiALADqi0jZHQt5p98kMzTqLQTB3wVGBFEpNZm
-	efBknnVLp5mIFAAR62YdYlb7Xh8ChD0CrnkandbodHqC5+dPl/7G/CIlvE7sGJxZy/Az8G8ol3T
-	fEJoAngf7sU/YmvgNmDeH3iGF0a+uBv0vjzjstAV6MO1Y7Z1xXkgiOiOySaCa2AdBfp8scv/Lmw
-	9NmuO3UwcTD1vKpwE5ytLNm7Oo
-X-Google-Smtp-Source: AGHT+IGrNfP1OfxR+UEMhxxgDg27A95P3l3FSFgNUC/DrvNC4iyFSMdNE7yOcQLbOd+Z2M1/mgNqOw==
-X-Received: by 2002:a17:903:2cd:b0:269:82a5:f9e9 with SMTP id d9443c01a7336-29f2404b62emr41623775ad.29.1765620162764;
-        Sat, 13 Dec 2025 02:02:42 -0800 (PST)
+        bh=Ix8gH9ZPmCqL7Xh8TSaK1REyVINGz6Tf91/6AlI8qlA=;
+        b=HCnTdeiK3n+rjagokKRqOXXvnQAYdzB+6wmP6vI9V5tDaCCDOSW8Rl+AvD5DCXbXSW
+         KB3+pM9qWAPh+F30qm++nOlkNtxnMXVPZI335PSC/5IGIuw/GgY3Hc7Ty7ax1tE010uF
+         Fs10qnxSiUfpyM+dlFLC1hbxFPrWCqZ5N6896dVkvR3XO5wq801MS+29nlB2H/2WwhEv
+         Q1rDe7aeLw27SQPV/uKUkOh+MJtsBpetuNPjLl6sffWSjhbBjkpbiub2T7Bq69MaT+NQ
+         oELhsBFt4knknEqnf2sdkrXXbMSwR8VTX/EwHmBF/HNaFqXfTY4LizNY2K2pLJVL1jck
+         FjBA==
+X-Gm-Message-State: AOJu0YzhNbrGx1393hiV80sHbPVwfoqmzbMarSqhbKbD6Z2+Z/POGagc
+	/5Qy0kC8toKvAGnHJL/Fic9Hkp3MkHvNPR8F/ctVlsvEqk6ypV8eJJWhNVzgcXkQ
+X-Gm-Gg: AY/fxX5OBqL3vnyJvFjLOponJepHVftGyQejBSScjn51bYCTWF8fEDn9DJeQ2zHhx6D
+	LtSFhHXczztHIMrT6Ry6SqMBhzxp4smgdUnaeTWlckFmkBx03EUYrRbeF/rj2DEbNMFNWu9B9Uo
+	JFvC0w7DojkT241wQV4FXKXSZa3E32d9lDX+vZ9lJTdUIb0WOUWBjh7GJVmqUVQKhWx+N21cu6G
+	1sL0pgWnTZ3NXKd2E5jfh0XMQTuhBkvRdWUBC9LNwZ5uxFmWfy4RIGmkd1j8RQLaf6/sMcETrRz
+	oqdAjC92e0QCXNYI8RUQfQ6jlIYR3xpraGVjL36oHGU6OACFTbreRAHI7SWxGCxRCLesSB5y6Y2
+	eegh8XxUZjhfpVcNvPwQ1VL/MOVpZ4ClXahF9nSTgGBBDDGn/5t1+3mCJ8JUdYSQd7xRaF0zdI2
+	TuaFE7+QL4Lk3U7lHHSsL4vPtn
+X-Google-Smtp-Source: AGHT+IEJZO+8nEA+t+Nz98st8FjybRiSsYHrq1vsdKUzOSXFN/dRAoI8cYT+f24iuf+cb+07rskWGw==
+X-Received: by 2002:a17:903:3c26:b0:29f:1738:348e with SMTP id d9443c01a7336-29f23e07bafmr56492915ad.15.1765620165963;
+        Sat, 13 Dec 2025 02:02:45 -0800 (PST)
 Received: from NVAPF55DW0D-IPD.. ([136.226.230.115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.02.02.40
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.02.02.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Dec 2025 02:02:42 -0800 (PST)
+        Sat, 13 Dec 2025 02:02:45 -0800 (PST)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>,
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Quentin Schulz <quentin.schulz@cherry.de>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][whinlatter][PATCH 65/67] llvm/clang: Upgrade to 21.1.7 release
-Date: Sat, 13 Dec 2025 15:29:29 +0530
-Message-ID: <20251213095931.2571498-65-ankur.tyagi85@gmail.com>
+Subject: [OE-core][whinlatter][PATCH 66/67] mesa: upgrade 25.2.5 -> 25.2.8
+Date: Sat, 13 Dec 2025 15:29:30 +0530
+Message-ID: <20251213095931.2571498-66-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
 References: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
@@ -71,65 +72,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 10:02:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227683
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227684
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Brings following bugfixes on top of 21.1.6
+Pick up the latest (and last) release from 25.2 branch, fixing several
+issues with the drivers.
 
-292dc2b86f66 (HEAD, tag: llvmorg-21.1.7) [LLD][COFF] Align EC code ranges to page boundaries (#168222)
-9ed1927442a4 [server-llvm-21][MC] Fixing vector overflow
-922c9914e14b [clangd] Clangd running with `--experimental-modules-support` crashes when the compilation database is unavailable (#153802)
-33e1a55a8bc7 Bump version to 21.1.7
-
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2351cc82dca18e159c9630266a81571a95394bfe)
+(cherry picked from commit 8fb953ee296577db183733e9f21d8fc866ec4453)
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc     | 2 +-
- meta/recipes-devtools/clang/common-clang.inc | 2 +-
- meta/recipes-devtools/clang/common.inc       | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/mesa/mesa.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index f17a622c44..b6dc20e9de 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -481,7 +481,7 @@ RECIPE_MAINTAINER:pn-linux-yocto-rt = "Bruce Ashfield <bruce.ashfield@gmail.com>
- RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-lld = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-lldb = "Khem Raj <raj.khem@gmail.com>"
--RECIPE_MAINTAINER:pn-llvm-project-source-21.1.6 = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-llvm-project-source-21.1.7 = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-llvm-tblgen-native = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-llvm = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
-diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
-index 4051ce6085..ae0caa6f01 100644
---- a/meta/recipes-devtools/clang/common-clang.inc
-+++ b/meta/recipes-devtools/clang/common-clang.inc
-@@ -5,7 +5,7 @@ LLVM_HTTP ?= "https://github.com/llvm"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 3124db0986..cf2c2a57a0 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -19,8 +19,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
+ "
  
- MAJOR_VER = "21"
- MINOR_VER = "1"
--PATCH_VER = "6"
-+PATCH_VER = "7"
- # could be 'rcX' or 'git' or empty ( for release )
- VER_SUFFIX = ""
+-SRC_URI[sha256sum] = "bb6243e7a6f525febfa1e6ab50827ca4d4bfdad73812377b0ca9b6c50998b03e"
+-PV = "25.2.5"
++SRC_URI[sha256sum] = "097842f3e49d996868b38688db87b006f7d4541e93ce86d2f341d8b3e7be7c93"
++PV = "25.2.8"
  
-diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
-index 4ea22fe5fa..e852f03c1e 100644
---- a/meta/recipes-devtools/clang/common.inc
-+++ b/meta/recipes-devtools/clang/common.inc
-@@ -17,7 +17,7 @@ BASEURI ?= "${LLVM_HTTP}/llvm-project/releases/download/llvmorg-${PV}${VER_SUFFI
- UPSTREAM_CHECK_URI = "${LLVM_HTTP}/llvm-project/releases/"
- UPSTREAM_CHECK_REGEX = "releases/tag/llvmorg-?(?P<pver>\d+(\.\d+)+)"
- SOURCEDIR ?= "llvm-project-${PV}${VER_SUFFIX}.src"
--SRC_URI[sha256sum] = "ae67086eb04bed7ca11ab880349b5f1ab6f50e1b88cda376eaf8a845b935762b"
-+SRC_URI[sha256sum] = "e5b65fd79c95c343bb584127114cb2d252306c1ada1e057899b6aacdd445899e"
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
  
- SRC_URI = "\
-     ${BASEURI} \
 
