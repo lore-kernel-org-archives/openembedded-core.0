@@ -1,104 +1,98 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <t.f.g.geelen@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C328D5B15D
-	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 12:44:20 +0000 (UTC)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4800.1765629843502136346
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1407D5B15D
+	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 16:58:31 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8945.1765645108445074971
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Dec 2025 04:44:03 -0800
+ Sat, 13 Dec 2025 08:58:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SFfBDkku;
- spf=pass (domain: gmail.com, ip: 209.85.167.174, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-45391956bfcso1691494b6e.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 04:44:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KdD3J2Js;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: t.f.g.geelen@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-63c489f1e6cso4593256a12.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 08:58:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765629843; x=1766234643; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ThlSOS+gWPru5auPS/sW9okYMtyS2Pj4KL9g2r2tD8E=;
-        b=SFfBDkku5FzyubHNhcx8Fj8Ala6yje+f14OpOIPvAa/UuKKAMTTAgpFuidgKIlGx3w
-         iuaRNTMvxs0V17LpHX3l8xtNNT5FSJndY7IpwwrakW6bKx0SUBKQCweZKZjjz0dJlkTA
-         SPg7mMXD3XCxEQsYy5U/b+0QkJHM7ruIZEZPjNdR92KCsHR0wOHtiCABFf5/mdtHTSzk
-         8pnFy0FqELf4Iik+SWA+CCeNTcywYRaIWwI1qVvJsJqv5ibME3S+UqU87chan1dxGSS8
-         iieBLT1cKqjwGtmmL1MQ5TyZLSQFApTwtuBEqZK3rs3Pyo+Zx1THxZiB7xS71lsgFl5N
-         lPcw==
+        d=gmail.com; s=20230601; t=1765645106; x=1766249906; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XKVWpqYMhME5NZzClFh6TrNob0eTrxHS69YYfJp9Ajs=;
+        b=KdD3J2Jszul4PIJBlTcvYCjwvq2fp/SRhYpy6IjJytHiqxT33bL5PDpqq+TaFjzjvY
+         f00sWAi0gmwnNDFrTwgdE8Mz0cW8MARNtf5y2OpG2UnMgZXjAXJ00Q7ckejKtNTJD6Ix
+         oHk70ELkGbQZXo5eVefiQkCkOr3LRfyy05GrcSO830xZ4KajEFxNIu3x1ML0om0obbKQ
+         ABNv5jynYFdE2v8Eo4winnFevr1nTf92N1k4jYr7HdZG/eCwUzFlqP3tayqPlHDndN+H
+         KLYe1G9Qvh7uTOU7PhBhnkEzDQfYi2GV/+Qi7YtzyxFU6RRBRbCctJnMZUsJeXuEHttN
+         zwHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765629843; x=1766234643;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ThlSOS+gWPru5auPS/sW9okYMtyS2Pj4KL9g2r2tD8E=;
-        b=bagGRZl1hvtlEN2TUr/H9YxMx/yOYE/ckYzd/kWvVpbOhoNYpPdlhxw7ukuwz0UUp5
-         nTpg50P3UQ393lihb/Ky0LsWFXp+HFlbkt/4y7y1+iUs+BG8ssFLAQJDfyj8YE1ZwwkD
-         FR4vHRdE+Ud4gohgWAL0S0a2G33Ojc1iOKe6mVlfsXm6pWCCovBaEmB0muImN9ghCF8d
-         gd0NXlFt9CbfpGkV1MMWpPcoFqBmeAaD4p+LpK42khrLT3Kv1lhvEEZvoE0KaCu6mEiS
-         7WJGiSZiDVeKEn880oRaHWwj7jn7ieniRz/8l9ytG8bcLQPf00HY3rALBBa3knJN++KU
-         E5yA==
-X-Gm-Message-State: AOJu0Yy4FV0JcS1d3+Migl4NR3alHUx777t7V2xf78GONMuXp8gvElG0
-	mXB4fj5gxRwrZXzmhRM/+QJO/KZKf7kOrERzi9nVsFM8rRhhbl8mwY3a3R5rbn1mvmIBu0D4LSD
-	aLGQFFlDWu+MbJ/t8hj5mbjqtg5AR90s=
-X-Gm-Gg: AY/fxX532ipFN1zbUq1Vyq1LsyD4MzJdqcIIwAZDs4frdUiKOn8jvqiFjjvW+gxE9P8
-	JOmMBiXZsbvCyh62AB16ughbq94mn2Yr2KoP/NKtQoFeq2WYSF2p3BHlVFI9X9hVs19OqYrw+rM
-	LJ/I5GoQDvXeH3k4t6dMaqVOyvT3A35bx6/Tza4ZuBbW7b8hR9OQ9VU/zXfw2VL8Gu0qiz384QV
-	iL62dmVOblg1ovZ6qA9f9NF3e10M+XDZq43Nl6LV7VO5JYpB4REp2LeTSsmRsWAgisnkQfjsQ==
-X-Google-Smtp-Source: AGHT+IEmHG2q76QITIWCBioXs/TkZDB5oOFsa1CDyIVFEDte1gnt+9idyZQ2QTwFeVq6y3OrZpeX9Di92Rd1mzuA+6o=
-X-Received: by 2002:a05:6808:30a8:b0:44f:6a32:535e with SMTP id
- 5614622812f47-455ac81faf3mr2789431b6e.10.1765629842608; Sat, 13 Dec 2025
- 04:44:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765645106; x=1766249906;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XKVWpqYMhME5NZzClFh6TrNob0eTrxHS69YYfJp9Ajs=;
+        b=YwhmszFVSJGe6au1d5PuHg7TvqLuyNh3y0FqZX5O+zjmnzJjPX0DHGPdqF1NhsVbQo
+         iUSvgIxMXRPAjb2mtfCaNYWHvwp259wHyMCmndLBYABzQI4y6RfoAdVdAWnuFhXkUUZf
+         pdE37CFdJjUk+Zj7f7ibn6iIVtUq43U3zK0Nui+Nz/PfNkeoPDMDDUK/Vi6b0JX9VMmG
+         ILlQCOMtlkBiqJDfkzWE/7Em0Le+unfNGUFm6fGcaaP3Aqwg4c/lSpnnuLU/3UCaYETN
+         uUosgYKFqgIh+Dgyt2g2qfuqYEXGN7vSzACfDIFkBBGsVTkGIcPK1c5VEpW3GGMVs108
+         EWoQ==
+X-Gm-Message-State: AOJu0YwLrk07p6l+3uB1uIXyrGWGDpoqdd/Hcc/5LHaenLzjMxmHLNC1
+	dm9vM0lUV6n/yPK8RpIMQEqSzkHLHeVcaxsuaHNh4gNlF2uoKrDog1lTJZk7OA==
+X-Gm-Gg: AY/fxX56IlLAS17pQFoMT4rULDzjVS1YmWdLfhqBF9VC/i8qQXY4CpO+ZZun+q9GC4F
+	SMp7tSW9E46OL2stOB6tYTwoE0MEajn5RGxZjYoD3K4EQd0EUSMQNhVbI4HggPt467q8ce78mPf
+	ZyWvDg1sk+OXwAkEBiSp7T8ru+4nTVccTEoEHymsUSj7bQ3hy/zL1o6zkCCy19VO8GrABGkYWtU
+	4pCydPOo6u7DF7iyH3uV+l3IZxlWadygpDAzSNpIprBue9t3lWN89NrPfDmLKJzedvBhR3qxQEi
+	bBYHYU4U1dJQTYYhVSpcpOG7gem5S4fm3aSCa0Ug2ZtMhhGnsN7VFW0auOizVUIcNvLmAo6nkXr
+	ZYaGoJ5Mbbx3Gxw9pOkJ4m8kECJgFC1TQdxP1JR/cTDHO8sLla7PoILyHA20zj8fKolskpAYvvh
+	yUj76VB0nS6pE9rYBIKkMUX5tV2qvNApG54IWoSO0pKjG1LY+idZNwTA1siYEF8iUn
+X-Google-Smtp-Source: AGHT+IHEI9WyiCPaS5Ff336iHhb3JXS/A9thMAJPfUei79aaVsra4sQtDiqEkurFH37KWUkj6Ze3QA==
+X-Received: by 2002:a17:907:3d43:b0:b73:9222:6a64 with SMTP id a640c23a62f3a-b7d2166d010mr645715466b.3.1765645106109;
+        Sat, 13 Dec 2025 08:58:26 -0800 (PST)
+Received: from control-center.fritz.box (150-12-20-31.ftth.glasoperator.nl. [31.20.12.150])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa56a7f9sm885897166b.51.2025.12.13.08.58.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Dec 2025 08:58:25 -0800 (PST)
+From: Tom Geelen <t.f.g.geelen@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tom Geelen <t.f.g.geelen@gmail.com>
+Subject: [PATCH] python3-psutil: upgrade 7.0.0 -> 7.1.3
+Date: Sat, 13 Dec 2025 17:58:09 +0100
+Message-ID: <20251213165808.1616658-2-t.f.g.geelen@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
- <20251213095931.2571498-66-ankur.tyagi85@gmail.com> <1ed25eb81b19a2c92bbb2d802fccc2afd15a8ace.camel@linuxfoundation.org>
-In-Reply-To: <1ed25eb81b19a2c92bbb2d802fccc2afd15a8ace.camel@linuxfoundation.org>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Sat, 13 Dec 2025 18:13:51 +0530
-X-Gm-Features: AQt7F2qlQk4K2FlKQPdMk7dKg3xR42QscRJO7-4K1BxE0Mg6wpmMfQCwdsn8I3I
-Message-ID: <CADySD0ELk1D35KYVsraUy896brQjELFvH+0ng5dq1z2uWG4J8A@mail.gmail.com>
-Subject: Re: [OE-core][whinlatter][PATCH 66/67] mesa: upgrade 25.2.5 -> 25.2.8
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Quentin Schulz <quentin.schulz@cherry.de>, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 12:44:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227688
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 16:58:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227689
 
-On Sat, Dec 13, 2025 at 4:51=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> Why 67 patches to whinlatter? Half haven't arrived in my mailbox yet
-> but it looks like a copy of what was merged to master?
->
-> You need to say why you think these should be merged. The don't look
-> like stable backport material to me.
->
+Release notes:
+https://github.com/giampaolo/psutil/blob/master/HISTORY.rst
 
-Hi Richard,
+Signed-off-by: Tom Geelen <t.f.g.geelen@gmail.com>
+---
+ .../python/{python3-psutil_7.0.0.bb => python3-psutil_7.1.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-psutil_7.0.0.bb => python3-psutil_7.1.3.bb} (90%)
 
-Thanks for your response. I will include cover letter from next time
-to explain the rationale.
+diff --git a/meta/recipes-devtools/python/python3-psutil_7.0.0.bb b/meta/recipes-devtools/python/python3-psutil_7.1.3.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-psutil_7.0.0.bb
+rename to meta/recipes-devtools/python/python3-psutil_7.1.3.bb
+index a2af198083..67d2080f21 100644
+--- a/meta/recipes-devtools/python/python3-psutil_7.0.0.bb
++++ b/meta/recipes-devtools/python/python3-psutil_7.1.3.bb
+@@ -3,7 +3,7 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a9c72113a843d0d732a0ac1c200d81b1"
+ HOMEPAGE = "https://pypi.org/project/psutil/"
+ 
+-SRC_URI[sha256sum] = "7be9c3eba38beccb6495ea33afd982a44074b78f28c434a1f51cc07fd315c456"
++SRC_URI[sha256sum] = "6c86281738d77335af7aec228328e944b30930899ea760ecf33a4dba66be5e74"
+ 
+ inherit pypi python_setuptools_build_meta
+ 
+-- 
+2.43.0
 
-You are right, these patches are cherry pick from the master.
-
-After whinlatter was branched, few recipes in master were upgraded to
-include bug fixes.
-Intent is to include those upgrades in whinlatter so that users can
-benefit from it.
-
-In case either of these patches is not meeting the criteria then
-please let me know and I will re-review it.
-
-cheers
-Ankur
-
-> Cheers,
->
-> Richard
 
