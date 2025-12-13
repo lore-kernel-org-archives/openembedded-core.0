@@ -2,64 +2,64 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81B73D5AE73
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76275D5AE6F
 	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 10:01:39 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3001.1765620095742559423
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3000.1765620093105561455
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Dec 2025 02:01:35 -0800
+ Sat, 13 Dec 2025 02:01:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iH//LaHh;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2a0ac29fca1so319495ad.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 02:01:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GUTpG+XP;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-29808a9a96aso27493085ad.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 02:01:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765620095; x=1766224895; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765620092; x=1766224892; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GXpJH+EPK7C3TTLdlDrDYbPzRJGwf18CmPi8X/C79wA=;
-        b=iH//LaHhplkTUcEIaTIS7Z3pKn8ETkQswSc6e1fw6vTuEmEnVi7XhLNPtkDQJDLz6D
-         zb/W/QcD2V9jyKBEg3c97lg7mudLFvR4yUHlm0v9iAsZpuE5UgmH8zin+Ib/k5ye+C+6
-         nJ8sFtl+oVL2yt6zA7B9ACahu4uoDStA8z7R1Z+12t9qX6mX2KSSM6XimVGl2QBYMaFa
-         KIQuQgF7SvSviIsdB9v5BYlahwzOrr6w1mTVBe5UtOnXIZB9X+PPusp7PDAXRKH/OO1A
-         T/7St1bz/W66oejuREcbL3kw7tn0APLZwwT0mMqb/IEWgPHaKrGmpZc7bsR3nmYJizfV
-         zS8g==
+        bh=HAygeo++V7FYv8PTS0GSaHjT3yTSKlqRJ2FF7JbbXN0=;
+        b=GUTpG+XPCUkcP/t1FwebmA/r9qC8ARlrepSXd2QjiVWn/9zha1WxInWVVnl9/PANZu
+         F9nwu9I659INrBJIOmHo+Nuw4SjgYgFkJ1cuix1RsNmY3rLeDx80EzvLzqdnV1j3fhGf
+         cqaJ616WGiBAgPajxQr0mzeBwphardnUV9YWf0zIQr44vmAE4v0LICmAW+p+Vnq+mBcq
+         Sw1/FKMjog22odWmWWnCF6CCkcMSRxY8/8OO2FgRWRlIHj9npa5UUaoehLRn+GAmTM2W
+         1e0Lp62kamTH6thXVZz/ksWsDV8Yuro3tpqc7TUl2F27yVIBSPHEx22JYPokSo1u7DOV
+         FELw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765620095; x=1766224895;
+        d=1e100.net; s=20230601; t=1765620092; x=1766224892;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=GXpJH+EPK7C3TTLdlDrDYbPzRJGwf18CmPi8X/C79wA=;
-        b=aXp4sdl46ZqlpRLROeJ3XJGgJ/YrFlQ9Q1GAtPFwNwE6bB05rbiuUcri6ytuTKbT8Q
-         ZRDME97UFinxnVqZ+QUYiEbyab49onqnqEEk+LxTzUkmnsx89BLkWtYWmuA1q2Ayzlfm
-         WdX2rJbgF4Rf7H2f+Q2cTHUiGty6gjPR6mdnGED/1Ca/XPKPmjxooUfBnCwIqBfW1YgQ
-         zB4ejlPrZG9m7WGwTUQ5D12bWW6f7bcNGCMbR0jNbF3Ha393rxNIufmfaHYzITAIZ0kL
-         F6HVLwjXDojTHJy9LzN0h5VMm/ibzwjzxrh+YIXyqAoVCY8PSft5HeyST++Jm+ramSos
-         hQuA==
-X-Gm-Message-State: AOJu0YwttOzzXi06ZvNoixZwYSBl3mldKMLQUFnUXMQ0I02K1uMubH8t
-	Y+8xubcUNvgiuK2ug0zjePwxyfuyPrFVto89WIEEB3M6sHRw4PijxeMmaAwgXXI6
-X-Gm-Gg: AY/fxX5wHYH7ztRa9RZMPihoJEbQNXCXkyC/UAkPo1A3jNPbOKlg/STYcY/REnyVz53
-	n/09xcvOvjPosxS2o51TW3/22MCjxZZSFSLPadXVpSWlk8mJ+9lsUszSU4lQv6uGESXs4duVIO3
-	UjFUkJ+11yw6esCGvK5l8Cje9pxPCfskUUJpAzRbp+gYNy4EpKbJydxADRBtlpWVdeBCGjIWOAZ
-	OJza5zUjQEYqkSENb0IYCxXrPou2DSQ7FfVtRyQAsJMIyj9lqS+beBaI/kwihaT5oYD/FULZ9bG
-	qsJaFkXzHo020k0cGtZC4y/abS/VFHHdvalUriLkWwMCBDiozCYodW31kQXL8qhHa2yc7bwgBhR
-	VzDlkBMLlZGze/SEW1rk6z2mKCiGstOYtJF++HmwvW9+MmGH5IOtcBmf2VgMQ2Uy09HTy4eOMEt
-	y234V3aM4N13WRHrJ7bObeHnfv
-X-Google-Smtp-Source: AGHT+IEKGGoJ5gdJCpfCdRz+nFtd9xWcLN9VeWaV2VwumaFqyuYQhZAG6ML/vrfQpXT4OFMSgUMI5g==
-X-Received: by 2002:a17:902:ef12:b0:28d:18fb:bb93 with SMTP id d9443c01a7336-29f23b1ecabmr49032465ad.7.1765620094891;
-        Sat, 13 Dec 2025 02:01:34 -0800 (PST)
+        bh=HAygeo++V7FYv8PTS0GSaHjT3yTSKlqRJ2FF7JbbXN0=;
+        b=oAcQhxF1mqQ+lPAwnhlD+7qxziPjSR/lhG/B06HIw+IorOCXWHA711tahQ1efA9EhW
+         orDY5X/1Ga+KWTdu6+0nHnSbwvfrc9r6N1BY51ltUaz9IWd+c8FT65RUj2Q/oyfaMkIL
+         jAYVHsv3fwMjon5fAuaKv9Ld0u//dU243dakmR4JMmsM+UFDy0lmdnB5zO5kkJtDFMaZ
+         RyfEHu3fLLIKtwkidR4mVNS+jmtHYTQMI10LFfW1ACZ8vX7/Vkp5NWQpJrRF2PdhR/zy
+         USvcxlmQxKkjYN5jVL1pjLwZrrJRUVVpRN4gvHrZWM+TqooLU6STzxs9xgg02z0BZk/8
+         wu4Q==
+X-Gm-Message-State: AOJu0YyAhCkH5CCg53qbS4mynaf8FBTB1lgsXXxL8GV7x9XEBK41Tzp7
+	XXD8EwFCp7/APWzaVpasIbkc2mllsdx1gLVi5qBwyJ4khIYeCP+XAzpr5l3Torb0
+X-Gm-Gg: AY/fxX4ZW1oR4/SYp2fAdPpRI++FiQInPphJLgXWYX2n73KzXQP/soe39HWs4cQHwMb
+	bFb0ErDykFjQA0+NTETvxC1o7fQQLkYtbi0VC4FBja6dkQyAeGng+xg3ERKKnu+1ZFqYxuGq+zV
+	WhEdhoFUtgdAVfZEV8xNY//qAtm7D7bKG1deDj1CJ4joe4iL7oLzEfe4+wgtzlQ8OM2VPD1hkgh
+	VvoGuPd6v4+AdqsVAUw56qwBZ5W8Ki4g05JZMCSoPe1HoMRqsn0hXQaXZWjhvHf3Qn9nUAckNd2
+	bKy5bhxCRa7r8VD0wH7u9hgF4jziqmnhrLCldeui/eN8sDnMlQnlUL+3OL0QRCCv7RNX+YmhfHT
+	IESsbGhkU/+/xkLqRUX4ETrtM3POo+K0s8JDI7FhaQt22bb8VeTY+9IX/dHYEbqUD5+b1JyeX5Y
+	nvu7tGA8wRhW9pMWn6UgRg3vdt/CoRvckhIa0=
+X-Google-Smtp-Source: AGHT+IENm8lXpvX1PslaFEm+ebugRZOnnzkvdvof3A2668eei0bKcxvF0HSGYFY9uzeW6TY5wBSfaA==
+X-Received: by 2002:a17:902:f709:b0:29d:ecbb:44d9 with SMTP id d9443c01a7336-29f241514eamr54997525ad.31.1765620092253;
+        Sat, 13 Dec 2025 02:01:32 -0800 (PST)
 Received: from NVAPF55DW0D-IPD.. ([136.226.230.115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.02.01.32
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.02.01.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Dec 2025 02:01:34 -0800 (PST)
+        Sat, 13 Dec 2025 02:01:31 -0800 (PST)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: [OE-core][whinlatter][PATCH 42/67] libproxy: upgrade 0.5.10 -> 0.5.11
-Date: Sat, 13 Dec 2025 15:29:06 +0530
-Message-ID: <20251213095931.2571498-42-ankur.tyagi85@gmail.com>
+Subject: [OE-core][whinlatter][PATCH 41/67] python3-markupsafe: upgrade 3.0.2 -> 3.0.3
+Date: Sat, 13 Dec 2025 15:29:05 +0530
+Message-ID: <20251213095931.2571498-41-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
 References: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
@@ -69,36 +69,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 10:01:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227660
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227659
 
 From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
 Changelog:
-https://github.com/libproxy/libproxy/releases/tag/0.5.11
+https://github.com/pallets/markupsafe/releases/tag/3.0.3
 
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit 743c71314476964581df971f1a8073e14006f9c6)
+(cherry picked from commit 5bc11d32aeb79773b33ce54989e9dab4e03815b8)
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- .../libproxy/{libproxy_0.5.10.bb => libproxy_0.5.11.bb}         | 2 +-
+ ...{python3-markupsafe_3.0.2.bb => python3-markupsafe_3.0.3.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libproxy/{libproxy_0.5.10.bb => libproxy_0.5.11.bb} (95%)
+ rename meta/recipes-devtools/python/{python3-markupsafe_3.0.2.bb => python3-markupsafe_3.0.3.bb} (82%)
 
-diff --git a/meta/recipes-support/libproxy/libproxy_0.5.10.bb b/meta/recipes-support/libproxy/libproxy_0.5.11.bb
-similarity index 95%
-rename from meta/recipes-support/libproxy/libproxy_0.5.10.bb
-rename to meta/recipes-support/libproxy/libproxy_0.5.11.bb
-index 21930ada00..1efa3cdc0e 100644
---- a/meta/recipes-support/libproxy/libproxy_0.5.10.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.5.11.bb
-@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
- DEPENDS = "glib-2.0"
+diff --git a/meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb b/meta/recipes-devtools/python/python3-markupsafe_3.0.3.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb
+rename to meta/recipes-devtools/python/python3-markupsafe_3.0.3.bb
+index b90dd84f48..dace235bb8 100644
+--- a/meta/recipes-devtools/python/python3-markupsafe_3.0.2.bb
++++ b/meta/recipes-devtools/python/python3-markupsafe_3.0.3.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://github.com/mitsuhiko/markupsafe"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=ffeffa59c90c9c4a033c7574f8f3fb75"
  
- SRC_URI = "git://github.com/libproxy/libproxy;protocol=https;branch=main;tag=${PV}"
--SRCREV = "7e4852f9658084c61a95973b8a1d720b1763437a"
-+SRCREV = "3fd3a6e845c0386d91abc742453d0f29bf28c404"
+-SRC_URI[sha256sum] = "ee55d3edf80167e48ea11a923c7386f4669df67d7994554387f84e7d8b0a2bf0"
++SRC_URI[sha256sum] = "722695808f4b6457b320fdc131280796bdceb04ab50fe1795cd540799ebe1698"
  
- inherit meson pkgconfig gobject-introspection vala gi-docgen
- GIDOCGEN_MESON_OPTION = 'docs'
+ PYPI_PACKAGE = "markupsafe"
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
 
