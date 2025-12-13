@@ -2,101 +2,125 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1B59D5AE45
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E03FAD5AE47
 	for <webhook@archiver.kernel.org>; Sat, 13 Dec 2025 09:59:48 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2954.1765619985373049229
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2953.1765619982787065977
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Dec 2025 01:59:45 -0800
+ Sat, 13 Dec 2025 01:59:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bVWQt5ib;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a0834769f0so8791565ad.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 01:59:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gJLZWQbY;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a0a33d0585so865945ad.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 01:59:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765619985; x=1766224785; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765619982; x=1766224782; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TdaCYIgNQHRmy6FStZcozfr8+LmkbYmHXmrqkqGWkGg=;
-        b=bVWQt5ibgQYNbAwH7BLrpvvC1a5lSC+w2Hmt/i8CcCQhEe0MzrY64zBT+7240btUam
-         xOlO6hVSyOUzRaaj8jkJ+Vz6m2gBIKRJOm+M9ytuGfrmY2ibWO4bfO5/BMl61DAT0s9N
-         OPEKUO0HOuYPSv1FY0yDrBQL9jio2HLZvXnJfTnl0KXIe2zkpGOnVXa4dN4ZpTj+ILiI
-         JY7LAo+u4Wepb8kytzmRUkOWdxf8/h2XzXbmSuBohyiIzFGAB+3w/G6B7JVTcEhFLLOO
-         t8Vxn790yA5nofhPkKYfW9ZL8JzujjLnkmpZ43p3uihDgDnxYTGdPjjYKxo4aEOPRsBP
-         1tNg==
+        bh=S4L83Y7VxtI5b9BWl2t1emCdJuUcvnl/K5vZlp3I/YE=;
+        b=gJLZWQbYY4hMHPFjl84wpvktBfMKUaKoUEx2uCEgsBYFZgOgpNpWS0+sUfTSbsCy9t
+         P2urM6Rl6ge6YZpzzbkoBKV0lRRHUAMifLCaBFlnNScfc6MdKUjwwkV138e76g+dHL4s
+         PwnYbGshjLc1w8Ip/tSpnYw0Ty0tzaxPIxJfDBYkGOOGQzriHm44ol3by0w2d2Ktv8aR
+         x0XeOu3duW+1QhSnTd+6F0qoyi1r9J4uYcPFjzo4YozDQnDy7TAfTpdclwq+UiRMDCCT
+         lN72l9lXg2GAsiuOzumRH4LO4gamm0ERmxC3Kdr3AKVGDGbLiXc+vt5OmusFiB1F+eQK
+         Oybg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765619985; x=1766224785;
+        d=1e100.net; s=20230601; t=1765619982; x=1766224782;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=TdaCYIgNQHRmy6FStZcozfr8+LmkbYmHXmrqkqGWkGg=;
-        b=rfwOJsqcT/rWG3UkzWFhHlbXUPs2653pJkid2XcqzbkI95xKAaWI+n/ho4p3CQqJ1h
-         TJEgdJgNFlqg3aXCisYRv1v0m3AZP3TRyFzQR93oO8YHcBHVkrrd3CWp77vvdUNBM4B4
-         TV2oAQHUwY7wAoyoKeOncFDPjPeNyOnB0cw5eVRLHatuXuc+j6u5DB9Sbqud53EaT1oM
-         425Fzls3YaD1nIZumIMDGeSoKNYp1OebYxR5HZm+HW84x1BedbnDaE2RiZCxdtfVQEHD
-         rD9J+nnrKfymHvIgtmG4pqOMsc0u4Njv0oaUMzQFgbFDFL/xgUBF2rbcAi1j5Sr+Nsjv
-         ds0g==
-X-Gm-Message-State: AOJu0YzujPLrF9wOM9Z/TDkC8Js1MtEkC9m8/RpBX1/PFAS7gBTkcq9/
-	MdarxzkL7ZImm1p5PzAskWwuH/51D4GIRuTju09+3lQVmF3RY+tmsQiJ5U2W5g==
-X-Gm-Gg: AY/fxX7t7yOORQE+fAFS1/DuHdSBE53VaJ8ZgiwNK2eUoluFXa5uuJCiFLWlggzADoM
-	BJ/iDG7/EWz9gjebJbdswlKRPkMWNpxQLsGA98VK72Mu2G3C9Mg/d2S7JgJ9nOOaHQrcBkHSvba
-	a3b/dVTcJy+ynxTxFDy1X+6EWW4b1yh7L6uBGM5q0BMfhEKfC3bU64JyUfkMCKmdoipqB0lP3OG
-	qk2FNFVBOTES8a7J+nVe9IWJXHt2D1iBD6B1wVkzOZniQ5V8+vRhswZrYcDhbK9oFTUaUAsTazX
-	6oK5R58JNfsIQ/LAU+C5Y1pJ372CU+PqjoATp0PKUAkZLDw44FXVnLt/HZliZncb7a6QG8BjmJZ
-	z8bSdNSoa47f5e9MDP9Z2C8BzQPTAB4oKI1nrt29w+aVBTIZ+cioi2Hr84swug3TFOd7r+RaqHV
-	P6jDXqYEyhkwOYY0dpgD0Suu/s
-X-Google-Smtp-Source: AGHT+IFOkFQoEGjNFrb6C+dcctNQ8hAg0zQoL718jtEGIkku3rBCaDGRv6B8uBbzvYKe8vloQhLKhw==
-X-Received: by 2002:a17:902:cf08:b0:2a0:867c:60d9 with SMTP id d9443c01a7336-2a0867c6a5cmr27991675ad.29.1765619984562;
-        Sat, 13 Dec 2025 01:59:44 -0800 (PST)
+        bh=S4L83Y7VxtI5b9BWl2t1emCdJuUcvnl/K5vZlp3I/YE=;
+        b=QdlRnec+0vbSd2QXY9XuWn/kv+3NmYpWPQHlbtb6syiQ4Dy2BXHhSmRu9Af729FQIo
+         6+K0/t5hI9EsxXyMn2TNplq8pOWqJ+RrEFJq8tx8IqX3958D7DFhs3Pb6taL1izXpVNh
+         HB8NmrfZo72JMcx38rv9LgPSrMDbla21HxDeA33oNJdoVoImui48CEsNq7TJ6i5X3TgZ
+         Bw9WZ7RlufnB+hU5tOR+q+3DpOgAyBWsr/Gv+NOQ5GL3M84VnTbdg4+SBlT+Xt9TZm3E
+         iEUYwc+az5WYLLbJqlUwJQRLdgC57ynhgb7q6JfiUv8EaBCLtjpAih9CJLoSqMnaSeT4
+         XmiQ==
+X-Gm-Message-State: AOJu0Yz1WeUoJasmyiraHvq7FumDvn3aLY/g4RJDYmknAsCY3gJCmG/2
+	A+1LUi28kn+NfyL6E9S/Z5PFHAUz6TJbCPVHnPMWhs+fymAmu/pyT0A9M0+g+A==
+X-Gm-Gg: AY/fxX5dNON5zx2Rccv1sPSEkw+RsDeo9iKBYcwn2W8+MfjUEYbjxzdUf2UPf26neuD
+	twGfqNTa8w1IAEqRf0VinlAc8539kFzCgwDMKCE8OFORUehK/vDr8VMqIvXRpseodJKPExqGwsF
+	Sdr8KaObT98Am+RsvKUbam9yJW3qsULpw7/ZWueAGjEdCym0lylaPGqMgXDAwqBqgaGEdZTHzJg
+	mWoutkwhemyIOFRC1A+N1EoadmIZh1ecMYPIBevNTCLLLp0V69sNd1AbvgX85+3sPmOAJz+vGvu
+	a1KURM4K2qXIb+s00BvoypcAU9g7VQiul+hPM9BZFPyu6RYYoZD4CZl/6w0wiir/NY3PyFU4/zS
+	nwjRS8oBnmBq2qXPzuApHR4EgYw6TNRUNYLdnbYKa7mum0MJnWve/lp8lLB2DlB2Z1mnWY7qHrD
+	ymuSxtWt0lYIYfcGzFGoSsC21i
+X-Google-Smtp-Source: AGHT+IEoY1mJvgtL26ttUOhqDmyj6ndISI0TVvY+HxnQ/aVzAkBfwqe3gZWiIERy5HvHAGxyCsBCFw==
+X-Received: by 2002:a17:903:41d1:b0:29f:301a:f6d2 with SMTP id d9443c01a7336-29f301af82amr32008905ad.19.1765619981890;
+        Sat, 13 Dec 2025 01:59:41 -0800 (PST)
 Received: from NVAPF55DW0D-IPD.. ([136.226.230.115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.01.59.42
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a082b13b6bsm26173725ad.99.2025.12.13.01.59.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Dec 2025 01:59:44 -0800 (PST)
+        Sat, 13 Dec 2025 01:59:41 -0800 (PST)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Robert Yang <liezhi.yang@windriver.com>,
+Cc: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][whinlatter][PATCH 03/67] squashfs-tools: 4.7.2 -> 4.7.4
-Date: Sat, 13 Dec 2025 15:28:27 +0530
-Message-ID: <20251213095931.2571498-3-ankur.tyagi85@gmail.com>
+Subject: [OE-core][whinlatter][PATCH 02/67] barebox: upgrade 2025.09.0 -> 2025.11.0
+Date: Sat, 13 Dec 2025 15:28:26 +0530
+Message-ID: <20251213095931.2571498-2-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
 References: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 13 Dec 2025 09:59:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227621
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227620
 
-From: Robert Yang <liezhi.yang@windriver.com>
+From: Enrico Jörns <ejo@pengutronix.de>
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Changes in 2025.11.0
+--------------------
+
+* New boards supported: i.MX93 FRDM, Enclustra Mercury+ SA2.
+* Stricter validation of network data in NFS client code.
+* Enhance 'parted' command: allows creating partitions up to the end of the
+  device.
+* Various fixes and improvements.
+
+Release Notes:
+https://github.com/barebox/barebox/releases/tag/v2025.11.0
+
+Changes in 2025.10.0
+--------------------
+
+* Added support for device mapper and dm-verity.
+  Prepares for secure boot without the need for FIT images.
+* Added security policy support.
+  Kconfig-level decision of operations allowed/forbidden in a specific
+  security mode.
+* New boards supported: Samsung Galaxy S8, Samsung Galaxy S20 5G, Radxa
+  Rock-5T and Protonic PRT8ML.
+* Various fixes and improvements.
+
+Release Notes:
+https://github.com/barebox/barebox/releases/tag/v2025.10.0
+
+Signed-off-by: Enrico Jörns <ejo@pengutronix.de>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit 61964e2265fa27dfa6791053b0ba5019ccd373bf)
+(cherry picked from commit c596157f82ebd8dd3703bf7a5193bd3080743b53)
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- .../{squashfs-tools_4.7.2.bb => squashfs-tools_4.7.4.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/squashfs-tools/{squashfs-tools_4.7.2.bb => squashfs-tools_4.7.4.bb} (96%)
+ meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.2.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.4.bb
-similarity index 96%
-rename from meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.2.bb
-rename to meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.4.bb
-index 8bca98f419..eb3974bcb5 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.2.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.4.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-bsp/barebox/barebox-common.inc
+index e41d0858fd..0ad9166aa2 100644
+--- a/meta/recipes-bsp/barebox/barebox-common.inc
++++ b/meta/recipes-bsp/barebox/barebox-common.inc
+@@ -3,6 +3,6 @@ SECTION = "bootloaders"
  
- SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https;branch=master;tag=${PV}"
--SRCREV = "99d23a31b471433c51e9c145aeba2ab1536e34df"
-+SRCREV = "bad1d213ab6df587d6fa0ef7286180fbf7b86167"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
  
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
- 
+-PV = "2025.09.0"
++PV = "2025.11.0"
+ SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
+-SRC_URI[sha256sum] = "7df1aa47bb7bf1763a729137ac773e69a4052812af094475d739fc63a9295f0d"
++SRC_URI[sha256sum] = "6a487eb975169ef4ecc912d3e1044fb9ee4aa164c21d4db960a384a60d0914f6"
 
