@@ -1,132 +1,120 @@
-Return-Path: <adam.blank.g@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE229D59D99
-	for <webhook@archiver.kernel.org>; Sun, 14 Dec 2025 17:57:18 +0000 (UTC)
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.29868.1765735031391888037
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DEFFD59D99
+	for <webhook@archiver.kernel.org>; Sun, 14 Dec 2025 20:25:59 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32607.1765743951223805917
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Dec 2025 09:57:11 -0800
+ Sun, 14 Dec 2025 12:25:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JgbScrD/;
- spf=pass (domain: gmail.com, ip: 209.85.167.180, mailfrom: adam.blank.g@gmail.com)
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-4510974a6bbso760519b6e.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Dec 2025 09:57:11 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HnDulAWt;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7f1243792f2so1748739b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Dec 2025 12:25:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765735030; x=1766339830; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=q2XW3x4Ml8uaKbQUddX8T/y/nMXqbFxvKNK9feFo+cU=;
-        b=JgbScrD/27UBgRRwK/f9CrBI4E4kX3Htao+UVpa/YLo/RE2kuIslFqxU5vdcfb+nUT
-         apLHumoTAvKy+ukuasMJItTcCdKsj5yhcf0z0FIj8+gte2IZMekzIFg6k9H8QtQRTPS2
-         bas6Sd51plHBOy70Buyv79FU/FMEC69ykoUMoQr/dA/i9Sg2iQ9SrQZ1X7UbG9zjdi6C
-         gE/GEoDCqT++19iE1mgzA+R0GSPXLlvkj3PYy3Nki8B7I9dY6dB7d96Az/04vvHZBhW1
-         eOSsCJ8J6YTjPDOsm4rOENdJJmRjIg8eugahZtv1GlnY8Rtd9NfAyGbeVPq9ijjXSbmi
-         5dWA==
+        d=gmail.com; s=20230601; t=1765743950; x=1766348750; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uC7ozzZhUgPBxZWHdFwLVVeqmcuHTrA1cw4TVqEaznI=;
+        b=HnDulAWtiYP0dmwsjrT2E3x9tXqa8ANJlHGyM5tQ5dNtfA1xKsYT5ONXjtLgljB/wS
+         DyJQ63U0i0dw+X9h48+iZtsQBGRSc2RGkIAmsRmBNnN8dl68TKGsRT9jvLpSXSBNjS1m
+         2Ye0XuBE/suWXvGbW7FRCl6PA0A+97AtiM02Lar7FT8mgklwTJ0naRrIQpcCRsI9FUkv
+         W8BWnAeHEYUaz9bG0F14RnqZhQJbHkjdhLuF0l51J5tDYbse77qdmRXwcrBLo42d9WKY
+         M2LWuJC9lA6JAikyBBZoihCtxFNn8/WNGqfXVA8WosWvmFrwf/zb4wFICDwYYl0uHKCb
+         hzZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765735030; x=1766339830;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q2XW3x4Ml8uaKbQUddX8T/y/nMXqbFxvKNK9feFo+cU=;
-        b=lyTJ5CRtHmoqCzxeVg9Rq7eS8DC2H6kW9wzn7P+7A80p+pNS1Z5DN1alqG1Ss4eI5j
-         pCIBgNY7GOCKvDjodSCx4HaCJorCiK/gcS4ln8IIbZD6g8ThcbaKwj9XIxlhH6wSxV1u
-         EpId/aSAxVD+hGa0PGfu8oiEx6RTcQ5o5lPB9TACxYcXc1zqu1Wd+5tcnTeFmOoPPfid
-         WUMev6NM6VYslKwq/VW/XGLKcrL/++cybfgQvVvubBV2VDVABb+LjFqvikFaqL/mifNl
-         PibvgCDRK/Xrz7bwnUqdipco9EsPy+vqcukF6OuGjPbTSKRVThM3Qx0JlQj0/snqj4D+
-         4Acg==
-X-Gm-Message-State: AOJu0YxAPNzaCMuCczSfDV47VEl6CkdoNsbLTfKHDnSbOTPX3hsOHqmI
-	dpkLghcHoikNgdcPvfFmwBwqA97D4hEzWs2ojUvM5BElgRl6cReHsLJPKONuyDxtdBCak5l1mZc
-	SXXVmuDOGT5rDISR3w6G9gd83b79GFvk0Yw==
-X-Gm-Gg: AY/fxX6LA1gG+ydf092FkriOQT9w/+SfxQffPHsXsigFCk1n//TCPb7pZP8Ex1ZJvGd
-	whBBpyuilalHrFyzK2VeS4U8ziAJPePgYjkFjBafRqKUHbylBLfqJpDWN271y4tLgKKPIqfoxJg
-	1KhgpOnY+QHHFzX4Dik+ikP680Dc/ieQY1FCCXNNMLbEbWPX7x92bt3D8q2vGJxrUaHPXO6aErD
-	Lgvi9PYgqpDBf7+J7wuM4bqU4Gtsi/zTgdWX046CX47V++S4jHq+BhCQbRt6TFnm2+dEz2FWxtj
-	dhZ0bucxryn6vtz7jL+KEe7ej8naJw==
-X-Google-Smtp-Source: AGHT+IGglLWfcla3Urv6KL+SH4ve74mDPd0IAJPM6EEchdc8DhDOEF7b/cINm9ApGOghAxy8SFch4VvizTX5IyEvHMw=
-X-Received: by 2002:a05:6808:6f90:b0:450:adcf:9b3e with SMTP id
- 5614622812f47-455ac966011mr3358972b6e.50.1765735030437; Sun, 14 Dec 2025
- 09:57:10 -0800 (PST)
-MIME-Version: 1.0
-From: Adam Blank <adam.blank.g@gmail.com>
-Date: Sun, 14 Dec 2025 18:56:58 +0100
-X-Gm-Features: AQt7F2ogijiRW0oiZpu0hiGzYqRpvkUL2cCNsMnhSG7bL9kAdCfv2iD5amfnX5s
-Message-ID: <CAFAffzy_4x6VYuFvjqavkhZ746xKaRC6Yf1fZ=Lkrv2bvQP=XA@mail.gmail.com>
-Subject: [RFC] RPROVIDES and buildhistory
+        d=1e100.net; s=20230601; t=1765743950; x=1766348750;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uC7ozzZhUgPBxZWHdFwLVVeqmcuHTrA1cw4TVqEaznI=;
+        b=Z1zI20VvVvuC6eS8xPW2OahjrGjZcf4QZUBY2egVTdDcqzK2QpvvPuTfcAcrSdSEzC
+         DMikarx3lomLxmjqT3M11i+PE7OO6lEmVfUTa5y/khbb7qHth4525iC8tCQ8oQ/R1Ikd
+         Nu4GOzZSkxFO30WiF/jIW3yF7oXczOAxiDCzwSTSSJCdVc+Mx6NI+/U6S0djdoWjbmlv
+         dybpN9rKgi06x4tVOSJKkwZMzZ/Ad+qGEQ3YdAIhwJIYNrgCTsoagNtCneTlVrTq8J+3
+         eBqzz6jQ0S0qPqKeIM0WeMdxXQ3Bp5sC+ri0jotsFFBcmg3SSg64h4vbYHyuRVOgP17j
+         0UEw==
+X-Gm-Message-State: AOJu0Yxf6rjWlxMD2hdzH6YNjegP7mbPhp3PqWxrLDrkPNflD6KorFy7
+	kPrI9xgxbWC9cp3xXRlsAt024yyZCNClLXs8cfrtQjHw2Tjl1sQruhhpUYHIjkgu
+X-Gm-Gg: AY/fxX695zeFMbQ/Ql9h+ldXin1qSWFQLbq1bOnZli0sJexevSsNW+9FroI5/yWHF3+
+	i1IO806gMgx/N8T9Kd+cMYLpFV6/vM02cce+qC7kAl5jqKZz96panjmSoPD0O120pzeM6/StM+C
+	WoscRdXjT80lG8CTCzT8q6SpvxtyzG36LcrqCYRoxnrtKfGejxrP+svgpvW7csASdzzfAX6TYpt
+	dh4Yrd9czj41nulPFPQ1kbRQPpXy7IIpDQFOMTwvFE5QBnZFmmpKqCbLfxYN07/4YdSuGG0wCJB
+	sgLqxuP+6qJ9a1v9VvU+Wf98GVSsdAWBQYyycGAUFDtjM/lsk8GJAXTrCVX/3/sCy7xe/TXFCWV
+	qiT6U2sVxF5yH/YGDwtlesaifmYk3BdKMu6mnFXXApSFOSSywXRnDeVHLsNNewUYuo3R6EnAdW+
+	gZhYP74pTiRp+vgXMgNRR3gR2u+Av1ybvzSL4x1ZIhHojVglKHTd0K++WRcRlPPw/yThwfONhg/
+	4TQqmGDrqYpS59MlMbeEkgXbaHkoAcx
+X-Google-Smtp-Source: AGHT+IETQF1SaPmUlSx9D5lBuZ3dfxSsE9Bod9w94cky93+zxymNja+n/S7OSi1cAHQXz4jUxoUhbw==
+X-Received: by 2002:a05:7022:f318:b0:11b:9e5e:1a66 with SMTP id a92af1059eb24-11f34bee619mr4711266c88.14.1765743950028;
+        Sun, 14 Dec 2025 12:25:50 -0800 (PST)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::69b8])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e2b46f5sm37720117c88.5.2025.12.14.12.25.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Dec 2025 12:25:49 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: openembedded-architecture@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000041bc640645ed3918"
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] spirv-tools,spirv-headers: Upgrade to 1.4.335 release
+Date: Sun, 14 Dec 2025 12:25:47 -0800
+Message-ID: <20251214202547.3918638-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.52.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Dec 2025 17:57:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227696
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Dec 2025 20:25:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227697
 
---00000000000041bc640645ed3918
-Content-Type: text/plain; charset="UTF-8"
+New Vulkan APIs added to headers e.g. OpFmaKHR is needed by latest
+spirv translator.
 
-I've recently come across a problem, which has apparently been around for a
-long time, and yet has somehow remained unnoticed.
+new capabilities e.g. Legacy Detection, vulkan configurator
 
-Facts:
-- bash and busybox recipes conditionally (based on usrmerge in the
-DISTRO_FEATURES) declare some RPROVIDES
-- what they declare in RPROVIDES are actually file paths - e.g. '/bin/sh',
-'/bin/ash' or '/bin/bash'
-- resulting entries in their packagedata are "correct" - i.e. 'RPROVIDES =
-/bin/sh /bin/bash'
-- resulting entries in their buildhistory are mangled - i.e. 'RPROVIDES =
-bib bin bash sh'
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...{spirv-headers_1.4.328.1.bb => spirv-headers_1.4.335.0.bb} | 4 ++--
+ .../{spirv-tools_1.4.328.1.bb => spirv-tools_1.4.335.0.bb}    | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-graphics/spir/{spirv-headers_1.4.328.1.bb => spirv-headers_1.4.335.0.bb} (89%)
+ rename meta/recipes-graphics/spir/{spirv-tools_1.4.328.1.bb => spirv-tools_1.4.335.0.bb} (95%)
 
-Thesis:
-- such entries in RPROVIDES (or any other package namespace related
-variable) are an error (at least looking at what insane.bbclass deems an
-acceptable package name)
-- buildhistory should be consistent in its processing of package names with
-packagedata
-
-I'd like to ask for your comments as to what would be the best way to
-approach this. My view would be to fix the recipes, the
-buildhistory.bbclass but also make sure that all package related variables
-are guarded in equal degree in all relevant stages (e.g. in the
-insane.bbclass).
-
-Thanks,
-Adam
-
---00000000000041bc640645ed3918
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">I&#=
-39;ve recently come across a problem, which has apparently been around for =
-a long time, and yet has somehow remained unnoticed.</div><div class=3D"gma=
-il_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default=
-" style=3D"font-size:small">Facts:</div><div class=3D"gmail_default" style=
-=3D"font-size:small">- bash and busybox recipes conditionally (based on usr=
-merge in the DISTRO_FEATURES) declare some RPROVIDES</div><div class=3D"gma=
-il_default" style=3D"font-size:small">- what they declare in RPROVIDES are =
-actually file paths - e.g. &#39;/bin/sh&#39;, &#39;/bin/ash&#39; or &#39;/b=
-in/bash&#39;</div><div class=3D"gmail_default" style=3D"font-size:small">- =
-resulting entries in their packagedata are &quot;correct&quot; - i.e. &#39;=
-RPROVIDES =3D /bin/sh /bin/bash&#39;</div><div class=3D"gmail_default" styl=
-e=3D"font-size:small">- resulting entries in their buildhistory are mangled=
- - i.e. &#39;RPROVIDES =3D bib bin bash sh&#39;=C2=A0</div><div class=3D"gm=
-ail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_defaul=
-t" style=3D"font-size:small">Thesis:</div><div class=3D"gmail_default" styl=
-e=3D"font-size:small">- such entries in RPROVIDES (or any other package nam=
-espace related variable) are an error (at least looking at what insane.bbcl=
-ass deems an acceptable package name)</div><div class=3D"gmail_default" sty=
-le=3D"font-size:small">- buildhistory should be consistent in its processin=
-g of package names with packagedata</div><div class=3D"gmail_default" style=
-=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">I&#39;d like to ask for your comments as to what would be the be=
-st way to approach this. My view would be to fix the recipes, the buildhist=
-ory.bbclass but also make sure that all package related variables are guard=
-ed in equal degree in all relevant stages (e.g. in the insane.bbclass).</di=
-v><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cla=
-ss=3D"gmail_default" style=3D"font-size:small">Thanks,</div><div class=3D"g=
-mail_default" style=3D"font-size:small">Adam</div></div>
-
---00000000000041bc640645ed3918--
+diff --git a/meta/recipes-graphics/spir/spirv-headers_1.4.328.1.bb b/meta/recipes-graphics/spir/spirv-headers_1.4.335.0.bb
+similarity index 89%
+rename from meta/recipes-graphics/spir/spirv-headers_1.4.328.1.bb
+rename to meta/recipes-graphics/spir/spirv-headers_1.4.335.0.bb
+index 2b750e4b92..c42aaa2c28 100644
+--- a/meta/recipes-graphics/spir/spirv-headers_1.4.328.1.bb
++++ b/meta/recipes-graphics/spir/spirv-headers_1.4.335.0.bb
+@@ -4,8 +4,8 @@ HOMEPAGE = "https://www.khronos.org/registry/spir-v"
+ LICENSE = "MIT & CC-BY-4.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a0dcaa512cc2dee95fe0fd791ee83a18"
+ 
+-SRCREV = "01e0577914a75a2569c846778c2f93aa8e6feddd"
+-SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=vulkan-sdk-1.4.328 \
++SRCREV = "b824a462d4256d720bebb40e78b9eb8f78bbb305"
++SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=vulkan-sdk-1.4.335 \
+ "
+ PE = "1"
+ # These recipes need to be updated in lockstep with each other:
+diff --git a/meta/recipes-graphics/spir/spirv-tools_1.4.328.1.bb b/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb
+similarity index 95%
+rename from meta/recipes-graphics/spir/spirv-tools_1.4.328.1.bb
+rename to meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb
+index e5aedb1620..3b67da60f7 100644
+--- a/meta/recipes-graphics/spir/spirv-tools_1.4.328.1.bb
++++ b/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb
+@@ -7,8 +7,8 @@ SECTION = "graphics"
+ LICENSE  = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ 
+-SRCREV = "7f2d9ee926f98fc77a3ed1e1e0f113b8c9c49458"
+-SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=vulkan-sdk-1.4.328;protocol=https \
++SRCREV = "262bdab48146c937467f826699a40da0fdfc0f1a"
++SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=vulkan-sdk-1.4.335;protocol=https \
+            "
+ PE = "1"
+ # These recipes need to be updated in lockstep with each other:
 
