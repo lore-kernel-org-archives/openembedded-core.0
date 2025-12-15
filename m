@@ -2,90 +2,78 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8BF8D5B864
-	for <webhook@archiver.kernel.org>; Mon, 15 Dec 2025 18:28:09 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1576.1765823288891945875
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF39AD5B867
+	for <webhook@archiver.kernel.org>; Mon, 15 Dec 2025 18:35:29 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1791.1765823720052642020
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Dec 2025 10:28:09 -0800
+ Mon, 15 Dec 2025 10:35:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FkGUdmKt;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-88a2b99d8c5so16474156d6.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 10:28:08 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QYlu/7nN;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-88059c28da1so37462306d6.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 10:35:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765823288; x=1766428088; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765823719; x=1766428519; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vRnaab2KVo9Bp7nFLoCPSWthg7QdVxNVYF6dJS7PNMk=;
-        b=FkGUdmKtnn5JGEOLjuuGSayLYBg49icQVFE1Lz5Ui2VE0hHH6TbNrQPQIu/F5OpSgB
-         tLScJJSzOB9ORqJ0aBOluN9AyJf/2M1/i1C3Ru7cxeQ97D5FeEyes6IuLy4aiU1CRlU5
-         ImLI4MOZ+yO1aB1oitmwtMyvWGJevdhmP4VIYJogTdY5aCi9y9nRO8EYT6FieL4odIo9
-         IoM7TJnldkBJP6rw3Tty+1/Cc0CwbSpjSEVzV0cXS3Fby+Pa3jzxs7UBQ3v0odjnsMBL
-         ZNzPLVK1joRsu0lm4K42IUn0EgxHiEcsp6VgBOLoYdA7acshhAxAo+yCPqY5hq2lwPyI
-         0i/g==
+        bh=Z/QqAXuarXXa3XSlAg4jroe187Vz5EplTAdZPN6sxOw=;
+        b=QYlu/7nNVKf6wlaphtbCn6fFJZCrQENrfoiNEViq925wY1z68oM44sOAgvRed+kaLS
+         qdTLrF/d+UBCcIHW3HQKg3G6Bx5McBWk1gWLPzsdg4dfPwzYugV/K32mDy+Au4WrLCJg
+         +GV0nhDOr0JXph340nYrYQF0+a4IFClY1vLxxoRNf6t+Q0Ym2Dw8b5WB+LfEUb3oLNnV
+         t19u76ppVucO8H97+QM87yAhp7U6W2ZrMNfxFKlzLAbhfFphqDNXZ2umkNitmiGRqMw7
+         6S/TdkgivcrRVzjYpDk1D0X6vLWP4q5DtYtnterq3hSYRzKAdOz0iZdoCWQ8cc2KNyxJ
+         c1Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765823288; x=1766428088;
+        d=1e100.net; s=20230601; t=1765823719; x=1766428519;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vRnaab2KVo9Bp7nFLoCPSWthg7QdVxNVYF6dJS7PNMk=;
-        b=d/n7WWJepmWdnm9X+8NW45dX+eTSuBmQXwIpw+TVglh6yXZ3EKMToqRyr6jKzMQMLM
-         AoG23MWpCLyy96ZkAPWBSvnTGv7GVDtNZL/fRTAqRkydgoYgv8mac3FGSY71AF9KyoDF
-         EldSec8mmUdJcGfHvuEHVuJiHgIQAaXqtLeAAbZBXZLP0C8GmBut8HkZHP+u/053H8/M
-         BjVewhlHBp+IDSRtb7wXIVMKeL2Yy/5IkSpjR3orAdkYUr7Gn7tpuZhPT9irHs4rItxv
-         sZMIGW5EYCJ0hVVakXeWxc7SA8WEVYlrJ8o2YyQrFsKRmGD4OfwdYmsbrBQkIpYpOj8r
-         Q39g==
-X-Gm-Message-State: AOJu0YwXsIznCCNom+zFmLvW8f/gLKESBRiqAmy7cwLwR+hUeRDbapBi
-	aohSoJSnGqdcBcxoBPFKnyBXPv4ZAPhgvl642BjMSfOzTZWupPs0XGOQwpPoxxaOXnLAp3K9rDP
-	mZa8u/NM8Rm9D0y8qRWLXPULZt7H/HRs=
-X-Gm-Gg: AY/fxX5ov3P4ziXuU0eEGDOPRMczg015UQ7Z2ALZY1NqM3DmJgiV+fftYZYjp/S9u57
-	g4H6tr0/yd5TvGu8OhE2eNvvJGGaFHD4eyu4J7IG1pT2PZ0i5CtGl6DPtyJTteUP29kxoi+OPAc
-	o80iR/h23tO7SxytSTf55w8HPZRk79rXLT0niV6tUmumISCOFxBUdSmOStBQyek69KYjJOy60W1
-	bXfAYAUyvKw5/vQ6VXR2vXCSYGLYXZVDfWfmD+L5aw/g+gYf4SVJYqCLcaO0JVD525lYA==
-X-Google-Smtp-Source: AGHT+IEtlMWlbXnF4Oj0jbzp7f/ZuUV4mkecsFVxmAs5RMgeGUzyewrUVxIQe8tHbhSY7Y/+kLVT2VPWD6nl2ih+YGs=
-X-Received: by 2002:a05:6214:2c0c:b0:882:3f45:c828 with SMTP id
- 6a1803df08f44-8887e131683mr182189576d6.36.1765823287768; Mon, 15 Dec 2025
- 10:28:07 -0800 (PST)
+        bh=Z/QqAXuarXXa3XSlAg4jroe187Vz5EplTAdZPN6sxOw=;
+        b=sZNrPGNcqpIAdglerXcEPyBOrfoAyJW44222zMDxzPD0nRUQOglb1B3PDDn9A/nWAO
+         i9N0wR1/kounUUv/dfu7F5Bn8AP3ePDUjoYcPrc5zb4FhJNk6mMEIykKAol11anTu44u
+         pwBTzJKOP9/vr296+5RckmZA+EVwoxOOifKo39l7hkn+Q9RN4s1LmubhnK62LOx42aOQ
+         joje59fbX3YZmUf1qAuimFxGkzAojxekgIhxOaD8UgX3FI3G+tlzEfnwX3BM3mk2U+qG
+         N4HaJDEAiJ8NeBmjIZzXCmv0dYrnhSBAcsgNoN2j7FW5Zp38WPQP+jYjWOdFYBO7Zxuq
+         QXRQ==
+X-Gm-Message-State: AOJu0Yw1sp2vcd2u5jRdhpnuKEcc4uGApIefVkxI+uLtdCUe5Ox2e+1Z
+	YheWbn2AFwr5TbyIT2huZd41kyFcFPKCP40oqbkXGCPINXr7owSgkbQvu0sKrDoEqKkwU3ub6ZY
+	3mkLg34aWLkNgmUOXz6xT9tbtG5R7zqZYIw==
+X-Gm-Gg: AY/fxX6KO3YzCQxNkDX19Uepmne39T+SOeKcvz7cl0EDPaATfUH+XDWywcrHiAKHYWL
+	Zw+2rGsYR3yNBjjucfYgHxJxu8T4fjaZuMUW2MvKoVg/SnsZQfeOT9dHNZNWufRvWYkr/CdrxlP
+	n/+02mLhCchVInsgA0mfFoYcUvW6UTrljn+jS3/P13dspqKFvGDwQvPqiSf/Ydn8bRGnRkk9FD9
+	XyX2JvFYu9RrdLF3lFrEa8dLh9Mhg5DwoSBdOhNzw2DjcT+Z4BuvasgLXMzbFQY4HwNBA==
+X-Google-Smtp-Source: AGHT+IE7luT1G2ilSUigxESwgJCDk0WjKESjCSEKCdXCDsf/nY/+dXyeylgeM11O7sVlPj1ZQNBwd62HnzVzw87eiMc=
+X-Received: by 2002:a05:6214:2f08:b0:88a:316f:252f with SMTP id
+ 6a1803df08f44-88a316f2757mr66745426d6.53.1765823718974; Mon, 15 Dec 2025
+ 10:35:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20251211175547.3944470-1-ross.burton@arm.com> <20251211175547.3944470-6-ross.burton@arm.com>
-In-Reply-To: <20251211175547.3944470-6-ross.burton@arm.com>
+References: <CAK5yBb9ANcZM04CXbyQefsteNTnfMFF58_N3-68i0cFkDmNexA@mail.gmail.com>
+In-Reply-To: <CAK5yBb9ANcZM04CXbyQefsteNTnfMFF58_N3-68i0cFkDmNexA@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 15 Dec 2025 19:27:56 +0100
-X-Gm-Features: AQt7F2pmrWxK6_7-QRPhvXKXNOeiG2_r8tLA0DjxNHhnsM7zm5QzkFu_tnqUOy0
-Message-ID: <CANNYZj-E8zQVQpcFZfyCRViWM75xJq=zxVB0wTZsd7PBu5mJig@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 6/8] classes/meson: no need to export STAGING_DIR_HOST
-To: ross.burton@arm.com
-Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Dec 2025 19:35:07 +0100
+X-Gm-Features: AQt7F2qUo5sP_nWYegKega-1leSaafXt58vnwYujQAv3eV8rxbDyJrt4zLRiwec
+Message-ID: <CANNYZj_83k6Ykuub-bSx=mw4VNDG+nMDuXMAPMWFPSR2CEqdOg@mail.gmail.com>
+Subject: Re: [OE-core] Yocto Project Status 9 December 2025 (WW49)
+To: Yocto-mailing-list <yocto@lists.yoctoproject.org>
+Cc: ",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 18:28:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227752
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 18:35:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227753
 
-On Thu, 11 Dec 2025 at 18:56, Ross Burton via lists.openembedded.org
-<ross.burton=arm.com@lists.openembedded.org> wrote:
-> -# Needed to set up qemu wrapper below
-> -export STAGING_DIR_HOST
-...
-> -    qemu_binary="${@qemu_wrapper_cmdline(d, '$STAGING_DIR_HOST', ['$STAGING_DIR_HOST/${libdir}','$STAGING_DIR_HOST/${base_libdir}'])}"
-> +    qemu_binary="${@qemu_wrapper_cmdline(d, '${STAGING_DIR_HOST}', ['${STAGING_LIBDIR}','${STAGING_BASELIBDIR}'])}"
->      cat > ${WORKDIR}/meson-qemuwrapper << EOF
+On Tue, 9 Dec 2025 at 16:55, Stephen Jolley via lists.openembedded.org
+<sjolley.yp.pm=gmail.com@lists.openembedded.org> wrote:
+> Further bitbake-setup changes under discussion for the new development cycle:
+> defaulting to a common sstate directory and hashequiv server
+> Allowing symlinking of local existing repos into the build instead of fetching
 
-I didn't want to take time in the patch review, but I went and checked
-how this export appeared in the first place. It happened in 2016, when
-using qemu to run target binaries was introtroduced to enable
-cross-built gobject introspection:
-
-https://git.openembedded.org/openembedded-core/commit/?id=c54c5fc63c05d416f3733a742fc94f7a169adc8b
-
-I think Alex-2016 simply didn't realize that bitbake can substitute
-its own variables in shell functions directly, and everything in there
-must be 'exported' into the shell and deferred until shell runs the
-script. And then the proven-to-work wrapper code was mindlessly copy
-pasted around to places like gtk-doc or meson. So similar cleanups can
-probably happen in gtk-doc class and g-i recipe as well.
+Patches for both have been posted to bitbake-devel list today. The
+symlinking is fairly robust, and ready to be merged (from my POV), but
+the sstate handling could use a bit of review/alternative perspective,
+and is offered as RFC (it does work as it should though).
 
 Alex
 
