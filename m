@@ -2,57 +2,57 @@ Return-Path: <Jiaying.Song.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69AC1D59D99
-	for <webhook@archiver.kernel.org>; Mon, 15 Dec 2025 08:59:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 584DCD59D99
+	for <webhook@archiver.kernel.org>; Mon, 15 Dec 2025 09:09:43 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.44201.1765789158808938676
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.44511.1765789776495803096
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Dec 2025 00:59:19 -0800
+ Mon, 15 Dec 2025 01:09:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=UFoIj2ya;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=hyb+yPbK;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4444ab7235=jiaying.song.cn@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BF78m1s2118555
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 08:59:17 GMT
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BF4UjBB3369787
+	for <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 09:09:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=Viv6RTFE4hdm2ZkvD94n
-	6jFcKblgXHGAArTDQcOMWhk=; b=UFoIj2yaUImTCnyhX6q6fXZBAZKWIZhDiMOg
-	NbsveKljwDSgJQzQ7OVNwBAxf4EMsn62e0bT4DQmD/cMO9vNJi3bWi2gvskxCajj
-	ubdsADrASceV904s2A4Ybn5mPeDlQTrej0CDfw91eCVhk5JF0dNrttQYdgdrZRNA
-	JgxYbfVu8AGcj/Up/sUdW0o6kLLcpl5YXTmaU1WgD3lhiPbnSg36T1K8moZSOH16
-	DY/VDt464tAs31mAzp7y1/wjUZoYbOwxhmwgaHmj3UCatf1EpTbIDNLQEz8nSNdp
-	s3TX6WzSPnuOR4IW8Y1tXFcU3xsvq2BrCPXE48HP+yFgUlA/yA==
+	:mime-version:subject:to; s=PPS06212021; bh=Nmo5NrdlgwhkUYYqbwci
+	eozZzXmVx8pAKff86TwYTfE=; b=hyb+yPbKjSmZheJqr/HRnv0hHQnw4KiyNqQD
+	/mS0J531qZVlLrv2GvmaSLZy57hHIdieIRUno6YGUpcUUXfq86448jDZaxFtFm1v
+	IbeQm+2sQguRASRr+HSA8+nRkh8spvAFdwGr0EJA2k5p9Ylqw/JOs74HSvE+FKgo
+	XdQvYL/5QhpLSI86kp7EAA5EFySndW8uInDSPI50uMERIki5K8zLAFT/mYWLVUJp
+	AEx+QydTBx2PHc8CPtGNuGiSbiyTz+mL4MBXx4Atd3Ug9yLcC7seBnhRwVIKWAYu
+	HqZd/s6rRd1M9R+j2xMvmbU5qRfN1vXaGVRrG0gHHzUFWv5Cpg==
 Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b0y489krt-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b0wc0hpbd-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 08:59:17 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 09:09:35 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
  ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Mon, 15 Dec 2025 00:59:16 -0800
+ 15.1.2507.61; Mon, 15 Dec 2025 01:09:33 -0800
 Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Mon, 15 Dec 2025 00:59:15 -0800
+ 15.1.2507.61 via Frontend Transport; Mon, 15 Dec 2025 01:09:33 -0800
 From: <jiaying.song.cn@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [walnascar][PATCH] python3-urllib3: fix CVE-2025-66418 CVE-2025-66471
-Date: Mon, 15 Dec 2025 16:59:14 +0800
-Message-ID: <20251215085914.1904593-1-jiaying.song.cn@windriver.com>
+Subject: [walnascar][PATCH v2] python3-urllib3: fix CVE-2025-66418 CVE-2025-66471
+Date: Mon, 15 Dec 2025 17:09:32 +0800
+Message-ID: <20251215090932.1926433-1-jiaying.song.cn@windriver.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE1MDA3NSBTYWx0ZWRfX0nhftBXdTEAG
- D8I0EMDwAGADXPahENELaoVsXjH+yRkahGWtZVX3j86ldPLLJEs/2gSVdYylCi16YfO9o7CmkMo
- SUuthdUcycafwO5ylC+PedQM5+HS6hv9Vgy8NvT7nFNhBeoYdESgcduwC9iuDZCf/kym1q6SPSf
- YmAlWnAx5de6P9sqTDxJfaNDGOpcC2ZKM50GyOaWRPEHcyuxoPjyQtJtQnB5V+CbFEWHH6wMiZt
- rW0NmFikTIO14N3zUW2h2cZrlJf7Ge/chasyM8qmuK/ly2yA9OwQrYm3ZLSCNa6o9ZZvaATp3ME
- PiG7a9pf1ZuC+WlFQugFywsVFqyfnFqJuE3OaJX1gWoomt6rqbQXGEsfdkzIIe3NLcgGu7bnmKy
- u9VnFcXgqLG2eFmSkbFbv9EN1QLAYg==
-X-Proofpoint-GUID: Er4WPAnOq7AyBrJ24jWikxfZpASSYNpf
-X-Proofpoint-ORIG-GUID: Er4WPAnOq7AyBrJ24jWikxfZpASSYNpf
-X-Authority-Analysis: v=2.4 cv=e5ILiKp/ c=1 sm=1 tr=0 ts=693fcde5 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE1MDA3NiBTYWx0ZWRfX88FryH31u2So
+ 58slTikOLorG36Lk29dE+oEWhvLUGF5uAzcq/HKUHOR4I7N5uZLCpRonXHq9HW367o5D3u8x9J4
+ C+PPBYu4QlPXvKpJ5LNS3kXSaBBB/J9uSELypyWoA6FxWorvbt70ZV3GRiaG4sJ2HWoBN4+cJih
+ cVGi2FZnjLQAN4u9oauHJWm3Z2Wj5xjdHzDkbOgJEzYtxuUyhRgXwNjipv4nzxh/08DEhGtCqU1
+ U7Lp6xdvjEzFRO1laSg37EYCvoC2IvcNaemyiyb1i1F8DRVGDj5BhaMQykq+vrdIHyNv2OHRrF4
+ urB/v+uzsICB2oeJxLSKkoqd3KiqzJKP15P3GqzSCE2gBTvgH390nsjK69nEaksENdVB40I+UKp
+ t8EO7wNTZNnYHLKL0MRRL+0/P9vZ2A==
+X-Proofpoint-GUID: B-NOj31_lEPENE7jp_ZlYEXMXsEXvNAq
+X-Proofpoint-ORIG-GUID: B-NOj31_lEPENE7jp_ZlYEXMXsEXvNAq
+X-Authority-Analysis: v=2.4 cv=B/60EetM c=1 sm=1 tr=0 ts=693fd04f cx=c_pps
  a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
  a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8
  a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=XMRqTxP2aceiMuGKqTEA:9
@@ -61,22 +61,21 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-15_01,2025-12-15_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 malwarescore=0 clxscore=1015 phishscore=0
- lowpriorityscore=0 bulkscore=0 impostorscore=0 suspectscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512150075
+ impostorscore=0 adultscore=0 malwarescore=0 suspectscore=0 bulkscore=0
+ clxscore=1015 spamscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512150076
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 08:59:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227702
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 09:09:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227703
 
 From: Jiaying Song <jiaying.song.cn@windriver.com>
 
 Refer:
-https://nvd.nist.gov/vuln/detail/CVE-2025-66471
 https://nvd.nist.gov/vuln/detail/CVE-2025-66418
+https://nvd.nist.gov/vuln/detail/CVE-2025-66471
 
 Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
 ---
@@ -163,7 +162,7 @@ index 0000000000..cd0e7c60c6
 +
 diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66471.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66471.patch
 new file mode 100644
-index 0000000000..df6d3f6dbb
+index 0000000000..3ff4c26094
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66471.patch
 @@ -0,0 +1,914 @@
@@ -232,7 +231,7 @@ index 0000000000..df6d3f6dbb
 +
 +* Add one more note to the changelog entry
 +
-+CVE: CVE-2024-47081
++CVE: CVE-2025-66471
 +
 +Upstream-Status: Backport
 +[https://github.com/urllib3/urllib3/commit/c19571de34c47de3a766541b041637ba5f716ed7]
