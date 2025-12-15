@@ -2,62 +2,62 @@ Return-Path: <adam.duskett@amarulasolutions.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1024DD59D99
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23509D5B172
 	for <webhook@archiver.kernel.org>; Mon, 15 Dec 2025 10:20:54 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.45241.1765794049689069060
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.45239.1765794047940448215
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Dec 2025 02:20:50 -0800
+ Mon, 15 Dec 2025 02:20:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=qwpkYtMu;
- spf=pass (domain: amarulasolutions.com, ip: 209.85.218.49, mailfrom: adam.duskett@amarulasolutions.com)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b7d0f26eb44so54851266b.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 02:20:49 -0800 (PST)
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=EQ2OuX6Z;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.218.41, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b79f698aa91so58780366b.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 02:20:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1765794048; x=1766398848; darn=lists.openembedded.org;
+        d=amarulasolutions.com; s=google; t=1765794046; x=1766398846; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gd0LMNaYc7rWMXOS/GTbzGsDXiPBkdpcermb5wYKujc=;
-        b=qwpkYtMusXNbDsyc+qmpUBx6G/NHsgkisbq4Ruze0y89V+mAgt7aIr8WeW01A4zRkg
-         tjmqd/Oo9mn7oZqBEgADrfRupipfLIlTOxgP/jeHwkCI2bCP68ERVFc3cqi8RqHqzFdP
-         Kwpluemy9iPZRXPuJW8hz/q255oWYUf79QmgI=
+        bh=HhltgnRbBHNpSyqpXMGoxPaBoPgCIDBhVHh6giEa310=;
+        b=EQ2OuX6Z6EfEhZqIxoiUxAp0/LbBXtelVyJP74dre3FOB1msmabKmIgqN45RW5eScw
+         uFtRmasDi546FOYeqyuCvYrvXchLDD1IsZccXSHR03rcDhpCugpF2Iaqpkn3VBmBRiqN
+         P9Etvp3RRr4SGUA8ea9mBZ3zo7ioguc013Uko=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765794048; x=1766398848;
+        d=1e100.net; s=20230601; t=1765794046; x=1766398846;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=gd0LMNaYc7rWMXOS/GTbzGsDXiPBkdpcermb5wYKujc=;
-        b=mDbFedbI3K2+hbJAHThzLOHs5lHRH0xzIB7UaxswzCGLh84NHrHuUd/rLWDP/mg4e5
-         uiAVVycOuCx+cEZb3NYTAAS4bMQ/4Gb5K7toIkRZAlXEnJLwAZ4iV9YIAQaoeEEEUdME
-         hdFrK8xUWYCM4zru1nR9ZqJnsQlm3QR6ecicvGGJPuTTuTLH6WTFtYxdyM9D7oFPCPzv
-         L0Y5Ebb9OSSarVKHrMdffs3IV3vIwUnDeRl0Rwhh3aY8OnPG6AJFOs2sUUSv6YR0RsYE
-         2HHDiaVRj5EOBAoqGROjZmZk5Z5w3hUt7vSHullnx+ne4xiuOPP4U4q+2oeDrjiJvkWl
-         CvKw==
-X-Gm-Message-State: AOJu0Yz/LwlgBjMs8Cj3We/qfyV1bsdeNdlbUyDJq2qpSYniWvw3NDHQ
-	OsF256KLfSoQaqpDBee7uDB5BRjcrqzFMDYBBKWIYr+dwf/EshNX0n1rTHZuXh7FUwh20R+NF1Y
-	S2/kg
-X-Gm-Gg: AY/fxX7Vr0AxpKiiidi8AwsN0qERt0Hvh257V+KB3TmVkHg0jHeUn4vaZj5e7yKGIJD
-	kLkld9nIwmrvhsNlAPZc7D/StaxYLBC0q/Nu7SJyWjLFrSaH8ZjeswNBeTpBXEWauvHVHsBAmFA
-	/BppThF+XKPBLAd7AWfxL/7QxBJ4qhaqVKuW+gYtdJEQNNcN2RUPaxdqrFMMvrPhE0pBGR/JAWb
-	3z1b5jlqAiw3fbKxpB6nUVQj+SfeWuvS5JTYCUvR+gpaJjPDIJnR+zFggjxG5OvEdr529XBUjBj
-	ENIZBice8a54URUmcZ11LZVbOEs+9H3uz8qxlPMcqQFmOgF527D3xEBb84KFUUh1pb9okTglZVI
-	OfH0869u856tO8ur91S+kydncfMHRMyTFqT6pJz/RFRJONtfkof6qFZvsQZYZOxR6chhrnVGfJ0
-	d1Qd+L99MEWLrejqeLwa412GPSHxMyNgcjF7KSvQe7IkgKHC2dV+3C8JOKwrOQn3FOHaWjlDBLY
-	quFJKap5crQ0BaegXRrMQkhTEDjjiVzB9H2qynInvXCqU7Gcz8xTg3uLpWgtgjSw4hN
-X-Google-Smtp-Source: AGHT+IEA5qcOnRBsfHZ58YKEeG/MqU43K06jTPK6M1m9Plc2ygW5ey9jKoTaJelbjPfj/ipY8VQnZw==
-X-Received: by 2002:a17:907:e158:b0:b7d:3b3a:4d36 with SMTP id a640c23a62f3a-b7d3b3a6f6bmr298942266b.6.1765794047898;
-        Mon, 15 Dec 2025 02:20:47 -0800 (PST)
+        bh=HhltgnRbBHNpSyqpXMGoxPaBoPgCIDBhVHh6giEa310=;
+        b=ZZCSfEXr9tr+dC4mhXBc7QyQD6rbyhgSXUDQbqrVrw4RvsbZAmQRo2jQGLnYTV0Rfr
+         L2+Xz02C5eyPDxSCGMtsy7gsb9/hUiR5S9JR6wRLuSh+5POqZ2kDRyxdykix4eAfoPV0
+         N39u0Ep8QNFcQZipRnAUDlkE+mxloy4kA8PiCPj+2ZEFAa+1PLPyIy3str9uxshLxeYu
+         Ub/MOmYJVvLZuygjxtnypHuzb16BJFiztMv3/8bA2HeXKjYqKYh835Xudrps8UhKPNL3
+         d1T4iVz4d5bpn/Pqxl7rmqzpMvSZU+w/MRFP9iMpmMejKeDQOWDE+QtIwBu6cWIcN83X
+         6iPg==
+X-Gm-Message-State: AOJu0YyJtveXnb+1D8AB+Cb6zWO2BVkCWUNxOA+CED4ozahp2fQIXksM
+	v0Z+h10NG+KSlu8+hSuchKgvBmYpT6j70kxDY9PkaT7PNyMSm2sFKSIPTx46PHUFnTQHstDNi7r
+	wBhQS
+X-Gm-Gg: AY/fxX4uDCLMFBun0RIZ9qNn0hlO6RoHipWaaQ+igmorkCuK4B/ySO8MahZIu/+2Wxp
+	rlDRg0O9cUzlv//2eB/9/4NDx6Vxv4WlK2sx+Grxhsi2QLP9vv5pEOMX10JlsXdmVAF4DsfoOet
+	uBcdGh2qkAvYZmudsWOOmEeZXyf6RU+owdt0rcZN8AOh8WNqy8mk2gPZ8ar+EsdXlu3UOY6O47g
+	gOT3M61mcWgZgzSnxBpHWHT5JEdcFsvi3GmV5CfBAeVPAFatiXHz5F2Q5jpNrmloqVuPSyB83fU
+	KURE11aQcCJSHEscE9OrGUbPxH7MmV9UGadI088wj4zHDT4esnHchda6d6a8euLMPm2s3PHhjkA
+	Cm0fKcutocTQMuzbVaPefmaIymiFqb4QRJEvst5r+L8jCdmp6RdyRex4ikg8Z8fYSK1zRPt0Agx
+	+kj9dgD86xL2eYr8+hrPhG2YIN+QsMc3l4ZeEd4452nR7NIk8OHLpKayD1Y724DueHlTD2yJKTm
+	ldaFZVmvXprrcSRTCWEiqsFfCzNlwASLxhuj05AaXG4u94xg2E5xUQRBA==
+X-Google-Smtp-Source: AGHT+IH8R6a3O7mp9uQRZtWtSbh6tgQ87gVP4t4OO82nw59QGxL7cjZDJXiM2u8JRQJr7yMX/AyHkQ==
+X-Received: by 2002:a17:907:7fa8:b0:b76:26bc:fb4a with SMTP id a640c23a62f3a-b7d238af004mr644867866b.4.1765794046290;
+        Mon, 15 Dec 2025 02:20:46 -0800 (PST)
 Received: from adam.amarulasolutions.com (2001-1c00-8101-1200-3ddc-5bb8-0efa-16f1.cable.dynamic.v6.ziggo.nl. [2001:1c00:8101:1200:3ddc:5bb8:efa:16f1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa51757asm1357193566b.45.2025.12.15.02.20.47
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa51757asm1357193566b.45.2025.12.15.02.20.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 02:20:47 -0800 (PST)
+        Mon, 15 Dec 2025 02:20:45 -0800 (PST)
 From: Adam Duskett <adam.duskett@amarulasolutions.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
-Subject: [PATCH v4 7/7] libdnf: remove recipe
-Date: Mon, 15 Dec 2025 11:20:41 +0100
-Message-ID: <20251215102041.1630567-7-adam.duskett@amarulasolutions.com>
+Subject: [PATCH v4 5/7] librepo: add PACKAGECONFIG[sequoia]
+Date: Mon, 15 Dec 2025 11:20:39 +0100
+Message-ID: <20251215102041.1630567-5-adam.duskett@amarulasolutions.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251215102041.1630567-1-adam.duskett@amarulasolutions.com>
 References: <20251215102041.1630567-1-adam.duskett@amarulasolutions.com>
@@ -67,350 +67,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 10:20:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227723
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227721
 
-libdnf5 is included in the dnf5 source tree now.
+Currently, librepo compiled with -DUSE_GPGME=ON (the default setting)
+causes dnf5 to fail importing repository keys. A very long writeup
+of the issue is linked below. [1]
+
+Add a new PACKAGECONFIG[sequoia] option which sets -DUSE_GPGME=OFF
+and adds rpm and rpm-sequoia to the dependency list which ensures
+dnf5 works with repository signing.
+
+1: https://github.com/rpm-software-management/dnf5/issues/2539
 
 Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
 ---
-V1 -> V4: Add this patch to the series
+ meta/recipes-devtools/librepo/librepo_1.20.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
- meta/conf/distro/include/maintainers.inc      |  1 -
- ...or-both-libsolv-and-libsolvext-libdn.patch | 26 ----------
- ...FNM_EXTMATCH-if-not-already-like-und.patch | 39 --------------
- .../0001-drop-FindPythonInstDir.cmake.patch   | 39 --------------
- ...-utils.cpp-fix-compilation-with-musl.patch | 51 -------------------
- ...ables-with-pkg-config-cmake-s-own-mo.patch | 27 ----------
- .../libdnf/libdnf/armarch.patch               | 50 ------------------
- meta/recipes-devtools/libdnf/libdnf_0.75.0.bb | 33 ------------
- 8 files changed, 266 deletions(-)
- delete mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
- delete mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-dnf-repo-Define-FNM_EXTMATCH-if-not-already-like-und.patch
- delete mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch
- delete mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-utils-utils.cpp-fix-compilation-with-musl.patch
- delete mode 100644 meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
- delete mode 100644 meta/recipes-devtools/libdnf/libdnf/armarch.patch
- delete mode 100644 meta/recipes-devtools/libdnf/libdnf_0.75.0.bb
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 222c09acf5..ed780ea440 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -335,7 +335,6 @@ RECIPE_MAINTAINER:pn-libcxx = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-libdaemon = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libdazzle = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libdisplay-info = "Hiago De Franco <hiago.franco@toradex.com>"
--RECIPE_MAINTAINER:pn-libdnf = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libdrm = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libedit = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-libepoxy = "Unassigned <unassigned@yoctoproject.org>"
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-deleted file mode 100644
-index 54b1262672..0000000000
---- a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--From cd8a24156cefab80b673af233f66ff44c1b7c458 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 7 Feb 2017 12:16:03 +0200
--Subject: [PATCH] Get parameters for both libsolv and libsolvext (libdnf is
--
-- using both)
--
--Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/312]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- CMakeLists.txt | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index a6f14318..60c66e94 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -51,7 +51,7 @@ endif()
-- 
-- 
-- # build dependencies
---PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv)
--+PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv libsolvext)
-- set(LIBSOLV_LIBRARY ${LIBSOLV_LIBRARIES})
-- 
-- 
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-dnf-repo-Define-FNM_EXTMATCH-if-not-already-like-und.patch b/meta/recipes-devtools/libdnf/libdnf/0001-dnf-repo-Define-FNM_EXTMATCH-if-not-already-like-und.patch
-deleted file mode 100644
-index 14ef362ccd..0000000000
---- a/meta/recipes-devtools/libdnf/libdnf/0001-dnf-repo-Define-FNM_EXTMATCH-if-not-already-like-und.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 486d1c7826efb9e42bbb18b6537fd23a0a33b324 Mon Sep 17 00:00:00 2001
--From: Wang Mingyu <wangmy@fujitsu.com>
--Date: Sun, 16 Nov 2025 23:29:18 +0000
--Subject: [PATCH] dnf-repo: Define FNM_EXTMATCH if not already (like under
-- musl).
--
--With musl, FNM_EXTMATCH is not defined:
--dnf-repo.cpp
--| dnf-repo.cpp: In function 'void dnf_repo_conf_load_overrides(DnfRepo*, const char*)':
--| dnf-repo.cpp:971:50: error: 'FNM_EXTMATCH' was not declared in this scope; did you mean 'FNM_NOMATCH'?
--|   971 |             if (fnmatch(repo_id_pattern, repoId, FNM_EXTMATCH) != 0) {
--|       |                                                  ^~~~~~~~~~~~
--|       |                                                  FNM_NOMATCH
--
--Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/1737/commits/47ed831c1fdb32519f2d66fee91bc47f9521d1d4]
--
--Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-----
-- libdnf/dnf-repo.cpp | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/libdnf/dnf-repo.cpp b/libdnf/dnf-repo.cpp
--index 44c0f8758..d53959414 100644
----- a/libdnf/dnf-repo.cpp
--+++ b/libdnf/dnf-repo.cpp
--@@ -69,6 +69,10 @@
-- #include <string>
-- #include <vector>
-- 
--+#if !defined(FNM_EXTMATCH)
--+#define FNM_EXTMATCH 0
--+#endif
--+
-- typedef struct
-- {
--     DnfRepoEnabled   enabled;
---- 
--2.43.0
--
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch b/meta/recipes-devtools/libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch
-deleted file mode 100644
-index 850a862979..0000000000
---- a/meta/recipes-devtools/libdnf/libdnf/0001-drop-FindPythonInstDir.cmake.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 5150fd9be924d2e9e74b2db664229423a4a00238 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Tue, 1 Jun 2021 10:23:59 +0800
--Subject: [PATCH] drop FindPythonInstDir.cmake
--
--Since commit [1] applied, PYTHON_INSTALL_DIR is not right
--on nativesdk build
--...
--|Building for python3
--|-- Python install dir is
--|tmp-glibc/work/x86_64-nativesdk-wrlinuxsdk-linux/nativesdk-libdnf/0.63.0-r0/
--recipe-sysroot-native/usr/lib/python3.9/site-packages
--...
--
--Yocto manually set PYTHON_INSTALL_DIR from recipe, it is not
--necessary to call FindPythonInstDir.cmake which will override
--Yocto setting
--
--[1] https://github.com/rpm-software-management/libdnf/commit/f1cffbfb9f338da827e233c2d8ac3a25a6a59a69
--
--Upstream-Status: Inappropriate [Yocto specific]
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- cmake/modules/FindPythonInstDir.cmake | 7 +------
-- 1 file changed, 1 insertion(+), 6 deletions(-)
--
--diff --git a/cmake/modules/FindPythonInstDir.cmake b/cmake/modules/FindPythonInstDir.cmake
--index ed098ded..8b137891 100644
----- a/cmake/modules/FindPythonInstDir.cmake
--+++ b/cmake/modules/FindPythonInstDir.cmake
--@@ -1,6 +1 @@
---EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "
---from sys import stdout
---from sysconfig import get_path
---path=get_path(name='platlib', vars={'platbase':'${CMAKE_INSTALL_PREFIX}'})
---stdout.write(path)"
---OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
--+
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-utils-utils.cpp-fix-compilation-with-musl.patch b/meta/recipes-devtools/libdnf/libdnf/0001-utils-utils.cpp-fix-compilation-with-musl.patch
-deleted file mode 100644
-index 061e7dffbd..0000000000
---- a/meta/recipes-devtools/libdnf/libdnf/0001-utils-utils.cpp-fix-compilation-with-musl.patch
-+++ /dev/null
-@@ -1,51 +0,0 @@
--From 699608a4c03ebbf64c1d7b6f56d9811492175daa Mon Sep 17 00:00:00 2001
--From: Wang Mingyu <wangmy@fujitsu.com>
--Date: Mon, 17 Nov 2025 00:05:14 +0000
--Subject: [PATCH] utils/utils.cpp: fix compilation with musl
--
--The basename() function requires the libgen.h header when
--compiling with musl-libc, otherwise it complains:
--error: 'basename' was not declared in this scope; did you mean 'g_basename'?
--Also, musl's basename requires char* instead of const char* argument:
--error: invalid conversion from 'const char*' to 'char*' [-fpermissive]
--
--Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/1737/commits/8720d5eeb0d348686d4c5f2ccb5a6c73d66eeff5]
--
--Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-----
-- libdnf/utils/utils.cpp | 5 +++--
-- 1 file changed, 3 insertions(+), 2 deletions(-)
--
--diff --git a/libdnf/utils/utils.cpp b/libdnf/utils/utils.cpp
--index f5d200b8a..501bc0ed2 100644
----- a/libdnf/utils/utils.cpp
--+++ b/libdnf/utils/utils.cpp
--@@ -9,6 +9,7 @@
-- #include <sys/stat.h>
-- #include <dirent.h>
-- #include <cstring>
--+#include <libgen.h>
-- #include <glob.h>
-- #include <stdexcept>
-- 
--@@ -311,7 +312,7 @@ std::vector<std::string> createSortedFileList(
--             auto * path_fname = basename(path);
--             bool found{false};
--             for (const auto & path_in_list : paths) {
---                if (strcmp(path_fname, basename(path_in_list.c_str())) == 0) {
--+                if (strcmp(path_fname, basename((char*)path_in_list.c_str())) == 0) {
--                     found = true;
--                     break;
--                 }
--@@ -325,7 +326,7 @@ std::vector<std::string> createSortedFileList(
-- 
--     // sort all drop-in configuration files alphabetically by their names
--     std::sort(paths.begin(), paths.end(), [](const std::string & p1, const std::string & p2) {
---        return strcmp(basename(p1.c_str()), basename(p2.c_str())) < 0;
--+        return strcmp(basename((char*)p1.c_str()), basename((char*)p2.c_str())) < 0;
--     });
-- 
--     return paths;
---- 
--2.43.0
--
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-deleted file mode 100644
-index f55870802f..0000000000
---- a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From a921a92f334a2a30741b906c206e041cef2d904d Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 30 Dec 2016 18:24:50 +0200
--Subject: [PATCH] Set libsolv variables with pkg-config (cmake's own module
--
-- doesn't work properly).
--
--Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/312]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- CMakeLists.txt | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index c6bd46a6..a6f14318 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -51,7 +51,8 @@ endif()
-- 
-- 
-- # build dependencies
---find_package(LibSolv 0.7.21 REQUIRED COMPONENTS ext)
--+PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv)
--+set(LIBSOLV_LIBRARY ${LIBSOLV_LIBRARIES})
-- 
-- 
-- # build dependencies via pkg-config
-diff --git a/meta/recipes-devtools/libdnf/libdnf/armarch.patch b/meta/recipes-devtools/libdnf/libdnf/armarch.patch
-deleted file mode 100644
-index 8a36f87227..0000000000
---- a/meta/recipes-devtools/libdnf/libdnf/armarch.patch
-+++ /dev/null
-@@ -1,50 +0,0 @@
--From baf4fc9f157e4c08c67d1a577b0f1e10f213a642 Mon Sep 17 00:00:00 2001
--From: Richard Purdie <richard.purdie@linuxfoundation.org>
--Date: Thu, 9 Nov 2023 10:29:31 +0000
--Subject: [PATCH] libdnf: Fix arm arch mapping issues for qemuarmv5
--
--We change the way rpm architectures work, we make the machine name the default machine
--specific package architecture.
--
--This arm mapping code can work or in the case of qemuarmv5, it doesn't as it creates
--armv5hl which doesn't exist and causes errrors. We can simply remove it, we don't need it.
--
--Upstream-Status: Inappropriate [Relies on OE rpm config]
-----
-- libdnf/hy-util.cpp | 23 -----------------------
-- 1 file changed, 23 deletions(-)
--
--diff --git a/libdnf/hy-util.cpp b/libdnf/hy-util.cpp
--index 9978c8e9..aa1369b6 100644
----- a/libdnf/hy-util.cpp
--+++ b/libdnf/hy-util.cpp
--@@ -117,29 +117,6 @@ hy_detect_arch(char **arch)
--     if (uname(&un) < 0)
--         return DNF_ERROR_FAILED;
-- 
---    if (!strncmp(un.machine, "armv", 4)) {
---        /* un.machine is armvXE, where X is version number and E is
---         * endianness (b or l); we need to add modifiers such as
---         * h (hardfloat), n (neon). Neon is a requirement of armv8 so
---         * as far as rpm is concerned armv8l is the equivilent of armv7hnl
---         * (or 7hnb) so we don't explicitly add 'n' for 8+ as it's expected. */
---        char endian = un.machine[strlen(un.machine)-1];
---        char *modifier = un.machine + 5;
---        while(isdigit(*modifier)) /* keep armv7, armv8, armv9, armv10, armv100, ... */
---            modifier++;
---        if (getauxval(AT_HWCAP) & HWCAP_ARM_VFP)
---            *modifier++ = 'h';
---        if ((atoi(un.machine+4) == 7) && (getauxval(AT_HWCAP) & HWCAP_ARM_NEON))
---            *modifier++ = 'n';
---        *modifier++ = endian;
---        *modifier = 0;
---    }
---#ifdef __MIPSEL__
---    if (!strcmp(un.machine, "mips"))
---        strcpy(un.machine, "mipsel");
---    else if (!strcmp(un.machine, "mips64"))
---        strcpy(un.machine, "mips64el");
---#endif
--     *arch = g_strdup(un.machine);
--     return 0;
-- }
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.75.0.bb b/meta/recipes-devtools/libdnf/libdnf_0.75.0.bb
-deleted file mode 100644
-index ddcbc7d9ff..0000000000
---- a/meta/recipes-devtools/libdnf/libdnf_0.75.0.bb
-+++ /dev/null
-@@ -1,33 +0,0 @@
--SUMMARY = "Library providing simplified C and Python API to libsolv"
--HOMEPAGE = "https://github.com/rpm-software-management/libdnf"
--DESCRIPTION = "This library provides a high level package-manager. It's core library of dnf, PackageKit and rpm-ostree. It's replacement for deprecated hawkey library which it contains inside and uses librepo under the hood."
--LICENSE = "LGPL-2.1-or-later"
--LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
--
--SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master;protocol=https \
--           file://0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch \
--           file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch \
--           file://0001-drop-FindPythonInstDir.cmake.patch \
--           file://armarch.patch \
--           file://0001-dnf-repo-Define-FNM_EXTMATCH-if-not-already-like-und.patch \
--           file://0001-utils-utils.cpp-fix-compilation-with-musl.patch \
--           "
--
--SRCREV = "d39573195e24b43687587a8d83b9f6ac274e2412"
--UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(?!4\.90)\d+(\.\d+)+)"
--
--DEPENDS = "glib-2.0 libsolv librepo rpm libmodulemd json-c swig-native util-linux"
--
--inherit cmake pkgconfig setuptools3-base gettext
--
--COMPATIBLE_HOST_libc-musl = 'null'
--
--EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3 \
--                  -DWITH_GTKDOC=OFF -DWITH_MAN=OFF -DWITH_HTML=OFF \
--                  -DWITH_TESTS=OFF \
--                  -DWITH_ZCHUNK=OFF \
--                "
--
--BBCLASSEXTEND = "native nativesdk"
--
--SKIP_RECIPE[libdnf] ?= "${@bb.utils.contains('PACKAGE_CLASSES', 'package_rpm', '', 'Does not build without package_rpm in PACKAGE_CLASSES due disabled rpm support in libsolv', d)}"
+diff --git a/meta/recipes-devtools/librepo/librepo_1.20.0.bb b/meta/recipes-devtools/librepo/librepo_1.20.0.bb
+index 6557dda43a..7a2e9e6b9b 100644
+--- a/meta/recipes-devtools/librepo/librepo_1.20.0.bb
++++ b/meta/recipes-devtools/librepo/librepo_1.20.0.bb
+@@ -15,6 +15,8 @@ DEPENDS = "curl glib-2.0 openssl attr gpgme libxml2"
+ 
+ inherit cmake setuptools3-base pkgconfig
+ 
++PACKAGECONFIG[sequoia] = "-DUSE_GPGME=OFF,-DUSE_GPGME=ON,rpm rpm-sequoia"
++
+ EXTRA_OECMAKE = " \
+     -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} \
+     -DPYTHON_DESIRED=3 \
 -- 
 2.52.0
 
