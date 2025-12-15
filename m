@@ -2,410 +2,557 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8EC6D5B172
-	for <webhook@archiver.kernel.org>; Mon, 15 Dec 2025 12:30:44 +0000 (UTC)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.47218.1765801835582247372
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF22CD59D99
+	for <webhook@archiver.kernel.org>; Mon, 15 Dec 2025 12:38:04 +0000 (UTC)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.47323.1765802275818985327
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Dec 2025 04:30:35 -0800
+ Mon, 15 Dec 2025 04:37:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hCdPPlk2;
- spf=pass (domain: gmail.com, ip: 209.85.128.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-78c33f74b72so29761927b3.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 04:30:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cOqZwX+c;
+ spf=pass (domain: gmail.com, ip: 209.85.128.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-78e602d09b6so26662657b3.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 04:37:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765801835; x=1766406635; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765802275; x=1766407075; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kjEd1EGUqWzDEtxGIRtIXsuOnL/IR7BC7s8+zoklW0g=;
-        b=hCdPPlk2FQB59K4Flz7QlxI5ZXAJ31d6uBLLnqfrEqzVEGkbzbg5VBHHTUltgJXEwO
-         pp5S0mcSFJ1d7ADYxedAe4DoQ8azmBcAqCbLaLbh51nbi30TJ31johs9pR3nPvFN948o
-         ZkJTImlCmygp7QQyWBw28dY8h1DdThPhsit+DR2vOBHapWQPyiCPYcv1t+d3o6Gs9CC/
-         ZE1tFb/xQoZiH0laOI90GN0tl2Rypw+ppMbZ7MWUFpUQ2hBddNtMjyjESNsBFaTrV1U4
-         zEDyzsvRyhIWco28/r2/BHkefVEhvOXW/wUQTN/ol/KpIEHH4w3XB225ipE/da2HkFU/
-         xYyQ==
+        bh=3lqkzJLflW6R+3gnmxuRxWXT8p92wX10zFbYEspdbS8=;
+        b=cOqZwX+cZmO3NI7o/nY/qIQEzMrFZNVl9Dz7ldXCfsrbiOXTP4fIBWNCVEw3cQK9no
+         sehZxbovjBWlVEmIrbZp3V66YBfimDi8vhm25dWntSmlyCcHgijveYHASefIOPIpwX8U
+         aOSpiLaavKrEbcWfQMIkPnJF9p16DeeVeGq1KQllRA6DKZkBaez1MTiBIfK3huG9+hjx
+         0NE64Ish7iF0Vqjuq0gL+hzS1uewWj7z1mqn6xrdnNNrEint47jC8fQO73ReJXW0Baig
+         ucaHcMaytLHORSMF/V6DO785+ULWrQIqHv2hI9Boh0DOYkxNavzsF1gVajo/d7hyftY5
+         wtFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765801835; x=1766406635;
+        d=1e100.net; s=20230601; t=1765802275; x=1766407075;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kjEd1EGUqWzDEtxGIRtIXsuOnL/IR7BC7s8+zoklW0g=;
-        b=J4S5GyPuoVSNfQZYZQcPf7nw2l/UIbqk62Qon9pu8Bm7wNFz4D6N+qeLnnj6ataocV
-         ELnX3xSrlOcuAVSLiewPQwhv0qK4SgjQKVZmP6nHj/+/YtnQIm4N3DXKbEHI2+scd88W
-         B3mayuORHRCjBumQvSPU1SBnYaYNqPgtztAEGUBtHZDj90l8zeKOwVmqb73evqkXbHXa
-         N0IULEo9PB/Fkayx/tZkIQ0GxFaCZU/2jErHY787Y3eus8SIhhabcpVoWMghUzX3DFE0
-         YnKRYWLGCcBzQ4CRbG08DtbXoKJkO3R6Hjei2TDeAgNX//jHCRfgihlKV/3xFc2EVske
-         CMIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVzvDjt3nMIaF96sSCVx+UFOJ0iaVonZ5l9g4AovQkr1oTlwZEdfXsgw4XtUDCA5+G9QA8wlzHIBX7TAwP1rGSmzg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx9PFaf+qRdOnxaWixCj9BEIaA4VOgfOThI2wpnFw+6kCt/76Sa
-	iIapUe59sUZexTQyCZhh1EPkhCOKUKmA8TL61kTxMZvdnaKxkdMC/ugzb758ZXi8sZnDUhtCRPw
-	4yWJI2GBrZ+2h57zKuAP10UocF7rxn7g=
-X-Gm-Gg: AY/fxX70ECTwbGsusjNTgIpLoLl3ccNLz68nIIl31letrO34zCFOggIN9om7/DsTh/y
-	pVWHoOWT0TXBQpN92BBNAGOODi3BJQ+K9e5tRKEhGzgg2T2N85FhXaee+PzQG71nbtT+wVlH6JE
-	Wv1D+9p+bZi03BeIGLuuRet/Ehpo92pgsxW6/+v8DXIAq06YnlOXD/C2tE+C8k2sJIRQPGjK2r4
-	fRdigutjY9PdSYYVg5BfKtLDxP39jJUQpL80MApw6yLm1oTEx+YHhBkKRVfJoLcjpBR2agH/yCi
-	eUe2fA3iT64ZRyVv3+aINgbENn9sxStuFbGSVTvfQAnmZT/pbYZisCEepbyVfpuTiM4LQeB59Xq
-	4L/dr+Rip7TGKUWhpwOpevwle
-X-Google-Smtp-Source: AGHT+IHDuQedK0CeKR3PWgnTaoMuwDKCdwx9I1BUUdzKgcQRjh71CzjCf9dJ14ZEPNIJqrwDsC4GajehKlZL32yxS4E=
-X-Received: by 2002:a05:690e:169e:b0:641:f5bc:69a0 with SMTP id
- 956f58d0204a3-64555664768mr8187464d50.78.1765801834287; Mon, 15 Dec 2025
- 04:30:34 -0800 (PST)
+        bh=3lqkzJLflW6R+3gnmxuRxWXT8p92wX10zFbYEspdbS8=;
+        b=o0lyeANFF4MPFcn4aKpOZUbvTHcEQJvTZI6pwUAB0NRP7tJU4gr0eYbHTqsBPDzQqs
+         5QYmsEhmoakhXIFhMD/Fa93bHh0mD7l/AqQ9H3tnyd17yGR2X4mrHf8FbhmXwWcU1c+K
+         1Ijo7nYuYmvSLJcMCI4MS8Ky8Z3aFmthL7zm6i/bg+WVVnxM+5QDZSPi73FDqQIBg/Ki
+         4XwieOXHLQxGaiAT6GqPEsdhN1szbRIACrG904Y75z0+YFCjvJB8ShJif+thb/3s+I9c
+         vDt+5j8820x0hZ6mdlZo7lfHoBJwC7x8sTobMVN2a1xoCHibvT/IYAbDwtNwNDueOsaq
+         bMNA==
+X-Gm-Message-State: AOJu0Yycfqf2clfcpQ1KCysKzFUumK5KBMh/nioiXCgSdcQeDhvurx6W
+	WPg+PPmdPKYHebSEJLhQLhguvlOCNMzmDl4vCtyeoJicx5q7FF75xMMAM/0+fAOPDO/LfO+bmRk
+	NW/Jv02T5Ve9IEIY/AnPPujtNQ3FQK1XvErao
+X-Gm-Gg: AY/fxX6tQ8cqemGMLyQG08Y8TFBILc+jM2HZ2HKDQj9T/Coq6Zv/awEbvbVfVMNyqOD
+	Ip4v6qT/en8bVRx8Ahwt4xOdzgHqZ5Ia0D1oOBh6SqrLC6ahQGXELHzOrmWSo7Naay0LlaBHI6R
+	CysyPUg034O3Sc8eXf5/V+6I+CxVMVD3tJOgSP+Dj2teqilHdBhCA9ME3RPLzrtHHFxdVVPz92L
+	qgFMTujjcfojg8ZkgNdaY/Xdhrheed0UVGDzuyWjosMRt0BqIQ42FiJ71V7mQ0eDTfMmO9wDhms
+	00SLHYXJF0C9VHrQWSXZqI3eVdWCaPVTZ6RKBfX0Z/bwEVGbBWY45FIDgqgrBee+wxS1xp7swz1
+	F38v7cpBem9qeWQ==
+X-Google-Smtp-Source: AGHT+IF7se2xKamrVxtQxRtvJsRiHoj3fukQ2ybnLcy83GXt6k8Wnzn3fzvB39mWZHWRekXWydFMBDIDLZ3zbBbYoSw=
+X-Received: by 2002:a05:690c:6d01:b0:787:c7e5:347f with SMTP id
+ 00721157ae682-78e66c69623mr84512127b3.56.1765802274693; Mon, 15 Dec 2025
+ 04:37:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20251010075258.2161972-1-hongxu.jia@windriver.com> <9dc9c4ff830b37a20b16fd36e2cc723f2cd04c44.camel@linuxfoundation.org>
-In-Reply-To: <9dc9c4ff830b37a20b16fd36e2cc723f2cd04c44.camel@linuxfoundation.org>
+References: <20251215100500.1626964-1-adam.duskett@amarulasolutions.com> <20251215100500.1626964-2-adam.duskett@amarulasolutions.com>
+In-Reply-To: <20251215100500.1626964-2-adam.duskett@amarulasolutions.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 15 Dec 2025 04:30:23 -0800
-X-Gm-Features: AQt7F2oqBPBZA2uwpZOvIQcZ3pk5-HXshWz7IWu8_LHZiQCq1IB0PNGuXRRytPw
-Message-ID: <CAMKF1srxgx99MbA++M9gVA90M66eFr_vVQ2be_DZ-xW28AfHgQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v5 1/5] distro/include: Add debug_build.inc when
- DEBUG_BUILD is enabled
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: hongxu.jia@eng.windriver.com, peter.kjellerstedt@axis.com, 
-	randy.macleod@windriver.com, openembedded-core@lists.openembedded.org, 
-	mathieu.dubois-briand@bootlin.com
-Content-Type: multipart/alternative; boundary="0000000000001397e90645fcc77b"
+Date: Mon, 15 Dec 2025 04:37:43 -0800
+X-Gm-Features: AQt7F2rIdUoYJH7--BdtGQj4NGdBASQUakr6W1vXluCozC-E6PcjL395rUjrMyY
+Message-ID: <CAMKF1spYmzA650kQQenBm3PrqH2EentrZOWm84VqthyctGWZGg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 2/6] libtoml: new recipe
+To: adam.duskett@amarulasolutions.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000053a5010645fce119"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 12:30:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227736
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 12:38:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227737
 
---0000000000001397e90645fcc77b
+--00000000000053a5010645fce119
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 15, 2025 at 7:00=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Once merged we need to drop it from meta-oe. As you are on top of it you
+would know when it lands in core would you mind sending a patch for removal
+as well ?
 
-> On Fri, 2025-10-10 at 15:52 +0800, hongxu via lists.openembedded.org
-> wrote:
-> > In bitbake.conf, use ??=3D to set *_OPTIMIZATION, add a new include
-> > file debug_build.inc to use ?=3D to override *_OPTIMIZATION when
-> > DEBUG_BUILD is enabled
-> >
-> > When DEBUG_BUILD is enabled:
-> > - Defer inherit bblcass debug_build, while setting DEBUG_BUILD =3D "1" =
-in
-> >   local.conf, the debug build is enabled globally. For the recipe (such
-> >   as qemu) which doesn't work without optimization, set DEBUG_BUILD =3D=
- "0"
-> >   to disable it for a given recipe
-> >
-> > - Use include_all to allow other layers to add their own debug build
-> >   configurations
-> >
-> > Suggested-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> > ---
-> >  meta/classes-global/base.bbclass         | 3 +++
-> >  meta/classes-recipe/debug_build.bbclass  | 8 ++++++++
-> >  meta/conf/bitbake.conf                   | 9 +++------
-> >  meta/conf/distro/include/debug_build.inc | 5 +++++
-> >  meta/conf/documentation.conf             | 2 +-
-> >  5 files changed, 20 insertions(+), 7 deletions(-)
-> >  create mode 100644 meta/classes-recipe/debug_build.bbclass
-> >  create mode 100644 meta/conf/distro/include/debug_build.inc
-> >
-> > diff --git a/meta/classes-global/base.bbclass
-> b/meta/classes-global/base.bbclass
-> > index 6de17d1bb5..0f4398e26f 100644
-> > --- a/meta/classes-global/base.bbclass
-> > +++ b/meta/classes-global/base.bbclass
-> > @@ -35,6 +35,9 @@ TOOLCHAIN_NATIVE ??=3D "${PREFERRED_TOOLCHAIN_NATIVE}=
+On Mon, Dec 15, 2025 at 5:05=E2=80=AFAM Adam Duskett via lists.openembedded=
+.org
+<adam.duskett=3Damarulasolutions.com@lists.openembedded.org> wrote:
+
+> DNF5 requires libtoml. As such, copy libtoml verbatim from
+> meta-openembedded to openembedded-core.
+>
+> Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
+> ---
+>  meta/conf/distro/include/maintainers.inc      |  1 +
+>  .../distro/include/ptest-packagelists.inc     |  1 +
+>  .../0001-Remove-whitespace-in-operator.patch  | 46 +++++++++++++++++++
+>  .../libtoml11/files/run-ptest                 | 12 +++++
+>  .../libtoml11/libtoml11_4.4.0.bb              | 38 +++++++++++++++
+>  5 files changed, 98 insertions(+)
+>  create mode 100644
+> meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-in-operator.=
+patch
+>  create mode 100755 meta/recipes-devtools/libtoml11/files/run-ptest
+>  create mode 100644 meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
+>
+> diff --git a/meta/conf/distro/include/maintainers.inc
+> b/meta/conf/distro/include/maintainers.inc
+> index 8971b9b552..da642ac3c5 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -405,6 +405,7 @@ RECIPE_MAINTAINER:pn-libsoup =3D "Unassigned <
+> unassigned@yoctoproject.org>"
+>  RECIPE_MAINTAINER:pn-libssh2 =3D "Unassigned <unassigned@yoctoproject.or=
+g>"
+>  RECIPE_MAINTAINER:pn-libssp-nonshared =3D "Khem Raj <raj.khem@gmail.com>=
 "
-> >  inherit_defer toolchain/${TOOLCHAIN_NATIVE}-native
-> >  inherit_defer toolchain/${TOOLCHAIN}
-> >
-> > +DEBUG_BUILD ??=3D "0"
-> > +inherit_defer ${@oe.utils.vartrue('DEBUG_BUILD', 'debug_build', '', d)=
-}
-> > +
-> >  def lsb_distro_identifier(d):
-> >      adjust =3D d.getVar('LSB_DISTRO_ADJUST')
-> >      adjust_func =3D None
-> > diff --git a/meta/classes-recipe/debug_build.bbclass
-> b/meta/classes-recipe/debug_build.bbclass
-> > new file mode 100644
-> > index 0000000000..a917e9cbc9
-> > --- /dev/null
-> > +++ b/meta/classes-recipe/debug_build.bbclass
-> > @@ -0,0 +1,8 @@
-> > +#
-> > +# Copyright OpenEmbedded Contributors
-> > +#
-> > +# SPDX-License-Identifier: MIT
-> > +#
-> > +
-> > +# Allow other layers to add their own debug build configurations
-> > +include_all conf/distro/include/debug_build.inc
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index 5406e542db..52ceb76bbb 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -658,13 +658,10 @@ DEBUG_PREFIX_MAP ?=3D "\
-> >  "
-> >  DEBUG_LEVELFLAG ?=3D "-g"
-> >
-> > -FULL_OPTIMIZATION =3D "-O2 ${DEBUG_LEVELFLAG}"
-> > -DEBUG_OPTIMIZATION =3D "-Og ${DEBUG_LEVELFLAG}"
-> > -SELECTED_OPTIMIZATION =3D "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD',
-> 'DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}"
-> > -SELECTED_OPTIMIZATION[vardeps] +=3D "FULL_OPTIMIZATION DEBUG_OPTIMIZAT=
-ION
-> DEBUG_BUILD"
-> > +FULL_OPTIMIZATION ??=3D "-O2 ${DEBUG_LEVELFLAG}"
-> > +SELECTED_OPTIMIZATION ??=3D "${FULL_OPTIMIZATION}"
-> >  # compiler flags for native/nativesdk
-> > -BUILD_OPTIMIZATION =3D "${@oe.utils.vartrue('DEBUG_BUILD', '-Og -g',
-> '-O2', d)}"
-> > -BUILD_OPTIMIZATION[vardeps] +=3D "DEBUG_BUILD"
-> > +BUILD_OPTIMIZATION ??=3D "-O2"
-> >
-> >  ##################################################################
-> >  # Reproducibility
-> > diff --git a/meta/conf/distro/include/debug_build.inc
-> b/meta/conf/distro/include/debug_build.inc
-> > new file mode 100644
-> > index 0000000000..95e09e64f5
-> > --- /dev/null
-> > +++ b/meta/conf/distro/include/debug_build.inc
-> > @@ -0,0 +1,5 @@
-> > +# Override SELECTED_OPTIMIZATION and BUILD_OPTIMIZATION when
-> DEBUG_BUILD is enabled.
-> > +DEBUG_OPTIMIZATION ?=3D "-Og ${DEBUG_LEVELFLAG}"
-> > +SELECTED_OPTIMIZATION ?=3D "${DEBUG_OPTIMIZATION}"
-> > +# compiler flags for native/nativesdk
-> > +BUILD_OPTIMIZATION ?=3D "-Og -g"
-> > diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.con=
-f
-> > index 741130a392..2a7418ccb3 100644
-> > --- a/meta/conf/documentation.conf
-> > +++ b/meta/conf/documentation.conf
-> > @@ -129,7 +129,7 @@ CVE_CHECK_LAYER_INCLUDELIST[doc] =3D "Defines which
-> layers to include during cve-c
-> >  D[doc] =3D "The destination directory."
-> >  DATE[doc] =3D "The date the build was started using YMD format."
-> >  DATETIME[doc] =3D "The date and time the build was started."
-> > -DEBUG_BUILD[doc] =3D "Specifies to build packages with debugging
-> information. This influences the value of the SELECTED_OPTIMIZATION
-> variable."
-> > +DEBUG_BUILD[doc] =3D "Specifies to build packages with debugging
-> information. This influences the value of the SELECTED_OPTIMIZATION
-> variable and includes file conf/distro/include/debug_build.inc"
-> >  DEBUG_OPTIMIZATION[doc] =3D "The options to pass in TARGET_CFLAGS and
-> CFLAGS when compiling a system for debugging. This variable defaults to
-> '-Og ${DEBUG_LEVELFLAG}'."
-> >  DEFAULT_PREFERENCE[doc] =3D "Specifies a weak bias for recipe selectio=
-n
-> priority."
-> >  DEPENDS[doc] =3D "Lists a recipe's build-time dependencies (i.e. other
-> recipe files)."
+>  RECIPE_MAINTAINER:pn-libtasn1 =3D "Unassigned <unassigned@yoctoproject.o=
+rg
+> >"
+> +RECIPE_MAINTAINER:pn-libtoml11 =3D "Unassigned <unassigned@yoctoproject.=
+org
+> >"
+>  RECIPE_MAINTAINER:pn-libtest-fatal-perl =3D "Tim Orling <
+> tim.orling@konsulko.com>"
+>  RECIPE_MAINTAINER:pn-libtest-needs-perl =3D "Tim Orling <
+> tim.orling@konsulko.com>"
+>  RECIPE_MAINTAINER:pn-libtest-warnings-perl =3D "Tim Orling <
+> tim.orling@konsulko.com>"
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc
+> b/meta/conf/distro/include/ptest-packagelists.inc
+> index 09613294d6..ec0e2d1637 100644
+> --- a/meta/conf/distro/include/ptest-packagelists.inc
+> +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> @@ -40,6 +40,7 @@ PTESTS_FAST =3D "\
+>      libtest-needs-perl \
+>      libtest-warnings-perl \
+>      libtimedate-perl \
+> +    libtoml11 \
+>      libtry-tiny-perl \
+>      libusb1 \
+>      libxml-namespacesupport-perl \
+> diff --git
+> a/meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-in-operato=
+r.patch
+> b/meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-in-operato=
+r.patch
+> new file mode 100644
+> index 0000000000..c8c9922d55
+> --- /dev/null
+> +++
+> b/meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-in-operato=
+r.patch
+> @@ -0,0 +1,46 @@
+> +From dee78f822d8a5b985e565e5c1ef42a59557aa8fc Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Fri, 7 Mar 2025 11:35:46 -0800
+> +Subject: [PATCH] Remove whitespace in operator""
+> +
+> +Clang 20+ errors about this whitespace.
+> +
+> +Fixes
+> +include/toml11/impl/../fwd/literal_fwd.hpp:22:26: error: identifier
+> '_toml' preceded by whitespace in a literal operator declaration is
+> deprecated [-Werror,-Wdeprecated-literal-operator]
+> +|    22 | ::toml::value operator"" _toml(const char* str, std::size_t
+> len);
+> +|       |               ~~~~~~~~~~~^~~~~
+> +|       |               operator""_toml
+> +
+> +Upstream-Status: Submitted [https://github.com/ToruNiina/toml11/pull/285=
+]
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +---
+> + include/toml11/fwd/literal_fwd.hpp   | 2 +-
+> + include/toml11/impl/literal_impl.hpp | 2 +-
+> + 2 files changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/include/toml11/fwd/literal_fwd.hpp
+> b/include/toml11/fwd/literal_fwd.hpp
+> +index e46612c..82f62b7 100644
+> +--- a/include/toml11/fwd/literal_fwd.hpp
+> ++++ b/include/toml11/fwd/literal_fwd.hpp
+> +@@ -19,7 +19,7 @@ inline namespace literals
+> + inline namespace toml_literals
+> + {
+> +
+> +-::toml::value operator"" _toml(const char* str, std::size_t len);
+> ++::toml::value operator""_toml(const char* str, std::size_t len);
+> +
+> + #if defined(TOML11_HAS_CHAR8_T)
+> + // value of u8"" literal has been changed from char to char8_t and
+> char8_t is
+> +diff --git a/include/toml11/impl/literal_impl.hpp
+> b/include/toml11/impl/literal_impl.hpp
+> +index e8298c2..067d4ed 100644
+> +--- a/include/toml11/impl/literal_impl.hpp
+> ++++ b/include/toml11/impl/literal_impl.hpp
+> +@@ -115,7 +115,7 @@ inline namespace toml_literals
+> + {
+> +
+> + TOML11_INLINE ::toml::value
+> +-operator"" _toml(const char* str, std::size_t len)
+> ++operator""_toml(const char* str, std::size_t len)
+> + {
+> +     if(len =3D=3D 0)
+> +     {
+> diff --git a/meta/recipes-devtools/libtoml11/files/run-ptest
+> b/meta/recipes-devtools/libtoml11/files/run-ptest
+> new file mode 100755
+> index 0000000000..9bc480aa7f
+> --- /dev/null
+> +++ b/meta/recipes-devtools/libtoml11/files/run-ptest
+> @@ -0,0 +1,12 @@
+> +#!/bin/sh
+> +
+> +cd tests
+> +for atest in test_* ; do
+> +    rm -rf tests.log
+> +    ./${atest} > tests.log 2>&1
+> +    if [ $? =3D 0 ] ; then
+> +        echo "PASS: ${atest}"
+> +    else
+> +        echo "FAIL: ${atest}"
+> +    fi
+> +done
+> diff --git a/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
+> b/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
+> new file mode 100644
+> index 0000000000..38786b79ed
+> --- /dev/null
+> +++ b/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
+> @@ -0,0 +1,38 @@
+> +SUMMARY =3D "TOML for Modern C++"
+> +DESCRIPTION =3D "toml11 is a feature-rich TOML language library for \
+> +               C++11/14/17/20."
+> +
+> +HOMEPAGE =3D "https://github.com/ToruNiina/toml11"
+> +
+> +SECTION =3D "libs"
+> +
+> +LICENSE =3D "MIT"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D44d1fcf70c7aa6991533c38daf7be=
+fa3"
+> +
+> +PE =3D "1"
+> +
+> +SRCREV =3D "be08ba2be2a964edcdb3d3e3ea8d100abc26f286"
+> +SRCREV_json =3D "8c391e04fe4195d8be862c97f38cfe10e2a3472e"
+> +SRCREV_doctest =3D "ae7a13539fb71f270b87eb2e874fbac80bc8dda2"
+> +
+> +SRC_URI =3D "git://github.com/ToruNiina/toml11;branch=3Dmain;protocol=3D=
+https \
+> +           git://
+> github.com/nlohmann/json;destsuffix=3D${BB_GIT_DEFAULT_DESTSUFFIX}/tests/=
+extlib/json;name=3Djson;branch=3Ddevelop;protocol=3Dhttps
+> <http://github.com/nlohmann/json;destsuffix=3D$%7BBB_GIT_DEFAULT_DESTSUFF=
+IX%7D/tests/extlib/json;name=3Djson;branch=3Ddevelop;protocol=3Dhttps>
+> \
+> +           git://
+> github.com/doctest/doctest;destsuffix=3D${BB_GIT_DEFAULT_DESTSUFFIX}/test=
+s/extlib/doctest;name=3Ddoctest;branch=3Dmaster;protocol=3Dhttps
+> <http://github.com/doctest/doctest;destsuffix=3D$%7BBB_GIT_DEFAULT_DESTSU=
+FFIX%7D/tests/extlib/doctest;name=3Ddoctest;branch=3Dmaster;protocol=3Dhttp=
+s>
+> \
+> +           file://0001-Remove-whitespace-in-operator.patch \
+> +           file://run-ptest \
+> +"
+> +SRCREV_FORMAT =3D "json_doctest"
+> +
+> +
+> +inherit cmake ptest
+> +
+> +EXTRA_OECMAKE +=3D "-DTOML11_PRECOMPILE=3DON \
+> +
+> -DTOML11_BUILD_TESTS=3D${@bb.utils.contains("DISTRO_FEATURES", "ptest", "=
+ON",
+> "OFF", d)} \
+> +"
+> +
+> +ALLOW_EMPTY:${PN} =3D "1"
+> +
+> +do_install_ptest () {
+> +    install -d ${D}${PTEST_PATH}/tests
+> +    cp -r ${B}/tests/test_* ${D}${PTEST_PATH}/tests
+> +}
+> --
+> 2.52.0
 >
-> Sorry about the delay in getting to this, we had to focus on the
-> release. I have been giving this some thought and it is heading the
-> right way but I have a couple of ideas.
 >
-> The problem with DEBUG_BUILD is that we have a lot of debug information
-> in builds anyway and this is now unclear what it means. The
-> documentation.conf entry mentions packages which is now incorrect too.
-> The variable is a very old one and the interface is poorly designed
-> compared to other areas now.
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#227707):
+> https://lists.openembedded.org/g/openembedded-core/message/227707
+> Mute This Topic: https://lists.openembedded.org/mt/116789899/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
-> Rather than keeping "DEBUG_BUILD" alive, perhaps we drop that and
-> simply document the INHERIT instead? I did wonder about making it a
-> config fragment instead too instead of a class?
 >
-> I'm also wondering whether we should remove SELECTED_OPTIMIZATION
-> entirely? Certainly DEBUG_OPTIMIZATION and FULL_OPTIMIZATION can be
-> dropped. Whether that should be this patch or another, I don't mind.
 
-
-I think simplifying this would be useful. All these variables have grown
-overtime and adding one one will add to this. Perhaps the final value of
-optimization settings could be computed from fragments.
-
-
->
-> Cheers,
->
-> Richard
->
-
---0000000000001397e90645fcc77b
+--00000000000053a5010645fce119
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote gmail_quote_container"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 15, 2025 at 7:00=E2=80=AFAM=
- Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">r=
-ichard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">On Fri, 2025-10-10 at 15:52 +0800, hongxu via <a href=3D"http=
-://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.opene=
-mbedded.org</a> wrote:<br>
-&gt; In bitbake.conf, use ??=3D to set *_OPTIMIZATION, add a new include<br=
+<div dir=3D"auto">Once merged we need to drop it from meta-oe. As you are o=
+n top of it you would know when it lands in core would you mind sending a p=
+atch for removal as well ?</div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o"><div class=3D"gmail_quote gmail_quote_container" dir=3D"auto"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Mon, Dec 15, 2025 at 5:05=E2=80=AFAM Adam =
+Duskett via <a href=3D"http://lists.openembedded.org">lists.openembedded.or=
+g</a> &lt;adam.duskett=3D<a href=3D"mailto:amarulasolutions.com@lists.opene=
+mbedded.org">amarulasolutions.com@lists.openembedded.org</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">DNF5 requires libtoml. As such, copy l=
+ibtoml verbatim from<br>
+meta-openembedded to openembedded-core.<br>
+<br>
+Signed-off-by: Adam Duskett &lt;<a href=3D"mailto:adam.duskett@amarulasolut=
+ions.com" target=3D"_blank">adam.duskett@amarulasolutions.com</a>&gt;<br>
+---<br>
+=C2=A0meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+1 +<br>
+=C2=A0.../distro/include/ptest-packagelists.inc=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+1 +<br>
+=C2=A0.../0001-Remove-whitespace-in-operator.patch=C2=A0 | 46 +++++++++++++=
+++++++<br>
+=C2=A0.../libtoml11/files/run-ptest=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| 12 +++++<br>
+=C2=A0.../libtoml11/<a href=3D"http://libtoml11_4.4.0.bb" rel=3D"noreferrer=
+" target=3D"_blank">libtoml11_4.4.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 | 38 +++++++++++++++<br>
+=C2=A05 files changed, 98 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/libtoml11/files/0001-Remove-=
+whitespace-in-operator.patch<br>
+=C2=A0create mode 100755 meta/recipes-devtools/libtoml11/files/run-ptest<br=
 >
-&gt; file debug_build.inc to use ?=3D to override *_OPTIMIZATION when<br>
-&gt; DEBUG_BUILD is enabled<br>
-&gt; <br>
-&gt; When DEBUG_BUILD is enabled:<br>
-&gt; - Defer inherit bblcass debug_build, while setting DEBUG_BUILD =3D &qu=
-ot;1&quot; in<br>
-&gt; =C2=A0 local.conf, the debug build is enabled globally. For the recipe=
- (such<br>
-&gt; =C2=A0 as qemu) which doesn&#39;t work without optimization, set DEBUG=
-_BUILD =3D &quot;0&quot;<br>
-&gt; =C2=A0 to disable it for a given recipe<br>
-&gt; <br>
-&gt; - Use include_all to allow other layers to add their own debug build<b=
-r>
-&gt; =C2=A0 configurations<br>
-&gt; <br>
-&gt; Suggested-by: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerst=
-edt@axis.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
-&gt; Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.c=
-om" target=3D"_blank">hongxu.jia@windriver.com</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0meta/classes-global/base.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 3 +++<br>
-&gt; =C2=A0meta/classes-recipe/debug_build.bbclass=C2=A0 | 8 ++++++++<br>
-&gt; =C2=A0meta/conf/bitbake.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 9 +++-=
------<br>
-&gt; =C2=A0meta/conf/distro/include/debug_build.inc | 5 +++++<br>
-&gt; =C2=A0meta/conf/documentation.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-<br>
-&gt; =C2=A05 files changed, 20 insertions(+), 7 deletions(-)<br>
-&gt; =C2=A0create mode 100644 meta/classes-recipe/debug_build.bbclass<br>
-&gt; =C2=A0create mode 100644 meta/conf/distro/include/debug_build.inc<br>
-&gt; <br>
-&gt; diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/ba=
-se.bbclass<br>
-&gt; index 6de17d1bb5..0f4398e26f 100644<br>
-&gt; --- a/meta/classes-global/base.bbclass<br>
-&gt; +++ b/meta/classes-global/base.bbclass<br>
-&gt; @@ -35,6 +35,9 @@ TOOLCHAIN_NATIVE ??=3D &quot;${PREFERRED_TOOLCHAIN_N=
-ATIVE}&quot;<br>
-&gt; =C2=A0inherit_defer toolchain/${TOOLCHAIN_NATIVE}-native<br>
-&gt; =C2=A0inherit_defer toolchain/${TOOLCHAIN}<br>
-&gt; =C2=A0<br>
-&gt; +DEBUG_BUILD ??=3D &quot;0&quot;<br>
-&gt; +inherit_defer ${@oe.utils.vartrue(&#39;DEBUG_BUILD&#39;, &#39;debug_b=
-uild&#39;, &#39;&#39;, d)}<br>
-&gt; +<br>
-&gt; =C2=A0def lsb_distro_identifier(d):<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0 adjust =3D d.getVar(&#39;LSB_DISTRO_ADJUST&#3=
-9;)<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0 adjust_func =3D None<br>
-&gt; diff --git a/meta/classes-recipe/debug_build.bbclass b/meta/classes-re=
-cipe/debug_build.bbclass<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..a917e9cbc9<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/classes-recipe/debug_build.bbclass<br>
-&gt; @@ -0,0 +1,8 @@<br>
-&gt; +#<br>
-&gt; +# Copyright OpenEmbedded Contributors<br>
-&gt; +#<br>
-&gt; +# SPDX-License-Identifier: MIT<br>
-&gt; +#<br>
-&gt; +<br>
-&gt; +# Allow other layers to add their own debug build configurations<br>
-&gt; +include_all conf/distro/include/debug_build.inc<br>
-&gt; diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
-&gt; index 5406e542db..52ceb76bbb 100644<br>
-&gt; --- a/meta/conf/bitbake.conf<br>
-&gt; +++ b/meta/conf/bitbake.conf<br>
-&gt; @@ -658,13 +658,10 @@ DEBUG_PREFIX_MAP ?=3D &quot;\<br>
-&gt; =C2=A0&quot;<br>
-&gt; =C2=A0DEBUG_LEVELFLAG ?=3D &quot;-g&quot;<br>
-&gt; =C2=A0<br>
-&gt; -FULL_OPTIMIZATION =3D &quot;-O2 ${DEBUG_LEVELFLAG}&quot;<br>
-&gt; -DEBUG_OPTIMIZATION =3D &quot;-Og ${DEBUG_LEVELFLAG}&quot;<br>
-&gt; -SELECTED_OPTIMIZATION =3D &quot;${@d.getVar(oe.utils.vartrue(&#39;DEB=
-UG_BUILD&#39;, &#39;DEBUG_OPTIMIZATION&#39;, &#39;FULL_OPTIMIZATION&#39;, d=
-))}&quot;<br>
-&gt; -SELECTED_OPTIMIZATION[vardeps] +=3D &quot;FULL_OPTIMIZATION DEBUG_OPT=
-IMIZATION DEBUG_BUILD&quot;<br>
-&gt; +FULL_OPTIMIZATION ??=3D &quot;-O2 ${DEBUG_LEVELFLAG}&quot;<br>
-&gt; +SELECTED_OPTIMIZATION ??=3D &quot;${FULL_OPTIMIZATION}&quot;<br>
-&gt; =C2=A0# compiler flags for native/nativesdk<br>
-&gt; -BUILD_OPTIMIZATION =3D &quot;${@oe.utils.vartrue(&#39;DEBUG_BUILD&#39=
-;, &#39;-Og -g&#39;, &#39;-O2&#39;, d)}&quot;<br>
-&gt; -BUILD_OPTIMIZATION[vardeps] +=3D &quot;DEBUG_BUILD&quot;<br>
-&gt; +BUILD_OPTIMIZATION ??=3D &quot;-O2&quot;<br>
-&gt; =C2=A0<br>
-&gt; =C2=A0################################################################=
-##<br>
-&gt; =C2=A0# Reproducibility<br>
-&gt; diff --git a/meta/conf/distro/include/debug_build.inc b/meta/conf/dist=
-ro/include/debug_build.inc<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..95e09e64f5<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/conf/distro/include/debug_build.inc<br>
-&gt; @@ -0,0 +1,5 @@<br>
-&gt; +# Override SELECTED_OPTIMIZATION and BUILD_OPTIMIZATION when DEBUG_BU=
-ILD is enabled.<br>
-&gt; +DEBUG_OPTIMIZATION ?=3D &quot;-Og ${DEBUG_LEVELFLAG}&quot;<br>
-&gt; +SELECTED_OPTIMIZATION ?=3D &quot;${DEBUG_OPTIMIZATION}&quot;<br>
-&gt; +# compiler flags for native/nativesdk<br>
-&gt; +BUILD_OPTIMIZATION ?=3D &quot;-Og -g&quot;<br>
-&gt; diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.co=
-nf<br>
-&gt; index 741130a392..2a7418ccb3 100644<br>
-&gt; --- a/meta/conf/documentation.conf<br>
-&gt; +++ b/meta/conf/documentation.conf<br>
-&gt; @@ -129,7 +129,7 @@ CVE_CHECK_LAYER_INCLUDELIST[doc] =3D &quot;Defines=
- which layers to include during cve-c<br>
-&gt; =C2=A0D[doc] =3D &quot;The destination directory.&quot;<br>
-&gt; =C2=A0DATE[doc] =3D &quot;The date the build was started using YMD for=
-mat.&quot;<br>
-&gt; =C2=A0DATETIME[doc] =3D &quot;The date and time the build was started.=
+=C2=A0create mode 100644 meta/recipes-devtools/libtoml11/<a href=3D"http://=
+libtoml11_4.4.0.bb" rel=3D"noreferrer" target=3D"_blank">libtoml11_4.4.0.bb=
+</a><br>
+<br>
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
+clude/maintainers.inc<br>
+index 8971b9b552..da642ac3c5 100644<br>
+--- a/meta/conf/distro/include/maintainers.inc<br>
++++ b/meta/conf/distro/include/maintainers.inc<br>
+@@ -405,6 +405,7 @@ RECIPE_MAINTAINER:pn-libsoup =3D &quot;Unassigned &lt;<=
+a href=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassigned@=
+yoctoproject.org</a>&gt;&quot;<br>
+=C2=A0RECIPE_MAINTAINER:pn-libssh2 =3D &quot;Unassigned &lt;<a href=3D"mail=
+to:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yoctoproject.o=
+rg</a>&gt;&quot;<br>
+=C2=A0RECIPE_MAINTAINER:pn-libssp-nonshared =3D &quot;Khem Raj &lt;<a href=
+=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;=
 &quot;<br>
-&gt; -DEBUG_BUILD[doc] =3D &quot;Specifies to build packages with debugging=
- information. This influences the value of the SELECTED_OPTIMIZATION variab=
-le.&quot;<br>
-&gt; +DEBUG_BUILD[doc] =3D &quot;Specifies to build packages with debugging=
- information. This influences the value of the SELECTED_OPTIMIZATION variab=
-le and includes file conf/distro/include/debug_build.inc&quot;<br>
-&gt; =C2=A0DEBUG_OPTIMIZATION[doc] =3D &quot;The options to pass in TARGET_=
-CFLAGS and CFLAGS when compiling a system for debugging. This variable defa=
-ults to &#39;-Og ${DEBUG_LEVELFLAG}&#39;.&quot;<br>
-&gt; =C2=A0DEFAULT_PREFERENCE[doc] =3D &quot;Specifies a weak bias for reci=
-pe selection priority.&quot;<br>
-&gt; =C2=A0DEPENDS[doc] =3D &quot;Lists a recipe&#39;s build-time dependenc=
-ies (i.e. other recipe files).&quot;<br>
+=C2=A0RECIPE_MAINTAINER:pn-libtasn1 =3D &quot;Unassigned &lt;<a href=3D"mai=
+lto:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yoctoproject.=
+org</a>&gt;&quot;<br>
++RECIPE_MAINTAINER:pn-libtoml11 =3D &quot;Unassigned &lt;<a href=3D"mailto:=
+unassigned@yoctoproject.org" target=3D"_blank">unassigned@yoctoproject.org<=
+/a>&gt;&quot;<br>
+=C2=A0RECIPE_MAINTAINER:pn-libtest-fatal-perl =3D &quot;Tim Orling &lt;<a h=
+ref=3D"mailto:tim.orling@konsulko.com" target=3D"_blank">tim.orling@konsulk=
+o.com</a>&gt;&quot;<br>
+=C2=A0RECIPE_MAINTAINER:pn-libtest-needs-perl =3D &quot;Tim Orling &lt;<a h=
+ref=3D"mailto:tim.orling@konsulko.com" target=3D"_blank">tim.orling@konsulk=
+o.com</a>&gt;&quot;<br>
+=C2=A0RECIPE_MAINTAINER:pn-libtest-warnings-perl =3D &quot;Tim Orling &lt;<=
+a href=3D"mailto:tim.orling@konsulko.com" target=3D"_blank">tim.orling@kons=
+ulko.com</a>&gt;&quot;<br>
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
+stro/include/ptest-packagelists.inc<br>
+index 09613294d6..ec0e2d1637 100644<br>
+--- a/meta/conf/distro/include/ptest-packagelists.inc<br>
++++ b/meta/conf/distro/include/ptest-packagelists.inc<br>
+@@ -40,6 +40,7 @@ PTESTS_FAST =3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0libtest-needs-perl \<br>
+=C2=A0 =C2=A0 =C2=A0libtest-warnings-perl \<br>
+=C2=A0 =C2=A0 =C2=A0libtimedate-perl \<br>
++=C2=A0 =C2=A0 libtoml11 \<br>
+=C2=A0 =C2=A0 =C2=A0libtry-tiny-perl \<br>
+=C2=A0 =C2=A0 =C2=A0libusb1 \<br>
+=C2=A0 =C2=A0 =C2=A0libxml-namespacesupport-perl \<br>
+diff --git a/meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-i=
+n-operator.patch b/meta/recipes-devtools/libtoml11/files/0001-Remove-whites=
+pace-in-operator.patch<br>
+new file mode 100644<br>
+index 0000000000..c8c9922d55<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/libtoml11/files/0001-Remove-whitespace-in-opera=
+tor.patch<br>
+@@ -0,0 +1,46 @@<br>
++From dee78f822d8a5b985e565e5c1ef42a59557aa8fc Mon Sep 17 00:00:00 2001<br>
++From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank"=
+>raj.khem@gmail.com</a>&gt;<br>
++Date: Fri, 7 Mar 2025 11:35:46 -0800<br>
++Subject: [PATCH] Remove whitespace in operator&quot;&quot;<br>
++<br>
++Clang 20+ errors about this whitespace.<br>
++<br>
++Fixes<br>
++include/toml11/impl/../fwd/literal_fwd.hpp:22:26: error: identifier &#39;_=
+toml&#39; preceded by whitespace in a literal operator declaration is depre=
+cated [-Werror,-Wdeprecated-literal-operator]<br>
++|=C2=A0 =C2=A0 22 | ::toml::value operator&quot;&quot; _toml(const char* s=
+tr, std::size_t len);<br>
++|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0~~~~~~~~~~~^~~~~<br>
++|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0operator&quot;&quot;_toml<br>
++<br>
++Upstream-Status: Submitted [<a href=3D"https://github.com/ToruNiina/toml11=
+/pull/285" rel=3D"noreferrer" target=3D"_blank">https://github.com/ToruNiin=
+a/toml11/pull/285</a>]<br>
++Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
++---<br>
++ include/toml11/fwd/literal_fwd.hpp=C2=A0 =C2=A0| 2 +-<br>
++ include/toml11/impl/literal_impl.hpp | 2 +-<br>
++ 2 files changed, 2 insertions(+), 2 deletions(-)<br>
++<br>
++diff --git a/include/toml11/fwd/literal_fwd.hpp b/include/toml11/fwd/liter=
+al_fwd.hpp<br>
++index e46612c..82f62b7 100644<br>
++--- a/include/toml11/fwd/literal_fwd.hpp<br>
+++++ b/include/toml11/fwd/literal_fwd.hpp<br>
++@@ -19,7 +19,7 @@ inline namespace literals<br>
++ inline namespace toml_literals<br>
++ {<br>
++ <br>
++-::toml::value operator&quot;&quot; _toml(const char* str, std::size_t len=
+);<br>
+++::toml::value operator&quot;&quot;_toml(const char* str, std::size_t len)=
+;<br>
++ <br>
++ #if defined(TOML11_HAS_CHAR8_T)<br>
++ // value of u8&quot;&quot; literal has been changed from char to char8_t =
+and char8_t is<br>
++diff --git a/include/toml11/impl/literal_impl.hpp b/include/toml11/impl/li=
+teral_impl.hpp<br>
++index e8298c2..067d4ed 100644<br>
++--- a/include/toml11/impl/literal_impl.hpp<br>
+++++ b/include/toml11/impl/literal_impl.hpp<br>
++@@ -115,7 +115,7 @@ inline namespace toml_literals<br>
++ {<br>
++ <br>
++ TOML11_INLINE ::toml::value<br>
++-operator&quot;&quot; _toml(const char* str, std::size_t len)<br>
+++operator&quot;&quot;_toml(const char* str, std::size_t len)<br>
++ {<br>
++=C2=A0 =C2=A0 =C2=A0if(len =3D=3D 0)<br>
++=C2=A0 =C2=A0 =C2=A0{<br>
+diff --git a/meta/recipes-devtools/libtoml11/files/run-ptest b/meta/recipes=
+-devtools/libtoml11/files/run-ptest<br>
+new file mode 100755<br>
+index 0000000000..9bc480aa7f<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/libtoml11/files/run-ptest<br>
+@@ -0,0 +1,12 @@<br>
++#!/bin/sh<br>
++<br>
++cd tests<br>
++for atest in test_* ; do<br>
++=C2=A0 =C2=A0 rm -rf tests.log<br>
++=C2=A0 =C2=A0 ./${atest} &gt; tests.log 2&gt;&amp;1<br>
++=C2=A0 =C2=A0 if [ $? =3D 0 ] ; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;PASS: ${atest}&quot;<br>
++=C2=A0 =C2=A0 else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;FAIL: ${atest}&quot;<br>
++=C2=A0 =C2=A0 fi<br>
++done<br>
+diff --git a/meta/recipes-devtools/libtoml11/<a href=3D"http://libtoml11_4.=
+4.0.bb" rel=3D"noreferrer" target=3D"_blank">libtoml11_4.4.0.bb</a> b/meta/=
+recipes-devtools/libtoml11/<a href=3D"http://libtoml11_4.4.0.bb" rel=3D"nor=
+eferrer" target=3D"_blank">libtoml11_4.4.0.bb</a><br>
+new file mode 100644<br>
+index 0000000000..38786b79ed<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/libtoml11/<a href=3D"http://libtoml11_4.4.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">libtoml11_4.4.0.bb</a><br>
+@@ -0,0 +1,38 @@<br>
++SUMMARY =3D &quot;TOML for Modern C++&quot;<br>
++DESCRIPTION =3D &quot;toml11 is a feature-rich TOML language library for \=
 <br>
-Sorry about the delay in getting to this, we had to focus on the<br>
-release. I have been giving this some thought and it is heading the<br>
-right way but I have a couple of ideas.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0C++11/14/17/20.&quo=
+t;<br>
++<br>
++HOMEPAGE =3D &quot;<a href=3D"https://github.com/ToruNiina/toml11" rel=3D"=
+noreferrer" target=3D"_blank">https://github.com/ToruNiina/toml11</a>&quot;=
 <br>
-The problem with DEBUG_BUILD is that we have a lot of debug information<br>
-in builds anyway and this is now unclear what it means. The<br>
-documentation.conf entry mentions packages which is now incorrect too.<br>
-The variable is a very old one and the interface is poorly designed<br>
-compared to other areas now.<br>
++<br>
++SECTION =3D &quot;libs&quot;<br>
++<br>
++LICENSE =3D &quot;MIT&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D44d1fcf70c7aa6991533c38daf=
+7befa3&quot;<br>
++<br>
++PE =3D &quot;1&quot;<br>
++<br>
++SRCREV =3D &quot;be08ba2be2a964edcdb3d3e3ea8d100abc26f286&quot;<br>
++SRCREV_json =3D &quot;8c391e04fe4195d8be862c97f38cfe10e2a3472e&quot;<br>
++SRCREV_doctest =3D &quot;ae7a13539fb71f270b87eb2e874fbac80bc8dda2&quot;<br=
+>
++<br>
++SRC_URI =3D &quot;git://<a href=3D"http://github.com/ToruNiina/toml11;bran=
+ch=3Dmain;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">github.com=
+/ToruNiina/toml11;branch=3Dmain;protocol=3Dhttps</a> \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
+m/nlohmann/json;destsuffix=3D$%7BBB_GIT_DEFAULT_DESTSUFFIX%7D/tests/extlib/=
+json;name=3Djson;branch=3Ddevelop;protocol=3Dhttps" rel=3D"noreferrer" targ=
+et=3D"_blank">github.com/nlohmann/json;destsuffix=3D${BB_GIT_DEFAULT_DESTSU=
+FFIX}/tests/extlib/json;name=3Djson;branch=3Ddevelop;protocol=3Dhttps</a> \=
 <br>
-Rather than keeping &quot;DEBUG_BUILD&quot; alive, perhaps we drop that and=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.co=
+m/doctest/doctest;destsuffix=3D$%7BBB_GIT_DEFAULT_DESTSUFFIX%7D/tests/extli=
+b/doctest;name=3Ddoctest;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferre=
+r" target=3D"_blank">github.com/doctest/doctest;destsuffix=3D${BB_GIT_DEFAU=
+LT_DESTSUFFIX}/tests/extlib/doctest;name=3Ddoctest;branch=3Dmaster;protocol=
+=3Dhttps</a> \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Remove-whitespace-in-=
+operator.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest \<br>
++&quot;<br>
++SRCREV_FORMAT =3D &quot;json_doctest&quot;<br>
++<br>
++<br>
++inherit cmake ptest<br>
++<br>
++EXTRA_OECMAKE +=3D &quot;-DTOML11_PRECOMPILE=3DON \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -DTOML11_BU=
+ILD_TESTS=3D${@bb.utils.contains(&quot;DISTRO_FEATURES&quot;, &quot;ptest&q=
+uot;, &quot;ON&quot;, &quot;OFF&quot;, d)} \<br>
++&quot;<br>
++<br>
++ALLOW_EMPTY:${PN} =3D &quot;1&quot;<br>
++<br>
++do_install_ptest () {<br>
++=C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/tests<br>
++=C2=A0 =C2=A0 cp -r ${B}/tests/test_* ${D}${PTEST_PATH}/tests<br>
++}<br>
+-- <br>
+2.52.0<br>
 <br>
-simply document the INHERIT instead? I did wonder about making it a<br>
-config fragment instead too instead of a class?<br>
 <br>
-I&#39;m also wondering whether we should remove SELECTED_OPTIMIZATION<br>
-entirely? Certainly DEBUG_OPTIMIZATION and FULL_OPTIMIZATION can be<br>
-dropped. Whether that should be this patch or another, I don&#39;t mind.</b=
-lockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I think simplifying=
- this would be useful. All these variables have grown overtime and adding o=
-ne one will add to this. Perhaps the final value of optimization settings c=
-ould be computed from fragments.</div><div dir=3D"auto"><br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex" dir=3D"auto"><br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#227707): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/227707" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/227707</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/116789899/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/116789899/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
-Cheers,<br>
-<br>
-Richard<br>
 </blockquote></div></div>
 
---0000000000001397e90645fcc77b--
+--00000000000053a5010645fce119--
 
