@@ -1,138 +1,177 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB0AED5B853
-	for <webhook@archiver.kernel.org>; Mon, 15 Dec 2025 16:33:26 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.53280.1765816402066968085
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82A1ED5B85D
+	for <webhook@archiver.kernel.org>; Mon, 15 Dec 2025 17:31:19 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.20])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.92.1765819872774975091
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Dec 2025 08:33:22 -0800
+ Mon, 15 Dec 2025 09:31:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OHK8HYPP;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-29f30233d8aso34540805ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 08:33:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765816401; x=1766421201; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J4cDRcD0gg6s8+VI/yvCt2WKYwjJad1C1evM9J7N5VI=;
-        b=OHK8HYPPCNB1AWXjyUwgLuj9ReilkvK8hqUhFgOXRLvo8y7R5WPM6mEQzO+l3zagzy
-         90867+4C5SkMYa58sM+IkGv0//7Qiy045OQ55rwT3q6tLNlQtuy4jluiAfcurXegvSAR
-         I22ncnruduaiQbrvph3UaT0sSG+K+Sx/GVqQ9IVBs4but+gM1pjaD/yUHPp4SMKjK3CJ
-         jgdmxiAM/ffrex5OSla8zQtPXVrnsuzeJgVkA0o2pHRoo+T/dpGeIb50Tg5H/6RPQKb0
-         z4Ope4MjdzwMIBks3r+uHktgvjSfsmpluyY5nCMDMuGOQPqGyxZLDkW4B9DGneMCLbUA
-         KMZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765816401; x=1766421201;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=J4cDRcD0gg6s8+VI/yvCt2WKYwjJad1C1evM9J7N5VI=;
-        b=m7iFp4yUvB85pn9XNJKP1pZotskBGHXpCPqTTVbSDIgtMg/0RUOQHjqPnMiA2vt8VN
-         0gBplWnrvl5ewXE8j4dotw3ifxROwZE3YbcsGlUinrL1Vqvk3AKttHMsB6vIo0kHh5vQ
-         l18NEiRH23DtVfVgP+bCBbCpDOyw0mrHnEIZBSCeLs2lfMRmOMnEeEWEYroBUbjKFbT3
-         rcS5+ZN2Z3qmrDRhjCPN2MNygyKqAwetaPHDZAMzMDquGpprCm2UvzQj9cuCq99aKeYt
-         xcGYz/RtPaPV4UJSrg5IFS2E8x06qPN42MyWCFwP69uVTd9zxensXBVMApd6IV0/OGKr
-         K+mw==
-X-Gm-Message-State: AOJu0YwEtdcuTRZ1js1Mh/j+Q2fUA0SxEJfvJ26Ku2vFBZ8H0rxfplzp
-	v8cG1tDbu1+KUS02oBzj3Xyj05k9UPejfin8lSpK2osI5vuIlq90BlX5EVIwjKpYB9OIbHj4/ag
-	6ndRO76L4GZ6kb/zCFmRCS1wNd/e478Y=
-X-Gm-Gg: AY/fxX65i0kiWXwyv1smO+94pEI9BUbUIxKTAUeBxMg7o0s5Ctj1BWAbcEbCh/3gTYJ
-	2x9ZrI3wlAJ3ukGSIflOC9HJ7LBH8ctIziAaNlH7j2Yox2ZdFKijhaz8rb2cxb3UUBUIiExbASB
-	RneHGf1E/Uv1yfQJfYC93LXhTgHMjDR4SCdEfH3zJikQ5H6DlDr8CwOg5EDc/Z3M9nL9TfI2Xh2
-	x6wz/2kjU98nwacjXOwvUKDsFWH6Vk59ndQpvlDCbTcO6qJNzOUEBs2Tg0OBes12Y1/VQ==
-X-Google-Smtp-Source: AGHT+IF6EMhslAk3Dtu63hHbILfi0efK3V0ZzAKvLGR6SiSNFDKGbM+hGUQrXnjNRE/4Xnxaqf17JU3EDtlulVBonW4=
-X-Received: by 2002:a17:903:3808:b0:29e:fb50:5bd2 with SMTP id
- d9443c01a7336-29f23d29df9mr101229995ad.58.1765816401273; Mon, 15 Dec 2025
- 08:33:21 -0800 (PST)
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=n/Mkoye0;
+ spf=pass (domain: cherry.de, ip: 52.101.65.20, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oCWCFFa9Xx5B3lqV3CJRApVppSsdxGE5SQCtvt2MeqlxkzOWJ0KPnDL1sylB2KbT75kqNEPrW89pN19a+ti6XcfnzGIgZi7Nvxumo2++ChPdIupgqHjd2g1T3bnQaQKSfZUhWbn4mSQKXTFookArghsArNVxCPstv8kbB4s6uJtFAixrU/097xcN5Xhd4nlZl4dXw4eiazalJTUR0V2g201SY2psJHIJElEZiYFNx5sq3RoJPrnbhBjfEQYA+XwikIJzdhpkfppdootRbkwLOAvWl1OO4wl1umtI+wtt6vE0gJl6aOb42NnZmoa6fYyBJhgL8nXZJ3Mw5E907P2DrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JeIhNEovsyx70Qb4wXjvfunNoJdLsoj6MYFfcJNk5MQ=;
+ b=yy/93LuQXrlTkPMpqXD96muyG0E29jvHZdTFf/qtKg+bF3pSl72Qn66z1xPhZg9P+mLtrbHVYvZwhXWpVLkwzcvYZhNeT2szw125gPI+z0/D4+ppVLKUQGM4s3YbqoDefv0NfkdLHjFZT1n2H3lW3rncjwyfhqxHFPaNbXnS9UHu1mAcgemTAHV5vp/2Uvigv7l8Pi8jBaYQPYeUotHbJWTUXzHsrNwE2CRxKuH0Mu3qeQKBUMMHAJUC7dKmJWa6W3Ufzx9WXn407P8cd2yvK9A2tACKqONSY7cVcsAU5DwUXgzInbQK/y6kX2k59DQKsxFGaJaoLI4HnZjYhmA+9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JeIhNEovsyx70Qb4wXjvfunNoJdLsoj6MYFfcJNk5MQ=;
+ b=n/Mkoye03niHHuCTZPRrWPdlzB5v6KCCq/LxTRPu4rkWZO18eHHk13ai9n+gsodu+j8bP0oAgW4Tc0U/FQ2ptJkLeFyJtnj6tH17XSUYKMIdpfJ6GrjbKzl8fMTyHzQDI6WCC0piLWswMscbVrw7BZGA/lvwpxn/dsD8i+ikPdY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from GVXPR04MB12038.eurprd04.prod.outlook.com (2603:10a6:150:2be::5)
+ by DU4PR04MB11078.eurprd04.prod.outlook.com (2603:10a6:10:584::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Mon, 15 Dec
+ 2025 17:31:09 +0000
+Received: from GVXPR04MB12038.eurprd04.prod.outlook.com
+ ([fe80::1033:5a9a:dc18:dad]) by GVXPR04MB12038.eurprd04.prod.outlook.com
+ ([fe80::1033:5a9a:dc18:dad%4]) with mapi id 15.20.9412.011; Mon, 15 Dec 2025
+ 17:31:08 +0000
+Message-ID: <f8fc7814-00f0-4a23-8f25-712173a261f2@cherry.de>
+Date: Mon, 15 Dec 2025 18:31:07 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v4 4/4] mesa: upgrade 25.2.5 -> 25.3.1
+To: dmitry.baryshkov@oss.qualcomm.com,
+ openembedded-core@lists.openembedded.org
+References: <20251213031200.2619204-1-dmitry.baryshkov@oss.qualcomm.com>
+ <20251213031200.2619204-4-dmitry.baryshkov@oss.qualcomm.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20251213031200.2619204-4-dmitry.baryshkov@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: WA0P291CA0020.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1::17) To GVXPR04MB12038.eurprd04.prod.outlook.com
+ (2603:10a6:150:2be::5)
 MIME-Version: 1.0
-References: <20251215155424.237662-1-kamel.bouhara@bootlin.com>
-In-Reply-To: <20251215155424.237662-1-kamel.bouhara@bootlin.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 15 Dec 2025 11:33:09 -0500
-X-Gm-Features: AQt7F2qvM81L87gG6CdYouXqOiMH6x_fZLCvB2Dv3WCSj8FuI5UQJRC77p987wM
-Message-ID: <CADkTA4PhJZz1WcH5v3uLpCNxfhuR8_GkNM0kPPu+_TLmqfBXXQ@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap 0/3] Backport SPDX kernel config and
- PACKAGECONFIG metadata export
-To: kamel.bouhara@bootlin.com
-Cc: openembedded-core@lists.openembedded.org, JPEWhacker@gmail.com, 
-	thomas.petazzoni@bootlin.com, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	mathieu.dubois-briand@bootlin.com, antonin.godard@bootlin.com, 
-	Pascal Eberhard <pascal.eberhard@se.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXPR04MB12038:EE_|DU4PR04MB11078:EE_
+X-MS-Office365-Filtering-Correlation-Id: 371554e4-84f3-4229-f94e-08de3bffbbd3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|10070799003|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?RjMrWHpJdTQza0IwTXM2ckVjOW1hckV6bjdsV3c2RllpVGZ6ZGdwOVBLRStE?=
+ =?utf-8?B?T0svWk1FRnZibmVyTlFmaU9BbytwUm1zLzR5T2FZV0xnMlozSjlJTEppTFhB?=
+ =?utf-8?B?dEVOUGlCSzFHL2tWbU0xeWt3Y2YvVlk0YUZ1RUZlcjlUbWNuMWsxaDArbTFC?=
+ =?utf-8?B?TmVRRnRmbkpERUtwQUVZWjhNZXNuWWdaazB3K3ExVWdpUXFpWHhJaGJwWjZn?=
+ =?utf-8?B?MTY0cDEwWFBTU2lodks3ZzRnaERRUko2bHc1UTEzd1ZpR1Fzd3p5YnBVTzI1?=
+ =?utf-8?B?cjFwWmFaTmVnL2FkdkRVS0E0ODVFemltdEJxMUgyL0lkanpSWStWeWUvaE5P?=
+ =?utf-8?B?eHFRN1BVdkkzUE05TDRiNEVicDRkN0IvNUdsSU1aVFR1TTE4T2VyRWViTVBj?=
+ =?utf-8?B?eCsrbDI4Kyt4bGlKaG9kYm5reGJhaHJlVnFvakNpQXlVRGFROWVwTURrOUla?=
+ =?utf-8?B?Q3hTQVRocUx2UEN6ZzVnOG1PY2YyUUNQbjBibDB5dGF1eXcvaHVIRDd4Tjd0?=
+ =?utf-8?B?OUY4MDB3RjI2MDhNK0hvdnJLblNCbXNMVjRvQW1pb1BIaVlOWjBQM2g5WlBp?=
+ =?utf-8?B?M3F3V2x5UEFIYUdXczdMYkM1d0VtYW9acTZqOC9CV2J3TzZ2a0VYN2ovTFcz?=
+ =?utf-8?B?T3g5NHd0TGsyRndzNkUrNHAyMWIwTzhuQ0ZhVy95MmRSTjZ2UnpTRFhCcmFI?=
+ =?utf-8?B?bGxkNmtPMmt6TGxvMHRxdDFRSkJzcWpNMFBPNzI1OFJIM2xaYzl5dW42bklX?=
+ =?utf-8?B?blU2eW42dE50ZDcrMTR5REY1a29rQk56dnNGaTVucWZkOXNXblVFY3lFZmZ3?=
+ =?utf-8?B?ZUJMWXQ2bTJnbUJEWjQweVZZTXJzcFFWcWFxNXUycUFJK1lKZXk0d1oyb08r?=
+ =?utf-8?B?eXlCWnJXU2MveUdhWkJKYzk1d29nRHNoY1Fwa2taOSs3Uk93MkR0eE9oaHp3?=
+ =?utf-8?B?RGJwSXd5dW9GTUpJVEMrbWNxMlBoblBjdnprUEpiZEFHaVhhN05MWlFubXB0?=
+ =?utf-8?B?bzZIYVlKYUlXVThpaVZuTjU3V2dOY09nQWc2dno0SmpGN1ErR1NaaUEwcEVh?=
+ =?utf-8?B?R1dRb0grZ2Rqdk11bGRSdG42ZEhkODhZdjZsK1RpQzBXeG9XZE9ZR2IzZUdB?=
+ =?utf-8?B?amw4cTJ0QnVFeGVLaXRGUjBRR3IxdVVnRHMzZ0doWUlHQ3ZTbVZuNGREczNZ?=
+ =?utf-8?B?YXluYWIvWXQzSnlTVlg5aHQ5NkVFMEtBbkdwRWJnTXVKMGM1TGo3OUQ0cXY3?=
+ =?utf-8?B?dXdWalpIUFVPL1BicG05a1ljc0VoNE9OejkzYUhQazk3Z0Qra0lvem1tV1I3?=
+ =?utf-8?B?VGJLNHpPbmlqbVRGWWZoOFlHdHJzRUdSLzJzUHFJenM5c2R4RHB6MGxFSThw?=
+ =?utf-8?B?MmJZQk9GMXM0V2ZybFBNM201Ym1XUHpzUHhERGpMRjFlVmMxakFBZEdtaUgr?=
+ =?utf-8?B?N3FYY2RWaGhLRWtsQ2NObXE5NXRkQXdEeVQ1MG5MUnp3Rm1BclJWZEJXNGZa?=
+ =?utf-8?B?ZUMwTzBXbGJZdnlkeHVzUzJrc3dxTTVWcHJ4ZGlRaVAwamFlRXFVcTlXNWNs?=
+ =?utf-8?B?UDdlZEg1VjJPaGMzajB4VG9pSWtjaDUxb3RsOVZmTHQ3UWZ2RzdHMWhTMlJj?=
+ =?utf-8?B?d2xqUWZBZ3NzNzJPbk5Zd0FXTnI3N0pDS01VbEpqMjVVcUhYS2VLUDhucUll?=
+ =?utf-8?B?cU8wS08yaGhmVzAxTW1RS3FEQzU2Tkk2NC9mQjRGNVFUZm5vSFJNK09tMmVa?=
+ =?utf-8?B?dWhJT0ljdG9TbkVDb2FZRExjSXM2R1hWZWhBLzJrTXFQOFB6Sy9LclhURDZC?=
+ =?utf-8?B?NUhnZEtOQkxxWjJWVTU3c3lIcENOQ2ZoRXpDbTdIdyt6RGd2SjdvcFJweC9u?=
+ =?utf-8?B?VXpSankrM1BUY290ek92eFpUQUxsM25WS29wTjlldnJQcVE9PQ==?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12038.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?NkZEYWhTbDFvU0M4aHhaT0xUcXc2L2ttd1Z0ejUwS1RzQllkbllKMVJEMmNW?=
+ =?utf-8?B?MWZld05oTUhVRlpLTWY5aTZZcWk0Y3ZpWmJCSm1LeVBJd1h1Tnc0SUF5OXF5?=
+ =?utf-8?B?SGNzamRTK3dZWHhwRlJxenUvdzlZeXB1L1h4dHFMc0Zja1M4MzZJVi9nZGky?=
+ =?utf-8?B?Mk9OVHdmZEM4ZklQMzluODh6MjNlWENOaldNZGZxWVJ5eXdCNGp3aXltMUJM?=
+ =?utf-8?B?SHdjcG5JL1dpWHptZHB6SDh0cVRVYUhQc2UzL3lJRmRLUFpkK2ZNOFRrMXBp?=
+ =?utf-8?B?anR2Szl6b3ErWXg1bC83MmZtQ3AzUWwxekRmYXJvMmtZMVRuYm80MmN1eHR1?=
+ =?utf-8?B?M3YzTmxJdzVaTWEzdE91aVU4cUE0Tk9QaCtsZ2JFbDhFTCtPNmxMR1R0OGFC?=
+ =?utf-8?B?TTIrc3psS2JWK1FlcDFuajNLekpqY1NYUmxnQ3NPaG9ScTA3Y29YMHZ1ZVNE?=
+ =?utf-8?B?aThYeDR3bjBlODZreUhZL2NRWDBEY1ZDVXQxSnQzV0dtdTQyejUxM3FFbXpM?=
+ =?utf-8?B?d01hZW8ralpyYi94cWdBeTBhbnUrN3FoOWtQTHY2NXFKUW1VT1BxV2tKNlNo?=
+ =?utf-8?B?SFBBL3hPdENqckJjdjE2dmF4NVQvZnpZbEhMTGRrVUdsRFZkTkhMdTd3S1dM?=
+ =?utf-8?B?VEV5SVJ5T084bHBSVitTOXBMT2lHazZRK0pDYzFWcUozV3pTRnhjc0E5ZmhT?=
+ =?utf-8?B?NHJMMEZLc3loYlhaYkxaUFJjZmVzbVJyeHhjaWd5bDhBVDFRYVZWeGR0cjBq?=
+ =?utf-8?B?MWlOZE9ZaDZ0RWllelhYVXJ3a2ZNS3pEWEZqeDdXRUVlbS8vdVltTmxxd1Zp?=
+ =?utf-8?B?bEg0dUEzRzErbGR1VkFNM3JJdlg3TXpRUFBJWlh1SGV5NTYwT2piZERrVE5W?=
+ =?utf-8?B?S0tKd095US83YW9uSFh5aWlPclVRR21FaS9kRldnK08rK2lIRC8wN2JLaUsx?=
+ =?utf-8?B?aXgwRVcrc09ERHdLTlFjamQxdHpaaW1SMTRDanFXMG1hNlNmbFA0d2RDUDFV?=
+ =?utf-8?B?dGMySWxrWElBSDlBTkF1ZUZhQ1plUHpLdU82WlovTXZLVDk1Mkw1dzA2V2FL?=
+ =?utf-8?B?RUltYVJXMWZ4VVVEN25SUGxEN3Fsc0Q0UndTMllUMWUrVjFsUkhqYXBhMk5h?=
+ =?utf-8?B?dWpIcm95U2VIQ01nK0llVXFHQzJRVUVWWEErczFrNXVmTUhDWTBzM2pHdW5N?=
+ =?utf-8?B?d3BKcHhDRUIvZkdQVWRhVDY0MWdDVEpIZkVGQWdrN1dPbm56UTMxMVRYWWp0?=
+ =?utf-8?B?QzZ6bHlxME05N0NPRm5KY1NFbFpXdUkrR0hVamUyT2xxeVlUVjh4VXMxTGZS?=
+ =?utf-8?B?ZWI2VDVjTlVtRXhSaXdOS1Uza3ZLSWtnL2R4bHlFWVd0WlNRczRzY3E5MGg2?=
+ =?utf-8?B?bVp3a1FhTDhFMEFGdkJWRlJQbnJNL3J2dmljZUVhNUdRRXdjcmx1U0x6U2Qz?=
+ =?utf-8?B?WEZaS0R3SGJYbzhsSUQ4UW82MzFxOW1GYXUxZWMzcjRZb3kzVDZlb2FENFJl?=
+ =?utf-8?B?Q0dXVUVvMUNlRDdIa3plNTZwUjEwM01Gd3dvNjk3bEpWYnRxQmdYNVdaL2pD?=
+ =?utf-8?B?Z25YWVBwZVdhSzh0OGVqZnVDT0N4a2JTTHZkYkU3Q1Izc3RZWEU3WTJicnJk?=
+ =?utf-8?B?ZnloTU9xY1BteEFLa2FOWitiRG5kcVhJNG9vMWNQVTlxTDlGYzhCSWdGbDlk?=
+ =?utf-8?B?MHQ0Q205enpVZjdtTFYweldsMkxzaDQ3Z0p1VG5uQU83TDM4R0FtTkpjVkJH?=
+ =?utf-8?B?OUcvYkU2YzRFeXFDQ3J4Q1BoRDZOSUJKQnhnd0daV3V1RmhIeUYwb3UwMzVq?=
+ =?utf-8?B?Z1dKWlJZVWxSSWxZZmJ0R1JvK3FUUkVnN0t2UkFZYkRUSzFWME1IT2p4SERy?=
+ =?utf-8?B?RWhaMnZNS051aTJ3MXRqYjBuU3hzUk90b0lTa1c1OW9VUEx1SnFHQjgxRER2?=
+ =?utf-8?B?by9qTGk2WHRZZEJ2amVodmdFZWxnVnZuSjBNcC9ZM2NPRko4eUFoUVlLaitL?=
+ =?utf-8?B?Y0pGZzkvMWM5UVhBUk5rMzNkR1dVZm1XdThJVU0xTC9JVGc0elZoeXBDMUU4?=
+ =?utf-8?B?OXFJaitXa1FBQU9lN1hNUndXZmgwREpYN1l6enY1VmdsNFhCT3d6SEROMGlo?=
+ =?utf-8?B?WEJFclFVNTBrU3pOaG01dXI1T2h4eWt1cFh3czRvcmpJT3lSQU9MVURQdnhO?=
+ =?utf-8?Q?1bjeewr9I1AzVdOrPSYZy1U=3D?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 371554e4-84f3-4229-f94e-08de3bffbbd3
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12038.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2025 17:31:08.7985
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KkNLBDqwhFkrUeeCXcnbW0kUIp1IpFoL8sQLlkLQSFU5zyMKEcwLebtkb0V+Ym7a+Lv2YGMQSKsXfSW6E6v2uiPTHErT7zqUn0a+v/TVV8I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB11078
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 16:33:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227748
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Dec 2025 17:31:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227749
 
-On Mon, Dec 15, 2025 at 10:54=E2=80=AFAM Kamel Bouhara via
-lists.openembedded.org
-<kamel.bouhara=3Dbootlin.com@lists.openembedded.org> wrote:
->
-> Hello,
->
-> This series backports upstream commits that add support for exporting ker=
-nel
-> configuration and PACKAGECONFIG features to SPDX 3.0 documents.
->
+Hi Dmitry,
 
-regardless of this being opt-in functionality, we should have extra
-justification for
-adding features to old releases (LTS or not).
+Took the time to test the NPU part (rocket) on some RK3588 device. It 
+seems to work fine following the example from 
+https://docs.mesa3d.org/teflon.html#do-some-inference-with-mobilenetv1 
+though... I didn't need libteflon package (which brings the libteflon.so 
+library) to make all of this work if I omit '-e 
+/usr/lib/libteflon.so'... Weird. I'll send a patch to meta-rockchip to 
+handle all this once linux-yocto 6.18 has been merged to oe-core (Rocket 
+driver is only available in 6.18+).
 
-Apologies if I missed a discussion where this was already justified
-and approved,
-I just can't remember it.
+Tested-by: Quentin Schulz <quentin.schulz@cherry.de> # RK3588 GPU 
+(kmscube) + NPU (mesa's classification.py)
 
-This is something that could actually sit in a layer, and not in core, for =
-older
-releases.
+However, something I missed in earlier review:
 
-Bruce
+Shouldn't we remove everything vdpau?
 
-> Upstream commits:
-> - 228a968e7c47 ("kernel.bbclass: Add task to export kernel configuration =
-to SPDX")
-> - 7ec61ac40345 ("spdx30_tasks: Add support for exporting PACKAGECONFIG to=
- SPDX")
-> - 2f0ab110d752 ("oeqa/selftest: oe-selftest: Add SPDX tests for kernel co=
-nfig and PACKAGECONFIG")
->
-> Kamel Bouhara (Schneider Electric) (3):
->   kernel.bbclass: Add task to export kernel configuration to SPDX
->   spdx30_tasks: Add support for exporting PACKAGECONFIG to SPDX
->   oeqa/selftest: oe-selftest: Add SPDX tests for kernel config and
->     PACKAGECONFIG
->
->  meta/classes-recipe/kernel.bbclass   | 64 ++++++++++++++++++++++++++++
->  meta/classes/create-spdx-3.0.bbclass | 11 +++++
->  meta/lib/oe/spdx30_tasks.py          | 20 +++++++++
->  meta/lib/oeqa/selftest/cases/spdx.py | 57 +++++++++++++++++++++++++
->  4 files changed, 152 insertions(+)
->
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#227743): https://lists.openembedded.org/g/openembedde=
-d-core/message/227743
-> Mute This Topic: https://lists.openembedded.org/mt/116794215/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+mesa-vdpau-drivers package for example, as well as 
+FILES:${PN}-vdpau-drivers and the path in FILES:${PN}-dev?
 
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Cheers,
+Quentin
 
