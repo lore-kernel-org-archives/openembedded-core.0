@@ -2,78 +2,77 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 465DCD5E136
-	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 11:29:45 +0000 (UTC)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20045.1765884581420854551
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C17D5E138
+	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 11:38:35 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20359.1765885110129974730
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 03:29:41 -0800
+ Tue, 16 Dec 2025 03:38:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FVhrSrY4;
- spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8b9f73728e8so426712985a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 03:29:41 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HmZ8iE/x;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-888310b91c5so38070896d6.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 03:38:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765884580; x=1766489380; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765885109; x=1766489909; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QiD9sO7ML3txdGA2nQm5rDZAzj+C3od6HSgpMDoaXHs=;
-        b=FVhrSrY4yJZmfZKdA4XSg6Q2XC7E+FJk16wEXN2VucHa7/3Qlr7jqzEqge7+iI97JC
-         /iCJZG65FJee1BLI1iLG0KkYwmHSjdZly/YAazH6FOOE8dvAvntHSlA96z/Wfum3fsGd
-         bV/W5zK31eRlkN3lfKvtv7RZDh8DNRwWZEUh1aF4/mDCSvIk+CLTkAUUKIpJv+cWxvym
-         MKDRPTlhknhWBQs5aULlzpf1q9akT1Gxj/2K+QEPTENOtFCC7DsOtVwYem78nAhVf0X+
-         sfv5FXiTlAfI1JeTynppeckLudbqi/0re2XwdynoVVPB80AqbdS0WHISDJV3l1JIG8+G
-         b0KQ==
+        bh=R63b1hm+q5/RED+gbPANqjhm5u6is2mDVk2LfAzZcl8=;
+        b=HmZ8iE/x0XeOnPbOCyf6bDd2N0hJn/ftiw0P1vD3txqya4C0L9iLHx/9f0Q1G5GUhG
+         JPeyn6aEtpl3I1ARIiD5qY7YJXsDON1KoxxA7qHIfCGwCAFAQqhWCcaJVW72Av0vD40v
+         0BX2rDA/J5PDdMGYe0Spai3pXzSqkDiKLVbEjh75R1/x8Pg2M+ESK3jVHVADBFbAoz4a
+         vPawdKLUSDl0rnyeXGVSV3iq6n7MyxRri9gGxpzV8CxU1xWjxIdjzIZ7Fx38xD+7PrWd
+         cVQlhxm7a+UHRweOZk1chNrVbNu4rppeuLEnRVHm8Ac3XjgIVdU5h54ZUU1+0niFHc0o
+         KRDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765884580; x=1766489380;
+        d=1e100.net; s=20230601; t=1765885109; x=1766489909;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QiD9sO7ML3txdGA2nQm5rDZAzj+C3od6HSgpMDoaXHs=;
-        b=HxX1rjHrn8Zah2OhECKrkkSX3/weXLsT8oc0L2apYMQicDF/7u+Yhcy38D6nnnmpbS
-         ESVVLqteiZjl8MvknFCL1hQCcB9BUjqgmocPffCw5265zflI8USU4pTxQHZmLIHMEDNl
-         7bXvFxpUjcEN9LBxbTwXgRGsZWROQNZX804kOG05o73t5gn0MvWhn+ogjXYSvIlSh17V
-         FblIfGCDNP+juaZvoaMZW2QpZgOymny1YhWmK2h8nrzlym0fy4HfbPbezdX/Yk1rIJu7
-         +JfOuQAGbWE24EW5/RE6sb9vHERgFiv//Yz0dzMq9PPGfAzLBdObd6cvbhSCPpnMZfRj
-         GVLA==
-X-Gm-Message-State: AOJu0YzXacQWycDxJQI0Fm9xphPEN4XSVTmMUGh/0UF97q9FbIqb6cWF
-	radJliLzlrUSEHxp3TzrFwgb8GaV92v7Q+tVMxgM0QyHxnEs41TqGynv/Le5c3IiSlARECmlKH1
-	hJv+nIAT77iFuLxuDZ1da8rzCMZjkmxw=
-X-Gm-Gg: AY/fxX5Qac3p+IfneXqTZAuWxwdIr+5f5Cq7RcsGBkVsyu7ZlXnG/YKn+SQ/oB8Gxg9
-	Q+cGoVXGOywP/22phqBQMzFWHLpBC4gl7ZMCA0cngWRkQH8jrJq79sskzbdfBie1XuZRgkxuBDj
-	THeGDRDM7B/ziw3YUsZguqhifxqdbj2TC8a9J7pU0y0IkInOn/niG7icgFH4dSQ6C+c6AfGVUDZ
-	+Xg1+2L/YLbMfhO8b4CBx0F/XTYaLN7S3pomFT1jE85NTMDxBbuSi32BOmj2OueV6jppL09gJWk
-	lqbqXdovT4CIB0Ca7L3AMK/m1YxfhA==
-X-Google-Smtp-Source: AGHT+IHpcYWeaUzJJjTOjWd3odcbNAACAsupisICji2sNksF9osVPi5csH/MK9GX5TiOIyMIglCABGvVEb0xkDJkORY=
-X-Received: by 2002:a05:620a:701a:b0:8b2:eb3b:fb3a with SMTP id
- af79cd13be357-8bb39ebb189mr1768239185a.35.1765884580273; Tue, 16 Dec 2025
- 03:29:40 -0800 (PST)
+        bh=R63b1hm+q5/RED+gbPANqjhm5u6is2mDVk2LfAzZcl8=;
+        b=RB2FFMqRYoGJmnyKr7TgC9wtZiuL/emcmK1bVoSE0GUHSdDyTvVNWssbUoEsCDwjmW
+         0Fw1W8k78ksCp6wJ9/zjhyaTRKDIxx7XPtJg9U/l6UmDGCK+tQSIUNLm/JCRDs4W/3Jq
+         TSPDnjOCyBo8eG0g6Eugwt2HOyZ7L1LVXkh1fQcL9Toqy6ZwNFmOzM+UqBjYTvIlSknK
+         y7YfdocAf5FAKGu5QWgaIg1gUJlzzuJjfJSWYJpZGJXEBeXlKb3XZsqjeYt4nCA2XF72
+         cghrZDik8kEjZWxkjxnc8xMXCzWSJiHqwlPnVQ6uRAh3i+Z+VGe3eF9zvh/d9fNpCV8y
+         tOOA==
+X-Gm-Message-State: AOJu0YzwQMln0+1akg4QEh+kAs1mbEO54mBkSY5qNBMPtgijhtYLgV/X
+	ueDzl1f35RBus6hDv6p+qN1+zhyFrqWodCuYjpGA6fU4dfD0c5nE79VNpuFSXjWWVMcEPWJkf1l
+	6AG5FROzZlUT7WHvBGp0ViBy7AYsgqVCwag==
+X-Gm-Gg: AY/fxX54m8qPEqgkouHX/ZUtJ17mGjEdWp/PPIDNqRpK1k2sN7BXDjUEWcRTGWHybVb
+	YTg1JfnBFDoGWo4tSwKhVk3nzKn0OvrVTdijP/Ryn1UtG582NMRKrhlOJiVhxqd0HarDX6pblvG
+	JsNIiydryAGGSjVUMUThF7rEHqY1PVWFPiqFdub2bD9HdiOgW5S9+/gVIdFu8kSvJS0aSja71Sv
+	q5ulXnw2oTT+1vzyMD0IWbJ0016ZwBCTKfJk2c+MdESND+M7ba8vbfi6yWv6CNSyewk//E/cQvs
+	7PgByfIJjG8XO2IaImLgOi6fWBijtw==
+X-Google-Smtp-Source: AGHT+IEItgdb/YWHfFjI9tNho4vYAKA4SdG4C23xcfvkoQRgsncZFWQURWIiquqqNBygzQK1/c2YRmvGVDyhl7KC110=
+X-Received: by 2002:a05:6214:d67:b0:88a:2ed6:252 with SMTP id
+ 6a1803df08f44-88a2ed60350mr113458556d6.5.1765885109087; Tue, 16 Dec 2025
+ 03:38:29 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1765878985.git.liezhi.yang@windriver.com> <1fc8161d254e37709e63cf9d07ebd32a2f1023cc.1765878985.git.liezhi.yang@windriver.com>
-In-Reply-To: <1fc8161d254e37709e63cf9d07ebd32a2f1023cc.1765878985.git.liezhi.yang@windriver.com>
+References: <20251216095459.3551985-1-koen.kooi@oss.qualcomm.com> <20251216095459.3551985-2-koen.kooi@oss.qualcomm.com>
+In-Reply-To: <20251216095459.3551985-2-koen.kooi@oss.qualcomm.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 16 Dec 2025 12:29:27 +0100
-X-Gm-Features: AQt7F2p9e9pT9zJNoiOv8xHuBzf6YPnqD9K88Fc-WOHYvS7bA5UfkgkCKKzftWw
-Message-ID: <CANNYZj8=3egJPC3dT1bc-9n=38-OAyAKfwb81mJjuiSiqVcaQw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] strace: 6.17 -> 6.18
-To: liezhi.yang@windriver.com
-Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com
+Date: Tue, 16 Dec 2025 12:38:18 +0100
+X-Gm-Features: AQt7F2o2vu2F3e0RtxymlsemZXcVJqpD5ZI9Uicr35Z5nn22bA5-Gp6in2o_AaU
+Message-ID: <CANNYZj8xx5Qn7Wj2JzdjXyUzysppG3DB5usZTjswfOeYbcfiGg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] python3-pyzstd: import 0.17.0 from meta-python
+To: koen.kooi@oss.qualcomm.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 11:29:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227943
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 11:38:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227944
 
-On Tue, 16 Dec 2025 at 10:57, Robert Yang via lists.openembedded.org
-<liezhi.yang=windriver.com@lists.openembedded.org> wrote:
-> The 6.17 has 27 failed test cases, and 6.18 only has 2 failed ones:
-> FAIL: bpf.gen.test
-> FAIL: bpf-v.gen.test
+On Tue, 16 Dec 2025 at 10:55, Koen Kooi via lists.openembedded.org
+<koen.kooi=oss.qualcomm.com@lists.openembedded.org> wrote:
+> +-requires = ["setuptools>=64,<74"]
+> ++requires = ["setuptools>=64,<89"]
 
-This needs a bit more context. If the old version had failures, and
-the new version still has failures, why aren't they seen in testing?
-Where and how do they happen? Should they be fixed rather?
+The upper limit should perhaps be dropped altogether perhaps?
+Setuptools gets bumped in oe-core all the time, this patch shouldn't
+stand in the way.
 
 Alex
 
