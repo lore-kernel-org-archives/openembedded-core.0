@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6EFD5C0DF
-	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:26 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17382.1765872127684878873
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E56F6D5C0D6
+	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:24 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17181.1765872135681406811
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:21 -0800
+ Tue, 16 Dec 2025 00:02:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=KijSGxtj;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ol1vmZd/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019b262e81ec-27769f1f-a8a5-487f-9cea-b0f432cef6b4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=e+sPp+Du;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=jn4miZ/j;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019b262e75ef-3326f6f6-03dd-4c04-aafe-6308d53aa5d0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872141;
+	t=1765872137;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zypM8V8bWSnLwYIihnwRGNKUB4/g/sLYCulsC5bEE4Q=;
-	b=KijSGxtjcFoU95XSKqv+IxmWyPNqA4VZGPDiHWeEElqnFuyr2kloC6kHjkwKx+sK
-	Yu/ec0/gCgQIm+O4WVCbApnQ9yeC8hWNSrKYMVaG+ddLf6fc3GDP6Z1YzoyhtM5N1ie
-	P7LKuQ1uh3hy0f+G+H8V16FkiGB5PTm+XEsKIA1w=
+	bh=lFFClDA+TAhs85lSUI4syfKpoYzegrhGD1IOK0+FOUs=;
+	b=e+sPp+DucR2eWbSGQY9fuMGoxxR69/lI9eqZBjQhsN0O9p2pSCsdDvJ4PJAMprPq
+	fztqp20YUnEtcq1UdjV1U8BXybKVL9jcpL7DOL65ZHH+G2LYgPEnxKHzVcYxz+4iYVW
+	8GNElFot47/UoUtGaJTS4PnXf/ycmfoWIeMbcRtQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872141;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872137;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zypM8V8bWSnLwYIihnwRGNKUB4/g/sLYCulsC5bEE4Q=;
-	b=ol1vmZd/KMSxCZodehBePXmy3GBBUGcir98vl0xxbaotHIvE01mX2GDtISTN2qxs
-	bQ6oVAcXOYamb4tP9jYnvcJVPLxXOvFJywjStyD2ZIN53l30iU8PS8HspCsawJgIEl2
-	EC2vnuCh2K8dTBQGZ/2IitU/bVrg1VgYy5i7SuIs=
-Content-Type: multipart/mixed; boundary="===============5571826129966841480=="
+	bh=lFFClDA+TAhs85lSUI4syfKpoYzegrhGD1IOK0+FOUs=;
+	b=jn4miZ/jBkRHK4xgLwdZWbgSdsf56t60q6KRnuShit4NLPNrApMlkS6XH1gsiQv0
+	1K+INvY4m47jb9J5u7CDSl/wwLMUu22o2JQbIwhrxNLaDiW/IW1eQ2mFhVMsB7UGAxi
+	t0G3QezedCNQDQM+3UhEtkCOUUCmC9eN6M7rT8iU=
+Content-Type: multipart/mixed; boundary="===============6990051441183643162=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-dtschema: upgrading to 2025.12 SUCCEEDED
-Message-ID: <0101019b262e81ec-27769f1f-a8a5-487f-9cea-b0f432cef6b4-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:20 +0000
+Subject: [AUH] python3-attrs: upgrading to 25.4.0 FAILED
+Message-ID: <0101019b262e75ef-3326f6f6-03dd-4c04-aafe-6308d53aa5d0-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:17 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.45
+X-SES-Outgoing: 2025.12.16-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227802
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227791
 
---===============5571826129966841480==
+--===============6990051441183643162==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-dtschema* to *2025.12* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-attrs* to *25.4.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-python3-dtschema-upgrade-2025.8-2025.12.patch
+    - apply the patch: git am 0001-python3-attrs-upgrade-25.3.0-25.4.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,133 +78,167 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 75070c2fd1e7f665431ccaeba80fa26a07c2d5c4 Mon Sep 17 00:00:00 2001
+From 1543675af225e347550e1a291e5a32d2cf894a0d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Dec 2025 23:42:49 +0000
-Subject: [PATCH] python3-dtschema: upgrade 2025.8 -> 2025.12
+Date: Mon, 15 Dec 2025 23:12:33 +0000
+Subject: [PATCH] python3-attrs: upgrade 25.3.0 -> 25.4.0
 
 ---
- .../{python3-dtschema_2025.8.bb => python3-dtschema_2025.12.bb} | 2 +-
+ .../python/{python3-attrs_25.3.0.bb => python3-attrs_25.4.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-dtschema_2025.8.bb => python3-dtschema_2025.12.bb} (85%)
+ rename meta/recipes-devtools/python/{python3-attrs_25.3.0.bb => python3-attrs_25.4.0.bb} (86%)
 
-diff --git a/meta/recipes-devtools/python/python3-dtschema_2025.8.bb b/meta/recipes-devtools/python/python3-dtschema_2025.12.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-dtschema_2025.8.bb
-rename to meta/recipes-devtools/python/python3-dtschema_2025.12.bb
-index 9aba5f85ee..5ae67805b9 100644
---- a/meta/recipes-devtools/python/python3-dtschema_2025.8.bb
-+++ b/meta/recipes-devtools/python/python3-dtschema_2025.12.bb
-@@ -7,7 +7,7 @@ inherit pypi python_setuptools_build_meta
+diff --git a/meta/recipes-devtools/python/python3-attrs_25.3.0.bb b/meta/recipes-devtools/python/python3-attrs_25.4.0.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-attrs_25.3.0.bb
+rename to meta/recipes-devtools/python/python3-attrs_25.4.0.bb
+index bed26a5184..c003a836c0 100644
+--- a/meta/recipes-devtools/python/python3-attrs_25.3.0.bb
++++ b/meta/recipes-devtools/python/python3-attrs_25.4.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.attrs.org/"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5e55731824cf9205cfabeab9a0600887"
  
- PYPI_PACKAGE = "dtschema"
+-SRC_URI[sha256sum] = "75d7cefc7fb576747b2c81b4442d4d4a1ce0900973527c011d1030fd3bf4af1b"
++SRC_URI[sha256sum] = "16d5969b87f0859ef33a48b35d55ac1be6e42ae49d5e853b597db70c35c57e11"
  
--SRC_URI[sha256sum] = "3c63b643fa76215b32cc6cbea9fd0dc7627dc71c67f3dca14fc04d70a7e1235e"
-+SRC_URI[sha256sum] = "327fdf5d5ec60934cc3eddab09e68be2310173a33e15eee24dffa89787706db7"
+ inherit pypi ptest-python-pytest python_hatchling
  
- DEPENDS += "python3-setuptools-scm-native"
- RDEPENDS:${PN} += "\
 -- 
 2.47.1
 
 
---===============5571826129966841480==
+--===============6990051441183643162==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 949 .bb files complete (0 cached, 949 parsed). 1950 targets, 47 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-d8530f039e188c658d141ef582bfb29526ce4fca"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 = "tmp-auh-upgrades:d8530f039e188c658d141ef582bfb29526ce4fca"
+meta-yocto-bsp       
+meta-poky            = "master:b3b659263566c4d2f2813190e72d93f8598a4c47"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 222 Local 207 Mirrors 0 Missed 15 Current 534 (93% match, 98% complete)
+done.
+Removing 4 stale sstate objects for arch x86-64-v3...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 586 of 756 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 751 of 756 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_populate_lic_setscene: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-attrs-25.4.0-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 756 of 756 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1997 of 2125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_fetch)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_fetch: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2100 of 2125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_unpack)
+NOTE: Running task 2101 of 2125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_unpack: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2102 of 2125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_patch)
+NOTE: Running task 2103 of 2125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_collect_spdx_deps)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_patch: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-attrs-25.4.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-attrs-25.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2106 of 2125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_configure)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_configure: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 2107 of 2125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_configure_ptest_base)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2108 of 2125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_compile)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_compile: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_compile: Succeeded
+NOTE: Running task 2109 of 2125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_compile_ptest_base)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2110 of 2125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_install)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_install: Started
+NOTE: recipe python3-attrs-25.4.0-r0: task do_install: Succeeded
+NOTE: Running task 2111 of 2125 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_install_ptest_base)
+NOTE: recipe python3-attrs-25.4.0-r0: task do_install_ptest_base: Started
+Log data follows:
+| DEBUG: Executing shell function do_install_ptest_base
+| install: cannot stat '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-attrs/25.4.0/sources/attrs-25.4.0/conftest.py': No such file or directory
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-attrs/25.4.0/temp/run.do_install_ptest_base.3872189:210 exit 1 from 'install /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-attrs/25.4.0/sources/attrs-25.4.0/conftest.py /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-attrs/25.4.0/image/usr/lib/python3-attrs/ptest/'
+| WARNING: Backtrace (BB generated script):
+| 	#1: do_install_ptest, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-attrs/25.4.0/temp/run.do_install_ptest_base.3872189, line 210
+| 	#2: do_install_ptest_base, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-attrs/25.4.0/temp/run.do_install_ptest_base.3872189, line 161
+| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-attrs/25.4.0/temp/run.do_install_ptest_base.3872189, line 240
+NOTE: recipe python3-attrs-25.4.0-r0: task do_install_ptest_base: Failed
+NOTE: Tasks Summary: Attempted 2111 tasks of which 2100 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251215231218.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251215231218.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_install_ptest_base
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-attrs/25.4.0/temp/log.do_install_ptest_base.3872189
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: python3-attrs-25.4.0-r0 do_install_ptest_base: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-attrs/25.4.0/temp/run.do_install_ptest_base.3872189' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-attrs/25.4.0/temp/log.do_install_ptest_base.3872189
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_25.4.0.bb:do_install_ptest_base) failed with exit code '1'
+
+--===============6990051441183643162==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-dtschema-upgrade-2025.8-2025.12.patch"
+ filename="0001-python3-attrs-upgrade-25.3.0-25.4.0.patch"
 
-RnJvbSA3NTA3MGMyZmQxZTdmNjY1NDMxY2NhZWJhODBmYTI2YTA3YzJkNWM0IE1vbiBTZXAgMTcg
+RnJvbSAxNTQzNjc1YWYyMjVlMzQ3NTUwZTFhMjkxZTVhMzJkMmNmODk0YTBkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgRGVjIDIwMjUgMjM6NDI6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWR0c2NoZW1hOiB1cGdyYWRlIDIwMjUuOCAtPiAyMDI1LjEyCgotLS0KIC4uLi97cHl0
-aG9uMy1kdHNjaGVtYV8yMDI1LjguYmIgPT4gcHl0aG9uMy1kdHNjaGVtYV8yMDI1LjEyLmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtZHRzY2hlbWFfMjAyNS44
-LmJiID0+IHB5dGhvbjMtZHRzY2hlbWFfMjAyNS4xMi5iYn0gKDg1JSkKCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZHRzY2hlbWFfMjAyNS44LmJiIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjUuMTIuYmIK
-c2ltaWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjUuOC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjUuMTIuYmIKaW5kZXggOWFiYTVmODVl
-ZS4uNWFlNjc4MDViOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLWR0c2NoZW1hXzIwMjUuOC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMtZHRzY2hlbWFfMjAyNS4xMi5iYgpAQCAtNyw3ICs3LDcgQEAgaW5oZXJpdCBw
-eXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEKIAogUFlQSV9QQUNLQUdFID0gImR0c2No
-ZW1hIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiM2M2M2I2NDNmYTc2MjE1YjMyY2M2Y2JlYTlm
-ZDBkYzc2MjdkYzcxYzY3ZjNkY2ExNGZjMDRkNzBhN2UxMjM1ZSIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICIzMjdmZGY1ZDVlYzYwOTM0Y2MzZWRkYWIwOWU2OGJlMjMxMDE3M2EzM2UxNWVlZTI0ZGZm
-YTg5Nzg3NzA2ZGI3IgogCiBERVBFTkRTICs9ICJweXRob24zLXNldHVwdG9vbHMtc2NtLW5hdGl2
-ZSIKIFJERVBFTkRTOiR7UE59ICs9ICJcCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IE1vbiwgMTUgRGVjIDIwMjUgMjM6MTI6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWF0dHJzOiB1cGdyYWRlIDI1LjMuMCAtPiAyNS40LjAKCi0tLQogLi4uL3B5dGhvbi97
+cHl0aG9uMy1hdHRyc18yNS4zLjAuYmIgPT4gcHl0aG9uMy1hdHRyc18yNS40LjAuYmJ9IHwgMiAr
+LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1hdHRyc18yNS4zLjAuYmIgPT4g
+cHl0aG9uMy1hdHRyc18yNS40LjAuYmJ9ICg4NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWF0dHJzXzI1LjMuMC5iYiBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1hdHRyc18yNS40LjAuYmIKc2ltaWxhcml0eSBpbmRleCA4
+NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWF0dHJz
+XzI1LjMuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LWF0dHJzXzI1LjQuMC5iYgppbmRleCBiZWQyNmE1MTg0Li5jMDAzYTgzNmMwIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtYXR0cnNfMjUuMy4wLmJiCisr
+KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1hdHRyc18yNS40LjAuYmIK
+QEAgLTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0dHA6Ly93d3cuYXR0cnMub3JnLyIKIExJQ0VO
+U0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NWU1NTcz
+MTgyNGNmOTIwNWNmYWJlYWI5YTA2MDA4ODciCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI3NWQ3
+Y2VmYzdmYjU3Njc0N2IyYzgxYjQ0NDJkNGQ0YTFjZTA5MDA5NzM1MjdjMDExZDEwMzBmZDNiZjRh
+ZjFiIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjE2ZDU5NjliODdmMDg1OWVmMzNhNDhiMzVkNTVh
+YzFiZTZlNDJhZTQ5ZDVlODUzYjU5N2RiNzBjMzVjNTdlMTEiCiAKIGluaGVyaXQgcHlwaSBwdGVz
+dC1weXRob24tcHl0ZXN0IHB5dGhvbl9oYXRjaGxpbmcKIAotLSAKMi40Ny4xCgo=
 
---===============5571826129966841480==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema: FILELIST: directory renamed /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info -> /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info, directory renamed /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/licenses -> /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/licenses, added "/usr/lib/python3.13/site-packages/dtschema/schemas/sdram/sdram-consumer.yaml"
-Changes to packages/x86-64-v3-poky-linux/python3-dtschema (sysroot):
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/entry_points.txt was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/licenses was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/dtschema/schemas/sdram was added
-  /usr/lib/python3.13/site-packages/dtschema/schemas/sdram/sdram-consumer.yaml was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info was removed
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/entry_points.txt was removed
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/licenses was removed
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/WHEEL was removed
-
---===============5571826129966841480==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/python3-dtschema: PV changed from "2025.8" to "2025.12"
-packages/x86-64-v3-poky-linux/python3-dtschema: PKGV changed from 2025.8 [default] to 2025.12 [default]
-packages/x86-64-v3-poky-linux/python3-dtschema: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2025.8.tar.gz;downloadfilename=dtschema-2025.8.tar.gz" to "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2025.12.tar.gz;downloadfilename=dtschema-2025.12.tar.gz"
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema-dbg: PV changed from "2025.8" to "2025.12"
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema-dbg: PKGV changed from 2025.8 [default] to 2025.12 [default]
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema-dev: PV changed from "2025.8" to "2025.12"
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema-dev: PKGV changed from 2025.8 [default] to 2025.12 [default]
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema-doc: PV changed from "2025.8" to "2025.12"
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema-doc: PKGV changed from 2025.8 [default] to 2025.12 [default]
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema-locale: PV changed from "2025.8" to "2025.12"
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema-locale: PKGV changed from 2025.8 [default] to 2025.12 [default]
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema-src: PV changed from "2025.8" to "2025.12"
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema-src: PKGV changed from 2025.8 [default] to 2025.12 [default]
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema-staticdev: PV changed from "2025.8" to "2025.12"
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema-staticdev: PKGV changed from 2025.8 [default] to 2025.12 [default]
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema: PV changed from "2025.8" to "2025.12"
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema: PKGV changed from 2025.8 [default] to 2025.12 [default]
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema: FILELIST: directory renamed /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info -> /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info, directory renamed /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/licenses -> /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/licenses, added "/usr/lib/python3.13/site-packages/dtschema/schemas/sdram/sdram-consumer.yaml"
-packages/x86-64-v3-poky-linux/python3-dtschema/python3-dtschema: PKGSIZE changed from 399218 to 400472 (+0%)
-Changes to packages/x86-64-v3-poky-linux/python3-dtschema (sysroot):
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/entry_points.txt was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/licenses was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/top_level.txt was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.12.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/dtschema/schemas/sdram was added
-  /usr/lib/python3.13/site-packages/dtschema/schemas/sdram/sdram-consumer.yaml was added
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info was removed
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/entry_points.txt was removed
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/licenses was removed
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/top_level.txt was removed
-  /usr/lib/python3.13/site-packages/dtschema-2025.8.dist-info/WHEEL was removed
-
---===============5571826129966841480==--
+--===============6990051441183643162==--
 
