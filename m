@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 574EBD5C0DD
-	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:26 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17398.1765872136614573548
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B43F6D5C0D7
+	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:24 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17397.1765872136141262902
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Dec 2025 00:02:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=PWo6bjYS;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WupBuKjC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019b262e6ca0-949f1cac-29b8-47de-ac23-f37f2af85873-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=FjP2xDGK;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=PaL46/bV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019b262e6da5-37d6d018-c634-49a0-a6b3-dc439b359da8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872136;
+	t=1765872135;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=+2dX45NmKNRaCR3kNuTtbbm9D2SOwEtU50nBoCMtCkw=;
-	b=PWo6bjYSE1LEPT02ap/xJarBVDRYtIuV7NA216a0FJTaonbh8K2EOt/K6vDCqjXc
-	hU6VwhFqvVvpmwCr+199/V49cYqHUY1zJrW8euMjAi2QLNS0T7pUkBlIucw963uBljg
-	OqnyR9grH0IeV2l/DV3BwcFbzeKjJldG84jxfbVk=
+	bh=IxubN0jZaY3nIoindWUk7bji2aDj1cMOPqhsEKfL1uM=;
+	b=FjP2xDGKnIMV44ErJAGdNPwkJSSkZsL3JB1DWS+2yTjlzBrDbKi9f9ucDTknnVaO
+	yDppAuqk3D68OL4I9iCVv9Nvns71M8gix3LtXvILeXmk8MD3aYtdZBOeDlQ4GGh627N
+	xYF4Kh3Y6Y2rPmVQyBoedC2t22kQpHtwvPQWnpwk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872136;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872135;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=+2dX45NmKNRaCR3kNuTtbbm9D2SOwEtU50nBoCMtCkw=;
-	b=WupBuKjC2WYMbU9AKbfdN0MNHcciQzRXq+PHcy4U3j15dX8sCr82P5F9jeIQtqUE
-	afRpip3d2KNt8L87b58kWIziUTd92yAv4dEhDSwkQkXOlv2iV8M2ofbERVyh1CUga+R
-	HCPACe1x4ioUBVLowVPHRoiW3uKsqPaAdpHpX1us=
-Content-Type: multipart/mixed; boundary="===============1653246916916583735=="
+	bh=IxubN0jZaY3nIoindWUk7bji2aDj1cMOPqhsEKfL1uM=;
+	b=PaL46/bVEUeXDHfWhDn3E/57RSElPrhIpwcki+bJzVfxTd7VCZaCRVGUhbL70JEP
+	4qbSCf6PHaGRX58DULtznEHO3hUAzgBr6b9W1OFLBu/TzsFW9sO+3uhopif+wuQwDvL
+	PJPV3l0ZULWWQKFPSGizSmdFlYJxoSOLnMtVV8wU=
+Content-Type: multipart/mixed; boundary="===============0497469294890048000=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] iproute2: upgrading to 6.18.0 FAILED
-Message-ID: <0101019b262e6ca0-949f1cac-29b8-47de-ac23-f37f2af85873-000000@us-west-2.amazonses.com>
+Subject: [AUH] openssl: upgrading to 3.6.0 SUCCEEDED
+Message-ID: <0101019b262e6da5-37d6d018-c634-49a0-a6b3-dc439b359da8-000000@us-west-2.amazonses.com>
 Date: Tue, 16 Dec 2025 08:02:15 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.30
+X-SES-Outgoing: 2025.12.16-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227785
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227783
 
---===============1653246916916583735==
+--===============0497469294890048000==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *iproute2* to *6.18.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *openssl* to *3.6.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-iproute2-upgrade-6.17.0-6.18.0.patch
+    - apply the patch: git am 0001-openssl-upgrade-3.5.4-3.6.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,1158 +72,578 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d92a2f4ef7a35e28b52994153cd15cb7edbff7da Mon Sep 17 00:00:00 2001
+From e50fe17979b2508d59c9a88b2487e9bb16298a45 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Dec 2025 22:03:27 +0000
-Subject: [PATCH] iproute2: upgrade 6.17.0 -> 6.18.0
+Date: Mon, 15 Dec 2025 22:30:34 +0000
+Subject: [PATCH] openssl: upgrade 3.5.4 -> 3.6.0
 
 ---
- ...nk.h-add-missing-include-for-htobe64.patch |  2 +-
- ...ridge-avoid-redefinition-of-in6_addr.patch | 34 -------------------
- ...{iproute2_6.17.0.bb => iproute2_6.18.0.bb} |  3 +-
- 3 files changed, 2 insertions(+), 37 deletions(-)
- delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/0002-lib-bridge-avoid-redefinition-of-in6_addr.patch
- rename meta/recipes-connectivity/iproute2/{iproute2_6.17.0.bb => iproute2_6.18.0.bb} (95%)
+ ...ke-history-reporting-when-test-fails.patch | 23 ++++++++-----------
+ ...1-Configure-do-not-tweak-mips-cflags.patch |  6 ++---
+ ...sysroot-and-debug-prefix-map-from-co.patch |  7 +++---
+ .../0001-extend-check_cwm-test-timeout.patch  |  4 ++--
+ .../{openssl_3.5.4.bb => openssl_3.6.0.bb}    |  2 +-
+ 5 files changed, 19 insertions(+), 23 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.5.4.bb => openssl_3.6.0.bb} (99%)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch
-index c4dea39676..614cd00499 100644
---- a/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch
-+++ b/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
+index 5b7365a353..ac270fc9f5 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
 @@ -1,4 +1,4 @@
--From 9e427aa1c647f741b08a1f0c44483ea974c7fc61 Mon Sep 17 00:00:00 2001
-+From 228a051a53a4e6b1ca2640932cb78a23e44454a8 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Sat, 24 Aug 2024 15:32:25 +0200
- Subject: [PATCH] include/libnetlink.h: add missing include for htobe64
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0002-lib-bridge-avoid-redefinition-of-in6_addr.patch b/meta/recipes-connectivity/iproute2/iproute2/0002-lib-bridge-avoid-redefinition-of-in6_addr.patch
-deleted file mode 100644
-index 5315358024..0000000000
---- a/meta/recipes-connectivity/iproute2/iproute2/0002-lib-bridge-avoid-redefinition-of-in6_addr.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From ad944bd173cacc098f224e7db7248d7210821fca Mon Sep 17 00:00:00 2001
--From: Yureka <yureka@cyberchaos.dev>
--Date: Sun, 12 Oct 2025 14:39:47 +0200
--Subject: [PATCH] lib: bridge: avoid redefinition of in6_addr
--
--On musl libc, which does not use the kernel definitions of in6_addr, including
--the libc headers after the kernel (UAPI) headers would cause a redefinition
--error. The opposite order avoids the redefinition.
--
--Fixes: 9e89d5b94d749f37525cd8778311e1c9f28f172a
--Signed-off-by: Yureka <yureka@cyberchaos.dev>
--Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
--
--Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/iproute2/iproute2.git/commit/?id=25b2834cc974729229afcd308f127995405f85c5]
--(cherry picked from commit 25b2834cc974729229afcd308f127995405f85c5)
--Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-----
-- lib/bridge.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/lib/bridge.c b/lib/bridge.c
--index 5386aa01..104f5858 100644
----- a/lib/bridge.c
--+++ b/lib/bridge.c
--@@ -2,8 +2,8 @@
-- 
-- #include <net/if.h>
-- 
---#include "bridge.h"
-- #include "utils.h"
--+#include "bridge.h"
-- 
-- void bridge_print_vlan_flags(__u16 flags)
-- {
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_6.17.0.bb b/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb
-similarity index 95%
-rename from meta/recipes-connectivity/iproute2/iproute2_6.17.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb
-index 8840e4ba89..60f93437e1 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_6.17.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb
-@@ -13,10 +13,9 @@ DEPENDS = "flex-native bison-native libcap"
+-From 5ba65051fea0513db0d997f0ab7cafb9826ed74a Mon Sep 17 00:00:00 2001
++From 5988d6a305b6106995852b661dd09dd1eb1538be Mon Sep 17 00:00:00 2001
+ From: William Lyu <William.Lyu@windriver.com>
+ Date: Fri, 20 Oct 2023 16:22:37 -0400
+ Subject: [PATCH] Added handshake history reporting when test fails
+@@ -13,10 +13,10 @@ Signed-off-by: William Lyu <William.Lyu@windriver.com>
+  3 files changed, 217 insertions(+), 34 deletions(-)
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://0001-include-libnetlink.h-add-missing-include-for-htobe64.patch \
--           file://0002-lib-bridge-avoid-redefinition-of-in6_addr.patch \
+ diff --git a/test/helpers/handshake.c b/test/helpers/handshake.c
+-index f611b3a..5703b48 100644
++index 9b0cbd9..035e0df 100644
+ --- a/test/helpers/handshake.c
+ +++ b/test/helpers/handshake.c
+-@@ -25,6 +25,102 @@
++@@ -26,6 +26,102 @@
+  #include <netinet/sctp.h>
+  #endif
+  
+@@ -119,7 +119,7 @@ index f611b3a..5703b48 100644
+  HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void)
+  {
+      HANDSHAKE_RESULT *ret;
+-@@ -726,15 +822,6 @@ static void configure_handshake_ssl(SSL *server, SSL *client,
++@@ -835,15 +931,6 @@ static void configure_handshake_ssl(SSL *server, SSL *client,
+          SSL_set_post_handshake_auth(client, 1);
+  }
+  
+@@ -135,7 +135,7 @@ index f611b3a..5703b48 100644
+  /* An SSL object and associated read-write buffers. */
+  typedef struct peer_st {
+      SSL *ssl;
+-@@ -1081,17 +1168,6 @@ static void do_shutdown_step(PEER *peer)
++@@ -1190,17 +1277,6 @@ static void do_shutdown_step(PEER *peer)
+      }
+  }
+  
+@@ -153,7 +153,7 @@ index f611b3a..5703b48 100644
+  static int renegotiate_op(const SSL_TEST_CTX *test_ctx)
+  {
+      switch (test_ctx->handshake_mode) {
+-@@ -1169,19 +1245,6 @@ static void do_connect_step(const SSL_TEST_CTX *test_ctx, PEER *peer,
++@@ -1278,19 +1354,6 @@ static void do_connect_step(const SSL_TEST_CTX *test_ctx, PEER *peer,
+      }
+  }
+  
+@@ -173,7 +173,7 @@ index f611b3a..5703b48 100644
+  /*
+   * Determine the handshake outcome.
+   * last_status: the status of the peer to have acted last.
+-@@ -1546,6 +1609,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
++@@ -1655,6 +1718,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+  
+      start = time(NULL);
+  
+@@ -184,7 +184,7 @@ index f611b3a..5703b48 100644
+      /*
+       * Half-duplex handshake loop.
+       * Client and server speak to each other synchronously in the same process.
+-@@ -1567,6 +1634,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
++@@ -1676,6 +1743,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+                                        0 /* server went last */);
+          }
+  
+@@ -301,7 +301,7 @@ index 78b03f9..b9967c2 100644
+ +
+  #endif  /* OSSL_TEST_HANDSHAKE_HELPER_H */
+ diff --git a/test/ssl_test.c b/test/ssl_test.c
+-index ea60851..9d6b093 100644
++index 841d229..327867a 100644
+ --- a/test/ssl_test.c
+ +++ b/test/ssl_test.c
+ @@ -26,6 +26,44 @@ static OSSL_LIB_CTX *libctx = NULL;
+@@ -361,7 +361,4 @@ index ea60851..9d6b093 100644
+ +
+      return ret;
+  }
+-
+---
+-2.25.1
+-
++ 
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
+index cf5ff356ee..93364f2aa8 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
+@@ -1,4 +1,4 @@
+-From 0377f0d5b5c1079e3b9a80881f4dcc891cbe9f9a Mon Sep 17 00:00:00 2001
++From 686e8acf92ca0264c78296228a4721493e2ae423 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Tue, 30 May 2023 09:11:27 -0700
+ Subject: [PATCH] Configure: do not tweak mips cflags
+@@ -17,10 +17,10 @@ Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+  1 file changed, 10 deletions(-)
+ 
+ diff --git a/Configure b/Configure
+-index fff97bd..5ee54c1 100755
++index 6cc03bf..2bcb075 100755
+ --- a/Configure
+ +++ b/Configure
+-@@ -1552,16 +1552,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
++@@ -1573,16 +1573,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
+          push @{$config{shared_ldflag}}, "-mno-cygwin";
+          }
+  
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
+index dadc034c91..f8f04f68cc 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
+@@ -1,4 +1,4 @@
+-From 5985253f2c9025d7c127443a3a9938946f80c2a1 Mon Sep 17 00:00:00 2001
++From 85fceb366eecb28a75eb2834870158f27e96e802 Mon Sep 17 00:00:00 2001
+ From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
+ Date: Tue, 6 Nov 2018 14:50:47 +0100
+ Subject: [PATCH] buildinfo: strip sysroot and debug-prefix-map from compiler
+@@ -28,14 +28,13 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+ Update to fix buildpaths qa issue for '-ffile-prefix-map'.
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+ ---
+  Configurations/unix-Makefile.tmpl | 16 +++++++++++++++-
+  crypto/build.info                 |  2 +-
+  2 files changed, 16 insertions(+), 2 deletions(-)
+ 
+ diff --git a/Configurations/unix-Makefile.tmpl b/Configurations/unix-Makefile.tmpl
+-index 09303c4..011bda1 100644
++index 6f3e540..db0ac47 100644
+ --- a/Configurations/unix-Makefile.tmpl
+ +++ b/Configurations/unix-Makefile.tmpl
+ @@ -513,13 +513,27 @@ BIN_LDFLAGS={- join(' ', $target{bin_lflags} || (),
+@@ -68,7 +67,7 @@ index 09303c4..011bda1 100644
+  
+  # For x86 assembler: Set PROCESSOR to 386 if you want to support
+ diff --git a/crypto/build.info b/crypto/build.info
+-index aee5c46..95c9577 100644
++index 872684c..96d37c6 100644
+ --- a/crypto/build.info
+ +++ b/crypto/build.info
+ @@ -115,7 +115,7 @@ DEFINE[../libcrypto]=$UPLINKDEF
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
+index d02d42f1b5..67c7901691 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
+@@ -1,4 +1,4 @@
+-From c7000672296f4c367341aa3415f26c4d9f5e4749 Mon Sep 17 00:00:00 2001
++From fd148b2db2c5b7be34cab8ebe7ae11e1e386a84b Mon Sep 17 00:00:00 2001
+ From: Gyorgy Sarvari <skandigraun@gmail.com>
+ Date: Thu, 23 Oct 2025 11:24:36 +0200
+ Subject: [PATCH] extend check_cwm test timeout
+@@ -15,7 +15,7 @@ Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+  1 file changed, 5 insertions(+)
+ 
+ diff --git a/test/radix/main.c b/test/radix/main.c
+-index 4a1e886a71..39f8c61ef9 100644
++index 4a1e886..39f8c61 100644
+ --- a/test/radix/main.c
+ +++ b/test/radix/main.c
+ @@ -25,6 +25,11 @@ static int test_script(int idx)
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.4.bb b/meta/recipes-connectivity/openssl/openssl_3.6.0.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssl/openssl_3.5.4.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.6.0.bb
+index e760baf3a0..43541dc83e 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.5.4.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.6.0.bb
+@@ -19,7 +19,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
             "
  
--SRC_URI[sha256sum] = "9781e59410ab7dea8e9f79bb10ff1488e63d10fcbb70503b94426ba27a8e2dec"
-+SRC_URI[sha256sum] = "6ba520e1975e4c50dc931eeae91ea37c198b8a173744885f8895b84325f9d456"
+-SRC_URI[sha256sum] = "967311f84955316969bdb1d8d4b983718ef42338639c621ec4c34fddef355e99"
++SRC_URI[sha256sum] = "b6a5f44b7eb69e3fa35dbf15524405b44837a481d43d81daddde3ff21fcbb8e9"
  
- inherit update-alternatives bash-completion pkgconfig
- 
+ inherit lib_package multilib_header multilib_script ptest perlnative manpages
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
 2.47.1
 
 
---===============1653246916916583735==
+--===============0497469294890048000==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/openssl/openssl-ptest: FILELIST: added "/usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.1.d/nonconf.bak /usr/lib/openssl/ptest/test/recipes/02-test_mem_alloc.t /usr/lib/openssl/ptest/test/recipes/95-test_external_rpki-client-portable_data/rpki-client-portable.sh /usr/lib/openssl/ptest/test/recipes/25-test_configutl.t /usr/lib/openssl/ptest/test/recipes/02-test_mem_alloc_custom_fns.t /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.cnf /usr/lib/openssl/ptest/test/smime-certs/sm_mlkem768.pem /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/variables.cnf.expected /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/escapes.cnf.expected /usr/lib/openssl/ptest/test/recipes/30-test_lms.t /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/order.cnf /usr/lib/openssl/ptest/test/recipes/90-test_handshake-memfail.t /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.1.d/includes1.cnf /us
+ r/lib/openssl/ptest/test/recipes/20-test_prime_data/prime.txt /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.2.d/main.cnf /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.1.d/includes1.conf /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/variables.cnf /usr/lib/openssl/ptest/test/mem_alloc_custom_fns_test /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/multiple_lines.txt /usr/lib/openssl/ptest/test/recipes/20-test_prime.t /usr/lib/openssl/ptest/test/recipes/30-test_evp_data/evppkey_lms_sigver.txt /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/composite.txt /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/leading-and-trailing-whitespace.cnf.expected /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/included-file.noncnf /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/order.cnf.expected /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/escapes.cnf /usr/lib/openssl/ptest/test/recipes/
+ 25-test_configutl_data/leading-and-trailing-whitespace.cnf /usr/lib/openssl/ptest/test/mem_alloc_test /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/empty.txt /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/short_number.txt /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.cnf.expected2 /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/long_number.txt /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.cnf.expected1 /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.2.d/subincludes.d/subconf.cnf /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/non_number.txt /usr/lib/openssl/ptest/test/recipes/95-test_external_rpki-client-portable.t /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/hex_number.txt /usr/lib/openssl/ptest/test/smime-certs/sm_mlkem512.pem"
+packages/x86-64-v3-poky-linux/openssl/openssl-ptest: PKGSIZE changed from 711706397 to 571342065 (-20%)
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.1-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.1-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.1-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.1-gdb.py was removed
+
+--===============0497469294890048000==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-iproute2-upgrade-6.17.0-6.18.0.patch"
+ filename="0001-openssl-upgrade-3.5.4-3.6.0.patch"
 
-RnJvbSBkOTJhMmY0ZWY3YTM1ZTI4YjUyOTk0MTUzY2QxNWNiN2VkYmZmN2RhIE1vbiBTZXAgMTcg
+RnJvbSBlNTBmZTE3OTc5YjI1MDhkNTljOWE4OGIyNDg3ZTliYjE2Mjk4YTQ1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgRGVjIDIwMjUgMjI6MDM6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBp
-cHJvdXRlMjogdXBncmFkZSA2LjE3LjAgLT4gNi4xOC4wCgotLS0KIC4uLm5rLmgtYWRkLW1pc3Np
-bmctaW5jbHVkZS1mb3ItaHRvYmU2NC5wYXRjaCB8ICAyICstCiAuLi5yaWRnZS1hdm9pZC1yZWRl
-ZmluaXRpb24tb2YtaW42X2FkZHIucGF0Y2ggfCAzNCAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi57
-aXByb3V0ZTJfNi4xNy4wLmJiID0+IGlwcm91dGUyXzYuMTguMC5iYn0gfCAgMyArLQogMyBmaWxl
-cyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDM3IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
-MTAwNjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTIvMDAwMi1s
-aWItYnJpZGdlLWF2b2lkLXJlZGVmaW5pdGlvbi1vZi1pbjZfYWRkci5wYXRjaAogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIve2lwcm91dGUyXzYuMTcuMC5iYiA9PiBp
-cHJvdXRlMl82LjE4LjAuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5l
-Y3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMi8wMDAxLWluY2x1ZGUtbGlibmV0bGluay5oLWFkZC1t
-aXNzaW5nLWluY2x1ZGUtZm9yLWh0b2JlNjQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
-aXR5L2lwcm91dGUyL2lwcm91dGUyLzAwMDEtaW5jbHVkZS1saWJuZXRsaW5rLmgtYWRkLW1pc3Np
-bmctaW5jbHVkZS1mb3ItaHRvYmU2NC5wYXRjaAppbmRleCBjNGRlYTM5Njc2Li42MTRjZDAwNDk5
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUy
-LzAwMDEtaW5jbHVkZS1saWJuZXRsaW5rLmgtYWRkLW1pc3NpbmctaW5jbHVkZS1mb3ItaHRvYmU2
-NC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUy
-LzAwMDEtaW5jbHVkZS1saWJuZXRsaW5rLmgtYWRkLW1pc3NpbmctaW5jbHVkZS1mb3ItaHRvYmU2
-NC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOWU0MjdhYTFjNjQ3Zjc0MWIwOGExZjBjNDQ0
-ODNlYTk3NGM3ZmM2MSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMjI4YTA1MWE1M2E0
-ZTZiMWNhMjY0MDkzMmNiNzhhMjNlNDQ0NTRhOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
-b206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+CiBEYXRlOiBTYXQsIDI0
-IEF1ZyAyMDI0IDE1OjMyOjI1ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGluY2x1ZGUvbGlibmV0
-bGluay5oOiBhZGQgbWlzc2luZyBpbmNsdWRlIGZvciBodG9iZTY0CmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyLzAwMDItbGliLWJyaWRnZS1h
-dm9pZC1yZWRlZmluaXRpb24tb2YtaW42X2FkZHIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVj
-dGl2aXR5L2lwcm91dGUyL2lwcm91dGUyLzAwMDItbGliLWJyaWRnZS1hdm9pZC1yZWRlZmluaXRp
-b24tb2YtaW42X2FkZHIucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDUzMTUz
-NTgwMjQuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRl
-Mi9pcHJvdXRlMi8wMDAyLWxpYi1icmlkZ2UtYXZvaWQtcmVkZWZpbml0aW9uLW9mLWluNl9hZGRy
-LnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMzQgKzAsMCBAQAotRnJvbSBhZDk0NGJkMTczY2Fj
-YzA5OGYyMjRlN2RiNzI0OGQ3MjEwODIxZmNhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJv
-bTogWXVyZWthIDx5dXJla2FAY3liZXJjaGFvcy5kZXY+Ci1EYXRlOiBTdW4sIDEyIE9jdCAyMDI1
-IDE0OjM5OjQ3ICswMjAwCi1TdWJqZWN0OiBbUEFUQ0hdIGxpYjogYnJpZGdlOiBhdm9pZCByZWRl
-ZmluaXRpb24gb2YgaW42X2FkZHIKLQotT24gbXVzbCBsaWJjLCB3aGljaCBkb2VzIG5vdCB1c2Ug
-dGhlIGtlcm5lbCBkZWZpbml0aW9ucyBvZiBpbjZfYWRkciwgaW5jbHVkaW5nCi10aGUgbGliYyBo
-ZWFkZXJzIGFmdGVyIHRoZSBrZXJuZWwgKFVBUEkpIGhlYWRlcnMgd291bGQgY2F1c2UgYSByZWRl
-ZmluaXRpb24KLWVycm9yLiBUaGUgb3Bwb3NpdGUgb3JkZXIgYXZvaWRzIHRoZSByZWRlZmluaXRp
-b24uCi0KLUZpeGVzOiA5ZTg5ZDViOTRkNzQ5ZjM3NTI1Y2Q4Nzc4MzExZTFjOWYyOGYxNzJhCi1T
-aWduZWQtb2ZmLWJ5OiBZdXJla2EgPHl1cmVrYUBjeWJlcmNoYW9zLmRldj4KLVNpZ25lZC1vZmYt
-Ynk6IFN0ZXBoZW4gSGVtbWluZ2VyIDxzdGVwaGVuQG5ldHdvcmtwbHVtYmVyLm9yZz4KLQotVXBz
-dHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL25l
-dHdvcmsvaXByb3V0ZTIvaXByb3V0ZTIuZ2l0L2NvbW1pdC8/aWQ9MjViMjgzNGNjOTc0NzI5MjI5
-YWZjZDMwOGYxMjc5OTU0MDVmODVjNV0KLShjaGVycnkgcGlja2VkIGZyb20gY29tbWl0IDI1YjI4
-MzRjYzk3NDcyOTIyOWFmY2QzMDhmMTI3OTk1NDA1Zjg1YzUpCi1TaWduZWQtb2ZmLWJ5OiBBbmt1
-ciBUeWFnaSA8YW5rdXIudHlhZ2k4NUBnbWFpbC5jb20+Ci0tLS0KLSBsaWIvYnJpZGdlLmMgfCAy
-ICstCi0gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCi0KLWRp
-ZmYgLS1naXQgYS9saWIvYnJpZGdlLmMgYi9saWIvYnJpZGdlLmMKLWluZGV4IDUzODZhYTAxLi4x
-MDRmNTg1OCAxMDA2NDQKLS0tLSBhL2xpYi9icmlkZ2UuYwotKysrIGIvbGliL2JyaWRnZS5jCi1A
-QCAtMiw4ICsyLDggQEAKLSAKLSAjaW5jbHVkZSA8bmV0L2lmLmg+Ci0gCi0tI2luY2x1ZGUgImJy
-aWRnZS5oIgotICNpbmNsdWRlICJ1dGlscy5oIgotKyNpbmNsdWRlICJicmlkZ2UuaCIKLSAKLSB2
-b2lkIGJyaWRnZV9wcmludF92bGFuX2ZsYWdzKF9fdTE2IGZsYWdzKQotIHsKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTJfNi4xNy4wLmJiIGIv
-bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl82LjE4LjAuYmIKc2lt
-aWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9p
-cHJvdXRlMi9pcHJvdXRlMl82LjE3LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0
-aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTJfNi4xOC4wLmJiCmluZGV4IDg4NDBlNGJhODkuLjYwZjkz
-NDM3ZTEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXBy
-b3V0ZTJfNi4xNy4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIv
-aXByb3V0ZTJfNi4xOC4wLmJiCkBAIC0xMywxMCArMTMsOSBAQCBERVBFTkRTID0gImZsZXgtbmF0
-aXZlIGJpc29uLW5hdGl2ZSBsaWJjYXAiCiAKIFNSQ19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9S
-fS9saW51eC91dGlscy9uZXQvJHtCUE59LyR7QlB9LnRhci54eiBcCiAgICAgICAgICAgIGZpbGU6
-Ly8wMDAxLWluY2x1ZGUtbGlibmV0bGluay5oLWFkZC1taXNzaW5nLWluY2x1ZGUtZm9yLWh0b2Jl
-NjQucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vMDAwMi1saWItYnJpZGdlLWF2b2lkLXJlZGVm
-aW5pdGlvbi1vZi1pbjZfYWRkci5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjk3ODFlNTk0MTBhYjdkZWE4ZTlmNzliYjEwZmYxNDg4ZTYzZDEwZmNiYjcwNTAz
-Yjk0NDI2YmEyN2E4ZTJkZWMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNmJhNTIwZTE5NzVlNGM1
-MGRjOTMxZWVhZTkxZWEzN2MxOThiOGExNzM3NDQ4ODVmODg5NWI4NDMyNWY5ZDQ1NiIKIAogaW5o
-ZXJpdCB1cGRhdGUtYWx0ZXJuYXRpdmVzIGJhc2gtY29tcGxldGlvbiBwa2djb25maWcKIAotLSAK
-Mi40Ny4xCgo=
+CkRhdGU6IE1vbiwgMTUgRGVjIDIwMjUgMjI6MzA6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBv
+cGVuc3NsOiB1cGdyYWRlIDMuNS40IC0+IDMuNi4wCgotLS0KIC4uLmtlLWhpc3RvcnktcmVwb3J0
+aW5nLXdoZW4tdGVzdC1mYWlscy5wYXRjaCB8IDIzICsrKysrKysrLS0tLS0tLS0tLS0KIC4uLjEt
+Q29uZmlndXJlLWRvLW5vdC10d2Vhay1taXBzLWNmbGFncy5wYXRjaCB8ICA2ICsrLS0tCiAuLi5z
+eXNyb290LWFuZC1kZWJ1Zy1wcmVmaXgtbWFwLWZyb20tY28ucGF0Y2ggfCAgNyArKystLS0KIC4u
+Li8wMDAxLWV4dGVuZC1jaGVja19jd20tdGVzdC10aW1lb3V0LnBhdGNoICB8ICA0ICsrLS0KIC4u
+Li97b3BlbnNzbF8zLjUuNC5iYiA9PiBvcGVuc3NsXzMuNi4wLmJifSAgICB8ICAyICstCiA1IGZp
+bGVzIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKyksIDIzIGRlbGV0aW9ucygtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC97b3BlbnNzbF8zLjUuNC5iYiA9PiBvcGVu
+c3NsXzMuNi4wLmJifSAoOTklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
+dHkvb3BlbnNzbC9vcGVuc3NsLzAwMDEtQWRkZWQtaGFuZHNoYWtlLWhpc3RvcnktcmVwb3J0aW5n
+LXdoZW4tdGVzdC1mYWlscy5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNz
+bC9vcGVuc3NsLzAwMDEtQWRkZWQtaGFuZHNoYWtlLWhpc3RvcnktcmVwb3J0aW5nLXdoZW4tdGVz
+dC1mYWlscy5wYXRjaAppbmRleCA1YjczNjVhMzUzLi5hYzI3MGZjOWY1IDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC8wMDAxLUFkZGVkLWhhbmRz
+aGFrZS1oaXN0b3J5LXJlcG9ydGluZy13aGVuLXRlc3QtZmFpbHMucGF0Y2gKKysrIGIvbWV0YS9y
+ZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMS1BZGRlZC1oYW5kc2hha2Ut
+aGlzdG9yeS1yZXBvcnRpbmctd2hlbi10ZXN0LWZhaWxzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAot
+RnJvbSA1YmE2NTA1MWZlYTA1MTNkYjBkOTk3ZjBhYjdjYWZiOTgyNmVkNzRhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQorRnJvbSA1OTg4ZDZhMzA1YjYxMDY5OTU4NTJiNjYxZGQwOWRkMWViMTUz
+OGJlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogV2lsbGlhbSBMeXUgPFdpbGxpYW0u
+THl1QHdpbmRyaXZlci5jb20+CiBEYXRlOiBGcmksIDIwIE9jdCAyMDIzIDE2OjIyOjM3IC0wNDAw
+CiBTdWJqZWN0OiBbUEFUQ0hdIEFkZGVkIGhhbmRzaGFrZSBoaXN0b3J5IHJlcG9ydGluZyB3aGVu
+IHRlc3QgZmFpbHMKQEAgLTEzLDEwICsxMywxMCBAQCBTaWduZWQtb2ZmLWJ5OiBXaWxsaWFtIEx5
+dSA8V2lsbGlhbS5MeXVAd2luZHJpdmVyLmNvbT4KICAzIGZpbGVzIGNoYW5nZWQsIDIxNyBpbnNl
+cnRpb25zKCspLCAzNCBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL3Rlc3QvaGVscGVycy9o
+YW5kc2hha2UuYyBiL3Rlc3QvaGVscGVycy9oYW5kc2hha2UuYwotaW5kZXggZjYxMWIzYS4uNTcw
+M2I0OCAxMDA2NDQKK2luZGV4IDliMGNiZDkuLjAzNWUwZGYgMTAwNjQ0CiAtLS0gYS90ZXN0L2hl
+bHBlcnMvaGFuZHNoYWtlLmMKICsrKyBiL3Rlc3QvaGVscGVycy9oYW5kc2hha2UuYwotQEAgLTI1
+LDYgKzI1LDEwMiBAQAorQEAgLTI2LDYgKzI2LDEwMiBAQAogICNpbmNsdWRlIDxuZXRpbmV0L3Nj
+dHAuaD4KICAjZW5kaWYKICAKQEAgLTExOSw3ICsxMTksNyBAQCBpbmRleCBmNjExYjNhLi41NzAz
+YjQ4IDEwMDY0NAogIEhBTkRTSEFLRV9SRVNVTFQgKkhBTkRTSEFLRV9SRVNVTFRfbmV3KHZvaWQp
+CiAgewogICAgICBIQU5EU0hBS0VfUkVTVUxUICpyZXQ7Ci1AQCAtNzI2LDE1ICs4MjIsNiBAQCBz
+dGF0aWMgdm9pZCBjb25maWd1cmVfaGFuZHNoYWtlX3NzbChTU0wgKnNlcnZlciwgU1NMICpjbGll
+bnQsCitAQCAtODM1LDE1ICs5MzEsNiBAQCBzdGF0aWMgdm9pZCBjb25maWd1cmVfaGFuZHNoYWtl
+X3NzbChTU0wgKnNlcnZlciwgU1NMICpjbGllbnQsCiAgICAgICAgICBTU0xfc2V0X3Bvc3RfaGFu
+ZHNoYWtlX2F1dGgoY2xpZW50LCAxKTsKICB9CiAgCkBAIC0xMzUsNyArMTM1LDcgQEAgaW5kZXgg
+ZjYxMWIzYS4uNTcwM2I0OCAxMDA2NDQKICAvKiBBbiBTU0wgb2JqZWN0IGFuZCBhc3NvY2lhdGVk
+IHJlYWQtd3JpdGUgYnVmZmVycy4gKi8KICB0eXBlZGVmIHN0cnVjdCBwZWVyX3N0IHsKICAgICAg
+U1NMICpzc2w7Ci1AQCAtMTA4MSwxNyArMTE2OCw2IEBAIHN0YXRpYyB2b2lkIGRvX3NodXRkb3du
+X3N0ZXAoUEVFUiAqcGVlcikKK0BAIC0xMTkwLDE3ICsxMjc3LDYgQEAgc3RhdGljIHZvaWQgZG9f
+c2h1dGRvd25fc3RlcChQRUVSICpwZWVyKQogICAgICB9CiAgfQogIApAQCAtMTUzLDcgKzE1Myw3
+IEBAIGluZGV4IGY2MTFiM2EuLjU3MDNiNDggMTAwNjQ0CiAgc3RhdGljIGludCByZW5lZ290aWF0
+ZV9vcChjb25zdCBTU0xfVEVTVF9DVFggKnRlc3RfY3R4KQogIHsKICAgICAgc3dpdGNoICh0ZXN0
+X2N0eC0+aGFuZHNoYWtlX21vZGUpIHsKLUBAIC0xMTY5LDE5ICsxMjQ1LDYgQEAgc3RhdGljIHZv
+aWQgZG9fY29ubmVjdF9zdGVwKGNvbnN0IFNTTF9URVNUX0NUWCAqdGVzdF9jdHgsIFBFRVIgKnBl
+ZXIsCitAQCAtMTI3OCwxOSArMTM1NCw2IEBAIHN0YXRpYyB2b2lkIGRvX2Nvbm5lY3Rfc3RlcChj
+b25zdCBTU0xfVEVTVF9DVFggKnRlc3RfY3R4LCBQRUVSICpwZWVyLAogICAgICB9CiAgfQogIApA
+QCAtMTczLDcgKzE3Myw3IEBAIGluZGV4IGY2MTFiM2EuLjU3MDNiNDggMTAwNjQ0CiAgLyoKICAg
+KiBEZXRlcm1pbmUgdGhlIGhhbmRzaGFrZSBvdXRjb21lLgogICAqIGxhc3Rfc3RhdHVzOiB0aGUg
+c3RhdHVzIG9mIHRoZSBwZWVyIHRvIGhhdmUgYWN0ZWQgbGFzdC4KLUBAIC0xNTQ2LDYgKzE2MDks
+MTAgQEAgc3RhdGljIEhBTkRTSEFLRV9SRVNVTFQgKmRvX2hhbmRzaGFrZV9pbnRlcm5hbCgKK0BA
+IC0xNjU1LDYgKzE3MTgsMTAgQEAgc3RhdGljIEhBTkRTSEFLRV9SRVNVTFQgKmRvX2hhbmRzaGFr
+ZV9pbnRlcm5hbCgKICAKICAgICAgc3RhcnQgPSB0aW1lKE5VTEwpOwogIApAQCAtMTg0LDcgKzE4
+NCw3IEBAIGluZGV4IGY2MTFiM2EuLjU3MDNiNDggMTAwNjQ0CiAgICAgIC8qCiAgICAgICAqIEhh
+bGYtZHVwbGV4IGhhbmRzaGFrZSBsb29wLgogICAgICAgKiBDbGllbnQgYW5kIHNlcnZlciBzcGVh
+ayB0byBlYWNoIG90aGVyIHN5bmNocm9ub3VzbHkgaW4gdGhlIHNhbWUgcHJvY2Vzcy4KLUBAIC0x
+NTY3LDYgKzE2MzQsMTAgQEAgc3RhdGljIEhBTkRTSEFLRV9SRVNVTFQgKmRvX2hhbmRzaGFrZV9p
+bnRlcm5hbCgKK0BAIC0xNjc2LDYgKzE3NDMsMTAgQEAgc3RhdGljIEhBTkRTSEFLRV9SRVNVTFQg
+KmRvX2hhbmRzaGFrZV9pbnRlcm5hbCgKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIDAgLyogc2VydmVyIHdlbnQgbGFzdCAqLyk7CiAgICAgICAgICB9CiAgCkBAIC0zMDEs
+NyArMzAxLDcgQEAgaW5kZXggNzhiMDNmOS4uYjk5NjdjMiAxMDA2NDQKICsKICAjZW5kaWYgIC8q
+IE9TU0xfVEVTVF9IQU5EU0hBS0VfSEVMUEVSX0ggKi8KIGRpZmYgLS1naXQgYS90ZXN0L3NzbF90
+ZXN0LmMgYi90ZXN0L3NzbF90ZXN0LmMKLWluZGV4IGVhNjA4NTEuLjlkNmIwOTMgMTAwNjQ0Citp
+bmRleCA4NDFkMjI5Li4zMjc4NjdhIDEwMDY0NAogLS0tIGEvdGVzdC9zc2xfdGVzdC5jCiArKysg
+Yi90ZXN0L3NzbF90ZXN0LmMKIEBAIC0yNiw2ICsyNiw0NCBAQCBzdGF0aWMgT1NTTF9MSUJfQ1RY
+ICpsaWJjdHggPSBOVUxMOwpAQCAtMzYxLDcgKzM2MSw0IEBAIGluZGV4IGVhNjA4NTEuLjlkNmIw
+OTMgMTAwNjQ0CiArCiAgICAgIHJldHVybiByZXQ7CiAgfQotCi0tLQotMi4yNS4xCi0KKyAKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsLzAwMDEt
+Q29uZmlndXJlLWRvLW5vdC10d2Vhay1taXBzLWNmbGFncy5wYXRjaCBiL21ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsLzAwMDEtQ29uZmlndXJlLWRvLW5vdC10d2Vhay1t
+aXBzLWNmbGFncy5wYXRjaAppbmRleCBjZjVmZjM1NmVlLi45MzM2NGYyYWE4IDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC8wMDAxLUNvbmZpZ3Vy
+ZS1kby1ub3QtdHdlYWstbWlwcy1jZmxhZ3MucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMS1Db25maWd1cmUtZG8tbm90LXR3ZWFrLW1pcHMt
+Y2ZsYWdzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwMzc3ZjBkNWI1YzEwNzllM2I5YTgw
+ODgxZjRkY2M4OTFjYmU5ZjlhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA2ODZlOGFj
+ZjkyY2EwMjY0Yzc4Mjk2MjI4YTQ3MjE0OTNlMmFlNDIzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KIERhdGU6IFR1
+ZSwgMzAgTWF5IDIwMjMgMDk6MTE6MjcgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gQ29uZmlndXJl
+OiBkbyBub3QgdHdlYWsgbWlwcyBjZmxhZ3MKQEAgLTE3LDEwICsxNywxMCBAQCBTaWduZWQtb2Zm
+LWJ5OiBUaW0gT3JsaW5nIDx0aW0ub3JsaW5nQGtvbnN1bGtvLmNvbT4KICAxIGZpbGUgY2hhbmdl
+ZCwgMTAgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9Db25maWd1cmUgYi9Db25maWd1cmUK
+LWluZGV4IGZmZjk3YmQuLjVlZTU0YzEgMTAwNzU1CitpbmRleCA2Y2MwM2JmLi4yYmNiMDc1IDEw
+MDc1NQogLS0tIGEvQ29uZmlndXJlCiArKysgYi9Db25maWd1cmUKLUBAIC0xNTUyLDE2ICsxNTUy
+LDYgQEAgaWYgKCR0YXJnZXQgPX4gL15taW5ndy8gJiYgYCRjb25maWd7Q0N9IC0tdGFyZ2V0LWhl
+bHAgMj4mMWAgPX4gbS8tbW5vLWN5Z3dpbi9tKQorQEAgLTE1NzMsMTYgKzE1NzMsNiBAQCBpZiAo
+JHRhcmdldCA9fiAvXm1pbmd3LyAmJiBgJGNvbmZpZ3tDQ30gLS10YXJnZXQtaGVscCAyPiYxYCA9
+fiBtLy1tbm8tY3lnd2luL20pCiAgICAgICAgICBwdXNoIEB7JGNvbmZpZ3tzaGFyZWRfbGRmbGFn
+fX0sICItbW5vLWN5Z3dpbiI7CiAgICAgICAgICB9CiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC8wMDAxLWJ1aWxkaW5mby1zdHJpcC1zeXNy
+b290LWFuZC1kZWJ1Zy1wcmVmaXgtbWFwLWZyb20tY28ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29u
+bmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC8wMDAxLWJ1aWxkaW5mby1zdHJpcC1zeXNyb290LWFu
+ZC1kZWJ1Zy1wcmVmaXgtbWFwLWZyb20tY28ucGF0Y2gKaW5kZXggZGFkYzAzNGM5MS4uZjhmMDRm
+NjhjYyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5z
+c2wvMDAwMS1idWlsZGluZm8tc3RyaXAtc3lzcm9vdC1hbmQtZGVidWctcHJlZml4LW1hcC1mcm9t
+LWNvLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3Ns
+LzAwMDEtYnVpbGRpbmZvLXN0cmlwLXN5c3Jvb3QtYW5kLWRlYnVnLXByZWZpeC1tYXAtZnJvbS1j
+by5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNTk4NTI1M2YyYzkwMjVkN2MxMjc0NDNhM2E5
+OTM4OTQ2ZjgwYzJhMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gODVmY2ViMzY2ZWVj
+YjI4YTc1ZWIyODM0ODcwMTU4ZjI3ZTk2ZTgwMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
+b206ID0/VVRGLTg/cT9NYXJ0aW49MjBIdW5kZWI9QzM9QjhsbD89IDxtYXJ0aW5AZ2Vhbml4LmNv
+bT4KIERhdGU6IFR1ZSwgNiBOb3YgMjAxOCAxNDo1MDo0NyArMDEwMAogU3ViamVjdDogW1BBVENI
+XSBidWlsZGluZm86IHN0cmlwIHN5c3Jvb3QgYW5kIGRlYnVnLXByZWZpeC1tYXAgZnJvbSBjb21w
+aWxlcgpAQCAtMjgsMTQgKzI4LDEzIEBAIFNpZ25lZC1vZmYtYnk6IEthaSBLYW5nIDxrYWkua2Fu
+Z0B3aW5kcml2ZXIuY29tPgogVXBkYXRlIHRvIGZpeCBidWlsZHBhdGhzIHFhIGlzc3VlIGZvciAn
+LWZmaWxlLXByZWZpeC1tYXAnLgogCiBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1A
+Z21haWwuY29tPgotCiAtLS0KICBDb25maWd1cmF0aW9ucy91bml4LU1ha2VmaWxlLnRtcGwgfCAx
+NiArKysrKysrKysrKysrKystCiAgY3J5cHRvL2J1aWxkLmluZm8gICAgICAgICAgICAgICAgIHwg
+IDIgKy0KICAyIGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0p
+CiAKIGRpZmYgLS1naXQgYS9Db25maWd1cmF0aW9ucy91bml4LU1ha2VmaWxlLnRtcGwgYi9Db25m
+aWd1cmF0aW9ucy91bml4LU1ha2VmaWxlLnRtcGwKLWluZGV4IDA5MzAzYzQuLjAxMWJkYTEgMTAw
+NjQ0CitpbmRleCA2ZjNlNTQwLi5kYjBhYzQ3IDEwMDY0NAogLS0tIGEvQ29uZmlndXJhdGlvbnMv
+dW5peC1NYWtlZmlsZS50bXBsCiArKysgYi9Db25maWd1cmF0aW9ucy91bml4LU1ha2VmaWxlLnRt
+cGwKIEBAIC01MTMsMTMgKzUxMywyNyBAQCBCSU5fTERGTEFHUz17LSBqb2luKCcgJywgJHRhcmdl
+dHtiaW5fbGZsYWdzfSB8fCAoKSwKQEAgLTY4LDcgKzY3LDcgQEAgaW5kZXggMDkzMDNjNC4uMDEx
+YmRhMSAxMDA2NDQKICAKICAjIEZvciB4ODYgYXNzZW1ibGVyOiBTZXQgUFJPQ0VTU09SIHRvIDM4
+NiBpZiB5b3Ugd2FudCB0byBzdXBwb3J0CiBkaWZmIC0tZ2l0IGEvY3J5cHRvL2J1aWxkLmluZm8g
+Yi9jcnlwdG8vYnVpbGQuaW5mbwotaW5kZXggYWVlNWM0Ni4uOTVjOTU3NyAxMDA2NDQKK2luZGV4
+IDg3MjY4NGMuLjk2ZDM3YzYgMTAwNjQ0CiAtLS0gYS9jcnlwdG8vYnVpbGQuaW5mbwogKysrIGIv
+Y3J5cHRvL2J1aWxkLmluZm8KIEBAIC0xMTUsNyArMTE1LDcgQEAgREVGSU5FWy4uL2xpYmNyeXB0
+b109JFVQTElOS0RFRgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVu
+c3NsL29wZW5zc2wvMDAwMS1leHRlbmQtY2hlY2tfY3dtLXRlc3QtdGltZW91dC5wYXRjaCBiL21l
+dGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsLzAwMDEtZXh0ZW5kLWNoZWNr
+X2N3bS10ZXN0LXRpbWVvdXQucGF0Y2gKaW5kZXggZDAyZDQyZjFiNS4uNjdjNzkwMTY5MSAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMS1l
+eHRlbmQtY2hlY2tfY3dtLXRlc3QtdGltZW91dC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29u
+bmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC8wMDAxLWV4dGVuZC1jaGVja19jd20tdGVzdC10aW1l
+b3V0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBjNzAwMDY3MjI5NmY0YzM2NzM0MWFhMzQx
+NWYyNmM0ZDlmNWU0NzQ5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBmZDE0OGIyZGIy
+YzViN2JlMzRjYWI4ZWJlN2FlMTFlMWUzODZhODRiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
+RnJvbTogR3lvcmd5IFNhcnZhcmkgPHNrYW5kaWdyYXVuQGdtYWlsLmNvbT4KIERhdGU6IFRodSwg
+MjMgT2N0IDIwMjUgMTE6MjQ6MzYgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gZXh0ZW5kIGNoZWNr
+X2N3bSB0ZXN0IHRpbWVvdXQKQEAgLTE1LDcgKzE1LDcgQEAgU2lnbmVkLW9mZi1ieTogR3lvcmd5
+IFNhcnZhcmkgPHNrYW5kaWdyYXVuQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNl
+cnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS90ZXN0L3JhZGl4L21haW4uYyBiL3Rlc3QvcmFkaXgv
+bWFpbi5jCi1pbmRleCA0YTFlODg2YTcxLi4zOWY4YzYxZWY5IDEwMDY0NAoraW5kZXggNGExZTg4
+Ni4uMzlmOGM2MSAxMDA2NDQKIC0tLSBhL3Rlc3QvcmFkaXgvbWFpbi5jCiArKysgYi90ZXN0L3Jh
+ZGl4L21haW4uYwogQEAgLTI1LDYgKzI1LDExIEBAIHN0YXRpYyBpbnQgdGVzdF9zY3JpcHQoaW50
+IGlkeCkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVu
+c3NsXzMuNS40LmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2xf
+My42LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNv
+bm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2xfMy41LjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzMuNi4wLmJiCmluZGV4IGU3NjBiYWYzYTAu
+LjQzNTQxZGM4M2UgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNz
+bC9vcGVuc3NsXzMuNS40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNz
+bC9vcGVuc3NsXzMuNi4wLmJiCkBAIC0xOSw3ICsxOSw3IEBAIFNSQ19VUkk6YXBwZW5kOmNsYXNz
+LW5hdGl2ZXNkayA9ICIgXAogICAgICAgICAgICBmaWxlOi8vZW52aXJvbm1lbnQuZC1vcGVuc3Ns
+LnNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTY3MzExZjg0OTU1
+MzE2OTY5YmRiMWQ4ZDRiOTgzNzE4ZWY0MjMzODYzOWM2MjFlYzRjMzRmZGRlZjM1NWU5OSIKK1NS
+Q19VUklbc2hhMjU2c3VtXSA9ICJiNmE1ZjQ0YjdlYjY5ZTNmYTM1ZGJmMTU1MjQ0MDViNDQ4Mzdh
+NDgxZDQzZDgxZGFkZGRlM2ZmMjFmY2JiOGU5IgogCiBpbmhlcml0IGxpYl9wYWNrYWdlIG11bHRp
+bGliX2hlYWRlciBtdWx0aWxpYl9zY3JpcHQgcHRlc3QgcGVybG5hdGl2ZSBtYW5wYWdlcwogTVVM
+VElMSUJfU0NSSVBUUyA9ICIke1BOfS1iaW46JHtiaW5kaXJ9L2NfcmVoYXNoIgotLSAKMi40Ny4x
+Cgo=
 
---===============1653246916916583735==
+--===============0497469294890048000==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/iproute2/iproute2-bash-completion: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-bash-completion: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-bridge: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-bridge: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-dbg: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-dbg: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-dbg: PKGSIZE changed from 9154376 to 9162600 (+0%)
-packages/x86-64-v3-poky-linux/iproute2/iproute2-dev: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-dev: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-devlink: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-devlink: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-doc: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-doc: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-genl: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-genl: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-ifstat: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-ifstat: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-ip: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-ip: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-ip: PKGSIZE changed from 727075 to 727107 (+0%)
-packages/x86-64-v3-poky-linux/iproute2/iproute2-lnstat: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-lnstat: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-locale: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-locale: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-nstat: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-nstat: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-rdma: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-rdma: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-routel: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-routel: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-rtacct: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-rtacct: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-src: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-src: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-src: PKGSIZE changed from 3752671 to 3756934 (+0%)
-packages/x86-64-v3-poky-linux/iproute2/iproute2-src: FILELIST: directory renamed /usr/src/debug/iproute2/6.17.0/bridge -> /usr/src/debug/iproute2/6.18.0/bridge, directory renamed /usr/src/debug/iproute2/6.17.0/include/uapi/linux/netfilter -> /usr/src/debug/iproute2/6.18.0/include/uapi/linux/netfilter, directory renamed /usr/src/debug/iproute2/6.17.0/tc -> /usr/src/debug/iproute2/6.18.0/tc, directory renamed /usr/src/debug/iproute2/6.17.0/devlink -> /usr/src/debug/iproute2/6.18.0/devlink, directory renamed /usr/src/debug/iproute2/6.17.0/genl -> /usr/src/debug/iproute2/6.18.0/genl, directory renamed /usr/src/debug/iproute2/6.17.0/include/uapi/asm-generic -> /usr/src/debug/iproute2/6.18.0/include/uapi/asm-generic, directory renamed /usr/src/debug/iproute2/6.17.0/tipc -> /usr/src/debug/iproute2/6.18.0/tipc, directory renamed /usr/src/debug/iproute2/6.17.0/include/uapi/linux -> /usr/src/debug/iproute2/6.18.0/include/uapi/linux, directory renamed /usr/src/debug/iproute2/6.17.0/include/uapi
- /linux/hdlc -> /usr/src/debug/iproute2/6.18.0/include/uapi/linux/hdlc, directory renamed /usr/src/debug/iproute2/6.17.0/include/uapi/linux/netfilter/ipset -> /usr/src/debug/iproute2/6.18.0/include/uapi/linux/netfilter/ipset, directory renamed /usr/src/debug/iproute2/6.17.0/include/uapi/linux/tc_ematch -> /usr/src/debug/iproute2/6.18.0/include/uapi/linux/tc_ematch, directory renamed /usr/src/debug/iproute2/6.17.0/include -> /usr/src/debug/iproute2/6.18.0/include, directory renamed /usr/src/debug/iproute2/6.17.0/ip -> /usr/src/debug/iproute2/6.18.0/ip, directory renamed /usr/src/debug/iproute2/6.17.0/include/uapi/linux/can -> /usr/src/debug/iproute2/6.18.0/include/uapi/linux/can, directory renamed /usr/src/debug/iproute2/6.17.0/misc -> /usr/src/debug/iproute2/6.18.0/misc, directory renamed /usr/src/debug/iproute2/6.17.0/include/uapi/linux/tc_act -> /usr/src/debug/iproute2/6.18.0/include/uapi/linux/tc_act, directory renamed /usr/src/debug/iproute2/6.17.0/lib -> /usr/src/debug/iproute2/
- 6.18.0/lib
-packages/x86-64-v3-poky-linux/iproute2/iproute2-ss: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-ss: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-staticdev: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-staticdev: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-tc: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-tc: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-tipc: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-tipc: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2: PKGV changed from 6.17.0 [default] to 6.18.0 [default]
-packages/x86-64-v3-poky-linux/iproute2: PV changed from "6.17.0" to "6.18.0"
-packages/x86-64-v3-poky-linux/iproute2: SRC_URI changed from "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.17.0.tar.xz file://0001-include-libnetlink.h-add-missing-include-for-htobe64.patch file://0002-lib-bridge-avoid-redefinition-of-in6_addr.patch" to "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.18.0.tar.xz file://0001-include-libnetlink.h-add-missing-include-for-htobe64.patch"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: FILES: removed "/lib/lib*.so /lib/*.la /lib/*.o"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-staticdev: FILES: removed "/lib/*.a"
+packages/all-poky-linux/wayland-protocols/wayland-protocols: FILES: removed "/sbin/* /bin/* /lib/*.so.*", added "/usr/lib/*.so.*"
+packages/x86-64-v3-poky-linux/gcc-runtime/gcc-runtime-src: PKGSIZE changed from 9685472 to 9883625 (+2%)
+packages/x86-64-v3-poky-linux/openssl: SRC_URI changed from "http://www.openssl.org/source/openssl-3.5.4.tar.gz file://run-ptest file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch file://0001-Configure-do-not-tweak-mips-cflags.patch file://0001-Added-handshake-history-reporting-when-test-fails.patch file://0001-extend-check_cwm-test-timeout.patch" to "http://www.openssl.org/source/openssl-3.6.0.tar.gz file://run-ptest file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch file://0001-Configure-do-not-tweak-mips-cflags.patch file://0001-Added-handshake-history-reporting-when-test-fails.patch file://0001-extend-check_cwm-test-timeout.patch"
+packages/x86-64-v3-poky-linux/openssl: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/libcrypto: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/libcrypto: PKGSIZE changed from 6107512 to 6196392 (+1%)
+packages/x86-64-v3-poky-linux/openssl/libcrypto: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/libssl: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/libssl: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl-bin: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-bin: PKGSIZE changed from 1095264 to 1103520 (+1%)
+packages/x86-64-v3-poky-linux/openssl/openssl-bin: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl-conf: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-conf: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl-dbg: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-dbg: PKGSIZE changed from 20491000 to 20878432 (+2%)
+packages/x86-64-v3-poky-linux/openssl/openssl-dbg: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl-dev: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-dev: PKGSIZE changed from 2205925 to 2218568 (+1%)
+packages/x86-64-v3-poky-linux/openssl/openssl-dev: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl-doc: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-doc: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl-engines: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-engines: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl-locale: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-locale: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl-misc: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-misc: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl-ossl-module-fips: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-ossl-module-fips: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl-ossl-module-legacy: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-ossl-module-legacy: PKGSIZE changed from 145368 to 149464 (+3%)
+packages/x86-64-v3-poky-linux/openssl/openssl-ossl-module-legacy: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl-ptest: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-ptest: PKGSIZE changed from 711706397 to 571342065 (-20%)
+packages/x86-64-v3-poky-linux/openssl/openssl-ptest: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl-ptest: FILELIST: added "/usr/lib/openssl/ptest/test/recipes/95-test_external_rpki-client-portable_data/rpki-client-portable.sh /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/leading-and-trailing-whitespace.cnf.expected /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.1.d/includes1.conf /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.1.d/includes1.cnf /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/variables.cnf /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/included-file.noncnf /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/prime.txt /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/short_number.txt /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/order.cnf /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/long_number.txt /usr/lib/openssl/ptest/test/recipes/30-test_evp_data/evppkey_lms_sigver.txt /usr/lib/openssl/ptest/test/recipes/95-tes
+ t_external_rpki-client-portable.t /usr/lib/openssl/ptest/test/recipes/02-test_mem_alloc_custom_fns.t /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.1.d/nonconf.bak /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/escapes.cnf.expected /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/non_number.txt /usr/lib/openssl/ptest/test/recipes/30-test_lms.t /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/variables.cnf.expected /usr/lib/openssl/ptest/test/recipes/20-test_prime.t /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/order.cnf.expected /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/composite.txt /usr/lib/openssl/ptest/test/mem_alloc_custom_fns_test /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.cnf.expected2 /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.cnf.expected1 /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/escapes.cnf /usr/lib/openssl/ptest/test/recipes/20-tes
+ t_prime_data/multiple_lines.txt /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/empty.txt /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.2.d/main.cnf /usr/lib/openssl/ptest/test/recipes/90-test_handshake-memfail.t /usr/lib/openssl/ptest/test/smime-certs/sm_mlkem512.pem /usr/lib/openssl/ptest/test/recipes/25-test_configutl.t /usr/lib/openssl/ptest/test/recipes/20-test_prime_data/hex_number.txt /usr/lib/openssl/ptest/test/smime-certs/sm_mlkem768.pem /usr/lib/openssl/ptest/test/mem_alloc_test /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/leading-and-trailing-whitespace.cnf /usr/lib/openssl/ptest/test/recipes/02-test_mem_alloc.t /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.2.d/subincludes.d/subconf.cnf /usr/lib/openssl/ptest/test/recipes/25-test_configutl_data/includes.cnf"
+packages/x86-64-v3-poky-linux/openssl/openssl-src: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-src: PKGSIZE changed from 26305162 to 26920660 (+2%)
+packages/x86-64-v3-poky-linux/openssl/openssl-src: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl-src: FILELIST: directory renamed /usr/src/debug/openssl/3.5.4/crypto/ec -> /usr/src/debug/openssl/3.6.0/crypto/ec, directory renamed /usr/src/debug/openssl/3.5.4/crypto/ocsp -> /usr/src/debug/openssl/3.6.0/crypto/ocsp, directory renamed /usr/src/debug/openssl/3.5.4/providers -> /usr/src/debug/openssl/3.6.0/providers, directory renamed /usr/src/debug/openssl/3.5.4/crypto/conf -> /usr/src/debug/openssl/3.6.0/crypto/conf, directory renamed /usr/src/debug/openssl/3.5.4/crypto/pem -> /usr/src/debug/openssl/3.6.0/crypto/pem, directory renamed /usr/src/debug/openssl/3.5.4/crypto/aria -> /usr/src/debug/openssl/3.6.0/crypto/aria, directory renamed /usr/src/debug/openssl/3.5.4/providers/implementations/asymciphers -> /usr/src/debug/openssl/3.6.0/providers/implementations/asymciphers, directory renamed /usr/src/debug/openssl/3.5.4/crypto/ts -> /usr/src/debug/openssl/3.6.0/crypto/ts, directory renamed /usr/src/debug/openssl/3.5.4/crypto/bf -> /usr/sr
+ c/debug/openssl/3.6.0/crypto/bf, directory renamed /usr/src/debug/openssl/3.5.4/crypto/bn -> /usr/src/debug/openssl/3.6.0/crypto/bn, directory renamed /usr/src/debug/openssl/3.5.4/crypto/idea -> /usr/src/debug/openssl/3.6.0/crypto/idea, directory renamed /usr/src/debug/openssl/3.5.4/crypto/slh_dsa -> /usr/src/debug/openssl/3.6.0/crypto/slh_dsa, directory renamed /usr/src/debug/openssl/3.5.4/crypto/objects -> /usr/src/debug/openssl/3.6.0/crypto/objects, directory renamed /usr/src/debug/openssl/3.5.4/crypto/rsa -> /usr/src/debug/openssl/3.6.0/crypto/rsa, directory renamed /usr/src/debug/openssl/3.5.4/crypto/dsa -> /usr/src/debug/openssl/3.6.0/crypto/dsa, directory renamed /usr/src/debug/openssl/3.5.4/crypto/dso -> /usr/src/debug/openssl/3.6.0/crypto/dso, directory renamed /usr/src/debug/openssl/3.5.4/crypto/thread -> /usr/src/debug/openssl/3.6.0/crypto/thread, directory renamed /usr/src/debug/openssl/3.5.4/providers/implementations/signature -> /usr/src/debug/openssl/3.6.0/providers/i
+ mplementations/signature, directory renamed /usr/src/debug/openssl/3.5.4/crypto/ui -> /usr/src/debug/openssl/3.6.0/crypto/ui, directory renamed /usr/src/debug/openssl/3.5.4/providers/common -> /usr/src/debug/openssl/3.6.0/providers/common, directory renamed /usr/src/debug/openssl/3.5.4/crypto/ct -> /usr/src/debug/openssl/3.6.0/crypto/ct, directory renamed /usr/src/debug/openssl/3.5.4/crypto/whrlpool -> /usr/src/debug/openssl/3.6.0/crypto/whrlpool, directory renamed /usr/src/debug/openssl/3.5.4/crypto/asn1 -> /usr/src/debug/openssl/3.6.0/crypto/asn1, directory renamed /usr/src/debug/openssl/3.5.4/ssl/quic -> /usr/src/debug/openssl/3.6.0/ssl/quic, directory renamed /usr/src/debug/openssl/3.5.4/crypto/ec/curve448 -> /usr/src/debug/openssl/3.6.0/crypto/ec/curve448, directory renamed /usr/src/debug/openssl/3.5.4/providers/implementations/rands/seeding -> /usr/src/debug/openssl/3.6.0/providers/implementations/rands/seeding, directory renamed /usr/src/debug/openssl/3.5.4/providers/implemen
+ tations/exchange -> /usr/src/debug/openssl/3.6.0/providers/implementations/exchange, directory renamed /usr/src/debug/openssl/3.5.4/crypto/http -> /usr/src/debug/openssl/3.6.0/crypto/http, directory renamed /usr/src/debug/openssl/3.5.4/ssl/record/methods -> /usr/src/debug/openssl/3.6.0/ssl/record/methods, directory renamed /usr/src/debug/openssl/3.5.4/ssl/statem -> /usr/src/debug/openssl/3.6.0/ssl/statem, directory renamed /usr/src/debug/openssl/3.5.4/crypto/ml_dsa -> /usr/src/debug/openssl/3.6.0/crypto/ml_dsa, directory renamed /usr/src/debug/openssl/3.5.4/crypto/rc4 -> /usr/src/debug/openssl/3.6.0/crypto/rc4, directory renamed /usr/src/debug/openssl/3.5.4/crypto/rc2 -> /usr/src/debug/openssl/3.6.0/crypto/rc2, directory renamed /usr/src/debug/openssl/3.5.4/crypto/txt_db -> /usr/src/debug/openssl/3.6.0/crypto/txt_db, directory renamed /usr/src/debug/openssl/3.5.4/crypto/sm2 -> /usr/src/debug/openssl/3.6.0/crypto/sm2, directory renamed /usr/src/debug/openssl/3.5.4/crypto/bn/asm -> /u
+ sr/src/debug/openssl/3.6.0/crypto/bn/asm, directory renamed /usr/src/debug/openssl/3.5.4/crypto/async/arch -> /usr/src/debug/openssl/3.6.0/crypto/async/arch, directory renamed /usr/src/debug/openssl/3.5.4/crypto/cmp -> /usr/src/debug/openssl/3.6.0/crypto/cmp, directory renamed /usr/src/debug/openssl/3.5.4/crypto/ec/curve448/arch_64 -> /usr/src/debug/openssl/3.6.0/crypto/ec/curve448/arch_64, directory renamed /usr/src/debug/openssl/3.5.4/crypto/md5 -> /usr/src/debug/openssl/3.6.0/crypto/md5, directory renamed /usr/src/debug/openssl/3.5.4/crypto/md4 -> /usr/src/debug/openssl/3.6.0/crypto/md4, directory renamed /usr/src/debug/openssl/3.5.4/include/openssl -> /usr/src/debug/openssl/3.6.0/include/openssl, directory renamed /usr/src/debug/openssl/3.5.4/providers/implementations/keymgmt -> /usr/src/debug/openssl/3.6.0/providers/implementations/keymgmt, directory renamed /usr/src/debug/openssl/3.5.4/crypto/thread/arch -> /usr/src/debug/openssl/3.6.0/crypto/thread/arch, directory renamed /us
+ r/src/debug/openssl/3.5.4/crypto/buffer -> /usr/src/debug/openssl/3.6.0/crypto/buffer, directory renamed /usr/src/debug/openssl/3.5.4/crypto/ripemd -> /usr/src/debug/openssl/3.6.0/crypto/ripemd, directory renamed /usr/src/debug/openssl/3.5.4/engines -> /usr/src/debug/openssl/3.6.0/engines, directory renamed /usr/src/debug/openssl/3.5.4/crypto/ml_kem -> /usr/src/debug/openssl/3.6.0/crypto/ml_kem, directory renamed /usr/src/debug/openssl/3.5.4/crypto/cast -> /usr/src/debug/openssl/3.6.0/crypto/cast, directory renamed /usr/src/debug/openssl/3.5.4/crypto/ffc -> /usr/src/debug/openssl/3.6.0/crypto/ffc, directory renamed /usr/src/debug/openssl/3.5.4/crypto/srp -> /usr/src/debug/openssl/3.6.0/crypto/srp, directory renamed /usr/src/debug/openssl/3.5.4/ssl -> /usr/src/debug/openssl/3.6.0/ssl, directory renamed /usr/src/debug/openssl/3.5.4/crypto/hashtable -> /usr/src/debug/openssl/3.6.0/crypto/hashtable, directory renamed /usr/src/debug/openssl/3.5.4/crypto/property -> /usr/src/debug/openssl
+ /3.6.0/crypto/property, directory renamed /usr/src/debug/openssl/3.5.4/crypto/ess -> /usr/src/debug/openssl/3.6.0/crypto/ess, directory renamed /usr/src/debug/openssl/3.5.4/crypto/bio -> /usr/src/debug/openssl/3.6.0/crypto/bio, directory renamed /usr/src/debug/openssl/3.5.4/crypto/pkcs12 -> /usr/src/debug/openssl/3.6.0/crypto/pkcs12, directory renamed /usr/src/debug/openssl/3.5.4/crypto/engine -> /usr/src/debug/openssl/3.6.0/crypto/engine, directory renamed /usr/src/debug/openssl/3.5.4/crypto/x509 -> /usr/src/debug/openssl/3.6.0/crypto/x509, directory renamed /usr/src/debug/openssl/3.5.4/providers/implementations/macs -> /usr/src/debug/openssl/3.6.0/providers/implementations/macs, directory renamed /usr/src/debug/openssl/3.5.4/crypto/hpke -> /usr/src/debug/openssl/3.6.0/crypto/hpke, directory renamed /usr/src/debug/openssl/3.5.4/crypto/err -> /usr/src/debug/openssl/3.6.0/crypto/err, directory renamed /usr/src/debug/openssl/3.5.4/crypto/camellia -> /usr/src/debug/openssl/3.6.0/crypto
+ /camellia, directory renamed /usr/src/debug/openssl/3.5.4/crypto/ec/curve448/arch_32 -> /usr/src/debug/openssl/3.6.0/crypto/ec/curve448/arch_32, directory renamed /usr/src/debug/openssl/3.5.4/crypto/kdf -> /usr/src/debug/openssl/3.6.0/crypto/kdf, directory renamed /usr/src/debug/openssl/3.5.4/ssl/rio -> /usr/src/debug/openssl/3.6.0/ssl/rio, directory renamed /usr/src/debug/openssl/3.5.4/crypto/seed -> /usr/src/debug/openssl/3.6.0/crypto/seed, directory renamed /usr/src/debug/openssl/3.5.4/providers/implementations/digests -> /usr/src/debug/openssl/3.6.0/providers/implementations/digests, directory renamed /usr/src/debug/openssl/3.5.4/crypto/pkcs7 -> /usr/src/debug/openssl/3.6.0/crypto/pkcs7, directory renamed /usr/src/debug/openssl/3.5.4/crypto/rand -> /usr/src/debug/openssl/3.6.0/crypto/rand, directory renamed /usr/src/debug/openssl/3.5.4/crypto/siphash -> /usr/src/debug/openssl/3.6.0/crypto/siphash, directory renamed /usr/src/debug/openssl/3.5.4/apps/include -> /usr/src/debug/open
+ ssl/3.6.0/apps/include, directory renamed /usr/src/debug/openssl/3.5.4/crypto/des -> /usr/src/debug/openssl/3.6.0/crypto/des, directory renamed /usr/src/debug/openssl/3.5.4/crypto/chacha -> /usr/src/debug/openssl/3.6.0/crypto/chacha, directory renamed /usr/src/debug/openssl/3.5.4/crypto/poly1305 -> /usr/src/debug/openssl/3.6.0/crypto/poly1305, directory renamed /usr/src/debug/openssl/3.5.4/crypto/encode_decode -> /usr/src/debug/openssl/3.6.0/crypto/encode_decode, directory renamed /usr/src/debug/openssl/3.5.4/crypto/cmac -> /usr/src/debug/openssl/3.6.0/crypto/cmac, directory renamed /usr/src/debug/openssl/3.5.4/crypto/mdc2 -> /usr/src/debug/openssl/3.6.0/crypto/mdc2, directory renamed /usr/src/debug/openssl/3.5.4/crypto/crmf -> /usr/src/debug/openssl/3.6.0/crypto/crmf, directory renamed /usr/src/debug/openssl/3.5.4/crypto/sha -> /usr/src/debug/openssl/3.6.0/crypto/sha, directory renamed /usr/src/debug/openssl/3.5.4/crypto/comp -> /usr/src/debug/openssl/3.6.0/crypto/comp, directory r
+ enamed /usr/src/debug/openssl/3.5.4/crypto/async -> /usr/src/debug/openssl/3.6.0/crypto/async, directory renamed /usr/src/debug/openssl/3.5.4/crypto/store -> /usr/src/debug/openssl/3.6.0/crypto/store, directory renamed /usr/src/debug/openssl/3.5.4/crypto/lhash -> /usr/src/debug/openssl/3.6.0/crypto/lhash, directory renamed /usr/src/debug/openssl/3.5.4/crypto/stack -> /usr/src/debug/openssl/3.6.0/crypto/stack, directory renamed /usr/src/debug/openssl/3.5.4/apps/lib -> /usr/src/debug/openssl/3.6.0/apps/lib, directory renamed /usr/src/debug/openssl/3.5.4/ssl/record -> /usr/src/debug/openssl/3.6.0/ssl/record, directory renamed /usr/src/debug/openssl/3.5.4/crypto/modes -> /usr/src/debug/openssl/3.6.0/crypto/modes, directory renamed /usr/src/debug/openssl/3.5.4/crypto/dh -> /usr/src/debug/openssl/3.6.0/crypto/dh, directory renamed /usr/src/debug/openssl/3.5.4/crypto/hmac -> /usr/src/debug/openssl/3.6.0/crypto/hmac, removed "/usr/src/debug/openssl/3.5.4/crypto/evp/signature.c /usr/src/debu
+ g/openssl/3.5.4/crypto/info.c /usr/src/debug/openssl/3.5.4/crypto/init.c /usr/src/debug/openssl/3.5.4/crypto/time.c /usr/src/debug/openssl/3.5.4/crypto/provider_local.h /usr/src/debug/openssl/3.5.4/crypto/evp/mac_lib.c /usr/src/debug/openssl/3.5.4/crypto/aes/aesni-x86_64.s /usr/src/debug/openssl/3.5.4/crypto/evp/digest.c /usr/src/debug/openssl/3.5.4/include/internal/quic_reactor.h /usr/src/debug/openssl/3.5.4/include/crypto/chacha.h /usr/src/debug/openssl/3.5.4/include/crypto/punycode.h /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov/hmac_drbg.h /usr/src/debug/openssl/3.5.4/crypto/cms/cms_smime.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_seed.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_seed.h /usr/src/debug/openssl/3.5.4/crypto/evp/evp_pkey.c /usr/src/debug/openssl/3.5.4/crypto/evp/evp_rand.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_camellia.c /usr/src/debug/openssl/3.5.4/apps/pk
+ ey.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_camellia.h /usr/src/debug/openssl/3.5.4/providers/implementations/rands/test_rng.c /usr/src/debug/openssl/3.5.4/providers/implementations/rands/seed_src_jitter.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_gcm_siv.h /usr/src/debug/openssl/3.5.4/crypto/evp/e_camellia.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_gcm_siv.c /usr/src/debug/openssl/3.5.4/crypto/rcu_internal.h /usr/src/debug/openssl/3.5.4/include/crypto/security_bits.h /usr/src/debug/openssl/3.5.4/crypto/evp/dh_support.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_cbc_hmac_sha.c /usr/src/debug/openssl/3.5.4/include/crypto/bn_srp.h /usr/src/debug/openssl/3.5.4/include/internal/quic_tserver.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_cbc_hmac_sha.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_rc2_hw.c /usr
+ /src/debug/openssl/3.5.4/providers/implementations/kdfs/hmacdrbg_kdf.c /usr/src/debug/openssl/3.5.4/providers/implementations/storemgmt/file_store.c /usr/src/debug/openssl/3.5.4/crypto/evp/p_dec.c /usr/src/debug/openssl/3.5.4/crypto/evp/e_aria.c /usr/src/debug/openssl/3.5.4/include/internal/quic_cfq.h /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov/ciphercommon_ccm.h /usr/src/debug/openssl/3.5.4/crypto/aes/bsaes-x86_64.s /usr/src/debug/openssl/3.5.4/providers/implementations/kem/ml_kem_kem.c /usr/src/debug/openssl/3.5.4/include/crypto/pkcs12err.h /usr/src/debug/openssl/3.5.4/include/internal/sha3.h /usr/src/debug/openssl/3.5.4/providers/common/der/der_ec_gen.c /usr/src/debug/openssl/3.5.4/include/internal/unicode.h /usr/src/debug/openssl/3.5.4/providers/common/der/der_ecx_key.c /usr/src/debug/openssl/3.5.4/apps/cmp.c /usr/src/debug/openssl/3.5.4/apps/info.c /usr/src/debug/openssl/3.5.4/include/internal/refcount.h /usr/src/debug/openssl/3.5.4/providers/implementat
+ ions/include/prov/ciphercommon.h /usr/src/debug/openssl/3.5.4/providers/implementations/rands/drbg_hmac.c /usr/src/debug/openssl/3.5.4/include/internal/asn1.h /usr/src/debug/openssl/3.5.4/crypto/provider_conf.c /usr/src/debug/openssl/3.5.4/crypto/core_algorithm.c /usr/src/debug/openssl/3.5.4/providers/common/include/prov/der_wrap.h /usr/src/debug/openssl/3.5.4/include/crypto/pemerr.h /usr/src/debug/openssl/3.5.4/include/crypto/rsaerr.h /usr/src/debug/openssl/3.5.4/include/crypto/cmperr.h /usr/src/debug/openssl/3.5.4/include/crypto/cmserr.h /usr/src/debug/openssl/3.5.4/include/crypto/dsaerr.h /usr/src/debug/openssl/3.5.4/include/crypto/esserr.h /usr/src/debug/openssl/3.5.4/include/crypto/evperr.h /usr/src/debug/openssl/3.5.4/include/crypto/bioerr.h /usr/src/debug/openssl/3.5.4/include/internal/packet_quic.h /usr/src/debug/openssl/3.5.4/crypto/threads_pthread.c /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov/md5_sha1.h /usr/src/debug/openssl/3.5.4/providers/impleme
+ ntations/ciphers/cipher_sm4_xts_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_sm4_ccm_hw.c /usr/src/debug/openssl/3.5.4/apps/crl2pkcs7.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_cast5.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_sm4_gcm_hw.c /usr/src/debug/openssl/3.5.4/crypto/evp/p_seal.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_ocb.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_ocb.c /usr/src/debug/openssl/3.5.4/providers/implementations/kem/ec_kem.c /usr/src/debug/openssl/3.5.4/include/crypto/randerr.h /usr/src/debug/openssl/3.5.4/include/crypto/asn1err.h /usr/src/debug/openssl/3.5.4/apps/crl.c /usr/src/debug/openssl/3.5.4/include/crypto/comperr.h /usr/src/debug/openssl/3.5.4/include/crypto/conferr.h /usr/src/debug/openssl/3.5.4/include/crypto/crmferr.h /usr/src/debug/openssl/3.5.4/include/crypto/httperr.h /usr/src/debug/openssl/3.5.4/
+ include/crypto/ocsperr.h /usr/src/debug/openssl/3.5.4/include/crypto/x509err.h /usr/src/debug/openssl/3.5.4/providers/common/include/prov/providercommon.h /usr/src/debug/openssl/3.5.4/crypto/params.c /usr/src/debug/openssl/3.5.4/crypto/evp/ctrl_params_translate.c /usr/src/debug/openssl/3.5.4/include/crypto/sparse_array.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_tdes_wrap.c /usr/src/debug/openssl/3.5.4/providers/implementations/rands/drbg_ctr.c /usr/src/debug/openssl/3.5.4/crypto/evp/mac_meth.c /usr/src/debug/openssl/3.5.4/crypto/evp/evp_utils.c /usr/src/debug/openssl/3.5.4/crypto/o_time.c /usr/src/debug/openssl/3.5.4/apps/openssl.c /usr/src/debug/openssl/3.5.4/apps/pkeyutl.c /usr/src/debug/openssl/3.5.4/apps/skeyutl.c /usr/src/debug/openssl/3.5.4/include/internal/dane.h /usr/src/debug/openssl/3.5.4/include/crypto/aria.h /usr/src/debug/openssl/3.5.4/include/crypto/asn1.h /usr/src/debug/openssl/3.5.4/include/crypto/cmac.h /usr/src/debug/openssl/3.5.4/inclu
+ de/crypto/rand.h /usr/src/debug/openssl/3.5.4/apps/enc.c /usr/src/debug/openssl/3.5.4/crypto/evp/e_idea.c /usr/src/debug/openssl/3.5.4/crypto/aes/aes_cfb.c /usr/src/debug/openssl/3.5.4/crypto/aes/aes_ecb.c /usr/src/debug/openssl/3.5.4/crypto/aes/aes_ige.c /usr/src/debug/openssl/3.5.4/crypto/aes/aes_ofb.c /usr/src/debug/openssl/3.5.4/crypto/cryptlib.c /usr/src/debug/openssl/3.5.4/include/internal/namemap.h /usr/src/debug/openssl/3.5.4/include/internal/rio_notifier.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_rc4_hmac_md5.c /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/argon2.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_rc4_hmac_md5.h /usr/src/debug/openssl/3.5.4/crypto/bsearch.c /usr/src/debug/openssl/3.5.4/crypto/evp/e_seed.c /usr/src/debug/openssl/3.5.4/include/internal/provider.h /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/decode_spki2typespki.c /usr/src/debug/openssl/3.5.4/providers/commo
+ n/der/der_wrap_gen.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_tdes_hw.c /usr/src/debug/openssl/3.5.4/crypto/evp/e_aes_cbc_hmac_sha1.c /usr/src/debug/openssl/3.5.4/crypto/aes/vpaes-x86_64.s /usr/src/debug/openssl/3.5.4/apps/storeutl.c /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/decode_msblob2key.c /usr/src/debug/openssl/3.5.4/apps/version.c /usr/src/debug/openssl/3.5.4/crypto/aes/aes-x86_64.s /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/ciphercommon_block.c /usr/src/debug/openssl/3.5.4/crypto/aes/aesni-sha256-x86_64.s /usr/src/debug/openssl/3.5.4/crypto/cms/cms_io.c /usr/src/debug/openssl/3.5.4/include/internal/crmf.h /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/encode_key2blob.c /usr/src/debug/openssl/3.5.4/include/internal/deterministic_nonce.h /usr/src/debug/openssl/3.5.4/include/internal/quic_channel.h /usr/src/debug/openssl/3.5.4/apps/sess_id.c /usr/src/debug/openssl/3.5.4/crypto/sm3/
+ sm3.c /usr/src/debug/openssl/3.5.4/crypto/evp/e_aes_cbc_hmac_sha256.c /usr/src/debug/openssl/3.5.4/include/internal/quic_txp.h /usr/src/debug/openssl/3.5.4/include/internal/quic_ssl.h /usr/src/debug/openssl/3.5.4/include/internal/quic_srt_gen.h /usr/src/debug/openssl/3.5.4/crypto/core_namemap.c /usr/src/debug/openssl/3.5.4/crypto/ebcdic.c /usr/src/debug/openssl/3.5.4/crypto/evp/p5_crpt2.c /usr/src/debug/openssl/3.5.4/crypto/evp/pmeth_gn.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_blowfish_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aria_ccm_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aria_gcm_hw.c /usr/src/debug/openssl/3.5.4/providers/common/include/prov/provider_util.h /usr/src/debug/openssl/3.5.4/include/internal/statem.h /usr/src/debug/openssl/3.5.4/providers/common/der/der_slh_dsa_gen.c /usr/src/debug/openssl/3.5.4/include/internal/constant_time.h /usr/src/debug/openssl/3.5.4/include/inter
+ nal/quic_stream.h /usr/src/debug/openssl/3.5.4/providers/common/der/der_ec_key.c /usr/src/debug/openssl/3.5.4/providers/implementations/kem/eckem.h /usr/src/debug/openssl/3.5.4/include/internal/quic_wire_pkt.h /usr/src/debug/openssl/3.5.4/crypto/cpuid.c /usr/src/debug/openssl/3.5.4/providers/implementations/skeymgmt/aes_skmgmt.c /usr/src/debug/openssl/3.5.4/include/crypto/pkcs7err.h /usr/src/debug/openssl/3.5.4/providers/common/include/prov/provider_ctx.h /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/encode_key2any.c /usr/src/debug/openssl/3.5.4/crypto/evp/e_cast.c /usr/src/debug/openssl/3.5.4/include/crypto/modes.h /usr/src/debug/openssl/3.5.4/include/crypto/types.h /usr/src/debug/openssl/3.5.4/crypto/x86_64cpuid.s /usr/src/debug/openssl/3.5.4/apps/asn1parse.c /usr/src/debug/openssl/3.5.4/crypto/evp/legacy_blake2.c /usr/src/debug/openssl/3.5.4/include/crypto/md32_common.h /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov/blake2.h /usr/src/de
+ bug/openssl/3.5.4/include/crypto/engine.h /usr/src/debug/openssl/3.5.4/crypto/evp/p_sign.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_chacha20_hw.c /usr/src/debug/openssl/3.5.4/providers/common/der/der_sm2_gen.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aria_gcm.h /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/ml_dsa_codecs.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aria_gcm.c /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/ml_dsa_codecs.c /usr/src/debug/openssl/3.5.4/apps/ciphers.c /usr/src/debug/openssl/3.5.4/include/internal/priority_queue.h /usr/src/debug/openssl/3.5.4/include/internal/packet.h /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/pkcs12kdf.c /usr/src/debug/openssl/3.5.4/crypto/o_str.c /usr/src/debug/openssl/3.5.4/apps/rsa.c /usr/src/debug/openssl/3.5.4/crypto/param_build_set.c /usr/src/debug/openssl/3.5.4/crypto/provider_predefine
+ d.c /usr/src/debug/openssl/3.5.4/crypto/context.c /usr/src/debug/openssl/3.5.4/include/internal/skey.h /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov/mlx_kem.h /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/hkdf.c /usr/src/debug/openssl/3.5.4/crypto/evp/kdf_meth.c /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/tls1_prf.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_hw_aesni.inc /usr/src/debug/openssl/3.5.4/include/internal/encoder.h /usr/src/debug/openssl/3.5.4/include/internal/quic_engine.h /usr/src/debug/openssl/3.5.4/include/crypto/siphash.h /usr/src/debug/openssl/3.5.4/crypto/sleep.c /usr/src/debug/openssl/3.5.4/providers/common/der/der_ml_dsa_gen.c /usr/src/debug/openssl/3.5.4/providers/common/der/der_ml_dsa_key.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_blowfish.h /usr/src/debug/openssl/3.5.4/include/internal/quic_sf_list.h /usr/src/debug/openssl/3.5.4/include/internal/der.
+ h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_blowfish.c /usr/src/debug/openssl/3.5.4/include/internal/hpke_util.h /usr/src/debug/openssl/3.5.4/crypto/comp_methods.c /usr/src/debug/openssl/3.5.4/include/internal/quic_record_util.h /usr/src/debug/openssl/3.5.4/include/internal/ssl.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_tdes.h /usr/src/debug/openssl/3.5.4/providers/implementations/storemgmt/file_store_any2obj.c /usr/src/debug/openssl/3.5.4/providers/common/der/der_rsa_sig.c /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov/macsignature.h /usr/src/debug/openssl/3.5.4/providers/common/der/der_dsa_sig.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_seed_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_tdes.c /usr/src/debug/openssl/3.5.4/apps/dhparam.c /usr/src/debug/openssl/3.5.4/apps/ecparam.c /usr/src/debug/openssl/3.5.4/crypto/evp/p5_crpt.c /usr/src/debug/open
+ ssl/3.5.4/crypto/evp/asymcipher.c /usr/src/debug/openssl/3.5.4/include/crypto/context.h /usr/src/debug/openssl/3.5.4/include/internal/recordmethod.h /usr/src/debug/openssl/3.5.4/apps/nseq.c /usr/src/debug/openssl/3.5.4/crypto/quic_vlint.c /usr/src/debug/openssl/3.5.4/include/crypto/objectserr.h /usr/src/debug/openssl/3.5.4/crypto/evp/bio_ok.c /usr/src/debug/openssl/3.5.4/include/crypto/async.h /usr/src/debug/openssl/3.5.4/apps/ec.c /usr/src/debug/openssl/3.5.4/crypto/evp/c_allc.c /usr/src/debug/openssl/3.5.4/include/internal/quic_thread_assist.h /usr/src/debug/openssl/3.5.4/include/crypto/store.h /usr/src/debug/openssl/3.5.4/include/crypto/ctype.h /usr/src/debug/openssl/3.5.4/include/crypto/objects.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_chacha20_poly1305_hw.c /usr/src/debug/openssl/3.5.4/apps/ts.c /usr/src/debug/openssl/3.5.4/providers/implementations/storemgmt/file_store_local.h /usr/src/debug/openssl/3.5.4/crypto/evp/dsa_ctrl.c /usr/src/debug/opens
+ sl/3.5.4/crypto/evp/legacy_md5.c /usr/src/debug/openssl/3.5.4/include/internal/ring_buf.h /usr/src/debug/openssl/3.5.4/crypto/sm3/legacy_sm3.c /usr/src/debug/openssl/3.5.4/crypto/evp/keymgmt_meth.c /usr/src/debug/openssl/3.5.4/crypto/evp/e_xcbc_d.c /usr/src/debug/openssl/3.5.4/include/crypto/decoder.h /usr/src/debug/openssl/3.5.4/include/crypto/encoder.h /usr/src/debug/openssl/3.5.4/crypto/evp/m_sigver.c /usr/src/debug/openssl/3.5.4/crypto/self_test_core.c /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/pbkdf2.h /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/pbkdf2.c /usr/src/debug/openssl/3.5.4/include/crypto/ess.h /usr/src/debug/openssl/3.5.4/apps/dgst.c /usr/src/debug/openssl/3.5.4/include/crypto/evp.h /usr/src/debug/openssl/3.5.4/providers/common/der/der_digests_gen.c /usr/src/debug/openssl/3.5.4/crypto/evp/e_sm4.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_gcm.c /usr/src/debug/openssl/3.5.4/include/internal/sslconf.h /usr/
+ src/debug/openssl/3.5.4/include/internal/core.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_gcm.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_rc4_hmac_md5_hw.c /usr/src/debug/openssl/3.5.4/include/crypto/aes_platform.h /usr/src/debug/openssl/3.5.4/providers/common/include/prov/der_ec.h /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov/kdfexchange.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_idea_hw.c /usr/src/debug/openssl/3.5.4/include/crypto/cryptlib.h /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/ml_kem_codecs.c /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/ml_kem_codecs.h /usr/src/debug/openssl/3.5.4/include/internal/param_build_set.h /usr/src/debug/openssl/3.5.4/crypto/evp/skeymgmt_meth.c /usr/src/debug/openssl/3.5.4/include/crypto/ml_dsa.h /usr/src/debug/openssl/3.5.4/crypto/evp/e_des.c /usr/src/debug/openssl/3.5.4/apps/ca.c /usr/sr
+ c/debug/openssl/3.5.4/providers/implementations/include/prov/ml_dsa.h /usr/src/debug/openssl/3.5.4/apps/pkcs12.c /usr/src/debug/openssl/3.5.4/apps/rehash.c /usr/src/debug/openssl/3.5.4/apps/rsautl.c /usr/src/debug/openssl/3.5.4/apps/passwd.c /usr/src/debug/openssl/3.5.4/apps/genrsa.c /usr/src/debug/openssl/3.5.4/apps/s_time.c /usr/src/debug/openssl/3.5.4/apps/verify.c /usr/src/debug/openssl/3.5.4/apps/engine.c /usr/src/debug/openssl/3.5.4/apps/errstr.c /usr/src/debug/openssl/3.5.4/apps/gendsa.c /usr/src/debug/openssl/3.5.4/crypto/LPdir_unix.c /usr/src/debug/openssl/3.5.4/providers/implementations/skeymgmt/skeymgmt_lcl.h /usr/src/debug/openssl/3.5.4/crypto/evp/p_enc.c /usr/src/debug/openssl/3.5.4/providers/implementations/rands/seed_src.c /usr/src/debug/openssl/3.5.4/apps/ocsp.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_rc4_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_sm4_hw.c /usr/src/debug/openssl/3.5.4/providers/implementat
+ ions/ciphers/cipher_aes_xts.h /usr/src/debug/openssl/3.5.4/providers/implementations/kem/kem_util.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_xts.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_wrp.c /usr/src/debug/openssl/3.5.4/crypto/evp/ec_ctrl.c /usr/src/debug/openssl/3.5.4/crypto/sparse_array.c /usr/src/debug/openssl/3.5.4/include/internal/json_enc.h /usr/src/debug/openssl/3.5.4/apps/x509.c /usr/src/debug/openssl/3.5.4/crypto/params_idx.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/ciphercommon.c /usr/src/debug/openssl/3.5.4/include/internal/qlog.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_siv.h /usr/src/debug/openssl/3.5.4/include/internal/sm3.h /usr/src/debug/openssl/3.5.4/crypto/evp/m_null.c /usr/src/debug/openssl/3.5.4/include/internal/quic_tls.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_siv.c /usr/src/debug/openssl/3.5.4/crypto/evp/
+ pmeth_lib.c /usr/src/debug/openssl/3.5.4/include/internal/quic_rx_depack.h /usr/src/debug/openssl/3.5.4/include/crypto/buffererr.h /usr/src/debug/openssl/3.5.4/crypto/aes/aes_core.c /usr/src/debug/openssl/3.5.4/crypto/aes/aes_misc.c /usr/src/debug/openssl/3.5.4/crypto/aes/aes_wrap.c /usr/src/debug/openssl/3.5.4/crypto/buildinf.h /usr/src/debug/openssl/3.5.4/crypto/cms/cms_local.h /usr/src/debug/openssl/3.5.4/crypto/cms/cms_asn1.c /usr/src/debug/openssl/3.5.4/crypto/cms/cms_kari.c /usr/src/debug/openssl/3.5.4/crypto/cms/cms_pwri.c /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/pvkkdf.c /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/sshkdf.c /usr/src/debug/openssl/3.5.4/crypto/provider_core.c /usr/src/debug/openssl/3.5.4/crypto/threads_lib.c /usr/src/debug/openssl/3.5.4/include/internal/quic_vlint.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_sm4_xts.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aria_hw.c /u
+ sr/src/debug/openssl/3.5.4/crypto/evp/legacy_sha.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_sm4_xts.c /usr/src/debug/openssl/3.5.4/include/internal/time.h /usr/src/debug/openssl/3.5.4/include/crypto/rand_pool.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_sm4_gcm.h /usr/src/debug/openssl/3.5.4/crypto/evp/e_null.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_sm4_gcm.c /usr/src/debug/openssl/3.5.4/apps/dsaparam.c /usr/src/debug/openssl/3.5.4/providers/common/include/prov/der_digests.h /usr/src/debug/openssl/3.5.4/crypto/evp/pbe_scrypt.c /usr/src/debug/openssl/3.5.4/crypto/evp/legacy_md4.c /usr/src/debug/openssl/3.5.4/crypto/evp/legacy_ripemd.c /usr/src/debug/openssl/3.5.4/crypto/evp/p_legacy.c /usr/src/debug/openssl/3.5.4/include/crypto/pkcs7.h /usr/src/debug/openssl/3.5.4/include/internal/hashfunc.h /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov/implementations.h /usr/src/debug/openssl
+ /3.5.4/crypto/evp/bio_md.c /usr/src/debug/openssl/3.5.4/crypto/evp/e_bf.c /usr/src/debug/openssl/3.5.4/apps/req.c /usr/src/debug/openssl/3.5.4/crypto/der_writer.c /usr/src/debug/openssl/3.5.4/apps/pkeyparam.c /usr/src/debug/openssl/3.5.4/crypto/evp/evp_local.h /usr/src/debug/openssl/3.5.4/crypto/sslerr.h /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov/seeding.h /usr/src/debug/openssl/3.5.4/crypto/evp/dh_ctrl.c /usr/src/debug/openssl/3.5.4/include/internal/o_dir.h /usr/src/debug/openssl/3.5.4/crypto/evp/keymgmt_lib.c /usr/src/debug/openssl/3.5.4/crypto/deterministic_nonce.c /usr/src/debug/openssl/3.5.4/include/crypto/dh.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/ciphercommon_local.h /usr/src/debug/openssl/3.5.4/providers/common/include/prov/der_slh_dsa.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_xts_fips.c /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/endecoder_local.h /usr/src/debug/open
+ ssl/3.5.4/crypto/indicator_core.c /usr/src/debug/openssl/3.5.4/apps/genpkey.c /usr/src/debug/openssl/3.5.4/crypto/cpt_err.c /usr/src/debug/openssl/3.5.4/crypto/ssl_err.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_idea.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_idea.c /usr/src/debug/openssl/3.5.4/crypto/evp/ec_support.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/ciphercommon_gcm_hw.c /usr/src/debug/openssl/3.5.4/include/internal/quic_demux.h /usr/src/debug/openssl/3.5.4/include/internal/quic_error.h /usr/src/debug/openssl/3.5.4/include/internal/quic_lcidm.h /usr/src/debug/openssl/3.5.4/include/internal/quic_rcidm.h /usr/src/debug/openssl/3.5.4/include/internal/quic_statm.h /usr/src/debug/openssl/3.5.4/include/internal/quic_trace.h /usr/src/debug/openssl/3.5.4/include/internal/quic_txpim.h /usr/src/debug/openssl/3.5.4/include/internal/quic_types.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/
+ ciphercommon_ccm_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/ml_common_codecs.h /usr/src/debug/openssl/3.5.4/providers/implementations/rands/drbg_local.h /usr/src/debug/openssl/3.5.4/include/internal/quic_reactor_wait_ctx.h /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/ml_common_codecs.c /usr/src/debug/openssl/3.5.4/crypto/core_fetch.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_null.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_cts.inc /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_gcm_siv_hw.c /usr/src/debug/openssl/3.5.4/include/internal/ssl3_cbc.h /usr/src/debug/openssl/3.5.4/crypto/evp/kem.c /usr/src/debug/openssl/3.5.4/include/crypto/x509_acert.h /usr/src/debug/openssl/3.5.4/providers/common/der/der_sm2_key.c /usr/src/debug/openssl/3.5.4/crypto/sm4/sm4.c /usr/src/debug/openssl/3.5.4/crypto/evp/s_lib.c /usr/src/debug/openssl/3.5.4/include/inter
+ nal/to_hex.h /usr/src/debug/openssl/3.5.4/include/internal/passphrase.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_sm4_ccm.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_sm4_ccm.h /usr/src/debug/openssl/3.5.4/apps/testdsa.h /usr/src/debug/openssl/3.5.4/apps/testrsa.h /usr/src/debug/openssl/3.5.4/include/internal/quic_fc.h /usr/src/debug/openssl/3.5.4/crypto/evp/e_old.c /usr/src/debug/openssl/3.5.4/providers/common/der/der_ec_sig.c /usr/src/debug/openssl/3.5.4/crypto/provider_child.c /usr/src/debug/openssl/3.5.4/include/crypto/bn.h /usr/src/debug/openssl/3.5.4/apps/fipsinstall.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_gcm_siv_polyval.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_cast5_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_tdes_default.h /usr/src/debug/openssl/3.5.4/include/internal/property.h /usr/src/debug/openssl/3.5.4/apps/mac.c /usr/
+ src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_tdes_default.c /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/encode_key2text.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_gcm_hw_vaes_avx512.inc /usr/src/debug/openssl/3.5.4/crypto/mem_sec.c /usr/src/debug/openssl/3.5.4/crypto/evp/evp_fetch.c /usr/src/debug/openssl/3.5.4/apps/progs.h /usr/src/debug/openssl/3.5.4/apps/srp.c /usr/src/debug/openssl/3.5.4/apps/pkcs7.c /usr/src/debug/openssl/3.5.4/apps/pkcs8.c /usr/src/debug/openssl/3.5.4/include/crypto/engineerr.h /usr/src/debug/openssl/3.5.4/apps/prime.c /usr/src/debug/openssl/3.5.4/apps/progs.c /usr/src/debug/openssl/3.5.4/apps/smime.c /usr/src/debug/openssl/3.5.4/apps/speed.c /usr/src/debug/openssl/3.5.4/apps/spkac.c /usr/src/debug/openssl/3.5.4/providers/common/include/prov/der_ecx.h /usr/src/debug/openssl/3.5.4/include/crypto/asn1_dsa.h /usr/src/debug/openssl/3.5.4/crypto/evp/pmeth_check.c /usr/src/debug/openssl/3.
+ 5.4/include/internal/conf.h /usr/src/debug/openssl/3.5.4/crypto/evp/encode.c /usr/src/debug/openssl/3.5.4/include/internal/hashtable.h /usr/src/debug/openssl/3.5.4/crypto/passphrase.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_cbc_hmac_sha1_hw.c /usr/src/debug/openssl/3.5.4/apps/kdf.c /usr/src/debug/openssl/3.5.4/include/crypto/poly1305.h /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/krb5kdf.c /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/pbkdf2_fips.c /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/x942kdf.c /usr/src/debug/openssl/3.5.4/crypto/cms/cms_enc.c /usr/src/debug/openssl/3.5.4/crypto/cms/cms_env.c /usr/src/debug/openssl/3.5.4/crypto/cms/cms_err.c /usr/src/debug/openssl/3.5.4/crypto/cms/cms_ess.c /usr/src/debug/openssl/3.5.4/crypto/cms/cms_lib.c /usr/src/debug/openssl/3.5.4/crypto/cms/cms_rsa.c /usr/src/debug/openssl/3.5.4/crypto/cms/cms_att.c /usr/src/debug/openssl/3.5.4/crypto/params_from_text.c /usr/s
+ rc/debug/openssl/3.5.4/include/internal/ssl_unwrap.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_rc2.h /usr/src/debug/openssl/3.5.4/providers/common/include/prov/der_sm2.h /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov/decoders.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_rc2.c /usr/src/debug/openssl/3.5.4/crypto/param_build.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_rc4.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_sm4.c /usr/src/debug/openssl/3.5.4/providers/common/der/der_dsa_gen.c /usr/src/debug/openssl/3.5.4/providers/common/der/der_rsa_gen.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_rc4.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_sm4.h /usr/src/debug/openssl/3.5.4/providers/common/der/der_dsa_key.c /usr/src/debug/openssl/3.5.4/providers/common/der/der_rsa_key.c /usr/src/debug/openssl/3.5.4/provi
+ ders/implementations/ciphers/cipher_aes_cbc_hmac_sha256_hw.c /usr/src/debug/openssl/3.5.4/crypto/initthread.c /usr/src/debug/openssl/3.5.4/include/crypto/ml_kem.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_ccm_hw_aesni.inc /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_gcm_hw_aesni.inc /usr/src/debug/openssl/3.5.4/crypto/defaults.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_tdes_default_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_ccm.h /usr/src/debug/openssl/3.5.4/crypto/ex_data.c /usr/src/debug/openssl/3.5.4/crypto/evp/e_aes.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_ccm.c /usr/src/debug/openssl/3.5.4/crypto/evp/e_rc4_hmac_md5.c /usr/src/debug/openssl/3.5.4/include/internal/quic_predef.h /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/scrypt.c /usr/src/debug/openssl/3.5.4/crypto/evp/exchange.c /usr/src/debug/openssl/3.5
+ .4/apps/rand.c /usr/src/debug/openssl/3.5.4/crypto/ctype.c /usr/src/debug/openssl/3.5.4/crypto/trace.c /usr/src/debug/openssl/3.5.4/include/internal/rcu.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_ccm_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_gcm_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_ocb_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_siv_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_xts_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/skeymgmt/generic.c /usr/src/debug/openssl/3.5.4/include/internal/numbers.h /usr/src/debug/openssl/3.5.4/apps/list.c /usr/src/debug/openssl/3.5.4/crypto/cms/cms_ec.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aria.c /usr/src/debug/openssl/3.5.4/include/internal/cms.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aria.h /
+ usr/src/debug/openssl/3.5.4/crypto/o_fopen.c /usr/src/debug/openssl/3.5.4/crypto/evp/kdf_lib.c /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/decode_epki2pki.c /usr/src/debug/openssl/3.5.4/include/crypto/cryptoerr.h /usr/src/debug/openssl/3.5.4/include/internal/param_names.h /usr/src/debug/openssl/3.5.4/crypto/evp/e_des3.c /usr/src/debug/openssl/3.5.4/providers/common/include/prov/der_ml_dsa.h /usr/src/debug/openssl/3.5.4/crypto/aes/aesni-mb-x86_64.s /usr/src/debug/openssl/3.5.4/crypto/params_dup.c /usr/src/debug/openssl/3.5.4/include/internal/qlog_event_helpers.h /usr/src/debug/openssl/3.5.4/include/crypto/ec.h /usr/src/debug/openssl/3.5.4/providers/common/der/der_ecx_gen.c /usr/src/debug/openssl/3.5.4/include/internal/thread.h /usr/src/debug/openssl/3.5.4/crypto/cms/cms_sd.c /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/endecoder_common.c /usr/src/debug/openssl/3.5.4/crypto/cversion.c /usr/src/debug/openssl/3.5.4/include/internal/quic_r
+ ecord_rx.h /usr/src/debug/openssl/3.5.4/crypto/evp/p_lib.c /usr/src/debug/openssl/3.5.4/providers/common/include/prov/der_dsa.h /usr/src/debug/openssl/3.5.4/include/crypto/x509.h /usr/src/debug/openssl/3.5.4/providers/common/include/prov/der_rsa.h /usr/src/debug/openssl/3.5.4/crypto/evp/legacy_md5_sha1.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_tdes_common.c /usr/src/debug/openssl/3.5.4/crypto/evp/e_chacha20_poly1305.c /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov/digestcommon.h /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov/ecx.h /usr/src/debug/openssl/3.5.4/include/crypto/storeerr.h /usr/src/debug/openssl/3.5.4/include/internal/thread_arch.h /usr/src/debug/openssl/3.5.4/include/internal/params.h /usr/src/debug/openssl/3.5.4/include/internal/propertyerr.h /usr/src/debug/openssl/3.5.4/crypto/getenv.c /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov/ml_kem.h /usr/src/debug/openssl/3.5.4/include
+ /internal/comp.h /usr/src/debug/openssl/3.5.4/include/internal/quic_cc.h /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/kbkdf.c /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/sskdf.c /usr/src/debug/openssl/3.5.4/include/crypto/slh_dsa.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_chacha20_poly1305.c /usr/src/debug/openssl/3.5.4/providers/implementations/rands/drbg.c /usr/src/debug/openssl/3.5.4/include/internal/uint_set.h /usr/src/debug/openssl/3.5.4/crypto/evp/e_rc2.c /usr/src/debug/openssl/3.5.4/apps/s_client.c /usr/src/debug/openssl/3.5.4/crypto/evp/legacy_mdc2.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_chacha20_poly1305.h /usr/src/debug/openssl/3.5.4/crypto/evp/evp_pbe.c /usr/src/debug/openssl/3.5.4/crypto/evp/evp_cnf.c /usr/src/debug/openssl/3.5.4/crypto/evp/evp_enc.c /usr/src/debug/openssl/3.5.4/crypto/evp/evp_err.c /usr/src/debug/openssl/3.5.4/crypto/evp/evp_key.c /usr/src/debug/openssl/3.5.4/cry
+ pto/evp/evp_lib.c /usr/src/debug/openssl/3.5.4/include/internal/bio_addr.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_desx.c /usr/src/debug/openssl/3.5.4/crypto/provider.c /usr/src/debug/openssl/3.5.4/include/crypto/asyncerr.h /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/decode_der2key.c /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/decode_pvk2key.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/ciphercommon_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_camellia_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/decode_pem2der.c /usr/src/debug/openssl/3.5.4/providers/common/der/der_sm2_sig.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_chacha20.h /usr/src/debug/openssl/3.5.4/include/crypto/x509v3err.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_chacha20.c /usr/src/debug/openssl/3.5.4/crypto/ae
+ s/aes_local.h /usr/src/debug/openssl/3.5.4/include/crypto/bn_dh.h /usr/src/debug/openssl/3.5.4/include/crypto/lhash.h /usr/src/debug/openssl/3.5.4/include/internal/ffc.h /usr/src/debug/openssl/3.5.4/providers/implementations/encode_decode/encode_key2ms.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_cast.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_camellia_cts.inc /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes.h /usr/src/debug/openssl/3.5.4/crypto/cms/cms_dh.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_cts.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_des.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_cts.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_des.c /usr/src/debug/openssl/3.5.4/crypto/evp/c_alld.c /usr/src/debug/openssl/3
+ .5.4/include/crypto/pem.h /usr/src/debug/openssl/3.5.4/include/crypto/rsa.h /usr/src/debug/openssl/3.5.4/include/crypto/sha.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_tdes_wrap_hw.c /usr/src/debug/openssl/3.5.4/include/crypto/siv.h /usr/src/debug/openssl/3.5.4/include/crypto/sm2.h /usr/src/debug/openssl/3.5.4/include/crypto/sm4.h /usr/src/debug/openssl/3.5.4/include/crypto/dsa.h /usr/src/debug/openssl/3.5.4/include/crypto/ecx.h /usr/src/debug/openssl/3.5.4/include/crypto/err.h /usr/src/debug/openssl/3.5.4/apps/cms.c /usr/src/debug/openssl/3.5.4/crypto/evp/cmeth_lib.c /usr/src/debug/openssl/3.5.4/include/internal/quic_stream_map.h /usr/src/debug/openssl/3.5.4/crypto/packet.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aria_ccm.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/ciphercommon_ccm.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/ciphercommon_gcm.c /usr/src/debug/openssl/3.5.4/providers/i
+ mplementations/ciphers/cipher_aria_ccm.c /usr/src/debug/openssl/3.5.4/crypto/evp/legacy_wp.c /usr/src/debug/openssl/3.5.4/crypto/evp/e_rc4.c /usr/src/debug/openssl/3.5.4/providers/common/der/der_slh_dsa_key.c /usr/src/debug/openssl/3.5.4/include/internal/bio.h /usr/src/debug/openssl/3.5.4/include/internal/dso.h /usr/src/debug/openssl/3.5.4/include/internal/quic_ackm.h /usr/src/debug/openssl/3.5.4/crypto/evp/p_open.c /usr/src/debug/openssl/3.5.4/include/internal/quic_fifd.h /usr/src/debug/openssl/3.5.4/include/internal/quic_port.h /usr/src/debug/openssl/3.5.4/include/internal/quic_srtm.h /usr/src/debug/openssl/3.5.4/include/internal/quic_wire.h /usr/src/debug/openssl/3.5.4/providers/implementations/rands/drbg_hash.c /usr/src/debug/openssl/3.5.4/include/internal/common.h /usr/src/debug/openssl/3.5.4/providers/implementations/kem/ecx_kem.c /usr/src/debug/openssl/3.5.4/providers/implementations/kem/mlx_kem.c /usr/src/debug/openssl/3.5.4/providers/implementations/kem/rsa_kem.c /usr/src/d
+ ebug/openssl/3.5.4/include/internal/dsoerr.h /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_aes_hw.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_des_hw.c /usr/src/debug/openssl/3.5.4/crypto/o_init.c /usr/src/debug/openssl/3.5.4/include/crypto/bnerr.h /usr/src/debug/openssl/3.5.4/include/crypto/cterr.h /usr/src/debug/openssl/3.5.4/include/crypto/dherr.h /usr/src/debug/openssl/3.5.4/include/crypto/ecerr.h /usr/src/debug/openssl/3.5.4/crypto/cms/cms_dd.c /usr/src/debug/openssl/3.5.4/include/crypto/tserr.h /usr/src/debug/openssl/3.5.4/include/crypto/uierr.h /usr/src/debug/openssl/3.5.4/providers/common/include/prov/securitycheck.h /usr/src/debug/openssl/3.5.4/apps/dsa.c /usr/src/debug/openssl/3.5.4/crypto/aes/aesni-xts-avx512.s /usr/src/debug/openssl/3.5.4/crypto/evp/bio_b64.c /usr/src/debug/openssl/3.5.4/crypto/evp/bio_enc.c /usr/src/debug/openssl/3.5.4/crypto/punycode.c /usr/src/debug/openssl/3.5.4/providers/implementations/include/prov
+ /ciphercommon_gcm.h /usr/src/debug/openssl/3.5.4/providers/common/include/prov/bio.h /usr/src/debug/openssl/3.5.4/include/internal/cryptlib.h /usr/src/debug/openssl/3.5.4/providers/implementations/kdfs/pbkdf1.c /usr/src/debug/openssl/3.5.4/providers/common/include/prov/proverr.h /usr/src/debug/openssl/3.5.4/crypto/aes/aesni-sha1-x86_64.s /usr/src/debug/openssl/3.5.4/include/internal/qlog_events.h /usr/src/debug/openssl/3.5.4/include/internal/quic_record_tx.h /usr/src/debug/openssl/3.5.4/crypto/evp/names.c /usr/src/debug/openssl/3.5.4/crypto/mem.c /usr/src/debug/openssl/3.5.4/crypto/uid.c /usr/src/debug/openssl/3.5.4/providers/implementations/ciphers/cipher_desx_hw.c /usr/src/debug/openssl/3.5.4/apps/s_server.c /usr/src/debug/openssl/3.5.4/crypto/asn1_dsa.c /usr/src/debug/openssl/3.5.4/crypto/evp/p_verify.c", added "/usr/src/debug/openssl/3.6.0/crypto/indicator_core.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_chacha20_poly1305.c /usr/src/debug/openssl/3.6.
+ 0/crypto/evp/p5_crpt.c /usr/src/debug/openssl/3.6.0/include/crypto/context.h /usr/src/debug/openssl/3.6.0/apps/s_client.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_chacha20_poly1305.h /usr/src/debug/openssl/3.6.0/apps/crl2pkcs7.c /usr/src/debug/openssl/3.6.0/apps/nseq.c /usr/src/debug/openssl/3.6.0/crypto/aes/aes-cfb-avx512.s /usr/src/debug/openssl/3.6.0/include/crypto/async.h /usr/src/debug/openssl/3.6.0/apps/ec.c /usr/src/debug/openssl/3.6.0/include/internal/quic_error.h /usr/src/debug/openssl/3.6.0/include/internal/quic_lcidm.h /usr/src/debug/openssl/3.6.0/include/internal/quic_rcidm.h /usr/src/debug/openssl/3.6.0/include/internal/quic_statm.h /usr/src/debug/openssl/3.6.0/include/internal/quic_trace.h /usr/src/debug/openssl/3.6.0/include/internal/quic_txpim.h /usr/src/debug/openssl/3.6.0/include/internal/quic_types.h /usr/src/debug/openssl/3.6.0/include/internal/quic_demux.h /usr/src/debug/openssl/3.6.0/include/internal/quic_vlint.h /usr/src/debug/open
+ ssl/3.6.0/providers/implementations/kem/ec_kem.c /usr/src/debug/openssl/3.6.0/include/crypto/ctype.h /usr/src/debug/openssl/3.6.0/include/crypto/objects.h /usr/src/debug/openssl/3.6.0/include/crypto/store.h /usr/src/debug/openssl/3.6.0/apps/ts.c /usr/src/debug/openssl/3.6.0/crypto/core_fetch.c /usr/src/debug/openssl/3.6.0/include/internal/ffc.h /usr/src/debug/openssl/3.6.0/include/crypto/x509_acert.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_tdes_wrap.c /usr/src/debug/openssl/3.6.0/include/crypto/decoder.h /usr/src/debug/openssl/3.6.0/include/crypto/encoder.h /usr/src/debug/openssl/3.6.0/crypto/self_test_core.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_tdes_wrap_hw.c /usr/src/debug/openssl/3.6.0/crypto/evp/evp_utils.c /usr/src/debug/openssl/3.6.0/apps/dgst.c /usr/src/debug/openssl/3.6.0/include/internal/passphrase.h /usr/src/debug/openssl/3.6.0/apps/openssl.c /usr/src/debug/openssl/3.6.0/apps/pkeyutl.c /usr/src/debug/openssl/3.
+ 6.0/apps/skeyutl.c /usr/src/debug/openssl/3.6.0/include/internal/dane.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4_ccm.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4_ccm.h /usr/src/debug/openssl/3.6.0/crypto/evp/e_sm4.c /usr/src/debug/openssl/3.6.0/include/internal/dso.h /usr/src/debug/openssl/3.6.0/include/internal/bio.h /usr/src/debug/openssl/3.6.0/include/internal/provider.h /usr/src/debug/openssl/3.6.0/include/crypto/aes_platform.h /usr/src/debug/openssl/3.6.0/include/crypto/sm4_platform.h /usr/src/debug/openssl/3.6.0/providers/implementations/kem/ecx_kem.c /usr/src/debug/openssl/3.6.0/providers/implementations/kem/mlx_kem.c /usr/src/debug/openssl/3.6.0/providers/implementations/kem/rsa_kem.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_gcm_siv_polyval.c /usr/src/debug/openssl/3.6.0/apps/mac.c /usr/src/debug/openssl/3.6.0/providers/implementations/encode_decode/encode_key2text.c /usr/src/deb
+ ug/openssl/3.6.0/providers/implementations/encode_decode/ml_kem_codecs.c /usr/src/debug/openssl/3.6.0/include/internal/param_build_set.h /usr/src/debug/openssl/3.6.0/crypto/evp/evp_pkey_type.c /usr/src/debug/openssl/3.6.0/apps/version.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/ciphercommon_block.c /usr/src/debug/openssl/3.6.0/apps/srp.c /usr/src/debug/openssl/3.6.0/crypto/aes/aesni-sha256-x86_64.s /usr/src/debug/openssl/3.6.0/include/internal/crmf.h /usr/src/debug/openssl/3.6.0/include/crypto/asn1_dsa.h /usr/src/debug/openssl/3.6.0/crypto/evp/e_des.c /usr/src/debug/openssl/3.6.0/apps/ca.c /usr/src/debug/openssl/3.6.0/crypto/evp/encode.c /usr/src/debug/openssl/3.6.0/providers/common/include/prov/proverr.h /usr/src/debug/openssl/3.6.0/apps/sess_id.c /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/ml_dsa.h /usr/src/debug/openssl/3.6.0/include/internal/quic_txp.h /usr/src/debug/openssl/3.6.0/include/internal/quic_ssl.h /usr/src/debug/openssl/3.6
+ .0/providers/implementations/ciphers/cipher_sm4_ccm_hw_x86_64.inc /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4_gcm_hw_x86_64.inc /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4_xts_hw_x86_64.inc /usr/src/debug/openssl/3.6.0/crypto/evp/p_enc.c /usr/src/debug/openssl/3.6.0/crypto/passphrase.c /usr/src/debug/openssl/3.6.0/providers/implementations/rands/seed_src.c /usr/src/debug/openssl/3.6.0/apps/kdf.c /usr/src/debug/openssl/3.6.0/apps/configutl.c /usr/src/debug/openssl/3.6.0/apps/ocsp.c /usr/src/debug/openssl/3.6.0/apps/s_server.c /usr/src/debug/openssl/3.6.0/include/crypto/poly1305.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_rc4_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4_hw.c /usr/src/debug/openssl/3.6.0/include/internal/ssl_unwrap.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_blowfish_hw.c /usr/src/debug/openssl/3.6.0/providers/implementat
+ ions/ciphers/cipher_aria_ccm_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aria_gcm_hw.c /usr/src/debug/openssl/3.6.0/crypto/evp/signature.c /usr/src/debug/openssl/3.6.0/crypto/evp/ec_ctrl.c /usr/src/debug/openssl/3.6.0/crypto/provider_local.h /usr/src/debug/openssl/3.6.0/crypto/evp/mac_lib.c /usr/src/debug/openssl/3.6.0/providers/common/der/der_dsa_gen.c /usr/src/debug/openssl/3.6.0/providers/common/der/der_rsa_gen.c /usr/src/debug/openssl/3.6.0/providers/common/der/der_slh_dsa_gen.c /usr/src/debug/openssl/3.6.0/providers/common/der/der_dsa_key.c /usr/src/debug/openssl/3.6.0/providers/common/der/der_rsa_key.c /usr/src/debug/openssl/3.6.0/include/internal/sm3.h /usr/src/debug/openssl/3.6.0/include/crypto/pkcs7err.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_tdes_default_hw.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_smime.c /usr/src/debug/openssl/3.6.0/providers/common/include/prov/provider_ctx.h /usr/src/debug/openssl/3.6.0/
+ crypto/evp/e_cast.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_seed.c /usr/src/debug/openssl/3.6.0/crypto/evp/e_rc4_hmac_md5.c /usr/src/debug/openssl/3.6.0/crypto/x86_64cpuid.s /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_seed.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_camellia.c /usr/src/debug/openssl/3.6.0/apps/pkey.c /usr/src/debug/openssl/3.6.0/include/crypto/engine.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_camellia.h /usr/src/debug/openssl/3.6.0/crypto/evp/p_sign.c /usr/src/debug/openssl/3.6.0/providers/implementations/skeymgmt/generic.c /usr/src/debug/openssl/3.6.0/providers/implementations/rands/test_rng.c /usr/src/debug/openssl/3.6.0/include/internal/priority_queue.h /usr/src/debug/openssl/3.6.0/include/crypto/security_bits.h /usr/src/debug/openssl/3.6.0/crypto/evp/dh_support.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_rc2_hw.c /usr/src/d
+ ebug/openssl/3.6.0/providers/implementations/kdfs/hmacdrbg_kdf.c /usr/src/debug/openssl/3.6.0/providers/common/include/prov/der_ml_dsa.h /usr/src/debug/openssl/3.6.0/apps/rsa.c /usr/src/debug/openssl/3.6.0/apps/dsaparam.c /usr/src/debug/openssl/3.6.0/crypto/provider_predefined.c /usr/src/debug/openssl/3.6.0/providers/common/include/prov/der_digests.h /usr/src/debug/openssl/3.6.0/crypto/evp/pbe_scrypt.c /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/mlx_kem.h /usr/src/debug/openssl/3.6.0/crypto/evp/p_dec.c /usr/src/debug/openssl/3.6.0/providers/common/der/der_ecx_gen.c /usr/src/debug/openssl/3.6.0/include/internal/thread.h /usr/src/debug/openssl/3.6.0/providers/implementations/kdfs/hkdf.c /usr/src/debug/openssl/3.6.0/providers/implementations/encode_decode/endecoder_common.c /usr/src/debug/openssl/3.6.0/providers/implementations/kdfs/tls1_prf.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_cbc_hmac_sha_etm.h /usr/src/debug/openssl/3.6.
+ 0/providers/implementations/ciphers/cipher_tdes_common.c /usr/src/debug/openssl/3.6.0/include/crypto/pkcs12err.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_cbc_hmac_sha_etm.c /usr/src/debug/openssl/3.6.0/crypto/evp/e_chacha20_poly1305.c /usr/src/debug/openssl/3.6.0/include/internal/o_dir.h /usr/src/debug/openssl/3.6.0/apps/info.c /usr/src/debug/openssl/3.6.0/include/internal/params.h /usr/src/debug/openssl/3.6.0/include/internal/propertyerr.h /usr/src/debug/openssl/3.6.0/providers/common/include/prov/der_hkdf.h /usr/src/debug/openssl/3.6.0/include/internal/quic_sf_list.h /usr/src/debug/openssl/3.6.0/providers/implementations/storemgmt/file_store_any2obj.c /usr/src/debug/openssl/3.6.0/crypto/comp_methods.c /usr/src/debug/openssl/3.6.0/include/internal/quic_record_util.h /usr/src/debug/openssl/3.6.0/crypto/deterministic_nonce.c /usr/src/debug/openssl/3.6.0/include/internal/comp.h /usr/src/debug/openssl/3.6.0/crypto/threads_common.c /usr/src/debug/openssl
+ /3.6.0/providers/implementations/ciphers/cipher_seed_hw.c /usr/src/debug/openssl/3.6.0/providers/common/include/prov/der_slh_dsa.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_xts_fips.c /usr/src/debug/openssl/3.6.0/include/internal/packet_quic.h /usr/src/debug/openssl/3.6.0/crypto/evp/asymcipher.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_cbc_hmac_sha256_etm_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4_ccm_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4_gcm_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4_xts_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_idea.h /usr/src/debug/openssl/3.6.0/crypto/cpt_err.c /usr/src/debug/openssl/3.6.0/crypto/provider.c /usr/src/debug/openssl/3.6.0/crypto/ssl_err.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_idea.c /usr/src/debug/openssl/3.6.
+ 0/include/crypto/asyncerr.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_camellia_hw.c /usr/src/debug/openssl/3.6.0/include/internal/quic_thread_assist.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_chacha20_poly1305_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_null.c /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/drbg.h /usr/src/debug/openssl/3.6.0/crypto/evp/dsa_ctrl.c /usr/src/debug/openssl/3.6.0/providers/implementations/encode_decode/encode_key2ms.c /usr/src/debug/openssl/3.6.0/include/internal/ring_buf.h /usr/src/debug/openssl/3.6.0/crypto/evp/kem.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes.h /usr/src/debug/openssl/3.6.0/crypto/cms/cms_dh.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_cts.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_des.h /usr/src/debug/openssl/3.6.0/crypto/evp/e_xcbc_d.c /usr/s
+ rc/debug/openssl/3.6.0/crypto/sm4/sm4.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_cts.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_des.c /usr/src/debug/openssl/3.6.0/crypto/evp/c_alld.c /usr/src/debug/openssl/3.6.0/crypto/evp/m_sigver.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_cbc_hmac_sha512_etm_hw.c /usr/src/debug/openssl/3.6.0/crypto/evp/s_lib.c /usr/src/debug/openssl/3.6.0/apps/cms.c /usr/src/debug/openssl/3.6.0/crypto/packet.c /usr/src/debug/openssl/3.6.0/providers/common/der/der_digests_gen.c /usr/src/debug/openssl/3.6.0/providers/common/der/der_slh_dsa_key.c /usr/src/debug/openssl/3.6.0/include/internal/namemap.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_rc4_hmac_md5.c /usr/src/debug/openssl/3.6.0/include/internal/core.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/ciph
+ er_rc4_hmac_md5.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_rc4_hmac_md5_hw.c /usr/src/debug/openssl/3.6.0/crypto/evp/p_open.c /usr/src/debug/openssl/3.6.0/providers/implementations/rands/drbg_hash.c /usr/src/debug/openssl/3.6.0/crypto/evp/e_old.c /usr/src/debug/openssl/3.6.0/crypto/provider_child.c /usr/src/debug/openssl/3.6.0/include/crypto/bn.h /usr/src/debug/openssl/3.6.0/providers/common/der/der_wrap_gen.c /usr/src/debug/openssl/3.6.0/providers/common/include/prov/der_ec.h /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/kdfexchange.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_cast5_hw.c /usr/src/debug/openssl/3.6.0/crypto/o_init.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_dd.c /usr/src/debug/openssl/3.6.0/apps/storeutl.c /usr/src/debug/openssl/3.6.0/crypto/mem_sec.c /usr/src/debug/openssl/3.6.0/apps/dsa.c /usr/src/debug/openssl/3.6.0/crypto/aes/aesni-xts-avx512.s /usr/src/debug/openssl/3.6.0/include/cr
+ ypto/engineerr.h /usr/src/debug/openssl/3.6.0/crypto/punycode.c /usr/src/debug/openssl/3.6.0/providers/common/include/prov/bio.h /usr/src/debug/openssl/3.6.0/providers/implementations/kdfs/pbkdf1.c /usr/src/debug/openssl/3.6.0/crypto/evp/pmeth_check.c /usr/src/debug/openssl/3.6.0/include/crypto/esserr.h /usr/src/debug/openssl/3.6.0/include/crypto/evperr.h /usr/src/debug/openssl/3.6.0/include/crypto/pemerr.h /usr/src/debug/openssl/3.6.0/include/crypto/rsaerr.h /usr/src/debug/openssl/3.6.0/include/internal/deterministic_nonce.h /usr/src/debug/openssl/3.6.0/include/crypto/bioerr.h /usr/src/debug/openssl/3.6.0/include/crypto/cmserr.h /usr/src/debug/openssl/3.6.0/include/crypto/cmperr.h /usr/src/debug/openssl/3.6.0/include/internal/quic_record_tx.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_desx_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_cbc_hmac_sha1_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/kdfs/krb5kdf.c 
+ /usr/src/debug/openssl/3.6.0/crypto/core_namemap.c /usr/src/debug/openssl/3.6.0/providers/implementations/kdfs/x942kdf.c /usr/src/debug/openssl/3.6.0/crypto/asn1_dsa.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_att.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_enc.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_env.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_err.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_ess.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_kem.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_lib.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_rsa.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_xts.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_xts.c /usr/src/debug/openssl/3.6.0/providers/common/include/prov/der_sm2.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_wrp.c /usr/src/debug/openssl/3.6.0/crypto/sparse_array.c /usr/src/debug/openssl/3.6.0/providers/common/include/prov/provider_u
+ til.h /usr/src/debug/openssl/3.6.0/crypto/param_build.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/ciphercommon.c /usr/src/debug/openssl/3.6.0/include/internal/constant_time.h /usr/src/debug/openssl/3.6.0/include/internal/quic_stream.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_siv.h /usr/src/debug/openssl/3.6.0/crypto/evp/m_null.c /usr/src/debug/openssl/3.6.0/include/internal/quic_wire_pkt.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_siv.c /usr/src/debug/openssl/3.6.0/crypto/cpuid.c /usr/src/debug/openssl/3.6.0/include/internal/quic_rx_depack.h /usr/src/debug/openssl/3.6.0/providers/implementations/encode_decode/encode_key2any.c /usr/src/debug/openssl/3.6.0/include/internal/mem_alloc_utils.h /usr/src/debug/openssl/3.6.0/include/crypto/modes.h /usr/src/debug/openssl/3.6.0/include/crypto/types.h /usr/src/debug/openssl/3.6.0/providers/common/der/der_hkdf_gen.c /usr/src/debug/openssl/3.6.0/crypto/evp/lega
+ cy_blake2.c /usr/src/debug/openssl/3.6.0/crypto/aes/aes_core.c /usr/src/debug/openssl/3.6.0/crypto/aes/aes_misc.c /usr/src/debug/openssl/3.6.0/crypto/aes/aes_wrap.c /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/blake2.h /usr/src/debug/openssl/3.6.0/crypto/buildinf.h /usr/src/debug/openssl/3.6.0/include/internal/rcu.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_xts_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_ccm_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_cfb_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_gcm_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_ocb_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_siv_hw.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_asn1.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_kari.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_pwri.c /usr/
+ src/debug/openssl/3.6.0/include/internal/numbers.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aria_gcm.h /usr/src/debug/openssl/3.6.0/providers/implementations/kdfs/pvkkdf.c /usr/src/debug/openssl/3.6.0/providers/implementations/kdfs/sshkdf.c /usr/src/debug/openssl/3.6.0/providers/implementations/rands/seed_src_jitter.c /usr/src/debug/openssl/3.6.0/crypto/provider_core.c /usr/src/debug/openssl/3.6.0/include/internal/cms.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aria_gcm.c /usr/src/debug/openssl/3.6.0/crypto/threads_lib.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_gcm_siv.h /usr/src/debug/openssl/3.6.0/crypto/evp/e_camellia.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4_xts.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aria_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_gcm_siv.c /usr/src/debug/openssl/3.6.0/cry
+ pto/evp/legacy_sha.c /usr/src/debug/openssl/3.6.0/providers/implementations/kdfs/pkcs12kdf.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4_xts.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4_gcm.h /usr/src/debug/openssl/3.6.0/crypto/o_str.c /usr/src/debug/openssl/3.6.0/crypto/evp/e_null.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4_gcm.c /usr/src/debug/openssl/3.6.0/crypto/context.c /usr/src/debug/openssl/3.6.0/crypto/evp/legacy_md4.c /usr/src/debug/openssl/3.6.0/crypto/evp/kdf_meth.c /usr/src/debug/openssl/3.6.0/providers/common/include/prov/der_dsa.h /usr/src/debug/openssl/3.6.0/providers/common/include/prov/der_rsa.h /usr/src/debug/openssl/3.6.0/include/internal/quic_cfq.h /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/implementations.h /usr/src/debug/openssl/3.6.0/crypto/evp/bio_md.c /usr/src/debug/openssl/3.6.0/crypto/aes/bsaes-x86_64.s /usr/src/debug/openssl/3.6.0/crypto/
+ evp/e_bf.c /usr/src/debug/openssl/3.6.0/apps/req.c /usr/src/debug/openssl/3.6.0/crypto/der_writer.c /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/ciphercommon_ccm.h /usr/src/debug/openssl/3.6.0/providers/implementations/kem/ml_kem_kem.c /usr/src/debug/openssl/3.6.0/include/internal/sha3.h /usr/src/debug/openssl/3.6.0/crypto/sslerr.h /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/seeding.h /usr/src/debug/openssl/3.6.0/providers/common/der/der_ecx_key.c /usr/src/debug/openssl/3.6.0/crypto/evp/dh_ctrl.c /usr/src/debug/openssl/3.6.0/include/internal/quic_engine.h /usr/src/debug/openssl/3.6.0/include/internal/refcount.h /usr/src/debug/openssl/3.6.0/include/crypto/siphash.h /usr/src/debug/openssl/3.6.0/crypto/sleep.c /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/ciphercommon.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_blowfish.h /usr/src/debug/openssl/3.6.0/include/internal/asn1.h /usr/src/debug/o
+ penssl/3.6.0/providers/implementations/ciphers/cipher_blowfish.c /usr/src/debug/openssl/3.6.0/include/internal/hpke_util.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_tdes.h /usr/src/debug/openssl/3.6.0/include/internal/quic_cc.h /usr/src/debug/openssl/3.6.0/providers/common/include/prov/der_wrap.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_tdes.c /usr/src/debug/openssl/3.6.0/providers/implementations/rands/drbg.c /usr/src/debug/openssl/3.6.0/crypto/threads_pthread.c /usr/src/debug/openssl/3.6.0/crypto/evp/e_rc2.c /usr/src/debug/openssl/3.6.0/crypto/evp/legacy_mdc2.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_desx.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_cast5.c /usr/src/debug/openssl/3.6.0/crypto/evp/p_seal.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_ocb.h /usr/src/debug/openssl/3.6.0/apps/genpkey.c /usr/src/debug/openssl/3.6.0/providers/imp
+ lementations/include/prov/endecoder_local.h /usr/src/debug/openssl/3.6.0/crypto/evp/ec_support.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_ocb.c /usr/src/debug/openssl/3.6.0/providers/implementations/encode_decode/decode_der2key.c /usr/src/debug/openssl/3.6.0/providers/implementations/encode_decode/decode_pvk2key.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/ciphercommon_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/encode_decode/decode_pem2der.c /usr/src/debug/openssl/3.6.0/apps/crl.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_chacha20.h /usr/src/debug/openssl/3.6.0/include/crypto/x509v3err.h /usr/src/debug/openssl/3.6.0/include/internal/quic_reactor_wait_ctx.h /usr/src/debug/openssl/3.6.0/providers/implementations/encode_decode/ml_common_codecs.c /usr/src/debug/openssl/3.6.0/providers/common/include/prov/providercommon.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_
+ chacha20.c /usr/src/debug/openssl/3.6.0/crypto/params.c /usr/src/debug/openssl/3.6.0/crypto/aes/aes_local.h /usr/src/debug/openssl/3.6.0/crypto/evp/ctrl_params_translate.c /usr/src/debug/openssl/3.6.0/include/crypto/bn_dh.h /usr/src/debug/openssl/3.6.0/include/crypto/lhash.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_cts.inc /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_cast.h /usr/src/debug/openssl/3.6.0/include/internal/ssl3_cbc.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_camellia_cts.inc /usr/src/debug/openssl/3.6.0/providers/common/der/der_sm2_key.c /usr/src/debug/openssl/3.6.0/include/crypto/sparse_array.h /usr/src/debug/openssl/3.6.0/crypto/evp/mac_meth.c /usr/src/debug/openssl/3.6.0/include/crypto/dsa.h /usr/src/debug/openssl/3.6.0/include/crypto/ecx.h /usr/src/debug/openssl/3.6.0/include/crypto/err.h /usr/src/debug/openssl/3.6.0/include/crypto/ess.h /usr/src/debug/openssl/3.6.0/include/crypto/
+ evp.h /usr/src/debug/openssl/3.6.0/include/crypto/pem.h /usr/src/debug/openssl/3.6.0/include/crypto/rsa.h /usr/src/debug/openssl/3.6.0/include/crypto/sha.h /usr/src/debug/openssl/3.6.0/crypto/evp/cmeth_lib.c /usr/src/debug/openssl/3.6.0/include/crypto/siv.h /usr/src/debug/openssl/3.6.0/crypto/o_time.c /usr/src/debug/openssl/3.6.0/include/internal/to_hex.h /usr/src/debug/openssl/3.6.0/include/internal/quic_stream_map.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aria_ccm.h /usr/src/debug/openssl/3.6.0/include/crypto/x509.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aria_ccm.c /usr/src/debug/openssl/3.6.0/include/crypto/aria.h /usr/src/debug/openssl/3.6.0/include/crypto/asn1.h /usr/src/debug/openssl/3.6.0/include/crypto/cmac.h /usr/src/debug/openssl/3.6.0/include/crypto/rand.h /usr/src/debug/openssl/3.6.0/apps/enc.c /usr/src/debug/openssl/3.6.0/crypto/evp/e_idea.c /usr/src/debug/openssl/3.6.0/apps/testdsa.h /usr/src/debug/openssl/3.
+ 6.0/apps/testrsa.h /usr/src/debug/openssl/3.6.0/crypto/cryptlib.c /usr/src/debug/openssl/3.6.0/crypto/evp/e_rc4.c /usr/src/debug/openssl/3.6.0/include/internal/rio_notifier.h /usr/src/debug/openssl/3.6.0/include/internal/sslconf.h /usr/src/debug/openssl/3.6.0/providers/implementations/kdfs/argon2.c /usr/src/debug/openssl/3.6.0/include/internal/quic_ackm.h /usr/src/debug/openssl/3.6.0/include/internal/quic_fifd.h /usr/src/debug/openssl/3.6.0/include/internal/quic_port.h /usr/src/debug/openssl/3.6.0/include/internal/quic_srtm.h /usr/src/debug/openssl/3.6.0/include/internal/quic_wire.h /usr/src/debug/openssl/3.6.0/crypto/evp/e_seed.c /usr/src/debug/openssl/3.6.0/providers/implementations/encode_decode/decode_spki2typespki.c /usr/src/debug/openssl/3.6.0/apps/fipsinstall.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_tdes_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciph
+ ers/cipher_des_hw.c /usr/src/debug/openssl/3.6.0/include/internal/property.h /usr/src/debug/openssl/3.6.0/include/crypto/bnerr.h /usr/src/debug/openssl/3.6.0/include/crypto/cterr.h /usr/src/debug/openssl/3.6.0/include/crypto/dherr.h /usr/src/debug/openssl/3.6.0/include/crypto/ecerr.h /usr/src/debug/openssl/3.6.0/include/crypto/tserr.h /usr/src/debug/openssl/3.6.0/include/crypto/uierr.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_gcm_hw_vaes_avx512.inc /usr/src/debug/openssl/3.6.0/providers/implementations/encode_decode/decode_msblob2key.c /usr/src/debug/openssl/3.6.0/crypto/evp/evp_fetch.c /usr/src/debug/openssl/3.6.0/apps/progs.h /usr/src/debug/openssl/3.6.0/crypto/aes/aes-x86_64.s /usr/src/debug/openssl/3.6.0/apps/pkcs7.c /usr/src/debug/openssl/3.6.0/crypto/evp/skeymgmt_meth.c /usr/src/debug/openssl/3.6.0/apps/pkcs8.c /usr/src/debug/openssl/3.6.0/apps/prime.c /usr/src/debug/openssl/3.6.0/apps/progs.c /usr/src/debug/openssl/3.6.0/apps/smime.c /usr/src/
+ debug/openssl/3.6.0/apps/speed.c /usr/src/debug/openssl/3.6.0/apps/spkac.c /usr/src/debug/openssl/3.6.0/crypto/evp/bio_b64.c /usr/src/debug/openssl/3.6.0/crypto/evp/bio_enc.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_io.c /usr/src/debug/openssl/3.6.0/include/internal/conf.h /usr/src/debug/openssl/3.6.0/providers/implementations/encode_decode/encode_key2blob.c /usr/src/debug/openssl/3.6.0/include/internal/quic_channel.h /usr/src/debug/openssl/3.6.0/crypto/aes/aesni-sha1-x86_64.s /usr/src/debug/openssl/3.6.0/include/internal/qlog_events.h /usr/src/debug/openssl/3.6.0/apps/rehash.c /usr/src/debug/openssl/3.6.0/apps/s_time.c /usr/src/debug/openssl/3.6.0/apps/engine.c /usr/src/debug/openssl/3.6.0/apps/errstr.c /usr/src/debug/openssl/3.6.0/apps/gendsa.c /usr/src/debug/openssl/3.6.0/apps/genrsa.c /usr/src/debug/openssl/3.6.0/apps/passwd.c /usr/src/debug/openssl/3.6.0/apps/pkcs12.c /usr/src/debug/openssl/3.6.0/apps/rsautl.c /usr/src/debug/openssl/3.6.0/apps/verify.c /usr/src/debug/openssl
+ /3.6.0/crypto/evp/names.c /usr/src/debug/openssl/3.6.0/crypto/mem.c /usr/src/debug/openssl/3.6.0/crypto/uid.c /usr/src/debug/openssl/3.6.0/include/internal/hashtable.h /usr/src/debug/openssl/3.6.0/include/internal/quic_srt_gen.h /usr/src/debug/openssl/3.6.0/crypto/ebcdic.c /usr/src/debug/openssl/3.6.0/crypto/evp/pmeth_gn.c /usr/src/debug/openssl/3.6.0/crypto/evp/p5_crpt2.c /usr/src/debug/openssl/3.6.0/crypto/params_from_text.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_rc2.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_rc2.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_rc4.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4.c /usr/src/debug/openssl/3.6.0/include/internal/statem.h /usr/src/debug/openssl/3.6.0/apps/x509.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_rc4.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4.h /usr/src/debug
+ /openssl/3.6.0/crypto/initthread.c /usr/src/debug/openssl/3.6.0/include/crypto/ml_kem.h /usr/src/debug/openssl/3.6.0/crypto/evp/pmeth_lib.c /usr/src/debug/openssl/3.6.0/crypto/defaults.c /usr/src/debug/openssl/3.6.0/crypto/sm3/sm3-x86_64.S /usr/src/debug/openssl/3.6.0/crypto/sm4/sm4-x86_64.S /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_ccm.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_ccm.c /usr/src/debug/openssl/3.6.0/providers/implementations/kdfs/scrypt.c /usr/src/debug/openssl/3.6.0/apps/asn1parse.c /usr/src/debug/openssl/3.6.0/crypto/evp/evp_pkey.c /usr/src/debug/openssl/3.6.0/crypto/evp/evp_rand.c /usr/src/debug/openssl/3.6.0/include/crypto/buffererr.h /usr/src/debug/openssl/3.6.0/crypto/cms/cms_local.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_chacha20_hw.c /usr/src/debug/openssl/3.6.0/providers/common/der/der_sm2_gen.c /usr/src/debug/openssl/3.6.0/crypto/cms/cms_ec.c /usr/src/debug/openssl
+ /3.6.0/apps/ciphers.c /usr/src/debug/openssl/3.6.0/crypto/rcu_internal.h /usr/src/debug/openssl/3.6.0/include/internal/packet.h /usr/src/debug/openssl/3.6.0/crypto/evp/kdf_lib.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_cbc_hmac_sha.c /usr/src/debug/openssl/3.6.0/providers/implementations/encode_decode/decode_epki2pki.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_cbc_hmac_sha.h /usr/src/debug/openssl/3.6.0/include/crypto/rand_pool.h /usr/src/debug/openssl/3.6.0/crypto/evp/e_des3.c /usr/src/debug/openssl/3.6.0/crypto/aes/aesni-mb-x86_64.s /usr/src/debug/openssl/3.6.0/crypto/params_dup.c /usr/src/debug/openssl/3.6.0/providers/implementations/storemgmt/file_store.c /usr/src/debug/openssl/3.6.0/crypto/evp/legacy_ripemd.c /usr/src/debug/openssl/3.6.0/include/internal/skey.h /usr/src/debug/openssl/3.6.0/crypto/cms/cms_sd.c /usr/src/debug/openssl/3.6.0/include/crypto/pkcs7.h /usr/src/debug/openssl/3.6.0/crypto/cversion.c /usr/sr
+ c/debug/openssl/3.6.0/include/internal/quic_record_rx.h /usr/src/debug/openssl/3.6.0/providers/common/der/der_ec_gen.c /usr/src/debug/openssl/3.6.0/include/internal/unicode.h /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/digestcommon.h /usr/src/debug/openssl/3.6.0/include/crypto/sm2.h /usr/src/debug/openssl/3.6.0/include/crypto/sm4.h /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/ecx.h /usr/src/debug/openssl/3.6.0/crypto/evp/keymgmt_lib.c /usr/src/debug/openssl/3.6.0/include/crypto/storeerr.h /usr/src/debug/openssl/3.6.0/providers/common/der/der_ml_dsa_gen.c /usr/src/debug/openssl/3.6.0/providers/common/der/der_ml_dsa_key.c /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/ml_dsa_codecs.h /usr/src/debug/openssl/3.6.0/crypto/getenv.c /usr/src/debug/openssl/3.6.0/include/crypto/dh.h /usr/src/debug/openssl/3.6.0/providers/common/der/der_dsa_sig.c /usr/src/debug/openssl/3.6.0/providers/common/der/der_rsa_sig.c /usr/src/debug/o
+ penssl/3.6.0/apps/ecparam.c /usr/src/debug/openssl/3.6.0/apps/dhparam.c /usr/src/debug/openssl/3.6.0/include/internal/uint_set.h /usr/src/debug/openssl/3.6.0/include/internal/recordmethod.h /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/md5_sha1.h /usr/src/debug/openssl/3.6.0/crypto/evp/evp_cnf.c /usr/src/debug/openssl/3.6.0/crypto/evp/evp_enc.c /usr/src/debug/openssl/3.6.0/crypto/evp/evp_err.c /usr/src/debug/openssl/3.6.0/crypto/evp/evp_key.c /usr/src/debug/openssl/3.6.0/crypto/quic_vlint.c /usr/src/debug/openssl/3.6.0/crypto/evp/evp_lib.c /usr/src/debug/openssl/3.6.0/include/crypto/objectserr.h /usr/src/debug/openssl/3.6.0/crypto/evp/bio_ok.c /usr/src/debug/openssl/3.6.0/crypto/evp/evp_pbe.c /usr/src/debug/openssl/3.6.0/include/internal/bio_addr.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/ciphercommon_ccm_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/ciphercommon_gcm_hw.c /usr/src/debug/openssl/3.6.0/crypto/evp/c_allc
+ .c /usr/src/debug/openssl/3.6.0/include/crypto/asn1err.h /usr/src/debug/openssl/3.6.0/include/crypto/comperr.h /usr/src/debug/openssl/3.6.0/include/crypto/conferr.h /usr/src/debug/openssl/3.6.0/include/crypto/crmferr.h /usr/src/debug/openssl/3.6.0/include/crypto/httperr.h /usr/src/debug/openssl/3.6.0/include/crypto/ocsperr.h /usr/src/debug/openssl/3.6.0/include/crypto/randerr.h /usr/src/debug/openssl/3.6.0/include/crypto/x509err.h /usr/src/debug/openssl/3.6.0/providers/common/der/der_sm2_sig.c /usr/src/debug/openssl/3.6.0/crypto/evp/legacy_md5.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_gcm_siv_hw.c /usr/src/debug/openssl/3.6.0/crypto/sm3/legacy_sm3.c /usr/src/debug/openssl/3.6.0/crypto/evp/keymgmt_meth.c /usr/src/debug/openssl/3.6.0/providers/implementations/rands/drbg_ctr.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_cfb.h /usr/src/debug/openssl/3.6.0/providers/implementations/kdfs/pbkdf2.c /usr/src/debug/openssl/3.6.0/
+ providers/implementations/ciphers/cipher_aes_cbc_hmac_sha1_etm_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/ciphercommon_ccm.c /usr/src/debug/openssl/3.6.0/crypto/array_alloc.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/ciphercommon_gcm.c /usr/src/debug/openssl/3.6.0/crypto/aes/aes_ofb.c /usr/src/debug/openssl/3.6.0/crypto/aes/aes_cfb.c /usr/src/debug/openssl/3.6.0/crypto/aes/aes_ecb.c /usr/src/debug/openssl/3.6.0/crypto/aes/aes_ige.c /usr/src/debug/openssl/3.6.0/include/internal/quic_fc.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_gcm.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_gcm.h /usr/src/debug/openssl/3.6.0/crypto/bsearch.c /usr/src/debug/openssl/3.6.0/include/internal/common.h /usr/src/debug/openssl/3.6.0/providers/common/der/der_ec_sig.c /usr/src/debug/openssl/3.6.0/include/internal/dsoerr.h /usr/src/debug/openssl/3.6.0/crypto/evp/e_aes_cbc_hmac_sha1.c /usr/src/debug/ope
+ nssl/3.6.0/providers/implementations/ciphers/cipher_idea_hw.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_tdes_default.h /usr/src/debug/openssl/3.6.0/crypto/aes/vpaes-x86_64.s /usr/src/debug/openssl/3.6.0/include/crypto/cryptlib.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_tdes_default.c /usr/src/debug/openssl/3.6.0/providers/common/include/prov/securitycheck.h /usr/src/debug/openssl/3.6.0/include/crypto/ml_dsa.h /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/eckem.h /usr/src/debug/openssl/3.6.0/providers/common/include/prov/der_ecx.h /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/ciphercommon_gcm.h /usr/src/debug/openssl/3.6.0/include/internal/cryptlib.h /usr/src/debug/openssl/3.6.0/crypto/evp/legacy_wp.c /usr/src/debug/openssl/3.6.0/crypto/sm3/sm3.c /usr/src/debug/openssl/3.6.0/crypto/evp/e_aes_cbc_hmac_sha256.c /usr/src/debug/openssl/3.6.0/crypto/LPdir_unix.c /usr/src/debug/openssl/3.6.
+ 0/crypto/sm3/sm3_local.h /usr/src/debug/openssl/3.6.0/crypto/cms/cms_kemri.c /usr/src/debug/openssl/3.6.0/crypto/evp/p_legacy.c /usr/src/debug/openssl/3.6.0/crypto/evp/p_verify.c /usr/src/debug/openssl/3.6.0/providers/implementations/kem/kem_util.c /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/decoders.h /usr/src/debug/openssl/3.6.0/crypto/info.c /usr/src/debug/openssl/3.6.0/crypto/init.c /usr/src/debug/openssl/3.6.0/crypto/time.c /usr/src/debug/openssl/3.6.0/crypto/aes/aesni-x86_64.s /usr/src/debug/openssl/3.6.0/crypto/evp/digest.c /usr/src/debug/openssl/3.6.0/include/internal/json_enc.h /usr/src/debug/openssl/3.6.0/include/internal/quic_reactor.h /usr/src/debug/openssl/3.6.0/include/crypto/chacha.h /usr/src/debug/openssl/3.6.0/include/internal/qlog.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_cbc_hmac_sha256_hw.c /usr/src/debug/openssl/3.6.0/providers/common/der/der_ec_key.c /usr/src/debug/openssl/3.6.0/providers/implementations
+ /ciphers/cipher_aes_ccm_hw_aesni.inc /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_cfb_hw_aesni.inc /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_gcm_hw_aesni.inc /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/blake2_params.inc /usr/src/debug/openssl/3.6.0/include/internal/quic_tls.h /usr/src/debug/openssl/3.6.0/providers/implementations/skeymgmt/aes_skmgmt.c /usr/src/debug/openssl/3.6.0/include/crypto/punycode.h /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/hmac_drbg.h /usr/src/debug/openssl/3.6.0/crypto/ex_data.c /usr/src/debug/openssl/3.6.0/crypto/evp/e_aes.c /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/ml_common_codecs.h /usr/src/debug/openssl/3.6.0/include/internal/quic_predef.h /usr/src/debug/openssl/3.6.0/crypto/evp/exchange.c /usr/src/debug/openssl/3.6.0/apps/rand.c /usr/src/debug/openssl/3.6.0/include/crypto/md32_common.h /usr/src/debug/openssl/3.6.0/cry
+ pto/ctype.c /usr/src/debug/openssl/3.6.0/crypto/trace.c /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/file_store_local.h /usr/src/debug/openssl/3.6.0/apps/list.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aria.c /usr/src/debug/openssl/3.6.0/providers/implementations/encode_decode/ml_dsa_codecs.c /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aria.h /usr/src/debug/openssl/3.6.0/crypto/o_fopen.c /usr/src/debug/openssl/3.6.0/include/internal/time.h /usr/src/debug/openssl/3.6.0/include/crypto/bn_srp.h /usr/src/debug/openssl/3.6.0/include/crypto/cryptoerr.h /usr/src/debug/openssl/3.6.0/include/internal/quic_tserver.h /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/ml_kem_codecs.h /usr/src/debug/openssl/3.6.0/crypto/param_build_set.c /usr/src/debug/openssl/3.6.0/include/internal/qlog_event_helpers.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_sm4_hw_x86_64.inc /usr/src/deb
+ ug/openssl/3.6.0/include/crypto/ec.h /usr/src/debug/openssl/3.6.0/crypto/evp/e_aria.c /usr/src/debug/openssl/3.6.0/include/internal/threads_common.h /usr/src/debug/openssl/3.6.0/include/internal/hashfunc.h /usr/src/debug/openssl/3.6.0/crypto/evp/p_lib.c /usr/src/debug/openssl/3.6.0/crypto/evp/legacy_md5_sha1.c /usr/src/debug/openssl/3.6.0/apps/pkeyparam.c /usr/src/debug/openssl/3.6.0/crypto/evp/evp_local.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/cipher_aes_hw_aesni.inc /usr/src/debug/openssl/3.6.0/include/internal/encoder.h /usr/src/debug/openssl/3.6.0/apps/cmp.c /usr/src/debug/openssl/3.6.0/include/internal/thread_arch.h /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/skeymgmt_lcl.h /usr/src/debug/openssl/3.6.0/providers/implementations/rands/drbg_hmac.c /usr/src/debug/openssl/3.6.0/crypto/provider_conf.c /usr/src/debug/openssl/3.6.0/include/internal/der.h /usr/src/debug/openssl/3.6.0/crypto/core_algorithm.c /usr/src/debug/openssl/3.6.0/pr
+ oviders/implementations/include/prov/ml_kem.h /usr/src/debug/openssl/3.6.0/include/internal/ssl.h /usr/src/debug/openssl/3.6.0/providers/implementations/ciphers/ciphercommon_local.h /usr/src/debug/openssl/3.6.0/providers/implementations/kdfs/kbkdf.c /usr/src/debug/openssl/3.6.0/include/crypto/dsaerr.h /usr/src/debug/openssl/3.6.0/providers/implementations/include/prov/macsignature.h /usr/src/debug/openssl/3.6.0/providers/implementations/kdfs/sskdf.c /usr/src/debug/openssl/3.6.0/include/crypto/slh_dsa.h"
+packages/x86-64-v3-poky-linux/openssl/openssl-staticdev: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-staticdev: PKGSIZE changed from 37634468 to 38233526 (+2%)
+packages/x86-64-v3-poky-linux/openssl/openssl-staticdev: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/openssl/openssl: PKGV changed from 3.5.4 [default] to 3.6.0 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl: PV changed from "3.5.4" to "3.6.0"
+packages/x86-64-v3-poky-linux/python3/python3-dbg: PKGSIZE changed from 38117064 to 38117056 (-0%)
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.1-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.1-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.1-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.1/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.1-gdb.py was removed
 
---===============1653246916916583735==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 949 .bb files complete (0 cached, 949 parsed). 1951 targets, 71 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-musleabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-34bb9fd873a6a1274d9079dfefb3e67625eeae7e"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 = "tmp-auh-upgrades:34bb9fd873a6a1274d9079dfefb3e67625eeae7e"
-meta-yocto-bsp       
-meta-poky            = "master:b3b659263566c4d2f2813190e72d93f8598a4c47"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 452 Local 426 Mirrors 0 Missed 26 Current 250 (94% match, 96% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 251 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_package_qa_setscene)
-NOTE: Running setscene task 261 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 262 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 287 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_package_qa_setscene)
-NOTE: Running setscene task 305 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 306 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 317 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 325 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 330 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 342 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.18.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 343 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 344 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 345 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-obstack.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 346 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-legacy-error.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 349 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/iptables/iptables_1.8.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 352 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/fts/fts_1.2.7.bb:do_create_spdx_setscene)
-NOTE: recipe bash-completion-2.16.0-r0: task do_package_qa_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe musl-legacy-error-1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe argp-standalone-1.4.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe musl-obstack-1.2.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe json-c-0.18-r0: task do_create_spdx_setscene: Started
-NOTE: recipe fts-1.2.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe iptables-1.8.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.13.9-r0: task do_package_qa_setscene: Started
-NOTE: recipe python3-3.13.9-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-3.13.9-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-3.13.9-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-3.13.9-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_package_qa_setscene: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 357 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_create_spdx_setscene)
-NOTE: recipe bash-completion-2.16.0-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 358 of 702 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 359 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-legacy-error-1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe argp-standalone-1.4.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe musl-obstack-1.2.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 362 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 363 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.56.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 364 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_3.10.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 366 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe fts-1.2.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 367 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb:do_create_spdx_setscene)
-NOTE: recipe json-c-0.18-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 368 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/file/file_5.46.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 369 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.17.0.bb:do_create_spdx_setscene)
-NOTE: recipe python3-3.13.9-r0: task do_package_qa_setscene: Succeeded
-NOTE: Running setscene task 370 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.13.9-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 371 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_create_spdx_setscene)
-NOTE: recipe iptables-1.8.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe acl-2.3.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 376 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/iptables/iptables_1.8.11.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libcap-2.77-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe nettle-3.10.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgpg-error-1.56-r0: task do_create_spdx_setscene: Started
-NOTE: recipe file-5.46-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libseccomp-2.6.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe curl-8.17.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe e2fsprogs-native-1.47.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-3.13.9-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 377 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libcap-2.77-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe acl-2.3.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe iptables-1.8.11-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-3.13.9-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe nettle-3.10.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libgpg-error-1.56-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe file-5.46-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libseccomp-2.6.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-3.13.9-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe e2fsprogs-native-1.47.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 383 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 384 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 385 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 386 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 387 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 389 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 390 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 391 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 392 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
-NOTE: recipe curl-8.17.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 394 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_packagedata_setscene)
-NOTE: recipe libmnl-1.0.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 395 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc_15.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 396 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils_2.45.bb:do_packagedata_setscene)
-NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 398 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_create_spdx_setscene)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 399 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_packagedata_setscene)
-NOTE: recipe iptables-1.8.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 400 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
-NOTE: recipe iproute2-6.18.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe zstd-1.5.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe tzdata-2025b-r0: task do_packagedata_setscene: Started
-NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.8.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe coreutils-9.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe iproute2-6.18.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 401 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/iptables/iptables_1.8.11.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-2.45.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.13.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe zstd-1.5.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 402 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_create_spdx_setscene)
-NOTE: recipe xz-5.8.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 403 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe attr-2.5.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 405 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gmp-6.3.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 408 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 409 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx_setscene)
-NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 418 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 419 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_packagedata_setscene)
-NOTE: recipe iptables-1.8.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe tzdata-2025b-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 424 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libidn2-2.3.8-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe iptables-1.8.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.18.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 433 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 436 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libidn2-2.3.8-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 437 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.1.bb:do_create_spdx_setscene)
-NOTE: recipe binutils-2.45.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 442 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_populate_sysroot_setscene)
-NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 444 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 449 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
-NOTE: recipe coreutils-9.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libunistring-1.4.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe elfutils-0.194-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe elfutils-0.194-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-3.13.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 461 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 462 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 466 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
-NOTE: Running setscene task 467 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 469 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.7.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 471 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_packagedata_setscene)
-NOTE: recipe libmnl-1.0.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libunistring-1.4.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 473 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 476 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_packagedata_setscene)
-NOTE: recipe shadow-4.18.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Started
-NOTE: Running task 871 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/iptables/iptables_1.8.11.bb:do_fetch)
-NOTE: Running task 872 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_fetch)
-NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_packagedata_setscene: Started
-NOTE: Running task 890 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb:do_fetch)
-NOTE: recipe expat-2.7.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 907 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
-NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.13.9-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe elfutils-0.194-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe elfutils-0.194-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 482 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_package_setscene)
-NOTE: recipe libmnl-1.0.5-r0: task do_fetch: Started
-NOTE: recipe iptables-1.8.11-r0: task do_fetch: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
-NOTE: recipe iproute2-6.18.0-r0: task do_fetch: Started
-NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe iptables-1.8.11-r0: task do_fetch: Succeeded
-NOTE: recipe python3-3.13.9-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
-NOTE: recipe iproute2-6.18.0-r0: task do_fetch: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_fetch: Succeeded
-NOTE: recipe expat-2.7.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 489 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 492 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
-NOTE: Running task 1075 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/iptables/iptables_1.8.11.bb:do_unpack)
-NOTE: Running task 1076 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_unpack)
-NOTE: Running task 1081 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb:do_unpack)
-NOTE: Running task 1083 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
-NOTE: Running task 1084 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_unpack: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe iptables-1.8.11-r0: task do_unpack: Started
-NOTE: recipe iproute2-6.18.0-r0: task do_unpack: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_unpack: Succeeded
-NOTE: Running task 1085 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_patch)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 505 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
-NOTE: Running task 1086 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
-NOTE: recipe iproute2-6.18.0-r0: task do_unpack: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_patch: Started
-NOTE: Running task 1087 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb:do_patch)
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe iptables-1.8.11-r0: task do_unpack: Succeeded
-NOTE: Running task 1088 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/iptables/iptables_1.8.11.bb:do_patch)
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
-NOTE: Running task 1095 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_patch: Succeeded
-NOTE: recipe iproute2-6.18.0-r0: task do_patch: Started
-NOTE: recipe iptables-1.8.11-r0: task do_patch: Started
-NOTE: recipe iptables-1.8.11-r0: task do_patch: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
-NOTE: recipe elfutils-0.194-r0: task do_package_setscene: Started
-NOTE: recipe iproute2-6.18.0-r0: task do_patch: Succeeded
-NOTE: Running task 1098 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1099 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb:do_populate_lic)
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
-NOTE: Running task 1100 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
-NOTE: recipe iproute2-6.18.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe iproute2-6.18.0-r0: task do_populate_lic: Started
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
-NOTE: Running task 1101 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe base-files-3.0.14-r0: task do_install: Started
-NOTE: recipe iproute2-6.18.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb:do_populate_lic unihash changed to b642954b1410cf7cd4a7fb2b4761ee1641a003bfd054a5a3e41ee15345b536d3
-NOTE: recipe iproute2-6.18.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb:do_deploy_source_date_epoch unihash changed to 48fa3d782f4cddab56a0c50e05e29420b5e6466be3cc9185c8f845d07f4aa17b
-NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
-NOTE: recipe elfutils-0.194-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 513 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
-NOTE: Running setscene task 514 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 515 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 516 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 517 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 518 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.18.bb:do_packagedata_setscene)
-NOTE: Running setscene task 519 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
-NOTE: Running setscene task 520 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-legacy-error.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 521 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 522 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 523 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-obstack.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 524 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 525 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/fts/fts_1.2.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 526 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.18.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 527 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 528 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-legacy-error-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe argp-standalone-1.4.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe elfutils-0.194-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe musl-obstack-1.2.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Started
-NOTE: recipe fts-1.2.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libarchive-3.8.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe json-c-0.18-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe elfutils-0.194-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 529 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 531 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_recipe_qa_setscene)
-NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 533 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.2.bb:do_package_setscene)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-legacy-error-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe argp-standalone-1.4.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 537 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-legacy-error.bb:do_recipe_qa_setscene)
-NOTE: recipe libarchive-3.8.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 541 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe musl-obstack-1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 542 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.3.bb:do_package_setscene)
-NOTE: Running setscene task 544 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_recipe_qa_setscene)
-NOTE: recipe fts-1.2.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 546 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-obstack.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 548 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/fts/fts_1.2.7.bb:do_recipe_qa_setscene)
-NOTE: recipe json-c-0.18-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 550 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.18.bb:do_recipe_qa_setscene)
-NOTE: recipe libarchive-3.8.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe elfutils-0.194-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-legacy-error-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe argp-standalone-1.4.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_package_setscene: Started
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-obstack-1.2.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe fts-1.2.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libarchive-3.8.3-r0: task do_package_setscene: Started
-NOTE: recipe json-c-0.18-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe elfutils-0.194-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-legacy-error-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1104 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_fetch)
-NOTE: recipe argp-standalone-1.4.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libarchive-3.8.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe musl-obstack-1.2.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe fts-1.2.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe json-c-0.18-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe elfutils-0.194-r0: task do_fetch: Started
-NOTE: recipe elfutils-0.194-r0: task do_fetch: Succeeded
-NOTE: Running task 1142 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_unpack)
-NOTE: recipe elfutils-0.194-r0: task do_unpack: Started
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 551 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.17.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 552 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 553 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 554 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.11.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 555 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/file/file_5.46.bb:do_packagedata_setscene)
-NOTE: Running setscene task 556 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 557 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.17.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 558 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.11.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 559 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/file/file_5.46.bb:do_populate_sysroot_setscene)
-NOTE: recipe libarchive-3.8.3-r0: task do_package_setscene: Succeeded
-NOTE: recipe curl-8.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe file-5.46-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnutls-3.8.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running setscene task 560 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
-NOTE: recipe libgcrypt-1.11.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 562 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 563 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe file-5.46-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gnutls-3.8.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcrypt-1.11.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe curl-8.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1174 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 564 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libarchive-3.8.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe acl-2.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe file-5.46-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 566 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 567 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/lzip/lzlib_1.15.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_package: Started
-NOTE: Running setscene task 568 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_packagedata_setscene)
-NOTE: recipe curl-8.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 569 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.1.bb:do_packagedata_setscene)
-NOTE: recipe libgcrypt-1.11.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 570 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.11.2.bb:do_package_setscene)
-NOTE: recipe gnutls-3.8.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe curl-8.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 572 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 573 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcrypt-1.11.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 575 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.4.bb:do_packagedata_setscene)
-NOTE: recipe file-5.46-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libarchive-3.8.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 576 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.17.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 577 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/lzip/lzlib_1.15.bb:do_populate_sysroot_setscene)
-NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe lzlib-1.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnutls-3.8.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 578 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe xz-5.8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 579 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe acl-2.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 582 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 583 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/file/file_5.46.bb:do_recipe_qa_setscene)
-NOTE: recipe lzlib-1.15-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcrypt-1.11.2-r0: task do_package_setscene: Started
-NOTE: recipe openssl-3.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.5.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe curl-8.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe lzlib-1.15-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 584 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.11.bb:do_package_setscene)
-NOTE: Running setscene task 585 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe curl-8.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 586 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 587 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.3.bb:do_recipe_qa_setscene)
-NOTE: recipe file-5.46-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 591 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe lzlib-1.15-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 594 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_recipe_qa_setscene)
-NOTE: recipe openssl-3.5.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe file-5.46-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 597 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/lzip/lzlib_1.15.bb:do_recipe_qa_setscene)
-NOTE: Running task 1190 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.2.bb:do_fetch)
-NOTE: recipe xz-5.8.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.8.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libarchive-3.8.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 600 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe gnutls-3.8.11-r0: task do_package_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 602 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 604 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.4.bb:do_recipe_qa_setscene)
-NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe acl-2.3.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 606 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_recipe_qa_setscene)
-NOTE: recipe lzlib-1.15-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libarchive-3.8.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_fetch: Started
-NOTE: Running task 1195 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.3.bb:do_fetch)
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_fetch: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1196 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.2.bb:do_unpack)
-NOTE: recipe acl-2.3.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xz-5.8.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 608 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.1.bb:do_recipe_qa_setscene)
-NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe openssl-3.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe lzlib-1.15-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libarchive-3.8.3-r0: task do_fetch: Started
-NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 611 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_unpack: Started
-NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe openssl-3.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xz-5.8.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libarchive-3.8.3-r0: task do_fetch: Succeeded
-NOTE: Running task 1227 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.3.bb:do_unpack)
-NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_unpack: Succeeded
-NOTE: recipe xz-5.8.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe elfutils-0.194-r0: task do_unpack: Succeeded
-NOTE: recipe libgcrypt-1.11.2-r0: task do_package_setscene: Succeeded
-NOTE: recipe libarchive-3.8.3-r0: task do_unpack: Started
-NOTE: Running setscene task 612 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.56.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 613 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.11.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 614 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.56.bb:do_packagedata_setscene)
-NOTE: Running setscene task 615 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_packagedata_setscene)
-NOTE: Running setscene task 616 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_populate_sysroot_setscene)
-NOTE: recipe libcap-2.77-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.77-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcrypt-1.11.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libgpg-error-1.56-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgpg-error-1.56-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcrypt-1.11.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 617 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.11.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libarchive-3.8.3-r0: task do_unpack: Succeeded
-NOTE: recipe libcap-2.77-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 619 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_packagedata_setscene)
-NOTE: recipe libgpg-error-1.56-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-2.77-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 620 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 622 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_recipe_qa_setscene)
-NOTE: recipe libgcrypt-1.11.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgpg-error-1.56-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 624 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 626 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.56.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 627 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpam-1.7.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.77-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcrypt-1.11.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1245 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.11.2.bb:do_fetch)
-NOTE: recipe libpam-1.7.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgpg-error-1.56-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-2.77-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libgcrypt-1.11.2-r0: task do_fetch: Started
-NOTE: recipe libgcrypt-1.11.2-r0: task do_fetch: Succeeded
-NOTE: recipe libgpg-error-1.56-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1251 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.11.2.bb:do_unpack)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpam-1.7.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 630 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libgcrypt-1.11.2-r0: task do_unpack: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.7.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 633 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libpam-1.7.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.7.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libgcrypt-1.11.2-r0: task do_unpack: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
-NOTE: Running task 1270 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 27a1287f03f8699e6a83b8e7203f6b85f617ccd1b7f11fa183cd486905f39fba
-NOTE: recipe gnutls-3.8.11-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 634 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 635 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.20.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 636 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_3.10.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 637 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.11.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 638 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 639 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 640 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 641 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_3.10.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 642 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.20.0.bb:do_packagedata_setscene)
-NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtasn1-4.20.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe nettle-3.10.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libidn2-2.3.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libseccomp-2.6.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtasn1-4.20.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnutls-3.8.11-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe nettle-3.10.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnutls-3.8.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 643 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.11.bb:do_recipe_qa_setscene)
-NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtasn1-4.20.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtasn1-4.20.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe nettle-3.10.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 645 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.20.0.bb:do_package_setscene)
-NOTE: recipe libidn2-2.3.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 647 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
-NOTE: recipe nettle-3.10.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libseccomp-2.6.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 648 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 650 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_3.10.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 652 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb:do_recipe_qa_setscene)
-NOTE: recipe gnutls-3.8.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 654 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 655 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 657 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_recipe_qa_setscene)
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe nettle-3.10.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libseccomp-2.6.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtasn1-4.20.0-r0: task do_package_setscene: Started
-NOTE: recipe gnutls-3.8.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1272 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.11.bb:do_fetch)
-NOTE: recipe libunistring-1.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libunistring-1.4.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libidn2-2.3.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe nettle-3.10.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libseccomp-2.6.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gnutls-3.8.11-r0: task do_fetch: Started
-NOTE: recipe libidn2-2.3.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gmp-6.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 660 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_recipe_qa_setscene)
-NOTE: recipe gnutls-3.8.11-r0: task do_fetch: Succeeded
-NOTE: recipe libunistring-1.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1288 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.11.bb:do_unpack)
-NOTE: recipe libunistring-1.4.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 663 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.1.bb:do_recipe_qa_setscene)
-NOTE: recipe gmp-6.3.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gnutls-3.8.11-r0: task do_unpack: Started
-NOTE: recipe libunistring-1.4.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libunistring-1.4.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtasn1-4.20.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 664 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.20.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 665 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 666 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtasn1-4.20.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtasn1-4.20.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 667 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.20.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 669 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 670 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtasn1-4.20.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 672 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtasn1-4.20.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1300 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.20.0.bb:do_fetch)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gnutls-3.8.11-r0: task do_unpack: Succeeded
-NOTE: recipe libtasn1-4.20.0-r0: task do_fetch: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 674 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe libtasn1-4.20.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1308 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.20.0.bb:do_unpack)
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtasn1-4.20.0-r0: task do_unpack: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 676 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 677 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libtasn1-4.20.0-r0: task do_unpack: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 679 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.17.bb:do_packagedata_setscene)
-NOTE: Running setscene task 680 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 681 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 685 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 687 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 688 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.17.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 691 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 692 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 695 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.17-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 698 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 700 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.17-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 702 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.17.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.17-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.17-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1704 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/iptables/iptables_1.8.11.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1705 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1869 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.20.0.bb:do_collect_spdx_deps)
-NOTE: Running task 1878 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.11.2.bb:do_collect_spdx_deps)
-NOTE: Running task 1888 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.3.bb:do_collect_spdx_deps)
-NOTE: Running task 1893 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/iptables/iptables_1.8.11.bb:do_collect_spdx_deps)
-NOTE: Running task 1894 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_collect_spdx_deps)
-NOTE: recipe iptables-1.8.11-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtasn1-4.20.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libgcrypt-1.11.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libarchive-3.8.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe iptables-1.8.11-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libtasn1-4.20.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1916 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.20.0.bb:do_create_spdx)
-NOTE: recipe libgcrypt-1.11.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libarchive-3.8.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1917 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.11.2.bb:do_create_spdx)
-NOTE: recipe iptables-1.8.11-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1918 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.3.bb:do_create_spdx)
-NOTE: recipe iptables-1.8.11-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1919 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_configure)
-NOTE: Running task 1920 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/iptables/iptables_1.8.11.bb:do_configure)
-NOTE: recipe libtasn1-4.20.0-r0: task do_create_spdx: Started
-NOTE: recipe libgcrypt-1.11.2-r0: task do_create_spdx: Started
-NOTE: recipe libarchive-3.8.3-r0: task do_create_spdx: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_configure: Started
-NOTE: recipe iptables-1.8.11-r0: task do_configure: Started
-NOTE: recipe libtasn1-4.20.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 1921 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.11.bb:do_collect_spdx_deps)
-NOTE: recipe libarchive-3.8.3-r0: task do_create_spdx: Succeeded
-NOTE: recipe gnutls-3.8.11-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libgcrypt-1.11.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe gnutls-3.8.11-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1922 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.11.bb:do_create_spdx)
-NOTE: recipe gnutls-3.8.11-r0: task do_create_spdx: Started
-NOTE: recipe gnutls-3.8.11-r0: task do_create_spdx: Succeeded
-NOTE: Running task 1923 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.2.bb:do_collect_spdx_deps)
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1924 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.2.bb:do_create_spdx)
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_create_spdx: Started
-NOTE: recipe libmicrohttpd-1.0.2-r0: task do_create_spdx: Succeeded
-NOTE: Running task 1925 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_collect_spdx_deps)
-NOTE: recipe elfutils-0.194-r0: task do_collect_spdx_deps: Started
-NOTE: recipe elfutils-0.194-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1926 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_create_spdx)
-NOTE: recipe elfutils-0.194-r0: task do_create_spdx: Started
-NOTE: recipe elfutils-0.194-r0: task do_create_spdx: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_configure: Succeeded
-NOTE: Running task 1927 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_compile)
-NOTE: recipe libmnl-1.0.5-r0: task do_compile: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_compile: Succeeded
-NOTE: Running task 1928 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_install)
-NOTE: recipe iptables-1.8.11-r0: task do_configure: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_install: Started
-NOTE: Running task 1929 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/iptables/iptables_1.8.11.bb:do_compile)
-NOTE: recipe iptables-1.8.11-r0: task do_compile: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_install: Succeeded
-NOTE: Running task 1930 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_package)
-NOTE: recipe libmnl-1.0.5-r0: task do_package: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_package unihash changed to 91ec31d4dae8bf2ebd6fa4077e238a24faad89fcad0cb8cc1df78a54a848dec5
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_packagedata became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_create_spdx became valid
-NOTE: Running setscene task 696 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_create_spdx_setscene)
-NOTE: recipe libmnl-1.0.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 702 of 702 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_packagedata_setscene)
-NOTE: recipe libmnl-1.0.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe iptables-1.8.11-r0: task do_compile: Succeeded
-NOTE: Running task 1934 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/iptables/iptables_1.8.11.bb:do_install)
-NOTE: recipe iptables-1.8.11-r0: task do_install: Started
-NOTE: recipe iptables-1.8.11-r0: task do_install: Succeeded
-NOTE: Running task 1935 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/iptables/iptables_1.8.11.bb:do_package)
-NOTE: Running task 1937 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe iptables-1.8.11-r0: task do_package: Started
-NOTE: recipe iproute2-6.18.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe iproute2-6.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1938 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb:do_configure)
-NOTE: recipe iproute2-6.18.0-r0: task do_configure: Started
-NOTE: recipe iproute2-6.18.0-r0: task do_configure: Succeeded
-NOTE: Running task 1939 of 1953 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb:do_compile)
-NOTE: recipe iproute2-6.18.0-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 16 -l 75 CC=arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/recipe-sysroot KERNEL_INCLUDE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/recipe-sysroot/usr/include DOCDIR=/usr/share/doc/iproute2 SUBDIRS=lib tc ip bridge misc genl devlink tipc SBINDIR=/sbin CONF_USR_DIR=/usr/lib/iproute2 LIBDIR=/usr/lib CCOPTS= -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/sources/iproute2-6.18.0=/usr/src/debug/iproute2/6.18.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleab
- i/iproute2/6.18.0/sources/iproute2-6.18.0=/usr/src/debug/iproute2/6.18.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/recipe-sysroot-native=  -pipe -Wno-error=incompatible-pointer-types
-| 
-| lib
-|     CC       libgenl.o
-|     CC       libnetlink.o
-|     CC       mnl_utils.o
-|     CC       utils.o
-|     CC       utils_math.o
-|     CC       rt_names.o
-|     CC       ll_map.o
-|     CC       ll_types.o
-|     CC       ll_proto.o
-|     CC       ll_addr.o
-|     CC       inet_proto.o
-|     CC       namespace.o
-|     CC       json_writer.o
-|     CC       json_print.o
-|     CC       json_print_math.o
-|     CC       names.o
-| In file included from ll_types.c:20:
-| ../include/uapi/linux/sockios.h:45:9: warning: 'SIOCGSTAMP' redefined
-|    45 | #define SIOCGSTAMP      ((sizeof(struct timeval))  == 8 ? \
-|       |         ^~~~~~~~~~
-| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/recipe-sysroot/usr/include/sys/ioctl.h:10,
-|                  from ll_types.c:12:
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/recipe-sysroot/usr/include/bits/ioctl.h:108:9: note: this is the location of the previous definition
-|   108 | #define SIOCGSTAMP      _IOR(0x89, 6, char[16])
-|       |         ^~~~~~~~~~
-| ../include/uapi/linux/sockios.h:47:9: warning: 'SIOCGSTAMPNS' redefined
-|    47 | #define SIOCGSTAMPNS    ((sizeof(struct timespec)) == 8 ? \
-|       |         ^~~~~~~~~~~~
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/recipe-sysroot/usr/include/bits/ioctl.h:109:9: note: this is the location of the previous definition
-|   109 | #define SIOCGSTAMPNS    _IOR(0x89, 7, char[16])
-|       |         ^~~~~~~~~~~~
-| In file included from ll_addr.c:20:
-| ../include/uapi/linux/sockios.h:45:9: warning: 'SIOCGSTAMP' redefined
-|    45 | #define SIOCGSTAMP      ((sizeof(struct timeval))  == 8 ? \
-|       |         ^~~~~~~~~~
-| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/recipe-sysroot/usr/include/sys/ioctl.h:10,
-|                  from ll_addr.c:12:
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/recipe-sysroot/usr/include/bits/ioctl.h:108:9: note: this is the location of the previous definition
-|   108 | #define SIOCGSTAMP      _IOR(0x89, 6, char[16])
-|       |         ^~~~~~~~~~
-| ../include/uapi/linux/sockios.h:47:9: warning: 'SIOCGSTAMPNS' redefined
-|    47 | #define SIOCGSTAMPNS    ((sizeof(struct timespec)) == 8 ? \
-|       |         ^~~~~~~~~~~~
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/recipe-sysroot/usr/include/bits/ioctl.h:109:9: note: this is the location of the previous definition
-|   109 | #define SIOCGSTAMPNS    _IOR(0x89, 7, char[16])
-|       |         ^~~~~~~~~~~~
-| In file included from ll_proto.c:21:
-| ../include/uapi/linux/sockios.h:45:9: warning: 'SIOCGSTAMP' redefined
-|    45 | #define SIOCGSTAMP      ((sizeof(struct timeval))  == 8 ? \
-|       |         ^~~~~~~~~~
-| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/recipe-sysroot/usr/include/sys/ioctl.h:10,
-|                  from ll_proto.c:13:
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/recipe-sysroot/usr/include/bits/ioctl.h:108:9: note: this is the location of the previous definition
-|   108 | #define SIOCGSTAMP      _IOR(0x89, 6, char[16])
-|       |         ^~~~~~~~~~
-| ../include/uapi/linux/sockios.h:47:9: warning: 'SIOCGSTAMPNS' redefined
-|    47 | #define SIOCGSTAMPNS    ((sizeof(struct timespec)) == 8 ? \
-|       |         ^~~~~~~~~~~~
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/recipe-sysroot/usr/include/bits/ioctl.h:109:9: note: this is the location of the previous definition
-|   109 | #define SIOCGSTAMPNS    _IOR(0x89, 7, char[16])
-|       |         ^~~~~~~~~~~~
-| utils_math.c: In function 'get_size':
-| utils_math.c:136:20: error: 'UINT_MAX' undeclared (first use in this function)
-|   136 |         if (sz64 > UINT_MAX)
-|       |                    ^~~~~~~~
-| utils_math.c:10:1: note: 'UINT_MAX' is defined in header '<limits.h>'; this is probably fixable by adding '#include <limits.h>'
-|     9 | #include "utils.h"
-|   +++ |+#include <limits.h>
-|    10 |
-| utils_math.c:136:20: note: each undeclared identifier is reported only once for each function it appears in
-|   136 |         if (sz64 > UINT_MAX)
-|       |                    ^~~~~~~~
-| make[1]: *** [../config.mk:44: utils_math.o] Error 1
-| make[1]: *** Waiting for unfinished jobs....
-| utils.c: In function 'print_timestamp':
-| utils.c:1287:38: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'suseconds_t' {aka 'long long int'} [-Wformat=]
-|  1287 |                 fprintf(fp, "[%s.%06ld] ", tshort, tv.tv_usec);
-|       |                                  ~~~~^             ~~~~~~~~~~
-|       |                                      |               |
-|       |                                      long int        suseconds_t {aka long long int}
-|       |                                  %06lld
-| utils.c:1292:46: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'suseconds_t' {aka 'long long int'} [-Wformat=]
-|  1292 |                 fprintf(fp, "Timestamp: %s %ld usec\n",
-|       |                                            ~~^
-|       |                                              |
-|       |                                              long int
-|       |                                            %lld
-|  1293 |                         tstr, tv.tv_usec);
-|       |                               ~~~~~~~~~~
-|       |                                 |
-|       |                                 suseconds_t {aka long long int}
-| make: *** [Makefile:81: all] Error 2
-| ERROR: oe_runmake failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/temp/run.do_compile.2252718:179 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/temp/run.do_compile.2252718, line 179
-| 	#2: die, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/temp/run.do_compile.2252718, line 164
-| 	#3: oe_runmake, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/temp/run.do_compile.2252718, line 169
-| 	#4: base_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/temp/run.do_compile.2252718, line 147
-| 	#5: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/temp/run.do_compile.2252718, line 141
-| 	#6: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/temp/run.do_compile.2252718, line 189
-NOTE: recipe iproute2-6.18.0-r0: task do_compile: Failed
-NOTE: recipe iptables-1.8.11-r0: task do_package: Succeeded
-NOTE: Tasks Summary: Attempted 1939 tasks of which 1880 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251215220255.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251215220255.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/temp/log.do_compile.2252718
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: iproute2-6.18.0-r0 do_compile: oe_runmake failed
-ERROR: iproute2-6.18.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/temp/run.do_compile.2252718' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/iproute2/6.18.0/temp/log.do_compile.2252718
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/iproute2/iproute2_6.18.0.bb:do_compile) failed with exit code '1'
-
---===============1653246916916583735==--
+--===============0497469294890048000==--
 
