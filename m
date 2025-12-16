@@ -1,119 +1,140 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29CE4D5E374
-	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 14:17:06 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23724.1765894618187519336
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A16ED5E388
+	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 14:39:16 +0000 (UTC)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.24022.1765895950984264902
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 06:16:58 -0800
+ Tue, 16 Dec 2025 06:39:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1vVVrE-0003kA-AI; Tue, 16 Dec 2025 15:16:56 +0100
-Received: from dude06.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::5c])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1vVVrD-005xd8-2w;
-	Tue, 16 Dec 2025 15:16:55 +0100
-Received: from ejo by dude06.red.stw.pengutronix.de with local (Exim 4.98.2)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1vVVrD-00000001Hj1-3aaF;
-	Tue, 16 Dec 2025 15:16:55 +0100
-From: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>
-To: Steve Sakoman <steve@sakoman.com>,
-	openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de
-Subject: [scarthgap][PATCH] cml1.bbclass: use consistent make flags for menuconfig
-Date: Tue, 16 Dec 2025 15:15:13 +0100
-Message-ID: <20251216141603.306353-1-ejo@pengutronix.de>
-X-Mailer: git-send-email 2.47.3
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=QdOF4ds9;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.179, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8ba3ffd54dbso674257485a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 06:39:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1765895949; x=1766500749; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iS2ZO2Mqksk5eMkwDKSrWfZnD+g5uQdPaf42w7JBWko=;
+        b=QdOF4ds9bGtE+zwL9d5mIi0saI+yCQ0VWI2WjTzZA4CfscOeBHe+y0mSD3irMAt787
+         0y4zNbnNTzL1HU3wCmq2R+PIYDwL9gzJa2ROO1aHIiNRvNY1g5JW1t+naeEWQbM5H9mO
+         DisdF1wX49aR4CJAUOt9CjpaZ4W44fnN8h9Mxb4sJUkdTzpHJo2kvEJS0E73vhheDnAS
+         VZDgJOaP5TpAymqAccpJkIFg4s7s+t/diifOsTIUD3rcpVLHMUOo8NzNYRGxTIJLHrGA
+         /DPrgI3yVQN8xWsst8I9jWrRRmihf9gWTXPuWS6uIjlsCMTDv/QEyTLZA1TZV25rqgJd
+         K5tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765895949; x=1766500749;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=iS2ZO2Mqksk5eMkwDKSrWfZnD+g5uQdPaf42w7JBWko=;
+        b=CGzs6w2xQT9cTn7F4ctyeX4akQ/lgZoeI+PDGyIShgQiu0t88co64eYAJHLp4uw4l7
+         3kNJLelVwuC56GIcsUyPPLPqaO9MRt0p9RPJRMRqu09RnEiRDeCkDCfdO7YJm6gNIprg
+         +qCknoncro1gHF5KgmVSjvigwQ0nM0Kiy1l8fIs9ey17ovKQX9SU6AWiVfVHwG1pw+aT
+         CTPpzXR8RbDGpD7OOWJ91Z9OJBWFV23DYOHcQNzrj7lPAVm0fGwBGqU+zkdNbLqfFe/I
+         2SBbMnbby7XHkg/3wKcL9Pj5uSOIW0ALwF8S/n00r+nHtQ1ibopf0KYkQsXqRVkEhLO6
+         Lvow==
+X-Gm-Message-State: AOJu0YyL5SSGKdeD8MYWGFwVHzyxM/NejWpYc3+Gvkq9OlNSe0AtIviU
+	ZH7/z2y62UR8sBhcBTogxgSlZzmee1CXttm79k5X9FdwoNB2370YVXkOL9WtRvUv06wsnChPUJ6
+	68LLeAUw=
+X-Gm-Gg: AY/fxX7LSZvtkL8lljyvqPwastjf/QjBYenEKV/rupO+Lakr+DhferWPjILLJbrw0ws
+	J5gUh6R651RH/0q95RgMAdobn4H6LszZCYtO8fwD6N6jMfRDIJlqqR+UAIxVLUb1Azr5DMQYr1g
+	4/1wYZzRypHvX8l9NmLQ6YkZkUvazbYyHBIlKSr+ZhCpjoIBJ05ZgbKJWURKI9PntEfT8cwpCMA
+	EjPpyolMXz6E5eGAc4fItScPRDOADixs/8aPCEqNfl9lYUmd0HHqQ0axNt7FQDuPZ22xU0CuIq8
+	S8bJRb+4AdVvU8BN+Zf8oKVilEbyZ0AlGlmFGUscHESSKS7VhsVUFCBQECk90b/tV6Nx55NSP77
+	aMR4Iva4lc4lGVBoT06xhILDXAf96Hee8nCNasiEu1g0VMIrkrzgvLZRZNFM+FzF4LTKL7ZCxrh
+	FPvQeAwWuGF7wPWI0=
+X-Google-Smtp-Source: AGHT+IEptfrIzzNDmmMuv0mdLemHo6XtaKxx/FmHEh9DZ1DOaAMIe8rfMCCBUaFJNKE7Lu8tibTtHw==
+X-Received: by 2002:a05:622a:124b:b0:4ee:26bd:13f3 with SMTP id d75a77b69052e-4f1d047a33dmr175193961cf.8.1765895949232;
+        Tue, 16 Dec 2025 06:39:09 -0800 (PST)
+Received: from localhost ([2001:1970:3847:e000:8598:5636:16ad:2a8f])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f345c5bf4dsm17143221cf.28.2025.12.16.06.39.07
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Dec 2025 06:39:08 -0800 (PST)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH 2/6] python_pep517: add --prefix to nativepython3 call
+Date: Tue, 16 Dec 2025 09:38:57 -0500
+Message-ID: <20251216143901.2542490-3-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251216143901.2542490-1-tgamblin@baylibre.com>
+References: <20251216143901.2542490-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 14:17:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227954
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 14:39:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227957
 
-The class called 'make menuconfig' without any of the make variables and
-options set in EXTRA_OEMAKE, resulting in a quite different build
-environment than actually intended.
+With Python 3.14, the default assumptions about install path in
+python_pep517 no longer seem to apply, and as a result we see QA errors
+during Python package builds like:
 
-For the kernel.bbclass this was fixed in commit 8c616bc0 ("kernel: Use
-consistent make flags for menuconfig") by appending ${EXTRA_OEMAKE} to
-KCONFIG_CONFIG_COMMAND.
+|ERROR: python3-unittest-automake-output-0.3-r0 do_package: QA Issue: python3-unittest-automake-output: Files/directories were installed but not shipped in any package:
+|  /home
+|  /home/tgamblin
+|  /home/tgamblin/workspace
+|  /home/tgamblin/workspace/yocto
+|  /home/tgamblin/workspace/yocto/openembedded-core
+|  /home/tgamblin/workspace/yocto/openembedded-core/build
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao-0.3.dist-info
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao/__init__.py
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao/pytest.py
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao/unittest
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao/__pycache__
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao/unittest/__init__.py
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao/unittest/__main__.py
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao/unittest/__pycache__
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao/unittest/__pycache__/__init__.cpython-314.pyc
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao/unittest/__pycache__/__main__.cpython-314.pyc
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao/__pycache__/__init__.cpython-314.pyc
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao/__pycache__/pytest.cpython-314.pyc
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao-0.3.dist-info/entry_points.txt
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao-0.3.dist-info/WHEEL
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao-0.3.dist-info/METADATA
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao-0.3.dist-info/licenses
+|  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/usr/lib/python3.14/site-packages/putao-0.3.dist-info/licenses/LICENSE
+|Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+|python3-unittest-automake-output: 34 installed and not shipped files. [installed-vs-shipped]
 
-Instead of fixing this individually for additional recipes, we simply
-include ${EXTRA_OEMAKE} in KCONFIG_CONFIG_COMMAND by default.
+We need to add the --prefix flag to the nativepython3 call so that it
+avoids using the native Python's sysconfig prefix.
 
-For most class users, this change is directly visible in the generated
-.config file:
-
-* For barebox and u-boot, the CONFIG_GCC_VERSION erroneously reflected
-  the host GCC version before where it now correctly reflects the target
-  toolchain's GCC.
-
-* For u-boot, also the "Compiler: " line at the beginning of the .config
-  now prints the target toolchain instead of the host ones.
-
-* The kernel had this already set.
-
-* busybox did not produce any difference.
-
-Note that these projects might base some compile-time decisions on e.g.
-the actual compiler version used. Having the wrong one in the
-menuconfig-generated .config affects at least the visibility and
-consistency.
-
-Reported-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
-Signed-off-by: Enrico Jörns <ejo@pengutronix.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1b6ddd452837e67b500a84455a234f5edc8250a9)
-Signed-off-by: Enrico Jörns <ejo@pengutronix.de>
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/classes-recipe/cml1.bbclass   | 2 +-
- meta/classes-recipe/kernel.bbclass | 3 ---
- 2 files changed, 1 insertion(+), 4 deletions(-)
+ meta/classes-recipe/python_pep517.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/cml1.bbclass b/meta/classes-recipe/cml1.bbclass
-index 456305a315..5519fb61b3 100644
---- a/meta/classes-recipe/cml1.bbclass
-+++ b/meta/classes-recipe/cml1.bbclass
-@@ -31,7 +31,7 @@ CROSS_CURSES_LIB = "-lncurses -ltinfo"
- CROSS_CURSES_INC = '-DCURSES_LOC="<curses.h>"'
- TERMINFO = "${STAGING_DATADIR_NATIVE}/terminfo"
+diff --git a/meta/classes-recipe/python_pep517.bbclass b/meta/classes-recipe/python_pep517.bbclass
+index 128c943794..d6246af5c2 100644
+--- a/meta/classes-recipe/python_pep517.bbclass
++++ b/meta/classes-recipe/python_pep517.bbclass
+@@ -51,7 +51,7 @@ python_pep517_do_install () {
+         bbfatal More than one wheel found in ${PEP517_WHEEL_PATH}, this should not happen
+     fi
  
--KCONFIG_CONFIG_COMMAND ??= "menuconfig"
-+KCONFIG_CONFIG_COMMAND ??= "menuconfig ${EXTRA_OEMAKE}"
- KCONFIG_CONFIG_ENABLE_MENUCONFIG ??= "true"
- KCONFIG_CONFIG_ROOTDIR ??= "${B}"
- python do_menuconfig() {
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 4c1cb89a46..0d8bff2e33 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -697,9 +697,6 @@ addtask savedefconfig after do_configure
+-    nativepython3 -m installer ${INSTALL_WHEEL_COMPILE_BYTECODE} --interpreter "${USRBINPATH}/env ${PEP517_INSTALL_PYTHON}" --destdir=${D} ${PEP517_WHEEL_PATH}/*.whl
++    nativepython3 -m installer ${INSTALL_WHEEL_COMPILE_BYTECODE} --interpreter "${USRBINPATH}/env ${PEP517_INSTALL_PYTHON}" --prefix=${prefix} --destdir=${D} ${PEP517_WHEEL_PATH}/*.whl
  
- inherit cml1 pkgconfig
- 
--# Need LD, HOSTLDFLAGS and more for config operations
--KCONFIG_CONFIG_COMMAND:append = " ${EXTRA_OEMAKE}"
--
- EXPORT_FUNCTIONS do_compile do_transform_kernel do_transform_bundled_initramfs do_install do_configure
- 
- # kernel-base becomes kernel-${KERNEL_VERSION}
+     find ${D} -path *.dist-info/RECORD -delete
+ }
 -- 
-2.47.3
+2.52.0
 
 
