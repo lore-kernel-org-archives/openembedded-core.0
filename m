@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DAFED5C0F9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EAB4D5E363
 	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:51 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17394.1765872135549692799
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17197.1765872154647957023
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:46 -0800
+ Tue, 16 Dec 2025 00:02:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ax0Ery+n;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Fk2/XNqD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019b262ee439-17610740-ce6d-44e8-8129-58fea58642a2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=L5dwMm2J;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=FZSQVUPK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019b262ed6a1-1e3c2a39-39c1-46ad-9e1f-24e4bcf26912-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872166;
+	t=1765872162;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=v6EsA2DAP10yxjSBf/R3W47vgHOmvgitfmynLg7PVl4=;
-	b=ax0Ery+no/7zGUZYVW2jnBi57XmBUhcGerFTpXOi0jgizBm/CwnA5lEC9dBO4zMQ
-	PixOjP/ceRIr7zSNkBpVcPYDtuqHDbc659cw/pbNu11z1BbHldL8Qx7Mf/VXU+2ljjz
-	pb7xNYjyIMAt5aJILnhLA6TYYVbrEBvJUCC035zY=
+	bh=Af1Xmlf+XaW1xYEtxjrsh5CCcyPvwAjLPZqsr/CHTF4=;
+	b=L5dwMm2JR+nHclAWbim06FGr6ApD6YGUBbVd83PEXNrOnPFUhJJcXW4E3/zZyMyP
+	XyqDsaZNXlYmYWdqi64ik8mqfFKZvUDUrxWKmUZAT7gWLfdPT42KSgc3Cm0gXI1MCJk
+	Dt1wBl0iCFxPqTAlhAl5KPmoo7hC+B4yc9zIdBaI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872166;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872162;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=v6EsA2DAP10yxjSBf/R3W47vgHOmvgitfmynLg7PVl4=;
-	b=Fk2/XNqD4zT524kMFj5CO8qr5JwC5OrURVnCE3Dlwksi4ZTktTrSUI6uAIFYLh7+
-	k8agS/iaaqc063nTFzQdexJLjIGypWPGUkxAaXuewpkKIIBpsKqBxkZRFjssmAFCykB
-	pogxMK/qZZq5BzZaeWcoU5eyC/NQuZW9md8R6CAI=
-Content-Type: multipart/mixed; boundary="===============2589349084804816612=="
+	bh=Af1Xmlf+XaW1xYEtxjrsh5CCcyPvwAjLPZqsr/CHTF4=;
+	b=FZSQVUPK9AJlsGRfnqac0vG0H1LUZFuPXluPFcnCoGTkWJRYV2froKwytKE7MRU7
+	PK4P1dROc7MbzDaFeolyqLoB1+Dv6Sc9vq+nWuvr2IAImNjJ3hNKs0BebUD21OhR5V6
+	QdMq7MvOl4nEfYJzXEqrLFWOBwTp0Ydy9SG2JdMI=
+Content-Type: multipart/mixed; boundary="===============4952049106252692433=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] libpng: upgrading to 1.6.53 SUCCEEDED
-Message-ID: <0101019b262ee439-17610740-ce6d-44e8-8129-58fea58642a2-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:45 +0000
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] wayland-utils: upgrading to 1.3.0 SUCCEEDED
+Message-ID: <0101019b262ed6a1-1e3c2a39-39c1-46ad-9e1f-24e4bcf26912-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:42 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.191
+X-SES-Outgoing: 2025.12.16-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227897
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227882
 
---===============2589349084804816612==
+--===============4952049106252692433==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libpng* to *1.6.53* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *wayland-utils* to *1.3.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libpng-upgrade-1.6.51-1.6.53.patch
+    - apply the patch: git am 0001-wayland-utils-upgrade-1.2.0-1.3.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,117 +72,108 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 996f86bf91901ca311f59de1e832383b0845a16c Mon Sep 17 00:00:00 2001
+From db56b955d8067bb4902715de184d2cca72fe94c1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Dec 2025 06:20:10 +0000
-Subject: [PATCH] libpng: upgrade 1.6.51 -> 1.6.53
+Date: Tue, 16 Dec 2025 05:20:33 +0000
+Subject: [PATCH] wayland-utils: upgrade 1.2.0 -> 1.3.0
 
 ---
- .../libpng/{libpng_1.6.51.bb => libpng_1.6.53.bb}               | 2 +-
+ .../wayland/{wayland-utils_1.2.0.bb => wayland-utils_1.3.0.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.51.bb => libpng_1.6.53.bb} (97%)
+ rename meta/recipes-graphics/wayland/{wayland-utils_1.2.0.bb => wayland-utils_1.3.0.bb} (90%)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.51.bb b/meta/recipes-multimedia/libpng/libpng_1.6.53.bb
-similarity index 97%
-rename from meta/recipes-multimedia/libpng/libpng_1.6.51.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.6.53.bb
-index e499f61ff4..956cd243b1 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.51.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.53.bb
-@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
-            file://run-ptest \
- "
+diff --git a/meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb b/meta/recipes-graphics/wayland/wayland-utils_1.3.0.bb
+similarity index 90%
+rename from meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb
+rename to meta/recipes-graphics/wayland/wayland-utils_1.3.0.bb
+index 59d414a0a6..9a1828ccb0 100644
+--- a/meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb
++++ b/meta/recipes-graphics/wayland/wayland-utils_1.3.0.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=548a66038a77415e1df51118625e832f \
+                    "
  
--SRC_URI[sha256sum] = "a050a892d3b4a7bb010c3a95c7301e49656d72a64f1fc709a90b8aded192bed2"
-+SRC_URI[sha256sum] = "1d3fb8ccc2932d04aa3663e22ef5ef490244370f4e568d7850165068778d98d4"
+ SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-utils/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "d9278c22554586881802540751bcc42569262bf80cd9ac9b0fd12ff4bd09a9e4"
++SRC_URI[sha256sum] = "a39d0e65617c6ae186d768c223f57060a3a435f6f9f02d03074f945313bfcf0d"
  
- MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
- 
+ UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/wayland-utils/-/tags"
+ UPSTREAM_CHECK_REGEX = "releases/(?P<pver>.+)"
 -- 
 2.47.1
 
 
---===============2589349084804816612==
+--===============4952049106252692433==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libpng-upgrade-1.6.51-1.6.53.patch"
+ filename="0001-wayland-utils-upgrade-1.2.0-1.3.0.patch"
 
-RnJvbSA5OTZmODZiZjkxOTAxY2EzMTFmNTlkZTFlODMyMzgzYjA4NDVhMTZjIE1vbiBTZXAgMTcg
+RnJvbSBkYjU2Yjk1NWQ4MDY3YmI0OTAyNzE1ZGUxODRkMmNjYTcyZmU5NGMxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDY6MjA6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJwbmc6IHVwZ3JhZGUgMS42LjUxIC0+IDEuNi41MwoKLS0tCiAuLi4vbGlicG5nL3tsaWJwbmdf
-MS42LjUxLmJiID0+IGxpYnBuZ18xLjYuNTMuYmJ9ICAgICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtbXVsdGltZWRpYS9saWJwbmcve2xpYnBuZ18xLjYuNTEuYmIgPT4gbGlicG5nXzEuNi41
-My5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcv
-bGlicG5nXzEuNi41MS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnBuZy9saWJwbmdf
-MS42LjUzLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1t
-dWx0aW1lZGlhL2xpYnBuZy9saWJwbmdfMS42LjUxLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9saWJwbmcvbGlicG5nXzEuNi41My5iYgppbmRleCBlNDk5ZjYxZmY0Li45NTZj
-ZDI0M2IxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvbGlicG5n
-XzEuNi41MS5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJwbmcvbGlicG5nXzEu
-Ni41My5iYgpAQCAtMTQsNyArMTQsNyBAQCBTUkNfVVJJID0gIiR7U09VUkNFRk9SR0VfTUlSUk9S
-fS8ke0JQTn0vJHtCUE59JHtMSUJWfS8ke0JQfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8v
-cnVuLXB0ZXN0IFwKICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImEwNTBhODkyZDNiNGE3YmIw
-MTBjM2E5NWM3MzAxZTQ5NjU2ZDcyYTY0ZjFmYzcwOWE5MGI4YWRlZDE5MmJlZDIiCitTUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiMWQzZmI4Y2NjMjkzMmQwNGFhMzY2M2UyMmVmNWVmNDkwMjQ0MzcwZjRl
-NTY4ZDc4NTAxNjUwNjg3NzhkOThkNCIKIAogTUlSUk9SUyArPSAiJHtTT1VSQ0VGT1JHRV9NSVJS
-T1J9L3Byb2plY3QvJHtCUE59LyR7QlBOfSR7TElCVn0vICR7U09VUkNFRk9SR0VfTUlSUk9SfS9w
-cm9qZWN0LyR7QlBOfS8ke0JQTn0ke0xJQlZ9L29sZGVyLXJlbGVhc2VzLyIKIAotLSAKMi40Ny4x
-Cgo=
+CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDU6MjA6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
+YXlsYW5kLXV0aWxzOiB1cGdyYWRlIDEuMi4wIC0+IDEuMy4wCgotLS0KIC4uLi93YXlsYW5kL3t3
+YXlsYW5kLXV0aWxzXzEuMi4wLmJiID0+IHdheWxhbmQtdXRpbHNfMS4zLjAuYmJ9ICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3t3YXlsYW5kLXV0aWxzXzEuMi4wLmJiID0+IHdh
+eWxhbmQtdXRpbHNfMS4zLjAuYmJ9ICg5MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdy
+YXBoaWNzL3dheWxhbmQvd2F5bGFuZC11dGlsc18xLjIuMC5iYiBiL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy93YXlsYW5kL3dheWxhbmQtdXRpbHNfMS4zLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MCUK
+cmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFuZC11dGlsc18x
+LjIuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFuZC11
+dGlsc18xLjMuMC5iYgppbmRleCA1OWQ0MTRhMGE2Li45YTE4MjhjY2IwIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kLXV0aWxzXzEuMi4wLmJiCisrKyBi
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dheWxhbmQtdXRpbHNfMS4zLjAuYmIKQEAg
+LTEwLDcgKzEwLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9NTQ4
+YTY2MDM4YTc3NDE1ZTFkZjUxMTE4NjI1ZTgzMmYgXAogICAgICAgICAgICAgICAgICAgICIKIAog
+U1JDX1VSSSA9ICJodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvd2F5bGFuZC93YXlsYW5k
+LXV0aWxzLy0vcmVsZWFzZXMvJHtQVn0vZG93bmxvYWRzLyR7QlBOfS0ke1BWfS50YXIueHoiCi1T
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiZDkyNzhjMjI1NTQ1ODY4ODE4MDI1NDA3NTFiY2M0MjU2OTI2
+MmJmODBjZDlhYzliMGZkMTJmZjRiZDA5YTllNCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJhMzlk
+MGU2NTYxN2M2YWUxODZkNzY4YzIyM2Y1NzA2MGEzYTQzNWY2ZjlmMDJkMDMwNzRmOTQ1MzEzYmZj
+ZjBkIgogCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Au
+b3JnL3dheWxhbmQvd2F5bGFuZC11dGlscy8tL3RhZ3MiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9
+ICJyZWxlYXNlcy8oP1A8cHZlcj4uKykiCi0tIAoyLjQ3LjEKCg==
 
---===============2589349084804816612==
+--===============4952049106252692433==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/libpng/libpng: FILELIST: removed "/usr/lib/libpng16.so.16.51.0", added "/usr/lib/libpng16.so.16.53.0"
-Changes to packages/x86-64-v3-poky-linux/libpng (sysroot):
-  /usr/lib/libpng16.so.16 changed symlink target from libpng16.so.16.51.0 to libpng16.so.16.53.0
-  /usr/lib/libpng16.so changed symlink target from libpng16.so.16.51.0 to libpng16.so.16.53.0
-  /usr/lib/libpng16.so.16.51.0 moved to /usr/lib/libpng16.so.16.53.0
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-dbg: PKGSIZE changed from 151064 to 196264 (+30%)
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-src: PKGSIZE changed from 269154 to 447546 (+66%)
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils: PKGSIZE changed from 55944 to 72584 (+30%)
 
---===============2589349084804816612==
+--===============4952049106252692433==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libpng: PV changed from "1.6.51" to "1.6.53"
-packages/x86-64-v3-poky-linux/libpng: PKGV changed from 1.6.51 [default] to 1.6.53 [default]
-packages/x86-64-v3-poky-linux/libpng: SRC_URI changed from "https://downloads.sourceforge.net/libpng/libpng16/libpng-1.6.51.tar.xz file://run-ptest" to "https://downloads.sourceforge.net/libpng/libpng16/libpng-1.6.53.tar.xz file://run-ptest"
-packages/x86-64-v3-poky-linux/libpng/libpng-dbg: PV changed from "1.6.51" to "1.6.53"
-packages/x86-64-v3-poky-linux/libpng/libpng-dbg: FILELIST: removed "/usr/lib/.debug/libpng16.so.16.51.0", added "/usr/lib/.debug/libpng16.so.16.53.0"
-packages/x86-64-v3-poky-linux/libpng/libpng-dbg: PKGSIZE changed from 1442128 to 1442528 (+0%)
-packages/x86-64-v3-poky-linux/libpng/libpng-dbg: PKGV changed from 1.6.51 [default] to 1.6.53 [default]
-packages/x86-64-v3-poky-linux/libpng/libpng-dev: PV changed from "1.6.51" to "1.6.53"
-packages/x86-64-v3-poky-linux/libpng/libpng-dev: PKGV changed from 1.6.51 [default] to 1.6.53 [default]
-packages/x86-64-v3-poky-linux/libpng/libpng-doc: PV changed from "1.6.51" to "1.6.53"
-packages/x86-64-v3-poky-linux/libpng/libpng-doc: PKGSIZE changed from 268152 to 268149 (-0%)
-packages/x86-64-v3-poky-linux/libpng/libpng-doc: PKGV changed from 1.6.51 [default] to 1.6.53 [default]
-packages/x86-64-v3-poky-linux/libpng/libpng-locale: PV changed from "1.6.51" to "1.6.53"
-packages/x86-64-v3-poky-linux/libpng/libpng-locale: PKGV changed from 1.6.51 [default] to 1.6.53 [default]
-packages/x86-64-v3-poky-linux/libpng/libpng-ptest: PV changed from "1.6.51" to "1.6.53"
-packages/x86-64-v3-poky-linux/libpng/libpng-ptest: PKGSIZE changed from 2445841 to 2447245 (+0%)
-packages/x86-64-v3-poky-linux/libpng/libpng-ptest: PKGV changed from 1.6.51 [default] to 1.6.53 [default]
-packages/x86-64-v3-poky-linux/libpng/libpng-src: PV changed from "1.6.51" to "1.6.53"
-packages/x86-64-v3-poky-linux/libpng/libpng-src: FILELIST: directory renamed /usr/src/debug/libpng/1.6.51 -> /usr/src/debug/libpng/1.6.53, directory renamed /usr/src/debug/libpng/1.6.51/contrib/libtests -> /usr/src/debug/libpng/1.6.53/contrib/libtests, directory renamed /usr/src/debug/libpng/1.6.51/contrib/tools -> /usr/src/debug/libpng/1.6.53/contrib/tools
-packages/x86-64-v3-poky-linux/libpng/libpng-src: PKGSIZE changed from 2049213 to 2050617 (+0%)
-packages/x86-64-v3-poky-linux/libpng/libpng-src: PKGV changed from 1.6.51 [default] to 1.6.53 [default]
-packages/x86-64-v3-poky-linux/libpng/libpng-staticdev: PV changed from "1.6.51" to "1.6.53"
-packages/x86-64-v3-poky-linux/libpng/libpng-staticdev: PKGV changed from 1.6.51 [default] to 1.6.53 [default]
-packages/x86-64-v3-poky-linux/libpng/libpng-tools: PV changed from "1.6.51" to "1.6.53"
-packages/x86-64-v3-poky-linux/libpng/libpng-tools: PKGV changed from 1.6.51 [default] to 1.6.53 [default]
-packages/x86-64-v3-poky-linux/libpng/libpng: PV changed from "1.6.51" to "1.6.53"
-packages/x86-64-v3-poky-linux/libpng/libpng: FILELIST: removed "/usr/lib/libpng16.so.16.51.0", added "/usr/lib/libpng16.so.16.53.0"
-packages/x86-64-v3-poky-linux/libpng/libpng: PKGV changed from 1.6.51 [default] to 1.6.53 [default]
-Changes to packages/x86-64-v3-poky-linux/libpng (sysroot):
-  /usr/lib/libpng16.so.16 changed symlink target from libpng16.so.16.51.0 to libpng16.so.16.53.0
-  /usr/lib/libpng16.so changed symlink target from libpng16.so.16.51.0 to libpng16.so.16.53.0
-  /usr/lib/libpng16.so.16.51.0 moved to /usr/lib/libpng16.so.16.53.0
+packages/x86-64-v3-poky-linux/wayland-utils: SRC_URI changed from "https://gitlab.freedesktop.org/wayland/wayland-utils/-/releases/1.2.0/downloads/wayland-utils-1.2.0.tar.xz" to "https://gitlab.freedesktop.org/wayland/wayland-utils/-/releases/1.3.0/downloads/wayland-utils-1.3.0.tar.xz"
+packages/x86-64-v3-poky-linux/wayland-utils: PV changed from "1.2.0" to "1.3.0"
+packages/x86-64-v3-poky-linux/wayland-utils: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-dbg: PKGSIZE changed from 151064 to 196264 (+30%)
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-dbg: PV changed from "1.2.0" to "1.3.0"
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-dbg: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-dev: PV changed from "1.2.0" to "1.3.0"
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-dev: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-doc: PV changed from "1.2.0" to "1.3.0"
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-doc: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-locale: PV changed from "1.2.0" to "1.3.0"
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-locale: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-src: FILELIST: removed "/usr/src/debug/wayland-utils/1.2.0/wayland-info/drm-lease-v1-client-protocol.h /usr/src/debug/wayland-utils/1.2.0/wayland-info/tablet-unstable-v2-protocol.c /usr/src/debug/wayland-utils/1.2.0/wayland-info/linux-dmabuf-unstable-v1-client-protocol.h /usr/src/debug/wayland-utils/1.2.0/wayland-info/linux-dmabuf-unstable-v1-protocol.c /usr/src/debug/wayland-utils/1.2.0/wayland-info/presentation-time-client-protocol.h /usr/src/debug/wayland-utils/1.2.0/wayland-info/xdg-output-unstable-v1-protocol.c /usr/src/debug/wayland-utils/1.2.0/wayland-info/wayland-info.c /usr/src/debug/wayland-utils/1.2.0/wayland-info/tablet-unstable-v2-client-protocol.h /usr/src/debug/wayland-utils/1.2.0/wayland-info/presentation-time-protocol.c /usr/src/debug/wayland-utils/1.2.0/wayland-info/xdg-output-unstable-v1-client-protocol.h /usr/src/debug/wayland-utils/1.2.0/wayland-info/drm-lease-v1-protocol.c", added "/usr/src/debug/wayland-
+ utils/1.3.0/wayland-info/drm-lease-v1-client-protocol.h /usr/src/debug/wayland-utils/1.3.0/wayland-info/color-representation-v1-protocol.c /usr/src/debug/wayland-utils/1.3.0/wayland-info/linux-dmabuf-unstable-v1-client-protocol.h /usr/src/debug/wayland-utils/1.3.0/wayland-info/tablet-v2-client-protocol.h /usr/src/debug/wayland-utils/1.3.0/wayland-info/linux-dmabuf-unstable-v1-protocol.c /usr/src/debug/wayland-utils/1.3.0/wayland-info/color-representation-v1-client-protocol.h /usr/src/debug/wayland-utils/1.3.0/wayland-info/color-management-v1-protocol.c /usr/src/debug/wayland-utils/1.3.0/wayland-info/presentation-time-client-protocol.h /usr/src/debug/wayland-utils/1.3.0/wayland-info/xdg-output-unstable-v1-protocol.c /usr/src/debug/wayland-utils/1.3.0/wayland-info/wayland-info.c /usr/src/debug/wayland-utils/1.3.0/wayland-info/tablet-v2-protocol.c /usr/src/debug/wayland-utils/1.3.0/wayland-info/color-management-v1-client-protocol.h /usr/src/debug/wayland-utils/1.3.0/wayland-info/presen
+ tation-time-protocol.c /usr/src/debug/wayland-utils/1.3.0/wayland-info/xdg-output-unstable-v1-client-protocol.h /usr/src/debug/wayland-utils/1.3.0/wayland-info/drm-lease-v1-protocol.c"
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-src: PKGSIZE changed from 269154 to 447546 (+66%)
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-src: PV changed from "1.2.0" to "1.3.0"
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-src: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-staticdev: PV changed from "1.2.0" to "1.3.0"
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils-staticdev: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils: PKGSIZE changed from 55944 to 72584 (+30%)
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils: PV changed from "1.2.0" to "1.3.0"
+packages/x86-64-v3-poky-linux/wayland-utils/wayland-utils: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
 
---===============2589349084804816612==--
+--===============4952049106252692433==--
 
