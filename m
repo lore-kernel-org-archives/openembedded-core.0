@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7D50D5C0EB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4923D5C0EA
 	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:26 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17388.1765872134050108079
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17184.1765872136819102044
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:14 -0800
+ Tue, 16 Dec 2025 00:02:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=2aLLM+t1;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=FNbof561;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019b262e648b-34bff0ab-e17e-44b5-a95a-e7af16922f7e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=iB1vdeT6;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=J2UKLxD/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019b262e6ff3-7eede55a-ed05-40ae-b573-d9e41d33ee05-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872133;
+	t=1765872136;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=TS6+Gylswaco74yRw0h8mhfo3ED1etulEUW8bJbtz+g=;
-	b=2aLLM+t1IZNEhtVYKTqP9xSLSAWq4sN0RCZaPwsbVMUzO0nEMBlcGdOoz8fMAuH2
-	Irt0rTLaZ9cxf54p48VfQqpS7GueBYb/mnDcgAa6CMVIkoPXgT90G7Sn9Lgg/eYYNjD
-	U7rHQrrfY34kmvQlw1HgYASNe8xoDElrYvwE4378=
+	bh=GC9zvCiXwtxjdgLgWZMgqXT5mTL+rET/8UZxdviWYJA=;
+	b=iB1vdeT6+BY+BzCr5icwZgXcZwALEgdgfiYr8dW3C9lsIK1fCfRKduGCm7g+au7d
+	SviznyqmoC59gvqBA0F6hfu4Uh5jn+izDel+ThO6sDCJK5vWgJocVmLtn8ke7Z8oFll
+	iMfePBmdG9p/A0TtMKBrbkJu4oBRBriix9la9UjE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872133;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872136;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=TS6+Gylswaco74yRw0h8mhfo3ED1etulEUW8bJbtz+g=;
-	b=FNbof561beN/SCET1LMY0UFhfTz6i2skNeGHat7Oz7p2+zogn5ihimSoPo/peOA4
-	kSnS5oCpsUPNoqbHUyBUc940J0iM7WVG3lnl39ICcpXIjDTITodv2uTu9YUf45OCj2j
-	6pT5C/+MZfMigkLfxoCeaJ4PtWG6m9gdkpeF9cwA=
-Content-Type: multipart/mixed; boundary="===============0930385114331338267=="
+	bh=GC9zvCiXwtxjdgLgWZMgqXT5mTL+rET/8UZxdviWYJA=;
+	b=J2UKLxD/MsKhpv8JDOchGW1/uDg6NpxBTcZKEi79K5EBn4pmW7KqGu4Zp0DVQrG0
+	eCc8ZKFe4FJSffvAsxSQwDfm4Jmp3sfo9Nak1LY9TTHVqRmimPx2/ZDwn1BWlY/ohnf
+	dOowNRrk+dg+hdpgDewx7B5M3m02culRa07/kXm8=
+Content-Type: multipart/mixed; boundary="===============7036099250256475406=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Victor Kamensky <victor.kamensky7@gmail.com>, 
-	Victor Kamensky <victor.kamensky7@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] systemtap-native,systemtap: upgrading to 5.4,5.4 FAILED
-Message-ID: <0101019b262e648b-34bff0ab-e17e-44b5-a95a-e7af16922f7e-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:13 +0000
+Subject: [AUH] ttyrun: upgrading to 2.40.0 SUCCEEDED
+Message-ID: <0101019b262e6ff3-7eede55a-ed05-40ae-b573-d9e41d33ee05-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:16 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.12.16-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227772
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227787
 
---===============0930385114331338267==
+--===============7036099250256475406==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,99 +51,109 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *systemtap-native,systemtap* to *5.4,5.4* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *ttyrun* to *2.40.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-ttyrun-upgrade-2.39.0-2.40.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade systemtap-native -V 5.4 -S 911a1354aac264651fda932061e7f20d2ecc2471
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 949 .bb files complete (0 cached, 949 parsed). 1950 targets, 47 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-8692659cb1dcec87f4e54d45648aa2d496c36303"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:8692659cb1dcec87f4e54d45648aa2d496c36303"
-meta-yocto-bsp       
-meta-poky            = "master:b3b659263566c4d2f2813190e72d93f8598a4c47"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-done.
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto 911a1354aac264651fda932061e7f20d2ecc2471
-ERROR: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 93, in include_single_file
-    bb.parse.handle(fn, data, True)
-    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 119, in handle
-    return h['handle'](fn, data, include, baseconfig)
-           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/BBHandler.py", line 146, in handle
-    abs_fn = resolve_file(fn, d)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 139, in resolve_file
-    raise IOError(errno.ENOENT, "file %s not found in %s" % (fn, bbpath))
-FileNotFoundError: [Errno 2] file systemtap_5.4.bb not found in /srv/pokybuild/yocto-worker/auh/build/build/workspace:/srv/pokybuild/yocto-worker/auh/build/layers/meta-yocto/meta-poky:/srv/pokybuild/yocto-worker/auh/build/build:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta:/srv/pokybuild/yocto-worker/auh/build/layers/meta-yocto/meta-yocto-bsp
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/command.py", line 91, in runCommand
-    result = command_method(self, commandline)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/command.py", line 596, in parseRecipeFile
-    envdata = command.cooker.databuilder.parseRecipe(virtualfn, appendfiles, layername)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 559, in parseRecipe
-    datastores = self.parseRecipeVariants(virtualfn, appends, virtonly=True, layername=layername)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 533, in parseRecipeVariants
-    return self._parse_recipe(bb_data, bbfile, appends, mc, layername)
-           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 521, in _parse_recipe
-    return bb.parse.handle(bbfile, bb_data)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 119, in handle
-    return h['handle'](fn, data, include, baseconfig)
-           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/BBHandler.py", line 156, in handle
-    statements.eval(d)
-    ~~~~~~~~~~~~~~~^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/ast.py", line 20, in eval
-    statement.eval(data)
-    ~~~~~~~~~~~~~~^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/ast.py", line 42, in eval
-    bb.parse.ConfHandler.include(self.filename, s, self.lineno, data, "include required")
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 70, in include
-    include_single_file(parentfn, fn, lineno, data, error_out)
-    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 97, in include_single_file
-    raise ParseError("Could not %s file %s" % (error_out, fn), parentfn, lineno)
-bb.parse.ParseError: ParseError at /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/systemtap-native/systemtap-native_5.4.bb:1: Could not include required file systemtap_5.4.bb
-
-ERROR: Parsing of upgraded recipe failed
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============0930385114331338267==--
+
+-- >8 --
+From ac636014f3a5320fb1606279e3575f78d97c8f12 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Mon, 15 Dec 2025 22:53:24 +0000
+Subject: [PATCH] ttyrun: upgrade 2.39.0 -> 2.40.0
+
+---
+ meta/recipes-core/ttyrun/{ttyrun_2.39.0.bb => ttyrun_2.40.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/ttyrun/{ttyrun_2.39.0.bb => ttyrun_2.40.0.bb} (94%)
+
+diff --git a/meta/recipes-core/ttyrun/ttyrun_2.39.0.bb b/meta/recipes-core/ttyrun/ttyrun_2.40.0.bb
+similarity index 94%
+rename from meta/recipes-core/ttyrun/ttyrun_2.39.0.bb
+rename to meta/recipes-core/ttyrun/ttyrun_2.40.0.bb
+index c7ca8f3ec3..974b0a8aa0 100644
+--- a/meta/recipes-core/ttyrun/ttyrun_2.39.0.bb
++++ b/meta/recipes-core/ttyrun/ttyrun_2.40.0.bb
+@@ -7,7 +7,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f5118f167b055bfd7c3450803f1847af"
+ 
+ SRC_URI = "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v${PV}"
+-SRCREV = "940ce6790021816f280fab66f443e4721d527833"
++SRCREV = "aca6704cfa27434452580369b4bc8a024bd0edee"
+ 
+ CVE_PRODUCT = "s390-tools"
+ 
+-- 
+2.47.1
+
+
+--===============7036099250256475406==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-ttyrun-upgrade-2.39.0-2.40.0.patch"
+
+RnJvbSBhYzYzNjAxNGYzYTUzMjBmYjE2MDYyNzllMzU3NWY3OGQ5N2M4ZjEyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgRGVjIDIwMjUgMjI6NTM6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSB0
+dHlydW46IHVwZ3JhZGUgMi4zOS4wIC0+IDIuNDAuMAoKLS0tCiBtZXRhL3JlY2lwZXMtY29yZS90
+dHlydW4ve3R0eXJ1bl8yLjM5LjAuYmIgPT4gdHR5cnVuXzIuNDAuMC5iYn0gfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtY29yZS90dHlydW4ve3R0eXJ1bl8yLjM5LjAuYmIgPT4gdHR5cnVuXzIuNDAuMC5iYn0g
+KDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS90dHlydW4vdHR5cnVuXzIuMzku
+MC5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL3R0eXJ1bi90dHlydW5fMi40MC4wLmJiCnNpbWlsYXJp
+dHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL3R0eXJ1bi90dHlydW5f
+Mi4zOS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS90dHlydW4vdHR5cnVuXzIuNDAu
+MC5iYgppbmRleCBjN2NhOGYzZWMzLi45NzRiMGE4YWEwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtY29yZS90dHlydW4vdHR5cnVuXzIuMzkuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS90
+dHlydW4vdHR5cnVuXzIuNDAuMC5iYgpAQCAtNyw3ICs3LDcgQEAgTElDRU5TRSA9ICJNSVQiCiBM
+SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT1mNTExOGYxNjdiMDU1YmZkN2Mz
+NDUwODAzZjE4NDdhZiIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2libS1zMzkwLWxp
+bnV4L3MzOTAtdG9vbHM7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hc3Rlcjt0YWc9diR7UFZ9Igot
+U1JDUkVWID0gIjk0MGNlNjc5MDAyMTgxNmYyODBmYWI2NmY0NDNlNDcyMWQ1Mjc4MzMiCitTUkNS
+RVYgPSAiYWNhNjcwNGNmYTI3NDM0NDUyNTgwMzY5YjRiYzhhMDI0YmQwZWRlZSIKIAogQ1ZFX1BS
+T0RVQ1QgPSAiczM5MC10b29scyIKIAotLSAKMi40Ny4xCgo=
+
+--===============7036099250256475406==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/ttyrun: PV changed from "2.39.0" to "2.40.0"
+packages/x86-64-v3-poky-linux/ttyrun: PKGV changed from 2.39.0 [default] to 2.40.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun: SRC_URI changed from "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v2.39.0" to "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v2.40.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dbg: PV changed from "2.39.0" to "2.40.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dbg: PKGV changed from 2.39.0 [default] to 2.40.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dev: PV changed from "2.39.0" to "2.40.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dev: PKGV changed from 2.39.0 [default] to 2.40.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-doc: PV changed from "2.39.0" to "2.40.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-doc: PKGV changed from 2.39.0 [default] to 2.40.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-locale: PV changed from "2.39.0" to "2.40.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-locale: PKGV changed from 2.39.0 [default] to 2.40.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: PV changed from "2.39.0" to "2.40.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: FILELIST: directory renamed /usr/src/debug/ttyrun/2.39.0/iucvterm/src -> /usr/src/debug/ttyrun/2.40.0/iucvterm/src
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: PKGV changed from 2.39.0 [default] to 2.40.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-staticdev: PV changed from "2.39.0" to "2.40.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-staticdev: PKGV changed from 2.39.0 [default] to 2.40.0 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun: PV changed from "2.39.0" to "2.40.0"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun: PKGV changed from 2.39.0 [default] to 2.40.0 [default]
+
+--===============7036099250256475406==--
 
