@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1811BD5CCBE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A29AD5E120
 	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:39 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17192.1765872145451731656
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17405.1765872153735338759
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:30 -0800
+ Tue, 16 Dec 2025 00:02:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=HU2OVVK+;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=gOVT6YO2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019b262ea536-fb2530cb-17da-4518-9dd5-4eb3db857ea1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=tPRpv78A;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=fZ3AUu+p;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019b262eb2b5-828af150-aa2f-4646-93e0-f42477405316-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872149;
+	t=1765872153;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=yUVxX3z4+6A144/UkB3i9TfxnmR2Ludy48ZXM2QXexM=;
-	b=HU2OVVK+3jRXN3DUkkJe6QnaR1AWTldQXJzQfb7CHvObIZNtLEWCAzSJwj16ycGN
-	5wPAwl8JhMQxWDY+bDjpCALdHuASI3pDSLS+nlm179UYjbwpJkr9uZ3z+fFCfQZygEA
-	RX4S5xNMz02BDRCBCMA/53euysbz1zeJpN7llwKA=
+	bh=qKPpUC0bF2+rfAcR/mYRRNO/tqAPg7mkmzrxs0PCwSU=;
+	b=tPRpv78AGt/yVufCCSZpaivOF/MS7RA/g4kwizEOQzkh+j90GIWD66jQWAwbkOKm
+	FpA8LKNco/ATK81otef9we0EiVeZE625N98XEUjgDT8BfBEspl2nb2VYSlaZ73/r4tY
+	zGM0jkv/7YqNKo5M5yl6HaAyzhnQKUXgEptwQFwU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872149;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872153;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=yUVxX3z4+6A144/UkB3i9TfxnmR2Ludy48ZXM2QXexM=;
-	b=gOVT6YO2Z7MgnSYHGZfqcwI1L/Xc7MzdL90SCPyBbN30zQsPf+Hrzee4nVHPKm1E
-	0c+fxd94epwPz2CJeNPMnGIUUHCb/2PsDKR03bIvHlK4kXSRlW2160NQtd+rcqJiK+c
-	4znHH2mJ9K79EIJ8H2j0/ochFn4QoiFbpdJMEiCw=
-Content-Type: multipart/mixed; boundary="===============4854364568242574264=="
+	bh=qKPpUC0bF2+rfAcR/mYRRNO/tqAPg7mkmzrxs0PCwSU=;
+	b=fZ3AUu+pbYD94A0Q+luGqcvuuqyCzuDd2/8DkdkCadvyJVxkmDyesUBjzreVPMft
+	uKucrHp7ZKCpYqs6kpfIVN/+5DCMxRJ2is951mYF3Q1JNPY+qWIxOnE2OR9sIyjrX4u
+	HzUysLb90id30s46ViJAr/DVwK05PFoJsiFrUZjw=
+Content-Type: multipart/mixed; boundary="===============6934213929480686624=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-wcwidth: upgrading to 0.2.14 SUCCEEDED
-Message-ID: <0101019b262ea536-fb2530cb-17da-4518-9dd5-4eb3db857ea1-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:29 +0000
+Subject: [AUH] acpica: upgrading to 20251212 SUCCEEDED
+Message-ID: <0101019b262eb2b5-828af150-aa2f-4646-93e0-f42477405316-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:33 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.193
+X-SES-Outgoing: 2025.12.16-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227832
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227843
 
---===============4854364568242574264==
+--===============6934213929480686624==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-wcwidth* to *0.2.14* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *acpica* to *20251212* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-wcwidth-upgrade-0.2.13-0.2.14.patch
+    - apply the patch: git am 0001-acpica-upgrade-20250807-20251212.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,108 +72,95 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From be5d4c8e6f96decb4077a30c3060c5c68e57a27c Mon Sep 17 00:00:00 2001
+From b947a17f16c45e0dfee9136762b0b486dab4b462 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Dec 2025 01:38:19 +0000
-Subject: [PATCH] python3-wcwidth: upgrade 0.2.13 -> 0.2.14
+Date: Tue, 16 Dec 2025 02:31:11 +0000
+Subject: [PATCH] acpica: upgrade 20250807 -> 20251212
 
 ---
- .../{python3-wcwidth_0.2.13.bb => python3-wcwidth_0.2.14.bb}    | 2 +-
+ .../acpica/{acpica_20250807.bb => acpica_20251212.bb}           | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-wcwidth_0.2.13.bb => python3-wcwidth_0.2.14.bb} (84%)
+ rename meta/recipes-extended/acpica/{acpica_20250807.bb => acpica_20251212.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb b/meta/recipes-devtools/python/python3-wcwidth_0.2.14.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb
-rename to meta/recipes-devtools/python/python3-wcwidth_0.2.14.bb
-index 71bb1a2703..da2dc60263 100644
---- a/meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb
-+++ b/meta/recipes-devtools/python/python3-wcwidth_0.2.14.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/jquast/wcwidth"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=b15979c39a2543892fca8cd86b4b52cb"
+diff --git a/meta/recipes-extended/acpica/acpica_20250807.bb b/meta/recipes-extended/acpica/acpica_20251212.bb
+similarity index 96%
+rename from meta/recipes-extended/acpica/acpica_20250807.bb
+rename to meta/recipes-extended/acpica/acpica_20251212.bb
+index f6ee3285a1..812a62547b 100644
+--- a/meta/recipes-extended/acpica/acpica_20250807.bb
++++ b/meta/recipes-extended/acpica/acpica_20251212.bb
+@@ -17,7 +17,7 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ DEPENDS = "m4-native flex-native bison-native"
  
--SRC_URI[sha256sum] = "72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5"
-+SRC_URI[sha256sum] = "4d478375d31bc5395a3c55c40ccdf3354688364cd61c4f6adacaa9215d0b3605"
+ SRC_URI = "git://github.com/acpica/acpica;protocol=https;branch=master;tag=${PV}"
+-SRCREV = "aa98db3bd149fc1f8d2a3017cb05b6b1982c3296"
++SRCREV = "446be438238e9d339eed5182b807ac5f82df56c9"
  
- inherit pypi setuptools3 ptest-python-pytest
+ inherit update-alternatives
  
 -- 
 2.47.1
 
 
---===============4854364568242574264==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: FILELIST: directory renamed /usr/lib/python3.13/site-packages/wcwidth-0.2.13.dist-info -> /usr/lib/python3.13/site-packages/wcwidth-0.2.14.dist-info, directory renamed /usr/lib/python3.13/site-packages/wcwidth-0.2.13.dist-info/licenses -> /usr/lib/python3.13/site-packages/wcwidth-0.2.14.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PKGSIZE changed from 546870 to 616750 (+13%)
-Changes to packages/x86-64-v3-poky-linux/python3-wcwidth (sysroot):
-  /usr/lib/python3.13/site-packages/wcwidth-0.2.13.dist-info moved to /usr/lib/python3.13/site-packages/wcwidth-0.2.14.dist-info
-
---===============4854364568242574264==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-wcwidth-upgrade-0.2.13-0.2.14.patch"
-
-RnJvbSBiZTVkNGM4ZTZmOTZkZWNiNDA3N2EzMGMzMDYwYzVjNjhlNTdhMjdjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDE6Mzg6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXdjd2lkdGg6IHVwZ3JhZGUgMC4yLjEzIC0+IDAuMi4xNAoKLS0tCiAuLi4ve3B5dGhv
-bjMtd2N3aWR0aF8wLjIuMTMuYmIgPT4gcHl0aG9uMy13Y3dpZHRoXzAuMi4xNC5iYn0gICAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXdjd2lkdGhfMC4yLjEzLmJi
-ID0+IHB5dGhvbjMtd2N3aWR0aF8wLjIuMTQuYmJ9ICg4NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdjd2lkdGhfMC4yLjEzLmJiIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdjd2lkdGhfMC4yLjE0LmJiCnNpbWlsYXJp
-dHkgaW5kZXggODQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uMy13Y3dpZHRoXzAuMi4xMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXdjd2lkdGhfMC4yLjE0LmJiCmluZGV4IDcxYmIxYTI3MDMuLmRhMmRjNjAy
-NjMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy13Y3dp
-ZHRoXzAuMi4xMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
-d2N3aWR0aF8wLjIuMTQuYmIKQEAgLTQsNyArNCw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0
-aHViLmNvbS9qcXVhc3Qvd2N3aWR0aCIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NV
-TSA9ICJmaWxlOi8vTElDRU5TRTttZDU9YjE1OTc5YzM5YTI1NDM4OTJmY2E4Y2Q4NmI0YjUyY2Ii
-CiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI3MmVhMGMwNjM5OWViMjg2ZDk3OGZkZWRiNjkyM2E5
-ZWI0N2UxYzQ4NmNlNjNlOWI0ZTY0ZmMxODMwMzk3MmI1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
-IjRkNDc4Mzc1ZDMxYmM1Mzk1YTNjNTVjNDBjY2RmMzM1NDY4ODM2NGNkNjFjNGY2YWRhY2FhOTIx
-NWQwYjM2MDUiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMyBwdGVzdC1weXRob24tcHl0ZXN0
-CiAKLS0gCjIuNDcuMQoK
-
---===============4854364568242574264==
+--===============6934213929480686624==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-wcwidth: SRC_URI changed from "https://files.pythonhosted.org/packages/source/w/wcwidth/wcwidth-0.2.13.tar.gz;downloadfilename=wcwidth-0.2.13.tar.gz" to "https://files.pythonhosted.org/packages/source/w/wcwidth/wcwidth-0.2.14.tar.gz;downloadfilename=wcwidth-0.2.14.tar.gz"
-packages/x86-64-v3-poky-linux/python3-wcwidth: PV changed from "0.2.13" to "0.2.14"
-packages/x86-64-v3-poky-linux/python3-wcwidth: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PV changed from "0.2.13" to "0.2.14"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dev: PV changed from "0.2.13" to "0.2.14"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dev: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-doc: PV changed from "0.2.13" to "0.2.14"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-doc: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-locale: PV changed from "0.2.13" to "0.2.14"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-locale: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PKGSIZE changed from 317339 to 317322 (-0%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PV changed from "0.2.13" to "0.2.14"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PV changed from "0.2.13" to "0.2.14"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-staticdev: PV changed from "0.2.13" to "0.2.14"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-staticdev: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PKGSIZE changed from 546870 to 616750 (+13%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PV changed from "0.2.13" to "0.2.14"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: FILELIST: directory renamed /usr/lib/python3.13/site-packages/wcwidth-0.2.13.dist-info/licenses -> /usr/lib/python3.13/site-packages/wcwidth-0.2.14.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/wcwidth-0.2.13.dist-info -> /usr/lib/python3.13/site-packages/wcwidth-0.2.14.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-wcwidth (sysroot):
-  /usr/lib/python3.13/site-packages/wcwidth-0.2.13.dist-info moved to /usr/lib/python3.13/site-packages/wcwidth-0.2.14.dist-info
+packages/x86-64-v3-poky-linux/acpica/acpica-dbg: PKGSIZE changed from 10788896 to 10799128 (+0%)
+packages/x86-64-v3-poky-linux/acpica/acpica-dbg: PV changed from "20250807" to "20251212"
+packages/x86-64-v3-poky-linux/acpica/acpica-dbg: PKGV changed from 20250807 [default] to 20251212 [default]
+packages/x86-64-v3-poky-linux/acpica/acpica-dev: PV changed from "20250807" to "20251212"
+packages/x86-64-v3-poky-linux/acpica/acpica-dev: PKGV changed from 20250807 [default] to 20251212 [default]
+packages/x86-64-v3-poky-linux/acpica/acpica-doc: PV changed from "20250807" to "20251212"
+packages/x86-64-v3-poky-linux/acpica/acpica-doc: PKGV changed from 20250807 [default] to 20251212 [default]
+packages/x86-64-v3-poky-linux/acpica/acpica-locale: PV changed from "20250807" to "20251212"
+packages/x86-64-v3-poky-linux/acpica/acpica-locale: PKGV changed from 20250807 [default] to 20251212 [default]
+packages/x86-64-v3-poky-linux/acpica/acpica-src: PKGSIZE changed from 10553641 to 10585354 (+0%)
+packages/x86-64-v3-poky-linux/acpica/acpica-src: PV changed from "20250807" to "20251212"
+packages/x86-64-v3-poky-linux/acpica/acpica-src: PKGV changed from 20250807 [default] to 20251212 [default]
+packages/x86-64-v3-poky-linux/acpica/acpica-src: FILELIST: directory renamed /usr/src/debug/acpica/20250807/source/tools/acpibin -> /usr/src/debug/acpica/20251212/source/tools/acpibin, directory renamed /usr/src/debug/acpica/20250807/source/tools/acpidump -> /usr/src/debug/acpica/20251212/source/tools/acpidump, directory renamed /usr/src/debug/acpica/20250807/source/components/parser -> /usr/src/debug/acpica/20251212/source/components/parser, directory renamed /usr/src/debug/acpica/20250807/source/compiler -> /usr/src/debug/acpica/20251212/source/compiler, directory renamed /usr/src/debug/acpica/20250807/source/components/disassembler -> /usr/src/debug/acpica/20251212/source/components/disassembler, directory renamed /usr/src/debug/acpica/20250807/source/common -> /usr/src/debug/acpica/20251212/source/common, directory renamed /usr/src/debug/acpica/20250807/source/components/resources -> /usr/src/debug/acpica/20251212/source/components/resources, directory renamed /usr/src/debug/acpi
+ ca/20250807/source/components/utilities -> /usr/src/debug/acpica/20251212/source/components/utilities, directory renamed /usr/src/debug/acpica/20250807/source/components/tables -> /usr/src/debug/acpica/20251212/source/components/tables, directory renamed /usr/src/debug/acpica/20250807/source/os_specific/service_layers -> /usr/src/debug/acpica/20251212/source/os_specific/service_layers, directory renamed /usr/src/debug/acpica/20250807/source/components/events -> /usr/src/debug/acpica/20251212/source/components/events, directory renamed /usr/src/debug/acpica/20250807/source/components/executer -> /usr/src/debug/acpica/20251212/source/components/executer, directory renamed /usr/src/debug/acpica/20250807/source/tools/acpihelp -> /usr/src/debug/acpica/20251212/source/tools/acpihelp, directory renamed /usr/src/debug/acpica/20250807/source/include -> /usr/src/debug/acpica/20251212/source/include, directory renamed /usr/src/debug/acpica/20250807/generate/unix/iasl/obj -> /usr/src/debug/acpi
+ ca/20251212/generate/unix/iasl/obj, directory renamed /usr/src/debug/acpica/20250807/source/components/dispatcher -> /usr/src/debug/acpica/20251212/source/components/dispatcher, directory renamed /usr/src/debug/acpica/20250807/source/tools/acpiexec -> /usr/src/debug/acpica/20251212/source/tools/acpiexec, directory renamed /usr/src/debug/acpica/20250807/source/tools/acpixtract -> /usr/src/debug/acpica/20251212/source/tools/acpixtract, directory renamed /usr/src/debug/acpica/20250807/source/components/hardware -> /usr/src/debug/acpica/20251212/source/components/hardware, directory renamed /usr/src/debug/acpica/20250807/source/components/namespace -> /usr/src/debug/acpica/20251212/source/components/namespace, directory renamed /usr/src/debug/acpica/20250807/source/tools/examples -> /usr/src/debug/acpica/20251212/source/tools/examples, directory renamed /usr/src/debug/acpica/20250807/source/tools/acpisrc -> /usr/src/debug/acpica/20251212/source/tools/acpisrc, directory renamed /usr/src/
+ debug/acpica/20250807/source/components/debugger -> /usr/src/debug/acpica/20251212/source/components/debugger
+packages/x86-64-v3-poky-linux/acpica/acpica-staticdev: PV changed from "20250807" to "20251212"
+packages/x86-64-v3-poky-linux/acpica/acpica-staticdev: PKGV changed from 20250807 [default] to 20251212 [default]
+packages/x86-64-v3-poky-linux/acpica/acpica: PKGSIZE changed from 2682016 to 2688408 (+0%)
+packages/x86-64-v3-poky-linux/acpica/acpica: PV changed from "20250807" to "20251212"
+packages/x86-64-v3-poky-linux/acpica/acpica: PKGV changed from 20250807 [default] to 20251212 [default]
+packages/x86-64-v3-poky-linux/acpica: PV changed from "20250807" to "20251212"
+packages/x86-64-v3-poky-linux/acpica: PKGV changed from 20250807 [default] to 20251212 [default]
+packages/x86-64-v3-poky-linux/acpica: SRC_URI changed from "git://github.com/acpica/acpica;protocol=https;branch=master;tag=20250807" to "git://github.com/acpica/acpica;protocol=https;branch=master;tag=20251212"
 
---===============4854364568242574264==--
+--===============6934213929480686624==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-acpica-upgrade-20250807-20251212.patch"
+
+RnJvbSBiOTQ3YTE3ZjE2YzQ1ZTBkZmVlOTEzNjc2MmIwYjQ4NmRhYjRiNDYyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDI6MzE6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
+Y3BpY2E6IHVwZ3JhZGUgMjAyNTA4MDcgLT4gMjAyNTEyMTIKCi0tLQogLi4uL2FjcGljYS97YWNw
+aWNhXzIwMjUwODA3LmJiID0+IGFjcGljYV8yMDI1MTIxMi5iYn0gICAgICAgICAgIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWV4dGVuZGVkL2FjcGljYS97YWNwaWNhXzIwMjUwODA3LmJiID0+IGFjcGljYV8y
+MDI1MTIxMi5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvYWNw
+aWNhL2FjcGljYV8yMDI1MDgwNy5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9hY3BpY2EvYWNw
+aWNhXzIwMjUxMjEyLmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
+aXBlcy1leHRlbmRlZC9hY3BpY2EvYWNwaWNhXzIwMjUwODA3LmJiCnJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtZXh0ZW5kZWQvYWNwaWNhL2FjcGljYV8yMDI1MTIxMi5iYgppbmRleCBmNmVlMzI4NWEx
+Li44MTJhNjI1NDdiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvYWNwaWNhL2Fj
+cGljYV8yMDI1MDgwNy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvYWNwaWNhL2FjcGlj
+YV8yMDI1MTIxMi5iYgpAQCAtMTcsNyArMTcsNyBAQCBDT01QQVRJQkxFX0hPU1QgPSAiKGkuODZ8
+eDg2XzY0fGFybXxhYXJjaDY0KS4qLWxpbnV4IgogREVQRU5EUyA9ICJtNC1uYXRpdmUgZmxleC1u
+YXRpdmUgYmlzb24tbmF0aXZlIgogCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vYWNwaWNh
+L2FjcGljYTtwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyO3RhZz0ke1BWfSIKLVNSQ1JFViA9
+ICJhYTk4ZGIzYmQxNDlmYzFmOGQyYTMwMTdjYjA1YjZiMTk4MmMzMjk2IgorU1JDUkVWID0gIjQ0
+NmJlNDM4MjM4ZTlkMzM5ZWVkNTE4MmI4MDdhYzVmODJkZjU2YzkiCiAKIGluaGVyaXQgdXBkYXRl
+LWFsdGVybmF0aXZlcwogCi0tIAoyLjQ3LjEKCg==
+
+--===============6934213929480686624==--
 
