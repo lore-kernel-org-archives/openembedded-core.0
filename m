@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA03FD5E138
-	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:39 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17409.1765872158090865315
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06ABDD5C0DF
+	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:40 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17390.1765872134595423694
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Dec 2025 00:02:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hIYilI06;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=DdeoVH6e;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019b262ec36d-6761e773-f39e-4ab7-87d9-41289cc9bee4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=OAK9WV0x;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=FlWcWbwQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019b262ec686-5d079fef-78b0-482c-857a-c4955790bc1d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872157;
+	t=1765872158;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zYaCOSl4XALxYLtBsUx64yupjqs+JEoMtx6E2qQKqvk=;
-	b=hIYilI06MXat0nMUL8e6uVmfBkt1jX7ZbzkGqggUYnCLkg3xe6KQ4nDwzPq8ACP2
-	+6wpIr+2dCnFa5mxFQFX98lB9mENpvO9R0sWhcyxMialVXFRGWZ/GzO1zQMWLY8DT4j
-	ht0ZuRH7nzgkvNj7MpN9+K2Xdup+LIswKjdGQjH8=
+	bh=RhbwdQfVBNyx/+1L3ttweWoNa5C+7pA5AVrs5/jAneQ=;
+	b=OAK9WV0x/y5M7BiH1Tp46EDVZMkm/3Q2HTOJf5bsEBeZRjERfRiBwIJYLHU0Prew
+	EgTHfMIfu273M78G1S2+9p6UpUu9TljybmiTUZ3+Ty99Oic+RFxdxwbtEEYC2qh5MjQ
+	GsL/wwpmR8EWQBkNpeqgJPxDvjeIuGGfGwwVx3XI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872157;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872158;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zYaCOSl4XALxYLtBsUx64yupjqs+JEoMtx6E2qQKqvk=;
-	b=DdeoVH6eZf/qgF/h/YPXvJ93SyOcDSERyXRX+0yYrJXo8ykMosk9nzpvUrwVUhsL
-	QyQu1//UkPqFCaTBQKw4g0i/NQxkuAqFT+/D5b/AmNmQrQJrMAvSkH537rPRYN6GT9v
-	JcH6FD9Hk9b5MQ/cC+M0vzxuR00VD4qgRAKVcriw=
-Content-Type: multipart/mixed; boundary="===============5106780808018096285=="
+	bh=RhbwdQfVBNyx/+1L3ttweWoNa5C+7pA5AVrs5/jAneQ=;
+	b=FlWcWbwQDsWctc+mmDpl5M2UyiHtuSr73v6rIo4IOiw8fN3sQKTokB1bQGUWhBjW
+	cyH1cc5wOdpKGkeW7XIlbFIMUbcV0QY1G58vqUSGwg9hkgYKA4RVKMaqtwtzmfe6MVc
+	9hFwbmhht8q7GYolv6886AxyBb1K1oPE6uTEGHJ8=
+Content-Type: multipart/mixed; boundary="===============9051928043450379926=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] glslang: upgrading to 1.4.335.0 SUCCEEDED
-Message-ID: <0101019b262ec36d-6761e773-f39e-4ab7-87d9-41289cc9bee4-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:37 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] igt-gpu-tools: upgrading to 2.2 FAILED
+Message-ID: <0101019b262ec686-5d079fef-78b0-482c-857a-c4955790bc1d-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.23
+X-SES-Outgoing: 2025.12.16-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227862
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227866
 
---===============5106780808018096285==
+--===============9051928043450379926==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *glslang* to *1.4.335.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *igt-gpu-tools* to *2.2* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-glslang-upgrade-1.4.328.1-1.4.335.0.patch
+    - apply the patch: git am 0001-igt-gpu-tools-upgrade-2.1-2.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,173 +78,181 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 0897218ac43fe700dc1e795cfb1128036d6fc4d3 Mon Sep 17 00:00:00 2001
+From 1cadc0d579c33a14abc46ed3362ce5bdfd91a33a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Dec 2025 04:13:41 +0000
-Subject: [PATCH] glslang: upgrade 1.4.328.1 -> 1.4.335.0
+Date: Tue, 16 Dec 2025 04:22:34 +0000
+Subject: [PATCH] igt-gpu-tools: upgrade 2.1 -> 2.2
 
 ---
- .../glslang/glslang/0001-generate-glslang-pkg-config.patch  | 6 +++---
- .../glslang/{glslang_1.4.328.1.bb => glslang_1.4.335.0.bb}  | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-graphics/glslang/{glslang_1.4.328.1.bb => glslang_1.4.335.0.bb} (93%)
+ .../{igt-gpu-tools_2.1.bb => igt-gpu-tools_2.2.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/igt-gpu-tools/{igt-gpu-tools_2.1.bb => igt-gpu-tools_2.2.bb} (97%)
 
-diff --git a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-index 04dab67773..150242ce1d 100644
---- a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-+++ b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-@@ -1,4 +1,4 @@
--From df6111570ada81d3968043decb5eee16dc5f9fa1 Mon Sep 17 00:00:00 2001
-+From 6a4237802d8a79f65ed74b12865e2ce5b666993d Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 7 Feb 2021 01:30:39 +0000
- Subject: [PATCH] generate glslang pkg-config
-@@ -15,10 +15,10 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  create mode 100644 glslang/glslang.pc.cmake.in
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.1.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb
+similarity index 97%
+rename from meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.1.bb
+rename to meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb
+index 96f3530436..b9e59d9421 100644
+--- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.1.bb
++++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb
+@@ -9,7 +9,7 @@ LICENSE = "MIT"
  
- diff --git a/glslang/CMakeLists.txt b/glslang/CMakeLists.txt
--index 47925d8d..d90191c3 100644
-+index 1bf4c1f2..9a05cbaf 100644
- --- a/glslang/CMakeLists.txt
- +++ b/glslang/CMakeLists.txt
--@@ -255,6 +255,8 @@ if(GLSLANG_ENABLE_INSTALL)
-+@@ -256,6 +256,8 @@ if(GLSLANG_ENABLE_INSTALL)
-          install(TARGETS MachineIndependent EXPORT glslang-targets)
-          install(TARGETS GenericCodeGen EXPORT glslang-targets)
-      endif()
-diff --git a/meta/recipes-graphics/glslang/glslang_1.4.328.1.bb b/meta/recipes-graphics/glslang/glslang_1.4.335.0.bb
-similarity index 93%
-rename from meta/recipes-graphics/glslang/glslang_1.4.328.1.bb
-rename to meta/recipes-graphics/glslang/glslang_1.4.335.0.bb
-index 57d9fe1a98..7d3b5d0bc8 100644
---- a/meta/recipes-graphics/glslang/glslang_1.4.328.1.bb
-+++ b/meta/recipes-graphics/glslang/glslang_1.4.335.0.bb
-@@ -8,8 +8,8 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=50ff9d0fcde2d5b953ebe431c48e34e3"
+ inherit meson pkgconfig
  
--SRCREV = "a57276bf558f5cf94d3a9854ebdf5a2236849a5a"
--SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=vulkan-sdk-1.4.328;tag=vulkan-sdk-${PV} \
-+SRCREV = "b5782e52ee2f7b3e40bb9c80d15b47016e008bc9"
-+SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main;tag=vulkan-sdk-${PV} \
-            file://0001-generate-glslang-pkg-config.patch \
+-SRCREV = "4871829d8b7117553eb2dc1bdb9a0d18de428a98"
++SRCREV = "6aa303511c6b267d23a3f5c9fb190c83b24a3197"
+ 
+ SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master;tag=v${PV} \
             "
- PE = "1"
 -- 
 2.47.1
 
 
---===============5106780808018096285==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libglslang.so.16.0.0 /usr/lib/libSPIRV.so.16.0.0 /usr/lib/libglslang-default-resource-limits.so.16.0.0", added "/usr/lib/libglslang-default-resource-limits.so.16.1.0 /usr/lib/libglslang.so.16.1.0 /usr/lib/libSPIRV.so.16.1.0"
-Changes to packages/x86-64-v3-poky-linux/glslang (sysroot):
-  /usr/lib/libglslang-default-resource-limits.so.16 changed symlink target from libglslang-default-resource-limits.so.16.0.0 to libglslang-default-resource-limits.so.16.1.0
-  /usr/lib/libglslang.so.16 changed symlink target from libglslang.so.16.0.0 to libglslang.so.16.1.0
-  /usr/lib/libSPIRV.so.16 changed symlink target from libSPIRV.so.16.0.0 to libSPIRV.so.16.1.0
-  /usr/lib/libglslang-default-resource-limits.so.16.0.0 moved to /usr/lib/libglslang-default-resource-limits.so.16.1.0
-  /usr/lib/libglslang.so.16.0.0 moved to /usr/lib/libglslang.so.16.1.0
-  /usr/lib/libSPIRV.so.16.0.0 moved to /usr/lib/libSPIRV.so.16.1.0
-
---===============5106780808018096285==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/glslang/glslang-dbg: PKGV changed from 1.4.328.1 [default] to 1.4.335.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-dbg: FILELIST: removed "/usr/lib/.debug/libglslang.so.16.0.0 /usr/lib/.debug/libglslang-default-resource-limits.so.16.0.0 /usr/lib/.debug/libSPIRV.so.16.0.0", added "/usr/lib/.debug/libglslang-default-resource-limits.so.16.1.0 /usr/lib/.debug/libSPIRV.so.16.1.0 /usr/lib/.debug/libglslang.so.16.1.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-dbg: PKGSIZE changed from 50790776 to 51589752 (+2%)
-packages/x86-64-v3-poky-linux/glslang/glslang-dbg: PV changed from "1.4.328.1" to "1.4.335.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-dev: PKGV changed from 1.4.328.1 [default] to 1.4.335.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-dev: PKGSIZE changed from 413153 to 422433 (+2%)
-packages/x86-64-v3-poky-linux/glslang/glslang-dev: PV changed from "1.4.328.1" to "1.4.335.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-doc: PKGV changed from 1.4.328.1 [default] to 1.4.335.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-doc: PV changed from "1.4.328.1" to "1.4.335.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-locale: PKGV changed from 1.4.328.1 [default] to 1.4.335.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-locale: PV changed from "1.4.328.1" to "1.4.335.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-src: PKGV changed from 1.4.328.1 [default] to 1.4.335.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-src: FILELIST: directory renamed /usr/src/debug/glslang/1.4.328.1/glslang/MachineIndependent/preprocessor -> /usr/src/debug/glslang/1.4.335.0/glslang/MachineIndependent/preprocessor, directory renamed /usr/src/debug/glslang/1.4.328.1/glslang/HLSL -> /usr/src/debug/glslang/1.4.335.0/glslang/HLSL, directory renamed /usr/src/debug/glslang/1.4.328.1/glslang/ResourceLimits -> /usr/src/debug/glslang/1.4.335.0/glslang/ResourceLimits, directory renamed /usr/src/debug/glslang/1.4.328.1/include/glslang -> /usr/src/debug/glslang/1.4.335.0/include/glslang, directory renamed /usr/src/debug/glslang/1.4.328.1/StandAlone -> /usr/src/debug/glslang/1.4.335.0/StandAlone, directory renamed /usr/src/debug/glslang/1.4.328.1/SPIRV/CInterface -> /usr/src/debug/glslang/1.4.335.0/SPIRV/CInterface, directory renamed /usr/src/debug/glslang/1.4.328.1/glslang/Public -> /usr/src/debug/glslang/1.4.335.0/glslang/Public, directory renamed /usr/src/debug/glslang/1.4.328.1/
- glslang/OSDependent -> /usr/src/debug/glslang/1.4.335.0/glslang/OSDependent, directory renamed /usr/src/debug/glslang/1.4.328.1/glslang -> /usr/src/debug/glslang/1.4.335.0/glslang, directory renamed /usr/src/debug/glslang/1.4.328.1/glslang/Include -> /usr/src/debug/glslang/1.4.335.0/glslang/Include, directory renamed /usr/src/debug/glslang/1.4.328.1/SPIRV -> /usr/src/debug/glslang/1.4.335.0/SPIRV, directory renamed /usr/src/debug/glslang/1.4.328.1/glslang/CInterface -> /usr/src/debug/glslang/1.4.335.0/glslang/CInterface, directory renamed /usr/src/debug/glslang/1.4.328.1/glslang/MachineIndependent -> /usr/src/debug/glslang/1.4.335.0/glslang/MachineIndependent, directory renamed /usr/src/debug/glslang/1.4.328.1/glslang/GenericCodeGen -> /usr/src/debug/glslang/1.4.335.0/glslang/GenericCodeGen, directory renamed /usr/src/debug/glslang/1.4.328.1/glslang/OSDependent/Unix -> /usr/src/debug/glslang/1.4.335.0/glslang/OSDependent/Unix
-packages/x86-64-v3-poky-linux/glslang/glslang-src: PKGSIZE changed from 5287466 to 5391292 (+2%)
-packages/x86-64-v3-poky-linux/glslang/glslang-src: PV changed from "1.4.328.1" to "1.4.335.0"
-packages/x86-64-v3-poky-linux/glslang/glslang-staticdev: PKGV changed from 1.4.328.1 [default] to 1.4.335.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang-staticdev: PV changed from "1.4.328.1" to "1.4.335.0"
-packages/x86-64-v3-poky-linux/glslang/glslang: PKGV changed from 1.4.328.1 [default] to 1.4.335.0 [default]
-packages/x86-64-v3-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libSPIRV.so.16.0.0 /usr/lib/libglslang.so.16.0.0 /usr/lib/libglslang-default-resource-limits.so.16.0.0", added "/usr/lib/libglslang-default-resource-limits.so.16.1.0 /usr/lib/libglslang.so.16.1.0 /usr/lib/libSPIRV.so.16.1.0"
-packages/x86-64-v3-poky-linux/glslang/glslang: PKGSIZE changed from 3616889 to 3682425 (+2%)
-packages/x86-64-v3-poky-linux/glslang/glslang: PV changed from "1.4.328.1" to "1.4.335.0"
-packages/x86-64-v3-poky-linux/glslang: SRC_URI changed from "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=vulkan-sdk-1.4.328;tag=vulkan-sdk-1.4.328.1 file://0001-generate-glslang-pkg-config.patch" to "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main;tag=vulkan-sdk-1.4.335.0 file://0001-generate-glslang-pkg-config.patch"
-packages/x86-64-v3-poky-linux/glslang: PKGV changed from 1.4.328.1 [default] to 1.4.335.0 [default]
-packages/x86-64-v3-poky-linux/glslang: PV changed from "1.4.328.1" to "1.4.335.0"
-Changes to packages/x86-64-v3-poky-linux/glslang (sysroot):
-  /usr/lib/libglslang-default-resource-limits.so.16 changed symlink target from libglslang-default-resource-limits.so.16.0.0 to libglslang-default-resource-limits.so.16.1.0
-  /usr/lib/libglslang.so.16 changed symlink target from libglslang.so.16.0.0 to libglslang.so.16.1.0
-  /usr/lib/libSPIRV.so.16 changed symlink target from libSPIRV.so.16.0.0 to libSPIRV.so.16.1.0
-  /usr/lib/libglslang-default-resource-limits.so.16.0.0 moved to /usr/lib/libglslang-default-resource-limits.so.16.1.0
-  /usr/lib/libglslang.so.16.0.0 moved to /usr/lib/libglslang.so.16.1.0
-  /usr/lib/libSPIRV.so.16.0.0 moved to /usr/lib/libSPIRV.so.16.1.0
-
---===============5106780808018096285==
+--===============9051928043450379926==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-glslang-upgrade-1.4.328.1-1.4.335.0.patch"
+ filename="0001-igt-gpu-tools-upgrade-2.1-2.2.patch"
 
-RnJvbSAwODk3MjE4YWM0M2ZlNzAwZGMxZTc5NWNmYjExMjgwMzZkNmZjNGQzIE1vbiBTZXAgMTcg
+RnJvbSAxY2FkYzBkNTc5YzMzYTE0YWJjNDZlZDMzNjJjZTViZGZkOTFhMzNhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDQ6MTM6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bHNsYW5nOiB1cGdyYWRlIDEuNC4zMjguMSAtPiAxLjQuMzM1LjAKCi0tLQogLi4uL2dsc2xhbmcv
-Z2xzbGFuZy8wMDAxLWdlbmVyYXRlLWdsc2xhbmctcGtnLWNvbmZpZy5wYXRjaCAgfCA2ICsrKy0t
-LQogLi4uL2dsc2xhbmcve2dsc2xhbmdfMS40LjMyOC4xLmJiID0+IGdsc2xhbmdfMS40LjMzNS4w
-LmJifSAgfCA0ICsrLS0KIDIgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA1IGRlbGV0
-aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL3tnbHNsYW5nXzEu
-NC4zMjguMS5iYiA9PiBnbHNsYW5nXzEuNC4zMzUuMC5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nLzAwMDEtZ2VuZXJhdGUtZ2xzbGFu
-Zy1wa2ctY29uZmlnLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFu
-Zy8wMDAxLWdlbmVyYXRlLWdsc2xhbmctcGtnLWNvbmZpZy5wYXRjaAppbmRleCAwNGRhYjY3Nzcz
-Li4xNTAyNDJjZTFkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9n
-bHNsYW5nLzAwMDEtZ2VuZXJhdGUtZ2xzbGFuZy1wa2ctY29uZmlnLnBhdGNoCisrKyBiL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmcvMDAwMS1nZW5lcmF0ZS1nbHNsYW5nLXBr
-Zy1jb25maWcucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGRmNjExMTU3MGFkYTgxZDM5Njgw
-NDNkZWNiNWVlZTE2ZGM1ZjlmYTEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDZhNDIz
-NzgwMmQ4YTc5ZjY1ZWQ3NGIxMjg2NWUyY2U1YjY2Njk5M2QgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCiBGcm9tOiBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KIERhdGU6
-IFN1biwgNyBGZWIgMjAyMSAwMTozMDozOSArMDAwMAogU3ViamVjdDogW1BBVENIXSBnZW5lcmF0
-ZSBnbHNsYW5nIHBrZy1jb25maWcKQEAgLTE1LDEwICsxNSwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBK
-b3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KICBjcmVhdGUgbW9kZSAxMDA2
-NDQgZ2xzbGFuZy9nbHNsYW5nLnBjLmNtYWtlLmluCiAKIGRpZmYgLS1naXQgYS9nbHNsYW5nL0NN
-YWtlTGlzdHMudHh0IGIvZ2xzbGFuZy9DTWFrZUxpc3RzLnR4dAotaW5kZXggNDc5MjVkOGQuLmQ5
-MDE5MWMzIDEwMDY0NAoraW5kZXggMWJmNGMxZjIuLjlhMDVjYmFmIDEwMDY0NAogLS0tIGEvZ2xz
-bGFuZy9DTWFrZUxpc3RzLnR4dAogKysrIGIvZ2xzbGFuZy9DTWFrZUxpc3RzLnR4dAotQEAgLTI1
-NSw2ICsyNTUsOCBAQCBpZihHTFNMQU5HX0VOQUJMRV9JTlNUQUxMKQorQEAgLTI1Niw2ICsyNTYs
-OCBAQCBpZihHTFNMQU5HX0VOQUJMRV9JTlNUQUxMKQogICAgICAgICAgaW5zdGFsbChUQVJHRVRT
-IE1hY2hpbmVJbmRlcGVuZGVudCBFWFBPUlQgZ2xzbGFuZy10YXJnZXRzKQogICAgICAgICAgaW5z
-dGFsbChUQVJHRVRTIEdlbmVyaWNDb2RlR2VuIEVYUE9SVCBnbHNsYW5nLXRhcmdldHMpCiAgICAg
-IGVuZGlmKCkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL2dsc2xh
-bmdfMS40LjMyOC4xLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18x
-LjQuMzM1LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18xLjQuMzI4LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmdfMS40LjMzNS4wLmJiCmluZGV4IDU3ZDlmZTFh
-OTguLjdkM2I1ZDBiYzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5n
-L2dsc2xhbmdfMS40LjMyOC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5n
-L2dsc2xhbmdfMS40LjMzNS4wLmJiCkBAIC04LDggKzgsOCBAQCBIT01FUEFHRSA9ICJodHRwczov
-L3d3dy5raHJvbm9zLm9yZy9vcGVuZ2xlcy9zZGsvdG9vbHMvUmVmZXJlbmNlLUNvbXBpbGVyIgog
-TElDRU5TRSA9ICJCU0QtMy1DbGF1c2UgJiBCU0QtMi1DbGF1c2UgJiBNSVQgJiBBcGFjaGUtMi4w
-ICYgR1BMLTMtd2l0aC1iaXNvbi1leGNlcHRpb24iCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6
-Ly9MSUNFTlNFLnR4dDttZDU9NTBmZjlkMGZjZGUyZDViOTUzZWJlNDMxYzQ4ZTM0ZTMiCiAKLVNS
-Q1JFViA9ICJhNTcyNzZiZjU1OGY1Y2Y5NGQzYTk4NTRlYmRmNWEyMjM2ODQ5YTVhIgotU1JDX1VS
-SSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9nbHNsYW5nLmdpdDtwcm90b2NvbD1o
-dHRwczticmFuY2g9dnVsa2FuLXNkay0xLjQuMzI4O3RhZz12dWxrYW4tc2RrLSR7UFZ9IFwKK1NS
-Q1JFViA9ICJiNTc4MmU1MmVlMmY3YjNlNDBiYjljODBkMTViNDcwMTZlMDA4YmM5IgorU1JDX1VS
-SSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9nbHNsYW5nLmdpdDtwcm90b2NvbD1o
-dHRwczticmFuY2g9bWFpbjt0YWc9dnVsa2FuLXNkay0ke1BWfSBcCiAgICAgICAgICAgIGZpbGU6
-Ly8wMDAxLWdlbmVyYXRlLWdsc2xhbmctcGtnLWNvbmZpZy5wYXRjaCBcCiAgICAgICAgICAgICIK
-IFBFID0gIjEiCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDQ6MjI6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBp
+Z3QtZ3B1LXRvb2xzOiB1cGdyYWRlIDIuMSAtPiAyLjIKCi0tLQogLi4uL3tpZ3QtZ3B1LXRvb2xz
+XzIuMS5iYiA9PiBpZ3QtZ3B1LXRvb2xzXzIuMi5iYn0gICAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL2lndC1ncHUtdG9vbHMve2lndC1ncHUtdG9vbHNfMi4xLmJiID0+IGln
+dC1ncHUtdG9vbHNfMi4yLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9pZ3QtZ3B1LXRvb2xzL2lndC1ncHUtdG9vbHNfMi4xLmJiIGIvbWV0YS9yZWNpcGVzLWdy
+YXBoaWNzL2lndC1ncHUtdG9vbHMvaWd0LWdwdS10b29sc18yLjIuYmIKc2ltaWxhcml0eSBpbmRl
+eCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2lndC1ncHUtdG9vbHMvaWd0
+LWdwdS10b29sc18yLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9pZ3QtZ3B1
+LXRvb2xzL2lndC1ncHUtdG9vbHNfMi4yLmJiCmluZGV4IDk2ZjM1MzA0MzYuLmI5ZTU5ZDk0MjEg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9pZ3QtZ3B1LXRvb2xzL2lndC1ncHUt
+dG9vbHNfMi4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9pZ3QtZ3B1LXRvb2xzL2ln
+dC1ncHUtdG9vbHNfMi4yLmJiCkBAIC05LDcgKzksNyBAQCBMSUNFTlNFID0gIk1JVCIKIAogaW5o
+ZXJpdCBtZXNvbiBwa2djb25maWcKIAotU1JDUkVWID0gIjQ4NzE4MjlkOGI3MTE3NTUzZWIyZGMx
+YmRiOWEwZDE4ZGU0MjhhOTgiCitTUkNSRVYgPSAiNmFhMzAzNTExYzZiMjY3ZDIzYTNmNWM5ZmIx
+OTBjODNiMjRhMzE5NyIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3Jn
+L2RybS9pZ3QtZ3B1LXRvb2xzLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyO3RhZz12
+JHtQVn0gXAogICAgICAgICAgICAiCi0tIAoyLjQ3LjEKCg==
 
---===============5106780808018096285==--
+--===============9051928043450379926==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 949 .bb files complete (0 cached, 949 parsed). 1950 targets, 47 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-1f69166d8c241e6475d286da28123890855ebd0f"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 = "tmp-auh-upgrades:1f69166d8c241e6475d286da28123890855ebd0f"
+meta-yocto-bsp       
+meta-poky            = "master:b3b659263566c4d2f2813190e72d93f8598a4c47"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 183 Local 173 Mirrors 0 Missed 10 Current 745 (94% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 878 of 928 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 926 of 928 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_populate_lic_setscene: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 928 of 928 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_recipe_qa_setscene)
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2166 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_fetch)
+NOTE: Running task 2313 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_write_config)
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_fetch: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_write_config: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_write_config: Succeeded
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_fetch: Succeeded
+NOTE: Running task 2530 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_unpack)
+NOTE: Running task 2531 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_unpack: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_unpack: Succeeded
+NOTE: Running task 2532 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_patch)
+NOTE: Running task 2533 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_collect_spdx_deps)
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_patch: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_patch: Succeeded
+NOTE: Running task 2535 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_configure)
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_configure: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_configure: Succeeded
+NOTE: Running task 2537 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_compile)
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_compile: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_compile: Succeeded
+NOTE: Running task 2538 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_install)
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_install: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_install: Succeeded
+NOTE: Running task 2539 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_package)
+NOTE: Running task 2540 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_populate_sysroot)
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_package: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_populate_sysroot: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_package: Succeeded
+NOTE: Running task 2541 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_packagedata)
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_packagedata: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_packagedata unihash changed to ca3bab1d685e29688ade55a8b6f040e90349f0f49e47ad0571a4bd1406531389
+NOTE: Setscene tasks completed
+NOTE: Running task 2542 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_create_spdx)
+NOTE: Running task 2543 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_package_write_ipk)
+NOTE: Running task 2544 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_package_write_deb)
+NOTE: Running task 2545 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_package_write_rpm)
+NOTE: Running task 2546 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_package_qa)
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_create_spdx: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_package_write_ipk: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_package_write_deb: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_package_write_rpm: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_package_qa: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_package_write_ipk: Succeeded
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2547 of 2548 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_create_package_spdx)
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_create_package_spdx: Started
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_create_package_spdx: Succeeded
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_package_write_deb: Succeeded
+NOTE: recipe igt-gpu-tools-2.2-r0: task do_package_qa: Failed
+NOTE: Tasks Summary: Attempted 2547 tasks of which 2529 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251216042133.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251216042133.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_package_qa
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.2/temp/log.do_package_qa.2457533
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: igt-gpu-tools-2.2-r0 do_package_qa: QA Issue: File /usr/lib/libigt.so.0 in package igt-gpu-tools contains reference to TMPDIR [buildpaths]
+ERROR: igt-gpu-tools-2.2-r0 do_package_qa: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/igt-gpu-tools/2.2/temp/log.do_package_qa.2457533
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.2.bb:do_package_qa) failed with exit code '1'
+
+--===============9051928043450379926==--
 
