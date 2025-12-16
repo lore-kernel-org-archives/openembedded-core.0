@@ -2,346 +2,328 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E7DDD637A9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D774D5E127
 	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 20:38:40 +0000 (UTC)
-Received: from CH5PR02CU005.outbound.protection.outlook.com (CH5PR02CU005.outbound.protection.outlook.com [40.107.200.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3925.1765917514644891448
+Received: from BYAPR05CU005.outbound.protection.outlook.com (BYAPR05CU005.outbound.protection.outlook.com [52.101.85.39])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4007.1765917516587644092
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 12:38:34 -0800
+ Tue, 16 Dec 2025 12:38:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=u8TQsOlZ;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 40.107.200.31, mailfrom: rs@ti.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=bVPfIgaL;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 52.101.85.39, mailfrom: rs@ti.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uxEKtV+yH7oHGrF7UHSK7FlXaz4g9yiL0Gz24Gu8pZJHurto7x9L1E6KG4FRQWyVBjFOHSQKdmaFRLobEFSOWZkMd9iSjl+5wAd0zScC4gAxYQ4wU2mOMqa/SyD9sm7zlptwj9f1VQMLZflE8vs+jy81tukTtg5jDaLDlY3gX3szH3+Lypyn8VEbdZGQWDS5vZ/9ORYPBlD60X0IiwK/0mBP6pRrw0r3cG+ymQhY+Wt4BwuBDib/m971AxhNYPRHQmqM69XXUpTiX5hkWI1qMvZuk8hB3lGa97lIDBK2mLDOxhXMvb6ql0anA1N24Dw5poKi2vl7JDV/t6vZD5dtxQ==
+ b=OVlhYogJIzz0ORSPcYjRp3bwVVdtL5nDWt28iNvdApuNDPgu1G21USHEo1JfgfEzeu8e2jvCRt5ccmm+JipdXXR4Z4DDoRMejYH3lHxEg7C13LqwA8Jz6niybXd9jmi56uDKsGJzFbMmIx9DFel3aoOoir73H3rS7r/xjIT+t6ZjAVlh8QDQmH8IKVc/dDaKEAvt5/lZWugiqynjsPGL5VSzms/bGuxqWZxupiWEdZUw1IoZ5bBVKsNYvu52dV91OB3PM23S4UOR3eUxckQhUXmNylKXbA2cQCw6KYd7XfeeKtY6zqbRIMVSuR7QaqKbtU8tM4Tx6Og+PRPPNNgbqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0qkyTnBxVOxJP5h39idAYMUOzzP6op/MIZcAgAQNobQ=;
- b=sxOc1NoDIrMtNVnnbbzvLZ3+mZAdQ6xZT7ZCyjYCX8kdEgQCQDIPAHud28eGa0L9KqQgbRm65Cb2+d3upP5o78VHdJ6YRmka8goY+pjz4ShGCY8sWwtjGOIHMVi9qsFrEqu9sKKJL8LyG0cq199HKla7EWRDvtVB2V9bgoC2kx9G6HqyKvAZ5ve/pw9OUjX+NqTyociAnyw2JVYFDzmhiUCw1R4YYBRENOf5P8OslAa8U89ScjKuLcFXy0jAJKxWyMSTB9O79d6HXBOsVTWaVubYX00LRFn0hQIlBLhhLaa2m5XUyHUGV1CN50ZBIG6Cp5AyspI4mySjdN/n3Dm/yw==
+ bh=nU+pgx2pmGTXzn7vR648d3/1Suvkigl7oQqkBkUhbgw=;
+ b=y85DxTr0lj5ILvhUD9kd1H4qngiwhyCUvhR00uZ70Pi9iCBc+t5Om4iqd/wgO4qix/Yh50EHVEL6/kCngL/0AM0Yzlcp8wNnu5hT//AllNfLHPHLGa7vwr7Ft6Me4LaIrbmp5O2Owo4a7Kzm6dSCb9RhySaHVcBINV16V+Ize/PY46YPhhx/oj2qHlAnpUqcTRVNzMwSxSLccB++ClIZGdCzvNGFFCIK3Du0ZpIG+GUglVwMsBbCKbGzZiVG/WBru4lnA3F5f+08Bz5qxQChtxS3B+yPHOBiDS0sxp1F1cpR0JoGTPk2z7Eu5s0jmH48EX0dP8PnT8yDwPtbgtfIlg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
+ 198.47.21.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0qkyTnBxVOxJP5h39idAYMUOzzP6op/MIZcAgAQNobQ=;
- b=u8TQsOlZ18WdUwTMzr9uZ7i0ctx2WKib0cGTFIyc1AXTtGq4DR0oxK71EWzySZLbGaOvZGB2SgtgF9BPIuD/4lG1wMgp08dYhlvvqWGjT38fOMeft3zTOvGJF1GzYIw4Jcq6LzamrpYFj053zMAlvttYU7FkO3UbaMPCgL5d4FI=
-Received: from PH3PEPF000040A3.namprd05.prod.outlook.com (2603:10b6:518:1::57)
- by LV0PR10MB997684.namprd10.prod.outlook.com (2603:10b6:408:33f::17) with
+ bh=nU+pgx2pmGTXzn7vR648d3/1Suvkigl7oQqkBkUhbgw=;
+ b=bVPfIgaLcbygpMSOhrQQIf9UjcoBMkdUz2JCxFeJS0UW5L7xiMwOxek0kUGZ1nSTYAzgxMD8nZHrdfZg/Gl8wRNC5S4ZQv4sT9i1iiRNFkqAhqYwKMR3t/KaAcjfB36hO75xVCH22d2ddgCvKVg5NptNgvFDG4AHjdAeRgP/hQs=
+Received: from PH7P220CA0069.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:32c::18)
+ by SA6PR10MB8159.namprd10.prod.outlook.com (2603:10b6:806:43d::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
- 2025 20:38:32 +0000
-Received: from SN1PEPF000397B1.namprd05.prod.outlook.com
- (2a01:111:f403:f90f::3) by PH3PEPF000040A3.outlook.office365.com
- (2603:1036:903:49::3) with Microsoft SMTP Server (version=TLS1_3,
+ 2025 20:38:34 +0000
+Received: from CY4PEPF0000EE37.namprd05.prod.outlook.com
+ (2603:10b6:510:32c:cafe::c2) by PH7P220CA0069.outlook.office365.com
+ (2603:10b6:510:32c::18) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6 via Frontend Transport; Tue,
- 16 Dec 2025 20:38:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ 16 Dec 2025 20:38:35 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
 Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- SN1PEPF000397B1.mail.protection.outlook.com (10.167.248.55) with Microsoft
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ CY4PEPF0000EE37.mail.protection.outlook.com (10.167.242.43) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9434.6 via Frontend Transport; Tue, 16 Dec 2025 20:38:31 +0000
-Received: from DLEE209.ent.ti.com (157.170.170.98) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9434.6 via Frontend Transport; Tue, 16 Dec 2025 20:38:33 +0000
+Received: from DFLE212.ent.ti.com (10.64.6.70) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 16 Dec
  2025 14:38:31 -0600
-Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE212.ent.ti.com
+ (10.64.6.70) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 16 Dec
  2025 14:38:30 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE208.ent.ti.com
- (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE201.ent.ti.com
+ (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
  Transport; Tue, 16 Dec 2025 14:38:30 -0600
 Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BGKcUhe402388;
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BGKcUhd402388;
 	Tue, 16 Dec 2025 14:38:30 -0600
 From: <rs@ti.com>
 To: <richard.purdie@linuxfoundation.org>, <mathieu.dubois-briand@bootlin.com>,
 	<alex@linutronix.de>, <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
 CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
 	<openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][PATCHv11 1/6] emptty: add version 0.15.0
-Date: Tue, 16 Dec 2025 14:37:58 -0600
-Message-ID: <20251216203803.3870049-2-rs@ti.com>
+Subject: [oe-core][PATCHv11 0/6] Display manager proposal for x11 and wayland
+Date: Tue, 16 Dec 2025 14:37:57 -0600
+Message-ID: <20251216203803.3870049-1-rs@ti.com>
 X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251216203803.3870049-1-rs@ti.com>
-References: <20251216203803.3870049-1-rs@ti.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000397B1:EE_|LV0PR10MB997684:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1af58ca9-6439-472d-ed5d-08de3ce3139c
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE37:EE_|SA6PR10MB8159:EE_
+X-MS-Office365-Filtering-Correlation-Id: 163f0bf4-428d-4f57-3cdf-08de3ce314c6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014|13003099007;
+	BCL:0;ARA:13230040|1800799024|376014|82310400026|36860700013|3613699012;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?WVzbHyWK1pLzuuaPjSjvyDbNIR/DzL5fIIiciB6HfmqXUb/gzWs0EbSj5e+k?=
- =?us-ascii?Q?G6N79jrzUACtgxU+B6+EbmSMAwD1eyL4zYGAJ7Ly+00JRTRed1W7C31rWztr?=
- =?us-ascii?Q?1ElAOWJDScOpl0DI4/UDIUrKE+nCtPbiL19q5AXDVb6mZvUMxdbGRk6esTw9?=
- =?us-ascii?Q?9pfrWd6asFBKRL0YV+vsRkjX4oNRb31qt9DjXVwOntdK3D/AvMbOezgM370z?=
- =?us-ascii?Q?Qh6LiKK29K3xUpQWDfTz0tJno7Q8IAkAbGnd6JzpIHaMygTDe/c+yjfNIYTK?=
- =?us-ascii?Q?+ZtBVsPa3mrpfY++St2y+6KtZ/M1LI29esfk0mx7d4KAHUq27VE5qC6pVvx+?=
- =?us-ascii?Q?+WlbsuUgys6mM2xjJY7GkM0RZ1xB6NXmaneUn4pE+RoG01ZxGer+8XE0Bqs/?=
- =?us-ascii?Q?odUGLJMdslLHCVJMbWHxR+WrJvqtX8m0rQxuYWv/Va1HpMbqWBa7APqY9jY2?=
- =?us-ascii?Q?CDuH7H0CDMBdVwYVx0Pp4YEnz9PoMYRzQcvBDWfjKYwhl+iszLlhEMk5LSMn?=
- =?us-ascii?Q?UxDzii9h3D53WWTZlIctXdKtsMN5LUMIXke5+CziA4HGPMEsgmYJQ+5zQLWY?=
- =?us-ascii?Q?NdT3qg9MTHPPbeRQQwPaVF8NNorkwKX1S9I1fJhctSsyYdg+1Mi8n0KrPpZI?=
- =?us-ascii?Q?BuO42L77NLeRRvFAWgt0oIn17NxIUferLMP7XSR6K/b/jb+T3kbtYaLZO1Uu?=
- =?us-ascii?Q?C/i0CbElRHQ8f8uuF6wbtjAQWiGv9f+OxtKFPWt2loTyDr9hIeBtkymqlF/r?=
- =?us-ascii?Q?dxjNDj2Ifu/VDexk6xCk9Fx0rR6JV5QLsbJvTQFPpo7A5Mj3DKk3bPYASTgs?=
- =?us-ascii?Q?TC/9AXQ3DVGjUpxUObBl48Hs83HqcFieySalETh08wc4L7R1ccmouXDBoUIw?=
- =?us-ascii?Q?pnW135ivjLdlB2CKYojqh9UDam/Ssks1k0cIf8xjjHrw4Ts3jfj70vuRV0jQ?=
- =?us-ascii?Q?SFoXJudGbMEIh5MLCtp67m3+Il6T6m6yNoyUCjCdsulyiZxaOBPF1fuoeV0i?=
- =?us-ascii?Q?XA5iG/ABbMZnTYXfmfYTn1qMfmAEtRw6Vm0Hlrm7YxgtTQONDt/c4Sz/yo50?=
- =?us-ascii?Q?kyny5L9TjDbpX6o92+k+ZSoZnbyaDf9/gN8vXTHk4bpZ4giCDre7k2Iq8AhX?=
- =?us-ascii?Q?W25zWN0nSySbKZ8yRy1mK4IKlNagZQQRXdLkZjX7zyiciNToRvPo1nMwrYHr?=
- =?us-ascii?Q?IL9jV/D8ehX0jC6fRyWZ/rP9WI5mPXTJuOZcSqUo/FWh9QD/GQrknC9CELSx?=
- =?us-ascii?Q?5CcaD3Rasc178QL+DxaVCxKUPSpj8ojGKa6Mr5xZcFBa4pE68mHqvvk2dQA2?=
- =?us-ascii?Q?sI82uzIdJuQaYVpxbOLGUm9l9EVuvydJIik20EHg4Kk6HsedtT9U/BpOyOdB?=
- =?us-ascii?Q?f2I1xYyIeep5a/mWW21GGnD8WWA0TlOw5eOvwYimgYBpWTmx4EHwKAKMx138?=
- =?us-ascii?Q?zPCqCRwkrjPXXdvfXdInY/7eEJjVg0ZfgwWmu7+gOlDCwmaz+MGnRWaofKoD?=
- =?us-ascii?Q?peF4VQYSyflclsS5CXUGQZV7uHVSxp0bCICEcaIZwW9q65RjwFhfTgiuLS5r?=
- =?us-ascii?Q?7Z7tiDt9pe5Ov6GacNo=3D?=
+	=?us-ascii?Q?X3dwC72cZWHucijGCuN24U8imfepKlbYEDN5xPw2CUwTkNCSvO1oaxUiXIf5?=
+ =?us-ascii?Q?GrHllhy6X/L6+9Dc+GW26KQAQOHuGjz4O/x+rSKJQjdwGT7SRGkOhymWzhi0?=
+ =?us-ascii?Q?mbjcQI0Fw0H9GdvJE4kZ4AdTWE3AZPTFVKabIAVGxmne10GepEsnA2viGknI?=
+ =?us-ascii?Q?8YpWm9SGp+TaowAHmfHN5vQctdZ62JpAp6girjw8RZFUroca+xhn1U9g0/HK?=
+ =?us-ascii?Q?p6zdvBb4r2aZXGnLJ4w4ralW7WHtEEbAbIyDgFFWFaTpHmDdMXYTqGJV4TQP?=
+ =?us-ascii?Q?R+vgTdwgju71KLtqOJUfosdIfzLo1ncFoxRwavNdkTtxUDhMcxqZYSlVIEEM?=
+ =?us-ascii?Q?BGIZ5v/JIqaTNZ65PoFFpcdf1jOStyjnwk7uv7K60SDNLGF4v+Q1+ThEPR9Z?=
+ =?us-ascii?Q?16X+99/qsWD06mQlMcgjeE6Zmuzazc2yqjr5SMl+ntKFI+nMI38oKPtdIFtQ?=
+ =?us-ascii?Q?jsH04cdZ98OPA8/g5AaKki8DnrZkGFXbfmXg4rsDRWxaVDXJb5/BKc7LlbM1?=
+ =?us-ascii?Q?yg3ZSjwRwFj1EzOsxRzW08+CqEOxfFW1rQ20GB+tYsu9WPEwjp1RT+cdIouD?=
+ =?us-ascii?Q?iMlSwDJaKlmQt6gcNg7TltuH2deM84CjgeyJXnpnSZMgQiuGiHxeM9FCLess?=
+ =?us-ascii?Q?PFv8p05ht8vziwszgXWsiFkeVyfPiOeAdAlttPvz47277vXJ0hvOA5Hb4rjr?=
+ =?us-ascii?Q?iJhMWFv8Ya3cF4dpyjboWQ1O9MP79w5lR/Lr2pvNSeV5dBG4Hll5oN2NwDaP?=
+ =?us-ascii?Q?YIuXJU1dxBisXGFRmTYm+eXsCW3gsaN9mloUpUvtb+1h3OVcPXMRc0LvL7gn?=
+ =?us-ascii?Q?sPQmEJHklNYBW5HY1NCO0U9OIVzwpxYWEPNoA0BCL1XeS0j/8XeHbya1eWQO?=
+ =?us-ascii?Q?lSZTVZOYG6bS1RyO1DDsCyKYdF9lCeR0dpKYQA25Q7aNsf861c0NDkUvXNV5?=
+ =?us-ascii?Q?0KTx9DAWilHZhteZMtMTFlI7N+921+37vZRRl4Td2Fhh0YrL5mJuqCXGOLFM?=
+ =?us-ascii?Q?NTCyXjJQrG+Sd/DzuUp9VUJimWTa3GkgmLMBsQp5ocVFlSxknLjldg+pjoB9?=
+ =?us-ascii?Q?QAjMRpci1ucM1ZfIBd/QYfbzhOIzX3mS4wrWRKq5BDClE+Ans9QwkkcbSYW9?=
+ =?us-ascii?Q?da5sGIBwOYSqX4BamWOUHIXG5xWnrKlFyNomq2ZG73eYS6JUCKIvYkCzd82f?=
+ =?us-ascii?Q?279aHobRnhtYbGam2YlZhuN27P7jqocMNZTzH65q5yJgzef2T6GfMCyBLB0/?=
+ =?us-ascii?Q?/XUz+LqSHoSpQOD2JoUPbLBitBWjfhJCF2IIslBCQ3RLHaOAqCakIJU1kuH+?=
+ =?us-ascii?Q?p2FbH+UpZtZuS9UpleHDnbBnvWc8k3ZbLpv+ACSsXOrrq2vLOLxmseCbUIYt?=
+ =?us-ascii?Q?w/c3Saff7lxvqaFLyxfw7xw7eFcP7N1NsN0sIkSmFJmHzapF+FX+XGUUM47s?=
+ =?us-ascii?Q?JDpCtw00ufVSrDAs7XPAuPcPjuapzlT9eAGmstnIZ6E5v6OS7HVF4TriUxWn?=
+ =?us-ascii?Q?a/6rsfl8rgNi5MptvYkjQOiAzKbNJQqwQJ5DnlyCT37+f4mh21Cq7h0SGg?=
+ =?us-ascii?Q?=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014)(13003099007);DIR:OUT;SFP:1101;
+	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013)(3613699012);DIR:OUT;SFP:1101;
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 20:38:31.6818
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 20:38:33.6196
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1af58ca9-6439-472d-ed5d-08de3ce3139c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 163f0bf4-428d-4f57-3cdf-08de3ce314c6
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	SN1PEPF000397B1.namprd05.prod.outlook.com
+	CY4PEPF0000EE37.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV0PR10MB997684
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR10MB8159
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 20:38:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227984
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227985
 
 From: Randolph Sapp <rs@ti.com>
 
-Add emptty, a "Dead simple CLI Display Manager on TTY". This is a
-relatively lightweight display manager that supports x11 as well as
-wayland through both a CLI and an automatic login mechanism.
+Hello maintainers, I wanted to wait for the latest tag to get cut before
+bringing this back up, but here it is. This version addresses most of the
+concerns I've seen regarding this series and adds on a little more function=
+ality
+considering we now allow for proper session selection.
 
-This can effectively replace the custom init scripts for both x11
-(xserver-nodm-init) and wayland (weston-init) with a single tool with
-more verbose logging capabilities.
+This led me into a bit of a dive into the desktop-entry-spec [1] and associ=
+ated
+validator [2] that I wouldn't mind some opinions on as well if people are
+curious about that.
 
-This is split into two recipes. The emptty package provides the binary
-and various agnostic configs while the emptty-conf package provides the
-default configuration for the application itself. This RPROVIDES
-virtual-emptty-conf, allowing other recipes to provide their own
-configurations to override the default behavior.
+Legacy details follow:
 
-Signed-off-by: Randolph Sapp <rs@ti.com>
----
- .../conf/distro/include/default-providers.inc |  1 +
- meta/conf/distro/include/maintainers.inc      |  2 +
- meta/recipes-graphics/emptty/emptty-conf.bb   | 14 +++++
- meta/recipes-graphics/emptty/emptty.inc       | 26 +++++++++
- .../recipes-graphics/emptty/emptty/emptty.tab |  1 +
- meta/recipes-graphics/emptty/emptty/pamconf   | 10 ++++
- meta/recipes-graphics/emptty/emptty_0.15.0.bb | 53 +++++++++++++++++++
- 7 files changed, 107 insertions(+)
+We've recently run into some issues with weston-init attempting to start We=
+ston
+prior to all drm devices being registered. There's not really a good, scrip=
+table
+mechanism to listen in to device registration events that works with the
+existing weston-init package. Well, at least one that doesn't involve polli=
+ng
+files or introducing more dependency on the init system being used.
+
+I also see there is also a lot of scripting around starting X11,
+xserver-nodm-init, that (from my limited review) should experience the same
+issue.
+
+I'd like to introduce the following display manager for oe-core, emptty [3]=
+.
+This display manager is, as described upstream, a "Dead simple CLI Display
+Manager on TTY". It supports both x11 and wayland sessions, with togglable =
+build
+parameters to completely remove x11 and pam dependencies. It's licensed MIT=
+,
+which shouldn't be an issue for any users. (It is written in Go, if you hav=
+e
+opinions about that.)
+
+With this, both weston-init and the xserver-nodm-init packages can be re-tu=
+ned
+to leverage this display manager and simply add a user and emptty config fo=
+r an
+autologin session. This can resolve the current behavior across init system=
+s
+without additional scripting, and move some development out of this layer.
+
+This lists myself as a maintainer of emptty as well as xserver-nodm-init an=
+d
+xuser-account since these are currently unassigned and I've reworked them
+significantly here.
+
+Sorry for the delay on this series. I found a few bugs in emptty that I wan=
+ted
+to address before submitting this officially.
+
+[1] https://gitlab.freedesktop.org/xdg/xdg-specs/-/merge_requests/110
+[2] https://gitlab.freedesktop.org/xdg/desktop-file-utils/-/merge_requests/=
+28
+[3] https://github.com/tvrzna/emptty
+
+v2:
+	- Address spelling issues in commit messages
+	- Attempt to resolve some test related issues with weston
+	- Add additional logs to X11 related tests
+v3:
+	- Reset AUTOLOGIN_MAX_RETRY to the default value of 2. When running
+	  under QEMU the first auth attempt almost always fails.
+v4:
+	- Add a tmpfile entry for the x11 domain socket directory.
+	- Remove some scripts associated with weston-init that were being
+	  shipped with weston
+v5:
+	- Move tmpfile data to individual files
+	- Add explicit entries for these in the FILES variable
+v6:
+	- Do not attempt to ship a tmpfiles.d entry in libx11
+v7:
+	- Include a backported fix for go/runtime to address segfault issues
+	  reported on x86 platforms in previous revisions
+v8:
+	- Sign-off backported patch
+v9:
+	- Resolve merge conflict in maintainers file
+v10:
+	- Remove the ability to run x11 as root in xserver-nodm-init, see
+	  https://lists.openembedded.org/g/openembedded-core/topic/115318655#msg22=
+3906
+	  for more information
+	- Merge xuser-account and xserver-nodm-init as this is now a direct
+	  dependency with no other consumers
+	- Fix warning about multiple providers for virtual-emptty-conf
+v11:
+	- Bump emptty revision to 0.15.0
+	- Add session entries for all the session providers
+	- Make autologin default session configurable for xserver-nodm-init
+
+Randolph Sapp (6):
+  emptty: add version 0.15.0
+  weston-init: convert to virtual-emptty-conf
+  weston: remove deprecated weston-start scripts
+  xserver-nodm-init: convert to virtual-emptty-conf
+  xuser-account: merge with xserver-nodm-init
+  xsessions: add unique desktop entries
+
+ .../conf/distro/include/default-providers.inc |   1 +
+ meta/conf/distro/include/maintainers.inc      |   5 +-
+ meta/lib/oeqa/runtime/cases/weston.py         |  18 +-
+ meta/lib/oeqa/runtime/cases/xorg.py           |   8 +
+ meta/recipes-graphics/emptty/emptty-conf.bb   |  14 +
+ meta/recipes-graphics/emptty/emptty.inc       |  26 ++
+ .../recipes-graphics/emptty/emptty/emptty.tab |   1 +
+ meta/recipes-graphics/emptty/emptty/pamconf   |  10 +
+ meta/recipes-graphics/emptty/emptty_0.15.0.bb |  53 +++
+ .../matchbox-session/matchbox-session.desktop |   6 +
+ .../matchbox-session/matchbox-session_0.1.bb  |  13 +-
+ .../files/mini-x-session.desktop              |   6 +
+ .../mini-x-session/mini-x-session_0.1.bb      |  13 +-
+ meta/recipes-graphics/wayland/weston-init.bb  |  66 +---
+ .../wayland/weston-init/emptty.conf           |  77 ++++
+ .../recipes-graphics/wayland/weston-init/init |  54 ---
+ .../wayland/weston-init/weston-autologin      |  11 -
+ .../wayland/weston-init/weston-socket.sh      |  20 -
+ .../wayland/weston-init/weston-start          |  76 ----
+ .../wayland/weston-init/weston.env            |   0
+ .../wayland/weston-init/weston.service        |  71 ----
+ .../wayland/weston-init/weston.socket         |  14 -
+ .../weston/systemd-notify.weston-start        |   9 -
+ .../wayland/weston/xwayland.weston-start      |   6 -
+ .../recipes-graphics/wayland/weston_14.0.2.bb |  10 -
+ .../x11-common/xserver-nodm-init/X11/Xsession |  38 --
+ .../X11/Xsession.d/13xdgbasedirs.sh           |  19 -
+ .../X11/Xsession.d/89xdgautostart.sh          |   7 -
+ .../X11/Xsession.d/90XWindowManager.sh        |   7 -
+ .../x11-common/xserver-nodm-init/Xserver      |  25 --
+ .../xserver-nodm-init/capability.conf         |   2 -
+ .../xserver-nodm-init/emptty.conf.in          |  77 ++++
+ .../xserver-nodm-init/gplv2-license.patch     | 355 ------------------
+ .../xserver-nodm-init}/system-xuser.conf      |   0
+ .../x11-common/xserver-nodm-init/xserver-nodm |  75 ----
+ .../xserver-nodm-init/xserver-nodm.conf.in    |   7 -
+ .../xserver-nodm-init/xserver-nodm.service.in |  13 -
+ .../x11-common/xserver-nodm-init_3.0.bb       |  73 ++--
+ .../user-creation/xuser-account_0.1.bb        |  30 --
+ 39 files changed, 342 insertions(+), 974 deletions(-)
  create mode 100644 meta/recipes-graphics/emptty/emptty-conf.bb
  create mode 100644 meta/recipes-graphics/emptty/emptty.inc
  create mode 100644 meta/recipes-graphics/emptty/emptty/emptty.tab
  create mode 100644 meta/recipes-graphics/emptty/emptty/pamconf
  create mode 100644 meta/recipes-graphics/emptty/emptty_0.15.0.bb
+ create mode 100644 meta/recipes-graphics/matchbox-session/matchbox-session=
+/matchbox-session.desktop
+ create mode 100644 meta/recipes-graphics/mini-x-session/files/mini-x-sessi=
+on.desktop
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/emptty.conf
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/init
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston-autolo=
+gin
+ delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-socket=
+.sh
+ delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-start
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.env
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.servic=
+e
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.socket
+ delete mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.wes=
+ton-start
+ delete mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston-st=
+art
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/=
+Xsession
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/=
+Xsession.d/13xdgbasedirs.sh
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/=
+Xsession.d/89xdgautostart.sh
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/X11/=
+Xsession.d/90XWindowManager.sh
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/Xser=
+ver
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/capa=
+bility.conf
+ create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/empt=
+ty.conf.in
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/gplv=
+2-license.patch
+ rename meta/{recipes-support/user-creation/files =3D> recipes-graphics/x11=
+-common/xserver-nodm-init}/system-xuser.conf (100%)
+ delete mode 100755 meta/recipes-graphics/x11-common/xserver-nodm-init/xser=
+ver-nodm
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xser=
+ver-nodm.conf.in
+ delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xser=
+ver-nodm.service.in
+ delete mode 100644 meta/recipes-support/user-creation/xuser-account_0.1.bb
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/dis=
-tro/include/default-providers.inc
-index 3f113543cd..820a5d1342 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -69,3 +69,4 @@ PREFERRED_PROVIDER_virtual/nativesdk-libsdl2 ?=3D "native=
-sdk-libsdl2"
- PREFERRED_RPROVIDER_virtual-libegl-icd ?=3D "mesa"
- PREFERRED_RPROVIDER_virtual-libglx-icd ?=3D "mesa"
- PREFERRED_RPROVIDER_virtual-x-terminal-emulator ?=3D "rxvt-unicode"
-+PREFERRED_RPROVIDER_virtual-emptty-conf ?=3D "emptty-conf"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
-clude/maintainers.inc
-index 8971b9b552..752fdb2d01 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -170,6 +170,8 @@ RECIPE_MAINTAINER:pn-efivar =3D "Ross Burton <ross.burt=
-on@arm.com>"
- RECIPE_MAINTAINER:pn-efibootmgr =3D "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-elfutils =3D "Unassigned <unassigned@yoctoproject.org=
->"
- RECIPE_MAINTAINER:pn-ell =3D "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-emptty =3D "Randolph Sapp <rs@ti.com>"
-+RECIPE_MAINTAINER:pn-emptty-conf =3D "Randolph Sapp <rs@ti.com>"
- RECIPE_MAINTAINER:pn-enchant2 =3D "Gyorgy Sarvari <skandigraun@gmail.com>"
- RECIPE_MAINTAINER:pn-encodings =3D "Unassigned <unassigned@yoctoproject.or=
-g>"
- RECIPE_MAINTAINER:pn-epiphany =3D "Unassigned <unassigned@yoctoproject.org=
->"
-diff --git a/meta/recipes-graphics/emptty/emptty-conf.bb b/meta/recipes-gra=
-phics/emptty/emptty-conf.bb
-new file mode 100644
-index 0000000000..0b98e2e13e
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty-conf.bb
-@@ -0,0 +1,14 @@
-+require emptty.inc
-+
-+SUMMARY +=3D " (Default config)"
-+
-+do_configure[noexec] =3D "1"
-+do_compile[noexec] =3D "1"
-+
-+do_install () {
-+    oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=3D${D} install-config
-+}
-+
-+FILES:${PN} =3D "${sysconfdir}/emptty/conf"
-+CONFFILES:${PN} =3D "${sysconfdir}/emptty/conf"
-+RPROVIDES:${PN} +=3D "virtual-emptty-conf"
-diff --git a/meta/recipes-graphics/emptty/emptty.inc b/meta/recipes-graphic=
-s/emptty/emptty.inc
-new file mode 100644
-index 0000000000..cfe9ebf154
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty.inc
-@@ -0,0 +1,26 @@
-+SUMMARY =3D "Dead simple CLI Display Manager on TTY"
-+DESCRIPTION =3D "Emptty is a simple display manager with a command line gr=
-eeter \
-+It supports both X11 and Wayland sessions, exporting required variables an=
-d \
-+creating user paths as necessary."
-+
-+HOMEPAGE =3D "https://github.com/tvrzna/emptty"
-+BUGTRACKER =3D "https://github.com/tvrzna/emptty/issues"
-+LICENSE =3D "MIT"
-+LIC_FILES_CHKSUM =3D "file://src/${GO_IMPORT}/LICENSE;md5=3Dd1e4d12c7d1d17=
-367ba5668706a405ba"
-+
-+S =3D "${UNPACKDIR}"
-+
-+FILESEXTRAPATHS:append =3D ":${THISDIR}/emptty"
-+
-+GO_IMPORT =3D "github.com/tvrzna/emptty"
-+GO_IMPORT_pam =3D "github.com/msteinert/pam"
-+SRC_URI =3D "\
-+    git://${GO_IMPORT}.git;protocol=3Dhttps;branch=3Dmaster;destsuffix=3Ds=
-rc/${GO_IMPORT} \
-+    git://${GO_IMPORT_pam}.git;protocol=3Dhttps;branch=3Dmaster;name=3Dpam=
-;destsuffix=3Dsrc/${GO_IMPORT_pam} \
-+    file://pamconf \
-+    file://emptty.tab \
-+    "
-+SRCREV =3D "bb203ad0a224731a7a2ff50deeb342ab79c4af09"
-+SRCREV_pam =3D "50ded1b0e7864b9bf75005eb945a8ec826bcf69d"
-+
-+SRCREV_FORMAT .=3D "_pam"
-diff --git a/meta/recipes-graphics/emptty/emptty/emptty.tab b/meta/recipes-=
-graphics/emptty/emptty/emptty.tab
-new file mode 100644
-index 0000000000..6359c7224d
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty/emptty.tab
-@@ -0,0 +1 @@
-+7:5:respawn:/usr/bin/emptty -t 7 -d
-diff --git a/meta/recipes-graphics/emptty/emptty/pamconf b/meta/recipes-gra=
-phics/emptty/emptty/pamconf
-new file mode 100644
-index 0000000000..9cbfd6c4a5
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty/pamconf
-@@ -0,0 +1,10 @@
-+#%PAM-1.0
-+auth            sufficient      pam_succeed_if.so user ingroup nopasswdlog=
-in
-+auth            include         common-auth
-+-auth           optional        pam_gnome_keyring.so
-+-auth           optional        pam_kwallet5.so
-+account         include         common-account
-+session         include         common-session
-+-session        optional        pam_gnome_keyring.so auto_start
-+-session        optional        pam_kwallet5.so auto_start force_run
-+password        include         common-password
-diff --git a/meta/recipes-graphics/emptty/emptty_0.15.0.bb b/meta/recipes-g=
-raphics/emptty/emptty_0.15.0.bb
-new file mode 100644
-index 0000000000..11d306a56d
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty_0.15.0.bb
-@@ -0,0 +1,53 @@
-+require emptty.inc
-+
-+PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'pam x11', d)}"
-+PACKAGECONFIG[pam] =3D ",,libpam,pam-plugin-succeed-if"
-+PACKAGECONFIG[x11] =3D ",,virtual/libx11"
-+
-+DEPENDS +=3D "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', 'virtual/cr=
-ypt', d)}"
-+
-+GO_TAGS =3D ""
-+GO_TAGS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', ',nop=
-am', d)}"
-+GO_TAGS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'x11', '', ',nox=
-lib', d)}"
-+
-+GOBUILDFLAGS:append =3D " -tags=3D${GO_TAGS}"
-+
-+export GO111MODULE =3D "off"
-+
-+inherit go
-+
-+DEPENDS +=3D "gzip"
-+
-+do_install () {
-+    # general collateral
-+    install -Dm755 ${B}/${GO_BUILD_BINDIR}/emptty ${D}${bindir}/emptty
-+    install -d ${D}${mandir}/man1
-+    gzip -cn ${S}/src/${GO_IMPORT}/res/emptty.1 > ${D}${mandir}/man1/emptt=
-y.1.gz
-+
-+    # pam config
-+    if "${@bb.utils.contains('PACKAGECONFIG','pam','true','false',d)}"
-+    then
-+        install -Dm644 ${S}/pamconf ${D}${sysconfdir}/pam.d/emptty
-+    fi
-+
-+    # init services
-+    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}
-+    then
-+        oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=3D${D} install-systemd
-+    else
-+        install -Dm644 ${S}/emptty.tab ${D}${sysconfdir}/inittab.d/emptty.=
-tab
-+    fi
-+}
-+
-+FILES:${PN} =3D "\
-+    ${systemd_system_unitdir}/emptty.service \
-+    ${sysconfdir}/inittab.d/emptty.tab \
-+    ${bindir}/emptty \
-+    ${mandir}/man1/emptty.1.gz \
-+    ${sysconfdir}/pam.d/emptty \
-+"
-+
-+RDEPENDS:${PN} +=3D "virtual-emptty-conf"
-+SYSTEMD_SERVICE:${PN} =3D "emptty.service"
-+
-+inherit systemd
 --=20
 2.51.1
 
