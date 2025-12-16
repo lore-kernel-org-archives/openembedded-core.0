@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1501D5C0C0
-	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B7E3D5C0CD
+	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:24 +0000 (UTC)
 Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17179.1765872132136240971
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17396.1765872135892522841
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:21 -0800
+ Tue, 16 Dec 2025 00:02:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Gxrgk+5E;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=dkpTT/78;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019b262e84fa-5227ee08-1819-4419-a060-3d94a48b02f0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=pTsTfbY/;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=spxVBgGJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019b262e6c03-94633bf8-817c-4534-a2ed-e398f4700c50-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872141;
+	t=1765872135;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=17C/mniMwOK/I8MdUf9Bk4drq/Lv+veWUpaqWKeAptg=;
-	b=Gxrgk+5EXKR6XbVmdiUYfWfgQHoT8F7dZwSYPY5Dn6D1Ve4xHXB+gzpYg430hqmW
-	PlAZ32qkMfCtsiQArz1oN+40b0k3RSyeHQLMQVjJ7WSkgV4QHux1lFIM6yxwPOgOW18
-	kixpyQYN1sQnGhLzYHg3cOSjBmFHScpyo8DfPtio=
+	bh=NVB0MnLpBzLi15pJvAAoyXuoXJAlWrhczbOvSxvz8l4=;
+	b=pTsTfbY/EbfNwS03DkuiaFHSVP7C23BES9N5Eyzs6/K6wh606T1SJVdTlmlkuJpJ
+	eXprFwofAyI44gFy6BG9Ch2s9FSKwv6eFT4S37U8sr0rEk8GdTtSs1wUqavWtKPYHz3
+	dKWrCjFA9IaNamP5LCZ4mHhGP3FHLpPFoIP9p1WQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872141;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872135;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=17C/mniMwOK/I8MdUf9Bk4drq/Lv+veWUpaqWKeAptg=;
-	b=dkpTT/78uc0yyJQsihi4pXumWW+R1MkIpWRreRBEu9wQstDNBYpUbibJxcJ8aaM6
-	LrKK+uAdvP4wRMitCpr5ohRvW/mr7EfBIePHBglZcT8fHeDh8VNo5FqHOLHhlw9UR72
-	UVZ6dO8sGsMNeAwTdUC44Z0zMRhRe9bewKnVM4wQ=
-Content-Type: multipart/mixed; boundary="===============8620632966348831658=="
+	bh=NVB0MnLpBzLi15pJvAAoyXuoXJAlWrhczbOvSxvz8l4=;
+	b=spxVBgGJ/7QxdtpBaP7BWK4UXbQbpDjh3Tbhc4SLE9x8llzDzYvdKh62WonLSTF0
+	1Lp0Aw5PE9QvPiyqD7W3G1cw472SpINuG0JjyJjmuvWQd5FtNp27ry4dlINYJGomI3m
+	sA/eGE5sBqb8qGQ5nSphLM2fW+b1ad7p7lXw1W2s=
+Content-Type: multipart/mixed; boundary="===============5010355257699067953=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-iniconfig: upgrading to 2.3.0 SUCCEEDED
-Message-ID: <0101019b262e84fa-5227ee08-1819-4419-a060-3d94a48b02f0-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:21 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] ell: upgrading to 0.81 SUCCEEDED
+Message-ID: <0101019b262e6c03-94633bf8-817c-4534-a2ed-e398f4700c50-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:15 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.12.16-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227805
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227782
 
---===============8620632966348831658==
+--===============5010355257699067953==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-iniconfig* to *2.3.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *ell* to *0.81* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-iniconfig-upgrade-2.1.0-2.3.0.patch
+    - apply the patch: git am 0001-ell-upgrade-0.80-0.81.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,107 +72,84 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 68eef4802a124c8f49a2f630cd378af98724a612 Mon Sep 17 00:00:00 2001
+From 2aa530d9d209a3cd5db6335275693d276af6c9a0 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Dec 2025 23:50:37 +0000
-Subject: [PATCH] python3-iniconfig: upgrade 2.1.0 -> 2.3.0
+Date: Mon, 15 Dec 2025 22:36:48 +0000
+Subject: [PATCH] ell: upgrade 0.80 -> 0.81
 
 ---
- .../{python3-iniconfig_2.1.0.bb => python3-iniconfig_2.3.0.bb}  | 2 +-
+ meta/recipes-core/ell/{ell_0.80.bb => ell_0.81.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-iniconfig_2.1.0.bb => python3-iniconfig_2.3.0.bb} (77%)
+ rename meta/recipes-core/ell/{ell_0.80.bb => ell_0.81.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-iniconfig_2.1.0.bb b/meta/recipes-devtools/python/python3-iniconfig_2.3.0.bb
-similarity index 77%
-rename from meta/recipes-devtools/python/python3-iniconfig_2.1.0.bb
-rename to meta/recipes-devtools/python/python3-iniconfig_2.3.0.bb
-index d9b31aea4a..1937285c3b 100644
---- a/meta/recipes-devtools/python/python3-iniconfig_2.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-iniconfig_2.3.0.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/iniconfig/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=4a73af4b5f1f3a8731e5def70e8c1254"
+diff --git a/meta/recipes-core/ell/ell_0.80.bb b/meta/recipes-core/ell/ell_0.81.bb
+similarity index 88%
+rename from meta/recipes-core/ell/ell_0.80.bb
+rename to meta/recipes-core/ell/ell_0.81.bb
+index 90474dadae..f9b702531a 100644
+--- a/meta/recipes-core/ell/ell_0.80.bb
++++ b/meta/recipes-core/ell/ell_0.81.bb
+@@ -15,4 +15,4 @@ DEPENDS = "dbus"
+ inherit autotools pkgconfig
  
--SRC_URI[sha256sum] = "3abbd2e30b36733fee78f9c7f7308f2d0050e88f0087fd25c2645f63c773e1c7"
-+SRC_URI[sha256sum] = "c76315c77db068650d49c5b56314774a7804df16fee4402c1f19d6d15d8c4730"
- 
- DEPENDS += "python3-hatch-vcs-native"
- 
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "6efc70ae6d3e2ca1ec255ecd855a3d5fadefe59897f4307816e3ba7a771f3d00"
++SRC_URI[sha256sum] = "672ca1e44dc0ddce1665941754b4e2b3b9203481d7d7a60e0b5f39829d73fa14"
 -- 
 2.47.1
 
 
---===============8620632966348831658==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-iniconfig-upgrade-2.1.0-2.3.0.patch"
-
-RnJvbSA2OGVlZjQ4MDJhMTI0YzhmNDlhMmY2MzBjZDM3OGFmOTg3MjRhNjEyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgRGVjIDIwMjUgMjM6NTA6MzcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWluaWNvbmZpZzogdXBncmFkZSAyLjEuMCAtPiAyLjMuMAoKLS0tCiAuLi4ve3B5dGhv
-bjMtaW5pY29uZmlnXzIuMS4wLmJiID0+IHB5dGhvbjMtaW5pY29uZmlnXzIuMy4wLmJifSAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWluaWNvbmZpZ18yLjEuMC5i
-YiA9PiBweXRob24zLWluaWNvbmZpZ18yLjMuMC5iYn0gKDc3JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaW5pY29uZmlnXzIuMS4wLmJiIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWluaWNvbmZpZ18yLjMuMC5iYgpzaW1p
-bGFyaXR5IGluZGV4IDc3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtaW5pY29uZmlnXzIuMS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtaW5pY29uZmlnXzIuMy4wLmJiCmluZGV4IGQ5YjMxYWVhNGEuLjE5
-MzcyODVjM2IgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1pbmljb25maWdfMi4xLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLWluaWNvbmZpZ18yLjMuMC5iYgpAQCAtNCw3ICs0LDcgQEAgSE9NRVBBR0UgPSAiaHR0
-cHM6Ly9weXBpLm9yZy9wcm9qZWN0L2luaWNvbmZpZy8iCiBMSUNFTlNFID0gIk1JVCIKIExJQ19G
-SUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTRhNzNhZjRiNWYxZjNhODczMWU1ZGVm
-NzBlOGMxMjU0IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiM2FiYmQyZTMwYjM2NzMzZmVlNzhm
-OWM3ZjczMDhmMmQwMDUwZTg4ZjAwODdmZDI1YzI2NDVmNjNjNzczZTFjNyIKK1NSQ19VUklbc2hh
-MjU2c3VtXSA9ICJjNzYzMTVjNzdkYjA2ODY1MGQ0OWM1YjU2MzE0Nzc0YTc4MDRkZjE2ZmVlNDQw
-MmMxZjE5ZDZkMTVkOGM0NzMwIgogCiBERVBFTkRTICs9ICJweXRob24zLWhhdGNoLXZjcy1uYXRp
-dmUiCiAKLS0gCjIuNDcuMQoK
-
---===============8620632966348831658==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig: FILELIST: directory renamed /usr/lib/python3.13/site-packages/iniconfig-2.1.0.dist-info/licenses -> /usr/lib/python3.13/site-packages/iniconfig-2.3.0.dist-info/licenses, removed "/usr/lib/python3.13/site-packages/iniconfig-2.1.0.dist-info/WHEEL /usr/lib/python3.13/site-packages/iniconfig-2.1.0.dist-info/METADATA", added "/usr/lib/python3.13/site-packages/iniconfig-2.3.0.dist-info/WHEEL /usr/lib/python3.13/site-packages/iniconfig-2.3.0.dist-info/METADATA /usr/lib/python3.13/site-packages/iniconfig-2.3.0.dist-info/top_level.txt"
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig: PKGSIZE changed from 26913 to 35410 (+32%)
-Changes to packages/x86-64-v3-poky-linux/python3-iniconfig (sysroot):
-  /usr/lib/python3.13/site-packages/iniconfig-2.1.0.dist-info moved to /usr/lib/python3.13/site-packages/iniconfig-2.3.0.dist-info
-  /usr/lib/python3.13/site-packages/iniconfig-2.3.0.dist-info/top_level.txt was added
-
---===============8620632966348831658==
+--===============5010355257699067953==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-iniconfig: PKGV changed from 2.1.0 [default] to 2.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-iniconfig: PV changed from "2.1.0" to "2.3.0"
-packages/x86-64-v3-poky-linux/python3-iniconfig: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/iniconfig/iniconfig-2.1.0.tar.gz;downloadfilename=iniconfig-2.1.0.tar.gz" to "https://files.pythonhosted.org/packages/source/i/iniconfig/iniconfig-2.3.0.tar.gz;downloadfilename=iniconfig-2.3.0.tar.gz"
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig-dbg: PKGV changed from 2.1.0 [default] to 2.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig-dbg: PV changed from "2.1.0" to "2.3.0"
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig-dev: PKGV changed from 2.1.0 [default] to 2.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig-dev: PV changed from "2.1.0" to "2.3.0"
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig-doc: PKGV changed from 2.1.0 [default] to 2.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig-doc: PV changed from "2.1.0" to "2.3.0"
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig-locale: PKGV changed from 2.1.0 [default] to 2.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig-locale: PV changed from "2.1.0" to "2.3.0"
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig-src: PKGV changed from 2.1.0 [default] to 2.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig-src: PV changed from "2.1.0" to "2.3.0"
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig-staticdev: PKGV changed from 2.1.0 [default] to 2.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig-staticdev: PV changed from "2.1.0" to "2.3.0"
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig: PKGV changed from 2.1.0 [default] to 2.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig: PV changed from "2.1.0" to "2.3.0"
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig: PKGSIZE changed from 26913 to 35410 (+32%)
-packages/x86-64-v3-poky-linux/python3-iniconfig/python3-iniconfig: FILELIST: directory renamed /usr/lib/python3.13/site-packages/iniconfig-2.1.0.dist-info/licenses -> /usr/lib/python3.13/site-packages/iniconfig-2.3.0.dist-info/licenses, removed "/usr/lib/python3.13/site-packages/iniconfig-2.1.0.dist-info/METADATA /usr/lib/python3.13/site-packages/iniconfig-2.1.0.dist-info/WHEEL", added "/usr/lib/python3.13/site-packages/iniconfig-2.3.0.dist-info/top_level.txt /usr/lib/python3.13/site-packages/iniconfig-2.3.0.dist-info/METADATA /usr/lib/python3.13/site-packages/iniconfig-2.3.0.dist-info/WHEEL"
-Changes to packages/x86-64-v3-poky-linux/python3-iniconfig (sysroot):
-  /usr/lib/python3.13/site-packages/iniconfig-2.1.0.dist-info moved to /usr/lib/python3.13/site-packages/iniconfig-2.3.0.dist-info
-  /usr/lib/python3.13/site-packages/iniconfig-2.3.0.dist-info/top_level.txt was added
+packages/x86-64-v3-poky-linux/ell/ell-dbg: PV changed from "0.80" to "0.81"
+packages/x86-64-v3-poky-linux/ell/ell-dbg: PKGSIZE changed from 1789720 to 1789904 (+0%)
+packages/x86-64-v3-poky-linux/ell/ell-dbg: PKGV changed from 0.80 [default] to 0.81 [default]
+packages/x86-64-v3-poky-linux/ell/ell-dev: PV changed from "0.80" to "0.81"
+packages/x86-64-v3-poky-linux/ell/ell-dev: PKGV changed from 0.80 [default] to 0.81 [default]
+packages/x86-64-v3-poky-linux/ell/ell-doc: PV changed from "0.80" to "0.81"
+packages/x86-64-v3-poky-linux/ell/ell-doc: PKGV changed from 0.80 [default] to 0.81 [default]
+packages/x86-64-v3-poky-linux/ell/ell-locale: PV changed from "0.80" to "0.81"
+packages/x86-64-v3-poky-linux/ell/ell-locale: PKGV changed from 0.80 [default] to 0.81 [default]
+packages/x86-64-v3-poky-linux/ell/ell-src: PV changed from "0.80" to "0.81"
+packages/x86-64-v3-poky-linux/ell/ell-src: PKGSIZE changed from 1447237 to 1447332 (+0%)
+packages/x86-64-v3-poky-linux/ell/ell-src: FILELIST: directory renamed /usr/src/debug/ell/0.80/linux -> /usr/src/debug/ell/0.81/linux, directory renamed /usr/src/debug/ell/0.80/ell -> /usr/src/debug/ell/0.81/ell
+packages/x86-64-v3-poky-linux/ell/ell-src: PKGV changed from 0.80 [default] to 0.81 [default]
+packages/x86-64-v3-poky-linux/ell/ell-staticdev: PV changed from "0.80" to "0.81"
+packages/x86-64-v3-poky-linux/ell/ell-staticdev: PKGV changed from 0.80 [default] to 0.81 [default]
+packages/x86-64-v3-poky-linux/ell/ell: PV changed from "0.80" to "0.81"
+packages/x86-64-v3-poky-linux/ell/ell: PKGV changed from 0.80 [default] to 0.81 [default]
+packages/x86-64-v3-poky-linux/ell: PV changed from "0.80" to "0.81"
+packages/x86-64-v3-poky-linux/ell: SRC_URI changed from "https://mirrors.edge.kernel.org/pub/linux/libs/ell/ell-0.80.tar.xz" to "https://mirrors.edge.kernel.org/pub/linux/libs/ell/ell-0.81.tar.xz"
+packages/x86-64-v3-poky-linux/ell: PKGV changed from 0.80 [default] to 0.81 [default]
 
---===============8620632966348831658==--
+--===============5010355257699067953==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-ell-upgrade-0.80-0.81.patch"
+
+RnJvbSAyYWE1MzBkOWQyMDlhM2NkNWRiNjMzNTI3NTY5M2QyNzZhZjZjOWEwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgRGVjIDIwMjUgMjI6MzY6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+bGw6IHVwZ3JhZGUgMC44MCAtPiAwLjgxCgotLS0KIG1ldGEvcmVjaXBlcy1jb3JlL2VsbC97ZWxs
+XzAuODAuYmIgPT4gZWxsXzAuODEuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
+aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvZWxsL3tlbGxf
+MC44MC5iYiA9PiBlbGxfMC44MS5iYn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+Y29yZS9lbGwvZWxsXzAuODAuYmIgYi9tZXRhL3JlY2lwZXMtY29yZS9lbGwvZWxsXzAuODEuYmIK
+c2ltaWxhcml0eSBpbmRleCA4OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvZWxsL2Vs
+bF8wLjgwLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9lbGwvZWxsXzAuODEuYmIKaW5k
+ZXggOTA0NzRkYWRhZS4uZjliNzAyNTMxYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUv
+ZWxsL2VsbF8wLjgwLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2VsbC9lbGxfMC44MS5iYgpA
+QCAtMTUsNCArMTUsNCBAQCBERVBFTkRTID0gImRidXMiCiBpbmhlcml0IGF1dG90b29scyBwa2dj
+b25maWcKIAogU1JDX1VSSSA9ICJodHRwczovL21pcnJvcnMuZWRnZS5rZXJuZWwub3JnL3B1Yi9s
+aW51eC9saWJzLyR7QlBOfS8ke0JQTn0tJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjZlZmM3MGFlNmQzZTJjYTFlYzI1NWVjZDg1NWEzZDVmYWRlZmU1OTg5N2Y0MzA3ODE2ZTNi
+YTdhNzcxZjNkMDAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjcyY2ExZTQ0ZGMwZGRjZTE2NjU5
+NDE3NTRiNGUyYjNiOTIwMzQ4MWQ3ZDdhNjBlMGI1ZjM5ODI5ZDczZmExNCIKLS0gCjIuNDcuMQoK
+
+--===============5010355257699067953==--
 
