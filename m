@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D5E5D5E380
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7268D5E393
 	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:52 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17382.1765872127684878873
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17188.1765872139220084245
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:43 -0800
+ Tue, 16 Dec 2025 00:02:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=oyOeVIO+;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=U5Y1G2xc;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019b262ed8bf-c2db5101-07ff-4901-a961-fa1eb85ac4a0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dk0K1k1X;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=TMoQ8I2B;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019b262ed25f-dc2515c7-caf6-42f6-b82f-2f342219b7e4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872163;
+	t=1765872161;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=q4yfHKiw3wdHhVmUbZCXH5C3gVr9hUhxr4rCUQCnstU=;
-	b=oyOeVIO+HH50B9f4c2HTZb86MrooOc0+jVu1oRMU78Zb9alZ89zITaX3wHeLJSzy
-	Gi0KBnPUGSE5uE7sBYYewkxxhT13GX7AnSsLK57wmK+DiyKc+rjxsaU5VIg89kpJI5Y
-	592pwlcLvXK96nBNmctOu42hd+RWxss2B1dPTHIQ=
+	bh=XHPSfyagPmmMRBp0zy0Vi5rVi3Un9Rm6eBwg8FUsoeg=;
+	b=dk0K1k1XOK5SPt/0az2WqhgapNXZOcRJ4y2LsLgdjXdu36dDK2DTt4q/h404bdwd
+	pmmTt+kofG/beyrbSVchfo5Lm0nMhde62PeQ5W8NHSfLPaLG2MAj68Skq7jv+5M+oWP
+	qMEi06PO0NGfwMsS0FewiACpQ+16iCxp8bthMx9o=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872163;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872161;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=q4yfHKiw3wdHhVmUbZCXH5C3gVr9hUhxr4rCUQCnstU=;
-	b=U5Y1G2xcmrpx6G5wm8AWTU89vmLNfhkVUb5CTWY0VXZNTecw2xFOgXD5Tzt3xhGr
-	QGlLvZ6uymZ7lraj8PMOhQ6O7moGOvGqAz5O/W80hnS9y8frmfNmPC1vC1HkHnSDXYp
-	VNkj/L5RQrm1whayIFGekDsvhrww/xGIlvj+GvqM=
-Content-Type: multipart/mixed; boundary="===============3956652199457143106=="
+	bh=XHPSfyagPmmMRBp0zy0Vi5rVi3Un9Rm6eBwg8FUsoeg=;
+	b=TMoQ8I2BDsebV1JDHEO/SA1TJ1TH70dQ76IExOufXAIIxHUaFkF9+uRwWCrgVQiT
+	iiF+bSSSQrbjakdDinC2nYoFWkPw/ljm6FmtyQ0Smo0P3RnF4300YNM6mp0oFAPwxg8
+	tYqFuc/BKe73GED43zzGNrIMYuJDIvlOxLDLNqS0=
+Content-Type: multipart/mixed; boundary="===============3704712581090830897=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] xkeyboard-config: upgrading to 2.46 SUCCEEDED
-Message-ID: <0101019b262ed8bf-c2db5101-07ff-4901-a961-fa1eb85ac4a0-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:43 +0000
+To: Vincent Davis Jr <vince@underview.tech>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] vulkan-validation-layers: upgrading to 1.4.335.0 FAILED
+Message-ID: <0101019b262ed25f-dc2515c7-caf6-42f6-b82f-2f342219b7e4-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:41 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.45
+X-SES-Outgoing: 2025.12.16-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227884
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227879
 
---===============3956652199457143106==
+--===============3704712581090830897==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,228 +51,61 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *xkeyboard-config* to *2.46* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *vulkan-validation-layers* to *1.4.335.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-xkeyboard-config-upgrade-2.45-2.46.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe vulkan-validation-layers failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 949 .bb files complete (0 cached, 949 parsed). 1950 targets, 47 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-e80eb9eef1ac300602ac042dde54359692774354"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 = "tmp-auh-upgrades:e80eb9eef1ac300602ac042dde54359692774354"
+meta-yocto-bsp       
+meta-poky            = "master:b3b659263566c4d2f2813190e72d93f8598a4c47"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto 2e94023f2581aaa7f5a4d6fe0ee670d9b5e10187
+WARNING: Command 'git rebase 2e94023f2581aaa7f5a4d6fe0ee670d9b5e10187' failed:
+Auto-merging layers/core_checks/cc_pipeline_graphics.cpp
+CONFLICT (content): Merge conflict in layers/core_checks/cc_pipeline_graphics.cpp
+Auto-merging layers/core_checks/core_validation.h
+CONFLICT (content): Merge conflict in layers/core_checks/core_validation.h
+Auto-merging tests/unit/dynamic_state.cpp
+Auto-merging tests/unit/vertex_input_positive.cpp
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/vulkan-validation-layers
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/vulkan-validation-layers/vulkan-validation-layers_1.4.335.0.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 1326b811f330493f5da3a897cbb1ab10bcf6498a Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Dec 2025 05:25:57 +0000
-Subject: [PATCH] xkeyboard-config: upgrade 2.45 -> 2.46
-
----
- .../{xkeyboard-config_2.45.bb => xkeyboard-config_2.46.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.45.bb => xkeyboard-config_2.46.bb} (91%)
-
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.45.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.46.bb
-similarity index 91%
-rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.45.bb
-rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.46.bb
-index 5153b76d98..cfefa53a0f 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.45.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.46.bb
-@@ -13,7 +13,7 @@ LICENSE = "MIT & MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=faa756e04053029ddc602caf99e5ef1d"
- 
- SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "169e075a92d957a57787c199e84e359df2931b7196c1c5b4a3d576ee6235a87c"
-+SRC_URI[sha256sum] = "10c58218fb60d08fb1f7b30304deb3ba47613195aa8a08a81f1972775ccc3640"
- 
- SECTION = "x11/libs"
- DEPENDS = "util-macros libxslt-native"
--- 
-2.47.1
-
-
---===============3956652199457143106==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fa: PKGSIZE changed from 67326 to 84332 (+25%)
-
---===============3956652199457143106==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-xkeyboard-config-upgrade-2.45-2.46.patch"
-
-RnJvbSAxMzI2YjgxMWYzMzA0OTNmNWRhM2E4OTdjYmIxYWIxMGJjZjY0OThhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDU6MjU6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
-a2V5Ym9hcmQtY29uZmlnOiB1cGdyYWRlIDIuNDUgLT4gMi40NgoKLS0tCiAuLi4ve3hrZXlib2Fy
-ZC1jb25maWdfMi40NS5iYiA9PiB4a2V5Ym9hcmQtY29uZmlnXzIuNDYuYmJ9ICAgICAgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve3hrZXlib2FyZC1jb25maWdfMi40NS5iYiA9
-PiB4a2V5Ym9hcmQtY29uZmlnXzIuNDYuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3hvcmctbGliL3hrZXlib2FyZC1jb25maWdfMi40NS5iYiBiL21ldGEvcmVj
-aXBlcy1ncmFwaGljcy94b3JnLWxpYi94a2V5Ym9hcmQtY29uZmlnXzIuNDYuYmIKc2ltaWxhcml0
-eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3hr
-ZXlib2FyZC1jb25maWdfMi40NS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hv
-cmctbGliL3hrZXlib2FyZC1jb25maWdfMi40Ni5iYgppbmRleCA1MTUzYjc2ZDk4Li5jZmVmYTUz
-YTBmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIveGtleWJvYXJk
-LWNvbmZpZ18yLjQ1LmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi94a2V5
-Ym9hcmQtY29uZmlnXzIuNDYuYmIKQEAgLTEzLDcgKzEzLDcgQEAgTElDRU5TRSA9ICJNSVQgJiBN
-SVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1mYWE3NTZlMDQwNTMw
-MjlkZGM2MDJjYWY5OWU1ZWYxZCIKIAogU1JDX1VSSSA9ICIke1hPUkdfTUlSUk9SfS9pbmRpdmlk
-dWFsL2RhdGEveGtleWJvYXJkLWNvbmZpZy8ke0JQTn0tJHtQVn0udGFyLnh6IgotU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjE2OWUwNzVhOTJkOTU3YTU3Nzg3YzE5OWU4NGUzNTlkZjI5MzFiNzE5NmMx
-YzViNGEzZDU3NmVlNjIzNWE4N2MiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTBjNTgyMThmYjYw
-ZDA4ZmIxZjdiMzAzMDRkZWIzYmE0NzYxMzE5NWFhOGEwOGE4MWYxOTcyNzc1Y2NjMzY0MCIKIAog
-U0VDVElPTiA9ICJ4MTEvbGlicyIKIERFUEVORFMgPSAidXRpbC1tYWNyb3MgbGlieHNsdC1uYXRp
-dmUiCi0tIAoyLjQ3LjEKCg==
-
---===============3956652199457143106==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/xkeyboard-config: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config: SRC_URI changed from "https://www.x.org/releases//individual/data/xkeyboard-config/xkeyboard-config-2.45.tar.xz" to "https://www.x.org/releases//individual/data/xkeyboard-config/xkeyboard-config-2.46.tar.xz"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-dbg: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-dbg: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-dev: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-dev: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-doc: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-doc: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-doc: PKGSIZE changed from 42275 to 42567 (+1%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-af: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-af: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ar: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ar: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-az: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-az: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-bg: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-bg: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PKGSIZE changed from 178440 to 179328 (+0%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-crh: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-crh: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PKGSIZE changed from 188612 to 189544 (+0%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-da: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-da: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PKGSIZE changed from 188722 to 189606 (+0%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-el: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-el: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-en-gb: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-en-gb: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-eo: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-eo: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-es: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-es: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fa: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fa: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fa: PKGSIZE changed from 67326 to 84332 (+25%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PKGSIZE changed from 189534 to 190486 (+1%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PKGSIZE changed from 181470 to 181466 (-0%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fur: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-fur: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-gl: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-gl: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-he: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-he: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-he: PKGSIZE changed from 202530 to 203588 (+1%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-hr: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-hr: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-hu: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-hu: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-id: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-id: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-it: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-it: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ja: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ja: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ka: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ka: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ko: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ko: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ky: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ky: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-lt: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-lt: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-nb: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-nb: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-nl: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-nl: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PKGSIZE changed from 181772 to 182686 (+1%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt-br: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt-br: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt: PKGSIZE changed from 178548 to 179428 (+0%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PKGSIZE changed from 185334 to 186254 (+0%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ru: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-ru: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-rw: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-rw: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sk: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sk: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PKGSIZE changed from 184100 to 185496 (+1%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sq: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sq: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PKGSIZE changed from 218528 to 219206 (+0%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PKGSIZE changed from 180946 to 181840 (+0%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PKGSIZE changed from 180858 to 181770 (+1%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PKGSIZE changed from 221992 to 223106 (+1%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-vi: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-vi: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PKGSIZE changed from 183834 to 184790 (+1%)
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-tw: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-tw: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-src: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-src: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-staticdev: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config-staticdev: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config: PV changed from "2.45" to "2.46"
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config: PKGV changed from 2.45 [default] to 2.46 [default]
-packages/x86-64-v3-poky-linux/xkeyboard-config/xkeyboard-config: PKGSIZE changed from 3301729 to 3320515 (+1%)
-
---===============3956652199457143106==--
+--===============3704712581090830897==--
 
