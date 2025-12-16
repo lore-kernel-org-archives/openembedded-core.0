@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05981D5C0D1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F7A9D5CC99
 	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:38 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17403.1765872146646309370
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17186.1765872138758352233
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:36 -0800
+ Tue, 16 Dec 2025 00:02:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WpSoofn+;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=S7w6hGQN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019b262ebe34-a177045f-eb3a-4790-995b-a8918eee38e9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=XL2fRzYl;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OHCvZVz2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019b262e9b5d-ffdf1b56-4a94-416e-8b35-4b083c67f037-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872156;
+	t=1765872147;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=/e5toCRBc1Ow0cyYSadI+FT3EvexqoccE3oRqcz89pw=;
-	b=WpSoofn+JkC5KFQxqYll1hpgzVYPAWTjJ6xUGI+1WAj3ecNF9ouEFG6VPfRrNPaV
-	ELQoFibjvlNMNHlf03gzoY8vK1sQ0CYLxeTxlzA8KeEch4DRMWC+NiMCW3vlb7jsdDb
-	HQFgy9SGX/RT2yqLZ6BW0Lcpy79YQHfvrolC/TwM=
+	bh=UADmhFYmjkTb7HUsnipMmgKTDdpKXimNQFBvDnVwbsw=;
+	b=XL2fRzYlMKA4Nez2lo2gZ+SkVfD1Xqd4w+tFJDMGOEPBQD4BuD1zx4rMmlhU6Wam
+	fc7utSM6mInYyA3o7axgxP1DRDXIFsKUips7F2157w8u0W8S9CsOLxQZxSBDSz2Q6zc
+	J7X2StjKr1S6y6rVHf+ASs/Bge+lEyMXW2Ciy4uw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872156;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872147;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=/e5toCRBc1Ow0cyYSadI+FT3EvexqoccE3oRqcz89pw=;
-	b=S7w6hGQNrjtF1IBQ+qO5fbsG7YVlehpuQ/5R4xUPde4gniQCNTg5syZDjXRPd3Uh
-	tRwY065M9JgpX8Evl8TtB+u3GvsHOU1A6jfv4JSwHmODgmebY3zMP4RAKyrHmHQWm4w
-	ryvxgS50MqGuCGPTwlpsiHJj5F/Ldgkfa81yg38M=
-Content-Type: multipart/mixed; boundary="===============9027905070198429835=="
+	bh=UADmhFYmjkTb7HUsnipMmgKTDdpKXimNQFBvDnVwbsw=;
+	b=OHCvZVz2ubzLyrwq55iYefS8xoWGQlDlWkX/Ft1JZuAMoJhOvUAuz7aoWwongLyk
+	VV2wQ+z6dCiKJBW7hkBxLAc7iq4OIp9c02cscLkRUj0Cd0XrbMn4Nen+Hxjq1S3j6o4
+	AcX3cJ7ALNNez3pNLld3w0OV/ZDNevMe12scEJOE=
+Content-Type: multipart/mixed; boundary="===============4982686956985431550=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gtk4: upgrading to 4.21.3 FAILED
-Message-ID: <0101019b262ebe34-a177045f-eb3a-4790-995b-a8918eee38e9-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:36 +0000
+Subject: [AUH] python3-ruamel-yaml: upgrading to 0.18.16 SUCCEEDED
+Message-ID: <0101019b262e9b5d-ffdf1b56-4a94-416e-8b35-4b083c67f037-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:27 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.193
+X-SES-Outgoing: 2025.12.16-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227855
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227825
 
---===============9027905070198429835==
+--===============4982686956985431550==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gtk4* to *4.21.3* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *python3-ruamel-yaml* to *0.18.16* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gtk4-upgrade-4.20.2-4.21.3.patch
+    - apply the patch: git am 0001-python3-ruamel-yaml-upgrade-0.18.15-0.18.16.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,181 +72,104 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From cbf10b5b4cb6e66286082d1588553589a7d9b38e Mon Sep 17 00:00:00 2001
+From d97e0495ac6e88eeeb2d46b52719af9b49e074a6 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Dec 2025 03:46:46 +0000
-Subject: [PATCH] gtk4: upgrade 4.20.2 -> 4.21.3
+Date: Tue, 16 Dec 2025 01:18:49 +0000
+Subject: [PATCH] python3-ruamel-yaml: upgrade 0.18.15 -> 0.18.16
 
 ---
- meta/recipes-gnome/gtk+/{gtk4_4.20.2.bb => gtk4_4.21.3.bb} | 2 +-
+ ...n3-ruamel-yaml_0.18.15.bb => python3-ruamel-yaml_0.18.16.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gtk+/{gtk4_4.20.2.bb => gtk4_4.21.3.bb} (97%)
+ rename meta/recipes-devtools/python/{python3-ruamel-yaml_0.18.15.bb => python3-ruamel-yaml_0.18.16.bb} (85%)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb b/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb
-similarity index 97%
-rename from meta/recipes-gnome/gtk+/gtk4_4.20.2.bb
-rename to meta/recipes-gnome/gtk+/gtk4_4.21.3.bb
-index d04251927f..654b4ed68e 100644
---- a/meta/recipes-gnome/gtk+/gtk4_4.20.2.bb
-+++ b/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb
-@@ -33,7 +33,7 @@ LIC_FILES_CHKSUM = " \
-     file://tests/testgtk.c;endline=25;md5=49d06770681b8322466b52ed19d29fb2 \
- "
+diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.15.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.16.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-ruamel-yaml_0.18.15.bb
+rename to meta/recipes-devtools/python/python3-ruamel-yaml_0.18.16.bb
+index f14d043f56..a77f290e86 100644
+--- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.15.bb
++++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.16.bb
+@@ -9,7 +9,7 @@ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
  
--SRC_URI[archive.sha256sum] = "5e8240edecafaff2b8baf4663bdceaa668ef10a207bee4d7f90e010e10bddc5c"
-+SRC_URI[archive.sha256sum] = "fd943233af9927fe43ef7b753757c85f7933cbd960731ee08e82dafd01e2280e"
+ inherit pypi python_setuptools_build_meta
  
- S = "${UNPACKDIR}/${GNOMEBN}-${PV}"
+-SRC_URI[sha256sum] = "dbfca74b018c4c3fba0b9cc9ee33e53c371194a9000e694995e620490fd40700"
++SRC_URI[sha256sum] = "a6e587512f3c998b2225d68aa1f35111c29fad14aed561a26e73fab729ec5e5a"
  
+ RDEPENDS:${PN} += "\
+     python3-shell \
 -- 
 2.47.1
 
 
---===============9027905070198429835==
+--===============4982686956985431550==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: FILELIST: directory renamed /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.15.dist-info -> /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.16.dist-info, directory renamed /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.15.dist-info/licenses -> /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.16.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/python3-ruamel-yaml (sysroot):
+  /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.15.dist-info moved to /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.16.dist-info
+
+--===============4982686956985431550==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gtk4-upgrade-4.20.2-4.21.3.patch"
+ filename="0001-python3-ruamel-yaml-upgrade-0.18.15-0.18.16.patch"
 
-RnJvbSBjYmYxMGI1YjRjYjZlNjYyODYwODJkMTU4ODU1MzU4OWE3ZDliMzhlIE1vbiBTZXAgMTcg
+RnJvbSBkOTdlMDQ5NWFjNmU4OGVlZWIyZDQ2YjUyNzE5YWY5YjQ5ZTA3NGE2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDM6NDY6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-dGs0OiB1cGdyYWRlIDQuMjAuMiAtPiA0LjIxLjMKCi0tLQogbWV0YS9yZWNpcGVzLWdub21lL2d0
-aysve2d0azRfNC4yMC4yLmJiID0+IGd0azRfNC4yMS4zLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1n
-bm9tZS9ndGsrL3tndGs0XzQuMjAuMi5iYiA9PiBndGs0XzQuMjEuMy5iYn0gKDk3JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ3RrKy9ndGs0XzQuMjAuMi5iYiBiL21ldGEvcmVj
-aXBlcy1nbm9tZS9ndGsrL2d0azRfNC4yMS4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFt
-ZSBmcm9tIG1ldGEvcmVjaXBlcy1nbm9tZS9ndGsrL2d0azRfNC4yMC4yLmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtZ25vbWUvZ3RrKy9ndGs0XzQuMjEuMy5iYgppbmRleCBkMDQyNTE5MjdmLi42
-NTRiNGVkNjhlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ3RrKy9ndGs0XzQuMjAu
-Mi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ3RrKy9ndGs0XzQuMjEuMy5iYgpAQCAtMzMs
-NyArMzMsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gIiBcCiAgICAgZmlsZTovL3Rlc3RzL3Rlc3Rn
-dGsuYztlbmRsaW5lPTI1O21kNT00OWQwNjc3MDY4MWI4MzIyNDY2YjUyZWQxOWQyOWZiMiBcCiAi
-CiAKLVNSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjVlODI0MGVkZWNhZmFmZjJiOGJhZjQ2
-NjNiZGNlYWE2NjhlZjEwYTIwN2JlZTRkN2Y5MGUwMTBlMTBiZGRjNWMiCitTUkNfVVJJW2FyY2hp
-dmUuc2hhMjU2c3VtXSA9ICJmZDk0MzIzM2FmOTkyN2ZlNDNlZjdiNzUzNzU3Yzg1Zjc5MzNjYmQ5
-NjA3MzFlZTA4ZTgyZGFmZDAxZTIyODBlIgogCiBTID0gIiR7VU5QQUNLRElSfS8ke0dOT01FQk59
-LSR7UFZ9IgogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDE6MTg6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXJ1YW1lbC15YW1sOiB1cGdyYWRlIDAuMTguMTUgLT4gMC4xOC4xNgoKLS0tCiAuLi5u
+My1ydWFtZWwteWFtbF8wLjE4LjE1LmJiID0+IHB5dGhvbjMtcnVhbWVsLXlhbWxfMC4xOC4xNi5i
+Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXJ1YW1lbC15YW1s
+XzAuMTguMTUuYmIgPT4gcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4LjE2LmJifSAoODUlKQoKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFt
+bF8wLjE4LjE1LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1l
+bC15YW1sXzAuMTguMTYuYmIKc2ltaWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZyb20gbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAuMTguMTUuYmIKcmVu
+YW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8w
+LjE4LjE2LmJiCmluZGV4IGYxNGQwNDNmNTYuLmE3N2YyOTBlODYgMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4LjE1LmJiCisr
+KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4
+LjE2LmJiCkBAIC05LDcgKzksNyBAQCBVUFNUUkVBTV9DSEVDS19QWVBJX1BBQ0tBR0UgPSAiJHtQ
+WVBJX1BBQ0tBR0V9IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0
+YQogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGJmY2E3NGIwMThjNGMzZmJhMGI5Y2M5ZWUzM2U1
+M2MzNzExOTRhOTAwMGU2OTQ5OTVlNjIwNDkwZmQ0MDcwMCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
+ICJhNmU1ODc1MTJmM2M5OThiMjIyNWQ2OGFhMWYzNTExMWMyOWZhZDE0YWVkNTYxYTI2ZTczZmFi
+NzI5ZWM1ZTVhIgogCiBSREVQRU5EUzoke1BOfSArPSAiXAogICAgIHB5dGhvbjMtc2hlbGwgXAot
+LSAKMi40Ny4xCgo=
 
---===============9027905070198429835==
+--===============4982686956985431550==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 949 .bb files complete (0 cached, 949 parsed). 1950 targets, 47 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml: PV changed from "0.18.15" to "0.18.16"
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.15.tar.gz;downloadfilename=ruamel.yaml-0.18.15.tar.gz" to "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.16.tar.gz;downloadfilename=ruamel.yaml-0.18.16.tar.gz"
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PV changed from "0.18.15" to "0.18.16"
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PV changed from "0.18.15" to "0.18.16"
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PV changed from "0.18.15" to "0.18.16"
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PV changed from "0.18.15" to "0.18.16"
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PV changed from "0.18.15" to "0.18.16"
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PV changed from "0.18.15" to "0.18.16"
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGSIZE changed from 1209426 to 1212241 (+0%)
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PV changed from "0.18.15" to "0.18.16"
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
+packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: FILELIST: directory renamed /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.15.dist-info -> /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.16.dist-info, directory renamed /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.15.dist-info/licenses -> /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.16.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/python3-ruamel-yaml (sysroot):
+  /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.15.dist-info moved to /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.16.dist-info
 
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-3e9e1419bace79eecec24939cb9c99eee07e9bf3"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:3e9e1419bace79eecec24939cb9c99eee07e9bf3"
-meta-yocto-bsp       
-meta-poky            = "master:b3b659263566c4d2f2813190e72d93f8598a4c47"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 378 Local 368 Mirrors 0 Missed 10 Current 1230 (97% match, 99% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 1342 of 1608 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 1550 of 1608 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 1566 of 1608 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe gtk4-4.21.3-r0: task do_populate_lic_setscene: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gdk-pixbuf-native-2.42.12-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gtk4-4.21.3-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 1602 of 1608 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_recipe_qa_setscene)
-NOTE: recipe gdk-pixbuf-native-2.42.12-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gtk4-4.21.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3696 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_fetch)
-NOTE: recipe gtk4-4.21.3-r0: task do_fetch: Started
-NOTE: Running task 4060 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_write_config)
-NOTE: recipe gtk4-4.21.3-r0: task do_fetch: Succeeded
-NOTE: Running task 4115 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_unpack)
-NOTE: Running task 4116 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gtk4-4.21.3-r0: task do_write_config: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_unpack: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_write_config: Succeeded
-NOTE: recipe gtk4-4.21.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_unpack: Succeeded
-NOTE: Running task 4386 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_patch)
-NOTE: Running task 4387 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_collect_spdx_deps)
-NOTE: recipe gtk4-4.21.3-r0: task do_patch: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gtk4-4.21.3-r0: task do_patch: Succeeded
-NOTE: recipe gtk4-4.21.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 4390 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_configure)
-NOTE: recipe gtk4-4.21.3-r0: task do_configure: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_configure: Succeeded
-NOTE: Running task 4391 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_compile)
-NOTE: recipe gtk4-4.21.3-r0: task do_compile: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_compile: Succeeded
-NOTE: Running task 4392 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_install)
-NOTE: recipe gtk4-4.21.3-r0: task do_install: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_install: Succeeded
-NOTE: Running task 4393 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_package)
-NOTE: Running task 4394 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_populate_sysroot)
-NOTE: recipe gtk4-4.21.3-r0: task do_package: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_populate_sysroot: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gtk4-4.21.3-r0: task do_package: Succeeded
-NOTE: Running task 4395 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_packagedata)
-NOTE: recipe gtk4-4.21.3-r0: task do_packagedata: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_packagedata: Succeeded
-NOTE: Running task 4396 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_create_spdx)
-NOTE: Running task 4397 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_package_write_ipk)
-NOTE: Running task 4398 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_package_write_deb)
-NOTE: recipe gtk4-4.21.3-r0: task do_create_spdx: Started
-NOTE: Running task 4399 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_package_write_rpm)
-NOTE: Running task 4400 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_package_qa)
-NOTE: recipe gtk4-4.21.3-r0: task do_package_write_ipk: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_package_write_deb: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_package_write_rpm: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_package_qa: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_create_spdx: Succeeded
-NOTE: Running task 4401 of 4402 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_create_package_spdx)
-NOTE: recipe gtk4-4.21.3-r0: task do_create_package_spdx: Started
-NOTE: recipe gtk4-4.21.3-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe gtk4-4.21.3-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe gtk4-4.21.3-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe gtk4-4.21.3-r0: task do_package_qa: Failed
-NOTE: recipe gtk4-4.21.3-r0: task do_package_write_deb: Succeeded
-NOTE: Tasks Summary: Attempted 4401 tasks of which 4383 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251216034524.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251216034524.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_package_qa
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gtk4/4.21.3/temp/log.do_package_qa.2067334
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: gtk4-4.21.3-r0 do_package_qa: QA Issue: package contains mime types but does not inherit mime: gtk4 path '/usr/share/mime/packages/gtk-mime.xml' [mime]
-ERROR: gtk4-4.21.3-r0 do_package_qa: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gtk4/4.21.3/temp/log.do_package_qa.2067334
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk4_4.21.3.bb:do_package_qa) failed with exit code '1'
-
---===============9027905070198429835==--
+--===============4982686956985431550==--
 
