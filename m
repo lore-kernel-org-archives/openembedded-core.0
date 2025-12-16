@@ -1,132 +1,137 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C11E6D609BA
-	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 16:10:16 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.26648.1765901408516231772
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E05A8D609BB
+	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 16:11:46 +0000 (UTC)
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.26438.1765901496975585578
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 08:10:08 -0800
+ Tue, 16 Dec 2025 08:11:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B0E011516
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:10:00 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 80D143F73F
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:10:07 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] gdk-pixbuf: upgrade 2.42.12 -> 2.44.4
-Date: Tue, 16 Dec 2025 16:10:01 +0000
-Message-ID: <20251216161001.352088-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251216161001.352088-1-ross.burton@arm.com>
-References: <20251216161001.352088-1-ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aZzAFXDS;
+ spf=pass (domain: gmail.com, ip: 209.85.161.52, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-6575e760f06so1462156eaf.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:11:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765901496; x=1766506296; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kr9sU0lKbT/+QfVat4L94yplLk0LPQw9OxLTjn5n/cs=;
+        b=aZzAFXDSfDEC7bbqDNcWbvE/LycpGfvU+dqgkRR2JErH/vaXAeZSkf2IB8I5AnXNdo
+         RbIxyjdppB0mmfkJi6pH1d41lqwbOeww6TyXm1MKeCh3fZ88vERLMaGvtU9xE7x4XBSx
+         aaTpis9SPR5L/LYKMl92oK9k+PRrozOu5noRN9lJg/Mdne3tQ21/PzOanJy30XdoJJAt
+         PXH4t9aWp8w4IBrRJOh0PQ1WSqLVfAu64U89Z2XPN/eUdPg51DJ1pePKXziP9Kks6CAA
+         CJQl8a69PsXmisd0NqM/XyDroBRXmUcw60uwMrT1T9f3HpmXdi3piVqHavCDmQtN60Ob
+         kAeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765901496; x=1766506296;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=kr9sU0lKbT/+QfVat4L94yplLk0LPQw9OxLTjn5n/cs=;
+        b=cp5ta5BE7nXKGpb+G6XNYWhT4/9eSpe4K9P45kmHIJ7Z5rEjPc+P7P3FZUIH7CrC8p
+         FfpaMBoFLy68OobRen73OkFv7/YIMcLLyCMDZh08CodrrnzOYCatpqKwALy0gOyUqrah
+         JSKM/W6Vr4eyNL365/M0ucecP3WyFDlBGlT6vDIngHlDQ/Hn8b/Pf3fxY7oYW3Eyz8iI
+         CU1a3EvLYdckIPcxA8PVFmwP7ZhdNWR00wmtsmv/XfRlShVBYbsGqYjTJx1y5U8lURIV
+         yr19Vg3ZyOZu3C//rI+4x0bpcHzk7Hj1GOntgR2TXoh7iwSqMNsjrQCoGr3I2snLNCTx
+         1hLg==
+X-Gm-Message-State: AOJu0YziUFDEGyN9nX5rOX/pOZ2D9ztJBgXe4FzTStQLXvQFFVGdMMA9
+	wGwLwkwvmw9baFn8OvneY6ja/57wCKxpqXYBJ2PrnbC7v6VcIHKfVmzfhCvr4zOXNvOmVYRpG3y
+	LX4Z0wRd6Qj4msIAsm/f+/DRPI4qH+BA=
+X-Gm-Gg: AY/fxX7znfzMeDyQtugiLikojzuBzS577Jt59QcUeti81lB2uYhPm/XXXQ9sJ2A7kZu
+	Yo+oByAl05XrQkMES2Ei1cnXinkwbIBZBQcXn1dAK9ljG/g7brlZqNlIELFdUiytBXu5HOJyvr/
+	/vh8mTqqRBV5+bWiyiP+yGErNpCoeNfa9t7hSirGoy8awbAw7a3nUizVlyy02Yrgaac3oSv20W3
+	up5xbYqAphd+HPKPYVaTnITkc1TL8VYEsZUiDejYv+G6eBRmN7PASZcJVHB9LaXELMZwqcdjw==
+X-Google-Smtp-Source: AGHT+IGQjK3CWS46yIO1uYPw7FvKeypJVsyBid1Af8xdrkSY9IjrVX5IwzupoBK+uPagrZ0Hd4k/VRMMEcI2aHTontQ=
+X-Received: by 2002:a05:6820:982:b0:659:9a49:8e6c with SMTP id
+ 006d021491bc7-65b452827d1mr6436577eaf.60.1765901496206; Tue, 16 Dec 2025
+ 08:11:36 -0800 (PST)
 MIME-Version: 1.0
+References: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
+ <20251213095931.2571498-9-ankur.tyagi85@gmail.com> <CADySD0Esc+QMLrgPrKHORjO5vEr4FH+dMv47w6tMMpgwNUd-FQ@mail.gmail.com>
+ <CANNYZj8qUZpMv7-eS6AWWy7ZMgVggYYjgsHNko_T1t6drUaMOg@mail.gmail.com>
+In-Reply-To: <CANNYZj8qUZpMv7-eS6AWWy7ZMgVggYYjgsHNko_T1t6drUaMOg@mail.gmail.com>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Date: Tue, 16 Dec 2025 21:41:25 +0530
+X-Gm-Features: AQt7F2rBxRAMjlKwdsAvwq6xrsiaftsHajge5gLFeT0NruN_mSMUO-XebOfNzAU
+Message-ID: <CADySD0FSspq05nXdOCBWu+2CH52CxzN4UGCYr-pSrowK-gjF8w@mail.gmail.com>
+Subject: Re: [OE-core][whinlatter][PATCH 09/67] uki.bbclass: use basename for
+ dtbs available via KERNEL_DEVICETREE
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Ricardo Salveti <ricardo@foundries.io>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 16:10:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227978
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 16:11:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227979
 
-Upstream changes (subset):
-- Add glycin loader (a sandboxed rust image loading framework)
-- Deprecate the XPM-related API
-- The animation-related APIs have been deprecated
-- jpeg: Fix a crash related to icc data (CVE-2025-7345)
-- Prefer builtin modules
+On Tue, Dec 16, 2025 at 9:14=E2=80=AFPM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Ankur, you are doing it backwards. You need to review this original
+> set privately, and then send a v2 set including only the patches that
+> comply with the stable branch policy.
+>
 
-Explicitly disable the glycin plugin for now, as we don't have a recipe
-for glycin yet.
+Thanks Alex, understood.
 
-Explicitly disable the thumbnailer for now, this hasn't been built since
-2.38[2] and would need more integration to work in cross builds.
-
-Use 'documentation' for the gi-docgen option[1].
-
-[1] gdk-pixbuf ee5a35665 ("build: Add "documentation" configuration optio=
-n")
-[2] gdk-pixbuf fc3770831 ("meson: don't build tests or the thumbnailer if=
- cross building")
-since 2.38
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...on.build-allow-a-subset-of-tests-in-cross-compile.patch | 6 +++---
- .../{gdk-pixbuf_2.42.12.bb =3D> gdk-pixbuf_2.44.4.bb}        | 7 ++++++-
- 2 files changed, 9 insertions(+), 4 deletions(-)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.42.12.bb =3D> gdk-pix=
-buf_2.44.4.bb} (93%)
-
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-al=
-low-a-subset-of-tests-in-cross-compile.patch b/meta/recipes-gnome/gdk-pix=
-buf/gdk-pixbuf/0001-meson.build-allow-a-subset-of-tests-in-cross-compile.=
-patch
-index 24edda81021..534f4e00765 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-s=
-ubset-of-tests-in-cross-compile.patch
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-s=
-ubset-of-tests-in-cross-compile.patch
-@@ -33,9 +33,9 @@ index 3eb3fcc..dc7e790 100644
- -  if get_option('tests')
- -    subdir('tests')
- -  endif
--   subdir('thumbnailer')
-- endif
--=20
-+   thumbnailer_opt =3D get_option('thumbnailer').disable_auto_if(glycin_=
-dep.found())
-+   if not thumbnailer_opt.disabled()
-+     subdir('thumbnailer')
- diff --git a/tests/meson.build b/tests/meson.build
- index 3781066..911b5fb 100644
- --- a/tests/meson.build
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb b/meta/r=
-ecipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb
-similarity index 93%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb
-index 750098ba022..0c06bdda096 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb
-@@ -14,7 +14,7 @@ SECTION =3D "libs"
-=20
- DEPENDS =3D "glib-2.0 shared-mime-info"
-=20
--SRC_URI[archive.sha256sum] =3D "b9505b3445b9a7e48ced34760c3bcb73e966df3a=
-c94c95a148cb669ab748e3c7"
-+SRC_URI[archive.sha256sum] =3D "93a1aac3f1427ae73457397582a2c38d049638a8=
-01788ccbd5f48ca607bdbd17"
-=20
- inherit gettext gnomebase pixbufcache ptest-gnome upstream-version-is-ev=
-en gobject-introspection gi-docgen lib_package manpages
-=20
-@@ -27,6 +27,7 @@ SRC_URI +=3D "\
- GIR_MESON_OPTION =3D "introspection"
- GIR_MESON_ENABLE_FLAG =3D "enabled"
- GIR_MESON_DISABLE_FLAG =3D "disabled"
-+GIDOCGEN_MESON_OPTION =3D "documentation"
-=20
- LIBV =3D "2.10.0"
-=20
-@@ -41,6 +42,10 @@ PACKAGECONFIG[others] =3D "-Dothers=3Denabled,-Dothers=
-=3Ddisabled"
- PACKAGECONFIG[manpages] =3D "-Dman=3Dtrue,-Dman=3Dfalse,python3-docutils=
--native"
- PACKAGECONFIG[tests] =3D "-Dtests=3Dtrue -Dinstalled_tests=3Dtrue,-Dtest=
-s=3Dfalse -Dinstalled_tests=3Dfalse"
-=20
-+# Disable glycin whilst we have no recipe yet
-+# Disable the thumbnailers as they don't build in cross
-+EXTRA_OEMESON =3D "-Dglycin=3Ddisabled -Dthumbnailer=3Ddisabled"
-+
- # For GIO image type sniffing
- RDEPENDS:${PN} =3D "shared-mime-info"
-=20
---=20
-2.43.0
-
+> Alex
+>
+> On Tue, 16 Dec 2025 at 16:42, Ankur Tyagi via lists.openembedded.org
+> <ankur.tyagi85=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > This patch doesn't bring any critical bug fix, hence can be dropped.
+> >
+> > On Sat, Dec 13, 2025 at 3:30=E2=80=AFPM <ankur.tyagi85@gmail.com> wrote=
+:
+> > >
+> > > From: Ricardo Salveti <ricardo@foundries.io>
+> > >
+> > > Device-tree files set via KERNEL_DEVICETREE are deployed without any
+> > > vendor sub-directory (e.g. arm/juno.dtb gets deployed as juno.dtb).
+> > >
+> > > Same is also done in kernel-fit-image.bbclass.
+> > >
+> > > Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
+> > > Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.c=
+om>
+> > > (cherry picked from commit 27a7fbb767c0a25b34a03cae90320908f8ade8de)
+> > > Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+> > > ---
+> > >  meta/classes-recipe/uki.bbclass | 4 +++-
+> > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uk=
+i.bbclass
+> > > index fedff222c6..a2b1c8a82d 100644
+> > > --- a/meta/classes-recipe/uki.bbclass
+> > > +++ b/meta/classes-recipe/uki.bbclass
+> > > @@ -152,7 +152,9 @@ python do_uki() {
+> > >      # dtb
+> > >      if d.getVar('KERNEL_DEVICETREE'):
+> > >          for dtb in d.getVar('KERNEL_DEVICETREE').split():
+> > > -            dtb_path =3D "%s/%s" % (deploy_dir_image, dtb)
+> > > +            # DTBs are without sub-directories in deploy_dir
+> > > +            dtb_name =3D os.path.basename(dtb)
+> > > +            dtb_path =3D "%s/%s" % (deploy_dir_image, dtb_name)
+> > >              if not os.path.exists(dtb_path):
+> > >                  bb.fatal(f"ERROR: cannot find {dtb_path}.")
+> > >              ukify_cmd +=3D " --devicetree %s" % (dtb_path)
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#227972): https://lists.openembedded.org/g/openembed=
+ded-core/message/227972
+> > Mute This Topic: https://lists.openembedded.org/mt/116760385/1686489
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+alex.kanavin@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
