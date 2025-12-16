@@ -1,134 +1,111 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C260CD609DB
-	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 18:41:29 +0000 (UTC)
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1272.1765910483515446029
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C31CD637A4
+	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 19:43:20 +0000 (UTC)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2736.1765914190570569590
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 10:41:23 -0800
+ Tue, 16 Dec 2025 11:43:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=SsF6ZrP9;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=w5iNSpdJ;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.144, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id D2E541D0006A;
-	Tue, 16 Dec 2025 13:41:22 -0500 (EST)
-Received: from phl-frontend-01 ([10.202.2.160])
-  by phl-compute-06.internal (MEProxy); Tue, 16 Dec 2025 13:41:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1765910482; x=1765996882; bh=xT
-	ZsPmrELGiOC7enrcl3PegDe//D1QLi9AoI1seTMuU=; b=SsF6ZrP9P4Sr4fjVr5
-	sOmoKipZQ/Q3ic8hDT9RG9bSqMwDzIKmnjfmmb0yaYmN/vYG6ekqI+7s7JdFM3ar
-	/f7/0ldS7u9X7Y67fyJ04fMG3jB0UKQAC+2FUN9R5Mkbtjh62zw/+GRnf7l/EHQJ
-	bR8UFW4OW7Fw3zhE5gNMTnmSOmuJIL/npWJd13AJpll5zDyx8bdg2LU/xzGHhAkS
-	83VVTXg84yZOnrOeEMFddHlZp6OezBCkpwNJTx1oURen+uJN5AxPPEZvNEB+szh2
-	rOg66YR/9oPoABhz7SUbxatZIWiN2aKQ7qE+RHrhD/2mGamt7JvXCv1faB7st6A+
-	MV5w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1765910482; x=1765996882; bh=xTZsPmrELGiOC7enrcl3PegDe//D
-	1QLi9AoI1seTMuU=; b=w5iNSpdJehsQUXMYI9M/NODQhpjWRysrK+qyfKmOM7F/
-	22jVfK0II/SvP2FoqQyt2Ajjd1xzhDXmiixV+bNhVXd1NQcMfMMrxrjaVQvB8hT7
-	910SHgUzD9dl9J5UfwLiP1R03why5Y37CX+/jwvqtCgV0KELYHd/i2IxoUM19yQS
-	gzn0ii1J+WJV5SycHerrBp0ZCYCVfjCj6PG+Jd7Qu0xNtCFu+bRKsvgxcy54w/5d
-	06/XpZB4FgUC2zUd0tGbj+loX73j0uMWduRTU2Q9dbZ9hMSQ+c6Eb2PLTHY0Jkg3
-	m7vqnMQhUTf614AeFBObG0EdXzJOqJ7V4YwxSwFh7g==
-X-ME-Sender: <xms:0qdBafcq5NaE5djR0PPGUDQj43iX90YXYVCoWtYqurZMn8qnXpbi7Q>
-    <xme:0qdBabPUByRvxTKLDl5igroqQ54coJTvkqMeI73_XnkNOHlhVeM5NjxUBw57pN5np
-    XWtYpyXMDA6f1XfsVMWuczxCOTe241nxpJN2TWr9NRI9k2MYklby-s>
-X-ME-Received: <xmr:0qdBaWJYu-PrCygYjiMUY8iXd1HMDHrJy_5-MF93UuRSxgl9itpXth5_vnyYyBJkMBszIIMZCT7HYRv0_G-orpCC_Reu4L4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegtdegvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhephfffufggtgfgkffvvefosehtjeertdertd
-    ejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghrrdgu
-    vghvqeenucggtffrrghtthgvrhhnpeevvdduffekvddtveefhfeiueehgfdufefggfeile
-    euueekieekfeektdegledtkeenucffohhmrghinhepihgrnhgrrdhorhhgnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehpsggrrh
-    hkvghrrdguvghvpdhnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopehprghulhesphgsrghrkhgvrhdruggvvhdprhgtphhtthhopehophgvnhgvmh
-    gsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-ME-Proxy: <xmx:0qdBacH2XubI1YK3gE-DuJi0Zf3dqrHJhhmzsGUjPL-nV9gW4UFP4w>
-    <xmx:0qdBaeTz0inX1G_b_wSzvTSMadCeeEAuUam2miKz8zNvFUkDdO-J0Q>
-    <xmx:0qdBaYGbuIH-e9WwaGGvwG_1bXkFKubOFKp9CAXDyoxCmqhigFsbIw>
-    <xmx:0qdBaa_O0Ctqjdq1hpFM8cMyl2KmZ4t1nc2l8RZvudPzEk-uoCYggA>
-    <xmx:0qdBaTD-hGHPjfVGVGZTaQg9rbqlvZRv2FHZ0mGidVg6ZV7JQYkQDLLx>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Dec 2025 13:41:21 -0500 (EST)
-From: Paul Barker <paul@pbarker.dev>
-Date: Tue, 16 Dec 2025 18:41:11 +0000
-Subject: [PATCH] tzdata,tzcode-native: Upgrade 2025b -> 2025c
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bZpC/jsQ;
+ spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4ed861eb98cso54945501cf.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 11:43:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765914189; x=1766518989; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5KhBHTN45HWNdguAgGsw3mcQKLoP/70xbdhBAmI39X4=;
+        b=bZpC/jsQ4HqjGkr44FwjhtPlDPorTyVn48lLltMp7ARbkSMyB+E71zdIEwsdzDQnKK
+         hwEISHAftMHSUcmcsxjzJ95qqh3WQfD23Z6gUiBpNwLAzoFc+l9Q25Ya4kDM/ss7Vaoq
+         XQHC4lpxEiDloO4dLLllOAIBwwNyGiXkX+lPEEJ7+RLqm4lGRN5SJpgMsWmAUPtvbLzo
+         T3raHX1P3umOoT4I2xvJbgiA11jwUTl/TUbC5zqLTFxdus1onNw1pZ0pIoOQnvCD7Lkx
+         VhnAWIgnsXS3kg7Z7CVcmkN/T3CYmjyKpYSA4IBbSFHiq5jp82rUK397bZwcjUcfmN5Y
+         0Www==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765914189; x=1766518989;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5KhBHTN45HWNdguAgGsw3mcQKLoP/70xbdhBAmI39X4=;
+        b=KuWb1TVYS/l0c/Zw7sFwp3db6bNigdsUG5uXuFpaHfdb8Wm8iHewkWL9YXPJSw4CV9
+         n5HbVT3+FFuzF1FfA76XyOuYeYsn+HPW22Wcqi3uPWKVJeVFZAHOfebsfuCHCWdvW4sd
+         3rQurjZ4Ya0a8YHqq4Yl4XDYEzxvIf9qOSPwdU7hx2lpeXYRwIYhHbEHWXmNt5ZvgBtI
+         d6OMNOBvAdbANcXP3E+xNc0wIZXnOHnpzLKCZNHhFNpFc3cd6orHMKy5Yw+siNlfBP6t
+         69VfbyezMjMrIocVFDpzKVUkaHpFBBIqyElFiO2cCtFHJA7k58c08dClVHz+V+o73HFO
+         Ob2Q==
+X-Gm-Message-State: AOJu0Yyp8rzD1dkP+OMoHkKhsuLguxejvbBtZ7VfbLoxB5yFHeL8Oxno
+	IoTGvlKw9/pdiiXObI8XlVorT5DO5DO9Yfz2EFCb/ViIq8X8ejwkOG3KdzuqX0icd+fTsOV/ZE0
+	5A16BDKExGRj1sJO94XVjdSpjFKzCRhdwl3c/
+X-Gm-Gg: AY/fxX6ldFRuu7nQoBqucn9URCIj2Gm8pLHYR/gd2hPK8KQLE7J0zMkLjm6E/RcKNFt
+	L0W5E/tXkSAe4tVPBVYK0emmQkXrPUJYT/pwgk4Z/cUjlBFN8vG9b7J/TunVZWEObbKYOOWmIlS
+	SoeteKwZcgiJFdYZ1cta61eDFe+jCAf0YymE+rSTgR9C2OZ6wNkXmCW3/GUD3diX9C0HY6/5XYy
+	yVN+0gBMkuHTU1ycxso134mDJqunsUeEbUGYvn7FAxRdyi1sWwotV7sy8EWDZsNKmnK5+EVjjcF
+	HfPmtv2ZutmJwx1G4x23DwCN0Go1EA==
+X-Google-Smtp-Source: AGHT+IHhJpe1ysVPDyFIO3bf/63BZCpZNtJ/WkTmkwaR9E+vJHv0dYm0Uq/8guqIP0bGMCBmzZt7OadABYLitHt6HBg=
+X-Received: by 2002:a05:622a:4189:b0:4d2:4df8:4cb5 with SMTP id
+ d75a77b69052e-4f1d04696fbmr217233381cf.4.1765914189435; Tue, 16 Dec 2025
+ 11:43:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251216-recipes-v1-1-382e3042f00d@pbarker.dev>
-X-B4-Tracking: v=1; b=H4sIAManQWkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1NDI0Mz3aLU5MyC1GLdtBQDE1NDU8vk5EQzJaDqgqLUtMwKsEnRsbW1ALC
- pPqRZAAAA
-X-Change-ID: 20251216-recipes-fd045159cca6
-To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <paul@pbarker.dev>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1702; i=paul@pbarker.dev;
- h=from:subject:message-id; bh=0GXEfTZPjtQX/6M9BQkiaBsDtTs7/AWHgABsPxxwA/k=;
- b=owGbwMvMwCW2OjnkzdxdX/IYT6slMWQ6Lr9Ybr+6+c/aubOLAkUvqz+QmXfe70vUhA+F1w0es
- P04zpFn11HKwiDGxSArpsiyuefr/ae9jrwZIbcUYOawMoEMYeDiFICJ6IQzMrwyta4SUP5cv431
- 7L/onTeP9/61L7a78mHlw9ruqXcdPdMY/gcYnBZZP3mD18QbwStfe1XtiJKdNnXd5zU3+G1mv97
- 2dzczAA==
-X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
- fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
+References: <20251216143901.2542490-1-tgamblin@baylibre.com> <20251216143901.2542490-5-tgamblin@baylibre.com>
+In-Reply-To: <20251216143901.2542490-5-tgamblin@baylibre.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 16 Dec 2025 20:42:58 +0100
+X-Gm-Features: AQt7F2r0yq2RSoTTqJA7tuzBGLUurEfQDC5hVJuKE8hL2OvG92N_2JcjgCMzyHI
+Message-ID: <CANNYZj-7cLJ1PueXRh+SAj6JuF+VYOe+qEczb1zhPjo7geXCBw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 4/6] rpm: handle CMake Python paths in EXTRA_OECMAKE
+To: tgamblin@baylibre.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 18:41:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227982
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 19:43:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227983
 
-This release mostly changes code and commentary. The only changed data
-are leap second table expiration and pre-1976 time in Baja California.
+On Tue, 16 Dec 2025 at 15:39, Trevor Gamblin via
+lists.openembedded.org <tgamblin=baylibre.com@lists.openembedded.org>
+wrote:
+>
+> With the Python 3.14.0 upgrade, rpm is finding the wrong paths with
+> CMake, leading to a QA issue for files that we have listed in FILES
+> already:
+>
+> |ERROR: QA Issue: rpm: Files/directories were installed but not shipped in any package:
+> |  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/rpm/4.20.1/recipe-sysroot-native/usr/lib/python3.14/site-packages/rpm-4.20.1-py3.14.egg-info
+> |  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/rpm/4.20.1/recipe-sysroot-native/usr/lib/python3.14/site-packages/rpm/_rpm.so
+> |  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/rpm/4.20.1/recipe-sysroot-native/usr/lib/python3.14/site-packages/rpm/transaction.py
+> |  /home/tgamblin/workspace/yocto/openembedded-core/build/tmp/work/x86-64-v3-poky-linux/rpm/4.20.1/recipe-sysroot-native/usr/lib/python3.14/site-packages/rpm/__init__.py
+> |Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+> |rpm: 4 installed and not shipped files. [installed-vs-shipped]
+>
+> Add a patch to make it possible to override Python3_SITEARCH in rpm's
+> python/CMakeLists.txt by setting PYTHON_INSTALL_DIR in EXTRA_OECMAKE.
 
-Full release notes:
-  https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/TAGXKYLMAQRZRFTERQ33CEKOW7KRJVAK/
+I'm still worried that Python3_SITEARCH was correct with the previous
+version of python, and is no longer correct. We can't cover it up with
+a patch that forcibly passes in the correct value to cmake, without
+investigating what is happening.
 
-Signed-off-by: Paul Barker <paul@pbarker.dev>
----
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Specifically, in
+recipe-sysroot-native/usr/share/cmake-4.2/Modules/FindPython3.cmake I
+see this:
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index 9a5105ffd74f..b9323432b8d3 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
- 
--PV = "2025b"
-+PV = "2025c"
- 
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
-@@ -16,5 +16,5 @@ S = "${UNPACKDIR}/tz"
- 
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzcode.sha256sum] = "05f8fedb3525ee70d49c87d3fae78a8a0dbae4fe87aa565c65cda9948ae135ec"
--SRC_URI[tzdata.sha256sum] = "11810413345fc7805017e27ea9fa4885fd74cd61b2911711ad038f5d28d71474"
-+SRC_URI[tzcode.sha256sum] = "697ebe6625444aef5080f58e49d03424bbb52e08bf483d3ddb5acf10cbd15740"
-+SRC_URI[tzdata.sha256sum] = "4aa79e4effee53fc4029ffe5f6ebe97937282ebcdf386d5d2da91ce84142f957"
+``Python3_SITEARCH``
+  Third-party platform dependent installation directory.
 
----
-base-commit: 2e10e9a50f12d5de3d22fbed59b65461afa3fa84
-change-id: 20251216-recipes-fd045159cca6
+  Information returned by ``sysconfig.get_path('platlib')``.
 
-Best regards,
--- 
-Paul Barker
+And the code that actually runs python can be found in
+recipe-sysroot-native/usr/share/cmake-4.2/Modules/FindPython/Support.cmake
 
+So if "sysconfig.get_path('platlib')" (in presence of
+python3targetconfig inherot, which rpm recipe does have) has indeed
+regressed, it can't be left unfixed.
+
+Alex
+
+Alex
 
