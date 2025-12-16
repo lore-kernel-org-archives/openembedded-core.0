@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 285BCD5C0D1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12634D5C0CC
 	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:24 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17188.1765872139220084245
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17393.1765872135280841953
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Dec 2025 00:02:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=N8eIsQAn;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=aNhpWXwt;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019b262e7e82-0890f17c-3ae5-4120-a595-c834742f3586-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=nfUG/JQP;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=rISCwVQz;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019b262e7deb-1b6a6f6e-78c0-4467-8659-9cff370251d4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1765872140;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=NjBayZw+2r3r3wPYXa1Mha1hapg7dAq+5hG8rzlhGpI=;
-	b=N8eIsQAnyP5afNfxLSX6JprKvLUCHj8Dfx3fkd6N/De8cvQ+i1XRWNHOTUhXnRx1
-	iqI6Uci9sSggSvfjuxNYY6P/bcVQO7ZPe3r/mZyYvTVl/DqO1EgmStyuzqdkLlFa3Ww
-	C5BgXKnZO1BR+poSr7z3UPpJBcrhBS9ClIHBzXlc=
+	bh=pnuB8N4E8ERLOaesTsLbqvRolQAufzAWUyMqYFqqbo0=;
+	b=nfUG/JQPvkL327XqFGh9IJn7DMNUap0+IYiXaO5zhHfrRoW+iXjvOVMPFjFlGLZQ
+	IacaygGSvGy1/7LVmG+iJNXsNm1W8qVVtsio7/moaplJVxDZ5jcG/P9rSVxFmtt6TjH
+	G9u11NtYU6IuHtFpENqdnPTiegy1Yt0INytWVNlA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872140;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=NjBayZw+2r3r3wPYXa1Mha1hapg7dAq+5hG8rzlhGpI=;
-	b=aNhpWXwtU/gtbBDh/J+Kb6q+TfouV53TD3ZJm6ye6ev4KnJWnffHqElab4twWf32
-	d5hxg18tQBOi7R3MzRpqRtq7rlnSc7kWXq0mET0rqUfUw3I4W+HTElwiwXgbhro+nBk
-	QakDTcyyhlLPlJPDUL635MZhokHOx/yK3XsvUkLI=
-Content-Type: multipart/mixed; boundary="===============0951662368170573283=="
+	bh=pnuB8N4E8ERLOaesTsLbqvRolQAufzAWUyMqYFqqbo0=;
+	b=rISCwVQzw4wCmPLGVKMy1gvvZxqq2tcgo8ldTwqU2HuHQWroMSH0FKsHPhVb0Gq7
+	Nph2Q4oBwUy8Le3hJqRQSqlfLpx4myq0p2lyoVUxOdEjUhkndLk+3NTh7oNeTiytAtd
+	NpQFXg3RIMkTLuRb20lIaUkQc1otShcWL+BUC9Zg=
+Content-Type: multipart/mixed; boundary="===============2165408173373646792=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-cython: upgrading to 3.2.3 SUCCEEDED
-Message-ID: <0101019b262e7e82-0890f17c-3ae5-4120-a595-c834742f3586-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-cffi: upgrading to 2.0.0 SUCCEEDED
+Message-ID: <0101019b262e7deb-1b6a6f6e-78c0-4467-8659-9cff370251d4-000000@us-west-2.amazonses.com>
 Date: Tue, 16 Dec 2025 08:02:19 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.192
+X-SES-Outgoing: 2025.12.16-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227799
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227798
 
---===============0951662368170573283==
+--===============2165408173373646792==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-cython* to *3.2.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-cffi* to *2.0.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-cython-upgrade-3.1.3-3.2.3.patch
+    - apply the patch: git am 0001-python3-cffi-upgrade-1.17.1-2.0.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,181 +72,294 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7bdc0694ff2e14c3e1bcccae8b3df4827f378fc7 Mon Sep 17 00:00:00 2001
+From b536cf6884aecd70cbd99c157e8f149377f079d3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Dec 2025 23:37:03 +0000
-Subject: [PATCH] python3-cython: upgrade 3.1.3 -> 3.2.3
+Date: Mon, 15 Dec 2025 23:29:21 +0000
+Subject: [PATCH] python3-cffi: upgrade 1.17.1 -> 2.0.0
 
 ---
- ...ce-not-predictable-build-path-prefix-with-hardc.patch | 9 +++------
- .../{python3-cython_3.1.3.bb => python3-cython_3.2.3.bb} | 2 +-
- 2 files changed, 4 insertions(+), 7 deletions(-)
- rename meta/recipes-devtools/python/{python3-cython_3.1.3.bb => python3-cython_3.2.3.bb} (93%)
+ ...ize_t-to-avoid-c-11-narrowing-warnin.patch | 34 ---------------
+ ...3-cffi_1.17.1.bb => python3-cffi_2.0.0.bb} | 41 +++++++++++++++++--
+ 2 files changed, 37 insertions(+), 38 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-cffi/0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch
+ rename meta/recipes-devtools/python/{python3-cffi_1.17.1.bb => python3-cffi_2.0.0.bb} (36%)
 
-diff --git a/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch b/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch
-index 1fbbd8fd48..d232f58e02 100644
---- a/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch
-+++ b/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch
-@@ -1,4 +1,4 @@
--From 1690c505f1387e1884565021991a162e2f88f2b9 Mon Sep 17 00:00:00 2001
-+From 77c73d8c317224f66af66521f8cfe7a8e5491136 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Wed, 17 Sep 2025 01:42:08 -0700
- Subject: [PATCH] Replace not predictable build path prefix with hardcode
-@@ -53,10 +53,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 3 insertions(+), 1 deletion(-)
- 
- diff --git a/Cython/Compiler/ModuleNode.py b/Cython/Compiler/ModuleNode.py
--index 6672cb986..b1123515e 100644
-+index c1d8783..f24b2d9 100644
- --- a/Cython/Compiler/ModuleNode.py
- +++ b/Cython/Compiler/ModuleNode.py
--@@ -779,7 +779,9 @@ class ModuleNode(Nodes.Node, Nodes.BlockNode):
-+@@ -877,7 +877,9 @@ class ModuleNode(Nodes.Node, Nodes.BlockNode):
-          code.put_generated_by()
-          if metadata:
-              code.putln("/* BEGIN: Cython Metadata")
-@@ -67,6 +67,3 @@ index 6672cb986..b1123515e 100644
-              code.putln("END: Cython Metadata */")
-              code.putln("")
-  
---- 
--2.49.0
+diff --git a/meta/recipes-devtools/python/python3-cffi/0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch b/meta/recipes-devtools/python/python3-cffi/0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch
+deleted file mode 100644
+index a919f4f6fb..0000000000
+--- a/meta/recipes-devtools/python/python3-cffi/0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 2ac63f8765e62f1492ef3ee06791636700bc6cfb Mon Sep 17 00:00:00 2001
+-From: triallax <triallax@tutanota.com>
+-Date: Sat, 29 Jun 2024 15:25:24 +0100
+-Subject: [PATCH] Cast offset to size_t to avoid c++11-narrowing warning (#92)
 -
-diff --git a/meta/recipes-devtools/python/python3-cython_3.1.3.bb b/meta/recipes-devtools/python/python3-cython_3.2.3.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-cython_3.1.3.bb
-rename to meta/recipes-devtools/python/python3-cython_3.2.3.bb
-index 3b2835d9c5..f58b74f272 100644
---- a/meta/recipes-devtools/python/python3-cython_3.1.3.bb
-+++ b/meta/recipes-devtools/python/python3-cython_3.2.3.bb
-@@ -7,7 +7,7 @@ SECTION = "devel/python"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=61c3ee8961575861fa86c7e62bc9f69c"
+-e.g. with clang 18 on chimera linux:
+-
+-_CFFI_test_verify_anonymous_struct_with_star_typedef.cpp:583:10: error: non-constant-expression cannot be narrowed from type 'long' to 'size_t' (aka 'unsigned long') in initializer list [-Wc++11-narrowing]
+-  583 |   { "a", ((char *)&((foo_t)4096)->a) - (char *)4096,
+-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-_CFFI_test_verify_anonymous_struct_with_star_typedef.cpp:583:10: note: insert an explicit cast to silence this issue
+-  583 |   { "a", ((char *)&((foo_t)4096)->a) - (char *)4096,
+-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-      |          static_cast<size_t>(                      )
+-
+-Upstream-Status: Backport [https://github.com/python-cffi/cffi/pull/92]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/cffi/recompiler.py | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/cffi/recompiler.py b/src/cffi/recompiler.py
+-index ac6c163e..14d578ee 100644
+---- a/src/cffi/recompiler.py
+-+++ b/src/cffi/recompiler.py
+-@@ -953,7 +953,7 @@ class Recompiler:
+-                 if cname is None or fbitsize >= 0:
+-                     offset = '(size_t)-1'
+-                 elif named_ptr is not None:
+--                    offset = '((char *)&((%s)4096)->%s) - (char *)4096' % (
+-+                    offset = '(size_t)(((char *)&((%s)4096)->%s) - (char *)4096)' % (
+-                         named_ptr.name, fldname)
+-                 else:
+-                     offset = 'offsetof(%s, %s)' % (tp.get_c_name(''), fldname)
+diff --git a/meta/recipes-devtools/python/python3-cffi_1.17.1.bb b/meta/recipes-devtools/python/python3-cffi_2.0.0.bb
+similarity index 36%
+rename from meta/recipes-devtools/python/python3-cffi_1.17.1.bb
+rename to meta/recipes-devtools/python/python3-cffi_2.0.0.bb
+index 5a3af03d9f..074174ed4d 100644
+--- a/meta/recipes-devtools/python/python3-cffi_1.17.1.bb
++++ b/meta/recipes-devtools/python/python3-cffi_2.0.0.bb
+@@ -1,13 +1,46 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -3,7 +3,7 @@
++#  information at the beginning of each file) all software and
++#  documentation is licensed as follows: 
++#  
++# -    The MIT License
++# +    MIT No Attribution
++#  
++#      Permission is hereby granted, free of charge, to any person 
++#      obtaining a copy of this software and associated documentation 
++# @@ -11,10 +11,7 @@
++#      restriction, including without limitation the rights to use, 
++#      copy, modify, merge, publish, distribute, sublicense, and/or 
++#      sell copies of the Software, and to permit persons to whom the 
++# -    Software is furnished to do so, subject to the following conditions:
++# -
++# -    The above copyright notice and this permission notice shall be included 
++# -    in all copies or substantial portions of the Software.
++# +    Software is furnished to do so.
++#  
++#      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
++#      OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
++# 
++#
++
+ SUMMARY = "Foreign Function Interface for Python calling C code"
+ HOMEPAGE = "http://cffi.readthedocs.org/"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=5677e2fdbf7cdda61d6dd2b57df547bf"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=c0158ab9b75875f3bb7fea081d388818"
+ DEPENDS += "libffi python3-pycparser"
  
--SRC_URI[sha256sum] = "10ee785e42328924b78f75a74f66a813cb956b4a9bc91c44816d089d5934c089"
-+SRC_URI[sha256sum] = "f13832412d633376ffc08d751cc18ed0d7d00a398a4065e2871db505258748a6"
+-SRC_URI[sha256sum] = "1c39c6016c32bc48dd54561950ebd6836e1670f2ae46128f67cf49e789c52824"
++SRC_URI[sha256sum] = "44d1b5909021139fe36001ae048dbdde8214afa20200eda0f64c068cac5d5529"
  
- inherit pypi setuptools3 cython
+-SRC_URI += "file://run-ptest \
+-            file://0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch"
++SRC_URI += "file://run-ptest"
+ 
+ inherit pypi python_setuptools_build_meta ptest pkgconfig
  
 -- 
 2.47.1
 
 
---===============0951662368170573283==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-cython-upgrade-3.1.3-3.2.3.patch"
-
-RnJvbSA3YmRjMDY5NGZmMmUxNGMzZTFiY2NjYWU4YjNkZjQ4MjdmMzc4ZmM3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgRGVjIDIwMjUgMjM6Mzc6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWN5dGhvbjogdXBncmFkZSAzLjEuMyAtPiAzLjIuMwoKLS0tCiAuLi5jZS1ub3QtcHJl
-ZGljdGFibGUtYnVpbGQtcGF0aC1wcmVmaXgtd2l0aC1oYXJkYy5wYXRjaCB8IDkgKysrLS0tLS0t
-CiAuLi4ve3B5dGhvbjMtY3l0aG9uXzMuMS4zLmJiID0+IHB5dGhvbjMtY3l0aG9uXzMuMi4zLmJi
-fSB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygt
-KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtY3l0aG9uXzMu
-MS4zLmJiID0+IHB5dGhvbjMtY3l0aG9uXzMuMi4zLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jeXRob24vMDAwMS1SZXBsYWNlLW5v
-dC1wcmVkaWN0YWJsZS1idWlsZC1wYXRoLXByZWZpeC13aXRoLWhhcmRjLnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWN5dGhvbi8wMDAxLVJlcGxhY2Utbm90LXBy
-ZWRpY3RhYmxlLWJ1aWxkLXBhdGgtcHJlZml4LXdpdGgtaGFyZGMucGF0Y2gKaW5kZXggMWZiYmQ4
-ZmQ0OC4uZDIzMmY1OGUwMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLWN5dGhvbi8wMDAxLVJlcGxhY2Utbm90LXByZWRpY3RhYmxlLWJ1aWxkLXBhdGgt
-cHJlZml4LXdpdGgtaGFyZGMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLWN5dGhvbi8wMDAxLVJlcGxhY2Utbm90LXByZWRpY3RhYmxlLWJ1aWxkLXBhdGgt
-cHJlZml4LXdpdGgtaGFyZGMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDE2OTBjNTA1ZjEz
-ODdlMTg4NDU2NTAyMTk5MWExNjJlMmY4OGYyYjkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
-cm9tIDc3YzczZDhjMzE3MjI0ZjY2YWY2NjUyMWY4Y2ZlN2E4ZTU0OTExMzYgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCiBGcm9tOiBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+
-CiBEYXRlOiBXZWQsIDE3IFNlcCAyMDI1IDAxOjQyOjA4IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hd
-IFJlcGxhY2Ugbm90IHByZWRpY3RhYmxlIGJ1aWxkIHBhdGggcHJlZml4IHdpdGggaGFyZGNvZGUK
-QEAgLTUzLDEwICs1MywxMCBAQCBTaWduZWQtb2ZmLWJ5OiBIb25neHUgSmlhIDxob25neHUuamlh
-QHdpbmRyaXZlci5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxl
-dGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvQ3l0aG9uL0NvbXBpbGVyL01vZHVsZU5vZGUucHkgYi9D
-eXRob24vQ29tcGlsZXIvTW9kdWxlTm9kZS5weQotaW5kZXggNjY3MmNiOTg2Li5iMTEyMzUxNWUg
-MTAwNjQ0CitpbmRleCBjMWQ4NzgzLi5mMjRiMmQ5IDEwMDY0NAogLS0tIGEvQ3l0aG9uL0NvbXBp
-bGVyL01vZHVsZU5vZGUucHkKICsrKyBiL0N5dGhvbi9Db21waWxlci9Nb2R1bGVOb2RlLnB5Ci1A
-QCAtNzc5LDcgKzc3OSw5IEBAIGNsYXNzIE1vZHVsZU5vZGUoTm9kZXMuTm9kZSwgTm9kZXMuQmxv
-Y2tOb2RlKToKK0BAIC04NzcsNyArODc3LDkgQEAgY2xhc3MgTW9kdWxlTm9kZShOb2Rlcy5Ob2Rl
-LCBOb2Rlcy5CbG9ja05vZGUpOgogICAgICAgICAgY29kZS5wdXRfZ2VuZXJhdGVkX2J5KCkKICAg
-ICAgICAgIGlmIG1ldGFkYXRhOgogICAgICAgICAgICAgIGNvZGUucHV0bG4oIi8qIEJFR0lOOiBD
-eXRob24gTWV0YWRhdGEiKQpAQCAtNjcsNiArNjcsMyBAQCBpbmRleCA2NjcyY2I5ODYuLmIxMTIz
-NTE1ZSAxMDA2NDQKICAgICAgICAgICAgICBjb2RlLnB1dGxuKCJFTkQ6IEN5dGhvbiBNZXRhZGF0
-YSAqLyIpCiAgICAgICAgICAgICAgY29kZS5wdXRsbigiIikKICAKLS0tIAotMi40OS4wCi0KZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jeXRob25fMy4x
-LjMuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3l0aG9uXzMuMi4z
-LmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1jeXRob25fMy4xLjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1jeXRob25fMy4yLjMuYmIKaW5kZXggM2IyODM1ZDljNS4u
-ZjU4Yjc0ZjI3MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLWN5dGhvbl8zLjEuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtY3l0aG9uXzMuMi4zLmJiCkBAIC03LDcgKzcsNyBAQCBTRUNUSU9OID0gImRldmVsL3B5
-dGhvbiIKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
-L0xJQ0VOU0UudHh0O21kNT02MWMzZWU4OTYxNTc1ODYxZmE4NmM3ZTYyYmM5ZjY5YyIKIAotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjEwZWU3ODVlNDIzMjg5MjRiNzhmNzVhNzRmNjZhODEzY2I5NTZi
-NGE5YmM5MWM0NDgxNmQwODlkNTkzNGMwODkiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjEzODMy
-NDEyZDYzMzM3NmZmYzA4ZDc1MWNjMThlZDBkN2QwMGEzOThhNDA2NWUyODcxZGI1MDUyNTg3NDhh
-NiIKIAogaW5oZXJpdCBweXBpIHNldHVwdG9vbHMzIGN5dGhvbgogCi0tIAoyLjQ3LjEKCg==
-
---===============0951662368170573283==
+--===============2165408173373646792==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython: FILELIST: directory renamed /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info -> /usr/lib/python3.13/site-packages/cython-3.2.3.dist-info, removed "/usr/lib/python3.13/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-313.pyc /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info/licenses/COPYING.txt /usr/lib/python3.13/site-packages/Cython/Utility/Dataclasses.py /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info/licenses/LICENSE.txt", added "/usr/lib/python3.13/site-packages/Cython/Utility/FusedFunction.pyx /usr/lib/python3.13/site-packages/Cython/Includes/libcpp/condition_variable.pxd /usr/lib/python3.13/site-packages/Cython/Utility/TString.c"
-Changes to packages/x86-64-v3-poky-linux/python3-cython (sysroot):
-  /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info moved to /usr/lib/python3.13/site-packages/cython-3.2.3.dist-info
-  /usr/lib/python3.13/site-packages/Cython/Includes/libcpp/condition_variable.pxd was added
-  /usr/lib/python3.13/site-packages/Cython/Utility/FusedFunction.pyx was added
-  /usr/lib/python3.13/site-packages/Cython/Utility/TString.c was added
-  /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info/licenses was removed
-  /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info/licenses/COPYING.txt was removed
-  /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.13/site-packages/Cython/Utility/Dataclasses.py was removed
-  /usr/lib/python3.13/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-313.pyc was removed
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi: FILELIST: directory renamed /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info -> /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info, removed "/usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/licenses/LICENSE", added "/usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/AUTHORS /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/LICENSE"
+Changes to packages/x86-64-v3-poky-linux/python3-cffi (sysroot):
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/AUTHORS was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/WHEEL was removed
 
---===============0951662368170573283==
+--===============2165408173373646792==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-cffi-upgrade-1.17.1-2.0.0.patch"
+
+RnJvbSBiNTM2Y2Y2ODg0YWVjZDcwY2JkOTljMTU3ZThmMTQ5Mzc3ZjA3OWQzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgRGVjIDIwMjUgMjM6Mjk6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWNmZmk6IHVwZ3JhZGUgMS4xNy4xIC0+IDIuMC4wCgotLS0KIC4uLml6ZV90LXRvLWF2
+b2lkLWMtMTEtbmFycm93aW5nLXdhcm5pbi5wYXRjaCB8IDM0IC0tLS0tLS0tLS0tLS0tLQogLi4u
+My1jZmZpXzEuMTcuMS5iYiA9PiBweXRob24zLWNmZmlfMi4wLjAuYmJ9IHwgNDEgKysrKysrKysr
+KysrKysrKystLQogMiBmaWxlcyBjaGFuZ2VkLCAzNyBpbnNlcnRpb25zKCspLCAzOCBkZWxldGlv
+bnMoLSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtY2ZmaS8wMDAxLUNhc3Qtb2Zmc2V0LXRvLXNpemVfdC10by1hdm9pZC1jLTExLW5hcnJv
+d2luZy13YXJuaW4ucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tw
+eXRob24zLWNmZmlfMS4xNy4xLmJiID0+IHB5dGhvbjMtY2ZmaV8yLjAuMC5iYn0gKDM2JSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2ZmaS8wMDAx
+LUNhc3Qtb2Zmc2V0LXRvLXNpemVfdC10by1hdm9pZC1jLTExLW5hcnJvd2luZy13YXJuaW4ucGF0
+Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2ZmaS8wMDAxLUNhc3Qt
+b2Zmc2V0LXRvLXNpemVfdC10by1hdm9pZC1jLTExLW5hcnJvd2luZy13YXJuaW4ucGF0Y2gKZGVs
+ZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IGE5MTlmNGY2ZmIuLjAwMDAwMDAwMDAKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNmZmkvMDAwMS1DYXN0LW9mZnNl
+dC10by1zaXplX3QtdG8tYXZvaWQtYy0xMS1uYXJyb3dpbmctd2FybmluLnBhdGNoCisrKyAvZGV2
+L251bGwKQEAgLTEsMzQgKzAsMCBAQAotRnJvbSAyYWM2M2Y4NzY1ZTYyZjE0OTJlZjNlZTA2Nzkx
+NjM2NzAwYmM2Y2ZiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogdHJpYWxsYXggPHRy
+aWFsbGF4QHR1dGFub3RhLmNvbT4KLURhdGU6IFNhdCwgMjkgSnVuIDIwMjQgMTU6MjU6MjQgKzAx
+MDAKLVN1YmplY3Q6IFtQQVRDSF0gQ2FzdCBvZmZzZXQgdG8gc2l6ZV90IHRvIGF2b2lkIGMrKzEx
+LW5hcnJvd2luZyB3YXJuaW5nICgjOTIpCi0KLWUuZy4gd2l0aCBjbGFuZyAxOCBvbiBjaGltZXJh
+IGxpbnV4OgotCi1fQ0ZGSV90ZXN0X3ZlcmlmeV9hbm9ueW1vdXNfc3RydWN0X3dpdGhfc3Rhcl90
+eXBlZGVmLmNwcDo1ODM6MTA6IGVycm9yOiBub24tY29uc3RhbnQtZXhwcmVzc2lvbiBjYW5ub3Qg
+YmUgbmFycm93ZWQgZnJvbSB0eXBlICdsb25nJyB0byAnc2l6ZV90JyAoYWthICd1bnNpZ25lZCBs
+b25nJykgaW4gaW5pdGlhbGl6ZXIgbGlzdCBbLVdjKysxMS1uYXJyb3dpbmddCi0gIDU4MyB8ICAg
+eyAiYSIsICgoY2hhciAqKSYoKGZvb190KTQwOTYpLT5hKSAtIChjaGFyICopNDA5NiwKLSAgICAg
+IHwgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Ci1f
+Q0ZGSV90ZXN0X3ZlcmlmeV9hbm9ueW1vdXNfc3RydWN0X3dpdGhfc3Rhcl90eXBlZGVmLmNwcDo1
+ODM6MTA6IG5vdGU6IGluc2VydCBhbiBleHBsaWNpdCBjYXN0IHRvIHNpbGVuY2UgdGhpcyBpc3N1
+ZQotICA1ODMgfCAgIHsgImEiLCAoKGNoYXIgKikmKChmb29fdCk0MDk2KS0+YSkgLSAoY2hhciAq
+KTQwOTYsCi0gICAgICB8ICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fgotICAgICAgfCAgICAgICAgICBzdGF0aWNfY2FzdDxzaXplX3Q+KCAgICAgICAg
+ICAgICAgICAgICAgICApCi0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8vZ2l0
+aHViLmNvbS9weXRob24tY2ZmaS9jZmZpL3B1bGwvOTJdCi1TaWduZWQtb2ZmLWJ5OiBLaGVtIFJh
+aiA8cmFqLmtoZW1AZ21haWwuY29tPgotLS0tCi0gc3JjL2NmZmkvcmVjb21waWxlci5weSB8IDIg
+Ky0KLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKLQotZGlm
+ZiAtLWdpdCBhL3NyYy9jZmZpL3JlY29tcGlsZXIucHkgYi9zcmMvY2ZmaS9yZWNvbXBpbGVyLnB5
+Ci1pbmRleCBhYzZjMTYzZS4uMTRkNTc4ZWUgMTAwNjQ0Ci0tLS0gYS9zcmMvY2ZmaS9yZWNvbXBp
+bGVyLnB5Ci0rKysgYi9zcmMvY2ZmaS9yZWNvbXBpbGVyLnB5Ci1AQCAtOTUzLDcgKzk1Myw3IEBA
+IGNsYXNzIFJlY29tcGlsZXI6Ci0gICAgICAgICAgICAgICAgIGlmIGNuYW1lIGlzIE5vbmUgb3Ig
+ZmJpdHNpemUgPj0gMDoKLSAgICAgICAgICAgICAgICAgICAgIG9mZnNldCA9ICcoc2l6ZV90KS0x
+JwotICAgICAgICAgICAgICAgICBlbGlmIG5hbWVkX3B0ciBpcyBub3QgTm9uZToKLS0gICAgICAg
+ICAgICAgICAgICAgIG9mZnNldCA9ICcoKGNoYXIgKikmKCglcyk0MDk2KS0+JXMpIC0gKGNoYXIg
+Kik0MDk2JyAlICgKLSsgICAgICAgICAgICAgICAgICAgIG9mZnNldCA9ICcoc2l6ZV90KSgoKGNo
+YXIgKikmKCglcyk0MDk2KS0+JXMpIC0gKGNoYXIgKik0MDk2KScgJSAoCi0gICAgICAgICAgICAg
+ICAgICAgICAgICAgbmFtZWRfcHRyLm5hbWUsIGZsZG5hbWUpCi0gICAgICAgICAgICAgICAgIGVs
+c2U6Ci0gICAgICAgICAgICAgICAgICAgICBvZmZzZXQgPSAnb2Zmc2V0b2YoJXMsICVzKScgJSAo
+dHAuZ2V0X2NfbmFtZSgnJyksIGZsZG5hbWUpCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2ZmaV8xLjE3LjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtY2ZmaV8yLjAuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDM2JQpyZW5h
+bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2ZmaV8xLjE3LjEu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZmZpXzIu
+MC4wLmJiCmluZGV4IDVhM2FmMDNkOWYuLjA3NDE3NGVkNGQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZmZpXzEuMTcuMS5iYgorKysgYi9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2ZmaV8yLjAuMC5iYgpAQCAtMSwxMyArMSw0
+NiBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRh
+dGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJl
+bmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1
+cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFu
+Z2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgor
+IyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQor
+IworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UKKyMgKysrIExJQ0VOU0UKKyMgQEAg
+LTMsNyArMyw3IEBACisjICBpbmZvcm1hdGlvbiBhdCB0aGUgYmVnaW5uaW5nIG9mIGVhY2ggZmls
+ZSkgYWxsIHNvZnR3YXJlIGFuZAorIyAgZG9jdW1lbnRhdGlvbiBpcyBsaWNlbnNlZCBhcyBmb2xs
+b3dzOiAKKyMgIAorIyAtICAgIFRoZSBNSVQgTGljZW5zZQorIyArICAgIE1JVCBObyBBdHRyaWJ1
+dGlvbgorIyAgCisjICAgICAgUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBj
+aGFyZ2UsIHRvIGFueSBwZXJzb24gCisjICAgICAgb2J0YWluaW5nIGEgY29weSBvZiB0aGlzIHNv
+ZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gCisjIEBAIC0xMSwxMCArMTEsNyBA
+QAorIyAgICAgIHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uIHRoZSBy
+aWdodHMgdG8gdXNlLCAKKyMgICAgICBjb3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNoLCBkaXN0
+cmlidXRlLCBzdWJsaWNlbnNlLCBhbmQvb3IgCisjICAgICAgc2VsbCBjb3BpZXMgb2YgdGhlIFNv
+ZnR3YXJlLCBhbmQgdG8gcGVybWl0IHBlcnNvbnMgdG8gd2hvbSB0aGUgCisjIC0gICAgU29mdHdh
+cmUgaXMgZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dpbmcgY29uZGl0
+aW9uczoKKyMgLQorIyAtICAgIFRoZSBhYm92ZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBl
+cm1pc3Npb24gbm90aWNlIHNoYWxsIGJlIGluY2x1ZGVkIAorIyAtICAgIGluIGFsbCBjb3BpZXMg
+b3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMgb2YgdGhlIFNvZnR3YXJlLgorIyArICAgIFNvZnR3YXJl
+IGlzIGZ1cm5pc2hlZCB0byBkbyBzby4KKyMgIAorIyAgICAgIFRIRSBTT0ZUV0FSRSBJUyBQUk9W
+SURFRCAiQVMgSVMiLCBXSVRIT1VUIFdBUlJBTlRZIE9GIEFOWSBLSU5ELCBFWFBSRVNTIAorIyAg
+ICAgIE9SIElNUExJRUQsIElOQ0xVRElORyBCVVQgTk9UIExJTUlURUQgVE8gVEhFIFdBUlJBTlRJ
+RVMgT0YgTUVSQ0hBTlRBQklMSVRZLCAKKyMgCisjCisKIFNVTU1BUlkgPSAiRm9yZWlnbiBGdW5j
+dGlvbiBJbnRlcmZhY2UgZm9yIFB5dGhvbiBjYWxsaW5nIEMgY29kZSIKIEhPTUVQQUdFID0gImh0
+dHA6Ly9jZmZpLnJlYWR0aGVkb2NzLm9yZy8iCiBMSUNFTlNFID0gIk1JVCIKLUxJQ19GSUxFU19D
+SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTU2NzdlMmZkYmY3Y2RkYTYxZDZkZDJiNTdkZjU0
+N2JmIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9YzAxNThhYjliNzU4
+NzVmM2JiN2ZlYTA4MWQzODg4MTgiCiBERVBFTkRTICs9ICJsaWJmZmkgcHl0aG9uMy1weWNwYXJz
+ZXIiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxYzM5YzYwMTZjMzJiYzQ4ZGQ1NDU2MTk1MGVi
+ZDY4MzZlMTY3MGYyYWU0NjEyOGY2N2NmNDllNzg5YzUyODI0IgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjQ0ZDFiNTkwOTAyMTEzOWZlMzYwMDFhZTA0OGRiZGRlODIxNGFmYTIwMjAwZWRhMGY2NGMw
+NjhjYWM1ZDU1MjkiCiAKLVNSQ19VUkkgKz0gImZpbGU6Ly9ydW4tcHRlc3QgXAotICAgICAgICAg
+ICAgZmlsZTovLzAwMDEtQ2FzdC1vZmZzZXQtdG8tc2l6ZV90LXRvLWF2b2lkLWMtMTEtbmFycm93
+aW5nLXdhcm5pbi5wYXRjaCIKK1NSQ19VUkkgKz0gImZpbGU6Ly9ydW4tcHRlc3QiCiAKIGluaGVy
+aXQgcHlwaSBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhIHB0ZXN0IHBrZ2NvbmZpZwogCi0t
+IAoyLjQ3LjEKCg==
+
+--===============2165408173373646792==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-cython: PV changed from "3.1.3" to "3.2.3"
-packages/x86-64-v3-poky-linux/python3-cython: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cython/cython-3.1.3.tar.gz;downloadfilename=cython-3.1.3.tar.gz file://0001-Replace-not-predictable-build-path-prefix-with-hardc.patch" to "https://files.pythonhosted.org/packages/source/c/cython/cython-3.2.3.tar.gz;downloadfilename=cython-3.2.3.tar.gz file://0001-Replace-not-predictable-build-path-prefix-with-hardc.patch"
-packages/x86-64-v3-poky-linux/python3-cython: PKGV changed from 3.1.3 [default] to 3.2.3 [default]
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-dbg: PV changed from "3.1.3" to "3.2.3"
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 26059048 to 26390824 (+1%)
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-dbg: PKGV changed from 3.1.3 [default] to 3.2.3 [default]
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-dev: PV changed from "3.1.3" to "3.2.3"
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-dev: PKGV changed from 3.1.3 [default] to 3.2.3 [default]
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-doc: PV changed from "3.1.3" to "3.2.3"
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-doc: PKGV changed from 3.1.3 [default] to 3.2.3 [default]
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-locale: PV changed from "3.1.3" to "3.2.3"
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-locale: PKGV changed from 3.1.3 [default] to 3.2.3 [default]
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-src: FILELIST: directory renamed /usr/src/debug/python3-cython/3.1.3/Cython -> /usr/src/debug/python3-cython/3.2.3/Cython, directory renamed /usr/src/debug/python3-cython/3.1.3/Cython/Tempita -> /usr/src/debug/python3-cython/3.2.3/Cython/Tempita, directory renamed /usr/src/debug/python3-cython/3.1.3/Cython/Plex -> /usr/src/debug/python3-cython/3.2.3/Cython/Plex, directory renamed /usr/src/debug/python3-cython/3.1.3/Cython/Runtime -> /usr/src/debug/python3-cython/3.2.3/Cython/Runtime, directory renamed /usr/src/debug/python3-cython/3.1.3/Cython/Compiler -> /usr/src/debug/python3-cython/3.2.3/Cython/Compiler
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-src: PV changed from "3.1.3" to "3.2.3"
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 23081148 to 23510760 (+2%)
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-src: PKGV changed from 3.1.3 [default] to 3.2.3 [default]
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-staticdev: PV changed from "3.1.3" to "3.2.3"
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython-staticdev: PKGV changed from 3.1.3 [default] to 3.2.3 [default]
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython: FILELIST: directory renamed /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info -> /usr/lib/python3.13/site-packages/cython-3.2.3.dist-info, removed "/usr/lib/python3.13/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-313.pyc /usr/lib/python3.13/site-packages/Cython/Utility/Dataclasses.py /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info/licenses/COPYING.txt /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info/licenses/LICENSE.txt", added "/usr/lib/python3.13/site-packages/Cython/Utility/FusedFunction.pyx /usr/lib/python3.13/site-packages/Cython/Utility/TString.c /usr/lib/python3.13/site-packages/Cython/Includes/libcpp/condition_variable.pxd"
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython: PV changed from "3.1.3" to "3.2.3"
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 14897478 to 14986786 (+1%)
-packages/x86-64-v3-poky-linux/python3-cython/python3-cython: PKGV changed from 3.1.3 [default] to 3.2.3 [default]
-Changes to packages/x86-64-v3-poky-linux/python3-cython (sysroot):
-  /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info moved to /usr/lib/python3.13/site-packages/cython-3.2.3.dist-info
-  /usr/lib/python3.13/site-packages/Cython/Includes/libcpp/condition_variable.pxd was added
-  /usr/lib/python3.13/site-packages/Cython/Utility/FusedFunction.pyx was added
-  /usr/lib/python3.13/site-packages/Cython/Utility/TString.c was added
-  /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info/licenses was removed
-  /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info/licenses/COPYING.txt was removed
-  /usr/lib/python3.13/site-packages/cython-3.1.3.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.13/site-packages/Cython/Utility/Dataclasses.py was removed
-  /usr/lib/python3.13/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-313.pyc was removed
+packages/x86-64-v3-poky-linux/python3-cffi: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cffi/cffi-1.17.1.tar.gz;downloadfilename=cffi-1.17.1.tar.gz file://run-ptest file://0001-Cast-offset-to-size_t-to-avoid-c-11-narrowing-warnin.patch" to "https://files.pythonhosted.org/packages/source/c/cffi/cffi-2.0.0.tar.gz;downloadfilename=cffi-2.0.0.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/python3-cffi: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-dbg: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-dbg: PKGSIZE changed from 582024 to 592216 (+2%)
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-dbg: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-dev: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-dev: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-doc: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-doc: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-locale: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-locale: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-ptest: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-ptest: PKGSIZE changed from 677014 to 684059 (+1%)
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-ptest: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-src: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-src: PKGSIZE changed from 488407 to 497652 (+2%)
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-src: FILELIST: directory renamed /usr/src/debug/python3-cffi/1.17.1/src/cffi -> /usr/src/debug/python3-cffi/2.0.0/src/cffi, directory renamed /usr/src/debug/python3-cffi/1.17.1/src/c -> /usr/src/debug/python3-cffi/2.0.0/src/c
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-src: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-staticdev: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi-staticdev: PV changed from "1.17.1" to "2.0.0"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi: PKGV changed from 1.17.1 [default] to 2.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi: PKGSIZE changed from 1012467 to 1014971 (+0%)
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi: FILELIST: directory renamed /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info -> /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info, removed "/usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/licenses/LICENSE", added "/usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/LICENSE /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/AUTHORS"
+packages/x86-64-v3-poky-linux/python3-cffi/python3-cffi: PV changed from "1.17.1" to "2.0.0"
+Changes to packages/x86-64-v3-poky-linux/python3-cffi (sysroot):
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/entry_points.txt was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/AUTHORS was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/METADATA was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.13/site-packages/cffi-2.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/entry_points.txt was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/licenses was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/METADATA was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.13/site-packages/cffi-1.17.1.dist-info/WHEEL was removed
 
---===============0951662368170573283==--
+--===============2165408173373646792==--
 
