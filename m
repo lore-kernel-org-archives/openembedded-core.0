@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6870ED5E12A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D56CBD5E13F
 	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:39 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17181.1765872135681406811
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17401.1765872145995976586
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:29 -0800
+ Tue, 16 Dec 2025 00:02:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=27HLvePf;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=F2/gMEjN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019b262ea23c-a3b3cf8d-e3e8-442d-9e9c-07735d2fd2a1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=rfW1zzcz;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Ebz/6oZV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019b262ec61f-d667f70d-542f-47d0-8231-18b23fd912b1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872149;
+	t=1765872158;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3IIl4jPPnDoQ/MMdRzG21wnJTQbr1Ym8arIkB1XdYnk=;
-	b=27HLvePfLZNxli7OUxLOsrR1VP2oJ+UrFjWgTdxmoVsQ3ybXsaBaAzLvpiWGIv+l
-	247SfVJ8ol6ShOjzz5s5GYdpG7fof5aZu880BHwYromH2OsnoWgAwsulSueOtBbgx+b
-	fNz3NRNckOSUkNXJ8KnAkFqQP/7k4dmlFkYwDvPA=
+	bh=EasRkLxaOYBukxPs/7nopu17Otg+m6H6dp4CamI5tew=;
+	b=rfW1zzczKQ7FMLylNNxgqt8Jef8sZ5SowiT5ftLzZZqyWVZ3O1vpAExl27nIGQaN
+	tL7dwyKjdL4ZA6adRv8J7KMKvTr7se9KmM3JDXjypuV9RlsaOL7yBXZ+2p6AzvDnB43
+	0CyGe1hL3BWsvRs4PUNoTzbTKsUSK+Ay6npP8klQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872149;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872158;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3IIl4jPPnDoQ/MMdRzG21wnJTQbr1Ym8arIkB1XdYnk=;
-	b=F2/gMEjNQfFBAfYUg/fabqYBW+vzD99FncXGsutvAqwjkAeLeF1CR+YzSDCfqQnL
-	oj5HocIA1VvE/TjI+/6pv/lAPykNfpInoVVI1rVI/uLcXpa+xrC1pTPQGG9SYIkwrTG
-	2nQFO59vHPZ8/uIjLFsKVZN8E+ECsBFUZtG/Mgos=
-Content-Type: multipart/mixed; boundary="===============5767067429096035802=="
+	bh=EasRkLxaOYBukxPs/7nopu17Otg+m6H6dp4CamI5tew=;
+	b=Ebz/6oZV+YbXqzmCH2Uun/2ofdbefjkZNp6yIth1gQbY4fCEKRdNnAolGEOcbzFn
+	d4V+P2/WAXG9L5NcUNnjxvXxk03A6XlOg7T0llkGyBPb6jKv/QPThzUbdao/8j0qmsr
+	Lt7Wb13k/enuR7rgUcp9Etthg0gjJqPcnJbkubrI=
+Content-Type: multipart/mixed; boundary="===============2867848724121329694=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-setuptools-scm: upgrading to 9.2.2 SUCCEEDED
-Message-ID: <0101019b262ea23c-a3b3cf8d-e3e8-442d-9e9c-07735d2fd2a1-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:29 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] libjpeg-turbo: upgrading to 3.1.3 SUCCEEDED
+Message-ID: <0101019b262ec61f-d667f70d-542f-47d0-8231-18b23fd912b1-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.31
+X-SES-Outgoing: 2025.12.16-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227828
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227864
 
---===============5767067429096035802==
+--===============2867848724121329694==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-setuptools-scm* to *9.2.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libjpeg-turbo* to *3.1.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-setuptools-scm-upgrade-8.3.1-9.2.2.patch
+    - apply the patch: git am 0001-libjpeg-turbo-upgrade-3.1.2-3.1.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,169 +72,99 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ccc26526b74d174d15363470692bcfa26dda5823 Mon Sep 17 00:00:00 2001
+From f6c50a0b5145fcce955e1534331d7e8cff15770d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Dec 2025 01:24:39 +0000
-Subject: [PATCH] python3-setuptools-scm: upgrade 8.3.1 -> 9.2.2
+Date: Tue, 16 Dec 2025 04:24:59 +0000
+Subject: [PATCH] libjpeg-turbo: upgrade 3.1.2 -> 3.1.3
 
 ---
- ...-setuptools-scm_8.3.1.bb => python3-setuptools-scm_9.2.2.bb} | 2 +-
+ .../jpeg/{libjpeg-turbo_3.1.2.bb => libjpeg-turbo_3.1.3.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-setuptools-scm_8.3.1.bb => python3-setuptools-scm_9.2.2.bb} (89%)
+ rename meta/recipes-graphics/jpeg/{libjpeg-turbo_3.1.2.bb => libjpeg-turbo_3.1.3.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_8.3.1.bb b/meta/recipes-devtools/python/python3-setuptools-scm_9.2.2.bb
-similarity index 89%
-rename from meta/recipes-devtools/python/python3-setuptools-scm_8.3.1.bb
-rename to meta/recipes-devtools/python/python3-setuptools-scm_9.2.2.bb
-index 81e04ddea5..175da34179 100644
---- a/meta/recipes-devtools/python/python3-setuptools-scm_8.3.1.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools-scm_9.2.2.bb
-@@ -6,7 +6,7 @@ argument or in a SCM managed file."
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=838c366f69b72c5df05c96dff79b35f2"
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.3.bb
+similarity index 97%
+rename from meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb
+rename to meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.3.bb
+index d4877bb92b..26e84ca42c 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.3.bb
+@@ -9,7 +9,7 @@ DEPENDS:append:x86-64:class-target = " nasm-native"
+ DEPENDS:append:x86:class-target = " nasm-native"
  
--SRC_URI[sha256sum] = "3d555e92b75dacd037d32bafdf94f97af51ea29ae8c7b234cf94b7a5bd242a63"
-+SRC_URI[sha256sum] = "1c674ab4665686a0887d7e24c03ab25f24201c213e82ea689d2f3e169ef7ef57"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz"
+-SRC_URI[sha256sum] = "8f0012234b464ce50890c490f18194f913a7b1f4e6a03d6644179fa0f867d0cf"
++SRC_URI[sha256sum] = "075920b826834ac4ddf97661cc73491047855859affd671d52079c6867c1c6c0"
  
- PYPI_PACKAGE = "setuptools_scm"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+ PE = "1"
+ 
 -- 
 2.47.1
 
 
---===============5767067429096035802==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm: PKGSIZE changed from 244584 to 366908 (+50%)
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm: FILELIST: directory renamed /usr/lib/python3.13/site-packages/setuptools_scm-8.3.1.dist-info -> /usr/lib/python3.13/site-packages/setuptools_scm-9.2.2.dist-info, directory renamed /usr/lib/python3.13/site-packages/setuptools_scm-8.3.1.dist-info/licenses -> /usr/lib/python3.13/site-packages/setuptools_scm-9.2.2.dist-info/licenses, added "/usr/lib/python3.13/site-packages/setuptools_scm/_integration/setup_cfg.py /usr/lib/python3.13/site-packages/setuptools_scm/_compat.py /usr/lib/python3.13/site-packages/setuptools_scm/_integration/deprecation.py /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/deprecation.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools_scm/_node_utils.py /usr/lib/python3.13/site-packages/setuptools_scm/_integration/version_inference.py /usr/lib/python3.13/site-packages/setuptools_scm/_requirement_cls.py /usr/lib/python3.13/site-packages/setuptools_scm/_in
- tegration/__pycache__/version_inference.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/setup_cfg.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_requirement_cls.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools_scm/py.typed /usr/bin/setuptools-scm /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_node_utils.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_compat.cpython-313.pyc"
-Changes to packages/x86-64-v3-poky-linux/python3-setuptools-scm (sysroot):
-  /usr/lib/python3.13/site-packages/setuptools_scm-8.3.1.dist-info moved to /usr/lib/python3.13/site-packages/setuptools_scm-9.2.2.dist-info
-  /usr/lib/python3.13/site-packages/setuptools_scm/_compat.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/deprecation.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/deprecation.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/setup_cfg.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/version_inference.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/setup_cfg.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/version_inference.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_node_utils.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_compat.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_node_utils.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_requirement_cls.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/py.typed was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_requirement_cls.py was added
-Changes to packages/x86_64-linux/python3-setuptools-scm-native (sysroot):
-  /usr/lib/python3.13/site-packages/setuptools_scm-8.3.1.dist-info moved to /usr/lib/python3.13/site-packages/setuptools_scm-9.2.2.dist-info
-  /usr/bin was added
-  /usr/bin/setuptools-scm was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_compat.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/deprecation.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/deprecation.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/setup_cfg.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/version_inference.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/setup_cfg.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/version_inference.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_node_utils.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_compat.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_node_utils.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_requirement_cls.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/py.typed was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_requirement_cls.py was added
-
---===============5767067429096035802==
+--===============2867848724121329694==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-setuptools-scm-upgrade-8.3.1-9.2.2.patch"
+ filename="0001-libjpeg-turbo-upgrade-3.1.2-3.1.3.patch"
 
-RnJvbSBjY2MyNjUyNmI3NGQxNzRkMTUzNjM0NzA2OTJiY2ZhMjZkZGE1ODIzIE1vbiBTZXAgMTcg
+RnJvbSBmNmM1MGEwYjUxNDVmY2NlOTU1ZTE1MzQzMzFkN2U4Y2ZmMTU3NzBkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDE6MjQ6MzkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXNldHVwdG9vbHMtc2NtOiB1cGdyYWRlIDguMy4xIC0+IDkuMi4yCgotLS0KIC4uLi1z
-ZXR1cHRvb2xzLXNjbV84LjMuMS5iYiA9PiBweXRob24zLXNldHVwdG9vbHMtc2NtXzkuMi4yLmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtc2V0dXB0b29scy1z
-Y21fOC4zLjEuYmIgPT4gcHl0aG9uMy1zZXR1cHRvb2xzLXNjbV85LjIuMi5iYn0gKDg5JSkKCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29s
-cy1zY21fOC4zLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0
-dXB0b29scy1zY21fOS4yLjIuYmIKc2ltaWxhcml0eSBpbmRleCA4OSUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHMtc2NtXzguMy4xLmJi
-CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29s
-cy1zY21fOS4yLjIuYmIKaW5kZXggODFlMDRkZGVhNS4uMTc1ZGEzNDE3OSAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHMtc2NtXzguMy4x
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xz
-LXNjbV85LjIuMi5iYgpAQCAtNiw3ICs2LDcgQEAgYXJndW1lbnQgb3IgaW4gYSBTQ00gbWFuYWdl
-ZCBmaWxlLiIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElD
-RU5TRTttZDU9ODM4YzM2NmY2OWI3MmM1ZGYwNWM5NmRmZjc5YjM1ZjIiCiAKLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICIzZDU1NWU5MmI3NWRhY2QwMzdkMzJiYWZkZjk0Zjk3YWY1MWVhMjlhZThjN2Iy
-MzRjZjk0YjdhNWJkMjQyYTYzIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjFjNjc0YWI0NjY1Njg2
-YTA4ODdkN2UyNGMwM2FiMjVmMjQyMDFjMjEzZTgyZWE2ODlkMmYzZTE2OWVmN2VmNTciCiAKIFBZ
-UElfUEFDS0FHRSA9ICJzZXR1cHRvb2xzX3NjbSIKIFVQU1RSRUFNX0NIRUNLX1BZUElfUEFDS0FH
-RSA9ICIke1BZUElfUEFDS0FHRX0iCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDQ6MjQ6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJqcGVnLXR1cmJvOiB1cGdyYWRlIDMuMS4yIC0+IDMuMS4zCgotLS0KIC4uLi9qcGVnL3tsaWJq
+cGVnLXR1cmJvXzMuMS4yLmJiID0+IGxpYmpwZWctdHVyYm9fMy4xLjMuYmJ9ICAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1ncmFwaGljcy9qcGVnL3tsaWJqcGVnLXR1cmJvXzMuMS4yLmJiID0+IGxpYmpw
+ZWctdHVyYm9fMy4xLjMuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL2pwZWcvbGlianBlZy10dXJib18zLjEuMi5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9q
+cGVnL2xpYmpwZWctdHVyYm9fMy4xLjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2pwZWcvbGlianBlZy10dXJib18zLjEuMi5iYgpyZW5h
+bWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2pwZWcvbGlianBlZy10dXJib18zLjEuMy5iYgpp
+bmRleCBkNDg3N2JiOTJiLi4yNmU4NGNhNDJjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvanBlZy9saWJqcGVnLXR1cmJvXzMuMS4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9qcGVnL2xpYmpwZWctdHVyYm9fMy4xLjMuYmIKQEAgLTksNyArOSw3IEBAIERFUEVORFM6
+YXBwZW5kOng4Ni02NDpjbGFzcy10YXJnZXQgPSAiIG5hc20tbmF0aXZlIgogREVQRU5EUzphcHBl
+bmQ6eDg2OmNsYXNzLXRhcmdldCA9ICIgbmFzbS1uYXRpdmUiCiAKIFNSQ19VUkkgPSAiJHtHSVRI
+VUJfQkFTRV9VUkl9L2Rvd25sb2FkLyR7UFZ9LyR7QlB9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2
+c3VtXSA9ICI4ZjAwMTIyMzRiNDY0Y2U1MDg5MGM0OTBmMTgxOTRmOTEzYTdiMWY0ZTZhMDNkNjY0
+NDE3OWZhMGY4NjdkMGNmIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjA3NTkyMGI4MjY4MzRhYzRk
+ZGY5NzY2MWNjNzM0OTEwNDc4NTU4NTlhZmZkNjcxZDUyMDc5YzY4NjdjMWM2YzAiCiAKIFBFID0g
+IjEiCiAKLS0gCjIuNDcuMQoK
 
---===============5767067429096035802==
+--===============2867848724121329694==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest: PKGSIZE changed from 2833788 to 2834128 (+0%)
-packages/x86-64-v3-poky-linux/python3-setuptools-scm: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools_scm/setuptools_scm-8.3.1.tar.gz;downloadfilename=setuptools_scm-8.3.1.tar.gz" to "https://files.pythonhosted.org/packages/source/s/setuptools_scm/setuptools_scm-9.2.2.tar.gz;downloadfilename=setuptools_scm-9.2.2.tar.gz"
-packages/x86-64-v3-poky-linux/python3-setuptools-scm: PKGV changed from 8.3.1 [default] to 9.2.2 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools-scm: PV changed from "8.3.1" to "9.2.2"
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm-dbg: PKGV changed from 8.3.1 [default] to 9.2.2 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm-dbg: PV changed from "8.3.1" to "9.2.2"
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm-dev: PKGV changed from 8.3.1 [default] to 9.2.2 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm-dev: PV changed from "8.3.1" to "9.2.2"
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm-doc: PKGV changed from 8.3.1 [default] to 9.2.2 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm-doc: PV changed from "8.3.1" to "9.2.2"
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm-locale: PKGV changed from 8.3.1 [default] to 9.2.2 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm-locale: PV changed from "8.3.1" to "9.2.2"
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm-src: PKGV changed from 8.3.1 [default] to 9.2.2 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm-src: PV changed from "8.3.1" to "9.2.2"
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm-staticdev: PKGV changed from 8.3.1 [default] to 9.2.2 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm-staticdev: PV changed from "8.3.1" to "9.2.2"
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm: PKGSIZE changed from 244584 to 366908 (+50%)
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm: PKGV changed from 8.3.1 [default] to 9.2.2 [default]
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm: FILELIST: directory renamed /usr/lib/python3.13/site-packages/setuptools_scm-8.3.1.dist-info/licenses -> /usr/lib/python3.13/site-packages/setuptools_scm-9.2.2.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/setuptools_scm-8.3.1.dist-info -> /usr/lib/python3.13/site-packages/setuptools_scm-9.2.2.dist-info, added "/usr/lib/python3.13/site-packages/setuptools_scm/_integration/setup_cfg.py /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_node_utils.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/version_inference.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools_scm/_requirement_cls.py /usr/lib/python3.13/site-packages/setuptools_scm/py.typed /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_requirement_cls.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools_scm/_compat.py /usr/bin/setuptools-scm /usr/
- lib/python3.13/site-packages/setuptools_scm/_integration/version_inference.py /usr/lib/python3.13/site-packages/setuptools_scm/_node_utils.py /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_compat.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools_scm/_integration/deprecation.py /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/deprecation.cpython-313.pyc /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/setup_cfg.cpython-313.pyc"
-packages/x86-64-v3-poky-linux/python3-setuptools-scm/python3-setuptools-scm: PV changed from "8.3.1" to "9.2.2"
-Changes to packages/x86-64-v3-poky-linux/python3-setuptools-scm (sysroot):
-  /usr/lib/python3.13/site-packages/setuptools_scm-8.3.1.dist-info moved to /usr/lib/python3.13/site-packages/setuptools_scm-9.2.2.dist-info
-  /usr/lib/python3.13/site-packages/setuptools_scm/_compat.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/deprecation.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/deprecation.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/setup_cfg.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/version_inference.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/setup_cfg.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/version_inference.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_node_utils.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_compat.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_node_utils.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_requirement_cls.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/py.typed was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_requirement_cls.py was added
-Changes to packages/x86_64-linux/python3-setuptools-scm-native (sysroot):
-  /usr/lib/python3.13/site-packages/setuptools_scm-8.3.1.dist-info moved to /usr/lib/python3.13/site-packages/setuptools_scm-9.2.2.dist-info
-  /usr/bin was added
-  /usr/bin/setuptools-scm was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_compat.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/deprecation.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/deprecation.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/setup_cfg.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/__pycache__/version_inference.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/setup_cfg.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_integration/version_inference.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_node_utils.py was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_compat.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_node_utils.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/__pycache__/_requirement_cls.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/py.typed was added
-  /usr/lib/python3.13/site-packages/setuptools_scm/_requirement_cls.py was added
+packages/x86-64-v3-poky-linux/libjpeg-turbo/jpeg-tools: PV changed from "3.1.2" to "3.1.3"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/jpeg-tools: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/jpeg-tools: PKGSIZE changed from 283192 to 287288 (+1%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo: PV changed from "3.1.2" to "3.1.3"
+packages/x86-64-v3-poky-linux/libjpeg-turbo: SRC_URI changed from "https://github.com/libjpeg-turbo/libjpeg-turbo/releases//download/3.1.2/libjpeg-turbo-3.1.2.tar.gz" to "https://github.com/libjpeg-turbo/libjpeg-turbo/releases//download/3.1.3/libjpeg-turbo-3.1.3.tar.gz"
+packages/x86-64-v3-poky-linux/libjpeg-turbo: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dbg: PV changed from "3.1.2" to "3.1.3"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dbg: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dbg: PKGSIZE changed from 5692824 to 5706808 (+0%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dev: PV changed from "3.1.2" to "3.1.3"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dev: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-dev: PKGSIZE changed from 218289 to 218034 (-0%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-doc: PV changed from "3.1.2" to "3.1.3"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-doc: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-locale: PV changed from "3.1.2" to "3.1.3"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-locale: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-src: PV changed from "3.1.2" to "3.1.3"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-src: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-src: FILELIST: directory renamed /usr/src/debug/libjpeg-turbo/3.1.2/src -> /usr/src/debug/libjpeg-turbo/3.1.3/src, directory renamed /usr/src/debug/libjpeg-turbo/3.1.2/simd/x86_64 -> /usr/src/debug/libjpeg-turbo/3.1.3/simd/x86_64, directory renamed /usr/src/debug/libjpeg-turbo/3.1.2/simd -> /usr/src/debug/libjpeg-turbo/3.1.3/simd
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-src: PKGSIZE changed from 2121928 to 2123117 (+0%)
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-staticdev: PV changed from "3.1.2" to "3.1.3"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo-staticdev: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo: PV changed from "3.1.2" to "3.1.3"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libjpeg-turbo: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libturbojpeg: PV changed from "3.1.2" to "3.1.3"
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libturbojpeg: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
+packages/x86-64-v3-poky-linux/libjpeg-turbo/libturbojpeg: PKGSIZE changed from 870877 to 874973 (+0%)
 
---===============5767067429096035802==--
+--===============2867848724121329694==--
 
