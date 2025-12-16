@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74272D5E36C
-	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:51 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17416.1765872165780540433
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05E45D5E37A
+	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:52 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17385.1765872131800834005
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:45 -0800
+ Tue, 16 Dec 2025 00:02:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=S0RKiHGY;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BK+L+3Xq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019b262ee18a-b3a030d2-1f56-42c8-8ed8-285878e762db-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=zJYMDUwx;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=LI2MCsso;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019b262ed9ba-54f021f9-5e73-4eea-a3cb-c2b9acd2d40f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872165;
+	t=1765872163;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=QBVxQIBM8hh89aYAQBiBj4cS+7Oa/zYXTV7mCASvhjc=;
-	b=S0RKiHGYmf9+UcCQYFJ0aYLd+jI45nYApxUAnAn0Am4KJm0vyIkFw2MMHkymnnj/
-	NT7UPa4ygztoYDFE+vIh8RBiSjcs5u1HhgBkNLubRJ1YB8HLeJ+6lcBeadmoAemtX8i
-	psnC3OrGoebIOEpWZ6Bb2zZlBZhhHO7boFxqMfrk=
+	bh=FHLcrxwmw7F6zZmMBTNjecHRES9Nj4AODRL/LmQIbWM=;
+	b=zJYMDUwx67OV8Zgt6OwwWGn8vIc7zXO2vNKaq2V4lR2anLaSP7az58MMhH57aSEC
+	AYEpSdvfL0lN1JuLeUJ4jTOYaXv2AJrEONnl9PzLHMIoVwBu1wpy474UQelD+568/tk
+	Zz8SWy8cTHTEcU+4IHTmdHwzGJLBtz1kdj29+Ir0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872165;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872163;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=QBVxQIBM8hh89aYAQBiBj4cS+7Oa/zYXTV7mCASvhjc=;
-	b=BK+L+3XqdvnAXVTLDhbHkVgwb5z4P7QVKq69e5oRhWZze3hPNzxTuL+T/iG0OkRQ
-	RkAZnwg/1a1J8/+H/uyCpKYxL8hLC2NiEZ4I12MyhFaoVIyifi70LbY3w1JMy7lwMhl
-	RaA1vLQO6u0/uJt7jHJOfIZlivte12f98t0p4tiY=
-Content-Type: multipart/mixed; boundary="===============2202935805386080349=="
+	bh=FHLcrxwmw7F6zZmMBTNjecHRES9Nj4AODRL/LmQIbWM=;
+	b=LI2MCssooeMqfUQ+X+wWxXZg9UQVeqSoKr6Wo/8v7ldOLZ42DGKGzV3MOU+r1egT
+	tx6rA7fTj3RGoclILcAL4OzKkI4i59/JmLVGRLWd7I/IqvtD6KZHyGbiUu4mwFYsRvO
+	9KH7BQXL7YZBoG1ITEhR6kwSzUIfJ/iVRjNpql3A=
+Content-Type: multipart/mixed; boundary="===============5986139868976096339=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Michael Opdenacker <michael@opdenacker.org>
+To: Etienne Cordonnier <ecordonnier@snap.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] alsa-utils: upgrading to 1.2.15 FAILED
-Message-ID: <0101019b262ee18a-b3a030d2-1f56-42c8-8ed8-285878e762db-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:45 +0000
+Subject: [AUH] makedumpfile: upgrading to 1.7.8 SUCCEEDED
+Message-ID: <0101019b262ed9ba-54f021f9-5e73-4eea-a3cb-c2b9acd2d40f-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:43 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.191
+X-SES-Outgoing: 2025.12.16-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227895
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227885
 
---===============2202935805386080349==
+--===============5986139868976096339==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *alsa-utils* to *1.2.15* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *makedumpfile* to *1.7.8* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-alsa-utils-upgrade-1.2.14-1.2.15.patch
+    - apply the patch: git am 0001-makedumpfile-upgrade-1.7.7-1.7.8.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,262 +72,132 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a943f881e9a746e8c4d9bd88514a04579b10e233 Mon Sep 17 00:00:00 2001
+From f3a048d13abceed551786171e066ed49597e8098 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Dec 2025 05:56:04 +0000
-Subject: [PATCH] alsa-utils: upgrade 1.2.14 -> 1.2.15
+Date: Tue, 16 Dec 2025 05:42:11 +0000
+Subject: [PATCH] makedumpfile: upgrade 1.7.7 -> 1.7.8
 
 ---
- .../alsa/{alsa-utils_1.2.14.bb => alsa-utils_1.2.15.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/alsa/{alsa-utils_1.2.14.bb => alsa-utils_1.2.15.bb} (98%)
+ .../0001-makedumpfile-replace-hardcode-CFLAGS.patch           | 4 ++--
+ .../{makedumpfile_1.7.7.bb => makedumpfile_1.7.8.bb}          | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-kernel/makedumpfile/{makedumpfile_1.7.7.bb => makedumpfile_1.7.8.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.2.14.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb
-similarity index 98%
-rename from meta/recipes-multimedia/alsa/alsa-utils_1.2.14.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb
-index 3cbb9b464b..0ddaf63f60 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.2.14.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb
-@@ -25,7 +25,7 @@ PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook
+diff --git a/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch b/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch
+index 796e036ab8..554402454f 100644
+--- a/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch
++++ b/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch
+@@ -1,4 +1,4 @@
+-From 59b8d59504c1bafff52a8794e67c6025fcd418a4 Mon Sep 17 00:00:00 2001
++From bb16dc839a8a45cc7d2e271ebbe41d7e39a799bd Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <mingli.yu@windriver.com>
+ Date: Sun, 24 Apr 2022 17:25:33 +0800
+ Subject: [PATCH] makedumpfile: replace hardcode CFLAGS
+@@ -24,7 +24,7 @@ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+  1 file changed, 21 insertions(+), 19 deletions(-)
  
- # alsa-utils specified in SRC_URI due to alsa-utils-scripts recipe
- SRC_URI = "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2"
--SRC_URI[sha256sum] = "0794c74d33fed943e7c50609c13089e409312b6c403d6ae8984fc429c0960741"
-+SRC_URI[sha256sum] = "d3183d2ed2d69e9143c5beb97036267c3fdabfe8bfbea8bc6863f17b1f0b568e"
+ diff --git a/Makefile b/Makefile
+-index aa73252..76fcafd 100644
++index 05ab5f2..57328f8 100644
+ --- a/Makefile
+ +++ b/Makefile
+ @@ -8,12 +8,6 @@ ifeq ($(strip $CC),)
+diff --git a/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.7.bb b/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.8.bb
+similarity index 96%
+rename from meta/recipes-kernel/makedumpfile/makedumpfile_1.7.7.bb
+rename to meta/recipes-kernel/makedumpfile/makedumpfile_1.7.8.bb
+index 99393e0984..6b582729a1 100644
+--- a/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.7.bb
++++ b/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.8.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ LICENSE = "GPL-2.0-only"
  
- # On build machines with python-docutils (not python3-docutils !!) installed
- # rst2man (not rst2man.py) is detected and compile fails with
+ SRCBRANCH ?= "master"
+-SRCREV = "e4ae6b5ee04edeeb03db89bee372904157e3378d"
++SRCREV = "65e0b5488ffe840035c6e165a5149dc5da769d97"
+ 
+ DEPENDS = "bzip2 zlib elfutils xz"
+ RDEPENDS:${PN}-tools = "perl ${PN}"
 -- 
 2.47.1
 
 
---===============2202935805386080349==
+--===============5986139868976096339==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-alsa-utils-upgrade-1.2.14-1.2.15.patch"
+ filename="0001-makedumpfile-upgrade-1.7.7-1.7.8.patch"
 
-RnJvbSBhOTQzZjg4MWU5YTc0NmU4YzRkOWJkODg1MTRhMDQ1NzliMTBlMjMzIE1vbiBTZXAgMTcg
+RnJvbSBmM2EwNDhkMTNhYmNlZWQ1NTE3ODYxNzFlMDY2ZWQ0OTU5N2U4MDk4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDU6NTY6MDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
-bHNhLXV0aWxzOiB1cGdyYWRlIDEuMi4xNCAtPiAxLjIuMTUKCi0tLQogLi4uL2Fsc2Eve2Fsc2Et
-dXRpbHNfMS4yLjE0LmJiID0+IGFsc2EtdXRpbHNfMS4yLjE1LmJifSAgICAgICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLW11bHRpbWVkaWEvYWxzYS97YWxzYS11dGlsc18xLjIuMTQuYmIgPT4gYWxzYS11
-dGlsc18xLjIuMTUuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVk
-aWEvYWxzYS9hbHNhLXV0aWxzXzEuMi4xNC5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2Fs
-c2EvYWxzYS11dGlsc18xLjIuMTUuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20g
-bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvYWxzYS9hbHNhLXV0aWxzXzEuMi4xNC5iYgpyZW5hbWUg
-dG8gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvYWxzYS9hbHNhLXV0aWxzXzEuMi4xNS5iYgppbmRl
-eCAzY2JiOWI0NjRiLi4wZGRhZjYzZjYwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGlt
-ZWRpYS9hbHNhL2Fsc2EtdXRpbHNfMS4yLjE0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1l
-ZGlhL2Fsc2EvYWxzYS11dGlsc18xLjIuMTUuYmIKQEAgLTI1LDcgKzI1LDcgQEAgUEFDS0FHRUNP
-TkZJR1ttYW5wYWdlc10gPSAiLS1lbmFibGUteG1sdG8sIC0tZGlzYWJsZS14bWx0bywgeG1sdG8t
-bmF0aXZlIGRvY2Jvb2sKIAogIyBhbHNhLXV0aWxzIHNwZWNpZmllZCBpbiBTUkNfVVJJIGR1ZSB0
-byBhbHNhLXV0aWxzLXNjcmlwdHMgcmVjaXBlCiBTUkNfVVJJID0gImh0dHBzOi8vd3d3LmFsc2Et
-cHJvamVjdC5vcmcvZmlsZXMvcHViL3V0aWxzL2Fsc2EtdXRpbHMtJHtQVn0udGFyLmJ6MiIKLVNS
-Q19VUklbc2hhMjU2c3VtXSA9ICIwNzk0Yzc0ZDMzZmVkOTQzZTdjNTA2MDljMTMwODllNDA5MzEy
-YjZjNDAzZDZhZTg5ODRmYzQyOWMwOTYwNzQxIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImQzMTgz
-ZDJlZDJkNjllOTE0M2M1YmViOTcwMzYyNjdjM2ZkYWJmZThiZmJlYThiYzY4NjNmMTdiMWYwYjU2
-OGUiCiAKICMgT24gYnVpbGQgbWFjaGluZXMgd2l0aCBweXRob24tZG9jdXRpbHMgKG5vdCBweXRo
-b24zLWRvY3V0aWxzICEhKSBpbnN0YWxsZWQKICMgcnN0Mm1hbiAobm90IHJzdDJtYW4ucHkpIGlz
-IGRldGVjdGVkIGFuZCBjb21waWxlIGZhaWxzIHdpdGgKLS0gCjIuNDcuMQoK
+CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDU6NDI6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+YWtlZHVtcGZpbGU6IHVwZ3JhZGUgMS43LjcgLT4gMS43LjgKCi0tLQogLi4uLzAwMDEtbWFrZWR1
+bXBmaWxlLXJlcGxhY2UtaGFyZGNvZGUtQ0ZMQUdTLnBhdGNoICAgICAgICAgICB8IDQgKystLQog
+Li4uL3ttYWtlZHVtcGZpbGVfMS43LjcuYmIgPT4gbWFrZWR1bXBmaWxlXzEuNy44LmJifSAgICAg
+ICAgICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9u
+cygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1rZXJuZWwvbWFrZWR1bXBmaWxlL3ttYWtlZHVtcGZp
+bGVfMS43LjcuYmIgPT4gbWFrZWR1bXBmaWxlXzEuNy44LmJifSAoOTYlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1rZXJuZWwvbWFrZWR1bXBmaWxlL21ha2VkdW1wZmlsZS8wMDAxLW1ha2Vk
+dW1wZmlsZS1yZXBsYWNlLWhhcmRjb2RlLUNGTEFHUy5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJu
+ZWwvbWFrZWR1bXBmaWxlL21ha2VkdW1wZmlsZS8wMDAxLW1ha2VkdW1wZmlsZS1yZXBsYWNlLWhh
+cmRjb2RlLUNGTEFHUy5wYXRjaAppbmRleCA3OTZlMDM2YWI4Li41NTQ0MDI0NTRmIDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL21ha2VkdW1wZmlsZS9tYWtlZHVtcGZpbGUvMDAwMS1t
+YWtlZHVtcGZpbGUtcmVwbGFjZS1oYXJkY29kZS1DRkxBR1MucGF0Y2gKKysrIGIvbWV0YS9yZWNp
+cGVzLWtlcm5lbC9tYWtlZHVtcGZpbGUvbWFrZWR1bXBmaWxlLzAwMDEtbWFrZWR1bXBmaWxlLXJl
+cGxhY2UtaGFyZGNvZGUtQ0ZMQUdTLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1OWI4ZDU5
+NTA0YzFiYWZmZjUyYTg3OTRlNjdjNjAyNWZjZDQxOGE0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQorRnJvbSBiYjE2ZGM4MzlhOGE0NWNjN2QyZTI3MWViYmU0MWQ3ZTM5YTc5OWJkIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWluZ2xpIFl1IDxtaW5nbGkueXVAd2luZHJpdmVyLmNv
+bT4KIERhdGU6IFN1biwgMjQgQXByIDIwMjIgMTc6MjU6MzMgKzA4MDAKIFN1YmplY3Q6IFtQQVRD
+SF0gbWFrZWR1bXBmaWxlOiByZXBsYWNlIGhhcmRjb2RlIENGTEFHUwpAQCAtMjQsNyArMjQsNyBA
+QCBTaWduZWQtb2ZmLWJ5OiBNaW5nbGkgWXUgPG1pbmdsaS55dUB3aW5kcml2ZXIuY29tPgogIDEg
+ZmlsZSBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCAxOSBkZWxldGlvbnMoLSkKIAogZGlmZiAt
+LWdpdCBhL01ha2VmaWxlIGIvTWFrZWZpbGUKLWluZGV4IGFhNzMyNTIuLjc2ZmNhZmQgMTAwNjQ0
+CitpbmRleCAwNWFiNWYyLi41NzMyOGY4IDEwMDY0NAogLS0tIGEvTWFrZWZpbGUKICsrKyBiL01h
+a2VmaWxlCiBAQCAtOCwxMiArOCw2IEBAIGlmZXEgKCQoc3RyaXAgJENDKSwpCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMta2VybmVsL21ha2VkdW1wZmlsZS9tYWtlZHVtcGZpbGVfMS43LjcuYmIg
+Yi9tZXRhL3JlY2lwZXMta2VybmVsL21ha2VkdW1wZmlsZS9tYWtlZHVtcGZpbGVfMS43LjguYmIK
+c2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWtlcm5lbC9tYWtl
+ZHVtcGZpbGUvbWFrZWR1bXBmaWxlXzEuNy43LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMta2Vy
+bmVsL21ha2VkdW1wZmlsZS9tYWtlZHVtcGZpbGVfMS43LjguYmIKaW5kZXggOTkzOTNlMDk4NC4u
+NmI1ODI3MjlhMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9tYWtlZHVtcGZpbGUv
+bWFrZWR1bXBmaWxlXzEuNy43LmJiCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbWFrZWR1bXBm
+aWxlL21ha2VkdW1wZmlsZV8xLjcuOC5iYgpAQCAtMTEsNyArMTEsNyBAQCBMSUNfRklMRVNfQ0hL
+U1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT03NTE0MTkyNjBhYTk1NDQ5OWY3YWJhYWJhYTg4MmJi
+ZSIKIExJQ0VOU0UgPSAiR1BMLTIuMC1vbmx5IgogCiBTUkNCUkFOQ0ggPz0gIm1hc3RlciIKLVNS
+Q1JFViA9ICJlNGFlNmI1ZWUwNGVkZWViMDNkYjg5YmVlMzcyOTA0MTU3ZTMzNzhkIgorU1JDUkVW
+ID0gIjY1ZTBiNTQ4OGZmZTg0MDAzNWM2ZTE2NWE1MTQ5ZGM1ZGE3NjlkOTciCiAKIERFUEVORFMg
+PSAiYnppcDIgemxpYiBlbGZ1dGlscyB4eiIKIFJERVBFTkRTOiR7UE59LXRvb2xzID0gInBlcmwg
+JHtQTn0iCi0tIAoyLjQ3LjEKCg==
 
---===============2202935805386080349==
+--===============5986139868976096339==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 949 .bb files complete (0 cached, 949 parsed). 1950 targets, 47 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/makedumpfile: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-dbg: PKGSIZE changed from 1231944 to 1233952 (+0%)
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-dbg: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-dbg: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-dev: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-dev: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-doc: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-doc: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-locale: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-locale: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-src: PKGSIZE changed from 691815 to 693112 (+0%)
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-src: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-src: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-src: FILELIST: directory renamed /usr/src/debug/makedumpfile/1.7.7/arch -> /usr/src/debug/makedumpfile/1.7.8/arch, directory renamed /usr/src/debug/makedumpfile/1.7.7 -> /usr/src/debug/makedumpfile/1.7.8
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-staticdev: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-staticdev: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-tools: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile-tools: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile: PV changed from "1.7.7" to "1.7.8"
+packages/x86-64-v3-poky-linux/makedumpfile/makedumpfile: PKGV changed from 1.7.7 [default] to 1.7.8 [default]
 
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-d86f7590e4b378e58d999ba5b426a8fb3e0ffcc3"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:d86f7590e4b378e58d999ba5b426a8fb3e0ffcc3"
-meta-yocto-bsp       
-meta-poky            = "master:b3b659263566c4d2f2813190e72d93f8598a4c47"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 173 Local 159 Mirrors 0 Missed 14 Current 619 (91% match, 98% complete)
-done.
-Removing 4 stale sstate objects for arch x86-64-v3...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 717 of 792 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 791 of 792 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe alsa-utils-1.2.15-r0: task do_populate_lic_setscene: Started
-NOTE: recipe alsa-utils-1.2.15-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe alsa-utils-1.2.15-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe alsa-utils-1.2.15-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 792 of 792 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb:do_recipe_qa_setscene)
-NOTE: recipe alsa-utils-1.2.15-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe alsa-utils-1.2.15-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1977 of 2199 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb:do_fetch)
-NOTE: recipe alsa-utils-1.2.15-r0: task do_fetch: Started
-NOTE: recipe alsa-utils-1.2.15-r0: task do_fetch: Succeeded
-NOTE: Running task 2177 of 2199 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb:do_unpack)
-NOTE: Running task 2178 of 2199 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb:do_prepare_recipe_sysroot)
-NOTE: recipe alsa-utils-1.2.15-r0: task do_unpack: Started
-NOTE: recipe alsa-utils-1.2.15-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe alsa-utils-1.2.15-r0: task do_unpack: Succeeded
-NOTE: Running task 2179 of 2199 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb:do_patch)
-NOTE: Running task 2180 of 2199 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb:do_collect_spdx_deps)
-NOTE: recipe alsa-utils-1.2.15-r0: task do_patch: Started
-NOTE: recipe alsa-utils-1.2.15-r0: task do_collect_spdx_deps: Started
-NOTE: recipe alsa-utils-1.2.15-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe alsa-utils-1.2.15-r0: task do_patch: Succeeded
-NOTE: recipe alsa-utils-1.2.15-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2183 of 2199 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb:do_configure)
-NOTE: recipe alsa-utils-1.2.15-r0: task do_configure: Started
-NOTE: recipe alsa-utils-1.2.15-r0: task do_configure: Succeeded
-NOTE: Running task 2184 of 2199 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb:do_compile)
-NOTE: recipe alsa-utils-1.2.15-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 16 -l 75
-| Making all in include
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build/include'
-| make  all-am
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build/include'
-| Updating version.h
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build/include'
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build/include'
-| Making all in alsactl
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build/alsactl'
-| Making all in init
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build/alsactl/init'
-| make[2]: Nothing to be done for 'all'.
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build/alsactl/init'
-| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build/alsactl'
-| x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-utils-1.2.15/alsactl -I../include  -I../../sources/alsa-utils-1.2.15/include  -D_GNU_SOURCE -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_LOCKPATH=\"/var/lock\" -DSYS_LOCKFILE=\"asound.state.lock\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/sources/alsa-utils-1.2.15=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linu
- x/alsa-utils/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot-native=  -pipe -c -o alsactl-alsactl.o `test -f 'alsactl.c' || echo '../../sources/alsa-utils-1.2.15/alsactl/'`alsactl.c
-| x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-utils-1.2.15/alsactl -I../include  -I../../sources/alsa-utils-1.2.15/include  -D_GNU_SOURCE -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_LOCKPATH=\"/var/lock\" -DSYS_LOCKFILE=\"asound.state.lock\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/sources/alsa-utils-1.2.15=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linu
- x/alsa-utils/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot-native=  -pipe -c -o alsactl-state.o `test -f 'state.c' || echo '../../sources/alsa-utils-1.2.15/alsactl/'`state.c
-| x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-utils-1.2.15/alsactl -I../include  -I../../sources/alsa-utils-1.2.15/include  -D_GNU_SOURCE -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_LOCKPATH=\"/var/lock\" -DSYS_LOCKFILE=\"asound.state.lock\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/sources/alsa-utils-1.2.15=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linu
- x/alsa-utils/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot-native=  -pipe -c -o alsactl-lock.o `test -f 'lock.c' || echo '../../sources/alsa-utils-1.2.15/alsactl/'`lock.c
-| x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-utils-1.2.15/alsactl -I../include  -I../../sources/alsa-utils-1.2.15/include  -D_GNU_SOURCE -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_LOCKPATH=\"/var/lock\" -DSYS_LOCKFILE=\"asound.state.lock\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/sources/alsa-utils-1.2.15=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linu
- x/alsa-utils/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot-native=  -pipe -c -o alsactl-utils.o `test -f 'utils.c' || echo '../../sources/alsa-utils-1.2.15/alsactl/'`utils.c
-| x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-utils-1.2.15/alsactl -I../include  -I../../sources/alsa-utils-1.2.15/include  -D_GNU_SOURCE -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_LOCKPATH=\"/var/lock\" -DSYS_LOCKFILE=\"asound.state.lock\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/sources/alsa-utils-1.2.15=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linu
- x/alsa-utils/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot-native=  -pipe -c -o alsactl-wait.o `test -f 'wait.c' || echo '../../sources/alsa-utils-1.2.15/alsactl/'`wait.c
-| x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-utils-1.2.15/alsactl -I../include  -I../../sources/alsa-utils-1.2.15/include  -D_GNU_SOURCE -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_LOCKPATH=\"/var/lock\" -DSYS_LOCKFILE=\"asound.state.lock\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/sources/alsa-utils-1.2.15=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linu
- x/alsa-utils/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot-native=  -pipe -c -o alsactl-init_parse.o `test -f 'init_parse.c' || echo '../../sources/alsa-utils-1.2.15/alsactl/'`init_parse.c
-| x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-utils-1.2.15/alsactl -I../include  -I../../sources/alsa-utils-1.2.15/include  -D_GNU_SOURCE -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_LOCKPATH=\"/var/lock\" -DSYS_LOCKFILE=\"asound.state.lock\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/sources/alsa-utils-1.2.15=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linu
- x/alsa-utils/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot-native=  -pipe -c -o alsactl-init_ucm.o `test -f 'init_ucm.c' || echo '../../sources/alsa-utils-1.2.15/alsactl/'`init_ucm.c
-| x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-utils-1.2.15/alsactl -I../include  -I../../sources/alsa-utils-1.2.15/include  -D_GNU_SOURCE -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_LOCKPATH=\"/var/lock\" -DSYS_LOCKFILE=\"asound.state.lock\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/sources/alsa-utils-1.2.15=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linu
- x/alsa-utils/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot-native=  -pipe -c -o alsactl-boot_params.o `test -f 'boot_params.c' || echo '../../sources/alsa-utils-1.2.15/alsactl/'`boot_params.c
-| x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-utils-1.2.15/alsactl -I../include  -I../../sources/alsa-utils-1.2.15/include  -D_GNU_SOURCE -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_LOCKPATH=\"/var/lock\" -DSYS_LOCKFILE=\"asound.state.lock\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/sources/alsa-utils-1.2.15=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linu
- x/alsa-utils/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot-native=  -pipe -c -o alsactl-daemon.o `test -f 'daemon.c' || echo '../../sources/alsa-utils-1.2.15/alsactl/'`daemon.c
-| x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-utils-1.2.15/alsactl -I../include  -I../../sources/alsa-utils-1.2.15/include  -D_GNU_SOURCE -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_LOCKPATH=\"/var/lock\" -DSYS_LOCKFILE=\"asound.state.lock\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/sources/alsa-utils-1.2.15=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linu
- x/alsa-utils/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot-native=  -pipe -c -o alsactl-monitor.o `test -f 'monitor.c' || echo '../../sources/alsa-utils-1.2.15/alsactl/'`monitor.c
-| x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-utils-1.2.15/alsactl -I../include  -I../../sources/alsa-utils-1.2.15/include  -D_GNU_SOURCE -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_LOCKPATH=\"/var/lock\" -DSYS_LOCKFILE=\"asound.state.lock\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/sources/alsa-utils-1.2.15=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linu
- x/alsa-utils/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot-native=  -pipe -c -o alsactl-clean.o `test -f 'clean.c' || echo '../../sources/alsa-utils-1.2.15/alsactl/'`clean.c
-| x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-utils-1.2.15/alsactl -I../include  -I../../sources/alsa-utils-1.2.15/include  -D_GNU_SOURCE -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_LOCKPATH=\"/var/lock\" -DSYS_LOCKFILE=\"asound.state.lock\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/sources/alsa-utils-1.2.15=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linu
- x/alsa-utils/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot-native=  -pipe -c -o alsactl-info.o `test -f 'info.c' || echo '../../sources/alsa-utils-1.2.15/alsactl/'`info.c
-| x86_64-poky-linux-gcc  -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-utils-1.2.15/alsactl -I../include  -I../../sources/alsa-utils-1.2.15/include  -D_GNU_SOURCE -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_LOCKPATH=\"/var/lock\" -DSYS_LOCKFILE=\"asound.state.lock\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/sources/alsa-utils-1.2.15=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build=/usr/src/debug/alsa-utils/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linu
- x/alsa-utils/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/recipe-sysroot-native=  -pipe -c -o alsactl-export.o `test -f 'export.c' || echo '../../sources/alsa-utils-1.2.15/alsactl/'`export.c
-| extratest=$(echo ' TEST=="/usr/sbin", TEST=="/usr/share/alsa",' | sed -e 's/__/ /g' -e 's/^ $//'); args=$(echo ' ' | sed -e 's/__/ /g' -e 's/^ $//'); sed -r -e 's,@sbindir\@,/usr/sbin,g' -e 's,@mydatadir\@,/usr/share/alsa,g' -e 's,@daemonswitch\@,/etc/alsa/state-daemon.conf,g' -e 's,@asoundrcfile\@,/var/lib/alsa/asound.state,g' -e "s;@extratest\@;${extratest};g" -e "s;@args\@;${args};g" < ../../sources/alsa-utils-1.2.15/alsactl/conf/alsa-state.service.in > conf/alsa-state.service || rm conf/alsa-state.service
-| extratest=$(echo ' TEST=="/usr/sbin", TEST=="/usr/share/alsa",' | sed -e 's/__/ /g' -e 's/^ $//'); args=$(echo ' ' | sed -e 's/__/ /g' -e 's/^ $//'); sed -r -e 's,@sbindir\@,/usr/sbin,g' -e 's,@mydatadir\@,/usr/share/alsa,g' -e 's,@daemonswitch\@,/etc/alsa/state-daemon.conf,g' -e 's,@asoundrcfile\@,/var/lib/alsa/asound.state,g' -e "s;@extratest\@;${extratest};g" -e "s;@args\@;${args};g" < ../../sources/alsa-utils-1.2.15/alsactl/conf/alsa-restore.service.in > conf/alsa-restore.service || rm conf/alsa-restore.service
-| extratest=$(echo ' TEST=="/usr/sbin", TEST=="/usr/share/alsa",' | sed -e 's/__/ /g' -e 's/^ $//'); args=$(echo ' ' | sed -e 's/__/ /g' -e 's/^ $//'); sed -r -e 's,@sbindir\@,/usr/sbin,g' -e 's,@mydatadir\@,/usr/share/alsa,g' -e 's,@daemonswitch\@,/etc/alsa/state-daemon.conf,g' -e 's,@asoundrcfile\@,/var/lib/alsa/asound.state,g' -e "s;@extratest\@;${extratest};g" -e "s;@args\@;${args};g" < ../../sources/alsa-utils-1.2.15/alsactl/conf/alsa-card-wait@.service.in > conf/alsa-card-wait@.service || rm conf/alsa-card-wait@.service
-| /bin/bash: conf/alsa-card-wait@.service: No such file or directory
-| /bin/bash: conf/alsa-restore.service: No such file or directory
-| /bin/bash: conf/alsa-state.service: No such file or directory
-| rm: cannot remove 'conf/alsa-restore.service': No such file or directory
-| rm: cannot remove 'conf/alsa-card-wait@.service': No such file or directory
-| make[2]: *** [Makefile:1284: conf/alsa-restore.service] Error 1
-| rm: cannot remove 'conf/alsa-state.service'make[2]: *** Waiting for unfinished jobs....
-| make[2]: *** [Makefile:1287: conf/alsa-card-wait@.service] Error 1
-| : No such file or directory
-| make[2]: *** [Makefile:1281: conf/alsa-state.service] Error 1
-| ../../sources/alsa-utils-1.2.15/alsactl/alsactl.c: In function 'main':
-| ../../sources/alsa-utils-1.2.15/alsactl/alsactl.c:465:9: error: implicit declaration of function 'snd_lib_log_set_handler'; did you mean 'snd_lib_error_set_handler'? [-Wimplicit-function-declaration]
-|   465 |         snd_lib_log_set_handler(log_handler);
-|       |         ^~~~~~~~~~~~~~~~~~~~~~~
-|       |         snd_lib_error_set_handler
-| make[2]: *** [Makefile:638: alsactl-alsactl.o] Error 1
-| ../../sources/alsa-utils-1.2.15/alsactl/utils.c: In function 'log_handler':
-| ../../sources/alsa-utils-1.2.15/alsactl/utils.c:202:14: error: implicit declaration of function 'snd_lib_log_filter' [-Wimplicit-function-declaration]
-|   202 |         if (!snd_lib_log_filter(prio, interface, NULL))
-|       |              ^~~~~~~~~~~~~~~~~~
-| ../../sources/alsa-utils-1.2.15/alsactl/utils.c:205:17: error: implicit declaration of function 'snd_lib_log_priority' [-Wimplicit-function-declaration]
-|   205 |         text1 = snd_lib_log_priority(prio);
-|       |                 ^~~~~~~~~~~~~~~~~~~~
-| ../../sources/alsa-utils-1.2.15/alsactl/utils.c:205:15: error: assignment to 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-|   205 |         text1 = snd_lib_log_priority(prio);
-|       |               ^
-| ../../sources/alsa-utils-1.2.15/alsactl/utils.c:206:17: error: implicit declaration of function 'snd_lib_log_interface' [-Wimplicit-function-declaration]
-|   206 |         text2 = snd_lib_log_interface(interface);
-|       |                 ^~~~~~~~~~~~~~~~~~~~~
-| ../../sources/alsa-utils-1.2.15/alsactl/utils.c:206:15: error: assignment to 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-|   206 |         text2 = snd_lib_log_interface(interface);
-|       |               ^
-| ../../sources/alsa-utils-1.2.15/alsactl/utils.c: In function 'initfailed':
-| ../../sources/alsa-utils-1.2.15/alsactl/utils.c:94:15: warning: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Wunused-result]
-|    94 |         (void)write(fp, str, strlen(str));
-|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-| ../../sources/alsa-utils-1.2.15/alsactl/utils.c:95:15: warning: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Wunused-result]
-|    95 |         (void)write(fp, ":", 1);
-|       |               ^~~~~~~~~~~~~~~~~
-| ../../sources/alsa-utils-1.2.15/alsactl/utils.c:96:15: warning: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Wunused-result]
-|    96 |         (void)write(fp, reason, strlen(reason));
-|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| ../../sources/alsa-utils-1.2.15/alsactl/utils.c:97:15: warning: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Wunused-result]
-|    97 |         (void)write(fp, ":", 1);
-|       |               ^~~~~~~~~~~~~~~~~
-| ../../sources/alsa-utils-1.2.15/alsactl/utils.c:98:15: warning: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Wunused-result]
-|    98 |         (void)write(fp, sexitcode, strlen(sexitcode));
-|       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| ../../sources/alsa-utils-1.2.15/alsactl/utils.c:99:15: warning: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Wunused-result]
-|    99 |         (void)write(fp, "\n", 1);
-|       |               ^~~~~~~~~~~~~~~~~~
-| make[2]: *** [Makefile:680: alsactl-utils.o] Error 1
-| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build/alsactl'
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/build/alsactl'
-| make[1]: *** [Makefile:956: all-recursive] Error 1
-| make: *** [Makefile:474: all-recursive] Error 1
-| ERROR: oe_runmake failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/temp/run.do_compile.2989440:182 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/temp/run.do_compile.2989440, line 182
-| 	#2: die, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/temp/run.do_compile.2989440, line 166
-| 	#3: oe_runmake, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/temp/run.do_compile.2989440, line 161
-| 	#4: autotools_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/temp/run.do_compile.2989440, line 156
-| 	#5: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/temp/run.do_compile.2989440, line 151
-| 	#6: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/temp/run.do_compile.2989440, line 195
-NOTE: recipe alsa-utils-1.2.15-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 2184 tasks of which 2177 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251216055542.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251216055542.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/temp/log.do_compile.2989440
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: alsa-utils-1.2.15-r0 do_compile: oe_runmake failed
-ERROR: alsa-utils-1.2.15-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/temp/run.do_compile.2989440' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/alsa-utils/1.2.15/temp/log.do_compile.2989440
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb:do_compile) failed with exit code '1'
-
---===============2202935805386080349==--
+--===============5986139868976096339==--
 
