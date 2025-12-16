@@ -2,190 +2,130 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F5D2D5E391
-	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 14:43:16 +0000 (UTC)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.24093.1765896193848647440
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B085D5E396
+	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 14:46:46 +0000 (UTC)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24400.1765896397633644744
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 06:43:13 -0800
+ Tue, 16 Dec 2025 06:46:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=avdQsc+H;
- spf=pass (domain: gmail.com, ip: 209.85.167.174, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-4537c9405ecso1304107b6e.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 06:43:13 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Xnttj/rO;
+ spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-3e898ba2a03so3337552fac.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 06:46:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765896193; x=1766500993; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765896397; x=1766501197; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LbejZYJXW4yus0dANCosM3WnyuIutallftwLUd+V/YA=;
-        b=avdQsc+HzMWbvG/gLW90GufH+BtzB3mhvzt4Otr7nQ2NNH1qn7vAh6Cj74H5jY3Stn
-         9klkkbwPtnv1gr97uOOTK3V+Yp1OBSGwFQTONk12jaW+zbwF2rfmMJJmNoHmFZcATPP3
-         Hbd3bdNz7h8nsgdeSQ6NjwQfJE6i5EyW+NPfal2DRvDZG0TONRVJyHjSxS+jMOWUVsJd
-         C76/BjgHIgFTJqohXGnGCF5SJGR9zKb/u5so6Mq6oChL6xXFSN8W4jAu381B3LOr8UX7
-         H7C0FoD2xGfwSnehIKYSjeYQzZZaXwII1s5oyaQb6y3z3pkBDyhkLzjWAraBhkesjpho
-         xsZA==
+        bh=QgetDpivJH1beT1VJV/9emP9CQvwB10tK52CzdRkE3I=;
+        b=Xnttj/rOdMhYTHs8hVnAUUcXYfwzL4rmDrmrPGvVaJfiOJArb4bgSx3jPptIj5o2hh
+         gVMPyZ7ELNOKArjzaCFFFg2JyYNOxtPJE94G70gh/G6k1Lv2UfizEJgDmixWR+8Yky3d
+         IADG8ovgFyNI1mfFIB3MCmOwApBAzB3N+jB4aRjVuQVuuJ6PaTHznpvrzQzlGBsml71W
+         JyRWZ5R3HUvJOEPqYE0/K6+fSYIqYFhQO+hJoyQttKY8I1JeLHFA+K4KwuiLQqTAK02S
+         SK95uO3tKYD3EoLhOCUdEXfJ77y8xxjEwpdJITZPsgfVn/ygn7HDCwM5ceiYHJ94AsuZ
+         OYIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765896193; x=1766500993;
+        d=1e100.net; s=20230601; t=1765896397; x=1766501197;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=LbejZYJXW4yus0dANCosM3WnyuIutallftwLUd+V/YA=;
-        b=J0JKA8PsTEKokRAdc9o5DpmwVdCC6lH2JcGpQwIWhsvh5w0f05oL221C8kWSXgsgq0
-         jwVHxuez41IT4Fm1gqjV6HY6tosbjsKeaAg5dJsiY3xF4Lqr/c3CTHjMI4tC6F9w6uiJ
-         51yDkU0vht4SRAJw8l4F+KRVQMDslLeqG1V91OfPvR8vVhvN55aS4EP1NO/HcXGDz8n9
-         5yGQTnaryE5ROFeNGTk9GOYhUuas/DvvLjL5AUdN4l+Y6ZWldAGUBDInS0Xss48nRR7T
-         Hxfq5cyEOoXgG80Jp3s+5MKS175vCUx2jC7UuUlS2twbQTvWGtlKPc2lffHuAwTnwZ18
-         pvxQ==
-X-Gm-Message-State: AOJu0YxMe0DToB0L+aRtJAOXYLLVxD12KTz6fhLfnkdsLxn7DBdcqmB9
-	4pgu4HDEEQDmd+FjNlQAS5i6R5EU9pFTF6X9MN1eHZykWpFfhZz9ZZoxt5x4d2GjnMeEQUNV4Kd
-	yCtRHgy5I3u0k9eZTFDUS9cVqgtfd0iwa5w==
-X-Gm-Gg: AY/fxX4huU3gQfC5J4Inn66xp0Nkx17P9kveR7MTIEuMkowkXHqTD6dk/VfKq5lRh5g
-	wmOFxlh+zVQOb5iEoOP5xEm5rGRIQ5ZHS9qsAlM0rk6SjKkHoi4pQUIQM/JmpPAd7kLcgCNvg8j
-	DASAYRE3/U/gHBaZn3IvSN77/leEMGOsOs1gYUErTy21sWCyGp3YAesXSYGC3WmFgJVcAhdzBAV
-	fuqnavLEa9vnq3weYMYdBqlICYHHeiDzAjyIkfXUbeemEgMgKxHa/2xdjVoFjC6Vi/m8t5/QA==
-X-Google-Smtp-Source: AGHT+IHskMSiQVlObjXw4kk6AP5wG2HIk2BqLOF2mLjdBUMBnlNdBGZRq2xqBUUyBEMnVTI4pBitOvhmVkYah4goFqo=
-X-Received: by 2002:a05:6808:1784:b0:450:907:b523 with SMTP id
- 5614622812f47-455ac7dbb99mr6250348b6e.6.1765896192704; Tue, 16 Dec 2025
- 06:43:12 -0800 (PST)
+        bh=QgetDpivJH1beT1VJV/9emP9CQvwB10tK52CzdRkE3I=;
+        b=qrrd0M90IWjNM5/xDshTnA7+in+SsLWDicwyZ2vIJVpwc0cK+EAh22ayD85yGS5K2d
+         BlT11k2Fzq3NXLE7vohXgoPZSbYcKkoJFP/7G2Tgx+UPe5UlmziEXsO7PFny5kn+t8hE
+         O8pfwRz+Ovhi+sxLTfxulFgeQ5lm4iwfCZO9/lg45Ym1f015oikkB1IiDd16XvhMw9Tc
+         5cgYbyKU7Ml8GOrY03Ryt292SiGAdSp/MMk8ZOe8czQLQ8TvKp4UwtF1onwSV665EEG5
+         DQhaw/gvO0ITzq9ACNQ6UdJgAKR0bzDesFrcQrZCz2VbpxynEdpYlxbCoOxMrwVmWzBy
+         FujQ==
+X-Gm-Message-State: AOJu0YyRlOrAf03kR3k4kZev5q/uI8c2rkbu8XkVH0h7tQCQK/3mVuEW
+	NFsjB9URmEpeDlk2kfTLYOtHT9+GGAvKUKU5m+SpU1RDrFohFxtKdl/xlbUctSAc/5jjcrxPGIB
+	P+NwQdQpUZyh2O65gyyNCQCGiJEdzFLxsqQ==
+X-Gm-Gg: AY/fxX5o1vTwstnIKrZI/DgqdiiHiZDajkXXx7RYnmDqYujFelYq8nVjpi9iOJvDnCL
+	a8HJh7LvXKwJTvPFhds1SKtktVhlpT+SWRp/lokIFD9QDl922VydJlnYIF7PhwxijuhZplIJPlX
+	/tzocsksQMYKIuZRkw66fcnkOatIJ2T+WHotDRhNIYkyzzid6vyfjRnpEPfYZ2BJdn0G0+APgE1
+	SFgFghChtlaIM6z6fq30O7bfD+mTsnq3TcMn2V1kFogWKP45fYUdO6gGUIX67SnM+xFOyWxfpFS
+	ukVuGyLk
+X-Google-Smtp-Source: AGHT+IHw+kBU58anFU9Sz2JGVn3s2hrZ2UvdCJwHSJYHNOCvwICxsVz/0A8A6TgIhvSEId8y/1x1Trv6fYUO/99nPkI=
+X-Received: by 2002:a4a:edc7:0:b0:659:9a49:9087 with SMTP id
+ 006d021491bc7-65b452c4a22mr5542951eaf.82.1765896396689; Tue, 16 Dec 2025
+ 06:46:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
-In-Reply-To: <20251213095931.2571498-1-ankur.tyagi85@gmail.com>
+References: <20251213095931.2571498-1-ankur.tyagi85@gmail.com> <20251213095931.2571498-2-ankur.tyagi85@gmail.com>
+In-Reply-To: <20251213095931.2571498-2-ankur.tyagi85@gmail.com>
 From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Tue, 16 Dec 2025 20:13:01 +0530
-X-Gm-Features: AQt7F2rgMs1sFOy3Okmxf4cU6e0deZ493ivzXwOrYVBYbiokHAiD4VAHTIkvYZY
-Message-ID: <CADySD0Eb+dhq-Fax7UufcsbpFr6KnoBBexE1+AEqrURYnK1tsQ@mail.gmail.com>
-Subject: Re: [OE-core][whinlatter][PATCH 01/67] bluez5: upgrade 5.84 -> 5.85
+Date: Tue, 16 Dec 2025 20:16:24 +0530
+X-Gm-Features: AQt7F2pCWKazpyzrY7gsNQfeeviNmtKtbQybCkal5nrKzUg1d__g4mMlDandLK0
+Message-ID: <CADySD0HOfXfv8oDcwvP_0sEz9UWTi6B6x3Z+Y7KGUzZuD6awWA@mail.gmail.com>
+Subject: Re: [OE-core][whinlatter][PATCH 02/67] barebox: upgrade 2025.09.0 -> 2025.11.0
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?Q?Gu=C3=B0ni_M=C3=A1r_Gilbert?= <gudni.m.g@gmail.com>, 
+Cc: =?UTF-8?Q?Enrico_J=C3=B6rns?= <ejo@pengutronix.de>, 
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 14:43:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227962
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 14:46:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227963
 
-This patch doesn't bring any critical bug fix can be dropped.
+Though not mentioned in the release notes but migration guide mentions
+rename in /dev, please drop this patch.
 
 On Sat, Dec 13, 2025 at 3:29=E2=80=AFPM <ankur.tyagi85@gmail.com> wrote:
 >
-> From: Gu=C3=B0ni M=C3=A1r Gilbert <gudni.m.g@gmail.com>
+> From: Enrico J=C3=B6rns <ejo@pengutronix.de>
 >
-> Changelog:
-> - Fix issue with handling display of battery charge level.
-> - Fix issue with BASS permissions not requiring encryption.
-> - Fix issue with handling abort for OBEX SRM operation.
-> - Fix issue with handling device privacy.
-> - Add support for HFP call answer support.
-> - Add support for HFP simple 3-way call support.
+> Changes in 2025.11.0
+> --------------------
 >
-> Full changelog:
-> https://github.com/bluez/bluez/compare/5.84...5.85
+> * New boards supported: i.MX93 FRDM, Enclustra Mercury+ SA2.
+> * Stricter validation of network data in NFS client code.
+> * Enhance 'parted' command: allows creating partitions up to the end of t=
+he
+>   device.
+> * Various fixes and improvements.
 >
-> ----
-> Other notes:
-> - A new testing tool is added called 6lowpan-tester
-> - A patch is removed since it is included in the 5.85 release
+> Release Notes:
+> https://github.com/barebox/barebox/releases/tag/v2025.11.0
 >
-> Signed-off-by: Gu=C3=B0ni M=C3=A1r Gilbert <gudni.m.g@gmail.com>
+> Changes in 2025.10.0
+> --------------------
+>
+> * Added support for device mapper and dm-verity.
+>   Prepares for secure boot without the need for FIT images.
+> * Added security policy support.
+>   Kconfig-level decision of operations allowed/forbidden in a specific
+>   security mode.
+> * New boards supported: Samsung Galaxy S8, Samsung Galaxy S20 5G, Radxa
+>   Rock-5T and Protonic PRT8ML.
+> * Various fixes and improvements.
+>
+> Release Notes:
+> https://github.com/barebox/barebox/releases/tag/v2025.10.0
+>
+> Signed-off-by: Enrico J=C3=B6rns <ejo@pengutronix.de>
 > Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> (cherry picked from commit 83812b010cf9c8bd022ad9702be2285de21ac67e)
+> (cherry picked from commit c596157f82ebd8dd3703bf7a5193bd3080743b53)
 > Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 > ---
->  meta/recipes-connectivity/bluez5/bluez5.inc   |  1 -
->  ...-fix-pac_config_cb-error-code-return.patch | 29 -------------------
->  .../bluez5/{bluez5_5.84.bb =3D> bluez5_5.85.bb} |  3 +-
->  3 files changed, 2 insertions(+), 31 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-media-fi=
-x-pac_config_cb-error-code-return.patch
->  rename meta/recipes-connectivity/bluez5/{bluez5_5.84.bb =3D> bluez5_5.85=
-.bb} (93%)
+>  meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-c=
-onnectivity/bluez5/bluez5.inc
-> index aac38a54a9..24a41f92df 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> @@ -64,7 +64,6 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/bluetooth/bluez-=
-${PV}.tar.xz \
->             file://init \
->             file://run-ptest \
->             file://0001-tests-add-a-target-for-building-tests-without-run=
-nin.patch \
-> -           file://0001-media-fix-pac_config_cb-error-code-return.patch \
->             "
->  S =3D "${UNPACKDIR}/bluez-${PV}"
+> diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-b=
+sp/barebox/barebox-common.inc
+> index e41d0858fd..0ad9166aa2 100644
+> --- a/meta/recipes-bsp/barebox/barebox-common.inc
+> +++ b/meta/recipes-bsp/barebox/barebox-common.inc
+> @@ -3,6 +3,6 @@ SECTION =3D "bootloaders"
 >
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-media-fix-pac_c=
-onfig_cb-error-code-return.patch b/meta/recipes-connectivity/bluez5/bluez5/=
-0001-media-fix-pac_config_cb-error-code-return.patch
-> deleted file mode 100644
-> index a67fd07137..0000000000
-> --- a/meta/recipes-connectivity/bluez5/bluez5/0001-media-fix-pac_config_c=
-b-error-code-return.patch
-> +++ /dev/null
-> @@ -1,29 +0,0 @@
-> -From d7966dbb7bcf39f9615c906c47ef7ad895796756 Mon Sep 17 00:00:00 2001
-> -From: Pauli Virtanen <pav@iki.fi>
-> -Date: Thu, 18 Sep 2025 20:19:35 +0300
-> -Subject: [PATCH] media: fix pac_config_cb() error code return
-> -
-> -Fixes: a887b1a1b91f ("audio: Add support for specific error codes for A2=
-DP configuration")
-> -
-> -Upstream-Status: Backport [https://github.com/bluez/bluez/commit/6b0a087=
-76ae44a9102d7c6875a77e83dc6a11a37]
-> -Signed-off-by: Gu=C3=B0ni M=C3=A1r Gilbert <gudni.m.g@gmail.com>
-> ----
-> - profiles/audio/media.c | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/profiles/audio/media.c b/profiles/audio/media.c
-> -index 332f643bb..deb321e6c 100644
-> ---- a/profiles/audio/media.c
-> -+++ b/profiles/audio/media.c
-> -@@ -1110,7 +1110,7 @@ static void pac_config_cb(struct media_endpoint *e=
-ndpoint, void *ret, int size,
-> -       if (!transport)
-> -               return;
-> -
-> --      data->cb(data->stream, error_code =3D=3D 0 ? 0 : -EINVAL);
-> -+      data->cb(data->stream, (error_code && *error_code =3D=3D 0) ? 0 :=
- -EINVAL);
-> - }
-> -
-> - static struct media_transport *pac_ucast_config(struct bt_bap_stream *s=
-tream,
-> ---
-> -2.43.0
-> -
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.84.bb b/meta/recip=
-es-connectivity/bluez5/bluez5_5.85.bb
-> similarity index 93%
-> rename from meta/recipes-connectivity/bluez5/bluez5_5.84.bb
-> rename to meta/recipes-connectivity/bluez5/bluez5_5.85.bb
-> index 874db9df64..d8965fef4b 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5_5.84.bb
-> +++ b/meta/recipes-connectivity/bluez5/bluez5_5.85.bb
-> @@ -1,6 +1,6 @@
->  require bluez5.inc
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df5125d13e000b9ca1f0d3364286c4=
+192"
 >
-> -SRC_URI[sha256sum] =3D "5ba73d030f7b00087d67800b0e321601aec0f892827c72e5=
-a2c8390d8c886b11"
-> +SRC_URI[sha256sum] =3D "ad028e49254bc4551a13f08fe7904c63d02ba650d77be8ae=
-15bb3b0a0ad94a6f"
->
->  CVE_STATUS[CVE-2020-24490] =3D "cpe-incorrect: This issue has kernel fix=
-es rather than bluez fixes"
->
-> @@ -35,6 +35,7 @@ NOINST_TOOLS_TESTING ?=3D " \
->      tools/iso-tester \
->      tools/mesh-tester \
->      tools/ioctl-tester \
-> +    tools/6lowpan-tester \
->  "
->
->  # noinst programs in Makefile.tools that are conditional on TOOLS
+> -PV =3D "2025.09.0"
+> +PV =3D "2025.11.0"
+>  SRC_URI =3D "https://barebox.org/download/barebox-${PV}.tar.bz2"
+> -SRC_URI[sha256sum] =3D "7df1aa47bb7bf1763a729137ac773e69a4052812af094475=
+d739fc63a9295f0d"
+> +SRC_URI[sha256sum] =3D "6a487eb975169ef4ecc912d3e1044fb9ee4aa164c21d4db9=
+60a384a60d0914f6"
 
