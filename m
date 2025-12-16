@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AA74D5CCA1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F724D5CCA7
 	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:38 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17197.1765872154647957023
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17391.1765872135074496581
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:34 -0800
+ Tue, 16 Dec 2025 00:02:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=M/mZ8u2E;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=YPUC812f;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019b262eb574-cd1b5b7f-8459-48fc-a22a-340cb571ff29-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dBqr5tJX;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=o4sgm800;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019b262eb9f8-fbfffc5c-2564-4825-842e-ecf75776f98c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872154;
+	t=1765872155;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=61fyHm5FLM1iFGX8OYCkJF8qfkQmBlkoUm3VTSm+f24=;
-	b=M/mZ8u2E2XmPLmOgMNuhCMK4n17m6em+6zxxSFaL4l1rXDPb8/5LIfO0tq98Wmzl
-	TrG3IGXOiM87qx6DTanygdpCLHskNdeEUlj30mIMPqyUHZir19hQaK/EHLA9I7pL1Kk
-	9NcM4UfXmLh2kF/Y9+g7JBH8uAMqgEgvDE9QBNZk=
+	bh=WnW5/PvEYAwYQqRJCB/o/YiXZoX7y4ca4EHE89CcX6M=;
+	b=dBqr5tJXFhGCRoInamLXZhSg8lva+pJPk3EEdQ5ySzZwBkmndJ1y7sT94XXrCFlT
+	vndBFbvQjAgSWlq2JyPxrtdJlC+zvfLfwTsMwFZ7HkAugM45q43SlAr5TOwJ59E4JYy
+	qRpiQbWY/uLsRCiyG50SdMzwdNYJKywXL3EuHBqs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872154;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872155;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=61fyHm5FLM1iFGX8OYCkJF8qfkQmBlkoUm3VTSm+f24=;
-	b=YPUC812foxWmMaol9Ok/1IJO3g0dOOvUDc9Cd7tWVLHl6hqsXuTehSqUaAMIh8Qv
-	anJd3MF2XO4E8E3sMq7v6G5BBjliRHIW1V8H3EclBhcxaKhc0IL2Qaby1pLhZOZkCd6
-	NLsx+vLVYu5u/QvT7V/RdXf9uKIPrkXQS1J7DWiQ=
-Content-Type: multipart/mixed; boundary="===============5385244236398516710=="
+	bh=WnW5/PvEYAwYQqRJCB/o/YiXZoX7y4ca4EHE89CcX6M=;
+	b=o4sgm800BSis0Sy/92qbRQregaeaa1g7RFJcK6VxVo7YmA1qR8hUqUpCi9WUC+se
+	Ev3R3RVTx8rqJfq6U5ZYeNypfcXygWXMTDGW5C6ku4N8hdD20tR0IXq+OT/UoXbx+vq
+	Jq9ngs+KGyUW9E4xJ4o40N+voCHHSCTENWKuiDag=
+Content-Type: multipart/mixed; boundary="===============1213079314920094004=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cups: upgrading to 2.4.16 SUCCEEDED
-Message-ID: <0101019b262eb574-cd1b5b7f-8459-48fc-a22a-340cb571ff29-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:33 +0000
+Subject: [AUH] libconfig: upgrading to 1.8.2 FAILED
+Message-ID: <0101019b262eb9f8-fbfffc5c-2564-4825-842e-ecf75776f98c-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:35 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.23
+X-SES-Outgoing: 2025.12.16-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227848
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227850
 
---===============5385244236398516710==
+--===============1213079314920094004==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *cups* to *2.4.16* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libconfig* to *1.8.2* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-cups-upgrade-2.4.15-2.4.16.patch
+    - apply the patch: git am 0001-libconfig-upgrade-1.8.1-1.8.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,230 +78,149 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 3cc6b1d5f0f9682bcbb5879449ca3790b61827d0 Mon Sep 17 00:00:00 2001
+From 613916c6faeb667a0497c15e9f1e1237c233a47d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Dec 2025 02:36:05 +0000
-Subject: [PATCH] cups: upgrade 2.4.15 -> 2.4.16
+Date: Tue, 16 Dec 2025 02:50:21 +0000
+Subject: [PATCH] libconfig: upgrade 1.8.1 -> 1.8.2
 
 ---
- .../cups/cups/0001-use-echo-only-in-init.patch              | 2 +-
- .../cups/0002-don-t-try-to-run-generated-binaries.patch     | 2 +-
- .../0004-cups-fix-multilib-install-file-conflicts.patch     | 6 +++---
- meta/recipes-extended/cups/cups/libexecdir.patch            | 2 +-
- .../cups/{cups_2.4.15.bb => cups_2.4.16.bb}                 | 2 +-
- 5 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-extended/cups/{cups_2.4.15.bb => cups_2.4.16.bb} (51%)
+ .../libconfig/{libconfig_1.8.1.bb => libconfig_1.8.2.bb}        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/libconfig/{libconfig_1.8.1.bb => libconfig_1.8.2.bb} (94%)
 
-diff --git a/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch b/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
-index c0cb7df581..e4b473aaf3 100644
---- a/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
-+++ b/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
-@@ -1,4 +1,4 @@
--From c5f943b1ac6e1c86ae64686e29e178fedf933e96 Mon Sep 17 00:00:00 2001
-+From 575a890a818e8ddc95d22838480b62988ffcd639 Mon Sep 17 00:00:00 2001
- From: Saul Wold <sgw@linux.intel.com>
- Date: Thu, 13 Dec 2012 19:03:52 -0800
- Subject: [PATCH] use echo only in init
-diff --git a/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch b/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
-index cf2f1a6747..378ef677a5 100644
---- a/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
-+++ b/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
-@@ -1,4 +1,4 @@
--From da9a313ae5a2d1da683dd58572df0d7a660eb922 Mon Sep 17 00:00:00 2001
-+From 36fa890e4b30bf42318065fe3172ef92b2d3e313 Mon Sep 17 00:00:00 2001
- From: Koen Kooi <koen@dominion.thruhere.net>
- Date: Sun, 30 Jan 2011 16:37:27 +0100
- Subject: [PATCH] don't try to run generated binaries
-diff --git a/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch b/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
-index 31338822e6..2728fc7e3c 100644
---- a/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
-+++ b/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
-@@ -1,4 +1,4 @@
--From 880bad2c6b08afd2e2e303bc3ceea559edbe76d2 Mon Sep 17 00:00:00 2001
-+From 53aeff85692ce3fd0ac325ec7dcdff31748ccee6 Mon Sep 17 00:00:00 2001
- From: Kai Kang <kai.kang@windriver.com>
- Date: Wed, 3 Oct 2018 00:27:11 +0800
- Subject: [PATCH] cups: fix multilib install file conflicts
-@@ -15,10 +15,10 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-extended/libconfig/libconfig_1.8.1.bb b/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
+similarity index 94%
+rename from meta/recipes-extended/libconfig/libconfig_1.8.1.bb
+rename to meta/recipes-extended/libconfig/libconfig_1.8.2.bb
+index 37c2504b01..33f2fe398f 100644
+--- a/meta/recipes-extended/libconfig/libconfig_1.8.1.bb
++++ b/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
+@@ -11,7 +11,7 @@ SRC_URI = " \
+     git://github.com/hyperrealm/libconfig.git;protocol=https;branch=master;tag=v${PV} \
+     file://0001-Add-missing-dependency-for-scanner.h.patch \
+ "
+-SRCREV = "47ec93c588f534d20f6ee8704d2a2cec339db7b7"
++SRCREV = "a42cb47c1526a4f2ed025fcbb2289863375bc898"
  
- diff --git a/conf/cups-files.conf.in b/conf/cups-files.conf.in
--index f96f745..27d8be9 100644
-+index 6db1392..bc999e4 100644
- --- a/conf/cups-files.conf.in
- +++ b/conf/cups-files.conf.in
--@@ -70,7 +70,7 @@ PageLog @CUPS_LOGDIR@/page_log
-+@@ -73,7 +73,7 @@ PageLog @CUPS_LOGDIR@/page_log
-  #RequestRoot @CUPS_REQUESTS@
-  
-  # Location of helper programs...
-diff --git a/meta/recipes-extended/cups/cups/libexecdir.patch b/meta/recipes-extended/cups/cups/libexecdir.patch
-index 493c7970ea..4acff27e54 100644
---- a/meta/recipes-extended/cups/cups/libexecdir.patch
-+++ b/meta/recipes-extended/cups/cups/libexecdir.patch
-@@ -1,4 +1,4 @@
--From 4ae7ad87aa022f5128be222dffbf0c50ec6e846e Mon Sep 17 00:00:00 2001
-+From fab57dbafccee851b22b757f08fc3273ad78b8ae Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Tue, 13 Jul 2021 12:56:30 +0100
- Subject: [PATCH] Use $libexecdir instead of hardcoding $prefix/lib as this
-diff --git a/meta/recipes-extended/cups/cups_2.4.15.bb b/meta/recipes-extended/cups/cups_2.4.16.bb
-similarity index 51%
-rename from meta/recipes-extended/cups/cups_2.4.15.bb
-rename to meta/recipes-extended/cups/cups_2.4.16.bb
-index dc22771db3..6c08e49728 100644
---- a/meta/recipes-extended/cups/cups_2.4.15.bb
-+++ b/meta/recipes-extended/cups/cups_2.4.16.bb
-@@ -2,4 +2,4 @@ require cups.inc
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
- 
--SRC_URI[sha256sum] = "eff0bbd48ff1abcbb8e46e28e85aefaffa391a1d9c4d8dc92ab3822a13008d7f"
-+SRC_URI[sha256sum] = "0339587204b4f9428dd0592eb301dec0bf9ea6ea8dce5d9690d56be585aba92d"
+ # needed when we modify grammar.y with patches
+ DEPENDS += "bison-native flex-native"
 -- 
 2.47.1
 
 
---===============5385244236398516710==
+--===============1213079314920094004==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-cups-upgrade-2.4.15-2.4.16.patch"
+ filename="0001-libconfig-upgrade-1.8.1-1.8.2.patch"
 
-RnJvbSAzY2M2YjFkNWYwZjk2ODJiY2JiNTg3OTQ0OWNhMzc5MGI2MTgyN2QwIE1vbiBTZXAgMTcg
+RnJvbSA2MTM5MTZjNmZhZWI2NjdhMDQ5N2MxNWU5ZjFlMTIzN2MyMzNhNDdkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDI6MzY6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
-dXBzOiB1cGdyYWRlIDIuNC4xNSAtPiAyLjQuMTYKCi0tLQogLi4uL2N1cHMvY3Vwcy8wMDAxLXVz
-ZS1lY2hvLW9ubHktaW4taW5pdC5wYXRjaCAgICAgICAgICAgICAgfCAyICstCiAuLi4vY3Vwcy8w
-MDAyLWRvbi10LXRyeS10by1ydW4tZ2VuZXJhdGVkLWJpbmFyaWVzLnBhdGNoICAgICB8IDIgKy0K
-IC4uLi8wMDA0LWN1cHMtZml4LW11bHRpbGliLWluc3RhbGwtZmlsZS1jb25mbGljdHMucGF0Y2gg
-ICAgIHwgNiArKystLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvbGliZXhlY2Rp
-ci5wYXRjaCAgICAgICAgICAgIHwgMiArLQogLi4uL2N1cHMve2N1cHNfMi40LjE1LmJiID0+IGN1
-cHNfMi40LjE2LmJifSAgICAgICAgICAgICAgICAgfCAyICstCiA1IGZpbGVzIGNoYW5nZWQsIDcg
-aW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0ZW5k
-ZWQvY3Vwcy97Y3Vwc18yLjQuMTUuYmIgPT4gY3Vwc18yLjQuMTYuYmJ9ICg1MSUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDAxLXVzZS1lY2hvLW9ubHkt
-aW4taW5pdC5wYXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvMDAwMS11c2Ut
-ZWNoby1vbmx5LWluLWluaXQucGF0Y2gKaW5kZXggYzBjYjdkZjU4MS4uZTRiNDczYWFmMyAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDAxLXVzZS1lY2hvLW9u
-bHktaW4taW5pdC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLzAw
-MDEtdXNlLWVjaG8tb25seS1pbi1pbml0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBjNWY5
-NDNiMWFjNmUxYzg2YWU2NDY4NmUyOWUxNzhmZWRmOTMzZTk2IE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQorRnJvbSA1NzVhODkwYTgxOGU4ZGRjOTVkMjI4Mzg0ODBiNjI5ODhmZmNkNjM5IE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogU2F1bCBXb2xkIDxzZ3dAbGludXguaW50ZWwuY29t
-PgogRGF0ZTogVGh1LCAxMyBEZWMgMjAxMiAxOTowMzo1MiAtMDgwMAogU3ViamVjdDogW1BBVENI
-XSB1c2UgZWNobyBvbmx5IGluIGluaXQKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRl
-ZC9jdXBzL2N1cHMvMDAwMi1kb24tdC10cnktdG8tcnVuLWdlbmVyYXRlZC1iaW5hcmllcy5wYXRj
-aCBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvMDAwMi1kb24tdC10cnktdG8tcnVu
-LWdlbmVyYXRlZC1iaW5hcmllcy5wYXRjaAppbmRleCBjZjJmMWE2NzQ3Li4zNzhlZjY3N2E1IDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLzAwMDItZG9uLXQtdHJ5
-LXRvLXJ1bi1nZW5lcmF0ZWQtYmluYXJpZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVu
-ZGVkL2N1cHMvY3Vwcy8wMDAyLWRvbi10LXRyeS10by1ydW4tZ2VuZXJhdGVkLWJpbmFyaWVzLnBh
-dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBkYTlhMzEzYWU1YTJkMWRhNjgzZGQ1ODU3MmRmMGQ3
-YTY2MGViOTIyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzNmZhODkwZTRiMzBiZjQy
-MzE4MDY1ZmUzMTcyZWY5MmIyZDNlMzEzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
-S29lbiBLb29pIDxrb2VuQGRvbWluaW9uLnRocnVoZXJlLm5ldD4KIERhdGU6IFN1biwgMzAgSmFu
-IDIwMTEgMTY6Mzc6MjcgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gZG9uJ3QgdHJ5IHRvIHJ1biBn
-ZW5lcmF0ZWQgYmluYXJpZXMKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBz
-L2N1cHMvMDAwNC1jdXBzLWZpeC1tdWx0aWxpYi1pbnN0YWxsLWZpbGUtY29uZmxpY3RzLnBhdGNo
-IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDA0LWN1cHMtZml4LW11bHRpbGli
-LWluc3RhbGwtZmlsZS1jb25mbGljdHMucGF0Y2gKaW5kZXggMzEzMzg4MjJlNi4uMjcyOGZjN2Uz
-YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDA0LWN1cHMt
-Zml4LW11bHRpbGliLWluc3RhbGwtZmlsZS1jb25mbGljdHMucGF0Y2gKKysrIGIvbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDA0LWN1cHMtZml4LW11bHRpbGliLWluc3RhbGwtZmls
-ZS1jb25mbGljdHMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDg4MGJhZDJjNmIwOGFmZDJl
-MmUzMDNiYzNjZWVhNTU5ZWRiZTc2ZDIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDUz
-YWVmZjg1NjkyY2UzZmQwYWMzMjVlYzdkY2RmZjMxNzQ4Y2NlZTYgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxCiBGcm9tOiBLYWkgS2FuZyA8a2FpLmthbmdAd2luZHJpdmVyLmNvbT4KIERhdGU6IFdl
-ZCwgMyBPY3QgMjAxOCAwMDoyNzoxMSArMDgwMAogU3ViamVjdDogW1BBVENIXSBjdXBzOiBmaXgg
-bXVsdGlsaWIgaW5zdGFsbCBmaWxlIGNvbmZsaWN0cwpAQCAtMTUsMTAgKzE1LDEwIEBAIFNpZ25l
-ZC1vZmYtYnk6IEthaSBLYW5nIDxrYWkua2FuZ0B3aW5kcml2ZXIuY29tPgogIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvY29uZi9j
-dXBzLWZpbGVzLmNvbmYuaW4gYi9jb25mL2N1cHMtZmlsZXMuY29uZi5pbgotaW5kZXggZjk2Zjc0
-NS4uMjdkOGJlOSAxMDA2NDQKK2luZGV4IDZkYjEzOTIuLmJjOTk5ZTQgMTAwNjQ0CiAtLS0gYS9j
-b25mL2N1cHMtZmlsZXMuY29uZi5pbgogKysrIGIvY29uZi9jdXBzLWZpbGVzLmNvbmYuaW4KLUBA
-IC03MCw3ICs3MCw3IEBAIFBhZ2VMb2cgQENVUFNfTE9HRElSQC9wYWdlX2xvZworQEAgLTczLDcg
-KzczLDcgQEAgUGFnZUxvZyBAQ1VQU19MT0dESVJAL3BhZ2VfbG9nCiAgI1JlcXVlc3RSb290IEBD
-VVBTX1JFUVVFU1RTQAogIAogICMgTG9jYXRpb24gb2YgaGVscGVyIHByb2dyYW1zLi4uCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzL2xpYmV4ZWNkaXIucGF0Y2gg
-Yi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzL2xpYmV4ZWNkaXIucGF0Y2gKaW5kZXgg
-NDkzYzc5NzBlYS4uNGFjZmYyN2U1NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVk
-L2N1cHMvY3Vwcy9saWJleGVjZGlyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9j
-dXBzL2N1cHMvbGliZXhlY2Rpci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNGFlN2FkODdh
-YTAyMmY1MTI4YmUyMjJkZmZiZjBjNTBlYzZlODQ2ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb20gZmFiNTdkYmFmY2NlZTg1MWIyMmI3NTdmMDhmYzMyNzNhZDc4YjhhZSBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgog
-RGF0ZTogVHVlLCAxMyBKdWwgMjAyMSAxMjo1NjozMCArMDEwMAogU3ViamVjdDogW1BBVENIXSBV
-c2UgJGxpYmV4ZWNkaXIgaW5zdGVhZCBvZiBoYXJkY29kaW5nICRwcmVmaXgvbGliIGFzIHRoaXMK
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNfMi40LjE1LmJiIGIv
-bWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwc18yLjQuMTYuYmIKc2ltaWxhcml0eSBpbmRl
-eCA1MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwc18yLjQuMTUu
-YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNfMi40LjE2LmJiCmlu
-ZGV4IGRjMjI3NzFkYjMuLjZjMDhlNDk3MjggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRl
-bmRlZC9jdXBzL2N1cHNfMi40LjE1LmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBz
-L2N1cHNfMi40LjE2LmJiCkBAIC0yLDQgKzIsNCBAQCByZXF1aXJlIGN1cHMuaW5jCiAKIExJQ19G
-SUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNiODNlZjk2Mzg3ZjE0NjU1ZmM4NTRk
-ZGMzYzZiZDU3IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWZmMGJiZDQ4ZmYxYWJjYmI4ZTQ2
-ZTI4ZTg1YWVmYWZmYTM5MWExZDljNGQ4ZGM5MmFiMzgyMmExMzAwOGQ3ZiIKK1NSQ19VUklbc2hh
-MjU2c3VtXSA9ICIwMzM5NTg3MjA0YjRmOTQyOGRkMDU5MmViMzAxZGVjMGJmOWVhNmVhOGRjZTVk
-OTY5MGQ1NmJlNTg1YWJhOTJkIgotLSAKMi40Ny4xCgo=
+CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDI6NTA6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJjb25maWc6IHVwZ3JhZGUgMS44LjEgLT4gMS44LjIKCi0tLQogLi4uL2xpYmNvbmZpZy97bGli
+Y29uZmlnXzEuOC4xLmJiID0+IGxpYmNvbmZpZ18xLjguMi5iYn0gICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWV4dGVuZGVkL2xpYmNvbmZpZy97bGliY29uZmlnXzEuOC4xLmJiID0+IGxpYmNvbmZp
+Z18xLjguMi5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGli
+Y29uZmlnL2xpYmNvbmZpZ18xLjguMS5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJjb25m
+aWcvbGliY29uZmlnXzEuOC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1leHRlbmRlZC9saWJjb25maWcvbGliY29uZmlnXzEuOC4xLmJiCnJlbmFtZSB0
+byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGliY29uZmlnL2xpYmNvbmZpZ18xLjguMi5iYgppbmRl
+eCAzN2MyNTA0YjAxLi4zM2YyZmUzOThmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvbGliY29uZmlnL2xpYmNvbmZpZ18xLjguMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvbGliY29uZmlnL2xpYmNvbmZpZ18xLjguMi5iYgpAQCAtMTEsNyArMTEsNyBAQCBTUkNfVVJJ
+ID0gIiBcCiAgICAgZ2l0Oi8vZ2l0aHViLmNvbS9oeXBlcnJlYWxtL2xpYmNvbmZpZy5naXQ7cHJv
+dG9jb2w9aHR0cHM7YnJhbmNoPW1hc3Rlcjt0YWc9diR7UFZ9IFwKICAgICBmaWxlOi8vMDAwMS1B
+ZGQtbWlzc2luZy1kZXBlbmRlbmN5LWZvci1zY2FubmVyLmgucGF0Y2ggXAogIgotU1JDUkVWID0g
+IjQ3ZWM5M2M1ODhmNTM0ZDIwZjZlZTg3MDRkMmEyY2VjMzM5ZGI3YjciCitTUkNSRVYgPSAiYTQy
+Y2I0N2MxNTI2YTRmMmVkMDI1ZmNiYjIyODk4NjMzNzViYzg5OCIKIAogIyBuZWVkZWQgd2hlbiB3
+ZSBtb2RpZnkgZ3JhbW1hci55IHdpdGggcGF0Y2hlcwogREVQRU5EUyArPSAiYmlzb24tbmF0aXZl
+IGZsZXgtbmF0aXZlIgotLSAKMi40Ny4xCgo=
 
---===============5385244236398516710==
+--===============1213079314920094004==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/x86-64-v3-poky-linux/cups/cups-dbg: PKGSIZE changed from 8816088 to 8816248 (+0%)
-packages/x86-64-v3-poky-linux/cups/cups-dbg: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-dbg: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-dev: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-dev: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-doc: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-doc: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-lib: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-lib: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-libimage: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-libimage: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-locale-ca: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-locale-ca: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-locale-cs: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-locale-cs: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-locale-da: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-locale-da: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-locale-de: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-locale-de: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-locale-en: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-locale-en: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-locale-es: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-locale-es: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-locale-fr: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-locale-fr: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-locale-it: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-locale-it: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-locale-ja: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-locale-ja: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-locale-pt-br: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-locale-pt-br: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-locale-ru: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-locale-ru: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-locale-zh-cn: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-locale-zh-cn: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-src: FILELIST: directory renamed /usr/src/debug/cups/2.4.15/ppdc -> /usr/src/debug/cups/2.4.16/ppdc, directory renamed /usr/src/debug/cups/2.4.15/berkeley -> /usr/src/debug/cups/2.4.16/berkeley, directory renamed /usr/src/debug/cups/2.4.15/notifier -> /usr/src/debug/cups/2.4.16/notifier, directory renamed /usr/src/debug/cups/2.4.15/backend -> /usr/src/debug/cups/2.4.16/backend, directory renamed /usr/src/debug/cups/2.4.15/systemv -> /usr/src/debug/cups/2.4.16/systemv, directory renamed /usr/src/debug/cups/2.4.15/cgi-bin -> /usr/src/debug/cups/2.4.16/cgi-bin, directory renamed /usr/src/debug/cups/2.4.15/cups -> /usr/src/debug/cups/2.4.16/cups, directory renamed /usr/src/debug/cups/2.4.15/scheduler -> /usr/src/debug/cups/2.4.16/scheduler, directory renamed /usr/src/debug/cups/2.4.15/monitor -> /usr/src/debug/cups/2.4.16/monitor, directory renamed /usr/src/debug/cups/2.4.15/tools -> /usr/src/debug/cups/2.4.16/tools, directory renamed /usr/src/debu
- g/cups/2.4.15/filter -> /usr/src/debug/cups/2.4.16/filter
-packages/x86-64-v3-poky-linux/cups/cups-src: PKGSIZE changed from 5984732 to 5984804 (+0%)
-packages/x86-64-v3-poky-linux/cups/cups-src: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-src: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-staticdev: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-staticdev: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups-webif: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups-webif: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups/cups: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups/cups: PV changed from "2.4.15" to "2.4.16"
-packages/x86-64-v3-poky-linux/cups: SRC_URI changed from "https://github.com/OpenPrinting/cups/releases/download/v2.4.15/cups-2.4.15-source.tar.gz file://0001-use-echo-only-in-init.patch file://0002-don-t-try-to-run-generated-binaries.patch file://libexecdir.patch file://0004-cups-fix-multilib-install-file-conflicts.patch file://volatiles.99_cups file://cups-volatiles.conf" to "https://github.com/OpenPrinting/cups/releases/download/v2.4.16/cups-2.4.16-source.tar.gz file://0001-use-echo-only-in-init.patch file://0002-don-t-try-to-run-generated-binaries.patch file://libexecdir.patch file://0004-cups-fix-multilib-install-file-conflicts.patch file://volatiles.99_cups file://cups-volatiles.conf"
-packages/x86-64-v3-poky-linux/cups: PKGV changed from 2.4.15 [default] to 2.4.16 [default]
-packages/x86-64-v3-poky-linux/cups: PV changed from "2.4.15" to "2.4.16"
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 949 .bb files complete (0 cached, 949 parsed). 1950 targets, 47 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============5385244236398516710==--
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-c3e516c6fbdd27c561fc7268940c8cf2f7423f1b"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 = "tmp-auh-upgrades:c3e516c6fbdd27c561fc7268940c8cf2f7423f1b"
+meta-yocto-bsp       
+meta-poky            = "master:b3b659263566c4d2f2813190e72d93f8598a4c47"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 81 Local 70 Mirrors 0 Missed 11 Current 280 (86% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 361 of 361 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libconfig/libconfig_1.8.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libconfig-1.8.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libconfig-1.8.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1056 of 1075 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libconfig/libconfig_1.8.2.bb:do_fetch)
+NOTE: recipe libconfig-1.8.2-r0: task do_fetch: Started
+NOTE: recipe libconfig-1.8.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1057 of 1075 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libconfig/libconfig_1.8.2.bb:do_unpack)
+NOTE: Running task 1058 of 1075 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libconfig/libconfig_1.8.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libconfig-1.8.2-r0: task do_unpack: Started
+NOTE: recipe libconfig-1.8.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libconfig-1.8.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libconfig-1.8.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1059 of 1075 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libconfig/libconfig_1.8.2.bb:do_patch)
+NOTE: Running task 1060 of 1075 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libconfig/libconfig_1.8.2.bb:do_collect_spdx_deps)
+NOTE: recipe libconfig-1.8.2-r0: task do_patch: Started
+NOTE: recipe libconfig-1.8.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libconfig-1.8.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libconfig-1.8.2-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 1060 tasks of which 1055 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251216025010.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251216025010.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libconfig/libconfig_1.8.2.bb:do_patch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libconfig/1.8.2/temp/log.do_patch.1643928
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: libconfig-1.8.2-r0 do_patch: QA Issue: Fuzz detected:
+
+Applying patch 0001-Add-missing-dependency-for-scanner.h.patch
+patching file lib/Makefile.am
+Hunk #1 succeeded at 39 with fuzz 2 (offset 3 lines).
+
+
+The context lines in the patches can be updated with devtool:
+
+    devtool modify libconfig
+    devtool finish --force-patch-refresh libconfig <layer_path>
+
+Don't forget to review changes done by devtool!
+
+Patch log indicates that patches do not apply cleanly. [patch-fuzz]
+ERROR: libconfig-1.8.2-r0 do_patch: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libconfig/1.8.2/temp/log.do_patch.1643928
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libconfig/libconfig_1.8.2.bb:do_patch) failed with exit code '1'
+
+--===============1213079314920094004==--
 
