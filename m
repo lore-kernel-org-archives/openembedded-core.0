@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C4CD5C0F4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4636AD5C0D6
 	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:50 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17390.1765872134595423694
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17414.1765872163941707034
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:48 -0800
+ Tue, 16 Dec 2025 00:02:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=3R5hlwrK;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=G+cuu1Bn;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019b262eebd2-d12a3a9b-d545-475e-bd77-b4105f03ca1b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bPHmzftS;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=e0usFOwN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019b262ef052-b14b8970-4daf-4525-9c8c-f96fa24364fd-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872168;
+	t=1765872169;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=redLk5tvoEkgGPtlCvpzfnSMXDPp2yesSjsK3vuu9NM=;
-	b=3R5hlwrKO77//LCnIi0XQWj5BnhetPXg1c6tRfBKa3CECzFC4nRb/FdD1y6JMOAx
-	67CoRRao4J6c6qPZ2Jc8XtGs6oS68ALXdSf4NMMxz6+TcXebFkR1KCc5RVnPnxZBCU9
-	5K3hWWCyt5VtBseK+lDlxdttitG8RQoPYewiNesY=
+	bh=QbBj5fcLJs5qcsYxxgb0aiLVJVlyIDRPriiBykCKWWI=;
+	b=bPHmzftSQm1XkQpjxGTV311hHufLscic7PnsUPA1wqjtuzbtnitQ3wkuhOLjlvE3
+	JawPaTCAubnUqdzCWv7XLWfjamCiJxjXI+Gf1ZZDuAv29C5967so8liyJ/KBwhhAsoS
+	bTLe8RguYwVZe5pBqhLROac49Qv34uX96HZXOJjk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872168;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872169;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=redLk5tvoEkgGPtlCvpzfnSMXDPp2yesSjsK3vuu9NM=;
-	b=G+cuu1Bn3nsQNG+eM0dmd0MGWNdg2Lv8SH32NJB4S+yilO45nB/YFUWQ1yUQlPU8
-	fXtF24oVWPzV2a761nOPWKLuJGf15Db5LafYNrI9UHidCXeNJSUmZ5agnVCPNizU6mr
-	BuF6EvYvLWAote1u4FdtfLVDeBuYq2C+VOkQVDx4=
-Content-Type: multipart/mixed; boundary="===============1104506655522802650=="
+	bh=QbBj5fcLJs5qcsYxxgb0aiLVJVlyIDRPriiBykCKWWI=;
+	b=e0usFOwNrNwzaXVj+VE8szR7Vmptq+kVE8yDa4iAtQLVoi8lGGJq1hdqH9w5t/nV
+	YeXvmfIM6N/kt/avMoLCPKychapHRZcNJQ/GNYqa8LFIUsdndaLwBsAJPFEIvYvMHKo
+	gIg9T7VbKtx7QM2Ak7/j7hrHcAH/KVRgfMOZ607I=
+Content-Type: multipart/mixed; boundary="===============8707899540449516052=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Hiago De Franco <hiago.franco@toradex.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] hwdata: upgrading to 0.402 SUCCEEDED
-Message-ID: <0101019b262eebd2-d12a3a9b-d545-475e-bd77-b4105f03ca1b-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:47 +0000
+Subject: [AUH] libdisplay-info: upgrading to 0.3.0 SUCCEEDED
+Message-ID: <0101019b262ef052-b14b8970-4daf-4525-9c8c-f96fa24364fd-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:49 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.12.16-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227909
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227913
 
---===============1104506655522802650==
+--===============8707899540449516052==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *hwdata* to *0.402* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libdisplay-info* to *0.3.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-hwdata-upgrade-0.399-0.402.patch
+    - apply the patch: git am 0001-libdisplay-info-upgrade-0.2.0-0.3.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,88 +72,127 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 75e06e064a4637616a88df8f899716289accaa36 Mon Sep 17 00:00:00 2001
+From bc1f32e53be8281839fe4af6d6703ad8a6d5543f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Dec 2025 07:01:06 +0000
-Subject: [PATCH] hwdata: upgrade 0.399 -> 0.402
+Date: Tue, 16 Dec 2025 07:10:51 +0000
+Subject: [PATCH] libdisplay-info: upgrade 0.2.0 -> 0.3.0
 
 ---
- .../recipes-support/hwdata/{hwdata_0.399.bb => hwdata_0.402.bb} | 2 +-
+ .../{libdisplay-info_0.2.0.bb => libdisplay-info_0.3.0.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/hwdata/{hwdata_0.399.bb => hwdata_0.402.bb} (93%)
+ rename meta/recipes-support/libdisplay-info/{libdisplay-info_0.2.0.bb => libdisplay-info_0.3.0.bb} (92%)
 
-diff --git a/meta/recipes-support/hwdata/hwdata_0.399.bb b/meta/recipes-support/hwdata/hwdata_0.402.bb
-similarity index 93%
-rename from meta/recipes-support/hwdata/hwdata_0.399.bb
-rename to meta/recipes-support/hwdata/hwdata_0.402.bb
-index 81dede96ea..826c9b2e32 100644
---- a/meta/recipes-support/hwdata/hwdata_0.399.bb
-+++ b/meta/recipes-support/hwdata/hwdata_0.402.bb
-@@ -8,7 +8,7 @@ LICENSE = "GPL-2.0-or-later | X11"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1556547711e8246992b999edd9445a57"
+diff --git a/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb b/meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
+similarity index 92%
+rename from meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
+rename to meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
+index 812a30495e..3dc02261dd 100644
+--- a/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
++++ b/meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
+@@ -9,6 +9,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e4426409957080ee0352128354cea2de"
+ DEPENDS = "hwdata-native"
  
- SRC_URI = "git://github.com/vcrhonek/${BPN}.git;branch=master;protocol=https;tag=v${PV}"
--SRCREV = "7ba0e54565843faee300ca885699e4c42ed674b2"
-+SRCREV = "d263c183dd429bbe1572a91a8cf180e84b8341c6"
+ SRC_URI = "git://gitlab.freedesktop.org/emersion/libdisplay-info.git;branch=main;protocol=https"
+-SRCREV = "66b802d05b374cd8f388dc6ad1e7ae4f08cb3300"
++SRCREV = "47a5590e9c4eb35d67651b8c05a55f1a48259329"
  
- inherit allarch
- 
+ inherit meson pkgconfig lib_package
 -- 
 2.47.1
 
 
---===============1104506655522802650==
+--===============8707899540449516052==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-hwdata-upgrade-0.399-0.402.patch"
+ filename="0001-libdisplay-info-upgrade-0.2.0-0.3.0.patch"
 
-RnJvbSA3NWUwNmUwNjRhNDYzNzYxNmE4OGRmOGY4OTk3MTYyODlhY2NhYTM2IE1vbiBTZXAgMTcg
+RnJvbSBiYzFmMzJlNTNiZTgyODE4MzlmZTRhZjZkNjcwM2FkOGE2ZDU1NDNmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDc6MDE6MDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBo
-d2RhdGE6IHVwZ3JhZGUgMC4zOTkgLT4gMC40MDIKCi0tLQogLi4uL3JlY2lwZXMtc3VwcG9ydC9o
-d2RhdGEve2h3ZGF0YV8wLjM5OS5iYiA9PiBod2RhdGFfMC40MDIuYmJ9IHwgMiArLQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvaHdkYXRhL3tod2RhdGFfMC4zOTkuYmIgPT4gaHdkYXRhXzAuNDAyLmJifSAo
-OTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9od2RhdGFfMC4z
-OTkuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9od2RhdGEvaHdkYXRhXzAuNDAyLmJiCnNpbWls
-YXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9o
-d2RhdGFfMC4zOTkuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9od2Rh
-dGFfMC40MDIuYmIKaW5kZXggODFkZWRlOTZlYS4uODI2YzliMmUzMiAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvaHdkYXRhL2h3ZGF0YV8wLjM5OS5iYgorKysgYi9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9od2RhdGEvaHdkYXRhXzAuNDAyLmJiCkBAIC04LDcgKzgsNyBAQCBMSUNFTlNF
-ID0gIkdQTC0yLjAtb3ItbGF0ZXIgfCBYMTEiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
-SUNFTlNFO21kNT0xNTU2NTQ3NzExZTgyNDY5OTJiOTk5ZWRkOTQ0NWE1NyIKIAogU1JDX1VSSSA9
-ICJnaXQ6Ly9naXRodWIuY29tL3ZjcmhvbmVrLyR7QlBOfS5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90
-b2NvbD1odHRwczt0YWc9diR7UFZ9IgotU1JDUkVWID0gIjdiYTBlNTQ1NjU4NDNmYWVlMzAwY2E4
-ODU2OTllNGM0MmVkNjc0YjIiCitTUkNSRVYgPSAiZDI2M2MxODNkZDQyOWJiZTE1NzJhOTFhOGNm
-MTgwZTg0YjgzNDFjNiIKIAogaW5oZXJpdCBhbGxhcmNoCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDc6MTA6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJkaXNwbGF5LWluZm86IHVwZ3JhZGUgMC4yLjAgLT4gMC4zLjAKCi0tLQogLi4uL3tsaWJkaXNw
+bGF5LWluZm9fMC4yLjAuYmIgPT4gbGliZGlzcGxheS1pbmZvXzAuMy4wLmJifSAgICAgIHwgMiAr
+LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZGlzcGxheS1pbmZvL3tsaWJkaXNwbGF5LWluZm9fMC4y
+LjAuYmIgPT4gbGliZGlzcGxheS1pbmZvXzAuMy4wLmJifSAoOTIlKQoKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1zdXBwb3J0L2xpYmRpc3BsYXktaW5mby9saWJkaXNwbGF5LWluZm9fMC4yLjAu
+YmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJkaXNwbGF5LWluZm8vbGliZGlzcGxheS1pbmZv
+XzAuMy4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1z
+dXBwb3J0L2xpYmRpc3BsYXktaW5mby9saWJkaXNwbGF5LWluZm9fMC4yLjAuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmRpc3BsYXktaW5mby9saWJkaXNwbGF5LWluZm9fMC4z
+LjAuYmIKaW5kZXggODEyYTMwNDk1ZS4uM2RjMDIyNjFkZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvbGliZGlzcGxheS1pbmZvL2xpYmRpc3BsYXktaW5mb18wLjIuMC5iYgorKysg
+Yi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJkaXNwbGF5LWluZm8vbGliZGlzcGxheS1pbmZvXzAu
+My4wLmJiCkBAIC05LDYgKzksNiBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNF
+O21kNT1lNDQyNjQwOTk1NzA4MGVlMDM1MjEyODM1NGNlYTJkZSIKIERFUEVORFMgPSAiaHdkYXRh
+LW5hdGl2ZSIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2VtZXJz
+aW9uL2xpYmRpc3BsYXktaW5mby5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMiCi1TUkNS
+RVYgPSAiNjZiODAyZDA1YjM3NGNkOGYzODhkYzZhZDFlN2FlNGYwOGNiMzMwMCIKK1NSQ1JFViA9
+ICI0N2E1NTkwZTljNGViMzVkNjc2NTFiOGMwNWE1NWYxYTQ4MjU5MzI5IgogCiBpbmhlcml0IG1l
+c29uIHBrZ2NvbmZpZyBsaWJfcGFja2FnZQotLSAKMi40Ny4xCgo=
 
---===============1104506655522802650==
+--===============8707899540449516052==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PKGSIZE changed from 63616 to 75904 (+19%)
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PKGSIZE changed from 565776 to 662504 (+17%)
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: FILELIST: added "/usr/include/libdisplay-info/displayid2.h"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PKGSIZE changed from 87045 to 104854 (+20%)
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-src: PKGSIZE changed from 563860 to 633321 (+12%)
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: FILELIST: removed "/usr/lib/libdisplay-info.so.0.2.0 /usr/lib/libdisplay-info.so.2", added "/usr/lib/libdisplay-info.so.0.3.0 /usr/lib/libdisplay-info.so.3"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKG changed from libdisplay-info2 to libdisplay-info3
+Changes to packages/x86-64-v3-poky-linux/libdisplay-info (sysroot):
+  /usr/lib/libdisplay-info.so changed symlink target from libdisplay-info.so.2 to libdisplay-info.so.3
+  /usr/lib/libdisplay-info.so.0.2.0 moved to /usr/lib/libdisplay-info.so.0.3.0
+  /usr/lib/libdisplay-info.so.2 moved to /usr/lib/libdisplay-info.so.3
+  /usr/include/libdisplay-info/displayid2.h was added
+
+--===============8707899540449516052==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/all-poky-linux/hwdata/hwdata-dbg: PV changed from "0.399" to "0.402"
-packages/all-poky-linux/hwdata/hwdata-dbg: PKGV changed from 0.399 [default] to 0.402 [default]
-packages/all-poky-linux/hwdata/hwdata-dev: PV changed from "0.399" to "0.402"
-packages/all-poky-linux/hwdata/hwdata-dev: PKGV changed from 0.399 [default] to 0.402 [default]
-packages/all-poky-linux/hwdata/hwdata-doc: PV changed from "0.399" to "0.402"
-packages/all-poky-linux/hwdata/hwdata-doc: PKGV changed from 0.399 [default] to 0.402 [default]
-packages/all-poky-linux/hwdata/hwdata-locale: PV changed from "0.399" to "0.402"
-packages/all-poky-linux/hwdata/hwdata-locale: PKGV changed from 0.399 [default] to 0.402 [default]
-packages/all-poky-linux/hwdata/hwdata-src: PV changed from "0.399" to "0.402"
-packages/all-poky-linux/hwdata/hwdata-src: PKGV changed from 0.399 [default] to 0.402 [default]
-packages/all-poky-linux/hwdata/hwdata-staticdev: PV changed from "0.399" to "0.402"
-packages/all-poky-linux/hwdata/hwdata-staticdev: PKGV changed from 0.399 [default] to 0.402 [default]
-packages/all-poky-linux/hwdata/hwdata: PV changed from "0.399" to "0.402"
-packages/all-poky-linux/hwdata/hwdata: PKGV changed from 0.399 [default] to 0.402 [default]
-packages/all-poky-linux/hwdata/hwdata: PKGSIZE changed from 10041198 to 10180599 (+1%)
-packages/all-poky-linux/hwdata: PV changed from "0.399" to "0.402"
-packages/all-poky-linux/hwdata: PKGV changed from 0.399 [default] to 0.402 [default]
-packages/all-poky-linux/hwdata: SRC_URI changed from "git://github.com/vcrhonek/hwdata.git;branch=master;protocol=https;tag=v0.399" to "git://github.com/vcrhonek/hwdata.git;branch=master;protocol=https;tag=v0.402"
+packages/x86-64-v3-poky-linux/libdisplay-info: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info: PV changed from "0.2.0" to "0.3.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PV changed from "0.2.0" to "0.3.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PKGSIZE changed from 63616 to 75904 (+19%)
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: FILELIST: removed "/usr/lib/.debug/libdisplay-info.so.0.2.0", added "/usr/lib/.debug/libdisplay-info.so.0.3.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PV changed from "0.2.0" to "0.3.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PKGSIZE changed from 565776 to 662504 (+17%)
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: FILELIST: added "/usr/include/libdisplay-info/displayid2.h"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PV changed from "0.2.0" to "0.3.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PKGSIZE changed from 87045 to 104854 (+20%)
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-doc: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-doc: PV changed from "0.2.0" to "0.3.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-locale: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-locale: PV changed from "0.2.0" to "0.3.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-src: FILELIST: removed "/usr/src/debug/libdisplay-info/0.2.0/include/log.h /usr/src/debug/libdisplay-info/0.2.0/include/cta.h /usr/src/debug/libdisplay-info/0.2.0/include/dmt.h /usr/src/debug/libdisplay-info/0.2.0/info.c /usr/src/debug/libdisplay-info/0.2.0/displayid.c /usr/src/debug/libdisplay-info/0.2.0/include/bits.h /usr/src/debug/libdisplay-info/0.2.0/include/displayid.h /usr/src/debug/libdisplay-info/0.2.0/include/memory-stream.h /usr/src/debug/libdisplay-info/0.2.0/edid.c /usr/src/debug/libdisplay-info/0.2.0/cvt.c /usr/src/debug/libdisplay-info/0.2.0/cta.c /usr/src/debug/libdisplay-info/0.2.0/gtf.c /usr/src/debug/libdisplay-info/0.2.0/log.c /usr/src/debug/libdisplay-info/0.2.0/di-edid-decode/displayid.c /usr/src/debug/libdisplay-info/0.2.0/di-edid-decode/cta.c /usr/src/debug/libdisplay-info/0.2.0/include/info.h /usr/src/debug/libdisplay-info/0.2.0/include/di-edid-decode.h /usr/src/debug/libdisplay-info/0.2.0/di-edid
+ -decode/edid.c /usr/src/debug/libdisplay-info/0.2.0/di-edid-decode/main.c /usr/src/debug/libdisplay-info/0.2.0/include/libdisplay-info/displayid.h /usr/src/debug/libdisplay-info/0.2.0/memory-stream.c /usr/src/debug/libdisplay-info/0.2.0/include/libdisplay-info/info.h /usr/src/debug/libdisplay-info/0.2.0/include/libdisplay-info/cta.h /usr/src/debug/libdisplay-info/0.2.0/include/libdisplay-info/cvt.h /usr/src/debug/libdisplay-info/0.2.0/include/libdisplay-info/dmt.h /usr/src/debug/libdisplay-info/0.2.0/dmt-table.c /usr/src/debug/libdisplay-info/0.2.0/include/edid.h /usr/src/debug/libdisplay-info/0.2.0/include/libdisplay-info/gtf.h /usr/src/debug/libdisplay-info/0.2.0/pnp-id-table.c /usr/src/debug/libdisplay-info/0.2.0/cta-vic-table.c /usr/src/debug/libdisplay-info/0.2.0/include/libdisplay-info/edid.h", added "/usr/src/debug/libdisplay-info/0.3.0/include/cta.h /usr/src/debug/libdisplay-info/0.3.0/include/dmt.h /usr/src/debug/libdisplay-info/0.3.0/include/log.h /usr/src/debug/libdisplay
+ -info/0.3.0/info.c /usr/src/debug/libdisplay-info/0.3.0/displayid.c /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/displayid2.h /usr/src/debug/libdisplay-info/0.3.0/include/bits.h /usr/src/debug/libdisplay-info/0.3.0/include/displayid.h /usr/src/debug/libdisplay-info/0.3.0/include/displayid2.h /usr/src/debug/libdisplay-info/0.3.0/include/memory-stream.h /usr/src/debug/libdisplay-info/0.3.0/edid.c /usr/src/debug/libdisplay-info/0.3.0/cvt.c /usr/src/debug/libdisplay-info/0.3.0/cta.c /usr/src/debug/libdisplay-info/0.3.0/gtf.c /usr/src/debug/libdisplay-info/0.3.0/log.c /usr/src/debug/libdisplay-info/0.3.0/di-edid-decode/displayid.c /usr/src/debug/libdisplay-info/0.3.0/di-edid-decode/cta.c /usr/src/debug/libdisplay-info/0.3.0/include/info.h /usr/src/debug/libdisplay-info/0.3.0/include/di-edid-decode.h /usr/src/debug/libdisplay-info/0.3.0/di-edid-decode/main.c /usr/src/debug/libdisplay-info/0.3.0/di-edid-decode/util.c /usr/src/debug/libdisplay-info/0.3.0/di-edid-decode/edid.
+ c /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/displayid.h /usr/src/debug/libdisplay-info/0.3.0/memory-stream.c /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/info.h /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/cta.h /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/cvt.h /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/dmt.h /usr/src/debug/libdisplay-info/0.3.0/dmt-table.c /usr/src/debug/libdisplay-info/0.3.0/include/edid.h /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/gtf.h /usr/src/debug/libdisplay-info/0.3.0/hdmi-vic-table.c /usr/src/debug/libdisplay-info/0.3.0/di-edid-decode/displayid2.c /usr/src/debug/libdisplay-info/0.3.0/pnp-id-table.c /usr/src/debug/libdisplay-info/0.3.0/displayid2.c /usr/src/debug/libdisplay-info/0.3.0/cta-vic-table.c /usr/src/debug/libdisplay-info/0.3.0/include/libdisplay-info/edid.h"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-src: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-src: PV changed from "0.2.0" to "0.3.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-src: PKGSIZE changed from 563860 to 633321 (+12%)
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-staticdev: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-staticdev: PV changed from "0.2.0" to "0.3.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: FILELIST: removed "/usr/lib/libdisplay-info.so.2 /usr/lib/libdisplay-info.so.0.2.0", added "/usr/lib/libdisplay-info.so.3 /usr/lib/libdisplay-info.so.0.3.0"
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKG changed from libdisplay-info2 to libdisplay-info3
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKGSIZE changed from 227256 to 239544 (+5%)
+packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PV changed from "0.2.0" to "0.3.0"
+Changes to packages/x86-64-v3-poky-linux/libdisplay-info (sysroot):
+  /usr/lib/libdisplay-info.so changed symlink target from libdisplay-info.so.2 to libdisplay-info.so.3
+  /usr/lib/libdisplay-info.so.0.2.0 moved to /usr/lib/libdisplay-info.so.0.3.0
+  /usr/lib/libdisplay-info.so.2 moved to /usr/lib/libdisplay-info.so.3
+  /usr/include/libdisplay-info/displayid2.h was added
 
---===============1104506655522802650==--
+--===============8707899540449516052==--
 
