@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81754D5E38C
-	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:52 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17382.1765872127684878873
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA023D609A7
+	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:53 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17398.1765872136614573548
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:40 -0800
+ Tue, 16 Dec 2025 00:02:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ScoBqD6W;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Xjdfx2u2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019b262ecd19-667feabc-4f3f-4055-ad4a-628b898da964-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=JG1qRtyY;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=SBJoL8pQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019b262ef3f4-d64b7752-ff31-4c57-b99c-1b472543d7ea-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872160;
+	t=1765872170;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=+vhESQnr8d2hxkiERKhYpUqgC+oLRtY/rj2Vdz93n8A=;
-	b=ScoBqD6WMvtA2MNN4vthAzSNu5Ng9HqQoLSf5XwEuflIml9MLTgvgSa5fBZ8L2sT
-	+uyFObghY6yIBMwzQ5onhVbLkATikZsa8oHPbhs6rl3YzJeEgmTwLliRhLGExHRstcA
-	OoaHExKX7kwotn3aqoBVew7q8nxxczoiXtyKI4D8=
+	bh=Z2RUhHdCZvN4jwRq/bk3ktnx/A+ROCdU0H4G9zwrOgk=;
+	b=JG1qRtyYSFjqmjLDBYC4pbOhJ8fvALse5QaUfPA9QHEz89A7XgHeU2EXA7Sakdff
+	pwwULdRmbW/HiQd8e9e0H4o4fIfiokWxI1qBNWcdtxC34fMUrpnQBcwTMi139Cj4jSZ
+	/W/zfHW3oW1xN1BcihcRxteWMtiy0zvfcPuvGx3A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872160;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872170;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=+vhESQnr8d2hxkiERKhYpUqgC+oLRtY/rj2Vdz93n8A=;
-	b=Xjdfx2u2YQuTh+mZLbOqGHRhyaFrZcUpZZBGHC4FLfEkT62kxb9QpnDTMwExEozI
-	IqcLfkUleblcgCvfn88H/3TraP9r9zpajiQ5y7D5FfG+Faf2ahrb31BluZH0x5T25dp
-	KTf1UJLI5OwTOyhLrKyAk8knkorN5Z0XIgHrf96Y=
-Content-Type: multipart/mixed; boundary="===============4385348622143048007=="
+	bh=Z2RUhHdCZvN4jwRq/bk3ktnx/A+ROCdU0H4G9zwrOgk=;
+	b=SBJoL8pQWKp50rLt7XvK3W78bfwwQLHhasOD2+1qJVPajA0vinwwGnaGNyqOuoEY
+	g71WLhZJLW+SlPwLRPgl6O4GisJRr7QL6NuwhfPMqOQZUJIxjmI6TAFzvicG3bo9zoK
+	CBUlZe6oifgbvhW7hi9rWvyTprFkboeU78WefL04=
+Content-Type: multipart/mixed; boundary="===============6899521705493409293=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] spirv-tools: upgrading to 1.4.335.0 FAILED
-Message-ID: <0101019b262ecd19-667feabc-4f3f-4055-ad4a-628b898da964-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:40 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] libpcre2: upgrading to 10.47 SUCCEEDED
+Message-ID: <0101019b262ef3f4-d64b7752-ff31-4c57-b99c-1b472543d7ea-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:49 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.45
+X-SES-Outgoing: 2025.12.16-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227871
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227917
 
---===============4385348622143048007==
+--===============6899521705493409293==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *spirv-tools* to *1.4.335.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *libpcre2* to *10.47* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-spirv-tools-upgrade-1.4.328.1-1.4.335.0.patch
+    - apply the patch: git am 0001-libpcre2-upgrade-10.46-10.47.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,258 +72,285 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 218ede0468f85eaa8b8b0e1d3bed39f7660ac3ba Mon Sep 17 00:00:00 2001
+From 40b1ce70b408130b06b3d35ad5bfd9774b38c5e8 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Dec 2025 04:46:49 +0000
-Subject: [PATCH] spirv-tools: upgrade 1.4.328.1 -> 1.4.335.0
+Date: Tue, 16 Dec 2025 07:39:44 +0000
+Subject: [PATCH] libpcre2: upgrade 10.46 -> 10.47
 
 ---
- .../{spirv-tools_1.4.328.1.bb => spirv-tools_1.4.335.0.bb}   | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/spir/{spirv-tools_1.4.328.1.bb => spirv-tools_1.4.335.0.bb} (94%)
+ .../{libpcre2_10.46.bb => libpcre2_10.47.bb}  | 48 ++++++++++++++++++-
+ 1 file changed, 46 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libpcre/{libpcre2_10.46.bb => libpcre2_10.47.bb} (54%)
 
-diff --git a/meta/recipes-graphics/spir/spirv-tools_1.4.328.1.bb b/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb
-similarity index 94%
-rename from meta/recipes-graphics/spir/spirv-tools_1.4.328.1.bb
-rename to meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb
-index e5aedb1620..5849ec1bac 100644
---- a/meta/recipes-graphics/spir/spirv-tools_1.4.328.1.bb
-+++ b/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb
-@@ -7,9 +7,8 @@ SECTION = "graphics"
- LICENSE  = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.46.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+similarity index 54%
+rename from meta/recipes-support/libpcre/libpcre2_10.46.bb
+rename to meta/recipes-support/libpcre/libpcre2_10.47.bb
+index 0d7823c079..7ab7945de0 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.46.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+@@ -1,3 +1,47 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENCE.md
++# +++ LICENCE.md
++# @@ -1,4 +1,4 @@
++# -PCRE2 License
++# +PCRE2 Licence
++#  =============
++#  
++#  | SPDX-License-Identifier: | BSD-3-Clause WITH PCRE2-exception |
++# @@ -16,7 +16,8 @@
++#  The basic library functions are written in C and are freestanding. Also
++#  included in the distribution is a just-in-time compiler that can be used to
++#  optimize pattern matching. This is an optional feature that can be omitted when
++# -the library is built.
++# +the library is built. The just-in-time compiler is separately licensed under the
++# +"2-clause BSD" licence.
++#  
++#  
++#  COPYRIGHT
++# @@ -52,6 +53,8 @@
++#  
++#      Copyright (c) 2009-2024 Zoltan Herczeg
++#      All rights reserved.
++# +
++# +The code in the `deps/sljit` directory has its own LICENSE file.
++#  
++#  ### All other contributions
++#  
++# @@ -99,5 +102,3 @@
++#  PCRE2, it must respect the condition, but if package B is software that
++#  includes package A, the condition is not imposed on package B unless it uses
++#  PCRE2 independently.
++# -
++# -End
++# 
++#
++
+ DESCRIPTION = "There are two major versions of the PCRE library. The \
+ newest version is PCRE2, which is a re-working of the original PCRE \
+ library to provide an entirely new API. The original, very widely \
+@@ -8,14 +52,14 @@ SUMMARY = "Perl Compatible Regular Expressions version 2"
+ HOMEPAGE = "http://www.pcre.org"
+ SECTION = "devel"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENCE.md;md5=8446a1fd12e40d9d64c79234fbb1f812"
++LIC_FILES_CHKSUM = "file://LICENCE.md;md5=6720bf3bcff57543b915c2b22e526df0"
  
--SRCREV = "7f2d9ee926f98fc77a3ed1e1e0f113b8c9c49458"
--SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=vulkan-sdk-1.4.328;protocol=https \
--           "
-+SRCREV = "262bdab48146c937467f826699a40da0fdfc0f1a"
-+SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=main;protocol=https"
- PE = "1"
- # These recipes need to be updated in lockstep with each other:
- # glslang, vulkan-headers, vulkan-loader, vulkan-tools, spirv-headers, spirv-tools
+ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2"
+ 
+ GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/pcre2-(?P<pver>\d+(\.\d+)+)$"
+ 
+-SRC_URI[sha256sum] = "15fbc5aba6beee0b17aecb04602ae39432393aba1ebd8e39b7cabf7db883299f"
++SRC_URI[sha256sum] = "47fe8c99461250d42f89e6e8fdaeba9da057855d06eb7fc08d9ca03fd08d7bc7"
+ 
+ CVE_PRODUCT = "pcre2"
+ 
 -- 
 2.47.1
 
 
---===============4385348622143048007==
+--===============6899521705493409293==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: FILELIST: removed "/usr/lib/libpcre2-16.so.0.14.0", added "/usr/lib/libpcre2-16.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: FILELIST: removed "/usr/lib/libpcre2-32.so.0.14.0", added "/usr/lib/libpcre2-32.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGSIZE changed from 2590992 to 2883424 (+11%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: FILELIST: added "/usr/share/doc/pcre2/html/pcre2_next_match.html /usr/share/man/man3/pcre2_next_match.3"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: FILELIST: removed "/usr/lib/libpcre2-8.so.0.14.0 /usr/lib/libpcre2-posix.so.3.0.6", added "/usr/lib/libpcre2-8.so.0.15.0 /usr/lib/libpcre2-posix.so.3.0.7"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PKGSIZE changed from 186304 to 284656 (+53%)
+Changes to packages/x86-64-v3-poky-linux/libpcre2 (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-8.so.0.14.0 moved to /usr/lib/libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3.0.6 moved to /usr/lib/libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-16.so.0.15.0 was added
+  /usr/lib/libpcre2-32.so.0.15.0 was added
+  /usr/lib/libpcre2-16.so.0.14.0 was removed
+  /usr/lib/libpcre2-32.so.0.14.0 was removed
+Changes to packages/x86_64-linux/libpcre2-native (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-8.so.0.14.0 moved to /usr/lib/libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3.0.6 moved to /usr/lib/libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-16.so.0.15.0 was added
+  /usr/lib/libpcre2-32.so.0.15.0 was added
+  /usr/lib/libpcre2-16.so.0.14.0 was removed
+  /usr/lib/libpcre2-32.so.0.14.0 was removed
+
+--===============6899521705493409293==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/gcc-runtime/gcc-runtime-src: PKGSIZE changed from 9685472 to 9883625 (+2%)
+packages/x86-64-v3-poky-linux/libpcre2: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2: SRC_URI changed from "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.46/pcre2-10.46.tar.bz2" to "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.47/pcre2-10.47.tar.bz2"
+packages/x86-64-v3-poky-linux/libpcre2: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: FILELIST: removed "/usr/lib/libpcre2-16.so.0.14.0", added "/usr/lib/libpcre2-16.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PKGSIZE changed from 399605 to 403781 (+1%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: FILELIST: removed "/usr/lib/libpcre2-32.so.0.14.0", added "/usr/lib/libpcre2-32.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PKGSIZE changed from 383221 to 387397 (+1%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: FILELIST: removed "/usr/lib/.debug/libpcre2-32.so.0.14.0 /usr/lib/.debug/libpcre2-16.so.0.14.0 /usr/lib/.debug/libpcre2-posix.so.3.0.6 /usr/lib/.debug/libpcre2-8.so.0.14.0", added "/usr/lib/.debug/libpcre2-8.so.0.15.0 /usr/lib/.debug/libpcre2-32.so.0.15.0 /usr/lib/.debug/libpcre2-posix.so.3.0.7 /usr/lib/.debug/libpcre2-16.so.0.15.0"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGSIZE changed from 2590992 to 2883424 (+11%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PKGSIZE changed from 60174 to 60872 (+1%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: FILELIST: added "/usr/share/doc/pcre2/html/pcre2_next_match.html /usr/share/man/man3/pcre2_next_match.3"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PKGSIZE changed from 2785005 to 2827983 (+2%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-locale: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-locale: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: FILELIST: removed "/usr/src/debug/libpcre2/10.46/src/pcre2_error.c /usr/src/debug/libpcre2/10.46/src/pcre2_jit_misc.c /usr/src/debug/libpcre2/10.46/src/pcre2_substitute.c /usr/src/debug/libpcre2/10.46/src/pcre2test.c /usr/src/debug/libpcre2/10.46/src/pcre2_intmodedep.h /usr/src/debug/libpcre2/10.46/src/pcre2.h /usr/src/debug/libpcre2/10.46/src/pcre2_jit_match.c /usr/src/debug/libpcre2/10.46/src/pcre2_auto_possess.c /usr/src/debug/libpcre2/10.46/src/pcre2_tables.c /usr/src/debug/libpcre2/10.46/src/pcre2_ucd.c /usr/src/debug/libpcre2/10.46/src/pcre2_ucptables.c /usr/src/debug/libpcre2/10.46/src/pcre2_newline.c /usr/src/debug/libpcre2/10.46/src/pcre2_string_utils.c /usr/src/debug/libpcre2/10.46/src/pcre2_printint.c /usr/src/debug/libpcre2/10.46/src/pcre2_study.c /usr/src/debug/libpcre2/10.46/src/pcre2_script_run.c /usr/src/debug/libpcre2/10.46/src/pcre2_compile.h /usr/src/debug/libpcre2/10.46/src/pcre2_maketables.c /usr/src/debug/libp
+ cre2/10.46/src/pcre2_compile.c /usr/src/debug/libpcre2/10.46/src/pcre2_chkdint.c /usr/src/debug/libpcre2/10.46/src/pcre2_context.c /usr/src/debug/libpcre2/10.46/src/pcre2_convert.c /usr/src/debug/libpcre2/10.46/src/pcre2_config.c /usr/src/debug/libpcre2/10.46/src/pcre2_match_data.c /usr/src/debug/libpcre2/10.46/src/pcre2_substring.c /usr/src/debug/libpcre2/10.46/src/pcre2_find_bracket.c /usr/src/debug/libpcre2/10.46/src/pcre2_internal.h /usr/src/debug/libpcre2/10.46/src/pcre2_jit_compile.c /usr/src/debug/libpcre2/10.46/src/pcre2_match.c /usr/src/debug/libpcre2/10.46/src/pcre2_pattern_info.c /usr/src/debug/libpcre2/10.46/src/pcre2_valid_utf.c /usr/src/debug/libpcre2/10.46/src/pcre2_serialize.c /usr/src/debug/libpcre2/10.46/src/pcre2_ucp.h /usr/src/debug/libpcre2/10.46/src/pcre2grep.c /usr/src/debug/libpcre2/10.46/src/pcre2_ord2utf.c /usr/src/debug/libpcre2/10.46/src/pcre2_dfa_match.c /usr/src/debug/libpcre2/10.46/src/pcre2_chartables.c.dist /usr/src/debug/libpcre2/10.46/src/pcre2posi
+ x.c /usr/src/debug/libpcre2/10.46/src/pcre2_compile_class.c /usr/src/debug/libpcre2/10.46/src/pcre2_extuni.c /usr/src/debug/libpcre2/10.46/src/pcre2_xclass.c /usr/src/debug/libpcre2/10.46/src/pcre2posix.h", added "/usr/src/debug/libpcre2/10.47/src/pcre2_error.c /usr/src/debug/libpcre2/10.47/src/pcre2_substitute.c /usr/src/debug/libpcre2/10.47/src/pcre2test.c /usr/src/debug/libpcre2/10.47/src/pcre2_intmodedep.h /usr/src/debug/libpcre2/10.47/src/pcre2.h /usr/src/debug/libpcre2/10.47/src/pcre2_auto_possess.c /usr/src/debug/libpcre2/10.47/src/pcre2_tables.c /usr/src/debug/libpcre2/10.47/src/pcre2_ucd.c /usr/src/debug/libpcre2/10.47/src/pcre2_newline.c /usr/src/debug/libpcre2/10.47/src/pcre2_string_utils.c /usr/src/debug/libpcre2/10.47/src/pcre2_ucptables_inc.h /usr/src/debug/libpcre2/10.47/src/pcre2_printint_inc.h /usr/src/debug/libpcre2/10.47/src/pcre2_study.c /usr/src/debug/libpcre2/10.47/src/pcre2_script_run.c /usr/src/debug/libpcre2/10.47/src/pcre2_jit_misc_inc.h /usr/src/debug/libp
+ cre2/10.47/src/pcre2_jit_match_inc.h /usr/src/debug/libpcre2/10.47/src/pcre2_compile.h /usr/src/debug/libpcre2/10.47/src/pcre2_compile_cgroup.c /usr/src/debug/libpcre2/10.47/src/pcre2_maketables.c /usr/src/debug/libpcre2/10.47/src/pcre2_compile.c /usr/src/debug/libpcre2/10.47/src/pcre2_chkdint.c /usr/src/debug/libpcre2/10.47/src/pcre2_context.c /usr/src/debug/libpcre2/10.47/src/pcre2_convert.c /usr/src/debug/libpcre2/10.47/src/pcre2_config.c /usr/src/debug/libpcre2/10.47/src/pcre2_match_data.c /usr/src/debug/libpcre2/10.47/src/pcre2_substring.c /usr/src/debug/libpcre2/10.47/src/pcre2_find_bracket.c /usr/src/debug/libpcre2/10.47/src/pcre2_internal.h /usr/src/debug/libpcre2/10.47/src/pcre2_jit_compile.c /usr/src/debug/libpcre2/10.47/src/pcre2_match.c /usr/src/debug/libpcre2/10.47/src/pcre2_pattern_info.c /usr/src/debug/libpcre2/10.47/src/pcre2_valid_utf.c /usr/src/debug/libpcre2/10.47/src/pcre2_serialize.c /usr/src/debug/libpcre2/10.47/src/pcre2_ucp.h /usr/src/debug/libpcre2/10.47/src
+ /pcre2_match_next.c /usr/src/debug/libpcre2/10.47/src/pcre2grep.c /usr/src/debug/libpcre2/10.47/src/pcre2_ord2utf.c /usr/src/debug/libpcre2/10.47/src/pcre2_dfa_match.c /usr/src/debug/libpcre2/10.47/src/pcre2_chartables.c.dist /usr/src/debug/libpcre2/10.47/src/pcre2posix.c /usr/src/debug/libpcre2/10.47/src/pcre2_compile_class.c /usr/src/debug/libpcre2/10.47/src/pcre2_extuni.c /usr/src/debug/libpcre2/10.47/src/pcre2_xclass.c /usr/src/debug/libpcre2/10.47/src/pcre2test_inc.h /usr/src/debug/libpcre2/10.47/src/pcre2posix.h"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PKGSIZE changed from 2814034 to 2887584 (+3%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-staticdev: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-staticdev: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: FILELIST: removed "/usr/lib/libpcre2-posix.so.3.0.6 /usr/lib/libpcre2-8.so.0.14.0", added "/usr/lib/libpcre2-8.so.0.15.0 /usr/lib/libpcre2-posix.so.3.0.7"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PKGSIZE changed from 454899 to 463251 (+2%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PKGSIZE changed from 53292 to 53290 (-0%)
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PKGSIZE changed from 95676 to 97211 (+2%)
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PV changed from "10.46" to "10.47"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PKGV changed from 10.46 [default] to 10.47 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PKGSIZE changed from 186304 to 284656 (+53%)
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PV changed from "10.46" to "10.47"
+Changes to packages/x86-64-v3-poky-linux/libpcre2 (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-8.so.0.14.0 moved to /usr/lib/libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3.0.6 moved to /usr/lib/libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-16.so.0.15.0 was added
+  /usr/lib/libpcre2-32.so.0.15.0 was added
+  /usr/lib/libpcre2-16.so.0.14.0 was removed
+  /usr/lib/libpcre2-32.so.0.14.0 was removed
+Changes to packages/x86_64-linux/libpcre2-native (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.14.0 to libpcre2-16.so.0.15.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.14.0 to libpcre2-32.so.0.15.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.14.0 to libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.6 to libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-8.so.0.14.0 moved to /usr/lib/libpcre2-8.so.0.15.0
+  /usr/lib/libpcre2-posix.so.3.0.6 moved to /usr/lib/libpcre2-posix.so.3.0.7
+  /usr/lib/libpcre2-16.so.0.15.0 was added
+  /usr/lib/libpcre2-32.so.0.15.0 was added
+  /usr/lib/libpcre2-16.so.0.14.0 was removed
+  /usr/lib/libpcre2-32.so.0.14.0 was removed
+
+--===============6899521705493409293==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-spirv-tools-upgrade-1.4.328.1-1.4.335.0.patch"
+ filename="0001-libpcre2-upgrade-10.46-10.47.patch"
 
-RnJvbSAyMThlZGUwNDY4Zjg1ZWFhOGI4YjBlMWQzYmVkMzlmNzY2MGFjM2JhIE1vbiBTZXAgMTcg
+RnJvbSA0MGIxY2U3MGI0MDgxMzBiMDZiM2QzNWFkNWJmZDk3NzRiMzhjNWU4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDQ6NDY6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-cGlydi10b29sczogdXBncmFkZSAxLjQuMzI4LjEgLT4gMS40LjMzNS4wCgotLS0KIC4uLi97c3Bp
-cnYtdG9vbHNfMS40LjMyOC4xLmJiID0+IHNwaXJ2LXRvb2xzXzEuNC4zMzUuMC5iYn0gICB8IDUg
-KystLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIve3NwaXJ2LXRvb2xzXzEuNC4zMjguMS5i
-YiA9PiBzcGlydi10b29sc18xLjQuMzM1LjAuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9vbHNfMS40LjMyOC4xLmJiIGIvbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9vbHNfMS40LjMzNS4wLmJiCnNpbWlsYXJpdHkgaW5k
-ZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xz
-XzEuNC4zMjguMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYt
-dG9vbHNfMS40LjMzNS4wLmJiCmluZGV4IGU1YWVkYjE2MjAuLjU4NDllYzFiYWMgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEuNC4zMjguMS5iYgor
-KysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi10b29sc18xLjQuMzM1LjAuYmIK
-QEAgLTcsOSArNyw4IEBAIFNFQ1RJT04gPSAiZ3JhcGhpY3MiCiBMSUNFTlNFICA9ICJBcGFjaGUt
-Mi4wIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9M2I4M2VmOTYzODdm
-MTQ2NTVmYzg1NGRkYzNjNmJkNTciCiAKLVNSQ1JFViA9ICI3ZjJkOWVlOTI2Zjk4ZmM3N2EzZWQx
-ZTFlMGYxMTNiOGM5YzQ5NDU4IgotU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NH
-cm91cC9TUElSVi1Ub29scy5naXQ7YnJhbmNoPXZ1bGthbi1zZGstMS40LjMyODtwcm90b2NvbD1o
-dHRwcyBcCi0gICAgICAgICAgICIKK1NSQ1JFViA9ICIyNjJiZGFiNDgxNDZjOTM3NDY3ZjgyNjY5
-OWE0MGRhMGZkZmMwZjFhIgorU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91
-cC9TUElSVi1Ub29scy5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMiCiBQRSA9ICIxIgog
-IyBUaGVzZSByZWNpcGVzIG5lZWQgdG8gYmUgdXBkYXRlZCBpbiBsb2Nrc3RlcCB3aXRoIGVhY2gg
-b3RoZXI6CiAjIGdsc2xhbmcsIHZ1bGthbi1oZWFkZXJzLCB2dWxrYW4tbG9hZGVyLCB2dWxrYW4t
-dG9vbHMsIHNwaXJ2LWhlYWRlcnMsIHNwaXJ2LXRvb2xzCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDc6Mzk6NDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJwY3JlMjogdXBncmFkZSAxMC40NiAtPiAxMC40NwoKLS0tCiAuLi4ve2xpYnBjcmUyXzEwLjQ2
+LmJiID0+IGxpYnBjcmUyXzEwLjQ3LmJifSAgfCA0OCArKysrKysrKysrKysrKysrKystCiAxIGZp
+bGUgY2hhbmdlZCwgNDYgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL3tsaWJwY3JlMl8xMC40Ni5iYiA9PiBsaWJwY3JlMl8x
+MC40Ny5iYn0gKDU0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3Jl
+L2xpYnBjcmUyXzEwLjQ2LmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3Jl
+Ml8xMC40Ny5iYgpzaW1pbGFyaXR5IGluZGV4IDU0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9saWJwY3JlL2xpYnBjcmUyXzEwLjQ2LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9saWJwY3JlL2xpYnBjcmUyXzEwLjQ3LmJiCmluZGV4IDBkNzgyM2MwNzkuLjdhYjc5
+NDVkZTAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnBjcmUvbGlicGNyZTJf
+MTAuNDYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3JlMl8xMC40
+Ny5iYgpAQCAtMSwzICsxLDQ3IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1
+ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dp
+bmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2Ug
+dGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBz
+dW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5z
+ZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5
+ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5DRS5tZAor
+IyArKysgTElDRU5DRS5tZAorIyBAQCAtMSw0ICsxLDQgQEAKKyMgLVBDUkUyIExpY2Vuc2UKKyMg
+K1BDUkUyIExpY2VuY2UKKyMgID09PT09PT09PT09PT0KKyMgIAorIyAgfCBTUERYLUxpY2Vuc2Ut
+SWRlbnRpZmllcjogfCBCU0QtMy1DbGF1c2UgV0lUSCBQQ1JFMi1leGNlcHRpb24gfAorIyBAQCAt
+MTYsNyArMTYsOCBAQAorIyAgVGhlIGJhc2ljIGxpYnJhcnkgZnVuY3Rpb25zIGFyZSB3cml0dGVu
+IGluIEMgYW5kIGFyZSBmcmVlc3RhbmRpbmcuIEFsc28KKyMgIGluY2x1ZGVkIGluIHRoZSBkaXN0
+cmlidXRpb24gaXMgYSBqdXN0LWluLXRpbWUgY29tcGlsZXIgdGhhdCBjYW4gYmUgdXNlZCB0bwor
+IyAgb3B0aW1pemUgcGF0dGVybiBtYXRjaGluZy4gVGhpcyBpcyBhbiBvcHRpb25hbCBmZWF0dXJl
+IHRoYXQgY2FuIGJlIG9taXR0ZWQgd2hlbgorIyAtdGhlIGxpYnJhcnkgaXMgYnVpbHQuCisjICt0
+aGUgbGlicmFyeSBpcyBidWlsdC4gVGhlIGp1c3QtaW4tdGltZSBjb21waWxlciBpcyBzZXBhcmF0
+ZWx5IGxpY2Vuc2VkIHVuZGVyIHRoZQorIyArIjItY2xhdXNlIEJTRCIgbGljZW5jZS4KKyMgIAor
+IyAgCisjICBDT1BZUklHSFQKKyMgQEAgLTUyLDYgKzUzLDggQEAKKyMgIAorIyAgICAgIENvcHly
+aWdodCAoYykgMjAwOS0yMDI0IFpvbHRhbiBIZXJjemVnCisjICAgICAgQWxsIHJpZ2h0cyByZXNl
+cnZlZC4KKyMgKworIyArVGhlIGNvZGUgaW4gdGhlIGBkZXBzL3Nsaml0YCBkaXJlY3RvcnkgaGFz
+IGl0cyBvd24gTElDRU5TRSBmaWxlLgorIyAgCisjICAjIyMgQWxsIG90aGVyIGNvbnRyaWJ1dGlv
+bnMKKyMgIAorIyBAQCAtOTksNSArMTAyLDMgQEAKKyMgIFBDUkUyLCBpdCBtdXN0IHJlc3BlY3Qg
+dGhlIGNvbmRpdGlvbiwgYnV0IGlmIHBhY2thZ2UgQiBpcyBzb2Z0d2FyZSB0aGF0CisjICBpbmNs
+dWRlcyBwYWNrYWdlIEEsIHRoZSBjb25kaXRpb24gaXMgbm90IGltcG9zZWQgb24gcGFja2FnZSBC
+IHVubGVzcyBpdCB1c2VzCisjICBQQ1JFMiBpbmRlcGVuZGVudGx5LgorIyAtCisjIC1FbmQKKyMg
+CisjCisKIERFU0NSSVBUSU9OID0gIlRoZXJlIGFyZSB0d28gbWFqb3IgdmVyc2lvbnMgb2YgdGhl
+IFBDUkUgbGlicmFyeS4gVGhlIFwKIG5ld2VzdCB2ZXJzaW9uIGlzIFBDUkUyLCB3aGljaCBpcyBh
+IHJlLXdvcmtpbmcgb2YgdGhlIG9yaWdpbmFsIFBDUkUgXAogbGlicmFyeSB0byBwcm92aWRlIGFu
+IGVudGlyZWx5IG5ldyBBUEkuIFRoZSBvcmlnaW5hbCwgdmVyeSB3aWRlbHkgXApAQCAtOCwxNCAr
+NTIsMTQgQEAgU1VNTUFSWSA9ICJQZXJsIENvbXBhdGlibGUgUmVndWxhciBFeHByZXNzaW9ucyB2
+ZXJzaW9uIDIiCiBIT01FUEFHRSA9ICJodHRwOi8vd3d3LnBjcmUub3JnIgogU0VDVElPTiA9ICJk
+ZXZlbCIKIExJQ0VOU0UgPSAiQlNELTMtQ2xhdXNlIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxl
+Oi8vTElDRU5DRS5tZDttZDU9ODQ0NmExZmQxMmU0MGQ5ZDY0Yzc5MjM0ZmJiMWY4MTIiCitMSUNf
+RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTkNFLm1kO21kNT02NzIwYmYzYmNmZjU3NTQzYjkx
+NWMyYjIyZTUyNmRmMCIKIAogU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQv
+cGNyZTItJHtQVn0vcGNyZTItJHtQVn0udGFyLmJ6MiIKIAogR0lUSFVCX0JBU0VfVVJJID0gImh0
+dHBzOi8vZ2l0aHViLmNvbS9QQ1JFMlByb2plY3QvcGNyZTIvcmVsZWFzZXMiCiBVUFNUUkVBTV9D
+SEVDS19SRUdFWCA9ICJyZWxlYXNlcy90YWcvcGNyZTItKD9QPHB2ZXI+XGQrKFwuXGQrKSspJCIK
+IAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjE1ZmJjNWFiYTZiZWVlMGIxN2FlY2IwNDYwMmFlMzk0
+MzIzOTNhYmExZWJkOGUzOWI3Y2FiZjdkYjg4MzI5OWYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
+NDdmZThjOTk0NjEyNTBkNDJmODllNmU4ZmRhZWJhOWRhMDU3ODU1ZDA2ZWI3ZmMwOGQ5Y2EwM2Zk
+MDhkN2JjNyIKIAogQ1ZFX1BST0RVQ1QgPSAicGNyZTIiCiAKLS0gCjIuNDcuMQoK
 
---===============4385348622143048007==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 949 .bb files complete (0 cached, 949 parsed). 1950 targets, 47 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.16.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-fea62d5446cb4aa9fcaaed2d55319e82dfb6e302"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:fea62d5446cb4aa9fcaaed2d55319e82dfb6e302"
-meta-yocto-bsp       
-meta-poky            = "master:b3b659263566c4d2f2813190e72d93f8598a4c47"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 86 Local 77 Mirrors 0 Missed 9 Current 277 (89% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 319 of 363 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 361 of 363 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_populate_lic_setscene: Started
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 363 of 363 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb:do_recipe_qa_setscene)
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1059 of 1079 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb:do_fetch)
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_fetch: Started
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1060 of 1079 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb:do_unpack)
-NOTE: Running task 1061 of 1079 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_unpack: Started
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1062 of 1079 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb:do_patch)
-NOTE: Running task 1063 of 1079 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb:do_collect_spdx_deps)
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_patch: Started
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_patch: Succeeded
-NOTE: Running task 1065 of 1079 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb:do_generate_toolchain_file)
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: Running task 1067 of 1079 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb:do_configure)
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_configure: Started
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_configure: Succeeded
-NOTE: Running task 1068 of 1079 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb:do_compile)
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: VERBOSE=1 cmake --build /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build --target all --
-| Change Dir: '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build'
-| 
-| Run Build Command(s): ninja -v -j 16 all
-| [1/374] cd /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/cmake -DCHANGES_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/CHANGES -DTEMPLATE_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/cmake/SPIRV-Tools-shared.pc.in -DOUT_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/SPIRV-Tools-shared.pc -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_INCLUDEDIR=include -DSPIRV_SHARED_LIBRARIES=-lSPIRV-Tools-shared -P /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/cmake/write_pkg_config.cma
- ke
-| [2/374] cd /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build && /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/cmake -DCHANGES_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/CHANGES -DTEMPLATE_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/cmake/SPIRV-Tools.pc.in -DOUT_FILE=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/SPIRV-Tools.pc -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_INCLUDEDIR=include -DSPIRV_LIBRARIES=-lSPIRV-Tools-opt\ -lSPIRV-Tools\ -lSPIRV-Tools-link -P /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/cmake/write_pkg
- _config.cmake
-| [3/374] cd /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/source && /srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/utils/generate_language_headers.py --extinst-grammar=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.nonsemantic.shader.debuginfo.100.grammar.json --extinst-output-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/NonSemanticShaderDebugInfo100.h
-| [4/374] cd /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/source && /srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/utils/generate_language_headers.py --extinst-grammar=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.opencl.debuginfo.100.grammar.json --extinst-output-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/OpenCLDebugInfo100.h
-| [5/374] cd /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/source && /srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/utils/generate_language_headers.py --extinst-grammar=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.debuginfo.grammar.json --extinst-output-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/DebugInfo.h
-| [6/374] cd /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/source && /srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/utils/update_build_version.py /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/CHANGES /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/build-version.inc
-| [7/374] cd /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/source && /srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/utils/ggt.py --core-tables-body-output=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/core_tables_body.inc --core-tables-header-output=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/core_tables_header.inc --spirv-core-grammar=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/spirv.core.grammar.json --extinst=,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extin
- st.glsl.std.450.grammar.json --extinst=,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.opencl.std.100.grammar.json --extinst=CLDEBUG100_,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.opencl.debuginfo.100.grammar.json --extinst=SHDEBUG100_,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.nonsemantic.shader.debuginfo.100.grammar.json --extinst=,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.spv-amd-shader-explicit-vertex-parameter.grammar.json --extinst=,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst
- .spv-amd-shader-trinary-minmax.grammar.json --extinst=,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.spv-amd-gcn-shader.grammar.json --extinst=,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.spv-amd-shader-ballot.grammar.json --extinst=,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.debuginfo.grammar.json --extinst=,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.nonsemantic.clspvreflection.grammar.json --extinst=,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.nonsemantic.vkspreflection.grammar.js
- on --extinst=TOSA_,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.tosa.001000.1.grammar.json --extinst=,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/unified1/extinst.arm.motion-engine.100.grammar.json
-| [8/374] cd /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/source && /srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/utils/generate_registry_tables.py --xml=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot/usr/include/spirv/spir-v.xml --generator-output=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build/generators.inc
-| [9/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-prefi
- x-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/software_version.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/software_version.cpp.o.d -o source/CMakeFiles/
- SPIRV-Tools.dir/software_version.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/software_version.cpp
-| [10/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/spirv_endian.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/spirv_endian.cpp.o.d -o source/CMakeFiles/SPIRV-T
- ools.dir/spirv_endian.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/spirv_endian.cpp
-| [11/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/print.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/print.cpp.o.d -o source/CMakeFiles/SPIRV-Tools.dir/print
- .cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/print.cpp
-| [12/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/spirv_fuzzer_options.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/spirv_fuzzer_options.cpp.o.d -o source/CM
- akeFiles/SPIRV-Tools.dir/spirv_fuzzer_options.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/spirv_fuzzer_options.cpp
-| [13/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/spirv_optimizer_options.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/spirv_optimizer_options.cpp.o.d -o sou
- rce/CMakeFiles/SPIRV-Tools.dir/spirv_optimizer_options.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/spirv_optimizer_options.cpp
-| [14/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/util/bit_vector.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/util/bit_vector.cpp.o.d -o source/CMakeFiles/S
- PIRV-Tools.dir/util/bit_vector.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/util/bit_vector.cpp
-| [15/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/opcode.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/opcode.cpp.o.d -o source/CMakeFiles/SPIRV-Tools.dir/opc
- ode.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/opcode.cpp
-| FAILED: [code=1] source/CMakeFiles/SPIRV-Tools.dir/opcode.cpp.o
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -
- ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/opcode.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/opcode.cpp.o.d -o source/CMakeFiles/SPIRV-Tools.dir/opcode.cpp.o
-  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/opcode.cpp
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/opcode.cpp: In function 'int32_t spvOpcodeGeneratesType(spv::Op)':
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/opcode.cpp:270:19: error: 'OpTypeHitObjectEXT' is not a member of 'spv::Op'; did you mean 'OpTypeHitObjectNV'?
-|   270 |     case spv::Op::OpTypeHitObjectEXT:
-|       |                   ^~~~~~~~~~~~~~~~~~
-|       |                   OpTypeHitObjectNV
-| [16/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/ext_inst.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/ext_inst.cpp.o.d -o source/CMakeFiles/SPIRV-Tools.dir
- /ext_inst.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/ext_inst.cpp
-| [17/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/util/string_utils.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/util/string_utils.cpp.o.d -o source/CMakeFil
- es/SPIRV-Tools.dir/util/string_utils.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/util/string_utils.cpp
-| [18/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/spirv_validator_options.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/spirv_validator_options.cpp.o.d -o sou
- rce/CMakeFiles/SPIRV-Tools.dir/spirv_validator_options.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/spirv_validator_options.cpp
-| [19/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/extensions.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/extensions.cpp.o.d -o source/CMakeFiles/SPIRV-Tools
- .dir/extensions.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/extensions.cpp
-| [20/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/spirv_reducer_options.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/spirv_reducer_options.cpp.o.d -o source/
- CMakeFiles/SPIRV-Tools.dir/spirv_reducer_options.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/spirv_reducer_options.cpp
-| [21/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/assembly_grammar.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/assembly_grammar.cpp.o.d -o source/CMakeFiles
- /SPIRV-Tools.dir/assembly_grammar.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/assembly_grammar.cpp
-| [22/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/libspirv.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/libspirv.cpp.o.d -o source/CMakeFiles/SPIRV-Tools.dir
- /libspirv.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/libspirv.cpp
-| [23/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/diagnostic.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/diagnostic.cpp.o.d -o source/CMakeFiles/SPIRV-Tools
- .dir/diagnostic.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/diagnostic.cpp
-| [24/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/parsed_operand.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/parsed_operand.cpp.o.d -o source/CMakeFiles/SPI
- RV-Tools.dir/parsed_operand.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/parsed_operand.cpp
-| [25/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/spirv_target_env.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/spirv_target_env.cpp.o.d -o source/CMakeFiles
- /SPIRV-Tools.dir/spirv_target_env.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/spirv_target_env.cpp
-| [26/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/operand.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/operand.cpp.o.d -o source/CMakeFiles/SPIRV-Tools.dir/o
- perand.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/operand.cpp
-| [27/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/binary.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/binary.cpp.o.d -o source/CMakeFiles/SPIRV-Tools.dir/bin
- ary.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/binary.cpp
-| [28/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/name_mapper.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/name_mapper.cpp.o.d -o source/CMakeFiles/SPIRV-Too
- ls.dir/name_mapper.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/name_mapper.cpp
-| [29/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/disassemble.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/disassemble.cpp.o.d -o source/CMakeFiles/SPIRV-Too
- ls.dir/disassemble.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/disassemble.cpp
-| [30/374] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_TIMER_ENABLED -DSPIRV_Tools_EXPORTS -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0 -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build -m64 -march=x86-64-v3 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot  -O2 -g -fcanon-pref
- ix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build=/usr/src/debug/spirv-tools/1.4.335.0  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -O2 -g -DNDEBUG -std=c++17 -fPIC -fno-rtti -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools.dir/util/parse_number.cpp.o -MF source/CMakeFiles/SPIRV-Tools.dir/util/parse_number.cpp.o.d -o source/CMakeFil
- es/SPIRV-Tools.dir/util/parse_number.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/sources/spirv-tools-1.4.335.0/source/util/parse_number.cpp
-| ninja: build stopped: subcommand failed.
-| 
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/temp/run.do_compile.2577545:154 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
-| WARNING: Backtrace (BB generated script):
-| 	#1: cmake_runcmake_build, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/temp/run.do_compile.2577545, line 154
-| 	#2: cmake_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/temp/run.do_compile.2577545, line 148
-| 	#3: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/temp/run.do_compile.2577545, line 143
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/temp/run.do_compile.2577545, line 167
-NOTE: recipe spirv-tools-1_1.4.335.0-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1068 tasks of which 1060 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251216044635.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251216044635.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/temp/log.do_compile.2577545
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: spirv-tools-1_1.4.335.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/temp/run.do_compile.2577545' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/spirv-tools/1.4.335.0/temp/log.do_compile.2577545
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.335.0.bb:do_compile) failed with exit code '1'
-
---===============4385348622143048007==--
+--===============6899521705493409293==--
 
