@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E9E1D5E360
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 614D7D5E368
 	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:51 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17387.1765872133847192755
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17197.1765872154647957023
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:46 -0800
+ Tue, 16 Dec 2025 00:02:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=x8ZGJplW;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=IDpt/BZa;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019b262ee481-c3caa9af-9f0c-4c83-ba73-476b07ac6c2d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=c6MSc+LW;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=AjiPZvNU;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019b262ee2c3-1a52ccd3-46c1-45d3-bda1-fc32c8421c56-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872166;
+	t=1765872165;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=eIcQvK6bx3tZ+ssKtBvvHbYuaNFXC7fTKtWH3LrONk4=;
-	b=x8ZGJplWpAimw/LuMGQ9GHCCz2r5TH0oyT+3wUwCIZtj4VokI+J1gi2Nt63usitW
-	BZRwdcT3NjWPnXpLeMCzQnlLkWdlq8QAlRFbs5GwoLpuv4UlFMgLQOjopU1YC9W3e3y
-	IqgcnL3uxtZsE8o4dISKDMigdCjbgapJ0IcbAt9Y=
+	bh=kjvRNPuO4B5LfkHiGu528gSDk7lPiA8yTyolalnz81Y=;
+	b=c6MSc+LWB5eDyksA8Zkl4fSTgZZtSkI6y1jtXtwXOt38AF40k8UAzWNu0bumLQIA
+	/tZStuxsk46Z6cmqVczBFbHgcLZCgpba+br5cQBn9uEhpjbzoZPL2T785fjoLE67oDL
+	aQN1/RsEqhdYCYGTMUWlC4EPtjmQbrX0VJfx5P1I=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872166;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872165;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=eIcQvK6bx3tZ+ssKtBvvHbYuaNFXC7fTKtWH3LrONk4=;
-	b=IDpt/BZa3EmySf4YLNzUMnuDcb/aowjFquVSOOZ2CEqueIiFbYPbDB/CecmSKT1c
-	Y2XX3tnh+4iAx/Pe7JCrd2ao36tN6JaaA1hNPgfIeJ0QyPgcd8i4Rk+niTKTm2Rssxw
-	NqH4e5qUf5BFtwPxLmQzwd2G8b+gHxUA1a/QjY6g=
-Content-Type: multipart/mixed; boundary="===============1620415462339997068=="
+	bh=kjvRNPuO4B5LfkHiGu528gSDk7lPiA8yTyolalnz81Y=;
+	b=AjiPZvNUFfngPPZrTSwiyM9CVGfsNz6npjKeBSi/9NDsImwqr1E7BfOvxNAWoq/J
+	ECuXX9sVBCtBEs/X/0WMjWaImV782258AxJkCGVE3AnvTOVO42Yjn4L4gqW141m7TLe
+	LFY3pEmrPrWErqF0Wm36S0OQafyPMYFpD6twsHpA=
+Content-Type: multipart/mixed; boundary="===============0589978049449202254=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] gstreamer1.0-vaapi: upgrading to 1.26.9 SUCCEEDED
-Message-ID: <0101019b262ee481-c3caa9af-9f0c-4c83-ba73-476b07ac6c2d-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:46 +0000
+Subject: [AUH] gstreamer1.0-libav: upgrading to 1.26.9 SUCCEEDED
+Message-ID: <0101019b262ee2c3-1a52ccd3-46c1-45d3-bda1-fc32c8421c56-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:45 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.29
+X-SES-Outgoing: 2025.12.16-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227899
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227896
 
---===============1620415462339997068==
+--===============0589978049449202254==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-vaapi* to *1.26.9* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-libav* to *1.26.9* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-vaapi-upgrade-1.26.7-1.26.9.patch
+    - apply the patch: git am 0001-gstreamer1.0-libav-upgrade-1.26.7-1.26.9.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,96 +72,92 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f6b979ea0cac820c7eb2a85dd0b629842646bd24 Mon Sep 17 00:00:00 2001
+From 7acdf0e43b664ee4f8bab93a233badf21b3b7d64 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Dec 2025 06:13:39 +0000
-Subject: [PATCH] gstreamer1.0-vaapi: upgrade 1.26.7 -> 1.26.9
+Date: Tue, 16 Dec 2025 06:06:23 +0000
+Subject: [PATCH] gstreamer1.0-libav: upgrade 1.26.7 -> 1.26.9
 
 ---
- ...streamer1.0-vaapi_1.26.7.bb => gstreamer1.0-vaapi_1.26.9.bb} | 2 +-
+ ...streamer1.0-libav_1.26.7.bb => gstreamer1.0-libav_1.26.9.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.26.7.bb => gstreamer1.0-vaapi_1.26.9.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.26.7.bb => gstreamer1.0-libav_1.26.9.bb} (91%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.9.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.7.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.9.bb
-index e9515405ce..dc5055bb0c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.7.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.9.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.9.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.7.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.9.bb
+index aa6c431daa..a652dbba33 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.9.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
+                     "
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "91d4a7a14527d97fe0ce7ccedb3554e8f692b216429ef2b1850944bbf5435c09"
++SRC_URI[sha256sum] = "08a8e944fc61ef26df515784a089c8ac41765304a5d55b98199835b28a98dbdf"
  
--SRC_URI[sha256sum] = "4885d4a02bb2f17c2af618879b5e77f1acdcedcba859aabd3b970550e2940a38"
-+SRC_URI[sha256sum] = "bf989040404515dc9b042f4fdc49ff33a6dccf49d544736150e967b42665598e"
+ S = "${UNPACKDIR}/gst-libav-${PV}"
  
- S = "${UNPACKDIR}/${REALPN}-${PV}"
- DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 -- 
 2.47.1
 
 
---===============1620415462339997068==
+--===============0589978049449202254==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gstreamer1.0-libav-upgrade-1.26.7-1.26.9.patch"
+
+RnJvbSA3YWNkZjBlNDNiNjY0ZWU0ZjhiYWI5M2EyMzNiYWRmMjFiM2I3ZDY0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDY6MDY6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtbGliYXY6IHVwZ3JhZGUgMS4yNi43IC0+IDEuMjYuOQoKLS0tCiAuLi5zdHJl
+YW1lcjEuMC1saWJhdl8xLjI2LjcuYmIgPT4gZ3N0cmVhbWVyMS4wLWxpYmF2XzEuMjYuOS5iYn0g
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1saWJh
+dl8xLjI2LjcuYmIgPT4gZ3N0cmVhbWVyMS4wLWxpYmF2XzEuMjYuOS5iYn0gKDkxJSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLWxp
+YmF2XzEuMjYuNy5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
+ZXIxLjAtbGliYXZfMS4yNi45LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtbGliYXZfMS4yNi43
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVy
+MS4wLWxpYmF2XzEuMjYuOS5iYgppbmRleCBhYTZjNDMxZGFhLi5hNjUyZGJiYTMzIDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLWxpYmF2
+XzEuMjYuNy5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVh
+bWVyMS4wLWxpYmF2XzEuMjYuOS5iYgpAQCAtMTIsNyArMTIsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9DT1BZSU5HO21kNT02OTMzM2RhYTA0NGNiNzdlNDg2Y2MzNjEyOWY3YTc3MCBc
+CiAgICAgICAgICAgICAgICAgICAgICIKIAogU1JDX1VSSSA9ICJodHRwczovL2dzdHJlYW1lci5m
+cmVlZGVza3RvcC5vcmcvc3JjL2dzdC1saWJhdi9nc3QtbGliYXYtJHtQVn0udGFyLnh6IgotU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjkxZDRhN2ExNDUyN2Q5N2ZlMGNlN2NjZWRiMzU1NGU4ZjY5MmIy
+MTY0MjllZjJiMTg1MDk0NGJiZjU0MzVjMDkiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDhhOGU5
+NDRmYzYxZWYyNmRmNTE1Nzg0YTA4OWM4YWM0MTc2NTMwNGE1ZDU1Yjk4MTk5ODM1YjI4YTk4ZGJk
+ZiIKIAogUyA9ICIke1VOUEFDS0RJUn0vZ3N0LWxpYmF2LSR7UFZ9IgogCi0tIAoyLjQ3LjEKCg==
+
+--===============0589978049449202254==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-dbg: PV changed from "1.26.7" to "1.26.9"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-dbg: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-dev: PV changed from "1.26.7" to "1.26.9"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-dev: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-doc: PV changed from "1.26.7" to "1.26.9"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-doc: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-locale: PV changed from "1.26.7" to "1.26.9"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-locale: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-src: PV changed from "1.26.7" to "1.26.9"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-src: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0-vaapi/1.26.7/gst/vaapi -> /usr/src/debug/gstreamer1.0-vaapi/1.26.9/gst/vaapi, directory renamed /usr/src/debug/gstreamer1.0-vaapi/1.26.7/gst-libs/gst/vaapi -> /usr/src/debug/gstreamer1.0-vaapi/1.26.9/gst-libs/gst/vaapi
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-staticdev: PV changed from "1.26.7" to "1.26.9"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-staticdev: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-tests: PV changed from "1.26.7" to "1.26.9"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-tests: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi: PV changed from "1.26.7" to "1.26.9"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi: PV changed from "1.26.7" to "1.26.9"
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-vaapi: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gstreamer-vaapi/gstreamer-vaapi-1.26.7.tar.xz" to "https://gstreamer.freedesktop.org/src/gstreamer-vaapi/gstreamer-vaapi-1.26.9.tar.xz"
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PV changed from "1.26.7" to "1.26.9"
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dev: PV changed from "1.26.7" to "1.26.9"
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dev: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-doc: PV changed from "1.26.7" to "1.26.9"
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-doc: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-locale: PV changed from "1.26.7" to "1.26.9"
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-locale: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0-libav/1.26.7/ext/libav -> /usr/src/debug/gstreamer1.0-libav/1.26.9/ext/libav
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PV changed from "1.26.7" to "1.26.9"
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-staticdev: PV changed from "1.26.7" to "1.26.9"
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-staticdev: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav: PV changed from "1.26.7" to "1.26.9"
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav: PKGV changed from 1.26.7 [default] to 1.26.9 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.26.7.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.26.9.tar.xz"
+packages/x86-64-v3-poky-linux/gstreamer1.0-libav: PV changed from "1.26.7" to "1.26.9"
 
---===============1620415462339997068==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gstreamer1.0-vaapi-upgrade-1.26.7-1.26.9.patch"
-
-RnJvbSBmNmI5NzllYTBjYWM4MjBjN2ViMmE4NWRkMGI2Mjk4NDI2NDZiZDI0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDY6MTM6MzkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3RyZWFtZXIxLjAtdmFhcGk6IHVwZ3JhZGUgMS4yNi43IC0+IDEuMjYuOQoKLS0tCiAuLi5zdHJl
-YW1lcjEuMC12YWFwaV8xLjI2LjcuYmIgPT4gZ3N0cmVhbWVyMS4wLXZhYXBpXzEuMjYuOS5iYn0g
-fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC12YWFw
-aV8xLjI2LjcuYmIgPT4gZ3N0cmVhbWVyMS4wLXZhYXBpXzEuMjYuOS5iYn0gKDk1JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXZh
-YXBpXzEuMjYuNy5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
-ZXIxLjAtdmFhcGlfMS4yNi45LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtdmFhcGlfMS4yNi43
-LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVy
-MS4wLXZhYXBpXzEuMjYuOS5iYgppbmRleCBlOTUxNTQwNWNlLi5kYzUwNTViYjBjIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXZhYXBp
-XzEuMjYuNy5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVh
-bWVyMS4wLXZhYXBpXzEuMjYuOS5iYgpAQCAtMTEsNyArMTEsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9DT1BZSU5HLkxJQjttZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUx
-NmMiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy8k
-e1JFQUxQTn0vJHtSRUFMUE59LSR7UFZ9LnRhci54eiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0g
-IjQ4ODVkNGEwMmJiMmYxN2MyYWY2MTg4NzliNWU3N2YxYWNkY2VkY2JhODU5YWFiZDNiOTcwNTUw
-ZTI5NDBhMzgiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYmY5ODkwNDA0MDQ1MTVkYzliMDQyZjRm
-ZGM0OWZmMzNhNmRjY2Y0OWQ1NDQ3MzYxNTBlOTY3YjQyNjY1NTk4ZSIKIAogUyA9ICIke1VOUEFD
-S0RJUn0vJHtSRUFMUE59LSR7UFZ9IgogREVQRU5EUyA9ICJsaWJ2YSBnc3RyZWFtZXIxLjAgZ3N0
-cmVhbWVyMS4wLXBsdWdpbnMtYmFzZSBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWQiCi0tIAoyLjQ3
-LjEKCg==
-
---===============1620415462339997068==--
+--===============0589978049449202254==--
 
