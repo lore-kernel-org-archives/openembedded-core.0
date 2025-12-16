@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C364D5E39B
-	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:53 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17420.1765872166883494933
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACDB5D5E374
+	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:51 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17191.1765872143528324452
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:50 -0800
+ Tue, 16 Dec 2025 00:02:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=2lZoYG0o;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Bih8OfUZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019b262ef4f7-3904ebcb-977d-4a28-9ae8-f2d7008b3b70-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=yS+npI+u;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=oD/v6lzE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019b262ede8c-49d9befe-c250-4b00-a166-8ac8b9a5461e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872170;
+	t=1765872164;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Td8B7Pywqi9hUp4EWpkQDBJDpBWAp7ZnQD4SS0R3Boc=;
-	b=2lZoYG0ofg95v2Me0wN+GSOzuVvBJluRDs3nX3BWYMagUgukXTuLdML1e2MlXoz0
-	K6l8yvosRw+TuvBlhlI1EGCnP1TMQ5IZYOncFpLjBQEr0f2HeJCiAzMWBR5AfYJWVzN
-	hw7aCoMAAvR3i7VLiSMqS7tfT2kaXfoCc+mORHy4=
+	bh=cmO26gEZW2K88fJEgHagFx0zRihubffW8GTQLOTQeBA=;
+	b=yS+npI+udvMlXfy6palL81rl7QiaZOEtCx7k5YcSPirzv7SnI3ZABau2ihGuJDtZ
+	DBjpEObvR40wABxx4eYWCOMsSiLPk1r3RZjTDvuib6kwCsfMZu5dTBcs+Q8JDaftaIX
+	xakaJGdTy8tpgDpy73tbF+qVxyGCD7ZYAEZpxOyI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872170;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872164;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Td8B7Pywqi9hUp4EWpkQDBJDpBWAp7ZnQD4SS0R3Boc=;
-	b=Bih8OfUZUuFWo9vncolB7KZsD1jwGGL7YU8drZggdU7P7Q6NGItcFordGU8/nZ/b
-	fUA8f+TVUHvPpLV1RXm3X6+jcYDnWsk/cqktYadVTnzQ+axdQyxYZ8KtsIPAcdEkHHt
-	/3HUYHRYAdCPo1/gHdOQHuTZxAqpf0xhuf1dvnzg=
-Content-Type: multipart/mixed; boundary="===============2907725944521647849=="
+	bh=cmO26gEZW2K88fJEgHagFx0zRihubffW8GTQLOTQeBA=;
+	b=oD/v6lzExO7wjOPIwI1u3bxdLd28SpgTxZKcbpozPnE+5yKaSaz5PzOAlc3gBKd0
+	cRtYnW3KRw4r16LAjA0EMInSxAfuSM+GYGcpoR8Puu95jZlLJpaPk/zLZ5H31dVdE/T
+	kbUyJLPpsMx/9JF1vzCO13LJHgpNlSdhr8I0prTA=
+Content-Type: multipart/mixed; boundary="===============4505010367580697073=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Michael Opdenacker <michael@opdenacker.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libgpg-error: upgrading to 1.58 SUCCEEDED
-Message-ID: <0101019b262ef4f7-3904ebcb-977d-4a28-9ae8-f2d7008b3b70-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:50 +0000
+Subject: [AUH] alsa-lib: upgrading to 1.2.15 FAILED
+Message-ID: <0101019b262ede8c-49d9befe-c250-4b00-a166-8ac8b9a5461e-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:44 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.33
+X-SES-Outgoing: 2025.12.16-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227921
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227891
 
---===============2907725944521647849==
+--===============4505010367580697073==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libgpg-error* to *1.58* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *alsa-lib* to *1.2.15* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-libgpg-error-upgrade-1.56-1.58.patch
+    - apply the patch: git am 0001-alsa-lib-upgrade-1.2.14-1.2.15.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,251 +78,105 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From c88c23c8415403d871474b0d1ef307148f3bd02b Mon Sep 17 00:00:00 2001
+From c24c6047d5ba62e911395a7c7a85fbe6b6b5c748 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Dec 2025 07:29:06 +0000
-Subject: [PATCH] libgpg-error: upgrade 1.56 -> 1.58
+Date: Tue, 16 Dec 2025 05:45:11 +0000
+Subject: [PATCH] alsa-lib: upgrade 1.2.14 -> 1.2.15
 
 ---
- .../0001-Do-not-fail-when-testing-config-scripts.patch      | 6 +++---
- .../libgpg-error/libgpg-error/pkgconfig.patch               | 5 +----
- .../{libgpg-error_1.56.bb => libgpg-error_1.58.bb}          | 2 +-
- 3 files changed, 5 insertions(+), 8 deletions(-)
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.56.bb => libgpg-error_1.58.bb} (95%)
+ .../alsa/{alsa-lib_1.2.14.bb => alsa-lib_1.2.15.bb}             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.2.14.bb => alsa-lib_1.2.15.bb} (94%)
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch b/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch
-index 39798c009f..6ae1f8ba18 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch
-@@ -1,4 +1,4 @@
--From b1b6c28b4753c027052aeb6275a73eed06f0bf49 Mon Sep 17 00:00:00 2001
-+From c013a503450a497360e117a888e7c1e83356c80b Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 28 Feb 2020 09:19:56 +0000
- Subject: [PATCH] Do not fail when testing config scripts
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 deletion(-)
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.14.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb
+similarity index 94%
+rename from meta/recipes-multimedia/alsa/alsa-lib_1.2.14.bb
+rename to meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb
+index 41a42f9ecc..bf20e1a1ad 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.14.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+                     "
  
- diff --git a/src/Makefile.am b/src/Makefile.am
--index e56bb23..8c3ba7b 100644
-+index 82b4193..23b082b 100644
- --- a/src/Makefile.am
- +++ b/src/Makefile.am
--@@ -326,6 +326,5 @@ gpg-error-config: gpgrt-config gpg-error-config-old gpg-error-config-test.sh
-+@@ -331,6 +331,5 @@ gpg-error-config: gpgrt-config gpg-error-config-old gpg-error-config-test.sh
-  	else                                                   \
-  	  echo "no";                                           \
-  	  echo "***  Please report to <https://bugs.gnupg.org> with gpg-error-config-test.log"; \
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-index 38c55ad342..d32a10b08c 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-@@ -1,4 +1,4 @@
--From fdc0b6f84bae7cd6eea18712049da62cdfd5e630 Mon Sep 17 00:00:00 2001
-+From 70e6639dc16b9ea49dcfaef3c3bce9eeb6164945 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Wed, 21 Aug 2024 20:03:29 -0700
- Subject: [PATCH] support pkgconfig
-@@ -241,6 +241,3 @@ index 263f21b..e54ab38 100644
- -  AC_SUBST(GPG_ERROR_MT_LIBS)
-  ])
- +
---- 
--2.34.1
--
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.56.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb
-similarity index 95%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.56.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.58.bb
-index d3cc88f971..d42a9028e8 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.56.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb
-@@ -19,7 +19,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://run-ptest \
-            "
+ SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "be9c88a0b3604367dd74167a2b754a35e142f670292ae47a2fdef27a2ee97a32"
++SRC_URI[sha256sum] = "83770841585e766a60c99fd23f8c574c22643ae0cb1f2d20b793c3d84eb95a8d"
  
--SRC_URI[sha256sum] = "82c3d2deb4ad96ad3925d6f9f124fe7205716055ab50e291116ef27975d169c0"
-+SRC_URI[sha256sum] = "f943aea9a830a8bd938e5124b579efaece24a3225ff4c3d27611a80ce1260c27"
- 
- BINCONFIG = "${bindir}/gpg-error-config"
+ inherit autotools pkgconfig
  
 -- 
 2.47.1
 
 
---===============2907725944521647849==
-Content-Type: text/plain; charset="us-ascii"
+--===============4505010367580697073==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-alsa-lib-upgrade-1.2.14-1.2.15.patch"
 
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-sv: PKGSIZE changed from 17166 to 33573 (+96%)
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error: FILELIST: removed "/usr/lib/libgpg-error.so.0.40.0", added "/usr/lib/libgpg-error.so.0.41.1"
-Changes to packages/x86-64-v3-poky-linux/libgpg-error (sysroot):
-  /usr/lib/libgpg-error.so.0 changed symlink target from libgpg-error.so.0.40.0 to libgpg-error.so.0.41.1
-  /usr/lib/libgpg-error.so changed symlink target from libgpg-error.so.0.40.0 to libgpg-error.so.0.41.1
-  /usr/lib/libgpg-error.so.0.40.0 moved to /usr/lib/libgpg-error.so.0.41.1
-Changes to packages/x86_64-linux/libgpg-error-native (sysroot):
-  /usr/lib/libgpg-error.so.0 changed symlink target from libgpg-error.so.0.40.0 to libgpg-error.so.0.41.1
-  /usr/lib/libgpg-error.so changed symlink target from libgpg-error.so.0.40.0 to libgpg-error.so.0.41.1
-  /usr/lib/libgpg-error.so.0.40.0 moved to /usr/lib/libgpg-error.so.0.41.1
+RnJvbSBjMjRjNjA0N2Q1YmE2MmU5MTEzOTVhN2M3YTg1ZmJlNmI2YjVjNzQ4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDU6NDU6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
+bHNhLWxpYjogdXBncmFkZSAxLjIuMTQgLT4gMS4yLjE1CgotLS0KIC4uLi9hbHNhL3thbHNhLWxp
+Yl8xLjIuMTQuYmIgPT4gYWxzYS1saWJfMS4yLjE1LmJifSAgICAgICAgICAgICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1tdWx0aW1lZGlhL2Fsc2Eve2Fsc2EtbGliXzEuMi4xNC5iYiA9PiBhbHNhLWxpYl8x
+LjIuMTUuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvYWxz
+YS9hbHNhLWxpYl8xLjIuMTQuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9hbHNhL2Fsc2Et
+bGliXzEuMi4xNS5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtbXVsdGltZWRpYS9hbHNhL2Fsc2EtbGliXzEuMi4xNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLW11bHRpbWVkaWEvYWxzYS9hbHNhLWxpYl8xLjIuMTUuYmIKaW5kZXggNDFhNDJmOWVjYy4u
+YmYyMGUxYTFhZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvYWxzYS9hbHNh
+LWxpYl8xLjIuMTQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvYWxzYS9hbHNhLWxp
+Yl8xLjIuMTUuYmIKQEAgLTEwLDcgKzEwLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
+Q09QWUlORzttZDU9YTkxNjQ2N2I5MTA3NmU2MzFkZDhlZGI3NDI0NzY5YzcgXAogICAgICAgICAg
+ICAgICAgICAgICAiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly93d3cuYWxzYS1wcm9qZWN0Lm9yZy9m
+aWxlcy9wdWIvbGliLyR7QlB9LnRhci5iejIiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYmU5Yzg4
+YTBiMzYwNDM2N2RkNzQxNjdhMmI3NTRhMzVlMTQyZjY3MDI5MmFlNDdhMmZkZWYyN2EyZWU5N2Ez
+MiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4Mzc3MDg0MTU4NWU3NjZhNjBjOTlmZDIzZjhjNTc0
+YzIyNjQzYWUwY2IxZjJkMjBiNzkzYzNkODRlYjk1YThkIgogCiBpbmhlcml0IGF1dG90b29scyBw
+a2djb25maWcKIAotLSAKMi40Ny4xCgo=
 
---===============2907725944521647849==
+--===============4505010367580697073==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/gcc-runtime/gcc-runtime-src: PKGSIZE changed from 9685472 to 9883625 (+2%)
-packages/x86-64-v3-poky-linux/libgpg-error: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.56.tar.bz2 file://pkgconfig.patch file://0001-Do-not-fail-when-testing-config-scripts.patch file://run-ptest" to "https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.58.tar.bz2 file://pkgconfig.patch file://0001-Do-not-fail-when-testing-config-scripts.patch file://run-ptest"
-packages/x86-64-v3-poky-linux/libgpg-error: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-dbg: FILELIST: removed "/usr/lib/.debug/libgpg-error.so.0.40.0", added "/usr/lib/.debug/libgpg-error.so.0.41.1"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-dbg: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-dbg: PKGSIZE changed from 1331720 to 1335240 (+0%)
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-dbg: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-dev: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-dev: PKGSIZE changed from 228155 to 228955 (+0%)
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-dev: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-doc: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-doc: PKGSIZE changed from 103772 to 103890 (+0%)
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-doc: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-cs: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-cs: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-da: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-da: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-de: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-de: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-eo: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-eo: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-es: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-es: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-fr: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-fr: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-hu: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-hu: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-it: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-it: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-ja: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-ja: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-nl: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-nl: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-pl: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-pl: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-pt: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-pt: PKGSIZE changed from 35174 to 35234 (+0%)
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-pt: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-ro: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-ro: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-ru: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-ru: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-sr: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-sr: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-sv: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-sv: PKGSIZE changed from 17166 to 33573 (+96%)
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-sv: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-tr: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-tr: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-uk: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-uk: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-vi: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-vi: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-zh-cn: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-zh-cn: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-zh-tw: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-locale-zh-tw: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-ptest: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-ptest: PKGSIZE changed from 300061 to 300246 (+0%)
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-ptest: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-src: FILELIST: directory renamed /usr/src/debug/libgpg-error/1.56/doc -> /usr/src/debug/libgpg-error/1.58/doc, directory renamed /usr/src/debug/libgpg-error/1.56/tests -> /usr/src/debug/libgpg-error/1.58/tests, directory renamed /usr/src/debug/libgpg-error/1.56/src -> /usr/src/debug/libgpg-error/1.58/src
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-src: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-src: PKGSIZE changed from 1019119 to 1024500 (+1%)
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-src: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-staticdev: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error-staticdev: PV changed from "1.56" to "1.58"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error: FILELIST: removed "/usr/lib/libgpg-error.so.0.40.0", added "/usr/lib/libgpg-error.so.0.41.1"
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error: PKGV changed from 1.56 [default] to 1.58 [default]
-packages/x86-64-v3-poky-linux/libgpg-error/libgpg-error: PV changed from "1.56" to "1.58"
-Changes to packages/x86-64-v3-poky-linux/libgpg-error (sysroot):
-  /usr/lib/libgpg-error.so.0 changed symlink target from libgpg-error.so.0.40.0 to libgpg-error.so.0.41.1
-  /usr/lib/libgpg-error.so changed symlink target from libgpg-error.so.0.40.0 to libgpg-error.so.0.41.1
-  /usr/lib/libgpg-error.so.0.40.0 moved to /usr/lib/libgpg-error.so.0.41.1
-Changes to packages/x86_64-linux/libgpg-error-native (sysroot):
-  /usr/lib/libgpg-error.so.0 changed symlink target from libgpg-error.so.0.40.0 to libgpg-error.so.0.41.1
-  /usr/lib/libgpg-error.so changed symlink target from libgpg-error.so.0.40.0 to libgpg-error.so.0.41.1
-  /usr/lib/libgpg-error.so.0.40.0 moved to /usr/lib/libgpg-error.so.0.41.1
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-conf: PKGSIZE changed from 150183 to 150219 (+0%)
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-conf: PV changed from "1.2.14" to "1.2.15"
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-conf: PKGV changed from 1.2.14 [default] to 1.2.15 [default]
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-dbg: PKGSIZE changed from 4016016 to 4025904 (+0%)
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-dbg: PV changed from "1.2.14" to "1.2.15"
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-dbg: PKGV changed from 1.2.14 [default] to 1.2.15 [default]
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-dev: PKGSIZE changed from 500283 to 506626 (+1%)
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-dev: PV changed from "1.2.14" to "1.2.15"
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-dev: PKGV changed from 1.2.14 [default] to 1.2.15 [default]
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-doc: PV changed from "1.2.14" to "1.2.15"
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-doc: PKGV changed from 1.2.14 [default] to 1.2.15 [default]
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-locale: PV changed from "1.2.14" to "1.2.15"
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-locale: PKGV changed from 1.2.14 [default] to 1.2.15 [default]
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-src: PKGSIZE changed from 3549264 to 3600823 (+1%)
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-src: FILELIST: directory renamed /usr/src/debug/alsa-lib/1.2.14/src/hwdep -> /usr/src/debug/alsa-lib/1.2.15/src/hwdep, directory renamed /usr/src/debug/alsa-lib/1.2.14/src/ucm -> /usr/src/debug/alsa-lib/1.2.15/src/ucm, directory renamed /usr/src/debug/alsa-lib/1.2.14/src/topology -> /usr/src/debug/alsa-lib/1.2.15/src/topology, directory renamed /usr/src/debug/alsa-lib/1.2.14/include -> /usr/src/debug/alsa-lib/1.2.15/include, directory renamed /usr/src/debug/alsa-lib/1.2.14/src/mixer -> /usr/src/debug/alsa-lib/1.2.15/src/mixer, directory renamed /usr/src/debug/alsa-lib/1.2.14/include/sound/uapi -> /usr/src/debug/alsa-lib/1.2.15/include/sound/uapi, directory renamed /usr/src/debug/alsa-lib/1.2.14/aserver -> /usr/src/debug/alsa-lib/1.2.15/aserver, directory renamed /usr/src/debug/alsa-lib/1.2.14/src/pcm -> /usr/src/debug/alsa-lib/1.2.15/src/pcm, directory renamed /usr/src/debug/alsa-lib/1.2.14/src/timer -> /usr/src/debug/alsa-lib/1.2.15/sr
+ c/timer, directory renamed /usr/src/debug/alsa-lib/1.2.14/src/seq -> /usr/src/debug/alsa-lib/1.2.15/src/seq, directory renamed /usr/src/debug/alsa-lib/1.2.14/src -> /usr/src/debug/alsa-lib/1.2.15/src, directory renamed /usr/src/debug/alsa-lib/1.2.14/src/control -> /usr/src/debug/alsa-lib/1.2.15/src/control, directory renamed /usr/src/debug/alsa-lib/1.2.14/src/rawmidi -> /usr/src/debug/alsa-lib/1.2.15/src/rawmidi
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-src: PV changed from "1.2.14" to "1.2.15"
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-src: PKGV changed from 1.2.14 [default] to 1.2.15 [default]
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-staticdev: PV changed from "1.2.14" to "1.2.15"
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib-staticdev: PKGV changed from 1.2.14 [default] to 1.2.15 [default]
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib: PKGSIZE changed from 1153690 to 1186458 (+3%)
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib: PV changed from "1.2.14" to "1.2.15"
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-lib: PKGV changed from 1.2.14 [default] to 1.2.15 [default]
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-server: PV changed from "1.2.14" to "1.2.15"
+packages/x86-64-v3-poky-linux/alsa-lib/alsa-server: PKGV changed from 1.2.14 [default] to 1.2.15 [default]
+packages/x86-64-v3-poky-linux/alsa-lib: PV changed from "1.2.14" to "1.2.15"
+packages/x86-64-v3-poky-linux/alsa-lib: PKGV changed from 1.2.14 [default] to 1.2.15 [default]
+packages/x86-64-v3-poky-linux/alsa-lib: SRC_URI changed from "https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.14.tar.bz2" to "https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.15.tar.bz2"
+packages/x86-64-v3-poky-linux/alsa-lib/libatopology: PKGSIZE changed from 122661 to 126757 (+3%)
+packages/x86-64-v3-poky-linux/alsa-lib/libatopology: PV changed from "1.2.14" to "1.2.15"
+packages/x86-64-v3-poky-linux/alsa-lib/libatopology: PKGV changed from 1.2.14 [default] to 1.2.15 [default]
 
---===============2907725944521647849==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libgpg-error-upgrade-1.56-1.58.patch"
-
-RnJvbSBjODhjMjNjODQxNTQwM2Q4NzE0NzRiMGQxZWYzMDcxNDhmM2JkMDJiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDc6Mjk6MDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJncGctZXJyb3I6IHVwZ3JhZGUgMS41NiAtPiAxLjU4CgotLS0KIC4uLi8wMDAxLURvLW5vdC1m
-YWlsLXdoZW4tdGVzdGluZy1jb25maWctc2NyaXB0cy5wYXRjaCAgICAgIHwgNiArKystLS0KIC4u
-Li9saWJncGctZXJyb3IvbGliZ3BnLWVycm9yL3BrZ2NvbmZpZy5wYXRjaCAgICAgICAgICAgICAg
-IHwgNSArLS0tLQogLi4uL3tsaWJncGctZXJyb3JfMS41Ni5iYiA9PiBsaWJncGctZXJyb3JfMS41
-OC5iYn0gICAgICAgICAgfCAyICstCiAzIGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwg
-OCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJncGctZXJyb3Iv
-e2xpYmdwZy1lcnJvcl8xLjU2LmJiID0+IGxpYmdwZy1lcnJvcl8xLjU4LmJifSAoOTUlKQoKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdwZy1lcnJvci9saWJncGctZXJyb3Iv
-MDAwMS1Eby1ub3QtZmFpbC13aGVuLXRlc3RpbmctY29uZmlnLXNjcmlwdHMucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtc3VwcG9ydC9saWJncGctZXJyb3IvbGliZ3BnLWVycm9yLzAwMDEtRG8tbm90LWZh
-aWwtd2hlbi10ZXN0aW5nLWNvbmZpZy1zY3JpcHRzLnBhdGNoCmluZGV4IDM5Nzk4YzAwOWYuLjZh
-ZTFmOGJhMTggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdwZy1lcnJvci9s
-aWJncGctZXJyb3IvMDAwMS1Eby1ub3QtZmFpbC13aGVuLXRlc3RpbmctY29uZmlnLXNjcmlwdHMu
-cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ3BnLWVycm9yL2xpYmdwZy1lcnJv
-ci8wMDAxLURvLW5vdC1mYWlsLXdoZW4tdGVzdGluZy1jb25maWctc2NyaXB0cy5wYXRjaApAQCAt
-MSw0ICsxLDQgQEAKLUZyb20gYjFiNmMyOGI0NzUzYzAyNzA1MmFlYjYyNzVhNzNlZWQwNmYwYmY0
-OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYzAxM2E1MDM0NTBhNDk3MzYwZTExN2E4
-ODhlN2MxZTgzMzU2YzgwYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRl
-ciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTogRnJpLCAyOCBGZWIgMjAy
-MCAwOToxOTo1NiArMDAwMAogU3ViamVjdDogW1BBVENIXSBEbyBub3QgZmFpbCB3aGVuIHRlc3Rp
-bmcgY29uZmlnIHNjcmlwdHMKQEAgLTE0LDEwICsxNCwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4
-YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwg
-MSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvc3JjL01ha2VmaWxlLmFtIGIvc3JjL01ha2Vm
-aWxlLmFtCi1pbmRleCBlNTZiYjIzLi44YzNiYTdiIDEwMDY0NAoraW5kZXggODJiNDE5My4uMjNi
-MDgyYiAxMDA2NDQKIC0tLSBhL3NyYy9NYWtlZmlsZS5hbQogKysrIGIvc3JjL01ha2VmaWxlLmFt
-Ci1AQCAtMzI2LDYgKzMyNiw1IEBAIGdwZy1lcnJvci1jb25maWc6IGdwZ3J0LWNvbmZpZyBncGct
-ZXJyb3ItY29uZmlnLW9sZCBncGctZXJyb3ItY29uZmlnLXRlc3Quc2gKK0BAIC0zMzEsNiArMzMx
-LDUgQEAgZ3BnLWVycm9yLWNvbmZpZzogZ3BncnQtY29uZmlnIGdwZy1lcnJvci1jb25maWctb2xk
-IGdwZy1lcnJvci1jb25maWctdGVzdC5zaAogIAllbHNlICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXAogIAkgIGVjaG8gIm5vIjsgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAogIAkgIGVjaG8gIioqKiAgUGxlYXNlIHJl
-cG9ydCB0byA8aHR0cHM6Ly9idWdzLmdudXBnLm9yZz4gd2l0aCBncGctZXJyb3ItY29uZmlnLXRl
-c3QubG9nIjsgXApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ3BnLWVycm9y
-L2xpYmdwZy1lcnJvci9wa2djb25maWcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJn
-cGctZXJyb3IvbGliZ3BnLWVycm9yL3BrZ2NvbmZpZy5wYXRjaAppbmRleCAzOGM1NWFkMzQyLi5k
-MzJhMTBiMDhjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJncGctZXJyb3Iv
-bGliZ3BnLWVycm9yL3BrZ2NvbmZpZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9s
-aWJncGctZXJyb3IvbGliZ3BnLWVycm9yL3BrZ2NvbmZpZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAK
-LUZyb20gZmRjMGI2Zjg0YmFlN2NkNmVlYTE4NzEyMDQ5ZGE2MmNkZmQ1ZTYzMCBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKK0Zyb20gNzBlNjYzOWRjMTZiOWVhNDlkY2ZhZWYzYzNiY2U5ZWViNjE2
-NDk0NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEhvbmd4dSBKaWEgPGhvbmd4dS5q
-aWFAd2luZHJpdmVyLmNvbT4KIERhdGU6IFdlZCwgMjEgQXVnIDIwMjQgMjA6MDM6MjkgLTA3MDAK
-IFN1YmplY3Q6IFtQQVRDSF0gc3VwcG9ydCBwa2djb25maWcKQEAgLTI0MSw2ICsyNDEsMyBAQCBp
-bmRleCAyNjNmMjFiLi5lNTRhYjM4IDEwMDY0NAogLSAgQUNfU1VCU1QoR1BHX0VSUk9SX01UX0xJ
-QlMpCiAgXSkKICsKLS0tIAotMi4zNC4xCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L2xpYmdwZy1lcnJvci9saWJncGctZXJyb3JfMS41Ni5iYiBiL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L2xpYmdwZy1lcnJvci9saWJncGctZXJyb3JfMS41OC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJncGctZXJyb3IvbGliZ3BnLWVy
-cm9yXzEuNTYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdwZy1lcnJvci9s
-aWJncGctZXJyb3JfMS41OC5iYgppbmRleCBkM2NjODhmOTcxLi5kNDJhOTAyOGU4IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJncGctZXJyb3IvbGliZ3BnLWVycm9yXzEuNTYu
-YmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ3BnLWVycm9yL2xpYmdwZy1lcnJvcl8x
-LjU4LmJiCkBAIC0xOSw3ICsxOSw3IEBAIFNSQ19VUkkgPSAiJHtHTlVQR19NSVJST1J9L2xpYmdw
-Zy1lcnJvci9saWJncGctZXJyb3ItJHtQVn0udGFyLmJ6MiBcCiAgICAgICAgICAgIGZpbGU6Ly9y
-dW4tcHRlc3QgXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4MmMzZDJk
-ZWI0YWQ5NmFkMzkyNWQ2ZjlmMTI0ZmU3MjA1NzE2MDU1YWI1MGUyOTExMTZlZjI3OTc1ZDE2OWMw
-IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImY5NDNhZWE5YTgzMGE4YmQ5MzhlNTEyNGI1NzllZmFl
-Y2UyNGEzMjI1ZmY0YzNkMjc2MTFhODBjZTEyNjBjMjciCiAKIEJJTkNPTkZJRyA9ICIke2JpbmRp
-cn0vZ3BnLWVycm9yLWNvbmZpZyIKIAotLSAKMi40Ny4xCgo=
-
---===============2907725944521647849==
+--===============4505010367580697073==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -336,1500 +196,639 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "arm-poky-linux-musleabi"
 MACHINE              = "qemuarm"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-1c7894784097bf73cdf86e0953965a0f66049fcd"
+DISTRO_VERSION       = "5.2.99+snapshot-4c9825627d864c8363e49f7d11748986f58932d9"
 TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
 TARGET_FPU           = "hard"
-meta                 = "tmp-auh-upgrades:1c7894784097bf73cdf86e0953965a0f66049fcd"
+meta                 = "tmp-auh-upgrades:4c9825627d864c8363e49f7d11748986f58932d9"
 meta-yocto-bsp       
 meta-poky            = "master:b3b659263566c4d2f2813190e72d93f8598a4c47"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 259 Local 163 Mirrors 0 Missed 96 Current 255 (62% match, 81% complete)
+Sstate summary: Wanted 120 Local 111 Mirrors 0 Missed 9 Current 197 (92% match, 97% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 338 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 346 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 352 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 355 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 356 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 357 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 360 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 365 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 366 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 367 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 372 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 376 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 381 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 384 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 387 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 388 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe psmisc-23.7-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe perl-5.40.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-2.77-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe acl-2.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.41.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe coreutils-9.9-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe perl-5.40.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe psmisc-23.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 392 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 393 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-2.41.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe coreutils-9.9-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 396 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 401 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 402 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gmp-6.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 404 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_recipe_qa_setscene)
-NOTE: recipe make-4.4.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 405 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 406 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 407 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-2.77-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 409 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 412 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 413 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 415 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe acl-2.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 416 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 417 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_recipe_qa_setscene)
-NOTE: recipe bash-5.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 420 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe psmisc-23.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe perl-5.40.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe coreutils-9.9-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libcap-2.77-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe util-linux-2.41.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe acl-2.3.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe psmisc-23.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 421 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe perl-5.40.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 422 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sed-4.9-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 423 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 424 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe coreutils-9.9-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 425 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe gmp-6.3.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 428 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc-initial_15.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 429 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 430 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.26-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libcap-2.77-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 431 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-2.41.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 433 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.17.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 434 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 435 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 436 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 438 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_recipe_qa_setscene)
-NOTE: recipe libgpg-error-1.58-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe acl-2.3.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 441 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 442 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_recipe_qa_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libgcc-initial-15.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.17-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-2.77-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 443 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_recipe_qa_setscene)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 447 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_recipe_qa_setscene)
-NOTE: recipe bash-5.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 448 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 450 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libgcc-initial-15.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe sed-4.9-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 451 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 454 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libcap-2.77-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.17-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gmp-6.3.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 466 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.17.bb:do_packagedata_setscene)
-NOTE: Running setscene task 467 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 468 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 469 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 470 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 472 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe acl-2.3.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 247 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 263 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 264 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 266 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 268 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe alsa-topology-conf-1.2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe alsa-ucm-conf-1.2.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe alsa-lib-1.2.15-r0: task do_populate_lic_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe alsa-lib-1.2.15-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe alsa-topology-conf-1.2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe alsa-lib-1.2.15-r0: task do_populate_lic_setscene: Succeeded
+NOTE: recipe alsa-ucm-conf-1.2.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe alsa-lib-1.2.15-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 273 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 274 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 275 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe alsa-lib-1.2.15-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe alsa-lib-1.2.15-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 796 of 935 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb:do_fetch)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 277 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 278 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 280 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 281 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe alsa-lib-1.2.15-r0: task do_fetch: Started
+NOTE: recipe alsa-lib-1.2.15-r0: task do_fetch: Succeeded
+NOTE: Running task 797 of 935 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb:do_unpack)
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe alsa-lib-1.2.15-r0: task do_unpack: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 287 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe alsa-lib-1.2.15-r0: task do_unpack: Succeeded
+NOTE: Running task 803 of 935 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb:do_patch)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 289 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 290 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_recipe_qa_setscene)
+NOTE: recipe alsa-lib-1.2.15-r0: task do_patch: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 292 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe alsa-lib-1.2.15-r0: task do_patch: Succeeded
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 294 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.17.bb:do_packagedata_setscene)
+NOTE: Running setscene task 295 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 296 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 297 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 299 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
 NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe linux-libc-headers-6.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe shadow-4.18.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe acl-2.3.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 473 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_recipe_qa_setscene)
-NOTE: recipe bash-5.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 474 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 475 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 476 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_recipe_qa_setscene)
-NOTE: recipe base-passwd-3.6.8-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 810 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_fetch)
-NOTE: Running task 838 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_fetch)
-NOTE: Running task 839 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_fetch)
-NOTE: Running task 873 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_fetch)
-NOTE: Running task 875 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_fetch)
-NOTE: recipe shadow-4.18.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 906 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_fetch)
-NOTE: Running task 907 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_fetch)
-NOTE: Running task 908 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_fetch)
-NOTE: Running task 909 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_fetch)
-NOTE: Running task 910 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_fetch)
-NOTE: Running task 911 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_fetch)
-NOTE: Running setscene task 479 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 480 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_fetch: Started
-NOTE: recipe acl-2.3.2-r0: task do_fetch: Started
-NOTE: recipe gdbm-1.26-r0: task do_fetch: Started
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_fetch: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 481 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libgpg-error-1.58-r0: task do_fetch: Started
-NOTE: recipe libcap-2.77-r0: task do_fetch: Started
-NOTE: recipe bash-5.3-r0: task do_fetch: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_fetch: Started
-NOTE: Running task 913 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_unpack)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 914 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_fetch)
-NOTE: recipe acl-2.3.2-r0: task do_fetch: Succeeded
-NOTE: recipe gdbm-1.26-r0: task do_fetch: Succeeded
-NOTE: recipe gmp-6.3.0-r0: task do_fetch: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_fetch: Started
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_fetch: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_fetch: Started
-NOTE: Running task 916 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_fetch)
-NOTE: Running task 917 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_unpack)
-NOTE: recipe libcap-2.77-r0: task do_fetch: Succeeded
-NOTE: recipe libgpg-error-1.58-r0: task do_fetch: Succeeded
-NOTE: Running task 918 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_unpack)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_fetch: Succeeded
-NOTE: recipe bash-5.3-r0: task do_fetch: Succeeded
-NOTE: Running task 919 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_unpack)
-NOTE: Running task 921 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
-NOTE: recipe gmp-6.3.0-r0: task do_fetch: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_fetch: Succeeded
-NOTE: recipe libpam-1.7.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 922 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_unpack)
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_fetch: Succeeded
-NOTE: Running task 927 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_fetch)
-NOTE: Running task 928 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_fetch)
-NOTE: Running task 929 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_fetch)
-NOTE: Running task 930 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_fetch)
-NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shadow-4.18.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_unpack: Started
-NOTE: recipe ncurses-6.5-r0: task do_fetch: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_fetch: Started
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
-NOTE: recipe acl-2.3.2-r0: task do_unpack: Started
-NOTE: recipe gdbm-1.26-r0: task do_unpack: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_unpack: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_fetch: Succeeded
-NOTE: recipe bash-5.3-r0: task do_unpack: Started
-NOTE: recipe sed-4.9-r0: task do_fetch: Started
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
-NOTE: Running task 931 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_unpack)
-NOTE: recipe perl-5.40.2-r0: task do_fetch: Started
-NOTE: Running task 934 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
-NOTE: recipe coreutils-9.9-r0: task do_fetch: Started
-NOTE: recipe util-linux-2.41.2-r0: task do_fetch: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_fetch: Succeeded
-NOTE: recipe sed-4.9-r0: task do_fetch: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_unpack: Succeeded
-NOTE: Running task 937 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_unpack)
-NOTE: recipe shadow-4.18.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 938 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_unpack)
-NOTE: recipe coreutils-9.9-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 482 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libpam-1.7.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 939 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_patch)
-NOTE: recipe perl-5.40.2-r0: task do_fetch: Succeeded
-NOTE: recipe acl-2.3.2-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 483 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 940 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_write_config)
-NOTE: Running task 941 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_unpack)
-NOTE: recipe util-linux-2.41.2-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 484 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 485 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdbm-1.26-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 486 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running task 942 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_patch)
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_unpack: Started
-NOTE: recipe libcap-2.77-r0: task do_unpack: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_unpack: Started
-NOTE: recipe zlib-1.3.1-r0: task do_patch: Started
-NOTE: recipe shadow-4.18.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_unpack: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_fetch: Succeeded
-NOTE: recipe libpam-1.7.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libpam-1.7.1-r0: task do_write_config: Started
-NOTE: Running task 943 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_patch)
-NOTE: recipe acl-2.3.2-r0: task do_patch: Started
-NOTE: recipe attr-2.5.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_unpack: Succeeded
-NOTE: Running task 944 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_unpack)
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
-NOTE: recipe shadow-4.18.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 945 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_patch)
-NOTE: recipe libpam-1.7.1-r0: task do_write_config: Succeeded
-NOTE: Running task 947 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_fetch)
-NOTE: Running task 948 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
-NOTE: recipe libpam-1.7.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 487 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_recipe_qa_setscene)
-NOTE: recipe attr-2.5.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libcap-2.77-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 488 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_recipe_qa_setscene)
-NOTE: Running task 949 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_unpack)
-NOTE: recipe gdbm-1.26-r0: task do_patch: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_unpack: Succeeded
-NOTE: Running task 950 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_patch)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 489 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 490 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_unpack: Started
-NOTE: recipe zlib-1.3.1-r0: task do_patch: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
-NOTE: Running setscene task 491 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgpg-error-1.58-r0: task do_patch: Started
-NOTE: recipe shadow-4.18.0-r0: task do_fetch: Started
-NOTE: recipe bash-5.3-r0: task do_unpack: Succeeded
-NOTE: Running task 952 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_patch)
-NOTE: recipe libpam-1.7.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe shadow-4.18.0-r0: task do_fetch: Succeeded
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_unpack: Started
-NOTE: Running task 953 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_unpack)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_patch: Started
-NOTE: recipe acl-2.3.2-r0: task do_patch: Succeeded
-NOTE: Running task 955 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_unpack)
-NOTE: recipe libpam-1.7.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 957 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_fetch)
-NOTE: recipe gdbm-1.26-r0: task do_patch: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 959 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_fetch)
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
-NOTE: Running task 961 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_unpack)
-NOTE: Running task 962 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_patch)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe bash-5.3-r0: task do_patch: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 492 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 493 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-NOTE: recipe shadow-4.18.0-r0: task do_unpack: Started
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_unpack: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_unpack: Succeeded
-NOTE: Running task 963 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_patch)
-NOTE: recipe bash-completion-2.16.0-r0: task do_unpack: Started
-NOTE: recipe libcap-2.77-r0: task do_patch: Started
-NOTE: recipe attr-2.5.2-r0: task do_fetch: Started
-NOTE: recipe libpam-1.7.1-r0: task do_fetch: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_fetch: Succeeded
-NOTE: recipe libgpg-error-1.58-r0: task do_patch: Succeeded
-NOTE: Running task 964 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_unpack)
-NOTE: Running task 965 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_deploy_source_date_epoch)
-NOTE: recipe libpam-1.7.1-r0: task do_fetch: Succeeded
-NOTE: Running task 966 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_unpack)
-NOTE: recipe libcap-2.77-r0: task do_patch: Succeeded
-NOTE: Running task 969 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_unpack)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_unpack: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 970 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_patch)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 973 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_fetch)
-NOTE: Running task 974 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_fetch)
-NOTE: recipe gmp-6.3.0-r0: task do_unpack: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_patch: Started
-NOTE: Running task 975 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_patch)
-NOTE: recipe attr-2.5.2-r0: task do_unpack: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpam-1.7.1-r0: task do_unpack: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_fetch: Started
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_patch: Started
-NOTE: recipe util-linux-2.41.2-r0: task do_unpack: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_fetch: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_unpack: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_unpack: Succeeded
-NOTE: Running task 976 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_patch)
-NOTE: Running task 977 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_patch)
-NOTE: recipe gmp-6.3.0-r0: task do_patch: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_fetch: Succeeded
-NOTE: Running task 978 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_unpack)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 494 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_patch: Succeeded
-NOTE: recipe bash-5.3-r0: task do_patch: Succeeded
-NOTE: Running setscene task 495 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 496 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_unpack: Started
-NOTE: recipe attr-2.5.2-r0: task do_patch: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_patch: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_unpack: Succeeded
-NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_fetch: Succeeded
-NOTE: Running task 980 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_patch)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_patch: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_patch: Succeeded
-NOTE: Running task 981 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_unpack)
-NOTE: Running task 982 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_unpack)
-NOTE: recipe libgpg-error-1.58-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 983 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_unpack)
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_deploy_source_date_epoch unihash changed to 31fc63eacf0bb87d0f014354ae340c02ff54c6558b356872b5c0a80d26e70813
-NOTE: recipe libpam-1.7.1-r0: task do_unpack: Succeeded
-NOTE: recipe base-passwd-3.6.8-r0: task do_patch: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running task 984 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_patch)
-NOTE: Running task 986 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_unpack)
-NOTE: Running task 990 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_fetch)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_unpack: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_unpack: Succeeded
-NOTE: Running task 997 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_fetch)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_unpack: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_patch: Started
-NOTE: Running task 998 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_patch)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe sed-4.9-r0: task do_unpack: Started
-NOTE: Running noexec task 1000 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_fetch)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 1001 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_fetch)
-NOTE: recipe attr-2.5.2-r0: task do_patch: Succeeded
-NOTE: recipe coreutils-9.9-r0: task do_unpack: Started
-NOTE: Running task 1008 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1040 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_fetch)
-NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r0: task do_fetch: Started
-NOTE: Running setscene task 497 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_recipe_qa_setscene)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 498 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe perl-5.40.2-r0: task do_unpack: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_fetch: Started
-NOTE: recipe libpam-1.7.1-r0: task do_patch: Started
-NOTE: recipe ncurses-6.5-r0: task do_patch: Started
-NOTE: recipe make-4.4.1-r0: task do_fetch: Started
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe make-4.4.1-r0: task do_fetch: Succeeded
-NOTE: recipe libpam-1.7.1-r0: task do_patch: Succeeded
-NOTE: Running setscene task 499 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe psmisc-23.7-r0: task do_fetch: Started
-NOTE: Running task 1042 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_unpack)
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1043 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
-NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_patch: Succeeded
-NOTE: Running task 1044 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_unpack)
-NOTE: recipe sed-4.9-r0: task do_unpack: Succeeded
-NOTE: Running task 1045 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_patch)
-NOTE: recipe util-linux-2.41.2-r0: task do_unpack: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r0: task do_unpack: Started
-NOTE: Running task 1046 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_patch)
-NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
 NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running noexec task 1048 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_fetch)
-NOTE: recipe libgcc-15.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r0: task do_unpack: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1088 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_collect_spdx_deps)
-NOTE: Running task 1091 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_populate_lic)
-NOTE: Running task 1092 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_unpack)
-NOTE: recipe make-4.4.1-r0: task do_unpack: Started
-NOTE: recipe sed-4.9-r0: task do_patch: Started
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
-NOTE: Running task 1093 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
-NOTE: recipe base-files-3.0.14-r0: task do_collect_spdx_deps: Started
-NOTE: recipe util-linux-2.41.2-r0: task do_patch: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_unpack: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_populate_lic: Started
-NOTE: recipe base-files-3.0.14-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe shadow-4.18.0-r0: task do_unpack: Succeeded
-NOTE: recipe sed-4.9-r0: task do_patch: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1094 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_patch)
-NOTE: Running task 1096 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_patch)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1097 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_patch)
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.17-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
 NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe psmisc-23.7-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 500 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.17.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 501 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc-initial_15.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 502 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 503 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 504 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
-NOTE: recipe coreutils-9.9-r0: task do_unpack: Succeeded
-NOTE: Running task 1098 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_patch)
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_patch: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_patch: Started
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
-NOTE: recipe shadow-4.18.0-r0: task do_patch: Started
-NOTE: Running task 1100 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_unpack)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_patch: Started
-NOTE: Running task 1101 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe libgcc-initial-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.17-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 305 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 306 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 307 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.17.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 310 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
 NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_patch: Succeeded
-NOTE: recipe coreutils-9.9-r0: task do_patch: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_populate_lic: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe psmisc-23.7-r0: task do_unpack: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.17-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shadow-4.18.0-r0: task do_patch: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_patch: Succeeded
-NOTE: recipe libgcc-initial-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe coreutils-9.9-r0: task do_patch: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_patch: Succeeded
-NOTE: recipe linux-libc-headers-6.17-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_unpack: Succeeded
-NOTE: recipe util-linux-2.41.2-r0: task do_patch: Succeeded
-NOTE: recipe perl-5.40.2-r0: task do_unpack: Succeeded
-NOTE: recipe psmisc-23.7-r0: task do_unpack: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_populate_lic unihash changed to dac31775ecc700ddcb6f41d4a83dbf6841fec480a2749a326aeda99aef3521d7
-NOTE: Running setscene task 505 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc-initial_15.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 506 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 510 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.17.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 511 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 512 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: Running task 1113 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_patch)
-NOTE: Running task 1115 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_patch)
-NOTE: Running task 1119 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_patch)
-NOTE: recipe base-files-3.0.14-r0: task do_install: Started
-NOTE: recipe libgcc-initial-15.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.17-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_patch: Started
-NOTE: recipe perl-5.40.2-r0: task do_patch: Started
-NOTE: recipe psmisc-23.7-r0: task do_patch: Started
-NOTE: recipe libgcc-initial-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: recipe linux-libc-headers-6.17-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1145 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_fetch)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_patch: Succeeded
-NOTE: recipe psmisc-23.7-r0: task do_patch: Succeeded
+NOTE: Running setscene task 313 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 315 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
 NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_fetch: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.17-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 317 of 317 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.17.bb:do_recipe_qa_setscene)
 NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.17-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.17-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1172 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_fetch)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_fetch: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1173 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_unpack)
-NOTE: Running task 1174 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_prepare_recipe_sysroot)
-NOTE: recipe musl-1.2.5+git-r0: task do_fetch: Succeeded
-NOTE: Running task 1175 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_unpack)
-NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
-NOTE: Running task 1176 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: Running task 1177 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_unpack: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_unpack: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1178 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_patch)
-NOTE: Running task 1179 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_collect_spdx_deps)
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Started
-NOTE: recipe base-files-3.0.14-r0: task do_package: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_patch: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_patch: Succeeded
-NOTE: recipe perl-5.40.2-r0: task do_patch: Succeeded
-NOTE: Running noexec task 1181 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_configure)
-NOTE: Running task 1182 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_compile)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_compile: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_compile: Succeeded
-NOTE: Running task 1184 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_install)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_install: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_unpack: Succeeded
-NOTE: Running task 1185 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_patch)
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_patch: Started
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 56f86136d7a4cf1994dc4410aea1740546a49f4519d7112a9e473f8c6a2f81f4
-NOTE: recipe libssp-nonshared-1.0-r0: task do_install: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1187 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1188 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_package)
-NOTE: recipe musl-1.2.5+git-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_package: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_patch: Succeeded
-NOTE: Running task 1190 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_configure)
-NOTE: recipe musl-1.2.5+git-r0: task do_configure: Started
-NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_configure: Succeeded
-NOTE: Running task 1191 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: Running task 1192 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_compile)
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_compile: Started
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 27a1287f03f8699e6a83b8e7203f6b85f617ccd1b7f11fa183cd486905f39fba
-NOTE: Setscene tasks completed
-NOTE: Running task 1193 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx)
-NOTE: recipe base-files-3.0.14-r0: task do_create_spdx: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_package unihash changed to ba3093ce4aaa1925a3c23abc9c31dbb5d71261919739d6dfcf89d75c863e99e8
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_create_spdx became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata became valid
-NOTE: recipe base-files-3.0.14-r0: task do_create_spdx: Succeeded
-NOTE: Running setscene task 508 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_create_spdx_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1196 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_collect_spdx_deps)
-NOTE: recipe musl-1.2.5+git-r0: task do_collect_spdx_deps: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_compile: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1197 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_install)
-NOTE: recipe musl-1.2.5+git-r0: task do_install: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_install: Succeeded
-NOTE: Running task 1199 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1200 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_package)
-NOTE: recipe libgcc-15.2.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_package: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1201 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_configure)
-NOTE: recipe libgcc-15.2.0-r0: task do_configure: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_configure: Succeeded
-NOTE: Running task 1202 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_compile)
-NOTE: recipe libgcc-15.2.0-r0: task do_compile: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_package unihash changed to 06c8996125a77b74e4639ad4db3f7cb2187de024ef8abf0fdad1fb712b0a1311
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx became valid
-NOTE: Running setscene task 508 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1205 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_collect_spdx_deps)
-NOTE: recipe libgcc-15.2.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libgcc-15.2.0-r0: task do_compile: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1206 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_install)
-NOTE: recipe libgcc-15.2.0-r0: task do_install: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_install: Succeeded
-NOTE: Running task 1207 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_multilib_install)
-NOTE: recipe libgcc-15.2.0-r0: task do_multilib_install: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_multilib_install: Succeeded
-NOTE: Running task 1208 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_extra_symlinks)
-NOTE: recipe libgcc-15.2.0-r0: task do_extra_symlinks: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_extra_symlinks: Succeeded
-NOTE: Running task 1210 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1211 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_package)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_package: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1212 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_configure)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_configure: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_package unihash changed to 17f6d81c27c034626dbfe37ad98d0d46bcbedf1abe70eaea1a6853ce7e272d08
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_create_spdx became valid
-NOTE: Running setscene task 506 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_create_spdx_setscene)
-NOTE: recipe libgcc-15.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1215 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_collect_spdx_deps)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1216 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_compile)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_compile: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_compile: Succeeded
-NOTE: Running task 1217 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_install)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_install: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_install: Succeeded
-NOTE: Running task 1224 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1225 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1226 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1227 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_package)
-NOTE: Running task 1228 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1229 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1230 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1231 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1232 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1233 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1234 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1235 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe zlib-1.3.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpam-1.7.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gdbm-1.26-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gmp-6.3.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_package: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe make-4.4.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe zlib-1.3.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1236 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_configure)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1237 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_configure)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1238 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_configure)
-NOTE: recipe zlib-1.3.1-r0: task do_configure: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gmp-6.3.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1239 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_configure)
-NOTE: recipe gdbm-1.26-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_configure: Started
-NOTE: Running task 1240 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_configure)
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1241 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_configure)
-NOTE: recipe make-4.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1242 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_configure)
-NOTE: Running task 1243 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_configure)
-NOTE: Running task 1244 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_configure)
-NOTE: Running task 1245 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_configure)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_configure: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_configure: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_configure: Started
-NOTE: recipe gmp-6.3.0-r0: task do_configure: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_configure: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_configure: Started
-NOTE: recipe gdbm-1.26-r0: task do_configure: Started
-NOTE: recipe make-4.4.1-r0: task do_configure: Started
-NOTE: recipe libpam-1.7.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_configure: Succeeded
-NOTE: Running task 1246 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_configure)
-NOTE: Running task 1247 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_compile)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_compile: Started
-NOTE: recipe libpam-1.7.1-r0: task do_configure: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_compile: Succeeded
-NOTE: Running task 1248 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_install)
-NOTE: recipe zlib-1.3.1-r0: task do_configure: Succeeded
-NOTE: Running task 1249 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_configure_ptest_base)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_install: Started
-NOTE: recipe zlib-1.3.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe zlib-1.3.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1250 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_compile)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_install: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_compile: Started
-NOTE: Running task 1252 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1253 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1254 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1255 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_prepare_recipe_sysroot)
-NOTE: recipe attr-2.5.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ncurses-6.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe sed-4.9-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe attr-2.5.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe sed-4.9-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1256 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_configure)
-NOTE: recipe libgpg-error-1.58-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1257 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_configure)
-NOTE: Running task 1258 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_configure)
-NOTE: Running task 1259 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_configure)
-NOTE: recipe ncurses-6.5-r0: task do_configure: Started
-NOTE: recipe sed-4.9-r0: task do_configure: Started
-NOTE: recipe attr-2.5.2-r0: task do_configure: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_configure: Started
-NOTE: recipe zlib-1.3.1-r0: task do_compile: Succeeded
-NOTE: Running task 1260 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_compile_ptest_base)
-NOTE: recipe zlib-1.3.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe zlib-1.3.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1261 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_install)
-NOTE: recipe zlib-1.3.1-r0: task do_install: Started
-NOTE: recipe zlib-1.3.1-r0: task do_install: Succeeded
-NOTE: Running task 1262 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_install_ptest_base)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_configure: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_install_ptest_base: Started
-NOTE: Running task 1263 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_compile)
-NOTE: recipe zlib-1.3.1-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_compile: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_configure: Succeeded
-NOTE: Running task 1265 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_compile)
-NOTE: recipe bash-completion-2.16.0-r0: task do_compile: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_configure: Succeeded
-NOTE: Running task 1266 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_compile)
-NOTE: recipe base-passwd-3.6.8-r0: task do_compile: Started
-NOTE: recipe libpam-1.7.1-r0: task do_configure: Succeeded
-NOTE: Running task 1267 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_configure_ptest_base)
-NOTE: recipe libpam-1.7.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_compile: Succeeded
-NOTE: Running task 1268 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_install)
-NOTE: recipe libpam-1.7.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1269 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_compile)
-NOTE: recipe base-passwd-3.6.8-r0: task do_install: Started
-NOTE: recipe libpam-1.7.1-r0: task do_compile: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_install: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_compile: Succeeded
-NOTE: Running task 1276 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_install)
-NOTE: recipe bash-completion-2.16.0-r0: task do_install: Started
-NOTE: recipe libpam-1.7.1-r0: task do_compile: Succeeded
-NOTE: Running task 1277 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_compile_ptest_base)
-NOTE: recipe libpam-1.7.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe libpam-1.7.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1278 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_install)
-NOTE: recipe libpam-1.7.1-r0: task do_install: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_package unihash changed to 80aac9b3e870811fef28604e07005add13f3876f81b2219185ffe23ba7b06680
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_create_spdx became valid
-NOTE: Running setscene task 470 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_create_spdx_setscene)
-NOTE: recipe libpam-1.7.1-r0: task do_install: Succeeded
-NOTE: Running task 1279 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_install_ptest_base)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 511 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
-NOTE: recipe libpam-1.7.1-r0: task do_install_ptest_base: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_configure: Succeeded
-NOTE: Running task 1280 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_compile)
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 513 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_compile: Started
-NOTE: recipe libpam-1.7.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1282 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libcap-2.77-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
-NOTE: recipe libcap-2.77-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1283 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_configure)
-NOTE: recipe libcap-2.77-r0: task do_configure: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1285 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_package)
-NOTE: Running task 1286 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_package)
-NOTE: Running task 1288 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_package)
-NOTE: Running task 1291 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_package)
-NOTE: recipe libcap-2.77-r0: task do_configure: Succeeded
-NOTE: Running task 1292 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_compile)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_package: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_package: Started
-NOTE: recipe libpam-1.7.1-r0: task do_package: Started
-NOTE: recipe zlib-1.3.1-r0: task do_package: Started
-NOTE: recipe libcap-2.77-r0: task do_compile: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_compile: Succeeded
-NOTE: Running task 1293 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_install)
-NOTE: recipe attr-2.5.2-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1294 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_configure_ptest_base)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_install: Started
-NOTE: recipe attr-2.5.2-r0: task do_configure_ptest_base: Started
-NOTE: recipe attr-2.5.2-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1295 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_compile)
-NOTE: recipe attr-2.5.2-r0: task do_compile: Started
-NOTE: recipe gdbm-1.26-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1296 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_configure_ptest_base)
-NOTE: recipe gdbm-1.26-r0: task do_configure_ptest_base: Started
-NOTE: recipe gdbm-1.26-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1297 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_compile)
-NOTE: recipe gdbm-1.26-r0: task do_compile: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_install: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_configure: Succeeded
-NOTE: Running task 1299 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_collect_spdx_deps)
-NOTE: Setscene tasks completed
-NOTE: Running task 1300 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_compile)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe attr-2.5.2-r0: task do_compile: Succeeded
-NOTE: Running task 1301 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_compile_ptest_base)
-NOTE: recipe make-4.4.1-r0: task do_compile: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1302 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_package)
-NOTE: recipe attr-2.5.2-r0: task do_compile_ptest_base: Started
-NOTE: recipe attr-2.5.2-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_package: Started
-NOTE: Running task 1303 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_install)
-NOTE: recipe attr-2.5.2-r0: task do_install: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_package unihash changed to f12e6abe990801ab8563841fbdfd72f7a299900292cd468a8fee69ac8fba03a8
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata became valid
-NOTE: Running setscene task 513 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libcap-2.77-r0: task do_compile: Succeeded
-NOTE: Running task 1304 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_install)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: recipe libcap-2.77-r0: task do_install: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_package: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_package unihash changed to 0e68455691b0e968c970f8872ab9e260d2a301eb1a42d7dc4140fb5373bc2a8e
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_packagedata became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_create_spdx became valid
-NOTE: Running setscene task 513 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_create_spdx_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_package: Succeeded
-NOTE: Running task 1307 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_collect_spdx_deps)
-NOTE: recipe attr-2.5.2-r0: task do_install: Succeeded
-NOTE: Running task 1308 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_install_ptest_base)
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_package unihash changed to 7269b98ef955f57520476f9cc61dd44b4f60053d29ce40d06822103726cafcc0
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata became valid
-NOTE: recipe base-passwd-3.6.8-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 513 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: recipe libgpg-error-1.58-r0: task do_collect_spdx_deps: Started
-NOTE: recipe attr-2.5.2-r0: task do_install_ptest_base: Started
-NOTE: recipe base-passwd-3.6.8-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_packagedata_setscene)
-NOTE: recipe libgpg-error-1.58-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1310 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_collect_spdx_deps)
-NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1313 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1314 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpam-1.7.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe make-4.4.1-r0: task do_compile: Succeeded
-NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1315 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_package)
-NOTE: Running task 1317 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_install)
-NOTE: recipe acl-2.3.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe shadow-4.18.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpam-1.7.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1319 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_collect_spdx_deps)
-NOTE: recipe attr-2.5.2-r0: task do_package: Started
-NOTE: recipe make-4.4.1-r0: task do_install: Started
-NOTE: recipe attr-2.5.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe acl-2.3.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1320 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_configure)
-NOTE: recipe shadow-4.18.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1321 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_configure)
-NOTE: recipe acl-2.3.2-r0: task do_configure: Started
-NOTE: recipe shadow-4.18.0-r0: task do_configure: Started
-NOTE: recipe gdbm-1.26-r0: task do_compile: Succeeded
-NOTE: Running task 1322 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_compile_ptest_base)
-NOTE: recipe gdbm-1.26-r0: task do_compile_ptest_base: Started
-NOTE: recipe libcap-2.77-r0: task do_install: Succeeded
-NOTE: Running task 1325 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_collect_spdx_deps)
-NOTE: recipe ncurses-6.5-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_package: Succeeded
-NOTE: recipe gdbm-1.26-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1326 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_install)
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_package unihash changed to 4b2660ae4de179b52eb9271829205fa7f71c412205fa06556d003b77a08459dd
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata became valid
-NOTE: recipe ncurses-6.5-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
-NOTE: Running task 1328 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_collect_spdx_deps)
-NOTE: recipe make-4.4.1-r0: task do_install: Succeeded
-NOTE: Running task 1329 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_package)
-NOTE: recipe gdbm-1.26-r0: task do_install: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe make-4.4.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_package: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe attr-2.5.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libgpg-error-1.58-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1332 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_configure_ptest_base)
-NOTE: recipe bash-completion-2.16.0-r0: task do_install: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1334 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_package)
-NOTE: recipe libgpg-error-1.58-r0: task do_configure_ptest_base: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1335 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_compile)
-NOTE: recipe bash-completion-2.16.0-r0: task do_package: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_compile: Started
-NOTE: recipe gdbm-1.26-r0: task do_install: Succeeded
-NOTE: Running task 1336 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_install_ptest_base)
-NOTE: recipe gdbm-1.26-r0: task do_install_ptest_base: Started
-NOTE: recipe gdbm-1.26-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1338 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1339 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_package)
-NOTE: recipe perl-5.40.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gdbm-1.26-r0: task do_package: Started
-NOTE: recipe perl-5.40.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1340 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_configure)
-NOTE: recipe attr-2.5.2-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_package unihash changed to 5060cb7d48913e567c39220d1dc985ce237fa378ee56707c96320496710a0aa0
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_create_spdx became valid
-NOTE: recipe perl-5.40.2-r0: task do_configure: Started
-NOTE: Running setscene task 511 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_create_spdx_setscene)
-NOTE: recipe attr-2.5.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_package unihash changed to 25d80fabeb97f86a74ffa8024d37f3be171c7678fd806505241481f6b9e55fdb
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_rpm became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_ipk became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_package_qa became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_packagedata became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_create_spdx became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_deb became valid
-NOTE: Running setscene task 503 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_package_qa_setscene)
-NOTE: Running setscene task 504 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 506 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 511 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe make-4.4.1-r0: task do_package_qa_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_package_qa_setscene: Succeeded
-NOTE: Running setscene task 513 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_create_spdx_setscene)
-NOTE: recipe make-4.4.1-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/make/make_4.4.1.bb:do_packagedata_setscene)
-NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpam-1.7.1-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_package unihash changed to f0b472ed0c2e7db9310634e3674422e44eb73ffa81f65ac3170b72652251b383
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_create_spdx became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_packagedata became valid
-NOTE: Running setscene task 509 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_create_spdx_setscene)
-NOTE: recipe libpam-1.7.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libpam-1.7.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.1.bb:do_packagedata_setscene)
-NOTE: recipe libpam-1.7.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.16.0-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_package unihash changed to efc156f4db81f87b6938e052fe63944adf18d183f04828655024a5007343d54f
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_packagedata became valid
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_packagedata_setscene)
-NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Started
-WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/bash-completion/2.16.0/temp/log.do_packagedata_setscene.4047697
-WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running task 1349 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_packagedata)
-NOTE: recipe gdbm-1.26-r0: task do_package: Succeeded
-NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata: Started
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_package unihash changed to 5462276eba73fb0f8617697ec58750c4ab8e8e18c6d121b964a398c8178d45e5
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata became valid
-NOTE: Running setscene task 509 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
-NOTE: recipe libpam-1.7.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1351 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_package)
-NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1353 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_collect_spdx_deps)
-NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata: Succeeded
-NOTE: recipe libcap-2.77-r0: task do_package: Started
-NOTE: recipe shadow-4.18.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe shadow-4.18.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gmp-6.3.0-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1355 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_compile)
-NOTE: recipe gmp-6.3.0-r0: task do_compile: Started
-NOTE: recipe acl-2.3.2-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1356 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_configure_ptest_base)
-NOTE: recipe acl-2.3.2-r0: task do_configure_ptest_base: Started
-NOTE: recipe acl-2.3.2-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1357 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_compile)
-NOTE: recipe libgpg-error-1.58-r0: task do_compile: Succeeded
-NOTE: Running task 1358 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_compile_ptest_base)
-NOTE: recipe acl-2.3.2-r0: task do_compile: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_compile_ptest_base: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1359 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_install)
-NOTE: recipe libgpg-error-1.58-r0: task do_install: Started
-NOTE: recipe sed-4.9-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1360 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_configure_ptest_base)
-NOTE: recipe sed-4.9-r0: task do_configure_ptest_base: Started
-NOTE: recipe acl-2.3.2-r0: task do_compile: Succeeded
-NOTE: Running task 1361 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_compile_ptest_base)
-NOTE: recipe sed-4.9-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1362 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_compile)
-NOTE: recipe acl-2.3.2-r0: task do_compile_ptest_base: Started
-NOTE: recipe sed-4.9-r0: task do_compile: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_install: Succeeded
-NOTE: Running task 1363 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_install_ptest_base)
-NOTE: recipe acl-2.3.2-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1364 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_install)
-NOTE: recipe libcap-2.77-r0: task do_package: Succeeded
-NOTE: recipe libgpg-error-1.58-r0: task do_install_ptest_base: Started
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_package unihash changed to 2b1b8707ac9ce18c0c1a7a298de5c962b6aa8900b137e1d4bbed5ff1255ba8a1
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_packagedata became valid
-NOTE: recipe acl-2.3.2-r0: task do_install: Started
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.77.bb:do_packagedata_setscene)
-NOTE: recipe libgpg-error-1.58-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe libcap-2.77-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1365 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_package)
-NOTE: Running task 1366 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_populate_sysroot)
-NOTE: recipe libcap-2.77-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe libgpg-error-1.58-r0: task do_populate_sysroot: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_package: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe acl-2.3.2-r0: task do_install: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_populate_sysroot unihash changed to f6a647b1f841ae3d6676271906852e0f403026fb32ff63eb4271e7845e1dbace
-NOTE: Setscene tasks completed
-NOTE: Running task 1368 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_install_ptest_base)
-NOTE: recipe acl-2.3.2-r0: task do_install_ptest_base: Started
-NOTE: recipe acl-2.3.2-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1370 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_package)
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1371 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_compile)
-NOTE: recipe acl-2.3.2-r0: task do_package: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_compile: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_compile: Succeeded
-NOTE: Running task 1372 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_install)
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_install: Started
-NOTE: recipe sed-4.9-r0: task do_compile: Succeeded
-NOTE: Running task 1373 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_compile_ptest_base)
-NOTE: recipe sed-4.9-r0: task do_compile_ptest_base: Started
-NOTE: recipe sed-4.9-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1374 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_install)
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_install: Succeeded
-NOTE: Running task 1376 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_package)
-NOTE: recipe sed-4.9-r0: task do_install: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_package: Started
-NOTE: recipe shadow-4.18.0-r0: task do_configure: Succeeded
-NOTE: Running task 1377 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_compile)
-NOTE: recipe shadow-4.18.0-r0: task do_compile: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_package unihash changed to bc72a2bab314895e5b2dc01484aab53e9d1c152ca17d790e137dfafa88168eca
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_packagedata became valid
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_packagedata_setscene)
-NOTE: recipe libgpg-error-1.58-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1379 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_create_spdx)
-NOTE: recipe libgpg-error-1.58-r0: task do_create_spdx: Started
-NOTE: recipe acl-2.3.2-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_package unihash changed to 1e81b25998292ce6d109efb3d2dc35f85de0760f68e87b4b36aaca728e451cc5
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata became valid
-NOTE: recipe sed-4.9-r0: task do_install: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
-NOTE: Running task 1380 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_install_ptest_base)
-NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_install_ptest_base: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_create_spdx: Succeeded
-NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe sed-4.9-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1382 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_package)
-NOTE: recipe sed-4.9-r0: task do_package: Started
-NOTE: recipe gmp-6.3.0-r0: task do_compile: Succeeded
-NOTE: Running task 1383 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_install)
-NOTE: recipe gmp-6.3.0-r0: task do_install: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_package unihash changed to d36a414efcff72e10c6f4e7403a48b87271568f94db8e76690788751c128aeab
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_packagedata became valid
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.2.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.41.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe gmp-6.3.0-r0: task do_install: Succeeded
-NOTE: Running task 1386 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1387 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_package)
-NOTE: recipe gmp-6.3.0-r0: task do_package: Started
-NOTE: recipe coreutils-9.9-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe coreutils-9.9-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1388 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_configure)
-NOTE: recipe shadow-4.18.0-r0: task do_compile: Succeeded
-NOTE: Running task 1389 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_install)
-NOTE: recipe coreutils-9.9-r0: task do_configure: Started
-NOTE: recipe shadow-4.18.0-r0: task do_install: Started
-NOTE: recipe ncurses-6.5-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1390 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_compile)
-NOTE: recipe ncurses-6.5-r0: task do_compile: Started
-NOTE: recipe shadow-4.18.0-r0: task do_install: Succeeded
-NOTE: Running task 1391 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_package)
-NOTE: Running task 1393 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe shadow-4.18.0-r0: task do_package: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1394 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_configure)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_configure: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_configure: Succeeded
-NOTE: Running task 1395 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_compile)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_compile: Started
-NOTE: recipe gmp-6.3.0-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_package unihash changed to 542864a6f5f4f8f274a43711e6cc735abe8e1853bf8b70dc3ba4ddee2cc752de
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata became valid
-NOTE: Running setscene task 513 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_compile: Succeeded
-NOTE: Running task 1396 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_install)
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_install: Started
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_install: Succeeded
-NOTE: recipe sed-4.9-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_package unihash changed to c6ef7b87988325dcba36bcfd72c7880566eabdbb973b693b4183eaabeedc2857
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata became valid
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe shadow-4.18.0-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_package unihash changed to 1a3dc4fb49144ac8192111bdcc38d9ce394f4ffffbe5d49046a6e90162f5ede7
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_create_spdx became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_packagedata became valid
-NOTE: Running setscene task 513 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_create_spdx_setscene)
-NOTE: recipe shadow-4.18.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe shadow-4.18.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_packagedata_setscene)
-NOTE: recipe shadow-4.18.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.18.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1401 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package)
-NOTE: Running task 1403 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_collect_spdx_deps)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_compile: Succeeded
-NOTE: Running task 1404 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_install)
-NOTE: recipe ncurses-6.5-r0: task do_install: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package unihash changed to ee00b83250b3feebcd3f40384ef7690e62cabec9a92bca32d5b9f18298dff8bb
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_packagedata became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_create_spdx became valid
-NOTE: Running setscene task 513 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_create_spdx_setscene)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_packagedata_setscene)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe ncurses-6.5-r0: task do_install: Succeeded
-NOTE: Running task 1408 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1409 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_package)
-NOTE: Running task 1410 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe bash-5.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe psmisc-23.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ncurses-6.5-r0: task do_package: Started
-NOTE: recipe bash-5.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe psmisc-23.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1411 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_configure)
-NOTE: Running task 1412 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_configure)
-NOTE: recipe bash-5.3-r0: task do_configure: Started
-NOTE: recipe psmisc-23.7-r0: task do_configure: Started
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_compile: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1413 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_install)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_install: Started
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_install: Succeeded
-NOTE: Running task 1415 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1416 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_package)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_package: Started
-NOTE: recipe util-linux-2.41.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe util-linux-2.41.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1417 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_configure)
-NOTE: recipe util-linux-2.41.2-r0: task do_configure: Started
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_package unihash changed to fad3f3601fbb0d9bc245cb5b66797bbbd9c9a92dfd1722a54a17578c42181c9b
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_packagedata became valid
-NOTE: Running setscene task 511 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.51.1.bb:do_packagedata_setscene)
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.51.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe perl-5.40.2-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1419 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_configure_ptest_base)
-NOTE: recipe perl-5.40.2-r0: task do_configure_ptest_base: Started
-NOTE: recipe perl-5.40.2-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1420 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_compile)
-NOTE: recipe perl-5.40.2-r0: task do_compile: Started
-NOTE: recipe ncurses-6.5-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_package unihash changed to 23d66dc8c5916ac94c92c46bf30562e1b192692869e62aa0b90e7e5cbb86bc38
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_create_spdx became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata became valid
-NOTE: recipe coreutils-9.9-r0: task do_configure: Succeeded
-NOTE: Running setscene task 513 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_create_spdx_setscene)
-NOTE: Running task 1421 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_configure_ptest_base)
-NOTE: recipe ncurses-6.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe coreutils-9.9-r0: task do_configure_ptest_base: Started
-NOTE: recipe coreutils-9.9-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
-NOTE: Running task 1422 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_compile)
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe coreutils-9.9-r0: task do_compile: Started
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1425 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_collect_spdx_deps)
-NOTE: recipe bash-5.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe bash-5.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe psmisc-23.7-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1426 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_compile)
-NOTE: recipe psmisc-23.7-r0: task do_compile: Started
-NOTE: recipe bash-5.3-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1427 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_configure_ptest_base)
-NOTE: recipe bash-5.3-r0: task do_configure_ptest_base: Started
-NOTE: recipe bash-5.3-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1428 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_compile)
-NOTE: recipe bash-5.3-r0: task do_compile: Started
-NOTE: recipe psmisc-23.7-r0: task do_compile: Succeeded
-NOTE: Running task 1429 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_install)
-NOTE: recipe psmisc-23.7-r0: task do_install: Started
-NOTE: recipe coreutils-9.9-r0: task do_compile: Succeeded
-NOTE: Running task 1430 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_compile_ptest_base)
-NOTE: recipe psmisc-23.7-r0: task do_install: Succeeded
-NOTE: Running task 1431 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_package)
-NOTE: recipe coreutils-9.9-r0: task do_compile_ptest_base: Started
-NOTE: recipe psmisc-23.7-r0: task do_package: Started
-NOTE: recipe coreutils-9.9-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1432 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_install)
-NOTE: recipe coreutils-9.9-r0: task do_install: Started
-NOTE: recipe coreutils-9.9-r0: task do_install: Succeeded
-NOTE: Running task 1433 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_install_ptest_base)
-NOTE: recipe coreutils-9.9-r0: task do_install_ptest_base: Started
-NOTE: recipe psmisc-23.7-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_package unihash changed to 139bfcaf2f711dd3d288321130826b4c82778131012f52c34f073acfbfeb461e
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_deb became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_ipk became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_qa became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_packagedata became valid
-NOTE: Running setscene task 511 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 512 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_qa_setscene)
-NOTE: Running setscene task 513 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_deb_setscene)
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_qa_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_qa_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_packagedata_setscene)
-NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_compile: Succeeded
-NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1437 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_compile_ptest_base)
-NOTE: Running task 1438 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_rpm)
-NOTE: recipe bash-5.3-r0: task do_compile_ptest_base: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_rpm: Started
-NOTE: recipe bash-5.3-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1440 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_install)
-NOTE: recipe bash-5.3-r0: task do_install: Started
-NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_rpm unihash changed to 18d39f0e52b4462bae0eeafb9bdbd37adc63488ae2690e81613b7f1460e8458b
-NOTE: recipe util-linux-2.41.2-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1441 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_configure_ptest_base)
-NOTE: recipe util-linux-2.41.2-r0: task do_configure_ptest_base: Started
-NOTE: recipe util-linux-2.41.2-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1442 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_compile)
-NOTE: recipe util-linux-2.41.2-r0: task do_compile: Started
-NOTE: recipe coreutils-9.9-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe bash-5.3-r0: task do_install: Succeeded
-NOTE: Running task 1443 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_package)
-NOTE: Running task 1444 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_install_ptest_base)
-NOTE: recipe coreutils-9.9-r0: task do_package: Started
-NOTE: recipe bash-5.3-r0: task do_install_ptest_base: Started
-NOTE: recipe bash-5.3-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1445 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_package)
-NOTE: recipe bash-5.3-r0: task do_package: Started
-NOTE: recipe util-linux-2.41.2-r0: task do_compile: Succeeded
-NOTE: Running task 1447 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_compile_ptest_base)
-NOTE: recipe util-linux-2.41.2-r0: task do_compile_ptest_base: Started
-NOTE: recipe bash-5.3-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_package unihash changed to d353006a04accb04271481f9bf819f2fce8f69611a6672c097f566a6df90dd9b
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_packagedata became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_create_spdx became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_package_write_deb became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_package_write_rpm became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_package_write_ipk became valid
-NOTE: Running setscene task 504 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 505 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 510 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 513 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_create_spdx_setscene)
-NOTE: recipe libgpg-error-1.58-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libgpg-error-1.58-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe util-linux-2.41.2-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe libgpg-error-1.58-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libgpg-error-1.58-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_packagedata_setscene)
-NOTE: Running task 1448 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_install)
-NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.41.2-r0: task do_install: Started
-NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1451 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_create_package_spdx)
-NOTE: Running task 1455 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_package_qa)
-NOTE: recipe libgpg-error-1.58-r0: task do_create_package_spdx: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_package_qa: Started
-NOTE: recipe libgpg-error-1.58-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe libgpg-error-1.58-r0: task do_package_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_package_qa unihash changed to 3e72b6e0d0370b1e378872f3c4439bf5d45270aaf6ae650f83a617fb6d26cf03
-NOTE: recipe util-linux-2.41.2-r0: task do_install: Succeeded
-NOTE: Running task 1456 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_install_ptest_base)
-NOTE: recipe util-linux-2.41.2-r0: task do_install_ptest_base: Started
-NOTE: recipe util-linux-2.41.2-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1457 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_package)
-NOTE: recipe util-linux-2.41.2-r0: task do_package: Started
-NOTE: recipe coreutils-9.9-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_package unihash changed to 24370c745a46fe0a4a23839fc0cb6bba60ee5e6fdcb93520e639740b974315f4
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_packagedata became valid
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_packagedata_setscene)
-NOTE: recipe coreutils-9.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe coreutils-9.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe util-linux-2.41.2-r0: task do_package: Succeeded
-NOTE: recipe perl-5.40.2-r0: task do_compile: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_package unihash changed to db0f65da9b4b4015bb9d31070cd35f109d14d07da7e34bc79e523be386eec5ba
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_packagedata became valid
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.41.2.bb:do_packagedata_setscene)
-NOTE: Running task 1459 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_compile_ptest_base)
-NOTE: recipe perl-5.40.2-r0: task do_compile_ptest_base: Started
-NOTE: recipe util-linux-2.41.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe perl-5.40.2-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1460 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_install)
-NOTE: recipe perl-5.40.2-r0: task do_install: Started
-NOTE: recipe util-linux-2.41.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe perl-5.40.2-r0: task do_install: Succeeded
-NOTE: Running task 1462 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_install_ptest_base)
-NOTE: recipe perl-5.40.2-r0: task do_install_ptest_base: Started
-NOTE: recipe perl-5.40.2-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1463 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_package)
-NOTE: recipe perl-5.40.2-r0: task do_package: Started
-NOTE: recipe perl-5.40.2-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_package unihash changed to f63e45a29a5af25c823c8d410318a12ec6271fcdfd072d9059a7924c790d973a
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_package_write_deb became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_package_write_rpm became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_package_qa became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_package_write_ipk became valid
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_packagedata became valid
-NOTE: Running setscene task 510 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_package_qa_setscene)
-NOTE: Running setscene task 511 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 512 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 513 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_package_write_deb_setscene)
-NOTE: recipe bash-5.3-r0: task do_package_qa_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_package_qa_setscene: Succeeded
-NOTE: recipe bash-5.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bash-5.3-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe bash-5.3-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 514 of 514 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/perl/perl_5.40.2.bb:do_packagedata_setscene)
-NOTE: recipe perl-5.40.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe perl-5.40.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running noexec task 1469 of 1469 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.58.bb:do_build)
-NOTE: Tasks Summary: Attempted 1469 tasks of which 1175 didn't need to be rerun and all succeeded.
+NOTE: Running task 909 of 935 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 922 of 935 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb:do_collect_spdx_deps)
+NOTE: recipe alsa-lib-1.2.15-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe alsa-lib-1.2.15-r0: task do_collect_spdx_deps: Started
+NOTE: recipe alsa-lib-1.2.15-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe alsa-lib-1.2.15-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 923 of 935 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb:do_configure)
+NOTE: recipe alsa-lib-1.2.15-r0: task do_configure: Started
+NOTE: recipe alsa-lib-1.2.15-r0: task do_configure: Succeeded
+NOTE: Running task 924 of 935 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb:do_compile)
+NOTE: recipe alsa-lib-1.2.15-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 16 -l 75
+| Making all in doc
+| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/doc'
+| Making all in pictures
+| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/doc/pictures'
+| make[2]: Nothing to be done for 'all'.
+| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/doc/pictures'
+| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/doc'
+| make[2]: Nothing to be done for 'all-am'.
+| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/doc'
+| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/doc'
+| Making all in include
+| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/include'
+| make  all-recursive
+| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/include'
+| Making all in sound
+| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/include/sound'
+| Making all in uapi
+| make[4]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/include/sound/uapi'
+| make[4]: Nothing to be done for 'all'.
+| make[4]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/include/sound/uapi'
+| make[4]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/include/sound'
+| make[4]: Nothing to be done for 'all-am'.
+| make[4]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/include/sound'
+| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/include/sound'
+| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/include'
+| if ! test -r alsa/local.h; then \
+| 	ln -s ../../sources/alsa-lib-1.2.15/include alsa; \
+| fi
+| Updating version.h
+| for f in asoundlib.h version.h; do \
+| 	if ! test -r ../../sources/alsa-lib-1.2.15/include/$f; then \
+| 		ln -s /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/include/$f ../../sources/alsa-lib-1.2.15/include/$f; \
+| 	fi; \
+| done
+| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/include'
+| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/include'
+| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/include'
+| Making all in src
+| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src'
+| arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../sources/alsa-lib-1.2.15/src -I../include  -I../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix
+ -map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -E -DHAVE_PCM_SYMS -DHAVE_TIMER_SYMS -DHAVE_RAWMIDI_SYMS -DHAVE_SEQ_SYMS -x assembler-with-cpp -o ../src/Versions ../src/Versions.in
+| make  all-recursive
+| make[2]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src'
+| Making all in control
+| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/control'
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o cards.lo ../../../sources/alsa-lib-1.2.15/src/control/cards.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o tlv.lo ../../../sources/alsa-lib-1.2.15/src/control/tlv.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o eld.lo ../../../sources/alsa-lib-1.2.15/src/control/eld.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o namehint.lo ../../../sources/alsa-lib-1.2.15/src/control/namehint.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o hcontrol.lo ../../../sources/alsa-lib-1.2.15/src/control/hcontrol.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o control.lo ../../../sources/alsa-lib-1.2.15/src/control/control.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o control_hw.lo ../../../sources/alsa-lib-1.2.15/src/control/control_hw.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o control_empty.lo ../../../sources/alsa-lib-1.2.15/src/control/control_empty.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o setup.lo ../../../sources/alsa-lib-1.2.15/src/control/setup.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o ctlparse.lo ../../../sources/alsa-lib-1.2.15/src/control/ctlparse.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o control_plugin.lo ../../../sources/alsa-lib-1.2.15/src/control/control_plugin.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o control_symbols.lo ../../../sources/alsa-lib-1.2.15/src/control/control_symbols.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o control_remap.lo ../../../sources/alsa-lib-1.2.15/src/control/control_remap.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o control_shm.lo ../../../sources/alsa-lib-1.2.15/src/control/control_shm.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o control_ext.lo ../../../sources/alsa-lib-1.2.15/src/control/control_ext.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/cards.c  -fPIC -DPIC -o .libs/cards.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/tlv.c  -fPIC -DPIC -o .libs/tlv.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/eld.c  -fPIC -DPIC -o .libs/eld.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/control.c  -fPIC -DPIC -o .libs/control.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/namehint.c  -fPIC -DPIC -o .libs/namehint.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/hcontrol.c  -fPIC -DPIC -o .libs/hcontrol.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/control_hw.c  -fPIC -DPIC -o .libs/control_hw.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/ctlparse.c  -fPIC -DPIC -o .libs/ctlparse.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/control_empty.c  -fPIC -DPIC -o .libs/control_empty.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/control_shm.c  -fPIC -DPIC -o .libs/control_shm.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/setup.c  -fPIC -DPIC -o .libs/setup.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/control_symbols.c  -fPIC -DPIC -o .libs/control_symbols.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/control_ext.c  -fPIC -DPIC -o .libs/control_ext.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/control_remap.c  -fPIC -DPIC -o .libs/control_remap.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/control -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/control/control_plugin.c  -fPIC -DPIC -o .libs/control_plugin.o
+| /bin/bash ../../libtool  --tag=CC   --mode=link arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot  -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/corte
+ xa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o libcontrol.la  cards.lo tlv.lo eld.lo namehint.lo hcontrol.lo control.lo control_hw.lo control_empty.lo setup.lo ctlparse.lo control_plugin.lo control_symbols.lo control_remap.lo control_sh
+ m.lo control_ext.lo
+| libtool: link: arm-poky-linux-musleabi-gcc-ar cr .libs/libcontrol.a .libs/cards.o .libs/tlv.o .libs/eld.o .libs/namehint.o .libs/hcontrol.o .libs/control.o .libs/control_hw.o .libs/control_empty.o .libs/setup.o .libs/ctlparse.o .libs/control_plugin.o .libs/control_symbols.o .libs/control_remap.o .libs/control_shm.o .libs/control_ext.o
+| libtool: link: arm-poky-linux-musleabi-gcc-ranlib .libs/libcontrol.a
+| libtool: link: ( cd ".libs" && rm -f "libcontrol.la" && ln -s "../libcontrol.la" "libcontrol.la" )
+| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/control'
+| Making all in mixer
+| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/mixer'
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/mixer -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-
+ poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o bag.lo ../../../sources/alsa-lib-1.2.15/src/mixer/bag.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/mixer -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-
+ poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o mixer.lo ../../../sources/alsa-lib-1.2.15/src/mixer/mixer.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/mixer -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-
+ poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o simple.lo ../../../sources/alsa-lib-1.2.15/src/mixer/simple.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/mixer -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-
+ poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o simple_none.lo ../../../sources/alsa-lib-1.2.15/src/mixer/simple_none.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/mixer -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-
+ poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o simple_abst.lo ../../../sources/alsa-lib-1.2.15/src/mixer/simple_abst.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/mixer -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/reci
+ pe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/mixer/bag.c  -fPIC -DPIC -o .libs/bag.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/mixer -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/reci
+ pe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/mixer/mixer.c  -fPIC -DPIC -o .libs/mixer.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/mixer -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/reci
+ pe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/mixer/simple_none.c  -fPIC -DPIC -o .libs/simple_none.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/mixer -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/reci
+ pe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/mixer/simple.c  -fPIC -DPIC -o .libs/simple.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/mixer -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/reci
+ pe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/mixer/simple_abst.c  -fPIC -DPIC -o .libs/simple_abst.o
+| /bin/bash ../../libtool  --tag=CC   --mode=link arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot  -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/corte
+ xa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o libmixer.la  bag.lo mixer.lo simple.lo simple_none.lo simple_abst.lo
+| libtool: link: arm-poky-linux-musleabi-gcc-ar cr .libs/libmixer.a .libs/bag.o .libs/mixer.o .libs/simple.o .libs/simple_none.o .libs/simple_abst.o
+| libtool: link: arm-poky-linux-musleabi-gcc-ranlib .libs/libmixer.a
+| libtool: link: ( cd ".libs" && rm -f "libmixer.la" && ln -s "../libmixer.la" "libmixer.la" )
+| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/mixer'
+| Making all in pcm
+| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/pcm'
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o mask.lo ../../../sources/alsa-lib-1.2.15/src/pcm/mask.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o interval.lo ../../../sources/alsa-lib-1.2.15/src/pcm/interval.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_params.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_params.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_simple.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_simple.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_hw.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_hw.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_misc.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_misc.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_mmap.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_mmap.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_symbols.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_symbols.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_generic.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_generic.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_plugin.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_plugin.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_copy.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_copy.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_linear.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_linear.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_route.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_route.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_mulaw.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_mulaw.c
+| make[4]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/pcm'
+| make[4]: Nothing to be done for 'all-am'.
+| make[4]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/pcm'
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_alaw.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_alaw.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_params.c  -fPIC -DPIC -o .libs/pcm_params.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_simple.c  -fPIC -DPIC -o .libs/pcm_simple.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/interval.c  -fPIC -DPIC -o .libs/interval.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_mmap.c  -fPIC -DPIC -o .libs/pcm_mmap.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_linear.c  -fPIC -DPIC -o .libs/pcm_linear.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/mask.c  -fPIC -DPIC -o .libs/mask.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_symbols.c  -fPIC -DPIC -o .libs/pcm_symbols.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_hw.c  -fPIC -DPIC -o .libs/pcm_hw.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_generic.c  -fPIC -DPIC -o .libs/pcm_generic.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_route.c  -fPIC -DPIC -o .libs/pcm_route.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_plugin.c  -fPIC -DPIC -o .libs/pcm_plugin.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_mulaw.c  -fPIC -DPIC -o .libs/pcm_mulaw.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm.c  -fPIC -DPIC -o .libs/pcm.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_copy.c  -fPIC -DPIC -o .libs/pcm_copy.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_misc.c  -fPIC -DPIC -o .libs/pcm_misc.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_alaw.c  -fPIC -DPIC -o .libs/pcm_alaw.o
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_adpcm.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_adpcm.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_rate.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_rate.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_adpcm.c  -fPIC -DPIC -o .libs/pcm_adpcm.o
+| ../../../sources/alsa-lib-1.2.15/src/pcm/pcm.c: In function 'snd_pcm_status_dump':
+| ../../../sources/alsa-lib-1.2.15/src/pcm/pcm.c:2412:51: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'time_t' {aka 'long long int'} [-Wformat=]
+|  2412 |         snd_output_printf(out, "  trigger_time: %ld.%06ld\n",
+|       |                                                 ~~^
+|       |                                                   |
+|       |                                                   long int
+|       |                                                 %lld
+|  2413 |                           status->trigger_tstamp.tv_sec,
+|       |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                 |
+|       |                                                 time_t {aka long long int}
+| ../../../sources/alsa-lib-1.2.15/src/pcm/pcm.c:2415:51: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'time_t' {aka 'long long int'} [-Wformat=]
+|  2415 |         snd_output_printf(out, "  tstamp      : %ld.%06ld\n",
+|       |                                                 ~~^
+|       |                                                   |
+|       |                                                   long int
+|       |                                                 %lld
+|  2416 |                 status->tstamp.tv_sec, status->tstamp.tv_nsec / 1000);
+|       |                 ~~~~~~~~~~~~~~~~~~~~~
+|       |                               |
+|       |                               time_t {aka long long int}
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_rate.c  -fPIC -DPIC -o .libs/pcm_rate.o
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_rate_linear.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_rate_linear.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_plug.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_plug.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_multi.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_multi.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_rate_linear.c  -fPIC -DPIC -o .libs/pcm_rate_linear.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_plug.c  -fPIC -DPIC -o .libs/pcm_plug.o
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_shm.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_shm.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_multi.c  -fPIC -DPIC -o .libs/pcm_multi.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_shm.c  -fPIC -DPIC -o .libs/pcm_shm.o
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_file.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_file.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_null.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_null.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_empty.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_empty.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_share.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_share.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_file.c  -fPIC -DPIC -o .libs/pcm_file.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_null.c  -fPIC -DPIC -o .libs/pcm_null.o
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_meter.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_meter.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_empty.c  -fPIC -DPIC -o .libs/pcm_empty.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_share.c  -fPIC -DPIC -o .libs/pcm_share.o
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_hooks.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_hooks.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_meter.c  -fPIC -DPIC -o .libs/pcm_meter.o
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_lfloat.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_lfloat.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_ladspa.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_ladspa.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_hooks.c  -fPIC -DPIC -o .libs/pcm_hooks.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_lfloat.c  -fPIC -DPIC -o .libs/pcm_lfloat.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_ladspa.c  -fPIC -DPIC -o .libs/pcm_ladspa.o
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_dmix.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_dmix.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_dshare.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_dshare.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_dmix.c  -fPIC -DPIC -o .libs/pcm_dmix.o
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_dsnoop.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_dsnoop.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_direct.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_direct.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_dshare.c  -fPIC -DPIC -o .libs/pcm_dshare.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_dsnoop.c  -fPIC -DPIC -o .libs/pcm_dsnoop.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_direct.c  -fPIC -DPIC -o .libs/pcm_direct.o
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_asym.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_asym.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_iec958.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_iec958.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_softvol.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_softvol.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_extplug.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_extplug.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_ioplug.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_ioplug.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_asym.c  -fPIC -DPIC -o .libs/pcm_asym.o
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o pcm_mmap_emul.lo ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_mmap_emul.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_iec958.c  -fPIC -DPIC -o .libs/pcm_iec958.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_softvol.c  -fPIC -DPIC -o .libs/pcm_softvol.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_extplug.c  -fPIC -DPIC -o .libs/pcm_extplug.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_ioplug.c  -fPIC -DPIC -o .libs/pcm_ioplug.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/pcm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/pcm/pcm_mmap_emul.c  -fPIC -DPIC -o .libs/pcm_mmap_emul.o
+| /bin/bash ../../libtool  --tag=CC   --mode=link arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot  -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/corte
+ xa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o libpcm.la  mask.lo interval.lo pcm.lo pcm_params.lo pcm_simple.lo pcm_hw.lo pcm_misc.lo pcm_mmap.lo pcm_symbols.lo pcm_generic.lo pcm_plugin.lo pcm_copy.lo pcm_linear.lo pcm_route.lo pcm_mu
+ law.lo pcm_alaw.lo pcm_adpcm.lo pcm_rate.lo pcm_rate_linear.lo pcm_plug.lo pcm_multi.lo pcm_shm.lo pcm_file.lo pcm_null.lo pcm_empty.lo pcm_share.lo pcm_meter.lo pcm_hooks.lo pcm_lfloat.lo pcm_ladspa.lo pcm_dmix.lo pcm_dshare.lo pcm_dsnoop.lo pcm_direct.lo   pcm_asym.lo pcm_iec958.lo pcm_softvol.lo pcm_extplug.lo pcm_ioplug.lo pcm_mmap_emul.lo
+| libtool: link: arm-poky-linux-musleabi-gcc-ar cr .libs/libpcm.a .libs/mask.o .libs/interval.o .libs/pcm.o .libs/pcm_params.o .libs/pcm_simple.o .libs/pcm_hw.o .libs/pcm_misc.o .libs/pcm_mmap.o .libs/pcm_symbols.o .libs/pcm_generic.o .libs/pcm_plugin.o .libs/pcm_copy.o .libs/pcm_linear.o .libs/pcm_route.o .libs/pcm_mulaw.o .libs/pcm_alaw.o .libs/pcm_adpcm.o .libs/pcm_rate.o .libs/pcm_rate_linear.o .libs/pcm_plug.o .libs/pcm_multi.o .libs/pcm_shm.o .libs/pcm_file.o .libs/pcm_null.o .libs/pcm_empty.o .libs/pcm_share.o .libs/pcm_meter.o .libs/pcm_hooks.o .libs/pcm_lfloat.o .libs/pcm_ladspa.o .libs/pcm_dmix.o .libs/pcm_dshare.o .libs/pcm_dsnoop.o .libs/pcm_direct.o .libs/pcm_asym.o .libs/pcm_iec958.o .libs/pcm_softvol.o .libs/pcm_extplug.o .libs/pcm_ioplug.o .libs/pcm_mmap_emul.o
+| libtool: link: arm-poky-linux-musleabi-gcc-ranlib .libs/libpcm.a
+| libtool: link: ( cd ".libs" && rm -f "libpcm.la" && ln -s "../libpcm.la" "libpcm.la" )
+| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/pcm'
+| Making all in timer
+| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/timer'
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/timer -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-
+ poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o timer.lo ../../../sources/alsa-lib-1.2.15/src/timer/timer.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/timer -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-
+ poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o timer_hw.lo ../../../sources/alsa-lib-1.2.15/src/timer/timer_hw.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/timer -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-
+ poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o timer_query.lo ../../../sources/alsa-lib-1.2.15/src/timer/timer_query.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/timer -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-
+ poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o timer_query_hw.lo ../../../sources/alsa-lib-1.2.15/src/timer/timer_query_hw.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/timer -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-
+ poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o timer_symbols.lo ../../../sources/alsa-lib-1.2.15/src/timer/timer_symbols.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/timer -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/reci
+ pe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/timer/timer.c  -fPIC -DPIC -o .libs/timer.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/timer -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/reci
+ pe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/timer/timer_hw.c  -fPIC -DPIC -o .libs/timer_hw.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/timer -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/reci
+ pe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/timer/timer_query_hw.c  -fPIC -DPIC -o .libs/timer_query_hw.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/timer -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/reci
+ pe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/timer/timer_symbols.c  -fPIC -DPIC -o .libs/timer_symbols.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/timer -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/reci
+ pe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/timer/timer_query.c  -fPIC -DPIC -o .libs/timer_query.o
+| /bin/bash ../../libtool  --tag=CC   --mode=link arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot  -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/corte
+ xa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o libtimer.la  timer.lo timer_hw.lo timer_query.lo timer_query_hw.lo timer_symbols.lo
+| libtool: link: arm-poky-linux-musleabi-gcc-ar cr .libs/libtimer.a .libs/timer.o .libs/timer_hw.o .libs/timer_query.o .libs/timer_query_hw.o .libs/timer_symbols.o
+| libtool: link: arm-poky-linux-musleabi-gcc-ranlib .libs/libtimer.a
+| libtool: link: ( cd ".libs" && rm -f "libtimer.la" && ln -s "../libtimer.la" "libtimer.la" )
+| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/timer'
+| Making all in rawmidi
+| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/rawmidi'
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/rawmidi -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o rawmidi.lo ../../../sources/alsa-lib-1.2.15/src/rawmidi/rawmidi.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/rawmidi -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o rawmidi_hw.lo ../../../sources/alsa-lib-1.2.15/src/rawmidi/rawmidi_hw.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/rawmidi -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o rawmidi_symbols.lo ../../../sources/alsa-lib-1.2.15/src/rawmidi/rawmidi_symbols.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/rawmidi -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o ump.lo ../../../sources/alsa-lib-1.2.15/src/rawmidi/ump.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/rawmidi -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neo
+ n-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o rawmidi_virt.lo ../../../sources/alsa-lib-1.2.15/src/rawmidi/rawmidi_virt.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/rawmidi -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/rawmidi/rawmidi.c  -fPIC -DPIC -o .libs/rawmidi.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/rawmidi -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/rawmidi/rawmidi_hw.c  -fPIC -DPIC -o .libs/rawmidi_hw.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/rawmidi -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/rawmidi/rawmidi_symbols.c  -fPIC -DPIC -o .libs/rawmidi_symbols.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/rawmidi -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/rawmidi/ump.c  -fPIC -DPIC -o .libs/ump.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/rawmidi -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/re
+ cipe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/rawmidi/rawmidi_virt.c  -fPIC -DPIC -o .libs/rawmidi_virt.o
+| /bin/bash ../../libtool  --tag=CC   --mode=link arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot  -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/corte
+ xa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o librawmidi.la  rawmidi.lo rawmidi_hw.lo rawmidi_symbols.lo ump.lo rawmidi_virt.lo
+| libtool: link: arm-poky-linux-musleabi-gcc-ar cr .libs/librawmidi.a .libs/rawmidi.o .libs/rawmidi_hw.o .libs/rawmidi_symbols.o .libs/ump.o .libs/rawmidi_virt.o
+| libtool: link: arm-poky-linux-musleabi-gcc-ranlib .libs/librawmidi.a
+| libtool: link: ( cd ".libs" && rm -f "librawmidi.la" && ln -s "../librawmidi.la" "librawmidi.la" )
+| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/rawmidi'
+| Making all in hwdep
+| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/hwdep'
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/hwdep -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-
+ poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o hwdep.lo ../../../sources/alsa-lib-1.2.15/src/hwdep/hwdep.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/hwdep -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-
+ poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o hwdep_hw.lo ../../../sources/alsa-lib-1.2.15/src/hwdep/hwdep_hw.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/hwdep -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-
+ poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o hwdep_symbols.lo ../../../sources/alsa-lib-1.2.15/src/hwdep/hwdep_symbols.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/hwdep -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/reci
+ pe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/hwdep/hwdep.c  -fPIC -DPIC -o .libs/hwdep.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/hwdep -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/reci
+ pe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/hwdep/hwdep_hw.c  -fPIC -DPIC -o .libs/hwdep_hw.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/hwdep -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/reci
+ pe-sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/hwdep/hwdep_symbols.c  -fPIC -DPIC -o .libs/hwdep_symbols.o
+| /bin/bash ../../libtool  --tag=CC   --mode=link arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot  -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/corte
+ xa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o libhwdep.la  hwdep.lo hwdep_hw.lo hwdep_symbols.lo
+| libtool: link: arm-poky-linux-musleabi-gcc-ar cr .libs/libhwdep.a .libs/hwdep.o .libs/hwdep_hw.o .libs/hwdep_symbols.o
+| libtool: link: arm-poky-linux-musleabi-gcc-ranlib .libs/libhwdep.a
+| libtool: link: ( cd ".libs" && rm -f "libhwdep.la" && ln -s "../libhwdep.la" "libhwdep.la" )
+| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/hwdep'
+| Making all in seq
+| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/seq'
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/seq -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o seq_hw.lo ../../../sources/alsa-lib-1.2.15/src/seq/seq_hw.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/seq -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o seq.lo ../../../sources/alsa-lib-1.2.15/src/seq/seq.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/seq -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o seq_event.lo ../../../sources/alsa-lib-1.2.15/src/seq/seq_event.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/seq -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o seqmid.lo ../../../sources/alsa-lib-1.2.15/src/seq/seqmid.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/seq -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o seq_midi_event.lo ../../../sources/alsa-lib-1.2.15/src/seq/seq_midi_event.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/seq -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o seq_symbols.lo ../../../sources/alsa-lib-1.2.15/src/seq/seq_symbols.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/seq -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/seq/seq_event.c  -fPIC -DPIC -o .libs/seq_event.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/seq -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/seq/seq_midi_event.c  -fPIC -DPIC -o .libs/seq_midi_event.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/seq -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/seq/seqmid.c  -fPIC -DPIC -o .libs/seqmid.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/seq -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/seq/seq_symbols.c  -fPIC -DPIC -o .libs/seq_symbols.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/seq -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/seq/seq.c  -fPIC -DPIC -o .libs/seq.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/seq -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/seq/seq_hw.c  -fPIC -DPIC -o .libs/seq_hw.o
+| /bin/bash ../../libtool  --tag=CC   --mode=link arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot  -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/corte
+ xa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -Wl,-z,relro,-z,now -o libseq.la  seq_hw.lo seq.lo seq_event.lo seqmid.lo seq_midi_event.lo seq_symbols.lo
+| libtool: link: arm-poky-linux-musleabi-gcc-ar cr .libs/libseq.a .libs/seq_hw.o .libs/seq.o .libs/seq_event.o .libs/seqmid.o .libs/seq_midi_event.o .libs/seq_symbols.o
+| libtool: link: arm-poky-linux-musleabi-gcc-ranlib .libs/libseq.a
+| libtool: link: ( cd ".libs" && rm -f "libseq.la" && ln -s "../libseq.la" "libseq.la" )
+| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/seq'
+| Making all in ucm
+| make[3]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/ucm'
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o utils.lo ../../../sources/alsa-lib-1.2.15/src/ucm/utils.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o parser.lo ../../../sources/alsa-lib-1.2.15/src/ucm/parser.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o ucm_cond.lo ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_cond.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o ucm_subs.lo ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_subs.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o ucm_include.lo ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_include.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o ucm_regex.lo ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_regex.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o ucm_exec.lo ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_exec.c
+| /bin/bash ../../libtool  --tag=CC   --mode=compile arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include  -I../../../sources/alsa-lib-1.2.15/include   -O2 -g -fcanon-prefix-map  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-po
+ ky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot=  -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native=  -pipe -c -o main.lo ../../../sources/alsa-lib-1.2.15/src/ucm/main.c
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/ucm/utils.c  -fPIC -DPIC -o .libs/utils.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/ucm/parser.c  -fPIC -DPIC -o .libs/parser.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_subs.c  -fPIC -DPIC -o .libs/ucm_subs.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_regex.c  -fPIC -DPIC -o .libs/ucm_regex.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_exec.c  -fPIC -DPIC -o .libs/ucm_exec.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_include.c  -fPIC -DPIC -o .libs/ucm_include.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/ucm/main.c  -fPIC -DPIC -o .libs/main.o
+| libtool: compile:  arm-poky-linux-musleabi-gcc -mthumb -mfpu=neon -mfloat-abi=hard -mcpu=cortex-a15 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../../sources/alsa-lib-1.2.15/src/ucm -I../../include -I../../../sources/alsa-lib-1.2.15/include -O2 -g -fcanon-prefix-map -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/sources/alsa-lib-1.2.15=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build=/usr/src/debug/alsa-lib/1.2.15 -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe
+ -sysroot= -ffile-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/recipe-sysroot-native= -pipe -c ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_cond.c  -fPIC -DPIC -o .libs/ucm_cond.o
+| ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_exec.c: In function 'uc_mgr_exec':
+| ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_exec.c:263:17: error: implicit declaration of function 'close_range' [-Wimplicit-function-declaration]
+|   263 |                 close_range(3, maxfd, 0);
+|       |                 ^~~~~~~~~~~
+| make[3]: *** [Makefile:401: ucm_exec.lo] Error 1
+| make[3]: *** Waiting for unfinished jobs....
+| make[3]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src/ucm'
+| make[2]: *** [Makefile:560: all-recursive] Error 1
+| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src'
+| make[1]: *** [Makefile:429: all] Error 2
+| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/build/src'
+| make: *** [Makefile:412: all-recursive] Error 1
+| ERROR: oe_runmake failed
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/temp/run.do_compile.2897378:181 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/temp/run.do_compile.2897378, line 181
+| 	#2: die, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/temp/run.do_compile.2897378, line 165
+| 	#3: oe_runmake, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/temp/run.do_compile.2897378, line 160
+| 	#4: autotools_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/temp/run.do_compile.2897378, line 155
+| 	#5: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/temp/run.do_compile.2897378, line 150
+| 	#6: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/temp/run.do_compile.2897378, line 194
+NOTE: recipe alsa-lib-1.2.15-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 924 tasks of which 917 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251216054446.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251216054446.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-ERROR: bash-completion-2.16.0-r0 do_packagedata_setscene: QA Issue: Package version for package bash-completion-src went backwards which would break package feeds (from 0:2.17.0-r0 to 0:2.16.0-r0) [version-going-backwards]
-ERROR: bash-completion-2.16.0-r0 do_packagedata_setscene: QA Issue: Package version for package bash-completion-dbg went backwards which would break package feeds (from 0:2.17.0-r0 to 0:2.16.0-r0) [version-going-backwards]
-ERROR: bash-completion-2.16.0-r0 do_packagedata_setscene: QA Issue: Package version for package bash-completion-extra went backwards which would break package feeds (from 0:2.17.0-r0 to 0:2.16.0-r0) [version-going-backwards]
-ERROR: bash-completion-2.16.0-r0 do_packagedata_setscene: QA Issue: Package version for package bash-completion-staticdev went backwards which would break package feeds (from 0:2.17.0-r0 to 0:2.16.0-r0) [version-going-backwards]
-ERROR: bash-completion-2.16.0-r0 do_packagedata_setscene: QA Issue: Package version for package bash-completion-dev went backwards which would break package feeds (from 0:2.17.0-r0 to 0:2.16.0-r0) [version-going-backwards]
-ERROR: bash-completion-2.16.0-r0 do_packagedata_setscene: QA Issue: Package version for package bash-completion-doc went backwards which would break package feeds (from 0:2.17.0-r0 to 0:2.16.0-r0) [version-going-backwards]
-ERROR: bash-completion-2.16.0-r0 do_packagedata_setscene: QA Issue: Package version for package bash-completion-locale went backwards which would break package feeds (from 0:2.17.0-r0 to 0:2.16.0-r0) [version-going-backwards]
-ERROR: bash-completion-2.16.0-r0 do_packagedata_setscene: QA Issue: Package version for package bash-completion went backwards which would break package feeds (from 0:2.17.0-r0 to 0:2.16.0-r0) [version-going-backwards]
-ERROR: bash-completion-2.16.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/temp/log.do_compile.2897378
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: alsa-lib-1.2.15-r0 do_compile: oe_runmake failed
+ERROR: alsa-lib-1.2.15-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/temp/run.do_compile.2897378' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/alsa-lib/1.2.15/temp/log.do_compile.2897378
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb:do_compile) failed with exit code '1'
 
---===============2907725944521647849==--
+--===============4505010367580697073==--
 
