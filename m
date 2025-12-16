@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F7A9D5CC99
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07F01D5CC95
 	for <webhook@archiver.kernel.org>; Tue, 16 Dec 2025 08:02:38 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17186.1765872138758352233
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17195.1765872154046813139
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 00:02:28 -0800
+ Tue, 16 Dec 2025 00:02:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=XL2fRzYl;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OHCvZVz2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019b262e9b5d-ffdf1b56-4a94-416e-8b35-4b083c67f037-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=u9PO3Hiv;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=PfwNcFZH;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019b262ebd5e-2cafc9d7-eedf-4ec3-aab9-4ac5d9710ddb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1765872147;
+	t=1765872156;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=UADmhFYmjkTb7HUsnipMmgKTDdpKXimNQFBvDnVwbsw=;
-	b=XL2fRzYlMKA4Nez2lo2gZ+SkVfD1Xqd4w+tFJDMGOEPBQD4BuD1zx4rMmlhU6Wam
-	fc7utSM6mInYyA3o7axgxP1DRDXIFsKUips7F2157w8u0W8S9CsOLxQZxSBDSz2Q6zc
-	J7X2StjKr1S6y6rVHf+ASs/Bge+lEyMXW2Ciy4uw=
+	bh=+sElZBfQRyyGEvLnPrPJQ/WHPfDJyG+cHpgh1clR7h8=;
+	b=u9PO3Hiv6n75YddVsL2kUwQCEGxzhd1R1gua9boljg8NXnK2ex4VeO2in6ikqEHY
+	5k+zTgnqaz7EhR/m8NTlziBQK2eUbkDVERUmmPGyxLXsDcUebhOFyECD2DhO7sOwCSH
+	Q4kVLROFNA1G0gYLHItP+baTl+VJF1H+88zdP2/0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872147;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1765872156;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=UADmhFYmjkTb7HUsnipMmgKTDdpKXimNQFBvDnVwbsw=;
-	b=OHCvZVz2ubzLyrwq55iYefS8xoWGQlDlWkX/Ft1JZuAMoJhOvUAuz7aoWwongLyk
-	VV2wQ+z6dCiKJBW7hkBxLAc7iq4OIp9c02cscLkRUj0Cd0XrbMn4Nen+Hxjq1S3j6o4
-	AcX3cJ7ALNNez3pNLld3w0OV/ZDNevMe12scEJOE=
-Content-Type: multipart/mixed; boundary="===============4982686956985431550=="
+	bh=+sElZBfQRyyGEvLnPrPJQ/WHPfDJyG+cHpgh1clR7h8=;
+	b=PfwNcFZHEPUPQ5Ilp8O2rxrcahURXKOqTsEuSEEYg203k8AcK1WHUGOxbqLCsdpq
+	jrGSxrbuB66+588ACWo9g2OCaEGJmtKYJCZ8HDgL4uDeaB4SIdaT5TusXzzF/D2W2n5
+	4WgWfqYisSfiIJb3Jst8D+4siEG+zu0HGeohiM6M=
+Content-Type: multipart/mixed; boundary="===============1670987202443856169=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-ruamel-yaml: upgrading to 0.18.16 SUCCEEDED
-Message-ID: <0101019b262e9b5d-ffdf1b56-4a94-416e-8b35-4b083c67f037-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Dec 2025 08:02:27 +0000
+Subject: [AUH] sysstat: upgrading to 12.7.9 SUCCEEDED
+Message-ID: <0101019b262ebd5e-2cafc9d7-eedf-4ec3-aab9-4ac5d9710ddb-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Dec 2025 08:02:35 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.12.16-54.240.27.33
+X-SES-Outgoing: 2025.12.16-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 08:02:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227825
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/227854
 
---===============4982686956985431550==
+--===============1670987202443856169==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-ruamel-yaml* to *0.18.16* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *sysstat* to *12.7.9* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-ruamel-yaml-upgrade-0.18.15-0.18.16.patch
+    - apply the patch: git am 0001-sysstat-upgrade-12.7.8-12.7.9.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,104 +72,216 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d97e0495ac6e88eeeb2d46b52719af9b49e074a6 Mon Sep 17 00:00:00 2001
+From 4ef165f9a8751fc53ee4b8fd4deeb41120d300a1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 16 Dec 2025 01:18:49 +0000
-Subject: [PATCH] python3-ruamel-yaml: upgrade 0.18.15 -> 0.18.16
+Date: Tue, 16 Dec 2025 03:09:15 +0000
+Subject: [PATCH] sysstat: upgrade 12.7.8 -> 12.7.9
 
 ---
- ...n3-ruamel-yaml_0.18.15.bb => python3-ruamel-yaml_0.18.16.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-ruamel-yaml_0.18.15.bb => python3-ruamel-yaml_0.18.16.bb} (85%)
+ .../0001-configure.in-remove-check-for-chkconfig.patch     | 7 ++-----
+ .../sysstat/{sysstat_12.7.8.bb => sysstat_12.7.9.bb}       | 2 +-
+ 2 files changed, 3 insertions(+), 6 deletions(-)
+ rename meta/recipes-extended/sysstat/{sysstat_12.7.8.bb => sysstat_12.7.9.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.15.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.16.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-ruamel-yaml_0.18.15.bb
-rename to meta/recipes-devtools/python/python3-ruamel-yaml_0.18.16.bb
-index f14d043f56..a77f290e86 100644
---- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.15.bb
-+++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.16.bb
-@@ -9,7 +9,7 @@ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+diff --git a/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch b/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
+index 84383f955f..431a60aee1 100644
+--- a/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
++++ b/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
+@@ -1,4 +1,4 @@
+-From 1590cc614aaf0fb81cd804414d6c9d5a9227352c Mon Sep 17 00:00:00 2001
++From f41b0253d1583f7e1286fa2f29393c3d3f5183b4 Mon Sep 17 00:00:00 2001
+ From: Wenlin Kang <wenlin.kang@windriver.com>
+ Date: Tue, 5 Nov 2019 16:16:44 +0800
+ Subject: [PATCH] configure.ac: remove check for chkconfig
+@@ -13,7 +13,7 @@ Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+  1 file changed, 2 insertions(+), 1 deletion(-)
  
- inherit pypi python_setuptools_build_meta
+ diff --git a/configure.ac b/configure.ac
+-index 48b9a31..cedeb43 100644
++index 8b5f9b73..910ebd5a 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -42,7 +42,8 @@ AC_SUBST(VER_JSON)
+@@ -26,6 +26,3 @@ index 48b9a31..cedeb43 100644
+  
+  # Check for systemd
+  AC_CHECK_PROG(PKG_CONFIG, pkg-config, pkg-config)
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-extended/sysstat/sysstat_12.7.8.bb b/meta/recipes-extended/sysstat/sysstat_12.7.9.bb
+similarity index 98%
+rename from meta/recipes-extended/sysstat/sysstat_12.7.8.bb
+rename to meta/recipes-extended/sysstat/sysstat_12.7.9.bb
+index 2194dfc956..3a06078e0e 100644
+--- a/meta/recipes-extended/sysstat/sysstat_12.7.8.bb
++++ b/meta/recipes-extended/sysstat/sysstat_12.7.9.bb
+@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/sysstat/sysstat.git;protocol=https;branch=master;tag
  
--SRC_URI[sha256sum] = "dbfca74b018c4c3fba0b9cc9ee33e53c371194a9000e694995e620490fd40700"
-+SRC_URI[sha256sum] = "a6e587512f3c998b2225d68aa1f35111c29fad14aed561a26e73fab729ec5e5a"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
  
- RDEPENDS:${PN} += "\
-     python3-shell \
+-SRCREV = "5841596edf7f5e53288cb56400e0c0c1da5f2415"
++SRCREV = "b8f987807e7c7ba5c1b2ca8b7b1e9d80e61bce6c"
+ 
+ DEPENDS += "base-passwd"
+ 
 -- 
 2.47.1
 
 
---===============4982686956985431550==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: FILELIST: directory renamed /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.15.dist-info -> /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.16.dist-info, directory renamed /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.15.dist-info/licenses -> /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.16.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-ruamel-yaml (sysroot):
-  /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.15.dist-info moved to /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.16.dist-info
-
---===============4982686956985431550==
+--===============1670987202443856169==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-ruamel-yaml-upgrade-0.18.15-0.18.16.patch"
+ filename="0001-sysstat-upgrade-12.7.8-12.7.9.patch"
 
-RnJvbSBkOTdlMDQ5NWFjNmU4OGVlZWIyZDQ2YjUyNzE5YWY5YjQ5ZTA3NGE2IE1vbiBTZXAgMTcg
+RnJvbSA0ZWYxNjVmOWE4NzUxZmM1M2VlNGI4ZmQ0ZGVlYjQxMTIwZDMwMGExIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDE6MTg6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXJ1YW1lbC15YW1sOiB1cGdyYWRlIDAuMTguMTUgLT4gMC4xOC4xNgoKLS0tCiAuLi5u
-My1ydWFtZWwteWFtbF8wLjE4LjE1LmJiID0+IHB5dGhvbjMtcnVhbWVsLXlhbWxfMC4xOC4xNi5i
-Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXJ1YW1lbC15YW1s
-XzAuMTguMTUuYmIgPT4gcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4LjE2LmJifSAoODUlKQoKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFt
-bF8wLjE4LjE1LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1l
-bC15YW1sXzAuMTguMTYuYmIKc2ltaWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAuMTguMTUuYmIKcmVu
-YW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8w
-LjE4LjE2LmJiCmluZGV4IGYxNGQwNDNmNTYuLmE3N2YyOTBlODYgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4LjE1LmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4
-LjE2LmJiCkBAIC05LDcgKzksNyBAQCBVUFNUUkVBTV9DSEVDS19QWVBJX1BBQ0tBR0UgPSAiJHtQ
-WVBJX1BBQ0tBR0V9IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0
-YQogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGJmY2E3NGIwMThjNGMzZmJhMGI5Y2M5ZWUzM2U1
-M2MzNzExOTRhOTAwMGU2OTQ5OTVlNjIwNDkwZmQ0MDcwMCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
-ICJhNmU1ODc1MTJmM2M5OThiMjIyNWQ2OGFhMWYzNTExMWMyOWZhZDE0YWVkNTYxYTI2ZTczZmFi
-NzI5ZWM1ZTVhIgogCiBSREVQRU5EUzoke1BOfSArPSAiXAogICAgIHB5dGhvbjMtc2hlbGwgXAot
-LSAKMi40Ny4xCgo=
+CkRhdGU6IFR1ZSwgMTYgRGVjIDIwMjUgMDM6MDk6MTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+eXNzdGF0OiB1cGdyYWRlIDEyLjcuOCAtPiAxMi43LjkKCi0tLQogLi4uLzAwMDEtY29uZmlndXJl
+LmluLXJlbW92ZS1jaGVjay1mb3ItY2hrY29uZmlnLnBhdGNoICAgICB8IDcgKystLS0tLQogLi4u
+L3N5c3N0YXQve3N5c3N0YXRfMTIuNy44LmJiID0+IHN5c3N0YXRfMTIuNy45LmJifSAgICAgICB8
+IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9zeXNzdGF0L3tzeXNzdGF0XzEyLjcuOC5iYiA9
+PiBzeXNzdGF0XzEyLjcuOS5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0
+ZW5kZWQvc3lzc3RhdC9zeXNzdGF0LzAwMDEtY29uZmlndXJlLmluLXJlbW92ZS1jaGVjay1mb3It
+Y2hrY29uZmlnLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N5c3N0YXQvc3lzc3RhdC8w
+MDAxLWNvbmZpZ3VyZS5pbi1yZW1vdmUtY2hlY2stZm9yLWNoa2NvbmZpZy5wYXRjaAppbmRleCA4
+NDM4M2Y5NTVmLi40MzFhNjBhZWUxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
+c3lzc3RhdC9zeXNzdGF0LzAwMDEtY29uZmlndXJlLmluLXJlbW92ZS1jaGVjay1mb3ItY2hrY29u
+ZmlnLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zeXNzdGF0L3N5c3N0YXQvMDAw
+MS1jb25maWd1cmUuaW4tcmVtb3ZlLWNoZWNrLWZvci1jaGtjb25maWcucGF0Y2gKQEAgLTEsNCAr
+MSw0IEBACi1Gcm9tIDE1OTBjYzYxNGFhZjBmYjgxY2Q4MDQ0MTRkNmM5ZDVhOTIyNzM1MmMgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGY0MWIwMjUzZDE1ODNmN2UxMjg2ZmEyZjI5Mzkz
+YzNkM2Y1MTgzYjQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBXZW5saW4gS2FuZyA8
+d2VubGluLmthbmdAd2luZHJpdmVyLmNvbT4KIERhdGU6IFR1ZSwgNSBOb3YgMjAxOSAxNjoxNjo0
+NCArMDgwMAogU3ViamVjdDogW1BBVENIXSBjb25maWd1cmUuYWM6IHJlbW92ZSBjaGVjayBmb3Ig
+Y2hrY29uZmlnCkBAIC0xMyw3ICsxMyw3IEBAIFNpZ25lZC1vZmYtYnk6IFdlbmxpbiBLYW5nIDx3
+ZW5saW4ua2FuZ0B3aW5kcml2ZXIuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMo
+KyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZS5hYyBiL2NvbmZpZ3Vy
+ZS5hYwotaW5kZXggNDhiOWEzMS4uY2VkZWI0MyAxMDA2NDQKK2luZGV4IDhiNWY5YjczLi45MTBl
+YmQ1YSAxMDA2NDQKIC0tLSBhL2NvbmZpZ3VyZS5hYwogKysrIGIvY29uZmlndXJlLmFjCiBAQCAt
+NDIsNyArNDIsOCBAQCBBQ19TVUJTVChWRVJfSlNPTikKQEAgLTI2LDYgKzI2LDMgQEAgaW5kZXgg
+NDhiOWEzMS4uY2VkZWI0MyAxMDA2NDQKICAKICAjIENoZWNrIGZvciBzeXN0ZW1kCiAgQUNfQ0hF
+Q0tfUFJPRyhQS0dfQ09ORklHLCBwa2ctY29uZmlnLCBwa2ctY29uZmlnKQotLS0gCi0xLjkuMQot
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3lzc3RhdC9zeXNzdGF0XzEyLjcu
+OC5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zeXNzdGF0L3N5c3N0YXRfMTIuNy45LmJiCnNp
+bWlsYXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9zeXNz
+dGF0L3N5c3N0YXRfMTIuNy44LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3lz
+c3RhdC9zeXNzdGF0XzEyLjcuOS5iYgppbmRleCAyMTk0ZGZjOTU2Li4zYTA2MDc4ZTBlIDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3lzc3RhdC9zeXNzdGF0XzEyLjcuOC5iYgor
+KysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3lzc3RhdC9zeXNzdGF0XzEyLjcuOS5iYgpAQCAt
+MTIsNyArMTIsNyBAQCBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vc3lzc3RhdC9zeXNzdGF0
+LmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyO3RhZwogCiBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9DT1BZSU5HO21kNT1hMjNhNzRiM2Y0Y2FmOTYxNjIzMDc4OWQ5NDIxN2FjYiIK
+IAotU1JDUkVWID0gIjU4NDE1OTZlZGY3ZjVlNTMyODhjYjU2NDAwZTBjMGMxZGE1ZjI0MTUiCitT
+UkNSRVYgPSAiYjhmOTg3ODA3ZTdjN2JhNWMxYjJjYThiN2IxZTlkODBlNjFiY2U2YyIKIAogREVQ
+RU5EUyArPSAiYmFzZS1wYXNzd2QiCiAKLS0gCjIuNDcuMQoK
 
---===============4982686956985431550==
+--===============1670987202443856169==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml: PV changed from "0.18.15" to "0.18.16"
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.15.tar.gz;downloadfilename=ruamel.yaml-0.18.15.tar.gz" to "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.16.tar.gz;downloadfilename=ruamel.yaml-0.18.16.tar.gz"
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PV changed from "0.18.15" to "0.18.16"
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PV changed from "0.18.15" to "0.18.16"
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PV changed from "0.18.15" to "0.18.16"
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PV changed from "0.18.15" to "0.18.16"
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PV changed from "0.18.15" to "0.18.16"
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PV changed from "0.18.15" to "0.18.16"
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGSIZE changed from 1209426 to 1212241 (+0%)
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PV changed from "0.18.15" to "0.18.16"
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGV changed from 0.18.15 [default] to 0.18.16 [default]
-packages/x86-64-v3-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: FILELIST: directory renamed /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.15.dist-info -> /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.16.dist-info, directory renamed /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.15.dist-info/licenses -> /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.16.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-ruamel-yaml (sysroot):
-  /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.15.dist-info moved to /usr/lib/python3.13/site-packages/ruamel_yaml-0.18.16.dist-info
+packages/x86-64-v3-poky-linux/sysstat: SRC_URI changed from "git://github.com/sysstat/sysstat.git;protocol=https;branch=master;tag=v12.7.8 file://99_sysstat file://sysstat.service file://0001-configure.in-remove-check-for-chkconfig.patch" to "git://github.com/sysstat/sysstat.git;protocol=https;branch=master;tag=v12.7.9 file://99_sysstat file://sysstat.service file://0001-configure.in-remove-check-for-chkconfig.patch"
+packages/x86-64-v3-poky-linux/sysstat: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-dbg: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-dbg: PKGSIZE changed from 2754408 to 2752904 (-0%)
+packages/x86-64-v3-poky-linux/sysstat/sysstat-dbg: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-dev: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-dev: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-doc: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-doc: PKGSIZE changed from 264544 to 265661 (+0%)
+packages/x86-64-v3-poky-linux/sysstat/sysstat-doc: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-af: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-af: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-be: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-be: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-cs: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-cs: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-da: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-da: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-de: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-de: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-eo: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-eo: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-es: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-es: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-eu: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-eu: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-fi: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-fi: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-fr: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-fr: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-fur: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-fur: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-gl: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-gl: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-hr: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-hr: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-hu: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-hu: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-id: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-id: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-it: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-it: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-ja: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-ja: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-ka: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-ka: PKGSIZE changed from 21880 to 22727 (+4%)
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-ka: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-ko: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-ko: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-ky: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-ky: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-lv: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-lv: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-mt: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-mt: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-nb: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-nb: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-nl: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-nl: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-nn: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-nn: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-pl: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-pl: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-pt-br: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-pt-br: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-pt: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-pt: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-ro: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-ro: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-ru: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-ru: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-sk: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-sk: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-sr: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-sr: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-sv: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-sv: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-tr: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-tr: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-uk: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-uk: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-vi: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-vi: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-zh-cn: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-zh-cn: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-zh-tw: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-locale-zh-tw: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-src: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-src: PKGSIZE changed from 1973874 to 1973649 (-0%)
+packages/x86-64-v3-poky-linux/sysstat/sysstat-src: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat-src: FILELIST: directory renamed /usr/src/debug/sysstat/12.7.8 -> /usr/src/debug/sysstat/12.7.9
+packages/x86-64-v3-poky-linux/sysstat/sysstat-staticdev: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat-staticdev: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
+packages/x86-64-v3-poky-linux/sysstat/sysstat: PV changed from "12.7.8" to "12.7.9"
+packages/x86-64-v3-poky-linux/sysstat/sysstat: PKGSIZE changed from 1053035 to 1050331 (-0%)
+packages/x86-64-v3-poky-linux/sysstat/sysstat: PKGV changed from 12.7.8 [default] to 12.7.9 [default]
 
---===============4982686956985431550==--
+--===============1670987202443856169==--
 
