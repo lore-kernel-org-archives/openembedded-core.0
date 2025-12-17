@@ -1,153 +1,180 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <koen.kooi@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B6ED65521
-	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 09:22:45 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.36])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10417.1765963358490468238
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45651D65528
+	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 09:34:25 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10996.1765964058902375231
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 01:22:38 -0800
+ Wed, 17 Dec 2025 01:34:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=Nni6tWYJ;
- spf=pass (domain: ericsson.com, ip: 52.101.69.36, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wh7KFSldbcyS6ePTxCiTJRkR2qLRIT7WRMCBlx17RTcMe/wVUaBI4hVB3/vR3jmG3T744ToVJ2ddsu4j0oSFxtUZw/qmLSHOnaV3Ch/LzMpyDUFs23mOsIW8VKPLYPkva9CQ/Xd/NW0f67TNxz2nC8oXbjwNL6afVvAGnVU7UBmRaPm75/wypH/7/5Haqw/FmBBQlXaSGWXHRBqJZ/mj8vJXBJ9qEI3cM9wvZB2WhlH+6XZH8qDYYFWGyT/JO9SxIUhKh5EqCbVA/b1fOm81cEv0/TTdqAuHq8lBSfMdU07rV0nJuS3qhkNiTwcX96DR4MhfA6KQ55VtDo6Y2dFrvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GPVNZGs1fdbsgE+cqhcPcftIBIOlxNKAx+iERJnY7xY=;
- b=mOp5zXgDGR4PY0lqrIIRk20wRK5l544YsXz7Xt/rJkhnswUSQPxtozrldgrKBTvVBSxuv02BawX+OJyx0iL2jYq68e8So3lwTj713zTD4OCJztfWrEoEgegQjDdSRDetpwZ/aLdRB+zbo0ieeZURbhE25MFHG1BxQJsUVxVPf1z6t9zBT048DA1BbVry/1lNkm3MUchbnuMTOMYbBcKFdFDnICBMtMXxOtph+9ektAO5PNtBmpYRlsQ55EisJL6flyuQRxb38Yb6PoiP3W4lNKitSKsbpTEdQH81kjfP1zd3cC6DvgGyPEiJutrqPhXLsAOBEQe7yqWvVKYu3Crzew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=ericsson.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GPVNZGs1fdbsgE+cqhcPcftIBIOlxNKAx+iERJnY7xY=;
- b=Nni6tWYJ9c32VbYklGdeLqY82y7WVqykBj1vNlTRhSwTUGX75wanZ63y/PWochBT+Fjt43yHa2MGvT6CeNZEl7h0Ta7j8Iv4pcbQ4iF3IhQYV7LS87eCpf2Mi9NZ40Bvex8nZSSDh8dqrGEacxDzJ66NP+itpIr5wiZKiWvy1kxAg1mG4Y3nUkkwr8RTTDILX7Koliilo7n+3v3BqFBDWmmfpo6Q22CpvnbV1Pon5LPiRBvxjLZM2HgTKjmxf3EcaqmxVCyUG9Nv1x8X0BU+xnyMdnOvCZXDfkY8NKGwn1PuR5JLh3/iLBO2C5zGNzrnIoWFwux9TH9f+CZht7vAAg==
-Received: from AS4P190CA0025.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:5d0::12)
- by AM7PR07MB6407.eurprd07.prod.outlook.com (2603:10a6:20b:131::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
- 2025 09:22:34 +0000
-Received: from AMS0EPF000001A6.eurprd05.prod.outlook.com
- (2603:10a6:20b:5d0:cafe::7d) by AS4P190CA0025.outlook.office365.com
- (2603:10a6:20b:5d0::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6 via Frontend Transport; Wed,
- 17 Dec 2025 09:22:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- AMS0EPF000001A6.mail.protection.outlook.com (10.167.16.233) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9434.6 via Frontend Transport; Wed, 17 Dec 2025 09:22:34 +0000
-Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.67) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 17 Dec 2025 10:22:32 +0100
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 4AAC09569E;
-	Wed, 17 Dec 2025 10:22:32 +0100 (CET)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 2AEB7700DF64; Wed, 17 Dec 2025 10:22:32 +0100 (CET)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Daniel Turull <daniel.turull@ericsson.com>, Saravanan
-	<saravanan.kadambathursubramaniyam@windriver.com>, Steve Sakoman
-	<steve@sakoman.com>
-Subject: [scarthgap][PATCH] cmake-native: fix CVE-2025-9301
-Date: Wed, 17 Dec 2025 10:22:24 +0100
-Message-ID: <20251217092224.3482254-1-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.44.1
+ dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=m9LtDlzB;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@oss.qualcomm.com header.s=google header.b=RHuBoZds;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: koen.kooi@oss.qualcomm.com)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BH4XMG62316084
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 09:34:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Ff/BqKq4hvDhL0P+pZsfB0X61oMmLR6ivk/MSnfmLCg=; b=m9LtDlzBiGia9tjV
+	yWiSbi9Mur8dvTcy360huojT6GOUwRSwFHrqYJwndGllyA9+K9GVelTnkbBxD0Ze
+	Wlq8+XiyGHN6laJ9cfzNeIbAwx4Sux+PezFRClOW644MbOmpJc0JNpt80BkZqzi9
+	mi2mThVNZZfiTp2q/FVJmwimJ4riQOmw+kzl1G/RUtXlHTa0llIOk993PXknbOJ2
+	1Hys9T2l8yjjnM+jL/md+55DBRp75qjcG8N3w2IC83WekjtHgeH26dnRvV7k/P+n
+	cIkKa2u1Izy31ug01+HTvXZeu/c0s6JTqcl7/ikXEfEWPqIhf/2q4k6hkIeJ+c+k
+	zpI8ug==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b3nkkgy1k-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 09:34:17 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4f1dea13d34so96912071cf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 01:34:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1765964057; x=1766568857; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ff/BqKq4hvDhL0P+pZsfB0X61oMmLR6ivk/MSnfmLCg=;
+        b=RHuBoZdskmqtnLSExuwelZIeVOMQ1a2PHDB3v18Gp2KESSWaPI7d6QyHE7GB8uCn7a
+         Ag4TeS/MclhuHirgg4jUhaP6+f2KEBxJt4Q6yI2lYt+3SWBiVpmSNyYNKZt+NOFa+DlX
+         AxgVxcKNmrLXqEO0k0M1Bl4v1SNZVsv8LjFGFxWlPQsvOO3kR8nI9+MWliXcjJ9nUQXu
+         sKIWPVeaK8Ko12mZGeD4HzLxO4cgG/IbhObzCfF5uAnVbgZuJT/EzR7bvBomjEyjVAXD
+         p36RyPpfuEEhF/bsjl6DqTtxvOpb0Vl/qPLex2a8k4JMZBT40uXCdRK8IdZYCNUqS3ZL
+         z54A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765964057; x=1766568857;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Ff/BqKq4hvDhL0P+pZsfB0X61oMmLR6ivk/MSnfmLCg=;
+        b=w/Xo26zQFil8wCu6ABoMU3MQ54noDNTcAiGSo1S0bW+49jYzNawNZ0+B/5u2IsgTHS
+         BqwapDES5MeYG08b2lTgIMOX7Fi708VNewVbKaej66MQ3C2cvMekzjjv3ShuDJrlU1A9
+         tDFXfqFPpdoVXJx+X01weNSw8r2fK8y67obtM1zf2ApZBDrIbsEylneBkCoxlbgG5ko/
+         MQxegLjIYoS1YEGCxYwhr4BJvjpJ2FAXEXQM7Nax+8DBDv3FOAAmjFCC+aayACE9XzY1
+         1lJREwIYmGqa4NTMZzZWGANdhgyDtulJN9DdCyZcgV2535BmoNqgOm7Nxd6uQJIGRGNJ
+         4sng==
+X-Gm-Message-State: AOJu0YxSRh9ZR1kjbpRjR4xvs4KmxabbN23JvitgePCMiz4tXsKQCZBI
+	rBsCI10GdAebyIgMkeziKZUfofWtZ02y2Of1mLriXImAnKcjxsnINfk/1tTHyGlT4nqgMFanMEc
+	HdDMK/iz8xvAm4yQPTlyYORfvw71wo2Bw2sqt17eAEty9xsEXzbAYK6OjcO8xmFmFvkoT3YzJNq
+	io1tMv5tXJULKekiu++g==
+X-Gm-Gg: AY/fxX5iwkj3pwZDU1oG+r+laxz1QE/YEbh15Jwl5aYgf32s0A406Z1JJuVslowQaaR
+	+Yh7EMxg+2gxYR+jVNgr2efZx3T7hAl4aigFMMjyKiCpLkLPJ7i1cTU2n1yWC2nbnJW1q2Yrrzc
+	/EYGR2mvkYVWLz9kQm116qJKqrH4Rp0RFvTD/u4x/ondvzn/o3kQ3O3koKPeWTRja6sEAC+AQda
+	udIOWDigPn5WSbVH3TWJSADNvuPLnK8vuRPeNTU4od4SajgJ2xyAeeHPm+czNWmEOH1HTNxJ819
+	b+VXlr7E0zJzXKviz+HQCHTo4TKSZCRovRDRdI2hWrBu8wT1r2rg/nX3wIasgHstjsCQCKWqoGb
+	yriv3zfRV51jOQ/uAfecPNMYNzJTMCCqe
+X-Received: by 2002:a05:622a:258d:b0:4eb:a192:de99 with SMTP id d75a77b69052e-4f1d065c7ffmr235100961cf.76.1765964057074;
+        Wed, 17 Dec 2025 01:34:17 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEEAn75NcMOgmZufNsC+tliMWydAQVOkoVwqRSNC4ZslJ3PCEopUhqdFTfXzjKdQlaXEOdolw==
+X-Received: by 2002:a05:622a:258d:b0:4eb:a192:de99 with SMTP id d75a77b69052e-4f1d065c7ffmr235100821cf.76.1765964056584;
+        Wed, 17 Dec 2025 01:34:16 -0800 (PST)
+Received: from hu-kkooi-ams.qualcomm.com ([212.136.9.4])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa29bea0sm1938143866b.8.2025.12.17.01.34.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Dec 2025 01:34:16 -0800 (PST)
+From: Koen Kooi <koen.kooi@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Koen Kooi <koen.kooi@oss.qualcomm.com>
+Subject: [PATCH v2 2/2] systemd: package 'ukify' seperately
+Date: Wed, 17 Dec 2025 10:34:09 +0100
+Message-Id: <20251217093409.914045-3-koen.kooi@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251217093409.914045-1-koen.kooi@oss.qualcomm.com>
+References: <20251217093409.914045-1-koen.kooi@oss.qualcomm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Proofpoint-GUID: wLetcWECT1Db9ji9ewsMhlTZ2apGEPl2
+X-Proofpoint-ORIG-GUID: wLetcWECT1Db9ji9ewsMhlTZ2apGEPl2
+X-Authority-Analysis: v=2.4 cv=f/RFxeyM c=1 sm=1 tr=0 ts=69427919 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=_Vfo9hBWOhRVvoKi3vUA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDA3NSBTYWx0ZWRfX1i/5ab5THeaF
+ WLfMv9EDQthakE3hFbhebogF1g1UQLV8qgo8U2vtyJTi0gij7N5b64Gw/mqBuhdtRXfUrnppF/o
+ bXyN1qy8ZOoe0KFnAnvUVwjL4TR0RS8FerY4/ChbBVbfhm/LEXXoHoPrQciJa7OYEJnLPYBwAp+
+ llE8ASOiysF8BljYblTI+NrPl7SdKTPd3+fkvPrCdChy+ezmzvfVyw5ZFuJxnADglh9txvUK42V
+ Dv89HHzAS69ABz+aCTCGriamvGqkSnUOSRrCy0Lltu/d6bj4EoNjhAmK8+NwlbfgSU7tlyYKfhg
+ hzUaAChe0mU1RkMr1H8RzGu0dAmDqGTaLmea1FIqNL81biiTcY/8QsZHaFhNM58NKn3wxNLswis
+ vn4ZkchY3aEGu8nwJTxZA58gXwsayA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-17_01,2025-12-16_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 malwarescore=0 adultscore=0 bulkscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512170075
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF000001A6:EE_|AM7PR07MB6407:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9c70f8af-e7fe-445f-1676-08de3d4dcfc3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|36860700013|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?DrzrZE5v5rxtXcm7bqHKEWDdWZO6832IawJMgTJpC1vyPtV8UeZK5Nou9GD2?=
- =?us-ascii?Q?6In6Ldkw3D71SabTJRFiute9ZrP9CcbOLh/6ujIK3TGEn+PRMvy56PM5zMQ/?=
- =?us-ascii?Q?i4sqg9qaPUUDFCEbqzBdllL0F8jBBA1N3QWXMXM/TZS4X4W1SssIHD0AgQMP?=
- =?us-ascii?Q?Y8lOpzTVPdeqrIDixi39hyVNTq++laI+TBt5gYlD6w2dZfhmvcMO5sDxWOEA?=
- =?us-ascii?Q?6l08Byg1iMHLoPgLLysd5Aq1fb69QKTmuXDLRE9EWgrZZGGVK3ngbqnyfVo8?=
- =?us-ascii?Q?K3yBAol+iE0WVoVZ1e4oDGCSRDivPOY5aHOSD94wiLsG6NSVsuUTGR7v19de?=
- =?us-ascii?Q?5kzpvkcc//1ybN118dQMdQOqUXRsZELzjdUVGVKeR98YXgPMjT9bLc2wrkOq?=
- =?us-ascii?Q?kJwi+zHcziW3TIGT2SSsyVbfAJGfNUiaPiCSWEgjWKRXB94y1WK7OHygHtUx?=
- =?us-ascii?Q?Xnut3p6G5IlbYUTiW52IV7UUYoYPPMbqoSufljF45igC7tuK7Xx/RVCLj6Bs?=
- =?us-ascii?Q?ZK1DFW6ErGZ4H3dPBY9Rz0Cecv//fAipWqOTkuKYuE11RQQzvc0qWfvRC7uW?=
- =?us-ascii?Q?HrzzgAfAEqW/EZdCytclmAeyqAmgP5lr1TGekkfhOpujs4rV2ZfscixiucLp?=
- =?us-ascii?Q?a88nXZfPHtGzPAs86gDNeEJFdC/PMd53bxf/ZNRyRvUSfkdqGrJwDSdmKcwY?=
- =?us-ascii?Q?Wmh/OvxMZGnuQKG040dDM/xoMGl0bIIG6ZuX1U3CYR+b9yOT/Hmawm9te2JK?=
- =?us-ascii?Q?dxtMVn7K4/cTkGyOzLQpAaqPwRFViGlpsVPIjkwTryiGjZhTCwfObY4z7K90?=
- =?us-ascii?Q?mNV0xqYTJCUrpGzddE65fvboQS5H/6hfeMgCXOItzVNJn9zhAbCECiyDMSfa?=
- =?us-ascii?Q?BT96KCIBrLuFysExKYH1blHWCI+67txwS+f6jO9SXh8baTfOYoDr38cR2gF8?=
- =?us-ascii?Q?JHcexF1viWaeG41liSIOB3b0/gvf5klRibLfOMcvPwx0k2Fm/CpgoC4vC/U2?=
- =?us-ascii?Q?yRxEgqekiiPdowPMHM2vbXMl9LMJqjiH2ZPcKkvklHgBr8ahUmAF9s3H3BsB?=
- =?us-ascii?Q?ThDFaGA6GRBq3RdkDU/3cRMWYcwrboQkr7JCuxsCyyfN0gtQVK3CNUl6wGEr?=
- =?us-ascii?Q?4m6BrhCQ9jCo/u4oQNZUavzWHrvocLzBLmhv0gw+sHRTULDgNqUvZ64rdaCT?=
- =?us-ascii?Q?worISLEOL2wsXD8owvF4GPmgYNEw+c8UoApfLnJSUUdYNsBc7J9mYonLxzr+?=
- =?us-ascii?Q?G/WO7+g/5HbwEnZi9JUjlKpUQvXFuf+DWDXIJgbAbJ4in7hJrw10ALt1SkgE?=
- =?us-ascii?Q?y4Fs0YtwR9Z36ObamqGH8K4hDauiF3gOGhCKrIEEalfrW/5b6fB3qhH+FkPg?=
- =?us-ascii?Q?nT16fIh/7f+3/rcFDW8/NKQIJGlh1R5/oF9AhPUA0n+wCOWj5lKLvZLiHSLz?=
- =?us-ascii?Q?U3pLYCpv1Z43QOGIWBzuDzWXZ89kO2jOU+MOkcMXwnKYxUjpyQhDwW+FwJAu?=
- =?us-ascii?Q?b6XaW3bb00d/2kaWwchDwvfu5KCEaESQAABUiUFdkQLckUrIOnCDDXHBLSjB?=
- =?us-ascii?Q?OWSvUhRj16kw+M/KSfo=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2025 09:22:34.0020
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c70f8af-e7fe-445f-1676-08de3d4dcfc3
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF000001A6.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR07MB6407
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 5BH4XMG62316084
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 09:22:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228010
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 09:34:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228013
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+The upgrade to 258.x started shipping 'ukify' by default, but didn't
+adjust the runtime dependencies. Add the python modules 'ukify' imports
+and split out the package to avoid dragging in gigabytes of python just
+plain systemd.
 
-Add fix for native recipe, since previous commit for cmake missed it.
-5d8a6fb52c cmake: fix CVE-2025-9301
+Succesfully tested at runtime on:
+* RB1-core-kit, using u-boot EFI mode + systemd-boot
+* RB3gen2-core-kit, using Qualcomm UEFI + systemd-boot
+* Rubikpi3, using Qualcomm UEFI and type 2 boot
+* Beagleboneblack using u-boot UFI mode + systemd-boot
 
-CC: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
-CC: Steve Sakoman <steve@sakoman.com>
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+Signed-off-by: Koen Kooi <koen.kooi@oss.qualcomm.com>
 ---
- meta/recipes-devtools/cmake/cmake-native_3.28.3.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/systemd/systemd_258.1.bb | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.28.3.bb b/meta/reci=
-pes-devtools/cmake/cmake-native_3.28.3.bb
-index 376da3254b..7b250752d8 100644
---- a/meta/recipes-devtools/cmake/cmake-native_3.28.3.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_3.28.3.bb
-@@ -7,6 +7,7 @@ SRC_URI +=3D "file://OEToolchainConfig.cmake \
-             file://environment.d-cmake.sh \
-             file://0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-interna=
-l-.patch \
-             file://0001-CMakeLists.txt-disable-USE_NGHTTP2.patch \
-+            file://CVE-2025-9301.patch \
-             "
+diff --git a/meta/recipes-core/systemd/systemd_258.1.bb b/meta/recipes-co=
+re/systemd/systemd_258.1.bb
+index dcbd4d92f3..70414b03a4 100644
+--- a/meta/recipes-core/systemd/systemd_258.1.bb
++++ b/meta/recipes-core/systemd/systemd_258.1.bb
+@@ -408,6 +408,7 @@ PACKAGE_BEFORE_PN +=3D "\
+     ${PN}-networkd \
+     ${PN}-rpm-macros \
+     ${PN}-udev-rules \
++    ${PN}-ukify \
+     ${PN}-vconsole-setup \
+     ${PN}-zsh-completion \
+     libsystemd-shared \
+@@ -630,6 +631,24 @@ FILES:${PN}-udev-rules =3D "\
+                         ${nonarch_libdir}/udev/rules.d/99-systemd.rules =
+\
+ "
 =20
- LICENSE:append =3D " & BSD-1-Clause & MIT & BSD-2-Clause & curl"
++SUMMARY:${PN}-ukify =3D "Create and inspect Unified Kernel Images (UKIs)=
+"
++DESCRIPTION:${PN}-ukify =3D "ukify is a tool whose primary purpose is to=
+ combine components (usually a kernel, an initrd, and a UEFI boot stub) t=
+o create a Unified Kernel Image (UKI) =E2=80=94 a PE binary that can be e=
+xecuted by the firmware to start the embedded linux kernel."
++FILES:${PN}-ukify =3D "${bindir}/ukify"
++RDEPENDS:${PN}-ukify =3D " \
++                        python3-compression \
++                        python3-core \
++                        python3-crypt \
++                        python3-datetime \
++                        python3-io \
++                        python3-json \
++                        python3-netclient \
++                        python3-pefile \
++                        python3-pprint \
++                        python3-pydoc \
++                        python3-pyzstd \
++                        python3-shell \
++                       "
++
+ CONFFILES:${PN} =3D "${sysconfdir}/systemd/coredump.conf \
+ 	${sysconfdir}/systemd/journald.conf \
+ 	${sysconfdir}/systemd/logind.conf \
+--=20
+2.34.1
+
 
