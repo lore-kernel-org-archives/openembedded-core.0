@@ -1,200 +1,177 @@
-Return-Path: <hongxu.jia@windriver.com>
+Return-Path: <kai.kang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A091BD64086
-	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 07:27:04 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9105.1765956419675309968
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEEF7D64088
+	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 07:51:34 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9670.1765957883826085413
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Dec 2025 23:27:00 -0800
+ Tue, 16 Dec 2025 23:51:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=feJ8qOBv;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4446d33a3f=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BH4AuSU2367653
-	for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 07:26:57 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=rwH4a5cL;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4446912528=kai.kang@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BH5RiV81116634
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 23:51:23 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=mKo2XA3TuxVdbaokSfNt
-	3sKDgYM64/tBA+CevmrS+5A=; b=feJ8qOBvY1vcAfvkYNkjJHy7avr8VcVXLcbG
-	u1RiTMqCSrz0jWBG3aQfGnLez+otzD0Q9AYdjRUOz79KCWu/1VneI5l73KHUt+BY
-	9zi3QfVCCiDMcPEOiw1FeBd0EwiEZWAPyu3RysmBVPW96dLJxX5H3denikpNBT09
-	kg8NxyyYpun2gPm8AMP+3Ed8pHjEZy/3jUe7wcCcE1wwc0PEuszdWmg05C9IAkhH
-	8Z53imVn+BJlX/wN96pvDQW+zmBtqmaKDLzo/WzQ22x98gmqy3bNzS/V2jtRsDxa
-	xad3qwNbxldmtG9MVo+ZgBedCW57CJ8HLwKxgxzt+QksTf/B1Q==
+	:mime-version:subject:to; s=PPS06212021; bh=RExC4Y5QVTmR+59QXDFs
+	a8wuDp6mFllNkEOd6E3j2i0=; b=rwH4a5cL+HvSWP1XvWDaOqdCrFJ4676bcuOX
+	ku7EBSpkQM5fGqjTnkcBDxQnjQ6AxCkvxsbLFT9cWi3RsCtIA8iw6jmFTO4AKoCr
+	FYTzZS9HsR2gb3buj6JJuMQUChIetduQc1Xyy30+XRQ2R7rq2iHltR9nfjj6r6Qr
+	wLFkUjt0pggr8sF0oy2scBeDZwQB9f7pcUG28dezPOdwlGElywc+oZdKWzBlOYJG
+	CYGu6sTrrW/b0SED9rq5mFtM2a6nnHcU4jZ4i9cA1q+TPRcPN2rM1/IAJsLveHFt
+	YqMfvxf5YSUxp341OqtLFU0AEDcZqHxXLDzxKugH4vuF7TD+dA==
 Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b3k0br8bx-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b3k6j08t6-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 07:26:57 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Dec 2025 23:51:23 -0800 (PST)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
  ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Tue, 16 Dec 2025 23:26:56 -0800
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ 15.1.2507.61; Tue, 16 Dec 2025 23:51:22 -0800
+Received: from pek-lpg-core4.wrs.com (10.11.232.110) by
  ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Tue, 16 Dec 2025 23:26:55 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
+ 15.1.2507.61 via Frontend Transport; Tue, 16 Dec 2025 23:51:21 -0800
+From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/2] gcc: fix ICE when building webkitgtk
-Date: Wed, 17 Dec 2025 15:26:53 +0800
-Message-ID: <20251217072654.326736-1-hongxu.jia@windriver.com>
+Subject: [scarthgap][PATCH] qemu: fix CVE-2025-12464
+Date: Wed, 17 Dec 2025 15:51:18 +0800
+Message-ID: <20251217075118.380338-1-kai.kang@windriver.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDA1NyBTYWx0ZWRfXyRpD6Uo1sMIh
- 1Yy6m3d0SQyYOOm0BaGUfLZq8JHKf61CmAA/8ynDCfFUMaqb9hKwgpcD2w55yci9kfhuO/v7ZaL
- 2JdkpRa0uZ8zkzCoPx8zBlKw0T28NmY1B96WZ7nZGXobNsaROrFXyhn/H7n76WCN6iCvAvAd9tE
- xOQyQRV7NchxCiJOclLJqlGIFbKNWVJtkpQaSdDd4SoQ+HUcj/WxbVjEBfsri7XsGeRlv+9GTg5
- z2HmWnUoYVZgFyPkw6gi0NnI411+HS8RrqNA3tUJhLvcxCN8bmhL0te6NwDCrSlzmLJVBToYNbp
- Np0aMCZG2nHtFZRzCrEHmMAoi9m0DHEDqVKqUNR2cNEr+Ribsvka9kI1tVI0lLT2KGPwhJPj4ci
- +UKHhJkvLRkPRwruGtVlPWx+W0SW2Q==
-X-Proofpoint-ORIG-GUID: WX2Jj26ZO_a-Q1cwoZQLNUs92iHf5qjq
-X-Proofpoint-GUID: WX2Jj26ZO_a-Q1cwoZQLNUs92iHf5qjq
-X-Authority-Analysis: v=2.4 cv=C+HkCAP+ c=1 sm=1 tr=0 ts=69425b41 cx=c_pps
+X-Authority-Analysis: v=2.4 cv=ErvfbCcA c=1 sm=1 tr=0 ts=694260fb cx=c_pps
  a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=mDV3o1hIAAAA:8 a=t7CeM3EgAAAA:8
- a=20KFwNOVAAAA:8 a=3rjsNpC4oig8xlRUbUIA:9 a=FdTzh2GWekK77mhwV6Dw:22
+ a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=p0WdMEafAAAA:8 a=ID6ng7r3AAAA:8
+ a=t7CeM3EgAAAA:8 a=KKAkSRfTAAAA:8 a=69wJf7TsAAAA:8 a=20KFwNOVAAAA:8
+ a=rQuykwKOvVSuO4N8f10A:9 a=AkheI1RvQwOzcTXhi5f4:22 a=FdTzh2GWekK77mhwV6Dw:22
+ a=cvBusfyB2V15izCimMoJ:22 a=Fg1AiH1G6rFz08G2ETeA:22
+X-Proofpoint-GUID: odCYfuwdQgRURbH1h_PZ7HOsDnVJU2uO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDA2MCBTYWx0ZWRfX4FOb+TnVKdQb
+ AHkCy1XLBZ8SpQpjrxyScNzom9zXpZbhshu3HGFOyRxKwxL+q/f9OxXJxkKiDITvRNFd2hRp7fy
+ hdr2qMg5DFr3H5k+tDTnjsyIaYM6JUcXYwyBFpaNmeYLa4/jrdW48A2Rku12C+hDa1wr+RKJFsM
+ gmsuPgCrpfb9G4qGvdhBliJU4IocAp/0MPDJ538MOvgSY3z17r8ItITvLwVZXU/WkEXToUvc+rt
+ at+ALJawLvnDjWsjHZL163+t9q6Vb+iHWk92s4XRCXVKFWaWeYpSOaeZ6z0R0wxw3M98VjBl4Fq
+ TV11LJ4zUQSldYtdm2EQLUIBfnjdEWk8TKYt3NLJKNt44HE/RyzNyB0x7jda36fjE1FItEBdhDT
+ U4VTXzHJGD1eqrByp2Xu5vhFgq/Mww==
+X-Proofpoint-ORIG-GUID: odCYfuwdQgRURbH1h_PZ7HOsDnVJU2uO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-17_01,2025-12-16_05,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 impostorscore=0 priorityscore=1501
- malwarescore=0 clxscore=1015 suspectscore=0 spamscore=0 adultscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512170057
+ spamscore=0 priorityscore=1501 clxscore=1015 bulkscore=0 lowpriorityscore=0
+ suspectscore=0 impostorscore=0 malwarescore=0 adultscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512170060
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 07:27:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228000
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 07:51:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228002
 
-Compile webkitgtk failed with ICE
-...
-|tmp/work/x86-64-v3-oe-linux/webkitgtk/2.50.0/sources/webkitgtk-2.50.0/
-Source/WebCore/platform/ScrollAnimationMomentum.cpp:96:6: internal compiler
-error: in expand_debug_locations, at cfgexpand.cc:6042
-...
+From: Kai Kang <kai.kang@windriver.com>
 
-Backport a patch from upstream to fix the issue [1][2]
+Backport patch to fix CVE-2025-12464 for qemu.
 
-[1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=122394
-[2] https://gcc.gnu.org/cgit/gcc/commit/?id=e55dcff97708a4937dc4d8736b8b3074ebbff6f3
+Reference: https://gitlab.com/qemu-project/qemu/-/commit/a01344d9d7
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-15.2.inc        |  1 +
- .../gcc/gcc/0027-gcc15-pr122394.patch         | 88 +++++++++++++++++++
- 2 files changed, 89 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/0027-gcc15-pr122394.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2025-12464.patch            | 70 +++++++++++++++++++
+ 2 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-12464.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-15.2.inc b/meta/recipes-devtools/gcc/gcc-15.2.inc
-index 3ed4600361..b02cc4fcb9 100644
---- a/meta/recipes-devtools/gcc/gcc-15.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-15.2.inc
-@@ -73,6 +73,7 @@ SRC_URI = "${BASEURI} \
-            file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch \
-            file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
-            file://0026-fix-pr90579-testcases.patch \
-+           file://0027-gcc15-pr122394.patch \
-            file://0001-mapper-localhost-might-not-be-known.patch \
- "
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 60d372fce0..dde3b0be13 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -42,6 +42,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
+            file://CVE-2024-8354.patch \
++           file://CVE-2025-12464.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-diff --git a/meta/recipes-devtools/gcc/gcc/0027-gcc15-pr122394.patch b/meta/recipes-devtools/gcc/gcc/0027-gcc15-pr122394.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2025-12464.patch b/meta/recipes-devtools/qemu/qemu/CVE-2025-12464.patch
 new file mode 100644
-index 0000000000..9ee371cef7
+index 0000000000..6099fc79cd
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0027-gcc15-pr122394.patch
-@@ -0,0 +1,88 @@
-+From e55dcff97708a4937dc4d8736b8b3074ebbff6f3 Mon Sep 17 00:00:00 2001
-+From: Jakub Jelinek <jakub@redhat.com>
-+Date: Mon, 27 Oct 2025 17:43:17 +0100
-+Subject: phiopt: Fix up DEBUG_EXPR_DECL creation in spaceship_replacement
-+ [PR122394]
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2025-12464.patch
+@@ -0,0 +1,70 @@
++From a01344d9d78089e9e585faaeb19afccff2050abf Mon Sep 17 00:00:00 2001
++From: Peter Maydell <peter.maydell@linaro.org>
++Date: Tue, 28 Oct 2025 16:00:42 +0000
++Subject: [PATCH] net: pad packets to minimum length in qemu_receive_packet()
 +
-+The following testcase ICEs in gcc 15 (and is at least latent in 12-14 too),
-+because the DEBUG_EXPR_DECL has incorrect mode.  It has
-+TREE_TYPE (orig_use_lhs) type, but TYPE_MODE (type) rather than
-+TYPE_MODE (TREE_TYPE (orig_use_lhs)) where the two types are sometimes
-+the same, but sometimes different (same if !has_cast_debug_uses, different
-+otherwise).
++In commits like 969e50b61a28 ("net: Pad short frames to minimum size
++before sending from SLiRP/TAP") we switched away from requiring
++network devices to handle short frames to instead having the net core
++code do the padding of short frames out to the ETH_ZLEN minimum size.
++We then dropped the code for handling short frames from the network
++devices in a series of commits like 140eae9c8f7 ("hw/net: e1000:
++Remove the logic of padding short frames in the receive path").
 +
-+Though, there wouldn't be the this issue if it used the proper API to create
-+the DEBUG_EXPR_DECL which takes care of everything.  This is the sole
-+spot that doesn't use that API.
++This missed one route where the device's receive code can still see a
++short frame: if the device is in loopback mode and it transmits a
++short frame via the qemu_receive_packet() function, this will be fed
++back into its own receive code without being padded.
 +
-+Doesn't affect the trunk because the code has been removed and replaced with
-+different stuff after the libstdc++ ABI change in r16-3474.
-+Before r15-5557 the mode has been always wrong because this was done only
-+for has_cast_debug_uses.  And the bug has been introduced with r12-5490.
++Add the padding logic to qemu_receive_packet().
 +
-+Enough archeology, while it could be fixed by changing the second
-+SET_DECL_MODE argument, I think it is better to use build_debug_expr_decl.
++This fixes a buffer overrun which can be triggered in the
++e1000_receive_iov() logic via the loopback code path.
 +
-+2025-10-27  Jakub Jelinek  <jakub@redhat.com>
++Other devices that use qemu_receive_packet() to implement loopback
++are cadence_gem, dp8393x, lan9118, msf2-emac, pcnet, rtl8139
++and sungem.
 +
-+	PR tree-optimization/122394
-+	* tree-ssa-phiopt.cc (spaceship_replacement): Use
-+	build_debug_expr_decl instead of manually building DEBUG_EXPR_DECL
-+	and getting SET_DECL_MODE wrong.
++Cc: qemu-stable@nongnu.org
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/3043
++Reviewed-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++Signed-off-by: Jason Wang <jasowang@redhat.com>
 +
-+	* g++.dg/opt/pr122394.C: New test.
++CVE: CVE-2025-12464
 +
-+Upstream-Status: Backport [https://gcc.gnu.org/cgit/gcc/commit/?id=e55dcff97708a4937dc4d8736b8b3074ebbff6f3]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/a01344d9d7]
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
 +---
-+ gcc/testsuite/g++.dg/opt/pr122394.C | 20 ++++++++++++++++++++
-+ gcc/tree-ssa-phiopt.cc              |  6 ++----
-+ 2 files changed, 22 insertions(+), 4 deletions(-)
-+ create mode 100644 gcc/testsuite/g++.dg/opt/pr122394.C
++ net/net.c | 10 ++++++++++
++ 1 file changed, 10 insertions(+)
 +
-+diff --git a/gcc/testsuite/g++.dg/opt/pr122394.C b/gcc/testsuite/g++.dg/opt/pr122394.C
-+new file mode 100644
-+index 000000000000..1f84bebd74c2
-+--- /dev/null
-++++ b/gcc/testsuite/g++.dg/opt/pr122394.C
-+@@ -0,0 +1,20 @@
-++// PR tree-optimization/122394
-++// { dg-do compile { target c++23 } }
-++// { dg-options "-O1 -g" }
++diff --git a/net/net.c b/net/net.c
++index 27e0d27807..8aefdb3424 100644
++--- a/net/net.c
+++++ b/net/net.c
++@@ -775,10 +775,20 @@ ssize_t qemu_send_packet(NetClientState *nc, const uint8_t *buf, int size)
++ 
++ ssize_t qemu_receive_packet(NetClientState *nc, const uint8_t *buf, int size)
++ {
+++    uint8_t min_pkt[ETH_ZLEN];
+++    size_t min_pktsz = sizeof(min_pkt);
 ++
-++#include <compare>
++     if (!qemu_can_receive_packet(nc)) {
++         return 0;
++     }
++ 
+++    if (net_peer_needs_padding(nc)) {
+++        if (eth_pad_short_frame(min_pkt, &min_pktsz, buf, size)) {
+++            buf = min_pkt;
+++            size = min_pktsz;
+++        }
+++    }
 ++
-++struct A {
-++  friend auto operator<=> (A, A) = default;
-++  double a;
-++};
-++void foo ();
-++A b, c;
-++
-++void
-++bar ()
-++{
-++  bool d = c >= b;
-++  if (d)
-++    foo ();
-++}
-+diff --git a/gcc/tree-ssa-phiopt.cc b/gcc/tree-ssa-phiopt.cc
-+index aaebae6b38c0..3e0ad9d3bb09 100644
-+--- a/gcc/tree-ssa-phiopt.cc
-++++ b/gcc/tree-ssa-phiopt.cc
-+@@ -2995,10 +2995,8 @@ spaceship_replacement (basic_block cond_bb, basic_block middle_bb,
-+ 	      if (has_cast_debug_uses
-+ 		  || (HONOR_NANS (TREE_TYPE (lhs1)) && !is_cast))
-+ 		{
-+-		  tree temp3 = make_node (DEBUG_EXPR_DECL);
-+-		  DECL_ARTIFICIAL (temp3) = 1;
-+-		  TREE_TYPE (temp3) = TREE_TYPE (orig_use_lhs);
-+-		  SET_DECL_MODE (temp3, TYPE_MODE (type));
-++		  tree temp3
-++		    = build_debug_expr_decl (TREE_TYPE (orig_use_lhs));
-+ 		  if (has_cast_debug_uses)
-+ 		    t = fold_convert (TREE_TYPE (temp3), temp2);
-+ 		  else
++     return qemu_net_queue_receive(nc->incoming_queue, buf, size);
++ }
++ 
 +-- 
-+cgit 
++2.47.1
 +
 -- 
 2.34.1
