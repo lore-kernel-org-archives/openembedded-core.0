@@ -2,81 +2,100 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CC5AD6554C
-	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 10:47:06 +0000 (UTC)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11527.1765968418622276037
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 317EAD6554D
+	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 11:02:26 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11767.1765969342434686824
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 02:46:58 -0800
+ Wed, 17 Dec 2025 03:02:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KP2yu78K;
- spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8ba0d6c68a8so610586685a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 02:46:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kdCFlQVh;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-88a367a1db0so49406526d6.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 03:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765968417; x=1766573217; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765969341; x=1766574141; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OE0mMs+nfSL6Ca5BkIKLavoz4vNP9lQpbcyPbUFovxo=;
-        b=KP2yu78KJXxJ2/YVw5EsY0w5F3S6RuqMI7WfSUqceZxLe5i8OGHSBcmJA3H644WpUA
-         rci2vpXSdcXVGqez+3xj3LRVMirJUrixaS+Cra89Do1jU01ihCCsF4TGz2RYXyjCwhzc
-         ZCOZ4JHqJs7z9zORslDL+wxxYoPBI63iHEWVDQK/gAIE5j+mkbx1Z+NHEXfzsFA3XxFo
-         jTWi4x1vODwCVIuONqsk5uAxeRklBfU5mOepIAtVeKb+wTtaEjyEQ94C1qNiDXMTbIqj
-         /BtvTaqd/UjDKnpm2Un9Itor4c0MS/0+Gm7vFkE4CtWeL65hyb2GMgBY+lQkdHXop/CW
-         Dctw==
+        bh=2Up6DZE5UCtV3WhC2nPc697YnJF+wfBLaSq+EsYFDMc=;
+        b=kdCFlQVh82rC85dTJWcI8B3gDKj1wDylVFkQaHd1xsqj2mCJ2uPNim5swzCTRGGolA
+         IoErGooGTBLkopNNqa9IjfsocP1EP1WS5a8vYWSq/tmiM81WoJIY7T3vSum42JY+cRWh
+         KBhtzTMtXOvT+LGfduy9/8d9gasmJvgIGDZwBByUns7CFqtqN8u0+1NwbqxvDbcg5/Ai
+         8Dr+PDGxKxgZI2bykdfkpSKrAxg/T1YSU5Ae7T77iDqDW++izdh4uuAqWw2ztyzja3Sb
+         50aqFrtFRAdaarm1wY1toyp4zmVBJjgRd//m7RT/bhFgnbrRLfmswOthgQKpjnLXf3pB
+         zcaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765968417; x=1766573217;
+        d=1e100.net; s=20230601; t=1765969341; x=1766574141;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OE0mMs+nfSL6Ca5BkIKLavoz4vNP9lQpbcyPbUFovxo=;
-        b=YabcmTgtq1BXKn1nxacdJTiH129UbTE1IlCEmAnkyaTSW7eHE3ZnhEUfEncrSgZGrz
-         87hi62g4nofY7XY4TZo0aPwslIxzY1pdJTnlWsxnUzGLSDrepXLubL7HG+IcVIhyakZ9
-         F5uwALVFZGxyQ/Sfli0z9hcR0KMgZpUaUDS0+NRXc4NbiKWpEYw88yyZnQaIAAfPjb09
-         VHBMGeW7QWw9ze5s7HfLjYu2GIypoPyAqLm9IMTTxxg7zU0SMPsKESm6fLYsaR4/uaO2
-         UcXc4/8hZgXWB+d/OOGSqSoiLhBjfB97Fr4CEf9XPNeuTgDvTXZYbCP9rL3sKR3ZKapm
-         uf7g==
-X-Gm-Message-State: AOJu0Yw83RMAqmSB4zoz3ZE91F9SoQ+Wvw4Pd4h8TmZZ59FQisYpPS3w
-	FXXYu1FsKJOHZliuhR25py9IlrdG2m/094JrHFdgHMNCg/OU/MHZNCaTyOEB15Kaf4Xo9gsJVgo
-	3dYNbqCxO21Ub/5r9abx/P5AqgDJ0xvp5EA==
-X-Gm-Gg: AY/fxX7Lywd7waME6clvL271F1/o6KkXvdsN0WhoGTl3gSrwYyXZtfA0bldUwZHXewM
-	br8UOPSVYE6Yl0O+PUYx9Ah8fkOBwHF3Aa5/jnf/M5Kc9a+wXL6T707Zkt83dJFUFK2m7JxP0dZ
-	ZktEso85PgLeUASjLwu0uHkuu2b3eAv+nHzZHN+oqMOA20Lwt8evdTeolOKpkJ25vq+mdx6zuJR
-	/tUwZsO7/PjH8kGAOat+m55VwSIQuWRwkAyRQ23Jf4ZCCM6tsl4PURQvj/eGon7DteO0wbo9S2a
-	uK6FnSys9aTmlKavWvkzFWsMHBFM2Q==
-X-Google-Smtp-Source: AGHT+IGWSYM6xiU7vFyhwSOO+awF0ptFWCaLaQDi7wlIVztR6jyEEfnnJJmRQ9TRU2t1TBXXE9jJU2/L24RavCml4J0=
-X-Received: by 2002:a05:620a:172c:b0:893:b99:711a with SMTP id
- af79cd13be357-8bb39faf5dfmr2606108985a.19.1765968417567; Wed, 17 Dec 2025
- 02:46:57 -0800 (PST)
+        bh=2Up6DZE5UCtV3WhC2nPc697YnJF+wfBLaSq+EsYFDMc=;
+        b=UBQ7/t1AX/ZQTNK8pwRRkvALKxKkjQAQlXoJw6ywp6pOo4e3UGRPXfufVZC3HCGRJ+
+         MghfXTTgRtI5n0pZri6vPKPpKNziBB2+gjATjKmqbowAjq4huXZFYVuI8F6QW7lc4H4m
+         urKet4z2wua5B/DttGO5qmygMp0XaqQoi+3vVdFkulBNgAQaEa8dviBBpCzd1vT0KRrh
+         XDZruQ6k/g3zlp65rPEQ4gOZfmrWbnw44+8yggJEBjNBqr1mogQGPGlrjVZ3CLUrfn3x
+         o6HYSWQO9il/B00DvDBCbV13PrSI0L7ly10YTA01WNs1AV+UJXYALijER+XVYx/QgkQ1
+         G52w==
+X-Gm-Message-State: AOJu0Yxhyh82Cb5C0mezq6I0VhSrQqpPWvjX6visfN9cPLEuRpKWXo3m
+	Eg/T5Y59u5B9A5JWMWUzEpiJyRJRvMkSrsuodKNaGcfwnVxq97TLXiPRVLQGkkF+9W5qKNuULB8
+	X67+nL27j0rY2pshQpvpAfoskxA6koyg=
+X-Gm-Gg: AY/fxX7kiuMuSatuPvmFrC1BnuR48+6C2t6UPBqHPQs013kQXZP8BT11MnkeieDLJYu
+	G8qAolL9Vvvxrmzjuj/ysrKaYmOzvV9YS+f+zv/M7sunQKcUuwhuh7BH4U8iNmylNzUZFfw+Bf6
+	FdAZmy9ErOAUyCcefB4l/ym22tCmAhbZnfyge0Z8QWdLEMDkriqzHBKhbh21RllgIjxWf2C9mT9
+	IeJH8hwFgr47tzi8Rik6aVXGaEYxaQjL7c4/sIu1zvd+3jAZ6UqjggLLgX3sRN5k3I2ycSEscyv
+	m0+MnV345gWGBXmhf9P/rfbDc1vvAg==
+X-Google-Smtp-Source: AGHT+IFk3mTAUvr8N5HaYVATG06o6bjnLm5gc9O77U1QyPPWB3EN6TgpovvQWF69ui26mH9DurZnesqIuI6+9n42ve8=
+X-Received: by 2002:a05:6214:528d:b0:888:3d48:23a8 with SMTP id
+ 6a1803df08f44-8887e112b20mr246953266d6.33.1765969340092; Wed, 17 Dec 2025
+ 03:02:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20251217072654.326736-1-hongxu.jia@windriver.com> <20251217072654.326736-2-hongxu.jia@windriver.com>
-In-Reply-To: <20251217072654.326736-2-hongxu.jia@windriver.com>
+References: <20251217094747.3217558-1-Qi.Chen@windriver.com>
+In-Reply-To: <20251217094747.3217558-1-Qi.Chen@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 17 Dec 2025 11:46:46 +0100
-X-Gm-Features: AQt7F2o9ih_owu1IwwOjTu1CvnsaZAGUZuXyzW38wFYQzOytHnZr6hWvKo9PZbU
-Message-ID: <CANNYZj9KkDgBPB1AoJxk0F3nfZ+Mv6h48d9ssuFrFXxzJ5eGbA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] webkitgtk: workaround compile failure for
- large debug symbols
-To: hongxu.jia@windriver.com
+Date: Wed, 17 Dec 2025 12:02:09 +0100
+X-Gm-Features: AQt7F2qbpeO4xtnnNdA5iruQZkbUw-JzrpB6I2-_zEKy4iAhirhEfHlkIXPt7kU
+Message-ID: <CANNYZj8zzUB-Q7LyhsD=MaCZPc7BYhb2cEbYDciOCxz8UaGidQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH V2] insane.bbclass: avoid unnecessary rerun of do_patch
+To: Qi.Chen@windriver.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 10:47:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228023
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 11:02:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228024
 
-On Wed, 17 Dec 2025 at 08:27, hongxu via lists.openembedded.org
-<hongxu.jia=windriver.com@lists.openembedded.org> wrote:
-> +# Pass -g1 to massively reduce the size of the
-> +# debug symbols (4.3GB to 700M at time of writing)
-> +# workaround error:
-> +# qemux86-64: "relocation truncated to fit: R_X86_64_32 against `.debug_info'"
-> +# qemuarm64: "relocation truncated to fit: R_AARCH64_ABS32 against `.debug_info'"
-> +DEBUG_LEVELFLAG = "-g1"
+On Wed, 17 Dec 2025 at 10:48, Chen Qi via lists.openembedded.org
+<Qi.Chen=windriver.com@lists.openembedded.org> wrote:
+> When toggling ptest for DISTRO_FEATURES, the do_patch function
+> gets rerun.
+>
+> The dependency chain is:
+> do_patch -> do_qa_patch -> DISTRO_FEATURES{ptest}
+>
+> Such rerun is not necessary. And it's kind of annoying because everything
+> gets rebuilt, including cross toolchain and recipes not using ptest.
+>
+> The ERROR_QA and WARN_QA should be enough to trigger the re-run
+> if unimplemented-ptest is added to one of them.
+...
+> +do_qa_patch[vardepsexclude] = "DISTRO_FEATURES"
 
-If this is set unconditionally in the recipe, it should be removed
-from yocto-space-optimize.inc at the same time.
+The offending code is this:
+
+    if not bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d):
+        pass
+    elif
+(gigantic list of elif checks follows)
+
+I wonder if we should rather drop this first check for DISTRO_FEATURES
+instead. These are recipe-level checks, and the issues reported are
+valid regardless of whether ptest is in someone's DISTRO_FEATURES or
+not.
+
+Using vardepsexclude is problematic because do_qa_patch may have other
+uses of DISTRO_FEATURES in the future, and the same reasoning may not
+apply to them.
 
 Alex
 
