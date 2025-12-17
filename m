@@ -1,208 +1,424 @@
-Return-Path: <m.schwan@phytec.de>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B91D65C46
-	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 13:08:16 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.125])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14470.1765976889747098804
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AD4ED65C51
+	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 13:32:07 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14236.1765977359162184548
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 05:08:10 -0800
+ Wed, 17 Dec 2025 05:15:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@phytec.de header.s=selector2 header.b=hLA2XE7Y;
- spf=pass (domain: phytec.de, ip: 52.101.84.125, mailfrom: m.schwan@phytec.de)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=Pvl7nlDX;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=444635b17a=daniel.dragomir@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BH535iq1076109
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 05:15:58 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=h+omDmAq+5It3HvS+z+af1
+	eDJ040QTPTmtJTiP72jNY=; b=Pvl7nlDXewLr7Fb+qf/WNVzZ7bYYuYylY/k31h
+	PbH10uTnhJIJLqQdBHNhvcO6hzMVHd5Eal+UcyiVaRy0BcPbT5OBW0/UseyC+Yvt
+	ecyHUyKteL6pYgnJMhqRxCzKHLKTlIfJyMQaAcR9MwyAxOCvbI9lDaLrd0lDwpcS
+	DhT3bY2acbMhg6VSsgxZhvb9lRt/S+9K/z/Lpf5egEeM/sNdpS3OepoXm00V0TJq
+	X+PEIYtPq5OGX2OMVw5xjG7zTKDSlCtEB1am7HE4wvj5Ng3egFiPOjsQ+5tjpKgI
+	W+/Uh6Itqd+Q5Famtcl7ion8zbIp/9+9kG/04XEjPDQlWHaw==
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011049.outbound.protection.outlook.com [52.101.52.49])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b3k6j0k5s-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 17 Dec 2025 05:15:58 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G3KRYjPGwTbXYCYWVWHqJqGai3Jx4lgjd0Dydw5nAkv2bFw8A3AYkWHSKssJBDZnPG2Ze1aIMoQgUsOx1Km4osYO94g9JuveAhEcppousihhPG6VVGmREOI0BFAMW03ne57xk41KSOdZqDGL7AbLP1LChFuQP1IcQ4QQbshDPmDevExBRQKvxDuGrcgaeZ31wLq5Gt9sq25uU+gz1kKnMCLvM5ACnuAC8x/UkYQBPFFNHEwHwPvpeSIfWPngmea561j/AcAIc9kTr9t0DIjcx+NV2tIIqwvSOPArlQLuC3qfASfWpb7MKipCN8X2qmi3aNEz6wZZVoTh35Ygt2eF1Q==
+ b=f2cOH9nQiVp8X/UMPIp6lVfLW+fyV0EgOpBv1Vkm7tKQLEHbL+N+PPVW7eWeM7lsC6VUjBw69aq95D/qthicn/KnqVdeAe+CnbrzePl2o+/mpi04KgGny//7K7bKkP2FgQcZlHlYIgCKgc2aKvo6XyIVo9KVl8dUieG3p1Lm5wv9+9ZYMSrBC5AS928eVwlbRxT1PCa3VX2x5iSDvoq18jI6WPzae+EGWCRUUgxv4IYvfWTrJ1RL3fj3whw5PMT6T9KniXBuvMrqcYXPHH96lCsfNNsl9lwAYT5JQyU09rx+SNbwAnOnnTdqLfg2HxCieVHOJXJuo14yGSyu4BP61Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uLshBS4YIzvRnWm+8nPjynRnytnfP++bdLH+auwReac=;
- b=vVQTP/J5OTT7ndxFH0UnoNZau2M/4nMk8zWpOlo+n/KX55EPLEELWwo0PHy9sKlnjSxaUgDOQ7/03IkIUe4vjibuDvPFBvnaUnak9p6ZEpevHqPk4ILocmN05nvBErcv9VvpbXH132AawXTiSBFrwfK2/YdVI5XWAY16rQTTITMhCfXf2pBZKPsg1aTKYG1qjQfIrkAysAkotw8kWuuElEI42LDVpGevN7ydr9FULRcKOnWCscFaQtL601AtsEroFWehBaMgdUH9TYSyo5CX0KNQc/lWB031gADVobjJAtSl4MIh8qfx7GJmBIGkJa58la1uljRg2xsUYXg1opdA8Q==
+ bh=h+omDmAq+5It3HvS+z+af1eDJ040QTPTmtJTiP72jNY=;
+ b=gQi9xwU0iDoTC13hGL1Wb9Mo2GMQkmYdG51sAXs0v0ULKaOD6zgxwCKlz0HpUOBeJ3fQ7MCQLVVygH74Xik1nG8MFSi7p3lipZwAsXIxYX3aTd78NFCE9X7k8zbfR3AyieEekiIopVbNEysf/XejJ/XopwVveESbDfBDVkGgWbf4Yt2GR0OMc+m6Hj+h30I3h0vXJVoiYt1TdS/eRjSlAAs71reg37rO3O6f6GnQT9ecBwZDt9DqJFjx3FDiaNW6Xsn5lGDkOHkJbO2pWIwSl3HwuTNQ6P4970IhBQ+o7Rj+p73TRCPW3IURyQMFTVAsnFrapLn4xNHpW7+LZjcu4A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=phytec.de; dmarc=pass action=none header.from=phytec.de;
- dkim=pass header.d=phytec.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uLshBS4YIzvRnWm+8nPjynRnytnfP++bdLH+auwReac=;
- b=hLA2XE7YTc4UoED8skGg5QbQWM8kB//i1mWgQcv0ERKLSGiWZjLo9QUWWbHhd1/QUifD/rXOPm8IvO/srUCKBTpOSFL9luDrst1zOVwocSaZtARsWx8Ul4MYNRcivHvAbc1ylQ2tYwJJGLiGdMTelHZxQNlgondm0djG1vuA1Qv6J+pkjN3hf8kmG3YP1VzfDt4MhEp21l0VKgYrRBvs0RSsNy13IR5E7KqwhbMaUAfACmQ9xHfQ05nwVwwRBFjFs+RcAOhsPTjhWvh2+hbk+lUuQ19bJwM0BOfs2g49xnRy30H4g32MUvVDdY0uaoxCPEeL0JJbPwP7a2St/HF7Mw==
-Received: from VI2P195MB2489.EURP195.PROD.OUTLOOK.COM (2603:10a6:800:22f::12)
- by AS8P195MB2269.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:5ad::20) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from BY1PR11MB7981.namprd11.prod.outlook.com (2603:10b6:a03:52f::12)
+ by DM4PR11MB6189.namprd11.prod.outlook.com (2603:10b6:8:ae::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
- 2025 13:08:02 +0000
-Received: from VI2P195MB2489.EURP195.PROD.OUTLOOK.COM
- ([fe80::83ab:361:2a81:b582]) by VI2P195MB2489.EURP195.PROD.OUTLOOK.COM
- ([fe80::83ab:361:2a81:b582%4]) with mapi id 15.20.9434.001; Wed, 17 Dec 2025
- 13:08:02 +0000
-From: Martin Schwan <M.Schwan@phytec.de>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Wed, 17 Dec
+ 2025 13:15:54 +0000
+Received: from BY1PR11MB7981.namprd11.prod.outlook.com
+ ([fe80::4a4e:8d21:83b0:ab7e]) by BY1PR11MB7981.namprd11.prod.outlook.com
+ ([fe80::4a4e:8d21:83b0:ab7e%2]) with mapi id 15.20.9434.001; Wed, 17 Dec 2025
+ 13:15:54 +0000
+Message-ID: <4067abbf-57bf-43de-ab80-df09e509f39b@windriver.com>
+Date: Wed, 17 Dec 2025 15:15:47 +0200
+User-Agent: Mozilla Thunderbird
+From: "Dragomir, Daniel" <daniel.dragomir@windriver.com>
+Subject: Re: [OE-core][PATCH] wic/engine: fix copying directories into wic image with ext* partition
 To: Ross Burton <Ross.Burton@arm.com>
-CC: Alexander Kanavin <alex.kanavin@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2 1/5] cargo-update-recipe-crates: Make
- do_update_crates() a Python function
-Thread-Topic: [OE-core] [PATCH v2 1/5] cargo-update-recipe-crates: Make
- do_update_crates() a Python function
-Thread-Index: AQHca3faro8arn/mtEStyolGWLWsy7Ulj0SAgAA89ACAAAkxAA==
-Date: Wed, 17 Dec 2025 13:08:02 +0000
-Message-ID: <b6e7ba66c686e26ea89e1485ebe0c30f1b9c6041.camel@phytec.de>
-References: <20251212091927.3741063-1-m.schwan@phytec.de>
-	 <CANNYZj9L7B0tO-qORtFM+2GXLXn2s6YOYo_P9Q3bnfSSBoWQ=A@mail.gmail.com>
-	 <7a5b8633ba244eb5be8cc14d4133cb271989d6f4.camel@phytec.de>
-	 <847A95B5-895B-4F4E-A093-79D281E507F8@arm.com>
-In-Reply-To: <847A95B5-895B-4F4E-A093-79D281E507F8@arm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=phytec.de;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: VI2P195MB2489:EE_|AS8P195MB2269:EE_
-x-ms-office365-filtering-correlation-id: f075f59b-3b0d-4496-4198-08de3d6d4f4a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?MFRhOFhyejRYbHNpc0dmTXduTmkxU28wcFRlbFRqVUhtTlBmRm5WRytvbzFZ?=
- =?utf-8?B?dG9PNHpFMnZ2bXUzeVRxdjBpMDJPNEhBRFpEUHNGSm9tUjB4TnFlcTcvVmRD?=
- =?utf-8?B?ejZWaHJuTVJ6VXBRamFWSFAyZ3VtL1JMaXIzaUVsZm5oTXdXMEdSOVYvSzY1?=
- =?utf-8?B?RHZSTUlaNVBodXNMMUg5d1c3ZGNYNXUvMUExWlVwREJldVlLbjhJLzJUU3Ji?=
- =?utf-8?B?ZnpwdktSLy9UZVBjWkx6V1NVUDcxeUZVcUpkcDJaWStvNGZQMXVlQmlHZ0pW?=
- =?utf-8?B?bzJGRFNNUGJEWkdxTXFNN1p0b055ZFdKb3RvQVNMR2x4d1ZOVnBKOG9sSUhj?=
- =?utf-8?B?SHJFTzhDWUJDNUVkamt3d2dGWnNsalRha1pTSGVGUGViVGhNOUsvQUpqc1hU?=
- =?utf-8?B?WlQrMkxaUjFrR1JyK1ZRVG93OGZCU215bEVLRFdVQnhHU2xJRE5JREVOa1Js?=
- =?utf-8?B?eDdYV21qVzY3Y1MvMlFTZnpQeGlmZ1g4c3BYME9jc2Qya0QyQzV2MWFYaE41?=
- =?utf-8?B?dzBicVFXMXBKY2dZUzFidm9Kb1RFUFkvNXczcEgrU200T2g2a1Jic3VGZTgy?=
- =?utf-8?B?RUtsV0lmMlByeXc2MDN3Qm1rd3lycTlUUVJmRzR3S3JZZzF1VDNPZmdzVWJa?=
- =?utf-8?B?c2NTWW5YcVIwcUZOU0FWNGYrWUpiRDBMRkExZjFJVWJyTWpFN3FiQnZ4Umts?=
- =?utf-8?B?YkQ3dWNEYWVOZkd6QmNSYUJoSjFFOG52SHgrNmFhT3g1RnQzVXNVVVhNQUNW?=
- =?utf-8?B?YTRJMFJxTlN3QjFydHVvNXZNNTA1N2NWUnZ0U2UrV04yTFBqQWhWR28xTXFS?=
- =?utf-8?B?UmYxK0pXejRkRUlPOU9hSUtEME15Y1o2Y2xJTlpsb3FoUHVEQjNQT2FQVjhk?=
- =?utf-8?B?OGVYLzU0RFA1ZXZtOTZoMkhCUDRWMGl0TFRzOTZ3T2taWHBqZUJDcUZjTkdn?=
- =?utf-8?B?RUxvb2tybUxsVWlUTFF1blpTUHIrRkROdytrZXEyblZ6cjVPTWM3VjE2UUFx?=
- =?utf-8?B?ZmpPbEFpLzZGWXJDSXorMGFoZFVHY205akw0K05Mc1FmSUcxTThOZWJQek5U?=
- =?utf-8?B?UXRSbWYrR28vQzlra2tMR3RLSFREUFowUkg1Yzk5Y0JzQTNxWEhBU0FtNVIv?=
- =?utf-8?B?K0lnbWpkSHpDVkhMUThSVjlvTnR5M00wZlFiTHl2YVJwTitpTFh1Y3hTK3Zm?=
- =?utf-8?B?WWRXZUVUZ3pSMXlzaGFSOStjVDMrNGIvQUZJZGxEclpsbXQ5M2pEQ2VEZ0tu?=
- =?utf-8?B?SktuMUVWMFpYTVNldGtaRGkxRktBTjNNRjEzc2pGY0dwSGh5T0RxRkpBSm1X?=
- =?utf-8?B?RE5xWkV0RklnektXQzJPdXZnQlU5QjR2Ny8rSDJsVUNZUGlodjhLajNQUzRm?=
- =?utf-8?B?aERNY2ZZcXlLRStybmJ3N3dSWk5mNEI4MUJFTTg3NXJxbmhVTzVDa2JRNlU1?=
- =?utf-8?B?VWFjYS9Obkx4ZzV6ZG50bGtPMVYyM2NPSmoxWGxNUkNZdGcvKzVLSVJIOXYx?=
- =?utf-8?B?YXN0UXdkSmFCVmNmVXF1dnF6YkdWdHhZVWx3eGIxd00yQUNYdkxSS3RMV2gr?=
- =?utf-8?B?dzc0Wkh1NEEzdWtab1YwL1YrSndqdHZ1SUd5UXhlZC94dXlhMDYyU0cyQkUv?=
- =?utf-8?B?Ty9jODNpdHA1eXJHNmFzeGQ5MHloREdUZmxGeXFBU1FyTWlKbldnMENTeXdo?=
- =?utf-8?B?aEdzZ0dXTHdQaXZvY01Zc2hEVzBpVDc2MFNMb21oeTRVMWsvUHk5ek5nNTVR?=
- =?utf-8?B?b2kzTVJ0YkRlK1J3dUdBazg2Y1QxTHY4Tng0ckNLOWRBdXFuNU5Ta0hOR1NJ?=
- =?utf-8?B?MWp4SW90WGtXaVhHYlNmS1RtM2VEVURjd2ZveDFiTGFheXhuVmRZTmoyVTVK?=
- =?utf-8?B?bWdCZUlVUG10Q0pGdEF6S0p4ajBTYW1PWHRPRmE2V0ZVNDc0cmpEOEtIQ09X?=
- =?utf-8?B?Ky9ScmZLbklKQWI5VDFTNjJqcXpCOUJzWTg3bFBudjErS2RIZXNEeDJuNG5p?=
- =?utf-8?B?eDB3bFlwU1lSa0FHU3EyZlZyQ1lNbzdsa3BFdmEraGk4UzRjMHd5bEVlTVdD?=
- =?utf-8?Q?5H3z7o?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI2P195MB2489.EURP195.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?aXB4UUJMenhTcDVrdkFqdFluVFRKRThuVkdRM3g2eXl6TmJic3FJOEtqbDB3?=
- =?utf-8?B?OEV0YUhhdW9NdHYrbGVxQUNtaWUrb0RidDlwenh2UUV5VjNrTDhDekFaWCs1?=
- =?utf-8?B?bGFtQURNZUJYRjgzMFZUSnhsYmQ5di9OWHRkRTN3c0MyYWJHamMyZjdqRDIx?=
- =?utf-8?B?ZENuaDFWTUVMQjZMYlRGRXRzd0JwZmcxbG5xT2dWTnlUcEFTQTA5SEN5Z0I1?=
- =?utf-8?B?SnAvd0N1WlFQQjF1SXFiS1JIdFp6VWdEdGd5SVFsY2dPUC84U1h0bzV1L1Ru?=
- =?utf-8?B?akJRUlJ5bDlXMGk1KzhCMEpBRzBTYWluYXRxRUxGRnQyV3d4Nk1waTI4UXA5?=
- =?utf-8?B?d3ZHT3RFSm9MUEMwTWhRL1JQSlFTWW9DOERaUTRBdVZLSmFJVFE0K2ZPdWJl?=
- =?utf-8?B?V2N2eGoydi9tYm95N2VXMHA5WWR0eTNRc0pTOE5yakdiaEVoSzZZc2IxOS9E?=
- =?utf-8?B?b1hCbWtaUWN2WGtrZ3BXdTZ4TWlBRTFrNld0VUpqWlN4WHRBeXdmL2RFOXVw?=
- =?utf-8?B?bWxRV2pWVTBUMnF2cjRwbEhGRzFJZVl1cFkxbzRIK1UyTGJpRGNjZC95dDI3?=
- =?utf-8?B?ODY3KzA1bkV3NGM5OXJXaVhSWk41d0Uya1krWVhRL01lbkk5OFQ3MGRkMzZI?=
- =?utf-8?B?dFR1RmRCMGJ3VkE5dDZRV1ZYWDdMU2djam1GSXhtWUhJdnFqbEhBcStlSlcv?=
- =?utf-8?B?QWEwbEk3OENrM1dtUXEvR0hrSldKNko2VDlWbGRwYS9rQVZMRkZrZCt5VHpL?=
- =?utf-8?B?cFgxbjg3TWNpdTBjQWZMS2M3Z0RGZkRjUXl4R1JOK3hkQVRGZmRhMjNXKzht?=
- =?utf-8?B?YzlNWitQNEcyRVlCWmdnanNlRTVmRFVXcUVRTHpIdndNaGRTWVRvUUc5dDd2?=
- =?utf-8?B?VHBybllhWUh3S1VDTWxGLzB1QnJHZUt1eGR0dWVMdzN1WGZWU0pTV3RnVHpD?=
- =?utf-8?B?SnB2d2NNODRMZnBSZkpsQzNXQ0xITHE4OGx2K0l6dFI5U0dITG9GWE5IU0Y2?=
- =?utf-8?B?S3U2QTNsRnBCL25VT0FyL1JERjQvdmsrd1ZUbnNrSXVJZ1RQYU1YVjFiVmk0?=
- =?utf-8?B?U21ldEp1aHRSNER2NDQvYUV5M1dLNWdtNUZXaHozV1RhaXhHRVEyZUZyanM0?=
- =?utf-8?B?aElpbnBVT3d6ZGZxL3BPV1JocnZpL2l1SU9FbzRweDVTZURyZ2pLRGpRaGlU?=
- =?utf-8?B?dStQc0N4N2VBWXVFcDVLK092L2tqRnhWU3hOOGVjM0hYWFFJZmZnOFlJUVZh?=
- =?utf-8?B?TnpDYmdUWUVhZ1pIVE9xa0ZzVW9GM2dWZW5NTDRYVDZidXVoZUJYRXRuQjVa?=
- =?utf-8?B?clhXN1NqUjFVbXFMOTZ1WE5ibVdsUHptb1k0bExwVFdSSkEzUzYrWDN6eUh0?=
- =?utf-8?B?cDY4cDNrcEJNQjdNNFFCOWl0VlRnbXpDVEdqeklZQ051RVVFU2tHZHdHaGdo?=
- =?utf-8?B?WGxuMms4K083di9PTEVSUVpaSEJnN0ZtREc2Mm1GMllXWmIzY2JIZ3IxZnli?=
- =?utf-8?B?bmp3M1lSRnZwOWJyRjNvQ0NsL0dUU2trNVVsK0VmU0pkcnlBeml4SURiV1RX?=
- =?utf-8?B?Skt5eUJVK3VBYkljcmt5ZmtoaC9JUkJPS3lnelVJYUdYMC8wZENxL1ZiUDd6?=
- =?utf-8?B?VTlpaFRrT3lueEVEMkR0cllBbHBaUGNaV3RsR3dvM2lPQ2tsZzcvRjltZDRq?=
- =?utf-8?B?TFBvSlczOFpXRHpnVnhZT1BwTkxtek9CdHU1Yis0Z25sRm1jZUJUMmNUWS9l?=
- =?utf-8?B?VlAxam1mVTgrLzhSRlpzaUppbHhzelVUZ1R0NVNkWmdYYTBNcTV6MkNENElJ?=
- =?utf-8?B?UEJFVmlrcDV6VElZemNVSXYxZm1aSnVBWlRVUE0rR0M5NFcyc1ZOUU1FbFg1?=
- =?utf-8?B?QlZycWxGMW9EelFOZHlCZElKQ0trVjNFaEtuYWdtMEU4cHBZNHVvWW9Bb0Jy?=
- =?utf-8?B?MDY3QnlKVUZERExTV0JNc0pudXZscHp0Z0JWL2I0MEh3OEN6WDdkTHIxR1Jm?=
- =?utf-8?B?VWp5dlh6eWRWbVJNL1I2T0JWOC9ZekRHLzdxUFY1ZFNSblYxS2hyb3hCdk5H?=
- =?utf-8?B?RFpZZUV5dEJhaTdaT0xibFp2b2NQUFFMQnRXRTlZRWxWUTgxbWkyTzVrQ2ho?=
- =?utf-8?Q?hlSc=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <935D425D78D78B43B556ECC298B169F4@EURP195.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+        Kexin.Hao@windriver.com, mathieu.dubois-briand@bootlin.com
+References: <20251003203130.23843-1-daniel.dragomir@windriver.com>
+ <D8277C29-A859-491A-85B8-C518E37EB988@arm.com>
+In-Reply-To: <D8277C29-A859-491A-85B8-C518E37EB988@arm.com>
+X-ClientProxiedBy: VI1PR0902CA0038.eurprd09.prod.outlook.com
+ (2603:10a6:802:1::27) To BY1PR11MB7981.namprd11.prod.outlook.com
+ (2603:10b6:a03:52f::12)
 MIME-Version: 1.0
-X-OriginatorOrg: phytec.de
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY1PR11MB7981:EE_|DM4PR11MB6189:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7297b279-f5e4-48c1-ea4b-08de3d6e6851
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|366016|8096899003|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?d0RRci9YT21jUmFvVDlEckl5Y3VZR1l1SFpEWWZEWUM4VER0QkhYNzRuUkNu?=
+ =?utf-8?B?VElBN0gvQk1tYzI1YzUzSlBVYWRYQkVxSkE5QWV4dGRQTWh5QnNqVzB2aVhh?=
+ =?utf-8?B?UW1sVm5RcEFBa2xaQ3lqWDZCYi9NdjFFbmZpV0dKV0R4TW02Zk1tVkNqVGQ0?=
+ =?utf-8?B?OWllN1UyalZDZUhjazJ3SVhPQ0F3OTd6UEhrVG00WllXMnliWGdHcUdiNHVn?=
+ =?utf-8?B?MkdjRzFQUnVUY0hzeGVQbFlLamhrVE4zSGd2bStwWXBFdlpCSnR4UGRuVnM2?=
+ =?utf-8?B?aDdaT0JMUTRIbmhteDB4V0UrZnA3VzFiZCtjeEEvR2dPaHhLZ2VmVWVzWXBX?=
+ =?utf-8?B?L0d6bmJnSS9TTFZ6Zzd2QnZjTUpQaU1qZnZhZElFNlNYYUJEQ3p6S1lnMmwx?=
+ =?utf-8?B?ZEhBSGw5VkQwVjh6S2JhSmIwRDR5ZXRPSERrckU2OWxpRXo3cHl0d1dVemdX?=
+ =?utf-8?B?MzhtSFlFVE5kMklvRHVPU2tUMWpJRDRJaFVoK2JDcGZ5UGdZakJMOWNUZGw4?=
+ =?utf-8?B?enMvRkxxcmNxQ1JiMEZ3aDlPdVJvUmF3VFpocE55dlhCNmhWVkEyZkVRSkgx?=
+ =?utf-8?B?RnRuYlJQYXAyRFRZUmlDR0xMekM0ZnRXbVpqOWNQZXl4a3ozR2l3Rk13MVV1?=
+ =?utf-8?B?amNNTm5DWjE4MVNNQi9yV2xXS0NDWG14Q0R6OVN3ME9YaWlvbG5Ea3U4NVBh?=
+ =?utf-8?B?aDJKb3Z3MUtVUXliU3duQU5vUENhY3pGNmlnRGlGMXIxK0RDK1pGNTFpQTZx?=
+ =?utf-8?B?UFlQMXN4WVJERnRxQTFZdWtkVEJIbExFMmdqL3U5RFRkMEFWYmNpNVFnWjNv?=
+ =?utf-8?B?bzY0V2pGd2NoektYUUNhM3orTGw4MHdodDNVZWtTa1VRU2ZlcFFKTHRpeDhB?=
+ =?utf-8?B?MG12TmJHdS85MFNIeGNqV3dPQ3BYT3laU2JPNHZiNmZBVU4rSmY1SjJ4a0FG?=
+ =?utf-8?B?VVdYK2ZZVDAwWEp0a2FUQk00NXBYRllSSktFY1ZiMU10ZEQvblVpV0UyMWdJ?=
+ =?utf-8?B?YmtwdEo5dEtTbzU5SEdaeEpmc3JzUXl4VTRqOWg5VzA1b281cVVNbTFvSFFL?=
+ =?utf-8?B?azhTTXJxdGZCUnppZVc1WGxHNjBzOXNrb09QOG01RGFQSGVwRWU2ZS93Z1BN?=
+ =?utf-8?B?MFArdllIYm5RVTc2WEZGU21ITjQ1Vlg4dG9NaGd1RCtvQnNTYmlyQ0lNUDlS?=
+ =?utf-8?B?UXJOL3ZpSlNWOFlkdTh6RW8wNVV2TGYxakF4cmZQM0p3cjJydWNPcis1UkNx?=
+ =?utf-8?B?UjlGUmNZekhSMllJZU9zc0RTakhtREV4Q1BTSFFRS1RTcEdOYXdva3dlYStE?=
+ =?utf-8?B?RFU5R25wRzk4eHdPZkRHMng3UHRRUGZsVU1IQzlzbW83QWRUUGR6aTE0NGF5?=
+ =?utf-8?B?N0I5dGUzYmlONS9BdnFaWVhzMG1YS09sM2dkYVdxWEtEUFNmMzhCVmdyY3FS?=
+ =?utf-8?B?Z2xRSmRyWGFmdjViTzVmSyswV3Y3VGU4eU9heU5sV1I5ajUvVTNyWXhYeEpx?=
+ =?utf-8?B?bkRWUDhpZitZVWFmdlRPc29EUU11ZDlYNEx5Sm8wN20xNExaTUlRZEVKUE14?=
+ =?utf-8?B?TEM4UXIwMkZxKzQxSWw1TE9CdjJPRldWU3ZaSnFiU2pwOTNKUUlzakN3UmtU?=
+ =?utf-8?B?RGhxTytHbDMxSWU5NWhyS3poYTY2Q0RpcVFJZkJGREdIN29kL21DR0owejJz?=
+ =?utf-8?B?VjdJQ0wvTXMxMHUvT2pRZlE0SVpoSXUvWjM1YUtrUldxbEtyTUJoc1JrMEk5?=
+ =?utf-8?B?WEp6MWUrdXFjTFpod1dVUGJ0R0dKTktGQjJ4RnBuSXAzNlRHbG9Dem50N05N?=
+ =?utf-8?B?V1FFZFZiYjI1Z0VPY20rMjFwUERVcjRIVTlIUVpUVStLMTMrWGZUVjVSbWhR?=
+ =?utf-8?B?LzhtMDZSZGNnekM5UkI5bzExSmFIZWI5aDl0WVBkM3NTMlJvVWJWejRQbjhM?=
+ =?utf-8?Q?hlxhOcY6SuSQX3sVqKt72Lwh7UlmR8SK?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY1PR11MB7981.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(8096899003)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?YklFb1B2dVRQRk43QnFFVEVJcmozd1JJVmdlMCtiMjJ4UnovSjVuTGRwd2Jo?=
+ =?utf-8?B?eEQ0czNOWGJZcitBK0xPV25FVTR6ZUV0MHM0QlZBSGZ5N0lDSHFXK05od0Nr?=
+ =?utf-8?B?dUU3MjZHbGFUcmZ4WEljaUlWNmZsaSt2VS90bUtVbzg0U01xbWpkZmVNeng0?=
+ =?utf-8?B?OFUyOU5oTVFrc3JTWFI4TkNKMVFGSWtkdWdLV1kzajJNaFlsV2VxUjNOaUR6?=
+ =?utf-8?B?eUdzbFJOeER1cURTLzRaVnVFRERrMi9KRzhhQjhmWXJSRVZ5ZWFYclIySVIy?=
+ =?utf-8?B?VWo3UUFqcXdGSjNiMGZQdWY0UHlCbmxvci96Q2pmRlNsNHpzdlpwTkFldWRv?=
+ =?utf-8?B?K2J4RzlXZTQyN1Y0L2JjdEI1M3Z4SUNtcDF6SVU5bUg3TWNHem40ZGhYcnRy?=
+ =?utf-8?B?VllnV2EwOVpZbEF2all6dkdpY2Q4TUQ5cDlULzdIWjgxSENRQ3FZNHptSktl?=
+ =?utf-8?B?TkhjYUFvam8vS3JoK25wVkpFS2xHSUppT1c5MEYrMms0SHJYWDMwMWFCZnNr?=
+ =?utf-8?B?dUZSZC9IQm1xdXBVa3N1RGtlZTVJK0dqYUJJTjNRSUR2QXlsT1pmaWVrSVVX?=
+ =?utf-8?B?d1VKQVQ3aGZKbnRHeGp3V01HTjI5U2d5emFOenNnNFBaVi9WOExRQmtNUWsz?=
+ =?utf-8?B?UWoxMlNoZ0phN2RneVo4U3VJeXZUL2hyb1NjR3dVUzYvaGdjZzBpWTlxQjcw?=
+ =?utf-8?B?aVdjczFaVUxqaGVIWUNseW9ldkpnYXloRmZXVVp2K3pyMkxMTVZDczAwVk9n?=
+ =?utf-8?B?d1NSNXVJZVhKQXhLSmRiaEZhcHJIY3I1WXcwWXdTZXlBWGRmU1hjQzRZYVZV?=
+ =?utf-8?B?czVJT0ZBeXJ5amVxQzhsYWpwNnFpWVFRSUdJV1hTa3EyRjlYZm1ZU2pMV3BX?=
+ =?utf-8?B?emUvenNzRjY2LzhKTWhWVnVHNTZXNnpCbm5zQXc5VHVXTmtPcjRvc3ZldXkw?=
+ =?utf-8?B?YTVsYzhhemNQc3U5NlhUTWxLcUdUdVIwZUx0QjduNldwUG5ZL3dZYVhVZVhQ?=
+ =?utf-8?B?aXJ4TkdLaG44bEJzL3FudmNlVmJ3TWU2ZWdTb2h4clBHOVJjangxdU9KV3lv?=
+ =?utf-8?B?QnFsUjg1T2duVDRpOXJmY0JHL01xcDl6eVI5V3BuUkN6Mlhqck9SK0M0eW5q?=
+ =?utf-8?B?YVhXZlJJTjdZUmdsZ1R3Q0ZvNTVNbmZELzBGMThISytodDVhbkpndFBOTUVw?=
+ =?utf-8?B?a1YwekZJeDRLRmxmb08wT2Erc0tIN3poRW9CMEhWbmZjVWZJWGc3eURxYWRp?=
+ =?utf-8?B?QUxZdGxoS0NtRC84UWJlcTFaUGNoOVR4ZnF0OWgwZkprbE9BczlrR3FWUVFk?=
+ =?utf-8?B?a2ZDUGdnMTdITSs0eUswK1ZIdnFkNzByVHVJU0ltcmMyVDZTek9xSlVHd0tX?=
+ =?utf-8?B?eXovTFhKbEs5TEduMEY2NnRaVWN5bk9oTGVhSXluZWN1NTVUVVRzc3lFV2lB?=
+ =?utf-8?B?b1Z5dnY1OGdWMmIwWFliYXN5YjYrSUhrcUlTMi9KUEFCcTVZSjNPVVRrNTRt?=
+ =?utf-8?B?VlJpZVZWV3VlQ3JicHFwK3RwZnI3cnVhZ0g3RDN1K042R05ZUno1cUtsam9P?=
+ =?utf-8?B?a295SS95d25wQVYxVmM0WE9samZKa0tRUzRNc0R2bkMxRXZxdmc4NUtDN3N4?=
+ =?utf-8?B?VVVFZ0pEVFgrMzRMVXoybmtzS2dxWmpYd2tNR0poUTk4UGk5cnUvQ2NObFZL?=
+ =?utf-8?B?M3J0ZkJTOUFhWWZSRGtsMWhmVUxwQ1VpdEoyanZHeUttV0Y4WllhSmE0VFNF?=
+ =?utf-8?B?WWNzVmJrblZhUEloZTlVZ3NhQmdzSW1nWGNkR3BmSzRJeXR2ZU9Xa2RJV1Fy?=
+ =?utf-8?B?QWc3ZWF0YVBYSlZQK1RobyswWXhQeXVSWEEzLys4T3p3MDF3T3B3M2FiYitQ?=
+ =?utf-8?B?elhTQnpmQVU1Q1JnTnhnMUlHYnBlNjIxU0x6Z0xRUzV6VUw3ZCtoZFIxa3o3?=
+ =?utf-8?B?TjNQUzg3eWdmUjMyN0FCZlJlV1NRU2ZrdXdmUGFQTXNRMU1NZzZCSC81ZTNP?=
+ =?utf-8?B?emlSODBKWnVOdWtMc1pPUmJua2lzSVRMdDQ5SHVKNzZ6Z3Q2bzl5UXk2cC9l?=
+ =?utf-8?B?N2xaSExGVjFwUkJXVjFjVzkxc3BSV3Noc3NURnNYeTROQk8xZ2pnOWVua3E5?=
+ =?utf-8?B?d2ZZamg3RWx1aHRlc3Fzd0NpOEI4dEVUWkRaTVhBM2o4WHZhZEN3OXFhampw?=
+ =?utf-8?B?NVE9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7297b279-f5e4-48c1-ea4b-08de3d6e6851
+X-MS-Exchange-CrossTenant-AuthSource: BY1PR11MB7981.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI2P195MB2489.EURP195.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: f075f59b-3b0d-4496-4198-08de3d6d4f4a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2025 13:08:02.3761
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2025 13:15:54.1761
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: e609157c-80e2-446d-9be3-9c99c2399d29
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: COXaIRAbCTJP7xcmQzBQg4nMDffyraFxirO4OO5C6yGdmjoqvDv1jcXXtSh4VBjXM9kj4d3gzqletp6QbcmVAw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P195MB2269
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KDiVBuaX3rXairo9OI9jTP89BparykdoqW3emiv/jXzjMwhRHLzwFtyS4WqQf2pJ+D7lqNNiNS5CAUsx4KDBJF0e2dlRbf5eXCH9GNYez1A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6189
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=ErvfbCcA c=1 sm=1 tr=0 ts=6942ad0e cx=c_pps
+ a=23BBZRleo/1KOgyGqX6yRw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7CQSdrXTAAAA:8 a=t7CeM3EgAAAA:8 a=Q4-j1AaZAAAA:8 a=yj-aMKAYKbz0kkd27lYA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=Mc-j2tg_6zhrbejeuowA:9
+ a=yXtbLYCiTTtTT2qJ:21 a=frz4AuCg-hUA:10 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10
+ a=a-qgeE7W1pNrGK8U0ZQC:22 a=FdTzh2GWekK77mhwV6Dw:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-GUID: ESN7qvmd1PNNXOQBmh0q1d4OwWH3Mgy1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDEwMiBTYWx0ZWRfX/C2+eMCxtev6
+ OjZsWFVQTm9iK/UPdWCcEXPOP/7EeNFBINspdXnaYt0ejsGIQa+brBYJsG4YldYUuv/8xmbb7hP
+ KL5sudpQCtMeo8wmFvgeAfVVt1veDALdcLbYFiojnmMJ1OjFQ40QdQrBCk0Sl8qtw3GbPKMbqyp
+ f14bSfK9LdWYMaVfXRfiY+r9TuQIICAE/GetT18N7Gs2JdsX6NkCI/j4ptZTlV5WcNoJ4yXqYlA
+ wtnwysf/ZGMQnF5Wfaa5gzo9PYHydL3oZNSf3WDjbk0KJYw1T8Lpnlmg2BvZpl11JNcpOZVyKMV
+ z5oIDAd8nExX3OWti1GhRtEqFLAQUhk0qQ7lhl2nVi5y7wxSHtA2rM7/QxhvgawxbvwfJj/laTY
+ nrkNWTngy/w25OTYs/DA6J/LaOUeMA==
+X-Proofpoint-ORIG-GUID: crR_ruO8uzNKyCjq2MwO3DDA8C7lHYnS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-17_01,2025-12-16_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 priorityscore=1501 clxscore=1011 bulkscore=0 lowpriorityscore=0
+ suspectscore=0 impostorscore=0 malwarescore=0 adultscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512170102
+Content-Type: multipart/alternative;
+ boundary="------------0pb0KSKTUn06wezAWeb2pSy2"
+Content-Language: en-US
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 13:08:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228041
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 13:32:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228042
 
-VGhhbmtzIGZvciB0aGUgYW5zd2VyIQoKTWFydGluCgpPbiBXZWQsIDIwMjUtMTItMTcgYXQgMTI6
-MzUgKzAwMDAsIFJvc3MgQnVydG9uIHdyb3RlOgo+IE9uIDE3IERlYyAyMDI1LCBhdCAwODo1Nywg
-TWFydGluIFNjaHdhbiB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZwo+IDxtLnNjaHdhbj1waHl0
-ZWMuZGVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6Cj4gPiBBcmUgdGhlcmUgYW55IHBs
-YW5zIHRvIG1vdmUgdG8gUHl0aG9uIDMuMTE/IFB5dGhvbiAzLjkgaXMgbm93IGF0Cj4gPiBpdHMK
-PiA+IEVPTCBmb3Igc29tZSBtb250aHMuIEkgZG9uJ3Qgd2FudCB0byBvcGVuIGEgY2FuIG9mIHdv
-cm1zLCBidXQganVzdAo+ID4gbGlrZQo+ID4gdG8gdW5kZXJzdGFuZCB0aGUgZnV0dXJlL2ludGVu
-dGlvbnMgaW4gdGhpcyByZWdhcmQuCj4gCj4gSeKAmWxsIGhhcHBpbHkgZW5kb3JzZSBhIHBhdGNo
-IHRvIHVwZ3JhZGUgdGhlIG1pbmltYWwgcHl0aG9uIHZlcnNpb24KPiBmb3IgbWFzdGVyLCBidXQg
-dGhlIGZvbGxvd2luZyBuZWVkcyB0byBoYXBwZW46Cj4gCj4gRm9yIGV2ZXJ5IHN1cHBvcnRlZCBk
-aXN0cmlidXRpb24gWzFdIHdoZXJlIGJ1aWxkdG9vbHMgaXMgbm90IGFscmVhZHkKPiByZXF1aXJl
-ZCAod2hpY2ggd2lsbCBwcm92aWRlIGEgbmV3IHB5dGhvbiksIHdoYXQgaXMgdGhlIFB5dGhvbgo+
-IHZlcnNpb24/Cj4gCj4gVGhlcmXigJlzIGEgc2NyaXB0IGluIHlvY3RvLWF1dG9idWlsZGVyLWhl
-bHBlciB0byBhc3Npc3QgaGVyZSwgYW5kIGl04oCZcwo+IGVhc2llciBmb3IgbWUgdG8gZG86Cj4g
-Cj4gWzFdIDEyOjIzOjE2IFtTVUNDRVNTXSBhbG1hOS12ay0yLnlvY3RvLmlvCj4gUHl0aG9uIDMu
-OS4yMwo+IFsyXSAxMjoyMzoxNiBbU1VDQ0VTU10gZmVkb3JhNDEtdmstMS55b2N0by5pbwo+IFB5
-dGhvbiAzLjEzLjMKPiBbM10gMTI6MjM6MTYgW1NVQ0NFU1NdIGZlZG9yYTM5LXZrLTEueW9jdG8u
-aW8KPiBQeXRob24gMy4xMi43Cj4gWzRdIDEyOjIzOjE3IFtTVUNDRVNTXSByb2NreTgtdmstMS55
-b2N0by5pbwo+IFB5dGhvbiAzLjYuOAo+IFs1XSAxMjoyMzoxOCBbU1VDQ0VTU10gZmVkb3JhNDIt
-dmstMS55b2N0by5pbwo+IFB5dGhvbiAzLjEzLjYKPiBbNl0gMTI6MjM6MTggW1NVQ0NFU1NdIGZl
-ZG9yYTQwLXZrLTEueW9jdG8uaW8KPiBQeXRob24gMy4xMi4xMAo+IFs3XSAxMjoyMzoxOCBbU1VD
-Q0VTU10gb3BlbnN1c2UxNTUtdmstMS55b2N0by5pbwo+IFB5dGhvbiAzLjYuMTUKPiBbOF0gMTI6
-MjM6MTggW1NVQ0NFU1NdIHVidW50dTI1MDQtdmstMS55b2N0by5pbwo+IFB5dGhvbiAzLjEzLjMK
-PiBbOV0gMTI6MjM6MTkgW1NVQ0NFU1NdIHVidW50dTI0MDQtdmstMS55b2N0by5pbwo+IFB5dGhv
-biAzLjEyLjMKPiBbMTBdIDEyOjIzOjE5IFtTVUNDRVNTXSByb2NreTktdmstMS55b2N0by5pbwo+
-IFB5dGhvbiAzLjkuMjMKPiBbMTFdIDEyOjIzOjE5IFtTVUNDRVNTXSB1YnVudHUyMjA0LXZrLTEu
-eW9jdG8uaW8KPiBQeXRob24gMy4xMC4xMgo+IFsxMl0gMTI6MjM6MTkgW1NVQ0NFU1NdIHN0cmVh
-bTktdmstMS55b2N0by5pbwo+IFB5dGhvbiAzLjkuMjUKPiBbMTNdIDEyOjIzOjIwIFtTVUNDRVNT
-XSBkZWJpYW4xMS12ay0xLnlvY3RvLmlvCj4gUHl0aG9uIDMuOS4yCj4gWzE0XSAxMjoyMzoyMCBb
-U1VDQ0VTU10gYWxtYTgtdmstMS55b2N0by5pbwo+IFB5dGhvbiAzLjYuOAo+IFsxNV0gMTI6MjM6
-MjAgW1NVQ0NFU1NdIG9wZW5zdXNlMTU2LXZrLTEueW9jdG8uaW8KPiBQeXRob24gMy42LjE1Cj4g
-WzE2XSAxMjoyMzoyMSBbU1VDQ0VTU10gZGViaWFuMTMtdmstMS55b2N0by5pbwo+IFB5dGhvbiAz
-LjEzLjUKPiBbMTddIDEyOjIzOjIyIFtTVUNDRVNTXSBkZWJpYW4xMi12ay0xLnlvY3RvLmlvCj4g
-UHl0aG9uIDMuMTEuMgo+IFsxOF0gMTI6MjM6MjMgW1NVQ0NFU1NdIGZlZG9yYTQzLXZrLTIueW9j
-dG8uaW8KPiBQeXRob24gMy4xNC4wCj4gWzE5XSAxMjoyMzoyMyBbU1VDQ0VTU10gdWJ1bnR1MjUx
-MC12ay0xLnlvY3RvLmlvCj4gUHl0aG9uIDMuMTMuNwo+IAo+IFRoZSBkaXN0cm9zIHdoaWNoIGhh
-dmUgPDMuOSBuZWVkIGJ1aWxkdG9vbHMgYWxyZWFkeSwgYnV0IHRoYXQgbGVhdmVzCj4gQWxtYSA5
-LCBEZWJpYW4gMTEsIFJvY2t5IDkgYW5kIFN0cmVhbSA5IHdoaWNoIGFyZSBhbGwgbG9uZy10ZXJt
-Cj4gc3VwcG9ydCBhbmQgd29u4oCZdCBiZSBFT0xpbmcgc2hvcnRseS7CoCBNYXliZSBzb21ldGhp
-bmcgd2lsbCBoYXBwZW4KPiB0aGF0IG1lYW5zIHdlIG5lZWQgdG8gdXNlIGJ1aWxkdG9vbHMgb24g
-dGhlc2UsIGJ1dCB0b21sbGliIGlzCj4gcHJvYmFibHkgbm90IGdvaW5nIHRvIGJlIHRoZSBpbXBl
-dHVzIGhlcmUuCj4gCj4gUm9zcwo+IAo+IFsxXQo+IGh0dHBzOi8vZG9jcy55b2N0b3Byb2plY3Qu
-b3JnL3JlZi1tYW51YWwvc3lzdGVtLXJlcXVpcmVtZW50cy5odG1sI3N1cHBvcnRlZC1saW51eC1k
-aXN0cmlidXRpb25zCg==
+--------------0pb0KSKTUn06wezAWeb2pSy2
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5BH535iq1076109
+
+Sorry for the late response... I=E2=80=99m working this week on a selftes=
+t for=20
+the case fixed by this patch.
+
+Meanwhile, I was focused on another aspect related to this patch. Our=20
+client reported different behavior when copying complex directory=20
+structures onto a WIC image using different servers.
+
+It appears that the issue is related to the debugfs=C2=A0version=20
+(e2fsprogs=C2=A0package).
+On Ubuntu 24.04 with e2fsprogs 4.17, all files are copied correctly,=20
+while on Ubuntu 20.04 with e2fsprogs 1.45, the copy operation fails to=20
+copy all files and does not create all directories. This failure is=20
+silent, with no error reported by debugfs.
+
+I tried several approaches to solve this (splitting the command list in=20
+max 100 instances and calling debugfs 1.45 multiple times), but without=20
+success.
+For our client, we decided to add a debugfs=C2=A0version check in wic cod=
+e=20
+and to add a warning if the version is < 1.47.
+On those specific servers, they will use wic=C2=A0with the=20
+-n/--native-sysroot=C2=A0option, pointing to a scarthgap SDK that contain=
+s=20
+1.47 version of the e2fsprogs=C2=A0package.
+
+How should we handle this exception? This was fixed in newer debugfs=20
+version, but should we add a debugfs=C2=A0version warning when broken ver=
+sion=20
+of debugfs is used on host?
+
+Regards,
+Daniel
+------------------------------------------------------------------------
+*From:* Ross Burton <Ross.Burton@arm.com>
+*Sent:* Monday, October 6, 2025 11:08 PM
+*To:* Dragomir, Daniel <Daniel.Dragomir@windriver.com>
+*Cc:* openembedded-core@lists.openembedded.org=20
+<openembedded-core@lists.openembedded.org>
+*Subject:* Re: [OE-core][PATCH] wic/engine: fix copying directories into=20
+wic image with ext* partition
+CAUTION: This email comes from a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender=20
+and know the content is safe.
+
+On 3 Oct 2025, at 21:31, Dragomir, Daniel via lists.openembedded.org=20
+<daniel.dragomir=3Dwindriver.com@lists.openembedded.org> wrote:
+ >
+ > wic uses debugfs to write on ext* partitions, but debugfs can only
+ > write to the current working directory and it cannot copy complete
+ > directory trees. Running 'wic ls' on a copied directory show this:
+ >=C2=A0=C2=A0=C2=A0 -l: Ext2 inode is not a directory
+ >
+ > Fix this by creating a command list for debugfs (-f parameter) when
+ > recursive parsing the host directory in order to create a similar
+ > directory structure (mkdir) and copy files (write) on each level
+ > into the destination directory from the wic's ext* partition.
+
+This is great, but could you please add a test case to the wic selftests=20
+to exercise this and ensure it doesn=E2=80=99t break in the future?
+
+Thanks,
+Ross
+
+--------------0pb0KSKTUn06wezAWeb2pSy2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5BH535iq1076109
+
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+    <style type=3D"text/css" style=3D"display:none;">P {margin-top:0;marg=
+in-bottom:0;}</style>
+  </head>
+  <body dir=3D"ltr">
+    <div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&qu=
+ot;, &quot;Segoe UI Web (West European)&quot;, &quot;Helvetica Neue&quot;=
+, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">Sorry
+      for the late response... I=E2=80=99m working this week on a selftes=
+t for
+      the case fixed by this patch.
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+        <br>
+      </div>
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+        Meanwhile, I was focused on another aspect related to this
+        patch. Our client reported different behavior when copying
+        complex directory structures onto a WIC image using different
+        servers.</div>
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+        <br>
+      </div>
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+        It appears that the issue is related to the debugfs&nbsp;version
+        (e2fsprogs&nbsp;package).&nbsp;</div>
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);" class=3D"elementToProof">On Ubuntu 24.04 wi=
+th e2fsprogs 4.17, all
+        files are copied correctly, while on Ubuntu 20.04 with e2fsprogs
+        1.45, the copy operation fails to copy all files and does not
+        create all directories. This failure is silent, with no error
+        reported by debugfs.</div>
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+        <br>
+      </div>
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+        I tried several approaches to solve this (splitting the command
+        list in max 100 instances and calling debugfs 1.45 multiple
+        times), but without success.&nbsp;</div>
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);" class=3D"elementToProof">For our client, we=
+ decided to add a
+        debugfs&nbsp;version check in wic code and to add a warning if th=
+e
+        version is &lt; 1.47.&nbsp;</div>
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);" class=3D"elementToProof">On those specific =
+servers, they will use
+        wic&nbsp;with the -n/--native-sysroot&nbsp;option, pointing to a =
+scarthgap
+        SDK that contains 1.47 version of the e2fsprogs&nbsp;package.</di=
+v>
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);" class=3D"elementToProof"><br>
+      </div>
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);" class=3D"elementToProof">How should we hand=
+le this exception? This
+        was fixed in newer debugfs version, but should we add a
+        debugfs&nbsp;version warning when broken version of debugfs is us=
+ed
+        on host?</div>
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+        <br>
+      </div>
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+        Regards,</div>
+      <div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web=
+ (West European)&quot;, &quot;Helvetica Neue&quot;, sans-serif; font-size=
+: 11pt; color: rgb(0, 0, 0);">
+        Daniel</div>
+    </div>
+    <hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+    <div id=3D"divRplyFwdMsg" dir=3D"ltr"><font style=3D"font-size:11pt" =
+face=3D"Calibri, sans-serif" color=3D"#000000"><b>From:</b> Ross
+        Burton <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:Ross.Bur=
+ton@arm.com">&lt;Ross.Burton@arm.com&gt;</a><br>
+        <b>Sent:</b> Monday, October 6, 2025 11:08 PM<br>
+        <b>To:</b> Dragomir, Daniel
+        <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:Daniel.Dragomir=
+@windriver.com">&lt;Daniel.Dragomir@windriver.com&gt;</a><br>
+        <b>Cc:</b> <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:o=
+penembedded-core@lists.openembedded.org">openembedded-core@lists.openembe=
+dded.org</a>
+        <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:openembedded-co=
+re@lists.openembedded.org">&lt;openembedded-core@lists.openembedded.org&g=
+t;</a><br>
+        <b>Subject:</b> Re: [OE-core][PATCH] wic/engine: fix copying
+        directories into wic image with ext* partition</font>
+      <div>&nbsp;</div>
+    </div>
+    <div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size=
+:11pt;">
+          <div class=3D"PlainText">CAUTION: This email comes from a non
+            Wind River email account!<br>
+            Do not click links or open attachments unless you recognize
+            the sender and know the content is safe.<br>
+            <br>
+            On 3 Oct 2025, at 21:31, Dragomir, Daniel via
+            lists.openembedded.org
+            <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:daniel.drag=
+omir=3Dwindriver.com@lists.openembedded.org">&lt;daniel.dragomir=3Dwindri=
+ver.com@lists.openembedded.org&gt;</a>
+            wrote:<br>
+            &gt;<br>
+            &gt; wic uses debugfs to write on ext* partitions, but
+            debugfs can only<br>
+            &gt; write to the current working directory and it cannot
+            copy complete<br>
+            &gt; directory trees. Running 'wic ls' on a copied directory
+            show this:<br>
+            &gt;&nbsp;&nbsp;&nbsp; -l: Ext2 inode is not a directory<br>
+            &gt;<br>
+            &gt; Fix this by creating a command list for debugfs (-f
+            parameter) when<br>
+            &gt; recursive parsing the host directory in order to create
+            a similar<br>
+            &gt; directory structure (mkdir) and copy files (write) on
+            each level<br>
+            &gt; into the destination directory from the wic's ext*
+            partition.<br>
+            <br>
+            This is great, but could you please add a test case to the
+            wic selftests to exercise this and ensure it doesn=E2=80=99t =
+break
+            in the future?<br>
+            <br>
+            Thanks,<br>
+            Ross<br>
+          </div>
+        </span></font></div>
+  </body>
+</html>
+
+--------------0pb0KSKTUn06wezAWeb2pSy2--
 
