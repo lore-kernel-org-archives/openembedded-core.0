@@ -1,260 +1,292 @@
-Return-Path: <lukakrstic031@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F46CD66BA4
-	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 20:40:59 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24728.1766004056768798422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70515D66BA5
+	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 20:43:19 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.16])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25320.1766004192262214364
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 12:40:57 -0800
+ Wed, 17 Dec 2025 12:43:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=l0E05vXb;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: lukakrstic031@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b72b495aa81so1088385666b.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 12:40:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766004055; x=1766608855; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1RK3kHhVA/jQPhbC+3hfSsvY7m+DUI+/V+6dY+A6WK8=;
-        b=l0E05vXbHFAAbYc+AxngCKgoTKIvqFcbCXe4QvkYAD7Pou2fdV8Sca3DEPjYku7rPK
-         MG0d4+E/ci2t8czAsLp/XG4YJpOwx4bcAQFf1278hLCMQeF365/OIjxyxaiC+4nHW56E
-         P0RRWiSeBG9lEzBZeG0IXN/uZQkM6tioGAcN0acPg60l30zSk1bOT8ky+qvV3jKH/6SE
-         pU6sdle+U29SpvOv6eWoe/xT56tGJaxPqFuOy/X+EilEmyazTAxpQWnN2Zkin6so7xRU
-         xCScKiFDdbmMHbpfCWqC7uVN8HGPs+TGIbHCCBQj5+yXX0yZnCroWp1hntfFn1Ziwr2v
-         eFTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766004055; x=1766608855;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1RK3kHhVA/jQPhbC+3hfSsvY7m+DUI+/V+6dY+A6WK8=;
-        b=wQLDUNWiTinMLHDsjzncGyzrSqR7JhRVkU4cXTgsmXUjT3xgw8u2hIraQCtPeEsXSe
-         M6d0VunH6V1TOMoHNLwBNu3QL8vxbyHYWupsWT6hzerqN6tpIB6jm7mw8W1B92pnOfTN
-         wMrTwDUFSfDpd5Tpld5dyg8WHhxUhutV2RDDfFgrf391Ks5zZTwVIRz7/Z6RpVH/UxFh
-         iB7fe+U+PGnHi7wM6GBY7nYKb44CxGOMMzXcqdaWj/R47wrA9yJTk8hQ9mYkpHUKVorJ
-         6TPWxOUlaK/sQ8kFpevuv1A1uNadVhC5f92c2s5BQhIe64cxHJ2Pg+wOK5/WZObIhoao
-         Su7g==
-X-Gm-Message-State: AOJu0Yzmcj6U07mI6Yzjmy1DyWKbpdo9rr6UL1aW0mcxUskEpacVB9Oc
-	vT7MSTqAMjs1Fg6fnt4pq4tQfSwFajyDQn0MJt/dxbYQ5Njjk5w/skW1GmjXaA==
-X-Gm-Gg: AY/fxX4VcfPQ20XXtGdmly5FyH0AUn/gePDIxQ/SIz1IYXusWmC4LDg7sJDonTj7W3y
-	2kHLbds/lO9mlCWBpUMmLtEVJvkLHLQHF936+T2JX8PrC2MBAMRHblpmDMn5OTQY2GJdyBE7pG9
-	dlKExEIvPQaQyXvIjaK8M5LM6HXlcHZHsT+8gKRW4NHFbAThu1rZFuU512xbrlKUx5xZh7kP09k
-	GW7ez7ux349T044svp+WDV7yLRI/+N7k6Ct7YHhE4Mkh74eDV9brcYT1M+4dSKSuxHpJBV1UdmY
-	qEtVxzMFv6uSMKUS5W5/Cb//22zv1PnKTxeUEQ6wfFFObh8/CRi5rCeEMI383wP3cM8l7RSBoVg
-	y0wy6oauTpcGn3GtiV4TK8gA5rQImeGu5Oy3fm5u9DlhSv1EtrAd/lURXfWOd40FISOSS7UKRhu
-	kmvTGtGEDym6tvmR0OW1zVkGzwPYTXSq4j4RXmYRyrmIngzpEOSdENINodlbWBFC2RyCZr0KcmA
-	LSLaw==
-X-Google-Smtp-Source: AGHT+IEV6gIIJ+dw19lNuNkp8DctsBHkowsk5jrPp6dLigvKcuTrNHNULzmierr9OfRiYTWNxTeXgg==
-X-Received: by 2002:a17:907:2d1f:b0:b73:58a0:e064 with SMTP id a640c23a62f3a-b7d23b884admr2067540066b.50.1766004054680;
-        Wed, 17 Dec 2025 12:40:54 -0800 (PST)
-Received: from lukak-ThinkBook-15-G2-ITL.. (178-223-29-172.dynamic.isp.telekom.rs. [178.223.29.172])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b80230d3779sm21259166b.20.2025.12.17.12.40.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 12:40:54 -0800 (PST)
-From: Luka Krstic <lukakrstic031@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Luka Krstic <lukakrstic031@gmail.com>
-Subject: [PATCH v2] patchtest: reject Upstream-Status after scissors
-Date: Wed, 17 Dec 2025 21:26:07 +0100
-Message-ID: <20251217204031.3022279-2-lukakrstic031@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251217204031.3022279-1-lukakrstic031@gmail.com>
-References: <DF0HJNZXHLW4.2ZJNCZUGHYZ9F@bootlin.com>
- <20251217204031.3022279-1-lukakrstic031@gmail.com>
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=gf9nIRJ6;
+ spf=pass (domain: axis.com, ip: 52.101.69.16, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cVcCMvdhqXve7VGOvTTocHcE0CCdxYIW7yGXiCRzXy2jymJUAtyCuANzDAQlPyDyGYfoxvLaGdY1DEK4ps25buj++O5Wo4x26wQ9bsg6r7vNomld/NkM13hCIm5zM3gVe7f4PaMWwXlhGblC9dGsrF+q7YwmEsKqAxdCUJWPbqggX6LbXs2Hlui5K4KruAD+r2bjNa9e4VGgtIE57Wz43P8kZwwACdz+j3IaXa2JsUdiE8jG0nKaeV0PZ6288p7sR3I9cij1BkRnMY3j6lu+7mRqBvJCM/2JA/Bao6fmJFINUxl+QD8w9tXXEoSS6HKU4bGMYL3svEnH7KCyZj6J7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7/36AtP5KGV+Fd/0RjHhdOwSLZRaI4SLkGmMcJNhwDU=;
+ b=GLpcaLb9Ye/A0DncKOEW5IOXQOVm+pYsu/GHvRqxIDPmUT8IYM5cQzx7c0fiBsvNrCGv9GSNe/xq5ek6iuS0fJKokRE6CVkI0QQRyuueYZNK28A0vMErZe3NApRjYtk2WwG/I5bczPYpMBAq1XGgI0m1F95g2kMgWmlcD9W9EUQfzp/XSK28jJ2uvOM0WdSuBZXDSHjK22LZnfDrvJ7h2pib4ZNN+NGtbvcbOcJbtw4OvRtZFwNl3cVqlWTRnhMnHpr+w392wxWraCQE+HIjJfN2tet3HkDttsXKd/PJ3KwGjmT+95d/S6wo2oR981F2UvDcsA7SuzdEGnGRZK0c2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7/36AtP5KGV+Fd/0RjHhdOwSLZRaI4SLkGmMcJNhwDU=;
+ b=gf9nIRJ6eNBm38N0UOS9+B4+8ktfX1pRAewrmBPszq9F/IT3XOSu6Zlck/dp8qW34gfbDMfz8oIZxY/yEHxcvdDeHbs4jsSGTR+gdkfx+gJzcIcPTH+TQZ4kYmAUMKqQaAOjTl7kBEvqWCkPOvoi4tN33963kJRnP2BKuQBPFws=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by AM9PR02MB7026.eurprd02.prod.outlook.com (2603:10a6:20b:269::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
+ 2025 20:43:08 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::1bee:3174:a078:5af9]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::1bee:3174:a078:5af9%7]) with mapi id 15.20.9434.001; Wed, 17 Dec 2025
+ 20:43:08 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"hongxu.jia@eng.windriver.com" <hongxu.jia@eng.windriver.com>,
+	"randy.macleod@windriver.com" <randy.macleod@windriver.com>,
+	"raj.khem@gmail.com" <raj.khem@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
+Subject: RE: [OE-core] [PATCH v5 1/5] distro/include: Add debug_build.inc when
+ DEBUG_BUILD is enabled
+Thread-Topic: [OE-core] [PATCH v5 1/5] distro/include: Add debug_build.inc
+ when DEBUG_BUILD is enabled
+Thread-Index: AQHcObrtJYgahsnaFU65jenDesm7SbUjAWOAgAOyb/A=
+Date: Wed, 17 Dec 2025 20:43:08 +0000
+Message-ID: 
+ <DB5PR02MB10213A73EE1295C0D5021E911EFABA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20251010075258.2161972-1-hongxu.jia@windriver.com>
+ <9dc9c4ff830b37a20b16fd36e2cc723f2cd04c44.camel@linuxfoundation.org>
+In-Reply-To: 
+ <9dc9c4ff830b37a20b16fd36e2cc723f2cd04c44.camel@linuxfoundation.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|AM9PR02MB7026:EE_
+x-ms-office365-filtering-correlation-id: f29ca9e5-cbc5-4b5e-9577-08de3dace324
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?SmVWdlgxV1NIb0tEMTBpaUYxeWVuVXh1ZVVndzZ1SVFxUmw3endpUHNTdEZD?=
+ =?utf-8?B?K0JEU25WSjhKOHAxT3FnaUFsbk1kRU1DUlhJbndGdFRvb05WaEtydUhLR2hO?=
+ =?utf-8?B?L0tuYnpaRFUrTk9NVzVCaWZkYXJTWllESGR6RHlqcW9tVWN0alp6Y0xzbHBa?=
+ =?utf-8?B?aFNheUJLSUF0VTdkSW1XQnZMRHhTRVNJaG5Pb0w5SjdqaEF2ZTQyME1ZWndr?=
+ =?utf-8?B?M0F3bnZQR3lDQStaajFwRjhMVmZZeUpFZWtWWlk0ajFMcHIyRkZua2xyNElK?=
+ =?utf-8?B?YlJIRkwyWUs5bUpHNGdrWmpEZWJrWVlja2NMSXN1SXFEQnR5L2toWFJYcWEw?=
+ =?utf-8?B?TG1uODRjTGhwRUhwZjdZYkdKL0NDTVVGejFnOFg0enN0TXJSYWsxWVVwYkpB?=
+ =?utf-8?B?dHlsYjhxRHkwU2IyK2YyNUJGRUNaNUdVUlBROFluSTA1SjJoSy9YQmRnY24w?=
+ =?utf-8?B?UHErRC91YVBHZjN3bFMyT3hFWlEzdWhldVplVmtmN2hxcFBYZHZZbVlFZXdB?=
+ =?utf-8?B?cDV1V1c3c3JEUHlRM1IyMHdmRWpOZjJEbU5IYWMrSnZ0aGFQclVyaGN0cFJR?=
+ =?utf-8?B?VFlwbmFZWm4xK3FiUTZ0M1VqbXdVaXpFUWZ5ZG1VdWpZVmNLS3NmZ2J3NzM4?=
+ =?utf-8?B?enZpVTJpaE5zVm1OK3ViTm9hL2NhbG1VRDBXNWRLTmphbnJ4VFFyNjFDdHFV?=
+ =?utf-8?B?OHVCTlROTWdJVVdmanRHTTNvY2NJUFFlaHBRdk02T0VqdVdNUGkvR2VjV1J6?=
+ =?utf-8?B?dWRRUGk0TGw5QWZnRVVhVm10UzZjVWxQcWtjZGU0WFdWZHNnT1ZMRG13WVps?=
+ =?utf-8?B?SitOdDY0NUNCZk5PYWlXR2lyTDZoTzI4MFp6MEZjeUNVblBLVG91K201NUs3?=
+ =?utf-8?B?UFNvam5PVHViNEo0SFpSYms1RnZyUTNzc2JnaVo5RDBwZk1qYjBub3ZRN3Rp?=
+ =?utf-8?B?WVpPUUJ4Sm11K2hkTWViWkwxaXBnaUE5SUU1YjhzdkJodGlpUGZ2SFVBMVVM?=
+ =?utf-8?B?Vk9YZ2JCd1R4aDRlcTZTbXpKUElMWTRXVDRmWVFVek9QWE5seWdWbUl5Kzh0?=
+ =?utf-8?B?ZEFyam0xN05LWWg3VGczWndvTUVqbUthQnE4VVJDM3dyY3JMWFN4TG1rZEtn?=
+ =?utf-8?B?cjFFK2ZPSGY2TXFSWEVCRXh3VFJhbFJDMkliRm83SEVNSjRMUnc2cFR1MmY1?=
+ =?utf-8?B?dVZwQWhrYkdtdFJ0UGtHUlBJbG5ZRzVVcm1LVDdkQWw1Z0xPazhqQmQ5OVhm?=
+ =?utf-8?B?ZGVCVVZub1B1TStlZ3JvdTdpSGpFSUZTeTZaMkU2TExXUkc1ODUrYmRzbXRh?=
+ =?utf-8?B?b0ZDTzhFeWMzNTNtOUU3bWNHV0ZzNWhwbFdqeFpoL3R6RmhTTXVSaU5HKzN5?=
+ =?utf-8?B?MmJmQk8yanJ6YTIzMVZQL3E1OVZmY25INER6TFpzWEZvNzVRWW51TUdNRXlB?=
+ =?utf-8?B?MzJVNjBESEljZ0tneklVYTNSSHRnTXFPcEhQYzRHWkJkNmN1K2NLdkV6RUsv?=
+ =?utf-8?B?ZlU5S1lad2k4U1o4WHNtc092ZXBVbmQrTUJlcDcxZXNrUUJZaTRjMUY0djhS?=
+ =?utf-8?B?T01NNTBtZWtHZEREQXoyS01tUk9HclgyZ0pzVUgrWGdDcHM3amZKczhCU2Ft?=
+ =?utf-8?B?a0dpNGlIT1pMWlVQdGRyOFc5U3pQV1Z6Ymc1aXdPcE5jUU1OWFlqN01udTN4?=
+ =?utf-8?B?STBaRE9WcTRpcUFJbDNYMWZkV01OaGltdzliV3VIUHFsTE9jbWlhMTVLcUxn?=
+ =?utf-8?B?Rm1OWEMyemxsZFpLdDdRbmphUlU5TUVRV2xqTG1YMkMzdnFxY0JMb2pzZnJ3?=
+ =?utf-8?B?MERMOVZtL0YrWllYU1prcE0ya0c5MGptZzhQM21kcUdNUHI3QjJwd3pIOHZF?=
+ =?utf-8?B?bDRzdHRSak9tVHdEbkNHWHRKbU1LaUdScm4zaWdEZnJPUTJqQkg5dDhnay95?=
+ =?utf-8?B?UDcxQk1XQnVoczIrVndGVEtCMnlDZVFHOVFrY2I1TzZyajQ0QWZrRnE5ME9X?=
+ =?utf-8?B?T1JPQk9xVkpLT3VUallxVFkwV2xYd0doMTZzczM5MXF2QlFyV0U1Z1hZaW93?=
+ =?utf-8?Q?gSwFH8?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?b1NBRjZZTlRXcUU4MmVpdmtLUHB1a1EyNVI2a0l2cncxZEl5RVRrYkFYV1Y4?=
+ =?utf-8?B?TW9TVHhUS0IyTTBNbkwrREZESllpbHduWStURkhQQnJPRWQxQmREc0NwVFZJ?=
+ =?utf-8?B?d2RLQkZBZkZWMklkcUkxeS8xYjFJSUpyZEdQL1FKWHBtaE9VdjE3RFRCcjBz?=
+ =?utf-8?B?L05MdUprekREQXJJVXZ5WnlkeU1tREx4TVMxaEdRQmRSWkpVQkUzY0czREUx?=
+ =?utf-8?B?ZGdZaFZ3UGtneHRPUlJ1bERTSUw3Vzh6aDFHa2MraGk0S3ZlV2dlUklLelds?=
+ =?utf-8?B?UmIzUURmQkhVMDBrR0JNb2QyZ1krSnVrTE9sTC90RVJTWGRscEpaZExLV2dp?=
+ =?utf-8?B?NDJXTXN4NTVmVUxueHpRbVJ0R2xqNVJ0ZnFXMnlNNUxTMzZJbU5jK0ZBUU5K?=
+ =?utf-8?B?RkRxajZGYTRSaWR1L0p2NFA4Ukl6MEYvZmQwdDhxcktPWWNWZ2JWMWZUbTVQ?=
+ =?utf-8?B?eUlIUzBWTjAyK3pHdjBxRTc4MzNkUkdvd0NaV1hNQUZQWmVocUVILysrRGxN?=
+ =?utf-8?B?ZjNMNzNzTWJSMEZWM1ZucmRpZElYaUVSc1JNQnRVMUV3aFNWcmZ0UDkrRjR1?=
+ =?utf-8?B?L3pTOUNjZlZVL1pNSXFaRUdldEZLZHd3WjloTWdMYThtRElHRlRGakEwSnB0?=
+ =?utf-8?B?a2VManhaaHBlbS8yT1hvRjFzeTdnU3htNHVGQmNSKy93aTJyQ25QRjVLMk53?=
+ =?utf-8?B?eFgvSHE0cE82Nmh1RDhRUU1rRVZHam9TMEpTcVZHb0JQdVVGWHloaitBSml5?=
+ =?utf-8?B?VlBnaUliTHVoK0NHK3hkYTFGTm94N0VRQk12SWpxaHVCMGk4VU9Md20vTml6?=
+ =?utf-8?B?MWpmMEtwT0Q2S2g5QnVmWUhzL1pPMDVyTmRlUkw1VjhqWjRCWGxDUUZpVVdh?=
+ =?utf-8?B?cFcxVjJTeDB4am41ZFpUdWNpMTBLK0JQUEFiTldmZFRIMFRUZ2ZaRWN4OXBS?=
+ =?utf-8?B?bHpTS3pOSjl4c0FsMElDOFY2MkpTRmk2dllTOUNLSkxNNHFkOStiWGxoczB0?=
+ =?utf-8?B?VnVEMi9kOHRjT1M5WiszRzR2dldnNy83UytmbUdJOUVSOUpNeHVEWU4za0Ex?=
+ =?utf-8?B?dkdpWldiV2p0VU1UcVBpcWZWNER3cVhLaGM1UEczN3RML0VvS3VwRjBzOHVC?=
+ =?utf-8?B?enNuM0JoOVdHTWhuNUczMEd5enV4bytHT0RwTkNLMlhIUFBKR1QxRUl0VVQr?=
+ =?utf-8?B?L1JpTm5Mek9DV0oxWGZ3bW1IZDNxU2RRdUlMeTExQWdkeC9wVUxtcE9jVzBT?=
+ =?utf-8?B?ZjM5VEhxL2ZZdDdYZ2I2czhoM3hqL1l0MXFxb3VrbExZZzYvNlMvcW9PVElv?=
+ =?utf-8?B?cWlwN3VFNUkwL2Q3eld6ZlJma3p0YjJnTmk0am91UDVhVlFSNEllWGd6akl5?=
+ =?utf-8?B?Y2YyUktuOUxiRENvaUlMU2szcUg4MVNMbnV5MmNhZDNmQjNXendwTGZGbXBh?=
+ =?utf-8?B?M3dmc3FvY09RZzJaUjcyUkFpdVB2bUlJWVdkWjI1Wk9GTUVwM3gzN3k4cHRD?=
+ =?utf-8?B?aUkvaGl2YVVYQVh3RlBkLzE5RTVlUkVQd0JNdU5DNk9TQmhrcUUvalVna1Ja?=
+ =?utf-8?B?Ymdqck5DK1haUHJKYjJVc1BpWTRpSUVqSkM3T1Y4YTFDcHg4RXh5a1lwL01w?=
+ =?utf-8?B?YlphQ29NbWFhdUx5SE4vbittRjdhd0dNcnFPL0dONGZqaGpWVW1nekg2M1hz?=
+ =?utf-8?B?M01HcTVqTDlYQStoRDBJUVVnbjhKUGVPUjZrQndabDZib012VnA5SU1NaXhE?=
+ =?utf-8?B?akVNc05NcGlZMTlWMUwvUVlHYTNaalZzQkN5TTZLMVZFTVppSXdUb3YxZ1l6?=
+ =?utf-8?B?cjFwNkZTVjUzRUhSaXlNZVg1RExPOVY5L0U2TXZZTTM4S3ZkWk15b0tWeXJS?=
+ =?utf-8?B?TXlvTXhHemJnK3k2SG9wUkFxQU5MZ3pOTzZQZ0lIanN6VWoxak5jZ25UbTJF?=
+ =?utf-8?B?alc4TGhaT3lqSTBUOFdIZEQxUzdTSVR4aHQ0dENCMTF6RVdiUDc5ZzVTTW54?=
+ =?utf-8?B?N21sNW9jbUlXZnhZbzByMGYzRVQxSVB0ZHllQlZmKzFDSWZ5K1pVa0ZTVHp2?=
+ =?utf-8?B?dUc0dS8zUnE3YXZIM2d2SlZKYlBUNGFpTEUzdz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f29ca9e5-cbc5-4b5e-9577-08de3dace324
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2025 20:43:08.7591
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: UXXflPi5ZasQgE1yzaose6tdSNxaDpNHGlC6yyxbLbZjXg97OBuLGSwx6ASxh6ZJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR02MB7026
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 20:40:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228075
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 20:43:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228076
 
-Upstream-Status must be placed in the patch header before the
-scissors line. patchtest currently accepts tags that appear
-only after the scissors, which means the tag is lost when the
-patch is refreshed by git or devtool.
-
-Update test_upstream_status_presence_format() to distinguish
-between tags in the header and tags after the scissors, and
-reject the latter.
-
-Fixes: [YOCTO #15940]
-Signed-off-by: Luka Krstic <lukakrstic031@gmail.com>
----
- meta/lib/patchtest/tests/test_patch.py | 153 ++++++++++++++++---------
- 1 file changed, 99 insertions(+), 54 deletions(-)
-
-diff --git a/meta/lib/patchtest/tests/test_patch.py b/meta/lib/patchtest/tests/test_patch.py
-index d08b8a5019..3b33b5a199 100644
---- a/meta/lib/patchtest/tests/test_patch.py
-+++ b/meta/lib/patchtest/tests/test_patch.py
-@@ -45,62 +45,107 @@ class TestPatch(base.Base):
- 
-         for newpatch in TestPatch.newpatches:
-             payload = newpatch.__str__()
--            if not patchtest_patterns.upstream_status_regex.search_string(payload):
--                self.fail(
--                    "Added patch file is missing Upstream-Status: <Valid status> in the commit message",
--                    data=[
--                        ("Standard format", self.standard_format),
--                        ("Valid status", self.valid_status),
--                    ],
--                )
--            for line in payload.splitlines():
-+            lines = payload.splitlines()
-+
-+            scissors_index = None
-+            for idx, line in enumerate(lines):
-+                if line.lstrip("+") == "---":
-+                    scissors_index = idx
-+                    break
-+
-+            header_has_upstream = False
-+            body_has_upstream = False
-+
-+            for idx, line in enumerate(lines):
-+                if not patchtest_patterns.upstream_status_regex.search_string(line):
-+                    continue
-+
-+                if scissors_index is not None and idx > scissors_index:
-+                    body_has_upstream = True
-+                else:
-+                    header_has_upstream = True
-+
-+            if not header_has_upstream:
-+                if body_has_upstream:
-+                    self.fail(
-+                        'Upstream-Status is present only after the patch scissors. '
-+                        "It must be placed in the patch header before the scissors line.",
-+                        data=[
-+                            ("Standard format", self.standard_format),
-+                            ("Valid status", self.valid_status),
-+                        ],
-+                    )
-+                else:
-+                    self.fail(
-+                        "Added patch file is missing Upstream-Status: <Valid status> in the commit message",
-+                        data=[
-+                            ("Standard format", self.standard_format),
-+                            ("Valid status", self.valid_status),
-+                        ],
-+                    )
-+
-+            for idx, line in enumerate(lines):
-                 if patchtest_patterns.patchmetadata_regex.match(line):
-                     continue
--                if patchtest_patterns.upstream_status_regex.search_string(line):
--                    if patchtest_patterns.inappropriate.searchString(line):
--                        try:
--                            patchtest_patterns.upstream_status_inappropriate_info.parseString(
--                                line.lstrip("+")
--                            )
--                        except pyparsing.ParseException as pe:
--                            self.fail(
--                                "Upstream-Status is Inappropriate, but no reason was provided",
--                                data=[
--                                    ("Current", pe.pstr),
--                                    (
--                                        "Standard format",
--                                        "Upstream-Status: Inappropriate [reason]",
--                                    ),
--                                ],
--                            )
--                    elif patchtest_patterns.submitted.searchString(line):
--                        try:
--                            patchtest_patterns.upstream_status_submitted_info.parseString(
--                                line.lstrip("+")
--                            )
--                        except pyparsing.ParseException as pe:
--                            self.fail(
--                                "Upstream-Status is Submitted, but it is not mentioned where",
--                                data=[
--                                    ("Current", pe.pstr),
--                                    (
--                                        "Standard format",
--                                        "Upstream-Status: Submitted [where]",
--                                    ),
--                                ],
--                            )
--                    else:
--                        try:
--                            patchtest_patterns.upstream_status.parseString(line.lstrip("+"))
--                        except pyparsing.ParseException as pe:
--                            self.fail(
--                                "Upstream-Status is in incorrect format",
--                                data=[
--                                    ("Current", pe.pstr),
--                                    ("Standard format", self.standard_format),
--                                    ("Valid status", self.valid_status),
--                                ],
--                            )
-+
-+                if not patchtest_patterns.upstream_status_regex.search_string(line):
-+                    continue
-+
-+                if scissors_index is not None and idx > scissors_index:
-+                    self.fail(
-+                        'Upstream-Status must be placed in the patch header before the scissors line, '
-+                        "but was found afterwards.",
-+                        data=[
-+                            ("Current", line.lstrip("+")),
-+                            ("Standard format", self.standard_format),
-+                            ("Valid status", self.valid_status),
-+                        ],
-+                    )
-+
-+                if patchtest_patterns.inappropriate.searchString(line):
-+                    try:
-+                        patchtest_patterns.upstream_status_inappropriate_info.parseString(
-+                            line.lstrip("+")
-+                        )
-+                    except pyparsing.ParseException as pe:
-+                        self.fail(
-+                            "Upstream-Status is Inappropriate, but no reason was provided",
-+                            data=[
-+                                ("Current", pe.pstr),
-+                                (
-+                                    "Standard format",
-+                                    "Upstream-Status: Inappropriate [reason]",
-+                                ),
-+                            ],
-+                        )
-+                elif patchtest_patterns.submitted.searchString(line):
-+                    try:
-+                        patchtest_patterns.upstream_status_submitted_info.parseString(
-+                            line.lstrip("+")
-+                        )
-+                    except pyparsing.ParseException as pe:
-+                        self.fail(
-+                            "Upstream-Status is Submitted, but it is not mentioned where",
-+                            data=[
-+                                ("Current", pe.pstr),
-+                                (
-+                                    "Standard format",
-+                                    "Upstream-Status: Submitted [where]",
-+                                ),
-+                            ],
-+                        )
-+                else:
-+                    try:
-+                        patchtest_patterns.upstream_status.parseString(line.lstrip("+"))
-+                    except pyparsing.ParseException as pe:
-+                        self.fail(
-+                            "Upstream-Status is in incorrect format",
-+                            data=[
-+                                ("Current", pe.pstr),
-+                                ("Standard format", self.standard_format),
-+                                ("Valid status", self.valid_status),
-+                            ],
-+                        )
- 
-     def test_signed_off_by_presence(self):
-         if not TestPatch.newpatches:
--- 
-2.43.0
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDE1IGRlY2VtYmVy
+IDIwMjUgMTM6MDENCj4gVG86IGhvbmd4dS5qaWFAZW5nLndpbmRyaXZlci5jb207IFBldGVyIEtq
+ZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgcmFuZHkubWFjbGVvZEB3
+aW5kcml2ZXIuY29tOyByYWoua2hlbUBnbWFpbC5jb207IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmc7IG1hdGhpZXUuZHVib2lzLWJyaWFuZEBib290bGluLmNvbQ0KPiBT
+dWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2NSAxLzVdIGRpc3Ryby9pbmNsdWRlOiBBZGQg
+ZGVidWdfYnVpbGQuaW5jIHdoZW4gREVCVUdfQlVJTEQgaXMgZW5hYmxlZA0KPiANCj4gT24gRnJp
+LCAyMDI1LTEwLTEwIGF0IDE1OjUyICswODAwLCBob25neHUgdmlhIGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcgd3JvdGU6DQo+ID4gSW4gYml0YmFrZS5jb25mLCB1c2UgPz89IHRvIHNldCAqX09QVElN
+SVpBVElPTiwgYWRkIGEgbmV3IGluY2x1ZGUNCj4gPiBmaWxlIGRlYnVnX2J1aWxkLmluYyB0byB1
+c2UgPz0gdG8gb3ZlcnJpZGUgKl9PUFRJTUlaQVRJT04gd2hlbg0KPiA+IERFQlVHX0JVSUxEIGlz
+IGVuYWJsZWQNCj4gPg0KPiA+IFdoZW4gREVCVUdfQlVJTEQgaXMgZW5hYmxlZDoNCj4gPiAtIERl
+ZmVyIGluaGVyaXQgYmJsY2FzcyBkZWJ1Z19idWlsZCwgd2hpbGUgc2V0dGluZyBERUJVR19CVUlM
+RCA9ICIxIiBpbg0KPiA+IMKgIGxvY2FsLmNvbmYsIHRoZSBkZWJ1ZyBidWlsZCBpcyBlbmFibGVk
+IGdsb2JhbGx5LiBGb3IgdGhlIHJlY2lwZSAoc3VjaA0KPiA+IMKgIGFzIHFlbXUpIHdoaWNoIGRv
+ZXNuJ3Qgd29yayB3aXRob3V0IG9wdGltaXphdGlvbiwgc2V0IERFQlVHX0JVSUxEID0gIjAiDQo+
+ID4gwqAgdG8gZGlzYWJsZSBpdCBmb3IgYSBnaXZlbiByZWNpcGUNCj4gPg0KPiA+IC0gVXNlIGlu
+Y2x1ZGVfYWxsIHRvIGFsbG93IG90aGVyIGxheWVycyB0byBhZGQgdGhlaXIgb3duIGRlYnVnIGJ1
+aWxkDQo+ID4gwqAgY29uZmlndXJhdGlvbnMNCj4gPg0KPiA+IFN1Z2dlc3RlZC1ieTogUGV0ZXIg
+S2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+ID4gU2lnbmVkLW9m
+Zi1ieTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPg0KPiA+IC0tLQ0KPiA+
+IMKgbWV0YS9jbGFzc2VzLWdsb2JhbC9iYXNlLmJiY2xhc3PCoMKgwqDCoMKgwqDCoMKgIHwgMyAr
+KysNCj4gPiDCoG1ldGEvY2xhc3Nlcy1yZWNpcGUvZGVidWdfYnVpbGQuYmJjbGFzc8KgIHwgOCAr
+KysrKysrKw0KPiA+IMKgbWV0YS9jb25mL2JpdGJha2UuY29uZsKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCB8IDkgKysrLS0tLS0tDQo+ID4gwqBtZXRhL2NvbmYvZGlzdHJvL2lu
+Y2x1ZGUvZGVidWdfYnVpbGQuaW5jIHwgNSArKysrKw0KPiA+IMKgbWV0YS9jb25mL2RvY3VtZW50
+YXRpb24uY29uZsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDIgKy0NCj4gPiDCoDUgZmlsZXMg
+Y2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkNCj4gPiDCoGNyZWF0ZSBt
+b2RlIDEwMDY0NCBtZXRhL2NsYXNzZXMtcmVjaXBlL2RlYnVnX2J1aWxkLmJiY2xhc3MNCj4gPiDC
+oGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL2NvbmYvZGlzdHJvL2luY2x1ZGUvZGVidWdfYnVpbGQu
+aW5jDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzLWdsb2JhbC9iYXNlLmJiY2xh
+c3MgYi9tZXRhL2NsYXNzZXMtZ2xvYmFsL2Jhc2UuYmJjbGFzcw0KPiA+IGluZGV4IDZkZTE3ZDFi
+YjUuLjBmNDM5OGUyNmYgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9jbGFzc2VzLWdsb2JhbC9iYXNl
+LmJiY2xhc3MNCj4gPiArKysgYi9tZXRhL2NsYXNzZXMtZ2xvYmFsL2Jhc2UuYmJjbGFzcw0KPiA+
+IEBAIC0zNSw2ICszNSw5IEBAIFRPT0xDSEFJTl9OQVRJVkUgPz89ICIke1BSRUZFUlJFRF9UT09M
+Q0hBSU5fTkFUSVZFfSINCj4gPiDCoGluaGVyaXRfZGVmZXIgdG9vbGNoYWluLyR7VE9PTENIQUlO
+X05BVElWRX0tbmF0aXZlDQo+ID4gwqBpbmhlcml0X2RlZmVyIHRvb2xjaGFpbi8ke1RPT0xDSEFJ
+Tn0NCj4gPg0KPiA+ICtERUJVR19CVUlMRCA/Pz0gIjAiDQo+ID4gK2luaGVyaXRfZGVmZXIgJHtA
+b2UudXRpbHMudmFydHJ1ZSgnREVCVUdfQlVJTEQnLCAnZGVidWdfYnVpbGQnLCAnJywgZCl9DQo+
+ID4gKw0KPiA+IMKgZGVmIGxzYl9kaXN0cm9faWRlbnRpZmllcihkKToNCj4gPiDCoMKgwqDCoCBh
+ZGp1c3QgPSBkLmdldFZhcignTFNCX0RJU1RST19BREpVU1QnKQ0KPiA+IMKgwqDCoMKgIGFkanVz
+dF9mdW5jID0gTm9uZQ0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMtcmVjaXBlL2RlYnVn
+X2J1aWxkLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMtcmVjaXBlL2RlYnVnX2J1aWxkLmJiY2xhc3MN
+Cj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAuLmE5MTdlOWNi
+YzkNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvbWV0YS9jbGFzc2VzLXJlY2lwZS9kZWJ1
+Z19idWlsZC5iYmNsYXNzDQo+ID4gQEAgLTAsMCArMSw4IEBADQo+ID4gKyMNCj4gPiArIyBDb3B5
+cmlnaHQgT3BlbkVtYmVkZGVkIENvbnRyaWJ1dG9ycw0KPiA+ICsjDQo+ID4gKyMgU1BEWC1MaWNl
+bnNlLUlkZW50aWZpZXI6IE1JVA0KPiA+ICsjDQo+ID4gKw0KPiA+ICsjIEFsbG93IG90aGVyIGxh
+eWVycyB0byBhZGQgdGhlaXIgb3duIGRlYnVnIGJ1aWxkIGNvbmZpZ3VyYXRpb25zDQo+ID4gK2lu
+Y2x1ZGVfYWxsIGNvbmYvZGlzdHJvL2luY2x1ZGUvZGVidWdfYnVpbGQuaW5jDQo+ID4gZGlmZiAt
+LWdpdCBhL21ldGEvY29uZi9iaXRiYWtlLmNvbmYgYi9tZXRhL2NvbmYvYml0YmFrZS5jb25mDQo+
+ID4gaW5kZXggNTQwNmU1NDJkYi4uNTJjZWI3NmJiYiAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2Nv
+bmYvYml0YmFrZS5jb25mDQo+ID4gKysrIGIvbWV0YS9jb25mL2JpdGJha2UuY29uZg0KPiA+IEBA
+IC02NTgsMTMgKzY1OCwxMCBAQCBERUJVR19QUkVGSVhfTUFQID89ICJcDQo+ID4gwqAiDQo+ID4g
+wqBERUJVR19MRVZFTEZMQUcgPz0gIi1nIg0KPiA+DQo+ID4gLUZVTExfT1BUSU1JWkFUSU9OID0g
+Ii1PMiAke0RFQlVHX0xFVkVMRkxBR30iDQo+ID4gLURFQlVHX09QVElNSVpBVElPTiA9ICItT2cg
+JHtERUJVR19MRVZFTEZMQUd9Ig0KPiA+IC1TRUxFQ1RFRF9PUFRJTUlaQVRJT04gPSAiJHtAZC5n
+ZXRWYXIob2UudXRpbHMudmFydHJ1ZSgnREVCVUdfQlVJTEQnLA0KPiAnREVCVUdfT1BUSU1JWkFU
+SU9OJywgJ0ZVTExfT1BUSU1JWkFUSU9OJywgZCkpfSINCj4gPiAtU0VMRUNURURfT1BUSU1JWkFU
+SU9OW3ZhcmRlcHNdICs9ICJGVUxMX09QVElNSVpBVElPTiBERUJVR19PUFRJTUlaQVRJT04NCj4g
+REVCVUdfQlVJTEQiDQo+ID4gK0ZVTExfT1BUSU1JWkFUSU9OID8/PSAiLU8yICR7REVCVUdfTEVW
+RUxGTEFHfSINCj4gPiArU0VMRUNURURfT1BUSU1JWkFUSU9OID8/PSAiJHtGVUxMX09QVElNSVpB
+VElPTn0iDQo+ID4gwqAjIGNvbXBpbGVyIGZsYWdzIGZvciBuYXRpdmUvbmF0aXZlc2RrDQo+ID4g
+LUJVSUxEX09QVElNSVpBVElPTiA9ICIke0BvZS51dGlscy52YXJ0cnVlKCdERUJVR19CVUlMRCcs
+ICctT2cgLWcnLCAnLQ0KPiBPMicsIGQpfSINCj4gPiAtQlVJTERfT1BUSU1JWkFUSU9OW3ZhcmRl
+cHNdICs9ICJERUJVR19CVUlMRCINCj4gPiArQlVJTERfT1BUSU1JWkFUSU9OID8/PSAiLU8yIg0K
+PiA+DQo+ID4gwqAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMNCj4gPiDCoCMgUmVwcm9kdWNpYmlsaXR5DQo+ID4gZGlmZiAt
+LWdpdCBhL21ldGEvY29uZi9kaXN0cm8vaW5jbHVkZS9kZWJ1Z19idWlsZC5pbmMNCj4gYi9tZXRh
+L2NvbmYvZGlzdHJvL2luY2x1ZGUvZGVidWdfYnVpbGQuaW5jDQo+ID4gbmV3IGZpbGUgbW9kZSAx
+MDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwLi45NWUwOWU2NGY1DQo+ID4gLS0tIC9kZXYvbnVs
+bA0KPiA+ICsrKyBiL21ldGEvY29uZi9kaXN0cm8vaW5jbHVkZS9kZWJ1Z19idWlsZC5pbmMNCj4g
+PiBAQCAtMCwwICsxLDUgQEANCj4gPiArIyBPdmVycmlkZSBTRUxFQ1RFRF9PUFRJTUlaQVRJT04g
+YW5kIEJVSUxEX09QVElNSVpBVElPTiB3aGVuDQo+IERFQlVHX0JVSUxEIGlzIGVuYWJsZWQuDQo+
+ID4gK0RFQlVHX09QVElNSVpBVElPTiA/PSAiLU9nICR7REVCVUdfTEVWRUxGTEFHfSINCj4gPiAr
+U0VMRUNURURfT1BUSU1JWkFUSU9OID89ICIke0RFQlVHX09QVElNSVpBVElPTn0iDQo+ID4gKyMg
+Y29tcGlsZXIgZmxhZ3MgZm9yIG5hdGl2ZS9uYXRpdmVzZGsNCj4gPiArQlVJTERfT1BUSU1JWkFU
+SU9OID89ICItT2cgLWciDQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvY29uZi9kb2N1bWVudGF0aW9u
+LmNvbmYgYi9tZXRhL2NvbmYvZG9jdW1lbnRhdGlvbi5jb25mDQo+ID4gaW5kZXggNzQxMTMwYTM5
+Mi4uMmE3NDE4Y2NiMyAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NvbmYvZG9jdW1lbnRhdGlvbi5j
+b25mDQo+ID4gKysrIGIvbWV0YS9jb25mL2RvY3VtZW50YXRpb24uY29uZg0KPiA+IEBAIC0xMjks
+NyArMTI5LDcgQEAgQ1ZFX0NIRUNLX0xBWUVSX0lOQ0xVREVMSVNUW2RvY10gPSAiRGVmaW5lcyB3
+aGljaA0KPiBsYXllcnMgdG8gaW5jbHVkZSBkdXJpbmcgY3ZlLWMNCj4gPiDCoERbZG9jXSA9ICJU
+aGUgZGVzdGluYXRpb24gZGlyZWN0b3J5LiINCj4gPiDCoERBVEVbZG9jXSA9ICJUaGUgZGF0ZSB0
+aGUgYnVpbGQgd2FzIHN0YXJ0ZWQgdXNpbmcgWU1EIGZvcm1hdC4iDQo+ID4gwqBEQVRFVElNRVtk
+b2NdID0gIlRoZSBkYXRlIGFuZCB0aW1lIHRoZSBidWlsZCB3YXMgc3RhcnRlZC4iDQo+ID4gLURF
+QlVHX0JVSUxEW2RvY10gPSAiU3BlY2lmaWVzIHRvIGJ1aWxkIHBhY2thZ2VzIHdpdGggZGVidWdn
+aW5nDQo+IGluZm9ybWF0aW9uLiBUaGlzIGluZmx1ZW5jZXMgdGhlIHZhbHVlIG9mIHRoZSBTRUxF
+Q1RFRF9PUFRJTUlaQVRJT04NCj4gdmFyaWFibGUuIg0KPiA+ICtERUJVR19CVUlMRFtkb2NdID0g
+IlNwZWNpZmllcyB0byBidWlsZCBwYWNrYWdlcyB3aXRoIGRlYnVnZ2luZw0KPiBpbmZvcm1hdGlv
+bi4gVGhpcyBpbmZsdWVuY2VzIHRoZSB2YWx1ZSBvZiB0aGUgU0VMRUNURURfT1BUSU1JWkFUSU9O
+DQo+IHZhcmlhYmxlIGFuZCBpbmNsdWRlcyBmaWxlIGNvbmYvZGlzdHJvL2luY2x1ZGUvZGVidWdf
+YnVpbGQuaW5jIg0KPiA+IMKgREVCVUdfT1BUSU1JWkFUSU9OW2RvY10gPSAiVGhlIG9wdGlvbnMg
+dG8gcGFzcyBpbiBUQVJHRVRfQ0ZMQUdTIGFuZA0KPiBDRkxBR1Mgd2hlbiBjb21waWxpbmcgYSBz
+eXN0ZW0gZm9yIGRlYnVnZ2luZy4gVGhpcyB2YXJpYWJsZSBkZWZhdWx0cyB0byAnLQ0KPiBPZyAk
+e0RFQlVHX0xFVkVMRkxBR30nLiINCj4gPiDCoERFRkFVTFRfUFJFRkVSRU5DRVtkb2NdID0gIlNw
+ZWNpZmllcyBhIHdlYWsgYmlhcyBmb3IgcmVjaXBlIHNlbGVjdGlvbg0KPiBwcmlvcml0eS4iDQo+
+ID4gwqBERVBFTkRTW2RvY10gPSAiTGlzdHMgYSByZWNpcGUncyBidWlsZC10aW1lIGRlcGVuZGVu
+Y2llcyAoaS5lLiBvdGhlcg0KPiByZWNpcGUgZmlsZXMpLiINCj4gDQo+IFNvcnJ5IGFib3V0IHRo
+ZSBkZWxheSBpbiBnZXR0aW5nIHRvIHRoaXMsIHdlIGhhZCB0byBmb2N1cyBvbiB0aGUNCj4gcmVs
+ZWFzZS4gSSBoYXZlIGJlZW4gZ2l2aW5nIHRoaXMgc29tZSB0aG91Z2h0IGFuZCBpdCBpcyBoZWFk
+aW5nIHRoZQ0KPiByaWdodCB3YXkgYnV0IEkgaGF2ZSBhIGNvdXBsZSBvZiBpZGVhcy4NCj4gDQo+
+IFRoZSBwcm9ibGVtIHdpdGggREVCVUdfQlVJTEQgaXMgdGhhdCB3ZSBoYXZlIGEgbG90IG9mIGRl
+YnVnIGluZm9ybWF0aW9uDQo+IGluIGJ1aWxkcyBhbnl3YXkgYW5kIHRoaXMgaXMgbm93IHVuY2xl
+YXIgd2hhdCBpdCBtZWFucy4gVGhlDQo+IGRvY3VtZW50YXRpb24uY29uZiBlbnRyeSBtZW50aW9u
+cyBwYWNrYWdlcyB3aGljaCBpcyBub3cgaW5jb3JyZWN0IHRvby4NCj4gVGhlIHZhcmlhYmxlIGlz
+IGEgdmVyeSBvbGQgb25lIGFuZCB0aGUgaW50ZXJmYWNlIGlzIHBvb3JseSBkZXNpZ25lZA0KPiBj
+b21wYXJlZCB0byBvdGhlciBhcmVhcyBub3cuDQo+IA0KPiBSYXRoZXIgdGhhbiBrZWVwaW5nICJE
+RUJVR19CVUlMRCIgYWxpdmUsIHBlcmhhcHMgd2UgZHJvcCB0aGF0IGFuZA0KPiBzaW1wbHkgZG9j
+dW1lbnQgdGhlIElOSEVSSVQgaW5zdGVhZD8gSSBkaWQgd29uZGVyIGFib3V0IG1ha2luZyBpdCBh
+DQo+IGNvbmZpZyBmcmFnbWVudCBpbnN0ZWFkIHRvbyBpbnN0ZWFkIG9mIGEgY2xhc3M/DQo+IA0K
+PiBJJ20gYWxzbyB3b25kZXJpbmcgd2hldGhlciB3ZSBzaG91bGQgcmVtb3ZlIFNFTEVDVEVEX09Q
+VElNSVpBVElPTg0KPiBlbnRpcmVseT8gQ2VydGFpbmx5IERFQlVHX09QVElNSVpBVElPTiBhbmQg
+RlVMTF9PUFRJTUlaQVRJT04gY2FuIGJlDQo+IGRyb3BwZWQuIFdoZXRoZXIgdGhhdCBzaG91bGQg
+YmUgdGhpcyBwYXRjaCBvciBhbm90aGVyLCBJIGRvbid0IG1pbmQuDQo+IA0KPiBDaGVlcnMsDQo+
+IA0KPiBSaWNoYXJkDQoNClRoaXMgZG9lc24ndCBtYWtlIG11Y2ggc2Vuc2UgdG8gbWUuIERFQlVH
+X0JVSUxEIGlzIHNvbWV0aGluZyB0aGF0IEkgDQplbmFibGUgcGVyIHJlY2lwZSwgdHlwaWNhbGx5
+IGluIGxvY2FsLmNvbmYsIG9yIHRlbXBvcmFyaWx5IGluIHRoZSANCnJlY2lwZSBpdHNlbGYgdG8g
+YXZvaWQgaGF2aW5nIHRvIHJlLXBhcnNlIGV2ZXJ5dGhpbmcuIEkgZG8gbm90IHNlZSANCmhvdyBm
+cmFnbWVudHMgd291bGQgYmUgZXZlbiByZW1vdGVseSB1c2FibGUgZm9yIHRoaXMgdXNlIGNhc2Uu
+DQooVGhvdWdoIHlvdSBjb3VsZCBvZiBjb3Vyc2UgaGF2ZSBhIGZyYWdtZW50IHRoYXQgc2V0cyBE
+RUJVR19CVUlMRCA9ICIxIiANCmlmIHlvdSB3YW50IHRvIGJ1aWxkIGV2ZXJ5dGhpbmcgZm9yIGRl
+YnVnLikNCg0KRm9yIHllYXJzLCBJIGhhdmUgYmVlbiB0ZWxsaW5nIG15IGRldmVsb3BlcnMgbm90
+IHRvIGludmVudCB0aGVpciBvd24gDQp3YXlzIG9mIGVuYWJsaW5nIGRlYnVnZ2luZyBmb3IgdGhl
+aXIgcmVjaXBlcywgYnV0IHJhdGhlciByZWx5IG9uIGFuZCANCmhvb2sgaW50byB0aGUgb2ZmaWNp
+YWwgd2F5LCBpLmUuLCBzZXR0aW5nIERFQlVHX0JVSUxEID0gIjEiIGZvciB0aGUgDQpyZWNpcGUu
+IFBsZWFzZSBkbyBub3QgY2hhbmdlIHRoaXMhDQoNCi8vUGV0ZXINCg0K
 
