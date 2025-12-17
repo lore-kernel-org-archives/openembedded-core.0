@@ -2,45 +2,44 @@ Return-Path: <michael.opdenacker@rootcommit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 104DCD65C74
-	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 15:59:28 +0000 (UTC)
-Received: from beige.elm.relay.mailchannels.net (beige.elm.relay.mailchannels.net [23.83.212.16])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17977.1765987158127504455
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A4FDD65C75
+	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 16:05:48 +0000 (UTC)
+Received: from quail.birch.relay.mailchannels.net (quail.birch.relay.mailchannels.net [23.83.209.151])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18126.1765987545212409182
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 07:59:18 -0800
+ Wed, 17 Dec 2025 08:05:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@rootcommit.com header.s=hostingermail-a header.b=kqdM0spS;
- spf=pass (domain: rootcommit.com, ip: 23.83.212.16, mailfrom: michael.opdenacker@rootcommit.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@rootcommit.com header.s=hostingermail-a header.b=fxJaO2Mp;
+ spf=pass (domain: rootcommit.com, ip: 23.83.209.151, mailfrom: michael.opdenacker@rootcommit.com)
 X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
 Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 4AA9B1610F9;
-	Wed, 17 Dec 2025 15:59:17 +0000 (UTC)
-Received: from fr-int-smtpout26.hostinger.io (100-103-169-235.trex-nlb.outbound.svc.cluster.local [100.103.169.235])
+	by relay.mailchannels.net (Postfix) with ESMTP id 83CF0761AFE
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 16:05:44 +0000 (UTC)
+Received: from fr-int-smtpout20.hostinger.io (100-108-123-201.trex-nlb.outbound.svc.cluster.local [100.108.123.201])
 	(Authenticated sender: hostingeremail)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 6BD951616DA;
-	Wed, 17 Dec 2025 15:59:16 +0000 (UTC)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 8815F76175C
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 16:05:43 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
-	t=1765987156;
-	b=fLXloSztiziwDjcpRPYRnuoruZlOqyS9a6qo2p23qEAl672UU1HW+bhWzp04SfGrS6EId2
-	Hrk/A23l/QEEwUlIsw3p8okG2RENOCR5qN6jy/JNZkcD4DxUuQR0o/NbUI6RdmeXZM+7Nv
-	d/qWZJfL8Tl0pzXNKkn/z6JZHhoH5lbuPbbEFEp/h06rq08c3JlOBOPlursnH3d483FFgk
-	JHbR0iSjGdMKYzmVsyfZHYq3OwMbk7F2fawIb2GgsNsGAwAim9DuCcm2nV+fcWC1dMR0nL
-	c9xRbS+H7JdowGBID6TEQxquiVErrxrNCqiQgEvOB/WrtMBHmm0Pze5iMRL43g==
+	t=1765987544;
+	b=5FT8lAtPrRd/rFl3PW9yy5ek7AazitpNfV3Hc1DPOWB/McovkJ+M7nwjUZdS91r7qgBqUp
+	edC2a6h1cXV58fpHbBYpZz1/LTvjxtrnl+KMVQQnkK2OMRomck9biG/ZPmFtFHY2/OfX56
+	vKfF6IT72t55eZYAj5Gyyy1HQG9oVv/iPHlau8++LmO4xzW6GUdt/W0HTQJiZURQqgyoQR
+	Bz6RozByP8eS6NOlUaIHhpA8yFG9UtJz8Tg87i+dsrvG8J0XDLd/xwJxEMqCVZMqMq2IyT
+	4E/DUXQhjPIqi3DmU2jwgDRmezpuOCcPL1o4/nCIlheLG3GJz394XpWRoEXUmg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
  d=mailchannels.net;
-	s=arc-2022; t=1765987156;
+	s=arc-2022; t=1765987544;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=/yyw8HfYPfrClcDiDRYiog853m0zDpZw3HW/rahmBSw=;
-	b=hb58Zew6RaWoauPls7/yJXbGXTW/oDUyoRC376Zln0XeECZ7u5U1seOHFEfjmKvmmMQASJ
-	zYhcdy9RlOQ35L/qqlQjayuCQkaNbuwHUNObLn5JJFPjl4/s2e3lfvgGdzwnfSqlyKaGCv
-	7mZ+NolgGvSAC4OJbZDdlUSCEebQE/Nk3XfdGS97UvyrHviIrA9+2XX/c/S0WdG49pAr1m
-	Aip3B1eHFTNfjED012vXCCuRhRjMfVmRDmmuKmc+FmgZTNptfZrRGnI7XfNaRW5huMBMgS
-	4JFeGOWBIbVBQsrDcfBbQtAduB/9rV3PdASKLXKAgmuL7hKP9ttDoqkz9bZGWg==
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=cYm2MPDf/+6ta151HZ0xSD32+Zd8um9xZCnK7GpHgtM=;
+	b=Nyjny78dVGaljho4poVVcyYHcUZnm6uoEAisYV0xqwhdbcEY4vOOs0t5DITg/gkx2/6gNv
+	OG1ToY4E0bWKx7W8Ev3t/x2CkM79EBO+KTQYZIhL/V67muyruJWmlK5+6jMSzqnJzR9VG/
+	pJiX3F1PFjLG0+rcEttjjbNMxQ7w+K2MLHwg7xmzxcuczon6cZZYqNTnRnoMpz2lYxyZHu
+	zN+E/3fpbyFddfM7kVYJTdTalY6afj+pVMpQ/VjvL8pLVn1nugvYwM3LuSpRyTHuP94GyO
+	iNWCUvlKwRv31SOziMjTli3bpaAFsinG7zSFy3S8JFSpQ6YQK+g44cUEBBpEzg==
 ARC-Authentication-Results: i=1;
-	rspamd-659888d77d-52z6z;
+	rspamd-6ccd5b4cc5-r97t4;
 	auth=pass smtp.auth=hostingeremail
  smtp.mailfrom=michael.opdenacker@rootcommit.com
 X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
@@ -48,93 +47,83 @@ X-MC-Relay: Neutral
 X-MailChannels-SenderId: 
  hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
 X-MailChannels-Auth-Id: hostingeremail
-X-Macabre-Company: 0e96c5eb3a89aa51_1765987157112_2962036657
-X-MC-Loop-Signature: 1765987157112:2995777550
-X-MC-Ingress-Time: 1765987157112
-Received: from fr-int-smtpout26.hostinger.io (fr-int-smtpout26.hostinger.io
- [148.222.54.11])
+X-Oafish-Hook: 330ae8c75fc6758b_1765987544293_572581919
+X-MC-Loop-Signature: 1765987544293:2012065204
+X-MC-Ingress-Time: 1765987544292
+Received: from fr-int-smtpout20.hostinger.io (fr-int-smtpout20.hostinger.io
+ [148.222.54.36])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.103.169.235 (trex/7.1.3);
-	Wed, 17 Dec 2025 15:59:17 +0000
-Received: from [IPV6:2001:861:4450:d360:ea5c:9c0:3076:4dda] (unknown [IPv6:2001:861:4450:d360:ea5c:9c0:3076:4dda])
+	by 100.108.123.201 (trex/7.1.3);
+	Wed, 17 Dec 2025 16:05:44 +0000
+Received: from localhost.localdomain (unknown [IPv6:2001:861:4450:d360:ea5c:9c0:3076:4dda])
 	(Authenticated sender: michael.opdenacker@rootcommit.com)
-	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4dWdlQ3X5pz1xnk;
-	Wed, 17 Dec 2025 15:59:14 +0000 (UTC)
+	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4dWdts3zcCz1xrM;
+	Wed, 17 Dec 2025 16:05:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rootcommit.com;
-	s=hostingermail-a; t=1765987154;
+	s=hostingermail-a; t=1765987541;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/yyw8HfYPfrClcDiDRYiog853m0zDpZw3HW/rahmBSw=;
-	b=kqdM0spSLpFqOXchyLIhui+QDszBmqm/bQGNc3EOTzp394OjzBCHhoE2sJMxEHHinx4bQB
-	DyHC1XPTfoGcm3O9rUfx8lVVX9dvTt0j64Epd/MGD5sN8PKJr72nZscU/HpRPkn7YB4TD+
-	J+HaKXUk6/4VVX5SdEy2Y5hC2gzXVzRLzOREEHenQVh3+etujNJSGekMnXzonrWAUB4/0Z
-	nRKCec34sobVDkS2uOrSCrbiGU6X8W5M/HR/Du/ZfgORmSXqg+Tlhwddn+IWjtJ0SnW5P3
-	qRfFOxjY76v8PgJgFwipmhOxnY78vj8C0YGwpDTJk45pm0EuPCIuMYt88UYeWg==
-Message-ID: <210b0dcb-e9b4-4958-8e9c-1efb82ccf380@rootcommit.com>
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=cYm2MPDf/+6ta151HZ0xSD32+Zd8um9xZCnK7GpHgtM=;
+	b=fxJaO2Mp4cVW1Jxilmo3+z20zhlAKf+Pp8M83FmE+73JlV1H7I2+xU67Rxqd1SQaale3g0
+	5V7qE5BkG26mtNbjqKwYKg/GjGNUJSjG8bxEajUfBoA1OnGiIDMSQG34idWgDTqSNmj4is
+	XhK234a2UxpIw1SZ7hH29kOzFSWaBnUij7+EEjfJEBKsJymKwdS0YiWzO7WdIfkvjGhQ96
+	MmyMMQvX4Sa4eLeP9bwmxdWLmxp5d7vPmydbjNQxyls7q2Vb5yuia3DuC34Ks2FLWEHZG8
+	BxdQfdrriJGQHByMkBLyi0iQM2MxQkvPnQrvG1Q62fxaY8vGo1AKfU6pSSXhlA==
+From: michael.opdenacker@rootcommit.com
+To: openembedded-core@lists.openembedded.org
+Cc: Michael Opdenacker <michael.opdenacker@rootcommit.com>
+Subject: [PATCH v2 0/5] ALSA 1.2.15 updates
+Message-ID: <20251217160533.600164-1-michael.opdenacker@rootcommit.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: michael.opdenacker@rootcommit.com,
- openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 0/5] ALSA 1.2.15 updates
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-References: <20251217121705.391288-1-michael.opdenacker@rootcommit.com>
- <DF0KQQWVQZMH.2W0FET0GDQBVB@bootlin.com>
-Content-Language: en-US, fr
-From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
-Organization: Root Commit
-In-Reply-To: <DF0KQQWVQZMH.2W0FET0GDQBVB@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Wed, 17 Dec 2025 15:59:14 +0000 (UTC)
-X-CM-Envelope: MS4xfIXPHjhucoVneS1ytO/kA2UXZl/1WqOP6SISf6rmgZvMKTwVWQ5/mgRwhIwHcgYNM7oWE2hFiyn/GnaN1lFfVsOI//jIa6104iucH/pvvTgrnGLkEZI7 EF4zy1XLUgSXXj6u4yYbKUdVv+oW55beW+K9wnFKIGdxoOIUbbbnRXKvmHK5YDwF90gtSi/U02nEPX8Jac28jv417E5YGgTBMNbifT7RS8vy40aJGhuATdOS BGO+Pa0X6Z1a7eKF8jFhW+baJDjhhoe0q0Mc7gbd3nw6c/d/g3owAzeK9/kMxlXpg+3NHtdAmT1gTPUWbSyHSO6x9IfB3hG2Q0Bl6uB5pl9lLDDMhuyQpmDz /1xKiX9GNGYFFKFlJUKF95GNXmCwNB7XzmPUVAYdP3+aOfoByc/ZYv5oKE/DluPoAsE8h3gcGRchDJkBlt2Gzq9qd3XWWQ==
-X-CM-Analysis: v=2.4 cv=B9fr0/tM c=1 sm=1 tr=0 ts=6942d352 a=MKCPbgLKPPUpDiypvfdhzA==:617 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=iGHA9ds3AAAA:8 a=NEAV23lmAAAA:8 a=d70CFdQeAAAA:8 a=Q4-j1AaZAAAA:8 a=00pfXFynOhnmMW_j94IA:9 a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=NcxpMcIZDGm-g932nG_k:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+Date: Wed, 17 Dec 2025 16:05:41 +0000 (UTC)
+X-CM-Analysis: v=2.4 cv=NuiDcNdJ c=1 sm=1 tr=0 ts=6942d4d5 a=MKCPbgLKPPUpDiypvfdhzA==:617 a=xqWC_Br6kY4A:10 a=NEAV23lmAAAA:8 a=d70CFdQeAAAA:8 a=mfol1SR9xXMMmcQWT1AA:9 a=NcxpMcIZDGm-g932nG_k:22
+X-CM-Envelope: MS4xfDc5LZ14kB+PbxItEAMLQNvrcAbWvTsoOhbCF4aCs3XkOoOGvyYo07rD8YOzfMgsB5BmOt6fMliwNWUP4KvXbW+aOXt18hM4kdox2Y/K0eeCztq2YZCR MCqCIRMlwTvI6jXUYNakg3FgiuwLyqs36BvKVI/Mpou2TuAC1zPpW+8jG4dZRyxiUPFIW4E1XIJixNoDHUnd0sywATtSzXuu/q4vYC0q3C/XJ63IyRz8A8Jh 0Du70LJoYiW3jPI+jmrNNXIGn/EIWp+JQns+bVBprcDbCnscFtzpWDLsPGcUA+re0uwGDyqVm7WsPsrcb/1Yq2qjictB19BRxFYa2TYzKjZfBNgC3vKBukuv nrkfhZa/
 X-AuthUser: michael.opdenacker@rootcommit.com
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 15:59:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228065
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 16:05:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228066
 
-Hi Mathieu
+From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
 
-On 12/17/25 15:50, Mathieu Dubois-Briand wrote:
-> On Wed Dec 17, 2025 at 1:17 PM CET, Michael Opdenacker via lists.openembedded.org wrote:
->> From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
->>
->> These changes update alsa-lib, alsa-utils, alsa-tools
->> and alsa-ucm-conf to the latest version: 1.2.15
->>
->> Michael Opdenacker (5):
-> Hi Michael,
->
-> Thanks for your patch.
->
-> Based on the discussion on the other thread, you are probably already
-> aware of this, but just to confirm: this is failing with musl:
->
-> ERROR: alsa-lib-1.2.15-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/alsa-lib/1.2.15/temp/run.do_compile.644079' failed with exit code 1
-> ...
-> | ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_exec.c: In function 'uc_mgr_exec':
-> | ../../../sources/alsa-lib-1.2.15/src/ucm/ucm_exec.c:263:17: error: implicit declaration of function 'close_range' [-Wimplicit-function-declaration]
-> |   263 |                 close_range(3, maxfd, 0);
-> |       |                 ^~~~~~~~~~~
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/2885
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/111/builds/1605
-Thanks for the confirmation!
-Fortunately, upstream already has a fix for this issue:
-https://github.com/alsa-project/alsa-lib/commit/a068cf08ad67447893b707cddfce31c9cafee643
+These changes update alsa-lib, alsa-utils, alsa-tools
+and alsa-ucm-conf to the latest version: 1.2.15
 
-I'm preparing a V2 for your robots to test :)
-Thanks again
-Michael.
+Changes in V2:
+- alsa-lib: add this patch from upstream for uclibc:
+  https://github.com/alsa-project/alsa-lib/commit/a068cf08ad67447893b707c=
+ddfce31c9cafee643
 
--- 
-Michael Opdenacker
-Root Commit
-Yocto Project and OpenEmbedded Training course - Learn by doing:
-https://rootcommit.com/training/yocto/
+Michael Opdenacker (5):
+  alsa-lib: upgrade 1.2.14 -> 1.2.15
+  alsa-utils: upgrade 1.2.14 -> 1.2.15
+  alsa-tools: upgrade 1.2.14 -> 1.2.15
+  alsa-ucm-conf: upgrade 1.2.14 -> 1.2.15
+  maintainers.inc: update e-mail address
+
+ meta/conf/distro/include/maintainers.inc      | 22 ++++----
+ ...use-closefrom-instead-of-close_range.patch | 50 +++++++++++++++++++
+ ...{alsa-lib_1.2.14.bb =3D> alsa-lib_1.2.15.bb} |  5 +-
+ ...a-tools_1.2.14.bb =3D> alsa-tools_1.2.15.bb} |  2 +-
+ ...conf_1.2.14.bb =3D> alsa-ucm-conf_1.2.15.bb} |  2 +-
+ ...sactl-fix-build-when-in-subdirectory.patch | 29 +++++++++++
+ ...a-utils_1.2.14.bb =3D> alsa-utils_1.2.15.bb} |  7 +--
+ 7 files changed, 99 insertions(+), 18 deletions(-)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib-1.2.15/0001-ucm=
+-use-closefrom-instead-of-close_range.patch
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.2.14.bb =3D> alsa-lib_1.=
+2.15.bb} (89%)
+ rename meta/recipes-multimedia/alsa/{alsa-tools_1.2.14.bb =3D> alsa-tool=
+s_1.2.15.bb} (97%)
+ rename meta/recipes-multimedia/alsa/{alsa-ucm-conf_1.2.14.bb =3D> alsa-u=
+cm-conf_1.2.15.bb} (89%)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-utils-1.2.15/0001-a=
+lsactl-fix-build-when-in-subdirectory.patch
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.2.14.bb =3D> alsa-util=
+s_1.2.15.bb} (96%)
 
 
