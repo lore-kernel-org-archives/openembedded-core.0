@@ -2,22 +2,22 @@ Return-Path: <m.schwan@phytec.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05BADD65559
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0490BD65C45
 	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 13:07:07 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.141])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14079.1765976823131637635
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.86])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14441.1765976820173048158
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 05:07:03 -0800
+ Wed, 17 Dec 2025 05:07:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@phytec.de header.s=selector2 header.b=KoSuvI3I;
- spf=pass (domain: phytec.de, ip: 52.101.83.141, mailfrom: m.schwan@phytec.de)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@phytec.de header.s=selector2 header.b=MnAjyuhZ;
+ spf=pass (domain: phytec.de, ip: 52.101.65.86, mailfrom: m.schwan@phytec.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R8bre593B2Cpvxv3Wg3cOGw3d1U3lTJDmKzPQF2/boSqzJLWby9A3i5GD8308yCUfY4jHuFtfOWUclesN6qK/62/lnIO30kjIi1wuebrNPYQ6jtvWhYEeMmmJRGfSVc7zSN6rJTcm4kFBrW39r1tjHuCJXv0OaKAwmj6dXOyddEWXD6BnP/4f3H+U3EolsmTTMjl/xvb52ENGeleCNrWN7oKJN60S4YXnJt1qWtTFJbz8RUthHR9a9Ezcrbqa2Zr0N84mr5sOzkPENyfygRH5hA7L3SS9pfyeVIAVcr87bVd6/96nQ5HxwCfcvCRNAiXeJGOfQmW4I+2r/HwQZWPEw==
+ b=PNrdAP5Su7r5/HUfhPukD+lBTe2uvAz5E+kDnJdD+HJ0lJiVK/YFOrDM0E/n4pxqrD207l09ceso6HqFB7MFAQPZ0QFSQQtSdaEyDsJfAn12/c3kwCWagRg0hybQfz1b5esBzs7QB7Yrj0gMkls9D7veQndNxr5EdqT1mHhhXbFpeQzPcKACmhNwGg3niAHG7vk1i5aQwombaPY4/rJ+03I07+F8b56z/YczAfW/3yLkcL0QH85Cmq1OfvJhHlAUMShPbOl+8BCVFR7PGXFFko2ZG/fUQS8O+66L/jJJ5Mngq3ud/U7DKy2LXwMCTtHeRkXTp6S1rqpveSoojrDLCw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kccd6p0eSbbhweD7Yr82p3p1X+OFwZBYogjvry8xnFA=;
- b=tcOa8fqdlf9eVIMUp8kfc4M+mvgoFty4XXMrUUo+KQORvmmMCpSIrerNpnSGU3q0pmkKlLk8uyznj2OP7PxT+D9AQ7PqV8wbqvDYjLOgL+9dRolopz1CIrDLU9fTqIb1A0xHDUn41kLPCAwJuxc3NGYcdJUP6jezcwrONKc2FznYUQPYklHuVmm98d1M4SVlCJS6MX3Mb82p/zCyjcNEMVv/+6HLr/l17nWCrtRqySEC2npQgPfobRS7Ygfk15Qa3OdrAmvkqe9xHY0qJH8gl96TvF8mrbZ0E85YKZ7lBNIig+RJ5W0MzIYbtCdd/YQ2hJ6d+4TzH5dp1JHUeJL7ZQ==
+ bh=8cJ5p0nzvdPQXeTH9N7zPF4a1k1l69RwOJg6xENLNqw=;
+ b=MjXo+4l4S71l8Mzo1kMR+2+qcJyZy6gSweJ2cp9qKR7Jm+gz6nsFrnoFQURUCr9Dcs4PclAGBT1hpIIhT3QA2DVbH6OXPDKxiW9Q4T6GZWyJLwXy/YLELSUicZYMF/2PHOv/C8kBqWQa0Y+DSBXHfqRg4PyW/sE4EQkN/LYLcXWRnYwbxu8fs+4T9fYOYwn4OTF4rmGSNmFEQWAQU62Xd56wSFkW25bj6p5kO7g8AsZEfQ4ArVwlY0IJ89KSBlF4SFhNS/3nodhiYAM5rdabule19YMen8sVb3mzYFsgZT3v12Xt+41hSMJUE7TtiLkFEtXacwNJev7HnZedfIM8zA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
  is 91.26.50.189) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=phytec.de; dmarc=fail (p=quarantine sp=quarantine pct=100)
@@ -26,18 +26,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kccd6p0eSbbhweD7Yr82p3p1X+OFwZBYogjvry8xnFA=;
- b=KoSuvI3IfU+pkHKXUXH+MUSVkkq6ZNVGT2h/mNDQXrrrHxbDFf130W7VJqQTaea7DcY8NUGBwbQAUJYruvKTddyEXLqFcSolztij+r5byeFF2X0iEVNh0irSdkRRBSVtQxEbMv/Cz+Dl2H8R7VJnyTfwMLKU5IA3lZjN2QBOpf1zI67Ytan7qUy8QaI4SgclGf+R9+5KITq3AXNJA5AILl3jPxxP6deMZPPHeL3SQtUeBrniIR8951zRMSzGR08zbQ48ntPMsq31AYByURvkF3e6wHZ0c887DqV+pBTyAoABlD3l7BP4zwC58PttxQj+AWpRyFf9/DHKPp8dtn4tVg==
-Received: from DUZPR01CA0155.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4bd::11) by PA1P195MB2563.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:102:449::19) with Microsoft SMTP Server (version=TLS1_2,
+ bh=8cJ5p0nzvdPQXeTH9N7zPF4a1k1l69RwOJg6xENLNqw=;
+ b=MnAjyuhZVD0guKzruyJl9wlt0QMCDQcghPRYDv/0l+AFdoXz+mifPobdwdaBuqzK3oe7pq/wLqWBCxEAW9RkXIQ+qTwgIphBzYrMsqYlPI/DEPSIP8lWYIFCavI8agmoyxBAQT/iKG4RjhxRYwA7VBfsRBmL8lF3uXTx2BiqkhdZH57/qkxpsd57GkYAw3QJz4Dj5d2c9/dLhuTa0k4dGh798toM7zybkCwqaA6jfg4Kc5DtA0Qikz6pF1PWrDE+aKewe1VANm9T49PKcgBY1kCtFDIU6IzYBSg5UQuYkFMgp9sIx0oI9QH56bbGfCsjO/yzo65twx9rSSpABIGIGw==
+Received: from DUZPR01CA0144.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4bd::26) by DU2P195MB2442.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:10:46d::17) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
  2025 13:06:55 +0000
 Received: from DB1PEPF000509FD.eurprd03.prod.outlook.com
- (2603:10a6:10:4bd:cafe::c5) by DUZPR01CA0155.outlook.office365.com
- (2603:10a6:10:4bd::11) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10a6:10:4bd:cafe::1b) by DUZPR01CA0144.outlook.office365.com
+ (2603:10a6:10:4bd::26) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.7 via Frontend Transport; Wed,
- 17 Dec 2025 13:07:08 +0000
+ 17 Dec 2025 13:06:54 +0000
 X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 91.26.50.189)
  smtp.mailfrom=phytec.de; dkim=none (message not signed)
  header.d=none;dmarc=fail action=quarantine header.from=phytec.de;
@@ -46,17 +46,19 @@ Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
 Received: from Postix.phytec.de (91.26.50.189) by
  DB1PEPF000509FD.mail.protection.outlook.com (10.167.242.39) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.4 via Frontend Transport; Wed, 17 Dec 2025 13:06:54 +0000
+ 15.20.9412.4 via Frontend Transport; Wed, 17 Dec 2025 13:06:55 +0000
 Received: from augenblix2.phytec.de (172.25.0.51) by Postix.phytec.de
  (172.25.0.11) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Wed, 17 Dec
  2025 14:06:54 +0100
 From: Martin Schwan <m.schwan@phytec.de>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v3 1/2] cargo-update-recipe-crates: Don't fail for partially empty Cargo.lock
-Date: Wed, 17 Dec 2025 14:06:43 +0100
-Message-ID: <20251217130644.2710575-1-m.schwan@phytec.de>
+Subject: [PATCH v3 2/2] cargo-update-recipe-crates: Properly close target file after writing
+Date: Wed, 17 Dec 2025 14:06:44 +0100
+Message-ID: <20251217130644.2710575-2-m.schwan@phytec.de>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251217130644.2710575-1-m.schwan@phytec.de>
+References: <20251217130644.2710575-1-m.schwan@phytec.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
@@ -65,152 +67,87 @@ X-ClientProxiedBy: Postix.phytec.de (172.25.0.11) To Postix.phytec.de
  (172.25.0.11)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509FD:EE_|PA1P195MB2563:EE_
-X-MS-Office365-Filtering-Correlation-Id: e8030322-b99a-43f3-0002-08de3d6d2709
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509FD:EE_|DU2P195MB2442:EE_
+X-MS-Office365-Filtering-Correlation-Id: 098d4af8-1a50-4f8e-412d-08de3d6d2769
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|82310400026|36860700013;
+	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700013;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?xsM7LCdLmTB+gI3RL8gb5UmX2KP0D5vgVIAXJRvE0bUaLUng4YfJ5yKsNlaG?=
- =?us-ascii?Q?eDk/akCI8LWh6spEUTqXPtseEcmBFClfLwuGpYW4bU5Dm/aVGgzU27ODJn9A?=
- =?us-ascii?Q?aNkawBcW1sXJ5hHKSfnMN11mH0x7PQdERlme8ZW+c76exFP4qOzctdribuHu?=
- =?us-ascii?Q?c5WzoEps5Ce/wsts1HPML667S6bZpaRf+WUZsmPQXVTRDAbJV+cwiewYM1aV?=
- =?us-ascii?Q?E68gajOd3O/a1gLU+Qgoc373oM0PG6Fv1kTKpE/Xwo/ao4miMnpS+p9HSE4U?=
- =?us-ascii?Q?M6bcfxJYuE/E+W4nCHHOPkQFKJ4PSzTuoXezXU4KkzbF+NqqDhEPGBrAnyJC?=
- =?us-ascii?Q?vYlgIGlE/pYAgnTUPxDovxn9SWps2s/k8tCwY1JM/kItGvepV6gH53MFoSw5?=
- =?us-ascii?Q?6F9IwnpK4yR7U2CsaLPKLku7A4/YI/0R95CKNun40N/QWVAFVwTwq8ch/yPB?=
- =?us-ascii?Q?NTEVfWudnukfJ9hbrk5YbI+9svkTwYj51Y/eUfLIwUujXk3/7LzYBG/Cunje?=
- =?us-ascii?Q?P01UqxpppWm2eQnDvce+kr1RzCgEMNcpW7fy/m2Ry7cmkggYFc6RbOOtA8aj?=
- =?us-ascii?Q?LfU/n1PbmrQBq7syg2+3h8f/HoNujomcfTho3la1LtCsEPecLhHpihnwKaux?=
- =?us-ascii?Q?9940VtLOIFdNgkBoT5PY2GF4p0NWDzDBx/QKey4/iEcmxqCJ6OJ4svID5tcl?=
- =?us-ascii?Q?8kToFh9/90fd4zEB8iQQMoeQZIcbULdeFIdI/pybLP+C3HpK7vJYyS7DBmRr?=
- =?us-ascii?Q?cWKZD6UEU6R0ZgnBc/JDLkFg4g/+fbxY0rT6rh8HLc/W3OcVe6VFqbSkCzIW?=
- =?us-ascii?Q?ti8hCRFMLroPyWQTXMGpHgWHj5xUUDD2MJe8wsIA9ol465HST0Pl+Dzz1pyB?=
- =?us-ascii?Q?IrcR4szoIKocbF0rP6hlgemz9UWdhT1EU8h7vSU1WlgmZGY2s87YRtWrMliu?=
- =?us-ascii?Q?WfBy6u/B61MLrmz2Pb6+mHnRqeSLNZ4kNqMKQRLzLQTmFLaXBqSIAM2vwKeB?=
- =?us-ascii?Q?l8/xrgbBO0ilSDpQRk9o1KrBmkY6fb6zs20ZwiAytX6o0wr+epKbR9RSkPAG?=
- =?us-ascii?Q?5PpVNaujqMrKGJiiOWMZegIAK2BDViQGei/W0kNeRxFvmgmsF+/DXYF+YlN4?=
- =?us-ascii?Q?jRoM3p6oi658r5HnuVv1uyjiX+ZNzZZ1U+ZTULi3f/QpPs3Yei3mtT2REUIG?=
- =?us-ascii?Q?e5R46kdJ0DwdFoaA0N9bzHB5/p6pwRY9XREvzw30eUhZFLMECK0o/ojAs0Ma?=
- =?us-ascii?Q?pHOTrH0tYVQ7E338YO5Y/DZ+1VxuC/f35JhpFzhBqmEXamdi1Ap+MP2E1Bba?=
- =?us-ascii?Q?9QKzQQlbMagr6utDwpQqewbSLJGO8KiYwG36x6DKsJpry3M0T1l6bWP3MQ/6?=
- =?us-ascii?Q?2MU6CWZeMM43o53pYrlgi0DE3lxA/uD/0hmuk7YPQ1PmXltK6HXn5IPkHH1q?=
- =?us-ascii?Q?KHzxAqnzFzKltVBynEXVXm1AYQdEpFo8E8IN1lkdfnHzm4gtrh2SZEjZAccG?=
- =?us-ascii?Q?TeD8vFCqN3fCrCtkmUSYBOZQs0de2JWwlhHgnSbpWXrPdlPfZW/MClpf7AZ8?=
- =?us-ascii?Q?Rsp7F8RrlyG9tg8Tu2A=3D?=
+	=?us-ascii?Q?01i7br+85GIhb7s2i74juvetAPLwOjufi6k7oa9ex00xP4HLfrol+eDw7HeF?=
+ =?us-ascii?Q?43lQ3bA66b3G1rZZ+SQekqBzMGH3RkosGkolijugE9/4cp1lExky/XuIVjYj?=
+ =?us-ascii?Q?E4WWfxVt0Iot1k0go0RAl5pKX0lx/q+CAQfzO6z1F5TwEl2tf9j0x3czoOLn?=
+ =?us-ascii?Q?PxEmry8y6gYn+YZEVntKdt2vYaUNIRCOMGTgurcBfQUCG4rFqI4CDERw5/PI?=
+ =?us-ascii?Q?Qd+CBs5Auj2VU3xS1JrLhaYRX+VtZP1EvZsFkF72N/Kl7g1SHEvkEGKLFjtt?=
+ =?us-ascii?Q?EN1A40UplA0UQ37308S69Vp2AImkcmtvqDRwy3FampZ0YxNXi209f+E65ipO?=
+ =?us-ascii?Q?pjYAdrDD7WTTuvAlDn5i//auElQNSyZtPkwxe7aOmnwwr7SBjIzCEMXmGkro?=
+ =?us-ascii?Q?3jYp9UpiHiAkIqR2z2rTqynDI1u1w0N4HsrK8yOYR41BFvFHWbrpN3qoDsJJ?=
+ =?us-ascii?Q?psIjmgJjMgZ9Lxw6JjNgN9o9RMg5tYyQAmSIOquRJwBJ9hjB0dc7ZkBusKrr?=
+ =?us-ascii?Q?CdBVbxhQTOSR3Yw1fTSYQ4aTq/aVTcgOSw9o76jQu+/034X7NMwlitjPen5r?=
+ =?us-ascii?Q?tqyq0Kkv91NFbnesFZpHA+SPZc6Nz7Dcqj7AcbCjvTjuVAyDQEYxIWvm3xtm?=
+ =?us-ascii?Q?l3RSPxXypUkWLTwxrLt3uWHkIiIsqNLLbBjLAiUWuUaf2ov7ck+5Gk4ZkZWB?=
+ =?us-ascii?Q?YYTiZKMl9CE6zgyF/BjMsNcseO/aVATe3KAXXBzHZfWTDIqpETnr6ZX5Motb?=
+ =?us-ascii?Q?sb3RI1rVTH5W8LOdiw6w9QzTljE+INrqZs97h2CO/wVBGfu8j/vBABc0cT00?=
+ =?us-ascii?Q?fvFC3cmIr/Fb8nm6x0Sxu3GP8J5ueAfV1QOBjr/k8WayLFM60cj4/FyxAta7?=
+ =?us-ascii?Q?4xT5KB8p45u9uTLoGbrRQP5nX2Y+LbGQuOAy5UxohRyWaQMdTXmp3nfQ6tAT?=
+ =?us-ascii?Q?KFn1D5zVXtZwSKYdSjc6FJY5ETFm9yvxQvppoEgVZlb50KGArnHrfNh3DfPF?=
+ =?us-ascii?Q?uEU+pxGvJdoiyadBjOjegYh4A0MCLMcGYyDMxl+F3+bhrKljSd1RfXt5I75m?=
+ =?us-ascii?Q?6r6GdPCFHnk0V+d7MuHdC9RQ17XgD+pQ1zgvUnGi3/9qS7brIjpEHOOcKXgU?=
+ =?us-ascii?Q?sV5j5ntvCuSAf3Tudv3aNELwvi8VlLOaWwPQEiGsZ1qjsQiYO6xBVvb2JENR?=
+ =?us-ascii?Q?KxAwPI3qcmSTQZaaVvmisk4GFN9/Ovcr3inD4b0E+XCRYwfBsBFCFrbikAn2?=
+ =?us-ascii?Q?81gPX3xpoKZAThONyndyGIEEQNa5RIh5WDXjb/QrrM8MJR2kUy+CzzCmVn0I?=
+ =?us-ascii?Q?Gv3Pg4CrC/N/Z2M/ASXlmwQHpL1+qYcN+eHK9UWA25erHj5icbFFsd3wmRaP?=
+ =?us-ascii?Q?Vj/l586j/ezZ+UTyHQelDq3ug190NhdLer1h+/wIF4CA3xBVuymk62lOB/sH?=
+ =?us-ascii?Q?yV8gQrNai8xAtfvvL/Zj55dystp/nXDjf87gL9OPn4xzxWHbREkOMdsExOmk?=
+ =?us-ascii?Q?SSID7c0uDMB0yYYpWE1K5+pt+Ha+jLAT5vzj4r1CDYuwYTk9WpxdpSm/Gakb?=
+ =?us-ascii?Q?VEQhiuzKhINEIsBL51o=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:91.26.50.189;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:Postix.phytec.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013);DIR:OUT;SFP:1102;
+	CIP:91.26.50.189;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:Postix.phytec.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1102;
 X-OriginatorOrg: phytec.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2025 13:06:54.8069
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2025 13:06:55.4362
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8030322-b99a-43f3-0002-08de3d6d2709
+X-MS-Exchange-CrossTenant-Network-Message-Id: 098d4af8-1a50-4f8e-412d-08de3d6d2769
 X-MS-Exchange-CrossTenant-Id: e609157c-80e2-446d-9be3-9c99c2399d29
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e609157c-80e2-446d-9be3-9c99c2399d29;Ip=[91.26.50.189];Helo=[Postix.phytec.de]
 X-MS-Exchange-CrossTenant-AuthSource: 
 	DB1PEPF000509FD.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1P195MB2563
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2P195MB2442
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 13:07:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228040
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228039
 
-Do not fail if only some Cargo.lock files are empty. Only fail, if there
-are absolutely no dependencies found in any Cargo.lock.
-
-This fixes the following error message, which would occur with "bitbake
--c update_crates python3-orjson":
-
-    ERROR: python3-orjson-3.10.17-r0 do_update_crates: Execution of '.../py=
-thon3-orjson/3.10.17/temp/run.do_update_crates.70693' failed with exit code=
- 1
-    ERROR: Logfile of failure stored in: .../python3-orjson/3.10.17/temp/lo=
-g.do_update_crates.70693
-    Log data follows:
-    | DEBUG: Executing python function extend_recipe_sysroot
-    | NOTE: Direct dependencies are ['.../sources/oe-core/../oe-core/meta/r=
-ecipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', 'virtual:n=
-ative:.../sources/oe-core/../oe-core/meta/recipes-devtools/patch/patch_2.8.=
-bb:do_populate_sysroot', 'virtual:native:.../sources/oe-core/../oe-core/met=
-a/recipes-devtools/python/python3_3.13.9.bb:do_populate_sysroot']
-    | NOTE: Installed into sysroot: []
-    | NOTE: Skipping as already exists in sysroot: ['gettext-minimal-native=
-', 'cmake-native', 'libtool-native', 'quilt-native', 'texinfo-dummy-native'=
-, 'openssl-native', 'expat-native', 'ncurses-native', 'util-linux-libuuid-n=
-ative', 'zlib-native', 'libedit-native', 'make-native', 'patch-native', 'pe=
-rl-native', 'python3-native', 'bzip2-native', 'xz-native', 'zstd-native', '=
-attr-native', 'gdbm-native', 'libffi-native', 'sqlite3-native']
-    | DEBUG: Python function extend_recipe_sysroot finished
-    | DEBUG: Executing shell function do_update_crates
-    | Traceback (most recent call last):
-    |   File "<stdin>", line 41, in <module>
-    |   File "<stdin>", line 12, in get_crates
-    | ValueError: Unable to find any candidate crates that use crates.io
-    |
-    | The above exception was the direct cause of the following exception:
-    |
-    | Traceback (most recent call last):
-    |   File "<stdin>", line 43, in <module>
-    | ValueError: Cannot parse '.../python3-orjson/3.10.17/sources/orjson-3=
-.10.17/include/cargo/simdutf8-0.1.5/Cargo.lock'
-    | WARNING: exit code 1 from a shell command.
-    ERROR: Task (.../sources/oe-core/../meta-openembedded/meta-python/recip=
-es-devtools/python/python3-orjson_3.10.17.bb:do_update_crates) failed with =
-exit code '1'
+In do_update_crates(), properly close the target_file after writing to
+it using the "with" statement.
 
 Signed-off-by: Martin Schwan <m.schwan@phytec.de>
 ---
 Changes in v3:
   - Revert back to piping Python code to native Python
 ---
- .../cargo-update-recipe-crates.bbclass           | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ meta/classes-recipe/cargo-update-recipe-crates.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/meta/=
 classes-recipe/cargo-update-recipe-crates.bbclass
-index 3251d5ef2e..ffc658f0f1 100644
+index ffc658f0f1..47e845c822 100644
 --- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
 +++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-@@ -38,7 +38,8 @@ def get_crates(f):
-     crates_candidates =3D list(filter(lambda c: 'crates.io' in c.get('sour=
-ce', ''), crates['package']))
-=20
-     if not crates_candidates:
--        raise ValueError("Unable to find any candidate crates that use cra=
-tes.io")
-+        print("WARNING: Unable to find any candidate crates that use crate=
-s.io")
-+        return None
-=20
-     # Update crates uri and their checksum, to avoid name clashing on the =
-checksum
-     # we need to rename crates with name and version to have a unique key
-@@ -65,14 +66,11 @@ for root, dirs, files in os.walk('${CARGO_LOCK_SRC_DIR}=
-'):
-         continue
-     for file in files:
-         if file =3D=3D 'Cargo.lock':
--            try:
--                cargo_lock_path =3D os.path.join(root, file)
--                crates +=3D get_crates(os.path.join(root, file))
--            except Exception as e:
--                raise ValueError("Cannot parse '%s'" % cargo_lock_path) fr=
-om e
--            else:
--                found =3D True
--if not found:
-+            cargo_lock_path =3D os.path.join(root, file)
-+            c =3D get_crates(cargo_lock_path)
-+            if c is not None:
-+                crates +=3D c
-+if crates is None:
+@@ -72,7 +72,8 @@ for root, dirs, files in os.walk('${CARGO_LOCK_SRC_DIR}')=
+:
+                 crates +=3D c
+ if crates is None:
      raise ValueError("Unable to find any Cargo.lock in ${CARGO_LOCK_SRC_DI=
 R}")
- open("${TARGET_FILE}", 'w').write(crates)
+-open("${TARGET_FILE}", 'w').write(crates)
++with open("${TARGET_FILE}", 'w') as f:
++    f.write(crates)
  EOF
+=20
+     bbnote "Successfully update crates inside '${TARGET_FILE}'"
 --=20
 2.43.0
 
