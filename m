@@ -2,70 +2,70 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C0CFD65526
-	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 09:42:05 +0000 (UTC)
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11099.1765964518963370677
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C42FD65527
+	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 09:42:35 +0000 (UTC)
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10663.1765964545533424470
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 01:41:59 -0800
+ Wed, 17 Dec 2025 01:42:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iPdpsb18;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id a640c23a62f3a-b736d883ac4so873522766b.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 01:41:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mFxZGL41;
+ spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-b79e7112398so1087106766b.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 01:42:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765964517; x=1766569317; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1765964544; x=1766569344; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PThKYS37zF79wn8O1AiDF6R0oiNV+bRVJXIj1h41B8Y=;
-        b=iPdpsb18UNkougxi8MHaB1x+xLelAxZUsQmdWDfPYBhdrrLdHdN8kuo9epp5rjwT8L
-         NFUf+u62ocILkIz31YxbP0rSskr+WwSHgJ2rLjnmNLw/npn1hnSWSKwgqXBdYUh5BSCb
-         IwGal5FUjG2t+3zkRPIhlqmi6+qzcUwz1yy7s01Y7ZGrHYTEsWXj0vO2s9A/IPDWCsGy
-         hpGfJEAJfwmjpMh0twJMQuiStyCspyisqkdomjxzw+xrDcujhUtqoJ6kMs0UfttvlI8F
-         M3JeoLaWQzCU++l/ru3Uprla+muUicV0BrbmD7tvem5oUYxAZw6B5YLICw+4RZVFK6Hx
-         oRNA==
+        bh=0ecBMvdzp/+na6gO6Nbcaej2yBKWRRJCjshG30FvixM=;
+        b=mFxZGL41Ku4Sks9NKDqWRhNOVLXl9OGiQ3PiTheaZ6aHy3UuHSiN/o9Cj2Q/TmoNCs
+         9rNsbkS+RLHy0sh0up/P70GVlb5+xj3WA+dK0MC8AKlOVulK3w831d3XSkLjKtLF8vZV
+         rsY9wUjrC1bFBD1C4a903Hd4WbZYQz+ROt5wWONiIy552Cjz3MMT0NNSBCOCySyP5IdQ
+         LcxhHNmTMDxaAZKdOSMFf+QCUDtzP5CerCrLLZtpqj7t73+SuR6YdYPQUNOl92FMSJx8
+         YsWehYp65fgaZ/C5doxCiGKmLn9z/fS5979BbBrcdhuFJ1Ur8i9stgtt+dgaubBm8foy
+         5oqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765964517; x=1766569317;
+        d=1e100.net; s=20230601; t=1765964544; x=1766569344;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PThKYS37zF79wn8O1AiDF6R0oiNV+bRVJXIj1h41B8Y=;
-        b=t+avCVfyfWMR1YwZDIcBAAKs6whuS0yn+PA3AsRGISgfqcp4hl54CGBFp6z/qO4AWT
-         ZiJ/issjt3AzxF2/A740g/WYgZQqBs2U5fX1JlVOBlRXSb4TnfsrgmAXNzYmpUuXi0sH
-         VLUhPglkA27qrQsw5GqhQ4N67WtXMWwKjau2PG73mjAglvKadqL/nNglUH7TJcmOmGT4
-         nUVXmy0hohSChAOrG1G3YAeKSNHMXY4b8sYfbFp1SZJLGj2WjdBd3DWO/7ikGwotn+WD
-         kdtGPkHHOQSmQ8wA4GIZBhOBgt6hXaTd06XOZ84l+VlmbaKxnybEFXFkutwHN3kLOvNW
-         ZFMA==
-X-Gm-Message-State: AOJu0YxQCNii0k1sxNy4PoR4HFB0ZH6yv8Eg30d7ou7wVBj6DeHtqO09
-	3GmboJfw4ENBxotl5PUpu8k8PRFe9MP0GcCOI5YXA0kYlMnD4M+ZkU/z8KwJnU53
-X-Gm-Gg: AY/fxX7jbCmpB/YerGAL6Jg5FBm6Gp/zJFZnxM+0F03+OMlvhvYnzC0PNHgP/TwWqxq
-	W7HGx9ESCvEcjiLsCFKoRKe+umTxpRlDCaf94cUO70087D/HASOAxQXUwTEyOCRQT0rxIxGDYGY
-	PPoHZMo320mx8XR46/LBWfvNMbsJs2S57Sm4t6CgFr4hBuRyDgaaLgTU8gWiq8mpwQi9+gghECx
-	iiGUvJMBvd5b1cJfCfRbBuoYxtQIlRekpNu1j97SbbTJ1gT9w7I32RnJLzu4AMaplkeS8dMACG/
-	oJXdK93JvuSbFT2uRjF38h6YeNnH8sNkqR8qlx3hzEyq4KmhnWzDMC/YcKY3rSMOqlcalb9TC+D
-	Kzk6WgTN/bNgofTxTTGPqEa/DbNvklBWNubZPDS931w+Zbllh953l/dpSgbMUOQKNP9h2gJxJ4c
-	NYInYagwSpBOz/KOWtva+8gETW
-X-Google-Smtp-Source: AGHT+IGr6Qf6tURHICiJLaqkvfvvaU7e82NEpwy+RxUzF5+nsadpxiXSb4VFEOwNtr+sbUS/9guKpQ==
-X-Received: by 2002:a17:907:7b8a:b0:b73:5c12:3f8a with SMTP id a640c23a62f3a-b7d23698224mr1847367566b.18.1765964516936;
-        Wed, 17 Dec 2025 01:41:56 -0800 (PST)
+        bh=0ecBMvdzp/+na6gO6Nbcaej2yBKWRRJCjshG30FvixM=;
+        b=RZkciiFlV1kbvqIBlRjHGfALQajKxB4fHHV2ClfQpqqBDIEL+e6KXT46vH+u1cZ527
+         qL8mpF3foR4eTg+Ycij7BupsG9SCiboSp1UxUDn5A/mCB7qzZY9sVsNYJ66pIXFKZ5/B
+         sxaPxsGuQHCe6L6v62i7BSH00Z8oAJgsvY0sD2vWFoN7g04lK52r19fESo4FBSVyhMsJ
+         UY/ZTPpCt05IWuMweKK1oJS4f/0jWxetPZ4unjp6YzvX95vG2wrx8sBBPQ6QDat4de8+
+         LcEeEOC1Io8YKnebKPmGjb01cRxjL5S+aUiHkm1qGYyxKyGMfKCFaq/K9xe2dXrjhMWg
+         qdUA==
+X-Gm-Message-State: AOJu0Yzekd8BE2sQwvSHGtn8NqfBeG32BPdnzG0VeIJLh9p96JeXlBAp
+	+UtPZ5wO4M79pBss7YerNfVOwpwcwZ7towy8pRzt642/iKZ8sI5H2UnWTVuJMGz3
+X-Gm-Gg: AY/fxX6rXgrKfX6QBo3KLZG4Z/mxlAC6dKDLpNqAgONX7OtUOsrvwEDmZvF4UjZh4zW
+	bk1DAdKpLG9uys0GlcCJYMKxgKDxqtBq0Ol2HD68DZCDDrMDg4nvz/sk7ivMpQPugqJ41APIR/Y
+	bqBHQ8V3cknDhTVNVMNxc9HC6lUDGfCdlwxiampQac1vwkL51vhNfewW6iqjnh8Ho4+3iKxVZbM
+	+/eCBZSXze682ErlIcZV50hcnQubEyGNPSoyDVvNj5ELiZpFqQFcWv84ZBn5hnJU4edZUOWZHKB
+	TpOnsqbmEYFA2NpwmcJMQyEV3onmt+ZDpWgGVvzfQfepPIDgmsLlUMe7NqhaomN1yJob9pDMkjL
+	xATzR6xnDIfUNdy8SK3TaJc667vOa+cR156F5H2LGaIKJQGUQjvuRU/qU5SmjbYJvbuq5VViNIR
+	ynOrEcUH6T07zxdg==
+X-Google-Smtp-Source: AGHT+IEY3LVrX4GL0q0Efh+SZ4hX5EFfM8oqgH2An+t6/1A6BtXAkzQ2OYfdxblpFsgqwfLBGOnIqg==
+X-Received: by 2002:a17:907:3d92:b0:b7a:2ba7:197f with SMTP id a640c23a62f3a-b7d23a63a2emr1876761266b.52.1765964543445;
+        Wed, 17 Dec 2025 01:42:23 -0800 (PST)
 Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7ff7e5e79esm399533566b.46.2025.12.17.01.41.56
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa5cf210sm1938955366b.60.2025.12.17.01.42.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 01:41:56 -0800 (PST)
+        Wed, 17 Dec 2025 01:42:22 -0800 (PST)
 From: martin.jansa@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [scarthgap][PATCH] cross.bbclass: Propagate dependencies to outhash
-Date: Wed, 17 Dec 2025 10:41:53 +0100
-Message-ID: <20251217094153.852432-1-martin.jansa@gmail.com>
+Subject: [kirkstone][PATCH] cross.bbclass: Propagate dependencies to outhash
+Date: Wed, 17 Dec 2025 10:42:20 +0100
+Message-ID: <20251217094220.853111-1-martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 09:42:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228015
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 09:42:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228016
 
 From: Martin Jansa <martin.jansa@gmail.com>
 
@@ -173,14 +173,14 @@ And print-datetime-usecross is correctly rebuilt whenever print-datetime-native 
 
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- meta/classes-recipe/cross.bbclass | 36 +++++++++++++++++++++++++++++++
+ meta/classes/cross.bbclass | 36 ++++++++++++++++++++++++++++++++++++
  1 file changed, 36 insertions(+)
 
-diff --git a/meta/classes-recipe/cross.bbclass b/meta/classes-recipe/cross.bbclass
-index 93de9a5274..da3c4e7eab 100644
---- a/meta/classes-recipe/cross.bbclass
-+++ b/meta/classes-recipe/cross.bbclass
-@@ -101,3 +101,39 @@ addtask addto_recipe_sysroot after do_populate_sysroot
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index 9d951076a7..a292a98335 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -95,3 +95,39 @@ addtask addto_recipe_sysroot after do_populate_sysroot
  do_addto_recipe_sysroot[deptask] = "do_populate_sysroot"
  
  PATH:prepend = "${COREBASE}/scripts/cross-intercept:"
