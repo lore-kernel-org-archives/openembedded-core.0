@@ -1,130 +1,83 @@
-Return-Path: <michael.opdenacker@rootcommit.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB1ECD65C41
-	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 12:41:36 +0000 (UTC)
-Received: from elephant.ash.relay.mailchannels.net (elephant.ash.relay.mailchannels.net [23.83.222.57])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13653.1765975283959425783
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E504BD65C43
+	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 12:46:46 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14129.1765975602076746417
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 04:41:24 -0800
+ Wed, 17 Dec 2025 04:46:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@rootcommit.com header.s=hostingermail-a header.b=jgp41mR0;
- spf=pass (domain: rootcommit.com, ip: 23.83.222.57, mailfrom: michael.opdenacker@rootcommit.com)
-X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id E255F5609B3;
-	Wed, 17 Dec 2025 12:41:22 +0000 (UTC)
-Received: from de-fra-smtpout1.hostinger.io (trex-green-2.trex.outbound.svc.cluster.local [100.102.46.124])
-	(Authenticated sender: hostingeremail)
-	by relay.mailchannels.net (Postfix) with ESMTPA id DFC75561757;
-	Wed, 17 Dec 2025 12:41:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
-	t=1765975282;
-	b=nCXoLproIs2NqVzro64G6XXzHFypOXDj5/kWhqsDsRYDq/dUnoDveOW737184806Fz/NDq
-	PUwWK5AqcLeC4MZBfv6CVSx7DzvMlAFBMsM04Ay2pklMvzHuMohkaimoDWSLa3bZnFIs8v
-	4qG8X0igGrm85B2NynIsMWwDgw7lgmOuQiDp8pPgyhCZvQ1mLl3n1v/zYCVq+JfCz8XTLJ
-	qZoxz76+qDzwn3JREIBg3Fo4uUDyGJA2lLd6IU9VWePiLPBTY2GxKuvxhVvBs8ifqBSOik
-	D5vQy3FqVaLDdMqU0VCV4/SgzKQoF2ICBe+1lKwJVVDr23kLFm5bKSbUR48rOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1765975282;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=glTx1eF6NpTt2ZoDSpZVBThUS9kRO+7MI5GzU6pI7wk=;
-	b=ZWCdOxstKPQZj5BaCaSlL3ifmRBrHkHl1E5/Yg+UP02yyo9tPGDVHX2cPEE/IFvl4OM8gi
-	/hl9G3F4PJi9zYbuhlwwmf5dw34BT+s5+qnt7izpT0Lul+f3aDkHxY4bPN6MJ892UpZ/GD
-	xXhtip5HVK9pnAy95rexgNc9l94fgERofWWZPepayZROuNFtEZn0Gv/GKZkUT+RxQxCbwz
-	IqfOq2JzM07s0HGRqWFp1+46bd4Vka3lLu0zpBttgGc5McIn4pTDrcAtkizjGnwg0Hzruh
-	7jqGwHnzLQ0ghn0gEVrNkN4dmtvZgi8CZv4vRChzfjRKHAk7C3KbdzcKnnWPNw==
-ARC-Authentication-Results: i=1;
-	rspamd-659888d77d-7xjp9;
-	auth=pass smtp.auth=hostingeremail
- smtp.mailfrom=michael.opdenacker@rootcommit.com
-X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: 
- hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-X-MailChannels-Auth-Id: hostingeremail
-X-Print-Hook: 76afee4d049cc2af_1765975282769_897326680
-X-MC-Loop-Signature: 1765975282769:1488529609
-X-MC-Ingress-Time: 1765975282769
-Received: from de-fra-smtpout1.hostinger.io (de-fra-smtpout1.hostinger.io
- [148.222.55.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.102.46.124 (trex/7.1.3);
-	Wed, 17 Dec 2025 12:41:22 +0000
-Received: from [IPV6:2001:861:4450:d360:c8b0:3805:199c:4536] (unknown [IPv6:2001:861:4450:d360:c8b0:3805:199c:4536])
-	(Authenticated sender: michael.opdenacker@rootcommit.com)
-	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4dWYM36VzHz464C;
-	Wed, 17 Dec 2025 12:41:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rootcommit.com;
-	s=hostingermail-a; t=1765975280;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=glTx1eF6NpTt2ZoDSpZVBThUS9kRO+7MI5GzU6pI7wk=;
-	b=jgp41mR02DIqNwax5gJfUwp5B/NACTWmteD7nx9Wd6DSD7j5gwDaoH6xsKO53/85SMtqrL
-	HKJQD+cIP3g8UInKu7j8ZNdxtAsxtcp7bC2b3LIC2vKSG5HbUg1koafJ0Ddj5ESQxN4rTF
-	9ETwUvtYxJXnci9cWFggYhpZS6BXphIPu5W4Qfnc9sIU2oQrcsOdkh0ORle6TDv6/4SJ0K
-	EnWIS4CQAz6gom1R2d59RK+JrjhaJ+SYLtRHC8u3kfFETAy1n63tCEfNMJIUhKNR5tqADe
-	8vCY1Bx/03dTUTrqKxzhEr7CLR2Jy6rX9rPGEFUFQnipp+ylDO9l9+QthsrHvA==
-Message-ID: <41d6d403-a531-457b-bf10-dd6591e3faa3@rootcommit.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BCMWpf83;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-88a367a1db0so50791116d6.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 04:46:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765975601; x=1766580401; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=u4WUeyhz0tvj+GqSU4vxrcfsPLw1mJXwSB3ZmMlVXg8=;
+        b=BCMWpf83pwnnxQrOu3YOyLv0UcbqCpien4iIWMhiDMJ7njicZlAdKA5ByaHf3U/R9T
+         SYtIr8YQ+lTjqGw0Pbl2RRk2iYiRDbzTP/ZVxv+ykggXurrQYZ4wBX339xIgg7imskLt
+         lSuR688HC3YGoe1Vnza4Ri6bqAbVY/HFHO+ypMHtKrFpCO76LYViqZPyOcSLBb0qPdl6
+         YcLLKxr4pYbMHgl8iv/Esig8xka+ZK406CXoDQIuImjpytN2eW2+gYT0JPRtidkeUmaW
+         s4/cA7o5y/FwealBfNdrfUpjiqlRarxoWgH4jmCTvPwtELUhttV4s2/zELCC/Q/EdINL
+         5otg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765975601; x=1766580401;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u4WUeyhz0tvj+GqSU4vxrcfsPLw1mJXwSB3ZmMlVXg8=;
+        b=rgaQLrh0unNSWZGE4y8EOB1JNYw0z//HchjHfddHTiMOnb5EIYllwnVR+jQTVu0q0H
+         4eLVBp7OCLoAa+ku9l01HejF1wth72MFhJHia3fHPhdhtnPP5vIcAsC3hmsbfMlpY1XY
+         k+PkoGJzV1TOZjl3iz4L7XWd8j78Lk1S7G9nui1mfgeGe90IEHa0X4FB2lMKTcdE1Hyn
+         GyBS2WgAx0d4Z8+M4vjWpHcy990JBYMkfOyBFiFRdTfz6YG/A0MOzDRChYaQCSDiJaWW
+         FyD7WWeZMSalTa23phJxSiYf++I6rfQ0FhrddTqfMdrEJHvHT4qm12UktX2dwM5FsWY2
+         KGKw==
+X-Forwarded-Encrypted: i=1; AJvYcCXEXpcuyA3Ypu4xV/r8LcDNDoLvykddYcJ5Xki1E+RqoOJI1Ltob95dw9eg+A23Ll3Fob2awWsnnjZ+sZqVdTu5JA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywb/6Uf9ZpNUdbHvsh5HapffQX3vWObRQQ7In7Eg8uSnbYi9HPY
+	M5vFEG+Xf798KijL2B6cpZdfUX1ghNsyLSWqX24xE8rFpCaHEHFDmy7XyRNAaEKFA7or5AXnsND
+	Hc4XIb77ln4FYYa/PjIz+08H9XyzjmQycAg==
+X-Gm-Gg: AY/fxX5zr/F3U+QvOaAKssi8OBu5xo+YbMkmjOZqPkSN+aIfCg6DRES9L6Vqw/1sbS9
+	d+eoSc2QJnRWONM5RhrduIGwmXoMWxJHonCnrjZPYUnTUjtDVKdyiy14xf1Y5UhShdSltS8ZP+8
+	vDHKRt30+Y712ogrTqaWc5Zgx4CrKQke/m3LUa0/clcZz/h1xT9YRfjVFTq0iykXWaLJCtwsvXj
+	BFpLVfSSCxjFpJ6lyk/rDKOhQMbSOF9GlhDQnrcUBZmbr4HRYkcFTW9n8kGqjrCF3dlc9tr5TXb
+	hboQzvIzBTS1aGJW3j6zLQ2/AS1llA==
+X-Google-Smtp-Source: AGHT+IHZ0ZDMQgaeIOCBEOAk1B7xoqg/gOmPRTIWGw42GnSDLTDQKe5hpmYs5L9uE9j4cUBdMCikMkm3nMVLXwLpdhs=
+X-Received: by 2002:a05:6214:518b:b0:880:9151:2dfe with SMTP id
+ 6a1803df08f44-8887e1129f9mr266227456d6.44.1765975600994; Wed, 17 Dec 2025
+ 04:46:40 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: michael.opdenacker@rootcommit.com, auh@yoctoproject.org,
- openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [AUH] alsa-lib: upgrading to 1.2.15 FAILED
-To: Alexander Kanavin <alex.kanavin@gmail.com>
 References: <0101019b262ede8c-49d9befe-c250-4b00-a166-8ac8b9a5461e-000000@us-west-2.amazonses.com>
- <2a314131-0dc4-4a21-9963-03063761b8f1@rootcommit.com>
- <CANNYZj-TZkRiX01Pu6i713YfT+UwdVrk+m0FVVB2TobqtkWp5Q@mail.gmail.com>
-Content-Language: en-US, fr
-From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
-Organization: Root Commit
-In-Reply-To: <CANNYZj-TZkRiX01Pu6i713YfT+UwdVrk+m0FVVB2TobqtkWp5Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Date: Wed, 17 Dec 2025 12:41:19 +0000 (UTC)
-X-CM-Analysis: v=2.4 cv=ALriHGRn c=1 sm=1 tr=0 ts=6942a4f0 a=xXtMw5WTSIFZDwkkqTPSdw==:617 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=d70CFdQeAAAA:8 a=Q4-j1AaZAAAA:8 a=o810oVQkx80zDpOGg58A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=NcxpMcIZDGm-g932nG_k:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-CM-Envelope: MS4xfKkgZCJI4MJB2SeN0aXkwk9D9qDNykWk0w4VNkP5iRZl4TzTFSDMB1qkUZaDJP/VnUYf5+AOmdVk1doGobGZvsl1Mj+nnP6UX+/A+1G8f4yiVTtuNQOp YBIox3mS73VwD4kMnvIqmAtK8j/5IgcDx2/A3DVC7Vrfq/jSnDBfEQ+8ukpu5hB+/0FEUqNiLFHX2+WXGn4JjQScIPgNJDh4cIVfA5jUmfiYyTufQ2aUrcWO +IxLM+IMEx/c3h7xkT1rKoGXI3TCI62G6sDJUG/cynYN5dz+tbDfhmaWunvsBMfjLvOxYekCBlRQT/PJceIisYHgRmkTkCYNDRWzsh3HZDu+4Rg8ntz2H0+3 hEMEcoULOdzv54//C9XEx8dQgCvYE1K5QbdUsY6VP73G1AxMk2VWHNjKRHnkR6wmoTczMqXfxEB82q2+J6bgkxsR/F5CYzn/PD8+wjNl/eAwbSbnqyU=
-X-AuthUser: michael.opdenacker@rootcommit.com
-Content-Transfer-Encoding: quoted-printable
+ <2a314131-0dc4-4a21-9963-03063761b8f1@rootcommit.com> <CANNYZj-TZkRiX01Pu6i713YfT+UwdVrk+m0FVVB2TobqtkWp5Q@mail.gmail.com>
+ <41d6d403-a531-457b-bf10-dd6591e3faa3@rootcommit.com>
+In-Reply-To: <41d6d403-a531-457b-bf10-dd6591e3faa3@rootcommit.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 17 Dec 2025 13:46:28 +0100
+X-Gm-Features: AQt7F2qgVrLtjg8K4nUfkiukjkmKrrQKvdTJgl7Hb2LMV8KHZTI4W3j6gSCPwNc
+Message-ID: <CANNYZj_qSGaE-2FA0hW+Z8hMoUGhzhZgWrKPM3ynkgzvfdPjGA@mail.gmail.com>
+Subject: Re: [OE-core] [AUH] alsa-lib: upgrading to 1.2.15 FAILED
+To: michael.opdenacker@rootcommit.com
+Cc: auh@yoctoproject.org, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 12:41:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228036
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 12:46:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228037
 
-Hi Alex,
-
-On 12/17/25 13:25, Alexander Kanavin wrote:
-> On Wed, 17 Dec 2025 at 13:22, Michael Opdenacker via
-> lists.openembedded.org
-> <michael.opdenacker=3Drootcommit.com@lists.openembedded.org> wrote:
+On Wed, 17 Dec 2025 at 13:41, Michael Opdenacker via
+lists.openembedded.org
+<michael.opdenacker=rootcommit.com@lists.openembedded.org> wrote:
+> No, glibc and systemd (poky-altcfg) on qemux86-64.
 >
->> I probably won't have time to investigate this, but there turned out t=
-o
->> be no issue here.
->> I upgraded the recipe with devtool (as AUH does too, I guess), and the
->> changes built fine.
->>
->> So apparently a false positive here (meaning "failed" instead of
->> "succeeded=C2=A8).
-> Did you build specifically with musl, on qemuarm?
-No, glibc and systemd (poky-altcfg) on qemux86-64.
+> Indeed, that's a different platform :)
+> I guess I should try qemu with musl then too.
 
-Indeed, that's a different platform :)
-I guess I should try qemu with musl then too.
-Cheers
-Michael.
+AUH tests these two, so if glibc succeeds, but musl fails, it's almost
+certainly a musl-specific fail.
 
---=20
-Michael Opdenacker
-Root Commit
-Yocto Project and OpenEmbedded Training course - Learn by doing:
-https://rootcommit.com/training/yocto/
-
+Alex
 
