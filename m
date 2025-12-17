@@ -1,223 +1,200 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C42FD65527
-	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 09:42:35 +0000 (UTC)
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10663.1765964545533424470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DD14D65526
+	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 09:44:15 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10689.1765964645268131137
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 01:42:25 -0800
+ Wed, 17 Dec 2025 01:44:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mFxZGL41;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-b79e7112398so1087106766b.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 01:42:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765964544; x=1766569344; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ecBMvdzp/+na6gO6Nbcaej2yBKWRRJCjshG30FvixM=;
-        b=mFxZGL41Ku4Sks9NKDqWRhNOVLXl9OGiQ3PiTheaZ6aHy3UuHSiN/o9Cj2Q/TmoNCs
-         9rNsbkS+RLHy0sh0up/P70GVlb5+xj3WA+dK0MC8AKlOVulK3w831d3XSkLjKtLF8vZV
-         rsY9wUjrC1bFBD1C4a903Hd4WbZYQz+ROt5wWONiIy552Cjz3MMT0NNSBCOCySyP5IdQ
-         LcxhHNmTMDxaAZKdOSMFf+QCUDtzP5CerCrLLZtpqj7t73+SuR6YdYPQUNOl92FMSJx8
-         YsWehYp65fgaZ/C5doxCiGKmLn9z/fS5979BbBrcdhuFJ1Ur8i9stgtt+dgaubBm8foy
-         5oqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765964544; x=1766569344;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0ecBMvdzp/+na6gO6Nbcaej2yBKWRRJCjshG30FvixM=;
-        b=RZkciiFlV1kbvqIBlRjHGfALQajKxB4fHHV2ClfQpqqBDIEL+e6KXT46vH+u1cZ527
-         qL8mpF3foR4eTg+Ycij7BupsG9SCiboSp1UxUDn5A/mCB7qzZY9sVsNYJ66pIXFKZ5/B
-         sxaPxsGuQHCe6L6v62i7BSH00Z8oAJgsvY0sD2vWFoN7g04lK52r19fESo4FBSVyhMsJ
-         UY/ZTPpCt05IWuMweKK1oJS4f/0jWxetPZ4unjp6YzvX95vG2wrx8sBBPQ6QDat4de8+
-         LcEeEOC1Io8YKnebKPmGjb01cRxjL5S+aUiHkm1qGYyxKyGMfKCFaq/K9xe2dXrjhMWg
-         qdUA==
-X-Gm-Message-State: AOJu0Yzekd8BE2sQwvSHGtn8NqfBeG32BPdnzG0VeIJLh9p96JeXlBAp
-	+UtPZ5wO4M79pBss7YerNfVOwpwcwZ7towy8pRzt642/iKZ8sI5H2UnWTVuJMGz3
-X-Gm-Gg: AY/fxX6rXgrKfX6QBo3KLZG4Z/mxlAC6dKDLpNqAgONX7OtUOsrvwEDmZvF4UjZh4zW
-	bk1DAdKpLG9uys0GlcCJYMKxgKDxqtBq0Ol2HD68DZCDDrMDg4nvz/sk7ivMpQPugqJ41APIR/Y
-	bqBHQ8V3cknDhTVNVMNxc9HC6lUDGfCdlwxiampQac1vwkL51vhNfewW6iqjnh8Ho4+3iKxVZbM
-	+/eCBZSXze682ErlIcZV50hcnQubEyGNPSoyDVvNj5ELiZpFqQFcWv84ZBn5hnJU4edZUOWZHKB
-	TpOnsqbmEYFA2NpwmcJMQyEV3onmt+ZDpWgGVvzfQfepPIDgmsLlUMe7NqhaomN1yJob9pDMkjL
-	xATzR6xnDIfUNdy8SK3TaJc667vOa+cR156F5H2LGaIKJQGUQjvuRU/qU5SmjbYJvbuq5VViNIR
-	ynOrEcUH6T07zxdg==
-X-Google-Smtp-Source: AGHT+IEY3LVrX4GL0q0Efh+SZ4hX5EFfM8oqgH2An+t6/1A6BtXAkzQ2OYfdxblpFsgqwfLBGOnIqg==
-X-Received: by 2002:a17:907:3d92:b0:b7a:2ba7:197f with SMTP id a640c23a62f3a-b7d23a63a2emr1876761266b.52.1765964543445;
-        Wed, 17 Dec 2025 01:42:23 -0800 (PST)
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa5cf210sm1938955366b.60.2025.12.17.01.42.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 01:42:22 -0800 (PST)
-From: martin.jansa@gmail.com
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=sOFcJ8LP;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=444662dbf6=qi.chen@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BH7e2mc2710796
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 09:44:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=lWXUhW4KpOKVg0M8RWdq
+	AEybz4/8KiRpfDGIaZxfxIs=; b=sOFcJ8LPZxMDhEiSZg2auz4stqyL6qHaCSU0
+	vlY0aB9btxsKFxSPw/Bc803W935WMBSvrg+qr4kpVmV69v23QJOtmkRYLRqaZlpM
+	lTK0KLFByumblO1cFPtYQ8dxNq/qOoit1Sk6kK805LnrYa85izurbITSI6lfmUHO
+	XPwFmQmntulxfgs1Knp9x9uh3Kcy95LRT0uTRFpBzqjIlPCmrSxgDTXzep8Ug3Sb
+	yvUZMwjdkFHl1LrZHs+2IEsZe8z15Ou2UbAoAnUye8t0Z+qWT+TIH0VLNTM5KUq+
+	QqHqhYBwHAjPZvAnD5ZtDubo2+pmkJrMraHEebxFLL/W3OHb/w==
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012012.outbound.protection.outlook.com [52.101.43.12])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b3k0brcrg-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 09:44:04 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qgalhj0LQMobLUb3vcTMgQ0QAn1xnkTt3u7jeaxT1HvfCO3h6jlwMoq1HvYuDH+SqwTgGsShh0zBTxEvBL15vYXSEAU+pcWL4gM+LQV0Qj+M17R+2DxBQRoHF9Kd1DryTl6+5cILl2MCKITByU5BiqutScJJW+K1aeIKKQlyNci2nDQOGZ2n2PFUpJFi2kcowYgVIMbRPW25mf6+25VjjrZcjFMd/RgL1meSphOzp6E0qIQXQF0qLAUTQe7V2V3Sq0c1tg5jUDo6oe3d6noz45DaB0pXER5+sJze7DljfxY7PilfNC/s7Npx+G4GcYt/JqBYvEC8FLyIjEJBNMWMBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lWXUhW4KpOKVg0M8RWdqAEybz4/8KiRpfDGIaZxfxIs=;
+ b=N3QjNl/Wt0AFTIn2pJkyNg0Pwc1HuIblFNPliO0/T2M3MkXVhesvrHSWj16p9BQpq+JStatMTeRTT+QniNcGffp3XqxHvg6+aSLtops7joMztm3ZAwS2RBtvpi/UY1/jaIHhh+TWn5ozb5cqwLwCRlObIw3HHkFZfIR0viYkorunJgNDMXRuhQYp+nPrby3IHBpqWL+j4BcppptULVaiucPCCbU9o34gjDxG8C76mywPsrqE3z3GFLRTOkT3Vfi3paKjyqKb1ywjn+j/WzViqOYr7+oXNkMKqJom5LJffg6wbipZHE0BTjaQZ2BiJCKdwjgLyxu+fkE/xs90/Wqzhg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by SJ0PR11MB4782.namprd11.prod.outlook.com (2603:10b6:a03:2df::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
+ 2025 09:44:02 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5ad6:8f90:b01d:2c62]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5ad6:8f90:b01d:2c62%4]) with mapi id 15.20.9434.001; Wed, 17 Dec 2025
+ 09:44:02 +0000
+From: Qi.Chen@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [kirkstone][PATCH] cross.bbclass: Propagate dependencies to outhash
-Date: Wed, 17 Dec 2025 10:42:20 +0100
-Message-ID: <20251217094220.853111-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.52.0
-MIME-Version: 1.0
+Subject: [OE-core][PATCH] insane.bbclass: avaid unnecessary rerun of do_patch
+Date: Wed, 17 Dec 2025 17:43:43 +0800
+Message-Id: <20251217094343.3149852-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR01CA0189.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:189::15) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|SJ0PR11MB4782:EE_
+X-MS-Office365-Filtering-Correlation-Id: 71a38861-f50d-4156-2ae3-08de3d50cf53
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?ZImzUC0Cm/a5g9T3RY0XNonTJ7GeeSKPp1CCco5vL8a4QUPTv8dS8XA6cQxx?=
+ =?us-ascii?Q?FOfr5OOY0k0QFnuRFghrD0RnnoT3JuuyxBe0ZEsQlsZV6qilVaRUt824iY2z?=
+ =?us-ascii?Q?/bMrOMc0eH+zAm5l1TdCyDyiunaRjzQeQRwwKbuzVOqBNUQneerhtHldbiE+?=
+ =?us-ascii?Q?eb9lw9Fhch4Q5TXWcLF2SY1rbkPtRZcLn32XAr6YJta401R3l3eukAOkDRrX?=
+ =?us-ascii?Q?zIvct7j1Mgq8NKeXRsQtHbZ839QrKLrJNxusd4A0jbwENELHjN6v3nhFU2Ht?=
+ =?us-ascii?Q?iRRVUwB0yOZrAvyHEN2R0SPNDzrBfJMnJ4RawzlF95Nc7NlDbDAiKDvaX5XI?=
+ =?us-ascii?Q?/EkZwvsf5VyTdLnOf+chmzE2IgbUYkCuan1+sf9T0NVvz224V9Xsh1oHNnNE?=
+ =?us-ascii?Q?/OoO/DTIFqnZJh52+zZajt28Xw9jOfhI/kwig4uSstnGCWh8p8FmrLLF3f/m?=
+ =?us-ascii?Q?F9PIF3Ldt+b5nRGMLu+9i16K6YWvfHBtYnxO9/cafffG6x3m9aIQgi2PH76X?=
+ =?us-ascii?Q?NSpevEAPzOrThChKpF1JwaR0RoGrOyViq57sVTBxBeiwi5lbCNEHjhY3MNIr?=
+ =?us-ascii?Q?/7orOU8b9DJ7zGauqDBa+8w65GxdxtsleTD3WODLjd9eemzMgcig7T1hfToa?=
+ =?us-ascii?Q?SiRnF4Z0lBPMLnHx8nvKI3Xn/w81FHKpmN0yuny4FkIQVxrc4E4wsHcckzF6?=
+ =?us-ascii?Q?KS5CrE2lQ/z2nBUJ7h6prZNA0Jj1kPLFo/40V7QE4hSfbtkSUrO2MXtufley?=
+ =?us-ascii?Q?Vm8nyIAikVPGn6Yx+MICRywDociRZM/cacS5Bjvh86cOwPibhCqopVbCbsZg?=
+ =?us-ascii?Q?byA7BEgRoZZTc3oRJCBWAmVdAXhb3Y1Bzr487zhGLPEVs8htx/aPCa/JGH5f?=
+ =?us-ascii?Q?6BGgZ8UDJFJ/9ATNJeYJV5JEkH8OXfMCyYbgRDJF0dO4+nr4HCs+EkBtsvw6?=
+ =?us-ascii?Q?keNdFw1NAOkKzmKLGwnU6yXOkhBGdlFdwaA1E6xTAWXErmLk6FOTexvzb1C5?=
+ =?us-ascii?Q?Uwxs9ceUpXgTh5K1Xrqmn3H5BfeIkmPfs3MfR+e5ozEQ1FhA7McP1DVWC2Tt?=
+ =?us-ascii?Q?q5JTGDR7PGfZ5hHpVkliFDNvtL/6In+Qkx9ATGvTbR41GeOmETUDF+Y3o7mj?=
+ =?us-ascii?Q?8kpcTMqahxdIxp4wh7zWLLRGkYMztpLgdahejXJXYi583rzgfXamlj1UBq2t?=
+ =?us-ascii?Q?dz4g2p21JAi6Xbg5b5QV9/yWf6MlRzHmTwaLdUdIarlAABoeIHAU6jAh9yKB?=
+ =?us-ascii?Q?lnFb2JbbbghFpRJcjFtGw0X8EQy7wMpazHjB840kF+D2zrx89p6icAmenlZE?=
+ =?us-ascii?Q?saI4BUI6KBzIfwfniP1HEN69WdMOlwx0zIb7KZaBA7YcFWy2AN9ZQbgz8R1H?=
+ =?us-ascii?Q?94/hE/r7B+IrU10tKvvf4u9sDMpKLjcyvuQVW8WtXpvrsxTU0ndTcrzUR+em?=
+ =?us-ascii?Q?RodLf2H6mOJJnSld/rbt69XKfbOhSRMUHEkMui36uE2ya0TxYDdDybAIQIxl?=
+ =?us-ascii?Q?49B6IoeDBpewJDaWJXnYQ4cNfiOD35UHpatK?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?KjVQ4XHF/XDw7BdlHIxNfRzgVp+PSktOAsw49Q/wsA1oHv7oKD/Ya4idqAwT?=
+ =?us-ascii?Q?HeLudROneLsw3xf25nM4YhDz8dyFKQDJbh+CwDwmqnCr+s1GU/Taj5vCM8ec?=
+ =?us-ascii?Q?5PtCOx/3kj2jaHprCDmbRYZuE2tPMb5H/qLKRBcYyQ8+0+YxzzCJolS9WKKR?=
+ =?us-ascii?Q?lPPOSuTba6wJs/v8UHlv3GcOAic6mCaDhDJaAo7Q4mvXkwxcsxK9AM0O5NLF?=
+ =?us-ascii?Q?t5AWa6oZ6c9gSx+T+/M5Iq2+xf/qJAiSKk4gWrmkT10Ny/9+/geo1QSOxCJx?=
+ =?us-ascii?Q?yD2vZ1poK7x9fh6TLOdtCVxhkLekxHz22/Cu8A6v9IloaKKFaU1UvnWQ6AIz?=
+ =?us-ascii?Q?rECaxd6cQEXs6eW3H9Lqpmm6eAzXb7VYoqF6ki851Bu+AVv4e9UdjeEA/Yh4?=
+ =?us-ascii?Q?+dv0Yws0pJInEiQpQhh7e9Z92gmyYAAacVfN6lvxDo/6BOXPApZR9p2A8rFQ?=
+ =?us-ascii?Q?XEey2goZtbK/STbha53VCyb2Z9DFeNNBXp23fKaivlZYzCuy1vfAiyFAEXyf?=
+ =?us-ascii?Q?PbSLAF0ojIlNXdPa90gwNXU6d/rD2yINqdDk595HWvV4bxGu45XOptdzRHK2?=
+ =?us-ascii?Q?c7I5xRW2PrjOdQCeLdmf7UNn8/P/MGNCM4Wo/Fpn3obRegPQYTAj9qz5u13w?=
+ =?us-ascii?Q?te6oHAresTgRJWIOqb1ODs2fPbJKmod60KUqZp9chEgG2pj0kaWo49THCqIM?=
+ =?us-ascii?Q?m8BMSvBHGBkMmxeWdOsWEhjdyxVWNr3JkPf3V3Gp0dDUcTlpXT1tFrXRxTam?=
+ =?us-ascii?Q?oFDk7+EU+QUtrwIPi2l2+NEZFg02gqBnyONDIJvyNPaErv7lo4h+oTL0VRPg?=
+ =?us-ascii?Q?ihMEodBKExXnu5iGL/VGxKBjxVueqNTffYeU3e5OMfZW/rojNr+vRIdzetZU?=
+ =?us-ascii?Q?urbmdDdjfrrE2BLDfAWGYCsjX6fJ/ZVUGyTrDIW7k9/HHHJ2W5YmBSnPDj9+?=
+ =?us-ascii?Q?7vb5CZMgQrK4u0KTQg2DkTMVuwZbNaYAohUGm+/7Y8HJ0DUcsRzh2ArDfLWz?=
+ =?us-ascii?Q?7eRkUMeH2bVr7U7rbqAOmFSQXlLmRBPvz98rMIE2iCDBhJRtIgs9GI1K+zmR?=
+ =?us-ascii?Q?VW1DHelylzjihLf/S2gLN401ZtRf6dulzJO6Gcx0Wa2bTiq5pDJDlYXH4aFX?=
+ =?us-ascii?Q?A3YA5dDzV98Pff/Chba2k8Oz2RH4032kNJRpjbW4LtHMH2ddykc2kxDecVTs?=
+ =?us-ascii?Q?vd7YsPmAVD80Rc9qTQJnSPfzZzQ11nDcmUiAsRtL7XdTiDaDfJpCq5675Aej?=
+ =?us-ascii?Q?hCuS045a7fUg61gwQjzxGJcskOJFNxPnnNQYT0pno8pZ/Dx/LmM9/1UMca2T?=
+ =?us-ascii?Q?RRdJJUQpduHFuKTEMc3LzjqgoZ9smT5emcChSESONiqBKhfjLcBC2PlhpsFM?=
+ =?us-ascii?Q?STeiVipS+AO4UInvPd1dvKZiFNKxHAXIt4po0gyjkHiRI+CMQhF4nqYk/678?=
+ =?us-ascii?Q?ZO64avSTwj9RFSS87xXdDEQCsbnAiO8MCBB8SxiKpmRNusS3QcCz3ZHdsSIk?=
+ =?us-ascii?Q?xA8CO2q/VrW4cuXe+vAhXlja6BavLjUDyBhm2urN+mGOoZTGJcGAPfXiMQwZ?=
+ =?us-ascii?Q?6OkODI0rTFp7QNJ7XhiDdcO4DWEe2D0omAwj4um3?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71a38861-f50d-4156-2ae3-08de3d50cf53
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2025 09:44:02.1080
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Iwy1HwQRLRZZvPngnb8MX2XOO3Utnef/LCTKG5OOoPl5bcfRMMFIi9nGdEqwNvvI+y+zwsrs1xnYYGgOjtAaTQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4782
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDA3NyBTYWx0ZWRfX5iNQhTakzPZK
+ 7pf8kLFNuxTaRy/X3QADA7D68L21gfqPLlp7i5Bt2iTEqX79SqZi8Qu6U5RNdqV0r9N5YiZHc18
+ QRWkET9LHKPR/iZ3FTfQi+iChLfEsQjU+gccipEcYGuBiZ6Sb68X5ERbhkzP+74Or2c7viHvEoY
+ ex+5rqspfCq6c6j5MUGIQ+YEyIgLNYGe4DSMrXiuMUM81rOy+F5sJNaO4t1MJtMGDt6j/DegwQd
+ ZAw5FU1RpZ4X8CB84Jp10JF6+sN29CYNrvuybzfV9SqR9QNP0BM9Mwootuxe5Ri/ViLbnkfs2xk
+ iPuIAXqcf7JH2Lk3tqCKh/Zv5CSnhnyaz0z7NtrZjSMvDDyFa+i0RhN8wWoviWwWhdtF8nCPLQR
+ +Xv6VF902Wz9NDTHGOL9g4ysMHl6Yw==
+X-Proofpoint-ORIG-GUID: wbpOSC6b-OflQLrjl9TP5Awd1Rf2ttpd
+X-Proofpoint-GUID: wbpOSC6b-OflQLrjl9TP5Awd1Rf2ttpd
+X-Authority-Analysis: v=2.4 cv=C+HkCAP+ c=1 sm=1 tr=0 ts=69427b64 cx=c_pps
+ a=h0MEFlbiS7SWjyAGc8mu+A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=t7CeM3EgAAAA:8 a=bsVlAXb_Xh1ewsIMwOsA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-17_01,2025-12-16_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 phishscore=0 impostorscore=0 priorityscore=1501
+ malwarescore=0 clxscore=1015 suspectscore=0 spamscore=0 adultscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512170077
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 09:42:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228016
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 09:44:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228017
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Similar to what native and staging is doing since:
-https://git.openembedded.org/openembedded-core/commit/meta/classes/native.bbclass?id=d6c7b9f4f0e61fa6546d3644e27abe3e96f597e2
-https://git.openembedded.org/openembedded-core/commit/meta/classes/staging.bbclass?id=1cf62882bbac543960e4815d117ffce0e53bda07
+When toggling ptest for DISTRO_FEATURES, the do_patch function
+gets rerun.
 
-Cross task outputs can call native dependencies and even when cross
-recipe output doesn't change it might produce different results when
-the called native dependency is changed, e.g. clang-cross-${TARGET_ARCH}
-contains symlink to clang binary from clang-native, but when clang-native
-outhash is changed, clang-cross-${TARGET_ARCH} will still be considered
-equivalent and target recipes aren't rebuilt with new clang binary, see
-work around in https://github.com/kraj/meta-clang/pull/1140 to make target
-recipes to depend directly not only on clang-cross-${TARGET_ARCH} but
-clang-native as well.
+The dependency chain is:
+do_patch -> do_qa_patch -> DISTRO_FEATURES{ptest}
 
-I have added a small testcase in meta-selftest which demostrates this issue.
-Not included in this change, but will send it if useful.
+Such rerun is not necessary. And it's kind of annoying because everything
+gets rebuilt, including cross toolchain and recipes not using ptest.
 
-openembedded-core $ ls -1 meta-selftest/recipes-devtools/hashequiv-test/
-print-datetime-link-cross.bb
-print-datetime-link-native.bb
-print-datetime-native.bb
-print-datetime-usecross.bb
-print-datetime-usenative.bb
+The ERROR_QA and WARN_QA should be enough to trigger the re-run
+if unimplemented-ptest is added to one of them.
 
-print-datetime-native provides script which prints defined PRINT_DATETIME variable.
-
-print-datetime-link-native and print-datetime-link-cross both provide a symlink to
-the script from print-datetime-native.
-
-print-datetime-usenative and print-datetime-usecross are target recipes using the
-native and cross versions of print-datetime-link-* recipe.
-
-  # clean build all is rebuilt:
-  $ bitbake -k print-datetime-usenative print-datetime-usecross
-  WARNING: print-datetime-native-1.0-r0 do_install: print-datetime-native current DATETIME in script is 2025-11-13_20_05
-  WARNING: print-datetime-link-native-1.0-r0 do_install: print-datetime-link-native current DATETIME in symlink is 2025-11-13_20_05
-  WARNING: print-datetime-link-cross-x86_64-1.0-r0 do_install: print-datetime-link-cross-x86_64 current DATETIME in symlink is 2025-11-13_20_05
-  WARNING: print-datetime-usenative-1.0-r0 do_install: print-datetime-usenative current DATETIME from print-datetime-link is 2025-11-13_20_05
-  WARNING: print-datetime-usecross-1.0-r0 do_install: print-datetime-usecross current DATETIME from print-datetime-link is 2025-11-13_20_05
-
-  # keep sstate-cache and hashserv.db:
-  # print-datetime-usenative is correctly rebuilt, because print-datetime-link-native has different hash (because print-datetime-native hash changed)
-  # print-datetime-usecross wasn't rebuilt, because print-datetime-link-cross-x86_64 doesn't include the changed hash of print-datetime-native
-  $ bitbake -k print-datetime-usenative print-datetime-usecross
-  WARNING: print-datetime-native-1.0-r0 do_install: print-datetime-native current DATETIME in script is 2025-11-13_20_07
-  WARNING: print-datetime-link-native-1.0-r0 do_install: print-datetime-link-native current DATETIME in symlink is 2025-11-13_20_07
-  WARNING: print-datetime-link-cross-x86_64-1.0-r0 do_install: print-datetime-link-cross-x86_64 current DATETIME in symlink is 2025-11-13_20_07
-  WARNING: print-datetime-usenative-1.0-r0 do_install: print-datetime-usenative current DATETIME from print-datetime-link is 2025-11-13_20_07
-
-It's because print-datetime-link-cross-x86_64 depsig doesn't include print-datetime-native signature:
-
-$ cat tmp/work/x86_64-linux/print-datetime-link-cross-x86_64/1.0/temp/depsig.do_populate_sysroot
-OEOuthashBasic
-18
-SSTATE_PKGSPEC=sstate:print-datetime-link-cross-x86_64:x86_64-oe-linux:1.0:r0:x86_64:14:
-task=populate_sysroot
-drwx                                                                                       .
-drwx                                                                                       ./recipe-sysroot-native
-drwx                                                                                       ./recipe-sysroot-native/sysroot-providers
--rw-                   32 19fbeb373f781c2504453c1ca04dab018a7bc8388c87f4bbc59589df31523d07 ./recipe-sysroot-native/sysroot-providers/print-datetime-link-cross-x86_64
-drwx                                                                                       ./recipe-sysroot-native/usr
-drwx                                                                                       ./recipe-sysroot-native/usr/bin
-drwx                                                                                       ./recipe-sysroot-native/usr/bin/x86_64-oe-linux
-lrwx                                                                                       ./recipe-sysroot-native/usr/bin/x86_64-oe-linux/print-datetime-link -> ../print-datetime
-
-While print-datetime-link-native doesn't have this issue, because print-datetime-native signature is there:
-
-$ cat tmp/work/x86_64-linux/print-datetime-link-native/1.0/temp/depsig.do_populate_sysroot
-OEOuthashBasic
-18
-print-datetime-native: 60f2734a63d708489570ca719413b4662f8368abc9f4760a279a0a5481e4a17b
-quilt-native: 65d78a7a5b5cbbf0969798efe558ca28e7ef058f4232fcff266912d16f67a8b8
-SSTATE_PKGSPEC=sstate:print-datetime-link-native:x86_64-linux:1.0:r0:x86_64:14:
-task=populate_sysroot
-drwx                                                                                       .
-drwx                                                                                       ./recipe-sysroot-native
-drwx                                                                                       ./recipe-sysroot-native/sysroot-providers
--rw-                   26 3d5458be834b2d0e4c65466b9b877d6028ae2210a56399284a23144818666f10 ./recipe-sysroot-native/sysroot-providers/print-datetime-link-native
-drwx                                                                                       ./recipe-sysroot-native/usr
-drwx                                                                                       ./recipe-sysroot-native/usr/bin
-lrwx                                                                                       ./recipe-sysroot-native/usr/bin/print-datetime-link -> print-datetime
-
-With the cross.bbclass fix the link-cross recipe has a checksum from native recipe as well:
-
-$ cat tmp/work/x86_64-linux/print-datetime-link-cross-x86_64/1.0/temp/depsig.do_populate_sysroot
-OEOuthashBasic
-18
-print-datetime-native: 9ceb6c27342eae6b8da86c84685af38fb8927ccc19979aae75b8b1e444b11c5c
-quilt-native: 65d78a7a5b5cbbf0969798efe558ca28e7ef058f4232fcff266912d16f67a8b8
-SSTATE_PKGSPEC=sstate:print-datetime-link-cross-x86_64:x86_64-oe-linux:1.0:r0:x86_64:14:
-task=populate_sysroot
-drwx                                                                                       .
-drwx                                                                                       ./recipe-sysroot-native
-drwx                                                                                       ./recipe-sysroot-native/sysroot-providers
--rw-                   32 19fbeb373f781c2504453c1ca04dab018a7bc8388c87f4bbc59589df31523d07 ./recipe-sysroot-native/sysroot-providers/print-datetime-link-cross-x86_64
-drwx                                                                                       ./recipe-sysroot-native/usr
-drwx                                                                                       ./recipe-sysroot-native/usr/bin
-drwx                                                                                       ./recipe-sysroot-native/usr/bin/x86_64-oe-linux
-lrwx                                                                                       ./recipe-sysroot-native/usr/bin/x86_64-oe-linux/print-datetime-link -> ../print-datetime
-
-And print-datetime-usecross is correctly rebuilt whenever print-datetime-native output is different.
-
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/cross.bbclass | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ meta/classes-global/insane.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
-index 9d951076a7..a292a98335 100644
---- a/meta/classes/cross.bbclass
-+++ b/meta/classes/cross.bbclass
-@@ -95,3 +95,39 @@ addtask addto_recipe_sysroot after do_populate_sysroot
- do_addto_recipe_sysroot[deptask] = "do_populate_sysroot"
+diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
+index fed8163c3e..3185209b7f 100644
+--- a/meta/classes-global/insane.bbclass
++++ b/meta/classes-global/insane.bbclass
+@@ -1345,6 +1345,7 @@ python do_qa_patch() {
  
- PATH:prepend = "${COREBASE}/scripts/cross-intercept:"
-+
-+#
-+# Cross task outputs can call native dependencies and even when cross
-+# recipe output doesn't change it might produce different results when
-+# the called native dependency is changed, e.g. clang-cross-${TARGET_ARCH}
-+# contains symlink to clang binary from clang-native, but when clang-native
-+# outhash is changed, clang-cross-${TARGET_ARCH} will still be considered
-+# equivalent and target recipes aren't rebuilt with new clang binary, see
-+# work around in https://github.com/kraj/meta-clang/pull/1140 to make target
-+# recipes to depend directly not only on clang-cross-${TARGET_ARCH} but
-+# clang-native as well.
-+#
-+# This can cause poor interactions with hash equivalence, since this recipes
-+# output-changing dependency is "hidden" and downstream task only see that this
-+# recipe has the same outhash and therefore is equivalent. This can result in
-+# different output in different cases.
-+#
-+# To resolve this, unhide the output-changing dependency by adding its unihash
-+# to this tasks outhash calculation. Unfortunately, don't know specifically
-+# know which dependencies are output-changing, so we have to add all of them.
-+#
-+python cross_add_do_populate_sysroot_deps () {
-+    current_task = "do_" + d.getVar("BB_CURRENTTASK")
-+    if current_task != "do_populate_sysroot":
-+        return
-+
-+    taskdepdata = d.getVar("BB_TASKDEPDATA", False)
-+    pn = d.getVar("PN")
-+    deps = {
-+        dep[0]:dep[6] for dep in taskdepdata.values() if
-+            dep[1] == current_task and dep[0] != pn
-+    }
-+
-+    d.setVar("HASHEQUIV_EXTRA_SIGDATA", "\n".join("%s: %s" % (k, deps[k]) for k in sorted(deps.keys())))
-+}
-+SSTATECREATEFUNCS += "cross_add_do_populate_sysroot_deps"
+     oe.qa.exit_if_errors(d)
+ }
++do_qa_patch[vardepsexclude] = "DISTRO_FEATURES"
+ 
+ python do_qa_configure() {
+     import subprocess
+-- 
+2.34.1
+
 
