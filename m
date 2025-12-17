@@ -2,168 +2,326 @@ Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFF58D65C6B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEDDD65C69
 	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 15:24:37 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17081.1765985070999984561
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17077.1765985067520457706
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 07:24:31 -0800
+ Wed, 17 Dec 2025 07:24:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=NnwlNaW/;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=TelZmmJV;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4446d33a3f=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BHDNgZ93275695;
-	Wed, 17 Dec 2025 15:24:29 GMT
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BH4KiQW3917019;
+	Wed, 17 Dec 2025 15:24:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=55b1FUEs+Dai53Zk0uAyd9++bj9HuEyH+WQZeSPSaG4=; b=NnwlNaW/JT/s
-	FpKLRR2a2hnwA6VIHlQfwlECg4L8e4uBtUKUDSyZCQ3D1wGYd5IhncR/lYJnhBxf
-	g2w4apS5ULaozqI8IpCAbiy/N4iscaLrbOqPDlhwYUKVHCXTDZ6M//rHrPiQGmhw
-	APETeevs27IxraLwj7vGjLpxZXsD22vU9iuBRxbDzUqxBzPxyoovbneZg3eXIFac
-	ff9oYK4x/MctIP0JpHLldC6b8eKv6QbMFRU4REM+JCSwljRFUrvSIgQXKN4myV2I
-	tbYebqe1jLEOP/BwQWjQ/yE0Y5JLz5xJpyCV5ywi3zfB1kVxzPnPFaSovEXb6aas
-	2mWgPM6fhg==
+	 bh=EEpHpPNnh61nq9z6/H6P90mk2QqJGENbKfGGEUWDBzU=; b=TelZmmJVO+EY
+	CmnGJsz7giMFDyjkRKFd4E35Aogm5P5qoWx8IwODDA0yILb4iqtSxWA6+BgsKXw8
+	heDIqZT2fztx3HxN4Rv9P/UAUy/5HkGBWTuRjGrNA9dqE+v8ZtV4BD5VPIz3nCcG
+	mmNWqWSS8oIMdkcY0PaX0p6ubylbFqiqXCSW19H5CatDjkXbsR24yOQDaS5Jab8R
+	apysYeJOq9XdF+bvGw+Q6lfo6kgMJDzMXgKaEcGrGftn/hbvb58BNrIMzYbaALHu
+	8rzfTRURn9B0vNCP6Oi1o9HIeVVBMy4qqbjI7C7+oW0kHer46hk0Yv6vCK3ab9WR
+	96Qp9tKq0g==
 Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b3k0brr82-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b3k68rr20-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 17 Dec 2025 15:24:28 +0000 (GMT)
+	Wed, 17 Dec 2025 15:24:25 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 17 Dec 2025 07:24:27 -0800
+ 15.1.2507.61; Wed, 17 Dec 2025 07:24:24 -0800
 Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 17 Dec 2025 07:24:26 -0800
+ 15.1.2507.61 via Frontend Transport; Wed, 17 Dec 2025 07:24:23 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
         <richard.purdie@linuxfoundation.org>
-Subject: [PATCH v6 5/8] debug_build.inc: override CARGO_BUILD_MODE and CARGO_BUILD_DIR for target
-Date: Wed, 17 Dec 2025 23:24:18 +0800
-Message-ID: <20251217152421.1181080-5-hongxu.jia@windriver.com>
+Subject: [PATCH v6 2/8] debug_build.inc: collect debug build tuning configuration
+Date: Wed, 17 Dec 2025 23:24:15 +0800
+Message-ID: <20251217152421.1181080-2-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251217152421.1181080-1-hongxu.jia@windriver.com>
 References: <20251217152421.1181080-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDEyMCBTYWx0ZWRfX7/KIkAjPk3dr
- JkBUR2F5WP42XVDJ2UFnR/gyNmBLjq9PfhvJm2qEvO/g0UGLLBiOqfjURJVkUuFLlVASbl7NSxE
- rJXUXaEfs/12y4oX07Ezgx06PDe7uVNNzD8wyPkys35oNYfKzdz7VfRwvMa4NXqUeg8SmpKlWAz
- jNTtS84G+ELIEWvcEdE3djdAVMMAMPBSdnxckdDQ4PCgBvYv1P5qQjcBcgiamtTheUiwwt3WX/H
- kgwxA9orTJH0e/fUEVkV+TTVAerMoOsIfiD+shTkYOtdaPgdOYvi0g4PKbQjLiU2y7DH24COrig
- 7G0BUivOUSPqte4Fu0bBC+V3hsDaSVZ9TqA26Tl0HaUaZG8kaNaO2BvXsVV3s+pbQNuHmI/y0Cp
- gqgwc2KvTZg0+4Ts5ExhL+C8SW9wAw==
-X-Proofpoint-ORIG-GUID: GfF3rvc9pwwRsLBa_GUEXaj0hezFRJfv
-X-Proofpoint-GUID: GfF3rvc9pwwRsLBa_GUEXaj0hezFRJfv
-X-Authority-Analysis: v=2.4 cv=C+HkCAP+ c=1 sm=1 tr=0 ts=6942cb2c cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDEyMCBTYWx0ZWRfXx+osgbR14BPs
+ 7DDgvAJKHZuCewU4DzbRW7wW4xVumPLH/ZbXAlGGYegTi1HZ5bJM4aL01DHNdTD2/CDp4IqQTZ8
+ kW2doAFEvmY2VXYrgFOBcJdXOYSayWPR7xi8suHlr9WrIwBT1MorB/GWUok7AT9RKuiddikyDR0
+ 5Cz357Rrd5hrMYCHmHwbWWCTVtScTuX+Nz9ASw5Y1x7sHeGOXszJl+d7i+E61ApO34UGEWrmqqm
+ 0d7nRcFSfPijsxGU1nBay9bBoVH5sm6kAOmrAu44V8QaBUYJDeId8RP7DrxnSRcKozOdY+hRz0R
+ yC7xqp32G1ac/NhgJn/RMfyaCGbzDp2tDtJYzbqQfyQ08V+WQ5+SwX/ocC2vnNZWUMdHMdfUBAD
+ oBb/AO/1Mb7aaGyG5Ajj2ePCEMWGGg==
+X-Proofpoint-ORIG-GUID: 9n0x7NttGVPzhA2qVSRCnJmNMqaw0VMi
+X-Proofpoint-GUID: 9n0x7NttGVPzhA2qVSRCnJmNMqaw0VMi
+X-Authority-Analysis: v=2.4 cv=EpLfbCcA c=1 sm=1 tr=0 ts=6942cb29 cx=c_pps
  a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=ag1SF4gXAAAA:8 a=t7CeM3EgAAAA:8
- a=Z1FrW6rxTDoSltceh7wA:9 a=Yupwre4RP9_Eg_Bd0iYG:22 a=FdTzh2GWekK77mhwV6Dw:22
+ a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=iGHA9ds3AAAA:8 a=3-RhneuVAAAA:8
+ a=t7CeM3EgAAAA:8 a=p_J065krOJSGb3ilSzMA:9 a=IDjme54_S0fX3SJZ:21
+ a=nM-MV4yxpKKO9kiQg6Ot:22 a=VLVLkjT_5ZicWzSuYqSo:22 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-17_02,2025-12-16_05,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 impostorscore=0 priorityscore=1501
- malwarescore=0 clxscore=1015 suspectscore=0 spamscore=0 adultscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512170120
+ priorityscore=1501 clxscore=1015 spamscore=0 phishscore=0 impostorscore=0
+ suspectscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512170120
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 15:24:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228060
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228056
 
-Rename BUILD_MODE and BUILD_DIR with CARGO prefix, then in debug_build.inc,
-override CARGO_BUILD_MODE and CARGO_BUILD_DIR for target when debug build is
-enabled (fragment core/yocto/debug-build)
+The modern compilers and code seem to require extra steps to avoid DEBUG errors,
+Move debug tuning configuration from recipes to an include file to address these
+errors.
 
-Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Drop `:remove' operation on variable, override variables directly
+
+Suggested-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes-recipe/cargo.bbclass                      | 8 ++++----
- meta/conf/distro/include/debug_build.inc               | 4 ++++
- meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.9.0.bb | 4 ++--
- meta/recipes-devtools/rust/libstd-rs_1.91.1.bb         | 4 ++--
- 4 files changed, 12 insertions(+), 8 deletions(-)
+ meta/conf/distro/include/debug_build.inc      | 37 +++++++++++++++++++
+ meta/recipes-connectivity/kea/kea_3.0.1.bb    | 10 -----
+ .../debugedit/debugedit_5.2.bb                |  2 -
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc  |  3 --
+ .../python/python3-lxml_6.0.2.bb              | 12 ------
+ meta/recipes-extended/bash/bash_5.3.bb        |  3 --
+ meta/recipes-extended/mdadm/mdadm_4.4.bb      |  2 -
+ .../jpeg/libjpeg-turbo_3.1.2.bb               |  3 --
+ .../vulkan-validation-layers_1.4.328.1.bb     |  2 -
+ meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb |  1 -
+ meta/recipes-kernel/perf/perf.bb              |  2 -
+ meta/recipes-sato/webkit/webkitgtk_2.50.0.bb  |  3 +-
+ meta/recipes-support/vim/vim_9.1.bb           |  2 +-
+ 13 files changed, 40 insertions(+), 42 deletions(-)
 
-diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/cargo.bbclass
-index 2dd28e95d3..eff28b323a 100644
---- a/meta/classes-recipe/cargo.bbclass
-+++ b/meta/classes-recipe/cargo.bbclass
-@@ -31,18 +31,18 @@ B = "${WORKDIR}/build"
- export RUST_BACKTRACE = "1"
- 
- RUSTFLAGS ??= ""
--BUILD_MODE = "${@['--release', ''][d.getVar('DEBUG_BUILD') == '1']}"
-+CARGO_BUILD_MODE ??= "--release"
- # --frozen flag will prevent network access (which is required since only
- # the do_fetch step is authorized to access network)
- # and will require an up to date Cargo.lock file.
- # This force the package being built to already ship a Cargo.lock, in the end
- # this is what we want, at least, for reproducibility of the build.
--CARGO_BUILD_FLAGS = "-v --frozen --target ${RUST_HOST_SYS} ${BUILD_MODE} --manifest-path=${CARGO_MANIFEST_PATH}"
-+CARGO_BUILD_FLAGS = "-v --frozen --target ${RUST_HOST_SYS} ${CARGO_BUILD_MODE} --manifest-path=${CARGO_MANIFEST_PATH}"
- 
- # This is based on the content of CARGO_BUILD_FLAGS and generally will need to
- # change if CARGO_BUILD_FLAGS changes.
--BUILD_DIR = "${@['release', 'debug'][d.getVar('DEBUG_BUILD') == '1']}"
--CARGO_TARGET_SUBDIR = "${RUST_HOST_SYS}/${BUILD_DIR}"
-+CARGO_BUILD_DIR ??= "release"
-+CARGO_TARGET_SUBDIR = "${RUST_HOST_SYS}/${CARGO_BUILD_DIR}"
- oe_cargo_build () {
- 	export RUSTFLAGS="${RUSTFLAGS}"
- 	bbnote "Using rust targets from ${RUST_TARGET_PATH}"
 diff --git a/meta/conf/distro/include/debug_build.inc b/meta/conf/distro/include/debug_build.inc
-index 2fa0d513de..28f6ac6f6b 100644
+index 9ae6be10c9..5562cdee89 100644
 --- a/meta/conf/distro/include/debug_build.inc
 +++ b/meta/conf/distro/include/debug_build.inc
-@@ -43,3 +43,7 @@ CXXFLAGS:append:pn-vulkan-validation-layers = " -DXXH_NO_INLINE_HINTS=1"
- 
- # For meson.bbclass
- MESON_BUILDTYPE:class-target ?= "debug"
+@@ -3,3 +3,40 @@ DEBUG_OPTIMIZATION ?= "-Og ${DEBUG_LEVELFLAG}"
+ SELECTED_OPTIMIZATION ?= "${DEBUG_OPTIMIZATION}"
+ # compiler flags for native/nativesdk
+ BUILD_OPTIMIZATION ?= "-Og -g"
 +
-+# For cargo.bbclass
-+CARGO_BUILD_MODE:class-target ?= ""
-+CARGO_BUILD_DIR:class-target ?= "debug"
-diff --git a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.9.0.bb b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.9.0.bb
-index 577acfdc86..9de4a07aeb 100644
---- a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.9.0.bb
-+++ b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.9.0.bb
-@@ -27,7 +27,7 @@ CARGO_INSTALL_LIBRARIES = "1"
- do_compile:prepend () {
- 	# rpm-sequoia.pc is generated in the source directory
- 	# but the target directory does not exist there.
--	mkdir -p ${S}/target/${BUILD_DIR}
-+	mkdir -p ${S}/target/${CARGO_BUILD_DIR}
++# The modern compilers and code seem to require extra steps to avoid DEBUG errors,
++# this file collects debug tuning configuration to address DEBUG errors.
++
++DEBUG_OPTIMIZATION:append:pn-perf = " -Wno-error=maybe-uninitialized"
++DEBUG_OPTIMIZATION:append:armv4:pn-libjpeg-turbo = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++DEBUG_OPTIMIZATION:append:armv5:pn-libjpeg-turbo = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++DEBUG_OPTIMIZATION:append:armv4:pn-bash = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++DEBUG_OPTIMIZATION:append:armv5:pn-bash = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++DEBUG_OPTIMIZATION:append:pn-mdadm = " -Wno-error"
++DEBUG_OPTIMIZATION:mips:pn-kea = "-O ${DEBUG_LEVELFLAG}"
++DEBUG_OPTIMIZATION:mipsel:pn-kea = "-O ${DEBUG_LEVELFLAG}"
++# {standard input}: Assembler messages:
++# {standard input}:1488805: Error: branch out of range
++DEBUG_OPTIMIZATION:mips:pn-python3-lxml = "-O ${DEBUG_LEVELFLAG}"
++DEBUG_OPTIMIZATION:mipsel:pn-python3-lxml = "-O ${DEBUG_LEVELFLAG}"
++# used to fix ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
++DEBUG_OPTIMIZATION:append:pn-gcc-sanitizers = " -Wno-error"
++
++BUILD_OPTIMIZATION:mips:pn-kea = "-O -g"
++BUILD_OPTIMIZATION:mipsel:pn-kea = "-O -g"
++# {standard input}: Assembler messages:
++# {standard input}:1488805: Error: branch out of range
++BUILD_OPTIMIZATION:mips:pn-python3-lxml = "-O -g"
++BUILD_OPTIMIZATION:mipsel:pn-python3-lxml = "-O -g"
++
++CPPFLAGS:append:arm:pn-lttng-ust = " -DUATOMIC_NO_LINK_ERROR"
++
++OECMAKE_WEBKIT_NO_INLINE_HINTS:pn-webkitgtk = "-DWEBKIT_NO_INLINE_HINTS=ON"
++
++EXTRA_OECONF:append:pn-debugedit = " --disable-inlined-xxhash"
++EXTRA_OECONF:append:pn-debugedit-native = " --disable-inlined-xxhash"
++EXTRA_OECONF:append:pn-nativesdk-debugedit = " --disable-inlined-xxhash"
++
++lcl_maybe_fortify:pn-vim = ""
++
++CXXFLAGS:append:pn-vulkan-validation-layers = " -DXXH_NO_INLINE_HINTS=1"
+diff --git a/meta/recipes-connectivity/kea/kea_3.0.1.bb b/meta/recipes-connectivity/kea/kea_3.0.1.bb
+index 70738783b2..9584d1dde9 100644
+--- a/meta/recipes-connectivity/kea/kea_3.0.1.bb
++++ b/meta/recipes-connectivity/kea/kea_3.0.1.bb
+@@ -36,16 +36,6 @@ INITSCRIPT_PARAMS = "defaults 30"
+ SYSTEMD_SERVICE:${PN} = "kea-dhcp4.service kea-dhcp6.service kea-dhcp-ddns.service"
+ SYSTEMD_AUTO_ENABLE = "disable"
  
- 	# From rpm-sequoia's README.md:
- 	#
-@@ -59,7 +59,7 @@ do_install:append () {
+-DEBUG_OPTIMIZATION:remove:mips = " -Og"
+-DEBUG_OPTIMIZATION:append:mips = " -O"
+-BUILD_OPTIMIZATION:remove:mips = " -Og"
+-BUILD_OPTIMIZATION:append:mips = " -O"
+-
+-DEBUG_OPTIMIZATION:remove:mipsel = " -Og"
+-DEBUG_OPTIMIZATION:append:mipsel = " -O"
+-BUILD_OPTIMIZATION:remove:mipsel = " -Og"
+-BUILD_OPTIMIZATION:append:mipsel = " -O"
+-
+ CXXFLAGS:remove = "-fvisibility-inlines-hidden"
  
- 	# rpm-sequoia does not install its pkgconfig file. Do it manually.
- 	mkdir -p ${D}${libdir}/pkgconfig
--	install -m644 ${S}/target/${BUILD_DIR}/rpm-sequoia.pc ${D}${libdir}/pkgconfig
-+	install -m644 ${S}/target/${CARGO_BUILD_DIR}/rpm-sequoia.pc ${D}${libdir}/pkgconfig
- }
+ do_configure:prepend() {
+diff --git a/meta/recipes-devtools/debugedit/debugedit_5.2.bb b/meta/recipes-devtools/debugedit/debugedit_5.2.bb
+index 76c54ba63d..4ac6cab559 100644
+--- a/meta/recipes-devtools/debugedit/debugedit_5.2.bb
++++ b/meta/recipes-devtools/debugedit/debugedit_5.2.bb
+@@ -22,8 +22,6 @@ inherit pkgconfig autotools multilib_script
  
- do_install_ptest:append () {
-diff --git a/meta/recipes-devtools/rust/libstd-rs_1.91.1.bb b/meta/recipes-devtools/rust/libstd-rs_1.91.1.bb
-index 8af93bec57..30875200e4 100644
---- a/meta/recipes-devtools/rust/libstd-rs_1.91.1.bb
-+++ b/meta/recipes-devtools/rust/libstd-rs_1.91.1.bb
-@@ -44,8 +44,8 @@ do_install () {
-     # With the incremental build support added in 1.24, the libstd deps directory also includes dependency
-     # files that get installed. Those are really only needed to incrementally rebuild the libstd library
-     # itself and don't need to be installed.
--    rm -f ${B}/target/${RUST_TARGET_SYS}/${BUILD_DIR}/deps/*.d
--    cp ${B}/target/${RUST_TARGET_SYS}/${BUILD_DIR}/deps/* ${D}${rustlibdir}
-+    rm -f ${B}/target/${RUST_TARGET_SYS}/${CARGO_BUILD_DIR}/deps/*.d
-+    cp ${B}/target/${RUST_TARGET_SYS}/${CARGO_BUILD_DIR}/deps/* ${D}${rustlibdir}
- }
+ RDEPENDS:${PN} += "bash elfutils-binutils"
  
+-EXTRA_OECONF = "${@oe.utils.vartrue('DEBUG_BUILD', '--disable-inlined-xxhash', '', d)}"
+-
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ MULTILIB_SCRIPTS = "${PN}:${bindir}/find-debuginfo"
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+index 6c81d30243..f4727ee6db 100644
+--- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
++++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+@@ -54,9 +54,6 @@ INHIBIT_DEFAULT_DEPS = "1"
+ ALLOW_EMPTY:${PN} = "1"
+ DEPENDS = "virtual/crypt gcc-runtime virtual/cross-cc"
+ 
+-# used to fix ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+-DEBUG_OPTIMIZATION:append = " -Wno-error"
+-
  BBCLASSEXTEND = "nativesdk"
+ 
+ PACKAGES = "${PN} ${PN}-dbg"
+diff --git a/meta/recipes-devtools/python/python3-lxml_6.0.2.bb b/meta/recipes-devtools/python/python3-lxml_6.0.2.bb
+index 876fda93b6..178908e3b2 100644
+--- a/meta/recipes-devtools/python/python3-lxml_6.0.2.bb
++++ b/meta/recipes-devtools/python/python3-lxml_6.0.2.bb
+@@ -23,18 +23,6 @@ SRC_URI[sha256sum] = "cd79f3367bd74b317dda655dc8fcfa304d9eb6e4fb06b7168c5cf27f96
+ SRC_URI += "${PYPI_SRC_URI}"
+ inherit pkgconfig pypi setuptools3
+ 
+-# {standard input}: Assembler messages:
+-# {standard input}:1488805: Error: branch out of range
+-DEBUG_OPTIMIZATION:remove:mips = " -Og"
+-DEBUG_OPTIMIZATION:append:mips = " -O"
+-BUILD_OPTIMIZATION:remove:mips = " -Og"
+-BUILD_OPTIMIZATION:append:mips = " -O"
+-
+-DEBUG_OPTIMIZATION:remove:mipsel = " -Og"
+-DEBUG_OPTIMIZATION:append:mipsel = " -O"
+-BUILD_OPTIMIZATION:remove:mipsel = " -Og"
+-BUILD_OPTIMIZATION:append:mipsel = " -O"
+-
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ RDEPENDS:${PN} += "libxml2 libxslt python3-compression"
+diff --git a/meta/recipes-extended/bash/bash_5.3.bb b/meta/recipes-extended/bash/bash_5.3.bb
+index b50a48d28c..74671f5a56 100644
+--- a/meta/recipes-extended/bash/bash_5.3.bb
++++ b/meta/recipes-extended/bash/bash_5.3.bb
+@@ -15,9 +15,6 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+ 
+ SRC_URI[tarball.sha256sum] = "0d5cd86965f869a26cf64f4b71be7b96f90a3ba8b3d74e27e8e9d9d5550f31ba"
+ 
+-DEBUG_OPTIMIZATION:append:armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+-DEBUG_OPTIMIZATION:append:armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+-
+ CFLAGS += "-std=gnu17"
+ # mkbuiltins.c is built with native toolchain and needs gnu17 as well:
+ # http://errors.yoctoproject.org/Errors/Details/853016/
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.4.bb b/meta/recipes-extended/mdadm/mdadm_4.4.bb
+index 26a60e4c1a..e81b8fdf3c 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.4.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.4.bb
+@@ -39,8 +39,6 @@ EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CWFLAGS="" CXFLAGS="${CFLAGS}" SYSTEMD_DIR=${sys
+                 BINDIR="${base_sbindir}" UDEVDIR="${nonarch_base_libdir}/udev" LDFLAGS="${LDFLAGS}" \
+                 SYSROOT="${STAGING_DIR_TARGET}" STRIP='
+ 
+-DEBUG_OPTIMIZATION:append = " -Wno-error"
+-
+ do_install() {
+         oe_runmake 'DESTDIR=${D}' install install-systemd
+         install -d ${D}/${sysconfdir}/
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb
+index d4877bb92b..bc9d803f6b 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb
+@@ -44,9 +44,6 @@ EXTRA_OECMAKE:append:class-target:powerpc = " ${@bb.utils.contains("TUNE_FEATURE
+ EXTRA_OECMAKE:append:class-target:powerpc64 = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
+ EXTRA_OECMAKE:append:class-target:powerpc64le = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
+ 
+-DEBUG_OPTIMIZATION:append:armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+-DEBUG_OPTIMIZATION:append:armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+-
+ # libjpeg-turbo-2.0.2/simd/mips/jsimd_dspr2.S
+ # <instantiation>:13:5: error: invalid token in expression
+ # .if $17 != 0
+diff --git a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.328.1.bb b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.328.1.bb
+index 76a87398c4..84d75b8f7f 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.328.1.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.328.1.bb
+@@ -26,8 +26,6 @@ EXTRA_OECMAKE = "\
+     -DSPIRV_HEADERS_INSTALL_DIR=${STAGING_EXECPREFIXDIR} \
+     "
+ 
+-CXXFLAGS:append = " ${@oe.utils.vartrue('DEBUG_BUILD', '-DXXH_NO_INLINE_HINTS=1', '', d)}"
+-
+ PACKAGECONFIG[x11] = "-DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_XCB_SUPPORT=ON, -DBUILD_WSI_XLIB_SUPPORT=OFF -DBUILD_WSI_XCB_SUPPORT=OFF, libxcb libx11 libxrandr"
+ PACKAGECONFIG[wayland] = "-DBUILD_WSI_WAYLAND_SUPPORT=ON, -DBUILD_WSI_WAYLAND_SUPPORT=OFF, wayland"
+ 
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb
+index 1a15c5b420..0d4c67f0fa 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb
+@@ -16,7 +16,6 @@ inherit autotools lib_package manpages python3native pkgconfig
+ include lttng-platforms.inc
+ 
+ EXTRA_OECONF = "--disable-numa"
+-CPPFLAGS:append:arm = "${@oe.utils.vartrue('DEBUG_BUILD', '-DUATOMIC_NO_LINK_ERROR', '', d)}"
+ 
+ DEPENDS = "liburcu util-linux"
+ RDEPENDS:${PN}-bin = "python3-core"
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index b69ba2ac12..3319ed5c78 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -422,8 +422,6 @@ FILES:${PN}-python = " \
+                        "
+ FILES:${PN}-perl = "${libexecdir}/perf-core/scripts/perl"
+ 
+-DEBUG_OPTIMIZATION:append = " -Wno-error=maybe-uninitialized"
+-
+ PACKAGESPLITFUNCS =+ "perf_fix_sources"
+ 
+ perf_fix_sources () {
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.50.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.50.0.bb
+index a8d0a094b3..b4173c08dd 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.50.0.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.50.0.bb
+@@ -86,11 +86,12 @@ PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,libmanette"
+ PACKAGECONFIG[sysprof-capture] = "-DUSE_SYSTEM_SYSPROF_CAPTURE=YES,-DUSE_SYSTEM_SYSPROF_CAPTURE=NO,sysprof"
+ PACKAGECONFIG[speech] = "-DENABLE_SPEECH_SYNTHESIS=ON,-DENABLE_SPEECH_SYNTHESIS=OFF,flite"
+ 
++OECMAKE_WEBKIT_NO_INLINE_HINTS ??= "-DWEBKIT_NO_INLINE_HINTS=OFF"
+ EXTRA_OECMAKE = " \
+                  -DPORT=GTK \
+                  ${@oe.utils.vartrue('GI_DATA_ENABLED', '-DENABLE_INTROSPECTION=ON', '-DENABLE_INTROSPECTION=OFF', d)} \
+                  ${@oe.utils.vartrue('GIDOCGEN_ENABLED', '-DENABLE_DOCUMENTATION=ON', '-DENABLE_DOCUMENTATION=OFF', d)} \
+-                 ${@oe.utils.vartrue('DEBUG_BUILD', '-DWEBKIT_NO_INLINE_HINTS=ON', '-DWEBKIT_NO_INLINE_HINTS=OFF', d)} \
++                 ${OECMAKE_WEBKIT_NO_INLINE_HINTS} \
+                  -DENABLE_MINIBROWSER=ON \
+                  -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
+                  -DUSE_GTK4=ON \
+diff --git a/meta/recipes-support/vim/vim_9.1.bb b/meta/recipes-support/vim/vim_9.1.bb
+index fee9f055e9..a24a863ba5 100644
+--- a/meta/recipes-support/vim/vim_9.1.bb
++++ b/meta/recipes-support/vim/vim_9.1.bb
+@@ -20,4 +20,4 @@ ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
+ # We override the default in security_flags.inc because vim (not vim-tiny!) will abort
+ # in many places for _FORTIFY_SOURCE=2.  Security flags become part of CC.
+ #
+-lcl_maybe_fortify = "${@oe.utils.conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=1',d)}"
++lcl_maybe_fortify = "-D_FORTIFY_SOURCE=1"
 -- 
 2.34.1
 
