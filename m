@@ -1,193 +1,93 @@
-Return-Path: <michael.opdenacker@rootcommit.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D268D6555F
-	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 12:17:26 +0000 (UTC)
-Received: from panther.cherry.relay.mailchannels.net (panther.cherry.relay.mailchannels.net [23.83.223.141])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13691.1765973842935197455
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C45A3D6555B
+	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 12:20:36 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13745.1765974031520758104
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 04:17:23 -0800
+ Wed, 17 Dec 2025 04:20:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@rootcommit.com header.s=hostingermail-a header.b=YwDDu9Bm;
- spf=pass (domain: rootcommit.com, ip: 23.83.223.141, mailfrom: michael.opdenacker@rootcommit.com)
-X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 39C4412186A
-	for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 12:17:22 +0000 (UTC)
-Received: from de-fra-smtpout7.hostinger.io (trex-green-3.trex.outbound.svc.cluster.local [100.108.222.12])
-	(Authenticated sender: hostingeremail)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 90AAA121916
-	for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 12:17:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
-	t=1765973841;
-	b=TpD/Wn/0uUzW1naMOoGMgZgc+UZHcxhLbXjcmHuN29k1RsQAOjiGRKOcc6wzCZEV5oT460
-	3azobMtiOdHkVYQwPPypPArfuZkHbZc0t1cyzHgAy9OwaLGZNm6Fr+sPOieNDljBj2WMaj
-	/AFSpnHBgcV5yA98JcQWjLO0tSAxeKhDkgv8CmY4zjKF9k/zJR2BZM/PnbVdH4Tz9peL23
-	Ns+TnFbYHsVor0V6XiFQJnJJQoj+37iMEvEbpDBlJvFt/acC9RYXsov9ma4eSXR3f3aMg6
-	j66QFuNeTQNKYbEvAMw65tEdSRQrxGXOX6CcYExrZpsyvcPaK+IGVm3Ityx+7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1765973841;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=D0NopQ5ntECTQB5+1paKBJrTMpVrOkDCoUgHTdDf4YU=;
-	b=gH+sVJFQW1s/CwuQIXRl9icsLsPioQnJV6NPcYBONZrUQ5MsVTXBQeUZnY9OjcxBdt7G7a
-	g2/uZgDjR0a1oVOJDxDCHqGmG16rW28sqqdVQZqCuNENjWfN74Cz0B88DWC9NcoBK2LlIl
-	8r1aE5yHCO9gP+wMQuItYE3d/7lw6OG7Tag333+f6zunRGQj0v/MCgOQ1OC18AGgpB4bXe
-	5eNPmq8hrvpPJv30T62Rjl2LedXXT08dNnsMtPDxBHUhDad0DrTF2FCADDIUkv14zDdYAJ
-	g23xm03qFDS+DavV6uEkaPZqnuyXLDnjmLEWPOqkIVWCq8QoNwDNh75dcGU+sw==
-ARC-Authentication-Results: i=1;
-	rspamd-6ccd5b4cc5-r8ggk;
-	auth=pass smtp.auth=hostingeremail
- smtp.mailfrom=michael.opdenacker@rootcommit.com
-X-Sender-Id: hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: 
- hostingeremail|x-authuser|michael.opdenacker@rootcommit.com
-X-MailChannels-Auth-Id: hostingeremail
-X-Well-Made-Harmony: 0efffb3e26e38401_1765973842124_2304864311
-X-MC-Loop-Signature: 1765973842124:2035830486
-X-MC-Ingress-Time: 1765973842123
-Received: from de-fra-smtpout7.hostinger.io (de-fra-smtpout7.hostinger.io
- [148.222.55.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.108.222.12 (trex/7.1.3);
-	Wed, 17 Dec 2025 12:17:22 +0000
-Received: from localhost.localdomain (unknown [IPv6:2001:861:4450:d360:8e2b:fce5:ec42:f176])
-	(Authenticated sender: michael.opdenacker@rootcommit.com)
-	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4dWXqM59x6z46kv;
-	Wed, 17 Dec 2025 12:17:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rootcommit.com;
-	s=hostingermail-a; t=1765973839;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D0NopQ5ntECTQB5+1paKBJrTMpVrOkDCoUgHTdDf4YU=;
-	b=YwDDu9BmlEXNADyuDzpmytHCf2FrKiJldJ58KCPZS+kwut14vSChdNQDsiC8XHBbZZu4I8
-	sqwuL1sG0bUJEwZwWGSGkEscNmZ2jwYEiU+43tsMkcXCPk/t89mlia+EYhBG4d0LgKB6Ip
-	1AnLevVW/0vfFMQR/2oKHIAMAxufHa0VRV7fU78msCg8h4S6CDxG13h4GHdief4hRqu5IK
-	MNiAIDu6zdjRhI4v5c8lrL1cDjFrvc6MTgcEsa/3JmrwgQGN/Nm5LvRBNr7XGzuCGbx4RF
-	7OC8I5whNfO1DT6dF0UrwhkW/tGEjlFZjguB8D8YTwWydwzmzYl2O5Fb1iFLcA==
-From: michael.opdenacker@rootcommit.com
-To: openembedded-core@lists.openembedded.org
-Cc: Michael Opdenacker <michael.opdenacker@rootcommit.com>
-Subject: [PATCH 5/5] maintainers.inc: update e-mail address
-Message-ID: <20251217121705.391288-6-michael.opdenacker@rootcommit.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251217121705.391288-1-michael.opdenacker@rootcommit.com>
-References: <20251217121705.391288-1-michael.opdenacker@rootcommit.com>
-MIME-Version: 1.0
-Date: Wed, 17 Dec 2025 12:17:19 +0000 (UTC)
-X-CM-Analysis: v=2.4 cv=etGNzZpX c=1 sm=1 tr=0 ts=69429f4f a=JY/OoRUBqPoXaiLUhbiEKg==:617 a=xqWC_Br6kY4A:10 a=d70CFdQeAAAA:8 a=t7CeM3EgAAAA:8 a=7CQSdrXTAAAA:8 a=sbFYo3YMAAAA:8 a=iGHA9ds3AAAA:8 a=pGLkceISAAAA:8 a=ag1SF4gXAAAA:8 a=20IyuqIVtD7Q7tfe13cA:9 a=NcxpMcIZDGm-g932nG_k:22 a=FdTzh2GWekK77mhwV6Dw:22 a=a-qgeE7W1pNrGK8U0ZQC:22 a=eQGrxjqmTwMhw5bz568X:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=Yupwre4RP9_Eg_Bd0iYG:22
-X-CM-Envelope: MS4xfPZwjjFCMqMDT4NEA7My85XTWaX4JP4AR9Kuu5LSXyHCrnzPCLDllji5cC7QLJ5ugG6pUgb26Csvm/ZaV7z0C79hWlg9bLhUFzPEQS66JbUGdUCyvfrf kAr3B7KjVabvpX3tf8wNtCrEsqz1s3SHudbjQ9wR4oRX/XoKsa13XCmCNvNMPoPBu5iLDmi2BViO4FcdE27UoP0dVojRc1pX7Hkz2rig7sphcvrLH6VBBxa9 u9tL5XAwyFX0P/suhKpGqodsAy8YVvh1BvB4bNZ9caMdsnFM98lsziASADNxvcqNu35du2pMdn/Rh81imS7Y+Vr8JibSc7DGhyjFYZl5Pth3S2cf6RnQQV// aWwDtOnW
-X-AuthUser: michael.opdenacker@rootcommit.com
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=WMWgsHVI;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 915674E41C5A;
+	Wed, 17 Dec 2025 12:20:29 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 66FB46072F;
+	Wed, 17 Dec 2025 12:20:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6FC9411952A69;
+	Wed, 17 Dec 2025 13:20:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1765974028; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=GZH1lGJjW/MV3emJ78lJ9X8b3n0hrb+zlHfR1fwPcNA=;
+	b=WMWgsHVI9wGSqgBUxTfYhnperWaHglsfc07qRxRr7HjEQAfzNJVDdYSKDQJBSVjzMa/wRR
+	XnfbojVXQoC5mOZnraHt4hEYAdFXW00VOVIP8uH++NfdPdtuYbRoEP2IE9zzHwPhENZA05
+	s2tynMLjrnOsGKEDhGQ37WQLNLuRN4G6kuD1Kp9kSMAKDPG1dRCEWKPjmtTkj3GR3Ze8yW
+	GTSNQtV1NjFuAs4a05xtCRM2FCoXtlBVINekkNUh4LW1GeU0O5TAaxBs2RDxUk0lGsK/mm
+	hSJDneRF7/kSz52o2DvSpJwNhXLGyh2Au6h85xAsYUSPmVufceVTw9B3dqXkeQ==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 17 Dec 2025 13:20:26 +0100
+Message-Id: <DF0HJNZXHLW4.2ZJNCZUGHYZ9F@bootlin.com>
+Subject: Re: [OE-core] [PATCH] patchtest: reject Upstream-Status after
+ scissors
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>, "Steve Sakoman"
+ <steve@sakoman.com>, "Yoann Congal" <yoann.congal@smile.fr>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: =?utf-8?q?=D0=9B=D1=83=D0=BA=D0=B0_=D0=9A=D1=80=D1=81=D1=82=D0=B8=D1=9B?= <lukakrstic031@gmail.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20251215204507.1675-1-lukakrstic031@gmail.com>
+ <DF0B0V3GOP92.D0RPEBV393KB@bootlin.com>
+ <CABTLy3aZichqpsbZn3m84i-6b7_FdDgoCSkig3=SYQYWLvA66Q@mail.gmail.com>
+In-Reply-To: <CABTLy3aZichqpsbZn3m84i-6b7_FdDgoCSkig3=SYQYWLvA66Q@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 12:17:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228030
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 12:20:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228032
 
-From: Michael Opdenacker <michael.opdenacker@rootcommit.com>
+On Wed Dec 17, 2025 at 8:25 AM CET, =D0=9B=D1=83=D0=BA=D0=B0 =D0=9A=D1=80=
+=D1=81=D1=82=D0=B8=D1=9B wrote:
+> Hi Mathieu,
+>
+> Thanks for the quick feedback.
+> I am based on the scarthgap branch.
+> I guess that is not good. Can you tell me what should be the base?
+>
 
-Signed-off-by: Michael Opdenacker <michael.opdenacker@rootcommit.com>
----
- meta/conf/distro/include/maintainers.inc | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+Hi Luka,
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index 8971b9b552..447faf8fb3 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -31,13 +31,13 @@ RECIPE_MAINTAINER:pn-acl =3D "Chen Qi <Qi.Chen@windri=
-ver.com>"
- RECIPE_MAINTAINER:pn-acpica =3D "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-acpid =3D "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-adwaita-icon-theme =3D "Ross Burton <ross.burton@ar=
-m.com>"
--RECIPE_MAINTAINER:pn-alsa-lib =3D "Michael Opdenacker <michael@opdenacke=
-r.org>"
--RECIPE_MAINTAINER:pn-alsa-plugins =3D "Michael Opdenacker <michael@opden=
-acker.org>"
--RECIPE_MAINTAINER:pn-alsa-state =3D "Michael Opdenacker <michael@opdenac=
-ker.org>"
--RECIPE_MAINTAINER:pn-alsa-tools =3D "Michael Opdenacker <michael@opdenac=
-ker.org>"
--RECIPE_MAINTAINER:pn-alsa-topology-conf =3D "Michael Opdenacker <michael=
-@opdenacker.org>"
--RECIPE_MAINTAINER:pn-alsa-ucm-conf =3D "Michael Opdenacker <michael@opde=
-nacker.org>"
--RECIPE_MAINTAINER:pn-alsa-utils =3D "Michael Opdenacker <michael@opdenac=
-ker.org>"
-+RECIPE_MAINTAINER:pn-alsa-lib =3D "Michael Opdenacker <michael.opdenacke=
-r@rootcommit.com>"
-+RECIPE_MAINTAINER:pn-alsa-plugins =3D "Michael Opdenacker <michael.opden=
-acker@rootcommit.com>"
-+RECIPE_MAINTAINER:pn-alsa-state =3D "Michael Opdenacker <michael.opdenac=
-ker@rootcommit.com>"
-+RECIPE_MAINTAINER:pn-alsa-tools =3D "Michael Opdenacker <michael.opdenac=
-ker@rootcommit.com>"
-+RECIPE_MAINTAINER:pn-alsa-topology-conf =3D "Michael Opdenacker <michael=
-.opdenacker@rootcommit.com>"
-+RECIPE_MAINTAINER:pn-alsa-ucm-conf =3D "Michael Opdenacker <michael.opde=
-nacker@rootcommit.com>"
-+RECIPE_MAINTAINER:pn-alsa-utils =3D "Michael Opdenacker <michael.opdenac=
-ker@rootcommit.com>"
- RECIPE_MAINTAINER:pn-appstream =3D "Markus Volk <f_l_k@t-online.de>"
- RECIPE_MAINTAINER:pn-apr =3D "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER:pn-apr-util =3D "Hongxu Jia <hongxu.jia@windriver.com>=
-"
-@@ -182,7 +182,7 @@ RECIPE_MAINTAINER:pn-ffmpeg =3D "Unassigned <unassign=
-ed@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-fastfloat =3D "Markus Volk <f_l_k@t-online.de>"
- RECIPE_MAINTAINER:pn-file =3D "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-findutils =3D "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER:pn-flac =3D "Michael Opdenacker <michael@opdenacker.or=
-g>"
-+RECIPE_MAINTAINER:pn-flac =3D "Michael Opdenacker <michael.opdenacker@ro=
-otcommit.com>"
- RECIPE_MAINTAINER:pn-flex =3D "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-fmt =3D "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER:pn-font-alias =3D "Unassigned <unassigned@yoctoproject=
-.org>"
-@@ -311,7 +311,7 @@ RECIPE_MAINTAINER:pn-keymaps =3D "Unassigned <unassig=
-ned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-kmod =3D "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-kmscube =3D "Unassigned <unassigned@yoctoproject.or=
-g>"
- RECIPE_MAINTAINER:pn-l3afpad =3D "Unassigned <unassigned@yoctoproject.or=
-g>"
--RECIPE_MAINTAINER:pn-lame =3D "Michael Opdenacker <michael@opdenacker.or=
-g>"
-+RECIPE_MAINTAINER:pn-lame =3D "Michael Opdenacker <michael.opdenacker@ro=
-otcommit.com>"
- RECIPE_MAINTAINER:pn-ldconfig-native =3D "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-less =3D "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-libacpi =3D "Unassigned <unassigned@yoctoproject.or=
-g>"
-@@ -797,8 +797,8 @@ RECIPE_MAINTAINER:pn-shutdown-desktop =3D "Unassigned=
- <unassigned@yoctoproject.org
- RECIPE_MAINTAINER:pn-signing-keys =3D "Richard Purdie <richard.purdie@li=
-nuxfoundation.org>"
- RECIPE_MAINTAINER:pn-slang =3D "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-socat =3D "Hongxu Jia <hongxu.jia@windriver.com>"
--RECIPE_MAINTAINER:pn-speex =3D "Michael Opdenacker <michael@opdenacker.o=
-rg>"
--RECIPE_MAINTAINER:pn-speexdsp =3D "Michael Opdenacker <michael@opdenacke=
-r.org>"
-+RECIPE_MAINTAINER:pn-speex =3D "Michael Opdenacker <michael.opdenacker@r=
-ootcommit.com>"
-+RECIPE_MAINTAINER:pn-speexdsp =3D "Michael Opdenacker <michael.opdenacke=
-r@rootcommit.com>"
- RECIPE_MAINTAINER:pn-spirv-headers =3D "Jose Quaresma <quaresma.jose@gma=
-il.com>"
- RECIPE_MAINTAINER:pn-spirv-llvm-translator =3D "Khem Raj <raj.khem@gmail=
-.com>"
- RECIPE_MAINTAINER:pn-spirv-tools =3D "Jose Quaresma <quaresma.jose@gmail=
-.com>"
+So I believe you wanted to get this patch merged in the scarthgap
+branch, which raises two points:
+- any change you want to contribute in a stable branch must have been
+  first accepted in the master branch, except if it does not make sense
+  to merge it in master.
+- patches targeting a stable branch must include the branch name in the
+  mail prefix.
+
+More details can be found here:
+https://docs.yoctoproject.org/dev/contributor-guide/submit-changes.html#sub=
+mitting-changes-to-stable-release-branches
+
+So given the content of your patch, I believe this should be first
+merged in master.
+
+Also, backport in stable branches should be reserved to bug or security
+fixes. I'm not involved in this decision, but I'm not fully convinced
+this patch meets the requirements.
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
