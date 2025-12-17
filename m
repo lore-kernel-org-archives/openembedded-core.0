@@ -2,64 +2,65 @@ Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A14EBD65C66
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93EDED65C62
 	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 15:24:37 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17079.1765985067904822336
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17083.1765985073711266449
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 07:24:28 -0800
+ Wed, 17 Dec 2025 07:24:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=jVuGddbr;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=MFGEiUAk;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4446d33a3f=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BH4KiQX3917019;
-	Wed, 17 Dec 2025 15:24:25 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BHCuSkr574399;
+	Wed, 17 Dec 2025 15:24:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=uR7Zm8m+re9eTFkpGE2KddjE+kj2DupGor+3h0DEAXk=; b=jVuGddbrfCVy
-	57zDj15JhnP+oNw7BX8efYtYM4Vvv8Dlw4VARql9rlX2pX1KaNy6nzcxfeSHB7vm
-	Z+KAVxdg0tXuOJjUTysLpD6yjyD0KNXJLtSGbu2KKOlClUjO9RytVkTCMOxkIgap
-	dsU7TMU8uKDXaoTbrlMVncXQvDJe/cJQBmihi3+P9rKvFE7i8PsgDQEELlO6lWwK
-	cE1H6vaKjlrJck71W+kiMhcx13pUBqyHG4+mOFj/ebONb/G2WA3fI5dxHKR63bxC
-	lgUhvXeIEnLO/6hECQZlOAtL4CTR702h9ewodGmLTjhf0j/jU7InBGoTgMwFxFGC
-	6uli6xhnJQ==
+	 bh=ve0OoTlKVsX9P4qwLJsyxgdZ9kNEiOeKEgyzTxrw8xY=; b=MFGEiUAkWBLg
+	fjls1B0sTEixs9DwpP9QNUDgkwPL3HAMT0s0LFCSf9EcMk116WtUeKv09gREuoVy
+	BanuH4G2KZPkfnYFXOA2B+qe0LJe7xB4faXJWidZUFiXEG1757WwLu2S7kgvh1vF
+	vELyvG9dndp57w3kju4LfdxZ0mqSuRthk2HPhPdt+C/xGsDjjjiF6LpnJKX7+tTZ
+	3OV/tqRjbQpzN/tAn9HmOS/Bu/ym4GzPCX8Hl2YjwhNEbTUcr6AJKnsMupKNDlB4
+	BgY84yuZwZORvfu4gLbIwe2EJLMksxeDidQnSmp/u7Do0pesaLkIbF1yxRujsqkf
+	eVK0RMaHng==
 Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b3k68rr20-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b3k68rr29-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 17 Dec 2025 15:24:25 +0000 (GMT)
+	Wed, 17 Dec 2025 15:24:32 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 17 Dec 2025 07:24:25 -0800
+ 15.1.2507.61; Wed, 17 Dec 2025 07:24:30 -0800
 Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 17 Dec 2025 07:24:24 -0800
+ 15.1.2507.61 via Frontend Transport; Wed, 17 Dec 2025 07:24:30 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
         <richard.purdie@linuxfoundation.org>
-Subject: [PATCH v6 3/8] {cross,native}.bbclass: drop DEBUG_BUILD
-Date: Wed, 17 Dec 2025 23:24:16 +0800
-Message-ID: <20251217152421.1181080-3-hongxu.jia@windriver.com>
+Subject: [PATCH v6 8/8] Clean up compiler optimization variable DEBUG_OPTIMIZATION
+Date: Wed, 17 Dec 2025 23:24:21 +0800
+Message-ID: <20251217152421.1181080-8-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251217152421.1181080-1-hongxu.jia@windriver.com>
 References: <20251217152421.1181080-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDEyMCBTYWx0ZWRfX6w3j+k9+kTFy
- ljixQcWkr/sJ/VySzy3q2koVkUeAMGIw93LU+3KQq8/+3EHWK1zYMDaGfXWazxVclvSwkZTWuY0
- 7kywouZ/elVE/m+YhIHtZYehHcbZvoEeTQ5ATCk/zIzpFEsJFH7aMV6aVo1pO3+1TmUoBgeYTsj
- EPw7Wkv7ZY818K7KHUYZvSFZE01p9NvZhnWp2beqZW8VpV81f7A+BV1U+wV2zmlIiq1tLR2r0OX
- LAXM7WoJLWs9VtECgNAxiUG91hjwhKqPBi+E6R2awe8plfd6Fg6oYaU4+93MYOhLX6Ar+NMxRqg
- cqAcdBUV2D/LZgSUjQTB4h7jS0XO68v0p2ZSpCfYGELvhErv0pf7d48J7ingH9rBBBMZLd4C6Sm
- m6O4UZvPRnRzdAtMI4GC4z7FzMtapA==
-X-Proofpoint-ORIG-GUID: igAtOUoQpUkaC04qrtmL6zQnT4oRqPZO
-X-Proofpoint-GUID: igAtOUoQpUkaC04qrtmL6zQnT4oRqPZO
-X-Authority-Analysis: v=2.4 cv=EpLfbCcA c=1 sm=1 tr=0 ts=6942cb29 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDEyMCBTYWx0ZWRfX5WdCK4r4twGk
+ 9HvUHSv13yJqUYd+CgWHCAhkCxmCP1pg4NT85Op4lf1t5GNDNZ7YXN3jnpacaq0jyzQd1w2+c1D
+ SfeG6OVLEjX6Ju6uXLu1r6wLj2Mn7f980xDWwheKT/3D5XeXZfYNtBZPp6dpKmjHHWblS1xIFJd
+ W/QlUi1IBI4exXoYJBSajfJadgiDpntKGGNyZ8+Gyy6CN3d3i8JiI5Greelblu73J+vukGaUlNi
+ PsvsiYoG8oaxUI9m575rVH+XyIUzafU9P2nEfaQiyMEahz01Q2aMLr+paAdqoYFWaB4q8xe7wy1
+ tazVeW6ZTF4ImBE+xDW8PXMnaUrhtvk3HEgwFEi+rq015YfjCZXf+iLIsUmbNEhJ9yFuLPBX4Kj
+ lZF6Ee05KWCcuCPYG33rDP2S1dr2OA==
+X-Proofpoint-ORIG-GUID: fODrKM4SqfBaJXvfkKedQDqHhj8e-Oa4
+X-Proofpoint-GUID: fODrKM4SqfBaJXvfkKedQDqHhj8e-Oa4
+X-Authority-Analysis: v=2.4 cv=EpLfbCcA c=1 sm=1 tr=0 ts=6942cb30 cx=c_pps
  a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=ag1SF4gXAAAA:8 a=t7CeM3EgAAAA:8
- a=zWkU3xHhtq9XyjW21gUA:9 a=Yupwre4RP9_Eg_Bd0iYG:22 a=FdTzh2GWekK77mhwV6Dw:22
+ a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=69wJf7TsAAAA:8 a=t7CeM3EgAAAA:8
+ a=N3d6yfmxjZLdeZyX-EkA:9 a=STXwoKBC1RUA:10 a=Fg1AiH1G6rFz08G2ETeA:22
+ a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-17_02,2025-12-16_05,2025-10-01_01
@@ -72,49 +73,107 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 15:24:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228057
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228062
 
-In most cases you want to debug target binaries, or native, or cross
-but it would be unusual to want to do all at the same time.
+Remove DEBUG_OPTIMIZATION, set "-Og ${DEBUG_LEVELFLAG}" to
+SELECTED_OPTIMIZATION when debug build is enabled (fragment
+core/yocto/debug-build)
 
-Drop DEBUG_BUILD, and set INHIBIT_SYSROOT_STRIP ??= "" by default,
-user could use ?= to override in local.conf if needed
+Use SELECTED_OPTIMIZATION to instead of DEBUG_OPTIMIZATION
+for debug tuning configuration
 
-Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes-recipe/cross.bbclass  | 3 +--
- meta/classes-recipe/native.bbclass | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ meta/conf/distro/include/debug_build.inc   | 31 +++++++++++-----------
+ meta/conf/documentation.conf               |  3 +--
+ meta/conf/fragments/yocto/debug-build.conf |  2 +-
+ 3 files changed, 17 insertions(+), 19 deletions(-)
 
-diff --git a/meta/classes-recipe/cross.bbclass b/meta/classes-recipe/cross.bbclass
-index c3eeade67b..574ce6988d 100644
---- a/meta/classes-recipe/cross.bbclass
-+++ b/meta/classes-recipe/cross.bbclass
-@@ -23,8 +23,7 @@ HOST_CC_ARCH = "${BUILD_CC_ARCH}"
- HOST_LD_ARCH = "${BUILD_LD_ARCH}"
- HOST_AS_ARCH = "${BUILD_AS_ARCH}"
+diff --git a/meta/conf/distro/include/debug_build.inc b/meta/conf/distro/include/debug_build.inc
+index aadc87e5f5..a9e9b0f439 100644
+--- a/meta/conf/distro/include/debug_build.inc
++++ b/meta/conf/distro/include/debug_build.inc
+@@ -1,31 +1,30 @@
+ # Override SELECTED_OPTIMIZATION and BUILD_OPTIMIZATION when fragment 'core/yocto/debug-build' is enabled.
+-DEBUG_OPTIMIZATION ?= "-Og ${DEBUG_LEVELFLAG}"
+-SELECTED_OPTIMIZATION ?= "${DEBUG_OPTIMIZATION}"
++SELECTED_OPTIMIZATION ?= "-Og ${DEBUG_LEVELFLAG}"
+ # compiler flags for native/nativesdk
+ BUILD_OPTIMIZATION ?= "-Og -g"
  
--# No strip sysroot when DEBUG_BUILD is enabled
--INHIBIT_SYSROOT_STRIP ?= "${@oe.utils.vartrue('DEBUG_BUILD', '1', '', d)}"
-+INHIBIT_SYSROOT_STRIP ??= ""
+ # The modern compilers and code seem to require extra steps to avoid DEBUG errors,
+ # this file collects debug tuning configuration to address DEBUG errors.
  
- export lt_cv_sys_lib_dlsearch_path_spec = "${libdir} ${base_libdir} /lib /lib64 /usr/lib /usr/lib64"
+-DEBUG_OPTIMIZATION:append:pn-perf = " -Wno-error=maybe-uninitialized"
+-DEBUG_OPTIMIZATION:append:armv4:pn-libjpeg-turbo = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+-DEBUG_OPTIMIZATION:append:armv5:pn-libjpeg-turbo = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+-DEBUG_OPTIMIZATION:append:armv4:pn-bash = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+-DEBUG_OPTIMIZATION:append:armv5:pn-bash = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+-DEBUG_OPTIMIZATION:append:pn-mdadm = " -Wno-error"
+-DEBUG_OPTIMIZATION:mips:pn-kea = "-O ${DEBUG_LEVELFLAG}"
+-DEBUG_OPTIMIZATION:mipsel:pn-kea = "-O ${DEBUG_LEVELFLAG}"
++SELECTED_OPTIMIZATION:append:pn-perf = " -Wno-error=maybe-uninitialized"
++SELECTED_OPTIMIZATION:append:armv4:pn-libjpeg-turbo = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++SELECTED_OPTIMIZATION:append:armv5:pn-libjpeg-turbo = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++SELECTED_OPTIMIZATION:append:armv4:pn-bash = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++SELECTED_OPTIMIZATION:append:armv5:pn-bash = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++SELECTED_OPTIMIZATION:append:pn-mdadm = " -Wno-error"
++SELECTED_OPTIMIZATION:mips:pn-kea = "-O ${DEBUG_LEVELFLAG}"
++SELECTED_OPTIMIZATION:mipsel:pn-kea = "-O ${DEBUG_LEVELFLAG}"
+ # {standard input}: Assembler messages:
+ # {standard input}:1488805: Error: branch out of range
+-DEBUG_OPTIMIZATION:mips:pn-python3-lxml = "-O ${DEBUG_LEVELFLAG}"
+-DEBUG_OPTIMIZATION:mipsel:pn-python3-lxml = "-O ${DEBUG_LEVELFLAG}"
++SELECTED_OPTIMIZATION:mips:pn-python3-lxml = "-O ${DEBUG_LEVELFLAG}"
++SELECTED_OPTIMIZATION:mipsel:pn-python3-lxml = "-O ${DEBUG_LEVELFLAG}"
+ # used to fix ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+-DEBUG_OPTIMIZATION:append:pn-gcc-sanitizers = " -Wno-error"
++SELECTED_OPTIMIZATION:append:pn-gcc-sanitizers = " -Wno-error"
+ # Per https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg03873.html
+ # upstream states qemu doesn't work without optimization
+-DEBUG_OPTIMIZATION:pn-qemu = "-O2 ${DEBUG_LEVELFLAG}"
+-DEBUG_OPTIMIZATION:pn-qemu-native = "-O2 ${DEBUG_LEVELFLAG}"
+-DEBUG_OPTIMIZATION:pn-nativesdk-qemu = "-O2 ${DEBUG_LEVELFLAG}"
++SELECTED_OPTIMIZATION:pn-qemu = "-O2 ${DEBUG_LEVELFLAG}"
++SELECTED_OPTIMIZATION:pn-qemu-native = "-O2 ${DEBUG_LEVELFLAG}"
++SELECTED_OPTIMIZATION:pn-nativesdk-qemu = "-O2 ${DEBUG_LEVELFLAG}"
  
-diff --git a/meta/classes-recipe/native.bbclass b/meta/classes-recipe/native.bbclass
-index 7d1fe343fa..b3411d20ca 100644
---- a/meta/classes-recipe/native.bbclass
-+++ b/meta/classes-recipe/native.bbclass
-@@ -118,8 +118,7 @@ PATH:prepend = "${COREBASE}/scripts/native-intercept:"
- # reused if we manipulate the paths.
- SSTATE_SCAN_CMD ?= "${SSTATE_SCAN_CMD_NATIVE}"
+ BUILD_OPTIMIZATION:mips:pn-kea = "-O -g"
+ BUILD_OPTIMIZATION:mipsel:pn-kea = "-O -g"
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 91912a288e..fd318b95c9 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -129,7 +129,6 @@ CVE_CHECK_LAYER_INCLUDELIST[doc] = "Defines which layers to include during cve-c
+ D[doc] = "The destination directory."
+ DATE[doc] = "The date the build was started using YMD format."
+ DATETIME[doc] = "The date and time the build was started."
+-DEBUG_OPTIMIZATION[doc] = "The options to pass in TARGET_CFLAGS and CFLAGS when compiling a system for debugging. This variable defaults to '-Og ${DEBUG_LEVELFLAG}'."
+ DEFAULT_PREFERENCE[doc] = "Specifies a weak bias for recipe selection priority."
+ DEPENDS[doc] = "Lists a recipe's build-time dependencies (i.e. other recipe files)."
+ DEPLOY_DIR[doc] = "Points to the general area that the OpenEmbedded build system uses to place images, packages, SDKs and other output files that are ready to be used outside of the build system."
+@@ -368,7 +367,7 @@ SDK_OUTPUT[doc] = "The location used by the OpenEmbedded build system when creat
+ SDKIMAGE_FEATURES[doc] = "Equivalent to IMAGE_FEATURES. However, this variable applies to the SDK generated from an image using the command 'bitbake -c populate_sdk imagename'."
+ SDKMACHINE[doc] = "Specifies the architecture (i.e. i686 or x86_64) for which to build SDK and ADT items."
+ SECTION[doc] = "The section in which packages should be categorized. Package management utilities can make use of this variable."
+-SELECTED_OPTIMIZATION[doc] = "The variable takes the value of '-O2 ${DEBUG_LEVELFLAG}' less fragment 'core/yocto/debug-build' is enabled. In this case, the value of DEBUG_OPTIMIZATION is used."
++SELECTED_OPTIMIZATION[doc] = "The variable takes the value of '-O2 ${DEBUG_LEVELFLAG}' less fragment 'core/yocto/debug-build' is enabled. In this case, the value of '-Og ${DEBUG_LEVELFLAG}' is used."
+ SERIAL_CONSOLES[doc] = "Defines the serial consoles (TTYs) to enable using getty."
+ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS[doc] = "A list of recipe dependencies that should not be used to determine signatures of tasks from one recipe when they depend on tasks from another recipe."
+ SIGGEN_EXCLUDERECIPES_ABISAFE[doc] = "A list of recipes that are completely stable and will never change."
+diff --git a/meta/conf/fragments/yocto/debug-build.conf b/meta/conf/fragments/yocto/debug-build.conf
+index 5bdc1366b4..dbd7bf114f 100644
+--- a/meta/conf/fragments/yocto/debug-build.conf
++++ b/meta/conf/fragments/yocto/debug-build.conf
+@@ -2,7 +2,7 @@ BB_CONF_FRAGMENT_SUMMARY = "Specifies to build recipes with debugging informatio
+ This influences the value of the SELECTED_OPTIMIZATION variable."
+ BB_CONF_FRAGMENT_DESCRIPTION = "Enables full debug and backtrace capabilities for all programs \
+ and libraries in the image, by modifying the SELECTED_OPTIMIZATION variable, \
+-setting it to "DEBUG_OPTIMIZATION"."
++setting it to '-Og ${DEBUG_LEVELFLAG}'."
  
--# No strip sysroot when DEBUG_BUILD is enabled
--INHIBIT_SYSROOT_STRIP ?= "${@oe.utils.vartrue('DEBUG_BUILD', '1', '', d)}"
-+INHIBIT_SYSROOT_STRIP ??= ""
- 
- python native_virtclass_handler () {
-     import re
+ # Allow other layers to add their own debug build configurations
+ include_all conf/distro/include/debug_build.inc
 -- 
 2.34.1
 
