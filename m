@@ -1,292 +1,316 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70515D66BA5
-	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 20:43:19 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.16])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25320.1766004192262214364
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A763ED66BB2
+	for <webhook@archiver.kernel.org>; Wed, 17 Dec 2025 21:31:39 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.26345.1766007093520398305
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 12:43:12 -0800
+ Wed, 17 Dec 2025 13:31:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=gf9nIRJ6;
- spf=pass (domain: axis.com, ip: 52.101.69.16, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cVcCMvdhqXve7VGOvTTocHcE0CCdxYIW7yGXiCRzXy2jymJUAtyCuANzDAQlPyDyGYfoxvLaGdY1DEK4ps25buj++O5Wo4x26wQ9bsg6r7vNomld/NkM13hCIm5zM3gVe7f4PaMWwXlhGblC9dGsrF+q7YwmEsKqAxdCUJWPbqggX6LbXs2Hlui5K4KruAD+r2bjNa9e4VGgtIE57Wz43P8kZwwACdz+j3IaXa2JsUdiE8jG0nKaeV0PZ6288p7sR3I9cij1BkRnMY3j6lu+7mRqBvJCM/2JA/Bao6fmJFINUxl+QD8w9tXXEoSS6HKU4bGMYL3svEnH7KCyZj6J7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7/36AtP5KGV+Fd/0RjHhdOwSLZRaI4SLkGmMcJNhwDU=;
- b=GLpcaLb9Ye/A0DncKOEW5IOXQOVm+pYsu/GHvRqxIDPmUT8IYM5cQzx7c0fiBsvNrCGv9GSNe/xq5ek6iuS0fJKokRE6CVkI0QQRyuueYZNK28A0vMErZe3NApRjYtk2WwG/I5bczPYpMBAq1XGgI0m1F95g2kMgWmlcD9W9EUQfzp/XSK28jJ2uvOM0WdSuBZXDSHjK22LZnfDrvJ7h2pib4ZNN+NGtbvcbOcJbtw4OvRtZFwNl3cVqlWTRnhMnHpr+w392wxWraCQE+HIjJfN2tet3HkDttsXKd/PJ3KwGjmT+95d/S6wo2oR981F2UvDcsA7SuzdEGnGRZK0c2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7/36AtP5KGV+Fd/0RjHhdOwSLZRaI4SLkGmMcJNhwDU=;
- b=gf9nIRJ6eNBm38N0UOS9+B4+8ktfX1pRAewrmBPszq9F/IT3XOSu6Zlck/dp8qW34gfbDMfz8oIZxY/yEHxcvdDeHbs4jsSGTR+gdkfx+gJzcIcPTH+TQZ4kYmAUMKqQaAOjTl7kBEvqWCkPOvoi4tN33963kJRnP2BKuQBPFws=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by AM9PR02MB7026.eurprd02.prod.outlook.com (2603:10a6:20b:269::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
- 2025 20:43:08 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9%7]) with mapi id 15.20.9434.001; Wed, 17 Dec 2025
- 20:43:08 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"hongxu.jia@eng.windriver.com" <hongxu.jia@eng.windriver.com>,
-	"randy.macleod@windriver.com" <randy.macleod@windriver.com>,
-	"raj.khem@gmail.com" <raj.khem@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
-Subject: RE: [OE-core] [PATCH v5 1/5] distro/include: Add debug_build.inc when
- DEBUG_BUILD is enabled
-Thread-Topic: [OE-core] [PATCH v5 1/5] distro/include: Add debug_build.inc
- when DEBUG_BUILD is enabled
-Thread-Index: AQHcObrtJYgahsnaFU65jenDesm7SbUjAWOAgAOyb/A=
-Date: Wed, 17 Dec 2025 20:43:08 +0000
-Message-ID: 
- <DB5PR02MB10213A73EE1295C0D5021E911EFABA@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20251010075258.2161972-1-hongxu.jia@windriver.com>
- <9dc9c4ff830b37a20b16fd36e2cc723f2cd04c44.camel@linuxfoundation.org>
-In-Reply-To: 
- <9dc9c4ff830b37a20b16fd36e2cc723f2cd04c44.camel@linuxfoundation.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|AM9PR02MB7026:EE_
-x-ms-office365-filtering-correlation-id: f29ca9e5-cbc5-4b5e-9577-08de3dace324
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?SmVWdlgxV1NIb0tEMTBpaUYxeWVuVXh1ZVVndzZ1SVFxUmw3endpUHNTdEZD?=
- =?utf-8?B?K0JEU25WSjhKOHAxT3FnaUFsbk1kRU1DUlhJbndGdFRvb05WaEtydUhLR2hO?=
- =?utf-8?B?L0tuYnpaRFUrTk9NVzVCaWZkYXJTWllESGR6RHlqcW9tVWN0alp6Y0xzbHBa?=
- =?utf-8?B?aFNheUJLSUF0VTdkSW1XQnZMRHhTRVNJaG5Pb0w5SjdqaEF2ZTQyME1ZWndr?=
- =?utf-8?B?M0F3bnZQR3lDQStaajFwRjhMVmZZeUpFZWtWWlk0ajFMcHIyRkZua2xyNElK?=
- =?utf-8?B?YlJIRkwyWUs5bUpHNGdrWmpEZWJrWVlja2NMSXN1SXFEQnR5L2toWFJYcWEw?=
- =?utf-8?B?TG1uODRjTGhwRUhwZjdZYkdKL0NDTVVGejFnOFg0enN0TXJSYWsxWVVwYkpB?=
- =?utf-8?B?dHlsYjhxRHkwU2IyK2YyNUJGRUNaNUdVUlBROFluSTA1SjJoSy9YQmRnY24w?=
- =?utf-8?B?UHErRC91YVBHZjN3bFMyT3hFWlEzdWhldVplVmtmN2hxcFBYZHZZbVlFZXdB?=
- =?utf-8?B?cDV1V1c3c3JEUHlRM1IyMHdmRWpOZjJEbU5IYWMrSnZ0aGFQclVyaGN0cFJR?=
- =?utf-8?B?VFlwbmFZWm4xK3FiUTZ0M1VqbXdVaXpFUWZ5ZG1VdWpZVmNLS3NmZ2J3NzM4?=
- =?utf-8?B?enZpVTJpaE5zVm1OK3ViTm9hL2NhbG1VRDBXNWRLTmphbnJ4VFFyNjFDdHFV?=
- =?utf-8?B?OHVCTlROTWdJVVdmanRHTTNvY2NJUFFlaHBRdk02T0VqdVdNUGkvR2VjV1J6?=
- =?utf-8?B?dWRRUGk0TGw5QWZnRVVhVm10UzZjVWxQcWtjZGU0WFdWZHNnT1ZMRG13WVps?=
- =?utf-8?B?SitOdDY0NUNCZk5PYWlXR2lyTDZoTzI4MFp6MEZjeUNVblBLVG91K201NUs3?=
- =?utf-8?B?UFNvam5PVHViNEo0SFpSYms1RnZyUTNzc2JnaVo5RDBwZk1qYjBub3ZRN3Rp?=
- =?utf-8?B?WVpPUUJ4Sm11K2hkTWViWkwxaXBnaUE5SUU1YjhzdkJodGlpUGZ2SFVBMVVM?=
- =?utf-8?B?Vk9YZ2JCd1R4aDRlcTZTbXpKUElMWTRXVDRmWVFVek9QWE5seWdWbUl5Kzh0?=
- =?utf-8?B?ZEFyam0xN05LWWg3VGczWndvTUVqbUthQnE4VVJDM3dyY3JMWFN4TG1rZEtn?=
- =?utf-8?B?cjFFK2ZPSGY2TXFSWEVCRXh3VFJhbFJDMkliRm83SEVNSjRMUnc2cFR1MmY1?=
- =?utf-8?B?dVZwQWhrYkdtdFJ0UGtHUlBJbG5ZRzVVcm1LVDdkQWw1Z0xPazhqQmQ5OVhm?=
- =?utf-8?B?ZGVCVVZub1B1TStlZ3JvdTdpSGpFSUZTeTZaMkU2TExXUkc1ODUrYmRzbXRh?=
- =?utf-8?B?b0ZDTzhFeWMzNTNtOUU3bWNHV0ZzNWhwbFdqeFpoL3R6RmhTTXVSaU5HKzN5?=
- =?utf-8?B?MmJmQk8yanJ6YTIzMVZQL3E1OVZmY25INER6TFpzWEZvNzVRWW51TUdNRXlB?=
- =?utf-8?B?MzJVNjBESEljZ0tneklVYTNSSHRnTXFPcEhQYzRHWkJkNmN1K2NLdkV6RUsv?=
- =?utf-8?B?ZlU5S1lad2k4U1o4WHNtc092ZXBVbmQrTUJlcDcxZXNrUUJZaTRjMUY0djhS?=
- =?utf-8?B?T01NNTBtZWtHZEREQXoyS01tUk9HclgyZ0pzVUgrWGdDcHM3amZKczhCU2Ft?=
- =?utf-8?B?a0dpNGlIT1pMWlVQdGRyOFc5U3pQV1Z6Ymc1aXdPcE5jUU1OWFlqN01udTN4?=
- =?utf-8?B?STBaRE9WcTRpcUFJbDNYMWZkV01OaGltdzliV3VIUHFsTE9jbWlhMTVLcUxn?=
- =?utf-8?B?Rm1OWEMyemxsZFpLdDdRbmphUlU5TUVRV2xqTG1YMkMzdnFxY0JMb2pzZnJ3?=
- =?utf-8?B?MERMOVZtL0YrWllYU1prcE0ya0c5MGptZzhQM21kcUdNUHI3QjJwd3pIOHZF?=
- =?utf-8?B?bDRzdHRSak9tVHdEbkNHWHRKbU1LaUdScm4zaWdEZnJPUTJqQkg5dDhnay95?=
- =?utf-8?B?UDcxQk1XQnVoczIrVndGVEtCMnlDZVFHOVFrY2I1TzZyajQ0QWZrRnE5ME9X?=
- =?utf-8?B?T1JPQk9xVkpLT3VUallxVFkwV2xYd0doMTZzczM5MXF2QlFyV0U1Z1hZaW93?=
- =?utf-8?Q?gSwFH8?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?b1NBRjZZTlRXcUU4MmVpdmtLUHB1a1EyNVI2a0l2cncxZEl5RVRrYkFYV1Y4?=
- =?utf-8?B?TW9TVHhUS0IyTTBNbkwrREZESllpbHduWStURkhQQnJPRWQxQmREc0NwVFZJ?=
- =?utf-8?B?d2RLQkZBZkZWMklkcUkxeS8xYjFJSUpyZEdQL1FKWHBtaE9VdjE3RFRCcjBz?=
- =?utf-8?B?L05MdUprekREQXJJVXZ5WnlkeU1tREx4TVMxaEdRQmRSWkpVQkUzY0czREUx?=
- =?utf-8?B?ZGdZaFZ3UGtneHRPUlJ1bERTSUw3Vzh6aDFHa2MraGk0S3ZlV2dlUklLelds?=
- =?utf-8?B?UmIzUURmQkhVMDBrR0JNb2QyZ1krSnVrTE9sTC90RVJTWGRscEpaZExLV2dp?=
- =?utf-8?B?NDJXTXN4NTVmVUxueHpRbVJ0R2xqNVJ0ZnFXMnlNNUxTMzZJbU5jK0ZBUU5K?=
- =?utf-8?B?RkRxajZGYTRSaWR1L0p2NFA4Ukl6MEYvZmQwdDhxcktPWWNWZ2JWMWZUbTVQ?=
- =?utf-8?B?eUlIUzBWTjAyK3pHdjBxRTc4MzNkUkdvd0NaV1hNQUZQWmVocUVILysrRGxN?=
- =?utf-8?B?ZjNMNzNzTWJSMEZWM1ZucmRpZElYaUVSc1JNQnRVMUV3aFNWcmZ0UDkrRjR1?=
- =?utf-8?B?L3pTOUNjZlZVL1pNSXFaRUdldEZLZHd3WjloTWdMYThtRElHRlRGakEwSnB0?=
- =?utf-8?B?a2VManhaaHBlbS8yT1hvRjFzeTdnU3htNHVGQmNSKy93aTJyQ25QRjVLMk53?=
- =?utf-8?B?eFgvSHE0cE82Nmh1RDhRUU1rRVZHam9TMEpTcVZHb0JQdVVGWHloaitBSml5?=
- =?utf-8?B?VlBnaUliTHVoK0NHK3hkYTFGTm94N0VRQk12SWpxaHVCMGk4VU9Md20vTml6?=
- =?utf-8?B?MWpmMEtwT0Q2S2g5QnVmWUhzL1pPMDVyTmRlUkw1VjhqWjRCWGxDUUZpVVdh?=
- =?utf-8?B?cFcxVjJTeDB4am41ZFpUdWNpMTBLK0JQUEFiTldmZFRIMFRUZ2ZaRWN4OXBS?=
- =?utf-8?B?bHpTS3pOSjl4c0FsMElDOFY2MkpTRmk2dllTOUNLSkxNNHFkOStiWGxoczB0?=
- =?utf-8?B?VnVEMi9kOHRjT1M5WiszRzR2dldnNy83UytmbUdJOUVSOUpNeHVEWU4za0Ex?=
- =?utf-8?B?dkdpWldiV2p0VU1UcVBpcWZWNER3cVhLaGM1UEczN3RML0VvS3VwRjBzOHVC?=
- =?utf-8?B?enNuM0JoOVdHTWhuNUczMEd5enV4bytHT0RwTkNLMlhIUFBKR1QxRUl0VVQr?=
- =?utf-8?B?L1JpTm5Mek9DV0oxWGZ3bW1IZDNxU2RRdUlMeTExQWdkeC9wVUxtcE9jVzBT?=
- =?utf-8?B?ZjM5VEhxL2ZZdDdYZ2I2czhoM3hqL1l0MXFxb3VrbExZZzYvNlMvcW9PVElv?=
- =?utf-8?B?cWlwN3VFNUkwL2Q3eld6ZlJma3p0YjJnTmk0am91UDVhVlFSNEllWGd6akl5?=
- =?utf-8?B?Y2YyUktuOUxiRENvaUlMU2szcUg4MVNMbnV5MmNhZDNmQjNXendwTGZGbXBh?=
- =?utf-8?B?M3dmc3FvY09RZzJaUjcyUkFpdVB2bUlJWVdkWjI1Wk9GTUVwM3gzN3k4cHRD?=
- =?utf-8?B?aUkvaGl2YVVYQVh3RlBkLzE5RTVlUkVQd0JNdU5DNk9TQmhrcUUvalVna1Ja?=
- =?utf-8?B?Ymdqck5DK1haUHJKYjJVc1BpWTRpSUVqSkM3T1Y4YTFDcHg4RXh5a1lwL01w?=
- =?utf-8?B?YlphQ29NbWFhdUx5SE4vbittRjdhd0dNcnFPL0dONGZqaGpWVW1nekg2M1hz?=
- =?utf-8?B?M01HcTVqTDlYQStoRDBJUVVnbjhKUGVPUjZrQndabDZib012VnA5SU1NaXhE?=
- =?utf-8?B?akVNc05NcGlZMTlWMUwvUVlHYTNaalZzQkN5TTZLMVZFTVppSXdUb3YxZ1l6?=
- =?utf-8?B?cjFwNkZTVjUzRUhSaXlNZVg1RExPOVY5L0U2TXZZTTM4S3ZkWk15b0tWeXJS?=
- =?utf-8?B?TXlvTXhHemJnK3k2SG9wUkFxQU5MZ3pOTzZQZ0lIanN6VWoxak5jZ25UbTJF?=
- =?utf-8?B?alc4TGhaT3lqSTBUOFdIZEQxUzdTSVR4aHQ0dENCMTF6RVdiUDc5ZzVTTW54?=
- =?utf-8?B?N21sNW9jbUlXZnhZbzByMGYzRVQxSVB0ZHllQlZmKzFDSWZ5K1pVa0ZTVHp2?=
- =?utf-8?B?dUc0dS8zUnE3YXZIM2d2SlZKYlBUNGFpTEUzdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SdbJZ/l6;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-42fbc3056afso2988635f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 13:31:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766007092; x=1766611892; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MkjHC8OHOSqZqgX8sNh2XGvCBvCon3pw9WkxEIUhjVQ=;
+        b=SdbJZ/l6Jk8t9bTyVQS8idsOdGZGDwtfeg3CCVAsJ1Dt17ZAw7OFdvWMxoSsryzjDY
+         KeyqrgU7IfZGOY7o2LkJs0SSLGyJWROxrE6G4eseTDb/kuGuVFWgIA39Zad/Qkx3BaIX
+         4EZBKVIS00Jma7NnNGLL565ohscBEs+S2BX/BV5ghnfbC+/2ltKQlfuMDpGC8/GTkvGa
+         8futLAbqY+PU9Jkp394aNElr5B/AaUPxfvBqQjDaXHPDAhW/020tQJ4DzEwaP/qx9XYn
+         OVigyDRP4l4YyvJC1A+3E2c7/bokxjEi41wjSRBaMdzIylJktKxMM7VTaJduAk38GBEt
+         6ARQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766007092; x=1766611892;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MkjHC8OHOSqZqgX8sNh2XGvCBvCon3pw9WkxEIUhjVQ=;
+        b=dGZouloH+GFkqAyCFuvKCg75oJVDS6PPl3JT10O86A2tXeiX0AzfqNhrVfpm0ilzTV
+         NRzXD1GTJXBx+f+AwicrzONbzcvWh/HVzr9FDhR5luGKGfcHfbZWGTAEbkkUo8UmMmew
+         vs1T9AUHWLoQfgepFMgEOtDwsYkLh19WhDVc6Yd6tZ/saU2RCCjU6RdW27hNHKMlCd43
+         KseiIK43I0sxq4A5vx4ORW80GL/7RdsGFS7rkrvTjySjtYKdw/lxhx5DoLiqgSUlomNE
+         GtAm3rC6B77mC5koJNJe8aQIX9y0KHExXMy9Ag/Q42uj3ksgXcKM4yIsTQ5dNHEfiVvU
+         1srQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUcM8dUax0i5EaMjGNnw0KMCOXnIyLZryAkPP3a7sUMi4ZeoXIt7IqNGE0hse8OaiND8JuvL3TMx1NJWQYHWWEqTw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz74F3KI+7Gi0I8l022fi7ZuwnZIyF+tjUpux6GK0iUnjAJJBbE
+	Qgkmm/P/Bc+IrCIIMGXjBCCqLfBYw+4ISzhNlrnbMlmR+heOj1iNmxIx
+X-Gm-Gg: AY/fxX4bFUiqXCA2Fhdz7sa/Zl41S5FQs5sw99s64yFxOgpVPOCvRHPo6qeyduxIFt+
+	LMoP2lWeOfK+0rqRMm2iSjlTv4W8lbCx6giX4gK2DAKJS6tbEyeIHzFlC7rUF70D/uvZaDEIO33
+	zs//t0F+u/qgUmqBo0WveXuHNc1esphrC8Sm30u8JoB6fYkeOGW6YxWX+pRk1AsDDeK7Zo9an83
+	WvrlJICo2eQlVvVUeeFQ/AL31+1FrbCb6bAYdLrnQU7xzDYFQIyAyFw75sugd5BmxcbSq/L5Fun
+	G/y1Xjw7b37Lv0w3uU+U2oFhDCFYc34/8zGu6CUvu8Xug3hX80FgXH5G8DawFoeZvyIb01+I+66
+	vvD/zE/T1tzIKhoAVnCjv3UYczcv5hRjKi8Cy/l5C/gICBj0qdc0oN8vTArsYHslHjs63A0/zoU
+	X1EQYT+gjTUQUlpm/pQ6bSLqU5X+3QN2KrRoEiGsBypNG52i5AMwtzsR8J4VxOJYg9LLjST4E=
+X-Google-Smtp-Source: AGHT+IHCIZ0bNRJJlX+TUEtNUVtoQkCh4qFfmEleeBHEgh1+rTMtHn7eAiSURlqKgMHMRneSkPTA1g==
+X-Received: by 2002:a5d:5f94:0:b0:430:f58d:40cf with SMTP id ffacd0b85a97d-430f58d437amr15549981f8f.16.1766007091469;
+        Wed, 17 Dec 2025 13:31:31 -0800 (PST)
+Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432449ae0ffsm1015211f8f.39.2025.12.17.13.31.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Dec 2025 13:31:30 -0800 (PST)
+Message-ID: <7a13d7376a83bb7deb6374124bc42669d86803fc.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH v2] fitimage: Add support for
+ UBOOT_MKIMAGE_EXTRA_OPTS
+From: adrian.freihofer@gmail.com
+To: Randy MacLeod <randy.macleod@windriver.com>, kavinaya@qti.qualcomm.com, 
+	openembedded-core@lists.openembedded.org
+Cc: reatmon@ti.com, benjamin.missey@non.se.com
+Date: Wed, 17 Dec 2025 22:31:30 +0100
+In-Reply-To: <57dd38bf-653d-4b74-8de4-d05f4d2b9797@windriver.com>
+References: <20251210110443.3230272-1-kavinaya@qti.qualcomm.com>
+	 <57dd38bf-653d-4b74-8de4-d05f4d2b9797@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f29ca9e5-cbc5-4b5e-9577-08de3dace324
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2025 20:43:08.7591
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UXXflPi5ZasQgE1yzaose6tdSNxaDpNHGlC6yyxbLbZjXg97OBuLGSwx6ASxh6ZJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR02MB7026
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 20:43:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228076
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 21:31:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228077
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDE1IGRlY2VtYmVy
-IDIwMjUgMTM6MDENCj4gVG86IGhvbmd4dS5qaWFAZW5nLndpbmRyaXZlci5jb207IFBldGVyIEtq
-ZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgcmFuZHkubWFjbGVvZEB3
-aW5kcml2ZXIuY29tOyByYWoua2hlbUBnbWFpbC5jb207IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmc7IG1hdGhpZXUuZHVib2lzLWJyaWFuZEBib290bGluLmNvbQ0KPiBT
-dWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2NSAxLzVdIGRpc3Ryby9pbmNsdWRlOiBBZGQg
-ZGVidWdfYnVpbGQuaW5jIHdoZW4gREVCVUdfQlVJTEQgaXMgZW5hYmxlZA0KPiANCj4gT24gRnJp
-LCAyMDI1LTEwLTEwIGF0IDE1OjUyICswODAwLCBob25neHUgdmlhIGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmcgd3JvdGU6DQo+ID4gSW4gYml0YmFrZS5jb25mLCB1c2UgPz89IHRvIHNldCAqX09QVElN
-SVpBVElPTiwgYWRkIGEgbmV3IGluY2x1ZGUNCj4gPiBmaWxlIGRlYnVnX2J1aWxkLmluYyB0byB1
-c2UgPz0gdG8gb3ZlcnJpZGUgKl9PUFRJTUlaQVRJT04gd2hlbg0KPiA+IERFQlVHX0JVSUxEIGlz
-IGVuYWJsZWQNCj4gPg0KPiA+IFdoZW4gREVCVUdfQlVJTEQgaXMgZW5hYmxlZDoNCj4gPiAtIERl
-ZmVyIGluaGVyaXQgYmJsY2FzcyBkZWJ1Z19idWlsZCwgd2hpbGUgc2V0dGluZyBERUJVR19CVUlM
-RCA9ICIxIiBpbg0KPiA+IMKgIGxvY2FsLmNvbmYsIHRoZSBkZWJ1ZyBidWlsZCBpcyBlbmFibGVk
-IGdsb2JhbGx5LiBGb3IgdGhlIHJlY2lwZSAoc3VjaA0KPiA+IMKgIGFzIHFlbXUpIHdoaWNoIGRv
-ZXNuJ3Qgd29yayB3aXRob3V0IG9wdGltaXphdGlvbiwgc2V0IERFQlVHX0JVSUxEID0gIjAiDQo+
-ID4gwqAgdG8gZGlzYWJsZSBpdCBmb3IgYSBnaXZlbiByZWNpcGUNCj4gPg0KPiA+IC0gVXNlIGlu
-Y2x1ZGVfYWxsIHRvIGFsbG93IG90aGVyIGxheWVycyB0byBhZGQgdGhlaXIgb3duIGRlYnVnIGJ1
-aWxkDQo+ID4gwqAgY29uZmlndXJhdGlvbnMNCj4gPg0KPiA+IFN1Z2dlc3RlZC1ieTogUGV0ZXIg
-S2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+ID4gU2lnbmVkLW9m
-Zi1ieTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPg0KPiA+IC0tLQ0KPiA+
-IMKgbWV0YS9jbGFzc2VzLWdsb2JhbC9iYXNlLmJiY2xhc3PCoMKgwqDCoMKgwqDCoMKgIHwgMyAr
-KysNCj4gPiDCoG1ldGEvY2xhc3Nlcy1yZWNpcGUvZGVidWdfYnVpbGQuYmJjbGFzc8KgIHwgOCAr
-KysrKysrKw0KPiA+IMKgbWV0YS9jb25mL2JpdGJha2UuY29uZsKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCB8IDkgKysrLS0tLS0tDQo+ID4gwqBtZXRhL2NvbmYvZGlzdHJvL2lu
-Y2x1ZGUvZGVidWdfYnVpbGQuaW5jIHwgNSArKysrKw0KPiA+IMKgbWV0YS9jb25mL2RvY3VtZW50
-YXRpb24uY29uZsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDIgKy0NCj4gPiDCoDUgZmlsZXMg
-Y2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkNCj4gPiDCoGNyZWF0ZSBt
-b2RlIDEwMDY0NCBtZXRhL2NsYXNzZXMtcmVjaXBlL2RlYnVnX2J1aWxkLmJiY2xhc3MNCj4gPiDC
-oGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL2NvbmYvZGlzdHJvL2luY2x1ZGUvZGVidWdfYnVpbGQu
-aW5jDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzLWdsb2JhbC9iYXNlLmJiY2xh
-c3MgYi9tZXRhL2NsYXNzZXMtZ2xvYmFsL2Jhc2UuYmJjbGFzcw0KPiA+IGluZGV4IDZkZTE3ZDFi
-YjUuLjBmNDM5OGUyNmYgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9jbGFzc2VzLWdsb2JhbC9iYXNl
-LmJiY2xhc3MNCj4gPiArKysgYi9tZXRhL2NsYXNzZXMtZ2xvYmFsL2Jhc2UuYmJjbGFzcw0KPiA+
-IEBAIC0zNSw2ICszNSw5IEBAIFRPT0xDSEFJTl9OQVRJVkUgPz89ICIke1BSRUZFUlJFRF9UT09M
-Q0hBSU5fTkFUSVZFfSINCj4gPiDCoGluaGVyaXRfZGVmZXIgdG9vbGNoYWluLyR7VE9PTENIQUlO
-X05BVElWRX0tbmF0aXZlDQo+ID4gwqBpbmhlcml0X2RlZmVyIHRvb2xjaGFpbi8ke1RPT0xDSEFJ
-Tn0NCj4gPg0KPiA+ICtERUJVR19CVUlMRCA/Pz0gIjAiDQo+ID4gK2luaGVyaXRfZGVmZXIgJHtA
-b2UudXRpbHMudmFydHJ1ZSgnREVCVUdfQlVJTEQnLCAnZGVidWdfYnVpbGQnLCAnJywgZCl9DQo+
-ID4gKw0KPiA+IMKgZGVmIGxzYl9kaXN0cm9faWRlbnRpZmllcihkKToNCj4gPiDCoMKgwqDCoCBh
-ZGp1c3QgPSBkLmdldFZhcignTFNCX0RJU1RST19BREpVU1QnKQ0KPiA+IMKgwqDCoMKgIGFkanVz
-dF9mdW5jID0gTm9uZQ0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMtcmVjaXBlL2RlYnVn
-X2J1aWxkLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMtcmVjaXBlL2RlYnVnX2J1aWxkLmJiY2xhc3MN
-Cj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAuLmE5MTdlOWNi
-YzkNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvbWV0YS9jbGFzc2VzLXJlY2lwZS9kZWJ1
-Z19idWlsZC5iYmNsYXNzDQo+ID4gQEAgLTAsMCArMSw4IEBADQo+ID4gKyMNCj4gPiArIyBDb3B5
-cmlnaHQgT3BlbkVtYmVkZGVkIENvbnRyaWJ1dG9ycw0KPiA+ICsjDQo+ID4gKyMgU1BEWC1MaWNl
-bnNlLUlkZW50aWZpZXI6IE1JVA0KPiA+ICsjDQo+ID4gKw0KPiA+ICsjIEFsbG93IG90aGVyIGxh
-eWVycyB0byBhZGQgdGhlaXIgb3duIGRlYnVnIGJ1aWxkIGNvbmZpZ3VyYXRpb25zDQo+ID4gK2lu
-Y2x1ZGVfYWxsIGNvbmYvZGlzdHJvL2luY2x1ZGUvZGVidWdfYnVpbGQuaW5jDQo+ID4gZGlmZiAt
-LWdpdCBhL21ldGEvY29uZi9iaXRiYWtlLmNvbmYgYi9tZXRhL2NvbmYvYml0YmFrZS5jb25mDQo+
-ID4gaW5kZXggNTQwNmU1NDJkYi4uNTJjZWI3NmJiYiAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2Nv
-bmYvYml0YmFrZS5jb25mDQo+ID4gKysrIGIvbWV0YS9jb25mL2JpdGJha2UuY29uZg0KPiA+IEBA
-IC02NTgsMTMgKzY1OCwxMCBAQCBERUJVR19QUkVGSVhfTUFQID89ICJcDQo+ID4gwqAiDQo+ID4g
-wqBERUJVR19MRVZFTEZMQUcgPz0gIi1nIg0KPiA+DQo+ID4gLUZVTExfT1BUSU1JWkFUSU9OID0g
-Ii1PMiAke0RFQlVHX0xFVkVMRkxBR30iDQo+ID4gLURFQlVHX09QVElNSVpBVElPTiA9ICItT2cg
-JHtERUJVR19MRVZFTEZMQUd9Ig0KPiA+IC1TRUxFQ1RFRF9PUFRJTUlaQVRJT04gPSAiJHtAZC5n
-ZXRWYXIob2UudXRpbHMudmFydHJ1ZSgnREVCVUdfQlVJTEQnLA0KPiAnREVCVUdfT1BUSU1JWkFU
-SU9OJywgJ0ZVTExfT1BUSU1JWkFUSU9OJywgZCkpfSINCj4gPiAtU0VMRUNURURfT1BUSU1JWkFU
-SU9OW3ZhcmRlcHNdICs9ICJGVUxMX09QVElNSVpBVElPTiBERUJVR19PUFRJTUlaQVRJT04NCj4g
-REVCVUdfQlVJTEQiDQo+ID4gK0ZVTExfT1BUSU1JWkFUSU9OID8/PSAiLU8yICR7REVCVUdfTEVW
-RUxGTEFHfSINCj4gPiArU0VMRUNURURfT1BUSU1JWkFUSU9OID8/PSAiJHtGVUxMX09QVElNSVpB
-VElPTn0iDQo+ID4gwqAjIGNvbXBpbGVyIGZsYWdzIGZvciBuYXRpdmUvbmF0aXZlc2RrDQo+ID4g
-LUJVSUxEX09QVElNSVpBVElPTiA9ICIke0BvZS51dGlscy52YXJ0cnVlKCdERUJVR19CVUlMRCcs
-ICctT2cgLWcnLCAnLQ0KPiBPMicsIGQpfSINCj4gPiAtQlVJTERfT1BUSU1JWkFUSU9OW3ZhcmRl
-cHNdICs9ICJERUJVR19CVUlMRCINCj4gPiArQlVJTERfT1BUSU1JWkFUSU9OID8/PSAiLU8yIg0K
-PiA+DQo+ID4gwqAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMNCj4gPiDCoCMgUmVwcm9kdWNpYmlsaXR5DQo+ID4gZGlmZiAt
-LWdpdCBhL21ldGEvY29uZi9kaXN0cm8vaW5jbHVkZS9kZWJ1Z19idWlsZC5pbmMNCj4gYi9tZXRh
-L2NvbmYvZGlzdHJvL2luY2x1ZGUvZGVidWdfYnVpbGQuaW5jDQo+ID4gbmV3IGZpbGUgbW9kZSAx
-MDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwLi45NWUwOWU2NGY1DQo+ID4gLS0tIC9kZXYvbnVs
-bA0KPiA+ICsrKyBiL21ldGEvY29uZi9kaXN0cm8vaW5jbHVkZS9kZWJ1Z19idWlsZC5pbmMNCj4g
-PiBAQCAtMCwwICsxLDUgQEANCj4gPiArIyBPdmVycmlkZSBTRUxFQ1RFRF9PUFRJTUlaQVRJT04g
-YW5kIEJVSUxEX09QVElNSVpBVElPTiB3aGVuDQo+IERFQlVHX0JVSUxEIGlzIGVuYWJsZWQuDQo+
-ID4gK0RFQlVHX09QVElNSVpBVElPTiA/PSAiLU9nICR7REVCVUdfTEVWRUxGTEFHfSINCj4gPiAr
-U0VMRUNURURfT1BUSU1JWkFUSU9OID89ICIke0RFQlVHX09QVElNSVpBVElPTn0iDQo+ID4gKyMg
-Y29tcGlsZXIgZmxhZ3MgZm9yIG5hdGl2ZS9uYXRpdmVzZGsNCj4gPiArQlVJTERfT1BUSU1JWkFU
-SU9OID89ICItT2cgLWciDQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvY29uZi9kb2N1bWVudGF0aW9u
-LmNvbmYgYi9tZXRhL2NvbmYvZG9jdW1lbnRhdGlvbi5jb25mDQo+ID4gaW5kZXggNzQxMTMwYTM5
-Mi4uMmE3NDE4Y2NiMyAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NvbmYvZG9jdW1lbnRhdGlvbi5j
-b25mDQo+ID4gKysrIGIvbWV0YS9jb25mL2RvY3VtZW50YXRpb24uY29uZg0KPiA+IEBAIC0xMjks
-NyArMTI5LDcgQEAgQ1ZFX0NIRUNLX0xBWUVSX0lOQ0xVREVMSVNUW2RvY10gPSAiRGVmaW5lcyB3
-aGljaA0KPiBsYXllcnMgdG8gaW5jbHVkZSBkdXJpbmcgY3ZlLWMNCj4gPiDCoERbZG9jXSA9ICJU
-aGUgZGVzdGluYXRpb24gZGlyZWN0b3J5LiINCj4gPiDCoERBVEVbZG9jXSA9ICJUaGUgZGF0ZSB0
-aGUgYnVpbGQgd2FzIHN0YXJ0ZWQgdXNpbmcgWU1EIGZvcm1hdC4iDQo+ID4gwqBEQVRFVElNRVtk
-b2NdID0gIlRoZSBkYXRlIGFuZCB0aW1lIHRoZSBidWlsZCB3YXMgc3RhcnRlZC4iDQo+ID4gLURF
-QlVHX0JVSUxEW2RvY10gPSAiU3BlY2lmaWVzIHRvIGJ1aWxkIHBhY2thZ2VzIHdpdGggZGVidWdn
-aW5nDQo+IGluZm9ybWF0aW9uLiBUaGlzIGluZmx1ZW5jZXMgdGhlIHZhbHVlIG9mIHRoZSBTRUxF
-Q1RFRF9PUFRJTUlaQVRJT04NCj4gdmFyaWFibGUuIg0KPiA+ICtERUJVR19CVUlMRFtkb2NdID0g
-IlNwZWNpZmllcyB0byBidWlsZCBwYWNrYWdlcyB3aXRoIGRlYnVnZ2luZw0KPiBpbmZvcm1hdGlv
-bi4gVGhpcyBpbmZsdWVuY2VzIHRoZSB2YWx1ZSBvZiB0aGUgU0VMRUNURURfT1BUSU1JWkFUSU9O
-DQo+IHZhcmlhYmxlIGFuZCBpbmNsdWRlcyBmaWxlIGNvbmYvZGlzdHJvL2luY2x1ZGUvZGVidWdf
-YnVpbGQuaW5jIg0KPiA+IMKgREVCVUdfT1BUSU1JWkFUSU9OW2RvY10gPSAiVGhlIG9wdGlvbnMg
-dG8gcGFzcyBpbiBUQVJHRVRfQ0ZMQUdTIGFuZA0KPiBDRkxBR1Mgd2hlbiBjb21waWxpbmcgYSBz
-eXN0ZW0gZm9yIGRlYnVnZ2luZy4gVGhpcyB2YXJpYWJsZSBkZWZhdWx0cyB0byAnLQ0KPiBPZyAk
-e0RFQlVHX0xFVkVMRkxBR30nLiINCj4gPiDCoERFRkFVTFRfUFJFRkVSRU5DRVtkb2NdID0gIlNw
-ZWNpZmllcyBhIHdlYWsgYmlhcyBmb3IgcmVjaXBlIHNlbGVjdGlvbg0KPiBwcmlvcml0eS4iDQo+
-ID4gwqBERVBFTkRTW2RvY10gPSAiTGlzdHMgYSByZWNpcGUncyBidWlsZC10aW1lIGRlcGVuZGVu
-Y2llcyAoaS5lLiBvdGhlcg0KPiByZWNpcGUgZmlsZXMpLiINCj4gDQo+IFNvcnJ5IGFib3V0IHRo
-ZSBkZWxheSBpbiBnZXR0aW5nIHRvIHRoaXMsIHdlIGhhZCB0byBmb2N1cyBvbiB0aGUNCj4gcmVs
-ZWFzZS4gSSBoYXZlIGJlZW4gZ2l2aW5nIHRoaXMgc29tZSB0aG91Z2h0IGFuZCBpdCBpcyBoZWFk
-aW5nIHRoZQ0KPiByaWdodCB3YXkgYnV0IEkgaGF2ZSBhIGNvdXBsZSBvZiBpZGVhcy4NCj4gDQo+
-IFRoZSBwcm9ibGVtIHdpdGggREVCVUdfQlVJTEQgaXMgdGhhdCB3ZSBoYXZlIGEgbG90IG9mIGRl
-YnVnIGluZm9ybWF0aW9uDQo+IGluIGJ1aWxkcyBhbnl3YXkgYW5kIHRoaXMgaXMgbm93IHVuY2xl
-YXIgd2hhdCBpdCBtZWFucy4gVGhlDQo+IGRvY3VtZW50YXRpb24uY29uZiBlbnRyeSBtZW50aW9u
-cyBwYWNrYWdlcyB3aGljaCBpcyBub3cgaW5jb3JyZWN0IHRvby4NCj4gVGhlIHZhcmlhYmxlIGlz
-IGEgdmVyeSBvbGQgb25lIGFuZCB0aGUgaW50ZXJmYWNlIGlzIHBvb3JseSBkZXNpZ25lZA0KPiBj
-b21wYXJlZCB0byBvdGhlciBhcmVhcyBub3cuDQo+IA0KPiBSYXRoZXIgdGhhbiBrZWVwaW5nICJE
-RUJVR19CVUlMRCIgYWxpdmUsIHBlcmhhcHMgd2UgZHJvcCB0aGF0IGFuZA0KPiBzaW1wbHkgZG9j
-dW1lbnQgdGhlIElOSEVSSVQgaW5zdGVhZD8gSSBkaWQgd29uZGVyIGFib3V0IG1ha2luZyBpdCBh
-DQo+IGNvbmZpZyBmcmFnbWVudCBpbnN0ZWFkIHRvbyBpbnN0ZWFkIG9mIGEgY2xhc3M/DQo+IA0K
-PiBJJ20gYWxzbyB3b25kZXJpbmcgd2hldGhlciB3ZSBzaG91bGQgcmVtb3ZlIFNFTEVDVEVEX09Q
-VElNSVpBVElPTg0KPiBlbnRpcmVseT8gQ2VydGFpbmx5IERFQlVHX09QVElNSVpBVElPTiBhbmQg
-RlVMTF9PUFRJTUlaQVRJT04gY2FuIGJlDQo+IGRyb3BwZWQuIFdoZXRoZXIgdGhhdCBzaG91bGQg
-YmUgdGhpcyBwYXRjaCBvciBhbm90aGVyLCBJIGRvbid0IG1pbmQuDQo+IA0KPiBDaGVlcnMsDQo+
-IA0KPiBSaWNoYXJkDQoNClRoaXMgZG9lc24ndCBtYWtlIG11Y2ggc2Vuc2UgdG8gbWUuIERFQlVH
-X0JVSUxEIGlzIHNvbWV0aGluZyB0aGF0IEkgDQplbmFibGUgcGVyIHJlY2lwZSwgdHlwaWNhbGx5
-IGluIGxvY2FsLmNvbmYsIG9yIHRlbXBvcmFyaWx5IGluIHRoZSANCnJlY2lwZSBpdHNlbGYgdG8g
-YXZvaWQgaGF2aW5nIHRvIHJlLXBhcnNlIGV2ZXJ5dGhpbmcuIEkgZG8gbm90IHNlZSANCmhvdyBm
-cmFnbWVudHMgd291bGQgYmUgZXZlbiByZW1vdGVseSB1c2FibGUgZm9yIHRoaXMgdXNlIGNhc2Uu
-DQooVGhvdWdoIHlvdSBjb3VsZCBvZiBjb3Vyc2UgaGF2ZSBhIGZyYWdtZW50IHRoYXQgc2V0cyBE
-RUJVR19CVUlMRCA9ICIxIiANCmlmIHlvdSB3YW50IHRvIGJ1aWxkIGV2ZXJ5dGhpbmcgZm9yIGRl
-YnVnLikNCg0KRm9yIHllYXJzLCBJIGhhdmUgYmVlbiB0ZWxsaW5nIG15IGRldmVsb3BlcnMgbm90
-IHRvIGludmVudCB0aGVpciBvd24gDQp3YXlzIG9mIGVuYWJsaW5nIGRlYnVnZ2luZyBmb3IgdGhl
-aXIgcmVjaXBlcywgYnV0IHJhdGhlciByZWx5IG9uIGFuZCANCmhvb2sgaW50byB0aGUgb2ZmaWNp
-YWwgd2F5LCBpLmUuLCBzZXR0aW5nIERFQlVHX0JVSUxEID0gIjEiIGZvciB0aGUgDQpyZWNpcGUu
-IFBsZWFzZSBkbyBub3QgY2hhbmdlIHRoaXMhDQoNCi8vUGV0ZXINCg0K
+Hi Kavinaya, Randy
+
+On Mon, 2025-12-15 at 13:17 -0500, Randy MacLeod wrote:=C2=A0
+-D dtcoption" Provide special options to the device tree compiler that is u=
+sed to create the image.> Kavinaya, Adrian,=C2=A0=C2=A0 and others who have=
+ touched:
+> =C2=A0=C2=A0=C2=A0 meta/classes-recipe/kernel-fit-image.bbclass
+> =C2=A0in the last=C2=A0 ~ year.
+> =C2=A0
+> This needs more review than we had time for in the YP patch review
+> meeting today.
+> =C2=A0
+> I think the concern was that there had been some independent
+> improvements to fitimage
+> =C2=A0and that perhaps no one was looking at the overall design.
+> =C2=A0=C2=A0
+> This may be a red herring but for example, is there overlap with:
+> =C2=A0=C2=A0=C2=A0 meta/classes/kernel-fitimage.bbclass
+> =C2=A0=C2=A0=C2=A0 # Options for the device tree compiler passed to mkima=
+ge '-D'
+> feature:
+> =C2=A0=C2=A0=C2=A0 UBOOT_MKIMAGE_DTCOPTS =3D "-I dts -O dtb -p 2000"
+> =C2=A0
+That's almost the same. mkimage calls the dtc compiler.
+The UBOOT_MKIMAGE_DTCOPTS variable contains arguments which are passed
+to dtc.
+
+There is also UBOOT_MKIMAGE_SIGN_ARGS which is passed to mkimage when
+it gets called for signing an image. Also a slightly different topic.
+
+The new variable UBOOT_MKIMAGE_EXTRA_OPTS is different. It provides
+other options which are handled by mkimage itself.
+Adding a new variable seams to be needed.
+
+> If you think this is a sensible, maintainable change, do say so and
+> explain your point of view.
+> =C2=A0=C2=A0
+> Please don't shoot the messenger, as I don't work with u-boot or
+> fitImage myself !
+Thank you for adding me.
+
+> =C2=A0
+> Thanks,
+> ../Randy
+> =C2=A0
+> =C2=A0
+> On 2025-12-10 6:04 a.m., Kavinaya S via lists.openembedded.org wrote:
+> =C2=A0
+> > Currently, mkimage options in U-Boot recipes are fixed, which
+> > limits
+> > flexibility for platforms that require additional mkimage
+> > arguments.
+> > Introduce UBOOT_MKIMAGE_EXTRA_OPTS to allow passing extra options
+> > to
+> > mkimage during image generation.
+> >=20
+> > This is a generic need because different SoCs and boot
+> > configurations
+> > often require mkimage flags beyond the defaults. For example:
+> > - `-E` enables external data in FIT images, which is essential for
+> > =C2=A0=C2=A0modular boot setups, secure boot workflows, and reducing im=
+age
+> > size.
+> > - `-B 8` enforces 8-byte alignment, ensuring compatibility with
+> > boot
+> > =C2=A0=C2=A0ROM requirements, improving memory access efficiency, and
+> > supporting
+> > =C2=A0=C2=A0predictable offsets for multi-component FIT images.
+> >=20
+> > By exposing this variable, we provide a clean and extensible
+> > mechanism
+> > for developers to meet hardware-specific and security requirements
+> > without hardcoding options in recipes.
+> >=20
+> > Example:
+> >=20
+> > UBOOT_MKIMAGE_EXTRA_OPTS =3D "-B 8 -E"
+> > will result in the mkimage command being invoked as:
+> > `mkimage -B 8 -E -f fitImage.its fitImage.itb`
+> >=20
+> > Signed-off-by: Kavinaya S <kavinaya@qti.qualcomm.com>
+> > ---
+> > =C2=A0meta/classes-recipe/kernel-fit-image.bbclass | 1 +
+> > =C2=A0meta/conf/image-fitimage.conf | 3 +++
+> > =C2=A0meta/lib/oe/fitimage.py | 3 +++
+> > =C2=A03 files changed, 7 insertions(+)
+> >=20
+> > diff --git a/meta/classes-recipe/kernel-fit-image.bbclass
+> > b/meta/classes-recipe/kernel-fit-image.bbclass
+> > index fd0d21ceee..5456311f00 100644
+> > --- a/meta/classes-recipe/kernel-fit-image.bbclass
+> > +++ b/meta/classes-recipe/kernel-fit-image.bbclass
+> > @@ -56,6 +56,7 @@ python do_compile() {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0d.getVar('HOST_PR=
+EFIX'), d.getVar('UBOOT_ARCH'),
+> > d.getVar("FIT_CONF_PREFIX"),
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0oe.types.boolean(=
+d.getVar('FIT_KERNEL_SIGN_ENABLE')),
+> > d.getVar("FIT_KERNEL_SIGN_KEYDIR"),
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0d.getVar("UBOOT_M=
+KIMAGE"),
+> > d.getVar("UBOOT_MKIMAGE_DTCOPTS"),
+> > + d.getVar('UBOOT_MKIMAGE_EXTRA_OPTS'),
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0d.getVar("UBOOT_M=
+KIMAGE_SIGN"),
+> > d.getVar("UBOOT_MKIMAGE_SIGN_ARGS"),
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0d.getVar('FIT_HAS=
+H_ALG'), d.getVar('FIT_SIGN_ALG'),
+> > d.getVar('FIT_PAD_ALG'),
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0d.getVar('FIT_KER=
+NEL_SIGN_KEYNAME'),
+> > diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-
+> > fitimage.conf
+> > index 090ee148f4..e470adad5c 100644
+> > --- a/meta/conf/image-fitimage.conf
+> > +++ b/meta/conf/image-fitimage.conf
+> > @@ -47,6 +47,9 @@ FIT_LINUX_BIN ?=3D "linux.bin"
+> > =C2=A0# Allow user to select the default DTB for FIT image when multipl=
+e
+> > dtb's exists.
+> > =C2=A0FIT_CONF_DEFAULT_DTB ?=3D ""
+> > =C2=A0
+> > +# Additional mkimage options for FIT image creation
+> > +UBOOT_MKIMAGE_EXTRA_OPTS ?=3D ""
+
+Defining an UBOOT_ name-spaced variable in image-fitimage.conf looks
+strange. But I see why you ended up with that:
+ * All the mkimage related variables start with UBOOT_
+ * This variable is used by the kernel-fit-image.bbclass only. Defining
+   it in uboot-config.bbclass looks strange as well.
+
+But, all UBOOT_ variables are defined in uboot-config.bbclass. Would it
+be more consistent if the variable would be defined in uboot-
+config.bbclass or if the variable would be renamed to
+FIT_MKIMAGE_EXTRA_OPTS?
+
+> > +
+> > =C2=A0# length of address in number of <u32> cells
+> > =C2=A0# ex: 1 32bits address, 2 64bits address
+> > =C2=A0FIT_ADDRESS_CELLS ?=3D "1"
+> > diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
+> > index f303799155..15a36310e0 100644
+> > --- a/meta/lib/oe/fitimage.py
+> > +++ b/meta/lib/oe/fitimage.py
+> > @@ -156,6 +156,7 @@ class ItsNodeRootKernel(ItsNode):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0def __init__(self, description, address_c=
+ells, host_prefix,
+> > arch, conf_prefix,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sign_enable=3DFalse, sign_keydir=3DN=
+one,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mkimage=3DNone, mkimage_dtcopts=3DNo=
+ne,
+> > + mkimage_extra_opts=3DNone,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mkimage_sign=3DNone, mkimage_sign_ar=
+gs=3DNone,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hash_algo=3DNone, sign_algo=3DNone, =
+pad_algo=3DNone,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0sign_keyname_conf=3DNone,
+> > @@ -177,6 +178,7 @@ class ItsNodeRootKernel(ItsNode):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0self._sign_keydir=
+ =3D sign_keydir
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0self._mkimage =3D=
+ mkimage
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0self._mkimage_dtc=
+opts =3D mkimage_dtcopts
+> > + self._mkimage_extra_opts =3D shlex.split(mkimage_extra_opts)
+
+The class should work with the default parameters. But this just
+explodes.
+
+>>> import shlex
+>>> shlex.split(None)
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+shlex.split(None)
+~~~~~~~~~~~^^^^^^
+File "/usr/lib64/python3.13/shlex.py", line 308, in split
+raise ValueError("s argument must not be None")
+ValueError: s argument must not be None
+
+
+This would work:
+
+self._mkimage_extra_opts =3D shlex.split(mkimage_extra_opts) if
+mkimage_extra_opts else []
+
+
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0self._mkimage_sig=
+n =3D mkimage_sign
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0self._mkimage_sig=
+n_args =3D mkimage_sign_args
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0self._hash_algo =
+=3D hash_algo
+> > @@ -483,6 +485,7 @@ class ItsNodeRootKernel(ItsNode):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0def run_mkimage_assemble(self, itsfile, f=
+itfile):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0cmd =3D [
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0self._mkimage,
+> > + *self._mkimage_extra_opts,
+
+Also this one explodes with None. But if the initialization above gets
+fixed, this will be fine as well.
+
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0'-f', itsfile,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0fitfile
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0]
+> > =C2=A0
+
+
+Thank you.
+Regards,
+Adrian
+
+> > =C2=A0=C2=A0
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#227471):
+> > https://lists.openembedded.org/g/openembedded-core/message/227471
+> > Mute This Topic:
+> > https://lists.openembedded.org/mt/116710036/3616765
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-
+> > core/unsub [randy.macleod@windriver.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >=20
+> > =C2=A0
+> =C2=A0
+>=20
+> =C2=A0
+> =C2=A0
 
