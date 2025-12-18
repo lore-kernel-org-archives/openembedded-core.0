@@ -2,64 +2,64 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC42ED711BE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0650D711AE
 	for <webhook@archiver.kernel.org>; Thu, 18 Dec 2025 20:23:23 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2043.1766089400342267190
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1945.1766089396518535518
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Dec 2025 12:23:20 -0800
+ Thu, 18 Dec 2025 12:23:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gD32BpZI;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-889a865bc1dso8318096d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 12:23:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hpzexubo;
+ spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-88a3bba9fd4so10658276d6.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 12:23:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766089399; x=1766694199; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766089395; x=1766694195; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZYFS4fQArHpymASUQ6I4l6zIWajfYCF2ZgdLbrRt/O8=;
-        b=gD32BpZIyjyL+i9FMg2eoNZDVYJtGfaEB1DlEAeHs5Ce68oyio3Y144OheR4byuF/Q
-         5zqAos3leQu++KQmFWN7Ji9UbJSFuYI6sr7P+PfQ2SOytfkxgUqas9+snQrcDTNH/aA1
-         T8LQua4nT8JwxvzZubdocgyJGC2ULpDziPGbkRNDI2g0ZHwhwqnSDojwE4co60ma7JlO
-         ad5Aqgj3wpdrW2I6OxhyMQ6cGc8RFd8lJXfYkBshXW+D+fSFajaahJCIi6tFvhf4wFse
-         j2Z4Kf+oW+Qfu4xONmvdUQx4kTjI89veIajpKk5MwUz9acVjrKqScHmMoUxoNQS6ptv4
-         1T8w==
+        bh=pO2jmpAR+clEgDQka7wK9Kkd9YBtR6pLQZvXeUpkTOg=;
+        b=hpzexuboK8AsUutMa84sLTZGdIReTGckfcBNaIGPhvz/+IuWFWZ61OzswaOqVUO7jj
+         TCONmZL5rAOV7wNlhshMKetbMzB1OvZHc7KxLst9B8HDvTMFSTZMiMPNrjZhPbhb/s1O
+         YzWwl1byTe4YCBTZh5dxWIGN2AkOs0gHGDJRipjxIzPLxK+fu9prGg5tKclz3gq/tZIf
+         H99kAR/t6vq4QAiZFywV5Ayh0bGh/9vEbcdsKfXWZaw7Htjyo7QV4Tm38fQ44A7Kkuqm
+         41GI2xFwThMBWvsrsjd0RjzZC6KUcpePpjzZ6BQcY3RkvOgBRMHCF8uDF4P9n3VitUyJ
+         VfmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766089399; x=1766694199;
+        d=1e100.net; s=20230601; t=1766089395; x=1766694195;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ZYFS4fQArHpymASUQ6I4l6zIWajfYCF2ZgdLbrRt/O8=;
-        b=luMGLx89FhqGQUUUM6rDifq0kiqKRdxJDXmzVIkO8uchp6B6dpI0GIK7nyuI2T9XuO
-         pwIjkTSIg7RFY9FhgryzrtthJWs8cLYBVLRI/k3CQgJUTSfZX1kY1GNxYE+QEIrqLiQs
-         g6AtK5NSClZ+oXSniVcBOvjMdkZDmZFXcekFQKU5IOkSwe7G/7grnXCvTsqtBPGZ1LpV
-         4n7xPAEeFn1TqeUnRx+krJslXt63uMlYgQ07x0BAN0qjo0SKd4mLSsivf1uFsoOdLLLT
-         7e/e6CagDthTvgqAtK11TNcxh9jlBqy8OddaH3pvAFsQO7hDgtctX7ANBxbriBaoWOFd
-         R74w==
-X-Gm-Message-State: AOJu0YyaxDreo4ZAi2SqfRbZifHELhS37jex5vfkB0Mn+ig+baSB8dP+
-	1aw7Z+43APShhyo2MsWXDDFLz/gg+XZrqwKoIJJrx0pkdyP83xax/XgW
-X-Gm-Gg: AY/fxX5jnj4SxC8zWXXwDIQyeIkz//m2z+R3/zfcKpvtSjfQi6u3mgW1uTcUV12Q37p
-	V0m15Omesxgr70LYqX6J9bD/LDhVZAcjzZVnbl45yYTE25QA2rYknfRuBzwxVyqalxPP0yhughJ
-	FQWXPk8BLojVH8uwTcR9TPZ65kc0j4gczPwcfiDKW92AKKmgZVMIGFQe3Rm+90/QZigDxQdmV3m
-	UdCOwX9yvO9WyNaZYzqjUXJTYB5BcKbT0dvczymCzPSNccvL1L3Qps3NfSmhHSm4LzFr0FcSRuA
-	xox8ZMBM6XGSf+mChIXKhGGqoeDsE/A9g+SYrdlX1PArMoWHDIkSYL+FBpZa71RFQocVh10Xg6x
-	AGENpLjCAywc2ERqYnAnUYg8n4Zx9nMoVzKw60fHvCEXjxt/gyuUq4oUprw+6sQEggR6r7EUkZ3
-	KyOJIx+X2VTcKq/rq1YRnomAC0F6MeaAUVBSUghuYIb4ai/jxi7o4h5TbWv4PV82cNgnXFSsH5+
-	kV2n+6xNJrxFNs=
-X-Google-Smtp-Source: AGHT+IESpUjtTbw2g75ogp5lghdMZPQdHEWL8AFtv89Qp4eEBymJQhCzCXPSIgKdGiL8EiBpzUO8OA==
-X-Received: by 2002:a05:6214:5789:b0:888:1e72:afb5 with SMTP id 6a1803df08f44-88d8166a0dcmr16388836d6.2.1766089399372;
-        Thu, 18 Dec 2025 12:23:19 -0800 (PST)
+        bh=pO2jmpAR+clEgDQka7wK9Kkd9YBtR6pLQZvXeUpkTOg=;
+        b=apGu1Y4KeA9XuDuKiclqGn9K36fOtouW59jS2OqPwYeutGkPD1vQdPUTCOPhVfpOzi
+         b3UFCS1Y4DSYCtBWpDpufHsuw8FDewxFMdDgeXTeQkKijnPa2avMiR8Qm9k5Nmf5K+MU
+         9My1W9dnGduaICjObR/8kvZ7i4XJg4KjiWUn+rScCM2pNQ9HN46xij1xw35SuaM5RsFP
+         xozWtTPX28yFysgcyWFVNVhmBl0RVGnANAQhd028iuSwwGlLpzZZG5D9eOO+wwq8PidP
+         SzoF3bFSX32Of+C+LCmWjoqAz459tY5MExaqO9pUg5KtQ4QhFVu/Qb3upOWMqxOfrLwK
+         NtnQ==
+X-Gm-Message-State: AOJu0YyeBPMG+0KtDkQ6O596/og0y2wy0gnqJmMI8YRKCL2f3oFhsNZw
+	oH9kpKneaMJi+0MmNtQT89vgVPHGT6OGNFcyuyAmHcbYYWDV68b7SwCb
+X-Gm-Gg: AY/fxX7UbRd+WI0IieA8SvDsuksKQtmgyGk1g51E87dBneXsaGCZ1pG+tIWNw+o0RM7
+	Ay2DqeRhW+uybBpDYyedUB/OGrjFR+46FizCUJwvy0NdSDl/h9acLKvTWDGvyh7+yb64sC2Qizr
+	PbOLyivNEW7X1A46UAifssV9c74VL84DpP18M+xGDG9xUefFUGQ8jrspwQWHhDb8WZaLeeYxSW1
+	yWFx3I2Ogt102tS4bnbpZHgdmsYxvcPr/1arJl1XYGNhLAwaA+mwQsb8eXpxz3hDThYQzpb7v7/
+	Akxd8cT3pmrVOwFJgy8Gu2vJXqLPJHYLxqs31M4yZZ0fp6I6pCjjCiY6pnXRbmU6eR8/jYcEMcO
+	dpqEZ+6S0KfKcw9PDg7MF7ZCvSxA8UgW676Ur+0Qv1dIS0CJcm7yljA5IvywtyKs+N4alqvasr1
+	jwt2TtFEQFZMhShkofj98X+4133kH1k2MRZgbPYTPpYpqS/rDAIInPQyMgB3Nes6Reo3oimczEM
+	zfyr9xkoGnkUdM=
+X-Google-Smtp-Source: AGHT+IFj/IQoyV8d914NyhhVufDAW1zJzKXwad04E02DvkSvJtLdzdEwdTkdv0+oXjm9l3698cVLNA==
+X-Received: by 2002:a05:6214:23c7:b0:88a:4698:1b37 with SMTP id 6a1803df08f44-88d853ec197mr16564156d6.60.1766089395470;
+        Thu, 18 Dec 2025 12:23:15 -0800 (PST)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d99d7dbdcsm3226456d6.43.2025.12.18.12.23.18
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d99d7dbdcsm3226456d6.43.2025.12.18.12.23.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 12:23:18 -0800 (PST)
+        Thu, 18 Dec 2025 12:23:14 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [06/06][meta-yocto] yocto-bsp: genericx86: bump default kernel to 6.18
-Date: Thu, 18 Dec 2025 15:22:46 -0500
-Message-Id: <20251218202248.70476-21-bruce.ashfield@gmail.com>
+Subject: [04/06][meta-yocto] poky: make 6.18 preferred kernel version
+Date: Thu, 18 Dec 2025 15:22:44 -0500
+Message-Id: <20251218202248.70476-19-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1766087617.bruce.ashfield@gmail.com>
 References: <cover.1766087617.bruce.ashfield@gmail.com>
@@ -69,28 +69,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 20:23:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228164
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228162
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
+6.18-LTS is our reference kernel for poky in the upcoming release.
+
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta-yocto-bsp/conf/machine/include/genericx86-common.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-poky/conf/distro/poky.conf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-yocto-bsp/conf/machine/include/genericx86-common.inc b/meta-yocto-bsp/conf/machine/include/genericx86-common.inc
-index 76a742b..95d9e17 100644
---- a/meta-yocto-bsp/conf/machine/include/genericx86-common.inc
-+++ b/meta-yocto-bsp/conf/machine/include/genericx86-common.inc
-@@ -2,7 +2,7 @@ include conf/machine/include/x86/x86-base.inc
- require conf/machine/include/x86/qemuboot-x86.inc
- MACHINE_FEATURES += "wifi efi pcbios"
+diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
+index f1e91ec..dc39e53 100644
+--- a/meta-poky/conf/distro/poky.conf
++++ b/meta-poky/conf/distro/poky.conf
+@@ -19,8 +19,8 @@ POKY_DEFAULT_EXTRA_RRECOMMENDS = "kernel-module-af-packet"
  
--PREFERRED_VERSION_linux-yocto ?= "6.12%"
+ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_FEATURES}"
+ 
+-PREFERRED_VERSION_linux-yocto ?= "6.16%"
+-PREFERRED_VERSION_linux-yocto-rt ?= "6.16%"
 +PREFERRED_VERSION_linux-yocto ?= "6.18%"
- PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
- PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
- XSERVER ?= "${XSERVER_X86_BASE} \
++PREFERRED_VERSION_linux-yocto-rt ?= "6.18%"
+ 
+ SDK_NAME = "${DISTRO}-${TCLIBC}-${SDKMACHINE}-${IMAGE_BASENAME}-${TUNE_PKGARCH}-${MACHINE}"
+ SDKPATHINSTALL = "/opt/${DISTRO}/${SDK_VERSION}"
 -- 
 2.39.2
 
