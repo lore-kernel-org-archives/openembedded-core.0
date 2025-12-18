@@ -2,100 +2,126 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CBC5D6ACF4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7968FD6ACF3
 	for <webhook@archiver.kernel.org>; Thu, 18 Dec 2025 12:02:04 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.40330.1766059315957183863
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.40331.1766059316910352278
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Dec 2025 04:01:56 -0800
+ Thu, 18 Dec 2025 04:01:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dv9to75S;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: stondo@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-42fbc544b09so347839f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 04:01:55 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YWFD7o+X;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: stondo@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42fbc544b09so347857f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 04:01:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766059314; x=1766664114; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iABlNUQ1WBKW6IPcF4FcCfmPVjkNrlWXqGb7GGbanhw=;
-        b=dv9to75SDdKopy+lCAVrLRivJTh5vxPiuJHq2cubrNxzYIWqNupZkcxdbDrvk6PTwb
-         RU2e/4JPTDNAZd6xgIC7rP0JxA/EK75KNKp/IkkW9fDULMqHk3YFHT/+diTzUeMxHLyb
-         iyHS4OH/wZrptMmccsgiM2WNXMMAf/0nTcXy5NxABAbLR+AQzbBw+hu4MjKV2ocuXbmc
-         QLaYaLBs6ZYBU7EMrAs6DnRV0f9OHQX3eJ/FqxXfmfpClzTBkCJo7Fo8+S0ACciJBZEJ
-         Ouyvn5djBS1nAPkxGSR0pzAphRIMLQz4pYH7TKJ4N3P0ZRD3zUKgXteAks7IV9bT1yo2
-         r4fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766059314; x=1766664114;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1766059315; x=1766664115; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iABlNUQ1WBKW6IPcF4FcCfmPVjkNrlWXqGb7GGbanhw=;
-        b=qXoETRLB4qLzvBMr81ouynv6rtO2VAWoBbH/mO3M2QAXZLgR/ljHBpeHflZSD3QuaX
-         6hld/81UtpXs/ahXKNmn8i2aS2SksRhZtzF9RJEsux90uwGa/t4qU1IygOTIRxgy+q0r
-         A7hl70nK/O0doY6WhdfPw920aJo01Rt2dufre0qIxxYhZ5LflgU+9L0Ge53XkJRAGP3k
-         NAGCcywVzE/SvAnbaMSOnBwNPiy1GK0+2sd1wQM3lIOx8qe0rHtkGhBmzsvZQbx64wPH
-         ghAxHhnpLNbBOKBkSo3ADhJJKoapDR9NIY/E7e9EZBDXKKT+vWa9d2WfeP2taZJ4cGv9
-         9WSA==
-X-Gm-Message-State: AOJu0YycJV8WfIJHHeDXAK8R/WtTMtMDWsxKIy0qB/vA2bXJChvnbrpi
-	Kn+81TtF5K627OHe3YqlsT0fGexfaXnwqN6aKGDnK/1TAbi2/IjituaDV6EVJw==
-X-Gm-Gg: AY/fxX4I7jEeRIzV2eN0zUIkBknKX4rxVjTvoyzAuXJ0Jtcybt6yrlNOzxPBnbRcCKW
-	OzLoJdkMZkrBW+SpO1WVrsJBJYvDzO8qlUAImzIzrR0mRQDgP0lOrUZK7KAbiEHYky55qy/HeuO
-	g8H3UeBYRBC/5IKt+kMe3q04Wn0ERp2Sk8EmwUrTm6qACuQddKybeHe7bhl042d+HAcioomTFc2
-	0ScizRnaaHjYxixuoZXIP5DaUZwqvyyNRl4pBUOD2pwGnrISqIMYyQLC4lIiqzyGccQeMefYPE1
-	fslX8pErvzONowuJgMX/n8thnrhd6DFnC7CP84+ejpI1sC8dCjhx+EYuZ9QVRbLI9/c6nE2gBap
-	sVGojTg1YbMMdtuwUfAEzyeIN+52uZ7+dX1v7cOhK+/oINsS1bUJu4tjNNFGFNmSxY/c0ItxcVq
-	h5kTcWWM1e7THAx76qqHZoFeW4zEwJaQCVbA==
-X-Google-Smtp-Source: AGHT+IFHP9PDhFEZ+o+6vfrZmn4KoJZ+dlKTT6ogZ5zDY1FdmrIfyZX/0rHGzeQFXRY41XfZUITMBw==
-X-Received: by 2002:a05:6000:2089:b0:430:f879:a0fc with SMTP id ffacd0b85a97d-430f879a220mr15100233f8f.21.1766059313716;
-        Thu, 18 Dec 2025 04:01:53 -0800 (PST)
+        bh=44PTI2O5tYBwI330Cyr50GcQl0cnzm2fhTfHOZ4fi+w=;
+        b=YWFD7o+XMjzekcZnGX0yWZRYNzGyYJRVC9uDM7KetQfGKL07AQa2hHMXqGqYKIPh2P
+         SHk+ebc15ZJ2QI3kPU7y4MSIZEROZrdEvbY8YLqhafHAshKYvkSm/qdvkxjS90LVD5VE
+         ziHrWyu1K5Y7/LiiFjqDf0qqyMf63s3EAOsSFoHqG1QdcNW9orZLBIWa09JgPsuS5kI7
+         /J1g/ZzyPS2zBtOCQqebvhXzNYkmM7VRzLWce9qo//DcdoTkbrGxCQGprb9IjQtE8rGf
+         NAoGXzD0rrqFPwvRNGx35bJEHCrbgQtmTjoyXt0r/UvG+9Ze2sWOktIxuA/f39AfvNef
+         8v1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766059315; x=1766664115;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=44PTI2O5tYBwI330Cyr50GcQl0cnzm2fhTfHOZ4fi+w=;
+        b=VUqK6ETPBT3MFe6wMsglb69b9PwuIzBQw32h+kf/yTQB79uDUGub9nlMFYm7Owb7Q9
+         0FfOKNAJjLccgFl/Otoq0B6ypxu2xR/7ePJRYnigDPZw1+zcpZYq+qk2B7CNL6Qqjag/
+         J5AEmuO/GULJMNIy9b8NpnB2T18na11zedE7V8qGFK9qkCM6VQhbgp42ACwg0EG1FJgQ
+         4wVWr8MQO110lzbCGcb4zbSsKqgTdjxYNKdGpp/Eb692C4YEVoOe5hiQuY/3RomNM0k3
+         VI4Tu6xW/LNulBKF09GybZzSeZrST78E5zCcuYbAJqRnu8L4HrXKCS9LVeBVNjJcuJGp
+         PeaA==
+X-Gm-Message-State: AOJu0YyF2gCjY14M/CptfA6xOnBiYs67CTgXxxZxl+IU+pvx0838s4Ub
+	yBRyVn9BeRSercJZfSlXWsP37En0G5FtPnbKDk9hp6J55jC7L/uCLeFcCKtILQ==
+X-Gm-Gg: AY/fxX41Rk8/gy4AfWnuc6afQGewZTXoNsBCRWxvXVZu/P52tDjC8eD7kA1CY4/OvZr
+	NfzkM/mrhrGEmP5vGc+cyQ3J6uxaYPfOdTJgRsmXmH19EX30YtPX8+RH7q6B/p0OPCmohasexIO
+	AAkvuXyRFh1hkFIeC0YJ1bRSnzuYck/TVzkPimBY11iIOwNT00L4DFpxe1k5hnFdn5aopI4P1+R
+	id1t0YO3WjWjV2Drv4mJKuwugdsmc8fsXp25iGJTlawxQNTuRTKdhlzZZ5qutG+rTtYuLwKE5Ib
+	9SFXJXkOw1a9wCi9OWNyjl9e9zhpNFVNU1YT/d/sdOqz2NijDN9LKlkXoW9twBCL8RlK2OH6yMY
+	/v1BhvBWZGEup7zEJZTUwd5lIYOSVI60xzwCcbjr5f5MnOpupe4LTCtvDA9/SpHGksVMtB7UaWl
+	etXBJasd8I294VDacsfkDMh1HTgH9nNDwdcg==
+X-Google-Smtp-Source: AGHT+IGjvv1IIrnoxa/VeBH24Jpey2CSFvUIEdpuXwtCpFmTPmkiPm0jYS+ankNu1tNflwhnNgKYRw==
+X-Received: by 2002:a5d:64e9:0:b0:430:fcf5:495c with SMTP id ffacd0b85a97d-430fcf55f26mr15626824f8f.4.1766059314930;
+        Thu, 18 Dec 2025 04:01:54 -0800 (PST)
 Received: from fedora ([81.6.40.67])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-43244949ba6sm4684850f8f.19.2025.12.18.04.01.52
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-43244949ba6sm4684850f8f.19.2025.12.18.04.01.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 04:01:53 -0800 (PST)
+        Thu, 18 Dec 2025 04:01:54 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: stefano.tondo.ext@siemens.com,
 	peter.marko@siemens.com,
-	adrian.freihofer@siemens.com,
-	Stefano Tondo <stondo@gmail.com>
-Subject: [OE-core][PATCH 0/2] spdx30: Add summary field and concluded license support
-Date: Thu, 18 Dec 2025 13:01:37 +0100
-Message-ID: <20251218120139.104155-1-stondo@gmail.com>
+	adrian.freihofer@siemens.com
+Subject: [OE-core 1/2] spdx30_tasks: Add summary field with fallback chain
+Date: Thu, 18 Dec 2025 13:01:38 +0100
+Message-ID: <20251218120139.104155-2-stondo@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251218120139.104155-1-stondo@gmail.com>
+References: <20251218120139.104155-1-stondo@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 12:02:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228117
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228118
 
-This patch series improves SPDX 3.0 SBOM documentation quality by adding
-summary field population and concluded license support.
+From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-The summary field enhancement makes SBOMs more human-readable by providing
-brief descriptions for each package using an intelligent fallback chain.
-This is particularly useful for security review and compliance documentation
-where understanding component purposes at a glance is valuable.
+Add automatic population of summary field with intelligent fallback
+chain to improve SBOM human-readability and documentation completeness.
 
-The concluded license support allows tracking the results of manual or
-automated license analysis in SBOMs through the SPDX_CONCLUDED_LICENSE
-variable. This addresses use cases where license analysis identifies
-differences from the declared LICENSE field, with clear guidelines on when
-to use the variable versus correcting the upstream LICENSE field.
+The summary field provides a brief description of each package in the
+SBOM, making it easier for humans to understand the purpose of components
+without reading full descriptions. The implementation uses a fallback
+chain to ensure every package has a meaningful summary:
 
-Both changes improve SBOM completeness and usefulness without impacting
-existing builds or requiring changes to existing recipes.
+  SUMMARY:${package} → SUMMARY → DESCRIPTION → generated description
 
-Stefano Tondo (2):
-  spdx30_tasks: Add summary field with fallback chain
-  spdx30_tasks: Add concluded license support with
-    SPDX_CONCLUDED_LICENSE
+This improvement addresses SBOM documentation quality requirements and
+makes SBOMs more useful for security review and compliance documentation.
 
- meta/classes/spdx-common.bbclass | 11 +++++++++++
- meta/lib/oe/spdx30_tasks.py      | 35 +++++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
+Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+---
+ meta/lib/oe/spdx30_tasks.py | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
---
-2.43.0
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index f731a709e3..286a08ed9b 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -636,7 +636,22 @@ def create_spdx(d):
+             set_var_field(
+                 "HOMEPAGE", spdx_package, "software_homePage", package=package
+             )
+-            set_var_field("SUMMARY", spdx_package, "summary", package=package)
++            
++            # Add summary with fallback to DESCRIPTION
++            summary = None
++            if package:
++                summary = d.getVar("SUMMARY:%s" % package)
++            if not summary:
++                summary = d.getVar("SUMMARY")
++            if not summary:
++                # Fallback to DESCRIPTION if SUMMARY not available
++                summary = d.getVar("DESCRIPTION")
++            if not summary:
++                # Last resort: generate from package name
++                summary = f"Package {package or d.getVar('PN')}"
++            if summary:
++                spdx_package.summary = summary
++            
+             set_var_field("DESCRIPTION", spdx_package, "description", package=package)
+ 
+             if d.getVar("SPDX_PACKAGE_URL:%s" % package) or d.getVar("SPDX_PACKAGE_URL"):
+-- 
+2.52.0
+
 
