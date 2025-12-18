@@ -2,117 +2,180 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D232D711AA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EBB5D711A1
 	for <webhook@archiver.kernel.org>; Thu, 18 Dec 2025 20:22:53 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1922.1766089370232684946
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2016.1766089369396839900
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Dec 2025 12:22:50 -0800
+ Thu, 18 Dec 2025 12:22:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fj24BPRf;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-88a379ca088so11001346d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 12:22:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aqli/Y8Z;
+ spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-889a865bc1dso8315316d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 12:22:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766089369; x=1766694169; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bopPMKFAnqTrHIFhiq3L6qJjRCSiquT5yxGykNrlIY8=;
-        b=fj24BPRfsiZuCRfTPEa73GlsCEYicGktRsW+Xiw0KjUqELfsa78cCSDC4foJq5TcyU
-         TMMquOQFNY0zTWf6qdYpD/wADYE9BR70urxOh27qGmEu2ii6utUvkolNMiWphqEbUBAo
-         TpQTJpQ1lPMyW+TR353luikxUbygvT1SWvF3DbDtOW8PBXNQwUp2nru2SZLzZkVngZqS
-         NXO9k6/8WX8+7ZixTnCGneQtO+4vRHuPnSrG6K1uh8KniljZwRxnOxMeZJGNTlrxHFjD
-         areMA17aBd36g4UZq+at1nzoWbSNZ3vf4nay4BBWibQUBf+KZLyN5K3t6ivIvJ1ydUWn
-         VJ5A==
+        d=gmail.com; s=20230601; t=1766089368; x=1766694168; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/qB2tdPsproDCIn7p10SFAAqSpqPVp1E+S5MXPbdRH0=;
+        b=aqli/Y8Zg6+BKjimv4eU7r3sBIwxP/lR7pzPYS685IK9nVDjldUVFT5FPxQlDSaUDV
+         OouLP1Zd8bBhiAHR6j03Q4iScv+jgQGpkuW3uGtvk060QT5NjBbrXuGi6zqdWDWp+/fh
+         SRoGkbEKD9wd97xjmfDBPJ/qoVkc7EwwGIK1NbSHYRWdoLBxkZ0Ab1E26sROHzFcP9LC
+         gKmtwypH2eUU4HfrEhYaksRUeVt0nvYCLwDNBDWOhywqZzQhUyrF6MiwYGcv7VndW73S
+         Z6jGg2brVzAr2whgDXVcu2RqqelQZ4kr7oDRsQPK4X6pybMYIDsTolGfTpbq2l+8/eWN
+         R1zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766089369; x=1766694169;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bopPMKFAnqTrHIFhiq3L6qJjRCSiquT5yxGykNrlIY8=;
-        b=RyY0UbFgDLbMKchepUUyHFkzP5oxAFsIVZRKxfjQ/OFFIwNfeQjRi1rreVg7nS30SP
-         agO48RlnIxjg97lsIIW9fYfBzPuywJDx6Ya30FdyfIz7mE007o4bKVZT65dVYMOoxEqU
-         5Pali2P+LdmsrcKZiSjCFLhEfaBt+ciTaqrStT1/mELXhRdq2sdQB+cDxJAz+/4PZum+
-         kJoJ1PGFGY8qM8PCh+hr8zoeXb/xCYnYTzVThm1q0wD5NsXqrSudds3lJ15/DRNrEy/3
-         20vz1FuX3YcxEdqQLCX8SR4TA6BrOOw6lBzuW0AijWvJfVhW3ln5x50HaZOxNfIRmLd9
-         HDHQ==
-X-Gm-Message-State: AOJu0YwkqFXCPj57KnZ8ktly4aPCJ8sXAxGQkwZAsJZ4HldLSjcBQaTv
-	R1B8d0EzOMMhyD4Sfs/PyUG2zs+viu7XPMhwfr9AyPiH5gy6AYwLQkYA
-X-Gm-Gg: AY/fxX7QUT1p/IvkPUWehW1/7a3HdYEa/1/ZSroN30chXBABxdu4A0p7ucH3Mok/0lI
-	pgZ8/9kPVfOvZaK1QRUOI/byE+uIXU3Ifaa9ST9XqsWjVO/0YQXssW2LgvOjoP1PwB+ZWAZi31J
-	CFCQiPz/tuzMxdoryUKr6FzFtqCrSdEBPr/WVd5JU1jQEjJDTClqn/eFb1pVtrZLQ5fhGeliX0u
-	7OSKD7zMRBg+83h7d/h7YdpK5DTLVsxA8/dVV/fhRS2YbbwpPQmL2iWrpSsWaoQaNcFIrk0wWKW
-	ArKUMezPf4dp0LbCcn7ABABFo27/H4xMWPaC74YbmRaEe+39rHVocfbB0i3vj7nGW/JMp6kR7MT
-	VPY4AuDn8Bd0PN0JyV+0IcyIDwtM6pYysODX6exKcTyrxtgCffHRBjQH/QLvoTaa3GGqNCX15OC
-	++6Met0k7RwWpDqhDxh6kuhiTTf6JJJ7f6GME9HItV1ZFTALQntKGDzW/JemxS12p1a++1ZNAY/
-	+P9vvS045Q2YcE=
-X-Google-Smtp-Source: AGHT+IHKWQKrDJ8qNGqhrC+r9doWtzQ2ppNUJSQU34+R8nA1q8/8f8/SLlC2qDkEQ7tts9Dilvj/ZA==
-X-Received: by 2002:a05:6214:3a89:b0:88a:57ec:9828 with SMTP id 6a1803df08f44-88d86e452d7mr14433306d6.64.1766089369060;
-        Thu, 18 Dec 2025 12:22:49 -0800 (PST)
-Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d99d7dbdcsm3226456d6.43.2025.12.18.12.22.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        d=1e100.net; s=20230601; t=1766089368; x=1766694168;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/qB2tdPsproDCIn7p10SFAAqSpqPVp1E+S5MXPbdRH0=;
+        b=TQ3sMbZBncRqLcVwXHlWiSeuf3WDehpA4p49EZ3oSwaGTCZQCGt1oWHlXE3p4+5rDF
+         dvP4qh/c49xDFHgCeDTNvJeSq4bIOQd0ELkIHBWh7meyzYirZJBOzqQABZdV4P8+z9Q5
+         lzQGgk12FIa5XrAekPV/p6TxcIMETqPHoWsOHo9naWs/V3Q6GrP5l3oAlX9DVElPofio
+         fVuXBkjJPy1WN6u+oGn6ejCVQQQXFrlhVjXaG8S1nYVYbnll/oz2OQH0B+n93UtuJMba
+         vtc5xksD+EEPcpGj5bA2bDqGoJajpFlvgG6vL4Fca58XhYwF3RCmmZLI9VrpcWfqyCwm
+         1jBQ==
+X-Gm-Message-State: AOJu0Yw7uLYhpLO8qsHwgKx6IsQ7PSbGkY3r8MfUImjGKO2u6827M1we
+	pbL/U41U+Qp5IyuqjWnVSgIy6V49RBzhP4OS2eGWEE4H+WlCKlMYXAq+YJa4TRehgsk=
+X-Gm-Gg: AY/fxX4sEXNHb4oiVbHe77Q7EAyl3bUwgWSHHNpXjlRvmGtuEs/mTF9VBHZ59iACYLL
+	aYsmtenSzL3982b7UOJynGY1VUd8Ygu4K3y575uwQ9ZTXwmZqGUIVI0smTwUYPefFqQsotezX7Z
+	ne64C1IfjEmx5U0W3igdZvLp/kC0sXxEfRY1vmV/QQP6Sg5cBdfe2FV9kaGaKrkr0k1mqGyaaEL
+	Wb6zL1VgY85XsOS89eSTxudBSFICgYS1fiHKApKla5KMneGp8zL0l2fWZcoz8hsSMG2DsXrfZdV
+	KPuIA5RtFS/CBu9smatsQHsPj+JHy1Bo4NWihWFjpQ6VOYc5eEBWxLfxNSIM9hvARvNjOfDJBZ8
+	hSvv88nWw9yW8PfVJ7Nuoj04RYUKynkdeFERDS6TjoG278BL9BsvI+v3L/6JBbiMusjXVNUzSB1
+	VALGwnmXWa+GmOPrJtkpQMy4uD34GB0y6EXzI1t9vW2TEG7UINNufJ8WGSLufjxw5CzESm3RD/1
+	mS/Nsx5I2hclGg=
+X-Google-Smtp-Source: AGHT+IETcRvidXKZ4yhX48HBXy6NN2GPm+gnEXmUF0aSO5FcInkO30dxaWGFktpnEky3S0ZmTe6Y3w==
+X-Received: by 2002:a05:6214:4306:b0:888:7c7e:fce1 with SMTP id 6a1803df08f44-88d81667a1fmr16680096d6.4.1766089368278;
         Thu, 18 Dec 2025 12:22:48 -0800 (PST)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d99d7dbdcsm3226456d6.43.2025.12.18.12.22.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Dec 2025 12:22:47 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [01/15][openembedded-core] kern-tools: fix commit SHA reproducibility with raw diffs
-Date: Thu, 18 Dec 2025 15:22:26 -0500
-Message-Id: <20251218202248.70476-1-bruce.ashfield@gmail.com>
+Subject: [PATCH 0/21] linux-yocto: combined and consolidated pull request
+Date: Thu, 18 Dec 2025 15:22:25 -0500
+Message-Id: <cover.1766087617.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1766087617.bruce.ashfield@gmail.com>
-References: <cover.1766087617.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 20:22:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228144
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228143
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Integrating the following commit:
+Hi all,
 
-  commit a4a362d9f4f0abc8ab145a8673166b9bd875731a (HEAD -> master, origin/master, origin/HEAD)
-  Author: Hubert Wiśniewski <hubert.wisniewski.25632@gmail.com>
-  Date:   Sat Nov 22 15:23:02 2025 +0100
+As discussed in the weekly engineering call, I'm sending this as
+single series even though it crossed boundaries of the repositories.
 
-      kgit-s2q: fix commit SHA reproducibility with raw diffs
+I don't have access to meta-yocto-contrib yet, so I haven't pushed
+the component parts to contrib branches yet, but will do that for
+future pull requests.
 
-      In case of git-am failure, kgit-s2q tries to read the date from the
-      patch. Unfortunately, if the patch does not have a date (e.g. raw diff),
-      no date is set and git uses the current system time.
+I'm using this as a first run through some things I've cooked up
+to coordinate the patches across the repos. The formatting is my
+own, so apologies if it isn't clear .. and we'll see if it all 
 
-      This patch makes kgit-s2q use SOURCE_DATE_EPOCH as the last resort or emit
-      a warning if it's not available. Additionally, GIT_COMMITTER_DATE is set
-      to GIT_AUTHOR_DATE if requested with --commit-sha option (same behavior as
-      with git-am).
+Now to the series for OE-core:
 
-      Signed-off-by: Hubert Wiśniewski <hubert.wisniewski.25632@gmail.com>
-      Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+ - We have stable updates to 6.12
+ - A kern-tools fix
+ - Updates to 6.17
+ - Removal of 6.17
+ - Introduction of 6.18
+ - Bump to libc-headers to 6.18
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+I've built and booted what I can locally, and I know that the
+major architectures work, and are functional with respect to
+core features.
+
+I have more libc-headers testing running against meta-oe and
+muslc, so there may be some breakage there and I'll help deal
+with that if it happens.
+
+The update and then removal of 6.17 is on purpose. In case any
+one was using it, they should get the latest tested before it
+starts to be removed.
+
+For meta-yocto:
+
+  - removal of any remaining 6.17 references
+  - introduction of 6.18
+
+The meta-yocto default changes are obviously REALLY RFC/RFT
+there will be issues, but I've provided them anyway to make it
+clear that we are going to 6.18 as the new default for all the
+variants.
+
+Once we get 6.18 fully green and the h/w references udpated,
+I'll remove 6.12 and 6.16 from master. That isn't in this series
+by design.
+
+Cheers,
+
+Bruce
+
+Aggregate summary of exported patches:
+
+ - openembedded-core branch=master : 15 patches
+ - meta-yocto branch=master : 6 patches
+
+Changes:
+  [01/15][openembedded-core] kern-tools: fix commit SHA reproducibility 
+  [02/15][openembedded-core] linux-yocto/6.12: update to v6.12.61       
+  [03/15][openembedded-core] linux-yocto/6.12: update CVE exclusions    
+  [04/15][openembedded-core] linux-yocto/6.12: update to v6.12.62       
+  [05/15][openembedded-core] linux-yocto/6.12: update CVE exclusions    
+  [06/15][openembedded-core] linux-yocto/6.16: rust kernel configs      
+  [07/15][openembedded-core] linux-yocto/6.17: update to v6.17.11       
+  [08/15][openembedded-core] linux-yocto/6.17: update CVE exclusions    
+  [09/15][openembedded-core] linux-yocto/6.17: rust kernel configs      
+  [10/15][openembedded-core] linux-yocto/6.17: drop recipes             
+  [11/15][openembedded-core] linux-yocto/6.18: introduce reference      
+  [12/15][openembedded-core] linux-libc-headers: update to 6.18         
+  [13/15][openembedded-core] linux-yocto/6.18: rust kernel configs      
+  [14/15][openembedded-core] linux-yocto/6.18: update to v6.18.1        
+  [15/15][openembedded-core] linux-yocto/6.18: update CVE exclusions    
+  [01/06][meta-yocto] yocto-bsp: introduce 6.18 h/w reference           
+  [02/06][meta-yocto] yocto-bsp/6.17: drop bbappend                     
+  [03/06][meta-yocto] poky-tiny: make 6.18 preferred kernel version     
+  [04/06][meta-yocto] poky: make 6.18 preferred kernel version          
+  [05/06][meta-yocto] poky-alt: make default kernel 6.18                
+  [06/06][meta-yocto] yocto-bsp: genericx86: bump default kernel to 6.18
+
 ---
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Diffstat:
+  openembedded-core:
+    .../kern-tools/kern-tools-native_git.bb            |    2 +-
+    ...-headers_6.17.bb => linux-libc-headers_6.18.bb} |    3 +-
+    meta/recipes-kernel/linux/cve-exclusion_6.12.inc   |  632 +++++++++++-
+    ...e-exclusion_6.17.inc => cve-exclusion_6.18.inc} | 1040 ++++++++++++++++----
+    meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb   |    6 +-
+    meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb   |    2 +-
+    ...nux-yocto-rt_6.17.bb => linux-yocto-rt_6.18.bb} |   12 +-
+    meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb |    6 +-
+    meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb |    2 +-
+    ...yocto-tiny_6.17.bb => linux-yocto-tiny_6.18.bb} |   12 +-
+    meta/recipes-kernel/linux/linux-yocto_6.12.bb      |   28 +-
+    meta/recipes-kernel/linux/linux-yocto_6.16.bb      |    4 +-
+    .../{linux-yocto_6.17.bb => linux-yocto_6.18.bb}   |   52 +-
+    13 files changed, 1526 insertions(+), 275 deletions(-)
 
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index 9240ee5db8..bd90316050 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "\
- 
- DEPENDS += "git-replacement-native"
- 
--SRCREV = "f589e1df23251d8319063da0a61c1016b2a0bf85"
-+SRCREV = "a4a362d9f4f0abc8ab145a8673166b9bd875731a"
- PV = "0.3+git"
- 
- inherit native
+  meta-yocto:
+    meta-poky/conf/distro/include/poky-distro-alt-test-config.inc         | 2 +-
+    meta-poky/conf/distro/poky-tiny.conf                                  | 2 +-
+    meta-poky/conf/distro/poky.conf                                       | 4 ++--
+    meta-yocto-bsp/conf/machine/include/genericx86-common.inc             | 2 +-
+    .../linux/{linux-yocto_6.17.bbappend => linux-yocto_6.18.bbappend}    | 4 ++--
+    5 files changed, 7 insertions(+), 7 deletions(-)
+
 -- 
 2.39.2
-
 
