@@ -1,150 +1,323 @@
-Return-Path: <miaoqing.pan@oss.qualcomm.com>
+Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3370ED68BD5
-	for <webhook@archiver.kernel.org>; Thu, 18 Dec 2025 03:10:01 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32946.1766027395393597485
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 624FFD68BDA
+	for <webhook@archiver.kernel.org>; Thu, 18 Dec 2025 03:39:11 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33181.1766029144698921899
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Dec 2025 19:09:55 -0800
+ Wed, 17 Dec 2025 19:39:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=d6gwO7ib;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=c9v/K4LG;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: miaoqing.pan@oss.qualcomm.com)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BI1Ycuo813844
-	for <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 03:09:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	0obVLUmKX2tZkxWtpNf8JuoC5Vrf/QqqHnVkzWf0C4M=; b=d6gwO7ibhpE16ljn
-	NHRSWfr5m5MqYm3ESkz3nM2Yj0jDeW/dwTQSIV66waUEoUzU2lR8iDrqON1NHc2p
-	l/Xm7+DJ3/ATE6FClTR92Bgb3O+6i9W+SUgBDPA6+LIloY+rNm82bwZK80Hsksh0
-	647XRTd79MALxjFYOB5efVJ4ExZG1WVHyPSDwn2wg5UcnUOCSXN51wJE8PwcG4zv
-	CLhvjfIqZomF7Fb4dLfPcyWDcWx7y8w2ro2xgPidMyrAMZnpXTEzHn1hTTOq47LR
-	EwKI3FN1ukKyz+JpycKXe+w5xIreYSuw20FfHeTtVFpS122a+vtlpmq3Uu5rRXOt
-	8ttitg==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b40v79cxs-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 03:09:54 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-29f29ae883bso2852945ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 19:09:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1766027393; x=1766632193; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0obVLUmKX2tZkxWtpNf8JuoC5Vrf/QqqHnVkzWf0C4M=;
-        b=c9v/K4LGfsx8zKpQbdox915n3ar5gWEkway8zTQ6GNgYXZcUGBTd5cEg/EYmSwtLQP
-         uz60UqpcYrsKzBgi/iOI0a2UC7USFtGhA93dOvse8aZlLp/XivtA0ffycEwLpXrBuNBO
-         FUg5kOYuE5IsiglamPOlmFEXZai31qPuE9Q0JLMQOnrYh+JA+JVoqj7h+Xkid1zAhmP1
-         Up9BMPKlDNRPsUasKmKfV3nmh2JAwiA2O6iM+kgDDWl/UPuf9BEjWw43eQOHab2eAqMh
-         5tRZpjKpc76SRdz3AXKq0J2micmHNQOyfxcpWb56XOq6rnbZibGyUjmG0XamRkb39P4C
-         6wKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766027393; x=1766632193;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0obVLUmKX2tZkxWtpNf8JuoC5Vrf/QqqHnVkzWf0C4M=;
-        b=jQ/VGUOSCggex4riUvHlDwia5n4BsjbY4+Iog7l9kb5V/l8Xj52KX8cGSuy1Ci5Kj2
-         RtelQOW4R6xySV+Oo/Tg4SjNCScxg5+/KUlYD6P7cy8KELq4G2kM9CqRYeake10acxCj
-         hUeV13VEjATGkuF2x1uDRXYS1ngd73f58KplRe5kGCjtNpY9Iow3oFa8DZxCTC5hEV/W
-         ByweiDQGTnr6nXBptxkt5ulvkLTFMQ5Z30XSed7W6kb534vuqnsKW6fhUH8IiwFaQO1a
-         SjWC4oRdwFLqjm6GTpPRnRBXhIPlhXf4KYwZmE779xDx7WRpyfpLKjbEDcNF3Do8Tw6H
-         rn0w==
-X-Forwarded-Encrypted: i=1; AJvYcCVXjVXa6MAWcWuvMKtlZtiTBjSVVq3ALge6ovtFeP4XAMLtIs5abTynAjPQhnhGfaDYd1wlf06xEqOeda1A4yjDVg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzapFj+mutn9Rhb+bKypMWPKBpkz30JfMQFdyV93jAVjMV4V75z
-	O/u4ZAqFrKclCpWGmd8e5MHxC9S+5zgJTQu+gmvPqbq9ucPh2TEOfJ/ePi/fw4xqYiZx0bobCh+
-	v85cxr91jIGrTyQM3s00avhF3voB8zz80Q7MQNHZvjWSQ3zDI87PcLVI7P0bCuGkagNNU2e5H0o
-	HyJkg7x/I=
-X-Gm-Gg: AY/fxX4zFLDK11CZnDM41ST1zSTSRTVD8lqCYRlIFzdfTU577lT5D2CdVNx6Jh9bz1x
-	i1i9gGDNvnmrGJc9xMLZEliM3CXjbHbNTA0H5DuMWZWSGojkG5My9pu8oXXo4BTRbZFphaSke9c
-	r+YzuzhrUJgSbZNw5iJmmnTMUEZBC7oyNoNB56o99lr96oiE6y7rZ3wkEcBVVEVF8mzNPdjJs9e
-	hToe0osNsO9EiNAAkRa9JENcfUbSqNQZgMFDvKfnCNtnLLUyLI1h87wr2zk1v2tGQX3tRAHu0xD
-	rkLEyHO2tjAQeo3gPbrH5QnidrQzIAxdtg19DhanaPrIuw2IRceNwR4upAKWFCbwDnhNr8ScdGk
-	GF6QqmzRLPI5l6ZwX2caDPttZPJVoCOUDmXvnxcTqY9MJ0dZ3QSY7bKo+SIAor2WT5Pp6WsgSea
-	+vLI90JQ==
-X-Received: by 2002:a17:903:41cf:b0:2a1:39cd:7462 with SMTP id d9443c01a7336-2a139cd7789mr77711085ad.8.1766027393272;
-        Wed, 17 Dec 2025 19:09:53 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHMkEhL9eqzc6zUe8RNcrqmXmoN47V/Pn3dzPwzta7TDCbC75bfrTjF/a8viA3ELkJqZX+OKA==
-X-Received: by 2002:a17:903:41cf:b0:2a1:39cd:7462 with SMTP id d9443c01a7336-2a139cd7789mr77710805ad.8.1766027392664;
-        Wed, 17 Dec 2025 19:09:52 -0800 (PST)
-Received: from [10.133.33.148] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2d193cf98sm7570165ad.94.2025.12.17.19.09.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Dec 2025 19:09:52 -0800 (PST)
-Message-ID: <891cd6cd-6198-464a-8c9d-5a0901901a61@oss.qualcomm.com>
-Date: Thu, 18 Dec 2025 11:09:47 +0800
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=cIToYseN;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=44473d6ac5=yi.zhao@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BI1Gv1U3177379
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 19:39:04 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=KAlTsW0JMpR0rGYb5VHtSoRF3EJ3TNeAiolRAcSsQqE=; b=cIToYseNKDdU
+	KZRklVjz+41BtJRhBTk4nYazeCG3CHXF03zWhv5W60AjQIX55dFvydHKRDqQtfcw
+	yKEB2F8H6KAMALKQ5ZUNoMy/tNvKfSNX1OxIw+YGFHjBRQShfgt+YQUHtI0tLgwA
+	9FSKfrMBw707Irnfr+KpyfQVgcWyF7EaZf493iCIqVHHEHSmAhKlen8fE39UnuVS
+	SqWrbeGS3sNaRbDfnCOEQO+THM4bRxRmBSt7WyrFqc68wXic/mzGvfjPVBAGk0Xv
+	xN24EgF0ek6cpHdQ7Lmj0w8PPT1JA4Ke0kF2OUOJHAHJpEYPHbsAC3leLm/xWBDB
+	TPNfb22U2Q==
+Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012008.outbound.protection.outlook.com [40.93.195.8])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b3k6j1euv-2
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Dec 2025 19:39:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NfYANIuRtjBo3k4aqfmvLkIDbejgv1o+l3sMhRT0cCBgMFgWInScHJ56xLh2Qif+kAsTETAWnM7WFQswci2pJcMmp3XhlkEHSBOAngrgm9jr9J5VpVNXMR0YeVvYxCNw+U/a5SffrdJMzgVPMnulA3GvuO5coI7yHTOmNdtYbtMzL9XIHSLEd4zo9aV0a0HAIawj7hF+9J4iS8pBSqOcuCohx3sgKn+Kw4zjA4j7282FCvoifven6JE/rj5naFAntcmFwvji4Y0yRdxmjyG/95sAv3h57tp8Djlkj3Zo0slhzpLm1HQVULp2K7HomHjufi/7tEIPwtLqq8GTkUwBNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KAlTsW0JMpR0rGYb5VHtSoRF3EJ3TNeAiolRAcSsQqE=;
+ b=jO1lL7Nt5GAuvloYUEtnfyJNQJi8oej4jPido/JgscS/wSWwGxaDpr4OeKKhI+rBBp/386KPX/TLCmQet/ZiJxeC5KLgHg5djHFymY1w8GHCbRNaIobnt2LuY2fYBNiNZ9rvaoEJbnoYIZe1aJ45BUYF93CXw0vqSH52+QmlwfF0xH3q2OlEHVPzIlQ3SGQTq8pTBClmmGg3cIagBML2I8A36Slc9DsvY4iEN9m3eIq0hNrjdPDv+kjxYJZrGgK+xDaGFyvEACPYH0lIfmtjyCp3diYNchNJjqxT8/dXHKVaZCWRGouSLwPZlWsnn+GZL6wt7PqGoDb1qnYi+ZDSGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
+ MW3PR11MB4652.namprd11.prod.outlook.com (2603:10b6:303:5a::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9434.7; Thu, 18 Dec 2025 03:39:02 +0000
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad%3]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
+ 03:39:02 +0000
+From: Yi Zhao <yi.zhao@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/3] kea: replace keactrl with kea daemons in initscripts
+Date: Thu, 18 Dec 2025 11:38:45 +0800
+Message-Id: <20251218033846.107161-2-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251218033846.107161-1-yi.zhao@windriver.com>
+References: <20251218033846.107161-1-yi.zhao@windriver.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0219.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c5::15) To DS0PR11MB6399.namprd11.prod.outlook.com
+ (2603:10b6:8:c8::5)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v3 1/4] wpa-supplicant: restore use of packaged
- defconfig
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Jouni Malinen <jouni.malinen@oss.qualcomm.com>,
-        openembedded-core@lists.openembedded.org,
-        dmitry.baryshkov@oss.qualcomm.com
-References: <20251128013628.2187455-1-miaoqing.pan@oss.qualcomm.com>
- <20251128013628.2187455-2-miaoqing.pan@oss.qualcomm.com>
- <187C300838343AAE.236385@lists.openembedded.org>
- <CANNYZj-41tXqMX2D=bUU2Q8E7=qAC8=5M_3uvMFcmq0aKV_sRA@mail.gmail.com>
- <8d2218a0-3f94-459f-ac2f-8880d356db2b@oss.qualcomm.com>
- <CANNYZj9J7aNyqi6vxeZr_6viF=gze87JaKJx7-ge_6GokcCLTQ@mail.gmail.com>
- <97ef8fca-f266-4e6a-b94d-469709500c62@oss.qualcomm.com>
- <CANNYZj-2aJEenGpzSq53fPbYVpLOEvSAiKKGmb4j+heNVhbS3A@mail.gmail.com>
- <a89409ba-8786-42fd-a587-70606fe57f63@oss.qualcomm.com>
- <aTGthgduOuJaLV-2@anonymous>
- <CANNYZj_kvZxiuoYu5+Uo1Zs3k36--dexc5FOuaC7mrWA9t0X-w@mail.gmail.com>
- <98414d4d-260a-4fac-b8b9-9e8e47ffbabc@oss.qualcomm.com>
- <CANNYZj_LtOQ0m7=5cp+Y9kkNM_+rwDuTTveDZu8=66czYXXL1w@mail.gmail.com>
-Content-Language: en-US
-From: Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>
-In-Reply-To: <CANNYZj_LtOQ0m7=5cp+Y9kkNM_+rwDuTTveDZu8=66czYXXL1w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: ViUIbOjuE3royoZfL3MNoAXfoDyuEvmk
-X-Proofpoint-GUID: ViUIbOjuE3royoZfL3MNoAXfoDyuEvmk
-X-Authority-Analysis: v=2.4 cv=f8JFxeyM c=1 sm=1 tr=0 ts=69437082 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=oyHuvEGzWWv9Ukya8ZkA:9
- a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDAyMyBTYWx0ZWRfXxERbIBOzyy8B
- h4qJA3+7XlpdWHGp5qHuuyLTHTG9FirFQu0CdY3LOaw7j022s9Wouich6UZRYBOlyketWtCglks
- DFD5C0pDAYuya0Nbp83IDWZVUW1h0Z40KCz7xkXe8x28Nax+ZRxpFg2cz4L7ebBvf6K2e8bUjng
- K5/CapboLnWe7H2Shvs32F9jQgqSIjjlMwBfVEr25h/jE4wNaWcIsx4l3nLWlmZzcUjGkjjMPNG
- FN2wIUd0L/mBcojyFApIrtn5iyKE1DEHJ5Rw1/dEIswZ3W/W1ufhkaBy6iOFDHHgVEQW9J+DrF9
- dgznuFCcYi2v2TeAZuE3HTgAmPYRafOZRQxHSonIWmtTDOWkkSAHcBFnOwPWBx24SYCIW/m6NAB
- 5L1t2xdWDThSyVTCvXDLrmaN7gcXag==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|MW3PR11MB4652:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a1a363b-1561-40a4-3a66-08de3de6fc89
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?9qvv5NFIPTU86XS3iyq7ufgIl+h8X62GoqByhH70mUc2jWKC5+wfZ/5SGWBA?=
+ =?us-ascii?Q?rvcd0wjwYy2VR+/IHhJs2icTaRWJMmYvIAlIRNJXj1hROG8KEjnuDOGHzb/T?=
+ =?us-ascii?Q?oyasdPwmuwNQfcxBIYJlpqN96jVVC9UKfs6UvjCNLsBOn8MkMah9xim5a1go?=
+ =?us-ascii?Q?p4M59EcEat4jq6R+wBQyF0lM7YUIAO1mIy5aci70f3acC1xeDiy07F2rrze7?=
+ =?us-ascii?Q?usb8OCSEKKVuE0FYuAzM7s5xeLo+/dCxTBlLazlq1nqdsjvQ4CXwasUUMzY/?=
+ =?us-ascii?Q?+ROctImMT6DFvzk8TAw4U2nDIFsD47+8v6BXTQWi/IjogbRAj2y+0NSOAyV9?=
+ =?us-ascii?Q?As2eB6hk3ubOYJTJBAJ4JqlPw/7l9AnN2JhK571MfXbdcsfKlCPkZmW4ze8R?=
+ =?us-ascii?Q?t/BO1osacqLPJo6nbQJdG2RGZJTEhPGEb5AIw811fbHGEVXYojPhW9T+jwYW?=
+ =?us-ascii?Q?Jj3lZJpvdhBhTzKsPjLDTlt7N/wm8V2MXI6QS24P5hd1i4GuKbcnb8x9NQKa?=
+ =?us-ascii?Q?kXE9o2bKXsq+xHsyQG7okEqs0KXwjYjUpy8Plp0IOG3xCl3cABqf/lJL2wZu?=
+ =?us-ascii?Q?+IAigJKnVZgVAjve/tqoWqevBLhw6gGrPwaFyrqkK10Ec5muPVTw4JYdp0YP?=
+ =?us-ascii?Q?FlcyEMvIgRU/3K02AbZrmWjJqiTHC/68LNF1Ax411IN+UIhgl+UoFDJt0oaf?=
+ =?us-ascii?Q?qW8vjC+9a2EF0u82uruECZUmfEwRsPwO2k/5dPmQYFVz3hubNc2Hcv8JBzsw?=
+ =?us-ascii?Q?0Ulk4Q5eiqvWoHCaPacS39ccLCg5xMcGO9sjVDYo9zXuLXI0QNonHyko3rSE?=
+ =?us-ascii?Q?0lIUPvxS0BO2oWqJhkoHRwPbUytdCllLgIi2zB8F4I0eTaos9Hg4+oovBnBI?=
+ =?us-ascii?Q?r5+aUUECDFhZrdTSLCRW7lqeK4sg1EaAz6nl8nS5EvAjDwGoQS16aoofFIpb?=
+ =?us-ascii?Q?MDmsm24DUuTwZ7apTv5hN5QYGMzCgbW5t17oWEGmFWTSh/Al4ECwbvbOJtrE?=
+ =?us-ascii?Q?PoogfK9NB2blkbCjfqwfPprSnLp9Y4v/wrDpC4rBar4vHPaZr/H6AVs/QmK1?=
+ =?us-ascii?Q?9wJZh6Xh4pBCtLEtOU+WDwRv1n+QIIOesS+kK29A+4rzMuTq1iR9p8M3gFsb?=
+ =?us-ascii?Q?IyGAnie3UNB7JKsVsSgEVhqqKgrxzs8fabFC/Sn/CaOxX+7uHrZ1BQhTI6S9?=
+ =?us-ascii?Q?Cx93aLZL1ZfSgHXQN8fX+aO7IhtE8CV1Q3zovu5HazMqneICbMT5lMaWaFay?=
+ =?us-ascii?Q?iXv6v3dUZ/rckd3q6jLi86aEyaf8qsu82Qqq90elXPZd309l9QqKTsnZcTG7?=
+ =?us-ascii?Q?qXtTYmuJmjkjQpIHOtTBEiPeKhD78F345w1MulDV+23esQAVjpiOhGdRxqTb?=
+ =?us-ascii?Q?uLb0tYPS3KZMW1F/IKjhpe9PvrykAK/EYGrtFtanCzWJAsZdMMHhG8RHv8ml?=
+ =?us-ascii?Q?zSuJxk9Db/pAUG3P1UTc4ODx1tLGofuwuHVuiTKy7NOiH0S30sOHuA=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?nWeUNE0W9QPN9BMy6fDmqldikFaEuVGTpuAtiPOK/8ZUTZn32b5Xm9QzK4N+?=
+ =?us-ascii?Q?H0PRxY973aa1g6jFUacmw5+MVUM0o91zcs6GRS5MBY5VbiaLgKNOkNvpC3y3?=
+ =?us-ascii?Q?NWBUqvZmyicXsjThgPdZ0l11S2q/XLnwND8WfJMxnle2MsE9hcUFrH3XrElT?=
+ =?us-ascii?Q?qn/vjy3waety9i0IN9dqwYYGeRIvP977nKURmK1pEPcWbfns4L4EorPZ3GJf?=
+ =?us-ascii?Q?5hxjnD4TZK62HDnfSChYGOSQDp8q66hrveZLIhdhM0eEYfwbkD741aOKjKNL?=
+ =?us-ascii?Q?X17OEhV9g4b/tujL8NwdlR/URO//y+4PpdrBpYgD0SU2y1cR2wOvJjB6Yr0G?=
+ =?us-ascii?Q?gY4ZCfXuw4ZWwvM4yV9ydi0aPoaqX/WVHwkdnF3L8b2OkkMnLzCvGMki0hOW?=
+ =?us-ascii?Q?hr24ckNpiMirF6ThYqEhIVloUWuJGJWCCpZsIf90SCkQR5d2dul7SrQXNjbQ?=
+ =?us-ascii?Q?RCw2QWYGc9WpCIJRCP+U1LHQYTXiQ69mnk6UqzbWyyUvS/obn8UQrCGal+rQ?=
+ =?us-ascii?Q?ztt89vGkKUYUcAp2wh3z/arp9iC2mIZY89nh41IcTfWH1UwWe+JFbb4O7lgp?=
+ =?us-ascii?Q?LksfbxEil5KMUik1vp0fGJ5Ou05nUfH5WdqJ4/2VI6feUlb/FOvdBc5WwC6Y?=
+ =?us-ascii?Q?rjq4XTWWBaRpmtjeY32Pp2NLaV8Qsn8r9tb4tpR8K0VbxlgEU6Xxhisg7mdN?=
+ =?us-ascii?Q?XMgrVjHODZwLjvy7AZUloQUo4tv2T3alSEYRN+tpsyrEQM/OosZwECRRx/w5?=
+ =?us-ascii?Q?IJzVxtU+rFrELZnj1jxWgyZmgRMrkJWGDjfg8TQkON0au+hQt29lgBr0ZCjH?=
+ =?us-ascii?Q?GLAi5UolHf7IU4jd5ZkVIwRlah4uG2VmyRFn+IDX5oixivrsFHxhkc1FXGww?=
+ =?us-ascii?Q?FrAPaCMP6JnWmajGg0SqCFbDUm4IA4nsC/a26Qqssm8uFNEQITpFc8iMDrgZ?=
+ =?us-ascii?Q?145os4dP7LxxeRP1ug6me+x7weST9N/gOWBKrayPncTNSo+k1yIlXz0zJWl2?=
+ =?us-ascii?Q?efY+o3YHgt/IK/80dNqhxG6g63TPQZgynfmPPnEAx+iTmj3LQzsjp5QTbmQ2?=
+ =?us-ascii?Q?1X51/omxSKqinFW0ODrD2aG+viTL3mP3OFD1Ps8D6kC5bm05hmFv8bLu/gIZ?=
+ =?us-ascii?Q?nofE53sMa1HYoZPhN9utghhH7vUR6j26HQokEAuB+rsGyTAcL3ceqx/Jq8Kp?=
+ =?us-ascii?Q?HAu+RN3GnYr2cwjYdSyfY389oPGSxVo7ispTpQ875X5ILWMPb7JgfjptTCeT?=
+ =?us-ascii?Q?bkcxnmzbeFNxgscvR9PScJI8cmcFrSbeZ3iwkpEFu4+jkDwsoRjyUCQrP5qI?=
+ =?us-ascii?Q?oNsagoC4MF8tUrcVymB01tqRJfFncSDr9MQ88t+HD88GSM55EgJe+jMEdTCe?=
+ =?us-ascii?Q?mI1CGUceuSEpqXtTsmkL5UbhV7n/mXu/OpgvM2XCMic5qxAGHwSg98LrWKXk?=
+ =?us-ascii?Q?O1Nxwug20PJzt48qa7ZBDyU3YvKFQNgIRtvbB9Mr5LKa+ssMxsSG9kM1N8UA?=
+ =?us-ascii?Q?P01wCsfu5bXU/XcYldMkfuetVv1V/wYD5itqjWl7pYRuYYTXUhSXIavLk1eV?=
+ =?us-ascii?Q?Ayseb78iU0AkQHN/Tejn13OYgM/S2NleeTo79vUe?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a1a363b-1561-40a4-3a66-08de3de6fc89
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 03:39:02.3256
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ku+uH2NzzXxRB9FePEQgvQWZhztxdIZ4k6tkg/gqwc6TZEyAAncefvh/QR6060sk+OMz6TcDFIzD5evX7PVK8Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4652
+X-Authority-Analysis: v=2.4 cv=ErvfbCcA c=1 sm=1 tr=0 ts=69437758 cx=c_pps
+ a=5ppPJOB7bB2hO4guNQQ//Q==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=SCo1hh1FAAAA:8 a=UXIAUNObAAAA:8 a=t7CeM3EgAAAA:8 a=3om1XbOCNqA7WYwrdzcA:9
+ a=Hti1SrPgC-EA:10 a=nwb-CePKZZm3gL-ai9HY:22 a=a1s67YnXd6TbAZZNj1wK:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: EchXHmf_tTs4sH6wHRQT_e1vhaikBD1f
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDAyOCBTYWx0ZWRfX13TTsjeNryeQ
+ UQN63p9Y0rJ7oR8+kNXHW7Jw7C3FCXg789HTJohrX9eia9CN3n10sOfEMQ/CpPbVbIGTLT7KEqF
+ tj8Ro0/3zMctR6gxoqXCdV6dch690bvjXnBZRyMwrMAwaDlCxpZGg9uATbUbh80aIV2uIfEmlVD
+ tjGHmzrERRwRVS4o2nvmuk/GblUQM7sZxtnOO1sazEBgl8CvXs88h35oreKfWsY0c8EWHOFNVXu
+ bTx30FPw0bT5dMS/WuOSwhryiW6O3AUSy8ysDl6IX9R+wW84KipcQ9GHmoqt6K5cBnKxnwodMwJ
+ 0ggj8LOt1v/exxmbAhdChq8XVOPKqt9rerHyXSaZ8qfrPbLEG3wr0lguBOh8dF5UXLxJw4eBMM3
+ MJYnglqccI35M1BTccYIiqHE/+j5nA==
+X-Proofpoint-ORIG-GUID: EchXHmf_tTs4sH6wHRQT_e1vhaikBD1f
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-18_01,2025-12-17_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 clxscore=1015 suspectscore=0 phishscore=0
- impostorscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 spamscore=0
+ spamscore=0 priorityscore=1501 clxscore=1015 bulkscore=0 lowpriorityscore=0
+ suspectscore=0 impostorscore=0 malwarescore=0 adultscore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512180023
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512180028
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 03:10:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228084
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 03:39:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228086
 
+The keactrl script is used to run Kea from installation directory and is
+primarily intended for developers[1][2]. The initscripts should call kea
+daemon directly, rather than through the keactrl script.
 
+[1] https://gitlab.isc.org/isc-projects/kea/-/blob/master/src/bin/keactrl/keactrl.in?ref_type=heads#L10
+[2] https://kea.readthedocs.io/en/latest/arm/keactrl.html
 
-On 12/9/2025 5:44 PM, Alexander Kanavin wrote:
-> On Tue, 9 Dec 2025 at 08:37, Miaoqing Pan <miaoqing.pan@oss.qualcomm.com> wrote:
-> 
->> Kind reminder, final option?
-> 
-> There are two patches that should be submitted upstream, please do so
-> (the parts of 3/4 and 4/4 in the set that adjust defconfig). Don't
-> wait for someone to say something.
-> 
-> Alex
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../kea/files/kea-dhcp-ddns-server               | 16 ++++++++++------
+ .../kea/files/kea-dhcp4-server                   | 16 ++++++++++------
+ .../kea/files/kea-dhcp6-server                   | 16 ++++++++++------
+ 3 files changed, 30 insertions(+), 18 deletions(-)
 
-Updated in patch v4.
+diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp-ddns-server b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns-server
+index 50fe40d439..ebdf6f4dd6 100644
+--- a/meta/recipes-connectivity/kea/files/kea-dhcp-ddns-server
++++ b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns-server
+@@ -11,8 +11,9 @@
+ PATH=/sbin:/usr/sbin:/bin:/usr/bin
+ DESC="kea-dhcp-ddns-server"
+ NAME=kea-dhcp-ddns
+-DAEMON=/usr/sbin/keactrl
+-DAEMON_ARGS=" -s dhcp_ddns"
++DAEMON=/usr/sbin/kea-dhcp-ddns
++DAEMON_ARGS="-c /etc/kea/kea-dhcp-ddns.conf"
++PIDFILE=/var/run/kea/kea-dhcp-ddns.kea-dhcp-ddns.pid
+ 
+ set -e
+ 
+@@ -25,13 +26,12 @@ set -e
+ case "$1" in
+   start)
+         echo -n "Starting $DESC: "
+-        start-stop-daemon -S -b -n $NAME -x $DAEMON -- start $DAEMON_ARGS
++        start-stop-daemon -S -b -n $NAME -p $PIDFILE -x $DAEMON -- $DAEMON_ARGS
+         echo "done."
+         ;;
+   stop)
+         echo -n "Stopping $DESC: "
+-        kpid=`pidof $NAME`
+-        kill $kpid
++        start-stop-daemon -K -p $PIDFILE -x $DAEMON
+         echo "done."
+         ;;
+   restart|force-reload)
+@@ -39,8 +39,12 @@ case "$1" in
+         $0 stop
+         $0 start
+         ;;
++  status)
++        status $DAEMON
++        exit $?
++        ;;
+   *)
+-        echo "Usage: $SCRIPTNAME {start|stop|restart|force-reload}" >&2
++        echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
+         exit 1
+         ;;
+ esac
+diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp4-server b/meta/recipes-connectivity/kea/files/kea-dhcp4-server
+index e83e51025d..247f15d7fb 100644
+--- a/meta/recipes-connectivity/kea/files/kea-dhcp4-server
++++ b/meta/recipes-connectivity/kea/files/kea-dhcp4-server
+@@ -11,8 +11,9 @@
+ PATH=/sbin:/usr/sbin:/bin:/usr/bin
+ DESC="kea-dhcp4-server"
+ NAME=kea-dhcp4
+-DAEMON=/usr/sbin/keactrl
+-DAEMON_ARGS=" -s dhcp4"
++DAEMON=/usr/sbin/kea-dhcp4
++DAEMON_ARGS="-c /etc/kea/kea-dhcp4.conf"
++PIDFILE=/var/run/kea/kea-dhcp4.kea-dhcp4.pid
+ 
+ set -e
+ 
+@@ -25,13 +26,12 @@ set -e
+ case "$1" in
+   start)
+         echo -n "Starting $DESC: "
+-        start-stop-daemon -S -b -n $NAME -x $DAEMON -- start $DAEMON_ARGS
++        start-stop-daemon -S -b -n $NAME -p $PIDFILE -x $DAEMON -- $DAEMON_ARGS
+         echo "done."
+         ;;
+   stop)
+         echo -n "Stopping $DESC: "
+-        kpid=`pidof $NAME`
+-        kill $kpid
++        start-stop-daemon -K -p $PIDFILE -x $DAEMON
+         echo "done."
+         ;;
+   restart|force-reload)
+@@ -39,8 +39,12 @@ case "$1" in
+         $0 stop
+         $0 start
+         ;;
++  status)
++        status $DAEMON
++        exit $?
++        ;;
+   *)
+-        echo "Usage: $SCRIPTNAME {start|stop|restart|force-reload}" >&2
++        echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
+         exit 1
+         ;;
+ esac
+diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp6-server b/meta/recipes-connectivity/kea/files/kea-dhcp6-server
+index 10f2d22641..c04393ddb8 100644
+--- a/meta/recipes-connectivity/kea/files/kea-dhcp6-server
++++ b/meta/recipes-connectivity/kea/files/kea-dhcp6-server
+@@ -12,8 +12,9 @@
+ PATH=/sbin:/usr/sbin:/bin:/usr/bin
+ DESC="kea-dhcp6-server"
+ NAME=kea-dhcp6
+-DAEMON=/usr/sbin/keactrl
+-DAEMON_ARGS=" -s dhcp6"
++DAEMON=/usr/sbin/kea-dhcp6
++DAEMON_ARGS="-c /etc/kea/kea-dhcp6.conf"
++PIDFILE=/var/run/kea/kea-dhcp6.kea-dhcp6.pid
+ 
+ set -e
+ 
+@@ -26,13 +27,12 @@ set -e
+ case "$1" in
+   start)
+         echo -n "Starting $DESC: "
+-        start-stop-daemon -S -b -n $NAME -x $DAEMON -- start $DAEMON_ARGS
++        start-stop-daemon -S -b -n $NAME -p $PIDFILE -x $DAEMON -- $DAEMON_ARGS
+         echo "done."
+         ;;
+   stop)
+         echo -n "Stopping $DESC: "
+-        kpid=`pidof $NAME`
+-        kill $kpid
++        start-stop-daemon -K -p $PIDFILE -x $DAEMON
+         echo "done."
+         ;;
+   restart|force-reload)
+@@ -40,8 +40,12 @@ case "$1" in
+         $0 stop
+         $0 start
+         ;;
++  status)
++        status $DAEMON
++        exit $?
++        ;;
+   *)
+-        echo "Usage: $SCRIPTNAME {start|stop|restart|force-reload}" >&2
++        echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
+         exit 1
+         ;;
+ esac
+-- 
+2.34.1
+
 
