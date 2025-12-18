@@ -1,177 +1,36 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <kavinaya@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E76FD6ACEC
-	for <webhook@archiver.kernel.org>; Thu, 18 Dec 2025 11:34:44 +0000 (UTC)
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.39908.1766057680957336726
- for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Dec 2025 03:34:41 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=mjaoek4C;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=SBAaC+4b;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.154, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 279FA14001DD;
-	Thu, 18 Dec 2025 06:34:40 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Thu, 18 Dec 2025 06:34:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1766057680; x=1766144080; bh=4MpQe0cq/H
-	QBnKmJYrjaZ7rCjrh6OZvRj9vIwBAhx68=; b=mjaoek4CNgp7C8Kx53LWIJrZ5o
-	H7op0f/XUEZAGs5S8v4KX891jhFfD+bdp3URsxDMFH2ctW+aKbDn2gzRXFmwAbBe
-	YhoH3q4En7zwSa7Z32yyoP85fULGgSE6pCxF+XfE33Kce0B6Q0cEcWOVivPUChud
-	1jwKJGd5ynvpN/LLZXSq9H2KHwkoeSy4z/vpfsPcOUcyStxylwe8dQHFCNT509DT
-	0xOgcsOWVYc0GPjLc3Z7T/FS6hMhBxZnVJWpLHPRzbQ+BXUICpoUNO2/Hats6akY
-	qlvOTdHO+U2cyQo1KjiBrBuvdxZbPpi3KobxC2oioYs2s3xajDqeBstsHQtw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1766057680; x=1766144080; bh=4MpQe0cq/HQBnKmJYrjaZ7rCjrh6OZvRj9v
-	IwBAhx68=; b=SBAaC+4bhzvBdOSWPPaZa4tAh4GtBugEPq/pqL7FS745O7/lc7h
-	afEAXPizCHMGwZ8msXG9GwF1YLfXS8Jocjdg8G6cRel4DsgcRO4f0nVKKcXshGFc
-	8u4q7KN38jgr6XrSjY721wJL+bVS+HpJ2Np/Dqz9MiUm4RHcLRnlyv7AUtzVYfj7
-	GfekF9rZ+j4K6z+KPyUEccBufowCWwdb3Yh5eIbk4ResTMKfmoApUgFoS5jXEU8T
-	yBsOwRCMMPB/YD4FOUW4+o/tAma1qHAvB3hMSkM+0HUKs5qm1KE2Y9Fe6KYP9+p+
-	teg/QF33MYGgdm6XTs8e5onwTJNKweRDppQ==
-X-ME-Sender: <xms:zuZDaZ2h7OdYKBQ7oVCrJUIg2m9b3KAUn0XmzeOvh_nwhjJx78tE2Q>
-    <xme:zuZDaWF9Q1TSBuAFkothVKkXc3qb2RRX0rIAgKPFaw7qkT_qVyDwoOoz0fjvH_5o5
-    QN7yz8jWW1RCw0i3BGuwuA09ehoOwSzHFmfskgdCfhrMU638wg>
-X-ME-Received: <xmr:zuZDaXh-Fmu50_RC7mHeC6pATl6M3D8FqIY1TnU066wRML56wSDhPSeNxr_CLn5u4RbU_LzmwGOejkThhcHMF9wwiMCyQLN-gWVoeIK7UY0O>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegheefudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhepkffuhffvffgjfhgtfgggsehgtderredtre
-    ejnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghrrdgu
-    vghvqeenucggtffrrghtthgvrhhnpeegfefhudethfffveehveekjefhgeffgeeikedtfe
-    ektdethfduvdffueeiieetffenucffohhmrghinhepohhpvghnvghmsggvugguvggurdho
-    rhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepph
-    gruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopedvpdhmohguvgepshhm
-    thhpohhuthdprhgtphhtthhopegurghnihgvlhdrughrrghgohhmihhrseifihhnughrih
-    hvvghrrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhi
-    shhtshdrohhpvghnvghmsggvugguvggurdhorhhg
-X-ME-Proxy: <xmx:zuZDaR_yrZy0W5Ko8P5a99eZQxF1QTG4zVFsPkG4OaqDPjGARBLmsw>
-    <xmx:z-ZDaepu8v2navW17Gqfo4kgviNyYxDVIPC11Rn2EjEuHwjVsPBBfw>
-    <xmx:z-ZDaQ9hL7kPmQfBqIvm0RjTzL7bCKONQXlyd6FRD-ocHUSEzAKhZw>
-    <xmx:z-ZDaSWAyMGm2vhykXKlr5rM7dgmPp2Bg21GHYt7DOLRsPXw5Uoo9g>
-    <xmx:0OZDaS6u07RrWPrR8wqptqtikyGVxa72a3CeicMiJEwYR9xY1J-HdkSU>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Dec 2025 06:34:38 -0500 (EST)
-Message-ID: <494e78c31feaaec6cf5c4c96ad3cbf45ac19dd5d.camel@pbarker.dev>
-Subject: Re: [OE-core][PATCH] wic/engine: warn about old host debugfs for
- standalone directory copy
-From: Paul Barker <paul@pbarker.dev>
-To: daniel.dragomir@windriver.com, openembedded-core@lists.openembedded.org
-Date: Thu, 18 Dec 2025 11:34:31 +0000
-In-Reply-To: <20251218101524.703244-1-daniel.dragomir@windriver.com>
-References: <20251218101524.703244-1-daniel.dragomir@windriver.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- ep0k17xg==
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-Bdtt17YTEyWJX4guxZ87"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38524D6ACED
+	for <webhook@archiver.kernel.org>; Thu, 18 Dec 2025 11:35:24 +0000 (UTC)
+Subject: Re: [PATCH v2] fitimage: Add support for UBOOT_MKIMAGE_EXTRA_OPTS
+To: openembedded-core@lists.openembedded.org
+From: "Kavinaya S" <kavinaya@qti.qualcomm.com>
+X-Originating-Location: Hyderabad, Telangana, IN (163.116.219.95)
+X-Originating-Platform: Windows Edge 143
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
+Date: Thu, 18 Dec 2025 03:35:15 -0800
+References: <20251210110443.3230272-1-kavinaya@qti.qualcomm.com> <57dd38bf-653d-4b74-8de4-d05f4d2b9797@windriver.com> <7a13d7376a83bb7deb6374124bc42669d86803fc.camel@gmail.com>
+In-Reply-To: <7a13d7376a83bb7deb6374124bc42669d86803fc.camel@gmail.com>
+Message-ID: <248214.1766057715091538098@lists.openembedded.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 11:34:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228114
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 11:35:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228115
 
+On Thu, Dec 18, 2025 at 03:01 AM, Adrian Freihofer wrote:
 
---=-Bdtt17YTEyWJX4guxZ87
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 2025-12-18 at 12:15 +0200, Dragomir, Daniel via
-lists.openembedded.org wrote:
-> When wic is used in standalone mode, it relies on host tools such as
-> debugfs. For directory host->image copies into ext* partitions, wic
-> uses scripted debugfs "-f" input with multiple mkdir/write commands.
+>
+> This would work:
 >=20
-> Older host debugfs versions (< 1.47) may behave unreliably in this
-> mode and can silently miss files. This does not affect builds using
-> debugfs from OE where the version is known to be sufficiently new.
->=20
-> Add a debugfs version check and emit a warning when an older host
-> debugfs is detected. The warning is shown once per run and does not
-> alter execution.
-
-If the risk here is silently missing files, resulting in a corrupted
-rootfs or worse, I think this should be a hard error.
-
-Consider the case where someone relies on a device having a firewall
-enabled, but /etc/nftables.conf is silently missed during construction
-of the rootfs ext4 image. That could result in all ports being open.
-
-On the kirkstone branch we have e2fsprogs 1.46.5, does the same debugfs
-issue apply there or has it been patched?
-
-Best regards,
-
---=20
-Paul Barker
-
-
-
-
---=-Bdtt17YTEyWJX4guxZ87
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaUPmxxEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bhvmAP9/VED5jKAuK8yVFlHNXE+qyptq1Ycu6Nzk
-lncKeuqSoAD/U5jB8bULUZyOttSYlwc3xpvuAE7aaImnwXVjCaJPWgM=
-=FTHE
------END PGP SIGNATURE-----
-
---=-Bdtt17YTEyWJX4guxZ87--
+> self._mkimage_extra_opts =3D shlex.split(mkimage_extra_opts) if
+> mkimage_extra_opts else []
+>
+Sure, I have uploaded the new patch with this modification.
+Thanks
 
