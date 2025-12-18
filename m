@@ -2,73 +2,73 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 150CAD711A3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C740D711A1
 	for <webhook@archiver.kernel.org>; Thu, 18 Dec 2025 19:11:33 +0000 (UTC)
-Received: from CH1PR05CU001.outbound.protection.outlook.com (CH1PR05CU001.outbound.protection.outlook.com [52.101.193.66])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.172.1766085084565515792
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (SN4PR0501CU005.outbound.protection.outlook.com [40.93.194.28])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.163.1766085082951238915
  for <openembedded-core@lists.openembedded.org>;
  Thu, 18 Dec 2025 11:11:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=ebE1NLRi;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 52.101.193.66, mailfrom: rs@ti.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=AZEw6hcQ;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 40.93.194.28, mailfrom: rs@ti.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XDmCmD4idAmSoDmSaF6wrqWHaCLVUzppIKUxUcU2U1Iw1KN99+dH9S0NZNpzr/nXeYm0ABUrPsgdI78t166BhpKIDZQRoOJMQk7sNzNlU3VzjrnE195BbvD5SULB1siLo6/N4B/a8Zb60y35N4AGMe6qwxCG1KxyIkixCQEbxclaA9xGLG96kv3AywZ28ij7fc0beo+4ijl7CP00vmyQsMDcOO+CNS4iAcm65aGrzvPhcngjTTeq2ZPZ++wLxFbWFXvVYGNabd2W74ZaQF/ZgTMq58fTDnPBCk5VsGqTAyzuZnY7Gcl0CuADWJfAI2SsTeCTwfet/2UFtphdneXbEw==
+ b=U1rK2vO5b6nAVVE/tXhvg/5NLr330F5H48KAaMiAvz0LqhVQLYMdH1NQdYqTNNcDON+q9D42EERn7Qe084Xyy5SyoFC4ll9/8Fl3kF2sFuoawYPe1O1AJOzNKK1TeOWv65GpCTLIRg9kZpqeLVxFSKgsJYPiRH0JHhPVzPJk9b8BCH975mVQAsiWAdd0Nrza3+q2hoSfc95HthG9jcP8VqD0Fz+W4iT8s61Rs4MqEZyIj+8LLL7sEqVnHQj4WCEYiOXOpOKeRzPQXesoAoU5MCAgrN/BYnWswSjL33AFwvXASrHsOFnaeyRmFeBYnC2gyokBph5PrIKMOoKH7MzeBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eAkoxJxlKZByMzN0A60bk6VNa5NQVW5X7paTLNV6SR0=;
- b=P/D+UESjv5XoipePGOeeW8dMG+yZ7Kc/eu8mYEo7idPTYU0gR0JkAOKthwexiRV3bo1PZBIX/V0nfcOAgGSHYdYySseOGiwUKB/JUYBbew3V1DlPr2P4UJ40f1cU6XZrCLBqy0jgR0VfXpckj9N4sj5SnJT4JXWmPmrLHeJ4v/9ssxXHh+O4c1RnB9H5lNtCfUTOUr51eCLasrC3QYcJryTL/SWLdC9LZDNnwuZ7A9m+CbAFqNf0UWVAID7XPRYMpAuGvnf+EdDfo7gZcDzzU07xLZRIC53jtE8jWqrk4UCaYDB/EhKPyTx8SRxY357gJL8Fy6ctPj9tzVwQUd/kwA==
+ bh=ybTqRh4EAmrxKCmbR99NVmTdy3n2zn7pNVQKVH56DX8=;
+ b=aIli+pyi5cR/PQOrWzxKmdM1I5DFe+hwE6Nmmw9PG7UXYajRNCMmLGQyal1Uz/pe7tZx433Lqk7lA49FZPGLcXB+GA+CU+jocgoMa3SNPkfMrvzHOoqYj6yMSVYdJqzbdN1nyIGmNRW9/2wEnC4WXdFu/d5VIWLufyc8ukNyOXGktAlkwHBqwdnhw5awn18Ug+RCnlJB6oWVjEt9hHMd9TEuBtcbkMm9MGl4oU70TfVr/KAUQ4MfEUe1JJy/8AhBLEAOfZN1HUxholMf9GUc6k2eRA20SlVyTWZDBuKNMm2OkzKSVaXSd/nEzZgiGvwdhx8kHqf4NDI6klA+4RQyjw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
+ 198.47.23.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eAkoxJxlKZByMzN0A60bk6VNa5NQVW5X7paTLNV6SR0=;
- b=ebE1NLRiZZAS2s7+MAloTa67ks+/SCWldvOqyDwpQNcqcFmytiYG1Wja1q9BqKzrPCGoghAyND3dXsbPxR6q5euV+TVAJWtsi9ltqiLz5hov8pYzyksvzNIwm+uuZDjvEXL0hmjhxQ2VrDMcXEkb6Z1YWyK/HU0Rbp4JRe02Ngs=
-Received: from SJ0PR03CA0059.namprd03.prod.outlook.com (2603:10b6:a03:33e::34)
- by MN0PR10MB5910.namprd10.prod.outlook.com (2603:10b6:208:3d2::12) with
+ bh=ybTqRh4EAmrxKCmbR99NVmTdy3n2zn7pNVQKVH56DX8=;
+ b=AZEw6hcQe+LBWdeNqvw3JkWVLTpusk5mp71wzm3DQGYSotVK6cJ/hSneANta10yiydKyHBvYI+e6aFjAo9X3mAg5HqqogqCfHacvfIVeieWiQjzJDSm8vdA41kMYLwOaSmtROR/7SsFAdCSe6ACIfcMf7u5+Opki6py1g2khptM=
+Received: from SJ0PR13CA0111.namprd13.prod.outlook.com (2603:10b6:a03:2c5::26)
+ by DS0PR10MB6797.namprd10.prod.outlook.com (2603:10b6:8:13d::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Thu, 18 Dec
- 2025 19:11:20 +0000
-Received: from SJ1PEPF000026C6.namprd04.prod.outlook.com
- (2603:10b6:a03:33e:cafe::5b) by SJ0PR03CA0059.outlook.office365.com
- (2603:10b6:a03:33e::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.8 via Frontend Transport; Thu,
- 18 Dec 2025 19:11:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ 2025 19:11:19 +0000
+Received: from CO1PEPF000042AC.namprd03.prod.outlook.com
+ (2603:10b6:a03:2c5:cafe::1b) by SJ0PR13CA0111.outlook.office365.com
+ (2603:10b6:a03:2c5::26) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6 via Frontend Transport; Thu,
+ 18 Dec 2025 19:11:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
 Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- SJ1PEPF000026C6.mail.protection.outlook.com (10.167.244.103) with Microsoft
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ CO1PEPF000042AC.mail.protection.outlook.com (10.167.243.41) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9434.6 via Frontend Transport; Thu, 18 Dec 2025 19:11:18 +0000
-Received: from DFLE205.ent.ti.com (10.64.6.63) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9434.6 via Frontend Transport; Thu, 18 Dec 2025 19:11:17 +0000
+Received: from DLEE206.ent.ti.com (157.170.170.90) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 18 Dec
  2025 13:11:13 -0600
-Received: from DFLE212.ent.ti.com (10.64.6.70) by DFLE205.ent.ti.com
- (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DLEE203.ent.ti.com (157.170.170.78) by DLEE206.ent.ti.com
+ (157.170.170.90) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 18 Dec
  2025 13:11:13 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE212.ent.ti.com
- (10.64.6.70) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE203.ent.ti.com
+ (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
  Transport; Thu, 18 Dec 2025 13:11:13 -0600
 Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BIJBDtK3796612;
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BIJBDtH3796612;
 	Thu, 18 Dec 2025 13:11:13 -0600
 From: <rs@ti.com>
 To: <richard.purdie@linuxfoundation.org>, <mathieu.dubois-briand@bootlin.com>,
 	<alex@linutronix.de>, <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
 CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
 	<openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][PATCHv12 6/6] xsessions: add unique desktop entries
-Date: Thu, 18 Dec 2025 13:10:26 -0600
-Message-ID: <20251218191025.667701-8-rs@ti.com>
+Subject: [oe-core][PATCHv12 3/6] weston: remove deprecated weston-start scripts
+Date: Thu, 18 Dec 2025 13:10:23 -0600
+Message-ID: <20251218191025.667701-5-rs@ti.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251218191025.667701-2-rs@ti.com>
 References: <20251218191025.667701-2-rs@ti.com>
@@ -78,259 +78,142 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000026C6:EE_|MN0PR10MB5910:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9fc32b3e-8b74-4ca7-3688-08de3e693941
+X-MS-TrafficTypeDiagnostic: CO1PEPF000042AC:EE_|DS0PR10MB6797:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6fa76612-fa42-42f4-9c5c-08de3e6938a2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|36860700013|1800799024|82310400026;
+	BCL:0;ARA:13230040|36860700013|82310400026|376014|1800799024;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?0O/v27G1/j23hEWux4xLDTI3iBsg1inLPfGyu2/tO8yFxdm1NH5HVSLMe/Qx?=
- =?us-ascii?Q?kNqY1ueevWqI13O52Dtc3w/+8zSSolPICgZ4HtdyKuKx3ZpCz4yvb0hWtaOK?=
- =?us-ascii?Q?jh7SpJ2zIuQCSM5onSRrVi/AANtGetipRJkBgx4GlwwSAxXPrh26UzD4u09O?=
- =?us-ascii?Q?cJbKkjDkoI0QAsZp6Did8JD5eYiBohV2l+awqbMMtBbsl+xKI777MS3rVM9z?=
- =?us-ascii?Q?JnzgM14CCRH1ASIy5f15mn+ZOfwAXyH1a0YT8e0NM9bCLj5Q8/Kmwd1G7yMz?=
- =?us-ascii?Q?NKGgDnC5nSpBi9R89D7V/qF2GnmhqJ96lRddJMPOXCodtWrT5lSpX4hlQd/m?=
- =?us-ascii?Q?Z1jn95ogBP+ZIE93h5PlEBwPBF02zLMaOJH8PargYnS8BuE0//2X0F2yWoa1?=
- =?us-ascii?Q?czJ/1gDfgRH5HOy3MbEUdEWY49BM4Wg85rlOwb48G2ijyvt8GQdswjtDTSR7?=
- =?us-ascii?Q?8ii/YADBTe6KqGzhTFcaQFUzXd4COuUuv1JXUf0eXNeGO5MugIZpInG35Hu4?=
- =?us-ascii?Q?esUr/60m0RZ3k33UuBf7w2I3Cr9RG2W5v1RfX95q4q/Go1nY2vhYtDdgk7BY?=
- =?us-ascii?Q?mouRVfrXokX7fWd4Qf8UGsebe399hlXh3SKHct2gYy8aaKX/AO3BuKIF+wA3?=
- =?us-ascii?Q?oiwp65Vs1st7F1gqIpjn7hsOGUSlNCPZNqCEwsafPgMbd6mK7AxGRHP1Wkjg?=
- =?us-ascii?Q?CCrqDHjMyOwTnzmMfu6iqgqEinAJKZyzogJSc0QZjLiMXAUszbLGnOBWJYbz?=
- =?us-ascii?Q?4CJXcf5a8tubgS0z/JBjeqL7MlD6eMvf/U/3UdR4kdocpD6lF57/LDwr4TJC?=
- =?us-ascii?Q?w5UfW0UC20PSkJhnEOgqP5o6MHppSQfOhbtUDL1V3LBnXdGwYh2To0D7RCYw?=
- =?us-ascii?Q?aIDIlX0DrkmMJkRUifQ72G2IF8dZvO+SuBy4l0nCFOS1oiKideb3rIRtmilL?=
- =?us-ascii?Q?HE4OanP5N6Hgs3VpH99Ue2kR83CSJBwkJlOvSqD2Qwf4YgLhkRienqouk8w7?=
- =?us-ascii?Q?irz5WUsPH4LD2z9uc7whX76CQn8l9QK/GJaJQTTfFkgn3cmydUmPh+qj2qV+?=
- =?us-ascii?Q?2jaoqy16QpZkPH+CIREHc88Oo4rpI8SDbUmAgjOim5zJUILLm4Ldcs0Po100?=
- =?us-ascii?Q?f25YeVx9x4ly0bd1/YiVM36YL9UXyU9JSZEmaO4ylcQiwBgKkNCU4bQZxYld?=
- =?us-ascii?Q?ImkZ7j9ODY87Tkr4Ro1yWzLXqT7NFkUK4eJpDu6TIkx5zqDmO14SB8ThNqx8?=
- =?us-ascii?Q?mHciHuXg1tARR75tSykH9eMoCJiLwUNImNgHDxGzcTmh73jalSkC1P41cgrO?=
- =?us-ascii?Q?WQLeF2oAu5oxY1/jsnqE9cx++UC8EINBeBuWb0I9dpgXw92Qpe1VI10TQCQz?=
- =?us-ascii?Q?rEwORi97ewRUcKqj08jKdZyyA8179shu5P3y+7rOe/hbGLEj+4fpoz8v+zrE?=
- =?us-ascii?Q?QhPNDOb7nDtPlAidAv0S37fbsVBKsVOBB5fk6zNZqoGXBWR7OwE09NFHS78f?=
- =?us-ascii?Q?5BADDMLrfUt7MBatEmRS5BhHE8l6mBrC6BNOzRRg3NAeotz2ZPRwIrmAejm3?=
- =?us-ascii?Q?8qapds0/UfccvfrsVDI=3D?=
+	=?us-ascii?Q?69mzsLWJYb1YTdxvUxXvNFsJO/MGyuNPbTu46ODKwJui05u2bP4nL9kWNe1m?=
+ =?us-ascii?Q?5OuTPj2d6gx1r1yYfXKA7V5P9wsNWWkW4El3Q4z5uWvWxIRoB7vMOkWKFv69?=
+ =?us-ascii?Q?5nQSOy9Zl5qxeswsjkjD6UKsMHt7ex4YYIaeiCMWBM2IhEgBWx4m6aHp7zvF?=
+ =?us-ascii?Q?ZyI7NBNgTFOHrNrnovTD1REtvOR53WmqopgWI9mDgSSWH9Ge2iDnI8IpGppc?=
+ =?us-ascii?Q?Oo1Z3T636kgIbAX1lLMU8w5V/Uy7Lyiks2VbkTMdyT4a0fh9sSv2U/2v5QV/?=
+ =?us-ascii?Q?+lob7Kjd76+8t1vkr+ygxYru+P05RBcY2yZG/lsJ7d/2p94++4e1M5ASOIGq?=
+ =?us-ascii?Q?CAtYU4yiiFUkOZtAar9PBDx38BghuWvtg+5et7kJEUUV/MEEW07es/hv17Ic?=
+ =?us-ascii?Q?o2tUikroGQS7QrFf8OlhLx6/58cKqY4GGdt2O/nwrK+jmusFm1ue+J4aHfG3?=
+ =?us-ascii?Q?n+rCGaG9tvW3nUDXg0aSv9NhDvVq0DJk5Msh3gO2dKuu+3V8K1xAe6Bxw2ff?=
+ =?us-ascii?Q?The4w0mvgo8neovWK6ZXMtzeTmAjkER3Oi0AZileJcY6Tob/DIuarOHzuaxZ?=
+ =?us-ascii?Q?+eIgTCVW8lMRusksl5yusYoBpZlYyb3+nExP/r2ojx6H5E1EKN7+3P5qbDAo?=
+ =?us-ascii?Q?MA6NtSqFybSgx8iWqsdeQPcE88h/ZjL8P/rx0y8nODv2OrYwCAbaMbFWcFbP?=
+ =?us-ascii?Q?Ww5MGulybdM+m/LmORMDWXsnF/f8mJUvRTIRc8KGwPSCZ9ne0BIYOcJkIidp?=
+ =?us-ascii?Q?EqaAZKqIVqjAHlRmTFPq6otLHRijvlfJuSb6NgLrC/WnmsOHM+fVlrs7pf0T?=
+ =?us-ascii?Q?yk267whFEuQytm5BkUCs7LzcOK5sb9L8NmfVnl+1cbdiaLOyOVf5OwqGeTDN?=
+ =?us-ascii?Q?JDwPS7fojSWoCSzoWfM3zDaGjhNiZyqX0TAZWBtcBctAHYCCl+ZrXGqMuhsb?=
+ =?us-ascii?Q?O0dORZrUJGRmlBnLg68Q0WrAv4GxrSRy/Msbhcuot32LtZg1efv7Mr8vTvlr?=
+ =?us-ascii?Q?oQU+xaQWBEBYVEf3js77gz4spjVi55410qhXGPQj36gzz6hyqeKL8u2xQY08?=
+ =?us-ascii?Q?n3g+JAdxjnZzc9ciMxCPIzeQWjMoVIdgFHeJ/xIblQG3anoHWY0uCDpxqsnc?=
+ =?us-ascii?Q?hSo+bCS9H0LsCybtAkkkFtzKrBsrTn7tyA4GAtiGeKzUvmFPBc4O05NdHB1B?=
+ =?us-ascii?Q?+0UVe2if3auSxrbMQevZrdu5/mpeHqBetUQwb64PWnmJRJR6/iywuLeiY1MZ?=
+ =?us-ascii?Q?NcGRrRgtCiWaSkfc+dPDLQXrKiH3aLedHlTH6NW8OmOgj+/kL6RaCSY0ZdBV?=
+ =?us-ascii?Q?34KQi6Ake7tLdZh48cNPB3GoeN+rKP5hQKymVRkuvgjhKGXSIgwVWkKAA1/g?=
+ =?us-ascii?Q?Wp9Jk+1yH7Ah8Xk6FTQGzjteoVrzwGdOXoSCAEmpvE8SI1Ppc+bdvwyXNAQs?=
+ =?us-ascii?Q?POy0Bj2oYaY8dGHqnTEm0/c+5DWEvnN5adOFCrDvFOs/nUt7SMInxfcrPBe0?=
+ =?us-ascii?Q?obDLPTf8FVj7ESAqNLkvJ2uYZVygqIJ73VgKhXadqbD29qIMb7vTm87pCsxn?=
+ =?us-ascii?Q?4X1zeY5HRxwAf4apyEE=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 19:11:18.5543
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 19:11:17.5141
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fc32b3e-8b74-4ca7-3688-08de3e693941
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fa76612-fa42-42f4-9c5c-08de3e6938a2
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	SJ1PEPF000026C6.namprd04.prod.outlook.com
+	CO1PEPF000042AC.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR10MB5910
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6797
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 19:11:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228138
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228137
 
 From: Randolph Sapp <rs@ti.com>
 
-Now that we have a display manager, users can have the option to choose
-a session manager with the default emptty configuration. Currently this
-could be either mini-x-session or matchbox-session.
-
-Previously, only one was selectable via update-alternatives logic
-switching out the x-session-manager link that xserver-nodm-init would
-unconditionally use. From my testing this normally resulted in
-matchbox-session being chosen.
-
-Now xserver-nodm-init will use a DEFAULT_SESSION variable to configure
-the automatic login session, and both of these session managers will
-provide unique desktop entries for their respective sessions.
-
-The loose default for DEFAULT_SESSION will be matchbox-session to keep
-in line with the existing behavior.
+The weston-start scripts are not parsed unless using the old version of
+weston-init. These files are no longer required since weston-init moved
+to a virtual-emptty-conf.
 
 Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
- .../matchbox-session/matchbox-session.desktop       |  6 ++++++
- .../matchbox-session/matchbox-session_0.1.bb        | 13 ++++++-------
- .../mini-x-session/files/mini-x-session.desktop     |  6 ++++++
- .../mini-x-session/mini-x-session_0.1.bb            | 13 ++++++-------
- .../x11-common/xserver-nodm-init/default.desktop    |  5 -----
- .../x11-common/xserver-nodm-init/emptty.conf.in     |  2 +-
- .../x11-common/xserver-nodm-init_3.0.bb             |  7 ++++---
- 7 files changed, 29 insertions(+), 23 deletions(-)
- create mode 100644 meta/recipes-graphics/matchbox-session/matchbox-session=
-/matchbox-session.desktop
- create mode 100644 meta/recipes-graphics/mini-x-session/files/mini-x-sessi=
-on.desktop
- delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/defa=
-ult.desktop
+ .../wayland/weston/systemd-notify.weston-start         |  9 ---------
+ .../wayland/weston/xwayland.weston-start               |  6 ------
+ meta/recipes-graphics/wayland/weston_14.0.2.bb         | 10 ----------
+ 3 files changed, 25 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.wes=
+ton-start
+ delete mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston-st=
+art
 
-diff --git a/meta/recipes-graphics/matchbox-session/matchbox-session/matchb=
-ox-session.desktop b/meta/recipes-graphics/matchbox-session/matchbox-sessio=
-n/matchbox-session.desktop
-new file mode 100644
-index 0000000000..f496fd860f
---- /dev/null
-+++ b/meta/recipes-graphics/matchbox-session/matchbox-session/matchbox-sess=
-ion.desktop
-@@ -0,0 +1,6 @@
-+[Desktop Entry]
-+Name=3DMatchbox Session
-+Comment=3DVery simple session manager for matchbox tools
-+Type=3DApplication
-+Exec=3Dmatchbox-session
-+DesktopNames=3Dmatchbox
-diff --git a/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb=
- b/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
-index d8be3417cc..bee18ad617 100644
---- a/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
-+++ b/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
-@@ -9,17 +9,16 @@ LIC_FILES_CHKSUM =3D "file://matchbox-session;endline=3D2=
-0;md5=3D180f1c169a15d059a56c3
- SECTION =3D "x11"
- RCONFLICTS:${PN} =3D "matchbox-common"
-=20
--SRC_URI =3D "file://matchbox-session"
-+SRC_URI =3D "file://matchbox-session \
-+           file://matchbox-session.desktop"
-=20
- S =3D "${UNPACKDIR}"
-=20
--inherit update-alternatives
--
--ALTERNATIVE:${PN} =3D "x-session-manager"
--ALTERNATIVE_TARGET[x-session-manager] =3D "${bindir}/matchbox-session"
--ALTERNATIVE_PRIORITY =3D "100"
--
- do_install() {
- 	install -d ${D}/${bindir}
- 	install -m 0755 ${S}/matchbox-session ${D}/${bindir}
-+	install -d ${D}${datadir}/xsessions
-+	install -m 0644 ${S}/matchbox-session.desktop ${D}${datadir}/xsessions
- }
-+
-+FILES:${PN} +=3D "${datadir}/xsessions"
-diff --git a/meta/recipes-graphics/mini-x-session/files/mini-x-session.desk=
-top b/meta/recipes-graphics/mini-x-session/files/mini-x-session.desktop
-new file mode 100644
-index 0000000000..d7afed9cfd
---- /dev/null
-+++ b/meta/recipes-graphics/mini-x-session/files/mini-x-session.desktop
-@@ -0,0 +1,6 @@
-+[Desktop Entry]
-+Name=3DMini X Session
-+Comment=3DVery simple session manager for X
-+Type=3DApplication
-+Exec=3Dmini-x-session
-+DesktopNames=3Dmatchbox
-diff --git a/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb b/m=
-eta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-index e90786df44..b223c38c9e 100644
---- a/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-+++ b/meta/recipes-graphics/mini-x-session/mini-x-session_0.1.bb
-@@ -9,19 +9,18 @@ LIC_FILES_CHKSUM =3D "file://mini-x-session;endline=3D5;m=
-d5=3Db6430bffbcf05f9760e72938
- SECTION =3D "x11"
- RCONFLICTS:${PN} =3D "matchbox-common"
-=20
--SRC_URI =3D "file://mini-x-session"
-+SRC_URI =3D "file://mini-x-session \
-+           file://mini-x-session.desktop"
-=20
- S =3D "${UNPACKDIR}"
-=20
- RDEPENDS:${PN} =3D "sudo"
-=20
--inherit update-alternatives
--
--ALTERNATIVE:${PN} =3D "x-session-manager"
--ALTERNATIVE_TARGET[x-session-manager] =3D "${bindir}/mini-x-session"
--ALTERNATIVE_PRIORITY =3D "50"
--
- do_install() {
- 	install -d ${D}/${bindir}
- 	install -m 0755 ${S}/mini-x-session ${D}/${bindir}
-+	install -d ${D}${datadir}/xsessions
-+	install -m 0644 ${S}/mini-x-session.desktop ${D}${datadir}/xsessions
- }
-+
-+FILES:${PN} +=3D "${datadir}/xsessions"
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/default.des=
-ktop b/meta/recipes-graphics/x11-common/xserver-nodm-init/default.desktop
+diff --git a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-sta=
+rt b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
 deleted file mode 100644
-index 3357cd9a7f..0000000000
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/default.desktop
+index a97e7b38d9..0000000000
+--- a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
 +++ /dev/null
-@@ -1,5 +0,0 @@
--[Desktop Entry]
--Encoding=3DUTF-8
--Type=3DApplication
--Name=3DDefault X11 Desktop
--Exec=3Dx-session-manager
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/emptty.conf=
-.in b/meta/recipes-graphics/x11-common/xserver-nodm-init/emptty.conf.in
-index bdb3bec782..fbe106d9b6 100644
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/emptty.conf.in
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/emptty.conf.in
-@@ -17,7 +17,7 @@ DEFAULT_USER=3Dxuser
- AUTOLOGIN=3Dtrue
+@@ -1,9 +0,0 @@
+-#!/bin/sh
+- =20
+-# SPDX-FileCopyrightText: Huawei Inc.
+-# SPDX-License-Identifier: Apache-2.0
+-
+-
+-if [[ -x "/usr/lib/weston/systemd-notify.so" ]]; then
+-        add_weston_module "systemd-notify.so"
+-fi
+diff --git a/meta/recipes-graphics/wayland/weston/xwayland.weston-start b/m=
+eta/recipes-graphics/wayland/weston/xwayland.weston-start
+deleted file mode 100644
+index 342ac8d129..0000000000
+--- a/meta/recipes-graphics/wayland/weston/xwayland.weston-start
++++ /dev/null
+@@ -1,6 +0,0 @@
+-#!/bin/sh
+-
+-if type Xwayland  >/dev/null 2>/dev/null; then
+-	mkdir -m 775 -p /tmp/.X11-unix
+-	chown root:video /tmp/.X11-unix
+-fi
+diff --git a/meta/recipes-graphics/wayland/weston_14.0.2.bb b/meta/recipes-=
+graphics/wayland/weston_14.0.2.bb
+index 73c9ce38bf..7e0867f96e 100644
+--- a/meta/recipes-graphics/wayland/weston_14.0.2.bb
++++ b/meta/recipes-graphics/wayland/weston_14.0.2.bb
+@@ -9,8 +9,6 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd79ee9e66bb0f95d=
+3386a7acae780b70 \
+ SRC_URI =3D "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV=
+}/downloads/${BPN}-${PV}.tar.xz \
+            file://weston.png \
+            file://weston.desktop \
+-           file://xwayland.weston-start \
+-           file://systemd-notify.weston-start \
+            "
 =20
- # The default session used, if Autologin is enabled. If session is not fou=
-nd in list of session, it proceeds to manual selection.
--AUTOLOGIN_SESSION=3DDefault X11 Desktop
-+AUTOLOGIN_SESSION=3D@DEFAULT_SESSION@
+ SRC_URI[sha256sum] =3D "b47216b3530da76d02a3a1acbf1846a9cd41d24caa86448f9c=
+46f78f20b6e0ac"
+@@ -107,14 +105,6 @@ do_install:append() {
+ 		install ${UNPACKDIR}/weston.png ${D}${datadir}/icons/hicolor/48x48/apps
+ 	fi
 =20
- # If Autologin is enabled and session does not start correctly, the number=
- of retries in short period is kept to eventually stop the infinite loop of=
- restarts. -1 is for infinite retries, 0 is for no retry.
- # AUTOLOGIN_MAX_RETRY=3D2
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb b/me=
-ta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-index 0e9fe1e65a..a4b4a11d1b 100644
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-@@ -4,7 +4,6 @@ LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;m=
-d5=3D3da9cfbcb788c80a0384
- SECTION =3D "x11"
-=20
- SRC_URI =3D "file://emptty.conf.in \
--           file://default.desktop \
-            file://system-xuser.conf"
-=20
- S =3D "${UNPACKDIR}"
-@@ -18,21 +17,23 @@ PACKAGECONFIG ??=3D "blank"
- PACKAGECONFIG[blank] =3D ""
- PACKAGECONFIG[nocursor] =3D ""
-=20
-+# matchbox-session seems to be the current preferred session provider
-+DEFAULT_SESSION ??=3D "matchbox-session"
-+
- do_install() {
-     install -D -p -m0644 ${S}/emptty.conf.in ${D}${sysconfdir}/emptty/conf
--    install -D -p -m0644 ${S}/default.desktop ${D}${datadir}/xsessions/def=
-ault.desktop
-=20
-     BLANK_ARGS=3D"${@bb.utils.contains('PACKAGECONFIG', 'blank', '', '-s 0=
- -dpms', d)}"
-     NO_CURSOR_ARG=3D"${@bb.utils.contains('PACKAGECONFIG', 'nocursor', '-n=
-ocursor', '', d)}"
-=20
-     sed -i "s:@NO_CURSOR_ARG@:${NO_CURSOR_ARG}:" ${D}${sysconfdir}/emptty/=
-conf
-     sed -i "s:@BLANK_ARGS@:${BLANK_ARGS}:" ${D}${sysconfdir}/emptty/conf
-+    sed -i "s:@DEFAULT_SESSION@:${DEFAULT_SESSION}:" ${D}${sysconfdir}/emp=
-tty/conf
-=20
-     install -D -m 0644 ${S}/system-xuser.conf ${D}${sysconfdir}/dbus-1/sys=
-tem.d/system-xuser.conf
- }
-=20
- FILES:${PN} =3D "${sysconfdir}/emptty/conf \
--               ${datadir}/xsessions/default.desktop \
-                ${sysconfdir}/dbus-1/system.d/system-xuser.conf"
-=20
- USERADD_PACKAGES =3D "${PN}"
+-	if [ "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'yes', 'no', d)}"=
+ =3D "yes" ]; then
+-		install -Dm 644 ${UNPACKDIR}/xwayland.weston-start ${D}${datadir}/weston=
+-start/xwayland
+-	fi
+-
+-	if [ "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'yes', 'no', d)}" =
+=3D "yes" ]; then
+-		install -Dm 644 ${UNPACKDIR}/systemd-notify.weston-start ${D}${datadir}/=
+weston-start/systemd-notify
+-	fi
+-
+ 	if [ "${@bb.utils.contains('PACKAGECONFIG', 'launch', 'yes', 'no', d)}" =
+=3D "yes" ]; then
+ 		chmod u+s ${D}${bindir}/weston-launch
+ 	fi
 --=20
 2.51.1
 
