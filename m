@@ -2,125 +2,170 @@ Return-Path: <stondo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7968FD6ACF3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D753D6ACF5
 	for <webhook@archiver.kernel.org>; Thu, 18 Dec 2025 12:02:04 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.40331.1766059316910352278
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40354.1766059318292912792
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Dec 2025 04:01:57 -0800
+ Thu, 18 Dec 2025 04:01:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YWFD7o+X;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: stondo@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42fbc544b09so347857f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 04:01:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bYnRM8yf;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: stondo@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-42fbc544b09so347873f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 04:01:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766059315; x=1766664115; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766059316; x=1766664116; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=44PTI2O5tYBwI330Cyr50GcQl0cnzm2fhTfHOZ4fi+w=;
-        b=YWFD7o+XMjzekcZnGX0yWZRYNzGyYJRVC9uDM7KetQfGKL07AQa2hHMXqGqYKIPh2P
-         SHk+ebc15ZJ2QI3kPU7y4MSIZEROZrdEvbY8YLqhafHAshKYvkSm/qdvkxjS90LVD5VE
-         ziHrWyu1K5Y7/LiiFjqDf0qqyMf63s3EAOsSFoHqG1QdcNW9orZLBIWa09JgPsuS5kI7
-         /J1g/ZzyPS2zBtOCQqebvhXzNYkmM7VRzLWce9qo//DcdoTkbrGxCQGprb9IjQtE8rGf
-         NAoGXzD0rrqFPwvRNGx35bJEHCrbgQtmTjoyXt0r/UvG+9Ze2sWOktIxuA/f39AfvNef
-         8v1A==
+        bh=FM0pUGHTGEro1bZv+GGoowv+0wFfyCHHqDZ1u9GaHJU=;
+        b=bYnRM8yf7kt2ftuun/J86a07JZ4Wzd/34TbaF0jZFUnN0V1bdiVGp6yCJGQ0qAOMks
+         jM8OPNkeC0dxPRDOjD7l4g0VC7qqqFo4a8psZcmQ/SQ1+/xqqs049QAyxGidwKM0d6Bk
+         VjFczSSsISG4J00QbpaPhQHgeGYo602i24Gm+4ozs5kzc6e8yQOisrbfcraMUNOzIyhB
+         q/Mprsm9YcDM9UBKo+i8bXJHD83lAWdM0zSkghcnxo4lvLxy8z4HI8rotNcc2LUV2A1M
+         0T7TW6I5bW+gF21A0IC2BhmmEfRZC8sq3TsaAErSDEI8VfuxBUfx+8hFszEepWs8w4Oq
+         mtCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766059315; x=1766664115;
+        d=1e100.net; s=20230601; t=1766059316; x=1766664116;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=44PTI2O5tYBwI330Cyr50GcQl0cnzm2fhTfHOZ4fi+w=;
-        b=VUqK6ETPBT3MFe6wMsglb69b9PwuIzBQw32h+kf/yTQB79uDUGub9nlMFYm7Owb7Q9
-         0FfOKNAJjLccgFl/Otoq0B6ypxu2xR/7ePJRYnigDPZw1+zcpZYq+qk2B7CNL6Qqjag/
-         J5AEmuO/GULJMNIy9b8NpnB2T18na11zedE7V8qGFK9qkCM6VQhbgp42ACwg0EG1FJgQ
-         4wVWr8MQO110lzbCGcb4zbSsKqgTdjxYNKdGpp/Eb692C4YEVoOe5hiQuY/3RomNM0k3
-         VI4Tu6xW/LNulBKF09GybZzSeZrST78E5zCcuYbAJqRnu8L4HrXKCS9LVeBVNjJcuJGp
-         PeaA==
-X-Gm-Message-State: AOJu0YyF2gCjY14M/CptfA6xOnBiYs67CTgXxxZxl+IU+pvx0838s4Ub
-	yBRyVn9BeRSercJZfSlXWsP37En0G5FtPnbKDk9hp6J55jC7L/uCLeFcCKtILQ==
-X-Gm-Gg: AY/fxX41Rk8/gy4AfWnuc6afQGewZTXoNsBCRWxvXVZu/P52tDjC8eD7kA1CY4/OvZr
-	NfzkM/mrhrGEmP5vGc+cyQ3J6uxaYPfOdTJgRsmXmH19EX30YtPX8+RH7q6B/p0OPCmohasexIO
-	AAkvuXyRFh1hkFIeC0YJ1bRSnzuYck/TVzkPimBY11iIOwNT00L4DFpxe1k5hnFdn5aopI4P1+R
-	id1t0YO3WjWjV2Drv4mJKuwugdsmc8fsXp25iGJTlawxQNTuRTKdhlzZZ5qutG+rTtYuLwKE5Ib
-	9SFXJXkOw1a9wCi9OWNyjl9e9zhpNFVNU1YT/d/sdOqz2NijDN9LKlkXoW9twBCL8RlK2OH6yMY
-	/v1BhvBWZGEup7zEJZTUwd5lIYOSVI60xzwCcbjr5f5MnOpupe4LTCtvDA9/SpHGksVMtB7UaWl
-	etXBJasd8I294VDacsfkDMh1HTgH9nNDwdcg==
-X-Google-Smtp-Source: AGHT+IGjvv1IIrnoxa/VeBH24Jpey2CSFvUIEdpuXwtCpFmTPmkiPm0jYS+ankNu1tNflwhnNgKYRw==
-X-Received: by 2002:a5d:64e9:0:b0:430:fcf5:495c with SMTP id ffacd0b85a97d-430fcf55f26mr15626824f8f.4.1766059314930;
-        Thu, 18 Dec 2025 04:01:54 -0800 (PST)
+        bh=FM0pUGHTGEro1bZv+GGoowv+0wFfyCHHqDZ1u9GaHJU=;
+        b=XC8lSL1AoMwfq0yAS1sGk1Y+aNjdb5W9zOVp8o67yAOvpd36+nCM4XhaJZqY2aCes9
+         Y8+aqjJbZchfQFXTlw/xkDQ0tK/uLU7iO0Zg79Sjugwh+sAz49wGL9OfxQJsTl99NAsN
+         czE8te3/SSfvYCBXYKTuaUnYr4sZAGjB+8YDhgZif1Ji/D1NTT4ZasHhnzzxblHOpVJW
+         YO3KKg0FYCO4DK0FYMmA9TQNNQ/+RQKA5w60JqSYKq/qeq2l34KtIU4dKoDgYYYhZob9
+         quLATHkiCP8uaycNNhbikNVLzBJ2VuirO6YqocrZ0DPILkhfGtOBlPZWJ2nprAnBv453
+         zXQw==
+X-Gm-Message-State: AOJu0YzAAe9vsS1vyFqhYtI5SLeRWmLUk0Qco/za1KuQBBa+yi1JDaem
+	wtUp/JDIe8SFO352+K0cXdMlHt3ZVgTZLoGN0PyGqYJFqcS5P2DyJz/hPVvusQ==
+X-Gm-Gg: AY/fxX6rCdl9wR2LBH9Mxb5FSDVk0eNcf8lvxSrxJ4cKSzeWii20FiMTvlmn5qudBjD
+	9a4+dKhL959fXWo7/ip2FVM7JlZ7BXy/yN45UliJ0k23xW7hEFjxaQt7IV6WSQwBw2WWaoDC9iH
+	aiKGfVU4t582xKv9bs6kOJjUE5HNZ5V7IathHxZl15FrYlo/EuS5EcU6bromQ/ri2m5jQNR4OHz
+	9Fi+rW4UhCo3wQFxCNKW+hAuvnpA/4lT4AAPzGpv4SCaHThv9MuivvsYiOGThENqjEh/Rm7wOQz
+	6GAQG1FBDBAuYM9vzCCoFCk0Yb4El595FbmcvHBlOT5zHolB7Wb1ho9/bi7AuX2vE3kjhqatjPB
+	r7gjcp8wUQ4wT2m+QX0R3TLN03zPh4Umi7dJiU6wtGvznD5yGAMVAi700isLBLu6E3V49Q8M9UE
+	VzEoKWsoaWPSlHrpnfcpkzoAk=
+X-Google-Smtp-Source: AGHT+IEHi2wKdXFMphzfDlZCnyGo8Ac2BfwhgTo6Y6+9tPabizOocai9omE/GNaKVDWzrMPSAB8o5A==
+X-Received: by 2002:a5d:5e01:0:b0:431:3a5:d9c1 with SMTP id ffacd0b85a97d-43103a5db47mr9662176f8f.30.1766059315978;
+        Thu, 18 Dec 2025 04:01:55 -0800 (PST)
 Received: from fedora ([81.6.40.67])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-43244949ba6sm4684850f8f.19.2025.12.18.04.01.53
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-43244949ba6sm4684850f8f.19.2025.12.18.04.01.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 04:01:54 -0800 (PST)
+        Thu, 18 Dec 2025 04:01:55 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: stefano.tondo.ext@siemens.com,
 	peter.marko@siemens.com,
 	adrian.freihofer@siemens.com
-Subject: [OE-core 1/2] spdx30_tasks: Add summary field with fallback chain
-Date: Thu, 18 Dec 2025 13:01:38 +0100
-Message-ID: <20251218120139.104155-2-stondo@gmail.com>
+Subject: [OE-core 2/2] spdx30_tasks: Add concluded license support with SPDX_CONCLUDED_LICENSE
+Date: Thu, 18 Dec 2025 13:01:39 +0100
+Message-ID: <20251218120139.104155-3-stondo@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251218120139.104155-1-stondo@gmail.com>
 References: <20251218120139.104155-1-stondo@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 12:02:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228118
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228119
 
 From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-Add automatic population of summary field with intelligent fallback
-chain to improve SBOM human-readability and documentation completeness.
+Add hasConcludedLicense relationship to SBOM packages with support for
+manual license conclusion override via SPDX_CONCLUDED_LICENSE variable.
 
-The summary field provides a brief description of each package in the
-SBOM, making it easier for humans to understand the purpose of components
-without reading full descriptions. The implementation uses a fallback
-chain to ensure every package has a meaningful summary:
+The concluded license represents the license determination after manual
+or external license analysis. This should be set manually in recipes or
+layers when:
 
-  SUMMARY:${package} → SUMMARY → DESCRIPTION → generated description
+1. Manual license review identifies differences from the declared LICENSE
+2. External license scanning tools detect additional license information
+3. Legal review concludes a different license applies
 
-This improvement addresses SBOM documentation quality requirements and
-makes SBOMs more useful for security review and compliance documentation.
+By default, concluded license equals declared license (indicating no
+separate license analysis was performed). When differences are found,
+users should:
+
+1. Preferably: Correct the LICENSE field in the recipe and contribute
+   the fix upstream to OpenEmbedded
+2. Alternatively: Set SPDX_CONCLUDED_LICENSE locally in your layer when
+   upstream contribution is not immediately possible or when the license
+   conclusion is environment-specific
+
+This variable allows tracking license analysis results in the SBOM while
+maintaining the recipe LICENSE field for build system compatibility.
+
+The variable is initialized in spdx-common.bbclass with comprehensive
+documentation explaining its purpose, usage guidelines, and examples.
+
+Example usage in recipe or layer:
+  SPDX_CONCLUDED_LICENSE = "MIT & Apache-2.0"
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/lib/oe/spdx30_tasks.py | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ meta/classes/spdx-common.bbclass | 13 +++++++++++++
+ meta/lib/oe/spdx30_tasks.py      | 21 +++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
+diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
+index ca0416d1c7..3ca4c70cc0 100644
+--- a/meta/classes/spdx-common.bbclass
++++ b/meta/classes/spdx-common.bbclass
+@@ -36,6 +36,19 @@ SPDX_LICENSES ??= "${COREBASE}/meta/files/spdx-licenses.json"
+ 
+ SPDX_CUSTOM_ANNOTATION_VARS ??= ""
+ 
++SPDX_CONCLUDED_LICENSE ??= ""
++SPDX_CONCLUDED_LICENSE[doc] = "The license concluded by manual or external \
++    license analysis. This should only be set when license analysis (manual review \
++    or external scanning tools) identifies differences from the declared LICENSE. \
++    When unset or empty, the concluded license defaults to the declared license, \
++    indicating no separate analysis was performed. When differences are found, the \
++    preferred approach is to correct the LICENSE field in the recipe and contribute \
++    the fix upstream to OpenEmbedded. Use this variable locally only when upstream \
++    contribution is not immediately possible or when the license conclusion is \
++    environment-specific. This allows tracking license analysis results in SBOM \
++    while maintaining recipe LICENSE field for build compatibility. \
++    Example: SPDX_CONCLUDED_LICENSE = 'MIT & Apache-2.0'"
++
+ SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
+ 
+ python () {
 diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index f731a709e3..286a08ed9b 100644
+index 286a08ed9b..84d70f6f72 100644
 --- a/meta/lib/oe/spdx30_tasks.py
 +++ b/meta/lib/oe/spdx30_tasks.py
-@@ -636,7 +636,22 @@ def create_spdx(d):
-             set_var_field(
-                 "HOMEPAGE", spdx_package, "software_homePage", package=package
+@@ -712,6 +712,27 @@ def create_spdx(d):
+                 oe.spdx30.RelationshipType.hasDeclaredLicense,
+                 [oe.sbom30.get_element_link_id(package_spdx_license)],
              )
--            set_var_field("SUMMARY", spdx_package, "summary", package=package)
 +            
-+            # Add summary with fallback to DESCRIPTION
-+            summary = None
-+            if package:
-+                summary = d.getVar("SUMMARY:%s" % package)
-+            if not summary:
-+                summary = d.getVar("SUMMARY")
-+            if not summary:
-+                # Fallback to DESCRIPTION if SUMMARY not available
-+                summary = d.getVar("DESCRIPTION")
-+            if not summary:
-+                # Last resort: generate from package name
-+                summary = f"Package {package or d.getVar('PN')}"
-+            if summary:
-+                spdx_package.summary = summary
++            # Add concluded license relationship
++            # Use SPDX_CONCLUDED_LICENSE if set, otherwise default to declared license
++            concluded_license_str = d.getVar("SPDX_CONCLUDED_LICENSE")
++            if concluded_license_str:
++                # Use explicitly set concluded license
++                if concluded_license_str != package_license and concluded_license_str != d.getVar("LICENSE"):
++                    concluded_spdx_license = add_license_expression(
++                        d, build_objset, concluded_license_str, license_data
++                    )
++                else:
++                    concluded_spdx_license = package_spdx_license
++            else:
++                # Default: concluded = declared (no analysis performed)
++                concluded_spdx_license = package_spdx_license
 +            
-             set_var_field("DESCRIPTION", spdx_package, "description", package=package)
++            pkg_objset.new_relationship(
++                [spdx_package],
++                oe.spdx30.RelationshipType.hasConcludedLicense,
++                [oe.sbom30.get_element_link_id(concluded_spdx_license)],
++            )
  
-             if d.getVar("SPDX_PACKAGE_URL:%s" % package) or d.getVar("SPDX_PACKAGE_URL"):
+             # NOTE: CVE Elements live in the recipe collection
+             all_cves = set()
 -- 
 2.52.0
 
