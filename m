@@ -2,214 +2,182 @@ Return-Path: <koen.kooi@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 277A8D767FC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CF23D767F5
 	for <webhook@archiver.kernel.org>; Fri, 19 Dec 2025 12:01:19 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15344.1766145677782248381
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15289.1766145678527656229
  for <openembedded-core@lists.openembedded.org>;
  Fri, 19 Dec 2025 04:01:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=Mt+KPlNf;
- dkim=fail reason="dkim: body hash did not verify" header.i=@oss.qualcomm.com header.s=google header.b=ZwWBE3pl;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: koen.kooi@oss.qualcomm.com)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BJBXZmX3991031
-	for <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 12:01:16 GMT
+ dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=NZL65Isj;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@oss.qualcomm.com header.s=google header.b=iGHx/jvF;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: koen.kooi@oss.qualcomm.com)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BJBGBtq3999652
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 12:01:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	I+o0iX2FhkG0NaHjvs3AlYXqBzXqOpnE05lzz/ttJF4=; b=Mt+KPlNfZdOUXjaC
-	qq+wG2Ug4KWU0izd48p8M3e/JCpIfRf65bFQYSwf1B3iJ4eHZSq6jTYdKW51VmRw
-	AtF4xZmOblj+uY8ySdjDNK7S5umd/ptZuW5ONytfmzogunb3JUOTWJW+kDPOdSkO
-	bBkyV3h+iwe5eBlW08KjxJOW6u/szrAnlj7KGFGmRJP0ekkBr+NpHkFt2H6DjWbu
-	cxIs5lliQRb2haG91uknRW/QV1PXstDh+IUx9AbuwH+72QmyynRbAXl59HOqkuee
-	dBxYzkAfeHTiDMZnj8N7gdWLgp9N9bXpr1DhvWNJEfLi/Kxa4xHODJ/+CQVE3BZF
-	ec799Q==
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com [209.85.217.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b4r2dag7w-1
+	4EDPoUo9Jhb8KjXS0Wdxzqq3I/xcB9DxUuCKtLa3Q7A=; b=NZL65Isj76cNSVAV
+	VK4kJqOeYW5sQUIravswgZcpBafU2qQ5aNBvOiE3gybZWZrKgdWEDUc8VDvrIiHk
+	kO6p77B2mzNAPsKpKMqvESIGQ2JUdF1ygzSejZMXQyHTL9Sj9J4IYKGfK+l5CkZz
+	P8hljDs0B5ubSYKbLfNwxP1ZHmddDr33zSey2B9+yAtYm0aG0axtfnu7fXcZzHC8
+	EzUSzIE0fxNyLHOj5FaMMAPF2a8vTKZOTSrEaJM2syywaB5PwIxoQCX6qDIUxk3u
+	T8xf6Zoq2OrGcci9G5sIaaa62qcu0axrfH1DniWKREW3TBqhGTupz/uOlBi/oFNx
+	noT+yQ==
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com [209.85.221.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b4r29jjsw-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 12:01:16 +0000 (GMT)
-Received: by mail-vs1-f71.google.com with SMTP id ada2fe7eead31-5e9e12601d1so831118137.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 04:01:16 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 12:01:17 +0000 (GMT)
+Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-55b0f62aeb7so2319962e0c.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 04:01:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1766145676; x=1766750476; darn=lists.openembedded.org;
+        d=oss.qualcomm.com; s=google; t=1766145677; x=1766750477; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I+o0iX2FhkG0NaHjvs3AlYXqBzXqOpnE05lzz/ttJF4=;
-        b=ZwWBE3plTuydrQkAf7gEOqHBNaJAzk7yZ7YShYcMOwvEA4yoSjkRK3u9agIGnu5ZCl
-         XU+YsUvpmcHrn+LxA1quLDbYlCzEXJX3X6icR2252ZOvzehnDtpKWxg35xVK+s9wI6bQ
-         mPWPHZ97igkCp850wWlI+jyBO4GeT3IeqyRwOjaFDFYnAdkvpav09slhskKqVRQ+oIbD
-         VzZlJ88bdlRcFtPcR3KRvs5Ekrq/YM28FFZACCHotJaho2U0JBqSdkoeEru3+1fdrL+j
-         iPWDUhDEHuVvTLQg0vqSlJ7ySAmXzOftn/isqpJT3fFYtOHKzJ5sFQ4i7apXUoqV9ACy
-         d3Kg==
+        bh=4EDPoUo9Jhb8KjXS0Wdxzqq3I/xcB9DxUuCKtLa3Q7A=;
+        b=iGHx/jvFLQY1PxR+8/18l6I9WF9UuuY4E6GCeGcts9SEElXJ9dY2G3sno2s4nJnJLM
+         YYYzOV2L39rnS6TRHqz+e0DjQwjj/k0QUGhvdHK8ztRjEfBMzNcc6YuOd4xCXJaT4j5O
+         p6ifNivqe20ofUUCjlfLXCxoAeOz2N1TD/Mjo4mBfX+NrvV4v/wDX0L40MHtJgY4KUl1
+         BM98juPQFFuxiDbu+xm5xgy/HumqdUlqZABImwJaBN+HidXUF9EspfbCE6pV1e0NpjlY
+         9flW45KpYzW5q/n7Vs5PUiIEwQoorgvtK811tcvaxxmntUbvii56zq/xYHvUuctAfBTc
+         qnsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766145676; x=1766750476;
+        d=1e100.net; s=20230601; t=1766145677; x=1766750477;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=I+o0iX2FhkG0NaHjvs3AlYXqBzXqOpnE05lzz/ttJF4=;
-        b=JZGqfsA9zrHoPbHJvawppnkGkk4/Yx34VrZz0yqdiwmyUTm6x2ggGPPQyYITn7yOKY
-         qcpJawBnk8GpJqjP/3xKQ+Yfl9ZAlYrsRQOQg4dNC6EYC00dcKQG5CGD7tRMe+W+3GgH
-         QNSvWkChjgeIljTmOIazGGDfqMBdR4rMYJQ91An6w4V5P+esgFZaiWo9w1WkRFL7V3AL
-         LKmduCfDl6bmU7SGs7O2+x7mPYx9eMs2D9APCtNdJB2m8s5r5jnuBy0lXCjdjaMt4NPx
-         orURZ+jxglpM8/CAzMfAQVvC+csQNQcWkLJ0k17Qlqi2eDrkhhEwFuK2kD3LZnsoIo8R
-         fXSQ==
-X-Gm-Message-State: AOJu0Yyv4Ez0IH+eBi/12GVhCxH/L1fMU3ROXPmJPRC6/BrIICUXFTHU
-	I0CKOEF2oz9l5MPsNWe6VMxxooZCXGGwM+RapqO8b+C09ekPoz8GjkEqDnvjGjIZ9TSMRj4kqG7
-	wf+6a6q9iiRupQzPiC9pGYMmUR+0DVDklcX4tgk0a+rNWxKxTR/zoU3YEwu/CrJ1VRx/BcUb8hY
-	hr9YBMVnqWW9JOBPZtng==
-X-Gm-Gg: AY/fxX7cG9kaa8OvGZw9/0a3/gEZ0ZvifmPVz1skOwnA3OGti42vaHMuZDkN7Eg6Wc1
-	/9kl4zsMaL/gWGENF99xDDCSAqhIUJRZxOQgU+pNi4z+lD0jcpRNywkQ/JzoypauMDVeL8bUKhv
-	zFczcWuVN2SJvN91T6hbHa2KqUEcicy7Qj4SVH1ZhB4PkfBTM3MififHTbd4XUuolTXMqPPIXCi
-	+MI4/DnZI0fUWQTGVZ25rE5CGbN2eT0r5+Lwuc9TxLtRYR12Ms0870HsD8oTFWvrL71473xjBS8
-	9NBZch7q1bhylwYesdIBzjSaEn1PR2BVLzLy3UHtSzIAOHJxGN4yqbAae59vj3Pth90jrR6q0rT
-	pU/jXypuO2PozIrUEu9W3x+y9YQVnbcyY
-X-Received: by 2002:a05:6102:5684:b0:5e5:6eee:8ae7 with SMTP id ada2fe7eead31-5eb1a60bf0dmr649772137.2.1766145675531;
-        Fri, 19 Dec 2025 04:01:15 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGwonHs+RzmNPvgVec+CBrapkNDZRh/N98gJLuKFdgNtau3lWWXTzpTCiV9TlSRZEU3OpnYAQ==
-X-Received: by 2002:a05:6102:5684:b0:5e5:6eee:8ae7 with SMTP id ada2fe7eead31-5eb1a60bf0dmr649713137.2.1766145674929;
-        Fri, 19 Dec 2025 04:01:14 -0800 (PST)
+        bh=4EDPoUo9Jhb8KjXS0Wdxzqq3I/xcB9DxUuCKtLa3Q7A=;
+        b=qo10FzRQq/gAbroJuDh+PaxTJ5AWDqMQoH6flUzi0LFLcZQORsXMBardADlEKejtWV
+         UrG//JWDwnBdoJm3OPVI574KZImow5Ez8s0TzJf4oGB3Ku+wfzGPTRe2Qlko7ACWb2In
+         JwPSc8lG79MBBr7iJMDPtaG7lCDSTLtJrQcvj6gOw3fM2s5NlyhgUTy8zHBcf+wbFTYc
+         +BwQ4afIX0pTguo1shhmrjJPUYHH+wkQhPZW1iJ0a2h3r8O+XC5dKrQLoP5yLaXBg99z
+         Cl1WIPcZgvlS4lmKyuZerumITOVZ73kZp8qaGOGOpKo/ZovCRejUmrkli6upc8ghcQRX
+         qNVA==
+X-Gm-Message-State: AOJu0YyBXv/RTojBt1l5dH+5XE6ELfQm/0XK14ExqSSTS1NsWSWe/DW2
+	pLNgNJFlkdyEevIe+CcHs/ERI6ErVcuqhPaj8PwgveEqk+7C2L4VNoPi92i6lIgVQc3kVh78Y9f
+	YdnGJDWHANzv9B65WsJPA98coB+tebE+dc//Oy9WFlif5IcDdbGuNfTMX3ECQGpb6NhziskjsW8
+	YxI74oym9kX7OlK306Hg==
+X-Gm-Gg: AY/fxX4IUSwbM3Rc54hWdKB9wa5nyPPIORNrgUX5y6dka3d7XSVpytGwHm+6KMMfBJl
+	VEJq7U2Kopk4YXFdUJkjPvk6HvhkPDnHgsrkLBSyZHjIm1WeEELLA4Gej/3uXtgLrXBEEjlksdQ
+	PhUqtOfrN5TFrh4DS3Z3bJiEfghCRjzWTRJgJI69UVXJxG30bdy5cxvjR3M4GEcfb7/7Vu8FXEP
+	E0FkD1Z5LsjSVUlHy/+NhUbRllSPgj1KeQQzumh7oXTWfD+5vo2s3tq/ELeS2D9/Gtjqh9JVGot
+	zFdIb02Hvw4yPmn80GUfa7cFZ0yBANUL/86sHu9CjDRc2CW/gaZENH1wMLZNa7TGdjk451yn+vz
+	O/MqhCkQG11qslxCZe6kCAS2TQWAOK89e
+X-Received: by 2002:a05:6122:318f:b0:559:83be:69c5 with SMTP id 71dfb90a1353d-5615be07d05mr739120e0c.10.1766145676863;
+        Fri, 19 Dec 2025 04:01:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG/LJCBhTk/D824hfODkCDi6Oix5zC1OlEjTjUVDQYXTZ/iUemlperg+h7xiwlGCImbvHilDg==
+X-Received: by 2002:a05:6122:318f:b0:559:83be:69c5 with SMTP id 71dfb90a1353d-5615be07d05mr739076e0c.10.1766145676387;
+        Fri, 19 Dec 2025 04:01:16 -0800 (PST)
 Received: from hu-kkooi-ams.qualcomm.com ([212.136.9.4])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b91494c03sm2002120a12.18.2025.12.19.04.01.12
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b91494c03sm2002120a12.18.2025.12.19.04.01.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Dec 2025 04:01:13 -0800 (PST)
+        Fri, 19 Dec 2025 04:01:15 -0800 (PST)
 From: Koen Kooi <koen.kooi@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Koen Kooi <koen.kooi@oss.qualcomm.com>
-Subject: [PATCH v4 1/4] python3-pyzstd: import 0.17.0 from meta-python
-Date: Fri, 19 Dec 2025 13:01:06 +0100
-Message-Id: <20251219120109.1967755-2-koen.kooi@oss.qualcomm.com>
+Subject: [PATCH v4 2/4] systemd: package 'ukify' seperately
+Date: Fri, 19 Dec 2025 13:01:07 +0100
+Message-Id: <20251219120109.1967755-3-koen.kooi@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251219120109.1967755-1-koen.kooi@oss.qualcomm.com>
 References: <20251219120109.1967755-1-koen.kooi@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Authority-Analysis: v=2.4 cv=AcG83nXG c=1 sm=1 tr=0 ts=69453e8c cx=c_pps
- a=P2rfLEam3zuxRRdjJWA2cw==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
+X-Authority-Analysis: v=2.4 cv=P6c3RyAu c=1 sm=1 tr=0 ts=69453e8e cx=c_pps
+ a=wuOIiItHwq1biOnFUQQHKA==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
  a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8
- a=LvthVqE70BM-Z8hTy2kA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=ODZdjJIeia2B_SHc_B0f:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE5MDA5OSBTYWx0ZWRfX3zN6CjQCpdhs
- 22L9c7dkqM/jzIrw8DpmDts8fXd3ZMqzEaDOMUWddbUlJWnJFMMuRHPSnU2Wm517is0CkUBs4x4
- JPlVOEXQNFvqYVc2QAvfJgqCku3rb/Qse6fmU23dx5njjKhF37cIfxAg01tM50vhK9z4maNE4i3
- GoC32pyc2c4QLmrWN1LkbsMkiH2H3ibZzy3xfIe6GWc0lRT6G4TY6XyGhguACjbg4BLOGjlnGzG
- L+D3RCnva00NRkQvpJf9xxH/QjaRSfkRW9O/cBZxXIy7nF6SRktQ4WWus91E8a23xZr0R+LFdvq
- qeJLkCqy3PX6RruXW80Kw6eXbx7SlMDtRXBRlq5f5XW+W/4pRB0V/ciD3DtsVHgoFROMRD5mZyE
- shlwnA6GCSHv5c4JG0VMEQvTSn43gBZbH6es8uchSxOeE0XZcofEHvNwniSbC8ICZjc96FMoLgA
- rFjOWcIz8NONI0nzMeA==
-X-Proofpoint-GUID: r9g8usVQsF9FXBhQcBHCNQWeh3sFfePm
-X-Proofpoint-ORIG-GUID: r9g8usVQsF9FXBhQcBHCNQWeh3sFfePm
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=_Vfo9hBWOhRVvoKi3vUA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=XD7yVLdPMpWraOa8Un9W:22
+X-Proofpoint-ORIG-GUID: 1HssihQlrMf8NbHrwkQX1B3ffc6xs4yK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE5MDA5OSBTYWx0ZWRfX5SAZhs+yL1Lk
+ OqipWBNRkt5mxeV0zM+ewos+kfCt46G/qrab+L1tWvlLxUqBhmt1PcYVTZtWoCni0/NK0wGzntm
+ LBpLkMxG67LUoaXOEfneMqw7z0NqvLQlk6JzVFifljRxNTVe2OP7D6bKO1bn8RnLjBR0c3mldbM
+ Gxp2ExIhKat8Q0htDJnhensVpV0sXSAZ8fTSeMtQeVmnpo98FTXzTRq6EOJKQ6AXYbCTewiMq/O
+ 02rfk33eWvo2xa5SCyxN52NAYIr75pZdMyYTEfBXyaQf2pT0iD4uOoLLLxEelkqjajPZEhK92n/
+ cB40lyDcaX80Hpnd4ja+ILGPBlyNlnkQFENhHxWqPNBvyqllWrzsouBJ8tsE8GpifIySjWeDU49
+ DC6H5OrcoNqMwmLS0N9zlkD0gaiWY9R897YepHjLupF8djr67UFsk7JSiMlUx8RElXyRQiSXwWO
+ gaAW/Ph2hBMctsSI/DA==
+X-Proofpoint-GUID: 1HssihQlrMf8NbHrwkQX1B3ffc6xs4yK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-19_03,2025-12-17_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 adultscore=0 phishscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 impostorscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 spamscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512190099
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 5BJBXZmX3991031
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 5BJBGBtq3999652
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 12:01:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228222
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228223
 
-From the upstream website:
-	Pyzstd module provides classes and functions for compressing and
-	decompressing data, using Facebook's Zstandard (or zstd as short name)
-	algorithm.
+The upgrade to 258.x started shipping 'ukify' by default, but didn't
+adjust the runtime dependencies. Add the python modules 'ukify' imports
+and split out the package to avoid dragging in gigabytes of python just
+plain systemd.
 
-This recipe is being moved over for systemd 258.x, the 'ukify' tool
-depends on this.
+Succesfully tested at runtime on:
+* RB1-core-kit, using u-boot EFI mode + systemd-boot
+* RB3gen2-core-kit, using Qualcomm UEFI + systemd-boot
+* Rubikpi3, using Qualcomm UEFI and type 2 boot
+* Beagleboneblack using u-boot UFI mode + systemd-boot
 
 Signed-off-by: Koen Kooi <koen.kooi@oss.qualcomm.com>
 ---
-Changes since v3:
- * Added SUMMARY
-Changes since v2:
- * No changes
-Changes since v1:
- * Adjusted pyzstd patch to not specify an upper limit to the setuptools
-   version, as suggested by Alexander Kanavin.
 
- ...emove-setuptools-version-limit-of-74.patch | 27 +++++++++++++++++++
- .../python/python3-pyzstd_0.17.0.bb           | 20 ++++++++++++++
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pyzstd/0001-Remo=
-ve-setuptools-version-limit-of-74.patch
- create mode 100644 meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
+No changes since v1/v2/v3
 
-diff --git a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setu=
-ptools-version-limit-of-74.patch b/meta/recipes-devtools/python/python3-p=
-yzstd/0001-Remove-setuptools-version-limit-of-74.patch
-new file mode 100644
-index 0000000000..f2910322ff
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-=
-version-limit-of-74.patch
-@@ -0,0 +1,27 @@
-+From bc9b975c9f41e43481a2eb0623b4180926baecec Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 9 Apr 2025 14:38:31 -0700
-+Subject: [PATCH] Remove setuptools version limit of '74'
+ meta/recipes-core/systemd/systemd_258.1.bb | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/meta/recipes-core/systemd/systemd_258.1.bb b/meta/recipes-co=
+re/systemd/systemd_258.1.bb
+index dcbd4d92f3..70414b03a4 100644
+--- a/meta/recipes-core/systemd/systemd_258.1.bb
++++ b/meta/recipes-core/systemd/systemd_258.1.bb
+@@ -408,6 +408,7 @@ PACKAGE_BEFORE_PN +=3D "\
+     ${PN}-networkd \
+     ${PN}-rpm-macros \
+     ${PN}-udev-rules \
++    ${PN}-ukify \
+     ${PN}-vconsole-setup \
+     ${PN}-zsh-completion \
+     libsystemd-shared \
+@@ -630,6 +631,24 @@ FILES:${PN}-udev-rules =3D "\
+                         ${nonarch_libdir}/udev/rules.d/99-systemd.rules =
+\
+ "
+=20
++SUMMARY:${PN}-ukify =3D "Create and inspect Unified Kernel Images (UKIs)=
+"
++DESCRIPTION:${PN}-ukify =3D "ukify is a tool whose primary purpose is to=
+ combine components (usually a kernel, an initrd, and a UEFI boot stub) t=
+o create a Unified Kernel Image (UKI) =E2=80=94 a PE binary that can be e=
+xecuted by the firmware to start the embedded linux kernel."
++FILES:${PN}-ukify =3D "${bindir}/ukify"
++RDEPENDS:${PN}-ukify =3D " \
++                        python3-compression \
++                        python3-core \
++                        python3-crypt \
++                        python3-datetime \
++                        python3-io \
++                        python3-json \
++                        python3-netclient \
++                        python3-pefile \
++                        python3-pprint \
++                        python3-pydoc \
++                        python3-pyzstd \
++                        python3-shell \
++                       "
 +
-+Upstream sticks to 0.74 since setuptools have dropped msvc9compiler
-+support beyond that which is needed for python 3.9 on windows. We
-+do not have this problem on Linux
-+
-+Upstream-Status: Inappropriate [OE-specific]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ pyproject.toml | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/pyproject.toml b/pyproject.toml
-+index dd885e4..5d4d511 100644
-+--- a/pyproject.toml
-++++ b/pyproject.toml
-+@@ -1,6 +1,6 @@
-+ [build-system]
-+ # setuptools 64+ support --build-option
-+ # setuptools 74+ drops distutils.msvc9compiler required for Python 3.9 =
-under Windows
-+-requires =3D ["setuptools>=3D64,<74"]
-++requires =3D ["setuptools>=3D64"]
-+ backend-path =3D ["build_script"]
-+ build-backend =3D "pyzstd_pep517"
-diff --git a/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb b/meta=
-/recipes-devtools/python/python3-pyzstd_0.17.0.bb
-new file mode 100644
-index 0000000000..af7069b6ed
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
-@@ -0,0 +1,20 @@
-+DESCRIPTION =3D "Pyzstd module provides classes and functions for compre=
-ssing and \
-+decompressing data, using Facebook=E2=80=99s Zstandard (or zstd as short=
- name) algorithm."
-+SUMMARY =3D "Python bindings to Zstandard (zstd) compression library"
-+HOMEPAGE =3D "https://github.com/animalize/pyzstd"
-+SECTION =3D "devel/python"
-+
-+LICENSE =3D "BSD-3-Clause"
-+LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Daedb5a2679cd1552fb61c181ef974=
-b9e"
-+
-+PYPI_PACKAGE =3D "pyzstd"
-+
-+SRC_URI +=3D "file://0001-Remove-setuptools-version-limit-of-74.patch"
-+SRC_URI[sha256sum] =3D "d84271f8baa66c419204c1dd115a4dec8b266f8a2921da21=
-b81764fa208c1db6"
-+
-+inherit pypi python_setuptools_build_meta ptest-python-pytest
-+
-+# clang-16 with -flto segfaults on arm, therefore ignore flto for now
-+do_configure:append:arm:toolchain-clang() {
-+    sed -i -e "s|'-flto'|''|" ${S}/setup.py
-+}
+ CONFFILES:${PN} =3D "${sysconfdir}/systemd/coredump.conf \
+ 	${sysconfdir}/systemd/journald.conf \
+ 	${sysconfdir}/systemd/logind.conf \
 --=20
 2.34.1
 
