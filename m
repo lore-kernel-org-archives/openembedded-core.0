@@ -2,66 +2,67 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B413D74952
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DE4AD7494E
 	for <webhook@archiver.kernel.org>; Fri, 19 Dec 2025 03:23:26 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9488.1766114604286940987
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9483.1766114596186941262
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Dec 2025 19:23:24 -0800
+ Thu, 18 Dec 2025 19:23:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cEn/Mkdh;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7ba55660769so1127372b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 19:23:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IqUJkPGY;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a09d981507so9439285ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Dec 2025 19:23:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766114603; x=1766719403; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766114595; x=1766719395; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zi8AX0obZedfX/IUsvOsHttUN4wDgmzAgedMbUjBU7M=;
-        b=cEn/MkdhEPKf7GorBBusn0n/4SrkKl/HjOtdxDlxL1XlURgGeVxJ1DwTzhTS63i0SF
-         9G5ANaoScshTHI7maIDjSzpZcZI7LE/Ir9tNsL+zt4UkJ1Qdhoxw7ah0TeOe+k1iiYHW
-         a5GNnVqxu9QC7oIdkEurQ3GMJcsQGevqjO9iHh8x/IM4h3S1jSBC/YTL6jHpvOISE9Ef
-         tCXhGlGR2SjjZLQJjwI74m8z5lkwjPZCnncy/sqElh5bN+nVvhV52w2mjSb88sllMMuQ
-         xXyrWroFaJlY72FWEjefL41T0UyvNx2Davl+6OdydmAtPMCVqQ4qSolqn9EOqxyOJEwQ
-         TaYA==
+        bh=Ix8gH9ZPmCqL7Xh8TSaK1REyVINGz6Tf91/6AlI8qlA=;
+        b=IqUJkPGY0wpphjDKaUHX450+v1JX2315oZlmUeMgXS1aZD1zYJLdNncNo1RC9qdefU
+         MSNaHmHc8pRRJlCAc1Oexl7wMJIG8ciByr6ClG3qKDw+rYW5qKDzKwJSh/K70N1/mNXQ
+         U0lwTcA/WkqulJP6rIu1GXNFArOKcg5TNf5DRD23edcYFbPe0DNBLbgDTuB9IZAeS6jF
+         X5Q5PQ42DU9gLYgRvA3sU3oXipkdo4SnTUynmGzUDvZLLWSYONQJuduvuYdhHOL7nniG
+         w8yicOVfHDspAIixZZKUkOb32AxE4+9W4i7NOPGkl3K/UIBEE2W23o/ZYUGPZvPjakPB
+         Kc8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766114603; x=1766719403;
+        d=1e100.net; s=20230601; t=1766114595; x=1766719395;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=zi8AX0obZedfX/IUsvOsHttUN4wDgmzAgedMbUjBU7M=;
-        b=hD9VxtXjZ+5fDFYP8YLLA18xTSuiuTFphWfynGeZIh89r6CPzJurD2InISsexK2CBX
-         RLo5vOVbsIXLGLc6QALPTgoV+kkFsoWQgbOHtj3fZQoxz0IK/LNxrP7XOlP0avIuIXhh
-         mLrD77JKhzGffc6OLSvM9aBYlvGaGvoGo+CUlYiz7sjnrUdPGn10cSSHM3joRJP0Yv7Y
-         lU448tcNZ+HGbEo4HOaUKDiszirRQpECvaNgHI+9EDMJCPKPfQvGTrahH6KBGAgw+rHy
-         8k+xhPfZf0qSJXl6lqwKwx6MPiYOXmN6YJMxRaRK1Wv18Y33kgiNDN/v/p8PW8JqQTdr
-         YkEA==
-X-Gm-Message-State: AOJu0YwV98iTIEhMHMg2/P5fturHW2ZHbLy2ykT/hbPvsDxLabMTqHBD
-	tClIaug1uS6Fv21CiII0GxaNTkRrF0ieWVDrM+sL88UW9b1fnyL8lzvmoEGezw==
-X-Gm-Gg: AY/fxX6Pph3WDbAXiOwt21dIh2YBw54LAVASL12yyVZFPl1NSdG5jFGRzqQ0Jscc5jt
-	eDraeyo/VoQBg9smONY1Sk8kMp7hQ1Nr8oQwfIB1d+lARmQiatYOnmecHbEng5aqAIwUN5xm4aL
-	afihxn9K/9nAE9jgYRULkeItMZj/p33T8jPL4Nqf9Sy5bBeeTyvpxBe3gyacyVqM7qJ807tQgjM
-	87BdAxcg1hrznoT0cBDbEy8wGT2qalwqPOirkBlwrYeeFTcHRtrI0kcWRszlWtXgZqSz8frzr43
-	B66QRMFqSGU4JZaSybr1L3TjYXPcsUfNiius1cm/K7d96ZnWnk1LWHDDX7gC95wvraL4NP/H45m
-	EhLXVw3eZMJp/YiDO0GlsTXVo8dRuMjVSFD5HqQwZfAc81iI9nlKqqQszltt6fZky3wIxm63E6x
-	vXzA9jzOOfYOkUax/+T2GhBbkF
-X-Google-Smtp-Source: AGHT+IFAFT/cX3aiyGx7p235Mty0nAiQ+VTuYbbpfEPoDdhg5MqwwNbTVNS42N+HVy0gTDCk4mlK+w==
-X-Received: by 2002:a05:6a00:3021:b0:780:ed4f:e191 with SMTP id d2e1a72fcca58-7ff648edfe0mr1453074b3a.23.1766114603502;
-        Thu, 18 Dec 2025 19:23:23 -0800 (PST)
+        bh=Ix8gH9ZPmCqL7Xh8TSaK1REyVINGz6Tf91/6AlI8qlA=;
+        b=rgY9lSjFJSvskSOeiIH58euQuhZonRE0hhY2XAT7/Qyox0LPOmPrqpvklVTaz1J22u
+         ksSySMa0VOizyTM8hvG4nHrLh0m5easVGwosw5nNDfVPtbQVeya4agNJWaZox+/KDviu
+         d+QfJ0LqswU2aLUllc0JO3DGbdMZL+CRnut7WJw1z/HVhQ4aseYIBMdf9nnrJ799VoMq
+         Lz2MvfK5PZRMGBzpdJzwC3UwXvfzcc6wUWZrkmYq7UWPZ+8mFz1CjlVMSILixIKBhAyt
+         Gl7DMHTiVgP+ppML+AgzytAyjVocK3A/GVFaXT2PMwUStg/Rpv6p8vQVBUXbX8kKE3QI
+         HyGQ==
+X-Gm-Message-State: AOJu0Ywa2roBRQ43cP9wTXV1uzNbG4vcdsZ/ZatAqBUxcCQxNkQ1jYNK
+	Pr2FSnXCoQqXdXRbbt3zFXmcNfpzYaDBDNeH6+Tb++/tMLQxxMj97vWNWzMBNw==
+X-Gm-Gg: AY/fxX4Q/H8RDxuEc1bNR10j3I/ELvvj7ODeUviceWk+NrcQEKS8QWH3NJavhoQaZVx
+	n+qhqTROJQh4698S7uot70sRS0B5dE9zvrPqGAj75z75m183MnQmIZK5F7l/OEZltRs6vlsyrRW
+	HbFXXBCj0giWU6zRaLBDgaC7ZVZVdTeYtMtTILOn9EyEG8k/+wWUwY5swb1ALu/KBLGKVBqfQpl
+	ljAEzQJNSfzF7oAYYPJWv1dP48ktMEQRxLo8Ac4aHorUos5UMTHjaHlVEhvhtrSC8aINmSzSD3w
+	kMvZBfW5LeC1pMHozQbDOpJeTvHqetUhXwVzcMuattRAtjcRNI6F74oQmnQp7n/wMDbEFQJ/Ft7
+	hlKJ46DABDxZS3ERAIMkcrtAh04GfJVqEXkPD42m5ynUjE6tebas+T4PbCYCR0T2V5qw9kNVI9W
+	K8/B95CZ6x8bLNZOqWv5tb8WC+
+X-Google-Smtp-Source: AGHT+IGHohG5Ymhts9PMbZzbP/a16Q7oh8jqz460Myr3bBSBsDz58SROXih7+gFK7kBwPF7/9dJrpw==
+X-Received: by 2002:a17:902:dad0:b0:269:7840:de24 with SMTP id d9443c01a7336-2a2cab3259dmr41020985ad.21.1766114595381;
+        Thu, 18 Dec 2025 19:23:15 -0800 (PST)
 Received: from NVAPF55DW0D-IPD.. ([165.225.124.219])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7b12a7dasm753360b3a.22.2025.12.18.19.23.21
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7b12a7dasm753360b3a.22.2025.12.18.19.23.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 19:23:23 -0800 (PST)
+        Thu, 18 Dec 2025 19:23:15 -0800 (PST)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Robert Yang <liezhi.yang@windriver.com>,
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Quentin Schulz <quentin.schulz@cherry.de>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][whinlatter][PATCH v2 25/29] ccache: 4.12.1 -> 4.12.2
-Date: Fri, 19 Dec 2025 08:52:04 +0530
-Message-ID: <20251219032209.960840-26-ankur.tyagi85@gmail.com>
+Subject: [OE-core][whinlatter][PATCH v2 22/29] mesa: upgrade 25.2.5 -> 25.2.8
+Date: Fri, 19 Dec 2025 08:52:01 +0530
+Message-ID: <20251219032209.960840-23-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251219032209.960840-1-ankur.tyagi85@gmail.com>
 References: <20251219032209.960840-1-ankur.tyagi85@gmail.com>
@@ -71,34 +72,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 03:23:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228193
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228190
 
-From: Robert Yang <liezhi.yang@windriver.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Pick up the latest (and last) release from 25.2 branch, fixing several
+issues with the drivers.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c422df7d511fe76e7662968ab52eb26a72d55fea)
+(cherry picked from commit 8fb953ee296577db183733e9f21d8fc866ec4453)
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- .../ccache/{ccache_4.12.1.bb => ccache_4.12.2.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/ccache/{ccache_4.12.1.bb => ccache_4.12.2.bb} (93%)
+ meta/recipes-graphics/mesa/mesa.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/ccache/ccache_4.12.1.bb b/meta/recipes-devtools/ccache/ccache_4.12.2.bb
-similarity index 93%
-rename from meta/recipes-devtools/ccache/ccache_4.12.1.bb
-rename to meta/recipes-devtools/ccache/ccache_4.12.2.bb
-index 2d0b83e244..28f36e5ed7 100644
---- a/meta/recipes-devtools/ccache/ccache_4.12.1.bb
-+++ b/meta/recipes-devtools/ccache/ccache_4.12.2.bb
-@@ -17,7 +17,7 @@ DEPENDS = "zstd fmt xxhash"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 3124db0986..cf2c2a57a0 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -19,8 +19,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
+ "
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
+-SRC_URI[sha256sum] = "bb6243e7a6f525febfa1e6ab50827ca4d4bfdad73812377b0ca9b6c50998b03e"
+-PV = "25.2.5"
++SRC_URI[sha256sum] = "097842f3e49d996868b38688db87b006f7d4541e93ce86d2f341d8b3e7be7c93"
++PV = "25.2.8"
  
--SRC_URI[sha256sum] = "a3da50ab0fb0d42f60c17d1450312e6ace9b681f6221cb77c8a09a845f9d760c"
-+SRC_URI[sha256sum] = "2a087efb66b62d4c66d4eb276748bbfa797ff3bde20adf44c53e5a8b9f3679af"
- 
- inherit cmake github-releases
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
  
 
