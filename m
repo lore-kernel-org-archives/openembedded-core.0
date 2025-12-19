@@ -2,112 +2,156 @@ Return-Path: <corentin.guillevic@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C69B9D7879D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7F61D7879F
 	for <webhook@archiver.kernel.org>; Fri, 19 Dec 2025 16:13:20 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20311.1766160799865163959
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20310.1766160798618110364
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Dec 2025 08:13:20 -0800
+ Fri, 19 Dec 2025 08:13:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=glydgr+v;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: corentin.guillevic@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42b3b0d76fcso1190954f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 08:13:19 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=kN/HVlbM;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: corentin.guillevic@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so14020825e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 08:13:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1766160798; x=1766765598; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7QYEFXynZ6z2giDTXuSACF5RTGmP+FMi5dV2Dcg+oGY=;
-        b=glydgr+v4GUstSxGVD66LkFuB4UGptoWqvzKpGZwS6M8iqLmNiacdDtOqn8u1TTXLF
-         m6LVZly0qkQXB/5I4KEFT+GiNgeRiGqkKq95UJ2PHZmz/AtsEAJ6psOn/QLMYxzykpeO
-         NWa/3NVNeefZL49DUt7Np1Gi8Ac8kMDB64TtM=
+        d=smile.fr; s=google; t=1766160797; x=1766765597; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QELcxs+9LvSN++Wcl+N9gDoU15bdRgIsz22qN0ySY10=;
+        b=kN/HVlbMYVzXrwgCUnWdRj0WNro7czk++6DPofiiHxF2BGjFVOEBanxCQys4lMBSb5
+         Lmv/BeTJKdkWhdXOHU8sKoMIsPxJKn+s6F3twzz/Eo2tdDyjrHcD/SKAInlLEQrlebSQ
+         1gd8D33o85LoqBJkXG3MhkpG49EGGPG3fsspM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766160798; x=1766765598;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7QYEFXynZ6z2giDTXuSACF5RTGmP+FMi5dV2Dcg+oGY=;
-        b=K74Q629cGSm9dvY5AcN61vm6ILpglPfU1p6Bzf7qQV6LjsqP/zaW/Wu8fPNLXD5O3U
-         QMyltBMVql+2DJIEvNAbRJ5zAVMsPIqf4VUPrl1wyOE65ZM6ocCvRFC7a7og10sV4KfT
-         4I4Lr+JmMTS71n/LGtC8JlrVapoQOP09v3f31TKV0a79Qc8U2PUWCZHyk2Ysd66RXWoT
-         AuKPiwII/1y8cxBG5uStwZOUqsODElfiMPntQKDkAUp8Fj7tVTq8GSUp7Vhdh0s4RLd9
-         RedlOFgwuUp+vTIKLK/ZXyslTV/cPqd8UdIxNin2z+eO0fhgYIcqs5QCVsYPd4lVkaPx
-         Domg==
-X-Gm-Message-State: AOJu0Yy8dRKNMK6gw9019175YV5HksipMC3Zsg39QKCEWTksPKz8PTPv
-	G/tNF038nRS/yNjVDXmeeUHBdZJ5KHZdqBUIWPOYO8yoHqRhJjEl4I81/WSbOWj6N7R/SmGosUV
-	9LQuX+gg=
-X-Gm-Gg: AY/fxX47qwLW2XiYOefIwiNHa32AiVe+jS41Ff7JHdnjAnLc/Qt/jWJPCB4sL/M2Sm+
-	rxqwBA8DWgoIS3pMqLtabn25R3q3oJ3uz1sF1SmRjuBbLAKQ35UHDX9wBolQkSxzKN9FnXCkxV0
-	G5VqatMcEgw0n7vjGFyZ/rhlXNBGQ5WLWSErozwE5yKZSUKGb8RJugDg7kGHzR0reYJCtgnrwS/
-	uAYisi1K6ZRvVHmCfEA17F6yhBQslOcjRkpN5Es4xbgJVNnb5WCtLdt9zmeIBaZw7VpSKjye9vA
-	u0zym78O05Th6Mi4u2K0hvQsr44EBYUGoH9b+3ASzNt4YPwuIepVypVcztHI0SG35m476rSqoGC
-	yvT3FohxKpavRF7l68RDFHkM8sQSaYB+LAWaZqdEoaQyzGwG7g53115/7m2iyQSpTBkXBYio9SA
-	gsfhRY8jOIvqOOhP+A6h2MDrangyd2kskOJjmkwMjFhvoWMaopmj81hZ7Hh3rPsAid0fsdajQph
-	kJgmlUzvLN+PoogUvs=
-X-Google-Smtp-Source: AGHT+IEORitEyT6k5N6qBsOiEGgIigo5PY0qKvlIisYv/e7YzRXMOXNuNxDqG59HIZZgf5bliGqXBg==
-X-Received: by 2002:a05:6000:3109:b0:430:f494:6a9c with SMTP id ffacd0b85a97d-4324e4cd1b9mr3047733f8f.17.1766160798130;
-        Fri, 19 Dec 2025 08:13:18 -0800 (PST)
-Received: from heaven.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eaa08efsm5888287f8f.29.2025.12.19.08.13.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        d=1e100.net; s=20230601; t=1766160797; x=1766765597;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QELcxs+9LvSN++Wcl+N9gDoU15bdRgIsz22qN0ySY10=;
+        b=Pu086bPqIGABfR5r6SyrJhu7htfbNe+r5soS5HfaLMvQMd8B881+VpPDWznDO+yoN8
+         SO5cmsX2egoHiryn6p/SqDYVMl72k984uWG/XWPX97KjsDbc+v2ghvnMT+hE9SuWdYGv
+         Zjm8TXmE/M1Edkaym7VZYN16rzVTUK3yj32fpeNW1CpdRAXslf/gg0fUCxoXgsTSjy4R
+         zdHyrc3f3dvZ5QEm/8oGAEaAGAFbc4bGsPZc7/n739jn0yiXT51cSkWt82elBeTC2551
+         RsgM8uJ24lhJ1hW4QR6f+4Fd4ZUU+sh9jyqitL0QDFU+KKL1TVJUm9Qf1KeN1Lz7ksGk
+         eSMw==
+X-Gm-Message-State: AOJu0YwGj/L+qjJHt5UBMrEzErBct52tSvEMzEedRzFouzMACDr6dBeY
+	VHnsFrnraVHywzOCUOUTkCfFrx1VnH4uJqOMQ+6lI8n3GrPf7JqjaFywVrIEAvlU3oAW+L6HB8L
+	IRoPIx4o=
+X-Gm-Gg: AY/fxX7P22RV8sMmu5uMEdXIq0RmSNxw97huxddHDFHquo7HWx/1a+3Oc0jNoSudgxB
+	SSzdPW+zJoBxXf8tt6t+q/C2VBU30lpHGRiX8Jk+8Pi+TopR1mVq2kJyknhR3eVmb3QU2XEqKZG
+	SpgNAuScmFf0RbMTK6Fjxw7aFWneNJ+0c3tgc+ccxnNpElqKuynVF3kfwwPCFBrrNboIYErAxic
+	XiQjaY4GauC0YG2muNElziSVh8Y6pTXA+aaBwEwBndkrmWH+waWBJUHv+tTLCvDGz46e3A42s5F
+	jj5ZiK1QY6QKVa/1Kn1LgNUOVzkZweQ5zwpnPftma/7+Q7tMHmv0B8/SIwhvyAcaG5jlCrC0IKX
+	S/naMqlLeKGa0FwCL/6qq39eIE4f150F4mIn+iQiNOn8mwK/p6BCBg9U4AJ7fxiUzS7aXvmwOL7
+	M2wlP8aEXS0cMDs2ipwGmT8LDcTswI1m14ov/erxTep8DKrHahJfwKwOy2BAzKezCiS/keJxqOu
+	ZlUvOzScK6vNujKKGQ=
+X-Google-Smtp-Source: AGHT+IGycoKa1LZ2LZsfom4Ca1Td6MjAffrDw+CSjsPmyHsDI8kajY6xSgMBgH1ozpnvU10cMnN3iw==
+X-Received: by 2002:a05:600c:1550:b0:46e:4586:57e4 with SMTP id 5b1f17b1804b1-47d1958af3dmr30497155e9.24.1766160797006;
         Fri, 19 Dec 2025 08:13:17 -0800 (PST)
+Received: from heaven.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eaa08efsm5888287f8f.29.2025.12.19.08.13.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Dec 2025 08:13:16 -0800 (PST)
 From: Corentin Guillevic <corentin.guillevic@smile.fr>
 To: openembedded-core@lists.openembedded.org
 Cc: Corentin Guillevic <corentin.guillevic@smile.fr>
-Subject: [PATCH v4 2/2] meta/files/layers.schema.json: use URI shortcut for some remotes
-Date: Fri, 19 Dec 2025 17:13:11 +0100
-Message-ID: <20251219161311.2293512-2-corentin.guillevic@smile.fr>
+Subject: [PATCH v4 1/2] oe-setup-layers: support inline URI
+Date: Fri, 19 Dec 2025 17:13:10 +0100
+Message-ID: <20251219161311.2293512-1-corentin.guillevic@smile.fr>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251219161311.2293512-1-corentin.guillevic@smile.fr>
-References: <20251219161311.2293512-1-corentin.guillevic@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 16:13:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228241
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228240
 
-Among the three sources, only two have a single remote. So we can replace
-their entire structure 'remote' -> 'origin' -> 'uri' with a shorter one
-(property 'uri' only).
+Most of the time, when we describe a remote, the layer data (also used by
+the script bitbake-setup) looks like this:
+
+"bitbake": {
+    "git-remote": {
+        "remotes": {
+            "origin": {
+                "uri": "https://git.openembedded.org/bitbake"
+            }
+        },
+        ...
+    }
+}
+
+i.e. an URI with the common name 'origin'. Alternatively, we could simplify this, by
+using a shorter structure with the property 'uri' only:
+
+"bitbake": {
+    "git-remote": {
+        "uri": "https://git.openembedded.org/bitbake
+
+",
+        ...
+    }
+}
+
+These properties can be used together.
 
 Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
 ---
- meta/files/layers.example.json | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/meta/files/layers.example.json b/meta/files/layers.example.json
-index f3b6522083..d990502205 100644
---- a/meta/files/layers.example.json
-+++ b/meta/files/layers.example.json
-@@ -5,11 +5,7 @@
-             "git-remote": {
-                 "branch": "master",
-                 "describe": "",
--                "remotes": {
--                    "remote-alex": {
--                        "uri": "https://github.com/kanavin/meta-alex"
--                    }
--                },
-+                "uri": "https://github.com/kanavin/meta-alex",
-                 "rev": "05b25605fb8b2399e4706d7323828676bf0da0b5"
-             },
-             "path": "meta-alex"
-@@ -18,11 +14,7 @@
-             "git-remote": {
-                 "branch": "master",
-                 "describe": "15.0-hardknott-3.3-310-g0a96edae",
--                "remotes": {
--                    "origin": {
--                        "uri": "git://git.yoctoproject.org/meta-intel"
--                    }
--                },
-+                "uri": "git://git.yoctoproject.org/meta-intel",
-                 "rev": "0a96edae609a3f48befac36af82cf1eed6786b4a"
-             }
-         },
+Changes in v4:
+- Set r_name just before the break
+
+ scripts/oe-setup-layers | 31 ++++++++++++++++++++++++++++++-
+ 1 file changed, 30 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
+index 31cb963251..4813d6f9dc 100755
+--- a/scripts/oe-setup-layers
++++ b/scripts/oe-setup-layers
+@@ -60,6 +60,34 @@ def _write_layer_list(dest, repodirs):
+     with open(layers_f, 'w') as f:
+         json.dump({"version":"1.0","layers":layers}, f, sort_keys=True, indent=4)
+ 
++def _get_remotes(r_remote):
++    remotes = {}
++
++    if not 'remotes' in r_remote and not 'uri' in r_remote:
++        raise Exception("Expected key(s): 'remotes', 'uri'")
++
++    if 'remotes' in r_remote:
++        remotes = r_remote['remotes'].copy()
++
++    if 'uri' in r_remote:
++        r_name = ''
++
++        if 'remotes' in r_remote:
++            if not 'origin' in r_remote['remotes']:
++                r_name = 'origin'
++            else:
++                import itertools
++                for i in itertools.count(start=1):
++                    if not 'origin-{}'.format(i) in r_remote['remotes']:
++                        r_name = 'origin-{}'.format(i)
++                        break
++        else:
++            r_name = 'origin'
++
++        remotes.update({r_name: {'uri': r_remote['uri']}})
++
++    return remotes
++
+ def _do_checkout(args, json):
+     repos = json['sources']
+     repodirs = []
+@@ -80,7 +108,8 @@ def _do_checkout(args, json):
+         if not desc:
+             desc = rev[:10]
+         branch = r_remote['branch']
+-        remotes = r_remote['remotes']
++
++        remotes = _get_remotes(r_remote)
+ 
+         print('\nSetting up source {}, revision {}, branch {}'.format(r_name, desc, branch))
+         if not _is_repo_git_repo(repodir):
 -- 
 2.51.0
 
