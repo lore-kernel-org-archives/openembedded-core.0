@@ -1,159 +1,81 @@
-Return-Path: <corentin.guillevic@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB3F7D767F7
-	for <webhook@archiver.kernel.org>; Fri, 19 Dec 2025 11:43:28 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15104.1766144600229709347
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 137E9D767F7
+	for <webhook@archiver.kernel.org>; Fri, 19 Dec 2025 11:46:09 +0000 (UTC)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15134.1766144764927625389
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Dec 2025 03:43:20 -0800
+ Fri, 19 Dec 2025 03:46:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ej1GJzGt;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: corentin.guillevic@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47798ded6fcso11685965e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 03:43:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YIfY2dkz;
+ spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4ee1a3ef624so10145751cf.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 03:46:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1766144599; x=1766749399; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FhqWUByAkSvehtTlEpgsFsTVY6wqzyDLwvkVPsuDxf4=;
-        b=ej1GJzGtnAaqEdFbkP7aaDojPjHrAFVi2V8fFZcI94kTXqAM+IIGx3pVFdtt4nx1ge
-         2vAyTaHURXUnTrpeTnZsudQ+rnyAKYZWD42CaQmHxY3OEJOWe+e550mtmNAg5Db4oEPe
-         EmNI66772hxNOiDneSP9/Ibn/8KFMQtjD6su4=
+        d=gmail.com; s=20230601; t=1766144764; x=1766749564; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lNvJW+1LVQ1s1DxIlQXTojafPBQav7vhJzutCGXzabk=;
+        b=YIfY2dkzjK7G0ONZ998I/9ZekkOwbK/bCmXDpJhaU8N7ehL5acd4jM5uRBxIZgl0bt
+         O4cOmZtPufDf5k+s7ceP7Np6TLlFtKoZI5TVIImxRDB6M76RFFCNG5tEkysovA16eT3K
+         Nu518Yue8vqzPCYHak1p1feIs59Q8jcvOUvQB6N2v26/eYv9Wm7q5GWhje+7i02Sr0Qx
+         YMb47zn1umTaT4i6vEOTNlHiwVt75jJ7jEYq0OLJ+OBEZEnhH1J0MWyoAPpyJ8mPqLWr
+         Emy0B5dxaIDwN5zH15QKBB/d/NEJgTYEm++a7X1qvMGxB9CK32/Zh/ej+MSeLUSwky43
+         xATg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766144599; x=1766749399;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1766144764; x=1766749564;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FhqWUByAkSvehtTlEpgsFsTVY6wqzyDLwvkVPsuDxf4=;
-        b=bW0dm1+s/wRx5z0BaRCNaNy5ZuLvRTu9ZxQdmxrihJcKR8CwfRzDY7SvaQMMPZwKfZ
-         DSJT8xzxtsYpKRU3F0e9LqpSrZdJOtTZi5Qv2vkTd+en40fdgXPgxFxgUg9k/FbfP5aU
-         2dke+5hvwWhCPmaWn5cpYIVCGm5Zdon9d/8KhAi8oEWoFxSXjV9cc1G4F96I54auxdI5
-         PtqZwgYNIn8jSvJJtClFXQyod/tgUrHx+teGyr9RKvrWWgRKEJU1DxdWVbQueT+SZt78
-         kbj4zCvxfUF7X+UeaHUpUspz8OzrqNcsNZbSw0s4xs0uX3FTNhT/c1axyGhhM3IxZ7EH
-         qC3Q==
-X-Gm-Message-State: AOJu0YzLG2O63/gnD7dLY4boAeak2Ye7gmGfzjlC9NSBFiqQSuF25V86
-	g43Cnm1+H/Xaa9x6gptBU9sFQm3S7s6ZRIr40S8Ok3/MM8jidwUXk84GixhoSWoZtuPrjKBqNR5
-	Pkxa+25k=
-X-Gm-Gg: AY/fxX6WpSRkZd32I7kIqp7wIAkq0LHPiudK7MuZGDKucVkQ89Jj+g3yAJSgTjqsOB2
-	cofefGMJv7CSB8cBRst0aIT7YgIDRiDq9v/FEqyxnUoYY1T0w7O7Pp8yI6qjbjFwnbEm/1UpcSb
-	FKf6CxkNGhkatga7dOZYOTseAyDWqaKOAM+lEwNCHw9ljMxgsxMFvuhFGUiZpZFnV1Mps0kH9q3
-	ZgKMy0WgC0ulVjzjEiCpsiXe4+k671shldR6HBLmMPtmGlTZhA4qKHl9gaM5qNt4oxyNPKUtDAZ
-	v+V0tX544zQsFAgSMD3mfWjlRxvXn+TY0x1/uDULMNJNA0jmSQ3CYAbhvUTYwskYhf+YBXi5609
-	hSymrCKpAmGcF9gLD368UPXmPyRZYqYB086Ihh8Zl+r3oZplaGV6vpthRnBf5R6Eqf94H+EejH8
-	SrMGW8xDNGGLd7iJs0+Kn3tIO9sJ0GSEnGvw+avZ1uzosHJyRIjBYiS3Xf/3pVb8B54CXWtZbAh
-	SnGJ697QwsRIj5+V4o=
-X-Google-Smtp-Source: AGHT+IERxdEZzzWpneDxbiF4V/DInZMKwWykC0wis6aH9bEr2NLOBAyTYs/mDl4iwWgHF5MSkDKztQ==
-X-Received: by 2002:a05:600c:540e:b0:47a:7fd0:9f01 with SMTP id 5b1f17b1804b1-47d195522f7mr24136945e9.16.1766144598646;
-        Fri, 19 Dec 2025 03:43:18 -0800 (PST)
-Received: from heaven.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be27b749esm92167635e9.14.2025.12.19.03.43.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Dec 2025 03:43:18 -0800 (PST)
-From: Corentin Guillevic <corentin.guillevic@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Corentin Guillevic <corentin.guillevic@smile.fr>
-Subject: [PATCH v3 1/2] oe-setup-layers: support inline URI
-Date: Fri, 19 Dec 2025 12:43:15 +0100
-Message-ID: <20251219114316.1574858-1-corentin.guillevic@smile.fr>
-X-Mailer: git-send-email 2.51.0
+        bh=lNvJW+1LVQ1s1DxIlQXTojafPBQav7vhJzutCGXzabk=;
+        b=Wv/0f/r+kKoXBkhIW6gFOUisSlIbeld8tuqXJos6NB/eUQMAtecIBQhNEAKi9Lstg2
+         iqiHt/Pd1gxtDpcRXT20yPSS5gv0NmKxCcNRxul8WMC8cv6mNp/dY+vxfMj+WdywjF3V
+         Sbs+ZEGq5bga3YSLKuYCE+9s0Sl/0vAawR9tN662zRJ+7O2EwKd/zo1OykN2y/3/pmGO
+         KrP+HXi3ajTmpt118qQ3tWAEwkGzrUS8UrHWwIVWl8ZP77aGeg64B8E6IJdzraynBB3v
+         72zrcI9/TYkxeZM/Rchl7miXfU2fDFdZeW/VrnCWxTj6YIypsz+dpyL2jro7rJmkzCNM
+         Nxfw==
+X-Gm-Message-State: AOJu0YxTKLsUaaTAiSNhV3f4G79JFPlJEA7VA7eFq5ZSTSUgz9OYOj2y
+	uzbqYXUClqTkvwwlOXI7dYsDDHgP218q2PMUYeP31KYUNjIa24cCm90IJPi4bTpYwM9G1OIZlLX
+	RzDwX1giXeQYYA/Mz6k07WYsHzHt0INo=
+X-Gm-Gg: AY/fxX7ngEz5g88USO/Ys7dmCRlHEAYMNSIsY+98JWiMu/RXVa9iLnB26OEpTrWc8Rn
+	DP25MDFQDfQkUcY2j8Dlwlm55q/+YBXTuJbutZIajV1Ai3yNYKPeJ1Vq4nEkRG+x6zIyyXBGmXw
+	t2IRoG0MhaczTf7yLd+a8gagS9K9/4Qm9tnGuSDt736vX+YWsv6TSLHH/Teqtm7pfwXgihYNZk3
+	EI8e5Q9l9U4VQAY5yCILe4Moib9vIDNf0YHQiBlFggNKl0LljUZdIUsa1M36KMuh0pWQQG5VXQE
+	JTpQJ7qmbQfO3lwiCh50jvtdbk6i2A==
+X-Google-Smtp-Source: AGHT+IG2HgT8AzKb1xsNR4tNj5v+HX+ojZnugYqtYd86NTR/sWW8v6cMJApmDCTnAZF9EXB07l7r9FhY5gEDp+pX9KA=
+X-Received: by 2002:a05:622a:259b:b0:4ed:e595:bc85 with SMTP id
+ d75a77b69052e-4f4abd621b7mr38179071cf.46.1766144763812; Fri, 19 Dec 2025
+ 03:46:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251219114316.1574858-1-corentin.guillevic@smile.fr>
+In-Reply-To: <20251219114316.1574858-1-corentin.guillevic@smile.fr>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 19 Dec 2025 12:45:52 +0100
+X-Gm-Features: AQt7F2pRjBdmU-GpLYRLlaUjeEg7lvaBBce7lZHIj7L_LUlHxQAtqOSdvRcDG8I
+Message-ID: <CANNYZj_jmioBAzFG3pqO3zphkm_mQF-ZQT9tv_L3e6LRy4nvAQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 1/2] oe-setup-layers: support inline URI
+To: corentin.guillevic@smile.fr
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 11:43:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228218
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 11:46:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228220
 
-Most of the time, when we describe a remote, the layer data (also used by
-the script bitbake-setup) looks like this:
+On Fri, 19 Dec 2025 at 12:43, Corentin Guillevic via
+lists.openembedded.org
+<corentin.guillevic=smile.fr@lists.openembedded.org> wrote:
+> +                import itertools
+> +                for i in itertools.count(start=1):
+> +                    if not 'origin-{}'.format(i) in r_remote['remotes']:
+> +                        break
+> +
+> +                r_name = 'origin-{}'.format(i)
 
-"bitbake": {
-    "git-remote": {
-        "remotes": {
-            "origin": {
-                "uri": "https://git.openembedded.org/bitbake"
-            }
-        },
-        ...
-    }
-}
+r_name should be set just before the break, right?
 
-i.e. an URI with the common name 'origin'. Alternatively, we could simplify this, by
-using a shorter structure with the property 'uri' only:
-
-"bitbake": {
-    "git-remote": {
-        "uri": "https://git.openembedded.org/bitbake
-
-",
-        ...
-    }
-}
-
-These properties can be used together.
-
-Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
----
-
-Changes in v3:
-- Use a more pythonic way to increment an integer
-
- scripts/oe-setup-layers | 32 +++++++++++++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
-index 31cb963251..5ab7d8be96 100755
---- a/scripts/oe-setup-layers
-+++ b/scripts/oe-setup-layers
-@@ -60,6 +60,35 @@ def _write_layer_list(dest, repodirs):
-     with open(layers_f, 'w') as f:
-         json.dump({"version":"1.0","layers":layers}, f, sort_keys=True, indent=4)
- 
-+def _get_remotes(r_remote):
-+    remotes = {}
-+
-+    if not 'remotes' in r_remote and not 'uri' in r_remote:
-+        raise Exception("Expected key(s): 'remotes', 'uri'")
-+
-+    if 'remotes' in r_remote:
-+        remotes = r_remote['remotes'].copy()
-+
-+    if 'uri' in r_remote:
-+        r_name = ''
-+
-+        if 'remotes' in r_remote:
-+            if not 'origin' in r_remote['remotes']:
-+                r_name = 'origin'
-+            else:
-+                import itertools
-+                for i in itertools.count(start=1):
-+                    if not 'origin-{}'.format(i) in r_remote['remotes']:
-+                        break
-+
-+                r_name = 'origin-{}'.format(i)
-+        else:
-+            r_name = 'origin'
-+
-+        remotes.update({r_name: {'uri': r_remote['uri']}})
-+
-+    return remotes
-+
- def _do_checkout(args, json):
-     repos = json['sources']
-     repodirs = []
-@@ -80,7 +109,8 @@ def _do_checkout(args, json):
-         if not desc:
-             desc = rev[:10]
-         branch = r_remote['branch']
--        remotes = r_remote['remotes']
-+
-+        remotes = _get_remotes(r_remote)
- 
-         print('\nSetting up source {}, revision {}, branch {}'.format(r_name, desc, branch))
-         if not _is_repo_git_repo(repodir):
--- 
-2.51.0
-
+Alex
 
