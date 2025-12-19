@@ -1,200 +1,105 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61626D767C2
-	for <webhook@archiver.kernel.org>; Fri, 19 Dec 2025 10:18:08 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14037.1766139479006223349
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CA1BD767C7
+	for <webhook@archiver.kernel.org>; Fri, 19 Dec 2025 10:30:08 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14103.1766140200955564108
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Dec 2025 02:18:00 -0800
+ Fri, 19 Dec 2025 02:30:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=yeIh1442;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 125211A22DF;
-	Fri, 19 Dec 2025 10:17:57 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id CA9376071D;
-	Fri, 19 Dec 2025 10:17:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EEA18102F0BC7;
-	Fri, 19 Dec 2025 11:17:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766139475; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=bN+qO0J5VMQ05CmruBXfXJiczLoY6TEM+ymM5oZPMyc=;
-	b=yeIh1442g+Qzmz1MvxG76W4DFGxdR/UCgQCCoem9AdN71EViPD/j37e+tEdPZn7tQWVyqq
-	2CllCyV9DhpGKYLemvxHE5+hiQZkuSFO1IRzmgic8pPx4PtZBy4zENSUKndHb/Y4OFAuFd
-	E9q4m+/qPByQR/V5P/P6/qsKsOj60ruJl85tgwVxUmkOHEU5a9VqNhcll6EWF+DnVIi518
-	6MqWSxGqVmu7YaNrXvROJFwNK3Y5C6MSmfejI26iq5PzQM8AjYXxZFPDSKHHVkHXEJX2Fn
-	PmVLXOKdhp3jTJDDCjKN7OFLOkPxwZukhGxLUmceD2nLqftv9ZRIcoGgzFt/2w==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 19 Dec 2025 11:17:47 +0100
-Message-Id: <DF246UM8MWVP.1AE5NZSCNETPG@bootlin.com>
-To: <rs@ti.com>, <richard.purdie@linuxfoundation.org>, <alex@linutronix.de>,
- <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
-Subject: Re: [oe-core][PATCHv12 0/6] Display manager proposal for x11 and
- wayland
-Cc: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
- <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20251218191025.667701-2-rs@ti.com>
-In-Reply-To: <20251218191025.667701-2-rs@ti.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=kjq4uH3F;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4448d6c4c9=changqing.li@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BJ4PKUh1929928;
+	Fri, 19 Dec 2025 02:29:59 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=Dz51SNuLbjpRACTqKn8w
+	Omzzla/mXGJbu1/UJByKXRM=; b=kjq4uH3Fax14oCMUz4mV2cIe0s9bm5vlwakV
+	F2fW7W866nY0O0r3GWGkFoCiUEEqvPT6K/PvpPJeCDMJsdkMao5zKc8vqPBYwG9X
+	J3gRbY7tfjzEdz1oJSG8CKUy2yphZZ4De3VcFdPqSVWiKXWs2FuQlHdX35bIuTkW
+	PzTCx/UR2/fp7xr3Ugrm+GpEJ1p1fsVydgBnA+XSzSJ5Owu3uGodEoglRQbPe3c5
+	LNsqTus1N8/2uwDQhJyWtwAg7doEnafvv4nRFWWfc4sPB/VKK27Ozg0vnV54vssR
+	AB2Y4CgYtM6+r4f+YvTlMHnEbILEN8EiDk4dTliPTqajF8+QIw==
+Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b4r348q9t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 19 Dec 2025 02:29:59 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Fri, 19 Dec 2025 02:29:58 -0800
+Received: from pek-lpg-core6.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Fri, 19 Dec 2025 02:29:57 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <raj.khem@gmail.com>
+Subject: [PATCH] packagegroup-go-sdk-target: remove go from packagegroup
+Date: Fri, 19 Dec 2025 18:29:56 +0800
+Message-ID: <20251219102956.442714-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: cUhzrMEiKL5LR7fFabaZt4Dl8wpmaAH_
+X-Proofpoint-ORIG-GUID: cUhzrMEiKL5LR7fFabaZt4Dl8wpmaAH_
+X-Authority-Analysis: v=2.4 cv=Fp8IPmrq c=1 sm=1 tr=0 ts=69452927 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
+ a=LEaydxAqHRweoTFkjBQA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE5MDA4NiBTYWx0ZWRfX6suGYEGVMKGA
+ RtOzegiE+b33Rzya+GEtDYbwddoRnlafcxo0X2+ls39LjInGoGxyiGxjXJdzpO5b9Gvk4N1jbaj
+ L1qhu+6Xa+GY9IZ8OQwYzrWNoJU9rY6K6U7Yj/6I85my4nPe74QJa55XXuVrd0guGvKl++KnUvP
+ Imj0iQQik0yPo3PcnMCrPxBt6r4fxH8Vjq0P22X9WEbDECGLmPLdL8lg03N2ap7zOQ5SOYDjf2U
+ 7BrBvEgyYuZc/spprmYJPsE5g9ErdjN50u1GLb7QdArLhANpoFoB2eL29uQdA2UMKAfEo3L9IDQ
+ iNKvc5deH04fmcxic/yCimQ+w6H7H1D5v9natQciO5LNwJy2ZVNFcQ+3eAqSHJy83i2JYIaRz8D
+ 1jleo4+GSXjt/gDtYFQdKOkv0IvVgd9GxplBVDj97FTIM6FCi28O0rmlqgwq8aMI6SoVwlkrTiE
+ /pJHAolK3ik+qVhpkuA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-19_03,2025-12-17_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 priorityscore=1501 suspectscore=0 bulkscore=0 malwarescore=0
+ clxscore=1015 impostorscore=0 adultscore=0 phishscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512190086
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 10:18:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228206
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Dec 2025 10:30:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228207
 
-On Thu Dec 18, 2025 at 8:10 PM CET, rs wrote:
-> From: Randolph Sapp <rs@ti.com>
->
-> Hello maintainers, I wanted to wait for the latest tag to get cut before
-> bringing this back up, but here it is. This version addresses most of the
-> concerns I've seen regarding this series and adds on a little more functi=
-onality
-> considering we now allow for proper session selection.
->
-> This led me into a bit of a dive into the desktop-entry-spec [1] and asso=
-ciated
-> validator [2] that I wouldn't mind some opinions on as well if people are
-> curious about that.
->
-> Legacy details follow:
->
-> We've recently run into some issues with weston-init attempting to start =
-Weston
-> prior to all drm devices being registered. There's not really a good, scr=
-iptable
-> mechanism to listen in to device registration events that works with the
-> existing weston-init package. Well, at least one that doesn't involve pol=
-ling
-> files or introducing more dependency on the init system being used.
->
-> I also see there is also a lot of scripting around starting X11,
-> xserver-nodm-init, that (from my limited review) should experience the sa=
-me
-> issue.
->
-> I'd like to introduce the following display manager for oe-core, emptty [=
-3].
-> This display manager is, as described upstream, a "Dead simple CLI Displa=
-y
-> Manager on TTY". It supports both x11 and wayland sessions, with togglabl=
-e build
-> parameters to completely remove x11 and pam dependencies. It's licensed M=
-IT,
-> which shouldn't be an issue for any users. (It is written in Go, if you h=
-ave
-> opinions about that.)
->
-> With this, both weston-init and the xserver-nodm-init packages can be re-=
-tuned
-> to leverage this display manager and simply add a user and emptty config =
-for an
-> autologin session. This can resolve the current behavior across init syst=
-ems
-> without additional scripting, and move some development out of this layer=
-.
->
-> This lists myself as a maintainer of emptty as well as xserver-nodm-init =
-and
-> xuser-account since these are currently unassigned and I've reworked them
-> significantly here.
->
-> Sorry for the delay on this series. I found a few bugs in emptty that I w=
-anted
-> to address before submitting this officially.
->
+From: Changqing Li <changqing.li@windriver.com>
 
-Hi Randolph,
+This is for fixing the following error of 'bitbake meta-go-toolchain'
+when multilib is enabled:
+Error: Transaction test error:
+  file /usr/bin/go conflicts between attempted installs of go-1.25.4-r0.x86_64_v3 and lib32-go-1.25.4-r0.core2_32
+  file /usr/bin/gofmt conflicts between attempted installs of go-1.25.4-r0.x86_64_v3 and lib32-go-1.25.4-r0.core2_32
 
-Thanks for the new version. It looks like it got better. Still, we got a
-few issues on the autobuilder.
+Package go only contains some tools, it is not needed to be installed
+into sdk, target go tools is not expected to be used in sdk.
 
-First, issue, probably because of nopasswdlogin group:
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
- NOTE: Resolving any missing task queue dependencies
-2025-12-19 08:42:54,839 - oe-selftest - INFO -       ERROR: Nothing RPROVID=
-ES 'xserver-nodm-init' (but /srv/pokybuild/yocto-worker/reproducible/build/=
-layers/openembedded-core/meta/recipes-graphics/packagegroups/packagegroup-c=
-ore-x11.bb RDEPENDS on or otherwise requires it)
-2025-12-19 08:42:54,839 - oe-selftest - INFO -       xserver-nodm-init was =
-skipped: Recipe xserver-nodm-init, package xserver-nodm-init: system groupn=
-ame "nopasswdlogin" does not have a static ID defined. Add nopasswdlogin to=
- one of these files: /srv/pokybuild/yocto-worker/reproducible/build/build-s=
-t/meta-selftest/files/static-group
-2025-12-19 08:42:54,839 - oe-selftest - INFO -       NOTE: Runtime target '=
-xserver-nodm-init' is unbuildable, removing...
-2025-12-19 08:42:54,839 - oe-selftest - INFO -       Missing or unbuildable=
- dependency chain was: ['xserver-nodm-init']
-2025-12-19 08:42:54,839 - oe-selftest - INFO -       ERROR: Nothing RPROVID=
-ES 'packagegroup-core-x11-utils' (but /srv/pokybuild/yocto-worker/reproduci=
-ble/build/layers/openembedded-core/meta/recipes-graphics/packagegroups/pack=
-agegroup-core-x11.bb, /srv/pokybuild/yocto-worker/reproducible/build/layers=
-/openembedded-core/meta/recipes-graphics/packagegroups/packagegroup-core-x1=
-1-base.bb RDEPENDS on or otherwise requires it)
-2025-12-19 08:42:54,840 - oe-selftest - INFO -       No eligible RPROVIDERs=
- exist for 'packagegroup-core-x11-utils'
-2025-12-19 08:42:54,840 - oe-selftest - INFO -       NOTE: Runtime target '=
-packagegroup-core-x11-utils' is unbuildable, removing...
-2025-12-19 08:42:54,840 - oe-selftest - INFO -       Missing or unbuildable=
- dependency chain was: ['packagegroup-core-x11-utils']
-2025-12-19 08:42:54,840 - oe-selftest - INFO -       NOTE: Runtime target '=
-packagegroup-core-x11-base' is unbuildable, removing...
-2025-12-19 08:42:54,840 - oe-selftest - INFO -       Missing or unbuildable=
- dependency chain was: ['packagegroup-core-x11-base', 'packagegroup-core-x1=
-1-utils']
-2025-12-19 08:42:54,840 - oe-selftest - INFO -       NOTE: Runtime target '=
-core-image-sato' is unbuildable, removing...
-2025-12-19 08:42:54,840 - oe-selftest - INFO -       Missing or unbuildable=
- dependency chain was: ['core-image-sato', 'packagegroup-core-x11-base', 'p=
-ackagegroup-core-x11-utils']
-2025-12-19 08:42:54,840 - oe-selftest - INFO -       ERROR: Nothing RPROVID=
-ES 'packagegroup-core-x11' (but /srv/pokybuild/yocto-worker/reproducible/bu=
-ild/layers/openembedded-core/meta/recipes-graphics/packagegroups/packagegro=
-up-core-x11.bb RDEPENDS on or otherwise requires it)
-2025-12-19 08:42:54,840 - oe-selftest - INFO -       No eligible RPROVIDERs=
- exist for 'packagegroup-core-x11'
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/3049
-
-The second one is again on xorg.XorgTest.test_xorg_running:
-
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/qa-extras2/build/layers/openembedded-co=
-re/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/srv/pokybuild/yocto-worker/qa-extras2/build/layers/openembedded-co=
-re/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/srv/pokybuild/yocto-worker/qa-extras2/build/layers/openembedded-co=
-re/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-  File "/srv/pokybuild/yocto-worker/qa-extras2/build/layers/openembedded-co=
-re/meta/lib/oeqa/runtime/cases/xorg.py", line 31, in test_xorg_running
-    self.assertEqual(status, 0, msg=3Dmsg)
-    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
-AssertionError: 1 !=3D 0 : Xorg does not appear to be running   PID USER   =
-    VSZ STAT COMMAND
-...
-RESULTS - xorg.XorgTest.test_xorg_running: FAILED (1.30s)
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/26/builds/2862
-
-I had a look at the corresponding QEMU boot log, but there is no
-error in there.
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb
+index c03918acc8..52dba3d2ff 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb
+@@ -3,7 +3,6 @@ SUMMARY = "Target packages for the Go SDK"
+ inherit packagegroup goarch
+ 
+ RDEPENDS:${PN} = " \
+-    go \
+     go-runtime \
+     go-runtime-dev \
+ "
+-- 
+2.34.1
 
 
