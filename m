@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAE8DE6749A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C046CE67497
 	for <webhook@archiver.kernel.org>; Sun, 21 Dec 2025 21:37:46 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.68637.1766353059004591306
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.68793.1766353060609701864
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Dec 2025 13:37:39 -0800
+ Sun, 21 Dec 2025 13:37:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=x8qB3HlP;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7bc248dc16aso2790407b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Dec 2025 13:37:38 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Dj9/Ib03;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7b7828bf7bcso3746333b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Dec 2025 13:37:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1766353058; x=1766957858; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1766353060; x=1766957860; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sVv3GxMsMiMtupDBRTtr7cwTD6a/D3jVXMcpCVWeheY=;
-        b=x8qB3HlPlbAQmJKZt1zNFSW6RJB2ygRVZJr6EPtomxTf5XJJCJ7Oc6dMVJgeUpeffo
-         PztwEjvemkYT3K0Yf57jwBkKRmXVyz9HQx6reEhf8Ypp5blAAyClpl1Gd0i3wwZxiInX
-         QWrzoA0PwQpjcTq1qSOjzTbBDwg/ujyfS5EIybZ6Vt0UCcxigIpxtssWQzJ4oVnJUGqL
-         0DUS00BXfHUUBoOkdl8DCOH6P4/JIkfNOQGZ+5/VXBKiZWzTkbdbBFN2L+i4anaTvGGM
-         aGMvmX4V93gzK4qIQwy4KsqqWzIRMXwocGbLobzTEBAIol1zwe+yBVMz7a/wSvCORfeQ
-         TGlw==
+        bh=kNNg1TifsI5+LcgOq1NXZzFuT4vZnEm9B2V2JrR9lxA=;
+        b=Dj9/Ib03ONuZRqsrxlwxqz2Rd6Zr+6Bd+ANTzFTXW1/xqh2drF4TkC+ylvP9+uVyU7
+         dYaVInb3Oecd03TGYD+PcB2KPsG3D4AOsBmJimQLesjUDHtSvZBsonpV4UEetdylR0IJ
+         BurafJ2ffMIJov98Ipz2uMCzqXn2abKktyAATSkDHmtw34eDxe0iYwr2Wx3zfsjMIRhT
+         uPWENL20vdUWlVWGyBrXGcI3EBJz1Ji47qX272OUGB/jmXqeoQXY+CEGgolA06Edf/Yc
+         ue5v+wLYtTw2tjC4hw28TbZigpu+OJpd3Zk2yRORCDh1WzY6M41Dp4xHxW29HgcuywGE
+         hlGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766353058; x=1766957858;
+        d=1e100.net; s=20230601; t=1766353060; x=1766957860;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=sVv3GxMsMiMtupDBRTtr7cwTD6a/D3jVXMcpCVWeheY=;
-        b=m5knkJzpV2rWCyinLC5YeiLHzQ9neOfEUVxA8uRdUnF7DS1JnoCraPtVgdLlaqkEla
-         quxC0cwzPgAEjs2Z8GSHCL5MMmLr/lgQ2wenngYXyplK9lT2nnm8zr3LAM96T6H2bd+3
-         yDC4eyzCaQNWR2pOOvi5h+NrnBvFUeDWoXUADnhojJaD5Pw87k+j3qLuV2Lkve7N9bRj
-         VwIARQRZubdXh0n4cEqLkJ0+6mm7FWdC4nk43/cV5UjVgpduXpCpWW6iQ6zoyo3NUX7h
-         5Tn/EzI5vf9T8skv4iswVyA/AFfen0VejMRQY1pT9YT8JLL1M7xNQi+aE3UU4r7co4aT
-         NhIA==
-X-Gm-Message-State: AOJu0YxuGhv3lOKlBdddmoqLhm5OOVrKsxg/2ApdVX8g+0gxd37+0lZG
-	FJ2NyRT8Xb6LRunaPIeYl5cAw87vn3pCgT4FZjzSafC1RcmqAQ6LVzThXda42fGm3kpk8fjuVjz
-	EXxZcIBs=
-X-Gm-Gg: AY/fxX7k/vtbu2q6ELNEEFFOM1TrcmsfVR474mdni4hhHs8zIDeBs+NCEPd2NIxmeVb
-	Cf44g5LfUnkHmvBAl5RPsLAuRAQOKnXWL93TwZB/wbTUXDXl0U0GrWTAS3OiGsv+C+FDoL/po+P
-	FlU9Qls2k9jFgA+F5jPal/g3zw0+1rvMvEiL98k9F50PIRCGPd6azrcnlab1mPQ/LaqdWENvGc2
-	rdhuyWeNyRLLFFVXF4WMSSVVzAZQdAYDERZSI86VDwmF5M9Xjzr61e075nKs3rFhd1M1LSG/mBA
-	00YuqaqalNxG929lEYYqS33LTVf/iR6peU2JZucdBbSSLzcHVAsQ2nza2bSTibTh9q/o+umcGkY
-	oktQkf2vi/4hfMxl0EJPNdXK5/QI47aX7TAL+T6aoxRclicWWZqAcGUm60KaVZj80+wJ6+jXfjZ
-	vb
-X-Google-Smtp-Source: AGHT+IHC1AeGF3HYVoS4wvWukzDBleeaPL4r4zJuDzJW8BgAqwX+WNV43dh9vy8y+O7SUb+tKNe7bw==
-X-Received: by 2002:a05:6a00:1c99:b0:7e8:4587:e8be with SMTP id d2e1a72fcca58-7ff66479a60mr7816486b3a.49.1766353058147;
-        Sun, 21 Dec 2025 13:37:38 -0800 (PST)
+        bh=kNNg1TifsI5+LcgOq1NXZzFuT4vZnEm9B2V2JrR9lxA=;
+        b=BlSoWHWgnBBv76a8ebMSPqqRoX2GM7nk2yd8zmWiZWdDfioMUIDjKGlTd2XKlDB76n
+         WFuFtiFYixa3Dq2zei6wY7AM9yBZ7tIKVlwtCNXXv0i3vLtIlv4K+jtGQhJlb397Ys+5
+         e8jRx1z3tr+C4sP/UWuRRbY52YwRJQRhvBY3sT7R5GYEHtXqi9Jy6F0JonRZZcK/DkxU
+         VsBUEzN2BgZHyiLKxJykg62xecvNwAdON1e5SDn49CBkbfNU8lKmmX0frhxyqjwIOAZp
+         HHPqRvXj1+af/4sIlG1ssaknER+l+Lw2IPeNrReFr59JS6fZA4dByqMdad88xJDVnoIt
+         I/tg==
+X-Gm-Message-State: AOJu0YzzQKeeklARdbBDwGWVYnMdTKzWuH0Cc2qPtb4sDy4wGNwEEy29
+	P07FhBnHVtSchFDXRmtS/2mf83xBmDGO16C2dWdmnNLtmUd1laQuNfcF3jq2jjho287aK76c5Ui
+	RmGZorC8=
+X-Gm-Gg: AY/fxX5qTEDpG6DJRrnBJCAmHbfm8Rd7d2he9+ywxxO2KZFjzDik4MaOQA2zGvlaupk
+	O+JJ6PSUSGUw6XMz9OUEU971tS+RjRWaVVImdGe7dAlNn29pBAsroOZBI3j6NDhc1Lc0hsqKzEo
+	ybfaW+V0cA0ngPBCVXwvKGVOnFBiumexrEVXvS+HgmCq6F/QSHNJflU4qwsij+rV/a4Q5mb0Go5
+	K2si8+Yw/qVpxwS4oHbfRo3Jvx+dN6c/DLBqIuvkUvYKvn1yGiw8l8j78QGU/Ug2A1z058s0Fyu
+	L2RFfk7j4f5mB18WNKoLjPZipAsEYi0QRCkYprVdHAFg+OEu3u7MFstsyP0CzSwku44RTgOfYJJ
+	d1wCQzvAVsU9Zm7u92qe7Z6JLivkAZkkfNjNnq3Z7wljiwEd0HusvvEczQ7CWNiMxlfHF3TrV6D
+	Okt9nizxVVNAI=
+X-Google-Smtp-Source: AGHT+IE1+bHmET1oeQM6FSUjmpWceFeKN/AdGhA2dTrKq3Q2WS+KoX/V9QmMuhT0kbhOTk2JeNG4mg==
+X-Received: by 2002:a05:6a00:bb84:b0:7e8:4398:b363 with SMTP id d2e1a72fcca58-7ff66673079mr9038015b3a.54.1766353059837;
+        Sun, 21 Dec 2025 13:37:39 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:dd61:72c7:d0b8:fed])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7dfabcbcsm8211166b3a.31.2025.12.21.13.37.37
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7dfabcbcsm8211166b3a.31.2025.12.21.13.37.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Dec 2025 13:37:37 -0800 (PST)
+        Sun, 21 Dec 2025 13:37:39 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 10/18] go: upgrade 1.25.4 -> 1.25.5
-Date: Sun, 21 Dec 2025 13:37:03 -0800
-Message-ID: <f778e44dedd316e391babf9bda09cf0df580953b.1766352840.git.steve@sakoman.com>
+Subject: [OE-core][whinlatter 11/18] libssh2: fix regression in KEX method validation (GH-1553)
+Date: Sun, 21 Dec 2025 13:37:04 -0800
+Message-ID: <04bc5b421b251b13908ebb15d96c6c3d43939890.1766352840.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1766352840.git.steve@sakoman.com>
 References: <cover.1766352840.git.steve@sakoman.com>
@@ -69,101 +69,120 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 21 Dec 2025 21:37:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228268
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228269
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Upgrade to latest 1.25.x release [1]:
+Resolves: https://github.com/libssh2/libssh2/issues/1553
 
-$ git --no-pager log --oneline go1.25.4..go1.25.5
-fefb02adf4 (tag: go1.25.5) [release-branch.go1.25] go1.25.5
-f7bce4bd6f [release-branch.go1.25] crypto/x509: prevent HostnameError.Error() from consuming excessive resource
-287017aceb [release-branch.go1.25] crypto/x509: excluded subdomain constraints preclude wildcard SANs
-e1ce1bfa7f [release-branch.go1.25] mime: parse media types that contain braces
-433c01e94e [release-branch.go1.25] internal/syscall/windows: fix ReOpenFile sentinel error value
+Regression caused by
+https://github.com/libssh2/libssh2/commit/00e2a07e824db8798d94809156e9fb4e70a42f89
 
-Fixes CVE-2025-61729 and CVE-2025-61727.
+Backport fix
+https://github.com/libssh2/libssh2/commit/4beed7245889ba149cc372f845d5969ce5103a5d
 
-Release information: [2]
-
-[1] https://github.com/golang/go/compare/go1.25.4...go1.25.5
-[2] https://groups.google.com/g/golang-announce/c/8FJoBkPddm4
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 91c007b0f5fff728cc7803a56a4df8438f20bdea)
+(cherry picked from commit 7a7e83123e985c1c27036503203fa7d839964271)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/{go-1.25.4.inc => go-1.25.5.inc}   | 2 +-
- ...o-binary-native_1.25.4.bb => go-binary-native_1.25.5.bb} | 6 +++---
- ...cross-canadian_1.25.4.bb => go-cross-canadian_1.25.5.bb} | 0
- .../go/{go-cross_1.25.4.bb => go-cross_1.25.5.bb}           | 0
- .../go/{go-crosssdk_1.25.4.bb => go-crosssdk_1.25.5.bb}     | 0
- .../go/{go-runtime_1.25.4.bb => go-runtime_1.25.5.bb}       | 0
- meta/recipes-devtools/go/{go_1.25.4.bb => go_1.25.5.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.25.4.inc => go-1.25.5.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.25.4.bb => go-binary-native_1.25.5.bb} (79%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.25.4.bb => go-cross-canadian_1.25.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.25.4.bb => go-cross_1.25.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.25.4.bb => go-crosssdk_1.25.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.25.4.bb => go-runtime_1.25.5.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.25.4.bb => go_1.25.5.bb} (100%)
+ ...rror-if-user-KEX-methods-are-invalid.patch | 73 +++++++++++++++++++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
+ 2 files changed, 74 insertions(+)
+ create mode 100644 meta/recipes-support/libssh2/libssh2/0001-Return-error-if-user-KEX-methods-are-invalid.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.25.4.inc b/meta/recipes-devtools/go/go-1.25.5.inc
-similarity index 91%
-rename from meta/recipes-devtools/go/go-1.25.4.inc
-rename to meta/recipes-devtools/go/go-1.25.5.inc
-index f88d7feef1..47d5c3912c 100644
---- a/meta/recipes-devtools/go/go-1.25.4.inc
-+++ b/meta/recipes-devtools/go/go-1.25.5.inc
-@@ -18,4 +18,4 @@ SRC_URI += "\
-     file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch \
-     file://0001-runtime-when-using-cgo-on-386-call-C-sigaction-funct.patch \
- "
--SRC_URI[main.sha256sum] = "160043b7f17b6d60b50369436917fda8d5034640ba39ae2431c6b95a889cc98c"
-+SRC_URI[main.sha256sum] = "22a5fd0a91efcd28a1b0537106b9959b2804b61f59c3758b51e8e5429c1a954f"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.25.4.bb b/meta/recipes-devtools/go/go-binary-native_1.25.5.bb
-similarity index 79%
-rename from meta/recipes-devtools/go/go-binary-native_1.25.4.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.25.5.bb
-index 921005c21b..5ecbca6d17 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.25.4.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.25.5.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+diff --git a/meta/recipes-support/libssh2/libssh2/0001-Return-error-if-user-KEX-methods-are-invalid.patch b/meta/recipes-support/libssh2/libssh2/0001-Return-error-if-user-KEX-methods-are-invalid.patch
+new file mode 100644
+index 0000000000..9e7bb9a905
+--- /dev/null
++++ b/meta/recipes-support/libssh2/libssh2/0001-Return-error-if-user-KEX-methods-are-invalid.patch
+@@ -0,0 +1,73 @@
++From 4beed7245889ba149cc372f845d5969ce5103a5d Mon Sep 17 00:00:00 2001
++From: Will Cosgrove <will@panic.com>
++Date: Fri, 28 Feb 2025 09:32:30 -0800
++Subject: [PATCH] Return error if user KEX methods are invalid #1553 (#1554)
++
++Notes:
++Fixes #1553. Restores error case if user passes in invalid KEX method value to libssh2_session_method_pref.
++
++Credit:
++Amy Lin
++
++Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/4beed7245889ba149cc372f845d5969ce5103a5d]
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ src/kex.c | 33 +++++++++++++++++++++------------
++ 1 file changed, 21 insertions(+), 12 deletions(-)
++
++diff --git a/src/kex.c b/src/kex.c
++index ebee54f987..bafda0e611 100644
++--- a/src/kex.c
+++++ b/src/kex.c
++@@ -4196,23 +4196,11 @@ libssh2_session_method_pref(LIBSSH2_SESSION * session, int method_type,
++     char *tmpprefs = NULL;
++     size_t prefs_len = strlen(prefs);
++     const LIBSSH2_COMMON_METHOD **mlist;
++-    const char *kex_extensions = "ext-info-c,kex-strict-c-v00@openssh.com,";
++-    size_t kex_extensions_len = strlen(kex_extensions);
++ 
++     switch(method_type) {
++     case LIBSSH2_METHOD_KEX:
++         prefvar = &session->kex_prefs;
++         mlist = (const LIBSSH2_COMMON_METHOD **)libssh2_kex_methods;
++-        tmpprefs = LIBSSH2_ALLOC(session, kex_extensions_len + prefs_len + 1);
++-        if(!tmpprefs) {
++-            return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
++-                                  "Error allocated space for kex method"
++-                                  " preferences");
++-        }
++-        memcpy(tmpprefs, kex_extensions, kex_extensions_len);
++-        memcpy(tmpprefs + kex_extensions_len, prefs, prefs_len + 1);
++-        prefs = tmpprefs;
++-        prefs_len = strlen(prefs);
++         break;
++ 
++     case LIBSSH2_METHOD_HOSTKEY:
++@@ -4314,6 +4302,27 @@ libssh2_session_method_pref(LIBSSH2_SESSION * session, int method_type,
++                               "supported");
++     }
++ 
+++    /* add method kex extension to the start of the user list */
+++    if(method_type == LIBSSH2_METHOD_KEX) {
+++        const char *kex_extensions =
+++                    "ext-info-c,kex-strict-c-v00@openssh.com,";
+++        size_t kex_extensions_len = strlen(kex_extensions);
+++        size_t tmp_len = kex_extensions_len + strlen(newprefs);
+++        tmpprefs = LIBSSH2_ALLOC(session, tmp_len + 1);
+++        if(!tmpprefs) {
+++            return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
+++                                  "Error allocated space for kex method"
+++                                  " preferences");
+++        }
+++
+++        memcpy(tmpprefs, kex_extensions, kex_extensions_len);
+++        memcpy(tmpprefs + kex_extensions_len, newprefs, strlen(newprefs));
+++        tmpprefs[tmp_len] = '\0';
+++
+++        LIBSSH2_FREE(session, newprefs);
+++        newprefs = tmpprefs;
+++    }
+++
++     if(*prefvar) {
++         LIBSSH2_FREE(session, *prefvar);
++     }
+diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+index 6d2580072b..11d7448687 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2fbf8f834408079bf1fcbadb9814b1bc"
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "9fa5ffeda4170de60f67f3aa0f824e426421ba724c21e133c1e35d6159ca1bec"
--SRC_URI[go_linux_arm64.sha256sum] = "a68e86d4b72c2c2fecf7dfed667680b6c2a071221bbdb6913cf83ce3f80d9ff0"
--SRC_URI[go_linux_ppc64le.sha256sum] = "38c8ac8463537c99fbc1ef368f243b626144446c09db71b1d20634a4237c966d"
-+SRC_URI[go_linux_amd64.sha256sum] = "9e9b755d63b36acf30c12a9a3fc379243714c1c6d3dd72861da637f336ebb35b"
-+SRC_URI[go_linux_arm64.sha256sum] = "b00b694903d126c588c378e72d3545549935d3982635ba3f7a964c9fa23fe3b9"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "f0904b647b5b8561efc5d48bb59a34f2b7996afab83ccd41c93b1aeb2c0067e4"
+ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+            file://run-ptest \
++           file://0001-Return-error-if-user-KEX-methods-are-invalid.patch \
+            "
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.25.4.bb b/meta/recipes-devtools/go/go-cross-canadian_1.25.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.25.4.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.25.5.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.25.4.bb b/meta/recipes-devtools/go/go-cross_1.25.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.25.4.bb
-rename to meta/recipes-devtools/go/go-cross_1.25.5.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.25.4.bb b/meta/recipes-devtools/go/go-crosssdk_1.25.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.25.4.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.25.5.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.25.4.bb b/meta/recipes-devtools/go/go-runtime_1.25.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.25.4.bb
-rename to meta/recipes-devtools/go/go-runtime_1.25.5.bb
-diff --git a/meta/recipes-devtools/go/go_1.25.4.bb b/meta/recipes-devtools/go/go_1.25.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.25.4.bb
-rename to meta/recipes-devtools/go/go_1.25.5.bb
+ SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
 -- 
 2.43.0
 
