@@ -1,144 +1,114 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D619AE67497
-	for <webhook@archiver.kernel.org>; Sun, 21 Dec 2025 21:37:56 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.68800.1766353068914840546
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EC23E66886
+	for <webhook@archiver.kernel.org>; Sun, 21 Dec 2025 23:10:07 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.70375.1766358600549683241
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Dec 2025 13:37:48 -0800
+ Sun, 21 Dec 2025 15:10:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=IbQeu3FF;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7ba55660769so2635060b3a.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Dec 2025 13:37:48 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WQMiDt4S;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso29545465e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Dec 2025 15:10:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1766353068; x=1766957868; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ldZUvdLjyG0gT3/3b8KphIq7frlXhwTWLvUXVvHFm5g=;
-        b=IbQeu3FFY7DtJs7TmQDLqwG1nvk6CXqsH0EwzGyF8z7UK+K/9RHZZ2/ldb8sr0H6Re
-         15KraCQ8RCZ9sNFB4OcTc5UaKshJgHrKAkYq5daLppezT1sQNNBjC8cXjSrjDtybMyS1
-         uCKWh1jotubBIvAxWudVMc4WWHmHVb1SwspLzL0uV8dDZsWlVcog2X6UKk5iquaAYtCV
-         A8J7IblE98bHRe0yzzNyIyY3EEHz1z2G1hWG0B/m8Qdsu3JufVXJGPM9JcxG+qxiyrXR
-         VMmnEDhNy7FwUJmnq8OIP9f3ZqdD2RIwmEhWVUKrZThaIUynK7lTkhKPP8Q6iBhwOoNR
-         yGGA==
+        d=linuxfoundation.org; s=google; t=1766358599; x=1766963399; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KHVRe1e+TFBV78F+QuXOO18+3D2cDcOGMu5ebhsMF/o=;
+        b=WQMiDt4Sk4TYhfvxFuXjiD5Lrsp+Psi5dZwy5YWXlHTKJs4F3EngsRIkNubtndrWTA
+         6F4mPc3X59KGEv8/+a/1bfNcBpBjeAbfjUwkJoqBa4CjPqgVhhPgdvRXOe+z3Azl+eta
+         R7kuXH9upK8WWXSUDBI0OG/R18hhPkeGdfU0g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766353068; x=1766957868;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ldZUvdLjyG0gT3/3b8KphIq7frlXhwTWLvUXVvHFm5g=;
-        b=Qg1gaDr6j8SLiaTXAtB0kuEYabueaKNSvNi7HXl4N4PgKIRQlbmU/rbo5F+kY60I8d
-         pW/S+n1LRHR+CILNUf30Q8Y5q91/58O1d5Enn6lUr3+7X1cT5jr3tsCCe4E8HIqLn0RR
-         /UoelXOnMhL0xla0FeCfwAZReVTVNb3h4d3+RGfgZQhW5tYRPqPVYg3XjYTBsPazP2j7
-         2Xq8GQl5Py789WeiIqobsYKaAtbSK9gIZSViSdtC+lhP8ESwbyQZ9LJKe2Z6P+X/yohF
-         EpD65SFj9yMLpUq+FxyXXhEY9CcEZNtlggBjYIl38KQcqjg6kcde3apBznhSNpp51F/T
-         RbXg==
-X-Gm-Message-State: AOJu0Yzk3c30E4/7n6LXbz8Y8hLqu7a0mfzkghVXjWQNtShBqGvChzRh
-	hOKBNk8okzReZA/+z3cJgJlYROJ7q3UwjVAImB9nT0/G82ckIKVdVUa9TX6ZJR1wzM8TQzcAPaq
-	fhAv6J7Y=
-X-Gm-Gg: AY/fxX5+5iXP00pZAd1L8R41hdH8vUx1nmrS/1HtM8xfaioYaBsG4aiu5zsgCKv5uY1
-	G2urPtMd3rXL3xX3iCrJcsw5zZIXrcQ0vhVtpdANmtwUrdqj62YVFYj0E1JbinITU85fL8txLp+
-	innXqlNbjSjOlyjgnvkYqXPbKG06Jmj64G1sLaCKmR40yeBozVI/IqIvySBkvrakPP0Vu1ZSU31
-	+bEJlFC/1wmxZnoHisN3pRhqQmEi6ligcW1emnHFg9lhk7z1ufZ8Ikigftg7sBOGnFASEg3gm8b
-	X6lNs6aItWqBqB8UHV/kcTvIbBU643v5ilr88hTNvSaohe9Qkn3zmTJJHeNqU+vReETf1slBuJn
-	/kZQrbSsdShlrh1DP3lTWl2GugvnXoIr+38VqNIaa6W04A5f35dx5gEhrtylgVKO41Mzxqq0pJf
-	pT
-X-Google-Smtp-Source: AGHT+IFRGsCBC6Xg+qpHZnluUuLsYnmwbvOumJKCtnVSapHPiCBkxeKZUIwrdU5USGCEFP71tlIj8Q==
-X-Received: by 2002:a05:6a00:451c:b0:7e8:4471:8c6 with SMTP id d2e1a72fcca58-7ff66277f50mr7951082b3a.39.1766353068094;
-        Sun, 21 Dec 2025 13:37:48 -0800 (PST)
-Received: from hexa.. ([2602:feb4:3b:2100:dd61:72c7:d0b8:fed])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7dfabcbcsm8211166b3a.31.2025.12.21.13.37.46
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1766358599; x=1766963399;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KHVRe1e+TFBV78F+QuXOO18+3D2cDcOGMu5ebhsMF/o=;
+        b=NUB7y/uar3TbhEYPMrSRg0Y0a8ZxvRmaR2OOon08YQm9FzzTFhIibkKlJ//AE7otxp
+         HtqiyW2bkHmIF1mnA9FPpATINpsugM/MYvz90hCgehJLFJCNsqHAVqXcWNZsymGR1H/l
+         Vc75KirE7ekDUvPmwixjxRHgTTNg7I8g0z3v6dpnp2wLkfL1TztIAC1bBwNPrrxGGMc5
+         z7lYbIOQsKwqFYv0Q+6AvalEu3PdmRpTwHtVOlzfxw14UjBsj7S9ojbi+sSP6CkRBD6L
+         fXjuRiiLdJuuYhQhnjFRrQBRUZ1HpQFyO06diphkdazaZ9g0SeCkDSwoDhQvWWsQmzPL
+         DIzw==
+X-Forwarded-Encrypted: i=1; AJvYcCXVqW8kggK6KhkdNozKEwEP3POsMOcjDdTPQWCDtd6rx/E6ooHNEPnuT9JJa3wIPUeDDew9IVwZAPIkxxQ2NyXXdw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy69D2bCqtrrFH909nQZDcodaTSMf6PhAZZWZ+Kg4Gggp6PDDI2
+	daoMovOxKa1h54dEu4jN/qMai5mOLzF0tmqOzhWi8fWVM3BqUfXHXOjBpxHEKMVd75MsdDN/vuF
+	aoXM12xw=
+X-Gm-Gg: AY/fxX7l5/Emom2x/fULTjJUzFg1GPzQuvaAcqcd65hz/lWsHMaic0NXmGcCnVDQtCM
+	mr5hcD2auLU3qkqb2Uci8vCHUqXyfxiEeF3PWMcWZpO28TcS9WW+jYpJig1YWtnugvhx33y7fyv
+	bNZTdzjCyb4FjFGmfw6nzMGs+PhAlNQCsbDg46VdhhI4IGc+N2klmoptHjBVR0A0F9F27RSlTO3
+	D9sk7ir6c9vHJWjYcSaL6H4Z2qFSSidDtcmTOWp+zV7wDXhvbDsfNjrzKg3CqRt6cl26ndKv7xL
+	mmdkOpYP3tR2DE7uen8Rv3Cy49Cig8SJAazOWMRKPJyQG8Z+ECCgXPZkWx1vdqhCcUPL+BZ83e7
+	43EQDC4ZoBsDRDhI1dPzrdagVv0VCcz6ycHOLbfIQj+o48PXg8FnLrg1i+jhe3HyqhbSctqBVtI
+	qgVRiU9u0iw/hVrhxE/D/zzABMIsXqndAagqu3rBNKGbX+Kkje/u4Z61hhzZ0aAq3AOCKAShI8Z
+	ek=
+X-Google-Smtp-Source: AGHT+IHHtGEz1cBWJ3i6GnLbzR1Px6FG3IyaSXFZ462B8V2obuEFAKvazIWVqIpTjiv/ajB5hRp4zQ==
+X-Received: by 2002:a05:600c:64c7:b0:479:1a09:1c4a with SMTP id 5b1f17b1804b1-47d2950b309mr31816705e9.31.1766358598746;
+        Sun, 21 Dec 2025 15:09:58 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:db4c:d269:6ac6:9df4? ([2001:8b0:aba:5f3c:db4c:d269:6ac6:9df4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be3963fc3sm88042555e9.0.2025.12.21.15.09.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Dec 2025 13:37:47 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 16/18] cve-update: Avoid NFS caching issues
-Date: Sun, 21 Dec 2025 13:37:09 -0800
-Message-ID: <7f02b3f811ad3c289fb0d3cb119950dcb67e6410.1766352840.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1766352840.git.steve@sakoman.com>
-References: <cover.1766352840.git.steve@sakoman.com>
+        Sun, 21 Dec 2025 15:09:58 -0800 (PST)
+Message-ID: <67c01b7bbde3068d136b15d3855e3bef11a96990.camel@linuxfoundation.org>
+Subject: Re: [PATCH v6 1/8] distro/include: rework debug build
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 21 Dec 2025 23:09:57 +0000
+In-Reply-To: <20251217152421.1181080-1-hongxu.jia@windriver.com>
+References: <20251217152421.1181080-1-hongxu.jia@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 21 Dec 2025 21:37:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228274
+ <openembedded-core@lists.openembedded.org>; Sun, 21 Dec 2025 23:10:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228277
 
-From: Paul Barker <paul@pbarker.dev>
+On Wed, 2025-12-17 at 23:24 +0800, Hongxu Jia wrote:
+> The problem with DEBUG_BUILD is that we have a lot of debug information
+> in builds anyway and this is now unclear what it means. The
+> documentation.conf entry mentions packages which is now incorrect too.
+> The variable is a very old one and the interface is poorly designed
+> compared to other areas now.
+>=20
+> This commit drop DEBUG_BUILD, and add debug_build.inc to instead.
+> In bitbake.conf, use ??=3D to set *_OPTIMIZATION, in debug_build.inc to
+> use ?=3D to override *_OPTIMIZATION
+>=20
+> Make a config fragment to use include_all debug_build.inc to allow other
+> layers to add their own debug build configurations, user should use the
+> following ways to enable debug build
+>=20
+> =C2=A0 $ bitbake-config-build enable-fragment core/yocto/debug-build
+>=20
+> Or
+>=20
+> =C2=A0 $ echo 'OE_FRAGMENTS +=3D "core/yocto/debug-build"' >> conf/local.=
+conf
+>=20
+> Suggested-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 
-When moving the updated CVE database file to the downloads directory,
-ensure that it has a different inode number to the previous version of
-this file.
+Thanks, this series does look much better, I was really happy to see it
+and I really wanted to merge it.
 
-We have seen "sqlite3.DatabaseError: database disk image is malformed"
-exceptions on our autobuilder when trying to read the CVE database in
-do_cve_check tasks. The context here is that the downloads directory
-(where the updated database file is copied to) is shared between workers
-as an NFS mount. Different autobuilder workers were seeing different
-checksums for the database file, which indicates that a mix of both new
-and stale data was being read. Forcing each new version of the database
-file to have a different inode number will prevent stale data from being
-read from local caches.
+Unfortunately, Peter does have a point that this makes it hard to
+change this on a per recipe basis and that is a valid use case. I think
+we may need to work out how to address that.
 
-This should fix [YOCTO #16086].
+I also still don't like the name "debug-build" when it really means
+"build without compiler optimisations". I think we need to find a
+better name too...
 
-Signed-off-by: Paul Barker <paul@pbarker.dev>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f63622bbec1cfaca6d0b3e05e11466e4c10fa86e)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-core/meta/cve-update-db-native.bb   | 9 +++++++--
- meta/recipes-core/meta/cve-update-nvd2-native.bb | 9 +++++++--
- 2 files changed, 14 insertions(+), 4 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 3a6dc95580..01f942dcdb 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -78,8 +78,13 @@ python do_fetch() {
-         shutil.copy2(db_file, db_tmp_file)
- 
-     if update_db_file(db_tmp_file, d):
--        # Update downloaded correctly, can swap files
--        shutil.move(db_tmp_file, db_file)
-+        # Update downloaded correctly, we can swap files. To avoid potential
-+        # NFS caching issues, ensure that the destination file has a new inode
-+        # number. We do this in two steps as the downloads directory may be on
-+        # a different filesystem to tmpdir we're working in.
-+        new_file = "%s.new" % (db_file)
-+        shutil.move(db_tmp_file, new_file)
-+        os.rename(new_file, db_file)
-     else:
-         # Update failed, do not modify the database
-         bb.warn("CVE database update failed")
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index abcbcffcc6..8c8148dd92 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -93,8 +93,13 @@ python do_fetch() {
-         shutil.copy2(db_file, db_tmp_file)
- 
-     if update_db_file(db_tmp_file, d, database_time):
--        # Update downloaded correctly, can swap files
--        shutil.move(db_tmp_file, db_file)
-+        # Update downloaded correctly, we can swap files. To avoid potential
-+        # NFS caching issues, ensure that the destination file has a new inode
-+        # number. We do this in two steps as the downloads directory may be on
-+        # a different filesystem to tmpdir we're working in.
-+        new_file = "%s.new" % (db_file)
-+        shutil.move(db_tmp_file, new_file)
-+        os.rename(new_file, db_file)
-     else:
-         # Update failed, do not modify the database
-         bb.warn("CVE database update failed")
--- 
-2.43.0
-
+Richard
 
