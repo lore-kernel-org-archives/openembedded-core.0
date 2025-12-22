@@ -2,63 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3AC9E6ADC5
-	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 20:08:36 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.87815.1766434112652708717
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CC2EE6ADCD
+	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 20:08:37 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.87695.1766434115773373382
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Dec 2025 12:08:32 -0800
+ Mon, 22 Dec 2025 12:08:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Obivp1gz;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b7a02592efaso624257866b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:08:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BMJGj9wg;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b79ea617f55so771282766b.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:08:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766434111; x=1767038911; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766434114; x=1767038914; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BWfetQKsJPnq2Q7IDzCasKjrTFOUVQhncwoauXXcpYU=;
-        b=Obivp1gz8ntQMk5x/Gc07EjkEVM9TiXgdcgQQtZjdy7g0X7MGKY7+iweg4/9fVOsyC
-         Yx6djvJutdQBS+PfXqdJY4knBwxgc0+Q4ZNqyjPLRWVLfTQoPzEVYKJJr/hlFFvpXNFU
-         Q5Avpqn0D74xn+cx7r1jzLD2vKSLHjg8hB2psNuG8TwXgYymfcLdGYojndrKX0nXpBih
-         FvIFLyAXHSvrkhRFb5yEJxxQhSV/eTeM5OSz1r9Ie23XK2sryHSa6GUxDr3weV59djn3
-         0aqAjBOmKj9vNYakgvhijL9JOxFl2IUcNYZ3g6NWS7+bZByATg+9vOcqM3hAV1tTiSee
-         G1MA==
+        bh=74bnsQ3wdOnphUS4gJUnrxHrpaUde1GV4SzfDTGhnsc=;
+        b=BMJGj9wgsOi4FSYM0KVgekq/DvVuOR6WFUKflh2qz8Sr3MJ+8RvsLRtBK6mGCqDen7
+         3YvZlwK4CNsNLpppRlx0faNR47htMKmkKMNymmq2KaOizbKFUrldQWO1cv/DSRkc7tBm
+         P8qME4CUXvAPm4UasNRViOB2Cidc0PL3dhndRtFT0ZRcGxz5+pTyhYupe/W5rizEp8Cs
+         sMqSHjlOgKYgjFlWKyHGQQvDzSwaMEeAKf6nOg/P61MxaIr6c2KHdSW4vpdnoN3fTGhB
+         eCYi9xb/oqtmk5aH3+jSZR8SjSkqs4VTq6sQqq8ly40y3piNCb+fOj0+hsPlYnjgLKg/
+         orHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766434111; x=1767038911;
+        d=1e100.net; s=20230601; t=1766434114; x=1767038914;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=BWfetQKsJPnq2Q7IDzCasKjrTFOUVQhncwoauXXcpYU=;
-        b=FTgluiioDQEdyvkz18ofVSzNWhbyMWHFPSJ8IV7xdLsQgA5SDS47NOdv2jzbqPYS11
-         UC5be1ApKRHj2B/xjkA0giP9LTlhEJwfY+J0A901mGe8n3EDYd2Nd3G1v2UcEfgY/KtP
-         QrIY7Mj1HDaF5nEQzciWWohEoAKd3Ez5Bzg7+mJiQnS4SvCrmePDmwQ/s5gdXE39Sjsj
-         nlUGigMgQhOtRPu5gZ1aa0NFWQCmFFe92a6d3ScMee/+FhpTnm4jh7iH/fon3zGDvuzf
-         7k4gFQq6JXoW4offUipxDDxozhl77CynYVArwaOttBwfIqYC3D0yB+sT19qlU+MsMOhg
-         RE7Q==
-X-Gm-Message-State: AOJu0YxwNKQt9qxlAPmK2Xp4yMDpiTwgbmLtBq17BbIxj4c6rCz00YFy
-	k4108YbEH/nqjc9CeosCRV/ug9E4JsMj7KljwdMq1Cezy/D4OiWoK21a/EJD4g==
-X-Gm-Gg: AY/fxX77DmvbIUN4yQSxkm26/eUZ0xrD1QlsRNGksIBvKFPIPwXDzIMfyQzgDJ8X5OX
-	RWgH/2HIDcFG1q7mondBbXZg1EydJW4ul92ZOhP94SkWzlQcjeLpogteStRsM7nhDtgMC/PI50+
-	efeRcZMMFc/wIkYMXgbqeV+gsFxH51SI3qcLCm3qQenD5Rk5cvJcgKEBZpiJ4fQh01/of6Q8rrI
-	XzQbkrb87Z56fqa4mNh0z80SN9dYCHH1LpZ/DDOFCCprso75PlXaKQPdsfhndH4vl+PmoV0tOOG
-	tSoIGjpNQYeCzck3mc4TRBBWB8/7UeeF0biofHVNqQpDPX1vjQUTkkeFjdFyfMn0A3Kz8J7trXf
-	y6UPAtowozyIC/82vsie2z6q38BHez8sjaxGY+OfKxEZhVJXn+MqBaycLFmrpOCzk2hGpZcGoel
-	wGLAYJPsiJWWQ+FmK2beeh7ZydZlyf8OiCziJQxY7T40AOvHE=
-X-Google-Smtp-Source: AGHT+IE4WiCny13onMHI+I/gcbVQgVmgrk2CNFi20STJt08JdE2YBKzT51NNUtZ2f4T2aE7pVEvEZA==
-X-Received: by 2002:a17:907:608d:b0:b7a:2d:71af with SMTP id a640c23a62f3a-b803715339dmr1378299066b.38.1766434110928;
-        Mon, 22 Dec 2025 12:08:30 -0800 (PST)
+        bh=74bnsQ3wdOnphUS4gJUnrxHrpaUde1GV4SzfDTGhnsc=;
+        b=sjCwWMLeq/T7JeJWeXWASlM2BrIUQ2SjvvVNPxGuqC8NaSu7S9QF/zCmekg4Q0guT2
+         ntt+iLh/n3zsf7OK2CbVroQObziulUd5Cxo84TFiVY/dG0izyTLgyNryRMD+9RUEXKQB
+         CGoUIC5UnRNZ2KbuuCRLFGMR04ZiQY5C4zHo8GzJNUYN6o2nK0znPQEHFNUw1tL0LF0q
+         pgWMdOZ2lG9N3QWmBmdXVntS+tTle797q7xo4DKtEwFi2lrTa/4jLVOQBUvzPIgz+Duv
+         hmM1R28Pf/pJemjXC2A11XDihOaHxRAsbRUkYRz82GWShtnxX+0HPOmj1OoMdfLXlQoQ
+         xMnw==
+X-Gm-Message-State: AOJu0YzSEHNdWwCdgp1KbA248e6Xr28GgqfQO3HNOov3VtTr8nYXncp+
+	3wl4aNJS9rcER5KAWF53maExxIdJ6ReBkV6pXVtgufzA7crVnYmyK3Twsw4cIg==
+X-Gm-Gg: AY/fxX7eCtZm7FKhnhB6S1t8tO7vdfDpFA4uvuLqmpM2vg8TK1U/Z8UntsgECqesiMp
+	RQuDidBfwZnKTLFYE29XTp/3y0XiY0KFFO9QzV6yohZqzY16OA0koZ9v88R8If6+oaOhnjbBGLg
+	xWVfL39dP/yPO4W9sz/WiW3gaNzktZQnenQeH0VQS0CFTeQsx4gZLNpf5yw44vizgH37A3pL+9l
+	D0UHQDuZnAQdmU2ZTDry6kdokzPXs4uK8/YYtCWgWP50AZUWeHbICVLIglxKbP86Ciz3x05NxKo
+	wbj+MKTjOehor2HMk1StBxE0hj+ZR+FdNqjYoMOXPFjc/32sHAWqR06x+hXN8pWkUoBW1biOqyJ
+	JdfxLQdLGwl2HhMCMqVCXF1oxdjWcsTeeWmtjZnmo7yxrJgW0eTBMvCR4k6JNA3pbAG+Ktw5+FO
+	jPIOphV44t5CiFq4GID5ovgvJP0VkXVsaKsqdFG0zb8pobjD7LeNu/+5w/KA==
+X-Google-Smtp-Source: AGHT+IFDJ+UVtTmlmeaUL9tENoT8aSp7lMVWX/hBEEUpVjxHShWfUMj0+m3emUAbfSWADqc2NYuIyg==
+X-Received: by 2002:a17:907:3dac:b0:b72:c261:3ad2 with SMTP id a640c23a62f3a-b80371d3b67mr1325192066b.50.1766434114043;
+        Mon, 22 Dec 2025 12:08:34 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.08.30
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.08.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 12:08:30 -0800 (PST)
+        Mon, 22 Dec 2025 12:08:33 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 065/114] python3-pdm-backend: upgrade 2.4.5 -> 2.4.6
-Date: Mon, 22 Dec 2025 21:06:47 +0100
-Message-ID: <20251222200739.2278706-65-alex.kanavin@gmail.com>
+Subject: [PATCH 070/114] python3-pycparser: upgrade 2.22 -> 2.23
+Date: Mon, 22 Dec 2025 21:06:52 +0100
+Message-ID: <20251222200739.2278706-70-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251222200739.2278706-1-alex.kanavin@gmail.com>
 References: <20251222200739.2278706-1-alex.kanavin@gmail.com>
@@ -67,32 +67,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 20:08:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228390
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 20:08:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228395
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ython3-pdm-backend_2.4.5.bb => python3-pdm-backend_2.4.6.bb} | 2 +-
+ .../{python3-pycparser_2.22.bb => python3-pycparser_2.23.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pdm-backend_2.4.5.bb => python3-pdm-backend_2.4.6.bb} (81%)
+ rename meta/recipes-devtools/python/{python3-pycparser_2.22.bb => python3-pycparser_2.23.bb} (82%)
 
-diff --git a/meta/recipes-devtools/python/python3-pdm-backend_2.4.5.bb b/meta/recipes-devtools/python/python3-pdm-backend_2.4.6.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-pdm-backend_2.4.5.bb
-rename to meta/recipes-devtools/python/python3-pdm-backend_2.4.6.bb
-index 5e6d75c188..95d8e3e4a4 100644
---- a/meta/recipes-devtools/python/python3-pdm-backend_2.4.5.bb
-+++ b/meta/recipes-devtools/python/python3-pdm-backend_2.4.6.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- SECTION = "devel/python"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=4a564297b3c5b629a528b92fd8ff61ea"
+diff --git a/meta/recipes-devtools/python/python3-pycparser_2.22.bb b/meta/recipes-devtools/python/python3-pycparser_2.23.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-pycparser_2.22.bb
+rename to meta/recipes-devtools/python/python3-pycparser_2.23.bb
+index 0be39ea383..a33a6553b4 100644
+--- a/meta/recipes-devtools/python/python3-pycparser_2.22.bb
++++ b/meta/recipes-devtools/python/python3-pycparser_2.23.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/eliben/pycparser"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=9761c3ffee7ba99c60dca0408fd3262b"
  
--SRC_URI[sha256sum] = "56c019c440308adad5d057c08cbb777e65f43b991a3b0920749781258972fe5b"
-+SRC_URI[sha256sum] = "5dd9cd581a4f18d57ff506a5b3aad7c8df31e5949b6fd854bbc34c38107e4532"
+-SRC_URI[sha256sum] = "491c8be9c040f5390f5bf44a5b07752bd07f56edf992381b05c701439eec10f6"
++SRC_URI[sha256sum] = "78816d4f24add8f10a06d6f05b4d424ad9e96cfebf68a4ddc99c65c0720d00c2"
  
- inherit pypi python_pep517
+ inherit pypi setuptools3
  
 -- 
 2.47.3
