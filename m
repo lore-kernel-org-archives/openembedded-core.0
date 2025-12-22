@@ -1,174 +1,109 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8FF0E6748D
-	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 08:29:49 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.76520.1766392182371246416
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 244A6E6748D
+	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 09:14:10 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.76933.1766394844497769434
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Dec 2025 00:29:43 -0800
+ Mon, 22 Dec 2025 01:14:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=mtAJfiQQ;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id B198D1A236B
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 08:29:40 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 873C7606C1;
-	Mon, 22 Dec 2025 08:29:40 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D5DE81037114B;
-	Mon, 22 Dec 2025 09:29:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766392176; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=ryyW6H1rSwDIvVb9ayCKrTG1xrgYjvdmBudzwfNEHXw=;
-	b=mtAJfiQQBEoy0nrS+IjPxIc0WUyUHvpvI5gE1N+3keKuWezUx3RDd7CFF/Eqpd9+9OqtLE
-	hr7Kh0efnYJc4L/WFHK76shDQXieSwqcnr9mArXONJ5uuz8LXsYO5N2m8WHktFKlosVczM
-	BJUyrnCNARGgbHXyw9QNtbwl1NKCpUQ4K83SQtRA8qbfCbqnYwQ/sXDMirWMEhMHNu4EVn
-	vZjbwD4De/3SOpNZGZy2C8JRQcdSWjK/9M/JoFptA9ljYTPYhdaYFnnXBvbIFfaK0m1J7o
-	K7wDbF8c6wmA6xvQhVn1umNLg46Sh+awrz4Y1rsJpwqFYZ873bPuwm2SyAtFMQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 22 Dec 2025 09:29:32 +0100
-Message-Id: <DF4LRLF3UQLQ.1OMN0OZ0WE0YH@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <bruce.ashfield@gmail.com>
-Subject: Re: [OE-core] [PATCH 0/21] linux-yocto: combined and consolidated
- pull request
-Cc: <richard.purdie@linuxfoundation.org>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <188268ECAC642171.1614991@lists.openembedded.org>
- <CADkTA4MZ6rrU1RxW8zmsAWCMC-zBgdvhWnWBpaXVSpst7njSCg@mail.gmail.com>
-In-Reply-To: <CADkTA4MZ6rrU1RxW8zmsAWCMC-zBgdvhWnWBpaXVSpst7njSCg@mail.gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=S49pVRl1;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4451a15d49=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BM73U2w3827970
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 09:14:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=SpeCjbw2GAYwhc+w6XcE
+	83lqNVxL1Rjj2OZsqrRTnLY=; b=S49pVRl1r8LNuz8iN8jwvEB5c5g2ZyineCcr
+	2hDeD7Y7x2Sab5t7le8sho5NWW2NMIFq52vWsx5E84pwfElTVZndXobuJ8l7cnXe
+	i+EY1OS+Z19A84XP+u2PJoI/eXhH0gWUs0G989Ao1LfYul3TZ468ffk9AK6ItvYD
+	ubflBWiqR9llIMAr4/LUW9EJq+2h6YD+7r2Sq7Vz4Et2MMuKhPTwrFnucC5yRTOb
+	GbxaP1OZ685KWfPgafb5YAj3Uf4PsAd8mAFYWiJo+nihDYoKJSg6/5dfVSubFHUY
+	zO/saQWv2M4If9JUdn4sCe3OrfpiQq45LQfmG6yPnRGCTyAYHA==
+Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b5h0vhnm5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 09:14:03 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Mon, 22 Dec 2025 01:14:02 -0800
+Received: from pek-lpg-core6.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Mon, 22 Dec 2025 01:14:01 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] qemu-system-native: disable libkeyutils
+Date: Mon, 22 Dec 2025 17:13:56 +0800
+Message-ID: <20251222091356.1093337-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: njgc2WVVbdBM2dpdUcyG9avw94ewcFzt
+X-Authority-Analysis: v=2.4 cv=I6Fohdgg c=1 sm=1 tr=0 ts=69490bdb cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
+ a=6BdWctLmSbLh-zIFiisA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: njgc2WVVbdBM2dpdUcyG9avw94ewcFzt
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIyMDA4MyBTYWx0ZWRfX7dFS4Mqh8hQC
+ RhHXKziJHEdGCt0X16m0M1fzjWHi2C0zTNECvUHQM4tzCK4uGtapRZ5CnTg+Iql7bQEcgTbyWvG
+ lyUN4azzGhuk1VpcBzyovzOJpEh3mFl/bmqeLxww5peNjQzdFvRZuZmRq/2BZMxitCFNmU0nedy
+ HUQ5/JTzFi9f1LyS0hF46sxN7gqNgBiny/W1pWZYhK3EXT6lDZtmVsw+bKR2szmLkwFtpErRQie
+ cmgBH+1SAZwit2xJpcyyGUx3GM+bwh3yjh/D8DFiZwAadPb3KWGRbfh1COHb5gOXWe9Pw7rk3i7
+ WhTPnjmXrVfoqybI+brZWd9BSxAxu75NE4RYbVQBoLYL97skSDj6YrU2TgQ6X6v/ld3qeCBjJLQ
+ 2NsEvl5hGjz/UrF/TQY3JAsscw6wEmi7HLhCrRSGPQNp8VQBoDMzDwmLXfvwuPmuFiQ1W1+lJtV
+ Z6993N0MmQ2+Wvk2WUw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-21_05,2025-12-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0
+ impostorscore=0 bulkscore=0 malwarescore=0 adultscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512220083
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 08:29:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228287
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 09:14:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228288
 
-On Thu Dec 18, 2025 at 9:56 PM CET, Bruce Ashfield via lists.openembedded.o=
-rg wrote:
-> On Thu, Dec 18, 2025 at 3:22=E2=80=AFPM Bruce Ashfield via
-> lists.openembedded.org
-> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
->>
->> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->>
->> Hi all,
->>
->> As discussed in the weekly engineering call, I'm sending this as
->> single series even though it crossed boundaries of the repositories.
->>
->> I don't have access to meta-yocto-contrib yet, so I haven't pushed
->> the component parts to contrib branches yet, but will do that for
->> future pull requests.
->>
->> I'm using this as a first run through some things I've cooked up
->> to coordinate the patches across the repos. The formatting is my
->> own, so apologies if it isn't clear .. and we'll see if it all
->>
->> Now to the series for OE-core:
->>
->>  - We have stable updates to 6.12
->>  - A kern-tools fix
->>  - Updates to 6.17
->>  - Removal of 6.17
->>  - Introduction of 6.18
->>  - Bump to libc-headers to 6.18
->>
->> I've built and booted what I can locally, and I know that the
->> major architectures work, and are functional with respect to
->> core features.
->>
->> I have more libc-headers testing running against meta-oe and
->> muslc, so there may be some breakage there and I'll help deal
->> with that if it happens.
->>
->> The update and then removal of 6.17 is on purpose. In case any
->> one was using it, they should get the latest tested before it
->> starts to be removed.
->>
->> For meta-yocto:
->>
->>   - removal of any remaining 6.17 references
->>   - introduction of 6.18
->>
->> The meta-yocto default changes are obviously REALLY RFC/RFT
->> there will be issues, but I've provided them anyway to make it
->> clear that we are going to 6.18 as the new default for all the
->> variants.
->>
->> Once we get 6.18 fully green and the h/w references udpated,
->> I'll remove 6.12 and 6.16 from master. That isn't in this series
->> by design.
->
->
-> FYI: my extended testing shows a warning in the virtualization
-> fragments. It isn't serious, but will be fixed in incremental patches
-> on the end of this queue.
->
-> Bruce
->
+From: Changqing Li <changqing.li@windriver.com>
 
-Hi Bruce,
+When package keyutils-devel is installed on host and gcc in extend buildtools
+is used, qemu-system-native do_compile failed with error:
+../qemu-9.2.0/backends/cryptodev-lkcf.c:36:10: fatal error: keyutils.h: No such file or directory*
 
-Sorry, I was a bit late in testing this.
+ 36    #include <keyutils.h>
 
-On my side I also get some issues in building strace, are you aware of
-this?
+                ^~~~~~~~~~~~
 
-ERROR: strace-6.17-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker=
-/genericx86-64/build/build/tmp/work/core2-64-poky-linux/strace/6.17/temp/ru=
-n.do_compile.3198325' failed with exit code 1
-...
-| ../../sources/strace-6.17/src/listmount.c: In function 'print_mnt_id_req'=
-:
-| ../../sources/strace-6.17/src/listmount.c:39:16: error: 'struct mnt_id_re=
-q' has no member named 'spare'
-|    39 |         if (req.spare) {
-|       |                ^
-| In file included from ../../sources/strace-6.17/src/listmount.c:9:
-| ../../sources/strace-6.17/src/print_fields.h:384:37: error: 'struct mnt_i=
-d_req' has no member named 'spare'
-|   384 |                 PRINT_VAL_X((where_).field_);                    =
-       \
-|       |                                     ^
-| ../../sources/strace-6.17/src/defs.h:1910:17: note: in definition of macr=
-o 'zero_extend_signed_to_ull'
-|  1910 |         (sizeof(v) =3D=3D sizeof(char) ? (unsigned long long) (un=
-signed char) (v) : \
-|       |                 ^
-| ../../sources/strace-6.17/src/print_fields.h:384:17: note: in expansion o=
-f macro 'PRINT_VAL_X'
-|   384 |                 PRINT_VAL_X((where_).field_);                    =
-       \
-|       |                 ^~~~~~~~~~~
-| ../../sources/strace-6.17/src/listmount.c:41:17: note: in expansion of ma=
-cro 'PRINT_FIELD_X'
-|    41 |                 PRINT_FIELD_X(req, spare);
-|       |                 ^~~~~~~~~~~~~
-| ../../sources/strace-6.17/src/print_fields.h:384:37: error: 'struct mnt_i=
-d_req' has no member named 'spare'
-|   384 |                 PRINT_VAL_X((where_).field_);                    =
-       \
-|       |                                     ^
-...
+gcc in extend buildtools can find libkeyutil on the host, but it will not
+search the headers on the host cause above issue. disable libkeyutils to
+workaround above issue
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/2904
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/2895
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/2922
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/60/builds/2891
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-devtools/qemu/qemu-system-native_10.0.7.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/recipes-devtools/qemu/qemu-system-native_10.0.7.bb b/meta/recipes-devtools/qemu/qemu-system-native_10.0.7.bb
+index 22462e2499..625c4adb42 100644
+--- a/meta/recipes-devtools/qemu/qemu-system-native_10.0.7.bb
++++ b/meta/recipes-devtools/qemu/qemu-system-native_10.0.7.bb
+@@ -7,7 +7,7 @@ require qemu-native.inc
+ # and avoid file clashes
+ DEPENDS += "glib-2.0-native zlib-native pixman-native qemu-native"
+ 
+-EXTRA_OECONF:append = " --target-list=${@get_qemu_system_target_list(d)}"
++EXTRA_OECONF:append = " --target-list=${@get_qemu_system_target_list(d)} --disable-libkeyutils"
+ 
+ PACKAGECONFIG ??= "fdt alsa kvm pie slirp png pixman sdl \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
+-- 
+2.34.1
 
 
