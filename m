@@ -1,195 +1,211 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA3E3E6749B
-	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 11:39:01 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.78512.1766403539786653773
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20250E674AF
+	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 13:10:22 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.79661.1766409020619186718
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Dec 2025 03:39:00 -0800
+ Mon, 22 Dec 2025 05:10:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PliGtafP;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-477a2ab455fso38278265e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 03:38:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QDe5G4AL;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-34c277ea011so3905175a91.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 05:10:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766403538; x=1767008338; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1766409020; x=1767013820; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oToKjaL9pfg18oimfCQOZ/WHY18gs2mEq9bx8uN6eq8=;
-        b=PliGtafPuYJvuesNsR0eOEOlkCI4c7hFLowWNjOfTx0JmvFVVuoLwQx2Yqo4W631EL
-         zBi8Zyq2fcpHtJKqAzZr+xEFXxQ/BoTbSQDgVO+LliArdIaRbZomEkF9PBCvW3NfTELu
-         awdlS+sYg7tAD7thZchC6quVyZ2eg22gX5ZPVaAUrzt/tG2DlLOkeseZ11dAUffyG2Hc
-         boz+Cu5+pmHcubdbcSPEgQvbjh4Be9hDD2L5lKUR4WkTH4jf1Q4Seg9Zp/0FjjkUb376
-         WTuSvhXbFlfz9WOzZbSr792TQHh0a1y9p1k0i9lxHUiqalyPIfGPbOhq557C8pPWF85f
-         u1aQ==
+        bh=Gs1iDbAJfQLNyb1r6vpJvKDvigt17h0UgMX0cBV6JBo=;
+        b=QDe5G4ALu01OeaTPmnMrdC4oACZ5Z2ThUqKDd/i3nx5PJ+l3Pk62pGn/HSlB/V6Lyp
+         HsbvIXqcZg/sBHIXtZH8VGzfzBJagUDTH/ENM3DeqMMS2j4Ht4G2HSWLFmyFP1outv33
+         93jU+mAEjUYISYx9O5LFdeZyRqecZDi2INUbNOAWLN7agh2FcLSGgy8ayiiX9iHmZPK6
+         ndEpq31zHZeBVyEnL8YQxxvYs0Sx5TYIC70+k1tiCGPLvl52IPGcZovkmzT664iRq/pX
+         5S1/6LNcLshqvTC3u8RP0w8WM1IHwhYgCBwCRqTR4KgoSPkAmSEMgfB1TS2zEC0KzUjW
+         i0hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766403538; x=1767008338;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1766409020; x=1767013820;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=oToKjaL9pfg18oimfCQOZ/WHY18gs2mEq9bx8uN6eq8=;
-        b=DnMtesPjGXjFp2yog0Rc7/vnvKTPMNYvaSocC6vqym69P4CkIu1xl38jGbDfwCxaPG
-         Zy5DY2ZFrT98NDHnnOKyCMIfmy9oo7mMDF2qYUIcvr31vLDOU9GQw0iPXzY32AFM0FYz
-         euhELLIqoMtCddISj/dNrQDAmMygpldjNvJ/JLkyw5kPAaBXJKu3kXZAWeqIsyBho1zi
-         g2pn50gciKyMYXP18Wd4cJyVnGC9W1ZGHqspeMjNCbgeAMwhboRjH5FSPk674hUUdeoe
-         EZ0ZABev7/82RSnDir3dRM3DzeWB9+4V7AO/qJSJusePyjCLrOFdoTqWh7+mG0ikJXCR
-         C0Gw==
-X-Gm-Message-State: AOJu0Yw/gvhY1UD+gMC4H/lSGZJefuaKrpB/4lPjmacZ1khSKpqj0mks
-	LKGMNlzB2Jl6ioq5vO2bPWTYP33XXU7eVQp9t0+BTunn3g6Rb0xj9L2oJ+I89aviNJQ=
-X-Gm-Gg: AY/fxX6D1shON62OC8j0LmA93iYdskoo4inBYHKyvA7rgdPVHvzCOzN+7EhH+dUlmx3
-	mc/Wu7mClPejNyvLByl6tcldhbhJJm2KP3cFjZO+8HiUnpX6jX5YB+1DMD1F1lz7qEUq+d31g5y
-	ThphUtovuJYdtmZVDvPhOa2hh9D1fW9rcaNVmqLUW95VaiaTzEOdPileMaw61RHfbzc6A+gwHoJ
-	bt6exVPb9R4laiZceonFB6NIMdOs6Emi79wj3Ag6yueSP8j81PfRRAAcmIaRO3g3glxt9wbpAcC
-	Qn1lUUV2DnWKmEo9sfq8UfdHmtrkPgpHFL/HMmoaLvwBUVVJo5dSac0BbeM8BLHOu9byurCfMw1
-	J62Sc4OTXhRu0fzJ7up61Jmq/dMi8bwIlietfMD9V3ri1F59DVbyxNwKuXEGz4GoDReRMVVQpG2
-	Qx14H0HnZyZnL5
-X-Google-Smtp-Source: AGHT+IEdCRbhz4I5iPgUJ7RNcP49HGdYcZ8IOoe8A/VQjR/GQOceQJStrEpSY7wy0ldLaJE14dpuew==
-X-Received: by 2002:a05:600c:3588:b0:477:fcb:2267 with SMTP id 5b1f17b1804b1-47d1956eb88mr129125985e9.8.1766403537684;
-        Mon, 22 Dec 2025 03:38:57 -0800 (PST)
-Received: from Ubuntu-2204-jammy-amd64-base.. ([2a01:4f8:272:3f67::2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eaa08efsm21720373f8f.29.2025.12.22.03.38.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 03:38:57 -0800 (PST)
-From: uvv.mail@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Subject: [PATCH 4/4] oe-selftest: overlayfs: Add a demo case for /etc
-Date: Mon, 22 Dec 2025 11:38:40 +0000
-Message-ID: <20251222113840.2163929-4-uvv.mail@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251222113840.2163929-1-uvv.mail@gmail.com>
-References: <20251222113840.2163929-1-uvv.mail@gmail.com>
+        bh=Gs1iDbAJfQLNyb1r6vpJvKDvigt17h0UgMX0cBV6JBo=;
+        b=vJYuzzPCwT3H6P2j7CRPpvGGBWBw7/72HWWptPfvxF/Zj0HiX/tb7DCPu4HtZNuqrf
+         hZFA9V8Hfxw1rwL+egrX2ndFBbnp5tJRpNwXH9QD7seyejF851CT89Hm0tR8Thc0j8hD
+         4wX1CxcD/8pWkmX2gNSfAYZl18f7e8bwGdjdH1HK2hiqN2v4b6gwrJg4947MNA49ZJ2S
+         jUNHq9IfHW1fIH4pEP4pwUiM1HMr2YetoDrZJK/RsZNiJynAtF8dTWGJxb/6QIBttauy
+         +2UwVBZSuHE7AzFSNr+SBSmEeO3jn9eRQE5wXyi0QD5FqBOw/cPmnMP9Lh6PPzjhtxkM
+         Cs1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXZrKa0cNdd7I3p2uyZqv5Y+ygHHjyQwBfpzkJGbcBBzP3oW9qSKrZqSZqij3M+ZVY0cTkCtRTnYfR2UwUiT1eJmw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw7A8KpoZA4ZC4hLoR/dV2R8x5WGji9xHcqkgpjCzssjG3IWAGu
+	rE3a2sae4py/bNDAPvUljnJWTTO7ZMAhfC2IJA+fNhuO7w8MFanQI83whjzah2+U+j9OjrQqGSA
+	Xr0FOCsj0d8Ac7jSoI+7wSNKc837nGJE=
+X-Gm-Gg: AY/fxX4OoZ3MVJn3CmR7PpkGRzb9DsIh4euobwJu6FnLnxJ0A5jc2x3RTPk/pvY9rh7
+	849GeokKTozZgXIOUF2aFG4NbrhibkBzTI/Yr9m5iwEWfq1618ushljo2Co3XETDuQFCn/CK7g7
+	mMjpf9Qloz+UDZrGoRtgmDREwMjU3q58+JdA5NAB4+iWzMT9s4S4NkMFBy2HrcGTSxjkykqGwLL
+	K9EweENuzS1zTu7B1yK4MV9ZFj3fwWNJiiCKFWwdINEcx7SUVuilxTLhOYH63D6ErJu8rCv
+X-Google-Smtp-Source: AGHT+IERJCj9T2gKQJnrtaqkf8mFJOwsJOAdkfdP/j/ySDPcMOpkFe67WIvmyw5C9dcq++nvDLkcM9d4ZBNMi9apMU8=
+X-Received: by 2002:a17:90b:5703:b0:329:ca48:7090 with SMTP id
+ 98e67ed59e1d1-34e921f8ad9mr9618097a91.37.1766409019803; Mon, 22 Dec 2025
+ 05:10:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <188268ECAC642171.1614991@lists.openembedded.org>
+ <CADkTA4MZ6rrU1RxW8zmsAWCMC-zBgdvhWnWBpaXVSpst7njSCg@mail.gmail.com> <DF4LRLF3UQLQ.1OMN0OZ0WE0YH@bootlin.com>
+In-Reply-To: <DF4LRLF3UQLQ.1OMN0OZ0WE0YH@bootlin.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 22 Dec 2025 08:10:08 -0500
+X-Gm-Features: AQt7F2rAAxU2URHuaEzzpQz0k1sln2FavlN0YoLe_yfCi1z_dWY2ySTlKv85zzw
+Message-ID: <CADkTA4Ps3B_whC-7YyD5bfD_Oqn22YHFrDb80ivURh4zpuRHNg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/21] linux-yocto: combined and consolidated
+ pull request
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 11:39:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228300
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 13:10:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228301
 
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+On Mon, Dec 22, 2025 at 3:29=E2=80=AFAM Mathieu Dubois-Briand
+<mathieu.dubois-briand@bootlin.com> wrote:
+>
+> On Thu Dec 18, 2025 at 9:56 PM CET, Bruce Ashfield via lists.openembedded=
+.org wrote:
+> > On Thu, Dec 18, 2025 at 3:22=E2=80=AFPM Bruce Ashfield via
+> > lists.openembedded.org
+> > <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
+> >>
+> >> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >>
+> >> Hi all,
+> >>
+> >> As discussed in the weekly engineering call, I'm sending this as
+> >> single series even though it crossed boundaries of the repositories.
+> >>
+> >> I don't have access to meta-yocto-contrib yet, so I haven't pushed
+> >> the component parts to contrib branches yet, but will do that for
+> >> future pull requests.
+> >>
+> >> I'm using this as a first run through some things I've cooked up
+> >> to coordinate the patches across the repos. The formatting is my
+> >> own, so apologies if it isn't clear .. and we'll see if it all
+> >>
+> >> Now to the series for OE-core:
+> >>
+> >>  - We have stable updates to 6.12
+> >>  - A kern-tools fix
+> >>  - Updates to 6.17
+> >>  - Removal of 6.17
+> >>  - Introduction of 6.18
+> >>  - Bump to libc-headers to 6.18
+> >>
+> >> I've built and booted what I can locally, and I know that the
+> >> major architectures work, and are functional with respect to
+> >> core features.
+> >>
+> >> I have more libc-headers testing running against meta-oe and
+> >> muslc, so there may be some breakage there and I'll help deal
+> >> with that if it happens.
+> >>
+> >> The update and then removal of 6.17 is on purpose. In case any
+> >> one was using it, they should get the latest tested before it
+> >> starts to be removed.
+> >>
+> >> For meta-yocto:
+> >>
+> >>   - removal of any remaining 6.17 references
+> >>   - introduction of 6.18
+> >>
+> >> The meta-yocto default changes are obviously REALLY RFC/RFT
+> >> there will be issues, but I've provided them anyway to make it
+> >> clear that we are going to 6.18 as the new default for all the
+> >> variants.
+> >>
+> >> Once we get 6.18 fully green and the h/w references udpated,
+> >> I'll remove 6.12 and 6.16 from master. That isn't in this series
+> >> by design.
+> >
+> >
+> > FYI: my extended testing shows a warning in the virtualization
+> > fragments. It isn't serious, but will be fixed in incremental patches
+> > on the end of this queue.
+> >
+> > Bruce
+> >
+>
+> Hi Bruce,
+>
+> Sorry, I was a bit late in testing this.
+>
+> On my side I also get some issues in building strace, are you aware of
+> this?
+>
+> ERROR: strace-6.17-r0 do_compile: Execution of '/srv/pokybuild/yocto-work=
+er/genericx86-64/build/build/tmp/work/core2-64-poky-linux/strace/6.17/temp/=
+run.do_compile.3198325' failed with exit code 1
+> ...
+> | ../../sources/strace-6.17/src/listmount.c: In function 'print_mnt_id_re=
+q':
+> | ../../sources/strace-6.17/src/listmount.c:39:16: error: 'struct mnt_id_=
+req' has no member named 'spare'
+> |    39 |         if (req.spare) {
+> |       |                ^
+> | In file included from ../../sources/strace-6.17/src/listmount.c:9:
+> | ../../sources/strace-6.17/src/print_fields.h:384:37: error: 'struct mnt=
+_id_req' has no member named 'spare'
+> |   384 |                 PRINT_VAL_X((where_).field_);                  =
+         \
+> |       |                                     ^
+> | ../../sources/strace-6.17/src/defs.h:1910:17: note: in definition of ma=
+cro 'zero_extend_signed_to_ull'
+> |  1910 |         (sizeof(v) =3D=3D sizeof(char) ? (unsigned long long) (=
+unsigned char) (v) : \
+> |       |                 ^
+> | ../../sources/strace-6.17/src/print_fields.h:384:17: note: in expansion=
+ of macro 'PRINT_VAL_X'
+> |   384 |                 PRINT_VAL_X((where_).field_);                  =
+         \
+> |       |                 ^~~~~~~~~~~
+> | ../../sources/strace-6.17/src/listmount.c:41:17: note: in expansion of =
+macro 'PRINT_FIELD_X'
+> |    41 |                 PRINT_FIELD_X(req, spare);
+> |       |                 ^~~~~~~~~~~~~
+> | ../../sources/strace-6.17/src/print_fields.h:384:37: error: 'struct mnt=
+_id_req' has no member named 'spare'
+> |   384 |                 PRINT_VAL_X((where_).field_);                  =
+         \
+> |       |                                     ^
+> ...
 
-/etc is a special directory. It's possible to create a mount unit for
-it, but many system services that start early at boot time will not
-rescan its content when you mount overlay on top. The added test case
-demonstrates this but adding a sample systemd service and enabling it in
-overlay.
+I didn't see that, but our strace in OEcore must be just a bit out of date.
 
-Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
----
- meta/lib/oeqa/selftest/cases/overlayfs.py | 98 +++++++++++++++++++++++
- 1 file changed, 98 insertions(+)
+I'm off for the next week, but if I have time during the evenings, I'll fix
+this up. Otherwise, it will be top of my list when I return.
 
-diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
-index 3e55e97927..288d889f03 100644
---- a/meta/lib/oeqa/selftest/cases/overlayfs.py
-+++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
-@@ -263,6 +263,104 @@ EOT
- 
-         self._test_correct_image('systemd-machine-units', systemd_machine_unit_append)
- 
-+    @OETestTag("runqemu")
-+    def test_etc_mount(self):
-+        """
-+        Summary:   /etc is not supposed to be used with overlayfs.bbclass
-+        Expected:  Observe inconsistencies after using etc overlay with a mount unit
-+        Author:    Vyacheslav Yurkov <uvv.mail@gmail.com>
-+        """
-+        systemd_machine_unit_append = """
-+SYSTEMD_SERVICE:${PN} += " \
-+    data.mount \
-+    etc.mount \
-+"
-+
-+do_install:append() {
-+    install -d ${D}${systemd_system_unitdir}
-+    install -d ${D}${ROOT_HOME}
-+    cat <<EOT > ${D}${systemd_system_unitdir}/etc.mount
-+[Unit]
-+Description=OverlayFS mount for /etc directory
-+DefaultDependencies=no
-+RequiresMountsFor=/data
-+
-+[Mount]
-+What=overlay
-+Where=/etc
-+Type=overlay
-+Options=lowerdir=/etc,upperdir=/data/overlay/etc,workdir=/data/overlay-workdir/etc
-+[Install]
-+WantedBy=local-fs.target
-+EOT
-+
-+    cat <<EOT >${D}${systemd_system_unitdir}/data.mount
-+[Unit]
-+Description=Persistent storage partition
-+
-+[Mount]
-+What=/dev/sda3
-+Where=/data
-+Type=ext4
-+Options=defaults
-+
-+[Install]
-+WantedBy=local-fs.target
-+EOT
-+    cat <<EOT > ${D}${ROOT_HOME}/test-daemon.service
-+[Unit]
-+Description=My one-shot task
-+After=local-fs.target
-+
-+[Service]
-+Type=oneshot
-+ExecStart=/usr/bin/echo test
-+RemainAfterExit=yes
-+
-+[Install]
-+WantedBy=multi-user.target
-+EOT
-+}
-+
-+FILES:${PN} += "${ROOT_HOME}"
-+"""
-+
-+        config = """
-+IMAGE_INSTALL:append = " systemd-machine-units"
-+DISTRO_FEATURES:append = " overlayfs"
-+
-+# Use systemd as init manager
-+INIT_MANAGER = "systemd"
-+
-+# enable overlayfs in the kernel
-+KERNEL_EXTRA_FEATURES:append = " features/overlayfs/overlayfs.scc"
-+
-+IMAGE_FSTYPES += "wic"
-+WKS_FILE = "overlayfs_etc.wks.in"
-+OVERLAYFS_ROOTFS_TYPE = "ext4"
-+"""
-+
-+        self.write_config(config)
-+
-+        machine_inc = """
-+OVERLAYFS_MOUNT_POINT[etc] = "/etc"
-+OVERLAYFS_QA_SKIP[mnt-overlay] = "mount-configured"
-+"""
-+        self.set_machine_config(machine_inc)
-+        self.write_recipeinc('systemd-machine-units', systemd_machine_unit_append)
-+        bitbake('core-image-minimal')
-+        with runqemu('core-image-minimal', image_fstype='wic', discard_writes=False) as qemu:
-+            test_daemon_path = get_bb_var('ROOT_HOME') + '/test-daemon.service'
-+            status, output = qemu.run_serial('cp -f ' + test_daemon_path + ' /etc/systemd/system/')
-+            status, output = qemu.run_serial("systemctl enable test-daemon")
-+            status, output = qemu.run_serial("sync")
-+        with runqemu('core-image-minimal', image_fstype='wic') as qemu:
-+            # Check the test service status. It's enabled and supposed to start, but it didn't
-+            status, output = qemu.run_serial("systemctl is-enabled test-daemon")
-+            self.assertTrue("enabled" in output, msg=output)
-+            status, output = qemu.run_serial("systemctl is-active test-daemon")
-+            self.assertTrue("inactive" in output, msg=output)
-+
- @OETestTag("runqemu")
- class OverlayFSEtcRunTimeTests(OESelftestTestCase):
-     """overlayfs-etc class tests"""
+Bruce
+
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/2904
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/2895
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/2922
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/60/builds/2891
+>
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
