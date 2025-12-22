@@ -2,63 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42BA8E6917D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72442E69189
 	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 20:08:05 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.87779.1766434078433930367
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.87658.1766434075928377285
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Dec 2025 12:07:58 -0800
+ Mon, 22 Dec 2025 12:07:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cIaPGrAF;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-64b92abe63aso5587617a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:07:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZRW0LkkQ;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b73a9592fb8so822440766b.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:07:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766434077; x=1767038877; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766434074; x=1767038874; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=whWjwe7tscZf5Ucxkys/jjJLEIVbfzLxP3YZPk8jFeQ=;
-        b=cIaPGrAFwkvwsHGuZbf2EtNW7BImiUXVuuh/z+HZUyI4AEiAwNXUNUErAt9NIRTa23
-         1+uE+gBgVzhpNq0v+5ZjNTOsXFJabtodg5TrnTdypvxeYOwL8Gsb14mJFYxjPrgx/C/v
-         dAKliiA3DU9CJ6l1Kckuhwnq1Xfpa2NMiU2w2icuPC635CAGQVGwdClJsxMePEMywKN/
-         BDGOcNsAJHdez2dtBw4fpXaZvadEaWe1ShgxXTOUrh1iL9qyjk2YRLqsmbE2a37ryMUn
-         bnxlBTjtczo+GMP3drshJvU/QKyCNjDpsEiMQ5NuMpDWbDfK9qAJKLCT6IakW7pndI8j
-         TZ7A==
+        bh=bYuWaVSopPmzADT66Al3zSaHIIFdTubM/8Kh4AFO++g=;
+        b=ZRW0LkkQ0wFk6A6GMH3yX2RKBCq9c2waEDfcFRV77UWJ9AsWg7nt6XkQwN9/ckYWmj
+         YCVfdpaw0v1nOLIeuItwQ0NnbYthZrI34B8d2iU6NSyWpbnAqkOcpiWnWXOz6G0p2EXt
+         EVhjpGCjFTRudISYNGle8ThXa7CmJp+VKyA59PZIGKB/V2OKDi4wSxCsxFTyi563MOqe
+         s2D9NvvSrCsG8m8Y+lTuN1wg3X/OiFAD+dfPFA5yX/kCEjbLDjK4cMtOdLsQ9lCTjHHW
+         3J4D0CkE2NrtmAkUeiqbiIYo+ycmLucpU6ctoopZGGUEvuUF2JkY+pDE/R/Y85laDKlH
+         IMYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766434077; x=1767038877;
+        d=1e100.net; s=20230601; t=1766434074; x=1767038874;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=whWjwe7tscZf5Ucxkys/jjJLEIVbfzLxP3YZPk8jFeQ=;
-        b=Dghp49Uz9azCGTSk6GYfa6K94iLstwMp/Qo5mxbfbyTjCM7EdL5s5vtXCoMn8DslOT
-         xXpPKe/9DcaEr+u4L7oFgEckTAXeltDTnAqWOG81iPFwRQLL24e0n+tqlp081JD0rkC+
-         qBf9LV0x05MM5X1SAXR20s/J7l5APETryjdgg0PhuNQrPVL/qN5zPJHvVSjOcJia2mM0
-         y1tGBgChcOq9FoDzFn1fwNhh4J3aSOmVoJCsRfrgygoCgHnzWpPyW8dKn4F9PwiM3xTX
-         LeOO91UDfpus0m3E9JghFSorW+3H7amwzOLlMu6fXkO7TSuvcCBLKRLGDkgW7rPFCleX
-         c9vA==
-X-Gm-Message-State: AOJu0YxFaue8Z1eib++kbE86FoYPmgqHl94xRfZ49/B3BlG3E89NrLQM
-	J99zkLda3AnyXXsahqJA9vd+l2F6DUn6PNeTCg7Zn1pki09XiccyPBsBxvJgog==
-X-Gm-Gg: AY/fxX6L9WV3zXqifk3Bn5c2UaieZ7bK/R9uSspcWRJjrLsvHtNQL/T5/dVD0UbuFaN
-	4s4HUQzLYjYPnipJOs1bpSi6+YIaqGOZTJDGM+mnwxNOgAVOmyhjpjqU2bfslBY1AKsDVa3qsuL
-	dDDNF55wWUtSwRGPQ7cBcoIRbht2i8i3O8qLB0OqGSygWFTm6hvl2vhkQPfB8LZwV9oH0mRk058
-	gQ59/qBhuZdebnN8qY6NDxsCVkTYGMGX06nvavRYsLM5wbTUrlAkV4P4NiqjInkl3Sz5x3mvPLz
-	66TlHHz7y1CvOcGVAgxofMJeBu25vGv4+P4r7nOfjXxTWD/p047vefVUi1ST17Y6M9PuH0QxvAR
-	iG98iu9bpUNMyhd+gILMszJfbToa2zhd/AF5FGL7RKS01Vhz/w+MPEcuKi58D8qYZBj8vkFN6Ox
-	Ik6LmaE8IrzNEc3KPdg9pXaA0xUMgKWSvKu7rReVeDIv8H79g=
-X-Google-Smtp-Source: AGHT+IH/ADTxUd0HwtACk4pQp+74P0iazQLBtVAbkgpRLNPEuSBGqKlR8V52xEXmmNE+IuqKH+dr9g==
-X-Received: by 2002:a17:907:7246:b0:b72:aaae:1b22 with SMTP id a640c23a62f3a-b8036ebd982mr1376734266b.12.1766434076547;
-        Mon, 22 Dec 2025 12:07:56 -0800 (PST)
+        bh=bYuWaVSopPmzADT66Al3zSaHIIFdTubM/8Kh4AFO++g=;
+        b=cy24R3fZ1UIsK78T1wV3PDEufo9aMOAWox6XKZFxgR8rKwa15AT4rY1z/grA6CppFf
+         UuqGeVp3zVVCtULPhhtd82J62hP9kiCg2A6HPioDnDRf+5Cru3hPILOLkX0aidGfjvT7
+         k8vmBFJfJM3oRksK/ImPmGGzSbZJ0Nf9PgPcZbj+fLDZNPH7v2Kl+SPwcvZoSlPoO6xX
+         np2HYj7BUzqiLNrnKNoFvoqQJ62it7NQ4/2KTeL+HU5rrfF+lp292T3IpPMd3JNjZbEy
+         YRvmCwCqbA9SVmMsj+qS3i24/bYkdasv00fGD+l0lcQYopIstSsNX+tFZCIXXgIGbPy2
+         iRjw==
+X-Gm-Message-State: AOJu0YwvfnoBh1XAePuTHXeCNFa2Fv1246EkoAinJefUVflu76OzSivP
+	+lTXJJySkV8iGrw1NOv8nLwqZ4pCSbkcV3NYaFSOTbHjQQ52zLHdTC3TlT1bbQ==
+X-Gm-Gg: AY/fxX4AfJ+K2zUd9vd/R1RUYWRR+2MFmNkEWICyoJmo/w3xHNtBoFx8tcEf6U7OnV/
+	EhMlKU9d1haiv7pP/hDeBTxn6jqTtizZHrpIATuSyqZYwjwWwUqzM1zMo7h9aRHlg4jkZDomTum
+	8kf3OTBJjk+57GQqDRT+endByYZY1V2/ufOwXsA+ixSw55MNEreAhIyZ3gkEzy1cB3db0VN5Ymj
+	k6GA14CxI8PoaVYpt5r84JBDZnSAGNFrbI4/Y0Uaxb+C4wO+EckQrS4rTqbLKJdMmXqmK3PZIQE
+	QQX8skHOEq52bpQDBev0gEgftcYqQ4Lpqf126G2PILZjcChN2/kOzqAm5Iursg9wwm7HeZ2R3JL
+	NT1XmhWALwWjf884wqzqcslmWKn+inPDzlNf4NiF1IuGK040Zgmwy93m7DozmUZCzjq+10LfouD
+	7SJGClzYmS1ij72+2xaffuYLm/g+1Hy+0JIQYSgPZUy55kBjI=
+X-Google-Smtp-Source: AGHT+IFSNEgXPzXAWLGfYvj14UTyMlxULv3Lbwzjed1zy69AsH7XloEj9ZUKBTganLVqW7Q4cz7USg==
+X-Received: by 2002:a17:907:7743:b0:b7d:1372:fb1d with SMTP id a640c23a62f3a-b802043fa1bmr1183019166b.9.1766434074007;
+        Mon, 22 Dec 2025 12:07:54 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.07.56
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.07.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 12:07:56 -0800 (PST)
+        Mon, 22 Dec 2025 12:07:53 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 017/114] gtk-doc: upgrade 1.34.0 -> 1.35.1
-Date: Mon, 22 Dec 2025 21:05:59 +0100
-Message-ID: <20251222200739.2278706-17-alex.kanavin@gmail.com>
+Subject: [PATCH 013/114] glib-2.0: upgrade 2.86.1 -> 2.86.3
+Date: Mon, 22 Dec 2025 21:05:55 +0100
+Message-ID: <20251222200739.2278706-13-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251222200739.2278706-1-alex.kanavin@gmail.com>
 References: <20251222200739.2278706-1-alex.kanavin@gmail.com>
@@ -68,105 +68,237 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 20:08:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228342
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228338
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../0001-Do-not-error-out-if-xsltproc-is-not-found.patch      | 4 ++--
- ...001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch | 2 +-
- meta/recipes-gnome/gtk-doc/files/conditionaltests.patch       | 4 ++--
- meta/recipes-gnome/gtk-doc/files/no-clobber.patch             | 2 +-
- meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch      | 2 +-
- .../gtk-doc/{gtk-doc_1.34.0.bb => gtk-doc_1.35.1.bb}          | 2 +-
- 6 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-gnome/gtk-doc/{gtk-doc_1.34.0.bb => gtk-doc_1.35.1.bb} (96%)
+ ...001-Do-not-write-bindir-into-pkg-config-files.patch | 10 +++++-----
+ .../files/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch   |  2 +-
+ ...1-Install-gio-querymodules-as-libexec_PROGRAM.patch |  6 +++---
+ ...the-warning-about-deprecated-paths-in-schemas.patch |  2 +-
+ ...ts-resources.c-comment-out-a-build-host-only-.patch |  2 +-
+ .../0001-meson-Run-atomics-test-on-clang-as-well.patch |  6 +++---
+ ...uild-do-not-enable-pidfd-features-on-native-g.patch |  6 +++---
+ ...o-not-hardcode-python-path-into-various-tools.patch |  2 +-
+ .../recipes-core/glib-2.0/files/relocate-modules.patch |  8 ++++----
+ meta/recipes-core/glib-2.0/files/skip-timeout.patch    |  2 +-
+ ....0-initial_2.86.1.bb => glib-2.0-initial_2.86.3.bb} |  0
+ .../{glib-2.0_2.86.1.bb => glib-2.0_2.86.3.bb}         |  0
+ meta/recipes-core/glib-2.0/glib.inc                    |  2 +-
+ 13 files changed, 24 insertions(+), 24 deletions(-)
+ rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.86.1.bb => glib-2.0-initial_2.86.3.bb} (100%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.86.1.bb => glib-2.0_2.86.3.bb} (100%)
 
-diff --git a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-xsltproc-is-not-found.patch b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-xsltproc-is-not-found.patch
-index ee1acda401..575ca5d32f 100644
---- a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-xsltproc-is-not-found.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-xsltproc-is-not-found.patch
+diff --git a/meta/recipes-core/glib-2.0/files/0001-Do-not-write-bindir-into-pkg-config-files.patch b/meta/recipes-core/glib-2.0/files/0001-Do-not-write-bindir-into-pkg-config-files.patch
+index c394ab3277..06841ddfb8 100644
+--- a/meta/recipes-core/glib-2.0/files/0001-Do-not-write-bindir-into-pkg-config-files.patch
++++ b/meta/recipes-core/glib-2.0/files/0001-Do-not-write-bindir-into-pkg-config-files.patch
 @@ -1,4 +1,4 @@
--From 50d3b9d3ca0e1ff47c8e7559303855530e58839a Mon Sep 17 00:00:00 2001
-+From 5d64ab3a7c18904231d611b1262d1289b7282930 Mon Sep 17 00:00:00 2001
+-From 8981db5d775e04b72fb68b6a4553c87fdaedee65 Mon Sep 17 00:00:00 2001
++From 6fe3965383d94b3030e85ab899955858710fec5c Mon Sep 17 00:00:00 2001
  From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 7 Sep 2016 14:52:04 +0300
- Subject: [PATCH] Do not error out if xsltproc is not found.
-@@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 15 Feb 2019 11:17:27 +0100
+ Subject: [PATCH] Do not prefix executables with $bindir in pkg-config files
+@@ -15,10 +15,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  2 files changed, 13 insertions(+), 11 deletions(-)
+ 
+ diff --git a/gio/meson.build b/gio/meson.build
+-index 5d91b89..1a8da12 100644
++index 2f8f188..57c48d2 100644
+ --- a/gio/meson.build
+ +++ b/gio/meson.build
+-@@ -901,17 +901,18 @@ libgio_dep = declare_dependency(link_with : libgio,
++@@ -912,17 +912,18 @@ libgio_dep = declare_dependency(link_with : libgio,
+  pkg.generate(libgio,
+    requires : ['glib-2.0', 'gobject-2.0'],
+    variables : [
+@@ -46,10 +46,10 @@ index 5d91b89..1a8da12 100644
+    uninstalled_variables : [
+      'gio=${prefix}/gio/gio',
+ diff --git a/glib/meson.build b/glib/meson.build
+-index 837960d..97d4af0 100644
++index 209bcbf..a86cfd3 100644
+ --- a/glib/meson.build
+ +++ b/glib/meson.build
+-@@ -443,9 +443,10 @@ pkg.generate(libglib,
++@@ -464,9 +464,10 @@ pkg.generate(libglib,
+    subdirs : ['glib-2.0'],
+    extra_cflags : ['-I${libdir}/glib-2.0/include'] + win32_cflags,
+    variables : [
+diff --git a/meta/recipes-core/glib-2.0/files/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch b/meta/recipes-core/glib-2.0/files/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
+index 19fffbdc5f..b91624da8b 100644
+--- a/meta/recipes-core/glib-2.0/files/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
++++ b/meta/recipes-core/glib-2.0/files/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
+@@ -1,4 +1,4 @@
+-From 48bfc87e9f757cf65ad967520860bfd7526c36f2 Mon Sep 17 00:00:00 2001
++From 966c58aae35f9e2bcef5238e0331a119e0e51abd Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 15 Mar 2014 22:42:29 -0700
+ Subject: [PATCH] Fix DATADIRNAME on uclibc/Linux
+diff --git a/meta/recipes-core/glib-2.0/files/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch b/meta/recipes-core/glib-2.0/files/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+index 89ba10ff6d..2ebf01b672 100644
+--- a/meta/recipes-core/glib-2.0/files/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
++++ b/meta/recipes-core/glib-2.0/files/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+@@ -1,4 +1,4 @@
+-From b8dcbf03b315d31759176e9d4fd389e8fda6ffcd Mon Sep 17 00:00:00 2001
++From 0de3a3a791ca32f2330eb3a8ad9da0fe6dce950c Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Tue, 22 Mar 2016 15:14:58 +0200
+ Subject: [PATCH] Install gio-querymodules as libexec_PROGRAM
+@@ -13,10 +13,10 @@ Upstream-Status: Inappropriate [OE specific]
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/gio/meson.build b/gio/meson.build
+-index 854b95a..5d91b89 100644
++index 39256d3..2f8f188 100644
+ --- a/gio/meson.build
+ +++ b/gio/meson.build
+-@@ -1038,6 +1038,7 @@ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodu
++@@ -1049,6 +1049,7 @@ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodu
+    c_args : gio_c_args,
+    # intl.lib is not compatible with SAFESEH
+    link_args : noseh_link_args,
+diff --git a/meta/recipes-core/glib-2.0/files/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch b/meta/recipes-core/glib-2.0/files/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
+index ebdf957272..d6dd66357a 100644
+--- a/meta/recipes-core/glib-2.0/files/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
++++ b/meta/recipes-core/glib-2.0/files/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
+@@ -1,4 +1,4 @@
+-From bdb2772d672e95584585e902689936559c5db05d Mon Sep 17 00:00:00 2001
++From b829f3205e4d8390f02eaa8e7a7bf85e51cbb7ed Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 12 Jun 2015 17:08:46 +0300
+ Subject: [PATCH] Remove the warning about deprecated paths in schemas
+diff --git a/meta/recipes-core/glib-2.0/files/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch b/meta/recipes-core/glib-2.0/files/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch
+index 771b03e66d..7a2fc0b7ef 100644
+--- a/meta/recipes-core/glib-2.0/files/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch
++++ b/meta/recipes-core/glib-2.0/files/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch
+@@ -1,4 +1,4 @@
+-From 8cb75d3bc368ee108a4b14bc57a92bd0c0b2e10e Mon Sep 17 00:00:00 2001
++From 912e674bb0a3b51dabaa58da1834491ef94e6a2a Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 8 Jan 2020 18:22:46 +0100
+ Subject: [PATCH] gio/tests/resources.c: comment out a build host-only test
+diff --git a/meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on-clang-as-well.patch b/meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on-clang-as-well.patch
+index 5ad2a0375b..e4b0d6be79 100644
+--- a/meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on-clang-as-well.patch
++++ b/meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on-clang-as-well.patch
+@@ -1,4 +1,4 @@
+-From 502984fe340a76c92e2c04235f43fdcb47728806 Mon Sep 17 00:00:00 2001
++From 26ddae02d7677bcff7c3933ee856d34df41b548f Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 12 Oct 2019 17:46:26 -0700
+ Subject: [PATCH] meson: Run atomics test on clang as well
+@@ -14,10 +14,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/configure.ac b/configure.ac
--index 8725074..0491090 100644
-+index f238de9..909771d 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -37,7 +37,7 @@ dnl Check for xsltproc
-diff --git a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch
-index f329539fa8..600ea40f3d 100644
---- a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch
+ diff --git a/meson.build b/meson.build
+-index a8bcadc..041b68e 100644
++index dab1d61..cc3a5ed 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -2077,7 +2077,7 @@ atomicdefine = '''
++@@ -2092,7 +2092,7 @@ atomicdefine = '''
+  # We know that we can always use real ("lock free") atomic operations with MSVC
+  if cc.get_id() == 'msvc' or cc.get_id() == 'clang-cl' or cc.links(atomictest, name : 'atomic ops')
+    have_atomic_lock_free = true
+diff --git a/meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch b/meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
+index aa098da379..712ae25b27 100644
+--- a/meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
++++ b/meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
 @@ -1,4 +1,4 @@
--From 64163565f8d6853b02e53308a6e6ba23d9d96299 Mon Sep 17 00:00:00 2001
-+From 98fc3c6e6ac36a2351ee7ff260bf74a7866c8483 Mon Sep 17 00:00:00 2001
+-From d5e566c45a9ab4d7e51104ab176e6eb5f705f91d Mon Sep 17 00:00:00 2001
++From c6cd3c0a66ae8f210185e0cb05b2172dc192ce9e Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Sat, 16 Sep 2023 22:28:27 +0200
+ Subject: [PATCH] meson.build: do not enable pidfd features on native glib
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 041b68e..155bfd4 100644
++index cc3a5ed..58dd87a 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -1075,7 +1075,8 @@ if cc.links('''#include <sys/syscall.h>
++@@ -1090,7 +1090,8 @@ if cc.links('''#include <sys/syscall.h>
+                   waitid (P_PIDFD, 0, &child_info, WEXITED | WNOHANG);
+                   return 0;
+                 }''', name : 'pidfd_open(2) system call')
+diff --git a/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch b/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch
+index d26f944d51..8dbdf746b7 100644
+--- a/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch
++++ b/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch
+@@ -1,4 +1,4 @@
+-From 211927d2caa4a81e1131c2210e1db838104a1fb9 Mon Sep 17 00:00:00 2001
++From 40e40230e6a3c52b79c6f92e8c060bd4d93f0374 Mon Sep 17 00:00:00 2001
  From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 31 Aug 2016 16:44:46 +0300
- Subject: [PATCH] Do not hardocode paths to perl/python in scripts.
-diff --git a/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch b/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
-index 55cae34b46..81017f61ce 100644
---- a/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
+ Date: Tue, 3 Oct 2017 10:45:55 +0300
+ Subject: [PATCH] Do not hardcode python path into various tools
+diff --git a/meta/recipes-core/glib-2.0/files/relocate-modules.patch b/meta/recipes-core/glib-2.0/files/relocate-modules.patch
+index ddf464526c..09de155d08 100644
+--- a/meta/recipes-core/glib-2.0/files/relocate-modules.patch
++++ b/meta/recipes-core/glib-2.0/files/relocate-modules.patch
 @@ -1,4 +1,4 @@
--From 9aa9230a305e964b2417daea2b51e43b2dee607c Mon Sep 17 00:00:00 2001
-+From e4d003318a87ff895b1fcdad1ba4ca3f4f730cf9 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Tue, 27 Jun 2017 21:00:58 +0100
- Subject: [PATCH] gtk-doc: Handle floating gtk-doc dependency
-@@ -13,7 +13,7 @@ Upstream-Status: Pending
-  1 file changed, 10 insertions(+)
- 
- diff --git a/configure.ac b/configure.ac
--index 0491090..4270c88 100644
-+index 909771d..9db9fbc 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -82,6 +82,11 @@ if test "x$GCC" = "xyes"; then
-diff --git a/meta/recipes-gnome/gtk-doc/files/no-clobber.patch b/meta/recipes-gnome/gtk-doc/files/no-clobber.patch
-index 90207d6c12..a75c2bceb7 100644
---- a/meta/recipes-gnome/gtk-doc/files/no-clobber.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/no-clobber.patch
-@@ -1,4 +1,4 @@
--From fa5e31e02b9d3c6c5ec3cdc1f34dd6c179520fd0 Mon Sep 17 00:00:00 2001
-+From bcf24419dc1965086793b4ff66a2f9b06574f974 Mon Sep 17 00:00:00 2001
+-From 456bac53f19d3094aa2007054c87d86c9d65b423 Mon Sep 17 00:00:00 2001
++From 14bbc77bc465b42454112bc6a33264c2c3e013e5 Mon Sep 17 00:00:00 2001
  From: Ross Burton <ross.burton@intel.com>
- Date: Wed, 21 Mar 2018 14:47:29 +0000
- Subject: [PATCH] gtk-doc: don't regenerate gtk-doc in do_install
-diff --git a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-index 1b5c190f56..b1c6c25dc4 100644
---- a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
+ Date: Fri, 11 Mar 2016 15:35:55 +0000
+ Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
+@@ -18,10 +18,10 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+  1 file changed, 7 deletions(-)
+ 
+ diff --git a/gio/giomodule.c b/gio/giomodule.c
+-index 76c2028..6deba7c 100644
++index 38761e4..afa7878 100644
+ --- a/gio/giomodule.c
+ +++ b/gio/giomodule.c
+-@@ -1260,11 +1260,6 @@ get_gio_module_dir (void)
++@@ -1272,11 +1272,6 @@ get_gio_module_dir (void)
+        g_free (install_dir);
+  #else
+        module_dir = g_strdup (GIO_MODULE_DIR);
+@@ -33,7 +33,7 @@ index 76c2028..6deba7c 100644
+  #include <dlfcn.h>
+        {
+          g_autofree gchar *path = NULL;
+-@@ -1283,8 +1278,6 @@ get_gio_module_dir (void)
++@@ -1295,8 +1290,6 @@ get_gio_module_dir (void)
+                }
+            }
+        }
+diff --git a/meta/recipes-core/glib-2.0/files/skip-timeout.patch b/meta/recipes-core/glib-2.0/files/skip-timeout.patch
+index 138e970553..8ef140d0d7 100644
+--- a/meta/recipes-core/glib-2.0/files/skip-timeout.patch
++++ b/meta/recipes-core/glib-2.0/files/skip-timeout.patch
 @@ -1,4 +1,4 @@
--From c11fba9bcb8d55568067e626bd959841c05081e5 Mon Sep 17 00:00:00 2001
-+From 24ddd2afb4fcdb8b7c88af5caec0c18ec9e7ff4e Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Mon, 5 Sep 2016 22:25:44 +0100
- Subject: [PATCH] Use native pkg-config when looking for gtk-doc.
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.34.0.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.35.1.bb
-similarity index 96%
-rename from meta/recipes-gnome/gtk-doc/gtk-doc_1.34.0.bb
-rename to meta/recipes-gnome/gtk-doc/gtk-doc_1.35.1.bb
-index 693ae427e0..c9ab7ff1e9 100644
---- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.34.0.bb
-+++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.35.1.bb
-@@ -21,7 +21,7 @@ PACKAGECONFIG[tests] = "--enable-tests,--disable-tests,glib-2.0"
+-From 51bfcab0b60bd57f4d3463c479fdf47e645cd6fe Mon Sep 17 00:00:00 2001
++From f77b9dd72dd0103c7a28dd7e1cdf6e316ecbf030 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Thu, 28 Mar 2024 16:27:09 +0000
+ Subject: [PATCH] Skip /timeout/rounding test
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.1.bb b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.3.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.1.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.3.bb
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.86.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.86.1.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 5909851896..bd87d9c601 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -236,7 +236,7 @@ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+                               "
  
- CACHED_CONFIGUREVARS += "ac_cv_path_XSLTPROC=xsltproc"
+-SRC_URI[archive.sha256sum] = "119d1708ca022556d6d2989ee90ad1b82bd9c0d1667e066944a6d0020e2d5e57"
++SRC_URI[archive.sha256sum] = "b3211d8d34b9df5dca05787ef0ad5d7ca75dec998b970e1aab0001d229977c65"
  
--SRC_URI[archive.sha256sum] = "b20b72b32a80bc18c7f975c9d4c16460c2276566a0b50f87d6852dff3aa7861c"
-+SRC_URI[archive.sha256sum] = "611c9f24edd6d88a8ae9a79d73ab0dc63c89b81e90ecc31d6b9005c5f05b25e2"
- SRC_URI += "file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch \
-            file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
-            file://conditionaltests.patch \
+ # Find any meson cross files in FILESPATH that are relevant for the current
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
 -- 
 2.47.3
 
