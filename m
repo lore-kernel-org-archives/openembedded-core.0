@@ -2,63 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15198E6ADF0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37538E6ADF7
 	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 20:08:58 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.87840.1766434134773450505
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.87712.1766434131466609224
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Dec 2025 12:08:55 -0800
+ Mon, 22 Dec 2025 12:08:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RSrxOIqD;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b7a72874af1so751884266b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:08:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NCqIxNoK;
+ spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-649e28dccadso7004688a12.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:08:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766434133; x=1767038933; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766434130; x=1767038930; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9SSzD/ke0Dd06FKBQB3qh2VzITjnmNYMhYeexu9DbG4=;
-        b=RSrxOIqDNHyB0OmcFALHrtXN4pZZT5VA6bcRn+9Jjy75HoipFNSht4Cv/ZLxeSdw5Y
-         44ScnDtojRM0bM8QTYip6x8PwDvnTBBSZzekb5cPUOfMyrAHseYmTTxoAMg7Qb520PV8
-         RiTxebGP7je5C2AXSgGRcfU0S0sBb/CNTRxSpfhhvzBy0m8u1PPsOSK9BTD+fiGMF0Vj
-         yO6Lb2+oeWu1A4y5+c7GcpDVsJFGRSogjp4rEJcW/cksxl64rYHza/cIrdMxNFjBjcbi
-         W1iWO70lIvnjy5E5tlO3rv5Ne8IzcpUIES4Fpk83CZaWGWAa7jVPxhcUze8fOW7FXnUr
-         U7Jw==
+        bh=a43NJY5WmkIKbnah/gn+ZqW5xUNcd5st7cJmGTf3bVI=;
+        b=NCqIxNoK7eMi23gqWYB2IYI/TVhM7Lt+tgto6hH/v9jv5YUZhBLluchOOP6ismosjK
+         HdpIut3YP43/pibDW0NoR0gcb80+QBee+UqSA+Kc1H6NbiPzDPE5TViGg4XbrxyynfVG
+         a9nJc/akd7tTXQvy72lrTcxeon89OPgaGOawKDWzykBTslAgbWeiYU/s+3FGEY45RAkc
+         X4lvTy75ij2boOD3iH+KyBqvLIL2wAct18y0xVyB7tPQX2SbImEHADiXU81H+xIgbTjp
+         7pU+GzBqVa+o8FbIDX27j9fWLFS08mMeA65Mnz05vi5+PBP5iuFw7WqGmj+QacP1Jwf/
+         j3CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766434133; x=1767038933;
+        d=1e100.net; s=20230601; t=1766434130; x=1767038930;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=9SSzD/ke0Dd06FKBQB3qh2VzITjnmNYMhYeexu9DbG4=;
-        b=HcovfYiR62wHczn92CsBtzL7rFCL0J3jVmydXJu2F6zFjLbj6/XsIWTtBGMqaag675
-         AMra7pqJ1C0CZ2K0Fypcfxr+6F61E/HYIIvIm3ZA91MW6cG7CjHQgYGjuPyS3TZKK7O2
-         THexWm/JbajRGOxBvax9pRnx7tOGX4xyb1ysGxnLudNwU2yZhMkv9z+aeTs6/+NnHF1d
-         j/zoQLTxqT9lJ1rz/iVE09RAl+evDeJhe69nSAYcCpGjEHdCAz0Fqedy4MzgxNyFCVFO
-         C24Yo9L/gs6pKVDEt5bAbH/lr/8hfFlknA9qVED/x5mTfJ3SLK+GuFiMl+eiIfKqBpkg
-         JwqQ==
-X-Gm-Message-State: AOJu0YxNwasxjxaVC5o3Ur1CNW0etYcHibMC5Mx6vsscu+cVvuIbgflJ
-	jtKw4GzCTwZMWWoz3R7f3hFwc/gtGRVz/drkSLlInqJfPl07zdBqKpaWrL+LPw==
-X-Gm-Gg: AY/fxX6S6AUBhsfO5bZYwVGzXBgi3Ox2of+GbUQIZUlH0UDMrvgJgbSTiziukWLmumd
-	xRp+oD/6AqT9gcGhRQL4WJ+s47wSDYR6o0Eqg00s8rY3n5aN0f6GBl4XX/NoceOSHE4SGvPVpIN
-	HQlO7LE0YwKJ6JBuygEcAdcZPjlxmFLLeSitzEYj0l3X8WIxHdOn+xk5xcXLTTLssT+rETi3p/N
-	n56DV9ekw4fsDjjfTCkgE4PBti/yzmDKxsVMU+hrm3JZPiihj+dXRrDuk8ItDRSe26chZyhlkBC
-	XW09+gvZnOACq60Z7o8RcbI9a+TKCQZAgHoTIXoOVTMKvYf8bqTwTNzbRxkC9TF/q9oDZqqamY0
-	q38YcKnSY8UJvp9Cs2bHmHBKkLrliqIbY9H2KeDTJCmVJdyCn/nLVFVfTqmxhRXhxZrN3RgoeO9
-	XfSa4xWc+dgU1ckXwvqwS0DieeN0RgTP/N+40+sVPru4+Hakc=
-X-Google-Smtp-Source: AGHT+IFUjmkfYgud8PfJOrvWvfJUvDraQYo9cLLDTaru6Ku9H7sCpJCb02XlrNi6Bt1PHR8bMycuUg==
-X-Received: by 2002:a17:907:8686:b0:b6d:7288:973d with SMTP id a640c23a62f3a-b80371d670fmr1395557866b.56.1766434133032;
-        Mon, 22 Dec 2025 12:08:53 -0800 (PST)
+        bh=a43NJY5WmkIKbnah/gn+ZqW5xUNcd5st7cJmGTf3bVI=;
+        b=AFQonq2PpzodxiJD1Bvx7fDtE7eZmXcJuUGYIhc3xQvREZ7B5RZapd3KAsKOJBhTyR
+         8Kio6YJK0g9l3XeD9mnhLzuZM6mstKIAT77ctg8wgLwTFeMvkTxCxhDJtO4/rByNoX3a
+         amM7ubXEdaH5rme9E75r42QPScCN+G+GdsgqHFuzuKdKrsXnq/mdMj/eTG7SJ5nL1Nrb
+         +vuH0oygDZBxkyxYSwYuNKnAQwy7dSWz9qjV4eZxXbUB2sbsFdlRetjPaq2Az+X0yPVz
+         V9gB85t7SJdxNwnMtg2WUXgRg1zvXVPPr3MLsbAZ2sKmSh+V0OaRAK9FCnHQ/Y3tah9k
+         5NiQ==
+X-Gm-Message-State: AOJu0YwGh54ZUsUa69UiEVntc6oSdqMGx2WJ8d3tpvXayIym89b2u8BH
+	0mHraiEw83btrgWsPPWtq6JTOHEzVpeiSNB80KLXnwJTBGPFaGBeJhHqs1d96A==
+X-Gm-Gg: AY/fxX6+Vxdjbtj2yCDP9tJ1YmKZRLhXndnBcROBjRbNJxkbdeEQXfPbkbMdaozDlbB
+	ORt0++cXvrEKY/YvpI2cYmMOQySK166dXXSyhpeegZRCps8gYIZvV3s/mzCL4RHtbPScHHzXg2b
+	d/UwQ+ND+jFya56pzRCt3mMR4hx/NGR5SzNo1EJPFDQXVKhigGYPspH+DQ74ky0xetk/ilAjiZz
+	IOl+/XUf4W/R82Ckq0DtEr9X9nh4CkCULyG8RB8b7mxAyBSvWmUIMc4DCjnkDyyMQvOP1VSfILu
+	Ute5buZRZS68f7RxgrL1OD8B2pDI2hV+hZi6NmXq4mIVj7a+TnL0mDLGxrH8GOY0+DL0M7kxSEh
+	SgsyzMhkni4jyMR3zYZrEPKWDW/8BUwnXhL1PmoXHqHxwLeoUa7Gbc7uWycsv67Lq2Ad7i4vhdM
+	gzwcfPUTU4Hc/Zv2nspXgjintX6N4PPJ1kDW4BtxBxIULW0Wk=
+X-Google-Smtp-Source: AGHT+IHF6M8FSwuOIAKPGS3gdekFjoc2qO6X/AjFav2QQf+v5UBcQ4Wu54s5xYvY3i7OWJ87JMCFew==
+X-Received: by 2002:a17:907:e158:b0:b80:42cf:1157 with SMTP id a640c23a62f3a-b8042cf11d5mr845198166b.36.1766434129809;
+        Mon, 22 Dec 2025 12:08:49 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.08.52
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.08.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 12:08:52 -0800 (PST)
+        Mon, 22 Dec 2025 12:08:49 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 099/114] swig: upgrade 4.3.1 -> 4.4.1
-Date: Mon, 22 Dec 2025 21:07:21 +0100
-Message-ID: <20251222200739.2278706-99-alex.kanavin@gmail.com>
+Subject: [PATCH 094/114] rpm-sequoia-crypto-policy: upgrade to latest revision
+Date: Mon, 22 Dec 2025 21:07:16 +0100
+Message-ID: <20251222200739.2278706-94-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251222200739.2278706-1-alex.kanavin@gmail.com>
 References: <20251222200739.2278706-1-alex.kanavin@gmail.com>
@@ -68,43 +68,28 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 20:08:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228424
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228418
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/swig/swig/determinism.patch           | 2 +-
- meta/recipes-devtools/swig/{swig_4.3.1.bb => swig_4.4.1.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/swig/{swig_4.3.1.bb => swig_4.4.1.bb} (94%)
+ .../rpm-sequoia/rpm-sequoia-crypto-policy_git.bb                | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/swig/swig/determinism.patch b/meta/recipes-devtools/swig/swig/determinism.patch
-index 4359281bbb..d6af38248d 100644
---- a/meta/recipes-devtools/swig/swig/determinism.patch
-+++ b/meta/recipes-devtools/swig/swig/determinism.patch
-@@ -1,4 +1,4 @@
--From 1cd6f0cc21fc977a710e8d30c3d2ebfee3c72dc0 Mon Sep 17 00:00:00 2001
-+From 7df78bedb666e49131c48f1854c6be1597bd133c Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Mon, 1 Mar 2021 00:11:10 +0000
- Subject: [PATCH] swig: Fix reproducibility issue
-diff --git a/meta/recipes-devtools/swig/swig_4.3.1.bb b/meta/recipes-devtools/swig/swig_4.4.1.bb
-similarity index 94%
-rename from meta/recipes-devtools/swig/swig_4.3.1.bb
-rename to meta/recipes-devtools/swig/swig_4.4.1.bb
-index dd979580a1..f71a92d931 100644
---- a/meta/recipes-devtools/swig/swig_4.3.1.bb
-+++ b/meta/recipes-devtools/swig/swig_4.4.1.bb
-@@ -15,7 +15,7 @@ DEPENDS = "libpcre2 bison-native"
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
-             file://determinism.patch \
-            "
--SRC_URI[sha256sum] = "44fc829f70f1e17d635a2b4d69acab38896699ecc24aa023e516e0eabbec61b8"
-+SRC_URI[sha256sum] = "40162a706c56f7592d08fd52ef5511cb7ac191f3593cf07306a0a554c6281fcf"
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/swig/files/swig/"
- UPSTREAM_CHECK_REGEX = "swig-(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb
+index 19b86ae391..d368159df2 100644
+--- a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb
++++ b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia-crypto-policy_git.bb
+@@ -10,7 +10,7 @@ inherit allarch python3native
  
+ SRC_URI = "git://gitlab.com/redhat-crypto/fedora-crypto-policies.git;protocol=https;branch=master"
+ 
+-SRCREV = "ae1df75b1155294ebbd3c84fd206ffb55414c3ec"
++SRCREV = "19878fea4c5f62208655e32269842bce55c819b2"
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+ do_compile () {
 -- 
 2.47.3
 
