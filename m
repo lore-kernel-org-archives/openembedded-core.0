@@ -2,63 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C87A7E6B246
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C876AE6ADF9
 	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 20:45:18 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.88515.1766436309668634738
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.88516.1766436310315614443
  for <openembedded-core@lists.openembedded.org>;
  Mon, 22 Dec 2025 12:45:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hcoxb+Km;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b7ce5d6627dso675851566b.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:45:09 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QYICE9Yv;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b7cf4a975d2so610901266b.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:45:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766436308; x=1767041108; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766436309; x=1767041109; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jLgPy00YMacW9B9e2hrY4I4cRpjWEuk9aW19/gnu/E0=;
-        b=hcoxb+KmiliL07XdlzJ1dO4NwCGyFZgXssSR6bS/9ZbEh5+MAD/cRrGcYTTTa1rNg0
-         fP6jLO15nJFbe9iz8GUylgGH6MRTATLRtrXCWHk8P6T4Myxsl3Rt9li4RZ+1aPX0jEhG
-         CpVPKnMaWmXaV/wqgUNj/UuYRwnu8PqhXYaygle0BPwG92tf564OOhfz2iLyW+XrW40d
-         NRA9OrzocGZqd8E3LePapz5dyP267aV+puctOfGjN7HYoQzVotka4UAax+cSSaQV0vZG
-         JGeMU/S1m0Isqzs+XDd1833fkGoBk1ezp6kZ0pXKFGqeBtXJuciPbyL+N5xvBGIjByL0
-         ziiA==
+        bh=mdSyWwMLSgy3ncaVLEY/kOZ7Wyq40qswipisgf0+P9U=;
+        b=QYICE9YvR3FTyqLIP0ADaeCwIvoTbemSRwxReK1jhMV9LF5q7Go4nED43kd+IekB5/
+         YA1AcnsEays5AmkY+rtxCsOYFgP2M7Ea918yZTg6ch1j2fCviEdySg+wcGCYjbtzfy4S
+         p6EOR4XGnieEvcJpX8Pst5+UqsdGY653sG0fRFhkX1hbeH6w7DstpXQwmZBsb6KsEN4S
+         Y0OHKBRCZC19gKxqgN+/4Nx3A98KPwl2/CIiMNJxdBzFMcf7idl0mughxAWI/k6TVLOn
+         KMo9y00GrIstwnwQSn5ytCtfSZRhJu//r53dBZWjpCNH+QsSpvOkhfCBGl+i81sn5PTm
+         EmSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766436308; x=1767041108;
+        d=1e100.net; s=20230601; t=1766436309; x=1767041109;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=jLgPy00YMacW9B9e2hrY4I4cRpjWEuk9aW19/gnu/E0=;
-        b=FGAL/juHEVle1Ti7UcyqauMz1aVLP596QIJQdl6JL5K+thUZxMoNfGi9Yg2BcLP68D
-         JTxlCny40RNwnbLFZ69iHybOWD0YVPt60DcTX7AnXG6zig/vkySGcG0/eVcDR5Re4MY8
-         RJifAUPX7lkLGqIVs8GPmcyk2FXURFpBZGrlvbvlTwyGQeuiOSdmGN+vNzkVIFCndU3P
-         V8IgBNWG0G59N22/bn0arrxY5zTi6VAMFLZV743oMH547w85zVhUmV8NIcRsTwYpAFud
-         vWKRk66+rv0arFG9+YcbLh9DYT1Cvum2p4VR2Z1DMega3f+qkkR/dRapgoCugBf4irN5
-         f2MA==
-X-Gm-Message-State: AOJu0Yx4OD7nwUShD3RMNLkF7u6VqSpc0BwGKoHCV1XVbPL0WObiMtDt
-	fZFsZ1mmrp1gCruTTxt2L0w5ntKe7jX5dB8sDmN7zLyf7vB705kTcvJS3Tzlkg==
-X-Gm-Gg: AY/fxX7XvLHfOFGfZUb4+zWiFXVtoeilFSczBaYvTXjxbJG76qbLm/BWg+lhD99Patp
-	sVjB4idhysbsyP3sQUHr4+QwgAm9l96+JtuIBq87lBoBoFVJnHSvHlt9H/Yp/I4xNFkYZ1wbiar
-	+PcgnvMKqRX90FFw3GaGwgd042IkAQJPQYQ6WU++uzNc9pCREnsIx+I2MB9bXwbtvigYm3hJ+wr
-	dG6Rw5bmavxMCBAuz05Mzy6RQa53lSm4546ult2y9Dv+9nsFLOlMFGAqYcGh+KpiCpSkfngcxQN
-	QKIuthYnQpkCKWZ1ak4sDLirha3ZfGPbZnIF6bwebfjCx/iWgqI72PPUlgEgfmbRQJFI5Fwf/hF
-	Gn2+VCz5Jc+518sxBRRzIVKZlH0QzfGf1v/6/GsBYfJx8ecspG20FKGsV2RfYVVMfcQc8muny+4
-	4AUmDX5XY8jqN2smFzd9ujXPk7loyd4Lqre4f8QOp1th9ChNo=
-X-Google-Smtp-Source: AGHT+IEzJBfkNi/onfKzKRwgdqVtI9A/lxGF3cPphrcIPFRSwnmos4FwVrum/UOEhVT8pEDxJJK6+Q==
-X-Received: by 2002:a17:907:ca05:b0:b80:3fb3:bea0 with SMTP id a640c23a62f3a-b803fb3cademr946144266b.56.1766436307751;
-        Mon, 22 Dec 2025 12:45:07 -0800 (PST)
+        bh=mdSyWwMLSgy3ncaVLEY/kOZ7Wyq40qswipisgf0+P9U=;
+        b=vezkL44Lv8VmY86O/Vvpld/uzed+vRQ3wA7kbiHgg5mIVjKdJwl5y13qn01cIfDY5F
+         eWIP7vuACcv5WtF5wX62HphFu3buEYX0RKxrFTQ5yFf8i6hn4vnvYfgq0N0Kb5QcdtJ2
+         G3JkE3VRmMCP62F5h6d44Yx023t+s4UJkL8YejFPhQBnYMO1sd6Ndk4W2/XJ70rP8+vp
+         +iCMylmcUVR/m29j0GK3QWKPQvoLWjd/SZIhOie7D6dwf6WK95ZqDtcTn4J53mkGjm5j
+         xEvvY1Bb2DGbilW5oRAnNy3YVDOtvf4ucipS06OZgEYxSF91JfP5nmJlGMyplGNK8187
+         kxUg==
+X-Gm-Message-State: AOJu0YxyV69g+GlK9Gr1Jp5jy6GDt6GY0/hwBmbPurFszsZkePNorvvG
+	kdQDxWgHYCeD23HZ5LsJgcS2AL23k9uu6q8774BQ8GHmtO5tl3ZS6BA+mob+Kw==
+X-Gm-Gg: AY/fxX5OTwYwj8+pDsaQKQa/P9cpuzxnxgJGyyphw1eNOcRE8ARl7Vsz2VDh4/yX0XJ
+	tNt7CDufp6jypVFZVKCvK1c+cFm3hOsmdMKCx3zMZsoTFp47lxoEAt5OcYs9D75EY6hLWGP2ZTY
+	BnN6RPkL7hakkgR6n3Nd/wdBXKrcJwI4OP8KVfVtaEROLH+/YZDp8a7LlYXBP7Ir9xZSSzfrOAW
+	MEv/d0xS9jK+DpqCTfkzA4gGu50peIFIXXnFZ3Em4vzlYzIXxBrTPCt9wVtv0ty6dZ7+sJ43PiB
+	GFzy0UHAX8iHOTIpGPoyAM5tcXAQUzOkFcz6JWyMKMHiAw26FMcSzIJ2UbUurWquSfRkOQcJ9ea
+	ugCRpf4m/4nrYA0rfIMuyMPZGhayytGESIm1bCJPwyB45G8PK3is7ayticL0wOEt5Dp8H3/8SlS
+	Fhc5SG/muqmQ+VBi5oB9O9kvT2kNA8xqotaNotk7OYIXrh2tI=
+X-Google-Smtp-Source: AGHT+IHG8OtzNVrYc5QqCw3PKuObKpoXrH+AJs5Irl8ytmLpkXd/bjE8CwnZA1+hwfvqVXPmHfg6FQ==
+X-Received: by 2002:a17:906:9f91:b0:b72:5d9c:b47b with SMTP id a640c23a62f3a-b8037051eb2mr1121638466b.36.1766436308381;
+        Mon, 22 Dec 2025 12:45:08 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1189860066b.60.2025.12.22.12.45.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 12:45:07 -0800 (PST)
+        Mon, 22 Dec 2025 12:45:08 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 14/15] xserver-xorg: upgrade 21.1.18 -> 21.1.21
-Date: Mon, 22 Dec 2025 21:44:32 +0100
-Message-ID: <20251222204455.2284529-14-alex.kanavin@gmail.com>
+Subject: [PATCH 15/15] xwayland: upgrade 24.1.8 -> 24.1.9
+Date: Mon, 22 Dec 2025 21:44:33 +0100
+Message-ID: <20251222204455.2284529-15-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251222204455.2284529-1-alex.kanavin@gmail.com>
 References: <20251222204455.2284529-1-alex.kanavin@gmail.com>
@@ -69,47 +69,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 20:45:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228439
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228440
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 License-Update: copyright years
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../xorg-xserver/xserver-xorg.inc             |  2 +-
  ...after-free-in-present_create_notifie.patch | 91 ------------------
- ...-Intel-ddx-only-for-pre-gen4-hardwar.patch |  2 +-
  ...ke-the-RT_XKBCLIENT-resource-private.patch | 63 -------------
  ...KB-resource-when-freeing-XkbInterest.patch | 92 -------------------
  ...-Prevent-overflow-in-XkbSetCompatMap.patch | 53 -----------
- ...org_21.1.18.bb => xserver-xorg_21.1.21.bb} |  9 +-
- 7 files changed, 4 insertions(+), 308 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-present-Fix-use-after-free-in-present_create_notifie.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.18.bb => xserver-xorg_21.1.21.bb} (65%)
+ ...{xwayland_24.1.8.bb => xwayland_24.1.9.bb} | 13 +--
+ 5 files changed, 4 insertions(+), 308 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xwayland/xwayland/0001-present-Fix-use-after-free-in-present_create_notifie.patch
+ delete mode 100644 meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
+ delete mode 100644 meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
+ delete mode 100644 meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
+ rename meta/recipes-graphics/xwayland/{xwayland_24.1.8.bb => xwayland_24.1.9.bb} (81%)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 164eee8ffe..c79bb9e962 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -2,7 +2,7 @@ SUMMARY = "The X.Org X server"
- HOMEPAGE = "http://www.x.org"
- SECTION = "x11/base"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=21e33dcccf2d5034f798a8ea62622939"
- 
- # xf86-*-* packages depend on an X server built with the xfree86 DDX
- # so we have a virtual to represent that:
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-present-Fix-use-after-free-in-present_create_notifie.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-present-Fix-use-after-free-in-present_create_notifie.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/0001-present-Fix-use-after-free-in-present_create_notifie.patch b/meta/recipes-graphics/xwayland/xwayland/0001-present-Fix-use-after-free-in-present_create_notifie.patch
 deleted file mode 100644
-index fa8bc542d8..0000000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-present-Fix-use-after-free-in-present_create_notifie.patch
+index c2f6ad1e02..0000000000
+--- a/meta/recipes-graphics/xwayland/xwayland/0001-present-Fix-use-after-free-in-present_create_notifie.patch
 +++ /dev/null
 @@ -1,91 +0,0 @@
--From 359c9c0478406fe00e0d4c5d52bd9bf8c2ca4081 Mon Sep 17 00:00:00 2001
+-From a2d7bd5fefecfc4315247902b7f03e8bf9866908 Mon Sep 17 00:00:00 2001
 -From: Olivier Fourdan <ofourdan@redhat.com>
 -Date: Wed, 2 Jul 2025 09:46:22 +0200
 -Subject: [PATCH 1/4] present: Fix use-after-free in present_create_notifies()
@@ -175,7 +160,7 @@ index fa8bc542d8..0000000000
 -Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
 -(cherry picked from commit 5a4286b13f631b66c20f5bc8db7b68211dcbd1d0)
 -
--Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2087>
+-Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2088>
 -
 -CVE: CVE-2025-62229
 -Upstream-Status: Backport
@@ -200,23 +185,13 @@ index fa8bc542d8..0000000000
 --- 
 -2.43.0
 -
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch
-index a196e50751..7d151aaa63 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch
-@@ -1,4 +1,4 @@
--From ad8967de36e6e2a185b71ce1d701448cda4ef3e2 Mon Sep 17 00:00:00 2001
-+From 6d23037f48f3d534286fc2bda927c9b6ee5d1445 Mon Sep 17 00:00:00 2001
- From: California Sullivan <california.l.sullivan@intel.com>
- Date: Fri, 16 Mar 2018 17:23:11 -0700
- Subject: [PATCH] xf86pciBus.c: use Intel ddx only for pre-gen4 hardware
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch b/meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
 deleted file mode 100644
-index ed25f4b58e..0000000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
+index 61369d789c..0000000000
+--- a/meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
 +++ /dev/null
 @@ -1,63 +0,0 @@
--From a3d5c76ee8925ef9846c72e2327674b84e3fcdb3 Mon Sep 17 00:00:00 2001
+-From 539bca9e0d05ce995a936c4bdf90bc716510d2a7 Mon Sep 17 00:00:00 2001
 -From: Olivier Fourdan <ofourdan@redhat.com>
 -Date: Wed, 10 Sep 2025 15:55:06 +0200
 -Subject: [PATCH 2/4] xkb: Make the RT_XKBCLIENT resource private
@@ -240,7 +215,7 @@ index ed25f4b58e..0000000000
 -Reviewed-by: Michel Dänzer <mdaenzer@redhat.com>
 -(cherry picked from commit 99790a2c9205a52fbbec01f21a92c9b7f4ed1d8f)
 -
--Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2087>
+-Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2088>
 -
 -CVE: CVE-2025-62230
 -Upstream-Status: Backport
@@ -251,7 +226,7 @@ index ed25f4b58e..0000000000
 - 2 files changed, 3 insertions(+), 1 deletion(-)
 -
 -diff --git a/include/xkbsrv.h b/include/xkbsrv.h
--index fbb5427e1..b2766277c 100644
+-index bd747856b..d801cd4b8 100644
 ---- a/include/xkbsrv.h
 -+++ b/include/xkbsrv.h
 -@@ -58,6 +58,8 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
@@ -264,10 +239,10 @@ index ed25f4b58e..0000000000
 -     DeviceIntPtr dev;
 -     ClientPtr client;
 -diff --git a/xkb/xkb.c b/xkb/xkb.c
--index 5131bfcdf..26d965d48 100644
+-index ac154e200..6c102af0a 100644
 ---- a/xkb/xkb.c
 -+++ b/xkb/xkb.c
--@@ -51,7 +51,7 @@ int XkbKeyboardErrorCode;
+-@@ -50,7 +50,7 @@ int XkbKeyboardErrorCode;
 - CARD32 xkbDebugFlags = 0;
 - static CARD32 xkbDebugCtrls = 0;
 - 
@@ -279,13 +254,13 @@ index ed25f4b58e..0000000000
 --- 
 -2.43.0
 -
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch b/meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
 deleted file mode 100644
-index f55e3d4126..0000000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
+index 76e50cfad9..0000000000
+--- a/meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
 +++ /dev/null
 @@ -1,92 +0,0 @@
--From 32b12feb6f9f3d32532ff75c7434a7426b85e0c3 Mon Sep 17 00:00:00 2001
+-From a7e9938b621e16677c6330306a45baba0495ea31 Mon Sep 17 00:00:00 2001
 -From: Olivier Fourdan <ofourdan@redhat.com>
 -Date: Wed, 10 Sep 2025 15:58:57 +0200
 -Subject: [PATCH 3/4] xkb: Free the XKB resource when freeing XkbInterest
@@ -345,7 +320,7 @@ index f55e3d4126..0000000000
 -Reviewed-by: Michel Dänzer <mdaenzer@redhat.com>
 -(cherry picked from commit 10c94238bdad17c11707e0bdaaa3a9cd54c504be)
 -
--Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2087>
+-Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2088>
 -
 -CVE: CVE-2025-62230
 -Upstream-Status: Backport
@@ -355,10 +330,10 @@ index f55e3d4126..0000000000
 - 1 file changed, 2 insertions(+)
 -
 -diff --git a/xkb/xkbEvents.c b/xkb/xkbEvents.c
--index 0bbd66186..3d04ecf0c 100644
+-index f8f65d4a7..7c669c93e 100644
 ---- a/xkb/xkbEvents.c
 -+++ b/xkb/xkbEvents.c
--@@ -1056,6 +1056,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
+-@@ -1055,6 +1055,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
 -             autoCtrls = interest->autoCtrls;
 -             autoValues = interest->autoCtrlValues;
 -             client = interest->client;
@@ -366,7 +341,7 @@ index f55e3d4126..0000000000
 -             free(interest);
 -             found = TRUE;
 -         }
--@@ -1067,6 +1068,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
+-@@ -1066,6 +1067,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
 -                 autoCtrls = victim->autoCtrls;
 -                 autoValues = victim->autoCtrlValues;
 -                 client = victim->client;
@@ -377,13 +352,13 @@ index f55e3d4126..0000000000
 --- 
 -2.43.0
 -
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch b/meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
 deleted file mode 100644
-index 5036f0c9f0..0000000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
+index 27c8f6c809..0000000000
+--- a/meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
 +++ /dev/null
 @@ -1,53 +0,0 @@
--From 364f06788f1de4edc0547c7f29d338e6deffc138 Mon Sep 17 00:00:00 2001
+-From 70dfb0fb993655b0989d54e3bffc4e62c5629392 Mon Sep 17 00:00:00 2001
 -From: Olivier Fourdan <ofourdan@redhat.com>
 -Date: Wed, 10 Sep 2025 16:30:29 +0200
 -Subject: [PATCH 4/4] xkb: Prevent overflow in XkbSetCompatMap()
@@ -411,7 +386,7 @@ index 5036f0c9f0..0000000000
 -Reviewed-by: Michel Dänzer <mdaenzer@redhat.com>
 -(cherry picked from commit 475d9f49acd0e55bc0b089ed77f732ad18585470)
 -
--Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2087>
+-Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2088>
 -
 -CVE: CVE-2025-62231
 -Upstream-Status: Backport
@@ -421,10 +396,10 @@ index 5036f0c9f0..0000000000
 - 1 file changed, 2 insertions(+)
 -
 -diff --git a/xkb/xkb.c b/xkb/xkb.c
--index 26d965d48..137d70da2 100644
+-index 6c102af0a..a77fe7ff0 100644
 ---- a/xkb/xkb.c
 -+++ b/xkb/xkb.c
--@@ -2992,6 +2992,8 @@ _XkbSetCompatMap(ClientPtr client, DeviceIntPtr dev,
+-@@ -2990,6 +2990,8 @@ _XkbSetCompatMap(ClientPtr client, DeviceIntPtr dev,
 -         XkbSymInterpretPtr sym;
 -         unsigned int skipped = 0;
 - 
@@ -436,28 +411,33 @@ index 5036f0c9f0..0000000000
 --- 
 -2.43.0
 -
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.21.bb
-similarity index 65%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.21.bb
-index 44ccea76f5..3781234c84 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.21.bb
-@@ -1,12 +1,7 @@
- require xserver-xorg.inc
+diff --git a/meta/recipes-graphics/xwayland/xwayland_24.1.8.bb b/meta/recipes-graphics/xwayland/xwayland_24.1.9.bb
+similarity index 81%
+rename from meta/recipes-graphics/xwayland/xwayland_24.1.8.bb
+rename to meta/recipes-graphics/xwayland/xwayland_24.1.9.bb
+index af4bb73499..df1bb7e31b 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_24.1.8.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_24.1.9.bb
+@@ -7,15 +7,10 @@ a way to run unported applications in the meantime."
+ HOMEPAGE = "https://fedoraproject.org/wiki/Changes/XwaylandStandalone"
  
--SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
--            file://0001-present-Fix-use-after-free-in-present_create_notifie.patch \
--            file://0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch \
--            file://0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch \
--            file://0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch \
--            "
--SRC_URI[sha256sum] = "c878d1930d87725d4a5bf498c24f4be8130d5b2646a9fd0f2994deff90116352"
-+SRC_URI += " file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch"
-+SRC_URI[sha256sum] = "c0cbe5545b3f645bae6024b830d1d1154a956350683a4e52b2fff5b0fa1ab519"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
+-
+-SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
+-           file://0001-present-Fix-use-after-free-in-present_create_notifie.patch \
+-           file://0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch \
+-           file://0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch \
+-           file://0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch \
+-           "
+-SRC_URI[sha256sum] = "c8908d57c8ed9ceb8293c16ba7ad5af522efaf1ba7e51f9e4cf3c0774d199907"
++LIC_FILES_CHKSUM = "file://COPYING;md5=21e33dcccf2d5034f798a8ea62622939"
++
++SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
++SRC_URI[sha256sum] = "f297af27a84508db9b80d1cbbcc69c3801da38eb64c72f3b5b50f582459afdd0"
  
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
+ UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
+ 
 -- 
 2.47.3
 
