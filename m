@@ -2,63 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11930E69173
-	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 20:07:55 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.87651.1766434070769640393
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7510E6916E
+	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 20:07:54 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.87650.1766434070298994099
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Dec 2025 12:07:51 -0800
+ Mon, 22 Dec 2025 12:07:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ACwGOxjh;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b8018eba13cso550492566b.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=I2wzYmLr;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b79d6a70fc8so734690766b.0
         for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:07:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1766434069; x=1767038869; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t1D9+1Flhrf5EfhCfWyVLgxxhUTt+o0vxEFmMDDpwxU=;
-        b=ACwGOxjhB+jIid8cw2YpNaxhLAzZGHmwPalLJTaK4wkMrJFZaUDlO++RJmmq9IqVSp
-         GXSb447eIOTqfT7bMxXeCyOZNOBt+9gUqzehhrbgSUhuxT2vXFAp5e30Wy4/Byw29Yzf
-         QDEfSHcKPOWb9N4qKK0JVV5a1/Y8IBhQr9UVle0PKuHJrvFdaigRP9c1kSvF29APm3oa
-         MZiMWU3qrcW3tNUir8xnN9Fo9/hMQUG0qMoulKE8HyJjKdCZKPcodDuq/Rt4/IKISLe2
-         QU52spx79SDhuyj8AtWMpB6oH4PMFi2GiwYlhdSIUKPVB1xPC6p9v+aTp+L+k5e4Mm6B
-         0gFQ==
+        bh=9Qbj3HhXK5Nns/SwYIf0qSRfwHsUpVc7gK3+IBLMeMk=;
+        b=I2wzYmLrS8iMOQ7NynSqBYqDaoUafx6XkHT6q3gO7PDCG3pLJEOezcXTtfe0NrX2Mb
+         HGw7+Jq2R1KnfPyecUlKQc0p/7jIwFMRAev5koRsF2/U8UAz3M7IdS4J5JTe2BDOwluy
+         hhxkIv0alnxRf61RY+GiPzYabR+DepTvnsv+YwPzELwHzqmf27dU/Kf/Fc6Comw4BEhs
+         UZ2DS1DxJy9dyf5RYCkRZ3aHsRicJ0PJ9fHlHX5iFaefZOgUmpqleCySDPBh/Lg1CDEZ
+         cGmu0AjXFdRuW+ZjjS3QRwkzRcF3Wbkx4d9oOH/nWmQw2A9fzMmg66nUh0+dAKy6OBuk
+         1hIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1766434069; x=1767038869;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=t1D9+1Flhrf5EfhCfWyVLgxxhUTt+o0vxEFmMDDpwxU=;
-        b=FtZXwFEsdcsKNNk/45AMCos23ZbgaeKxISIIqz2ix/RXJX9tBM9l6lvzC2Cn5HK/OG
-         I2RW0j6ZeiOOdv4dk51n6wz+LU2G7DjevSeXIxm2r7n/Re6LAdhMMf2m49ag1EY1ohRR
-         tYZKmhLEVnfVeyYszJAUsvwo39svs7pjalLipGL2jQ9Mpf87CoeY5sjmIypVY7egxN2P
-         n0UGEp0CAGbm3nPgKFCFgzfTSp5yba6YZFF5J1ommiaSmVJmt/gz8qZp7I3ivl/b5rOn
-         srtALnoUDRgmFIFy9QzIOnly7N8TFunK6ifDorTUvKq1cgP+RJIYgHrmDakxSD2yIIeW
-         QnVA==
-X-Gm-Message-State: AOJu0Ywtdmn5SHk5mgwDjFq5mEKlAdl4CAlWOsO9yVJHAObwqrJRnV5M
-	F/6nDmYctOYbnIVPBCeWQUSLChXDX9CPsoAGslYmASFjhkCSExfJs9zY30Ds1A==
-X-Gm-Gg: AY/fxX7g+RbZ+85rCU6+KZkJJZfNPNvqi2LssdroDFRKE2N4aQcrqX2c/hIQv4f90M4
-	x2xbvDQIqbA1r/w6e2yDRG5cHM9entJBeQfOA+Vd6jqWS4Mef21mJWzXzxDMWIAu6K73+Jolm3r
-	4BE6xIy0avi9TS7ZSG60hvX4krGGqTp8Ty4bkMcJAMufK797oMuEUz55dmXrran7Cwlx2mB6CGI
-	c8gfZgFjtEtHsO8UE8417w1CBohIDiSuMfpIn5VI5ou9iRr1di5ilfkqzLDbT/WcJirBXipo1NP
-	59HdvOE0HhJXG9H9VY0aYblt+06XDOKdUZs5PRKrqem3hCbJrXNw6EZx/Xc1MBI9ReSiHAtlyQj
-	3HYL/EI+0+Iv3estqFZOL4Dg49wlMy63rce5PjcEBMcB41HfHBeZ6u2jCj3M9Ab41lakt8bcQHW
-	EzMFrTwmtXOPV8xDA7ZfBr7LNFHduLKqe6/Nldl9y8GE/m0k0=
-X-Google-Smtp-Source: AGHT+IGngg26wHUARo9hxn9CJgbBC/VrcLynIKSADdl1ppI48447igkKZwBvu4uYn8Zc43jCIncrOw==
-X-Received: by 2002:a17:907:3ccb:b0:b80:3101:cd13 with SMTP id a640c23a62f3a-b8036f0a480mr1309040866b.10.1766434068779;
+        bh=9Qbj3HhXK5Nns/SwYIf0qSRfwHsUpVc7gK3+IBLMeMk=;
+        b=PXeEDsNK5FgyupHPRdl+oq6saMCa/OD9ZBOzxRuQ98hSKFU4yoB2sMmQpuXFWm0j3f
+         5r7OGuW9jXOJxl3fPzF4zw/uqf94XWnvXsUDI3UeDDiG3BqpzXkadBh8l3URqeaoxLbX
+         XOfwES7kcC7FjGHc5Pd1p0rRdVfKnkTe6jxYARgQ+3iw7lfnDOI4IZglVORgz6Gl46Zi
+         TEnsvFUiO7O8YwWD4Kt3t1cYb4QjLLiSmfrEh8sQI2/eXHEYkmZmQ11Bhs1+BbytbQjN
+         Tg2uqVmOiP+c3RloUkqcNbJEhLcScdPvp9xRnSXwV0qYN3fWPH7+/qvnc43ubEU8/R4m
+         n7/g==
+X-Gm-Message-State: AOJu0YyPvn2mm3r7qp0FKjKotReMzN4n0GWzo7c1ZbAORKakdiFhkZba
+	MOZiqZ6Tc1lwctiSXUrWeUPdggw/SCo54hhqMm8csxAa1vVwFaqMQ9xxYZVrkA==
+X-Gm-Gg: AY/fxX7ytjU7Gs3HRNs5CTNjA0405+3/B6YB7h3dwdHNBKNTgemnk/BZKgMo9vqwhAE
+	xXmlYXfMSLmWHvaHU9AiKTzMPtLYs/EvYni1++kq7W3Hnhfz+UDX3ImqtaqOYjpdc8s9+sXgdaQ
+	lgEDNp8LmiALbekJLEu2GB7r/9EMebm/bJ64POEuHsIeJxa1VhlTHSmBgHEF4uhEpiC+VptGPA1
+	lCoI/sKyKVpQ868XvlogTUHbiX8WIPDq0T+X4lu2aXa1RI3Y/q32WPC7ex1ie8VVE4wSomlC5Vu
+	q1lGH2umeUPj+9ZDgSxCth7MzOcOkFex8pv8UOrWxJUWCpi5DCDEE7rlIeWPsjbTk+pZboThSKy
+	rUFjpNAIj2J9aZgnQvuYRe7GgJO8pRqpFf1eiihVOVpoRt812eNmusFHLh38yBSxP8VdEstYVKn
+	gLt1lBOwc2ol6V8fI/h4jkb8GIcXJ7BxgQ/MlXsPvoUQ5QFTU=
+X-Google-Smtp-Source: AGHT+IGQ3VFykSRlfrkqve54hKVoOjPN0LY32Y9EkcEGvap20wtKDcuMG2VTmSh3J4egQZQtv7lfJg==
+X-Received: by 2002:a17:907:9719:b0:b7a:2ba7:197f with SMTP id a640c23a62f3a-b803719e302mr1324058866b.52.1766434068114;
         Mon, 22 Dec 2025 12:07:48 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.07.48
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.07.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 12:07:48 -0800 (PST)
+        Mon, 22 Dec 2025 12:07:47 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 005/114] at-spi2-core: upgrade 2.56.4 -> 2.58.2
-Date: Mon, 22 Dec 2025 21:05:47 +0100
-Message-ID: <20251222200739.2278706-5-alex.kanavin@gmail.com>
+Subject: [PATCH 004/114] alsa: upgrade 1.2.14 -> 1.2.15
+Date: Mon, 22 Dec 2025 21:05:46 +0100
+Message-ID: <20251222200739.2278706-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251222200739.2278706-1-alex.kanavin@gmail.com>
 References: <20251222200739.2278706-1-alex.kanavin@gmail.com>
@@ -67,52 +67,194 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 20:07:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228330
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 20:07:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228328
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Adjust packaging (and inhetir python target config)
-to include $libdir/python3.13/site-packages/gi/overrides/Atspi.py
+alsa-lib: backport a patch to address musl build failures.
+
+alsa-utils: backport a separate-build-directory build fix.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../atk/{at-spi2-core_2.56.4.bb => at-spi2-core_2.58.2.bb}   | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-support/atk/{at-spi2-core_2.56.4.bb => at-spi2-core_2.58.2.bb} (89%)
+ ...cf08ad67447893b707cddfce31c9cafee643.patch | 50 +++++++++++++++++++
+ ...{alsa-lib_1.2.14.bb => alsa-lib_1.2.15.bb} |  6 ++-
+ ...a-tools_1.2.14.bb => alsa-tools_1.2.15.bb} |  2 +-
+ ...conf_1.2.14.bb => alsa-ucm-conf_1.2.15.bb} |  2 +-
+ ...7067fcf5b05e7fa5a84c38238dbffd079c4f.patch | 29 +++++++++++
+ ...a-utils_1.2.14.bb => alsa-utils_1.2.15.bb} |  6 ++-
+ 6 files changed, 89 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/a068cf08ad67447893b707cddfce31c9cafee643.patch
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.2.14.bb => alsa-lib_1.2.15.bb} (89%)
+ rename meta/recipes-multimedia/alsa/{alsa-tools_1.2.14.bb => alsa-tools_1.2.15.bb} (97%)
+ rename meta/recipes-multimedia/alsa/{alsa-ucm-conf_1.2.14.bb => alsa-ucm-conf_1.2.15.bb} (89%)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-utils/10587067fcf5b05e7fa5a84c38238dbffd079c4f.patch
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.2.14.bb => alsa-utils_1.2.15.bb} (97%)
 
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.56.4.bb b/meta/recipes-support/atk/at-spi2-core_2.58.2.bb
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib/a068cf08ad67447893b707cddfce31c9cafee643.patch b/meta/recipes-multimedia/alsa/alsa-lib/a068cf08ad67447893b707cddfce31c9cafee643.patch
+new file mode 100644
+index 0000000000..2e84a11f26
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-lib/a068cf08ad67447893b707cddfce31c9cafee643.patch
+@@ -0,0 +1,50 @@
++From a068cf08ad67447893b707cddfce31c9cafee643 Mon Sep 17 00:00:00 2001
++From: Mike Gilbert <floppym@gentoo.org>
++Date: Mon, 8 Dec 2025 23:46:17 -0500
++Subject: [PATCH] ucm: use closefrom instead of close_range
++
++closefrom is a library function with a fallback mechanism for when the
++kernel does not support the close_range syscall.
++
++Also check for the function properly instead of assuming it is available
++with _GNU_SOURCE defined.
++
++Closes: https://github.com/alsa-project/alsa-lib/pull/486
++Fixes: https://github.com/alsa-project/alsa-lib/issues/485
++Signed-off-by: Mike Gilbert <floppym@gentoo.org>
++Signed-off-by: Jaroslav Kysela <perex@perex.cz>
++
++Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/commit/a068cf08ad67447893b707cddfce31c9cafee643]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ configure.ac       | 1 +
++ src/ucm/ucm_exec.c | 4 ++--
++ 2 files changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 8f4bd0de1..f4862f64c 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -52,6 +52,7 @@ dnl Checks for library functions.
++ AC_PROG_GCC_TRADITIONAL
++ AC_CHECK_FUNCS([uselocale])
++ AC_CHECK_FUNCS([eaccess])
+++AC_CHECK_DECLS([closefrom])
++ 
++ dnl Enable largefile support
++ AC_SYS_LARGEFILE
++diff --git a/src/ucm/ucm_exec.c b/src/ucm/ucm_exec.c
++index b5a22023b..713039b49 100644
++--- a/src/ucm/ucm_exec.c
+++++ b/src/ucm/ucm_exec.c
++@@ -259,8 +259,8 @@ int uc_mgr_exec(const char *prog)
++ 
++ 		close(f);
++ 
++-#if defined(_GNU_SOURCE)
++-		close_range(3, maxfd, 0);
+++#if HAVE_DECL_CLOSEFROM
+++		closefrom(3);
++ #else
++ 		for (f = 3; f < maxfd; f++)
++ 			close(f);
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.14.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb
 similarity index 89%
-rename from meta/recipes-support/atk/at-spi2-core_2.56.4.bb
-rename to meta/recipes-support/atk/at-spi2-core_2.58.2.bb
-index a1cbf4b455..8d674417bd 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.56.4.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.58.2.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+rename from meta/recipes-multimedia/alsa/alsa-lib_1.2.14.bb
+rename to meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb
+index 41a42f9ecc..c357f31c4c 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.14.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.bb
+@@ -9,8 +9,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+                     file://src/socket.c;md5=285675b45e83f571c6a957fe4ab79c93;beginline=9;endline=24 \
+                     "
  
- CVE_PRODUCT += "at-spi2-atk"
+-SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "be9c88a0b3604367dd74167a2b754a35e142f670292ae47a2fdef27a2ee97a32"
++SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
++           file://a068cf08ad67447893b707cddfce31c9cafee643.patch \
++          "
++SRC_URI[sha256sum] = "83770841585e766a60c99fd23f8c574c22643ae0cb1f2d20b793c3d84eb95a8d"
  
--SRC_URI[archive.sha256sum] = "dbe35b951499e1d6f1fb552c2e0a09cea7cba2adf6c2eba0b2c85b6c094a3a02"
-+SRC_URI[archive.sha256sum] = "a2823b962ed16cdd5cb1fc5365029fd218394d852acd4098b321854bd6692f6e"
+ inherit autotools pkgconfig
  
- DEPENDS = " \
- 	dbus \
-@@ -23,7 +23,7 @@ DEPENDS = " \
- PROVIDES += "atk at-spi2-atk"
- RPROVIDES:${PN} += "atk at-spi2-atk"
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.2.14.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.2.15.bb
+similarity index 97%
+rename from meta/recipes-multimedia/alsa/alsa-tools_1.2.14.bb
+rename to meta/recipes-multimedia/alsa/alsa-tools_1.2.15.bb
+index 751d9e8a76..1228176fb9 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools_1.2.14.bb
++++ b/meta/recipes-multimedia/alsa/alsa-tools_1.2.15.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=59530bdf33659b29e73d4adb9f9f65
  
--inherit gnomebase gi-docgen gettext systemd upstream-version-is-even gobject-introspection
-+inherit gnomebase gi-docgen gettext systemd upstream-version-is-even gobject-introspection python3targetconfig
+ SRC_URI = "https://www.alsa-project.org/files/pub/tools/${BP}.tar.bz2"
  
- EXTRA_OEMESON = " -Dsystemd_user_dir=${systemd_user_unitdir} \
-                   -Ddbus_daemon=${bindir}/dbus-daemon"
-@@ -42,5 +42,6 @@ FILES:${PN} += "${libdir}/gnome-settings-daemon-3.0/gtk-modules/at-spi2-atk.desk
-                 ${datadir}/dbus-1/accessibility-services/*.service \
-                 ${datadir}/defaults/at-spi2 \
-                 ${systemd_user_unitdir}/at-spi-dbus-bus.service \
-+                ${PYTHON_SITEPACKAGES_DIR} \
-                 "
- BBCLASSEXTEND = "native nativesdk"
+-SRC_URI[sha256sum] = "faef6fdd39ec79c9a5473dc63aa1b6331bf7664a9d452a0a8198cec7016cbc6f"
++SRC_URI[sha256sum] = "800498d35233672ef67f4bf74cc6e1d37e1fe70c0540e2d2e062f2319e7b5df7"
+ 
+ inherit autotools-brokensep pkgconfig
+ # brokensep as as10k1 (and probably more) fail out of tree
+diff --git a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.14.bb b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.15.bb
+similarity index 89%
+rename from meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.14.bb
+rename to meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.15.bb
+index d9ef831937..1eaec98e3b 100644
+--- a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.14.bb
++++ b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.15.bb
+@@ -8,7 +8,7 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=20d74d74db9741697903372ad001d3b4"
+ 
+ SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "32e9809f592d92b978aa1032e35293c33b8d0f1ec475f937022c3ee9a3069c21"
++SRC_URI[sha256sum] = "5510cb0947a3bb877b5ce218e3ecedd78bfa6643e372346c87d93d4844a45ffa"
+ # Something went wrong at upstream tarballing
+ 
+ inherit allarch
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils/10587067fcf5b05e7fa5a84c38238dbffd079c4f.patch b/meta/recipes-multimedia/alsa/alsa-utils/10587067fcf5b05e7fa5a84c38238dbffd079c4f.patch
+new file mode 100644
+index 0000000000..3269e3eeba
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-utils/10587067fcf5b05e7fa5a84c38238dbffd079c4f.patch
+@@ -0,0 +1,29 @@
++From 10587067fcf5b05e7fa5a84c38238dbffd079c4f Mon Sep 17 00:00:00 2001
++From: Rudi Heitbaum <rudi@heitbaum.com>
++Date: Mon, 8 Dec 2025 11:12:34 +0000
++Subject: [PATCH] alsactl: fix build when in subdirectory
++
++create the conf directory as part of the edit recipe
++
++Closes: https://github.com/alsa-project/alsa-utils/pull/311
++Signed-off-by: Rudi Heitbaum <rudi@heitbaum.com>
++Signed-off-by: Jaroslav Kysela <perex@perex.cz>
++
++Upstream-Status: Backport [https://github.com/alsa-project/alsa-utils/commit/10587067fcf5b05e7fa5a84c38238dbffd079c4f]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ alsactl/Makefile.am | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/alsactl/Makefile.am b/alsactl/Makefile.am
++index 48b7c7a6..c8729e04 100644
++--- a/alsactl/Makefile.am
+++++ b/alsactl/Makefile.am
++@@ -47,6 +47,7 @@ endif
++ edit = \
++ 	extratest=$$(echo ' $(ALSACTL_UDEV_EXTRATEST)' | sed -e 's/__/ /g' -e 's/^ $$//'); \
++ 	args=$$(echo ' $(ALSACTL_UDEV_ARGS)' | sed -e 's/__/ /g' -e 's/^ $$//'); \
+++	mkdir -p conf; \
++ 	$(SED) -r -e 's,@sbindir\@,$(sbindir),g' \
++ 		  -e 's,@mydatadir\@,$(mydatadir),g' \
++ 		  -e 's,@daemonswitch\@,$(ALSACTL_DAEMONSWITCH),g' \
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.2.14.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb
+similarity index 97%
+rename from meta/recipes-multimedia/alsa/alsa-utils_1.2.14.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb
+index 3cbb9b464b..7ea9ee6f8a 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.2.14.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.bb
+@@ -24,8 +24,10 @@ PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev
+ PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+ 
+ # alsa-utils specified in SRC_URI due to alsa-utils-scripts recipe
+-SRC_URI = "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2"
+-SRC_URI[sha256sum] = "0794c74d33fed943e7c50609c13089e409312b6c403d6ae8984fc429c0960741"
++SRC_URI = "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2 \
++           file://10587067fcf5b05e7fa5a84c38238dbffd079c4f.patch \
++          "
++SRC_URI[sha256sum] = "d3183d2ed2d69e9143c5beb97036267c3fdabfe8bfbea8bc6863f17b1f0b568e"
+ 
+ # On build machines with python-docutils (not python3-docutils !!) installed
+ # rst2man (not rst2man.py) is detected and compile fails with
 -- 
 2.47.3
 
