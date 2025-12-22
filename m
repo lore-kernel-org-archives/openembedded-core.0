@@ -1,153 +1,189 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B1D6D711D5
-	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 07:00:09 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.75899.1766386807284451702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98077D711D5
+	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 07:10:39 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.75991.1766387434800734291
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Dec 2025 23:00:07 -0800
+ Sun, 21 Dec 2025 23:10:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=A4qieXmG;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=445155024b=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BM5gvp02114842
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 07:00:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=oJjzUuT4riDneyNo7+gl
-	8OubrYqHyiopLBzvinnROzA=; b=A4qieXmGH7iWGMJbICMVn86NGEQ2nSEQ8796
-	8xeUdJKlOR0hpwHaBf3j6wjpJqNr9PKZqwr6VrN9v1BaNTySim3B7gk8zq9/vUMw
-	rZmb8PfIYceu1KiF0IT7FO0CcxeGsItzBd5VboC7DEILZxsfAKQoOaAFKiHKUy6E
-	C8XdHatMCZ87L5jajn5m0OvM3EjmO+AhIIc8mdK7jDUbi79BF8Ugsxdise3Rt0od
-	QWlR+5xIVU33Eo1kJw89HqiZLVotAUzhlKMX3C41Ia3sGrrsxtP8jIW5AbG9JgwK
-	9mD0M0l8PtmKHn8CO3LcPqOxnlmDZbf6EpkHLxwZTmLNya+XRg==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b5js71fu4-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 07:00:05 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Sun, 21 Dec 2025 23:00:04 -0800
-Received: from pek-lpg-core4.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Sun, 21 Dec 2025 23:00:03 -0800
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [scarthgap][PATCH] libxslt: Fix CVE-2025-11731
-Date: Mon, 22 Dec 2025 14:59:58 +0800
-Message-ID: <20251222065958.2651046-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 6r8QzsgMzUilNiuxr5RQm28CWRneD3U8
-X-Authority-Analysis: v=2.4 cv=To7rRTXh c=1 sm=1 tr=0 ts=6948ec75 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=GHR8O2WEAAAA:20
- a=Z5getJ8MAAAA:20 a=t7CeM3EgAAAA:8 a=cm27Pg_UAAAA:8 a=6M9TsETqaMe1GmVcjvcA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: 6r8QzsgMzUilNiuxr5RQm28CWRneD3U8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIyMDA2MSBTYWx0ZWRfXzSlnOSj1wFfV
- kklEmcH7G0n3p4yITjJp9NFarCdKtMbgwiX7kBv/KD+TTlFAYE4zN2qEMdge7vyXnZLQbGqVMal
- TxWgt2QBi+XXtv8+RS3JTK1GfjkpSwHGTsEEjmJc/94lSfNVhBQAUyLQmlX9FGiiZ9GHdB7e33a
- 5EiTBrfsM00KCE6mkXC9QJmlCRz3103fKSqiWYwf0Y8Xsg8J1fc+NCjHgOMJim5NYf73EFt0U6s
- G+d75jkLh3cNk/ASMD7wwbgc2rASsmTb6Vnw1Qf2nc9IpZBMy4VSugjJ/kXDeq74mBJbkowbaL6
- 2kgvlat9o4AggcgYl4h/JdpQtLSHK3m7nd1mNPaQ8cpJIF/GTCs/gN9qxP+hscC4Ssv5BcrZSpd
- V5EsX/YjRffjucfAymiA1KvwLRXeUs5zRf0SMk50osW2UEs4cDpo4Taq/gI5D8lWKNvYX+OCJOI
- LQ5EGadDQy9YFgTXV6Q==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-21_05,2025-12-19_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0
- adultscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512220061
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=n/hIFxks;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id A3D214E41D29
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 07:10:32 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6FB4E606C1;
+	Mon, 22 Dec 2025 07:10:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F0B551037114E;
+	Mon, 22 Dec 2025 08:10:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1766387428; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=w/0/LSJZjNIZlBwGGXAKiePRAAdxGMV9FNaopDTtZ5A=;
+	b=n/hIFxksMevDoJYmVQBhFolAnBkMeRK56XAntQ49C/wWl2CbYMDyOfH5Eo2vfbp20Q4v0R
+	048hnYTVuBC1pnfO4va877Rlutuf+RBKjN6TMrrZV3CyR0hgwb1DtVrO2N43bKtI6f8BJy
+	RbLSz+ZDHEiT8M/ey0f65YH3BD6l6uJ+skcRX514WXafNJG5KWWY5iFA6lVxRKWb32nNGz
+	ZeOcHsqMOHfR8X7sKnAYzpTbuWEjUC/9+LsQdv+6ywRsyVv/KtJ6Kn9OXr8dxyEbaNyXFr
+	jvwoG/MAl+1Sarn12Oi7aJh3DYarhGru3x2fSHMF9qNzYMWYs0i7y/B61tTsew==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 22 Dec 2025 08:10:24 +0100
+Message-Id: <DF4K309U5R8V.3UX2W7MKLC13B@bootlin.com>
+To: "Yoann Congal" <yoann.congal@smile.fr>
+Subject: Re: [OE-core] [PATCH v4 2/2] meta/files/layers.schema.json: use URI
+ shortcut for some remotes
+Cc: <corentin.guillevic@smile.fr>,
+ <openembedded-core@lists.openembedded.org>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20251219161311.2293512-1-corentin.guillevic@smile.fr>
+ <20251219161311.2293512-2-corentin.guillevic@smile.fr>
+ <DF3RWS2MGAXC.2OYHJPZRGZM9Y@bootlin.com>
+ <CAMSfU+6rsTevsJqYmHwv3a4Gt2zi4JXg69itOs9R1saX8w2nJQ@mail.gmail.com>
+In-Reply-To: <CAMSfU+6rsTevsJqYmHwv3a4Gt2zi4JXg69itOs9R1saX8w2nJQ@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 07:00:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228283
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 07:10:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228284
 
-From: Mingli Yu <mingli.yu@windriver.com>
+On Sun Dec 21, 2025 at 6:33 PM CET, Yoann Congal wrote:
+> Le dim. 21 d=C3=A9c. 2025 =C3=A0 10:05, Mathieu Dubois-Briand via
+> lists.openembedded.org
+> <mathieu.dubois-briand=3Dbootlin.com@lists.openembedded.org> a =C3=A9crit=
+ :
+>>
+>> On Fri Dec 19, 2025 at 5:13 PM CET, Corentin Guillevic via
+> lists.openembedded.org wrote:
+>> > Among the three sources, only two have a single remote. So we can
+> replace
+>> > their entire structure 'remote' -> 'origin' -> 'uri' with a shorter on=
+e
+>> > (property 'uri' only).
+>> >
+>> > Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
+>> > ---
+>>
+>> Hi Corentin,
+>>
+>> It looks like this is breaking some selftest:
+>>
+>> 025-12-19 13:57:11,641 - oe-selftest - INFO -
+> bblayers.BitbakeLayers.test_validate_examplelayersjson
+> (subunit.RemotedTestCase)
+>> 2025-12-19 13:57:11,642 - oe-selftest - INFO -  ... FAIL
+>>
+>> Stderr:
+>> 2025-12-19 13:53:18,059 - oe-selftest - INFO - Adding: "include
+> selftest.inc" in
+> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-917910/conf=
+/local.conf
+>> 2025-12-19 13:53:18,059 - oe-selftest - INFO - Adding: "include
+> bblayers.inc" in bblayers.conf
+>> 2025-12-19 13:57:11,642 - oe-selftest - INFO - 6: 13/38 66/653 (0.30s) (=
+0
+> failed) (bblayers.BitbakeLayers.test_validate_examplelayersjson)
+>> 2025-12-19 13:57:11,642 - oe-selftest - INFO -
+> testtools.testresult.real._StringException: Traceback (most recent call
+> last):
+>>   File
+> "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded=
+-core/meta/lib/oeqa/selftest/cases/bblayers.py",
+> line 163, in test_validate_examplelayersjson
+>>     self.validate_layersjson(json)
+>>   File
+> "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded=
+-core/meta/lib/oeqa/selftest/cases/bblayers.py",
+> line 159, in validate_layersjson
+>>     self.validate_json(json, "layers.schema.json")
+>>   File
+> "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded=
+-core/meta/lib/oeqa/selftest/cases/bblayers.py",
+> line 152, in validate_json
+>>     result =3D runCmd(
+>>              ^^^^^^^
+>>   File
+> "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded=
+-core/meta/lib/oeqa/utils/commands.py",
+> line 214, in runCmd
+>>     raise AssertionError("Command '%s' returned non-zero exit status
+> %d:\n%s" % (command, result.status, exc_output))
+>> AssertionError: Command
+> '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-917910/tmp=
+/work/x86_64-linux/python3-jsonschema-native/4.25.1/recipe-sysroot-native/u=
+sr/bin/nativepython3
+> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-917910/tmp/=
+work/x86_64-linux/python3-jsonschema-native/4.25.1/recipe-sysroot-native/us=
+r/bin/jsonschema
+> -i
+> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded-=
+core/meta/files/layers.example.json
+> --base-uri
+> file:///srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/bitbak=
+e/bin/../setup-schema/
+> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/bitbake/bin/.=
+./setup-schema/layers.schema.json'
+> returned non-zero exit status 1:
+>>
+> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-917910/tmp/=
+work/x86_64-linux/python3-jsonschema-native/4.25.1/recipe-sysroot-native/us=
+r/bin/jsonschema:5:
+> DeprecationWarning: The jsonschema CLI is deprecated and will be removed =
+in
+> a future version. Please use check-jsonschema instead, which can be
+> installed from https://pypi.org/project/check-jsonschema/
+>>   from jsonschema.cli import main
+>> {'branch': 'master', 'describe': '', 'uri': '
+> https://github.com/kanavin/meta-alex', 'rev':
+> '05b25605fb8b2399e4706d7323828676bf0da0b5'}: Additional properties are no=
+t
+> allowed ('uri' was unexpected)
+>> {'branch': 'master', 'describe': '15.0-hardknott-3.3-310-g0a96edae',
+> 'uri': 'git://git.yoctoproject.org/meta-intel', 'rev':
+> '0a96edae609a3f48befac36af82cf1eed6786b4a'}: Additional properties are no=
+t
+> allowed ('uri' was unexpected)
+>>
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2867
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/2762
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3003
+>>
+>> Can you have a look at this?
+>
+> Hello,
+>
+> The bitbake commit for this run is 96d10e4702b8ef53d9893f9b9e0c1d9c458566=
+7c
+> (the current mathieu/master-next-success).
+> It does not contain the needed patches:
+> * [PATCH v4 1/4] bitbake-setup: add inline URI
+>     https://lists.openembedded.org/g/bitbake-devel/message/18624
+> * [PATCH v4 2/4] layers.schema.json: support 'uri'
+>     https://lists.openembedded.org/g/bitbake-devel/message/18625
+> * [PATCH v4 3/4] bitbake-setup: use URI shortcut for all configurations
+>     https://lists.openembedded.org/g/bitbake-devel/message/18626
+> * [PATCH v4 4/4] doc/bitbake-setup: document "uri" property
+>     https://lists.openembedded.org/g/bitbake-devel/message/18627
+>
+> Can you retry this patch with a bitbake branch containing these commits?
+> (In retrospect, the link between the series should have been made more
+> clear)
+>
 
-Backport the patch [1] to fix CVE-2025-11731.
+Yes, I was a bit too quick and took the two series out of sync. I will
+add this one back to the queue.
 
-[1] https://gitlab.gnome.org/GNOME/libxslt/-/commit/fe508f201efb9ea37bfbe95413b8b28251497de3
+Thanks,
+Mathieu
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- .../libxslt/files/CVE-2025-11731.patch        | 42 +++++++++++++++++++
- .../recipes-support/libxslt/libxslt_1.1.43.bb |  3 +-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libxslt/files/CVE-2025-11731.patch
-
-diff --git a/meta/recipes-support/libxslt/files/CVE-2025-11731.patch b/meta/recipes-support/libxslt/files/CVE-2025-11731.patch
-new file mode 100644
-index 0000000000..19702af6cb
---- /dev/null
-+++ b/meta/recipes-support/libxslt/files/CVE-2025-11731.patch
-@@ -0,0 +1,42 @@
-+From fe508f201efb9ea37bfbe95413b8b28251497de3 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Dominik=20R=C3=B6ttsches?= <drott@chromium.org>
-+Date: Wed, 27 Aug 2025 14:28:40 +0300
-+Subject: [PATCH] End function node ancestor search at document
-+
-+Avoids dereferencing a non-existent ->ns property on an
-+XML_DOCUMENT_NODE pointer.
-+
-+Fixes #151.
-+
-+CVE: CVE-2025-11731
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/-/commit/fe508f201efb9ea37bfbe95413b8b28251497de3]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ libexslt/functions.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/libexslt/functions.c b/libexslt/functions.c
-+index 8d35a7ae..a54ee70c 100644
-+--- a/libexslt/functions.c
-++++ b/libexslt/functions.c
-+@@ -617,8 +617,13 @@ exsltFuncResultComp (xsltStylesheetPtr style, xmlNodePtr inst,
-+      * instanciation of a func:result element.
-+      */
-+     for (test = inst->parent; test != NULL; test = test->parent) {
-+-	if (IS_XSLT_ELEM(test) &&
-+-	    IS_XSLT_NAME(test, "stylesheet")) {
-++	if (/* Traversal has reached the top-level document without
-++         * finding a func:function ancestor. */
-++        (test != NULL && test->type == XML_DOCUMENT_NODE) ||
-++        /* Traversal reached a stylesheet-namespace node,
-++         * and has left the function namespace. */
-++        (IS_XSLT_ELEM(test) &&
-++         IS_XSLT_NAME(test, "stylesheet"))) {
-+ 	    xsltGenericError(xsltGenericErrorContext,
-+ 			     "func:result element not a descendant "
-+ 			     "of a func:function\n");
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.43.bb b/meta/recipes-support/libxslt/libxslt_1.1.43.bb
-index e08e92085d..e33b1bb902 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.43.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.43.bb
-@@ -14,7 +14,8 @@ SECTION = "libs"
- DEPENDS = "libxml2"
- 
- SRC_URI = "https://download.gnome.org/sources/libxslt/1.1/libxslt-${PV}.tar.xz \
--           file://gnome-libxslt-bug-139-apple-fix.diff"
-+           file://gnome-libxslt-bug-139-apple-fix.diff \
-+           file://CVE-2025-11731.patch"
- 
- SRC_URI[sha256sum] = "5a3d6b383ca5afc235b171118e90f5ff6aa27e9fea3303065231a6d403f0183a"
- 
--- 
-2.34.1
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
