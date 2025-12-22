@@ -1,444 +1,396 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C876AE6ADF9
-	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 20:45:18 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.88516.1766436310315614443
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 826EAE6B25B
+	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 22:40:19 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.90486.1766443213975047761
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Dec 2025 12:45:10 -0800
+ Mon, 22 Dec 2025 14:40:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QYICE9Yv;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b7cf4a975d2so610901266b.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:45:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766436309; x=1767041109; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mdSyWwMLSgy3ncaVLEY/kOZ7Wyq40qswipisgf0+P9U=;
-        b=QYICE9YvR3FTyqLIP0ADaeCwIvoTbemSRwxReK1jhMV9LF5q7Go4nED43kd+IekB5/
-         YA1AcnsEays5AmkY+rtxCsOYFgP2M7Ea918yZTg6ch1j2fCviEdySg+wcGCYjbtzfy4S
-         p6EOR4XGnieEvcJpX8Pst5+UqsdGY653sG0fRFhkX1hbeH6w7DstpXQwmZBsb6KsEN4S
-         Y0OHKBRCZC19gKxqgN+/4Nx3A98KPwl2/CIiMNJxdBzFMcf7idl0mughxAWI/k6TVLOn
-         KMo9y00GrIstwnwQSn5ytCtfSZRhJu//r53dBZWjpCNH+QsSpvOkhfCBGl+i81sn5PTm
-         EmSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766436309; x=1767041109;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mdSyWwMLSgy3ncaVLEY/kOZ7Wyq40qswipisgf0+P9U=;
-        b=vezkL44Lv8VmY86O/Vvpld/uzed+vRQ3wA7kbiHgg5mIVjKdJwl5y13qn01cIfDY5F
-         eWIP7vuACcv5WtF5wX62HphFu3buEYX0RKxrFTQ5yFf8i6hn4vnvYfgq0N0Kb5QcdtJ2
-         G3JkE3VRmMCP62F5h6d44Yx023t+s4UJkL8YejFPhQBnYMO1sd6Ndk4W2/XJ70rP8+vp
-         +iCMylmcUVR/m29j0GK3QWKPQvoLWjd/SZIhOie7D6dwf6WK95ZqDtcTn4J53mkGjm5j
-         xEvvY1Bb2DGbilW5oRAnNy3YVDOtvf4ucipS06OZgEYxSF91JfP5nmJlGMyplGNK8187
-         kxUg==
-X-Gm-Message-State: AOJu0YxyV69g+GlK9Gr1Jp5jy6GDt6GY0/hwBmbPurFszsZkePNorvvG
-	kdQDxWgHYCeD23HZ5LsJgcS2AL23k9uu6q8774BQ8GHmtO5tl3ZS6BA+mob+Kw==
-X-Gm-Gg: AY/fxX5OTwYwj8+pDsaQKQa/P9cpuzxnxgJGyyphw1eNOcRE8ARl7Vsz2VDh4/yX0XJ
-	tNt7CDufp6jypVFZVKCvK1c+cFm3hOsmdMKCx3zMZsoTFp47lxoEAt5OcYs9D75EY6hLWGP2ZTY
-	BnN6RPkL7hakkgR6n3Nd/wdBXKrcJwI4OP8KVfVtaEROLH+/YZDp8a7LlYXBP7Ir9xZSSzfrOAW
-	MEv/d0xS9jK+DpqCTfkzA4gGu50peIFIXXnFZ3Em4vzlYzIXxBrTPCt9wVtv0ty6dZ7+sJ43PiB
-	GFzy0UHAX8iHOTIpGPoyAM5tcXAQUzOkFcz6JWyMKMHiAw26FMcSzIJ2UbUurWquSfRkOQcJ9ea
-	ugCRpf4m/4nrYA0rfIMuyMPZGhayytGESIm1bCJPwyB45G8PK3is7ayticL0wOEt5Dp8H3/8SlS
-	Fhc5SG/muqmQ+VBi5oB9O9kvT2kNA8xqotaNotk7OYIXrh2tI=
-X-Google-Smtp-Source: AGHT+IHG8OtzNVrYc5QqCw3PKuObKpoXrH+AJs5Irl8ytmLpkXd/bjE8CwnZA1+hwfvqVXPmHfg6FQ==
-X-Received: by 2002:a17:906:9f91:b0:b72:5d9c:b47b with SMTP id a640c23a62f3a-b8037051eb2mr1121638466b.36.1766436308381;
-        Mon, 22 Dec 2025 12:45:08 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1189860066b.60.2025.12.22.12.45.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 12:45:08 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 15/15] xwayland: upgrade 24.1.8 -> 24.1.9
-Date: Mon, 22 Dec 2025 21:44:33 +0100
-Message-ID: <20251222204455.2284529-15-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251222204455.2284529-1-alex.kanavin@gmail.com>
-References: <20251222204455.2284529-1-alex.kanavin@gmail.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=l8HCt96n;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4451c17654=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BMAb2Gb1595474
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 14:40:13 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=YJHrQbOd6f0D07v49i4RSj
+	7YFPfPLt5uwnKUrRvagsU=; b=l8HCt96n3U+MsDj8SCxObvoiH0ZiOJzEJa2bY6
+	OhqWfeNh9T2hO1kDjXoVIl0rY1mVt3ldHq7zosfV3JJHfH3RSR05DRlCKC02GGdF
+	BlgQKfBxHhk8XetxIuolbGI+JYWqiDNysjjslPaj6wyOmRTbBrJpG2WHiQRuOomr
+	xfM9boYaKc8VoIVgm9O9YScQF5ciUaGhJv1tN/neJJ3T43n+Mrjcvh8bXsGcQiyc
+	kzQLpu7LnunpmLXedHZrDz3aiPwXef2LdmfODF/RcFmEgqVhv/c6eA0tnhUBCXQR
+	jKC1bnRuC8pd1L9vDfJLswZ9RBimlsj+YiO/iWd0ACOAQHiQ==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012052.outbound.protection.outlook.com [52.101.48.52])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b5qy4t7ve-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 22 Dec 2025 14:40:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jrdiKYgOeKj7CE61sz/Xmk8m/zMwB0t2rx9WFvOZtED8PSimtYAxwQLoOkqiR5UWpRYK1DqCud9P2W14WRomXtQN+/SWCmAX3k2QVvRGnRCAeMqIBQC3bwpL/6WMd1Klr34PUXgLtykRenNRo5xufTHYmbwOkjkw/bMmjJE1YrG5YDWySudX2CNS7XAAqJebNId0l3ecEIUa1/eNeqKQxM3dqanhSHLKCdIjXGTzJwe5o5OxZ2o44i7TdcEo3Ap+AVXy3C8HOvdoJyXUCanSrN7JQIOD9OmTAVNArdCUeYHI0daUXmfaqBv3tiJnFaIWgaVpThiC0cVBROOaFYhTvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YJHrQbOd6f0D07v49i4RSj7YFPfPLt5uwnKUrRvagsU=;
+ b=dpczdbqyVSDh+xj6aYRUCmYoqlwrvgf8xmVwpL9+fu4rjaFte77CXXaVwl8tXwMUdu4FpVPyRjj8rbovyDOG5RJccPqRVxji7vhyFcYSWbZsdXLuLV3TMrrzfSLmsUk2/OGaFlK54J0KiaaiEAQmsqpyWaKqmfmIUC/Ok2NGbLeqfr/gFLmhC6zluYLZuCcsyrkxa6aXoKbKwXy8CfshyZhRrpFqk8E55BsEf7AYu0Zu3xLo1Zsf30tLtF8CKmxh/KgKPwlbCKKbQ3kd/O6b6HLk5s4Wd96xU4LvKECAcXdTTEBc1H0G9Aj7iRRemlJw/adqBk4Oxm+bsPeTts3xhg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
+ by IA4PR11MB9178.namprd11.prod.outlook.com (2603:10b6:208:569::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.11; Mon, 22 Dec
+ 2025 22:40:10 +0000
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::5627:e3a5:cb26:b555]) by CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::5627:e3a5:cb26:b555%6]) with mapi id 15.20.9434.009; Mon, 22 Dec 2025
+ 22:40:10 +0000
+Content-Type: multipart/alternative;
+ boundary="------------QfjBjLSmlnzyi2Sn6HPO9kbl"
+Message-ID: <c1d0b949-5995-4f60-8e94-98dd73ab5a3d@windriver.com>
+Date: Mon, 22 Dec 2025 17:40:09 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] rust: enable default uwtable and ignore arm no_std
+ test
+To: Yash.Shinde@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com, SunilKumar.Dora@windriver.com,
+        hemanth.250302@gmail.com, nick.owens@eero.com
+References: <20251222093830.2658141-1-Yash.Shinde@windriver.com>
+ <20251222093830.2658141-2-Yash.Shinde@windriver.com>
+Content-Language: en-CA
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <20251222093830.2658141-2-Yash.Shinde@windriver.com>
+X-ClientProxiedBy: YT4PR01CA0006.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d1::8) To CH3PR11MB8496.namprd11.prod.outlook.com
+ (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|IA4PR11MB9178:EE_
+X-MS-Office365-Filtering-Correlation-Id: 85d7f959-334e-488f-f222-08de41ab1059
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|376014|13003099007|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?dXVKZERMdll4Ukx3TUVDVGxjbktnRWUzTVhHRUxCNnl5TlFBQW1oUmpLQVNG?=
+ =?utf-8?B?dFdtUEkvVUgzS3pvRVFkK0JtOHpNcHhMR2tCV2pnNDhHU0Q3dDgwOE9SbjVH?=
+ =?utf-8?B?MVZxekU3WDlGUCtBR3QwZjl3ZlBKSk5kVC9hOGQ1NDcwRTFJeWNKOVJmQW5O?=
+ =?utf-8?B?Y3YvNFF5cnpGQUtXMUVEUWRUbHFrL0pXL2V2Q0MxMHArdUpLVzhpMndkNWpW?=
+ =?utf-8?B?ZzlMWUNuTnZlYzAzZmttdVkzZFV6bmM4OE9sS2xpVG1ZSDZpTjVTK3VPN3VS?=
+ =?utf-8?B?cnh1alJ4azhXU2VDeW9XQ083dkFGRi9PUnhFaitTVCs4TWkxYkJXMVcwSHNW?=
+ =?utf-8?B?L2Nncm56c0RmQmNjRUkzTTdVR25HMTNCdHFtY0FJLzR1OVRjSkFnWHBQY0kr?=
+ =?utf-8?B?cWcxVDQvaUdBVTRzVmgvVUcxMkt3Y3pBTjZjbWg5TUZsMGF5NjdKeWdXUE9M?=
+ =?utf-8?B?V1dhSk1zZkRnUDdVZ0h5am41SDlZc1FMamxweUVKZzhKWTk1S2ZXSzdTWlQ4?=
+ =?utf-8?B?anZGOUNabVlJMGcydEJTRGNmczcvcWl6Um45S1lyVlgxbEl3K3UwS2k4Y3FE?=
+ =?utf-8?B?d3BuZkJnbFVReURFQVhYQzh5ejRQMUUwN3JKMTRiNm0wYTlGUU13SUJhRHJw?=
+ =?utf-8?B?YUFra0pJdlJYcjZBK0tpWWM4UlJrZS8rKzFSR2k2NGptY2xDNnBNT2xKTG41?=
+ =?utf-8?B?dUtYMVVZSkRJWkttN3g3V3JqYTZGZGhHTGQwRHl4RGxKNTJSQWFuR3FBSmJh?=
+ =?utf-8?B?TU1qa2FSb3VUOE40OWpJT3BwNkdMa2tYQTF6MHV3YytCWFNWNmRzVzByRzM0?=
+ =?utf-8?B?S2RRTXkxYnJWSUxpOS9EOVA5elhRUWh6Qjdld1lXWE9PSzJ5T1NBQjR3Z2NE?=
+ =?utf-8?B?cXdQT2pVYit0ZnRqdlNIS1dTR2l5RjlmVlRoaHlMeVB4NGRpdEJrY0RWd3BK?=
+ =?utf-8?B?SE84S1dscE9US0x0UVVBUWxQaVFvOHRNK1B6SS9SNnpOK0hKalE4QzBTcnFr?=
+ =?utf-8?B?b0VIcmc0M2xySE9tZSs3SWlueTJtVEpRVk9wVjVUYVZPQ2txdHp6UEdtRC91?=
+ =?utf-8?B?WFhyVGlWUTJYUkZuNHBRbnZnUUNxUis2MFRmd1FOc3FNbmxEMkpXZWdNZXF4?=
+ =?utf-8?B?blhocnRpRFdkNUFXTXF4VGJjUjh5SU1QbzAxc2pGdE9SRk05V2V3WXdmdTJZ?=
+ =?utf-8?B?dUhqSHFndy9Wcmg0TEl3MndXWXRuSzF4NW05d2FFVFJmTkpNNExmd2llS0FS?=
+ =?utf-8?B?NVJPTnVrYjY3cVJWZkRyTm04MzM3cDNqelg5UDlOWGx0Q1NYS2RMK2hNYkpw?=
+ =?utf-8?B?QXpFL3YvQTVZZkZoNUJBZThPeENxbUdNSFEwdmh3N1paSWF1bC9GenY4cTY0?=
+ =?utf-8?B?cDBMUzljbjhDNTRCbDc5ejFGK3dHVlA1a3NwV3M5SWhPSlpSaDNlY1JnbVpC?=
+ =?utf-8?B?S1BLWkFscWdaVlZjN2R0TWlFOVN6NDUrWHdGVjhBVGF1U3FnY2VSVUtadjl6?=
+ =?utf-8?B?WG1rQmxsUE1FVklVZmNjeTZIaStDRHRkWWt4U1B5UmtVZ0t2MzJMQlViOEl6?=
+ =?utf-8?B?SVVTZzQyR25sRXVSSUtKRUdhZ0MzNEdvRVdvSHBiL2paa2ZZbHVQWFJYRGh4?=
+ =?utf-8?B?K3RSMS9UczlISmdWdlVqR2RJKzJEcGhUNWxNQ3lSSHBRZitTcE9oU1B4d1JQ?=
+ =?utf-8?B?UHh5bm0wN3RHY0lUblNKUU9LT21CemowOFZpcjJUR09UOXZLMktnYzNibEFM?=
+ =?utf-8?B?NXE1YW9uQ0NCSGlBcEM4ZmwxcldjeEx5dmxQbVNZQy9HNkg2eXRUcS93OWtW?=
+ =?utf-8?B?TU5ORGxOWXhsakhIMFZCd1prWFhob29lUEVITjdSMENuUWlqclJYU2premFS?=
+ =?utf-8?B?azU1Qkp2QWhncERPdGVwdmFyNnk4MllCMzdOaDJSdENOK2lZWG5iL2dlR3Ew?=
+ =?utf-8?B?RklRVWlVcW1vcStwV0g1OXc4V2t2c1duc2trcHFFZHMrcTBRb3RKdU44ajZq?=
+ =?utf-8?B?bEw1ajJtdWV3PT0=?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(13003099007)(8096899003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?V05hT1ZMWTI3QThBMmFBemRsT3NieFUrdEIraCtxcEVQeGtBRXNBZllPWnFv?=
+ =?utf-8?B?bnduOFoxOEdsVFducXFHWlZQUCs4cEF4SmdyK1B0OVo1cElDM1p3TDVoZjQ5?=
+ =?utf-8?B?MTNjK0ZxZTRqOVVLdFpySXpGWjYrSkF3Q2RPcExpYVllN1pLcjJWcmNML0Vm?=
+ =?utf-8?B?d3lXT1ZhYzM5M2htSlFiN25jd29iemNwb0cwaU1LejFpMHlzVVFzeWV3RDJD?=
+ =?utf-8?B?bUdhQVVDcVJIY2NnWHRScFBkQ0MxMjZHYUtrSkFkUVVaWDZJL3IyMVZQbDNH?=
+ =?utf-8?B?Wmw3NFJ6TkhQK2ZTRW45bThPdERvdkZFRm03eHpUZlZsN0NicE5Kckg5NXFt?=
+ =?utf-8?B?bDYxNW41MDNlOGVEWWFGclQyS3FHbHd2VGJKVWtVQ2hqMzF4VHJRdWN1MEdI?=
+ =?utf-8?B?eEd5ZkpmT2wwdGl4VGVHQW96Q25EY0xLQTNsS05Eck5KYnJSY3ZGOVNtdGEv?=
+ =?utf-8?B?a0lmMVJOSCtHU0Q0Q1Zta3hzeXQwNHlPbEdpTGtOZThwd0JDWmVKS3NJN3ZO?=
+ =?utf-8?B?WWl4K3loTmFTbDFCMllYWVRyNnJKWjJsNERXbVVTd2NzeHZKOHk1d2dJa2dx?=
+ =?utf-8?B?YjF0a1V3Z2ZLUzhBVlhaN0NhY1BvdmpnQVlMY3JGZloyd3U3a1lmaUZ4a0Z1?=
+ =?utf-8?B?RWhPdk5iS08zMHc0R2xhbWVrN09nYkpLKzU2V0gwalZaZ1lnc3hXQ2Z3R2RF?=
+ =?utf-8?B?Ulp5LzA1b0hGYUJ6dEJ6Y0ViRkc1bzhESlBRcy9UKy9ZQkdGUGZGNXNwKzY3?=
+ =?utf-8?B?djFwdDQzczNrMERwRG5QbitodjY5VVEyUjZ4NFVuenJwZjdWS0FrZU9rVWhM?=
+ =?utf-8?B?enJhQUpGSHFldUUwTjVlMk8rd2trSUo4TG9FQ0RvOFQ3bHZ3dHpYWklkaW1V?=
+ =?utf-8?B?S0NhcXJ6b080UnVXc3hKQXlFTjZMMUtWeVZtYTQ0eng4blpNdVdCWXpkV1dY?=
+ =?utf-8?B?cDFhdTVRbU50Yms2NGxkM1VPcDBFMjIxQS9WRFlpQ040QzZ3bjRyc210ek80?=
+ =?utf-8?B?UkRrMGpxRFhLZlBNNTBHSlJvakc2dzZpc2h1dHVqd0UzWHBnYVJrS1lPS2Zq?=
+ =?utf-8?B?ak5jOUJqTk5pNDZvYkFkNnNKZk5xbXZJU25rd0xIS0laK045RTYyMzlDWU5s?=
+ =?utf-8?B?bDQwZTU4VXF4eWFZcUxWa1lGdmkrNUZZZ2FWWlRWNmxZKzVMRUh5WmpzdnJX?=
+ =?utf-8?B?aWk3ZERSZndCYkNxcEJYK3AreUJMeElEUDF6YW1RMTN3alZUMDltNko1N0t2?=
+ =?utf-8?B?K0drS05xR3dPWGdseGVsTUFmdlJTdDVMZjFpYnd1cTFSRk9kblNTdlRXRXE1?=
+ =?utf-8?B?RWtaamJlUUZCejBwbmRuM0V4RytVWDZ3VjJ4VTZSbXowdm9lQUoxc3ZuMVo5?=
+ =?utf-8?B?OU9BUkI2Mnlaazk5Sng2RkgyajZVRVl3S3p4aGFPZjhJRmtORkNZWVIrc1Jt?=
+ =?utf-8?B?alB6ZGFQS01PYU10aGVQb2hZbTNzK2N3T21JRm9ubUd5aHlGd2xZbTFiNVU5?=
+ =?utf-8?B?SXc0bWZ0Y0VkVUZ3OFMzSnhWL0pWcHE5VzdEZXl6aUNOR0RDSVJjY2NiY3VY?=
+ =?utf-8?B?b1oxTXdFUFNQYWViWnBqQ1pqaGdwNUp1QlJRNk4xNlFVeVNvV2NMQ09lYWtW?=
+ =?utf-8?B?ZzN1V1IvVWR4RlpjZlhNSEo4dEFGd3I1QlJySUtoL1RQVlNwbE5DcTRVb0Ny?=
+ =?utf-8?B?Y3A1b0V2V3E4Y253R1hCS2xZRWZzMy8wcFNQemJhaHpjd0QwUVZiUG1ZNE5V?=
+ =?utf-8?B?M29odk9SU3VHTEdpUi9VRlhuc0F4cmEzNzRRQ0IvdVJGSUpmSzlnQlBMQ2FG?=
+ =?utf-8?B?YW5qbDBhaExFR1hqbnhUMjdIZUI1RHAvcXI2NVgzS0RBeXI0dG50VitNdEdK?=
+ =?utf-8?B?c2R2WkxuWjBzS29hMWtMWWZpQW1RRTRRUU9lSElhYnBQaFFMVXBVdjR6RDlK?=
+ =?utf-8?B?elZLMzZNWmdrSTloY2hzaHJCL280VllqVUo4UDJNcUdDbWFYK2swaGM3aWND?=
+ =?utf-8?B?QUZHa0taSmNUTks3emttNVVmdEpheWUyaGdIVm5lN2hySTJGNkZUTzJidHYr?=
+ =?utf-8?B?RkpNUzIwb2pZMVR1dmhieGx6bVphQ1E1U1dZSzB6dnJ5TFAvVXJ0R0pXM1dt?=
+ =?utf-8?B?ZlRpVHV1VjJUQldDL2JZV1E1bUVld1FMdmUwdC9oY1NmVldRWEdaQ3FzQmd0?=
+ =?utf-8?B?UVRieUhzMVkyOG9MM0tIOGxyUEptenA3K05vNTV3UnR1dGpvdkFTQy9oQWJX?=
+ =?utf-8?B?aEt0VmFGaWo4UERBak5YRzdhUnMvbjhEMXVnTkxia21BeStEaVE4N2hqcUgx?=
+ =?utf-8?B?OEl5SzJ2K2lVSGJKR0pwMVJYRnhYdFJrSTlWSkFHZi9CSG5NMGllMlBVVGdp?=
+ =?utf-8?Q?fbRIhd5jye1DjaFk=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85d7f959-334e-488f-f222-08de41ab1059
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2025 22:40:10.4412
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: O6NnRlz9OMCNf29vgJQ9xS4ptOEzJnbwzst8w7EjEvM22B8ZLmiB6Xsjc4YcDBhkcAotJy32mhGgUwh/YkBC/an/lZ9CVmckzZoTl0G+g3c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9178
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: FtCZwx160UGVAOCupRW9erquAFf5kjkZ
+X-Authority-Analysis: v=2.4 cv=Q+vfIo2a c=1 sm=1 tr=0 ts=6949c8cd cx=c_pps
+ a=NkapyFR+xBWi1egQVwNhyQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=NEAV23lmAAAA:8 a=iGHA9ds3AAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
+ a=SI1g7rKZajCoSnGkFmAA:9 a=QEXdDO2ut3YA:10 a=cWkNTeRcdyXLL7WjoFAA:9
+ a=FoIKYH5dREN2KX9U:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10
+ a=nM-MV4yxpKKO9kiQg6Ot:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIyMDIwNiBTYWx0ZWRfX/gS/cNgIdaIf
+ 6i+s+5OUZW0gqkqleP+tj8Nm245SCJNwKkK+fCHioBIe7VXEug48KOTrGMSNKbzXkGonRZfcVGs
+ C+pS/8rz+DCH8nHIUkgoqm18mcFQkuoTgdjpHZ/P69UcVLP35rHM1OZPglQXQ7oNrI7cEtbwQck
+ bC6UrprwjT6nCosQdsClC/g7Jfcnl+jviqviWZ9DnZcNqSw8LgHgR4IrGVcmZ5ZrmFEK+OV0uiZ
+ l5s1uVCmzCp7o1txqziKimReGwUqVPQDwX/T6lwifPANbSOSMA2Hs8fiEZ8GPrF7ILQ9JGtO1Tr
+ Oi3qxfeImmjrnn7jYZwlLaHrZSAO21EToAoP2hylxhbdrsnyEst5odApRFtR1NP4/Hc6VSa/SzP
+ XyoE0CT8WTb0u5hnyLOtnsC3no+tUen7zrVbkgU+dtuKRkPs/0MYZrxdol+v125LNgfrsd/qkjf
+ EjtvTmGkExLwuBziykw==
+X-Proofpoint-ORIG-GUID: RAr4uk4Ix4ktN7d_f8v8WPzfT0zbZkVY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-22_04,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 adultscore=0 impostorscore=0
+ suspectscore=0 phishscore=0 spamscore=0 priorityscore=1501 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512220206
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 20:45:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228440
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 22:40:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228441
 
-From: Alexander Kanavin <alex@linutronix.de>
+--------------QfjBjLSmlnzyi2Sn6HPO9kbl
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-License-Update: copyright years
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- ...after-free-in-present_create_notifie.patch | 91 ------------------
- ...ke-the-RT_XKBCLIENT-resource-private.patch | 63 -------------
- ...KB-resource-when-freeing-XkbInterest.patch | 92 -------------------
- ...-Prevent-overflow-in-XkbSetCompatMap.patch | 53 -----------
- ...{xwayland_24.1.8.bb => xwayland_24.1.9.bb} | 13 +--
- 5 files changed, 4 insertions(+), 308 deletions(-)
- delete mode 100644 meta/recipes-graphics/xwayland/xwayland/0001-present-Fix-use-after-free-in-present_create_notifie.patch
- delete mode 100644 meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
- delete mode 100644 meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
- delete mode 100644 meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
- rename meta/recipes-graphics/xwayland/{xwayland_24.1.8.bb => xwayland_24.1.9.bb} (81%)
+On 2025-12-22 4:38 a.m., Yash.Shinde@windriver.com wrote:
+> From: Hemanth Kumar M D<hemanth.250302@gmail.com>
+>
+> Rust 1.92.0 adds new test that require unwind table support to be
+> enabled by default. Set `default-uwtable = true` in the generated
+> target spec to match upstream behavior.
+>
+> ref:https://github.com/rust-lang/rust/commit/fe66eaa67acc47525db6f13cf97d54780d87b805
+>
+> Also ignore the no_std simple-runs UI test on ARM targets. The test
+> fails with panic=abort due to a known unwind table issue on 32-bit ARM
+>
+> https://github.com/rust-lang/rust/issues/146996
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland/0001-present-Fix-use-after-free-in-present_create_notifie.patch b/meta/recipes-graphics/xwayland/xwayland/0001-present-Fix-use-after-free-in-present_create_notifie.patch
-deleted file mode 100644
-index c2f6ad1e02..0000000000
---- a/meta/recipes-graphics/xwayland/xwayland/0001-present-Fix-use-after-free-in-present_create_notifie.patch
-+++ /dev/null
-@@ -1,91 +0,0 @@
--From a2d7bd5fefecfc4315247902b7f03e8bf9866908 Mon Sep 17 00:00:00 2001
--From: Olivier Fourdan <ofourdan@redhat.com>
--Date: Wed, 2 Jul 2025 09:46:22 +0200
--Subject: [PATCH 1/4] present: Fix use-after-free in present_create_notifies()
--
--Using the Present extension, if an error occurs while processing and
--adding the notifications after presenting a pixmap, the function
--present_create_notifies() will clean up and remove the notifications
--it added.
--
--However, there are two different code paths that can lead to an error
--creating the notify, one being before the notify is being added to the
--list, and another one after the notify is added.
--
--When the error occurs before it's been added, it removes the elements up
--to the last added element, instead of the actual number of elements
--which were added.
--
--As a result, in case of error, as with an invalid window for example, it
--leaves a dangling pointer to the last element, leading to a use after
--free case later:
--
-- |  Invalid write of size 8
-- |     at 0x5361D5: present_clear_window_notifies (present_notify.c:42)
-- |     by 0x534A56: present_destroy_window (present_screen.c:107)
-- |     by 0x41E441: xwl_destroy_window (xwayland-window.c:1959)
-- |     by 0x4F9EC9: compDestroyWindow (compwindow.c:622)
-- |     by 0x51EAC4: damageDestroyWindow (damage.c:1592)
-- |     by 0x4FDC29: DbeDestroyWindow (dbe.c:1291)
-- |     by 0x4EAC55: FreeWindowResources (window.c:1023)
-- |     by 0x4EAF59: DeleteWindow (window.c:1091)
-- |     by 0x4DE59A: doFreeResource (resource.c:890)
-- |     by 0x4DEFB2: FreeClientResources (resource.c:1156)
-- |     by 0x4A9AFB: CloseDownClient (dispatch.c:3567)
-- |     by 0x5DCC78: ClientReady (connection.c:603)
-- |   Address 0x16126200 is 16 bytes inside a block of size 2,048 free'd
-- |     at 0x4841E43: free (vg_replace_malloc.c:989)
-- |     by 0x5363DD: present_destroy_notifies (present_notify.c:111)
-- |     by 0x53638D: present_create_notifies (present_notify.c:100)
-- |     by 0x5368E9: proc_present_pixmap_common (present_request.c:164)
-- |     by 0x536A7D: proc_present_pixmap (present_request.c:189)
-- |     by 0x536FA9: proc_present_dispatch (present_request.c:337)
-- |     by 0x4A1E4E: Dispatch (dispatch.c:561)
-- |     by 0x4B00F1: dix_main (main.c:284)
-- |     by 0x42879D: main (stubmain.c:34)
-- |   Block was alloc'd at
-- |     at 0x48463F3: calloc (vg_replace_malloc.c:1675)
-- |     by 0x5362A1: present_create_notifies (present_notify.c:81)
-- |     by 0x5368E9: proc_present_pixmap_common (present_request.c:164)
-- |     by 0x536A7D: proc_present_pixmap (present_request.c:189)
-- |     by 0x536FA9: proc_present_dispatch (present_request.c:337)
-- |     by 0x4A1E4E: Dispatch (dispatch.c:561)
-- |     by 0x4B00F1: dix_main (main.c:284)
-- |     by 0x42879D: main (stubmain.c:34)
--
--To fix the issue, count and remove the actual number of notify elements
--added in case of error.
--
--CVE-2025-62229, ZDI-CAN-27238
--
--This vulnerability was discovered by:
--Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
--
--Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
--(cherry picked from commit 5a4286b13f631b66c20f5bc8db7b68211dcbd1d0)
--
--Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2088>
--
--CVE: CVE-2025-62229
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- present/present_notify.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/present/present_notify.c b/present/present_notify.c
--index 445954998..00b3b68bd 100644
----- a/present/present_notify.c
--+++ b/present/present_notify.c
--@@ -90,7 +90,7 @@ present_create_notifies(ClientPtr client, int num_notifies, xPresentNotify *x_no
--         if (status != Success)
--             goto bail;
-- 
---        added = i;
--+        added++;
--     }
--     return Success;
-- 
---- 
--2.43.0
--
-diff --git a/meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch b/meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
-deleted file mode 100644
-index 61369d789c..0000000000
---- a/meta/recipes-graphics/xwayland/xwayland/0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch
-+++ /dev/null
-@@ -1,63 +0,0 @@
--From 539bca9e0d05ce995a936c4bdf90bc716510d2a7 Mon Sep 17 00:00:00 2001
--From: Olivier Fourdan <ofourdan@redhat.com>
--Date: Wed, 10 Sep 2025 15:55:06 +0200
--Subject: [PATCH 2/4] xkb: Make the RT_XKBCLIENT resource private
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--Currently, the resource in only available to the xkb.c source file.
--
--In preparation for the next commit, to be able to free the resources
--from XkbRemoveResourceClient(), make that variable private instead.
--
--This is related to:
--
--CVE-2025-62230, ZDI-CAN-27545
--
--This vulnerability was discovered by:
--Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
--
--Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
--Reviewed-by: Michel Dänzer <mdaenzer@redhat.com>
--(cherry picked from commit 99790a2c9205a52fbbec01f21a92c9b7f4ed1d8f)
--
--Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2088>
--
--CVE: CVE-2025-62230
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- include/xkbsrv.h | 2 ++
-- xkb/xkb.c        | 2 +-
-- 2 files changed, 3 insertions(+), 1 deletion(-)
--
--diff --git a/include/xkbsrv.h b/include/xkbsrv.h
--index bd747856b..d801cd4b8 100644
----- a/include/xkbsrv.h
--+++ b/include/xkbsrv.h
--@@ -58,6 +58,8 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
-- #include "inputstr.h"
-- #include "events.h"
-- 
--+extern RESTYPE RT_XKBCLIENT;
--+
-- typedef struct _XkbInterest {
--     DeviceIntPtr dev;
--     ClientPtr client;
--diff --git a/xkb/xkb.c b/xkb/xkb.c
--index ac154e200..6c102af0a 100644
----- a/xkb/xkb.c
--+++ b/xkb/xkb.c
--@@ -50,7 +50,7 @@ int XkbKeyboardErrorCode;
-- CARD32 xkbDebugFlags = 0;
-- static CARD32 xkbDebugCtrls = 0;
-- 
---static RESTYPE RT_XKBCLIENT;
--+RESTYPE RT_XKBCLIENT = 0;
-- 
-- /***====================================================================***/
-- 
---- 
--2.43.0
--
-diff --git a/meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch b/meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
-deleted file mode 100644
-index 76e50cfad9..0000000000
---- a/meta/recipes-graphics/xwayland/xwayland/0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch
-+++ /dev/null
-@@ -1,92 +0,0 @@
--From a7e9938b621e16677c6330306a45baba0495ea31 Mon Sep 17 00:00:00 2001
--From: Olivier Fourdan <ofourdan@redhat.com>
--Date: Wed, 10 Sep 2025 15:58:57 +0200
--Subject: [PATCH 3/4] xkb: Free the XKB resource when freeing XkbInterest
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--XkbRemoveResourceClient() would free the XkbInterest data associated
--with the device, but not the resource associated with it.
--
--As a result, when the client terminates, the resource delete function
--gets called and accesses already freed memory:
--
-- | Invalid read of size 8
-- |   at 0x5BC0C0: XkbRemoveResourceClient (xkbEvents.c:1047)
-- |   by 0x5B3391: XkbClientGone (xkb.c:7094)
-- |   by 0x4DF138: doFreeResource (resource.c:890)
-- |   by 0x4DFB50: FreeClientResources (resource.c:1156)
-- |   by 0x4A9A59: CloseDownClient (dispatch.c:3550)
-- |   by 0x5E0A53: ClientReady (connection.c:601)
-- |   by 0x5E4FEF: ospoll_wait (ospoll.c:657)
-- |   by 0x5DC834: WaitForSomething (WaitFor.c:206)
-- |   by 0x4A1BA5: Dispatch (dispatch.c:491)
-- |   by 0x4B0070: dix_main (main.c:277)
-- |   by 0x4285E7: main (stubmain.c:34)
-- | Address 0x1893e278 is 184 bytes inside a block of size 928 free'd
-- |   at 0x4842E43: free (vg_replace_malloc.c:989)
-- |   by 0x49C1A6: CloseDevice (devices.c:1067)
-- |   by 0x49C522: CloseOneDevice (devices.c:1193)
-- |   by 0x49C6E4: RemoveDevice (devices.c:1244)
-- |   by 0x5873D4: remove_master (xichangehierarchy.c:348)
-- |   by 0x587921: ProcXIChangeHierarchy (xichangehierarchy.c:504)
-- |   by 0x579BF1: ProcIDispatch (extinit.c:390)
-- |   by 0x4A1D85: Dispatch (dispatch.c:551)
-- |   by 0x4B0070: dix_main (main.c:277)
-- |   by 0x4285E7: main (stubmain.c:34)
-- | Block was alloc'd at
-- |   at 0x48473F3: calloc (vg_replace_malloc.c:1675)
-- |   by 0x49A118: AddInputDevice (devices.c:262)
-- |   by 0x4A0E58: AllocDevicePair (devices.c:2846)
-- |   by 0x5866EE: add_master (xichangehierarchy.c:153)
-- |   by 0x5878C2: ProcXIChangeHierarchy (xichangehierarchy.c:493)
-- |   by 0x579BF1: ProcIDispatch (extinit.c:390)
-- |   by 0x4A1D85: Dispatch (dispatch.c:551)
-- |   by 0x4B0070: dix_main (main.c:277)
-- |   by 0x4285E7: main (stubmain.c:34)
--
--To avoid that issue, make sure to free the resources when freeing the
--device XkbInterest data.
--
--CVE-2025-62230, ZDI-CAN-27545
--
--This vulnerability was discovered by:
--Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
--
--Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
--Reviewed-by: Michel Dänzer <mdaenzer@redhat.com>
--(cherry picked from commit 10c94238bdad17c11707e0bdaaa3a9cd54c504be)
--
--Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2088>
--
--CVE: CVE-2025-62230
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- xkb/xkbEvents.c | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/xkb/xkbEvents.c b/xkb/xkbEvents.c
--index f8f65d4a7..7c669c93e 100644
----- a/xkb/xkbEvents.c
--+++ b/xkb/xkbEvents.c
--@@ -1055,6 +1055,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
--             autoCtrls = interest->autoCtrls;
--             autoValues = interest->autoCtrlValues;
--             client = interest->client;
--+            FreeResource(interest->resource, RT_XKBCLIENT);
--             free(interest);
--             found = TRUE;
--         }
--@@ -1066,6 +1067,7 @@ XkbRemoveResourceClient(DevicePtr inDev, XID id)
--                 autoCtrls = victim->autoCtrls;
--                 autoValues = victim->autoCtrlValues;
--                 client = victim->client;
--+                FreeResource(victim->resource, RT_XKBCLIENT);
--                 free(victim);
--                 found = TRUE;
--             }
---- 
--2.43.0
--
-diff --git a/meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch b/meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
-deleted file mode 100644
-index 27c8f6c809..0000000000
---- a/meta/recipes-graphics/xwayland/xwayland/0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--From 70dfb0fb993655b0989d54e3bffc4e62c5629392 Mon Sep 17 00:00:00 2001
--From: Olivier Fourdan <ofourdan@redhat.com>
--Date: Wed, 10 Sep 2025 16:30:29 +0200
--Subject: [PATCH 4/4] xkb: Prevent overflow in XkbSetCompatMap()
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--The XkbCompatMap structure stores its "num_si" and "size_si" fields
--using an unsigned short.
--
--However, the function _XkbSetCompatMap() will store the sum of the
--input data "firstSI" and "nSI" in both XkbCompatMap's "num_si" and
--"size_si" without first checking if the sum overflows the maximum
--unsigned short value, leading to a possible overflow.
--
--To avoid the issue, check whether the sum does not exceed the maximum
--unsigned short value, or return a "BadValue" error otherwise.
--
--CVE-2025-62231, ZDI-CAN-27560
--
--This vulnerability was discovered by:
--Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
--
--Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
--Reviewed-by: Michel Dänzer <mdaenzer@redhat.com>
--(cherry picked from commit 475d9f49acd0e55bc0b089ed77f732ad18585470)
--
--Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2088>
--
--CVE: CVE-2025-62231
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- xkb/xkb.c | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/xkb/xkb.c b/xkb/xkb.c
--index 6c102af0a..a77fe7ff0 100644
----- a/xkb/xkb.c
--+++ b/xkb/xkb.c
--@@ -2990,6 +2990,8 @@ _XkbSetCompatMap(ClientPtr client, DeviceIntPtr dev,
--         XkbSymInterpretPtr sym;
--         unsigned int skipped = 0;
-- 
--+        if ((unsigned) (req->firstSI + req->nSI) > USHRT_MAX)
--+            return BadValue;
--         if ((unsigned) (req->firstSI + req->nSI) > compat->size_si) {
--             compat->num_si = compat->size_si = req->firstSI + req->nSI;
--             compat->sym_interpret = reallocarray(compat->sym_interpret,
---- 
--2.43.0
--
-diff --git a/meta/recipes-graphics/xwayland/xwayland_24.1.8.bb b/meta/recipes-graphics/xwayland/xwayland_24.1.9.bb
-similarity index 81%
-rename from meta/recipes-graphics/xwayland/xwayland_24.1.8.bb
-rename to meta/recipes-graphics/xwayland/xwayland_24.1.9.bb
-index af4bb73499..df1bb7e31b 100644
---- a/meta/recipes-graphics/xwayland/xwayland_24.1.8.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_24.1.9.bb
-@@ -7,15 +7,10 @@ a way to run unported applications in the meantime."
- HOMEPAGE = "https://fedoraproject.org/wiki/Changes/XwaylandStandalone"
- 
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
--
--SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
--           file://0001-present-Fix-use-after-free-in-present_create_notifie.patch \
--           file://0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch \
--           file://0003-xkb-Free-the-XKB-resource-when-freeing-XkbInterest.patch \
--           file://0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch \
--           "
--SRC_URI[sha256sum] = "c8908d57c8ed9ceb8293c16ba7ad5af522efaf1ba7e51f9e4cf3c0774d199907"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=21e33dcccf2d5034f798a8ea62622939"
-+
-+SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
-+SRC_URI[sha256sum] = "f297af27a84508db9b80d1cbbcc69c3801da38eb64c72f3b5b50f582459afdd0"
- 
- UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
- 
+Okay and I'm glad to see the upstream issues linked.
+
+Should we make some of these tspec decisions set-able by well-informed 
+users?
+
+Maybe they can already do that using this horridly named "FEATURES" 
+variable.
+(rename to RUST_FEATURES maybe ?)
+
+For example, this bug:
+
+Unable to produce a Rust static binary with TCLIBC=musl (oe-core/master)
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=16076
+
+seems to be due to hard-coding dynamic-linking to True below just after 
+your:
+
++    tspec['default-uwtable'] = True
+
+
+change.
+
+I've CCed Nick in case you guys have a quick work-around to enable 
+static linking.
+
+../Randy
+
+>
+> Signed-off-by: Hemanth Kumar M D<hemanth.250302@gmail.com>
+> Signed-off-by: Yash Shinde<Yash.Shinde@windriver.com>
+> ---
+>   meta/classes-recipe/rust-target-config.bbclass       |  1 +
+>   .../rust/files/rust-oe-selftest.patch                | 12 ++++++++++++
+>   2 files changed, 13 insertions(+)
+>
+> diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
+> index 33a290412e..2a06c4ae8b 100644
+> --- a/meta/classes-recipe/rust-target-config.bbclass
+> +++ b/meta/classes-recipe/rust-target-config.bbclass
+> @@ -418,6 +418,7 @@ def rust_gen_target(d, thing, wd, arch):
+>           tspec['llvm-floatabi'] = "soft"
+>       elif fpu == "hard":
+>           tspec['llvm-floatabi'] = "hard"
+> +    tspec['default-uwtable'] = True
+>       tspec['dynamic-linking'] = True
+>       tspec['executables'] = True
+>       tspec['linker-is-gnu'] = True
+> diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+> index b39b326455..d1fba81612 100644
+> --- a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+> +++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+> @@ -254,3 +254,15 @@ index a3562f2fd93..d4e52ed91be 100644
+>        fn linux_hwcap2_aarch64() {
+>            let file =
+>                concat!(env!("CARGO_MANIFEST_DIR"), "/src/detect/test_data/linux-hwcap2-aarch64.auxv");
+> +diff --git a/tests/ui/no_std/simple-runs.rs b/tests/ui/no_std/simple-runs.rs
+> +index af44dfe..e6674e5 100644
+> +--- a/tests/ui/no_std/simple-runs.rs
+> ++++ b/tests/ui/no_std/simple-runs.rs
+> +@@ -2,6 +2,7 @@
+> +
+> + //@ run-pass
+> + //@ compile-flags: -Cpanic=abort
+> ++//@ ignore-arm FIXME(#146996)
+> + //@ ignore-wasm different `main` convention
+> +
+> + #![feature(lang_items)]
+
+
 -- 
-2.47.3
+# Randy MacLeod
+# Wind River Linux
 
+--------------QfjBjLSmlnzyi2Sn6HPO9kbl
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 2025-12-22 4:38 a.m.,
+      <a class="moz-txt-link-abbreviated" href="mailto:Yash.Shinde@windriver.com">Yash.Shinde@windriver.com</a> wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20251222093830.2658141-2-Yash.Shinde@windriver.com">
+      <pre wrap="" class="moz-quote-pre">From: Hemanth Kumar M D <a class="moz-txt-link-rfc2396E" href="mailto:hemanth.250302@gmail.com">&lt;hemanth.250302@gmail.com&gt;</a>
+
+Rust 1.92.0 adds new test that require unwind table support to be
+enabled by default. Set `default-uwtable = true` in the generated
+target spec to match upstream behavior.
+
+ref:<a class="moz-txt-link-freetext" href="https://github.com/rust-lang/rust/commit/fe66eaa67acc47525db6f13cf97d54780d87b805">https://github.com/rust-lang/rust/commit/fe66eaa67acc47525db6f13cf97d54780d87b805</a>
+
+Also ignore the no_std simple-runs UI test on ARM targets. The test
+fails with panic=abort due to a known unwind table issue on 32-bit ARM
+
+<a class="moz-txt-link-freetext" href="https://github.com/rust-lang/rust/issues/146996">https://github.com/rust-lang/rust/issues/146996</a></pre>
+    </blockquote>
+    <p>Okay and I'm glad to see the upstream issues linked.<br>
+    </p>
+    <p>Should we make some of these tspec decisions set-able by
+      well-informed users?<br>
+      <br>
+      Maybe they can already do that using this horridly named
+      &quot;FEATURES&quot; variable.<br>
+      (rename to RUST_FEATURES maybe ?)<br>
+      <br>
+      For example, this bug:<br>
+      <br>
+      &nbsp;&nbsp; <span id="summary_container"><span id="short_desc_nonedit_display">Unable to produce a Rust
+          static binary with TCLIBC=musl (oe-core/master)<br>
+        </span></span>&nbsp;&nbsp;
+      <a class="moz-txt-link-freetext" href="https://bugzilla.yoctoproject.org/show_bug.cgi?id=16076">https://bugzilla.yoctoproject.org/show_bug.cgi?id=16076</a><br>
+      <br>
+      seems to be due to hard-coding dynamic-linking to True below just
+      after your:<br>
+      &nbsp; <br>
+    </p>
+    <pre wrap="" class="moz-quote-pre">+    tspec['default-uwtable'] = True</pre>
+    <p><br>
+      change.<br>
+      <br>
+      I've CCed Nick in case you guys have a quick work-around to enable
+      static linking.<br>
+    </p>
+    <p>../Randy<br>
+    </p>
+    <blockquote type="cite" cite="mid:20251222093830.2658141-2-Yash.Shinde@windriver.com">
+      <pre wrap="" class="moz-quote-pre">
+
+Signed-off-by: Hemanth Kumar M D <a class="moz-txt-link-rfc2396E" href="mailto:hemanth.250302@gmail.com">&lt;hemanth.250302@gmail.com&gt;</a>
+Signed-off-by: Yash Shinde <a class="moz-txt-link-rfc2396E" href="mailto:Yash.Shinde@windriver.com">&lt;Yash.Shinde@windriver.com&gt;</a>
+---
+ meta/classes-recipe/rust-target-config.bbclass       |  1 +
+ .../rust/files/rust-oe-selftest.patch                | 12 ++++++++++++
+ 2 files changed, 13 insertions(+)
+
+diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
+index 33a290412e..2a06c4ae8b 100644
+--- a/meta/classes-recipe/rust-target-config.bbclass
++++ b/meta/classes-recipe/rust-target-config.bbclass
+@@ -418,6 +418,7 @@ def rust_gen_target(d, thing, wd, arch):
+         tspec['llvm-floatabi'] = &quot;soft&quot;
+     elif fpu == &quot;hard&quot;:
+         tspec['llvm-floatabi'] = &quot;hard&quot;
++    tspec['default-uwtable'] = True
+     tspec['dynamic-linking'] = True
+     tspec['executables'] = True
+     tspec['linker-is-gnu'] = True
+diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+index b39b326455..d1fba81612 100644
+--- a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
++++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+@@ -254,3 +254,15 @@ index a3562f2fd93..d4e52ed91be 100644
+      fn linux_hwcap2_aarch64() {
+          let file =
+              concat!(env!(&quot;CARGO_MANIFEST_DIR&quot;), &quot;/src/detect/test_data/linux-hwcap2-aarch64.auxv&quot;);
++diff --git a/tests/ui/no_std/simple-runs.rs b/tests/ui/no_std/simple-runs.rs
++index af44dfe..e6674e5 100644
++--- a/tests/ui/no_std/simple-runs.rs
+++++ b/tests/ui/no_std/simple-runs.rs
++@@ -2,6 +2,7 @@
++ 
++ //@ run-pass
++ //@ compile-flags: -Cpanic=abort
+++//@ ignore-arm FIXME(#146996)
++ //@ ignore-wasm different `main` convention
++ 
++ #![feature(lang_items)]
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
+
+--------------QfjBjLSmlnzyi2Sn6HPO9kbl--
 
