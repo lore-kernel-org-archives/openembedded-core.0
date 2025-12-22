@@ -2,63 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7332E6916D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD696E6916C
 	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 20:07:54 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.87655.1766434072580107668
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.87652.1766434071942081987
  for <openembedded-core@lists.openembedded.org>;
  Mon, 22 Dec 2025 12:07:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=keRXlx74;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-64b8e5d1611so4891788a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:07:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lkK8f96h;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b7697e8b01aso820286666b.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:07:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766434071; x=1767038871; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766434070; x=1767038870; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fsy+i1vg+KtpTvTPSf+hXaKi0v+cyChmww64Ce4KmaY=;
-        b=keRXlx74ieJEyYsbMTcEHa1r89w3Fiox/uIpO39wF0cMLrPYn2dvRAxhcLbimiA3lt
-         NpbNDklXIs/pz0XmVUtxxBCNTkpH/CPjESClHVM+RVD+TlqUgGgXj+q5SROl6xonVaEG
-         m7OA3v0/rHzrYo6VwiHrSGXLtlCIEEePl3Qf5R9nY24591qrSbQxXgco5yeZyOP9HMO3
-         dFeJppLBCxwti6JyGDX898ppU3Yog/xzRLQgehsoJRfeeyiNz7P4+/3dYgxe4fqqr2kh
-         lyzq3Kq+PZrYkz/tXcThtB6oAGIRbBICnAVu6MtnHH/K9LAP0+pcGeW9xHB+Vmtvzh4r
-         yYJQ==
+        bh=q3ZSzluuZUN7Vg5eKf8B44KlCRQjDbrMvBGOEYkX5LQ=;
+        b=lkK8f96hFlT1EBC2C8icEZgjC2JXYm2sMAjk6y6L9htZxlpAaKIFjxiLGYNab0NeYC
+         QbNtXxFLoPF5bUCPQ1pYNCTNqv+1kXVlYh3Jh7LflxVLtyPpi9gKSc85lwCEc+TNsZXw
+         5dPgbBefwhFAth653QSHrcFhcyKcb3SIcC9VyaKTi5vZpX2SFJUjnyyz+QQz/C7HCnWv
+         SprkrmvJDFoM2HahtCUvZ+poKDEqQ3JLJM0gnZVmGwJmCZUtu2ch3ydbtrYaJ4Q1D/v7
+         R318a4VwJ12o2RmdOMmD1dPQC951hw08SWNpfoShcXjtXO05WK7A6dtdJ7AI74kuAuWg
+         WJuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766434071; x=1767038871;
+        d=1e100.net; s=20230601; t=1766434070; x=1767038870;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=fsy+i1vg+KtpTvTPSf+hXaKi0v+cyChmww64Ce4KmaY=;
-        b=XJeLCaXvh7numnOyHwk+MQEdXOZGuiIMFcVPvX65zZZci/HsNPy2W/D9rW+uv6HIcZ
-         4Atl86Q+K60kC9V/EZWwYY60XXBBXV738DDhMzM0+OXjeGTKvCAE1FDc5yAvUl/RkD/f
-         uGUAbmYxlFwFB+nEwPt0I4PZBRq/qJbGQsgpe8zwTwt2npjP8uK90ORppmIsYMUa97Du
-         +wFih40K4yqd38gHLPdVuM1CvOO7j5KVi3WCyskJ3CcR7rdualscQXL5HT7+PUaTGVOf
-         ZwS7sVX+jyjxw4CqWlLLOeWn3gyvoKZ+Si50dnuc+j7zsOaXnCDOFdZhxLOj3VGai3GY
-         YThg==
-X-Gm-Message-State: AOJu0YxebTeSG9TzDWMeP9njmejMt1Hzdu8bqRFFyUPksP0lStDYvroV
-	GMXwYTmbhIIp2DijTuIN6D4J7N1P0eSiGDBIO2kPsKlAst4+HBNO8pSU8f7bvQ==
-X-Gm-Gg: AY/fxX65jd3K3OJISPAiI/rmfwLYgToMItVYeN2k3zszkpUyDGqY3/POTZEWqqUwJEd
-	DixIjEiDDixuWVbUr3O36unnWOkeeygoZgEQGLnE8x5VO//m89tDF1BT0d2dXHa6ZQK3BLk8Rx1
-	gXPWNE7MKi0+QlIFku4sk/c+8wIoQdkGMWJsBHPHf2oadK1QKaRdHTkmbiLb9/mrWbwkXDr0hqw
-	cDa9lMAu3aY/m6ojIMTjgcaGuS9bS146vOwFAcfQu+42fTKRnoqFMkL7drzgF1HgBIfYV3flC1v
-	aGNPOm9albuTYSDvHcdZhBg0T1xLJXa2vQUGo+5dO/Sgvv3TRL6aqkYyepwy3naq+pEjlOw2Do9
-	yvKMZR7TkpIPOuMATVUNZSpmtH2jlZr4Dz/CYRzoej04jEsyg25nH3BfZ7cJPF1KkoL5Je6Uwb3
-	jLgw6iRN5m1HWcWGe9bUK6hM3NcNjdcwwe6ImFs39feUTVTbzPzQh/M8aNMQ==
-X-Google-Smtp-Source: AGHT+IEd7cJ6B2WVeqPnhP8G1An0okqQfuCQCtUGiS5Uxs4O+MOUwxBkuYfpbW1Bpx3ykrJi/jauEQ==
-X-Received: by 2002:a17:907:3f98:b0:b73:78f3:15b3 with SMTP id a640c23a62f3a-b80371f98f1mr1190570666b.47.1766434070686;
+        bh=q3ZSzluuZUN7Vg5eKf8B44KlCRQjDbrMvBGOEYkX5LQ=;
+        b=f9OhgnmgEYc7Vz8WanalC55J1fcqOYrAO0zku0jze4ALIvVdQVSIwsJEHyzYHQZxlB
+         9u4ZSepHSU9VGlH476e8sgS94WXskR1epdL2m1Z9WbNfKtPOOmL1XG90H6h7UfXaHpDu
+         AOBKOA33jkyQaEXJ2gHsoIBSFf9Ali10SDHUBEKu+oaqK3OUhem2RgLGJjbW0CaomS4T
+         R0LXWXyVsNvkYD54o4U71ktzdWgv0s4IC16RbeP99uEH7R/4A4PfuAL8sRxX/vdxfkw5
+         R6onUVtnQI7/PStGLp5m4zX4pLge5a8Upa7fVlI7CihCl9maxdsgbRRBNEbxVmqQqTIs
+         CHwg==
+X-Gm-Message-State: AOJu0YzjWFbBgVpepdif1RWRmBPN4kPIvkvDsfSh5D+E9/xxqDuvRx0b
+	DeGD4BBnrDzN0uoPRm5t2ID+PwzD07/Ep5VHxM7RBWzfY4lp1JY+jRVVCxS7eg==
+X-Gm-Gg: AY/fxX6vLa7bmSDHwu3rZNCotoPKPa+jOxbpECF05mmEoqYxzOYWFJcR5uUwktbT2Yn
+	gdGZedV3CC1a6eoS6aAYymTIhLRruM6hy/gQHU14uwMo3wx2NGiiz1BRlH1Z/xnwFe/CvT9WXfH
+	f+q4TFf7h1sShfdL+iFw/0Pe1qJ6l81egKC5u2Jd8U1zHd9pnQFjeX7c9qcEKPxliEW6OCNNRUV
+	/l0FTI7RChkRNDntsm0uoC/VW2G/LtxwTNraLwaxzyJ0QmMs32GxCBwl6/8zJPWL//DKeEuTN80
+	kZkvEdphD2c3A3qTBN3DjVP82ht23S54QfdFrONIAo7CIpBDZuLFYeoE2ZEV6TxuWB0Curr/0sk
+	1wTPGMNTeYGMBaBGMo8cZtYEXBxHETs8opj2LthKwyFx7SKbMxHdqT2L86myy7HvYF+uezmwkp3
+	2KrC4sTRyi45ADHfMBXpGr8bQ1tuL0fOV7dYiG/og8yfhP35lSrZq4PSO+VQ==
+X-Google-Smtp-Source: AGHT+IGAMRJ9Zi19f6/cwNakF2GOqQHWReNBU0NiJ7jCGHD+j+7kFqM+ogEiPl03xFd2AjIbrStE7g==
+X-Received: by 2002:a17:907:7eaa:b0:b76:d89d:3710 with SMTP id a640c23a62f3a-b8036ebbe32mr1302632866b.8.1766434070013;
         Mon, 22 Dec 2025 12:07:50 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.07.50
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.07.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 12:07:50 -0800 (PST)
+        Mon, 22 Dec 2025 12:07:49 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 008/114] boost: upgrade 1.89.0 -> 1.90.0
-Date: Mon, 22 Dec 2025 21:05:50 +0100
-Message-ID: <20251222200739.2278706-8-alex.kanavin@gmail.com>
+Subject: [PATCH 007/114] bind: upgrade 9.20.15 -> 9.20.17
+Date: Mon, 22 Dec 2025 21:05:49 +0100
+Message-ID: <20251222200739.2278706-7-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251222200739.2278706-1-alex.kanavin@gmail.com>
 References: <20251222200739.2278706-1-alex.kanavin@gmail.com>
@@ -68,104 +68,120 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 20:07:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228333
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228332
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../boost/{boost-1.89.0.inc => boost-1.90.0.inc}              | 2 +-
- ...st-build-native_1.89.0.bb => boost-build-native_1.90.0.bb} | 0
- ...Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch | 4 ++--
- .../boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch  | 4 ++--
- .../boost/boost/boost-math-disable-pch-for-gcc.patch          | 4 ++--
- .../boost/{boost_1.89.0.bb => boost_1.90.0.bb}                | 0
- 6 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-support/boost/{boost-1.89.0.inc => boost-1.90.0.inc} (90%)
- rename meta/recipes-support/boost/{boost-build-native_1.89.0.bb => boost-build-native_1.90.0.bb} (100%)
- rename meta/recipes-support/boost/{boost_1.89.0.bb => boost_1.90.0.bb} (100%)
+ .../bind/bind/0001-avoid-start-failure-with-bind-user.patch | 2 +-
+ ...01-named-lwresd-V-and-start-log-hide-build-options.patch | 4 ++--
+ ...nd-ensure-searching-for-json-headers-searches-sysr.patch | 6 +++---
+ meta/recipes-connectivity/bind/bind/conf.patch              | 2 +-
+ .../bind/bind/init.d-add-support-for-read-only-rootfs.patch | 2 +-
+ .../bind/bind/make-etc-initd-bind-stop-work.patch           | 2 +-
+ .../bind/{bind_9.20.15.bb => bind_9.20.17.bb}               | 2 +-
+ 7 files changed, 10 insertions(+), 10 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.20.15.bb => bind_9.20.17.bb} (97%)
 
-diff --git a/meta/recipes-support/boost/boost-1.89.0.inc b/meta/recipes-support/boost/boost-1.90.0.inc
-similarity index 90%
-rename from meta/recipes-support/boost/boost-1.89.0.inc
-rename to meta/recipes-support/boost/boost-1.90.0.inc
-index ea2827ec14..9b0ce592d9 100644
---- a/meta/recipes-support/boost/boost-1.89.0.inc
-+++ b/meta/recipes-support/boost/boost-1.90.0.inc
-@@ -12,7 +12,7 @@ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
- BOOST_P = "boost_${BOOST_VER}"
- 
- SRC_URI = "https://archives.boost.io/release/${PV}/source/${BOOST_P}.tar.bz2"
--SRC_URI[sha256sum] = "85a33fa22621b4f314f8e85e1a5e2a9363d22e4f4992925d4bb3bc631b5a0c7a"
-+SRC_URI[sha256sum] = "49551aff3b22cbc5c5a9ed3dbc92f0e23ea50a0f7325b0d198b705e8ee3fc305"
- 
- UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
- UPSTREAM_CHECK_REGEX = "release/(?P<pver>.*)/source/"
-diff --git a/meta/recipes-support/boost/boost-build-native_1.89.0.bb b/meta/recipes-support/boost/boost-build-native_1.90.0.bb
-similarity index 100%
-rename from meta/recipes-support/boost/boost-build-native_1.89.0.bb
-rename to meta/recipes-support/boost/boost-build-native_1.90.0.bb
-diff --git a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch b/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
-index 25512d582b..4314f9e532 100644
---- a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
-+++ b/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
+diff --git a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
+index dda94c14e7..4fa377a594 100644
+--- a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
++++ b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
 @@ -1,4 +1,4 @@
--From e2cc24d6d8b7b24a6d0a30c52c7ad69a001a0ad5 Mon Sep 17 00:00:00 2001
-+From c2c2a53afc46775146c0960fc6c5f714530afa21 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 18 Dec 2018 15:42:57 +0100
- Subject: [PATCH] Don't set up arch/instruction-set flags, we do that
-@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 153 deletions(-)
- 
- diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
--index b7825d4e6..ed7e39baf 100644
-+index 2b6caed41..8325a3f65 100644
- --- a/tools/build/src/tools/gcc.jam
- +++ b/tools/build/src/tools/gcc.jam
- @@ -1143,156 +1143,3 @@ local rule cpu-flags ( toolset variable : architecture : instruction-set + :
-diff --git a/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch b/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch
-index d23cf03b1a..9a9e8cde62 100644
---- a/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch
-+++ b/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch
+-From 7128d079b0c315414410c4bcfb18b445cd7afda2 Mon Sep 17 00:00:00 2001
++From 2a3ff2a026c55dc67655baf28e0f4175232ee0ff Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Mon, 15 Oct 2018 16:55:09 +0800
+ Subject: [PATCH] avoid start failure with bind user
+diff --git a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+index 5d3bd682f4..369185ad86 100644
+--- a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
++++ b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
 @@ -1,4 +1,4 @@
--From b0728812241c048907e6f1ba168292cd9948347d Mon Sep 17 00:00:00 2001
-+From bb73dd0d99a13e9c5aecbed34b166ff810a00dae Mon Sep 17 00:00:00 2001
- From: Anuj Mittal <anuj.mittal@intel.com>
- Date: Thu, 14 Nov 2019 10:13:53 +0800
- Subject: [PATCH] dont setup compiler flags -m32/-m64
-@@ -13,7 +13,7 @@ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-  1 file changed, 16 deletions(-)
- 
- diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
--index ed7e39baf..90513f84a 100644
-+index 8325a3f65..5a95046e7 100644
- --- a/tools/build/src/tools/gcc.jam
- +++ b/tools/build/src/tools/gcc.jam
- @@ -375,22 +375,6 @@ local rule compile-link-flags ( * )
-diff --git a/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch b/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
-index ad90d96ddd..9dd5f63218 100644
---- a/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
-+++ b/meta/recipes-support/boost/boost/boost-math-disable-pch-for-gcc.patch
-@@ -1,4 +1,4 @@
--From e7491f9874411fd9855957812ba9bac948a61356 Mon Sep 17 00:00:00 2001
-+From 52f928686da5ef699dec7f7a296c5226d82180c1 Mon Sep 17 00:00:00 2001
- From: Jackie Huang <jackie.huang@windriver.com>
- Date: Fri, 23 Sep 2016 01:04:50 -0700
- Subject: [PATCH] boost-math: disable pch for gcc
-@@ -14,7 +14,7 @@ Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+-From 56249e557c820a743f1390174bd93104698e70f2 Mon Sep 17 00:00:00 2001
++From 49ca7b5432dd6c24541bbde21bca5043cd0c000b Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Mon, 27 Aug 2018 21:24:20 +0800
+ Subject: [PATCH] `named/lwresd -V' and start log hide build options
+@@ -20,7 +20,7 @@ Signed-off-by: Armin Kuster <akuster@mvista.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/libs/math/build/Jamfile.v2 b/libs/math/build/Jamfile.v2
--index 500c77363..504d7d8c6 100644
-+index 80c99384d..38461c25f 100644
- --- a/libs/math/build/Jamfile.v2
- +++ b/libs/math/build/Jamfile.v2
- @@ -15,7 +15,7 @@ project
-diff --git a/meta/recipes-support/boost/boost_1.89.0.bb b/meta/recipes-support/boost/boost_1.90.0.bb
-similarity index 100%
-rename from meta/recipes-support/boost/boost_1.89.0.bb
-rename to meta/recipes-support/boost/boost_1.90.0.bb
+ diff --git a/configure.ac b/configure.ac
+-index 295bfd6..5c7d7fb 100644
++index c3852ec..3b7a446 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -35,7 +35,7 @@ AC_DEFINE([PACKAGE_VERSION_EXTRA], ["][bind_VERSION_EXTRA]["], [BIND 9 Extra par
+diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+index 9bbe0998c6..4a066294f0 100644
+--- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
++++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+@@ -1,4 +1,4 @@
+-From fe34ede0bbb0c60624cc281c938b9ca784505f5a Mon Sep 17 00:00:00 2001
++From fa165cb4a9dfeb72f0db787decd527e3d587cd4e Mon Sep 17 00:00:00 2001
+ From: Paul Gortmaker <paul.gortmaker@windriver.com>
+ Date: Tue, 9 Jun 2015 11:22:00 -0400
+ Subject: [PATCH] bind: ensure searching for json headers searches sysroot
+@@ -32,10 +32,10 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 6ee5459..295bfd6 100644
++index c6a10f6..c3852ec 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -863,7 +863,7 @@ AS_CASE([$with_lmdb],
++@@ -865,7 +865,7 @@ AS_CASE([$with_lmdb],
+  	[no],[],
+  	[auto|yes], [PKG_CHECK_MODULES([LMDB], [lmdb],
+  				       [ac_lib_lmdb_found=yes],
+diff --git a/meta/recipes-connectivity/bind/bind/conf.patch b/meta/recipes-connectivity/bind/bind/conf.patch
+index 8a45667fc4..ec22fe84c4 100644
+--- a/meta/recipes-connectivity/bind/bind/conf.patch
++++ b/meta/recipes-connectivity/bind/bind/conf.patch
+@@ -1,4 +1,4 @@
+-From 24452a9a46ba21233925218e4fca066b338ba70d Mon Sep 17 00:00:00 2001
++From 4b9f6f6735340d558d9c9fba9c84d7f99d3cbde2 Mon Sep 17 00:00:00 2001
+ From: Qing He <qing.he@intel.com>
+ Date: Tue, 30 Nov 2010 13:35:42 +0800
+ Subject: [PATCH] bind: add new recipe
+diff --git a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
+index 97fac429dd..fd96d46448 100644
+--- a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
++++ b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
+@@ -1,4 +1,4 @@
+-From 2fb98a36b3b35aeaa4852bd8bc268fbf66d0ad2d Mon Sep 17 00:00:00 2001
++From 19933be78902d90014f177b5633dd15984bc1bc9 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Thu, 27 Mar 2014 02:34:41 +0000
+ Subject: [PATCH] init.d: add support for read-only rootfs
+diff --git a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
+index 3adb694eaa..155cc5a110 100644
+--- a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
++++ b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
+@@ -1,4 +1,4 @@
+-From 3f18a00d627ec06d26d189e7ef1818d2c237274b Mon Sep 17 00:00:00 2001
++From e429899c34ea8a4f85de428e22ee49c453281e82 Mon Sep 17 00:00:00 2001
+ From: Roy Li <rongqing.li@windriver.com>
+ Date: Thu, 15 Nov 2012 02:27:54 +0000
+ Subject: [PATCH] bind: make "/etc/init.d/bind stop" work
+diff --git a/meta/recipes-connectivity/bind/bind_9.20.15.bb b/meta/recipes-connectivity/bind/bind_9.20.17.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.20.15.bb
+rename to meta/recipes-connectivity/bind/bind_9.20.17.bb
+index 1195b5bdc3..33ba18dcbd 100644
+--- a/meta/recipes-connectivity/bind/bind_9.20.15.bb
++++ b/meta/recipes-connectivity/bind/bind_9.20.17.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "d62b38fae48ba83fca6181112d0c71018d8b0f2ce285dc79dc6a0367722ccabb"
++SRC_URI[sha256sum] = "5cc89a09da0917eb1ddf640cc07c172ff44fa9bbf3a34ada4b6a2f7ee70ff1c8"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 -- 
 2.47.3
 
