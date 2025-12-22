@@ -2,181 +2,309 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98077D711D5
-	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 07:10:39 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.75991.1766387434800734291
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E08A8D711D5
+	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 08:11:59 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.76522.1766391118066113805
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Dec 2025 23:10:36 -0800
+ Mon, 22 Dec 2025 00:11:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=n/hIFxks;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=yl95QAGu;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id A3D214E41D29
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 07:10:32 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 0BCF2C1AE04;
+	Mon, 22 Dec 2025 08:11:31 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6FB4E606C1;
-	Mon, 22 Dec 2025 07:10:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F0B551037114E;
-	Mon, 22 Dec 2025 08:10:26 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 069F2606C1;
+	Mon, 22 Dec 2025 08:11:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 80B711037114B;
+	Mon, 22 Dec 2025 09:11:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766387428; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1766391115; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=w/0/LSJZjNIZlBwGGXAKiePRAAdxGMV9FNaopDTtZ5A=;
-	b=n/hIFxksMevDoJYmVQBhFolAnBkMeRK56XAntQ49C/wWl2CbYMDyOfH5Eo2vfbp20Q4v0R
-	048hnYTVuBC1pnfO4va877Rlutuf+RBKjN6TMrrZV3CyR0hgwb1DtVrO2N43bKtI6f8BJy
-	RbLSz+ZDHEiT8M/ey0f65YH3BD6l6uJ+skcRX514WXafNJG5KWWY5iFA6lVxRKWb32nNGz
-	ZeOcHsqMOHfR8X7sKnAYzpTbuWEjUC/9+LsQdv+6ywRsyVv/KtJ6Kn9OXr8dxyEbaNyXFr
-	jvwoG/MAl+1Sarn12Oi7aJh3DYarhGru3x2fSHMF9qNzYMWYs0i7y/B61tTsew==
+	bh=Xj0JB3PGYYyl3mlbu5Z8YnIXsyKAV0qM8xN4ygwZ81c=;
+	b=yl95QAGumvD/YisvK6aF8+Zui6e/rEvx1Xl/cKUV1RRAgIkwq3wcpZnqPrek3r2IGjWXWp
+	IutoXw5kpjtvAXv3MiwC9kEZ63iuPb66HTVX5M/2o4saHctoe89dlRLVRUhqbrcOirLmx5
+	0naJQM6cLeaBYNcK3hV+tSWUTaAc3SG77XmOonPWvX8JHSkWaUut820cK+mfJPrLHYPTqV
+	+tXPvJJzuU/9xPyFEkxn7UlqHu5K1USRIQn+lNIW2/0+0+SOVdFlloDT+yoNyx07y3RXNc
+	/BNPrUfIxvDEgZ+szzT0NVN2TDccMgOJI88EDDMwgGSg99M0+DBpEOK4Ghi7yA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 22 Dec 2025 08:10:24 +0100
-Message-Id: <DF4K309U5R8V.3UX2W7MKLC13B@bootlin.com>
-To: "Yoann Congal" <yoann.congal@smile.fr>
-Subject: Re: [OE-core] [PATCH v4 2/2] meta/files/layers.schema.json: use URI
- shortcut for some remotes
-Cc: <corentin.guillevic@smile.fr>,
- <openembedded-core@lists.openembedded.org>
+Date: Mon, 22 Dec 2025 09:11:51 +0100
+Message-Id: <DF4LE2CKH2GP.1O49L3MTHRQIG@bootlin.com>
+Subject: Re: [OE-core][PATCH 0/5 v2] python3: upgrade 3.13.9 -> 3.14.2
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Trevor Gamblin" <tgamblin@baylibre.com>,
+ <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20251219161311.2293512-1-corentin.guillevic@smile.fr>
- <20251219161311.2293512-2-corentin.guillevic@smile.fr>
- <DF3RWS2MGAXC.2OYHJPZRGZM9Y@bootlin.com>
- <CAMSfU+6rsTevsJqYmHwv3a4Gt2zi4JXg69itOs9R1saX8w2nJQ@mail.gmail.com>
-In-Reply-To: <CAMSfU+6rsTevsJqYmHwv3a4Gt2zi4JXg69itOs9R1saX8w2nJQ@mail.gmail.com>
+References: <20251219134734.842422-1-tgamblin@baylibre.com>
+In-Reply-To: <20251219134734.842422-1-tgamblin@baylibre.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 07:10:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228284
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 08:11:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228285
 
-On Sun Dec 21, 2025 at 6:33 PM CET, Yoann Congal wrote:
-> Le dim. 21 d=C3=A9c. 2025 =C3=A0 10:05, Mathieu Dubois-Briand via
-> lists.openembedded.org
-> <mathieu.dubois-briand=3Dbootlin.com@lists.openembedded.org> a =C3=A9crit=
- :
->>
->> On Fri Dec 19, 2025 at 5:13 PM CET, Corentin Guillevic via
-> lists.openembedded.org wrote:
->> > Among the three sources, only two have a single remote. So we can
-> replace
->> > their entire structure 'remote' -> 'origin' -> 'uri' with a shorter on=
-e
->> > (property 'uri' only).
->> >
->> > Signed-off-by: Corentin Guillevic <corentin.guillevic@smile.fr>
->> > ---
->>
->> Hi Corentin,
->>
->> It looks like this is breaking some selftest:
->>
->> 025-12-19 13:57:11,641 - oe-selftest - INFO -
-> bblayers.BitbakeLayers.test_validate_examplelayersjson
-> (subunit.RemotedTestCase)
->> 2025-12-19 13:57:11,642 - oe-selftest - INFO -  ... FAIL
->>
->> Stderr:
->> 2025-12-19 13:53:18,059 - oe-selftest - INFO - Adding: "include
-> selftest.inc" in
-> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-917910/conf=
-/local.conf
->> 2025-12-19 13:53:18,059 - oe-selftest - INFO - Adding: "include
-> bblayers.inc" in bblayers.conf
->> 2025-12-19 13:57:11,642 - oe-selftest - INFO - 6: 13/38 66/653 (0.30s) (=
-0
-> failed) (bblayers.BitbakeLayers.test_validate_examplelayersjson)
->> 2025-12-19 13:57:11,642 - oe-selftest - INFO -
-> testtools.testresult.real._StringException: Traceback (most recent call
-> last):
->>   File
-> "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded=
--core/meta/lib/oeqa/selftest/cases/bblayers.py",
-> line 163, in test_validate_examplelayersjson
->>     self.validate_layersjson(json)
->>   File
-> "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded=
--core/meta/lib/oeqa/selftest/cases/bblayers.py",
-> line 159, in validate_layersjson
->>     self.validate_json(json, "layers.schema.json")
->>   File
-> "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded=
--core/meta/lib/oeqa/selftest/cases/bblayers.py",
-> line 152, in validate_json
->>     result =3D runCmd(
->>              ^^^^^^^
->>   File
-> "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded=
--core/meta/lib/oeqa/utils/commands.py",
-> line 214, in runCmd
->>     raise AssertionError("Command '%s' returned non-zero exit status
-> %d:\n%s" % (command, result.status, exc_output))
->> AssertionError: Command
-> '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-917910/tmp=
-/work/x86_64-linux/python3-jsonschema-native/4.25.1/recipe-sysroot-native/u=
-sr/bin/nativepython3
-> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-917910/tmp/=
-work/x86_64-linux/python3-jsonschema-native/4.25.1/recipe-sysroot-native/us=
-r/bin/jsonschema
-> -i
-> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openembedded-=
-core/meta/files/layers.example.json
-> --base-uri
-> file:///srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/bitbak=
-e/bin/../setup-schema/
-> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/bitbake/bin/.=
-./setup-schema/layers.schema.json'
-> returned non-zero exit status 1:
->>
-> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-917910/tmp/=
-work/x86_64-linux/python3-jsonschema-native/4.25.1/recipe-sysroot-native/us=
-r/bin/jsonschema:5:
-> DeprecationWarning: The jsonschema CLI is deprecated and will be removed =
-in
-> a future version. Please use check-jsonschema instead, which can be
-> installed from https://pypi.org/project/check-jsonschema/
->>   from jsonschema.cli import main
->> {'branch': 'master', 'describe': '', 'uri': '
-> https://github.com/kanavin/meta-alex', 'rev':
-> '05b25605fb8b2399e4706d7323828676bf0da0b5'}: Additional properties are no=
-t
-> allowed ('uri' was unexpected)
->> {'branch': 'master', 'describe': '15.0-hardknott-3.3-310-g0a96edae',
-> 'uri': 'git://git.yoctoproject.org/meta-intel', 'rev':
-> '0a96edae609a3f48befac36af82cf1eed6786b4a'}: Additional properties are no=
-t
-> allowed ('uri' was unexpected)
->>
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2867
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/2762
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3003
->>
->> Can you have a look at this?
+On Fri Dec 19, 2025 at 2:47 PM CET, Trevor Gamblin wrote:
+> Compared to v1
+> (https://lists.openembedded.org/g/openembedded-core/message/227955):
 >
-> Hello,
+> - Drop python3-bcrypt upgrade, as someone else has submitted that;
+> - Drop rpm patch to manually override Python3_SITEARCH with a patch, as t=
+hat was
+>   masking the real issue (see below);
+> - Add a new patch to fix python3targetconfig by exporting _PYTHON_PROJECT=
+_BASE,
+>   which Python's sysconfig looks for (as of 3.14.0) when doing
+>   cross-compilation. The absence of this was resulting in packages like r=
+pm
+>   finding paths for the native interpreter when making use of sysconfig, =
+when
+>   they needed the host values.
 >
-> The bitbake commit for this run is 96d10e4702b8ef53d9893f9b9e0c1d9c458566=
-7c
-> (the current mathieu/master-next-success).
-> It does not contain the needed patches:
-> * [PATCH v4 1/4] bitbake-setup: add inline URI
->     https://lists.openembedded.org/g/bitbake-devel/message/18624
-> * [PATCH v4 2/4] layers.schema.json: support 'uri'
->     https://lists.openembedded.org/g/bitbake-devel/message/18625
-> * [PATCH v4 3/4] bitbake-setup: use URI shortcut for all configurations
->     https://lists.openembedded.org/g/bitbake-devel/message/18626
-> * [PATCH v4 4/4] doc/bitbake-setup: document "uri" property
->     https://lists.openembedded.org/g/bitbake-devel/message/18627
+> Note that I've dropped my own version of the python3-bcrypt upgrade, but =
+I
+> tested this patch series on top of the other one that was submitted, as
+> otherwise the ptest images would break during build (version mismatch err=
+ors
+> around PyO3, which is fixed with the bcrypt upgrade).
 >
-> Can you retry this patch with a bitbake branch containing these commits?
-> (In retrospect, the link between the series should have been made more
-> clear)
+> v1 details below.
+>
+> This supersedes a previous series sent, which only did the 3.14.0 upgrade=
+.
+>
+> Compared to the first series
+> (https://lists.openembedded.org/g/openembedded-core/message/227310), I've
+> done the following:
+>
+> - Added a commit for including the '_py_warnings' and 'annotationlib' mod=
+ules in
+>   python3-core;
+> - Adds the python 3.14.2 upgrade;
+> - Removed commits for adding python3-misc to RDEPENDS for python3-pytest =
+and
+>   python3-jsonpointer, as these are now solved by a new patch to add new =
+modules
+>   to python3-core in the manifest. Doing it this way was fragile in the s=
+ense
+>   that there were many other recipes needing this same fix that testing d=
+idn't
+>   easily catch, and it doesn't make sense to add python3-misc to recipe R=
+DEPENDS
+>   just because (for example) python3-logging (another package split) is t=
+rying
+>   to make use of warnings, but can't find the right module;
+> - Modified the rpm commit to apply a patch (submitted upstream) to fix
+>   CMakeLists.txt, rather than a do_configure prepend;
+> - Fixed the Python 3.14.0 upgrade commit so that one of the patches we ca=
+rry to
+>   skip tests doesn't include duplicate calls to the relevant skip functio=
+ns.
+>
+> I've kept the upgrades from 3.13.9 to 3.14.0 and 3.14.0 to 3.14.2 separat=
+e to
+> reflect separate testing and let people review those changelogs individua=
+lly if
+> desired.
+>
+> Trevor Gamblin (5):
+>   python3: upgrade 3.13.9 -> 3.14.0
+>   python3targetconfig: export _PYTHON_PROJECT_BASE
+>   python_pep517: add --prefix to nativepython3 call
+>   python3: upgrade 3.14.0 -> 3.14.2
+>   python3: add _py_warnings, annotationlib to core
 >
 
-Yes, I was a bit too quick and took the two series out of sync. I will
-add this one back to the queue.
+Hi Trevor,
+
+Thanks for the new version. It looks like we are having issues with
+maturin and click.
+
+Testing 'maturin develop' requires Rust cross-canadian in the SDK
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/qemux86/build/layers/openembedded-core/=
+meta/lib/oeqa/sdk/cases/maturin.py", line 30, in test_maturin_list_python
+    self.assertIn(expected, output)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: '3.14 at /srv/pokybuild/yocto-worker/qemux86/build/build/tm=
+p/work/qemux86-poky-linux/core-image-minimal/1.0/testsdkext/buildtools/sysr=
+oots/x86_64-pokysdk-linux/usr/bin/python3' not found in '=F0=9F=90=8D 1 pyt=
+hon interpreter found:\n - CPython 3.13 at /srv/pokybuild/yocto-worker/qemu=
+x86/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3.13\n'
+...
+RESULTS - maturin.MaturinTest.test_maturin_list_python: FAILED (3.57s)
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/2876
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/36/builds/2900
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/builds/837
+
+AssertionError:
+Failed ptests:
+{'python3-click': 'START: ptest-runner\n'
+                  '2025-12-21T20:15\n'
+                  '\n'
+                  '../../python3.14/ast.py:620: in unparse\n'
+                  '    unparser =3D _Unparser()\n'
+                  '               ^^^^^^^^^\n'
+                  "E   NameError: name '_Unparser' is not defined\n"
+                  '\n'
+                  'During handling of the above exception, another exceptio=
+n '
+                  'occurred:\n'
+                  '../../python3.14/site-packages/pluggy/_hooks.py:512: in =
+'
+                  '__call__\n'
+                  '    return self._hookexec(self.name, '
+                  'self._hookimpls.copy(), kwargs, firstresult)\n'
+                  '           '
+                  '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^\n'
+                  '../../python3.14/site-packages/pluggy/_manager.py:120: i=
+n '
+                  '_hookexec\n'
+                  '    return self._inner_hookexec(hook_name, methods, kwar=
+gs, '
+                  'firstresult)\n'
+                  '           '
+                  '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^\n'
+                  '../../python3.14/site-packages/_pytest/python.py:240: in=
+ '
+                  'pytest_pycollect_makeitem\n'
+                  '    return list(collector._genfunctions(name, obj))\n'
+                  '           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n'
+                  '../../python3.14/site-packages/_pytest/python.py:448: in=
+ '
+                  '_genfunctions\n'
+                  '    definition =3D FunctionDefinition.from_parent(self, =
+'
+                  'name=3Dname, callobj=3Dfuncobj)\n'
+                  '                 '
+                  '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^\n'
+                  '../../python3.14/site-packages/_pytest/python.py:1625: i=
+n '
+                  'from_parent\n'
+                  '    return super().from_parent(parent=3Dparent, **kw)\n'
+                  '           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n'
+                  '../../python3.14/site-packages/_pytest/nodes.py:233: in =
+'
+                  'from_parent\n'
+                  '    return cls._create(parent=3Dparent, **kw)\n'
+                  '           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n'
+                  '../../python3.14/site-packages/_pytest/nodes.py:110: in =
+'
+                  '_create\n'
+                  '    return super().__call__(*k, **kw)  # type: '
+                  'ignore[no-any-return,misc]\n'
+                  '           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n'
+                  '../../python3.14/site-packages/_pytest/python.py:1616: i=
+n '
+                  '__init__\n'
+                  '    fixtureinfo =3D fm.getfixtureinfo(self, self.obj, '
+                  'self.cls)\n'
+                  '                  '
+                  '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n'
+                  '../../python3.14/site-packages/_pytest/fixtures.py:1565:=
+ in '
+                  'getfixtureinfo\n'
+                  '    argnames =3D getfuncargnames(func, name=3Dnode.name,=
+ '
+                  'cls=3Dcls)\n'
+                  '               '
+                  '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n'
+                  '../../python3.14/site-packages/_pytest/compat.py:136: in=
+ '
+                  'getfuncargnames\n'
+                  '    parameters =3D signature(function).parameters.values=
+()\n'
+                  '                 ^^^^^^^^^^^^^^^^^^^\n'
+                  '../../python3.14/site-packages/_pytest/compat.py:70: in =
+'
+                  'signature\n'
+                  '    return inspect.signature(obj, '
+                  'annotation_format=3DFormat.STRING)\n'
+                  '           '
+                  '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\=
+n'
+                  '../../python3.14/inspect.py:3321: in signature\n'
+                  '    return Signature.from_callable(obj, '
+                  'follow_wrapped=3Dfollow_wrapped,\n'
+                  '../../python3.14/inspect.py:3036: in from_callable\n'
+                  '    return _signature_from_callable(obj, sigcls=3Dcls,\n=
+'
+                  '../../python3.14/inspect.py:2511: in '
+                  '_signature_from_callable\n'
+                  '    return _signature_from_function(sigcls, obj,\n'
+                  '../../python3.14/inspect.py:2334: in '
+                  '_signature_from_function\n'
+                  '    annotations =3D get_annotations(func, globals=3Dglob=
+als, '
+                  'locals=3Dlocals, eval_str=3Deval_str,\n'
+                  '../../python3.14/annotationlib.py:981: in get_annotation=
+s\n'
+                  '    ann =3D _get_and_call_annotate(obj, format)\n'
+                  '          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n'
+                  '../../python3.14/annotationlib.py:1112: in '
+                  '_get_and_call_annotate\n'
+                  '    ann =3D call_annotate_function(annotate, format, '
+                  'owner=3Dobj)\n'
+                  '          '
+                  '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n'
+                  '../../python3.14/annotationlib.py:750: in '
+                  'call_annotate_function\n'
+                  '    key: _stringify_single(val)\n'
+                  '         ^^^^^^^^^^^^^^^^^^^^^^\n'
+                  '../../python3.14/annotationlib.py:883: in '
+                  '_stringify_single\n'
+                  '    return repr(anno)\n'
+                  '           ^^^^^^^^^^\n'
+                  '../../python3.14/annotationlib.py:487: in __repr__\n'
+                  '    return ast.unparse(self.__ast_node__)\n'
+                  '           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n'
+                  '../../python3.14/ast.py:622: in unparse\n'
+                  '    from _ast_unparse import Unparser as _Unparser\n'
+                  "E   ModuleNotFoundError: No module named '_ast_unparse'\=
+n"
+                  'ERROR: '
+                  'tests/test_shell_completion.py:tests/test_shell_completi=
+on.py\n'
+                  '=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D\n'
+                  'Testsuite summary\n'
+                  '# TOTAL: 1\n'
+                  '# PASS: 0\n'
+                  '# SKIP: 0\n'
+                  '# XFAIL: 0\n'
+                  '# FAIL: 0\n'
+                  '# XPASS: 0\n'
+                  '# ERROR: 1\n'
+                  '\n'
+                  'ERROR: Exit status is 2\n'
+                  'DURATION: 28\n'}
+
+ptests which had no test results:
+['python3-click']
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/860
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/2751
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/2794
+
+Ptest logs can be found here:
+
+http://valkyrie.yocto.io/pub/non-release/20251221-102/testresults/qemuriscv=
+64-ptest/core-image-ptest-python3-click/
+http://valkyrie.yocto.io/pub/non-release/20251221-102/testresults/qemuarm64=
+-ptest/core-image-ptest-python3-click/
+http://valkyrie.yocto.io/pub/non-release/20251221-102/testresults/qemux86-6=
+4-ptest/core-image-ptest-python3-click/
+
+Can you have a look at these failures?
 
 Thanks,
 Mathieu
