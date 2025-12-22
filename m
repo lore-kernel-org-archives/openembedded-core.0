@@ -2,63 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3600CE69179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 294A8E69178
 	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 20:08:05 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.87659.1766434078894907160
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.87775.1766434076345774564
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Dec 2025 12:07:59 -0800
+ Mon, 22 Dec 2025 12:07:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cWhua33g;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b79af62d36bso755114066b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:07:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=h7YshPgh;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b8010b8f078so507487166b.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:07:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766434077; x=1767038877; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766434075; x=1767038875; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i8c1o9BjFSnR5ENs/P0Zjo0O7sVizOQQKaFac3N1PCI=;
-        b=cWhua33guqwEl2EbMLtQ4ysN+UZbK3k0+NofTb2tzEL/wNyh7DPIXy2NN+oD2caXEz
-         NJXPJlrH8YS9UQrgDWVOYpjffzsIBPgiyGV+qZeB5prb76qhJw3d1BNg16o6empOkwBT
-         QFUXEdM2/sMy1uDJDYXa5BiC12T1wSfNo0sYodQtr2B084FXZWv9C+JshcpXRqO6jSkj
-         ivT30PbxtO03o2mp2F9R4wa99dOiCDZESFkHwmGC01rvoiX2t+i2Bm8Gbqrv29n5pRh1
-         v4bf9m3EhKB3qdPEBzRPmCJPdytG6R1hWtXmtEm9pScaSdJzeuOHaSxgOgfQIZZ6r6yr
-         ijlA==
+        bh=35LXbdgr+5Bj3ZNvP5vWvUdsbXkQzjVUBMnvZgpYu4g=;
+        b=h7YshPgh9tTWUzUsQieehFvPPuZzgZl1gVppFxWr8euXR1roeTjmFNwYpeJswL/Xd+
+         2Rb1t7+RHgBh9ogpExXZZl1huZGH0owScOM4ZiKFXA2mvK5lv2zpkOMtnnuqw0AgtZ3o
+         drpCQqNeg9AxmmGsWHL1gfOiWZjXeyCP5f1TjLve5WTVb308VFpcbjPWG1s6KcIlLZyP
+         v4tYjRL3iAFFzR6El+KqLhZCVAPlg4drXLyIrC4/V+1uS9GzSIkKV8dSPvaGDkyC+n8s
+         tDsq1Zz37eMQ16Qqdf3tZx+LpBuT6Fu0w7UiuRIOs+pWca6wS3bj6uFTSPtEHyRHVdWk
+         zoIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766434077; x=1767038877;
+        d=1e100.net; s=20230601; t=1766434075; x=1767038875;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=i8c1o9BjFSnR5ENs/P0Zjo0O7sVizOQQKaFac3N1PCI=;
-        b=aFcbMW7q2gof4IVckqZTXMeqaENW/nUt+pKWef3ZpKRBs9vtnk84ZTENYHbJNj28gO
-         YjkeL24da0OnUDZA4BkPxVpxWFFEegZiQ1ytUNVsGlUa5gwAiN67nK1Vugvg8nquI5Mt
-         fV9CA4J817C5B7KROvNzKpT52hDTMxx4HTAqGHicbQfrVz2zVfpOLwSkJpDfFqzAjyko
-         M6K5w/ZN6ZOMStiU1wcAdJJf60ya5r9JwjbdI5DmjeTW3XQKg6CzEaMkoKhf679iwQiO
-         0X9hNRNQZEDsNBydHuFACepajA5FP8ueaX3L/hzMtOnEI7A3AJfovWibdflA8fRbT1jf
-         7BaA==
-X-Gm-Message-State: AOJu0YwKRqkkRhY/ufq0aRnZd3gxfXdmX25LJrk9t5kWfoP2iDLII3Jj
-	v04BzqrvN7xGT1qWKNfXLWaPr2i6BqbhAOUW2agWGsRmQOuFNul0peIBzm5Ccg==
-X-Gm-Gg: AY/fxX5yAs+mJclP/lqJ12EWz3Fg/q9C8uP0Kl4gaxiGOs87o/BnzlzAPEjIU6yOSyB
-	clTARrH8XmSmEn+avZXkTJviEVRMRukhuuKVwoImC5lJPiQrISJdZWJFciS5AFqVe4rwNhoX+xn
-	Dp5g2m1tVFOyyzb9dQb0BDXuDcoBvMCoCIWGH7aEb1BKPLEUlh0Gj0YcqSHDkHJnRnozkBUOsDX
-	N+IV1heVhJ+P5rUOXeVxyBNKX10bjInfRDZ5PONKQHutvzPDuLlqNZ1cAa1AuVkWm7NOoeJ57vN
-	FdvVMO0ZRISJ44AOd37jPUcy9T9cLPcB7TruC6/u8ZjJrVuYkUUcZ+O48HeaBXIMVESvP/rxRks
-	6UkhMiKe2nJsBfhMkMd2g8QgvNdRrMZ5XnQsK9yKCvT2C3D+X9W3Fe7i8LXaV2xP1v11rE2ka8/
-	ftQjD8ilHwwiAUzvlRXi4cVltABtrs5IB1qQaP/XywRdiESfg=
-X-Google-Smtp-Source: AGHT+IE8F/mXHk6H5v1JLg9YNJ3SE2KF35ZlR50hslr+PisavJUjQ+io101OWj5+htOBoPlbii3irA==
-X-Received: by 2002:a17:907:7f20:b0:b73:6e0d:4f6b with SMTP id a640c23a62f3a-b80371538f3mr1178466866b.36.1766434077193;
-        Mon, 22 Dec 2025 12:07:57 -0800 (PST)
+        bh=35LXbdgr+5Bj3ZNvP5vWvUdsbXkQzjVUBMnvZgpYu4g=;
+        b=xIV0gatOz04aq0msWHB7bbbmlzQP6ncJ/Hnx0+wlYcCvlb4faLm59ucmai0vegkBoB
+         6/LCABL8UIB3gXVc614sR7BEx7yIyoZ3Mx6I1XOrUmBxkm0be90vSEMc7jJPaA1V4GK0
+         rK36JHH687ofDv2e9r7mHW69T8V8alZyVGo7piInhp7rNZlk/De9qOoNVDxpb5Tp/68l
+         TgMcwvC/GT0XWPs+rWHGbXCjHNPfrJsOmjTEbKLxP+6GcESqOjqOhn63/ar9AgVbYsS4
+         sv+9xmoOzMfZGURMfqNGnQDSxr8CvBhvKEz8GydE09PSjfFLtGLnvt3vLuV+H+dW0YQW
+         RN6w==
+X-Gm-Message-State: AOJu0YyxD4IWShoiyC2XtSytPY4p1JuaUyHZC1M89S7de0mnhJHDilHC
+	R2DarP/HCWC3oiRJLezx9YZ9ihf+u3tKUvrV8OPDlqtg1DAPpLXGGI5VSbl0Ww==
+X-Gm-Gg: AY/fxX4L/JGPY/u4PDLCp8uSJVtcf+9O/yY4eW0vQRBTJ5tCal4JJ4FdSm+IKB7GP+P
+	YXIymR3i4E+SAFdcruONyfDYvHkVtO4Dir55IyWL/FWrqzK9sUL73tH2u82AKeZUW8II19P4srO
+	ogIYGU8oR5VZSFUVnlqTdX6br8FltdcWxoXTpKSxJezyv6/m8iK4g69nas2yDyHU1FCVPFGtISm
+	bi3KY0p5MIyJiXWPRFLGRbBqMC6cJcTkqmijtqFn/EMa6LZqpvvWuFfzVVlm4hL5xo+HLx/D8MQ
+	x5VShArXQbNGXC96CU99jaTJivuEVv2ceBvGiulFk7K4K68/qGeGxMJR6O4bZ+8wfPtRSlzLCa+
+	HH7j28s0Uxa++P3H5zJ5B06DHL8uh9/RTV2e1ELQRfoOwUWDHrmxE1A/lAI/gthhI7sgH1p3Gvl
+	7iRMHhqMgTCCIG78nmuCoyf+L6+1/ppHxeJxYwN2DX/PmxIo8=
+X-Google-Smtp-Source: AGHT+IGoUoBAQohrW/pFL1BRLfIj3qxwF6Dq7bMEP9xbQ0PCPJJF8pZHgaYzoOGDegIc8Kk9etCzZA==
+X-Received: by 2002:a17:907:d0d:b0:b76:7f64:77a5 with SMTP id a640c23a62f3a-b8036f5ad02mr1465684466b.20.1766434074638;
+        Mon, 22 Dec 2025 12:07:54 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.07.56
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.07.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 12:07:56 -0800 (PST)
+        Mon, 22 Dec 2025 12:07:54 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 018/114] harfbuzz: upgrade 11.5.1 -> 12.2.0
-Date: Mon, 22 Dec 2025 21:06:00 +0100
-Message-ID: <20251222200739.2278706-18-alex.kanavin@gmail.com>
+Subject: [PATCH 014/114] gn: upgrade to latest revision
+Date: Mon, 22 Dec 2025 21:05:56 +0100
+Message-ID: <20251222200739.2278706-14-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251222200739.2278706-1-alex.kanavin@gmail.com>
 References: <20251222200739.2278706-1-alex.kanavin@gmail.com>
@@ -68,32 +68,28 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 20:08:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228343
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228339
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../harfbuzz/{harfbuzz_11.5.1.bb => harfbuzz_12.2.0.bb}         | 2 +-
+ meta/recipes-devtools/gn/gn_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_11.5.1.bb => harfbuzz_12.2.0.bb} (95%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_11.5.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_12.2.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_11.5.1.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_12.2.0.bb
-index dd30c1237d..ef2f6aa4f9 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_11.5.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_12.2.0.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
-                     "
+diff --git a/meta/recipes-devtools/gn/gn_git.bb b/meta/recipes-devtools/gn/gn_git.bb
+index 8637216988..e61f3936c9 100644
+--- a/meta/recipes-devtools/gn/gn_git.bb
++++ b/meta/recipes-devtools/gn/gn_git.bb
+@@ -7,7 +7,7 @@ DEPENDS += "ninja-native"
+ UPSTREAM_CHECK_COMMITS = "1"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "972a60a8d274d49e70361da6920c3a73dfb0fb4387f6c6811906a47ba634d8a1"
-+SRC_URI[sha256sum] = "ecb603aa426a8b24665718667bda64a84c1504db7454ee4cadbd362eea64e545"
+ SRC_URI = "git://gn.googlesource.com/gn;protocol=https;branch=main"
+-SRCREV = "092f4f0d612e5982728c8b872c2e69cf3d04b21f"
++SRCREV = "64d35867ca0a1088f13de8f4ccaf1a5687d7f1ce"
+ PV = "0+git"
  
- DEPENDS += "glib-2.0-native"
- 
+ BB_GIT_SHALLOW = ""
 -- 
 2.47.3
 
