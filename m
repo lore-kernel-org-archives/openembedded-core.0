@@ -2,63 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6634CE69185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F21E69184
 	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 20:08:05 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.87776.1766434077139372327
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.87778.1766434077635336665
  for <openembedded-core@lists.openembedded.org>;
  Mon, 22 Dec 2025 12:07:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GH4b0fvl;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b73161849e1so925554766b.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:07:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HIHgl6zv;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b734fcbf1e3so828945766b.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:07:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766434075; x=1767038875; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766434076; x=1767038876; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Wy9u+Gi1RiBJyjCyiYoJmjtP3zOglCen8q8NyzSV21A=;
-        b=GH4b0fvlr3QtmPU/7RPyMSfBROgtPqLoUtTHpIpAgdDlUnhkWXrKaz7IFU7E4X+ACi
-         sGR66hcsgTxs8QxXwf8KA3757+L77W69onxAQ3zTOXMJ/kDwgDsLPUJcdzkDAV1VciMS
-         rSqGN418zJxr7BOUKORLT/j2naISMMdaJp6+W/zLGeMvQmF7u7pi7HKxsYKMy3h8X1+D
-         Hps0o2RLC35HhgArDxtbl0TkfaSfXsZMzbUs6/7DEiUhxEyn4Cp+I95XI6jB7eV39F79
-         4ycN84JMNedlo00onfHnwacMss4OElOtt0k1CqCPrkctCXXD7yzJp84F+oQvcyq/g4V1
-         U0Tw==
+        bh=WfB7O98TPwWfkp96MIJ2UUHVtzCE5iXnQxEYgaxeYsE=;
+        b=HIHgl6zvOPo7K9u0YVCvsBhCWlC9vTldisrcMKpPbewH7e4h+O4nUEJ4+XkryBNcWg
+         eXny7cQ6Z4rHa2PLFuWx/+DOJkrexHDUNQ3Jo9SsxcyCVhqnO7ThNSsAdhgJQB+88on1
+         Lgt+YmhlogFgNS2EKnPC5Va5pEy0PsEsSI3ya0Cmjor0EalRcm/NzWpBO7FdRO3XOOu3
+         /am4uv2OZz3BEhuUSJs+jtjwGC9RxB1YLsKKtgTf3YcbLvAD9vnraGkIeYSThCQ5N8xo
+         d1tywJ/gF5gYxmV68xN4mB0mzIHBqOkYJcYZNsHL3WcAtd1kyLRBxw1lJc8MZv5Q+k+N
+         FSiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766434075; x=1767038875;
+        d=1e100.net; s=20230601; t=1766434076; x=1767038876;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Wy9u+Gi1RiBJyjCyiYoJmjtP3zOglCen8q8NyzSV21A=;
-        b=fgXbngw9hcIBlrXLz7Hu5gYYPReoIOac57JEXJXodU3bgJjKhVv8Euwxh82gtY526d
-         4roabvd7e3/CpZrg85TlZnVElIofK/rpuS8+7cHfN02k0K+pvb0mYM6dUM02OljXodtF
-         wSf1id2o2GZQm7f/GlioixyxZGJxYIVNQanzg3FHYL/dPp501Rl/g0PKW/tIn7cYloDB
-         0Royszpltt4XGz+GtcsUGlHWeswcLqkxuwJKsqd3hZFGi310wfLvxbxl4aJtCJHVFL1F
-         hMB/dkgDugU1UiTuPgh9tyip8V5HcnaMr78TIWy4tsuUKaDP6ZBLpXZHWbieVeCkuRIu
-         U3rg==
-X-Gm-Message-State: AOJu0YxkOOxi1SZRAB+zKKh1BsfivKHzzB4nz5T9RlAYcBWv/QY1I67P
-	LhvWrccT2+lKGoPDkjS7TOMnCpQqDSEJThYXcBD3F1LAKuCixWhpTqaAxJIw8Q==
-X-Gm-Gg: AY/fxX4wQEYK7s0/H6oFJQwfZaFAnUqfRguZhLfpFXx7PP7QEsiEoNFcTep5SLaI42Z
-	pufQVDIgjJ7aAUoBGA5kez/0WgKTYROmTE+wvHmICuHAJnnoZNeqMJ5xy2L0iDif1uOBboVNc5b
-	NosGYCnoo6OqqZjC7+aHQVKgJAVlDqb2mo069IQ1oAsFCnogCyL54uSCXxJUHWR9RUKoNd+8ndI
-	Ev5S4ayl6ufLVNZy+zTHjEVKMgzNjRhH1SYJTLSOgqL0ejdhQarSlUpb2DPjEjmTZjOKmG+mwL9
-	qUAkr7sXVkP3ahJCzlNDI3J5NUrEHAvJIOX/NAmES3KpS41PeMw43DGfjIEbOZ6ZIvlMY1KkE01
-	7HYcHRBsk41eEooCOZixgmbmnb7yZlUX7xB0zWwZwDTAqEBsBS40kPEDc9b383b4F2MDGSBRi2E
-	6mKOyiF6prhzLn6m+234BrE67g7VHuGjNWZsOIGhbI40s4heg=
-X-Google-Smtp-Source: AGHT+IE7SSTf84d6vuVsbXJdPFACNKvre7oBMY8p0HBe5N7o3LWWVsd5GgHg7/lJHm0+fS87DbCvuA==
-X-Received: by 2002:a17:907:7f14:b0:b76:60ad:77f8 with SMTP id a640c23a62f3a-b803719d8c3mr1503349466b.48.1766434075300;
+        bh=WfB7O98TPwWfkp96MIJ2UUHVtzCE5iXnQxEYgaxeYsE=;
+        b=Uaq2Sg6Wh9ASK8mYSYFirMZFzSIyr3sZApCtvpWKFsO4rHeJJFfEwkupK562E2vBPn
+         pu4UCEtMA7shHI3W2YTlsoI/WJd6PTox/Bv2+3UJcb2dgZg7i4ROWoDgOyNNPQL9B1Mq
+         vafujNfqFaNrLbmC8KRx9g87IR3Cp6mk3hjpLxv5m3Jju/sRJkgxD/9UvrfFs8VXJqoR
+         8AbMj9qNMhLSVTqdTdatod9D8VEZ1EfK8n9ivXAs825bfpRPyr3dZlqejo31J64zHEbR
+         hyxFAew8qshxoLhhgEcklvCMydSeUNZ25hguMmXpht4x7U3Rm1PEndSfGJI64aSzzO/L
+         CRLA==
+X-Gm-Message-State: AOJu0YzIlUwM3k4uCtViKwX8fM4BdGFBrmGIxZLQO34ALakaDIsBsPy3
+	osUnjYGD2hVoRMjZXko+8y3DNTeNtegbe1989FR2RiNjE7HaVGi371jpGY6bUA==
+X-Gm-Gg: AY/fxX6XiMtm/OZGFPPdhgwsHPFPZtDoeWrflOCd/OHtRHjYU3eN9Zq8VEikKiRMxi8
+	QYA4cAXg9bUP1hUsCfFEk3DITdKISbxt82PYQRKM0REcd8uN7jQgj9mw8IrzuS9rRH+SxZYKgtq
+	eiszIVVsXO3daqxDsxERxXFkpZFnzFZrpHebZfEGxWitclVsIRDP2ySvxLzdXLB0ZgdfjLXJYyv
+	+T5y88Zn1CwP7U9RCT17yg/v4dV3yFvAY40+LPRID5OB4X5iNk0Ifory5eITkhjtVX1wey5srWN
+	uMN1TCDiyW68n0CCY86IwZxR+xAqZRnaUBdsM5Knv45x52vxCwi6b7sM9SepDbwkfOd7utev0vC
+	HBIbUpaTrQVA9v5nasqnlBcbQFnZzpxb3/3PFsL0rqVCGS4A/03oRRTxfnqXphDMmwEDfMsmRQQ
+	ijNfpullc5M5UMx/x+CrSHGzHw0Kf4ERbfVG6yK/hdZzxnHuI=
+X-Google-Smtp-Source: AGHT+IE2cGx1lgZ8eqDwkVAZv+bPnsbhTV1YS2oyfXK5QpztGy8qgkBZ4lf2x9T8xN96pEM8hlerVA==
+X-Received: by 2002:a17:907:3da1:b0:b73:7652:efc2 with SMTP id a640c23a62f3a-b8037233e05mr1347388866b.60.1766434075920;
         Mon, 22 Dec 2025 12:07:55 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.07.54
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.07.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 12:07:54 -0800 (PST)
+        Mon, 22 Dec 2025 12:07:55 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 015/114] gnupg: upgrade 2.5.11 -> 2.5.14
-Date: Mon, 22 Dec 2025 21:05:57 +0100
-Message-ID: <20251222200739.2278706-15-alex.kanavin@gmail.com>
+Subject: [PATCH 016/114] go-helloworld: upgrade to latest revision
+Date: Mon, 22 Dec 2025 21:05:58 +0100
+Message-ID: <20251222200739.2278706-16-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251222200739.2278706-1-alex.kanavin@gmail.com>
 References: <20251222200739.2278706-1-alex.kanavin@gmail.com>
@@ -68,41 +68,28 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 20:08:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228340
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228341
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Release announcement:
-https://lists.gnupg.org/pipermail/gnupg-announce/2025q4/000499.html
-
-Note that we ended up on the in-development 2.5.x series by mistake;
-in this situation it is best to keep moving forward with upstream
-as newest releases presumably will have less issues, and become more
-stable over time, and the delta to eventual stable release when it
-happens will be minimal.
-
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-support/gnupg/{gnupg_2.5.11.bb => gnupg_2.5.14.bb} | 2 +-
+ meta/recipes-extended/go-examples/go-helloworld_0.1.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/gnupg/{gnupg_2.5.11.bb => gnupg_2.5.14.bb} (97%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.5.11.bb b/meta/recipes-support/gnupg/gnupg_2.5.14.bb
-similarity index 97%
-rename from meta/recipes-support/gnupg/gnupg_2.5.11.bb
-rename to meta/recipes-support/gnupg/gnupg_2.5.14.bb
-index 9cc063f837..e484b03424 100644
---- a/meta/recipes-support/gnupg/gnupg_2.5.11.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.5.14.bb
-@@ -24,7 +24,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk = " file://relocate.patch"
+diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+index 0a8668dd4d..77a13b39fe 100644
+--- a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
++++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+@@ -6,7 +6,7 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=7998cb338f82d15c0eff93b7004d272a"
  
--SRC_URI[sha256sum] = "5f765ec1eb605dce9e9c48679cd43b5818d4d4b84c8ea4c0c60eb5dca13c405c"
-+SRC_URI[sha256sum] = "25a622e625a1cc9078b5e3f7adf2bd02b86759170e2fbb8542bca8e907214610"
+ SRC_URI = "git://go.googlesource.com/example;branch=master;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX}"
+-SRCREV = "8b405629c4a5215871be932097e099c05ec5cb2e"
++SRCREV = "7f05d217867b2af52b0a28c6d1c91df97e1b5b39"
+ UPSTREAM_CHECK_COMMITS = "1"
  
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
+ GO_IMPORT = "golang.org/x/example"
 -- 
 2.47.3
 
