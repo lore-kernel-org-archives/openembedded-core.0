@@ -2,63 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9492CE6ADE4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C6F0E6ADC7
 	for <webhook@archiver.kernel.org>; Mon, 22 Dec 2025 20:08:47 +0000 (UTC)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.87700.1766434121573380812
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.87706.1766434125362492240
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Dec 2025 12:08:41 -0800
+ Mon, 22 Dec 2025 12:08:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XCw49xm8;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-649e28dccadso7004481a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:08:41 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lvmN80NA;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b7cee045187so777659866b.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 12:08:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766434120; x=1767038920; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766434124; x=1767038924; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NI7o0Zi/mZzt3n1TJ1SVZok42LSzZHjWpIwG5ptfVeo=;
-        b=XCw49xm8Aq1KNQFOR7k3/APxKJPbc8UB14rwCLRO8QWphCx2ef218Bs/oBKl/oGQgP
-         IDH7A4e7WFBY8JTulvMKXZNldYxT1xjENE/zmvS+cKLKgxRsABsnNMDYO7+abyH0Zqx2
-         K9VF1qa9/QYZB3Qxpd8iAl+uL4tFG6beGTokoRYahiT+F2sI7s2Xj4nt1k7If9nf0Anp
-         KjY1FLTdtnbRh+3bBOgttVhjpYWH1L31C5hIaD3mul+r3VQ6GWJVR6E1+xieEpamHRdJ
-         wO3wyAqTPTsXkL1bMlFoqDMVs/E/RXLd+S9NXAaun5Kap+zcj1RFmuB9nQs8ylArljgZ
-         AySQ==
+        bh=RPbSoBTvP50l999jTXlnk/ZNJMgULQbF2xfk+4JLHEs=;
+        b=lvmN80NA/TN5NmyRaeild6OiMsid3CABdDFEOTEMfhoS50HJ4LWD0nH/mtobqzJNcj
+         7qi9d1S3mVgisLgGpv0JGaxrSKydcjUyqDPllTvSjdCyYUECc+fpc7u8RZBMnrM039XM
+         0ez1fKGTghngR3Xyg747GRaP61ebaIPH00zN/8Ilow9cKKbRL1vWO/gzyVwNMCVncIg4
+         c23rxZy/7YO5cLuWE4642p9y+FqIQRBimbLuz/4lpiqEcBCqtKLZKNRIMiHYvvx+sGDS
+         bI+f8N7xyT+AoBXwanfjRAN/4Q4HT3wub17/FhnkALFbRFylfLH9HZZ1EqUf/T389nhK
+         K5nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766434120; x=1767038920;
+        d=1e100.net; s=20230601; t=1766434124; x=1767038924;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=NI7o0Zi/mZzt3n1TJ1SVZok42LSzZHjWpIwG5ptfVeo=;
-        b=J6zZwQekNcaGov5zyZ3bG9YTuVY/OlaBXdeR+oLnBYa/LR+V/1nczfBOYhK1SjhobB
-         bmuqNOOlt257ERuoBQKxmICtaTzbIxSLh0+WSSszCowg1fq5EVVVNyHA1hDk4DcZsy9r
-         Bfoth26Ic7ZWIR1ubn33uRRQrNTMuimvxgoFygEN/nHZfq/mCzJMq6iKDbgaMKTqt00N
-         FqsofUr6kBcMBUcMeAKFl83RAIh0dvSNQyRZ/0bJ6zkcOoFYuSZI0wFw+fz5CxNLcBlz
-         Z0RwVrJ96rjHzsQi4zjF3bNODuApDuqNTaMYtDmIGpA3QISWdQy1FYAxQKcwtyX/KEn9
-         AsjA==
-X-Gm-Message-State: AOJu0Yy+3q3foFeBwUuVZDb+5lx91sQen91mnvIsAbO34+2E5xdhhz8K
-	D0nkUEiGrxf/mmZSl4fLPdfC2Lm/SXTa8BnqSJ1Vk9mRl8gxjveni4+MpAyi0Q==
-X-Gm-Gg: AY/fxX4XcmoishX9lEEtDBPUqaYOFBVJEdu/UsZfLya7H+cayz/wb6oxQabVOGi+EBm
-	DPNoDMU5XNRt0yZ4fVCdL+OTTsW5znwK0l8WDlVJHRGZushC584PeyggnOPTjGtX/2wDeU0flfc
-	DSaFkBAw31eR0tRVTqZt6c7W34R4OmlYdtbDUzJF3Jw6Wjxg61e1gBlvrhJf4HEW6iEEvBfkDMg
-	P2DvD050dsK9pwb2+4p8xBNUmOqQs7cTwoHqzgcuGuq0wci1MxhZdBm4d33FStcrtL/Ap31A8Wm
-	FICKCfD19X2j7qRegUj1+6AsfAxqM32AHS7pTwfktgrIzYM8vRBTiqNQoCgb4OGRbOtkZVpn7LU
-	BxSrtMliFfFCW5HZ9pQit4GI/NBA8Y2GT3WV5xwS/Y7tG1+v51ful1jNqHjntdsS3jZ9Y0VBlAs
-	yzLdimywD5OOJp4/pZx+/av4wX+wdTe+wQVfKXQcEz6oFX8ObesilEP1u4GQ==
-X-Google-Smtp-Source: AGHT+IGLNmzzlihpZrXCiSUMO+nWy0Ga5O5STfrfP6kgUfZCPcM/bU0gvFKxZ5p+UK4gyiC2xmOPsw==
-X-Received: by 2002:a17:907:3fa8:b0:b80:2315:b2f7 with SMTP id a640c23a62f3a-b803717908bmr1306181666b.41.1766434119852;
-        Mon, 22 Dec 2025 12:08:39 -0800 (PST)
+        bh=RPbSoBTvP50l999jTXlnk/ZNJMgULQbF2xfk+4JLHEs=;
+        b=ZTju/TkKQug9+QgAsDvekUDpwu+d7uYt08vw+PTonTwky4Jt1eAYOZQRH5rbH69tnY
+         hSyKKD/MnXIvRpib1tIFG02MQlFrQ3L2lIJneQvT7dzlom0RYOPfU3F/T+4cE83DOM/m
+         1EPeeswc3KfiGG5sOpgTsfoQ1PbGwet7NRA5pAqwo0ceYqGV6jJjmT7RPmnlAxOd/o19
+         /H9FwEa1kvTVuwmkUvbJRMu5Kp4kvG6cPdJDWksir7cpgD1njR06/mZQ0iqH45N2+nCI
+         vYCYwF2xBMy8dVzccXU1VthA5rDqmFA4BCkiGAQDtSl9+MpgWimkLNuR3pTAH1Zrc2ch
+         cFIg==
+X-Gm-Message-State: AOJu0Yw9y4e9dae89m+EipaXjvp7usvroaVFKKhtH3nNmf5OHhadHeZv
+	kORJh5vSHz5sVuiVrYImcEklnTzoodaTXoZbTl8LBLNq/q6FvahQZ6TZ7pvOJQ==
+X-Gm-Gg: AY/fxX6TR3aWAUVfIdG5GBd1/CKd8rlK3BqrDAbex5oNFOJoRvY3v+gwgWgwatjlItx
+	OA45/QWJwkkzR1tsuK8BlgQvA6cSPE/nEYnUgicqItEvb6M91CCGYrbjZa5lGpKlHeTK2v0oe8f
+	jI0zxOrij4oAl34Y8DYLYANXqHkZt4qxTwGXKXE7QKA9ZORM8C2c1cB1CV6BZ0c45gYlK/bhYls
+	+lmjvwAk6qwruuydiykjJYJOQbJtZkRv/XAMGf9IRqwB7Ce6WqEa0d7451jtOmkTM8X+mn80s86
+	ClJrVqj1QHocPRCJyyTo6OVxR689QXCE94kofYkX6Yx9K440epKSnNAdmcjwz0xbRtxSiVxp4W9
+	ZWTBcXbNPtzfrh2fXd1W1LLmjgNsCBNgpE90NhOKv50v1wQMqeJYKNrRqs/WrU7Tm41hpNp07QU
+	9wtFow0HP1g2yXwsdwdeehqa6t3zgYwd+SDpmePabsyJqHXPk=
+X-Google-Smtp-Source: AGHT+IERv8d3EzAH2xuAvRBTG+pnUqzxIqxe/48jzs3adJFI3D8+IUgoeGndeQAFX7oIn82rWkjRuA==
+X-Received: by 2002:a17:907:7f01:b0:b71:ea7c:e501 with SMTP id a640c23a62f3a-b80355b2523mr1657459766b.4.1766434123646;
+        Mon, 22 Dec 2025 12:08:43 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.08.39
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f3e271sm1182344066b.60.2025.12.22.12.08.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 12:08:39 -0800 (PST)
+        Mon, 22 Dec 2025 12:08:43 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 079/114] python3-ruamel-yaml: upgrade 0.18.15 -> 0.18.17
-Date: Mon, 22 Dec 2025 21:07:01 +0100
-Message-ID: <20251222200739.2278706-79-alex.kanavin@gmail.com>
+Subject: [PATCH 085/114] python3-urllib3: upgrade 2.5.0 -> 2.6.2
+Date: Mon, 22 Dec 2025 21:07:07 +0100
+Message-ID: <20251222200739.2278706-85-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251222200739.2278706-1-alex.kanavin@gmail.com>
 References: <20251222200739.2278706-1-alex.kanavin@gmail.com>
@@ -68,39 +68,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 Dec 2025 20:08:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228404
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228410
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ruamel-yaml_0.18.15.bb => python3-ruamel-yaml_0.18.17.bb} | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-ruamel-yaml_0.18.15.bb => python3-ruamel-yaml_0.18.17.bb} (75%)
+ .../{python3-urllib3_2.5.0.bb => python3-urllib3_2.6.2.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-urllib3_2.5.0.bb => python3-urllib3_2.6.2.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.15.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.17.bb
-similarity index 75%
-rename from meta/recipes-devtools/python/python3-ruamel-yaml_0.18.15.bb
-rename to meta/recipes-devtools/python/python3-ruamel-yaml_0.18.17.bb
-index f14d043f56..a513a9e957 100644
---- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.15.bb
-+++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.17.bb
-@@ -4,12 +4,13 @@ HOMEPAGE = "https://pypi.org/project/ruamel.yaml/"
+diff --git a/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb b/meta/recipes-devtools/python/python3-urllib3_2.6.2.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
+rename to meta/recipes-devtools/python/python3-urllib3_2.6.2.bb
+index 62fdf8e345..3957818f6f 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_2.6.2.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/urllib3/urllib3"
  LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5cc5d45e8a30c81dade6ca1928caa515"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=52d273a3054ced561275d4d15260ecda"
  
--PYPI_PACKAGE = "ruamel.yaml"
-+PYPI_PACKAGE = "ruamel_yaml"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
+-SRC_URI[sha256sum] = "3fc47733c7e419d4bc3f6b3dc2b4f890bb743906a30d56ba4a5bfa4bbff92760"
++SRC_URI[sha256sum] = "016f9c98bb7e98085cb2b4b17b87d2c702975664e4f060c6532e64d1c1a5e797"
  
- inherit pypi python_setuptools_build_meta
+ inherit pypi python_hatchling
  
--SRC_URI[sha256sum] = "dbfca74b018c4c3fba0b9cc9ee33e53c371194a9000e694995e620490fd40700"
-+S = "${UNPACKDIR}/ruamel.yaml-${PV}"
-+SRC_URI[sha256sum] = "9091cd6e2d93a3a4b157ddb8fabf348c3de7f1fb1381346d985b6b247dcd8d3c"
- 
- RDEPENDS:${PN} += "\
-     python3-shell \
 -- 
 2.47.3
 
