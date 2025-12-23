@@ -1,357 +1,245 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9EB7E6C5F9
-	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 06:41:11 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.96334.1766472002894682813
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0327AE6C610
+	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 07:03:42 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.96610.1766473409321074945
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Dec 2025 22:40:03 -0800
+ Mon, 22 Dec 2025 23:03:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=KXBvi8XD;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: shrkum@qti.qualcomm.com)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BN2uKvJ2199035
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 06:22:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=pTzQ4c7KNbapwx3Cnii+71
-	EH8xkK3VIIgNh5ab6Sf40=; b=KXBvi8XD+g0dl4WJeZ5vPgLr+qQRRFfMqS3TrT
-	uvJBeXbeByKIeH1g3hxMDvQmgh47XK1ke47hWdHgtqE6LcugSDCSuAIiD9xfhOGf
-	+kBkHLEPK4NQrg7i1z2VlB228agKbEmiDVaW0Os426BCR9Do6h3eEWxlOQ1afpuo
-	/87lTjl9xuuRMGFYdd5FiGrV+WdZtZI20bS/2kwGMVqsBBVVY4oJ9G/K9zdOv7bi
-	qbvUeQnLXebKjjcIQM1o4Mg5QEw36sf5/UEAyQ7BIa0clunE+EkJsgu2ObxP/oAq
-	Kxth1qewfLu/MDXAZ58i/gI9tUjHY3nKkvkRdW11NBRRCaIg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b73fwu1yg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 06:22:15 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5BN6MEOg017585
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 06:22:14 GMT
-Received: from hu-shrkum-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 22 Dec 2025 22:22:12 -0800
-From: shrkum@qti.qualcomm.com
-To: <openembedded-core@lists.openembedded.org>
-CC: Shravan Kumar <shrkum@qti.qualcomm.com>
-Subject: [PATCH] efivarfs: Backport patch to update file variable store on SetVariableRT
-Date: Tue, 23 Dec 2025 11:50:01 +0530
-Message-ID: <20251223062001.1889274-1-shrkum@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=WraFHokY;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4452694da9=yash.shinde@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BN3ptQV083540
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 07:03:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=Vos3y97Ep
+	8l4xXHEM/P3hAN1MI5uH6zXn1dmzka7PwQ=; b=WraFHokYRqSFm78H2zFpZ4PDC
+	GGvR3oQljTGVcstUwXe+QrDCacaSOZnIScD/CeRVpHvxi17EpnKqCfZyKx01CFbw
+	B6v9cOCZHjqxbnxeZ7/kFLjASTb/wReN9LDgf/JnH6MUxNgwYsHgqyeoNssgS/jY
+	BMMBkdyvLUa/ikHDK9oUWZnyHRbV+XqpInjIcqtjpAl4nBxtxnxXCBrcesfOvhPq
+	yDOktALJvB0uVy5yRQDk2ud/ghWlFGlC+qvy0ajL8KtCtYZn69qEKePEyeB69n1L
+	v1wR4kO0SwB4EkU49AYYEyF3pryU+ZjyyhkUPxtkStcelgfBZA/SpS1kwQr8g==
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010034.outbound.protection.outlook.com [52.101.85.34])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b5js72qau-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 23 Dec 2025 07:03:27 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bKvV6pTh6COvNANvpjUg0M1CCGy/tVfyg4sPZUVTGze0i8JAvUijTRTd+APLu16sNNmOuTVUymz3hK/OaGH0bpLZLD8s99Imr29ju71tqQGR38Rcp8YGaWIqzWGHtTWftTVYjWyF8ZKe3CqT+MP1OYjcJ1hl7JBJ/r1tppk/rgNN/UOmYJMFic4vjoetmrE3dL9DUPrTOkpDh61Rzo8ZWDalFTcSddH1jWVnZxsutCK5lYrxRu0AA++LTiyWs3Xjkr0PJFUW4QEW+K0/kSKTwFfIcMURNtouD1fVX2SGGPlqJj9kzO8p/BzyEJ9LKsbvcv3npxzaFnh1WpHN5R1IfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Vos3y97Ep8l4xXHEM/P3hAN1MI5uH6zXn1dmzka7PwQ=;
+ b=ptf50kEAv6LG6jETRXLa7ieAD4Qi9ofu5vPZFmAYb3GHCregngduFpL1/czhbhjxQmAW/3nkk2RxLe/eBLn6PHwzbxfJqn6+K+XsA0Msc2EkW3z1+A567CpPaER61o1fEQ9LRNW3tlCh2Buy290ChMzkDw/j7WzihngQK1Xv2R/9hQI2lvIO4oI1GSvhTkOB5kFoyUA2ixf4b9GqcqmXlgrIqwGuTJpniOXlNuXrEbXw4GRKIO2xQ1UCngHp117f6R4LZLVEqW1ll5D+bcQqX+5G02aCsNo4gTWqzF1k+bKnFaRhlMI7uHvfYfPpcKC6rZKAKuMuEmXdBQkcocRWew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ2PR11MB7599.namprd11.prod.outlook.com (2603:10b6:a03:4c6::7)
+ by PH8PR11MB6950.namprd11.prod.outlook.com (2603:10b6:510:226::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.11; Tue, 23 Dec
+ 2025 07:03:24 +0000
+Received: from SJ2PR11MB7599.namprd11.prod.outlook.com
+ ([fe80::8345:1cb3:a109:be24]) by SJ2PR11MB7599.namprd11.prod.outlook.com
+ ([fe80::8345:1cb3:a109:be24%3]) with mapi id 15.20.9434.009; Tue, 23 Dec 2025
+ 07:03:24 +0000
+From: Yash.Shinde@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com, Sundeep.Kokkonda@windriver.com,
+        sunilkumar.dora@windriver.com, Yash.Shinde@windriver.com
+Subject: [whinlatter][PATCH v2 1/2] binutils: fix CVE-2025-11839
+Date: Mon, 22 Dec 2025 23:02:50 -0800
+Message-ID: <20251223070251.3052834-1-Yash.Shinde@windriver.com>
+X-Mailer: git-send-email 2.49.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR02CA0015.namprd02.prod.outlook.com
+ (2603:10b6:a02:ee::28) To SJ2PR11MB7599.namprd11.prod.outlook.com
+ (2603:10b6:a03:4c6::7)
 MIME-Version: 1.0
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=ELgLElZC c=1 sm=1 tr=0 ts=694a3517 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=_7iPbHPSEhwI4OvfJyMA:9
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDA1MiBTYWx0ZWRfX1V2B7y6YxSzE
- DRWDHYbc5R0kGOj3IxUaQL4VyXaoiNQd33Wk3rzkdp/B+pjWfjRlcOGMs/mhz1ezO1TBSxaAQz1
- R7qBUi7zmisREBXUhfyecapNAiF2iB9tPTZgmYAADzzLIeg1LtpYEnnluK7NLwUhp7Bvyn/W4Zz
- 3BB5fwlYnyTl/V7qXC0zsftyW2x3ZOf1uLvTq5MKoCERr+lOO3tJgEo5znBx6PYrGh6EcxspQ7B
- RVK4jjfXVO8UPmMkGyfreELkPT9rtlbwZEyyjm23Uuc3KRT2yDLMCl6C6FhI6/iKJycRp8L6Odj
- smxDdh63srqbJeQkW9GkL90QWfGNWpBjY8r79nCZHXpwATrXBsfSlxnxJd2UlwWYM7vIEn3nn8X
- PSc3CIEF8pu6/lJyba3NxYgtYK8GpWwl6TWKP5IqmoQz4XpiL7T+gJTZI3SMAwTEFS4AD4iCW+5
- Hm3ngLRJ9pQH7MbPeOQ==
-X-Proofpoint-GUID: 03vu920-N6w0VD4KUVXH91tFU6tn1xGK
-X-Proofpoint-ORIG-GUID: 03vu920-N6w0VD4KUVXH91tFU6tn1xGK
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7599:EE_|PH8PR11MB6950:EE_
+X-MS-Office365-Filtering-Correlation-Id: dc4fef1e-8519-4073-e090-08de41f15d25
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|366016|1800799024|52116014|13003099007|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?PsbTW/kl1aLsvhGcGFowjQVQpTi0D9YytD33guhwMgBIBfu6yc0PkgIzZn83?=
+ =?us-ascii?Q?Vbtmscq/EoeF8Ge3+UO+c12VRM8zaswguIP+0beQwYCOVOPZiXmFbcbsAde6?=
+ =?us-ascii?Q?O+iyX0GorEErhEfWd11Vjmr6NREUwxZZc2GDjcDSLIn9vY2pH5AGSKhcxIQo?=
+ =?us-ascii?Q?IZDgutMu0YlFmGfL0Xk6cDWVREBSt4loDt4L+r6YSmF6Y0kGcYWi8ipmAl9h?=
+ =?us-ascii?Q?/oQ9tk3ieh8gqkMbENEpCLlyPoGCTdYDuPUMrxxAEEfxuw6zg6qhIou2pTjx?=
+ =?us-ascii?Q?WNRDofTy6axj+ZtkSf43EpJcA2qQayg6dIQpuCpWKrxR6beGGHdYgOEh01+6?=
+ =?us-ascii?Q?8NwgKlmYljSZq7T5nTfQvQiusBsv4HxwjnPR6vsNTmq5Gg1dsUhSOsLIkCNq?=
+ =?us-ascii?Q?F2UMED2+Yc2XKRJwD19OKjdtYr0FzeRbAhPM2wpEGBK/3w5yon1Y7gFrnumb?=
+ =?us-ascii?Q?DtEDZfN2kCiN4Quf78kScwuJCWj7zjmaoOpT/hAZq/iLPr1ltfXuvagSm4zs?=
+ =?us-ascii?Q?rWp8AkOkbra3usUqctkE6ABkexcj5LLns+OODH+iQe9MFjlY26bwtLD0NCk5?=
+ =?us-ascii?Q?3hiC3s85ykLmKE2oMZIGz5+1Jg1wv9BXVgt04kHQfgkkauao7/XQ8Ykl3scs?=
+ =?us-ascii?Q?aLH2GRLx4I9KTovjMpvC2sEEk6PlL1Yl/897qXoj0BQH0/fXYl/zgaOCTJVV?=
+ =?us-ascii?Q?qVKnfPrDIQwJMaNkEXf/A2CvtWVNoWyNzxOrY9t7rUaKKUME5iRvwZdbgsUM?=
+ =?us-ascii?Q?cgdz+YzQBxegWSxjKq6ui0JL/mbfOX/aCfdA0yyA/rLnjQYo34aC3p3d8tWR?=
+ =?us-ascii?Q?i++ZX+sXHDwTJDxk3H5tngqOi8eEy8wE+0i5VDOnIY+GvILdvgfwxQeNglhc?=
+ =?us-ascii?Q?VDEbS8u26OuXCnlq1ZlbQlHXrvPcRgWlY/uv+QH0eiaweDOs0gMCWS2Yyuuk?=
+ =?us-ascii?Q?F/ZQFyDRRv2koOVdZa7SBVSObOXWx0w++vfxeOAnn7pjgBhrC3c4aZfDEsj4?=
+ =?us-ascii?Q?mVkl/sPc7JFaWIiXiLRV8vGwy/fkltuPV5L/jGFpcW3pIV9Yto89BJ0HdmTP?=
+ =?us-ascii?Q?U0RuDBftsBSh4Wxu8gy5g5uqnLKt2gkfh6DE0Az7fa9MA3Vj40VoNWcctNxT?=
+ =?us-ascii?Q?SnPXBKEbaAqDvq3TT8zxy0HHn8OuM+ZaW8tgPyML1dVxkR7W/4FK83U2siPt?=
+ =?us-ascii?Q?8SuP6zGRC0FPnHuNyCfJPpYbkMCPCEZjsKFYd9K7cTEwGa2tKN5s6BW+2gKM?=
+ =?us-ascii?Q?H1vs6O3JMxFRkc2KH890iA3SrPvefC8C1/hUioV2QBH+hda3TbmS4OrluXdG?=
+ =?us-ascii?Q?P3n+lx8/DoBd8sCImy+BYkX9VsldO951wDSCaalwNZFaX5q3rpuf6QZzDi2v?=
+ =?us-ascii?Q?SZa4IpdWj2kkGJydtdytNLEpZHggrrPnxAQBRC2/lcDIYlcrVQToBXW/iCCg?=
+ =?us-ascii?Q?2TMbcjFZ6K69KoA16WdW21/bky9e82jXX3nMdUV7RoJWsd2JOUbRVkwocTY1?=
+ =?us-ascii?Q?BZsPXIAcokQq8pfqsnVoNUzY6rGnSGpZjkX4ItLtsQqtqJmkOVmG7ptOkw?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7599.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(52116014)(13003099007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?4jrLkO3xX1nJFvZDOOy1Ftkei1Bb5t0RgWBC61hN1JB8Q4DCYfZTsgc+zaOC?=
+ =?us-ascii?Q?j9ammE3wv4538YoI9Jz2gEZdjmcT00Nt+6JDMbUSxyrLYcU+jLEjeHhSyCzy?=
+ =?us-ascii?Q?oqzFL7YuG7q2fO+b1WxlI94ghuiwHN/UCDarTSYF+cxBat1I+F/UpK7bAKdL?=
+ =?us-ascii?Q?w9bA0JNbCVXkqz4Tf+NgdDb4oF0jZS+Cx65VSmNLZx4IqhFDutC2kFZrMQ1m?=
+ =?us-ascii?Q?KlsVvKZkjLZ6lO0FAvYAtM8a2crCky673XMQqsSDTpYCqi4EHKHp3ZNxmY9D?=
+ =?us-ascii?Q?M0QDE/SZ3Dgd95DRa7hAt8bJocbenYN0IcRgZ3w0ntgwPBfA76auEn8rO4it?=
+ =?us-ascii?Q?oC22Eil6SsXJRZcw4beP0BYs1ldhAhUCIXkzisdnPb6j11B8IPtynlvgMCrl?=
+ =?us-ascii?Q?oJAQ80clnji/BkPh9jbhzMeZ8HBk+SdR5CAFeJJtPZhexPuvSolYrEWqkXdo?=
+ =?us-ascii?Q?a9y+7AmHC83IcyepvjwHUS8UfUJ4Z868wNj9W0PH3zQK9o0PJsdmQFsjkmqt?=
+ =?us-ascii?Q?CsgETnG9LzUQlwzMwrapuyU7mGVNYUAwZu2CSXgCewWccoVIFnqOubrxZYlK?=
+ =?us-ascii?Q?fG2hDUckw+v4u6Uxjevtmjj1bij6cxh3JLzJzD1hYCQ0zpdVcS2rZjUEK0ef?=
+ =?us-ascii?Q?b5kutPMm2abhyAAJfSVu3CbQTCyAJvX4HtPimCLQxINWVXy0yFWJ0WwF+Gmg?=
+ =?us-ascii?Q?eDNwEX0oR4ekTxrpHJedXBr829qH96k106rcvWvBh+m+nu5fDnMEzY4hHY5E?=
+ =?us-ascii?Q?rrrM+t3B7Z07cuXZaaColtvuI1tQXXy/EwBomgb7JsFuL0tx+KvOyq3YS+W4?=
+ =?us-ascii?Q?ORV3lK1+uTI/V4RD6P4Q1EfJx5TWh2OFeLAQ6oH0Zgt0aXsmfn49BQ/Y8iuy?=
+ =?us-ascii?Q?3kV6E0GBmfJZYzw7E1b68n6/AAL8tZkv9FPohYabKGppmYlA0ZOHp8hrq1w5?=
+ =?us-ascii?Q?bE6D2iupqTc295qxy79/2Zi6KjsnSLCfDVPNNSmmcvRKLNXhps76s1PY52Ea?=
+ =?us-ascii?Q?r+8Vh06MoCMLrN49gPBCbtJNeZ6QtwmRlSY1ZZ51KyJ43fY+1lp/Z2tvGcQH?=
+ =?us-ascii?Q?Ym2ME8LH9wGAxEvefvJeHOkg6SxSXcge4flfXyYkthq3zfQwk2sDB8PIzfN6?=
+ =?us-ascii?Q?Oxz1vW+Y9Al7WNV3ZYiBqCaVvGVjbonGIOdEs64ixJz3uKAQe0M0nmTfuu2p?=
+ =?us-ascii?Q?wpngg3iFa73GjHWI5VTE+5eFePogeos+qr8v1ICwihYEN5zqdrI0TTqDyXqX?=
+ =?us-ascii?Q?DMnqIOoEJD6UFryaMcdk86RgXnpznCp9NGZaV1V0SbXmy6d1To7Bu7AuZr23?=
+ =?us-ascii?Q?gsgAFyipkS0KuPMm83l5M0lO7OStBqQy7xNnYHv0E7SHq9/7999+1JJn2Fdy?=
+ =?us-ascii?Q?h+2PhdBBWwpA1BQfY5EC0lrtRtDDJi29p8elo1LL77k13oo7brBJpcF8LqYH?=
+ =?us-ascii?Q?GnXad6tiTjGc+r8IS9cxUHiulT/a8hVfJtSRpRzZoxpcJu7XXpd9rkvceGd2?=
+ =?us-ascii?Q?ZquwtmSDjmm7LN0CAc0XqiePIlGEM8VCgYwy+I8/fqnbmADVKS22MVgfIPiR?=
+ =?us-ascii?Q?Txz/VBbO8EemkIv07yEr66I7cfcUb3vjEbIIk4fWgDZdwd58t1On3RyixL3k?=
+ =?us-ascii?Q?cDwSh+u6pbUGJvMDL+ZIK9QOE44fh/Zger8obLwszIdPJyJ5OX/s5g1xB98M?=
+ =?us-ascii?Q?ZtQJ92c5OYb2eygCtLP8t1X2pw8Ksduhq+PUEz1M1bNea5BK7ZQOPqdO4vmy?=
+ =?us-ascii?Q?locgK2NqssgAqDkjV27PnUA2jNCpXis=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc4fef1e-8519-4073-e090-08de41f15d25
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7599.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2025 07:03:23.9573
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hRb5z/ll1pSfpfcwMAU2fWDOH9ZZGU9Vud8zPAk+RBXE3ANByGFvcXsO9S9B0/TohAiWHDZckr0ECBxxKEs6EcWuwB037gSc3IvMWkv2tnQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6950
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: NMQjCkU9VdTo3sFrVZxY_zMn--8Qgm3X
+X-Authority-Analysis: v=2.4 cv=To7rRTXh c=1 sm=1 tr=0 ts=694a3ec0 cx=c_pps
+ a=h6NrD5D8j3GnK3ckJnoRDA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=CCpqsmhAAAAA:8 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=dHwC8glK4a3Alx4pFYEA:9
+ a=ul9cdbp4aOFLsgKbc677:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 6tdcsqwiT66vmtaiWp7eKgLTItJiFhO_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDA1OCBTYWx0ZWRfXztu76FjCtZ8z
+ T+LNOmu5A2NOwXbzYgHQYcQhOgrRQmHDo6eJHQLxAvhaYnz1WKo8J0K/HSbDpD6G62XxKJAGCa3
+ yc4nxn+85tgP9UlguII92vWm7TpgECbDmizRFztncssZv9TG7hg3u5s1+TjPoiKNHdPS5UWoPnX
+ +xY5L6QbHERe6SA8wnfPwlIoM1OvBE8btSD8ytCU6HZZWveSbpbLpW3ClleEPVAEOtzKpHNUPqf
+ A5AVAfjxmbRI68RjP2Xdn5jgXB/8bpLoUAm+5CUU0IV2/Aqwr+4n7nbrFtYYS7F/yXqoe4Hi384
+ RHj1ZQW2NFyHfs9cfE+UUMK+6u8Q8pEaT1cgj5Jx6wMQdkqn/dcIK2S6r8qCiihSpSyKYYNJ7CY
+ G1JFUmBXuQskNqybmaercDkrNzd+v2qf5rlRg4SKQFF9VJ4eVen+ZBN8i8rkvJcbViFtuJS9dzk
+ MIJHpx0L0OJ231TCbtA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-23_02,2025-12-22_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 malwarescore=0 spamscore=0 phishscore=0 impostorscore=0
- suspectscore=0 adultscore=0 clxscore=1011 priorityscore=1501 bulkscore=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0
+ adultscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512230052
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512230058
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 06:41:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228449
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 07:03:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228450
 
-Backport upstream commit 68daa04654ac to enable persisting EFI variable
-updates when U-Boot provides SetVariableRT support via efivarfs. This
-addresses limitations on embedded boards that store EFI variables in a
-file on the ESP instead of NVRAM.
+From: Yash Shinde <Yash.Shinde@windriver.com>
 
-Upstream commit:
-https://github.com/rhboot/efivar/commit/68daa04654acbe1bbaa17ebfc23c371b39e69c6b
+CVE-2025-11839
 
-Signed-off-by: Shravan Kumar <shrkum@qti.qualcomm.com>
+PR 33448
+[BUG] Aborted in tg_tag_type at prdbg.c:2452
+Remove call to abort in the DGB debug format printing code, thus allowing
+the display of a fuzzed input file to complete without triggering an abort.
+
+https://sourceware.org/bugzilla/show_bug.cgi?id=33448
+
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=12ef7d5b7b02d0023db645d86eb9d0797bc747fe]
+
+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 ---
- ...file-variable-store-on-SetVariableRT.patch | 239 ++++++++++++++++++
- meta/recipes-bsp/efivar/efivar_39.bb          |   1 +
- 2 files changed, 240 insertions(+)
- create mode 100644 meta/recipes-bsp/efivar/efivar/0002-efivarfs-backport-patch-to-update-file-variable-store-on-SetVariableRT.patch
+ .../binutils/binutils-2.45.inc                |  1 +
+ .../binutils/0019-CVE-2025-11839.patch        | 32 +++++++++++++++++++
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0019-CVE-2025-11839.patch
 
-diff --git a/meta/recipes-bsp/efivar/efivar/0002-efivarfs-backport-patch-to-update-file-variable-store-on-SetVariableRT.patch b/meta/recipes-bsp/efivar/efivar/0002-efivarfs-backport-patch-to-update-file-variable-store-on-SetVariableRT.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.45.inc b/meta/recipes-devtools/binutils/binutils-2.45.inc
+index 58964a6cfb..9ae0e72e60 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.45.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.45.inc
+@@ -44,4 +44,5 @@ SRC_URI = "\
+      file://CVE-2025-11413.patch \
+      file://CVE-2025-11495.patch \
+      file://0018-CVE-2025-11494.patch \
++     file://0019-CVE-2025-11839.patch \
+ "
+diff --git a/meta/recipes-devtools/binutils/binutils/0019-CVE-2025-11839.patch b/meta/recipes-devtools/binutils/binutils/0019-CVE-2025-11839.patch
 new file mode 100644
-index 0000000000..d5ec3d5419
+index 0000000000..7f2f6d553d
 --- /dev/null
-+++ b/meta/recipes-bsp/efivar/efivar/0002-efivarfs-backport-patch-to-update-file-variable-store-on-SetVariableRT.patch
-@@ -0,0 +1,239 @@
-+From fb90073d51dd8a9f726fbbfcf4fab4aa7781eea3 Mon Sep 17 00:00:00 2001
-+From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-+Date: Wed, 18 Jun 2025 22:37:04 +0300
-+Subject: [PATCH] efivarfs: Update a file variable store On SetVariable RT
++++ b/meta/recipes-devtools/binutils/binutils/0019-CVE-2025-11839.patch
+@@ -0,0 +1,32 @@
++From 12ef7d5b7b02d0023db645d86eb9d0797bc747fe Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Mon, 3 Nov 2025 11:49:02 +0000
++Subject: [PATCH] Remove call to abort in the DGB debug format printing code,
++ thus allowing the display of a fuzzed input file to complete without
++ triggering an abort.
 +
-+Embedded boards have hardware limitations when storing and managing EFI
-+variables. Some hardware comes with an eMMC & an RPMB partition which they
-+use to store the EFI variables securely. However, the vast majority of
-+boards (using U-Boot), stores the EFI variables in a file in the ESP.
-+
-+This has a few limitations
-+- UEFI secure boot cannot be enabled as it can be very easily
-+  overridden
-+- SetVariable at runtime is impossible to support
-+
-+Distros and capsule updates on-disk do rely on the that service though
-+and U-Boot does implement a workaround.
-+
-+U-Boot enables SetVariableRT in the RTPROP table and creates a memory backend,
-+so the linux kernel can naturally read and write variables via the efivarfs
-+filesystem. Those reads and writes end up in memory though. So they are visible
-+while the OS is live and are lost in the event of a reboot.
-+
-+At the same time it also creates two EFI RO variables.
-+RTStorageVolatile -- Holds the filename  the variables are stored relative to
-+                     the ESP
-+VarToFile -- Holds a binary dump of all the EFI variables that should be
-+             preserved (BS, NV, RT).
-+
-+By using these two variables we can persist the changes after reboots by
-+doing
-+dd if=/sys/firmware/efi/efivars/VarToFile-b2ac5fc9-92b7-4acd-aeac-11e818c3130c of=/boot/efi/ubootefi.var skip=4 bs=1
-+
-+So let's plug this functionality into the efivafs backend and enable it
-+automatically if those variables are detected.
-+
-+Upstream-Status: Backport [https://github.com/rhboot/efivar/commit/68daa04654acbe1bbaa17ebfc23c371b39e69c6b]
-+
-+Signed-off-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
++PR 33448
 +---
-+ src/efivarfs.c | 157 +++++++++++++++++++++++++++++++++++++++++++++++--
-+ 1 file changed, 153 insertions(+), 4 deletions(-)
++ binutils/prdbg.c | 1 -
++ 1 file changed, 1 deletion(-)
 +
-+diff --git a/src/efivarfs.c b/src/efivarfs.c
-+index 034d6c19..2dea2525 100644
-+--- a/src/efivarfs.c
-++++ b/src/efivarfs.c
-+@@ -28,6 +28,24 @@
-+ #  define EFIVARFS_MAGIC 0xde5e81e4
-+ #endif
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=12ef7d5b7b02d0023db645d86eb9d0797bc747fe]
++CVE: CVE-2025-11839
++
++Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
++
++diff --git a/binutils/prdbg.c b/binutils/prdbg.c
++index c239aeb1a79..5d405c48e3d 100644
++--- a/binutils/prdbg.c
+++++ b/binutils/prdbg.c
++@@ -2449,7 +2449,6 @@ tg_tag_type (void *p, const char *name, unsigned int id,
++       t = "union class ";
++       break;
++     default:
++-      abort ();
++       return false;
++     }
 + 
-++/*
-++ * RTStorageVolatile-b2ac5fc9-92b7-4acd-aeac-11e818c3130c holds the name of
-++ * the file we need to update relative to the ESP
-++ */
-++#define NAME_RTSV	"RTStorageVolatile"
-++/*
-++ * Namespace of the special EFI variables pointing to the file and data we
-++ * need to update
-++ */
-++#define GUID_FILE_STORE_VARS \
-++	EFI_GUID(0xB2AC5FC9,0x92B7,0x4ACD,0xAEAC,0x11,0xE8,0x18,0xC3,0x13,0x0C)
-++
-++static const char *esp_paths[] = {
-++	"/boot/efi/",
-++	"/boot/",
-++	"/efi/"
-++};
-++
-+ static char const default_efivarfs_path[] = "/sys/firmware/efi/efivars/";
-+ static char *efivarfs_path;
-+ 
-+@@ -64,6 +82,137 @@ fini_efivarfs_path(void)
-+ 	}
-+ }
-+ 
-++static int
-++get_esp_filepath(const char *filename, char *filepath, size_t sz)
-++{
-++	size_t num_paths = sizeof(esp_paths) / sizeof(esp_paths[0]);
-++	size_t rc;
-++
-++	for (size_t i = 0; i < num_paths; ++i) {
-++		struct stat buffer;
-++
-++		rc = snprintf(filepath, sz, "%s%s", esp_paths[i], filename);
-++		if (rc >= sz) {
-++			fprintf(stderr, "Error: Filepath too big. Max allowed %ld\n", sz);
-++			return -1;
-++		}
-++		if (!stat(filepath, &buffer))
-++			return 0;
-++	}
-++
-++	return -1;
-++}
-++
-++static int
-++get_esp_filename(char *filename, size_t sz)
-++{
-++	size_t size;
-++	uint32_t attr;
-++	uint8_t *data = NULL;
-++	int rc = 0;
-++
-++	rc = efi_get_variable(GUID_FILE_STORE_VARS, NAME_RTSV, &data, &size, &attr);
-++	if (rc < 0)
-++		/*
-++		 * Return an error here so we can bail out and not try to
-++		 * write the file
-++		 */
-++		return rc;
-++
-++	if (size > sz) {
-++		fprintf(stderr, "Error: Filename too big. Max allowed %ld\n", sz);
-++		free(data);
-++		return -1;
-++	}
-++
-++	memcpy(filename, data, sz);
-++	free(data);
-++
-++	return 0;
-++}
-++
-++#define make_efivarfs_path(str, guid, name) ({				\
-++		asprintf(str, "%s%s-" GUID_FORMAT, get_efivarfs_path(),	\
-++			name, GUID_FORMAT_ARGS(&(guid)));		\
-++	})
-++
-++static void
-++write_file(const char *filepath) {
-++	size_t bytes_read;
-++	unsigned char buffer[1024];
-++	FILE *output_file = NULL;
-++	FILE *var2file = NULL;
-++	bool fail = false;
-++	char *path;
-++	int rc;
-++
-++	rc = make_efivarfs_path(&path, GUID_FILE_STORE_VARS, "VarToFile");
-++	if (rc < 0) {
-++		efi_error("make_efivarfs_path failed");
-++		exit(1);
-++	}
-++
-++	var2file = fopen(path, "rb");
-++	if (!var2file) {
-++		fprintf(stderr, "Error: Could not open file '%s'\n", path);
-++		goto err;
-++	}
-++
-++	output_file = fopen(filepath, "wb");
-++	if (!output_file) {
-++		fprintf(stderr, "Error: Could not open file '%s'\n", filepath);
-++		goto err;
-++	}
-++
-++	if (fread(buffer, 1, 4, var2file) < 4) {
-++		fprintf(stderr, "Error: Could not skip first 4 bytes or '%s' file is too small\n", filepath);
-++		fail = true;
-++		goto err;
-++	}
-++
-++	while ((bytes_read = fread(buffer, 1, sizeof(buffer), var2file)) > 0) {
-++		size_t total_written = 0;
-++		while (total_written < bytes_read) {
-++			size_t written = fwrite(buffer + total_written, 1, bytes_read - total_written, output_file);
-++			if (!written) {
-++				fprintf(stderr, "Error: Could not write data to ESP '%s' file\n", filepath);
-++				fail = true;
-++				goto err;
-++			}
-++			total_written += written;
-++		}
-++	}
-++
-++err:
-++	if (path)
-++		free(path);
-++	if (var2file)
-++		fclose(var2file);
-++	if (output_file)
-++		fclose(output_file);
-++
-++	if (fail)
-++		exit(1);
-++}
-++
-++static void
-++efi_update_var_file(void)
-++{
-++	int rc = 0;
-++	char filename[PATH_MAX / 4] = { 0 };
-++	char filepath[PATH_MAX] = { 0 };
-++
-++	rc = get_esp_filename(filename, sizeof(filename));
-++	if (rc < 0)
-++		return;
-++
-++	rc = get_esp_filepath(filename, filepath, sizeof(filepath));
-++	if (!rc)
-++		write_file(filepath);
-++	else
-++		fprintf(stderr, "Error: '%s' file not found in ESP partition. EFI variable changes won't persist reboots\n", filename);
-++}
-++
-+ static int
-+ efivarfs_probe(void)
-+ {
-+@@ -94,10 +243,6 @@ efivarfs_probe(void)
-+ 	return 0;
-+ }
-+ 
-+-#define make_efivarfs_path(str, guid, name) ({				\
-+-		asprintf(str, "%s%s-" GUID_FORMAT, get_efivarfs_path(),	\
-+-			name, GUID_FORMAT_ARGS(&(guid)));		\
-+-	})
-+ 
-+ static int
-+ efivarfs_set_fd_immutable(int fd, int immutable)
-+@@ -312,6 +457,8 @@ efivarfs_del_variable(efi_guid_t guid, const char *name)
-+ 	if (rc < 0)
-+ 		efi_error("unlink failed");
-+ 
-++	efi_update_var_file();
-++
-+ 	__typeof__(errno) errno_value = errno;
-+ 	free(path);
-+ 	errno = errno_value;
-+@@ -442,6 +589,8 @@ efivarfs_set_variable(efi_guid_t guid, const char *name, const uint8_t *data,
-+ 		goto err;
-+ 	}
-+ 
-++	efi_update_var_file();
-++
-+ 	/* we're done */
-+ 	ret = 0;
-+ 
-diff --git a/meta/recipes-bsp/efivar/efivar_39.bb b/meta/recipes-bsp/efivar/efivar_39.bb
-index fb6b6b3821..c0e8d52181 100644
---- a/meta/recipes-bsp/efivar/efivar_39.bb
-+++ b/meta/recipes-bsp/efivar/efivar_39.bb
-@@ -9,6 +9,7 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64|riscv64).*-linux"
- 
- SRC_URI = "git://github.com/rhinstaller/efivar.git;branch=main;protocol=https \
-            file://0001-docs-do-not-build-efisecdb-manpage.patch \
-+           file://0002-efivarfs-backport-patch-to-update-file-variable-store-on-SetVariableRT.patch \
-            "
- SRCREV = "c47820c37ac26286559ec004de07d48d05f3308c"
- 
++-- 
++2.43.7
++
 -- 
-2.34.1
+2.49.0
 
 
