@@ -1,192 +1,175 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52533E6F06A
-	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 08:17:42 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.97230.1766477853087261891
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93B8BE6F076
+	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 08:55:12 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.97598.1766480103544566007
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Dec 2025 00:17:33 -0800
+ Tue, 23 Dec 2025 00:55:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=AjDS+TBj;
- spf=pass (domain: linaro.org, ip: 209.85.208.180, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-37b935df7bfso40688721fa.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 00:17:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1766477851; x=1767082651; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M3Jx4D2S0fg7R30yWFUCJqdOCPQ1lX8BdOTMy1JfUGk=;
-        b=AjDS+TBjBS9lvKhFdYfdnRshNr8NYBAMaZYKXhCEis9EWeZtn1gXx6NW+AM052u8ef
-         MGTiAX2y76RclflpE0Rxp8pFHx/egjUVRG4ulTJEgmKSYb7CXiBsqwIZmFXOwXZBIjeC
-         iruJg0dpuWamzIFqJX7bppPIlOeXUTzsebxTLn5kB+j7XjWI719YCIFUaR5qHW+B92J1
-         PeRQPjTfj/xBtUHquOkbc1MWZyS2KXp7d/JxIKWsygchJQ/7CSUO0XhO+zcS9RfF2orr
-         uneSsp7gogBDv+4ZX+PhJt7F+7g+rk13RJNh1lUFc5OTZnGtMa70nRGH0MO7noofUyqr
-         +JdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766477851; x=1767082651;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M3Jx4D2S0fg7R30yWFUCJqdOCPQ1lX8BdOTMy1JfUGk=;
-        b=tBMDbekuQTQbK0azYsS904FEpLLG4rdFxSW1clpZ7hnzOdJx4JSJajwr+dMzqh1o3p
-         AhDl9HqfPX8mHYMRSQkoiyaFHNyEHnG7JmvG7mHA5Z4ARaNRPPb+TrH55LGN3ZETRlTU
-         iiYYBzZQPAD6tjD4VP0MdOP/RvMQLhyBRG5hnRfETdq34O0fywokDGw1/5YtOJ9oTzOq
-         jB9frnhVeYPhkRu78iliHXH+20kGRmLbPrgE6CWHMUd8wDFbdcFHcmIZA0CiSVX8Z9OJ
-         jYK3iz00LACYf2kertHCrR6MbzSBD47QpnRHXBaGymg4vrn+hwNwFTw2WeGJDxIKb5K9
-         EbgA==
-X-Forwarded-Encrypted: i=1; AJvYcCUZ+X7ydsrroDu4H6jDCrNbm0pwYIjtYV05RleSf2lLIYlFVJ4ZFjCGevpJOzYPd8Vct1R/f4y30ya7B3I52i63Rw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwMuwyivio0la19n1f6T1zWbJWvSOBleuzqp3LPTs7uAyJI6nE/
-	FnzJMhlao9O2VTchmwMsIpVnO9Jhy/DnegKnu0151GQW2s3Nw+2LgIqdO6MRbf42Zk0=
-X-Gm-Gg: AY/fxX63KKRmUE906hZfGBPPmFkn6MDBLU3qjiNFY+6fhRPwYl+n1jPzU85r60lnIje
-	FRtDZRRbd1H3p5p7gMuE3UW4BUQPLlo0nxanUBIHI8Z86qxRhRHReiTk2ey+x24Gv7y/5VzWwwy
-	RgknyiphCSEKTcQh2KEW94dfuxylSLjv0SAbMv+rMT+5bS5W7t8Tb5Tns8odBiEoKA5Cfe9vtTz
-	hMo2odz2Mso9Sdb7x7kwCV9rHHkN+RcrPS9SWavu798RcJJyB/FSvhYFzSVQPv9QNZHrnOvZCQc
-	XosvCTDajFsMNlWw4eiqqKf6yDWIEsZvRMtQqn0u3nqtFoGllNJBYAzuEgWYGgRA2DyeLr0vXRA
-	ktrBEiPOouzeIcBw5sZJMUUFfsQdlEGLrQCJR5IPn+0eEXOwg5TcIpMEWuSl9RPeiOAUlWyOqPp
-	v8jc8QG5bkz8wT6LHwDcRBClZPpqD+l/k8FE/P+pqzibvu
-X-Google-Smtp-Source: AGHT+IEeWag8eZzS5Q794GWpzNp9Fhp/DwO5uQtK6J/E6RU4jEQkWaRdN8vHEdBNOGfvU8QT2fdPLg==
-X-Received: by 2002:a05:6512:3e0d:b0:594:2f1a:6ff0 with SMTP id 2adb3069b0e04-59a17d1816bmr4125399e87.9.1766477850741;
-        Tue, 23 Dec 2025 00:17:30 -0800 (PST)
-Received: from nuoska (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a185ddb06sm3950021e87.33.2025.12.23.00.17.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Dec 2025 00:17:30 -0800 (PST)
-Date: Tue, 23 Dec 2025 10:17:28 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: bruce.ashfield@gmail.com,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 0/21] linux-yocto: combined and consolidated
- pull request
-Message-ID: <aUpQGC3mcaeaQAoi@nuoska>
-References: <cover.1766087617.bruce.ashfield@gmail.com>
- <5044d0ec483159af764bfd2b51baf08e6410ec8e.camel@linuxfoundation.org>
- <CADkTA4OCyZUO5ASTEi+i7iyhYD9Zp8byzYOa+4UBLfGt2w+xnA@mail.gmail.com>
- <1883C7B7E16A04B1.1614991@lists.openembedded.org>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=QNF++0ER;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=44520b30bf=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BN4F5h01715505
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 08:55:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=5WF5D6nhD5V8KCoWR8xa
+	2gAaVObQkH3koBagbmaQY7g=; b=QNF++0ERj+2RSdjVe6O1orfP9ZSNZ0z7F1sh
+	kMg8/YgD/ntwR944yRg3d4n6KG4jfImPzBdzEbpFUGz/RHPLnsGXwZ6PnyLDVKHp
+	ePtSohPKCQzR93gJdHMQxcd2VH0QezFoEgcv5l1NAD0FePLXpGcYK9VXWOtwZD90
+	Mp+0Qcqw5SFroI/uUMgEgMUZaxOJDgLFJoVq0j+B4PSS8632Zs0GFWPM5Vv2kubO
+	EyVEBVl7Mq/w3RXn4zzEQHKSqNVv7QaSg1YX9dYOlScg1nISONtOwQ2b4HGm9Y0n
+	pElo+GfrI+RpCX5kMdZPcGv19dyO/VPDQzRIwWr3ytoYInIVHw==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b5h0vjwge-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 08:55:02 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 23 Dec 2025 00:55:01 -0800
+Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 23 Dec 2025 00:55:00 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] vte: fix build failed for ppc64
+Date: Tue, 23 Dec 2025 16:54:53 +0800
+Message-ID: <20251223085453.1635323-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1883C7B7E16A04B1.1614991@lists.openembedded.org>
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: U6xthVZt9qwHsSKy_ZyIb_401c7qNCM2
+X-Authority-Analysis: v=2.4 cv=I6Fohdgg c=1 sm=1 tr=0 ts=694a58e6 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
+ a=3cCsK628I2U-VFOQBP4A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: U6xthVZt9qwHsSKy_ZyIb_401c7qNCM2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDA3MyBTYWx0ZWRfX0L8vns9LJ2uG
+ GaH0QHQ2lsZPI4ZqAd5hvnN+jKWgQlVvKYdV8kJY04g4LJZFuIO4pUFILo/uYWyIJSAvpbXsnUT
+ MLngDmsLZnRWNZVNNwDEMV/fjE58xNYcmY0ieX63jEq/OuuTIRNHZEo2GXYLaiBYhjVgoh0VPDt
+ WAtGgEt6ddfh9IENcHYONVm9ehuGimhuPZZOKwJtCSzD3O7HRY8zTJYPljAD9tu+Nn4Dmx6CAv0
+ mv75Cfn2khmMHN63nr0B4EOro7V290yC/YbDFOLonVfZGouBO4pHXoHwZk4IS5T7dc6jqlw/MkN
+ +VI+smfRMQzk/UnmqAmeywphn86n5h3bBv93J9nrZY6kLzo1rBlb3uKu98v8DO/WUzv57PauLf5
+ Y4VfXFM9X//M45d3YS3bzggOkBmXpHq75otUGdRbiHRlhXRRpL29abEQMbkwHQ7IlTlYvs/eX55
+ IJBmn2yTxYBEX0MxKxA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-23_02,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0
+ impostorscore=0 bulkscore=0 malwarescore=0 adultscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512230073
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 08:17:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228458
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 08:55:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228459
 
-Hi,
+$ echo 'MACHINE = "qemuppc64"' >> conf/local.conf
+$ bitbake vte
+...
+|subprojects/simdutf/simdutf.cpp:20533:7: error: there are no arguments to 'write_v_u16_11bits_to_utf8' that depend on a template parameter, so a declaration of 'write_v_u16_11bits_to_utf8' must be available [-Wtemplate-body]
+|20533 |       write_v_u16_11bits_to_utf8(
+|      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|subprojects/simdutf/simdutf.cpp:20533:7: note: (if you use '-fpermissive', G++ will accept your code, but allowing the use of an undeclared name is deprecated)
+|subprojects/simdutf/simdutf.cpp:20559:7: error: there are no arguments to 'ppc64_convert_utf16_to_1_2_3_bytes_of_utf8' that depend on a template parameter, so a declaration of 'ppc64_convert_utf16_to_1_2_3_bytes_of_utf8' must be available [-Wtemplate-body]
+|20559 |       ppc64_convert_utf16_to_1_2_3_bytes_of_utf8(
+|      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|subprojects/simdutf/simdutf.cpp:20533:33: error: 'write_v_u16_11bits_to_utf8' was not declared in this scope
+|20533 |       write_v_u16_11bits_to_utf8(
+|      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+|20534 |           in, utf8_output, as_vector_u8(one_byte_bytemask), one_byte_bitmask);
+|      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+...
 
-On Tue, Dec 23, 2025 at 09:31:06AM +0200, Mikko Rapeli via lists.openembedded.org wrote:
-> On Mon, Dec 22, 2025 at 10:34:14PM -0500, Bruce Ashfield via lists.openembedded.org wrote:
-> > On Mon, Dec 22, 2025 at 9:13 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > Hi Bruce,
-> > >
-> > > On Thu, 2025-12-18 at 15:22 -0500, bruce.ashfield@gmail.com wrote:
-> > > > As discussed in the weekly engineering call, I'm sending this as
-> > > > single series even though it crossed boundaries of the repositories.
-> > > >
-> > > > I don't have access to meta-yocto-contrib yet, so I haven't pushed
-> > > > the component parts to contrib branches yet, but will do that for
-> > > > future pull requests.
-> > > >
-> > > > I'm using this as a first run through some things I've cooked up
-> > > > to coordinate the patches across the repos. The formatting is my
-> > > > own, so apologies if it isn't clear .. and we'll see if it all
-> > > >
-> > > > Now to the series for OE-core:
-> > > >
-> > > >  - We have stable updates to 6.12
-> > > >  - A kern-tools fix
-> > > >  - Updates to 6.17
-> > > >  - Removal of 6.17
-> > > >  - Introduction of 6.18
-> > > >  - Bump to libc-headers to 6.18
-> > > >
-> > > > I've built and booted what I can locally, and I know that the
-> > > > major architectures work, and are functional with respect to
-> > > > core features.
-> > > >
-> > > > I have more libc-headers testing running against meta-oe and
-> > > > muslc, so there may be some breakage there and I'll help deal
-> > > > with that if it happens.
-> > > >
-> > > > The update and then removal of 6.17 is on purpose. In case any
-> > > > one was using it, they should get the latest tested before it
-> > > > starts to be removed.
-> > > >
-> > > > For meta-yocto:
-> > > >
-> > > >   - removal of any remaining 6.17 references
-> > > >   - introduction of 6.18
-> > > >
-> > > > The meta-yocto default changes are obviously REALLY RFC/RFT
-> > > > there will be issues, but I've provided them anyway to make it
-> > > > clear that we are going to 6.18 as the new default for all the
-> > > > variants.
-> > > >
-> > > > Once we get 6.18 fully green and the h/w references udpated,
-> > > > I'll remove 6.12 and 6.16 from master. That isn't in this series
-> > > > by design.
-> > >
-> > > I ran this through some testing and it isn't straight forward.
-> > >
-> > 
-> > Back online after a 10 hour drive!
-> > 
-> > > We need a newer strace with the newer kernel so I queued that patch
-> > > from Robert. That caused ptest failures so I disabled the failing bpf
-> > > strace ptests.
-> > 
-> > ok. I'll ignore strace and assume that bump will handle it.
-> > 
-> > >
-> > > ltp failed to compile so I backported a patch to fix that.
-> > >
-> > 
-> > ack'd
-> > 
-> > > We still have a cryptodev-module failure:
-> > > https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/2922
-> > > https://autobuilder.yoctoproject.org/valkyrie/#/builders/25/builds/2897
-> > > (all world builds I think)
-> > 
-> > I can handle this one, it'll be.a day or so, but I also haven't checked
-> > the  autoupdate list yet to see if this is in it. I'll check the lists before
-> > I start and see if anyone else has an update in flight.
-> > 
-> > >
-> > > and an initramfs module space problem:
-> > > https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/2931
-> > 
-> > And a config warning (easy for me to fix).'
-> > 
-> > For the space. Is it only genericarm64 that we do this test on ?  It
-> > could either e normal kernel size increases, or it could be all the work
-> > that has been done in genericarm64's config that has causes this.
-> > 
-> > If it is normal kernel, then I can have a look for something obvious,
-> > and then we can increase the size. If it is only genericarm64, then
-> > we should get Mikko's opinion on what might be options we could
-> > tweak to reduce the size.
-> 
-> This is normal. More drivers as modules, dependencies to firmware and slight
-> increase in kernel size hitting the limit again. I think increasing the limit
-> is the way to go now. I've been hitting this limit locally with 6.17 kernel too
-> after some more arm64 drivers are enabled.
+The source file subprojects/simdutf/simdutf.cpp is generated by python3
+script singleheader/amalgamate.py and the definition of write_v_u16_11bits_to_utf8
+for ppc64 requires option --with-utf16 and --with-latin1
 
-I see Richard added a patch in meta-yocto master-next to update genericarm64
-INITRAMFS_MAXSIZE to 280 Mb. This is fine for me.
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ .../0001-fix-compile-failed-on-ppc64.patch    | 50 +++++++++++++++++++
+ meta/recipes-support/vte/vte_0.82.1.bb        |  3 ++
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-support/vte/vte/0001-fix-compile-failed-on-ppc64.patch
 
-A lot of the kernel drivers and firmware blobs are strictly not needed in initramfs
-to mount the rootfs, but we can't separate them at the moment without full manual
-control of the initramfs package contents.
+diff --git a/meta/recipes-support/vte/vte/0001-fix-compile-failed-on-ppc64.patch b/meta/recipes-support/vte/vte/0001-fix-compile-failed-on-ppc64.patch
+new file mode 100644
+index 0000000000..24568f9b8c
+--- /dev/null
++++ b/meta/recipes-support/vte/vte/0001-fix-compile-failed-on-ppc64.patch
+@@ -0,0 +1,50 @@
++From de8a97d73613378fd86467c1323eac7aaaa3154d Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Tue, 23 Dec 2025 16:18:52 +0800
++Subject: [PATCH] fix compile failed on ppc64
++
++...
++|subprojects/simdutf/simdutf.cpp:20533:7: error: there are no arguments to 'write_v_u16_11bits_to_utf8' that depend on a template parameter, so a declaration of 'write_v_u16_11bits_to_utf8' must be available [-Wtemplate-body]
++|20533 |       write_v_u16_11bits_to_utf8(
++|      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
++|subprojects/simdutf/simdutf.cpp:20533:7: note: (if you use '-fpermissive', G++ will accept your code, but allowing the use of an undeclared name is deprecated)
++|subprojects/simdutf/simdutf.cpp:20559:7: error: there are no arguments to 'ppc64_convert_utf16_to_1_2_3_bytes_of_utf8' that depend on a template parameter, so a declaration of 'ppc64_convert_utf16_to_1_2_3_bytes_of_utf8' must be available [-Wtemplate-body]
++|20559 |       ppc64_convert_utf16_to_1_2_3_bytes_of_utf8(
++|      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++|subprojects/simdutf/simdutf.cpp:20533:33: error: 'write_v_u16_11bits_to_utf8' was not declared in this scope
++|20533 |       write_v_u16_11bits_to_utf8(
++|      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~^
++|20534 |           in, utf8_output, as_vector_u8(one_byte_bytemask), one_byte_bitmask);
++|      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++...
++
++Build failed on ppc64, the definition of write_v_u16_11bits_to_utf8 requires
++--with-utf16 and --with-latin1
++
++Upstream-Status: Inappropriate [Yocto specific for ppc64]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ meson.build | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 330ee89..a6c64ca 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -41,10 +41,11 @@ simdutf_amalgamate = [
++   '--no-zip',
++   '--no-readme',
++   '--with-utf8',
++-  # '--with-utf16',
+++  '--with-utf16',
++   '--with-utf32',
++   # '--with-base64',
++   # '--with-detect-enc',
+++  '--with-latin1',
++   '--with-ascii',
++ ]
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/vte/vte_0.82.1.bb b/meta/recipes-support/vte/vte_0.82.1.bb
+index b5d6f2fb62..3179393bd4 100644
+--- a/meta/recipes-support/vte/vte_0.82.1.bb
++++ b/meta/recipes-support/vte/vte_0.82.1.bb
+@@ -20,6 +20,9 @@ inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-intr
+ SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
+             file://0001-support-reproducibility-for-debug-sources.patch;patchdir=./subprojects/simdutf \
+ "
++SRC_URI:append:class-target:powerpc64le = " \
++            file://0001-fix-compile-failed-on-ppc64.patch;patchdir=./subprojects/simdutf \
++"
+ 
+ SRC_URI[archive.sha256sum] = "79376d70402d271e2d38424418e1aea72357934d272e321e3906b71706a78e3a"
+ 
+-- 
+2.34.1
 
-Cheers,
-
--Mikko
 
