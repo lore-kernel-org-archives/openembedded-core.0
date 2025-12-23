@@ -2,146 +2,149 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C215E6FE45
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80AC5E6FE4A
 	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 21:23:16 +0000 (UTC)
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.109355.1766524988171557108
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.108986.1766524990031662088
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Dec 2025 13:23:08 -0800
+ Tue, 23 Dec 2025 13:23:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=m7CrMFCc;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.193, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-2a0ac29fca1so47623565ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 13:23:08 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=y/Ul1yaa;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a12ebe4b74so92922535ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 13:23:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1766524987; x=1767129787; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1766524989; x=1767129789; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sMj53PIJ3XWsNnCqvGtne3dbeqaS5i2pw0yaiah0u+k=;
-        b=m7CrMFCcn5IYRKOKDYRWOYaeNth7KIxEIJyXc1Kzti5Po1RIo59vqoQD22G8wueRmS
-         S3QcufaRnZ3tiZ/vV/5ybyhThmX8vRY5Ewa7F4Wi3l1DO4wYiEOyabu5sCp9VP2SkIxY
-         iA6yUICq1O2VDum61P0TwrGPAsQBLayeMTkSieZ5JtfbajEjYI3sQ6SgcADtG7rJVd5E
-         rCDHVqeZtrraBN/tRZ2Vom9D5y3fXAR8cbNbjepdDiEUfh1LA8w2Dp0+BKgq2Bs5DKXu
-         8Mnw2TuZuXgGDEJ2rkygQDqDPOcd/2Rexxbf9ZTZE7AG3YkAXCiyAeD78gxVlGt/lUD2
-         2qSg==
+        bh=hU9J8u/2LNLEOyq8Ph75MH2E7+T+AvpRr7eTDthWUFE=;
+        b=y/Ul1yaa8aBou2MY0kxv28OeaLR8i9xHWkYBoY7BmVORG9pqct9RTVu7wkRPc+1ypZ
+         PFLg3e1LMB2jDjRvqH1RyvJC6Pkhg/toeuhQvKuK6oM+40k9gsDJ4StxGDj5IDVBKmUo
+         qVrjruBJdVRd+flwW1+i3qyUTOE8EglxbWb/Xvx+j2iPqeNZQF9giah4uh6ImBOy3Bsb
+         ub1Fi3KuDGiddk1ROA+xzlmydW0AySb6MuVBpBM4D6ucHKD2+H1knCPg86FSm/nxT//U
+         CINgJsuY3uWOcW54JOmc1RMbxvO22nGCr4R4/zxXWONMNO3FyMoByUvfWsmHPl8iu3ff
+         oTHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766524987; x=1767129787;
+        d=1e100.net; s=20230601; t=1766524989; x=1767129789;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=sMj53PIJ3XWsNnCqvGtne3dbeqaS5i2pw0yaiah0u+k=;
-        b=L2flXDmz0HyPpRU2QqOkF9GG2SOKi/sj6Kmpu0rvWSia9HCEM59lBLwVwQ8mZzDeDy
-         zX10n5EhESieFh8j0JR4RAf2VFwyCyzqXp1OtaFQ6ykWdswCfMRJsO3aN6ndn9d8WBp3
-         dreJUQXW3ZwexwJfwmzevlRYhoXs/vbn4m4/4cwT9lOewM44MLthekYo9fTDc4fMQwh1
-         8nS4bfwnHGOLQC5IqFOdlq1hk5k6rdS+0VyIefd3JNyeyxHE1EzqNC6kyUHKUlL62jbf
-         K+XKjW+AFSCyQ5oczI1dm+P0QwXo0brwkC8YWZFAPw4yupGlCW8LsGwZzGv9lz4GQbu2
-         OUqQ==
-X-Gm-Message-State: AOJu0Ywwqx3Lzi9aklJ6yWf/hSVMlIAugIhIJOFys5Gsb875F8UI1Lg+
-	SZnR9nv7w6ruI0OvtGVEg7xbZFlB7TOGWbgBB2n5zjPhahKMF5KZaTI5PWgFu2356ywp/0FejKO
-	hk4AIE7k=
-X-Gm-Gg: AY/fxX76MSgkKqruZS4aHeskxQPS1+XYcF1/UkrMa+Y8zY5Qjl28geIyLc5RH8qn3rU
-	VQm2JrZDCgTc9v5ZlfQfuomJMj0hbRwbITurXXNRrFKYx+5hHJgpsraLiUTYDDnAqQioROPxqHz
-	eRGB+HQ92WfUJ3Wqut4xzc0Z4D06p2j5ay2xMOG7Hz22gTNYKOKM3bME/LiUhCRcfYH2kXsreqd
-	HhiWaMdXawx4pkFwK9liPEwLV9+AEhhNbIVdBJJO02S8wnHLnlDnXlWHNMWvzWHz8ZXo4wplGIw
-	9eU9gMPBVYjYO5rylidb2S11aLRaguVdpojPRJO1D3+FP3TTMYkj48Z14Snvo3FHz3D6JWXzF4R
-	p6sTRi4SMNbiII/nfZhWQeA2cxr88GVbUr/EmZWtRnfXdoUH/O01eWnAAAegJms0GBP3kbO7a0o
-	YOMA==
-X-Google-Smtp-Source: AGHT+IFBmHZUbLsUJoeINBm1xx1KVGW76ztpmWjUco2MRJgFRCKlixjuT2sH3tZV51IFlnb0vIE+KA==
-X-Received: by 2002:a17:902:ef43:b0:2a0:945d:a195 with SMTP id d9443c01a7336-2a2f283beabmr151678865ad.45.1766524987428;
-        Tue, 23 Dec 2025 13:23:07 -0800 (PST)
+        bh=hU9J8u/2LNLEOyq8Ph75MH2E7+T+AvpRr7eTDthWUFE=;
+        b=iBhLz/Jde7RxN4hlQlxrMiv18bo37i2Y1/4O02yKBCc8ngk88Sjky4sW0HO7k9QHOU
+         pCMiaswuA/4n5GuEAnGRvTNIaxAgEvEosAwS1wzW7COZ2HEtHae+KEAMI3pbwTxpyJgr
+         TIpiOeSOkcA6XlHF5JwulHHSiZI5XV9uD43i+0+PAIQisM5bWulVEHj5idcYqoaSpv5z
+         AyK0yLvUpZ5D7Fzp5GnkkApFHS+kOTPy7a48Fhxaw7d+Nf863g7ZsoQWnaWhenDReecc
+         MFdaDpaBvip3q4PjKcEoEJfi265rfOhXp6psszm/QfY6xcHQArhAvBLIC7w37FpIA6bz
+         /eKA==
+X-Gm-Message-State: AOJu0YwilL7N1D1ApOxt32U3zkAfwYXxAvvIjsTxK5fLijzLIHrxqUPq
+	zRG+8QIqvZ/jnL5PhNruYYDwr6bpEXTj52HjMEPXJ4F/BIestF1QtVsJBp777PBJ/ZF257RHVCs
+	9hUvk
+X-Gm-Gg: AY/fxX4/DSeZnoBu8bqjCM0X5GhFcn6t6haiFHJ5EXu2VofNLuoouwfyFjmg3HQkcqD
+	k5SCUaewyrOh11eQKChmfJnMbm3qAz/Px+g4ZbMsEVMokMNYpvzWMZJM4lTKHZveIXL4GNeJkl+
+	4PmHAkjAv6zBX79iaspfaLfkI6/XTTxOSmk4lww1j0FrVOKbci2bs8K2XVSNDLtEc3dFaKq8G/M
+	DZG6dolzr++CYuSJfgHdHMyt9ThBxzJRO2/oJXSBRtrtDx0GX90pN3S0J8a2VKL7chXhwr697fa
+	0uMfoL4YU73FoyAOWWuuhNEIUm4ufmTMG8UZRc8+lK19w5DadrfM4agqGzCa2/IOBLWwv3gSIsd
+	YVUpJhpDGZBP+3x8/nX9SVVtUrpX7eJV8DACOhKSvt8c5mlW87VtdtZ/EfIdGY/kMA7UqxofH04
+	Rhe7AGsRE7NI6e
+X-Google-Smtp-Source: AGHT+IFAUI0BySxyq2gROGvf30cGBg4XEmpDNQRNyDJfm4roniij5lXM2b/84sZ6COWc8CM6E+iZCQ==
+X-Received: by 2002:a17:902:e552:b0:2a0:d4e3:7188 with SMTP id d9443c01a7336-2a2f2223bc0mr178499175ad.13.1766524989249;
+        Tue, 23 Dec 2025 13:23:09 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:74b3:f61b:a7a7:fafc])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d4cbe5sm137258785ad.60.2025.12.23.13.23.06
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d4cbe5sm137258785ad.60.2025.12.23.13.23.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Dec 2025 13:23:07 -0800 (PST)
+        Tue, 23 Dec 2025 13:23:08 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 16/18] cml1.bbclass: use consistent make flags for menuconfig
-Date: Tue, 23 Dec 2025 13:22:22 -0800
-Message-ID: <a7dd1c221e42fd8df1d6f1c76c6a5ab7a3e19542.1766524798.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 17/18] curl: Use host CA bundle by default for native(sdk) builds
+Date: Tue, 23 Dec 2025 13:22:23 -0800
+Message-ID: <0e553b685c0a987a7be1eee16b7b5e3e48a036e2.1766524798.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1766524798.git.steve@sakoman.com>
 References: <cover.1766524798.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 21:23:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228490
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228491
 
-From: Enrico Jörns <ejo@pengutronix.de>
+From: Moritz Haase <Moritz.Haase@bmw.de>
 
-The class called 'make menuconfig' without any of the make variables and
-options set in EXTRA_OEMAKE, resulting in a quite different build
-environment than actually intended.
+Fixes YOCTO #16077
 
-For the kernel.bbclass this was fixed in commit 8c616bc0 ("kernel: Use
-consistent make flags for menuconfig") by appending ${EXTRA_OEMAKE} to
-KCONFIG_CONFIG_COMMAND.
+Commit 0f98fecd (a backport of 4909a46e) broke HTTPS downloads in opkg in the
+SDK, they now fail with:
 
-Instead of fixing this individually for additional recipes, we simply
-include ${EXTRA_OEMAKE} in KCONFIG_CONFIG_COMMAND by default.
+> SSL certificate problem: self-signed certificate in certificate chain
 
-For most class users, this change is directly visible in the generated
-.config file:
+The root cause is a difference in the handling of related env vars between
+curl-cli and libcurl. The CLI will honour CURL_CA_BUNDLE and SSL_CERT_DIR|FILE
+(see [0]). Those are set in the SDK via env setup scripts like [1], so curl
+continued to work. The library however does not handle those env vars. Thus,
+unless the program utilizing libcurl has implemented a similar mechanism itself
+and configures libcurl accordingly via the API (like for example Git in [2] and
+[3]), there will be no default CA bundle configured to verify certificates
+against.
 
-* For barebox and u-boot, the CONFIG_GCC_VERSION erroneously reflected
-  the host GCC version before where it now correctly reflects the target
-  toolchain's GCC.
+Opkg only supports setting the CA bundle path via config options 'ssl_ca_file'
+and 'ssl_ca_path'. Upstreaming and then backporting a patch to add env var
+support is not a feasible short-time fix for the issue at hand. Instead it's
+better to ship libcurl in the SDK with a sensible built-in default - which also
+helps any other libcurl users.
 
-* For u-boot, also the "Compiler: " line at the beginning of the .config
-  now prints the target toolchain instead of the host ones.
+This patch is based on a proposal by Peter.Marko@siemens.com in the related
+mailing list discussion at [4].
 
-* The kernel had this already set.
+(cherry picked from commit 3f819f57aa1960af36ac0448106d1dce7f38c050)
 
-* busybox did not produce any difference.
+[0]: https://github.com/curl/curl/blob/400fffa90f30c7a2dc762fa33009d24851bd2016/src/tool_operate.c#L2056-L2084
+[1]: https://git.openembedded.org/openembedded-core/tree/meta/recipes-support/curl/curl/environment.d-curl.sh?id=3a15ca2a784539098e95a3a06dec7c39f23db985
+[2]: https://github.com/git/git/blob/6ab38b7e9cc7adafc304f3204616a4debd49c6e9/http.c#L1389
+[3]: https://github.com/git/git/blob/6ab38b7e9cc7adafc304f3204616a4debd49c6e9/http.c#L1108-L1109
+[4]: https://lists.openembedded.org/g/openembedded-core/topic/115993530#msg226751
 
-Note that these projects might base some compile-time decisions on e.g.
-the actual compiler version used. Having the wrong one in the
-menuconfig-generated .config affects at least the visibility and
-consistency.
-
-Reported-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
-Signed-off-by: Enrico Jörns <ejo@pengutronix.de>
+Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
+CC: matthias.schiffer@ew.tq-group.com
+CC: Peter.Marko@siemens.com
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1b6ddd452837e67b500a84455a234f5edc8250a9)
-Signed-off-by: Enrico Jörns <ejo@pengutronix.de>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/cml1.bbclass   | 2 +-
- meta/classes-recipe/kernel.bbclass | 3 ---
- 2 files changed, 1 insertion(+), 4 deletions(-)
+ meta/recipes-support/curl/curl_8.7.1.bb | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes-recipe/cml1.bbclass b/meta/classes-recipe/cml1.bbclass
-index 456305a315..5519fb61b3 100644
---- a/meta/classes-recipe/cml1.bbclass
-+++ b/meta/classes-recipe/cml1.bbclass
-@@ -31,7 +31,7 @@ CROSS_CURSES_LIB = "-lncurses -ltinfo"
- CROSS_CURSES_INC = '-DCURSES_LOC="<curses.h>"'
- TERMINFO = "${STAGING_DATADIR_NATIVE}/terminfo"
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 6c02746394..0af6a41399 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -92,16 +92,21 @@ PACKAGECONFIG[verbose] = "--enable-verbose,--disable-verbose"
+ PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_LIBDIR}/../,--without-zlib,zlib"
+ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
  
--KCONFIG_CONFIG_COMMAND ??= "menuconfig"
-+KCONFIG_CONFIG_COMMAND ??= "menuconfig ${EXTRA_OEMAKE}"
- KCONFIG_CONFIG_ENABLE_MENUCONFIG ??= "true"
- KCONFIG_CONFIG_ROOTDIR ??= "${B}"
- python do_menuconfig() {
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index d557e98d65..39e198864e 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -697,9 +697,6 @@ addtask savedefconfig after do_configure
++# Use host certificates for non-target builds. As libcurl doesn't honor any of the env vars (like
++# for example CURL_CA_PATH) that curl-cli does, we need to explicitly set '--with-ca-bundle'
++# accordingly, so that there is a working, built-in default even for those tools that use libcurl,
++# but don't have custom env var handling implemented (like opkg).
++CURL_CA_BUNDLE_BASE_DIR ?= "/etc"
++CURL_CA_BUNDLE_BASE_DIR:class-target = "${sysconfdir}"
++
+ EXTRA_OECONF = " \
+     --disable-libcurl-option \
+     --disable-ntlm-wb \
+     --without-libpsl \
+     --enable-optimize \
++    --with-ca-bundle=${CURL_CA_BUNDLE_BASE_DIR}/ssl/certs/ca-certificates.crt \
+     ${@'--without-ssl' if (bb.utils.filter('PACKAGECONFIG', 'gnutls mbedtls openssl', d) == '') else ''} \
+ "
+-EXTRA_OECONF:append:class-target = " \
+-    --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
+-"
  
- inherit cml1 pkgconfig
- 
--# Need LD, HOSTLDFLAGS and more for config operations
--KCONFIG_CONFIG_COMMAND:append = " ${EXTRA_OEMAKE}"
--
- EXPORT_FUNCTIONS do_compile do_transform_kernel do_transform_bundled_initramfs do_install do_configure
- 
- # kernel-base becomes kernel-${KERNEL_VERSION}
+ fix_absolute_paths () {
+ 	# cleanup buildpaths from curl-config
 -- 
 2.43.0
 
