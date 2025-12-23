@@ -1,365 +1,1085 @@
-Return-Path: <rs@ti.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17FF6E74902
-	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 22:01:47 +0000 (UTC)
-Received: from CH5PR02CU005.outbound.protection.outlook.com (CH5PR02CU005.outbound.protection.outlook.com [40.107.200.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.109794.1766527299684270658
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E0F7E74900
+	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 23:07:57 +0000 (UTC)
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.111220.1766531269072835405
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Dec 2025 14:01:40 -0800
+ Tue, 23 Dec 2025 15:07:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=jjCel2V+;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: ti.com, ip: 40.107.200.50, mailfrom: rs@ti.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dYZiKEgxNxP9Bx4d+I6KAdFmMJZuwhx/PU7nfSmFuAtkG8K624GJRwa00ZxDtH4dPrTi/jipU1v8VpoNWmuC2rAR/CZrzv4RyKmEYEZ478dHUOXc11FtLi/cCx3PJui6L3HRMcOS52qxbuD8pxPpqT5aaovYve33/NdDZalWZVwREXSYujACYGhNc2dR7EH4vuAjYrWFFY4yKOuqfrHLRqaxYcRvKpeeqafpgtEMYHFBfTRxIWpPvyWRmOWUq0AwUqq6HzE2bie/RDK+KrbVfBFVGUJKmVLCINhWSTarUtZhy7w1py3KbNMFKZlvtD+5tG2075uoM21g/wmrYw1LZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KZB0Zq+Bgf9L4SJNQLtptKDf4lRypYRdDnOIvY4nuOk=;
- b=c4cjLtA1X/SBnbp/chX9SJBc9fUvz4kpUOEplYilyE8HUDTWA+u3NAlX3QGH8laB6PelVL3Jenl9+LVhrh50CCIQ4NMM85MWe5d6dZ4KdJZcaIrKU6NzWQn+2A1zIXnWdPO2IREL4303KrUc0DomHOoVRLu8Nv+8uqHu3ruLyMbzWWgxavpiTCZg4h2s6PqSYRcWER+8p94IITNbFp4XpACiIgV9Yw7tNi+wMnAwC1GCmNv6MbikdvqflQfkHCjhvw9kKtFZF732HF/D+8ZJJcVe4Bfvv+jP+c6VaonsaVun9jo3KjysG2PIVLOifcXPG599ifzSNftfgsvi9PdfOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KZB0Zq+Bgf9L4SJNQLtptKDf4lRypYRdDnOIvY4nuOk=;
- b=jjCel2V+FjhiU9ZAFCMfcZ1Hme9O/K8Z5f7GS/2063iN7r6CJlnCSARavpbwnrIbd6GKVUo0rTQdSUB6qTwtRmNvycj7YYLCUxKFkcinOesCtvXDAcZlbh7c+351tgXMQcNaYl1SglGcQNs1cbgy9TiQDMb31HZw/fxvgOiXJOA=
-Received: from BN0PR02CA0040.namprd02.prod.outlook.com (2603:10b6:408:e5::15)
- by SJ0PR10MB5647.namprd10.prod.outlook.com (2603:10b6:a03:3da::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.11; Tue, 23 Dec
- 2025 22:01:36 +0000
-Received: from BN2PEPF00004FBC.namprd04.prod.outlook.com
- (2603:10b6:408:e5:cafe::a1) by BN0PR02CA0040.outlook.office365.com
- (2603:10b6:408:e5::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.11 via Frontend Transport; Tue,
- 23 Dec 2025 22:01:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- BN2PEPF00004FBC.mail.protection.outlook.com (10.167.243.182) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9456.9 via Frontend Transport; Tue, 23 Dec 2025 22:01:34 +0000
-Received: from DLEE206.ent.ti.com (157.170.170.90) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 23 Dec
- 2025 16:01:29 -0600
-Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE206.ent.ti.com
- (157.170.170.90) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 23 Dec
- 2025 16:01:29 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE208.ent.ti.com
- (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 23 Dec 2025 16:01:29 -0600
-Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BNM1TJL3656883;
-	Tue, 23 Dec 2025 16:01:29 -0600
-From: <rs@ti.com>
-To: <richard.purdie@linuxfoundation.org>, <mathieu.dubois-briand@bootlin.com>,
-	<alex@linutronix.de>, <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
-CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
-	<openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][PATCHv13 1/6] emptty: add version 0.15.0
-Date: Tue, 23 Dec 2025 16:01:09 -0600
-Message-ID: <20251223220114.2259233-2-rs@ti.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251223220114.2259233-1-rs@ti.com>
-References: <20251223220114.2259233-1-rs@ti.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LuTZbuEf;
+ spf=pass (domain: gmail.com, ip: 74.125.224.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-644715aad1aso6574783d50.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 15:07:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766531268; x=1767136068; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=v9AMqK7U3nXX0IGoloKuHoiscD1B2zWPgibnDZB4oSE=;
+        b=LuTZbuEfzxMYpel3j+UUG2k1dibTINB52KtVxullnnQSwHL74mMjTs9q+AV+J54Inh
+         z6U96i1NNNFaWcfeB9dql46NXVg4lPkojaKZeZQ6Uaca1+RNnRBDpIgArU1DPuGyvsuO
+         JkiHIein9MdTBk8Ni7ITF1h0TAoMcT46fh9cOYk3PhPAjcyqZhsNnEfq8E+HvQiViWXB
+         V5J3yNZwNJKkLKx79CygpjyyOW44HU3jprDW+coxj2bGa3rWXico6sZi9IwhXjHWGAy6
+         AjHWGtkksS6F/opFmYbj3keKzhjgUzVPN7Cp2/QFxIUzNxhxKFZsx0CNtFB76NUHYr+H
+         En6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766531268; x=1767136068;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v9AMqK7U3nXX0IGoloKuHoiscD1B2zWPgibnDZB4oSE=;
+        b=tq/aBBzHQDbLFSKYArEoa13PtV0x0/o7cYq/+xmQ8bzjapTQ/DmoJn6uEUs64ASn8E
+         gq2KMfdnirmGdeM89Bhlc+RubAp+c11WGPmuKjONWggDWu4C9jwX5/Lgcy8bOF1/eYbk
+         FZVNlJDTXAQSA52trrN4KUgZvo3qZ/87+PJJTV/jdv0TtER3U/MmEoy0Z6j7E/kig1/v
+         /RimCZSOb5EX43x1T+scKauWAQnvZIPedzqMZ/VYGu7IdU/bDnie0+pCu6BRN4d3+mc+
+         8YNaghtaBlIfKFyqzCuNrLZ53+RciVmBpJ05rdZI60U30cfSkdgqTa3H3/CEbO0D8A05
+         ef5A==
+X-Gm-Message-State: AOJu0Yw0CoTzVCWYnD+cxGZVt+zCdEs1dmDt9ZMl2RTzHHtCmpXXGjXy
+	Fra53WH0aVNT0ApFEUfe5Xb0yE1Oj9rRfa7yH+CroaEjGYKe2os2Gl+sgy244Pj9WGz2oGNNVGM
+	Vu/iXjt6kcwSBASxcUyoGzUOl+e9IDug5F+SVT3g=
+X-Gm-Gg: AY/fxX5gLpPBFyQWfouswVsrIhKMufLz8/L5O0t/+KWruyiJmvW52tVvVsUffoxiKEL
+	H34HCyTR3PVWcr1sUYu4ZBZ5HlodsE7kdAUcdVxginGOQLpbXvjyl49cCmoCWWe5wpUeN3qL9Tf
+	Eqbg9I2Fj5ll20Me1egZ7qIoK0aadKTQUx/JCXd65yUyCPQVjim4bgDb5RoK2RWFsPiIO3OpV6a
+	CjeO4GwVcaEu8ZvgXVD27dXyXRA8uN1I6IfApUEKOfMBOz7mW/WS+RmNv7jkVFlPOwzx0WcqLZf
+	q0egsq49eSuXO2odeQkg9Fp8xnCkwIX7FlVUXgGQjEkGN7g+dnDiJRfe+d0qUgWqh1IatQdcNPP
+	UOkLW3wIkMVYB1WOfHUddG5ep5qD733ugTKe2OJXOUg==
+X-Google-Smtp-Source: AGHT+IGqpDEij6M5O6N6jQv6yfrV6tx30MKn8koBfdJPBgFuDQK5d9F8ZFQzvRy2bd90wcRYdpzTwHZfBst3iqxCIKg=
+X-Received: by 2002:a05:690e:4290:10b0:644:7175:813d with SMTP id
+ 956f58d0204a3-646632549f4mr11565664d50.21.1766531267963; Tue, 23 Dec 2025
+ 15:07:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF00004FBC:EE_|SJ0PR10MB5647:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c06b1bd-728a-4619-867c-08de426ed657
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|376014|1800799024|82310400026|13003099007|7142099003;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?XN0BQLzgXvgDhAd02NYf0uIphCOafWlHIrPC3eLF5PVdA6oQKBKa9/3OGMoh?=
- =?us-ascii?Q?Ez5thOQnY6t8Aq6Q9mgT9waRVhVG+XLeG8QjHJgLKtCjNkSG1syZjMnf90fb?=
- =?us-ascii?Q?pANco4R9U6tHdFQSSbP9gX6BetfZ35hQPxV3Jcv5E6frpo9rtlv8l2pL/uim?=
- =?us-ascii?Q?cBddKI05mAgsohZAOpD0vSud1Bv40a+a68DDIiwMvdWadUhO11mYTCXrsq/p?=
- =?us-ascii?Q?6NRH/HEjj7RjTQHBPM+jJBgB1B+iUqQMu+ynYvN3LW8cgA2b46TxRyB6Mc9M?=
- =?us-ascii?Q?+ii/TK+VaxGq0NjVFzVgjX/zuvEGxMSaIViaL6LJsjKRL/HzWyHEYqnN35eP?=
- =?us-ascii?Q?+ZHk/u93LDfta6RNK2pRjeqWVZb7QrtAvpH7M8nA4o4bz+F6OmXcq9+ECmoL?=
- =?us-ascii?Q?/GA2LoeIgayWP9BOFssoW2wQmh6qP7JM4pXK4rCoNEMvUxWYtvv6RyUOg8uw?=
- =?us-ascii?Q?Vm7y1zrJKoLnJlT8D6mhlgMuqQsir1e3hX+tKJUa4QrLik4m4qjde150FsBZ?=
- =?us-ascii?Q?MgS2JWBmwSCsDEFOupjOQcTWLWQy2N9MQxx3SnmxvYlXVZ7yZcYSqgURpZsw?=
- =?us-ascii?Q?inZOUGAWvRTHowxJkr2660Bi9KlcWa4/Yq19Sbq7VVdLK1455NwwN3xsPlLl?=
- =?us-ascii?Q?p8kdF1LwNuKE3IElfz4DmKttTN0ZX70MCX2lUeMAgtCJ2RONWNicxb1uu/Jq?=
- =?us-ascii?Q?PyTf6MVdWY7d8mUviBMdwLfD4rE0vYvAoNH9Wfa8qq8G62ZTDH9Xf2AkF3/j?=
- =?us-ascii?Q?73egKkLTjMhF6mC5rWJOmCPSwW2D6iQQWbSK+JoUy4uhEcY0mrAc0pB6Y/yF?=
- =?us-ascii?Q?zCbrhtYdagktRWv8rWj4aBCvW667k99nhKvPB73ZceSR90D0Slu2ShMx35IP?=
- =?us-ascii?Q?g51zPD1Qq411xH4CKCGO8s7GyYxoEYP3CYiR+FEaYxGineSbUxVdMQvtrWIe?=
- =?us-ascii?Q?GnJ4STZuV/kfpwPsV5aTBit1DqZz2Nivro1E57ywgGeaI1hNAFWVsFRtdLHQ?=
- =?us-ascii?Q?R0nT6bAgAOVl9Zh22/DpHYiE1uzp2hfC56vesVlnLzQIUq1gsKm+jgKvnDvO?=
- =?us-ascii?Q?yjniZ3Lg8i+4KRZOzkZqspYa7SJiEze4WkHm7u6YBZ2fb3YSuuWbv2p/koJ9?=
- =?us-ascii?Q?04ZpETzjCnlF9H0moJ4hTZ75bzsbK2hNPr4cgZUYj0u5CL3GSfxHQWcO2Fxa?=
- =?us-ascii?Q?Ex+zDDue+TpHhdJOaCNSGC+ONY+XRPqVhWNZ1or1OCm+Blbz9sHH4zOf7AuC?=
- =?us-ascii?Q?61AZjeJFhdDtZxZSv1hC3zejjvjtCHjSG/py3idiyTK+/WpxScT3C6Iz3nEJ?=
- =?us-ascii?Q?GiqY/CzSe+597YNdbWVI2vowX4Z2Gc3BFGPy2haIYMxJ3JT222V8M74JZAGH?=
- =?us-ascii?Q?jusmtcIQ7HLlXR2Pb2uX2FWjhIapXh8vWBlA5tQEJWNFjCtUkiAtzqtDeuOh?=
- =?us-ascii?Q?6cdbxpQB/4Pf55neAdu+ef50OsSgm7srRwvPg0wejH/20zOcJCG6gb9Csjds?=
- =?us-ascii?Q?ECon/4O208nW/0ciRt28q9/miZMtDBBklSzjKTKKKVQEKPtAWn8pGeL7Ly21?=
- =?us-ascii?Q?dhYWWPX8he5xndOq8Tw=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026)(13003099007)(7142099003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2025 22:01:34.1856
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c06b1bd-728a-4619-867c-08de426ed657
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	BN2PEPF00004FBC.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5647
+References: <20251222200739.2278706-1-alex.kanavin@gmail.com> <20251222200739.2278706-47-alex.kanavin@gmail.com>
+In-Reply-To: <20251222200739.2278706-47-alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 23 Dec 2025 15:07:21 -0800
+X-Gm-Features: AQt7F2qyKqhCVzwSCXB3MgkkbU7xXsHYxVdcp1vKR2miq1_3PdZ03wvLURvOcQw
+Message-ID: <CAMKF1soo1kGa9XhE=Ti+fmycHXPLWnr2b7Sj3wfQ_bVqau5Usw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 047/114] ovmf: upgrade 202508 -> 202511
+To: alex.kanavin@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: multipart/alternative; boundary="000000000000b62f510646a69c95"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 22:01:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228508
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 23:07:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228511
 
-From: Randolph Sapp <rs@ti.com>
+--000000000000b62f510646a69c95
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add emptty, a "Dead simple CLI Display Manager on TTY". This is a
-relatively lightweight display manager that supports x11 as well as
-wayland through both a CLI and an automatic login mechanism.
+meta/recipes-core/ovmf/ovmf-shell-image.bb also needs to narrow down
+COMPATIBLE_HOST to respond to this change.
 
-This can effectively replace the custom init scripts for both x11
-(xserver-nodm-init) and wayland (weston-init) with a single tool with
-more verbose logging capabilities.
+On Mon, Dec 22, 2025 at 12:08=E2=80=AFPM Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+wrote:
 
-This is split into two recipes. The emptty package provides the binary
-and various agnostic configs while the emptty-conf package provides the
-default configuration for the application itself. This RPROVIDES
-virtual-emptty-conf, allowing other recipes to provide their own
-configurations to override the default behavior.
+> From: Alexander Kanavin <alex@linutronix.de>
+>
+> Upstream has dropped support for 32 bit x86:
+>
+> https://github.com/tianocore/edk2/commit/2a6708a786eb0f0e9b979cd93c5dc12c=
+42e337a1
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  ...ovmf-update-path-to-native-BaseTools.patch |  9 +++--
+>  ...ile-adjust-to-build-in-under-bitbake.patch | 11 ++++--
+>  .../ovmf/ovmf/0003-debug-prefix-map.patch     | 37 ++++++++++---------
+>  .../ovmf/ovmf/0004-reproducible.patch         | 17 +++++----
+>  ...ceptionHandlerLib-fix-push-instructi.patch |  7 +++-
+>  meta/recipes-core/ovmf/ovmf_git.bb            | 16 +++-----
+>  6 files changed, 53 insertions(+), 44 deletions(-)
+>
+> diff --git
+> a/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools.p=
+atch
+> b/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools.p=
+atch
+> index 890e586210..bc70c1ab91 100644
+> ---
+> a/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools.p=
+atch
+> +++
+> b/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools.p=
+atch
+> @@ -1,7 +1,7 @@
+> -From 0f859c6de2914cd984f8a0dd61471b91a2371bfa Mon Sep 17 00:00:00 2001
+> +From 89a7bfe82c9dea89fa7d859eb392aa414a365578 Mon Sep 17 00:00:00 2001
+>  From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+>  Date: Thu, 9 Jun 2016 02:23:01 -0700
+> -Subject: [PATCH] ovmf: update path to native BaseTools
+> +Subject: [PATCH 1/5] ovmf: update path to native BaseTools
+>
+>  BaseTools is a set of utilities to build EDK-based firmware. These
+> utilities
+>  are used during the build process. Thus, they need to be built natively.
+> @@ -16,7 +16,7 @@ Upstream-Status: Inappropriate [oe-core cross compile
+> specific]
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>  diff --git a/OvmfPkg/build.sh b/OvmfPkg/build.sh
+> -index 279f0d099a..285f061bf4 100755
+> +index 30f4830173..ce4ffb20ab 100755
+>  --- a/OvmfPkg/build.sh
+>  +++ b/OvmfPkg/build.sh
+>  @@ -24,7 +24,7 @@ then
+> @@ -28,3 +28,6 @@ index 279f0d099a..285f061bf4 100755
+>     echo $EDK_TOOLS_PATH
+>     source edksetup.sh BaseTools
+>   else
+> +--
+> +2.47.3
+> +
+> diff --git
+> a/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-in-=
+under-bitbake.patch
+> b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-in-=
+under-bitbake.patch
+> index 4a55528571..27c4324b67 100644
+> ---
+> a/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-in-=
+under-bitbake.patch
+> +++
+> b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-in-=
+under-bitbake.patch
+> @@ -1,7 +1,7 @@
+> -From 9dbd082516fdd7100f99f0f389b8eef5ececab19 Mon Sep 17 00:00:00 2001
+> +From 8b4941871ccc88ed8b31eb7ffc097e1fe39fe57d Mon Sep 17 00:00:00 2001
+>  From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+>  Date: Fri, 26 Jul 2019 17:34:26 -0400
+> -Subject: [PATCH] BaseTools: makefile: adjust to build in under bitbake
+> +Subject: [PATCH 2/5] BaseTools: makefile: adjust to build in under bitba=
+ke
+>
+>  Prepend the build flags with those of bitbake. This is to build
+>  using the bitbake native sysroot include and library directories.
+> @@ -18,10 +18,10 @@ Upstream-Status: Inappropriate [needs to be converted
+> to in-recipe fixups]
+>   1 file changed, 7 insertions(+), 8 deletions(-)
+>
+>  diff --git a/BaseTools/Source/C/Makefiles/header.makefile
+> b/BaseTools/Source/C/Makefiles/header.makefile
+> -index 55a7307a5e..e36e6a8f04 100644
+> +index 53e73abe53..0b3f9bbb2a 100644
+>  --- a/BaseTools/Source/C/Makefiles/header.makefile
+>  +++ b/BaseTools/Source/C/Makefiles/header.makefile
+> -@@ -154,35 +154,34 @@ endif
+> +@@ -151,35 +151,34 @@ endif
+>
+>   INCLUDE =3D $(TOOL_INCLUDE) -I $(MAKEROOT) -I $(MAKEROOT)/Include/Commo=
+n
+> -I $(MAKEROOT)/Include/ -I $(MAKEROOT)/Include/IndustryStandard -I
+> $(MAKEROOT)/Common/ -I .. -I . $(ARCH_INCLUDE)
+>   INCLUDE +=3D -I $(EDK2_PATH)/MdePkg/Include
+> @@ -64,3 +64,6 @@ index 55a7307a5e..e36e6a8f04 100644
+>   ifeq ($(HOST_ARCH), IA32)
+>   #
+>   # Snow Leopard  is a 32-bit and 64-bit environment. uname -m returns
+> i386, but gcc defaults
+> +--
+> +2.47.3
+> +
+> diff --git a/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
+> b/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
+> index 1e79c23ae9..18ea24802a 100644
+> --- a/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
+> +++ b/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
+> @@ -1,7 +1,7 @@
+> -From eb6db21ed0a845dce149d17acf8673d5188adea4 Mon Sep 17 00:00:00 2001
+> +From 640b1e443a1b400d32d9af0c478abbbaebd491f1 Mon Sep 17 00:00:00 2001
+>  From: Alexander Kanavin <alex.kanavin@gmail.com>
+>  Date: Mon, 14 Jun 2021 19:56:28 +0200
+> -Subject: [PATCH] debug prefix map
+> +Subject: [PATCH 3/5] debug prefix map
+>
+>  We want to pass ${DEBUG_PREFIX_MAP} to gcc commands and also pass in
+>   --debug-prefix-map to nasm (we carry a patch to nasm for this). The
+> @@ -22,30 +22,30 @@ Signed-off-by: Alexander Kanavin <
+> alex.kanavin@gmail.com>
+>   1 file changed, 9 insertions(+), 9 deletions(-)
+>
+>  diff --git a/BaseTools/Conf/tools_def.template
+> b/BaseTools/Conf/tools_def.template
+> -index 0caa1c9001..dd86b3249d 100755
+> +index 90a389bdff..1e134b299a 100755
+>  --- a/BaseTools/Conf/tools_def.template
+>  +++ b/BaseTools/Conf/tools_def.template
+> -@@ -920,7 +920,7 @@ NOOPT_*_*_OBJCOPY_ADDDEBUGFLAG     =3D
+> --add-gnu-debuglink=3D"$(DEBUG_DIR)/$(MODULE_
+> +@@ -833,7 +833,7 @@ NOOPT_*_*_OBJCOPY_ADDDEBUGFLAG     =3D
+> --add-gnu-debuglink=3D"$(DEBUG_DIR)/$(MODULE_
+>   *_*_*_DTC_PATH                     =3D DEF(DTC_BIN)
+>
+>   # All supported GCC archs except LOONGARCH64 support
+> -mstack-protector-guard=3Dglobal, so set that on everything except LOONGA=
+RCH64
+>  -DEFINE GCC_ALL_CC_FLAGS            =3D -g -Os -fshort-wchar -fno-builti=
+n
+> -fno-strict-aliasing -Wall -Werror -Wno-array-bounds -include AutoGen.h
+> -fno-common -fstack-protector
+>  +DEFINE GCC_ALL_CC_FLAGS            =3D -g -Os -fshort-wchar -fno-builti=
+n
+> -fno-strict-aliasing -Wall -Werror -Wno-array-bounds -include AutoGen.h
+> -fno-common -fstack-protector ENV(GCC_PREFIX_MAP)
+>   DEFINE GCC_IA32_X64_CC_FLAGS       =3D -mstack-protector-guard=3Dglobal
+> - DEFINE GCC_ARM_CC_FLAGS            =3D DEF(GCC_ALL_CC_FLAGS)
+> -mlittle-endian -mabi=3Daapcs -fno-short-enums -funsigned-char
+> -ffunction-sections -fdata-sections -fomit-frame-pointer -Wno-address
+> -mthumb -fno-pic -fno-pie -mstack-protector-guard=3Dglobal
+>   DEFINE GCC_LOONGARCH64_CC_FLAGS    =3D DEF(GCC_ALL_CC_FLAGS) -mabi=3Dlp=
+64d
+> -fno-asynchronous-unwind-tables -Wno-address -fno-short-enums -fsigned-ch=
+ar
+> -ffunction-sections -fdata-sections
+> -@@ -938,8 +938,8 @@ DEFINE GCC_ARM_AARCH64_ASLDLINK_FLAGS =3D
+> -Wl,--defsym=3DPECOFF_HEADER_SIZE=3D0 DEF(GC
+> - DEFINE GCC_ARM_ASLDLINK_FLAGS      =3D DEF(GCC_ARM_DLINK_FLAGS)
+> -Wl,--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT)
+> DEF(GCC_ARM_AARCH64_ASLDLINK_FLAGS)
+> - DEFINE GCC_AARCH64_ASLDLINK_FLAGS  =3D DEF(GCC_AARCH64_DLINK_FLAGS)
+> -Wl,--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT)
+> DEF(GCC_ARM_AARCH64_ASLDLINK_FLAGS)
+> + DEFINE GCC_AARCH64_CC_FLAGS        =3D DEF(GCC_ALL_CC_FLAGS)
+> -mlittle-endian -fno-short-enums -fverbose-asm -funsigned-char
+> -ffunction-sections -fdata-sections -Wno-address
+> -fno-asynchronous-unwind-tables -fno-unwind-tables -fno-pic -fno-pie
+> -ffixed-x18 -mstack-protector-guard=3Dglobal
+> +@@ -845,8 +845,8 @@ DEFINE GCC_AARCH64_DLINK_FLAGS     =3D
+> -Wl,--emit-relocs -nostdlib -Wl,--gc-sectio
+> + DEFINE GCC_LOONGARCH64_DLINK_FLAGS =3D DEF(GCC_LOONGARCH64_DLINK_COMMON=
+)
+> -z common-page-size=3D0x20
+> + DEFINE GCC_AARCH64_ASLDLINK_FLAGS  =3D DEF(GCC_AARCH64_DLINK_FLAGS)
+> -Wl,--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT)
+> -Wl,--defsym=3DPECOFF_HEADER_SIZE=3D0 DEF(GCC_DLINK2_FLAGS_COMMON) -z
+> common-page-size=3D0x20
+>   DEFINE GCC_LOONGARCH64_ASLDLINK_FLAGS =3D DEF(GCC_LOONGARCH64_DLINK_FLA=
+GS)
+> -Wl,--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT)
+> --DEFINE GCC_ASM_FLAGS               =3D -c -x assembler -imacros AutoGen=
+.h
+> +-DEFINE GCC_ASM_FLAGS               =3D -c -x assembler
+>  -DEFINE GCC_PP_FLAGS                =3D -E -x assembler-with-cpp -includ=
+e
+> AutoGen.h
+> -+DEFINE GCC_ASM_FLAGS               =3D -c -x assembler -imacros AutoGen=
+.h
+> ENV(GCC_PREFIX_MAP)
+> ++DEFINE GCC_ASM_FLAGS               =3D -c -x assembler ENV(GCC_PREFIX_M=
+AP)
+>  +DEFINE GCC_PP_FLAGS                =3D -E -x assembler-with-cpp -includ=
+e
+> AutoGen.h ENV(GCC_PREFIX_MAP)
+>   DEFINE GCC_VFRPP_FLAGS             =3D -x c -E -DVFRCOMPILE --include
+> $(MODULE_NAME)StrDefs.h
+>   DEFINE GCC_ASLPP_FLAGS             =3D -x c -E -include AutoGen.h
+> - DEFINE GCC_ASLCC_FLAGS             =3D -x c
+> -@@ -1092,7 +1092,7 @@ DEFINE GCC5_LOONGARCH64_PP_FLAGS           =3D
+> -mabi=3Dlp64d -march=3Dloongarch64 DEF(
+> + DEFINE GCC_ASLCC_FLAGS             =3D -x c -include AutoGen.h
+> -fshort-wchar
+> +@@ -980,7 +980,7 @@ DEFINE GCC5_LOONGARCH64_PP_FLAGS           =3D
+> -mabi=3Dlp64d -march=3Dloongarch64 DEF(
+>   *_GCC48_IA32_DLINK2_FLAGS         =3D DEF(GCC48_IA32_DLINK2_FLAGS)
+>   *_GCC48_IA32_RC_FLAGS             =3D DEF(GCC_IA32_RC_FLAGS)
+>   *_GCC48_IA32_OBJCOPY_FLAGS        =3D
+> @@ -54,7 +54,7 @@ index 0caa1c9001..dd86b3249d 100755
+>
+>     DEBUG_GCC48_IA32_CC_FLAGS       =3D DEF(GCC48_IA32_CC_FLAGS)
+>   RELEASE_GCC48_IA32_CC_FLAGS       =3D DEF(GCC48_IA32_CC_FLAGS)
+> -Wno-unused-but-set-variable
+> -@@ -1120,7 +1120,7 @@ RELEASE_GCC48_IA32_CC_FLAGS       =3D
+> DEF(GCC48_IA32_CC_FLAGS) -Wno-unused-but-set
+> +@@ -1008,7 +1008,7 @@ RELEASE_GCC48_IA32_CC_FLAGS       =3D
+> DEF(GCC48_IA32_CC_FLAGS) -Wno-unused-but-set
+>   *_GCC48_X64_DLINK2_FLAGS         =3D DEF(GCC48_X64_DLINK2_FLAGS)
+>   *_GCC48_X64_RC_FLAGS             =3D DEF(GCC_X64_RC_FLAGS)
+>   *_GCC48_X64_OBJCOPY_FLAGS        =3D
+> @@ -63,7 +63,7 @@ index 0caa1c9001..dd86b3249d 100755
+>
+>     DEBUG_GCC48_X64_CC_FLAGS       =3D DEF(GCC48_X64_CC_FLAGS)
+>   RELEASE_GCC48_X64_CC_FLAGS       =3D DEF(GCC48_X64_CC_FLAGS)
+> -Wno-unused-but-set-variable
+> -@@ -1229,7 +1229,7 @@ RELEASE_GCC48_AARCH64_CC_FLAGS   =3D
+> DEF(GCC48_AARCH64_CC_FLAGS) -Wno-unused-but-s
+> +@@ -1087,7 +1087,7 @@ RELEASE_GCC48_AARCH64_CC_FLAGS   =3D
+> DEF(GCC48_AARCH64_CC_FLAGS) -Wno-unused-but-s
+>   *_GCC49_IA32_DLINK2_FLAGS         =3D DEF(GCC49_IA32_DLINK2_FLAGS)
+>   *_GCC49_IA32_RC_FLAGS             =3D DEF(GCC_IA32_RC_FLAGS)
+>   *_GCC49_IA32_OBJCOPY_FLAGS        =3D
+> @@ -72,7 +72,7 @@ index 0caa1c9001..dd86b3249d 100755
+>
+>     DEBUG_GCC49_IA32_CC_FLAGS       =3D DEF(GCC49_IA32_CC_FLAGS)
+>   RELEASE_GCC49_IA32_CC_FLAGS       =3D DEF(GCC49_IA32_CC_FLAGS)
+> -Wno-unused-but-set-variable -Wno-unused-const-variable
+> -@@ -1257,7 +1257,7 @@ RELEASE_GCC49_IA32_CC_FLAGS       =3D
+> DEF(GCC49_IA32_CC_FLAGS) -Wno-unused-but-set
+> +@@ -1115,7 +1115,7 @@ RELEASE_GCC49_IA32_CC_FLAGS       =3D
+> DEF(GCC49_IA32_CC_FLAGS) -Wno-unused-but-set
+>   *_GCC49_X64_DLINK2_FLAGS         =3D DEF(GCC49_X64_DLINK2_FLAGS)
+>   *_GCC49_X64_RC_FLAGS             =3D DEF(GCC_X64_RC_FLAGS)
+>   *_GCC49_X64_OBJCOPY_FLAGS        =3D
+> @@ -81,7 +81,7 @@ index 0caa1c9001..dd86b3249d 100755
+>
+>     DEBUG_GCC49_X64_CC_FLAGS       =3D DEF(GCC49_X64_CC_FLAGS)
+>   RELEASE_GCC49_X64_CC_FLAGS       =3D DEF(GCC49_X64_CC_FLAGS)
+> -Wno-unused-but-set-variable -Wno-unused-const-variable
+> -@@ -1516,7 +1516,7 @@ RELEASE_GCCNOLTO_AARCH64_DLINK_XIPFLAGS =3D -z
+> common-page-size=3D0x20
+> +@@ -1314,7 +1314,7 @@ RELEASE_GCCNOLTO_AARCH64_DLINK_XIPFLAGS =3D -z
+> common-page-size=3D0x20
+>   *_GCC5_IA32_DLINK2_FLAGS         =3D DEF(GCC5_IA32_DLINK2_FLAGS) -no-pi=
+e
+>   *_GCC5_IA32_RC_FLAGS             =3D DEF(GCC_IA32_RC_FLAGS)
+>   *_GCC5_IA32_OBJCOPY_FLAGS        =3D
+> @@ -90,7 +90,7 @@ index 0caa1c9001..dd86b3249d 100755
+>
+>     DEBUG_GCC5_IA32_CC_FLAGS       =3D DEF(GCC5_IA32_CC_FLAGS) -flto
+>     DEBUG_GCC5_IA32_DLINK_FLAGS    =3D DEF(GCC5_IA32_X64_DLINK_FLAGS) -fl=
+to
+> -Os -Wl,-m,elf_i386,--oformat=3Delf32-i386
+> -@@ -1548,7 +1548,7 @@ RELEASE_GCC5_IA32_DLINK_FLAGS    =3D
+> DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto -Os -Wl,
+> +@@ -1346,7 +1346,7 @@ RELEASE_GCC5_IA32_DLINK_FLAGS    =3D
+> DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto -Os -Wl,
+>   *_GCC5_X64_DLINK2_FLAGS          =3D DEF(GCC5_X64_DLINK2_FLAGS)
+>   *_GCC5_X64_RC_FLAGS              =3D DEF(GCC_X64_RC_FLAGS)
+>   *_GCC5_X64_OBJCOPY_FLAGS         =3D
+> @@ -99,3 +99,6 @@ index 0caa1c9001..dd86b3249d 100755
+>
+>     DEBUG_GCC5_X64_CC_FLAGS        =3D DEF(GCC5_X64_CC_FLAGS) -flto
+> -DUSING_LTO
+>     DEBUG_GCC5_X64_DLINK_FLAGS     =3D DEF(GCC5_X64_DLINK_FLAGS) -flto -O=
+s
+> +--
+> +2.47.3
+> +
+> diff --git a/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch
+> b/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch
+> index 73f242321e..b42ecde211 100644
+> --- a/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch
+> +++ b/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch
+> @@ -1,7 +1,7 @@
+> -From 0d22e07cd9cc35ede04c01d3141068db744d7677 Mon Sep 17 00:00:00 2001
+> +From 8b218dffa0368fbc2bfb5d8051b358476266fcb4 Mon Sep 17 00:00:00 2001
+>  From: Alexander Kanavin <alex.kanavin@gmail.com>
+>  Date: Mon, 14 Jun 2021 19:57:30 +0200
+> -Subject: [PATCH] reproducible
+> +Subject: [PATCH 4/5] reproducible
+>
+>  This patch fixes various things which make the build more reproducible.
+> Some changes
+>  here only change intermediate artefacts but that means when you have two
+> build trees
+> @@ -35,7 +35,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.co=
+m
+> >
+>   4 files changed, 24 insertions(+), 16 deletions(-)
+>
+>  diff --git a/BaseTools/Source/C/GenFw/Elf64Convert.c
+> b/BaseTools/Source/C/GenFw/Elf64Convert.c
+> -index 18594122ea..92b5f13cf6 100644
+> +index 83f1b285c2..e2f582f8fb 100644
+>  --- a/BaseTools/Source/C/GenFw/Elf64Convert.c
+>  +++ b/BaseTools/Source/C/GenFw/Elf64Convert.c
+>  @@ -15,6 +15,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
+> @@ -47,7 +47,7 @@ index 18594122ea..92b5f13cf6 100644
+>   #endif
+>   #include <assert.h>
+>   #include <stdio.h>
+> -@@ -990,7 +992,7 @@ ScanSections64 (
+> +@@ -995,7 +997,7 @@ ScanSections64 (
+>     }
+>     mCoffOffset =3D mDebugOffset + sizeof(EFI_IMAGE_DEBUG_DIRECTORY_ENTRY=
+) +
+>                   sizeof(EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY) +
+> @@ -56,7 +56,7 @@ index 18594122ea..92b5f13cf6 100644
+>
+>     //
+>     // Add more space in the .debug data region for the
+> DllCharacteristicsEx
+> -@@ -2322,7 +2324,7 @@ WriteDebug64 (
+> +@@ -2329,7 +2331,7 @@ WriteDebug64 (
+>     EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY         *Nb10;
+>     EFI_IMAGE_DEBUG_EX_DLLCHARACTERISTICS_ENTRY *DllEntry;
+>
+> @@ -65,7 +65,7 @@ index 18594122ea..92b5f13cf6 100644
+>
+>     NtHdr =3D (EFI_IMAGE_OPTIONAL_HEADER_UNION *)(mCoffFile + mNtHdrOffse=
+t);
+>     DataDir =3D
+> &NtHdr->Pe32Plus.OptionalHeader.DataDirectory[EFI_IMAGE_DIRECTORY_ENTRY_D=
+EBUG];
+> -@@ -2355,7 +2357,7 @@ WriteDebug64 (
+> +@@ -2362,7 +2364,7 @@ WriteDebug64 (
+>
+>     Nb10 =3D (EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY*)(Dir + 1);
+>     Nb10->Signature =3D CODEVIEW_SIGNATURE_NB10;
+> @@ -153,7 +153,7 @@ index e5f282c4ac..27a34ef7c6 100755
+>                   if T.GenFileListMacro and T.FileListMacro not in
+> self.FileListMacros:
+>                       self.FileListMacros[T.FileListMacro] =3D []
+>  diff --git a/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py
+> b/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py
+> -index aa0b71632e..57c9cad117 100755
+> +index 764c51789b..40aadbcfbc 100755
+>  --- a/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py
+>  +++ b/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py
+>  @@ -1429,6 +1429,9 @@ class ModuleAutoGen(AutoGen):
+> @@ -175,3 +175,6 @@ index aa0b71632e..57c9cad117 100755
+>
+>           # Ignore generating makefile when it is a binary module
+>           if self.IsBinaryModule:
+> +--
+> +2.47.3
+> +
+> diff --git
+> a/meta/recipes-core/ovmf/ovmf/0005-UefiCpuPkg-CpuExceptionHandlerLib-fix-=
+push-instructi.patch
+> b/meta/recipes-core/ovmf/ovmf/0005-UefiCpuPkg-CpuExceptionHandlerLib-fix-=
+push-instructi.patch
+> index 43c402b91a..650e084b5b 100644
+> ---
+> a/meta/recipes-core/ovmf/ovmf/0005-UefiCpuPkg-CpuExceptionHandlerLib-fix-=
+push-instructi.patch
+> +++
+> b/meta/recipes-core/ovmf/ovmf/0005-UefiCpuPkg-CpuExceptionHandlerLib-fix-=
+push-instructi.patch
+> @@ -1,7 +1,7 @@
+> -From 7dcf5ed06b5a256436521f892d2579421c163902 Mon Sep 17 00:00:00 2001
+> +From 7e6be0f4068a2158af3c97e873edb33fa4d5c6b8 Mon Sep 17 00:00:00 2001
+>  From: Gerd Hoffmann <kraxel@redhat.com>
+>  Date: Mon, 3 Nov 2025 09:56:52 +0100
+> -Subject: [PATCH] UefiCpuPkg/CpuExceptionHandlerLib: fix push instruction=
+s
+> +Subject: [PATCH 5/5] UefiCpuPkg/CpuExceptionHandlerLib: fix push
+> instructions
+>
+>  Nasm 3.0 complains about 'dword' being invalid.  The comment talks about
+>  a '8-byte value' so 'qword' should be correct here.
+> @@ -41,3 +41,6 @@ index 3d64ac9080..671ed98f85 100644
+>   VectorNum:
+>       push    rax
+>   %ifdef NO_ABSOLUTE_RELOCS_IN_TEXT
+> +--
+> +2.47.3
+> +
+> diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/
+> ovmf_git.bb
+> index 6b42041ac7..ec6c3b516c 100644
+> --- a/meta/recipes-core/ovmf/ovmf_git.bb
+> +++ b/meta/recipes-core/ovmf/ovmf_git.bb
+> @@ -28,8 +28,8 @@ SRC_URI =3D "gitsm://
+> github.com/tianocore/edk2.git;branch=3Dmaster;protocol=3Dhttps;ta
+>
+> file://0005-UefiCpuPkg-CpuExceptionHandlerLib-fix-push-instructi.patch \
+>             "
+>
+> -PV =3D "edk2-stable202508"
+> -SRCREV =3D "d46aa46c8361194521391aa581593e556c707c6e"
+> +PV =3D "edk2-stable202511"
+> +SRCREV =3D "46548b1adac82211d8d11da12dd914f41e7aa775"
+>  UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>edk2-stable.*)"
+>
+>  CVE_PRODUCT =3D "edk2"
+> @@ -58,7 +58,7 @@ EDK_TOOLS_DIR =3D "edk2_basetools"
+>  BUILD_OPTIMIZATION =3D ""
+>
+>  # OVMF supports IA only, although it could conceivably support ARM
+> someday.
+> -COMPATIBLE_HOST:class-target =3D '(i.86|x86_64).*'
+> +COMPATIBLE_HOST:class-target =3D '(x86_64).*'
+>
+>  # Additional build flags for OVMF with Secure Boot.
+>  # Fedora also uses "-D SMM_REQUIRE -D EXCLUDE_SHELL_FROM_FD".
+> @@ -178,9 +178,6 @@ do_compile:class-target() {
+>      export LFLAGS=3D"${LDFLAGS}"
+>      PARALLEL_JOBS=3D"${@oe.utils.parallel_make_argument(d, '-n %d')}"
+>      OVMF_ARCH=3D"X64"
+> -    if [ "${TARGET_ARCH}" !=3D "x86_64" ] ; then
+> -        OVMF_ARCH=3D"IA32"
+> -    fi
+>
+>      # The build for the target uses BaseTools/Conf/tools_def.template
+>      # from ovmf-native to find the compiler, which depends on
+> @@ -197,9 +194,6 @@ do_compile:class-target() {
+>      rm -rf ${WORKDIR}/ovmf
+>      mkdir ${WORKDIR}/ovmf
+>      OVMF_DIR_SUFFIX=3D"X64"
+> -    if [ "${TARGET_ARCH}" !=3D "x86_64" ] ; then
+> -        OVMF_DIR_SUFFIX=3D"Ia32" # Note the different capitalization
+> -    fi
+>      FIXED_GCCVER=3D$(fixup_target_tools ${GCC_VER})
+>      bbnote FIXED_GCCVER is ${FIXED_GCCVER}
+>
+>  build_dir=3D"${S}/Build/Ovmf$OVMF_DIR_SUFFIX/${OVMF_BUILD_TYPE}_${FIXED_=
+GCCVER}"
+> @@ -231,10 +225,10 @@ do_install:class-native() {
+>
+>  do_install:class-target() {
+>      # Content for UEFI shell iso. We install the EFI shell as
+> -    # bootx64/ia32.efi because then it can be started even when the
+> +    # bootx64.efi because then it can be started even when the
+>      # firmware itself does not contain it.
+>      install -d ${D}/efi/boot
+> -    install ${WORKDIR}/ovmf/Shell.efi ${D}/efi/boot/boot${@ "ia32" if
+> "${TARGET_ARCH}" !=3D "x86_64" else "x64"}.efi
+> +    install ${WORKDIR}/ovmf/Shell.efi ${D}/efi/boot/bootx64.efi
+>      if ${@bb.utils.contains('PACKAGECONFIG', 'secureboot', 'true',
+> 'false', d)}; then
+>          install ${WORKDIR}/ovmf/EnrollDefaultKeys.efi ${D}
+>      fi
+> --
+> 2.47.3
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#228372):
+> https://lists.openembedded.org/g/openembedded-core/message/228372
+> Mute This Topic: https://lists.openembedded.org/mt/116906945/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-Signed-off-by: Randolph Sapp <rs@ti.com>
----
- meta-selftest/files/static-group              |  1 +
- .../conf/distro/include/default-providers.inc |  1 +
- meta/conf/distro/include/maintainers.inc      |  2 +
- meta/recipes-graphics/emptty/emptty-conf.bb   | 14 +++++
- meta/recipes-graphics/emptty/emptty.inc       | 26 ++++++++
- .../recipes-graphics/emptty/emptty/emptty.tab |  1 +
- meta/recipes-graphics/emptty/emptty/pamconf   | 10 ++++
- meta/recipes-graphics/emptty/emptty_0.15.0.bb | 59 +++++++++++++++++++
- 8 files changed, 114 insertions(+)
- create mode 100644 meta/recipes-graphics/emptty/emptty-conf.bb
- create mode 100644 meta/recipes-graphics/emptty/emptty.inc
- create mode 100644 meta/recipes-graphics/emptty/emptty/emptty.tab
- create mode 100644 meta/recipes-graphics/emptty/emptty/pamconf
- create mode 100644 meta/recipes-graphics/emptty/emptty_0.15.0.bb
+--000000000000b62f510646a69c95
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta-selftest/files/static-group b/meta-selftest/files/static-=
-group
-index 252fdac67d..a197216165 100644
---- a/meta-selftest/files/static-group
-+++ b/meta-selftest/files/static-group
-@@ -29,3 +29,4 @@ ptest:x:529:
- xuser:x:530:
- seat:x:531:
- audio:x:532:
-+nopasswdlogin:x:533:
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/dis=
-tro/include/default-providers.inc
-index 3f113543cd..820a5d1342 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -69,3 +69,4 @@ PREFERRED_PROVIDER_virtual/nativesdk-libsdl2 ?=3D "native=
-sdk-libsdl2"
- PREFERRED_RPROVIDER_virtual-libegl-icd ?=3D "mesa"
- PREFERRED_RPROVIDER_virtual-libglx-icd ?=3D "mesa"
- PREFERRED_RPROVIDER_virtual-x-terminal-emulator ?=3D "rxvt-unicode"
-+PREFERRED_RPROVIDER_virtual-emptty-conf ?=3D "emptty-conf"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
-clude/maintainers.inc
-index 523ac09b53..cc28ca5af2 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -170,6 +170,8 @@ RECIPE_MAINTAINER:pn-efivar =3D "Ross Burton <ross.burt=
-on@arm.com>"
- RECIPE_MAINTAINER:pn-efibootmgr =3D "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-elfutils =3D "Unassigned <unassigned@yoctoproject.org=
->"
- RECIPE_MAINTAINER:pn-ell =3D "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-emptty =3D "Randolph Sapp <rs@ti.com>"
-+RECIPE_MAINTAINER:pn-emptty-conf =3D "Randolph Sapp <rs@ti.com>"
- RECIPE_MAINTAINER:pn-enchant2 =3D "Unassigned <unassigned@yoctoproject.org=
->"
- RECIPE_MAINTAINER:pn-encodings =3D "Unassigned <unassigned@yoctoproject.or=
-g>"
- RECIPE_MAINTAINER:pn-epiphany =3D "Unassigned <unassigned@yoctoproject.org=
->"
-diff --git a/meta/recipes-graphics/emptty/emptty-conf.bb b/meta/recipes-gra=
-phics/emptty/emptty-conf.bb
-new file mode 100644
-index 0000000000..0b98e2e13e
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty-conf.bb
-@@ -0,0 +1,14 @@
-+require emptty.inc
-+
-+SUMMARY +=3D " (Default config)"
-+
-+do_configure[noexec] =3D "1"
-+do_compile[noexec] =3D "1"
-+
-+do_install () {
-+    oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=3D${D} install-config
-+}
-+
-+FILES:${PN} =3D "${sysconfdir}/emptty/conf"
-+CONFFILES:${PN} =3D "${sysconfdir}/emptty/conf"
-+RPROVIDES:${PN} +=3D "virtual-emptty-conf"
-diff --git a/meta/recipes-graphics/emptty/emptty.inc b/meta/recipes-graphic=
-s/emptty/emptty.inc
-new file mode 100644
-index 0000000000..cfe9ebf154
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty.inc
-@@ -0,0 +1,26 @@
-+SUMMARY =3D "Dead simple CLI Display Manager on TTY"
-+DESCRIPTION =3D "Emptty is a simple display manager with a command line gr=
-eeter \
-+It supports both X11 and Wayland sessions, exporting required variables an=
-d \
-+creating user paths as necessary."
-+
-+HOMEPAGE =3D "https://github.com/tvrzna/emptty"
-+BUGTRACKER =3D "https://github.com/tvrzna/emptty/issues"
-+LICENSE =3D "MIT"
-+LIC_FILES_CHKSUM =3D "file://src/${GO_IMPORT}/LICENSE;md5=3Dd1e4d12c7d1d17=
-367ba5668706a405ba"
-+
-+S =3D "${UNPACKDIR}"
-+
-+FILESEXTRAPATHS:append =3D ":${THISDIR}/emptty"
-+
-+GO_IMPORT =3D "github.com/tvrzna/emptty"
-+GO_IMPORT_pam =3D "github.com/msteinert/pam"
-+SRC_URI =3D "\
-+    git://${GO_IMPORT}.git;protocol=3Dhttps;branch=3Dmaster;destsuffix=3Ds=
-rc/${GO_IMPORT} \
-+    git://${GO_IMPORT_pam}.git;protocol=3Dhttps;branch=3Dmaster;name=3Dpam=
-;destsuffix=3Dsrc/${GO_IMPORT_pam} \
-+    file://pamconf \
-+    file://emptty.tab \
-+    "
-+SRCREV =3D "bb203ad0a224731a7a2ff50deeb342ab79c4af09"
-+SRCREV_pam =3D "50ded1b0e7864b9bf75005eb945a8ec826bcf69d"
-+
-+SRCREV_FORMAT .=3D "_pam"
-diff --git a/meta/recipes-graphics/emptty/emptty/emptty.tab b/meta/recipes-=
-graphics/emptty/emptty/emptty.tab
-new file mode 100644
-index 0000000000..6359c7224d
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty/emptty.tab
-@@ -0,0 +1 @@
-+7:5:respawn:/usr/bin/emptty -t 7 -d
-diff --git a/meta/recipes-graphics/emptty/emptty/pamconf b/meta/recipes-gra=
-phics/emptty/emptty/pamconf
-new file mode 100644
-index 0000000000..9cbfd6c4a5
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty/pamconf
-@@ -0,0 +1,10 @@
-+#%PAM-1.0
-+auth            sufficient      pam_succeed_if.so user ingroup nopasswdlog=
-in
-+auth            include         common-auth
-+-auth           optional        pam_gnome_keyring.so
-+-auth           optional        pam_kwallet5.so
-+account         include         common-account
-+session         include         common-session
-+-session        optional        pam_gnome_keyring.so auto_start
-+-session        optional        pam_kwallet5.so auto_start force_run
-+password        include         common-password
-diff --git a/meta/recipes-graphics/emptty/emptty_0.15.0.bb b/meta/recipes-g=
-raphics/emptty/emptty_0.15.0.bb
-new file mode 100644
-index 0000000000..524ef08128
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty_0.15.0.bb
-@@ -0,0 +1,59 @@
-+require emptty.inc
-+
-+PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'pam x11', d)}"
-+PACKAGECONFIG[pam] =3D ",,libpam,pam-plugin-succeed-if"
-+PACKAGECONFIG[x11] =3D ",,virtual/libx11,util-linux-mcookie"
-+
-+DEPENDS +=3D "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', 'virtual/cr=
-ypt', d)}"
-+
-+GO_TAGS =3D ""
-+GO_TAGS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', ',nop=
-am', d)}"
-+GO_TAGS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'x11', '', ',nox=
-lib', d)}"
-+
-+GOBUILDFLAGS:append =3D " -tags=3D${GO_TAGS}"
-+
-+export GO111MODULE =3D "off"
-+
-+inherit go
-+
-+DEPENDS +=3D "gzip"
-+
-+do_install () {
-+    # general collateral
-+    install -Dm755 ${B}/${GO_BUILD_BINDIR}/emptty ${D}${bindir}/emptty
-+    install -d ${D}${mandir}/man1
-+    gzip -cn ${S}/src/${GO_IMPORT}/res/emptty.1 > ${D}${mandir}/man1/emptt=
-y.1.gz
-+
-+    # pam config
-+    if "${@bb.utils.contains('PACKAGECONFIG','pam','true','false',d)}"
-+    then
-+        install -Dm644 ${S}/pamconf ${D}${sysconfdir}/pam.d/emptty
-+    fi
-+
-+    # systemd init service
-+    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}
-+    then
-+        oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=3D${D} install-systemd
-+    fi
-+
-+    # legacy inittab entry
-+    install -Dm644 ${S}/emptty.tab ${D}${sysconfdir}/inittab.d/emptty.tab
-+}
-+
-+FILES:${PN} =3D "\
-+    ${systemd_system_unitdir}/emptty.service \
-+    ${sysconfdir}/inittab.d/emptty.tab \
-+    ${bindir}/emptty \
-+    ${mandir}/man1/emptty.1.gz \
-+    ${sysconfdir}/pam.d/emptty \
-+"
-+
-+RDEPENDS:${PN} +=3D "virtual-emptty-conf"
-+SYSTEMD_SERVICE:${PN} =3D "emptty.service"
-+
-+inherit systemd
-+
-+USERADD_PACKAGES =3D "${PN}"
-+GROUPADD_PARAM:${PN} =3D "-r nopasswdlogin"
-+
-+inherit useradd
---=20
-2.51.1
+<div dir=3D"ltr"><div>meta/recipes-core/ovmf/<a href=3D"http://ovmf-shell-i=
+mage.bb">ovmf-shell-image.bb</a> also needs to narrow down COMPATIBLE_HOST =
+to respond to this change.</div></div><br><div class=3D"gmail_quote gmail_q=
+uote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 22, 2025 =
+at 12:08=E2=80=AFPM Alexander Kanavin via <a href=3D"http://lists.openembed=
+ded.org">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gm=
+ail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Alexa=
+nder Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" target=3D"_blank">al=
+ex@linutronix.de</a>&gt;<br>
+<br>
+Upstream has dropped support for 32 bit x86:<br>
+<a href=3D"https://github.com/tianocore/edk2/commit/2a6708a786eb0f0e9b979cd=
+93c5dc12c42e337a1" rel=3D"noreferrer" target=3D"_blank">https://github.com/=
+tianocore/edk2/commit/2a6708a786eb0f0e9b979cd93c5dc12c42e337a1</a><br>
+<br>
+Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" =
+target=3D"_blank">alex@linutronix.de</a>&gt;<br>
+---<br>
+=C2=A0...ovmf-update-path-to-native-BaseTools.patch |=C2=A0 9 +++--<br>
+=C2=A0...ile-adjust-to-build-in-under-bitbake.patch | 11 ++++--<br>
+=C2=A0.../ovmf/ovmf/0003-debug-prefix-map.patch=C2=A0 =C2=A0 =C2=A0| 37 +++=
++++++++---------<br>
+=C2=A0.../ovmf/ovmf/0004-reproducible.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 17 +++++----<br>
+=C2=A0...ceptionHandlerLib-fix-push-instructi.patch |=C2=A0 7 +++-<br>
+=C2=A0meta/recipes-core/ovmf/<a href=3D"http://ovmf_git.bb" rel=3D"noreferr=
+er" target=3D"_blank">ovmf_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 16 +++-----<br>
+=C2=A06 files changed, 53 insertions(+), 44 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-Ba=
+seTools.patch b/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native=
+-BaseTools.patch<br>
+index 890e586210..bc70c1ab91 100644<br>
+--- a/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools=
+.patch<br>
++++ b/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools=
+.patch<br>
+@@ -1,7 +1,7 @@<br>
+-From 0f859c6de2914cd984f8a0dd61471b91a2371bfa Mon Sep 17 00:00:00 2001<br>
++From 89a7bfe82c9dea89fa7d859eb392aa414a365578 Mon Sep 17 00:00:00 2001<br>
+=C2=A0From: Ricardo Neri &lt;<a href=3D"mailto:ricardo.neri-calderon@linux.=
+intel.com" target=3D"_blank">ricardo.neri-calderon@linux.intel.com</a>&gt;<=
+br>
+=C2=A0Date: Thu, 9 Jun 2016 02:23:01 -0700<br>
+-Subject: [PATCH] ovmf: update path to native BaseTools<br>
++Subject: [PATCH 1/5] ovmf: update path to native BaseTools<br>
+<br>
+=C2=A0BaseTools is a set of utilities to build EDK-based firmware. These ut=
+ilities<br>
+=C2=A0are used during the build process. Thus, they need to be built native=
+ly.<br>
+@@ -16,7 +16,7 @@ Upstream-Status: Inappropriate [oe-core cross compile spe=
+cific]<br>
+=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+=C2=A0diff --git a/OvmfPkg/build.sh b/OvmfPkg/build.sh<br>
+-index 279f0d099a..285f061bf4 100755<br>
++index 30f4830173..ce4ffb20ab 100755<br>
+=C2=A0--- a/OvmfPkg/build.sh<br>
+=C2=A0+++ b/OvmfPkg/build.sh<br>
+=C2=A0@@ -24,7 +24,7 @@ then<br>
+@@ -28,3 +28,6 @@ index 279f0d099a..285f061bf4 100755<br>
+=C2=A0 =C2=A0 echo $EDK_TOOLS_PATH<br>
+=C2=A0 =C2=A0 source edksetup.sh BaseTools<br>
+=C2=A0 else<br>
++-- <br>
++2.47.3<br>
++<br>
+diff --git a/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-=
+build-in-under-bitbake.patch b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-m=
+akefile-adjust-to-build-in-under-bitbake.patch<br>
+index 4a55528571..27c4324b67 100644<br>
+--- a/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-i=
+n-under-bitbake.patch<br>
++++ b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-i=
+n-under-bitbake.patch<br>
+@@ -1,7 +1,7 @@<br>
+-From 9dbd082516fdd7100f99f0f389b8eef5ececab19 Mon Sep 17 00:00:00 2001<br>
++From 8b4941871ccc88ed8b31eb7ffc097e1fe39fe57d Mon Sep 17 00:00:00 2001<br>
+=C2=A0From: Ricardo Neri &lt;<a href=3D"mailto:ricardo.neri-calderon@linux.=
+intel.com" target=3D"_blank">ricardo.neri-calderon@linux.intel.com</a>&gt;<=
+br>
+=C2=A0Date: Fri, 26 Jul 2019 17:34:26 -0400<br>
+-Subject: [PATCH] BaseTools: makefile: adjust to build in under bitbake<br>
++Subject: [PATCH 2/5] BaseTools: makefile: adjust to build in under bitbake=
+<br>
+<br>
+=C2=A0Prepend the build flags with those of bitbake. This is to build<br>
+=C2=A0using the bitbake native sysroot include and library directories.<br>
+@@ -18,10 +18,10 @@ Upstream-Status: Inappropriate [needs to be converted t=
+o in-recipe fixups]<br>
+=C2=A0 1 file changed, 7 insertions(+), 8 deletions(-)<br>
+<br>
+=C2=A0diff --git a/BaseTools/Source/C/Makefiles/header.makefile b/BaseTools=
+/Source/C/Makefiles/header.makefile<br>
+-index 55a7307a5e..e36e6a8f04 100644<br>
++index 53e73abe53..0b3f9bbb2a 100644<br>
+=C2=A0--- a/BaseTools/Source/C/Makefiles/header.makefile<br>
+=C2=A0+++ b/BaseTools/Source/C/Makefiles/header.makefile<br>
+-@@ -154,35 +154,34 @@ endif<br>
++@@ -151,35 +151,34 @@ endif<br>
+<br>
+=C2=A0 INCLUDE =3D $(TOOL_INCLUDE) -I $(MAKEROOT) -I $(MAKEROOT)/Include/Co=
+mmon -I $(MAKEROOT)/Include/ -I $(MAKEROOT)/Include/IndustryStandard -I $(M=
+AKEROOT)/Common/ -I .. -I . $(ARCH_INCLUDE)<br>
+=C2=A0 INCLUDE +=3D -I $(EDK2_PATH)/MdePkg/Include<br>
+@@ -64,3 +64,6 @@ index 55a7307a5e..e36e6a8f04 100644<br>
+=C2=A0 ifeq ($(HOST_ARCH), IA32)<br>
+=C2=A0 #<br>
+=C2=A0 # Snow Leopard=C2=A0 is a 32-bit and 64-bit environment. uname -m re=
+turns i386, but gcc defaults<br>
++-- <br>
++2.47.3<br>
++<br>
+diff --git a/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch b/meta=
+/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch<br>
+index 1e79c23ae9..18ea24802a 100644<br>
+--- a/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch<br>
++++ b/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch<br>
+@@ -1,7 +1,7 @@<br>
+-From eb6db21ed0a845dce149d17acf8673d5188adea4 Mon Sep 17 00:00:00 2001<br>
++From 640b1e443a1b400d32d9af0c478abbbaebd491f1 Mon Sep 17 00:00:00 2001<br>
+=C2=A0From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com"=
+ target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+=C2=A0Date: Mon, 14 Jun 2021 19:56:28 +0200<br>
+-Subject: [PATCH] debug prefix map<br>
++Subject: [PATCH 3/5] debug prefix map<br>
+<br>
+=C2=A0We want to pass ${DEBUG_PREFIX_MAP} to gcc commands and also pass in<=
+br>
+=C2=A0 --debug-prefix-map to nasm (we carry a patch to nasm for this). The<=
+br>
+@@ -22,30 +22,30 @@ Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:=
+alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br=
+>
+=C2=A0 1 file changed, 9 insertions(+), 9 deletions(-)<br>
+<br>
+=C2=A0diff --git a/BaseTools/Conf/tools_def.template b/BaseTools/Conf/tools=
+_def.template<br>
+-index 0caa1c9001..dd86b3249d 100755<br>
++index 90a389bdff..1e134b299a 100755<br>
+=C2=A0--- a/BaseTools/Conf/tools_def.template<br>
+=C2=A0+++ b/BaseTools/Conf/tools_def.template<br>
+-@@ -920,7 +920,7 @@ NOOPT_*_*_OBJCOPY_ADDDEBUGFLAG=C2=A0 =C2=A0 =C2=A0=3D =
+--add-gnu-debuglink=3D&quot;$(DEBUG_DIR)/$(MODULE_<br>
++@@ -833,7 +833,7 @@ NOOPT_*_*_OBJCOPY_ADDDEBUGFLAG=C2=A0 =C2=A0 =C2=A0=3D =
+--add-gnu-debuglink=3D&quot;$(DEBUG_DIR)/$(MODULE_<br>
+=C2=A0 *_*_*_DTC_PATH=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(DTC_BIN)<br>
+<br>
+=C2=A0 # All supported GCC archs except LOONGARCH64 support -mstack-protect=
+or-guard=3Dglobal, so set that on everything except LOONGARCH64<br>
+=C2=A0-DEFINE GCC_ALL_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D=
+ -g -Os -fshort-wchar -fno-builtin -fno-strict-aliasing -Wall -Werror -Wno-=
+array-bounds -include AutoGen.h -fno-common -fstack-protector<br>
+=C2=A0+DEFINE GCC_ALL_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D=
+ -g -Os -fshort-wchar -fno-builtin -fno-strict-aliasing -Wall -Werror -Wno-=
+array-bounds -include AutoGen.h -fno-common -fstack-protector ENV(GCC_PREFI=
+X_MAP)<br>
+=C2=A0 DEFINE GCC_IA32_X64_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D -mstack-p=
+rotector-guard=3Dglobal<br>
+- DEFINE GCC_ARM_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D DEF(=
+GCC_ALL_CC_FLAGS) -mlittle-endian -mabi=3Daapcs -fno-short-enums -funsigned=
+-char -ffunction-sections -fdata-sections -fomit-frame-pointer -Wno-address=
+ -mthumb -fno-pic -fno-pie -mstack-protector-guard=3Dglobal<br>
+=C2=A0 DEFINE GCC_LOONGARCH64_CC_FLAGS=C2=A0 =C2=A0 =3D DEF(GCC_ALL_CC_FLAG=
+S) -mabi=3Dlp64d -fno-asynchronous-unwind-tables -Wno-address -fno-short-en=
+ums -fsigned-char -ffunction-sections -fdata-sections<br>
+-@@ -938,8 +938,8 @@ DEFINE GCC_ARM_AARCH64_ASLDLINK_FLAGS =3D -Wl,--defsym=
+=3DPECOFF_HEADER_SIZE=3D0 DEF(GC<br>
+- DEFINE GCC_ARM_ASLDLINK_FLAGS=C2=A0 =C2=A0 =C2=A0 =3D DEF(GCC_ARM_DLINK_F=
+LAGS) -Wl,--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT) DEF(GCC_ARM_AA=
+RCH64_ASLDLINK_FLAGS)<br>
+- DEFINE GCC_AARCH64_ASLDLINK_FLAGS=C2=A0 =3D DEF(GCC_AARCH64_DLINK_FLAGS) =
+-Wl,--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT) DEF(GCC_ARM_AARCH64_=
+ASLDLINK_FLAGS)<br>
++ DEFINE GCC_AARCH64_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D DEF(GCC_ALL_CC=
+_FLAGS) -mlittle-endian -fno-short-enums -fverbose-asm -funsigned-char=C2=
+=A0 -ffunction-sections -fdata-sections -Wno-address -fno-asynchronous-unwi=
+nd-tables -fno-unwind-tables -fno-pic -fno-pie -ffixed-x18 -mstack-protecto=
+r-guard=3Dglobal<br>
++@@ -845,8 +845,8 @@ DEFINE GCC_AARCH64_DLINK_FLAGS=C2=A0 =C2=A0 =C2=A0=3D =
+-Wl,--emit-relocs -nostdlib -Wl,--gc-sectio<br>
++ DEFINE GCC_LOONGARCH64_DLINK_FLAGS =3D DEF(GCC_LOONGARCH64_DLINK_COMMON) =
+-z common-page-size=3D0x20<br>
++ DEFINE GCC_AARCH64_ASLDLINK_FLAGS=C2=A0 =3D DEF(GCC_AARCH64_DLINK_FLAGS) =
+-Wl,--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT) -Wl,--defsym=3DPECOF=
+F_HEADER_SIZE=3D0 DEF(GCC_DLINK2_FLAGS_COMMON) -z common-page-size=3D0x20<b=
+r>
+=C2=A0 DEFINE GCC_LOONGARCH64_ASLDLINK_FLAGS =3D DEF(GCC_LOONGARCH64_DLINK_=
+FLAGS) -Wl,--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT)<br>
+--DEFINE GCC_ASM_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D -c -x assembler -imacros AutoGen.h<br>
++-DEFINE GCC_ASM_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D -c -x assembler<br>
+=C2=A0-DEFINE GCC_PP_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =3D -E -x assembler-with-cpp -include AutoGen.h<br>
+-+DEFINE GCC_ASM_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D -c -x assembler -imacros AutoGen.h ENV(GCC_PREFIX_MAP)<br>
+++DEFINE GCC_ASM_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D -c -x assembler ENV(GCC_PREFIX_MAP)<br>
+=C2=A0+DEFINE GCC_PP_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =3D -E -x assembler-with-cpp -include AutoGen.h ENV(GCC_PREFIX_MAP)<=
+br>
+=C2=A0 DEFINE GCC_VFRPP_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D -x c -E -DVFRCOMPILE --include $(MODULE_NAME)StrDefs.h<br>
+=C2=A0 DEFINE GCC_ASLPP_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D -x c -E -include AutoGen.h<br>
+- DEFINE GCC_ASLCC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D=
+ -x c<br>
+-@@ -1092,7 +1092,7 @@ DEFINE GCC5_LOONGARCH64_PP_FLAGS=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0=3D -mabi=3Dlp64d -march=3Dloongarch64 DEF(<br>
++ DEFINE GCC_ASLCC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D=
+ -x c -include AutoGen.h -fshort-wchar<br>
++@@ -980,7 +980,7 @@ DEFINE GCC5_LOONGARCH64_PP_FLAGS=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0=3D -mabi=3Dlp64d -march=3Dloongarch64 DEF(<br>
+=C2=A0 *_GCC48_IA32_DLINK2_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(G=
+CC48_IA32_DLINK2_FLAGS)<br>
+=C2=A0 *_GCC48_IA32_RC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D DEF(GCC_IA32_RC_FLAGS)<br>
+=C2=A0 *_GCC48_IA32_OBJCOPY_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D<br>
+@@ -54,7 +54,7 @@ index 0caa1c9001..dd86b3249d 100755<br>
+<br>
+=C2=A0 =C2=A0 DEBUG_GCC48_IA32_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(G=
+CC48_IA32_CC_FLAGS)<br>
+=C2=A0 RELEASE_GCC48_IA32_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(GCC48_=
+IA32_CC_FLAGS) -Wno-unused-but-set-variable<br>
+-@@ -1120,7 +1120,7 @@ RELEASE_GCC48_IA32_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D DEF(GCC48_IA32_CC_FLAGS) -Wno-unused-but-set<br>
++@@ -1008,7 +1008,7 @@ RELEASE_GCC48_IA32_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D DEF(GCC48_IA32_CC_FLAGS) -Wno-unused-but-set<br>
+=C2=A0 *_GCC48_X64_DLINK2_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(GC=
+C48_X64_DLINK2_FLAGS)<br>
+=C2=A0 *_GCC48_X64_RC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=3D DEF(GCC_X64_RC_FLAGS)<br>
+=C2=A0 *_GCC48_X64_OBJCOPY_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D<br>
+@@ -63,7 +63,7 @@ index 0caa1c9001..dd86b3249d 100755<br>
+<br>
+=C2=A0 =C2=A0 DEBUG_GCC48_X64_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(GC=
+C48_X64_CC_FLAGS)<br>
+=C2=A0 RELEASE_GCC48_X64_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(GCC48_X=
+64_CC_FLAGS) -Wno-unused-but-set-variable<br>
+-@@ -1229,7 +1229,7 @@ RELEASE_GCC48_AARCH64_CC_FLAGS=C2=A0 =C2=A0=3D DEF(G=
+CC48_AARCH64_CC_FLAGS) -Wno-unused-but-s<br>
++@@ -1087,7 +1087,7 @@ RELEASE_GCC48_AARCH64_CC_FLAGS=C2=A0 =C2=A0=3D DEF(G=
+CC48_AARCH64_CC_FLAGS) -Wno-unused-but-s<br>
+=C2=A0 *_GCC49_IA32_DLINK2_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(G=
+CC49_IA32_DLINK2_FLAGS)<br>
+=C2=A0 *_GCC49_IA32_RC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D DEF(GCC_IA32_RC_FLAGS)<br>
+=C2=A0 *_GCC49_IA32_OBJCOPY_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D<br>
+@@ -72,7 +72,7 @@ index 0caa1c9001..dd86b3249d 100755<br>
+<br>
+=C2=A0 =C2=A0 DEBUG_GCC49_IA32_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(G=
+CC49_IA32_CC_FLAGS)<br>
+=C2=A0 RELEASE_GCC49_IA32_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(GCC49_=
+IA32_CC_FLAGS) -Wno-unused-but-set-variable -Wno-unused-const-variable<br>
+-@@ -1257,7 +1257,7 @@ RELEASE_GCC49_IA32_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D DEF(GCC49_IA32_CC_FLAGS) -Wno-unused-but-set<br>
++@@ -1115,7 +1115,7 @@ RELEASE_GCC49_IA32_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D DEF(GCC49_IA32_CC_FLAGS) -Wno-unused-but-set<br>
+=C2=A0 *_GCC49_X64_DLINK2_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(GC=
+C49_X64_DLINK2_FLAGS)<br>
+=C2=A0 *_GCC49_X64_RC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=3D DEF(GCC_X64_RC_FLAGS)<br>
+=C2=A0 *_GCC49_X64_OBJCOPY_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D<br>
+@@ -81,7 +81,7 @@ index 0caa1c9001..dd86b3249d 100755<br>
+<br>
+=C2=A0 =C2=A0 DEBUG_GCC49_X64_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(GC=
+C49_X64_CC_FLAGS)<br>
+=C2=A0 RELEASE_GCC49_X64_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(GCC49_X=
+64_CC_FLAGS) -Wno-unused-but-set-variable -Wno-unused-const-variable<br>
+-@@ -1516,7 +1516,7 @@ RELEASE_GCCNOLTO_AARCH64_DLINK_XIPFLAGS =3D -z commo=
+n-page-size=3D0x20<br>
++@@ -1314,7 +1314,7 @@ RELEASE_GCCNOLTO_AARCH64_DLINK_XIPFLAGS =3D -z commo=
+n-page-size=3D0x20<br>
+=C2=A0 *_GCC5_IA32_DLINK2_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(GC=
+C5_IA32_DLINK2_FLAGS) -no-pie<br>
+=C2=A0 *_GCC5_IA32_RC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=3D DEF(GCC_IA32_RC_FLAGS)<br>
+=C2=A0 *_GCC5_IA32_OBJCOPY_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D<br>
+@@ -90,7 +90,7 @@ index 0caa1c9001..dd86b3249d 100755<br>
+<br>
+=C2=A0 =C2=A0 DEBUG_GCC5_IA32_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D DEF(GC=
+C5_IA32_CC_FLAGS) -flto<br>
+=C2=A0 =C2=A0 DEBUG_GCC5_IA32_DLINK_FLAGS=C2=A0 =C2=A0 =3D DEF(GCC5_IA32_X6=
+4_DLINK_FLAGS) -flto -Os -Wl,-m,elf_i386,--oformat=3Delf32-i386<br>
+-@@ -1548,7 +1548,7 @@ RELEASE_GCC5_IA32_DLINK_FLAGS=C2=A0 =C2=A0 =3D DEF(G=
+CC5_IA32_X64_DLINK_FLAGS) -flto -Os -Wl,<br>
++@@ -1346,7 +1346,7 @@ RELEASE_GCC5_IA32_DLINK_FLAGS=C2=A0 =C2=A0 =3D DEF(G=
+CC5_IA32_X64_DLINK_FLAGS) -flto -Os -Wl,<br>
+=C2=A0 *_GCC5_X64_DLINK2_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D DEF(GC=
+C5_X64_DLINK2_FLAGS)<br>
+=C2=A0 *_GCC5_X64_RC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=3D DEF(GCC_X64_RC_FLAGS)<br>
+=C2=A0 *_GCC5_X64_OBJCOPY_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D<br>
+@@ -99,3 +99,6 @@ index 0caa1c9001..dd86b3249d 100755<br>
+<br>
+=C2=A0 =C2=A0 DEBUG_GCC5_X64_CC_FLAGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D DEF(GC=
+C5_X64_CC_FLAGS) -flto -DUSING_LTO<br>
+=C2=A0 =C2=A0 DEBUG_GCC5_X64_DLINK_FLAGS=C2=A0 =C2=A0 =C2=A0=3D DEF(GCC5_X6=
+4_DLINK_FLAGS) -flto -Os<br>
++-- <br>
++2.47.3<br>
++<br>
+diff --git a/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch b/meta/rec=
+ipes-core/ovmf/ovmf/0004-reproducible.patch<br>
+index 73f242321e..b42ecde211 100644<br>
+--- a/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch<br>
++++ b/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch<br>
+@@ -1,7 +1,7 @@<br>
+-From 0d22e07cd9cc35ede04c01d3141068db744d7677 Mon Sep 17 00:00:00 2001<br>
++From 8b218dffa0368fbc2bfb5d8051b358476266fcb4 Mon Sep 17 00:00:00 2001<br>
+=C2=A0From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com"=
+ target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+=C2=A0Date: Mon, 14 Jun 2021 19:57:30 +0200<br>
+-Subject: [PATCH] reproducible<br>
++Subject: [PATCH 4/5] reproducible<br>
+<br>
+=C2=A0This patch fixes various things which make the build more reproducibl=
+e. Some changes<br>
+=C2=A0here only change intermediate artefacts but that means when you have =
+two build trees<br>
+@@ -35,7 +35,7 @@ Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:al=
+ex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+=C2=A0 4 files changed, 24 insertions(+), 16 deletions(-)<br>
+<br>
+=C2=A0diff --git a/BaseTools/Source/C/GenFw/Elf64Convert.c b/BaseTools/Sour=
+ce/C/GenFw/Elf64Convert.c<br>
+-index 18594122ea..92b5f13cf6 100644<br>
++index 83f1b285c2..e2f582f8fb 100644<br>
+=C2=A0--- a/BaseTools/Source/C/GenFw/Elf64Convert.c<br>
+=C2=A0+++ b/BaseTools/Source/C/GenFw/Elf64Convert.c<br>
+=C2=A0@@ -15,6 +15,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent<br>
+@@ -47,7 +47,7 @@ index 18594122ea..92b5f13cf6 100644<br>
+=C2=A0 #endif<br>
+=C2=A0 #include &lt;assert.h&gt;<br>
+=C2=A0 #include &lt;stdio.h&gt;<br>
+-@@ -990,7 +992,7 @@ ScanSections64 (<br>
++@@ -995,7 +997,7 @@ ScanSections64 (<br>
+=C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 mCoffOffset =3D mDebugOffset + sizeof(EFI_IMAGE_DEBUG_DIRECTO=
+RY_ENTRY) +<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(EFI_I=
+MAGE_DEBUG_CODEVIEW_NB10_ENTRY) +<br>
+@@ -56,7 +56,7 @@ index 18594122ea..92b5f13cf6 100644<br>
+<br>
+=C2=A0 =C2=A0 //<br>
+=C2=A0 =C2=A0 // Add more space in the .debug data region for the DllCharac=
+teristicsEx<br>
+-@@ -2322,7 +2324,7 @@ WriteDebug64 (<br>
++@@ -2329,7 +2331,7 @@ WriteDebug64 (<br>
+=C2=A0 =C2=A0 EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0*Nb10;<br>
+=C2=A0 =C2=A0 EFI_IMAGE_DEBUG_EX_DLLCHARACTERISTICS_ENTRY *DllEntry;<br>
+<br>
+@@ -65,7 +65,7 @@ index 18594122ea..92b5f13cf6 100644<br>
+<br>
+=C2=A0 =C2=A0 NtHdr =3D (EFI_IMAGE_OPTIONAL_HEADER_UNION *)(mCoffFile + mNt=
+HdrOffset);<br>
+=C2=A0 =C2=A0 DataDir =3D &amp;NtHdr-&gt;Pe32Plus.OptionalHeader.DataDirect=
+ory[EFI_IMAGE_DIRECTORY_ENTRY_DEBUG];<br>
+-@@ -2355,7 +2357,7 @@ WriteDebug64 (<br>
++@@ -2362,7 +2364,7 @@ WriteDebug64 (<br>
+<br>
+=C2=A0 =C2=A0 Nb10 =3D (EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY*)(Dir + 1);<br>
+=C2=A0 =C2=A0 Nb10-&gt;Signature =3D CODEVIEW_SIGNATURE_NB10;<br>
+@@ -153,7 +153,7 @@ index e5f282c4ac..27a34ef7c6 100755<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if T.GenFile=
+ListMacro and T.FileListMacro not in self.FileListMacros:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 self.FileListMacros[T.FileListMacro] =3D []<br>
+=C2=A0diff --git a/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py b/BaseT=
+ools/Source/Python/AutoGen/ModuleAutoGen.py<br>
+-index aa0b71632e..57c9cad117 100755<br>
++index 764c51789b..40aadbcfbc 100755<br>
+=C2=A0--- a/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py<br>
+=C2=A0+++ b/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py<br>
+=C2=A0@@ -1429,6 +1429,9 @@ class ModuleAutoGen(AutoGen):<br>
+@@ -175,3 +175,6 @@ index aa0b71632e..57c9cad117 100755<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Ignore generating makefile when it is =
+a binary module<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.IsBinaryModule:<br>
++-- <br>
++2.47.3<br>
++<br>
+diff --git a/meta/recipes-core/ovmf/ovmf/0005-UefiCpuPkg-CpuExceptionHandle=
+rLib-fix-push-instructi.patch b/meta/recipes-core/ovmf/ovmf/0005-UefiCpuPkg=
+-CpuExceptionHandlerLib-fix-push-instructi.patch<br>
+index 43c402b91a..650e084b5b 100644<br>
+--- a/meta/recipes-core/ovmf/ovmf/0005-UefiCpuPkg-CpuExceptionHandlerLib-fi=
+x-push-instructi.patch<br>
++++ b/meta/recipes-core/ovmf/ovmf/0005-UefiCpuPkg-CpuExceptionHandlerLib-fi=
+x-push-instructi.patch<br>
+@@ -1,7 +1,7 @@<br>
+-From 7dcf5ed06b5a256436521f892d2579421c163902 Mon Sep 17 00:00:00 2001<br>
++From 7e6be0f4068a2158af3c97e873edb33fa4d5c6b8 Mon Sep 17 00:00:00 2001<br>
+=C2=A0From: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=
+=3D"_blank">kraxel@redhat.com</a>&gt;<br>
+=C2=A0Date: Mon, 3 Nov 2025 09:56:52 +0100<br>
+-Subject: [PATCH] UefiCpuPkg/CpuExceptionHandlerLib: fix push instructions<=
+br>
++Subject: [PATCH 5/5] UefiCpuPkg/CpuExceptionHandlerLib: fix push instructi=
+ons<br>
+<br>
+=C2=A0Nasm 3.0 complains about &#39;dword&#39; being invalid.=C2=A0 The com=
+ment talks about<br>
+=C2=A0a &#39;8-byte value&#39; so &#39;qword&#39; should be correct here.<b=
+r>
+@@ -41,3 +41,6 @@ index 3d64ac9080..671ed98f85 100644<br>
+=C2=A0 VectorNum:<br>
+=C2=A0 =C2=A0 =C2=A0 push=C2=A0 =C2=A0 rax<br>
+=C2=A0 %ifdef NO_ABSOLUTE_RELOCS_IN_TEXT<br>
++-- <br>
++2.47.3<br>
++<br>
+diff --git a/meta/recipes-core/ovmf/<a href=3D"http://ovmf_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">ovmf_git.bb</a> b/meta/recipes-core/ovmf/<a hr=
+ef=3D"http://ovmf_git.bb" rel=3D"noreferrer" target=3D"_blank">ovmf_git.bb<=
+/a><br>
+index 6b42041ac7..ec6c3b516c 100644<br>
+--- a/meta/recipes-core/ovmf/<a href=3D"http://ovmf_git.bb" rel=3D"noreferr=
+er" target=3D"_blank">ovmf_git.bb</a><br>
++++ b/meta/recipes-core/ovmf/<a href=3D"http://ovmf_git.bb" rel=3D"noreferr=
+er" target=3D"_blank">ovmf_git.bb</a><br>
+@@ -28,8 +28,8 @@ SRC_URI =3D &quot;gitsm://<a href=3D"http://github.com/ti=
+anocore/edk2.git;branch=3Dmaster;protocol=3Dhttps;ta" rel=3D"noreferrer" ta=
+rget=3D"_blank">github.com/tianocore/edk2.git;branch=3Dmaster;protocol=3Dht=
+tps;ta</a><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0005-UefiCpuPkg-CpuExcepti=
+onHandlerLib-fix-push-instructi.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+-PV =3D &quot;edk2-stable202508&quot;<br>
+-SRCREV =3D &quot;d46aa46c8361194521391aa581593e556c707c6e&quot;<br>
++PV =3D &quot;edk2-stable202511&quot;<br>
++SRCREV =3D &quot;46548b1adac82211d8d11da12dd914f41e7aa775&quot;<br>
+=C2=A0UPSTREAM_CHECK_GITTAGREGEX =3D &quot;(?P&lt;pver&gt;edk2-stable.*)&qu=
+ot;<br>
+<br>
+=C2=A0CVE_PRODUCT =3D &quot;edk2&quot;<br>
+@@ -58,7 +58,7 @@ EDK_TOOLS_DIR =3D &quot;edk2_basetools&quot;<br>
+=C2=A0BUILD_OPTIMIZATION =3D &quot;&quot;<br>
+<br>
+=C2=A0# OVMF supports IA only, although it could conceivably support ARM so=
+meday.<br>
+-COMPATIBLE_HOST:class-target =3D &#39;(i.86|x86_64).*&#39;<br>
++COMPATIBLE_HOST:class-target =3D &#39;(x86_64).*&#39;<br>
+<br>
+=C2=A0# Additional build flags for OVMF with Secure Boot.<br>
+=C2=A0# Fedora also uses &quot;-D SMM_REQUIRE -D EXCLUDE_SHELL_FROM_FD&quot=
+;.<br>
+@@ -178,9 +178,6 @@ do_compile:class-target() {<br>
+=C2=A0 =C2=A0 =C2=A0export LFLAGS=3D&quot;${LDFLAGS}&quot;<br>
+=C2=A0 =C2=A0 =C2=A0PARALLEL_JOBS=3D&quot;${@oe.utils.parallel_make_argumen=
+t(d, &#39;-n %d&#39;)}&quot;<br>
+=C2=A0 =C2=A0 =C2=A0OVMF_ARCH=3D&quot;X64&quot;<br>
+-=C2=A0 =C2=A0 if [ &quot;${TARGET_ARCH}&quot; !=3D &quot;x86_64&quot; ] ; =
+then<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 OVMF_ARCH=3D&quot;IA32&quot;<br>
+-=C2=A0 =C2=A0 fi<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0# The build for the target uses BaseTools/Conf/tools_de=
+f.template<br>
+=C2=A0 =C2=A0 =C2=A0# from ovmf-native to find the compiler, which depends =
+on<br>
+@@ -197,9 +194,6 @@ do_compile:class-target() {<br>
+=C2=A0 =C2=A0 =C2=A0rm -rf ${WORKDIR}/ovmf<br>
+=C2=A0 =C2=A0 =C2=A0mkdir ${WORKDIR}/ovmf<br>
+=C2=A0 =C2=A0 =C2=A0OVMF_DIR_SUFFIX=3D&quot;X64&quot;<br>
+-=C2=A0 =C2=A0 if [ &quot;${TARGET_ARCH}&quot; !=3D &quot;x86_64&quot; ] ; =
+then<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 OVMF_DIR_SUFFIX=3D&quot;Ia32&quot; # Note the =
+different capitalization<br>
+-=C2=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 =C2=A0FIXED_GCCVER=3D$(fixup_target_tools ${GCC_VER})<br>
+=C2=A0 =C2=A0 =C2=A0bbnote FIXED_GCCVER is ${FIXED_GCCVER}<br>
+=C2=A0 =C2=A0 =C2=A0build_dir=3D&quot;${S}/Build/Ovmf$OVMF_DIR_SUFFIX/${OVM=
+F_BUILD_TYPE}_${FIXED_GCCVER}&quot;<br>
+@@ -231,10 +225,10 @@ do_install:class-native() {<br>
+<br>
+=C2=A0do_install:class-target() {<br>
+=C2=A0 =C2=A0 =C2=A0# Content for UEFI shell iso. We install the EFI shell =
+as<br>
+-=C2=A0 =C2=A0 # bootx64/ia32.efi because then it can be started even when =
+the<br>
++=C2=A0 =C2=A0 # bootx64.efi because then it can be started even when the<b=
+r>
+=C2=A0 =C2=A0 =C2=A0# firmware itself does not contain it.<br>
+=C2=A0 =C2=A0 =C2=A0install -d ${D}/efi/boot<br>
+-=C2=A0 =C2=A0 install ${WORKDIR}/ovmf/Shell.efi ${D}/efi/boot/boot${@ &quo=
+t;ia32&quot; if &quot;${TARGET_ARCH}&quot; !=3D &quot;x86_64&quot; else &qu=
+ot;x64&quot;}.efi<br>
++=C2=A0 =C2=A0 install ${WORKDIR}/ovmf/Shell.efi ${D}/efi/boot/bootx64.efi<=
+br>
+=C2=A0 =C2=A0 =C2=A0if ${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;s=
+ecureboot&#39;, &#39;true&#39;, &#39;false&#39;, d)}; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install ${WORKDIR}/ovmf/EnrollDefaultKeys=
+.efi ${D}<br>
+=C2=A0 =C2=A0 =C2=A0fi<br>
+-- <br>
+2.47.3<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#228372): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/228372" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/228372</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/116906945/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/116906945/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
 
+--000000000000b62f510646a69c95--
 
