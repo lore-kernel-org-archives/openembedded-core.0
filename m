@@ -2,284 +2,345 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9038AE6F098
-	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 14:55:44 +0000 (UTC)
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.102451.1766501742921874853
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD24EE6F09D
+	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 15:40:04 +0000 (UTC)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.102866.1766504397898598554
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Dec 2025 06:55:43 -0800
+ Tue, 23 Dec 2025 07:39:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iYzApwa/;
- spf=pass (domain: gmail.com, ip: 74.125.224.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-6447743ce90so4674657d50.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 06:55:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ac29Drlc;
+ spf=pass (domain: gmail.com, ip: 209.85.128.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-78fc4425b6bso24900447b3.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 07:39:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766501742; x=1767106542; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766504397; x=1767109197; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kSyaARfZeK3z9QYbEDvvJwfy6LkNqr50SCeGd6G6yU0=;
-        b=iYzApwa/gfkmsJMJb9l7QdcJWVKL1iTKG3ig3zfyCut5OoKyDUJzjCEbQLHKtPNEPH
-         PCo2tTdNodWRp8R2ONEwt0geWi4jIEjXaH6aB1IlzwAZ15Mp8234RIgpBbeKwFZPcwMq
-         2l7XlAjRJ/7kgHoTxr+Rq1icLGfj2SQTTSWxnWNkRaP/9b4qHAThH2APkC+cKFVOYNmT
-         u4B9C07z+2qO+EerELa2ALsH1fJBRat5uJtgGJiwrHmnt9phW1KBzmYdH5oHSRriuvSz
-         yG7OsGIWw7KX6N6sc1fzQNShiZLSn3VrHikX3PrJDnYlK10WJ9Na3CVP7UHTDlYFHnRQ
-         zg2A==
+        bh=tTP9nBG+FLMF1IYm/imp0tNRj3JfpPcmm23cQ/W7szU=;
+        b=Ac29DrlckEDX7KoI/Cxsaqa0Raaf/zwsUgAMyZ+4uymwMypo1QXp1RwLZSeXnv8o0b
+         F9dwK4sYxJ/Xw3S5qd4P7qU59/6o3ON4rIOhlq8eXJH4lc8Wddwg0dngHz32wAu9d1Lz
+         L1nVJx59Qa7lZ8r9z4E4V4a3J3uv3oJALr3sYKekTMedml8uEdrtfifPgjYDAEYulZzk
+         pBABBn2IRn/4aAGWxNr5Hza5NmgRkFkOf0CmbCTHiz//KOn5w7D+6OlsH3KaaEnVDDC9
+         40u8EG1hGziIgaFmEWggAOHaYDfpkEINJinhdNy6VN12Mmnz0aLN3pLDjT0xn7n1kCeb
+         6BMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766501742; x=1767106542;
+        d=1e100.net; s=20230601; t=1766504397; x=1767109197;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kSyaARfZeK3z9QYbEDvvJwfy6LkNqr50SCeGd6G6yU0=;
-        b=C/fEa5rMLul7Jl6ZyUf/40KwipRLfX4rFWoMFjIa8HbJos+waM+j571lYtQ+XTGo/R
-         tVPfmw26YhSS2GLxLQlb+4CQZIr0L3etwTW4fY0LeEMq3NbLmlRFG4FTXGQnJj1bM22Z
-         ODBIDR+9HcG/0D05f7LJggT05InZZ9H+BwS7wlRC/pKZ4OPwj/2rEa/e6cDES0oqzxiX
-         v7kHtnaz7rRAdrGzidiqgEwDlFAJq+UW/eXlq0YcOUMC4wNjby0/o/2dSX0WGUQ4AYYm
-         RDbwoYgsBNUVz86RAjU+wXukNwaLVsSwawKfD7E+U6Q1E1iyAd9qQFaJiz3F4TumSeFS
-         VbyA==
-X-Gm-Message-State: AOJu0YwzSQY6HAUlVXgSzJpj9mw3qpcsB7IDNT2Py2puZ5XQ11PAJUjE
-	XFIhB0xpzhSdlq6Eo3VFNEeipj4FNw7jMK5jjU5FJnivVHloyX5WpNUQ8KJDD/TOvGMFOq5NnRo
-	1jk7jwVBQz7ap0QZCWV2FGzvjGqwJweU=
-X-Gm-Gg: AY/fxX5JUc7kIkxVoqkvRaAZ4UmdrPUpQpaCLWjzpXgXmpcQrxDYS1v2rWqA4AL+Ho9
-	3kxaVlOgkf5yA+MQE8VdARU507GB8Z2Id0Z9FaXi5gBfE3lyBjI5EmHQ4Ng46K2w7fZtLOkKc0I
-	OlrSQkPpzK9zroxF5H76BRmNHb5iiKG5yTkGIIWbPs/qc2RXofZAgMB6Mcs84WoHOusKCvb9FhT
-	o84XmZcvgXzCCQ2iU1RGYQClV6iFD7AWQUhpemDcXjru2Os6/QdNdfoi+/5d7UaEC5QwsMwgOTL
-	spx5eQsv5Id6H3hBomNMtsy29SQFzlxleinjHIKDZBnPTw+pF9mruYucqKWV4D4p1gkw0lpCArW
-	s/JYF1JfGegssQ4ZDpGZAVGpu9afxKbtxqZm/lXSsTeBq7lUMK0F7nJSV
-X-Google-Smtp-Source: AGHT+IGzjMN5WDsQi5dJF/nceb1aWNM2H1CIuJZ79juRK/JmNitWsnZWSqJ9Sj97G/88+VGmqc8Beg1YgR9OzGD9DR8=
-X-Received: by 2002:a05:690e:140f:b0:644:542b:bd1d with SMTP id
- 956f58d0204a3-6466a84c22fmr12687856d50.35.1766501741732; Tue, 23 Dec 2025
- 06:55:41 -0800 (PST)
+        bh=tTP9nBG+FLMF1IYm/imp0tNRj3JfpPcmm23cQ/W7szU=;
+        b=RuYVyDKRl0lWGuONLGaI2CRDhYyy1FZfu1Fy/adPd6qFn2woDypDZNUhWuD1cPWNDT
+         EJgbtz/ur57ZXm5RXs6+FnWZpVjWNB8pSeo2lXd4pTFVZiEwMRIMMPMrPtNHwVb0M6rU
+         onb8ZH1O49MgMVoLrGt/G8HTN6NkH87APXivJXIqH1zMhq9nr4xEoj/Lqv6PvFCQ4Yty
+         uV9Ut5MbiMgI2G7U4MtpD7YorqwaxaugaL21+UHvZy0hKdohHkARzY9qsySgLGqiAg0T
+         hi0kjW5jBjjy4UfC6FIG8uGVZZQqefetBpiVWDM4S1D8eUyveCfJH3BSMPtocLIiGcVs
+         QTRw==
+X-Gm-Message-State: AOJu0YzhkM4tPYCA/AlZHGUTN2GJjVC9/hfn6fFVVP7rVfKPjQefs0Ne
+	QhnOJginOGolfLRKt+HZCWdR6RIEc2GwsjIO/2qp8xjPfcUSoBR27GkVkDm5RzukK+BcWrBmpbm
+	NaACKnkPEB2IQ6mknR1/ezYb/vgWAFsU=
+X-Gm-Gg: AY/fxX7jPq/KBNGydu+tBnSDjoxO3eGm+GYQIGswe4zUT0Tv0ZPoGRsZSxKEw1tD0bQ
+	NG1YXoL6XJhkNRfmlKchgOIeIzJ/VfZ4zOP9/NXy5KErZh9xMqBa+yg6SeKZNDCUGEJe/pgZL/3
+	1ZQJOrCk8Zu0X8+weUxEKJOJprIhRn00svrSHG6Z3cpdm4PoMFIJmK8Xu+OwPq/9aBDiJmIVMJA
+	IEf+mgQIwE4kP8uuP18RPaWqcBLFRGXGzcbEYrAHCZBbGsUyb/O6YRNO0KBwlppvJ5TubIEh7fL
+	ahW5Sz5WAjg18n+OOPE8rgiFn4ulyI42Tr0ilDlqOB21dwnorQLqCouK3sIVfnTKKSm7AfXj6wu
+	VmqEhmsn10N/W/ezOGJJNRee4vJ4=
+X-Google-Smtp-Source: AGHT+IF2JrB6sAhi7qciI4QYc9rZgl6U1zUPHNv7NdiaGRfADhusZwBdHsbtNtuFBd5tlMVjeAqcjgmydU+gjsTPFnc=
+X-Received: by 2002:a05:690e:1687:b0:646:518b:bde5 with SMTP id
+ 956f58d0204a3-6466a8322ddmr9963716d50.8.1766504396873; Tue, 23 Dec 2025
+ 07:39:56 -0800 (PST)
 MIME-Version: 1.0
-References: <14ecad42-51fb-4abc-a493-c58cfadb9688@windriver.com>
-In-Reply-To: <14ecad42-51fb-4abc-a493-c58cfadb9688@windriver.com>
+References: <20251219120109.1967755-1-koen.kooi@oss.qualcomm.com> <20251219120109.1967755-2-koen.kooi@oss.qualcomm.com>
+In-Reply-To: <20251219120109.1967755-2-koen.kooi@oss.qualcomm.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 23 Dec 2025 06:55:30 -0800
-X-Gm-Features: AQt7F2rGXS1KypO_JNS0dRr6a8add8cSrHEaJHRirmTh4fdmtvRk48O1bf910Ik
-Message-ID: <CAMKF1so7Bm9QgASazA3WnF+4mRtQqfwwFpvMHbyNsNBdo1c7Bw@mail.gmail.com>
-Subject: Re: [PATCH] binutils: Upgrade to 2.45.1 release
-To: Yash Shinde <Yash.Shinde@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	"MacLeod, Randy" <randy.macleod@windriver.com>, 
-	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>
-Content-Type: multipart/alternative; boundary="000000000000cfad8e06469fbc15"
+Date: Tue, 23 Dec 2025 07:39:30 -0800
+X-Gm-Features: AQt7F2pNWVA1miQ-GOtIVYNHCbXOGAZqK_kMTxyIQcmiY6w3yEjUWQSa8fbt5nk
+Message-ID: <CAMKF1spSmrcUcrtFrUZ4qU+9dQvMZu49cKW3BPp11Cv7-iHV5Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v4 1/4] python3-pyzstd: import 0.17.0 from meta-python
+To: koen.kooi@oss.qualcomm.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000011e5ee0646a05b85"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 14:55:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228471
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 15:40:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228472
 
---000000000000cfad8e06469fbc15
+--00000000000011e5ee0646a05b85
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-What is the one that=E2=80=99s failing unexpectedly
+Hi Koen
 
-On Mon, Dec 22, 2025 at 11:16=E2=80=AFPM Yash Shinde <Yash.Shinde@windriver=
-.com>
-wrote:
+It's now applied to oe-core, we need it removed from meta-python, would you
+mind cooking a patch for it ?
 
-> From: openembedded-core@lists.openembedded.org
-> <openembedded-core@lists.openembedded.org>
-> <openembedded-core@lists.openembedded.org> on behalf of Khem Raj via
-> lists.openembedded.org <raj.khem=3Dgmail.com@lists.openembedded.org>
-> <raj.khem=3Dgmail.com@lists.openembedded.org>
-> Sent: Wednesday, November 26, 2025 7:11 AM
-> To: openembedded-core@lists.openembedded.org
-> <openembedded-core@lists.openembedded.org>
-> <openembedded-core@lists.openembedded.org>
-> Cc: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
-> Subject: [OE-core] [PATCH] binutils: Upgrade to 2.45.1 release
+On Fri, Dec 19, 2025 at 4:01=E2=80=AFAM Koen Kooi via lists.openembedded.or=
+g
+<koen.kooi=3Doss.qualcomm.com@lists.openembedded.org> wrote:
+
+> From the upstream website:
+>         Pyzstd module provides classes and functions for compressing and
+>         decompressing data, using Facebook's Zstandard (or zstd as short
+> name)
+>         algorithm.
 >
+> This recipe is being moved over for systemd 258.x, the 'ukify' tool
+> depends on this.
 >
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender an=
-d
-> know the content is safe.
->
-> Regenerate ld/configure
->
-> Brings following changes
->
-> * e3a18893e1c LoongArch: Use more appropriate assertions for the
-> relocation of TLS LE
-> * b136efd10a7 Re: dlltool memory leaks
-> * b4bde11f310 ld: Don't use -mdirect-extern-access for LoongArch
-> * ab776bc8685 lto: Set plugin_format to bfd_plugin_no only if known_used
-> is set
-> * cec7ab85f24 aarch64: gas: Allow movprfx with fmmla and bfscale [PR
-> gas/33562]
-> * 0b040187894 aarch64, gas: Relax Armv9.6-A mandatory feature set
-> * 4df2be75910 i386: Add GLIBC_ABI_GNU_TLS version dependency
-> * 71c1de4b0c8 x86-64: Add GLIBC_ABI_DT_X86_64_PLT version dependency
-> * b0fe5c23780 x86: Add GLIBC_ABI_GNU2_TLS version dependency
-> * d5945a221ff x86: Copy non_got_ref_without_indirect_extern_access
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
+> Signed-off-by: Koen Kooi <koen.kooi@oss.qualcomm.com>
 > ---
->  .../binutils/binutils-2.45.inc                |    6 +-
->  ...-system-directories-when-cross-linki.patch |   48 +-
->  .../binutils/0008-Use-libtool-2.4.patch       | 1827 ++++++++---------
->  3 files changed, 832 insertions(+), 1049 deletions(-)
-> .
-> .
-> .
+> Changes since v3:
+>  * Added SUMMARY
+> Changes since v2:
+>  * No changes
+> Changes since v1:
+>  * Adjusted pyzstd patch to not specify an upper limit to the setuptools
+>    version, as suggested by Alexander Kanavin.
 >
-> Here's the binutils test results summary:
+>  ...emove-setuptools-version-limit-of-74.patch | 27 +++++++++++++++++++
+>  .../python/python3-pyzstd_0.17.0.bb           | 20 ++++++++++++++
+>  2 files changed, 47 insertions(+)
+>  create mode 100644
+> meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-versio=
+n-limit-of-74.patch
+>  create mode 100644 meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
 >
-> Test Results:
->                                                          Before
-> After      Diff
-> No. of expected passes                317            318         +1
-> No. of unexpected failures            1                 0           -1
-> No. of untested testcases              5                 5            0
-> No. of unsupported tests              8                 8             0
+> diff --git
+> a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-vers=
+ion-limit-of-74.patch
+> b/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-vers=
+ion-limit-of-74.patch
+> new file mode 100644
+> index 0000000000..f2910322ff
+> --- /dev/null
+> +++
+> b/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-vers=
+ion-limit-of-74.patch
+> @@ -0,0 +1,27 @@
+> +From bc9b975c9f41e43481a2eb0623b4180926baecec Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Wed, 9 Apr 2025 14:38:31 -0700
+> +Subject: [PATCH] Remove setuptools version limit of '74'
+> +
+> +Upstream sticks to 0.74 since setuptools have dropped msvc9compiler
+> +support beyond that which is needed for python 3.9 on windows. We
+> +do not have this problem on Linux
+> +
+> +Upstream-Status: Inappropriate [OE-specific]
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +---
+> + pyproject.toml | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/pyproject.toml b/pyproject.toml
+> +index dd885e4..5d4d511 100644
+> +--- a/pyproject.toml
+> ++++ b/pyproject.toml
+> +@@ -1,6 +1,6 @@
+> + [build-system]
+> + # setuptools 64+ support --build-option
+> + # setuptools 74+ drops distutils.msvc9compiler required for Python 3.9
+> under Windows
+> +-requires =3D ["setuptools>=3D64,<74"]
+> ++requires =3D ["setuptools>=3D64"]
+> + backend-path =3D ["build_script"]
+> + build-backend =3D "pyzstd_pep517"
+> diff --git a/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
+> b/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
+> new file mode 100644
+> index 0000000000..af7069b6ed
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
+> @@ -0,0 +1,20 @@
+> +DESCRIPTION =3D "Pyzstd module provides classes and functions for
+> compressing and \
+> +decompressing data, using Facebook=E2=80=99s Zstandard (or zstd as short=
+ name)
+> algorithm."
+> +SUMMARY =3D "Python bindings to Zstandard (zstd) compression library"
+> +HOMEPAGE =3D "https://github.com/animalize/pyzstd"
+> +SECTION =3D "devel/python"
+> +
+> +LICENSE =3D "BSD-3-Clause"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Daedb5a2679cd1552fb61c181ef974=
+b9e"
+> +
+> +PYPI_PACKAGE =3D "pyzstd"
+> +
+> +SRC_URI +=3D "file://0001-Remove-setuptools-version-limit-of-74.patch"
+> +SRC_URI[sha256sum] =3D
+> "d84271f8baa66c419204c1dd115a4dec8b266f8a2921da21b81764fa208c1db6"
+> +
+> +inherit pypi python_setuptools_build_meta ptest-python-pytest
+> +
+> +# clang-16 with -flto segfaults on arm, therefore ignore flto for now
+> +do_configure:append:arm:toolchain-clang() {
+> +    sed -i -e "s|'-flto'|''|" ${S}/setup.py
+> +}
+> --
+> 2.34.1
 >
 >
-> The additional passing test case is, "replacing non-deterministic member"
-> after Ross's fix:
->
-> https://git.openembedded.org/openembedded-core/commit/?id=3D7ea5d2c5aadb1=
-852aff23616e973b382df44c8d0
->
->
-> Regards,
-> Yash
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#228222):
+> https://lists.openembedded.org/g/openembedded-core/message/228222
+> Mute This Topic: https://lists.openembedded.org/mt/116858017/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
 
---000000000000cfad8e06469fbc15
+--00000000000011e5ee0646a05b85
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">What is the one that=E2=80=99s failing unexpectedly=C2=A0=
-</div><div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Mon, Dec 22, 2025 at 11:16=E2=80=AFPM Yash Sh=
-inde &lt;<a href=3D"mailto:Yash.Shinde@windriver.com">Yash.Shinde@windriver=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding=
--left:1ex;border-left-color:rgb(204,204,204)"><u></u>
+<div dir=3D"ltr">Hi Koen<div><br></div><div>It&#39;s now applied to oe-core=
+, we need it removed from meta-python, would you mind cooking a patch for i=
+t ?</div></div><br><div class=3D"gmail_quote gmail_quote_container"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Fri, Dec 19, 2025 at 4:01=E2=80=AFAM Koen=
+ Kooi via <a href=3D"http://lists.openembedded.org">lists.openembedded.org<=
+/a> &lt;koen.kooi=3D<a href=3D"mailto:oss.qualcomm.com@lists.openembedded.o=
+rg">oss.qualcomm.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">From the upstream website:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Pyzstd module provides classes and functions fo=
+r compressing and<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 decompressing data, using Facebook&#39;s Zstand=
+ard (or zstd as short name)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 algorithm.<br>
+<br>
+This recipe is being moved over for systemd 258.x, the &#39;ukify&#39; tool=
+<br>
+depends on this.<br>
+<br>
+Signed-off-by: Koen Kooi &lt;<a href=3D"mailto:koen.kooi@oss.qualcomm.com" =
+target=3D"_blank">koen.kooi@oss.qualcomm.com</a>&gt;<br>
+---<br>
+Changes since v3:<br>
+=C2=A0* Added SUMMARY<br>
+Changes since v2:<br>
+=C2=A0* No changes<br>
+Changes since v1:<br>
+=C2=A0* Adjusted pyzstd patch to not specify an upper limit to the setuptoo=
+ls<br>
+=C2=A0 =C2=A0version, as suggested by Alexander Kanavin.<br>
+<br>
+=C2=A0...emove-setuptools-version-limit-of-74.patch | 27 ++++++++++++++++++=
++<br>
+=C2=A0.../python/<a href=3D"http://python3-pyzstd_0.17.0.bb" rel=3D"norefer=
+rer" target=3D"_blank">python3-pyzstd_0.17.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 20 ++++++++++++++<br>
+=C2=A02 files changed, 47 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/python3-pyzstd/0001-R=
+emove-setuptools-version-limit-of-74.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/<a href=3D"http://pyt=
+hon3-pyzstd_0.17.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pyzstd_=
+0.17.0.bb</a><br>
+<br>
+diff --git a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setupt=
+ools-version-limit-of-74.patch b/meta/recipes-devtools/python/python3-pyzst=
+d/0001-Remove-setuptools-version-limit-of-74.patch<br>
+new file mode 100644<br>
+index 0000000000..f2910322ff<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-ve=
+rsion-limit-of-74.patch<br>
+@@ -0,0 +1,27 @@<br>
++From bc9b975c9f41e43481a2eb0623b4180926baecec Mon Sep 17 00:00:00 2001<br>
++From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank"=
+>raj.khem@gmail.com</a>&gt;<br>
++Date: Wed, 9 Apr 2025 14:38:31 -0700<br>
++Subject: [PATCH] Remove setuptools version limit of &#39;74&#39;<br>
++<br>
++Upstream sticks to 0.74 since setuptools have dropped msvc9compiler<br>
++support beyond that which is needed for python 3.9 on windows. We<br>
++do not have this problem on Linux<br>
++<br>
++Upstream-Status: Inappropriate [OE-specific]<br>
++Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
++---<br>
++ pyproject.toml | 2 +-<br>
++ 1 file changed, 1 insertion(+), 1 deletion(-)<br>
++<br>
++diff --git a/pyproject.toml b/pyproject.toml<br>
++index dd885e4..5d4d511 100644<br>
++--- a/pyproject.toml<br>
+++++ b/pyproject.toml<br>
++@@ -1,6 +1,6 @@<br>
++ [build-system]<br>
++ # setuptools 64+ support --build-option<br>
++ # setuptools 74+ drops distutils.msvc9compiler required for Python 3.9 un=
+der Windows<br>
++-requires =3D [&quot;setuptools&gt;=3D64,&lt;74&quot;]<br>
+++requires =3D [&quot;setuptools&gt;=3D64&quot;]<br>
++ backend-path =3D [&quot;build_script&quot;]<br>
++ build-backend =3D &quot;pyzstd_pep517&quot;<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-pyzstd_=
+0.17.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pyzstd_0.17.0.bb</a=
+> b/meta/recipes-devtools/python/<a href=3D"http://python3-pyzstd_0.17.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">python3-pyzstd_0.17.0.bb</a><br>
+new file mode 100644<br>
+index 0000000000..af7069b6ed<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3-pyzstd_0.17.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">python3-pyzstd_0.17.0.bb</a><br>
+@@ -0,0 +1,20 @@<br>
++DESCRIPTION =3D &quot;Pyzstd module provides classes and functions for com=
+pressing and \<br>
++decompressing data, using Facebook=E2=80=99s Zstandard (or zstd as short n=
+ame) algorithm.&quot;<br>
++SUMMARY =3D &quot;Python bindings to Zstandard (zstd) compression library&=
+quot;<br>
++HOMEPAGE =3D &quot;<a href=3D"https://github.com/animalize/pyzstd" rel=3D"=
+noreferrer" target=3D"_blank">https://github.com/animalize/pyzstd</a>&quot;=
+<br>
++SECTION =3D &quot;devel/python&quot;<br>
++<br>
++LICENSE =3D &quot;BSD-3-Clause&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Daedb5a2679cd1552fb61c181ef=
+974b9e&quot;<br>
++<br>
++PYPI_PACKAGE =3D &quot;pyzstd&quot;<br>
++<br>
++SRC_URI +=3D &quot;file://0001-Remove-setuptools-version-limit-of-74.patch=
+&quot;<br>
++SRC_URI[sha256sum] =3D &quot;d84271f8baa66c419204c1dd115a4dec8b266f8a2921d=
+a21b81764fa208c1db6&quot;<br>
++<br>
++inherit pypi python_setuptools_build_meta ptest-python-pytest<br>
++<br>
++# clang-16 with -flto segfaults on arm, therefore ignore flto for now<br>
++do_configure:append:arm:toolchain-clang() {<br>
++=C2=A0 =C2=A0 sed -i -e &quot;s|&#39;-flto&#39;|&#39;&#39;|&quot; ${S}/set=
+up.py<br>
++}<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#228222): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/228222" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/228222</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/116858017/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/116858017/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
 
- =20
-  <div>
-    <p> </p>
-    <div lang=3D"x-unicode">
-      <p> </p>
-      <div lang=3D"x-unicode">From: <a href=3D"mailto:openembedded-core@lis=
-ts.openembedded.org" target=3D"_blank">openembedded-core@lists.openembedded=
-.org</a>
-        <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">&lt;openembedded-core@lists.openembedded.org&gt;</a>
-        on behalf of Khem Raj via <a href=3D"http://lists.openembedded.org"=
- target=3D"_blank">lists.openembedded.org</a> <a href=3D"mailto:raj.khem=3D=
-gmail.com@lists.openembedded.org" target=3D"_blank">&lt;raj.khem=3Dgmail.co=
-m@lists.openembedded.org&gt;</a><br>
-        Sent: Wednesday, November 26, 2025 7:11 AM<br>
-        To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" tar=
-get=3D"_blank">openembedded-core@lists.openembedded.org</a>
-        <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">&lt;openembedded-core@lists.openembedded.org&gt;</a><br>
-        Cc: Khem Raj <a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank=
-">&lt;raj.khem@gmail.com&gt;</a><br>
-        Subject: [OE-core] [PATCH] binutils: Upgrade to 2.45.1 release</div=
->
-      <div lang=3D"x-unicode"><br>
-        <blockquote type=3D"cite">
-          <div id=3D"m_1132560493976160023divRplyFwdMsg" dir=3D"ltr">
-            <div>=C2=A0</div>
-          </div>
-          <div><font size=3D"2" style=3D"color:rgb(0,0,0)"><span style=3D"f=
-ont-size:11pt">
-                <div>CAUTION: This email comes from a
-                  non Wind River email account!<br>
-                  Do not click links or open attachments unless you
-                  recognize the sender and know the content is safe.<br>
-                  <br>
-                  Regenerate ld/configure<br>
-                  <br>
-                  Brings following changes<br>
-                  <br>
-                  * e3a18893e1c LoongArch: Use more appropriate
-                  assertions for the relocation of TLS LE<br>
-                  * b136efd10a7 Re: dlltool memory leaks<br>
-                  * b4bde11f310 ld: Don&#39;t use -mdirect-extern-access fo=
-r
-                  LoongArch<br>
-                  * ab776bc8685 lto: Set plugin_format to bfd_plugin_no
-                  only if known_used is set<br>
-                  * cec7ab85f24 aarch64: gas: Allow movprfx with fmmla
-                  and bfscale [PR gas/33562]<br>
-                  * 0b040187894 aarch64, gas: Relax Armv9.6-A mandatory
-                  feature set<br>
-                  * 4df2be75910 i386: Add GLIBC_ABI_GNU_TLS version
-                  dependency<br>
-                  * 71c1de4b0c8 x86-64: Add GLIBC_ABI_DT_X86_64_PLT
-                  version dependency<br>
-                  * b0fe5c23780 x86: Add GLIBC_ABI_GNU2_TLS version
-                  dependency<br>
-                  * d5945a221ff x86: Copy
-                  non_got_ref_without_indirect_extern_access<br>
-                  <br>
-                  Signed-off-by: Khem Raj <a href=3D"mailto:raj.khem@gmail.=
-com" target=3D"_blank">&lt;raj.khem@gmail.com&gt;</a><br>
-                  ---<br>
-                  =C2=A0.../binutils/binutils-2.45.inc=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0=C2=A0 6
-                  +-<br>
-                  =C2=A0...-system-directories-when-cross-linki.patch |=C2=
-=A0=C2=A0 48
-                  +-<br>
-                  =C2=A0.../binutils/0008-Use-libtool-2.4.patch=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 1827
-                  ++++++++---------<br>
-                  =C2=A03 files changed, 832 insertions(+), 1049 deletions(=
--)<br>
-                  .<br>
-                  .<br>
-                  .<br>
-                </div>
-              </span></font></div>
-        </blockquote>
-        Here&#39;s the binutils test results summary:<br>
-        <br>
-        Test Results:<br>
-        =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Before=C2=A0
-        =C2=A0 =C2=A0 After=C2=A0 =C2=A0 =C2=A0 Diff<br>
-        No. of expected passes=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 317=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 318=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0
-        =C2=A0+1<br>
-        No. of unexpected failures=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- 1=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0
-        =C2=A0 =C2=A0-1<br>
-        No. of untested testcases=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 5=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A05=C2=
-=A0 =C2=A0 =C2=A0
-        =C2=A0 =C2=A0 =C2=A0 0<br>
-        No. of unsupported tests=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 8=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A08=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0
-        =C2=A0 =C2=A0 =C2=A00<br>
-        <br>
-        <br>
-        The additional passing test case is, &quot;replacing
-        non-deterministic member&quot; after Ross&#39;s fix:<br>
-        <a href=3D"https://git.openembedded.org/openembedded-core/commit/?i=
-d=3D7ea5d2c5aadb1852aff23616e973b382df44c8d0" target=3D"_blank">https://git=
-.openembedded.org/openembedded-core/commit/?id=3D7ea5d2c5aadb1852aff23616e9=
-73b382df44c8d0</a><br>
-        <br>
-        <br>
-        Regards,<br>
-        Yash=C2=A0 </div>
-      <br>
-    </div>
-  </div>
-
-</blockquote></div></div>
-
---000000000000cfad8e06469fbc15--
+--00000000000011e5ee0646a05b85--
 
