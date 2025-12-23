@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B90E2E6FE4E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEBCAE6FE51
 	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 21:26:26 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.109029.1766525177086090135
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.109421.1766525182794678570
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Dec 2025 13:26:17 -0800
+ Tue, 23 Dec 2025 13:26:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=fDVp7u3s;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a12ed4d205so47473265ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 13:26:17 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vRDLFJqB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-29efd139227so71968415ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 13:26:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1766525176; x=1767129976; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1766525182; x=1767129982; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OqORGIfPiOY4um3MLNUnU68433tnPwvakIz+Q4oXXS4=;
-        b=fDVp7u3si6VDsA7peHJNsklcNqLpBWduDZvQo2R1MqyfSTEqpB/jtoXhz4DMYs7i6l
-         2QdSQcXnXcr5SEskQoloiZEtnkNvjwNuofAHTvYXYTOr0b+oR2HxqwIEYPppOjY0LkTb
-         gq58u9QszbU+tTi0C6iuMSjYs881sJelSMsFhmjL/+7i7nIvc2yNmqOfnBvb85ElUhu6
-         MRzPpzgZ8ZKKv0J190LQ/CIdOgzHxnRkOKd84lUdPaTcr3lP40YF0u2byNvdAGo1vYg1
-         O+HaFxWWAklLwc0vGihzxYL5a/cJRpPRzreAI5f157yFEyi45XRrE6qXAp9UXjV7yHjE
-         axOQ==
+        bh=aWfEqpYM3HWIXB08uw3JsLHuuubwmxO8xgA7qNgB6P4=;
+        b=vRDLFJqBBpIo2Ir5eDWrFBfoEUqMnf9KhESCsmEjgl62pR3aom0smVLkV5QS2K1A6J
+         mLnk8Kqgf+E+U8q9xkoEci7caw3hix5Rs780HTaN1VfFUiuD0h2YyrgvR9hRRGOJECDC
+         3HUWpfynwt29Q+hMUOnWXaMP+ppNLviy5sL/GyUOiWlWO5iTb5vtCtywtDJlzjPZfTUn
+         TOupEc/jUh8AIcHH6l1Jqd+1iWx09kheC9XATtKc3Y7xSDUqoA3ePlg3WYGmSpG+QuYK
+         MYbS0o2BFbQ2qkiaAFPLoUsAXSLLK30Ns0dYJxsMCGnKEi/HHzM/LSCz7siBbf1bGHpf
+         0dNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766525176; x=1767129976;
+        d=1e100.net; s=20230601; t=1766525182; x=1767129982;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=OqORGIfPiOY4um3MLNUnU68433tnPwvakIz+Q4oXXS4=;
-        b=tOYR4lg+0nm4A3Gcxk9h0oh79U42f/rizMwLF0v+uqFUI1ijC9mpobASmvpzfLNzC3
-         1Ku49uX9OPKer5LHTlx5sNvm2PUWo4xOqaGUcBWiTaMBpQRWmEEhSNgIOdeB0AF6LSmU
-         u8ISSTxauGaGMcy7QRhpgrqT2jexVRuGnqt8uDmowrBKQOruB2jC6UpMvn2uKrCIFebB
-         i89uWJpZgor4ozmEpqIh93XFFkiV0UhsXmDDkpi/HjwkpJWRyDoSjZV+nVoZoFF2JusT
-         jDeU+WYEc68ATEyqOkVumLYavzOfdtnE7YWpFuBFvBr/mn15H1+0emcheY1U5+Ox/24N
-         +4XA==
-X-Gm-Message-State: AOJu0Yx3hW5ssVcDQxI0eIV6MT7Z5Y7db2CmxObSUt7sGQkvRmnSa8i6
-	35LzyDyNRUN8JfsyLuPngbldIcsI75X3H5XidcdOjKXX2ODj+2J3Cmo0WgNg1LWHQYe14IZsCuA
-	iDPkm
-X-Gm-Gg: AY/fxX7fhYDeX/aotaimHmjricxfinVq0D0GMF7VhJmao2dyq2B1vSE10h3ae0hVkY9
-	zk5UlJuuG6Eck9Vta6LKcbBO8WU2QO80uYyKlfctarSO38JVIteTbzvVjYTnUb7pn43AeDZSf9v
-	eV3zszxxGkwoLGef1/BZK/LzTHeobB9o6uCrkp0i4s0675paxC7Uo4yedB7vdVpqqDg7QE4lqcS
-	DmdmGxB/Gl1eNMhC2v6mH61TPH5ZSATjwUsk3qMpgDQeMGhUyx3W4nd73RQDLMRQHXSfZTllS+I
-	khXO02eBlL8NlQlFH5+fjvDM7xAwYduNBhA1yWcck4njOXwyiGvqbUyah112G5dt46fzNCdDSWw
-	yMbQg5A8EU2OIfetDGR7vY0pYyCGrljRu6aOt7t7cAn4u0P5adkQUO+lzv5/5c7afJUtbTxvmzN
-	AE4g==
-X-Google-Smtp-Source: AGHT+IEgzwmu+0yBcFFerGSulsjc81ythWmknlzRBtGzsRqPonvkDQmDZ1fg67uaiBc4saL19R1hlw==
-X-Received: by 2002:a17:903:2f81:b0:2a0:c58b:ed6 with SMTP id d9443c01a7336-2a2f2735103mr142666815ad.29.1766525176324;
-        Tue, 23 Dec 2025 13:26:16 -0800 (PST)
+        bh=aWfEqpYM3HWIXB08uw3JsLHuuubwmxO8xgA7qNgB6P4=;
+        b=lRVTw8e/vkxNAv1wrJbHesw1T52RVCRQghES39Qfmp+J5DHPHAcpRGdjld5v2IE1+9
+         Yd2QGNLfp34t3Vpyx9qr/Yo5A6Tm9jSh0aCD2fYnMLgN3ZubEGU5TeeB9PK6hkPtT3oE
+         RzS4t4kQ9oElPARSDZ7dcqGqltu5y7r73aTxZGeMZtg3+l7Ak0uS3cct6kXVFvXysS9v
+         3mb/8iws8WlaGeYDEh8OEkqkvxz3J+2yvbPWuAjyeZkC4jLpKO/1kiaJOKxqE6oLM1Fg
+         BEt33kOZNqAvc0t1dF2QEJdtyNbVsIqr4D39m7RZI/sITxL5KI4i48PTdMV9jnbJQkNg
+         M8Kw==
+X-Gm-Message-State: AOJu0Yx6a9kbDrB+8u5WyE/2vQ8dnc2VxQJHeZ8Qc2f4yvjJrJonpT3P
+	0SNDNA04F8zItrnnYczFN9bklocnrDaEHwu+ntCRvf8qRp1HL7K5dqqhwa6v96DTuyZZlE26zuC
+	Ju06N
+X-Gm-Gg: AY/fxX7YGM/ReNDYbhv5Q+1dY0wbygACAio9B8q3zgY10ruPkzh2N/Y9IWgTe6z8xAS
+	ha5jB13FEk5wAWkhmCj/7EfTJE45aKvDQ04xU5/k4/3Bi2vSYoPyAfyn44fn2kKZGbrIvKHTmQu
+	RO0Jh/lK8VBxMcW+D5DFWN5iHHsbeiFb5qjeH4rUrCueIbVTmFpif02FN1tEVrgGzkHeBcGfvYT
+	OcCOBSxrPL6wQpIivRh070Ao+7WsIYKjOxCCU849Vc1z28sH76LCQIw2OCH/jspHJe/4LASS3Sq
+	hVnnKemXk7AzUIWRqLelbWiYYCIMmlH8/cF03CrPPh68cQtJSbZeHvib68TCaxkXR+tiotDGRK+
+	5JjaQJlcooPIiZSpvinBqE/OMWnxqbG3+TmbAMJzd68kGG1ZJz47mfqzXFfomhgFqO/X6FwxlA3
+	yx54YN14Twi8LD
+X-Google-Smtp-Source: AGHT+IE1tAz9vCHZ3YnmfjslzY4IGlfmDpbmtAkT7tv2uNe6A+91d3e4zZCIEXVl/hq5NjNNTFN0RA==
+X-Received: by 2002:a17:902:fc46:b0:2a0:9411:e8c0 with SMTP id d9443c01a7336-2a2f272bd84mr156414525ad.32.1766525181997;
+        Tue, 23 Dec 2025 13:26:21 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:74b3:f61b:a7a7:fafc])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c6a80esm133756765ad.8.2025.12.23.13.26.15
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c6a80esm133756765ad.8.2025.12.23.13.26.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Dec 2025 13:26:15 -0800 (PST)
+        Tue, 23 Dec 2025 13:26:21 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/10] binutils: fix CVE-2025-11839
-Date: Tue, 23 Dec 2025 13:25:56 -0800
-Message-ID: <d99979ea5fa475a59d3c21859d3bbbd81e0cdba4.1766525021.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/10] libsoup: fix CVE-2025-12105
+Date: Tue, 23 Dec 2025 13:25:59 -0800
+Message-ID: <86ea41fa42aeff0789932a9eea480d05454efe01.1766525021.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1766525021.git.steve@sakoman.com>
 References: <cover.1766525021.git.steve@sakoman.com>
@@ -69,78 +69,73 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 21:26:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228498
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228501
 
-From: Yash Shinde <Yash.Shinde@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-CVE-2025-11839
+Refer:
+https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/481
 
-PR 33448
-[BUG] Aborted in tg_tag_type at prdbg.c:2452
-Remove call to abort in the DGB debug format printing code, thus allowing
-the display of a fuzzed input file to complete without triggering an abort.
-
-https://sourceware.org/bugzilla/show_bug.cgi?id=33448
-
-Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=12ef7d5b7b02d0023db645d86eb9d0797bc747fe]
-
-Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../binutils/binutils-2.38.inc                |  1 +
- .../binutils/0049-CVE-2025-11839.patch        | 32 +++++++++++++++++++
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0049-CVE-2025-11839.patch
+ .../libsoup/libsoup/CVE-2025-12105.patch      | 34 +++++++++++++++++++
+ meta/recipes-support/libsoup/libsoup_3.0.7.bb |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2025-12105.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index 2fe4a17e0d..426c00ce3f 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -87,5 +87,6 @@ SRC_URI = "\
-      file://CVE-2025-11412.patch \
-      file://CVE-2025-11413.patch \
-      file://0048-CVE-2025-11494.patch \
-+     file://0049-CVE-2025-11839.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0049-CVE-2025-11839.patch b/meta/recipes-devtools/binutils/binutils/0049-CVE-2025-11839.patch
+diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2025-12105.patch b/meta/recipes-support/libsoup/libsoup/CVE-2025-12105.patch
 new file mode 100644
-index 0000000000..7f2f6d553d
+index 0000000000..99b2937922
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0049-CVE-2025-11839.patch
-@@ -0,0 +1,32 @@
-+From 12ef7d5b7b02d0023db645d86eb9d0797bc747fe Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Mon, 3 Nov 2025 11:49:02 +0000
-+Subject: [PATCH] Remove call to abort in the DGB debug format printing code,
-+ thus allowing the display of a fuzzed input file to complete without
-+ triggering an abort.
++++ b/meta/recipes-support/libsoup/libsoup/CVE-2025-12105.patch
+@@ -0,0 +1,34 @@
++From 465410f833e4288ad053b4e18d5fa6c3be3148e1 Mon Sep 17 00:00:00 2001
++From: Eugene Mutavchi <Ievgen_Mutavchi@comcast.com>
++Date: Fri, 10 Oct 2025 16:24:27 +0000
++Subject: [PATCH] fix 'heap-use-after-free' caused by 'finishing' queue item
++ twice
 +
-+PR 33448
++CVE: CVE-2025-12105
++Upsteam-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/9ba1243a24e442fa5ec44684617a4480027da960]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ binutils/prdbg.c | 1 -
-+ 1 file changed, 1 deletion(-)
++ libsoup/soup-session.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=12ef7d5b7b02d0023db645d86eb9d0797bc747fe]
-+CVE: CVE-2025-11839
-+
-+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-+
-+diff --git a/binutils/prdbg.c b/binutils/prdbg.c
-+index c239aeb1a79..5d405c48e3d 100644
-+--- a/binutils/prdbg.c
-++++ b/binutils/prdbg.c
-+@@ -2449,7 +2449,6 @@ tg_tag_type (void *p, const char *name, unsigned int id,
-+       t = "union class ";
-+       break;
-+     default:
-+-      abort ();
-+       return false;
-+     }
-+ 
++diff --git a/libsoup/soup-session.c b/libsoup/soup-session.c
++index 5f2929f..b9f3e42 100644
++--- a/libsoup/soup-session.c
+++++ b/libsoup/soup-session.c
++@@ -3093,8 +3093,10 @@ run_until_read_done (SoupMessage          *msg,
++ 		if (soup_message_io_in_progress (msg))
++ 			soup_message_io_finished (msg);
++ 		item->paused = FALSE;
++-		item->state = SOUP_MESSAGE_FINISHING;
++-		soup_session_process_queue_item (item->session, item, NULL, FALSE);
+++		if (item->state != SOUP_MESSAGE_FINISHED) {
+++			item->state = SOUP_MESSAGE_FINISHING;
+++			soup_session_process_queue_item (item->session, item, NULL, FALSE);
+++		}
++ 	}
++ 	async_send_request_return_result (item, NULL, error);
++ }
 +-- 
-+2.43.7
++2.34.1
 +
+diff --git a/meta/recipes-support/libsoup/libsoup_3.0.7.bb b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
+index af8554aa78..0f82736727 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.0.7.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
+@@ -45,6 +45,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-46421.patch \
+            file://CVE-2025-4948.patch \
+            file://CVE-2025-4945.patch \
++           file://CVE-2025-12105.patch \
+           "
+ SRC_URI[sha256sum] = "ebdf90cf3599c11acbb6818a9d9e3fc9d2c68e56eb829b93962972683e1bf7c8"
+ 
 -- 
 2.43.0
 
