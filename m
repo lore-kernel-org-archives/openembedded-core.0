@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A42BEE6FE47
-	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 21:26:16 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.109025.1766525175533387630
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B90E2E6FE4E
+	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 21:26:26 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.109029.1766525177086090135
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Dec 2025 13:26:15 -0800
+ Tue, 23 Dec 2025 13:26:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bG7bCk1i;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2a0a33d0585so50823475ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 13:26:15 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=fDVp7u3s;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a12ed4d205so47473265ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 13:26:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1766525175; x=1767129975; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1766525176; x=1767129976; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=H82EE5mkOWaGOxlFY5NS0B1xtLA22cTj+2tZmwcqB7c=;
-        b=bG7bCk1i5igtvnb+UgClOuBIvaKPYboEgd2VY97nWIrvAy5ecR5rpGlpaigN9dkMk0
-         TaDVHq9oL6c0odt0elAXW+DffSYVI0dueNc56/tryIWUHo82Ln7Kzmj2CTvBfObDbFBY
-         R/DKUQCPLHQxGSQo4L8eHSCeoT1AxybZoC4MDfvKVdPgQFyZX9d6KNmFqfRPKI6XaC6Y
-         Zi7+PMjEQIdWlGTn9RjqhfRnhNvRnesLvMOpWHvMqqxHv9SNE4Xj2i6n/pM4KJ3vj6W1
-         q8RZYLEcBt/pf+2WL/J3WlZ64Vy7YEe0hfAtHvoDTwBqZ9/e+bpMw+lgngxiH2qyZVbk
-         UEcA==
+        bh=OqORGIfPiOY4um3MLNUnU68433tnPwvakIz+Q4oXXS4=;
+        b=fDVp7u3si6VDsA7peHJNsklcNqLpBWduDZvQo2R1MqyfSTEqpB/jtoXhz4DMYs7i6l
+         2QdSQcXnXcr5SEskQoloiZEtnkNvjwNuofAHTvYXYTOr0b+oR2HxqwIEYPppOjY0LkTb
+         gq58u9QszbU+tTi0C6iuMSjYs881sJelSMsFhmjL/+7i7nIvc2yNmqOfnBvb85ElUhu6
+         MRzPpzgZ8ZKKv0J190LQ/CIdOgzHxnRkOKd84lUdPaTcr3lP40YF0u2byNvdAGo1vYg1
+         O+HaFxWWAklLwc0vGihzxYL5a/cJRpPRzreAI5f157yFEyi45XRrE6qXAp9UXjV7yHjE
+         axOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766525175; x=1767129975;
+        d=1e100.net; s=20230601; t=1766525176; x=1767129976;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=H82EE5mkOWaGOxlFY5NS0B1xtLA22cTj+2tZmwcqB7c=;
-        b=xBm0eTIl5iydGE6emAGmZC65sX4LOiPdvFkS23UMKOmXgexUnJ1CkCe2UykcNeNmIJ
-         vWZ88nkVBXwAlxyeCp/s1QpQEAa4vVvs2W+65QKvjOAPp2N7Tx6Hj7WVVZBgXi/F1ULU
-         yFHlemiAyRjh4hVA6BEIn7m04dYtNifqoUiL40azC+M/tFmFe4x7QYHlHd00AIx+6Hyr
-         3niJl2lLiqk8fnawcHVO0pDKhVvL5XgZuL5SfYbvfk/fdIY1BNgtKyjTg49tzpYQ9jyU
-         cjpbgNiosSmq3QWFXHHK8mBxgIF7lvRsnaacmB0Jhp4qMJTPxSnGQfCxR63+kRhOithd
-         DBvw==
-X-Gm-Message-State: AOJu0YwsLJ0TRML9PlF+HB1Xg+N1u/2AEdGVQ0QK2VhcnXTMt8PtSH7U
-	7cPRAsz4L+mp+Q1yWN1l0DOpJJ8vTKgwRL0oxO62ChTG3maYlZdpytdPTJFJ3pG1TmnDRQ/qt4z
-	Fwc0k
-X-Gm-Gg: AY/fxX54qn154PjG9n5ZVuAGBAyqV6fnhd+ADNG1PstUgGNIoxsKRm9uYb7VSgNzOjd
-	FdplkSjKLgv1nJ6lQAsRcGDTZMJ7PrLtfQWoA06/umjOFr3GghPwA+kiJHEBAXpd1lM3F0JQ5iF
-	oWdqEzJ16Cta39bJy643kdo4le233rBsnURljI22wH97Rc6HHEy+IOhcofG6+GqTo7baUjNjmeG
-	7Xa2F/65mpCfmyVlff/t2jzE1UVFqH4/lVKpTD/jlQa4dIJyFgloJog2OFzdSWjvwu0Wnmupzgo
-	DvJjgvlz5s7NxGGNyEetgbGbWZ6QiGYY4yjmRbh0EgDeMQXrPV3/yCGCPQXLALdQ1MiRkjmA9xs
-	hrhy+2aW5dFhSJ4GSrR/G8aDbkfKlWyOdwfwqX1zVU0LAJHhmMzPaQEwAr6q9ddqQJkXzrFfhuB
-	BcRw==
-X-Google-Smtp-Source: AGHT+IGuXjckhJWaBQGmDzE6ej1dn56fmSlpAxCJEUylaSoJZE37CWLDU2XQ4S/hGt+IMmdBeJPBBw==
-X-Received: by 2002:a17:903:2347:b0:295:6e0:7b0d with SMTP id d9443c01a7336-2a2f2a3fca5mr129454345ad.56.1766525174750;
-        Tue, 23 Dec 2025 13:26:14 -0800 (PST)
+        bh=OqORGIfPiOY4um3MLNUnU68433tnPwvakIz+Q4oXXS4=;
+        b=tOYR4lg+0nm4A3Gcxk9h0oh79U42f/rizMwLF0v+uqFUI1ijC9mpobASmvpzfLNzC3
+         1Ku49uX9OPKer5LHTlx5sNvm2PUWo4xOqaGUcBWiTaMBpQRWmEEhSNgIOdeB0AF6LSmU
+         u8ISSTxauGaGMcy7QRhpgrqT2jexVRuGnqt8uDmowrBKQOruB2jC6UpMvn2uKrCIFebB
+         i89uWJpZgor4ozmEpqIh93XFFkiV0UhsXmDDkpi/HjwkpJWRyDoSjZV+nVoZoFF2JusT
+         jDeU+WYEc68ATEyqOkVumLYavzOfdtnE7YWpFuBFvBr/mn15H1+0emcheY1U5+Ox/24N
+         +4XA==
+X-Gm-Message-State: AOJu0Yx3hW5ssVcDQxI0eIV6MT7Z5Y7db2CmxObSUt7sGQkvRmnSa8i6
+	35LzyDyNRUN8JfsyLuPngbldIcsI75X3H5XidcdOjKXX2ODj+2J3Cmo0WgNg1LWHQYe14IZsCuA
+	iDPkm
+X-Gm-Gg: AY/fxX7fhYDeX/aotaimHmjricxfinVq0D0GMF7VhJmao2dyq2B1vSE10h3ae0hVkY9
+	zk5UlJuuG6Eck9Vta6LKcbBO8WU2QO80uYyKlfctarSO38JVIteTbzvVjYTnUb7pn43AeDZSf9v
+	eV3zszxxGkwoLGef1/BZK/LzTHeobB9o6uCrkp0i4s0675paxC7Uo4yedB7vdVpqqDg7QE4lqcS
+	DmdmGxB/Gl1eNMhC2v6mH61TPH5ZSATjwUsk3qMpgDQeMGhUyx3W4nd73RQDLMRQHXSfZTllS+I
+	khXO02eBlL8NlQlFH5+fjvDM7xAwYduNBhA1yWcck4njOXwyiGvqbUyah112G5dt46fzNCdDSWw
+	yMbQg5A8EU2OIfetDGR7vY0pYyCGrljRu6aOt7t7cAn4u0P5adkQUO+lzv5/5c7afJUtbTxvmzN
+	AE4g==
+X-Google-Smtp-Source: AGHT+IEgzwmu+0yBcFFerGSulsjc81ythWmknlzRBtGzsRqPonvkDQmDZ1fg67uaiBc4saL19R1hlw==
+X-Received: by 2002:a17:903:2f81:b0:2a0:c58b:ed6 with SMTP id d9443c01a7336-2a2f2735103mr142666815ad.29.1766525176324;
+        Tue, 23 Dec 2025 13:26:16 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:74b3:f61b:a7a7:fafc])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c6a80esm133756765ad.8.2025.12.23.13.26.14
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c6a80esm133756765ad.8.2025.12.23.13.26.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Dec 2025 13:26:14 -0800 (PST)
+        Tue, 23 Dec 2025 13:26:15 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 04/10] go: Fix CVE-2023-39323
-Date: Tue, 23 Dec 2025 13:25:55 -0800
-Message-ID: <62f4c3aec8f80a259472ce19104596d08741c101.1766525021.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 05/10] binutils: fix CVE-2025-11839
+Date: Tue, 23 Dec 2025 13:25:56 -0800
+Message-ID: <d99979ea5fa475a59d3c21859d3bbbd81e0cdba4.1766525021.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1766525021.git.steve@sakoman.com>
 References: <cover.1766525021.git.steve@sakoman.com>
@@ -68,107 +68,78 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 21:26:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228497
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 21:26:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228498
 
-From: Libo Chen <libo.chen.cn@windriver.com>
+From: Yash Shinde <Yash.Shinde@windriver.com>
 
-Line directives ("//line") can be used to bypass the restrictions on
-"//go:cgo_" directives, allowing blocked linker and compiler flags to
-be passed during compilation. This can result in unexpected execution
-of arbitrary code when running "go build". The line directive requires
-the absolute path of the file in which the directive lives, which makes
-exploiting this issue significantly more complex.
+CVE-2025-11839
 
-Made below changes for Go 1.17 backport:
-- drop the modifications of test codes
+PR 33448
+[BUG] Aborted in tg_tag_type at prdbg.c:2452
+Remove call to abort in the DGB debug format printing code, thus allowing
+the display of a fuzzed input file to complete without triggering an abort.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-39323
+https://sourceware.org/bugzilla/show_bug.cgi?id=33448
 
-Upstream-patch:
-https://github.com/golang/go/commit/e7c142a19d8b3944c2f1b9ab7fd94c63d8d0c555
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=12ef7d5b7b02d0023db645d86eb9d0797bc747fe]
 
-Signed-off-by: Libo Chen <libo.chen.cn@windriver.com>
+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/go-1.17.13.inc       |  1 +
- .../go/go-1.21/CVE-2023-39323.patch           | 55 +++++++++++++++++++
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2023-39323.patch
+ .../binutils/binutils-2.38.inc                |  1 +
+ .../binutils/0049-CVE-2025-11839.patch        | 32 +++++++++++++++++++
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0049-CVE-2025-11839.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
-index bb5e839950..47ef84c35a 100644
---- a/meta/recipes-devtools/go/go-1.17.13.inc
-+++ b/meta/recipes-devtools/go/go-1.17.13.inc
-@@ -73,6 +73,7 @@ SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main \
-            file://CVE-2025-58189.patch \
-            file://CVE-2025-61723.patch \
-            file://CVE-2025-61724.patch \
-+           file://CVE-2023-39323.patch \
-            "
- SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
- 
-diff --git a/meta/recipes-devtools/go/go-1.21/CVE-2023-39323.patch b/meta/recipes-devtools/go/go-1.21/CVE-2023-39323.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index 2fe4a17e0d..426c00ce3f 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -87,5 +87,6 @@ SRC_URI = "\
+      file://CVE-2025-11412.patch \
+      file://CVE-2025-11413.patch \
+      file://0048-CVE-2025-11494.patch \
++     file://0049-CVE-2025-11839.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0049-CVE-2025-11839.patch b/meta/recipes-devtools/binutils/binutils/0049-CVE-2025-11839.patch
 new file mode 100644
-index 0000000000..613c91706b
+index 0000000000..7f2f6d553d
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.21/CVE-2023-39323.patch
-@@ -0,0 +1,55 @@
-+From 5e0a62c44fbaff6443bffe67911370bc0ea25f6d Mon Sep 17 00:00:00 2001
-+From: Ian Lance Taylor <iant@golang.org>
-+Date: Wed, 20 Sep 2023 16:16:29 -0700
-+Subject: [PATCH] cmd/compile: use absolute file name in isCgo check
++++ b/meta/recipes-devtools/binutils/binutils/0049-CVE-2025-11839.patch
+@@ -0,0 +1,32 @@
++From 12ef7d5b7b02d0023db645d86eb9d0797bc747fe Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Mon, 3 Nov 2025 11:49:02 +0000
++Subject: [PATCH] Remove call to abort in the DGB debug format printing code,
++ thus allowing the display of a fuzzed input file to complete without
++ triggering an abort.
 +
-+For #23672
-+Fixes #63211
-+Fixes CVE-2023-39323
-+
-+Change-Id: I4586a69e1b2560036afec29d53e53cf25e6c7352
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2032884
-+Reviewed-by: Matthew Dempsky <mdempsky@google.com>
-+Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/534158
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+Reviewed-by: Ian Lance Taylor <iant@google.com>
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+Auto-Submit: Ian Lance Taylor <iant@google.com>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2023-39323
-+
-+Reference to upstream patch:
-+https://github.com/golang/go/commit/e7c142a19d8b3944c2f1b9ab7fd94c63d8d0c555
-+
-+Backport patch to fix CVE-2023-39323 and drop the modifications of test codes.
-+
-+Signed-off-by: Libo Chen <libo.chen.cn@windriver.com>
++PR 33448
 +---
-+ src/cmd/compile/internal/noder/noder.go | 8 +++++++-
-+ 1 file changed, 7 insertions(+), 1 deletion(-)
++ binutils/prdbg.c | 1 -
++ 1 file changed, 1 deletion(-)
 +
-+diff --git a/src/cmd/compile/internal/noder/noder.go b/src/cmd/compile/internal/noder/noder.go
-+index 5fcad096c2..f35e065a31 100644
-+--- a/src/cmd/compile/internal/noder/noder.go
-++++ b/src/cmd/compile/internal/noder/noder.go
-+@@ -1690,8 +1690,14 @@ func (p *noder) pragma(pos syntax.Pos, blankLine bool, text string, old syntax.P
-+ // contain cgo directives, and for security reasons
-+ // (primarily misuse of linker flags), other files are not.
-+ // See golang.org/issue/23672.
-++// Note that cmd/go ignores files whose names start with underscore,
-++// so the only _cgo_ files we will see from cmd/go are generated by cgo.
-++// It's easy to bypass this check by calling the compiler directly;
-++// we only protect against uses by cmd/go.
-+ func isCgoGeneratedFile(pos syntax.Pos) bool {
-+-	return strings.HasPrefix(filepath.Base(filepath.Clean(fileh(pos.Base().Filename()))), "_cgo_")
-++	// We need the absolute file, independent of //line directives,
-++	// so we call pos.Base().Pos().Base().
-++	return strings.HasPrefix(filepath.Base(filepath.Clean(fileh(pos.Base().Pos().Base().Filename()))), "_cgo_")
-+ }
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=12ef7d5b7b02d0023db645d86eb9d0797bc747fe]
++CVE: CVE-2025-11839
++
++Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
++
++diff --git a/binutils/prdbg.c b/binutils/prdbg.c
++index c239aeb1a79..5d405c48e3d 100644
++--- a/binutils/prdbg.c
+++++ b/binutils/prdbg.c
++@@ -2449,7 +2449,6 @@ tg_tag_type (void *p, const char *name, unsigned int id,
++       t = "union class ";
++       break;
++     default:
++-      abort ();
++       return false;
++     }
 + 
-+ // safeArg reports whether arg is a "safe" command-line argument,
 +-- 
-+2.34.1
++2.43.7
 +
 -- 
 2.43.0
