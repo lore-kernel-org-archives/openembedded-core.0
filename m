@@ -1,345 +1,228 @@
-Return-Path: <yi.zhao@eng.windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF4DE6F091
-	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 13:41:34 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.101101.1766497292573454537
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 877AAE6F097
+	for <webhook@archiver.kernel.org>; Tue, 23 Dec 2025 14:45:54 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.101880.1766501152858397986
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Dec 2025 05:41:32 -0800
+ Tue, 23 Dec 2025 06:45:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=p6tfmRf0;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=44520f7e2e=yi.zhao@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BNDYPJd038517
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 05:41:32 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=u2grJWW32CZVEJkSb/N3A7D7Cnn0QlWOsDkFFn+W53U=; b=p6tfmRf0usS/
-	Uc2Z4w7yLlblOtL+AoP56XZ2o0Sj2ejO66e12/FC0dYFVW3+cnI0EEUDVekm/kim
-	fL96xwT+bSTUpN8AYdIAFgwcW1g2OHmUGVkV7bDMpkevBOb1USf7MWODUVyKnFLC
-	AUZJzFFIEm94MqmFF3zs3qaQFGXfoZmslSjjZXSIGvyzcd6/UZyE8bEFCAxP0hsM
-	WfjBIMnOICxu6NanJ0nmEu7u7Mm/DIdYu2U1f+UfbQHGuJI1egQekx8W6Ozrt5Fm
-	m2uj2YzYTxeJKMDif136FjY02RA/VLeVJ/vcdFggRM5Wm0nQypyt7xKflljTYXQD
-	j+K61yWB/Q==
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010065.outbound.protection.outlook.com [52.101.61.65])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b5qy4tvqe-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 05:41:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kDNaU4IqwD94JQTHKaIHZvJ0gp9b9HE2uhPrtGc5zxxnZb8kajAH0Ud7syh+RHwRYRP7gxhGqENvTGAW3OyxmbC6Zc1gU84USg222iFzgFaWa7hi+MAClhjA3uttDOAGdcUjnfAcZXMA8Z0j2B7fZz+lw7VkLOZofubs1jFSsX5HtmLMM2JP3/8cvPdfcVtHYEFU5a3pay3SF2wT4hxyHfSaF7/y7FMoEBerOze01HscIGcOod2loIhElTmNGtJvwkLbu4gFxzkONbCGx8TLZm1vqzGWNqVH2OUGYVoujm1CFZwjj03NikqKUV7F8kutKtzSzXRerR+YxE7QZcESfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u2grJWW32CZVEJkSb/N3A7D7Cnn0QlWOsDkFFn+W53U=;
- b=XtSl8ynwQUJ8n6JLHjeXCcpHDvI+IMed06Xbo6yZmMwdVTdFSqWclc/tdhegK+ktkapFF0NqAFs8+pkvyxH4jkto1rJUlJ/0Yyq//yKga0wLmmOCXxXna791YY1yyyVQqxv6hovKZbbLEBeXm3yg4tVkS2CD6XOGQKnpT3FtnPRLMAPK+SQEe19nH0Ot4BMqgbIHSxZCMx4mv+US4oh29UyD3h8QIHsYv4uWF4q9yt5T4AaygVDcLDCUG9OZRQFhpgFQoNMzesm5T+YFwe86hV6aVqaab5fCHxxyvy8oBNfxCSmhGQqCu9NIUOm5Jh4vjbpXndqWI257wSEudp3CoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
- SJ2PR11MB8401.namprd11.prod.outlook.com (2603:10b6:a03:539::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.11; Tue, 23 Dec
- 2025 13:41:29 +0000
-Received: from DS0PR11MB6399.namprd11.prod.outlook.com
- ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
- ([fe80::2b44:787c:e7ee:bfad%3]) with mapi id 15.20.9434.009; Tue, 23 Dec 2025
- 13:41:29 +0000
-Message-ID: <2bba1260-a968-4c2b-b19d-bcf37a0bdeae@windriver.com>
-Date: Tue, 23 Dec 2025 21:41:18 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/3 V2] kea: fix creating runtime directory in
- service files
-To: Randy MacLeod <randy.macleod@windriver.com>,
-        openembedded-core@lists.openembedded.org
-References: <20251218134426.4187527-1-yi.zhao@windriver.com>
- <af7814b2-9d54-4235-bb21-c1aac90638ff@windriver.com>
-Content-Language: en-US
-From: Yi Zhao <yi.zhao@windriver.com>
-In-Reply-To: <af7814b2-9d54-4235-bb21-c1aac90638ff@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: TYCP286CA0263.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:455::11) To DS0PR11MB6399.namprd11.prod.outlook.com
- (2603:10b6:8:c8::5)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dWETzltT;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-34aa62f9e74so6631097a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 06:45:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766501152; x=1767105952; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5NKEkLzjdcA98Uofi3niDb24x0tXcqFPAgHeLoCB65Y=;
+        b=dWETzltT5Ie5fq9C3eivv4BHlyi4PQH0bfd3Wp0BsX7rlInFxJ9HmeVJDqH6pOgGMw
+         JRimsbl8DfTANlQ3tKb+vDQ5BcqTAq5IbchLd/M5k56l/pvs1mLeRzLDL1exD42pzo+T
+         YMvKpTJ8GOC1m3mMqLeSo81vLTlzjRrv0dIrucwX/5bCqRx0M6jSlzRRCnJMtlheIxzO
+         ppe4uObv0rr56WR24Zzre74nc4rpwlPGBhvTtg2zTT5/gjBewmPlJY6EWcycW24+ecir
+         Hq8jQzeGGEhF4neU/VEmbtMyjzx8QsbY6/U8Oy3CoZjHss4arjYp2e2I1Wen5RfIpvRZ
+         +EAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766501152; x=1767105952;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5NKEkLzjdcA98Uofi3niDb24x0tXcqFPAgHeLoCB65Y=;
+        b=RR7o/OXWu4uHecIXYtsYseBXXOnZq/4o12a7PlbTB57HH3JUMeq2SkEnZV+VdtmSyR
+         aYzNd/dSPkOXmFoaok9BDuAIjAh/xB/UPRpO++zNgytoTgTqnupixTIwUJl6qIAlKRl6
+         Xpq4mFY3kYzuldOBu4XGzl8gpwdkjhDIfW+VpUhW3D3qCxOa/TIWfof/nHszE3QY4t3z
+         SpYBBmFDXESZKog7t68KdZkkk4n8JUfnP7l18b0npDaMrSrNbqwDIgiUZ96uSwKhAhaD
+         uhLSC29HKSv4ikEtp9NSEuvt9W2pUiiHUtQhRevoMKP9ZmXXAYwNyt5a0JvdS1mSiweb
+         /q3g==
+X-Gm-Message-State: AOJu0Yx8ZsxHJ/Dw0eLC8NVuG6eW1jGgMtzxxGR0ASKWUbbQ7Tl2Xpuz
+	EMWO1uzKddtJX6f+XBQtPAVcOpsA9ZIiGA2wEsPc1470FLrNvOLRreZvAwGJ95P1avweEl2DgaN
+	khe2WOJcanOyIlg6p6359UrNx1G4LJWA=
+X-Gm-Gg: AY/fxX4OOMvDMXzYjiwbu6cHlf6lJ7zx7mAoA+ZAUUMaplGnq7UuIlOnHAf/mxuAlqt
+	NPFT65id7Yfuxy3q57g/OPq6jsXU57TA5qfjJbiwUgc2JghvmnqgJRAdL1uMrsb+FvXJIWyi7gO
+	qxIWnz6yMAkAbnkDm+TOM9XYMWQY9uJ3qShnpdY4AHhg1zxMniYAhcM9/NF5/LPFSEySQFzEwG8
+	zU7AA7zFHurd7SQ/g2FM6j7aQAdNXPuGLokDOB5kxjphlyzYC2GyBYcJ42gFy/ByZb5Lg==
+X-Google-Smtp-Source: AGHT+IH040qAK3sU36Lk2e3J5ZAuwwnXFxoot/Mg3MRI6o2i6Mdojw5DKe+nSdxPB/K23vo6lLddVlt58tVnhhhtin0=
+X-Received: by 2002:a17:90b:2251:b0:340:c179:3657 with SMTP id
+ 98e67ed59e1d1-34e921eaecbmr12362459a91.33.1766501152135; Tue, 23 Dec 2025
+ 06:45:52 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|SJ2PR11MB8401:EE_
-X-MS-Office365-Filtering-Correlation-Id: b63e07b9-baed-42fd-c689-08de4228f9ac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|4022899009;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?eW1KcTAyRlBhVjh3QndHZFI3dC8yZWtaTmtWUjhUdzF6RkJYRHh0Ri85eTdF?=
- =?utf-8?B?MHVUVXM5VXhMQUEzcE4xb2d2SHFDdVNEWkdqNzk5VW1md1B0SFA3Wm5Qandn?=
- =?utf-8?B?SUZjMTVpQWZJWk40QzRvNHBjQnJmbS9UUVZycjZqcGFFSlprWkRzVUFMcXFK?=
- =?utf-8?B?czdaTEJhakxIdW1nSmxzcWx2eDFJQ0toVE5yMnVhcUdWZHdEV2ltK2ZrcG53?=
- =?utf-8?B?T3pNcFFWZC9EMVBHUnlWMDl5eGdOVzJDV0V2UXFjVTQ0SUh0cHJLOVE0NENG?=
- =?utf-8?B?bFdmbFlEeGRNUzJIVWNOMWtYNnplNitzRkhkSE1FNTB2a1hJUXRuMG53Tml4?=
- =?utf-8?B?azhyL1hzc1UxWHNJRkZkRWRqbmNKWnc3ZlNTdG55OGNwWUsrVWRRcGVzMzNP?=
- =?utf-8?B?Z2NQWS8zSFNqQmRtVHJMTGdiYkEyd2h6SXMwZDZpYjdXYlJyMjVtOURFVlFP?=
- =?utf-8?B?bDl2WlJKWjVJeXI2bzNoM01LNFB5eXZmUGlGU0wvcnBxWTNXeUkwbGJWM0F3?=
- =?utf-8?B?aXVEeEFQczBiVkV3d0YxR2M1SDRmUE5tOUN6Q0ZSWHJQN2lOMSsrK3l5aURa?=
- =?utf-8?B?Um50OTB1Sktkd0sxZ3krNW1MUFNsNDFZV2dnL0N3TlhIY0trN2xnbXg5Uitk?=
- =?utf-8?B?emIxa3puTGpqd1l1RWxJeVFod0tONitNR0duM1dKSGt4cUErRVpzQ2tEcWZD?=
- =?utf-8?B?eFdPdzFIbzdoMG9peWNLTzRxUlZLdW1kcnE0WnVXbXR6dnJJYitOeUxYajlZ?=
- =?utf-8?B?UHFoWitqOEJRUkRPZXdCbi9zV0s3V2s2d0lic0xQUnNyWFlZVHA1Z1BnMHF1?=
- =?utf-8?B?QmY3RW1ESnkxYVZWeDMyY3A2OHhNaDdoTzUzc0Vwc0tPSE5mMklWRDF1Z0Nv?=
- =?utf-8?B?TDVqRzVoSzIreXdGWk5NdE1kTi9SclNBNTl3VWpmdlpWVjk1Q3A0ME9oY0ti?=
- =?utf-8?B?MzkxckFUQVIvSG41ZSttQzR1M2o3a3czcUw5Z2NjMVhUVkc2MzJBd0RTS2tU?=
- =?utf-8?B?emxkNElRMzZyeUNWSDBTNmJFV3NXeEVzR2tIWDVDZm5aeWFDV3FsNXpXRGRu?=
- =?utf-8?B?MlFoQ01vYnlZa3h6TVJZQ2VtZXh1TnFabTJkaEpRU3lzWXVvRE9Qckpyb2xJ?=
- =?utf-8?B?QzdXZmIwQ0lDSFZJOGVUUXYwb2c3RnZ5S0JWNDJZV2FsN0xDdXZBU0FmSXBq?=
- =?utf-8?B?NzVzbldRWGlCbHlXaFo4bVRod1pDa3hIa1V6TmpHTHRnQ014SSt5bzRsZlp0?=
- =?utf-8?B?UDlBdE1qaUFpWmFvbldsUDFVSXhPWGF1NFdBTi9XU0JqbDQ1Rkw2QkJlVy8z?=
- =?utf-8?B?RUVHcnE5dnRLb2xMZ3Njczd1QisxRFE1Q3lXR2VyUlRxNmtxZ3B1U2lKUDhy?=
- =?utf-8?B?Z0p1TjY1cG1YcWhjQXhZeGVCZmgwaE5tUGR6WklLeS9ZNldRYjRUU1J2MlF6?=
- =?utf-8?B?alRnVnZDTUJMcFFsWG10VW9RZmVCVGk0ZFVLRFppMCtwUDBJMFo4V3FZQ24y?=
- =?utf-8?B?WEV4cmNsRDF5czJsZXVZYVdWQmRYVWYwcCswQk9lYVp6akpEajhOQ3VzcjFp?=
- =?utf-8?B?ZnhvS1IyTlkxQ29HcDdLcFN1YVlTQWJLM0FkSXVXTW9QYU94TE1NT2RLTTZV?=
- =?utf-8?B?cHVlZDVyVHNBcHlwTnMwR0dmZ25UMSttdVlVVVZNSTFWYXQvYklrRVVXK2xm?=
- =?utf-8?B?djZhTXdlMVFQWGE2aG8rU2E0Nk5KSWhJUTF3QXJ0aWpKQmhxTGRQd1U3NUJj?=
- =?utf-8?B?MW9KQ0RKTktYYStBWVJpSDM3WGlrTURhNU5hUEFDRWRQRGcxajhucWdOdHBR?=
- =?utf-8?B?bzgrWFkrOVRyQ0EyeXBGQ0dJY2kyR2ZPaEVwdG5FakRHamNrOEdBRHRRMnJr?=
- =?utf-8?B?S2ZQa2IvaW9mV0U2TVRjcW00dzZRcWUxL0kzZmEvVjh0STBQZDBxL3p2Nmxq?=
- =?utf-8?B?ZVFVZSt4Um54RzBIUDNUNGVTQTdIa2RmNlc5MFV5dWtMQlR2ZG8yV3p5Rm02?=
- =?utf-8?B?R0VWTnNMT1VnPT0=?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(4022899009);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?bk9HWnRFV1hxeG55OTg0MFgwc3NVemFTNWVqazFBMkFWMCt4Yy9yTjIyc3Jx?=
- =?utf-8?B?TWFJZ29jY2RZNVpqV3RFc1h2Y0lZYkNGcWxsNzRXelNyUWxSeVJzemxIVTNy?=
- =?utf-8?B?ZkNCTDBIQUtsT0UyK2xCUU5qUWhCaCtYNWtVbVQyN3JlNko2YWRFcjlUcCtr?=
- =?utf-8?B?V05SZWRkdlkxQTRHc0c2ZVFhRU5oSVhna1lzUk5IV1AwcWdoNkg5R3RGNXo3?=
- =?utf-8?B?bTlIcFUzTlBuR3ZJOGlJSE1Vd0EvUmd1ZER1blZwWmVlSXEvanY3SHZyR1B2?=
- =?utf-8?B?UE80TktOUjY4LzVtWUJiTU9nTkdYcDlKVG9Ic2dYcE1QQlQvK3k2b2t0N2xV?=
- =?utf-8?B?TlNwelRkbmNDSE1CNHV3a1ZaSmZvS0FNeXpscm5rTTYrZzhCTEZwWXA3b0JC?=
- =?utf-8?B?akJjY1Vib3ZPQnphd1NWbmpNQ3hnNTJzbWVrckVRNGpxVktIdEI1blMxOVFy?=
- =?utf-8?B?amNHWXArOVNVaFJKN3JZUDJ4bGNvRUtsbVB1b0h0dzNUQkhCbUlSSUxmU3lw?=
- =?utf-8?B?WGR4OU1uNFI1aERad05yWGhWaXZyQXk1dWJ1QUhIUFAvYUptT1EvS09nemZq?=
- =?utf-8?B?cHZCd2QrWGJlK2YydTZtWGRxV01CUUcxWkJrd1ZUQ0wzVEI4TzJ2ZHh0c2lt?=
- =?utf-8?B?RTBJKzNDb3daWTBTWXhuNWFOa3FNNXpSeVBBOG9MNkxhN0kwK21aZ2tySmZS?=
- =?utf-8?B?ODlobDdFNThMSzRHdlM3d3FpakNaQVVDUWg2YWhQVktUZFgrclppR1JRdnVY?=
- =?utf-8?B?TXVKTExXZkJZeFVsY1NNbFpFVlFRaW9TdGVZQ01qR2ZxSFBwZEFrbkFLckls?=
- =?utf-8?B?V1JTZFNyWmdwTXRURmpNbVpUWWtoeFhiQktQc0x1TWlYVEdwOXlWTU5UdjlB?=
- =?utf-8?B?azBxSHk5YThZVUxmSm1Da2FyU1BEYW9CeUpWUHN1MC91SGozeTUzMWwra0J3?=
- =?utf-8?B?SStLNlZDUWZnZjdFbVRQeXlQYisvcDNEbDJjaTFONFAvbnBkbzNkbkphNzUy?=
- =?utf-8?B?dkM1NXYyOE10ZWQrNzQxQjF1Vkg5Y3ZOZFpOK3QvWktuS0JCNFcxTlFMbU5X?=
- =?utf-8?B?QUlGVVhxUEliSjlELzQ5aXdoYkZmdm9sNWlKcWRCSUZ6WkRpdDdzQzVHdUls?=
- =?utf-8?B?WXlrU0JXMXloeXBxNWRGUXRTTmNqYVg5SFJkeE9TWGtrOUdpcUIyeUxqUFFl?=
- =?utf-8?B?QU41bHVoc0Q5aTgvTW1nbHRFa2swV2RhTEZZc1VEdnRMMXVGTUpzWU85L0wr?=
- =?utf-8?B?bk5xaTdCS0UyWHhjWVNjem1odExnQ0lkS1ZyNHJsa1JJUVlzelMvTk1FN2k3?=
- =?utf-8?B?bGtVQkYveGYzYVNrNzNQTXk4amVrL20xOWxvWXRjMVZqKzg4a1I4U0NKaXYx?=
- =?utf-8?B?TnFrODJYd2lZVjJyS0xVZUpOQ3VsZUNvck8rMG1UY2JoTVl1OWsvd05iRk05?=
- =?utf-8?B?djlZYU5HKzdGYnpqclhuZ2RsWVMva3Zha3VHK1dYNUN2anh0dGVtbU13N0FK?=
- =?utf-8?B?aEVtc2JnYnk0MmU3djZ4dXpxWjk5cTFVeHpXR084Y2E0Q1RlaE1xVXQ5MGhz?=
- =?utf-8?B?MG1WeDNqa05SWEQ3dUR2dVM0VVRRMGQ1ZGE0aHFZeW9kZlg0SEZKMHNXR1Ez?=
- =?utf-8?B?b1I3eW00ajhLeE8ySFByY1BxSFV1ZUt5R2cxanplTENNWmw5TmVyc0R6dWVa?=
- =?utf-8?B?WnY0UGd6VTM2MzBKRHFHcGxYaFFUUENYR1ZBZlQ0STJHVWRQRUNGK3FhdXpT?=
- =?utf-8?B?TlVMTEFmMUtGdlVzbFJHT200b3E2SWpmUFU2MlZBT0JwWVBQZzF0bWlnbGZU?=
- =?utf-8?B?ejlZak10VmZ2eTFIME4rdFR0a2lXL3YrVWlNbzdDSmxBUlNkQ0FVM3RhNjFM?=
- =?utf-8?B?NnVXWGRMczg0WjVqRDk1cTJsTXVDa1c3eHlacnBoc3FGYXhZeWRCV2s5OTR2?=
- =?utf-8?B?TmJjWEFkd1VHTk05dUdtWlowWkZjVWJ5RFpzdlFVMUhrY3JZNW44WUNBVTJS?=
- =?utf-8?B?M2ltSEFkQlVnZVVUQUwyS2tJT3hmWDJhS1VWWmZKN2NpbVVHaDM2Y0VzR0do?=
- =?utf-8?B?eWZtNG9LdW5DRURLL2Q4b2UrVGpvZmZ4UFdTb0RBZGYweE83UERLOHl2WXhi?=
- =?utf-8?B?TWcxbWJhRDZtNzZQV0tYN1JTQ0hHRTFOR1kzVnpMajZUWVhmL3VjUUkxWU52?=
- =?utf-8?B?R0hNanZtMzVGUFU3RC9vcXhwSWVXMzNXaWxDa0JqanIzcXRVS3ltTlYvNTdk?=
- =?utf-8?B?RlR1OWhEelphTXJ4cXBVQVE1VTdIcUZqQ0hFVnc5U2VmMzJGNEIwSEJqMmY1?=
- =?utf-8?B?VmRjWDI5MUdSbHh6UURhejhvT1d0NEUyMjExR2ViMzJISWhmczRydz09?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b63e07b9-baed-42fd-c689-08de4228f9ac
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2025 13:41:29.0780
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PYc8cXrFzBStoWmqHSAQbPjUSBtuvmdjUAsmo2KSuw/+Vsb7dCA50FGN5U5GI6snQju7fVxRRewpvx+ktrBhxw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8401
-X-Proofpoint-GUID: detXTEAyTiYmjjSuW4UvePbjsr6HlFGC
-X-Authority-Analysis: v=2.4 cv=Q+vfIo2a c=1 sm=1 tr=0 ts=694a9c0c cx=c_pps
- a=mfnpAPd2LV9TTO/yo6PAYA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
- a=IXT0MUPOjvkDjNDExAUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDExMiBTYWx0ZWRfX4VmsB0g9qUFQ
- ri+UYcaeq/Vj1EUM0NAPFpuwVkT58amrlzELmn8KhGRhpHP5oMdCzIYKLXbVl4XvNPvPwatpr1h
- XHbugKpwtKXRfNTJoC/NXGGVhIOCKh3Y2Ws80OmLnijB5kQ0E2DR/n+q8ASQlxzveqmctq2ZNLR
- Hc+/mGc552XqJrbmncGGtyHcNnSsJsaa0aGh0/BMTSXZAWHGWMrtEpEjnzSD1uTBQreOu1RJ/32
- 6+cR882DaQBA8rWBvajnrV8SLK+ATRcjuA8pLbCONjYnM1FTBo6DAM3umFqZHb28twMOeJQLsuO
- 0UTBorv3jd3XQmW6G+1nrwGVPVYz1rpIALCKhbK80H36Ndt/wAwKeCPHivkF2nI1/6G7SXlTDYw
- FWv59F9qLUQtFM3Dv6VRmVvUQr42kuq5aMqtt2SL7+FiL8PqfDOdJuwvsygNYH07l8UF/JoOH9J
- 9DjD0ZN/dt9E8xm6DxA==
-X-Proofpoint-ORIG-GUID: detXTEAyTiYmjjSuW4UvePbjsr6HlFGC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-23_03,2025-12-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 malwarescore=0 adultscore=0 impostorscore=0
- suspectscore=0 phishscore=0 spamscore=0 priorityscore=1501 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512230112
+References: <cover.1766087617.bruce.ashfield@gmail.com> <5044d0ec483159af764bfd2b51baf08e6410ec8e.camel@linuxfoundation.org>
+ <CADkTA4OCyZUO5ASTEi+i7iyhYD9Zp8byzYOa+4UBLfGt2w+xnA@mail.gmail.com> <fe02c529dee3b548177d158746f2748eba74f071.camel@linuxfoundation.org>
+In-Reply-To: <fe02c529dee3b548177d158746f2748eba74f071.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 23 Dec 2025 09:45:40 -0500
+X-Gm-Features: AQt7F2oK-1WVyp78uPzT6bE2lM5twbHVK2qvmKedfZ0YPYJCg3jH4Nr5hyJcDXw
+Message-ID: <CADkTA4MK5mqVb_O31kTOveLpm12Ez1-JpbJjofkW5Zt++R8tHA@mail.gmail.com>
+Subject: Re: [PATCH 0/21] linux-yocto: combined and consolidated pull request
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, Jon Mason <Jon.Mason@arm.com>, 
+	Ross Burton <ross.burton@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5BNDYPJd038517
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 13:41:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228469
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 14:45:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228470
 
+On Tue, Dec 23, 2025 at 8:45=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2025-12-22 at 22:34 -0500, Bruce Ashfield wrote:
+> > On Mon, Dec 22, 2025 at 9:13=E2=80=AFAM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >
+> > > Hi Bruce,
+> > >
+> > > On Thu, 2025-12-18 at 15:22 -0500, bruce.ashfield@gmail.com wrote:
+> > > > As discussed in the weekly engineering call, I'm sending this as
+> > > > single series even though it crossed boundaries of the repositories=
+.
+> > > >
+> > > > I don't have access to meta-yocto-contrib yet, so I haven't pushed
+> > > > the component parts to contrib branches yet, but will do that for
+> > > > future pull requests.
+> > > >
+> > > > I'm using this as a first run through some things I've cooked up
+> > > > to coordinate the patches across the repos. The formatting is my
+> > > > own, so apologies if it isn't clear .. and we'll see if it all
+> > > >
+> > > > Now to the series for OE-core:
+> > > >
+> > > >  - We have stable updates to 6.12
+> > > >  - A kern-tools fix
+> > > >  - Updates to 6.17
+> > > >  - Removal of 6.17
+> > > >  - Introduction of 6.18
+> > > >  - Bump to libc-headers to 6.18
+> > > >
+> > > > I've built and booted what I can locally, and I know that the
+> > > > major architectures work, and are functional with respect to
+> > > > core features.
+> > > >
+> > > > I have more libc-headers testing running against meta-oe and
+> > > > muslc, so there may be some breakage there and I'll help deal
+> > > > with that if it happens.
+> > > >
+> > > > The update and then removal of 6.17 is on purpose. In case any
+> > > > one was using it, they should get the latest tested before it
+> > > > starts to be removed.
+> > > >
+> > > > For meta-yocto:
+> > > >
+> > > >   - removal of any remaining 6.17 references
+> > > >   - introduction of 6.18
+> > > >
+> > > > The meta-yocto default changes are obviously REALLY RFC/RFT
+> > > > there will be issues, but I've provided them anyway to make it
+> > > > clear that we are going to 6.18 as the new default for all the
+> > > > variants.
+> > > >
+> > > > Once we get 6.18 fully green and the h/w references udpated,
+> > > > I'll remove 6.12 and 6.16 from master. That isn't in this series
+> > > > by design.
+> > >
+> > > I ran this through some testing and it isn't straight forward.
+> > >
+> >
+> > Back online after a 10 hour drive!
+> >
+> > > We need a newer strace with the newer kernel so I queued that patch
+> > > from Robert. That caused ptest failures so I disabled the failing bpf
+> > > strace ptests.
+> >
+> > ok. I'll ignore strace and assume that bump will handle it.
+> >
+> > >
+> > > ltp failed to compile so I backported a patch to fix that.
+> > >
+> >
+> > ack'd
+> >
+> > > We still have a cryptodev-module failure:
+> > > https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/292=
+2
+> > > https://autobuilder.yoctoproject.org/valkyrie/#/builders/25/builds/28=
+97
+> > > (all world builds I think)
+> >
+> > I can handle this one, it'll be.a day or so, but I also haven't checked
+> > the  autoupdate list yet to see if this is in it. I'll check the lists =
+before
+> > I start and see if anyone else has an update in flight.
+>
+> I'd tried the srcrev change on master next and it worked. I've taked
+> your patch, thanks!
+>
+> > > and an initramfs module space problem:
+> > > https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/29=
+31
+> >
+> > And a config warning (easy for me to fix).'
+> >
+> > For the space. Is it only genericarm64 that we do this test on ?  It
+> > could either e normal kernel size increases, or it could be all the wor=
+k
+> > that has been done in genericarm64's config that has causes this.
+> >
+> > If it is normal kernel, then I can have a look for something obvious,
+> > and then we can increase the size. If it is only genericarm64, then
+> > we should get Mikko's opinion on what might be options we could
+> > tweak to reduce the size.
+>
+> I don't want to break things too badly given it is the holidays but I
+> do want to keep patches moving. I've therefore taken most of your
+> series except the bits making the default 6.18.
+>
+> This gets us on the new point releases, bumps the CVE info, drops 6.17
+> and adds 6.18 for testing along with switching to the 6.18 headers.
+>
+> I included the cryptodev-module tweak, the ltp fix, the strace fixes
+> and a tweak to increase the initramfs size by 20MB.
+>
 
-On 12/23/25 01:34, Randy MacLeod wrote:
-> Hi=C2=A0 Yi,
->
-> This is probably fine but it needs a better description in the commit l=
-og.
->
-> Please explain why you're making this change and
-> what the implication is for users, such as changing a build-time=20
-> config to a run-time instantiation.
->
-> Also the conf files change is not mentioned.
->
-> We'll hold your other kea commits for v2.
+Sounds good.
 
-OK. I will send v2.
+> The initramfs issue is genericarm64 specific and Mikko was in favour of
+> increasing the initramfs size. I am a bit worried about the size issues
+> there but that is a bigger issue to think about at a different time.
+>
+> This does leave genericarm64 kernel config warnings:
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/60/builds/2902
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/2933
 
-
-Thanks,
-
-Yi
+I see the patch for this from Mikko
 
 >
+> meta-arm failures:
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/75/builds/2786
 >
-> In patch 2:
-> Is : kea.volatiles for sysvinit ? Is so, please mention that in the=20
-> commit log.
+> meta-virt failures:
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/builds/2761
+
+And I've fixed this on master-next of meta-virt while I was doing
+6.18, I just haven't had enough time to finish testing there. It'll be
+pushed at some point before Jan 1st, so no concerns there.
+
+Bruce
+
 >
-> Patch 3: looks good.
+> as the issues we need to resolve before we change the default to 6.18.
+> Hopefully a sensible compromise for the holidays! :)
 >
-> Thanks,
+> Cheers,
 >
-> ../Randy
+> Richard
 >
 >
-> On 2025-12-18 8:44 a.m., Yi Zhao via lists.openembedded.org wrote:
->> Create runtime and state directories using RuntimeDirectory and
->> StateDirectory in systemd service files, rather than creating
->> them via ExecStartPre.
->>
->> Signed-off-by: Yi Zhao<yi.zhao@windriver.com>
->> ---
->>   .../kea/files/kea-dhcp-ddns.service                  |  7 +++++--
->>   .../recipes-connectivity/kea/files/kea-dhcp4.service |  8 +++++---
->>   .../recipes-connectivity/kea/files/kea-dhcp6.service |  8 +++++---
->>   meta/recipes-connectivity/kea/kea_3.0.1.bb           | 12 +++++++---=
+>
+>
+
 --
->>   4 files changed, 22 insertions(+), 13 deletions(-)
->>
->> diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service=
- b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
->> index aec6446f0e..feef7e0b6e 100644
->> --- a/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
->> +++ b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
->> @@ -5,8 +5,11 @@ After=3Dnetwork-online.target
->>   After=3Dtime-sync.target
->>  =20
->>   [Service]
->> -ExecStartPre=3D@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/run/kea/
->> -ExecStartPre=3D@BASE_BINDIR@/chmod 750 @LOCALSTATEDIR@/run/kea/
->> +RuntimeDirectory=3Dkea
->> +RuntimeDirectoryMode=3D0750
->> +RuntimeDirectoryPreserve=3Dyes
->> +StateDirectory=3Dkea
->> +StateDirectoryMode=3D0750
->>   ExecStart=3D@SBINDIR@/kea-dhcp-ddns -c @SYSCONFDIR@/kea/kea-dhcp-ddn=
-s.conf
->>  =20
->>   [Install]
->> diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp4.service b/m=
-eta/recipes-connectivity/kea/files/kea-dhcp4.service
->> index a2ed4edb59..ce1256cf26 100644
->> --- a/meta/recipes-connectivity/kea/files/kea-dhcp4.service
->> +++ b/meta/recipes-connectivity/kea/files/kea-dhcp4.service
->> @@ -5,9 +5,11 @@ After=3Dnetwork-online.target
->>   After=3Dtime-sync.target
->>  =20
->>   [Service]
->> -ExecStartPre=3D@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/run/kea/
->> -ExecStartPre=3D@BASE_BINDIR@/chmod 750 @LOCALSTATEDIR@/run/kea/
->> -ExecStartPre=3D@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/lib/kea
->> +RuntimeDirectory=3Dkea
->> +RuntimeDirectoryMode=3D0750
->> +RuntimeDirectoryPreserve=3Dyes
->> +StateDirectory=3Dkea
->> +StateDirectoryMode=3D0750
->>   ExecStart=3D@SBINDIR@/kea-dhcp4 -c @SYSCONFDIR@/kea/kea-dhcp4.conf
->>  =20
->>   [Install]
->> diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp6.service b/m=
-eta/recipes-connectivity/kea/files/kea-dhcp6.service
->> index ed6e017d0c..6123a8ad58 100644
->> --- a/meta/recipes-connectivity/kea/files/kea-dhcp6.service
->> +++ b/meta/recipes-connectivity/kea/files/kea-dhcp6.service
->> @@ -5,9 +5,11 @@ After=3Dnetwork-online.target
->>   After=3Dtime-sync.target
->>  =20
->>   [Service]
->> -ExecStartPre=3D@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/run/kea/
->> -ExecStartPre=3D@BASE_BINDIR@/chmod 750 @LOCALSTATEDIR@/run/kea/
->> -ExecStartPre=3D@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/lib/kea
->> +RuntimeDirectory=3Dkea
->> +RuntimeDirectoryMode=3D0750
->> +RuntimeDirectoryPreserve=3Dyes
->> +StateDirectory=3Dkea
->> +StateDirectoryMode=3D0750
->>   ExecStart=3D@SBINDIR@/kea-dhcp6 -c @SYSCONFDIR@/kea/kea-dhcp6.conf
->>  =20
->>   [Install]
->> diff --git a/meta/recipes-connectivity/kea/kea_3.0.1.bb b/meta/recipes=
--connectivity/kea/kea_3.0.1.bb
->> index 8729b1162e..1be557c79a 100644
->> --- a/meta/recipes-connectivity/kea/kea_3.0.1.bb
->> +++ b/meta/recipes-connectivity/kea/kea_3.0.1.bb
->> @@ -74,13 +74,15 @@ do_install:append() {
->>              ${D}${sbindir}/kea-admin
->>       rm -rf ${D}${datadir}/${BPN}/meson-info
->>       rm -rf ${D}${runtimedir}
->> +    rm -rf ${D}${localstatedir}
->>   }
->>  =20
->> -do_install:append() {
->> -    rm -rf "${D}${localstatedir}"
->> -}
->> -
->> -CONFFILES:${PN} =3D "${sysconfdir}/kea/keactrl.conf"
->> +CONFFILES:${PN} =3D "${sysconfdir}/kea/keactrl.conf \
->> +                   ${sysconfdir}/kea/kea-ctrl-agent.conf \
->> +                   ${sysconfdir}/kea/kea-dhcp-ddns.conf \
->> +                   ${sysconfdir}/kea/kea-dhcp4.conf \
->> +                   ${sysconfdir}/kea/kea-dhcp6.conf \
->> +                  "
->>  =20
->>   PACKAGES =3D+ "${PN}-python"
->>   FILES:${PN}-python =3D "${nonarch_libdir}/python*/site-packages/*"
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#228122):https://lists.openembedded.org/g/openembed=
-ded-core/message/228122
->> Mute This Topic:https://lists.openembedded.org/mt/116841995/3616765
->> Group Owner:openembedded-core+owner@lists.openembedded.org
->> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [=
-randy.macleod@windriver.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->
-> --=20
-> # Randy MacLeod
-> # Wind River Linux
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
