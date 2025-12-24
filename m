@@ -2,106 +2,99 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87210E74916
-	for <webhook@archiver.kernel.org>; Wed, 24 Dec 2025 12:07:21 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.119469.1766578035751644201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93415E75451
+	for <webhook@archiver.kernel.org>; Wed, 24 Dec 2025 12:27:31 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.119696.1766579242643409433
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Dec 2025 04:07:17 -0800
+ Wed, 24 Dec 2025 04:27:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=Lv31IISW;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=AZ4pz6k8;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 5B878C1A5A4
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Dec 2025 12:06:48 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 53DA41A23D7;
+	Wed, 24 Dec 2025 12:27:20 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 63F296073D;
-	Wed, 24 Dec 2025 12:07:13 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0BCBD10AB0AEE;
-	Wed, 24 Dec 2025 13:07:11 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 297F66073D;
+	Wed, 24 Dec 2025 12:27:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2B59110AB1154;
+	Wed, 24 Dec 2025 13:27:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766578032; h=from:subject:date:message-id:to:mime-version:content-type:
+	t=1766579239; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=pxFAI1eAA4mCXee1NFOXA3pcq0SPrK1ne4o6MSy1NQg=;
-	b=Lv31IISWJHnwhL7w8y3alBxqKMySwloC6ynbFEg+7oGcavVfbUdwQuFgGxdq2FTn0CM+vO
-	yTCZvD0eahiv1/+jLgQQxXrbcl8Zahezj9RUgbkdF2FY03HJ+c0YFaaiohrFMQXKcWioQL
-	Zl2jY5PM4Said50+tT/KGgRr27fNN290USnXVm3xN97NzElVYoV8qsDm/GF1xTk0ZP9bDy
-	WLcWbOnPQz4bimexkzCCk2DNHrAw3Q1dCAFJYIwU7KFdwoj0T7t3x3nQ7N6h25NiqakByZ
-	JeEH6DkC5yJRhY2fUcLJSyy+oJIWwZ6NGmX6NX2mjuuqdsrgK1m6tpKDajtihQ==
+	bh=WE8du2vBu9pRlYtlTXTctteOD7P/SNRx2n6XUSe9/v4=;
+	b=AZ4pz6k8Jojj926Rk+KHkqvAN/HKlfOvnCsumbWlk0Stt+RpLFGJaGgCb7RKPZWG67nZuc
+	WqL2nRWvLxcybRRkJJQh/O8xlrjHe306rkkqI8qUhMbE6LBVqIHRCfBVgyXu5YGivoUDfc
+	wptAPaWZ5LpWN5HQhAJzpyU1BL0UxZYJM1tvd3E3KfL9VnP6hlD+/PVrZQkhgGHzyYwRPK
+	iHHD/X6xvqvxM9/Bn5gnqCS4AEQA5QddtQfeu08sn/JRm3SZjVPSSKIi/Pf0WO7zVSPlgD
+	xMR29j7BYLxUPP+5qCNnjC9tEp+ZFtJmWlffWupRTi74FMAG+v/gk6DUJ//DTg==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 24 Dec 2025 13:07:11 +0100
-Message-Id: <DF6FNBU6P0LO.3DX90J7NFTZK4@bootlin.com>
+Date: Wed, 24 Dec 2025 13:27:16 +0100
+Message-Id: <DF6G2PMRSXXY.21IIG4AHJPEJW@bootlin.com>
+Subject: Re: [OE-core] [PATCH] llvm/clang: Upgrade to 21.1.8 release
+Cc: <Sundeep.Kokkonda@windriver.com>, <hemanth.250302@gmail.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <uvv.mail@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 4/4] oe-selftest: overlayfs: Add a demo case
- for /etc
+To: <Yash.Shinde@windriver.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20251222113840.2163929-1-uvv.mail@gmail.com>
- <20251222113840.2163929-4-uvv.mail@gmail.com>
-In-Reply-To: <20251222113840.2163929-4-uvv.mail@gmail.com>
+References: <20251223094504.2919922-1-Yash.Shinde@windriver.com>
+In-Reply-To: <20251223094504.2919922-1-Yash.Shinde@windriver.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Dec 2025 12:07:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228528
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Dec 2025 12:27:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228529
 
-On Mon Dec 22, 2025 at 12:38 PM CET, Vyacheslav Yurkov via lists.openembedd=
-ed.org wrote:
-> From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+On Tue Dec 23, 2025 at 10:45 AM CET, Yash Shinde via lists.openembedded.org=
+ wrote:
+> From: HemanthKumar M D <hemanth.250302@gmail.com>
 >
-> /etc is a special directory. It's possible to create a mount unit for
-> it, but many system services that start early at boot time will not
-> rescan its content when you mount overlay on top. The added test case
-> demonstrates this but adding a sample systemd service and enabling it in
-> overlay.
+> Brings following bugfixes on top of 21.1.7
 >
-> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+> 2078da43e25a (HEAD, tag: llvmorg-21.1.8, origin/release/21.x) [Github] Re=
+move use of setup-windows and install-ninja in llvm tests
+> b6360d3bc7a9 [Github] Remove install-ninja/setup-windows
+> 7eb4bfe053d6 [ExtractAPI] Format typedef params correctly (#171516)
+> 51e5074676d4 [compiler-rt][sanitizer] fix i386 build for Haiku (#171075)
+> d2e835bd4638 [SelectOptimize] Fix incorrect -1 immediate for large intege=
+rs (#170860)
+> 4b24e73d34ca [WebAssembly] Remove FAKE_USEs before ExplicitLocals (#16076=
+8)
+> 4582a800c588 release/21.x: [clang-format] Fix a regression in annotating =
+star before lambda (#170969)
+> a5658809ac4a [clang-format] Fix a crash in AlignArrayOfStructures (#16709=
+9)
+> 94c40c61c1ce [clang-format] Don't swap `(const override)` with QAS_Right =
+(#167191)
+> b845b4cd771e [rtsan] Handle attributed IR function declarations (#169577)
+> f68f64eb8130 Bump version to 21.1.8
+>
+> Signed-off-by: Hemanth Kumar M D <hemanth.250302@gmail.com>
+> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 > ---
 
-Hi Vyacheslav,
+Hi Yash,
 
-Thanks for your patches.
+Thanks for your patch.
 
-It looks like the added test is failing on the autobuilder, on arm host
-platform, with some wic related error:
+You will also need to update the llvm-project-source entry in
+meta/conf/distro/include/maintainers.inc to avoid QA error:
 
-2025-12-24 10:16:24,719 - oe-selftest - INFO - overlayfs.OverlayFSTests.tes=
-t_etc_mount (subunit.RemotedTestCase)
-2025-12-24 10:16:24,720 - oe-selftest - INFO -  ... FAIL
+2025-12-24 09:48:11,352 - oe-selftest - INFO - distrodata.Distrodata.test_m=
+aintainers (subunit.RemotedTestCase)
+2025-12-24 09:48:11,353 - oe-selftest - INFO -  ... FAIL
 ...
-39519	/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-904882=
-/tmp/work/qemuarm64-poky-linux/core-image-minimal/1.0/tmp-wic/boot.img
-| ERROR: Couldn't find correct bootimg_dir, exiting
-|
-| WARNING: exit code 1 from a shell command.
-NOTE: recipe core-image-minimal-1.0-r0: task do_image_wic: Failed
-ERROR: Task (/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/o=
-penembedded-core/meta/recipes-core/images/core-image-minimal.bb:do_image_wi=
-c) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 5451 tasks of which 5354 didn't need to be r=
-erun and 1 failed.
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/o=
-e-selftest-armhost/build/build-st-904882/tmp/log/error-report/error_report_=
-20251224101317.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/b=
-uild-st-904882/tmp/log/error-report/error_report_20251224101317.txt [-s ser=
-ver]
-NOTE: The contents of these logs will be posted in public if you use the ab=
-ove command with the default server. Please ensure you remove any identifyi=
-ng or proprietary information when prompted before sending.
+AssertionError:
+The following recipes do not have a maintainer assigned to them. Please add=
+ an entry to meta/conf/distro/include/maintainers.inc file.
+llvm-project-source-21.1.8 (/srv/pokybuild/yocto-worker/oe-selftest-debian/=
+build/layers/openembedded-core/meta/recipes-devtools/clang/llvm-project-sou=
+rce.bb)
 
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openembedded=
--core/meta/recipes-core/images/core-image-minimal.bb:do_image_wic
-    log: /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-904=
-882/tmp/work/qemuarm64-poky-linux/core-image-minimal/1.0/temp/log.do_image_=
-wic.3087704
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2905
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/2800
 https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3043
 
 Can you have a look at this?
