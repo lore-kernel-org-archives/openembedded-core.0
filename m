@@ -1,526 +1,381 @@
-Return-Path: <SunilKumar.Dora@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9147E7490C
-	for <webhook@archiver.kernel.org>; Wed, 24 Dec 2025 04:03:58 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.114901.1766549034312072443
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFE94E7490C
+	for <webhook@archiver.kernel.org>; Wed, 24 Dec 2025 04:22:58 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.114678.1766550176535620721
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Dec 2025 20:03:54 -0800
+ Tue, 23 Dec 2025 20:22:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=etd5QeQE;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4453214dcd=sunilkumar.dora@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BO2dEp53905463
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Dec 2025 04:03:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=O190zucwPUmI0+Hbn9mwah
-	tKEC6Y0dwG82qyPZF14PE=; b=etd5QeQE9Cq9kDOBLibcrIZ0UnuCCZQd/PC6e3
-	PxtLk1zIcrgq6eqMB1RLx7erVKf+EdUzjZMqIH4uZv3GnAvpOyze51Kr/RrwAiGR
-	c5xl9hSZsr4bAML/Q/VJwksM6YyrZ4+B+jBdTKhgQFPkgsVZBTWbX7qwJ8dh9wEd
-	4p7DXLDLsNbsD5MmsBRkDtVfVKTaqpHBnTuz9Exk0bOXBDXYAKgmNmDsPCK2QSu+
-	cGqwykuNH6O0E4WF4v6LbUmemvUNoi+G21H/ugf9qBWOiZT+VMNP5dpLuxzP320q
-	p9wu3vuyAZpENdGC4uXd305AWzwsQjJbi/RRYcHTFwzNpDSw==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012004.outbound.protection.outlook.com [52.101.53.4])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b5h0vkvsu-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 24 Dec 2025 04:03:52 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dYPU7yF5FrGckI+DRbRfASeTRUpPBB2syNvR6VA6SVYPyrpf6KlhqHGEjKkwnvzUPRwev7KS0DZHpCuZDhG76q48+RjliR/8cdWCUPAiNx2GmzwSLlKAcAdG4qnF7tWBQW0/QeP3Pf0ZhEnZZ/sEKoDws46MOWavPSyUCQhR7xkhwRQlyOdabjIMS9u246O3ElUfatAOHR9Zn9azY8dhFMKGa7AnX3j3n8r8SF0pFbvO40S/K2ChKoRNzWL5rq2NKL9KIKVkel33MX89BaVJsS+Omc8wwr44TM0gntxmftnN9cXX8azKlZwvoqy6L9iJ9U9Rr36FTuEXei/RmQ0xLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O190zucwPUmI0+Hbn9mwahtKEC6Y0dwG82qyPZF14PE=;
- b=yHJ0zc4BMVMaG+VgGQEeFhiYu3lIn3EiMwXiEQq5Ob459cHPquF+PKz0JXlwkaGg8TUQSfSoDyIbktydpUmd008skaOpHEaRDFQ+1y+fHJx5LQ9/RZFFZqRk9D8Rci2MPqbH9UE5QzFS0YvytGFtL8PSjhmL5QfvxCik+5cHrFp8jci1G+7BOMp6LVySew6i6taYdVlOhAiZ17Od7a+5T4BsO0qBBtarkDvnJTCkkVjAeeFseuZqfnCZkK46DFv8+ecALhMwj4JjzhoNvkn81U5Z7fXy7XM60q2njgAklBIHjXmq30ErSoTajVU+CIIwfx4pgu63zc1pRX16D+8kqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
- DS0PR11MB9454.namprd11.prod.outlook.com (2603:10b6:8:28c::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9456.11; Wed, 24 Dec 2025 04:03:50 +0000
-Received: from DS0PR11MB7901.namprd11.prod.outlook.com
- ([fe80::9fa:eb3f:cf26:264d]) by DS0PR11MB7901.namprd11.prod.outlook.com
- ([fe80::9fa:eb3f:cf26:264d%4]) with mapi id 15.20.9456.008; Wed, 24 Dec 2025
- 04:03:50 +0000
-Content-Type: multipart/alternative;
- boundary="------------cBl09suF8Qj9JGc06ERYmVyk"
-Message-ID: <262b02d4-1c96-4263-af56-77e2578aab68@windriver.com>
-Date: Wed, 24 Dec 2025 09:33:41 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] rust: enable default uwtable and ignore arm no_std
- test
-To: Randy MacLeod <randy.macleod@windriver.com>, Yash.Shinde@windriver.com,
-        openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, hemanth.250302@gmail.com,
-        nick.owens@eero.com
-References: <20251222093830.2658141-1-Yash.Shinde@windriver.com>
- <20251222093830.2658141-2-Yash.Shinde@windriver.com>
- <c1d0b949-5995-4f60-8e94-98dd73ab5a3d@windriver.com>
-Content-Language: en-US
-From: Sunil Kumar Dora <sunilkumar.dora@windriver.com>
-In-Reply-To: <c1d0b949-5995-4f60-8e94-98dd73ab5a3d@windriver.com>
-X-ClientProxiedBy: MA5PR01CA0026.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:178::7) To DS0PR11MB7901.namprd11.prod.outlook.com
- (2603:10b6:8:f4::20)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AEg0nf71;
+ spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-78f99901ed5so50612997b3.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 20:22:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766550176; x=1767154976; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RfaHeydj1v95OCOrG+qTwZlYqz8YaKkB/Ppm47TFbVc=;
+        b=AEg0nf712UtedjaJJ91O8BBl0E9Y/WDC8+n7bhyggHRVcltk4SzFK0XmUui8Y71Olx
+         BsxOxnwqsqehvK8mqy6+zh658omyXCHpPjaojk/u8nUC2IuhvNgC42SB/9Vi0SF4U3j6
+         kqBQNo858AF7sSGmuC79J0I7n1H+QRyxYIRawnPzRyA3AH1Rh65MKwF9PkDN0goaQyzI
+         hL+7Ccb+W3Gqi1iwNXaOpFVa18eiRckVABGWHUc+IIaQp6GK9cOM32YUfj7+XZ0dPmXD
+         NvjUD7QJb3DOoDfIQDOKUvBFewqihsKrb2Dux+ZWLpAzYsI+kPMFLYKzioW/cqkGm89y
+         Bqqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766550176; x=1767154976;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RfaHeydj1v95OCOrG+qTwZlYqz8YaKkB/Ppm47TFbVc=;
+        b=BEp+QdaW5s2VfafvH+w6s+QZNIQtqWpfANBFY0C2v7PRRHaY3JjbFPrZYO4VmGZqv0
+         xA3rgqTI71TTmfC2PQuwikHn01bVNnl7QP4daq0gd4gDOLtZ72AmnRo9eQL5VyXGpjYn
+         GKodYk7n7NUq3GqWOALIVyJyj0hU6bjlDmtQmzAWK7YDbhFHOfgUvaWuKxZKLqn2JpAX
+         0nDWETzADA3CEdgCv4fhc/5EYBifEo8le15IPKI7K/T8+THQ0HHCse+CH7IAbMIOI2kS
+         gPn2bePSfevUH58LzL49o9ifQlokpJsG14jbB4a+Bra0re0Bcpyffgh+6kIfuCtwdc/g
+         J4Sg==
+X-Gm-Message-State: AOJu0YwDjxqo+dTvGLLjqWYgfDMnEtPsX49dd82D89+C74Z00xx1TDdX
+	mtV7xRHX8REKgduWX9JJnBPQ28Q5fcSYgn4omPKg7BJ7ip9K92oy2ZU1PxVvyNbcm1pFJXO+/Uq
+	S0upUwMSPvRH+FZfoXJ0bk9FUse6p7rhPp5in
+X-Gm-Gg: AY/fxX53im78avUBC2ubCbw2inTHc+L10sSleSiGyvqQl8OeLlRYm8Rry/EaYrv0AUw
+	yxHVKo6GClBkkd6pJfyoH4lNM0oX8crVfkGbVEsGhSW2IqBEdPZzkOsxnof/XO+GYS7axrZ93qN
+	ZzlQxT8BRUK6iYus94cceZkl+5blvYCXOD2SVlUsvlj9tDfIG0ajYrfROI2fqE10IzbVs5XprBS
+	pe6Awn1pKnrtexiA0I5sEicecnFLjQmLGhnZ/0yupc43R10g7NwevrxzDcovDAjVKRVquZoG7Mm
+	salS9Jyl5wHxmR3S1bcZtE9s1SKvzgob9nGIMMRUwo1UezmTwz2cKuK8CQ1jOB2mPg/o3sMhmw0
+	aZomrI5zIG1oITRRitnDi0oYMSww=
+X-Google-Smtp-Source: AGHT+IEKGae+x1//MqllIxd6Q2BzcLvtbwjCgvORa3feS3UX1nuNpoAwTy/UDYS1okbrIuGhgfeaDs9qWDkwQhkCZxY=
+X-Received: by 2002:a05:690c:7409:b0:787:e9bc:fad5 with SMTP id
+ 00721157ae682-78fb40294e1mr129753977b3.33.1766550175568; Tue, 23 Dec 2025
+ 20:22:55 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|DS0PR11MB9454:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7933c645-b3bf-40ee-8375-08de42a17194
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|10070799003|376014|1800799024|366016|8096899003|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?VEF3MFlqVXBLZUJiOG1VRE9Pb3JDaUxBcTlETzlEaGNuSmExTkhFV3JpbVc0?=
- =?utf-8?B?cmZTR3JNa2J4Y0NqczJvUGpKeTVHcVdzWFkwaTViTEphblhocFZ1ZjFCQXc2?=
- =?utf-8?B?dGtLYlcyM2ZocHU4ckpTYkF6ZW5MS1Y1Umx0cFZ2N1J2SlRlcjdyU3ZiV1NN?=
- =?utf-8?B?VTRLRkRPZGJIdVdzczZ2RmRYTmRKMWYvendSNzVlM3h0bXBLQmxhaG1SbWxH?=
- =?utf-8?B?Ujc5RXZzRndBOXlpWmFQT2hVRDRoTXVveWtBVmJKWFhkeHFSLytjaGhJY2pH?=
- =?utf-8?B?OTZMaW5EWTU2VTVOQm81NkZSS2pTQ0wrSmtkd3p4K3Z3WGMwL2QyamZxeVoz?=
- =?utf-8?B?dzErYmpPOHV6WmFGSnVyYUZxanh3TFJxQzhMRmhlSnN1K3A0NjljSHlTRDlY?=
- =?utf-8?B?YWFMdEttMUNKTm1FZUxqaHhnNGJmWjByNkh6elhadXkzRkIyVy9xTXk2Q3lW?=
- =?utf-8?B?SEhoSjNpUmJzRzZzcWR2WVpJZDJGc0ZyVlpZWXEzLzlnNUJKRjVXTUdPZzR3?=
- =?utf-8?B?VWVwQUZmQVE2SW1HbnFVVytoQW94UGM1NER4eXdQaitPN3lXdTg5d21xOEsy?=
- =?utf-8?B?d0lUdlNUaDM5ck9Ka015N0FEYVVpek96TE1HUDRKNjUvM3RJT2FiRHJjcVlx?=
- =?utf-8?B?MzN1ZktnNkNnK0xEanZWMmp4ODZXd2Vzb1BSYVZpVWlLcldzTE5WazNzTlpE?=
- =?utf-8?B?d1VFM2djdjJBejRPcTNLRUs5QVZxYjFBK094dXhvWGdHNnYxbzAzeTY2YnpM?=
- =?utf-8?B?MkloNWRtTkdCeUdWRVBxcUFPQXVnMnhjVGkwVVdFMlN3NGhLbzFtaTMrQVp5?=
- =?utf-8?B?VitTSHROUFNnTTNRVEsyNWZVOGw0dnVYVkYwTnJpRXFrVlpWNlhKTkx4ZXc0?=
- =?utf-8?B?TnMxaE4vMlM3Qjg5Z2o2WEJKL0JiSUxhb0txR2J4MjA5bGwwL2FueSs5V0dh?=
- =?utf-8?B?bG15ZnYvUWJXUis3aUNrNWRZTjRPcnpDekQxVFFWOGNnbm1EbVNDbEZLRDdm?=
- =?utf-8?B?bkptdFNhOGV4SUF3bDZ2Z3Rnb3JVRnFYSnlZdlFCRWlxcDZyN3lVa0F4Sklk?=
- =?utf-8?B?QjhCTXZ2eTZPWE1lNHFxa3VhVmdCZmtBU3NsTnc3WVFpTEFoZXVtL0JUU0ow?=
- =?utf-8?B?SU1hL2lxZlJ1b284cEF0dXhQWXZhYnlnbUNZN3NYU1Jtb0R2YldMUEdNYU9j?=
- =?utf-8?B?cUhiM28zaVMvVnMvK3NOOVhENW9LMm9yNVFNYm94RHltT2lXYnFHVmpyZTRh?=
- =?utf-8?B?aFhwekY5UFB0eURrKzVvTm1LRWNHM1pSbUJXN0xCQ0VNY3kvaWdHbXUwZVpF?=
- =?utf-8?B?TDUvYjdMOGt1aUhuR2pYTFVoZjZkM0dNYlpnS0NxUE44M3d3RTZJWk9tdTRT?=
- =?utf-8?B?eHlHV0hCaVl6dkZDaURKenhZU2RXblVCRFRSaEs4eTJuYWpFbldMUlR2bWJD?=
- =?utf-8?B?M3RDeGRUYlhLRUtYTnU0QktCZk1DQ3dpWjJpancydTA5RWlpdkFMVFB4WUZT?=
- =?utf-8?B?STE3UE52OHgvOFZOdWZseXhkRS9LVFh2dWdwamVEaldsSzNBbHpQaFZzSFBY?=
- =?utf-8?B?VUFpeHc1Vk1rckp2bG1lUXNndHBqM21rZkcrWUM4V0pVR1RZZ3VVRHVTTldZ?=
- =?utf-8?B?YXNpVWxEdkdVd2xLUzNWcmRCMTdPWlk4d3A1NDlvQ1B1RUFzeTJnUTVkSTMr?=
- =?utf-8?B?aENkcHVpN3V3alVIUDlEVUkwRXhPOXJLREY5S3ZDWEgvcUZIL29TR2xFNlpT?=
- =?utf-8?B?a2RTb2twT0JIRE1GbXZhMVpqK3RyOVJnK1YxVlR5OVV4dU91Y1J1d01vTk5O?=
- =?utf-8?B?bmpIaDA3K2RCZG9wSE8zVFNSNGNzbnZrZXlCK3lqL1JNVHJCRzQvZmVVTDQy?=
- =?utf-8?B?Qm1oSTVkYVhJU3RDZzF1bWNzNTM1c01qVkg0czVtUEFjbzhLMWJPVDZUb3hJ?=
- =?utf-8?B?NEVVUGdLL24wNWc3YVBnc1Y1aHpRNkpBZzQ0YVNzZGU1S2JtRzloUlFiM2RD?=
- =?utf-8?B?aXA1dG53Ryt3PT0=?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(1800799024)(366016)(8096899003)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?aG5WK2N6Q0xJWmlSbzBDek9mcnNpMFRtZ0VsZ2Z6Y1lRaWZsRTdXYVN2RUhV?=
- =?utf-8?B?YWNWeGl2ZTJhbkNYcHJmU2xnZEJGWkRPcU1ZdTJnZlhwUTE5d2ZKYmo1c3R0?=
- =?utf-8?B?MUloejlXS0haQ0pGdkI3MzdnNGFNT3NoYW9xQWduRFhTLzBNV2NyUWZtYi9v?=
- =?utf-8?B?cWp1eUt0Z0NsekEwbmgwdUNnOW1vbVVpVFQwYkJMWTN0dkFYNytBNTdSdTVU?=
- =?utf-8?B?VnFLbnYzOWlaMFg5M2lNcFRBazk5d2szbjZsUjE1Zi9YRnFJbEYxRlpuMHhF?=
- =?utf-8?B?S2dUdlgrUjlGR1pkZjNZcUpyNWRHd2pVOEhDbENWQzF0aDBkWE1pK2t0Z0I0?=
- =?utf-8?B?eUJWOXpET3ptUHpQUjdhVUFQMGVqeEhId21nNTZubzRRMkk3N2RuYjdidElw?=
- =?utf-8?B?Q2hyOXBUQkVxUFBkVndaTGtUbkQ0dzhObWo2OXF3Tk1wMHEvUmhPM0FJTXhL?=
- =?utf-8?B?cERQdUEyallsUm9oTFF1OHd1MFdjMFhIOXVpSy84VGZFV1hvQXEyOGk2VTJK?=
- =?utf-8?B?OG1DVktIem1rdTBKNVNtSkJ5YUQxTlJjdkhPTlVoZm53VTJSZU9lZDY1UmJP?=
- =?utf-8?B?b0h4bmc3L2g5dkh5K3ZtelF5QkFUcTFBMEt6V0ZEME14TFl2a1Z4Y2xpR1hw?=
- =?utf-8?B?QnlMWW1kUFNFdVRlNG40cUJnN1VaMndaNTluQVY3R0ZZazlrNklXai9Ndzg3?=
- =?utf-8?B?dFBjZFNQb0NTVkl1RUlrSGpsM01mMFYxRlV5elRoby92bXVOZXhESUVjME5Q?=
- =?utf-8?B?WjZMV3hQZXdMbjBYNUIvekM3N25uTXlaVm4zS1U0TFJqckltcXdaOXlhblVG?=
- =?utf-8?B?TnRsenZ2N1I1Wk1ua2FDU3l6cEg4Q0hvbURDQmdqVlFIcUZOQ2hWeVc2VUow?=
- =?utf-8?B?MkdoSWFkRnNzMTFvdzR5OU9ja0t5OGx1VEY0RzdGdmRsTnlONTViYmxMT08v?=
- =?utf-8?B?dVdIQlBNeUdtUTBsVDF4KzVEQVVBWklCbzdlZG5yWjNlcEpmWWdvbitnMnF6?=
- =?utf-8?B?Vk1LdkhQL2NEQnBvbk1CZkNVYVNPclAvUmJDaEtZc3Q0OVVzc1R3bW1WZHh6?=
- =?utf-8?B?bnhmL1hQZEFZRjJ1SnRDR1M1TXhOWXdaQWl1UU9Ua0JTTzNIdXVwY1pmVUxj?=
- =?utf-8?B?U2FNd0dMTXF2UUtsZGRlcUQ2b1J6WlVTUjE3UUpScENPR0dMUnR0ZDI0cTdU?=
- =?utf-8?B?aC9IVHQ1NXBUeFlaM01yb0pEWnFCcVlxem9xb3ZtVEtoUm1QTXUrejVVckJQ?=
- =?utf-8?B?RFdyTnVob0NKUkNDbmI3VWVvZzhKWmx6bzVDYXFWTkwremV1bVBjWUJGU2pp?=
- =?utf-8?B?b0toZlpsM2tGeGVScmVyYWlLY01xWlhZd0Rua0hVay9PMlJpam0wQlNlOFhw?=
- =?utf-8?B?YWY2RkloY21Wd2Z2dkJ4a1BFbUpKRmtSTXFPbFBKQU9qdkVpakorR0R6UjdV?=
- =?utf-8?B?VmFEWm1yVVptVU80OWxGQXVQWW0ybzF5eXNveW1pdEV5NDBROG0rU0hOV3N0?=
- =?utf-8?B?UjhxZzJpM0wxSTUrZ25XS2F3WjMyOFpWVDBFZ3Riay9EQkYzeEtCYkNsWlUy?=
- =?utf-8?B?S3Myby83OFg2MmNYRFpKQzFsOUlocFJXOFBNb2JwNU1tZXNBOTJoNkJIa2lR?=
- =?utf-8?B?TXd6OGFEbGkvZGNDcDlVYVNhVk1vVlFSRDNyUHhDbUlqTzNKeGl1ak5kc3dN?=
- =?utf-8?B?dXlZcnZOK1h3Q0cyY2pWODJiMm9RQkRkeU9LNjEyeEE5R2xITnF0V28vd0g3?=
- =?utf-8?B?eGZXb2VXMUxsbE9mTmpibWk0U2NVWk1YcWV1T1p1blR6SjZhcnd0OWJmRnFk?=
- =?utf-8?B?YU80U3ZrVVpzTjQ3YXV6K0NUdURsc0xNVTJpci9XU1VoaXUrZWtUZEVsRllz?=
- =?utf-8?B?dldLTnliVm9KanpYR2s5c1J3SkZ3VDNiVThKMU9SaHp2WXN5MTc4OGp1V0VT?=
- =?utf-8?B?Nzg2VXhwMmJsZHNYUTJDeXVackFHVlhLeCtSMXgxWW9DQWpTWFN4M0pibTQ3?=
- =?utf-8?B?UXVleXo0cG1IOEVLYUV5K1pKOE84blF0eHNhbWR0L1FZTm5ZNEZmaW1kZE5x?=
- =?utf-8?B?cG1IWkw3dzZQWThNaXdCNUdRK2pkS2lpZStvSFpvV2RRUzQwcFprVi8vcy95?=
- =?utf-8?B?enUzSEtXNzZVQ0tzTXRFQ1N2SFkrL0o0UmZnbUVjQ1RnTFhpWFlKM1l2bUNn?=
- =?utf-8?B?SkRzRjJrVGFhdlpRN1pvcFJmUksvTTBWT1RVRGRnalpUTXpDRWdvak1pRW9Y?=
- =?utf-8?B?WlY4RjhEZ3NhOG5CRHZ4Z1pJYzB3U2NFNFJKeVBrbVZSM1BmMzJiTWRXVHZj?=
- =?utf-8?B?ZThVeHZUb2dPd3g5bzJ2QUo0aEozVlZZWHY4dzBHZC8zNXl2REpSY0pYdDAv?=
- =?utf-8?Q?nKik3vhdUPBGfKNFAxNsHq9joHey4c+/BA8BQvZjFuxRb?=
-X-MS-Exchange-AntiSpam-MessageData-1: KOl0Lq4NHuNT/9ib+F1AUtjyBHwrWDmobnE=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7933c645-b3bf-40ee-8375-08de42a17194
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2025 04:03:49.9735
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PAkMZbPooTbN5FTPEg9qIKHyqIiRP9fqobi79J9Q0F9Rg95V85RXOfh9fabKVFNtG4QpIUlyF9wsEr6mSZ7z+EBtD0iPIcXkhwgtP/hxrLA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB9454
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: 5x_35-bgNGuAapjVj4ma1OgbwbNMsypW
-X-Authority-Analysis: v=2.4 cv=I6Fohdgg c=1 sm=1 tr=0 ts=694b6628 cx=c_pps
- a=1kzZLs4G264k5kMmJ/E+Xg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=NEAV23lmAAAA:8 a=iGHA9ds3AAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
- a=guKZO4zXEQROI-P0-0gA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=RvsMUuUuTeoL-9m5EhgA:9 a=OOSSp-SkikSOISam:21 a=_W_S_7VecoQA:10
- a=lqcHg5cX4UMA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: B6ix02n5-AIEjgMFa_FeEhLHfZ7YnXgS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDAzMCBTYWx0ZWRfX4x+hva0K91Oh
- IJI7dbGPrdQalnQSf7cUZ3jTsUMOaSsoWfGyQjMP7/zO7xgsEw4XcGm2XRyISKwGXTSEiY8V7D+
- yW/UiVU6QuZqgP9K3gTre6o8zMG1N+xQiEHExcvwsud5SC37DjldIaA0VCY/eUv8f7nrxvEVlEc
- EpzS8Z2+cD72RZ3qnT+XlXFcNsCu3aaEI0iCmWYDvmXZ90nvg6ldEQEMBD8hIzIyhTwzGt6dOZ4
- 0KapJnDtmYjnXkXt3FUb4qA5q1L1wrfv8beb4q/QmYT7hYRb9eIPKPkVZJuwHAFbh1rQTatnAjq
- HeqBEXcy8OBI8sByAPcoOmxZgEUgSyB2bDmRSqaqZOsA/cORPF11PTZS3DOh6vc//YYe6W/Mxe2
- ruIhnnEpFzXqeRN/jsprQ47j7S+kxDNgtcWKIme87KfENUWVEqH2lwdD7bxp9rPT0yoXIaBFWRC
- Fq5Vo3ACvWNg43oMo+Q==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-24_01,2025-12-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0
- impostorscore=0 bulkscore=0 malwarescore=0 adultscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512240030
+References: <14ecad42-51fb-4abc-a493-c58cfadb9688@windriver.com>
+ <CAMKF1so7Bm9QgASazA3WnF+4mRtQqfwwFpvMHbyNsNBdo1c7Bw@mail.gmail.com> <22d11bb9-0b18-4d72-b3a5-94d5b85037b7@windriver.com>
+In-Reply-To: <22d11bb9-0b18-4d72-b3a5-94d5b85037b7@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 23 Dec 2025 20:22:28 -0800
+X-Gm-Features: AQt7F2qpHj5M3Y9yslicy9ogz1ABeddjNWgyvCJ-wCUw9xGKB8a1k3y8OiZFUw4
+Message-ID: <CAMKF1srdg==D97eBcMqqjnZAr9YzsnE6PBd7obBOp7bfLPN29g@mail.gmail.com>
+Subject: Re: [PATCH] binutils: Upgrade to 2.45.1 release
+To: Yash Shinde <Yash.Shinde@windriver.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	"MacLeod, Randy" <randy.macleod@windriver.com>, 
+	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>
+Content-Type: multipart/alternative; boundary="000000000000b1589d0646ab0367"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Dec 2025 04:03:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228519
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Dec 2025 04:22:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228520
 
---------------cBl09suF8Qj9JGc06ERYmVyk
-Content-Type: text/plain; charset=UTF-8; format=flowed
+--000000000000b1589d0646ab0367
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5BO2dEp53905463
 
-Hi Randy,
+sounds good
 
-On 12/23/2025 4:10 AM, Randy MacLeod wrote:
-> On 2025-12-22 4:38 a.m., Yash.Shinde@windriver.com wrote:
->> From: Hemanth Kumar M D<hemanth.250302@gmail.com>
+On Tue, Dec 23, 2025 at 7:40=E2=80=AFPM Yash Shinde <Yash.Shinde@windriver.=
+com>
+wrote:
+
+>
+> On 23-12-2025 20:25, Khem Raj wrote:
+>
+> What is the one that=E2=80=99s failing unexpectedly
+>
+> Previously, "replacing non-deterministic member()" test failed
+> unexpectedly because it required "SOURCE_DATE_EPOCH"
+> to be unset while test execution.
+>
+> Ross had sent a patch after the v2.45.1 upgrade which unsets this variabl=
+e
+> and the test case passes now.
+>
+> https://git.openembedded.org/openembedded-core/commit/?id=3D7ea5d2c5aadb1=
+852aff23616e973b382df44c8d0
+>
+> Regards,
+> Yash
+>
+>
+> On Mon, Dec 22, 2025 at 11:16=E2=80=AFPM Yash Shinde <Yash.Shinde@windriv=
+er.com>
+> wrote:
+>
+>> From: openembedded-core@lists.openembedded.org
+>> <openembedded-core@lists.openembedded.org>
+>> <openembedded-core@lists.openembedded.org> on behalf of Khem Raj via
+>> lists.openembedded.org
+>> <https://urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8E=
+vQ!bSuADBQihRUKCPY6NcUSMxZKmUh5MGc2VnUPK5Qo5_PKn2nYUqzowTnjkErhZM_EDWH06QVX=
+wUepNTneG3bJ$>
+>> <raj.khem=3Dgmail.com@lists.openembedded.org>
+>> <raj.khem=3Dgmail.com@lists.openembedded.org>
+>> Sent: Wednesday, November 26, 2025 7:11 AM
+>> To: openembedded-core@lists.openembedded.org
+>> <openembedded-core@lists.openembedded.org>
+>> <openembedded-core@lists.openembedded.org>
+>> Cc: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
+>> Subject: [OE-core] [PATCH] binutils: Upgrade to 2.45.1 release
 >>
->> Rust 1.92.0 adds new test that require unwind table support to be
->> enabled by default. Set `default-uwtable =3D true` in the generated
->> target spec to match upstream behavior.
 >>
->> ref:https://github.com/rust-lang/rust/commit/fe66eaa67acc47525db6f13cf=
-97d54780d87b805
+>> CAUTION: This email comes from a non Wind River email account!
+>> Do not click links or open attachments unless you recognize the sender
+>> and know the content is safe.
 >>
->> Also ignore the no_std simple-runs UI test on ARM targets. The test
->> fails with panic=3Dabort due to a known unwind table issue on 32-bit A=
-RM
+>> Regenerate ld/configure
 >>
->> https://github.com/rust-lang/rust/issues/146996
->
-> Okay and I'm glad to see the upstream issues linked.
->
-> Should we make some of these tspec decisions set-able by well-informed=20
-> users?
->
-> Maybe they can already do that using this horridly named "FEATURES"=20
-> variable.
-> (rename to RUST_FEATURES maybe ?)
->
-The existing FEATURES variables in the .bbclass is currently used for=20
-low-level CPU instructions.
-As you suggested, RUST_FEATURE variable will allow us to keep H/W tuning=20
-separate from
-high-level compiler policy. I will discuss with team.
->
->
-> For example, this bug:
->
-> Unable to produce a Rust static binary with TCLIBC=3Dmusl (oe-core/mast=
-er)
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16076
->
-Although the bug report did not include a specific recipe, I used=20
-ripgrep as a reference
-to validate the issue and was able to build a fully static musl binary.
-
-I found that changing *tspec['dynamic-linking']* from *true *to *false=20
-*in the .bbclass alone was not enough
-to produce static binary. The problem had two parts.
-
-First, at the target specification level, rust-target-config.bbclass=20
-forces dynamic-linking to true.
-Because of this, the compiler assumes the target is dynamic and ignores=20
-requests for static linking.
-As a result, it still produces a dynamic PIE binary that depends on the=20
-musl dynamic loader (ld-musl.so).
-
-Second, at the linker wrapper level, *target-rust-ccld* enforces dynamic=20
-linking by default.
-It automatically adds flags such as*-Wl,-Bdynamic* and *-pie*. This=20
-conflicts with the compiler=E2=80=99s static intent
-and causes it to pick shared libraries from the sysroot, which leads to=20
-the error
-=E2=80=9C*attempted static linking of dynamic object*=E2=80=9D.
-
-To work around this and meet static musl requirements, I applied=20
-recipe-specific changes to bypass the wrapper=E2=80=99s
-enforcement and handle circular dependencies and crate-level leakage.
-With these adjustments, the final link correctly uses static archives=20
-instead of falling back to shared objects.
-
-I will update the bug report with these findings.
->
->
-> seems to be due to hard-coding dynamic-linking to True below just=20
-> after your:
->
-> +    tspec['default-uwtable'] =3D True
->
->
-> change.
->
-> I've CCed Nick in case you guys have a quick work-around to enable=20
-> static linking.
->
-> ../Randy
->
->> Signed-off-by: Hemanth Kumar M D<hemanth.250302@gmail.com>
->> Signed-off-by: Yash Shinde<Yash.Shinde@windriver.com>
+>> Brings following changes
+>>
+>> * e3a18893e1c LoongArch: Use more appropriate assertions for the
+>> relocation of TLS LE
+>> * b136efd10a7 Re: dlltool memory leaks
+>> * b4bde11f310 ld: Don't use -mdirect-extern-access for LoongArch
+>> * ab776bc8685 lto: Set plugin_format to bfd_plugin_no only if known_used
+>> is set
+>> * cec7ab85f24 aarch64: gas: Allow movprfx with fmmla and bfscale [PR
+>> gas/33562]
+>> * 0b040187894 aarch64, gas: Relax Armv9.6-A mandatory feature set
+>> * 4df2be75910 i386: Add GLIBC_ABI_GNU_TLS version dependency
+>> * 71c1de4b0c8 x86-64: Add GLIBC_ABI_DT_X86_64_PLT version dependency
+>> * b0fe5c23780 x86: Add GLIBC_ABI_GNU2_TLS version dependency
+>> * d5945a221ff x86: Copy non_got_ref_without_indirect_extern_access
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
 >> ---
->>   meta/classes-recipe/rust-target-config.bbclass       |  1 +
->>   .../rust/files/rust-oe-selftest.patch                | 12 ++++++++++=
-++
->>   2 files changed, 13 insertions(+)
+>>  .../binutils/binutils-2.45.inc
+>> <https://urldefense.com/v3/__http://binutils-2.45.inc__;!!AjveYdw8EvQ!bS=
+uADBQihRUKCPY6NcUSMxZKmUh5MGc2VnUPK5Qo5_PKn2nYUqzowTnjkErhZM_EDWH06QVXwUepN=
+d2s2e4L$>
+>> |    6 +-
+>>  ...-system-directories-when-cross-linki.patch |   48 +-
+>>  .../binutils/0008-Use-libtool-2.4.patch       | 1827 ++++++++---------
+>>  3 files changed, 832 insertions(+), 1049 deletions(-)
+>> .
+>> .
+>> .
 >>
->> diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/cla=
-sses-recipe/rust-target-config.bbclass
->> index 33a290412e..2a06c4ae8b 100644
->> --- a/meta/classes-recipe/rust-target-config.bbclass
->> +++ b/meta/classes-recipe/rust-target-config.bbclass
->> @@ -418,6 +418,7 @@ def rust_gen_target(d, thing, wd, arch):
->>           tspec['llvm-floatabi'] =3D "soft"
->>       elif fpu =3D=3D "hard":
->>           tspec['llvm-floatabi'] =3D "hard"
->> +    tspec['default-uwtable'] =3D True
->>       tspec['dynamic-linking'] =3D True
->>       tspec['executables'] =3D True
->>       tspec['linker-is-gnu'] =3D True
->> diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch b=
-/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
->> index b39b326455..d1fba81612 100644
->> --- a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
->> +++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
->> @@ -254,3 +254,15 @@ index a3562f2fd93..d4e52ed91be 100644
->>        fn linux_hwcap2_aarch64() {
->>            let file =3D
->>                concat!(env!("CARGO_MANIFEST_DIR"), "/src/detect/test_d=
-ata/linux-hwcap2-aarch64.auxv");
->> +diff --git a/tests/ui/no_std/simple-runs.rs b/tests/ui/no_std/simple-=
-runs.rs
->> +index af44dfe..e6674e5 100644
->> +--- a/tests/ui/no_std/simple-runs.rs
->> ++++ b/tests/ui/no_std/simple-runs.rs
->> +@@ -2,6 +2,7 @@
->> +
->> + //@ run-pass
->> + //@ compile-flags: -Cpanic=3Dabort
->> ++//@ ignore-arm FIXME(#146996)
->> + //@ ignore-wasm different `main` convention
->> +
->> + #![feature(lang_items)]
+>> Here's the binutils test results summary:
+>>
+>> Test Results:
+>>                                                          Before
+>> After      Diff
+>> No. of expected passes                317            318         +1
+>> No. of unexpected failures            1                 0           -1
+>> No. of untested testcases              5                 5            0
+>> No. of unsupported tests              8                 8             0
+>>
+>>
+>> The additional passing test case is, "replacing non-deterministic member=
+"
+>> after Ross's fix:
+>>
+>> https://git.openembedded.org/openembedded-core/commit/?id=3D7ea5d2c5aadb=
+1852aff23616e973b382df44c8d0
+>> <https://urldefense.com/v3/__https://git.openembedded.org/openembedded-c=
+ore/commit/?id=3D7ea5d2c5aadb1852aff23616e973b382df44c8d0__;!!AjveYdw8EvQ!b=
+SuADBQihRUKCPY6NcUSMxZKmUh5MGc2VnUPK5Qo5_PKn2nYUqzowTnjkErhZM_EDWH06QVXwUep=
+NReXU5OJ$>
+>>
+>>
+>> Regards,
+>> Yash
+>>
+>> --
+> Regards,
+> Yash Shinde
 >
 >
-> --=20
-> # Randy MacLeod
-> # Wind River Linux
---------------cBl09suF8Qj9JGc06ERYmVyk
-Content-Type: text/html; charset=UTF-8
+
+--000000000000b1589d0646ab0367
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5BO2dEp53905463
 
-<!DOCTYPE html><html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
-  </head>
-  <body>
-    <p>Hi Randy,</p>
-    <div class=3D"moz-cite-prefix">On 12/23/2025 4:10 AM, Randy MacLeod
-      wrote:<br>
+<div dir=3D"ltr">sounds good</div><br><div class=3D"gmail_quote gmail_quote=
+_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 23, 2025 at 7=
+:40=E2=80=AFPM Yash Shinde &lt;<a href=3D"mailto:Yash.Shinde@windriver.com"=
+>Yash.Shinde@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex"><u></u>
+
+ =20
+  <div>
+    <p><br>
+    </p>
+    <div>On 23-12-2025 20:25, Khem Raj wrote:<br>
     </div>
-    <blockquote type=3D"cite" cite=3D"mid:c1d0b949-5995-4f60-8e94-98dd73a=
-b5a3d@windriver.com">
-     =20
-      <div class=3D"moz-cite-prefix">On 2025-12-22 4:38 a.m., <a class=3D=
-"moz-txt-link-abbreviated moz-txt-link-freetext" href=3D"mailto:Yash.Shin=
-de@windriver.com" moz-do-not-send=3D"true">Yash.Shinde@windriver.com</a>
-        wrote:<br>
+    <blockquote type=3D"cite">
+      <div>
+        <div dir=3D"auto">What is the one that=E2=80=99s failing unexpected=
+ly=C2=A0</div>
       </div>
-      <blockquote type=3D"cite" cite=3D"mid:20251222093830.2658141-2-Yash=
-.Shinde@windriver.com">
-        <pre wrap=3D"" class=3D"moz-quote-pre">From: Hemanth Kumar M D <a=
- class=3D"moz-txt-link-rfc2396E" href=3D"mailto:hemanth.250302@gmail.com"=
- moz-do-not-send=3D"true">&lt;hemanth.250302@gmail.com&gt;</a>
-
-Rust 1.92.0 adds new test that require unwind table support to be
-enabled by default. Set `default-uwtable =3D true` in the generated
-target spec to match upstream behavior.
-
-ref:<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/rust-la=
-ng/rust/commit/fe66eaa67acc47525db6f13cf97d54780d87b805" moz-do-not-send=3D=
-"true">https://github.com/rust-lang/rust/commit/fe66eaa67acc47525db6f13cf=
-97d54780d87b805</a>
-
-Also ignore the no_std simple-runs UI test on ARM targets. The test
-fails with panic=3Dabort due to a known unwind table issue on 32-bit ARM
-
-<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/rust-lang/r=
-ust/issues/146996" moz-do-not-send=3D"true">https://github.com/rust-lang/=
-rust/issues/146996</a></pre>
-      </blockquote>
-      <p>Okay and I'm glad to see the upstream issues linked.<br>
-      </p>
-      <p>Should we make some of these tspec decisions set-able by
-        well-informed users?<br>
-        <br>
-        Maybe they can already do that using this horridly named
-        &quot;FEATURES&quot; variable.<br>
-        (rename to RUST_FEATURES maybe ?)<br>
-      </p>
     </blockquote>
-    <font face=3D"Calibri">The existing FEATURES variables in the .bbclas=
-s
-      is currently used for low-level CPU instructions.<br>
-      As you suggested, RUST_FEATURE variable will allow us to keep H/W
-      tuning separate from<br>
-      high-level compiler policy. I will discuss with team.</font>
-    <blockquote type=3D"cite" cite=3D"mid:c1d0b949-5995-4f60-8e94-98dd73a=
-b5a3d@windriver.com">
-      <p><br>
-        For example, this bug:<br>
-        <br>
-        &nbsp;&nbsp; <span id=3D"summary_container"><span id=3D"short_des=
-c_nonedit_display">Unable to produce a Rust
-            static binary with TCLIBC=3Dmusl (oe-core/master)<br>
-          </span></span>&nbsp;&nbsp; <a class=3D"moz-txt-link-freetext" h=
-ref=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16076" moz-do-=
-not-send=3D"true">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D160=
-76</a><br>
-      </p>
-    </blockquote>
-    <font face=3D"Calibri">Although the bug report did not include a
-      specific recipe, I used ripgrep as a reference<br>
-      to validate the issue and was able to build a fully static musl
-      binary.<br>
+    <p>Previously, &quot;replacing non-deterministic member()&quot; test fa=
+iled
+      unexpectedly because it required &quot;SOURCE_DATE_EPOCH&quot;<br>
+      to be unset while test execution.<br>
       <br>
-      I found that changing <b>tspec['dynamic-linking']</b> from <b>true
-      </b>to <b>false </b>in the .bbclass alone was not enough<br>
-      to produce static binary. The problem had two parts.<br>
+      Ross had sent a patch after the v2.45.1 upgrade which unsets this
+      variable and the test case passes now.<br>
+<a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D7ea5=
+d2c5aadb1852aff23616e973b382df44c8d0" target=3D"_blank">https://git.openemb=
+edded.org/openembedded-core/commit/?id=3D7ea5d2c5aadb1852aff23616e973b382df=
+44c8d0</a><br>
       <br>
-      First, at the target specification level,
-      rust-target-config.bbclass forces dynamic-linking to true.&nbsp;<br=
+    </p>
+    <p>Regards,<br>
+      Yash</p>
+    <blockquote type=3D"cite">
+      <div>
+        <div><br>
+          <div class=3D"gmail_quote">
+            <div dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 22, 2025 at
+              11:16=E2=80=AFPM Yash Shinde &lt;<a href=3D"mailto:Yash.Shind=
+e@windriver.com" target=3D"_blank">Yash.Shinde@windriver.com</a>&gt;
+              wrote:<br>
+            </div>
+            <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+              <div>
+                <div lang=3D"x-unicode">
+                  <div lang=3D"x-unicode">From: <a href=3D"mailto:openembed=
+ded-core@lists.openembedded.org" target=3D"_blank">
+                      openembedded-core@lists.openembedded.org</a> <a href=
+=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blank">
+                      &lt;openembedded-core@lists.openembedded.org&gt;</a>
+                    on behalf of Khem Raj via <a href=3D"https://urldefense=
+.com/v3/__http://lists.openembedded.org__;!!AjveYdw8EvQ!bSuADBQihRUKCPY6NcU=
+SMxZKmUh5MGc2VnUPK5Qo5_PKn2nYUqzowTnjkErhZM_EDWH06QVXwUepNTneG3bJ$" target=
+=3D"_blank">
+                      lists.openembedded.org</a> <a href=3D"mailto:raj.khem=
+=3Dgmail.com@lists.openembedded.org" target=3D"_blank">
+                      &lt;raj.khem=3Dgmail.com@lists.openembedded.org&gt;</=
+a><br>
+                    Sent: Wednesday, November 26, 2025 7:11 AM<br>
+                    To: <a href=3D"mailto:openembedded-core@lists.openembed=
+ded.org" target=3D"_blank">openembedded-core@lists.openembedded.org</a>
+                    <a href=3D"mailto:openembedded-core@lists.openembedded.=
+org" target=3D"_blank">&lt;openembedded-core@lists.openembedded.org&gt;</a>=
+<br>
+                    Cc: Khem Raj <a href=3D"mailto:raj.khem@gmail.com" targ=
+et=3D"_blank">&lt;raj.khem@gmail.com&gt;</a><br>
+                    Subject: [OE-core] [PATCH] binutils: Upgrade to
+                    2.45.1 release</div>
+                  <div lang=3D"x-unicode"><br>
+                    <blockquote type=3D"cite">
+                      <div id=3D"m_-6252150368856917555m_113256049397616002=
+3divRplyFwdMsg" dir=3D"ltr">
+                        <div>=C2=A0</div>
+                      </div>
+                      <div><font size=3D"2" style=3D"color:rgb(0,0,0)"><spa=
+n style=3D"font-size:11pt">
+                            <div>CAUTION: This email comes from a non
+                              Wind River email account!<br>
+                              Do not click links or open attachments
+                              unless you recognize the sender and know
+                              the content is safe.<br>
+                              <br>
+                              Regenerate ld/configure<br>
+                              <br>
+                              Brings following changes<br>
+                              <br>
+                              * e3a18893e1c LoongArch: Use more
+                              appropriate assertions for the relocation
+                              of TLS LE<br>
+                              * b136efd10a7 Re: dlltool memory leaks<br>
+                              * b4bde11f310 ld: Don&#39;t use
+                              -mdirect-extern-access for LoongArch<br>
+                              * ab776bc8685 lto: Set plugin_format to
+                              bfd_plugin_no only if known_used is set<br>
+                              * cec7ab85f24 aarch64: gas: Allow movprfx
+                              with fmmla and bfscale [PR gas/33562]<br>
+                              * 0b040187894 aarch64, gas: Relax
+                              Armv9.6-A mandatory feature set<br>
+                              * 4df2be75910 i386: Add GLIBC_ABI_GNU_TLS
+                              version dependency<br>
+                              * 71c1de4b0c8 x86-64: Add
+                              GLIBC_ABI_DT_X86_64_PLT version dependency<br=
 >
-      Because of this, the compiler assumes the target is dynamic and
-      ignores requests for static linking.&nbsp;<br>
-      As a result, it still produces a dynamic PIE binary that depends
-      on the musl dynamic loader (ld-musl.so).<br>
-      <br>
-      Second, at the linker wrapper level, <b>target-rust-ccld</b>
-      enforces dynamic linking by default.&nbsp;<br>
-      It automatically adds flags such as<b> -Wl,-Bdynamic</b> and <b>-pi=
-e</b>.
-      This conflicts with the compiler=E2=80=99s static intent&nbsp;<br>
-      and causes it to pick shared libraries from the sysroot, which
-      leads to the error&nbsp;<br>
-      =E2=80=9C<b>attempted static linking of dynamic object</b>=E2=80=9D=
-.<br>
-      <br>
-      To work around this and meet static musl requirements, I applied
-      recipe-specific changes to bypass the wrapper=E2=80=99s&nbsp;<br>
-      enforcement and handle circular dependencies and crate-level
-      leakage.&nbsp;<br>
-      With these adjustments, the final link correctly uses static
-      archives instead of falling back to shared objects.<br>
-      <br>
-      I will update the bug report with these findings.</font>
-    <blockquote type=3D"cite" cite=3D"mid:c1d0b949-5995-4f60-8e94-98dd73a=
-b5a3d@windriver.com">
-      <p><br>
-        seems to be due to hard-coding dynamic-linking to True below
-        just after your:<br>
-        &nbsp; <br>
-      </p>
-      <pre wrap=3D"" class=3D"moz-quote-pre">+    tspec['default-uwtable'=
-] =3D True</pre>
-      <p><br>
-        change.<br>
-        <br>
-        I've CCed Nick in case you guys have a quick work-around to
-        enable static linking.<br>
-      </p>
-      <p>../Randy<br>
-      </p>
-      <blockquote type=3D"cite" cite=3D"mid:20251222093830.2658141-2-Yash=
-.Shinde@windriver.com">
-        <pre wrap=3D"" class=3D"moz-quote-pre">Signed-off-by: Hemanth Kum=
-ar M D <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:hemanth.250302@g=
-mail.com" moz-do-not-send=3D"true">&lt;hemanth.250302@gmail.com&gt;</a>
-Signed-off-by: Yash Shinde <a class=3D"moz-txt-link-rfc2396E" href=3D"mai=
-lto:Yash.Shinde@windriver.com" moz-do-not-send=3D"true">&lt;Yash.Shinde@w=
-indriver.com&gt;</a>
----
- meta/classes-recipe/rust-target-config.bbclass       |  1 +
- .../rust/files/rust-oe-selftest.patch                | 12 ++++++++++++
- 2 files changed, 13 insertions(+)
-
-diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classe=
-s-recipe/rust-target-config.bbclass
-index 33a290412e..2a06c4ae8b 100644
---- a/meta/classes-recipe/rust-target-config.bbclass
-+++ b/meta/classes-recipe/rust-target-config.bbclass
-@@ -418,6 +418,7 @@ def rust_gen_target(d, thing, wd, arch):
-         tspec['llvm-floatabi'] =3D &quot;soft&quot;
-     elif fpu =3D=3D &quot;hard&quot;:
-         tspec['llvm-floatabi'] =3D &quot;hard&quot;
-+    tspec['default-uwtable'] =3D True
-     tspec['dynamic-linking'] =3D True
-     tspec['executables'] =3D True
-     tspec['linker-is-gnu'] =3D True
-diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch b/me=
-ta/recipes-devtools/rust/files/rust-oe-selftest.patch
-index b39b326455..d1fba81612 100644
---- a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
-+++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
-@@ -254,3 +254,15 @@ index a3562f2fd93..d4e52ed91be 100644
-      fn linux_hwcap2_aarch64() {
-          let file =3D
-              concat!(env!(&quot;CARGO_MANIFEST_DIR&quot;), &quot;/src/de=
-tect/test_data/linux-hwcap2-aarch64.auxv&quot;);
-+diff --git a/tests/ui/no_std/simple-runs.rs b/tests/ui/no_std/simple-run=
-s.rs
-+index af44dfe..e6674e5 100644
-+--- a/tests/ui/no_std/simple-runs.rs
-++++ b/tests/ui/no_std/simple-runs.rs
-+@@ -2,6 +2,7 @@
-+=20
-+ //@ run-pass
-+ //@ compile-flags: -Cpanic=3Dabort
-++//@ ignore-arm FIXME(#146996)
-+ //@ ignore-wasm different `main` convention
-+=20
-+ #![feature(lang_items)]
-</pre>
-      </blockquote>
-      <p><br>
-      </p>
-      <pre class=3D"moz-signature" cols=3D"72">--=20
-# Randy MacLeod
-# Wind River Linux</pre>
+                              * b0fe5c23780 x86: Add GLIBC_ABI_GNU2_TLS
+                              version dependency<br>
+                              * d5945a221ff x86: Copy
+                              non_got_ref_without_indirect_extern_access<br=
+>
+                              <br>
+                              Signed-off-by: Khem Raj <a href=3D"mailto:raj=
+.khem@gmail.com" target=3D"_blank">&lt;raj.khem@gmail.com&gt;</a><br>
+                              ---<br>
+                              =C2=A0.../binutils/<a href=3D"https://urldefe=
+nse.com/v3/__http://binutils-2.45.inc__;!!AjveYdw8EvQ!bSuADBQihRUKCPY6NcUSM=
+xZKmUh5MGc2VnUPK5Qo5_PKn2nYUqzowTnjkErhZM_EDWH06QVXwUepNd2s2e4L$" target=3D=
+"_blank">binutils-2.45.inc</a>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+                              |=C2=A0=C2=A0=C2=A0 6 +-<br>
+=C2=A0...-system-directories-when-cross-linki.patch |=C2=A0=C2=A0 48 +-<br>
+=C2=A0.../binutils/0008-Use-libtool-2.4.patch=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 1827 ++++++++---------<br>
+                              =C2=A03 files changed, 832 insertions(+), 104=
+9
+                              deletions(-)<br>
+                              .<br>
+                              .<br>
+                              .<br>
+                            </div>
+                          </span></font></div>
+                    </blockquote>
+                    Here&#39;s the binutils test results summary:<br>
+                    <br>
+                    Test Results:<br>
+                    =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
+                    =C2=A0 =C2=A0 =C2=A0Before=C2=A0 =C2=A0 =C2=A0 After=C2=
+=A0 =C2=A0 =C2=A0 Diff<br>
+                    No. of expected passes=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 317=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
+                    318=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+1<br>
+                    No. of unexpected failures=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 1=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
+                    =C2=A0 =C2=A00=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+-1<br>
+                    No. of untested testcases=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 5=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
+                    =C2=A0 =C2=A0 =C2=A05=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 0<br>
+                    No. of unsupported tests=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 8=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
+                    =C2=A0 =C2=A08=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A00<br>
+                    <br>
+                    <br>
+                    The additional passing test case is, &quot;replacing
+                    non-deterministic member&quot; after Ross&#39;s fix:<br=
+>
+                    <a href=3D"https://urldefense.com/v3/__https://git.open=
+embedded.org/openembedded-core/commit/?id=3D7ea5d2c5aadb1852aff23616e973b38=
+2df44c8d0__;!!AjveYdw8EvQ!bSuADBQihRUKCPY6NcUSMxZKmUh5MGc2VnUPK5Qo5_PKn2nYU=
+qzowTnjkErhZM_EDWH06QVXwUepNReXU5OJ$" target=3D"_blank">https://git.openemb=
+edded.org/openembedded-core/commit/?id=3D7ea5d2c5aadb1852aff23616e973b382df=
+44c8d0</a><br>
+                    <br>
+                    <br>
+                    Regards,<br>
+                    Yash=C2=A0 </div>
+                  <br>
+                </div>
+              </div>
+            </blockquote>
+          </div>
+        </div>
+      </div>
     </blockquote>
-  </body>
-</html>
+    <pre cols=3D"72">--=20
+Regards,
+Yash Shinde</pre>
+  </div>
 
---------------cBl09suF8Qj9JGc06ERYmVyk--
+</blockquote></div>
+
+--000000000000b1589d0646ab0367--
 
