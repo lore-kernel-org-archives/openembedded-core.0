@@ -1,381 +1,317 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFE94E7490C
-	for <webhook@archiver.kernel.org>; Wed, 24 Dec 2025 04:22:58 +0000 (UTC)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.114678.1766550176535620721
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13711E7490F
+	for <webhook@archiver.kernel.org>; Wed, 24 Dec 2025 04:49:59 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.115349.1766551794039475244
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Dec 2025 20:22:56 -0800
+ Tue, 23 Dec 2025 20:49:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AEg0nf71;
- spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-78f99901ed5so50612997b3.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 20:22:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766550176; x=1767154976; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RfaHeydj1v95OCOrG+qTwZlYqz8YaKkB/Ppm47TFbVc=;
-        b=AEg0nf712UtedjaJJ91O8BBl0E9Y/WDC8+n7bhyggHRVcltk4SzFK0XmUui8Y71Olx
-         BsxOxnwqsqehvK8mqy6+zh658omyXCHpPjaojk/u8nUC2IuhvNgC42SB/9Vi0SF4U3j6
-         kqBQNo858AF7sSGmuC79J0I7n1H+QRyxYIRawnPzRyA3AH1Rh65MKwF9PkDN0goaQyzI
-         hL+7Ccb+W3Gqi1iwNXaOpFVa18eiRckVABGWHUc+IIaQp6GK9cOM32YUfj7+XZ0dPmXD
-         NvjUD7QJb3DOoDfIQDOKUvBFewqihsKrb2Dux+ZWLpAzYsI+kPMFLYKzioW/cqkGm89y
-         Bqqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766550176; x=1767154976;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RfaHeydj1v95OCOrG+qTwZlYqz8YaKkB/Ppm47TFbVc=;
-        b=BEp+QdaW5s2VfafvH+w6s+QZNIQtqWpfANBFY0C2v7PRRHaY3JjbFPrZYO4VmGZqv0
-         xA3rgqTI71TTmfC2PQuwikHn01bVNnl7QP4daq0gd4gDOLtZ72AmnRo9eQL5VyXGpjYn
-         GKodYk7n7NUq3GqWOALIVyJyj0hU6bjlDmtQmzAWK7YDbhFHOfgUvaWuKxZKLqn2JpAX
-         0nDWETzADA3CEdgCv4fhc/5EYBifEo8le15IPKI7K/T8+THQ0HHCse+CH7IAbMIOI2kS
-         gPn2bePSfevUH58LzL49o9ifQlokpJsG14jbB4a+Bra0re0Bcpyffgh+6kIfuCtwdc/g
-         J4Sg==
-X-Gm-Message-State: AOJu0YwDjxqo+dTvGLLjqWYgfDMnEtPsX49dd82D89+C74Z00xx1TDdX
-	mtV7xRHX8REKgduWX9JJnBPQ28Q5fcSYgn4omPKg7BJ7ip9K92oy2ZU1PxVvyNbcm1pFJXO+/Uq
-	S0upUwMSPvRH+FZfoXJ0bk9FUse6p7rhPp5in
-X-Gm-Gg: AY/fxX53im78avUBC2ubCbw2inTHc+L10sSleSiGyvqQl8OeLlRYm8Rry/EaYrv0AUw
-	yxHVKo6GClBkkd6pJfyoH4lNM0oX8crVfkGbVEsGhSW2IqBEdPZzkOsxnof/XO+GYS7axrZ93qN
-	ZzlQxT8BRUK6iYus94cceZkl+5blvYCXOD2SVlUsvlj9tDfIG0ajYrfROI2fqE10IzbVs5XprBS
-	pe6Awn1pKnrtexiA0I5sEicecnFLjQmLGhnZ/0yupc43R10g7NwevrxzDcovDAjVKRVquZoG7Mm
-	salS9Jyl5wHxmR3S1bcZtE9s1SKvzgob9nGIMMRUwo1UezmTwz2cKuK8CQ1jOB2mPg/o3sMhmw0
-	aZomrI5zIG1oITRRitnDi0oYMSww=
-X-Google-Smtp-Source: AGHT+IEKGae+x1//MqllIxd6Q2BzcLvtbwjCgvORa3feS3UX1nuNpoAwTy/UDYS1okbrIuGhgfeaDs9qWDkwQhkCZxY=
-X-Received: by 2002:a05:690c:7409:b0:787:e9bc:fad5 with SMTP id
- 00721157ae682-78fb40294e1mr129753977b3.33.1766550175568; Tue, 23 Dec 2025
- 20:22:55 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=qw7FN4ta;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4453656b1c=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BO4nqv42513661;
+	Wed, 24 Dec 2025 04:49:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=MlepOo08E6ndq8W2rh8fdq9uZfMVJhTBvCv+QDAsCd4=; b=qw7FN4taentn
+	JAhoIsflwNVUe0cZGVF/MoIcYLyuca3Ya/LhTVME8cBES5znRSVdYKCpKKNj1v4V
+	RSdd3Emp3IZ/2KW6OXKmzjcWxpIG+psBNE2uQHEUhUjbpVP/7hOXJaL5XOz1rRq7
+	H5DJuNhbjGgZL8EVeEWNPoHPl9OJwrOvZgbwFYTgopSntqSYRdaG5HOoP9eqnhkv
+	OgRJrXXXO63bjKiuwFtapfVllAh9lGiY54h43JjuA74I+vuPxFQuZK4iBi0ilcp/
+	xPQYU9QOUOJQosYGdl7YIzIg0jbIgY9hNNGhX/MnoS1byZWhM1wgbcPhXaaKcNyJ
+	CTkQOWe1oA==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012046.outbound.protection.outlook.com [52.101.48.46])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b5js73thh-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 24 Dec 2025 04:49:52 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ePRYl9AjmfcKDcE25/RktAak1HV/BUug/Hwp7Z9yr4Et3sO+H2QsL9noJjnWGPxSI88MsTGppJie81guTfMclkBybSWEOqWoEDlsX7jzAWifexjBL6XFwua0FAVoGly/r4JvohlaVDpye+4jWP8+Jza6lwXKkIONGYalwfjxZFFZO9+wF6i95F8PnNEtIUDnLrg6uEdxUfL/1xEf/bT1F/HcHQUN80nqIH/tl9RiN2vIXMNQFG2rDIMFXeufmEeQ/VQ4bTsp9+jvYAuypGleQbQt4KAUlPPNI/0P4EtOKbYlpiiKiPTchiPlQPFXRulYmaCa1ptHrVgzhqYdER/gcw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MlepOo08E6ndq8W2rh8fdq9uZfMVJhTBvCv+QDAsCd4=;
+ b=e7RiB/UMSfkUE1bOOHlZC1faUQxJXsLZsFhpk92ECsE5nX6yc3qzV2F3pHB1cp9zxdzKmYpsHfA6vy4f0OId1DcxoSfxv2W9x92CNNSmv5U0sviQyKuazNZO/i+0tQHuJIjeiTaQIWuBj4pEKPaiccnJPhU10r6v5K7HkmJDHmUt/4H1OfXHbf8h3stn6XTgetumD+zqPmGAX27bgy/hEnztzI7anMaK+hlifeXzwB1voYQ4uDnwwXOsDPop5lCm11fv0JtERwl7rNmwekYkweMsDNyWWw4iRcd05C5Q98lIjKc2YVgY2CBML9tnlRMDVmDYkcSdHhZidaNu9Fkm2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com (2603:10b6:510:269::20)
+ by SA3PR11MB8022.namprd11.prod.outlook.com (2603:10b6:806:2fe::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.11; Wed, 24 Dec
+ 2025 04:49:49 +0000
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::c84c:d2c3:1102:cf45]) by PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::c84c:d2c3:1102:cf45%3]) with mapi id 15.20.9434.009; Wed, 24 Dec 2025
+ 04:49:49 +0000
+Message-ID: <45f2d106-ad3e-4746-88c7-4df90b274bda@windriver.com>
+Date: Wed, 24 Dec 2025 12:49:37 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2] vte: fix build failed for ppc64
+To: openembedded-core@lists.openembedded.org, alex.kanavin@gmail.com
+References: <1884086C67716646.1342979@lists.openembedded.org>
+Content-Language: en-US
+From: Hongxu Jia <hongxu.jia@windriver.com>
+In-Reply-To: <1884086C67716646.1342979@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TY4P286CA0037.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:2b2::11) To PH7PR11MB7608.namprd11.prod.outlook.com
+ (2603:10b6:510:269::20)
 MIME-Version: 1.0
-References: <14ecad42-51fb-4abc-a493-c58cfadb9688@windriver.com>
- <CAMKF1so7Bm9QgASazA3WnF+4mRtQqfwwFpvMHbyNsNBdo1c7Bw@mail.gmail.com> <22d11bb9-0b18-4d72-b3a5-94d5b85037b7@windriver.com>
-In-Reply-To: <22d11bb9-0b18-4d72-b3a5-94d5b85037b7@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 23 Dec 2025 20:22:28 -0800
-X-Gm-Features: AQt7F2qpHj5M3Y9yslicy9ogz1ABeddjNWgyvCJ-wCUw9xGKB8a1k3y8OiZFUw4
-Message-ID: <CAMKF1srdg==D97eBcMqqjnZAr9YzsnE6PBd7obBOp7bfLPN29g@mail.gmail.com>
-Subject: Re: [PATCH] binutils: Upgrade to 2.45.1 release
-To: Yash Shinde <Yash.Shinde@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	"MacLeod, Randy" <randy.macleod@windriver.com>, 
-	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>
-Content-Type: multipart/alternative; boundary="000000000000b1589d0646ab0367"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7608:EE_|SA3PR11MB8022:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2489ca21-a4ba-4b2c-a9ee-08de42a7de38
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|376014|4022899009|1800799024|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?OFkzQnV5S2tDalptenA0aUNWSlgwV2I2M2d5WGZ4aDZDSFpMa2hGdlovNkhL?=
+ =?utf-8?B?bFJRUDB2WVB0cHQ3TkYyYm43eFE5U3B0N25uYXNHcjFkOVJZV0N6N1RZUDUw?=
+ =?utf-8?B?QWprUm50WlE0cVMvZXlaTGNqdG13SkNjR0EvMUZlT3FCOVdrbWtzaVYxcmdZ?=
+ =?utf-8?B?ZnVyZ0M3OHVGWit0QlczOW9laVhXRmlVNStmc0VvZ1Vjd1F0d3paSWZRb2NT?=
+ =?utf-8?B?MTh6aEN3My9YeXdaUmozV2lVcnpOWWpzK0VreXVxWUZTRmY2ZCtPNEN4QzN6?=
+ =?utf-8?B?Z0d0THFhVFFVcWlaWWt5UU95S2JpYW9pNFVSKzJwTVVtZDF4ZmJYOFZwVFJY?=
+ =?utf-8?B?Q1VIMytHZWZjTWlDVjVrWStESHI3N1ptb1BGcGFRWkxoamFmbytGTVZBUWs0?=
+ =?utf-8?B?SXVhUEpaWE9TRG1ZQzl2eE5UeVJVZ2huZXZqVDFhclZWNmhvVmdoL2xxQzMy?=
+ =?utf-8?B?a3NwN0hhaHgwcnNNTnZySWxSV0JzWVRQbGY2RnZvWS9OZ05oSHZyWnFSR2hv?=
+ =?utf-8?B?QlYySFM3TldLaUpHaW9remJHcWhUNXhmVnByR21YRzBKN1JUd3hwd0tqQVBj?=
+ =?utf-8?B?dkdQTzc1ZU5FZHlvMXhSMlNyZzNkMkhzajM2dllmMTMrQ015dUVRTW9HQ1E2?=
+ =?utf-8?B?Vm5HZkVhbHMyS3hHbVgyMGxYdjVWTEVaSThjMjh4R0pMdi9CNWUyNzBYTzlH?=
+ =?utf-8?B?MHBnRXQvVFJUNzJqdHNvUTcvbHY0aGd3UlpJWlA1RjN5dTNMaGw0M3dmdkZt?=
+ =?utf-8?B?R202c0t1ZEdHL3llKzY5dXVidnV5U2ZXWXR5MWlrbFREUWw5eS9XSDVkMUEv?=
+ =?utf-8?B?cVhOMFl6NEcxVGtVdkNhNmJKZjdreWZwb3dsaFMwbEpjQXhpR3V4bTBvdkUx?=
+ =?utf-8?B?d0hqM1FWL2lOUWlES2l1dkJGRHlOMC9rWmFzRzhvUjJ5UnY5aEpqWmtIc011?=
+ =?utf-8?B?WlcxU1RlNHpTWXluK1ZQTmZ5SlphbjhVUDZIK1V6R2FYclRpSVFTYm40U2la?=
+ =?utf-8?B?UmtNcVc4eG9XUmQ4bUVicll5eGVVWGI3UFBGOUVoSGtxWjBkaUF3aGlIV1li?=
+ =?utf-8?B?Ym9lNkRwUDVmOWVCNmw0MUxqbzZjV2R3M2FLWjRxeHhlcE9oN3RFQXgvb1FX?=
+ =?utf-8?B?MzN0c2h4cVRFeWxDWGVhcDM3S0Z0cXhtaTB5VWQraXJWVWVKU1FtZzZKRUtr?=
+ =?utf-8?B?eHdjREQ3Q1d0bkFIOCtNYXpqSFJqczJLNkJqUm5ONEFXOG01R0J6TGdzMElF?=
+ =?utf-8?B?ZHJiMmZpMTdGVEtkbzB1U3pIc0t6Ym1VOXlFa0FEU05YLzhzKzM5NG9oS3I0?=
+ =?utf-8?B?YlpZUFRmdnFzQ2NHQWk5RXVuWXRoSWxTWDMzSzI5S05PWC84V3Rsbk01ZjVD?=
+ =?utf-8?B?Ly94OGhEd1NnRUQ0WTFqTXdWWEJMM3N4ajUxNzYvYWJhdm1KK25teE9JdVpS?=
+ =?utf-8?B?WUpKOW1aenF4dUVpWW1jb1pya2VPaWcycm91QXVHKzA3eEhiRm9UelBsRFc3?=
+ =?utf-8?B?T1dabWV6dzB5Z3g5bGhGUDZyT2pRR1FLb05DVlNmcjJ0TGMvemNZeTdsVW55?=
+ =?utf-8?B?aWlxVTNpWnFCWG9zQXFXcjhHd0lrSkI4aHBlTXhiZEhEVDAzY3ZValpnUWZR?=
+ =?utf-8?B?NFVuNjV6eHNlcHg3OVhIeVZUdThVUzhFYjY2NW1SamVYbGlFSlMrRjlXTXQz?=
+ =?utf-8?B?RmNyMDBGMjVsZUVCMGNQMStna0ZNR29kNG8wM1E1WXFKUEZVOTRtdFN2UWlr?=
+ =?utf-8?B?YzZMMnlJdU1FM1g2d1RUR2ZBaUY5Yy9sVXliclpjNXdNQzJCbVE1R1d6RTNp?=
+ =?utf-8?B?NlgzZFIyZXVsLzdMNWxSR2NKZHhkcmJub1dKRUhOTFJRejRkcStsT0tlSkxm?=
+ =?utf-8?B?QnlPdjZUN2QwemRiNTkwNGFXMnhtdm1HNnltSHFoaWpaWnQ2T0lqdmIxZGR0?=
+ =?utf-8?B?MUdGZUllMEVSN05WRmtEd2dFbGdGWml1amZ3Qkk2VVhxM2drdFRybmZ5N2FK?=
+ =?utf-8?B?dk1XMzdQTFNRPT0=?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7608.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(4022899009)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?ejJUaWtDRWI1VXMwdWpwMDJHWkZnOXZhMWs2RmduVk8zY0RGUkJxVFV0WUJD?=
+ =?utf-8?B?cDc0dFFJa0trSjFZNGNBOUdFMFhVMTY2aFc3NlY2d3R0eXJiTGxHbG82cjFQ?=
+ =?utf-8?B?ejU5QnhiaHZISlJEMkxoSjhtVXRQQjBXVmorUUhDOTY3UndaY0NYQUlpZXpI?=
+ =?utf-8?B?NUErNTFXVzdXU1RLQzlRMjdKSjJwVXlvNDcvWWJKYWJOYW9XUGJYSy8rM2Vm?=
+ =?utf-8?B?TnNPNDV1KzlFSFZYam9kNE9mK0hjMkxlUHUybkFqK2xUaEQ1ZlF6Z2Y4UUpo?=
+ =?utf-8?B?dUhZUUJKcTdlSHVyajJ0S1JxMkU1SEEwa29aMXdWRW9nUmpscXU3d0pXODdt?=
+ =?utf-8?B?SXVYTTd6V3VZK0ozaUcwVlVtWEE1eldLcTU5L29lODROZWtibENSRTdNMDJi?=
+ =?utf-8?B?SzJ2eXk1M0xHdTQ3QlU3M1VYU0Z2Ni9aOUdVM21RR0NWZ1BwOVUyMStPeG5h?=
+ =?utf-8?B?WlB5eVV0NGJPc2NPNFFRci9LTlJ4SENNQk14Q2xVZnVFWHNPTGdaR3E1bWgr?=
+ =?utf-8?B?RWMwMWRWR0lYZlVGU1hJWTN1dzdhb0RoQWRoQnc0QndYWGFaQ2RIN0VSdERW?=
+ =?utf-8?B?UHdEN0tMeTViZVpSeDUvTS9rZDdPV1E0R1VkNjRkc1NudkprWWp6L3NGYW5r?=
+ =?utf-8?B?cmF2UEtIMVJmOW10cTk3UE9hRDgwTE8vNFpiTnpXMTlPWWhCbkN1dEZYRUZI?=
+ =?utf-8?B?TG1FaHVtZmJTcTJQVDBkRmFWR1Y3NDFZTXNMc1hxa3JIK2VJTHRhbVJkWkdp?=
+ =?utf-8?B?L2VKQTk5VU0vbTEySTFpQWZydU1Ca2M5c1FKank4dDI3cEdDbVlvdGNxa3Zw?=
+ =?utf-8?B?Qm43RGdPVDEzM1pPWVVvd2R0bzhOSzBGSW1uNVNKVlZUY2N3ZExtN0dZbE04?=
+ =?utf-8?B?dWlOTE9JMzZsZ0RZU00xQVFuTXZVSjhzejVRaXlydHJYZkJ4QXQ2enJWb0Z0?=
+ =?utf-8?B?Sk1qdndlb2IvMngrT2V3UEdrTXpUeG5UUDJHaUtlZ3lidEUrTFhnNUI2ZWZJ?=
+ =?utf-8?B?UmdaM2hhcEJRZ1ZBSUVZNGozSWIyUW5iNW5vUnZBZHJmeWE2MTF5QWpkMWFq?=
+ =?utf-8?B?czVyRXdYRkJLb0dZWTFNR2JEMUg2dTZwNDQ0bzMvTVBscVhNV1lvN3dhY21M?=
+ =?utf-8?B?ZW1vRWlBajljNHljd0kwdTNzSE5wYzA2RlNUNGYxb2ZXK0h0eUxwcFpNZis5?=
+ =?utf-8?B?YStnUktMNUY3Qnhnc2tJN1VHN1lYMjB0cXNlL1dVeE1lME9QL1FDVHAwZzJQ?=
+ =?utf-8?B?dTkrQ243OGF6NGtoTEFqejcxRGprWFVHSENuNDh2WU9UaTBVb0JxUU5lVXRE?=
+ =?utf-8?B?Z05iTTV5L2xremNZdnFLMHpSa2VvUnIyWjdZaUhDSGI1NVRVZjlrV0NxcFdW?=
+ =?utf-8?B?cjNrYjU3RnhHM3l2bnF0N3lYRDZ6cmp0Vm9sYjd1Ti9iN0xyQjBuVmlGZVI5?=
+ =?utf-8?B?ZWRPbm54RzQrS0RZd1lNRFFlS2tNUDRCOS9TTnE5OWova2dudUVrRWx2NUxn?=
+ =?utf-8?B?aTY5R1F5KzBvSUhwdFlMTytjMjFPRm1teThHL2NIZFlPUUFHWVA0WXk4cElM?=
+ =?utf-8?B?M0E2dEhFdHlnNzNIRlJaY1R4YWNqajJ6ZlpvQ1ZobnlUYjZGSUZVOE5pQ3Ji?=
+ =?utf-8?B?YndtbVNpRUZ1SzFjRUZLRno4blhhT25odXRpVmpWYmVnN09Vam1CdjhOWkov?=
+ =?utf-8?B?eUFnTjlQOEVMbVMwUDZGRzIvSHpvSFdzdDRqa3JMZlVkb3hGWTAzWSt6S3ZI?=
+ =?utf-8?B?dWw0dVhVTWdpRUdZcGd5dVdhdndrWENndFloQW5VYm5JcWJqV01yWngwYXB0?=
+ =?utf-8?B?aXFsVlhOR3YxRVFjMDZRTmFZeDhYU0tqbW9VbUJjZjc1MFpyUmkwOHQ1TEtm?=
+ =?utf-8?B?QmpOQjhTTVpvaTIrL1RlOVJKSDVvaGY4N09qZUdrTGF3dW9wOHdQYzFLSHVy?=
+ =?utf-8?B?Zyt5eGpqSWtkdnh0UXpJTDh6SmxCalRNVnQxeFZ3cCtnMW9hV0owYzJkYmF0?=
+ =?utf-8?B?cUxFcVJYYzZMZGJwWTcrUGhPUnVMSU5jay92b1dwTndvZ2pYOEx1L2IzQ3ds?=
+ =?utf-8?B?cGo4UUI0eTl6VUZNT1RFaDFNOWpkTjUwUnZYRGNyUEl1MnhVQ1BTUXFFUmw2?=
+ =?utf-8?B?d0J3aC90MmxWRkFyOS8rT25qTlljZkp3UTkvN0NMNUVuQkVlZ1BZdnFHWnJK?=
+ =?utf-8?B?WnBxU0VDWGV6aGw4WDlQMFJtaExxVkdWNGVkMnAwZWhjSmdOTHhwSnJGRWJ2?=
+ =?utf-8?B?OTZVN1JJWGM4UWlYbDd2SGF1MXhYbEZ0S280MFpGWHByTlVnUGdLZXZWd3Nz?=
+ =?utf-8?B?ZnBqQlIrem1oUFl3SFdqR2JMNS9IMHQrWE5iaXltQ2pjSDhrUklJZz09?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2489ca21-a4ba-4b2c-a9ee-08de42a7de38
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7608.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2025 04:49:49.1087
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IT0XS2/UpZSkPAUWPvWtK22vo5Vrgw5D2uXI2QqFfegxtoIJnEscldEJ5YqDpel99Lp6aV4VPP0w7vt5M/iDusQLrrx+EQZOVlI5eQPv4OE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB8022
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: 8hN6Bk-7BmTqW1mVKoMEuO2zUHCsfRTc
+X-Authority-Analysis: v=2.4 cv=To7rRTXh c=1 sm=1 tr=0 ts=694b70f0 cx=c_pps
+ a=5EMrObNM7I5xfgT5kXX3QA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8 a=GHR8O2WEAAAA:20 a=Q4-j1AaZAAAA:8
+ a=t7CeM3EgAAAA:8 a=wH-8bvzEYDpbLcjuQW8A:9 a=QEXdDO2ut3YA:10
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 0i6NoGk0l5Ivpk_Xh5TYZajX3_9ZYYzI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDAzNyBTYWx0ZWRfX55eJnn9nKQew
+ iQTXphx9d3Pv5kYB2ycdKBI4hT+WUV2T3JO02F6Hb0JqFTEfzj0Sv5oDADghhz8UzBo2tRQ9Br0
+ OQLDzKxSIYRpWj6WGK+7LUVsenfxwUNTCPwUglXaz+w56S9HBEmHePER4EHS2ab9fOUNxsYUqf1
+ XP7htyf78W3bmphx0+VMLOF8G6M72slOylVXn03+Bo+LDxkK0nkRUvlGtLGPT5SpERQM306X9zW
+ KERbQvm9EpkUXs6uQOpF4gvJyytJPGSIFihqpEGbYdG/5jKfnIbPgkr5/82pjUSnCdYxLJXFfCv
+ ggrEjovrICLRWreMh3UX3+K5mYjkLOANwcGcLE3Xy5Xg6y7knkEIh+XtPldWncOwIy2MyrNUEzG
+ iACsSv4TT+PpV7DCZ7kriIjXMQSkGQ2fQ1M4JsBCP6BMgUcotw4C8SHDbh9JV1iIoTnR4wkZfMm
+ 6FUO/vtWlvxi6pFlsSQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-24_01,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0
+ adultscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512240037
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Dec 2025 04:22:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228520
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Dec 2025 04:49:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228521
 
---000000000000b1589d0646ab0367
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Please drop this v2,
+there is slightly differ between development git vs released tarball for 
+vte,
+I need to tweak the patch for release tarball, v3 incoming
 
-sounds good
+//Hongxu
 
-On Tue, Dec 23, 2025 at 7:40=E2=80=AFPM Yash Shinde <Yash.Shinde@windriver.=
-com>
-wrote:
+On 12/24/25 11:16, hongxu via lists.openembedded.org wrote:
+> $ echo 'MACHINE = "qemuppc64"' >> conf/local.conf
+> $ bitbake vte
+> ...
+> |subprojects/simdutf/simdutf.cpp:20533:7: error: there are no arguments to 'write_v_u16_11bits_to_utf8' that depend on a template parameter, so a declaration of 'write_v_u16_11bits_to_utf8' must be available [-Wtemplate-body]
+> |20533 |       write_v_u16_11bits_to_utf8(
+> |      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+> |subprojects/simdutf/simdutf.cpp:20533:7: note: (if you use '-fpermissive', G++ will accept your code, but allowing the use of an undeclared name is deprecated)
+> |subprojects/simdutf/simdutf.cpp:20559:7: error: there are no arguments to 'ppc64_convert_utf16_to_1_2_3_bytes_of_utf8' that depend on a template parameter, so a declaration of 'ppc64_convert_utf16_to_1_2_3_bytes_of_utf8' must be available [-Wtemplate-body]
+> |20559 |       ppc64_convert_utf16_to_1_2_3_bytes_of_utf8(
+> |      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> |subprojects/simdutf/simdutf.cpp:20533:33: error: 'write_v_u16_11bits_to_utf8' was not declared in this scope
+> |20533 |       write_v_u16_11bits_to_utf8(
+> |      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+> |20534 |           in, utf8_output, as_vector_u8(one_byte_bytemask), one_byte_bitmask);
+> |      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> ...
+>
+> The source file subprojects/simdutf/simdutf.cpp is generated by python3 script
+> singleheader/amalgamate.py and the definition of write_v_u16_11bits_to_utf8 and
+> ppc64_convert_utf16_to_1_2_3_bytes_of_utf8 for ppc64 [1] requires option
+> --with-utf16 and --with-latin1
+>
+> [1] https://github.com/simdutf/simdutf/commit/497f4f29fe25a79af00ce25693a14682a5f669a5
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   ...-fix-compile-simdutf-failed-on-ppc64.patch | 57 +++++++++++++++++++
+>   meta/recipes-support/vte/vte_0.82.1.bb        |  1 +
+>   2 files changed, 58 insertions(+)
+>   create mode 100644 meta/recipes-support/vte/vte/0001-build-fix-compile-simdutf-failed-on-ppc64.patch
+>
+> diff --git a/meta/recipes-support/vte/vte/0001-build-fix-compile-simdutf-failed-on-ppc64.patch b/meta/recipes-support/vte/vte/0001-build-fix-compile-simdutf-failed-on-ppc64.patch
+> new file mode 100644
+> index 0000000000..d84630c164
+> --- /dev/null
+> +++ b/meta/recipes-support/vte/vte/0001-build-fix-compile-simdutf-failed-on-ppc64.patch
+> @@ -0,0 +1,57 @@
+> +From 26e55adb9bd03fbd50bdce63aef8effc2d02b634 Mon Sep 17 00:00:00 2001
+> +From: Hongxu Jia <hongxu.jia@windriver.com>
+> +Date: Tue, 23 Dec 2025 18:28:29 -0800
+> +Subject: [PATCH] build: fix compile simdutf failed on ppc64
+> +
+> +...
+> +|subprojects/simdutf/simdutf.cpp:20533:7: error: there are no arguments to 'write_v_u16_11bits_to_utf8' that depend on a template parameter, so a declaration of 'write_v_u16_11bits_to_utf8' must be available [-Wtemplate-body]
+> +|20533 |       write_v_u16_11bits_to_utf8(
+> +|      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+> +|subprojects/simdutf/simdutf.cpp:20533:7: note: (if you use '-fpermissive', G++ will accept your code, but allowing the use of an undeclared name is deprecated)
+> +|subprojects/simdutf/simdutf.cpp:20559:7: error: there are no arguments to 'ppc64_convert_utf16_to_1_2_3_bytes_of_utf8' that depend on a template parameter, so a declaration of 'ppc64_convert_utf16_to_1_2_3_bytes_of_utf8' must be available [-Wtemplate-body]
+> +|20559 |       ppc64_convert_utf16_to_1_2_3_bytes_of_utf8(
+> +|      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +|subprojects/simdutf/simdutf.cpp:20533:33: error: 'write_v_u16_11bits_to_utf8' was not declared in this scope
+> +|20533 |       write_v_u16_11bits_to_utf8(
+> +|      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+> +|20534 |           in, utf8_output, as_vector_u8(one_byte_bytemask), one_byte_bitmask);
+> +|      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +...
+> +
+> +The source file subprojects/simdutf/simdutf.cpp is generated by python3
+> +script singleheader/amalgamate.py and the definition of write_v_u16_11bits_to_utf8
+> +and ppc64_convert_utf16_to_1_2_3_bytes_of_utf8 for ppc64 [1] requires option
+> +--with-utf16 and --with-latin1
+> +
+> +Add option --with-utf16 and --with-latin1 by default.
+> +
+> +[1] https://github.com/simdutf/simdutf/commit/497f4f29fe25a79af00ce25693a14682a5f669a5
+> +
+> +Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/vte/-/issues/2926]
+> +
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +---
+> + subprojects/packagefiles/simdutf/meson.build | 3 ++-
+> + 1 file changed, 2 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/subprojects/packagefiles/simdutf/meson.build b/subprojects/packagefiles/simdutf/meson.build
+> +index 330ee89f..ab934c30 100644
+> +--- a/subprojects/packagefiles/simdutf/meson.build
+> ++++ b/subprojects/packagefiles/simdutf/meson.build
+> +@@ -41,11 +41,12 @@ simdutf_amalgamate = [
+> +   '--no-zip',
+> +   '--no-readme',
+> +   '--with-utf8',
+> +-  # '--with-utf16',
+> ++  '--with-utf16',
+> +   '--with-utf32',
+> +   # '--with-base64',
+> +   # '--with-detect-enc',
+> +   '--with-ascii',
+> ++  '--with-latin1',
+> + ]
+> +
+> + if get_option('debug')
+> +--
+> +2.49.0
+> +
+> diff --git a/meta/recipes-support/vte/vte_0.82.1.bb b/meta/recipes-support/vte/vte_0.82.1.bb
+> index b5d6f2fb62..0a2535f21e 100644
+> --- a/meta/recipes-support/vte/vte_0.82.1.bb
+> +++ b/meta/recipes-support/vte/vte_0.82.1.bb
+> @@ -19,6 +19,7 @@ inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-intr
+>   
+>   SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
+>               file://0001-support-reproducibility-for-debug-sources.patch;patchdir=./subprojects/simdutf \
+> +            file://0001-build-fix-compile-simdutf-failed-on-ppc64.patch \
+>   "
+>   
+>   SRC_URI[archive.sha256sum] = "79376d70402d271e2d38424418e1aea72357934d272e321e3906b71706a78e3a"
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#228514): https://lists.openembedded.org/g/openembedded-core/message/228514
+> Mute This Topic: https://lists.openembedded.org/mt/116925096/3617049
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [hongxu.jia@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
->
-> On 23-12-2025 20:25, Khem Raj wrote:
->
-> What is the one that=E2=80=99s failing unexpectedly
->
-> Previously, "replacing non-deterministic member()" test failed
-> unexpectedly because it required "SOURCE_DATE_EPOCH"
-> to be unset while test execution.
->
-> Ross had sent a patch after the v2.45.1 upgrade which unsets this variabl=
-e
-> and the test case passes now.
->
-> https://git.openembedded.org/openembedded-core/commit/?id=3D7ea5d2c5aadb1=
-852aff23616e973b382df44c8d0
->
-> Regards,
-> Yash
->
->
-> On Mon, Dec 22, 2025 at 11:16=E2=80=AFPM Yash Shinde <Yash.Shinde@windriv=
-er.com>
-> wrote:
->
->> From: openembedded-core@lists.openembedded.org
->> <openembedded-core@lists.openembedded.org>
->> <openembedded-core@lists.openembedded.org> on behalf of Khem Raj via
->> lists.openembedded.org
->> <https://urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8E=
-vQ!bSuADBQihRUKCPY6NcUSMxZKmUh5MGc2VnUPK5Qo5_PKn2nYUqzowTnjkErhZM_EDWH06QVX=
-wUepNTneG3bJ$>
->> <raj.khem=3Dgmail.com@lists.openembedded.org>
->> <raj.khem=3Dgmail.com@lists.openembedded.org>
->> Sent: Wednesday, November 26, 2025 7:11 AM
->> To: openembedded-core@lists.openembedded.org
->> <openembedded-core@lists.openembedded.org>
->> <openembedded-core@lists.openembedded.org>
->> Cc: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->> Subject: [OE-core] [PATCH] binutils: Upgrade to 2.45.1 release
->>
->>
->> CAUTION: This email comes from a non Wind River email account!
->> Do not click links or open attachments unless you recognize the sender
->> and know the content is safe.
->>
->> Regenerate ld/configure
->>
->> Brings following changes
->>
->> * e3a18893e1c LoongArch: Use more appropriate assertions for the
->> relocation of TLS LE
->> * b136efd10a7 Re: dlltool memory leaks
->> * b4bde11f310 ld: Don't use -mdirect-extern-access for LoongArch
->> * ab776bc8685 lto: Set plugin_format to bfd_plugin_no only if known_used
->> is set
->> * cec7ab85f24 aarch64: gas: Allow movprfx with fmmla and bfscale [PR
->> gas/33562]
->> * 0b040187894 aarch64, gas: Relax Armv9.6-A mandatory feature set
->> * 4df2be75910 i386: Add GLIBC_ABI_GNU_TLS version dependency
->> * 71c1de4b0c8 x86-64: Add GLIBC_ABI_DT_X86_64_PLT version dependency
->> * b0fe5c23780 x86: Add GLIBC_ABI_GNU2_TLS version dependency
->> * d5945a221ff x86: Copy non_got_ref_without_indirect_extern_access
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->> ---
->>  .../binutils/binutils-2.45.inc
->> <https://urldefense.com/v3/__http://binutils-2.45.inc__;!!AjveYdw8EvQ!bS=
-uADBQihRUKCPY6NcUSMxZKmUh5MGc2VnUPK5Qo5_PKn2nYUqzowTnjkErhZM_EDWH06QVXwUepN=
-d2s2e4L$>
->> |    6 +-
->>  ...-system-directories-when-cross-linki.patch |   48 +-
->>  .../binutils/0008-Use-libtool-2.4.patch       | 1827 ++++++++---------
->>  3 files changed, 832 insertions(+), 1049 deletions(-)
->> .
->> .
->> .
->>
->> Here's the binutils test results summary:
->>
->> Test Results:
->>                                                          Before
->> After      Diff
->> No. of expected passes                317            318         +1
->> No. of unexpected failures            1                 0           -1
->> No. of untested testcases              5                 5            0
->> No. of unsupported tests              8                 8             0
->>
->>
->> The additional passing test case is, "replacing non-deterministic member=
-"
->> after Ross's fix:
->>
->> https://git.openembedded.org/openembedded-core/commit/?id=3D7ea5d2c5aadb=
-1852aff23616e973b382df44c8d0
->> <https://urldefense.com/v3/__https://git.openembedded.org/openembedded-c=
-ore/commit/?id=3D7ea5d2c5aadb1852aff23616e973b382df44c8d0__;!!AjveYdw8EvQ!b=
-SuADBQihRUKCPY6NcUSMxZKmUh5MGc2VnUPK5Qo5_PKn2nYUqzowTnjkErhZM_EDWH06QVXwUep=
-NReXU5OJ$>
->>
->>
->> Regards,
->> Yash
->>
->> --
-> Regards,
-> Yash Shinde
->
->
-
---000000000000b1589d0646ab0367
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">sounds good</div><br><div class=3D"gmail_quote gmail_quote=
-_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 23, 2025 at 7=
-:40=E2=80=AFPM Yash Shinde &lt;<a href=3D"mailto:Yash.Shinde@windriver.com"=
->Yash.Shinde@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex"><u></u>
-
- =20
-  <div>
-    <p><br>
-    </p>
-    <div>On 23-12-2025 20:25, Khem Raj wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-      <div>
-        <div dir=3D"auto">What is the one that=E2=80=99s failing unexpected=
-ly=C2=A0</div>
-      </div>
-    </blockquote>
-    <p>Previously, &quot;replacing non-deterministic member()&quot; test fa=
-iled
-      unexpectedly because it required &quot;SOURCE_DATE_EPOCH&quot;<br>
-      to be unset while test execution.<br>
-      <br>
-      Ross had sent a patch after the v2.45.1 upgrade which unsets this
-      variable and the test case passes now.<br>
-<a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D7ea5=
-d2c5aadb1852aff23616e973b382df44c8d0" target=3D"_blank">https://git.openemb=
-edded.org/openembedded-core/commit/?id=3D7ea5d2c5aadb1852aff23616e973b382df=
-44c8d0</a><br>
-      <br>
-    </p>
-    <p>Regards,<br>
-      Yash</p>
-    <blockquote type=3D"cite">
-      <div>
-        <div><br>
-          <div class=3D"gmail_quote">
-            <div dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 22, 2025 at
-              11:16=E2=80=AFPM Yash Shinde &lt;<a href=3D"mailto:Yash.Shind=
-e@windriver.com" target=3D"_blank">Yash.Shinde@windriver.com</a>&gt;
-              wrote:<br>
-            </div>
-            <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-              <div>
-                <div lang=3D"x-unicode">
-                  <div lang=3D"x-unicode">From: <a href=3D"mailto:openembed=
-ded-core@lists.openembedded.org" target=3D"_blank">
-                      openembedded-core@lists.openembedded.org</a> <a href=
-=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blank">
-                      &lt;openembedded-core@lists.openembedded.org&gt;</a>
-                    on behalf of Khem Raj via <a href=3D"https://urldefense=
-.com/v3/__http://lists.openembedded.org__;!!AjveYdw8EvQ!bSuADBQihRUKCPY6NcU=
-SMxZKmUh5MGc2VnUPK5Qo5_PKn2nYUqzowTnjkErhZM_EDWH06QVXwUepNTneG3bJ$" target=
-=3D"_blank">
-                      lists.openembedded.org</a> <a href=3D"mailto:raj.khem=
-=3Dgmail.com@lists.openembedded.org" target=3D"_blank">
-                      &lt;raj.khem=3Dgmail.com@lists.openembedded.org&gt;</=
-a><br>
-                    Sent: Wednesday, November 26, 2025 7:11 AM<br>
-                    To: <a href=3D"mailto:openembedded-core@lists.openembed=
-ded.org" target=3D"_blank">openembedded-core@lists.openembedded.org</a>
-                    <a href=3D"mailto:openembedded-core@lists.openembedded.=
-org" target=3D"_blank">&lt;openembedded-core@lists.openembedded.org&gt;</a>=
-<br>
-                    Cc: Khem Raj <a href=3D"mailto:raj.khem@gmail.com" targ=
-et=3D"_blank">&lt;raj.khem@gmail.com&gt;</a><br>
-                    Subject: [OE-core] [PATCH] binutils: Upgrade to
-                    2.45.1 release</div>
-                  <div lang=3D"x-unicode"><br>
-                    <blockquote type=3D"cite">
-                      <div id=3D"m_-6252150368856917555m_113256049397616002=
-3divRplyFwdMsg" dir=3D"ltr">
-                        <div>=C2=A0</div>
-                      </div>
-                      <div><font size=3D"2" style=3D"color:rgb(0,0,0)"><spa=
-n style=3D"font-size:11pt">
-                            <div>CAUTION: This email comes from a non
-                              Wind River email account!<br>
-                              Do not click links or open attachments
-                              unless you recognize the sender and know
-                              the content is safe.<br>
-                              <br>
-                              Regenerate ld/configure<br>
-                              <br>
-                              Brings following changes<br>
-                              <br>
-                              * e3a18893e1c LoongArch: Use more
-                              appropriate assertions for the relocation
-                              of TLS LE<br>
-                              * b136efd10a7 Re: dlltool memory leaks<br>
-                              * b4bde11f310 ld: Don&#39;t use
-                              -mdirect-extern-access for LoongArch<br>
-                              * ab776bc8685 lto: Set plugin_format to
-                              bfd_plugin_no only if known_used is set<br>
-                              * cec7ab85f24 aarch64: gas: Allow movprfx
-                              with fmmla and bfscale [PR gas/33562]<br>
-                              * 0b040187894 aarch64, gas: Relax
-                              Armv9.6-A mandatory feature set<br>
-                              * 4df2be75910 i386: Add GLIBC_ABI_GNU_TLS
-                              version dependency<br>
-                              * 71c1de4b0c8 x86-64: Add
-                              GLIBC_ABI_DT_X86_64_PLT version dependency<br=
->
-                              * b0fe5c23780 x86: Add GLIBC_ABI_GNU2_TLS
-                              version dependency<br>
-                              * d5945a221ff x86: Copy
-                              non_got_ref_without_indirect_extern_access<br=
->
-                              <br>
-                              Signed-off-by: Khem Raj <a href=3D"mailto:raj=
-.khem@gmail.com" target=3D"_blank">&lt;raj.khem@gmail.com&gt;</a><br>
-                              ---<br>
-                              =C2=A0.../binutils/<a href=3D"https://urldefe=
-nse.com/v3/__http://binutils-2.45.inc__;!!AjveYdw8EvQ!bSuADBQihRUKCPY6NcUSM=
-xZKmUh5MGc2VnUPK5Qo5_PKn2nYUqzowTnjkErhZM_EDWH06QVXwUepNd2s2e4L$" target=3D=
-"_blank">binutils-2.45.inc</a>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-                              |=C2=A0=C2=A0=C2=A0 6 +-<br>
-=C2=A0...-system-directories-when-cross-linki.patch |=C2=A0=C2=A0 48 +-<br>
-=C2=A0.../binutils/0008-Use-libtool-2.4.patch=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 1827 ++++++++---------<br>
-                              =C2=A03 files changed, 832 insertions(+), 104=
-9
-                              deletions(-)<br>
-                              .<br>
-                              .<br>
-                              .<br>
-                            </div>
-                          </span></font></div>
-                    </blockquote>
-                    Here&#39;s the binutils test results summary:<br>
-                    <br>
-                    Test Results:<br>
-                    =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
-                    =C2=A0 =C2=A0 =C2=A0Before=C2=A0 =C2=A0 =C2=A0 After=C2=
-=A0 =C2=A0 =C2=A0 Diff<br>
-                    No. of expected passes=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 317=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
-                    318=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+1<br>
-                    No. of unexpected failures=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 1=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
-                    =C2=A0 =C2=A00=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
--1<br>
-                    No. of untested testcases=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 5=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
-                    =C2=A0 =C2=A0 =C2=A05=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 0<br>
-                    No. of unsupported tests=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 8=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
-                    =C2=A0 =C2=A08=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A00<br>
-                    <br>
-                    <br>
-                    The additional passing test case is, &quot;replacing
-                    non-deterministic member&quot; after Ross&#39;s fix:<br=
->
-                    <a href=3D"https://urldefense.com/v3/__https://git.open=
-embedded.org/openembedded-core/commit/?id=3D7ea5d2c5aadb1852aff23616e973b38=
-2df44c8d0__;!!AjveYdw8EvQ!bSuADBQihRUKCPY6NcUSMxZKmUh5MGc2VnUPK5Qo5_PKn2nYU=
-qzowTnjkErhZM_EDWH06QVXwUepNReXU5OJ$" target=3D"_blank">https://git.openemb=
-edded.org/openembedded-core/commit/?id=3D7ea5d2c5aadb1852aff23616e973b382df=
-44c8d0</a><br>
-                    <br>
-                    <br>
-                    Regards,<br>
-                    Yash=C2=A0 </div>
-                  <br>
-                </div>
-              </div>
-            </blockquote>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <pre cols=3D"72">--=20
-Regards,
-Yash Shinde</pre>
-  </div>
-
-</blockquote></div>
-
---000000000000b1589d0646ab0367--
 
