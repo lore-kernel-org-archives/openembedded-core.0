@@ -1,415 +1,263 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 406C5E74905
-	for <webhook@archiver.kernel.org>; Wed, 24 Dec 2025 01:48:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DA59E74907
+	for <webhook@archiver.kernel.org>; Wed, 24 Dec 2025 03:15:18 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.113076.1766540878840525694
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.114392.1766546109836448858
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Dec 2025 17:47:59 -0800
+ Tue, 23 Dec 2025 19:15:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=tDyPTXHt;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4453ea62e8=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BNNuKhs597343
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 17:47:58 -0800
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=MQfaMoGG;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4453656b1c=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BO1Uw3e1205716
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Dec 2025 19:15:09 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=aIcOjSxNq/wWDRhIDnH7U+
-	69p9AGygGSqbne7iARuIo=; b=tDyPTXHtXQuB9yWmGyACIf1OIwzSGMhQZCTqOa
-	a1TZtWALPvlYP61C7s++KyZC5Zab5mpACp1h1tZDmNodr9xTliKQURh0u9oJKQYN
-	HLJg0tYdKklopAbaRLTB3f2mIDSaF5P1EOT/OOYSYBZ9BiIrhF2cCW5w0UYXVs5F
-	qrtiAZ6UmavwHUOs4xdjuD1ZfndtD+Poeo70LS6oQ0p3i/oyKBE06Ylz1DsIWb33
-	5clVMxzkWPT2zWIFBl2BZWDw+hkxDrbtEnzHJwHjB/9cp3vF9lj3WqwScYQ5q2MC
-	JsJ26AD7Kxu4qEV3KU8BZcbgczQltBcmcAa4/qn4uW5qyQww==
-Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013014.outbound.protection.outlook.com [40.93.196.14])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b5v6hbdqb-1
+	:references:subject:to; s=PPS06212021; bh=fr4MxLj2OLsT4GVgWvYygp
+	w1GZr6VyvknIxnz/q8f+w=; b=MQfaMoGG2xlc70pAQKlJlaZ6LLb8OaMVtKc4j+
+	/pNfgZNRFL1+SV8v5vKicQA1mLMmILoOi44nhC5W4k6b1NPm8neICd3/wKmfYQ9L
+	Sq3udX1Q5reXw/rXMOBjWwDF33+5m65x5bdc1FPLVoBhBuiOBNK8/190emf1n1Qq
+	q/BqZw5EFWIs3cauP/SwPLl5eacDoBowarb5su68p+RXIeDI+sp0TmdEBJgpsfFj
+	4Br5+iBMYH7Jv2A7DO1Vs207XXdTt3QLghvRuYl/LVRHyG380dcukwKPTKHFKHpQ
+	xp27+R85+dAChmNzrXJaI4S/pVfC/sBsVC1QyroZKfulv0bA==
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013022.outbound.protection.outlook.com [40.107.201.22])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b5qy4umhu-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 23 Dec 2025 17:47:57 -0800 (PST)
+	Tue, 23 Dec 2025 19:15:08 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=USTmx1b3V1Ud/o/lhhYl290g9Z0hswQaHbUHiHuDRTFtskCYDP+yNZHhqYYfbBghHpZlQG5bEGdJQ63PimMhjKyKqpzXh4Crkge/njUKcRFPGZVSNq52aYJ4FnPa2QdDT2Yq5yR4qxDJYkBVPCgzopjB/HIMm/TyzIALmWiiDnDyVf/MFkUwFfP/CYdZ5TBeCmYsv0SYnCr8ZrTbBe/pfEb4Os5KDNppF7bLukvNCgb/Y7RsIe0++np3fLiF4oNff8Pywmc1ypyzuy6N9kDArsQ2Xx8m0Zgop5fye+0QpqoZnEna+SQwABaXVHds5xDaWOGXNIo3z7Msf633jELqFA==
+ b=jInJSLWPCHSZYijPJtoi5uwfy9etoq9dWEm3qDT6So/GvWhKZ1wrd5I+6bsPP3BlIxgdqhbEa20rhRGikllxL3Ba6vsvDiRIURlGZS/CEYR2zlbawXVF/kp5LMSyoEcB4YpWwtHQBFP2W8Eg2IH7QOGRVo8v6UnjiWfwveeSG/XG9Wl+TAGt3QBhJ24zbdxnsUcANVVulYm6fJl3A0nO3XU2iVqC8hphDW7dZv8CGdWSy5YlktHsgBeQKsKZLfZ8Oik3VzJz2houYCtyFrHvBZiwXcNnTJkADN2AwcRcjb9TgjVgeTccYd53hivbyoE2H/PCPqQOzEpYDDCeAStEtw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aIcOjSxNq/wWDRhIDnH7U+69p9AGygGSqbne7iARuIo=;
- b=x1SE2xyigrplqwOU/H5SnL4qaIf0WQs9aGHeM3fuOF5yyo+G1NRB3SHTYO2CyzECVqAAdkEP1MLy7+ns8EftYv2mX0qS2ZEouq9lj7FpMhWgMv0OUHZPckvL+V6/0JuM5Ik3ATU1E+I1DgLaI80z2d5DmYF5OS1dsrz9wydn/tEJgWSSo/uVjaYm0EwtvMF7rEzu/n8Q4Mg1fLljydfaeqqrRqS8fuLTnARIw4BmIF+SYwtMLEAu2BXTYpqaCIB8KULnLsD9K+DP27j2CfgN74RWjg+YhRmo38S0OdEqFh7+qQxcieEdjoUG9L+517Js9nuVluVku8x9KW38Wh6dDw==
+ bh=fr4MxLj2OLsT4GVgWvYygpw1GZr6VyvknIxnz/q8f+w=;
+ b=Xv979M2XFutTn51EZto88N6w7v3Wj6c9gOnGf4pyjTIeAQBKp6CgdjwaO/QrEdr0CSXU0MMGhb/PHVWmb5CPVuwTi7I/j9s2Iyepw9UryfmfBvmHBjWA40IwrS+rncUVHjfjoZa0rsuWtSYsDvbGn9XVCfwNOGMESAavQdJN4Fs958fGrARC7BjkvWBBQLNxm5ke4soZ9rnkyOKjS5GbyLQ6QYGuTdslKMTFoTGCtUSVi+CtfqPwOcXZU4p0PHQM2h3DFnQN0ovKAoXITjCkfK+qB7IBel1TL2yT7OzpFbx9HLZR/6RieXxVUBvCe+J4iSl3YR/6hyUaZPYa0z1h+w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by CYXPR11MB8731.namprd11.prod.outlook.com (2603:10b6:930:db::15) with
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com (2603:10b6:510:269::20)
+ by DS4PPF2AD6B04BA.namprd11.prod.outlook.com (2603:10b6:f:fc02::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.11; Wed, 24 Dec
- 2025 01:47:55 +0000
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::5627:e3a5:cb26:b555]) by CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::5627:e3a5:cb26:b555%6]) with mapi id 15.20.9434.009; Wed, 24 Dec 2025
- 01:47:55 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.11; Wed, 24 Dec
+ 2025 03:15:06 +0000
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::c84c:d2c3:1102:cf45]) by PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::c84c:d2c3:1102:cf45%3]) with mapi id 15.20.9434.009; Wed, 24 Dec 2025
+ 03:15:05 +0000
 Content-Type: multipart/alternative;
- boundary="------------bBJ0oYO0rkKxyEamhmtHFwyR"
-Message-ID: <c2a296a3-0345-4814-ae07-257440b67fef@windriver.com>
-Date: Tue, 23 Dec 2025 20:47:53 -0500
+ boundary="------------YWfwSkAsV9YdrY02xIanqbDx"
+Message-ID: <aa268342-7075-41e7-a60b-470de870b6b8@windriver.com>
+Date: Wed, 24 Dec 2025 11:14:53 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] libtheora: set CVE_PRODUCT
-To: Ken Kurematsu <k.kurematsu@nskint.co.jp>,
-        "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
-        Ross Burton <ross.burton@arm.com>
-Cc: Masahiro Mizutani <m.mizutani@nskint.co.jp>,
-        Yoshitaka Ikeda <ikeda@nskint.co.jp>
-References: <TYRP286MB5995F2B556CCD6EDFD533D3CDBA9A@TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM>
- <9fde92b6-427a-46ba-96f2-a3dad500d919@windriver.com>
- <1883AE2C045A1BB3.1614991@lists.openembedded.org>
- <TYRP286MB59955A29B4B18B89EF4E939ADBB5A@TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <TYRP286MB59955A29B4B18B89EF4E939ADBB5A@TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM>
-X-ClientProxiedBy: YT4PR01CA0218.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:eb::18) To CH3PR11MB8496.namprd11.prod.outlook.com
- (2603:10b6:610:1ba::22)
+Subject: Re: [OE-core] [PATCH] vte: fix build failed for ppc64
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20251223085453.1635323-1-hongxu.jia@windriver.com>
+ <CANNYZj-rHr0YQewsyj30cUHNtm2vLJ7iwb4NonudHYxnUg2gqA@mail.gmail.com>
+Content-Language: en-US
+From: Hongxu Jia <hongxu.jia@windriver.com>
+In-Reply-To: <CANNYZj-rHr0YQewsyj30cUHNtm2vLJ7iwb4NonudHYxnUg2gqA@mail.gmail.com>
+X-ClientProxiedBy: SI1PR02CA0049.apcprd02.prod.outlook.com
+ (2603:1096:4:1f5::18) To PH7PR11MB7608.namprd11.prod.outlook.com
+ (2603:10b6:510:269::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|CYXPR11MB8731:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6c389bd0-320e-48a1-8731-08de428e7506
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7608:EE_|DS4PPF2AD6B04BA:EE_
+X-MS-Office365-Filtering-Correlation-Id: 96eafdbf-2596-4455-0966-08de429aa2c2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|7053199007|13003099007|8096899003;
+	BCL:0;ARA:13230040|1800799024|376014|366016|8096899003|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?ZnlIbjN4YVcrZGpDb1YxTkVIU2haMnh2YVIwRDMvSmh6cktmZGhkdTNpbnBR?=
- =?utf-8?B?NURNaFU2bEVNbHdIbmVndWQ2MUdmdGc0ZzZvWkhlY3RSVDFLWUtHdEVPNDVP?=
- =?utf-8?B?TmFRa3VkVUc1eUlKWE04STNsdVNTZ0VQQU4rYTdOYjhTUThJQ09YN3E2Z3VT?=
- =?utf-8?B?eHhxbmdTT1orZ2djRWdZN2xqRVpDSkFPQm04YTBQVFpPSW9tQTBkVUMwVmZB?=
- =?utf-8?B?UmpDd09uZW1ZN0M2c3BwbkFEcTdseEZXOTQrcEdIdGw5R01mN1RaNmhVSDZF?=
- =?utf-8?B?amZwUjB5S2kvVkNSYlhpemZ1aU9ZSWZGeTBzS2tMaHFpaDhibzdNRlJlSHRj?=
- =?utf-8?B?aUwwRXNrdzlvRU1IRXI5SEVteXZ1bDVuOFdoQ1IzYUxseHdndGNOZWUzbUxE?=
- =?utf-8?B?ZDBIYmpzcUxCZjNMMStDY0h2S25jSkpKeW1SRkRiRFppb0xEK0NFS2tlSzBj?=
- =?utf-8?B?YUswTkdQL1ZiZ1gxZmliWXBrdXlXRjRaS1c4cGhBQ25oNDJkd0d4VWQ5YVFU?=
- =?utf-8?B?SUZ1K2ZSUWFzMVVtWUdKSnFPYWNtdFhqbGUydU5jRHhBQ3gvMklRWURJNzk4?=
- =?utf-8?B?NE15MGF1a2ZnV05pODBaSHk1ZCtldUwzemVDa1VLa0pyUlZQNjNxa1NpYW94?=
- =?utf-8?B?TVNEdk1CUTdlMHZIYlA5ZHBoRzhPZGVxVlpKY2xXbEhsK0ZKTkkrMmdVVlRB?=
- =?utf-8?B?WTYxRmk1Rkphayt0NXVyV3lqNkVpa0VGZHBMVUdXV0hQelJLN3NiZ05lWnVi?=
- =?utf-8?B?QnlVQk51QmFPZ2k0ZUdHN1F0L1p0b3luRXRNaEQ1dnUxZGg2UzVGSm8wOXlq?=
- =?utf-8?B?WXg1dXM5UEFPdG13ZjBTbXcvSVcxTGcwUzR5eGdtRHlhVkM5LzlpRlNEV3Bu?=
- =?utf-8?B?Uk5wcmlnNUNwL2krbU5jOGFJVFl5K1lvZEk0dHZ6MFVZSk1BM3o1N25Nd2JV?=
- =?utf-8?B?eDJMYk9LM2JHK25aOXE2eU1DVEM0TVVubkJGU0pEcmRVS3BwVzFQSDd4SDk3?=
- =?utf-8?B?UTVubENWNnlkSEpDYll1MWdib0tJUy85UDdGY3ZxWDl1Nm5MQXFvSXU0akND?=
- =?utf-8?B?d0tqbk1NOUJsL3Z6ZDhqNVFSQ056TzVvNmo4NVd6STFWL3NSQm1kSHgvN0RP?=
- =?utf-8?B?TGczOWZnaVpON1huWmFBWGIzZnI3QVduYi9Da1Jzc3dod00xaDBPeHFHVFEz?=
- =?utf-8?B?NkM5NkVKNFZPcURZOHd1L29xaXpCbk5zdDJNRkgrR09vcW9Xd2RMWVk3SlFl?=
- =?utf-8?B?QVFteDhmT3d3UlRsNWJuMlM1dytLYUFyQmdhRWd3VzdMZGZMNGxwZWEvbFdy?=
- =?utf-8?B?aXJEdGwxTk5YOUFnL3grQ3JhNTlZUFB3Q3VhM1lvQlRpajBQamlVMDY2WUgz?=
- =?utf-8?B?OGEzV2J0UFY2OERXWVNPY3NlWDU2anJMbXRLMU9VYnFsNENpUHJ1dzhhNGFG?=
- =?utf-8?B?M3RITUF3cTRRWDFkRXpuaW1MYk5waU9kRzhZdmVRWm1VUW11OFFvT2VZUVlX?=
- =?utf-8?B?N0Y2aGpEVDh6bG10VmZrMG5QN0xDT0Y5NTk1NFZOeS8xQzA3UldMQ2w4aUwx?=
- =?utf-8?B?TlVQQ0Q1UXUyeUtza0VsZ2hOR3I2TnpSM2lHYklrT1l4b0Y2Q1RsRlcrR0ZE?=
- =?utf-8?B?YVp0a0dTNytGZ2cyZm1tcDZDdktkWnN4dEh0bXV0MURJYTFUYWJBQUtzaTJJ?=
- =?utf-8?B?WGYwWTdUVGN2NWFUMnNMZWtsbGQ1TnozOUp2RVJkb1ZlV1EyaThnME1RZkw0?=
- =?utf-8?B?Z0MwUFR4eGUrL2w2OUtpWDJNQnpvMjRKbTIrVXd1K2NCandzaW5QLzh6akFh?=
- =?utf-8?B?OG9iWENXYUVQWnhGOWpZSHc5TWVRdWdQWDY0VkppUXppcTI5WWpUUjdNRXhJ?=
- =?utf-8?B?WkFFRjFWUzEyM0tpMVVsMkFDbXNsdFh4V0lNV0dibzhKSFE9PQ==?=
+	=?utf-8?B?Yi80bWZVdStiL1ZGcWR4dUx0SnpKZHAzTDkvM0lGNmsxVDBTS0UrbTFlRElP?=
+ =?utf-8?B?M0kzbFc0QUhMVlk2cUZWUVJNRWZMQlgyZms1T3JpQjhtQVRXWVJWTG4xdzhl?=
+ =?utf-8?B?UURaVlFoOW4yYmRMaXhIUTZ3NXFGMzNsZE96ckRLWG5RRmJOQXQzOWk2VzNC?=
+ =?utf-8?B?czhUbVNUM1dRdUtYOXorZWxxVlpub3lySUxickxSQUlRZXJ5QUZ1VVk0UUFM?=
+ =?utf-8?B?MnVEeHVHRytKVnBKV2Y5MUp0UERVd29hUklOemhOdFpPSmV1UEM3b2NRQVdV?=
+ =?utf-8?B?RnRCa1pXWjRmTER2aEJ6UGR5T3ZaNnZuUjhiQnY3c3c0dGhDMzAyYk93R1Ns?=
+ =?utf-8?B?SWFyKzVML3dVOGd0Nkg1QUtXMk1kQlpIUERsQXFSREJndFhtRWpWNFdod3RU?=
+ =?utf-8?B?S01CbmdXUFA0dnJ1S3lqM1ZjME05UHRlcnZmTExqREZtaWJaLzV6bm5MazNV?=
+ =?utf-8?B?SkFPbEZmTHE2SldPNUkwWEpWUTI4WnRBSnZkcE1YZ1BDYkhtcFRad2t5b0J2?=
+ =?utf-8?B?SHpKd3R5emR3R2VialFlU2NhaERQZWV5aStwQ2lJWjVNZ3R6TkNpa3FXSktJ?=
+ =?utf-8?B?cjh0b0w5MnNPUXVGS056ZkF4MkdOM2tQWkx5c3hQZmhobkVZOGdIUVllTno5?=
+ =?utf-8?B?aTZJMXFxMmh5N2tKMzh0UmZvUDdVNTFqQSsvS2N1ekR1cDNiZFNnMW4xZFBK?=
+ =?utf-8?B?SUdvejhLT1I2SGQ4eVp5dnh1b3ZWYzFENDhPVmZUdklzY2JwaU1oZG5hbEox?=
+ =?utf-8?B?bldlaHgxOFVEWGFZWnRaamNtWTM1bW1FVmd0SFRmcnlWbjQ2aU5DekdyeUNy?=
+ =?utf-8?B?VHVqbGtDaUxHdUZtRzltckhkR09DeHlSSnBVUXN6b3FQVmZLZFVZbFRzMTdP?=
+ =?utf-8?B?YUlJWkFRdThML3ZZUzYxYXdyanJVKzJJVmFmTEtDUzFWV0RjVU5ZbmloT0kw?=
+ =?utf-8?B?by8xZU1lcVl2ejYzSFNERDZvUjk4REgxcmp2ME5LTGZiRWZqY0xnMHVBeG1u?=
+ =?utf-8?B?TEZjUDdkZHZFTmlXaFEyZHFNRzBadlBsSVhyWnpiMVhYbGNENVdVbTZiYUtK?=
+ =?utf-8?B?NjJrTW9YYmJWN0kzVzZ6MmNySG5pTzFDNWcvTGRDcGprNklORG96dlh3QVUz?=
+ =?utf-8?B?ckYwQm1PcXB4SGR4RHBBYk9GbFFWWnJuMGRFTDd2UWEwczJLL1VxOE5PZGxs?=
+ =?utf-8?B?blU1Ulg2ZzRFQlFGS09POEZ3cGRmSTZaU1Y2MkhvQUZtaFpwdTJVa2Q1N0NV?=
+ =?utf-8?B?RkRBSFM5TGFlY3ptMDgyOGsxU2FCU2JsS2k5OHV0U0N0bm91UysvNXpsdk54?=
+ =?utf-8?B?ektFRURkUVkyU0RKVzY1a1cxblNDS0l6RXUzLzJpdS90MmtweXEwSDNGUjNQ?=
+ =?utf-8?B?UzdFankxaTlrbkxyRnprUmxhVmtESE5Wc3FKOFUramhhWmRVTDl3RnVyWlFt?=
+ =?utf-8?B?Kys1ODZFWG1VcTBDQVVPekt4aE9SckVNNkcycy96VXdzT3ovYnpKbG14UFJQ?=
+ =?utf-8?B?ZVVZSE5TdWc0S09aTURoRktKTXRSYTlpNkl1aHFOSmdnZEhqRTZLeER3VWtO?=
+ =?utf-8?B?VGdhQkk2eHA1bHhpcDIvNS85RmdWUWpNSFp6N3FCMFFzRlEwQ1I5YS9iYkpK?=
+ =?utf-8?B?SFVQS0dwMnhERng1eHVJblJ0aUxuNjVCODN1aEhXYWhRSHJxQlVObmEyRkRT?=
+ =?utf-8?B?SGV2dlZuK2h3dzROenFRRDFDYTFLaEpHdGk5VkQ2cGduTlYwTUJ2T1NkUmVp?=
+ =?utf-8?B?TG1JM29xd3ZBZmtoRSswZUdBZDdMTHRMUFBIVmhsd2o2dVZDR1A5UUgxQzVn?=
+ =?utf-8?B?Ry96YksxN0NBVW1OWEFXcUY1eTZEWnZEcDZNZ2ZxL1czdVJqeWZBSHAydElT?=
+ =?utf-8?B?V1pUWnR6ZWh4Z25UMmU1WTZmL3JpbVlZNm5XTUtOY2l5U2xFQmtacG8xZ0Ra?=
+ =?utf-8?B?K3RaN2xDUllSMTFHLzZ3TmhvSWFteS94M0ZvMzI1ZWJyTnJUZzFBNUpGcE9U?=
+ =?utf-8?B?aWRCMk85blFnPT0=?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7053199007)(13003099007)(8096899003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7608.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(8096899003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?dzNYR0dNN0N0MlNYNVh1d2FBNmJkQmdOakxyTjh2R2tQSk10eXRqcVFqTnBZ?=
- =?utf-8?B?OUNuL3Z5cmMzLzE2MkYwRGxzTUFFbHJZdCtjM2FJMkpuaFFJQ3h4aWlxNnk0?=
- =?utf-8?B?SWk1c2llbFZWYkJCcnpNWVNMTmpTQURqNXQ2V0dqOE9KR2xCTDVnTUZnazRq?=
- =?utf-8?B?VGF3bnNlYmhhd2orRld3SDh0T2NrbktTZXZ3UERoY2xwVFYxaUswWi9HemJO?=
- =?utf-8?B?Z0syU2tuY0VuQmE0WXBzVys1Um9Da3oyclR5cVJWSUtCbC9XV1B6WngzVXdH?=
- =?utf-8?B?am9qWTgxeGcyTjFYditIaTFyZnp2OWk5M3FjMEExNG9NcE9ldXVOUUEwZUpj?=
- =?utf-8?B?VmJ5V2srWEk2NzhsMjljTWVGV0tQVTV6UmgycVRTbzVHc3Y5NFRiOXVjS0VT?=
- =?utf-8?B?Q3ZKeXE4WXhkaTZNRlR2ejA5SGNMUWtlMTBmcXRDWWZEQXp3QUZISVYvQnVR?=
- =?utf-8?B?REUzZGdpZGVsZnBFL0ZhVUs2ZE41OVR0S0Y1UlRoUml0Zmg0M0pDcWVLQ3RF?=
- =?utf-8?B?L3BaN25kM08xRWVXVWNmN2dIWENlM1BIVGRqdGZiQ3laMmtmTzMraE5KNjB1?=
- =?utf-8?B?Sm1tYWtEcEp6dDlPaXdvYlZwNXNWdEU3TEpFNmZCQksrVzVVajF3WlJEYXBQ?=
- =?utf-8?B?UTdHc293SWt2blh2blcrRytwTzV6Ym1ESGkvVld4MHc0QWJPWUJrU0pvTXli?=
- =?utf-8?B?VHJJWHgxek5meE9WV1ZFb3RLaThrVEdBaUE1VWFkaEJ2SkxqNExadWoyU2xn?=
- =?utf-8?B?YVlyZHlSWGFTV1lLckp1MEZLdmkrcmRBZjZrck9zRkdqQmVXWER0QU1BT0Zt?=
- =?utf-8?B?UEF5eU10ZVJVdWpOVTdvZ1JZa2hzK2hFY05IQ0J3NHgwZTNXbUoyQ05xRTRy?=
- =?utf-8?B?TEYwU013eFF4dzdYa00yU1FZdEhrdFAxaHVKd01CUTZlOVg1bFoxOU5pQkc1?=
- =?utf-8?B?QStuWmV4MThaOUN5Y0FBMnFMbEZlYldtR0dBbTh1SVYvdkQva0J5NXlzeUV1?=
- =?utf-8?B?elp3WjcyUWl0UVdLNTlteitUMG1tcjRua095VmJzN3F6YkNyTS9lSWxuUlhP?=
- =?utf-8?B?MkY5SnlYb0wyYjZVVlg0cE5sZE0wMjYxNDhxYkhRbktEMkp1a3VnbHFmYjE2?=
- =?utf-8?B?Q1JGOS8wZ2drTUtTNzF6ek1CVVE4RnNkdWdxTEFPdnBFT0p5T2pzaXorOWhk?=
- =?utf-8?B?Z3V4OHA0MlhscFhvZllIQWU0a2NZNGpob2R6VElncWhqeEdJKzZMREtMcVBv?=
- =?utf-8?B?R0pvSHgxaHhHRnc3VHFxbEJMcjJCOUFPb0JhQm5hbUF0MWxKWkVuUEZGOVp4?=
- =?utf-8?B?cnVLUDNuT21lYTFiRVZzNnF2QjRQY0hUam5lbUFwTVZwcG9Gb2ZrOWg3eW9K?=
- =?utf-8?B?aTE1SU5la0RDcVFTTGpNcXBrSlZwQkZRNDQ5NVJhMkV5enE4ckZzaTNCZndO?=
- =?utf-8?B?MDhTUlNrRm9BUEkveXFiZmxuRUZ0NjE2cjB6Q2JyVFQ5WExaZUVOSXd4TldG?=
- =?utf-8?B?TEI0czIyK3UrS3l1bGhtUjB4cTFmRjNSNllXVFQwbGljaTRwMk40WEFXbVor?=
- =?utf-8?B?a21Mb1ppeHdjQ0plQVpSSmV6Y2xLVWlyazM1SCtPOWFDT3lIQm93V1pZTmJF?=
- =?utf-8?B?eU9CS2ZtMlpzbU5jMHVYMlhmY2VEYUpSbm1taDRsc2FtMzNkV0VUaHkrS01p?=
- =?utf-8?B?RjFieUhBeDRnWHc1TytGN3ZYRElVS2d0T1NYZVpSdzBOcG1BQUhpRHpqU2Z1?=
- =?utf-8?B?dFNiZzBZRUUxL2VwK0V1TnRvb0FVcHVLMFF6ZitzeXFoclRQTGx2ZnhJYjBB?=
- =?utf-8?B?SlhlTTBYT1l5S2M3QzBpZjhpMk5CSnYvcHdqOFR0clVJMXVSNS92OXZBcWtn?=
- =?utf-8?B?cUk2SzUrcW5lUGVuMFZVV0JGUWNOWEk2WExpdmtVSnhIOTFvdFpMRUZpcWox?=
- =?utf-8?B?cWNGK0NjRkRYcFhqRHkxUkVob1ZsdGJQRDJXM1ZlWDJGQjU4MjhBRGxaQ1dO?=
- =?utf-8?B?akExOEhPU3ljNzFOeXlXTVErcW9XOXpGWmpKTWx1a09aOE1uS0cvSlFBUnpv?=
- =?utf-8?B?L3Uzeit5S1YzTmVPNDkyUnVZVDhsNXlUSXE5N2UzZE85N3NmS1JDa0RxV1JU?=
- =?utf-8?B?Z0RSWktjYUJoWjByN2N6aUpyajRsVUFEWWk4TnlWczRqNmlQR0gwc3Y2YlFr?=
- =?utf-8?B?QWxpaEhjYTBSNXBwWmlFMWF4c25tYnNxODJMWXVZQ2ROVHc5cFRuc3B6SCs3?=
- =?utf-8?B?dDNFTHhvWjRMblpaMkdyV3pIRkpSTE1paDFIdlJoRWJEbVNtT0gvVUhCK2M0?=
- =?utf-8?B?R1A5NEkvWGp5WE4xckcrd0d4SlhmbDFIUGRqekhJWXFHVDJWRWpPQ1d4a3RT?=
- =?utf-8?Q?Mi11pHNts8zz5rRQ=3D?=
+	=?utf-8?B?cnNwV0kxeitidDBxQkVvNFB6R2ZkZVVabFd4aXhTeU5qUXlKeGMzTzJmSS9T?=
+ =?utf-8?B?UWlRNnlpQkZTTVlNbzRGM21ZdU9MWUQ1SFliU2hieFFQb0x2eDJDYmtaNWFy?=
+ =?utf-8?B?cWFDenJ3YXRsU3ZjU2VlejZXWXlXam9Hd1FPcFNtemdJNGVYKzErUWpJbWw2?=
+ =?utf-8?B?cThaU1pIcHk2ejQzcmFXKzBJUXVhYVFhZlhiclh0OU4vbUM2RG5EdVBCbk5Y?=
+ =?utf-8?B?SWhmcjRKcFJwdkpnSzlDbnR6NytkNVphUHF0dG0rQ3p1WUhMbmpEcVhMKzdO?=
+ =?utf-8?B?YVgvYzV1M3ZzYlBhTU1ITmk4b3prNEFueFFEVjV4L0RxUzhqQTNWUVp4TGhp?=
+ =?utf-8?B?SGljSW9EdWZXT0J5R0ZneFRmenBJejNDeWNVOEJ1dWFkR2pkMlV6bVJXN3ZT?=
+ =?utf-8?B?blZSODlaQjQyUEZPcmlGVEl6Q3owTFFUOCtYQTNXb1pLSnlJMFdaS2EyUkxU?=
+ =?utf-8?B?Nkh6ejQ4SDhUT1ZBYWh4MG4vYnp3ekJSbFE2OThMTWkwVEgzZDdrbXZ2WUhW?=
+ =?utf-8?B?NFJ2SnhqaC9aUHkzbGN1cWZGYmNRWERIdjJpOUxXdE5sV1FFbjFtUEVoMnVF?=
+ =?utf-8?B?dDNLWXhoZ2FPRVpnY1NMWWptcW10d1NOcWxqQWVpR3BmbDFwcGZIeTV5ZmdC?=
+ =?utf-8?B?UjBuMzNzMXZtUVV2TXJaZzUya2lXTVllWVZhYVBBT0VUbmNubVZ6UEhKd3Jl?=
+ =?utf-8?B?ZWpkUjRKUmhhUGRqMjlhSkJPbTFBRmJvbDVtV3hJem53dGVPRm5nOEthblE0?=
+ =?utf-8?B?cGp0UE1FRWdmbVNDMFNjRGQ2ZTlvZ2pOM3djL3JHSFdtYVBwSnNiRFN4TVBi?=
+ =?utf-8?B?TXZidEFLajJqdHZKTGJtVjhkclZiS2pNMkpsU1dUbU1hbXM5MVJRQkVza0VZ?=
+ =?utf-8?B?NUJ1Mkt0cTdmS0hLeHlCbFY5RWJzN2o1Si9oQlhSV0M3VW5TaEsxeW9hSmV5?=
+ =?utf-8?B?OXJTQ1RLSTNyTTh6L292VkxRZGVrSWZ4Tmc0WkxiQUcrdUJUbDhMdy82Z0pE?=
+ =?utf-8?B?RVlPeks5TmFZcmkrdDZKdHNha1lhY0k2aVEzcUtqVzJ2Y1JhZW1vYWJtSTVK?=
+ =?utf-8?B?STUwYkFMejE3WjBzSjZ0NWJMUzdubnowdkZML2doYlBCMFJVSU5xYU1uU1hO?=
+ =?utf-8?B?VWVMOEplYU0wQUFOZ1VDY25PS0k1ZHF0Q0M0bHFUMFVzczlwS0tsNFJLQ0Z3?=
+ =?utf-8?B?ZEdOcFY0ZmtPQThQaWF2MklGSGIzQ0xJbmNoaWJlR2ZPZG5sSm9mcVdra211?=
+ =?utf-8?B?Vmp3YTZsQ2g2Z3g0L1o2WmhSM0Jwa01UcThWZGxTSEtTSS9RNjlnUEhHa3VR?=
+ =?utf-8?B?NWxqVW8vZk15V1NsbmZUWkx4M3dUcUlybXE0Q2FaRUdibGk0UDc1VXphTkZx?=
+ =?utf-8?B?QXFCeHlhZ2gzRTduQ2hZclVMMkNrNnV5YVhmYklzaU91RGZ5UlRISUo4ZVo1?=
+ =?utf-8?B?UXJ6VExlbmloRlVKZjZGSThSMnhJWFJ1ZDNxRDRWSkNoanFMeEF5U2RzYmsz?=
+ =?utf-8?B?M1pKV2tDemRlU2VHZGFDbDhMb3ZrWW9lOG94M1d1Vzd6YjBoVGZUS0wzUWdh?=
+ =?utf-8?B?UEZTcXF2RmtSTm52UXAvaUdNTHU4NHRIanp1MzVaS3ZuNHVIOU1pTmNHNVk0?=
+ =?utf-8?B?d08xeWc0ZCtUdTlNV0VBUXZJZ1FSdXJmdzZPMXV3TCsyWmtDcHQwWGdGcEpp?=
+ =?utf-8?B?WjRBVzFrMVg3UVNJY2VxSGI3eVd1Uzk0ejBVckQ5SHY3NlVYL01ab1NSQ2RH?=
+ =?utf-8?B?aXNFQS9kVnFjMHNabG1SRlFYQitobjBGbjhqc1hlZTg2VmxYV21Xb2x6ZTh0?=
+ =?utf-8?B?c1dQQVBOTjVQWXVYcEhmS1B6VmtrbmNsUE1EcGhlZ3hkdVpLeEp0VEdHYUpo?=
+ =?utf-8?B?bzhyWCt2RGU0TlhJeDJhWGloZ21hVFlhZjl2QUpSRFNvbEhpQUcrR21odmNz?=
+ =?utf-8?B?WGs0VExTTjBGMko3cVkyT1BUMmRwQkRRY0lZa0lKTnZLZ2VucjFqWW5pcjgv?=
+ =?utf-8?B?Njh0Mk1zczlGZGRRQURaTGVkQW5pN1dMbXV4emlTT3RpajlJa3F2dDJRZGwr?=
+ =?utf-8?B?aUpFaVRZY1hqSEhIeEhmeFZ1UDJ4NG9QeXZJdWowbEU5MHpBcUt2Wm5URlgr?=
+ =?utf-8?B?ZkJlbmxxbXA2TkpuNlI4WTdVUTBzcWdUOHhQMnAwRW9helllWHhGc080Vy9i?=
+ =?utf-8?B?UXhKQkRlMkVneTZwYTNWVEFybzkybndpTStjMDM1Y3FYVDRaQ2tNMVU3TG1X?=
+ =?utf-8?B?aXJqbk9SYmJiSm9OTXptcWR5aWE0ekJvM0hLSnU3Z2ptSDVKK0d4TEprRVZE?=
+ =?utf-8?B?RDVTV0g1ejVhcnZCTFBOTkJaUkxMWitUZnRwY3o3OHFxTHR2TjJBZz09?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c389bd0-320e-48a1-8731-08de428e7506
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96eafdbf-2596-4455-0966-08de429aa2c2
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7608.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2025 01:47:55.1379
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2025 03:15:05.8762
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aE5akeZZNREjnCPF8nzRj0hlNvhhqUtj+qOMOyt0RyXtBlBWKrUu6cvKv5MPCaNGZgZLms9uD5XxKoaXVtnHgtuwn++2u89l+S8xbt3GXhQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8731
+X-MS-Exchange-CrossTenant-UserPrincipalName: WM3LPo0ck5aQPb1ClBr/WEF69IBunO2Ur90IdEkWdwGBcBq2cbpGryEL79Hvz7lvp33o9bqnR2jCrujzlh8tGaEPVFqeOVHzpMz+Hn0VlKI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF2AD6B04BA
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDAxMyBTYWx0ZWRfX7/QAyCIawW/6
- iSutVBXjk0IIBuxUHx1T46c96L1c/5YyEaPBf0vfQKwP6pzbBTP6wGTjmDm4FbtbOXqpwap3hyX
- oWkZC/2JGNxt3sn9HueOsiRVNKpsurOTVqEKck/OBDfEqaaiWeZ8Zji24ZYQdC4NZXkFnh788oz
- CP6g5MtMRBRICiZKEfZ4cYOaVVTmRd+Xomp93wAry+Jq52QoY76RbrviSsFdasmnJ46cqQs6IQz
- bRksL6ddqUiedZYttarpgzyWA2nn24jbNK41kbA7yMBllUNQj8XtZ+dyCqAW55+nA1O4Pj5TTsu
- KlBwZ6PeKHhETil3b7sxqkgg++9Io7Nvk3pqkTNzZ0ugTDxfYINf2d3EUIOYYcBiqhwnrivOtqB
- HaJIDm35/5ndP4t2ObF5wgGL5qVkhGKIQUjQyZDh0rn+P+ErlxadJebOI+QInWzltufcTmwv3zb
- FJKtN5e2+6P73k4S4NQ==
-X-Proofpoint-GUID: 3VD0sogctNYNl5uBVMf-8Xb6OE9LeojY
-X-Proofpoint-ORIG-GUID: OtI6RuSdNO0GMCwpjpl2LoaynN_C994J
-X-Authority-Analysis: v=2.4 cv=KYffcAYD c=1 sm=1 tr=0 ts=694b464e cx=c_pps
- a=hwAR686YzpmZ7aH69gEPcA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-GUID: qgCm6sc2zAYrkjs06Abraekf4om8Okob
+X-Authority-Analysis: v=2.4 cv=Q+vfIo2a c=1 sm=1 tr=0 ts=694b5abd cx=c_pps
+ a=KM6hcDErBpdSH7DPVcpu/A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=vmi6oJg5AAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=RsLdkipBEaNfqpvOsREA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=UqCG9HQmAAAA:8 a=uplykQ84CrIpgIUoPzAA:9
- a=by5dLmwGKkx8mEFn:21 a=UiCQ7L4-1S4A:10 a=hTZeC7Yk6K0A:10 a=_W_S_7VecoQA:10
- a=lqcHg5cX4UMA:10 a=ioboX4i089tB3dTPuEcW:22 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=FdTzh2GWekK77mhwV6Dw:22
+ a=NEAV23lmAAAA:8 a=GHR8O2WEAAAA:20 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
+ a=NLOWuCdESRyvfSN1j7MA:9 a=QEXdDO2ut3YA:10 a=pGLkceISAAAA:8
+ a=wvPkM9v7g1_ikmSEda4A:9 a=uWmUe7AMcHM7fmZN:21 a=_W_S_7VecoQA:10
+ a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDAyNCBTYWx0ZWRfXw2GNPmAWixt4
+ 14j+DitskQ29ld53QQxi9b0QB1ZXzy8QUIa8Un7WDKGYyP25PgSvhmDGD4RerMsbE6eH2yyi9sW
+ TtxdDplaZ2o74GdUYz7tTrGpg6YBmrb3o9kr307AUVzZk2iHGADlwcWWoOKXb8+d88tLiM0Mqvx
+ 9ylSHqSxLKiC04Qx9f917VlYH+uDfJvactd95sbbY6J6I+5WREP6fdie/EIlqIrgcVAQqtHqhGR
+ fmHdDJ8U7ketOSXT8n/PDc4NvUiLUfxPfWaFeS8aHpLdO332EPTRocTC3IwDursb10SeL9IGoY7
+ +A0iSYUFX0oO6I73JTtfUn9EGHxMuKi34elh0cqlgiKlEInrY16x5tF74DOHRfQtdnQ4ed07usF
+ xvJKPRgkNaQucj2/i/pXR34QRC5o6tREyVV7ziM5/um+10ObdOMGpkaKUYX5C8LdhYStdfPrDQj
+ MiY+EaxXDXvC97JSNYA==
+X-Proofpoint-ORIG-GUID: 7_nHaRwuJl2nJTzCbu12ML5X5dkmFJV5
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-23_05,2025-12-22_01,2025-10-01_01
+ definitions=2025-12-24_01,2025-12-22_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
- suspectscore=0 priorityscore=1501 bulkscore=0 adultscore=0 phishscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 adultscore=0 impostorscore=0
+ suspectscore=0 phishscore=0 spamscore=0 priorityscore=1501 clxscore=1015
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512240013
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512240024
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Dec 2025 01:48:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228512
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Dec 2025 03:15:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228513
 
---------------bBJ0oYO0rkKxyEamhmtHFwyR
+--------------YWfwSkAsV9YdrY02xIanqbDx
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5BNNuKhs597343
+Content-Transfer-Encoding: 7bit
 
-On 2025-12-22 7:05 p.m., Ken Kurematsu wrote:
+On 12/23/25 18:27, Alexander Kanavin wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
 >
-> Hi Randy,
->
-> Let me confirm one thing about your comment.
->
-> If I make the corrections as suggested in the comment, when I retrieve=20
-> CVE_PRODUCT with bitbake-getvar,
->
-> only "theora" is included, not "libtheora".
->
-I expect both libtheora and theora to be valid matches...
->
-> (This is the result of an old test environment, but it was the same in=20
-> 1.2.0)
->
-> $ bitbake-getvar -r libtheora CVE_PRODUCT
->
-> #
->
-> # $CVE_PRODUCT [2 operations]
->
-> # set xxx/create-spdx-2.2.bbclass:11
->
-> # [_defaultval] "${BPN}"
->
-> # append xxx/libtheora_1.1.1.bb=20
-> <https://urldefense.com/v3/__http://libtheora_1.1.1.bb__;!!AjveYdw8EvQ!=
-eK1ouKPWLXaDnUfQ3gMs8G0Yz5LwabHD57DRjPY3zICpVSF-uVGuK9BBiDKmGkE_mqMu67Ekm=
-6WVIz8qZmIROdM8lL0jRA$>:23
->
-> # "theora"
->
-> # pre-expansion value:
->
-> # " theora"
->
-> CVE_PRODUCT=3D" theora"
->
-but=C2=A0 it doesn't look like that.
->
-> If libtheora should be included, I think the following correction=20
-> would be best. What do you think?
->
-> Sorry if I misunderstood.
->
-> CVE_PRODUCT =3D "${BPN} theora"
->
-probably not.
+> On Tue, 23 Dec 2025 at 09:55, hongxu via lists.openembedded.org
+> <hongxu.jia=windriver.com@lists.openembedded.org> wrote:
+>> +Upstream-Status: Inappropriate [Yocto specific for ppc64]
+>> +
+>> +Signed-off-by: Hongxu Jia<hongxu.jia@windriver.com>
+>> +---
+>> + meson.build | 3 ++-
+>> + 1 file changed, 2 insertions(+), 1 deletion(-)
+>> +
+>> +diff --git a/meson.build b/meson.build
+>> +index 330ee89..a6c64ca 100644
+>> +--- a/meson.build
+>> ++++ b/meson.build
+>> +@@ -41,10 +41,11 @@ simdutf_amalgamate = [
+>> +   '--no-zip',
+>> +   '--no-readme',
+>> +   '--with-utf8',
+>> +-  # '--with-utf16',
+>> ++  '--with-utf16',
+>> +   '--with-utf32',
+>> +   # '--with-base64',
+>> +   # '--with-detect-enc',
+>> ++  '--with-latin1',
+>> +   '--with-ascii',
+> Why these particular options are necessary on powerpc64 but not other
+> targets? They do not seem specific to that platform.
 
-I replied to your email in response to a discussion in the Yocto patch=20
-review meeting.
-IIRC, Ross Burton was the one who suggested the +=3D.
+The upstream simdutf newly supports for ppc64 [1], and define
+
+function write_v_u16_11bits_to_utf8 and 
+ppc64_convert_utf16_to_1_2_3_bytes_of_utf8 for ppc64,
+
+and apply them with option --with-utf16 and --with-latin1
+
+[1] 
+https://github.com/simdutf/simdutf/commit/497f4f29fe25a79af00ce25693a14682a5f669a5
 
 
-I don't often use the CVE check scripts in oe-core so I'm not sure=20
-off-hand, how to confirm
-that the BPN is the default.
+> Also carrying conditional patches for configurations that aren't
+> tested in CI is prone to quiet regressions (including such patches
+> failing to apply after a version update). I'd say you need to both
+> investigate a bit deeper, and raise the issue with both vte and
+> simdutf upstreams.
 
-Ross ?
+File an issue for upstream vte
 
-Ken, please be patient, it the winter holiday season so Ross may not=20
-reply for a week or two.
+https://gitlab.gnome.org/GNOME/vte/-/issues/2926
 
-../Randy
+Submitted a patch to add option --with-utf16 and --with-latin1 by default,
 
+attached the patch along with the issue
 
-> By the way, the NVD records have the following values, so I think=20
-> theora alone will be fine.
->
-> (itheora is a different product)
->
-> $ sqlite3 downloads/CVE_CHECK/nvdcve_2-2.db .dump | grep theora
->
-> :
->
-> INSERT INTO PRODUCTS VALUES('CVE-2008-0797',=20
-> 'itheora','itheora','1.0_rc1','=3D','','');
->
-> INSERT INTO PRODUCTS VALUES('CVE-2024-56431',=20
-> 'xiph','theora','','','1.2.0','<');
->
-> $
->
-> Best Regards.
->
-> --
->
-> Ken Kurematsu k.kurematsu@nskint.co.jp
->
-> *From:*openembedded-core@lists.openembedded.org=20
-> <openembedded-core@lists.openembedded.org> *On Behalf Of *Ken=20
-> Kurematsu via lists.openembedded.org=20
-> <https://urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8=
-EvQ!eK1ouKPWLXaDnUfQ3gMs8G0Yz5LwabHD57DRjPY3zICpVSF-uVGuK9BBiDKmGkE_mqMu6=
-7Ekm6WVIz8qZmIROdOLXrdmwg$>
-> *Sent:* Tuesday, December 23, 2025 8:43 AM
-> *To:* Randy MacLeod <randy.macleod@windriver.com>;=20
-> openembedded-core@lists.openembedded.org
-> *Cc:* Masahiro Mizutani <m.mizutani@nskint.co.jp>; Yoshitaka Ikeda=20
-> <ikeda@nskint.co.jp>; Ken Kurematsu <k.kurematsu@nskint.co.jp>
-> *Subject:* Re: [OE-core] [PATCH] libtheora: set CVE_PRODUCT
->
-> Hi Randy,
->
-> Thank you for your review.
->
-> I will reflect your comments and post v2.
->
-> Best regards.
->
-> --
->
-> Ken Kurematsu <k.kurematsu@nskint.co.jp>
->
-> *From:*Randy MacLeod <randy.macleod@windriver.com>
-> *Sent:* Tuesday, December 23, 2025 3:58 AM
-> *To:* Ken Kurematsu <k.kurematsu@nskint.co.jp>;=20
-> openembedded-core@lists.openembedded.org
-> *Cc:* Masahiro Mizutani <m.mizutani@nskint.co.jp>; Yoshitaka Ikeda=20
-> <ikeda@nskint.co.jp>
-> *Subject:* Re: [OE-core] [PATCH] libtheora: set CVE_PRODUCT
->
-> Hi Ken,
->
-> On 2025-12-18 11:01 p.m., Ken Kurematsu via lists.openembedded.org=20
-> <https://urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8=
-EvQ!eK1ouKPWLXaDnUfQ3gMs8G0Yz5LwabHD57DRjPY3zICpVSF-uVGuK9BBiDKmGkE_mqMu6=
-7Ekm6WVIz8qZmIROdOLXrdmwg$>=20
-> wrote:
->
->     In the NVD database, the product name of libtheora is theora.
->
->     This was set to ensure that cve-check works correctly.
->
->      =20
->
->     Signed-off-by: Ken Kurematsu<k.kurematsu@nskint.co.jp>
->
->     ---
->
->       meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb | 2 ++
->
->       1 file changed, 2 insertions(+)
->
->      =20
->
->     diff --git a/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb b=
-/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb
->
->     index 04de8507fb..bacaf3aee6 100644
->
->     --- a/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb
->
->     +++ b/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb
->
->     @@ -14,6 +14,8 @@ SRC_URI[sha256sum] =3D "ebdf77a8f5c0a8f7a9e423238=
-44fa09502b34eb1d1fece7b5f54da41fe
->
->      =20
->
->       UPSTREAM_CHECK_REGEX =3D "libtheora-(?P<pver>\d+(\.\d)+)\.(tar\.g=
-z|tgz)"
->
->      =20
->
->     +CVE_PRODUCT =3D "theora"
->
->     +
->
->  =20
->  From YP patch review,
->
-> Please use:
->
-> CVE_PRODUCT +=3D "theora"
->  =20
-> to catch both libtheora and theora
->  =20
->  =20
-> Thanks,
->  =20
-> ../Randy
->  =20
->
->      =20
->
->       inherit autotools pkgconfig
->
->      =20
->
->       EXTRA_OECONF =3D "--disable-examples --disable-doc"
->
->      =20
->
->      =20
->
-> --=20
-> # Randy MacLeod
-> # Wind River Linux
+//Hongxu
+
+> Alex
 
 
---=20
-# Randy MacLeod
-# Wind River Linux
-
---------------bBJ0oYO0rkKxyEamhmtHFwyR
+--------------YWfwSkAsV9YdrY02xIanqbDx
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -417,271 +265,81 @@ Content-Transfer-Encoding: 8bit
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   </head>
   <body>
-    <div class="moz-cite-prefix">On 2025-12-22 7:05 p.m., Ken Kurematsu
+    <div class="moz-cite-prefix">On 12/23/25 18:27, Alexander Kanavin
       wrote:<br>
     </div>
-    <blockquote type="cite" cite="mid:TYRP286MB59955A29B4B18B89EF4E939ADBB5A@TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM">
-      
-      <meta name="Generator" content="Microsoft Word 15 (filtered medium)">
-      <style>@font-face
-	{font-family:"MS Gothic";
-	panose-1:2 11 6 9 7 2 5 8 2 4;}@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}@font-face
-	{font-family:"Yu Gothic";
-	panose-1:2 11 4 0 0 0 0 0 0 0;}@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}@font-face
-	{font-family:Aptos;}@font-face
-	{font-family:"MS PGothic";
-	panose-1:2 11 6 0 7 2 5 8 2 4;}@font-face
-	{font-family:"Yu Gothic";
-	panose-1:2 11 4 0 0 0 0 0 0 0;}@font-face
-	{font-family:"MS PGothic";}@font-face
-	{font-family:"MS Gothic";
-	panose-1:2 11 6 9 7 2 5 8 2 4;}p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0mm;
-	font-size:12.0pt;
-	font-family:"MS PGothic";}a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}pre
-	{mso-style-priority:99;
-	mso-style-link:"HTML \66F8\5F0F\4ED8\304D \(\6587\5B57\)";
-	margin:0mm;
-	font-size:12.0pt;
-	font-family:"MS Gothic";}span.HTML
-	{mso-style-name:"HTML \66F8\5F0F\4ED8\304D \(\6587\5B57\)";
-	mso-style-priority:99;
-	mso-style-link:"HTML \66F8\5F0F\4ED8\304D";
-	font-family:"Courier New";}.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;
-	mso-ligatures:none;}div.WordSection1
-	{page:WordSection1;}</style>
-      <div class="WordSection1">
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">Hi
-            Randy,<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">Let
-            me confirm one thing about your comment.<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">If
-            I make the corrections as suggested in the comment, when I
-            retrieve CVE_PRODUCT with bitbake-getvar,<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">only
-            &quot;theora&quot; is included, not &quot;libtheora&quot;.</span></p>
-      </div>
+    <blockquote type="cite" cite="mid:CANNYZj-rHr0YQewsyj30cUHNtm2vLJ7iwb4NonudHYxnUg2gqA@mail.gmail.com">
+      <pre wrap="" class="moz-quote-pre">CAUTION: This email comes from a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender and know the content is safe.
+
+On Tue, 23 Dec 2025 at 09:55, hongxu via lists.openembedded.org
+<a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia=windriver.com@lists.openembedded.org">&lt;hongxu.jia=windriver.com@lists.openembedded.org&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">+Upstream-Status: Inappropriate [Yocto specific for ppc64]
++
++Signed-off-by: Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a>
++---
++ meson.build | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 330ee89..a6c64ca 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -41,10 +41,11 @@ simdutf_amalgamate = [
++   '--no-zip',
++   '--no-readme',
++   '--with-utf8',
++-  # '--with-utf16',
+++  '--with-utf16',
++   '--with-utf32',
++   # '--with-base64',
++   # '--with-detect-enc',
+++  '--with-latin1',
++   '--with-ascii',
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+Why these particular options are necessary on powerpc64 but not other
+targets? They do not seem specific to that platform.
+</pre>
     </blockquote>
-    I expect both libtheora and theora to be valid matches...<br>
-    <blockquote type="cite" cite="mid:TYRP286MB59955A29B4B18B89EF4E939ADBB5A@TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM">
-      <div class="WordSection1">
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">(This
-            is the result of an old test environment, but it was the
-            same in 1.2.0)<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">$
-            bitbake-getvar -r libtheora CVE_PRODUCT<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">#<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">#
-            $CVE_PRODUCT [2 operations]<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">#&nbsp;&nbsp;
-            set xxx/create-spdx-2.2.bbclass:11<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">#&nbsp;&nbsp;&nbsp;&nbsp;
-            [_defaultval] &quot;${BPN}&quot;<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">#&nbsp;&nbsp;
-            append xxx/<a href="https://urldefense.com/v3/__http://libtheora_1.1.1.bb__;!!AjveYdw8EvQ!eK1ouKPWLXaDnUfQ3gMs8G0Yz5LwabHD57DRjPY3zICpVSF-uVGuK9BBiDKmGkE_mqMu67Ekm6WVIz8qZmIROdM8lL0jRA$" moz-do-not-send="true">libtheora_1.1.1.bb</a>:23<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">#&nbsp;&nbsp;&nbsp;&nbsp;
-            &quot;theora&quot;<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">#
-            pre-expansion value:<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">#&nbsp;&nbsp;
-            &quot; theora&quot;<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">CVE_PRODUCT=&quot;
-            theora&quot;</span></p>
-      </div>
-    </blockquote>
-    but&nbsp; it doesn't look like that.<br>
-    <blockquote type="cite" cite="mid:TYRP286MB59955A29B4B18B89EF4E939ADBB5A@TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM">
-      <div class="WordSection1">
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">If
-            libtheora should be included, I think the following
-            correction would be best. What do you think?<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">Sorry
-            if I misunderstood.<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">CVE_PRODUCT
-            = &quot;${BPN} theora&quot;</span></p>
-      </div>
-    </blockquote>
-    probably not.<br>
-    <br>
-    I replied to your email in response to a discussion in the Yocto
-    patch review meeting.<br>
-    IIRC, Ross Burton was the one who suggested the +=.<br>
+    <p>The upstream <span>simdutf newly supports for ppc64 [1], and
+        define</span></p>
+    <p><span>function write_v_u16_11bits_to_utf8 and
+        ppc64_convert_utf16_to_1_2_3_bytes_of_utf8 for ppc64,</span></p>
+    <p><span>and apply them with option </span><span style="white-space: pre-wrap">--with-utf16 and </span><span style="white-space: pre-wrap">--with-latin1</span></p>
+    [1]
+<a class="moz-txt-link-freetext" href="https://github.com/simdutf/simdutf/commit/497f4f29fe25a79af00ce25693a14682a5f669a5">https://github.com/simdutf/simdutf/commit/497f4f29fe25a79af00ce25693a14682a5f669a5</a><br>
     <p><br>
+      <span></span></p>
+    <blockquote type="cite" cite="mid:CANNYZj-rHr0YQewsyj30cUHNtm2vLJ7iwb4NonudHYxnUg2gqA@mail.gmail.com">
+      <pre wrap="" class="moz-quote-pre">
+Also carrying conditional patches for configurations that aren't
+tested in CI is prone to quiet regressions (including such patches
+failing to apply after a version update). I'd say you need to both
+investigate a bit deeper, and raise the issue with both vte and
+simdutf upstreams.
+</pre>
+    </blockquote>
+    <p>File an issue for upstream vte<br>
     </p>
-    <p>I don't often use the CVE check scripts in oe-core so I'm not
-      sure off-hand, how to confirm<br>
-      that the BPN is the default. <br>
-      <br>
-      Ross ?</p>
-    <p>Ken, please be patient, it the winter holiday season so Ross may
-      not reply for a week or two.<br>
+    <p><a class="moz-txt-link-freetext" href="https://gitlab.gnome.org/GNOME/vte/-/issues/2926">https://gitlab.gnome.org/GNOME/vte/-/issues/2926</a></p>
+    <p>Submitted a patch to add option --with-utf16 and --with-latin1 by
+      default,&nbsp;</p>
+    <p>attached the patch along with the issue</p>
+    <p>//Hongxu<br>
     </p>
-    <p>../Randy</p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:TYRP286MB59955A29B4B18B89EF4E939ADBB5A@TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM">
-      <div class="WordSection1">
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">By
-            the way, the NVD records have the following values, so I
-            think theora alone will be fine.<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">(itheora
-            is a different product)<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">$
-            sqlite3 downloads/CVE_CHECK/nvdcve_2-2.db .dump | grep
-            theora<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">:<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">INSERT
-            INTO PRODUCTS VALUES('CVE-2008-0797',
-            'itheora','itheora','1.0_rc1','=','','');<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">INSERT
-            INTO PRODUCTS VALUES('CVE-2024-56431',
-            'xiph','theora','','','1.2.0','&lt;');<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">$<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">Best
-            Regards.<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">--<o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">Ken
-            Kurematsu
-            <a href="mailto:k.kurematsu@nskint.co.jp" moz-do-not-send="true" class="moz-txt-link-freetext">k.kurematsu@nskint.co.jp</a><o:p></o:p></span></p>
-        <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-        <div style="border:none;border-left:solid blue 1.5pt;padding:0mm 0mm 0mm 4.0pt">
-          <div>
-            <div style="border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0mm 0mm 0mm">
-              <p class="MsoNormal"><b><span lang="EN-US" style="font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif">From:</span></b><span lang="EN-US" style="font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif">
-                  <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>
-                  <a class="moz-txt-link-rfc2396E" href="mailto:openembedded-core@lists.openembedded.org">&lt;openembedded-core@lists.openembedded.org&gt;</a>
-                  <b>On Behalf Of </b>Ken Kurematsu via <a href="https://urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8EvQ!eK1ouKPWLXaDnUfQ3gMs8G0Yz5LwabHD57DRjPY3zICpVSF-uVGuK9BBiDKmGkE_mqMu67Ekm6WVIz8qZmIROdOLXrdmwg$" moz-do-not-send="true">lists.openembedded.org</a><br>
-                  <b>Sent:</b> Tuesday, December 23, 2025 8:43 AM<br>
-                  <b>To:</b> Randy MacLeod
-                  <a class="moz-txt-link-rfc2396E" href="mailto:randy.macleod@windriver.com">&lt;randy.macleod@windriver.com&gt;</a>;
-                  <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a><br>
-                  <b>Cc:</b> Masahiro Mizutani
-                  <a class="moz-txt-link-rfc2396E" href="mailto:m.mizutani@nskint.co.jp">&lt;m.mizutani@nskint.co.jp&gt;</a>; Yoshitaka Ikeda
-                  <a class="moz-txt-link-rfc2396E" href="mailto:ikeda@nskint.co.jp">&lt;ikeda@nskint.co.jp&gt;</a>; Ken Kurematsu
-                  <a class="moz-txt-link-rfc2396E" href="mailto:k.kurematsu@nskint.co.jp">&lt;k.kurematsu@nskint.co.jp&gt;</a><br>
-                  <b>Subject:</b> Re: [OE-core] [PATCH] libtheora: set
-                  CVE_PRODUCT<o:p></o:p></span></p>
-            </div>
-          </div>
-          <p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
-          <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">Hi
-              Randy,<o:p></o:p></span></p>
-          <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-          <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">Thank
-              you for your review.<o:p></o:p></span></p>
-          <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">I
-              will reflect your comments and post v2.<o:p></o:p></span></p>
-          <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-          <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">Best
-              regards.<o:p></o:p></span></p>
-          <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">--<o:p></o:p></span></p>
-          <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">Ken
-              Kurematsu &lt;<a href="mailto:k.kurematsu@nskint.co.jp" moz-do-not-send="true" class="moz-txt-link-freetext">k.kurematsu@nskint.co.jp</a>&gt;<o:p></o:p></span></p>
-          <p class="MsoNormal"><span lang="EN-US" style="font-size:10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-          <div style="border:none;border-left:solid blue 1.5pt;padding:0mm 0mm 0mm 4.0pt">
-            <div>
-              <div style="border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0mm 0mm 0mm">
-                <p class="MsoNormal"><b><span lang="EN-US" style="font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif">From:</span></b><span lang="EN-US" style="font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif">
-                    Randy MacLeod &lt;<a href="mailto:randy.macleod@windriver.com" moz-do-not-send="true" class="moz-txt-link-freetext">randy.macleod@windriver.com</a>&gt;
-                    <br>
-                    <b>Sent:</b> Tuesday, December 23, 2025 3:58 AM<br>
-                    <b>To:</b> Ken Kurematsu &lt;<a href="mailto:k.kurematsu@nskint.co.jp" moz-do-not-send="true" class="moz-txt-link-freetext">k.kurematsu@nskint.co.jp</a>&gt;;
-                    <a href="mailto:openembedded-core@lists.openembedded.org" moz-do-not-send="true" class="moz-txt-link-freetext">openembedded-core@lists.openembedded.org</a><br>
-                    <b>Cc:</b> Masahiro Mizutani &lt;<a href="mailto:m.mizutani@nskint.co.jp" moz-do-not-send="true" class="moz-txt-link-freetext">m.mizutani@nskint.co.jp</a>&gt;;
-                    Yoshitaka Ikeda &lt;<a href="mailto:ikeda@nskint.co.jp" moz-do-not-send="true" class="moz-txt-link-freetext">ikeda@nskint.co.jp</a>&gt;<br>
-                    <b>Subject:</b> Re: [OE-core] [PATCH] libtheora: set
-                    CVE_PRODUCT<o:p></o:p></span></p>
-              </div>
-            </div>
-            <p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
-            <div>
-              <p class="MsoNormal"><span lang="EN-US">Hi Ken,<o:p></o:p></span></p>
-            </div>
-            <div>
-              <p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
-            </div>
-            <div>
-              <p class="MsoNormal"><span lang="EN-US">On 2025-12-18
-                  11:01 p.m., Ken Kurematsu via <a href="https://urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8EvQ!eK1ouKPWLXaDnUfQ3gMs8G0Yz5LwabHD57DRjPY3zICpVSF-uVGuK9BBiDKmGkE_mqMu67Ekm6WVIz8qZmIROdOLXrdmwg$" moz-do-not-send="true">lists.openembedded.org</a>
-                  wrote:<o:p></o:p></span></p>
-            </div>
-            <blockquote style="margin-top:5.0pt;margin-bottom:5.0pt">
-              <pre>In the NVD database, the product name of libtheora is theora.</pre>
-              <pre>This was set to ensure that cve-check works correctly.</pre>
-              <pre>&nbsp;</pre>
-              <pre>Signed-off-by: Ken Kurematsu <a class="moz-txt-link-rfc2396E" href="mailto:k.kurematsu@nskint.co.jp">&lt;k.kurematsu@nskint.co.jp&gt;</a></pre>
-              <pre>---</pre>
-              <pre> meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb | 2 ++</pre>
-              <pre> 1 file changed, 2 insertions(+)</pre>
-              <pre>&nbsp;</pre>
-              <pre>diff --git a/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb b/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb</pre>
-              <pre>index 04de8507fb..bacaf3aee6 100644</pre>
-              <pre>--- a/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb</pre>
-              <pre>+++ b/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb</pre>
-              <pre>@@ -14,6 +14,8 @@ SRC_URI[sha256sum] = &quot;ebdf77a8f5c0a8f7a9e42323844fa09502b34eb1d1fece7b5f54da41fe</pre>
-              <pre>&nbsp;</pre>
-              <pre> UPSTREAM_CHECK_REGEX = &quot;libtheora-(?P&lt;pver&gt;\d+(\.\d)+)\.(tar\.gz|tgz)&quot;</pre>
-              <pre>&nbsp;</pre>
-              <pre>+CVE_PRODUCT = &quot;theora&quot;</pre>
-              <pre>+</pre>
-            </blockquote>
-            <pre>&nbsp;</pre>
-            <pre>From YP patch review,</pre>
-            <p class="MsoNormal" style="margin-bottom:12.0pt"><span lang="EN-US">Please use:<o:p></o:p></span></p>
-            <pre>CVE_PRODUCT += &quot;theora&quot;</pre>
-            <pre>&nbsp;</pre>
-            <pre>to catch both libtheora and theora</pre>
-            <pre>&nbsp;</pre>
-            <pre>&nbsp;</pre>
-            <pre>Thanks, </pre>
-            <pre>&nbsp;</pre>
-            <pre>../Randy</pre>
-            <pre>&nbsp;</pre>
-            <blockquote style="margin-top:5.0pt;margin-bottom:5.0pt">
-              <pre>&nbsp;</pre>
-              <pre> inherit autotools pkgconfig</pre>
-              <pre>&nbsp;</pre>
-              <pre> EXTRA_OECONF = &quot;--disable-examples --disable-doc&quot;</pre>
-              <p class="MsoNormal" style="margin-bottom:12.0pt"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
-              <pre>&nbsp;</pre>
-              <pre>&nbsp;</pre>
-            </blockquote>
-            <p><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
-            <pre>-- </pre>
-            <pre># Randy MacLeod</pre>
-            <pre># Wind River Linux</pre>
-          </div>
-        </div>
-      </div>
+    <blockquote type="cite" cite="mid:CANNYZj-rHr0YQewsyj30cUHNtm2vLJ7iwb4NonudHYxnUg2gqA@mail.gmail.com">
+      <pre wrap="" class="moz-quote-pre">
+Alex
+</pre>
     </blockquote>
     <p><br>
     </p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
   </body>
 </html>
 
---------------bBJ0oYO0rkKxyEamhmtHFwyR--
+--------------YWfwSkAsV9YdrY02xIanqbDx--
 
