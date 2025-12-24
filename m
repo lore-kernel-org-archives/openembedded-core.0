@@ -1,968 +1,526 @@
-Return-Path: <k.kurematsu@nskint.co.jp>
+Return-Path: <SunilKumar.Dora@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9400E7490B
-	for <webhook@archiver.kernel.org>; Wed, 24 Dec 2025 03:55:18 +0000 (UTC)
-Received: from TY3P286CU002.outbound.protection.outlook.com (TY3P286CU002.outbound.protection.outlook.com [52.101.229.87])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.114399.1766548512630585712
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9147E7490C
+	for <webhook@archiver.kernel.org>; Wed, 24 Dec 2025 04:03:58 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.114901.1766549034312072443
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Dec 2025 19:55:13 -0800
+ Tue, 23 Dec 2025 20:03:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nskint.onmicrosoft.com header.s=selector1-nskint-onmicrosoft-com header.b=S9EC6b1m;
- spf=pass (domain: nskint.co.jp, ip: 52.101.229.87, mailfrom: k.kurematsu@nskint.co.jp)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=etd5QeQE;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4453214dcd=sunilkumar.dora@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BO2dEp53905463
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Dec 2025 04:03:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=O190zucwPUmI0+Hbn9mwah
+	tKEC6Y0dwG82qyPZF14PE=; b=etd5QeQE9Cq9kDOBLibcrIZ0UnuCCZQd/PC6e3
+	PxtLk1zIcrgq6eqMB1RLx7erVKf+EdUzjZMqIH4uZv3GnAvpOyze51Kr/RrwAiGR
+	c5xl9hSZsr4bAML/Q/VJwksM6YyrZ4+B+jBdTKhgQFPkgsVZBTWbX7qwJ8dh9wEd
+	4p7DXLDLsNbsD5MmsBRkDtVfVKTaqpHBnTuz9Exk0bOXBDXYAKgmNmDsPCK2QSu+
+	cGqwykuNH6O0E4WF4v6LbUmemvUNoi+G21H/ugf9qBWOiZT+VMNP5dpLuxzP320q
+	p9wu3vuyAZpENdGC4uXd305AWzwsQjJbi/RRYcHTFwzNpDSw==
+Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012004.outbound.protection.outlook.com [52.101.53.4])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b5h0vkvsu-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 24 Dec 2025 04:03:52 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k5HGhGly29VrGl6ndI9OObYApYaEo/FskBknk9FUhujAh53XDSrfBJ+jOOu8s6uPb0LJ4Xl5Sdb006+s5dZHc3NzM5Or8o8kfwUdTkx9RS6blaiPhOi6zI1fnnnSEqSTxRFk4DUPOOvsF2Cx8CcaB8t8ioZkVfVZwR60DEkc9R0ZS2PLnEDYf6wCFRZwligc8Kne4X9Gmn66O6PgFNx+Romkwtfv7jOQat8i8b6nS7wMfj81i33oStGHkvVPSEMCxtxpl4vEHkwsNlHS1/bz14pAagcEM16lyFHHFokxyYWY+5juXMWCRCQBNZZj1GiSPGv499srVFUb5zHaadAHqA==
+ b=dYPU7yF5FrGckI+DRbRfASeTRUpPBB2syNvR6VA6SVYPyrpf6KlhqHGEjKkwnvzUPRwev7KS0DZHpCuZDhG76q48+RjliR/8cdWCUPAiNx2GmzwSLlKAcAdG4qnF7tWBQW0/QeP3Pf0ZhEnZZ/sEKoDws46MOWavPSyUCQhR7xkhwRQlyOdabjIMS9u246O3ElUfatAOHR9Zn9azY8dhFMKGa7AnX3j3n8r8SF0pFbvO40S/K2ChKoRNzWL5rq2NKL9KIKVkel33MX89BaVJsS+Omc8wwr44TM0gntxmftnN9cXX8azKlZwvoqy6L9iJ9U9Rr36FTuEXei/RmQ0xLQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cvyff2juCwFxHRRI49qP4CCH28pk+4oziv8rbFgn9XU=;
- b=xK2Y4fAK/TSBcl0xoQyByI4tC0sxA2jM6HR+fdn6xRSC2rwsQxm2JYwgLEvhHehRpfskdqgS8InIftEOIawSjtL9mHQvZhGIeJz/34CQiNXXVoBDqNYezf1wh8W+aRG2F8tLKR4kxCm0xxaSIyykKaisxbMlEcLc9xKVUPO/6vrqwsRryv3LQH5nTepy0dx4IUrOGVh7SuE7oDTXNsFrooWte8g1WxZ4Jb3CTtbL7erMBKnmTLB66tktOEGF2xzr5vqCLkZkzJUjRV9ooAgF3e6WbjZDhN5G+mAE3rWdeK2YSx6/tEM0RGNoq7adkJ3TEwp+BNpfBZLeB1K9piqv7Q==
+ bh=O190zucwPUmI0+Hbn9mwahtKEC6Y0dwG82qyPZF14PE=;
+ b=yHJ0zc4BMVMaG+VgGQEeFhiYu3lIn3EiMwXiEQq5Ob459cHPquF+PKz0JXlwkaGg8TUQSfSoDyIbktydpUmd008skaOpHEaRDFQ+1y+fHJx5LQ9/RZFFZqRk9D8Rci2MPqbH9UE5QzFS0YvytGFtL8PSjhmL5QfvxCik+5cHrFp8jci1G+7BOMp6LVySew6i6taYdVlOhAiZ17Od7a+5T4BsO0qBBtarkDvnJTCkkVjAeeFseuZqfnCZkK46DFv8+ecALhMwj4JjzhoNvkn81U5Z7fXy7XM60q2njgAklBIHjXmq30ErSoTajVU+CIIwfx4pgu63zc1pRX16D+8kqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nskint.co.jp; dmarc=pass action=none header.from=nskint.co.jp;
- dkim=pass header.d=nskint.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nskint.onmicrosoft.com; s=selector1-nskint-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cvyff2juCwFxHRRI49qP4CCH28pk+4oziv8rbFgn9XU=;
- b=S9EC6b1mg9aKZ0JkedHUTfNaCDa4rsoowCfiGRzuHi9dN2a9HqIPbNnxAybrDTSlAWEm8nTLfcJLpvbG4Ajw+LaZoe356G+lgHxdN9Qm9cQJH254x3ySJYmLPky8FGEVD0AIxgoC6H032gvkpqCCSEnVSTFAPA3f9kjLnzKo1eE=
-Received: from TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:2ef::11)
- by OS9P286MB6061.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:3ba::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.11; Wed, 24 Dec
- 2025 03:55:07 +0000
-Received: from TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM
- ([fe80::8871:189c:6e56:c54a]) by TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM
- ([fe80::8871:189c:6e56:c54a%5]) with mapi id 15.20.9434.009; Wed, 24 Dec 2025
- 03:55:07 +0000
-From: Ken Kurematsu <k.kurematsu@nskint.co.jp>
-To: "randy.macleod@windriver.com" <randy.macleod@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Ross Burton <ross.burton@arm.com>
-CC: Masahiro Mizutani <m.mizutani@nskint.co.jp>, Yoshitaka Ikeda
-	<ikeda@nskint.co.jp>, Ken Kurematsu <k.kurematsu@nskint.co.jp>
-Subject: RE: [OE-core] [PATCH] libtheora: set CVE_PRODUCT
-Thread-Topic: [OE-core] [PATCH] libtheora: set CVE_PRODUCT
-Thread-Index: Adxwm3RV7PLHzcUFTp6yQbLT2jCIAwC2WhaAAAnYezAAANmfQAA16xSAAAPhnBA=
-Date: Wed, 24 Dec 2025 03:55:07 +0000
-Message-ID: 
- <TYRP286MB5995B67B327F77AA92B68533DBB2A@TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM>
-References: 
- <TYRP286MB5995F2B556CCD6EDFD533D3CDBA9A@TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM>
- <9fde92b6-427a-46ba-96f2-a3dad500d919@windriver.com>
- <1883AE2C045A1BB3.1614991@lists.openembedded.org>
- <TYRP286MB59955A29B4B18B89EF4E939ADBB5A@TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM>
- <c2a296a3-0345-4814-ae07-257440b67fef@windriver.com>
-In-Reply-To: <c2a296a3-0345-4814-ae07-257440b67fef@windriver.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nskint.co.jp;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYRP286MB5995:EE_|OS9P286MB6061:EE_
-x-ms-office365-filtering-correlation-id: 2a728985-deac-4d4f-8e1a-08de42a03a6c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|376014|1800799024|38070700021|13003099007|8096899003;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?JgvLOKQIXLKcxnWvVR/8vYCWUw6zgMrde4idMbXnIKkLEj/hZAuhsJtoJFQd?=
- =?us-ascii?Q?oa/ysALXQPNVzaaJprtEw2Ieq4SzNdP3Z5/GI5XKegzfijNh7N0qbGeIOF6U?=
- =?us-ascii?Q?/Zij0FOABf3ALQH0mmYGeiDsi2g7Gp/ZNYFL0pdlvSxvHG4jPRTWLzR569Ky?=
- =?us-ascii?Q?MdiIKVv4QeK/lSZq+7JH27zRYR1K4dSFXDAMRuFpHDtGVPFnFUyUnhmWS2HX?=
- =?us-ascii?Q?N8ALfrATC5nqRL0rUH2/XbUrAzWYJykt4LZz6fZJqo8JBtmYgSGSwYdNTKpT?=
- =?us-ascii?Q?JObAkhKjDXYHYYWV6uBjR9EQL2QyT5PgU08suSTsXirJE+zoifXpVnQqBqbN?=
- =?us-ascii?Q?cE2DG/UdRClUX7Js/uXPFfhtUWr6ZlM/JMrg+mpnsoDdGzc5iBua15seyYzI?=
- =?us-ascii?Q?89UTPZ8EJAMaD9kxWOLWCWyPUa2ZxY29DhrpQoiFpbScXmrInIiDkXjw4GGw?=
- =?us-ascii?Q?j2Nsys29IwqIVneM4LQeeixtQCovNQPTDxkGCDQ3bPv5iqWYhWZCAiJcW+0m?=
- =?us-ascii?Q?Cfb+aL4hygXGsjyM/Tw0S7n6hSOH4IfAbQdJHaz4bFWTEINdCLPaeq+FiWIl?=
- =?us-ascii?Q?GaOCYXktI+lU2ap8AKLH3eXvHa9yWSIcK3gCwuAh4biKBWZl9u2xgUFgoi5G?=
- =?us-ascii?Q?4a9obbPcpXXYyBotxC/Wy02tsTIAEArwMWrXtPAzkYqW8Fl7O/cotjQwA6Bu?=
- =?us-ascii?Q?cNZRwe7/pFuPe9Sna3Wq0gBNzmwcVQauey2oDXqCI308gk9I2KnFsh4Ya9XJ?=
- =?us-ascii?Q?tKosaMcmo6/Sx/KM0dPCprHAGY3PobLgfqv6msp5Gy9RNr7uDvmG1DVsdwuq?=
- =?us-ascii?Q?tIMXv7Z+9WE4zgAnZ+LbuUzdov2m4cCIK4KI6l4tRWOFJrozyctVgjkm2GWh?=
- =?us-ascii?Q?R46lLOhe3906mzmfdewcKArZdKZkTSXWONVBDr+XLuYUBJ77vlnLo1qTzAbx?=
- =?us-ascii?Q?HCvFs2g4g32MEuq8Vg+w/fzsLWfy0BRIYRoYoj/zE0vcthX7MzYdPZDoNpuV?=
- =?us-ascii?Q?pMwTrC5UoRgD35sdCBqMahN0nzsmx64r4gICRN51XnBiMPUUahgZPXxdM8Fr?=
- =?us-ascii?Q?W0o6n/13F2fzleOuiENAbRDyO4vhcDxFYP0rWSHySfL3CZ5ZUlnPX0iQnT3F?=
- =?us-ascii?Q?0iXX/+sBjU08PCScANkWFhPHnUryEeTuAlAtmcfQHYPhR00MxwuQ0zsJF5ZH?=
- =?us-ascii?Q?nvy4Ef9du2A6ZlH6aB2m7WryPz3x3vxyJw2UpxWUx69v0LHSvjz7wOdM7u3X?=
- =?us-ascii?Q?X2CSe/QE8Ie9X0VKoqYZJfsfxRbeSrwkjNOI2xDBpBdua4doW3ht68RVfe/L?=
- =?us-ascii?Q?h9i/HnIk3g6Bc3LhGyrMxPZWwJ4CCmFQ4a/M8xVjdoreTzQy+xKHOij9g5Ho?=
- =?us-ascii?Q?tXqJNVokT1TGIRrg/j2MVvlHqZrv4W/Aq7kn2EHyk5TVMeEuVoHpIJATT3Az?=
- =?us-ascii?Q?OEmxBq1vh9eHmklybit1FKy05moi6umdZALehiYL4z3Wev7nQJ4UOA=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021)(13003099007)(8096899003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?SC164E4nTgQJBNKseGlwCSjbQJjYJKeyCFdyu83nYbxf2pFFGgp/b3UWL0Lg?=
- =?us-ascii?Q?Ql6Zat1stC3Rqv2zgWTloecSc0ox/sTQ/d4KSbxI4VfInQukRFDGfuww3NoN?=
- =?us-ascii?Q?2WTGlXDQwiGbWZ9/1nXTe6Xe86vB7XZjveHvGllCIft9xIrTSvJC4Tbistea?=
- =?us-ascii?Q?J+0UXTn/wNNuPtslxmmfCTyOXje87Cm1Bqv6jjZ2M5GRq4j67nKs4X6ZKp0H?=
- =?us-ascii?Q?P8ozE2Nom10eLvLOLPUraJCMuUwEx8C1wMNdZgvkrg0X4UMfa5JIvtdWV2Yf?=
- =?us-ascii?Q?Npmwo7SY5F/aJXEpCSlnTJTnXTo/6za6FWJc+s4zsvJdQbjJ/X93CAP0IcOb?=
- =?us-ascii?Q?QG++NNtWryFilvddxuUyrSzNRShqY/rheNzatU14DSY5Sr9elIWgL8J86snp?=
- =?us-ascii?Q?CUUvlrpl4N/iXPN+NzHGTx4xzGwzZCEIoRSHDIOUvG9NjlTJt4l2z0i3cWaU?=
- =?us-ascii?Q?3cTHtaknZjJPA8qJP9oFtDPh31SoYatrOiDrgMFSMqyRc62x2yCX1WNLXZI8?=
- =?us-ascii?Q?eWf+nnUGTl9zLzHCBc7aonKHj9Ccn/qgf2U/8X+fmL9j11Tsjd08Z0e4nhDJ?=
- =?us-ascii?Q?eGUJ7Ziy32M2hLhhIQUptDF1E9R3zbMfg2bTWslXkbOWXrLApMv2jlmnkYKu?=
- =?us-ascii?Q?yWH6SBmfrZMqSP1DeWiZ6NRpwkbCwwVitbJkt2E4xQBchhPcSE3/7oDeDxaK?=
- =?us-ascii?Q?xdd740eKTTH8JFrrj/MBlQJEdgSsdeKdtmy4klY/VCYCHaDd5ab0o6GO4lhd?=
- =?us-ascii?Q?b8AXVLBIoSRtP4L/OVjo8MXiOt+n2IoTTVuEswLxPI7owjnEtwy2TEhxjcMU?=
- =?us-ascii?Q?wccltWeRVmg6givCFwas/vMg5MFNkK3J5sbtGcNW+nH03JyyzOgJwsaaMmkM?=
- =?us-ascii?Q?K4PuRqJrG1t48fg6kAkcO15Z7yvd++TW5TTo8ToSxAffAlGEK93nCUxVwugx?=
- =?us-ascii?Q?ZGeyVsqzlFDDkMbz0R4IfkqRUuORrohXjH39DZ+0NTYp4ZdTbE0ihDXqggwy?=
- =?us-ascii?Q?mdQJ2Tr1ekjZOQUvh3Y/3Dac+j/5FxqQA3TsUcETqvu5041soY/nGwOGwj9d?=
- =?us-ascii?Q?BIbfbI7PuZk12Ej8nqmGQzgj3ak1uMuXkvryK4uRa8RT3EjUB7VXuiruAzDo?=
- =?us-ascii?Q?1/pmkl1k49t1+JZMvwBmd0gWHfVxnkQQzAoFd3uXPu1QiAXj8InKv0Sodetp?=
- =?us-ascii?Q?M7iBMzj4NCMgryUwtr+W1srhNRZcvy/Vhxk8p6xsx1wpv0AUqOOl6AQip03l?=
- =?us-ascii?Q?muf+vbaEWjRmOATH9dV7xhiW8X1kaaBEfFUi+gQMxTq8dCOYdWpbF1+rquJD?=
- =?us-ascii?Q?0RGcznU5Ik6woGAz7abiE3dWDSwKPIdm/QELcYBLlco3T+p6Qqp7WtrSpvXB?=
- =?us-ascii?Q?ZcTsAdTNiVVaFBIxfFmkB4Fyf3p2ZM0LdwGj1srQhVAhLmYP6KbWrvKAcRDb?=
- =?us-ascii?Q?fIzeghNJs2vdb/AuzQX81GoIqkbNSxz3OCCwzVUwNdWGBH+V8n52sQZXkbqL?=
- =?us-ascii?Q?GDPuC8hmjOEcXPeZaGVKlo/3JV1aIlZaA+7h/GzZqYaVb20RQzf7JjD6NN3S?=
- =?us-ascii?Q?K3iYQiws7TVQlbv75l3zFfo2QH6O4P9xUt5jWYS/LD6ZfTKGTXDc9y4FyLi5?=
- =?us-ascii?Q?uof3KVnRlpGtNk0+lLYPrMnQqkHgN3HI52eJa3KPZSDb+lOc1aDu8dDY/k7i?=
- =?us-ascii?Q?CLm0ZoFP4rh5oqcGyX/I68on3Lff9yLLrzkvKM0PS1jQ+Zvk9HRO67b4SSCf?=
- =?us-ascii?Q?bUMKzhkCDg=3D=3D?=
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
+ DS0PR11MB9454.namprd11.prod.outlook.com (2603:10b6:8:28c::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9456.11; Wed, 24 Dec 2025 04:03:50 +0000
+Received: from DS0PR11MB7901.namprd11.prod.outlook.com
+ ([fe80::9fa:eb3f:cf26:264d]) by DS0PR11MB7901.namprd11.prod.outlook.com
+ ([fe80::9fa:eb3f:cf26:264d%4]) with mapi id 15.20.9456.008; Wed, 24 Dec 2025
+ 04:03:50 +0000
 Content-Type: multipart/alternative;
-	boundary="_000_TYRP286MB5995B67B327F77AA92B68533DBB2ATYRP286MB5995JPNP_"
+ boundary="------------cBl09suF8Qj9JGc06ERYmVyk"
+Message-ID: <262b02d4-1c96-4263-af56-77e2578aab68@windriver.com>
+Date: Wed, 24 Dec 2025 09:33:41 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] rust: enable default uwtable and ignore arm no_std
+ test
+To: Randy MacLeod <randy.macleod@windriver.com>, Yash.Shinde@windriver.com,
+        openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com, hemanth.250302@gmail.com,
+        nick.owens@eero.com
+References: <20251222093830.2658141-1-Yash.Shinde@windriver.com>
+ <20251222093830.2658141-2-Yash.Shinde@windriver.com>
+ <c1d0b949-5995-4f60-8e94-98dd73ab5a3d@windriver.com>
+Content-Language: en-US
+From: Sunil Kumar Dora <sunilkumar.dora@windriver.com>
+In-Reply-To: <c1d0b949-5995-4f60-8e94-98dd73ab5a3d@windriver.com>
+X-ClientProxiedBy: MA5PR01CA0026.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:178::7) To DS0PR11MB7901.namprd11.prod.outlook.com
+ (2603:10b6:8:f4::20)
 MIME-Version: 1.0
-X-OriginatorOrg: nskint.co.jp
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|DS0PR11MB9454:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7933c645-b3bf-40ee-8375-08de42a17194
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|10070799003|376014|1800799024|366016|8096899003|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?VEF3MFlqVXBLZUJiOG1VRE9Pb3JDaUxBcTlETzlEaGNuSmExTkhFV3JpbVc0?=
+ =?utf-8?B?cmZTR3JNa2J4Y0NqczJvUGpKeTVHcVdzWFkwaTViTEphblhocFZ1ZjFCQXc2?=
+ =?utf-8?B?dGtLYlcyM2ZocHU4ckpTYkF6ZW5MS1Y1Umx0cFZ2N1J2SlRlcjdyU3ZiV1NN?=
+ =?utf-8?B?VTRLRkRPZGJIdVdzczZ2RmRYTmRKMWYvendSNzVlM3h0bXBLQmxhaG1SbWxH?=
+ =?utf-8?B?Ujc5RXZzRndBOXlpWmFQT2hVRDRoTXVveWtBVmJKWFhkeHFSLytjaGhJY2pH?=
+ =?utf-8?B?OTZMaW5EWTU2VTVOQm81NkZSS2pTQ0wrSmtkd3p4K3Z3WGMwL2QyamZxeVoz?=
+ =?utf-8?B?dzErYmpPOHV6WmFGSnVyYUZxanh3TFJxQzhMRmhlSnN1K3A0NjljSHlTRDlY?=
+ =?utf-8?B?YWFMdEttMUNKTm1FZUxqaHhnNGJmWjByNkh6elhadXkzRkIyVy9xTXk2Q3lW?=
+ =?utf-8?B?SEhoSjNpUmJzRzZzcWR2WVpJZDJGc0ZyVlpZWXEzLzlnNUJKRjVXTUdPZzR3?=
+ =?utf-8?B?VWVwQUZmQVE2SW1HbnFVVytoQW94UGM1NER4eXdQaitPN3lXdTg5d21xOEsy?=
+ =?utf-8?B?d0lUdlNUaDM5ck9Ka015N0FEYVVpek96TE1HUDRKNjUvM3RJT2FiRHJjcVlx?=
+ =?utf-8?B?MzN1ZktnNkNnK0xEanZWMmp4ODZXd2Vzb1BSYVZpVWlLcldzTE5WazNzTlpE?=
+ =?utf-8?B?d1VFM2djdjJBejRPcTNLRUs5QVZxYjFBK094dXhvWGdHNnYxbzAzeTY2YnpM?=
+ =?utf-8?B?MkloNWRtTkdCeUdWRVBxcUFPQXVnMnhjVGkwVVdFMlN3NGhLbzFtaTMrQVp5?=
+ =?utf-8?B?VitTSHROUFNnTTNRVEsyNWZVOGw0dnVYVkYwTnJpRXFrVlpWNlhKTkx4ZXc0?=
+ =?utf-8?B?TnMxaE4vMlM3Qjg5Z2o2WEJKL0JiSUxhb0txR2J4MjA5bGwwL2FueSs5V0dh?=
+ =?utf-8?B?bG15ZnYvUWJXUis3aUNrNWRZTjRPcnpDekQxVFFWOGNnbm1EbVNDbEZLRDdm?=
+ =?utf-8?B?bkptdFNhOGV4SUF3bDZ2Z3Rnb3JVRnFYSnlZdlFCRWlxcDZyN3lVa0F4Sklk?=
+ =?utf-8?B?QjhCTXZ2eTZPWE1lNHFxa3VhVmdCZmtBU3NsTnc3WVFpTEFoZXVtL0JUU0ow?=
+ =?utf-8?B?SU1hL2lxZlJ1b284cEF0dXhQWXZhYnlnbUNZN3NYU1Jtb0R2YldMUEdNYU9j?=
+ =?utf-8?B?cUhiM28zaVMvVnMvK3NOOVhENW9LMm9yNVFNYm94RHltT2lXYnFHVmpyZTRh?=
+ =?utf-8?B?aFhwekY5UFB0eURrKzVvTm1LRWNHM1pSbUJXN0xCQ0VNY3kvaWdHbXUwZVpF?=
+ =?utf-8?B?TDUvYjdMOGt1aUhuR2pYTFVoZjZkM0dNYlpnS0NxUE44M3d3RTZJWk9tdTRT?=
+ =?utf-8?B?eHlHV0hCaVl6dkZDaURKenhZU2RXblVCRFRSaEs4eTJuYWpFbldMUlR2bWJD?=
+ =?utf-8?B?M3RDeGRUYlhLRUtYTnU0QktCZk1DQ3dpWjJpancydTA5RWlpdkFMVFB4WUZT?=
+ =?utf-8?B?STE3UE52OHgvOFZOdWZseXhkRS9LVFh2dWdwamVEaldsSzNBbHpQaFZzSFBY?=
+ =?utf-8?B?VUFpeHc1Vk1rckp2bG1lUXNndHBqM21rZkcrWUM4V0pVR1RZZ3VVRHVTTldZ?=
+ =?utf-8?B?YXNpVWxEdkdVd2xLUzNWcmRCMTdPWlk4d3A1NDlvQ1B1RUFzeTJnUTVkSTMr?=
+ =?utf-8?B?aENkcHVpN3V3alVIUDlEVUkwRXhPOXJLREY5S3ZDWEgvcUZIL29TR2xFNlpT?=
+ =?utf-8?B?a2RTb2twT0JIRE1GbXZhMVpqK3RyOVJnK1YxVlR5OVV4dU91Y1J1d01vTk5O?=
+ =?utf-8?B?bmpIaDA3K2RCZG9wSE8zVFNSNGNzbnZrZXlCK3lqL1JNVHJCRzQvZmVVTDQy?=
+ =?utf-8?B?Qm1oSTVkYVhJU3RDZzF1bWNzNTM1c01qVkg0czVtUEFjbzhLMWJPVDZUb3hJ?=
+ =?utf-8?B?NEVVUGdLL24wNWc3YVBnc1Y1aHpRNkpBZzQ0YVNzZGU1S2JtRzloUlFiM2RD?=
+ =?utf-8?B?aXA1dG53Ryt3PT0=?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(1800799024)(366016)(8096899003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?aG5WK2N6Q0xJWmlSbzBDek9mcnNpMFRtZ0VsZ2Z6Y1lRaWZsRTdXYVN2RUhV?=
+ =?utf-8?B?YWNWeGl2ZTJhbkNYcHJmU2xnZEJGWkRPcU1ZdTJnZlhwUTE5d2ZKYmo1c3R0?=
+ =?utf-8?B?MUloejlXS0haQ0pGdkI3MzdnNGFNT3NoYW9xQWduRFhTLzBNV2NyUWZtYi9v?=
+ =?utf-8?B?cWp1eUt0Z0NsekEwbmgwdUNnOW1vbVVpVFQwYkJMWTN0dkFYNytBNTdSdTVU?=
+ =?utf-8?B?VnFLbnYzOWlaMFg5M2lNcFRBazk5d2szbjZsUjE1Zi9YRnFJbEYxRlpuMHhF?=
+ =?utf-8?B?S2dUdlgrUjlGR1pkZjNZcUpyNWRHd2pVOEhDbENWQzF0aDBkWE1pK2t0Z0I0?=
+ =?utf-8?B?eUJWOXpET3ptUHpQUjdhVUFQMGVqeEhId21nNTZubzRRMkk3N2RuYjdidElw?=
+ =?utf-8?B?Q2hyOXBUQkVxUFBkVndaTGtUbkQ0dzhObWo2OXF3Tk1wMHEvUmhPM0FJTXhL?=
+ =?utf-8?B?cERQdUEyallsUm9oTFF1OHd1MFdjMFhIOXVpSy84VGZFV1hvQXEyOGk2VTJK?=
+ =?utf-8?B?OG1DVktIem1rdTBKNVNtSkJ5YUQxTlJjdkhPTlVoZm53VTJSZU9lZDY1UmJP?=
+ =?utf-8?B?b0h4bmc3L2g5dkh5K3ZtelF5QkFUcTFBMEt6V0ZEME14TFl2a1Z4Y2xpR1hw?=
+ =?utf-8?B?QnlMWW1kUFNFdVRlNG40cUJnN1VaMndaNTluQVY3R0ZZazlrNklXai9Ndzg3?=
+ =?utf-8?B?dFBjZFNQb0NTVkl1RUlrSGpsM01mMFYxRlV5elRoby92bXVOZXhESUVjME5Q?=
+ =?utf-8?B?WjZMV3hQZXdMbjBYNUIvekM3N25uTXlaVm4zS1U0TFJqckltcXdaOXlhblVG?=
+ =?utf-8?B?TnRsenZ2N1I1Wk1ua2FDU3l6cEg4Q0hvbURDQmdqVlFIcUZOQ2hWeVc2VUow?=
+ =?utf-8?B?MkdoSWFkRnNzMTFvdzR5OU9ja0t5OGx1VEY0RzdGdmRsTnlONTViYmxMT08v?=
+ =?utf-8?B?dVdIQlBNeUdtUTBsVDF4KzVEQVVBWklCbzdlZG5yWjNlcEpmWWdvbitnMnF6?=
+ =?utf-8?B?Vk1LdkhQL2NEQnBvbk1CZkNVYVNPclAvUmJDaEtZc3Q0OVVzc1R3bW1WZHh6?=
+ =?utf-8?B?bnhmL1hQZEFZRjJ1SnRDR1M1TXhOWXdaQWl1UU9Ua0JTTzNIdXVwY1pmVUxj?=
+ =?utf-8?B?U2FNd0dMTXF2UUtsZGRlcUQ2b1J6WlVTUjE3UUpScENPR0dMUnR0ZDI0cTdU?=
+ =?utf-8?B?aC9IVHQ1NXBUeFlaM01yb0pEWnFCcVlxem9xb3ZtVEtoUm1QTXUrejVVckJQ?=
+ =?utf-8?B?RFdyTnVob0NKUkNDbmI3VWVvZzhKWmx6bzVDYXFWTkwremV1bVBjWUJGU2pp?=
+ =?utf-8?B?b0toZlpsM2tGeGVScmVyYWlLY01xWlhZd0Rua0hVay9PMlJpam0wQlNlOFhw?=
+ =?utf-8?B?YWY2RkloY21Wd2Z2dkJ4a1BFbUpKRmtSTXFPbFBKQU9qdkVpakorR0R6UjdV?=
+ =?utf-8?B?VmFEWm1yVVptVU80OWxGQXVQWW0ybzF5eXNveW1pdEV5NDBROG0rU0hOV3N0?=
+ =?utf-8?B?UjhxZzJpM0wxSTUrZ25XS2F3WjMyOFpWVDBFZ3Riay9EQkYzeEtCYkNsWlUy?=
+ =?utf-8?B?S3Myby83OFg2MmNYRFpKQzFsOUlocFJXOFBNb2JwNU1tZXNBOTJoNkJIa2lR?=
+ =?utf-8?B?TXd6OGFEbGkvZGNDcDlVYVNhVk1vVlFSRDNyUHhDbUlqTzNKeGl1ak5kc3dN?=
+ =?utf-8?B?dXlZcnZOK1h3Q0cyY2pWODJiMm9RQkRkeU9LNjEyeEE5R2xITnF0V28vd0g3?=
+ =?utf-8?B?eGZXb2VXMUxsbE9mTmpibWk0U2NVWk1YcWV1T1p1blR6SjZhcnd0OWJmRnFk?=
+ =?utf-8?B?YU80U3ZrVVpzTjQ3YXV6K0NUdURsc0xNVTJpci9XU1VoaXUrZWtUZEVsRllz?=
+ =?utf-8?B?dldLTnliVm9KanpYR2s5c1J3SkZ3VDNiVThKMU9SaHp2WXN5MTc4OGp1V0VT?=
+ =?utf-8?B?Nzg2VXhwMmJsZHNYUTJDeXVackFHVlhLeCtSMXgxWW9DQWpTWFN4M0pibTQ3?=
+ =?utf-8?B?UXVleXo0cG1IOEVLYUV5K1pKOE84blF0eHNhbWR0L1FZTm5ZNEZmaW1kZE5x?=
+ =?utf-8?B?cG1IWkw3dzZQWThNaXdCNUdRK2pkS2lpZStvSFpvV2RRUzQwcFprVi8vcy95?=
+ =?utf-8?B?enUzSEtXNzZVQ0tzTXRFQ1N2SFkrL0o0UmZnbUVjQ1RnTFhpWFlKM1l2bUNn?=
+ =?utf-8?B?SkRzRjJrVGFhdlpRN1pvcFJmUksvTTBWT1RVRGRnalpUTXpDRWdvak1pRW9Y?=
+ =?utf-8?B?WlY4RjhEZ3NhOG5CRHZ4Z1pJYzB3U2NFNFJKeVBrbVZSM1BmMzJiTWRXVHZj?=
+ =?utf-8?B?ZThVeHZUb2dPd3g5bzJ2QUo0aEozVlZZWHY4dzBHZC8zNXl2REpSY0pYdDAv?=
+ =?utf-8?Q?nKik3vhdUPBGfKNFAxNsHq9joHey4c+/BA8BQvZjFuxRb?=
+X-MS-Exchange-AntiSpam-MessageData-1: KOl0Lq4NHuNT/9ib+F1AUtjyBHwrWDmobnE=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7933c645-b3bf-40ee-8375-08de42a17194
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYRP286MB5995.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a728985-deac-4d4f-8e1a-08de42a03a6c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Dec 2025 03:55:07.5545
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2025 04:03:49.9735
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 727455a2-9822-4451-819f-f03e059d1a55
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: f7a4G8v1Y/hxiLJ1B3xfUcRtK0qtPZ8ddGMTdrJhKTUM16KPxSVJUjjtDu+ENwmSHW3E9KjBpCaAPi2SfNIJP67enLrnYYq1hW1fR9XzD4o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9P286MB6061
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PAkMZbPooTbN5FTPEg9qIKHyqIiRP9fqobi79J9Q0F9Rg95V85RXOfh9fabKVFNtG4QpIUlyF9wsEr6mSZ7z+EBtD0iPIcXkhwgtP/hxrLA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB9454
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: 5x_35-bgNGuAapjVj4ma1OgbwbNMsypW
+X-Authority-Analysis: v=2.4 cv=I6Fohdgg c=1 sm=1 tr=0 ts=694b6628 cx=c_pps
+ a=1kzZLs4G264k5kMmJ/E+Xg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=NEAV23lmAAAA:8 a=iGHA9ds3AAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
+ a=guKZO4zXEQROI-P0-0gA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=RvsMUuUuTeoL-9m5EhgA:9 a=OOSSp-SkikSOISam:21 a=_W_S_7VecoQA:10
+ a=lqcHg5cX4UMA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: B6ix02n5-AIEjgMFa_FeEhLHfZ7YnXgS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDAzMCBTYWx0ZWRfX4x+hva0K91Oh
+ IJI7dbGPrdQalnQSf7cUZ3jTsUMOaSsoWfGyQjMP7/zO7xgsEw4XcGm2XRyISKwGXTSEiY8V7D+
+ yW/UiVU6QuZqgP9K3gTre6o8zMG1N+xQiEHExcvwsud5SC37DjldIaA0VCY/eUv8f7nrxvEVlEc
+ EpzS8Z2+cD72RZ3qnT+XlXFcNsCu3aaEI0iCmWYDvmXZ90nvg6ldEQEMBD8hIzIyhTwzGt6dOZ4
+ 0KapJnDtmYjnXkXt3FUb4qA5q1L1wrfv8beb4q/QmYT7hYRb9eIPKPkVZJuwHAFbh1rQTatnAjq
+ HeqBEXcy8OBI8sByAPcoOmxZgEUgSyB2bDmRSqaqZOsA/cORPF11PTZS3DOh6vc//YYe6W/Mxe2
+ ruIhnnEpFzXqeRN/jsprQ47j7S+kxDNgtcWKIme87KfENUWVEqH2lwdD7bxp9rPT0yoXIaBFWRC
+ Fq5Vo3ACvWNg43oMo+Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-24_01,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0
+ impostorscore=0 bulkscore=0 malwarescore=0 adultscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512240030
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Dec 2025 03:55:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228518
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Dec 2025 04:03:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228519
 
---_000_TYRP286MB5995B67B327F77AA92B68533DBB2ATYRP286MB5995JPNP_
-Content-Type: text/plain; charset="us-ascii"
+--------------cBl09suF8Qj9JGc06ERYmVyk
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5BO2dEp53905463
 
 Hi Randy,
 
-From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> On Behalf Of Randy MacLeod via lists.openembedded.org
-Sent: Wednesday, December 24, 2025 10:48 AM
-To: Ken Kurematsu <k.kurematsu@nskint.co.jp>; openembedded-core@lists.opene=
-mbedded.org; Ross Burton <ross.burton@arm.com>
-Cc: Masahiro Mizutani <m.mizutani@nskint.co.jp>; Yoshitaka Ikeda <ikeda@nsk=
-int.co.jp>
-Subject: Re: [OE-core] [PATCH] libtheora: set CVE_PRODUCT
+On 12/23/2025 4:10 AM, Randy MacLeod wrote:
+> On 2025-12-22 4:38 a.m., Yash.Shinde@windriver.com wrote:
+>> From: Hemanth Kumar M D<hemanth.250302@gmail.com>
+>>
+>> Rust 1.92.0 adds new test that require unwind table support to be
+>> enabled by default. Set `default-uwtable =3D true` in the generated
+>> target spec to match upstream behavior.
+>>
+>> ref:https://github.com/rust-lang/rust/commit/fe66eaa67acc47525db6f13cf=
+97d54780d87b805
+>>
+>> Also ignore the no_std simple-runs UI test on ARM targets. The test
+>> fails with panic=3Dabort due to a known unwind table issue on 32-bit A=
+RM
+>>
+>> https://github.com/rust-lang/rust/issues/146996
+>
+> Okay and I'm glad to see the upstream issues linked.
+>
+> Should we make some of these tspec decisions set-able by well-informed=20
+> users?
+>
+> Maybe they can already do that using this horridly named "FEATURES"=20
+> variable.
+> (rename to RUST_FEATURES maybe ?)
+>
+The existing FEATURES variables in the .bbclass is currently used for=20
+low-level CPU instructions.
+As you suggested, RUST_FEATURE variable will allow us to keep H/W tuning=20
+separate from
+high-level compiler policy. I will discuss with team.
+>
+>
+> For example, this bug:
+>
+> Unable to produce a Rust static binary with TCLIBC=3Dmusl (oe-core/mast=
+er)
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16076
+>
+Although the bug report did not include a specific recipe, I used=20
+ripgrep as a reference
+to validate the issue and was able to build a fully static musl binary.
 
-On 2025-12-22 7:05 p.m., Ken Kurematsu wrote:
-Hi Randy,
+I found that changing *tspec['dynamic-linking']* from *true *to *false=20
+*in the .bbclass alone was not enough
+to produce static binary. The problem had two parts.
 
-Let me confirm one thing about your comment.
+First, at the target specification level, rust-target-config.bbclass=20
+forces dynamic-linking to true.
+Because of this, the compiler assumes the target is dynamic and ignores=20
+requests for static linking.
+As a result, it still produces a dynamic PIE binary that depends on the=20
+musl dynamic loader (ld-musl.so).
 
-If I make the corrections as suggested in the comment, when I retrieve CVE_=
-PRODUCT with bitbake-getvar,
-only "theora" is included, not "libtheora".
-I expect both libtheora and theora to be valid matches...
-I see.
-(This is the result of an old test environment, but it was the same in 1.2.=
-0)
+Second, at the linker wrapper level, *target-rust-ccld* enforces dynamic=20
+linking by default.
+It automatically adds flags such as*-Wl,-Bdynamic* and *-pie*. This=20
+conflicts with the compiler=E2=80=99s static intent
+and causes it to pick shared libraries from the sysroot, which leads to=20
+the error
+=E2=80=9C*attempted static linking of dynamic object*=E2=80=9D.
 
-$ bitbake-getvar -r libtheora CVE_PRODUCT
-#
-# $CVE_PRODUCT [2 operations]
-#   set xxx/create-spdx-2.2.bbclass:11
-#     [_defaultval] "${BPN}"
-#   append xxx/libtheora_1.1.1.bb<https://urldefense.com/v3/__http:/libtheo=
-ra_1.1.1.bb__;!!AjveYdw8EvQ!eK1ouKPWLXaDnUfQ3gMs8G0Yz5LwabHD57DRjPY3zICpVSF=
--uVGuK9BBiDKmGkE_mqMu67Ekm6WVIz8qZmIROdM8lL0jRA$>:23
-#     "theora"
-# pre-expansion value:
-#   " theora"
-CVE_PRODUCT=3D" theora"
-but  it doesn't look like that.
+To work around this and meet static musl requirements, I applied=20
+recipe-specific changes to bypass the wrapper=E2=80=99s
+enforcement and handle circular dependencies and crate-level leakage.
+With these adjustments, the final link correctly uses static archives=20
+instead of falling back to shared objects.
 
+I will update the bug report with these findings.
+>
+>
+> seems to be due to hard-coding dynamic-linking to True below just=20
+> after your:
+>
+> +    tspec['default-uwtable'] =3D True
+>
+>
+> change.
+>
+> I've CCed Nick in case you guys have a quick work-around to enable=20
+> static linking.
+>
+> ../Randy
+>
+>> Signed-off-by: Hemanth Kumar M D<hemanth.250302@gmail.com>
+>> Signed-off-by: Yash Shinde<Yash.Shinde@windriver.com>
+>> ---
+>>   meta/classes-recipe/rust-target-config.bbclass       |  1 +
+>>   .../rust/files/rust-oe-selftest.patch                | 12 ++++++++++=
+++
+>>   2 files changed, 13 insertions(+)
+>>
+>> diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/cla=
+sses-recipe/rust-target-config.bbclass
+>> index 33a290412e..2a06c4ae8b 100644
+>> --- a/meta/classes-recipe/rust-target-config.bbclass
+>> +++ b/meta/classes-recipe/rust-target-config.bbclass
+>> @@ -418,6 +418,7 @@ def rust_gen_target(d, thing, wd, arch):
+>>           tspec['llvm-floatabi'] =3D "soft"
+>>       elif fpu =3D=3D "hard":
+>>           tspec['llvm-floatabi'] =3D "hard"
+>> +    tspec['default-uwtable'] =3D True
+>>       tspec['dynamic-linking'] =3D True
+>>       tspec['executables'] =3D True
+>>       tspec['linker-is-gnu'] =3D True
+>> diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch b=
+/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+>> index b39b326455..d1fba81612 100644
+>> --- a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+>> +++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+>> @@ -254,3 +254,15 @@ index a3562f2fd93..d4e52ed91be 100644
+>>        fn linux_hwcap2_aarch64() {
+>>            let file =3D
+>>                concat!(env!("CARGO_MANIFEST_DIR"), "/src/detect/test_d=
+ata/linux-hwcap2-aarch64.auxv");
+>> +diff --git a/tests/ui/no_std/simple-runs.rs b/tests/ui/no_std/simple-=
+runs.rs
+>> +index af44dfe..e6674e5 100644
+>> +--- a/tests/ui/no_std/simple-runs.rs
+>> ++++ b/tests/ui/no_std/simple-runs.rs
+>> +@@ -2,6 +2,7 @@
+>> +
+>> + //@ run-pass
+>> + //@ compile-flags: -Cpanic=3Dabort
+>> ++//@ ignore-arm FIXME(#146996)
+>> + //@ ignore-wasm different `main` convention
+>> +
+>> + #![feature(lang_items)]
+>
+>
+> --=20
+> # Randy MacLeod
+> # Wind River Linux
+--------------cBl09suF8Qj9JGc06ERYmVyk
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5BO2dEp53905463
 
-If libtheora should be included, I think the following correction would be =
-best. What do you think?
-Sorry if I misunderstood.
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <p>Hi Randy,</p>
+    <div class=3D"moz-cite-prefix">On 12/23/2025 4:10 AM, Randy MacLeod
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:c1d0b949-5995-4f60-8e94-98dd73a=
+b5a3d@windriver.com">
+     =20
+      <div class=3D"moz-cite-prefix">On 2025-12-22 4:38 a.m., <a class=3D=
+"moz-txt-link-abbreviated moz-txt-link-freetext" href=3D"mailto:Yash.Shin=
+de@windriver.com" moz-do-not-send=3D"true">Yash.Shinde@windriver.com</a>
+        wrote:<br>
+      </div>
+      <blockquote type=3D"cite" cite=3D"mid:20251222093830.2658141-2-Yash=
+.Shinde@windriver.com">
+        <pre wrap=3D"" class=3D"moz-quote-pre">From: Hemanth Kumar M D <a=
+ class=3D"moz-txt-link-rfc2396E" href=3D"mailto:hemanth.250302@gmail.com"=
+ moz-do-not-send=3D"true">&lt;hemanth.250302@gmail.com&gt;</a>
 
-CVE_PRODUCT =3D "${BPN} theora"
-probably not.
-Ummm...
+Rust 1.92.0 adds new test that require unwind table support to be
+enabled by default. Set `default-uwtable =3D true` in the generated
+target spec to match upstream behavior.
 
-I replied to your email in response to a discussion in the Yocto patch revi=
-ew meeting.
-IIRC, Ross Burton was the one who suggested the +=3D.
+ref:<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/rust-la=
+ng/rust/commit/fe66eaa67acc47525db6f13cf97d54780d87b805" moz-do-not-send=3D=
+"true">https://github.com/rust-lang/rust/commit/fe66eaa67acc47525db6f13cf=
+97d54780d87b805</a>
 
-It would be a good idea to attend the Yocto patch review meeting and talk t=
-o you.
-However, I'm not very good at English. Sorry.
+Also ignore the no_std simple-runs UI test on ARM targets. The test
+fails with panic=3Dabort due to a known unwind table issue on 32-bit ARM
 
-I don't often use the CVE check scripts in oe-core so I'm not sure off-hand=
-, how to confirm
-that the BPN is the default.
-
-The default value is defined in cve-check.bbclass, which can be found at th=
-e following URL:
-https://github.com/openembedded/openembedded-core/blob/48e98a6e3fd26c418902=
-b76be8865102bd903189/meta/classes/cve-check.bbclass#L31
-
-Ross ?
-
-Ken, please be patient, it the winter holiday season so Ross may not reply =
-for a week or two.
-
-Ok, I'll wait for Ross's response.
-I will also be on vacation starting next week, so the next time I can reply=
- will be after the New Year.
-
-../Randy
-
-
-
-
-By the way, the NVD records have the following values, so I think theora al=
-one will be fine.
-(itheora is a different product)
-
-$ sqlite3 downloads/CVE_CHECK/nvdcve_2-2.db .dump | grep theora
-:
-INSERT INTO PRODUCTS VALUES('CVE-2008-0797', 'itheora','itheora','1.0_rc1',=
-'=3D','','');
-INSERT INTO PRODUCTS VALUES('CVE-2024-56431', 'xiph','theora','','','1.2.0'=
-,'<');
-$
-
-Best Regards.
---
-Ken Kurematsu k.kurematsu@nskint.co.jp<mailto:k.kurematsu@nskint.co.jp>
-
-From: openembedded-core@lists.openembedded.org<mailto:openembedded-core@lis=
-ts.openembedded.org> <openembedded-core@lists.openembedded.org><mailto:open=
-embedded-core@lists.openembedded.org> On Behalf Of Ken Kurematsu via lists.=
-openembedded.org<https://urldefense.com/v3/__http:/lists.openembedded.org__=
-;!!AjveYdw8EvQ!eK1ouKPWLXaDnUfQ3gMs8G0Yz5LwabHD57DRjPY3zICpVSF-uVGuK9BBiDKm=
-GkE_mqMu67Ekm6WVIz8qZmIROdOLXrdmwg$>
-Sent: Tuesday, December 23, 2025 8:43 AM
-To: Randy MacLeod <randy.macleod@windriver.com><mailto:randy.macleod@windri=
-ver.com>; openembedded-core@lists.openembedded.org<mailto:openembedded-core=
-@lists.openembedded.org>
-Cc: Masahiro Mizutani <m.mizutani@nskint.co.jp><mailto:m.mizutani@nskint.co=
-.jp>; Yoshitaka Ikeda <ikeda@nskint.co.jp><mailto:ikeda@nskint.co.jp>; Ken =
-Kurematsu <k.kurematsu@nskint.co.jp><mailto:k.kurematsu@nskint.co.jp>
-Subject: Re: [OE-core] [PATCH] libtheora: set CVE_PRODUCT
-
-Hi Randy,
-
-Thank you for your review.
-I will reflect your comments and post v2.
-
-Best regards.
---
-Ken Kurematsu <k.kurematsu@nskint.co.jp<mailto:k.kurematsu@nskint.co.jp>>
-
-From: Randy MacLeod <randy.macleod@windriver.com<mailto:randy.macleod@windr=
-iver.com>>
-Sent: Tuesday, December 23, 2025 3:58 AM
-To: Ken Kurematsu <k.kurematsu@nskint.co.jp<mailto:k.kurematsu@nskint.co.jp=
->>; openembedded-core@lists.openembedded.org<mailto:openembedded-core@lists=
-.openembedded.org>
-Cc: Masahiro Mizutani <m.mizutani@nskint.co.jp<mailto:m.mizutani@nskint.co.=
-jp>>; Yoshitaka Ikeda <ikeda@nskint.co.jp<mailto:ikeda@nskint.co.jp>>
-Subject: Re: [OE-core] [PATCH] libtheora: set CVE_PRODUCT
-
-Hi Ken,
-
-On 2025-12-18 11:01 p.m., Ken Kurematsu via lists.openembedded.org<https://=
-urldefense.com/v3/__http:/lists.openembedded.org__;!!AjveYdw8EvQ!eK1ouKPWLX=
-aDnUfQ3gMs8G0Yz5LwabHD57DRjPY3zICpVSF-uVGuK9BBiDKmGkE_mqMu67Ekm6WVIz8qZmIRO=
-dOLXrdmwg$> wrote:
-
-In the NVD database, the product name of libtheora is theora.
-
-This was set to ensure that cve-check works correctly.
-
-
-
-Signed-off-by: Ken Kurematsu <k.kurematsu@nskint.co.jp><mailto:k.kurematsu@=
-nskint.co.jp>
-
+<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/rust-lang/r=
+ust/issues/146996" moz-do-not-send=3D"true">https://github.com/rust-lang/=
+rust/issues/146996</a></pre>
+      </blockquote>
+      <p>Okay and I'm glad to see the upstream issues linked.<br>
+      </p>
+      <p>Should we make some of these tspec decisions set-able by
+        well-informed users?<br>
+        <br>
+        Maybe they can already do that using this horridly named
+        &quot;FEATURES&quot; variable.<br>
+        (rename to RUST_FEATURES maybe ?)<br>
+      </p>
+    </blockquote>
+    <font face=3D"Calibri">The existing FEATURES variables in the .bbclas=
+s
+      is currently used for low-level CPU instructions.<br>
+      As you suggested, RUST_FEATURE variable will allow us to keep H/W
+      tuning separate from<br>
+      high-level compiler policy. I will discuss with team.</font>
+    <blockquote type=3D"cite" cite=3D"mid:c1d0b949-5995-4f60-8e94-98dd73a=
+b5a3d@windriver.com">
+      <p><br>
+        For example, this bug:<br>
+        <br>
+        &nbsp;&nbsp; <span id=3D"summary_container"><span id=3D"short_des=
+c_nonedit_display">Unable to produce a Rust
+            static binary with TCLIBC=3Dmusl (oe-core/master)<br>
+          </span></span>&nbsp;&nbsp; <a class=3D"moz-txt-link-freetext" h=
+ref=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16076" moz-do-=
+not-send=3D"true">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D160=
+76</a><br>
+      </p>
+    </blockquote>
+    <font face=3D"Calibri">Although the bug report did not include a
+      specific recipe, I used ripgrep as a reference<br>
+      to validate the issue and was able to build a fully static musl
+      binary.<br>
+      <br>
+      I found that changing <b>tspec['dynamic-linking']</b> from <b>true
+      </b>to <b>false </b>in the .bbclass alone was not enough<br>
+      to produce static binary. The problem had two parts.<br>
+      <br>
+      First, at the target specification level,
+      rust-target-config.bbclass forces dynamic-linking to true.&nbsp;<br=
+>
+      Because of this, the compiler assumes the target is dynamic and
+      ignores requests for static linking.&nbsp;<br>
+      As a result, it still produces a dynamic PIE binary that depends
+      on the musl dynamic loader (ld-musl.so).<br>
+      <br>
+      Second, at the linker wrapper level, <b>target-rust-ccld</b>
+      enforces dynamic linking by default.&nbsp;<br>
+      It automatically adds flags such as<b> -Wl,-Bdynamic</b> and <b>-pi=
+e</b>.
+      This conflicts with the compiler=E2=80=99s static intent&nbsp;<br>
+      and causes it to pick shared libraries from the sysroot, which
+      leads to the error&nbsp;<br>
+      =E2=80=9C<b>attempted static linking of dynamic object</b>=E2=80=9D=
+.<br>
+      <br>
+      To work around this and meet static musl requirements, I applied
+      recipe-specific changes to bypass the wrapper=E2=80=99s&nbsp;<br>
+      enforcement and handle circular dependencies and crate-level
+      leakage.&nbsp;<br>
+      With these adjustments, the final link correctly uses static
+      archives instead of falling back to shared objects.<br>
+      <br>
+      I will update the bug report with these findings.</font>
+    <blockquote type=3D"cite" cite=3D"mid:c1d0b949-5995-4f60-8e94-98dd73a=
+b5a3d@windriver.com">
+      <p><br>
+        seems to be due to hard-coding dynamic-linking to True below
+        just after your:<br>
+        &nbsp; <br>
+      </p>
+      <pre wrap=3D"" class=3D"moz-quote-pre">+    tspec['default-uwtable'=
+] =3D True</pre>
+      <p><br>
+        change.<br>
+        <br>
+        I've CCed Nick in case you guys have a quick work-around to
+        enable static linking.<br>
+      </p>
+      <p>../Randy<br>
+      </p>
+      <blockquote type=3D"cite" cite=3D"mid:20251222093830.2658141-2-Yash=
+.Shinde@windriver.com">
+        <pre wrap=3D"" class=3D"moz-quote-pre">Signed-off-by: Hemanth Kum=
+ar M D <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:hemanth.250302@g=
+mail.com" moz-do-not-send=3D"true">&lt;hemanth.250302@gmail.com&gt;</a>
+Signed-off-by: Yash Shinde <a class=3D"moz-txt-link-rfc2396E" href=3D"mai=
+lto:Yash.Shinde@windriver.com" moz-do-not-send=3D"true">&lt;Yash.Shinde@w=
+indriver.com&gt;</a>
 ---
+ meta/classes-recipe/rust-target-config.bbclass       |  1 +
+ .../rust/files/rust-oe-selftest.patch                | 12 ++++++++++++
+ 2 files changed, 13 insertions(+)
 
- meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb | 2 ++
-
- 1 file changed, 2 insertions(+)
-
-
-
-diff --git a/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb b/meta/re=
-cipes-multimedia/libtheora/libtheora_1.2.0.bb
-
-index 04de8507fb..bacaf3aee6 100644
-
---- a/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb
-
-+++ b/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb
-
-@@ -14,6 +14,8 @@ SRC_URI[sha256sum] =3D "ebdf77a8f5c0a8f7a9e42323844fa0950=
-2b34eb1d1fece7b5f54da41fe
-
-
-
- UPSTREAM_CHECK_REGEX =3D "libtheora-(?P<pver>\d+(\.\d)+)\.(tar\.gz|tgz)"
-
-
-
-+CVE_PRODUCT =3D "theora"
-
-+
-
-
-
-From YP patch review,
-Please use:
-
-CVE_PRODUCT +=3D "theora"
-
-
-
-to catch both libtheora and theora
-
-
-
-
-
-Thanks,
-
-
-
-../Randy
-
-
-
-
-
- inherit autotools pkgconfig
-
-
-
- EXTRA_OECONF =3D "--disable-examples --disable-doc"
-
-
-
-
-
-
-
-
---
-
+diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classe=
+s-recipe/rust-target-config.bbclass
+index 33a290412e..2a06c4ae8b 100644
+--- a/meta/classes-recipe/rust-target-config.bbclass
++++ b/meta/classes-recipe/rust-target-config.bbclass
+@@ -418,6 +418,7 @@ def rust_gen_target(d, thing, wd, arch):
+         tspec['llvm-floatabi'] =3D &quot;soft&quot;
+     elif fpu =3D=3D &quot;hard&quot;:
+         tspec['llvm-floatabi'] =3D &quot;hard&quot;
++    tspec['default-uwtable'] =3D True
+     tspec['dynamic-linking'] =3D True
+     tspec['executables'] =3D True
+     tspec['linker-is-gnu'] =3D True
+diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch b/me=
+ta/recipes-devtools/rust/files/rust-oe-selftest.patch
+index b39b326455..d1fba81612 100644
+--- a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
++++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+@@ -254,3 +254,15 @@ index a3562f2fd93..d4e52ed91be 100644
+      fn linux_hwcap2_aarch64() {
+          let file =3D
+              concat!(env!(&quot;CARGO_MANIFEST_DIR&quot;), &quot;/src/de=
+tect/test_data/linux-hwcap2-aarch64.auxv&quot;);
++diff --git a/tests/ui/no_std/simple-runs.rs b/tests/ui/no_std/simple-run=
+s.rs
++index af44dfe..e6674e5 100644
++--- a/tests/ui/no_std/simple-runs.rs
+++++ b/tests/ui/no_std/simple-runs.rs
++@@ -2,6 +2,7 @@
++=20
++ //@ run-pass
++ //@ compile-flags: -Cpanic=3Dabort
+++//@ ignore-arm FIXME(#146996)
++ //@ ignore-wasm different `main` convention
++=20
++ #![feature(lang_items)]
+</pre>
+      </blockquote>
+      <p><br>
+      </p>
+      <pre class=3D"moz-signature" cols=3D"72">--=20
 # Randy MacLeod
-
-# Wind River Linux
-
-
-
---
-
-# Randy MacLeod
-
-# Wind River Linux
-
-
-
---
-
-Ken Kurematsu <k.kurematsu@nskint.co.jp>
-
---_000_TYRP286MB5995B67B327F77AA92B68533DBB2ATYRP286MB5995JPNP_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
-hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
-fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"MS Gothic";
-	panose-1:2 11 6 9 7 2 5 8 2 4;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:"Yu Gothic";
-	panose-1:2 11 4 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Aptos;}
-@font-face
-	{font-family:"MS PGothic";
-	panose-1:2 11 6 0 7 2 5 8 2 4;}
-@font-face
-	{font-family:"Yu Gothic";
-	panose-1:2 11 4 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"MS PGothic";}
-@font-face
-	{font-family:"MS Gothic";
-	panose-1:2 11 6 9 7 2 5 8 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0mm;
-	font-size:12.0pt;
-	font-family:"MS PGothic";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-pre
-	{mso-style-priority:99;
-	mso-style-link:"HTML \66F8\5F0F\4ED8\304D \(\6587\5B57\)";
-	margin:0mm;
-	font-size:12.0pt;
-	font-family:"MS Gothic";}
-span.HTML
-	{mso-style-name:"HTML \66F8\5F0F\4ED8\304D \(\6587\5B57\)";
-	mso-style-priority:99;
-	mso-style-link:"HTML \66F8\5F0F\4ED8\304D";
-	font-family:"Courier New";}
-span.20
-	{mso-style-type:personal-reply;
-	font-family:"Yu Gothic";
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;
-	mso-ligatures:none;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:99.25pt 30.0mm 30.0mm 30.0mm;}
-div.WordSection1
-	{page:WordSection1;}
---></style>
-</head>
-<body lang=3D"JA" link=3D"blue" vlink=3D"purple" style=3D"word-wrap:break-w=
-ord">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
-family:&quot;Yu Gothic&quot;">Hi Randy,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
-family:&quot;Yu Gothic&quot;"><o:p>&nbsp;</o:p></span></p>
-<div>
-<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0mm =
-0mm 0mm">
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><b><span lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Cal=
-ibri&quot;,sans-serif">From:</span></b><span lang=3D"EN-US" style=3D"font-s=
-ize:11.0pt;font-family:&quot;Calibri&quot;,sans-serif"> openembedded-core@l=
-ists.openembedded.org
- &lt;openembedded-core@lists.openembedded.org&gt; <b>On Behalf Of </b>Randy=
- MacLeod via lists.openembedded.org<br>
-<b>Sent:</b> Wednesday, December 24, 2025 10:48 AM<br>
-<b>To:</b> Ken Kurematsu &lt;k.kurematsu@nskint.co.jp&gt;; openembedded-cor=
-e@lists.openembedded.org; Ross Burton &lt;ross.burton@arm.com&gt;<br>
-<b>Cc:</b> Masahiro Mizutani &lt;m.mizutani@nskint.co.jp&gt;; Yoshitaka Ike=
-da &lt;ikeda@nskint.co.jp&gt;<br>
-<b>Subject:</b> Re: [OE-core] [PATCH] libtheora: set CVE_PRODUCT<o:p></o:p>=
-</span></p>
-</div>
-</div>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US">On 2025-12-22 7:05 p.m., Ken Kurematsu wrote:<o:p>=
-</o:p></span></p>
-</div>
-<blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">Hi Randy,</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">&nbsp;</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">Let me confirm one thing about your comment.</span><span lang=3D=
-"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">&nbsp;</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">If I make the corrections as suggested in the comment, when I re=
-trieve CVE_PRODUCT with bitbake-getvar,</span><span lang=3D"EN-US"><o:p></o=
-:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">only &quot;theora&quot; is included, not &quot;libtheora&quot;.<=
-/span><span lang=3D"EN-US"><o:p></o:p></span></p>
-</blockquote>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US">I expect both libtheora and theora to be valid mat=
-ches...<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
-family:&quot;Yu Gothic&quot;">I see.<o:p></o:p></span></p>
-<blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">(This is the result of an old test environment, but it was the s=
-ame in 1.2.0)</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">&nbsp;</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">$ bitbake-getvar -r libtheora CVE_PRODUCT</span><span lang=3D"EN=
--US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">#</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;"># $CVE_PRODUCT [2 operations]</span><span lang=3D"EN-US"><o:p></=
-o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">#&nbsp;&nbsp; set xxx/create-spdx-2.2.bbclass:11</span><span lan=
-g=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">#&nbsp;&nbsp;&nbsp;&nbsp; [_defaultval] &quot;${BPN}&quot;</span=
-><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">#&nbsp;&nbsp; append xxx/</span><span lang=3D"EN-US"><a href=3D"=
-https://urldefense.com/v3/__http:/libtheora_1.1.1.bb__;!!AjveYdw8EvQ!eK1ouK=
-PWLXaDnUfQ3gMs8G0Yz5LwabHD57DRjPY3zICpVSF-uVGuK9BBiDKmGkE_mqMu67Ekm6WVIz8qZ=
-mIROdM8lL0jRA$"><span style=3D"font-size:10.5pt;font-family:&quot;Yu Gothic=
-&quot;">libtheora_1.1.1.bb</span></a></span><span lang=3D"EN-US" style=3D"f=
-ont-size:10.5pt;font-family:&quot;Yu Gothic&quot;">:23</span><span lang=3D"=
-EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">#&nbsp;&nbsp;&nbsp;&nbsp; &quot;theora&quot;</span><span lang=3D=
-"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;"># pre-expansion value:</span><span lang=3D"EN-US"><o:p></o:p></s=
-pan></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">#&nbsp;&nbsp; &quot; theora&quot;</span><span lang=3D"EN-US"><o:=
-p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">CVE_PRODUCT=3D&quot; theora&quot;</span><span lang=3D"EN-US"><o:=
-p></o:p></span></p>
-</blockquote>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US">but&nbsp; it doesn't look like that.<br>
-<br>
-<o:p></o:p></span></p>
-<blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">&nbsp;</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">If libtheora should be included, I think the following correctio=
-n would be best. What do you think?</span><span lang=3D"EN-US"><o:p></o:p><=
-/span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">Sorry if I misunderstood.</span><span lang=3D"EN-US"><o:p></o:p>=
-</span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">&nbsp;</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">CVE_PRODUCT =3D &quot;${BPN} theora&quot;</span><span lang=3D"EN=
--US"><o:p></o:p></span></p>
-</blockquote>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US">probably not.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
-family:&quot;Yu Gothic&quot;">Ummm</span><span style=3D"font-size:10.5pt;fo=
-nt-family:&quot;Yu Gothic&quot;">&#8230;<span lang=3D"EN-US"><o:p></o:p></s=
-pan></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US"><br>
-I replied to your email in response to a discussion in the Yocto patch revi=
-ew meeting.<br>
-IIRC, Ross Burton was the one who suggested the +=3D.<o:p></o:p></span></p>
-<p><span lang=3D"EN">It would be a good idea to attend the Yocto patch revi=
-ew meeting and talk to you.<br>
-However, I'm not very good at English. Sorry.</span><span lang=3D"EN-US"><o=
-:p></o:p></span></p>
-<p style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"EN=
--US">I don't often use the CVE check scripts in oe-core so I'm not sure off=
--hand, how to confirm<br>
-that the BPN is the default. <o:p></o:p></span></p>
-<p><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Goth=
-ic&quot;">The default value is defined in cve-check.bbclass, which can be f=
-ound at the following URL:<br>
-</span><span lang=3D"EN-US"><a href=3D"https://github.com/openembedded/open=
-embedded-core/blob/48e98a6e3fd26c418902b76be8865102bd903189/meta/classes/cv=
-e-check.bbclass#L31"><span style=3D"font-size:10.5pt;font-family:&quot;Yu G=
-othic&quot;">https://github.com/openembedded/openembedded-core/blob/48e98a6=
-e3fd26c418902b76be8865102bd903189/meta/classes/cve-check.bbclass#L31</span>=
-</a></span><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot=
-;Yu Gothic&quot;"><o:p></o:p></span></p>
-<p style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"EN=
--US"><br>
-Ross ?<o:p></o:p></span></p>
-<p style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"EN=
--US">Ken, please be patient, it the winter holiday season so Ross may not r=
-eply for a week or two.<o:p></o:p></span></p>
-<p><span lang=3D"EN" style=3D"font-size:10.5pt;font-family:&quot;Yu Gothic&=
-quot;">Ok, I'll wait for Ross's response.<br>
-I will also be on vacation starting next week, so the next time I can reply=
- will be after the New Year.</span><span lang=3D"EN-US" style=3D"font-size:=
-10.5pt;font-family:&quot;Yu Gothic&quot;"><o:p></o:p></span></p>
-<p style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"EN=
--US">../Randy<o:p></o:p></span></p>
-<p style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"EN=
--US"><o:p>&nbsp;</o:p></span></p>
-<blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">&nbsp;</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">&nbsp;</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">By the way, the NVD records have the following values, so I thin=
-k theora alone will be fine.</span><span lang=3D"EN-US"><o:p></o:p></span><=
-/p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">(itheora is a different product)</span><span lang=3D"EN-US"><o:p=
-></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">&nbsp;</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">$ sqlite3 downloads/CVE_CHECK/nvdcve_2-2.db .dump | grep theora<=
-/span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">:</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">INSERT INTO PRODUCTS VALUES('CVE-2008-0797', 'itheora','itheora'=
-,'1.0_rc1','=3D','','');</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">INSERT INTO PRODUCTS VALUES('CVE-2024-56431', 'xiph','theora',''=
-,'','1.2.0','&lt;');</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">$</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">&nbsp;</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">Best Regards.</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">--</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">Ken Kurematsu
-</span><span lang=3D"EN-US"><a href=3D"mailto:k.kurematsu@nskint.co.jp"><sp=
-an style=3D"font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">k.kurematsu=
-@nskint.co.jp</span></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">&nbsp;</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<div style=3D"border:none;border-left:solid blue 1.5pt;padding:0mm 0mm 0mm =
-4.0pt">
-<div>
-<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0mm =
-0mm 0mm">
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><b><span lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Cal=
-ibri&quot;,sans-serif">From:</span></b><span lang=3D"EN-US" style=3D"font-s=
-ize:11.0pt;font-family:&quot;Calibri&quot;,sans-serif">
-</span><span lang=3D"EN-US"><a href=3D"mailto:openembedded-core@lists.opene=
-mbedded.org"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot=
-;,sans-serif">openembedded-core@lists.openembedded.org</span></a></span><sp=
-an lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;=
-,sans-serif">
-</span><span lang=3D"EN-US"><a href=3D"mailto:openembedded-core@lists.opene=
-mbedded.org"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot=
-;,sans-serif">&lt;openembedded-core@lists.openembedded.org&gt;</span></a></=
-span><span lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Calib=
-ri&quot;,sans-serif">
-<b>On Behalf Of </b>Ken Kurematsu via </span><span lang=3D"EN-US"><a href=
-=3D"https://urldefense.com/v3/__http:/lists.openembedded.org__;!!AjveYdw8Ev=
-Q!eK1ouKPWLXaDnUfQ3gMs8G0Yz5LwabHD57DRjPY3zICpVSF-uVGuK9BBiDKmGkE_mqMu67Ekm=
-6WVIz8qZmIROdOLXrdmwg$"><span style=3D"font-size:11.0pt;font-family:&quot;C=
-alibri&quot;,sans-serif">lists.openembedded.org</span></a></span><span lang=
-=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-s=
-erif"><br>
-<b>Sent:</b> Tuesday, December 23, 2025 8:43 AM<br>
-<b>To:</b> Randy MacLeod </span><span lang=3D"EN-US"><a href=3D"mailto:rand=
-y.macleod@windriver.com"><span style=3D"font-size:11.0pt;font-family:&quot;=
-Calibri&quot;,sans-serif">&lt;randy.macleod@windriver.com&gt;</span></a></s=
-pan><span lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Calibr=
-i&quot;,sans-serif">;
-</span><span lang=3D"EN-US"><a href=3D"mailto:openembedded-core@lists.opene=
-mbedded.org"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot=
-;,sans-serif">openembedded-core@lists.openembedded.org</span></a></span><sp=
-an lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;=
-,sans-serif"><br>
-<b>Cc:</b> Masahiro Mizutani </span><span lang=3D"EN-US"><a href=3D"mailto:=
-m.mizutani@nskint.co.jp"><span style=3D"font-size:11.0pt;font-family:&quot;=
-Calibri&quot;,sans-serif">&lt;m.mizutani@nskint.co.jp&gt;</span></a></span>=
-<span lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Calibri&qu=
-ot;,sans-serif">;
- Yoshitaka Ikeda </span><span lang=3D"EN-US"><a href=3D"mailto:ikeda@nskint=
-.co.jp"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,san=
-s-serif">&lt;ikeda@nskint.co.jp&gt;</span></a></span><span lang=3D"EN-US" s=
-tyle=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif">;
- Ken Kurematsu </span><span lang=3D"EN-US"><a href=3D"mailto:k.kurematsu@ns=
-kint.co.jp"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;=
-,sans-serif">&lt;k.kurematsu@nskint.co.jp&gt;</span></a></span><span lang=
-=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-s=
-erif"><br>
-<b>Subject:</b> Re: [OE-core] [PATCH] libtheora: set CVE_PRODUCT</span><spa=
-n lang=3D"EN-US"><o:p></o:p></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US">&nbsp;<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">Hi Randy,</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">&nbsp;</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">Thank you for your review.</span><span lang=3D"EN-US"><o:p></o:p=
-></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">I will reflect your comments and post v2.</span><span lang=3D"EN=
--US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">&nbsp;</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">Best regards.</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">--</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">Ken Kurematsu &lt;</span><span lang=3D"EN-US"><a href=3D"mailto:=
-k.kurematsu@nskint.co.jp"><span style=3D"font-size:10.5pt;font-family:&quot=
-;Yu Gothic&quot;">k.kurematsu@nskint.co.jp</span></a></span><span lang=3D"E=
-N-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Gothic&quot;">&gt;</sp=
-an><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Got=
-hic&quot;">&nbsp;</span><span lang=3D"EN-US"><o:p></o:p></span></p>
-<div style=3D"border:none;border-left:solid blue 1.5pt;padding:0mm 0mm 0mm =
-4.0pt">
-<div>
-<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0mm =
-0mm 0mm">
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><b><span lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Cal=
-ibri&quot;,sans-serif">From:</span></b><span lang=3D"EN-US" style=3D"font-s=
-ize:11.0pt;font-family:&quot;Calibri&quot;,sans-serif"> Randy MacLeod
- &lt;</span><span lang=3D"EN-US"><a href=3D"mailto:randy.macleod@windriver.=
-com"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-s=
-erif">randy.macleod@windriver.com</span></a></span><span lang=3D"EN-US" sty=
-le=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif">&gt;
-<br>
-<b>Sent:</b> Tuesday, December 23, 2025 3:58 AM<br>
-<b>To:</b> Ken Kurematsu &lt;</span><span lang=3D"EN-US"><a href=3D"mailto:=
-k.kurematsu@nskint.co.jp"><span style=3D"font-size:11.0pt;font-family:&quot=
-;Calibri&quot;,sans-serif">k.kurematsu@nskint.co.jp</span></a></span><span =
-lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sa=
-ns-serif">&gt;;
-</span><span lang=3D"EN-US"><a href=3D"mailto:openembedded-core@lists.opene=
-mbedded.org"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot=
-;,sans-serif">openembedded-core@lists.openembedded.org</span></a></span><sp=
-an lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;=
-,sans-serif"><br>
-<b>Cc:</b> Masahiro Mizutani &lt;</span><span lang=3D"EN-US"><a href=3D"mai=
-lto:m.mizutani@nskint.co.jp"><span style=3D"font-size:11.0pt;font-family:&q=
-uot;Calibri&quot;,sans-serif">m.mizutani@nskint.co.jp</span></a></span><spa=
-n lang=3D"EN-US" style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,=
-sans-serif">&gt;;
- Yoshitaka Ikeda &lt;</span><span lang=3D"EN-US"><a href=3D"mailto:ikeda@ns=
-kint.co.jp"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;=
-,sans-serif">ikeda@nskint.co.jp</span></a></span><span lang=3D"EN-US" style=
-=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif">&gt;<br>
-<b>Subject:</b> Re: [OE-core] [PATCH] libtheora: set CVE_PRODUCT</span><spa=
-n lang=3D"EN-US"><o:p></o:p></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US">&nbsp;<o:p></o:p></span></p>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US">Hi Ken,<o:p></o:p></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US">&nbsp;<o:p></o:p></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:42.0pt;mso-para-margin-left:3.5=
-gd"><span lang=3D"EN-US">On 2025-12-18 11:01 p.m., Ken Kurematsu via
-<a href=3D"https://urldefense.com/v3/__http:/lists.openembedded.org__;!!Ajv=
-eYdw8EvQ!eK1ouKPWLXaDnUfQ3gMs8G0Yz5LwabHD57DRjPY3zICpVSF-uVGuK9BBiDKmGkE_mq=
-Mu67Ekm6WVIz8qZmIROdOLXrdmwg$">
-lists.openembedded.org</a> wrote:<o:p></o:p></span></p>
-</div>
-<blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">In the NVD database, the product name of libtheora is theora.<o:p></=
-o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">This was set to ensure that cve-check works correctly.<o:p></o:p></s=
-pan></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">Signed-off-by: Ken Kurematsu <a href=3D"mailto:k.kurematsu@nskint.co=
-.jp">&lt;k.kurematsu@nskint.co.jp&gt;</a><o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">---<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US"> meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb | 2 ++<o:p></o=
-:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US"> 1 file changed, 2 insertions(+)<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">diff --git a/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb b/=
-meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb<o:p></o:p></span></pre=
->
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">index 04de8507fb..bacaf3aee6 100644<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">--- a/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb<o:p></o:p=
-></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">+++ b/meta/recipes-multimedia/libtheora/libtheora_1.2.0.bb<o:p></o:p=
-></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">@@ -14,6 +14,8 @@ SRC_URI[sha256sum] =3D &quot;ebdf77a8f5c0a8f7a9e42=
-323844fa09502b34eb1d1fece7b5f54da41fe<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US"> UPSTREAM_CHECK_REGEX =3D &quot;libtheora-(?P&lt;pver&gt;\d+(\.\d)+)=
-\.(tar\.gz|tgz)&quot;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">+CVE_PRODUCT =3D &quot;theora&quot;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">+<o:p></o:p></span></pre>
-</blockquote>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">From YP patch review,<o:p></o:p></span></pre>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0mm;margin-right:0mm;mar=
-gin-bottom:12.0pt;margin-left:42.0pt;mso-margin-top-alt:0mm;mso-para-margin=
--right:0mm;mso-para-margin-bottom:12.0pt;mso-para-margin-left:3.5gd">
-<span lang=3D"EN-US">Please use:<o:p></o:p></span></p>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">CVE_PRODUCT +=3D &quot;theora&quot;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">to catch both libtheora and theora<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">Thanks, <o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">../Randy<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-<blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US"> inherit autotools pkgconfig<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US"> EXTRA_OECONF =3D &quot;--disable-examples --disable-doc&quot;<o:p><=
-/o:p></span></pre>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0mm;margin-right:0mm;mar=
-gin-bottom:12.0pt;margin-left:42.0pt;mso-margin-top-alt:0mm;mso-para-margin=
--right:0mm;mso-para-margin-bottom:12.0pt;mso-para-margin-left:3.5gd">
-<span lang=3D"EN-US">&nbsp;<o:p></o:p></span></p>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">&nbsp;<o:p></o:p></span></pre>
-</blockquote>
-<p style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"EN=
--US">&nbsp;<o:p></o:p></span></p>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">-- <o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US"># Randy MacLeod<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US"># Wind River Linux<o:p></o:p></span></pre>
-</div>
-</div>
-</blockquote>
-<p style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"EN=
--US"><o:p>&nbsp;</o:p></span></p>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US">-- <o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US"># Randy MacLeod<o:p></o:p></span></pre>
-<pre style=3D"margin-left:42.0pt;mso-para-margin-left:3.5gd"><span lang=3D"=
-EN-US"># Wind River Linux<o:p></o:p></span></pre>
-<pre><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Go=
-thic&quot;"><o:p>&nbsp;</o:p></span></pre>
-<pre><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Go=
-thic&quot;">--<o:p></o:p></span></pre>
-<pre><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Yu Go=
-thic&quot;">Ken Kurematsu &lt;k.kurematsu@nskint.co.jp&gt;<o:p></o:p></span=
-></pre>
-</div>
-</body>
+# Wind River Linux</pre>
+    </blockquote>
+  </body>
 </html>
 
---_000_TYRP286MB5995B67B327F77AA92B68533DBB2ATYRP286MB5995JPNP_--
+--------------cBl09suF8Qj9JGc06ERYmVyk--
 
