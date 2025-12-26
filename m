@@ -2,89 +2,76 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE748E8FDB8
-	for <webhook@archiver.kernel.org>; Fri, 26 Dec 2025 20:47:09 +0000 (UTC)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.159635.1766782025363294559
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F3CE8FDB9
+	for <webhook@archiver.kernel.org>; Fri, 26 Dec 2025 20:50:09 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.159672.1766782203925435349
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Dec 2025 12:47:05 -0800
+ Fri, 26 Dec 2025 12:50:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TrfStAa8;
- spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4eda6c385c0so57573201cf.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Dec 2025 12:47:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BJsKNGd6;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-88888d80590so113454316d6.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Dec 2025 12:50:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766782024; x=1767386824; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766782203; x=1767387003; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mdyRwyxdA8eI4C6ltcLunBDW47K/N9UphkZ2y5FrMDU=;
-        b=TrfStAa8QIgN/sPxtpdQheZroNGeuKevWc8/YUk2P0gUYUS5Eu149W2q8QDCbGMiLX
-         0PBSAVQkXGn5+E8E+EUC29fAgmiiE6i1iDt4UO3x4Wc7CG9gSnzwgf76EgcqdSFnvSXM
-         oyBoAeQzh8grMasfO84dYy1F1B7Y7CWJcoJfZhSqCKhbTO9gNwIqEUlxvuyDNLvNJo9X
-         VDEbbmnGmh+8IkVoh1p2awnz6B5XV6c4qvzZo7g9FkeNyz+8iNSEVKVOI4c8VuDm1LOZ
-         rz8Jh0XMbVdYhTfTwgZOrj/pjdQaaWHN3AuJRT0BDDotPAh2D+6zzEy8s5t7olNO8uAR
-         EC1Q==
+        bh=J7b2gjGKUgItLT418pKlu+0ruYhXnMiKlr+HU1SXEHU=;
+        b=BJsKNGd6fzerjvc6sXDxMfCuv65GsWWxq+OMoPU5j/8iNMf683FeSbpq8aTM/uKOOo
+         iq+hrqlUTZl+hQ+t8wy0BxZPV+tfLqm6LGjTcUN5jH6zYZkpmw+Hu+f28yPMbnG+X9Pu
+         rrcTrsRLPiX9icjbHDI2dnko41Wi0RF39Z4gCsNjGdY0gP9FuQoOGMTg8TgqaKrbKE59
+         wID2uPbQ5m/KTarnMnyN5KAMa/+wBRPr1OVt3Ru7OHoNDIDJ3FSjFDYJ+6gYe2tgl7Ip
+         PSnQkiprlERJN/ZZUjwfhtJ/2/gQI2QZouG9imTmt25JzGu/2sZgn4qpnRHqND/rfGtj
+         xejg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766782024; x=1767386824;
+        d=1e100.net; s=20230601; t=1766782203; x=1767387003;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mdyRwyxdA8eI4C6ltcLunBDW47K/N9UphkZ2y5FrMDU=;
-        b=gzCXGxEOa0ANnLaxpGEf2DBRY2ZQWg/Vk6FdfZaSMGn3mWLntRb2CENgV7+lt+tVNG
-         Cu54N0cRUEAMc/iObH78u+amGW65I2knempPGeyizSHJiQvT6hahD1eN1eowLgtJ4xJJ
-         7VgKoukJE10Cg4YutWU9yTYnUg2B3NqpTuGfwPN40FDx9eLgVgfigBhoDLNmMRlWuJL2
-         AnAUxgl6VXLieRjFgV8YkL7kl6m4TDEnpEihcaw7ibxZR2KSYt0S9j1TVjkvUcwOru1t
-         TRbyLMDP3h9lnv/lOYn5PJvfIHInGpMlcgO43k1I3IzYv5G8wWe2LBBpOvWu7eNt0Wnv
-         atvQ==
-X-Gm-Message-State: AOJu0YwoJnkKlNjk81nph5t06HXTD8niqLFYdVSvGDXMJL3bltaS/m07
-	0JU1S0GFI56uWQv6NGTQk240W+cYcdmD1bENp8SFmzfRhuaErA8HM9sGmea1WP3biFV7+Po1SnK
-	oQ8Yl3K3EE/Ok8A27BZ4Rube0/RQ3dGM=
-X-Gm-Gg: AY/fxX5ehnUyJ9r4S4aQ5cQjd++00WkGOoqSPg074pQ8qZvAqEzlRg6mQOdroF08QA5
-	8aDKqyKRHo/QfGJgPQCxqHOJKl8oH3XYA56D9HHW58cb1oCVadbtj5dJ8V4n5BiOJ/dcLGlpEch
-	/xp5+h0vB6OnGd8tBJIGyRXjtPL2q5/pFzTRX9BzX8jNRYo3Xh6Z8yDwzTDa8MDOXqpqdmohEgO
-	zUbLSqk4ZaxxSEK08nbGXlTXIj30O/tKs2oERQ0xJRXIRIQkfwM9ctZFsvPUkEF91cYwQ==
-X-Google-Smtp-Source: AGHT+IEFU3TpG0qItQEKsfF80TCbAe5gN/8OzmyovOYyOmyqLSHeHTsAHuZJhbhzGEnkeauE4JAM2LA27f82Sp3FRMU=
-X-Received: by 2002:a05:622a:6690:b0:4f4:de7f:c343 with SMTP id
- d75a77b69052e-4f4de7fc415mr124954211cf.48.1766782024374; Fri, 26 Dec 2025
- 12:47:04 -0800 (PST)
+        bh=J7b2gjGKUgItLT418pKlu+0ruYhXnMiKlr+HU1SXEHU=;
+        b=RnsSfAkSoHxRrCjFx4V07YcbbpUHWDW3ue9M7WYCeI6kj63lOcwIqm0TTdP7yWaVUt
+         P+Lhk+Y78mp5YGNBqJPXrro77lPf50Oc2Br3op9YtPOuGW2rYzfxssCE3jxePM/WQLxv
+         dHVPZR5gqpBGxFSy0owBEPtDZL9lffgjWw4lVUttzSavbUDHy/JtVsNqdjaTXTlslcvI
+         +sTobeeaZ/zuSa8FWzkOZaawaWh1Lk5jlaFJS7BHTGzhp+9VMQnNFVfi0eJthgoIYVWo
+         tU+G0SnV5poKgvWm+8eWzWj/U+n/qYo0a0Y+nXrvEdU/7R1YHM9LfPcrCoIFqP2QueS7
+         4K2g==
+X-Gm-Message-State: AOJu0Yz2gGyK5z8U/ALZGndQZcm9FpE7mlggeATlD5Jp9IjAgplgb4H9
+	Zd89vyYw7zUlYGY00inZr4uxFXDzKp+Ft/raEUaQzmKlTIj1w9XzTyZjZg+1SIJLlAjf46Kdary
+	qrnfBcx3/Iz4YS8iRZAtXBtNnOuehhwo=
+X-Gm-Gg: AY/fxX6DxXod1I3lanpX8K4VT4G84vKdkMddQyGjNdfZjWFTAZuy5ZTHPT7LKI+8+8o
+	Z6TVm3i7Unt5/4SwYNNfcbFhyXIP2Xcpx22YdwQc8Yzhi6+qWwgGp7VDpTwhjaJoiliFnUTxM8W
+	CdalDhnihZ4qUGSgCoRn3O233usOGpdlFA2IQ8tv2Gl/cb1OFPIPGJqdSXMKZjq7sMeGVTVl5Oh
+	zQuAEaCiqSONHKUnYm40BCiyzeLo1yWErhx2WvXJusBz5KIenImtGA3vFAEcFIK30Qm2w==
+X-Google-Smtp-Source: AGHT+IHDi8hZVUg//3AF5OqQJxkfe5WSL62/NXEUFdzpRs8EV7S1KmdzSHV/a778RxIwKT6Tgx8Vhz66diKwPg0ODfs=
+X-Received: by 2002:a05:6214:224e:b0:88a:311f:14ad with SMTP id
+ 6a1803df08f44-88d858c4d98mr388996036d6.21.1766782202979; Fri, 26 Dec 2025
+ 12:50:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20251224150805.3312684-1-adrian.freihofer@siemens.com> <20251224150805.3312684-3-adrian.freihofer@siemens.com>
-In-Reply-To: <20251224150805.3312684-3-adrian.freihofer@siemens.com>
+References: <20251224150805.3312684-1-adrian.freihofer@siemens.com> <20251224150805.3312684-2-adrian.freihofer@siemens.com>
+In-Reply-To: <20251224150805.3312684-2-adrian.freihofer@siemens.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 26 Dec 2025 21:46:53 +0100
-X-Gm-Features: AQt7F2o1koT1O9_3qrTEyeuRGYzgh6BDOrIj01ZHAdtbWGPlew3p_ZQArmitTTs
-Message-ID: <CANNYZj96VasQFeLuaP+T0m8WErDWw_x-wuPSg5SMX05hCPzJKg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] oe-setup-vscode: improve VSCode
- bitbake-setup compatibility
+Date: Fri, 26 Dec 2025 21:49:51 +0100
+X-Gm-Features: AQt7F2r7cVgNUsNEGpz5_oCixFdzFb1OIU0_JvTeFbeH6iLLCoP4KOFbq1LIqyM
+Message-ID: <CANNYZj_7grpudncVeo8g5RybFwGevoBR0Ab9Wnos1jsohCvUAQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] oe-setup-vscode: improve bitbake-setup compatibility
 To: adrian.freihofer@siemens.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Dec 2025 20:47:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228551
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Dec 2025 20:50:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228552
 
 On Wed, 24 Dec 2025 at 16:08, Adrian Freihofer via
 lists.openembedded.org
 <adrian.freihofer=siemens.com@lists.openembedded.org> wrote:
-> VSCode is started in the workspace folder where the .vscode directory
-> is located. With the new bitbake-setup based build layout, this starts
-> VSCode in the openembedded-core directory, which means only files in
-> that layer are visible. This is not usable for most projects which
-> span multiple layers.
-...
->  # Generate an initial configuration for VSCode and the yocto-bitbake plugin.
-> -if command -v code > /dev/null && [ ! -d "$OEROOT/.vscode" ]; then
-> -    oe-setup-vscode "$OEROOT" "$BUILDDIR"
+>  ws_builddir="$(echo "$BUILDDIR" | sed -e "s|$OEINIT|\${workspaceFolder}|g")"
+> +bb_dir="$(dirname "$(which bitbake)" | sed 's|/bin$||')"
 
-I'm not sure I understand how 'seeing multiple layers' worked before,
-or did it? If .vscode is placed into $OEROOT, then only $OEROOT is
-visible, e.g. only the former integrated poky repo, but not other
-layers.
-
-Otherwise I guess this should be held until we figure out the changes
-to bitbake-setup?
+This assumes bitbake executable is in PATH, which may or may not be
+true. I'd rather pass it in as an explicit command line parameter.
 
 Alex
 
