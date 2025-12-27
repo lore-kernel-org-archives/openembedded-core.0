@@ -2,61 +2,61 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ACE8E92712
-	for <webhook@archiver.kernel.org>; Sat, 27 Dec 2025 15:03:29 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8840.1766847803789265452
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18775E92713
+	for <webhook@archiver.kernel.org>; Sat, 27 Dec 2025 15:05:59 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8740.1766847950612099600
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Dec 2025 07:03:23 -0800
+ Sat, 27 Dec 2025 07:05:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hMeX4MSK;
- spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-34c277ea011so8048423a91.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 27 Dec 2025 07:03:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=X4R7YrRs;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7aa9be9f03aso6494477b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 27 Dec 2025 07:05:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766847803; x=1767452603; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1766847950; x=1767452750; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ri1y+5Tn834im+wCUjApOjKtY5wKWhIiLnrwBmrWc+s=;
-        b=hMeX4MSK3qE+i9PY7ZENxBikNUgYBDhoOqpgmWF0TyXSZ/ZacT5fNV5vc7Eqz2cqZN
-         8GTR2h1bJ1GHUAxYgKJ3b6nN/7xtymcHmMO/nOPO8Jf7er5WZjaHw8qayUVH2MEFK/Zf
-         rYNJkxZchBeZBkFv/P3460zq5p8ivzkdDre7ReBLndPYZSdKZMG/9exFQpXCAWyWaFPN
-         +L/Mo4d3B8Viam0fAEpUydV+4aHkPcid1h4GFhY582PRyhgn/lzBzNNGYWtpAt0OHvv2
-         k9rMROEPf4KckBraXuqEdA+qF8vWku0Mptnn3XJolhfh7HcUhS8lFtd5JyILCUpz/QWb
-         CYkA==
+        bh=/L4u0y5aFMpu0BEU6s7u4xoY2m7UB/6Jy+dgZrMQHoM=;
+        b=X4R7YrRs5vHPoO4/WAEc+912mnO30zyriQ4eqieZDtduWhKL58fNJ4K0JyoNT2+HF0
+         k6ZM4UICXWJRnXjuXX8ZwSbUsd25RottX1blT8xkxC9o0kerLGLkcxWnBFTlaQWfoea/
+         Wr6WZQaqOJPueY/tk9VfdHqqvIUrtwA5JyjtPOc+BRDH6sKBLunba6ltJ74x+6HYYWya
+         kWLbK0wEdOzX8UnYu3/3ZsDmGaFjm/Y+DYNC1jcnLNfi+F9p0/L+ZJxHYZbug6PwyQhA
+         gzjB12dllK083ygxADIDfjuHcCUY8cu34dH1lb7CMcMtDdXfwJ49kC96D77RXJ7/U+AU
+         PsrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766847803; x=1767452603;
+        d=1e100.net; s=20230601; t=1766847950; x=1767452750;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Ri1y+5Tn834im+wCUjApOjKtY5wKWhIiLnrwBmrWc+s=;
-        b=S51yrE84c5vIzvVmw0DOrqKUmRilB5jLrUkN8CyTDln/rRIfJbMIerF6SefsNShdnJ
-         pqzXAz+S+7luK5s62rZcw6qDhmkZCln+Tbm93XYeVAinudVaYrsa+1fokGtVlkLPv/yk
-         CFgWma2HoSrfZNDqg39YFcdpx35v8E9q6kN92ymFT8L7xqsuOPdep0aahw4mEghZtd/K
-         BG+Cvy2uRwm8HbPsJ8V9T1bzMf58HuwNYd1bo5tBq7InItkG+F/4vCQmMPg+VdsRzv5h
-         Roxji1eL66RiTW4BVcb5CAZ2CHRjvqufCfPu1KJkqWfeXYjRyUErXDjPYq6uGsTix4Xo
-         AD9w==
-X-Gm-Message-State: AOJu0Yx/7txK+Lk9BbW5/RKAkTo/hbH+1v+xbUFdSz8SbF4LfB2q2BRx
-	aiYdrsva0foVdUGef9EQuadE4SBVp/E1ZqO0R1X98MgIglzS0ORNH4cWNTCredAXPkZg4DtPbC2
-	ycr3TBV8lO1MvlFVq/Kvplp4J/hgK0cM=
-X-Gm-Gg: AY/fxX5IM/6nmG0E5iAT22vfYe3RuoroeYSBlg0sy9V7d/8SQaj1yvWCZiS9xSsV/7a
-	fpvpr4brbHSkp5T4DvDgUhBoob6LlS3p+k2gi8OhRE89X+M0crNaWXnacbmyw0fwYumcKfbdiMB
-	FmThGIpmY6h7VQ1uDvAmIlsPXEAookiH0k7OJnhOBlH3hoMhc300pFscJFCCUcSYWR4uZDgaDGJ
-	t4DyonMjWcNi4TLRr/eQI2h8unT80zk/m83Wx6IvaH6Omy4v6VcWJNH9GAC44MhL+PJmQ==
-X-Google-Smtp-Source: AGHT+IFaIsG9eyTr7ecU06TiiW3ENEyi3A5or1aY4GcfVWtB8jDNHcrwgp8MyD0q6nntePxrpUHRiOkcCfw74y9oh7I=
-X-Received: by 2002:a17:90b:2f47:b0:343:66e2:5f9b with SMTP id
- 98e67ed59e1d1-34e921bf160mr24185605a91.24.1766847803066; Sat, 27 Dec 2025
- 07:03:23 -0800 (PST)
+        bh=/L4u0y5aFMpu0BEU6s7u4xoY2m7UB/6Jy+dgZrMQHoM=;
+        b=qDq9XWzNNSs0kfqrVh9zF2DWCe22exmmDI2n1Oh9iyqsYjJKsuIHEmTn1UQGLOj7Uk
+         cvEs3XcqrtPIt6fxnaXrzhurjl4WlvKqvtB68qv31bDolKn0jpZQg5g4Et0qrSIb3Xdr
+         9Ht5zTJ6C7dSSKz8HeZlhTesXCq+v6yXB0BeoXbrh2NdE6twDBbB+eLkYDsctQtL+ZgL
+         dz4Jc6h0H+3pXEPoZVYULTxHqBVybFhSzWwsP0BtOs3ARvsotmoHR28OfbVoSju08/u6
+         9NUcdK6iL3mUkv/5OB/JqQKgvCZYnY7V68vYPSk02N9npJ2IE6ujz5bPXrQhqBIMWexw
+         2Jbg==
+X-Gm-Message-State: AOJu0YyAjuBziqeuFpsvwG5rdkuXal4kJzfdFRevn7GFZpNpqbuNcjlz
+	92n7pSILAFqkf/hQP6g8RddWBg8bMR6Mq74UuPSCtDGksw0h89CInH8piL8tzLIv+SQ6gm+FP/2
+	qzlkG2z/bHZczJHgYVI6goZC/5u4UT0s=
+X-Gm-Gg: AY/fxX5bIPXTQ9pVWHEXUvoh4sWTrTrtrWU7V7uIacN4gc+c8tqWhG/X3TkGnbTR7tA
+	4hV4MhbVaBEeCC6HRVQ3/sRd6nGRoI8ib987i1O4DQ8T5jUVH8ojWHj9jFk4O8JADBF57N1NEyW
+	W8oL4Iq3it65BWAODjsyivTCiejqZhMKN3Qgk+mC7Bsen2VKQSqvbB6eUUl5FhIBniS8J3JQW3J
+	dteDhSHQXqMQMcu1umukRsNfOZFqxEYZn+Zls/9ItACntm7o8gYzwhu8DvGfk+q/mX/xw==
+X-Google-Smtp-Source: AGHT+IEMLf/FywDGpq/zQ6D10Y6flZQt8zK9GKNYx1ZY2RwKNwNYWoCxOokcyU5qyO1GFb16UGpl++xDjhCx1Pl7Y/w=
+X-Received: by 2002:a05:6a20:9184:b0:34f:b50e:e2e2 with SMTP id
+ adf61e73a8af0-376aa1e75c1mr26489587637.58.1766847949938; Sat, 27 Dec 2025
+ 07:05:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20251227113251.773795-1-Harish.Sadineni@windriver.com> <20251227113251.773795-6-Harish.Sadineni@windriver.com>
-In-Reply-To: <20251227113251.773795-6-Harish.Sadineni@windriver.com>
+References: <20251227113251.773795-1-Harish.Sadineni@windriver.com> <20251227113251.773795-7-Harish.Sadineni@windriver.com>
+In-Reply-To: <20251227113251.773795-7-Harish.Sadineni@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sat, 27 Dec 2025 10:03:11 -0500
-X-Gm-Features: AQt7F2plA87YANsN8xSkeS8e4hDa8P5LFF0ExijmDsXsrx5IwEv4iMuZypSVhVY
-Message-ID: <CADkTA4NJkyhue37mEMpy=dqwzv5nHzZSbRbHyi3TSvHOV9keXg@mail.gmail.com>
-Subject: Re: [PATCH 05/16] kernel-yocto: stage rustlib sources for linux-yocto
- 'make rustavailable' support
+Date: Sat, 27 Dec 2025 10:05:37 -0500
+X-Gm-Features: AQt7F2oJhJjPFLAVHyLjAEphthZzrkHIPWkqkOByNHKboYS7QrBAGUE0j5PNt-k
+Message-ID: <CADkTA4PX8XgjzzN9WOzrXiXR3fvExGS40gVw8KiXoaCX8TCwbw@mail.gmail.com>
+Subject: Re: [PATCH 06/16] kernel-yocto: add rust support via "make
+ rustavailable" in do_kernel_configme
 To: Harish.Sadineni@windriver.com
 Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
 	Sundeep.Kokkonda@windriver.com, yoann.congal@smile.fr, 
@@ -66,55 +66,69 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 27 Dec 2025 15:03:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228573
+ <openembedded-core@lists.openembedded.org>; Sat, 27 Dec 2025 15:05:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228574
+
+And here's the answer to my previous question.
+
+To me, this patch should be squashed with 05/16.
+
+Bruce
 
 On Sat, Dec 27, 2025 at 7:33=E2=80=AFAM <Harish.Sadineni@windriver.com> wro=
 te:
 >
 > From: Harish Sadineni <Harish.Sadineni@windriver.com>
 >
-> When building the Linux kernel with Rust support enabled (e.g., via `make=
- rustavailable`),
-> the build system expects the Rust standard library sources to be availabl=
-e under:
-> ${STAGING_DIR_NATIVE}/usr/lib/rustlib/src/rust
+> To enable Rust integration in the Linux kernel build, this patch:
+>
+> - Adds `rust-native`, `clang-native` and `bindgen-cli-native` to `do_kern=
+el_configme[depends]`
+>   to ensure required tools are available for Rust support.
+> - Invokes `make rustavailable` inside `do_kernel_configme()` to prepare
+>   the kernel for building Rust-based modules or core components.
 >
 > Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 > ---
->  meta/classes-recipe/kernel-yocto.bbclass | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  meta/classes-recipe/kernel-yocto.bbclass | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
 > diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-reci=
 pe/kernel-yocto.bbclass
-> index e53bf15194..2584cadf0d 100644
+> index 2584cadf0d..dda235d4d0 100644
 > --- a/meta/classes-recipe/kernel-yocto.bbclass
 > +++ b/meta/classes-recipe/kernel-yocto.bbclass
-> @@ -465,6 +465,13 @@ do_kernel_configme[depends] +=3D "bc-native:do_popul=
-ate_sysroot bison-native:do_po
+> @@ -463,6 +463,11 @@ do_kernel_configme[depends] +=3D "virtual/cross-binu=
+tils:do_populate_sysroot"
+>  do_kernel_configme[depends] +=3D "virtual/cross-cc:do_populate_sysroot"
+>  do_kernel_configme[depends] +=3D "bc-native:do_populate_sysroot bison-na=
+tive:do_populate_sysroot"
 >  do_kernel_configme[depends] +=3D "kern-tools-native:do_populate_sysroot"
+> +RUST_KERNEL_TASK_DEPENDS ?=3D  "${@bb.utils.contains('DISTRO_FEATURES', =
+'rust-kernel', ' \
+> +                                  rust-native:do_populate_sysroot \
+> +                                  clang-native:do_populate_sysroot \
+> +                                  bindgen-cli-native:do_populate_sysroot=
+', '', d)}"
+> +do_kernel_configme[depends] +=3D "${RUST_KERNEL_TASK_DEPENDS}"
 >  do_kernel_configme[dirs] +=3D "${S} ${B}"
 >  do_kernel_configme() {
+>         if ${@bb.utils.contains('DISTRO_FEATURES', 'rust-kernel', 'true',=
+ 'false', d)}; then
+> @@ -513,6 +518,10 @@ do_kernel_configme() {
+>                 echo "# Global settings from linux recipe" >> ${B}/.confi=
+g
+>                 echo "CONFIG_LOCALVERSION=3D"\"${LINUX_VERSION_EXTENSION}=
+\" >> ${B}/.config
+>         fi
+> +
 > +       if ${@bb.utils.contains('DISTRO_FEATURES', 'rust-kernel', 'true',=
  'false', d)}; then
-> +               if [ ! -d ${STAGING_LIBDIR_NATIVE}/rustlib/src/rust ]; th=
-en
-> +                       mkdir -p ${STAGING_LIBDIR_NATIVE}/rustlib/src/
-> +                       cp -r ${TMPDIR}/work-shared/rust ${STAGING_LIBDIR=
-_NATIVE}/rustlib/src/.
-> +               fi
+> +               oe_runmake -C ${S} O=3D${B} rustavailable
 > +       fi
-
-There should be a comment both here, and in the commit message
-about why this is done in the configme task.  i.e. is it related to
-configuration ?
-
-Bruce
-
-> +
->         do_kernel_metadata config
+>  }
 >
->         # translate the kconfig_mode into something that merge_config.sh
+>  addtask kernel_configme before do_configure after do_patch
 > --
 > 2.49.0
 >
