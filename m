@@ -2,328 +2,270 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07DC7E8FDB1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B5E8D3B7E5
 	for <webhook@archiver.kernel.org>; Mon, 29 Dec 2025 12:48:22 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.42554.1767012493370083368
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.42555.1767012497748133860
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Dec 2025 04:48:13 -0800
+ Mon, 29 Dec 2025 04:48:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=HUt1dijI;
- spf=pass (domain: mvista.com, ip: 209.85.216.47, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-34c718c5481so8737942a91.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 04:48:13 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=gH8puYgX;
+ spf=pass (domain: mvista.com, ip: 209.85.216.48, mailfrom: vanusuri@mvista.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-34c5f0222b0so7550275a91.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 04:48:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1767012492; x=1767617292; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1767012497; x=1767617297; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kEyZYh56qqexCk3GO0ntFa8h/vAxjF6JY7y2KAq8LbE=;
-        b=HUt1dijIxpVLNjU6CVAV1Cl0qzrvvSezcx9dtgUAW9okywhBTrpOLCCwbuR1eWjdL3
-         LRqszkssOMh9KZwZ3EFacGOI4YozlRPScluoecw5LiCPLPmCYOhIVoYqKWnLMtxwa6PD
-         tHClKPPYNYrJOFZcVvU7MpO70aoxjuZmRfDb4=
+        bh=fk6bWQUOSrKTGt8gB8yBJ0VOCl/aVodtd5W5UOqfACQ=;
+        b=gH8puYgX8t2dHfDlNocYHuYZ89CztbcdIvbJcF7Voyck5ydIgldzhPHbEblSgAvo12
+         6TqUTh/7xh19cB8bM5J7XBxjYLufJ8NtWXi5TAkrk+H73A+yvuv4AYAgWvu+5HiLHftW
+         ADDX8IkrEQovhvHhanzCiL5l13shG/n9BIr5o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767012492; x=1767617292;
+        d=1e100.net; s=20230601; t=1767012497; x=1767617297;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kEyZYh56qqexCk3GO0ntFa8h/vAxjF6JY7y2KAq8LbE=;
-        b=MT6Eqm/JzGMP+tIk09drQf4/VLMGT3+C0MzoRRDIhRVAxVMNOkHkzx5+uHzDWQ+HxZ
-         8322mgjfvqeICXlMaPSXg6v687GrKVK9QNgvTGYaoWQHNc7MQL5SXF/eXtfvmT/fMhuy
-         PWSa9N1a+5crGF7efyw/RVXuvtHWSgqhocigJOm/kUO2CFjM09IhHEdwFuUWgAi27iB7
-         mpSRj7XD3m6x8v5DdHuAphkINbVPP3ssOmmG5DDiAfYC6Bf3Zxw7wvyCXXnZRAS781zj
-         U+cZse6I3bKO7VJiLzwVaHWCa5QDdYxX9oMdVwswWmYLraroLaAn0YJlPA/+p37gWW4+
-         jB9A==
-X-Gm-Message-State: AOJu0YzGXUq3E4Y8JFvAiOYGsrFgZCGDsUYji2/seP1w61kchZYJMl1u
-	ULcFuWGgcZFeC9qTblClqU5+gAyxJ3dCka5Yc9AxJXGt8TDJ0Bdw/VpX2ddI99pbdUYn7L9OvlW
-	EIJnieaw=
-X-Gm-Gg: AY/fxX7abD0esc656Qv9RvZT47jPThsySiu4w7z2jl6LbrcYCf/NBX3INJ96xmv7dzT
-	XoV/cBHbcVXMwMoE2UpvEG23jRmtO5ht9Cn14sOaWhw/EjAtNHWZT/9YpP22aJ2mdBDa+8roWK3
-	tnkPjZ5GrGhTvSX8teTvLzH3Af03Kzl1UiEIqW3M73Jv+hsLk9p3aF1t5o7uPPgPjTb1edpY4PA
-	+7k2/GRbOa+goR3UFbZUXrol0ACnc1W2xG1AYG3g0Pju5T3HHLTf7Eix1Or//OAfWim+sHzEMoy
-	J4ZSRLDHkJNRid9+uZ/ojOhqP+jgwNj6/cS9ZiQmF8uyAVIDMRs28ICCJkXFj8JZfPGnd2FqwsS
-	efU63jS76sH5O9y01fEF6+zg1LnJqkSuK+wPxt2XahV9pVf3pX05Vwg+QMgxC5fK+Gqmq9B5p5o
-	zEtI5NRBy6Q3uXURSvvWWNmUkt
-X-Google-Smtp-Source: AGHT+IFNSkgjRGUF+oaCtQSRRoGVGX2H81FfqMLbxn1lJ+otvs6wpZbooznH0NQEvXgo2l3/P3L/rg==
-X-Received: by 2002:a17:90a:c888:b0:340:ac7c:6387 with SMTP id 98e67ed59e1d1-34e92137b4amr26752166a91.7.1767012492164;
-        Mon, 29 Dec 2025 04:48:12 -0800 (PST)
+        bh=fk6bWQUOSrKTGt8gB8yBJ0VOCl/aVodtd5W5UOqfACQ=;
+        b=NXu9+qCt3Y0nxZsI5Np3wyUzzAulY3jkdC0GWux3YSsgSIiqfewVILS4oDyLnJJYle
+         ydWX1VNLt90Unx2x3GZsOZnLr2XGxGHX9QvcisViZZW9/ONn7rvkW4bX+6vBi1X1h7QV
+         3Cw24QM+T2mSOCu4MEZF2HQi5FVFvM4o8Wwodu59kqt+4HaqUdbCi80GlpAXstWWFJ1R
+         TQM91GYvaBFlfh72SwCx800tOFEmqyt/EnNdl5uF2xaTrPqPMkSHYRQps3g8tdHZOzcB
+         DySPhS/SFelPCQtoYje/uKSqfJlcsO5aGlF6ZAHM2tKJHV6AvfyZfC3vK4XoWQV34SjR
+         FvGQ==
+X-Gm-Message-State: AOJu0YyMWwdbbfOMMkQ1pXlJisdA3cjWwouCeKjUK5/BrdoywGuxFTsw
+	ScMAC6a9YzHAb52PnJgFFoWtKNaokhkfHkBCDSxiAbW3ktu6EhWC69yJuOiGk/q3qTb3mHJFscw
+	3843kLFg=
+X-Gm-Gg: AY/fxX63i6ACj1pA6V5Yf1lDUuA2CTQrGuZzuHSz/RMzIllCKn/3FXbKnPRyjFkP1+y
+	6fRoq7CsPNosfJ4huJnibzNrwwH8EVkXZSfgwEkUBjAbEfYHvKhaa/13p6C22G8J9vG6A56UTqg
+	5M9hzPDqX8T/1XX1uWO9HpiLa9rTrDKBIM+W+uds4NA/pO5DPY3gRHeUHHhUJ1mv1oKh6IlzNBa
+	QVVg4xScgcw6o9aGOOrkK7MPKYRvCwwJggL3Mp/myb9L0OfKmgbgvDtQloF8Vega98B0fVMH5Bk
+	vLjWcpvb+S3irlzbDhMIbS+6f5zuWM4oxTQMG9xOK+fwHo76rsxfWurmfldPF5giSgb7ZFZeieL
+	rhdd0gE7BoAqy28ERfZMPEmD5lt/w1pUbA3j12KBi6F58nEXcmc6guVzGL4j2b/z7JvSqrl0XEl
+	ORi4U7R4IM5doZW5kK4Je8EuNp
+X-Google-Smtp-Source: AGHT+IHkgqNQ15X9NURHp4BbMm+pZR8doRS0akpJ8Uz8nnbfuz1jsQFqMw6ssUJ5FM0onzvT2+b1rg==
+X-Received: by 2002:a17:90b:1d49:b0:343:7714:4ca6 with SMTP id 98e67ed59e1d1-34e921ae8e8mr22347602a91.22.1767012496662;
+        Mon, 29 Dec 2025 04:48:16 -0800 (PST)
 Received: from localhost.localdomain ([2406:7400:54:6779:8047:e5eb:447c:8ecc])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e921b1666sm27431208a91.7.2025.12.29.04.48.10
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e921b1666sm27431208a91.7.2025.12.29.04.48.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 04:48:11 -0800 (PST)
+        Mon, 29 Dec 2025 04:48:16 -0800 (PST)
 From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH 2/3] go: Fix CVE-2025-61727
-Date: Mon, 29 Dec 2025 18:17:54 +0530
-Message-Id: <20251229124755.462274-2-vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH 3/3] go: Fix CVE-2025-61729
+Date: Mon, 29 Dec 2025 18:17:55 +0530
+Message-Id: <20251229124755.462274-3-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20251229124755.462274-1-vanusuri@mvista.com>
 References: <20251229124755.462274-1-vanusuri@mvista.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 12:48:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228603
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228604
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-Upstream-Status: Backport from https://github.com/golang/go/commit/04db77a423cac75bb82cc9a6859991ae9c016344
+Upstream-Status: Backport from https://github.com/golang/go/commit/3a842bd5c6aa8eefa13c0174de3ab361e50bd672
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
  meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
- .../go/go-1.18/CVE-2025-61727.patch           | 229 ++++++++++++++++++
- 2 files changed, 230 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2025-61727.patch
+ .../go/go-1.18/CVE-2025-61729.patch           | 172 ++++++++++++++++++
+ 2 files changed, 173 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2025-61729.patch
 
 diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
-index 1433d54f06..0ea3b6704f 100644
+index 0ea3b6704f..e95003db96 100644
 --- a/meta/recipes-devtools/go/go-1.17.13.inc
 +++ b/meta/recipes-devtools/go/go-1.17.13.inc
-@@ -75,6 +75,7 @@ SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main \
-            file://CVE-2025-61723.patch \
+@@ -76,6 +76,7 @@ SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main \
             file://CVE-2025-61724.patch \
             file://CVE-2023-39323.patch \
-+           file://CVE-2025-61727.patch \
+            file://CVE-2025-61727.patch \
++           file://CVE-2025-61729.patch \
             "
  SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
  
-diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2025-61727.patch b/meta/recipes-devtools/go/go-1.18/CVE-2025-61727.patch
+diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2025-61729.patch b/meta/recipes-devtools/go/go-1.18/CVE-2025-61729.patch
 new file mode 100644
-index 0000000000..23dc35b8b8
+index 0000000000..6fdc2fd426
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.18/CVE-2025-61727.patch
-@@ -0,0 +1,229 @@
-+From 04db77a423cac75bb82cc9a6859991ae9c016344 Mon Sep 17 00:00:00 2001
-+From: Roland Shoemaker <bracewell@google.com>
-+Date: Mon, 24 Nov 2025 08:46:08 -0800
-+Subject: [PATCH] [release-branch.go1.24] crypto/x509: excluded subdomain
-+ constraints preclude wildcard SANs
++++ b/meta/recipes-devtools/go/go-1.18/CVE-2025-61729.patch
+@@ -0,0 +1,172 @@
++From 3a842bd5c6aa8eefa13c0174de3ab361e50bd672 Mon Sep 17 00:00:00 2001
++From: "Nicholas S. Husin" <nsh@golang.org>
++Date: Mon, 24 Nov 2025 14:56:23 -0500
++Subject: [PATCH] [release-branch.go1.24] crypto/x509: prevent
++ HostnameError.Error() from consuming excessive resource
 +
-+When evaluating name constraints in a certificate chain, the presence of
-+an excluded subdomain constraint (e.g., excluding "test.example.com")
-+should preclude the use of a wildcard SAN (e.g., "*.example.com").
++Constructing HostnameError.Error() takes O(N^2) runtime due to using a
++string concatenation in a loop. Additionally, there is no limit on how
++many names are included in the error message. As a result, a malicious
++attacker could craft a certificate with an infinite amount of names to
++unfairly consume resource.
 +
-+Fixes #76442
-+Fixes #76463
-+Fixes CVE-2025-61727
++To remediate this, we will now use strings.Builder to construct the
++error message, preventing O(N^2) runtime. When a certificate has 100 or
++more names, we will also not print each name individually.
 +
-+Change-Id: I42a0da010cb36d2ec9d1239ae3f61cf25eb78bba
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/724401
-+Reviewed-by: Nicholas Husin <husin@google.com>
-+Reviewed-by: Daniel McCarney <daniel@binaryparadox.net>
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+Reviewed-by: Nicholas Husin <nsh@golang.org>
++Thanks to Philippe Antoine (Catena cyber) for reporting this issue.
++
++Updates #76445
++Fixes #76460
++Fixes CVE-2025-61729
++
++Change-Id: I6343776ec3289577abc76dad71766c491c1a7c81
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3000
 +Reviewed-by: Neal Patel <nealpatel@google.com>
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3220
++Reviewed-by: Roland Shoemaker <bracewell@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/725820
++Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
++TryBot-Bypass: Dmitri Shuralyov <dmitshur@golang.org>
++Auto-Submit: Dmitri Shuralyov <dmitshur@google.com>
++Reviewed-by: Mark Freeman <markfreeman@google.com>
 +
-+Upstream-Status: Backport [https://github.com/golang/go/commit/04db77a423cac75bb82cc9a6859991ae9c016344]
-+CVE: CVE-2025-61727
++Upstream-Status: Backport [https://github.com/golang/go/commit/3a842bd5c6aa8eefa13c0174de3ab361e50bd672]
++CVE: CVE-2025-61729
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ src/crypto/x509/name_constraints_test.go | 34 ++++++++++++++++++++
-+ src/crypto/x509/verify.go                | 40 +++++++++++++++---------
-+ src/crypto/x509/verify_test.go           |  2 +-
-+ 3 files changed, 60 insertions(+), 16 deletions(-)
++ src/crypto/x509/verify.go      | 21 ++++++++++-----
++ src/crypto/x509/verify_test.go | 47 ++++++++++++++++++++++++++++++++++
++ 2 files changed, 61 insertions(+), 7 deletions(-)
 +
-+diff --git a/src/crypto/x509/name_constraints_test.go b/src/crypto/x509/name_constraints_test.go
-+index c59a7dc..963bc5a 100644
-+--- a/src/crypto/x509/name_constraints_test.go
-++++ b/src/crypto/x509/name_constraints_test.go
-+@@ -1595,6 +1595,40 @@ var nameConstraintsTests = []nameConstraintsTest{
-+ 			cn:   "foo.bar",
-+ 		},
-+ 	},
-++	// #87: subdomain excluded constraints preclude wildcard names
-++	{
-++		roots: []constraintsSpec{
-++			{
-++				bad: []string{"dns:foo.example.com"},
-++			},
-++		},
-++		intermediates: [][]constraintsSpec{
-++			{
-++				{},
-++			},
-++		},
-++		leaf: leafSpec{
-++			sans: []string{"dns:*.example.com"},
-++		},
-++		expectedError: "\"*.example.com\" is excluded by constraint \"foo.example.com\"",
-++	},
-++	// #88: wildcard names are not matched by subdomain permitted constraints
-++	{
-++		roots: []constraintsSpec{
-++			{
-++				ok: []string{"dns:foo.example.com"},
-++			},
-++		},
-++		intermediates: [][]constraintsSpec{
-++			{
-++				{},
-++			},
-++		},
-++		leaf: leafSpec{
-++			sans: []string{"dns:*.example.com"},
-++		},
-++		expectedError: "\"*.example.com\" is not permitted",
-++	},
-+ }
-+ 
-+ func makeConstraintsCACert(constraints constraintsSpec, name string, key *ecdsa.PrivateKey, parent *Certificate, parentKey *ecdsa.PrivateKey) (*Certificate, error) {
 +diff --git a/src/crypto/x509/verify.go b/src/crypto/x509/verify.go
-+index 99f38a0..88260ee 100644
++index 88260ee..c167191 100644
 +--- a/src/crypto/x509/verify.go
 ++++ b/src/crypto/x509/verify.go
-+@@ -390,7 +390,7 @@ func domainToReverseLabels(domain string) (reverseLabels []string, ok bool) {
-+ 	return reverseLabels, true
-+ }
++@@ -97,31 +97,38 @@ type HostnameError struct {
 + 
-+-func matchEmailConstraint(mailbox rfc2821Mailbox, constraint string, reversedDomainsCache map[string][]string, reversedConstraintsCache map[string][]string) (bool, error) {
-++func matchEmailConstraint(mailbox rfc2821Mailbox, constraint string, excluded bool, reversedDomainsCache map[string][]string, reversedConstraintsCache map[string][]string) (bool, error) {
-+ 	// If the constraint contains an @, then it specifies an exact mailbox
-+ 	// name.
-+ 	if strings.Contains(constraint, "@") {
-+@@ -403,10 +403,10 @@ func matchEmailConstraint(mailbox rfc2821Mailbox, constraint string, reversedDom
++ func (h HostnameError) Error() string {
++ 	c := h.Certificate
+++	maxNamesIncluded := 100
 + 
-+ 	// Otherwise the constraint is like a DNS constraint of the domain part
-+ 	// of the mailbox.
-+-	return matchDomainConstraint(mailbox.domain, constraint, reversedDomainsCache, reversedConstraintsCache)
-++	return matchDomainConstraint(mailbox.domain, constraint, excluded, reversedDomainsCache, reversedConstraintsCache)
-+ }
-+ 
-+-func matchURIConstraint(uri *url.URL, constraint string, reversedDomainsCache map[string][]string, reversedConstraintsCache map[string][]string) (bool, error) {
-++func matchURIConstraint(uri *url.URL, constraint string, excluded bool, reversedDomainsCache map[string][]string, reversedConstraintsCache map[string][]string) (bool, error) {
-+ 	// From RFC 5280, Section 4.2.1.10:
-+ 	// “a uniformResourceIdentifier that does not include an authority
-+ 	// component with a host name specified as a fully qualified domain
-+@@ -433,7 +433,7 @@ func matchURIConstraint(uri *url.URL, constraint string, reversedDomainsCache ma
-+ 		return false, fmt.Errorf("URI with IP (%q) cannot be matched against constraints", uri.String())
++ 	if !c.hasSANExtension() && matchHostnames(c.Subject.CommonName, h.Host) {
++ 		return "x509: certificate relies on legacy Common Name field, use SANs instead"
 + 	}
 + 
-+-	return matchDomainConstraint(host, constraint, reversedDomainsCache, reversedConstraintsCache)
-++	return matchDomainConstraint(host, constraint, excluded, reversedDomainsCache, reversedConstraintsCache)
-+ }
-+ 
-+ func matchIPConstraint(ip net.IP, constraint *net.IPNet) (bool, error) {
-+@@ -450,7 +450,7 @@ func matchIPConstraint(ip net.IP, constraint *net.IPNet) (bool, error) {
-+ 	return true, nil
-+ }
-+ 
-+-func matchDomainConstraint(domain, constraint string, reversedDomainsCache map[string][]string, reversedConstraintsCache map[string][]string) (bool, error) {
-++func matchDomainConstraint(domain, constraint string, excluded bool, reversedDomainsCache map[string][]string, reversedConstraintsCache map[string][]string) (bool, error) {
-+ 	// The meaning of zero length constraints is not specified, but this
-+ 	// code follows NSS and accepts them as matching everything.
-+ 	if len(constraint) == 0 {
-+@@ -467,6 +467,11 @@ func matchDomainConstraint(domain, constraint string, reversedDomainsCache map[s
-+ 		reversedDomainsCache[domain] = domainLabels
-+ 	}
-+ 
-++	wildcardDomain := false
-++	if len(domain) > 0 && domain[0] == '*' {
-++		wildcardDomain = true
-++	}
-++
-+ 	// RFC 5280 says that a leading period in a domain name means that at
-+ 	// least one label must be prepended, but only for URI and email
-+ 	// constraints, not DNS constraints. The code also supports that
-+@@ -493,6 +498,11 @@ func matchDomainConstraint(domain, constraint string, reversedDomainsCache map[s
-+ 		return false, nil
-+ 	}
-+ 
-++	if excluded && wildcardDomain && len(domainLabels) > 1 && len(constraintLabels) > 0 {
-++		domainLabels = domainLabels[:len(domainLabels)-1]
-++		constraintLabels = constraintLabels[:len(constraintLabels)-1]
-++	}
-++
-+ 	for i, constraintLabel := range constraintLabels {
-+ 		if !strings.EqualFold(constraintLabel, domainLabels[i]) {
-+ 			return false, nil
-+@@ -512,7 +522,7 @@ func (c *Certificate) checkNameConstraints(count *int,
-+ 	nameType string,
-+ 	name string,
-+ 	parsedName interface{},
-+-	match func(parsedName, constraint interface{}) (match bool, err error),
-++	match func(parsedName, constraint interface{}, excluded bool) (match bool, err error),
-+ 	permitted, excluded interface{}) error {
-+ 
-+ 	excludedValue := reflect.ValueOf(excluded)
-+@@ -524,7 +534,7 @@ func (c *Certificate) checkNameConstraints(count *int,
-+ 
-+ 	for i := 0; i < excludedValue.Len(); i++ {
-+ 		constraint := excludedValue.Index(i).Interface()
-+-		match, err := match(parsedName, constraint)
-++		match, err := match(parsedName, constraint, true)
-+ 		if err != nil {
-+ 			return CertificateInvalidError{c, CANotAuthorizedForThisName, err.Error()}
++-	var valid string
+++	var valid strings.Builder
++ 	if ip := net.ParseIP(h.Host); ip != nil {
++ 		// Trying to validate an IP
++ 		if len(c.IPAddresses) == 0 {
++ 			return "x509: cannot validate certificate for " + h.Host + " because it doesn't contain any IP SANs"
 + 		}
-+@@ -546,7 +556,7 @@ func (c *Certificate) checkNameConstraints(count *int,
-+ 		constraint := permittedValue.Index(i).Interface()
-+ 
-+ 		var err error
-+-		if ok, err = match(parsedName, constraint); err != nil {
-++		if ok, err = match(parsedName, constraint, false); err != nil {
-+ 			return CertificateInvalidError{c, CANotAuthorizedForThisName, err.Error()}
+++		if len(c.IPAddresses) >= maxNamesIncluded {
+++			return fmt.Sprintf("x509: certificate is valid for %d IP SANs, but none matched %s", len(c.IPAddresses), h.Host)
+++		}
++ 		for _, san := range c.IPAddresses {
++-			if len(valid) > 0 {
++-				valid += ", "
+++			if valid.Len() > 0 {
+++				valid.WriteString(", ")
++ 			}
++-			valid += san.String()
+++			valid.WriteString(san.String())
 + 		}
++ 	} else {
++-		valid = strings.Join(c.DNSNames, ", ")
+++		if len(c.DNSNames) >= maxNamesIncluded {
+++			return fmt.Sprintf("x509: certificate is valid for %d names, but none matched %s", len(c.DNSNames), h.Host)
+++		}
+++		valid.WriteString(strings.Join(c.DNSNames, ", "))
++ 	}
 + 
-+@@ -633,8 +643,8 @@ func (c *Certificate) isValid(certType int, currentChain []*Certificate, opts *V
-+ 				}
++-	if len(valid) == 0 {
+++	if valid.Len() == 0 {
++ 		return "x509: certificate is not valid for any names, but wanted to match " + h.Host
++ 	}
++-	return "x509: certificate is valid for " + valid + ", not " + h.Host
+++	return "x509: certificate is valid for " + valid.String() + ", not " + h.Host
++ }
 + 
-+ 				if err := c.checkNameConstraints(&comparisonCount, maxConstraintComparisons, "email address", name, mailbox,
-+-					func(parsedName, constraint interface{}) (bool, error) {
-+-						return matchEmailConstraint(parsedName.(rfc2821Mailbox), constraint.(string), reversedDomainsCache, reversedConstraintsCache)
-++					func(parsedName, constraint interface{}, excluded bool) (bool, error) {
-++						return matchEmailConstraint(parsedName.(rfc2821Mailbox), constraint.(string), excluded, reversedDomainsCache, reversedConstraintsCache)
-+ 					}, c.PermittedEmailAddresses, c.ExcludedEmailAddresses); err != nil {
-+ 					return err
-+ 				}
-+@@ -646,8 +656,8 @@ func (c *Certificate) isValid(certType int, currentChain []*Certificate, opts *V
-+ 				}
-+ 
-+ 				if err := c.checkNameConstraints(&comparisonCount, maxConstraintComparisons, "DNS name", name, name,
-+-					func(parsedName, constraint interface{}) (bool, error) {
-+-						return matchDomainConstraint(parsedName.(string), constraint.(string), reversedDomainsCache, reversedConstraintsCache)
-++					func(parsedName, constraint interface{}, excluded bool) (bool, error) {
-++						return matchDomainConstraint(parsedName.(string), constraint.(string), excluded, reversedDomainsCache, reversedConstraintsCache)
-+ 					}, c.PermittedDNSDomains, c.ExcludedDNSDomains); err != nil {
-+ 					return err
-+ 				}
-+@@ -660,8 +670,8 @@ func (c *Certificate) isValid(certType int, currentChain []*Certificate, opts *V
-+ 				}
-+ 
-+ 				if err := c.checkNameConstraints(&comparisonCount, maxConstraintComparisons, "URI", name, uri,
-+-					func(parsedName, constraint interface{}) (bool, error) {
-+-						return matchURIConstraint(parsedName.(*url.URL), constraint.(string), reversedDomainsCache, reversedConstraintsCache)
-++					func(parsedName, constraint interface{}, excluded bool) (bool, error) {
-++						return matchURIConstraint(parsedName.(*url.URL), constraint.(string), excluded, reversedDomainsCache, reversedConstraintsCache)
-+ 					}, c.PermittedURIDomains, c.ExcludedURIDomains); err != nil {
-+ 					return err
-+ 				}
-+@@ -673,7 +683,7 @@ func (c *Certificate) isValid(certType int, currentChain []*Certificate, opts *V
-+ 				}
-+ 
-+ 				if err := c.checkNameConstraints(&comparisonCount, maxConstraintComparisons, "IP address", ip.String(), ip,
-+-					func(parsedName, constraint interface{}) (bool, error) {
-++					func(parsedName, constraint interface{}, _ bool) (bool, error) {
-+ 						return matchIPConstraint(parsedName.(net.IP), constraint.(*net.IPNet))
-+ 					}, c.PermittedIPRanges, c.ExcludedIPRanges); err != nil {
-+ 					return err
++ // UnknownAuthorityError results when the certificate issuer is unknown
 +diff --git a/src/crypto/x509/verify_test.go b/src/crypto/x509/verify_test.go
-+index 31e8149..5f7c834 100644
++index 5f7c834..c2c2025 100644
 +--- a/src/crypto/x509/verify_test.go
 ++++ b/src/crypto/x509/verify_test.go
-+@@ -1648,7 +1648,7 @@ var nameConstraintTests = []struct {
++@@ -9,11 +9,14 @@ import (
++ 	"crypto/ecdsa"
++ 	"crypto/elliptic"
++ 	"crypto/rand"
+++	"crypto/rsa"
++ 	"crypto/x509/pkix"
++ 	"encoding/pem"
++ 	"errors"
++ 	"fmt"
+++	"log"
++ 	"math/big"
+++	"net"
++ 	"runtime"
++ 	"strings"
++ 	"testing"
++@@ -70,6 +73,26 @@ var verifyTests = []verifyTest{
 + 
-+ func TestNameConstraints(t *testing.T) {
-+ 	for i, test := range nameConstraintTests {
-+-		result, err := matchDomainConstraint(test.domain, test.constraint, map[string][]string{}, map[string][]string{})
-++		result, err := matchDomainConstraint(test.domain, test.constraint, false, map[string][]string{}, map[string][]string{})
++ 		errorCallback: expectHostnameError("certificate is valid for"),
++ 	},
+++	{
+++		name:        "TooManyDNS",
+++		leaf:        generatePEMCertWithRepeatSAN(1677615892, 200, "fake.dns"),
+++		roots:       []string{generatePEMCertWithRepeatSAN(1677615892, 200, "fake.dns")},
+++		currentTime: 1677615892,
+++		dnsName:     "www.example.com",
+++		systemSkip:  true, // does not chain to a system root
+++
+++		errorCallback: expectHostnameError("certificate is valid for 200 names, but none matched"),
+++	},
+++	{
+++		name:        "TooManyIPs",
+++		leaf:        generatePEMCertWithRepeatSAN(1677615892, 150, "4.3.2.1"),
+++		roots:       []string{generatePEMCertWithRepeatSAN(1677615892, 150, "4.3.2.1")},
+++		currentTime: 1677615892,
+++		dnsName:     "1.2.3.4",
+++		systemSkip:  true, // does not chain to a system root
+++
+++		errorCallback: expectHostnameError("certificate is valid for 150 IP SANs, but none matched"),
+++	},
++ 	{
++ 		name:          "IPMissing",
++ 		leaf:          googleLeaf,
++@@ -584,6 +607,30 @@ func nameToKey(name *pkix.Name) string {
++ 	return strings.Join(name.Country, ",") + "/" + strings.Join(name.Organization, ",") + "/" + strings.Join(name.OrganizationalUnit, ",") + "/" + name.CommonName
++ }
 + 
-+ 		if err != nil && !test.expectError {
-+ 			t.Errorf("unexpected error for test #%d: domain=%s, constraint=%s, err=%s", i, test.domain, test.constraint, err)
+++func generatePEMCertWithRepeatSAN(currentTime int64, count int, san string) string {
+++	cert := Certificate{
+++		NotBefore: time.Unix(currentTime, 0),
+++		NotAfter:  time.Unix(currentTime, 0),
+++	}
+++	if ip := net.ParseIP(san); ip != nil {
+++		cert.IPAddresses = slices.Repeat([]net.IP{ip}, count)
+++	} else {
+++		cert.DNSNames = slices.Repeat([]string{san}, count)
+++	}
+++	privKey, err := rsa.GenerateKey(rand.Reader, 4096)
+++	if err != nil {
+++		log.Fatal(err)
+++	}
+++	certBytes, err := CreateCertificate(rand.Reader, &cert, &cert, &privKey.PublicKey, privKey)
+++	if err != nil {
+++		log.Fatal(err)
+++	}
+++	return string(pem.EncodeToMemory(&pem.Block{
+++		Type:  "CERTIFICATE",
+++		Bytes: certBytes,
+++	}))
+++}
+++
++ const geoTrustRoot = `-----BEGIN CERTIFICATE-----
++ MIIDVDCCAjygAwIBAgIDAjRWMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT
++ MRYwFAYDVQQKEw1HZW9UcnVzdCBJbmMuMRswGQYDVQQDExJHZW9UcnVzdCBHbG9i
 +-- 
 +2.25.1
 +
