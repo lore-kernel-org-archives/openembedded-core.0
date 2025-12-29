@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68B25E92FF7
-	for <webhook@archiver.kernel.org>; Mon, 29 Dec 2025 23:08:06 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.53859.1767049684714898092
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B00FE92FFF
+	for <webhook@archiver.kernel.org>; Mon, 29 Dec 2025 23:08:16 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.53841.1767049686361120352
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Dec 2025 15:08:04 -0800
+ Mon, 29 Dec 2025 15:08:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=q0LFPKla;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7aab061e7cbso12820578b3a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 15:08:04 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JLNvcaxQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7aa2170adf9so7024057b3a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 15:08:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767049684; x=1767654484; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767049685; x=1767654485; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wkFcORmZxfiLQtT/MaR0seYyw1IEVw6XfLUpxcATQSQ=;
-        b=q0LFPKla+RTBzeV4NJ9ArD9tgv5vi5xYaW2/rHwueSoUi0tbD+JQ7UZtae2Z/ecJ6Y
-         fhsLwz4mLPVUbYaI8ble77oCCm8UnY4+jekyBsMWf3je5I0vdoVeo7qcIj2F4B8z4d5y
-         44m8bHvWCMl/IJPH8QNSfkAqLs+ZfrRQIUd3rvjRmy7WqkLojLjjQCgjRaeLIe8SNX2b
-         21JocHLsMttva4Xz4KYBRrDnBQsRDk2oeaAMPdRJjGwTEEe7Q+gNIVZiDsacgGt+3jcQ
-         csa6nin+8SH0Ui6+czQLWdu/BKf99U0WhBYBKTHBjgVDVIMXjEGvzcAjjNmp7tZioOSz
-         zZGA==
+        bh=BQX8JCTy5Qi2l4o33YRQ6g4rKFoDlJakafklbNwH6OY=;
+        b=JLNvcaxQwjPBj+qX4GILMHNfcoXJ6H5p8JqLnQz2/dsuQLfM3i9HojnVGj9HZ3akZH
+         KKMnTEkMnMaF3Bolj4Ba72iok870tGlhuPUFHvR/VEZ6Cy3r+kUcd4JYAFv35gma/Bkw
+         NV6q+Lv005whB0vd0+cW9sVV+wGzmB8DGtj53/TIXqde8jHqKeiatJB/CK5Tzxup0Ms0
+         ZYRwvJrB2s8JBJaZX7rZhoU1pqWwwkJBtlQSKmJIb8UQvH/1Ktm4JbTgWmMV71KyivGs
+         rhz+9Y5RBWYqDcUt/o5MNU3eazEVJwq6zR9MBIcgNTqjwbCFrd2yxmTVmi1ZfW6RvqS6
+         AeBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767049684; x=1767654484;
+        d=1e100.net; s=20230601; t=1767049685; x=1767654485;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=wkFcORmZxfiLQtT/MaR0seYyw1IEVw6XfLUpxcATQSQ=;
-        b=nXuvzymOZDpMpBpqljGISTcR+1QlwyCg6qvLLoYmFE08HEb4rhaib6ZCF5rW/z7FfW
-         e75oq0upKWdiLZV2grchMmBvhJ8COjNjNO+0whYCGiAxkeEOlXponKC49G4TaojRkWeZ
-         pkEgujJWffbBxc4ZAz15oMqEc+Bq78lXX6x40YwRQ7u6yE+xvkvdX0tdMckMN+zu1J6i
-         ScSFeLuycoedxlBqGqZESX1dbYX2u2ETDbRYkXPICsIon1ZUkfKSMMsHoXZooBjBTUzc
-         xK9q/T/pdRmSTXLokldjvgPgbTSyEf0ap8cS74OmYGKr+3PZPjqcxk13xHy4pj+5syqg
-         kzkw==
-X-Gm-Message-State: AOJu0YwMQB/VRcagMIRxgZJZlcp60SQG4CdIBskCnelXxhbmSijVpv/p
-	Jq/kX15aT9vdM2ekdjSD5dGXKrN6LmHERiVkRsOePsU53hQrac6bpXSNpL0OCcdFpU2hqO3JxgB
-	cz/xn
-X-Gm-Gg: AY/fxX4ePrpJkcPm25IGzPH6Hob/KKoJ9qhdva4dq8fI+kFx3NWm3n/S5ifWTuBZgIL
-	6WBxwZ+iK9fCFmJU+8018UlbByb6m4MSWRcmEeOuaOlRVDBc55hGGRs253F1bZoW1o3/JO9BxLm
-	7Iy12ZHf2vCeffAr0u2VHsPudhj0WvpPqyTF9ZC5kj66dXryZltNAwDHVxuGbzylLvG+3J4NTMo
-	jXxBTEPKJEGmM3bdf4Y/dTa6CgPFTIpe6ZssSd/Pz8UvDYaS201AbxV8nDi7Fg4eGtwV8BXDsbC
-	h6UqaxA60S533jZWrb2xKZHWBX7XeB2zxiveFT4cGxbYcfQAH916HBAJgt16/Z6AW1bM56c52xz
-	ub6HCiQHfelmyyqbFLGpBIvW5Vd6TSE6MerM7PPJ03VgWKxPNn0W4c6j2Q9oSWKBTspB1r/Deri
-	2yNQ==
-X-Google-Smtp-Source: AGHT+IFxi6a82j3aOiesnW0bDwxqpYUh+Q/BLBjlRIV7aP4nmrHKNKxJlJuD7V5RCzPpnQMKmdIMxg==
-X-Received: by 2002:a05:6a00:288f:b0:7f7:13bb:8f20 with SMTP id d2e1a72fcca58-7ff6667c961mr24389327b3a.50.1767049683900;
-        Mon, 29 Dec 2025 15:08:03 -0800 (PST)
+        bh=BQX8JCTy5Qi2l4o33YRQ6g4rKFoDlJakafklbNwH6OY=;
+        b=PifIWQrRvgANxZzwkSXrywA26fcBuIkluCG/GN9uBOg+36Uxf/zkj4tKaRz7eq7G+Y
+         OVeGSQkISuiO1Tf+DpvpW5pp6FuuTncdR0twW8cvLmECtl8BYPfjxSFgU9uAwbOCk7DC
+         YWQenTguWYOfO5YYgwmXjLKWyZsvUNoETm/ViZmsU3m2OjTj4xlDsZKxGWXaY2xFi0rx
+         U0Bs05zRb84ZKbT+bBfKGvZbKtxKJo5SeRUKAePq3vKVOYzkOxMMJPeS6OKLM5TV+FQ0
+         bqbEveiw0MbBx4QfacGso6oI1di1a+MUlFcLNSd+h161/m7uvSc8URaqotR0kWQpBnEb
+         82iQ==
+X-Gm-Message-State: AOJu0Yz1pjLC19jfeEzMQ8kbvsWXw7mC4/DhwLe/wZnOghQ1WsaGy5iN
+	1sjY+8qfQwyyp4L6/+OJuseA/B3qDb2MvI8UfbLihKky22IFlUX7d10EPOZTr/PBPgh/vtYKKbK
+	U4oDR
+X-Gm-Gg: AY/fxX7WZU3eA7UKbo0ON6ldZxSxQbkHWm3+wKFOqjUt9UtvRBH1pXMrNdUhoCCz8iW
+	ubtNCZrK3YTN0BiUqrTXvPvEACiCtPXQkLtaCtW+Q3lz4Xyl6Ksa0/9MGmYkE0sTM/OKKlrTe3z
+	A5HjlxBMGYMNXh2kLPw3AL4UjczJGWXd4IuK5mzegJvRHtflOzC+ntjLhwC7rPYsjwCiHzHMOH7
+	fjItUA6zluet1QNDcvAIBCtd4cJ1Nv+AC+DB4g20TGJAcFlUa9k5FnNC7sRyJKx1GWw1FOjtuDC
+	KwjI0s7hdDz/CLGscgmbh7SDRzOSE0fiCj25BERf13yELWoqA1RGlREYNDXSS6EeboOzUQLONNS
+	oeuTC4o7wbICTCnJaqLdEsjrob8D0u3rH4Yb3zZO5VusegEhYErGktIqsjIdGXnTvEUJwEcjpEp
+	tRsQ==
+X-Google-Smtp-Source: AGHT+IHIEGcjRtXeVCl037RPnf73SK8aWqRY/nGj7SW5WVEry0+viK0NK0H3jO9sMxMk6L4aT7+Avw==
+X-Received: by 2002:a05:6a00:3286:b0:7ee:f5d7:cd9a with SMTP id d2e1a72fcca58-7ff6725628cmr24336895b3a.46.1767049685554;
+        Mon, 29 Dec 2025 15:08:05 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:c013:8f5c:baf3:22c3])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e493123sm30340938b3a.50.2025.12.29.15.08.03
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e493123sm30340938b3a.50.2025.12.29.15.08.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 15:08:03 -0800 (PST)
+        Mon, 29 Dec 2025 15:08:05 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 1/5] grub: fix CVE-2025-54770 CVE-2025-61661 CVE-2025-61662 CVE-2025-61663 CVE-2025-61664
-Date: Mon, 29 Dec 2025 15:07:35 -0800
-Message-ID: <c28fa3e6421257f50d4ae283cca28fadb621f831.1767049440.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 2/5] libsoup: fix CVE-2025-12105
+Date: Mon, 29 Dec 2025 15:07:36 -0800
+Message-ID: <1ac9ad3faf022684ae709f4494a430aee5fb9906.1767049440.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1767049440.git.steve@sakoman.com>
 References: <cover.1767049440.git.steve@sakoman.com>
@@ -68,288 +68,74 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 23:08:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228622
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 23:08:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228623
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2025-54770
-https://nvd.nist.gov/vuln/detail/CVE-2025-61661
-https://nvd.nist.gov/vuln/detail/CVE-2025-61662
-https://nvd.nist.gov/vuln/detail/CVE-2025-61663
-https://nvd.nist.gov/vuln/detail/CVE-2025-61664
+Refer:
+https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/481
 
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../grub/files/CVE-2025-54770.patch           | 41 +++++++++++
- .../grub/files/CVE-2025-61661.patch           | 40 +++++++++++
- .../grub/files/CVE-2025-61662.patch           | 72 +++++++++++++++++++
- .../grub/files/CVE-2025-61663_61664.patch     | 64 +++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  4 ++
- 5 files changed, 221 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-54770.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61661.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61662.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
+ .../libsoup-3.4.4/CVE-2025-12105.patch        | 34 +++++++++++++++++++
+ meta/recipes-support/libsoup/libsoup_3.4.4.bb |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-12105.patch
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-54770.patch b/meta/recipes-bsp/grub/files/CVE-2025-54770.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-12105.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-12105.patch
 new file mode 100644
-index 0000000000..7df1d8534b
+index 0000000000..a460554d6f
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-54770.patch
-@@ -0,0 +1,41 @@
-+From 80e0e9b2558c40fb108ae7a869362566eb4c1ead Mon Sep 17 00:00:00 2001
-+From: Thomas Frauendorfer | Miray Software <tf@miray.de>
-+Date: Fri, 9 May 2025 14:20:47 +0200
-+Subject: [PATCH] net/net: Unregister net_set_vlan command on unload
++++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-12105.patch
+@@ -0,0 +1,34 @@
++From 4cbb31f5bf083442325692ff16559fed73f3a6cf Mon Sep 17 00:00:00 2001
++From: Eugene Mutavchi <Ievgen_Mutavchi@comcast.com>
++Date: Fri, 10 Oct 2025 16:24:27 +0000
++Subject: [PATCH] fix 'heap-use-after-free' caused by 'finishing' queue item
++ twice
 +
-+The commit 954c48b9c (net/net: Add net_set_vlan command) added command
-+net_set_vlan to the net module. Unfortunately the commit only added the
-+grub_register_command() call on module load but missed the
-+grub_unregister_command() on unload. Let's fix this.
++CVE: CVE-2025-12105
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/9ba1243a24e442fa5ec44684617a4480027da960]
 +
-+Fixes: CVE-2025-54770
-+Fixes: 954c48b9c (net/net: Add net_set_vlan command)
-+
-+CVE: CVE-2025-54770
-+
-+Upstream-Status: Backport
-+[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=10e58a14db20e17d1b6a39abe38df01fef98e29d]
-+
-+Reported-by: Thomas Frauendorfer | Miray Software <tf@miray.de>
-+Signed-off-by: Thomas Frauendorfer | Miray Software <tf@miray.de>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ grub-core/net/net.c | 1 +
-+ 1 file changed, 1 insertion(+)
++ libsoup/soup-session.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
 +
-+diff --git a/grub-core/net/net.c b/grub-core/net/net.c
-+index 2b45c27d1..05f11be08 100644
-+--- a/grub-core/net/net.c
-++++ b/grub-core/net/net.c
-+@@ -2080,6 +2080,7 @@ GRUB_MOD_FINI(net)
-+   grub_unregister_command (cmd_deladdr);
-+   grub_unregister_command (cmd_addroute);
-+   grub_unregister_command (cmd_delroute);
-++  grub_unregister_command (cmd_setvlan);
-+   grub_unregister_command (cmd_lsroutes);
-+   grub_unregister_command (cmd_lscards);
-+   grub_unregister_command (cmd_lsaddr);
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61661.patch b/meta/recipes-bsp/grub/files/CVE-2025-61661.patch
-new file mode 100644
-index 0000000000..9f6cf68e4b
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-61661.patch
-@@ -0,0 +1,40 @@
-+From c24e11d87f8ee8cefd615e0c30eb71ff6149ee50 Mon Sep 17 00:00:00 2001
-+From: Jamie <volticks@gmail.com>
-+Date: Mon, 14 Jul 2025 09:52:59 +0100
-+Subject: [PATCH 2/4] commands/usbtest: Use correct string length field
-+
-+An incorrect length field is used for buffer allocation. This leads to
-+grub_utf16_to_utf8() receiving an incorrect/different length and possibly
-+causing OOB write. This makes sure to use the correct length.
-+
-+Fixes: CVE-2025-61661
-+
-+CVE: CVE-2025-61661
-+
-+Upstream-Status: Backport
-+[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=549a9cc372fd0b96a4ccdfad0e12140476cc62a3]
-+
-+Reported-by: Jamie <volticks@gmail.com>
-+Signed-off-by: Jamie <volticks@gmail.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ grub-core/commands/usbtest.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/grub-core/commands/usbtest.c b/grub-core/commands/usbtest.c
-+index 2c6d93fe6..8ef187a9a 100644
-+--- a/grub-core/commands/usbtest.c
-++++ b/grub-core/commands/usbtest.c
-+@@ -99,7 +99,7 @@ grub_usb_get_string (grub_usb_device_t dev, grub_uint8_t index, int langid,
-+       return GRUB_USB_ERR_NONE;
-+     }
-+ 
-+-  *string = grub_malloc (descstr.length * 2 + 1);
-++  *string = grub_malloc (descstrp->length * 2 + 1);
-+   if (! *string)
-+     {
-+       grub_free (descstrp);
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61662.patch b/meta/recipes-bsp/grub/files/CVE-2025-61662.patch
-new file mode 100644
-index 0000000000..f04a52fe76
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-61662.patch
-@@ -0,0 +1,72 @@
-+From 498dc73aa661bb1cae4b06572b5cef154dcb1fb7 Mon Sep 17 00:00:00 2001
-+From: Alec Brown <alec.r.brown@oracle.com>
-+Date: Thu, 21 Aug 2025 21:14:06 +0000
-+Subject: [PATCH 3/4] gettext/gettext: Unregister gettext command on module
-+ unload
-+
-+When the gettext module is loaded, the gettext command is registered but
-+isn't unregistered when the module is unloaded. We need to add a call to
-+grub_unregister_command() when unloading the module.
-+
-+Fixes: CVE-2025-61662
-+
-+CVE: CVE-2025-61662
-+
-+Upstream-Status: Backport
-+[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=8ed78fd9f0852ab218cc1f991c38e5a229e43807]
-+
-+Reported-by: Alec Brown <alec.r.brown@oracle.com>
-+Signed-off-by: Alec Brown <alec.r.brown@oracle.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ grub-core/gettext/gettext.c | 19 ++++++++++++-------
-+ 1 file changed, 12 insertions(+), 7 deletions(-)
-+
-+diff --git a/grub-core/gettext/gettext.c b/grub-core/gettext/gettext.c
-+index 9ffc73428..edebed998 100644
-+--- a/grub-core/gettext/gettext.c
-++++ b/grub-core/gettext/gettext.c
-+@@ -502,6 +502,8 @@ grub_cmd_translate (grub_command_t cmd __attribute__ ((unused)),
-+   return 0;
-+ }
-+ 
-++static grub_command_t cmd;
-++
-+ GRUB_MOD_INIT (gettext)
-+ {
-+   const char *lang;
-+@@ -521,13 +523,14 @@ GRUB_MOD_INIT (gettext)
-+   grub_register_variable_hook ("locale_dir", NULL, read_main);
-+   grub_register_variable_hook ("secondary_locale_dir", NULL, read_secondary);
-+ 
-+-  grub_register_command_p1 ("gettext", grub_cmd_translate,
-+-			    N_("STRING"),
-+-			    /* TRANSLATORS: It refers to passing the string through gettext.
-+-			       So it's "translate" in the same meaning as in what you're
-+-			       doing now.
-+-			     */
-+-			    N_("Translates the string with the current settings."));
-++  cmd = grub_register_command_p1 ("gettext", grub_cmd_translate,
-++				  N_("STRING"),
-++				  /*
-++				   * TRANSLATORS: It refers to passing the string through gettext.
-++				   * So it's "translate" in the same meaning as in what you're
-++				   * doing now.
-++				   */
-++				  N_("Translates the string with the current settings."));
-+ 
-+   /* Reload .mo file information if lang changes.  */
-+   grub_register_variable_hook ("lang", NULL, grub_gettext_env_write_lang);
-+@@ -544,6 +547,8 @@ GRUB_MOD_FINI (gettext)
-+   grub_register_variable_hook ("secondary_locale_dir", NULL, NULL);
-+   grub_register_variable_hook ("lang", NULL, NULL);
-+ 
-++  grub_unregister_command (cmd);
-++
-+   grub_gettext_delete_list (&main_context);
-+   grub_gettext_delete_list (&secondary_context);
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch b/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
-new file mode 100644
-index 0000000000..bfc05008bf
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
-@@ -0,0 +1,64 @@
-+From 8368c026562a72a005bea320cfde9fd7d62d3850 Mon Sep 17 00:00:00 2001
-+From: Alec Brown <alec.r.brown@oracle.com>
-+Date: Thu, 21 Aug 2025 21:14:07 +0000
-+Subject: [PATCH 4/4] normal/main: Unregister commands on module unload
-+
-+When the normal module is loaded, the normal and normal_exit commands
-+are registered but aren't unregistered when the module is unloaded. We
-+need to add calls to grub_unregister_command() when unloading the module
-+for these commands.
-+
-+Fixes: CVE-2025-61663
-+Fixes: CVE-2025-61664
-+
-+CVE: CVE-2025-61663 CVE-2025-61664
-+
-+Upstream-Status: Backport
-+[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=05d3698b8b03eccc49e53491bbd75dba15f40917]
-+
-+Reported-by: Alec Brown <alec.r.brown@oracle.com>
-+Signed-off-by: Alec Brown <alec.r.brown@oracle.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ grub-core/normal/main.c | 12 +++++++-----
-+ 1 file changed, 7 insertions(+), 5 deletions(-)
-+
-+diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
-+index dad25e7d2..a810858c3 100644
-+--- a/grub-core/normal/main.c
-++++ b/grub-core/normal/main.c
-+@@ -500,7 +500,7 @@ grub_mini_cmd_clear (struct grub_command *cmd __attribute__ ((unused)),
-+   return 0;
-+ }
-+ 
-+-static grub_command_t cmd_clear;
-++static grub_command_t cmd_clear, cmd_normal, cmd_normal_exit;
-+ 
-+ static void (*grub_xputs_saved) (const char *str);
-+ static const char *features[] = {
-+@@ -542,10 +542,10 @@ GRUB_MOD_INIT(normal)
-+   grub_env_export ("pager");
-+ 
-+   /* Register a command "normal" for the rescue mode.  */
-+-  grub_register_command ("normal", grub_cmd_normal,
-+-			 0, N_("Enter normal mode."));
-+-  grub_register_command ("normal_exit", grub_cmd_normal_exit,
-+-			 0, N_("Exit from normal mode."));
-++  cmd_normal = grub_register_command ("normal", grub_cmd_normal,
-++				      0, N_("Enter normal mode."));
-++  cmd_normal_exit = grub_register_command ("normal_exit", grub_cmd_normal_exit,
-++					   0, N_("Exit from normal mode."));
-+ 
-+   /* Reload terminal colors when these variables are written to.  */
-+   grub_register_variable_hook ("color_normal", NULL, grub_env_write_color_normal);
-+@@ -587,4 +587,6 @@ GRUB_MOD_FINI(normal)
-+   grub_register_variable_hook ("color_highlight", NULL, NULL);
-+   grub_fs_autoload_hook = 0;
-+   grub_unregister_command (cmd_clear);
-++  grub_unregister_command (cmd_normal);
-++  grub_unregister_command (cmd_normal_exit);
++diff --git a/libsoup/soup-session.c b/libsoup/soup-session.c
++index 9f00b05..649902f 100644
++--- a/libsoup/soup-session.c
+++++ b/libsoup/soup-session.c
++@@ -2822,8 +2822,10 @@ run_until_read_done (SoupMessage          *msg,
++ 		if (soup_message_io_in_progress (msg))
++ 			soup_message_io_finished (msg);
++ 		item->paused = FALSE;
++-		item->state = SOUP_MESSAGE_FINISHING;
++-		soup_session_process_queue_item (item->session, item, FALSE);
+++		if (item->state != SOUP_MESSAGE_FINISHED) {
+++			item->state = SOUP_MESSAGE_FINISHING;
+++			soup_session_process_queue_item (item->session, item, FALSE);
+++		}
++ 	}
++ 	async_send_request_return_result (item, NULL, error);
 + }
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index edb87ef2ea..3160708113 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -38,6 +38,10 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch \
-            file://CVE-2025-0678_CVE-2025-1125.patch \
-            file://CVE-2024-56738.patch \
-+           file://CVE-2025-54770.patch \
-+           file://CVE-2025-61661.patch \
-+           file://CVE-2025-61662.patch \
-+           file://CVE-2025-61663_61664.patch \
+diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
+index f64d0d6745..c09b06fec2 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
+@@ -45,6 +45,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2025-4948.patch \
+            file://CVE-2025-2784.patch \
+            file://CVE-2025-4945.patch \
++           file://CVE-2025-12105.patch \
  "
+ SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
  
- SRC_URI[sha256sum] = "b30919fa5be280417c17ac561bb1650f60cfb80cc6237fa1e2b6f56154cb9c91"
 -- 
 2.43.0
 
