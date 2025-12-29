@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C90EE92FF7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C62FE92FFE
 	for <webhook@archiver.kernel.org>; Mon, 29 Dec 2025 23:03:36 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.53753.1767049414176703962
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.53748.1767049408933610705
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Dec 2025 15:03:34 -0800
+ Mon, 29 Dec 2025 15:03:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1sae+WcW;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a0d0788adaso84924555ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 15:03:34 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=BscTD7BY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a0b4320665so144618075ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 15:03:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767049413; x=1767654213; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767049408; x=1767654208; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zINGPzZi092SuR/VI14o+sv5d5IvQkR0r80oVA7CXSk=;
-        b=1sae+WcWogzvPsEmqrFihUzHfuDs5UBRr2/KhXMP3EHIVlDmorOu1gCWnpDKrMAmZq
-         HCWRPuyMZ/4dchOeOtkUz03O0DdLCESyEA3OWZ35sreOryJRbBCsZWdaWJRncpW4vZI+
-         Gb+6/f5vCCCezSgDTvPuRVKtQxAl2DgUHqKOA2JIFj96YaJ3jbeWHxnDHY8/1qjnD94R
-         NCRl7cmPmREHw8f6vWdfSXKojKJrzlUkihfV532QsTSN2GyzzPBOZhIa4IcW0VDZX6+f
-         TyaxEQ7JTbKxdDwT+v4Me/Fiok1DmR+BWxxRgpzTRKFXl5pD6ULvu7uIHxQdgvT2+S8/
-         lF8g==
+        bh=GO7Zx9q64s01R+w7u2kj9S1QdESFbZvggeqfdZXt+Tc=;
+        b=BscTD7BY7FlLp1rrxzo/tcqOssKqD6k4MYyBa+1KznspWXUePCS6ZC8Q221KvdvCV9
+         dHtNFvzCyR7omLyHk58MF9s/9pzqHs8C1T3NDQ63IoPO0X0OOADeNuVU8e13zmFmEQYs
+         lts+b33/cheLmS4+SPD7SJXwRINn0cw2dvMStT280pnrVoGiThK7u/OFg1K3gGjY+4Mh
+         bjfJFLbGhHl4Ll4FsBlM/YWqsZrtti7LUl9m/2L//lz2frrzU6M1ObYOUiGJhFuWcyir
+         Bf5eTN4k3vb5cF32kIzMjfRNYS7geSFzsoQAnGx2MsIDtXBmpAcss5dE3ZpG6pzkLKpy
+         /iAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767049413; x=1767654213;
+        d=1e100.net; s=20230601; t=1767049408; x=1767654208;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=zINGPzZi092SuR/VI14o+sv5d5IvQkR0r80oVA7CXSk=;
-        b=SPjGZ3HtalDO27LBhx78G0BuhgaskgBoSK3zzgyxboT0UpczrM85+BcggjJGXazsfY
-         vPnbZDfi5ZMj7wBqOhRXezv6OF6HZOUTZifTUV3B89tOXvoCRiIvqeT47D0Lbkc7sQvB
-         LNi3FtpCSSqCSYX+XsheyRmvP2s/yebu4Dw9GyYc+Dkz6oEOBh7Mhjk23IILs46fOjo3
-         V/tmOCckj9TaUp5sp3xQ4Y8/+8ppxyQUuYcUX+qCAg1a2lzMFvDddYzr5uqhYeVAwTd6
-         BeX27oxO4fEf0N+iEtxVFWW2yNDPyp38JfSvey3p0tcobaG+83YYgIzMh+lyGDybwxhh
-         Kp/w==
-X-Gm-Message-State: AOJu0YxSbRUPYELGzBziAw/TsxrX2RGgfP4ms9TlMsoCquuhGDOV7oCI
-	UpW1mUTAXNGPdfidiP/z+i/CtfDWHCUfhtwgAgSnA+GSZMUZNIaezFfALX9+q3fH8EaZhaVhIf4
-	J/2Rw
-X-Gm-Gg: AY/fxX7QTXxBkVND69Tq8pIilCOiWvy/klr47I4sI6vPXddeZZ9tv7fKu+AKAeecbOx
-	BRBcnaYD4PUXVLG+Qh4zdi1sW0iiIbMIXvQ9KQKYD+yyncfuGY505AvzxcgOD3UbFyHIKxfApkV
-	KpPdU7KFbAf/jZGyPMFY3GJhdOd0a8ihQbI9ltEanlb4MBASvlvOSJgOboO+jgS3Oe6ceO3DpNi
-	qOFrnyr//ZWzZLwjG308tgWDmZQIv/90xmIWhomC3BErH8ILZl4NOuZJ+IGzEwIzu+VLpRMPR96
-	ZFy6XE56AXfdUVkjESSoTROl+HDY6sqIugEK6gSlLBoOhU/+qALtWraY2PTAOV+4OB8OfGLSlfr
-	IuMS1cowwwYAFA6Ef+Jl4zVmNv/uPMa63nG60qTG4wxL4poHcb0CvZ+1mmKEUxzLWEA1qCglOBh
-	nexdQhl8vGX8Fx
-X-Google-Smtp-Source: AGHT+IF6I6tlksVwu6W6sBoIrDn2tBr0F5PmtYIBvbAA7vXZY4vw/DEK079UgDSD1sEKI8UDs7YaFw==
-X-Received: by 2002:a17:902:cf04:b0:29e:bf76:2d91 with SMTP id d9443c01a7336-2a2f293ed92mr353389035ad.42.1767049413313;
-        Mon, 29 Dec 2025 15:03:33 -0800 (PST)
+        bh=GO7Zx9q64s01R+w7u2kj9S1QdESFbZvggeqfdZXt+Tc=;
+        b=D3p7JjVym0ya9oJBhDNywZ0SxWjAN/6PZIywwI1RPkl6O4cFTcz1nfaWL1tKxrVtxj
+         /BYxmUiLBxrt71yQdHZOp72MQe3k1Qq1NiCPp1buE1a2Z84bHcmINLhSMbF/LIjxG/Rk
+         h5UUPqE/bG9nBNpGXjaBHTlijULH/bjoZ0yLKm1OicZ9aEtHLZ0PPUondIIJo+rwl1U9
+         NYQdmLV1GEKyZ4t8dcySe4VBgjWewGBkUWRddiWDOSD8CCTEk6LuB3PWB660w0gNUlaZ
+         OTUooIzoBFcfytZapXUw/WyGFzUleiE+94hwWihZtaZSVH06w20WHT7dkxGy6bpxvgDP
+         n2Rg==
+X-Gm-Message-State: AOJu0Yw0pfDE5nTs5LPhJJI9nje4jqnFszJNzqlvWmzyhTvWGWmCgGdz
+	P5h31bgIP5DLwQI+FGfVO4Sd8uxxU1Sph8mMAbZTHzuzy2ykSRQBiEH0rdjCBI3XZD7piFDOZUJ
+	ZnxHQ
+X-Gm-Gg: AY/fxX4DojBmsBXcyLdvWgNTNoGmF67NdQlBYUXpe/1+IRPLxT1mFMvIAH6eEzKMHFu
+	IgVsxqCTuRzSuwt0eQ+LpTPmFy2wmw9PDnu1TbxfcLmA9wPHaGOGc2JywfgVM7BPzZTmB+5XB2p
+	35F8uOao72gQUvwQKKL7vtu42DVaAI1eX+Y813CdPQvbdqntfUzDvVXZ7DFz91pl8+iBxCJeJAT
+	b7zzLIURxY9UCarLTFMmblF/IewzBjqnZUxBcvPE+ym78FECfe4ch8TmxtJmHVINoj2Gi2VPoaw
+	Na43cmEY4YzxEu4Em5ddH35xLwVD0Qh5DazRN055EmA2Jg3Eq+k/gXz/Zf9IqE/UDB3C50FxIFo
+	kaFCBIL6aVCIPDLQPc6Qp3oM5I4szF+zd1CVTYlq1a5GqWc/vsFWqbm5d+7b8kgj6XJKRZh2U2S
+	ngag==
+X-Google-Smtp-Source: AGHT+IFaJTfK5mhURbOLip0DU2Z5GQhnuqEnCKYzEmkVcykJ0KwhvHKnTrIjeLGiDb/mW7dAE3m6TA==
+X-Received: by 2002:a17:902:ce92:b0:2a2:d066:b668 with SMTP id d9443c01a7336-2a2f222adc2mr259151975ad.12.1767049407930;
+        Mon, 29 Dec 2025 15:03:27 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:c013:8f5c:baf3:22c3])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c8d10esm277796855ad.42.2025.12.29.15.03.32
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c8d10esm277796855ad.42.2025.12.29.15.03.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 15:03:32 -0800 (PST)
+        Mon, 29 Dec 2025 15:03:27 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 4/4] go: Fix CVE-2025-61729
-Date: Mon, 29 Dec 2025 15:03:19 -0800
-Message-ID: <0057fc49725db8637656fac10631d8f89799bad3.1767048412.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 1/4] grub: fix CVE-2025-61661 CVE-2025-61662 CVE-2025-61663 CVE-2025-61664
+Date: Mon, 29 Dec 2025 15:03:16 -0800
+Message-ID: <f2031f39e423b764ccf4003bdee05f30d66fb7ce.1767048412.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1767048412.git.steve@sakoman.com>
 References: <cover.1767048412.git.steve@sakoman.com>
@@ -69,210 +69,236 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 23:03:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228620
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228617
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-Upstream-Status: Backport from https://github.com/golang/go/commit/3a842bd5c6aa8eefa13c0174de3ab361e50bd672
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2025-61661
+https://nvd.nist.gov/vuln/detail/CVE-2025-61662
+https://nvd.nist.gov/vuln/detail/CVE-2025-61663
+https://nvd.nist.gov/vuln/detail/CVE-2025-61664
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
- .../go/go-1.18/CVE-2025-61729.patch           | 172 ++++++++++++++++++
- 2 files changed, 173 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2025-61729.patch
+ .../grub/files/CVE-2025-61661.patch           | 40 +++++++++++
+ .../grub/files/CVE-2025-61662.patch           | 72 +++++++++++++++++++
+ .../grub/files/CVE-2025-61663_61664.patch     | 64 +++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  3 +
+ 4 files changed, 179 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61661.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61662.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
-index 0ea3b6704f..e95003db96 100644
---- a/meta/recipes-devtools/go/go-1.17.13.inc
-+++ b/meta/recipes-devtools/go/go-1.17.13.inc
-@@ -76,6 +76,7 @@ SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main \
-            file://CVE-2025-61724.patch \
-            file://CVE-2023-39323.patch \
-            file://CVE-2025-61727.patch \
-+           file://CVE-2025-61729.patch \
-            "
- SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
- 
-diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2025-61729.patch b/meta/recipes-devtools/go/go-1.18/CVE-2025-61729.patch
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61661.patch b/meta/recipes-bsp/grub/files/CVE-2025-61661.patch
 new file mode 100644
-index 0000000000..6fdc2fd426
+index 0000000000..9ae4f3b307
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.18/CVE-2025-61729.patch
-@@ -0,0 +1,172 @@
-+From 3a842bd5c6aa8eefa13c0174de3ab361e50bd672 Mon Sep 17 00:00:00 2001
-+From: "Nicholas S. Husin" <nsh@golang.org>
-+Date: Mon, 24 Nov 2025 14:56:23 -0500
-+Subject: [PATCH] [release-branch.go1.24] crypto/x509: prevent
-+ HostnameError.Error() from consuming excessive resource
++++ b/meta/recipes-bsp/grub/files/CVE-2025-61661.patch
+@@ -0,0 +1,40 @@
++From 9c2ae73b549a653f5f1bd5d4edebc50a764bad06 Mon Sep 17 00:00:00 2001
++From: Jamie <volticks@gmail.com>
++Date: Mon, 14 Jul 2025 09:52:59 +0100
++Subject: [PATCH 1/3] commands/usbtest: Use correct string length field
 +
-+Constructing HostnameError.Error() takes O(N^2) runtime due to using a
-+string concatenation in a loop. Additionally, there is no limit on how
-+many names are included in the error message. As a result, a malicious
-+attacker could craft a certificate with an infinite amount of names to
-+unfairly consume resource.
++An incorrect length field is used for buffer allocation. This leads to
++grub_utf16_to_utf8() receiving an incorrect/different length and possibly
++causing OOB write. This makes sure to use the correct length.
 +
-+To remediate this, we will now use strings.Builder to construct the
-+error message, preventing O(N^2) runtime. When a certificate has 100 or
-+more names, we will also not print each name individually.
++Fixes: CVE-2025-61661
 +
-+Thanks to Philippe Antoine (Catena cyber) for reporting this issue.
++CVE: CVE-2025-61661
 +
-+Updates #76445
-+Fixes #76460
-+Fixes CVE-2025-61729
++Upstream-Status: Backport
++[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=549a9cc372fd0b96a4ccdfad0e12140476cc62a3]
 +
-+Change-Id: I6343776ec3289577abc76dad71766c491c1a7c81
-+Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3000
-+Reviewed-by: Neal Patel <nealpatel@google.com>
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3220
-+Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/725820
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+TryBot-Bypass: Dmitri Shuralyov <dmitshur@golang.org>
-+Auto-Submit: Dmitri Shuralyov <dmitshur@google.com>
-+Reviewed-by: Mark Freeman <markfreeman@google.com>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/3a842bd5c6aa8eefa13c0174de3ab361e50bd672]
-+CVE: CVE-2025-61729
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++Reported-by: Jamie <volticks@gmail.com>
++Signed-off-by: Jamie <volticks@gmail.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
 +---
-+ src/crypto/x509/verify.go      | 21 ++++++++++-----
-+ src/crypto/x509/verify_test.go | 47 ++++++++++++++++++++++++++++++++++
-+ 2 files changed, 61 insertions(+), 7 deletions(-)
++ grub-core/commands/usbtest.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/src/crypto/x509/verify.go b/src/crypto/x509/verify.go
-+index 88260ee..c167191 100644
-+--- a/src/crypto/x509/verify.go
-++++ b/src/crypto/x509/verify.go
-+@@ -97,31 +97,38 @@ type HostnameError struct {
++diff --git a/grub-core/commands/usbtest.c b/grub-core/commands/usbtest.c
++index 2c6d93fe6..8ef187a9a 100644
++--- a/grub-core/commands/usbtest.c
+++++ b/grub-core/commands/usbtest.c
++@@ -99,7 +99,7 @@ grub_usb_get_string (grub_usb_device_t dev, grub_uint8_t index, int langid,
++       return GRUB_USB_ERR_NONE;
++     }
 + 
-+ func (h HostnameError) Error() string {
-+ 	c := h.Certificate
-++	maxNamesIncluded := 100
-+ 
-+ 	if !c.hasSANExtension() && matchHostnames(c.Subject.CommonName, h.Host) {
-+ 		return "x509: certificate relies on legacy Common Name field, use SANs instead"
-+ 	}
-+ 
-+-	var valid string
-++	var valid strings.Builder
-+ 	if ip := net.ParseIP(h.Host); ip != nil {
-+ 		// Trying to validate an IP
-+ 		if len(c.IPAddresses) == 0 {
-+ 			return "x509: cannot validate certificate for " + h.Host + " because it doesn't contain any IP SANs"
-+ 		}
-++		if len(c.IPAddresses) >= maxNamesIncluded {
-++			return fmt.Sprintf("x509: certificate is valid for %d IP SANs, but none matched %s", len(c.IPAddresses), h.Host)
-++		}
-+ 		for _, san := range c.IPAddresses {
-+-			if len(valid) > 0 {
-+-				valid += ", "
-++			if valid.Len() > 0 {
-++				valid.WriteString(", ")
-+ 			}
-+-			valid += san.String()
-++			valid.WriteString(san.String())
-+ 		}
-+ 	} else {
-+-		valid = strings.Join(c.DNSNames, ", ")
-++		if len(c.DNSNames) >= maxNamesIncluded {
-++			return fmt.Sprintf("x509: certificate is valid for %d names, but none matched %s", len(c.DNSNames), h.Host)
-++		}
-++		valid.WriteString(strings.Join(c.DNSNames, ", "))
-+ 	}
-+ 
-+-	if len(valid) == 0 {
-++	if valid.Len() == 0 {
-+ 		return "x509: certificate is not valid for any names, but wanted to match " + h.Host
-+ 	}
-+-	return "x509: certificate is valid for " + valid + ", not " + h.Host
-++	return "x509: certificate is valid for " + valid.String() + ", not " + h.Host
-+ }
-+ 
-+ // UnknownAuthorityError results when the certificate issuer is unknown
-+diff --git a/src/crypto/x509/verify_test.go b/src/crypto/x509/verify_test.go
-+index 5f7c834..c2c2025 100644
-+--- a/src/crypto/x509/verify_test.go
-++++ b/src/crypto/x509/verify_test.go
-+@@ -9,11 +9,14 @@ import (
-+ 	"crypto/ecdsa"
-+ 	"crypto/elliptic"
-+ 	"crypto/rand"
-++	"crypto/rsa"
-+ 	"crypto/x509/pkix"
-+ 	"encoding/pem"
-+ 	"errors"
-+ 	"fmt"
-++	"log"
-+ 	"math/big"
-++	"net"
-+ 	"runtime"
-+ 	"strings"
-+ 	"testing"
-+@@ -70,6 +73,26 @@ var verifyTests = []verifyTest{
-+ 
-+ 		errorCallback: expectHostnameError("certificate is valid for"),
-+ 	},
-++	{
-++		name:        "TooManyDNS",
-++		leaf:        generatePEMCertWithRepeatSAN(1677615892, 200, "fake.dns"),
-++		roots:       []string{generatePEMCertWithRepeatSAN(1677615892, 200, "fake.dns")},
-++		currentTime: 1677615892,
-++		dnsName:     "www.example.com",
-++		systemSkip:  true, // does not chain to a system root
-++
-++		errorCallback: expectHostnameError("certificate is valid for 200 names, but none matched"),
-++	},
-++	{
-++		name:        "TooManyIPs",
-++		leaf:        generatePEMCertWithRepeatSAN(1677615892, 150, "4.3.2.1"),
-++		roots:       []string{generatePEMCertWithRepeatSAN(1677615892, 150, "4.3.2.1")},
-++		currentTime: 1677615892,
-++		dnsName:     "1.2.3.4",
-++		systemSkip:  true, // does not chain to a system root
-++
-++		errorCallback: expectHostnameError("certificate is valid for 150 IP SANs, but none matched"),
-++	},
-+ 	{
-+ 		name:          "IPMissing",
-+ 		leaf:          googleLeaf,
-+@@ -584,6 +607,30 @@ func nameToKey(name *pkix.Name) string {
-+ 	return strings.Join(name.Country, ",") + "/" + strings.Join(name.Organization, ",") + "/" + strings.Join(name.OrganizationalUnit, ",") + "/" + name.CommonName
-+ }
-+ 
-++func generatePEMCertWithRepeatSAN(currentTime int64, count int, san string) string {
-++	cert := Certificate{
-++		NotBefore: time.Unix(currentTime, 0),
-++		NotAfter:  time.Unix(currentTime, 0),
-++	}
-++	if ip := net.ParseIP(san); ip != nil {
-++		cert.IPAddresses = slices.Repeat([]net.IP{ip}, count)
-++	} else {
-++		cert.DNSNames = slices.Repeat([]string{san}, count)
-++	}
-++	privKey, err := rsa.GenerateKey(rand.Reader, 4096)
-++	if err != nil {
-++		log.Fatal(err)
-++	}
-++	certBytes, err := CreateCertificate(rand.Reader, &cert, &cert, &privKey.PublicKey, privKey)
-++	if err != nil {
-++		log.Fatal(err)
-++	}
-++	return string(pem.EncodeToMemory(&pem.Block{
-++		Type:  "CERTIFICATE",
-++		Bytes: certBytes,
-++	}))
-++}
-++
-+ const geoTrustRoot = `-----BEGIN CERTIFICATE-----
-+ MIIDVDCCAjygAwIBAgIDAjRWMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT
-+ MRYwFAYDVQQKEw1HZW9UcnVzdCBJbmMuMRswGQYDVQQDExJHZW9UcnVzdCBHbG9i
++-  *string = grub_malloc (descstr.length * 2 + 1);
+++  *string = grub_malloc (descstrp->length * 2 + 1);
++   if (! *string)
++     {
++       grub_free (descstrp);
 +-- 
-+2.25.1
++2.34.1
 +
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61662.patch b/meta/recipes-bsp/grub/files/CVE-2025-61662.patch
+new file mode 100644
+index 0000000000..1614b00d53
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-61662.patch
+@@ -0,0 +1,72 @@
++From c47760a907c91283bac9a8400d6975574b1d3986 Mon Sep 17 00:00:00 2001
++From: Alec Brown <alec.r.brown@oracle.com>
++Date: Thu, 21 Aug 2025 21:14:06 +0000
++Subject: [PATCH 2/3] gettext/gettext: Unregister gettext command on module
++ unload
++
++When the gettext module is loaded, the gettext command is registered but
++isn't unregistered when the module is unloaded. We need to add a call to
++grub_unregister_command() when unloading the module.
++
++Fixes: CVE-2025-61662
++
++CVE: CVE-2025-61662
++
++Upstream-Status: Backport
++[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=8ed78fd9f0852ab218cc1f991c38e5a229e43807]
++
++Reported-by: Alec Brown <alec.r.brown@oracle.com>
++Signed-off-by: Alec Brown <alec.r.brown@oracle.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ grub-core/gettext/gettext.c | 19 ++++++++++++-------
++ 1 file changed, 12 insertions(+), 7 deletions(-)
++
++diff --git a/grub-core/gettext/gettext.c b/grub-core/gettext/gettext.c
++index 7a25c9d67..ef1258ee0 100644
++--- a/grub-core/gettext/gettext.c
+++++ b/grub-core/gettext/gettext.c
++@@ -502,6 +502,8 @@ grub_cmd_translate (grub_command_t cmd __attribute__ ((unused)),
++   return 0;
++ }
++ 
+++static grub_command_t cmd;
+++
++ GRUB_MOD_INIT (gettext)
++ {
++   const char *lang;
++@@ -521,13 +523,14 @@ GRUB_MOD_INIT (gettext)
++   grub_register_variable_hook ("locale_dir", NULL, read_main);
++   grub_register_variable_hook ("secondary_locale_dir", NULL, read_secondary);
++ 
++-  grub_register_command_p1 ("gettext", grub_cmd_translate,
++-			    N_("STRING"),
++-			    /* TRANSLATORS: It refers to passing the string through gettext.
++-			       So it's "translate" in the same meaning as in what you're 
++-			       doing now.
++-			     */
++-			    N_("Translates the string with the current settings."));
+++  cmd = grub_register_command_p1 ("gettext", grub_cmd_translate,
+++				  N_("STRING"),
+++				  /*
+++				   * TRANSLATORS: It refers to passing the string through gettext.
+++				   * So it's "translate" in the same meaning as in what you're
+++				   * doing now.
+++				   */
+++				  N_("Translates the string with the current settings."));
++ 
++   /* Reload .mo file information if lang changes.  */
++   grub_register_variable_hook ("lang", NULL, grub_gettext_env_write_lang);
++@@ -544,6 +547,8 @@ GRUB_MOD_FINI (gettext)
++   grub_register_variable_hook ("secondary_locale_dir", NULL, NULL);
++   grub_register_variable_hook ("lang", NULL, NULL);
++ 
+++  grub_unregister_command (cmd);
+++
++   grub_gettext_delete_list (&main_context);
++   grub_gettext_delete_list (&secondary_context);
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch b/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
+new file mode 100644
+index 0000000000..cdf1e4ca36
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
+@@ -0,0 +1,64 @@
++From a182bd873e4aa93205ecbb7845ef7f0eda99dcf5 Mon Sep 17 00:00:00 2001
++From: Alec Brown <alec.r.brown@oracle.com>
++Date: Thu, 21 Aug 2025 21:14:07 +0000
++Subject: [PATCH 3/3] normal/main: Unregister commands on module unload
++
++When the normal module is loaded, the normal and normal_exit commands
++are registered but aren't unregistered when the module is unloaded. We
++need to add calls to grub_unregister_command() when unloading the module
++for these commands.
++
++Fixes: CVE-2025-61663
++Fixes: CVE-2025-61664
++
++CVE: CVE-2025-61663 CVE-2025-61664
++
++Upstream-Status: Backport
++[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=05d3698b8b03eccc49e53491bbd75dba15f40917]
++
++Reported-by: Alec Brown <alec.r.brown@oracle.com>
++Signed-off-by: Alec Brown <alec.r.brown@oracle.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ grub-core/normal/main.c | 12 +++++++-----
++ 1 file changed, 7 insertions(+), 5 deletions(-)
++
++diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
++index a95c25e5f..9d576de7a 100644
++--- a/grub-core/normal/main.c
+++++ b/grub-core/normal/main.c
++@@ -499,7 +499,7 @@ grub_mini_cmd_clear (struct grub_command *cmd __attribute__ ((unused)),
++   return 0;
++ }
++ 
++-static grub_command_t cmd_clear;
+++static grub_command_t cmd_clear, cmd_normal, cmd_normal_exit;
++ 
++ static void (*grub_xputs_saved) (const char *str);
++ static const char *features[] = {
++@@ -541,10 +541,10 @@ GRUB_MOD_INIT(normal)
++   grub_env_export ("pager");
++ 
++   /* Register a command "normal" for the rescue mode.  */
++-  grub_register_command ("normal", grub_cmd_normal,
++-			 0, N_("Enter normal mode."));
++-  grub_register_command ("normal_exit", grub_cmd_normal_exit,
++-			 0, N_("Exit from normal mode."));
+++  cmd_normal = grub_register_command ("normal", grub_cmd_normal,
+++				      0, N_("Enter normal mode."));
+++  cmd_normal_exit = grub_register_command ("normal_exit", grub_cmd_normal_exit,
+++					   0, N_("Exit from normal mode."));
++ 
++   /* Reload terminal colors when these variables are written to.  */
++   grub_register_variable_hook ("color_normal", NULL, grub_env_write_color_normal);
++@@ -586,4 +586,6 @@ GRUB_MOD_FINI(normal)
++   grub_register_variable_hook ("color_highlight", NULL, NULL);
++   grub_fs_autoload_hook = 0;
++   grub_unregister_command (cmd_clear);
+++  grub_unregister_command (cmd_normal);
+++  grub_unregister_command (cmd_normal_exit);
++ }
++-- 
++2.34.1
++
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 94eeadfb99..4744e26693 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -60,6 +60,9 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://CVE-2025-0690.patch \
+            file://CVE-2025-1118.patch \
+            file://CVE-2024-56738.patch \
++           file://CVE-2025-61661.patch \
++           file://CVE-2025-61662.patch \
++           file://CVE-2025-61663_61664.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae803f5f"
 -- 
 2.43.0
 
