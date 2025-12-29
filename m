@@ -2,123 +2,354 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65388E92FFF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68B25E92FF7
 	for <webhook@archiver.kernel.org>; Mon, 29 Dec 2025 23:08:06 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.53834.1767049677710905097
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.53859.1767049684714898092
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Dec 2025 15:07:57 -0800
+ Mon, 29 Dec 2025 15:08:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lKo8E3b1;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7baf61be569so9845059b3a.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 15:07:57 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=q0LFPKla;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7aab061e7cbso12820578b3a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 15:08:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767049677; x=1767654477; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xTeHSYxAfpUH3fmGtdmRB3KpaUxIKIEJYwnNl+5WWxE=;
-        b=lKo8E3b1Las62hzplirbKGIoAeV0MxEp4RLO8u+QXl6us5onm2+gt8s0dGQjj3ZD11
-         cw6RqY1kt/PClzV0PjK85z3GSjWn7bsQHRyiXyVNEkqk++XelqRSlFDehduF6/kxowc+
-         jDg8K/9+eG577FVSbfXn8SeO76labAjCp0Cl3uyUSYJPv3ltyI21ufY0sQWOs0NYbUXS
-         ZJACqJd3fKlv962O9lYTgE1SJOh/zEWxkTL/VkypjhWNZ9v30ojZ8x4xte1wjOjt+WSE
-         hvI5xHPFTVlyZ1Nghscj/tWdBVZM0I/GaJawqvHZP7e4TUsT4QRVg2u2dmXIGq+3Z6Z1
-         aQWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767049677; x=1767654477;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767049684; x=1767654484; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xTeHSYxAfpUH3fmGtdmRB3KpaUxIKIEJYwnNl+5WWxE=;
-        b=hwwIBQxRdOxSgqCTh2neWSKDCjCifHhjaMSnGSCjUCieeOFQ80+p58jTHfIamYeLIe
-         SeWPrAWOn3/zwtvT3QzHUWRKhxyvlC2qkALEjc1cSVjij5/+kB84mSpJkZzk5OTvtKBU
-         8qdRjqtdPX2mxTbzPiuZaxhQiqO6Jy4kSMbU1vybcB0OVokXI2SGWyAjlpLadiQU1GmD
-         Y4U4Vv3Jkw9INgyk3qvMiro6qAYK1WD6WTeEHt13rSP+R55vaV2mPGsTQ/vEy/fWDyVa
-         f0+JGvixV51p3oYAefHZp1hnVMrfq6163Y+PL/Wby0YlwIw4QERFkSo9s5U+OfQZaEh0
-         +LcQ==
-X-Gm-Message-State: AOJu0YywNtRdRZRp6OqpgSGdbRuZxMvGM09kEmOHeHZRfMuOMZs1mnbQ
-	iGT2/15uFZ8aF+PihAWByj470h2fd43bvX7hYN7fF7cfFCnr/zdHhu/VFljrdNCRIGjyUXYHwel
-	WM7MU
-X-Gm-Gg: AY/fxX48rxVEBCF5W1ud2Od9uRHWxYHEdZNR3TRqSpMyaWBODerJFVy0r5hig7M6a1n
-	A836j9NnpLup5WAxZxurlbHOj5bD7o4Mm7T7bMN4EH7EN1/qSueoz6LF/3oj/WglOamtopCdWbN
-	+4eCZvJLrXJ2L2NiffxhSZ/IftQPhKEEDqvRDocbaHW5EWdJJvoPaK05KKalRMY6rFyqBC1qLua
-	Ep6NJv8jHc1DILLxE1SQCVpvUjEDSBKiWFIV8yO+CAXgTkw4QEtIqlCSkYw87ECRjhygASSPAex
-	wcQiIeLspxZyo16tYCiGsCZ+vkxdnm1IPuqYuConrLKHDo1EwU91jepVDYZejPrweyZsod9Pi/5
-	9974AEyNy//5NKAokJUOKInqwHPNOv2bkujH5dFnv1rDe4V7ZlqPZ2iOd8PVj6+LUHru2niZbqm
-	+w6A==
-X-Google-Smtp-Source: AGHT+IEz22NlyI1KlZbd6k8GGNsOo3dv2BH5CRLE9Ues3ItC1LKrPM0kxPHBHrWEXrhELNc/g7MLng==
-X-Received: by 2002:a05:6a00:e17:b0:7b9:ef46:ec70 with SMTP id d2e1a72fcca58-7ff65d7cdadmr26890862b3a.23.1767049676915;
-        Mon, 29 Dec 2025 15:07:56 -0800 (PST)
+        bh=wkFcORmZxfiLQtT/MaR0seYyw1IEVw6XfLUpxcATQSQ=;
+        b=q0LFPKla+RTBzeV4NJ9ArD9tgv5vi5xYaW2/rHwueSoUi0tbD+JQ7UZtae2Z/ecJ6Y
+         fhsLwz4mLPVUbYaI8ble77oCCm8UnY4+jekyBsMWf3je5I0vdoVeo7qcIj2F4B8z4d5y
+         44m8bHvWCMl/IJPH8QNSfkAqLs+ZfrRQIUd3rvjRmy7WqkLojLjjQCgjRaeLIe8SNX2b
+         21JocHLsMttva4Xz4KYBRrDnBQsRDk2oeaAMPdRJjGwTEEe7Q+gNIVZiDsacgGt+3jcQ
+         csa6nin+8SH0Ui6+czQLWdu/BKf99U0WhBYBKTHBjgVDVIMXjEGvzcAjjNmp7tZioOSz
+         zZGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767049684; x=1767654484;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=wkFcORmZxfiLQtT/MaR0seYyw1IEVw6XfLUpxcATQSQ=;
+        b=nXuvzymOZDpMpBpqljGISTcR+1QlwyCg6qvLLoYmFE08HEb4rhaib6ZCF5rW/z7FfW
+         e75oq0upKWdiLZV2grchMmBvhJ8COjNjNO+0whYCGiAxkeEOlXponKC49G4TaojRkWeZ
+         pkEgujJWffbBxc4ZAz15oMqEc+Bq78lXX6x40YwRQ7u6yE+xvkvdX0tdMckMN+zu1J6i
+         ScSFeLuycoedxlBqGqZESX1dbYX2u2ETDbRYkXPICsIon1ZUkfKSMMsHoXZooBjBTUzc
+         xK9q/T/pdRmSTXLokldjvgPgbTSyEf0ap8cS74OmYGKr+3PZPjqcxk13xHy4pj+5syqg
+         kzkw==
+X-Gm-Message-State: AOJu0YwMQB/VRcagMIRxgZJZlcp60SQG4CdIBskCnelXxhbmSijVpv/p
+	Jq/kX15aT9vdM2ekdjSD5dGXKrN6LmHERiVkRsOePsU53hQrac6bpXSNpL0OCcdFpU2hqO3JxgB
+	cz/xn
+X-Gm-Gg: AY/fxX4ePrpJkcPm25IGzPH6Hob/KKoJ9qhdva4dq8fI+kFx3NWm3n/S5ifWTuBZgIL
+	6WBxwZ+iK9fCFmJU+8018UlbByb6m4MSWRcmEeOuaOlRVDBc55hGGRs253F1bZoW1o3/JO9BxLm
+	7Iy12ZHf2vCeffAr0u2VHsPudhj0WvpPqyTF9ZC5kj66dXryZltNAwDHVxuGbzylLvG+3J4NTMo
+	jXxBTEPKJEGmM3bdf4Y/dTa6CgPFTIpe6ZssSd/Pz8UvDYaS201AbxV8nDi7Fg4eGtwV8BXDsbC
+	h6UqaxA60S533jZWrb2xKZHWBX7XeB2zxiveFT4cGxbYcfQAH916HBAJgt16/Z6AW1bM56c52xz
+	ub6HCiQHfelmyyqbFLGpBIvW5Vd6TSE6MerM7PPJ03VgWKxPNn0W4c6j2Q9oSWKBTspB1r/Deri
+	2yNQ==
+X-Google-Smtp-Source: AGHT+IFxi6a82j3aOiesnW0bDwxqpYUh+Q/BLBjlRIV7aP4nmrHKNKxJlJuD7V5RCzPpnQMKmdIMxg==
+X-Received: by 2002:a05:6a00:288f:b0:7f7:13bb:8f20 with SMTP id d2e1a72fcca58-7ff6667c961mr24389327b3a.50.1767049683900;
+        Mon, 29 Dec 2025 15:08:03 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:c013:8f5c:baf3:22c3])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e493123sm30340938b3a.50.2025.12.29.15.07.56
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e493123sm30340938b3a.50.2025.12.29.15.08.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 15:07:56 -0800 (PST)
+        Mon, 29 Dec 2025 15:08:03 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 0/5] Patch review
-Date: Mon, 29 Dec 2025 15:07:34 -0800
-Message-ID: <cover.1767049440.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 1/5] grub: fix CVE-2025-54770 CVE-2025-61661 CVE-2025-61662 CVE-2025-61663 CVE-2025-61664
+Date: Mon, 29 Dec 2025 15:07:35 -0800
+Message-ID: <c28fa3e6421257f50d4ae283cca28fadb621f831.1767049440.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1767049440.git.steve@sakoman.com>
+References: <cover.1767049440.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 23:08:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228621
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228622
 
-Please review this set of changes for scarthgap and have commments back by
-end of day Wednesday, December 31
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-Passed a-full on autobuilder:
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2025-54770
+https://nvd.nist.gov/vuln/detail/CVE-2025-61661
+https://nvd.nist.gov/vuln/detail/CVE-2025-61662
+https://nvd.nist.gov/vuln/detail/CVE-2025-61663
+https://nvd.nist.gov/vuln/detail/CVE-2025-61664
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2954
-
-The following changes since commit dccb7a185fe58a97f33e219b4db283ff4a2071d7:
-
-  cross.bbclass: Propagate dependencies to outhash (2025-12-23 06:28:05 -0800)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Changqing Li (1):
-  libsoup: fix CVE-2025-12105
-
-Jiaying Song (1):
-  grub: fix CVE-2025-54770 CVE-2025-61661 CVE-2025-61662 CVE-2025-61663
-    CVE-2025-61664
-
-Vijay Anusuri (3):
-  go: Update CVE-2025-58187
-  go: Fix CVE-2025-61727
-  go: Fix CVE-2025-61729
-
- .../grub/files/CVE-2025-54770.patch           |  41 ++
- .../grub/files/CVE-2025-61661.patch           |  40 ++
- .../grub/files/CVE-2025-61662.patch           |  72 +++
- .../grub/files/CVE-2025-61663_61664.patch     |  64 +++
- meta/recipes-bsp/grub/grub2.inc               |   4 +
- meta/recipes-devtools/go/go-1.22.12.inc       |   5 +-
- ...025-58187.patch => CVE-2025-58187-1.patch} |   0
- .../go/go/CVE-2025-58187-2.patch              | 516 ++++++++++++++++++
- .../go/go/CVE-2025-61727.patch                | 226 ++++++++
- .../go/go/CVE-2025-61729.patch                | 174 ++++++
- .../libsoup-3.4.4/CVE-2025-12105.patch        |  34 ++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |   1 +
- 12 files changed, 1176 insertions(+), 1 deletion(-)
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../grub/files/CVE-2025-54770.patch           | 41 +++++++++++
+ .../grub/files/CVE-2025-61661.patch           | 40 +++++++++++
+ .../grub/files/CVE-2025-61662.patch           | 72 +++++++++++++++++++
+ .../grub/files/CVE-2025-61663_61664.patch     | 64 +++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  4 ++
+ 5 files changed, 221 insertions(+)
  create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-54770.patch
  create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61661.patch
  create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61662.patch
  create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
- rename meta/recipes-devtools/go/go/{CVE-2025-58187.patch => CVE-2025-58187-1.patch} (100%)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-58187-2.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61727.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61729.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-12105.patch
 
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-54770.patch b/meta/recipes-bsp/grub/files/CVE-2025-54770.patch
+new file mode 100644
+index 0000000000..7df1d8534b
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-54770.patch
+@@ -0,0 +1,41 @@
++From 80e0e9b2558c40fb108ae7a869362566eb4c1ead Mon Sep 17 00:00:00 2001
++From: Thomas Frauendorfer | Miray Software <tf@miray.de>
++Date: Fri, 9 May 2025 14:20:47 +0200
++Subject: [PATCH] net/net: Unregister net_set_vlan command on unload
++
++The commit 954c48b9c (net/net: Add net_set_vlan command) added command
++net_set_vlan to the net module. Unfortunately the commit only added the
++grub_register_command() call on module load but missed the
++grub_unregister_command() on unload. Let's fix this.
++
++Fixes: CVE-2025-54770
++Fixes: 954c48b9c (net/net: Add net_set_vlan command)
++
++CVE: CVE-2025-54770
++
++Upstream-Status: Backport
++[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=10e58a14db20e17d1b6a39abe38df01fef98e29d]
++
++Reported-by: Thomas Frauendorfer | Miray Software <tf@miray.de>
++Signed-off-by: Thomas Frauendorfer | Miray Software <tf@miray.de>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ grub-core/net/net.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/grub-core/net/net.c b/grub-core/net/net.c
++index 2b45c27d1..05f11be08 100644
++--- a/grub-core/net/net.c
+++++ b/grub-core/net/net.c
++@@ -2080,6 +2080,7 @@ GRUB_MOD_FINI(net)
++   grub_unregister_command (cmd_deladdr);
++   grub_unregister_command (cmd_addroute);
++   grub_unregister_command (cmd_delroute);
+++  grub_unregister_command (cmd_setvlan);
++   grub_unregister_command (cmd_lsroutes);
++   grub_unregister_command (cmd_lscards);
++   grub_unregister_command (cmd_lsaddr);
++-- 
++2.34.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61661.patch b/meta/recipes-bsp/grub/files/CVE-2025-61661.patch
+new file mode 100644
+index 0000000000..9f6cf68e4b
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-61661.patch
+@@ -0,0 +1,40 @@
++From c24e11d87f8ee8cefd615e0c30eb71ff6149ee50 Mon Sep 17 00:00:00 2001
++From: Jamie <volticks@gmail.com>
++Date: Mon, 14 Jul 2025 09:52:59 +0100
++Subject: [PATCH 2/4] commands/usbtest: Use correct string length field
++
++An incorrect length field is used for buffer allocation. This leads to
++grub_utf16_to_utf8() receiving an incorrect/different length and possibly
++causing OOB write. This makes sure to use the correct length.
++
++Fixes: CVE-2025-61661
++
++CVE: CVE-2025-61661
++
++Upstream-Status: Backport
++[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=549a9cc372fd0b96a4ccdfad0e12140476cc62a3]
++
++Reported-by: Jamie <volticks@gmail.com>
++Signed-off-by: Jamie <volticks@gmail.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ grub-core/commands/usbtest.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/grub-core/commands/usbtest.c b/grub-core/commands/usbtest.c
++index 2c6d93fe6..8ef187a9a 100644
++--- a/grub-core/commands/usbtest.c
+++++ b/grub-core/commands/usbtest.c
++@@ -99,7 +99,7 @@ grub_usb_get_string (grub_usb_device_t dev, grub_uint8_t index, int langid,
++       return GRUB_USB_ERR_NONE;
++     }
++ 
++-  *string = grub_malloc (descstr.length * 2 + 1);
+++  *string = grub_malloc (descstrp->length * 2 + 1);
++   if (! *string)
++     {
++       grub_free (descstrp);
++-- 
++2.34.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61662.patch b/meta/recipes-bsp/grub/files/CVE-2025-61662.patch
+new file mode 100644
+index 0000000000..f04a52fe76
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-61662.patch
+@@ -0,0 +1,72 @@
++From 498dc73aa661bb1cae4b06572b5cef154dcb1fb7 Mon Sep 17 00:00:00 2001
++From: Alec Brown <alec.r.brown@oracle.com>
++Date: Thu, 21 Aug 2025 21:14:06 +0000
++Subject: [PATCH 3/4] gettext/gettext: Unregister gettext command on module
++ unload
++
++When the gettext module is loaded, the gettext command is registered but
++isn't unregistered when the module is unloaded. We need to add a call to
++grub_unregister_command() when unloading the module.
++
++Fixes: CVE-2025-61662
++
++CVE: CVE-2025-61662
++
++Upstream-Status: Backport
++[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=8ed78fd9f0852ab218cc1f991c38e5a229e43807]
++
++Reported-by: Alec Brown <alec.r.brown@oracle.com>
++Signed-off-by: Alec Brown <alec.r.brown@oracle.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ grub-core/gettext/gettext.c | 19 ++++++++++++-------
++ 1 file changed, 12 insertions(+), 7 deletions(-)
++
++diff --git a/grub-core/gettext/gettext.c b/grub-core/gettext/gettext.c
++index 9ffc73428..edebed998 100644
++--- a/grub-core/gettext/gettext.c
+++++ b/grub-core/gettext/gettext.c
++@@ -502,6 +502,8 @@ grub_cmd_translate (grub_command_t cmd __attribute__ ((unused)),
++   return 0;
++ }
++ 
+++static grub_command_t cmd;
+++
++ GRUB_MOD_INIT (gettext)
++ {
++   const char *lang;
++@@ -521,13 +523,14 @@ GRUB_MOD_INIT (gettext)
++   grub_register_variable_hook ("locale_dir", NULL, read_main);
++   grub_register_variable_hook ("secondary_locale_dir", NULL, read_secondary);
++ 
++-  grub_register_command_p1 ("gettext", grub_cmd_translate,
++-			    N_("STRING"),
++-			    /* TRANSLATORS: It refers to passing the string through gettext.
++-			       So it's "translate" in the same meaning as in what you're
++-			       doing now.
++-			     */
++-			    N_("Translates the string with the current settings."));
+++  cmd = grub_register_command_p1 ("gettext", grub_cmd_translate,
+++				  N_("STRING"),
+++				  /*
+++				   * TRANSLATORS: It refers to passing the string through gettext.
+++				   * So it's "translate" in the same meaning as in what you're
+++				   * doing now.
+++				   */
+++				  N_("Translates the string with the current settings."));
++ 
++   /* Reload .mo file information if lang changes.  */
++   grub_register_variable_hook ("lang", NULL, grub_gettext_env_write_lang);
++@@ -544,6 +547,8 @@ GRUB_MOD_FINI (gettext)
++   grub_register_variable_hook ("secondary_locale_dir", NULL, NULL);
++   grub_register_variable_hook ("lang", NULL, NULL);
++ 
+++  grub_unregister_command (cmd);
+++
++   grub_gettext_delete_list (&main_context);
++   grub_gettext_delete_list (&secondary_context);
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch b/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
+new file mode 100644
+index 0000000000..bfc05008bf
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
+@@ -0,0 +1,64 @@
++From 8368c026562a72a005bea320cfde9fd7d62d3850 Mon Sep 17 00:00:00 2001
++From: Alec Brown <alec.r.brown@oracle.com>
++Date: Thu, 21 Aug 2025 21:14:07 +0000
++Subject: [PATCH 4/4] normal/main: Unregister commands on module unload
++
++When the normal module is loaded, the normal and normal_exit commands
++are registered but aren't unregistered when the module is unloaded. We
++need to add calls to grub_unregister_command() when unloading the module
++for these commands.
++
++Fixes: CVE-2025-61663
++Fixes: CVE-2025-61664
++
++CVE: CVE-2025-61663 CVE-2025-61664
++
++Upstream-Status: Backport
++[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=05d3698b8b03eccc49e53491bbd75dba15f40917]
++
++Reported-by: Alec Brown <alec.r.brown@oracle.com>
++Signed-off-by: Alec Brown <alec.r.brown@oracle.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ grub-core/normal/main.c | 12 +++++++-----
++ 1 file changed, 7 insertions(+), 5 deletions(-)
++
++diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
++index dad25e7d2..a810858c3 100644
++--- a/grub-core/normal/main.c
+++++ b/grub-core/normal/main.c
++@@ -500,7 +500,7 @@ grub_mini_cmd_clear (struct grub_command *cmd __attribute__ ((unused)),
++   return 0;
++ }
++ 
++-static grub_command_t cmd_clear;
+++static grub_command_t cmd_clear, cmd_normal, cmd_normal_exit;
++ 
++ static void (*grub_xputs_saved) (const char *str);
++ static const char *features[] = {
++@@ -542,10 +542,10 @@ GRUB_MOD_INIT(normal)
++   grub_env_export ("pager");
++ 
++   /* Register a command "normal" for the rescue mode.  */
++-  grub_register_command ("normal", grub_cmd_normal,
++-			 0, N_("Enter normal mode."));
++-  grub_register_command ("normal_exit", grub_cmd_normal_exit,
++-			 0, N_("Exit from normal mode."));
+++  cmd_normal = grub_register_command ("normal", grub_cmd_normal,
+++				      0, N_("Enter normal mode."));
+++  cmd_normal_exit = grub_register_command ("normal_exit", grub_cmd_normal_exit,
+++					   0, N_("Exit from normal mode."));
++ 
++   /* Reload terminal colors when these variables are written to.  */
++   grub_register_variable_hook ("color_normal", NULL, grub_env_write_color_normal);
++@@ -587,4 +587,6 @@ GRUB_MOD_FINI(normal)
++   grub_register_variable_hook ("color_highlight", NULL, NULL);
++   grub_fs_autoload_hook = 0;
++   grub_unregister_command (cmd_clear);
+++  grub_unregister_command (cmd_normal);
+++  grub_unregister_command (cmd_normal_exit);
++ }
++-- 
++2.34.1
++
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index edb87ef2ea..3160708113 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -38,6 +38,10 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://CVE-2025-0677_CVE-2025-0684_CVE-2025-0685_CVE-2025-0686_CVE-2025-0689.patch \
+            file://CVE-2025-0678_CVE-2025-1125.patch \
+            file://CVE-2024-56738.patch \
++           file://CVE-2025-54770.patch \
++           file://CVE-2025-61661.patch \
++           file://CVE-2025-61662.patch \
++           file://CVE-2025-61663_61664.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "b30919fa5be280417c17ac561bb1650f60cfb80cc6237fa1e2b6f56154cb9c91"
 -- 
 2.43.0
 
