@@ -2,303 +2,335 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C62FE92FFE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46FF7E94101
 	for <webhook@archiver.kernel.org>; Mon, 29 Dec 2025 23:03:36 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.53748.1767049408933610705
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.53772.1767049412601448776
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Dec 2025 15:03:29 -0800
+ Mon, 29 Dec 2025 15:03:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=BscTD7BY;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a0b4320665so144618075ad.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 15:03:28 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uzsaHlXt;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2a0a95200e8so82301905ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 15:03:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767049408; x=1767654208; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767049412; x=1767654212; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GO7Zx9q64s01R+w7u2kj9S1QdESFbZvggeqfdZXt+Tc=;
-        b=BscTD7BY7FlLp1rrxzo/tcqOssKqD6k4MYyBa+1KznspWXUePCS6ZC8Q221KvdvCV9
-         dHtNFvzCyR7omLyHk58MF9s/9pzqHs8C1T3NDQ63IoPO0X0OOADeNuVU8e13zmFmEQYs
-         lts+b33/cheLmS4+SPD7SJXwRINn0cw2dvMStT280pnrVoGiThK7u/OFg1K3gGjY+4Mh
-         bjfJFLbGhHl4Ll4FsBlM/YWqsZrtti7LUl9m/2L//lz2frrzU6M1ObYOUiGJhFuWcyir
-         Bf5eTN4k3vb5cF32kIzMjfRNYS7geSFzsoQAnGx2MsIDtXBmpAcss5dE3ZpG6pzkLKpy
-         /iAw==
+        bh=T6YMYprz79AyK8MQnhgr7dVjyo9Bj172e5q0Sn639Dw=;
+        b=uzsaHlXtWRgZQ5jtWEwYoARnBr9Ch9H9scbxaabcPekKgvA4EKmGiCGz+Iawh5NJ15
+         chV+dWCPN1RQ7C5Tc9gGBSzvN88kVNbHSTZ0EBFnZmA2rg1uvdZRcDMzksUcqvTyFeDi
+         C00UoJWAGKyWXnotF6JtM3MsSV0y6PS7DzOHgA9ekn++V9Fj3ppWNdJU77Yp6L5eESvy
+         7f42C/JzR/yvctwuyZR5ZgXADBtt30pceQ3TvvKbBgP3uhkVzNDOHnJeChAn6y0adFcc
+         B9d24u5QwGWMRWozqqQsmRpTCJ/C9ihj5THTnRWWkvAwUIbW6d0Goyq7zQN0FKxS6nA1
+         GBnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767049408; x=1767654208;
+        d=1e100.net; s=20230601; t=1767049412; x=1767654212;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=GO7Zx9q64s01R+w7u2kj9S1QdESFbZvggeqfdZXt+Tc=;
-        b=D3p7JjVym0ya9oJBhDNywZ0SxWjAN/6PZIywwI1RPkl6O4cFTcz1nfaWL1tKxrVtxj
-         /BYxmUiLBxrt71yQdHZOp72MQe3k1Qq1NiCPp1buE1a2Z84bHcmINLhSMbF/LIjxG/Rk
-         h5UUPqE/bG9nBNpGXjaBHTlijULH/bjoZ0yLKm1OicZ9aEtHLZ0PPUondIIJo+rwl1U9
-         NYQdmLV1GEKyZ4t8dcySe4VBgjWewGBkUWRddiWDOSD8CCTEk6LuB3PWB660w0gNUlaZ
-         OTUooIzoBFcfytZapXUw/WyGFzUleiE+94hwWihZtaZSVH06w20WHT7dkxGy6bpxvgDP
-         n2Rg==
-X-Gm-Message-State: AOJu0Yw0pfDE5nTs5LPhJJI9nje4jqnFszJNzqlvWmzyhTvWGWmCgGdz
-	P5h31bgIP5DLwQI+FGfVO4Sd8uxxU1Sph8mMAbZTHzuzy2ykSRQBiEH0rdjCBI3XZD7piFDOZUJ
-	ZnxHQ
-X-Gm-Gg: AY/fxX4DojBmsBXcyLdvWgNTNoGmF67NdQlBYUXpe/1+IRPLxT1mFMvIAH6eEzKMHFu
-	IgVsxqCTuRzSuwt0eQ+LpTPmFy2wmw9PDnu1TbxfcLmA9wPHaGOGc2JywfgVM7BPzZTmB+5XB2p
-	35F8uOao72gQUvwQKKL7vtu42DVaAI1eX+Y813CdPQvbdqntfUzDvVXZ7DFz91pl8+iBxCJeJAT
-	b7zzLIURxY9UCarLTFMmblF/IewzBjqnZUxBcvPE+ym78FECfe4ch8TmxtJmHVINoj2Gi2VPoaw
-	Na43cmEY4YzxEu4Em5ddH35xLwVD0Qh5DazRN055EmA2Jg3Eq+k/gXz/Zf9IqE/UDB3C50FxIFo
-	kaFCBIL6aVCIPDLQPc6Qp3oM5I4szF+zd1CVTYlq1a5GqWc/vsFWqbm5d+7b8kgj6XJKRZh2U2S
-	ngag==
-X-Google-Smtp-Source: AGHT+IFaJTfK5mhURbOLip0DU2Z5GQhnuqEnCKYzEmkVcykJ0KwhvHKnTrIjeLGiDb/mW7dAE3m6TA==
-X-Received: by 2002:a17:902:ce92:b0:2a2:d066:b668 with SMTP id d9443c01a7336-2a2f222adc2mr259151975ad.12.1767049407930;
-        Mon, 29 Dec 2025 15:03:27 -0800 (PST)
+        bh=T6YMYprz79AyK8MQnhgr7dVjyo9Bj172e5q0Sn639Dw=;
+        b=JowHzdSJamwLmj9xjkePo4TblTsqY3AtKWIAX43qVdSfG/mMNx1tB3LDm2Tig2XmU7
+         HKX8hdX8r4q3ilvnq5zOvODQ+Itfksu0/9vpPzMSZJsUKzSgf5Mg5nBVL1KQB5yEkgms
+         MpveT7okTW61KjDPGagyV3O7aTOe56FYvqNf+op6Ypafov3ld/oLR3eYwTvIs1iLhJgk
+         vpt/TzdEM73hWYDW9w3fdhmGPjWV4GpIQyPe2nz1eSo8+l0egzrTLI9leUaHk35z29WG
+         8OAceMIJQ61ELrNXMPAM6TSCgZZ4onRxHBxHAw2mr431IWOWFJVlKyTgRwQSvY8nh+bB
+         Dqaw==
+X-Gm-Message-State: AOJu0Yw42qLsFrksXU98Y9oXRy4V8ATuaCQLsLqZgxqcyZKxw4oBg5Z7
+	3QwCt/SjNiDXjljERmGavHADEDApribaRKPdti757qplJuoy/k869UA8+4wmNJklJ52g71B4D8B
+	CMR3s
+X-Gm-Gg: AY/fxX5qNPemhubh2kOe+UxgR+Q8o4Qbd5KnwC80ru3caZi5P8uKDoNEXFhFhL0Yw8s
+	rzG5wwsHhSsXN2f0G8ZYr5llwaDpUXDbDo3PdT6rqKmPC22lZqXJNg1YUfOztIY5f3q/VxWw+TH
+	LWmXq2TlWSOPbFbcQpUoYC0xg93YPJFbB4QeIzzfw4rC3zc1WseVQo6egz8eUEM9o7rPLXOwh+P
+	jzMjKxPWaOODcRFqPujbqUTW3GsNBnn3DyBzux4O/SsRwUrloSbu2Okq9nmN0RfakmJ1ncdY305
+	pb5IgSF4lxO1AYRK6qCSCtWtDm0VtpkaIbqNcURh8Ld8YR3b0r3Ie13v5AiqSXGwnIpogAWCkFU
+	d5NLy+EHpxiX4BKUCAleIoCnmuXHJo3wVSgPwGV6uZVY2+8h8S1RPvZ+4tPWt+nvbebsVs9kEjC
+	MjHA==
+X-Google-Smtp-Source: AGHT+IF+UVmTjoMkAIG4hHxIJbbsOd30uqARPhXJ8hY4aUeNpAdAFzsfxwhEyeq6X49SD5LHay12iw==
+X-Received: by 2002:a17:903:2308:b0:298:1013:9d11 with SMTP id d9443c01a7336-2a2f283b5c4mr301598415ad.43.1767049411635;
+        Mon, 29 Dec 2025 15:03:31 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:c013:8f5c:baf3:22c3])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c8d10esm277796855ad.42.2025.12.29.15.03.27
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c8d10esm277796855ad.42.2025.12.29.15.03.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 15:03:27 -0800 (PST)
+        Mon, 29 Dec 2025 15:03:31 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 1/4] grub: fix CVE-2025-61661 CVE-2025-61662 CVE-2025-61663 CVE-2025-61664
-Date: Mon, 29 Dec 2025 15:03:16 -0800
-Message-ID: <f2031f39e423b764ccf4003bdee05f30d66fb7ce.1767048412.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 3/4] go: Fix CVE-2025-61727
+Date: Mon, 29 Dec 2025 15:03:18 -0800
+Message-ID: <dc1d95e3edfeaa5458fc564910ae5c9445a6f942.1767048412.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1767048412.git.steve@sakoman.com>
 References: <cover.1767048412.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 29 Dec 2025 23:03:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228617
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228619
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2025-61661
-https://nvd.nist.gov/vuln/detail/CVE-2025-61662
-https://nvd.nist.gov/vuln/detail/CVE-2025-61663
-https://nvd.nist.gov/vuln/detail/CVE-2025-61664
+Upstream-Status: Backport from https://github.com/golang/go/commit/04db77a423cac75bb82cc9a6859991ae9c016344
 
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../grub/files/CVE-2025-61661.patch           | 40 +++++++++++
- .../grub/files/CVE-2025-61662.patch           | 72 +++++++++++++++++++
- .../grub/files/CVE-2025-61663_61664.patch     | 64 +++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  3 +
- 4 files changed, 179 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61661.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61662.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
+ meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
+ .../go/go-1.18/CVE-2025-61727.patch           | 229 ++++++++++++++++++
+ 2 files changed, 230 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2025-61727.patch
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61661.patch b/meta/recipes-bsp/grub/files/CVE-2025-61661.patch
-new file mode 100644
-index 0000000000..9ae4f3b307
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-61661.patch
-@@ -0,0 +1,40 @@
-+From 9c2ae73b549a653f5f1bd5d4edebc50a764bad06 Mon Sep 17 00:00:00 2001
-+From: Jamie <volticks@gmail.com>
-+Date: Mon, 14 Jul 2025 09:52:59 +0100
-+Subject: [PATCH 1/3] commands/usbtest: Use correct string length field
-+
-+An incorrect length field is used for buffer allocation. This leads to
-+grub_utf16_to_utf8() receiving an incorrect/different length and possibly
-+causing OOB write. This makes sure to use the correct length.
-+
-+Fixes: CVE-2025-61661
-+
-+CVE: CVE-2025-61661
-+
-+Upstream-Status: Backport
-+[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=549a9cc372fd0b96a4ccdfad0e12140476cc62a3]
-+
-+Reported-by: Jamie <volticks@gmail.com>
-+Signed-off-by: Jamie <volticks@gmail.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ grub-core/commands/usbtest.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/grub-core/commands/usbtest.c b/grub-core/commands/usbtest.c
-+index 2c6d93fe6..8ef187a9a 100644
-+--- a/grub-core/commands/usbtest.c
-++++ b/grub-core/commands/usbtest.c
-+@@ -99,7 +99,7 @@ grub_usb_get_string (grub_usb_device_t dev, grub_uint8_t index, int langid,
-+       return GRUB_USB_ERR_NONE;
-+     }
-+ 
-+-  *string = grub_malloc (descstr.length * 2 + 1);
-++  *string = grub_malloc (descstrp->length * 2 + 1);
-+   if (! *string)
-+     {
-+       grub_free (descstrp);
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61662.patch b/meta/recipes-bsp/grub/files/CVE-2025-61662.patch
-new file mode 100644
-index 0000000000..1614b00d53
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-61662.patch
-@@ -0,0 +1,72 @@
-+From c47760a907c91283bac9a8400d6975574b1d3986 Mon Sep 17 00:00:00 2001
-+From: Alec Brown <alec.r.brown@oracle.com>
-+Date: Thu, 21 Aug 2025 21:14:06 +0000
-+Subject: [PATCH 2/3] gettext/gettext: Unregister gettext command on module
-+ unload
-+
-+When the gettext module is loaded, the gettext command is registered but
-+isn't unregistered when the module is unloaded. We need to add a call to
-+grub_unregister_command() when unloading the module.
-+
-+Fixes: CVE-2025-61662
-+
-+CVE: CVE-2025-61662
-+
-+Upstream-Status: Backport
-+[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=8ed78fd9f0852ab218cc1f991c38e5a229e43807]
-+
-+Reported-by: Alec Brown <alec.r.brown@oracle.com>
-+Signed-off-by: Alec Brown <alec.r.brown@oracle.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ grub-core/gettext/gettext.c | 19 ++++++++++++-------
-+ 1 file changed, 12 insertions(+), 7 deletions(-)
-+
-+diff --git a/grub-core/gettext/gettext.c b/grub-core/gettext/gettext.c
-+index 7a25c9d67..ef1258ee0 100644
-+--- a/grub-core/gettext/gettext.c
-++++ b/grub-core/gettext/gettext.c
-+@@ -502,6 +502,8 @@ grub_cmd_translate (grub_command_t cmd __attribute__ ((unused)),
-+   return 0;
-+ }
-+ 
-++static grub_command_t cmd;
-++
-+ GRUB_MOD_INIT (gettext)
-+ {
-+   const char *lang;
-+@@ -521,13 +523,14 @@ GRUB_MOD_INIT (gettext)
-+   grub_register_variable_hook ("locale_dir", NULL, read_main);
-+   grub_register_variable_hook ("secondary_locale_dir", NULL, read_secondary);
-+ 
-+-  grub_register_command_p1 ("gettext", grub_cmd_translate,
-+-			    N_("STRING"),
-+-			    /* TRANSLATORS: It refers to passing the string through gettext.
-+-			       So it's "translate" in the same meaning as in what you're 
-+-			       doing now.
-+-			     */
-+-			    N_("Translates the string with the current settings."));
-++  cmd = grub_register_command_p1 ("gettext", grub_cmd_translate,
-++				  N_("STRING"),
-++				  /*
-++				   * TRANSLATORS: It refers to passing the string through gettext.
-++				   * So it's "translate" in the same meaning as in what you're
-++				   * doing now.
-++				   */
-++				  N_("Translates the string with the current settings."));
-+ 
-+   /* Reload .mo file information if lang changes.  */
-+   grub_register_variable_hook ("lang", NULL, grub_gettext_env_write_lang);
-+@@ -544,6 +547,8 @@ GRUB_MOD_FINI (gettext)
-+   grub_register_variable_hook ("secondary_locale_dir", NULL, NULL);
-+   grub_register_variable_hook ("lang", NULL, NULL);
-+ 
-++  grub_unregister_command (cmd);
-++
-+   grub_gettext_delete_list (&main_context);
-+   grub_gettext_delete_list (&secondary_context);
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch b/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
-new file mode 100644
-index 0000000000..cdf1e4ca36
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2025-61663_61664.patch
-@@ -0,0 +1,64 @@
-+From a182bd873e4aa93205ecbb7845ef7f0eda99dcf5 Mon Sep 17 00:00:00 2001
-+From: Alec Brown <alec.r.brown@oracle.com>
-+Date: Thu, 21 Aug 2025 21:14:07 +0000
-+Subject: [PATCH 3/3] normal/main: Unregister commands on module unload
-+
-+When the normal module is loaded, the normal and normal_exit commands
-+are registered but aren't unregistered when the module is unloaded. We
-+need to add calls to grub_unregister_command() when unloading the module
-+for these commands.
-+
-+Fixes: CVE-2025-61663
-+Fixes: CVE-2025-61664
-+
-+CVE: CVE-2025-61663 CVE-2025-61664
-+
-+Upstream-Status: Backport
-+[https://gitweb.git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=05d3698b8b03eccc49e53491bbd75dba15f40917]
-+
-+Reported-by: Alec Brown <alec.r.brown@oracle.com>
-+Signed-off-by: Alec Brown <alec.r.brown@oracle.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ grub-core/normal/main.c | 12 +++++++-----
-+ 1 file changed, 7 insertions(+), 5 deletions(-)
-+
-+diff --git a/grub-core/normal/main.c b/grub-core/normal/main.c
-+index a95c25e5f..9d576de7a 100644
-+--- a/grub-core/normal/main.c
-++++ b/grub-core/normal/main.c
-+@@ -499,7 +499,7 @@ grub_mini_cmd_clear (struct grub_command *cmd __attribute__ ((unused)),
-+   return 0;
-+ }
-+ 
-+-static grub_command_t cmd_clear;
-++static grub_command_t cmd_clear, cmd_normal, cmd_normal_exit;
-+ 
-+ static void (*grub_xputs_saved) (const char *str);
-+ static const char *features[] = {
-+@@ -541,10 +541,10 @@ GRUB_MOD_INIT(normal)
-+   grub_env_export ("pager");
-+ 
-+   /* Register a command "normal" for the rescue mode.  */
-+-  grub_register_command ("normal", grub_cmd_normal,
-+-			 0, N_("Enter normal mode."));
-+-  grub_register_command ("normal_exit", grub_cmd_normal_exit,
-+-			 0, N_("Exit from normal mode."));
-++  cmd_normal = grub_register_command ("normal", grub_cmd_normal,
-++				      0, N_("Enter normal mode."));
-++  cmd_normal_exit = grub_register_command ("normal_exit", grub_cmd_normal_exit,
-++					   0, N_("Exit from normal mode."));
-+ 
-+   /* Reload terminal colors when these variables are written to.  */
-+   grub_register_variable_hook ("color_normal", NULL, grub_env_write_color_normal);
-+@@ -586,4 +586,6 @@ GRUB_MOD_FINI(normal)
-+   grub_register_variable_hook ("color_highlight", NULL, NULL);
-+   grub_fs_autoload_hook = 0;
-+   grub_unregister_command (cmd_clear);
-++  grub_unregister_command (cmd_normal);
-++  grub_unregister_command (cmd_normal_exit);
-+ }
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 94eeadfb99..4744e26693 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -60,6 +60,9 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2025-0690.patch \
-            file://CVE-2025-1118.patch \
-            file://CVE-2024-56738.patch \
-+           file://CVE-2025-61661.patch \
-+           file://CVE-2025-61662.patch \
-+           file://CVE-2025-61663_61664.patch \
- "
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index 1433d54f06..0ea3b6704f 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -75,6 +75,7 @@ SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main \
+            file://CVE-2025-61723.patch \
+            file://CVE-2025-61724.patch \
+            file://CVE-2023-39323.patch \
++           file://CVE-2025-61727.patch \
+            "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
  
- SRC_URI[sha256sum] = "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae803f5f"
+diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2025-61727.patch b/meta/recipes-devtools/go/go-1.18/CVE-2025-61727.patch
+new file mode 100644
+index 0000000000..23dc35b8b8
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.18/CVE-2025-61727.patch
+@@ -0,0 +1,229 @@
++From 04db77a423cac75bb82cc9a6859991ae9c016344 Mon Sep 17 00:00:00 2001
++From: Roland Shoemaker <bracewell@google.com>
++Date: Mon, 24 Nov 2025 08:46:08 -0800
++Subject: [PATCH] [release-branch.go1.24] crypto/x509: excluded subdomain
++ constraints preclude wildcard SANs
++
++When evaluating name constraints in a certificate chain, the presence of
++an excluded subdomain constraint (e.g., excluding "test.example.com")
++should preclude the use of a wildcard SAN (e.g., "*.example.com").
++
++Fixes #76442
++Fixes #76463
++Fixes CVE-2025-61727
++
++Change-Id: I42a0da010cb36d2ec9d1239ae3f61cf25eb78bba
++Reviewed-on: https://go-review.googlesource.com/c/go/+/724401
++Reviewed-by: Nicholas Husin <husin@google.com>
++Reviewed-by: Daniel McCarney <daniel@binaryparadox.net>
++LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
++Reviewed-by: Nicholas Husin <nsh@golang.org>
++Reviewed-by: Neal Patel <nealpatel@google.com>
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/04db77a423cac75bb82cc9a6859991ae9c016344]
++CVE: CVE-2025-61727
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ src/crypto/x509/name_constraints_test.go | 34 ++++++++++++++++++++
++ src/crypto/x509/verify.go                | 40 +++++++++++++++---------
++ src/crypto/x509/verify_test.go           |  2 +-
++ 3 files changed, 60 insertions(+), 16 deletions(-)
++
++diff --git a/src/crypto/x509/name_constraints_test.go b/src/crypto/x509/name_constraints_test.go
++index c59a7dc..963bc5a 100644
++--- a/src/crypto/x509/name_constraints_test.go
+++++ b/src/crypto/x509/name_constraints_test.go
++@@ -1595,6 +1595,40 @@ var nameConstraintsTests = []nameConstraintsTest{
++ 			cn:   "foo.bar",
++ 		},
++ 	},
+++	// #87: subdomain excluded constraints preclude wildcard names
+++	{
+++		roots: []constraintsSpec{
+++			{
+++				bad: []string{"dns:foo.example.com"},
+++			},
+++		},
+++		intermediates: [][]constraintsSpec{
+++			{
+++				{},
+++			},
+++		},
+++		leaf: leafSpec{
+++			sans: []string{"dns:*.example.com"},
+++		},
+++		expectedError: "\"*.example.com\" is excluded by constraint \"foo.example.com\"",
+++	},
+++	// #88: wildcard names are not matched by subdomain permitted constraints
+++	{
+++		roots: []constraintsSpec{
+++			{
+++				ok: []string{"dns:foo.example.com"},
+++			},
+++		},
+++		intermediates: [][]constraintsSpec{
+++			{
+++				{},
+++			},
+++		},
+++		leaf: leafSpec{
+++			sans: []string{"dns:*.example.com"},
+++		},
+++		expectedError: "\"*.example.com\" is not permitted",
+++	},
++ }
++ 
++ func makeConstraintsCACert(constraints constraintsSpec, name string, key *ecdsa.PrivateKey, parent *Certificate, parentKey *ecdsa.PrivateKey) (*Certificate, error) {
++diff --git a/src/crypto/x509/verify.go b/src/crypto/x509/verify.go
++index 99f38a0..88260ee 100644
++--- a/src/crypto/x509/verify.go
+++++ b/src/crypto/x509/verify.go
++@@ -390,7 +390,7 @@ func domainToReverseLabels(domain string) (reverseLabels []string, ok bool) {
++ 	return reverseLabels, true
++ }
++ 
++-func matchEmailConstraint(mailbox rfc2821Mailbox, constraint string, reversedDomainsCache map[string][]string, reversedConstraintsCache map[string][]string) (bool, error) {
+++func matchEmailConstraint(mailbox rfc2821Mailbox, constraint string, excluded bool, reversedDomainsCache map[string][]string, reversedConstraintsCache map[string][]string) (bool, error) {
++ 	// If the constraint contains an @, then it specifies an exact mailbox
++ 	// name.
++ 	if strings.Contains(constraint, "@") {
++@@ -403,10 +403,10 @@ func matchEmailConstraint(mailbox rfc2821Mailbox, constraint string, reversedDom
++ 
++ 	// Otherwise the constraint is like a DNS constraint of the domain part
++ 	// of the mailbox.
++-	return matchDomainConstraint(mailbox.domain, constraint, reversedDomainsCache, reversedConstraintsCache)
+++	return matchDomainConstraint(mailbox.domain, constraint, excluded, reversedDomainsCache, reversedConstraintsCache)
++ }
++ 
++-func matchURIConstraint(uri *url.URL, constraint string, reversedDomainsCache map[string][]string, reversedConstraintsCache map[string][]string) (bool, error) {
+++func matchURIConstraint(uri *url.URL, constraint string, excluded bool, reversedDomainsCache map[string][]string, reversedConstraintsCache map[string][]string) (bool, error) {
++ 	// From RFC 5280, Section 4.2.1.10:
++ 	// “a uniformResourceIdentifier that does not include an authority
++ 	// component with a host name specified as a fully qualified domain
++@@ -433,7 +433,7 @@ func matchURIConstraint(uri *url.URL, constraint string, reversedDomainsCache ma
++ 		return false, fmt.Errorf("URI with IP (%q) cannot be matched against constraints", uri.String())
++ 	}
++ 
++-	return matchDomainConstraint(host, constraint, reversedDomainsCache, reversedConstraintsCache)
+++	return matchDomainConstraint(host, constraint, excluded, reversedDomainsCache, reversedConstraintsCache)
++ }
++ 
++ func matchIPConstraint(ip net.IP, constraint *net.IPNet) (bool, error) {
++@@ -450,7 +450,7 @@ func matchIPConstraint(ip net.IP, constraint *net.IPNet) (bool, error) {
++ 	return true, nil
++ }
++ 
++-func matchDomainConstraint(domain, constraint string, reversedDomainsCache map[string][]string, reversedConstraintsCache map[string][]string) (bool, error) {
+++func matchDomainConstraint(domain, constraint string, excluded bool, reversedDomainsCache map[string][]string, reversedConstraintsCache map[string][]string) (bool, error) {
++ 	// The meaning of zero length constraints is not specified, but this
++ 	// code follows NSS and accepts them as matching everything.
++ 	if len(constraint) == 0 {
++@@ -467,6 +467,11 @@ func matchDomainConstraint(domain, constraint string, reversedDomainsCache map[s
++ 		reversedDomainsCache[domain] = domainLabels
++ 	}
++ 
+++	wildcardDomain := false
+++	if len(domain) > 0 && domain[0] == '*' {
+++		wildcardDomain = true
+++	}
+++
++ 	// RFC 5280 says that a leading period in a domain name means that at
++ 	// least one label must be prepended, but only for URI and email
++ 	// constraints, not DNS constraints. The code also supports that
++@@ -493,6 +498,11 @@ func matchDomainConstraint(domain, constraint string, reversedDomainsCache map[s
++ 		return false, nil
++ 	}
++ 
+++	if excluded && wildcardDomain && len(domainLabels) > 1 && len(constraintLabels) > 0 {
+++		domainLabels = domainLabels[:len(domainLabels)-1]
+++		constraintLabels = constraintLabels[:len(constraintLabels)-1]
+++	}
+++
++ 	for i, constraintLabel := range constraintLabels {
++ 		if !strings.EqualFold(constraintLabel, domainLabels[i]) {
++ 			return false, nil
++@@ -512,7 +522,7 @@ func (c *Certificate) checkNameConstraints(count *int,
++ 	nameType string,
++ 	name string,
++ 	parsedName interface{},
++-	match func(parsedName, constraint interface{}) (match bool, err error),
+++	match func(parsedName, constraint interface{}, excluded bool) (match bool, err error),
++ 	permitted, excluded interface{}) error {
++ 
++ 	excludedValue := reflect.ValueOf(excluded)
++@@ -524,7 +534,7 @@ func (c *Certificate) checkNameConstraints(count *int,
++ 
++ 	for i := 0; i < excludedValue.Len(); i++ {
++ 		constraint := excludedValue.Index(i).Interface()
++-		match, err := match(parsedName, constraint)
+++		match, err := match(parsedName, constraint, true)
++ 		if err != nil {
++ 			return CertificateInvalidError{c, CANotAuthorizedForThisName, err.Error()}
++ 		}
++@@ -546,7 +556,7 @@ func (c *Certificate) checkNameConstraints(count *int,
++ 		constraint := permittedValue.Index(i).Interface()
++ 
++ 		var err error
++-		if ok, err = match(parsedName, constraint); err != nil {
+++		if ok, err = match(parsedName, constraint, false); err != nil {
++ 			return CertificateInvalidError{c, CANotAuthorizedForThisName, err.Error()}
++ 		}
++ 
++@@ -633,8 +643,8 @@ func (c *Certificate) isValid(certType int, currentChain []*Certificate, opts *V
++ 				}
++ 
++ 				if err := c.checkNameConstraints(&comparisonCount, maxConstraintComparisons, "email address", name, mailbox,
++-					func(parsedName, constraint interface{}) (bool, error) {
++-						return matchEmailConstraint(parsedName.(rfc2821Mailbox), constraint.(string), reversedDomainsCache, reversedConstraintsCache)
+++					func(parsedName, constraint interface{}, excluded bool) (bool, error) {
+++						return matchEmailConstraint(parsedName.(rfc2821Mailbox), constraint.(string), excluded, reversedDomainsCache, reversedConstraintsCache)
++ 					}, c.PermittedEmailAddresses, c.ExcludedEmailAddresses); err != nil {
++ 					return err
++ 				}
++@@ -646,8 +656,8 @@ func (c *Certificate) isValid(certType int, currentChain []*Certificate, opts *V
++ 				}
++ 
++ 				if err := c.checkNameConstraints(&comparisonCount, maxConstraintComparisons, "DNS name", name, name,
++-					func(parsedName, constraint interface{}) (bool, error) {
++-						return matchDomainConstraint(parsedName.(string), constraint.(string), reversedDomainsCache, reversedConstraintsCache)
+++					func(parsedName, constraint interface{}, excluded bool) (bool, error) {
+++						return matchDomainConstraint(parsedName.(string), constraint.(string), excluded, reversedDomainsCache, reversedConstraintsCache)
++ 					}, c.PermittedDNSDomains, c.ExcludedDNSDomains); err != nil {
++ 					return err
++ 				}
++@@ -660,8 +670,8 @@ func (c *Certificate) isValid(certType int, currentChain []*Certificate, opts *V
++ 				}
++ 
++ 				if err := c.checkNameConstraints(&comparisonCount, maxConstraintComparisons, "URI", name, uri,
++-					func(parsedName, constraint interface{}) (bool, error) {
++-						return matchURIConstraint(parsedName.(*url.URL), constraint.(string), reversedDomainsCache, reversedConstraintsCache)
+++					func(parsedName, constraint interface{}, excluded bool) (bool, error) {
+++						return matchURIConstraint(parsedName.(*url.URL), constraint.(string), excluded, reversedDomainsCache, reversedConstraintsCache)
++ 					}, c.PermittedURIDomains, c.ExcludedURIDomains); err != nil {
++ 					return err
++ 				}
++@@ -673,7 +683,7 @@ func (c *Certificate) isValid(certType int, currentChain []*Certificate, opts *V
++ 				}
++ 
++ 				if err := c.checkNameConstraints(&comparisonCount, maxConstraintComparisons, "IP address", ip.String(), ip,
++-					func(parsedName, constraint interface{}) (bool, error) {
+++					func(parsedName, constraint interface{}, _ bool) (bool, error) {
++ 						return matchIPConstraint(parsedName.(net.IP), constraint.(*net.IPNet))
++ 					}, c.PermittedIPRanges, c.ExcludedIPRanges); err != nil {
++ 					return err
++diff --git a/src/crypto/x509/verify_test.go b/src/crypto/x509/verify_test.go
++index 31e8149..5f7c834 100644
++--- a/src/crypto/x509/verify_test.go
+++++ b/src/crypto/x509/verify_test.go
++@@ -1648,7 +1648,7 @@ var nameConstraintTests = []struct {
++ 
++ func TestNameConstraints(t *testing.T) {
++ 	for i, test := range nameConstraintTests {
++-		result, err := matchDomainConstraint(test.domain, test.constraint, map[string][]string{}, map[string][]string{})
+++		result, err := matchDomainConstraint(test.domain, test.constraint, false, map[string][]string{}, map[string][]string{})
++ 
++ 		if err != nil && !test.expectError {
++ 			t.Errorf("unexpected error for test #%d: domain=%s, constraint=%s, err=%s", i, test.domain, test.constraint, err)
++-- 
++2.25.1
++
 -- 
 2.43.0
 
