@@ -1,217 +1,160 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39210EE0218
-	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 15:35:13 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.66385.1767108912085891944
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E62EEE4982
+	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 15:58:14 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.66784.1767110293287087675
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Dec 2025 07:35:12 -0800
+ Tue, 30 Dec 2025 07:58:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=BfYmZ7yN;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20251230153510e9d6b75bd300020778-qnhetc@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20251230153510e9d6b75bd300020778
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 30 Dec 2025 16:35:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=/JTgS90MtlvclkWBh7+aaHxlOmdcOvYBYtkXPIRh6CM=;
- b=BfYmZ7yN9aQY0bUO6vXoaoaAc3Nx6AZi3VzX4EwXUVmAxvI598Y3u3PQ7iwldWsSkAWXbe
- 9p1SLZb2iCfa6xTTHernCKUUrH7ewMl95I4aQ8QJo00t8cDWwKVFMUwauEPS+c06rzMgjHyT
- a+Ki2sWCBw/Nlu76uxCURYYt9Llckp6h6KDsOiARQgS3V4/4UeNoNPUycptoW/K0iS2bk9e+
- jvoELUfmdeKTMkHiBLZe69zp9c+1blgkQ98NthIWcix4GYpj0MkVhtEiO7JZGRFlVk2RsgUC
- ea6iWuTFmnizBZASdYpFZaZZmnhMN8eHuN28tLkaiFg8NF9OsMuateEw==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] python3: patch CVE-2025-12084
-Date: Tue, 30 Dec 2025 16:35:08 +0100
-Message-Id: <20251230153508.37929-1-peter.marko@siemens.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ECa6ZJAO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43260a5a096so5043577f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 07:58:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1767110291; x=1767715091; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/DIXNhi2e3o6ZhFa8xpnPQnt63QJ1aJaSSPROvxUoxA=;
+        b=ECa6ZJAO1D0ZcLBiuJjio/m9w0GuDdVFupZ2oISLLXLMYOMMUkbqyUKYfOk1K42D3O
+         VEUZqEgBGg2OxorGnASfL/Y5J0oEPVfs1MwlNQLyNFL0ii1bib7AdjnhFFdt5gvI98jD
+         Xh2RQyJ7ZTSeCCGxc2zMOdQfAR6vY56RaDmRQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767110291; x=1767715091;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/DIXNhi2e3o6ZhFa8xpnPQnt63QJ1aJaSSPROvxUoxA=;
+        b=iXy8r4W4+Gf1NCjcdkGYdfdoZBzxpD3+OEgiOT7ea82JRmj9krrPJ81A/UxQGSb5y9
+         8eSt4tQVQysvfhc4ZoD18EXvsVYXgi9GwbJrxiro7Tk77vIkJ2Is2LmvlXE5bhU4Wgv2
+         trrQDgal3NIN2mT0V1EHPtnIwcrFTu1AGYCq2k5Ot7r6UhmjdTAVGpDkCJeLNaUKq54R
+         b29NaKtlPZ2yjYrOttQ9Oq881csIG2gn+lkPFK4M9pBbcrZIlEhHd0il7NbThmjbpt+8
+         GRs2Ebg8lX4/UyYqhGeW3JX6jg19KeHps/d1kCwlAkiB1mRqHJPePVFhZvGzWviaCkWO
+         iisw==
+X-Forwarded-Encrypted: i=1; AJvYcCWFvWkeYCGYI9cuSWeS74ZFVqDEWuxITLdfT800aYik3gTStcMgMVaIIr9aq4glyVJbeb2nRs+1RXXsG4LbOEGEJA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwIXK+Drjb3amHZ1VXyPSVGX46rgG5YPYTqKOrUFin0OKCpnrri
+	rSC6Qk3VVzIyrsFzkVEUrCd8z0P6I5BHw3ISL2jeaOLz9HJP0MwvGfzoxxJAcGLial7HMVl06Iv
+	reIu/Up8=
+X-Gm-Gg: AY/fxX5QjHb+cWBzzfw/MjQdoCupy7ILxUvBCOg9jZ6meP8BtOb5N9B3N7wH9qvJYRA
+	0pSK70SQDDxkqOq8HkTEbAbsKX7IkZc8YAkVwodKVX1HvUKlELjZxO/mbm03TswbrCDDx2rGElF
+	b6Jz/gd4Lnyuect5SRtDej688fWeStEFET/aCBcwIUQnu2U+2zNbC9KwmNi6VlRTfM0GKIp+lnn
+	W5L0DiNttrjuOIa/dBvS0ou9Z7jhNmNEswPA4ESRnJX9FRl7LtkCVsHMCXaTo9s783eGFWFzzYn
+	Hohz8DCU0Es2XsBYQM75XUowTSsQNm95uis7MqVWlwggqUZlks+J9a0Tulpe0Bdvtvfq9PXh4Cr
+	PaEON9zBX5It38U1tC6D4FAQy7MJ5eGDwnDRnb9fL5nBiO3PRjd8DZsk6OeuNaMreFz9EyQ6LeV
+	XjI9XVQO5B/s5zmP/QszruVjWZmDgL/nU8FXh7BqCSJWMrmi5xsqb99nQ/jyBX6TgoxRPXo7PPQ
+	t8=
+X-Google-Smtp-Source: AGHT+IFuRrozrcj+qbzGBoEhzHV6m5rzjuDBJMRIW4O6Vk51SqNMIzSsUwZvnFULfxqv8P24JMV8/Q==
+X-Received: by 2002:a05:6000:2c01:b0:431:92e:1d44 with SMTP id ffacd0b85a97d-4324e4cbc63mr38085226f8f.20.1767110291230;
+        Tue, 30 Dec 2025 07:58:11 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5448:9bd4:4831:3c06? ([2001:8b0:aba:5f3c:5448:9bd4:4831:3c06])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eab2721sm68755646f8f.39.2025.12.30.07.58.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Dec 2025 07:58:10 -0800 (PST)
+Message-ID: <eb3a975606e2cf27a04c999158a9d39f2cb7a007.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 03/15] rust: install Rust library sources
+ for 'make rustavailable' support
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com, 
+	bruce.ashfield@gmail.com, yoann.congal@smile.fr, elmehdi.younes@smile.fr
+Date: Tue, 30 Dec 2025 15:58:09 +0000
+In-Reply-To: <20251230141540.1974380-4-Harish.Sadineni@windriver.com>
+References: <20251230141540.1974380-1-Harish.Sadineni@windriver.com>
+	 <20251230141540.1974380-4-Harish.Sadineni@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 15:35:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228685
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 15:58:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228686
 
-From: Peter Marko <peter.marko@siemens.com>
+On Tue, 2025-12-30 at 06:15 -0800, Sadineni, Harish via lists.openembedded.=
+org wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>=20
+> The `make rustavailable` process (1) expects the Rust standard library so=
+urce files (e.g., `lib.rs`)
+> to be present in the `library/` directory under `rustlib/src/rust/`.
+>=20
+> This patch ensures the required sources are available by:
+> - Copying the `library/` directory from the Rust source tree into `${TMPD=
+IR}/work-shared/rust`
+> =C2=A0 during the snapshot setup.
+> - Installing the `library/` directory into `${SDKPATHNATIVE}/usr/lib/rust=
+lib/src/rust` for the
+> =C2=A0 `nativesdk` class, making them available in them available in sdk
+>=20
+> 1) See the kernel tree for Documentation/rust/quick-start.rst in the sect=
+ion: Requirements: Building
+>=20
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
+ocumentation/rust/quick-start.rst#n145
+>=20
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
+> =C2=A0meta/recipes-devtools/rust/rust_1.91.1.bb | 17 +++++++++++++++++
+> =C2=A01 file changed, 17 insertions(+)
+>=20
+> diff --git a/meta/recipes-devtools/rust/rust_1.91.1.bb b/meta/recipes-dev=
+tools/rust/rust_1.91.1.bb
+> index a25f65f674..7644ecf2d2 100644
+> --- a/meta/recipes-devtools/rust/rust_1.91.1.bb
+> +++ b/meta/recipes-devtools/rust/rust_1.91.1.bb
+> @@ -63,6 +63,16 @@ do_rust_setup_snapshot () {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 done
+> =C2=A0=C2=A0=C2=A0=C2=A0 fi
+> =C2=A0}
+> +
+> +do_rust_setup_snapshot:append:class-native () {
+> +=C2=A0=C2=A0 if ${@bb.utils.contains('DISTRO_FEATURES', 'rust-kernel', '=
+true', 'false', d)}; then
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ ! -d "${TMPDIR}/wo=
+rk-shared/rust" ]; then
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 mkdir -p ${TMPDIR}/work-shared/rust
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 cp -r ${RUSTSRC}/library ${TMPDIR}/work-shared/rust/.
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
+> +=C2=A0=C2=A0 fi
+> +}
+> +
+> =C2=A0addtask rust_setup_snapshot after do_unpack before do_configure
+> =C2=A0addtask do_test_compile after do_configure do_rust_gen_targets
+> =C2=A0do_rust_setup_snapshot[dirs] +=3D "${WORKDIR}/rust-snapshot"
+> @@ -314,6 +324,13 @@ rust_do_install:class-nativesdk() {
+> =C2=A0	export CARGO_TARGET_${RUST_HOST_TRIPLE}_RUNNER=3D"\$OECORE_NATIVE_=
+SYSROOT/lib/${SDKLOADER}"
+> =C2=A0	export CC_$RUST_HOST_CC=3D"${CCACHE}${HOST_PREFIX}gcc"
+> =C2=A0	EOF
+> +=C2=A0=C2=A0=C2=A0=20
+> +=C2=A0=C2=A0=C2=A0 if ${@bb.utils.contains('DISTRO_FEATURES', 'rust-kern=
+el', 'true', 'false', d)}; then
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ ! -d $=
+{D}${SDKPATHNATIVE}/usr/lib/rustlib/src/rust ]; then
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 mkdir -p ${D}${SDKPATHNATIVE}/usr/lib/rustlib/src/rust
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 cp -r --no-preserve=3Downership=C2=A0 ${S}/library ${D}$=
+{SDKPATHNATIVE}/usr/lib/rustlib/src/rust/
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
+> +=C2=A0=C2=A0=C2=A0 fi
+> =C2=A0}
+> =C2=A0
+> =C2=A0FILES:${PN} +=3D "${base_prefix}/environment-setup.d"
 
-Pick patch from 3.12 branch according to [1].
+The commit message should mention the size of these files. Does this
+make sense as a distro feature or should we just do this all the time?
+Do the nativesdk components get packaged separately? If they were, we
+could then make that an SDK feature instead. What happens for on target
+kernel module development? Shouldn't there be a target package too?
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2025-12084
+Cheers,
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../python/python3/CVE-2025-12084.patch       | 144 ++++++++++++++++++
- .../python/python3_3.12.12.bb                 |   1 +
- 2 files changed, 145 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-12084.patch
-
-diff --git a/meta/recipes-devtools/python/python3/CVE-2025-12084.patch b/meta/recipes-devtools/python/python3/CVE-2025-12084.patch
-new file mode 100644
-index 00000000000..b7c0650cdc5
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2025-12084.patch
-@@ -0,0 +1,144 @@
-+From 9c9dda6625a2a90d2a06c657eee021d6be19842d Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Mon, 22 Dec 2025 14:48:49 +0100
-+Subject: [PATCH] [3.12] gh-142145: Remove quadratic behavior in node ID cache
-+ clearing (GH-142146) (#142211)
-+
-+* gh-142145: Remove quadratic behavior in node ID cache clearing (GH-142146)
-+* gh-142754: Ensure that Element & Attr instances have the ownerDocument attribute (GH-142794)
-+(cherry picked from commit 1cc7551b3f9f71efbc88d96dce90f82de98b2454)
-+(cherry picked from commit 08d8e18ad81cd45bc4a27d6da478b51ea49486e4)
-+(cherry picked from commit 8d2d7bb2e754f8649a68ce4116271a4932f76907)
-+
-+Co-authored-by: Jacob Walls <38668450+jacobtylerwalls@users.noreply.github.com>
-+Co-authored-by: Seth Michael Larson <seth@python.org>
-+Co-authored-by: Petr Viktorin <encukou@gmail.com>
-+Co-authored-by: Hugo van Kemenade <1324225+hugovk@users.noreply.github.com>
-+Co-authored-by: Gregory P. Smith <68491+gpshead@users.noreply.github.com>
-+Co-authored-by: Hugo van Kemenade <1324225+hugovk@users.noreply.github.com>
-+Co-authored-by: Gregory P. Smith <68491+gpshead@users.noreply.github.com>
-+Co-authored-by: Gregory P. Smith <greg@krypto.org>
-+
-+CVE: CVE-2025-12084
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/9c9dda6625a2a90d2a06c657eee021d6be19842d]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ Lib/test/test_minidom.py                      | 33 ++++++++++++++++++-
-+ Lib/xml/dom/minidom.py                        | 11 ++-----
-+ ...-12-01-09-36-45.gh-issue-142145.tcAUhg.rst |  6 ++++
-+ 3 files changed, 41 insertions(+), 9 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2025-12-01-09-36-45.gh-issue-142145.tcAUhg.rst
-+
-+diff --git a/Lib/test/test_minidom.py b/Lib/test/test_minidom.py
-+index 699265ccadc..ab4823c8315 100644
-+--- a/Lib/test/test_minidom.py
-++++ b/Lib/test/test_minidom.py
-+@@ -2,13 +2,14 @@
-+ 
-+ import copy
-+ import pickle
-++import time
-+ import io
-+ from test import support
-+ import unittest
-+ 
-+ import xml.dom.minidom
-+ 
-+-from xml.dom.minidom import parse, Attr, Node, Document, parseString
-++from xml.dom.minidom import parse, Attr, Node, Document, Element, parseString
-+ from xml.dom.minidom import getDOMImplementation
-+ from xml.parsers.expat import ExpatError
-+ 
-+@@ -176,6 +177,36 @@ class MinidomTest(unittest.TestCase):
-+         self.confirm(dom.documentElement.childNodes[-1].data == "Hello")
-+         dom.unlink()
-+ 
-++    @support.requires_resource('cpu')
-++    def testAppendChildNoQuadraticComplexity(self):
-++        impl = getDOMImplementation()
-++
-++        newdoc = impl.createDocument(None, "some_tag", None)
-++        top_element = newdoc.documentElement
-++        children = [newdoc.createElement(f"child-{i}") for i in range(1, 2 ** 15 + 1)]
-++        element = top_element
-++
-++        start = time.monotonic()
-++        for child in children:
-++            element.appendChild(child)
-++            element = child
-++        end = time.monotonic()
-++
-++        # This example used to take at least 30 seconds.
-++        # Conservative assertion due to the wide variety of systems and
-++        # build configs timing based tests wind up run under.
-++        # A --with-address-sanitizer --with-pydebug build on a rpi5 still
-++        # completes this loop in <0.5 seconds.
-++        self.assertLess(end - start, 4)
-++
-++    def testSetAttributeNodeWithoutOwnerDocument(self):
-++        # regression test for gh-142754
-++        elem = Element("test")
-++        attr = Attr("id")
-++        attr.value = "test-id"
-++        elem.setAttributeNode(attr)
-++        self.assertEqual(elem.getAttribute("id"), "test-id")
-++
-+     def testAppendChildFragment(self):
-+         dom, orig, c1, c2, c3, frag = self._create_fragment_test_nodes()
-+         dom.documentElement.appendChild(frag)
-+diff --git a/Lib/xml/dom/minidom.py b/Lib/xml/dom/minidom.py
-+index ef8a159833b..cada981f39f 100644
-+--- a/Lib/xml/dom/minidom.py
-++++ b/Lib/xml/dom/minidom.py
-+@@ -292,13 +292,6 @@ def _append_child(self, node):
-+     childNodes.append(node)
-+     node.parentNode = self
-+ 
-+-def _in_document(node):
-+-    # return True iff node is part of a document tree
-+-    while node is not None:
-+-        if node.nodeType == Node.DOCUMENT_NODE:
-+-            return True
-+-        node = node.parentNode
-+-    return False
-+ 
-+ def _write_data(writer, data):
-+     "Writes datachars to writer."
-+@@ -355,6 +348,7 @@ class Attr(Node):
-+     def __init__(self, qName, namespaceURI=EMPTY_NAMESPACE, localName=None,
-+                  prefix=None):
-+         self.ownerElement = None
-++        self.ownerDocument = None
-+         self._name = qName
-+         self.namespaceURI = namespaceURI
-+         self._prefix = prefix
-+@@ -680,6 +674,7 @@ class Element(Node):
-+ 
-+     def __init__(self, tagName, namespaceURI=EMPTY_NAMESPACE, prefix=None,
-+                  localName=None):
-++        self.ownerDocument = None
-+         self.parentNode = None
-+         self.tagName = self.nodeName = tagName
-+         self.prefix = prefix
-+@@ -1539,7 +1534,7 @@ def _clear_id_cache(node):
-+     if node.nodeType == Node.DOCUMENT_NODE:
-+         node._id_cache.clear()
-+         node._id_search_stack = None
-+-    elif _in_document(node):
-++    elif node.ownerDocument:
-+         node.ownerDocument._id_cache.clear()
-+         node.ownerDocument._id_search_stack= None
-+ 
-+diff --git a/Misc/NEWS.d/next/Security/2025-12-01-09-36-45.gh-issue-142145.tcAUhg.rst b/Misc/NEWS.d/next/Security/2025-12-01-09-36-45.gh-issue-142145.tcAUhg.rst
-+new file mode 100644
-+index 00000000000..05c7df35d14
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2025-12-01-09-36-45.gh-issue-142145.tcAUhg.rst
-+@@ -0,0 +1,6 @@
-++Remove quadratic behavior in ``xml.minidom`` node ID cache clearing.  In order
-++to do this without breaking existing users, we also add the *ownerDocument*
-++attribute to :mod:`xml.dom.minidom` elements and attributes created by directly
-++instantiating the ``Element`` or ``Attr`` class. Note that this way of creating
-++nodes is not supported; creator functions like
-++:py:meth:`xml.dom.Document.documentElement` should be used instead.
-diff --git a/meta/recipes-devtools/python/python3_3.12.12.bb b/meta/recipes-devtools/python/python3_3.12.12.bb
-index b70f434ca95..786f52875a9 100644
---- a/meta/recipes-devtools/python/python3_3.12.12.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.12.bb
-@@ -35,6 +35,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
- 	   file://0001-test_active_children-skip-problematic-test.patch \
-            file://0001-test_readline-skip-limited-history-test.patch \
-            file://CVE-2025-6075.patch \
-+           file://CVE-2025-12084.patch \
-            "
- 
- SRC_URI:append:class-native = " \
+Richard
 
