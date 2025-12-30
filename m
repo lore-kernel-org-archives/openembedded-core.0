@@ -1,128 +1,152 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E55FDEE4999
-	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 19:15:34 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.70790.1767122126627026476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F2C8EE499E
+	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 20:12:15 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.71898.1767125533533065849
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Dec 2025 11:15:27 -0800
+ Tue, 30 Dec 2025 12:12:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y4uE5bk6;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-37ba5af5951so93496511fa.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 11:15:26 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ROoTLCbc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a09d981507so75591805ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 12:12:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767122125; x=1767726925; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SD2bhwC7r21+RmidtH+IPTp9jBRdV6b64RBiEq9CgIs=;
-        b=Y4uE5bk6/e9KudEGLa3LmomsNg4a/sYyJb3r4vMaZgzcxX6dyHsB/mbAWWhTpbkga5
-         V1zyjaPnzvh8SY0D0T7WUbO/KVFyGccT3m8TZDrU0GAwvYOkMHZIg9yc2Fs9XWTJwwOe
-         SXJ8hGJWpItkBOj6kvR4knzJ6qOAV0s6t/Al5n6+2qoZAvgwSr6noTBNrDPZGIuUYuf4
-         SYRMp4T7vO6VJo0/n0HTZw3EF3Y/Jt0khO8jVzbO00araw4zdyZNamx8drSlhqSQw6T0
-         lS9Won/C5QkjcsfXQVbmkk9Gewj/b9qohEVSZRNWD8EQK7+xDA+oe8DeTc3yJATu2H/g
-         y4hw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767125533; x=1767730333; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rIzAjz/rW/hWzI9zOyQtj7UZYjAOZjXZ+iaD9/WTwrc=;
+        b=ROoTLCbcAO9D9UjWSTOlbkwAEBo/foeVdZhyXZ9Po/A9lT6aZPCyYgFYzgTlL3q9ko
+         xnejQ9vJz24vyqQMGs+VQIcxP/EbpelTxrgInPWh0TsOca0jCG1ndzg0HgOibZnzHUFJ
+         bvRoQAlOVZwPAIDhZD1JZq+DUzkxmzXiBNLHFJGJDx1JzK3yZAEgmy+ylbXqrBOC/GPH
+         p2/XWvE6QBtq38HlCdWZQQQtXbFEEc/THziJWYhlLInmIRrkYTZlgngVGtds9TS53HPK
+         hW+pjtsoHzU1byEWX4dSb4cwn8+JKHe/q65G5GLQAfAfdPNaKRX8Z2+c7EUY1Jdlwlfi
+         RiTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767122125; x=1767726925;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SD2bhwC7r21+RmidtH+IPTp9jBRdV6b64RBiEq9CgIs=;
-        b=kLaTD8Zv5F9/2/SCriK10EvIsrC3R603xnVQimSS5Sfi/4UWQ8VVjaPGn2nOkqZkr+
-         e2p5jLHOd9UtklVl+w0GY+NYMvZNqgEY9jMfB6AaOTFx6Un7r3NZrvaHjSRFFFkmhfs4
-         ccxPjNjY869KlrrdgeDRr5Pte++Diw5yw0J2RESr+jO9y889APjZhrvnvqltKFygPZmk
-         FPfwA3Bu4UECSRhfj7a681h+yJ2fKR5RcIXeyKqvcOKJj/myd8p8qqUL3XnMNw5mOgQ8
-         ChcgyGNAv2R+aeMY+myU5AdnsBx6fEN/K8Lsv9A8hqWC+ZNCyOk9L+utBQPE41HaIMOu
-         dUng==
-X-Gm-Message-State: AOJu0Yyyk1Fu+puUPSCUZtLLcGNoX1N0Rsj6lRwMQng9/GhnvRYjrLRN
-	mU+28gQHzEvRhEE42vgk0bo0L82oFGC5QQX8hnfzj2JHHGos5XSvk6oj9YVnmrqbukKh3p0dbJZ
-	61nbESiYZwcWGItrvojZf4yT01fB/Tw0=
-X-Gm-Gg: AY/fxX4bnElqTK5ZKma7LIDWVJpFpZO8gSJO5i2D/fGXPul3H0DCQAiQWDn6LLNK48K
-	JB3OEYYIMsJ2mHLbeVfHOwlrI1I+68VeMCLiy/M+w0flpO+gXlaNFins5WNQKVxrQ8T+cZ08ewB
-	+GupysHOmQJc0LtD3ySISEOoH5Baa4apEXRE2tgphSMYyjRaSfN4S+Pg/mVbIdeXy055387QKHn
-	CnEacNL+7JksbRFuwRh+/24GzrE1He5zebpXWjHU6YQQIc87OjSw3eQk4rZaBzkIQDzhz66/Q==
-X-Google-Smtp-Source: AGHT+IGai8If/37+C/vKYgcOAIr4eblhKH5nnRdatV6XOPgo4SnWf+I8GXAAC34EbYckUL0NmWntqZsKTEC3PY0YV8k=
-X-Received: by 2002:a05:651c:150b:b0:382:51cc:d25c with SMTP id
- 38308e7fff4ca-38251ccd608mr72692381fa.27.1767122124366; Tue, 30 Dec 2025
- 11:15:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767125533; x=1767730333;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rIzAjz/rW/hWzI9zOyQtj7UZYjAOZjXZ+iaD9/WTwrc=;
+        b=Np4doqRK0C1fGcIv5UYLSL8JgAE7398Q9lHCaGcQeyVt/3QfdVPIYDT5Ql2egIDgxG
+         U5VGClh8yeKjlCHzXJLlMzk+ERURwN7gquEqvtBPQVPERhafg/2ufM0THabVqQKM28m8
+         BMH5CCKYUNeQLG5mHPFRW+eJoTBXZM+CPXsIvSE2YOn6D+ZcSLkLXDIb4B0kLkmpmMPr
+         mnjrwsa7DxqBsgyLP8KACje84vdGgQ1LqZIDFhhrt09hBbEyQqUbyTuLCXzb6mH6oJ6y
+         kL842OZT4HVxgPfi6LQUo1L92q/Fa3bHNM+9Xm/tzp7BZpAn8J1lHW6nGvHB9xA97WYM
+         vKOA==
+X-Gm-Message-State: AOJu0YySSZAS5kXyLQQSskknxBycdrnmCK94DkuvmJn5W3jOFS+DL7Wp
+	gVSZ73US0wIMrXXdWQ63cIoqBjpUc/kgavRiDQJI4AIE2rgp4RaCnkc2WXzGMy4m02k3EDG9qpc
+	d0UCa
+X-Gm-Gg: AY/fxX4ERrTlAFsxpMlK/NWtm+5M8lKxAbClj1AIraF19+yL6LMjjt+J9jxv66tPN6n
+	HilQLKDJ7MT7Ezb5GYIZdDdI9Q001+0Sl2ZwsP4ttetrU9TQuBbPaGTdB9DULfhWwKOoXCCT3iU
+	QtKW3sKU5FPIemQ1IbyZ3cl7GK495+fnVToa0931MPuSz6v83ttvtUS+MB6x9TwqCN8TantW/2e
+	8oC/iQ/G5Kct7YQgX2weMzLiU0UrZZ31AB0ol2hx55dNvskM9/hvZ8OrO2fxVU3CMf3m3Fh/wa1
+	ZrSkOEumjVEn8WZjjC7w2OxPuVoXe99f35Zlq7spyyHlQGUxYl1KDDCmZuXqfWafwm6zHEiZP2i
+	ZNpuH+WN4D3yt35BG48b9sFgxT7/W5si4pXNl5rW1obPlPPFlprj7TNVyzEspAowYnwqRMKlGCw
+	Q+Kg==
+X-Google-Smtp-Source: AGHT+IEo3WUcWlR2ATpEcNbSz+bgtjryO7RwEJ4urO8b58fXD1hkrydJrQMKXJK8xvw+q4xMCy8IOA==
+X-Received: by 2002:a17:902:ef12:b0:29e:e642:95dc with SMTP id d9443c01a7336-2a2caacef70mr372722945ad.12.1767125532741;
+        Tue, 30 Dec 2025 12:12:12 -0800 (PST)
+Received: from hexa.. ([2602:feb4:3b:2100:501f:80a7:5971:3e87])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c83325sm310391365ad.34.2025.12.30.12.12.12
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Dec 2025 12:12:12 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][whinlatter 02/29] binutils: fix CVE-2025-11840
+Date: Tue, 30 Dec 2025 12:11:32 -0800
+Message-ID: <66cc64a69ab33b8415e1841c9256e572c0ff33c7.1767106395.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1767106395.git.steve@sakoman.com>
+References: <cover.1767106395.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: <20251230190510.1097045-1-dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20251230190510.1097045-1-dmitry.baryshkov@oss.qualcomm.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 30 Dec 2025 20:15:14 +0100
-X-Gm-Features: AQt7F2oV8TfojMZL3MSZgmZd4c9b0G5eFatYc8QfGGJ2sOec9GjbPIu9tHzB6Bw
-Message-ID: <CA+chaQcqZB8veE7bwLZXnpKumibFc_35zqcmg4WmDeFwoaw3HQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] systemd: fix excess systemd -> ukify -> python dependency
-To: dmitry.baryshkov@oss.qualcomm.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Koen Kooi <koen.kooi@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 19:15:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228691
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 20:12:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228694
 
-Thanks! That's what I did locally after reporting it in
-https://lists.openembedded.org/g/openembedded-core/message/228460
+From: Yash Shinde <Yash.Shinde@windriver.com>
 
-Acked-by: Martin Jansa <martin.jansa@gmail.com>
+CVE-2025-11840
 
-On Tue, Dec 30, 2025 at 8:05=E2=80=AFPM Dmitry Baryshkov via
-lists.openembedded.org
-<dmitry.baryshkov=3Doss.qualcomm.com@lists.openembedded.org> wrote:
->
-> The systemd package contains a symlink to ukify binary under the
-> libdir/systemd. This symlink forces the systemd -> systemd-ukify
-> dependency, which also pulls in a set of python packages, which might be
-> undesirable for the small isntallations. Move the symlink to the
-> systemd-ukify package, removing this dependency and preventing the
-> excess growth of the rootfs / initramfst.
->
-> Fixes: e92427496210 ("systemd: package 'ukify' seperately")
-> Cc: Koen Kooi <koen.kooi@oss.qualcomm.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  meta/recipes-core/systemd/systemd_258.1.bb | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/systemd/systemd_258.1.bb b/meta/recipes-co=
-re/systemd/systemd_258.1.bb
-> index 70414b03a481..410396f30834 100644
-> --- a/meta/recipes-core/systemd/systemd_258.1.bb
-> +++ b/meta/recipes-core/systemd/systemd_258.1.bb
-> @@ -633,7 +633,10 @@ FILES:${PN}-udev-rules =3D "\
->
->  SUMMARY:${PN}-ukify =3D "Create and inspect Unified Kernel Images (UKIs)=
-"
->  DESCRIPTION:${PN}-ukify =3D "ukify is a tool whose primary purpose is to=
- combine components (usually a kernel, an initrd, and a UEFI boot stub) to =
-create a Unified Kernel Image (UKI) =E2=80=94 a PE binary that can be execu=
-ted by the firmware to start the embedded linux kernel."
-> -FILES:${PN}-ukify =3D "${bindir}/ukify"
-> +FILES:${PN}-ukify =3D " \
-> +    ${bindir}/ukify \
-> +    ${nonarch_libdir}/systemd/ukify \
-> +"
->  RDEPENDS:${PN}-ukify =3D " \
->                          python3-compression \
->                          python3-core \
-> --
-> 2.47.3
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#228690): https://lists.openembedded.org/g/openembedde=
-d-core/message/228690
-> Mute This Topic: https://lists.openembedded.org/mt/117001955/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
-rtin.jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+PR 33455
+[BUG] A SEGV in vfinfo at ldmisc.c:527
+A reloc howto set up with EMPTY_HOWTO has a NULL name.  More than one
+place emitting diagnostics assumes a reloc howto won't have a NULL
+name.
+
+https://sourceware.org/bugzilla/show_bug.cgi?id=33455
+
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=f6b0f53a36820da91eadfa9f466c22f92e4256e0]
+
+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../binutils/binutils-2.45.inc                |  1 +
+ .../binutils/0020-CVE-2025-11840.patch        | 37 +++++++++++++++++++
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0020-CVE-2025-11840.patch
+
+diff --git a/meta/recipes-devtools/binutils/binutils-2.45.inc b/meta/recipes-devtools/binutils/binutils-2.45.inc
+index 9ae0e72e60..16a63cabc5 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.45.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.45.inc
+@@ -45,4 +45,5 @@ SRC_URI = "\
+      file://CVE-2025-11495.patch \
+      file://0018-CVE-2025-11494.patch \
+      file://0019-CVE-2025-11839.patch \
++     file://0020-CVE-2025-11840.patch \
+ "
+diff --git a/meta/recipes-devtools/binutils/binutils/0020-CVE-2025-11840.patch b/meta/recipes-devtools/binutils/binutils/0020-CVE-2025-11840.patch
+new file mode 100644
+index 0000000000..3fb4db880e
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0020-CVE-2025-11840.patch
+@@ -0,0 +1,37 @@
++From f6b0f53a36820da91eadfa9f466c22f92e4256e0 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Mon, 3 Nov 2025 09:03:37 +1030
++Subject: [PATCH] PR 33455 SEGV in vfinfo at ldmisc.c:527
++
++A reloc howto set up with EMPTY_HOWTO has a NULL name.  More than one
++place emitting diagnostics assumes a reloc howto won't have a NULL
++name.
++
++	PR 33455
++	* coffcode.h (coff_slurp_reloc_table): Don't allow a howto with
++	a NULL name.
++---
++ bfd/coffcode.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=f6b0f53a36820da91eadfa9f466c22f92e4256e0]
++CVE: CVE-2025-11840
++
++Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
++
++diff --git a/bfd/coffcode.h b/bfd/coffcode.h
++index 1e5acc0032c..ce1e39131b4 100644
++--- a/bfd/coffcode.h
+++++ b/bfd/coffcode.h
++@@ -5345,7 +5345,7 @@ coff_slurp_reloc_table (bfd * abfd, sec_ptr asect, asymbol ** symbols)
++       RTYPE2HOWTO (cache_ptr, &dst);
++ #endif	/* RELOC_PROCESSING */
++ 
++-      if (cache_ptr->howto == NULL)
+++      if (cache_ptr->howto == NULL || cache_ptr->howto->name == NULL)
++ 	{
++ 	  _bfd_error_handler
++ 	    /* xgettext:c-format */
++-- 
++2.43.7
++
+-- 
+2.43.0
+
 
