@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58100EE49B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6476DEE49B4
 	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 20:12:35 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.71734.1767125548511378024
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.71908.1767125549857671828
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Dec 2025 12:12:28 -0800
+ Tue, 30 Dec 2025 12:12:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EIKLNd0v;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2a0d6f647e2so166143855ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 12:12:28 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=z5gAtZ4G;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2a09a3bd9c5so91363965ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 12:12:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767125548; x=1767730348; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767125549; x=1767730349; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=KhzYwHGSMXb+8Hk2YIBMTvQIodezoXQlR+q0FRbVbwI=;
-        b=EIKLNd0vcQIUGzleDsB1ZEuDuJcr7CLK4KyRjLXgPng9qiaPBtfiP4tcd8+3uPCzW1
-         yntUuW6K8r8zEtDW74ErlAHDylcZcptoAMVp9sZTqpDU+BINuTHCFRE5CyFpJhWB5vpD
-         NFCJGv5PgMplmfVdYVUDpEnV7sI0TvxPohYgRVUaLUYJxjP4u7pOi2Pl5L6SKcCZc1Us
-         xSyegoIkmzej0WpURrEnNz1+wq8TZ/K9rLkRYuWeFtgyacqApcQpvok5PjN3vuAVNxGH
-         WZQCMpe0SF7AmcDxWt0uvSyd5iVdgw2FNpC2HmAVz0lX49vYOJkasLYZBXTuT7cOH6QV
-         UZug==
+        bh=oX0qFH2HKN/GBj8yw15Puba2g4QAVqLkVq1375L9w6Q=;
+        b=z5gAtZ4G+VFZUcarzbvyqtu7ukVSaCUgkexfPWTWsYdxiPFPu4SLM+i/go9J5R7t1z
+         SIlMq0H30Bk9NtlmT6Ch5SfxWgKConSdnb7lkMOp+YYswPZ3l/CM7TspJnPrscfxoD5Z
+         g49M1/Cs56Cl+yjpdbvo6VlCOmRipr0HpFAa8bsg6ZQ+6LXvxNuU+4WaF6HPGQS8c2SV
+         vwjLLVqIjWIeflfVNWoRu771H+B37/1KBo2O0vIe8nbOP85h3Lm+1gzL6BiaPksNdFzV
+         877sSnBUJItvXX9TocaHZ8ETrPOmO68QlHmkpAiKlNlWXf6ZfRi0H4KVIB7JqNzpzrkc
+         KFIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767125548; x=1767730348;
+        d=1e100.net; s=20230601; t=1767125549; x=1767730349;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=KhzYwHGSMXb+8Hk2YIBMTvQIodezoXQlR+q0FRbVbwI=;
-        b=RIHErt5eSnEHcfwe7vn/gSEZB42gD5ZsxDtC5uxDlWzwnFdt1C6FFChAXak199rQil
-         H4oaiQh7NK9QGQBMjDZWCuIv3YRZJnDU4AFjj2DaJ7HGSnJ3pXj2Tiw85xsJByeR73/C
-         tE6/qhuIS/Ry4S7v7WTPVMeU71cyjE+SHhw9qBS+EXCo5FeE8LBfUOAUYcgDa0K9+b2F
-         gDHLtl6Ocb4TmuqiytR3FhCXdmu00xFIe5+vjH8i0DUQfzF9OSpHZlsG41bQ8uA38Z+7
-         dvUCvzxb7LtbO8SKivZMgpaJtvLPXYkKCqvkAOE3YtMTG2+YJE0jfg3dib0Rrnu0+3nW
-         q+3g==
-X-Gm-Message-State: AOJu0YyBz1zzk1ZuWHcqSUQnispKyDeTOJA4QBVgDmaaSfQRTLuA9yc8
-	D5Ts1eXr8Pbvbva4s7vCb6BgyP/e3P7i80h2chNybV/PnPmw6uXTAohZmU8mHaL72uVWMd3xvGy
-	ifPOG
-X-Gm-Gg: AY/fxX58l4VtdEOXsudGBs5gKZJVdoRmisukZx8tRYRP/Xb21E9H/D/oPKG6cgLP/cW
-	EhKWIn4fQiFkEk39ABYREjQAl59sPOKH7quHIkNve3AEUyUP6mQsniqykhLAr0RH+uFkOFY6ryP
-	r3tJSL6Ih5Kdvwv/QyGq4TWvLAwx+09dhgzPKjSSN41LHEDaEqlL1z8fxQz11wVArAc9TJ2+YBH
-	kDL8m4WwZAR8rmMSPGgm268oCPCw++/2qr0U7MU5ZGwRc6hXCHnwUPW4XgroA3fzxAOVT8SGQbo
-	aQm3hQ1CceHkm86zAYp5L3Fo6LD6UQHTX0pJsgnEzjvKQiOJ83q1eLZWkBmO0Iq/M53PUG+kAcB
-	74Pw6/nTxzLyjBXF5bt5ED6jWT1sm2Usy2rvg7KYcU8lniBHR4CKwU9lUyFFnUjXFMLEWiHqkQD
-	xPAQ==
-X-Google-Smtp-Source: AGHT+IGFWw2LVAHeStzEylfTE7lL2XEZf/YGvQ4isaY/n3rzG4DFEFavl2WEKoWluFt6riFWOYJF1g==
-X-Received: by 2002:a17:902:cecc:b0:2a1:5785:4417 with SMTP id d9443c01a7336-2a2f273800cmr294840825ad.34.1767125547766;
-        Tue, 30 Dec 2025 12:12:27 -0800 (PST)
+        bh=oX0qFH2HKN/GBj8yw15Puba2g4QAVqLkVq1375L9w6Q=;
+        b=RXvCEFkK0BApsXOBAoS3M3QDcF+Ge1R5kU1HPgmuh6YuQ5c0CiQ2QO7bgjTA+fR+ZE
+         PPhapcLhiRxntyOhJ/g00dmGrHS1XqQgB16E+3yWy6zy/fvTZ5+27MjmY9iSMVlJUteW
+         TyG2V+VFE5SlpvaGEEG2DACATrV5WKvZ96crBtbJJbX4DPu9yibIhGN156rToKSKIzNM
+         PYliD+k0CmPfNxUMoUkYDoeg1f0tgliOJMMGVYJavOZ9ZATCiq5JV2Rtyr4TQLo1rQj4
+         sbPCpdPNlU7ZIghHpm4ABgq9nBp15Annmnz6N7Hh5DA+9LcVQCRNIIzLk/d6MYWLvmo+
+         aiUw==
+X-Gm-Message-State: AOJu0YxovcCGMvoxwJHxSMrWvGjwrkR7QSGeSNt53U/LtgFUEOoy0Zbq
+	X/EfjzbGTGKDwXBvWXNlaxG2yyUzDdAizI0BPWrEPPxBxF4fmo5cRd4t5Vo9ycF3V0EkRs9Rudr
+	2c8/c
+X-Gm-Gg: AY/fxX5dyINotfQWgT4LQjnXRDm1vFoPo8P5BR5tO9E/n+DjBDmn0QbE9NtLCyLz9qI
+	JsRt5s+L9v5QIQH8lka+5lbgViptJfd11qDTATeb70w5RlNrvGgmRAfktsTnTiwFqsTadjT2OPJ
+	uZ0I3YScukbN7JX75HeP3CwbwbQ4bIf4dj+f0kLXBs4FOOo+KrpmMdooqnMOhLlxNJmf5U3uBaA
+	+HlxCuPmRlIzvNWb+lo+i6IsQEZ/nZT/PEk6FJG2fwJwphynq0WHU8Y6dSF+KhkCsfV6p1U0CI4
+	JzIZ7+rEcPYdjrr730RPAJ8RFO/cQeMZOu54XByzJC3TSJPWUTtkCt6F2O1XwxZmcDuEhk/fUvr
+	rFSqC5Ktzn15SMCIf6XIYMVrBogGbPCU5q7eE97igf53cMH6v1fcLbZpf1BGoKEDJFFikDCOHan
+	VIDQ==
+X-Google-Smtp-Source: AGHT+IGZHSyqfalwFo6boDny3BV+xq+613mQo0oJ1G6mHbGZtcOObqRLIkRuSRsCXZ26VifZsYqH9A==
+X-Received: by 2002:a17:903:1b65:b0:297:e69d:86ac with SMTP id d9443c01a7336-2a2f2836516mr348234185ad.39.1767125549073;
+        Tue, 30 Dec 2025 12:12:29 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:501f:80a7:5971:3e87])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c83325sm310391365ad.34.2025.12.30.12.12.27
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c83325sm310391365ad.34.2025.12.30.12.12.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Dec 2025 12:12:27 -0800 (PST)
+        Tue, 30 Dec 2025 12:12:28 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 11/29] gst-examples: upgrade 1.26.5 -> 1.26.7
-Date: Tue, 30 Dec 2025 12:11:41 -0800
-Message-ID: <71c728176301ecfbe37b9b1d3ce46d2fd21ffe1b.1767106395.git.steve@sakoman.com>
+Subject: [OE-core][whinlatter 12/29] gstreamer1.0-libav: upgrade 1.26.5 -> 1.26.7
+Date: Tue, 30 Dec 2025 12:11:42 -0800
+Message-ID: <aaab1a578dd9e86873e791de4755e1b3d6d41a5a.1767106395.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1767106395.git.steve@sakoman.com>
 References: <cover.1767106395.git.steve@sakoman.com>
@@ -69,35 +69,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 20:12:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228703
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228704
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit 5d45726d07f049be7d131b4fa0ed1b2716060dff)
+(cherry picked from commit 1535c02a7ddd9fa87e5634bcfcdbf212d7621d0f)
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{gst-examples_1.26.5.bb => gst-examples_1.26.7.bb}          | 2 +-
+ ...streamer1.0-libav_1.26.5.bb => gstreamer1.0-libav_1.26.7.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gst-examples_1.26.5.bb => gst-examples_1.26.7.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.26.5.bb => gstreamer1.0-libav_1.26.7.bb} (91%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.26.5.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.26.7.bb
-similarity index 96%
-rename from meta/recipes-multimedia/gstreamer/gst-examples_1.26.5.bb
-rename to meta/recipes-multimedia/gstreamer/gst-examples_1.26.7.bb
-index 2fa4ef11fe..6790f0b038 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples_1.26.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.26.7.bb
-@@ -12,7 +12,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gstreamer.git;protocol=https;b
-            file://gst-player.desktop \
-            "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.7.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.7.bb
+index c3ee529497..aa6c431daa 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.26.7.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
+                     "
  
--SRCREV = "82cbccedf7946a32d28a5aaec8ebbcb627770c19"
-+SRCREV = "c5a5c302f5e7218182c0633decec16b25de82add"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "d6de05884ef42376dd8cde89940f7b50ced96f4f6f52888e764cd8233e74f052"
++SRC_URI[sha256sum] = "91d4a7a14527d97fe0ce7ccedb3554e8f692b216429ef2b1850944bbf5435c09"
  
- S = "${UNPACKDIR}/${BP}/subprojects/gst-examples"
+ S = "${UNPACKDIR}/gst-libav-${PV}"
  
 -- 
 2.43.0
