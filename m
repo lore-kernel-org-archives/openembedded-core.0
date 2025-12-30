@@ -2,56 +2,56 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E65AAE95A60
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E209BE95A65
 	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 09:17:49 +0000 (UTC)
-Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.61242.1767086261189154625
+Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.61209.1767086266096790341
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Dec 2025 01:17:41 -0800
+ Tue, 30 Dec 2025 01:17:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=tjd3ma2L;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=AO7liny9;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1767086261; x=1798622261;
+  t=1767086266; x=1798622266;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=PuNCnwg2/3LsyhrLFJ/qiDkGWpkq3mxIGE3qFShnH+U=;
-  b=tjd3ma2LWdIRLL+Y5BChwHfrXnl0x9ZPxIpTOQRjvPmkycQ2w/bz9QRN
-   HfLDRYte6Y828OqZFl7EpE5miNf2p72fMwFNXcrwZzZY68CymgFmY0/hx
-   7kWxW5FYhMwznvhgAYC3xrNGNNpyYfsmPABNcSJEBXhyr3+XMyvMv0u+U
-   raGvNhvy6EdqMgt8IlpRQHjJa8WTWQsOfTflxXRIXbURw9DtZAcf0Capx
-   N/7fcFCAox4QPqPXX1bGr5ApN6L6Lm6vxNw3SZCCBzTcizEe4OoA/qSzX
-   nJ12cmcky1X3k77cV/3E8iF94p+1Y1kX1DQuaOBh1CW0MLf9NELoRJ8Kr
-   A==;
-X-CSE-ConnectionGUID: sEbuFGLpSSaswWCdDh8SsA==
-X-CSE-MsgGUID: oqL0Y7Z/RgSSjXtA7BW7dQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="228271195"
+  bh=zlRG0QoSlqE8cGZrj5tkVcc6DP1Dyq+z8NjQA7MscqE=;
+  b=AO7liny9/OmOf0dTbzeVhFTqTqgmk/ozMpuNjy0b7V9nNPtllokdLm2E
+   uWUS7NpSnRE6pZBihV5AdAYybRoKN9GG8K+9PxEjJy5CZnTFLF6ZhraWS
+   xPtqVRLu6aFGEWe+tSCGCGVIYcwZn9yEgm4o/RlW5BMnrCY7ZAJCfuruK
+   tAhR1gAS5rlaOdz0gxp/h0n2kKE9Ruj2tVa6tLc1QJLXEua1iCIpGAZwD
+   3H6WwUPow3WeXY6UziXAT8aJSuDgV7DL/Wfk+16xOWzNFmW345KQTdfFt
+   rOZrsIdmBT77A+3KMeQv6nsMHw8mAORGIKBVKYl6/lwne5AI4MB5IGNeF
+   w==;
+X-CSE-ConnectionGUID: xyP+JL1yRXmKU3Z+kMcBJg==
+X-CSE-MsgGUID: TblYzkIoS5SycvMFPJhlPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="224937042"
 X-IronPort-AV: E=Sophos;i="6.21,188,1763391600"; 
-   d="scan'208";a="228271195"
-Received: from unknown (HELO az2uksmgr3.o.css.fujitsu.com) ([52.151.125.19])
-  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 18:17:40 +0900
-Received: from az2uksmgm1.o.css.fujitsu.com (unknown [10.151.22.198])
+   d="scan'208";a="224937042"
+Received: from unknown (HELO az2uksmgr1.o.css.fujitsu.com) ([52.151.125.128])
+  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 18:17:44 +0900
+Received: from az2uksmgm4.o.css.fujitsu.com (unknown [10.151.22.201])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2uksmgr3.o.css.fujitsu.com (Postfix) with ESMTPS id 92E951002B82
-	for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 09:17:39 +0000 (UTC)
+	by az2uksmgr1.o.css.fujitsu.com (Postfix) with ESMTPS id 7D7031C1C701
+	for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 09:17:44 +0000 (UTC)
 Received: from az2nlsmom2.o.css.fujitsu.com (az2nlsmom2.o.css.fujitsu.com [10.150.26.200])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2uksmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 36CCE8D72DC
-	for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 09:17:39 +0000 (UTC)
+	by az2uksmgm4.o.css.fujitsu.com (Postfix) with ESMTPS id 307EB1400381
+	for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 09:17:44 +0000 (UTC)
 Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.193.128.34])
-	by az2nlsmom2.o.css.fujitsu.com (Postfix) with ESMTP id 885391800587;
-	Tue, 30 Dec 2025 09:17:36 +0000 (UTC)
+	by az2nlsmom2.o.css.fujitsu.com (Postfix) with ESMTP id 9D95C1800594;
+	Tue, 30 Dec 2025 09:17:41 +0000 (UTC)
 From: Wang Mingyu < wangmy@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 05/12] ell: upgrade 0.80 -> 0.81
-Date: Tue, 30 Dec 2025 17:17:06 +0800
-Message-ID: <20251230091714.1501-5-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 08/12] quota: upgrade 4.10 -> 4.11
+Date: Tue, 30 Dec 2025 17:17:09 +0800
+Message-ID: <20251230091714.1501-8-wangmy@fujitsu.com>
 X-Mailer: git-send-email 2.49.0.windows.1
 In-Reply-To: <20251230091714.1501-1-wangmy@fujitsu.com>
 References: <20251230091714.1501-1-wangmy@fujitsu.com>
@@ -61,32 +61,87 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 09:17:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228647
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228650
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
+0001-setproject-Fix-openWRT-build.patch
+removed since it's included in 4.11
+
 Changelog:
-  Fix issue with systemd watchdog protocol handling.
+============
+* rquota_server: Fix group presence checking
+* Drop support for V0 and V1 kernel interfaces
+* Drop support for old quotactl(2) syscall
+* Provide quotactl_mnt() helper and use it where possible
+* quotaon: Fix handling of filesystems without single device
+* setproject: Fix openWRT build
+* setproject: fix openat() call
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-core/ell/{ell_0.80.bb => ell_0.81.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/ell/{ell_0.80.bb => ell_0.81.bb} (88%)
+ .../0001-setproject-Fix-openWRT-build.patch   | 30 -------------------
+ .../quota/{quota_4.10.bb => quota_4.11.bb}    |  6 ++--
+ 2 files changed, 2 insertions(+), 34 deletions(-)
+ delete mode 100644 meta/recipes-extended/quota/quota/0001-setproject-Fix-openWRT-build.patch
+ rename meta/recipes-extended/quota/{quota_4.10.bb => quota_4.11.bb} (87%)
 
-diff --git a/meta/recipes-core/ell/ell_0.80.bb b/meta/recipes-core/ell/ell_0.81.bb
-similarity index 88%
-rename from meta/recipes-core/ell/ell_0.80.bb
-rename to meta/recipes-core/ell/ell_0.81.bb
-index 90474dadae..f9b702531a 100644
---- a/meta/recipes-core/ell/ell_0.80.bb
-+++ b/meta/recipes-core/ell/ell_0.81.bb
-@@ -15,4 +15,4 @@ DEPENDS = "dbus"
- inherit autotools pkgconfig
+diff --git a/meta/recipes-extended/quota/quota/0001-setproject-Fix-openWRT-build.patch b/meta/recipes-extended/quota/quota/0001-setproject-Fix-openWRT-build.patch
+deleted file mode 100644
+index 8ca3d9f773..0000000000
+--- a/meta/recipes-extended/quota/quota/0001-setproject-Fix-openWRT-build.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 41ba7031ca4852739dd1f66102d34e4a98490906 Mon Sep 17 00:00:00 2001
+-From: Jan Kara <jack@suse.cz>
+-Date: Tue, 1 Jul 2025 15:41:56 +0200
+-Subject: [PATCH] setproject: Fix openWRT build
+-
+-basename() needs libgen.h include in openWRT build environment. Add it.
+-
+-Reported-by: "W. Michael Petullo" <mike@flyn.org>
+-Signed-off-by: Jan Kara <jack@suse.cz>
+-
+-Upstream-Status: Backport [https://sourceforge.net/p/linuxquota/code/ci/41ba7031ca4852739dd1f66102d34e4a98490906/]
+-
+-This also fixes the build in Yocto.
+-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+----
+- setproject.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/setproject.c b/setproject.c
+-index e688dcd..4308435 100644
+---- a/setproject.c
+-+++ b/setproject.c
+-@@ -13,6 +13,7 @@
+- #include <sys/stat.h>
+- #include <sys/types.h>
+- #include <unistd.h>
+-+#include <libgen.h>
+- 
+- #include <linux/fs.h>
+- 
+diff --git a/meta/recipes-extended/quota/quota_4.10.bb b/meta/recipes-extended/quota/quota_4.11.bb
+similarity index 87%
+rename from meta/recipes-extended/quota/quota_4.10.bb
+rename to meta/recipes-extended/quota/quota_4.11.bb
+index 8f9e4fdf34..b386071961 100644
+--- a/meta/recipes-extended/quota/quota_4.10.bb
++++ b/meta/recipes-extended/quota/quota_4.11.bb
+@@ -7,10 +7,8 @@ LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://rquota_server.c;beginline=1;endline=20;md5=fe7e0d7e11c6f820f8fa62a5af71230f \
+                     file://svc_socket.c;beginline=1;endline=17;md5=24d5a8792da45910786eeac750be8ceb"
  
- SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "6efc70ae6d3e2ca1ec255ecd855a3d5fadefe59897f4307816e3ba7a771f3d00"
-+SRC_URI[sha256sum] = "672ca1e44dc0ddce1665941754b4e2b3b9203481d7d7a60e0b5f39829d73fa14"
+-SRC_URI = "${SOURCEFORGE_MIRROR}/project/linuxquota/quota-tools/${PV}/quota-${PV}.tar.gz \
+-           file://0001-setproject-Fix-openWRT-build.patch \
+-           "
+-SRC_URI[sha256sum] = "a04a0cafca29c15be8b6ac660e06188bccb802c19efe2e7c19ed7f3d667ecf5e"
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/linuxquota/quota-tools/${PV}/quota-${PV}.tar.gz"
++SRC_URI[sha256sum] = "0a51b8f920254d8e83c34a4c3082b7d241f5d6fd65188afadf29859d5223ef78"
+ 
+ CVE_PRODUCT = "linux_diskquota"
+ 
 -- 
 2.43.0
 
