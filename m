@@ -1,161 +1,144 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8D81EE57C6
-	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 20:12:55 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.71925.1767125571068232179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04136EE57C2
+	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 20:54:36 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.72755.1767128069054355138
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Dec 2025 12:12:51 -0800
+ Tue, 30 Dec 2025 12:54:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jqV8EUjW;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-29f102b013fso127804135ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 12:12:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767125570; x=1767730370; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=n1evRFCdebDLwG4dmUqcsg96Sz9dh/EfHpusU6+zFRc=;
-        b=jqV8EUjWa78YeEjnhbiy82WWeSnn0lf1r8azdhPgdlf1fxahg0ewhh70J/Nz/AIZZe
-         km9VqqXDwdy6q1HTKrfaHSjVpA47VScfjc6VlfZeGtYj0iL/hPUJaf0L3DVRZmMXBs+V
-         TNLTq6fa7bNyw7mE0sihQRQjShrUR+k7+mSJcY49oWcqkS8OEFYURSLdt7M/GsY11HY7
-         DjitVaJVr28/kf2a5W3dRZhHGN5hDus85MrxbBZ+DTVDMtOJsHROgIw2V2/iI9tEltHl
-         WPBpicIhRmhGvHOu/DYHGls7jVa2ypGyZEko/borM4KzCphvScIHKhsojktQAZ5KVuMU
-         CXww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767125570; x=1767730370;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=n1evRFCdebDLwG4dmUqcsg96Sz9dh/EfHpusU6+zFRc=;
-        b=cz7/SXszmCNH2I36/4iV34ilxE/5QCZehK4Murn9imCmOvfA71uyUxPRw+gWlm9aH3
-         3fqXK4t1B7vzc6bf6ui0yZnxTfwzLjW3Uc4tOV0F+rPuUk7aKoUlSBPOfXnIbTLyFfAD
-         M9QuggHzdWSVoGofFC3giBFl9o9576CACEt6Wv5WcEV9Z77fvSC15+Tx9pOEgiQzNlfO
-         uL6jOnADBM5g+hP+F0IS6Ja1AC1lZdC9CY1RmqrShdmThe1gqx5nyURUBxRfDgumnWTT
-         Iqn3BBw+2CHL5IwVgMbqHljnKim7rw7EKhHVVQyU/yKhTR7/zDrUbV2m4Q1r6UmfiwHh
-         2Myw==
-X-Gm-Message-State: AOJu0YwB3SUYNZaJN0mDJAZGjdyMy9jn8XAKmxCa7Fzuh1ngldntkXJh
-	duZWY3p9Hq+bPz/iFLlVRpqVXzwV+j4bEBYBnNEa9Tej9fzEUahHMRW4YK0/eCoHoFE8pN+G0vj
-	tSWFx
-X-Gm-Gg: AY/fxX7r6/Uma+3k0ywdn5dpy1kM9U9eVirii7L6fHJv/0IBDLRYVQJAxiJexnHzMq3
-	1ujOOkqQg3iXaYeP+ZHR/v4yUjDdbVrf+WLjlIa3+EhnwMcjaWYX2F5KHAeFpMMt82L92kw73F4
-	3IA7vemgWyFEppPZMZf47VuU0QhHQOh/F9MCB7FIz8V9kIkNtpN1NWA53y/J/MSgfOWF6ouDZRJ
-	NKNPLVYsdts/eVR1D7Eie4U1Ytg2nTbYuackJNmgIOUhEeD0AJNyk2Z+I9vvUXSNtf6ozHA3LdK
-	ZQ2/+tWSKfD7J1wycbGwCqjjqbyjVJCFSiT2deEZasSQFfwhY08sldHcWu7uCPb+YzE6n8V8P8W
-	g1UDv9aJaCt9UnDRoJdLUrw+wK+l89v/vdIQmdZECAZgLPB1qtfR+14ixivqwdnhqUld9dBtLqq
-	XVWQ==
-X-Google-Smtp-Source: AGHT+IHK7FFBo5dOjxUh4RjaZ3BF6/VkilwuaiKXEGB4v09iiWpEY6Q7/sxolRgvNGWaU++2K79XHg==
-X-Received: by 2002:a17:903:228b:b0:24e:3cf2:2453 with SMTP id d9443c01a7336-2a2f2c56453mr330581865ad.61.1767125570144;
-        Tue, 30 Dec 2025 12:12:50 -0800 (PST)
-Received: from hexa.. ([2602:feb4:3b:2100:501f:80a7:5971:3e87])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c83325sm310391365ad.34.2025.12.30.12.12.49
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Dec 2025 12:12:49 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=gs71q8dJ;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202512302054251eafd9ac860002075a-qq5gsj@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202512302054251eafd9ac860002075a
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 30 Dec 2025 21:54:26 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=wFXA7iEfZHOP7VXHvgKN9Sor/NHTgQyO97gi7qmnQtc=;
+ b=gs71q8dJwN9068jfEchThJ++K9YkUG4nRJC1+y7ETODKBBMbxTQk+YwBVrluGbXQRQlKkk
+ 0JW2j5yS0CpYRG4i2Wj9pyAg+6OpyRmY840NF8v5Q4h46FahIXfTaV8BqGg5usR8/RtErn+V
+ pTBVCUrqK8Wxo7aoCtZAR/c1oAPqaHisp/GHsl2oLaxC1vLkeXxXAoZ7QV6bl9fYpVi7e50X
+ JF9UC3XOYkDTD9BS3QyWOyU1Zy/rNJJ7AFRozweAVn42sN3DQFXMeSC+NPqQfpph/EKeGaCh
+ O5F3/jg+7z6X3bWCWdcWXMsP4qwG7Hx+KtUTRuKcpyQGw6JvNYnooq8Q==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 26/29] e2fsprogs: misc/create_inode.c: Fix for file larger than 2GB
-Date: Tue, 30 Dec 2025 12:11:56 -0800
-Message-ID: <673aaba93985f781ed78f703128f1b8b93fb1ff9.1767106395.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1767106395.git.steve@sakoman.com>
-References: <cover.1767106395.git.steve@sakoman.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] util-linux: patch CVE-2025-14104
+Date: Tue, 30 Dec 2025 21:54:12 +0100
+Message-Id: <20251230205412.3095904-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 20:12:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228718
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 20:54:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228722
 
-From: Robert Yang <liezhi.yang@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Fixed:
-$ dd if=/dev/zero of=../image.ext4 bs=1M count=4k
-$ dd if=/dev/random of=../rootfs/largefile bs=1M count=3k
-$ ./misc/mke2fs -t ext4 -d ../rootfs/ ../image.ext4
-__populate_fs: Ext2 file too big while writing file "largefile"
-mke2fs: Ext2 file too big while populating file system
+Pick patches per [1].
 
-This was because the offset is overflow, use __u64 to fix the problem.
+[1] https://security-tracker.debian.org/tracker/CVE-2025-14104
 
-Another code which uses ext2_off_t is copy_fs_verity_data(), but it only copies
-the metadata, so it should be enough large for it, just leave it there.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 683a1e773899f3042458604b3f136861318c1028)
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- ...inode.c-Fix-for-file-larger-than-2GB.patch | 40 +++++++++++++++++++
- .../e2fsprogs/e2fsprogs_1.47.3.bb             |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-Fix-for-file-larger-than-2GB.patch
+ meta/recipes-core/util-linux/util-linux.inc   |  2 ++
+ .../util-linux/CVE-2025-14104-01.patch        | 33 +++++++++++++++++++
+ .../util-linux/CVE-2025-14104-02.patch        | 28 ++++++++++++++++
+ 3 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2025-14104-02.patch
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-Fix-for-file-larger-than-2GB.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-Fix-for-file-larger-than-2GB.patch
-new file mode 100644
-index 0000000000..1c578022fb
---- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-Fix-for-file-larger-than-2GB.patch
-@@ -0,0 +1,40 @@
-+From 6359e0ec8ef249d202dbb8583a6e430f20c5b1a0 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Sun, 30 Nov 2025 21:47:50 +0800
-+Subject: [PATCH] misc/create_inode.c: Fix for file larger than 2GB
-+
-+Fixed:
-+$ dd if=/dev/zero of=../image.ext4 bs=1M count=4k
-+$ dd if=/dev/random of=../rootfs/largefile bs=1M count=3k
-+$ ./misc/mke2fs -t ext4 -d ../rootfs/ ../image.ext4
-+__populate_fs: Ext2 file too big while writing file "largefile"
-+mke2fs: Ext2 file too big while populating file system
-+
-+This was because the offset is overflow, use __u64 to fix the problem.
-+
-+Another code which uses ext2_off_t is copy_fs_verity_data(), but it only copies
-+the metadata, so it should be enough large for it, just leave it there.
-+
-+Upstream-Status: Submitted [https://github.com/tytso/e2fsprogs/pull/258]
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ misc/create_inode.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/misc/create_inode.c b/misc/create_inode.c
-+index 624efc03..14273534 100644
-+--- a/misc/create_inode.c
-++++ b/misc/create_inode.c
-+@@ -414,7 +414,7 @@ static ssize_t my_pread(int fd, void *buf, size_t count, off_t offset)
-+ }
-+ #endif /* !defined HAVE_PREAD64 && !defined HAVE_PREAD */
-+ 
-+-static errcode_t write_all(ext2_file_t e2_file, ext2_off_t off, const char *buf, unsigned int n_bytes) {
-++static errcode_t write_all(ext2_file_t e2_file, __u64 off, const char *buf, unsigned int n_bytes) {
-+ 	errcode_t err = ext2fs_file_llseek(e2_file, off, EXT2_SEEK_SET, NULL);
-+ 	if (err)
-+ 		return err;
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.3.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.3.bb
-index 9b5c4dfde5..40658399d9 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.3.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.3.bb
-@@ -4,6 +4,7 @@ SRC_URI += "file://remove.ldconfig.call.patch \
-            file://run-ptest \
-            file://ptest.patch \
-            file://mkdir_p.patch \
-+           file://0001-misc-create_inode.c-Fix-for-file-larger-than-2GB.patch \
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index ccab4b17f41..4797682c5d5 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -44,6 +44,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://CVE-2024-28085-0002.patch \
+ 	   file://fstab-isolation.patch \
+            file://sys-utils-hwclock-rtc-fix-pointer-usage.patch \
++           file://CVE-2025-14104-01.patch \
++           file://CVE-2025-14104-02.patch \
             "
- SRC_URI:append:class-native = " \
-            file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
--- 
-2.43.0
-
+ 
+ SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch b/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch
+new file mode 100644
+index 00000000000..23677345c94
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch
+@@ -0,0 +1,33 @@
++From aaa9e718c88d6916b003da7ebcfe38a3c88df8e6 Mon Sep 17 00:00:00 2001
++From: Mohamed Maatallah <hotelsmaatallahrecemail@gmail.com>
++Date: Sat, 24 May 2025 03:16:09 +0100
++Subject: [PATCH] Update setpwnam.c
++
++CVE: CVE-2025-14104
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/aaa9e718c88d6916b003da7ebcfe38a3c88df8e6]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ login-utils/setpwnam.c | 10 ++++++----
++ 1 file changed, 6 insertions(+), 4 deletions(-)
++
++diff --git a/login-utils/setpwnam.c b/login-utils/setpwnam.c
++index 3e3c1abde..95e470b5a 100644
++--- a/login-utils/setpwnam.c
+++++ b/login-utils/setpwnam.c
++@@ -126,10 +126,12 @@ int setpwnam(struct passwd *pwd, const char *prefix)
++ 		}
++ 
++ 		/* Is this the username we were sent to change? */
++-		if (!found && linebuf[namelen] == ':' &&
++-		    !strncmp(linebuf, pwd->pw_name, namelen)) {
++-			/* Yes! So go forth in the name of the Lord and
++-			 * change it!  */
+++		if (!found &&
+++		    strncmp(linebuf, pwd->pw_name, namelen) == 0 &&
+++		    strlen(linebuf) > namelen &&
+++		    linebuf[namelen] == ':') {
+++			/* Yes! But this time let’s not walk past the end of the buffer
+++			 * in the name of the Lord, SUID, or anything else. */
++ 			if (putpwent(pwd, fp) < 0)
++ 				goto fail;
++ 			found = 1;
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-02.patch b/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-02.patch
+new file mode 100644
+index 00000000000..9d21db27436
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-02.patch
+@@ -0,0 +1,28 @@
++From 9a36d77012c4c771f8d51eba46b6e62c29bf572a Mon Sep 17 00:00:00 2001
++From: Mohamed Maatallah <hotelsmaatallahrecemail@gmail.com>
++Date: Mon, 26 May 2025 10:06:02 +0100
++Subject: [PATCH] Update bufflen
++
++Update buflen
++
++CVE: CVE-2025-14104
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/9a36d77012c4c771f8d51eba46b6e62c29bf572a]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ login-utils/setpwnam.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/login-utils/setpwnam.c b/login-utils/setpwnam.c
++index 95e470b5a..7778e98f7 100644
++--- a/login-utils/setpwnam.c
+++++ b/login-utils/setpwnam.c
++@@ -99,7 +99,8 @@ int setpwnam(struct passwd *pwd, const char *prefix)
++ 		goto fail;
++ 
++ 	namelen = strlen(pwd->pw_name);
++-
+++	if (namelen > buflen)
+++		buflen += namelen;
++ 	linebuf = malloc(buflen);
++ 	if (!linebuf)
++ 		goto fail;
 
