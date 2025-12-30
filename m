@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04136EE57C2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 027C4EE57C1
 	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 20:54:36 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.72755.1767128069054355138
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.72566.1767128069226221131
  for <openembedded-core@lists.openembedded.org>;
  Tue, 30 Dec 2025 12:54:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=gs71q8dJ;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202512302054251eafd9ac860002075a-qq5gsj@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202512302054251eafd9ac860002075a
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=J+tAUo9A;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202512302054274606d4850900020782-r1du_l@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202512302054274606d4850900020782
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 30 Dec 2025 21:54:26 +0100
+        Tue, 30 Dec 2025 21:54:27 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=wFXA7iEfZHOP7VXHvgKN9Sor/NHTgQyO97gi7qmnQtc=;
- b=gs71q8dJwN9068jfEchThJ++K9YkUG4nRJC1+y7ETODKBBMbxTQk+YwBVrluGbXQRQlKkk
- 0JW2j5yS0CpYRG4i2Wj9pyAg+6OpyRmY840NF8v5Q4h46FahIXfTaV8BqGg5usR8/RtErn+V
- pTBVCUrqK8Wxo7aoCtZAR/c1oAPqaHisp/GHsl2oLaxC1vLkeXxXAoZ7QV6bl9fYpVi7e50X
- JF9UC3XOYkDTD9BS3QyWOyU1Zy/rNJJ7AFRozweAVn42sN3DQFXMeSC+NPqQfpph/EKeGaCh
- O5F3/jg+7z6X3bWCWdcWXMsP4qwG7Hx+KtUTRuKcpyQGw6JvNYnooq8Q==;
+ bh=k8XjVV7CC95ep8u0CaNv4Z1x3sIHRu+9tTRMoCELa3c=;
+ b=J+tAUo9AcjLNn8AWTRsz5PY8Tp0rbYTOPgEEK1aiurg8oNviI9Nr8rcHdi23JiEN93bJeX
+ Mz52YWVZMXMHhq3NksAf4vRcgfCEuTDIIxBPIRXERlV8rgf5OB8T3bVSNLqPn9uIgJ3ZMu8r
+ ramOiGOO3DachmF8cY0wSAnrsFbvkHbeCY26r4nHChJ9p/oYJ4WLwLyAkOeA7reaF6krpIoc
+ Q3Q2wGA9Ds7g6Vmwb1NqvOe1Y773bDI7Ve3KWbx9rsM/zSv0Fn65CVRTSncyGhYRwYQSa7Zz
+ eqNy/o8H90JUOZhGhGCvq1l0CbEclxIHTwPYWIIXTZeTb54toH1/ZH9w==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] util-linux: patch CVE-2025-14104
-Date: Tue, 30 Dec 2025 21:54:12 +0100
-Message-Id: <20251230205412.3095904-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] util-linux: patch CVE-2025-14104
+Date: Tue, 30 Dec 2025 21:54:20 +0100
+Message-Id: <20251230205420.3095915-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -38,7 +38,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 20:54:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228722
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228723
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -56,18 +56,18 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
  create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2025-14104-02.patch
 
 diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index ccab4b17f41..4797682c5d5 100644
+index c62c6d70c34..a8b505a1225 100644
 --- a/meta/recipes-core/util-linux/util-linux.inc
 +++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -44,6 +44,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://CVE-2024-28085-0002.patch \
+@@ -42,6 +42,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://CVE-2024-28085-0004.patch \
+            file://CVE-2024-28085-0005.patch \
  	   file://fstab-isolation.patch \
-            file://sys-utils-hwclock-rtc-fix-pointer-usage.patch \
 +           file://CVE-2025-14104-01.patch \
 +           file://CVE-2025-14104-02.patch \
             "
  
- SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
+ SRC_URI[sha256sum] = "634e6916ad913366c3536b6468e7844769549b99a7b2bf80314de78ab5655b83"
 diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch b/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch
 new file mode 100644
 index 00000000000..23677345c94
