@@ -2,144 +2,203 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3592AEE4999
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 311F1EE499F
 	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 20:12:15 +0000 (UTC)
 Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.71727.1767125532132882667
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.71726.1767125530673793483
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Dec 2025 12:12:12 -0800
+ Tue, 30 Dec 2025 12:12:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=nJ57aYTu;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DeV0ADZm;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-29f102b013fso127799985ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 12:12:12 -0800 (PST)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a0b4320665so156957115ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 12:12:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767125531; x=1767730331; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rec4WPGnoo4jGmF4FVOJFacBw46GhBQpm7BORxIhgwo=;
-        b=nJ57aYTuCgmEcGNS5yAG17bVbCEvl/jFMrW/bdxPv+uB2sjKiOFukbGWvYjuQgJ6Lo
-         yuv8qP9v43JWbMqy9huUDIwI/IGdeFrDBijItvXUMMWdEq4nsmSoZDvUlpjmxgmeNBFC
-         1W7l//aFF97NossMh25qpEKbsmJfOeN8S1C4BqNfxuj6tMmvTwDI9Y0yFFe2ki6L+G8i
-         6n1+YEubxwbVW0JBGIa/P22ERf+DvIq3+rsnzAGEPT9hREzyfje7pnlFdmz1H+5AlsoD
-         5O0Tns5MJvMFX9dZygXQ4TNLI2wzg5UZhQhV8wIBeH/C+WUkvcMmX5HbkZX/z0YHb4st
-         ZYDQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767125530; x=1767730330; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3iVxcIOZOtHxGuYUITNgD8uwVohzs/xzi1u6FyhiUaM=;
+        b=DeV0ADZm/cSDvSQbPEvNApWB9LWrPrzWYR6lGphaNwEYCq66up9ULIcCQCMbYPBDn2
+         lrJSyO4niJ3H/z5o99/9FTuv0jmZbjVeLaMY/2cHeRTymCmCQa/8Qqi0yRWwAKGzt/mr
+         lVsiNFLi4n+K5renHY3vb7qctI7QvjfphAp+cAH2CX0WnVM05xectKcf23EKjQFekiSP
+         eNr41cJ/QYQb2W5A1cehlbB4CP/xp9AdtH9CLKzgc/TuuAr7Xz8pY/j6tBdIZGh8EbZ0
+         5SwT0vOXsxrdas2MPWx6i2MXZv7UxuAtChrZviEVPKFLq1LPMoRhshJrWAmjCMr9JJ8M
+         wNDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767125531; x=1767730331;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rec4WPGnoo4jGmF4FVOJFacBw46GhBQpm7BORxIhgwo=;
-        b=VkzJkYqzXKyjMaPgzhqnJSJv/ktvHnbW2i2b/vQr1uIRi8v/c28CxRRXFtG/vi9Orq
-         ubOschwr+1tvI3KFcSYguGCFRN24BLI/QKIKNUjcxk7zSepq8Sj5d8DuBOLE7PXEiKIX
-         0LuhCVE/hB82Lp1f2ARbIMZ9I0aW7owAmS3ovFJgUdEwkJzhSzXSgRGMChdoU1K1b28i
-         REGQ7fcPC4gsQwuEPr49fP0PTdVB1vkzvCw8a9CapskgicqYYv49RhgwAGEhkKJpsHlW
-         r9y+dA0pWS73JIQB7MymOAEWHM+fhS9zkDb0lQDPBprot1rC3NuN7pbnYHPNnlPUx51e
-         2lzw==
-X-Gm-Message-State: AOJu0YzpzyTsgEtLEscvNQmeIMatCDQG8HRJQ6f0ucs5kKGPeVmUqXxy
-	HTmukTrkC8iPcClK+bnK31lGDaZotRBkv2hhmZfaLOas4Ig7JSqC0kmRdwvTRRXHRX2VFzeqFju
-	HhPZ/
-X-Gm-Gg: AY/fxX7xijShwUVyJAiAUDFEdX1b8Rza8+bW5zVuLsGFLzriA+jpnQ8RW+4f+GYuckt
-	hioRLvBEKcinHhcJPTCkxUynEFT7qa7ykTlomrUQqAjY9a4LjdiQ9ZQjhszFPPcPJg7ut60TRCN
-	aFcbksLNVGF9S1X/yzM5v4OCvVku0n1B0+ZY+NTn9ZK24UFz9fBC53Irx5/YiQ3HX8JxLE3D/1S
-	Sg1XgyGE7mPoAkfxN28zma9iQ83F/LzHVsH3hX53AMj/dGTOrrU964oup+qb8KKpCU0Q//7By0c
-	lNxnrKSQHAnC2qzWGcZqIM/F8S3rvd0Eie00H/M3k43zYgguX7hnMIBOHocLZT99eOgNUnsSZFc
-	l+nGrOHwFDbQHO1HeCXpokiZpN0sISkUU+W7PSX8exI9m6ZvX19eWjww7WMAAObSTrohKjWt89h
-	y4b83CSnR4bS/4
-X-Google-Smtp-Source: AGHT+IG1RIj6leqskXLwwdUV4m5xo5+7V2c2Nf3vU/auUh94vnl7lWkVh/jP3RTC9HzLykteLbRt5w==
-X-Received: by 2002:a17:902:ce87:b0:24b:24dc:91a7 with SMTP id d9443c01a7336-2a2f2a34f6amr313477295ad.45.1767125531305;
-        Tue, 30 Dec 2025 12:12:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767125530; x=1767730330;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3iVxcIOZOtHxGuYUITNgD8uwVohzs/xzi1u6FyhiUaM=;
+        b=O9hsjQpOg7UDhgGPAjk93N6vYEg5Hsdcr/UuO/C+QDiAuvbfI4Unxi/x9FzvgZCA2J
+         pKPZy+uBQG5/X4CmoJmXmG9LNybkv4pPdbtIgsQ3UaCmI/yT2leBdh+FJXzDbPfiJobd
+         VGq8P+7KdNS2WAG9R4EIo+HuDB/u9GQp/cilvF8LVRFRPTUjrGd7nSkDteWKiB/4y5+g
+         vW3rahtt0sRKSEphrWbY9vy1JvJQm6n7LRcm8R74T3sOAbSxeJHwYfWGg0ifTg+DTIUT
+         jIUD/GDYLH4sAjyCCJnB3ew4MWV3yre1ZGLgkIx2F6JZ2JtcJGCllnCu3PUpoOoduSbw
+         FDZw==
+X-Gm-Message-State: AOJu0YxxZzJ5+hOISecZ0mk+hydCXeCf8PUQaUPXCXE8JayzSGb+c2Vv
+	5RftjuvhNOUGagyJR82Xdl9MFZVFM+kJv86/HAR7gNoqO44T4qG55aEg+9KFJA2cj+lsG66uMky
+	5zL7h
+X-Gm-Gg: AY/fxX4K4hz9CRdbd6GnKslUbytDWq0mNjDyKjeB94mJZhEzW8nhAv7DLPk1SxBIiEc
+	cv7p8LUkhjx31SNw3Qh5JtssuzQuHTm1TmNAsG94P97WzQh4MexcKy53eAqZVtIcoO1KLYZDTi3
+	U8Z/UoZ8pCtSEbL/U6TjYFX43rI2KEYv0XozyG/d5NZyH4xVzg33Yu0BBa5smF1p3Wi6lIX1n7r
+	z7rDiyeHa8hTEeBITDqVI/YlV9wCkpa2Jysg26ohWDEFOzC3cWPNlxl3IUhOFVr7/l0tcLhvOV5
+	EtxS5hH3rli9W94joZoyZRx9MJfN0NdtGJV3qW9Tv+u5veYf02PeuL35ZGp8yLFe5rytBolqhh0
+	/XbBeLVZV3ZANsEpNopB6tx9svirMEERrp+nLsIZo+Sib+dUgcVMxngB/s/Hly7mNQ8P6DigAfM
+	16Sw==
+X-Google-Smtp-Source: AGHT+IE1sAdtc3BjCVawNf350xQZpbm9ELrXUfNcI0kPz4JVJdNgiW9UGIt56ZB/h2nT717Kw8VZuw==
+X-Received: by 2002:a17:903:1105:b0:2a0:cb8d:2ed8 with SMTP id d9443c01a7336-2a2f2a35873mr349971785ad.30.1767125529539;
+        Tue, 30 Dec 2025 12:12:09 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:501f:80a7:5971:3e87])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c83325sm310391365ad.34.2025.12.30.12.12.10
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c83325sm310391365ad.34.2025.12.30.12.12.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Dec 2025 12:12:10 -0800 (PST)
+        Tue, 30 Dec 2025 12:12:09 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 01/29] binutils: fix CVE-2025-11839
-Date: Tue, 30 Dec 2025 12:11:31 -0800
-Message-ID: <ecc391d6b73545d45a9c5b8004c2ecbdb7d939dc.1767106395.git.steve@sakoman.com>
+Subject: [OE-core][whinlatter 00/29] Patch review
+Date: Tue, 30 Dec 2025 12:11:30 -0800
+Message-ID: <cover.1767106395.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1767106395.git.steve@sakoman.com>
-References: <cover.1767106395.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 20:12:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228693
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228692
 
-From: Yash Shinde <Yash.Shinde@windriver.com>
+Please review this set of changes for whinlatter and have comments back by
+end of day Monday January 5
 
-CVE-2025-11839
+Passed a-full on autobuilder:
 
-PR 33448
-[BUG] Aborted in tg_tag_type at prdbg.c:2452
-Remove call to abort in the DGB debug format printing code, thus allowing
-the display of a fuzzed input file to complete without triggering an abort.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2960
 
-https://sourceware.org/bugzilla/show_bug.cgi?id=33448
+The following changes since commit 9964fa3da2fa1e7243fba1a826e59f7bb1813706:
 
-Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=12ef7d5b7b02d0023db645d86eb9d0797bc747fe]
+  populate_sdk_ext: keep SDK_TARGETS so SPDX/SBOM tasks remain in locked sigs (2025-12-18 13:11:45 -0800)
 
-Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../binutils/binutils-2.45.inc                |  1 +
- .../binutils/0019-CVE-2025-11839.patch        | 32 +++++++++++++++++++
- 2 files changed, 33 insertions(+)
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/whinlatter-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/whinlatter-nut
+
+Ankur Tyagi (4):
+  gnutls: patch CVE-2025-9820
+  sqlite3: patch CVE-2025-3277
+  sqlite3: patch CVE-2025-6965
+  libxmlb: upgrade 0.3.23 -> 0.3.24
+
+Chen Qi (1):
+  cups: upgrade from 2.4.14 to 2.4.15
+
+Deepesh Varatharajan (2):
+  llvm/clang: Upgrade to 21.1.6 release
+  llvm/clang: Upgrade to 21.1.7 release
+
+Dmitry Baryshkov (1):
+  mesa: upgrade 25.2.5 -> 25.2.8
+
+Gyorgy Sarvari (1):
+  enchant2: upgrade 2.8.12 -> 2.8.14
+
+Jörg Sommer (1):
+  glib-2.0: Upgrade 2.86.0 -> 2.86.1
+
+Peter Marko (1):
+  libarchive: upgrade 3.8.2 -> 3.8.3
+
+Robert Yang (2):
+  e2fsprogs: misc/create_inode.c: Fix for file larger than 2GB
+  ccache: 4.12.1 -> 4.12.2
+
+Wang Mingyu (13):
+  ell: upgrade 0.79 -> 0.80
+  gst-devtools: upgrade 1.26.5 -> 1.26.7
+  gst-examples: upgrade 1.26.5 -> 1.26.7
+  gstreamer1.0-libav: upgrade 1.26.5 -> 1.26.7
+  gstreamer1.0-plugins-bad: upgrade 1.26.5 -> 1.26.7
+  gstreamer1.0-plugins-base: upgrade 1.26.5 -> 1.26.7
+  gstreamer1.0-plugins-good: upgrade 1.26.5 -> 1.26.7
+  gstreamer1.0-plugins-ugly: upgrade 1.26.5 -> 1.26.7
+  gstreamer1.0-python: upgrade 1.26.5 -> 1.26.7
+  gstreamer1.0-rtsp-server: upgrade 1.26.5 -> 1.26.7
+  gstreamer1.0: upgrade 1.26.5 -> 1.26.7
+  gstreamer1.0-vaapi: upgrade 1.26.5 -> 1.26.7
+  ccache: upgrade 4.12 -> 4.12.1
+
+Yash Shinde (2):
+  binutils: fix CVE-2025-11839
+  binutils: fix CVE-2025-11840
+
+Zhang Peng (1):
+  libpng: upgrade 1.6.50 -> 1.6.51
+
+ meta/conf/distro/include/maintainers.inc      |   4 +-
+ .../ell/{ell_0.79.bb => ell_0.80.bb}          |   2 +-
+ ...l_2.86.0.bb => glib-2.0-initial_2.86.1.bb} |   0
+ ...{glib-2.0_2.86.0.bb => glib-2.0_2.86.1.bb} |   0
+ meta/recipes-core/glib-2.0/glib.inc           |   2 +-
+ .../binutils/binutils-2.45.inc                |   2 +
+ .../binutils/0019-CVE-2025-11839.patch        |  32 +++
+ .../binutils/0020-CVE-2025-11840.patch        |  37 +++
+ .../{ccache_4.12.bb => ccache_4.12.2.bb}      |   2 +-
+ meta/recipes-devtools/clang/common-clang.inc  |   2 +-
+ meta/recipes-devtools/clang/common.inc        |   2 +-
+ ...inode.c-Fix-for-file-larger-than-2GB.patch |  40 +++
+ .../e2fsprogs/e2fsprogs_1.47.3.bb             |   1 +
+ .../cups/{cups_2.4.14.bb => cups_2.4.15.bb}   |   2 +-
+ ...ibarchive_3.8.2.bb => libarchive_3.8.3.bb} |   2 +-
+ .../{libxmlb_0.3.23.bb => libxmlb_0.3.24.bb}  |   2 +-
+ meta/recipes-graphics/mesa/mesa.inc           |   4 +-
+ ...tools_1.26.5.bb => gst-devtools_1.26.7.bb} |   2 +-
+ ...mples_1.26.5.bb => gst-examples_1.26.7.bb} |   2 +-
+ ...1.26.5.bb => gstreamer1.0-libav_1.26.7.bb} |   2 +-
+ ....bb => gstreamer1.0-plugins-bad_1.26.7.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-base_1.26.7.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-good_1.26.7.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-ugly_1.26.7.bb} |   2 +-
+ ....26.5.bb => gstreamer1.0-python_1.26.7.bb} |   2 +-
+ ....bb => gstreamer1.0-rtsp-server_1.26.7.bb} |   2 +-
+ ...1.26.5.bb => gstreamer1.0-vaapi_1.26.7.bb} |   2 +-
+ ...er1.0_1.26.5.bb => gstreamer1.0_1.26.7.bb} |   2 +-
+ .../{libpng_1.6.50.bb => libpng_1.6.51.bb}    |   2 +-
+ ...{enchant2_2.8.12.bb => enchant2_2.8.14.bb} |   2 +-
+ .../gnutls/gnutls/CVE-2025-9820.patch         | 233 ++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.8.10.bb  |   1 +
+ .../sqlite/files/CVE-2025-3277.patch          |  29 +++
+ .../sqlite/files/CVE-2025-6965.patch          | 117 +++++++++
+ meta/recipes-support/sqlite/sqlite3_3.48.0.bb |   5 +-
+ 35 files changed, 521 insertions(+), 26 deletions(-)
+ rename meta/recipes-core/ell/{ell_0.79.bb => ell_0.80.bb} (88%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.86.0.bb => glib-2.0-initial_2.86.1.bb} (100%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.86.0.bb => glib-2.0_2.86.1.bb} (100%)
  create mode 100644 meta/recipes-devtools/binutils/binutils/0019-CVE-2025-11839.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0020-CVE-2025-11840.patch
+ rename meta/recipes-devtools/ccache/{ccache_4.12.bb => ccache_4.12.2.bb} (93%)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-Fix-for-file-larger-than-2GB.patch
+ rename meta/recipes-extended/cups/{cups_2.4.14.bb => cups_2.4.15.bb} (51%)
+ rename meta/recipes-extended/libarchive/{libarchive_3.8.2.bb => libarchive_3.8.3.bb} (96%)
+ rename meta/recipes-gnome/libxmlb/{libxmlb_0.3.23.bb => libxmlb_0.3.24.bb} (93%)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.26.5.bb => gst-devtools_1.26.7.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gst-examples_1.26.5.bb => gst-examples_1.26.7.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.26.5.bb => gstreamer1.0-libav_1.26.7.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.26.5.bb => gstreamer1.0-plugins-bad_1.26.7.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.26.5.bb => gstreamer1.0-plugins-base_1.26.7.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.26.5.bb => gstreamer1.0-plugins-good_1.26.7.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.26.5.bb => gstreamer1.0-plugins-ugly_1.26.7.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.26.5.bb => gstreamer1.0-python_1.26.7.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.26.5.bb => gstreamer1.0-rtsp-server_1.26.7.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.26.5.bb => gstreamer1.0-vaapi_1.26.7.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.26.5.bb => gstreamer1.0_1.26.7.bb} (97%)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.50.bb => libpng_1.6.51.bb} (97%)
+ rename meta/recipes-support/enchant/{enchant2_2.8.12.bb => enchant2_2.8.14.bb} (91%)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-3277.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-6965.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.45.inc b/meta/recipes-devtools/binutils/binutils-2.45.inc
-index 58964a6cfb..9ae0e72e60 100644
---- a/meta/recipes-devtools/binutils/binutils-2.45.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.45.inc
-@@ -44,4 +44,5 @@ SRC_URI = "\
-      file://CVE-2025-11413.patch \
-      file://CVE-2025-11495.patch \
-      file://0018-CVE-2025-11494.patch \
-+     file://0019-CVE-2025-11839.patch \
- "
-diff --git a/meta/recipes-devtools/binutils/binutils/0019-CVE-2025-11839.patch b/meta/recipes-devtools/binutils/binutils/0019-CVE-2025-11839.patch
-new file mode 100644
-index 0000000000..7f2f6d553d
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0019-CVE-2025-11839.patch
-@@ -0,0 +1,32 @@
-+From 12ef7d5b7b02d0023db645d86eb9d0797bc747fe Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Mon, 3 Nov 2025 11:49:02 +0000
-+Subject: [PATCH] Remove call to abort in the DGB debug format printing code,
-+ thus allowing the display of a fuzzed input file to complete without
-+ triggering an abort.
-+
-+PR 33448
-+---
-+ binutils/prdbg.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=12ef7d5b7b02d0023db645d86eb9d0797bc747fe]
-+CVE: CVE-2025-11839
-+
-+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-+
-+diff --git a/binutils/prdbg.c b/binutils/prdbg.c
-+index c239aeb1a79..5d405c48e3d 100644
-+--- a/binutils/prdbg.c
-++++ b/binutils/prdbg.c
-+@@ -2449,7 +2449,6 @@ tg_tag_type (void *p, const char *name, unsigned int id,
-+       t = "union class ";
-+       break;
-+     default:
-+-      abort ();
-+       return false;
-+     }
-+ 
-+-- 
-+2.43.7
-+
 -- 
 2.43.0
 
