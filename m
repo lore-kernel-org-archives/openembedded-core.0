@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69C75E94132
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D378E94120
 	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 08:47:39 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.60941.1767084455796930130
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.60942.1767084455913685628
  for <openembedded-core@lists.openembedded.org>;
  Tue, 30 Dec 2025 00:47:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=SD8OxEQo;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-2025123008473329bcf07d48000207f7-tlw669@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2025123008473329bcf07d48000207f7
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=X9WFGKUr;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-1329275-202512300847339f1a4fb438000207cf-_wwxqf@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 202512300847339f1a4fb438000207cf
         for <openembedded-core@lists.openembedded.org>;
         Tue, 30 Dec 2025 09:47:33 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=zsG78H0SKqBOmxoDV4BYv2WG8ibBz5AkAdNOwu9Mn/E=;
- b=SD8OxEQoHvUOxzadpaTrWanHFs+kFp2kyq1vbQobYiDZVUncm9ffOIrTgUwEERXDQu8HfP
- SeDk/VAzI1tdbAJTI+S8Rk+Ao0cK+UQ6xSDd/Knun9KLiWaLNVylDMM7rX/D+6dgJp09lUP7
- xnHv1FMH/YedLSW+KrD8q44+ZICgQdXgD6Yzr3msNg3lJ+R/sLMQbEgJJ4WdX4QaFvbLbwbL
- 1peimzvRnyyKOOi37qYUZiVI7DDe8PRSFP+dk66eOZLUkR6jAG/RQ5aSkgdqfzh4Uc8saxAJ
- PvXQoX3Y8ELbfr1ybPeU89OlbshaFkBmFiop1iUm/4oJtq1zu7q8Libg==;
+ bh=ytwbJK7YaFWEJvh6YC3Ry2SuqU/EV8WpuRR1qpAFcPA=;
+ b=X9WFGKUrwQF6p/qPzapmpSCub4jhuJ0d4U7Chkd8/+gD4zJcQ2DEri8WS0Ys/5vkmav5qG
+ /PWxKUVLUJ8yTO8t9kWbr57OQYfQwokHjHjCqL5+o1ZI/wMM5FGDWT6d7qvZa9zMTLEUl+nr
+ eBi9NHgU+3Gcm0QI/lXRlbE3c9nDUNlJZih2ZbfVi8It4rePx7F3a2cG1Ec1RAFZnBxW3yur
+ 5t+znaLNgVovfaqYbHAvFDd9HAPlYCMSKiRde+NBC6MJy1sSp986kduxTnvtPt4rHBSOg08E
+ Q87P+8+MbE9MzbeI/YXU3o1X2PXCKT57ZIlrRDGjYcohWUu0AjPE1a1g==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 07/14] devtool: ide-sdk: make install_and_deploy script pass target arg
-Date: Tue, 30 Dec 2025 09:46:47 +0100
-Message-ID: <20251230084720.2371227-8-adrian.freihofer@siemens.com>
+Subject: [PATCH 08/14] devtool: ide-sdk: vscode replace scripts
+Date: Tue, 30 Dec 2025 09:46:48 +0100
+Message-ID: <20251230084720.2371227-9-adrian.freihofer@siemens.com>
 In-Reply-To: <20251230084720.2371227-1-adrian.freihofer@siemens.com>
 References: <20251230084720.2371227-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,61 +39,73 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 08:47:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228640
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228641
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Previously, the target was hardcoded in the install_and_deploy script,
-limiting flexibility. This change allows passing the target as a
-command-line argument, enabling IDEs to configure the target dynamically
-rather than only at IDE configuration generation time.
-
-This is a first step towards making the target configurable from the IDE.
+Write the ssh command to start gdbserver on target directly into the
+tasks.json. This avoids the need to create one more script file on the
+host. It also simplifies manual modifications of VSCode's standard
+tasks.json which is much more handy than modifying multiple proprietary
+scripts used to launch gdbserver.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide_plugins/ide_code.py | 4 ++++
- scripts/lib/devtool/ide_sdk.py              | 5 ++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ scripts/lib/devtool/ide_plugins/ide_code.py | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
-index 67bd341347..3f8c1a44a3 100644
+index 3f8c1a44a3..05d513f160 100644
 --- a/scripts/lib/devtool/ide_plugins/ide_code.py
 +++ b/scripts/lib/devtool/ide_plugins/ide_code.py
-@@ -306,6 +306,10 @@ class IdeVSCode(IdeBase):
-                     "label": install_task_name,
+@@ -20,6 +20,18 @@ class GdbCrossConfigVSCode(GdbCrossConfig):
+         super().__init__(image_recipe, modified_recipe, binary,
+                          gdbserver_default_mode)
+ 
++    def target_ssh_gdbserver_start_args(self, gdbserver_mode=None):
++        """Get the ssh command arguments to start gdbserver on the target device
++
++        returns something like:
++          ['-p', '2222', 'root@target', '"/bin/sh -c \'/usr/bin/gdbserver --once :1234 /usr/bin/cmake-example\'"']
++        """
++        if gdbserver_mode is None:
++            gdbserver_mode = self.gdbserver_default_mode
++        return self._target_ssh_gdbserver_args() + [
++            self._target_gdbserver_start_cmd(gdbserver_mode)
++        ]
++
+     def target_ssh_gdbserver_kill_args(self):
+         """Get the ssh command arguments to kill gdbserver on the target device
+ 
+@@ -31,7 +43,7 @@ class GdbCrossConfigVSCode(GdbCrossConfig):
+         ]
+ 
+     def initialize(self):
+-        self._gen_gdbserver_start_script()
++        pass
+ 
+ 
+ class IdeVSCode(IdeBase):
+@@ -322,7 +334,8 @@ class IdeVSCode(IdeBase):
+                     "label": gdb_cross_config.id_pretty_mode(gdbserver_mode),
                      "type": "shell",
-                     "command": run_install_deploy,
-+                    "args": [
-+                        "--target",
-+                        args.target
-+                    ],
-                     "problemMatcher": []
-                 }
-             ]
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index 2af4dca256..96d60ad4f1 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -859,6 +859,9 @@ class RecipeModified:
-         cmd_lines.append('        for key in my_dict:')
-         cmd_lines.append('            setattr(self, key, my_dict[key])')
-         cmd_lines.append('filtered_args = Dict2Class(filtered_args_dict)')
-+        cmd_lines.append('if len(sys.argv) > 2:')
-+        cmd_lines.append('    if sys.argv[1] == "-t" or sys.argv[1] == "--target":')
-+        cmd_lines.append('        setattr(filtered_args, "target", sys.argv[2])')
-         cmd_lines.append(
-             'setattr(filtered_args, "recipename", "%s")' % self.bpn)
-         cmd_lines.append('deploy_no_d("%s", "%s", "%s", "%s", "%s", "%s", %d, "%s", "%s", filtered_args)' %
-@@ -884,7 +887,7 @@ class RecipeModified:
-             'bitbake %s -c install --force || { echo "bitbake %s -c install --force failed"; exit 1; }' % (self.bpn, self.bpn))
- 
-         # Self contained devtool deploy-target
--        cmd_lines.append(self.gen_deploy_target_script(args))
-+        cmd_lines.append(self.gen_deploy_target_script(args) + ' "$@"')
- 
-         return self.write_script(cmd_lines, 'install_and_deploy')
- 
+                     "isBackground": True,
+-                    "command": gdb_cross_config.gdbserver_script(gdbserver_mode),
++                    "command": gdb_cross_config.gdb_cross.target_device.ssh_sshexec,
++                    "args": gdb_cross_config.target_ssh_gdbserver_start_args(gdbserver_mode),
+                     "problemMatcher": [
+                         {
+                             "pattern": [
+@@ -466,7 +479,8 @@ class IdeVSCode(IdeBase):
+                         "label": gdb_cross_config.id_pretty(gdbserver_mode),
+                         "type": "shell",
+                         "isBackground": True,
+-                        "command": gdb_cross_config.gdbserver_script(gdbserver_mode),
++                        "command": gdb_cross_config.gdb_cross.target_device.ssh_sshexec,
++                        "args": gdb_cross_config.target_ssh_gdbserver_start_args(gdbserver_mode),
+                         "problemMatcher": [
+                             {
+                                 "pattern": [
 -- 
 2.52.0
 
