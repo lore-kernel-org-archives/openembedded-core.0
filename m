@@ -2,135 +2,103 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61A00EE49AD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69CCBEE49B8
 	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 20:12:45 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.71742.1767125562980140846
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.71917.1767125561538516678
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Dec 2025 12:12:43 -0800
+ Tue, 30 Dec 2025 12:12:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=emsK3+EV;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a0834769f0so101048485ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 12:12:42 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QQgexOxZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a0834769f0so101048325ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 12:12:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767125562; x=1767730362; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767125561; x=1767730361; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8DaiMt37Z2jXduj0BCIkxG7lfdIzLNXIG29GayoiZ5E=;
-        b=emsK3+EVXj2jNNxpmcA+oV7ei61ejVWIb+UCZy5rbjaqIYDK/ZKbXIykwXZ0RF0jhx
-         Cql8QVMTUhhgB9lb1wBlYjujPwZ6VJDMv5CzQkZE8ToQfXc/DmmgxRFFChtYVuS0eI1O
-         uWx6nTk47sdvtz8HFAST2nDv5fDTPjr3G1nrZI8xpY0KeKnJC7Im+umqLzXIQwVjTpQF
-         EFsv6zRBbQQ47pTRM0vWHD5pMbKfZFo8csjjpBXda2qqN5tKMdI8CvjWeIaTMuQj7SGL
-         BXNRy7gvoK697w2wunrQJEjZ2yKdzSoxoVENr4yoMxDr4OnvoQO6IJEKgPo2jPAAv9fW
-         eQAA==
+        bh=Vd4QfoNoTcd2KswNWOYdKLZqRY1xXFiF3XiExu0RAiw=;
+        b=QQgexOxZS3pnKC1h7EiIklYwrOf+9OpzeXMVSUDdOp01BTmAjSqboc5zfYQOLrLmHW
+         1d0bkbeTVxUgp/p21kSOVQmilbmWDprktx4BIIPl4ER7MVJH+YXxH5P/31xPif/asfB8
+         itqSL0tyozulNlYqu2mAP1vQAhQPuRr5K7M2VNv4ES/yLLaRQ01QmqlMPPrllykgTsI0
+         aaHDT/AyPQS0juFC0UWJHQ/hYje9JrMZAwuNsbo/KGmuSKSHA9VGCDaWMjYE45qF6Ha1
+         xlOruV5akDxweRVRzxg8LXE1Z0IDdZg3zu9ow4X/cimKVXsDhmye9mB282XnG1czKIAJ
+         sKEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767125562; x=1767730362;
+        d=1e100.net; s=20230601; t=1767125561; x=1767730361;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=8DaiMt37Z2jXduj0BCIkxG7lfdIzLNXIG29GayoiZ5E=;
-        b=XLHzMFAoCeYyXnpSsT8GA82WO6iXxYGUAbRqowWO+fgS0uZH6aoQX8FXwQSe4J2e+7
-         X9dLc6SovkYp+uUNJFCMFGtQb7pVp9nzely58FeLSfqK1Zs7S+AmWG8uG/AOegInacpV
-         V8GRlysg5JZjGIPeY3ibXtB0AEzUwCiF6cxkU3iPtikeOW5VMeYkl7Jvvz/D14FY3gmy
-         sBfiPddiX9XE0JbQn4fXaQDtetHnJh3CjDBk2lVoTzQNXC+dZZM9Xi1Ncup2vVR8nd8A
-         WuJGGcwtalCcUWZaRo1bANx928JMMoGcwuiaG6Qlv7mmQFRFfX2Sv1e0IE1ErFJ2sxFd
-         TYsA==
-X-Gm-Message-State: AOJu0Yx7zqMtG64/7mSuS/8bGeX7IanMiFCid7qOMg6vuD/oTFtZQsug
-	EkTxyqT0t5b7KPvvQGa92NzFZzlaJ7CPMhZN+yauLu6AgMFpRMlzWTDT8+GDWsTLuwV+hksIvUo
-	91uru
-X-Gm-Gg: AY/fxX6xK2VjJ1xgcya/mbEH8b/gPynjSNslIAkKxSL2iRviUY6/8yjNTgGPQpLJD9S
-	TpjzrwoqP58u5TYxnZxyi/0bNjlhwiiIwMFWCqyiq3HLwDuci7iEptCM4Zu3r2QBZo8u2RfvL0l
-	q5W8tSKh9ykyGcppQDec3esZcg99ZUmUaoOkpDYajfYXqhIPewScTrbUnT30vOnd+xMg7I5fJkx
-	Ue+q9gNchiLCM2ckFWhhwI5MXUoJBhJaXEKqyURviE89ms5HAANC5Py5dVfdtnn++x5E+qsLx3K
-	s7U+WsOmVzFToDVdUx4YYrX93unogjRIIXq15S03TrvaLTfepbOurNQSinuNtFJOS0SzV6zPlfl
-	d+H86pwNQKAdiEWJxfgMD7FogPY9qT3rOBXq9LodjK5Uc1sNTfSRhhccUQb+IrnxIIXS3zxuCYd
-	B9WQ==
-X-Google-Smtp-Source: AGHT+IHGZRoh8ke6YNQ2Ymcn37M1Bnbp4iWCg7UyIZKUY6R0lGOYNQ2jB86MDnT7BwXF7yQVquLhIA==
-X-Received: by 2002:a17:902:cece:b0:295:6c26:933b with SMTP id d9443c01a7336-2a2f2205155mr324796665ad.1.1767125562239;
-        Tue, 30 Dec 2025 12:12:42 -0800 (PST)
+        bh=Vd4QfoNoTcd2KswNWOYdKLZqRY1xXFiF3XiExu0RAiw=;
+        b=oMBnglXZQCBcQeJfaJElKzl39+hWuGpIRimvVQsYYJzE9O2BHdHDGW+zojsXhvSVIs
+         24nhacGNYQ3sJMIKT6/9Wu9yGzvLOSXKdLooJNhU99OaAyS1shMH/HHZDXjhYVKemkm0
+         o5z8XBUL8TPKWE1Nw4XeGkbehILw2/9UDufIz7ueneIWG6acXidtyP2h8kt7ZjhQOcj9
+         rkS336ccRVShgWKlT9mtM3m4c1c5KvJHNcSUh4ADJ1dM7CAGmL8oxXEgAC1OdxzbqS8x
+         OwbAeK0Uc37oPHNQgeMu4rJ2qorMV5/Wp5zXetGPKCPcDnSWKD8hab7wC04A0wPgSESK
+         3+Gw==
+X-Gm-Message-State: AOJu0YzbG1M3ttCW5jXgbkkpCCKophHzlyjOOdr45xn8pt7hVDmmF0Mj
+	pVevg4KIJiyehoZP1+oMyF/kkBa19l1EImJegIwpBLzyKP7ThMphEV4FXbpXIt6velyXea+mwh4
+	vVgee
+X-Gm-Gg: AY/fxX5qXlZAZU7I3zMZ0eGkxhuYlMotzsm9wde04O6QCAco7GKoqEjf6ATkPb65a6L
+	BOJkj2yQImnwMRkX6+UJ0vZhxae0anIM9ZuGY53p9X1D0piiQ2SiyEVSGWt/A0eUAalettqxx7q
+	Vo0QxdVg1emPbgN1ZQIxKD+IPGkYjzsSn9z0Lk9LmjRidcRItSTcdDNmjgj2Wlj3JXDYM4XqpMk
+	+36gJx2ozR8xbwNsItQu1/AXN+f+7t5CXoXvswIrqlAPwQELqBS12Kpl7lI/IfxI8GIqgSeePwD
+	Andc2msGOSIJcGJKBV5PltvUt0joJ7/7/zOhxoyDo6YlabHCP3Wp4HtU9m0UHxGlzTHlz8MdbQZ
+	LuNtYv58tp5qsVzUmNY/9G+eJs5HFT8oK++8HZ8FB4xkjT3W9KcgG2F1V5E3I4TtN2ezgWQiuM2
+	IsQA==
+X-Google-Smtp-Source: AGHT+IGtQGymuRnH2fGjun7jsNLHgfqU5O6M7jLXBuoI6KKKvm2AGwGRQASMsGFcVzGW5+jyq3nJ+w==
+X-Received: by 2002:a17:903:3c50:b0:2a0:9040:637b with SMTP id d9443c01a7336-2a2f2423178mr358887025ad.26.1767125560784;
+        Tue, 30 Dec 2025 12:12:40 -0800 (PST)
 Received: from hexa.. ([2602:feb4:3b:2100:501f:80a7:5971:3e87])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c83325sm310391365ad.34.2025.12.30.12.12.41
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c83325sm310391365ad.34.2025.12.30.12.12.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Dec 2025 12:12:41 -0800 (PST)
+        Tue, 30 Dec 2025 12:12:40 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 21/29] enchant2: upgrade 2.8.12 -> 2.8.14
-Date: Tue, 30 Dec 2025 12:11:51 -0800
-Message-ID: <7d6e4313562b529f092483dbdb8868ae91a9ea00.1767106395.git.steve@sakoman.com>
+Subject: [OE-core][whinlatter 20/29] gstreamer1.0-vaapi: upgrade 1.26.5 -> 1.26.7
+Date: Tue, 30 Dec 2025 12:11:50 -0800
+Message-ID: <86918ee5cd3edb4bc2b89e8288fe58c25b389c14.1767106395.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1767106395.git.steve@sakoman.com>
 References: <cover.1767106395.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 20:12:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228713
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228712
 
-From: Gyorgy Sarvari <skandigraun@gmail.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Release notes:
-2.8.14:
-This release fixes a test failure in the previous release, and improves
-enchant(1)’s word division algorithm, so that it only considers words that
-contain at least one letter. (Words may contain characters that aren’t
-letters, but Enchant was for example considering “1900” to be a word, which
-is probably not helpful.)
-
-2.8.13:
-This release fixes a bug in the word division algorithm of enchant(1)
-introduced in 2.8.4, which itself was attempting to fix bugs introduced in
-the previous release. This could have caused a crash, but it seems we were
-saved by careful bounds checking in GLib. Instead, it merely meant that
-characters not valid at the end of a word were not removed as they should be
-before spell-checking.
-
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 03477472cfc0417241486a3d04441ebb95f087e5)
+(cherry picked from commit 7d2536a8a83aa030c41ebac9ae831220906f41a6)
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/maintainers.inc                        | 2 +-
- .../enchant/{enchant2_2.8.12.bb => enchant2_2.8.14.bb}          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/enchant/{enchant2_2.8.12.bb => enchant2_2.8.14.bb} (91%)
+ ...streamer1.0-vaapi_1.26.5.bb => gstreamer1.0-vaapi_1.26.7.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.26.5.bb => gstreamer1.0-vaapi_1.26.7.bb} (95%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 6c3174cbb7..cf36c519ce 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -170,7 +170,7 @@ RECIPE_MAINTAINER:pn-efivar = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-efibootmgr = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-elfutils = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-ell = "Unassigned <unassigned@yoctoproject.org>"
--RECIPE_MAINTAINER:pn-enchant2 = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-enchant2 = "Gyorgy Sarvari <skandigraun@gmail.com>"
- RECIPE_MAINTAINER:pn-encodings = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-epiphany = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-erofs-utils = "Unassigned <unassigned@yoctoproject.org>"
-diff --git a/meta/recipes-support/enchant/enchant2_2.8.12.bb b/meta/recipes-support/enchant/enchant2_2.8.14.bb
-similarity index 91%
-rename from meta/recipes-support/enchant/enchant2_2.8.12.bb
-rename to meta/recipes-support/enchant/enchant2_2.8.14.bb
-index 84f0156bca..4f8f2cf7f8 100644
---- a/meta/recipes-support/enchant/enchant2_2.8.12.bb
-+++ b/meta/recipes-support/enchant/enchant2_2.8.14.bb
-@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 groff-native"
- inherit autotools pkgconfig github-releases
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.7.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.7.bb
+index f61125105d..e9515405ce 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.7.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
--SRC_URI[sha256sum] = "20e5fab2ca0f95ba9d1ef5052fe5b028e3e1d66d4cdea6b9adfcbd3e524c2a09"
-+SRC_URI[sha256sum] = "d04588769399ff7140fa214b9731e6fc6eda9bb2e75df9f67263717710bb4c4b"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
  
- GITHUB_BASE_URI = "https://github.com/rrthomas/enchant/releases"
+-SRC_URI[sha256sum] = "b42d44db63f3195a6f33296e1ead32c14d01ef27452b7068f1a2d86624f55ea9"
++SRC_URI[sha256sum] = "4885d4a02bb2f17c2af618879b5e77f1acdcedcba859aabd3b970550e2940a38"
  
+ S = "${UNPACKDIR}/${REALPN}-${PV}"
+ DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 -- 
 2.43.0
 
