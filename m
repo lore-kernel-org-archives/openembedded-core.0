@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7DBFE95A60
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 931C9E9413E
 	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 08:47:39 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.60918.1767084455887591795
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.60914.1767084455798481830
  for <openembedded-core@lists.openembedded.org>;
  Tue, 30 Dec 2025 00:47:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=mA17Zyek;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-20251230084734ade2407d3d00020761-zvxsa7@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20251230084734ade2407d3d00020761
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=caXyPNed;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-20251230084733d2445eef390002079d-ojqj_n@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20251230084733d2445eef390002079d
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 30 Dec 2025 09:47:34 +0100
+        Tue, 30 Dec 2025 09:47:33 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=Pb2CVcyi2Tbrb0594k8JqqK8GfbvknijF9X1OmF2Zjo=;
- b=mA17ZyekozfnKtGNoT486Kq0GrX2/fmHUmxjzB9OQdQNnz8eTZcmK+Lmwigm6OsoIbCIeB
- KgTEWe25mBaUD+WHOCkFwTQcGQtABt/rMi/mfMmXnSqdVDPfaj6Zb0VjV0mT6ao5A2NzCPOV
- NlWPdXje9A3VXHY0njD+ZAObr7I6xhwc7SM8QuRFHC6L+OJWlojvAGLjXVVTU5aFechr/UQL
- JN77RiBCblbftW6Da47nicqsJ0d67vtr2Pww7CuxbawLdqgI5LByVfwMAmpQrTZowe3RBtoh
- uEJ2eL/PqihnfFlT5mtgCfQW3IcqgYV/a0jf+rPtbxG6RX93JvPRc7pA==;
+ bh=cM6ChC1SB9juDKJdV2HYQPi+YHcHqccAC+KE/OBboAY=;
+ b=caXyPNedZucvsJzc3Xa4tD2n2b3zBIOtr4lEOANCNYYrLswdjj5QyB+YW3jPJST55M3wB0
+ +e1rhSMQepE8xKy8QIq+UT2ubq1zKlTiVfAtlPr67lbrGtM8YRhmXRtoGD4piJ3CfEUyvBxo
+ 4TzDIo/Cu7zgTiK+ViMG1nOaY6FHu5jQntKUq71bx7Wa0B0zrlbaRC65daWsK0qUUDNDRBje
+ wpVASwGHCJLueUPpST4As5Sd7jdJ1GVWAPcE8U5K0agqm3QqsYtYCD6txg+ZwARNfsrr6Kda
+ hjPX+mttimDqjvh7Wmsra/ZjUVPY6MQwH6xthhP9BZPm4yTYJ8sH2KGw==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 12/14] devtool: ide-sdk: Support GDB pretty-printing for C++ STL types
-Date: Tue, 30 Dec 2025 09:46:52 +0100
-Message-ID: <20251230084720.2371227-13-adrian.freihofer@siemens.com>
+Subject: [PATCH 03/14] cpp-example: run as a service
+Date: Tue, 30 Dec 2025 09:46:43 +0100
+Message-ID: <20251230084720.2371227-4-adrian.freihofer@siemens.com>
 In-Reply-To: <20251230084720.2371227-1-adrian.freihofer@siemens.com>
 References: <20251230084720.2371227-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,151 +39,501 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 08:47:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228631
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228634
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-GDB requires Python scripts provided by GCC to properly display C++ STL
-types. This commit adds support for configuring GDB to use these
-pretty-printers in the ide-sdk, covering both the ide_none and ide_code
-plugins.
+Extend the C++ example to run as systemd/SysV services
 
-The implementation locates the GCC Python helper scripts in the sysroot
-and injects the necessary commands into the GDB initialization files and
-IDE debug configurations. This ensures that when debugging C++
-applications, STL containers and other complex types are displayed in a
-readable format.
+This change adds service capability to the existing C++ example without
+modifying its original behavior. The example can now run either as:
+- One-shot executables (existing behavior)
+- Long-running services via systemd or SysV init
 
-Without this:
-  (gdb) print numbers
-  $1 = {<std::_Vector_base<int, std::allocator<int> >> = {
-    _M_impl = {<std::allocator<int>> = {<std::__new_allocator<int>> =
-    {<No data fields>}, <No data fields>}, <std::_Vector_base<int,
-    std::allocator<int> >::_Vector_impl_data> =
-    {_M_start = 0x55555556c370, _M_finish = 0x55555556c37c,
-        _M_end_of_storage = 0x55555556c37c}, <No data fields>}},
-        <No data fields>}
+The service runs as an unprivileged user/group, demonstrating security
+best practices for service development. This introduces additional
+complexity to the build process, particularly around proper pseudo usage
+in development builds. The implementation includes:
+- Service configuration files (systemd .service and SysV init script)
+- Dedicated user/group creation with appropriate permissions
+- JSON configuration file for runtime customization, owned by the
+  service user
+- Command-line --endless flag to enable service mode
+- Full support for both CMake and Meson build systems
 
-With this:
-  (gdb) print numbers
-  $1 = std::vector of length 3, capacity 3 = {1, 2, 3}
+This enhancement enables testing debugger configurations that attach to
+running processes, expanding the examples' utility for development tools.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide_plugins/ide_code.py | 14 +++++++++++
- scripts/lib/devtool/ide_plugins/ide_none.py |  8 +++++++
- scripts/lib/devtool/ide_sdk.py              | 26 +++++++++++++++++++++
- 3 files changed, 48 insertions(+)
+ .../recipes-test/cpp/cpp-example.inc          | 52 +++++++++++-
+ .../recipes-test/cpp/files/CMakeLists.txt     | 14 +++-
+ .../recipes-test/cpp/files/config.h.in        | 10 +++
+ .../cpp/files/cpp-example-lib.cpp             | 29 +++++++
+ .../cpp/files/cpp-example-lib.hpp             |  3 +
+ .../recipes-test/cpp/files/cpp-example.conf   |  3 +
+ .../recipes-test/cpp/files/cpp-example.cpp    | 38 ++++++++-
+ .../recipes-test/cpp/files/cpp-example.init   | 84 +++++++++++++++++++
+ .../cpp/files/cpp-example.service             | 12 +++
+ .../recipes-test/cpp/files/meson.build        | 18 +++-
+ .../cpp/files/test-cpp-example.cpp            |  2 +
+ .../recipes-test/cpp/meson-example.bb         |  2 +
+ meta/lib/oeqa/selftest/cases/devtool.py       |  4 +-
+ 13 files changed, 264 insertions(+), 7 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/cpp/files/config.h.in
+ create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example.conf
+ create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example.init
+ create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example.service
 
-diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
-index 647a5b8cc6..c2ee9b91c6 100644
---- a/scripts/lib/devtool/ide_plugins/ide_code.py
-+++ b/scripts/lib/devtool/ide_plugins/ide_code.py
-@@ -290,6 +290,20 @@ class IdeVSCode(IdeBase):
-             logger.warning(
-                 "Cannot setup debug symbols configuration for GDB. IMAGE_GEN_DEBUGFS is not enabled.")
+diff --git a/meta-selftest/recipes-test/cpp/cpp-example.inc b/meta-selftest/recipes-test/cpp/cpp-example.inc
+index 76ff64e87f..2653f45e90 100644
+--- a/meta-selftest/recipes-test/cpp/cpp-example.inc
++++ b/meta-selftest/recipes-test/cpp/cpp-example.inc
+@@ -16,9 +16,59 @@ SRC_URI = "\
+     file://cpp-example-lib.hpp \
+     file://cpp-example-lib.cpp \
+     file://test-cpp-example.cpp \
++    file://cpp-example.conf \
++    file://config.h.in \
++    file://cpp-example.service \
++    file://cpp-example.init \
+     file://run-ptest \
+ "
  
-+        # Enable pretty-printing for gdb for resolving STL types with help of python scripts
-+        pretty_printing_cmd = modified_recipe.gdb_pretty_print_scripts
-+        if pretty_printing_cmd:
-+            setup_commands += [
-+                {
-+                    "description": "Enable pretty-printing for gdb",
-+                    "text": "python " +";".join(pretty_printing_cmd)
-+                },
-+                {
-+                    "description": "Enable pretty-printing for gdb",
-+                    "text": "-enable-pretty-printing"
-+                }
-+            ]
+ S = "${UNPACKDIR}"
+ 
+-inherit ptest
++inherit ptest useradd systemd update-rc.d
 +
-         launch_config['sourceFileMap'] = src_file_map
-         launch_config['setupCommands'] = setup_commands
- 
-diff --git a/scripts/lib/devtool/ide_plugins/ide_none.py b/scripts/lib/devtool/ide_plugins/ide_none.py
-index ba65f6f7da..ed96afa33c 100644
---- a/scripts/lib/devtool/ide_plugins/ide_none.py
-+++ b/scripts/lib/devtool/ide_plugins/ide_none.py
-@@ -102,6 +102,14 @@ class GdbCrossConfigNone(GdbCrossConfig):
-                 "Cannot setup debug symbols configuration for GDB. IMAGE_GEN_DEBUGFS is not enabled.")
-         # Disable debuginfod for now, the IDE configuration uses rootfs-dbg from the image workdir.
-         gdbinit_lines.append('set debuginfod enabled off')
++# Systemd and SysV init support
++SYSTEMD_SERVICE:${PN} = "${BPN}.service"
 +
-+        # Enable pretty-printing for gdb for resolving STL types with help of python scripts
-+        pretty_printing_cmd = self.modified_recipe.gdb_pretty_print_scripts
-+        if pretty_printing_cmd:
-+            gdbinit_lines.append(os.linesep +"python")
-+            gdbinit_lines += pretty_printing_cmd
-+            gdbinit_lines.append("end" + os.linesep)
++INITSCRIPT_NAME = "${BPN}"
++INITSCRIPT_PARAMS = "defaults 99"
 +
-         gdbinit_lines.append(
-             '%s %s:%d' % (remote_cmd, self.gdb_cross.host, self.gdbserver_port))
-         gdbinit_lines.append('set remote exec-file ' + self.binary.binary_path)
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index 78d7ed78c6..ba225f20b9 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -15,6 +15,7 @@ import stat
- import subprocess
- import sys
- import shlex
-+import glob
- from argparse import RawTextHelpFormatter
- from enum import Enum
- 
-@@ -414,6 +415,7 @@ class RecipeModified:
-         self.staging_incdir = None
-         self.strip_cmd = None
-         self.target_arch = None
-+        self.tcoverride = None
-         self.topdir = None
-         self.workdir = None
-         # Service management
-@@ -437,6 +439,7 @@ class RecipeModified:
- 
-         # Populated after bitbake built all the recipes
-         self._installed_binaries = None
-+        self._gdb_pretty_print_scripts = None
- 
-     def initialize(self, config, workspace, tinfoil):
-         recipe_d = parse_recipe(
-@@ -488,6 +491,7 @@ class RecipeModified:
-             recipe_d.getVar('STAGING_INCDIR'))
-         self.strip_cmd = recipe_d.getVar('STRIP')
-         self.target_arch = recipe_d.getVar('TARGET_ARCH')
-+        self.tcoverride = recipe_d.getVar('TCOVERRIDE')
-         self.topdir = recipe_d.getVar('TOPDIR')
-         self.workdir = os.path.realpath(recipe_d.getVar('WORKDIR'))
- 
-@@ -632,6 +636,28 @@ class RecipeModified:
- 
-         return mappings
- 
-+    @property
-+    def gdb_pretty_print_scripts(self):
-+        if self._gdb_pretty_print_scripts is None:
-+            if self.tcoverride == "toolchain-gcc":
-+                gcc_python_helpers_pattern = os.path.join(self.recipe_sysroot, "usr", "share", "gcc-*", "python")
-+                gcc_python_helpers_dirs = glob.glob(gcc_python_helpers_pattern)
-+                if gcc_python_helpers_dirs:
-+                    gcc_python_helpers = gcc_python_helpers_dirs[0]
-+                else:
-+                    logger.warning("Could not find gcc python helpers directory matching: %s", gcc_python_helpers_pattern)
-+                    gcc_python_helpers = ""
-+                pretty_print_scripts = [
-+                    "import sys",
-+                    "sys.path.insert(0, '" + gcc_python_helpers + "')",
-+                    "from libstdcxx.v6.printers import register_libstdcxx_printers",
-+                    "register_libstdcxx_printers(None)"
-+                ]
-+                self._gdb_pretty_print_scripts = pretty_print_scripts
-+            else:
-+                self._gdb_pretty_print_scripts = ""
-+        return self._gdb_pretty_print_scripts
++# Create cpp-example user and group
++USERADD_PACKAGES = "${PN}"
++GROUPADD_PARAM:${PN} = "--system ${BPN}"
++USERADD_PARAM:${PN} = "--system --home /var/lib/${BPN} --no-create-home --shell /bin/false --gid ${BPN} ${BPN}"
 +
-     def __init_exported_variables(self, d):
-         """Find all variables with export flag set.
++EX_BINARY_NAME ?= "${BPN}"
++
++do_install:append() {
++    # Install configuration file owned by unprivileged user
++    install -d ${D}${sysconfdir}
++    install -m 0644 -g ${BPN} -o ${BPN} ${S}/cpp-example.conf ${D}${sysconfdir}/${BPN}.conf
++    sed -i -e 's|@BINARY_NAME@|${BPN}|g' ${D}${sysconfdir}/${BPN}.conf
++
++    # Install service files or init scripts and substitute placeholders in service files
++    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
++        install -d ${D}${systemd_system_unitdir}
++        install -m 0644 ${S}/cpp-example.service ${D}${systemd_system_unitdir}/${BPN}.service
++        sed -i \
++            -e 's|@BINDIR@|${bindir}|g' \
++            -e 's|@BINARY_NAME@|${EX_BINARY_NAME}|g' \
++            -e 's|@USER@|${BPN}|g' \
++            -e 's|@GROUP@|${BPN}|g' \
++            ${D}${systemd_system_unitdir}/${BPN}.service
++    else
++        install -d ${D}${sysconfdir}/init.d
++        install -m 0755 ${S}/cpp-example.init ${D}${sysconfdir}/init.d/${BPN}
++        sed -i \
++            -e 's|@BINDIR@|${bindir}|g' \
++            -e 's|@BINARY_NAME@|${EX_BINARY_NAME}|g' \
++            -e 's|@USER@|${BPN}|g' \
++            -e 's|@GROUP@|${BPN}|g' \
++            ${D}${sysconfdir}/init.d/${BPN}
++    fi
++}
++
++FILES:${PN} += " \
++    ${systemd_system_unitdir}/${BPN}.service \
++    ${sysconfdir}/${BPN}.conf \
++"
+diff --git a/meta-selftest/recipes-test/cpp/files/CMakeLists.txt b/meta-selftest/recipes-test/cpp/files/CMakeLists.txt
+index 6fa6917d89..e363f31af2 100644
+--- a/meta-selftest/recipes-test/cpp/files/CMakeLists.txt
++++ b/meta-selftest/recipes-test/cpp/files/CMakeLists.txt
+@@ -20,15 +20,25 @@ set(CMAKE_CXX_EXTENSIONS Off)
  
+ include(GNUInstallDirs)
+ 
++# Define the config file path as a constant
++set(CPP_EXAMPLE_CONFIG_PATH "${CMAKE_INSTALL_FULL_SYSCONFDIR}/cmake-example.conf")
++
++# Generate config.h from config.h.in
++configure_file(config.h.in config.h @ONLY)
++
+ # Linking a small library makes the example more useful for testing.
+ find_package(json-c)
+ 
+ # A simple library linking json-c library found by pkgconfig
+ add_library(cmake-example-lib cpp-example-lib.cpp cpp-example-lib.hpp)
+-set_target_properties(cmake-example-lib PROPERTIES 
++set_target_properties(cmake-example-lib PROPERTIES
+     VERSION ${PROJECT_VERSION}
+     SOVERSION ${PROJECT_VERSION_MAJOR}
+ )
++
++# Add the build directory to include path for config.h
++target_include_directories(cmake-example-lib PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
++
+ target_link_libraries(cmake-example-lib PRIVATE json-c::json-c)
+ 
+ install(TARGETS cmake-example-lib
+@@ -39,6 +49,7 @@ install(TARGETS cmake-example-lib
+ 
+ # A simple executable linking the library
+ add_executable(cmake-example cpp-example.cpp)
++target_include_directories(cmake-example PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(cmake-example PRIVATE cmake-example-lib)
+ 
+ install(TARGETS cmake-example
+@@ -47,6 +58,7 @@ install(TARGETS cmake-example
+ 
+ # A simple test executable for testing the library
+ add_executable(test-cmake-example test-cpp-example.cpp)
++target_include_directories(test-cmake-example PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(test-cmake-example PRIVATE cmake-example-lib)
+ 
+ if (FAILING_TEST)
+diff --git a/meta-selftest/recipes-test/cpp/files/config.h.in b/meta-selftest/recipes-test/cpp/files/config.h.in
+new file mode 100644
+index 0000000000..174e266847
+--- /dev/null
++++ b/meta-selftest/recipes-test/cpp/files/config.h.in
+@@ -0,0 +1,10 @@
++/*
++ * Copyright OpenEmbedded Contributors
++ *
++ * SPDX-License-Identifier: MIT
++ */
++
++#pragma once
++
++/* Configuration file path */
++#define EXAMPLE_CONFIG_PATH "@CPP_EXAMPLE_CONFIG_PATH@"
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp
+index d3dc976864..c510a13893 100644
+--- a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp
+@@ -6,6 +6,7 @@
+ 
+ #include <iostream>
+ #include <string>
++#include <fstream>
+ #include <json-c/json.h>
+ #include "cpp-example-lib.hpp"
+ 
+@@ -31,3 +32,31 @@ void CppExample::print_json()
+ 
+     json_object_put(jobj); // Delete the json object
+ }
++
++std::string CppExample::read_config_message(const std::string &config_path)
++{
++    std::ifstream config_file(config_path);
++    if (!config_file.is_open()) {
++        return "Error: Could not open config file: " + config_path;
++    }
++
++    std::string config_content((std::istreambuf_iterator<char>(config_file)),
++                               std::istreambuf_iterator<char>());
++    config_file.close();
++
++    struct json_object *jobj = json_tokener_parse(config_content.c_str());
++    if (!jobj) {
++        return "Error: Invalid JSON in config file";
++    }
++
++    struct json_object *message_obj;
++    if (json_object_object_get_ex(jobj, "hello_world_message", &message_obj)) {
++        const char *message = json_object_get_string(message_obj);
++        std::string result = message ? message : "Error: Invalid message format";
++        json_object_put(jobj);
++        return result;
++    }
++
++    json_object_put(jobj);
++    return "Error: 'hello_world_message' not found in config file";
++}
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
+index 0ad9e7b7b2..24dd0defb6 100644
+--- a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
+@@ -7,6 +7,7 @@
+ #pragma once
+ 
+ #include <string>
++#include "config.h"
+ 
+ struct CppExample
+ {
+@@ -18,4 +19,6 @@ struct CppExample
+     const char *get_json_c_version();
+     /* Call a more advanced function from a library */
+     void print_json();
++    /* Read hello world message from config file */
++    std::string read_config_message(const std::string &config_path = EXAMPLE_CONFIG_PATH);
+ };
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.conf b/meta-selftest/recipes-test/cpp/files/cpp-example.conf
+new file mode 100644
+index 0000000000..4a666e5cdd
+--- /dev/null
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example.conf
+@@ -0,0 +1,3 @@
++{
++  "hello_world_message": "Hello World from @BINARY_NAME@ example config file!"
++}
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
+index 9889554e0c..dbf82f15d9 100644
+--- a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
+@@ -7,12 +7,48 @@
+ #include "cpp-example-lib.hpp"
+ 
+ #include <iostream>
++#include <unistd.h>
++#include <string>
+ 
+-int main()
++int main(int argc, char* argv[])
+ {
++    bool endless_mode = false;
++
++    // Parse command line arguments
++    for (int i = 1; i < argc; i++) {
++        if (std::string(argv[i]) == "--endless") {
++            endless_mode = true;
++        } else if (std::string(argv[i]) == "--help" || std::string(argv[i]) == "-h") {
++            std::cout << "Usage: " << argv[0] << " [OPTIONS]" << std::endl;
++            std::cout << "Options:" << std::endl;
++            std::cout << "  --endless    Run in endless loop mode (for service)" << std::endl;
++            std::cout << "  --help, -h   Show this help message" << std::endl;
++            return 0;
++        }
++    }
++
+     auto cpp_example = CppExample();
++
++    if (endless_mode) {
++        std::cout << "Starting cpp-example service in endless mode..." << std::endl;
++    } else {
++        std::cout << "Running cpp-example once..." << std::endl;
++    }
++
+     std::cout << "C++ example linking " << cpp_example.get_string() << std::endl;
+     std::cout << "Linking json-c version " << cpp_example.get_json_c_version() << std::endl;
+     cpp_example.print_json();
++
++    do {
++        // Read and print message from config file
++        std::string config_message = cpp_example.read_config_message();
++        std::cout << "Config file message: " << config_message << std::endl;
++
++        if (endless_mode) {
++            // Sleep for 1 second
++            sleep(1);
++        }
++    } while (endless_mode);
++
+     return 0;
+ }
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.init b/meta-selftest/recipes-test/cpp/files/cpp-example.init
+new file mode 100644
+index 0000000000..c154fd1126
+--- /dev/null
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example.init
+@@ -0,0 +1,84 @@
++#!/bin/sh
++#
++# cpp-example        C++ Example Service
++#
++# chkconfig: 35 99 99
++# description: C++ Example Service daemon
++#
++
++USER="@USER@"
++DAEMON="@BINARY_NAME@"
++DAEMON_PATH="@BINDIR@/$DAEMON"
++DAEMON_ARGS="--endless"
++PIDFILE="/var/run/$DAEMON.pid"
++LOCK_FILE="/var/lock/subsys/$DAEMON"
++
++start() {
++    if [ -f $PIDFILE ]; then
++        echo "$DAEMON is already running."
++        return 1
++    fi
++
++    echo -n "Starting $DAEMON: "
++    start-stop-daemon --start --quiet --pidfile $PIDFILE --make-pidfile \
++        --background --chuid $USER --exec $DAEMON_PATH -- $DAEMON_ARGS
++    RETVAL=$?
++    if [ $RETVAL -eq 0 ]; then
++        echo "OK"
++        touch $LOCK_FILE
++    else
++        echo "FAILED"
++    fi
++    return $RETVAL
++}
++
++stop() {
++    echo -n "Stopping $DAEMON: "
++    start-stop-daemon --stop --quiet --pidfile $PIDFILE
++    RETVAL=$?
++    if [ $RETVAL -eq 0 ]; then
++        echo "OK"
++        rm -f $PIDFILE $LOCK_FILE
++    else
++        echo "FAILED"
++    fi
++    return $RETVAL
++}
++
++status() {
++    if [ -f $PIDFILE ]; then
++        PID=$(cat $PIDFILE)
++        if ps -p $PID > /dev/null 2>&1; then
++            echo "$DAEMON is running (PID: $PID)"
++            return 0
++        else
++            echo "$DAEMON is not running (stale PID file)"
++            return 1
++        fi
++    else
++        echo "$DAEMON is not running"
++        return 1
++    fi
++}
++
++case "$1" in
++    start)
++        start
++        ;;
++    stop)
++        stop
++        ;;
++    restart)
++        stop
++        start
++        ;;
++    status)
++        status
++        ;;
++    *)
++        echo "Usage: $0 {start|stop|restart|status}"
++        exit 1
++        ;;
++esac
++
++exit $?
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.service b/meta-selftest/recipes-test/cpp/files/cpp-example.service
+new file mode 100644
+index 0000000000..4022fa291a
+--- /dev/null
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example.service
+@@ -0,0 +1,12 @@
++[Unit]
++Description=C++ Example Service
++After=network.target
++
++[Service]
++Type=simple
++User=@USER@
++Group=@GROUP@
++ExecStart=@BINDIR@/@BINARY_NAME@ --endless
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta-selftest/recipes-test/cpp/files/meson.build b/meta-selftest/recipes-test/cpp/files/meson.build
+index 74a0e0173c..53248c4380 100644
+--- a/meta-selftest/recipes-test/cpp/files/meson.build
++++ b/meta-selftest/recipes-test/cpp/files/meson.build
+@@ -16,23 +16,37 @@ if get_option('FAILING_TEST').enabled()
+     add_project_arguments('-DFAIL_COMPARISON_STR=foo', language: 'cpp')
+ endif
+ 
++# Generate config.h from config.h.in
++config_path = get_option('sysconfdir') / 'meson-example.conf'
++conf_data = configuration_data()
++conf_data.set('CPP_EXAMPLE_CONFIG_PATH', config_path)
++configure_file(input : 'config.h.in',
++               output : 'config.h',
++               configuration : conf_data)
++
++# Include the build directory for config.h
++inc_dir = include_directories('.')
++
+ mesonexlib = shared_library('mesonexlib',
+     'cpp-example-lib.cpp', 'cpp-example-lib.hpp',
+-	version: meson.project_version(),
+-	soversion: meson.project_version().split('.')[0],
++    version: meson.project_version(),
++    soversion: meson.project_version().split('.')[0],
+     dependencies : jsoncdep,
++    include_directories : inc_dir,
+     install : true
+     )
+ 
+ executable('mesonex',
+     'cpp-example.cpp',
+     link_with : mesonexlib,
++    include_directories : inc_dir,
+     install : true
+     )
+ 
+ test_mesonex = executable('test-mesonex',
+     'test-cpp-example.cpp',
+     link_with : mesonexlib,
++    include_directories : inc_dir,
+     install : true
+ )
+ 
+diff --git a/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp b/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
+index 83c9bfa844..e1909c3168 100644
+--- a/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
++++ b/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
+@@ -22,4 +22,6 @@ int main() {
+         std::cout << "FAIL: " << ret_string << " != " << CppExample::test_string << std::endl;
+         return 1;
+     }
++
++    return 0;
+ }
+diff --git a/meta-selftest/recipes-test/cpp/meson-example.bb b/meta-selftest/recipes-test/cpp/meson-example.bb
+index 14a7ca8dc9..da0ea18376 100644
+--- a/meta-selftest/recipes-test/cpp/meson-example.bb
++++ b/meta-selftest/recipes-test/cpp/meson-example.bb
+@@ -25,3 +25,5 @@ do_run_tests () {
+ do_run_tests[doc] = "Run meson test using qemu-user"
+ 
+ addtask do_run_tests after do_compile
++
++EX_BINARY_NAME = "mesonex"
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 9bbba2ec89..681dcee08c 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -2714,7 +2714,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         $1 = 0
+         print CppExample::test_string.compare("cpp-example-lib Magic: 123456789aaa")
+         $2 = -3
+-        list cpp-example-lib.hpp:13,13
++        list cpp-example-lib.hpp:14,14
+         13	    inline static const std::string test_string = "cpp-example-lib Magic: 123456789";
+         continue
+         """
+@@ -2745,7 +2745,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         gdb_batch_cmd += " -ex 'break CppExample::print_json()' -ex 'continue'"
+         gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %s\")'" % magic_string
+         gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %saaa\")'" % magic_string
+-        gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:13,13'"
++        gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:14,14'"
+         gdb_batch_cmd += " -ex 'continue'"
+         r = runCmd(gdb_script + gdb_batch_cmd, output_log=self._cmd_logger)
+         self.logger.debug("%s %s returned: %s", gdb_script,
 -- 
 2.52.0
 
