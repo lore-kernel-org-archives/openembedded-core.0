@@ -1,144 +1,152 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 027C4EE57C1
-	for <webhook@archiver.kernel.org>; Tue, 30 Dec 2025 20:54:36 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.72566.1767128069226221131
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 354BBEE57D6
+	for <webhook@archiver.kernel.org>; Wed, 31 Dec 2025 07:41:49 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.81719.1767166905678081761
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Dec 2025 12:54:30 -0800
+ Tue, 30 Dec 2025 23:41:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=J+tAUo9A;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202512302054274606d4850900020782-r1du_l@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202512302054274606d4850900020782
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 30 Dec 2025 21:54:27 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=k8XjVV7CC95ep8u0CaNv4Z1x3sIHRu+9tTRMoCELa3c=;
- b=J+tAUo9AcjLNn8AWTRsz5PY8Tp0rbYTOPgEEK1aiurg8oNviI9Nr8rcHdi23JiEN93bJeX
- Mz52YWVZMXMHhq3NksAf4vRcgfCEuTDIIxBPIRXERlV8rgf5OB8T3bVSNLqPn9uIgJ3ZMu8r
- ramOiGOO3DachmF8cY0wSAnrsFbvkHbeCY26r4nHChJ9p/oYJ4WLwLyAkOeA7reaF6krpIoc
- Q3Q2wGA9Ds7g6Vmwb1NqvOe1Y773bDI7Ve3KWbx9rsM/zSv0Fn65CVRTSncyGhYRwYQSa7Zz
- eqNy/o8H90JUOZhGhGCvq1l0CbEclxIHTwPYWIIXTZeTb54toH1/ZH9w==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] util-linux: patch CVE-2025-14104
-Date: Tue, 30 Dec 2025 21:54:20 +0100
-Message-Id: <20251230205420.3095915-1-peter.marko@siemens.com>
-MIME-Version: 1.0
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=KpmGwLK0;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 888641A255A;
+	Wed, 31 Dec 2025 07:41:43 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 5E47360744;
+	Wed, 31 Dec 2025 07:41:43 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D47E6113B072C;
+	Wed, 31 Dec 2025 08:41:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1767166903; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=QjbXlWNQdXeC+vvrc7QSENW7QgwL/glwz9IFyy6UtAQ=;
+	b=KpmGwLK053PHw9YnkO4xOYNAkmHInl0LrD3x6enUtb0F0AvnxDZ/TjGCUP5FecKQgW0Hsg
+	tIFExM9BklCNv2Z4MKQp4y3mmFWZ8WMvjlH61ODosQ8k5MbdCrCW6oPr15GLzo+sNstoYP
+	OM9zT/u/ucR+xamxlGRkUyJ3YkSyCSixtIEUJuOVfXMbX47ggVUOY41uJnnEGJp0AqC9W0
+	dwumXMiI8oGrfoc80bVNf4GGfpuj7CoPMr7TO3Efp81xYCdvJB3tKwQG1lXeJVm1FPJAdz
+	1MYzYLelhp8k81Fm3RpQm0oX9yri27CzAlKlHjkl1W3oI5+Hl9xFtlVi7pTIeA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Date: Wed, 31 Dec 2025 08:41:40 +0100
+Message-Id: <DFC8DUU93AH8.3HVB3NWSVHZYP@bootlin.com>
+Subject: Re: [OE-core] [PATCH 13/14] oe-selftest: devtool: add test for gdb
+ pretty-printing
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <adrian.freihofer@siemens.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20251230084720.2371227-1-adrian.freihofer@siemens.com>
+ <20251230084720.2371227-14-adrian.freihofer@siemens.com>
+In-Reply-To: <20251230084720.2371227-14-adrian.freihofer@siemens.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Dec 2025 20:54:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228723
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Dec 2025 07:41:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228724
 
-From: Peter Marko <peter.marko@siemens.com>
+On Tue Dec 30, 2025 at 9:46 AM CET, Adrian Freihofer via lists.openembedded=
+.org wrote:
+> From: Adrian Freihofer <adrian.freihofer@siemens.com>
+>
+> This extends the existing devtool IDE SDK tests to verify that gdb
+> pretty-printing is working correctly.
+>
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> ---
 
-Pick patches per [1].
+Hi Adrian,
 
-[1] https://security-tracker.debian.org/tracker/CVE-2025-14104
+We discussed this over IRC, but let's keep a trace of it here.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-core/util-linux/util-linux.inc   |  2 ++
- .../util-linux/CVE-2025-14104-01.patch        | 33 +++++++++++++++++++
- .../util-linux/CVE-2025-14104-02.patch        | 28 ++++++++++++++++
- 3 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2025-14104-02.patch
+This patch is probably responsible of the following error in the
+autobuilder, during arm hosted selftests:
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index c62c6d70c34..a8b505a1225 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -42,6 +42,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://CVE-2024-28085-0004.patch \
-            file://CVE-2024-28085-0005.patch \
- 	   file://fstab-isolation.patch \
-+           file://CVE-2025-14104-01.patch \
-+           file://CVE-2025-14104-02.patch \
-            "
- 
- SRC_URI[sha256sum] = "634e6916ad913366c3536b6468e7844769549b99a7b2bf80314de78ab5655b83"
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch b/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch
-new file mode 100644
-index 00000000000..23677345c94
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-01.patch
-@@ -0,0 +1,33 @@
-+From aaa9e718c88d6916b003da7ebcfe38a3c88df8e6 Mon Sep 17 00:00:00 2001
-+From: Mohamed Maatallah <hotelsmaatallahrecemail@gmail.com>
-+Date: Sat, 24 May 2025 03:16:09 +0100
-+Subject: [PATCH] Update setpwnam.c
-+
-+CVE: CVE-2025-14104
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/aaa9e718c88d6916b003da7ebcfe38a3c88df8e6]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ login-utils/setpwnam.c | 10 ++++++----
-+ 1 file changed, 6 insertions(+), 4 deletions(-)
-+
-+diff --git a/login-utils/setpwnam.c b/login-utils/setpwnam.c
-+index 3e3c1abde..95e470b5a 100644
-+--- a/login-utils/setpwnam.c
-++++ b/login-utils/setpwnam.c
-+@@ -126,10 +126,12 @@ int setpwnam(struct passwd *pwd, const char *prefix)
-+ 		}
-+ 
-+ 		/* Is this the username we were sent to change? */
-+-		if (!found && linebuf[namelen] == ':' &&
-+-		    !strncmp(linebuf, pwd->pw_name, namelen)) {
-+-			/* Yes! So go forth in the name of the Lord and
-+-			 * change it!  */
-++		if (!found &&
-++		    strncmp(linebuf, pwd->pw_name, namelen) == 0 &&
-++		    strlen(linebuf) > namelen &&
-++		    linebuf[namelen] == ':') {
-++			/* Yes! But this time let’s not walk past the end of the buffer
-++			 * in the name of the Lord, SUID, or anything else. */
-+ 			if (putpwent(pwd, fp) < 0)
-+ 				goto fail;
-+ 			found = 1;
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-02.patch b/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-02.patch
-new file mode 100644
-index 00000000000..9d21db27436
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/CVE-2025-14104-02.patch
-@@ -0,0 +1,28 @@
-+From 9a36d77012c4c771f8d51eba46b6e62c29bf572a Mon Sep 17 00:00:00 2001
-+From: Mohamed Maatallah <hotelsmaatallahrecemail@gmail.com>
-+Date: Mon, 26 May 2025 10:06:02 +0100
-+Subject: [PATCH] Update bufflen
-+
-+Update buflen
-+
-+CVE: CVE-2025-14104
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/9a36d77012c4c771f8d51eba46b6e62c29bf572a]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ login-utils/setpwnam.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/login-utils/setpwnam.c b/login-utils/setpwnam.c
-+index 95e470b5a..7778e98f7 100644
-+--- a/login-utils/setpwnam.c
-++++ b/login-utils/setpwnam.c
-+@@ -99,7 +99,8 @@ int setpwnam(struct passwd *pwd, const char *prefix)
-+ 		goto fail;
-+ 
-+ 	namelen = strlen(pwd->pw_name);
-+-
-++	if (namelen > buflen)
-++		buflen += namelen;
-+ 	linebuf = malloc(buflen);
-+ 	if (!linebuf)
-+ 		goto fail;
+2025-12-30 16:17:15,120 - oe-selftest - INFO - devtool.DevtoolIdeSdkTests.t=
+est_devtool_ide_sdk_code_cmake (subunit.RemotedTestCase)
+2025-12-30 16:17:15,121 - oe-selftest - INFO -  ... FAIL
+...
+AssertionError: Command '/srv/pokybuild/yocto-worker/oe-selftest-armhost/bu=
+ild/build-st-1628878/tmp/work/aarch64-linux/gdb-cross-aarch64/16.3/recipe-s=
+ysroot-native/usr/bin/aarch64-poky-linux/aarch64-poky-linux-gdb --batch -ex=
+ 'set sysroot /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-s=
+t-1628878/tmp/work/cortexa57-poky-linux/cmake-example/1.0/image' -ex 'pytho=
+n import sys;sys.path.insert(0, '"'"'/srv/pokybuild/yocto-worker/oe-selftes=
+t-armhost/build/build-st-1628878/tmp/work/cortexa57-poky-linux/cmake-exampl=
+e/1.0/recipe-sysroot/usr/share/gcc-15.2.0/python'"'"');from libstdcxx.v6.pr=
+inters import register_libstdcxx_printers;register_libstdcxx_printers(None)=
+' -ex 'set substitute-path /usr/include /srv/pokybuild/yocto-worker/oe-self=
+test-armhost/build/build-st-1628878/tmp/work/cortexa57-poky-linux/cmake-exa=
+mple/1.0/recipe-sysroot/usr/include' -ex 'set substitute-path /usr/src/debu=
+g/cmake-example/1.0 /tmp/devtoolqa7jq2nm81' -ex 'set substitute-path /usr/s=
+rc/debug /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-162=
+8878/tmp/work/qemuarm64-poky-linux/oe-selftest-image/1.0/rootfs-dbg/usr/src=
+/debug' -ex 'set solib-search-path /srv/pokybuild/yocto-worker/oe-selftest-=
+armhost/build/build-st-1628878/tmp/work/qemuarm64-poky-linux/oe-selftest-im=
+age/1.0/rootfs-dbg/lib/.debug:/srv/pokybuild/yocto-worker/oe-selftest-armho=
+st/build/build-st-1628878/tmp/work/qemuarm64-poky-linux/oe-selftest-image/1=
+.0/rootfs-dbg/usr/lib/.debug:/srv/pokybuild/yocto-worker/oe-selftest-armhos=
+t/build/build-st-1628878/tmp/work/qemuarm64-poky-linux/oe-selftest-image/1.=
+0/rootfs-dbg/usr/lib/debug:/srv/pokybuild/yocto-worker/oe-selftest-armhost/=
+build/build-st-1628878/tmp/work/qemuarm64-poky-linux/oe-selftest-image/1.0/=
+rootfs-dbg/lib:/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-=
+st-1628878/tmp/work/qemuarm64-poky-linux/oe-selftest-image/1.0/rootfs-dbg/u=
+sr/lib:/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-16288=
+78/tmp/work/qemuarm64-poky-linux/oe-selftest-image/1.0/rootfs/lib:/srv/poky=
+build/yocto-worker/oe-selftest-armhost/build/build-st-1628878/tmp/work/qemu=
+arm64-poky-linux/oe-selftest-image/1.0/rootfs/usr/lib' -ex 'file /srv/pokyb=
+uild/yocto-worker/oe-selftest-armhost/build/build-st-1628878/tmp/work/corte=
+xa57-poky-linux/cmake-example/1.0/image/usr/bin/cmake-example' -ex 'target =
+remote 192.168.7.4:1234' -ex 'break main' -ex 'continue' -ex 'break CppExam=
+ple::print_json()' -ex 'continue' -ex 'print CppExample::test_string.compar=
+e("cpp-example-lib Magic: 123456789")' -ex 'print CppExample::test_string.c=
+ompare("cpp-example-lib Magic: 123456789aaa")' -ex 'list cpp-example-lib.hp=
+p:14,14' -ex 'list cpp-example.cpp:55,55' -ex 'break cpp-example.cpp:55' -e=
+x 'continue' -ex 'print numbers' -ex 'continue'' returned non-zero exit sta=
+tus 1:
+_start () at ../sysdeps/aarch64/dl-start.S:23
+23	ENTRY (_start)
+Breakpoint 1 at 0xaaaaaaaa1400: file /usr/src/debug/cmake-example/1.0/cpp-e=
+xample.cpp, line 15.
+
+Breakpoint 1, main (argc=3D1, argv=3D0xfffffffffd08) at /usr/src/debug/cmak=
+e-example/1.0/cpp-example.cpp:15
+15	{
+Breakpoint 2 at 0xfffff7f91d70: file /usr/src/debug/cmake-example/1.0/cpp-e=
+xample-lib.cpp, line 28.
+
+Breakpoint 2, CppExample::print_json (this=3D0xfffffffffac8) at /usr/src/de=
+bug/cmake-example/1.0/cpp-example-lib.cpp:28
+28	    jobj =3D json_object_new_object();
+$1 =3D 0
+$2 =3D -3
+14	    inline static const std::string test_string =3D "cpp-example-lib Mag=
+ic: 123456789";
+55	    std::vector<int> numbers =3D {1, 2, 3};
+No compiled code for line 55 in file "cpp-example.cpp".
+Make breakpoint pending on future shared library load? (y or [n]) [answered=
+ N; input not from terminal]
+[Inferior 1 (process 346) exited normally]
+A syntax error in expression, near the end of `numbers'.
+The program is not being run.
+...
+2025-12-30 16:26:11,523 - oe-selftest - INFO - devtool.DevtoolIdeSdkTests.t=
+est_devtool_ide_sdk_none_qemu (subunit.RemotedTestCase)
+2025-12-30 16:26:11,524 - oe-selftest - INFO -  ... FAIL
+...
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3070
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
