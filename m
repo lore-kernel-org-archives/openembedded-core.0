@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B3A8EED621
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 332DCEED628
 	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 11:38:00 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.103053.1767267471985687349
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.102966.1767267471913984430
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jan 2026 03:37:52 -0800
+ Thu, 01 Jan 2026 03:37:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=gvYVoX2K;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Bh6S201/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019b79598fce-f84b39b3-1beb-442f-9aae-4597b8f0312b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Bz8hCh4W;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=iaU+I+44;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019b79598fad-6160b8d8-cdce-4c48-b0e9-92fdc53cf767-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1767267471;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=1LbbYx6gANqbcMKL0H0/CCIOwrBUXSEeIEqfiWagHxc=;
-	b=gvYVoX2KkO02ZCnW0OmubanyfHiybMg8V8QHnvpDu18Pvzf+f2tvXXu3QpXYXsK/
-	f1xkLZ2SVwVBZ15/Wz4NbQ9IQreoUoqWNWmHpBMaARTUdu44xNtXJikeFTxx4auOQ6w
-	E1One34Qasuj0QaOPVH0ovQ1dWU7WzxAE4ztwOPk=
+	bh=haAgcmJWyQi9gy3oJp8C0pLqnt05/naxlr9xhDKDs68=;
+	b=Bz8hCh4WQ6wkNWX9fhVNOzHxE7v8DgbXVwtZ8i5LUxo8sc7bOhN9lm+W+TMGAcOp
+	EYJxwtXTMKoUZNo/NaP1KXr2c68JuOEHjS5HlOZZGjmNcDFL8e2B6H6EjLCnpzeFwnK
+	J/zbaPNoy5ESGtyNHdZqZnmGY1XNt8tXB14DEms0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1767267471;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=1LbbYx6gANqbcMKL0H0/CCIOwrBUXSEeIEqfiWagHxc=;
-	b=Bh6S201/E3XbqHsifavH6+h1kGdThl6KunprmW1u3yEPIK7s3e3XGFNhufa6a/OK
-	3yTv1xoDUgHMFVNjscNr51Kwfmwo3n/zIWl2r15q7lJ2XWoBHz3+qNFtp6raeGN1R6H
-	06fnkc+GcY1E5C2Dmc6ZzZ1xqgKXlKcYVXKsYLMs=
-Content-Type: multipart/mixed; boundary="===============1801536610540140467=="
+	bh=haAgcmJWyQi9gy3oJp8C0pLqnt05/naxlr9xhDKDs68=;
+	b=iaU+I+44FGV3ixtbCs0rqHD3BqAK/WuoshgypiXQBkZ/mBUFtgYIhxiuXH6aYZL+
+	ZLfJFVZodrxVhnM2fmUfyFwhAWtLBKzjMGN4wleSs4Smx3pEzJ6bjLLsZqDNXno4Dml
+	sLE9zwMo2yO5kQHfQZAYMiHtFDu8rd4qc27ZYkts=
+Content-Type: multipart/mixed; boundary="===============7750944918398951920=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] perlcross: upgrading to 1.6.4 FAILED
-Message-ID: <0101019b79598fce-f84b39b3-1beb-442f-9aae-4597b8f0312b-000000@us-west-2.amazonses.com>
+Subject: [AUH] dpkg: upgrading to 1.23.3 FAILED
+Message-ID: <0101019b79598fad-6160b8d8-cdce-4c48-b0e9-92fdc53cf767-000000@us-west-2.amazonses.com>
 Date: Thu, 1 Jan 2026 11:37:51 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.01-54.240.27.30
+X-SES-Outgoing: 2026.01.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 11:38:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228765
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228762
 
---===============1801536610540140467==
+--===============7750944918398951920==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,11 +51,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *perlcross* to *1.6.4* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *dpkg* to *1.23.3* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade perlcross -V 1.6.4
+Running 'devtool upgrade' for recipe dpkg failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 0 entries from dependency cache.
@@ -71,10 +71,10 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-516ba0c00b1d56cfbff56531351aff5110745ca8"
+DISTRO_VERSION       = "5.2.99+snapshot-b5be92dc449fa42788ece8de37c173d3fc71f327"
 TUNE_FEATURES        = "m64 x86-64-v3"
 TARGET_FPU           = ""
-meta                 = "tmp-auh-upgrades:516ba0c00b1d56cfbff56531351aff5110745ca8"
+meta                 = "tmp-auh-upgrades:b5be92dc449fa42788ece8de37c173d3fc71f327"
 meta-yocto-bsp       
 meta-poky            = "master:853589ccc3445f5952efc02a7102587cb4d4f075"
 workspace            = "<unknown>:<unknown>"
@@ -86,19 +86,24 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-
 INFO: Extracting current version source...
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 352, in <module>
-    ret = main()
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 338, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/upgrade.py", line 605, in upgrade
-    old_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/upgrade.py", line 509, in _extract_licenses
-    with open(os.path.join(srcpath, path), 'rb') as f:
-         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/perlcross/1.6.2/sources/README.md'
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto f3ad53337eaee92cbeb1a7c73e98d552c3a8186f
+WARNING: Command 'git rebase f3ad53337eaee92cbeb1a7c73e98d552c3a8186f' failed:
+Auto-merging debian/changelog
+CONFLICT (content): Merge conflict in debian/changelog
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-native onto f3ad53337eaee92cbeb1a7c73e98d552c3a8186f
+WARNING: Command 'git rebase f3ad53337eaee92cbeb1a7c73e98d552c3a8186f' failed:
+Auto-merging debian/changelog
+CONFLICT (content): Merge conflict in debian/changelog
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/dpkg
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/dpkg/dpkg_1.23.3.bb
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -106,5 +111,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1801536610540140467==--
+--===============7750944918398951920==--
 
