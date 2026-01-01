@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43D1DEEB583
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62098EEB58E
 	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 11:37:59 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.102970.1767267472746343773
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.102972.1767267475144214666
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Jan 2026 03:37:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jVtGw270;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=h7NbKKIx;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019b7959ab25-2ddc4f25-a72c-4940-a4e8-6faa2429d6f1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ARolH4JC;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ZJD7DiGK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019b7959a862-cfa16c43-d76f-4800-9c62-b4b88c60efa7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1767267478;
+	t=1767267477;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=/ExWvNgDSYFqJPHS4fDBuKFyZ13pCiZ8BzxyOP4atao=;
-	b=jVtGw270tOJ8sSyBxXz5K428mH9/+xmpZpzeSsztfAfW77nj15GWXsLQvyKDsnds
-	jX2FC8yk50+l1u5aOJH1ZZIGhosw42rpMiSgsOx/0WD8KOFVERaikwCLQtTDIPQuMoT
-	/H6qwsl3g5FGCDsXQI4RvdIYmH+XTc+baE3HSLgY=
+	bh=jUQAOF1DqIhSf0tyEskEQo4ltwfNWikY1UzAlbKJX6s=;
+	b=ARolH4JCeawht8YkSmlV5h9XPEl5NZRe9o9hEdM4uvogJLbi35gxB1QUgonfnG99
+	ioTSdxIvNuqKrW5TaV5RK76E02HfufWAYim6vD//Elw4EFTIZeh8IRelfh8MEzCTi+4
+	kYfSCSX06TfedZlC+tzFTrwj9OyEZFKmrRrDSETc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1767267478;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1767267477;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=/ExWvNgDSYFqJPHS4fDBuKFyZ13pCiZ8BzxyOP4atao=;
-	b=h7NbKKIxlTdBwr4wsIL8w9/p7n2MfjSUbh809ycMWORM+MFg17uNOYLQfIs4uRkX
-	DFdtzeYKyVL3DJomYgxb9Rsm56NImz0uIiEFj23R5AjFvKmns7YNR9JlLm1CcQr2Mbh
-	7UQ2zQF8yuWpZzbRDXDR1qG7ocVCurn5X8LpsOzM=
-Content-Type: multipart/mixed; boundary="===============0258964026598310872=="
+	bh=jUQAOF1DqIhSf0tyEskEQo4ltwfNWikY1UzAlbKJX6s=;
+	b=ZJD7DiGKhcOpYURn2OuwqmIQe3RqxA3whSlUl1MzAFY/Xt7FFYf9aO7O70BdGMwC
+	6DJiXNFzSCrtrVapJFGYEumBs4ofo1UVdc4ECH/kuuOvETJICgxEaZ1CWNlEgZ7A3lz
+	iIakS4ctcZX+ANRFgnLK4LIuXFhKnN+RoIRCgJHM=
+Content-Type: multipart/mixed; boundary="===============0796662082399546012=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] stress-ng: upgrading to 0.20.00 SUCCEEDED
-Message-ID: <0101019b7959ab25-2ddc4f25-a72c-4940-a4e8-6faa2429d6f1-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Jan 2026 11:37:58 +0000
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] xz: upgrading to 5.8.2 SUCCEEDED
+Message-ID: <0101019b7959a862-cfa16c43-d76f-4800-9c62-b4b88c60efa7-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Jan 2026 11:37:57 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.01-54.240.27.31
+X-SES-Outgoing: 2026.01.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 11:37:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228790
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228787
 
---===============0258964026598310872==
+--===============0796662082399546012==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *stress-ng* to *0.20.00* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *xz* to *5.8.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-stress-ng-upgrade-0.19.06-0.20.00.patch
+    - apply the patch: git am 0001-xz-upgrade-5.8.1-5.8.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,144 +72,391 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f8fc73dcc5dd7ece2cb0b352cebc67833deb2ae5 Mon Sep 17 00:00:00 2001
+From 8c84ac9c2d18f47a1f0cdcf9c7f611dbcf7bf374 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Jan 2026 08:54:38 +0000
-Subject: [PATCH] stress-ng: upgrade 0.19.06 -> 0.20.00
+Date: Thu, 1 Jan 2026 09:16:35 +0000
+Subject: [PATCH] xz: upgrade 5.8.1 -> 5.8.2
 
 ---
- .../stress-ng/{stress-ng_0.19.06.bb => stress-ng_0.20.00.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/stress-ng/{stress-ng_0.19.06.bb => stress-ng_0.20.00.bb} (94%)
+ .../xz/{xz_5.8.1.bb => xz_5.8.2.bb}           | 80 ++++++++++++++++++-
+ 1 file changed, 77 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/xz/{xz_5.8.1.bb => xz_5.8.2.bb} (47%)
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.19.06.bb b/meta/recipes-extended/stress-ng/stress-ng_0.20.00.bb
-similarity index 94%
-rename from meta/recipes-extended/stress-ng/stress-ng_0.19.06.bb
-rename to meta/recipes-extended/stress-ng/stress-ng_0.20.00.bb
-index a5418ad9c7..9302a21db5 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.19.06.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.20.00.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/recipes-extended/xz/xz_5.8.1.bb b/meta/recipes-extended/xz/xz_5.8.2.bb
+similarity index 47%
+rename from meta/recipes-extended/xz/xz_5.8.1.bb
+rename to meta/recipes-extended/xz/xz_5.8.2.bb
+index 406ecbbec4..cab0bc9caf 100644
+--- a/meta/recipes-extended/xz/xz_5.8.1.bb
++++ b/meta/recipes-extended/xz/xz_5.8.2.bb
+@@ -1,3 +1,77 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- COPYING.GPLv2
++# +++ COPYING.GPLv2
++# @@ -2,7 +2,7 @@
++#                         Version 2, June 1991
++#  
++#   Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
++# - 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++# + <https://fsf.org/>
++#   Everyone is permitted to copy and distribute verbatim copies
++#   of this license document, but changing it is not allowed.
++#  
++# @@ -304,8 +304,7 @@
++#      GNU General Public License for more details.
++#  
++#      You should have received a copy of the GNU General Public License along
++# -    with this program; if not, write to the Free Software Foundation, Inc.,
++# -    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++# +    with this program; if not, see <https://www.gnu.org/licenses/>.
++#  
++#  Also add information on how to contact you by electronic and paper mail.
++#  
++# @@ -329,8 +328,8 @@
++#    Yoyodyne, Inc., hereby disclaims all copyright interest in the program
++#    `Gnomovision' (which makes passes at compilers) written by James Hacker.
++#  
++# -  <signature of Ty Coon>, 1 April 1989
++# -  Ty Coon, President of Vice
++# +  <signature of Moe Ghoul>, 1 April 1989
++# +  Moe Ghoul, President of Vice
++#  
++#  This General Public License does not permit incorporating your program into
++#  proprietary programs.  If your program is a subroutine library, you may
++# --- COPYING.LGPLv2.1
++# +++ COPYING.LGPLv2.1
++# @@ -2,7 +2,7 @@
++#                         Version 2.1, February 1999
++#  
++#   Copyright (C) 1991, 1999 Free Software Foundation, Inc.
++# - 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
++# + <https://fsf.org/>
++#   Everyone is permitted to copy and distribute verbatim copies
++#   of this license document, but changing it is not allowed.
++#  
++# @@ -484,8 +484,7 @@
++#      Lesser General Public License for more details.
++#  
++#      You should have received a copy of the GNU Lesser General Public
++# -    License along with this library; if not, write to the Free Software
++# -    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
++# +    License along with this library; if not, see <https://www.gnu.org/licenses/>.
++#  
++#  Also add information on how to contact you by electronic and paper mail.
++#  
++# @@ -496,7 +495,7 @@
++#    Yoyodyne, Inc., hereby disclaims all copyright interest in the
++#    library `Frob' (a library for tweaking knobs) written by James Random Hacker.
++#  
++# -  <signature of Ty Coon>, 1 April 1990
++# -  Ty Coon, President of Vice
++# +  <signature of Moe Ghoul>, 1 April 1990
++# +  Moe Ghoul, President of Vice
++#  
++#  That's all there is to it!
++# 
++#
++
+ SUMMARY = "Utilities for managing LZMA compressed files"
+ HOMEPAGE = "https://tukaani.org/xz/"
+ DESCRIPTION = "XZ Utils is free general-purpose data compression software with a high compression ratio. XZ Utils were written for POSIX-like systems, but also work on some not-so-POSIX systems. XZ Utils are the successor to LZMA Utils."
+@@ -19,16 +93,16 @@ LICENSE:liblzma = "0BSD"
  
- SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V${PV}"
--SRCREV = "310c900f697028dce78fea82c2b1d28a244c86c2"
-+SRCREV = "dcd2902c888c1eac1d958785b13cf232f46894a0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d38d562f6112174de93a9677682231b2 \
+                     file://COPYING.0BSD;md5=0672c210ce80c83444339b9aa31fee2f \
+-                    file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://COPYING.GPLv2;md5=570a9b3749dd0463a1778803b12a6dce \
+                     file://COPYING.GPLv3;md5=1ebbd3e34237af26da5dc08a4e440464 \
+-                    file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
++                    file://COPYING.LGPLv2.1;md5=4bf661c1e3793e55c8d1051bc5e0ae21 \
+                     file://lib/getopt.c;endline=23;md5=3f33e207287bf72834f3ae8c247dfb6a \
+                     "
  
- DEPENDS = "coreutils-native libbsd"
+ SRC_URI = "https://github.com/tukaani-project/xz/releases/download/v${PV}/xz-${PV}.tar.gz \
+            file://run-ptest \
+           "
+-SRC_URI[sha256sum] = "507825b599356c10dca1cd720c9d0d0c9d5400b9de300af00e4d1ea150795543"
++SRC_URI[sha256sum] = "ce09c50a5962786b83e5da389c90dd2c15ecd0980a258dd01f70f9e7ce58a8f1"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v(?P<pver>\d+(\.\d+)+)"
+ UPSTREAM_CHECK_URI = "https://github.com/tukaani-project/xz/releases/"
  
 -- 
 2.47.1
 
 
---===============0258964026598310872==
+--===============0796662082399546012==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-stress-ng-upgrade-0.19.06-0.20.00.patch"
+Content-Disposition: attachment; filename="0001-xz-upgrade-5.8.1-5.8.2.patch"
 
-RnJvbSBmOGZjNzNkY2M1ZGQ3ZWNlMmNiMGIzNTJjZWJjNjc4MzNkZWIyYWU1IE1vbiBTZXAgMTcg
+RnJvbSA4Yzg0YWM5YzJkMThmNDdhMWYwY2RjZjljN2Y2MTFkYmNmN2JmMzc0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBKYW4gMjAyNiAwODo1NDozOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHN0
-cmVzcy1uZzogdXBncmFkZSAwLjE5LjA2IC0+IDAuMjAuMDAKCi0tLQogLi4uL3N0cmVzcy1uZy97
-c3RyZXNzLW5nXzAuMTkuMDYuYmIgPT4gc3RyZXNzLW5nXzAuMjAuMDAuYmJ9ICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy97c3RyZXNzLW5nXzAuMTkuMDYuYmIgPT4gc3Ry
-ZXNzLW5nXzAuMjAuMDAuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVu
-ZGVkL3N0cmVzcy1uZy9zdHJlc3MtbmdfMC4xOS4wNi5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRl
-ZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMjAuMDAuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVu
-YW1lIGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy9zdHJlc3MtbmdfMC4xOS4w
-Ni5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy9zdHJlc3Mtbmdf
-MC4yMC4wMC5iYgppbmRleCBhNTQxOGFkOWM3Li45MzAyYTIxZGI1IDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtZXh0ZW5kZWQvc3RyZXNzLW5nL3N0cmVzcy1uZ18wLjE5LjA2LmJiCisrKyBiL21l
-dGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMjAuMDAuYmIKQEAgLTYs
-NyArNiw3IEBAIExJQ0VOU0UgPSAiR1BMLTIuMC1vbmx5IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
-aWxlOi8vQ09QWUlORzttZDU9YjIzNGVlNGQ2OWY1ZmNlNDQ4NmE4MGZkYWY0YTQyNjMiCiAKIFNS
-Q19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9Db2xpbklhbktpbmcvc3RyZXNzLW5nLmdpdDtwcm90
-b2NvbD1odHRwczticmFuY2g9bWFzdGVyO3RhZz1WJHtQVn0iCi1TUkNSRVYgPSAiMzEwYzkwMGY2
-OTcwMjhkY2U3OGZlYTgyYzJiMWQyOGEyNDRjODZjMiIKK1NSQ1JFViA9ICJkY2QyOTAyYzg4OGMx
-ZWFjMWQ5NTg3ODViMTNjZjIzMmY0Njg5NGEwIgogCiBERVBFTkRTID0gImNvcmV1dGlscy1uYXRp
-dmUgbGliYnNkIgogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFRodSwgMSBKYW4gMjAyNiAwOToxNjozNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHh6
+OiB1cGdyYWRlIDUuOC4xIC0+IDUuOC4yCgotLS0KIC4uLi94ei97eHpfNS44LjEuYmIgPT4geHpf
+NS44LjIuYmJ9ICAgICAgICAgICB8IDgwICsrKysrKysrKysrKysrKysrKy0KIDEgZmlsZSBjaGFu
+Z2VkLCA3NyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBl
+cy1leHRlbmRlZC94ei97eHpfNS44LjEuYmIgPT4geHpfNS44LjIuYmJ9ICg0NyUpCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3h6L3h6XzUuOC4xLmJiIGIvbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL3h6L3h6XzUuOC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggNDclCnJlbmFtZSBmcm9t
+IG1ldGEvcmVjaXBlcy1leHRlbmRlZC94ei94el81LjguMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWV4dGVuZGVkL3h6L3h6XzUuOC4yLmJiCmluZGV4IDQwNmVjYmJlYzQuLmNhYjBiYzljYWYg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC94ei94el81LjguMS5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZXh0ZW5kZWQveHoveHpfNS44LjIuYmIKQEAgLTEsMyArMSw3NyBAQAorIyBG
+SVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdk
+ZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdl
+ZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhl
+IExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisj
+IHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBs
+ZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUg
+Y2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcuR1BMdjIKKyMgKysrIENPUFlJTkcuR1BMdjIKKyMg
+QEAgLTIsNyArMiw3IEBACisjICAgICAgICAgICAgICAgICAgICAgICAgIFZlcnNpb24gMiwgSnVu
+ZSAxOTkxCisjICAKKyMgICBDb3B5cmlnaHQgKEMpIDE5ODksIDE5OTEgRnJlZSBTb2Z0d2FyZSBG
+b3VuZGF0aW9uLCBJbmMuLAorIyAtIDUxIEZyYW5rbGluIFN0cmVldCwgRmlmdGggRmxvb3IsIEJv
+c3RvbiwgTUEgMDIxMTAtMTMwMSBVU0EKKyMgKyA8aHR0cHM6Ly9mc2Yub3JnLz4KKyMgICBFdmVy
+eW9uZSBpcyBwZXJtaXR0ZWQgdG8gY29weSBhbmQgZGlzdHJpYnV0ZSB2ZXJiYXRpbSBjb3BpZXMK
+KyMgICBvZiB0aGlzIGxpY2Vuc2UgZG9jdW1lbnQsIGJ1dCBjaGFuZ2luZyBpdCBpcyBub3QgYWxs
+b3dlZC4KKyMgIAorIyBAQCAtMzA0LDggKzMwNCw3IEBACisjICAgICAgR05VIEdlbmVyYWwgUHVi
+bGljIExpY2Vuc2UgZm9yIG1vcmUgZGV0YWlscy4KKyMgIAorIyAgICAgIFlvdSBzaG91bGQgaGF2
+ZSByZWNlaXZlZCBhIGNvcHkgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGFsb25n
+CisjIC0gICAgd2l0aCB0aGlzIHByb2dyYW07IGlmIG5vdCwgd3JpdGUgdG8gdGhlIEZyZWUgU29m
+dHdhcmUgRm91bmRhdGlvbiwgSW5jLiwKKyMgLSAgICA1MSBGcmFua2xpbiBTdHJlZXQsIEZpZnRo
+IEZsb29yLCBCb3N0b24sIE1BIDAyMTEwLTEzMDEgVVNBLgorIyArICAgIHdpdGggdGhpcyBwcm9n
+cmFtOyBpZiBub3QsIHNlZSA8aHR0cHM6Ly93d3cuZ251Lm9yZy9saWNlbnNlcy8+LgorIyAgCisj
+ICBBbHNvIGFkZCBpbmZvcm1hdGlvbiBvbiBob3cgdG8gY29udGFjdCB5b3UgYnkgZWxlY3Ryb25p
+YyBhbmQgcGFwZXIgbWFpbC4KKyMgIAorIyBAQCAtMzI5LDggKzMyOCw4IEBACisjICAgIFlveW9k
+eW5lLCBJbmMuLCBoZXJlYnkgZGlzY2xhaW1zIGFsbCBjb3B5cmlnaHQgaW50ZXJlc3QgaW4gdGhl
+IHByb2dyYW0KKyMgICAgYEdub21vdmlzaW9uJyAod2hpY2ggbWFrZXMgcGFzc2VzIGF0IGNvbXBp
+bGVycykgd3JpdHRlbiBieSBKYW1lcyBIYWNrZXIuCisjICAKKyMgLSAgPHNpZ25hdHVyZSBvZiBU
+eSBDb29uPiwgMSBBcHJpbCAxOTg5CisjIC0gIFR5IENvb24sIFByZXNpZGVudCBvZiBWaWNlCisj
+ICsgIDxzaWduYXR1cmUgb2YgTW9lIEdob3VsPiwgMSBBcHJpbCAxOTg5CisjICsgIE1vZSBHaG91
+bCwgUHJlc2lkZW50IG9mIFZpY2UKKyMgIAorIyAgVGhpcyBHZW5lcmFsIFB1YmxpYyBMaWNlbnNl
+IGRvZXMgbm90IHBlcm1pdCBpbmNvcnBvcmF0aW5nIHlvdXIgcHJvZ3JhbSBpbnRvCisjICBwcm9w
+cmlldGFyeSBwcm9ncmFtcy4gIElmIHlvdXIgcHJvZ3JhbSBpcyBhIHN1YnJvdXRpbmUgbGlicmFy
+eSwgeW91IG1heQorIyAtLS0gQ09QWUlORy5MR1BMdjIuMQorIyArKysgQ09QWUlORy5MR1BMdjIu
+MQorIyBAQCAtMiw3ICsyLDcgQEAKKyMgICAgICAgICAgICAgICAgICAgICAgICAgVmVyc2lvbiAy
+LjEsIEZlYnJ1YXJ5IDE5OTkKKyMgIAorIyAgIENvcHlyaWdodCAoQykgMTk5MSwgMTk5OSBGcmVl
+IFNvZnR3YXJlIEZvdW5kYXRpb24sIEluYy4KKyMgLSA1MSBGcmFua2xpbiBTdHJlZXQsIEZpZnRo
+IEZsb29yLCBCb3N0b24sIE1BICAwMjExMC0xMzAxICBVU0EKKyMgKyA8aHR0cHM6Ly9mc2Yub3Jn
+Lz4KKyMgICBFdmVyeW9uZSBpcyBwZXJtaXR0ZWQgdG8gY29weSBhbmQgZGlzdHJpYnV0ZSB2ZXJi
+YXRpbSBjb3BpZXMKKyMgICBvZiB0aGlzIGxpY2Vuc2UgZG9jdW1lbnQsIGJ1dCBjaGFuZ2luZyBp
+dCBpcyBub3QgYWxsb3dlZC4KKyMgIAorIyBAQCAtNDg0LDggKzQ4NCw3IEBACisjICAgICAgTGVz
+c2VyIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgZm9yIG1vcmUgZGV0YWlscy4KKyMgIAorIyAgICAg
+IFlvdSBzaG91bGQgaGF2ZSByZWNlaXZlZCBhIGNvcHkgb2YgdGhlIEdOVSBMZXNzZXIgR2VuZXJh
+bCBQdWJsaWMKKyMgLSAgICBMaWNlbnNlIGFsb25nIHdpdGggdGhpcyBsaWJyYXJ5OyBpZiBub3Qs
+IHdyaXRlIHRvIHRoZSBGcmVlIFNvZnR3YXJlCisjIC0gICAgRm91bmRhdGlvbiwgSW5jLiwgNTEg
+RnJhbmtsaW4gU3RyZWV0LCBGaWZ0aCBGbG9vciwgQm9zdG9uLCBNQSAgMDIxMTAtMTMwMSAgVVNB
+CisjICsgICAgTGljZW5zZSBhbG9uZyB3aXRoIHRoaXMgbGlicmFyeTsgaWYgbm90LCBzZWUgPGh0
+dHBzOi8vd3d3LmdudS5vcmcvbGljZW5zZXMvPi4KKyMgIAorIyAgQWxzbyBhZGQgaW5mb3JtYXRp
+b24gb24gaG93IHRvIGNvbnRhY3QgeW91IGJ5IGVsZWN0cm9uaWMgYW5kIHBhcGVyIG1haWwuCisj
+ICAKKyMgQEAgLTQ5Niw3ICs0OTUsNyBAQAorIyAgICBZb3lvZHluZSwgSW5jLiwgaGVyZWJ5IGRp
+c2NsYWltcyBhbGwgY29weXJpZ2h0IGludGVyZXN0IGluIHRoZQorIyAgICBsaWJyYXJ5IGBGcm9i
+JyAoYSBsaWJyYXJ5IGZvciB0d2Vha2luZyBrbm9icykgd3JpdHRlbiBieSBKYW1lcyBSYW5kb20g
+SGFja2VyLgorIyAgCisjIC0gIDxzaWduYXR1cmUgb2YgVHkgQ29vbj4sIDEgQXByaWwgMTk5MAor
+IyAtICBUeSBDb29uLCBQcmVzaWRlbnQgb2YgVmljZQorIyArICA8c2lnbmF0dXJlIG9mIE1vZSBH
+aG91bD4sIDEgQXByaWwgMTk5MAorIyArICBNb2UgR2hvdWwsIFByZXNpZGVudCBvZiBWaWNlCisj
+ICAKKyMgIFRoYXQncyBhbGwgdGhlcmUgaXMgdG8gaXQhCisjIAorIworCiBTVU1NQVJZID0gIlV0
+aWxpdGllcyBmb3IgbWFuYWdpbmcgTFpNQSBjb21wcmVzc2VkIGZpbGVzIgogSE9NRVBBR0UgPSAi
+aHR0cHM6Ly90dWthYW5pLm9yZy94ei8iCiBERVNDUklQVElPTiA9ICJYWiBVdGlscyBpcyBmcmVl
+IGdlbmVyYWwtcHVycG9zZSBkYXRhIGNvbXByZXNzaW9uIHNvZnR3YXJlIHdpdGggYSBoaWdoIGNv
+bXByZXNzaW9uIHJhdGlvLiBYWiBVdGlscyB3ZXJlIHdyaXR0ZW4gZm9yIFBPU0lYLWxpa2Ugc3lz
+dGVtcywgYnV0IGFsc28gd29yayBvbiBzb21lIG5vdC1zby1QT1NJWCBzeXN0ZW1zLiBYWiBVdGls
+cyBhcmUgdGhlIHN1Y2Nlc3NvciB0byBMWk1BIFV0aWxzLiIKQEAgLTE5LDE2ICs5MywxNiBAQCBM
+SUNFTlNFOmxpYmx6bWEgPSAiMEJTRCIKIAogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
+WUlORzttZDU9ZDM4ZDU2MmY2MTEyMTc0ZGU5M2E5Njc3NjgyMjMxYjIgXAogICAgICAgICAgICAg
+ICAgICAgICBmaWxlOi8vQ09QWUlORy4wQlNEO21kNT0wNjcyYzIxMGNlODBjODM0NDQzMzliOWFh
+MzFmZWUyZiBcCi0gICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9DT1BZSU5HLkdQTHYyO21kNT1i
+MjM0ZWU0ZDY5ZjVmY2U0NDg2YTgwZmRhZjRhNDI2MyBcCisgICAgICAgICAgICAgICAgICAgIGZp
+bGU6Ly9DT1BZSU5HLkdQTHYyO21kNT01NzBhOWIzNzQ5ZGQwNDYzYTE3Nzg4MDNiMTJhNmRjZSBc
+CiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9DT1BZSU5HLkdQTHYzO21kNT0xZWJiZDNlMzQy
+MzdhZjI2ZGE1ZGMwOGE0ZTQ0MDQ2NCBcCi0gICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9DT1BZ
+SU5HLkxHUEx2Mi4xO21kNT00ZmJkNjUzODBjZGQyNTU5NTEwNzkwMDhiMzY0NTE2YyBcCisgICAg
+ICAgICAgICAgICAgICAgIGZpbGU6Ly9DT1BZSU5HLkxHUEx2Mi4xO21kNT00YmY2NjFjMWUzNzkz
+ZTU1YzhkMTA1MWJjNWUwYWUyMSBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9saWIvZ2V0
+b3B0LmM7ZW5kbGluZT0yMzttZDU9M2YzM2UyMDcyODdiZjcyODM0ZjNhZThjMjQ3ZGZiNmEgXAog
+ICAgICAgICAgICAgICAgICAgICAiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL3R1
+a2FhbmktcHJvamVjdC94ei9yZWxlYXNlcy9kb3dubG9hZC92JHtQVn0veHotJHtQVn0udGFyLmd6
+IFwKICAgICAgICAgICAgZmlsZTovL3J1bi1wdGVzdCBcCiAgICAgICAgICAgIgotU1JDX1VSSVtz
+aGEyNTZzdW1dID0gIjUwNzgyNWI1OTkzNTZjMTBkY2ExY2Q3MjBjOWQwZDBjOWQ1NDAwYjlkZTMw
+MGFmMDBlNGQxZWExNTA3OTU1NDMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiY2UwOWM1MGE1OTYy
+Nzg2YjgzZTVkYTM4OWM5MGRkMmMxNWVjZDA5ODBhMjU4ZGQwMWY3MGY5ZTdjZTU4YThmMSIKIFVQ
+U1RSRUFNX0NIRUNLX1JFR0VYID0gInJlbGVhc2VzL3RhZy92KD9QPHB2ZXI+XGQrKFwuXGQrKSsp
+IgogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8vZ2l0aHViLmNvbS90dWthYW5pLXByb2pl
+Y3QveHovcmVsZWFzZXMvIgogCi0tIAoyLjQ3LjEKCg==
 
---===============0258964026598310872==
+--===============0796662082399546012==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/stress-ng: SRC_URI changed from "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V0.19.06" to "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V0.20.00"
-packages/x86-64-v3-poky-linux/stress-ng: PV changed from "0.19.06" to "0.20.00"
-packages/x86-64-v3-poky-linux/stress-ng: PKGV changed from 0.19.06 [default] to 0.20.00 [default]
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-bash-completion: PV changed from "0.19.06" to "0.20.00"
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-bash-completion: PKGV changed from 0.19.06 [default] to 0.20.00 [default]
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-dbg: PV changed from "0.19.06" to "0.20.00"
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-dbg: PKGSIZE changed from 36154680 to 36329608 (+0%)
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-dbg: PKGV changed from 0.19.06 [default] to 0.20.00 [default]
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-dev: PV changed from "0.19.06" to "0.20.00"
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-dev: PKGV changed from 0.19.06 [default] to 0.20.00 [default]
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-doc: PV changed from "0.19.06" to "0.20.00"
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-doc: PKGSIZE changed from 99480 to 100482 (+1%)
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-doc: PKGV changed from 0.19.06 [default] to 0.20.00 [default]
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-locale: PV changed from "0.19.06" to "0.20.00"
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-locale: PKGV changed from 0.19.06 [default] to 0.20.00 [default]
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-src: PV changed from "0.19.06" to "0.20.00"
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-src: PKGSIZE changed from 6483845 to 6541474 (+1%)
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-src: PKGV changed from 0.19.06 [default] to 0.20.00 [default]
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-src: FILELIST: removed "/usr/src/debug/stress-ng/0.19.06/core-memory.h /usr/src/debug/stress-ng/0.19.06/stress-misaligned.c /usr/src/debug/stress-ng/0.19.06/stress-get.c /usr/src/debug/stress-ng/0.19.06/core-memory.c /usr/src/debug/stress-ng/0.19.06/stress-lsearch.c /usr/src/debug/stress-ng/0.19.06/stress-af-alg.c /usr/src/debug/stress-ng/0.19.06/stress-clone.c /usr/src/debug/stress-ng/0.19.06/stress-chdir.c /usr/src/debug/stress-ng/0.19.06/stress-idle-page.c /usr/src/debug/stress-ng/0.19.06/stress-dynlib.c /usr/src/debug/stress-ng/0.19.06/stress-dirdeep.c /usr/src/debug/stress-ng/0.19.06/stress-dirmany.c /usr/src/debug/stress-ng/0.19.06/stress-session.c /usr/src/debug/stress-ng/0.19.06/stress-seccomp.c /usr/src/debug/stress-ng/0.19.06/stress-heapsort.c /usr/src/debug/stress-ng/0.19.06/stress-remap.c /usr/src/debug/stress-ng/0.19.06/stress-ng.h /usr/src/debug/stress-ng/0.19.06/stress-rmap.c /usr/src/debug/stress-ng/0.19.06/core-resctr
- l.c /usr/src/debug/stress-ng/0.19.06/stress-spawn.c /usr/src/debug/stress-ng/0.19.06/stress-ng.c /usr/src/debug/stress-ng/0.19.06/core-resctrl.h /usr/src/debug/stress-ng/0.19.06/core-filesystem.c /usr/src/debug/stress-ng/0.19.06/stress-madvise.c /usr/src/debug/stress-ng/0.19.06/stress-mincore.c /usr/src/debug/stress-ng/0.19.06/stress-veccmp.c /usr/src/debug/stress-ng/0.19.06/stress-mlockmany.c /usr/src/debug/stress-ng/0.19.06/core-filesystem.h /usr/src/debug/stress-ng/0.19.06/stress-timer.c /usr/src/debug/stress-ng/0.19.06/stress-tee.c /usr/src/debug/stress-ng/0.19.06/core-sync.c /usr/src/debug/stress-ng/0.19.06/stress-verity.c /usr/src/debug/stress-ng/0.19.06/core-sync.h /usr/src/debug/stress-ng/0.19.06/stress-zero.c /usr/src/debug/stress-ng/0.19.06/stress-opcode.c /usr/src/debug/stress-ng/0.19.06/stress-yield.c /usr/src/debug/stress-ng/0.19.06/stress-nice.c /usr/src/debug/stress-ng/0.19.06/stress-tree.c /usr/src/debug/stress-ng/0.19.06/stress-fstat.c /usr/src/debug/stress-ng/0.19.
- 06/core-signal.h /usr/src/debug/stress-ng/0.19.06/core-signal.c /usr/src/debug/stress-ng/0.19.06/core-io-priority.h /usr/src/debug/stress-ng/0.19.06/stress-inode-flags.c /usr/src/debug/stress-ng/0.19.06/core-io-priority.c /usr/src/debug/stress-ng/0.19.06/stress-unshare.c /usr/src/debug/stress-ng/0.19.06/core-sched.c /usr/src/debug/stress-ng/0.19.06/stress-schedmix.c /usr/src/debug/stress-ng/0.19.06/stress-skiplist.c /usr/src/debug/stress-ng/0.19.06/core-sched.h /usr/src/debug/stress-ng/0.19.06/stress-fcntl.c /usr/src/debug/stress-ng/0.19.06/stress-monte-carlo.c /usr/src/debug/stress-ng/0.19.06/stress-sync-file.c /usr/src/debug/stress-ng/0.19.06/stress-chroot.c /usr/src/debug/stress-ng/0.19.06/stress-env.c /usr/src/debug/stress-ng/0.19.06/stress-icmp-flood.c /usr/src/debug/stress-ng/0.19.06/stress-sigfd.c /usr/src/debug/stress-ng/0.19.06/stress-bsearch.c /usr/src/debug/stress-ng/0.19.06/stress-easy-opcode.c /usr/src/debug/stress-ng/0.19.06/stress-numa.c /usr/src/debug/stress-ng/0.19.
- 06/stress-vm-rw.c /usr/src/debug/stress-ng/0.19.06/core-madvise.h /usr/src/debug/stress-ng/0.19.06/stress-umount.c /usr/src/debug/stress-ng/0.19.06/core-madvise.c /usr/src/debug/stress-ng/0.19.06/core-sort.c /usr/src/debug/stress-ng/0.19.06/stress-mmapfixed.c /usr/src/debug/stress-ng/0.19.06/core-interrupts.h /usr/src/debug/stress-ng/0.19.06/stress-fsize.c /usr/src/debug/stress-ng/0.19.06/core-sort.h /usr/src/debug/stress-ng/0.19.06/stress-bitonicsort.c /usr/src/debug/stress-ng/0.19.06/stress-handle.c /usr/src/debug/stress-ng/0.19.06/core-interrupts.c /usr/src/debug/stress-ng/0.19.06/stress-dfp.c /usr/src/debug/stress-ng/0.19.06/stress-rseq.c /usr/src/debug/stress-ng/0.19.06/stress-gpu.c /usr/src/debug/stress-ng/0.19.06/stress-iomix.c /usr/src/debug/stress-ng/0.19.06/core-killpid.c /usr/src/debug/stress-ng/0.19.06/stress-reboot.c /usr/src/debug/stress-ng/0.19.06/stress-hsearch.c /usr/src/debug/stress-ng/0.19.06/stress-sysfs.c /usr/src/debug/stress-ng/0.19.06/core-killpid.h /usr/src/
- debug/stress-ng/0.19.06/stress-dnotify.c /usr/src/debug/stress-ng/0.19.06/stress-mtx.c /usr/src/debug/stress-ng/0.19.06/stress-lease.c /usr/src/debug/stress-ng/0.19.06/stress-peterson.c /usr/src/debug/stress-ng/0.19.06/stress-chyperbolic.c /usr/src/debug/stress-ng/0.19.06/stress-mremap.c /usr/src/debug/stress-ng/0.19.06/stress-loop.c /usr/src/debug/stress-ng/0.19.06/core-rapl.c /usr/src/debug/stress-ng/0.19.06/stress-crypt.c /usr/src/debug/stress-ng/0.19.06/core-rapl.h /usr/src/debug/stress-ng/0.19.06/stress-qsort.c /usr/src/debug/stress-ng/0.19.06/stress-signal.c /usr/src/debug/stress-ng/0.19.06/stress-race-sched.c /usr/src/debug/stress-ng/0.19.06/stress-fibsearch.c /usr/src/debug/stress-ng/0.19.06/stress-llc-affinity.c /usr/src/debug/stress-ng/0.19.06/stress-smi.c /usr/src/debug/stress-ng/0.19.06/stress-rtc.c /usr/src/debug/stress-ng/0.19.06/stress-memthrash.c /usr/src/debug/stress-ng/0.19.06/core-affinity.c /usr/src/debug/stress-ng/0.19.06/stress-personality.c /usr/src/debug/stre
- ss-ng/0.19.06/core-affinity.h /usr/src/debug/stress-ng/0.19.06/stress-sysbadaddr.c /usr/src/debug/stress-ng/0.19.06/stress-tun.c /usr/src/debug/stress-ng/0.19.06/stress-dentry.c /usr/src/debug/stress-ng/0.19.06/stress-ptr-chase.c /usr/src/debug/stress-ng/0.19.06/stress-funcret.c /usr/src/debug/stress-ng/0.19.06/stress-pipe.c /usr/src/debug/stress-ng/0.19.06/stress-branch.c /usr/src/debug/stress-ng/0.19.06/stress-mergesort.c /usr/src/debug/stress-ng/0.19.06/stress-seal.c /usr/src/debug/stress-ng/0.19.06/stress-udp-flood.c /usr/src/debug/stress-ng/0.19.06/stress-netlink-proc.c /usr/src/debug/stress-ng/0.19.06/core-thrash.c /usr/src/debug/stress-ng/0.19.06/core-mincore.c /usr/src/debug/stress-ng/0.19.06/stress-hash.c /usr/src/debug/stress-ng/0.19.06/core-thrash.h /usr/src/debug/stress-ng/0.19.06/core-mincore.h /usr/src/debug/stress-ng/0.19.06/core-asm-x86.h /usr/src/debug/stress-ng/0.19.06/stress-memfd.c /usr/src/debug/stress-ng/0.19.06/stress-resources.c /usr/src/debug/stress-ng/0.19.
- 06/stress-netlink-task.c /usr/src/debug/stress-ng/0.19.06/stress-context.c /usr/src/debug/stress-ng/0.19.06/stress-null.c /usr/src/debug/stress-ng/0.19.06/core-net.c /usr/src/debug/stress-ng/0.19.06/core-lock.h /usr/src/debug/stress-ng/0.19.06/core-lock.c /usr/src/debug/stress-ng/0.19.06/core-net.h /usr/src/debug/stress-ng/0.19.06/core-put.h /usr/src/debug/stress-ng/0.19.06/stress-fallocate.c /usr/src/debug/stress-ng/0.19.06/stress-key.c /usr/src/debug/stress-ng/0.19.06/stress-kvm.c /usr/src/debug/stress-ng/0.19.06/stress-brk.c /usr/src/debug/stress-ng/0.19.06/stress-l1cache.c /usr/src/debug/stress-ng/0.19.06/stress-chmod.c /usr/src/debug/stress-ng/0.19.06/stress-radixsort.c /usr/src/debug/stress-ng/0.19.06/stress-pty.c /usr/src/debug/stress-ng/0.19.06/stress-xattr.c /usr/src/debug/stress-ng/0.19.06/core-setting.c /usr/src/debug/stress-ng/0.19.06/core-setting.h /usr/src/debug/stress-ng/0.19.06/stress-cgroup.c /usr/src/debug/stress-ng/0.19.06/stress-physmmap.c /usr/src/debug/stress-n
- g/0.19.06/stress-physpage.c /usr/src/debug/stress-ng/0.19.06/stress-str.c /usr/src/debug/stress-ng/0.19.06/stress-vm-splice.c /usr/src/debug/stress-ng/0.19.06/stress-cache.c /usr/src/debug/stress-ng/0.19.06/stress-usersyscall.c /usr/src/debug/stress-ng/0.19.06/stress-msync.c /usr/src/debug/stress-ng/0.19.06/stress-aiol.c /usr/src/debug/stress-ng/0.19.06/stress-tsearch.c /usr/src/debug/stress-ng/0.19.06/stress-vnni.c /usr/src/debug/stress-ng/0.19.06/core-job.c /usr/src/debug/stress-ng/0.19.06/core-job.h /usr/src/debug/stress-ng/0.19.06/stress-fanotify.c /usr/src/debug/stress-ng/0.19.06/stress-bitops.c /usr/src/debug/stress-ng/0.19.06/stress-filename.c /usr/src/debug/stress-ng/0.19.06/stress-filerace.c /usr/src/debug/stress-ng/0.19.06/stress-schedpolicy.c /usr/src/debug/stress-ng/0.19.06/stress-sigio.c /usr/src/debug/stress-ng/0.19.06/stress-nop.c /usr/src/debug/stress-ng/0.19.06/stress-zombie.c /usr/src/debug/stress-ng/0.19.06/stress-munmap.c /usr/src/debug/stress-ng/0.19.06/stress-f
- p.c /usr/src/debug/stress-ng/0.19.06/stress-mmap.c /usr/src/debug/stress-ng/0.19.06/stress-mlock.c /usr/src/debug/stress-ng/0.19.06/core-module.c /usr/src/debug/stress-ng/0.19.06/stress-sem-sysv.c /usr/src/debug/stress-ng/0.19.06/stress-sendfile.c /usr/src/debug/stress-ng/0.19.06/stress-sockabuse.c /usr/src/debug/stress-ng/0.19.06/stress-ctrig.c /usr/src/debug/stress-ng/0.19.06/core-module.h /usr/src/debug/stress-ng/0.19.06/stress-bad-altstack.c /usr/src/debug/stress-ng/0.19.06/stress-bigheap.c /usr/src/debug/stress-ng/0.19.06/core-vmstat.c /usr/src/debug/stress-ng/0.19.06/stress-fork.c /usr/src/debug/stress-ng/0.19.06/core-vmstat.h /usr/src/debug/stress-ng/0.19.06/core-pthread.h /usr/src/debug/stress-ng/0.19.06/stress-kill.c /usr/src/debug/stress-ng/0.19.06/stress-shellsort.c /usr/src/debug/stress-ng/0.19.06/stress-splice.c /usr/src/debug/stress-ng/0.19.06/stress-resched.c /usr/src/debug/stress-ng/0.19.06/stress-enosys.c /usr/src/debug/stress-ng/0.19.06/stress-sigbus.c /usr/src/deb
- ug/stress-ng/0.19.06/stress-module.c /usr/src/debug/stress-ng/0.19.06/stress-cyclic.c /usr/src/debug/stress-ng/0.19.06/stress-fault.c /usr/src/debug/stress-ng/0.19.06/stress-getrandom.c /usr/src/debug/stress-ng/0.19.06/stress-locka.c /usr/src/debug/stress-ng/0.19.06/stress-rlimit.c /usr/src/debug/stress-ng/0.19.06/stress-cpu.c /usr/src/debug/stress-ng/0.19.06/stress-sigill.c /usr/src/debug/stress-ng/0.19.06/stress-rawdev.c /usr/src/debug/stress-ng/0.19.06/stress-spinmem.c /usr/src/debug/stress-ng/0.19.06/stress-fpunch.c /usr/src/debug/stress-ng/0.19.06/core-stack.c /usr/src/debug/stress-ng/0.19.06/stress-priv-instr.c /usr/src/debug/stress-ng/0.19.06/core-stack.h /usr/src/debug/stress-ng/0.19.06/stress-sockfd.c /usr/src/debug/stress-ng/0.19.06/stress-prime.c /usr/src/debug/stress-ng/0.19.06/core-prime.h /usr/src/debug/stress-ng/0.19.06/stress-quota.c /usr/src/debug/stress-ng/0.19.06/core-prime.c /usr/src/debug/stress-ng/0.19.06/stress-min-nanosleep.c /usr/src/debug/stress-ng/0.19.06/
- stress-sigvtalrm.c /usr/src/debug/stress-ng/0.19.06/stress-fp-error.c /usr/src/debug/stress-ng/0.19.06/stress-itimer.c /usr/src/debug/stress-ng/0.19.06/stress-x86cpuid.c /usr/src/debug/stress-ng/0.19.06/stress-wait.c /usr/src/debug/stress-ng/0.19.06/stress-full.c /usr/src/debug/stress-ng/0.19.06/stress-dev.c /usr/src/debug/stress-ng/0.19.06/stress-atomic.c /usr/src/debug/stress-ng/0.19.06/stress-mpfr.c /usr/src/debug/stress-ng/0.19.06/stress-ramfs.c /usr/src/debug/stress-ng/0.19.06/core-shared-cache.c /usr/src/debug/stress-ng/0.19.06/stress-dekker.c /usr/src/debug/stress-ng/0.19.06/core-shared-cache.h /usr/src/debug/stress-ng/0.19.06/stress-plugin.c /usr/src/debug/stress-ng/0.19.06/stress-sigsuspend.c /usr/src/debug/stress-ng/0.19.06/stress-sigq.c /usr/src/debug/stress-ng/0.19.06/core-hash.c /usr/src/debug/stress-ng/0.19.06/core-processes.h /usr/src/debug/stress-ng/0.19.06/stress-matrix.c /usr/src/debug/stress-ng/0.19.06/stress-mcontend.c /usr/src/debug/stress-ng/0.19.06/core-hash.h
-  /usr/src/debug/stress-ng/0.19.06/core-processes.c /usr/src/debug/stress-ng/0.19.06/stress-swap.c /usr/src/debug/stress-ng/0.19.06/stress-aio.c /usr/src/debug/stress-ng/0.19.06/stress-flushcache.c /usr/src/debug/stress-ng/0.19.06/stress-x86syscall.c /usr/src/debug/stress-ng/0.19.06/stress-bubblesort.c /usr/src/debug/stress-ng/0.19.06/stress-loadavg.c /usr/src/debug/stress-ng/0.19.06/stress-file-ioctl.c /usr/src/debug/stress-ng/0.19.06/stress-logmath.c /usr/src/debug/stress-ng/0.19.06/stress-lockbus.c /usr/src/debug/stress-ng/0.19.06/stress-lockmix.c /usr/src/debug/stress-ng/0.19.06/stress-longjmp.c /usr/src/debug/stress-ng/0.19.06/stress-lockofd.c /usr/src/debug/stress-ng/0.19.06/stress-mutex.c /usr/src/debug/stress-ng/0.19.06/stress-switch.c /usr/src/debug/stress-ng/0.19.06/stress-bind-mount.c /usr/src/debug/stress-ng/0.19.06/stress-vecfp.c /usr/src/debug/stress-ng/0.19.06/core-nt-store.h /usr/src/debug/stress-ng/0.19.06/stress-dev-shm.c /usr/src/debug/stress-ng/0.19.06/stress-tlb-
- shootdown.c /usr/src/debug/stress-ng/0.19.06/stress-sigabrt.c /usr/src/debug/stress-ng/0.19.06/stress-sigchld.c /usr/src/debug/stress-ng/0.19.06/stress-signest.c /usr/src/debug/stress-ng/0.19.06/stress-sigxfsz.c /usr/src/debug/stress-ng/0.19.06/stress-syscall.c /usr/src/debug/stress-ng/0.19.06/stress-sysinfo.c /usr/src/debug/stress-ng/0.19.06/stress-sigpipe.c /usr/src/debug/stress-ng/0.19.06/stress-sigsegv.c /usr/src/debug/stress-ng/0.19.06/stress-sigtrap.c /usr/src/debug/stress-ng/0.19.06/stress-sigxcpu.c /usr/src/debug/stress-ng/0.19.06/stress-dup.c /usr/src/debug/stress-ng/0.19.06/stress-prefetch.c /usr/src/debug/stress-ng/0.19.06/stress-prio-inv.c /usr/src/debug/stress-ng/0.19.06/stress-cacheline.c /usr/src/debug/stress-ng/0.19.06/core-ignite-cpu.c /usr/src/debug/stress-ng/0.19.06/stress-rdrand.c /usr/src/debug/stress-ng/0.19.06/stress-zlib.c /usr/src/debug/stress-ng/0.19.06/stress-rename.c /usr/src/debug/stress-ng/0.19.06/stress-set.c /usr/src/debug/stress-ng/0.19.06/core-ignit
- e-cpu.h /usr/src/debug/stress-ng/0.19.06/stress-landlock.c /usr/src/debug/stress-ng/0.19.06/stress-memrate.c /usr/src/debug/stress-ng/0.19.06/stress-mmapcow.c /usr/src/debug/stress-ng/0.19.06/stress-timerfd.c /usr/src/debug/stress-ng/0.19.06/stress-metamix.c /usr/src/debug/stress-ng/0.19.06/stress-pthread.c /usr/src/debug/stress-ng/0.19.06/stress-far-branch.c /usr/src/debug/stress-ng/0.19.06/core-klog.c /usr/src/debug/stress-ng/0.19.06/core-klog.h /usr/src/debug/stress-ng/0.19.06/core-config-check.h /usr/src/debug/stress-ng/0.19.06/core-time.h /usr/src/debug/stress-ng/0.19.06/core-config-check.c /usr/src/debug/stress-ng/0.19.06/core-time.c /usr/src/debug/stress-ng/0.19.06/stress-stack.c /usr/src/debug/stress-ng/0.19.06/stress-urandom.c /usr/src/debug/stress-ng/0.19.06/stress-sockdiag.c /usr/src/debug/stress-ng/0.19.06/stress-sockmany.c /usr/src/debug/stress-ng/0.19.06/stress-sockpair.c /usr/src/debug/stress-ng/0.19.06/stress-alarm.c /usr/src/debug/stress-ng/0.19.06/stress-regs.c /us
- r/src/debug/stress-ng/0.19.06/stress-fd-fork.c /usr/src/debug/stress-ng/0.19.06/stress-fd-race.c /usr/src/debug/stress-ng/0.19.06/stress-cpu-sched.c /usr/src/debug/stress-ng/0.19.06/stress-klog.c /usr/src/debug/stress-ng/0.19.06/core-capabilities.h /usr/src/debug/stress-ng/0.19.06/stress-fifo.c /usr/src/debug/stress-ng/0.19.06/core-capabilities.c /usr/src/debug/stress-ng/0.19.06/stress-workload.c /usr/src/debug/stress-ng/0.19.06/stress-chown.c /usr/src/debug/stress-ng/0.19.06/stress-ptrace.c /usr/src/debug/stress-ng/0.19.06/stress-lockf.c /usr/src/debug/stress-ng/0.19.06/stress-netdev.c /usr/src/debug/stress-ng/0.19.06/stress-seek.c /usr/src/debug/stress-ng/0.19.06/stress-matrix-3d.c /usr/src/debug/stress-ng/0.19.06/core-out-of-memory.c /usr/src/debug/stress-ng/0.19.06/stress-poll.c /usr/src/debug/stress-ng/0.19.06/core-out-of-memory.h /usr/src/debug/stress-ng/0.19.06/stress-timermix.c /usr/src/debug/stress-ng/0.19.06/stress-cap.c /usr/src/debug/stress-ng/0.19.06/stress-membarrier.c
-  /usr/src/debug/stress-ng/0.19.06/stress-pseek.c /usr/src/debug/stress-ng/0.19.06/stress-randlist.c /usr/src/debug/stress-ng/0.19.06/stress-led.c /usr/src/debug/stress-ng/0.19.06/stress-mmapfiles.c /usr/src/debug/stress-ng/0.19.06/stress-io.c /usr/src/debug/stress-ng/0.19.06/stress-clock.c /usr/src/debug/stress-ng/0.19.06/stress-pagemove.c /usr/src/debug/stress-ng/0.19.06/stress-pageswap.c /usr/src/debug/stress-ng/0.19.06/stress-pipeherd.c /usr/src/debug/stress-ng/0.19.06/stress-shm.c /usr/src/debug/stress-ng/0.19.06/stress-wcs.c /usr/src/debug/stress-ng/0.19.06/stress-binderfs.c /usr/src/debug/stress-ng/0.19.06/stress-epoll.c /usr/src/debug/stress-ng/0.19.06/stress-eigen.c /usr/src/debug/stress-ng/0.19.06/core-shim.c /usr/src/debug/stress-ng/0.19.06/stress-kcmp.c /usr/src/debug/stress-ng/0.19.06/stress-vm.c /usr/src/debug/stress-ng/0.19.06/stress-ioport.c /usr/src/debug/stress-ng/0.19.06/stress-time-warp.c /usr/src/debug/stress-ng/0.19.06/stress-expmath.c /usr/src/debug/stress-ng/0
- .19.06/core-shim.h /usr/src/debug/stress-ng/0.19.06/stress-dir.c /usr/src/debug/stress-ng/0.19.06/stress-forkheavy.c /usr/src/debug/stress-ng/0.19.06/stress-userfaultfd.c /usr/src/debug/stress-ng/0.19.06/stress-vma.c /usr/src/debug/stress-ng/0.19.06/core-asm-ret.c /usr/src/debug/stress-ng/0.19.06/stress-dccp.c /usr/src/debug/stress-ng/0.19.06/core-bitops.h /usr/src/debug/stress-ng/0.19.06/stress-pkey.c /usr/src/debug/stress-ng/0.19.06/core-asm-ret.h /usr/src/debug/stress-ng/0.19.06/stress-open.c /usr/src/debug/stress-ng/0.19.06/core-opts.c /usr/src/debug/stress-ng/0.19.06/core-asm-generic.h /usr/src/debug/stress-ng/0.19.06/core-config.c /usr/src/debug/stress-ng/0.19.06/core-opts.h /usr/src/debug/stress-ng/0.19.06/core-shared-heap.h /usr/src/debug/stress-ng/0.19.06/core-mounts.c /usr/src/debug/stress-ng/0.19.06/stress-trig.c /usr/src/debug/stress-ng/0.19.06/stress-memhotplug.c /usr/src/debug/stress-ng/0.19.06/core-shared-heap.c /usr/src/debug/stress-ng/0.19.06/core-mounts.h /usr/src/
- debug/stress-ng/0.19.06/core-helper.c /usr/src/debug/stress-ng/0.19.06/core-helper.h /usr/src/debug/stress-ng/0.19.06/stress-mmapaddr.c /usr/src/debug/stress-ng/0.19.06/stress-mmapfork.c /usr/src/debug/stress-ng/0.19.06/stress-mmaphuge.c /usr/src/debug/stress-ng/0.19.06/stress-mmapmany.c /usr/src/debug/stress-ng/0.19.06/stress-vecmath.c /usr/src/debug/stress-ng/0.19.06/stress-vecshuf.c /usr/src/debug/stress-ng/0.19.06/stress-vecwide.c /usr/src/debug/stress-ng/0.19.06/stress-vm-addr.c /usr/src/debug/stress-ng/0.19.06/stress-affinity.c /usr/src/debug/stress-ng/0.19.06/stress-vm-segv.c /usr/src/debug/stress-ng/0.19.06/stress-umask.c /usr/src/debug/stress-ng/0.19.06/stress-exit-group.c /usr/src/debug/stress-ng/0.19.06/stress-mmaprandom.c /usr/src/debug/stress-ng/0.19.06/stress-sigrt.c /usr/src/debug/stress-ng/0.19.06/stress-ipsec-mb.c /usr/src/debug/stress-ng/0.19.06/stress-memcpy.c /usr/src/debug/stress-ng/0.19.06/core-mlock.h /usr/src/debug/stress-ng/0.19.06/core-mlock.c /usr/src/debu
- g/stress-ng/0.19.06/stress-list.c /usr/src/debug/stress-ng/0.19.06/stress-lsm.c /usr/src/debug/stress-ng/0.19.06/stress-utime.c /usr/src/debug/stress-ng/0.19.06/core-resources.h /usr/src/debug/stress-ng/0.19.06/core-resources.c /usr/src/debug/stress-ng/0.19.06/stress-cachehammer.c /usr/src/debug/stress-ng/0.19.06/stress-cpu-online.c /usr/src/debug/stress-ng/0.19.06/stress-sigpending.c /usr/src/debug/stress-ng/0.19.06/stress-sock.c /usr/src/debug/stress-ng/0.19.06/stress-copy-file.c /usr/src/debug/stress-ng/0.19.06/stress-prctl.c /usr/src/debug/stress-ng/0.19.06/stress-apparmor.c /usr/src/debug/stress-ng/0.19.06/stress-futex.c /usr/src/debug/stress-ng/0.19.06/stress-touch.c /usr/src/debug/stress-ng/0.19.06/stress-bad-ioctl.c /usr/src/debug/stress-ng/0.19.06/stress-icache.c /usr/src/debug/stress-ng/0.19.06/stress-besselmath.c /usr/src/debug/stress-ng/0.19.06/stress-inotify.c /usr/src/debug/stress-ng/0.19.06/stress-intmath.c /usr/src/debug/stress-ng/0.19.06/stress-tsc.c /usr/src/debug/
- stress-ng/0.19.06/core-cpuidle.h /usr/src/debug/stress-ng/0.19.06/stress-mseal.c /usr/src/debug/stress-ng/0.19.06/stress-mmaptorture.c /usr/src/debug/stress-ng/0.19.06/stress-procfs.c /usr/src/debug/stress-ng/0.19.06/core-cpuidle.c /usr/src/debug/stress-ng/0.19.06/stress-funccall.c /usr/src/debug/stress-ng/0.19.06/stress-msg.c /usr/src/debug/stress-ng/0.19.06/stress-ioprio.c /usr/src/debug/stress-ng/0.19.06/stress-daemon.c /usr/src/debug/stress-ng/0.19.06/stress-rotate.c /usr/src/debug/stress-ng/0.19.06/stress-link.c /usr/src/debug/stress-ng/0.19.06/core-smart.c /usr/src/debug/stress-ng/0.19.06/stress-syncload.c /usr/src/debug/stress-ng/0.19.06/stress-sysinval.c /usr/src/debug/stress-ng/0.19.06/core-smart.h /usr/src/debug/stress-ng/0.19.06/stress-goto.c /usr/src/debug/stress-ng/0.19.06/stress-pidfd.c /usr/src/debug/stress-ng/0.19.06/stress-fractal.c /usr/src/debug/stress-ng/0.19.06/stress-stackmmap.c /usr/src/debug/stress-ng/0.19.06/stress-stream.c /usr/src/debug/stress-ng/0.19.06/c
- ore-ftrace.c /usr/src/debug/stress-ng/0.19.06/core-ftrace.h /usr/src/debug/stress-ng/0.19.06/stress-sem.c /usr/src/debug/stress-ng/0.19.06/stress-sighup.c /usr/src/debug/stress-ng/0.19.06/stress-watchdog.c /usr/src/debug/stress-ng/0.19.06/stress-mknod.c /usr/src/debug/stress-ng/0.19.06/core-perf.c /usr/src/debug/stress-ng/0.19.06/stress-mprotect.c /usr/src/debug/stress-ng/0.19.06/stress-statmount.c /usr/src/debug/stress-ng/0.19.06/core-perf.h /usr/src/debug/stress-ng/0.19.06/stress-uprobe.c /usr/src/debug/stress-ng/0.19.06/stress-nanosleep.c /usr/src/debug/stress-ng/0.19.06/core-try-open.h /usr/src/debug/stress-ng/0.19.06/stress-close.c /usr/src/debug/stress-ng/0.19.06/stress-factor.c /usr/src/debug/stress-ng/0.19.06/core-try-open.c /usr/src/debug/stress-ng/0.19.06/stress-rawsock.c /usr/src/debug/stress-ng/0.19.06/stress-getdent.c /usr/src/debug/stress-ng/0.19.06/core-log.c /usr/src/debug/stress-ng/0.19.06/stress-fiemap.c /usr/src/debug/stress-ng/0.19.06/stress-softlockup.c /usr/src
- /debug/stress-ng/0.19.06/core-log.h /usr/src/debug/stress-ng/0.19.06/stress-io-uring.c /usr/src/debug/stress-ng/0.19.06/stress-revio.c /usr/src/debug/stress-ng/0.19.06/stress-ring-pipe.c /usr/src/debug/stress-ng/0.19.06/stress-mq.c /usr/src/debug/stress-ng/0.19.06/stress-waitcpu.c /usr/src/debug/stress-ng/0.19.06/core-parse-opts.h /usr/src/debug/stress-ng/0.19.06/core-parse-opts.c /usr/src/debug/stress-ng/0.19.06/stress-access.c /usr/src/debug/stress-ng/0.19.06/stress-insertionsort.c /usr/src/debug/stress-ng/0.19.06/stress-hdd.c /usr/src/debug/stress-ng/0.19.06/stress-hrtimers.c /usr/src/debug/stress-ng/0.19.06/stress-sigurg.c /usr/src/debug/stress-ng/0.19.06/core-limit.h /usr/src/debug/stress-ng/0.19.06/core-limit.c /usr/src/debug/stress-ng/0.19.06/stress-jpeg.c /usr/src/debug/stress-ng/0.19.06/stress-pci.c /usr/src/debug/stress-ng/0.19.06/stress-msyncmany.c /usr/src/debug/stress-ng/0.19.06/stress-malloc.c /usr/src/debug/stress-ng/0.19.06/stress-sctp.c /usr/src/debug/stress-ng/0.19
- .06/stress-powmath.c /usr/src/debug/stress-ng/0.19.06/stress-judy.c /usr/src/debug/stress-ng/0.19.06/core-numa.h /usr/src/debug/stress-ng/0.19.06/stress-rawpkt.c /usr/src/debug/stress-ng/0.19.06/stress-rawudp.c /usr/src/debug/stress-ng/0.19.06/core-numa.c /usr/src/debug/stress-ng/0.19.06/stress-eventfd.c /usr/src/debug/stress-ng/0.19.06/core-clocksource.h /usr/src/debug/stress-ng/0.19.06/stress-efivar.c /usr/src/debug/stress-ng/0.19.06/stress-secretmem.c /usr/src/debug/stress-ng/0.19.06/stress-regex.c /usr/src/debug/stress-ng/0.19.06/core-clocksource.c /usr/src/debug/stress-ng/0.19.06/stress-fd-abuse.c /usr/src/debug/stress-ng/0.19.06/stress-flipflop.c /usr/src/debug/stress-ng/0.19.06/core-cpu.c /usr/src/debug/stress-ng/0.19.06/stress-hyperbolic.c /usr/src/debug/stress-ng/0.19.06/core-thermal-zone.h /usr/src/debug/stress-ng/0.19.06/core-cpu.h /usr/src/debug/stress-ng/0.19.06/stress-vforkmany.c /usr/src/debug/stress-ng/0.19.06/stress-exec.c /usr/src/debug/stress-ng/0.19.06/core-therm
- al-zone.c /usr/src/debug/stress-ng/0.19.06/stress-fma.c /usr/src/debug/stress-ng/0.19.06/core-cpu-cache.h /usr/src/debug/stress-ng/0.19.06/stress-acl.c /usr/src/debug/stress-ng/0.19.06/stress-tmpfs.c /usr/src/debug/stress-ng/0.19.06/core-cpu-cache.c /usr/src/debug/stress-ng/0.19.06/stress-readahead.c /usr/src/debug/stress-ng/0.19.06/stress-shm-sysv.c /usr/src/debug/stress-ng/0.19.06/stress-sigfpe.c /usr/src/debug/stress-ng/0.19.06/stress-flock.c /usr/src/debug/stress-ng/0.19.06/core-cpu-freq.h /usr/src/debug/stress-ng/0.19.06/core-cpu-freq.c /usr/src/debug/stress-ng/0.19.06/stress-oom-pipe.c /usr/src/debug/stress-ng/0.19.06/core-arch.c /usr/src/debug/stress-ng/0.19.06/core-mmap.c /usr/src/debug/stress-ng/0.19.06/core-mmap.h /usr/src/debug/stress-ng/0.19.06/stress-unlink.c /usr/src/debug/stress-ng/0.19.06/stress-ping-sock.c /usr/src/debug/stress-ng/0.19.06/stress-udp.c /usr/src/debug/stress-ng/0.19.06/stress-sparsematrix.c /usr/src/debug/stress-ng/0.19.06/stress-vdso.c /usr/src/debug
- /stress-ng/0.19.06/stress-chattr.c /usr/src/debug/stress-ng/0.19.06/core-mwc.h /usr/src/debug/stress-ng/0.19.06/stress-sleep.c /usr/src/debug/stress-ng/0.19.06/core-mwc.c", added "/usr/src/debug/stress-ng/0.20.00/core-memory.h /usr/src/debug/stress-ng/0.20.00/stress-misaligned.c /usr/src/debug/stress-ng/0.20.00/stress-get.c /usr/src/debug/stress-ng/0.20.00/core-memory.c /usr/src/debug/stress-ng/0.20.00/stress-lsearch.c /usr/src/debug/stress-ng/0.20.00/stress-af-alg.c /usr/src/debug/stress-ng/0.20.00/stress-clone.c /usr/src/debug/stress-ng/0.20.00/stress-chdir.c /usr/src/debug/stress-ng/0.20.00/stress-idle-page.c /usr/src/debug/stress-ng/0.20.00/stress-dynlib.c /usr/src/debug/stress-ng/0.20.00/stress-dirdeep.c /usr/src/debug/stress-ng/0.20.00/stress-dirmany.c /usr/src/debug/stress-ng/0.20.00/stress-session.c /usr/src/debug/stress-ng/0.20.00/stress-seccomp.c /usr/src/debug/stress-ng/0.20.00/stress-heapsort.c /usr/src/debug/stress-ng/0.20.00/stress-remap.c /usr/src/debug/stress-ng/0.20
- .00/stress-ng.h /usr/src/debug/stress-ng/0.20.00/stress-rmap.c /usr/src/debug/stress-ng/0.20.00/core-resctrl.c /usr/src/debug/stress-ng/0.20.00/stress-spawn.c /usr/src/debug/stress-ng/0.20.00/stress-ng.c /usr/src/debug/stress-ng/0.20.00/core-resctrl.h /usr/src/debug/stress-ng/0.20.00/core-filesystem.c /usr/src/debug/stress-ng/0.20.00/stress-madvise.c /usr/src/debug/stress-ng/0.20.00/stress-mincore.c /usr/src/debug/stress-ng/0.20.00/stress-veccmp.c /usr/src/debug/stress-ng/0.20.00/stress-mlockmany.c /usr/src/debug/stress-ng/0.20.00/core-filesystem.h /usr/src/debug/stress-ng/0.20.00/stress-timer.c /usr/src/debug/stress-ng/0.20.00/stress-tee.c /usr/src/debug/stress-ng/0.20.00/core-sync.c /usr/src/debug/stress-ng/0.20.00/stress-verity.c /usr/src/debug/stress-ng/0.20.00/core-sync.h /usr/src/debug/stress-ng/0.20.00/stress-zero.c /usr/src/debug/stress-ng/0.20.00/core-workload.c /usr/src/debug/stress-ng/0.20.00/core-workload.h /usr/src/debug/stress-ng/0.20.00/stress-opcode.c /usr/src/debug/
- stress-ng/0.20.00/stress-yield.c /usr/src/debug/stress-ng/0.20.00/stress-nice.c /usr/src/debug/stress-ng/0.20.00/stress-tree.c /usr/src/debug/stress-ng/0.20.00/stress-fstat.c /usr/src/debug/stress-ng/0.20.00/core-signal.h /usr/src/debug/stress-ng/0.20.00/core-signal.c /usr/src/debug/stress-ng/0.20.00/core-io-priority.h /usr/src/debug/stress-ng/0.20.00/stress-inode-flags.c /usr/src/debug/stress-ng/0.20.00/core-io-priority.c /usr/src/debug/stress-ng/0.20.00/stress-unshare.c /usr/src/debug/stress-ng/0.20.00/core-sched.c /usr/src/debug/stress-ng/0.20.00/stress-schedmix.c /usr/src/debug/stress-ng/0.20.00/stress-skiplist.c /usr/src/debug/stress-ng/0.20.00/core-sched.h /usr/src/debug/stress-ng/0.20.00/stress-fcntl.c /usr/src/debug/stress-ng/0.20.00/stress-monte-carlo.c /usr/src/debug/stress-ng/0.20.00/stress-sync-file.c /usr/src/debug/stress-ng/0.20.00/stress-chroot.c /usr/src/debug/stress-ng/0.20.00/stress-env.c /usr/src/debug/stress-ng/0.20.00/stress-icmp-flood.c /usr/src/debug/stress-ng
- /0.20.00/stress-sigfd.c /usr/src/debug/stress-ng/0.20.00/stress-bsearch.c /usr/src/debug/stress-ng/0.20.00/stress-easy-opcode.c /usr/src/debug/stress-ng/0.20.00/stress-numa.c /usr/src/debug/stress-ng/0.20.00/stress-vm-rw.c /usr/src/debug/stress-ng/0.20.00/core-madvise.h /usr/src/debug/stress-ng/0.20.00/stress-umount.c /usr/src/debug/stress-ng/0.20.00/core-madvise.c /usr/src/debug/stress-ng/0.20.00/core-sort.c /usr/src/debug/stress-ng/0.20.00/stress-mmapfixed.c /usr/src/debug/stress-ng/0.20.00/core-interrupts.h /usr/src/debug/stress-ng/0.20.00/stress-fsize.c /usr/src/debug/stress-ng/0.20.00/core-sort.h /usr/src/debug/stress-ng/0.20.00/stress-bitonicsort.c /usr/src/debug/stress-ng/0.20.00/stress-handle.c /usr/src/debug/stress-ng/0.20.00/core-interrupts.c /usr/src/debug/stress-ng/0.20.00/stress-dfp.c /usr/src/debug/stress-ng/0.20.00/stress-rseq.c /usr/src/debug/stress-ng/0.20.00/stress-gpu.c /usr/src/debug/stress-ng/0.20.00/stress-iomix.c /usr/src/debug/stress-ng/0.20.00/core-killpid.c
-  /usr/src/debug/stress-ng/0.20.00/stress-reboot.c /usr/src/debug/stress-ng/0.20.00/stress-hsearch.c /usr/src/debug/stress-ng/0.20.00/stress-sysfs.c /usr/src/debug/stress-ng/0.20.00/core-killpid.h /usr/src/debug/stress-ng/0.20.00/stress-dnotify.c /usr/src/debug/stress-ng/0.20.00/stress-mtx.c /usr/src/debug/stress-ng/0.20.00/stress-lease.c /usr/src/debug/stress-ng/0.20.00/stress-peterson.c /usr/src/debug/stress-ng/0.20.00/stress-chyperbolic.c /usr/src/debug/stress-ng/0.20.00/stress-mremap.c /usr/src/debug/stress-ng/0.20.00/stress-loop.c /usr/src/debug/stress-ng/0.20.00/core-rapl.c /usr/src/debug/stress-ng/0.20.00/stress-crypt.c /usr/src/debug/stress-ng/0.20.00/core-rapl.h /usr/src/debug/stress-ng/0.20.00/stress-qsort.c /usr/src/debug/stress-ng/0.20.00/stress-signal.c /usr/src/debug/stress-ng/0.20.00/stress-race-sched.c /usr/src/debug/stress-ng/0.20.00/stress-fibsearch.c /usr/src/debug/stress-ng/0.20.00/stress-llc-affinity.c /usr/src/debug/stress-ng/0.20.00/stress-smi.c /usr/src/debug/
- stress-ng/0.20.00/stress-rtc.c /usr/src/debug/stress-ng/0.20.00/stress-memthrash.c /usr/src/debug/stress-ng/0.20.00/core-affinity.c /usr/src/debug/stress-ng/0.20.00/stress-personality.c /usr/src/debug/stress-ng/0.20.00/core-affinity.h /usr/src/debug/stress-ng/0.20.00/stress-sysbadaddr.c /usr/src/debug/stress-ng/0.20.00/stress-tun.c /usr/src/debug/stress-ng/0.20.00/stress-dentry.c /usr/src/debug/stress-ng/0.20.00/stress-ptr-chase.c /usr/src/debug/stress-ng/0.20.00/stress-funcret.c /usr/src/debug/stress-ng/0.20.00/stress-pipe.c /usr/src/debug/stress-ng/0.20.00/stress-branch.c /usr/src/debug/stress-ng/0.20.00/stress-mergesort.c /usr/src/debug/stress-ng/0.20.00/stress-seal.c /usr/src/debug/stress-ng/0.20.00/stress-udp-flood.c /usr/src/debug/stress-ng/0.20.00/stress-netlink-proc.c /usr/src/debug/stress-ng/0.20.00/core-thrash.c /usr/src/debug/stress-ng/0.20.00/core-mincore.c /usr/src/debug/stress-ng/0.20.00/stress-hash.c /usr/src/debug/stress-ng/0.20.00/core-thrash.h /usr/src/debug/stress
- -ng/0.20.00/core-mincore.h /usr/src/debug/stress-ng/0.20.00/core-asm-x86.h /usr/src/debug/stress-ng/0.20.00/stress-memfd.c /usr/src/debug/stress-ng/0.20.00/stress-resources.c /usr/src/debug/stress-ng/0.20.00/stress-netlink-task.c /usr/src/debug/stress-ng/0.20.00/stress-context.c /usr/src/debug/stress-ng/0.20.00/stress-null.c /usr/src/debug/stress-ng/0.20.00/core-net.c /usr/src/debug/stress-ng/0.20.00/core-lock.h /usr/src/debug/stress-ng/0.20.00/core-lock.c /usr/src/debug/stress-ng/0.20.00/core-net.h /usr/src/debug/stress-ng/0.20.00/core-put.h /usr/src/debug/stress-ng/0.20.00/stress-fallocate.c /usr/src/debug/stress-ng/0.20.00/stress-key.c /usr/src/debug/stress-ng/0.20.00/stress-kvm.c /usr/src/debug/stress-ng/0.20.00/stress-brk.c /usr/src/debug/stress-ng/0.20.00/stress-l1cache.c /usr/src/debug/stress-ng/0.20.00/stress-chmod.c /usr/src/debug/stress-ng/0.20.00/stress-radixsort.c /usr/src/debug/stress-ng/0.20.00/stress-pty.c /usr/src/debug/stress-ng/0.20.00/stress-xattr.c /usr/src/debug
- /stress-ng/0.20.00/core-setting.c /usr/src/debug/stress-ng/0.20.00/core-setting.h /usr/src/debug/stress-ng/0.20.00/stress-cgroup.c /usr/src/debug/stress-ng/0.20.00/stress-physmmap.c /usr/src/debug/stress-ng/0.20.00/stress-physpage.c /usr/src/debug/stress-ng/0.20.00/stress-str.c /usr/src/debug/stress-ng/0.20.00/stress-vm-splice.c /usr/src/debug/stress-ng/0.20.00/stress-cache.c /usr/src/debug/stress-ng/0.20.00/stress-usersyscall.c /usr/src/debug/stress-ng/0.20.00/stress-msync.c /usr/src/debug/stress-ng/0.20.00/stress-aiol.c /usr/src/debug/stress-ng/0.20.00/stress-tsearch.c /usr/src/debug/stress-ng/0.20.00/stress-vnni.c /usr/src/debug/stress-ng/0.20.00/core-job.c /usr/src/debug/stress-ng/0.20.00/core-job.h /usr/src/debug/stress-ng/0.20.00/stress-fanotify.c /usr/src/debug/stress-ng/0.20.00/stress-bitops.c /usr/src/debug/stress-ng/0.20.00/stress-filename.c /usr/src/debug/stress-ng/0.20.00/stress-filerace.c /usr/src/debug/stress-ng/0.20.00/stress-schedpolicy.c /usr/src/debug/stress-ng/0.2
- 0.00/stress-sigio.c /usr/src/debug/stress-ng/0.20.00/stress-nop.c /usr/src/debug/stress-ng/0.20.00/stress-zombie.c /usr/src/debug/stress-ng/0.20.00/stress-munmap.c /usr/src/debug/stress-ng/0.20.00/stress-fp.c /usr/src/debug/stress-ng/0.20.00/stress-mmap.c /usr/src/debug/stress-ng/0.20.00/stress-mlock.c /usr/src/debug/stress-ng/0.20.00/core-module.c /usr/src/debug/stress-ng/0.20.00/stress-sem-sysv.c /usr/src/debug/stress-ng/0.20.00/stress-sendfile.c /usr/src/debug/stress-ng/0.20.00/stress-sockabuse.c /usr/src/debug/stress-ng/0.20.00/stress-ctrig.c /usr/src/debug/stress-ng/0.20.00/core-module.h /usr/src/debug/stress-ng/0.20.00/stress-bad-altstack.c /usr/src/debug/stress-ng/0.20.00/stress-bigheap.c /usr/src/debug/stress-ng/0.20.00/core-vmstat.c /usr/src/debug/stress-ng/0.20.00/stress-fork.c /usr/src/debug/stress-ng/0.20.00/core-vmstat.h /usr/src/debug/stress-ng/0.20.00/core-pthread.h /usr/src/debug/stress-ng/0.20.00/stress-kill.c /usr/src/debug/stress-ng/0.20.00/stress-shellsort.c /usr
- /src/debug/stress-ng/0.20.00/stress-splice.c /usr/src/debug/stress-ng/0.20.00/stress-resched.c /usr/src/debug/stress-ng/0.20.00/stress-enosys.c /usr/src/debug/stress-ng/0.20.00/stress-sigbus.c /usr/src/debug/stress-ng/0.20.00/stress-module.c /usr/src/debug/stress-ng/0.20.00/stress-cyclic.c /usr/src/debug/stress-ng/0.20.00/stress-fault.c /usr/src/debug/stress-ng/0.20.00/stress-getrandom.c /usr/src/debug/stress-ng/0.20.00/stress-locka.c /usr/src/debug/stress-ng/0.20.00/stress-rlimit.c /usr/src/debug/stress-ng/0.20.00/stress-cpu.c /usr/src/debug/stress-ng/0.20.00/stress-sigill.c /usr/src/debug/stress-ng/0.20.00/stress-rawdev.c /usr/src/debug/stress-ng/0.20.00/stress-spinmem.c /usr/src/debug/stress-ng/0.20.00/stress-fpunch.c /usr/src/debug/stress-ng/0.20.00/core-stack.c /usr/src/debug/stress-ng/0.20.00/stress-priv-instr.c /usr/src/debug/stress-ng/0.20.00/core-stack.h /usr/src/debug/stress-ng/0.20.00/stress-sockfd.c /usr/src/debug/stress-ng/0.20.00/stress-prime.c /usr/src/debug/stress-ng
- /0.20.00/core-prime.h /usr/src/debug/stress-ng/0.20.00/stress-quota.c /usr/src/debug/stress-ng/0.20.00/core-prime.c /usr/src/debug/stress-ng/0.20.00/stress-min-nanosleep.c /usr/src/debug/stress-ng/0.20.00/stress-sigvtalrm.c /usr/src/debug/stress-ng/0.20.00/stress-fp-error.c /usr/src/debug/stress-ng/0.20.00/stress-itimer.c /usr/src/debug/stress-ng/0.20.00/stress-x86cpuid.c /usr/src/debug/stress-ng/0.20.00/stress-wait.c /usr/src/debug/stress-ng/0.20.00/stress-full.c /usr/src/debug/stress-ng/0.20.00/stress-dev.c /usr/src/debug/stress-ng/0.20.00/stress-atomic.c /usr/src/debug/stress-ng/0.20.00/stress-mpfr.c /usr/src/debug/stress-ng/0.20.00/stress-ramfs.c /usr/src/debug/stress-ng/0.20.00/core-shared-cache.c /usr/src/debug/stress-ng/0.20.00/stress-dekker.c /usr/src/debug/stress-ng/0.20.00/core-shared-cache.h /usr/src/debug/stress-ng/0.20.00/stress-plugin.c /usr/src/debug/stress-ng/0.20.00/stress-sigsuspend.c /usr/src/debug/stress-ng/0.20.00/stress-sigq.c /usr/src/debug/stress-ng/0.20.00/c
- ore-hash.c /usr/src/debug/stress-ng/0.20.00/core-processes.h /usr/src/debug/stress-ng/0.20.00/stress-matrix.c /usr/src/debug/stress-ng/0.20.00/stress-mcontend.c /usr/src/debug/stress-ng/0.20.00/core-hash.h /usr/src/debug/stress-ng/0.20.00/core-processes.c /usr/src/debug/stress-ng/0.20.00/stress-swap.c /usr/src/debug/stress-ng/0.20.00/stress-aio.c /usr/src/debug/stress-ng/0.20.00/stress-flushcache.c /usr/src/debug/stress-ng/0.20.00/stress-x86syscall.c /usr/src/debug/stress-ng/0.20.00/stress-bubblesort.c /usr/src/debug/stress-ng/0.20.00/stress-loadavg.c /usr/src/debug/stress-ng/0.20.00/stress-file-ioctl.c /usr/src/debug/stress-ng/0.20.00/stress-logmath.c /usr/src/debug/stress-ng/0.20.00/stress-lockbus.c /usr/src/debug/stress-ng/0.20.00/stress-lockmix.c /usr/src/debug/stress-ng/0.20.00/stress-longjmp.c /usr/src/debug/stress-ng/0.20.00/stress-lockofd.c /usr/src/debug/stress-ng/0.20.00/stress-mutex.c /usr/src/debug/stress-ng/0.20.00/stress-switch.c /usr/src/debug/stress-ng/0.20.00/stress
- -bind-mount.c /usr/src/debug/stress-ng/0.20.00/stress-vecfp.c /usr/src/debug/stress-ng/0.20.00/core-nt-store.h /usr/src/debug/stress-ng/0.20.00/stress-dev-shm.c /usr/src/debug/stress-ng/0.20.00/stress-tlb-shootdown.c /usr/src/debug/stress-ng/0.20.00/stress-sigabrt.c /usr/src/debug/stress-ng/0.20.00/stress-sigchld.c /usr/src/debug/stress-ng/0.20.00/stress-signest.c /usr/src/debug/stress-ng/0.20.00/stress-sigxfsz.c /usr/src/debug/stress-ng/0.20.00/stress-syscall.c /usr/src/debug/stress-ng/0.20.00/stress-sysinfo.c /usr/src/debug/stress-ng/0.20.00/stress-sigpipe.c /usr/src/debug/stress-ng/0.20.00/stress-sigsegv.c /usr/src/debug/stress-ng/0.20.00/stress-sigtrap.c /usr/src/debug/stress-ng/0.20.00/stress-sigxcpu.c /usr/src/debug/stress-ng/0.20.00/stress-dup.c /usr/src/debug/stress-ng/0.20.00/stress-prefetch.c /usr/src/debug/stress-ng/0.20.00/stress-prio-inv.c /usr/src/debug/stress-ng/0.20.00/stress-cacheline.c /usr/src/debug/stress-ng/0.20.00/core-ignite-cpu.c /usr/src/debug/stress-ng/0.20
- .00/stress-rdrand.c /usr/src/debug/stress-ng/0.20.00/stress-zlib.c /usr/src/debug/stress-ng/0.20.00/stress-rename.c /usr/src/debug/stress-ng/0.20.00/stress-set.c /usr/src/debug/stress-ng/0.20.00/core-ignite-cpu.h /usr/src/debug/stress-ng/0.20.00/stress-landlock.c /usr/src/debug/stress-ng/0.20.00/stress-memrate.c /usr/src/debug/stress-ng/0.20.00/stress-mmapcow.c /usr/src/debug/stress-ng/0.20.00/stress-timerfd.c /usr/src/debug/stress-ng/0.20.00/stress-metamix.c /usr/src/debug/stress-ng/0.20.00/stress-pthread.c /usr/src/debug/stress-ng/0.20.00/stress-far-branch.c /usr/src/debug/stress-ng/0.20.00/core-klog.c /usr/src/debug/stress-ng/0.20.00/core-klog.h /usr/src/debug/stress-ng/0.20.00/core-config-check.h /usr/src/debug/stress-ng/0.20.00/core-time.h /usr/src/debug/stress-ng/0.20.00/core-config-check.c /usr/src/debug/stress-ng/0.20.00/core-time.c /usr/src/debug/stress-ng/0.20.00/stress-stack.c /usr/src/debug/stress-ng/0.20.00/stress-urandom.c /usr/src/debug/stress-ng/0.20.00/stress-sockdi
- ag.c /usr/src/debug/stress-ng/0.20.00/stress-sockmany.c /usr/src/debug/stress-ng/0.20.00/stress-sockpair.c /usr/src/debug/stress-ng/0.20.00/stress-alarm.c /usr/src/debug/stress-ng/0.20.00/stress-regs.c /usr/src/debug/stress-ng/0.20.00/stress-fd-fork.c /usr/src/debug/stress-ng/0.20.00/stress-fd-race.c /usr/src/debug/stress-ng/0.20.00/stress-cpu-sched.c /usr/src/debug/stress-ng/0.20.00/stress-klog.c /usr/src/debug/stress-ng/0.20.00/core-capabilities.h /usr/src/debug/stress-ng/0.20.00/stress-fifo.c /usr/src/debug/stress-ng/0.20.00/core-capabilities.c /usr/src/debug/stress-ng/0.20.00/stress-workload.c /usr/src/debug/stress-ng/0.20.00/stress-chown.c /usr/src/debug/stress-ng/0.20.00/stress-ptrace.c /usr/src/debug/stress-ng/0.20.00/stress-lockf.c /usr/src/debug/stress-ng/0.20.00/stress-netdev.c /usr/src/debug/stress-ng/0.20.00/stress-seek.c /usr/src/debug/stress-ng/0.20.00/stress-matrix-3d.c /usr/src/debug/stress-ng/0.20.00/core-out-of-memory.c /usr/src/debug/stress-ng/0.20.00/stress-poll.
- c /usr/src/debug/stress-ng/0.20.00/core-out-of-memory.h /usr/src/debug/stress-ng/0.20.00/stress-timermix.c /usr/src/debug/stress-ng/0.20.00/stress-cap.c /usr/src/debug/stress-ng/0.20.00/stress-membarrier.c /usr/src/debug/stress-ng/0.20.00/stress-pseek.c /usr/src/debug/stress-ng/0.20.00/stress-randlist.c /usr/src/debug/stress-ng/0.20.00/stress-led.c /usr/src/debug/stress-ng/0.20.00/stress-mmapfiles.c /usr/src/debug/stress-ng/0.20.00/stress-io.c /usr/src/debug/stress-ng/0.20.00/stress-clock.c /usr/src/debug/stress-ng/0.20.00/stress-pagemove.c /usr/src/debug/stress-ng/0.20.00/stress-pageswap.c /usr/src/debug/stress-ng/0.20.00/stress-pipeherd.c /usr/src/debug/stress-ng/0.20.00/stress-shm.c /usr/src/debug/stress-ng/0.20.00/stress-varyload.c /usr/src/debug/stress-ng/0.20.00/stress-wcs.c /usr/src/debug/stress-ng/0.20.00/stress-binderfs.c /usr/src/debug/stress-ng/0.20.00/stress-epoll.c /usr/src/debug/stress-ng/0.20.00/stress-eigen.c /usr/src/debug/stress-ng/0.20.00/core-shim.c /usr/src/debu
- g/stress-ng/0.20.00/stress-kcmp.c /usr/src/debug/stress-ng/0.20.00/stress-vm.c /usr/src/debug/stress-ng/0.20.00/stress-ioport.c /usr/src/debug/stress-ng/0.20.00/stress-time-warp.c /usr/src/debug/stress-ng/0.20.00/stress-expmath.c /usr/src/debug/stress-ng/0.20.00/core-shim.h /usr/src/debug/stress-ng/0.20.00/stress-dir.c /usr/src/debug/stress-ng/0.20.00/stress-forkheavy.c /usr/src/debug/stress-ng/0.20.00/stress-userfaultfd.c /usr/src/debug/stress-ng/0.20.00/stress-vma.c /usr/src/debug/stress-ng/0.20.00/core-asm-ret.c /usr/src/debug/stress-ng/0.20.00/stress-dccp.c /usr/src/debug/stress-ng/0.20.00/core-bitops.h /usr/src/debug/stress-ng/0.20.00/stress-pkey.c /usr/src/debug/stress-ng/0.20.00/core-asm-ret.h /usr/src/debug/stress-ng/0.20.00/stress-open.c /usr/src/debug/stress-ng/0.20.00/core-opts.c /usr/src/debug/stress-ng/0.20.00/core-asm-generic.h /usr/src/debug/stress-ng/0.20.00/core-config.c /usr/src/debug/stress-ng/0.20.00/core-opts.h /usr/src/debug/stress-ng/0.20.00/core-shared-heap.h
-  /usr/src/debug/stress-ng/0.20.00/core-mounts.c /usr/src/debug/stress-ng/0.20.00/stress-trig.c /usr/src/debug/stress-ng/0.20.00/stress-memhotplug.c /usr/src/debug/stress-ng/0.20.00/core-shared-heap.c /usr/src/debug/stress-ng/0.20.00/core-mounts.h /usr/src/debug/stress-ng/0.20.00/core-helper.c /usr/src/debug/stress-ng/0.20.00/core-helper.h /usr/src/debug/stress-ng/0.20.00/stress-mmapaddr.c /usr/src/debug/stress-ng/0.20.00/stress-mmapfork.c /usr/src/debug/stress-ng/0.20.00/stress-mmaphuge.c /usr/src/debug/stress-ng/0.20.00/stress-mmapmany.c /usr/src/debug/stress-ng/0.20.00/stress-vecmath.c /usr/src/debug/stress-ng/0.20.00/stress-vecshuf.c /usr/src/debug/stress-ng/0.20.00/stress-vecwide.c /usr/src/debug/stress-ng/0.20.00/stress-vm-addr.c /usr/src/debug/stress-ng/0.20.00/stress-affinity.c /usr/src/debug/stress-ng/0.20.00/stress-vm-segv.c /usr/src/debug/stress-ng/0.20.00/stress-umask.c /usr/src/debug/stress-ng/0.20.00/stress-exit-group.c /usr/src/debug/stress-ng/0.20.00/stress-mmaprandom
- .c /usr/src/debug/stress-ng/0.20.00/stress-sigrt.c /usr/src/debug/stress-ng/0.20.00/stress-ipsec-mb.c /usr/src/debug/stress-ng/0.20.00/stress-memcpy.c /usr/src/debug/stress-ng/0.20.00/core-mlock.h /usr/src/debug/stress-ng/0.20.00/core-mlock.c /usr/src/debug/stress-ng/0.20.00/stress-list.c /usr/src/debug/stress-ng/0.20.00/stress-lsm.c /usr/src/debug/stress-ng/0.20.00/stress-utime.c /usr/src/debug/stress-ng/0.20.00/core-resources.h /usr/src/debug/stress-ng/0.20.00/core-resources.c /usr/src/debug/stress-ng/0.20.00/stress-cachehammer.c /usr/src/debug/stress-ng/0.20.00/stress-cpu-online.c /usr/src/debug/stress-ng/0.20.00/stress-sigpending.c /usr/src/debug/stress-ng/0.20.00/stress-sock.c /usr/src/debug/stress-ng/0.20.00/stress-copy-file.c /usr/src/debug/stress-ng/0.20.00/stress-prctl.c /usr/src/debug/stress-ng/0.20.00/stress-apparmor.c /usr/src/debug/stress-ng/0.20.00/stress-futex.c /usr/src/debug/stress-ng/0.20.00/stress-touch.c /usr/src/debug/stress-ng/0.20.00/stress-bad-ioctl.c /usr/sr
- c/debug/stress-ng/0.20.00/stress-icache.c /usr/src/debug/stress-ng/0.20.00/stress-besselmath.c /usr/src/debug/stress-ng/0.20.00/stress-inotify.c /usr/src/debug/stress-ng/0.20.00/stress-intmath.c /usr/src/debug/stress-ng/0.20.00/stress-tsc.c /usr/src/debug/stress-ng/0.20.00/core-cpuidle.h /usr/src/debug/stress-ng/0.20.00/stress-mseal.c /usr/src/debug/stress-ng/0.20.00/stress-mmaptorture.c /usr/src/debug/stress-ng/0.20.00/stress-procfs.c /usr/src/debug/stress-ng/0.20.00/core-cpuidle.c /usr/src/debug/stress-ng/0.20.00/stress-funccall.c /usr/src/debug/stress-ng/0.20.00/stress-msg.c /usr/src/debug/stress-ng/0.20.00/stress-ioprio.c /usr/src/debug/stress-ng/0.20.00/stress-daemon.c /usr/src/debug/stress-ng/0.20.00/stress-rotate.c /usr/src/debug/stress-ng/0.20.00/stress-link.c /usr/src/debug/stress-ng/0.20.00/core-smart.c /usr/src/debug/stress-ng/0.20.00/stress-syncload.c /usr/src/debug/stress-ng/0.20.00/stress-sysinval.c /usr/src/debug/stress-ng/0.20.00/core-smart.h /usr/src/debug/stress-ng
- /0.20.00/stress-goto.c /usr/src/debug/stress-ng/0.20.00/stress-pidfd.c /usr/src/debug/stress-ng/0.20.00/stress-fractal.c /usr/src/debug/stress-ng/0.20.00/stress-stackmmap.c /usr/src/debug/stress-ng/0.20.00/stress-stream.c /usr/src/debug/stress-ng/0.20.00/core-ftrace.c /usr/src/debug/stress-ng/0.20.00/core-ftrace.h /usr/src/debug/stress-ng/0.20.00/stress-sem.c /usr/src/debug/stress-ng/0.20.00/stress-sighup.c /usr/src/debug/stress-ng/0.20.00/stress-watchdog.c /usr/src/debug/stress-ng/0.20.00/stress-mknod.c /usr/src/debug/stress-ng/0.20.00/core-perf.c /usr/src/debug/stress-ng/0.20.00/stress-mprotect.c /usr/src/debug/stress-ng/0.20.00/stress-statmount.c /usr/src/debug/stress-ng/0.20.00/core-perf.h /usr/src/debug/stress-ng/0.20.00/stress-uprobe.c /usr/src/debug/stress-ng/0.20.00/stress-nanosleep.c /usr/src/debug/stress-ng/0.20.00/core-try-open.h /usr/src/debug/stress-ng/0.20.00/stress-close.c /usr/src/debug/stress-ng/0.20.00/stress-factor.c /usr/src/debug/stress-ng/0.20.00/core-try-open.
- c /usr/src/debug/stress-ng/0.20.00/stress-rawsock.c /usr/src/debug/stress-ng/0.20.00/stress-getdent.c /usr/src/debug/stress-ng/0.20.00/core-log.c /usr/src/debug/stress-ng/0.20.00/stress-fiemap.c /usr/src/debug/stress-ng/0.20.00/stress-softlockup.c /usr/src/debug/stress-ng/0.20.00/core-log.h /usr/src/debug/stress-ng/0.20.00/stress-io-uring.c /usr/src/debug/stress-ng/0.20.00/stress-revio.c /usr/src/debug/stress-ng/0.20.00/stress-ring-pipe.c /usr/src/debug/stress-ng/0.20.00/stress-mq.c /usr/src/debug/stress-ng/0.20.00/stress-waitcpu.c /usr/src/debug/stress-ng/0.20.00/core-parse-opts.h /usr/src/debug/stress-ng/0.20.00/core-parse-opts.c /usr/src/debug/stress-ng/0.20.00/stress-access.c /usr/src/debug/stress-ng/0.20.00/stress-insertionsort.c /usr/src/debug/stress-ng/0.20.00/stress-hdd.c /usr/src/debug/stress-ng/0.20.00/stress-hrtimers.c /usr/src/debug/stress-ng/0.20.00/stress-sigurg.c /usr/src/debug/stress-ng/0.20.00/core-limit.h /usr/src/debug/stress-ng/0.20.00/core-limit.c /usr/src/debug
- /stress-ng/0.20.00/stress-jpeg.c /usr/src/debug/stress-ng/0.20.00/stress-pci.c /usr/src/debug/stress-ng/0.20.00/stress-msyncmany.c /usr/src/debug/stress-ng/0.20.00/stress-malloc.c /usr/src/debug/stress-ng/0.20.00/stress-sctp.c /usr/src/debug/stress-ng/0.20.00/stress-powmath.c /usr/src/debug/stress-ng/0.20.00/stress-judy.c /usr/src/debug/stress-ng/0.20.00/core-numa.h /usr/src/debug/stress-ng/0.20.00/stress-rawpkt.c /usr/src/debug/stress-ng/0.20.00/stress-rawudp.c /usr/src/debug/stress-ng/0.20.00/core-numa.c /usr/src/debug/stress-ng/0.20.00/stress-eventfd.c /usr/src/debug/stress-ng/0.20.00/core-clocksource.h /usr/src/debug/stress-ng/0.20.00/stress-efivar.c /usr/src/debug/stress-ng/0.20.00/stress-secretmem.c /usr/src/debug/stress-ng/0.20.00/stress-regex.c /usr/src/debug/stress-ng/0.20.00/core-clocksource.c /usr/src/debug/stress-ng/0.20.00/stress-fd-abuse.c /usr/src/debug/stress-ng/0.20.00/stress-flipflop.c /usr/src/debug/stress-ng/0.20.00/core-cpu.c /usr/src/debug/stress-ng/0.20.00/str
- ess-hyperbolic.c /usr/src/debug/stress-ng/0.20.00/core-thermal-zone.h /usr/src/debug/stress-ng/0.20.00/core-cpu.h /usr/src/debug/stress-ng/0.20.00/stress-vforkmany.c /usr/src/debug/stress-ng/0.20.00/stress-exec.c /usr/src/debug/stress-ng/0.20.00/core-thermal-zone.c /usr/src/debug/stress-ng/0.20.00/stress-fma.c /usr/src/debug/stress-ng/0.20.00/core-cpu-cache.h /usr/src/debug/stress-ng/0.20.00/stress-acl.c /usr/src/debug/stress-ng/0.20.00/stress-tmpfs.c /usr/src/debug/stress-ng/0.20.00/core-cpu-cache.c /usr/src/debug/stress-ng/0.20.00/stress-readahead.c /usr/src/debug/stress-ng/0.20.00/stress-shm-sysv.c /usr/src/debug/stress-ng/0.20.00/stress-sigfpe.c /usr/src/debug/stress-ng/0.20.00/stress-flock.c /usr/src/debug/stress-ng/0.20.00/core-cpu-freq.h /usr/src/debug/stress-ng/0.20.00/core-cpu-freq.c /usr/src/debug/stress-ng/0.20.00/stress-oom-pipe.c /usr/src/debug/stress-ng/0.20.00/core-arch.c /usr/src/debug/stress-ng/0.20.00/core-mmap.c /usr/src/debug/stress-ng/0.20.00/core-mmap.h /usr/sr
- c/debug/stress-ng/0.20.00/stress-unlink.c /usr/src/debug/stress-ng/0.20.00/stress-ping-sock.c /usr/src/debug/stress-ng/0.20.00/stress-udp.c /usr/src/debug/stress-ng/0.20.00/stress-sparsematrix.c /usr/src/debug/stress-ng/0.20.00/stress-vdso.c /usr/src/debug/stress-ng/0.20.00/stress-chattr.c /usr/src/debug/stress-ng/0.20.00/core-mwc.h /usr/src/debug/stress-ng/0.20.00/stress-sleep.c /usr/src/debug/stress-ng/0.20.00/core-mwc.c"
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-staticdev: PV changed from "0.19.06" to "0.20.00"
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng-staticdev: PKGV changed from 0.19.06 [default] to 0.20.00 [default]
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng: PV changed from "0.19.06" to "0.20.00"
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng: PKGSIZE changed from 18137520 to 18153520 (+0%)
-packages/x86-64-v3-poky-linux/stress-ng/stress-ng: PKGV changed from 0.19.06 [default] to 0.20.00 [default]
+packages/x86-64-v3-poky-linux/xz: SRC_URI changed from "https://github.com/tukaani-project/xz/releases/download/v5.8.1/xz-5.8.1.tar.gz file://run-ptest" to "https://github.com/tukaani-project/xz/releases/download/v5.8.2/xz-5.8.2.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/xz: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.8.1", added "/usr/lib/liblzma.so.5.8.2"
+packages/x86-64-v3-poky-linux/xz/liblzma: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/liblzma: PV changed from "5.8.1" to "5.8.2"
+Changes to packages/x86-64-v3-poky-linux/xz (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.8.1 to liblzma.so.5.8.2
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.8.1 to liblzma.so.5.8.2
+  /usr/lib/liblzma.so.5.8.1 moved to /usr/lib/liblzma.so.5.8.2
+packages/x86-64-v3-poky-linux/xz/xz-dbg: PKGSIZE changed from 2198776 to 2199872 (+0%)
+packages/x86-64-v3-poky-linux/xz/xz-dbg: FILELIST: removed "/usr/lib/.debug/liblzma.so.5.8.1", added "/usr/lib/.debug/liblzma.so.5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-dbg: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-dbg: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-dev: PKGSIZE changed from 229962 to 229928 (-0%)
+packages/x86-64-v3-poky-linux/xz/xz-dev: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-dev: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-doc: PKGSIZE changed from 1290628 to 1390205 (+8%)
+packages/x86-64-v3-poky-linux/xz/xz-doc: FILELIST: added "/usr/share/man/sv/man1/lzmore.1 /usr/share/man/sv/man1/xzmore.1 /usr/share/man/sv/man1/lzegrep.1 /usr/share/man/sv/man1/xzegrep.1 /usr/share/man/sv/man1/xzcmp.1 /usr/share/man/sv/man1/lzcmp.1 /usr/share/man/sv/man1/unxz.1 /usr/share/man/sv/man1/lzdiff.1 /usr/share/man/sv/man1/xzdiff.1 /usr/share/man/sv/man1/lzfgrep.1 /usr/share/man/sv/man1/lzma.1 /usr/share/man/sv/man1/lzmainfo.1 /usr/share/man/sv/man1/xzdec.1 /usr/share/man/sv/man1/lzless.1 /usr/share/man/sv/man1/xzless.1 /usr/share/man/sv/man1/unlzma.1 /usr/share/man/sv/man1/lzmadec.1 /usr/share/man/sv/man1/lzcat.1 /usr/share/man/sv/man1/xzcat.1 /usr/share/man/sv/man1/xz.1 /usr/share/man/sv/man1/lzgrep.1 /usr/share/man/sv/man1/xzgrep.1 /usr/share/man/sv/man1/xzfgrep.1"
+packages/x86-64-v3-poky-linux/xz/xz-doc: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-doc: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-ca: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-ca: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-cs: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-cs: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-da: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-da: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-de: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-de: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-eo: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-eo: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-es: PKGSIZE changed from 29228 to 29244 (+0%)
+packages/x86-64-v3-poky-linux/xz/xz-locale-es: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-es: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-fi: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-fi: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-fr: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-fr: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-hr: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-hr: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-hu: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-hu: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-it: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-it: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-ka: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-ka: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-ko: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-ko: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-nl: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-nl: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-pl: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-pl: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-pt-br: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-pt-br: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-pt: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-pt: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-ro: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-ro: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-sr: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-sr: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-sv: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-sv: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-tr: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-tr: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-uk: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-uk: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-vi: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-vi: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-zh-cn: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-zh-cn: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-locale-zh-tw: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-zh-tw: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-ptest: PKGSIZE changed from 472715 to 472892 (+0%)
+packages/x86-64-v3-poky-linux/xz/xz-ptest: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-ptest: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-src: PKGSIZE changed from 1692651 to 1696338 (+0%)
+packages/x86-64-v3-poky-linux/xz/xz-src: FILELIST: directory renamed /usr/src/debug/xz/5.8.1/src/liblzma/check -> /usr/src/debug/xz/5.8.2/src/liblzma/check, directory renamed /usr/src/debug/xz/5.8.1/src/liblzma/api/lzma -> /usr/src/debug/xz/5.8.2/src/liblzma/api/lzma, directory renamed /usr/src/debug/xz/5.8.1/src/common -> /usr/src/debug/xz/5.8.2/src/common, directory renamed /usr/src/debug/xz/5.8.1/src/liblzma/delta -> /usr/src/debug/xz/5.8.2/src/liblzma/delta, directory renamed /usr/src/debug/xz/5.8.1/src/xz -> /usr/src/debug/xz/5.8.2/src/xz, directory renamed /usr/src/debug/xz/5.8.1/src/liblzma/common -> /usr/src/debug/xz/5.8.2/src/liblzma/common, directory renamed /usr/src/debug/xz/5.8.1/src/liblzma/simple -> /usr/src/debug/xz/5.8.2/src/liblzma/simple, directory renamed /usr/src/debug/xz/5.8.1/tests -> /usr/src/debug/xz/5.8.2/tests, directory renamed /usr/src/debug/xz/5.8.1/src/liblzma/rangecoder -> /usr/src/debug/xz/5.8.2/src/liblzma/rangecoder, directory renamed /usr/src/debug/
+ xz/5.8.1/src/liblzma/lz -> /usr/src/debug/xz/5.8.2/src/liblzma/lz, directory renamed /usr/src/debug/xz/5.8.1/src/lzmainfo -> /usr/src/debug/xz/5.8.2/src/lzmainfo, directory renamed /usr/src/debug/xz/5.8.1/src/liblzma/lzma -> /usr/src/debug/xz/5.8.2/src/liblzma/lzma, directory renamed /usr/src/debug/xz/5.8.1/src/xzdec -> /usr/src/debug/xz/5.8.2/src/xzdec
+packages/x86-64-v3-poky-linux/xz/xz-src: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-src: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz-staticdev: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz-staticdev: PV changed from "5.8.1" to "5.8.2"
+packages/x86-64-v3-poky-linux/xz/xz: PKGSIZE changed from 167095 to 171464 (+3%)
+packages/x86-64-v3-poky-linux/xz/xz: PKGV changed from 5.8.1 [default] to 5.8.2 [default]
+packages/x86-64-v3-poky-linux/xz/xz: PV changed from "5.8.1" to "5.8.2"
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.3-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.3-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.3 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.3-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.3-gdb.py was removed
+Changes to packages/x86_64-linux/xz-native (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.8.1 to liblzma.so.5.8.2
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.8.1 to liblzma.so.5.8.2
+  /usr/lib/liblzma.so.5.8.1 moved to /usr/lib/liblzma.so.5.8.2
 
---===============0258964026598310872==--
+--===============0796662082399546012==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.8.1", added "/usr/lib/liblzma.so.5.8.2"
+Changes to packages/x86-64-v3-poky-linux/xz (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.8.1 to liblzma.so.5.8.2
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.8.1 to liblzma.so.5.8.2
+  /usr/lib/liblzma.so.5.8.1 moved to /usr/lib/liblzma.so.5.8.2
+packages/x86-64-v3-poky-linux/xz/xz-doc: FILELIST: added "/usr/share/man/sv/man1/unxz.1 /usr/share/man/sv/man1/xz.1 /usr/share/man/sv/man1/lzmainfo.1 /usr/share/man/sv/man1/lzcat.1 /usr/share/man/sv/man1/xzcat.1 /usr/share/man/sv/man1/lzfgrep.1 /usr/share/man/sv/man1/xzfgrep.1 /usr/share/man/sv/man1/lzgrep.1 /usr/share/man/sv/man1/xzgrep.1 /usr/share/man/sv/man1/lzma.1 /usr/share/man/sv/man1/lzcmp.1 /usr/share/man/sv/man1/xzcmp.1 /usr/share/man/sv/man1/lzmadec.1 /usr/share/man/sv/man1/lzless.1 /usr/share/man/sv/man1/xzless.1 /usr/share/man/sv/man1/lzegrep.1 /usr/share/man/sv/man1/xzegrep.1 /usr/share/man/sv/man1/lzdiff.1 /usr/share/man/sv/man1/xzdec.1 /usr/share/man/sv/man1/xzdiff.1 /usr/share/man/sv/man1/unlzma.1 /usr/share/man/sv/man1/xzmore.1 /usr/share/man/sv/man1/lzmore.1"
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.3-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.3-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.3 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.3-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/reproducible/build/build-st/tmp/work/x86_64-linux/glib-2.0-native/2.86.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.3-gdb.py was removed
+Changes to packages/x86_64-linux/xz-native (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.8.1 to liblzma.so.5.8.2
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.8.1 to liblzma.so.5.8.2
+  /usr/lib/liblzma.so.5.8.1 moved to /usr/lib/liblzma.so.5.8.2
+
+--===============0796662082399546012==--
 
