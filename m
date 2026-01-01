@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7413EED601
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86760EEB595
 	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 11:37:59 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.102963.1767267469816444683
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.102975.1767267476453047688
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jan 2026 03:37:55 -0800
+ Thu, 01 Jan 2026 03:37:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ffls0Tx1;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=IxJgAoww;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019b79599de2-2a1fec33-4666-40f1-b38d-3a5493272ecc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=VuljH8Qn;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Dmsbv5od;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019b7959a1c6-9ab683fa-78b9-49ce-880b-d7dbc108088e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1767267475;
+	t=1767267476;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Vu0dYNwZQIQOWLDFi1B+wrcDnOsDh0/OkTI5cfZDVks=;
-	b=ffls0Tx1mXOdwj3+cYxZPesu6qk3AKrkbzNEnf8pTaOOKS+WCn3SL0qHjragtqZL
-	w02cItdUWJPkHHSGi9+84zz1pgYQq4vB4lN8m8gcrEIhLYO8I0/C+2yLM13Yci0dx0V
-	XC9aMeQQ+i5xS4T8oU09PouCLIeePD7ZA/rr7as4=
+	bh=Ih+dhBbYtiH3PWuZrFtOVjrEi40oqqjbhzDOgpfEH7Y=;
+	b=VuljH8QnZDO06ugVZxlMG46SKAUm2Wz0RmWjB1dBiXf6O6YnLsZnGr4dkp8qyFOa
+	UlJIQqfpE93Vd5zt0/R4B5K9wTXmb5bk1hC8MLC3r8JYKtpqwUXTkBZhExFzp6CuhHu
+	98SvfClL5oBH+PQh7IDPRP4mT0elC0J9Aau4hOu8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1767267475;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1767267476;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Vu0dYNwZQIQOWLDFi1B+wrcDnOsDh0/OkTI5cfZDVks=;
-	b=IxJgAoww+6NbPTHBm208qu9Ztr+NRiJ7vb8kHmgEyXnzFHGb3OGd0pnFHUWOW4JH
-	BM0V5BoPb4P8aDPHUz8j/zN2pYe7R9Ri4rDcZQjZSxJq4gjJ+WHPJwPfqpO8uRVHmNb
-	+uZV77zsK2fb+q0XbLcjF0OGB8fXK30xgb4Xwbac=
-Content-Type: multipart/mixed; boundary="===============3264223445194574506=="
+	bh=Ih+dhBbYtiH3PWuZrFtOVjrEi40oqqjbhzDOgpfEH7Y=;
+	b=Dmsbv5od+i1UkFEMBPup8+dzJ7fX3s5SW8iQNNrivqIcK5g1V8B0B7RmK5EKpW2O
+	S/OjjHJKI20ppKzElhyhdDKGviHDKN92Ly5zOg4xc/0Xtj+kgUqXvjqYxmmuawh1rE1
+	X0Vpec6Jv/P/tt6E4y4g06EaVa+rWjO/5DayviOU=
+Content-Type: multipart/mixed; boundary="===============9036831932929640212=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-testtools: upgrading to 2.8.2 SUCCEEDED
-Message-ID: <0101019b79599de2-2a1fec33-4666-40f1-b38d-3a5493272ecc-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Jan 2026 11:37:54 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] python3-uv-build: upgrading to 0.9.21 SUCCEEDED
+Message-ID: <0101019b7959a1c6-9ab683fa-78b9-49ce-880b-d7dbc108088e-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Jan 2026 11:37:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.01-54.240.27.31
+X-SES-Outgoing: 2026.01.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 11:37:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228778
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228783
 
---===============3264223445194574506==
+--===============9036831932929640212==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-testtools* to *2.8.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-uv-build* to *0.9.21* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-testtools-upgrade-2.8.1-2.8.2.patch
+    - apply the patch: git am 0001-python3-uv-build-upgrade-0.9.18-0.9.21.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,268 +72,249 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7919446841741d53e46994812ed3b9471fd4dbe6 Mon Sep 17 00:00:00 2001
+From c51f6329963ce02dfb060c04b3ae02b59bbcb136 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Jan 2026 08:14:36 +0000
-Subject: [PATCH] python3-testtools: upgrade 2.8.1 -> 2.8.2
+Date: Thu, 1 Jan 2026 08:25:20 +0000
+Subject: [PATCH] python3-uv-build: upgrade 0.9.18 -> 0.9.21
 
 ---
- .../{python3-testtools_2.8.1.bb => python3-testtools_2.8.2.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-testtools_2.8.1.bb => python3-testtools_2.8.2.bb} (84%)
+ meta/recipes-devtools/python/python3-uv-build-crates.inc  | 8 ++++----
+ ...hon3-uv-build_0.9.18.bb => python3-uv-build_0.9.21.bb} | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/python/{python3-uv-build_0.9.18.bb => python3-uv-build_0.9.21.bb} (92%)
 
-diff --git a/meta/recipes-devtools/python/python3-testtools_2.8.1.bb b/meta/recipes-devtools/python/python3-testtools_2.8.2.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-testtools_2.8.1.bb
-rename to meta/recipes-devtools/python/python3-testtools_2.8.2.bb
-index 29a28d80da..c51fac2242 100644
---- a/meta/recipes-devtools/python/python3-testtools_2.8.1.bb
-+++ b/meta/recipes-devtools/python/python3-testtools_2.8.2.bb
-@@ -8,7 +8,7 @@ DEPENDS += "python3-hatch-vcs-native"
+diff --git a/meta/recipes-devtools/python/python3-uv-build-crates.inc b/meta/recipes-devtools/python/python3-uv-build-crates.inc
+index 6aadd77746..5113e4ae5b 100644
+--- a/meta/recipes-devtools/python/python3-uv-build-crates.inc
++++ b/meta/recipes-devtools/python/python3-uv-build-crates.inc
+@@ -25,7 +25,7 @@ SRC_URI += " \
+     crate://crates.io/assert_fs/1.1.3 \
+     crate://crates.io/astral-pubgrub/0.3.3 \
+     crate://crates.io/astral-reqwest-middleware/0.4.2 \
+-    crate://crates.io/astral-reqwest-retry/0.7.0 \
++    crate://crates.io/astral-reqwest-retry/0.8.0 \
+     crate://crates.io/astral-tl/0.7.11 \
+     crate://crates.io/astral-tokio-tar/0.5.6 \
+     crate://crates.io/astral-version-ranges/0.1.3 \
+@@ -379,7 +379,7 @@ SRC_URI += " \
+     crate://crates.io/reqsign-http-send-reqwest/2.0.1 \
+     crate://crates.io/reqwest/0.12.22 \
+     crate://crates.io/resvg/0.29.0 \
+-    crate://crates.io/retry-policies/0.4.0 \
++    crate://crates.io/retry-policies/0.5.1 \
+     crate://crates.io/rgb/0.8.52 \
+     crate://crates.io/ring/0.17.14 \
+     crate://crates.io/rkyv/0.8.12 \
+@@ -676,7 +676,7 @@ SRC_URI[assert_cmd-2.0.17.sha256sum] = "2bd389a4b2970a01282ee455294913c0a43724da
+ SRC_URI[assert_fs-1.1.3.sha256sum] = "a652f6cb1f516886fcfee5e7a5c078b9ade62cfcb889524efe5a64d682dd27a9"
+ SRC_URI[astral-pubgrub-0.3.3.sha256sum] = "d6cb15b4f5096a3a1b41fdc2736a1c33d87c78f34d3c1ec2b669e766edadd559"
+ SRC_URI[astral-reqwest-middleware-0.4.2.sha256sum] = "638d02e24aeb92f9537897cd1ff82e2bc98fd9ac9575a503e27bb07cdf64d4d7"
+-SRC_URI[astral-reqwest-retry-0.7.0.sha256sum] = "cb7549bd00f62f73f2e7e76f3f77ccdabb31873f4f02f758ed88ad739d522867"
++SRC_URI[astral-reqwest-retry-0.8.0.sha256sum] = "78ab210f6cdf8fd3254d47e5ee27ce60ed34a428ff71b4ae9477b1c84b49498c"
+ SRC_URI[astral-tl-0.7.11.sha256sum] = "d90933ffb0f97e2fc2e0de21da9d3f20597b804012d199843a6fe7c2810d28f3"
+ SRC_URI[astral-tokio-tar-0.5.6.sha256sum] = "ec179a06c1769b1e42e1e2cbe74c7dcdb3d6383c838454d063eaac5bbb7ebbe5"
+ SRC_URI[astral-version-ranges-0.1.3.sha256sum] = "e7adc2308a566fab9de02bc0e05d18c5a21cb0e793684e4f64c8eb956969b074"
+@@ -1030,7 +1030,7 @@ SRC_URI[reqsign-file-read-tokio-2.0.1.sha256sum] = "669ea66036266a9ac371d2e63cc7
+ SRC_URI[reqsign-http-send-reqwest-2.0.1.sha256sum] = "46186bce769674f9200ad01af6f2ca42de3e819ddc002fff1edae135bfb6cd9c"
+ SRC_URI[reqwest-0.12.22.sha256sum] = "cbc931937e6ca3a06e3b6c0aa7841849b160a90351d6ab467a8b9b9959767531"
+ SRC_URI[resvg-0.29.0.sha256sum] = "76888219c0881e22b0ceab06fddcfe83163cd81642bd60c7842387f9c968a72e"
+-SRC_URI[retry-policies-0.4.0.sha256sum] = "5875471e6cab2871bc150ecb8c727db5113c9338cc3354dc5ee3425b6aa40a1c"
++SRC_URI[retry-policies-0.5.1.sha256sum] = "46a4bd6027df676bcb752d3724db0ea3c0c5fc1dd0376fec51ac7dcaf9cc69be"
+ SRC_URI[rgb-0.8.52.sha256sum] = "0c6a884d2998352bb4daf0183589aec883f16a6da1f4dde84d8e2e9a5409a1ce"
+ SRC_URI[ring-0.17.14.sha256sum] = "a4689e6c2294d81e88dc6261c768b63bc4fcdb852be6d1352498b114f61383b7"
+ SRC_URI[rkyv-0.8.12.sha256sum] = "35a640b26f007713818e9a9b65d34da1cf58538207b052916a83d80e43f3ffa4"
+diff --git a/meta/recipes-devtools/python/python3-uv-build_0.9.18.bb b/meta/recipes-devtools/python/python3-uv-build_0.9.21.bb
+similarity index 92%
+rename from meta/recipes-devtools/python/python3-uv-build_0.9.18.bb
+rename to meta/recipes-devtools/python/python3-uv-build_0.9.21.bb
+index aa14349197..bc49f1e855 100644
+--- a/meta/recipes-devtools/python/python3-uv-build_0.9.18.bb
++++ b/meta/recipes-devtools/python/python3-uv-build_0.9.21.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE-APACHE;md5=86d3f3a95c324c9479bd8986968f4327 \
+                     file://crates/uv-pep508/License-Apache;md5=e23fadd6ceef8c618fc1c65191d846fa \
+                     file://crates/uv-pep508/License-BSD;md5=ef7a6027dc4c2389b9afad7e690274c7"
  
- inherit pypi python_hatchling
+-SRC_URI[sha256sum] = "ae3458ebc3c2ae69cca621a1e6f1e280a7cb6c729f829b325fef4a65a55efa9d"
++SRC_URI[sha256sum] = "ab571a962a016aca4128a1e14d772e62f8666cd2d7d93a8c6fdbd78ad743d20f"
  
--SRC_URI[sha256sum] = "da5102b02b6d9924607d31dda6deb26a085a78afa78826bf44e3b8717fc77208"
-+SRC_URI[sha256sum] = "b5c73332456ff54152062d47a58bc4f15f8e23514afec4e84775af124fb7db43"
+ require ${BPN}-crates.inc
  
- RDEPENDS:${PN} += "\
-     python3-compression \
 -- 
 2.47.1
 
 
---===============3264223445194574506==
+--===============9036831932929640212==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-testtools: PV changed from "2.8.1" to "2.8.2"
-packages/x86-64-v3-poky-linux/python3-testtools: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
-packages/x86-64-v3-poky-linux/python3-testtools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/testtools/testtools-2.8.1.tar.gz;downloadfilename=testtools-2.8.1.tar.gz" to "https://files.pythonhosted.org/packages/source/t/testtools/testtools-2.8.2.tar.gz;downloadfilename=testtools-2.8.2.tar.gz"
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-dbg: PV changed from "2.8.1" to "2.8.2"
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-dbg: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-dev: PV changed from "2.8.1" to "2.8.2"
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-dev: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-doc: PV changed from "2.8.1" to "2.8.2"
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-doc: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-locale: PV changed from "2.8.1" to "2.8.2"
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-locale: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-src: PV changed from "2.8.1" to "2.8.2"
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-src: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-staticdev: PV changed from "2.8.1" to "2.8.2"
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools-staticdev: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools: PV changed from "2.8.1" to "2.8.2"
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools: FILELIST: directory renamed /usr/lib/python3.13/site-packages/testtools-2.8.1.dist-info -> /usr/lib/python3.13/site-packages/testtools-2.8.2.dist-info, directory renamed /usr/lib/python3.13/site-packages/testtools-2.8.1.dist-info/licenses -> /usr/lib/python3.13/site-packages/testtools-2.8.2.dist-info/licenses, removed "/usr/lib/python3.13/site-packages/testtools/tests/test_helpers.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_doctest.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_helpers.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_dict.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_content.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_testresult.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_filesystem.cpython-3
- 13.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_impl.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_content_type.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_tags.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_monkey.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_higherorder.py /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/_helpers.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/helpers.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/samplecases.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_const.py /usr/lib/python3.13/site-packages/testtools/tests/test_compat.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_basic.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_monkey.py /usr/lib/python3.13/site-pa
- ckages/testtools/tests/matchers/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/_helpers.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_exception.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_fixturesupport.py /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_deferred.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/helpers.py /usr/lib/python3.13/site-packages/testtools/tests/test_content.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_warnings.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_exception.py /usr/lib/python3.13/site-packages/testtools/tests/test_testresult.py /usr/lib/python3.13/site-packages/testtools/tests/test_with_with.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_higherorder.cpython-313.pyc /usr/lib/python3.13/site-packages/testt
- ools/tests/matchers/__pycache__/test_datastructures.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_spinner.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_const.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_spinner.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_tags.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_filesystem.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_testsuite.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_matchers.py /usr/lib/python3.13/site-packages/testtools/tests/samplecases.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_with_with.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_runtest.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/te
- st_assert_that.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_assert_that.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_testcase.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_runtest.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_compat.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_testcase.py /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_matchers.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_testsuite.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/helpers.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_run.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_fixturesupport.cpython-313.pyc /usr/lib/python3.1
- 3/site-packages/testtools/tests/__init__.py /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__init__.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_warnings.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_doctest.py /usr/lib/python3.13/site-packages/testtools/tests/test_content_type.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__init__.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_runtest.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_runtest.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_basic.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_run.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_impl.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matcher
- s/test_datastructures.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_dict.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/helpers.py /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_deferred.cpython-313.pyc"
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools: PKGSIZE changed from 1885349 to 718853 (-62%)
-Changes to packages/x86-64-v3-poky-linux/python3-testtools (sysroot):
-  /usr/lib/python3.13/site-packages/testtools-2.8.1.dist-info moved to /usr/lib/python3.13/site-packages/testtools-2.8.2.dist-info
-  /usr/lib/python3.13/site-packages/testtools/tests was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/helpers.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__init__.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/helpers.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__init__.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__ was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/helpers.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/__init__.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_basic.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_const.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_datastructures.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_dict.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_doctest.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_exception.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_filesystem.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_higherorder.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_impl.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_warnings.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_basic.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_const.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_datastructures.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_dict.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_doctest.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_exception.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_filesystem.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_higherorder.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_impl.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_warnings.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__ was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/helpers.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/__init__.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/samplecases.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_assert_that.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_compat.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_content.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_content_type.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_fixturesupport.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_helpers.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_monkey.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_run.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_runtest.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_tags.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_testcase.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_testresult.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_testsuite.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_with_with.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/samplecases.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_assert_that.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_compat.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_content.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_content_type.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_fixturesupport.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_helpers.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_monkey.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_run.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_runtest.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_tags.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_testcase.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_testresult.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_testsuite.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_with_with.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/_helpers.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__init__.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__ was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/_helpers.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/__init__.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_deferred.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_matchers.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_runtest.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_spinner.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_deferred.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_matchers.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_runtest.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_spinner.py was removed
+packages/x86-64-v3-poky-linux/python3-uv-build: PV changed from "0.9.18" to "0.9.21"
+packages/x86-64-v3-poky-linux/python3-uv-build: PKGV changed from 0.9.18 [default] to 0.9.21 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/uv_build/uv_build-0.9.18.tar.gz;downloadfilename=uv_build-0.9.18.tar.gz crate://crates.io/addr2line/0.24.2 crate://crates.io/adler2/2.0.1 crate://crates.io/aes/0.8.4 crate://crates.io/aho-corasick/1.1.3 crate://crates.io/allocator-api2/0.2.21 crate://crates.io/ambient-id/0.0.7 crate://crates.io/anes/0.1.6 crate://crates.io/anstream/0.6.21 crate://crates.io/anstyle/1.0.11 crate://crates.io/anstyle-parse/0.2.7 crate://crates.io/anstyle-query/1.1.3 crate://crates.io/anstyle-wincon/3.0.9 crate://crates.io/anyhow/1.0.100 crate://crates.io/approx/0.5.1 crate://crates.io/arbitrary/1.4.1 crate://crates.io/arcstr/1.2.0 crate://crates.io/arrayref/0.3.9 crate://crates.io/arrayvec/0.7.6 crate://crates.io/assert-json-diff/2.0.2 crate://crates.io/assert_cmd/2.0.17 crate://crates.io/assert_fs/1.1.3 crate://crates.io/astral-pubgrub/0.3.3 crate://crates.io/astral-reqwest-middleware/0
+ .4.2 crate://crates.io/astral-reqwest-retry/0.7.0 crate://crates.io/astral-tl/0.7.11 crate://crates.io/astral-tokio-tar/0.5.6 crate://crates.io/astral-version-ranges/0.1.3 crate://crates.io/astral_async_http_range_reader/0.9.1 crate://crates.io/astral_async_zip/0.0.17 crate://crates.io/async-broadcast/0.7.2 crate://crates.io/async-channel/2.5.0 crate://crates.io/async-compression/0.4.19 crate://crates.io/async-recursion/1.1.1 crate://crates.io/async-trait/0.1.89 crate://crates.io/atomic-waker/1.1.2 crate://crates.io/autocfg/1.5.0 crate://crates.io/axoasset/1.3.0 crate://crates.io/axoprocess/0.2.1 crate://crates.io/axotag/0.3.0 crate://crates.io/axoupdater/0.9.1 crate://crates.io/backon/1.5.2 crate://crates.io/backtrace/0.3.75 crate://crates.io/base64/0.21.7 crate://crates.io/base64/0.22.1 crate://crates.io/bisection/0.1.0 crate://crates.io/bitflags/1.3.2 crate://crates.io/bitflags/2.9.4 crate://crates.io/blake2/0.10.6 crate://crates.io/block-buffer/0.10.4 crate://crates.io/block-pad
+ ding/0.3.3 crate://crates.io/block2/0.6.2 crate://crates.io/boxcar/0.2.14 crate://crates.io/bstr/1.12.0 crate://crates.io/bumpalo/3.19.0 crate://crates.io/bytecheck/0.8.2 crate://crates.io/bytecheck_derive/0.8.2 crate://crates.io/bytemuck/1.23.1 crate://crates.io/byteorder/1.5.0 crate://crates.io/byteorder-lite/0.1.0 crate://crates.io/bytes/1.10.1 crate://crates.io/bzip2/0.5.2 crate://crates.io/bzip2-sys/0.1.13+1.0.8 crate://crates.io/camino/1.1.10 crate://crates.io/cargo-util/0.2.24 crate://crates.io/cast/0.3.0 crate://crates.io/cbc/0.1.2 crate://crates.io/cc/1.2.30 crate://crates.io/cfg-if/1.0.1 crate://crates.io/cfg_aliases/0.2.1 crate://crates.io/charset/0.1.5 crate://crates.io/ciborium/0.2.2 crate://crates.io/ciborium-io/0.2.2 crate://crates.io/ciborium-ll/0.2.2 crate://crates.io/cipher/0.4.4 crate://crates.io/clap/4.5.53 crate://crates.io/clap_builder/4.5.53 crate://crates.io/clap_complete/4.5.55 crate://crates.io/clap_complete_command/0.6.1 crate://crates.io/clap_complete_nus
+ hell/4.5.8 crate://crates.io/clap_derive/4.5.49 crate://crates.io/clap_lex/0.7.5 crate://crates.io/codspeed/4.0.5 crate://crates.io/codspeed-criterion-compat/4.0.5 crate://crates.io/codspeed-criterion-compat-walltime/4.0.5 crate://crates.io/color_quant/1.1.0 crate://crates.io/colorchoice/1.0.4 crate://crates.io/colored/2.2.0 crate://crates.io/concurrent-queue/2.5.0 crate://crates.io/configparser/3.1.0 crate://crates.io/console/0.15.11 crate://crates.io/console/0.16.1 crate://crates.io/const-oid/0.9.6 crate://crates.io/const-random/0.1.18 crate://crates.io/const-random-macro/0.1.16 crate://crates.io/core-foundation/0.9.4 crate://crates.io/core-foundation/0.10.1 crate://crates.io/core-foundation-sys/0.8.7 crate://crates.io/cpufeatures/0.2.17 crate://crates.io/crc/3.3.0 crate://crates.io/crc-catalog/2.4.0 crate://crates.io/crc32fast/1.5.0 crate://crates.io/criterion-plot/0.5.0 crate://crates.io/crossbeam-channel/0.5.15 crate://crates.io/crossbeam-deque/0.8.6 crate://crates.io/crossbeam
+ -epoch/0.9.18 crate://crates.io/crossbeam-utils/0.8.21 crate://crates.io/crunchy/0.2.4 crate://crates.io/crypto-common/0.1.6 crate://crates.io/csv/1.3.1 crate://crates.io/csv-core/0.1.12 crate://crates.io/ctrlc/3.5.1 crate://crates.io/cyclonedx-bom/0.8.0 crate://crates.io/cyclonedx-bom-macros/0.1.0 crate://crates.io/dashmap/6.1.0 crate://crates.io/data-encoding/2.9.0 crate://crates.io/data-url/0.2.0 crate://crates.io/deadpool/0.12.3 crate://crates.io/deadpool-runtime/0.1.4 crate://crates.io/deranged/0.5.5 crate://crates.io/derive_arbitrary/1.4.1 crate://crates.io/diff/0.1.13 crate://crates.io/difflib/0.4.0 crate://crates.io/digest/0.10.7 crate://crates.io/dirs/6.0.0 crate://crates.io/dirs-sys/0.5.0 crate://crates.io/diskus/0.9.0 crate://crates.io/dispatch2/0.3.0 crate://crates.io/displaydoc/0.2.5 crate://crates.io/dlv-list/0.5.2 crate://crates.io/doc-comment/0.3.4 crate://crates.io/dotenvy/0.15.7 crate://crates.io/dunce/1.0.5 crate://crates.io/dyn-clone/1.0.19 crate://crates.io/eith
+ er/1.15.0 crate://crates.io/embed-manifest/1.5.0 crate://crates.io/encode_unicode/1.0.0 crate://crates.io/encoding_rs/0.8.35 crate://crates.io/encoding_rs_io/0.1.7 crate://crates.io/endi/1.1.0 crate://crates.io/enumflags2/0.7.12 crate://crates.io/enumflags2_derive/0.7.12 crate://crates.io/env_filter/0.1.3 crate://crates.io/env_home/0.1.0 crate://crates.io/env_logger/0.11.8 crate://crates.io/equivalent/1.0.2 crate://crates.io/erased-serde/0.4.6 crate://crates.io/errno/0.3.13 crate://crates.io/etcetera/0.11.0 crate://crates.io/event-listener/5.4.0 crate://crates.io/event-listener-strategy/0.5.4 crate://crates.io/fastrand/2.3.0 crate://crates.io/fdeflate/0.3.7 crate://crates.io/filetime/0.2.26 crate://crates.io/fixedbitset/0.5.7 crate://crates.io/flate2/1.1.5 crate://crates.io/float-cmp/0.9.0 crate://crates.io/float-cmp/0.10.0 crate://crates.io/fluent-uri/0.1.4 crate://crates.io/fnv/1.0.7 crate://crates.io/foldhash/0.1.5 crate://crates.io/foldhash/0.2.0 crate://crates.io/fontconfig-par
+ ser/0.5.8 crate://crates.io/fontdb/0.12.0 crate://crates.io/form_urlencoded/1.2.2 crate://crates.io/fs-err/3.1.3 crate://crates.io/futures/0.3.31 crate://crates.io/futures-channel/0.3.31 crate://crates.io/futures-core/0.3.31 crate://crates.io/futures-executor/0.3.31 crate://crates.io/futures-io/0.3.31 crate://crates.io/futures-lite/2.6.0 crate://crates.io/futures-macro/0.3.31 crate://crates.io/futures-sink/0.3.31 crate://crates.io/futures-task/0.3.31 crate://crates.io/futures-util/0.3.31 crate://crates.io/generic-array/0.14.7 crate://crates.io/getrandom/0.2.16 crate://crates.io/getrandom/0.3.3 crate://crates.io/gif/0.12.0 crate://crates.io/gimli/0.31.1 crate://crates.io/glob/0.3.3 crate://crates.io/globset/0.4.18 crate://crates.io/globwalk/0.9.1 crate://crates.io/gloo-timers/0.3.0 crate://crates.io/goblin/0.10.4 crate://crates.io/h2/0.4.12 crate://crates.io/half/2.6.0 crate://crates.io/hashbrown/0.14.5 crate://crates.io/hashbrown/0.15.5 crate://crates.io/hashbrown/0.16.1 crate://cra
+ tes.io/heck/0.5.0 crate://crates.io/hermit-abi/0.5.2 crate://crates.io/hex/0.4.3 crate://crates.io/hkdf/0.12.4 crate://crates.io/hmac/0.12.1 crate://crates.io/homedir/0.3.6 crate://crates.io/html-escape/0.2.13 crate://crates.io/http/1.3.1 crate://crates.io/http-body/1.0.1 crate://crates.io/http-body-util/0.1.3 crate://crates.io/http-content-range/0.2.3 crate://crates.io/httparse/1.10.1 crate://crates.io/httpdate/1.0.3 crate://crates.io/hyper/1.7.0 crate://crates.io/hyper-rustls/0.27.7 crate://crates.io/hyper-util/0.1.16 crate://crates.io/icu_collections/2.0.0 crate://crates.io/icu_locale_core/2.0.0 crate://crates.io/icu_normalizer/2.0.0 crate://crates.io/icu_normalizer_data/2.0.0 crate://crates.io/icu_properties/2.0.1 crate://crates.io/icu_properties_data/2.0.1 crate://crates.io/icu_provider/2.0.0 crate://crates.io/idna/1.1.0 crate://crates.io/idna_adapter/1.2.1 crate://crates.io/ignore/0.4.25 crate://crates.io/image/0.25.6 crate://crates.io/imagesize/0.11.0 crate://crates.io/indexm
+ ap/2.12.1 crate://crates.io/indicatif/0.18.3 crate://crates.io/indoc/2.0.7 crate://crates.io/inout/0.1.4 crate://crates.io/insta/1.43.2 crate://crates.io/io-uring/0.7.9 crate://crates.io/ipnet/2.11.0 crate://crates.io/iri-string/0.7.8 crate://crates.io/is-docker/0.2.0 crate://crates.io/is-terminal/0.4.16 crate://crates.io/is-wsl/0.4.0 crate://crates.io/is_ci/1.2.0 crate://crates.io/is_terminal_polyfill/1.70.1 crate://crates.io/itertools/0.10.5 crate://crates.io/itertools/0.13.0 crate://crates.io/itertools/0.14.0 crate://crates.io/itoa/1.0.15 crate://crates.io/jiff/0.2.16 crate://crates.io/jiff-static/0.2.16 crate://crates.io/jiff-tzdb/0.1.4 crate://crates.io/jiff-tzdb-platform/0.1.3 crate://crates.io/jobserver/0.1.33 crate://crates.io/jpeg-decoder/0.3.2 crate://crates.io/js-sys/0.3.77 crate://crates.io/junction/1.2.0 crate://crates.io/kurbo/0.8.3 crate://crates.io/kurbo/0.9.5 crate://crates.io/lazy_static/1.5.0 crate://crates.io/libc/0.2.175 crate://crates.io/libmimalloc-sys/0.1.44 
+ crate://crates.io/libredox/0.1.6 crate://crates.io/libz-rs-sys/0.5.1 crate://crates.io/linux-raw-sys/0.4.15 crate://crates.io/linux-raw-sys/0.9.4 crate://crates.io/litemap/0.8.0 crate://crates.io/lock_api/0.4.13 crate://crates.io/log/0.4.27 crate://crates.io/lru-slab/0.1.2 crate://crates.io/lzma-rs/0.3.0 crate://crates.io/lzma-sys/0.1.20 crate://crates.io/mailparse/0.16.1 crate://crates.io/markdown/1.0.0 crate://crates.io/matchers/0.2.0 crate://crates.io/md-5/0.10.6 crate://crates.io/memchr/2.7.6 crate://crates.io/memmap2/0.5.10 crate://crates.io/memmap2/0.9.7 crate://crates.io/memoffset/0.9.1 crate://crates.io/miette/7.6.0 crate://crates.io/miette-derive/7.6.0 crate://crates.io/mimalloc/0.1.48 crate://crates.io/mime/0.3.17 crate://crates.io/mime_guess/2.0.5 crate://crates.io/miniz_oxide/0.8.9 crate://crates.io/mio/1.0.4 crate://crates.io/miow/0.6.1 crate://crates.io/munge/0.4.5 crate://crates.io/munge_macro/0.4.5 crate://crates.io/nanoid/0.4.0 crate://crates.io/nix/0.30.1 crate://c
+ rates.io/normalize-line-endings/0.3.0 crate://crates.io/nu-ansi-term/0.50.1 crate://crates.io/num/0.4.3 crate://crates.io/num-bigint/0.4.6 crate://crates.io/num-complex/0.4.6 crate://crates.io/num-conv/0.1.0 crate://crates.io/num-integer/0.1.46 crate://crates.io/num-iter/0.1.45 crate://crates.io/num-rational/0.4.2 crate://crates.io/num-traits/0.2.19 crate://crates.io/num_cpus/1.17.0 crate://crates.io/objc2/0.6.3 crate://crates.io/objc2-encode/4.1.0 crate://crates.io/object/0.36.7 crate://crates.io/once_cell/1.21.3 crate://crates.io/once_cell_polyfill/1.70.1 crate://crates.io/oorandom/11.1.5 crate://crates.io/open/5.3.3 crate://crates.io/openssl-probe/0.1.6 crate://crates.io/option-ext/0.2.0 crate://crates.io/ordered-float/4.6.0 crate://crates.io/ordered-multimap/0.7.3 crate://crates.io/ordered-stream/0.2.0 crate://crates.io/os_str_bytes/6.6.1 crate://crates.io/owo-colors/4.2.3 crate://crates.io/parking/2.2.1 crate://crates.io/parking_lot/0.12.4 crate://crates.io/parking_lot_core/0.9
+ .11 crate://crates.io/paste/1.0.15 crate://crates.io/path-slash/0.2.1 crate://crates.io/pathdiff/0.2.3 crate://crates.io/pem/3.0.6 crate://crates.io/percent-encoding/2.3.2 crate://crates.io/pest/2.8.1 crate://crates.io/pest_derive/2.8.1 crate://crates.io/pest_generator/2.8.1 crate://crates.io/pest_meta/2.8.1 crate://crates.io/petgraph/0.8.3 crate://crates.io/pico-args/0.5.0 crate://crates.io/pin-project/1.1.10 crate://crates.io/pin-project-internal/1.1.10 crate://crates.io/pin-project-lite/0.2.16 crate://crates.io/pin-utils/0.1.0 crate://crates.io/pkg-config/0.3.32 crate://crates.io/plain/0.2.3 crate://crates.io/png/0.17.16 crate://crates.io/poloto/19.1.2 crate://crates.io/portable-atomic/1.11.1 crate://crates.io/portable-atomic-util/0.2.4 crate://crates.io/potential_utf/0.1.2 crate://crates.io/powerfmt/0.2.0 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/predicates/3.1.3 crate://crates.io/predicates-core/1.0.9 crate://crates.io/predicates-tree/1.0.12 crate://crates.io/pretty
+ _assertions/1.4.1 crate://crates.io/priority-queue/2.5.0 crate://crates.io/proc-macro-crate/3.3.0 crate://crates.io/proc-macro2/1.0.103 crate://crates.io/procfs/0.17.0 crate://crates.io/procfs-core/0.17.0 crate://crates.io/ptr_meta/0.3.0 crate://crates.io/ptr_meta_derive/0.3.0 crate://crates.io/purl/0.1.6 crate://crates.io/quick-xml/0.38.3 crate://crates.io/quinn/0.11.8 crate://crates.io/quinn-proto/0.11.12 crate://crates.io/quinn-udp/0.5.13 crate://crates.io/quote/1.0.42 crate://crates.io/quoted_printable/0.5.1 crate://crates.io/r-efi/5.3.0 crate://crates.io/rancor/0.1.0 crate://crates.io/rand/0.8.5 crate://crates.io/rand/0.9.2 crate://crates.io/rand_chacha/0.3.1 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.6.4 crate://crates.io/rand_core/0.9.3 crate://crates.io/rayon/1.11.0 crate://crates.io/rayon-core/1.13.0 crate://crates.io/rcgen/0.14.5 crate://crates.io/rctree/0.5.0 crate://crates.io/redox_syscall/0.5.15 crate://crates.io/redox_users/0.5.0 crate://crates.i
+ o/ref-cast/1.0.25 crate://crates.io/ref-cast-impl/1.0.25 crate://crates.io/reflink-copy/0.1.28 crate://crates.io/regex/1.11.2 crate://crates.io/regex-automata/0.4.13 crate://crates.io/regex-syntax/0.8.5 crate://crates.io/rend/0.5.2 crate://crates.io/reqsign/0.18.1 crate://crates.io/reqsign-aws-v4/2.0.1 crate://crates.io/reqsign-command-execute-tokio/2.0.1 crate://crates.io/reqsign-core/2.0.1 crate://crates.io/reqsign-file-read-tokio/2.0.1 crate://crates.io/reqsign-http-send-reqwest/2.0.1 crate://crates.io/reqwest/0.12.22 crate://crates.io/resvg/0.29.0 crate://crates.io/retry-policies/0.4.0 crate://crates.io/rgb/0.8.52 crate://crates.io/ring/0.17.14 crate://crates.io/rkyv/0.8.12 crate://crates.io/rkyv_derive/0.8.12 crate://crates.io/rmp/0.8.14 crate://crates.io/rmp-serde/1.3.0 crate://crates.io/rosvgtree/0.1.0 crate://crates.io/roxmltree/0.18.1 crate://crates.io/roxmltree/0.20.0 crate://crates.io/rust-ini/0.21.3 crate://crates.io/rust-netrc/0.1.2 crate://crates.io/rustc-demangle/0.1.
+ 25 crate://crates.io/rustc-hash/2.1.1 crate://crates.io/rustix/0.38.44 crate://crates.io/rustix/1.0.8 crate://crates.io/rustls/0.23.35 crate://crates.io/rustls-native-certs/0.8.2 crate://crates.io/rustls-pki-types/1.12.0 crate://crates.io/rustls-webpki/0.103.8 crate://crates.io/rustversion/1.0.21 crate://crates.io/rustybuzz/0.7.0 crate://crates.io/ryu/1.0.20 crate://crates.io/same-file/1.0.6 crate://crates.io/schannel/0.1.27 crate://crates.io/schemars/1.0.5 crate://crates.io/schemars_derive/1.0.5 crate://crates.io/scopeguard/1.2.0 crate://crates.io/scroll/0.13.0 crate://crates.io/scroll_derive/0.13.0 crate://crates.io/seahash/4.1.0 crate://crates.io/secrecy/0.10.3 crate://crates.io/secret-service/5.0.0 crate://crates.io/security-framework/3.2.0 crate://crates.io/security-framework-sys/2.14.0 crate://crates.io/self-replace/1.5.0 crate://crates.io/semver/1.0.26 crate://crates.io/serde/1.0.228 crate://crates.io/serde-untagged/0.1.9 crate://crates.io/serde_core/1.0.228 crate://crates.io
+ /serde_derive/1.0.228 crate://crates.io/serde_derive_internals/0.29.1 crate://crates.io/serde_json/1.0.145 crate://crates.io/serde_repr/0.1.20 crate://crates.io/serde_spanned/1.0.3 crate://crates.io/serde_urlencoded/0.7.1 crate://crates.io/serde_yaml/0.9.34+deprecated crate://crates.io/sha1/0.10.6 crate://crates.io/sha2/0.10.9 crate://crates.io/sharded-slab/0.1.7 crate://crates.io/shell-escape/0.1.5 crate://crates.io/shellexpand/3.1.1 crate://crates.io/shlex/1.3.0 crate://crates.io/signal-hook-registry/1.4.5 crate://crates.io/simd-adler32/0.3.7 crate://crates.io/simdutf8/0.1.5 crate://crates.io/similar/2.7.0 crate://crates.io/simplecss/0.2.2 crate://crates.io/siphasher/0.3.11 crate://crates.io/slab/0.4.11 crate://crates.io/smallvec/1.15.1 crate://crates.io/smawk/0.3.2 crate://crates.io/socket2/0.5.10 crate://crates.io/socket2/0.6.0 crate://crates.io/spdx/0.10.9 crate://crates.io/spdx/0.13.2 crate://crates.io/stable_deref_trait/1.2.0 crate://crates.io/static_assertions/1.1.0 crate://
+ crates.io/statrs/0.18.0 crate://crates.io/strict-num/0.1.1 crate://crates.io/strsim/0.11.1 crate://crates.io/strum/0.26.3 crate://crates.io/strum_macros/0.26.4 crate://crates.io/subtle/2.6.1 crate://crates.io/supports-color/3.0.2 crate://crates.io/supports-hyperlinks/3.1.0 crate://crates.io/supports-unicode/3.0.0 crate://crates.io/svg/0.18.0 crate://crates.io/svgfilters/0.4.0 crate://crates.io/svgtypes/0.9.0 crate://crates.io/svgtypes/0.10.0 crate://crates.io/syn/2.0.111 crate://crates.io/sync_wrapper/1.0.2 crate://crates.io/synstructure/0.13.2 crate://crates.io/sys-info/0.9.1 crate://crates.io/system-configuration/0.6.1 crate://crates.io/system-configuration-sys/0.6.0 crate://crates.io/tagu/0.1.6 crate://crates.io/tar/0.4.44 crate://crates.io/target-lexicon/0.13.3 crate://crates.io/temp-env/0.3.6 crate://crates.io/tempfile/3.20.0 crate://crates.io/terminal_size/0.4.2 crate://crates.io/termtree/0.5.1 crate://crates.io/test-case/3.3.1 crate://crates.io/test-case-core/3.3.1 crate://cr
+ ates.io/test-case-macros/3.3.1 crate://crates.io/test-log/0.2.18 crate://crates.io/test-log-macros/0.2.18 crate://crates.io/textwrap/0.16.2 crate://crates.io/thiserror/1.0.69 crate://crates.io/thiserror/2.0.17 crate://crates.io/thiserror-impl/1.0.69 crate://crates.io/thiserror-impl/2.0.17 crate://crates.io/thread_local/1.1.9 crate://crates.io/tikv-jemalloc-sys/0.6.0+5.3.0-1-ge13ca993e8ccb9ba9847cc330696e02839f328f7 crate://crates.io/tikv-jemallocator/0.6.0 crate://crates.io/time/0.3.44 crate://crates.io/time-core/0.1.6 crate://crates.io/time-macros/0.2.24 crate://crates.io/tiny-keccak/2.0.2 crate://crates.io/tiny-skia/0.8.4 crate://crates.io/tiny-skia-path/0.8.4 crate://crates.io/tinystr/0.8.1 crate://crates.io/tinytemplate/1.2.1 crate://crates.io/tinyvec/1.9.0 crate://crates.io/tinyvec_macros/0.1.1 crate://crates.io/tokio/1.47.1 crate://crates.io/tokio-macros/2.5.0 crate://crates.io/tokio-rustls/0.26.2 crate://crates.io/tokio-stream/0.1.17 crate://crates.io/tokio-util/0.7.17 crate:
+ //crates.io/toml/0.9.8 crate://crates.io/toml_datetime/0.6.11 crate://crates.io/toml_datetime/0.7.3 crate://crates.io/toml_edit/0.22.27 crate://crates.io/toml_edit/0.23.7 crate://crates.io/toml_parser/1.0.4 crate://crates.io/toml_writer/1.0.4 crate://crates.io/tower/0.5.2 crate://crates.io/tower-http/0.6.6 crate://crates.io/tower-layer/0.3.3 crate://crates.io/tower-service/0.3.3 crate://crates.io/tracing/0.1.41 crate://crates.io/tracing-attributes/0.1.30 crate://crates.io/tracing-core/0.1.34 crate://crates.io/tracing-durations-export/0.3.1 crate://crates.io/tracing-log/0.2.0 crate://crates.io/tracing-serde/0.2.0 crate://crates.io/tracing-subscriber/0.3.20 crate://crates.io/tracing-test/0.2.5 crate://crates.io/tracing-test-macro/0.2.5 crate://crates.io/tracing-tree/0.4.1 crate://crates.io/try-lock/0.2.5 crate://crates.io/ttf-parser/0.18.1 crate://crates.io/typeid/1.0.3 crate://crates.io/typenum/1.18.0 crate://crates.io/ucd-trie/0.1.7 crate://crates.io/uds_windows/1.1.0 crate://crates
+ .io/unicase/2.8.1 crate://crates.io/unicode-bidi/0.3.18 crate://crates.io/unicode-bidi-mirroring/0.1.0 crate://crates.io/unicode-ccc/0.1.2 crate://crates.io/unicode-general-category/0.6.0 crate://crates.io/unicode-id/0.3.5 crate://crates.io/unicode-ident/1.0.18 crate://crates.io/unicode-linebreak/0.1.5 crate://crates.io/unicode-script/0.5.7 crate://crates.io/unicode-vo/0.1.0 crate://crates.io/unicode-width/0.1.14 crate://crates.io/unicode-width/0.2.2 crate://crates.io/unit-prefix/0.5.1 crate://crates.io/unsafe-libyaml/0.2.11 crate://crates.io/unscanny/0.1.0 crate://crates.io/untrusted/0.9.0 crate://crates.io/url/2.5.7 crate://crates.io/usvg/0.29.0 crate://crates.io/usvg-text-layout/0.29.0 crate://crates.io/utf8-width/0.1.7 crate://crates.io/utf8_iter/1.0.4 crate://crates.io/utf8parse/0.2.2 crate://crates.io/uuid/1.17.0 crate://crates.io/valuable/0.1.1 crate://crates.io/version_check/0.9.5 crate://crates.io/wait-timeout/0.2.1 crate://crates.io/walkdir/2.5.0 crate://crates.io/want/0.3
+ .1 crate://crates.io/wasi/0.11.1+wasi-snapshot-preview1 crate://crates.io/wasi/0.14.2+wasi-0.2.4 crate://crates.io/wasite/0.1.0 crate://crates.io/wasm-bindgen/0.2.100 crate://crates.io/wasm-bindgen-backend/0.2.100 crate://crates.io/wasm-bindgen-futures/0.4.50 crate://crates.io/wasm-bindgen-macro/0.2.100 crate://crates.io/wasm-bindgen-macro-support/0.2.100 crate://crates.io/wasm-bindgen-shared/0.2.100 crate://crates.io/wasm-streams/0.4.2 crate://crates.io/wasmtimer/0.4.2 crate://crates.io/web-sys/0.3.77 crate://crates.io/web-time/1.1.0 crate://crates.io/webpki-roots/1.0.2 crate://crates.io/weezl/0.1.10 crate://crates.io/which/8.0.0 crate://crates.io/whoami/1.6.1 crate://crates.io/widestring/1.2.0 crate://crates.io/winapi/0.3.9 crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 crate://crates.io/winapi-util/0.1.9 crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 crate://crates.io/windows/0.59.0 crate://crates.io/windows/0.61.3 crate://crates.io/windows-collections/0.2.0 crate://cra
+ tes.io/windows-core/0.59.0 crate://crates.io/windows-core/0.61.2 crate://crates.io/windows-future/0.2.1 crate://crates.io/windows-implement/0.59.0 crate://crates.io/windows-implement/0.60.0 crate://crates.io/windows-interface/0.59.1 crate://crates.io/windows-link/0.1.3 crate://crates.io/windows-link/0.2.0 crate://crates.io/windows-numerics/0.2.0 crate://crates.io/windows-registry/0.5.3 crate://crates.io/windows-result/0.3.4 crate://crates.io/windows-strings/0.3.1 crate://crates.io/windows-strings/0.4.2 crate://crates.io/windows-sys/0.52.0 crate://crates.io/windows-sys/0.59.0 crate://crates.io/windows-sys/0.60.2 crate://crates.io/windows-sys/0.61.0 crate://crates.io/windows-targets/0.52.6 crate://crates.io/windows-targets/0.53.2 crate://crates.io/windows-threading/0.1.0 crate://crates.io/windows_aarch64_gnullvm/0.52.6 crate://crates.io/windows_aarch64_gnullvm/0.53.0 crate://crates.io/windows_aarch64_msvc/0.52.6 crate://crates.io/windows_aarch64_msvc/0.53.0 crate://crates.io/windows_i
+ 686_gnu/0.52.6 crate://crates.io/windows_i686_gnu/0.53.0 crate://crates.io/windows_i686_gnullvm/0.52.6 crate://crates.io/windows_i686_gnullvm/0.53.0 crate://crates.io/windows_i686_msvc/0.52.6 crate://crates.io/windows_i686_msvc/0.53.0 crate://crates.io/windows_x86_64_gnu/0.52.6 crate://crates.io/windows_x86_64_gnu/0.53.0 crate://crates.io/windows_x86_64_gnullvm/0.52.6 crate://crates.io/windows_x86_64_gnullvm/0.53.0 crate://crates.io/windows_x86_64_msvc/0.52.6 crate://crates.io/windows_x86_64_msvc/0.53.0 crate://crates.io/winnow/0.7.13 crate://crates.io/winsafe/0.0.19 crate://crates.io/wiremock/0.6.5 crate://crates.io/wit-bindgen-rt/0.39.0 crate://crates.io/wmi/0.16.0 crate://crates.io/writeable/0.6.1 crate://crates.io/xattr/1.5.1 crate://crates.io/xml-rs/0.8.27 crate://crates.io/xmlparser/0.13.6 crate://crates.io/xz2/0.1.7 crate://crates.io/yansi/1.0.1 crate://crates.io/yasna/0.5.2 crate://crates.io/yoke/0.8.0 crate://crates.io/yoke-derive/0.8.0 crate://crates.io/zbus/5.8.0 crate://
+ crates.io/zbus_macros/5.8.0 crate://crates.io/zbus_names/4.2.0 crate://crates.io/zerocopy/0.8.26 crate://crates.io/zerocopy-derive/0.8.26 crate://crates.io/zerofrom/0.1.6 crate://crates.io/zerofrom-derive/0.1.6 crate://crates.io/zeroize/1.8.2 crate://crates.io/zerotrie/0.2.2 crate://crates.io/zerovec/0.11.2 crate://crates.io/zerovec-derive/0.11.1 crate://crates.io/zip/2.4.2 crate://crates.io/zlib-rs/0.5.1 crate://crates.io/zopfli/0.8.2 crate://crates.io/zstd/0.13.3 crate://crates.io/zstd-safe/7.2.4 crate://crates.io/zstd-sys/2.0.15+zstd.1.5.7 crate://crates.io/zvariant/5.6.0 crate://crates.io/zvariant_derive/5.6.0 crate://crates.io/zvariant_utils/3.2.0" to "https://files.pythonhosted.org/packages/source/u/uv_build/uv_build-0.9.21.tar.gz;downloadfilename=uv_build-0.9.21.tar.gz crate://crates.io/addr2line/0.24.2 crate://crates.io/adler2/2.0.1 crate://crates.io/aes/0.8.4 crate://crates.io/aho-corasick/1.1.3 crate://crates.io/allocator-api2/0.2.21 crate://crates.io/ambient-id/0.0.7 crat
+ e://crates.io/anes/0.1.6 crate://crates.io/anstream/0.6.21 crate://crates.io/anstyle/1.0.11 crate://crates.io/anstyle-parse/0.2.7 crate://crates.io/anstyle-query/1.1.3 crate://crates.io/anstyle-wincon/3.0.9 crate://crates.io/anyhow/1.0.100 crate://crates.io/approx/0.5.1 crate://crates.io/arbitrary/1.4.1 crate://crates.io/arcstr/1.2.0 crate://crates.io/arrayref/0.3.9 crate://crates.io/arrayvec/0.7.6 crate://crates.io/assert-json-diff/2.0.2 crate://crates.io/assert_cmd/2.0.17 crate://crates.io/assert_fs/1.1.3 crate://crates.io/astral-pubgrub/0.3.3 crate://crates.io/astral-reqwest-middleware/0.4.2 crate://crates.io/astral-reqwest-retry/0.8.0 crate://crates.io/astral-tl/0.7.11 crate://crates.io/astral-tokio-tar/0.5.6 crate://crates.io/astral-version-ranges/0.1.3 crate://crates.io/astral_async_http_range_reader/0.9.1 crate://crates.io/astral_async_zip/0.0.17 crate://crates.io/async-broadcast/0.7.2 crate://crates.io/async-channel/2.5.0 crate://crates.io/async-compression/0.4.19 crate://cr
+ ates.io/async-recursion/1.1.1 crate://crates.io/async-trait/0.1.89 crate://crates.io/atomic-waker/1.1.2 crate://crates.io/autocfg/1.5.0 crate://crates.io/axoasset/1.3.0 crate://crates.io/axoprocess/0.2.1 crate://crates.io/axotag/0.3.0 crate://crates.io/axoupdater/0.9.1 crate://crates.io/backon/1.5.2 crate://crates.io/backtrace/0.3.75 crate://crates.io/base64/0.21.7 crate://crates.io/base64/0.22.1 crate://crates.io/bisection/0.1.0 crate://crates.io/bitflags/1.3.2 crate://crates.io/bitflags/2.9.4 crate://crates.io/blake2/0.10.6 crate://crates.io/block-buffer/0.10.4 crate://crates.io/block-padding/0.3.3 crate://crates.io/block2/0.6.2 crate://crates.io/boxcar/0.2.14 crate://crates.io/bstr/1.12.0 crate://crates.io/bumpalo/3.19.0 crate://crates.io/bytecheck/0.8.2 crate://crates.io/bytecheck_derive/0.8.2 crate://crates.io/bytemuck/1.23.1 crate://crates.io/byteorder/1.5.0 crate://crates.io/byteorder-lite/0.1.0 crate://crates.io/bytes/1.10.1 crate://crates.io/bzip2/0.5.2 crate://crates.io/bz
+ ip2-sys/0.1.13+1.0.8 crate://crates.io/camino/1.1.10 crate://crates.io/cargo-util/0.2.24 crate://crates.io/cast/0.3.0 crate://crates.io/cbc/0.1.2 crate://crates.io/cc/1.2.30 crate://crates.io/cfg-if/1.0.1 crate://crates.io/cfg_aliases/0.2.1 crate://crates.io/charset/0.1.5 crate://crates.io/ciborium/0.2.2 crate://crates.io/ciborium-io/0.2.2 crate://crates.io/ciborium-ll/0.2.2 crate://crates.io/cipher/0.4.4 crate://crates.io/clap/4.5.53 crate://crates.io/clap_builder/4.5.53 crate://crates.io/clap_complete/4.5.55 crate://crates.io/clap_complete_command/0.6.1 crate://crates.io/clap_complete_nushell/4.5.8 crate://crates.io/clap_derive/4.5.49 crate://crates.io/clap_lex/0.7.5 crate://crates.io/codspeed/4.0.5 crate://crates.io/codspeed-criterion-compat/4.0.5 crate://crates.io/codspeed-criterion-compat-walltime/4.0.5 crate://crates.io/color_quant/1.1.0 crate://crates.io/colorchoice/1.0.4 crate://crates.io/colored/2.2.0 crate://crates.io/concurrent-queue/2.5.0 crate://crates.io/configparser/3
+ .1.0 crate://crates.io/console/0.15.11 crate://crates.io/console/0.16.1 crate://crates.io/const-oid/0.9.6 crate://crates.io/const-random/0.1.18 crate://crates.io/const-random-macro/0.1.16 crate://crates.io/core-foundation/0.9.4 crate://crates.io/core-foundation/0.10.1 crate://crates.io/core-foundation-sys/0.8.7 crate://crates.io/cpufeatures/0.2.17 crate://crates.io/crc/3.3.0 crate://crates.io/crc-catalog/2.4.0 crate://crates.io/crc32fast/1.5.0 crate://crates.io/criterion-plot/0.5.0 crate://crates.io/crossbeam-channel/0.5.15 crate://crates.io/crossbeam-deque/0.8.6 crate://crates.io/crossbeam-epoch/0.9.18 crate://crates.io/crossbeam-utils/0.8.21 crate://crates.io/crunchy/0.2.4 crate://crates.io/crypto-common/0.1.6 crate://crates.io/csv/1.3.1 crate://crates.io/csv-core/0.1.12 crate://crates.io/ctrlc/3.5.1 crate://crates.io/cyclonedx-bom/0.8.0 crate://crates.io/cyclonedx-bom-macros/0.1.0 crate://crates.io/dashmap/6.1.0 crate://crates.io/data-encoding/2.9.0 crate://crates.io/data-url/0.2
+ .0 crate://crates.io/deadpool/0.12.3 crate://crates.io/deadpool-runtime/0.1.4 crate://crates.io/deranged/0.5.5 crate://crates.io/derive_arbitrary/1.4.1 crate://crates.io/diff/0.1.13 crate://crates.io/difflib/0.4.0 crate://crates.io/digest/0.10.7 crate://crates.io/dirs/6.0.0 crate://crates.io/dirs-sys/0.5.0 crate://crates.io/diskus/0.9.0 crate://crates.io/dispatch2/0.3.0 crate://crates.io/displaydoc/0.2.5 crate://crates.io/dlv-list/0.5.2 crate://crates.io/doc-comment/0.3.4 crate://crates.io/dotenvy/0.15.7 crate://crates.io/dunce/1.0.5 crate://crates.io/dyn-clone/1.0.19 crate://crates.io/either/1.15.0 crate://crates.io/embed-manifest/1.5.0 crate://crates.io/encode_unicode/1.0.0 crate://crates.io/encoding_rs/0.8.35 crate://crates.io/encoding_rs_io/0.1.7 crate://crates.io/endi/1.1.0 crate://crates.io/enumflags2/0.7.12 crate://crates.io/enumflags2_derive/0.7.12 crate://crates.io/env_filter/0.1.3 crate://crates.io/env_home/0.1.0 crate://crates.io/env_logger/0.11.8 crate://crates.io/equiva
+ lent/1.0.2 crate://crates.io/erased-serde/0.4.6 crate://crates.io/errno/0.3.13 crate://crates.io/etcetera/0.11.0 crate://crates.io/event-listener/5.4.0 crate://crates.io/event-listener-strategy/0.5.4 crate://crates.io/fastrand/2.3.0 crate://crates.io/fdeflate/0.3.7 crate://crates.io/filetime/0.2.26 crate://crates.io/fixedbitset/0.5.7 crate://crates.io/flate2/1.1.5 crate://crates.io/float-cmp/0.9.0 crate://crates.io/float-cmp/0.10.0 crate://crates.io/fluent-uri/0.1.4 crate://crates.io/fnv/1.0.7 crate://crates.io/foldhash/0.1.5 crate://crates.io/foldhash/0.2.0 crate://crates.io/fontconfig-parser/0.5.8 crate://crates.io/fontdb/0.12.0 crate://crates.io/form_urlencoded/1.2.2 crate://crates.io/fs-err/3.1.3 crate://crates.io/futures/0.3.31 crate://crates.io/futures-channel/0.3.31 crate://crates.io/futures-core/0.3.31 crate://crates.io/futures-executor/0.3.31 crate://crates.io/futures-io/0.3.31 crate://crates.io/futures-lite/2.6.0 crate://crates.io/futures-macro/0.3.31 crate://crates.io/fut
+ ures-sink/0.3.31 crate://crates.io/futures-task/0.3.31 crate://crates.io/futures-util/0.3.31 crate://crates.io/generic-array/0.14.7 crate://crates.io/getrandom/0.2.16 crate://crates.io/getrandom/0.3.3 crate://crates.io/gif/0.12.0 crate://crates.io/gimli/0.31.1 crate://crates.io/glob/0.3.3 crate://crates.io/globset/0.4.18 crate://crates.io/globwalk/0.9.1 crate://crates.io/gloo-timers/0.3.0 crate://crates.io/goblin/0.10.4 crate://crates.io/h2/0.4.12 crate://crates.io/half/2.6.0 crate://crates.io/hashbrown/0.14.5 crate://crates.io/hashbrown/0.15.5 crate://crates.io/hashbrown/0.16.1 crate://crates.io/heck/0.5.0 crate://crates.io/hermit-abi/0.5.2 crate://crates.io/hex/0.4.3 crate://crates.io/hkdf/0.12.4 crate://crates.io/hmac/0.12.1 crate://crates.io/homedir/0.3.6 crate://crates.io/html-escape/0.2.13 crate://crates.io/http/1.3.1 crate://crates.io/http-body/1.0.1 crate://crates.io/http-body-util/0.1.3 crate://crates.io/http-content-range/0.2.3 crate://crates.io/httparse/1.10.1 crate://cra
+ tes.io/httpdate/1.0.3 crate://crates.io/hyper/1.7.0 crate://crates.io/hyper-rustls/0.27.7 crate://crates.io/hyper-util/0.1.16 crate://crates.io/icu_collections/2.0.0 crate://crates.io/icu_locale_core/2.0.0 crate://crates.io/icu_normalizer/2.0.0 crate://crates.io/icu_normalizer_data/2.0.0 crate://crates.io/icu_properties/2.0.1 crate://crates.io/icu_properties_data/2.0.1 crate://crates.io/icu_provider/2.0.0 crate://crates.io/idna/1.1.0 crate://crates.io/idna_adapter/1.2.1 crate://crates.io/ignore/0.4.25 crate://crates.io/image/0.25.6 crate://crates.io/imagesize/0.11.0 crate://crates.io/indexmap/2.12.1 crate://crates.io/indicatif/0.18.3 crate://crates.io/indoc/2.0.7 crate://crates.io/inout/0.1.4 crate://crates.io/insta/1.43.2 crate://crates.io/io-uring/0.7.9 crate://crates.io/ipnet/2.11.0 crate://crates.io/iri-string/0.7.8 crate://crates.io/is-docker/0.2.0 crate://crates.io/is-terminal/0.4.16 crate://crates.io/is-wsl/0.4.0 crate://crates.io/is_ci/1.2.0 crate://crates.io/is_terminal_pol
+ yfill/1.70.1 crate://crates.io/itertools/0.10.5 crate://crates.io/itertools/0.13.0 crate://crates.io/itertools/0.14.0 crate://crates.io/itoa/1.0.15 crate://crates.io/jiff/0.2.16 crate://crates.io/jiff-static/0.2.16 crate://crates.io/jiff-tzdb/0.1.4 crate://crates.io/jiff-tzdb-platform/0.1.3 crate://crates.io/jobserver/0.1.33 crate://crates.io/jpeg-decoder/0.3.2 crate://crates.io/js-sys/0.3.77 crate://crates.io/junction/1.2.0 crate://crates.io/kurbo/0.8.3 crate://crates.io/kurbo/0.9.5 crate://crates.io/lazy_static/1.5.0 crate://crates.io/libc/0.2.175 crate://crates.io/libmimalloc-sys/0.1.44 crate://crates.io/libredox/0.1.6 crate://crates.io/libz-rs-sys/0.5.1 crate://crates.io/linux-raw-sys/0.4.15 crate://crates.io/linux-raw-sys/0.9.4 crate://crates.io/litemap/0.8.0 crate://crates.io/lock_api/0.4.13 crate://crates.io/log/0.4.27 crate://crates.io/lru-slab/0.1.2 crate://crates.io/lzma-rs/0.3.0 crate://crates.io/lzma-sys/0.1.20 crate://crates.io/mailparse/0.16.1 crate://crates.io/markdow
+ n/1.0.0 crate://crates.io/matchers/0.2.0 crate://crates.io/md-5/0.10.6 crate://crates.io/memchr/2.7.6 crate://crates.io/memmap2/0.5.10 crate://crates.io/memmap2/0.9.7 crate://crates.io/memoffset/0.9.1 crate://crates.io/miette/7.6.0 crate://crates.io/miette-derive/7.6.0 crate://crates.io/mimalloc/0.1.48 crate://crates.io/mime/0.3.17 crate://crates.io/mime_guess/2.0.5 crate://crates.io/miniz_oxide/0.8.9 crate://crates.io/mio/1.0.4 crate://crates.io/miow/0.6.1 crate://crates.io/munge/0.4.5 crate://crates.io/munge_macro/0.4.5 crate://crates.io/nanoid/0.4.0 crate://crates.io/nix/0.30.1 crate://crates.io/normalize-line-endings/0.3.0 crate://crates.io/nu-ansi-term/0.50.1 crate://crates.io/num/0.4.3 crate://crates.io/num-bigint/0.4.6 crate://crates.io/num-complex/0.4.6 crate://crates.io/num-conv/0.1.0 crate://crates.io/num-integer/0.1.46 crate://crates.io/num-iter/0.1.45 crate://crates.io/num-rational/0.4.2 crate://crates.io/num-traits/0.2.19 crate://crates.io/num_cpus/1.17.0 crate://crates
+ .io/objc2/0.6.3 crate://crates.io/objc2-encode/4.1.0 crate://crates.io/object/0.36.7 crate://crates.io/once_cell/1.21.3 crate://crates.io/once_cell_polyfill/1.70.1 crate://crates.io/oorandom/11.1.5 crate://crates.io/open/5.3.3 crate://crates.io/openssl-probe/0.1.6 crate://crates.io/option-ext/0.2.0 crate://crates.io/ordered-float/4.6.0 crate://crates.io/ordered-multimap/0.7.3 crate://crates.io/ordered-stream/0.2.0 crate://crates.io/os_str_bytes/6.6.1 crate://crates.io/owo-colors/4.2.3 crate://crates.io/parking/2.2.1 crate://crates.io/parking_lot/0.12.4 crate://crates.io/parking_lot_core/0.9.11 crate://crates.io/paste/1.0.15 crate://crates.io/path-slash/0.2.1 crate://crates.io/pathdiff/0.2.3 crate://crates.io/pem/3.0.6 crate://crates.io/percent-encoding/2.3.2 crate://crates.io/pest/2.8.1 crate://crates.io/pest_derive/2.8.1 crate://crates.io/pest_generator/2.8.1 crate://crates.io/pest_meta/2.8.1 crate://crates.io/petgraph/0.8.3 crate://crates.io/pico-args/0.5.0 crate://crates.io/pin-p
+ roject/1.1.10 crate://crates.io/pin-project-internal/1.1.10 crate://crates.io/pin-project-lite/0.2.16 crate://crates.io/pin-utils/0.1.0 crate://crates.io/pkg-config/0.3.32 crate://crates.io/plain/0.2.3 crate://crates.io/png/0.17.16 crate://crates.io/poloto/19.1.2 crate://crates.io/portable-atomic/1.11.1 crate://crates.io/portable-atomic-util/0.2.4 crate://crates.io/potential_utf/0.1.2 crate://crates.io/powerfmt/0.2.0 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/predicates/3.1.3 crate://crates.io/predicates-core/1.0.9 crate://crates.io/predicates-tree/1.0.12 crate://crates.io/pretty_assertions/1.4.1 crate://crates.io/priority-queue/2.5.0 crate://crates.io/proc-macro-crate/3.3.0 crate://crates.io/proc-macro2/1.0.103 crate://crates.io/procfs/0.17.0 crate://crates.io/procfs-core/0.17.0 crate://crates.io/ptr_meta/0.3.0 crate://crates.io/ptr_meta_derive/0.3.0 crate://crates.io/purl/0.1.6 crate://crates.io/quick-xml/0.38.3 crate://crates.io/quinn/0.11.8 crate://crates.io/quinn-pro
+ to/0.11.12 crate://crates.io/quinn-udp/0.5.13 crate://crates.io/quote/1.0.42 crate://crates.io/quoted_printable/0.5.1 crate://crates.io/r-efi/5.3.0 crate://crates.io/rancor/0.1.0 crate://crates.io/rand/0.8.5 crate://crates.io/rand/0.9.2 crate://crates.io/rand_chacha/0.3.1 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.6.4 crate://crates.io/rand_core/0.9.3 crate://crates.io/rayon/1.11.0 crate://crates.io/rayon-core/1.13.0 crate://crates.io/rcgen/0.14.5 crate://crates.io/rctree/0.5.0 crate://crates.io/redox_syscall/0.5.15 crate://crates.io/redox_users/0.5.0 crate://crates.io/ref-cast/1.0.25 crate://crates.io/ref-cast-impl/1.0.25 crate://crates.io/reflink-copy/0.1.28 crate://crates.io/regex/1.11.2 crate://crates.io/regex-automata/0.4.13 crate://crates.io/regex-syntax/0.8.5 crate://crates.io/rend/0.5.2 crate://crates.io/reqsign/0.18.1 crate://crates.io/reqsign-aws-v4/2.0.1 crate://crates.io/reqsign-command-execute-tokio/2.0.1 crate://crates.io/reqsign-core/2.0.1 crate
+ ://crates.io/reqsign-file-read-tokio/2.0.1 crate://crates.io/reqsign-http-send-reqwest/2.0.1 crate://crates.io/reqwest/0.12.22 crate://crates.io/resvg/0.29.0 crate://crates.io/retry-policies/0.5.1 crate://crates.io/rgb/0.8.52 crate://crates.io/ring/0.17.14 crate://crates.io/rkyv/0.8.12 crate://crates.io/rkyv_derive/0.8.12 crate://crates.io/rmp/0.8.14 crate://crates.io/rmp-serde/1.3.0 crate://crates.io/rosvgtree/0.1.0 crate://crates.io/roxmltree/0.18.1 crate://crates.io/roxmltree/0.20.0 crate://crates.io/rust-ini/0.21.3 crate://crates.io/rust-netrc/0.1.2 crate://crates.io/rustc-demangle/0.1.25 crate://crates.io/rustc-hash/2.1.1 crate://crates.io/rustix/0.38.44 crate://crates.io/rustix/1.0.8 crate://crates.io/rustls/0.23.35 crate://crates.io/rustls-native-certs/0.8.2 crate://crates.io/rustls-pki-types/1.12.0 crate://crates.io/rustls-webpki/0.103.8 crate://crates.io/rustversion/1.0.21 crate://crates.io/rustybuzz/0.7.0 crate://crates.io/ryu/1.0.20 crate://crates.io/same-file/1.0.6 crate
+ ://crates.io/schannel/0.1.27 crate://crates.io/schemars/1.0.5 crate://crates.io/schemars_derive/1.0.5 crate://crates.io/scopeguard/1.2.0 crate://crates.io/scroll/0.13.0 crate://crates.io/scroll_derive/0.13.0 crate://crates.io/seahash/4.1.0 crate://crates.io/secrecy/0.10.3 crate://crates.io/secret-service/5.0.0 crate://crates.io/security-framework/3.2.0 crate://crates.io/security-framework-sys/2.14.0 crate://crates.io/self-replace/1.5.0 crate://crates.io/semver/1.0.26 crate://crates.io/serde/1.0.228 crate://crates.io/serde-untagged/0.1.9 crate://crates.io/serde_core/1.0.228 crate://crates.io/serde_derive/1.0.228 crate://crates.io/serde_derive_internals/0.29.1 crate://crates.io/serde_json/1.0.145 crate://crates.io/serde_repr/0.1.20 crate://crates.io/serde_spanned/1.0.3 crate://crates.io/serde_urlencoded/0.7.1 crate://crates.io/serde_yaml/0.9.34+deprecated crate://crates.io/sha1/0.10.6 crate://crates.io/sha2/0.10.9 crate://crates.io/sharded-slab/0.1.7 crate://crates.io/shell-escape/0.1
+ .5 crate://crates.io/shellexpand/3.1.1 crate://crates.io/shlex/1.3.0 crate://crates.io/signal-hook-registry/1.4.5 crate://crates.io/simd-adler32/0.3.7 crate://crates.io/simdutf8/0.1.5 crate://crates.io/similar/2.7.0 crate://crates.io/simplecss/0.2.2 crate://crates.io/siphasher/0.3.11 crate://crates.io/slab/0.4.11 crate://crates.io/smallvec/1.15.1 crate://crates.io/smawk/0.3.2 crate://crates.io/socket2/0.5.10 crate://crates.io/socket2/0.6.0 crate://crates.io/spdx/0.10.9 crate://crates.io/spdx/0.13.2 crate://crates.io/stable_deref_trait/1.2.0 crate://crates.io/static_assertions/1.1.0 crate://crates.io/statrs/0.18.0 crate://crates.io/strict-num/0.1.1 crate://crates.io/strsim/0.11.1 crate://crates.io/strum/0.26.3 crate://crates.io/strum_macros/0.26.4 crate://crates.io/subtle/2.6.1 crate://crates.io/supports-color/3.0.2 crate://crates.io/supports-hyperlinks/3.1.0 crate://crates.io/supports-unicode/3.0.0 crate://crates.io/svg/0.18.0 crate://crates.io/svgfilters/0.4.0 crate://crates.io/svg
+ types/0.9.0 crate://crates.io/svgtypes/0.10.0 crate://crates.io/syn/2.0.111 crate://crates.io/sync_wrapper/1.0.2 crate://crates.io/synstructure/0.13.2 crate://crates.io/sys-info/0.9.1 crate://crates.io/system-configuration/0.6.1 crate://crates.io/system-configuration-sys/0.6.0 crate://crates.io/tagu/0.1.6 crate://crates.io/tar/0.4.44 crate://crates.io/target-lexicon/0.13.3 crate://crates.io/temp-env/0.3.6 crate://crates.io/tempfile/3.20.0 crate://crates.io/terminal_size/0.4.2 crate://crates.io/termtree/0.5.1 crate://crates.io/test-case/3.3.1 crate://crates.io/test-case-core/3.3.1 crate://crates.io/test-case-macros/3.3.1 crate://crates.io/test-log/0.2.18 crate://crates.io/test-log-macros/0.2.18 crate://crates.io/textwrap/0.16.2 crate://crates.io/thiserror/1.0.69 crate://crates.io/thiserror/2.0.17 crate://crates.io/thiserror-impl/1.0.69 crate://crates.io/thiserror-impl/2.0.17 crate://crates.io/thread_local/1.1.9 crate://crates.io/tikv-jemalloc-sys/0.6.0+5.3.0-1-ge13ca993e8ccb9ba9847cc
+ 330696e02839f328f7 crate://crates.io/tikv-jemallocator/0.6.0 crate://crates.io/time/0.3.44 crate://crates.io/time-core/0.1.6 crate://crates.io/time-macros/0.2.24 crate://crates.io/tiny-keccak/2.0.2 crate://crates.io/tiny-skia/0.8.4 crate://crates.io/tiny-skia-path/0.8.4 crate://crates.io/tinystr/0.8.1 crate://crates.io/tinytemplate/1.2.1 crate://crates.io/tinyvec/1.9.0 crate://crates.io/tinyvec_macros/0.1.1 crate://crates.io/tokio/1.47.1 crate://crates.io/tokio-macros/2.5.0 crate://crates.io/tokio-rustls/0.26.2 crate://crates.io/tokio-stream/0.1.17 crate://crates.io/tokio-util/0.7.17 crate://crates.io/toml/0.9.8 crate://crates.io/toml_datetime/0.6.11 crate://crates.io/toml_datetime/0.7.3 crate://crates.io/toml_edit/0.22.27 crate://crates.io/toml_edit/0.23.7 crate://crates.io/toml_parser/1.0.4 crate://crates.io/toml_writer/1.0.4 crate://crates.io/tower/0.5.2 crate://crates.io/tower-http/0.6.6 crate://crates.io/tower-layer/0.3.3 crate://crates.io/tower-service/0.3.3 crate://crates.io/
+ tracing/0.1.41 crate://crates.io/tracing-attributes/0.1.30 crate://crates.io/tracing-core/0.1.34 crate://crates.io/tracing-durations-export/0.3.1 crate://crates.io/tracing-log/0.2.0 crate://crates.io/tracing-serde/0.2.0 crate://crates.io/tracing-subscriber/0.3.20 crate://crates.io/tracing-test/0.2.5 crate://crates.io/tracing-test-macro/0.2.5 crate://crates.io/tracing-tree/0.4.1 crate://crates.io/try-lock/0.2.5 crate://crates.io/ttf-parser/0.18.1 crate://crates.io/typeid/1.0.3 crate://crates.io/typenum/1.18.0 crate://crates.io/ucd-trie/0.1.7 crate://crates.io/uds_windows/1.1.0 crate://crates.io/unicase/2.8.1 crate://crates.io/unicode-bidi/0.3.18 crate://crates.io/unicode-bidi-mirroring/0.1.0 crate://crates.io/unicode-ccc/0.1.2 crate://crates.io/unicode-general-category/0.6.0 crate://crates.io/unicode-id/0.3.5 crate://crates.io/unicode-ident/1.0.18 crate://crates.io/unicode-linebreak/0.1.5 crate://crates.io/unicode-script/0.5.7 crate://crates.io/unicode-vo/0.1.0 crate://crates.io/unic
+ ode-width/0.1.14 crate://crates.io/unicode-width/0.2.2 crate://crates.io/unit-prefix/0.5.1 crate://crates.io/unsafe-libyaml/0.2.11 crate://crates.io/unscanny/0.1.0 crate://crates.io/untrusted/0.9.0 crate://crates.io/url/2.5.7 crate://crates.io/usvg/0.29.0 crate://crates.io/usvg-text-layout/0.29.0 crate://crates.io/utf8-width/0.1.7 crate://crates.io/utf8_iter/1.0.4 crate://crates.io/utf8parse/0.2.2 crate://crates.io/uuid/1.17.0 crate://crates.io/valuable/0.1.1 crate://crates.io/version_check/0.9.5 crate://crates.io/wait-timeout/0.2.1 crate://crates.io/walkdir/2.5.0 crate://crates.io/want/0.3.1 crate://crates.io/wasi/0.11.1+wasi-snapshot-preview1 crate://crates.io/wasi/0.14.2+wasi-0.2.4 crate://crates.io/wasite/0.1.0 crate://crates.io/wasm-bindgen/0.2.100 crate://crates.io/wasm-bindgen-backend/0.2.100 crate://crates.io/wasm-bindgen-futures/0.4.50 crate://crates.io/wasm-bindgen-macro/0.2.100 crate://crates.io/wasm-bindgen-macro-support/0.2.100 crate://crates.io/wasm-bindgen-shared/0.2.
+ 100 crate://crates.io/wasm-streams/0.4.2 crate://crates.io/wasmtimer/0.4.2 crate://crates.io/web-sys/0.3.77 crate://crates.io/web-time/1.1.0 crate://crates.io/webpki-roots/1.0.2 crate://crates.io/weezl/0.1.10 crate://crates.io/which/8.0.0 crate://crates.io/whoami/1.6.1 crate://crates.io/widestring/1.2.0 crate://crates.io/winapi/0.3.9 crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 crate://crates.io/winapi-util/0.1.9 crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 crate://crates.io/windows/0.59.0 crate://crates.io/windows/0.61.3 crate://crates.io/windows-collections/0.2.0 crate://crates.io/windows-core/0.59.0 crate://crates.io/windows-core/0.61.2 crate://crates.io/windows-future/0.2.1 crate://crates.io/windows-implement/0.59.0 crate://crates.io/windows-implement/0.60.0 crate://crates.io/windows-interface/0.59.1 crate://crates.io/windows-link/0.1.3 crate://crates.io/windows-link/0.2.0 crate://crates.io/windows-numerics/0.2.0 crate://crates.io/windows-registry/0.5.3 crate://cra
+ tes.io/windows-result/0.3.4 crate://crates.io/windows-strings/0.3.1 crate://crates.io/windows-strings/0.4.2 crate://crates.io/windows-sys/0.52.0 crate://crates.io/windows-sys/0.59.0 crate://crates.io/windows-sys/0.60.2 crate://crates.io/windows-sys/0.61.0 crate://crates.io/windows-targets/0.52.6 crate://crates.io/windows-targets/0.53.2 crate://crates.io/windows-threading/0.1.0 crate://crates.io/windows_aarch64_gnullvm/0.52.6 crate://crates.io/windows_aarch64_gnullvm/0.53.0 crate://crates.io/windows_aarch64_msvc/0.52.6 crate://crates.io/windows_aarch64_msvc/0.53.0 crate://crates.io/windows_i686_gnu/0.52.6 crate://crates.io/windows_i686_gnu/0.53.0 crate://crates.io/windows_i686_gnullvm/0.52.6 crate://crates.io/windows_i686_gnullvm/0.53.0 crate://crates.io/windows_i686_msvc/0.52.6 crate://crates.io/windows_i686_msvc/0.53.0 crate://crates.io/windows_x86_64_gnu/0.52.6 crate://crates.io/windows_x86_64_gnu/0.53.0 crate://crates.io/windows_x86_64_gnullvm/0.52.6 crate://crates.io/windows_x86
+ _64_gnullvm/0.53.0 crate://crates.io/windows_x86_64_msvc/0.52.6 crate://crates.io/windows_x86_64_msvc/0.53.0 crate://crates.io/winnow/0.7.13 crate://crates.io/winsafe/0.0.19 crate://crates.io/wiremock/0.6.5 crate://crates.io/wit-bindgen-rt/0.39.0 crate://crates.io/wmi/0.16.0 crate://crates.io/writeable/0.6.1 crate://crates.io/xattr/1.5.1 crate://crates.io/xml-rs/0.8.27 crate://crates.io/xmlparser/0.13.6 crate://crates.io/xz2/0.1.7 crate://crates.io/yansi/1.0.1 crate://crates.io/yasna/0.5.2 crate://crates.io/yoke/0.8.0 crate://crates.io/yoke-derive/0.8.0 crate://crates.io/zbus/5.8.0 crate://crates.io/zbus_macros/5.8.0 crate://crates.io/zbus_names/4.2.0 crate://crates.io/zerocopy/0.8.26 crate://crates.io/zerocopy-derive/0.8.26 crate://crates.io/zerofrom/0.1.6 crate://crates.io/zerofrom-derive/0.1.6 crate://crates.io/zeroize/1.8.2 crate://crates.io/zerotrie/0.2.2 crate://crates.io/zerovec/0.11.2 crate://crates.io/zerovec-derive/0.11.1 crate://crates.io/zip/2.4.2 crate://crates.io/zlib-
+ rs/0.5.1 crate://crates.io/zopfli/0.8.2 crate://crates.io/zstd/0.13.3 crate://crates.io/zstd-safe/7.2.4 crate://crates.io/zstd-sys/2.0.15+zstd.1.5.7 crate://crates.io/zvariant/5.6.0 crate://crates.io/zvariant_derive/5.6.0 crate://crates.io/zvariant_utils/3.2.0"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dbg: PV changed from "0.9.18" to "0.9.21"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dbg: PKGV changed from 0.9.18 [default] to 0.9.21 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dev: PV changed from "0.9.18" to "0.9.21"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dev: PKGV changed from 0.9.18 [default] to 0.9.21 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-doc: PV changed from "0.9.18" to "0.9.21"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-doc: PKGV changed from 0.9.18 [default] to 0.9.21 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-locale: PV changed from "0.9.18" to "0.9.21"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-locale: PKGV changed from 0.9.18 [default] to 0.9.21 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-src: PV changed from "0.9.18" to "0.9.21"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-src: PKGV changed from 0.9.18 [default] to 0.9.21 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-staticdev: PV changed from "0.9.18" to "0.9.21"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-staticdev: PKGV changed from 0.9.18 [default] to 0.9.21 [default]
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: PKGSIZE changed from 5212235 to 5208139 (-0%)
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: PV changed from "0.9.18" to "0.9.21"
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: FILELIST: directory renamed /usr/lib/python3.13/site-packages/uv_build-0.9.18.dist-info/licenses -> /usr/lib/python3.13/site-packages/uv_build-0.9.21.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/uv_build-0.9.18.dist-info -> /usr/lib/python3.13/site-packages/uv_build-0.9.21.dist-info
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: PKGV changed from 0.9.18 [default] to 0.9.21 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-uv-build (sysroot):
+  /usr/lib/python3.13/site-packages/uv_build-0.9.18.dist-info moved to /usr/lib/python3.13/site-packages/uv_build-0.9.21.dist-info
 
---===============3264223445194574506==
+--===============9036831932929640212==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-testtools-upgrade-2.8.1-2.8.2.patch"
+ filename="0001-python3-uv-build-upgrade-0.9.18-0.9.21.patch"
 
-RnJvbSA3OTE5NDQ2ODQxNzQxZDUzZTQ2OTk0ODEyZWQzYjk0NzFmZDRkYmU2IE1vbiBTZXAgMTcg
+RnJvbSBjNTFmNjMyOTk2M2NlMDJkZmIwNjBjMDRiM2FlMDJiNTliYmNiMTM2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBKYW4gMjAyNiAwODoxNDozNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtdGVzdHRvb2xzOiB1cGdyYWRlIDIuOC4xIC0+IDIuOC4yCgotLS0KIC4uLi97cHl0aG9u
-My10ZXN0dG9vbHNfMi44LjEuYmIgPT4gcHl0aG9uMy10ZXN0dG9vbHNfMi44LjIuYmJ9ICB8IDIg
-Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdGVzdHRvb2xzXzIuOC4xLmJi
-ID0+IHB5dGhvbjMtdGVzdHRvb2xzXzIuOC4yLmJifSAoODQlKQoKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10ZXN0dG9vbHNfMi44LjEuYmIgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdGVzdHRvb2xzXzIuOC4yLmJiCnNpbWls
-YXJpdHkgaW5kZXggODQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy10ZXN0dG9vbHNfMi44LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy10ZXN0dG9vbHNfMi44LjIuYmIKaW5kZXggMjlhMjhkODBkYS4uYzUx
-ZmFjMjI0MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LXRlc3R0b29sc18yLjguMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtdGVzdHRvb2xzXzIuOC4yLmJiCkBAIC04LDcgKzgsNyBAQCBERVBFTkRTICs9ICJweXRo
-b24zLWhhdGNoLXZjcy1uYXRpdmUiCiAKIGluaGVyaXQgcHlwaSBweXRob25faGF0Y2hsaW5nCiAK
-LVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkYTUxMDJiMDJiNmQ5OTI0NjA3ZDMxZGRhNmRlYjI2YTA4
-NWE3OGFmYTc4ODI2YmY0NGUzYjg3MTdmYzc3MjA4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImI1
-YzczMzMyNDU2ZmY1NDE1MjA2MmQ0N2E1OGJjNGYxNWY4ZTIzNTE0YWZlYzRlODQ3NzVhZjEyNGZi
-N2RiNDMiCiAKIFJERVBFTkRTOiR7UE59ICs9ICJcCiAgICAgcHl0aG9uMy1jb21wcmVzc2lvbiBc
-Ci0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFRodSwgMSBKYW4gMjAyNiAwODoyNToyMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtdXYtYnVpbGQ6IHVwZ3JhZGUgMC45LjE4IC0+IDAuOS4yMQoKLS0tCiBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXYtYnVpbGQtY3JhdGVzLmluYyAgfCA4ICsrKyst
+LS0tCiAuLi5ob24zLXV2LWJ1aWxkXzAuOS4xOC5iYiA9PiBweXRob24zLXV2LWJ1aWxkXzAuOS4y
+MS5iYn0gfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlv
+bnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXV2LWJ1
+aWxkXzAuOS4xOC5iYiA9PiBweXRob24zLXV2LWJ1aWxkXzAuOS4yMS5iYn0gKDkyJSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXYtYnVpbGQtY3Jh
+dGVzLmluYyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11di1idWlsZC1j
+cmF0ZXMuaW5jCmluZGV4IDZhYWRkNzc3NDYuLjUxMTNlNGFlNWIgMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11di1idWlsZC1jcmF0ZXMuaW5jCisrKyBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11di1idWlsZC1jcmF0ZXMuaW5j
+CkBAIC0yNSw3ICsyNSw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8v
+YXNzZXJ0X2ZzLzEuMS4zIFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9hc3RyYWwtcHViZ3J1Yi8w
+LjMuMyBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vYXN0cmFsLXJlcXdlc3QtbWlkZGxld2FyZS8w
+LjQuMiBcCi0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vYXN0cmFsLXJlcXdlc3QtcmV0cnkvMC43LjAg
+XAorICAgIGNyYXRlOi8vY3JhdGVzLmlvL2FzdHJhbC1yZXF3ZXN0LXJldHJ5LzAuOC4wIFwKICAg
+ICBjcmF0ZTovL2NyYXRlcy5pby9hc3RyYWwtdGwvMC43LjExIFwKICAgICBjcmF0ZTovL2NyYXRl
+cy5pby9hc3RyYWwtdG9raW8tdGFyLzAuNS42IFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9hc3Ry
+YWwtdmVyc2lvbi1yYW5nZXMvMC4xLjMgXApAQCAtMzc5LDcgKzM3OSw3IEBAIFNSQ19VUkkgKz0g
+IiBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcmVxc2lnbi1odHRwLXNlbmQtcmVxd2VzdC8yLjAu
+MSBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcmVxd2VzdC8wLjEyLjIyIFwKICAgICBjcmF0ZTov
+L2NyYXRlcy5pby9yZXN2Zy8wLjI5LjAgXAotICAgIGNyYXRlOi8vY3JhdGVzLmlvL3JldHJ5LXBv
+bGljaWVzLzAuNC4wIFwKKyAgICBjcmF0ZTovL2NyYXRlcy5pby9yZXRyeS1wb2xpY2llcy8wLjUu
+MSBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vcmdiLzAuOC41MiBcCiAgICAgY3JhdGU6Ly9jcmF0
+ZXMuaW8vcmluZy8wLjE3LjE0IFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9ya3l2LzAuOC4xMiBc
+CkBAIC02NzYsNyArNjc2LDcgQEAgU1JDX1VSSVthc3NlcnRfY21kLTIuMC4xNy5zaGEyNTZzdW1d
+ID0gIjJiZDM4OWE0YjI5NzBhMDEyODJlZTQ1NTI5NDkxM2MwYTQzNzI0ZGEKIFNSQ19VUklbYXNz
+ZXJ0X2ZzLTEuMS4zLnNoYTI1NnN1bV0gPSAiYTY1MmY2Y2IxZjUxNjg4NmZjZmVlNWU3YTVjMDc4
+YjlhZGU2MmNmY2I4ODk1MjRlZmU1YTY0ZDY4MmRkMjdhOSIKIFNSQ19VUklbYXN0cmFsLXB1Ymdy
+dWItMC4zLjMuc2hhMjU2c3VtXSA9ICJkNmNiMTViNGY1MDk2YTNhMWI0MWZkYzI3MzZhMWMzM2Q4
+N2M3OGYzNGQzYzFlYzJiNjY5ZTc2NmVkYWRkNTU5IgogU1JDX1VSSVthc3RyYWwtcmVxd2VzdC1t
+aWRkbGV3YXJlLTAuNC4yLnNoYTI1NnN1bV0gPSAiNjM4ZDAyZTI0YWViOTJmOTUzNzg5N2NkMWZm
+ODJlMmJjOThmZDlhYzk1NzVhNTAzZTI3YmIwN2NkZjY0ZDRkNyIKLVNSQ19VUklbYXN0cmFsLXJl
+cXdlc3QtcmV0cnktMC43LjAuc2hhMjU2c3VtXSA9ICJjYjc1NDliZDAwZjYyZjczZjJlN2U3NmYz
+Zjc3Y2NkYWJiMzE4NzNmNGYwMmY3NThlZDg4YWQ3MzlkNTIyODY3IgorU1JDX1VSSVthc3RyYWwt
+cmVxd2VzdC1yZXRyeS0wLjguMC5zaGEyNTZzdW1dID0gIjc4YWIyMTBmNmNkZjhmZDMyNTRkNDdl
+NWVlMjdjZTYwZWQzNGE0MjhmZjcxYjRhZTk0NzdiMWM4NGI0OTQ5OGMiCiBTUkNfVVJJW2FzdHJh
+bC10bC0wLjcuMTEuc2hhMjU2c3VtXSA9ICJkOTA5MzNmZmIwZjk3ZTJmYzJlMGRlMjFkYTlkM2Yy
+MDU5N2I4MDQwMTJkMTk5ODQzYTZmZTdjMjgxMGQyOGYzIgogU1JDX1VSSVthc3RyYWwtdG9raW8t
+dGFyLTAuNS42LnNoYTI1NnN1bV0gPSAiZWMxNzlhMDZjMTc2OWIxZTQyZTFlMmNiZTc0YzdkY2Ri
+M2Q2MzgzYzgzODQ1NGQwNjNlYWFjNWJiYjdlYmJlNSIKIFNSQ19VUklbYXN0cmFsLXZlcnNpb24t
+cmFuZ2VzLTAuMS4zLnNoYTI1NnN1bV0gPSAiZTdhZGMyMzA4YTU2NmZhYjlkZTAyYmMwZTA1ZDE4
+YzVhMjFjYjBlNzkzNjg0ZTRmNjRjOGViOTU2OTY5YjA3NCIKQEAgLTEwMzAsNyArMTAzMCw3IEBA
+IFNSQ19VUklbcmVxc2lnbi1maWxlLXJlYWQtdG9raW8tMi4wLjEuc2hhMjU2c3VtXSA9ICI2Njll
+YTY2MDM2MjY2YTlhYzM3MWQyZTYzY2M3CiBTUkNfVVJJW3JlcXNpZ24taHR0cC1zZW5kLXJlcXdl
+c3QtMi4wLjEuc2hhMjU2c3VtXSA9ICI0NjE4NmJjZTc2OTY3NGY5MjAwYWQwMWFmNmYyY2E0MmRl
+M2U4MTlkZGMwMDJmZmYxZWRhZTEzNWJmYjZjZDljIgogU1JDX1VSSVtyZXF3ZXN0LTAuMTIuMjIu
+c2hhMjU2c3VtXSA9ICJjYmM5MzE5MzdlNmNhM2EwNmUzYjZjMGFhNzg0MTg0OWIxNjBhOTAzNTFk
+NmFiNDY3YThiOWI5OTU5NzY3NTMxIgogU1JDX1VSSVtyZXN2Zy0wLjI5LjAuc2hhMjU2c3VtXSA9
+ICI3Njg4ODIxOWMwODgxZTIyYjBjZWFiMDZmZGRjZmU4MzE2M2NkODE2NDJiZDYwYzc4NDIzODdm
+OWM5NjhhNzJlIgotU1JDX1VSSVtyZXRyeS1wb2xpY2llcy0wLjQuMC5zaGEyNTZzdW1dID0gIjU4
+NzU0NzFlNmNhYjI4NzFiYzE1MGVjYjhjNzI3ZGI1MTEzYzkzMzhjYzMzNTRkYzVlZTM0MjViNmFh
+NDBhMWMiCitTUkNfVVJJW3JldHJ5LXBvbGljaWVzLTAuNS4xLnNoYTI1NnN1bV0gPSAiNDZhNGJk
+NjAyN2RmNjc2YmNiNzUyZDM3MjRkYjBlYTNjMGM1ZmMxZGQwMzc2ZmVjNTFhYzdkY2FmOWNjNjli
+ZSIKIFNSQ19VUklbcmdiLTAuOC41Mi5zaGEyNTZzdW1dID0gIjBjNmE4ODRkMjk5ODM1MmJiNGRh
+ZjAxODM1ODlhZWM4ODNmMTZhNmRhMWY0ZGRlODRkOGUyZTlhNTQwOWExY2UiCiBTUkNfVVJJW3Jp
+bmctMC4xNy4xNC5zaGEyNTZzdW1dID0gImE0Njg5ZTZjMjI5NGQ4MWU4OGRjNjI2MWM3NjhiNjNi
+YzRmY2RiODUyYmU2ZDEzNTI0OThiMTE0ZjYxMzgzYjciCiBTUkNfVVJJW3JreXYtMC44LjEyLnNo
+YTI1NnN1bV0gPSAiMzVhNjQwYjI2ZjAwNzcxMzgxOGU5YTliNjVkMzRkYTFjZjU4NTM4MjA3YjA1
+MjkxNmE4M2Q4MGU0M2YzZmZhNCIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy11di1idWlsZF8wLjkuMTguYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtdXYtYnVpbGRfMC45LjIxLmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11di1idWlsZF8w
+LjkuMTguYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11
+di1idWlsZF8wLjkuMjEuYmIKaW5kZXggYWExNDM0OTE5Ny4uYmM0OWYxZTg1NSAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXV2LWJ1aWxkXzAuOS4xOC5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXYtYnVpbGRfMC45
+LjIxLmJiCkBAIC0xMSw3ICsxMSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VO
+U0UtQVBBQ0hFO21kNT04NmQzZjNhOTVjMzI0Yzk0NzliZDg5ODY5NjhmNDMyNyBcCiAgICAgICAg
+ICAgICAgICAgICAgIGZpbGU6Ly9jcmF0ZXMvdXYtcGVwNTA4L0xpY2Vuc2UtQXBhY2hlO21kNT1l
+MjNmYWRkNmNlZWY4YzYxOGZjMWM2NTE5MWQ4NDZmYSBcCiAgICAgICAgICAgICAgICAgICAgIGZp
+bGU6Ly9jcmF0ZXMvdXYtcGVwNTA4L0xpY2Vuc2UtQlNEO21kNT1lZjdhNjAyN2RjNGMyMzg5Yjlh
+ZmFkN2U2OTAyNzRjNyIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImFlMzQ1OGViYzNjMmFlNjlj
+Y2E2MjFhMWU2ZjFlMjgwYTdjYjZjNzI5ZjgyOWIzMjVmZWY0YTY1YTU1ZWZhOWQiCitTUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiYWI1NzFhOTYyYTAxNmFjYTQxMjhhMWUxNGQ3NzJlNjJmODY2NmNkMmQ3
+ZDkzYThjNmZkYmQ3OGFkNzQzZDIwZiIKIAogcmVxdWlyZSAke0JQTn0tY3JhdGVzLmluYwogCi0t
+IAoyLjQ3LjEKCg==
 
---===============3264223445194574506==
+--===============9036831932929640212==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools: FILELIST: directory renamed /usr/lib/python3.13/site-packages/testtools-2.8.1.dist-info -> /usr/lib/python3.13/site-packages/testtools-2.8.2.dist-info, directory renamed /usr/lib/python3.13/site-packages/testtools-2.8.1.dist-info/licenses -> /usr/lib/python3.13/site-packages/testtools-2.8.2.dist-info/licenses, removed "/usr/lib/python3.13/site-packages/testtools/tests/__pycache__/helpers.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_warnings.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_runtest.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_with_with.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_dict.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pyca
- che__/test_impl.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_fixturesupport.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_fixturesupport.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_runtest.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/samplecases.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_content_type.py /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_spinner.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_helpers.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_exception.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_higherorder.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_doctest.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_assert_that.cpython-31
- 3.pyc /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_run.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_deferred.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_dict.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_basic.py /usr/lib/python3.13/site-packages/testtools/tests/__init__.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/__init__.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_content.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_testsuite.py /usr/lib/python3.13/site-packages/testtools/tests/test_compat.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_compat.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_warnings.py /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/__init__.cpython-313.pyc /u
- sr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_runtest.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_helpers.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_const.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_monkey.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/helpers.py /usr/lib/python3.13/site-packages/testtools/tests/test_monkey.py /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_deferred.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_content_type.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/helpers.py /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/_helpers.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_content.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_testcase.cpython-313.pyc /usr/lib/python3.13/
- site-packages/testtools/tests/matchers/__init__.py /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_spinner.py /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_runtest.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_testresult.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_testsuite.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_testcase.py /usr/lib/python3.13/site-packages/testtools/tests/samplecases.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_basic.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_with_with.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_matchers.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/_helpers.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_doctest.py /usr/lib/python
- 3.13/site-packages/testtools/tests/test_testresult.py /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__init__.py /usr/lib/python3.13/site-packages/testtools/tests/test_tags.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_filesystem.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/test_run.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_higherorder.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_exception.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_impl.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/helpers.cpython-313.pyc /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_matchers.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_datastructures.py /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_tags.cpython-313.pyc /usr/lib/python3.13/site-packages/test
- tools/tests/test_assert_that.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_filesystem.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_const.py /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_datastructures.cpython-313.pyc"
-packages/x86-64-v3-poky-linux/python3-testtools/python3-testtools: PKGSIZE changed from 1885349 to 718853 (-62%)
-Changes to packages/x86-64-v3-poky-linux/python3-testtools (sysroot):
-  /usr/lib/python3.13/site-packages/testtools-2.8.1.dist-info moved to /usr/lib/python3.13/site-packages/testtools-2.8.2.dist-info
-  /usr/lib/python3.13/site-packages/testtools/tests was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/helpers.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__init__.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/helpers.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__init__.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__ was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/helpers.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/__init__.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_basic.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_const.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_datastructures.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_dict.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_doctest.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_exception.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_filesystem.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_higherorder.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_impl.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/__pycache__/test_warnings.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_basic.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_const.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_datastructures.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_dict.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_doctest.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_exception.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_filesystem.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_higherorder.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_impl.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/matchers/test_warnings.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__ was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/helpers.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/__init__.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/samplecases.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_assert_that.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_compat.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_content.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_content_type.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_fixturesupport.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_helpers.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_monkey.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_run.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_runtest.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_tags.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_testcase.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_testresult.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_testsuite.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/__pycache__/test_with_with.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/samplecases.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_assert_that.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_compat.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_content.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_content_type.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_fixturesupport.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_helpers.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_monkey.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_run.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_runtest.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_tags.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_testcase.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_testresult.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_testsuite.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/test_with_with.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/_helpers.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__init__.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__ was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/_helpers.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/__init__.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_deferred.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_matchers.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_runtest.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/__pycache__/test_spinner.cpython-313.pyc was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_deferred.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_matchers.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_runtest.py was removed
-  /usr/lib/python3.13/site-packages/testtools/tests/twistedsupport/test_spinner.py was removed
+packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: FILELIST: directory renamed /usr/lib/python3.13/site-packages/uv_build-0.9.18.dist-info/licenses -> /usr/lib/python3.13/site-packages/uv_build-0.9.21.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/uv_build-0.9.18.dist-info -> /usr/lib/python3.13/site-packages/uv_build-0.9.21.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-uv-build (sysroot):
+  /usr/lib/python3.13/site-packages/uv_build-0.9.18.dist-info moved to /usr/lib/python3.13/site-packages/uv_build-0.9.21.dist-info
 
---===============3264223445194574506==--
+--===============9036831932929640212==--
 
