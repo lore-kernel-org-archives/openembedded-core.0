@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 689D9EED632
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77A05EEE241
 	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 11:38:00 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.103052.1767267469781857402
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.103060.1767267479029304229
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jan 2026 03:38:00 -0800
+ Thu, 01 Jan 2026 03:37:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=c00i2lyf;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=oO/eS6cO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019b7959b166-7c771626-c6be-4418-adbb-202f2fbae1bb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=a/Jge0ZT;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ZzssLlpE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019b7959aeb8-031771e4-f7e0-4ff8-bca5-a581ba621d83-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1767267480;
+	t=1767267479;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zovjoN7Yk9lMhJ4swEwS1P7t4AOpbOYARp3tb4InGnI=;
-	b=c00i2lyfjvMEqzn6V/C0Yj67fn82TS0E2IkxxxwWhCJXePtOvpwsUhbHXFo5QjdT
-	SXQ7ng9XBq0UeFcuynrZT/5nn0hgMBdKdv2hAcCZRFg/uHnLHPt/kribOz/8VllqxsS
-	Ni0QsbxrnKy2daUV1LcZcDAgIBjxtqdsdI3UhTV4=
+	bh=r8PyXSqIkL2kuFaQftk5f4UT4ynDOxsxFK28X2Fnh7Y=;
+	b=a/Jge0ZTC/kXWTSmIQSrV4HrEgWJnZ7AU42OGMevAE3SpZTviOFm+l+ZQr6TTWDy
+	y8oXo232wV07iKcprsD6nFKJYY4434NGScPVc42cn5PlnWcWhhdXljmpS2rMWvkWeQX
+	ARFXwh6PIqevVr6Vq8vNS3uHsCu0CKNEDg5Hyfw0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1767267480;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1767267479;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zovjoN7Yk9lMhJ4swEwS1P7t4AOpbOYARp3tb4InGnI=;
-	b=oO/eS6cOtlrQDXzjw5Q1T4nN02XccMa4VSEUw281P3Dj87AvvoKCqBLr5Lejf9lp
-	9gDyyly0QMY6u6Qwwvby7ftRrdHvps/zgFGLPHVDtBSfQEJCW4l62mkD97wq4PY2grz
-	N11NrEHW5eamPA/ugSk6EMaL4LdDS/hbfJeCIVms=
-Content-Type: multipart/mixed; boundary="===============4108577557603659044=="
+	bh=r8PyXSqIkL2kuFaQftk5f4UT4ynDOxsxFK28X2Fnh7Y=;
+	b=ZzssLlpE0Aqd62giAStDD1t68r/nOBpaMNuaXYZRnJom/sBlXZbGlbAyxhdnGDYz
+	sjbV7NVsTF2nL39uYH5dZOgKbrHf65fjqL+3gt5VBkbTYD7iYCsDX9Tp0dY1yBTxbUW
+	V8mlAelK5fBf2NgjTEmqXVJteo12VDzOIwAsn6JY=
+Content-Type: multipart/mixed; boundary="===============4056746140242408597=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libtraceevent: upgrading to 1.8.7 SUCCEEDED
-Message-ID: <0101019b7959b166-7c771626-c6be-4418-adbb-202f2fbae1bb-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] xorgproto: upgrading to 2025.1 SUCCEEDED
+Message-ID: <0101019b7959aeb8-031771e4-f7e0-4ff8-bca5-a581ba621d83-000000@us-west-2.amazonses.com>
 Date: Thu, 1 Jan 2026 11:37:59 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.01-54.240.27.193
+X-SES-Outgoing: 2026.01.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 11:38:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228798
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228796
 
---===============4108577557603659044==
+--===============4056746140242408597==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libtraceevent* to *1.8.7* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *xorgproto* to *2025.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libtraceevent-upgrade-1.8.6-1.8.7.patch
+    - apply the patch: git am 0001-xorgproto-upgrade-2024.1-2025.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,125 +72,91 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 8f7c4fc9bb8d440b99f868f16fd5e8786da7d0d4 Mon Sep 17 00:00:00 2001
+From 0c784d5d210a640e417961979b57f9a4d5a2ddf8 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Jan 2026 10:41:08 +0000
-Subject: [PATCH] libtraceevent: upgrade 1.8.6 -> 1.8.7
+Date: Thu, 1 Jan 2026 10:38:46 +0000
+Subject: [PATCH] xorgproto: upgrade 2024.1 -> 2025.1
 
 ---
- .../{libtraceevent_1.8.6.bb => libtraceevent_1.8.7.bb}        | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
- rename meta/recipes-kernel/libtraceevent/{libtraceevent_1.8.6.bb => libtraceevent_1.8.7.bb} (90%)
+ .../xorg-proto/{xorgproto_2024.1.bb => xorgproto_2025.1.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-proto/{xorgproto_2024.1.bb => xorgproto_2025.1.bb} (90%)
 
-diff --git a/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb b/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.7.bb
+diff --git a/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb b/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb
 similarity index 90%
-rename from meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb
-rename to meta/recipes-kernel/libtraceevent/libtraceevent_1.8.7.bb
-index deddb60f63..0e891c1498 100644
---- a/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.6.bb
-+++ b/meta/recipes-kernel/libtraceevent/libtraceevent_1.8.7.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSES/GPL-2.0;md5=e6a75371ba4d16749254a51215d13f97
-                     file://LICENSES/LGPL-2.1;md5=b370887980db5dd40659b50909238dbd"
- SECTION = "libs"
+rename from meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb
+rename to meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb
+index d79dc23f1b..e187c56fbc 100644
+--- a/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb
++++ b/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb
+@@ -9,7 +9,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING-x11proto;md5=0b9fe3db4015bcbe920e7c67a39ee3f1"
  
--SRCREV = "98c217427183f66f09f4a27300ad87d71814c38f"
-+SRCREV = "7a8fee57d87aa61c9d578cd67e99d2677b894772"
- SRC_URI = "git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=${BPN};protocol=https \
-           "
+ SRC_URI = "${XORG_MIRROR}/individual/proto/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "372225fd40815b8423547f5d890c5debc72e88b91088fbfb13158c20495ccb59"
++SRC_URI[sha256sum] = "56898c716c0578df8a2d828c9c3e5c528277705c0484381a81960fe1a67668e8"
  
-@@ -19,3 +19,5 @@ EXTRA_OEMESON = "-Ddoc=false"
- PACKAGES += "${PN}-plugins"
+ inherit meson
  
- FILES:${PN}-plugins += "${libdir}/traceevent/plugins"
-+
-+BPN = "libtraceevent-v1.8"
 -- 
 2.47.1
 
 
---===============4108577557603659044==
+--===============4056746140242408597==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libtraceevent: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent: SRC_URI changed from "git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=libtraceevent;protocol=https" to "git://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git;branch=libtraceevent-v1.8;protocol=https"
-packages/x86-64-v3-poky-linux/libtraceevent: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: FILELIST: removed "/usr/lib/.debug/libtraceevent.so.1.8.6", added "/usr/lib/.debug/libtraceevent.so.1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dbg: PKGSIZE changed from 608312 to 612704 (+1%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: FILES: removed "/usr/lib/libtraceevent/*.la", added "/usr/lib/libtraceevent-v1.8/*.la"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-dev: PKGSIZE changed from 28895 to 29056 (+1%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-doc: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-doc: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-locale: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-locale: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-plugins: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-plugins: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: FILELIST: directory renamed /usr/src/debug/libtraceevent/1.8.6/include/traceevent -> /usr/src/debug/libtraceevent/1.8.7/include/traceevent, directory renamed /usr/src/debug/libtraceevent/1.8.6/plugins -> /usr/src/debug/libtraceevent/1.8.7/plugins, directory renamed /usr/src/debug/libtraceevent/1.8.6/src -> /usr/src/debug/libtraceevent/1.8.7/src
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-src: PKGSIZE changed from 398698 to 400743 (+1%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: FILES: removed "/usr/lib/libtraceevent/*.a", added "/usr/lib/libtraceevent-v1.8/*.a"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent-staticdev: PKGSIZE changed from 745342 to 751910 (+1%)
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: PV changed from "1.8.6" to "1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: FILES: removed "/usr/lib/libtraceevent/* /usr/share/libtraceevent", added "/usr/lib/libtraceevent-v1.8/* /usr/share/libtraceevent-v1.8"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: FILELIST: removed "/usr/lib/libtraceevent.so.1.8.6", added "/usr/lib/libtraceevent.so.1.8.7"
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: PKGV changed from 1.8.6 [default] to 1.8.7 [default]
-Changes to packages/x86-64-v3-poky-linux/libtraceevent (sysroot):
-  /usr/lib/libtraceevent.so.1 changed symlink target from libtraceevent.so.1.8.6 to libtraceevent.so.1.8.7
-  /usr/lib/libtraceevent.so.1.8.6 moved to /usr/lib/libtraceevent.so.1.8.7
+packages/x86-64-v3-poky-linux/xorgproto: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto: SRC_URI changed from "https://www.x.org/releases//individual/proto/xorgproto-2024.1.tar.xz" to "https://www.x.org/releases//individual/proto/xorgproto-2025.1.tar.xz"
+packages/x86-64-v3-poky-linux/xorgproto: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-dbg: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-dbg: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-dev: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-dev: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-dev: PKGSIZE changed from 1169393 to 1183251 (+1%)
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-doc: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-doc: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-doc: PKGSIZE changed from 303975 to 303973 (-0%)
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-locale: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-locale: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-src: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-src: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-staticdev: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto-staticdev: PV changed from "2024.1" to "2025.1"
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto: PKGV changed from 2024.1 [default] to 2025.1 [default]
+packages/x86-64-v3-poky-linux/xorgproto/xorgproto: PV changed from "2024.1" to "2025.1"
 
---===============4108577557603659044==
+--===============4056746140242408597==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libtraceevent-upgrade-1.8.6-1.8.7.patch"
+ filename="0001-xorgproto-upgrade-2024.1-2025.1.patch"
 
-RnJvbSA4ZjdjNGZjOWJiOGQ0NDBiOTlmODY4ZjE2ZmQ1ZTg3ODZkYTdkMGQ0IE1vbiBTZXAgMTcg
+RnJvbSAwYzc4NGQ1ZDIxMGE2NDBlNDE3OTYxOTc5YjU3ZjlhNGQ1YTJkZGY4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBKYW4gMjAyNiAxMDo0MTowOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnRyYWNlZXZlbnQ6IHVwZ3JhZGUgMS44LjYgLT4gMS44LjcKCi0tLQogLi4uL3tsaWJ0cmFjZWV2
-ZW50XzEuOC42LmJiID0+IGxpYnRyYWNlZXZlbnRfMS44LjcuYmJ9ICAgICAgICB8IDQgKysrLQog
-MSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1rZXJuZWwvbGlidHJhY2VldmVudC97bGlidHJhY2VldmVudF8xLjguNi5iYiA9
-PiBsaWJ0cmFjZWV2ZW50XzEuOC43LmJifSAoOTAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1rZXJuZWwvbGlidHJhY2VldmVudC9saWJ0cmFjZWV2ZW50XzEuOC42LmJiIGIvbWV0YS9yZWNp
-cGVzLWtlcm5lbC9saWJ0cmFjZWV2ZW50L2xpYnRyYWNlZXZlbnRfMS44LjcuYmIKc2ltaWxhcml0
-eSBpbmRleCA5MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWtlcm5lbC9saWJ0cmFjZWV2ZW50
-L2xpYnRyYWNlZXZlbnRfMS44LjYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1rZXJuZWwvbGli
-dHJhY2VldmVudC9saWJ0cmFjZWV2ZW50XzEuOC43LmJiCmluZGV4IGRlZGRiNjBmNjMuLjBlODkx
-YzE0OTggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbGlidHJhY2VldmVudC9saWJ0
-cmFjZWV2ZW50XzEuOC42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbGlidHJhY2VldmVu
-dC9saWJ0cmFjZWV2ZW50XzEuOC43LmJiCkBAIC04LDcgKzgsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9MSUNFTlNFUy9HUEwtMi4wO21kNT1lNmE3NTM3MWJhNGQxNjc0OTI1NGE1MTIx
-NWQxM2Y5NwogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vTElDRU5TRVMvTEdQTC0yLjE7bWQ1
-PWIzNzA4ODc5ODBkYjVkZDQwNjU5YjUwOTA5MjM4ZGJkIgogU0VDVElPTiA9ICJsaWJzIgogCi1T
-UkNSRVYgPSAiOThjMjE3NDI3MTgzZjY2ZjA5ZjRhMjczMDBhZDg3ZDcxODE0YzM4ZiIKK1NSQ1JF
-ViA9ICI3YThmZWU1N2Q4N2FhNjFjOWQ1NzhjZDY3ZTk5ZDI2NzdiODk0NzcyIgogU1JDX1VSSSA9
-ICJnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpYnMvbGlidHJhY2UvbGlidHJhY2VldmVu
-dC5naXQ7YnJhbmNoPSR7QlBOfTtwcm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgIgogCkBAIC0x
-OSwzICsxOSw1IEBAIEVYVFJBX09FTUVTT04gPSAiLURkb2M9ZmFsc2UiCiBQQUNLQUdFUyArPSAi
-JHtQTn0tcGx1Z2lucyIKIAogRklMRVM6JHtQTn0tcGx1Z2lucyArPSAiJHtsaWJkaXJ9L3RyYWNl
-ZXZlbnQvcGx1Z2lucyIKKworQlBOID0gImxpYnRyYWNlZXZlbnQtdjEuOCIKLS0gCjIuNDcuMQoK
+CkRhdGU6IFRodSwgMSBKYW4gMjAyNiAxMDozODo0NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHhv
+cmdwcm90bzogdXBncmFkZSAyMDI0LjEgLT4gMjAyNS4xCgotLS0KIC4uLi94b3JnLXByb3RvL3t4
+b3JncHJvdG9fMjAyNC4xLmJiID0+IHhvcmdwcm90b18yMDI1LjEuYmJ9ICAgICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1ncmFwaGljcy94b3JnLXByb3RvL3t4b3JncHJvdG9fMjAyNC4xLmJiID0+IHhvcmdw
+cm90b18yMDI1LjEuYmJ9ICg5MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L3hvcmctcHJvdG8veG9yZ3Byb3RvXzIwMjQuMS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94
+b3JnLXByb3RvL3hvcmdwcm90b18yMDI1LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5MCUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctcHJvdG8veG9yZ3Byb3RvXzIwMjQuMS5i
+YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctcHJvdG8veG9yZ3Byb3RvXzIw
+MjUuMS5iYgppbmRleCBkNzlkYzIzZjFiLi5lMTg3YzU2ZmJjIDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3MveG9yZy1wcm90by94b3JncHJvdG9fMjAyNC4xLmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy94b3JnLXByb3RvL3hvcmdwcm90b18yMDI1LjEuYmIKQEAgLTksNyAr
+OSw3IEBAIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlO
+Ry14MTFwcm90bzttZDU9MGI5ZmUzZGI0MDE1YmNiZTkyMGU3YzY3YTM5ZWUzZjEiCiAKIFNSQ19V
+UkkgPSAiJHtYT1JHX01JUlJPUn0vaW5kaXZpZHVhbC9wcm90by8ke0JQfS50YXIueHoiCi1TUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiMzcyMjI1ZmQ0MDgxNWI4NDIzNTQ3ZjVkODkwYzVkZWJjNzJlODhi
+OTEwODhmYmZiMTMxNThjMjA0OTVjY2I1OSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI1Njg5OGM3
+MTZjMDU3OGRmOGEyZDgyOGM5YzNlNWM1MjgyNzc3MDVjMDQ4NDM4MWE4MTk2MGZlMWE2NzY2OGU4
+IgogCiBpbmhlcml0IG1lc29uCiAKLS0gCjIuNDcuMQoK
 
---===============4108577557603659044==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/libtraceevent/libtraceevent: FILELIST: removed "/usr/lib/libtraceevent.so.1.8.6", added "/usr/lib/libtraceevent.so.1.8.7"
-Changes to packages/x86-64-v3-poky-linux/libtraceevent (sysroot):
-  /usr/lib/libtraceevent.so.1 changed symlink target from libtraceevent.so.1.8.6 to libtraceevent.so.1.8.7
-  /usr/lib/libtraceevent.so.1.8.6 moved to /usr/lib/libtraceevent.so.1.8.7
-
---===============4108577557603659044==--
+--===============4056746140242408597==--
 
