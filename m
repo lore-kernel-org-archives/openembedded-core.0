@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F2E0EED609
-	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 13:14:02 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.103993.1767273235724786851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F372EED60F
+	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 14:16:12 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.104885.1767276968188316402
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jan 2026 05:13:57 -0800
+ Thu, 01 Jan 2026 06:16:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=FhRzcLwn;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260101131352ccf7732ad4000207aa-5lh4sv@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260101131352ccf7732ad4000207aa
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=RCtKnLqk;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-2026010114160639d454019000020740-wbmjuj@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2026010114160639d454019000020740
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 01 Jan 2026 14:13:52 +0100
+        Thu, 01 Jan 2026 15:16:06 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=18DzUy3JIx/fUKpGReHvp8VC+ZM0FiJ7iIU/CCA6Gqw=;
- b=FhRzcLwna7zRc3j5cJo7g+hYG59HaPegUDG7UInFjLo2LMpbUv5fXLzw/YY6EZLoT0oDGA
- 4ls2U5tGdbaHEuPdIjs2JtdHCOR2Vc2CBCZ0RxxmMLIKEt68EZWA3IgYi80gFTJWbmR3sN8O
- WzBiKFlbMBfFWScOOyMCt6F5R5JjV1ZEo5E3oPOo1wBFjdfzONjvRuN+Hn6S5ZdckMXMBWgN
- Wj6VDOw5jr6YKEaAzB/EwOGQHwmTUQ/CqC7+Z19Ml1QqiK23csHvRU6C05Mw2JskxLU413id
- QGjAATgIF6+RrD3olXXbKrCJTfDtplKz6dFezlAMHid9hBfmt4V/KZGw==;
+ bh=p28UKuuku86hiyUjwBddthBIZ7rmEgWMd8nKSc5tImU=;
+ b=RCtKnLqkjgEcy53Aew4Ug+YW3h1sUMd304C56bcCPzcUhjeNPCczjDFkf4ZiPmaIo9fz56
+ /jZNtzIfADiC+KDDxt19LL9fj1TAgx1IZwMgi4hYok418AtDAugBbQQoZ5rUMajgv2LhKznM
+ NKFm2ok68btBmK5pRX1vPT27RaA2mHFzLRmBQWj4MrHhstWCj/O/s3yNz7n5ZPGDpI1IikUz
+ fckSj45KvEfed7Srofz8m7fgNheLlWTliQGFGEF3HtV8o7etdV7Du3CevogciQ1Bufv9rEbb
+ Ncenvq4EUFPen2eyxi+aRGfUQzN9MqVJg2N6PNq5qqelNf6HzDBHzFCg==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] dropbear: upgrade 2025.88 -> 2025.89
-Date: Thu,  1 Jan 2026 14:13:48 +0100
-Message-Id: <20260101131348.69745-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] dropbear: patch CVE-2019-6111
+Date: Thu,  1 Jan 2026 15:16:02 +0100
+Message-Id: <20260101141602.113824-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,138 +36,193 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 13:14:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228820
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 14:16:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228822
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Solves CVE-2025-14282 and CVE-2019-6111.
-
-Release notes:
-* https://github.com/mkj/dropbear/releases/tag/DROPBEAR_2025.89
-
-Drop patch included in this release and refresh other patches.
+Pick patch mentioning this CVE number.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../0001-Fix-proxycmd-without-netcat.patch    | 74 -------------------
- ...1-urandom-xauth-changes-to-options.h.patch |  2 +-
- ...ropbear_2025.88.bb => dropbear_2025.89.bb} |  3 +-
- 3 files changed, 2 insertions(+), 77 deletions(-)
- delete mode 100644 meta/recipes-core/dropbear/dropbear/0001-Fix-proxycmd-without-netcat.patch
- rename meta/recipes-core/dropbear/{dropbear_2025.88.bb => dropbear_2025.89.bb} (97%)
+ .../dropbear/dropbear/CVE-2019-6111.patch     | 157 ++++++++++++++++++
+ .../recipes-core/dropbear/dropbear_2022.83.bb |   1 +
+ 2 files changed, 158 insertions(+)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111.patch
 
-diff --git a/meta/recipes-core/dropbear/dropbear/0001-Fix-proxycmd-without-netcat.patch b/meta/recipes-core/dropbear/dropbear/0001-Fix-proxycmd-without-netcat.patch
-deleted file mode 100644
-index 967b66322f..0000000000
---- a/meta/recipes-core/dropbear/dropbear/0001-Fix-proxycmd-without-netcat.patch
-+++ /dev/null
-@@ -1,74 +0,0 @@
--From 5cc0127000db5f7567b54d0495fb91a8e452fe09 Mon Sep 17 00:00:00 2001
--From: Konstantin Demin <rockdrilla@gmail.com>
--Date: Fri, 9 May 2025 22:39:35 +0300
--Subject: [PATCH] Fix proxycmd without netcat
--
--fixes e5a0ef27c2 "Execute multihop commands directly, no shell"
--
--Signed-off-by: Konstantin Demin <rockdrilla@gmail.com>
--
--Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/5cc0127000db5f7567b54d0495fb91a8e452fe09]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- src/cli-main.c | 12 +++++++++++-
-- 1 file changed, 11 insertions(+), 1 deletion(-)
--
--diff --git a/src/cli-main.c b/src/cli-main.c
--index 2fafa88..0a052a3 100644
----- a/src/cli-main.c
--+++ b/src/cli-main.c
--@@ -77,7 +77,11 @@ int main(int argc, char ** argv) {
-- 	}
-- 
-- #if DROPBEAR_CLI_PROXYCMD
---	if (cli_opts.proxycmd || cli_opts.proxyexec) {
--+	if (cli_opts.proxycmd
--+#if DROPBEAR_CLI_MULTIHOP
--+		|| cli_opts.proxyexec
--+#endif
--+	) {
-- 		cli_proxy_cmd(&sock_in, &sock_out, &proxy_cmd_pid);
-- 		if (signal(SIGINT, kill_proxy_sighandler) == SIG_ERR ||
-- 			signal(SIGTERM, kill_proxy_sighandler) == SIG_ERR ||
--@@ -110,11 +114,13 @@ static void shell_proxy_cmd(const void *user_data_cmd) {
-- 	dropbear_exit("Failed to run '%s'\n", cmd);
-- }
-- 
--+#if DROPBEAR_CLI_MULTIHOP
-- static void exec_proxy_cmd(const void *unused) {
-- 	(void)unused;
-- 	run_command(cli_opts.proxyexec[0], cli_opts.proxyexec, ses.maxfd);
-- 	dropbear_exit("Failed to run '%s'\n", cli_opts.proxyexec[0]);
-- }
--+#endif
-- 
-- static void cli_proxy_cmd(int *sock_in, int *sock_out, pid_t *pid_out) {
-- 	char * cmd_arg = NULL;
--@@ -145,9 +151,11 @@ static void cli_proxy_cmd(int *sock_in, int *sock_out, pid_t *pid_out) {
-- 		cmd_arg = m_malloc(shell_cmdlen);
-- 		snprintf(cmd_arg, shell_cmdlen, "exec %s", cli_opts.proxycmd);
-- 		exec_fn = shell_proxy_cmd;
--+#if DROPBEAR_CLI_MULTIHOP
-- 	} else {
-- 		/* No shell */
-- 		exec_fn = exec_proxy_cmd;
--+#endif
-- 	}
-- 
-- 	ret = spawn_command(exec_fn, cmd_arg, sock_out, sock_in, NULL, pid_out);
--@@ -159,6 +167,7 @@ static void cli_proxy_cmd(int *sock_in, int *sock_out, pid_t *pid_out) {
-- cleanup:
-- 	m_free(cli_opts.proxycmd);
-- 	m_free(cmd_arg);
--+#if DROPBEAR_CLI_MULTIHOP
-- 	if (cli_opts.proxyexec) {
-- 		char **a = NULL;
-- 		for (a = cli_opts.proxyexec; *a; a++) {
--@@ -166,6 +175,7 @@ cleanup:
-- 		}
-- 		m_free(cli_opts.proxyexec);
-- 	}
--+#endif
-- }
-- 
-- static void kill_proxy_sighandler(int UNUSED(signo)) {
-diff --git a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-index 0687e5dab1..a662230b88 100644
---- a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-+++ b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-@@ -12,7 +12,7 @@ diff --git a/src/default_options.h b/src/default_options.h
- index 6e970bb..ccc8b47 100644
- --- a/src/default_options.h
- +++ b/src/default_options.h
--@@ -317,7 +317,7 @@ group1 in Dropbear server too */
-+@@ -323,7 +323,7 @@ group1 in Dropbear server too */
-  
-  /* The command to invoke for xauth when using X11 forwarding.
-   * "-q" for quiet */
-diff --git a/meta/recipes-core/dropbear/dropbear_2025.88.bb b/meta/recipes-core/dropbear/dropbear_2025.89.bb
-similarity index 97%
-rename from meta/recipes-core/dropbear/dropbear_2025.88.bb
-rename to meta/recipes-core/dropbear/dropbear_2025.89.bb
-index 72a886d907..957a0901fb 100644
---- a/meta/recipes-core/dropbear/dropbear_2025.88.bb
-+++ b/meta/recipes-core/dropbear/dropbear_2025.89.bb
-@@ -19,11 +19,10 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            file://dropbear@.service \
-            file://dropbear.socket \
-            file://dropbear.default \
--           file://0001-Fix-proxycmd-without-netcat.patch \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2019-6111.patch b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111.patch
+new file mode 100644
+index 00000000000..f488ff92c08
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111.patch
+@@ -0,0 +1,157 @@
++From 48a17cff6aa104b8e806ddb2191f83f1024060f1 Mon Sep 17 00:00:00 2001
++From: Matt Johnston <matt@ucc.asn.au>
++Date: Tue, 9 Dec 2025 22:59:19 +0900
++Subject: [PATCH] scp CVE-2019-6111 fix
++
++Cherry-pick from OpenSSH portable
++
++391ffc4b9d31 ("upstream: check in scp client that filenames sent during")
++
++upstream: check in scp client that filenames sent during
++
++remote->local directory copies satisfy the wildcard specified by the user.
++
++This checking provides some protection against a malicious server
++sending unexpected filenames, but it comes at a risk of rejecting wanted
++files due to differences between client and server wildcard expansion rules.
++
++For this reason, this also adds a new -T flag to disable the check.
++
++reported by Harry Sintonen
++fix approach suggested by markus@;
++has been in snaps for ~1wk courtesy deraadt@
++
++CVE: CVE-2019-6111
++Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/48a17cff6aa104b8e806ddb2191f83f1024060f1]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ scp.c | 38 +++++++++++++++++++++++++++++---------
++ 1 file changed, 29 insertions(+), 9 deletions(-)
++
++diff --git a/scp.c b/scp.c
++index 384f2cb..bf98986 100644
++--- a/scp.c
+++++ b/scp.c
++@@ -76,6 +76,8 @@
++ #include "includes.h"
++ /*RCSID("$OpenBSD: scp.c,v 1.130 2006/01/31 10:35:43 djm Exp $");*/
++ 
+++#include <fnmatch.h>
+++
++ #include "atomicio.h"
++ #include "compat.h"
++ #include "scpmisc.h"
++@@ -291,14 +293,14 @@ void verifydir(char *);
++ 
++ uid_t userid;
++ int errs, remin, remout;
++-int pflag, iamremote, iamrecursive, targetshouldbedirectory;
+++int Tflag, pflag, iamremote, iamrecursive, targetshouldbedirectory;
++ 
++ #define	CMDNEEDS	64
++ char cmd[CMDNEEDS];		/* must hold "rcp -r -p -d\0" */
++ 
++ int response(void);
++ void rsource(char *, struct stat *);
++-void sink(int, char *[]);
+++void sink(int, char *[], const char *);
++ void source(int, char *[]);
++ void tolocal(int, char *[]);
++ void toremote(char *, int, char *[]);
++@@ -325,8 +327,8 @@ main(int argc, char **argv)
++ 	args.list = NULL;
++ 	addargs(&args, "%s", ssh_program);
++ 
++-	fflag = tflag = 0;
++-	while ((ch = getopt(argc, argv, "dfl:prtvBCc:i:P:q1246S:o:F:")) != -1)
+++	fflag = Tflag = tflag = 0;
+++	while ((ch = getopt(argc, argv, "dfl:prtTvBCc:i:P:q1246S:o:F:")) != -1)
++ 		switch (ch) {
++ 		/* User-visible flags. */
++ 		case '1':
++@@ -389,9 +391,12 @@ main(int argc, char **argv)
++ 			setmode(0, O_BINARY);
++ #endif
++ 			break;
+++		case 'T':
+++			Tflag = 1;
+++			break;
++ 		default:
++ 			usage();
++-		}
+++	}
++ 	argc -= optind;
++ 	argv += optind;
++ 
++@@ -409,7 +414,7 @@ main(int argc, char **argv)
++ 	}
++ 	if (tflag) {
++ 		/* Receive data. */
++-		sink(argc, argv);
+++		sink(argc, argv, NULL);
++ 		exit(errs != 0);
++ 	}
++ 	if (argc < 2)
++@@ -589,7 +594,7 @@ tolocal(int argc, char **argv)
++ 			continue;
++ 		}
++ 		xfree(bp);
++-		sink(1, argv + argc - 1);
+++		sink(1, argv + argc - 1, src);
++ 		(void) close(remin);
++ 		remin = remout = -1;
++ 	}
++@@ -822,7 +827,7 @@ bwlimit(int amount)
++ }
++ 
++ void
++-sink(int argc, char **argv)
+++sink(int argc, char **argv, const char *src)
++ {
++ 	static BUF buffer;
++ 	struct stat stb;
++@@ -836,6 +841,7 @@ sink(int argc, char **argv)
++ 	off_t size, statbytes;
++ 	int setimes, targisdir, wrerrno = 0;
++ 	char ch, *cp, *np, *targ, *why, *vect[1], buf[2048];
+++	char *src_copy = NULL, *restrict_pattern = NULL;
++ 	struct timeval tv[2];
++ 
++ #define	atime	tv[0]
++@@ -857,6 +863,17 @@ sink(int argc, char **argv)
++ 	(void) atomicio(vwrite, remout, "", 1);
++ 	if (stat(targ, &stb) == 0 && S_ISDIR(stb.st_mode))
++ 		targisdir = 1;
+++	if (src != NULL && !iamrecursive && !Tflag) {
+++		/*
+++		 * Prepare to try to restrict incoming filenames to match
+++		 * the requested destination file glob.
+++		 */
+++		if ((src_copy = strdup(src)) == NULL)
+++			fatal("strdup failed");
+++		if ((restrict_pattern = strrchr(src_copy, '/')) != NULL) {
+++			*restrict_pattern++ = '\0';
+++		}
+++	}
++ 	for (first = 1;; first = 0) {
++ 		cp = buf;
++ 		if (atomicio(read, remin, cp, 1) != 1)
++@@ -939,6 +956,9 @@ sink(int argc, char **argv)
++ 			run_err("error: unexpected filename: %s", cp);
++ 			exit(1);
++ 		}
+++		if (restrict_pattern != NULL &&
+++		    fnmatch(restrict_pattern, cp, 0) != 0)
+++			SCREWUP("filename does not match request");
++ 		if (targisdir) {
++ 			static char *namebuf = NULL;
++ 			static size_t cursize = 0;
++@@ -977,7 +997,7 @@ sink(int argc, char **argv)
++ 					goto bad;
++ 			}
++ 			vect[0] = xstrdup(np);
++-			sink(1, vect);
+++			sink(1, vect, src);
++ 			if (setimes) {
++ 				setimes = 0;
++ 				if (utimes(vect[0], tv) < 0)
+diff --git a/meta/recipes-core/dropbear/dropbear_2022.83.bb b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+index 2ed8d2c2a16..93563aa3b47 100644
+--- a/meta/recipes-core/dropbear/dropbear_2022.83.bb
++++ b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+@@ -29,6 +29,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            file://0001-cli-runopts.c-add-missing-DROPBEAR_CLI_PUBKEY_AUTH.patch \
+            file://0001-Avoid-unused-variable-with-DROPBEAR_CLI_PUBKEY_AUTH-.patch \
+            file://CVE-2025-47203.patch \
++           file://CVE-2019-6111.patch \
             "
  
--SRC_URI[sha256sum] = "783f50ea27b17c16da89578fafdb6decfa44bb8f6590e5698a4e4d3672dc53d4"
-+SRC_URI[sha256sum] = "0d1f7ca711cfc336dc8a85e672cab9cfd8223a02fe2da0a4a7aeb58c9e113634"
- MIRRORS += "http://matt.ucc.asn.au/dropbear/releases/ https://dropbear.nl/mirror/releases/"
- 
- PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
+ SRC_URI[sha256sum] = "bc5a121ffbc94b5171ad5ebe01be42746d50aa797c9549a4639894a16749443b"
 
