@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F372EED60F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E503EED60B
 	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 14:16:12 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.104885.1767276968188316402
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.104895.1767276962701106180
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jan 2026 06:16:08 -0800
+ Thu, 01 Jan 2026 06:16:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=RCtKnLqk;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-2026010114160639d454019000020740-wbmjuj@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2026010114160639d454019000020740
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=Bmeappm6;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20260101141559887a4393b10002078e-9gquul@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260101141559887a4393b10002078e
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 01 Jan 2026 15:16:06 +0100
+        Thu, 01 Jan 2026 15:15:59 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=p28UKuuku86hiyUjwBddthBIZ7rmEgWMd8nKSc5tImU=;
- b=RCtKnLqkjgEcy53Aew4Ug+YW3h1sUMd304C56bcCPzcUhjeNPCczjDFkf4ZiPmaIo9fz56
- /jZNtzIfADiC+KDDxt19LL9fj1TAgx1IZwMgi4hYok418AtDAugBbQQoZ5rUMajgv2LhKznM
- NKFm2ok68btBmK5pRX1vPT27RaA2mHFzLRmBQWj4MrHhstWCj/O/s3yNz7n5ZPGDpI1IikUz
- fckSj45KvEfed7Srofz8m7fgNheLlWTliQGFGEF3HtV8o7etdV7Du3CevogciQ1Bufv9rEbb
- Ncenvq4EUFPen2eyxi+aRGfUQzN9MqVJg2N6PNq5qqelNf6HzDBHzFCg==;
+ bh=W2h3m2Rku7a5s3v2e8aONDlqWcxyMQ4RH1rnZ71qmzY=;
+ b=Bmeappm6QYZ1AxEobuXnuXOgMi5s1RCPoB9QrdGF8fdCrFRTC5qMmDfQqUjnFjSCUju78a
+ klsiR29h/GJqqwTeliSrdsZBVe1LFhhXF0LiGUZUwpJblop7xJRJJz15LZI5idu7StQDZNKr
+ R/dtYsKjEbpscTgPgyeMWfye1hj8S8K6u60mDU8Vews7AN4CvnLxYq+FdA0DuXlY9S702Ftb
+ d7lqtCDu8ou3y4G0OO5vk7GSYjNYsvZG/R7pYFCJEF/NiES1F65l1eIu82bUPDMgKdKJmeXt
+ CXreK6JuOTEVxYZAodlg5Jazyo3VIZ8jnD0WipQr9Mi3T2X0ppYGFWLw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] dropbear: patch CVE-2019-6111
-Date: Thu,  1 Jan 2026 15:16:02 +0100
-Message-Id: <20260101141602.113824-1-peter.marko@siemens.com>
+Subject: [OE-core][whinlatter][PATCH] dropbear: patch CVE-2019-6111
+Date: Thu,  1 Jan 2026 15:15:54 +0100
+Message-Id: <20260101141554.113806-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -37,7 +37,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 14:16:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228822
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228821
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -46,13 +46,13 @@ Pick patch mentioning this CVE number.
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../dropbear/dropbear/CVE-2019-6111.patch     | 157 ++++++++++++++++++
- .../recipes-core/dropbear/dropbear_2022.83.bb |   1 +
+ .../recipes-core/dropbear/dropbear_2025.88.bb |   1 +
  2 files changed, 158 insertions(+)
  create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111.patch
 
 diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2019-6111.patch b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111.patch
 new file mode 100644
-index 00000000000..f488ff92c08
+index 0000000000..3ad968aa78
 --- /dev/null
 +++ b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111.patch
 @@ -0,0 +1,157 @@
@@ -83,13 +83,13 @@ index 00000000000..f488ff92c08
 +Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/48a17cff6aa104b8e806ddb2191f83f1024060f1]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ scp.c | 38 +++++++++++++++++++++++++++++---------
++ src/scp.c | 38 +++++++++++++++++++++++++++++---------
 + 1 file changed, 29 insertions(+), 9 deletions(-)
 +
-+diff --git a/scp.c b/scp.c
++diff --git a/src/scp.c b/src/scp.c
 +index 384f2cb..bf98986 100644
-+--- a/scp.c
-++++ b/scp.c
++--- a/src/scp.c
+++++ b/src/scp.c
 +@@ -76,6 +76,8 @@
 + #include "includes.h"
 + /*RCSID("$OpenBSD: scp.c,v 1.130 2006/01/31 10:35:43 djm Exp $");*/
@@ -213,16 +213,16 @@ index 00000000000..f488ff92c08
 + 			if (setimes) {
 + 				setimes = 0;
 + 				if (utimes(vect[0], tv) < 0)
-diff --git a/meta/recipes-core/dropbear/dropbear_2022.83.bb b/meta/recipes-core/dropbear/dropbear_2022.83.bb
-index 2ed8d2c2a16..93563aa3b47 100644
---- a/meta/recipes-core/dropbear/dropbear_2022.83.bb
-+++ b/meta/recipes-core/dropbear/dropbear_2022.83.bb
-@@ -29,6 +29,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            file://0001-cli-runopts.c-add-missing-DROPBEAR_CLI_PUBKEY_AUTH.patch \
-            file://0001-Avoid-unused-variable-with-DROPBEAR_CLI_PUBKEY_AUTH-.patch \
-            file://CVE-2025-47203.patch \
+diff --git a/meta/recipes-core/dropbear/dropbear_2025.88.bb b/meta/recipes-core/dropbear/dropbear_2025.88.bb
+index 72a886d907..05af557b21 100644
+--- a/meta/recipes-core/dropbear/dropbear_2025.88.bb
++++ b/meta/recipes-core/dropbear/dropbear_2025.88.bb
+@@ -21,6 +21,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            file://dropbear.default \
+            file://0001-Fix-proxycmd-without-netcat.patch \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
 +           file://CVE-2019-6111.patch \
             "
  
- SRC_URI[sha256sum] = "bc5a121ffbc94b5171ad5ebe01be42746d50aa797c9549a4639894a16749443b"
+ SRC_URI[sha256sum] = "783f50ea27b17c16da89578fafdb6decfa44bb8f6590e5698a4e4d3672dc53d4"
 
