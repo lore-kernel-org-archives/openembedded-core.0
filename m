@@ -2,562 +2,172 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9967EEB588
-	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 12:15:21 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.103374.1767269714189422061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F2E0EED609
+	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 13:14:02 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.103993.1767273235724786851
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jan 2026 04:15:14 -0800
+ Thu, 01 Jan 2026 05:13:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=OYCjqe3F;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20260101121512dc07d866240002076f-jkcte7@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20260101121512dc07d866240002076f
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=FhRzcLwn;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260101131352ccf7732ad4000207aa-5lh4sv@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260101131352ccf7732ad4000207aa
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 01 Jan 2026 13:15:12 +0100
+        Thu, 01 Jan 2026 14:13:52 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=YPtu7NccB9D3EvBAkZWQp/Ok0M8z8TIHuU5fZQvNH5c=;
- b=OYCjqe3F3dbQfAQy8AWtZCR0WRWh6yJbcbrurpjxs0B5FIy88oO3E4e/FKs43knIDCe5h+
- IWhvdPaLx6HAt8yGCLYEJEHNPtgEpXgYZdYl//nxWkgrbdWe48B7LRdoH+9eMGTrPBdo+atO
- R/Q84LpfHYgZJybZmZhSmzmtE1srpU3mI0vY3sHM5LckPQev8Voboc5fEvzER5svka4V2OA4
- 0rwVJxc7GwhsnlW/nKdjp7RPvvgDdb6uAOMuwSL1iOyxcLk+M7NgKh6hf7JpP9M+6JI6gfwm
- qIwEJtr+GluwSwdBB0iE3nzzHjSUhPvLqCU9zsxPh3HZsZm8UO+OtgVw==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=18DzUy3JIx/fUKpGReHvp8VC+ZM0FiJ7iIU/CCA6Gqw=;
+ b=FhRzcLwna7zRc3j5cJo7g+hYG59HaPegUDG7UInFjLo2LMpbUv5fXLzw/YY6EZLoT0oDGA
+ 4ls2U5tGdbaHEuPdIjs2JtdHCOR2Vc2CBCZ0RxxmMLIKEt68EZWA3IgYi80gFTJWbmR3sN8O
+ WzBiKFlbMBfFWScOOyMCt6F5R5JjV1ZEo5E3oPOo1wBFjdfzONjvRuN+Hn6S5ZdckMXMBWgN
+ Wj6VDOw5jr6YKEaAzB/EwOGQHwmTUQ/CqC7+Z19Ml1QqiK23csHvRU6C05Mw2JskxLU413id
+ QGjAATgIF6+RrD3olXXbKrCJTfDtplKz6dFezlAMHid9hBfmt4V/KZGw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH 2/3] cups: patch CVE-2025-61915
-Date: Thu,  1 Jan 2026 13:14:58 +0100
-Message-Id: <20260101121459.7191-2-peter.marko@siemens.com>
-In-Reply-To: <20260101121459.7191-1-peter.marko@siemens.com>
-References: <20260101121459.7191-1-peter.marko@siemens.com>
+Subject: [OE-core][PATCH] dropbear: upgrade 2025.88 -> 2025.89
+Date: Thu,  1 Jan 2026 14:13:48 +0100
+Message-Id: <20260101131348.69745-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 12:15:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228818
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 13:14:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228820
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch per [1].
+Solves CVE-2025-14282 and CVE-2019-6111.
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2025-61915
+Release notes:
+* https://github.com/mkj/dropbear/releases/tag/DROPBEAR_2025.89
+
+Drop patch included in this release and refresh other patches.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-extended/cups/cups.inc           |   1 +
- .../cups/cups/CVE-2025-61915.patch            | 487 ++++++++++++++++++
- 2 files changed, 488 insertions(+)
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2025-61915.patch
+ .../0001-Fix-proxycmd-without-netcat.patch    | 74 -------------------
+ ...1-urandom-xauth-changes-to-options.h.patch |  2 +-
+ ...ropbear_2025.88.bb => dropbear_2025.89.bb} |  3 +-
+ 3 files changed, 2 insertions(+), 77 deletions(-)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear/0001-Fix-proxycmd-without-netcat.patch
+ rename meta/recipes-core/dropbear/{dropbear_2025.88.bb => dropbear_2025.89.bb} (97%)
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index c808eef9a7e..ce55a8ef6fa 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -28,6 +28,7 @@ SRC_URI = "https://github.com/OpenPrinting/cups/releases/download/v${PV}/cups-${
- 	   file://CVE-2025-58060.patch \
- 	   file://CVE-2025-58364.patch \
-            file://CVE-2025-58436.patch \
-+           file://CVE-2025-61915.patch \
+diff --git a/meta/recipes-core/dropbear/dropbear/0001-Fix-proxycmd-without-netcat.patch b/meta/recipes-core/dropbear/dropbear/0001-Fix-proxycmd-without-netcat.patch
+deleted file mode 100644
+index 967b66322f..0000000000
+--- a/meta/recipes-core/dropbear/dropbear/0001-Fix-proxycmd-without-netcat.patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-From 5cc0127000db5f7567b54d0495fb91a8e452fe09 Mon Sep 17 00:00:00 2001
+-From: Konstantin Demin <rockdrilla@gmail.com>
+-Date: Fri, 9 May 2025 22:39:35 +0300
+-Subject: [PATCH] Fix proxycmd without netcat
+-
+-fixes e5a0ef27c2 "Execute multihop commands directly, no shell"
+-
+-Signed-off-by: Konstantin Demin <rockdrilla@gmail.com>
+-
+-Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/5cc0127000db5f7567b54d0495fb91a8e452fe09]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- src/cli-main.c | 12 +++++++++++-
+- 1 file changed, 11 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/cli-main.c b/src/cli-main.c
+-index 2fafa88..0a052a3 100644
+---- a/src/cli-main.c
+-+++ b/src/cli-main.c
+-@@ -77,7 +77,11 @@ int main(int argc, char ** argv) {
+- 	}
+- 
+- #if DROPBEAR_CLI_PROXYCMD
+--	if (cli_opts.proxycmd || cli_opts.proxyexec) {
+-+	if (cli_opts.proxycmd
+-+#if DROPBEAR_CLI_MULTIHOP
+-+		|| cli_opts.proxyexec
+-+#endif
+-+	) {
+- 		cli_proxy_cmd(&sock_in, &sock_out, &proxy_cmd_pid);
+- 		if (signal(SIGINT, kill_proxy_sighandler) == SIG_ERR ||
+- 			signal(SIGTERM, kill_proxy_sighandler) == SIG_ERR ||
+-@@ -110,11 +114,13 @@ static void shell_proxy_cmd(const void *user_data_cmd) {
+- 	dropbear_exit("Failed to run '%s'\n", cmd);
+- }
+- 
+-+#if DROPBEAR_CLI_MULTIHOP
+- static void exec_proxy_cmd(const void *unused) {
+- 	(void)unused;
+- 	run_command(cli_opts.proxyexec[0], cli_opts.proxyexec, ses.maxfd);
+- 	dropbear_exit("Failed to run '%s'\n", cli_opts.proxyexec[0]);
+- }
+-+#endif
+- 
+- static void cli_proxy_cmd(int *sock_in, int *sock_out, pid_t *pid_out) {
+- 	char * cmd_arg = NULL;
+-@@ -145,9 +151,11 @@ static void cli_proxy_cmd(int *sock_in, int *sock_out, pid_t *pid_out) {
+- 		cmd_arg = m_malloc(shell_cmdlen);
+- 		snprintf(cmd_arg, shell_cmdlen, "exec %s", cli_opts.proxycmd);
+- 		exec_fn = shell_proxy_cmd;
+-+#if DROPBEAR_CLI_MULTIHOP
+- 	} else {
+- 		/* No shell */
+- 		exec_fn = exec_proxy_cmd;
+-+#endif
+- 	}
+- 
+- 	ret = spawn_command(exec_fn, cmd_arg, sock_out, sock_in, NULL, pid_out);
+-@@ -159,6 +167,7 @@ static void cli_proxy_cmd(int *sock_in, int *sock_out, pid_t *pid_out) {
+- cleanup:
+- 	m_free(cli_opts.proxycmd);
+- 	m_free(cmd_arg);
+-+#if DROPBEAR_CLI_MULTIHOP
+- 	if (cli_opts.proxyexec) {
+- 		char **a = NULL;
+- 		for (a = cli_opts.proxyexec; *a; a++) {
+-@@ -166,6 +175,7 @@ cleanup:
+- 		}
+- 		m_free(cli_opts.proxyexec);
+- 	}
+-+#endif
+- }
+- 
+- static void kill_proxy_sighandler(int UNUSED(signo)) {
+diff --git a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
+index 0687e5dab1..a662230b88 100644
+--- a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
++++ b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
+@@ -12,7 +12,7 @@ diff --git a/src/default_options.h b/src/default_options.h
+ index 6e970bb..ccc8b47 100644
+ --- a/src/default_options.h
+ +++ b/src/default_options.h
+-@@ -317,7 +317,7 @@ group1 in Dropbear server too */
++@@ -323,7 +323,7 @@ group1 in Dropbear server too */
+  
+  /* The command to invoke for xauth when using X11 forwarding.
+   * "-q" for quiet */
+diff --git a/meta/recipes-core/dropbear/dropbear_2025.88.bb b/meta/recipes-core/dropbear/dropbear_2025.89.bb
+similarity index 97%
+rename from meta/recipes-core/dropbear/dropbear_2025.88.bb
+rename to meta/recipes-core/dropbear/dropbear_2025.89.bb
+index 72a886d907..957a0901fb 100644
+--- a/meta/recipes-core/dropbear/dropbear_2025.88.bb
++++ b/meta/recipes-core/dropbear/dropbear_2025.89.bb
+@@ -19,11 +19,10 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            file://dropbear@.service \
+            file://dropbear.socket \
+            file://dropbear.default \
+-           file://0001-Fix-proxycmd-without-netcat.patch \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
             "
  
- UPSTREAM_CHECK_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/CVE-2025-61915.patch b/meta/recipes-extended/cups/cups/CVE-2025-61915.patch
-new file mode 100644
-index 00000000000..bdab24e0289
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2025-61915.patch
-@@ -0,0 +1,487 @@
-+From db8d560262c22a21ee1e55dfd62fa98d9359bcb0 Mon Sep 17 00:00:00 2001
-+From: Zdenek Dohnal <zdohnal@redhat.com>
-+Date: Fri, 21 Nov 2025 07:36:36 +0100
-+Subject: [PATCH] Fix various issues in cupsd
-+
-+Various issues were found by @SilverPlate3, recognized as CVE-2025-61915:
-+
-+- out of bound write when handling IPv6 addresses,
-+- cupsd crash caused by null dereference when ErrorPolicy value is empty,
-+
-+On the top of that, Mike Sweet noticed vulnerability via domain socket,
-+exploitable locally if attacker has access to domain socket and knows username
-+of user within a group which is present in CUPS system groups:
-+
-+- rewrite of cupsd.conf via PeerCred authorization via domain socket
-+
-+The last vulnerability is fixed by introducing PeerCred directive for cups-files.conf,
-+which controls whether PeerCred is enabled/disabled for user in CUPS system groups.
-+
-+Fixes CVE-2025-61915
-+
-+CVE: CVE-2025-61915
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/db8d560262c22a21ee1e55dfd62fa98d9359bcb0]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ conf/cups-files.conf.in              |  3 ++
-+ config-scripts/cups-defaults.m4      |  9 +++++
-+ config.h.in                          |  7 ++++
-+ configure                            | 22 ++++++++++
-+ doc/help/man-cups-files.conf.html    |  9 ++++-
-+ man/cups-files.conf.5                | 17 ++++++--
-+ scheduler/auth.c                     |  8 +++-
-+ scheduler/auth.h                     |  7 ++++
-+ scheduler/client.c                   |  2 +-
-+ scheduler/conf.c                     | 60 ++++++++++++++++++++++++----
-+ test/run-stp-tests.sh                |  2 +-
-+ vcnet/config.h                       |  7 ++++
-+ xcode/CUPS.xcodeproj/project.pbxproj |  2 -
-+ xcode/config.h                       |  7 ++++
-+ 14 files changed, 145 insertions(+), 17 deletions(-)
-+
-+diff --git a/conf/cups-files.conf.in b/conf/cups-files.conf.in
-+index f96f745ae..6db139297 100644
-+--- a/conf/cups-files.conf.in
-++++ b/conf/cups-files.conf.in
-+@@ -19,6 +19,9 @@
-+ SystemGroup @CUPS_SYSTEM_GROUPS@
-+ @CUPS_SYSTEM_AUTHKEY@
-+ 
-++# Are Unix domain socket peer credentials used for authorization?
-++PeerCred @CUPS_PEER_CRED@
-++
-+ # User that is substituted for unauthenticated (remote) root accesses...
-+ #RemoteRoot remroot
-+ 
-+diff --git a/config-scripts/cups-defaults.m4 b/config-scripts/cups-defaults.m4
-+index 999a8849d..fc9ba4a02 100644
-+--- a/config-scripts/cups-defaults.m4
-++++ b/config-scripts/cups-defaults.m4
-+@@ -129,6 +129,15 @@ AC_ARG_WITH([log_level], AS_HELP_STRING([--with-log-level], [set default LogLeve
-+ AC_SUBST([CUPS_LOG_LEVEL])
-+ AC_DEFINE_UNQUOTED([CUPS_DEFAULT_LOG_LEVEL], ["$CUPS_LOG_LEVEL"], [Default LogLevel value.])
-+ 
-++dnl Default PeerCred
-++AC_ARG_WITH([peer_cred], AS_HELP_STRING([--with-peer-cred], [set default PeerCred value (on/off/root-only), default=on]), [
-++    CUPS_PEER_CRED="$withval"
-++], [
-++    CUPS_PEER_CRED="on"
-++])
-++AC_SUBST([CUPS_PEER_CRED])
-++AC_DEFINE_UNQUOTED([CUPS_DEFAULT_PEER_CRED], ["$CUPS_PEER_CRED"], [Default PeerCred value.])
-++
-+ dnl Default AccessLogLevel
-+ AC_ARG_WITH(access_log_level, [  --with-access-log-level set default AccessLogLevel value, default=none],
-+ 	CUPS_ACCESS_LOG_LEVEL="$withval",
-+diff --git a/config.h.in b/config.h.in
-+index 207df66a7..37c279088 100644
-+--- a/config.h.in
-++++ b/config.h.in
-+@@ -86,6 +86,13 @@
-+ #define CUPS_DEFAULT_ERROR_POLICY "stop-printer"
-+ 
-+ 
-++/*
-++ * Default PeerCred value...
-++ */
-++
-++#define CUPS_DEFAULT_PEER_CRED "on"
-++
-++
-+ /*
-+  * Default MaxCopies value...
-+  */
-+diff --git a/configure b/configure
-+index a38ebded9..1721634ba 100755
-+--- a/configure
-++++ b/configure
-+@@ -672,6 +672,7 @@ CUPS_BROWSING
-+ CUPS_SYNC_ON_CLOSE
-+ CUPS_PAGE_LOG_FORMAT
-+ CUPS_ACCESS_LOG_LEVEL
-++CUPS_PEER_CRED
-+ CUPS_LOG_LEVEL
-+ CUPS_FATAL_ERRORS
-+ CUPS_ERROR_POLICY
-+@@ -925,6 +926,7 @@ with_max_log_size
-+ with_error_policy
-+ with_fatal_errors
-+ with_log_level
-++with_peer_cred
-+ with_access_log_level
-+ enable_page_logging
-+ enable_sync_on_close
-+@@ -1659,6 +1661,8 @@ Optional Packages:
-+   --with-error-policy     set default ErrorPolicy value, default=stop-printer
-+   --with-fatal-errors     set default FatalErrors value, default=config
-+   --with-log-level        set default LogLevel value, default=warn
-++  --with-peer-cred        set default PeerCred value (on/off/root-only),
-++                          default=on
-+   --with-access-log-level set default AccessLogLevel value, default=none
-+   --with-local-protocols  set default BrowseLocalProtocols, default=""
-+   --with-cups-user        set default user for CUPS
-+@@ -11652,6 +11656,24 @@ printf "%s\n" "#define CUPS_DEFAULT_LOG_LEVEL \"$CUPS_LOG_LEVEL\"" >>confdefs.h
-+ 
-+ 
-+ 
-++# Check whether --with-peer_cred was given.
-++if test ${with_peer_cred+y}
-++then :
-++  withval=$with_peer_cred;
-++    CUPS_PEER_CRED="$withval"
-++
-++else $as_nop
-++
-++    CUPS_PEER_CRED="on"
-++
-++fi
-++
-++
-++
-++printf "%s\n" "#define CUPS_DEFAULT_PEER_CRED \"$CUPS_PEER_CRED\"" >>confdefs.h
-++
-++
-++
-+ # Check whether --with-access_log_level was given.
-+ if test ${with_access_log_level+y}
-+ then :
-+diff --git a/doc/help/man-cups-files.conf.html b/doc/help/man-cups-files.conf.html
-+index 440f033d5..5a9ddefeb 100644
-+--- a/doc/help/man-cups-files.conf.html
-++++ b/doc/help/man-cups-files.conf.html
-+@@ -119,6 +119,13 @@ The default is "/var/log/cups/page_log".
-+ <dt><a name="PassEnv"></a><b>PassEnv </b><i>variable </i>[ ... <i>variable </i>]
-+ <dd style="margin-left: 5.0em">Passes the specified environment variable(s) to child processes.
-+ Note: the standard CUPS filter and backend environment variables cannot be overridden using this directive.
-++<dt><a name="PeerCred"></a><b>PeerCred off</b>
-++<dd style="margin-left: 5.0em"><dt><b>PeerCred on</b>
-++<dd style="margin-left: 5.0em"><dt><b>PeerCred root-only</b>
-++<dd style="margin-left: 5.0em">Specifies whether peer credentials are used for authorization when communicating over the UNIX domain socket.
-++When <b>on</b>, the peer credentials of any user are accepted for authorization.
-++The value <b>off</b> disables the use of peer credentials entirely, while the value <b>root-only</b> allows peer credentials only for the root user.
-++Note: for security reasons, the <b>on</b> setting is reduced to <b>root-only</b> for authorization of PUT requests.
-+ <dt><a name="RemoteRoot"></a><b>RemoteRoot </b><i>username</i>
-+ <dd style="margin-left: 5.0em">Specifies the username that is associated with unauthenticated accesses by clients claiming to be the root user.
-+ The default is "remroot".
-+@@ -199,7 +206,7 @@ command is used instead.
-+ <a href="man-subscriptions.conf.html?TOPIC=Man+Pages"><b>subscriptions.conf</b>(5),</a>
-+ CUPS Online Help (<a href="http://localhost:631/help">http://localhost:631/help</a>)
-+ <h2 class="title"><a name="COPYRIGHT">Copyright</a></h2>
-+-Copyright &copy; 2020-2022 by OpenPrinting.
-++Copyright &copy; 2020-2025 by OpenPrinting.
-+ 
-+ </body>
-+ </html>
-+diff --git a/man/cups-files.conf.5 b/man/cups-files.conf.5
-+index ec16c9e13..18ce2be00 100644
-+--- a/man/cups-files.conf.5
-++++ b/man/cups-files.conf.5
-+@@ -1,14 +1,14 @@
-+ .\"
-+ .\" cups-files.conf man page for CUPS.
-+ .\"
-+-.\" Copyright © 2020-2022 by OpenPrinting.
-++.\" Copyright © 2020-2025 by OpenPrinting.
-+ .\" Copyright © 2007-2019 by Apple Inc.
-+ .\" Copyright © 1997-2006 by Easy Software Products.
-+ .\"
-+ .\" Licensed under Apache License v2.0.  See the file "LICENSE" for more
-+ .\" information.
-+ .\"
-+-.TH cups-files.conf 5 "CUPS" "2021-03-06" "OpenPrinting"
-++.TH cups-files.conf 5 "CUPS" "2025-10-08" "OpenPrinting"
-+ .SH NAME
-+ cups\-files.conf \- file and directory configuration file for cups
-+ .SH DESCRIPTION
-+@@ -166,6 +166,17 @@ The default is "/var/log/cups/page_log".
-+ \fBPassEnv \fIvariable \fR[ ... \fIvariable \fR]
-+ Passes the specified environment variable(s) to child processes.
-+ Note: the standard CUPS filter and backend environment variables cannot be overridden using this directive.
-++.\"#PeerCred
-++.TP 5
-++\fBPeerCred off\fR
-++.TP 5
-++\fBPeerCred on\fR
-++.TP 5
-++\fBPeerCred root-only\fR
-++Specifies whether peer credentials are used for authorization when communicating over the UNIX domain socket.
-++When \fBon\fR, the peer credentials of any user are accepted for authorization.
-++The value \fBoff\fR disables the use of peer credentials entirely, while the value \fBroot-only\fR allows peer credentials only for the root user.
-++Note: for security reasons, the \fBon\fR setting is reduced to \fBroot-only\fR for authorization of PUT requests.
-+ .\"#RemoteRoot
-+ .TP 5
-+ \fBRemoteRoot \fIusername\fR
-+@@ -278,4 +289,4 @@ command is used instead.
-+ .BR subscriptions.conf (5),
-+ CUPS Online Help (http://localhost:631/help)
-+ .SH COPYRIGHT
-+-Copyright \[co] 2020-2022 by OpenPrinting.
-++Copyright \[co] 2020-2025 by OpenPrinting.
-+diff --git a/scheduler/auth.c b/scheduler/auth.c
-+index 3c9aa72aa..bd0d28a0e 100644
-+--- a/scheduler/auth.c
-++++ b/scheduler/auth.c
-+@@ -398,7 +398,7 @@ cupsdAuthorize(cupsd_client_t *con)	/* I - Client connection */
-+   }
-+ #endif /* HAVE_AUTHORIZATION_H */
-+ #if defined(SO_PEERCRED) && defined(AF_LOCAL)
-+-  else if (!strncmp(authorization, "PeerCred ", 9) &&
-++  else if (PeerCred != CUPSD_PEERCRED_OFF && !strncmp(authorization, "PeerCred ", 9) &&
-+            con->http->hostaddr->addr.sa_family == AF_LOCAL && con->best)
-+   {
-+    /*
-+@@ -441,6 +441,12 @@ cupsdAuthorize(cupsd_client_t *con)	/* I - Client connection */
-+     }
-+ #endif /* HAVE_AUTHORIZATION_H */
-+ 
-++    if ((PeerCred == CUPSD_PEERCRED_ROOTONLY || httpGetState(con->http) == HTTP_STATE_PUT_RECV) && strcmp(authorization + 9, "root"))
-++    {
-++      cupsdLogClient(con, CUPSD_LOG_INFO, "User \"%s\" is not allowed to use peer credentials.", authorization + 9);
-++      return;
-++    }
-++
-+     if ((pwd = getpwnam(authorization + 9)) == NULL)
-+     {
-+       cupsdLogClient(con, CUPSD_LOG_ERROR, "User \"%s\" does not exist.", authorization + 9);
-+diff --git a/scheduler/auth.h b/scheduler/auth.h
-+index ee98e92c7..fdf71213f 100644
-+--- a/scheduler/auth.h
-++++ b/scheduler/auth.h
-+@@ -50,6 +50,10 @@
-+ #define CUPSD_AUTH_LIMIT_ALL	127	/* Limit all requests */
-+ #define CUPSD_AUTH_LIMIT_IPP	128	/* Limit IPP requests */
-+ 
-++#define CUPSD_PEERCRED_OFF	0	/* Don't allow PeerCred authorization */
-++#define CUPSD_PEERCRED_ON	1	/* Allow PeerCred authorization for all users */
-++#define CUPSD_PEERCRED_ROOTONLY	2	/* Allow PeerCred authorization for root user */
-++
-+ #define IPP_ANY_OPERATION	(ipp_op_t)0
-+ 					/* Any IPP operation */
-+ #define IPP_BAD_OPERATION	(ipp_op_t)-1
-+@@ -107,6 +111,9 @@ typedef struct cupsd_client_s cupsd_client_t;
-+ 
-+ VAR cups_array_t	*Locations	VALUE(NULL);
-+ 					/* Authorization locations */
-++VAR int			PeerCred	VALUE(CUPSD_PEERCRED_ON);
-++					/* Allow PeerCred authorization? */
-++
-+ #ifdef HAVE_TLS
-+ VAR http_encryption_t	DefaultEncryption VALUE(HTTP_ENCRYPT_REQUIRED);
-+ 					/* Default encryption for authentication */
-+diff --git a/scheduler/client.c b/scheduler/client.c
-+index 9593c9138..d961c15db 100644
-+--- a/scheduler/client.c
-++++ b/scheduler/client.c
-+@@ -2143,7 +2143,7 @@ cupsdSendHeader(
-+       auth_size = sizeof(auth_str) - (size_t)(auth_key - auth_str);
-+ 
-+ #if defined(SO_PEERCRED) && defined(AF_LOCAL)
-+-      if (httpAddrFamily(httpGetAddress(con->http)) == AF_LOCAL)
-++      if (PeerCred != CUPSD_PEERCRED_OFF && httpAddrFamily(httpGetAddress(con->http)) == AF_LOCAL)
-+       {
-+         strlcpy(auth_key, ", PeerCred", auth_size);
-+         auth_key += 10;
-+diff --git a/scheduler/conf.c b/scheduler/conf.c
-+index db4104ec5..7d6da0252 100644
-+--- a/scheduler/conf.c
-++++ b/scheduler/conf.c
-+@@ -47,6 +47,7 @@ typedef enum
-+ {
-+   CUPSD_VARTYPE_INTEGER,		/* Integer option */
-+   CUPSD_VARTYPE_TIME,			/* Time interval option */
-++  CUPSD_VARTYPE_NULLSTRING,		/* String option or NULL/empty string */
-+   CUPSD_VARTYPE_STRING,			/* String option */
-+   CUPSD_VARTYPE_BOOLEAN,		/* Boolean option */
-+   CUPSD_VARTYPE_PATHNAME,		/* File/directory name option */
-+@@ -69,7 +70,7 @@ static const cupsd_var_t	cupsd_vars[] =
-+ {
-+   { "AutoPurgeJobs", 		&JobAutoPurge,		CUPSD_VARTYPE_BOOLEAN },
-+ #ifdef HAVE_DNSSD
-+-  { "BrowseDNSSDSubTypes",	&DNSSDSubTypes,		CUPSD_VARTYPE_STRING },
-++  { "BrowseDNSSDSubTypes",	&DNSSDSubTypes,		CUPSD_VARTYPE_NULLSTRING },
-+ #endif /* HAVE_DNSSD */
-+   { "BrowseWebIF",		&BrowseWebIF,		CUPSD_VARTYPE_BOOLEAN },
-+   { "Browsing",			&Browsing,		CUPSD_VARTYPE_BOOLEAN },
-+@@ -120,7 +121,7 @@ static const cupsd_var_t	cupsd_vars[] =
-+   { "MaxSubscriptionsPerPrinter",&MaxSubscriptionsPerPrinter,	CUPSD_VARTYPE_INTEGER },
-+   { "MaxSubscriptionsPerUser",	&MaxSubscriptionsPerUser,	CUPSD_VARTYPE_INTEGER },
-+   { "MultipleOperationTimeout",	&MultipleOperationTimeout,	CUPSD_VARTYPE_TIME },
-+-  { "PageLogFormat",		&PageLogFormat,		CUPSD_VARTYPE_STRING },
-++  { "PageLogFormat",		&PageLogFormat,		CUPSD_VARTYPE_NULLSTRING },
-+   { "PreserveJobFiles",		&JobFiles,		CUPSD_VARTYPE_TIME },
-+   { "PreserveJobHistory",	&JobHistory,		CUPSD_VARTYPE_TIME },
-+   { "ReloadTimeout",		&ReloadTimeout,		CUPSD_VARTYPE_TIME },
-+@@ -777,6 +778,13 @@ cupsdReadConfiguration(void)
-+   IdleExitTimeout = 60;
-+ #endif /* HAVE_ONDEMAND */
-+ 
-++  if (!strcmp(CUPS_DEFAULT_PEER_CRED, "off"))
-++    PeerCred = CUPSD_PEERCRED_OFF;
-++  else if (!strcmp(CUPS_DEFAULT_PEER_CRED, "root-only"))
-++    PeerCred = CUPSD_PEERCRED_ROOTONLY;
-++  else
-++    PeerCred = CUPSD_PEERCRED_ON;
-++
-+  /*
-+   * Setup environment variables...
-+   */
-+@@ -1826,7 +1834,7 @@ get_addr_and_mask(const char *value,	/* I - String from config file */
-+ 
-+     family  = AF_INET6;
-+ 
-+-    for (i = 0, ptr = value + 1; *ptr && i < 8; i ++)
-++    for (i = 0, ptr = value + 1; *ptr && i >= 0 && i < 8; i ++)
-+     {
-+       if (*ptr == ']')
-+         break;
-+@@ -1975,7 +1983,7 @@ get_addr_and_mask(const char *value,	/* I - String from config file */
-+ #ifdef AF_INET6
-+       if (family == AF_INET6)
-+       {
-+-        if (i > 128)
-++        if (i < 0 || i > 128)
-+ 	  return (0);
-+ 
-+         i = 128 - i;
-+@@ -2009,7 +2017,7 @@ get_addr_and_mask(const char *value,	/* I - String from config file */
-+       else
-+ #endif /* AF_INET6 */
-+       {
-+-        if (i > 32)
-++        if (i < 0 || i > 32)
-+ 	  return (0);
-+ 
-+         mask[0] = 0xffffffff;
-+@@ -2919,7 +2927,17 @@ parse_variable(
-+ 	cupsdSetString((char **)var->ptr, temp);
-+ 	break;
-+ 
-++    case CUPSD_VARTYPE_NULLSTRING :
-++	cupsdSetString((char **)var->ptr, value);
-++	break;
-++
-+     case CUPSD_VARTYPE_STRING :
-++        if (!value)
-++        {
-++	  cupsdLogMessage(CUPSD_LOG_ERROR, "Missing value for %s on line %d of %s.", line, linenum, filename);
-++	  return (0);
-++        }
-++
-+ 	cupsdSetString((char **)var->ptr, value);
-+ 	break;
-+   }
-+@@ -3447,9 +3465,10 @@ read_cupsd_conf(cups_file_t *fp)	/* I - File to read from */
-+ 		      line, value ? " " : "", value ? value : "", linenum,
-+ 		      ConfigurationFile, CupsFilesFile);
-+     }
-+-    else
-+-      parse_variable(ConfigurationFile, linenum, line, value,
-+-                     sizeof(cupsd_vars) / sizeof(cupsd_vars[0]), cupsd_vars);
-++    else if (!parse_variable(ConfigurationFile, linenum, line, value,
-++			     sizeof(cupsd_vars) / sizeof(cupsd_vars[0]), cupsd_vars) &&
-++	     (FatalErrors & CUPSD_FATAL_CONFIG))
-++      return (0);
-+   }
-+ 
-+   return (1);
-+@@ -3609,6 +3628,31 @@ read_cups_files_conf(cups_file_t *fp)	/* I - File to read from */
-+ 	    break;
-+       }
-+     }
-++    else if (!_cups_strcasecmp(line, "PeerCred") && value)
-++    {
-++     /*
-++      * PeerCred {off,on,root-only}
-++      */
-++
-++      if (!_cups_strcasecmp(value, "off"))
-++      {
-++        PeerCred = CUPSD_PEERCRED_OFF;
-++      }
-++      else if (!_cups_strcasecmp(value, "on"))
-++      {
-++        PeerCred = CUPSD_PEERCRED_ON;
-++      }
-++      else if (!_cups_strcasecmp(value, "root-only"))
-++      {
-++        PeerCred = CUPSD_PEERCRED_ROOTONLY;
-++      }
-++      else
-++      {
-++	cupsdLogMessage(CUPSD_LOG_ERROR, "Unknown PeerCred \"%s\" on line %d of %s.", value, linenum, CupsFilesFile);
-++        if (FatalErrors & CUPSD_FATAL_CONFIG)
-++          return (0);
-++      }
-++    }
-+     else if (!_cups_strcasecmp(line, "PrintcapFormat") && value)
-+     {
-+      /*
-+diff --git a/test/run-stp-tests.sh b/test/run-stp-tests.sh
-+index 1c447edd7..8d677db71 100755
-+--- a/test/run-stp-tests.sh
-++++ b/test/run-stp-tests.sh
-+@@ -512,7 +512,7 @@ fi
-+ 
-+ cat >$BASE/cups-files.conf <<EOF
-+ FileDevice yes
-+-Printcap
-++Printcap $BASE/printcap
-+ User $user
-+ ServerRoot $BASE
-+ StateDir $BASE
-+diff --git a/vcnet/config.h b/vcnet/config.h
-+index dbc6f05d5..317c956a6 100644
-+--- a/vcnet/config.h
-++++ b/vcnet/config.h
-+@@ -169,6 +169,13 @@ typedef unsigned long useconds_t;
-+ #define CUPS_DEFAULT_ERROR_POLICY "stop-printer"
-+ 
-+ 
-++/*
-++ * Default PeerCred value...
-++ */
-++
-++#define CUPS_DEFAULT_PEER_CRED "on"
-++
-++
-+ /*
-+  * Default MaxCopies value...
-+  */
-+diff --git a/xcode/CUPS.xcodeproj/project.pbxproj b/xcode/CUPS.xcodeproj/project.pbxproj
-+index 597946440..54ac652a1 100644
-+--- a/xcode/CUPS.xcodeproj/project.pbxproj
-++++ b/xcode/CUPS.xcodeproj/project.pbxproj
-+@@ -3434,7 +3434,6 @@
-+ 		72220FB313330BCE00FCA411 /* mime.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mime.c; path = ../scheduler/mime.c; sourceTree = "<group>"; };
-+ 		72220FB413330BCE00FCA411 /* mime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mime.h; path = ../scheduler/mime.h; sourceTree = "<group>"; };
-+ 		72220FB513330BCE00FCA411 /* type.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = type.c; path = ../scheduler/type.c; sourceTree = "<group>"; };
-+-		7226369B18AE6D19004ED309 /* org.cups.cups-lpd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "org.cups.cups-lpd.plist"; path = "../scheduler/org.cups.cups-lpd.plist"; sourceTree = SOURCE_ROOT; };
-+ 		7226369C18AE6D19004ED309 /* org.cups.cupsd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = org.cups.cupsd.plist; path = ../scheduler/org.cups.cupsd.plist; sourceTree = SOURCE_ROOT; };
-+ 		7226369D18AE73BB004ED309 /* config.h.in */ = {isa = PBXFileReference; lastKnownFileType = text; name = config.h.in; path = ../config.h.in; sourceTree = "<group>"; };
-+ 		722A24EE2178D00C000CAB20 /* debug-internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "debug-internal.h"; path = "../cups/debug-internal.h"; sourceTree = "<group>"; };
-+@@ -5056,7 +5055,6 @@
-+ 			isa = PBXGroup;
-+ 			children = (
-+ 				72E65BDC18DC852700097E89 /* Makefile */,
-+-				7226369B18AE6D19004ED309 /* org.cups.cups-lpd.plist */,
-+ 				72E65BD518DC818400097E89 /* org.cups.cups-lpd.plist.in */,
-+ 				7226369C18AE6D19004ED309 /* org.cups.cupsd.plist */,
-+ 				72220F6913330B0C00FCA411 /* auth.c */,
-+diff --git a/xcode/config.h b/xcode/config.h
-+index e0ddd09dc..caec083ca 100644
-+--- a/xcode/config.h
-++++ b/xcode/config.h
-+@@ -88,6 +88,13 @@
-+ #define CUPS_DEFAULT_ERROR_POLICY "stop-printer"
-+ 
-+ 
-++/*
-++ * Default PeerCred value...
-++ */
-++
-++#define CUPS_DEFAULT_PEER_CRED "on"
-++
-++
-+ /*
-+  * Default MaxCopies value...
-+  */
+-SRC_URI[sha256sum] = "783f50ea27b17c16da89578fafdb6decfa44bb8f6590e5698a4e4d3672dc53d4"
++SRC_URI[sha256sum] = "0d1f7ca711cfc336dc8a85e672cab9cfd8223a02fe2da0a4a7aeb58c9e113634"
+ MIRRORS += "http://matt.ucc.asn.au/dropbear/releases/ https://dropbear.nl/mirror/releases/"
+ 
+ PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
 
