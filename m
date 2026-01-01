@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84162EEE24B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66034EED636
 	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 11:38:00 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.103061.1767267479534280539
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.103060.1767267479029304229
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Jan 2026 03:37:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jLDp8wqU;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=nsyAcWRD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019b7959acca-078b2d2c-4d62-4a5d-b075-aaeff415ba78-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=mGz2hxer;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=TKjEIpOT;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019b7959abe1-f08d7eef-2433-4ee6-84a2-768adfc090fd-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1767267478;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=dM6gtYNoH5oK6tJUeCZyHk3XdlHj7Dmbf+DVjEGluZo=;
-	b=jLDp8wqUWNzJuFZUla6+SDI057ggr/eRGI+FkBzSwzL8wRWzqLt+8YBG3bBn5jNP
-	mLOJAaDJXxhbY+etz4/Xldo1Q9kx+cXtV8vVVhJToe3cOITIyVzemaUyyCVgGI2weuC
-	j3QltHYY86oBidUGKphNetm2me1g3UTTNMUno/gE=
+	bh=90lX0zvuZs1lWXji8u0jv/AtFbmyB1V+CiJZ+T7tLpo=;
+	b=mGz2hxereBG8WQw39B7dY7qR8b07NHFWsQvHUp312tMrhaahWlvkOCVqUAlbrJag
+	amDm14Q0eu+5RcQYO4CpoMLUBefPILvtd02l83LoXUlu+mQFnxWr6YHVkjM1sxWO+zY
+	bQf5qYg7YfmxiC32FsoJLyKuEESblKzeXzTctNOY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1767267478;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=dM6gtYNoH5oK6tJUeCZyHk3XdlHj7Dmbf+DVjEGluZo=;
-	b=nsyAcWRD3NvLof8+nqF+9rzQ5unMQPG7qoHxaKTRO34M5N9OeuLiEyjXOHqsbcNN
-	w2x8CGwh9DJlrtthRNkK71bnr6SEtbFRik7SdIJCdPT1k8TPnyXPlpBsbERD6NXjEyv
-	wH1jFdkRrWVr+TFz91Dieh1iF8zcD4deISw9rIGQ=
-Content-Type: multipart/mixed; boundary="===============3531086069590494199=="
+	bh=90lX0zvuZs1lWXji8u0jv/AtFbmyB1V+CiJZ+T7tLpo=;
+	b=TKjEIpOTHYGLw271xg3jf0TFKevmrD1VvPgSSTL+mEH2Y79lphAvr+h3ChalKeTT
+	V1OtJDnCWX1ibjRK5ojmxwFXJDqKszPh0Rc3wtTCjOHFJTrZfvOPSX9n0oDQsnYkyKe
+	1tQZ8PAJj+KP2gGEoz9a5jICPDRruQQ/uOpReKjA=
+Content-Type: multipart/mixed; boundary="===============6056768930179000045=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] harfbuzz: upgrading to 12.3.0 SUCCEEDED
-Message-ID: <0101019b7959acca-078b2d2c-4d62-4a5d-b075-aaeff415ba78-000000@us-west-2.amazonses.com>
+Subject: [AUH] epiphany: upgrading to 49.2 FAILED
+Message-ID: <0101019b7959abe1-f08d7eef-2433-4ee6-84a2-768adfc090fd-000000@us-west-2.amazonses.com>
 Date: Thu, 1 Jan 2026 11:37:58 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.01.01-54.240.27.23
+X-SES-Outgoing: 2026.01.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 11:38:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228795
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228792
 
---===============3531086069590494199==
+--===============6056768930179000045==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *harfbuzz* to *12.3.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *epiphany* to *49.2* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-harfbuzz-upgrade-12.2.0-12.3.0.patch
+    - apply the patch: git am 0001-epiphany-upgrade-48.5-49.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,140 +78,365 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 92824f74fde01f04a2ce3757db0dc07632eff512 Mon Sep 17 00:00:00 2001
+From ef47303124dc1a0a3eda77cfcf3d69fcaf402f2d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Jan 2026 10:06:02 +0000
-Subject: [PATCH] harfbuzz: upgrade 12.2.0 -> 12.3.0
+Date: Thu, 1 Jan 2026 09:50:13 +0000
+Subject: [PATCH] epiphany: upgrade 48.5 -> 49.2
 
 ---
- .../harfbuzz/{harfbuzz_12.2.0.bb => harfbuzz_12.3.0.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_12.2.0.bb => harfbuzz_12.3.0.bb} (95%)
+ .../epiphany/{epiphany_48.5.bb => epiphany_49.2.bb}           | 2 +-
+ .../files/0002-help-meson.build-disable-the-use-of-yelp.patch | 2 +-
+ meta/recipes-gnome/epiphany/files/distributor.patch           | 4 ++--
+ meta/recipes-gnome/epiphany/files/migrator.patch              | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-gnome/epiphany/{epiphany_48.5.bb => epiphany_49.2.bb} (94%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_12.2.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_12.2.0.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_12.3.0.bb
-index ef2f6aa4f9..d2e63f5529 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_12.2.0.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_12.3.0.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
-                     "
+diff --git a/meta/recipes-gnome/epiphany/epiphany_48.5.bb b/meta/recipes-gnome/epiphany/epiphany_49.2.bb
+similarity index 94%
+rename from meta/recipes-gnome/epiphany/epiphany_48.5.bb
+rename to meta/recipes-gnome/epiphany/epiphany_49.2.bb
+index 6a1abdc553..acd1aa3f08 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_48.5.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_49.2.bb
+@@ -31,7 +31,7 @@ SRC_URI += "\
+            file://migrator.patch \
+            file://distributor.patch \
+            "
+-SRC_URI[archive.sha256sum] = "0f66552ad6593c7952a3ddee5bf515656c8c434871076d9f1a91a7af9346b1b4"
++SRC_URI[archive.sha256sum] = "b3ba3d68213e87f81f1733e85500c37b82b5938f9009e4fe89994963d5fb2b8e"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "ecb603aa426a8b24665718667bda64a84c1504db7454ee4cadbd362eea64e545"
-+SRC_URI[sha256sum] = "8660ebd3c27d9407fc8433b5d172bafba5f0317cb0bb4339f28e5370c93d42b7"
+ # Developer mode enables debugging
+ PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
+diff --git a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+index 6c00ab9b40..e695b8e082 100644
+--- a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
++++ b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+@@ -1,4 +1,4 @@
+-From 91045ece41faefbeac14b60d7b19b0c652e586fb Mon Sep 17 00:00:00 2001
++From 77fbb28bedc8309b493f8693914b027f17ec42ca Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 31 Jan 2018 15:50:38 +0200
+ Subject: [PATCH] help/meson.build: disable the use of yelp
+diff --git a/meta/recipes-gnome/epiphany/files/distributor.patch b/meta/recipes-gnome/epiphany/files/distributor.patch
+index 54a3305aaf..462918937b 100644
+--- a/meta/recipes-gnome/epiphany/files/distributor.patch
++++ b/meta/recipes-gnome/epiphany/files/distributor.patch
+@@ -1,4 +1,4 @@
+-From 46084da03b5f20423a2946d988c68e9ea9339c9c Mon Sep 17 00:00:00 2001
++From 984e69b4c3bb9368271c155081aa16c2b5062314 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Fri, 26 Feb 2021 10:17:52 +0000
+ Subject: [PATCH] Don't encode the distro from /etc/os-release into the
+@@ -11,7 +11,7 @@ RP 2021/2/26
+  1 file changed, 1 insertion(+)
  
- DEPENDS += "glib-2.0-native"
- 
+ diff --git a/meson.build b/meson.build
+-index df0340c..8ec6c79 100644
++index ba09333..49a2aa8 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -15,6 +15,7 @@ if r.returncode() == 0
+diff --git a/meta/recipes-gnome/epiphany/files/migrator.patch b/meta/recipes-gnome/epiphany/files/migrator.patch
+index 8ebcdc9991..7cac32fb07 100644
+--- a/meta/recipes-gnome/epiphany/files/migrator.patch
++++ b/meta/recipes-gnome/epiphany/files/migrator.patch
+@@ -1,4 +1,4 @@
+-From ca504370b9aa893ceac21141d8f24e28a474b674 Mon Sep 17 00:00:00 2001
++From 3896495b2789523887357d894cbd4044265d612e Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Thu, 25 Feb 2021 14:52:32 +0000
+ Subject: [PATCH] epiphany: Fix reproducibility issue
 -- 
 2.47.1
 
 
---===============3531086069590494199==
+--===============6056768930179000045==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1954 targets, 47 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-74a945115aafe6fa68b9034aabf3c1d0db97d3c4"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 = "tmp-auh-upgrades:74a945115aafe6fa68b9034aabf3c1d0db97d3c4"
+meta-yocto-bsp       
+meta-poky            = "master:853589ccc3445f5952efc02a7102587cb4d4f075"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 500 Local 488 Mirrors 0 Missed 12 Current 1296 (97% match, 99% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 1553 of 1796 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 1774 of 1796 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_recipe_qa_setscene)
+NOTE: recipe epiphany-49.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe epiphany-49.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.86.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 4376 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_fetch)
+NOTE: Running task 4619 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_write_config)
+NOTE: recipe epiphany-49.2-r0: task do_fetch: Started
+NOTE: recipe epiphany-49.2-r0: task do_fetch: Succeeded
+NOTE: Running task 4774 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_unpack)
+NOTE: Running task 4775 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe epiphany-49.2-r0: task do_write_config: Started
+NOTE: recipe epiphany-49.2-r0: task do_unpack: Started
+NOTE: recipe epiphany-49.2-r0: task do_write_config: Succeeded
+NOTE: recipe epiphany-49.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe epiphany-49.2-r0: task do_unpack: Succeeded
+NOTE: Running task 4907 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_patch)
+NOTE: Running task 4908 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_collect_spdx_deps)
+NOTE: recipe epiphany-49.2-r0: task do_patch: Started
+NOTE: recipe epiphany-49.2-r0: task do_collect_spdx_deps: Started
+NOTE: recipe epiphany-49.2-r0: task do_patch: Succeeded
+NOTE: Running task 4909 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 4910 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_populate_lic)
+NOTE: recipe epiphany-49.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe epiphany-49.2-r0: task do_populate_lic: Started
+NOTE: recipe epiphany-49.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_deploy_source_date_epoch unihash changed to 1fa55205fe96370413a3eadfd5caa432b1d803804b078751047365c2f8fb1cec
+NOTE: Setscene tasks completed
+NOTE: recipe epiphany-49.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_populate_lic unihash changed to 74914a526f84b0428a31b6f999e30fd9a9a7f272bc23f528d73520af81bba88f
+NOTE: recipe epiphany-49.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe epiphany-49.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 4911 of 4923 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_configure)
+NOTE: Setscene tasks completed
+NOTE: recipe epiphany-49.2-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.42.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_10.1.3.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.4.bb:do_populate_sysroot', '/srv/pokybuild/
+ yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gcr/gcr_4.4.0.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/json-glib/json-glib_1.10.8.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libadwaita/libadwaita_1.8.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build
+ /layers/openembedded-core/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libhandy/libhandy_1.8.3.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libportal/libportal_0.9.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/webkitgtk_2.50.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libsoup/libsoup_3.6.5.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_3.10.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.9.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-co
+ re/gettext/gettext_0.26.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.10.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/bu
+ ild/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.9.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.51.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'libclc', 'llvm-tblgen-native', 'llvm', 'cmake-native', 'desktop-file-utils', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3-setuptools', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'libarchive', 'libidn2', 'lzlib', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gcr', 'gdk-pixbuf', 'gobject-introspection', 'gsettings-desktop-schemas', 'gtk+3', 'gtk4', 'hicolor-icon-theme', 'json-glib', 'libadwaita', 'libdazzle', 'libgudev', 'libhandy', 'libnotify', 'libportal', 'librsvg', 'libsecret', 'libxmlb', 'cairo', 'libdrm', '
+ fontconfig', 'freetype', 'graphene', 'harfbuzz', 'libjpeg-turbo', 'libepoxy', 'libglu', 'mesa', 'pango', 'spirv-headers', 'spirv-llvm-translator', 'spirv-tools', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxcomposite', 'libxcursor', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxi', 'libxinerama', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxt', 'libxtst', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'tiff', 'libvorbis', 'sbc', 'libwebp', 'libwpe', 'webkitgtk', 'wpebackend-fdo', 'appstream', 'aspell', 'at-spi2-core', 'acl', 'attr', 'bash-completion', 'curl', 'enchant2', 'fribidi', 'gdbm', 'gmp', 'gnut
+ ls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libgcrypt', 'libgpg-error', 'libical', 'libmicrohttpd', 'libpcre2', 'libpsl', 'libseccomp', 'libsoup', 'libunistring', 'libusb1', 'libxslt', 'libyaml', 'nettle', 'nghttp2', 'p11-kit', 'shared-mime-info', 'sqlite3', 'openssl-native', 'coreutils-native', 'dbus-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'llvm-native', 'desktop-file-utils-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'patchelf-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-docutils-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'cargo-c-native', 'cargo-native'
+ , 'rust-native', 'vala-native', 'bzip2-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'gdk-pixbuf-native', 'gobject-introspection-native', 'gtk+3-native', 'librsvg-native', 'cairo-native', 'fontconfig-native', 'freetype-native', 'harfbuzz-native', 'libjpeg-turbo-native', 'pango-native', 'libpthread-stubs-native', 'libx11-native', 'libxau-native', 'libxcb-native', 'libxcomposite-native', 'libxcursor-native', 'libxdamage-native', 'libxdmcp-native', 'libxext-native', 'libxfixes-native', 'libxft-native', 'libxi-native', 'libxrandr-native', 'libxrender-native', 'libxtst-native', 'pixman-native', 'xtrans-native', 'xcb-proto-native', 'xorgproto-native', 'util-macros-native', 'libpng-native', 'at-spi2-core-native', 'attr-native', 'ca-certificates-native', 'curl-native', 'fribidi-native', 'gdbm-native', 'gmp-native', 'icu-native', 'libbsd-native', 'libcap-ng-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'libssh2-native', 'mpfr-native', '
+ re2c-native', 'shared-mime-info-native', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Ddeveloper_mode=false...
+| The Meson build system
+| Version: 1.10.0
+| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/sources/epiphany-49.2
+| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/build
+| Build type: cross build
+| Project name: epiphany
+| Project version: 49.2
+| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot (gcc 15.2.0 "x86_64-poky-linux-gcc (GCC) 15.2.0")
+| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot ld.bfd 2.45.1.20251126
+| C compiler for the build machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
+| C linker for the build machine: gcc ld.bfd 2.43.1.20241111
+| Build machine cpu family: x86_64
+| Build machine cpu: x86_64
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Target machine cpu family: x86_64
+| Target machine cpu: x86_64
+| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
+| Run-time dependency iso-codes found: YES 4.19.0
+| Run-time dependency cairo found: YES 1.18.4
+| Run-time dependency gck-2 found: YES 4.4.0.1
+| Run-time dependency gcr-4 found: YES 4.4.0.1
+| Run-time dependency gdk-pixbuf-2.0 found: YES 2.44.4
+| Run-time dependency gio-2.0 found: YES 2.86.3
+| Run-time dependency gio-unix-2.0 found: YES 2.86.3
+| Run-time dependency glib-2.0 found: YES 2.86.3
+| Dependency granite-7 skipped: feature granite disabled
+| Run-time dependency gsettings-desktop-schemas found: YES 49.1
+| Run-time dependency gstreamer-1.0 found: YES 1.26.9
+| Run-time dependency gtk4 found: YES 4.20.2
+| Run-time dependency gtk4-unix-print found: YES 4.20.2
+| Run-time dependency hogweed found: YES 3.10.2
+| Dependency iso-codes found: YES 4.19.0 (cached)
+| Run-time dependency json-glib-1.0 found: YES 1.10.8
+| Run-time dependency libarchive found: YES 3.8.4
+| Run-time dependency libadwaita-1 found: YES 1.8.2
+| Run-time dependency libsecret-1 found: YES 0.21.7
+| Run-time dependency libsoup-3.0 found: YES 3.6.5
+| Run-time dependency libxml-2.0 found: YES 2.15.1
+| Run-time dependency nettle found: YES 3.10.2
+| Run-time dependency libportal-gtk4 found: YES 0.9.1
+| Run-time dependency sqlite3 found: YES 3.51.1
+| Run-time dependency webkitgtk-6.0 found: YES 2.50.0
+| Run-time dependency webkitgtk-web-process-extension-6.0 found: YES 2.50.0
+| Configuring config.h.in using configuration
+| Library gmp found: YES
+| Library m found: YES
+| Compiler for C supports arguments -Werror=declaration-after-statement: YES
+| Compiler for C supports arguments -Werror=implicit-function-declaration: YES
+| Compiler for C supports arguments -Wno-cast-function-type: YES
+| Compiler for C supports arguments -Wno-missing-field-initializers: YES
+| Compiler for C supports arguments -Wno-unused-parameter: YES
+| Configuring org.gnome.Epiphany.desktop.in using configuration
+| Program msgfmt found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/msgfmt)
+| Configuring org.gnome.Epiphany.metainfo.xml.in using configuration
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Program glib-compile-schemas found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-compile-schemas)
+| Configuring org.gnome.Epiphany.SearchProvider.service using configuration
+| Configuring org.gnome.Epiphany.WebAppProvider.service using configuration
+| Configuring org.gnome.Epiphany.SearchProvider.ini using configuration
+| Configuring default-bookmarks.rdf using configuration
+| Program rst2man found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/rst2man)
+| Program desktop-file-validate found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/desktop-file-validate)
+| Program appstreamcli found: NO
+| Program msginit found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/msginit)
+| Program msgmerge found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/msgmerge)
+| Program xgettext found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/xgettext)
+| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/pkg-config-native) 0.29.2
+| Build-time dependency gio-2.0 found: YES 2.86.3
+| Program glib-compile-resources found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-compile-resources)
+| Dependency gio-2.0 found: YES 2.86.3 (cached)
+| Program glib-compile-resources found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-compile-resources)
+| Build-time dependency glib-2.0 found: YES 2.86.3
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency gio-2.0 found: YES 2.86.3 (cached)
+| Program glib-compile-resources found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-compile-resources)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Program blueprint-compiler found: NO
+| 
+| ../sources/epiphany-49.2/src/meson.build:119:12: ERROR: Program 'blueprint-compiler' not found or not executable
+| 
+| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/build/meson-logs/meson-log.txt
+| 
+| Last 10 lines of meson-log.txt:
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Dependency glib-2.0 found: YES 2.86.3 (cached)
+| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/recipe-sysroot-native/usr/bin/glib-mkenums)
+| Program blueprint-compiler found: NO
+| 
+| ../sources/epiphany-49.2/src/meson.build:119:12: ERROR: Program 'blueprint-compiler' not found or not executable
+| 
+| ERROR: meson setup failed
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/run.do_configure.1239128:172 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/run.do_configure.1239128, line 172
+| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/run.do_configure.1239128, line 161
+| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/run.do_configure.1239128, line 148
+| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/run.do_configure.1239128, line 185
+NOTE: recipe epiphany-49.2-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 4911 tasks of which 4902 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260101094955.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260101094955.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_configure
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/log.do_configure.1239128
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: epiphany-49.2-r0 do_configure: meson setup failed
+ERROR: epiphany-49.2-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/run.do_configure.1239128' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/49.2/temp/log.do_configure.1239128
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_49.2.bb:do_configure) failed with exit code '1'
+
+--===============6056768930179000045==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-harfbuzz-upgrade-12.2.0-12.3.0.patch"
+ filename="0001-epiphany-upgrade-48.5-49.2.patch"
 
-RnJvbSA5MjgyNGY3NGZkZTAxZjA0YTJjZTM3NTdkYjBkYzA3NjMyZWZmNTEyIE1vbiBTZXAgMTcg
+RnJvbSBlZjQ3MzAzMTI0ZGMxYTBhM2VkYTc3Y2ZjZjNkNjlmY2FmNDAyZjJkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBKYW4gMjAyNiAxMDowNjowMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGhh
-cmZidXp6OiB1cGdyYWRlIDEyLjIuMCAtPiAxMi4zLjAKCi0tLQogLi4uL2hhcmZidXp6L3toYXJm
-YnV6el8xMi4yLjAuYmIgPT4gaGFyZmJ1enpfMTIuMy4wLmJifSAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6L3toYXJmYnV6el8xMi4yLjAuYmIgPT4gaGFyZmJ1enpf
-MTIuMy4wLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJm
-YnV6ei9oYXJmYnV6el8xMi4yLjAuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enov
-aGFyZmJ1enpfMTIuMy4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6el8xMi4yLjAuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6el8xMi4zLjAuYmIKaW5kZXggZWYy
-ZjZhYTRmOS4uZDJlNjNmNTUyOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hh
-cmZidXp6L2hhcmZidXp6XzEyLjIuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFy
-ZmJ1enovaGFyZmJ1enpfMTIuMy4wLmJiCkBAIC05LDcgKzksNyBAQCBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9DT1BZSU5HO21kNT1iOTg0MjliOGU4ZTNjMmE2N2NmZWYwMWU5OWU0ODkzZCBc
-CiAgICAgICAgICAgICAgICAgICAgICIKIAogU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0v
-ZG93bmxvYWQvJHtQVn0vJHtCUE59LSR7UFZ9LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9
-ICJlY2I2MDNhYTQyNmE4YjI0NjY1NzE4NjY3YmRhNjRhODRjMTUwNGRiNzQ1NGVlNGNhZGJkMzYy
-ZWVhNjRlNTQ1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjg2NjBlYmQzYzI3ZDk0MDdmYzg0MzNi
-NWQxNzJiYWZiYTVmMDMxN2NiMGJiNDMzOWYyOGU1MzcwYzkzZDQyYjciCiAKIERFUEVORFMgKz0g
-ImdsaWItMi4wLW5hdGl2ZSIKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFRodSwgMSBKYW4gMjAyNiAwOTo1MDoxMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGVw
+aXBoYW55OiB1cGdyYWRlIDQ4LjUgLT4gNDkuMgoKLS0tCiAuLi4vZXBpcGhhbnkve2VwaXBoYW55
+XzQ4LjUuYmIgPT4gZXBpcGhhbnlfNDkuMi5iYn0gICAgICAgICAgIHwgMiArLQogLi4uL2ZpbGVz
+LzAwMDItaGVscC1tZXNvbi5idWlsZC1kaXNhYmxlLXRoZS11c2Utb2YteWVscC5wYXRjaCB8IDIg
+Ky0KIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9kaXN0cmlidXRvci5wYXRjaCAg
+ICAgICAgICAgfCA0ICsrLS0KIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9taWdy
+YXRvci5wYXRjaCAgICAgICAgICAgICAgfCAyICstCiA0IGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0
+aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhh
+bnkve2VwaXBoYW55XzQ4LjUuYmIgPT4gZXBpcGhhbnlfNDkuMi5iYn0gKDk0JSkKCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDguNS5iYiBiL21ldGEv
+cmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV80OS4yLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV80OC41
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDkuMi5i
+YgppbmRleCA2YTFhYmRjNTUzLi5hY2QxYWEzZjA4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+Z25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNDguNS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUv
+ZXBpcGhhbnkvZXBpcGhhbnlfNDkuMi5iYgpAQCAtMzEsNyArMzEsNyBAQCBTUkNfVVJJICs9ICJc
+CiAgICAgICAgICAgIGZpbGU6Ly9taWdyYXRvci5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9k
+aXN0cmlidXRvci5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ19VUklbYXJjaGl2ZS5zaGEyNTZz
+dW1dID0gIjBmNjY1NTJhZDY1OTNjNzk1MmEzZGRlZTViZjUxNTY1NmM4YzQzNDg3MTA3NmQ5ZjFh
+OTFhN2FmOTM0NmIxYjQiCitTUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICJiM2JhM2Q2ODIx
+M2U4N2Y4MWYxNzMzZTg1NTAwYzM3YjgyYjU5MzhmOTAwOWU0ZmU4OTk5NDk2M2Q1ZmIyYjhlIgog
+CiAjIERldmVsb3BlciBtb2RlIGVuYWJsZXMgZGVidWdnaW5nCiBQQUNLQUdFQ09ORklHW2RldmVs
+b3Blci1tb2RlXSA9ICItRGRldmVsb3Blcl9tb2RlPXRydWUsLURkZXZlbG9wZXJfbW9kZT1mYWxz
+ZSIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy8wMDAyLWhl
+bHAtbWVzb24uYnVpbGQtZGlzYWJsZS10aGUtdXNlLW9mLXllbHAucGF0Y2ggYi9tZXRhL3JlY2lw
+ZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvMDAwMi1oZWxwLW1lc29uLmJ1aWxkLWRpc2FibGUtdGhl
+LXVzZS1vZi15ZWxwLnBhdGNoCmluZGV4IDZjMDBhYjliNDAuLmU2OTViOGUwODIgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy8wMDAyLWhlbHAtbWVzb24uYnVp
+bGQtZGlzYWJsZS10aGUtdXNlLW9mLXllbHAucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdub21l
+L2VwaXBoYW55L2ZpbGVzLzAwMDItaGVscC1tZXNvbi5idWlsZC1kaXNhYmxlLXRoZS11c2Utb2Yt
+eWVscC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOTEwNDVlY2U0MWZhZWZiZWFjMTRiNjBk
+N2IxOWIwYzY1MmU1ODZmYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNzdmYmIyOGJl
+ZGM4MzA5YjQ5M2Y4NjkzOTE0YjAyN2YxN2VjNDJjYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+IEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTog
+V2VkLCAzMSBKYW4gMjAxOCAxNTo1MDozOCArMDIwMAogU3ViamVjdDogW1BBVENIXSBoZWxwL21l
+c29uLmJ1aWxkOiBkaXNhYmxlIHRoZSB1c2Ugb2YgeWVscApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL2Rpc3RyaWJ1dG9yLnBhdGNoIGIvbWV0YS9yZWNpcGVz
+LWdub21lL2VwaXBoYW55L2ZpbGVzL2Rpc3RyaWJ1dG9yLnBhdGNoCmluZGV4IDU0YTMzMDVhYWYu
+LjQ2MjkxODkzN2IgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxl
+cy9kaXN0cmlidXRvci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmls
+ZXMvZGlzdHJpYnV0b3IucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDQ2MDg0ZGEwM2I1ZjIw
+NDIzYTI5NDZkOTg4YzY4ZTllYTkzMzljOWMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IDk4NGU2OWI0YzNiYjkzNjgyNzFjMTU1MDgxYWExNmMyYjUwNjIzMTQgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3Vu
+ZGF0aW9uLm9yZz4KIERhdGU6IEZyaSwgMjYgRmViIDIwMjEgMTA6MTc6NTIgKzAwMDAKIFN1Ympl
+Y3Q6IFtQQVRDSF0gRG9uJ3QgZW5jb2RlIHRoZSBkaXN0cm8gZnJvbSAvZXRjL29zLXJlbGVhc2Ug
+aW50byB0aGUKQEAgLTExLDcgKzExLDcgQEAgUlAgMjAyMS8yLzI2CiAgMSBmaWxlIGNoYW5nZWQs
+IDEgaW5zZXJ0aW9uKCspCiAKIGRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxk
+Ci1pbmRleCBkZjAzNDBjLi44ZWM2Yzc5IDEwMDY0NAoraW5kZXggYmEwOTMzMy4uNDlhMmFhOCAx
+MDA2NDQKIC0tLSBhL21lc29uLmJ1aWxkCiArKysgYi9tZXNvbi5idWlsZAogQEAgLTE1LDYgKzE1
+LDcgQEAgaWYgci5yZXR1cm5jb2RlKCkgPT0gMApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdu
+b21lL2VwaXBoYW55L2ZpbGVzL21pZ3JhdG9yLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdub21lL2Vw
+aXBoYW55L2ZpbGVzL21pZ3JhdG9yLnBhdGNoCmluZGV4IDhlYmNkYzk5OTEuLjdjYWMzMmZiMDcg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9taWdyYXRvci5w
+YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvbWlncmF0b3IucGF0
+Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGNhNTA0MzcwYjlhYTg5M2NlYWMyMTE0MWQ4ZjI0ZTI4
+YTQ3NGI2NzQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDM4OTY0OTViMjc4OTUyMzg4
+NzM1N2Q4OTRjYmQ0MDQ0MjY1ZDYxMmUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBS
+aWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KIERhdGU6
+IFRodSwgMjUgRmViIDIwMjEgMTQ6NTI6MzIgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gZXBpcGhh
+bnk6IEZpeCByZXByb2R1Y2liaWxpdHkgaXNzdWUKLS0gCjIuNDcuMQoK
 
---===============3531086069590494199==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 12.2.0 [default] to 12.3.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "12.2.0" to "12.3.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 12.2.0 [default] to 12.3.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 83377016 to 83020256 (-0%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz-cairo.so.0.61220.0 /usr/lib/.debug/libharfbuzz-subset.so.0.61220.0 /usr/lib/.debug/libharfbuzz.so.0.61220.0 /usr/lib/.debug/libharfbuzz-icu.so.0.61220.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.61220.0", added "/usr/lib/.debug/libharfbuzz.so.0.61230.0 /usr/lib/.debug/libharfbuzz-icu.so.0.61230.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.61230.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.61230.0 /usr/lib/.debug/libharfbuzz-subset.so.0.61230.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "12.2.0" to "12.3.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 12.2.0 [default] to 12.3.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: PKGSIZE changed from 1809164 to 1809161 (-0%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "12.2.0" to "12.3.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 12.2.0 [default] to 12.3.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "12.2.0" to "12.3.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu-dev: PKGV changed from 12.2.0 [default] to 12.3.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu-dev: PV changed from "12.2.0" to "12.3.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 12.2.0 [default] to 12.3.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.61220.0", added "/usr/lib/libharfbuzz-icu.so.0.61230.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "12.2.0" to "12.3.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 12.2.0 [default] to 12.3.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "12.2.0" to "12.3.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 12.2.0 [default] to 12.3.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 5171276 to 5175889 (+0%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: FILELIST: directory renamed /usr/src/debug/harfbuzz/12.2.0/src/OT/Color/COLR -> /usr/src/debug/harfbuzz/12.3.0/src/OT/Color/COLR, directory renamed /usr/src/debug/harfbuzz/12.2.0/src/OT/Layout/Common -> /usr/src/debug/harfbuzz/12.3.0/src/OT/Layout/Common, directory renamed /usr/src/debug/harfbuzz/12.2.0/src/OT/Layout/GSUB -> /usr/src/debug/harfbuzz/12.3.0/src/OT/Layout/GSUB, directory renamed /usr/src/debug/harfbuzz/12.2.0/src/OT/name -> /usr/src/debug/harfbuzz/12.3.0/src/OT/name, directory renamed /usr/src/debug/harfbuzz/12.2.0/src/OT/Layout/GDEF -> /usr/src/debug/harfbuzz/12.3.0/src/OT/Layout/GDEF, directory renamed /usr/src/debug/harfbuzz/12.2.0/src -> /usr/src/debug/harfbuzz/12.3.0/src, directory renamed /usr/src/debug/harfbuzz/12.2.0/src/OT/Color/svg -> /usr/src/debug/harfbuzz/12.3.0/src/OT/Color/svg, directory renamed /usr/src/debug/harfbuzz/12.2.0/src/OT/Color/sbix -> /usr/src/debug/harfbuzz/12.3.0/src/OT/Color/sbix, directo
- ry renamed /usr/src/debug/harfbuzz/12.2.0/src/OT/Color/CPAL -> /usr/src/debug/harfbuzz/12.3.0/src/OT/Color/CPAL, directory renamed /usr/src/debug/harfbuzz/12.2.0/src/OT/Layout/GPOS -> /usr/src/debug/harfbuzz/12.3.0/src/OT/Layout/GPOS, directory renamed /usr/src/debug/harfbuzz/12.2.0/util -> /usr/src/debug/harfbuzz/12.3.0/util, directory renamed /usr/src/debug/harfbuzz/12.2.0/src/OT/Var/VARC -> /usr/src/debug/harfbuzz/12.3.0/src/OT/Var/VARC, directory renamed /usr/src/debug/harfbuzz/12.2.0/src/OT/Layout -> /usr/src/debug/harfbuzz/12.3.0/src/OT/Layout, directory renamed /usr/src/debug/harfbuzz/12.2.0/src/OT/Color/CBDT -> /usr/src/debug/harfbuzz/12.3.0/src/OT/Color/CBDT, directory renamed /usr/src/debug/harfbuzz/12.2.0/src/OT/glyf -> /usr/src/debug/harfbuzz/12.3.0/src/OT/glyf, directory renamed /usr/src/debug/harfbuzz/12.2.0/src/graph -> /usr/src/debug/harfbuzz/12.3.0/src/graph
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: PV changed from "12.2.0" to "12.3.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 12.2.0 [default] to 12.3.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "12.2.0" to "12.3.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 12.2.0 [default] to 12.3.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: PKGSIZE changed from 1042591 to 1030303 (-1%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.61220.0", added "/usr/lib/libharfbuzz-subset.so.0.61230.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "12.2.0" to "12.3.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: PKGV changed from 12.2.0 [default] to 12.3.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: PKGSIZE changed from 1242462 to 1234270 (-1%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.61220.0 /usr/lib/libharfbuzz-cairo.so.0.61220.0 /usr/lib/libharfbuzz.so.0.61220.0", added "/usr/lib/libharfbuzz-cairo.so.0.61230.0 /usr/lib/libharfbuzz-gobject.so.0.61230.0 /usr/lib/libharfbuzz.so.0.61230.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: PV changed from "12.2.0" to "12.3.0"
-packages/x86-64-v3-poky-linux/harfbuzz: SRC_URI changed from "https://github.com/harfbuzz/harfbuzz/releases//download/12.2.0/harfbuzz-12.2.0.tar.xz" to "https://github.com/harfbuzz/harfbuzz/releases//download/12.3.0/harfbuzz-12.3.0.tar.xz"
-packages/x86-64-v3-poky-linux/harfbuzz: PKGV changed from 12.2.0 [default] to 12.3.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz: PV changed from "12.2.0" to "12.3.0"
-Changes to packages/x86-64-v3-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.61220.0 to libharfbuzz-cairo.so.0.61230.0
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.61220.0 to libharfbuzz-gobject.so.0.61230.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.61220.0 to libharfbuzz-icu.so.0.61230.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.61220.0 to libharfbuzz.so.0.61230.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.61220.0 to libharfbuzz-subset.so.0.61230.0
-  /usr/lib/libharfbuzz-cairo.so.0.61220.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61230.0
-  /usr/lib/libharfbuzz-gobject.so.0.61220.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61230.0
-  /usr/lib/libharfbuzz-icu.so.0.61220.0 moved to /usr/lib/libharfbuzz-icu.so.0.61230.0
-  /usr/lib/libharfbuzz.so.0.61220.0 moved to /usr/lib/libharfbuzz.so.0.61230.0
-  /usr/lib/libharfbuzz-subset.so.0.61220.0 moved to /usr/lib/libharfbuzz-subset.so.0.61230.0
-
---===============3531086069590494199==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.61220.0", added "/usr/lib/libharfbuzz-icu.so.0.61230.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.61220.0", added "/usr/lib/libharfbuzz-subset.so.0.61230.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz.so.0.61220.0 /usr/lib/libharfbuzz-cairo.so.0.61220.0 /usr/lib/libharfbuzz-gobject.so.0.61220.0", added "/usr/lib/libharfbuzz.so.0.61230.0 /usr/lib/libharfbuzz-gobject.so.0.61230.0 /usr/lib/libharfbuzz-cairo.so.0.61230.0"
-Changes to packages/x86-64-v3-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.61220.0 to libharfbuzz-cairo.so.0.61230.0
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.61220.0 to libharfbuzz-gobject.so.0.61230.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.61220.0 to libharfbuzz-icu.so.0.61230.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.61220.0 to libharfbuzz.so.0.61230.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.61220.0 to libharfbuzz-subset.so.0.61230.0
-  /usr/lib/libharfbuzz-cairo.so.0.61220.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61230.0
-  /usr/lib/libharfbuzz-gobject.so.0.61220.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61230.0
-  /usr/lib/libharfbuzz-icu.so.0.61220.0 moved to /usr/lib/libharfbuzz-icu.so.0.61230.0
-  /usr/lib/libharfbuzz.so.0.61220.0 moved to /usr/lib/libharfbuzz.so.0.61230.0
-  /usr/lib/libharfbuzz-subset.so.0.61220.0 moved to /usr/lib/libharfbuzz-subset.so.0.61230.0
-
---===============3531086069590494199==--
+--===============6056768930179000045==--
 
