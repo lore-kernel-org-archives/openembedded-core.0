@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4724EEB588
-	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 12:15:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B52A7EEB590
+	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 12:15:11 +0000 (UTC)
 Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.103370.1767269694910034143
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.103373.1767269709115091654
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Jan 2026 04:14:56 -0800
+ Thu, 01 Jan 2026 04:15:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=H5grDDT7;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2026010112145160869ab932000207d8-qyydnr@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2026010112145160869ab932000207d8
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=IT+H3NIv;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20260101121507bd38baf6d300020739-93js9f@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20260101121507bd38baf6d300020739
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 01 Jan 2026 13:14:52 +0100
+        Thu, 01 Jan 2026 13:15:07 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=GO6DocDO9qhF23t50iTUzsBbDq1oB1/8wJ8xKu7y6FY=;
- b=H5grDDT75thqgoA6yEiPrRMpAjsHr2Ma1r0fydZxpBgQCgfvwAdtKK620lT4alafSSsrVu
- qSI6iesgNggCnCLQt3OmV8CIlcIto+2zfAekE1OSm8FZbglZ7eqQdiJAnUDiW11lUvuB/iWK
- oMKaRDTXzkxg5QL3uJgcQDnEY4ZyGjdVvoueZ2ir6hMe6dYhTJjD+c4kC0L+v4KZd3WgdSjC
- nDqGeZpaf1f2IiNLALX+Zt0H5mpKIhj5FRzva0GItxtHRniGYC0ethsHFwSa2yjSZ8duR8zG
- A36x/NcBSkbETdTQzs3HfAfExKN1xKufFa82l41SDwk9se7LnJ/AAJ8A==;
+ bh=zo1s8nrUqBwI6oJ+z1d40gDlbf+6gpViEi/mk2HFj0Y=;
+ b=IT+H3NIv2DQQFLNNl7fk4V7qpYGIYEveUl/N/mVGjkOBt/z0Zikdj0f9Ec0rNpR44y9QAz
+ S5WcY5GGxDGw7yqqeIiee5amP/qI7Pje97rbSav59v29u2dqx/Ud9EcusEZQgyngNd/DqHRd
+ brvCmrF9+NSKm7NTGl4OPY2ABtq1U8osSskH7VKuLpBYuix2ZDo6/LkWBHzwF15MaTk46HaJ
+ zRwUDYnrL8jr8AaOJBGaKgc9o0u+gZ50pbrTgAbByEbDFTkQrT1Z9crs8My53FJVlDh2dRy6
+ Hf1Auo30Qyq/qebMljjPJK0594uFVupkPhxC14tG75/C68UVzmCLdobw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] cups: allow unknown directives in conf files
-Date: Thu,  1 Jan 2026 13:14:43 +0100
-Message-Id: <20260101121443.7165-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH 1/3] cups: patch CVE-2025-58436
+Date: Thu,  1 Jan 2026 13:14:57 +0100
+Message-Id: <20260101121459.7191-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,85 +36,668 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 12:15:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228816
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 12:15:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228817
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Patch for CVE-2025-61915 by mistake causes fatal error on unknown
-directives in configuration files.
-The default configuration already contains unknown directive in
-non-systemd setups:
-Unknown directive IdleExitTimeout on line 32 of /etc/cups/cupsd.conf
+Pick patch from branch 2.4.x corresponding to patch mentioned in [1].
 
-Backport fix for this from 2.4.x branch which reverts this behavior.
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-58436
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-extended/cups/cups.inc           |  1 +
- ...pping-scheduler-on-unknown-directive.patch | 43 +++++++++++++++++++
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-extended/cups/cups/0001-conf.c-Fix-stopping-scheduler-on-unknown-directive.patch
+ meta/recipes-extended/cups/cups.inc           |   1 +
+ .../cups/cups/CVE-2025-58436.patch            | 630 ++++++++++++++++++
+ 2 files changed, 631 insertions(+)
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2025-58436.patch
 
 diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index 12668ca023c..c7475d2b813 100644
+index cba44067201..c808eef9a7e 100644
 --- a/meta/recipes-extended/cups/cups.inc
 +++ b/meta/recipes-extended/cups/cups.inc
-@@ -19,6 +19,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
-            file://CVE-2025-58364.patch \
-            file://CVE-2025-58436.patch \
-            file://CVE-2025-61915.patch \
-+           file://0001-conf.c-Fix-stopping-scheduler-on-unknown-directive.patch \
+@@ -27,6 +27,7 @@ SRC_URI = "https://github.com/OpenPrinting/cups/releases/download/v${PV}/cups-${
+ 	   file://CVE-2024-47175-5.patch \
+ 	   file://CVE-2025-58060.patch \
+ 	   file://CVE-2025-58364.patch \
++           file://CVE-2025-58436.patch \
             "
  
- GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/0001-conf.c-Fix-stopping-scheduler-on-unknown-directive.patch b/meta/recipes-extended/cups/cups/0001-conf.c-Fix-stopping-scheduler-on-unknown-directive.patch
+ UPSTREAM_CHECK_URI = "https://github.com/OpenPrinting/cups/releases"
+diff --git a/meta/recipes-extended/cups/cups/CVE-2025-58436.patch b/meta/recipes-extended/cups/cups/CVE-2025-58436.patch
 new file mode 100644
-index 00000000000..cf01c82cd63
+index 00000000000..388c5e57b5f
 --- /dev/null
-+++ b/meta/recipes-extended/cups/cups/0001-conf.c-Fix-stopping-scheduler-on-unknown-directive.patch
-@@ -0,0 +1,43 @@
-+From 277d3b1c49895f070bbf4b73cada011d71fbf9f3 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/cups/cups/CVE-2025-58436.patch
+@@ -0,0 +1,630 @@
++From 5d414f1f91bdca118413301b148f0b188eb1cdc6 Mon Sep 17 00:00:00 2001
 +From: Zdenek Dohnal <zdohnal@redhat.com>
-+Date: Thu, 4 Dec 2025 09:04:37 +0100
-+Subject: [PATCH] conf.c: Fix stopping scheduler on unknown directive
++Date: Mon, 13 Oct 2025 10:16:48 +0200
++Subject: [PATCH] Fix unresponsive cupsd process caused by a slow client
 +
-+Change the return value to do not trigger stopping the scheduler in case
-+of unknown directive, because stopping the scheduler on config errors
-+should only happen in case of syntax errors.
++If client is very slow, it will slow cupsd process for other clients.
++The fix is the best effort without turning scheduler cupsd into
++multithreaded process which would be too complex and error-prone when
++backporting to 2.4.x series.
 +
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/277d3b1c49895f070bbf4b73cada011d71fbf9f3]
++The fix for unencrypted communication is to follow up on communication
++only if there is the whole line on input, and the waiting time is
++guarded by timeout.
++
++Encrypted communication now starts after we have the whole client hello
++packet, which conflicts with optional upgrade support to HTTPS via
++methods other than method OPTIONS, so this optional support defined in
++RFC 2817, section 3.1 is removed. Too slow or incomplete requests are
++handled by connection timeout.
++
++Fixes CVE-2025-58436
++
++CVE: CVE-2025-58436
++Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/5d414f1f91bdca118413301b148f0b188eb1cdc6]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ scheduler/conf.c | 14 +++++++-------
-+ 1 file changed, 7 insertions(+), 7 deletions(-)
++ cups/http-private.h |   7 +-
++ cups/http.c         |  80 +++++++++++++-------
++ cups/tls-openssl.c  |  15 +++-
++ scheduler/client.c  | 178 ++++++++++++++++++++++++++++----------------
++ scheduler/client.h  |   3 +
++ scheduler/select.c  |  12 +++
++ 6 files changed, 198 insertions(+), 97 deletions(-)
 +
-+diff --git a/scheduler/conf.c b/scheduler/conf.c
-+index 7d6da0252..0e7be0ef4 100644
-+--- a/scheduler/conf.c
-++++ b/scheduler/conf.c
-+@@ -2697,16 +2697,16 @@ parse_variable(
++diff --git a/cups/http-private.h b/cups/http-private.h
++index d9854faed..2d9035032 100644
++--- a/cups/http-private.h
+++++ b/cups/http-private.h
++@@ -120,6 +120,7 @@ extern "C" {
++  * Constants...
++  */
++ 
+++#  define _HTTP_MAX_BUFFER	32768	/* Size of read buffer */
++ #  define _HTTP_MAX_SBUFFER	65536	/* Size of (de)compression buffer */
++ #  define _HTTP_RESOLVE_DEFAULT	0	/* Just resolve with default options */
++ #  define _HTTP_RESOLVE_STDERR	1	/* Log resolve progress to stderr */
++@@ -231,8 +232,8 @@ struct _http_s				/**** HTTP connection structure ****/
++   http_encoding_t	data_encoding;	/* Chunked or not */
++   int			_data_remaining;/* Number of bytes left (deprecated) */
++   int			used;		/* Number of bytes used in buffer */
++-  char			buffer[HTTP_MAX_BUFFER];
++-					/* Buffer for incoming data */
+++  char			_buffer[HTTP_MAX_BUFFER];
+++					/* Old read buffer (deprecated) */
++   int			_auth_type;	/* Authentication in use (deprecated) */
++   unsigned char		_md5_state[88];	/* MD5 state (deprecated) */
++   char			nonce[HTTP_MAX_VALUE];
++@@ -306,6 +307,8 @@ struct _http_s				/**** HTTP connection structure ****/
++ 					/* Allocated field values */
++   			*default_fields[HTTP_FIELD_MAX];
++ 					/* Default field values, if any */
+++  char			buffer[_HTTP_MAX_BUFFER];
+++					/* Read buffer */
++ };
++ #  endif /* !_HTTP_NO_PRIVATE */
++ 
++diff --git a/cups/http.c b/cups/http.c
++index 7a42cb3d6..214e45158 100644
++--- a/cups/http.c
+++++ b/cups/http.c
++@@ -53,7 +53,7 @@ static http_t		*http_create(const char *host, int port,
++ static void		http_debug_hex(const char *prefix, const char *buffer,
++ 			               int bytes);
++ #endif /* DEBUG */
++-static ssize_t		http_read(http_t *http, char *buffer, size_t length);
+++static ssize_t		http_read(http_t *http, char *buffer, size_t length, int timeout);
++ static ssize_t		http_read_buffered(http_t *http, char *buffer, size_t length);
++ static ssize_t		http_read_chunk(http_t *http, char *buffer, size_t length);
++ static int		http_send(http_t *http, http_state_t request,
++@@ -1188,7 +1188,7 @@ httpGets(char   *line,			/* I - Line to read into */
++         return (NULL);
++       }
++ 
++-      bytes = http_read(http, http->buffer + http->used, (size_t)(HTTP_MAX_BUFFER - http->used));
+++      bytes = http_read(http, http->buffer + http->used, (size_t)(_HTTP_MAX_BUFFER - http->used), http->wait_value);
++ 
++       DEBUG_printf(("4httpGets: read " CUPS_LLFMT " bytes.", CUPS_LLCAST bytes));
++ 
++@@ -1706,24 +1706,13 @@ httpPeek(http_t *http,			/* I - HTTP connection */
++ 
++     ssize_t	buflen;			/* Length of read for buffer */
++ 
++-    if (!http->blocking)
++-    {
++-      while (!httpWait(http, http->wait_value))
++-      {
++-	if (http->timeout_cb && (*http->timeout_cb)(http, http->timeout_data))
++-	  continue;
++-
++-	return (0);
++-      }
++-    }
++-
++     if ((size_t)http->data_remaining > sizeof(http->buffer))
++       buflen = sizeof(http->buffer);
++     else
++       buflen = (ssize_t)http->data_remaining;
++ 
++     DEBUG_printf(("2httpPeek: Reading %d bytes into buffer.", (int)buflen));
++-    bytes = http_read(http, http->buffer, (size_t)buflen);
+++    bytes = http_read(http, http->buffer, (size_t)buflen, http->wait_value);
++ 
++     DEBUG_printf(("2httpPeek: Read " CUPS_LLFMT " bytes into buffer.",
++                   CUPS_LLCAST bytes));
++@@ -1744,9 +1733,9 @@ httpPeek(http_t *http,			/* I - HTTP connection */
++     int		zerr;			/* Decompressor error */
++     z_stream	stream;			/* Copy of decompressor stream */
++ 
++-    if (http->used > 0 && ((z_stream *)http->stream)->avail_in < HTTP_MAX_BUFFER)
+++    if (http->used > 0 && ((z_stream *)http->stream)->avail_in < _HTTP_MAX_BUFFER)
++     {
++-      size_t buflen = HTTP_MAX_BUFFER - ((z_stream *)http->stream)->avail_in;
+++      size_t buflen = _HTTP_MAX_BUFFER - ((z_stream *)http->stream)->avail_in;
++ 					/* Number of bytes to copy */
++ 
++       if (((z_stream *)http->stream)->avail_in > 0 &&
++@@ -2004,7 +1993,7 @@ httpRead2(http_t *http,			/* I - HTTP connection */
++ 
++       if (bytes == 0)
++       {
++-        ssize_t buflen = HTTP_MAX_BUFFER - (ssize_t)((z_stream *)http->stream)->avail_in;
+++        ssize_t buflen = _HTTP_MAX_BUFFER - (ssize_t)((z_stream *)http->stream)->avail_in;
++ 					/* Additional bytes for buffer */
++ 
++         if (buflen > 0)
++@@ -2754,7 +2743,7 @@ int					/* O - 1 to continue, 0 to stop */
++ _httpUpdate(http_t        *http,	/* I - HTTP connection */
++             http_status_t *status)	/* O - Current HTTP status */
++ {
++-  char		line[32768],		/* Line from connection... */
+++  char		line[_HTTP_MAX_BUFFER],	/* Line from connection... */
++ 		*value;			/* Pointer to value on line */
++   http_field_t	field;			/* Field index */
++   int		major, minor;		/* HTTP version numbers */
++@@ -2762,12 +2751,46 @@ _httpUpdate(http_t        *http,	/* I - HTTP connection */
++ 
++   DEBUG_printf(("_httpUpdate(http=%p, status=%p), state=%s", (void *)http, (void *)status, httpStateString(http->state)));
++ 
+++  /* When doing non-blocking I/O, make sure we have a whole line... */
+++  if (!http->blocking)
+++  {
+++    ssize_t	bytes;			/* Bytes "peeked" from connection */
+++
+++    /* See whether our read buffer is full... */
+++    DEBUG_printf(("2_httpUpdate: used=%d", http->used));
+++
+++    if (http->used > 0 && !memchr(http->buffer, '\n', (size_t)http->used) && (size_t)http->used < sizeof(http->buffer))
+++    {
+++      /* No, try filling in more data... */
+++      if ((bytes = http_read(http, http->buffer + http->used, sizeof(http->buffer) - (size_t)http->used, /*timeout*/0)) > 0)
+++      {
+++	DEBUG_printf(("2_httpUpdate: Read %d bytes.", (int)bytes));
+++	http->used += (int)bytes;
+++      }
+++    }
+++
+++    /* Peek at the incoming data... */
+++    if (!http->used || !memchr(http->buffer, '\n', (size_t)http->used))
+++    {
+++      /* Don't have a full line, tell the reader to try again when there is more data... */
+++      DEBUG_puts("1_htttpUpdate: No newline in buffer yet.");
+++      if ((size_t)http->used == sizeof(http->buffer))
+++	*status = HTTP_STATUS_ERROR;
+++      else
+++	*status = HTTP_STATUS_CONTINUE;
+++      return (0);
+++    }
+++
+++    DEBUG_puts("2_httpUpdate: Found newline in buffer.");
+++  }
+++
++  /*
++   * Grab a single line from the connection...
++   */
++ 
++   if (!httpGets(line, sizeof(line), http))
 +   {
-+    /*
-+     * Unknown directive!  Output an error message and continue...
-++    *
-++    * Return value 1 is on purpose - we ignore unknown directives to log
-++    * error, but do not stop the scheduler in case error in configuration
-++    * is set to be fatal.
-+     */
+++    DEBUG_puts("1_httpUpdate: Error reading request line.");
++     *status = HTTP_STATUS_ERROR;
++     return (0);
++   }
++@@ -4089,7 +4112,8 @@ http_debug_hex(const char *prefix,	/* I - Prefix for line */
++ static ssize_t				/* O - Number of bytes read or -1 on error */
++ http_read(http_t *http,			/* I - HTTP connection */
++           char   *buffer,		/* I - Buffer */
++-          size_t length)		/* I - Maximum bytes to read */
+++          size_t length,		/* I - Maximum bytes to read */
+++          int    timeout)		/* I - Wait timeout */
++ {
++   ssize_t	bytes;			/* Bytes read */
 + 
-+-    if (!value)
-+-      cupsdLogMessage(CUPSD_LOG_ERROR, "Missing value for %s on line %d of %s.",
-+-		      line, linenum, filename);
-+-    else
-+-      cupsdLogMessage(CUPSD_LOG_ERROR, "Unknown directive %s on line %d of %s.",
-+-		      line, linenum, filename);
-++    cupsdLogMessage(CUPSD_LOG_ERROR, "Unknown directive %s on line %d of %s.",
-++		    line, linenum, filename);
++@@ -4098,7 +4122,7 @@ http_read(http_t *http,			/* I - HTTP connection */
 + 
-+-    return (0);
-++    return (1);
++   if (!http->blocking || http->timeout_value > 0.0)
++   {
++-    while (!httpWait(http, http->wait_value))
+++    while (!_httpWait(http, timeout, 1))
++     {
++       if (http->timeout_cb && (*http->timeout_cb)(http, http->timeout_data))
++ 	continue;
++@@ -4201,7 +4225,7 @@ http_read_buffered(http_t *http,	/* I - HTTP connection */
++     else
++       bytes = (ssize_t)length;
++ 
++-    DEBUG_printf(("8http_read: Grabbing %d bytes from input buffer.",
+++    DEBUG_printf(("8http_read_buffered: Grabbing %d bytes from input buffer.",
++                   (int)bytes));
++ 
++     memcpy(buffer, http->buffer, (size_t)bytes);
++@@ -4211,7 +4235,7 @@ http_read_buffered(http_t *http,	/* I - HTTP connection */
++       memmove(http->buffer, http->buffer + bytes, (size_t)http->used);
++   }
++   else
++-    bytes = http_read(http, buffer, length);
+++    bytes = http_read(http, buffer, length, http->wait_value);
++ 
++   return (bytes);
++ }
++@@ -4557,15 +4581,15 @@ http_set_timeout(int    fd,		/* I - File descriptor */
++ static void
++ http_set_wait(http_t *http)		/* I - HTTP connection */
++ {
++-  if (http->blocking)
++-  {
++-    http->wait_value = (int)(http->timeout_value * 1000);
+++  http->wait_value = (int)(http->timeout_value * 1000);
++ 
++-    if (http->wait_value <= 0)
+++  if (http->wait_value <= 0)
+++  {
+++    if (http->blocking)
++       http->wait_value = 60000;
+++    else
+++      http->wait_value = 1000;
++   }
++-  else
++-    http->wait_value = 10000;
++ }
++ 
++ 
++diff --git a/cups/tls-openssl.c b/cups/tls-openssl.c
++index 9fcbe0af3..f746f4cba 100644
++--- a/cups/tls-openssl.c
+++++ b/cups/tls-openssl.c
++@@ -180,12 +180,14 @@ cupsMakeServerCredentials(
++   // Save them...
++   if ((bio = BIO_new_file(keyfile, "wb")) == NULL)
++   {
+++    DEBUG_printf(("1cupsMakeServerCredentials: Unable to create private key file '%s': %s", keyfile, strerror(errno)));
++     _cupsSetError(IPP_STATUS_ERROR_INTERNAL, strerror(errno), 0);
++     goto done;
 +   }
 + 
-+   switch (var->type)
++   if (!PEM_write_bio_PrivateKey(bio, pkey, NULL, NULL, 0, NULL, NULL))
++   {
+++    DEBUG_puts("1cupsMakeServerCredentials: PEM_write_bio_PrivateKey failed.");
++     _cupsSetError(IPP_STATUS_ERROR_INTERNAL, _("Unable to write private key."), 1);
++     BIO_free(bio);
++     goto done;
++@@ -195,12 +197,14 @@ cupsMakeServerCredentials(
++ 
++   if ((bio = BIO_new_file(crtfile, "wb")) == NULL)
++   {
+++    DEBUG_printf(("1cupsMakeServerCredentials: Unable to create certificate file '%s': %s", crtfile, strerror(errno)));
++     _cupsSetError(IPP_STATUS_ERROR_INTERNAL, strerror(errno), 0);
++     goto done;
++   }
++ 
++   if (!PEM_write_bio_X509(bio, cert))
++   {
+++    DEBUG_puts("1cupsMakeServerCredentials: PEM_write_bio_X509 failed.");
++     _cupsSetError(IPP_STATUS_ERROR_INTERNAL, _("Unable to write X.509 certificate."), 1);
++     BIO_free(bio);
++     goto done;
++@@ -1044,10 +1048,10 @@ _httpTLSStart(http_t *http)		// I - Connection to server
++ 
++       if (!cupsMakeServerCredentials(tls_keypath, cn, 0, NULL, time(NULL) + 365 * 86400))
++       {
++-	DEBUG_puts("4_httpTLSStart: cupsMakeServerCredentials failed.");
+++	DEBUG_printf(("4_httpTLSStart: cupsMakeServerCredentials failed: %s", cupsLastErrorString()));
++ 	http->error  = errno = EINVAL;
++ 	http->status = HTTP_STATUS_ERROR;
++-	_cupsSetError(IPP_STATUS_ERROR_INTERNAL, _("Unable to create server credentials."), 1);
+++//	_cupsSetError(IPP_STATUS_ERROR_INTERNAL, _("Unable to create server credentials."), 1);
++         SSL_CTX_free(context);
++ 
++ 	return (-1);
++@@ -1272,14 +1276,17 @@ http_bio_read(BIO  *h,			// I - BIO data
++ 
++   http = (http_t *)BIO_get_data(h);
++ 
++-  if (!http->blocking)
+++  if (!http->blocking || http->timeout_value > 0.0)
++   {
++    /*
++     * Make sure we have data before we read...
++     */
++ 
++-    if (!_httpWait(http, 10000, 0))
+++    while (!_httpWait(http, http->wait_value, 0))
++     {
+++      if (http->timeout_cb && (*http->timeout_cb)(http, http->timeout_data))
+++	continue;
+++
++ #ifdef WIN32
++       http->error = WSAETIMEDOUT;
++ #else
++diff --git a/scheduler/client.c b/scheduler/client.c
++index f0349a6c9..9593c9138 100644
++--- a/scheduler/client.c
+++++ b/scheduler/client.c
++@@ -34,11 +34,11 @@
++ 
++ static int		check_if_modified(cupsd_client_t *con,
++ 			                  struct stat *filestats);
+++#ifdef HAVE_TLS
+++static int		check_start_tls(cupsd_client_t *con);
+++#endif /* HAVE_TLS */
++ static int		compare_clients(cupsd_client_t *a, cupsd_client_t *b,
++ 			                void *data);
++-#ifdef HAVE_TLS
++-static int		cupsd_start_tls(cupsd_client_t *con, http_encryption_t e);
++-#endif /* HAVE_TLS */
++ static char		*get_file(cupsd_client_t *con, struct stat *filestats,
++ 			          char *filename, size_t len);
++ static http_status_t	install_cupsd_conf(cupsd_client_t *con);
++@@ -360,14 +360,20 @@ cupsdAcceptClient(cupsd_listener_t *lis)/* I - Listener socket */
++   if (lis->encryption == HTTP_ENCRYPTION_ALWAYS)
++   {
++    /*
++-    * https connection; go secure...
+++    * HTTPS connection, force TLS negotiation...
++     */
++ 
++-    if (cupsd_start_tls(con, HTTP_ENCRYPTION_ALWAYS))
++-      cupsdCloseClient(con);
+++    con->tls_start = time(NULL);
+++    con->encryption = HTTP_ENCRYPTION_ALWAYS;
++   }
++   else
+++  {
+++   /*
+++    * HTTP connection, but check for HTTPS negotiation on first data...
+++    */
+++
++     con->auto_ssl = 1;
+++  }
++ #endif /* HAVE_TLS */
++ }
++ 
++@@ -597,17 +603,46 @@ cupsdReadClient(cupsd_client_t *con)	/* I - Client to read from */
++ 
++     con->auto_ssl = 0;
++ 
++-    if (recv(httpGetFd(con->http), buf, 1, MSG_PEEK) == 1 &&
++-        (!buf[0] || !strchr("DGHOPT", buf[0])))
+++    if (recv(httpGetFd(con->http), buf, 5, MSG_PEEK) == 5 && buf[0] == 0x16 && buf[1] == 3 && buf[2])
++     {
++      /*
++-      * Encrypt this connection...
+++      * Client hello record, encrypt this connection...
++       */
++ 
++-      cupsdLogClient(con, CUPSD_LOG_DEBUG2, "Saw first byte %02X, auto-negotiating SSL/TLS session.", buf[0] & 255);
+++      cupsdLogClient(con, CUPSD_LOG_DEBUG2, "Saw client hello record, auto-negotiating TLS session.");
+++      con->tls_start = time(NULL);
+++      con->encryption = HTTP_ENCRYPTION_ALWAYS;
+++    }
+++  }
++ 
++-      if (cupsd_start_tls(con, HTTP_ENCRYPTION_ALWAYS))
++-        cupsdCloseClient(con);
+++  if (con->tls_start)
+++  {
+++   /*
+++    * Try negotiating TLS...
+++    */
+++
+++    int tls_status = check_start_tls(con);
+++
+++    if (tls_status < 0)
+++    {
+++     /*
+++      * TLS negotiation failed, close the connection.
+++      */
+++
+++      cupsdCloseClient(con);
+++      return;
+++    }
+++    else if (tls_status == 0)
+++    {
+++     /*
+++      * Nothing to do yet...
+++      */
+++
+++      if ((time(NULL) - con->tls_start) > 5)
+++      {
+++	// Timeout, close the connection...
+++	cupsdCloseClient(con);
+++      }
++ 
++       return;
++     }
++@@ -771,9 +806,7 @@ cupsdReadClient(cupsd_client_t *con)	/* I - Client to read from */
++         * Parse incoming parameters until the status changes...
++ 	*/
++ 
++-        while ((status = httpUpdate(con->http)) == HTTP_STATUS_CONTINUE)
++-	  if (!httpGetReady(con->http))
++-	    break;
+++	status = httpUpdate(con->http);
++ 
++ 	if (status != HTTP_STATUS_OK && status != HTTP_STATUS_CONTINUE)
++ 	{
++@@ -935,11 +968,10 @@ cupsdReadClient(cupsd_client_t *con)	/* I - Client to read from */
++ 	  return;
++ 	}
++ 
++-        if (cupsd_start_tls(con, HTTP_ENCRYPTION_REQUIRED))
++-        {
++-	  cupsdCloseClient(con);
++-	  return;
++-	}
+++	con->tls_start = time(NULL);
+++	con->tls_upgrade = 1;
+++	con->encryption = HTTP_ENCRYPTION_REQUIRED;
+++	return;
++ #else
++ 	if (!cupsdSendError(con, HTTP_STATUS_NOT_IMPLEMENTED, CUPSD_AUTH_NONE))
++ 	{
++@@ -978,32 +1010,11 @@ cupsdReadClient(cupsd_client_t *con)	/* I - Client to read from */
++       if (!_cups_strcasecmp(httpGetField(con->http, HTTP_FIELD_CONNECTION),
++                             "Upgrade") && !httpIsEncrypted(con->http))
++       {
++-#ifdef HAVE_TLS
++-       /*
++-        * Do encryption stuff...
++-	*/
++-
++-        httpClearFields(con->http);
++-
++-	if (!cupsdSendHeader(con, HTTP_STATUS_SWITCHING_PROTOCOLS, NULL,
++-	                     CUPSD_AUTH_NONE))
++-	{
++-	  cupsdCloseClient(con);
++-	  return;
++-	}
++-
++-        if (cupsd_start_tls(con, HTTP_ENCRYPTION_REQUIRED))
++-        {
++-	  cupsdCloseClient(con);
++-	  return;
++-	}
++-#else
++ 	if (!cupsdSendError(con, HTTP_STATUS_NOT_IMPLEMENTED, CUPSD_AUTH_NONE))
++ 	{
++ 	  cupsdCloseClient(con);
++ 	  return;
++ 	}
++-#endif /* HAVE_TLS */
++       }
++ 
++       if ((status = cupsdIsAuthorized(con, NULL)) != HTTP_STATUS_OK)
++@@ -2631,6 +2642,69 @@ check_if_modified(
++ }
++ 
++ 
+++#ifdef HAVE_TLS
+++/*
+++ * 'check_start_tls()' - Start encryption on a connection.
+++ */
+++
+++static int				/* O - 0 to continue, 1 on success, -1 on error */
+++check_start_tls(cupsd_client_t *con)	/* I - Client connection */
+++{
+++  unsigned char	chello[4096];		/* Client hello record */
+++  ssize_t	chello_bytes;		/* Bytes read/peeked */
+++  int		chello_len;		/* Length of record */
+++
+++
+++ /*
+++  * See if we have a good and complete client hello record...
+++  */
+++
+++  if ((chello_bytes = recv(httpGetFd(con->http), (char *)chello, sizeof(chello), MSG_PEEK)) < 5)
+++    return (0);				/* Not enough bytes (yet) */
+++
+++  if (chello[0] != 0x016 || chello[1] != 3 || chello[2] == 0)
+++    return (-1);			/* Not a TLS Client Hello record */
+++
+++  chello_len = (chello[3] << 8) | chello[4];
+++
+++  if ((chello_len + 5) > chello_bytes)
+++    return (0);				/* Not enough bytes yet */
+++
+++ /*
+++  * OK, we do, try negotiating...
+++  */
+++
+++  con->tls_start = 0;
+++
+++  if (httpEncryption(con->http, con->encryption))
+++  {
+++    cupsdLogClient(con, CUPSD_LOG_ERROR, "Unable to encrypt connection: %s", cupsLastErrorString());
+++    return (-1);
+++  }
+++
+++  cupsdLogClient(con, CUPSD_LOG_DEBUG, "Connection now encrypted.");
+++
+++  if (con->tls_upgrade)
+++  {
+++    // Respond to the original OPTIONS command...
+++    con->tls_upgrade = 0;
+++
+++    httpClearFields(con->http);
+++    httpClearCookie(con->http);
+++    httpSetField(con->http, HTTP_FIELD_CONTENT_LENGTH, "0");
+++
+++    if (!cupsdSendHeader(con, HTTP_STATUS_OK, NULL, CUPSD_AUTH_NONE))
+++    {
+++      cupsdCloseClient(con);
+++      return (-1);
+++    }
+++  }
+++
+++  return (1);
+++}
+++#endif /* HAVE_TLS */
+++
+++
++ /*
++  * 'compare_clients()' - Compare two client connections.
++  */
++@@ -2651,28 +2725,6 @@ compare_clients(cupsd_client_t *a,	/* I - First client */
++ }
++ 
++ 
++-#ifdef HAVE_TLS
++-/*
++- * 'cupsd_start_tls()' - Start encryption on a connection.
++- */
++-
++-static int				/* O - 0 on success, -1 on error */
++-cupsd_start_tls(cupsd_client_t    *con,	/* I - Client connection */
++-                http_encryption_t e)	/* I - Encryption mode */
++-{
++-  if (httpEncryption(con->http, e))
++-  {
++-    cupsdLogClient(con, CUPSD_LOG_ERROR, "Unable to encrypt connection: %s",
++-                   cupsLastErrorString());
++-    return (-1);
++-  }
++-
++-  cupsdLogClient(con, CUPSD_LOG_DEBUG, "Connection now encrypted.");
++-  return (0);
++-}
++-#endif /* HAVE_TLS */
++-
++-
++ /*
++  * 'get_file()' - Get a filename and state info.
++  */
++diff --git a/scheduler/client.h b/scheduler/client.h
++index 9fe4e2ea6..2939ce997 100644
++--- a/scheduler/client.h
+++++ b/scheduler/client.h
++@@ -51,6 +51,9 @@ struct cupsd_client_s
++   cups_lang_t		*language;	/* Language to use */
++ #ifdef HAVE_TLS
++   int			auto_ssl;	/* Automatic test for SSL/TLS */
+++  time_t		tls_start;	/* Do TLS negotiation? */
+++  int			tls_upgrade;	/* Doing TLS upgrade via OPTIONS? */
+++  http_encryption_t	encryption;	/* Type of TLS negotiation */
++ #endif /* HAVE_TLS */
++   http_addr_t		clientaddr;	/* Client's server address */
++   char			clientname[256];/* Client's server name for connection */
++diff --git a/scheduler/select.c b/scheduler/select.c
++index 2e64f2a7e..ac6205c51 100644
++--- a/scheduler/select.c
+++++ b/scheduler/select.c
++@@ -408,6 +408,9 @@ cupsdDoSelect(long timeout)		/* I - Timeout in seconds */
++ 
++   cupsd_in_select = 1;
++ 
+++  // Prevent 100% CPU by releasing control before the kevent call...
+++  usleep(1);
+++
++   if (timeout >= 0 && timeout < 86400)
++   {
++     ktimeout.tv_sec  = timeout;
++@@ -454,6 +457,9 @@ cupsdDoSelect(long timeout)		/* I - Timeout in seconds */
++     struct epoll_event	*event;		/* Current event */
++ 
++ 
+++    // Prevent 100% CPU by releasing control before the epoll_wait call...
+++    usleep(1);
+++
++     if (timeout >= 0 && timeout < 86400)
++       nfds = epoll_wait(cupsd_epoll_fd, cupsd_epoll_events, MaxFDs,
++                 	timeout * 1000);
++@@ -546,6 +552,9 @@ cupsdDoSelect(long timeout)		/* I - Timeout in seconds */
++     }
++   }
++ 
+++  // Prevent 100% CPU by releasing control before the poll call...
+++  usleep(1);
+++
++   if (timeout >= 0 && timeout < 86400)
++     nfds = poll(cupsd_pollfds, (nfds_t)count, timeout * 1000);
++   else
++@@ -599,6 +608,9 @@ cupsdDoSelect(long timeout)		/* I - Timeout in seconds */
++   cupsd_current_input  = cupsd_global_input;
++   cupsd_current_output = cupsd_global_output;
++ 
+++  // Prevent 100% CPU by releasing control before the select call...
+++  usleep(1);
+++
++   if (timeout >= 0 && timeout < 86400)
++   {
++     stimeout.tv_sec  = timeout;
 
