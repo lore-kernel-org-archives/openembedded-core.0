@@ -1,121 +1,115 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B412EEEB576
-	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 00:21:25 +0000 (UTC)
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.95394.1767221980854050773
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F3CEEEB580
+	for <webhook@archiver.kernel.org>; Thu,  1 Jan 2026 11:37:49 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.103049.1767267465864508282
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Dec 2025 14:59:41 -0800
+ Thu, 01 Jan 2026 03:37:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@elder-tomes-com.20230601.gappssmtp.com header.s=20230601 header.b=XiSgXLpl;
- spf=pass (domain: elder-tomes.com, ip: 209.85.217.68, mailfrom: levi.shafter@elder-tomes.com)
-Received: by mail-vs1-f68.google.com with SMTP id ada2fe7eead31-5e53441429fso8347620137.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 31 Dec 2025 14:59:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=elder-tomes-com.20230601.gappssmtp.com; s=20230601; t=1767221979; x=1767826779; darn=lists.openembedded.org;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OKbnT9wp3Horpq2acUOZNWHhfaXh/mk7mlUZ2X+dnxQ=;
-        b=XiSgXLplrWSNSjKwGrqB9tcDKfitxbH7mijXZ7294AlBqFymWUAVaONME6fKwGlUWu
-         YHp0qPBluszsMjfx51TQbMO15XCO176b2sMg+cyVRUm6M0H4ZbBZN3kLTMPvDOZQmXtx
-         gGkNFx02WhpheP+d8rgvfdSh2ofCA4FP/va0bGhYe2BQ9Fv0MKnWDnmuSnR8NhcDQZkR
-         VpuiikDja3RsBbVTI+JlJtsVFafBYNm5CS+t8L1M/OGP3eZGtu9m3GOe0IVtdsjk/naH
-         MxPJx/pXfodb2GnkgFDy0YngBbem+kt1bJLrpyoGbtOGqp1OLiXAsRAr2gZ9bOsui0eQ
-         lG1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767221979; x=1767826779;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OKbnT9wp3Horpq2acUOZNWHhfaXh/mk7mlUZ2X+dnxQ=;
-        b=dPf28FplKc9YySSWIPTSQ7LtyYrNlXc4L8zSAiLDplnLJHFgQWh4DO6bs8M/3KP6sY
-         Nh3Kg+WjUTp7Gl1c2acq6rti05b4R7MtK0zKslB+LTBWgiQ045soD79zRtbWdwvH7mW9
-         pjK0rLQuOorUHAhw5P6u8C5pFyqVDluWD2ndVykWW2ZZx616mYz64097E/+F1dQ6NTmN
-         R17aJT1PeIqINULFYEwXsWr4FzItBbT0UzlcTbVvqkc/FwsXcEZLxaOFje3jBLfP6ZVE
-         uGmhs2oYKn429wScLS2HAeCxsAEkIQ6Uup2BP8qFtS7z9nYCnXhDDjfXzMVcWiROJzhO
-         EZ7A==
-X-Gm-Message-State: AOJu0YyaBDzIFpMYUWGImVYVRTZdJSfVo7I4boCPLRtloI4ivjNQBXaE
-	3Va77LYSLYltDVdjfMQLhzuU9YQLwh9JZVPWbGh8TGeI4hVSCMmhxTw6W6fjNd9wQUM/Yw2qEP6
-	I1GEzb9I=
-X-Gm-Gg: AY/fxX6H6K+PrBGZHO8zL190bmRkM2A74KkVJXWxH541z8LRxhDu4GPAa1yLGh/BevN
-	GYP/JuozD6p6rrJGjbp3IiXD66R+Df/+t3yYNlXaTMjLvRoQmxvX/brFq1OXvGR6h04kRzEEwiM
-	pFI/2NQBH9+eNMbGPbPxd6iP3VBSRRf+WFpB+zetzwJJCWj7VmdHiG0a2RYEsFlNAxgdsYyNMqF
-	iJydprrwbgokQJvn/GrNwrdGSG+PqbRfMmKNz3wCROVNkgv6ksmP+DnwmGCfGAUrDHc8HFo05sh
-	7g8qAPzlxPeb1yUS8kcQgf52GlIrHbw+mqRr79W3gAtN8u73/OfUdrutHZhXhNvg/+aNqhJbDrH
-	6IUzN1w7XvpoDqM30SK89G4bDAH85uhHio3r7cSaUV2ZIip35GLvntMq648GMouJBUzHU9cODNr
-	zwycYvcWuMPJDkqxQ1vX9051PKh0cTSBgTny11rCz2F/4hFNeVcO8MDn6twOW7
-X-Google-Smtp-Source: AGHT+IFnQtqAO6uLuKUuXMbnOCS0j3qbEEtJ5nIH6RvAhDqEwTlxAvopQ1uua0F9bSUI/MY9Jmmhiw==
-X-Received: by 2002:a05:6820:1517:b0:65f:1296:7690 with SMTP id 006d021491bc7-65f1296776cmr85571eaf.83.1767221570779;
-        Wed, 31 Dec 2025 14:52:50 -0800 (PST)
-Received: from [192.168.1.8] (c-73-169-9-114.hsd1.co.comcast.net. [73.169.9.114])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-65d0f6f0e78sm22350976eaf.15.2025.12.31.14.52.49
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Dec 2025 14:52:50 -0800 (PST)
-Message-ID: <585429b3-5763-4c61-97ae-2c73266c887d@elder-tomes.com>
-Date: Wed, 31 Dec 2025 15:52:49 -0700
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ely9g1ok;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=U9vCnnsE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019b79597716-4f8157b4-a3f2-439d-b137-9b5c99587fdb-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1767267465;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=bcqp/vrFpyDAKHEDOYg54TuKSlKWCwZlA2VYHfyvjdw=;
+	b=ely9g1okehXPWDMKQInuP0j0er7OBjl8RWj2IIWfjECKrBGQ/OmvlMpdSwmAJY0r
+	rjrLsO/cXOoHgFUcJUb155PKsqmVgpwROh3R1bAiI99AROAFKm69UqFkqiHRGqWIiPx
+	68MhkXp009aUphqIUy5zfwXWmjz+yvYSV05pNglM=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1767267465;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=bcqp/vrFpyDAKHEDOYg54TuKSlKWCwZlA2VYHfyvjdw=;
+	b=U9vCnnsEmPJInSgqCI/X5u3yUtC9oPTNSPXn7s8eD1VTWaDM7Jg8bZ3TE2f8AvvW
+	lZyelXVRI4tLezc5bUWf7LgbrmsEy9lAfVRAJx7Ck8OMObfW+kLToOQdGIAMiw9NTMq
+	lbalJ29vK1d4+a8qQqyjIXCWkBocNx6cKL3pnDs0=
+Content-Type: multipart/mixed; boundary="===============1502019253233276194=="
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: openembedded-core@lists.openembedded.org
-From: Levi Shafter <levi.shafter@elder-tomes.com>
-Subject: [PATCH] image_types.bbclass: make fsck optional
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: auh@yoctoproject.org
+To: Viswanath Kraleti <quic_vkraleti@quicinc.com>, 
+	Chen Qi <Qi.Chen@windriver.com>, Chen Qi <Qi.Chen@windriver.com>, 
+	Chen Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH]
+ systemd-boot-native,systemd-boot,systemd-systemctl-native,systemd: upgrading
+ to 259,259,259,259 FAILED
+Message-ID: <0101019b79597716-4f8157b4-a3f2-439d-b137-9b5c99587fdb-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Jan 2026 11:37:45 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.01.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 00:21:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228752
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Jan 2026 11:37:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228753
 
-The fsck in oe_mkext234fs() was added to prevent an extra reboot on the
-target:
+--===============1502019253233276194==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-https://git.openembedded.org/openembedded-core/commit/?id=a93d0059341
+Hello,
 
-This has the side effect of increasing delta between images which
-prevents reproducibility. In many cases, the added security provided by
-image reproducibility is worth the extra reboot upon first booting the
-target. The use of fsck should be included by default, but left
-configurable.
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *systemd-boot-native,systemd-boot,systemd-systemctl-native,systemd* to *259,259,259,259* has Failed (devtool error).
 
-[YOCTO #16110]
+Detailed error information:
 
-Signed-off-by: Levi Shafter <levi.shafter@elder-tomes.com>
----
-Sponsor: 21SoftWare LLC
+Running 'devtool upgrade' for recipe systemd-boot-native failed.
+NOTE: Reconnecting to bitbake server...
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1954 targets, 47 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
- meta/classes-recipe/image_types.bbclass | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+Build Configuration:
+BB_VERSION           = "2.16.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-f55407185c63c895fa3c4fdf74e6e63ea9517a20"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 = "tmp-auh-upgrades:f55407185c63c895fa3c4fdf74e6e63ea9517a20"
+meta-yocto-bsp       
+meta-poky            = "master:853589ccc3445f5952efc02a7102587cb4d4f075"
+workspace            = "<unknown>:<unknown>"
 
-diff --git a/meta/classes-recipe/image_types.bbclass
-b/meta/classes-recipe/image_types.bbclass
-index e6ef0ce11e..63dc504f8c 100644
---- a/meta/classes-recipe/image_types.bbclass
-+++ b/meta/classes-recipe/image_types.bbclass
-@@ -92,8 +92,14 @@ oe_mkext234fs () {
- 	bbdebug 1 "Actual Partition size: `stat -c '%s'
-${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype`"
- 	bbdebug 1 Executing "mkfs.$fstype -F $extra_imagecmd
-${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype -d ${IMAGE_ROOTFS}"
- 	mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype
--d ${IMAGE_ROOTFS}
--	# Error codes 0-3 indicate successfull operation of fsck (no errors or
-errors corrected)
--	fsck.$fstype -pvfD ${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype || [ $? -le 3 ]
-+
-+	if [ '${RUN_FSCK}' = "0" ]; then
-+		bbdebug 1 "Skipping fsck for reduced image delta"
-+	else
-+		bbdebug 1 "Running fsck on image"
-+		# Error codes 0-3 indicate successful operation of fsck (no errors or
-errors corrected)
-+		fsck.$fstype -pvfD ${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype || [ $? -le 3 ]
-+	fi
- }
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+done.
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto 9ca433482f2281d71718718705ca8cd3bf562ad6
+WARNING: Command 'git rebase 9ca433482f2281d71718718705ca8cd3bf562ad6' failed:
+Auto-merging mkosi/mkosi.pkgenv/mkosi.conf.d/debian-ubuntu.conf
+CONFLICT (content): Merge conflict in mkosi/mkosi.pkgenv/mkosi.conf.d/debian-ubuntu.conf
 
- IMAGE_CMD:ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/systemd-boot-native
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/systemd-boot-native/systemd-boot-native_259.bb
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============1502019253233276194==--
 
