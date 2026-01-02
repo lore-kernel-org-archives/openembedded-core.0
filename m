@@ -1,141 +1,108 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0C63FA3744
-	for <webhook@archiver.kernel.org>; Fri,  2 Jan 2026 12:40:08 +0000 (UTC)
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3543.1767353251208820680
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0613CFA3748
+	for <webhook@archiver.kernel.org>; Fri,  2 Jan 2026 13:32:59 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5026.1767360767920129325
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Jan 2026 03:27:31 -0800
+ Fri, 02 Jan 2026 05:32:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@mailbox.org header.s=mail20150812 header.b=eL5JMktn;
- dkim=fail reason="dkim: body hash did not verify" header.i=@mailbox.org header.s=mail20150812 header.b=AzZiF84H;
- spf=pass (domain: mailbox.org, ip: 80.241.56.171, mailfrom: patrick.vogelaar.dev@mailbox.org)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4djLyS41Pnz9sSJ
-	for <openembedded-core@lists.openembedded.org>; Fri,  2 Jan 2026 12:27:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1767353248;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=MJsegDWHhLh68btnSBA3JnTfR+NDGsRWuAG3HfLkQmo=;
-	b=eL5JMktn8vMRntcub/DyhOj3JI7lxC2AxNVQiWnlSzmq7aVzCVuo5F2yyThqwGCUmvpfKk
-	7sBdQ6fuh+LeM4yLrObrw84A39nyxpjEGz+CVJ7p99jHJ1c1YtLMr1fA6qN+gu1IuDcw5H
-	lm+wyRbFVeMb73TXslVUzaFO3AJiuY6SRT02293+gLo+yt7fTK6Ak5FZMgsWpA+tsZr5wV
-	YnNXVaH5qu0Loup6nmotpRtd2Dp2onsRl7HhWmeKPTuV+T4TtVaGn0xa3A8pXb0TKqO5V+
-	S6DD1nu9QzrCZcj4UXlAzl5mDGdr1w7yms3dJS4rs3QfyS4lOugddE3Ad+SHPA==
-From: "Patrick Vogelaar" <patrick.vogelaar.dev@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1767353246;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=MJsegDWHhLh68btnSBA3JnTfR+NDGsRWuAG3HfLkQmo=;
-	b=AzZiF84Hg1DH2oqsD579XefXqwn5NykkLJX3qk4UeCr2WZJqJU4HF6MlTM3Gw12i/Pq44C
-	Dibv1XdmQ5FqWUaY1YxTf5MDixuxueg0D/RrKcStjiG7c3hYzp+dgrQW0FLYitCHQye5xl
-	RL/0MP5+9A+FUeJFx22KiQ0sr7weFO59DZSYuLgCOV/dDof/pL6C8b9MtGr81OmJFr80Xv
-	1RGdh01vJbF+RjX3qL3evjT67SJfGtxCkNQ3UavZlxnkh6pvYX9P/1Z0737Ku9kAL7wfQe
-	Rl2lU83f6b63igEjimb5CFCBqHlFTyHac96J1Qlb/Bkiq81kQIqQu+YT2fs+GA==
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ShOT97Lc;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20260102133250afa50dc1830002078b-w0qaqz@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260102133250afa50dc1830002078b
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 02 Jan 2026 14:32:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=nSI6+DkH/7tnBOyWDUQHSKFByMZckfUuMSICEw2Q7vk=;
+ b=ShOT97Lc4k+yGHSRQsQhkL0nEGKFEJNaOvIPhLO0Ep6GuzHew2JiVn54iCpmOneUUXPP4X
+ gGEMqdD0SFapKOzjK3mzneo5XVuoOfyq2/W4o+NymsqCub8lqSj2hDBE5eD6PWjZ5ZgPfKkM
+ FeOA/MThhgqBqHoZ6bhJOOZTd+J/8BRltJgcVDi2IUhVNtOQu1ANnsZ5bfOT09XFJQqE/pBN
+ HDAb0NcdanyFlCt+DM3RafKwruROpUaR8EY/cyvrvAbZSbH5lxjbsq6SneAC/xUEI1blJgEG
+ 06LNBvtvFh0hgyx5YTCITnaXGn8StOo8hK4c+90srdiMMb0srs4mmAHg==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Patrick Vogelaar <patrick.vogelaar.dev@mailbox.org>
-Subject: [PATCH] openssh: add variable for key path
-Date: Fri,  2 Jan 2026 12:27:02 +0100
-Message-ID: <20260102112702.110486-1-patrick.vogelaar.dev@mailbox.org>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH 2/2] libpcap: patch CVE-2025-11964
+Date: Fri,  2 Jan 2026 14:32:34 +0100
+Message-Id: <20260102133234.2651606-2-peter.marko@siemens.com>
+In-Reply-To: <20260102133234.2651606-1-peter.marko@siemens.com>
+References: <20260102133234.2651606-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-X-MBO-RS-ID: 7538287a9fad4d13f39
-X-MBO-RS-META: 7hkr4s63x84crzyzfcb17gp7semkwico
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Jan 2026 12:40:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228843
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Jan 2026 13:32:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228845
 
-This patch adds a variable for the key directory path. This is especially
-useful when working with a read-only file system where you want to
-specify the location e.g. on a r/w partition. To be consistent, the
-change was also done for the read write path.
+From: Peter Marko <peter.marko@siemens.com>
 
-For changing the path simply create a bbappend and override the
-variable.
+Pick patch per [1].
 
-Signed-off-by: Patrick Vogelaar <patrick.vogelaar.dev@mailbox.org>
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-11964
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../openssh/openssh_10.2p1.bb                    | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ .../libpcap/libpcap/CVE-2025-11964.patch      | 33 +++++++++++++++++++
+ .../libpcap/libpcap_1.10.4.bb                 |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_10.2p1.bb b/meta/r=
-ecipes-connectivity/openssh/openssh_10.2p1.bb
-index 866129573f..e319f4ac24 100644
---- a/meta/recipes-connectivity/openssh/openssh_10.2p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_10.2p1.bb
-@@ -99,6 +99,10 @@ CACHED_CONFIGUREVARS +=3D "ac_cv_path_PATH_PASSWD_PROG=
-=3D${bindir}/passwd"
- # We don't want to depend on libblockfile
- CACHED_CONFIGUREVARS +=3D "ac_cv_header_maillock_h=3Dno"
-=20
-+# This allows overriding the key location in a bbappend
-+RO_SSH_KEY_DIR ?=3D "/var/run/ssh"
-+SSH_KEY_DIR ?=3D "/etc/ssh"
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch b/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch
+new file mode 100644
+index 00000000000..003d21fb1f1
+--- /dev/null
++++ b/meta/recipes-connectivity/libpcap/libpcap/CVE-2025-11964.patch
+@@ -0,0 +1,33 @@
++From 7fabf607f2319a36a0bd78444247180acb838e69 Mon Sep 17 00:00:00 2001
++From: Guy Harris <gharris@sonic.net>
++Date: Sun, 7 Sep 2025 12:51:56 -0700
++Subject: [PATCH] Fix a copy-and-pasteo in utf_16le_to_utf_8_truncated().
 +
- do_configure:prepend () {
- 	export LD=3D"${CC}"
- 	install -m 0600 ${UNPACKDIR}/sshd_config ${B}/
-@@ -113,24 +117,24 @@ sshd_hostkey_setup() {
- 	# Enable specific ssh host keys
- 	sed -i '/HostKey/d' ${D}${sysconfdir}/ssh/sshd_config
- 	if ${@bb.utils.contains('PACKAGECONFIG','hostkey-rsa','true','false',d)=
-}; then
--		echo "HostKey /etc/ssh/ssh_host_rsa_key" >> ${D}${sysconfdir}/ssh/sshd=
-_config
-+		echo "HostKey ${SSH_KEY_DIR}/ssh_host_rsa_key" >> ${D}${sysconfdir}/ss=
-h/sshd_config
- 	fi
- 	if ${@bb.utils.contains('PACKAGECONFIG','hostkey-ecdsa','true','false',=
-d)}; then
--		echo "HostKey /etc/ssh/ssh_host_ecdsa_key" >> ${D}${sysconfdir}/ssh/ss=
-hd_config
-+		echo "HostKey ${SSH_KEY_DIR}/ssh_host_ecdsa_key" >> ${D}${sysconfdir}/=
-ssh/sshd_config
- 	fi
- 	if ${@bb.utils.contains('PACKAGECONFIG','hostkey-ed25519','true','false=
-',d)}; then
--		echo "HostKey /etc/ssh/ssh_host_ed25519_key" >> ${D}${sysconfdir}/ssh/=
-sshd_config
-+		echo "HostKey ${SSH_KEY_DIR}/ssh_host_ed25519_key" >> ${D}${sysconfdir=
-}/ssh/sshd_config
- 	fi
-=20
- 	sed -i '/HostKey/d' ${D}${sysconfdir}/ssh/sshd_config_readonly
- 	if ${@bb.utils.contains('PACKAGECONFIG','hostkey-rsa','true','false',d)=
-}; then
--		echo "HostKey /var/run/ssh/ssh_host_rsa_key" >> ${D}${sysconfdir}/ssh/=
-sshd_config_readonly
-+		echo "HostKey ${RO_SSH_KEY_DIR}/ssh_host_rsa_key" >> ${D}${sysconfdir}=
-/ssh/sshd_config_readonly
- 	fi
- 	if ${@bb.utils.contains('PACKAGECONFIG','hostkey-ecdsa','true','false',=
-d)}; then
--		echo "HostKey /var/run/ssh/ssh_host_ecdsa_key" >> ${D}${sysconfdir}/ss=
-h/sshd_config_readonly
-+		echo "HostKey ${RO_SSH_KEY_DIR}/ssh_host_ecdsa_key" >> ${D}${sysconfdi=
-r}/ssh/sshd_config_readonly
- 	fi
- 	if ${@bb.utils.contains('PACKAGECONFIG','hostkey-ed25519','true','false=
-',d)}; then
--		echo "HostKey /var/run/ssh/ssh_host_ed25519_key" >> ${D}${sysconfdir}/=
-ssh/sshd_config_readonly
-+		echo "HostKey ${RO_SSH_KEY_DIR}/ssh_host_ed25519_key" >> ${D}${sysconf=
-dir}/ssh/sshd_config_readonly
- 	fi
- }
-=20
---=20
-2.43.0
-
++For the four octets of UTF-8 case, it was decrementing the remaining
++buffer length by 3, not 4.
++
++Thanks to a team of developers from the Univesity of Waterloo for
++reporting this.
++
++(cherry picked from commit aebfca1aea2fc8c177760a26e8f4de27b51d1b3b)
++
++CVE: CVE-2025-11964
++Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/7fabf607f2319a36a0bd78444247180acb838e69]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ fmtutils.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/fmtutils.c b/fmtutils.c
++index a5a4fe62..78a0f8b7 100644
++--- a/fmtutils.c
+++++ b/fmtutils.c
++@@ -235,7 +235,7 @@ utf_16le_to_utf_8_truncated(const wchar_t *utf_16, char *utf_8,
++ 			*utf_8++ = ((uc >> 12) & 0x3F) | 0x80;
++ 			*utf_8++ = ((uc >> 6) & 0x3F) | 0x80;
++ 			*utf_8++ = ((uc >> 0) & 0x3F) | 0x80;
++-			utf_8_len -= 3;
+++			utf_8_len -= 4;
++ 		}
++ 	}
++ 
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb b/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
+index df091e5ca2c..ee7d7540f67 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
+@@ -16,6 +16,7 @@ SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.gz \
+            file://CVE-2024-8006.patch \
+            file://CVE-2025-11961-01.patch \
+            file://CVE-2025-11961-02.patch \
++           file://CVE-2025-11964.patch \
+           "
+ 
+ SRC_URI[sha256sum] = "ed19a0383fad72e3ad435fd239d7cd80d64916b87269550159d20e47160ebe5f"
 
