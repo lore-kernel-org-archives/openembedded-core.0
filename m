@@ -1,104 +1,89 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <louis.rannou@non.se.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EC3BC2A07A
-	for <webhook@archiver.kernel.org>; Mon,  5 Jan 2026 09:32:19 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.60723.1767605538042899343
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A712C2A096
+	for <webhook@archiver.kernel.org>; Mon,  5 Jan 2026 10:49:40 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.61562.1767610174461036923
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jan 2026 01:32:19 -0800
+ Mon, 05 Jan 2026 02:49:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=CnAowQ8z;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 1399E1A2667;
-	Mon,  5 Jan 2026 09:32:16 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id DD30560726;
-	Mon,  5 Jan 2026 09:32:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 719A7103C846F;
-	Mon,  5 Jan 2026 10:32:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1767605534; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=0E49eF/UFtDGIcwWi1oZFNKqK0P/RvLpqVjFXE5mdyM=;
-	b=CnAowQ8z+3ntRiMYdd4y5nqRS5xDX3vcMZO8nEDj5CMuPhbIXm9Yvog1BRuHdMpGtvxZY5
-	gi1FrroKEhEhsj3ERfGihNwy2PuEOK+Du1GL36q9+36m0OPIJ5XKAMjJDRh81asEvxrx2O
-	wIgBiN8izsvq8KZGnV6PA5b3kDLq+z1bd5Ne/y7t92Dyw7SHN+IMCmlUd08+54i2lZn6Zz
-	0QAVAB5vtvcajJcxysbbSqew2fGZwq1OymY818q9mJdnzQq8GxGPxrKrx9JRFuA5MtsW4+
-	dwtSdR2MuMrwUal91JR4OdPltIhQ3gb2aqsQv0+0br8LUews1STgqK3U9ypHWw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 05 Jan 2026 10:32:11 +0100
-Message-Id: <DFGJV6ZAEFO9.46GUIB6FK2KV@bootlin.com>
-Subject: Re: [OE-core] [PATCH v2 10/15] selftest/cases/runtime_test: Add
- test for Linux Rust sample
-Cc: <Randy.MacLeod@windriver.com>, <Sundeep.Kokkonda@windriver.com>,
- <bruce.ashfield@gmail.com>, <yoann.congal@smile.fr>,
- <elmehdi.younes@smile.fr>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <Harish.Sadineni@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20251230141540.1974380-1-Harish.Sadineni@windriver.com>
- <20251230141540.1974380-11-Harish.Sadineni@windriver.com>
-In-Reply-To: <20251230141540.1974380-11-Harish.Sadineni@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=PAxjTCHL;
+ spf=pass (domain: kernel.org, ip: 172.234.252.31, mailfrom: devnull+louis.rannou.non.se.com@kernel.org)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id AC5BB43A58;
+	Mon,  5 Jan 2026 10:49:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8CF8BC19421;
+	Mon,  5 Jan 2026 10:49:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767610173;
+	bh=7fpUDhH0+im6I8AZsSXmhPC9H7nhAfbtGkVBUFDTP/g=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=PAxjTCHLXzS5OkMDWRN0C+G2Vh3uOa9ZDZYf09ChtvMX1Q+ikv60qD5icjl9YZwHz
+	 RbNPfYcqMQs5OHn9P2U30a0brr23DvQaHVoiTf5uCkHBvom+Ffd8UpMLqHFCbyD3F2
+	 4TL2gv/YE1pCKvotF28EJVjLFHt4lP4eO04pwqH+mKJFwBt7MHx5NuimdhGT7wJ42W
+	 vhG9IOqGEHFarwWl3MW+mQjB8MaKU80LN8M8uhrdKFy57gmRSk7FoRapKYNQdUTlXn
+	 Kws2CW+df9A4KdusJm6/f7BciIzHW86c1fB6f6Ac0PilKCUpkwgmkRCIO5TesJ88oG
+	 U92yr20OfuXRw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F01DC2A096;
+	Mon,  5 Jan 2026 10:49:33 +0000 (UTC)
+From: Louis Rannou via B4 Relay <devnull+louis.rannou.non.se.com@kernel.org>
+Date: Mon, 05 Jan 2026 11:49:26 +0100
+Subject: [PATCH 1/4] oeqa/selftests: fitimage: fix missing spaces
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260105-fitimage-v1-1-e319258c4c4f@non.se.com>
+References: <20260105-fitimage-v1-0-e319258c4c4f@non.se.com>
+In-Reply-To: <20260105-fitimage-v1-0-e319258c4c4f@non.se.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Louis Rannou <louis.rannou@non.se.com>, adrian.freihofer@siemens.com, 
+ pascal.eberhard@se.com
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767610172; l=794;
+ i=louis.rannou@non.se.com; s=20250630; h=from:subject:message-id;
+ bh=rQ1nbHMPOK4AhgGS7auVgedREqGsY8ykUKHeGJ0VQSU=;
+ b=4AZYV5+0A9nXX7Rdm4FYKxt2Tj2/U3hNKmps8EiSGEIM1dYZAziZR2a85TzRGJUekOPvuAfvd
+ YSgQMQrHTErD6aHnluJSW5RRZCiBS4zflgLZYbP6lIXObgTX/1SBwpf
+X-Developer-Key: i=louis.rannou@non.se.com; a=ed25519;
+ pk=WWYN5/DFKqyCKdv6oTYNuq0gROqwZVfNfw2OMI3tUlc=
+X-Endpoint-Received: by B4 Relay for louis.rannou@non.se.com/20250630 with
+ auth_id=446
+X-Original-From: Louis Rannou <louis.rannou@non.se.com>
+Reply-To: louis.rannou@non.se.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Jan 2026 09:32:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228861
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Jan 2026 10:49:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228863
 
-On Tue Dec 30, 2025 at 3:15 PM CET, Harish via lists.openembedded.org Sadin=
-eni wrote:
-> From: Yoann Congal <yoann.congal@smile.fr>
->
-> This new case tests that the rust_mininal sample inside the kernel source
-> tree is buildable and works properly: check that the module can be
-> loaded and that it prints correctly.
->
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> ---
+From: Louis Rannou <louis.rannou@non.se.com>
 
-Hi Yoann, Harish,
+Spaces missing around '='
 
-Thanks for your patch.
+Signed-off-by: Louis Rannou <louis.rannou@non.se.com>
+---
+ meta/lib/oeqa/selftest/cases/fitimage.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It looks like we got a few intermittent failures here:
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index 8df5e92a34..008687f9d1 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -1722,7 +1722,7 @@ UBOOT_SIGN_ENABLE = "1"
+ UBOOT_SIGN_KEYDIR = "${TOPDIR}/signing-keys"
+ UBOOT_SIGN_KEYNAME = "the-kernel-config-key"
+ UBOOT_SIGN_IMG_KEYNAME = "the-kernel-image-key"
+-UBOOT_MKIMAGE_DTCOPTS="-I dts -O dtb -p 2000"
++UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
+ FIT_SIGN_INDIVIDUAL = "1"
+ """
+         self.write_config(config)
 
-2026-01-02 19:40:58,816 - oe-selftest - INFO - FAIL: runtime_test.RustKerne=
-l.test_kernel_rust_sample (subunit.RemotedTestCase)
-2026-01-02 19:40:58,816 - oe-selftest - INFO - ----------------------------=
-------------------------------------------
-2026-01-02 19:40:58,816 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openem=
-bedded-core/meta/lib/oeqa/selftest/cases/runtime_test.py", line 514, in tes=
-t_kernel_rust_sample
-    self.assertEqual(status, 1, "Loading rust_out_of_tree module failed!")
-  File "/usr/lib/python3.10/unittest/case.py", line 845, in assertEqual
-    assertion_func(first, second, msg=3Dmsg)
-  File "/usr/lib/python3.10/unittest/case.py", line 838, in _baseAssertEqua=
-l
-    raise self.failureException(msg)
-AssertionError: 0 !=3D 1 : Loading rust_out_of_tree module failed!
+-- 
+2.43.0
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3082
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3095
-
-I only saw two occurrences so far, on at least 10 builds, but maybe you
-can check for obvious reasons before the series get merged.
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
 
