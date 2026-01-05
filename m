@@ -2,52 +2,51 @@ Return-Path: <louis.rannou@non.se.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67EABC2A09B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 556EDC2A099
 	for <webhook@archiver.kernel.org>; Mon,  5 Jan 2026 10:49:40 +0000 (UTC)
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.61563.1767610174473282572
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.61658.1767610174459651957
  for <openembedded-core@lists.openembedded.org>;
  Mon, 05 Jan 2026 02:49:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JQi0rvhx;
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=qghW/+pv;
  spf=pass (domain: kernel.org, ip: 172.234.252.31, mailfrom: devnull+louis.rannou.non.se.com@kernel.org)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 9EBAA401BA;
-	Mon,  5 Jan 2026 10:49:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7EC10C116D0;
+	by sea.source.kernel.org (Postfix) with ESMTP id 32B3443C40;
+	Mon,  5 Jan 2026 10:49:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C5DDCC116D0;
 	Mon,  5 Jan 2026 10:49:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1767610173;
-	bh=3c4rghs/a1/J0a/fdr2Q2xPSkftzboHq5wuSJ8l4CNo=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=JQi0rvhx+PkVTPa3yN3fpwS8JHK+Q+BJSB0C8wJhzI+73yzGvUNZaLQjNfMldDMMb
-	 BSqABLa1i5NM4MW2wkLiw5gn6UcunYLX1NEfld/6FhyPNWLZokBxhCoDUb5ID5Ammw
-	 VKnenmnT9X93tvsW12v2J+Jgs2yW+8IADKE1ONzQYB0r2uJ3JhS2hS89FnBTm8DOrS
-	 uLGHBj3OA1E5zK6a6ihLNj7aIsZyOPgRvWDa8PDmnbYYeLdWkAObtc/8M7cCtLwgIg
-	 G18MIzWMxcVlmsgos0FrS+avT0RcIEWIng65FQ/ZtjJ4WRc+NQaRz9wJR8qlHZCEMT
-	 XJSUVH0GfJg3w==
+	bh=+l/tRxmwbtoo98zVW/ytoexTqQHN1XFw/Xaz7htfby8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=qghW/+pvCR5hxu1b6E5MMqc5u8TeuwWS7pf0BCtTtn9kZ4kQj8kMnWaPBD5qYGF22
+	 iyXZFTkiciRgqXNHcOtTiSpQ7nyMN+BivIOLDwQ6ewYCB2scMk6svbb1qEUj62M1dO
+	 NrHM3LmssrUuc3OANJYkZnQ2nrbrQW7VSxgCU2jfQbge6iDPtSV3zNS5Qj7Xu3YBer
+	 9CHB0udur/3mmF3Mfw6mzmhGFJK0SnZI3vnNtK1PkcBvGmtrZvgwOvWZWva7lyJhor
+	 UVMNrtw+XWyc8BuGYO8HYdcEyRwngofEIVDFwsoNjey6oWLq7ITlnKSFMAUX1IhDLv
+	 Rkmd0u5VGLykg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C1B4C2A06C;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC1BC2A097;
 	Mon,  5 Jan 2026 10:49:33 +0000 (UTC)
 From: Louis Rannou via B4 Relay <devnull+louis.rannou.non.se.com@kernel.org>
-Subject: [PATCH 0/4] oeqa: selftest: split and create a library
-Date: Mon, 05 Jan 2026 11:49:25 +0100
-Message-Id: <20260105-fitimage-v1-0-e319258c4c4f@non.se.com>
+Date: Mon, 05 Jan 2026 11:49:29 +0100
+Subject: [PATCH 4/4] oeqa/utils: fitimage: rsa4096 signatures
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADWXW2kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDQwNT3bTMkszcRKC4mYFlUrKZmWViUnKiElB5QVFqWmYF2Kjo2NpaAKh
- rYmlaAAAA
+Message-Id: <20260105-fitimage-v1-4-e319258c4c4f@non.se.com>
+References: <20260105-fitimage-v1-0-e319258c4c4f@non.se.com>
+In-Reply-To: <20260105-fitimage-v1-0-e319258c4c4f@non.se.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Louis Rannou <louis.rannou@non.se.com>, adrian.freihofer@siemens.com, 
  pascal.eberhard@se.com
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767610172; l=1173;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767610172; l=762;
  i=louis.rannou@non.se.com; s=20250630; h=from:subject:message-id;
- bh=3c4rghs/a1/J0a/fdr2Q2xPSkftzboHq5wuSJ8l4CNo=;
- b=xMmt4hmfoMdXDEonFldHx61j8hBrg4ti1iIFoKBMA/YBACajSiiQ7gsXwNIWkxd7vvQJcF8L3
- a9sAYq8ykYbDcyQ1XqC3hKul3reiID9XOowZXjQ/gJInpLiJYC5cFrG
+ bh=mbO0Ur/XUEX74SWYk4SC5N44kMyTAjUd4Mp5Ss51pTs=;
+ b=ej1A3jnH37E5Ur86nr/asv1hDm9CyXF4FNeajJg+OsWJ+pa4UjEKqToBtr7GuuWUuIlN4iKgp
+ aekO0yP58UBAMXqbFbBxsY809uG6BxqsvYEv6oghqJkrPAsAvbf8j34
 X-Developer-Key: i=louis.rannou@non.se.com; a=ed25519;
  pk=WWYN5/DFKqyCKdv6oTYNuq0gROqwZVfNfw2OMI3tUlc=
 X-Endpoint-Received: by B4 Relay for louis.rannou@non.se.com/20250630 with
@@ -58,37 +57,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 05 Jan 2026 10:49:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228864
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228862
 
-Take some generic code from the fitimage selftest to create a library
-oeqa.utils.fitimage than can be reused in other tests (such as sanity).
+From: Louis Rannou <louis.rannou@non.se.com>
 
-The first commit is a fix for missing spaces and the last is adds support
-for rsa4096 signatures.
-
-The two mains commit (2nd and 3rd) are organized to make the diff
-easier. The 2nd looks at every generic functions ands remove unittest
-relative code. While the 3rd makes the move from selftest to utils, keeping
-the same architecture.
+Accept rsa4096 signatures whith length 1024.
 
 Signed-off-by: Louis Rannou <louis.rannou@non.se.com>
 ---
-Louis Rannou (4):
-      oeqa/selftests: fitimage: fix missing spaces
-      oeqa/selftests: fitimage: prepare for split
-      oeqa: fitimage: split the selftest and create a generic library
-      oeqa/utils: fitimage: rsa4096 signatures
+ meta/lib/oeqa/utils/fitimage.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/lib/oeqa/selftest/cases/fitimage.py | 864 +++---------------------------
- meta/lib/oeqa/utils/fitimage.py          | 883 +++++++++++++++++++++++++++++++
- 2 files changed, 961 insertions(+), 786 deletions(-)
----
-base-commit: f55407185c63c895fa3c4fdf74e6e63ea9517a20
-change-id: 20260105-fitimage-609bc669abca
+diff --git a/meta/lib/oeqa/utils/fitimage.py b/meta/lib/oeqa/utils/fitimage.py
+index bfe594c968..117206b39b 100644
+--- a/meta/lib/oeqa/utils/fitimage.py
++++ b/meta/lib/oeqa/utils/fitimage.py
+@@ -22,7 +22,7 @@ class FitImageUtils():
+     """Kernel FIT image base library"""
+ 
+     MKIMAGE_HASH_LENGTHS = { 'sha256': 64, 'sha384': 96, 'sha512': 128 }
+-    MKIMAGE_SIGNATURE_LENGTHS = { 'rsa2048': 512 }
++    MKIMAGE_SIGNATURE_LENGTHS = { 'rsa2048': 512 , 'rsa4096': 1024}
+ 
+     def __init__(self, logger):
+         self.logger = logger
 
-Best regards,
 -- 
-Louis Rannou <louis.rannou@non.se.com>
+2.43.0
 
 
 
