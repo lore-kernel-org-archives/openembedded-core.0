@@ -1,137 +1,99 @@
-Return-Path: <yw.byun@lge.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AEF6C2A073
-	for <webhook@archiver.kernel.org>; Mon,  5 Jan 2026 02:51:07 +0000 (UTC)
-Received: from lgeamrelo13.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.56497.1767581456828923658
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF57C2A075
+	for <webhook@archiver.kernel.org>; Mon,  5 Jan 2026 08:37:09 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.60212.1767602221282653349
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Jan 2026 18:50:57 -0800
+ Mon, 05 Jan 2026 00:37:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.53, mailfrom: yw.byun@lge.com)
-Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
-	by 156.147.23.53 with ESMTP; 5 Jan 2026 11:50:54 +0900
-X-Original-SENDERIP: 156.147.1.127
-X-Original-MAILFROM: yw.byun@lge.com
-Received: from unknown (HELO ywbyun..) (10.157.68.141)
-	by 156.147.1.127 with ESMTP; 5 Jan 2026 11:50:54 +0900
-X-Original-SENDERIP: 10.157.68.141
-X-Original-MAILFROM: yw.byun@lge.com
-From: Yangwoo Byun <yw.byun@lge.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Yangwoo Byun <yw.byun@lge.com>
-Subject: [PATCH] Fix create_merged_usr_symlinks in populate_sdk_base.bbclass and image.bbclass
-Date: Mon,  5 Jan 2026 11:50:50 +0900
-Message-Id: <20260105025050.153889-1-yw.byun@lge.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=1CI2h20q;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 3D4B3C1BEBF;
+	Mon,  5 Jan 2026 08:36:33 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3A2F060726;
+	Mon,  5 Jan 2026 08:36:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DCAA1103C8495;
+	Mon,  5 Jan 2026 09:36:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1767602218; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=CMUkVhW62acCs/deC0ZHF3Oe8fxPTB+mNqeq49d3H1Q=;
+	b=1CI2h20qsQhN7HfTAg5iQkGCKwh5IqYkDRNpN998ot8Ex9ATcB0fctt5LiuV1uZuHBnguT
+	l9TB/Gb3oN6U2Ys9N4SYxZ//NOj74wwRWcEXIDm7N2hbqXwkRycFdGusCRnT1IULwRPlOR
+	D50pHQY5hojS1PGyw2ZK+Xvwaz/a0CPssIc6yxnQiOXnuyW6ygEz3GoI4TiSP8d3/btCJ4
+	0MRvRXfVpHcY7V7hWJ76G4oXOqJxrz7lY7AdrYk0jjHWG0PkYgSrnnNq1JNB6GvBr35HgJ
+	CQiHot5XpMG8Je3fL6bYUy62o3dpjRJEzL6Mh27PShBCBkDQPMbpFXRFSXBa8w==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 05 Jan 2026 09:36:57 +0100
+Message-Id: <DFGIOWJE2L8I.342KUTKKK3RT@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <alex.kanavin@gmail.com>
+Subject: Re: [OE-core] [PATCH] libnl: upgrade 3.11.0 -> 3.12.0
+Cc: <openembedded-core@lists.openembedded.org>, "Alexander Kanavin"
+ <alex@linutronix.de>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20251229124538.1535197-1-alex.kanavin@gmail.com>
+ <DFBMYE2AZW0G.2OICW0SD4EGBV@bootlin.com>
+ <CANNYZj9N=vQECr+oRj8NKcbS95kztcuuVW1frpKrBBu5tYGy6w@mail.gmail.com>
+In-Reply-To: <CANNYZj9N=vQECr+oRj8NKcbS95kztcuuVW1frpKrBBu5tYGy6w@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Jan 2026 02:51:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228859
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Jan 2026 08:37:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228860
 
-Modifying FILESYSTEM_PERMS_TABLES does not change the UID and GID of
-/usr/bin.
-To change the UID and GID of /usr/bin in FILESYSTEM_PERMS_TABLES to
-something other than root:root, we need to modify
-the create_merged_usr_symlinks function.
-The ":append" method allows us to apply changes inserted in the middle
-by applying the create_merged_usr_symlinks function at the end of
-the execution order.
+On Fri Jan 2, 2026 at 12:58 PM CET, Alexander Kanavin via lists.openembedde=
+d.org wrote:
+> On Tue, 30 Dec 2025 at 15:54, Mathieu Dubois-Briand
+> <mathieu.dubois-briand@bootlin.com> wrote:
+>
+>> Just some note: it looks like some ptest is failing intermittently on
+>> ARM64 after this upgrade. I'm not sure how bad the whole situation is,
+>> but it's bad enough that I already saw it fail twice today:
+>>
+>> Failed ptests:
+>> {'libnl': ['nl-test-util.c:Core:route_1_The_list_of_2_routes_did_not_fin=
+d_a_one-to-one_match_with_the_list_of_3_expected_routes']}
+>>
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/2800
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/2802
+>>
+>> Yet on both times, the rebuild succeed. No issues on other
+>> architectures.
+>>
+>> I will keep the patch in my branch, so I will try to monitor the failure
+>> frequency.
+>
+> Hello Mathieu,
+>
+> the update has landed in master, let me know if you see it happening
+> again. It shouldn't be difficult to patch the test out and file a
+> ticket upstream, I just want a definite confirmation of the
+> intermittent issue.
+>
+> Alex
 
-Signed-off-by: Yangwoo Byun <yw.byun@lge.com>
----
- meta/classes-recipe/image.bbclass             |  2 +-
- meta/classes-recipe/populate_sdk_base.bbclass | 48 +++++++++++++++----
- 2 files changed, 40 insertions(+), 10 deletions(-)
+Hi Alex,
 
-diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
-index 53f1a9dc45b..2d90b29c8c5 100644
---- a/meta/classes-recipe/image.bbclass
-+++ b/meta/classes-recipe/image.bbclass
-@@ -686,7 +686,7 @@ create_merged_usr_symlinks_rootfs() {
-     create_merged_usr_symlinks ${IMAGE_ROOTFS}
- }
- 
--ROOTFS_PREPROCESS_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks_rootfs', '',d)}"
-+ROOTFS_POSTPROCESS_COMMAND:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks_rootfs', '',d)}"
- 
- reproducible_final_image_task () {
-     if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
-index 8e671cf28fa..cafd9a5698a 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -186,21 +186,51 @@ POPULATE_SDK_POST_HOST_COMMAND:append:task-populate-sdk = " write_host_sdk_manif
- # Prepare the root links to point to the /usr counterparts.
- create_merged_usr_symlinks() {
-     root="$1"
--    install -d $root${base_bindir} $root${base_sbindir} $root${base_libdir}
--    ln -rs $root${base_bindir} $root/bin
--    ln -rs $root${base_sbindir} $root/sbin
--    ln -rs $root${base_libdir} $root/${baselib}
-+
-+    if [ ! -d "$root${base_bindir}" ]; then
-+        install -d "$root${base_bindir}"
-+    fi
-+
-+    if [ ! -d "$root${base_sbindir}" ]; then
-+        install -d "$root${base_sbindir}"
-+    fi
-+
-+    if [ ! -d "$root${base_libdir}" ]; then
-+        install -d "$root${base_libdir}"
-+    fi
-+
-+    if [ ! -e "$root/bin" ]; then
-+        ln -rs "$root${base_bindir}" "$root/bin"
-+    fi
-+
-+    if [ ! -e "$root/sbin" ]; then
-+        ln -rs "$root${base_sbindir}" "$root/sbin"
-+    fi
-+
-+    if [ ! -e "$root/${baselib}" ]; then
-+        ln -rs "$root${base_libdir}" "$root/${baselib}"
-+    fi
- 
-     if [ "${nonarch_base_libdir}" != "${base_libdir}" ]; then
--       install -d $root${nonarch_base_libdir}
--       ln -rs $root${nonarch_base_libdir} $root/lib
-+        if [ ! -d "$root${nonarch_base_libdir}" ]; then
-+            install -d "$root${nonarch_base_libdir}"
-+        fi
-+
-+        if [ ! -e "$root/lib" ]; then
-+            ln -rs "$root${nonarch_base_libdir}" "$root/lib"
-+        fi
-     fi
- 
-     # create base links for multilibs
-     multi_libdirs="${@d.getVar('MULTILIB_VARIANTS')}"
-     for d in $multi_libdirs; do
--        install -d $root${exec_prefix}/$d
--        ln -rs $root${exec_prefix}/$d $root/$d
-+        if [ ! -d "$root${exec_prefix}/$d" ]; then
-+            install -d "$root${exec_prefix}/$d"
-+        fi
-+
-+        if [ ! -e "$root/$d" ]; then
-+            ln -rs "$root${exec_prefix}/$d" "$root/$d"
-+        fi
-     done
- }
- 
-@@ -208,7 +238,7 @@ create_merged_usr_symlinks_sdk() {
-     create_merged_usr_symlinks ${SDK_OUTPUT}${SDKTARGETSYSROOT}
- }
- 
--POPULATE_SDK_PRE_TARGET_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks_sdk', '',d)}"
-+POPULATE_SDK_POST_TARGET_COMMAND:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks_sdk', '',d)}"
- 
- SDK_PACKAGING_COMMAND = "${@'${SDK_PACKAGING_FUNC}' if '${SDK_PACKAGING_FUNC}' else ''}"
- SDK_POSTPROCESS_COMMAND = "create_sdk_files check_sdk_sysroots archive_sdk ${SDK_PACKAGING_COMMAND}"
+For some reason this did not happen on master so far, but I bet it will
+happen soon. I opened a bugzilla entry to track these:
+
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16118
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
