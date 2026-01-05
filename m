@@ -1,105 +1,96 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D18B8C79F9D
-	for <webhook@archiver.kernel.org>; Mon,  5 Jan 2026 14:18:01 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.64823.1767622681351235626
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D638AC79F9F
+	for <webhook@archiver.kernel.org>; Mon,  5 Jan 2026 14:44:11 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.65290.1767624242738327639
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Jan 2026 06:18:01 -0800
+ Mon, 05 Jan 2026 06:44:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=bqaPFqBB;
- spf=pass (domain: baylibre.com, ip: 209.85.219.49, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8888546d570so209512936d6.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jan 2026 06:18:01 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ihXEkEqJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47774d3536dso7205e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Jan 2026 06:44:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1767622680; x=1768227480; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lOqte+xFnjwvUqYP1+KAOJB69rzh8pL3jHNTsrqsbho=;
-        b=bqaPFqBBqqBqDT1jSqnXNWUH3nscueL6oghcjDZE+pAmxgBeaaNLqB+vnXo/wXziRF
-         4tMUTCaYX8m5asSeRJPJWhSY0OV1zSlP/utWfHg9UlS6Wsz5uzHtaKPax2wb36eXxSuc
-         pyeANf1rdQwaClayOeG+DrLtRCYcd8hEEiFbUd8KdGKpd7B2muSB+LKqwN2fGQ8xKmt/
-         BYXhKTRbC0lNN1m9Suhi5/7Rt4uBW/3TKgS6dyaaWAnX7dgXfE2oknGdjQd3Gct2LQI4
-         MT54Dy6HRWkNq/Z/3iYuIWj8oD3VsZ+1fLpKrNT0fbOHDE2GrV5baYSMzGw03tOSCBny
-         51Pw==
+        d=linuxfoundation.org; s=google; t=1767624241; x=1768229041; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ThFPNMKWmXx5Czn/vAmPLTmsGI9Q67X+47/OCWwACBQ=;
+        b=ihXEkEqJg8dEkjPufZAyhNprUNy3snbiawWnwLHwow2Q7pflAUKEapboPv5xuiwoDg
+         WzQhiqD9SAqhpYOEEfQNqz4juJokxBa3YBZtwQASYt8Bj6lQUWYLWp4mQK5se4sqkYhc
+         kDjB2/9n3je0zq7oqH/1gvpzcX6YDTt/a1gxc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767622680; x=1768227480;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lOqte+xFnjwvUqYP1+KAOJB69rzh8pL3jHNTsrqsbho=;
-        b=KuXBHsXBjlnry+B06TuL60iOAzMzbgyZmDwsctz2H8lrsyCbv2qdvvL1ov4WIoEWcr
-         GGZ5zGovT4FSx1gkzr97CO5dh/MR75asb+9salk1gKzISN7FRARUHR7ZzXij+7dA7NRz
-         7G66nstrc5LDAd8gBp1q//1xSGvU3Ob5/dgPnsolFZuv6Nh1qrqaYH1laYuLBiz5O491
-         vWKndu+3+DsPDPLu76UvcM8cUL4Rfac7LUUEIfMaV76X00dsH0n0ABbbaxYvgRdI+YIJ
-         wXyeXQHvkuoaoLkANgCOkekww/aL8pvAkDySn1c5kjoXYqSGZVz/QhD0mGpVJJ2Hul/i
-         jrgA==
-X-Forwarded-Encrypted: i=1; AJvYcCUTrK0VYcWLoxPqtc8gXiOuWCggqcO7YbpvLYA2sqznbiui27+RcnYYb6Var49QXVlD8QtTY4CEJC4/9Ooh8rIyGw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyuQiHuRAhAPsVSuk3vttENM75QouCfuKiN2dVuJL71ECoB16eT
-	zxHgjjRiCYOAa5UrHXfM44u5nosB9IIEdfj6ylDtZE6wkZAVyv7KAfkatP8bXFQQPWE=
-X-Gm-Gg: AY/fxX4kCwhUtfVRYdKo0hTDT4vsviQG1LAxM61v9qNfAzi7Gg8NdyCwKZZKFzSn3CO
-	4D7GLozDVrMk3MSwQknYmjU5/mUyg2rnf3KXnHgZf6IqVWNYzYPfGI4QFyouLiRsNZBztwVo8ta
-	oFlKZlU5pKgDpUj9KEMSeDrs1auXZYDh5T742J/dsfSRHSqQvBmUDsumM+NTZlNbvHzqvBG/89Y
-	yHcrdcsq23a8TXYUfKWlujVN5jd0DhLWWIgIEcQHlNLNvmIvNAYL4N8WTHvzb9FjQifB254jusZ
-	srdT2Nt5CkwN8+jQ+oj/+i0hQXFsiyG7QmJJ3ytkSYcmQvTJY1gAp7xB4x/iwSh7TR2LT1NMW2n
-	4sxIUai16F4sTV9hjNmqs2Qod6x8+lOTvt2br4HpqZ5SOpL1xMRKDEiJ1rtcJXVz7+31svUnSxJ
-	ceqo28AsMINGXO8hZitSkNuJms6T3DdpgHHqSt3OvoTB9XllvpLSiHNfFZx//MDJhl
-X-Google-Smtp-Source: AGHT+IETaRpACoLYg518NJfJGYliHM63HIUeVWP5lQd3FDqJm11LQpFLX+6rnLga4dlrERlxCyHV5Q==
-X-Received: by 2002:a05:6214:4699:b0:87f:fecf:17b2 with SMTP id 6a1803df08f44-88d881b9a37mr670737066d6.64.1767622680180;
-        Mon, 05 Jan 2026 06:18:00 -0800 (PST)
-Received: from ?IPV6:2001:1970:3847:e000:1977:be2f:4a71:2892? ([2001:1970:3847:e000:1977:be2f:4a71:2892])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-890753ed3cbsm59326d6.15.2026.01.05.06.17.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jan 2026 06:17:59 -0800 (PST)
-Message-ID: <4ec2fab7-4d1a-4d4e-9047-c62a45109341@baylibre.com>
-Date: Mon, 5 Jan 2026 09:17:57 -0500
+        d=1e100.net; s=20230601; t=1767624241; x=1768229041;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ThFPNMKWmXx5Czn/vAmPLTmsGI9Q67X+47/OCWwACBQ=;
+        b=lgCJlxcVXtLCuPF9RAkGfBDPJ2nKTztJ6XuO4u+os7UzJwZsIkzlu1GjtULsmL9Lbu
+         /wjSY8YyrbSysIC6UeBJ0o3Co5lKVd5+zg0WjFECQo7SzbiiSlEC0TyW+TzrcPm46ceV
+         074d7Sm0YNgFNpLICkycvU9rM1OtF3N7+juj+7i02JOmuFd5s4qWGTx2kILAjOGhLso/
+         jNkBPUm5w8NufJBXLCJ4yizUomq7wA2uC4cyoED9L7CZHMpIVMrya/iv51J4kSdnueR7
+         KEnXqoXFmgS2NfSeh/LS6S3xHDN5tTXEkuGnYAjANiM+Cd1EKZvZuyWEUXV56b9M7lxf
+         ai1Q==
+X-Gm-Message-State: AOJu0YyrmOyqgD8qe0B5Jr99eD23fNVUnIpAQSKapMf/JyyLO7mIm208
+	rtBMDq2xRjJ5Ltc6D/aC4/A+G6+jMsD90E7Yn+yxmb+gjunu3ehGuUMR0f6qeuOt+gAckyERZui
+	7/la6
+X-Gm-Gg: AY/fxX4AXv82FrCZSYlXFeztXP9IIqfvFJiwKX3WL9LzvBjYZRrAKcXXkIGstNRHlXj
+	ov7h1fb79O/KAsdeVgL87BPH2jvQqr7fFy6tJSlkgoLULsPORSdR2cvKKq4bq4HRTMqG2q7Tzvu
+	NsiGALx9HX/Hck0gsCrC/2YLLx4LU168EVlfYWFLi4W59dIyAxikKBNkjqNcI/q+1fWSsemTBkV
+	nHBLmT5yI5cznvQTuwJT56T3wf29xZ9MNsoUXHFc5zPfRuhbZPu4Kb9xdNh5YeH0x1K9yzl3upU
+	rrzKJXAzS6b0sneeBx1x7MNoYz9X7BY36sn95K3Yg9FQq+Y9WcUBIFMQrAEvxd7DkD4Lph0hYBb
+	Q6/mQW7E6LGOJNbR0fdRsIcBwUExUngy7XVWPCYrjePxksx53qCfLAydt76yImllLa2/iJ4qI7r
+	onX8MJp35UVBvumjQVOMCCrxC+mj9zKKfJuRYaIAY=
+X-Google-Smtp-Source: AGHT+IFWkwucpQQt8DXWrad0NxmEEJSLfrIuVtuZBn4mMjFaNLKSHYL06aoCtMvTmP4w5UGPMacJkw==
+X-Received: by 2002:a05:600c:1e1c:b0:471:5c0:94fc with SMTP id 5b1f17b1804b1-47d6ba81c6dmr106225995e9.6.1767624240389;
+        Mon, 05 Jan 2026 06:44:00 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:d03c:1a9c:2893:c2a7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6c08ef66sm57403995e9.10.2026.01.05.06.43.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jan 2026 06:43:59 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Subject: [PATCH] Revert "glibc: Enable NFS local file locking for glibc tests"
+Date: Mon,  5 Jan 2026 14:43:58 +0000
+Message-ID: <20260105144358.3105446-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH 0/5 v2] python3: upgrade 3.13.9 -> 3.14.2
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- openembedded-core@lists.openembedded.org, Ross Burton <ross.burton@arm.com>,
- Tim Orling <tim.orling@konsulko.com>
-References: <20251219134734.842422-1-tgamblin@baylibre.com>
- <DF4LE2CKH2GP.1O49L3MTHRQIG@bootlin.com>
- <adc441a8-e19a-4d61-a3bc-9ec0927b434f@baylibre.com>
- <CANNYZj9+DPHLoWUsNngX12JwA1ZntaVrRmyyOMqiH7mN_5_E6Q@mail.gmail.com>
- <60b08678-6380-4512-a1e6-0518ae4710c4@baylibre.com>
- <CANNYZj9zAxJpGZ=bZHOZh3FBwU_Mgw=89sR8rS53OC99tCvPvQ@mail.gmail.com>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <CANNYZj9zAxJpGZ=bZHOZh3FBwU_Mgw=89sR8rS53OC99tCvPvQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Jan 2026 14:18:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228869
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Jan 2026 14:44:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228870
 
+This reverts commit ba4cc296f8cb9d91084f0d55382bf9ee3c1dda97.
 
-On 2025-12-22 15:00, Alexander Kanavin wrote:
-> On Mon, 22 Dec 2025 at 20:52, Trevor Gamblin <tgamblin@baylibre.com> wrote:
->
->> Maybe. I tried all of this locally (on a F43 system, which includes
->> 3.14.2 as of writing), and after I sourced the pokysdk script, the
->> interpreter on my path changed to version 3.13.4. Seems that the
->> install-buildtools script is (at least for me) resulting in a 3.13.4
->> version is getting pulled in. I'd think maybe something got contaminated
->> somehow from my cache, but there'd be newer 3.13.x versions for it to
->> grab if that were the case.
-> install-buildtools brings in python 3.13 into PATH, as that's what is
-> inside the buildtools tarball. That is expected and won't change until
-> after 3.14 lands in core, and new buildtools is produced with it.
->
-> The mystery is why the test first gets 3.14 from running python3 (that
-> comes from the sdk installation), then right after that 3.13 from
-> running maturin (that comes from buildtools).
-Ross and/or Tim, any thoughts?
->
-> Alex
+We're seeing NFS hangs on the autobuilder in the glibc toolchain tests
+when run under qemu system mode. It appears the unfs server
+fails and the image than fails trying to access the NFS mount. I can't yet
+find a way to see why the unfs3 nfs server fails.
+
+Whilst I don't know for sure this commit is the issue, it does seem likely this
+could be the cause, so revert for now to see if the hangs stop.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/glibc.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
+index b2b115972ff..15ba5a83525 100644
+--- a/meta/lib/oeqa/selftest/cases/glibc.py
++++ b/meta/lib/oeqa/selftest/cases/glibc.py
+@@ -79,7 +79,7 @@ class GlibcSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+             # setup nfs mount
+             if qemu.run("mkdir -p \"{0}\"".format(tmpdir))[0] != 0:
+                 raise Exception("Failed to setup NFS mount directory on target")
+-            mountcmd = "mount -o noac,nfsvers=3,local_lock=all,port={0},mountport={1} \"{2}:{3}\" \"{3}\"".format(nfsport, mountport, qemu.server_ip, tmpdir)
++            mountcmd = "mount -o noac,nfsvers=3,port={0},mountport={1} \"{2}:{3}\" \"{3}\"".format(nfsport, mountport, qemu.server_ip, tmpdir)
+             status, output = qemu.run(mountcmd)
+             if status != 0:
+                 raise Exception("Failed to setup NFS mount on target ({})".format(repr(output)))
 
