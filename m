@@ -1,105 +1,168 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2091CCDC185
-	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 12:14:30 +0000 (UTC)
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.88616.1767701664548162797
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50682CDC195
+	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 12:54:30 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.89213.1767704060043391426
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jan 2026 04:14:24 -0800
+ Tue, 06 Jan 2026 04:54:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HPfe3DGM;
- spf=pass (domain: gmail.com, ip: 74.125.82.44, mailfrom: festevam@gmail.com)
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-121bf277922so81462c88.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 04:14:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767701663; x=1768306463; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6yNsypZ/oTuh4aimGTXhMUnuHe7rlrxrZNH8RtRPFIo=;
-        b=HPfe3DGMQUY8J7PfLQRXUrwiB7k7ksc6ZNyFojUidhBPUfpQE3Pq+bzabh4jJEYbqq
-         D3lDrkXngmUkZWHVzm90AOc9rZpbLG9hb65ZEtbAC8KMiXBFGWIkyuR6cPv/UgVWJ/Jo
-         TV/Mz4kK0he4xK9dIW98N4TZLD66Y5euaVQ+5+XzW6wemZk8A3ph7z78WzWg5hy2Axqc
-         JySXL7RN6gLYtQ3Ua2LkB02du347dHxv6l/3kKRZicaZoeuhR/rGEBavcb7bydbO+zMG
-         7QbOocAfJulIPPwsgrtpwb2vZPb56XVjN/4x1IUEcDrBvQMwts9eCJ7c0pffNcYcSZMm
-         4Bbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767701663; x=1768306463;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6yNsypZ/oTuh4aimGTXhMUnuHe7rlrxrZNH8RtRPFIo=;
-        b=bPdG800ASkka5HrrFohcesL9BIB5o3vu1siR0luessVCslap+xDpQkD+unOTW/a4tJ
-         LxXJ3qxPXxIFdOe1CYYPERSlsgQbTDjLFUAYm/Yc38HBXoNWzA0I5IpM11K5ZSpKG9m/
-         /SIw87tyUWAydKxf35gOMhpnnzhDPX4x7SqF+tkFP1A0vgC6VLjEVuLnnof7KqcfX3Ce
-         7z9VkGiIzF6AuKUd+OCqsr8Oz+NxB8k+O7lDKhjyPRlgZCrSdJtjHyGnjQnprZDb3aXP
-         JlLNUzjKkWJ8Dxst5YIRESkU+OZ97Y0VRFLkVMXyhs/75U3qkZceFEsrglgJHBZtE2l1
-         vfSg==
-X-Gm-Message-State: AOJu0YyMB2kBTHb6u2JAaWpPxQN82BOn/mkh6rQSynaFkkxd3TUJCyqU
-	amC8ISd6gBnzKVXU8vkVpJqHcb8O8MYSHKuF2y3FzvnvuEYbysNaKR4K2wbuPA==
-X-Gm-Gg: AY/fxX4nWu+vtvv8dP2wr2GdDkVEd09DI40MyNs6lQv80OhstCo51nV4uyziCex3CTF
-	0/uVgbHOcBmcZ90rVAec+zvtBve3EC15FMG8tPrXxlrdp8kp2K+aZ+UzSKyDsUOoWjuoiQOqD0r
-	Fr82/fMvBuilmIU4e8PVOHEGNQ0cG2+8WQHITnsuSN+z0bnousIbyuwSMPE8OM5ak9PmuI2cXd2
-	+mJKV8c0VRMwOilR7FRBQoyIyb6slcP/1G5L+b8c/BF7XT8RhnzHX2T2oc+qxwqrIITvZWSSvi8
-	enj6v4XKXorBqf8hyfvRyzMAvyTgUMQZRSvCiu6d8IDp1vViy6p8xJqflQCWnBqikwsCqxPs5xa
-	UDElgmy1Tqe/yue1lH2QFtBVQNupSE1NJR/SqgMdYApz7bJ6CNQuQttYh/Y7KI+cCG1GkvWviPj
-	BVvM96QDoyWo8lJAEDdNR7jWM=
-X-Google-Smtp-Source: AGHT+IHqWeyc1l7pD8vIJM+IFe81wE4Jy3G5WVbGN6pVuMcXEb2itX4DOI3HwrnDwcKXo4rHJZvNAA==
-X-Received: by 2002:a05:7022:321:b0:11d:f440:b757 with SMTP id a92af1059eb24-121f18e6a78mr2539522c88.26.1767701663162;
-        Tue, 06 Jan 2026 04:14:23 -0800 (PST)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:28e:d1c1:731c:ded1])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-121f243ed62sm4463455c88.5.2026.01.06.04.14.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 04:14:22 -0800 (PST)
-From: Fabio Estevam <festevam@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH] u-boot: upgrade 2025.10 -> 2026.01
-Date: Tue,  6 Jan 2026 09:14:13 -0300
-Message-Id: <20260106121413.844461-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=CumXGzTm;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 1E7511A2696;
+	Tue,  6 Jan 2026 12:54:18 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E7FAB60739;
+	Tue,  6 Jan 2026 12:54:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D948A103C866F;
+	Tue,  6 Jan 2026 13:54:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1767704057; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=pHLz8IYyuY8JMDpRs/ZUL4v8HlnkmhAzOFq2zOd+SEk=;
+	b=CumXGzTmiYF3sRke25/uL/5/bfwF8KYOBUYHEumC2pJ/vFTJKN7zu41dKBM2r9U0ZBnnwF
+	xt+/Y+p2ZC5uH1sjualCWOyQidSK6wagVBinGkq+xXaX1jfI8o6EsWQtOfJ3CvlrEhb4a6
+	6V7kkhwGdy2ZEadodLNVfFOmhLWSbmtfwMnBF22ksIO1l4minLZuv1M993na4iw/Ilvv7m
+	LSjeCTk9ehsYX3fFyQS3+6dk4vViWTwFhcLskpxmjjuC3OOPQ85PjjY44ApCDeyGx4FBPH
+	S2QVp1/odtfaSmBAAhZ64e0KOBKDDjgoYO45aUCMleklnbEQEvxy/pnUDRtnlg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 06 Jan 2026 13:54:16 +0100
+Message-Id: <DFHISGOL9ZIH.23RLCKD2MBHAS@bootlin.com>
+Subject: Re: [OE-core][PATCH] python3-numpy: upgrade 2.3.5 -> 2.4.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Trevor Gamblin" <tgamblin@baylibre.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260105171830.3762638-1-tgamblin@baylibre.com>
+In-Reply-To: <20260105171830.3762638-1-tgamblin@baylibre.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 12:14:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228887
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 12:54:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228888
 
-Upgrade to U-Boot 2026.01.
+On Mon Jan 5, 2026 at 6:18 PM CET, Trevor Gamblin wrote:
+> Changelog: https://github.com/numpy/numpy/releases/tag/v2.4.0
+>
+> ptests look OK:
+>
+> |=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> |Testsuite summary
+> |# TOTAL: 48248
+> |# PASS: 46447
+> |# SKIP: 1767
+> |# XFAIL: 32
+> |# FAIL: 0
+> |# XPASS: 2
+> |# ERROR: 0
+> |DURATION: 327
+> |END: /usr/lib/python3-numpy/ptest
+> |2026-01-05T16:24
+> |STOP: ptest-runner
+> |TOTAL: 1 FAIL: 0
+> |root@qemux86-64:~#
+>
+> and reproducibility:
+>
+> |2026-01-05 12:08:19,641 - oe-selftest - INFO - Ran 1 test in 1449.498s
+> |2026-01-05 12:08:19,642 - oe-selftest - INFO - OK
+> |2026-01-05 12:08:23,069 - oe-selftest - INFO - RESULTS:
+> |2026-01-05 12:08:23,069 - oe-selftest - INFO - RESULTS - reproducible.Re=
+producibleTests.test_reproducible_builds: PASSED (1402.66s)
+> |2026-01-05 12:08:23,069 - oe-selftest - INFO - SUMMARY:
+> |2026-01-05 12:08:23,070 - oe-selftest - INFO - oe-selftest () - Ran 1 te=
+st in 1449.498s
+> |2026-01-05 12:08:23,070 - oe-selftest - INFO - oe-selftest - OK - All re=
+quired tests passed (successes=3D1, skipped=3D0, failures=3D0, errors=3D0)
+>
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> ---
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- meta/recipes-bsp/u-boot/u-boot-common.inc                       | 2 +-
- .../u-boot/{u-boot-tools_2025.10.bb => u-boot-tools_2026.01.bb} | 0
- .../recipes-bsp/u-boot/{u-boot_2025.10.bb => u-boot_2026.01.bb} | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-bsp/u-boot/{u-boot-tools_2025.10.bb => u-boot-tools_2026.01.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot_2025.10.bb => u-boot_2026.01.bb} (100%)
+Hi Trevor,
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index 93ff0ca6ca..79ddde3f5c 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -12,7 +12,7 @@ PE = "1"
- 
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "e50b1e8715011def8aff1588081a2649a2c6cd47"
-+SRCREV = "127a42c7257a6ffbbd1575ed1cbaa8f5408a44b3"
- 
- SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master;tag=v${PV}"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2025.10.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2026.01.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-tools_2025.10.bb
-rename to meta/recipes-bsp/u-boot/u-boot-tools_2026.01.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2025.10.bb b/meta/recipes-bsp/u-boot/u-boot_2026.01.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot_2025.10.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2026.01.bb
--- 
-2.43.0
+Thanks for your patch, and thanks for launching ptest and
+reproducibility tests. Of course, it failed somewhere else. :)
+
+We have this error while building piglit, reproduced and bisected
+locally:
+
+ERROR: piglit-1.0+gitr-r0 do_compile: Execution of '/srv/pokybuild/yocto-wo=
+rker/musl-qemux86-64/build/build/tmp/work/x86-64-v3-poky-linux-musl/piglit/=
+1.0+gitr/temp/run.do_compile.891103' failed with exit code 1
+...
+| cd /srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/x86-6=
+4-v3-poky-linux-musl/piglit/1.0+gitr/build/generated_tests && /srv/pokybuil=
+d/yocto-worker/musl-qemux86-64/build/build/tmp/work/x86-64-v3-poky-linux-mu=
+sl/piglit/1.0+gitr/recipe-sysroot-native/usr/bin/python3-native/python3 /sr=
+v/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/x86-64-v3-pok=
+y-linux-musl/piglit/1.0+gitr/sources/piglit-1.0+gitr/generated_tests/gen_bu=
+iltin_uniform_tests_fp64.py > builtin_uniform_tests_fp64.list
+| Traceback (most recent call last):
+|   File "/srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/=
+x86-64-v3-poky-linux-musl/piglit/1.0+gitr/sources/piglit-1.0+gitr/generated=
+_tests/gen_builtin_uniform_tests_fp64.py", line 47, in <module>
+|     from builtin_function_fp64 import *
+|   File "/srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/=
+x86-64-v3-poky-linux-musl/piglit/1.0+gitr/sources/piglit-1.0+gitr/generated=
+_tests/builtin_function_fp64.py", line 1147, in <module>
+|     _make_vector_or_matrix_test_vectors(test_suite)
+|     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+|   File "/srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/=
+x86-64-v3-poky-linux-musl/piglit/1.0+gitr/sources/piglit-1.0+gitr/generated=
+_tests/builtin_function_fp64.py", line 1122, in _make_vector_or_matrix_test=
+_vectors
+|     f('op-div', 2, _divide, match_simple_binop,
+|     ~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+|       [doubles+dvecs+dmats,
+|       ^^^^^^^^^^^^^^^^^^^^^
+|        doubles+dvecs+dmats],
+|        ^^^^^^^^^^^^^^^^^^^^^
+|       template=3D'({0} / {1})')
+|       ^^^^^^^^^^^^^^^^^^^^^^^
+|   File "/srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/=
+x86-64-v3-poky-linux-musl/piglit/1.0+gitr/sources/piglit-1.0+gitr/generated=
+_tests/builtin_function_fp64.py", line 1101, in f
+|     _simulate_function(
+|     ~~~~~~~~~~~~~~~~~~^
+|         test_inputs, python_equivalent, tolerance_function),
+|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+|   File "/srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/=
+x86-64-v3-poky-linux-musl/piglit/1.0+gitr/sources/piglit-1.0+gitr/generated=
+_tests/builtin_function_fp64.py", line 536, in _simulate_function
+|     expected_output =3D python_equivalent(*inputs)
+|   File "/srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/=
+x86-64-v3-poky-linux-musl/piglit/1.0+gitr/sources/piglit-1.0+gitr/generated=
+_tests/builtin_function_fp64.py", line 311, in _divide
+|     if any(y_element =3D=3D 0 for y_element in column_major_values(y)):
+|                                            ~~~~~~~~~~~~~~~~~~~^^^
+|   File "/srv/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/=
+x86-64-v3-poky-linux-musl/piglit/1.0+gitr/sources/piglit-1.0+gitr/generated=
+_tests/builtin_function_fp64.py", line 257, in column_major_values
+|     return list(np.reshape(value, newshape=3D-1, order=3D'F'))
+|                 ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+| TypeError: reshape() got an unexpected keyword argument 'newshape'
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/3035
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/3001
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/2982
+
+Can you have a look at this?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
