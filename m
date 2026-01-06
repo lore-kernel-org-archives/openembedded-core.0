@@ -2,63 +2,63 @@ Return-Path: <valentin.boudevin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22C2ECEFCF2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23BC9CEFCF5
 	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 19:10:22 +0000 (UTC)
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.98063.1767726617456624962
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.97989.1767726619560221262
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jan 2026 11:10:17 -0800
+ Tue, 06 Jan 2026 11:10:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RPjvXJEG;
- spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: valentin.boudevin@gmail.com)
-Received: by mail-qk1-f195.google.com with SMTP id af79cd13be357-8b1bb9c3c04so24713585a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 11:10:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JyUXdmXW;
+ spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: valentin.boudevin@gmail.com)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8b29aebdf3cso24092785a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 11:10:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767726616; x=1768331416; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1767726618; x=1768331418; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=11Q8dUO29PtB2BgvNTdqJEjxg/WcHN3+/b9BoeWwkmc=;
-        b=RPjvXJEGCWg5OghbLd5xkeURp+h6nHi6Q+lKHn8MLdm027kI1MBRGytIoTb0R2Wcb+
-         Uj7iIraRySrxhyOwIj9V8bnpJ+UudFU/sNMbcJ/RaNPflwb7pSoi59+6NB0cpAbSODYF
-         M8kbdYrDjnFoKZN7EFoK018rJSVkrMBnjvPyqOEdhgJp5uVPA51FEsuNEt5HyclVyyyp
-         ce/u6bn7gvxKBM4SZ4OL7f832h2xOIYqyD+yTwb2Bf46XHeKIbqEPGwq6Gl34NzY4M/K
-         gE/y2z2qXs9bVCY1VXdGvw6VMo9Ls0G/Ozxc4yrjcWWKi8OJStkubhlEizheBfLo49ca
-         2jaw==
+        bh=yCNmqatRkTI5xpbleR5UbIQzoEXgsWdlPXf0o/X528s=;
+        b=JyUXdmXW9rDbQw5itk+ANnzSFtMPv8bbH4rmaBVma67fISsh5c0EcV3ruEGZeAC9fk
+         9XuM2vYVj9GWMPMIjVqk/fhZgvp3ntfZ/orR0qEcCkOrJtiXUbf9tFNsBkmQFdWhOY+T
+         858+2DAGjEs1EoVoPnKKjwyzEeSiqWrbinO16jfDe2F9Rxjq5MtrMgMEG3DkhQepy2tz
+         r7LPtJSp/O4CM11s7QhME6Q36OvqalKhlUoHCHZTa1P/lYqD7cea7MvfTtiIZtUxzZ28
+         RlUgRdc9dOd8v2gFpzPW0L3RNGyuYB1oZRp3tyvfVrBesJBaXl044mOI7qFMngjDZTe5
+         fj8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767726616; x=1768331416;
+        d=1e100.net; s=20230601; t=1767726618; x=1768331418;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=11Q8dUO29PtB2BgvNTdqJEjxg/WcHN3+/b9BoeWwkmc=;
-        b=JFOr47qReVXvcRO5aTsSPTYJweZDqCubtXeNRgT4Mo8UTES71VTA3SjhCfGQx6B904
-         mG/1Dv7voytejAgqbXS+67KBofw93LCemyscwxf3Spz800D97hDO+jN2FmEBC7tOLIMJ
-         gq8RKT2ovG0oUMdNBw9DLKtfJ4b1245mrVdLT8Tj2LmzkKLVpx1mxRuWEazUBuK74gD5
-         VlpL672LiJOnyLjHf3kuz4Yh6hrG0tVLCavvqu+J6O6VD4aJ7c+FJxU01aq6QkI74SvL
-         EE+qGPNfXvhk9KfT3NAYCkZMCp+5MD6lsFnsUBkcMV8OYczOQwh9BqVTkza1oNi8tlVg
-         qdnQ==
-X-Gm-Message-State: AOJu0YwZisAKBw+l0w6WMnrs61/xiFNMHJssvkiubN9V/HObV7WPCgYs
-	TRfk5lz99kC1EVTPlo8alh/OCsSBZtKIdSDz3AEXp9B8Finta3PYuRjAx29mpBkeqWe8mA==
-X-Gm-Gg: AY/fxX6+3toi1vPgXis2RGgfeSPhZ2Ybndo9Z2sJ64dqFEs8IL/+WXRtWH+OU3Uuw/Q
-	JaCnaTPw9H2SLM4SSXxY2KXa7UA0bWWf+KpD0c9kFgjFjvTzXaQEerVfqRXQLlzzSXY69G9Ewkt
-	yqqHbe+lRIvskA2E+VKO2Jicrc569yfTYNO16NuJxzRItCspGocpCz1YUeSh9Ga9UtLZu4AkZNU
-	EdXHtj9oKpt8ncm39rUydhfuKwDZ5UGOdAMOExv/eYyUuLRDrH1T58/AdhsAmRuYmQqenzwe4yp
-	hv8Rk4uif/T/tiMF9BhbgwrNcOcitA+zya1xfv2EBbbEjfLCmqg5pQkD193MdZEQaUJY05dW6rB
-	B6aIwnMV+lFSm0gr2YJBvpUNVxw7BcPwNfD701nssAi1myBdxp8lJGhqTkJkqkdWUk1lYJzCeYz
-	6VZSbqCUe4mfr1/YfldnHkhn74tusUQEbSjszfBvg134R69tHvOxkpQrg=
-X-Google-Smtp-Source: AGHT+IFV7wzWK8tjiGlzi5lHvXfLxNPJW8sV5eYK84rSaW035ZciWJiQ3B8kQU2JazokCFdS+wjgNA==
-X-Received: by 2002:a05:620a:bcd:b0:8b2:e5c6:b4a2 with SMTP id af79cd13be357-8c37eb59e96mr414642085a.1.1767726616404;
-        Tue, 06 Jan 2026 11:10:16 -0800 (PST)
+        bh=yCNmqatRkTI5xpbleR5UbIQzoEXgsWdlPXf0o/X528s=;
+        b=fd1Re1fVIXLEWwnxsjkOJbl6m+gGGwADM5qTtJeQZcqDn3dLDJAN4rnJsolfhdl257
+         jQ9rxgjboblKS1FTu5aCIm8z9M/fCaus+VT3H1yD8msDa6cnN5bDoNk39r7oDaY+rhsX
+         w8NKQtpKFTRoenm6kOuHPn8+i0hZBo03GO6IUtJpbw1oufCB/IaLr+ztQqYunFe0Oa/O
+         hyd9zjFapnpFFbvNp9wECRS6zjTng/VSdNLO3kvImwjPM6v+eoyoQzo98L9NqMh53bkW
+         F9R969XW/s+phZT94k5ISxCyYSxA0L7UgsKol+JPzDG+Opc68mNMQcpdKPeNYeo6t3wi
+         4ddQ==
+X-Gm-Message-State: AOJu0YxrSIumRp5E4DP8mlW9iT7YUcgHBpq3jLquZs/sCqgpnwlOPHau
+	yjdcTfFsoL5kDDRXy71Qx0CRaCp8jCOLjbm6OOj40jQIjmE770/dIT67daNCvOWwwxQ=
+X-Gm-Gg: AY/fxX7KOuRkOr2V6jX6ns22Jmouu1HnoqCmeakPge+OSkEFYe0C9RhDU1glxLux552
+	Jxdw6BXIOGx2QB7zxV6TwELZ3riF3X8gAe/VQaTtUzzEfm6o2mPusOGCg/Debhq8Vn9U41dbwvh
+	ISAqwEP+H2z6AtB1kuvKFuJc+15uaxr9ZkaT7TluvW8HBmdP6zqOFJ9YfkDRcW4WWdFhM/AL1UN
+	nrfwhwjcj0Px8GXoyHHx07sLnmM2Q6j9xvPao++7Q7xHIykDrJCW5Uw/5evuBFduBazc96Vdnry
+	HsUoB0/a5UVpyuH6AalBw9udoJW8G0KvSmpqWtHg+lhmO4DLTPwdlivnjhBNqVsEud/Xh/TFfG7
+	87P/FFViA3v82b0jjyWtTOUx8TXUgNiMw9zE80HOhXYIR0YhTa4dkIlGrt1cXp0MgOiFnJUAhGO
+	0i8/xfGpelQ+UhjQdDp+R0IoI1Uhemn0kCSFJqd/UYLfCH0NmK0iNL0Ds=
+X-Google-Smtp-Source: AGHT+IFsKifPnHkcqBwn1j1GIfzxCVKkDcpPu+9nVD0ePllhDhbi1gCvLgYn7zCAt6T1o+VlcAOdgQ==
+X-Received: by 2002:a05:620a:29c1:b0:89d:4a69:1502 with SMTP id af79cd13be357-8c37eb76e90mr404916385a.3.1767726618528;
+        Tue, 06 Jan 2026 11:10:18 -0800 (PST)
 Received: from vboudevin-pc.mtl.sfl (mtl.savoirfairelinux.net. [208.88.110.46])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f51c05csm220480485a.30.2026.01.06.11.10.15
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f51c05csm220480485a.30.2026.01.06.11.10.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 11:10:16 -0800 (PST)
+        Tue, 06 Jan 2026 11:10:18 -0800 (PST)
 From: ValentinBoudevin <valentin.boudevin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: ValentinBoudevin <valentin.boudevin@gmail.com>
-Subject: [[PATCH v2] 2/4] generate-cve-exclusions: Add a .bbclass
-Date: Tue,  6 Jan 2026 14:09:59 -0500
-Message-ID: <20260106191001.3385117-2-valentin.boudevin@gmail.com>
+Subject: [[PATCH v2] 4/4] linux: Add inherit on generate-cve-exclusions
+Date: Tue,  6 Jan 2026 14:10:01 -0500
+Message-ID: <20260106191001.3385117-4-valentin.boudevin@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260106191001.3385117-1-valentin.boudevin@gmail.com>
 References: <20260106191001.3385117-1-valentin.boudevin@gmail.com>
@@ -68,113 +68,148 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 19:10:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228918
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228920
 
-Add a .bbclass to generate-cve-exclusions to use this script at every
-run.
-
-Two steps for testing:
-1) Inherit this class in the kernel recipe with "inherit
-   generate-cve-exclusions.bbclass"
-2) Use the following command to generate a cvelistV5 entry with a JSON
-   file in in ${WORKDIR}/cvelistV5/ :
-   "bitbake linux-yocto -c generate-cve-exclusions"
-
-The JSON file can then be parsed in the following run by cve-check.
-
-This class contains several methods:
-
-*do_clone_cvelistV5: Clone the cvelistV5 repo in
-${WORKDIR}/cvelistV5/git
-
-(e.g. bitbake-builds/poky-master/build/tmp/work/qemux86_64-poky-linux/
-linux-yocto/6.18.1+git/cvelistV5/git)
-
-*do_generate_cve_exclusions: Use the script generate-cve-exclusions.py.
-It uses the new "--output-json" argument to generate a JSON file as an
-output stored in ${WORKDIR}/cvelistV5//cve-exclusion_${LINUX_VERSION}.json
-
-*do_cve_check:prepend: Parse the previously generated JSON file to set
-the variable CVE_STATUS corretly
+All kernel recipes can use generate-cve-exclusions class to perform CVE
+exclusions.
 ---
- meta/classes/generate-cve-exclusions.bbclass | 67 ++++++++++++++++++++
- 1 file changed, 67 insertions(+)
- create mode 100644 meta/classes/generate-cve-exclusions.bbclass
+ meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb   | 3 +++
+ meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb   | 3 +++
+ meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb   | 3 +++
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb | 3 +++
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb | 3 +++
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb | 3 +++
+ meta/recipes-kernel/linux/linux-yocto_6.12.bb      | 3 +++
+ meta/recipes-kernel/linux/linux-yocto_6.16.bb      | 3 +++
+ meta/recipes-kernel/linux/linux-yocto_6.18.bb      | 3 +++
+ 9 files changed, 27 insertions(+)
 
-diff --git a/meta/classes/generate-cve-exclusions.bbclass b/meta/classes/generate-cve-exclusions.bbclass
-new file mode 100644
-index 0000000000..254ea5531d
---- /dev/null
-+++ b/meta/classes/generate-cve-exclusions.bbclass
-@@ -0,0 +1,67 @@
-+CVE_EXCLUSIONS_WORKDIR ?= "${WORKDIR}/cvelistV5"
-+CVELISTV5_PATH ?= "${CVE_EXCLUSIONS_WORKDIR}/git"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
+index 9ac8507f9f..5cc735ae93 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
+@@ -5,6 +5,9 @@ require recipes-kernel/linux/linux-yocto.inc
+ # CVE exclusions
+ include recipes-kernel/linux/cve-exclusion_6.12.inc
+ 
++# Generate Dynamic CVE Exclusions
++inherit generate-cve-exclusions
 +
-+python do_clone_cvelistV5() {
-+    import subprocess
-+    import shutil, os
-+    rootdir = d.getVar("CVELISTV5_PATH")
-+    d.setVar("SRC_URI", "git://github.com/CVEProject/cvelistV5.git;branch=main;protocol=https")
-+    d.setVar("SRCREV", "${AUTOREV}")
-+    src_uri = (d.getVar('SRC_URI') or "").split()
-+    # Fetch the kernel vulnerabilities sources
-+    fetcher = bb.fetch2.Fetch(src_uri, d)
-+    fetcher.download()
-+    # Unpack into the standard work directory
-+    fetcher.unpack(rootdir)
-+    # Remove the folder ${PN} set by unpack
-+    subdirs = [d for d in os.listdir(rootdir) if os.path.isdir(os.path.join(rootdir, d))]
-+    if len(subdirs) == 1:
-+        srcdir = os.path.join(rootdir, subdirs[0])
-+        for f in os.listdir(srcdir):
-+            shutil.move(os.path.join(srcdir, f), rootdir)
-+        shutil.rmtree(srcdir)
-+    bb.note("Vulnerabilities repo unpacked into: %s" % rootdir)
-+}
-+do_clone_cvelistV5[network] = "1"
-+do_clone_cvelistV5[nostamp] = "1"
-+do_clone_cvelistV5[doc] = "Clone CVE information from the CVE Project: https://github.com/CVEProject/cvelistV5.git"
-+addtask clone_cvelistV5 before do_generate_cve_exclusions
+ # Skip processing of this recipe if it is not explicitly specified as the
+ # PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
+ # to build multiple virtual/kernel providers, e.g. as dependency of
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
+index 1230e4e805..53532b4e7e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
+@@ -5,6 +5,9 @@ require recipes-kernel/linux/linux-yocto.inc
+ # CVE exclusions
+ include recipes-kernel/linux/cve-exclusion_6.16.inc
+ 
++# Generate Dynamic CVE Exclusions
++inherit generate-cve-exclusions
 +
-+do_generate_cve_exclusions() {
-+    generate_cve_exclusions_script=$(find ${COREBASE} -name "generate-cve-exclusions.py")
-+    if [ -z "${generate_cve_exclusions_script}" ]; then
-+        bbfatal "generate-cve-exclusions.py not found in ${COREBASE}."
-+    fi
-+    python3 "${generate_cve_exclusions_script}" \
-+        ${CVELISTV5_PATH} \
-+        ${LINUX_VERSION} \
-+        --output-json > ${CVE_EXCLUSIONS_WORKDIR}/cve-exclusion_${LINUX_VERSION}.json
-+}
-+do_generate_cve_exclusions[nostamp] = "1"
-+do_generate_cve_exclusions[doc] = "Generate CVE exclusions for the kernel build. (e.g., cve-exclusion_6.12.inc)"
-+addtask generate_cve_exclusions after do_clone_cvelistV5
+ # Skip processing of this recipe if it is not explicitly specified as the
+ # PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
+ # to build multiple virtual/kernel providers, e.g. as dependency of
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
+index 32ed29f25e..e95264d99d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
+@@ -5,6 +5,9 @@ require recipes-kernel/linux/linux-yocto.inc
+ # CVE exclusions
+ include recipes-kernel/linux/cve-exclusion_6.18.inc
+ 
++# Generate Dynamic CVE Exclusions
++inherit generate-cve-exclusions
 +
-+python do_cve_check:prepend() {
-+    import os
-+    import json
+ # Skip processing of this recipe if it is not explicitly specified as the
+ # PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
+ # to build multiple virtual/kernel providers, e.g. as dependency of
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
+index 940561352c..6b17c2ff7f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
+@@ -8,6 +8,9 @@ require recipes-kernel/linux/linux-yocto.inc
+ # CVE exclusions
+ include recipes-kernel/linux/cve-exclusion_6.12.inc
+ 
++# Generate Dynamic CVE Exclusions
++inherit generate-cve-exclusions
 +
-+    workdir = d.getVar("CVE_EXCLUSIONS_WORKDIR")
-+    kernel_version = d.getVar("LINUX_VERSION")
-+    json_input_file = os.path.join(workdir, "cve-exclusion_%s.json" % kernel_version)
+ LINUX_VERSION ?= "6.12.62"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
+index ffa15b0c1b..02e502faed 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
+@@ -8,6 +8,9 @@ require recipes-kernel/linux/linux-yocto.inc
+ # CVE exclusions
+ include recipes-kernel/linux/cve-exclusion_6.16.inc
+ 
++# Generate Dynamic CVE Exclusions
++inherit generate-cve-exclusions
 +
-+    if os.path.exists(json_input_file):
-+        with open(json_input_file, 'r', encoding='utf-8') as f:
-+            cve_data = json.load(f)
-+        cve_status_dict = cve_data.get("cve_status", {})
-+        count = 0
-+        for cve_id, info in cve_status_dict.items():
-+            if info.get("active", True):
-+                # Skip active CVEs
-+                continue
-+            d.setVarFlag("CVE_STATUS", cve_id, info.get("message", ""))
-+            count += 1
+ LINUX_VERSION ?= "6.16.11"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
+index 2afdc02467..e36a7fb028 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
+@@ -8,6 +8,9 @@ require recipes-kernel/linux/linux-yocto.inc
+ # CVE exclusions
+ include recipes-kernel/linux/cve-exclusion_6.18.inc
+ 
++# Generate Dynamic CVE Exclusions
++inherit generate-cve-exclusions
 +
-+        bb.note("Loaded %d CVE_STATUS entries from JSON output for kernel %s" % (count, kernel_version))
-+    else:
-+        bb.warn("CVE exclusion JSON not found: %s. Skipping CVE_STATUS updates" % json_input_file)
-+}
-\ No newline at end of file
+ LINUX_VERSION ?= "6.18.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.12.bb b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
+index 84419f8c78..b6ac5f9b90 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
+@@ -6,6 +6,9 @@ require recipes-kernel/linux/linux-yocto.inc
+ include recipes-kernel/linux/cve-exclusion.inc
+ include recipes-kernel/linux/cve-exclusion_6.12.inc
+ 
++# Generate Dynamic CVE Exclusions
++inherit generate-cve-exclusions
++
+ # board specific branches
+ KBRANCH:qemuarm  ?= "v6.12/standard/arm-versatile-926ejs"
+ KBRANCH:qemuarm64 ?= "v6.12/standard/base"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.16.bb b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+index 408f14b451..947de4186e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+@@ -6,6 +6,9 @@ require recipes-kernel/linux/linux-yocto.inc
+ include recipes-kernel/linux/cve-exclusion.inc
+ include recipes-kernel/linux/cve-exclusion_6.16.inc
+ 
++# Generate Dynamic CVE Exclusions
++inherit generate-cve-exclusions
++
+ # board specific branches
+ KBRANCH:qemuarm  ?= "v6.16/standard/arm-versatile-926ejs"
+ KBRANCH:qemuarm64 ?= "v6.16/standard/base"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.18.bb b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
+index 562a997020..66320f7123 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
+@@ -6,6 +6,9 @@ require recipes-kernel/linux/linux-yocto.inc
+ include recipes-kernel/linux/cve-exclusion.inc
+ include recipes-kernel/linux/cve-exclusion_6.18.inc
+ 
++# Generate Dynamic CVE Exclusions
++inherit generate-cve-exclusions
++
+ # board specific branches
+ KBRANCH:qemuarm  ?= "v6.18/standard/arm-versatile-926ejs"
+ KBRANCH:qemuarm64 ?= "v6.18/standard/base"
 -- 
 2.43.0
 
