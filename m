@@ -2,193 +2,179 @@ Return-Path: <valentin.boudevin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F7A8CEFCF2
-	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 19:10:12 +0000 (UTC)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.98060.1767726610132419102
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22C2ECEFCF2
+	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 19:10:22 +0000 (UTC)
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.98063.1767726617456624962
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jan 2026 11:10:10 -0800
+ Tue, 06 Jan 2026 11:10:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=J/kj73R/;
- spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: valentin.boudevin@gmail.com)
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8b29aebdf3cso24090285a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 11:10:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RPjvXJEG;
+ spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: valentin.boudevin@gmail.com)
+Received: by mail-qk1-f195.google.com with SMTP id af79cd13be357-8b1bb9c3c04so24713585a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 11:10:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767726609; x=1768331409; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lVE4nLj+3BtCLTmQkJXQCdG9/ceCHtDUVYkwlyOryAk=;
-        b=J/kj73R/GLN7iJI9p6M64gjzITAY6ey6q35wfWH8gyaiEevJXPUGlpK6cJBf11IB37
-         G8kQPBlx0D7Nsla/j9ZEheqFXE1/RWPyhgiOcukAGQyMshMHukuKuZ7i/fT4Drt/dE5j
-         M3DGhJws+WvkpMPsKp5NzBHnOHP0ntUzp0zb6hXwSkgIag1FO1+0SOWzDcc3geERRuKe
-         3ji55QVTvgi55pVgYcFvBuTC9SZSOrw93lQ2m8wZDFn9fq4Z5rtPubz/z1pMWIosPzaQ
-         gozPIjF6KTW49SPGp4Qwxf0TFzgRRh6uSyFY7ndQw5lKmBccq82O5HzvwhACnbXjfNEr
-         KhTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767726609; x=1768331409;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1767726616; x=1768331416; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lVE4nLj+3BtCLTmQkJXQCdG9/ceCHtDUVYkwlyOryAk=;
-        b=Xt7qkC+h/8+Bq3TgpSiok20WWA5LBuuYHJxpLsmrEtktgH4M7B4GwFw6jPGVja/7QD
-         wQee8fwqkzKZCwawgwI74NZjUwgMoBnp8D5aDOcyBwuOhj8IzRAIv8+nFI5KW1OZSZrp
-         4Kr1h20AkhDPTpSORR9Fi7uCfrPmprWhbizjr3T4k3uCKuGfiGWmACeMNW78PZ1tj0FY
-         ZUbPk25d3ELgLLQ07Z8HKVXRtR45McnwtGc/25yXQBthEQiGToIL2sLvXo7UhmhU0eZ8
-         4MoVYhaPXwoZy02QRSxvsx8Cpb43WSMWN3E07ILQrfJc3yP3wUF5JM6Cjcp1e0mA412f
-         KCBA==
-X-Gm-Message-State: AOJu0YzoIiKhK2Xk0SdZJS16M8C2rHx5PwuYWz6NPZQlVAxEPqLzaWRd
-	9byE7YbHZ9Huq0SY6tmPuW8FpRS4MPdkje8fgpxd8Xim6Ymy/LgaMD1MuN1dJhCufEw=
-X-Gm-Gg: AY/fxX7j8oOY2sc7jfzDRRKETaVcySgLKW1kXz8Iu49AHVte6EtCmgQF76IVeDWmwB6
-	d/1VTN3/Lu0jeckCVYC2Tg4yG7Uz+TLjuIB1cWbF+9LQPWaTbb4uEQcEIcWlcmXenthGPU40k+v
-	6wyXJfSdIbpC8luu+4BRSF31WFZW1Lho3weymQcIi95cC5m5MBPkg/HND9ELxV0gNW6iOSubSoR
-	b9MRrBz4IIO9LAPnPC5q3MOsXnz3/PLhSFjwUSmvtQp5C7iEMuEJJDdxddybNxuiaR5n+GvT5U4
-	d8WD5m6JTAkiD9lmfaFPHofuEdrUqSmmOzCsZRh4Qly4nCArcB6lpCqzWX1/Ik/CG7BoK3nUYq6
-	pwKy45nC8/2JOTvPge+oe3OzZO778wUenFdKtgQQlq9AWQLyeuDsw5tbaQVCTbnComB2Dd9ACti
-	LC6a6g2xM6tMoXYy6N2mQaBphkd+nwq/mHb8BpF9sOb4GAgO4YXV8qhlI=
-X-Google-Smtp-Source: AGHT+IG4If8L0BGEfU/a5LMdUUardjtQlg3iXH7aD39dqc8XwX/QoYb9yYSdU1yDsyuTgTKvRo/MVA==
-X-Received: by 2002:a05:620a:46a0:b0:8b2:ec2f:cb3d with SMTP id af79cd13be357-8c37ebeb027mr390459285a.10.1767726608850;
-        Tue, 06 Jan 2026 11:10:08 -0800 (PST)
+        bh=11Q8dUO29PtB2BgvNTdqJEjxg/WcHN3+/b9BoeWwkmc=;
+        b=RPjvXJEGCWg5OghbLd5xkeURp+h6nHi6Q+lKHn8MLdm027kI1MBRGytIoTb0R2Wcb+
+         Uj7iIraRySrxhyOwIj9V8bnpJ+UudFU/sNMbcJ/RaNPflwb7pSoi59+6NB0cpAbSODYF
+         M8kbdYrDjnFoKZN7EFoK018rJSVkrMBnjvPyqOEdhgJp5uVPA51FEsuNEt5HyclVyyyp
+         ce/u6bn7gvxKBM4SZ4OL7f832h2xOIYqyD+yTwb2Bf46XHeKIbqEPGwq6Gl34NzY4M/K
+         gE/y2z2qXs9bVCY1VXdGvw6VMo9Ls0G/Ozxc4yrjcWWKi8OJStkubhlEizheBfLo49ca
+         2jaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767726616; x=1768331416;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=11Q8dUO29PtB2BgvNTdqJEjxg/WcHN3+/b9BoeWwkmc=;
+        b=JFOr47qReVXvcRO5aTsSPTYJweZDqCubtXeNRgT4Mo8UTES71VTA3SjhCfGQx6B904
+         mG/1Dv7voytejAgqbXS+67KBofw93LCemyscwxf3Spz800D97hDO+jN2FmEBC7tOLIMJ
+         gq8RKT2ovG0oUMdNBw9DLKtfJ4b1245mrVdLT8Tj2LmzkKLVpx1mxRuWEazUBuK74gD5
+         VlpL672LiJOnyLjHf3kuz4Yh6hrG0tVLCavvqu+J6O6VD4aJ7c+FJxU01aq6QkI74SvL
+         EE+qGPNfXvhk9KfT3NAYCkZMCp+5MD6lsFnsUBkcMV8OYczOQwh9BqVTkza1oNi8tlVg
+         qdnQ==
+X-Gm-Message-State: AOJu0YwZisAKBw+l0w6WMnrs61/xiFNMHJssvkiubN9V/HObV7WPCgYs
+	TRfk5lz99kC1EVTPlo8alh/OCsSBZtKIdSDz3AEXp9B8Finta3PYuRjAx29mpBkeqWe8mA==
+X-Gm-Gg: AY/fxX6+3toi1vPgXis2RGgfeSPhZ2Ybndo9Z2sJ64dqFEs8IL/+WXRtWH+OU3Uuw/Q
+	JaCnaTPw9H2SLM4SSXxY2KXa7UA0bWWf+KpD0c9kFgjFjvTzXaQEerVfqRXQLlzzSXY69G9Ewkt
+	yqqHbe+lRIvskA2E+VKO2Jicrc569yfTYNO16NuJxzRItCspGocpCz1YUeSh9Ga9UtLZu4AkZNU
+	EdXHtj9oKpt8ncm39rUydhfuKwDZ5UGOdAMOExv/eYyUuLRDrH1T58/AdhsAmRuYmQqenzwe4yp
+	hv8Rk4uif/T/tiMF9BhbgwrNcOcitA+zya1xfv2EBbbEjfLCmqg5pQkD193MdZEQaUJY05dW6rB
+	B6aIwnMV+lFSm0gr2YJBvpUNVxw7BcPwNfD701nssAi1myBdxp8lJGhqTkJkqkdWUk1lYJzCeYz
+	6VZSbqCUe4mfr1/YfldnHkhn74tusUQEbSjszfBvg134R69tHvOxkpQrg=
+X-Google-Smtp-Source: AGHT+IFV7wzWK8tjiGlzi5lHvXfLxNPJW8sV5eYK84rSaW035ZciWJiQ3B8kQU2JazokCFdS+wjgNA==
+X-Received: by 2002:a05:620a:bcd:b0:8b2:e5c6:b4a2 with SMTP id af79cd13be357-8c37eb59e96mr414642085a.1.1767726616404;
+        Tue, 06 Jan 2026 11:10:16 -0800 (PST)
 Received: from vboudevin-pc.mtl.sfl (mtl.savoirfairelinux.net. [208.88.110.46])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f51c05csm220480485a.30.2026.01.06.11.10.08
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f51c05csm220480485a.30.2026.01.06.11.10.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 11:10:08 -0800 (PST)
+        Tue, 06 Jan 2026 11:10:16 -0800 (PST)
 From: ValentinBoudevin <valentin.boudevin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: ValentinBoudevin <valentin.boudevin@gmail.com>
-Subject: [[PATCH v2] 1/4] generate-cve-exclusions: Add --output-json option
-Date: Tue,  6 Jan 2026 14:09:58 -0500
-Message-ID: <20260106191001.3385117-1-valentin.boudevin@gmail.com>
+Subject: [[PATCH v2] 2/4] generate-cve-exclusions: Add a .bbclass
+Date: Tue,  6 Jan 2026 14:09:59 -0500
+Message-ID: <20260106191001.3385117-2-valentin.boudevin@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260106191001.3385117-1-valentin.boudevin@gmail.com>
+References: <20260106191001.3385117-1-valentin.boudevin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 19:10:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228917
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 19:10:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228918
 
-This option "--output-json" can be used to return a json file instead of
-the standard .inc file provided.
-The JSON file can easily be manipulated contrary to the .inc file.
+Add a .bbclass to generate-cve-exclusions to use this script at every
+run.
 
-Example output structure of the JSON file:
+Two steps for testing:
+1) Inherit this class in the kernel recipe with "inherit
+   generate-cve-exclusions.bbclass"
+2) Use the following command to generate a cvelistV5 entry with a JSON
+   file in in ${WORKDIR}/cvelistV5/ :
+   "bitbake linux-yocto -c generate-cve-exclusions"
 
-```json
-{
-  "cve_status": {
-    "CVE-2019-25160": {
-      "active": false,
-      "message": "fixed-version: Fixed from version 5.0"
-    },
-    "CVE-2019-25162": {
-      "active": false,
-      "message": "fixed-version: Fixed from version 6.0"
-    },
-...
-```
+The JSON file can then be parsed in the following run by cve-check.
 
-Also, this commit doesn't affect or modify any existing behaviour of the
-script.
+This class contains several methods:
+
+*do_clone_cvelistV5: Clone the cvelistV5 repo in
+${WORKDIR}/cvelistV5/git
+
+(e.g. bitbake-builds/poky-master/build/tmp/work/qemux86_64-poky-linux/
+linux-yocto/6.18.1+git/cvelistV5/git)
+
+*do_generate_cve_exclusions: Use the script generate-cve-exclusions.py.
+It uses the new "--output-json" argument to generate a JSON file as an
+output stored in ${WORKDIR}/cvelistV5//cve-exclusion_${LINUX_VERSION}.json
+
+*do_cve_check:prepend: Parse the previously generated JSON file to set
+the variable CVE_STATUS corretly
 ---
- .../linux/generate-cve-exclusions.py          | 64 +++++++++++++++----
- 1 file changed, 50 insertions(+), 14 deletions(-)
+ meta/classes/generate-cve-exclusions.bbclass | 67 ++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
+ create mode 100644 meta/classes/generate-cve-exclusions.bbclass
 
-diff --git a/meta/recipes-kernel/linux/generate-cve-exclusions.py b/meta/recipes-kernel/linux/generate-cve-exclusions.py
-index dfc16663a5..5a0a947e06 100755
---- a/meta/recipes-kernel/linux/generate-cve-exclusions.py
-+++ b/meta/recipes-kernel/linux/generate-cve-exclusions.py
-@@ -91,6 +91,7 @@ def main(argp=None):
-     parser = argparse.ArgumentParser()
-     parser.add_argument("datadir", type=pathlib.Path, help="Path to a clone of https://github.com/CVEProject/cvelistV5 or https://git.kernel.org/pub/scm/linux/security/vulns.git")
-     parser.add_argument("version", type=Version, help="Kernel version number to generate data for, such as 6.1.38")
-+    parser.add_argument("--output-json", action="store_true", help="Return CVE_STATUS mapping as JSON")
- 
-     args = parser.parse_args(argp)
-     datadir = args.datadir.resolve()
-@@ -99,7 +100,10 @@ def main(argp=None):
- 
-     data_version = subprocess.check_output(("git", "describe", "--tags", "HEAD"), cwd=datadir, text=True)
- 
--    print(f"""
-+    cve_status = {}
+diff --git a/meta/classes/generate-cve-exclusions.bbclass b/meta/classes/generate-cve-exclusions.bbclass
+new file mode 100644
+index 0000000000..254ea5531d
+--- /dev/null
++++ b/meta/classes/generate-cve-exclusions.bbclass
+@@ -0,0 +1,67 @@
++CVE_EXCLUSIONS_WORKDIR ?= "${WORKDIR}/cvelistV5"
++CVELISTV5_PATH ?= "${CVE_EXCLUSIONS_WORKDIR}/git"
 +
-+    if not args.output_json:
-+        print(f"""
- # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
- # Generated at {datetime.datetime.now(datetime.timezone.utc)} for kernel version {version}
- # From {datadir.name} {data_version}
-@@ -131,26 +135,58 @@ do_cve_check[prefuncs] += "check_kernel_cve_status_version"
-             continue
-         first_affected, fixed, backport_ver = get_fixed_versions(cve_info, base_version)
-         if not fixed:
--            print(f"# {cve} has no known resolution")
-+            cve_status[cve] = {
-+                "active": True,
-+                "message": "no known resolution"
-+            }
-+            if not args.output_json:
-+                print(f"# {cve} has no known resolution")
-         elif first_affected and version < first_affected:
--            print(f'CVE_STATUS[{cve}] = "fixed-version: only affects {first_affected} onwards"')
-+            cve_status[cve] = {
-+                "active": False,
-+                "message": f"fixed-version: only affects {first_affected} onwards"
-+            }
-+            if not args.output_json:
-+                print(f'CVE_STATUS[{cve}] = "fixed-version: only affects {first_affected} onwards"')
-         elif fixed <= version:
--            print(
--                f'CVE_STATUS[{cve}] = "fixed-version: Fixed from version {fixed}"'
--            )
-+            cve_status[cve] = {
-+                "active": False,
-+                "message": f"fixed-version: Fixed from version {fixed}"
-+            }
-+            if not args.output_json:
-+                print(f'CVE_STATUS[{cve}] = "fixed-version: Fixed from version {fixed}"')
-         else:
-             if backport_ver:
-                 if backport_ver <= version:
--                    print(
--                        f'CVE_STATUS[{cve}] = "cpe-stable-backport: Backported in {backport_ver}"'
--                    )
-+                    cve_status[cve] = {
-+                        "active": False,
-+                        "message": f"cpe-stable-backport: Backported in {backport_ver}"
-+                    }
-+                    if not args.output_json:
-+                        print(f'CVE_STATUS[{cve}] = "cpe-stable-backport: Backported in {backport_ver}"')
-                 else:
--                    print(f"# {cve} may need backporting (fixed from {backport_ver})")
-+                    cve_status[cve] = {
-+                        "active": True,
-+                        "message": f"May need backporting (fixed from {backport_ver})"
-+                    }
-+                    if not args.output_json:
-+                        print(f"# {cve} may need backporting (fixed from {backport_ver})")
-             else:
--                print(f"# {cve} needs backporting (fixed from {fixed})")
--
--        print()
--
-+                cve_status[cve] = {
-+                    "active": True,
-+                    "message": f"#Needs backporting (fixed from {fixed})"
-+                }
-+                if not args.output_json:
-+                    print(f"# {cve} needs backporting (fixed from {fixed})")
++python do_clone_cvelistV5() {
++    import subprocess
++    import shutil, os
++    rootdir = d.getVar("CVELISTV5_PATH")
++    d.setVar("SRC_URI", "git://github.com/CVEProject/cvelistV5.git;branch=main;protocol=https")
++    d.setVar("SRCREV", "${AUTOREV}")
++    src_uri = (d.getVar('SRC_URI') or "").split()
++    # Fetch the kernel vulnerabilities sources
++    fetcher = bb.fetch2.Fetch(src_uri, d)
++    fetcher.download()
++    # Unpack into the standard work directory
++    fetcher.unpack(rootdir)
++    # Remove the folder ${PN} set by unpack
++    subdirs = [d for d in os.listdir(rootdir) if os.path.isdir(os.path.join(rootdir, d))]
++    if len(subdirs) == 1:
++        srcdir = os.path.join(rootdir, subdirs[0])
++        for f in os.listdir(srcdir):
++            shutil.move(os.path.join(srcdir, f), rootdir)
++        shutil.rmtree(srcdir)
++    bb.note("Vulnerabilities repo unpacked into: %s" % rootdir)
++}
++do_clone_cvelistV5[network] = "1"
++do_clone_cvelistV5[nostamp] = "1"
++do_clone_cvelistV5[doc] = "Clone CVE information from the CVE Project: https://github.com/CVEProject/cvelistV5.git"
++addtask clone_cvelistV5 before do_generate_cve_exclusions
 +
-+        if not args.output_json:
-+            print()
++do_generate_cve_exclusions() {
++    generate_cve_exclusions_script=$(find ${COREBASE} -name "generate-cve-exclusions.py")
++    if [ -z "${generate_cve_exclusions_script}" ]; then
++        bbfatal "generate-cve-exclusions.py not found in ${COREBASE}."
++    fi
++    python3 "${generate_cve_exclusions_script}" \
++        ${CVELISTV5_PATH} \
++        ${LINUX_VERSION} \
++        --output-json > ${CVE_EXCLUSIONS_WORKDIR}/cve-exclusion_${LINUX_VERSION}.json
++}
++do_generate_cve_exclusions[nostamp] = "1"
++do_generate_cve_exclusions[doc] = "Generate CVE exclusions for the kernel build. (e.g., cve-exclusion_6.12.inc)"
++addtask generate_cve_exclusions after do_clone_cvelistV5
 +
-+    # Emit structured output if --ret-struct was requested
-+    if args.output_json:
-+        print(json.dumps({
-+            "cve_status": cve_status,
-+        }, indent=2))
- 
- if __name__ == "__main__":
-     main()
++python do_cve_check:prepend() {
++    import os
++    import json
++
++    workdir = d.getVar("CVE_EXCLUSIONS_WORKDIR")
++    kernel_version = d.getVar("LINUX_VERSION")
++    json_input_file = os.path.join(workdir, "cve-exclusion_%s.json" % kernel_version)
++
++    if os.path.exists(json_input_file):
++        with open(json_input_file, 'r', encoding='utf-8') as f:
++            cve_data = json.load(f)
++        cve_status_dict = cve_data.get("cve_status", {})
++        count = 0
++        for cve_id, info in cve_status_dict.items():
++            if info.get("active", True):
++                # Skip active CVEs
++                continue
++            d.setVarFlag("CVE_STATUS", cve_id, info.get("message", ""))
++            count += 1
++
++        bb.note("Loaded %d CVE_STATUS entries from JSON output for kernel %s" % (count, kernel_version))
++    else:
++        bb.warn("CVE exclusion JSON not found: %s. Skipping CVE_STATUS updates" % json_input_file)
++}
+\ No newline at end of file
 -- 
 2.43.0
 
