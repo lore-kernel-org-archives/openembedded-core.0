@@ -1,171 +1,158 @@
-Return-Path: <stondo@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46E91C47BEE
-	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 11:26:18 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.87911.1767698768668406547
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56A5DC47BEF
+	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 11:41:18 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.88119.1767699668457172371
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jan 2026 03:26:08 -0800
+ Tue, 06 Jan 2026 03:41:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fPzMSzbc;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-477619f8ae5so6888505e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 03:26:08 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MY5dmflQ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-64b9230f564so1236596a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 03:41:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767698767; x=1768303567; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1767699667; x=1768304467; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ze4Gh8YymxUVnUK4A9Gpg4z7iPt/83qMRN62BGRPiAs=;
-        b=fPzMSzbchVwzAlKeG0G7lu9ZKTwfAfNa/wJY9D4MqQfHllvkQzXOO6zny0sQEM5nTJ
-         lNl6bbfhevvyfKW1bqicpMb0yt8E1yE1xx7JwutDEwV+3JgKT0W0gRE0uRxEsUz1yyZv
-         6cS8ljcGXLuk3/S3Ban1DG0LjO4kjLGlj6XjngKAPhR0uFilmmO3nSg6LO+B9wa/Pbmg
-         vUeVj14AZQLuoFapWfBbA2Z6+v+aBw3zfKGR8Zi6EKa4BPYklwtclnD3ctelyYAVlay+
-         B3ulZYdnTgutZKyKOLR2DPLkj1i5U35rxbXilBkJSX0/CDVf0v581zGMj6jogeo1ovQK
-         0+Hg==
+        bh=m2sIoTUO+A/k25DPdEQ3R0iFcOFGd2B9J/+ufrsZI0I=;
+        b=MY5dmflQutcAzHhDkhrMctb+F8PQuu8a02DCiuNsku57TG2KwrwPJFRUeKU5LDObFM
+         fhLjErJJVNNSyhrGV8NvXs1jCO0PSRFuAwo9KmGqmkQEuDimUnRmxpOGzVq90a7z6VEe
+         3q4/A0YGUPAuAWDMRgDM/KEubEDFczxvy9PzXe8PbJMIlNdXw45YMIWs7sGfTV3za6N6
+         Fw42So5EBl5iXOKsAi5yd6ih5jZP+43JQBpTNI8csE4xnxcx6rh7+3anM/Yy32uHeE+4
+         gmwoQ98TaLijyzQasbFaRBkWQCzjpH9KEdaUOkD2oWy5lnWDtsA/GVscbYImllyfggcF
+         dhSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767698767; x=1768303567;
+        d=1e100.net; s=20230601; t=1767699667; x=1768304467;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ze4Gh8YymxUVnUK4A9Gpg4z7iPt/83qMRN62BGRPiAs=;
-        b=C1eWSe8UuyWum6UFMSS/RHgaHNt8rNHyk/F20mFblJDBQiy8GcIGzLVzNl4cj+UFJp
-         TPj61sjlsauKgS7HtLOH28VZIy6beabgbYgrkbNrqf7J5JC0RqOqFYYKNGLqP6VRHE2r
-         AScixs23NNU+amkfLHCsdIuZSj+wlENflsVduE5nbnhQIQxmAvVvHQa2saDZsuOhDcrp
-         pNvL+bNSfjuMIlLRvThC/MZF+NBdSe6Egs14vHGtRGOX46DKpXEsNM00UM1tTWQtV9zV
-         K+UUusIvSuycfDvWH26ztcVOdIvTiW3Yoil+ssFimaYm16OvfOJbDIwYxwdzZ89bC2aK
-         sIiA==
-X-Gm-Message-State: AOJu0YzzNfQMnA8pYD972yNstQxJYvlJ1qQ/aqsayvxBeePhdKDXOwEw
-	TvF8df49F1WAE4rvk8nC40gfusLfpPufOVeNIyAMnV5ixw01Bl0AhBzvVEChRQ==
-X-Gm-Gg: AY/fxX5nTMIZPdLFwqYdjasJ3WlJB8okhQCy7Ze2CY21bFouizMUV+nrTjwq0oUvaGC
-	blBy7j2N3T0ni33ZRdPBH+7CFC7K8fCAqErVROV3H7sNDqnvvPnmeOqWaSPcZePsG0wDHwDZYXL
-	U/2pyyRsrwTV2g/FEn1uJkt09ghLIeMaMIT0fkc4rHjkPnDBzXo1sI+GaJFSa2B/c6pHtbmoCcs
-	9E+wWCGD/cYSO0I10w+oUxCTJwLnyP++qlTP0H1ta3Tg6E2+CXPEPpj8wRfmaDaL26gjtMnjrQs
-	r0iMLABIcA3wpFh2VCl98x4LZrdUI6U67w9yF6Kp9OmqbM7ePsm3YFckHntoOs8JFQFbGwKCvE3
-	QNnEBpbGBtQbqHEyYOTIdRMxavR6nb0feHlA1RHt+x7xcrI0gg7LS6uM0Q8XxwdzI8QCeqZjiE8
-	XMiJYb99rbb2EMKSUHpuxLdfOupB0cw4cjhQ==
-X-Google-Smtp-Source: AGHT+IEwTkiwcVFb/k+piFQIUPm74bFL8hBt7XlgYEOxV3VPLR9DUVoi0UuXwLwL0n2S4lkoUr/XNA==
-X-Received: by 2002:a05:600c:548b:b0:477:7b9a:bb0a with SMTP id 5b1f17b1804b1-47d7f099a1amr29743695e9.21.1767698766595;
-        Tue, 06 Jan 2026 03:26:06 -0800 (PST)
-Received: from fedora ([81.6.40.67])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-47d7f6953fasm38266625e9.5.2026.01.06.03.26.04
+        bh=m2sIoTUO+A/k25DPdEQ3R0iFcOFGd2B9J/+ufrsZI0I=;
+        b=Hcguepu8T2ccd/drqG9TzzpjyONdk31J124HUxI5v2g5Wt5hDB2fkv2siCLw2S8E4l
+         QNh8hJKJfkYP0o48yYwxzCyI/6dX3CHbSTkN4OpZ2KocH7YT8uTuvh5jop1vSkHTQ6ZQ
+         jb8ulNfJebTHYX9EocTsSJ7+7f2i/bDIa706aYvVR0pDIn8+RInhpshOXnK1+e3u2SSx
+         E/szPB+Nuhe0JRxDlQmBaLhXZ0EjIGFeHkxru1o3EgJyIQN27pggg2JrOpxcjexRvbBh
+         ExS80RoSpPgq46wSo8NUPAK6X6ydfLA9+GEaCFe2c7nP56iRgY5ThykrUO5gB5EbcYbE
+         usZw==
+X-Gm-Message-State: AOJu0Yy/gNI7g2SscpOzrvunOjgHOB3j9f+EUvY4NRz/q50qxhA0+YCX
+	JlJ/jEHYZ3GhlK1Dw92WcXFYUERml94FWXY13kh71zvhXtWM5IyawhDv/QK9iQ==
+X-Gm-Gg: AY/fxX4sNB2QCt2i11WQeuJcX4Cy7AMz00nM/p9aUfjwOjUIvfvAGAgj3uaIPyrVxET
+	CruRkg2NxrcThOis4Cf1eukaIHm68bRqj+7ZzClGpAAs/47cHzYFc1UMAf5Pt96ZcMW1jEqoaCD
+	k9uDM4JNKQEXKZ++0ujfUGj+O7LgNPeRmay4V66XPx86EfoPddpvvHXSCyU5gEhFjSVah9B69GP
+	2WkO7d9uT3C9cnnvM05+QmZFonnmfvLyAgvuNRVF26XYUEIfuJKhoRnl2S2+KyYNKZ+53nfhmZ2
+	+QrrHrH2FZLvXFow3W+UGh/2EwdV7cxTtYilATAeyobNHZAGu5PIDZlmgGnDNFqjlNACMEqBj3v
+	hVf+Mp2L5qrSAAASGcJoYikRBlHMRR4CkCGkZuNfuW9WHO+bsbO8NhVeoUZxFS1DsDv1N21RhzU
+	9zR9TUa+xjKCewrWvrRHcM2+MFjj3YFqo/ZRxRU32BJKqHDIk=
+X-Google-Smtp-Source: AGHT+IFIp1Hel+Q4NZiUqDfCclTlenPdWqUx+YO7ePMBECwD5hLV9BsYs16g/ahqHCIcMX0fnarBtg==
+X-Received: by 2002:a17:907:3e12:b0:b80:a31:eb08 with SMTP id a640c23a62f3a-b8426e1c30emr299632366b.55.1767699666484;
+        Tue, 06 Jan 2026 03:41:06 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b842a51183asm210163266b.49.2026.01.06.03.41.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 03:26:05 -0800 (PST)
-From: stondo@gmail.com
+        Tue, 06 Jan 2026 03:41:06 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: stefano.tondo.ext@siemens.com,
-	peter.marko@siemens.com,
-	adrian.freihofer@siemens.com,
-	JPEWhacker@gmail.com
-Subject: [PATCH v2] spdx30_tasks: Add concluded license support with SPDX_CONCLUDED_LICENSE
-Date: Tue,  6 Jan 2026 12:25:51 +0100
-Message-ID: <20260106112557.53709-1-stondo@gmail.com>
-X-Mailer: git-send-email 2.52.0
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH v2] igt-gpu-tools: upgrade 2.1 -> 2.3
+Date: Tue,  6 Jan 2026 12:40:57 +0100
+Message-ID: <20260106114057.3887879-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 11:26:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228884
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 11:41:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228885
 
-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-Add hasConcludedLicense relationship to SBOM packages with support for
-manual license conclusion override via SPDX_CONCLUDED_LICENSE variable.
-
-The concluded license represents the license determination after manual
-or external license analysis. This should be set manually in recipes or
-layers when:
-
-1. Manual license review identifies differences from the declared LICENSE
-2. External license scanning tools detect additional license information
-3. Legal review concludes a different license applies
-
-The hasConcludedLicense relationship is ONLY added to the SBOM when
-SPDX_CONCLUDED_LICENSE is explicitly set. When unset or empty, no
-concluded license is included in the SBOM, correctly indicating that
-no license analysis was performed (per SPDX semantics).
-
-When differences from the declared LICENSE are found, users should:
-
-1. Preferably: Correct the LICENSE field in the recipe and contribute
-   the fix upstream to OpenEmbedded
-2. Alternatively: Set SPDX_CONCLUDED_LICENSE locally in your layer when
-   upstream contribution is not immediately possible or when the license
-   conclusion is environment-specific
-
-This variable allows tracking license analysis results in the SBOM while
-maintaining the recipe LICENSE field for build system compatibility.
-
-The variable is initialized in spdx-common.bbclass with comprehensive
-documentation explaining its purpose, usage guidelines, and examples.
-
-Example usage in recipe or layer:
-  SPDX_CONCLUDED_LICENSE = "MIT & Apache-2.0"
-
-Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes/spdx-common.bbclass | 14 ++++++++++++++
- meta/lib/oe/spdx30_tasks.py      | 18 ++++++++++++++++++
- 2 files changed, 32 insertions(+)
+v2: add details about how and where the variable with the bogus value
+is used
+---
+ ...do-not-hardcode-the-build-directory-.patch | 47 +++++++++++++++++++
+ ...-gpu-tools_2.1.bb => igt-gpu-tools_2.3.bb} |  3 +-
+ 2 files changed, 49 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch
+ rename meta/recipes-graphics/igt-gpu-tools/{igt-gpu-tools_2.1.bb => igt-gpu-tools_2.3.bb} (93%)
 
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index ca0416d1c7..504e6fba45 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -36,6 +36,20 @@ SPDX_LICENSES ??= "${COREBASE}/meta/files/spdx-licenses.json"
- 
- SPDX_CUSTOM_ANNOTATION_VARS ??= ""
- 
-+SPDX_CONCLUDED_LICENSE ??= ""
-+SPDX_CONCLUDED_LICENSE[doc] = "The license concluded by manual or external \
-+    license analysis. This should only be set when explicit license analysis \
-+    (manual review or external scanning tools) has been performed and a license \
-+    conclusion has been reached. When unset or empty, no concluded license is \
-+    included in the SBOM, indicating that no license analysis was performed. \
-+    When differences from the declared LICENSE are found, the preferred approach \
-+    is to correct the LICENSE field in the recipe and contribute the fix upstream \
-+    to OpenEmbedded. Use this variable locally only when upstream contribution is \
-+    not immediately possible or when the license conclusion is environment-specific. \
-+    This allows tracking license analysis results in SBOM while maintaining recipe \
-+    LICENSE field for build compatibility. \
-+    Example: SPDX_CONCLUDED_LICENSE = 'MIT & Apache-2.0'"
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch
+new file mode 100644
+index 0000000000..7ff8aa22a9
+--- /dev/null
++++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch
+@@ -0,0 +1,47 @@
++From 27fd94beadfc29ea4ad82f660dbdb2540d0b6b97 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Thu, 18 Dec 2025 15:45:11 +0100
++Subject: [PATCH] lib/meson.build: do not hardcode the build directory into the
++ installable library
 +
- SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
++This breaks reproducibility, and is not otherwise appropriate, as the
++original directory may not exist. If there's a use case for referring to
++it, the location should be passed in with a command line switch or
++environment variable.
++
++imgdir is set elsewhere in meson.build to:
++
++imgdir = join_paths(build_root, 'data')
++
++and them IGT_IMGDIR is used thusly in lib/igt_core.h:
++
++/**
++ * igt_fopen_data:
++ * @filename: filename to open.
++ *
++ * Open a datafile for test, first try from installation directory,
++ * then from build directory, and finally from current directory.
++ */
++#define igt_fopen_data(filename) \
++        __igt_fopen_data(IGT_SRCDIR, IGT_DATADIR, IGT_IMGDIR, filename)
++
++
++Upstream-Status: Inappropriate [hack patching in a bogus dir; issue reported at https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/issues/190]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ lib/meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/meson.build b/lib/meson.build
++index d0487fb3c..f6452e970 100644
++--- a/lib/meson.build
+++++ b/lib/meson.build
++@@ -292,7 +292,7 @@ foreach f: lib_sources
++ 	    '-DIGT_DATADIR="@0@"'.format(join_paths(prefix, datadir)),
++ 	    '-DIGT_SRCDIR="@0@"'.format(srcdir),
++ 	    '-DIGT_LOG_DOMAIN="@0@"'.format(f.split('.')[0]),
++-            '-DIGT_IMGDIR="@0@"'.format(imgdir),
+++            '-DIGT_IMGDIR="/this/is/a/bogus/dir"',
++ 	])
++ 
++     lib_intermediates += lib
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.1.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.3.bb
+similarity index 93%
+rename from meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.1.bb
+rename to meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.3.bb
+index 96f3530436..c92d10c617 100644
+--- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.1.bb
++++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.3.bb
+@@ -9,9 +9,10 @@ LICENSE = "MIT"
  
- python () {
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 286a08ed9b..885b9c5549 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -712,6 +712,24 @@ def create_spdx(d):
-                 oe.spdx30.RelationshipType.hasDeclaredLicense,
-                 [oe.sbom30.get_element_link_id(package_spdx_license)],
-             )
-+            
-+            # Add concluded license relationship if manually set
-+            # Only add when license analysis has been explicitly performed
-+            concluded_license_str = d.getVar("SPDX_CONCLUDED_LICENSE")
-+            if concluded_license_str:
-+                # Use explicitly set concluded license
-+                if concluded_license_str != package_license and concluded_license_str != d.getVar("LICENSE"):
-+                    concluded_spdx_license = add_license_expression(
-+                        d, build_objset, concluded_license_str, license_data
-+                    )
-+                else:
-+                    concluded_spdx_license = package_spdx_license
-+                
-+                pkg_objset.new_relationship(
-+                    [spdx_package],
-+                    oe.spdx30.RelationshipType.hasConcludedLicense,
-+                    [oe.sbom30.get_element_link_id(concluded_spdx_license)],
-+                )
+ inherit meson pkgconfig
  
-             # NOTE: CVE Elements live in the recipe collection
-             all_cves = set()
+-SRCREV = "4871829d8b7117553eb2dc1bdb9a0d18de428a98"
++SRCREV = "2d7ec9a36c550c48af4bdd6e748f6753369ab8ff"
+ 
+ SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master;tag=v${PV} \
++           file://0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch \
+            "
+ 
+ DEPENDS += "libdrm libpciaccess cairo udev glib-2.0 procps libunwind kmod openssl elfutils alsa-lib json-c bison-native"
 -- 
-2.52.0
+2.47.3
 
 
