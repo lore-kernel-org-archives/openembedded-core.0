@@ -1,163 +1,198 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ACDBCEFD18
-	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 22:30:28 +0000 (UTC)
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2091.1767738627314137693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68CA0CEFD19
+	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 22:37:28 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2311.1767739041089507175
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jan 2026 14:30:27 -0800
+ Tue, 06 Jan 2026 14:37:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eIEqEKyF;
- spf=pass (domain: gmail.com, ip: 209.85.167.176, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-455af5758fdso955124b6e.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 14:30:27 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hDj9zRFN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.175, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-79045634f45so17958367b3.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 14:37:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767738626; x=1768343426; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1767739040; x=1768343840; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Xk0i2vbFSiC9zdoNDy8sWwbQ9cDG6OGMHIG8dTU3ef8=;
-        b=eIEqEKyFpHxpAXKqvOG+dgEoAok3QOTP7230+FFSBbVvNQWTaXaIp4mhECiKnz5aPZ
-         RNkGHoErUYLRklLkxDBKcOf9eEoOAtW/zvx1U5H2moYIvlk6bw/ngChInRXBAS9geu12
-         7GWFxI8GKZA2GwDtUQ/Hu9WzaFZvRskp128ol5AB85I+4Ep4o9YH00Yj8tW2L/CdbE7r
-         hrxw840FZ7fPs5hZpVU+nfBohUO9oDgsNdXe7JbnjnjIiiKTJZL2caYdJEmiNYOjEhpT
-         cZA4OxuhJszycXxg8r4g7ev5aR3kFvYryfVfIjnE9mkCuO9E604TvVvhr1whwJt3gIPJ
-         OTZw==
+        bh=Q4npVDOo5QKdpwT/DQIgLR8mpGHu9uhclss9G4kBhcg=;
+        b=hDj9zRFNHi4XvN/ho1Pqjz2g8b4vt9Tvz07EbEDQPqsLu7/V/n4V0/WSfpe4kb8RsX
+         VwR8QX6eu07zi0o2h7xRjmW1T2bLsN2V12wzOlidX4ns3Z1vXKuoleF/xatEQIA8kwv5
+         zuYxWpESXjePakU9tpnhAehETxsVjfsE06NSLahrMD0HCIfPJNprxmkjo/3w6JZaPNQe
+         ofZikEYqSm1NB3jGkU+ZDtuKC4DviYV4oikgGsLBvrcqDZbWgB+7eUWeJDqh3LI1KG6T
+         x++SrzUyeqLcaBUQ+Videcw8XjCs2UvPiLaRff6d6DezprDCmcjTmHYkPNr6nws3Avf+
+         eQQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767738626; x=1768343426;
+        d=1e100.net; s=20230601; t=1767739040; x=1768343840;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Xk0i2vbFSiC9zdoNDy8sWwbQ9cDG6OGMHIG8dTU3ef8=;
-        b=PWDmG8wH1r4Ee/RvepPrP2DaEGiVWzBKNTTnoV2xXSvxA/PlaLsVG/U6rKh1P2d+39
-         arf7UAsoooI0994UPIHTE+VTLYFU6jDTo/lGCvPZJ3bC6rmn5XhS5GA+cF+PIWGi42xb
-         dGH6FbKkGKttlAj8W4eJHs6Zv4bqO8H75Cb6HW2dWrMoUuUooYdaJah/elKgeBrZXx38
-         jzpNPMysq7pBwgkZHpaZcgBTQHLMuCaTCT2KFRhVWh8QvV/ugfyyW2VlCBVrz6q1CK6e
-         BJTkNGtoniIhN2UZ85NMD44Beqdravzdteml56kzWi2mZTYszlrLZku2n/R79LBfINbO
-         TThg==
-X-Gm-Message-State: AOJu0Yzg1/A805BV+YSkZwr6jjJvT7Gflvc2owz3+U7jF6swjogos5Ux
-	SbRCYZDmhXv/Solg7AnQB6yXuow6GRlPgEXmdiEkc53lskbcB+Faelsyfs2T7Rvy8o5xl/64uP3
-	QIQ9JCTNcu/uXAGn/tmGHE25nQHWNi5HsK14W
-X-Gm-Gg: AY/fxX5Y0AuyoyppvGY64d5Jfl70rHL1yueZzsDm1PezqHxFfB++M7ulgoWdLqbCc0H
-	cKtyVryJjO9omtp1rc7smdAfsh+EUGqC+nz3ULX5aDy6Alpepiy9p1WueF4gsW2h90iMTonkOkX
-	V9hGaLnBOIKY5xylhYzuE4KOj7nv29SblVsNnP/GNWCpOLUHLV9F477fmHAFNFup7SNfhT/WNRD
-	lv0JqsSZcsaL01cYBkBu0CVtVUCv3dyIfsUf/jV/P3gFURBEsjVfLMsD375MZ6FH11hndo5EEiQ
-	JGsHM8I=
-X-Google-Smtp-Source: AGHT+IEInN6BgTpCjg88vfD9CxvmA9S8fHj5bZ3oEITQUWSL9SpBZLRFHa2d2VXUPktX6d1j7WZzqI6WwqmSigcrFhQ=
-X-Received: by 2002:a05:6808:3505:b0:44f:8c46:a2c2 with SMTP id
- 5614622812f47-45a6bed76a1mr260574b6e.57.1767738625820; Tue, 06 Jan 2026
- 14:30:25 -0800 (PST)
+        bh=Q4npVDOo5QKdpwT/DQIgLR8mpGHu9uhclss9G4kBhcg=;
+        b=ZN8VX9KEx0K69+cJeSTUiSihiH3uU00W5+4Gar+43vZKbOHrxKsW/SN1N8T6GCzm8i
+         eT0GHuljE2oclQz1rWOyZihIhrIlzp9qcLgP8/byKjxrDgMt0OaDBa6cxL4E/PEd9JCi
+         GIiXWOmFoZTBJV4om0fPTfIRyiMTTk3hsNY8SGR4aX7igGBTOWQWzkPqN4pLfaWU3eJt
+         1WzVVoxyq30VgNmGYICTANTAeHiT3+nvkTvl9S5SyNkh0Lg52hawsyIqgz25TIjf+5RJ
+         fcaPjghmkjA4iJdPwZNuktvAaJW4hFLNsDLTJRhK2LiUSzIQk3PMAts0jKjyBe995U/m
+         gpHw==
+X-Gm-Message-State: AOJu0YzrYtburjKR70InhbrGxsAzuAQohN4wNwUN0XB3c96L8GLGKQkz
+	vR5GOVTedb8lBV+CR6sqb2yg10gf3qrEV96UAPWJ5m9/+sbm8xk/V34egdX9Nin6IwIO0+ilfDY
+	X927q9JyBit9KDYRgKNKJd8ujcOxZ34NyJJATe1/DYw==
+X-Gm-Gg: AY/fxX7zwa6eI6kP12TbTn4qgNaRxGQFD+HAM808OhOPO6HIBhRrDZtAz6iCi/jtFUs
+	2VnllZqYU1XUCFbODXP18NICzUz6Mym3+hfwmAT20jl3mO2rFs4w6UPBiOThYMBx0xaHXTDo4Gl
+	JPvu7CbHXwXWyngSyIDV0Mxagp92lxGeSL8nnjKbvlSEmWRQ5/n0ExtGP2stCR2iit2IrsPYFD1
+	q7OLn9awhFzmWkNAUmJmCM4zj4Tx2Lm62BmsRofoD0CKLxQPTNqs3dQfYYUt3ivrMFNUH5f3s99
+	rBReG0FEPbsmm1Kib+zjeg4vl88=
+X-Google-Smtp-Source: AGHT+IEKuoegjS8HiUhCVpSCZhu2HXrU07j0ADZNKRfitPfBBXv0ws3vrB3lFtTBTuMJeJSbBF8GWp3+1WUqBNUGMqo=
+X-Received: by 2002:a05:690e:1301:b0:644:60d9:865b with SMTP id
+ 956f58d0204a3-64716c809b7mr516784d50.94.1767739040083; Tue, 06 Jan 2026
+ 14:37:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20260106221016.3504565-1-thomas.perrot@bootlin.com>
-In-Reply-To: <20260106221016.3504565-1-thomas.perrot@bootlin.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Wed, 7 Jan 2026 11:30:14 +1300
-X-Gm-Features: AQt7F2qIhm8GoKG3A_LSOjVIkXTrUPxgWZ7q5EPcIZUsTnFYuRvFbogmGmKBsxA
-Message-ID: <CADySD0GKQiq_jM=M57_A-6cwe-=xd8bukZH_3p1AzhuWLrmQfA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] opensbi: bump to 1.8
-To: thomas.perrot@bootlin.com
-Cc: openembedded-core@lists.openembedded.org, thomas.petazzoni@bootlin.com
+References: <cover.1766352840.git.steve@sakoman.com> <9964fa3da2fa1e7243fba1a826e59f7bb1813706.1766352840.git.steve@sakoman.com>
+ <b7923b2d-98df-4a16-b8a0-8d99035cedc5@windriver.com>
+In-Reply-To: <b7923b2d-98df-4a16-b8a0-8d99035cedc5@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 6 Jan 2026 14:37:09 -0800
+X-Gm-Features: AQt7F2qCkMvIh89id1-DLhvs9kusKYMMIDA5AcB-1_p_JW7oTq00XjOPRqp-o8Q
+Message-ID: <CAOSpxdZCjccVF+D-s0m29N1+XwzApY1DMVw=Uyd+Ynd=pXm7xg@mail.gmail.com>
+Subject: Re: [OE-core][whinlatter 18/18] populate_sdk_ext: keep SDK_TARGETS so
+ SPDX/SBOM tasks remain in locked sigs
+To: randy.macleod@windriver.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Yoann Congal <yoann.congal@smile.fr>, 
+	"Jayasurya, Maganuru" <maganuru.jayasurya@windriver.com>, paul@pbarker.dev, 
+	Joshua Watt <JPEW.hacker@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 22:30:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228936
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 22:37:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228937
 
-On Wed, Jan 7, 2026 at 11:12=E2=80=AFAM Thomas Perrot via
+Sigh, this was my mistake.
+
+I saw they were in master-next and moved them into whinlatter-nut for
+testing and then forgot to check to see if they merged before I sent
+them out for review.
+
+We should revert them before the whinlatter release build.
+
+Time to retire, I'm making mistakes :-(
+
+Steve
+
+On Tue, Jan 6, 2026 at 1:30=E2=80=AFPM Randy MacLeod via
 lists.openembedded.org
-<thomas.perrot=3Dbootlin.com@lists.openembedded.org> wrote:
+<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
 >
-> From: Thomas Perrot <thomas.perrot@bootlin.com>
+> On 2025-12-21 4:37 p.m., Steve Sakoman via lists.openembedded.org wrote:
 >
-> This release has:
-> - Safe and reverse list iteration
-> - Stack protector support
-> - Allocate heap housekeeping nodes dynamically
-> - IPI device ratings
-> - Andes QiLai SoC support
-> - SpacemiT K1 SoC support
-> - ESWIN Computing EIC7700 SoC support
-> - Moved Ariane and Openpiton to generic platform
-> - SiFive CLINT v2 support
-> - Simple FDT based cache library
-> - SiFive PL2 cache controller driver
-> - SiFive Extensible Cache (EC) driver
-> - SiFive TMC0 based HSM driver
-> - SiFive SMC0 based system suspend driver
-> - MPXY RPMI mailbox driver for voltage service group
-> - MPXY RPMI mailbox driver for device power service group
-> - MPXY RPMI mailbox driver for performance service group
-> - HART protection abstraction
+> From: Jayasurya Maganuru <Maganuru.Jayasurya@windriver.com>
 >
-> Overall, this release has various domain related improvements and
-> also adds multiple platform support.
+> Fixes [YOCTO #15853]
 >
-> Also switch Qemu -cpu parameter to rv64 because rva23s64 and rva22s64
-> profiles lack PMP entries, causing hart isolation configuration to fail [=
-1].
+> Steve, Yoann, and others,
 >
-> [1] https://lists.nongnu.org/archive/html/qemu-riscv/2026-01/msg00048.htm=
-l
+> This commit as well as 17/18 made it into whinlatter before master.
+> Was that intentional ?
 >
-> Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+> =E2=9D=AF git log   --oneline origin/whinlatter  ^master meta/classes-rec=
+ipe/populate_sdk_ext.bbclass
+> 9964fa3da2 (origin/whinlatter) populate_sdk_ext: keep SDK_TARGETS so SPDX=
+/SBOM tasks remain in locked sigs
+>
+> =E2=9D=AF git log   --oneline origin/whinlatter  ^master
+> 9964fa3da2 (origin/whinlatter) populate_sdk_ext: keep SDK_TARGETS so SPDX=
+/SBOM tasks remain in locked sigs
+> 3f57280caa create-spdx-image-3.0: Image SPDX/SBOM tasks are retained for =
+eSDK installation
+> 7f02b3f811 cve-update: Avoid NFS caching issues
+>
+> The patches has been sitting in master-next for a while since people
+> have some concerns about them, IIRC.
+>
+> What do we do now, revert ?
+>
+>
+> Apologies for missing the review deadline.
+> Maybe next year, there should be a longer merge freeze around Xmas time
+> so that there's sufficient review.
+>
+> ../Randy
+>
+>
+>
+> The filtering in populate_sdk_ext.bbclass was removing all image targets =
+from
+> the locked signatures, including the main SDK images (SDK_TARGETS). As a
+> result, their tasks including the image SPDX/SBOM tasks were not added to
+> locked-sigs.inc.
+>
+> Without these entries, the eSDK lacked the necessary sstate, and the inst=
+aller
+> attempted to run the missing tasks during installation, leading to unexpe=
+cted
+> task execution errors.
+>
+> This patch keeps SDK_TARGETS (and their multilib variants) in the locked
+> signatures so their SPDX/SBOM tasks are included. With those tasks in the
+> sstate cache, the eSDK installs cleanly without needing to re-run anythin=
+g.
+>
+> Signed-off-by: Jayasurya Maganuru <Maganuru.Jayasurya@windriver.com>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 920c5de570ec575a9eaccb105461394d9fa0f1db)
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
 > ---
->  meta/conf/machine/include/riscv/qemuriscv.inc               | 2 +-
->  meta/recipes-bsp/opensbi/{opensbi_1.7.bb =3D> opensbi_1.8.bb} | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-bsp/opensbi/{opensbi_1.7.bb =3D> opensbi_1.8.bb} (97=
-%)
+>  meta/classes-recipe/populate_sdk_ext.bbclass | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
-> diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/ma=
-chine/include/riscv/qemuriscv.inc
-> index b755d32c9d1a..45fcf36e62d9 100644
-> --- a/meta/conf/machine/include/riscv/qemuriscv.inc
-> +++ b/meta/conf/machine/include/riscv/qemuriscv.inc
-> @@ -27,7 +27,7 @@ UBOOT_ENTRYPOINT:riscv64 =3D "0x80200000"
->  # qemuboot options
->  QB_SMP ?=3D "-smp 4"
->  QB_KERNEL_CMDLINE_APPEND =3D "earlycon=3Dsbi"
-> -QB_CPU:riscv64 ?=3D "-cpu rva23s64"
-> +QB_CPU:riscv64 ?=3D "-cpu rv64"
->  QB_MACHINE =3D "-machine virt"
->  QB_DEFAULT_BIOS =3D "fw_jump.elf"
->  QB_TAP_OPT =3D "-netdev tap,id=3Dnet0,ifname=3D@TAP@,script=3Dno,downscr=
-ipt=3Dno"
-> diff --git a/meta/recipes-bsp/opensbi/opensbi_1.7.bb b/meta/recipes-bsp/o=
-pensbi/opensbi_1.8.bb
-> similarity index 97%
-> rename from meta/recipes-bsp/opensbi/opensbi_1.7.bb
-> rename to meta/recipes-bsp/opensbi/opensbi_1.8.bb
-> index a460062e9398..f2d3e9f20082 100644
-> --- a/meta/recipes-bsp/opensbi/opensbi_1.7.bb
-> +++ b/meta/recipes-bsp/opensbi/opensbi_1.8.bb
-> @@ -8,7 +8,7 @@ require opensbi-payloads.inc
+> diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-=
+recipe/populate_sdk_ext.bbclass
+> index 2859320ddf..2838ca1a03 100644
+> --- a/meta/classes-recipe/populate_sdk_ext.bbclass
+> +++ b/meta/classes-recipe/populate_sdk_ext.bbclass
+> @@ -460,6 +460,15 @@ def prepare_locked_cache(d, baseoutpath, derivative,=
+ conf_initpath):
 >
->  inherit deploy
+>      # Filter the locked signatures file to just the sstate tasks we are =
+interested in
+>      excluded_targets =3D get_sdk_install_targets(d, images_only=3DTrue)
+> +    sdk_targets =3D d.getVar('SDK_TARGETS')
+> +    ext_sdk_target_set =3D set(multilib_pkg_extend(d, sdk_targets).split=
+())
+> +    excluded_set =3D set(excluded_targets.split())
+> +
+> +    # Ensure SDK_TARGETS and their image SPDX/SBOM tasks are included in=
+ the locked signatures,
+> +    # as they are required during eSDK installation.
+> +    filtered_excluded_set =3D excluded_set - ext_sdk_target_set
+> +    excluded_targets =3D ' '.join(filtered_excluded_set)
+> +
+>      sigfile =3D d.getVar('WORKDIR') + '/locked-sigs.inc'
+>      lockedsigs_pruned =3D baseoutpath + '/conf/locked-sigs.inc'
+>      #nativesdk-only sigfile to merge into locked-sigs.inc
 >
-> -SRCREV =3D "a32a91069119e7a5aa31e6bc51d5e00860be3d80"
-> +SRCREV =3D "e7fa66c2160ec139de1853a00f669c09320a9256"
->  SRC_URI =3D "git://github.com/riscv/opensbi.git;branch=3Dmaster;protocol=
-=3Dhttps"
-
-Can you please also try including tag=3Dv${PV} in the SRC_URI ?
-
->  TARGET_DBGSRC_DIR =3D "/share/opensbi/*/generic/firmware/"
+>
+>
+>
 > --
-> 2.52.0
+> # Randy MacLeod
+> # Wind River Linux
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#228935): https://lists.openembedded.org/g/openembedde=
-d-core/message/228935
-> Mute This Topic: https://lists.openembedded.org/mt/117115594/3619737
+> View/Reply Online (#228933): https://lists.openembedded.org/g/openembedde=
+d-core/message/228933
+> Mute This Topic: https://lists.openembedded.org/mt/116893601/3620601
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [an=
-kur.tyagi85@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
