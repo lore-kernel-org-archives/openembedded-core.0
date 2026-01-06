@@ -1,199 +1,115 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCCE0CE9D45
-	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 14:58:40 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.91599.1767711513798197584
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0EFECE9D45
+	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 15:24:00 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.92228.1767713035762449402
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jan 2026 06:58:34 -0800
+ Tue, 06 Jan 2026 07:23:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Ua4VXQis;
- spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-430f9ffd4e8so1397383f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 06:58:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fWn3P2+v;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-88ffcb14e11so11222876d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 07:23:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1767711512; x=1768316312; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S6c15Cgv6InmeyWMEu36YgNzOtU7RQ6dcoBoqW0d2Uc=;
-        b=Ua4VXQisp1/5yY6iP8sMTVdsoVQF0WkSmrZBfv4D+jIRkkj5fPbcZVoKFID/duHnGK
-         JS7riwQ8d9cMfEPQC+Fb7S0w9N9QrgwrSYe6dSD6W5uGmdfDsnyAzab+URCm2HSQ4uja
-         A5TZY2nfF5d4QpwQnbQNJrDSaIhY64PMM2LH4=
+        d=gmail.com; s=20230601; t=1767713035; x=1768317835; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/QcJ4xvrbZf3gw/mHalzQrwhpn1e7/2JUGcFfsId96I=;
+        b=fWn3P2+vd6uYzcgdP+EfME/KcJyr4M89PigAhj23YR0F7CNuaHnWWlCHEPNhUZsq9b
+         iCBeJUce+eHXwhTswuebEvrAqk42H4NeZiqZEG+rTz9RLg6rsabc+uczyzErUwtNy6/W
+         xOFC7y1oeHNkentsnaKUvbSgGRHdQAl00rY16yUPFktn3tUWXOriTgTY/4uZX2YkO7xd
+         vdZW78xXtfXIf+tlLZZl1epq4pYrRhgxoZpxEaIr7xCPyLU4EuQ5Uhw+LJCNbQPiLOai
+         +6PDxzwFPAmuHhv3XHVJ/ZfptoDbUTlf65gjbi64/3d7HUKXUaKs+BGnc7OykeYMz9Nw
+         eDJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767711512; x=1768316312;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S6c15Cgv6InmeyWMEu36YgNzOtU7RQ6dcoBoqW0d2Uc=;
-        b=Aabt9+DpUyhj9L9YWwQt1CAM+U/po7BBNnd09cBlrAf2XK8/y662SbM7Q1g7mBZ2gT
-         OPipMWX9ixWkqqbyyM+qbdW9WCY8yHTSZw7fmE6oSBGIF3zJnAcpXYjI+cdMn4FmeZcw
-         pFxmdR6X6DhpvZyVcl6LBFjXt71TJaAS43NCrv7rEU0P6qFdAvRL5WXvS3gFQvwKxFCB
-         9J4J7p2X2OS/mvhXCV1/zJHEuScL8fpGjnJyzSIuGRTpMmCiNkzgcfJnt5C5TP4I0dc5
-         szky0caqfriJSqn5nqAQ95ZNcDI92FT64jsveeinxyRTH4vr3MuzoGqCK5ok44jsQHxe
-         obVQ==
-X-Gm-Message-State: AOJu0YxX7rFRn3pxak5qCwdCF2elpVsfX1kBByGDNqnNIEQusAqWTKFW
-	F6Zp1mdsx5yl4omRjJz71Dnq61Mi26NsWFeyne2RV1d2pnfZd4i7aeSoEXq7ZWWnnSLnwZzuwyJ
-	TVDL+
-X-Gm-Gg: AY/fxX56bK+mi+SYauZxR5ZwrpALxrS4D4guzPcLKoskxOwI8A2tHnYtM5JZcAOa2ny
-	lM3vclLP77falh8jOxbxHQtkiLKIsAP9F3jOQvlUmEJp1SKhtEG1EFg79j0IS2m95PTf+JZVA0D
-	nPvov5bf/pLSLDzr09Hti2Iaw7bmkTA5ugejq7bAi8Hn4PhglHTeUrh/AqAWqyCZdyQ8iobBHvp
-	91tJpKO9NDB5FL90ivse8FoYKxB96HQftNDfCf3LVsvfASv4pxoHJyTjCxaRMoSkqy1I1MJlOeV
-	8ckqR9l/DOm6PD4rlhjaL8FBYPI6kIUaUCFjEZnyGhOigh5cKthXuvzW7OA0emskHoRZzQ51PaZ
-	IDYCGRP5HTgrk3MQgmMHUGgIWh/sPVtIFTCoNmRrOlxOJv4eAuV37KAq/Lg9+Q4/yXAQtqF5mfe
-	+YTE91rsqDDacLpiHMIf1Hl4HdtNmv33PLHPuyXTGNg52JiAjQcDDXqQLFoA4AH67hLRHxy22U8
-	wjkZdEd0yQnuzY8
-X-Google-Smtp-Source: AGHT+IH/tGelVbiiwIGXUb5/0UrvXebw/SEIur5lKieKbxqevUKvPz6Y1VsUVDcORk5yOxRPW7LPaQ==
-X-Received: by 2002:a05:6000:1886:b0:432:c03e:a77e with SMTP id ffacd0b85a97d-432c03ea994mr1884611f8f.16.1767711511728;
-        Tue, 06 Jan 2026 06:58:31 -0800 (PST)
-Received: from FRSMI25-LASER.home (2a01cb001331aa0051b13b00a50722a9.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:51b1:3b00:a507:22a9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dade5sm4899155f8f.9.2026.01.06.06.58.31
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1767713035; x=1768317835;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/QcJ4xvrbZf3gw/mHalzQrwhpn1e7/2JUGcFfsId96I=;
+        b=HFUGq/6AMAWAOFxpZ6DCyyqYWISBcxR1fQKIkXCIHRsdew0Wq/spVR77oWZAiXPEuB
+         pUnrbPnYkg0bm33izaS6rlwMtxuPDrJRoNfDLpJHcN2mFi+WJGra2i548Kx8cX+igcJg
+         u5vJMIgMluIIqsxKjLIbiJVjol0QD/tRcDawsoOqNA/mt3TfKqHlJHvy12O3Yq5Z4hCA
+         oAg/OEBFLH02HV/Qg8nf+v6Fv18qSbvqj/k0NyDD7KZT7S7HQldtkgwqnFxNVpyWa+hF
+         hEcYtuSnNPtaqH0uf8qVghTgCV92rMZplvCO7AWCOGnbrUpfETd6zIK+95kxRCAhJmhs
+         lOZQ==
+X-Gm-Message-State: AOJu0YxbxPyO1YLPsTkLahD8CqBqPex6HnzhxRvzfw3GGmKhDgXnzWex
+	DDVymYdekGZ+ARvzMn5wrV3cNThDK4zA8WZcc0Tlgn+wkoU/2UWoVIuE
+X-Gm-Gg: AY/fxX46hLo8JkoGjrBH8+bl2GJX3dKqxCeqp4v3wKorQhgAs/TjSU9dPawNXlFIiSF
+	sxnpIqU4bkd+A4KmLdESSOrcF/0G5KrIIszqqNGCV0QG7CrWVP5eNovHTCz3AFpsCMfQ/LCVaqx
+	tUKEdE7ymXe6SPS5Phv+e0JZZolqX0uq3FkiTEGwYxJ+zCMcZCS/Z30jjPTz2psFVRu3lDWmCYm
+	PqYZj/LEZ1vyAIlxKvKLsq59z2QIDXg4AMrnF6/yElNTAtY06iR5D2YqwZTFFBUl7InmsiESbIW
+	v5U6LannhSBde2/dqkfgsqHD7xP3hdKUrDBfPz5zHP+s5pmrsFNZ/H5/FTO+WFOQHrYNR3podgG
+	/S684AjBwjpmdzENHQYCPQMy9MaXyefQTamxIJC0ZoZnM1KzYlLrN1ANh9mCLjN2cNZEACGsK20
+	x70z3bwQ0GkO16lC7MQotWpfa7SMAx0buH19tsLsCKxS0a4UZog1Ipdxtj202EUgkx+/QfDthVW
+	qmMFOJNlwF77ug=
+X-Google-Smtp-Source: AGHT+IGUr5XD/FO4kGWKlS9sMyGmsH9ohGyOesSHMytDgvTA5WKwN+Cc5eRWEx30Y047bGOMaaS2Bw==
+X-Received: by 2002:a05:6214:5348:b0:888:7c7e:fce1 with SMTP id 6a1803df08f44-89075e57ca7mr48834406d6.4.1767713034657;
+        Tue, 06 Jan 2026 07:23:54 -0800 (PST)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89077267b9esm15587326d6.48.2026.01.06.07.23.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 06:58:31 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 00/29] Pull request (cover letter only)
-Date: Tue,  6 Jan 2026 15:57:16 +0100
-Message-ID: <cover.1767710585.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
+        Tue, 06 Jan 2026 07:23:54 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org,
+	haokexin@gmail.com
+Subject: [PATCH 0/7] linux-yocto: consolidated pull request
+Date: Tue,  6 Jan 2026 10:23:45 -0500
+Message-Id: <20260106152352.932717-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 14:58:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228893
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 15:24:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228894
 
-Passed a-full on autobuilder(*):
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2997
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-(*): The builds/tests parts passed, only the "Send QA Email" step
-failed. This is a known bug on AB side : https://bugzilla.yoctoproject.org/show_bug.cgi?id=15696.
+Hi all,
 
-The following changes since commit 9964fa3da2fa1e7243fba1a826e59f7bb1813706:
+I'm still tweaking my pull request scripts for the split repositories,
+so apologies if something doesn't look quite right.
 
-  populate_sdk_ext: keep SDK_TARGETS so SPDX/SBOM tasks remain in locked sigs (2025-12-18 13:11:45 -0800)
+I'm unable to push to openembedded-contrib right now, so this is a
+patch only send.
 
-are available in the Git repository at:
+We are getting closer to removing 6.16 (and then 6.12) from oe-core
+master. These updates should address some config warnings, and
+otherwise improve stability.
 
-  https://git.openembedded.org/openembedded-core-contrib stable/whinlatter-next
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/whinlatter-next
+We need to get the reference platforms update to 6.18, so I've cc'
+kevin@windriver to see if he has any plans or comments on that.
 
-Ankur Tyagi (4):
-  gnutls: patch CVE-2025-9820
-  sqlite3: patch CVE-2025-3277
-  sqlite3: patch CVE-2025-6965
-  libxmlb: upgrade 0.3.23 -> 0.3.24
+Cheers,
 
-Chen Qi (1):
-  cups: upgrade from 2.4.14 to 2.4.15
+Bruce
 
-Deepesh Varatharajan (2):
-  llvm/clang: Upgrade to 21.1.6 release
-  llvm/clang: Upgrade to 21.1.7 release
+OE-core (7):
+  linux-yocto/6.18: genericarm64: remove SLIM_QCOM_CTR
+  linux-yocto/6.12: update to v6.12.63
+  linux-yocto/6.12: update CVE exclusions (6.12.63)
+  linux-yocto/6.18: libpf prepare for new glibc
+  linux-yocto/6.18: update to v6.18.3
+  linux-yocto/6.18: update CVE exclusions (6.18.3)
+  linux-yocto/6.18: mtd: use refcount to prevent corruption
 
-Dmitry Baryshkov (1):
-  mesa: upgrade 25.2.5 -> 25.2.8
+ OE-core:
+ meta/recipes-kernel/linux/cve-exclusion_6.12.inc   |   380 +-
+ meta/recipes-kernel/linux/cve-exclusion_6.18.inc   | 12024 +++++++++++--------
+ meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb   |     6 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb   |     6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb |     6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb |     6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.12.bb      |    28 +-
+ meta/recipes-kernel/linux/linux-yocto_6.18.bb      |    24 +-
+ 8 files changed, 7168 insertions(+), 5312 deletions(-)
 
-Gyorgy Sarvari (1):
-  enchant2: upgrade 2.8.12 -> 2.8.14
-
-Jörg Sommer (1):
-  glib-2.0: Upgrade 2.86.0 -> 2.86.1
-
-Peter Marko (1):
-  libarchive: upgrade 3.8.2 -> 3.8.3
-
-Robert Yang (2):
-  e2fsprogs: misc/create_inode.c: Fix for file larger than 2GB
-  ccache: 4.12.1 -> 4.12.2
-
-Wang Mingyu (13):
-  ell: upgrade 0.79 -> 0.80
-  gst-devtools: upgrade 1.26.5 -> 1.26.7
-  gst-examples: upgrade 1.26.5 -> 1.26.7
-  gstreamer1.0-libav: upgrade 1.26.5 -> 1.26.7
-  gstreamer1.0-plugins-bad: upgrade 1.26.5 -> 1.26.7
-  gstreamer1.0-plugins-base: upgrade 1.26.5 -> 1.26.7
-  gstreamer1.0-plugins-good: upgrade 1.26.5 -> 1.26.7
-  gstreamer1.0-plugins-ugly: upgrade 1.26.5 -> 1.26.7
-  gstreamer1.0-python: upgrade 1.26.5 -> 1.26.7
-  gstreamer1.0-rtsp-server: upgrade 1.26.5 -> 1.26.7
-  gstreamer1.0: upgrade 1.26.5 -> 1.26.7
-  gstreamer1.0-vaapi: upgrade 1.26.5 -> 1.26.7
-  ccache: upgrade 4.12 -> 4.12.1
-
-Yash Shinde (2):
-  binutils: fix CVE-2025-11839
-  binutils: fix CVE-2025-11840
-
-Zhang Peng (1):
-  libpng: upgrade 1.6.50 -> 1.6.51
-
- meta/conf/distro/include/maintainers.inc      |   4 +-
- .../ell/{ell_0.79.bb => ell_0.80.bb}          |   2 +-
- ...l_2.86.0.bb => glib-2.0-initial_2.86.1.bb} |   0
- ...{glib-2.0_2.86.0.bb => glib-2.0_2.86.1.bb} |   0
- meta/recipes-core/glib-2.0/glib.inc           |   2 +-
- .../binutils/binutils-2.45.inc                |   2 +
- .../binutils/0019-CVE-2025-11839.patch        |  32 +++
- .../binutils/0020-CVE-2025-11840.patch        |  37 +++
- .../{ccache_4.12.bb => ccache_4.12.2.bb}      |   2 +-
- meta/recipes-devtools/clang/common-clang.inc  |   2 +-
- meta/recipes-devtools/clang/common.inc        |   2 +-
- ...inode.c-Fix-for-file-larger-than-2GB.patch |  40 +++
- .../e2fsprogs/e2fsprogs_1.47.3.bb             |   1 +
- .../cups/{cups_2.4.14.bb => cups_2.4.15.bb}   |   2 +-
- ...ibarchive_3.8.2.bb => libarchive_3.8.3.bb} |   2 +-
- .../{libxmlb_0.3.23.bb => libxmlb_0.3.24.bb}  |   2 +-
- meta/recipes-graphics/mesa/mesa.inc           |   4 +-
- ...tools_1.26.5.bb => gst-devtools_1.26.7.bb} |   2 +-
- ...mples_1.26.5.bb => gst-examples_1.26.7.bb} |   2 +-
- ...1.26.5.bb => gstreamer1.0-libav_1.26.7.bb} |   2 +-
- ....bb => gstreamer1.0-plugins-bad_1.26.7.bb} |   2 +-
- ...bb => gstreamer1.0-plugins-base_1.26.7.bb} |   2 +-
- ...bb => gstreamer1.0-plugins-good_1.26.7.bb} |   2 +-
- ...bb => gstreamer1.0-plugins-ugly_1.26.7.bb} |   2 +-
- ....26.5.bb => gstreamer1.0-python_1.26.7.bb} |   2 +-
- ....bb => gstreamer1.0-rtsp-server_1.26.7.bb} |   2 +-
- ...1.26.5.bb => gstreamer1.0-vaapi_1.26.7.bb} |   2 +-
- ...er1.0_1.26.5.bb => gstreamer1.0_1.26.7.bb} |   2 +-
- .../{libpng_1.6.50.bb => libpng_1.6.51.bb}    |   2 +-
- ...{enchant2_2.8.12.bb => enchant2_2.8.14.bb} |   2 +-
- .../gnutls/gnutls/CVE-2025-9820.patch         | 233 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.8.10.bb  |   1 +
- .../sqlite/files/CVE-2025-3277.patch          |  29 +++
- .../sqlite/files/CVE-2025-6965.patch          | 117 +++++++++
- meta/recipes-support/sqlite/sqlite3_3.48.0.bb |   5 +-
- 35 files changed, 521 insertions(+), 26 deletions(-)
- rename meta/recipes-core/ell/{ell_0.79.bb => ell_0.80.bb} (88%)
- rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.86.0.bb => glib-2.0-initial_2.86.1.bb} (100%)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.86.0.bb => glib-2.0_2.86.1.bb} (100%)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0019-CVE-2025-11839.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0020-CVE-2025-11840.patch
- rename meta/recipes-devtools/ccache/{ccache_4.12.bb => ccache_4.12.2.bb} (93%)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-Fix-for-file-larger-than-2GB.patch
- rename meta/recipes-extended/cups/{cups_2.4.14.bb => cups_2.4.15.bb} (51%)
- rename meta/recipes-extended/libarchive/{libarchive_3.8.2.bb => libarchive_3.8.3.bb} (96%)
- rename meta/recipes-gnome/libxmlb/{libxmlb_0.3.23.bb => libxmlb_0.3.24.bb} (93%)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.26.5.bb => gst-devtools_1.26.7.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gst-examples_1.26.5.bb => gst-examples_1.26.7.bb} (96%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.26.5.bb => gstreamer1.0-libav_1.26.7.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.26.5.bb => gstreamer1.0-plugins-bad_1.26.7.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.26.5.bb => gstreamer1.0-plugins-base_1.26.7.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.26.5.bb => gstreamer1.0-plugins-good_1.26.7.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.26.5.bb => gstreamer1.0-plugins-ugly_1.26.7.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.26.5.bb => gstreamer1.0-python_1.26.7.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.26.5.bb => gstreamer1.0-rtsp-server_1.26.7.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.26.5.bb => gstreamer1.0-vaapi_1.26.7.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.26.5.bb => gstreamer1.0_1.26.7.bb} (97%)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.50.bb => libpng_1.6.51.bb} (97%)
- rename meta/recipes-support/enchant/{enchant2_2.8.12.bb => enchant2_2.8.14.bb} (91%)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-3277.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-6965.patch
-
+-- 
+2.39.2
 
