@@ -1,535 +1,171 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <valentin.boudevin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 523FCCEFCFB
-	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 19:23:02 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.98324.1767727375809349507
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 445D4CEFD00
+	for <webhook@archiver.kernel.org>; Tue,  6 Jan 2026 19:42:12 +0000 (UTC)
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.98754.1767728526290531053
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jan 2026 11:22:55 -0800
+ Tue, 06 Jan 2026 11:42:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QAr7o0EW;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-34c565c3673so15725a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 11:22:55 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fvC4rlj3;
+ spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: valentin.boudevin@gmail.com)
+Received: by mail-qk1-f194.google.com with SMTP id af79cd13be357-8b29aebdf3cso24537485a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 11:42:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767727375; x=1768332175; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=G+SAdQIuPqU4OCodsXjE1ZbBsG5sNi5k7Lhjgsn4lNQ=;
-        b=QAr7o0EWEVyss8ixWWdqo72c/xG0N63e4w4vO3Yql19ciIV0B4a2hhKSyuzjUHdjHt
-         MVegognBA7KRUrFEgO467NKvRldO8uUZ/i9IqXxbOGcfTpsCfUJonWwZ/a6Y/LbJRNR2
-         iSDOeySysi/7Ul3rO1ohcPGDLdEhMsUupsj6jllkf72RkR8cic5PWU3Ug+B1ibbfVlVJ
-         5/Y6yG6JCHnFr5Nogfz0rtb1P5MFATNkMK0Uw0OA9b5K+pCdhoU1K4UKlc3vYfQzR5Eh
-         MHU0rfHlgAKWNYZwiJ+1CWraCZ9KAYUIvdbIIk9VJEDvCIO2kbLQiyYu+JtKF3JGx/C0
-         jzWg==
+        d=gmail.com; s=20230601; t=1767728525; x=1768333325; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=emZ9me8L4mWzW2gz1B1t3T54K39BOjKLhz9DWA2euFA=;
+        b=fvC4rlj3l8ZjMYfwff6ce9JlQOmLTZ/yWM2kdqPNjWauDtVqIIgOw7xkqXItKc84cr
+         P2RTlsUVEkeJoNfhU89FrJ+5LSAlqVu9u7h20emFHJCzuWgvi4R5QEXHZNyFEgPSr4SP
+         KWe+FeL/EYa+60zk8UO6DlVRDyyvngJ6IO8MO5RJPBNrqujI+iGtAZKvs9GGeiCOmusT
+         K97+5AUKLBtuIT2r6a+3FUTVIgwoBIOlF7a4Ytkd13GMdx+3L1Fv2e/z8sKQXpAxSdxK
+         G/L0j3KaAKlVIGTA5DeY1alRivtoZa8boGDjQXKBbzyr+oKHtTDuJSnPbAFT/mzfFgdY
+         Z5ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767727375; x=1768332175;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1767728525; x=1768333325;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G+SAdQIuPqU4OCodsXjE1ZbBsG5sNi5k7Lhjgsn4lNQ=;
-        b=I5szWlJCTPHYTsZT/Aw1olpzfAhh/1Rqk7l/lyVS/PJd38/kTu+EpJ6LGbeifaMoX5
-         qy2sPzUXoXoCAG6Ch6Phy1F/ndjClWhPdu0WO0RBZJkwEqrLBH6CLRAgOXQbt8hecAea
-         ZAmWs4BMaKHXX02T2/JumORN9G5ThzZ8I8S52fqmX5MPEwCuT7msCvvI188yl6O96hbC
-         1ozi68DIC2qxm6b1boNsht+UTyA7qQ71kRPfSvAoCsB5femV4Efu4oUG3u+b0rTWSVrd
-         wQxxllCrAA1cNGj1t1Q7Nc6/9kUfbM8nVuAsKwFJPVuPmLUbi1EzKgKd2NTSItNEeZQt
-         AsNw==
-X-Gm-Message-State: AOJu0YxrJY2FBIgVrhfgdotXl+eH+Go6PtZGAfPwm/g6OizHwXTRXRJE
-	YMIzUyFfgXigS5GLet9ut71E3XdHH5qVy/91Fan2oCKsvKMTiHcV6N0Zm8AR8Qsc493Vu6ABPBC
-	GHqRIfXwQ4qL+zrwLXDfxAEsmh05zY8A=
-X-Gm-Gg: AY/fxX4vKLW2o56Zszdd0rh+L9xuXx17WwKYVXKSUpxXmOLbU+tlpcJ3jKPq8hpNxbf
-	ZhzSouQ42RZC9Lk6Mus9DuwADUqnCs+vPUUUF8qarCkKp6Uaf69X0fIjMGRkYwum9EN0HOemD2Q
-	DNLiwR3UXGUV7RfDAodJbJI75vwDgUoeBPCKp2RDDaoAqE3bmEtq7snvupHtuBn2PQC1AEbQs5f
-	xMdsSprjWMYXM7W7KmUMJZqWXz7Ly0CfioCncdG3zw127q2H2oTTaysVbUCstQQrvSFFLAx
-X-Google-Smtp-Source: AGHT+IGdbPDQ2jB7g11flXa0/5ZUQJJXHK877cRuQ1h0d2qV99hQECTr+TkaNrO4vtb2PiRjGrQp0UAvKXP+1lxqwNk=
-X-Received: by 2002:a17:90b:2710:b0:32e:4716:d551 with SMTP id
- 98e67ed59e1d1-34f68b64cc4mr158686a91.6.1767727375000; Tue, 06 Jan 2026
- 11:22:55 -0800 (PST)
+        bh=emZ9me8L4mWzW2gz1B1t3T54K39BOjKLhz9DWA2euFA=;
+        b=ZuYKaTrx7X0c+bGG1r4TK2qGoqjAOb4GJIeLf/YvsSsuxsC876IY2M5iabgVZsfoL9
+         ckY305t6H8AXSoXlTuGebeiLom8Hz4Ydn0bxl1NFBvwTrTOjHAWbV8MpvGeewVXL19XM
+         k1sgc0VjAhYNKpZWgw4aFcEnfSvl+4l7MNYpMHMqkykGLGe1gKyZhuc1O3me72AWx/0j
+         fE16/1QmIPDzjlBpPhpyitQ6tppJxp1suzvi8yn3oER1ca1sXf0K5q87b5V9wZGc5RuJ
+         vJruCMVSi+zN2lPd8AtQJcJXrpMiIRVCbT9rKrsaDSce8/Y9zBLCO8HG0Kq5Php8juG/
+         HG/Q==
+X-Gm-Message-State: AOJu0Ywbglh5K0JHbhhIbNlFLCT+h7xBJ4iGBjGw8Bmd/hWL77p46Yr6
+	+IPem9ok/Grh1cwVgoEBjtb5RP46IV0+zss/DKtZPntvBZpq3nTkXd9Z9M+5fqNr6PaZVg==
+X-Gm-Gg: AY/fxX7UOM2S1LNo7KwjTT3VPHL1hEKfVhTVJaD8EjVTf1QxFC87/FvZmya48vQKPxB
+	mZNy0jPurak6VWHMMgCOSuk5oiD9KqyxQWp1p+Pdh1sL3t61nvz816wJ0Exi+qEvUAVhro6ioZi
+	GOkMJ1v2QquWHYK+21jXaWsd84dLVgk6BJn0i7SKrXnn5Vv7xXPRra4CcZZu9EssqY5Ly4TxaRT
+	UazD49/6QnE4BnI4ept/Hrhm0Zb8Pgrsl5b5hiaw1quTuTiYZJyaTFLcRS7zq6jhxT1FXt6SbVl
+	kbXjtWFf07KUEDC0/4KmwQf3uebR/4dUZJ8KRey1x/QzYBvhbTFb0EUa8JJ57sjFDgEg/hSFP7e
+	MVpc7jRyejMCbPLs0b3FA41J7CaM0IVZKJvdMv1MpF4nZwGbJWl8DzVhgaGoBBfYHmgos1zx+36
+	abD0UevRoFKX2doDGiwC+jPIaSf/mq6fxRfHz5m0ZxYoi4heHOszjtOW8=
+X-Google-Smtp-Source: AGHT+IGTUN6p2sa35c6NEIMZPsSFQ4GfVbsResMaqUYL6yNy+qDUcDKBgypBE5i5SmscPhBVtslJ9g==
+X-Received: by 2002:a05:620a:29c1:b0:89d:4a69:1502 with SMTP id af79cd13be357-8c37eb76e90mr413723585a.3.1767728525050;
+        Tue, 06 Jan 2026 11:42:05 -0800 (PST)
+Received: from vboudevin-pc.mtl.sfl (mtl.savoirfairelinux.net. [208.88.110.46])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f53129fsm224702485a.44.2026.01.06.11.42.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jan 2026 11:42:04 -0800 (PST)
+From: ValentinBoudevin <valentin.boudevin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: ValentinBoudevin <valentin.boudevin@gmail.com>
+Subject: [PATCH] improve_kerne_cve_report: Add a bbclass support
+Date: Tue,  6 Jan 2026 14:42:02 -0500
+Message-ID: <20260106194202.3402355-1-valentin.boudevin@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20260106191001.3385117-1-valentin.boudevin@gmail.com> <20260106191001.3385117-4-valentin.boudevin@gmail.com>
-In-Reply-To: <20260106191001.3385117-4-valentin.boudevin@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 6 Jan 2026 14:22:42 -0500
-X-Gm-Features: AQt7F2pfdO1vTj6ABjVLLMxhlMTOh0SkSWIGb0a5hZFHkRzsG-BxvrEiK4WJsI4
-Message-ID: <CADkTA4NwX2Dg10pitppoN1rBT27nvu1DfcTEH2Be6eZj00MtMQ@mail.gmail.com>
-Subject: Re: [OE-core] [[PATCH v2] 4/4] linux: Add inherit on generate-cve-exclusions
-To: valentin.boudevin@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000003f291e0647bd1ab5"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 19:23:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228921
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 19:42:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228923
 
---0000000000003f291e0647bd1ab5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The script improve_kernel_cve_report.py doesn't have a bbclass.
+It can be usefull to have one to generate improved cve-check files at
+every run.
 
-Apologies for not commenting on this in v1, I was
-focused on the overhead of the task.
+This new class can be used to generate a new file in tmp/deploy/images
+with a .scouted.json in addition to the existing .json cve-check file.
 
-Rather than updating all the .bb files, why not just
-have this in the linux-yocto.inc ? Otherwise, I'll surely
-forget it at some point :)
+The new .scouted.json is based on the cve-check file and the SBOM (SPDX3
+mandatory) to generate this improved cve-check file with extra entries
+found by the script improve_kernel_cve_report.py.
 
-Now that the task is optional, there's no risk of it
-in the .inc, since other .inc users won't get overhead
-that they don't expect.
+It only requires an inherit on an image recipe (e.g. "inherit
+improve_kernel_cve_report" in core-image-minimal).
 
-Bruce
+It can be add to core-image-minimal in a second step if revelant.
+---
+ .../classes/improve_kernel_cve_report.bbclass | 71 +++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+ create mode 100644 meta/classes/improve_kernel_cve_report.bbclass
 
-On Tue, Jan 6, 2026 at 2:10=E2=80=AFPM vboudevin via lists.openembedded.org
-<valentin.boudevin=3Dgmail.com@lists.openembedded.org> wrote:
+diff --git a/meta/classes/improve_kernel_cve_report.bbclass b/meta/classes/improve_kernel_cve_report.bbclass
+new file mode 100644
+index 0000000000..5c496252b4
+--- /dev/null
++++ b/meta/classes/improve_kernel_cve_report.bbclass
+@@ -0,0 +1,71 @@
++python do_clean:append() {
++    import os, glob
++    if bb.utils.contains('INHERIT', 'create-spdx-2.2', 'false', 'true', d):
++        deploy_dir = d.expand('${DEPLOY_DIR_IMAGE}')
++        for f in glob.glob(os.path.join(deploy_dir, '*scouted.json')):
++            bb.note("Removing " + f)
++            os.remove(f)
++}
++
++python do_clone_kernel_cve() {
++    import subprocess
++    import shutil, os
++    check_spdx = d.getVar("INHERIT")
++    rootdir = os.path.join(d.getVar("WORKDIR"), "vulns")
++    # Check if the feature is enabled and if SPDX 2.2 is not used
++    if "create-spdx-2.2" not in check_spdx:
++        d.setVar("SRC_URI", "git://git.kernel.org/pub/scm/linux/security/vulns.git;branch=master;protocol=https")
++        d.setVar("SRCREV", "${AUTOREV}")
++        src_uri = (d.getVar('SRC_URI') or "").split()
++        # Fetch the kernel vulnerabilities sources
++        fetcher = bb.fetch2.Fetch(src_uri, d)
++        fetcher.download()
++        # Unpack into the standard work directory
++        fetcher.unpack(rootdir)
++        # Remove the folder ${PN} set by unpack
++        subdirs = [d for d in os.listdir(rootdir) if os.path.isdir(os.path.join(rootdir, d))]
++        if len(subdirs) == 1:
++            srcdir = os.path.join(rootdir, subdirs[0])
++            for f in os.listdir(srcdir):
++                shutil.move(os.path.join(srcdir, f), rootdir)
++            shutil.rmtree(srcdir)
++        bb.note("Vulnerabilities repo unpacked into: %s" % rootdir)
++    elif "create-spdx-2.2" in check_spdx:
++        bb.warn(f"improve_kernel_cve_report: Extra Kernel CVEs Scouting is desactivate because incompatible with SPDX 2.2.")
++}
++do_clone_kernel_cve[network] = "1"
++do_clone_kernel_cve[nostamp] = "1"
++do_clone_kernel_cve[doc] = "Clone the latest kernel vulnerabilities from https://git.kernel.org/pub/scm/linux/security/vulns.git"
++addtask clone_kernel_cve after
++
++do_scout_extra_kernel_vulns() {
++    spdx_file="${SPDXIMAGEDEPLOYDIR}/${IMAGE_LINK_NAME}.spdx.json"
++    original_cve_check_file="${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.json"
++    new_cve_report_file="${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.scouted.json"
++    improve_kernel_cve_script="${COREBASE}/scripts/contrib/improve_kernel_cve_report.py"
++
++    if ${@bb.utils.contains('INHERIT', 'create-spdx-2.2', 'true', 'false', d)}; then
++        bbwarn "improve_kernel_cve_report: Skipping extra kernel vulnerabilities scouting because incompatible with SPDX 2."
++        return 0
++    elif [ ! -f "${spdx_file}" ]; then
++        bbwarn "improve_kernel_cve_report: SPDX file not found: ${spdx_file}. Skipping extra kernel vulnerabilities scoutings."
++        return 0
++    elif [ ! -f "${original_cve_check_file}" ]; then
++        bbwarn "improve_kernel_cve_report: CVE_CHECK file not found: ${original_cve_check_file}. Skipping extra kernel vulnerabilities scouting."
++        return 0
++    fi
++
++    #Launch the new script to improve the cve report
++    python3 "${improve_kernel_cve_script}" \
++        --spdx "${spdx_file}" \
++        --old-cve-report "${original_cve_check_file}" \
++        --new-cve-report "${new_cve_report_file}" \
++        --datadir "${WORKDIR}/vulns"
++    bbplain "Improve CVE report with extra kernel cves: ${new_cve_report_file}"
++
++    #Create a symlink as every other JSON file in tmp/deploy/images
++    ln -sf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.scouted.json ${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}${IMAGE_MACHINE_SUFFIX}${IMAGE_NAME_SUFFIX}.scouted.json
++}
++do_scout_extra_kernel_vulns[nostamp] = "1"
++do_scout_extra_kernel_vulns[doc] = "Scout extra kernel vulnerabilities and create a new enhanced version of the cve_check file in the deploy directory"
++addtask scout_extra_kernel_vulns after do_create_image_sbom_spdx before do_build
+\ No newline at end of file
+-- 
+2.43.0
 
-> All kernel recipes can use generate-cve-exclusions class to perform CVE
-> exclusions.
-> ---
->  meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb   | 3 +++
->  meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb   | 3 +++
->  meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb   | 3 +++
->  meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb | 3 +++
->  meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb | 3 +++
->  meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb | 3 +++
->  meta/recipes-kernel/linux/linux-yocto_6.12.bb      | 3 +++
->  meta/recipes-kernel/linux/linux-yocto_6.16.bb      | 3 +++
->  meta/recipes-kernel/linux/linux-yocto_6.18.bb      | 3 +++
->  9 files changed, 27 insertions(+)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> index 9ac8507f9f..5cc735ae93 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> @@ -5,6 +5,9 @@ require recipes-kernel/linux/linux-yocto.inc
->  # CVE exclusions
->  include recipes-kernel/linux/cve-exclusion_6.12.inc
->
-> +# Generate Dynamic CVE Exclusions
-> +inherit generate-cve-exclusions
-> +
->  # Skip processing of this recipe if it is not explicitly specified as th=
-e
->  # PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
->  # to build multiple virtual/kernel providers, e.g. as dependency of
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
-> b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
-> index 1230e4e805..53532b4e7e 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
-> @@ -5,6 +5,9 @@ require recipes-kernel/linux/linux-yocto.inc
->  # CVE exclusions
->  include recipes-kernel/linux/cve-exclusion_6.16.inc
->
-> +# Generate Dynamic CVE Exclusions
-> +inherit generate-cve-exclusions
-> +
->  # Skip processing of this recipe if it is not explicitly specified as th=
-e
->  # PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
->  # to build multiple virtual/kernel providers, e.g. as dependency of
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-> b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-> index 32ed29f25e..e95264d99d 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-> @@ -5,6 +5,9 @@ require recipes-kernel/linux/linux-yocto.inc
->  # CVE exclusions
->  include recipes-kernel/linux/cve-exclusion_6.18.inc
->
-> +# Generate Dynamic CVE Exclusions
-> +inherit generate-cve-exclusions
-> +
->  # Skip processing of this recipe if it is not explicitly specified as th=
-e
->  # PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
->  # to build multiple virtual/kernel providers, e.g. as dependency of
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-> b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-> index 940561352c..6b17c2ff7f 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
-> @@ -8,6 +8,9 @@ require recipes-kernel/linux/linux-yocto.inc
->  # CVE exclusions
->  include recipes-kernel/linux/cve-exclusion_6.12.inc
->
-> +# Generate Dynamic CVE Exclusions
-> +inherit generate-cve-exclusions
-> +
->  LINUX_VERSION ?=3D "6.12.62"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7=
-e46"
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
-> b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
-> index ffa15b0c1b..02e502faed 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
-> @@ -8,6 +8,9 @@ require recipes-kernel/linux/linux-yocto.inc
->  # CVE exclusions
->  include recipes-kernel/linux/cve-exclusion_6.16.inc
->
-> +# Generate Dynamic CVE Exclusions
-> +inherit generate-cve-exclusions
-> +
->  LINUX_VERSION ?=3D "6.16.11"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7=
-e46"
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-> b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-> index 2afdc02467..e36a7fb028 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-> @@ -8,6 +8,9 @@ require recipes-kernel/linux/linux-yocto.inc
->  # CVE exclusions
->  include recipes-kernel/linux/cve-exclusion_6.18.inc
->
-> +# Generate Dynamic CVE Exclusions
-> +inherit generate-cve-exclusions
-> +
->  LINUX_VERSION ?=3D "6.18.1"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7=
-e46"
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> index 84419f8c78..b6ac5f9b90 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
-> @@ -6,6 +6,9 @@ require recipes-kernel/linux/linux-yocto.inc
->  include recipes-kernel/linux/cve-exclusion.inc
->  include recipes-kernel/linux/cve-exclusion_6.12.inc
->
-> +# Generate Dynamic CVE Exclusions
-> +inherit generate-cve-exclusions
-> +
->  # board specific branches
->  KBRANCH:qemuarm  ?=3D "v6.12/standard/arm-versatile-926ejs"
->  KBRANCH:qemuarm64 ?=3D "v6.12/standard/base"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.16.bb
-> b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
-> index 408f14b451..947de4186e 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_6.16.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
-> @@ -6,6 +6,9 @@ require recipes-kernel/linux/linux-yocto.inc
->  include recipes-kernel/linux/cve-exclusion.inc
->  include recipes-kernel/linux/cve-exclusion_6.16.inc
->
-> +# Generate Dynamic CVE Exclusions
-> +inherit generate-cve-exclusions
-> +
->  # board specific branches
->  KBRANCH:qemuarm  ?=3D "v6.16/standard/arm-versatile-926ejs"
->  KBRANCH:qemuarm64 ?=3D "v6.16/standard/base"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-> b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-> index 562a997020..66320f7123 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-> @@ -6,6 +6,9 @@ require recipes-kernel/linux/linux-yocto.inc
->  include recipes-kernel/linux/cve-exclusion.inc
->  include recipes-kernel/linux/cve-exclusion_6.18.inc
->
-> +# Generate Dynamic CVE Exclusions
-> +inherit generate-cve-exclusions
-> +
->  # board specific branches
->  KBRANCH:qemuarm  ?=3D "v6.18/standard/arm-versatile-926ejs"
->  KBRANCH:qemuarm64 ?=3D "v6.18/standard/base"
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#228920):
-> https://lists.openembedded.org/g/openembedded-core/message/228920
-> Mute This Topic: https://lists.openembedded.org/mt/117111078/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---0000000000003f291e0647bd1ab5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">Apologies for not commenting on this in v1, I was</div><div c=
-lass=3D"gmail_default" style=3D"font-size:small">focused on the overhead of=
- the task.</div><div class=3D"gmail_default" style=3D"font-size:small"><br>=
-</div><div class=3D"gmail_default" style=3D"font-size:small">Rather than up=
-dating all the .bb files, why not just</div><div class=3D"gmail_default" st=
-yle=3D"font-size:small">have this in the linux-yocto.inc ? Otherwise, I&#39=
-;ll surely</div><div class=3D"gmail_default" style=3D"font-size:small">forg=
-et it at some point :)</div><div class=3D"gmail_default" style=3D"font-size=
-:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">No=
-w that the task is optional, there&#39;s no risk of it</div><div class=3D"g=
-mail_default" style=3D"font-size:small">in the .inc, since other .inc users=
- won&#39;t get overhead</div><div class=3D"gmail_default" style=3D"font-siz=
-e:small">that they don&#39;t expect.</div><div class=3D"gmail_default" styl=
-e=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-=
-size:small">Bruce</div></div><br><div class=3D"gmail_quote gmail_quote_cont=
-ainer"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 6, 2026 at 2:10=E2=
-=80=AFPM vboudevin via <a href=3D"http://lists.openembedded.org">lists.open=
-embedded.org</a> &lt;valentin.boudevin=3D<a href=3D"mailto:gmail.com@lists.=
-openembedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">All kernel recipes can us=
-e generate-cve-exclusions class to perform CVE<br>
-exclusions.<br>
----<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.12.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a>=C2=A0 =C2=A0=
-| 3 +++<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.16.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.16.bb</a>=C2=A0 =C2=A0=
-| 3 +++<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.18.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.18.bb</a>=C2=A0 =C2=A0=
-| 3 +++<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.12.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a> | 3 +++<=
-br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.16.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.16.bb</a> | 3 +++<=
-br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.18.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.18.bb</a> | 3 +++<=
-br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.12.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 | 3 +++<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.16.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.16.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 | 3 +++<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.18.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.18.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 | 3 +++<br>
-=C2=A09 files changed, 27 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.1=
-2.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a> b/met=
-a/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.12.bb" rel=3D"nor=
-eferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a><br>
-index 9ac8507f9f..5cc735ae93 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.12.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.12.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.12.bb</a><br>
-@@ -5,6 +5,9 @@ require recipes-kernel/linux/linux-yocto.inc<br>
-=C2=A0# CVE exclusions<br>
-=C2=A0include recipes-kernel/linux/cve-exclusion_6.12.inc<br>
-<br>
-+# Generate Dynamic CVE Exclusions<br>
-+inherit generate-cve-exclusions<br>
-+<br>
-=C2=A0# Skip processing of this recipe if it is not explicitly specified as=
- the<br>
-=C2=A0# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when tryi=
-ng<br>
-=C2=A0# to build multiple virtual/kernel providers, e.g. as dependency of<b=
-r>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.1=
-6.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.16.bb</a> b/met=
-a/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.16.bb" rel=3D"nor=
-eferrer" target=3D"_blank">linux-yocto-rt_6.16.bb</a><br>
-index 1230e4e805..53532b4e7e 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.16.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.16.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.16.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.16.bb</a><br>
-@@ -5,6 +5,9 @@ require recipes-kernel/linux/linux-yocto.inc<br>
-=C2=A0# CVE exclusions<br>
-=C2=A0include recipes-kernel/linux/cve-exclusion_6.16.inc<br>
-<br>
-+# Generate Dynamic CVE Exclusions<br>
-+inherit generate-cve-exclusions<br>
-+<br>
-=C2=A0# Skip processing of this recipe if it is not explicitly specified as=
- the<br>
-=C2=A0# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when tryi=
-ng<br>
-=C2=A0# to build multiple virtual/kernel providers, e.g. as dependency of<b=
-r>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.1=
-8.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.18.bb</a> b/met=
-a/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.18.bb" rel=3D"nor=
-eferrer" target=3D"_blank">linux-yocto-rt_6.18.bb</a><br>
-index 32ed29f25e..e95264d99d 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.18.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.18.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_6.18.bb" r=
-el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_6.18.bb</a><br>
-@@ -5,6 +5,9 @@ require recipes-kernel/linux/linux-yocto.inc<br>
-=C2=A0# CVE exclusions<br>
-=C2=A0include recipes-kernel/linux/cve-exclusion_6.18.inc<br>
-<br>
-+# Generate Dynamic CVE Exclusions<br>
-+inherit generate-cve-exclusions<br>
-+<br>
-=C2=A0# Skip processing of this recipe if it is not explicitly specified as=
- the<br>
-=C2=A0# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when tryi=
-ng<br>
-=C2=A0# to build multiple virtual/kernel providers, e.g. as dependency of<b=
-r>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6=
-.12.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a> b=
-/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a><br>
-index 940561352c..6b17c2ff7f 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.12.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.12.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.12.bb</a><br>
-@@ -8,6 +8,9 @@ require recipes-kernel/linux/linux-yocto.inc<br>
-=C2=A0# CVE exclusions<br>
-=C2=A0include recipes-kernel/linux/cve-exclusion_6.12.inc<br>
-<br>
-+# Generate Dynamic CVE Exclusions<br>
-+inherit generate-cve-exclusions<br>
-+<br>
-=C2=A0LINUX_VERSION ?=3D &quot;6.12.62&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D6bc538ed5bd9a7fc93980=
-86aedcd7e46&quot;<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6=
-.16.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.16.bb</a> b=
-/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.16.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.16.bb</a><br>
-index ffa15b0c1b..02e502faed 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.16.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.16.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.16.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.16.bb</a><br>
-@@ -8,6 +8,9 @@ require recipes-kernel/linux/linux-yocto.inc<br>
-=C2=A0# CVE exclusions<br>
-=C2=A0include recipes-kernel/linux/cve-exclusion_6.16.inc<br>
-<br>
-+# Generate Dynamic CVE Exclusions<br>
-+inherit generate-cve-exclusions<br>
-+<br>
-=C2=A0LINUX_VERSION ?=3D &quot;6.16.11&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D6bc538ed5bd9a7fc93980=
-86aedcd7e46&quot;<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6=
-.18.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.18.bb</a> b=
-/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.18.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.18.bb</a><br>
-index 2afdc02467..e36a7fb028 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.18.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.18.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_6.18.bb"=
- rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_6.18.bb</a><br>
-@@ -8,6 +8,9 @@ require recipes-kernel/linux/linux-yocto.inc<br>
-=C2=A0# CVE exclusions<br>
-=C2=A0include recipes-kernel/linux/cve-exclusion_6.18.inc<br>
-<br>
-+# Generate Dynamic CVE Exclusions<br>
-+inherit generate-cve-exclusions<br>
-+<br>
-=C2=A0LINUX_VERSION ?=3D &quot;6.18.1&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D6bc538ed5bd9a7fc93980=
-86aedcd7e46&quot;<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.12.b=
-b" rel=3D"noreferrer" target=3D"_blank">linux-yocto_6.12.bb</a> b/meta/reci=
-pes-kernel/linux/<a href=3D"http://linux-yocto_6.12.bb" rel=3D"noreferrer" =
-target=3D"_blank">linux-yocto_6.12.bb</a><br>
-index 84419f8c78..b6ac5f9b90 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.12.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.12.bb</a><br>
-@@ -6,6 +6,9 @@ require recipes-kernel/linux/linux-yocto.inc<br>
-=C2=A0include recipes-kernel/linux/cve-exclusion.inc<br>
-=C2=A0include recipes-kernel/linux/cve-exclusion_6.12.inc<br>
-<br>
-+# Generate Dynamic CVE Exclusions<br>
-+inherit generate-cve-exclusions<br>
-+<br>
-=C2=A0# board specific branches<br>
-=C2=A0KBRANCH:qemuarm=C2=A0 ?=3D &quot;v6.12/standard/arm-versatile-926ejs&=
-quot;<br>
-=C2=A0KBRANCH:qemuarm64 ?=3D &quot;v6.12/standard/base&quot;<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.16.b=
-b" rel=3D"noreferrer" target=3D"_blank">linux-yocto_6.16.bb</a> b/meta/reci=
-pes-kernel/linux/<a href=3D"http://linux-yocto_6.16.bb" rel=3D"noreferrer" =
-target=3D"_blank">linux-yocto_6.16.bb</a><br>
-index 408f14b451..947de4186e 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.16.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.16.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.16.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.16.bb</a><br>
-@@ -6,6 +6,9 @@ require recipes-kernel/linux/linux-yocto.inc<br>
-=C2=A0include recipes-kernel/linux/cve-exclusion.inc<br>
-=C2=A0include recipes-kernel/linux/cve-exclusion_6.16.inc<br>
-<br>
-+# Generate Dynamic CVE Exclusions<br>
-+inherit generate-cve-exclusions<br>
-+<br>
-=C2=A0# board specific branches<br>
-=C2=A0KBRANCH:qemuarm=C2=A0 ?=3D &quot;v6.16/standard/arm-versatile-926ejs&=
-quot;<br>
-=C2=A0KBRANCH:qemuarm64 ?=3D &quot;v6.16/standard/base&quot;<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.18.b=
-b" rel=3D"noreferrer" target=3D"_blank">linux-yocto_6.18.bb</a> b/meta/reci=
-pes-kernel/linux/<a href=3D"http://linux-yocto_6.18.bb" rel=3D"noreferrer" =
-target=3D"_blank">linux-yocto_6.18.bb</a><br>
-index 562a997020..66320f7123 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.18.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.18.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.18.bb" rel=
-=3D"noreferrer" target=3D"_blank">linux-yocto_6.18.bb</a><br>
-@@ -6,6 +6,9 @@ require recipes-kernel/linux/linux-yocto.inc<br>
-=C2=A0include recipes-kernel/linux/cve-exclusion.inc<br>
-=C2=A0include recipes-kernel/linux/cve-exclusion_6.18.inc<br>
-<br>
-+# Generate Dynamic CVE Exclusions<br>
-+inherit generate-cve-exclusions<br>
-+<br>
-=C2=A0# board specific branches<br>
-=C2=A0KBRANCH:qemuarm=C2=A0 ?=3D &quot;v6.18/standard/arm-versatile-926ejs&=
-quot;<br>
-=C2=A0KBRANCH:qemuarm64 ?=3D &quot;v6.18/standard/base&quot;<br>
--- <br>
-2.43.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#228920): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/228920" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/228920</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117111078/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/117111078/1050810</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---0000000000003f291e0647bd1ab5--
 
