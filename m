@@ -1,224 +1,159 @@
-Return-Path: <t.f.g.geelen@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13785CD585A
-	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 11:32:05 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3811.1767785524285153436
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A59DCD5854
+	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 11:47:05 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.71])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4019.1767786421143014254
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jan 2026 03:32:04 -0800
+ Wed, 07 Jan 2026 03:47:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ionimzaZ;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: t.f.g.geelen@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-598f59996aaso2209164e87.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 03:32:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767785522; x=1768390322; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fo8VIPfz8ooGxU7GEBOOBG3GMOBqdiKgz5eXT8SGOk8=;
-        b=ionimzaZQ4ouzXpAm9P3KTFrqvdAUOo4I/B+r6l7vsbqgBB7QE8dWPGSod33O9/+Sy
-         xMwIo0H5R4rSPUBVMn4ZM3VNsB1/jhOi8rZ/bFbaDgiGuL2i7Fug+/a6We64yD1dR/Dt
-         5lLSC/edx6IHXXS9wYy8E1S/ixDPXtMlz8deSX932bNc/DEj8fNvUgObl15vsIzt2Vi2
-         ynzmou6OexPRibRBfIB1siG8w7fC+QUWY6X8+UgIlGM0f/zRqyKNZf41QWNLgvHBE1Zx
-         f94b3XtVu/MdnsdI+eR5KAzStoQyNQqbOUJZzxFCL/lVsUA6DWZq5b+oNOlG/W58wRfF
-         GDBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767785522; x=1768390322;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fo8VIPfz8ooGxU7GEBOOBG3GMOBqdiKgz5eXT8SGOk8=;
-        b=F+ImXJWUOZOla8BuzF6xiOItaBBNb3q8h/G2dCkVXbzTrXkgZ4aMYSIM/YLEpYqCTq
-         KvVm8mKU4zvQuLwVHvtG0dKTBTohKIu91M7UaNQPpXtKHdtZVKFXKVvg9yH4+s+3dbaX
-         z5HjFxZtrpOUJ2jMrq6wMUccoDMA0jL0h2bAaCrW5BPsfw5BprUvleOIV0fKZqwMwqBb
-         sKMhvoXW/f4flR7H18SmGQVGn2IX6S8eSjrnVPo3IC1SfRA2EfcrMT0pN1JzXPHT2kAz
-         iqHmiuGhizVblesnYSUKnrcEwWIxDEiIAGxvbR2j/bJ8SHi/0dV1ovUzvaMrsO4u5y3q
-         yhfQ==
-X-Gm-Message-State: AOJu0Ywe4UgosWv36ig1qbYG9rkJIC5XpeLIUTe2+d+IoKun/RTcMMxw
-	XLygLxPmFYaMBdJy1Qt3i6RuTm2DHqrsLfFFkYomLeq5wd/XFmLUbqXeZv3Csxbsh6J5+8gFUHY
-	MiIVNiKgLzttggDIM+oh7DZOLwI02t4Y=
-X-Gm-Gg: AY/fxX6mD2eUycfIWHIofLkXbk9y8L8/fXmT1L3Ge3XxYzQqlGTo6P8aNZjsuAfu/ZA
-	VF2MUYNtmPic75uQnU/IcIW1QIDkBHVE5DlHQUoaP+sJ6rjC+FKJx/plXzBnNN2EBAu2BmSvpT9
-	NdNZnWiNr/hl+B2EWFxXdDotrVr+5GoAPxF5XvVoEA9PzDbbAEFgka5/iFcyxFcG36MMNZGhu6f
-	9iAMnxJtiicfJA/Lom2cqFV4A/uCw0pb+6rpW1dZ0YZZ1nwMDWeg+qxKRJLduZvEl+ZWX+fbHbD
-	R5YHoJDl+OiBSDU7a5bAdn9xgNA=
-X-Google-Smtp-Source: AGHT+IFsIA2anpbGtT7HNctiWVcLjCXed6pld7b7l9m4XgHSuu0rd+ZJ0yxTfDxmfVphkjNPHj3Yt+7RaSX1JcyYj4o=
-X-Received: by 2002:a05:6512:138c:b0:59b:1d24:7dcd with SMTP id
- 2adb3069b0e04-59b6f01fdb2mr772260e87.12.1767785522029; Wed, 07 Jan 2026
- 03:32:02 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=ro4GthrH;
+ spf=pass (domain: axis.com, ip: 40.107.162.71, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SXRSkFDpZfzgHjsBqi3UcCy8TNbmdTUrTwWCFW/EF4XkCTpUEEMmHcKpxCB9U4Ud1kxIRw0S4X410dcOVYaeHfO0gCYkn6RkBGCnsnslO2ytr2XEEsJOSzcL5+gvtLpEH99VzMj5Bzqe7cE9tcNmQWEh0vzwA6vK7AFnv0kHkPYTfTEZnLFR+RGj765riDAkaW3xW0xhWSzh15+SL0xQQyKzBf2/BxWLb9agBDem+t6vrx8s4Lo5qEyQnxZJfDETR+fnsnRPShr0arIFlEETuIR/zAVly/Est7iU6e9f+0UfwviQfv/ueuve4ZeySEz/kXae/tD+WQreY6Zpu/tcxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+coNM2cU8a/ry0VwW6OI+g5WmCjYSjeJq877CtuEDcM=;
+ b=Nl2+HLhPVJmmd9e0ykKwAPU5axTx5zWdh3OuJJP8hP+GBlmo5AAzVmrB1wbu8Tit8i/nssxCN61TVRbqi7P5eIwXwzw1JMYVtdTajes7OzBxd0qgLjT0xTSH16vsJxgdDKCvlKA9bzp6+ZiR01hlPbdTtw29AiRIgJKfpM4l/pu4reQeHvqrSDEkoVis40dSfi9xqv/3T+5gM+MF5z2FyNITL6wyyShSrvHXiXb55cWtaPrRGa1Inv5wQraIZEekxkquCeheU1SFANyq1Voz+5EDDRqL6BAKGfiZSWzaz6YGRDQm0VuvQUPpFhSKsOxBjcWkvp/0PKFM1Jsp6XR/CQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+coNM2cU8a/ry0VwW6OI+g5WmCjYSjeJq877CtuEDcM=;
+ b=ro4GthrHyc/EjMzCHU/opEMPYvv1BaKjslLgGozT00sezuCmCsLzIHKCEuz8Nv6ysMAV6slNbhSLYgJm6JkMeV+SPkkrR1QpHegNyP67gc3+a+pr/T1HLGf3c6VTOdHmc11N7j91GhY4gpgm66+ZypsYBzAz+QWm5LStq7cJsqw=
+Received: from DU7P190CA0017.EURP190.PROD.OUTLOOK.COM (2603:10a6:10:550::24)
+ by GV2PR02MB9542.eurprd02.prod.outlook.com (2603:10a6:150:e1::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Wed, 7 Jan
+ 2026 11:46:55 +0000
+Received: from DU6PEPF0000B622.eurprd02.prod.outlook.com
+ (2603:10a6:10:550:cafe::86) by DU7P190CA0017.outlook.office365.com
+ (2603:10a6:10:550::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.2 via Frontend Transport; Wed, 7
+ Jan 2026 11:46:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ DU6PEPF0000B622.mail.protection.outlook.com (10.167.8.139) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9499.1 via Frontend Transport; Wed, 7 Jan 2026 11:46:54 +0000
+Received: from se-mail01w.axis.com (10.20.40.7) by se-mail11w.axis.com
+ (10.20.40.11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Wed, 7 Jan
+ 2026 12:46:54 +0100
+Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
+ Transport; Wed, 7 Jan 2026 12:46:54 +0100
+Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
+	by se-intmail02x.se.axis.com (Postfix) with ESMTP id 4169B1A28
+	for <openembedded-core@lists.openembedded.org>; Wed,  7 Jan 2026 12:46:54 +0100 (CET)
+Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
+	id 3B9BE129943; Wed,  7 Jan 2026 12:46:54 +0100 (CET)
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] patch.bbclass: Show full path when a patch fails to apply
+Date: Wed, 7 Jan 2026 12:46:49 +0100
+Message-ID: <20260107114649.3874373-1-pkj@axis.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20260106233539.1886869-2-t.f.g.geelen@gmail.com> <CANNYZj86TB69QaoCsZqdZw578wy0zr7DCoH+71KRXSR_Co5uEw@mail.gmail.com>
-In-Reply-To: <CANNYZj86TB69QaoCsZqdZw578wy0zr7DCoH+71KRXSR_Co5uEw@mail.gmail.com>
-From: Tom Geelen <t.f.g.geelen@gmail.com>
-Date: Wed, 7 Jan 2026 12:31:50 +0100
-X-Gm-Features: AQt7F2pLNfTdHe5WhspP4khQvVoOKVBtO05U1oWJMjj3DDcDbeW3Z79J7RmGBDw
-Message-ID: <CAJo0Az6ty6tdR=32t=Uy6KWpcWDCCHJsQ0vd632q0s9MEysqKA@mail.gmail.com>
-Subject: Re: [PATCH] Devtool: Make qmp detection for qemurunner more robust.
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000001465790647caa4b1"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU6PEPF0000B622:EE_|GV2PR02MB9542:EE_
+X-MS-Office365-Filtering-Correlation-Id: 558ef05b-66e9-400c-9e68-08de4de27495
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?0TfPMxwGjWPZbpIYSxGOwW/2F/Ze2nF3QYeW+svV4x9Q88Va3K19ZQdAaHgh?=
+ =?us-ascii?Q?l9X5b3CVZowSTTLq2O+TO8W0fE4CTs026OlhhZB/TRTvwm0lZIDEPTayej1Y?=
+ =?us-ascii?Q?JHKBHyZ7+jEiJReu4UhpipEhjqYzlkyIPqDsX+QJBkc9CGdgQXDEkcrzZoZ2?=
+ =?us-ascii?Q?PFITduqS2aaeNYLOhbxLiyJmJIGWUQIM7o8TnHme9rZMolcW3yEqhiMdCQMp?=
+ =?us-ascii?Q?NX5b5TS59wMzDMnVFFkVS+e1XK/uKFQ2cao73pdYHjBkx4Ksj7cN56WEJ3nt?=
+ =?us-ascii?Q?4UsZolx6oy4sPo4AljnjT6E4M22LMVvN4qsQEf42u7ja1hdkZdi8iVfhEcbG?=
+ =?us-ascii?Q?jwhCl4H/EmqU9+U22VKAviHoRhbdyOrI/Uh7Y6NH9WcTk6e5io+8KnIUspkh?=
+ =?us-ascii?Q?qy2IFoiMWmNbviO9Npr2+2ywPyRmRn9FMB9ldC9Pj7R1KeTCuRrn7jKfDuBZ?=
+ =?us-ascii?Q?2SKU3+Ilp9EKcdXZ9Fd2EqS9J1LCS3rpbl8Oh1Dk2jwhCVELV7M+7ItCJ9mO?=
+ =?us-ascii?Q?dd4Zrr9SBTjMIxMoYMWti4oBI3LS+E1fS3HvVnvUn8gnsQBhCjgqVsqKAIcJ?=
+ =?us-ascii?Q?YAy8RojDobsBPMS7fzo/0IbaAM3tVp6a8FwVFVhhmKQSGNWHzZvPkA5mNt+q?=
+ =?us-ascii?Q?bnrOL4UCCM4HtSQmtFwY+b62Uy+uVg2CGgwmwSxLlKTzQeUgHNhwjy5o2y5x?=
+ =?us-ascii?Q?00bOTNLHa2fEz89F3UQtJZqD0PO6Ufci19kyXos2tyAeUITTHFUpreJsBYc2?=
+ =?us-ascii?Q?is02JACKjHJWkLeES7Bt4OqTRJNuv0g0iBfc6UbZ2SXjMDx4XToOdGDCnPFG?=
+ =?us-ascii?Q?reA+kR5XyjTO54yt9yXIP+fQDavryABAQkphttdMFyxy4dOmMxpfPNQwtO35?=
+ =?us-ascii?Q?SKu5/XirquqModRHObKbNUlFVuXYNz1fqRJxDQ804JBwEcm4eg3lOXU/0aXi?=
+ =?us-ascii?Q?dFlbGRcjjmW0buqFbiBt66othNAKPQGM+gS4fgte94TdfMDsTOgtNlpVbsVJ?=
+ =?us-ascii?Q?2Mzj/wgJTqACR1+76kT+b44PQkg47szneI3nmQYO6r2A8z8wk32lXrQBKOEM?=
+ =?us-ascii?Q?NpbYjquRvcl2NJnksm5DSqYyXx0aAKMh8E5xR1HTIp/vrZUr5mzNaWPAuy+7?=
+ =?us-ascii?Q?Owni1+XJROjkiz+Or4B6BMo30i0C5Rg5w4FeYLulzPGutpeMHN1S2JQQ+cYe?=
+ =?us-ascii?Q?aoXOcYaTmf7BJvoHOT/fZ92gM7YViaiEhHGddcWjtZ2UnPXFTAn4qaOItRUB?=
+ =?us-ascii?Q?z78fQ2zcI+sL+gsVSevkpZuGTqyMK7nnIBkpK81S4bzPVDDvLId3Tz2kxDOH?=
+ =?us-ascii?Q?L7qfbhu/hhroTa/YpdA3ssayWQSL71aUQMMVSxVeImKnUoZ8cCjyQjPRv8iK?=
+ =?us-ascii?Q?41WihpJXKWJAXNQePdaFmJYQ4kOhtLk7i3fNAN3cBujOFaD0reyOn9tg577M?=
+ =?us-ascii?Q?avotsfNak6z+43sZsl9AoI+HtdKaW+5fThQR2sdYOXteo3MFJtXmKZAwsZxG?=
+ =?us-ascii?Q?ODR242tzS5kARv5JSQIB+nngo5pBg6utVhhnir3yBKCcF3vWP4vGqVFajsjY?=
+ =?us-ascii?Q?taEaF1hxrixDeSmx1aE=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 11:46:54.6544
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 558ef05b-66e9-400c-9e68-08de4de27495
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU6PEPF0000B622.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR02MB9542
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 11:32:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228991
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 11:47:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228992
 
---0000000000001465790647caa4b1
-Content-Type: text/plain; charset="UTF-8"
+If a patch fails to apply, it helps to know the full path to it. This is
+especially true if multiple versions of the patch exists, e.g., due to
+overrides via bbappends.
 
-Okay, no problem. I'll think of an alternative. I was under the impression
-that the directory structure onder work was fixed enough for this solution
-as the only 'guesing' it does is the folder directly under work (arch).
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/classes-global/patch.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
-The launch method does not have anything useful to tackle this, so I'll
-start to see if I can inject something from the calling function.
-
-I'll send an update soon
-
-Tom
-
-Op wo 7 jan 2026, 12:05 schreef Alexander Kanavin <alex.kanavin@gmail.com>:
-
-> On Wed, 7 Jan 2026 at 00:36, Tom Geelen <t.f.g.geelen@gmail.com> wrote:
-> >      def launch(self, launch_cmd, get_ip = True, qemuparams = None,
-> extra_bootparams = None, env = None):
-> > -        # use logfile to determine the recipe-sysroot-native path and
-> > -        # then add in the site-packages path components and add that
-> > -        # to the python sys.path so the qmp module can be found.
-> > -        python_path = os.path.dirname(os.path.dirname(self.logfile))
-> > -        python_path += "/recipe-sysroot-native/usr/lib/qemu-python"
-> > -        sys.path.append(python_path)
-> > +        # Discover qmp module location robustly.
-> > +        # 1) Try path derived from logfile (historical behavior)
-> > +        # 2) Fallback: search
-> TMPDIR/work/*/<rootfs>/recipe-sysroot-4native for qemu-python or
-> site-packages
-> > +        candidates = []
-> > +        base_from_log = os.path.dirname(os.path.dirname(self.logfile))
-> > +        candidates.append(os.path.join(base_from_log,
-> "recipe-sysroot-native", "usr", "lib", "qemu-python"))
-> > +
-> > +        # We can deduce the location for qmp also from the image which
-> is being called as we know:
-> > +        # - this will have qmp in recipe-sysroot-native
-> > +        # - this will need to be called as this will derive TESTIMAGE
-> > +        for p in glob.glob(os.path.join(self.tmpdir, "work", "*",
-> os.path.basename(self.rootfs).split('.')[0], "*", "recipe-sysroot-native",
-> "usr", "lib", "qemu-python")):
-> > +            candidates.append(p)
-> > +        # Print all candidates to the debugger
-> > +        for candidate in candidates:
-> > +            self.logger.debug("qmp candidates : %s", candidate)
->
-> Apologies, but I can't agree to this. It's a lot of guessing against
-> hardcoded path elements, which can go wrong in various ways. The
-> correct fix is to pass in the correct native sysroot path explicitly
-> from further up, how to start with doing that was previously
-> discussed:
->
-> https://lists.yoctoproject.org/g/yocto-patches/message/2762
->
-> This bit:
->
-> "I'd say in this situation AUH is right, and the code in point 1 is
-> wrong. It needs to figure out the path to qmp module directly from
-> WORKDIR, but I don't know yet which of the many parameters to
-> QemuRunner's constructor and launch() method can be used. Can you look
-> into it? You can tweak the code to print them all, and see if
-> something suitable is in there."
->
-> Alex
->
-
---0000000000001465790647caa4b1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div>Okay, no problem. I&#39;ll think of an alternative. =
-I was under the impression that the directory structure onder work was fixe=
-d enough for this solution as the only &#39;guesing&#39; it does is the fol=
-der directly under work (arch).<div dir=3D"auto"><br></div><div dir=3D"auto=
-"><br><div dir=3D"auto">The launch method does not have anything useful to =
-tackle this, so I&#39;ll start to see if I can inject something from the ca=
-lling function.</div></div><div dir=3D"auto"><br></div>I&#39;ll send an upd=
-ate soon</div><div dir=3D"auto"><br></div><div dir=3D"auto">Tom<br><br><div=
- class=3D"gmail_quote gmail_quote_container" dir=3D"auto"><div dir=3D"ltr" =
-class=3D"gmail_attr">Op wo 7 jan 2026, 12:05 schreef Alexander Kanavin &lt;=
-<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">On Wed, 7 Jan 2026 at 00:36, Tom Gee=
-len &lt;<a href=3D"mailto:t.f.g.geelen@gmail.com" target=3D"_blank" rel=3D"=
-noreferrer">t.f.g.geelen@gmail.com</a>&gt; wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 def launch(self, launch_cmd, get_ip =3D True, qemu=
-params =3D None, extra_bootparams =3D None, env =3D None):<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 # use logfile to determine the recipe-sys=
-root-native path and<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 # then add in the site-packages path comp=
-onents and add that<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 # to the python sys.path so the qmp modul=
-e can be found.<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 python_path =3D os.path.dirname(os.path.d=
-irname(self.logfile))<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 python_path +=3D &quot;/recipe-sysroot-na=
-tive/usr/lib/qemu-python&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.path.append(python_path)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Discover qmp module location robustly.<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # 1) Try path derived from logfile (histo=
-rical behavior)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # 2) Fallback: search TMPDIR/work/*/&lt;r=
-ootfs&gt;/recipe-sysroot-4native for qemu-python or site-packages<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 candidates =3D []<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 base_from_log =3D os.path.dirname(os.path=
-.dirname(self.logfile))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 candidates.append(os.path.join(base_from_=
-log, &quot;recipe-sysroot-native&quot;, &quot;usr&quot;, &quot;lib&quot;, &=
-quot;qemu-python&quot;))<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # We can deduce the location for qmp also=
- from the image which is being called as we know:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # - this will have qmp in recipe-sysroot-=
-native<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # - this will need to be called as this w=
-ill derive TESTIMAGE<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for p in glob.glob(os.path.join(self.tmpd=
-ir, &quot;work&quot;, &quot;*&quot;, os.path.basename(self.rootfs).split(&#=
-39;.&#39;)[0], &quot;*&quot;, &quot;recipe-sysroot-native&quot;, &quot;usr&=
-quot;, &quot;lib&quot;, &quot;qemu-python&quot;)):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 candidates.append(p)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Print all candidates to the debugger<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for candidate in candidates:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.logger.debug(&quot;qmp=
- candidates : %s&quot;, candidate)<br>
-<br>
-Apologies, but I can&#39;t agree to this. It&#39;s a lot of guessing agains=
-t<br>
-hardcoded path elements, which can go wrong in various ways. The<br>
-correct fix is to pass in the correct native sysroot path explicitly<br>
-from further up, how to start with doing that was previously<br>
-discussed:<br>
-<br>
-<a href=3D"https://lists.yoctoproject.org/g/yocto-patches/message/2762" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">https://lists.yoctoproject.org=
-/g/yocto-patches/message/2762</a><br>
-<br>
-This bit:<br>
-<br>
-&quot;I&#39;d say in this situation AUH is right, and the code in point 1 i=
-s<br>
-wrong. It needs to figure out the path to qmp module directly from<br>
-WORKDIR, but I don&#39;t know yet which of the many parameters to<br>
-QemuRunner&#39;s constructor and launch() method can be used. Can you look<=
-br>
-into it? You can tweak the code to print them all, and see if<br>
-something suitable is in there.&quot;<br>
-<br>
-Alex<br>
-</blockquote></div></div></div>
-
---0000000000001465790647caa4b1--
+diff --git a/meta/classes-global/patch.bbclass b/meta/classes-global/patch.=
+bbclass
+index e5786b1c9a..2d9b39c9a5 100644
+--- a/meta/classes-global/patch.bbclass
++++ b/meta/classes-global/patch.bbclass
+@@ -150,12 +150,12 @@ python patch_do_patch() {
+             patchset.Import({"file":local, "strippath": parm['striplevel']=
+}, True)
+         except Exception as exc:
+             bb.utils.remove(process_tmpdir, True)
+-            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (pa=
+rm['patchname'], parm['striplevel'], repr(exc).replace("\\n", "\n")))
++            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (lo=
+cal, parm['striplevel'], repr(exc).replace("\\n", "\n")))
+         try:
+             resolver.Resolve()
+         except bb.BBHandledException as e:
+             bb.utils.remove(process_tmpdir, True)
+-            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % =
+(parm['patchname'], patchdir, repr(e).replace("\\n", "\n")))
++            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % =
+(local, patchdir, repr(e).replace("\\n", "\n")))
+=20
+     bb.utils.remove(process_tmpdir, True)
+     del os.environ['TMPDIR']
 
