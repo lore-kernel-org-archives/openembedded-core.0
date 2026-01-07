@@ -2,62 +2,62 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE427D0D16D
-	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 20:05:48 +0000 (UTC)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15536.1767816347044075355
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E89D0D170
+	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 20:14:28 +0000 (UTC)
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15768.1767816862844686432
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jan 2026 12:05:47 -0800
+ Wed, 07 Jan 2026 12:14:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Lzq5QL/l;
- spf=pass (domain: gmail.com, ip: 209.85.128.173, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-78fc4425b6bso26257837b3.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 12:05:46 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SuwE9Knu;
+ spf=pass (domain: gmail.com, ip: 74.125.224.51, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-64669a2ecb5so1576082d50.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 12:14:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767816346; x=1768421146; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1767816862; x=1768421662; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v/8V+TroqXWkHA+gNkLAX16A5uYNh61IzX8b32ODpvY=;
-        b=Lzq5QL/lRJibwvGfEuQVXSjk4Hs81V6GvTWb895BvWiI0Ux8NZCPIKMKHj4m8AVfih
-         FAyHacrnikHCerMZLjzLibX1vZbDjYKMijkH/YxkblVDK0+oa6G25NslMAucikYhCHjz
-         e+rDIG3EanN0xQGJf+b8GhfqYXewu/Mn60SJOa6ZP3cbXr0vSHIs78CQcvgQp/eQlTUg
-         +2Ze6aj66LoQ6ebhSYhNPa+yJTzpD7An9aX6Q/X+bMTVhVJYewJ6ZxWb+Xt7q8z7Dps2
-         tMyzr+c7QA+WIQBx5KwuH2ZPXHs918wrqLFSh71yp/GPlfXrWLJINs4u8EEiuWhYJmpY
-         ohMQ==
+        bh=UCmDCRnLlP/AHCRvJY4VUK/3Ml3vF0Z/eNMxvokpcdw=;
+        b=SuwE9Knu/fyC6uTEgGh5DQ1GsTQGaSt1lLUXnrkFewvqUol281sGYcfUkVriaj0N0C
+         eprKJrste3+JVL3zwnJ9hjYRbjrNqSELKZ2pYlCXVbFckdFwuJTwe/WwqxIjWD49L6TQ
+         sW/b+1cFdCgKgcF7h9ngu+A11MrRVFISEuCuVYmnccVGFbvs0y0ieWawDpmpvsX8OGVF
+         0s5lzIcxdqBKzxOMTaIC2f2x0/H/eHEvPQ1mIWiudJdJwjZWVx6f62JG349SjJRZ8165
+         v4rjZOliaMxak9vVoXRQdANCpaBYZzZfUoIl4xmwnpV8P4nldhjlnnKqiC4bHKmqaynj
+         A0Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767816346; x=1768421146;
+        d=1e100.net; s=20230601; t=1767816862; x=1768421662;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=v/8V+TroqXWkHA+gNkLAX16A5uYNh61IzX8b32ODpvY=;
-        b=IZk/6wVAdx4casdJdlqwoBCJGLFlq0kZE13avyVRTcd6YVib315oKo3oNW/zgEwrG0
-         1qCN3GWdZbSd1GqnkrW3begY+NgbdRFp3XSoIvqVwQTk5E8fzylgJjit6jQlTfiH20VC
-         0fsv2BCwbY8jrtN0ks0V0D/uBR+zssqHzDYyVyOdKHBCiXMLO951boCwAofbjVTi8xUp
-         c3xJLsOI449j6HsCgeCUiXjY5uO1QcZ8tPOYL/yZhL141M15OBxhXHmD87u4YGRZzgps
-         ovSaF/zwKcJDmKc1wjkNNj9QDeOaQYI7mSSZ2YDipovHHGbCNmglYSlfS6xDce/z5xc5
-         z0LQ==
-X-Gm-Message-State: AOJu0YwNY6TxCJd+cHPufUcMLb+yK/khQ/F9oEcg/qBgiu2pIcjL5ZFb
-	Ri4CgOsepW2glE02SH4QQUWhkV1XqyVhcf8rSfE+6XkcflIeXswcr9fwUjg8fp4H11FH2KiWEjT
-	gi350n+jFGaLgP4nqQ+8YYQt7loii2zM=
-X-Gm-Gg: AY/fxX4HUZKVOP47TXh8dzzSS52T3uk95ao1RRToi0Bx4auEvBT2jJ0lDmRBNlLkAq4
-	vt4U4SEBGHoo+WTz+TlZKYMloM3aU0a0gtYld+25dVdTFOVdnuYM4khIY2rRTYpbOZZrfbrwPV3
-	qseSXNi/3NX+uO2KKDaHBHqA+pVKNCzDRLT+A3d9ip3CyXbm82FuAHKENFt93xSNQx1RlyjQAh4
-	E1Ws7Kc/LWPogTKwJ+zkQ89Cns3guBbTJroISFI9iKa0xazUm/hCnoTl5W1hI9mlwFLIby6yoNR
-	D+DSpcDFyl/FrFDdGzf5
-X-Google-Smtp-Source: AGHT+IFvU6jT+szYzZFsFsYcY1ILisQfdLKVEhdCSJZn6YS6zh5RL95szw5qK5QWXzn5MJuMWAWr57f0GgkX5gYBmcQ=
-X-Received: by 2002:a05:690e:151a:b0:646:44cf:92e8 with SMTP id
- 956f58d0204a3-64716cbfa6dmr2845963d50.79.1767816345968; Wed, 07 Jan 2026
- 12:05:45 -0800 (PST)
+        bh=UCmDCRnLlP/AHCRvJY4VUK/3Ml3vF0Z/eNMxvokpcdw=;
+        b=sd/YydJYyJSdskprnCCvYzKN2fTvO7Phdax2MsQ48umBQdeOm43thxznSlYAIf2nj6
+         VplRbgl4bmkgdgVO2FiyUd8q8QXwG0rvukfFgpP4diFR8ZY2v6Yz8wCbhtvocEYMMUf0
+         L04GP6f+F5NQuF7lJw2YK15wgKKiFsAknelyKav0oTvT3srwNNqZT5YVkBrNq9cMDdx9
+         a5NCV2i11YLjq3wR3H9A0t1aRB2P4nY4vqVtH5FsycWP200MzjEspRnFxxRxrMP7y13R
+         BNAgc2Fjj1lghLLVmW70wXBaDz9cikTT5q4qJmNQHKK10AshUQiJ79zIOdwkURwA4+85
+         menQ==
+X-Gm-Message-State: AOJu0YyzbuF8TvfPeBiqv1cOLQnMCa9UzStDYYxwAAcSt/Z7f2Z7Zd0S
+	LdNGJEjWmWvgEnmTjRdIJ1lLuiARY7KhpJYK/GqQpUcx6gCXmp3LQ0SnZ362K8TCPRgEc9voBvu
+	r+ZCA6c2QwZcblZM+cuxUkga9T145eeQ=
+X-Gm-Gg: AY/fxX6GbMvVVplOfAX8eU7faOntQTlqbJwEt/axQmHHz/QHEbgEOZKKHyroJMuV1P6
+	cjGClH5R67jb1dVkvsgzRXeogMA4aZ5vxl9NrIhnXlf25/k3zfuOTHWHtMjCqG/pB14oz+u1cKi
+	QkTap9HVl8wCuivm4+ZcTp9Ty7MEyIwTkJV11YP/xJFojAL+NCYJv8lmrOYssLyAXqLy1AS8sax
+	chhqsWGXucyZac2owO2msg/n14ghbRnrcK9egxv/qvWdxZlhb/Ua+GhlVu3d7uANOjiW4wHBEu7
+	u4JQ5/hStA==
+X-Google-Smtp-Source: AGHT+IF3t1tVp1YlTV/81VUdF7/4vGu/okEKv6mrf/9pqrvFHXLIn3d6C8sBOdgSjPF9JIUswNUBh6TVE8Ds9Xk8gj0=
+X-Received: by 2002:a05:690e:12c1:b0:644:7175:813d with SMTP id
+ 956f58d0204a3-6470d2af9f3mr5578662d50.21.1767816861899; Wed, 07 Jan 2026
+ 12:14:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20260107180951.140895-1-stondo@gmail.com> <20260107180951.140895-5-stondo@gmail.com>
-In-Reply-To: <20260107180951.140895-5-stondo@gmail.com>
+References: <20260107180951.140895-1-stondo@gmail.com> <20260107180951.140895-2-stondo@gmail.com>
+In-Reply-To: <20260107180951.140895-2-stondo@gmail.com>
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Wed, 7 Jan 2026 13:05:34 -0700
-X-Gm-Features: AQt7F2rQ9ik9jsxM4xjZPp1-uArxCQYkjYjPIpOizfcAGQWluOfKlkoHkFiMulc
-Message-ID: <CAJdd5GZQKSY1FTf-qBvycW-Uwpe2V7Jp=gDR=4hPRVSizxRZ6g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] spdx30: Add SBOM metadata component and
- supplier support
+Date: Wed, 7 Jan 2026 13:14:11 -0700
+X-Gm-Features: AQt7F2pMHqQFt1CCgHXM6d6eb14aNgnc39TzJfKw8OzsQ-ahTHAoijV9K1qXWq4
+Message-ID: <CAJdd5GboMA67qCKc6g=eOaCJPiCcXEt2S9Gh1tVfqBjbuVe=yA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/4] spdx30_tasks: Add PURL generation for
+ package identification
 To: stondo@gmail.com
 Cc: openembedded-core@lists.openembedded.org, stefano.tondo.ext@siemens.com, 
 	peter.marko@siemens.com, adrian.freihofer@siemens.com
@@ -66,8 +66,18 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 20:05:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229030
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 20:14:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229031
+
+I do plan on implementing this once the PURL spec PR is merged. I
+already have a proof of concept:
+https://git.yoctoproject.org/poky-contrib/commit/?h=3Djpew/purls&id=3D538c3=
+1488e7300a4ad3320e861324a4858a6f148
+
+The "extra" repository URLs that it generates are done terribly ATM
+and it needs a few other things to be cleaned up. However, it will
+also correctly allow end users to add multiple purls (so they can have
+their own PURLs in addition to the Yocto ones).
 
 On Wed, Jan 7, 2026 at 11:10=E2=80=AFAM Stefano Tondo via
 lists.openembedded.org <stondo=3Dgmail.com@lists.openembedded.org>
@@ -75,219 +85,98 @@ wrote:
 >
 > From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 >
-> This commit adds support for including image/product metadata and
-> supplier information in SPDX 3.0 SBOMs to meet compliance requirements.
+> Add automatic Package URL (PURL) generation according to the Yocto PURL
+> specification to enable package identification in vulnerability databases
+> and improve NTIA SBOM compliance.
 >
-> New configuration variables (in spdx-common.bbclass):
+> Field added:
+> - software_packageUrl: Auto-generates Package URLs per Yocto PURL spec
+>   Format: pkg:yocto/<LAYERNAME>/<BPN>@<PV>
+>   See: https://github.com/package-url/purl-spec/pull/372
 >
->   SBOM_COMPONENT_NAME (optional):
->     - Name of the product/image being documented
->     - Creates a software_Package element with metadata
->     - Typically set to IMAGE_BASENAME or product name
+> PURL Implementation:
+> - Type: yocto (official PURL type for Yocto recipes, per PR #372)
+> - Namespace: Layer name from FILE_LAYERNAME variable
+> - Name: BPN (base package name with prefixes/suffixes removed)
+> - Version: PV (package version from recipe)
+> - Normalization: Lowercase per PURL spec
 >
->   SBOM_COMPONENT_VERSION (optional):
->     - Version of the product/image
->     - Falls back to DISTRO_VERSION if not set
+> New BitBake variable:
+> - SPDX_PACKAGE_URL: Override auto-generated PURL
 >
->   SBOM_COMPONENT_SUMMARY (optional):
->     - Description of the product/image
->     - Falls back to IMAGE_SUMMARY if not set
->
->   SBOM_SUPPLIER_NAME (optional):
->     - Name of the organization supplying the SBOM
->     - Creates an Organization element
->
->   SBOM_SUPPLIER_URL (optional):
->     - URL of the supplier organization
->     - Added as externalIdentifier
->
-> Implementation (in sbom30.py):
->
->   - create_sbom(): Add metadata component and supplier after SBOM
->     creation but before collection expansion
->   - Create relationships:
->     * SBOM --describes--> metadata component
->     * SBOM --availableFrom--> supplier Organization
->
-> SPDX 3.0 elements created:
->
->   - software_Package (primaryPurpose: operatingSystem) for product
->   - Organization with optional URL externalIdentifier
->   - Appropriate relationships per SPDX 3.0 spec
->
-> Usage example in local.conf:
->
->   SBOM_COMPONENT_NAME =3D ""
->   SBOM_COMPONENT_VERSION =3D "1.0.0"
->   SBOM_COMPONENT_SUMMARY =3D "Production image for Device X"
->   SBOM_SUPPLIER_NAME =3D "Acme Corporation"
->   SBOM_SUPPLIER_URL =3D "https://acme.com"
->
-> This enables profile-specific SBOM workflows and compliance validation
-> tools that require product and supplier metadata.
+> The Yocto PURL type specification (purl-spec PR #372) has been approved
+> by the PURL maintainers and is ready for implementation. This follows
+> the agreed format from JPEWdev (Joshua Watt) and petermarko.
 >
 > Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 > ---
->  meta/lib/oe/sbom30.py       | 52 +++++++++++++++++++++++++++++++++++++
->  meta/lib/oe/spdx30_tasks.py | 10 +++----
->  2 files changed, 57 insertions(+), 5 deletions(-)
+>  meta/lib/oe/spdx30_tasks.py | 34 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
 >
-> diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-> index 227ac51877..197361db4f 100644
-> --- a/meta/lib/oe/sbom30.py
-> +++ b/meta/lib/oe/sbom30.py
-> @@ -1045,6 +1045,58 @@ def create_sbom(d, name, root_elements, add_object=
-sets=3D[]):
->          )
->      )
-
-create_sbom() is a generic function that is used for more than just
-images. As such, using the SBOM_COMPONENT_VERSION, DISTRO_VERSION,
-IMAGE_SUMMARY, etc. is not appropriate.
-
-You should be able to do the same thing by using the `objset` and
-`sbom` object returned from the function instead.
-
->
-> +    # Add SBOM metadata component (image/product information)
-> +    sbom_component_name =3D d.getVar("SBOM_COMPONENT_NAME")
-> +    if sbom_component_name:
-> +        sbom_component_version =3D d.getVar("SBOM_COMPONENT_VERSION") or=
- d.getVar("DISTRO_VERSION") or "unknown"
-> +        sbom_component_summary =3D d.getVar("SBOM_COMPONENT_SUMMARY") or=
- d.getVar("IMAGE_SUMMARY") or f"{name} image"
-> +
-> +        metadata_component =3D objset.add(
-> +            oe.spdx30.software_Package(
-> +                _id=3Dobjset.new_spdxid("metadata", "component"),
-> +                creationInfo=3Dobjset.doc.creationInfo,
-> +                name=3Dsbom_component_name,
-> +                software_packageVersion=3Dsbom_component_version,
-> +                summary=3Dsbom_component_summary,
-> +                software_primaryPurpose=3Doe.spdx30.software_SoftwarePur=
-pose.operatingSystem,
-> +            )
-> +        )
-
-It's not clear why this is needed over the root elements? You can
-effectively do the same thing by setting the "suppliedBy" property on
-all the root elements of the SBoM. If some of them are missing
-supplier information, we can add properties to set those the same as
-the SPDX_PACKAGE_SUPPLIER. (e.g. SPDX_IMAGE_SUPPLIER,
-SPDX_SDK_SUPPLIER, etc.)
-
-This seems like it's adding things in the wrong place as-is.
-
-> +
-> +        # Link SBOM to metadata component
-> +        objset.new_relationship(
-> +            [sbom],
-> +            oe.spdx30.RelationshipType.describes,
-> +            [metadata_component],
-> +        )
-> +
-> +    # Add supplier information if provided
-> +    sbom_supplier_name =3D d.getVar("SBOM_SUPPLIER_NAME")
-> +    if sbom_supplier_name:
-> +        sbom_supplier_url =3D d.getVar("SBOM_SUPPLIER_URL")
-> +
-> +        supplier =3D objset.add(
-> +            oe.spdx30.Organization(
-> +                _id=3Dobjset.new_spdxid("supplier", sbom_supplier_name.r=
-eplace(" ", "-").lower()),
-> +                creationInfo=3Dobjset.doc.creationInfo,
-> +                name=3Dsbom_supplier_name,
-> +            )
-> +        )
-> +
-> +        if sbom_supplier_url:
-> +            supplier.externalIdentifier =3D [
-> +                oe.spdx30.ExternalIdentifier(
-> +                    externalIdentifierType=3Doe.spdx30.ExternalIdentifie=
-rType.urlScheme,
-> +                    identifier=3Dsbom_supplier_url,
-> +                )
-> +            ]
-
-Use objset.new_agent() so that this follows all the other rules for
-agents; this will allow user to de-duplicate and add all the other
-metadata using variables
-
-> +
-> +        # Link supplier to SBOM (SBOM is available from supplier)
-> +        objset.new_relationship(
-> +            [sbom],
-> +            oe.spdx30.RelationshipType.availableFrom,
-> +            [supplier],
-
-FYI, there is a _much_ better way to do this planned in SPDX 3.1
-(which is why I've not added it yet):
-https://spdx.github.io/spdx-spec/v3.1-dev/model/Core/Classes/SupportRelatio=
-nship/
-
-In the meantime, isn't the "suppliedBy" property sufficient?
-
-> +        )
-> +
->      missing_spdxids =3D objset.expand_collection(add_objectsets=3Dadd_ob=
-jectsets)
->      if missing_spdxids:
->          bb.warn(
 > diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> index c86b088b61..757503cd6b 100644
+> index f731a709e3..86430c7008 100644
 > --- a/meta/lib/oe/spdx30_tasks.py
 > +++ b/meta/lib/oe/spdx30_tasks.py
-> @@ -179,17 +179,17 @@ def add_package_files(
->                  continue
+> @@ -474,6 +474,36 @@ def create_spdx(d):
+>          if val:
+>              setattr(obj, name, val)
 >
->              filename =3D str(filepath.relative_to(topdir))
-> -
+> +    def generate_purl(d, package=3DNone):
+> +        """
+> +        Generate Package URL (purl) for a package according to Yocto PUR=
+L spec.
+> +        Format: pkg:yocto/<LAYERNAME>/<BPN>@<PV>
 > +
->              # Apply file filtering if enabled
->              if spdx_file_filter =3D=3D "essential":
->                  file_upper =3D file.upper()
->                  filename_lower =3D filename.lower()
-> -
+> +        See: https://github.com/package-url/purl-spec/pull/372
+> +        """
+> +        bpn =3D d.getVar("BPN")
+> +        pv =3D d.getVar("PV")
 > +
->                  # Skip if matches exclude patterns
->                  skip_file =3D any(pattern in filename_lower for pattern =
-in exclude_patterns)
->                  if skip_file:
->                      continue
-> -
+> +        # Get layer name using FILE_LAYERNAME
+> +        # This is the correct variable that contains the layer name from=
+ BBFILE_COLLECTIONS
+> +        # (BBFILE_COLLECTIONS itself is not available outside of layer.c=
+onf)
+> +        layer =3D d.getVar("FILE_LAYERNAME")
 > +
->                  # Keep only essential files (license/readme/etc)
->                  is_essential =3D any(pattern in file_upper for pattern i=
-n essential_patterns)
->                  if not is_essential:
-> @@ -198,7 +198,7 @@ def add_package_files(
->                  # Skip all files
->                  continue
->              # else: spdx_file_filter =3D=3D "all" or any other value - i=
-nclude all files
-> -
+> +        if not layer:
+> +            layer =3D "core"  # Default to core if layer detection fails
 > +
->              file_purposes =3D get_purposes(filepath)
+> +        # For sub-packages, use BPN (base package name)
+> +        # Per spec: BPN has prefixes/suffixes removed
+> +        name =3D bpn
+> +
+> +        # Normalize name per PURL spec (lowercase only)
+> +        # Note: Underscores are not allowed in recipe names
+> +        name =3D name.lower()
+> +
+> +        purl =3D f"pkg:yocto/{layer}/{name}@{pv}"
+> +
+> +        return purl
+> +
+>      license_data =3D oe.spdx_common.load_spdx_license_data(d)
 >
->              # Check if file is compiled
-> @@ -245,7 +245,7 @@ def get_package_sources_from_debug(
->      d, package, package_files, sources, source_hash_cache
->  ):
->      spdx_file_filter =3D (d.getVar("SPDX_FILE_FILTER") or "all").lower()
-> -
-> +
->      def file_path_match(file_path, pkg_file):
->          if file_path.lstrip("/") =3D=3D pkg_file.name.lstrip("/"):
->              return True
+>      deploydir =3D Path(d.getVar("SPDXDEPLOY"))
+> @@ -646,6 +676,10 @@ def create_spdx(d):
+>                      "software_packageUrl",
+>                      package=3Dpackage
+>                  )
+> +            else:
+> +                # Auto-generate PURL if not manually specified
+> +                auto_purl =3D generate_purl(d, package)
+> +                spdx_package.software_packageUrl =3D auto_purl
+>
+>              pkg_objset.new_scoped_relationship(
+>                  [oe.sbom30.get_element_link_id(build)],
 > --
 > 2.52.0
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#229024): https://lists.openembedded.org/g/openembedde=
-d-core/message/229024
-> Mute This Topic: https://lists.openembedded.org/mt/117138943/3616693
+> View/Reply Online (#229021): https://lists.openembedded.org/g/openembedde=
+d-core/message/229021
+> Mute This Topic: https://lists.openembedded.org/mt/117138938/3616693
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
 EWhacker@gmail.com]
