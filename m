@@ -1,185 +1,101 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <t.f.g.geelen@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E89D0D170
-	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 20:14:28 +0000 (UTC)
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15768.1767816862844686432
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD74FD0D175
+	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 20:32:48 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16140.1767817958761146838
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jan 2026 12:14:22 -0800
+ Wed, 07 Jan 2026 12:32:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SuwE9Knu;
- spf=pass (domain: gmail.com, ip: 74.125.224.51, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-64669a2ecb5so1576082d50.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 12:14:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cbm+IrnT;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: t.f.g.geelen@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b7a02592efaso418926066b.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 12:32:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767816862; x=1768421662; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UCmDCRnLlP/AHCRvJY4VUK/3Ml3vF0Z/eNMxvokpcdw=;
-        b=SuwE9Knu/fyC6uTEgGh5DQ1GsTQGaSt1lLUXnrkFewvqUol281sGYcfUkVriaj0N0C
-         eprKJrste3+JVL3zwnJ9hjYRbjrNqSELKZ2pYlCXVbFckdFwuJTwe/WwqxIjWD49L6TQ
-         sW/b+1cFdCgKgcF7h9ngu+A11MrRVFISEuCuVYmnccVGFbvs0y0ieWawDpmpvsX8OGVF
-         0s5lzIcxdqBKzxOMTaIC2f2x0/H/eHEvPQ1mIWiudJdJwjZWVx6f62JG349SjJRZ8165
-         v4rjZOliaMxak9vVoXRQdANCpaBYZzZfUoIl4xmwnpV8P4nldhjlnnKqiC4bHKmqaynj
-         A0Lg==
+        d=gmail.com; s=20230601; t=1767817956; x=1768422756; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OUdlpO4lz9oozghQ0VWxKeVQp/DuOh3S4VI5D5TYFzI=;
+        b=cbm+IrnTLDf3v2KX4ChsYhW5MSVG+Yu8qyRSfGCDeaJdKQoNpFV3wmJ93iBNemXZ9V
+         by98CCXDAVb6EQ9Yvs3k2e3fTzwlSmu8WTzLSVnaLy6Rvpz9uhHkCqcswVFBAZvePPqK
+         wJE61vZvViM4C1fyfI2PB9rvYI487kXHBZa3Jvo2o90PpKPG4DWQ6qVequkF78t7q6pD
+         lOESxvknFFtI8Ohr7xbXLwZ7/DZ/D9+zjHp7T6LhjHGeKu13uScQL1wrYta1wjxz97H9
+         JYDlc3/AEVbJLyPjsfmVM5j4WxjVMmaQqevKE7mTSINujr1Ht1+G3VA3VP6BCZVS22ka
+         WgmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767816862; x=1768421662;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UCmDCRnLlP/AHCRvJY4VUK/3Ml3vF0Z/eNMxvokpcdw=;
-        b=sd/YydJYyJSdskprnCCvYzKN2fTvO7Phdax2MsQ48umBQdeOm43thxznSlYAIf2nj6
-         VplRbgl4bmkgdgVO2FiyUd8q8QXwG0rvukfFgpP4diFR8ZY2v6Yz8wCbhtvocEYMMUf0
-         L04GP6f+F5NQuF7lJw2YK15wgKKiFsAknelyKav0oTvT3srwNNqZT5YVkBrNq9cMDdx9
-         a5NCV2i11YLjq3wR3H9A0t1aRB2P4nY4vqVtH5FsycWP200MzjEspRnFxxRxrMP7y13R
-         BNAgc2Fjj1lghLLVmW70wXBaDz9cikTT5q4qJmNQHKK10AshUQiJ79zIOdwkURwA4+85
-         menQ==
-X-Gm-Message-State: AOJu0YyzbuF8TvfPeBiqv1cOLQnMCa9UzStDYYxwAAcSt/Z7f2Z7Zd0S
-	LdNGJEjWmWvgEnmTjRdIJ1lLuiARY7KhpJYK/GqQpUcx6gCXmp3LQ0SnZ362K8TCPRgEc9voBvu
-	r+ZCA6c2QwZcblZM+cuxUkga9T145eeQ=
-X-Gm-Gg: AY/fxX6GbMvVVplOfAX8eU7faOntQTlqbJwEt/axQmHHz/QHEbgEOZKKHyroJMuV1P6
-	cjGClH5R67jb1dVkvsgzRXeogMA4aZ5vxl9NrIhnXlf25/k3zfuOTHWHtMjCqG/pB14oz+u1cKi
-	QkTap9HVl8wCuivm4+ZcTp9Ty7MEyIwTkJV11YP/xJFojAL+NCYJv8lmrOYssLyAXqLy1AS8sax
-	chhqsWGXucyZac2owO2msg/n14ghbRnrcK9egxv/qvWdxZlhb/Ua+GhlVu3d7uANOjiW4wHBEu7
-	u4JQ5/hStA==
-X-Google-Smtp-Source: AGHT+IF3t1tVp1YlTV/81VUdF7/4vGu/okEKv6mrf/9pqrvFHXLIn3d6C8sBOdgSjPF9JIUswNUBh6TVE8Ds9Xk8gj0=
-X-Received: by 2002:a05:690e:12c1:b0:644:7175:813d with SMTP id
- 956f58d0204a3-6470d2af9f3mr5578662d50.21.1767816861899; Wed, 07 Jan 2026
- 12:14:21 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767817956; x=1768422756;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OUdlpO4lz9oozghQ0VWxKeVQp/DuOh3S4VI5D5TYFzI=;
+        b=RBJDukW8Rgqsvxi3G60JFPwhJcuGInILrAxGdkGz75syn69SjlCOZucT8EptaPrxw7
+         p3ha2qCug7xySnVppxlo0H/QYszc5XnWQkjBCNZ6/uOrILrrvtkkiyXHzbNkrwU8lM5Y
+         wCxYeW08rTBGrOgywRG6wnYyST9ZhUAeJo8Iv9R25NkrmRgkbw0a0IOolVAriTNCz27+
+         RY4Nl/CZlr6MgfZ6MmmsItjlvO0TwkCoUHkt9f6eM4dZ5Xn2EpF4zajVU3RgeGheXAe0
+         PUMaaOognSwi00CtSwvmnq2oo21ZitlixNNN8UytgcrCL/yZ1G95zBzbnLwG+mcfQ7lV
+         xGSw==
+X-Gm-Message-State: AOJu0YyW1A1Nfr3TYyBC36mW9h1vRLR9/CWgqXSIDQWzo+BftyPncDQm
+	0NrkB6o24nUvWHO0czJJ7rfks4wVobYj5VLVHIpFKZRQ+uHS/wul/57kL8rPN6kt
+X-Gm-Gg: AY/fxX4oTirlVGiSYC74Uv4jbfAxmA+KhuKwtqGuayzCHs4cYgU3pwJc9+AkUJnWlge
+	FTbREEwrRuev26ZyHoKzxAM1HaRyFRE+tNR5YMZ1G4r6eAMRQknodDzQCyuN0IXZhqsx4VrFxAJ
+	5Um2CdXydttLM9VmfQluIVz2TSZQBvbgTiEFgZw6V7iD3+pMvYnLxy4kihL3s6k6CTrC9i9wJPj
+	5geBMPZ/tp79FYBnmhC2FU/wOSfpH93BYjQSzfexufN5RLwGsc2qA/Z3g7TBVFBNGRr5gqRk+uh
+	5buT7kNMN6d0Na9c4FZxTGLi7L2Y1bbFYBXQCKa3rWQZWsmB/oUeWJQey1sEj2gQanabUPV4ZS7
+	kY0OOjOVLIgH3yd7XU/NbmVMQC9XZ09l2xIp7lLJqj1STKCOyfH7jFfJutc+6mXmW5bQMeR8wW0
+	hSQCtDQNfzZbspD/4Lx5cRzqhxg3BxM9mxK5wx7VZ0aUvpSOggCTc43543GSImFEo+Nl9CGmMN/
+	Js=
+X-Google-Smtp-Source: AGHT+IF2mYlwuWXgLWSBbdITHSfNB+UmRgid/5vUiAIstJ5JTnssq8aZWpZMraGuSL5ZPuRvP4hGNQ==
+X-Received: by 2002:a17:906:f5a1:b0:b7a:72bd:ac65 with SMTP id a640c23a62f3a-b8444c3fc39mr375188166b.9.1767817956300;
+        Wed, 07 Jan 2026 12:32:36 -0800 (PST)
+Received: from control-center.fritz.box (150-12-20-31.ftth.glasoperator.nl. [31.20.12.150])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b842a511551sm593862766b.53.2026.01.07.12.32.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jan 2026 12:32:35 -0800 (PST)
+From: Tom Geelen <t.f.g.geelen@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kanavin <alex.kanavin@gmail.com>,
+	Tom Geelen <t.f.g.geelen@gmail.com>
+Subject: [PATCH V2] qemurunner: Improve qmp module detection PKG_CONFIG_SYSROOT_DIR for qmp module path
+Date: Wed,  7 Jan 2026 21:25:55 +0100
+Message-ID: <20260107202553.2965393-3-t.f.g.geelen@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20260107180951.140895-1-stondo@gmail.com> <20260107180951.140895-2-stondo@gmail.com>
-In-Reply-To: <20260107180951.140895-2-stondo@gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Wed, 7 Jan 2026 13:14:11 -0700
-X-Gm-Features: AQt7F2pMHqQFt1CCgHXM6d6eb14aNgnc39TzJfKw8OzsQ-ahTHAoijV9K1qXWq4
-Message-ID: <CAJdd5GboMA67qCKc6g=eOaCJPiCcXEt2S9Gh1tVfqBjbuVe=yA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/4] spdx30_tasks: Add PURL generation for
- package identification
-To: stondo@gmail.com
-Cc: openembedded-core@lists.openembedded.org, stefano.tondo.ext@siemens.com, 
-	peter.marko@siemens.com, adrian.freihofer@siemens.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 20:14:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229031
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 20:32:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229032
 
-I do plan on implementing this once the PURL spec PR is merged. I
-already have a proof of concept:
-https://git.yoctoproject.org/poky-contrib/commit/?h=3Djpew/purls&id=3D538c3=
-1488e7300a4ad3320e861324a4858a6f148
+Instead of using logfile to detect where qmp is located we can use PKG_CONFIG_SYSROOT_DIR, passed via ENV to the launch function as this will point to the image recipe for which launch is called.
 
-The "extra" repository URLs that it generates are done terribly ATM
-and it needs a few other things to be cleaned up. However, it will
-also correctly allow end users to add multiple purls (so they can have
-their own PURLs in addition to the Yocto ones).
+Signed-off-by: Tom Geelen <t.f.g.geelen@gmail.com>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-On Wed, Jan 7, 2026 at 11:10=E2=80=AFAM Stefano Tondo via
-lists.openembedded.org <stondo=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> From: Stefano Tondo <stefano.tondo.ext@siemens.com>
->
-> Add automatic Package URL (PURL) generation according to the Yocto PURL
-> specification to enable package identification in vulnerability databases
-> and improve NTIA SBOM compliance.
->
-> Field added:
-> - software_packageUrl: Auto-generates Package URLs per Yocto PURL spec
->   Format: pkg:yocto/<LAYERNAME>/<BPN>@<PV>
->   See: https://github.com/package-url/purl-spec/pull/372
->
-> PURL Implementation:
-> - Type: yocto (official PURL type for Yocto recipes, per PR #372)
-> - Namespace: Layer name from FILE_LAYERNAME variable
-> - Name: BPN (base package name with prefixes/suffixes removed)
-> - Version: PV (package version from recipe)
-> - Normalization: Lowercase per PURL spec
->
-> New BitBake variable:
-> - SPDX_PACKAGE_URL: Override auto-generated PURL
->
-> The Yocto PURL type specification (purl-spec PR #372) has been approved
-> by the PURL maintainers and is ready for implementation. This follows
-> the agreed format from JPEWdev (Joshua Watt) and petermarko.
->
-> Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
-> ---
->  meta/lib/oe/spdx30_tasks.py | 34 ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
->
-> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> index f731a709e3..86430c7008 100644
-> --- a/meta/lib/oe/spdx30_tasks.py
-> +++ b/meta/lib/oe/spdx30_tasks.py
-> @@ -474,6 +474,36 @@ def create_spdx(d):
->          if val:
->              setattr(obj, name, val)
->
-> +    def generate_purl(d, package=3DNone):
-> +        """
-> +        Generate Package URL (purl) for a package according to Yocto PUR=
-L spec.
-> +        Format: pkg:yocto/<LAYERNAME>/<BPN>@<PV>
-> +
-> +        See: https://github.com/package-url/purl-spec/pull/372
-> +        """
-> +        bpn =3D d.getVar("BPN")
-> +        pv =3D d.getVar("PV")
-> +
-> +        # Get layer name using FILE_LAYERNAME
-> +        # This is the correct variable that contains the layer name from=
- BBFILE_COLLECTIONS
-> +        # (BBFILE_COLLECTIONS itself is not available outside of layer.c=
-onf)
-> +        layer =3D d.getVar("FILE_LAYERNAME")
-> +
-> +        if not layer:
-> +            layer =3D "core"  # Default to core if layer detection fails
-> +
-> +        # For sub-packages, use BPN (base package name)
-> +        # Per spec: BPN has prefixes/suffixes removed
-> +        name =3D bpn
-> +
-> +        # Normalize name per PURL spec (lowercase only)
-> +        # Note: Underscores are not allowed in recipe names
-> +        name =3D name.lower()
-> +
-> +        purl =3D f"pkg:yocto/{layer}/{name}@{pv}"
-> +
-> +        return purl
-> +
->      license_data =3D oe.spdx_common.load_spdx_license_data(d)
->
->      deploydir =3D Path(d.getVar("SPDXDEPLOY"))
-> @@ -646,6 +676,10 @@ def create_spdx(d):
->                      "software_packageUrl",
->                      package=3Dpackage
->                  )
-> +            else:
-> +                # Auto-generate PURL if not manually specified
-> +                auto_purl =3D generate_purl(d, package)
-> +                spdx_package.software_packageUrl =3D auto_purl
->
->              pkg_objset.new_scoped_relationship(
->                  [oe.sbom30.get_element_link_id(build)],
-> --
-> 2.52.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#229021): https://lists.openembedded.org/g/openembedde=
-d-core/message/229021
-> Mute This Topic: https://lists.openembedded.org/mt/117138938/3616693
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
-EWhacker@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index c4db0cf038..dd1ff42b0f 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -186,11 +186,9 @@ class QemuRunner:
+         return self.launch(launch_cmd, qemuparams=qemuparams, get_ip=get_ip, extra_bootparams=extra_bootparams, env=env)
+ 
+     def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None, env = None):
+-        # use logfile to determine the recipe-sysroot-native path and
+-        # then add in the site-packages path components and add that
+-        # to the python sys.path so the qmp module can be found.
+-        python_path = os.path.dirname(os.path.dirname(self.logfile))
+-        python_path += "/recipe-sysroot-native/usr/lib/qemu-python"
++        # Use PKG_CONFIG_SYSROOT_DIR from env as a starting point for finding qmp module
++        python_path = env.get("PKG_CONFIG_SYSROOT_DIR", "")
++        python_path += "/../recipe-sysroot-native/usr/lib/qemu-python"
+         sys.path.append(python_path)
+         importlib.invalidate_caches()
+         try:
+-- 
+2.43.0
+
 
