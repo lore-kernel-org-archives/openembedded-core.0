@@ -1,261 +1,163 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A40B1CF6BF1
-	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 05:48:02 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8933.1767764878519752622
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82911CF6BF4
+	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 07:36:32 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1068.1767771390836349317
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Jan 2026 21:47:58 -0800
+ Tue, 06 Jan 2026 23:36:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=VDWO1ls/;
- spf=pass (domain: mvista.com, ip: 209.85.214.173, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a09d981507so4048595ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Jan 2026 21:47:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1767764878; x=1768369678; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=666w/i7s1eRiONHB006OLPFA5YI766Ve7OSH/HrVri4=;
-        b=VDWO1ls/Vpl+UbQd1SzO5eJpsDaan+DGMB+ol2AnJC1v56r9Mt35w6rOF/ci9NX6DD
-         l7YoW6gDnQBTMD4cUaJQAdN98jjWUO3HY4JxqtccFkO5zwK3DfACuWdcyJDD9eFRI30+
-         hS2+zW7vxQQ2cbwk2Zad55B+EuGGYLe0EanZU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767764878; x=1768369678;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=666w/i7s1eRiONHB006OLPFA5YI766Ve7OSH/HrVri4=;
-        b=PK9158vBuxhLCdYNfdV4TM47+AH6CfkAok1goY/PmcEufFiSq/ayUfb6NG3Qz5wBEZ
-         mY2vPNd23/dKKkNntXA4fuD7HqZAa2ie1FpVTvnEp5afvqSLZ0wQkLZvttCH+tcj4ktV
-         E5XQXcjapOHS/cQClI+dkcyo8zwwXfmGu7FcLbhMDAalLxmgi5BOOOWvDQCryDVejDOL
-         oZbpwxEDm92/+me720XFN81YyVJk8b+lK1IKs6PmCIrYo0TKmoINSFjZobBxU/32Uu19
-         ZfikEbKwtsFQ86UYQZzsRQYyE+zxXdyq7EACpZ8ybtj4mJUGj4hndcM8+3j9Jnovtx7Y
-         y3cQ==
-X-Gm-Message-State: AOJu0YxUCuYeWa6pY0FJxv7mOqwr+bQOd/cB7d+JF7140VdqQsC8Gk6q
-	uQMgnM3QfXDPIIeU9QiTUnB2lS8LhCyhlFD9GiMYagPCEF+510/RGSR4G90W41ItCKOXJJ4w5TA
-	6poO2Bqc=
-X-Gm-Gg: AY/fxX5tqPQf9+UhgsKa2Yk0vgcJVAuT6SdnfzGtMyZGo1Lf3UY/E2mTway8LnOuJ8X
-	orngIlmKhbv7enuedbV0HBy/pEcbbKci0D5xM6arRBUA55tDhkPzYpaj2wOcdpC5AVw5DfWY69j
-	Bpd/7cMOTMmdCC4qJ0dZE2Txykcr2Td3Jk/ikfryEuBH+bPmmchSaPtliQGXNJq/7ecbnR9sDC4
-	VPCFZ1iGsNJ7GjcYeBXA81Hmxh1sWPR/b3bGAwW4UPxIzkvFWUqB9jJ/GTIW/GKdaxi4ITxn6ie
-	ppBl99YZ02OPeQG2NEhZv/ws6E/nkfbrdSoCGiQSZ0N/SiGbCWZxZTVKkhHQE2IvPtv7I19P53m
-	2uoJQOLQWztfMDLGwlrlRqiAVL4lvTUY22t/DQVmMo+6sV5vxULUTpiZTxUvu0Wf4nUcXasjkIm
-	ymNzNwLsGUQmnpC/l0sSPuIvk=
-X-Google-Smtp-Source: AGHT+IEvCzZUQrrMIUUqtxBnwfJzuTaPX/bK3+63igumS5kLD+nFdzsWb5zf5j+X7XDPZaNHcXvl9g==
-X-Received: by 2002:a17:902:e5c1:b0:2a0:b467:a7d0 with SMTP id d9443c01a7336-2a3e39d8350mr48437635ad.16.1767764877650;
-        Tue, 06 Jan 2026 21:47:57 -0800 (PST)
-Received: from MVIN00013.mvista.com ([27.121.101.107])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3ba03f9sm37760555ad.0.2026.01.06.21.47.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 21:47:57 -0800 (PST)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] python3: fix CVE-2025-13836
-Date: Wed,  7 Jan 2026 11:17:40 +0530
-Message-ID: <20260107054740.316221-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=2alXVTKy;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id BB0721A26C5
+	for <openembedded-core@lists.openembedded.org>; Wed,  7 Jan 2026 07:36:28 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 892FA606F8;
+	Wed,  7 Jan 2026 07:36:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6F358103C868C;
+	Wed,  7 Jan 2026 08:36:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1767771388; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=MSovEb3JvltjAseE0XmxKQ6InobQ8HI05dan1yHCx4o=;
+	b=2alXVTKyQILCKa96cPVj5k19vu2lCnUhWoc5dxGRiO8PKQSdYGVVAlspUcWX5mzD/DfYJ3
+	h4VmarrEbevqZzTnJle3Xsi0tq6lQLX1Mk3jS8AfsgypZ5nvUrZ0/VxR6UYHNsP9wr3Bms
+	41+8fWgDiBW3XjQ9fpIeJVz4mgDEEirOAakEd5pqu2AqSxw0TNBxJcUX+dnrUCntJCKvN4
+	j5gCemv4rwCQHJjIO2jeehv8r8brKS9XSOHqOkcropBtsFmmBMLGYZ8yDMwRQyog6gtilP
+	GUB0ylQhbWnqy1/INH6nD4sodm/0t3UtiaJ9A2MmM43c5xeF+0/2EpuHUeoZpg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 07 Jan 2026 08:36:24 +0100
+Message-Id: <DFI6NN0QIZ3A.L7PFVIMU3NYH@bootlin.com>
+Subject: Re: [OE-core] [PATCH] Fix create_merged_usr_symlinks in
+ populate_sdk_base.bbclass and image.bbclass
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <yw.byun@lge.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20260105025050.153889-1-yw.byun@lge.com>
+In-Reply-To: <20260105025050.153889-1-yw.byun@lge.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 05:48:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228945
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 07:36:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228946
 
-Upstream-Status: Backport from https://github.com/python/cpython/commit/289f29b0fe38baf2d7cb5854f4bb573cc34a6a15
+On Mon Jan 5, 2026 at 3:50 AM CET, Yangwoo Byun via lists.openembedded.org =
+wrote:
+> Modifying FILESYSTEM_PERMS_TABLES does not change the UID and GID of
+> /usr/bin.
+> To change the UID and GID of /usr/bin in FILESYSTEM_PERMS_TABLES to
+> something other than root:root, we need to modify
+> the create_merged_usr_symlinks function.
+> The ":append" method allows us to apply changes inserted in the middle
+> by applying the create_merged_usr_symlinks function at the end of
+> the execution order.
+>
+> Signed-off-by: Yangwoo Byun <yw.byun@lge.com>
+> ---
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../python/python3/CVE-2025-13836.patch       | 163 ++++++++++++++++++
- .../python/python3_3.10.19.bb                 |   1 +
- 2 files changed, 164 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13836.patch
+Hi Yangwoo,
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2025-13836.patch b/meta/recipes-devtools/python/python3/CVE-2025-13836.patch
-new file mode 100644
-index 0000000000..c4387b6019
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2025-13836.patch
-@@ -0,0 +1,163 @@
-+From 289f29b0fe38baf2d7cb5854f4bb573cc34a6a15 Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Fri, 5 Dec 2025 16:21:57 +0100
-+Subject: [PATCH] [3.13] gh-119451: Fix a potential denial of service in
-+ http.client (GH-119454) (#142139)
-+
-+gh-119451: Fix a potential denial of service in http.client (GH-119454)
-+
-+Reading the whole body of the HTTP response could cause OOM if
-+the Content-Length value is too large even if the server does not send
-+a large amount of data. Now the HTTP client reads large data by chunks,
-+therefore the amount of consumed memory is proportional to the amount
-+of sent data.
-+(cherry picked from commit 5a4c4a033a4a54481be6870aa1896fad732555b5)
-+
-+CVE: CVE-2025-13836
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/289f29b0fe38baf2d7cb5854f4bb573cc34a6a15]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ Lib/http/client.py                            | 28 ++++++--
-+ Lib/test/test_httplib.py                      | 66 +++++++++++++++++++
-+ ...-05-23-11-47-48.gh-issue-119451.qkJe9-.rst |  5 ++
-+ 3 files changed, 95 insertions(+), 4 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
-+
-+diff --git a/Lib/http/client.py b/Lib/http/client.py
-+index d1b7b10..c8ab5b7 100644
-+--- a/Lib/http/client.py
-++++ b/Lib/http/client.py
-+@@ -111,6 +111,11 @@ responses = {v: v.phrase for v in http.HTTPStatus.__members__.values()}
-+ _MAXLINE = 65536
-+ _MAXHEADERS = 100
-+ 
-++# Data larger than this will be read in chunks, to prevent extreme
-++# overallocation.
-++_MIN_READ_BUF_SIZE = 1 << 20
-++
-++
-+ # Header name/value ABNF (http://tools.ietf.org/html/rfc7230#section-3.2)
-+ #
-+ # VCHAR          = %x21-7E
-+@@ -628,10 +633,25 @@ class HTTPResponse(io.BufferedIOBase):
-+         reading. If the bytes are truly not available (due to EOF), then the
-+         IncompleteRead exception can be used to detect the problem.
-+         """
-+-        data = self.fp.read(amt)
-+-        if len(data) < amt:
-+-            raise IncompleteRead(data, amt-len(data))
-+-        return data
-++        cursize = min(amt, _MIN_READ_BUF_SIZE)
-++        data = self.fp.read(cursize)
-++        if len(data) >= amt:
-++            return data
-++        if len(data) < cursize:
-++            raise IncompleteRead(data, amt - len(data))
-++
-++        data = io.BytesIO(data)
-++        data.seek(0, 2)
-++        while True:
-++            # This is a geometric increase in read size (never more than
-++            # doubling out the current length of data per loop iteration).
-++            delta = min(cursize, amt - cursize)
-++            data.write(self.fp.read(delta))
-++            if data.tell() >= amt:
-++                return data.getvalue()
-++            cursize += delta
-++            if data.tell() < cursize:
-++                raise IncompleteRead(data.getvalue(), amt - data.tell())
-+ 
-+     def _safe_readinto(self, b):
-+         """Same as _safe_read, but for reading into a buffer."""
-+diff --git a/Lib/test/test_httplib.py b/Lib/test/test_httplib.py
-+index 77152cf..89ec5f6 100644
-+--- a/Lib/test/test_httplib.py
-++++ b/Lib/test/test_httplib.py
-+@@ -1226,6 +1226,72 @@ class BasicTest(TestCase):
-+         thread.join()
-+         self.assertEqual(result, b"proxied data\n")
-+ 
-++    def test_large_content_length(self):
-++        serv = socket.create_server((HOST, 0))
-++        self.addCleanup(serv.close)
-++
-++        def run_server():
-++            [conn, address] = serv.accept()
-++            with conn:
-++                while conn.recv(1024):
-++                    conn.sendall(
-++                        b"HTTP/1.1 200 Ok\r\n"
-++                        b"Content-Length: %d\r\n"
-++                        b"\r\n" % size)
-++                    conn.sendall(b'A' * (size//3))
-++                    conn.sendall(b'B' * (size - size//3))
-++
-++        thread = threading.Thread(target=run_server)
-++        thread.start()
-++        self.addCleanup(thread.join, 1.0)
-++
-++        conn = client.HTTPConnection(*serv.getsockname())
-++        try:
-++            for w in range(15, 27):
-++                size = 1 << w
-++                conn.request("GET", "/")
-++                with conn.getresponse() as response:
-++                    self.assertEqual(len(response.read()), size)
-++        finally:
-++            conn.close()
-++            thread.join(1.0)
-++
-++    def test_large_content_length_truncated(self):
-++        serv = socket.create_server((HOST, 0))
-++        self.addCleanup(serv.close)
-++
-++        def run_server():
-++            while True:
-++                [conn, address] = serv.accept()
-++                with conn:
-++                    conn.recv(1024)
-++                    if not size:
-++                        break
-++                    conn.sendall(
-++                        b"HTTP/1.1 200 Ok\r\n"
-++                        b"Content-Length: %d\r\n"
-++                        b"\r\n"
-++                        b"Text" % size)
-++
-++        thread = threading.Thread(target=run_server)
-++        thread.start()
-++        self.addCleanup(thread.join, 1.0)
-++
-++        conn = client.HTTPConnection(*serv.getsockname())
-++        try:
-++            for w in range(18, 65):
-++                size = 1 << w
-++                conn.request("GET", "/")
-++                with conn.getresponse() as response:
-++                    self.assertRaises(client.IncompleteRead, response.read)
-++                conn.close()
-++        finally:
-++            conn.close()
-++            size = 0
-++            conn.request("GET", "/")
-++            conn.close()
-++            thread.join(1.0)
-++
-+     def test_putrequest_override_domain_validation(self):
-+         """
-+         It should be possible to override the default validation
-+diff --git a/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst b/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
-+new file mode 100644
-+index 0000000..6d6f25c
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2024-05-23-11-47-48.gh-issue-119451.qkJe9-.rst
-+@@ -0,0 +1,5 @@
-++Fix a potential memory denial of service in the :mod:`http.client` module.
-++When connecting to a malicious server, it could cause
-++an arbitrary amount of memory to be allocated.
-++This could have led to symptoms including a :exc:`MemoryError`, swapping, out
-++of memory (OOM) killed processes or containers, or even system crashes.
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-devtools/python/python3_3.10.19.bb b/meta/recipes-devtools/python/python3_3.10.19.bb
-index 6f23d258c1..5140445ad8 100644
---- a/meta/recipes-devtools/python/python3_3.10.19.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.19.bb
-@@ -38,6 +38,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-test_storlines-skip-due-to-load-variability.patch \
-            file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
-            file://CVE-2025-6075.patch \
-+           file://CVE-2025-13836.patch \
-            "
- 
- SRC_URI:append:class-native = " \
--- 
-2.50.1
+Thanks for your patch.
+
+It looks like some image tests are broken by this patch. We get the
+following error on the autobuilder:
+
+RESULTS - parselogs.ParseLogsTest.test_parselogs: FAILED (9.86s)
+RESULTS - systemd.SystemdBasicTests.test_systemd_failed: FAILED (3.69s)
+...
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/qemuarm64-alt/build/layers/openembedded=
+-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+    return func(*args, **kwargs)
+  File "/srv/pokybuild/yocto-worker/qemuarm64-alt/build/layers/openembedded=
+-core/meta/lib/oeqa/runtime/cases/parselogs.py", line 185, in test_parselog=
+s
+    self.assertEqual(errcount, 0, msg=3Dself.msg)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 6 !=3D 0 : Log: /srv/pokybuild/yocto-worker/qemuarm64-alt/b=
+uild/build/tmp/work/qemuarm64-poky-linux/core-image-full-cmdline/1.0/target=
+_logs/dmesg_output.log
+-----------------------
+Central error: [    4.807586] systemd[1]: proc-fs-nfsd.mount: Failed with r=
+esult 'exit-code'.
+***********************
+[    4.728367] EXT4-fs (vda): re-mounted 584f5c6c-2ed1-4b79-88be-411c0a8219=
+1d.
+[    4.750313] systemd[1]: Mounted POSIX Message Queue File System.
+[    4.757693] systemd[1]: Mounted Kernel Debug File System.
+[    4.760539] systemd[1]: Mounted Kernel Trace File System.
+[    4.762862] systemd[1]: Mounted Temporary Directory /tmp.
+[    4.774041] systemd[1]: modprobe@configfs.service: Deactivated successfu=
+lly.
+[    4.788111] systemd[1]: Finished Load Kernel Module configfs.
+[    4.796349] systemd[1]: modprobe@fuse.service: Deactivated successfully.
+[    4.800731] systemd[1]: Finished Load Kernel Module fuse.
+[    4.806094] systemd[1]: proc-fs-nfsd.mount: Mount process exited, code=
+=3Dexited, status=3D32/n/a
+[    4.807586] systemd[1]: proc-fs-nfsd.mount: Failed with result 'exit-cod=
+e'.
+[    4.809202] systemd-journald[129]: Collecting audit messages is disabled=
+.
+[    4.811318] systemd[1]: Failed to mount NFSD configuration filesystem.
+[    4.813837] systemd[1]: Dependency failed for NFS Mount Daemon.
+[    4.815101] systemd[1]: Dependency failed for NFS server and services.
+[    4.818094] systemd[1]: nfs-server.service: Job nfs-server.service/start=
+ failed with result 'dependency'.
+[    4.819597] systemd[1]: nfs-mountd.service: Job nfs-mountd.service/start=
+ failed with result 'dependency'.
+[    4.825984] systemd[1]: Finished Generate network units from Kernel comm=
+and line.
+[    4.834216] systemd[1]: Finished Remount Root and Kernel File Systems.
+[    4.838363] systemd[1]: Finished Apply Kernel Variables.
+[    4.842779] systemd[1]: Finished Load udev Rules from Credentials.
+...
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/qemuarm64-alt/build/layers/openembedded=
+-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+    return func(*args, **kwargs)
+  File "/srv/pokybuild/yocto-worker/qemuarm64-alt/build/layers/openembedded=
+-core/meta/lib/oeqa/runtime/cases/systemd.py", line 100, in test_systemd_fa=
+iled
+    output +=3D self.systemctl('status --full --failed')
+              ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/qemuarm64-alt/build/layers/openembedded=
+-core/meta/lib/oeqa/runtime/cases/systemd.py", line 26, in systemctl
+    self.assertEqual(status, expected, message)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 3 !=3D 0 : SYSTEMD_BUS_TIMEOUT=3D240s systemctl status --fu=
+ll --failed
+=C3=97 proc-fs-nfsd.mount - NFSD configuration filesystem
+     Loaded: loaded (/usr/lib/systemd/system/proc-fs-nfsd.mount; static)
+     Active: failed (Result: exit-code) since Tue 2026-01-06 10:14:07 UTC; =
+1min 19s ago
+ Invocation: acc2ccd9d93947c9a38972cb1cf129f8
+      Where: /proc/fs/nfsd
+       What: nfsd
+   Mem peak: 1M
+        CPU: 91ms
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/2958
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/builds/2947
+
+This can be reproduced adding `IMAGE_CLASSES +=3D "testimage"` to your
+configuration with qemux86 or qemuarm64 MACHINE and poky-altcfg DISTRO.
+Then just `bitbake core-image-full-cmdline && bitbake
+core-image-full-cmdline:do_testimage` should be enough.
+
+Can you have a look at the issue?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
