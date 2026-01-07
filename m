@@ -1,159 +1,178 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A59DCD5854
-	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 11:47:05 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.71])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4019.1767786421143014254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F97CD5854
+	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 11:48:45 +0000 (UTC)
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4014.1767786521365899543
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jan 2026 03:47:01 -0800
+ Wed, 07 Jan 2026 03:48:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=ro4GthrH;
- spf=pass (domain: axis.com, ip: 40.107.162.71, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SXRSkFDpZfzgHjsBqi3UcCy8TNbmdTUrTwWCFW/EF4XkCTpUEEMmHcKpxCB9U4Ud1kxIRw0S4X410dcOVYaeHfO0gCYkn6RkBGCnsnslO2ytr2XEEsJOSzcL5+gvtLpEH99VzMj5Bzqe7cE9tcNmQWEh0vzwA6vK7AFnv0kHkPYTfTEZnLFR+RGj765riDAkaW3xW0xhWSzh15+SL0xQQyKzBf2/BxWLb9agBDem+t6vrx8s4Lo5qEyQnxZJfDETR+fnsnRPShr0arIFlEETuIR/zAVly/Est7iU6e9f+0UfwviQfv/ueuve4ZeySEz/kXae/tD+WQreY6Zpu/tcxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+coNM2cU8a/ry0VwW6OI+g5WmCjYSjeJq877CtuEDcM=;
- b=Nl2+HLhPVJmmd9e0ykKwAPU5axTx5zWdh3OuJJP8hP+GBlmo5AAzVmrB1wbu8Tit8i/nssxCN61TVRbqi7P5eIwXwzw1JMYVtdTajes7OzBxd0qgLjT0xTSH16vsJxgdDKCvlKA9bzp6+ZiR01hlPbdTtw29AiRIgJKfpM4l/pu4reQeHvqrSDEkoVis40dSfi9xqv/3T+5gM+MF5z2FyNITL6wyyShSrvHXiXb55cWtaPrRGa1Inv5wQraIZEekxkquCeheU1SFANyq1Voz+5EDDRqL6BAKGfiZSWzaz6YGRDQm0VuvQUPpFhSKsOxBjcWkvp/0PKFM1Jsp6XR/CQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+coNM2cU8a/ry0VwW6OI+g5WmCjYSjeJq877CtuEDcM=;
- b=ro4GthrHyc/EjMzCHU/opEMPYvv1BaKjslLgGozT00sezuCmCsLzIHKCEuz8Nv6ysMAV6slNbhSLYgJm6JkMeV+SPkkrR1QpHegNyP67gc3+a+pr/T1HLGf3c6VTOdHmc11N7j91GhY4gpgm66+ZypsYBzAz+QWm5LStq7cJsqw=
-Received: from DU7P190CA0017.EURP190.PROD.OUTLOOK.COM (2603:10a6:10:550::24)
- by GV2PR02MB9542.eurprd02.prod.outlook.com (2603:10a6:150:e1::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Wed, 7 Jan
- 2026 11:46:55 +0000
-Received: from DU6PEPF0000B622.eurprd02.prod.outlook.com
- (2603:10a6:10:550:cafe::86) by DU7P190CA0017.outlook.office365.com
- (2603:10a6:10:550::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.2 via Frontend Transport; Wed, 7
- Jan 2026 11:46:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DU6PEPF0000B622.mail.protection.outlook.com (10.167.8.139) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9499.1 via Frontend Transport; Wed, 7 Jan 2026 11:46:54 +0000
-Received: from se-mail01w.axis.com (10.20.40.7) by se-mail11w.axis.com
- (10.20.40.11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Wed, 7 Jan
- 2026 12:46:54 +0100
-Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
- Transport; Wed, 7 Jan 2026 12:46:54 +0100
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail02x.se.axis.com (Postfix) with ESMTP id 4169B1A28
-	for <openembedded-core@lists.openembedded.org>; Wed,  7 Jan 2026 12:46:54 +0100 (CET)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id 3B9BE129943; Wed,  7 Jan 2026 12:46:54 +0100 (CET)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] patch.bbclass: Show full path when a patch fails to apply
-Date: Wed, 7 Jan 2026 12:46:49 +0100
-Message-ID: <20260107114649.3874373-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=aX0qTSyr;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=Ftr/SsmY;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.159, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id ACB797A0119;
+	Wed,  7 Jan 2026 06:48:40 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Wed, 07 Jan 2026 06:48:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1767786520; x=1767872920; bh=HtGPye1bma
+	4+tpp+y07t0PN/dS2R6rxwN2njbUKwOqY=; b=aX0qTSyrrvOwMQ7jIDUpz3zn9z
+	Lfv4kj/GGjIKbrzjxYvlR0O4Jw1bjjiifIe8H/U6SK9DqR6ur0ejhhpmAR9mVAYt
+	xLoZ7MCxe2czGpA3qf/bJpdh1vNT6wycuuofbrOPagLlOvpc096VVFInGwkTXFMX
+	DQhnfjSlVgldKIC5Odt/Sh4rd01kRbmaPlXgmL3ku8D00hy+25H9oVLQv3/3XrdO
+	jXl71kMNEJP0OB9R8wKhOLI8ubUqVHEGPQGFxazaW6Fm10S8s4hv9ORAXU7gPIDP
+	f8F0G6gSls4+JD8Qnj75Gm3cFLudtJAKjgxVetDuSqzPyoGWoGwjaJtego+w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1767786520; x=1767872920; bh=HtGPye1bma4+tpp+y07t0PN/dS2R6rxwN2n
+	jbUKwOqY=; b=Ftr/SsmYaeCk8kAnU3QTGfAhmmdtS8GhQzf38v1K3UG/AfWt1vF
+	V3hx2rUuTqgxHXlYnjKaGvZ5ZDQDyrG77mqhzR+mskAsweka7iYyEQGUe+rBt89q
+	m0Lfd8UTO8naXasvyK08VrOeZ8AoWSMteqMDarU7aiwvi09D7jf0JTIxSaLj0Npe
+	u+NfYn14CklG+kzb5tCw1LVftQgLCXfjFMJAZvXoOTAB1eqkIJvtiO/B0XL4jmwB
+	RaDgtKtzch1NBuWA8VzjuV0R9O6JVxwZqcupw85hX4U4x9ZAKt4X7cvfpL4D1hYw
+	jeTZu1FaiDkDE3Tw7fvGS9OLAFDy+2OTBGA==
+X-ME-Sender: <xms:GEheaXdke_sMUAS7IET64QOOW55JD1lTkp-lTmKrxg1NOUxohZGeNQ>
+    <xme:GEheaUqoUnGhRNcxDDxp7xyPNOz9x4GAXzuUtAgxwT3nPVtJQpY49n-mcCJpXtyJ_
+    C4Wac_1DDbgPZWDEcgedMhLEd-rYOfNnb1S6IXGDaZZj0h9iMlx1Uvz>
+X-ME-Received: <xmr:GEhead4rGghXCbxR5O4yGfXjoYQA0zLdRq-wvKjxZbCv3ZJFYdpKhIRqZoPe7C6fayWLfAUsmQuNRyTay3bDgM5nJe7-S1-nzzRmRZ4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutddvleelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegfrh
+    hlucfvnfffucdlqddutddmnecujfgurhepkffuhffvffgjfhgtfgggsehgtderredtreej
+    necuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvg
+    hvqeenucggtffrrghtthgvrhhnpefhjedvieeileeiheehgeehjeduteffhefhjefhjeej
+    tdeutedulefgudfhuefgjeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorh
+    hgpdhnihhsthdrghhovhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
+    ihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepfe
+    dpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohephihorghnnhdrtghonhhgrghlsehs
+    mhhilhgvrdhfrhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlih
+    hsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehpvghtvghrrdhm
+    rghrkhhosehsihgvmhgvnhhsrdgtohhm
+X-ME-Proxy: <xmx:GEheaSqlANQ6SHIBg-j1tcbyX6q4gjzsckAws6iKtKM1VFuGEBUM9A>
+    <xmx:GEheaXiKw_HCyhdDuCl7fRZb-MOL26a11ehsMMEzvlklSh95ndCQ-g>
+    <xmx:GEheaUJG218OAN-fofZ7DVsriDALY29sOgF09l2Y7cfyJq9J8ZIqXw>
+    <xmx:GEheafA_J0D4CYm1TzvSuntgiBO3G3pPMmqK6ZpbFjwELWs6HOGXkQ>
+    <xmx:GEheaWzSnctvdIOGsF3gAwDE0QNQDP5DBCQWkpgs0Ny4FgHMw9mJUE0n>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 7 Jan 2026 06:48:39 -0500 (EST)
+Message-ID: <c19daed92270797942ebbb4b51c6f6b03fec16b3.camel@pbarker.dev>
+Subject: Re: [OE-core][whinlatter 04/11] python3-urllib3: patch
+ CVE-2025-66471
+From: Paul Barker <paul@pbarker.dev>
+To: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org, Peter
+ Marko <peter.marko@siemens.com>
+Date: Wed, 07 Jan 2026 11:48:36 +0000
+In-Reply-To: <34083b26ca1e5a52c627e41a1adbeaacf79dfa6d.1767772757.git.yoann.congal@smile.fr>
+References: <cover.1767772757.git.yoann.congal@smile.fr>
+	 <34083b26ca1e5a52c627e41a1adbeaacf79dfa6d.1767772757.git.yoann.congal@smile.fr>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ ep0k17xg==
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-5DZpNiz14dTgH430mDgg"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU6PEPF0000B622:EE_|GV2PR02MB9542:EE_
-X-MS-Office365-Filtering-Correlation-Id: 558ef05b-66e9-400c-9e68-08de4de27495
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?0TfPMxwGjWPZbpIYSxGOwW/2F/Ze2nF3QYeW+svV4x9Q88Va3K19ZQdAaHgh?=
- =?us-ascii?Q?l9X5b3CVZowSTTLq2O+TO8W0fE4CTs026OlhhZB/TRTvwm0lZIDEPTayej1Y?=
- =?us-ascii?Q?JHKBHyZ7+jEiJReu4UhpipEhjqYzlkyIPqDsX+QJBkc9CGdgQXDEkcrzZoZ2?=
- =?us-ascii?Q?PFITduqS2aaeNYLOhbxLiyJmJIGWUQIM7o8TnHme9rZMolcW3yEqhiMdCQMp?=
- =?us-ascii?Q?NX5b5TS59wMzDMnVFFkVS+e1XK/uKFQ2cao73pdYHjBkx4Ksj7cN56WEJ3nt?=
- =?us-ascii?Q?4UsZolx6oy4sPo4AljnjT6E4M22LMVvN4qsQEf42u7ja1hdkZdi8iVfhEcbG?=
- =?us-ascii?Q?jwhCl4H/EmqU9+U22VKAviHoRhbdyOrI/Uh7Y6NH9WcTk6e5io+8KnIUspkh?=
- =?us-ascii?Q?qy2IFoiMWmNbviO9Npr2+2ywPyRmRn9FMB9ldC9Pj7R1KeTCuRrn7jKfDuBZ?=
- =?us-ascii?Q?2SKU3+Ilp9EKcdXZ9Fd2EqS9J1LCS3rpbl8Oh1Dk2jwhCVELV7M+7ItCJ9mO?=
- =?us-ascii?Q?dd4Zrr9SBTjMIxMoYMWti4oBI3LS+E1fS3HvVnvUn8gnsQBhCjgqVsqKAIcJ?=
- =?us-ascii?Q?YAy8RojDobsBPMS7fzo/0IbaAM3tVp6a8FwVFVhhmKQSGNWHzZvPkA5mNt+q?=
- =?us-ascii?Q?bnrOL4UCCM4HtSQmtFwY+b62Uy+uVg2CGgwmwSxLlKTzQeUgHNhwjy5o2y5x?=
- =?us-ascii?Q?00bOTNLHa2fEz89F3UQtJZqD0PO6Ufci19kyXos2tyAeUITTHFUpreJsBYc2?=
- =?us-ascii?Q?is02JACKjHJWkLeES7Bt4OqTRJNuv0g0iBfc6UbZ2SXjMDx4XToOdGDCnPFG?=
- =?us-ascii?Q?reA+kR5XyjTO54yt9yXIP+fQDavryABAQkphttdMFyxy4dOmMxpfPNQwtO35?=
- =?us-ascii?Q?SKu5/XirquqModRHObKbNUlFVuXYNz1fqRJxDQ804JBwEcm4eg3lOXU/0aXi?=
- =?us-ascii?Q?dFlbGRcjjmW0buqFbiBt66othNAKPQGM+gS4fgte94TdfMDsTOgtNlpVbsVJ?=
- =?us-ascii?Q?2Mzj/wgJTqACR1+76kT+b44PQkg47szneI3nmQYO6r2A8z8wk32lXrQBKOEM?=
- =?us-ascii?Q?NpbYjquRvcl2NJnksm5DSqYyXx0aAKMh8E5xR1HTIp/vrZUr5mzNaWPAuy+7?=
- =?us-ascii?Q?Owni1+XJROjkiz+Or4B6BMo30i0C5Rg5w4FeYLulzPGutpeMHN1S2JQQ+cYe?=
- =?us-ascii?Q?aoXOcYaTmf7BJvoHOT/fZ92gM7YViaiEhHGddcWjtZ2UnPXFTAn4qaOItRUB?=
- =?us-ascii?Q?z78fQ2zcI+sL+gsVSevkpZuGTqyMK7nnIBkpK81S4bzPVDDvLId3Tz2kxDOH?=
- =?us-ascii?Q?L7qfbhu/hhroTa/YpdA3ssayWQSL71aUQMMVSxVeImKnUoZ8cCjyQjPRv8iK?=
- =?us-ascii?Q?41WihpJXKWJAXNQePdaFmJYQ4kOhtLk7i3fNAN3cBujOFaD0reyOn9tg577M?=
- =?us-ascii?Q?avotsfNak6z+43sZsl9AoI+HtdKaW+5fThQR2sdYOXteo3MFJtXmKZAwsZxG?=
- =?us-ascii?Q?ODR242tzS5kARv5JSQIB+nngo5pBg6utVhhnir3yBKCcF3vWP4vGqVFajsjY?=
- =?us-ascii?Q?taEaF1hxrixDeSmx1aE=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 11:46:54.6544
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 558ef05b-66e9-400c-9e68-08de4de27495
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF0000B622.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR02MB9542
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 11:47:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228992
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 11:48:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228993
 
-If a patch fails to apply, it helps to know the full path to it. This is
-especially true if multiple versions of the patch exists, e.g., due to
-overrides via bbappends.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes-global/patch.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--=-5DZpNiz14dTgH430mDgg
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/classes-global/patch.bbclass b/meta/classes-global/patch.=
-bbclass
-index e5786b1c9a..2d9b39c9a5 100644
---- a/meta/classes-global/patch.bbclass
-+++ b/meta/classes-global/patch.bbclass
-@@ -150,12 +150,12 @@ python patch_do_patch() {
-             patchset.Import({"file":local, "strippath": parm['striplevel']=
-}, True)
-         except Exception as exc:
-             bb.utils.remove(process_tmpdir, True)
--            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (pa=
-rm['patchname'], parm['striplevel'], repr(exc).replace("\\n", "\n")))
-+            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (lo=
-cal, parm['striplevel'], repr(exc).replace("\\n", "\n")))
-         try:
-             resolver.Resolve()
-         except bb.BBHandledException as e:
-             bb.utils.remove(process_tmpdir, True)
--            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % =
-(parm['patchname'], patchdir, repr(e).replace("\\n", "\n")))
-+            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % =
-(local, patchdir, repr(e).replace("\\n", "\n")))
-=20
-     bb.utils.remove(process_tmpdir, True)
-     del os.environ['TMPDIR']
+On Wed, 2026-01-07 at 09:08 +0100, Yoann Congal via
+lists.openembedded.org wrote:
+> From: Peter Marko <peter.marko@siemens.com>
+>=20
+> Pick patch per [1].
+>=20
+> [1] https://nvd.nist.gov/vuln/detail/CVE-2025-66471
+>=20
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+>  .../python3-urllib3/CVE-2025-66471.patch      | 930 ++++++++++++++++++
+>  .../python/python3-urllib3_2.5.0.bb           |   1 +
+>  2 files changed, 931 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2025=
+-66471.patch
+
+This seems like a very large patch for a CVE issue. The changelog entry
+in the patch also says that the API of urllib3.response.ContentDecoder
+is changed.
+
+We should look for a narrower fix, and only take this if there is no
+other option.
+
+Thanks,
+
+--=20
+Paul Barker
+
+
+--=-5DZpNiz14dTgH430mDgg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaV5IFBEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0brxNAQDzmMCQ66suuX7CBTDzHNtddCfXN89ZWEpc
+aA1jwzH+NQD/as2F2W2tnZVJVfGTfI1V2/H+0Pm75CaQheoxVt5vmAM=
+=5Tef
+-----END PGP SIGNATURE-----
+
+--=-5DZpNiz14dTgH430mDgg--
 
