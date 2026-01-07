@@ -1,183 +1,223 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04732CFD63F
-	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 13:59:56 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6392.1767794391045204751
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 006D5CFD640
+	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 14:05:56 +0000 (UTC)
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6537.1767794750416141009
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jan 2026 05:59:51 -0800
+ Wed, 07 Jan 2026 06:05:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YNjoyC30;
- spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-34c9edf63a7so1793381a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 05:59:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767794390; x=1768399190; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xw2rWA5eNBgyuIiZPsvqC0oLiqsEPt60378suzBX/9U=;
-        b=YNjoyC30jHVwIqyzccW3GphSMLZ3Xw1ZG9afv36AgH8s9xMk/ckScOms4kGEbhlK9Y
-         VT7VxZHiyuLv01/SL+f+0KNfXkLMM4R/PD3y7+Rp93QD3M9GWQjfnjdXZei6iK/pct2e
-         r7GWzwNIg332gsyoyebMFNam8q2YxFLOfcmMnlfxUpXL973n5MZcrIOYlLXcJWwstWCm
-         D3YGG0P3gZS385TEm7VKLw5SxV+0C+a9sVc7LuRnMsm+1A0r1c5fPHtP+JXQw7NiFdDU
-         xn9Igk/z/pzB35RwY0cJkM2mgWiac/FpKhFR/lrja33sUMBHR2xv3gxV15RS6sWVH1De
-         kXGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767794390; x=1768399190;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xw2rWA5eNBgyuIiZPsvqC0oLiqsEPt60378suzBX/9U=;
-        b=ZsIXZo6wbQMJlYjifUHbwL6o3jZwMK5kwTiDZAhn2HHiWNbzfae23vhDJFCgXtvKGI
-         8Wjz1x9b1ApXmz9gDrES8Y+ZW5AmDfXb3FDtNF0DEn04yIZGUYO1ppNY/jpz/88sWzzU
-         OyytL/QzPIUeFlQExaztw193xcHJa6279YccWxq8B4KrRmm6jS1pIKcFqzKkr4c7N/Pa
-         kNZXjLqotHaUn3Mk81wsQ30hzZV1X3UqiRLcby1uTI8/QulIR8tn/x0mrGRecoH78T8y
-         uWqxF5bkmjcMyRjbo9Hn7WHhQGPpIKdj0Axz2DY0SDG4bfnj/0POYSrbJCXsqgpFs7Kp
-         6RsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWkb04GYpLMGgbBkZmjnjP/01Fib2TkilfU/EvERVTKcKmPB9Q5cwruFr4jYnev+U6SDmxWBSOODWAdjqCrR4qN2A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzBiOYT/bQHbguC2rbHUy6UUWB1WTnUjDEt5NOFbZYGwk0HmnA5
-	xauGN3nx1mZ15rDtR9k+I2ca0Icz/KawBFmYs4gSysTeBw3tO9PfaMLlvb3HidTCgA+wMHdfi2X
-	0XsWYJb07jO0XRalIy1vqUynObVpDuck=
-X-Gm-Gg: AY/fxX43J+SwU69Lu2SL1u/UWh34gGhupE1hao+xRo0dl6yAEfEK7JFdR+wX6EktMTH
-	uTk12FPo5BhBpO1fm4T3VXE/GRNc4YR5WdXnRpvnpLTZ2cW0bUR+wGcuq28gXhvFwdMVzqk6kbu
-	tMepkP09AxmLeM/6XM53RiRyQvGo8FR8qDo/zPv/EGh/b/oamqkguO4Wuo06noFl1nSJXerJTUG
-	IlqbBogknjprbE3LPXrdOGZyJQjhh/rQsKSNmHlr6S3JBv5YG1oR7Gfs/itEzXgeCCWVCR8
-X-Google-Smtp-Source: AGHT+IErC8MYgGomFIPC9s5sPlmi8TwnDk2SmLSbN1KwiaGfjbUs2qeuXaZN+xhAiiPDXQAMeQK2l6Q0ye+SJ6+lDcw=
-X-Received: by 2002:a17:90b:2d50:b0:341:8ac7:39b7 with SMTP id
- 98e67ed59e1d1-34f68d22d92mr2312808a91.25.1767794390353; Wed, 07 Jan 2026
- 05:59:50 -0800 (PST)
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=VZU9zQ+V;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=ZBnluw5B;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.145, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id 7DEE1EC029D;
+	Wed,  7 Jan 2026 09:05:49 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Wed, 07 Jan 2026 09:05:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1767794749; x=1767881149; bh=SLCWR6wMrF
+	Wo4Gnh4Jz8GzJG+3uo/3VWQBhXpesQwHk=; b=VZU9zQ+V8WXPduLg3BssD6/MDf
+	gynYqm2v13FnPMr6MpXUrRzb1axz86xOUhYkGzgJBpavjMv4ut+it62cLrchnRaK
+	1pEPdH0+91ybyWEEkFpCSuiaTKCQfj+Dfvc2w5eNPW8XjgpERI8ZVpPLkwXn/xvK
+	SkGnbxfncnSyNb/CGkbVFqNgGKnHdRPLX1ezLcU6W/Fw8gbayTQA34fVEMfMS6CQ
+	c2bhKSz/Pfys0io+ilHaaqA1h913idiK9c0NPpayaYOw4YZiEznS4PuUzcNzCMza
+	ciM+9FE/60RLVcG9P/qZVDrKSTSYwwNtdA+RCLYjNVFJO53RLdeUxHx6kwSA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1767794749; x=1767881149; bh=SLCWR6wMrFWo4Gnh4Jz8GzJG+3uo/3VWQBh
+	XpesQwHk=; b=ZBnluw5BYn0Ay1Q15MCLXSpmZBZfcq8G+GTGVw0q3Lsg2BFBFfS
+	0JqiPq8VPxO3qM5HH1WojhPDqQFOKqfL7w2YqkQI+PusTgkXK0ivnEf1a8ENJucO
+	qjnbKuivsbuKGRqyUM+DUPaHa96HC9Anu8CEbyeroYikKRUlGtQz1dH4iNX/GCVT
+	vjM3wB448UoXYy2/U88aps3EuGfuTrAVkjwu0UosNKHG6p27Wwz1BxbsBPKVPT/4
+	FJK3Jmj3IUAg7aa4uEaE6vEQQBj9Ap9ceBAMdKo9xH/CtHmhaUjDKGAaWYaA1j31
+	Ci1UToBuzjSgSYCTS+vLmWhx9unEWgrYl7A==
+X-ME-Sender: <xms:PGheaWg2pytVwk6F4yXMgwREe4XTAdxbbOl85-PXi1hBqnWV2qlySw>
+    <xme:PGheaeBaIoxvLLKoGzcrv6vBYW1obggeOdoTbhPKKHHUYzssMSIQOvTl2UzLvLRoV
+    2_T4L2PruVdRIFvIgwzWTKUWLuIhSYTIhXGPdLbOEwfwt9dN2Z7oyGy>
+X-ME-Received: <xmr:PGheaTH_r_wxbRhA2Oo2XtA8mq02n3LBJ6o-IaAGRhZtUBk2qvIHZqA2UxheRyST8giSf_Tgg-jMM-bo76R3v_dkyhwcfiurr-gwIsw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdefvdejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegfrh
+    hlucfvnfffucdlqddutddmnecujfgurhepkffuhffvffgjfhgtfgggsehgtderredtreej
+    necuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvg
+    hvqeenucggtffrrghtthgvrhhnpefhjedvieeileeiheehgeehjeduteffhefhjefhjeej
+    tdeutedulefgudfhuefgjeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorh
+    hgpdhnihhsthdrghhovhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
+    ihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepge
+    dpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohephihorghnnhdrtghonhhgrghlsehs
+    mhhilhgvrdhfrhdprhgtphhtthhopehpvghtvghrrdhmrghrkhhosehsihgvmhgvnhhsrd
+    gtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdr
+    ohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtohepjhhirgihihhnghdrshhonh
+    hgrdgtnhesfihinhgurhhivhgvrhdrtghomh
+X-ME-Proxy: <xmx:PGheaeK7gU6L645xjdPARPtExTb6awqRPTJW5au-C2vTt51O1Prfiw>
+    <xmx:PGheaflAo9lw2n3USi4M1Y6OwcaTeqXIpjr7GwdV_OaAvUfE8tMJDQ>
+    <xmx:PGheaeStBHkEjQzfDlHl4Fc8SbAvIeYe6UgeMv-3-Dn0WL6IOv_y5g>
+    <xmx:PGheaZL1U0l_4MNLKCeRWR1E-ucVnGUN5uNUexR0-JgNQo_JJasqtA>
+    <xmx:PWheaUPF-zI4yWCGdHBG-y84HMmEVS3kCk2Behm1x_4-r8NJvayuqRaw>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 7 Jan 2026 09:05:48 -0500 (EST)
+Message-ID: <6164cc2da28a6a9e637b47bde280254af4ed6384.camel@pbarker.dev>
+Subject: Re: [OE-core][whinlatter 04/11] python3-urllib3: patch
+From: Paul Barker <paul@pbarker.dev>
+To: Yoann Congal <yoann.congal@smile.fr>, "Marko, Peter"
+	 <Peter.Marko@siemens.com>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>, Jiaying Song
+	 <jiaying.song.cn@windriver.com>
+Date: Wed, 07 Jan 2026 14:05:43 +0000
+In-Reply-To: <04c34334-5342-4711-bcdf-177da37b6fdc@smile.fr>
+References: <cover.1767772757.git.yoann.congal@smile.fr>
+	 <34083b26ca1e5a52c627e41a1adbeaacf79dfa6d.1767772757.git.yoann.congal@smile.fr>
+	 <c19daed92270797942ebbb4b51c6f6b03fec16b3.camel@pbarker.dev>
+	 <AS1PR10MB5697BF5D70C1BCB02E7F1129FD84A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+	 <5549493a25264654b39a48522691b15feece176c.camel@pbarker.dev>
+	 <04c34334-5342-4711-bcdf-177da37b6fdc@smile.fr>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ ep0k17xg==
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-1XMQNi6nvnWwDnSzmfTi"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-References: <20260106152352.932717-1-bruce.ashfield@gmail.com> <aV5XW4Rf4tvtJU_O@pek-khao-d3>
-In-Reply-To: <aV5XW4Rf4tvtJU_O@pek-khao-d3>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 7 Jan 2026 08:59:38 -0500
-X-Gm-Features: AQt7F2rhp4wWyR7HYwIY4_aSxFCJZO1ONHpZlQPicud8LIeHJr8KPU6hKZEiTto
-Message-ID: <CADkTA4MheUbq5rqAv=dUA4P7QFpym5WgqrHEkB-=1haqRnw+hQ@mail.gmail.com>
-Subject: Re: [PATCH 0/7] linux-yocto: consolidated pull request
-To: Kevin Hao <haokexin@gmail.com>
-Cc: richard.purdie@linuxfoundation.org, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000ac4bbd0647ccb4a3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 13:59:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229000
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 14:05:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229001
 
---000000000000ac4bbd0647ccb4a3
+
+--=-1XMQNi6nvnWwDnSzmfTi
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 7, 2026 at 7:53=E2=80=AFAM Kevin Hao <haokexin@gmail.com> wrote=
-:
+On Wed, 2026-01-07 at 13:47 +0100, Yoann Congal wrote:
+>=20
+> Le 07/01/2026 =C3=A0 13:32, Paul Barker a =C3=A9crit=C2=A0:
+> > On Wed, 2026-01-07 at 12:19 +0000, Marko, Peter wrote:
+> > >=20
+> > > > -----Original Message-----
+> > > > From: Paul Barker <paul@pbarker.dev>
+> > > > Sent: Wednesday, January 7, 2026 12:49
+> > > > To: yoann.congal@smile.fr; openembedded-core@lists.openembedded.org=
+;
+> > > > Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+> > > > Subject: Re: [OE-core][whinlatter 04/11] python3-urllib3: patch
+> > > >=20
+> > > > On Wed, 2026-01-07 at 09:08 +0100, Yoann Congal via
+> > > > lists.openembedded.org wrote:
+> > > > > From: Peter Marko <peter.marko@siemens.com>
+> > > > >=20
+> > > > > Pick patch per [1].
+> > > > >=20
+> > > > > [1] https://nvd.nist.gov/vuln/detail/CVE-2025-66471
+> > > > >=20
+> > > > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > > > > ---
+> > > > >  .../python3-urllib3/CVE-2025-66471.patch      | 930 ++++++++++++=
+++++++
+> > > > >  .../python/python3-urllib3_2.5.0.bb           |   1 +
+> > > > >  2 files changed, 931 insertions(+)
+> > > > >  create mode 100644 meta/recipes-devtools/python/python3-urllib3/=
+CVE-2025-
+> > > > 66471.patch
+> > > >=20
+> > > > This seems like a very large patch for a CVE issue. The changelog e=
+ntry
+> > > > in the patch also says that the API of urllib3.response.ContentDeco=
+der
+> > > > is changed.
+> > > >=20
+> > > > We should look for a narrower fix, and only take this if there is n=
+o
+> > > > other option.
+> > >=20
+> > > I originally didn't want to patch this CVE due to this reason (and di=
+dn't patch it in kirkstone).
+> > > But since this has landed in scarthgap, I decided for the same in whi=
+nlatter for consistency.
+> > > Should we revert it from scartghap?
+> >=20
+> > I don't think we need to rush to a decision.
+>=20
+> On my side, I need to do the whinlatter 5.3.1 release build on Monday.
+> I propose to set this patch aside to not block the release and the other
+> patches.
 
-> On Tue, Jan 06, 2026 at 10:23:45AM -0500, bruce.ashfield@gmail.com wrote:
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > Hi all,
-> >
-> > I'm still tweaking my pull request scripts for the split repositories,
-> > so apologies if something doesn't look quite right.
-> >
-> > I'm unable to push to openembedded-contrib right now, so this is a
-> > patch only send.
-> >
-> > We are getting closer to removing 6.16 (and then 6.12) from oe-core
-> > master. These updates should address some config warnings, and
-> > otherwise improve stability.
-> >
-> > We need to get the reference platforms update to 6.18, so I've cc'
-> > kevin@windriver to see if he has any plans or comments on that.
->
-> The v6.18 kernel triggers an RTNL assertion call trace on my BBB board.
-> Although this does not block the boot process, I would like to investigat=
-e
-> further to identify the root cause, which may take several days.  However=
-,
-> since it does not affect normal booting, I can update the default kernel =
-to
-> v6.18 for the reference board first and debug this issue concurrently, if
-> you prefer.
->
+Agreed.
 
-No rush. Whichever is easiest for you, I appreciate the assistance
-on this, and if there's anything I can do, let me know.
+> For scarthgap, we can revert the current fix and add the "proper" fix
+> when we have it. I'd rather avoid a patched->applicable transition on a C=
+VE.
 
-Bruce
+We don't need to do this immediately, let's take a little time to think
+and see if others have any thoughts.
 
-
-
->
-> Thanks,
-> Kevin
->
-
+Best regards,
 
 --=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Paul Barker
 
---000000000000ac4bbd0647ccb4a3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 7, 2026 at 7:53=
-=E2=80=AFAM Kevin Hao &lt;<a href=3D"mailto:haokexin@gmail.com">haokexin@gm=
-ail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">On Tue, Jan 06, 2026 at 10:23:45AM -0500, <a href=3D"mailto:bruce.as=
-hfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a> wrote:<br>
-&gt; From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" t=
-arget=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
-&gt; <br>
-&gt; Hi all,<br>
-&gt; <br>
-&gt; I&#39;m still tweaking my pull request scripts for the split repositor=
-ies,<br>
-&gt; so apologies if something doesn&#39;t look quite right.<br>
-&gt; <br>
-&gt; I&#39;m unable to push to openembedded-contrib right now, so this is a=
-<br>
-&gt; patch only send.<br>
-&gt; <br>
-&gt; We are getting closer to removing 6.16 (and then 6.12) from oe-core<br=
->
-&gt; master. These updates should address some config warnings, and<br>
-&gt; otherwise improve stability.<br>
-&gt; <br>
-&gt; We need to get the reference platforms update to 6.18, so I&#39;ve cc&=
-#39;<br>
-&gt; kevin@windriver to see if he has any plans or comments on that.<br>
-<br>
-The v6.18 kernel triggers an RTNL assertion call trace on my BBB board.<br>
-Although this does not block the boot process, I would like to investigate<=
-br>
-further to identify the root cause, which may take several days.=C2=A0 Howe=
-ver,<br>
-since it does not affect normal booting, I can update the default kernel to=
-<br>
-v6.18 for the reference board first and debug this issue concurrently, if y=
-ou prefer.<br></blockquote><div><br></div><div><div class=3D"gmail_default"=
- style=3D"font-size:small">No rush. Whichever is easiest for you, I appreci=
-ate the assistance</div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll">on this, and if there&#39;s anything I can do, let me know.</div><div c=
-lass=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gm=
-ail_default" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Thanks,<br>
-Kevin<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
+--=-1XMQNi6nvnWwDnSzmfTi
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
---000000000000ac4bbd0647ccb4a3--
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaV5oNxEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bhgYAP4xG5IwtRCZAcUuxcvN3gV2waOt0sCG9ruJ
+biOoIa+mDQEAsFFrRndwtQPxutvtzdKA4fg87BOkccrFQ4e/GXSgQAE=
+=d82m
+-----END PGP SIGNATURE-----
+
+--=-1XMQNi6nvnWwDnSzmfTi--
 
