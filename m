@@ -2,62 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD00ACF6C04
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD6B8CF6C08
 	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 08:09:32 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1456.1767773368478590462
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1502.1767773365262663618
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jan 2026 00:09:28 -0800
+ Wed, 07 Jan 2026 00:09:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=0Osvcw05;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so14863815e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 00:09:28 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=DSv7USjp;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-477563e28a3so3891525e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 00:09:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1767773367; x=1768378167; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1767773363; x=1768378163; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qJGGeHJE9wMnR6JujwFzCLLWci1OuhBoihQJrigahuk=;
-        b=0Osvcw05mlzh6IwB6p6w2yVT3t1X6bYGKf5D5S+XcC5/vNKZvNYfqkKqHKRDlEbFaG
-         4UVQaUVrNKa9qb+mB25+RSUKuGUeZT/AiI5jIjQSFE/xe9eVjzCY7HBXHGFBsmWObsQT
-         gysmc8+OTKLInDbqk51Fl4oxg4aqrJQaumLRM=
+        bh=6LAwawHyEfUaFztaVFVKhb6cWIXiDJfucWeGQke472M=;
+        b=DSv7USjpPtEa7NbsMNWO1mq0miM/Zzdh9riuTmZFsEuWEhvzi52QjPM66HJFLj31Jd
+         4CC+ebQKkXbIZR1dUm+MbFG9iaQxxytt/UknMVpqBx9x7pW/t/RC6wWBEZIdOk54kiLJ
+         k9dc6YidiccMbjV1k+mOgZwcXB9k3BXWqwuok=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767773367; x=1768378167;
+        d=1e100.net; s=20230601; t=1767773363; x=1768378163;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=qJGGeHJE9wMnR6JujwFzCLLWci1OuhBoihQJrigahuk=;
-        b=W9cRmGhbyZIFSQTOBTpMy6LGIffkVe3Po/FeTLLL8nyNoqnCC1HtSeZ6m1yC5d5C3X
-         uvcomHAx5GXw59itgc1RwaWOKoWbVZxt01EPX+tm1gXjjHqP9RXo1dygiW4aE998tBIm
-         wayXyIb7luZVnqJxYMdje6bWXI8jSnkZDSPOJAcydygFAIQleXVjr00iNdCnn12y/c9H
-         mi/S9nFHOzt/WJrudfflJX13FU4zuAufWaufpujgE9BSTyjtEFLMR7wrQDlZD4Slf8Pz
-         RdvaJjBN9Ub1oseDk9uvnoMSCAy+kt5ZDjFz9Nm8xOD2Ec7ZW8IN7ZLjPY7IM+2+JhIu
-         8B/g==
-X-Gm-Message-State: AOJu0YxTdNDKPBNCNfJCnDRtjCib/1NOkP0jH+RvHMFGzUpa1r6GBbgw
-	4ibkPmL7kVmPV3TPIfrvBOxIXMIDJt+nsw/Z3BkG4sLUz+JwgL/4YuNeNtp+2U+1DFdMm4Bi+y6
-	aXd3S
-X-Gm-Gg: AY/fxX4vatmCvY3RV2CFaKRb97/wk8ETKKXbX4o/liSvQLdXUf4x8n5o9Ayq6EnUr5L
-	60xIZX5pw9dkAzU+Hl1qJEmMkP+rTvKdCic4nQ8tCH6ix3VRS52/+xOaTWMnVMdrN+ZQ4FUzTYe
-	ydhDZHHEnXRObpI+tKULdhIzUkLNQbpWaHJKg0F8CHzlCgQThYOP/fp5MzMS99f4iswBWjj24Pw
-	D+LKm+OGjnpGC5kb89Kr6qZSKGtQDGJumOQRcYo2FISwqwIDCDYTPCaR/nLi7s0v/gUM8HtykQr
-	26fbcwqc5aG2PW+valQV4nhKuf23yByqQZ3bL/W5UXQ3ViD+DYIpbTUqy9Koq6usT5K/0xqceaw
-	0xTnaDVs8ezCFg2vpmO8707exHR4DV9D65ydnuM4IzFI3rD8Z7piIYbp53i4tvnUxvPgpLn2ScE
-	3IVSBZIxVuWPgZOQxJCbyyXl0od2IOw68wsoxEo+TndWwuqEwSdWYhk/zW8PmsEWrj7XPtLFnM4
-	zCU1e5+gE3kVKk=
-X-Google-Smtp-Source: AGHT+IGoJy+S071pq/G1f2EnKKJlW9T7zSTuYtwRMs3DZuEYmQibt/WYCYQtPrxYfQBqPWEYGpc9dw==
-X-Received: by 2002:a05:600c:c4a5:b0:477:1ae1:fa5d with SMTP id 5b1f17b1804b1-47d84b32f5amr14902965e9.20.1767773366561;
-        Wed, 07 Jan 2026 00:09:26 -0800 (PST)
+        bh=6LAwawHyEfUaFztaVFVKhb6cWIXiDJfucWeGQke472M=;
+        b=DY2DNzpN7VOxvR/TfPFEyNizJOAnUJMPp0tKA8Tv0n9XXfroPrsO0al+mIYDaCkGTA
+         jZFPe0L1+5OrXbzOC/zBmdW4Rh12gFrGgoG+Px7vX3/ViNQTjve4jZFYXAXloqrFWF6I
+         n2T0AUPwaicZDST5N3iE7XZei7R5PA6Wr5BptKbeDWBUPslYjXNdDXe2XWNy9xYO17Oa
+         1neumkYQQPV3W9K00NgE5h1kuZMkLoL38YRomzWs85xuZ//s22GfMHIr00vpvIX0wcIG
+         VGY2Nqfqts5Qezj8yWV8HqEo0VPkK8APflQBlteduqVE9/TRd9LzRm46D9XEC/UCKTvZ
+         aHJQ==
+X-Gm-Message-State: AOJu0YyZ8zwrpomY/bkxEKLKv8tE/TCuu2qUEU+ytEbqKA4T4L/Cnm/u
+	vFXm9viow0UA9TmmJwpJ53R5ssRgkJoWxFhBRuyDpYvoFI1jVhIkddu3L7mZaKwOJjlnjXPXCfl
+	BZr7G
+X-Gm-Gg: AY/fxX4JniEPyBmPAHe+Drku89dUoClnwpur2dHr/qMWebm1T8j6ArUvl/H/jiDBpBa
+	cwG9n5sN+niAsVMAXR8TcjbaobhuXrelAxC4zKl0j25y9FGbvpM2i0rpi1cJKV7fl3sV04UqyHJ
+	8qdDa82Z78pTBGxu+/+eixnWEjsnWPtHYo1DcYu5nCi5FB6auT5rZ93yaAtc7xUtAkzQ78+CmOu
+	1EsedLlIOxWHWIJwGFxHRdDwjQTQg/GbPTbFUYHoZCsz5mXTsCosCg7mwCt/rmncsl23EMdD1Z9
+	4SsVI6M7IiydHHj4FwMTL4czQaDPIeaizSRjCQondVOc2yZXU9kNgZydQsvtAM3G1TFP8pXwFl3
+	O5X2rHV81XxQuAZmAsP1kX5sQNqXAj8lKj87S86H+S5A0ZBUx1vrKtGZBWBKoMaEBHHY1D3Cgjb
+	j/rYlThhSVcAaCypmi8niz5xcvApGtPBLWnE4ThAJOz1GSSgr9bRp3lWYNRgkXcuSDCjOVM7pOb
+	UxcEq1aAG9B4sPR2mhRe8oqCg==
+X-Google-Smtp-Source: AGHT+IFmxbAqgzGLOgUesBYgyRisF6aec3ieHkR8I1VusW0JI6cA6P1TGhZSBHEhLvkAGSErRD80lw==
+X-Received: by 2002:a05:600c:5916:b0:475:d7fd:5c59 with SMTP id 5b1f17b1804b1-47d81810b1fmr39390845e9.16.1767773363381;
+        Wed, 07 Jan 2026 00:09:23 -0800 (PST)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d8715b5f7sm6093485e9.4.2026.01.07.00.09.26
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d8715b5f7sm6093485e9.4.2026.01.07.00.09.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 00:09:26 -0800 (PST)
+        Wed, 07 Jan 2026 00:09:22 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][whinlatter 07/11] glib-2.0: upgrade 2.86.1 -> 2.86.3
-Date: Wed,  7 Jan 2026 09:08:56 +0100
-Message-ID: <d2faf382b73684246caac60ea4268a4b1e574722.1767772758.git.yoann.congal@smile.fr>
+Subject: [OE-core][whinlatter 03/11] python3-urllib3: patch CVE-2025-66418
+Date: Wed,  7 Jan 2026 09:08:52 +0100
+Message-ID: <7e26c0c838e4461885e851c1ac4115f7f39635b2.1767772757.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1767772757.git.yoann.congal@smile.fr>
 References: <cover.1767772757.git.yoann.congal@smile.fr>
@@ -67,243 +67,114 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 08:09:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228954
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228950
 
-From: Alexander Kanavin <alex@linutronix.de>
+From: Peter Marko <peter.marko@siemens.com>
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Pick patch per [1].
 
-(From OE-Core rev: 2041beac5c9cf081c5c23220c6fb259381611111)
-
-Handles CVE-2025-13601, CVE-2025-14087 and CVE-2025-14512.
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-66418
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- ...001-Do-not-write-bindir-into-pkg-config-files.patch | 10 +++++-----
- .../files/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch   |  2 +-
- ...1-Install-gio-querymodules-as-libexec_PROGRAM.patch |  6 +++---
- ...the-warning-about-deprecated-paths-in-schemas.patch |  2 +-
- ...ts-resources.c-comment-out-a-build-host-only-.patch |  2 +-
- .../0001-meson-Run-atomics-test-on-clang-as-well.patch |  6 +++---
- ...uild-do-not-enable-pidfd-features-on-native-g.patch |  6 +++---
- ...o-not-hardcode-python-path-into-various-tools.patch |  2 +-
- .../recipes-core/glib-2.0/files/relocate-modules.patch |  8 ++++----
- meta/recipes-core/glib-2.0/files/skip-timeout.patch    |  2 +-
- ....0-initial_2.86.1.bb => glib-2.0-initial_2.86.3.bb} |  0
- .../{glib-2.0_2.86.1.bb => glib-2.0_2.86.3.bb}         |  0
- meta/recipes-core/glib-2.0/glib.inc                    |  2 +-
- 13 files changed, 24 insertions(+), 24 deletions(-)
- rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.86.1.bb => glib-2.0-initial_2.86.3.bb} (100%)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.86.1.bb => glib-2.0_2.86.3.bb} (100%)
+ .../python3-urllib3/CVE-2025-66418.patch      | 74 +++++++++++++++++++
+ .../python/python3-urllib3_2.5.0.bb           |  4 +
+ 2 files changed, 78 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2025-66418.patch
 
-diff --git a/meta/recipes-core/glib-2.0/files/0001-Do-not-write-bindir-into-pkg-config-files.patch b/meta/recipes-core/glib-2.0/files/0001-Do-not-write-bindir-into-pkg-config-files.patch
-index c394ab3277..06841ddfb8 100644
---- a/meta/recipes-core/glib-2.0/files/0001-Do-not-write-bindir-into-pkg-config-files.patch
-+++ b/meta/recipes-core/glib-2.0/files/0001-Do-not-write-bindir-into-pkg-config-files.patch
-@@ -1,4 +1,4 @@
--From 8981db5d775e04b72fb68b6a4553c87fdaedee65 Mon Sep 17 00:00:00 2001
-+From 6fe3965383d94b3030e85ab899955858710fec5c Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 15 Feb 2019 11:17:27 +0100
- Subject: [PATCH] Do not prefix executables with $bindir in pkg-config files
-@@ -15,10 +15,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  2 files changed, 13 insertions(+), 11 deletions(-)
+diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66418.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66418.patch
+new file mode 100644
+index 0000000000..71fc44e4f9
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2025-66418.patch
+@@ -0,0 +1,74 @@
++From 24d7b67eac89f94e11003424bcf0d8f7b72222a8 Mon Sep 17 00:00:00 2001
++From: Illia Volochii <illia.volochii@gmail.com>
++Date: Fri, 5 Dec 2025 16:41:33 +0200
++Subject: [PATCH] Merge commit from fork
++
++* Add a hard-coded limit for the decompression chain
++
++* Reuse new list
++
++CVE: CVE-2025-66418
++Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/24d7b67eac89f94e11003424bcf0d8f7b72222a8]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ changelog/GHSA-gm62-xv2j-4w53.security.rst |  4 ++++
++ src/urllib3/response.py                    | 12 +++++++++++-
++ test/test_response.py                      | 10 ++++++++++
++ 3 files changed, 25 insertions(+), 1 deletion(-)
++ create mode 100644 changelog/GHSA-gm62-xv2j-4w53.security.rst
++
++diff --git a/changelog/GHSA-gm62-xv2j-4w53.security.rst b/changelog/GHSA-gm62-xv2j-4w53.security.rst
++new file mode 100644
++index 00000000..6646eaa3
++--- /dev/null
+++++ b/changelog/GHSA-gm62-xv2j-4w53.security.rst
++@@ -0,0 +1,4 @@
+++Fixed a security issue where an attacker could compose an HTTP response with
+++virtually unlimited links in the ``Content-Encoding`` header, potentially
+++leading to a denial of service (DoS) attack by exhausting system resources
+++during decoding. The number of allowed chained encodings is now limited to 5.
++diff --git a/src/urllib3/response.py b/src/urllib3/response.py
++index 4ba42136..069f726c 100644
++--- a/src/urllib3/response.py
+++++ b/src/urllib3/response.py
++@@ -220,8 +220,18 @@ class MultiDecoder(ContentDecoder):
++         they were applied.
++     """
++ 
+++    # Maximum allowed number of chained HTTP encodings in the
+++    # Content-Encoding header.
+++    max_decode_links = 5
+++
++     def __init__(self, modes: str) -> None:
++-        self._decoders = [_get_decoder(m.strip()) for m in modes.split(",")]
+++        encodings = [m.strip() for m in modes.split(",")]
+++        if len(encodings) > self.max_decode_links:
+++            raise DecodeError(
+++                "Too many content encodings in the chain: "
+++                f"{len(encodings)} > {self.max_decode_links}"
+++            )
+++        self._decoders = [_get_decoder(e) for e in encodings]
++ 
++     def flush(self) -> bytes:
++         return self._decoders[0].flush()
++diff --git a/test/test_response.py b/test/test_response.py
++index 9592fdd9..d824ae70 100644
++--- a/test/test_response.py
+++++ b/test/test_response.py
++@@ -584,6 +584,16 @@ class TestResponse:
++         assert r.read(9 * 37) == b"foobarbaz" * 37
++         assert r.read() == b""
++ 
+++    def test_read_multi_decoding_too_many_links(self) -> None:
+++        fp = BytesIO(b"foo")
+++        with pytest.raises(
+++            DecodeError, match="Too many content encodings in the chain: 6 > 5"
+++        ):
+++            HTTPResponse(
+++                fp,
+++                headers={"content-encoding": "gzip, deflate, br, zstd, gzip, deflate"},
+++            )
+++
++     def test_body_blob(self) -> None:
++         resp = HTTPResponse(b"foo")
++         assert resp.data == b"foo"
+diff --git a/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb b/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
+index 62fdf8e345..c39e9676e8 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_2.5.0.bb
+@@ -7,6 +7,10 @@ SRC_URI[sha256sum] = "3fc47733c7e419d4bc3f6b3dc2b4f890bb743906a30d56ba4a5bfa4bbf
  
- diff --git a/gio/meson.build b/gio/meson.build
--index 5d91b89..1a8da12 100644
-+index 2f8f188..57c48d2 100644
- --- a/gio/meson.build
- +++ b/gio/meson.build
--@@ -901,17 +901,18 @@ libgio_dep = declare_dependency(link_with : libgio,
-+@@ -912,17 +912,18 @@ libgio_dep = declare_dependency(link_with : libgio,
-  pkg.generate(libgio,
-    requires : ['glib-2.0', 'gobject-2.0'],
-    variables : [
-@@ -46,10 +46,10 @@ index 5d91b89..1a8da12 100644
-    uninstalled_variables : [
-      'gio=${prefix}/gio/gio',
- diff --git a/glib/meson.build b/glib/meson.build
--index 837960d..97d4af0 100644
-+index 209bcbf..a86cfd3 100644
- --- a/glib/meson.build
- +++ b/glib/meson.build
--@@ -443,9 +443,10 @@ pkg.generate(libglib,
-+@@ -464,9 +464,10 @@ pkg.generate(libglib,
-    subdirs : ['glib-2.0'],
-    extra_cflags : ['-I${libdir}/glib-2.0/include'] + win32_cflags,
-    variables : [
-diff --git a/meta/recipes-core/glib-2.0/files/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch b/meta/recipes-core/glib-2.0/files/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
-index 19fffbdc5f..b91624da8b 100644
---- a/meta/recipes-core/glib-2.0/files/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
-+++ b/meta/recipes-core/glib-2.0/files/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
-@@ -1,4 +1,4 @@
--From 48bfc87e9f757cf65ad967520860bfd7526c36f2 Mon Sep 17 00:00:00 2001
-+From 966c58aae35f9e2bcef5238e0331a119e0e51abd Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 15 Mar 2014 22:42:29 -0700
- Subject: [PATCH] Fix DATADIRNAME on uclibc/Linux
-diff --git a/meta/recipes-core/glib-2.0/files/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch b/meta/recipes-core/glib-2.0/files/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
-index 89ba10ff6d..2ebf01b672 100644
---- a/meta/recipes-core/glib-2.0/files/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
-+++ b/meta/recipes-core/glib-2.0/files/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
-@@ -1,4 +1,4 @@
--From b8dcbf03b315d31759176e9d4fd389e8fda6ffcd Mon Sep 17 00:00:00 2001
-+From 0de3a3a791ca32f2330eb3a8ad9da0fe6dce950c Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Tue, 22 Mar 2016 15:14:58 +0200
- Subject: [PATCH] Install gio-querymodules as libexec_PROGRAM
-@@ -13,10 +13,10 @@ Upstream-Status: Inappropriate [OE specific]
-  1 file changed, 1 insertion(+)
+ inherit pypi python_hatchling
  
- diff --git a/gio/meson.build b/gio/meson.build
--index 854b95a..5d91b89 100644
-+index 39256d3..2f8f188 100644
- --- a/gio/meson.build
- +++ b/gio/meson.build
--@@ -1038,6 +1038,7 @@ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodu
-+@@ -1049,6 +1049,7 @@ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodu
-    c_args : gio_c_args,
-    # intl.lib is not compatible with SAFESEH
-    link_args : noseh_link_args,
-diff --git a/meta/recipes-core/glib-2.0/files/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch b/meta/recipes-core/glib-2.0/files/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
-index ebdf957272..d6dd66357a 100644
---- a/meta/recipes-core/glib-2.0/files/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
-+++ b/meta/recipes-core/glib-2.0/files/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
-@@ -1,4 +1,4 @@
--From bdb2772d672e95584585e902689936559c5db05d Mon Sep 17 00:00:00 2001
-+From b829f3205e4d8390f02eaa8e7a7bf85e51cbb7ed Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 12 Jun 2015 17:08:46 +0300
- Subject: [PATCH] Remove the warning about deprecated paths in schemas
-diff --git a/meta/recipes-core/glib-2.0/files/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch b/meta/recipes-core/glib-2.0/files/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch
-index 771b03e66d..7a2fc0b7ef 100644
---- a/meta/recipes-core/glib-2.0/files/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch
-+++ b/meta/recipes-core/glib-2.0/files/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch
-@@ -1,4 +1,4 @@
--From 8cb75d3bc368ee108a4b14bc57a92bd0c0b2e10e Mon Sep 17 00:00:00 2001
-+From 912e674bb0a3b51dabaa58da1834491ef94e6a2a Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 8 Jan 2020 18:22:46 +0100
- Subject: [PATCH] gio/tests/resources.c: comment out a build host-only test
-diff --git a/meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on-clang-as-well.patch b/meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on-clang-as-well.patch
-index 5ad2a0375b..e4b0d6be79 100644
---- a/meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on-clang-as-well.patch
-+++ b/meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on-clang-as-well.patch
-@@ -1,4 +1,4 @@
--From 502984fe340a76c92e2c04235f43fdcb47728806 Mon Sep 17 00:00:00 2001
-+From 26ddae02d7677bcff7c3933ee856d34df41b548f Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 12 Oct 2019 17:46:26 -0700
- Subject: [PATCH] meson: Run atomics test on clang as well
-@@ -14,10 +14,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
++SRC_URI += "\
++    file://CVE-2025-66418.patch \
++"
++
+ DEPENDS += "python3-hatch-vcs-native"
  
- diff --git a/meson.build b/meson.build
--index a8bcadc..041b68e 100644
-+index dab1d61..cc3a5ed 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -2077,7 +2077,7 @@ atomicdefine = '''
-+@@ -2092,7 +2092,7 @@ atomicdefine = '''
-  # We know that we can always use real ("lock free") atomic operations with MSVC
-  if cc.get_id() == 'msvc' or cc.get_id() == 'clang-cl' or cc.links(atomictest, name : 'atomic ops')
-    have_atomic_lock_free = true
-diff --git a/meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch b/meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
-index aa098da379..712ae25b27 100644
---- a/meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
-+++ b/meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
-@@ -1,4 +1,4 @@
--From d5e566c45a9ab4d7e51104ab176e6eb5f705f91d Mon Sep 17 00:00:00 2001
-+From c6cd3c0a66ae8f210185e0cb05b2172dc192ce9e Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Sat, 16 Sep 2023 22:28:27 +0200
- Subject: [PATCH] meson.build: do not enable pidfd features on native glib
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 2 insertions(+), 1 deletion(-)
- 
- diff --git a/meson.build b/meson.build
--index 041b68e..155bfd4 100644
-+index cc3a5ed..58dd87a 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -1075,7 +1075,8 @@ if cc.links('''#include <sys/syscall.h>
-+@@ -1090,7 +1090,8 @@ if cc.links('''#include <sys/syscall.h>
-                   waitid (P_PIDFD, 0, &child_info, WEXITED | WNOHANG);
-                   return 0;
-                 }''', name : 'pidfd_open(2) system call')
-diff --git a/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch b/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch
-index d26f944d51..8dbdf746b7 100644
---- a/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch
-+++ b/meta/recipes-core/glib-2.0/files/0010-Do-not-hardcode-python-path-into-various-tools.patch
-@@ -1,4 +1,4 @@
--From 211927d2caa4a81e1131c2210e1db838104a1fb9 Mon Sep 17 00:00:00 2001
-+From 40e40230e6a3c52b79c6f92e8c060bd4d93f0374 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 3 Oct 2017 10:45:55 +0300
- Subject: [PATCH] Do not hardcode python path into various tools
-diff --git a/meta/recipes-core/glib-2.0/files/relocate-modules.patch b/meta/recipes-core/glib-2.0/files/relocate-modules.patch
-index ddf464526c..09de155d08 100644
---- a/meta/recipes-core/glib-2.0/files/relocate-modules.patch
-+++ b/meta/recipes-core/glib-2.0/files/relocate-modules.patch
-@@ -1,4 +1,4 @@
--From 456bac53f19d3094aa2007054c87d86c9d65b423 Mon Sep 17 00:00:00 2001
-+From 14bbc77bc465b42454112bc6a33264c2c3e013e5 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Fri, 11 Mar 2016 15:35:55 +0000
- Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
-@@ -18,10 +18,10 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-  1 file changed, 7 deletions(-)
- 
- diff --git a/gio/giomodule.c b/gio/giomodule.c
--index 76c2028..6deba7c 100644
-+index 38761e4..afa7878 100644
- --- a/gio/giomodule.c
- +++ b/gio/giomodule.c
--@@ -1260,11 +1260,6 @@ get_gio_module_dir (void)
-+@@ -1272,11 +1272,6 @@ get_gio_module_dir (void)
-        g_free (install_dir);
-  #else
-        module_dir = g_strdup (GIO_MODULE_DIR);
-@@ -33,7 +33,7 @@ index 76c2028..6deba7c 100644
-  #include <dlfcn.h>
-        {
-          g_autofree gchar *path = NULL;
--@@ -1283,8 +1278,6 @@ get_gio_module_dir (void)
-+@@ -1295,8 +1290,6 @@ get_gio_module_dir (void)
-                }
-            }
-        }
-diff --git a/meta/recipes-core/glib-2.0/files/skip-timeout.patch b/meta/recipes-core/glib-2.0/files/skip-timeout.patch
-index 138e970553..8ef140d0d7 100644
---- a/meta/recipes-core/glib-2.0/files/skip-timeout.patch
-+++ b/meta/recipes-core/glib-2.0/files/skip-timeout.patch
-@@ -1,4 +1,4 @@
--From 51bfcab0b60bd57f4d3463c479fdf47e645cd6fe Mon Sep 17 00:00:00 2001
-+From f77b9dd72dd0103c7a28dd7e1cdf6e316ecbf030 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Thu, 28 Mar 2024 16:27:09 +0000
- Subject: [PATCH] Skip /timeout/rounding test
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.1.bb b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.3.bb
-similarity index 100%
-rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.1.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.3.bb
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.86.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb
-similarity index 100%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.86.1.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.86.3.bb
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 5909851896..bd87d9c601 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -236,7 +236,7 @@ SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
-                               "
- 
--SRC_URI[archive.sha256sum] = "119d1708ca022556d6d2989ee90ad1b82bd9c0d1667e066944a6d0020e2d5e57"
-+SRC_URI[archive.sha256sum] = "b3211d8d34b9df5dca05787ef0ad5d7ca75dec998b970e1aab0001d229977c65"
- 
- # Find any meson cross files in FILESPATH that are relevant for the current
- # build (using siteinfo) and add them to EXTRA_OEMESON.
+ PACKAGECONFIG ??= ""
 
