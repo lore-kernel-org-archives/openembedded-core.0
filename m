@@ -1,177 +1,156 @@
-Return-Path: <stondo@gmail.com>
+Return-Path: <dev@g0hl1n.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B176CF6C1A
-	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 09:17:23 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2295.1767777427173525225
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A9F2CF6C1D
+	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 09:26:23 +0000 (UTC)
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2370.1767777977335363979
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jan 2026 01:17:07 -0800
+ Wed, 07 Jan 2026 01:26:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CVSE0ZOd;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47d3ffa6720so18033835e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 01:17:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767777425; x=1768382225; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lgcbTqY34GY/UbYcWCL4FbUGesSgoCTZ6pTKntAzzrY=;
-        b=CVSE0ZOd8WsSdhCZkAKDjeVjXnhCPIKyR4SIm3/dXfoejPDF7Nf3YMQsUUCQ2aAmB4
-         jOfKVXnry7Hfw7H1YKgV3ts82rZKZpD8EISDNsIE1IzHDcFd0ZOFH3FXLnz58iaf44ft
-         n6yfuZgXepGK3zr32gM0DpNEmfoy051jP/8TeWRpfUeg9HcV4paSxJDjKg5IVE90nzUs
-         Vx0A5WiigED/bBNE7UfNBN8aBR/ZK42pgVw5TcMmbk+ULk3wF0krS7wit1RvONGW6j22
-         ZBGXl7NkbMhZoZDNrtYCH+yqxvE1DxigCELw3b5964ylmGsiVaexvSUJo8h4tfKNf4T0
-         C84g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767777425; x=1768382225;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lgcbTqY34GY/UbYcWCL4FbUGesSgoCTZ6pTKntAzzrY=;
-        b=o+oc6LkzbWp6A8L7GF7HSWvwihn5rDOQH0UCZbWkBHSLFp46ZmP0s2R1S/MPD360f1
-         /uLraSRY2BUBKOnTfC1pC6uAEcVZKwpHT4cyETw7oLEXkhoPve8H+XFsFVLinkAENpPa
-         LvcSH5o3Pey2mhr3nj6N3IFglJuKKDAYFPei0T9uQ4HhqtktMGra2BcpEKrUwstAQRa4
-         C3OlMvc/DiVKUjMFJk107CRlUmtdjVmQ0ldaq5kODvup1edy2b+nzjvUHrCr8Mv02OFJ
-         wASc6ZQLJcI7NXVwPyN9h+PAUEDmRyq753Ehx1UEI63oatYMDFdE6wMrgkGUuYbqujYN
-         wyuA==
-X-Gm-Message-State: AOJu0YzBSzQIV26X0EHzuZdNFCNvcmXrn/O4vpKVI2ztrDvZVDgTESNF
-	wTdOGgaWoTwg81G174E8u5vZX2TZr8qs/SUWN0iIYJA91ki1jN2rIjjObXoGrA==
-X-Gm-Gg: AY/fxX7xSHLXWhihdumK+9zcosmfp7BnWaREx+O1LusjVPwvRGey8xT1Oi95vBWnFwL
-	VLGQCYeUmbGKLazz572rTwHVsQyXcI64Su3c1QA34zS8R7hgRn5BDsPkdiL8zO0bO/MGUPU/o5B
-	CRlmPgX+/uNtyOghY6Szj5juWfZeRInX7YHuXXGp0JaefmxpLdLl0EukFzjVI+iBtQCcIOQcdNe
-	Mv6j+QNCYulUggydICQHO8nOiu9/5MgHDPZgqrVVL8dzo6O+tO2BG3hNyeh+ALxKtnbH8ag13Td
-	Ws/8UH14+IKKdbRdx+BdNCJBtBPJ5hsOu8HJxRM4v32NAIQpeBbY6+KmOh9wW6VQTHnuYylbqi8
-	G+lOwehhqPyJE1F1yYLIexuyA4KThLb6Nlr31Cia0MSorCFBMd8vVkLhATdUO/cvuTJ7TUQZF91
-	CQA2AAYdDSQwdg+YLPimmQl6Wj5+lDdn9mfA==
-X-Google-Smtp-Source: AGHT+IFHnZWRnu7kP5UlR6TGxbLtOdRxBrksLPtOPl4IWZhab8d+qe/XviawSA5VRccY5aa+4Stsog==
-X-Received: by 2002:a05:6000:4287:b0:430:f65d:c0df with SMTP id ffacd0b85a97d-432c37a2f8fmr2218458f8f.56.1767777424927;
-        Wed, 07 Jan 2026 01:17:04 -0800 (PST)
-Received: from fedora ([81.6.40.67])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-432bd0dadcfsm9211303f8f.3.2026.01.07.01.17.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 01:17:04 -0800 (PST)
-From: stondo@gmail.com
+ dkim=fail reason="dkim: body hash did not verify" header.i=@g0hl1n.net header.s=key1 header.b=enozRvsI;
+ spf=pass (domain: g0hl1n.net, ip: 91.218.175.179, mailfrom: dev@g0hl1n.net)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=g0hl1n.net; s=key1;
+	t=1767777975;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=HO0EwWfw+a1a6EMI74AhoCUT3vVAjWg1M79htuRjWyQ=;
+	b=enozRvsIJdR4ZfZHLQbQTs8Y7vNFOc4F0bndaaNTCQkIHxpuLQDX5ee9e9b9dCb2KzrXEF
+	+e/v0ho+R+oxUCkejyHdgarj7udNvV0DWGRzeotjkT5ualkRIFobRUEvOYNKaQK3NR/fOX
+	b5UkS/JzN1PffgN72X50nM8thwsPXKY=
+From: Richard Leitner <dev@g0hl1n.net>
 To: openembedded-core@lists.openembedded.org
-Cc: stefano.tondo.ext@siemens.com,
-	peter.marko@siemens.com,
-	adrian.freihofer@siemens.com,
-	JPEWhacker@gmail.com
-Subject: [PATCH v3] spdx30_tasks: Add concluded license support with SPDX_CONCLUDED_LICENSE
-Date: Wed,  7 Jan 2026 10:17:00 +0100
-Message-ID: <20260107091700.21144-1-stondo@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260106112557.53709-1-stondo@gmail.com>
-References: <20260106112557.53709-1-stondo@gmail.com>
+Cc: Richard Leitner <dev@g0hl1n.net>
+Subject: [PATCH] fitimage: introduce FIT_CONF_STRIP_EXT
+Date: Wed,  7 Jan 2026 10:26:00 +0100
+Message-ID: <20260107092600.73848-1-dev@g0hl1n.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 09:17:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228965
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 09:26:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228966
 
-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
+Introduce a configuration variable named FIT_CONF_STRIP_EXT which
+removes the file-type extension from the configuration node name.
 
-Add hasConcludedLicense relationship to SBOM packages with support for
-manual license conclusion override via SPDX_CONCLUDED_LICENSE variable.
+This feature enables us to give configuration nodes arbritary names
+(based on the dtb file names). This is in my case needed to ensure
+consistent configuration names which where previously (walnascar)
+generated using a fitimage_emit_section_config:append() function.
 
-The concluded license represents the license determination after manual
-or external license analysis. This should be set manually in recipes or
-layers when:
-
-1. Manual license review identifies differences from the declared LICENSE
-2. External license scanning tools detect additional license information
-3. Legal review concludes a different license applies
-
-The hasConcludedLicense relationship is ONLY added to the SBOM when
-SPDX_CONCLUDED_LICENSE is explicitly set. When unset or empty, no
-concluded license is included in the SBOM, correctly indicating that
-no license analysis was performed (per SPDX semantics).
-
-When differences from the declared LICENSE are found, users should:
-
-1. Preferably: Correct the LICENSE field in the recipe and contribute
-   the fix upstream to OpenEmbedded
-2. Alternatively: Set SPDX_CONCLUDED_LICENSE locally in your layer when
-   upstream contribution is not immediately possible or when the license
-   conclusion is environment-specific
-
-The implementation checks both package-specific overrides
-(SPDX_CONCLUDED_LICENSE:${PN}) and the global variable, allowing
-per-package license conclusions when needed.
-
-The concluded license expression is automatically de-duplicated by
-add_license_expression() to avoid redundant license objects in the SBOM.
-
-The variable is initialized in spdx-common.bbclass with comprehensive
-documentation explaining its purpose, usage guidelines, and examples.
-
-Example usage in recipe or layer:
-  SPDX_CONCLUDED_LICENSE = "MIT & Apache-2.0"
-  SPDX_CONCLUDED_LICENSE:${PN} = "MIT & Apache-2.0"
-
-Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+Signed-off-by: Richard Leitner <dev@g0hl1n.net>
 ---
- meta/classes/spdx-common.bbclass | 16 ++++++++++++++++
- meta/lib/oe/spdx30_tasks.py      | 14 ++++++++++++++
- 2 files changed, 30 insertions(+)
+ meta/classes-recipe/kernel-fit-image.bbclass | 1 +
+ meta/conf/image-fitimage.conf                | 3 +++
+ meta/lib/oe/fitimage.py                      | 4 ++++
+ meta/lib/oeqa/selftest/cases/fitimage.py     | 3 +++
+ 4 files changed, 11 insertions(+)
 
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index ca0416d1c7..3110230c9e 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -36,6 +36,22 @@ SPDX_LICENSES ??= "${COREBASE}/meta/files/spdx-licenses.json"
- 
- SPDX_CUSTOM_ANNOTATION_VARS ??= ""
- 
-+SPDX_CONCLUDED_LICENSE ??= ""
-+SPDX_CONCLUDED_LICENSE[doc] = "The license concluded by manual or external \
-+    license analysis. This should only be set when explicit license analysis \
-+    (manual review or external scanning tools) has been performed and a license \
-+    conclusion has been reached. When unset or empty, no concluded license is \
-+    included in the SBOM, indicating that no license analysis was performed. \
-+    When differences from the declared LICENSE are found, the preferred approach \
-+    is to correct the LICENSE field in the recipe and contribute the fix upstream \
-+    to OpenEmbedded. Use this variable locally only when upstream contribution is \
-+    not immediately possible or when the license conclusion is environment-specific. \
-+    Supports package-specific overrides via SPDX_CONCLUDED_LICENSE:${PN}. \
-+    This allows tracking license analysis results in SBOM while maintaining recipe \
-+    LICENSE field for build compatibility. \
-+    Example: SPDX_CONCLUDED_LICENSE = 'MIT & Apache-2.0' or \
-+    SPDX_CONCLUDED_LICENSE:${PN} = 'MIT & Apache-2.0'"
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-=
+recipe/kernel-fit-image.bbclass
+index fd0d21ceee..6f78016e14 100644
+--- a/meta/classes-recipe/kernel-fit-image.bbclass
++++ b/meta/classes-recipe/kernel-fit-image.bbclass
+@@ -54,6 +54,7 @@ python do_compile() {
+     root_node =3D oe.fitimage.ItsNodeRootKernel(
+         d.getVar("FIT_DESC"), d.getVar("FIT_ADDRESS_CELLS"),
+         d.getVar('HOST_PREFIX'), d.getVar('UBOOT_ARCH'),  d.getVar("FIT_=
+CONF_PREFIX"),
++        oe.types.boolean(d.getVar('FIT_CONF_STRIP_EXT')),
+         oe.types.boolean(d.getVar('FIT_KERNEL_SIGN_ENABLE')), d.getVar("=
+FIT_KERNEL_SIGN_KEYDIR"),
+         d.getVar("UBOOT_MKIMAGE"), d.getVar("UBOOT_MKIMAGE_DTCOPTS"),
+         d.getVar("UBOOT_MKIMAGE_SIGN"), d.getVar("UBOOT_MKIMAGE_SIGN_ARG=
+S"),
+diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.con=
+f
+index 090ee148f4..6bf0dd1299 100644
+--- a/meta/conf/image-fitimage.conf
++++ b/meta/conf/image-fitimage.conf
+@@ -35,6 +35,9 @@ FIT_SIGN_INDIVIDUAL ?=3D "0"
+ FIT_CONF_PREFIX ?=3D "conf-"
+ FIT_CONF_PREFIX[doc] =3D "Prefix to use for FIT configuration node name"
+=20
++FIT_CONF_STRIP_EXT ?=3D "0"
++FIT_CONF_STRIP_EXT[doc] =3D "Set true to strip a possible file-type exte=
+nsion from a FIT configuration node name"
 +
- SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
- 
- python () {
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 286a08ed9b..b099fb201e 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -712,6 +712,20 @@ def create_spdx(d):
-                 oe.spdx30.RelationshipType.hasDeclaredLicense,
-                 [oe.sbom30.get_element_link_id(package_spdx_license)],
-             )
-+            
-+            # Add concluded license relationship if manually set
-+            # Only add when license analysis has been explicitly performed
-+            concluded_license_str = d.getVar("SPDX_CONCLUDED_LICENSE:%s" % package) or d.getVar("SPDX_CONCLUDED_LICENSE")
-+            if concluded_license_str:
-+                concluded_spdx_license = add_license_expression(
-+                    d, build_objset, concluded_license_str, license_data
-+                )
-+                
-+                pkg_objset.new_relationship(
-+                    [spdx_package],
-+                    oe.spdx30.RelationshipType.hasConcludedLicense,
-+                    [oe.sbom30.get_element_link_id(concluded_spdx_license)],
-+                )
- 
-             # NOTE: CVE Elements live in the recipe collection
-             all_cves = set()
--- 
-2.52.0
+ FIT_SUPPORTED_INITRAMFS_FSTYPES ?=3D "cpio.lz4 cpio.lzo cpio.lzma cpio.x=
+z cpio.zst cpio.gz ext2.gz cpio"
+=20
+ # Allow user to support special use cases where the kernel binary is
+diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
+index f303799155..bbd5e1843f 100644
+--- a/meta/lib/oe/fitimage.py
++++ b/meta/lib/oe/fitimage.py
+@@ -154,6 +154,7 @@ class ItsNodeRootKernel(ItsNode):
+     firt DTB. If there is no dtb present than the default configuation t=
+he kernel.
+     """
+     def __init__(self, description, address_cells, host_prefix, arch, co=
+nf_prefix,
++                 conf_strip_ext=3DFalse,
+                  sign_enable=3DFalse, sign_keydir=3DNone,
+                  mkimage=3DNone, mkimage_dtcopts=3DNone,
+                  mkimage_sign=3DNone, mkimage_sign_args=3DNone,
+@@ -171,6 +172,7 @@ class ItsNodeRootKernel(ItsNode):
+         self._host_prefix =3D host_prefix
+         self._arch =3D arch
+         self._conf_prefix =3D conf_prefix
++        self._conf_strip_ext =3D conf_strip_ext
+=20
+         # Signature related properties
+         self._sign_enable =3D sign_enable
+@@ -468,6 +470,8 @@ class ItsNodeRootKernel(ItsNode):
+                 dtb_name =3D dtb.name
+                 if dtb.name.startswith("fdt-"):
+                     dtb_name =3D dtb.name[len("fdt-"):]
++                if self._conf_strip_ext:
++                    dtb_name =3D dtb_name.rsplit(".", 1)[0]
+                 self._fitimage_emit_one_section_config(self._conf_prefix=
+ + dtb_name, dtb)
+             for dtb in self._dtb_alias:
+                 self._fitimage_emit_one_section_config(self._conf_prefix=
+ + dtb.alias_name, dtb)
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/sel=
+ftest/cases/fitimage.py
+index 8df5e92a34..84741f10ae 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -412,6 +412,7 @@ class KernelFitImageBase(FitImageTestCase):
+             'DEPLOY_DIR_IMAGE',
+             'FIT_CONF_DEFAULT_DTB',
+             'FIT_CONF_PREFIX',
++            'FIT_CONF_STRIP_EXT',
+             'FIT_DESC',
+             'FIT_HASH_ALG',
+             'FIT_KERNEL_COMP_ALG',
+@@ -1070,6 +1071,7 @@ class FitImagePyTests(KernelFitImageBase):
+             'FIT_ADDRESS_CELLS': "1",
+             'FIT_CONF_DEFAULT_DTB': "",
+             'FIT_CONF_PREFIX': "conf-",
++            'FIT_CONF_STRIP_EXT': "0",
+             'FIT_DESC': "Kernel fitImage for a dummy distro",
+             'FIT_GENERATE_KEYS': "0",
+             'FIT_HASH_ALG': "sha256",
+@@ -1115,6 +1117,7 @@ class FitImagePyTests(KernelFitImageBase):
+         root_node =3D oe.fitimage.ItsNodeRootKernel(
+             bb_vars["FIT_DESC"], bb_vars["FIT_ADDRESS_CELLS"],
+             bb_vars['HOST_PREFIX'], bb_vars['UBOOT_ARCH'],  bb_vars["FIT=
+_CONF_PREFIX"],
++            oe.types.boolean(bb_vars['FIT_CONF_STRIP_EXT']),
+             oe.types.boolean(bb_vars['UBOOT_SIGN_ENABLE']), bb_vars["UBO=
+OT_SIGN_KEYDIR"],
+             bb_vars["UBOOT_MKIMAGE"], bb_vars["UBOOT_MKIMAGE_DTCOPTS"],
+             bb_vars["UBOOT_MKIMAGE_SIGN"], bb_vars["UBOOT_MKIMAGE_SIGN_A=
+RGS"],
+--=20
+2.47.3
 
 
