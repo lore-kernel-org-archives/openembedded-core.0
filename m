@@ -2,84 +2,74 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 006D5CFD640
-	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 14:05:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A8A5CFD64D
+	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 15:01:46 +0000 (UTC)
 Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6537.1767794750416141009
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7764.1767798099682420720
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jan 2026 06:05:50 -0800
+ Wed, 07 Jan 2026 07:01:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=VZU9zQ+V;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=ZBnluw5B;
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=EqW6qM9m;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=Ct3HpfzL;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.145, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id 7DEE1EC029D;
-	Wed,  7 Jan 2026 09:05:49 -0500 (EST)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id D19DCEC02A9;
+	Wed,  7 Jan 2026 10:01:38 -0500 (EST)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Wed, 07 Jan 2026 09:05:49 -0500
+  by phl-compute-06.internal (MEProxy); Wed, 07 Jan 2026 10:01:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1767794749; x=1767881149; bh=SLCWR6wMrF
-	Wo4Gnh4Jz8GzJG+3uo/3VWQBhXpesQwHk=; b=VZU9zQ+V8WXPduLg3BssD6/MDf
-	gynYqm2v13FnPMr6MpXUrRzb1axz86xOUhYkGzgJBpavjMv4ut+it62cLrchnRaK
-	1pEPdH0+91ybyWEEkFpCSuiaTKCQfj+Dfvc2w5eNPW8XjgpERI8ZVpPLkwXn/xvK
-	SkGnbxfncnSyNb/CGkbVFqNgGKnHdRPLX1ezLcU6W/Fw8gbayTQA34fVEMfMS6CQ
-	c2bhKSz/Pfys0io+ilHaaqA1h913idiK9c0NPpayaYOw4YZiEznS4PuUzcNzCMza
-	ciM+9FE/60RLVcG9P/qZVDrKSTSYwwNtdA+RCLYjNVFJO53RLdeUxHx6kwSA==
+	:subject:to:to; s=fm3; t=1767798098; x=1767884498; bh=EOdwb3Yz/o
+	1co90/65i6WNrnwzmwaSI3X99zelnePZE=; b=EqW6qM9mdAHksefpWQJ5QIlwGT
+	P1PDF7eMHP2b9E9cfZHgBSUeno4MEmNU1fevaT+uW57WCnEx6ckWoPjuVtKDaO/u
+	ndr/1o/K6HuskPgWNgRAKG1jeqX60S5A/py07uZO1egfQAv8L2QpmrAYB/jx2VGA
+	UUrHJIQ7rcM6c3pkgDxysT5ASavnznfKAKGhWmy/RmLVNv6uATAjhT1DgLR5GVcX
+	rnQQp091I+wNwd0hSMQpZbgQW52IwSnZkywXgd/G9ZnRj6x830Jt7QMAJBgCcvpJ
+	K5NgSvd2FZaWXovh1SAORMNSp2vpsqLzyE0HsCsrH9zl/ZpYcuBF/hxz6uUw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1767794749; x=1767881149; bh=SLCWR6wMrFWo4Gnh4Jz8GzJG+3uo/3VWQBh
-	XpesQwHk=; b=ZBnluw5BYn0Ay1Q15MCLXSpmZBZfcq8G+GTGVw0q3Lsg2BFBFfS
-	0JqiPq8VPxO3qM5HH1WojhPDqQFOKqfL7w2YqkQI+PusTgkXK0ivnEf1a8ENJucO
-	qjnbKuivsbuKGRqyUM+DUPaHa96HC9Anu8CEbyeroYikKRUlGtQz1dH4iNX/GCVT
-	vjM3wB448UoXYy2/U88aps3EuGfuTrAVkjwu0UosNKHG6p27Wwz1BxbsBPKVPT/4
-	FJK3Jmj3IUAg7aa4uEaE6vEQQBj9Ap9ceBAMdKo9xH/CtHmhaUjDKGAaWYaA1j31
-	Ci1UToBuzjSgSYCTS+vLmWhx9unEWgrYl7A==
-X-ME-Sender: <xms:PGheaWg2pytVwk6F4yXMgwREe4XTAdxbbOl85-PXi1hBqnWV2qlySw>
-    <xme:PGheaeBaIoxvLLKoGzcrv6vBYW1obggeOdoTbhPKKHHUYzssMSIQOvTl2UzLvLRoV
-    2_T4L2PruVdRIFvIgwzWTKUWLuIhSYTIhXGPdLbOEwfwt9dN2Z7oyGy>
-X-ME-Received: <xmr:PGheaTH_r_wxbRhA2Oo2XtA8mq02n3LBJ6o-IaAGRhZtUBk2qvIHZqA2UxheRyST8giSf_Tgg-jMM-bo76R3v_dkyhwcfiurr-gwIsw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdefvdejucetufdoteggodetrf
+	1767798098; x=1767884498; bh=EOdwb3Yz/o1co90/65i6WNrnwzmwaSI3X99
+	zelnePZE=; b=Ct3HpfzLdIbs2STJjiQSsLe3yo1AVvSnzFmwAQgujF7Lp9mW7M4
+	r23rAxYFa/E5mV5g8yWkLOvXdNY+OU8kazwGLJuo6eJUe7m1ShCzQfs3q/xcv5FP
+	utKVNd+UE+ZbgZf+2NZN5L4FepRnWmH2TLofDq+WP6rOwZ7UD9MPJEQushdpI5m9
+	lSXV7kLgMAWyYsjS6RqzfT/y66/cnZNStwjUP/eGLJ5NKbRMoKi00liUam/GMaXf
+	6FSfDnzJ3GReXy26BTxRjAzxMdeYyO1yyqxGmWV8qyNzrE3t1Bi1PqwnPBjVqf9e
+	k3fMz8RNB08WOH8SXQ9DlbZFiDBrcghnPBQ==
+X-ME-Sender: <xms:UnVeaZ7FPht-2HJYkTiP3qzYdkVrAP_TvVPeBMYuuJU2JFS_lrqS9A>
+    <xme:UnVeac63gQnr8VqHmC8Mi15sk8iE6SRxtRNIv_a85aN3EHg6jPLXzFKrquaokrK3K
+    SKF9-C_fFh97zYX2457XN5DPqvxy5JGKejPhD4zdorq2aSCaPRh1Sv2>
+X-ME-Received: <xmr:UnVeaeFMj-H_KQyErSaPFJ1BsCL1wEFQw7yEcABvK4pu11jecJAm8Qt7vyUbI5dtRJVXY5edc1sG9rRwDwLFs6CcbfrO3pWfTJHnrfs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdeffeekucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegfrh
-    hlucfvnfffucdlqddutddmnecujfgurhepkffuhffvffgjfhgtfgggsehgtderredtreej
-    necuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvg
-    hvqeenucggtffrrghtthgvrhhnpefhjedvieeileeiheehgeehjeduteffhefhjefhjeej
-    tdeutedulefgudfhuefgjeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorh
-    hgpdhnihhsthdrghhovhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
-    ihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepge
-    dpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohephihorghnnhdrtghonhhgrghlsehs
-    mhhilhgvrdhfrhdprhgtphhtthhopehpvghtvghrrdhmrghrkhhosehsihgvmhgvnhhsrd
-    gtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdr
-    ohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtohepjhhirgihihhnghdrshhonh
-    hgrdgtnhesfihinhgurhhivhgvrhdrtghomh
-X-ME-Proxy: <xmx:PGheaeK7gU6L645xjdPARPtExTb6awqRPTJW5au-C2vTt51O1Prfiw>
-    <xmx:PGheaflAo9lw2n3USi4M1Y6OwcaTeqXIpjr7GwdV_OaAvUfE8tMJDQ>
-    <xmx:PGheaeStBHkEjQzfDlHl4Fc8SbAvIeYe6UgeMv-3-Dn0WL6IOv_y5g>
-    <xmx:PGheaZL1U0l_4MNLKCeRWR1E-ucVnGUN5uNUexR0-JgNQo_JJasqtA>
-    <xmx:PWheaUPF-zI4yWCGdHBG-y84HMmEVS3kCk2Behm1x_4-r8NJvayuqRaw>
+    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfffjghftggfggesghdtreertd
+    erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
+    uggvvheqnecuggftrfgrthhtvghrnhepudegteehueffvddthfelgfeuffejgeehgedtue
+    etkeetveetvddtgfekuefhjeetnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdr
+    ohhrghdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphht
+    thhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhuhigurdhfnhhsth
+    esfhhujhhithhsuhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtgho
+    rhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
+X-ME-Proxy: <xmx:UnVeadQqXO7V1BoLVuZYZ5LNitgY8wE0CcPiU0ZaSckqaiXiBYiIPg>
+    <xmx:UnVeafsx74hovBW2ciidsl7sVSp91gLAtxvG01_NJwz_3Yvf_rJ0Mw>
+    <xmx:UnVeaUy1u4_7A8UfQTejGkF6ckPJPkM_7f_oHTqmkrIDb9aIE2dEvg>
+    <xmx:UnVeaR4sc73hwcUDcIth3Nad4cEfj_z4ozlP-BzAxjbgbkKBqRCmlA>
+    <xmx:UnVeaRC7q11_rcTY-mrziZ_uo-ZINGK7OdnyWshcH57JWDhhgxJNgFGj>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Jan 2026 09:05:48 -0500 (EST)
-Message-ID: <6164cc2da28a6a9e637b47bde280254af4ed6384.camel@pbarker.dev>
-Subject: Re: [OE-core][whinlatter 04/11] python3-urllib3: patch
+ 7 Jan 2026 10:01:38 -0500 (EST)
+Message-ID: <8958519242a19bf272801cf61c6c3981854902a2.camel@pbarker.dev>
+Subject: Re: [OE-core][PATCH] python3-roman-numerals-py: upgrade 3.1.0 ->
+ 4.1.0
 From: Paul Barker <paul@pbarker.dev>
-To: Yoann Congal <yoann.congal@smile.fr>, "Marko, Peter"
-	 <Peter.Marko@siemens.com>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, Jiaying Song
-	 <jiaying.song.cn@windriver.com>
-Date: Wed, 07 Jan 2026 14:05:43 +0000
-In-Reply-To: <04c34334-5342-4711-bcdf-177da37b6fdc@smile.fr>
-References: <cover.1767772757.git.yoann.congal@smile.fr>
-	 <34083b26ca1e5a52c627e41a1adbeaacf79dfa6d.1767772757.git.yoann.congal@smile.fr>
-	 <c19daed92270797942ebbb4b51c6f6b03fec16b3.camel@pbarker.dev>
-	 <AS1PR10MB5697BF5D70C1BCB02E7F1129FD84A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-	 <5549493a25264654b39a48522691b15feece176c.camel@pbarker.dev>
-	 <04c34334-5342-4711-bcdf-177da37b6fdc@smile.fr>
+To: liuyd.fnst@fujitsu.com, openembedded-core@lists.openembedded.org
+Date: Wed, 07 Jan 2026 15:01:34 +0000
+In-Reply-To: <20260107082233.803-1-liuyd.fnst@fujitsu.com>
+References: <20260107082233.803-1-liuyd.fnst@fujitsu.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -125,81 +115,62 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  OqpPZn7Ij1ga5IAOHNRi5MbyRFROYOeaOj7sz7S7roHQwdP3Q1qTwTOv30hlOSe6uz4PTBiEIKBQH
  ep0k17xg==
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-1XMQNi6nvnWwDnSzmfTi"
+	protocol="application/pgp-signature"; boundary="=-n8c7RrCQtGVZmYEtRpCW"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 14:05:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229001
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 15:01:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229002
 
 
---=-1XMQNi6nvnWwDnSzmfTi
+--=-n8c7RrCQtGVZmYEtRpCW
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2026-01-07 at 13:47 +0100, Yoann Congal wrote:
+On Wed, 2026-01-07 at 16:22 +0800, Yiding Liu (Fujitsu) via
+lists.openembedded.org wrote:
+> Changelog:
+>   Restore LICENCE.rst in the roman-numerals-py meta-package
+>   Add some debug assertions for unsafe blocks
 >=20
-> Le 07/01/2026 =C3=A0 13:32, Paul Barker a =C3=A9crit=C2=A0:
-> > On Wed, 2026-01-07 at 12:19 +0000, Marko, Peter wrote:
-> > >=20
-> > > > -----Original Message-----
-> > > > From: Paul Barker <paul@pbarker.dev>
-> > > > Sent: Wednesday, January 7, 2026 12:49
-> > > > To: yoann.congal@smile.fr; openembedded-core@lists.openembedded.org=
-;
-> > > > Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> > > > Subject: Re: [OE-core][whinlatter 04/11] python3-urllib3: patch
-> > > >=20
-> > > > On Wed, 2026-01-07 at 09:08 +0100, Yoann Congal via
-> > > > lists.openembedded.org wrote:
-> > > > > From: Peter Marko <peter.marko@siemens.com>
-> > > > >=20
-> > > > > Pick patch per [1].
-> > > > >=20
-> > > > > [1] https://nvd.nist.gov/vuln/detail/CVE-2025-66471
-> > > > >=20
-> > > > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> > > > > ---
-> > > > >  .../python3-urllib3/CVE-2025-66471.patch      | 930 ++++++++++++=
-++++++
-> > > > >  .../python/python3-urllib3_2.5.0.bb           |   1 +
-> > > > >  2 files changed, 931 insertions(+)
-> > > > >  create mode 100644 meta/recipes-devtools/python/python3-urllib3/=
-CVE-2025-
-> > > > 66471.patch
-> > > >=20
-> > > > This seems like a very large patch for a CVE issue. The changelog e=
-ntry
-> > > > in the patch also says that the API of urllib3.response.ContentDeco=
-der
-> > > > is changed.
-> > > >=20
-> > > > We should look for a narrower fix, and only take this if there is n=
-o
-> > > > other option.
-> > >=20
-> > > I originally didn't want to patch this CVE due to this reason (and di=
-dn't patch it in kirkstone).
-> > > But since this has landed in scarthgap, I decided for the same in whi=
-nlatter for consistency.
-> > > Should we revert it from scartghap?
-> >=20
-> > I don't think we need to rush to a decision.
+> Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+> ---
+>  ...umerals-py_3.1.0.bb =3D> python3-roman-numerals-py_4.1.0.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-roman-numerals-py_3.1.0.bb =
+=3D> python3-roman-numerals-py_4.1.0.bb} (68%)
 >=20
-> On my side, I need to do the whinlatter 5.3.1 release build on Monday.
-> I propose to set this patch aside to not block the release and the other
-> patches.
+> diff --git a/meta/recipes-devtools/python/python3-roman-numerals-py_3.1.0=
+.bb b/meta/recipes-devtools/python/python3-roman-numerals-py_4.1.0.bb
+> similarity index 68%
+> rename from meta/recipes-devtools/python/python3-roman-numerals-py_3.1.0.=
+bb
+> rename to meta/recipes-devtools/python/python3-roman-numerals-py_4.1.0.bb
+> index 9a76df0de2..8689a6315f 100644
+> --- a/meta/recipes-devtools/python/python3-roman-numerals-py_3.1.0.bb
+> +++ b/meta/recipes-devtools/python/python3-roman-numerals-py_4.1.0.bb
+> @@ -3,10 +3,10 @@ HOMEPAGE =3D "https://github.com/AA-Turner/roman-numera=
+ls/"
+>  LICENSE =3D "0BSD & CC0-1.0"
+>  LIC_FILES_CHKSUM =3D "file://LICENCE.rst;md5=3Dbfcc8b16e42929aafeb9d4143=
+60bc2fd"
+> =20
+> -SRC_URI[sha256sum] =3D "be4bf804f083a4ce001b5eb7e3c0862479d10f94c936f6c4=
+e5f250aa5ff5bd2d"
+> +SRC_URI[sha256sum] =3D "f5d7b2b4ca52dd855ef7ab8eb3590f428c0b1ea480736ce3=
+2b01fef2a5f8daf9"
+>  PYPI_PACKAGE =3D "roman_numerals_py"
+>  UPSTREAM_CHECK_PYPI_PACKAGE =3D "roman_numerals_py"
+> =20
+> -inherit pypi python_flit_core
+> +inherit pypi python_flit_core python_setuptools_build_meta
 
-Agreed.
+Thanks for your patch!
 
-> For scarthgap, we can revert the current fix and add the "proper" fix
-> when we have it. I'd rather avoid a patched->applicable transition on a C=
-VE.
-
-We don't need to do this immediately, let's take a little time to think
-and see if others have any thoughts.
+The commit message should say why the extra bbclass is needed with this
+upgrade.
 
 Best regards,
 
@@ -207,17 +178,17 @@ Best regards,
 Paul Barker
 
 
---=-1XMQNi6nvnWwDnSzmfTi
+--=-n8c7RrCQtGVZmYEtRpCW
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaV5oNxEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bhgYAP4xG5IwtRCZAcUuxcvN3gV2waOt0sCG9ruJ
-biOoIa+mDQEAsFFrRndwtQPxutvtzdKA4fg87BOkccrFQ4e/GXSgQAE=
-=d82m
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaV51ThEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0biihAP0d9pfKUIhSVtwtCvZ1dbqMraZo+9qR37eN
+wb31zs2IOQEA5RHMegyLb/R/wDXMNGY+6vgT9mYLPG/tXDnUY9l+TQE=
+=2IML
 -----END PGP SIGNATURE-----
 
---=-1XMQNi6nvnWwDnSzmfTi--
+--=-n8c7RrCQtGVZmYEtRpCW--
 
