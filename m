@@ -1,338 +1,243 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <koen.kooi@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4496ACEFCE3
-	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 12:16:35 +0000 (UTC)
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4414.1767788193779248725
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38633CEFD1A
+	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 12:18:15 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4447.1767788287900427007
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jan 2026 04:16:34 -0800
+ Wed, 07 Jan 2026 04:18:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=kXgiapFi;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=yhIn9BpL;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.144, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id CEB4DEC0121;
-	Wed,  7 Jan 2026 07:16:32 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Wed, 07 Jan 2026 07:16:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1767788192; x=1767874592; bh=b339vZpPZm
-	S+d9Nc7w5IJtIS1UpiMg0PEG4bzQTBhHs=; b=kXgiapFiKOv9UD2dTYUAW02vHB
-	dBnbTQTl0qbA5Tpr1gjXu5ex+EYFEewHDG0aEHahc14h+lB7GusDUD/eXU1//OMe
-	kO83HZ9bwYv7DXw2EO52R6FwgWy2hEh3Y0n0hAezlmmOCTu4/WwTLkoa17oXYf6p
-	fsgoJJxAAdCp31oG59zNasluAgw41Upto9AFnAWBjUJuP+QlqwXVNWmn5v+eRXZA
-	udQmlwTi4SiNROxrtwan/hmn5uP1FpumajhO9MYY61LDGbWbkY53hntZo+FRs1FA
-	VWccC08b+GsZKcVGCEp4M+6YDZz81HiLnnRtyyni1rTd6sza9xWhDvGlRRHg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1767788192; x=1767874592; bh=b339vZpPZmS+d9Nc7w5IJtIS1UpiMg0PEG4
-	bzQTBhHs=; b=yhIn9BpL3k0UaIud0DmVDNThzMW/aRYsAHzEe2cg2ZSaox+uMWM
-	vMur30/hqWpq/P3h0+kAHxsf/eIcTTvbIQyYeNKqiylk4B/9O2uEKDmH6vrCoekw
-	jngMN4bGEc20NMF35QM0ysr3fcfHXUyFX8t93ksQ0FYJBfFGDowoW/DaCGCwM1Ds
-	gBfGkSYzKV1ejKe3iXgPxhZJcxfmcjjRmdEKWR3gFmwoYf+YTsTqnpdRfVpBRoNu
-	CALxnCkrsuGRq+D/xqxyzsTb/HWQZOLoXCTpxw49lF8tXOYhttA1aeu7jv/npFOw
-	fIAiPFj6btfEHvY/S/e+PiQujnnwJxZPlLA==
-X-ME-Sender: <xms:n05eaX-WLe0CkhaVJ-tn2nXiW4vSGKyhpTva0K5vzaRF-8TYjD1BdQ>
-    <xme:n05eabIlhYJ-TSMGNl336dzxxoifAjohur3JZj7TaOJTX4FrmwD_OVxk65FWUQgDI
-    gfrDjEh3dJSGTpqqrXxevSUVunJKJ6vGGtk9PRhKikRhoE6Rp993TQ>
-X-ME-Received: <xmr:n05eaSYBJYNkpriLNDlnxGX9B7yk-HdgSbIlfnBYuT_ijj7Rn07MAWzdJ7OfkVeIgxRDn8R7RnCHD76or-oXjrEs6rlnD-zZYjqf2fk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdeftdehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
-    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
-    ephfefuefhhfejffevfffhudeltdehgfeuveekgfetheekhfejiefgfeekgefgtdetnecu
-    ffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdphihotghtohhprhhojhgvtg
-    htrdhorhhgpdejledrsggspdektddrsggspdduvddrsggspddugedrsggspdduhedrsggs
-    pddvfedrsggspddvgedrsggspdehtddrsggspdehuddrsggspddutddrsggsnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehpsggr
-    rhhkvghrrdguvghvpdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhuthdprh
-    gtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgv
-    mhgsvgguuggvugdrohhrghdprhgtphhtthhopehrihgthhgrrhgurdhpuhhrughivgeslh
-    hinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopeihohgrnhhnrdgtohhn
-    ghgrlhesshhmihhlvgdrfhhr
-X-ME-Proxy: <xmx:n05eadIknAHKOKA12vlfeAsEwq13OOKNa8Wnxn1rGS1FzIPqk03fow>
-    <xmx:n05eaQDViXAiywT0QB5vXs9pCRJ6eXKb1erxc4uXM6Wbme3ZEGsN4Q>
-    <xmx:n05eaSoynyYZ1l7tuHJgBA2rGmmoPNv4tR-Oa787LfWypU0_yArZ-g>
-    <xmx:n05eabghZZEMb8UKcT4DM74VZiE3P7HL7Dbysty5p7Dl0MhSYTgmDg>
-    <xmx:oE5eaaS8kGc10iJAQqQSGmyWQ5iAApeliAfYABnpIkZkgnh6hIP-SUlQ>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Jan 2026 07:16:31 -0500 (EST)
-Message-ID: <6810e05e5f0288aeed2046d8bf2e9e460fdeea43.camel@pbarker.dev>
-Subject: Re: [OE-core][whinlatter 00/29] Pull request (cover letter only)
-From: Paul Barker <paul@pbarker.dev>
-To: openembedded-core@lists.openembedded.org, Richard Purdie
-	 <richard.purdie@linuxfoundation.org>
-Cc: yoann.congal@smile.fr
-Date: Wed, 07 Jan 2026 12:16:27 +0000
-In-Reply-To: <CAMSfU+7eCcVO-LLf8OarXgjTFShHojqYpoPuYnRUYAU30R8hTg@mail.gmail.com>
-References: <cover.1767710585.git.yoann.congal@smile.fr>
-	 <CAMSfU+7eCcVO-LLf8OarXgjTFShHojqYpoPuYnRUYAU30R8hTg@mail.gmail.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- ep0k17xg==
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-C+z8jpLifY/ZNWhd+3WD"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
-MIME-Version: 1.0
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=BHMwBVkO;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=PqmwVzhD;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: koen.kooi@oss.qualcomm.com)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6079dtM02593336
+	for <openembedded-core@lists.openembedded.org>; Wed, 7 Jan 2026 12:18:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	wh3U99fzyVwzTbiTncASIZZHtGa1IvRSjV5xMB1GOAU=; b=BHMwBVkOYC9Maa+2
+	CPfGsjaVgc7fAwvkK/pvzBGnA4UE9dzLXIcg4tgbyBu+uNVzzKvLs8LQxaTQThwQ
+	m42xfUYTbTzR5pw097lWNGhzd2P2/sMQx4iw0adW7s9YkRVgv9zUp+A7z/u5bSv6
+	qTgm1HtOyTdB1b59ARfsPtJT0uYdcIOsl9FCexpNPfnIlD3YibySGMwiX4faeSuy
+	si1x96lyexkKyWtFYxgOz66+PjFGGN75/maBsFU7j7LLyQAHirArlOa8GrNcHbYD
+	+MWIu/rFWOZwF8GnSpUETWW16GbW8ciU17UPWWfGzYfK2ae7jiKEeB8PWQ8g7uCn
+	WEM6zw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bhn290fbj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 12:18:07 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4ee416413a8so23872891cf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 04:18:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1767788286; x=1768393086; darn=lists.openembedded.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wh3U99fzyVwzTbiTncASIZZHtGa1IvRSjV5xMB1GOAU=;
+        b=PqmwVzhDXmlBvqxLuEBvyVIsCEmfMYz2YUEjesM7iYWGwcot9HhI8N49NS3+dhQcnC
+         ufkbde9kD3+6acq8nFqZJo/rgHK/cf8MFVSUpF6ZLhz1vj8WIc4QjaAenwSzrLNWa9/z
+         00x/BvsQuv6mVTOla2NYjo5B2vSsi4VaaseDEeJ+MH03EalmngWpD5UYc/gwcF9jHXTc
+         t8r3h4E/23DNXYpW0rhXIwjRNYsbv3cwUX+garR0Z+w1vGO3Vb80TedBEYtIjrYTtm+D
+         Gxkei3k0y16ZNv2U7xU6i2G4MvTOQZDzZJ+RF+eTNJNDEvSahENJXVP/0W3t2geZN4XU
+         b5KQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767788286; x=1768393086;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wh3U99fzyVwzTbiTncASIZZHtGa1IvRSjV5xMB1GOAU=;
+        b=YQ0lLSfplBUdU3+tNJTS8ozYYjuGZDVPWSXDkAp8byEU4dqbvxkE9s4lC7+twO5fH1
+         5MAEWSMV4swQK6d40oIdjqGMNLMKr//usjUptmMqaFdWtcL0bd3NF10uwDP+cWRklMUc
+         fvM7gfJBV55qXLdLVxUl1ysF/E44KxIMetn3tQSIimeUSTeZTGn+T3w+RwUYCUGfagPk
+         F+SEMi1JQpPCSnn9rVXUpKB3LAnJ6fgzdOshFK/DEl4kacuQTdA+RUDr9FqRQhPOxrDM
+         Gr5xPGWaTgjcXaKjTYbrqcKWrD4Rz4rbe4uQ7GjxyEdd/MnFEITUBJOh3bsO6Krr3Lzf
+         bK2g==
+X-Gm-Message-State: AOJu0YyNr3SwGMfPL73Vjveg3sXGIcv3JbZ9H7Kqop/f9nk++i7canki
+	USg/y6HpWEvT7RQzCejqPUte6NYL5HfAF6yV5c27WHSA3qo3pLBo96tp4sxwx+37mQ6Kb5cyqiC
+	lRVT0QUlyIiZYsXHPIsSuk/bASfVkS01i5QWwKYqCWb29aMqCFL17yUG4bFtkrlGUgfpzP+i0mQ
+	63doJCR98=
+X-Gm-Gg: AY/fxX5HbIiMuLfSt+yv+tUHs67GIemsvSAhIu2EfpgYAfWsuQ0tBD39wcD6SOgoTzs
+	b5n5R5CgMmogwntZRsUqXKx6C24PaSCGfC8i8J7vcUmr4rvTsgpjXyU9Yv9zpyY78FQ88mkWeTO
+	HXyhEdI64Suwze5GC2ucjAV9uJIDA6QuCvFjMp9pO2l3t9OuZrwrx3zp2d+vV3z/RHn30/n5WQY
+	s798n6NMsx6WNwozRCm97QwMEYxrpDE74DlKfaXpFcvlTjWhlP78R/pzKpfMENluLKRAud4UhgI
+	CF9KU3ro+XcWvHqowl9NEnnhTYbCwtAotzqRLKW5aLmcFHGT5lKvQyTfSbnGKRzio5Ql1zme3HF
+	T+rXBqT7abx1cKmfDYlU1Rht+EjOARThax3sgCEBYOOV/NehtNCaD4WDZIcwNF7BOzg==
+X-Received: by 2002:ac8:5e08:0:b0:4ee:4a3a:bd08 with SMTP id d75a77b69052e-4ffb4af54dcmr26947161cf.80.1767788286362;
+        Wed, 07 Jan 2026 04:18:06 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEAoKeYmxy81zKDUFBM1Hmas4oD24vYuxJSu95O2XXoPea1gmQg6bxSR0MZ4TryXWHu8dlfiA==
+X-Received: by 2002:ac8:5e08:0:b0:4ee:4a3a:bd08 with SMTP id d75a77b69052e-4ffb4af54dcmr26947011cf.80.1767788285798;
+        Wed, 07 Jan 2026 04:18:05 -0800 (PST)
+Received: from smtpclient.apple (185-047-135-246.jonaz.nl. [185.47.135.246])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b842a4cfe60sm489336366b.45.2026.01.07.04.18.05
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 07 Jan 2026 04:18:05 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.200.81.1.6\))
+Subject: Re: [OE-core][PATCH] python3-pyzstd: upgrade 0.17.0 -> 0.19.1
+From: Koen Kooi <koen.kooi@oss.qualcomm.com>
+In-Reply-To: <20260107090744.844-1-liuyd.fnst@fujitsu.com>
+Date: Wed, 7 Jan 2026 13:17:54 +0100
+Cc: openembedded-core@lists.openembedded.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <EB63A912-D9CB-4A5E-BA6F-F66988514CB7@oss.qualcomm.com>
+References: <20260107090744.844-1-liuyd.fnst@fujitsu.com>
+To: liuyd.fnst@fujitsu.com
+X-Mailer: Apple Mail (2.3864.200.81.1.6)
+X-Proofpoint-ORIG-GUID: YQXwCo-yuh4Lh13h4yt-p7XlmbsRZ4LO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA3MDA5NSBTYWx0ZWRfX33XMYuYTM97U
+ kSSB+FYoRT6OpkCJkev3SkFv1ZsqY1wSZHFC9/VxGm/Asc4Sp6+4vnKWezQhqBUdv+6gaUw/fAA
+ O3EFMbBtWWqCETafk+EcBZHfZaensGEbVsNMnutfRHTumBxdvePS1DPIyoTzssH/7rWK4WH+BN9
+ wu1AdHKr51rL7iJdEsc2q72nlVpieKO4HSFHWYSEf27s85jeWw8bGrFodXJG73zAJJCLyxVfTLS
+ tbptjN1aCvgMPHvlW3o87ntnVIp4hhhSSK/1K4utDQbYtoxy40TgWDOuUSXDWbV0UH2MYNLHuBh
+ 27IhIphiqpISu/XP8WdBkQxclxzZOvL6Oud6gpwdrHBAx3Ov2okUe4zhow8CNzvCGERPuAvF7xw
+ JbCiDFhfsOQj5hIcURnDR/nKUdbSAs4VqJ/WHk8BKjumNxq+kj54sJ30TtMgtzBV0x/Hl2K30sH
+ l7XXHGReNtGEn/ntsiA==
+X-Authority-Analysis: v=2.4 cv=P7k3RyAu c=1 sm=1 tr=0 ts=695e4eff cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=/kpjpRmFdjEkggKB3J9tkg==:17
+ a=kj9zAlcOel0A:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Q4-j1AaZAAAA:8 a=omOdbC7AAAAA:8 a=EUspDBNiAAAA:8
+ a=pGLkceISAAAA:8 a=3zFDMma1u1GyMtLxngwA:9 a=CjuIK1q_8ugA:10
+ a=kacYvNCVWA4VmyqE58fU:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-GUID: YQXwCo-yuh4Lh13h4yt-p7XlmbsRZ4LO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-07_01,2026-01-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0 phishscore=0 clxscore=1015 malwarescore=0
+ lowpriorityscore=0 impostorscore=0 adultscore=0 priorityscore=1501
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2601070095
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 12:16:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228994
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 12:18:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228995
 
 
---=-C+z8jpLifY/ZNWhd+3WD
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2026-01-07 at 11:20 +0100, Yoann Congal via
-lists.openembedded.org wrote:
-> Le mar. 6 janv. 2026 =C3=A0 15:58, Yoann Congal <yoann.congal@smile.fr> a=
- =C3=A9crit :
+> Op 7 jan 2026, om 10:07 heeft Yiding Liu (Fujitsu) via =
+lists.openembedded.org <liuyd.fnst=3Dfujitsu.com@lists.openembedded.org> =
+het volgende geschreven:
 >=20
-> > Passed a-full on autobuilder(*):
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2997
+> 1.Changelog:
+>  Fix SeekableZstdFile write table entries on 32-bits architectures =
+when there is a huge number of entries.
+>=20
+> 2.Remove 0001-Remove-setuptools-version-limit-of-74.patch as =
+setuptools was removed in pyproject.toml.
+>=20
+> 3.Remove do_configure:append as there is no setup.py in 0.19.1
+>=20
+> Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+
+Thanks for doing this! This matches the local commit I was testing, all =
+the results came back OK this morning, so:
+
+Signed-off-by: Koen Kooi <koen.kooi@oss.qualcomm.com>
+
+regards,
+
+Koen
+
+
+> ---
+> ...emove-setuptools-version-limit-of-74.patch | 27 -------------------
+> ...std_0.17.0.bb =3D> python3-pyzstd_0.19.1.bb} | 10 +++----
+> 2 files changed, 3 insertions(+), 34 deletions(-)
+> delete mode 100644 =
+meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-version=
+-limit-of-74.patch
+> rename meta/recipes-devtools/python/{python3-pyzstd_0.17.0.bb =3D> =
+python3-pyzstd_0.19.1.bb} (53%)
+>=20
+> diff --git =
+a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-versi=
+on-limit-of-74.patch =
+b/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-versi=
+on-limit-of-74.patch
+> deleted file mode 100644
+> index f2910322ff..0000000000
+> --- =
+a/meta/recipes-devtools/python/python3-pyzstd/0001-Remove-setuptools-versi=
+on-limit-of-74.patch
+> +++ /dev/null
+> @@ -1,27 +0,0 @@
+> -=46rom bc9b975c9f41e43481a2eb0623b4180926baecec Mon Sep 17 00:00:00 =
+2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Wed, 9 Apr 2025 14:38:31 -0700
+> -Subject: [PATCH] Remove setuptools version limit of '74'
+> -
+> -Upstream sticks to 0.74 since setuptools have dropped msvc9compiler
+> -support beyond that which is needed for python 3.9 on windows. We
+> -do not have this problem on Linux
+> -
+> -Upstream-Status: Inappropriate [OE-specific]
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - pyproject.toml | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/pyproject.toml b/pyproject.toml
+> -index dd885e4..5d4d511 100644
+> ---- a/pyproject.toml
+> -+++ b/pyproject.toml
+> -@@ -1,6 +1,6 @@
+> - [build-system]
+> - # setuptools 64+ support --build-option
+> - # setuptools 74+ drops distutils.msvc9compiler required for Python =
+3.9 under Windows
+> --requires =3D ["setuptools>=3D64,<74"]
+> -+requires =3D ["setuptools>=3D64"]
+> - backend-path =3D ["build_script"]
+> - build-backend =3D "pyzstd_pep517"
+> diff --git a/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb =
+b/meta/recipes-devtools/python/python3-pyzstd_0.19.1.bb
+> similarity index 53%
+> rename from meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
+> rename to meta/recipes-devtools/python/python3-pyzstd_0.19.1.bb
+> index af7069b6ed..154e591f4b 100644
+> --- a/meta/recipes-devtools/python/python3-pyzstd_0.17.0.bb
+> +++ b/meta/recipes-devtools/python/python3-pyzstd_0.19.1.bb
+> @@ -9,12 +9,8 @@ LIC_FILES_CHKSUM =3D =
+"file://LICENSE;md5=3Daedb5a2679cd1552fb61c181ef974b9e"
+>=20
+> PYPI_PACKAGE =3D "pyzstd"
+>=20
+> -SRC_URI +=3D =
+"file://0001-Remove-setuptools-version-limit-of-74.patch"
+> -SRC_URI[sha256sum] =3D =
+"d84271f8baa66c419204c1dd115a4dec8b266f8a2921da21b81764fa208c1db6"
+> +SRC_URI[sha256sum] =3D =
+"36723d3c915b3981de9198d0a2c82b2f5fe3eaa36e4d8d586937830a8afc7d72"
+>=20
+> -inherit pypi python_setuptools_build_meta ptest-python-pytest
+> +inherit pypi python_setuptools_build_meta ptest-python-pytest =
+python_hatchling=20
+>=20
+> -# clang-16 with -flto segfaults on arm, therefore ignore flto for now
+> -do_configure:append:arm:toolchain-clang() {
+> -    sed -i -e "s|'-flto'|''|" ${S}/setup.py
+> -}
+> +DEPENDS +=3D "python3-hatch-vcs-native"
+> --=20
+> 2.43.0
 >=20
 >=20
-> As Paul noticed, this build points to the tip whinlatter-nut and not the
-> tip of this pull request (my mistake).
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#228962): =
+https://lists.openembedded.org/g/openembedded-core/message/228962
+> Mute This Topic: https://lists.openembedded.org/mt/117131419/9418801
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[koen.kooi@oss.qualcomm.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >=20
-> The correct build for this pull request is
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2960
->=20
->=20
-> > (*): The builds/tests parts passed, only the "Send QA Email" step
-> > failed. This is a known bug on AB side :
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15696.
-> >=20
-> NB: This build (2960) is also touched by this bug (15696) but the
-> tests/builds parts are fine.
 
-Hi Richard,
-
-I've reviewed these changes and the a-full build results and all looks
-good.
-
-
-The following changes since commit 9964fa3da2fa1e7243fba1a826e59f7bb1813706=
-:
-
-  populate_sdk_ext: keep SDK_TARGETS so SPDX/SBOM tasks remain in locked si=
-gs (2025-12-18 13:11:45 -0800)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib pbarker/whinlatter
-
-for you to fetch changes up to 5c6e573ab4f6125df3381c8ae75d74d00df20588:
-
-  cups: upgrade from 2.4.14 to 2.4.15 (2026-01-07 11:58:31 +0000)
-
-----------------------------------------------------------------
-Ankur Tyagi (4):
-      gnutls: patch CVE-2025-9820
-      sqlite3: patch CVE-2025-3277
-      sqlite3: patch CVE-2025-6965
-      libxmlb: upgrade 0.3.23 -> 0.3.24
-
-Chen Qi (1):
-      cups: upgrade from 2.4.14 to 2.4.15
-
-Deepesh Varatharajan (2):
-      llvm/clang: Upgrade to 21.1.6 release
-      llvm/clang: Upgrade to 21.1.7 release
-
-Dmitry Baryshkov (1):
-      mesa: upgrade 25.2.5 -> 25.2.8
-
-Gyorgy Sarvari (1):
-      enchant2: upgrade 2.8.12 -> 2.8.14
-
-J=C3=B6rg Sommer (1):
-      glib-2.0: Upgrade 2.86.0 -> 2.86.1
-
-Peter Marko (1):
-      libarchive: upgrade 3.8.2 -> 3.8.3
-
-Robert Yang (2):
-      e2fsprogs: misc/create_inode.c: Fix for file larger than 2GB
-      ccache: 4.12.1 -> 4.12.2
-
-Wang Mingyu (13):
-      ell: upgrade 0.79 -> 0.80
-      gst-devtools: upgrade 1.26.5 -> 1.26.7
-      gst-examples: upgrade 1.26.5 -> 1.26.7
-      gstreamer1.0-libav: upgrade 1.26.5 -> 1.26.7
-      gstreamer1.0-plugins-bad: upgrade 1.26.5 -> 1.26.7
-      gstreamer1.0-plugins-base: upgrade 1.26.5 -> 1.26.7
-      gstreamer1.0-plugins-good: upgrade 1.26.5 -> 1.26.7
-      gstreamer1.0-plugins-ugly: upgrade 1.26.5 -> 1.26.7
-      gstreamer1.0-python: upgrade 1.26.5 -> 1.26.7
-      gstreamer1.0-rtsp-server: upgrade 1.26.5 -> 1.26.7
-      gstreamer1.0: upgrade 1.26.5 -> 1.26.7
-      gstreamer1.0-vaapi: upgrade 1.26.5 -> 1.26.7
-      ccache: upgrade 4.12 -> 4.12.1
-
-Yash Shinde (2):
-      binutils: fix CVE-2025-11839
-      binutils: fix CVE-2025-11840
-
-Zhang Peng (1):
-      libpng: upgrade 1.6.50 -> 1.6.51
-
- meta/conf/distro/include/maintainers.inc           |   4 +-
- meta/recipes-core/ell/{ell_0.79.bb =3D> ell_0.80.bb} |   2 +-
- ...nitial_2.86.0.bb =3D> glib-2.0-initial_2.86.1.bb} |   0
- .../{glib-2.0_2.86.0.bb =3D> glib-2.0_2.86.1.bb}     |   0
- meta/recipes-core/glib-2.0/glib.inc                |   2 +-
- meta/recipes-devtools/binutils/binutils-2.45.inc   |   2 +
- .../binutils/binutils/0019-CVE-2025-11839.patch    |  32 +++
- .../binutils/binutils/0020-CVE-2025-11840.patch    |  37 ++++
- .../ccache/{ccache_4.12.bb =3D> ccache_4.12.2.bb}    |   2 +-
- meta/recipes-devtools/clang/common-clang.inc       |   2 +-
- meta/recipes-devtools/clang/common.inc             |   2 +-
- ...eate_inode.c-Fix-for-file-larger-than-2GB.patch |  40 ++++
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.47.3.bb |   1 +
- .../cups/{cups_2.4.14.bb =3D> cups_2.4.15.bb}        |   2 +-
- .../{libarchive_3.8.2.bb =3D> libarchive_3.8.3.bb}   |   2 +-
- .../{libxmlb_0.3.23.bb =3D> libxmlb_0.3.24.bb}       |   2 +-
- meta/recipes-graphics/mesa/mesa.inc                |   4 +-
- ...t-devtools_1.26.5.bb =3D> gst-devtools_1.26.7.bb} |   2 +-
- ...t-examples_1.26.5.bb =3D> gst-examples_1.26.7.bb} |   2 +-
- ...ibav_1.26.5.bb =3D> gstreamer1.0-libav_1.26.7.bb} |   2 +-
- ....26.5.bb =3D> gstreamer1.0-plugins-bad_1.26.7.bb} |   2 +-
- ...26.5.bb =3D> gstreamer1.0-plugins-base_1.26.7.bb} |   2 +-
- ...26.5.bb =3D> gstreamer1.0-plugins-good_1.26.7.bb} |   2 +-
- ...26.5.bb =3D> gstreamer1.0-plugins-ugly_1.26.7.bb} |   2 +-
- ...hon_1.26.5.bb =3D> gstreamer1.0-python_1.26.7.bb} |   2 +-
- ....26.5.bb =3D> gstreamer1.0-rtsp-server_1.26.7.bb} |   2 +-
- ...aapi_1.26.5.bb =3D> gstreamer1.0-vaapi_1.26.7.bb} |   2 +-
- ...treamer1.0_1.26.5.bb =3D> gstreamer1.0_1.26.7.bb} |   2 +-
- .../libpng/{libpng_1.6.50.bb =3D> libpng_1.6.51.bb}  |   2 +-
- .../{enchant2_2.8.12.bb =3D> enchant2_2.8.14.bb}     |   2 +-
- .../gnutls/gnutls/CVE-2025-9820.patch              | 233 +++++++++++++++++=
-++++
- meta/recipes-support/gnutls/gnutls_3.8.10.bb       |   1 +
- .../sqlite/files/CVE-2025-3277.patch               |  29 +++
- .../sqlite/files/CVE-2025-6965.patch               | 117 +++++++++++
- meta/recipes-support/sqlite/sqlite3_3.48.0.bb      |   5 +-
- 35 files changed, 521 insertions(+), 26 deletions(-)
- rename meta/recipes-core/ell/{ell_0.79.bb =3D> ell_0.80.bb} (88%)
- rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.86.0.bb =3D> glib-2.=
-0-initial_2.86.1.bb} (100%)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.86.0.bb =3D> glib-2.0_2.86.1=
-.bb} (100%)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0019-CVE-2025-1=
-1839.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0020-CVE-2025-1=
-1840.patch
- rename meta/recipes-devtools/ccache/{ccache_4.12.bb =3D> ccache_4.12.2.bb}=
- (93%)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-cre=
-ate_inode.c-Fix-for-file-larger-than-2GB.patch
- rename meta/recipes-extended/cups/{cups_2.4.14.bb =3D> cups_2.4.15.bb} (51=
-%)
- rename meta/recipes-extended/libarchive/{libarchive_3.8.2.bb =3D> libarchi=
-ve_3.8.3.bb} (96%)
- rename meta/recipes-gnome/libxmlb/{libxmlb_0.3.23.bb =3D> libxmlb_0.3.24.b=
-b} (93%)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.26.5.bb =3D> gst-=
-devtools_1.26.7.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gst-examples_1.26.5.bb =3D> gst-=
-examples_1.26.7.bb} (96%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.26.5.bb =3D=
-> gstreamer1.0-libav_1.26.7.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.26.5.=
-bb =3D> gstreamer1.0-plugins-bad_1.26.7.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.26.5=
-.bb =3D> gstreamer1.0-plugins-base_1.26.7.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.26.5=
-.bb =3D> gstreamer1.0-plugins-good_1.26.7.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.26.5=
-.bb =3D> gstreamer1.0-plugins-ugly_1.26.7.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.26.5.bb =
-=3D> gstreamer1.0-python_1.26.7.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.26.5.=
-bb =3D> gstreamer1.0-rtsp-server_1.26.7.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.26.5.bb =3D=
-> gstreamer1.0-vaapi_1.26.7.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.26.5.bb =3D> gstr=
-eamer1.0_1.26.7.bb} (97%)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.50.bb =3D> libpng_1.6.51=
-.bb} (97%)
- rename meta/recipes-support/enchant/{enchant2_2.8.12.bb =3D> enchant2_2.8.=
-14.bb} (91%)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-3277.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-6965.patch
-
-Best regards,
-
---=20
-Paul Barker
-
-
---=-C+z8jpLifY/ZNWhd+3WD
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaV5OmxEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0brc+APsH7fMnMswi/iyYK/YuGganvYxGIJL0LjzT
-AfPKxqbyHwEAueVi4L40EidBUADUtfu0ix2svVWGnyrNImsZVajupgQ=
-=0IYY
------END PGP SIGNATURE-----
-
---=-C+z8jpLifY/ZNWhd+3WD--
 
