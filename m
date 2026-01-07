@@ -2,78 +2,80 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F97CD5854
-	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 11:48:45 +0000 (UTC)
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4014.1767786521365899543
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4496ACEFCE3
+	for <webhook@archiver.kernel.org>; Wed,  7 Jan 2026 12:16:35 +0000 (UTC)
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4414.1767788193779248725
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Jan 2026 03:48:41 -0800
+ Wed, 07 Jan 2026 04:16:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=aX0qTSyr;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=Ftr/SsmY;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.159, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id ACB797A0119;
-	Wed,  7 Jan 2026 06:48:40 -0500 (EST)
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=kXgiapFi;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=yhIn9BpL;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.144, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id CEB4DEC0121;
+	Wed,  7 Jan 2026 07:16:32 -0500 (EST)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Wed, 07 Jan 2026 06:48:40 -0500
+  by phl-compute-02.internal (MEProxy); Wed, 07 Jan 2026 07:16:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1767786520; x=1767872920; bh=HtGPye1bma
-	4+tpp+y07t0PN/dS2R6rxwN2njbUKwOqY=; b=aX0qTSyrrvOwMQ7jIDUpz3zn9z
-	Lfv4kj/GGjIKbrzjxYvlR0O4Jw1bjjiifIe8H/U6SK9DqR6ur0ejhhpmAR9mVAYt
-	xLoZ7MCxe2czGpA3qf/bJpdh1vNT6wycuuofbrOPagLlOvpc096VVFInGwkTXFMX
-	DQhnfjSlVgldKIC5Odt/Sh4rd01kRbmaPlXgmL3ku8D00hy+25H9oVLQv3/3XrdO
-	jXl71kMNEJP0OB9R8wKhOLI8ubUqVHEGPQGFxazaW6Fm10S8s4hv9ORAXU7gPIDP
-	f8F0G6gSls4+JD8Qnj75Gm3cFLudtJAKjgxVetDuSqzPyoGWoGwjaJtego+w==
+	:subject:to:to; s=fm3; t=1767788192; x=1767874592; bh=b339vZpPZm
+	S+d9Nc7w5IJtIS1UpiMg0PEG4bzQTBhHs=; b=kXgiapFiKOv9UD2dTYUAW02vHB
+	dBnbTQTl0qbA5Tpr1gjXu5ex+EYFEewHDG0aEHahc14h+lB7GusDUD/eXU1//OMe
+	kO83HZ9bwYv7DXw2EO52R6FwgWy2hEh3Y0n0hAezlmmOCTu4/WwTLkoa17oXYf6p
+	fsgoJJxAAdCp31oG59zNasluAgw41Upto9AFnAWBjUJuP+QlqwXVNWmn5v+eRXZA
+	udQmlwTi4SiNROxrtwan/hmn5uP1FpumajhO9MYY61LDGbWbkY53hntZo+FRs1FA
+	VWccC08b+GsZKcVGCEp4M+6YDZz81HiLnnRtyyni1rTd6sza9xWhDvGlRRHg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1767786520; x=1767872920; bh=HtGPye1bma4+tpp+y07t0PN/dS2R6rxwN2n
-	jbUKwOqY=; b=Ftr/SsmYaeCk8kAnU3QTGfAhmmdtS8GhQzf38v1K3UG/AfWt1vF
-	V3hx2rUuTqgxHXlYnjKaGvZ5ZDQDyrG77mqhzR+mskAsweka7iYyEQGUe+rBt89q
-	m0Lfd8UTO8naXasvyK08VrOeZ8AoWSMteqMDarU7aiwvi09D7jf0JTIxSaLj0Npe
-	u+NfYn14CklG+kzb5tCw1LVftQgLCXfjFMJAZvXoOTAB1eqkIJvtiO/B0XL4jmwB
-	RaDgtKtzch1NBuWA8VzjuV0R9O6JVxwZqcupw85hX4U4x9ZAKt4X7cvfpL4D1hYw
-	jeTZu1FaiDkDE3Tw7fvGS9OLAFDy+2OTBGA==
-X-ME-Sender: <xms:GEheaXdke_sMUAS7IET64QOOW55JD1lTkp-lTmKrxg1NOUxohZGeNQ>
-    <xme:GEheaUqoUnGhRNcxDDxp7xyPNOz9x4GAXzuUtAgxwT3nPVtJQpY49n-mcCJpXtyJ_
-    C4Wac_1DDbgPZWDEcgedMhLEd-rYOfNnb1S6IXGDaZZj0h9iMlx1Uvz>
-X-ME-Received: <xmr:GEhead4rGghXCbxR5O4yGfXjoYQA0zLdRq-wvKjxZbCv3ZJFYdpKhIRqZoPe7C6fayWLfAUsmQuNRyTay3bDgM5nJe7-S1-nzzRmRZ4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutddvleelucetufdoteggodetrf
+	1767788192; x=1767874592; bh=b339vZpPZmS+d9Nc7w5IJtIS1UpiMg0PEG4
+	bzQTBhHs=; b=yhIn9BpL3k0UaIud0DmVDNThzMW/aRYsAHzEe2cg2ZSaox+uMWM
+	vMur30/hqWpq/P3h0+kAHxsf/eIcTTvbIQyYeNKqiylk4B/9O2uEKDmH6vrCoekw
+	jngMN4bGEc20NMF35QM0ysr3fcfHXUyFX8t93ksQ0FYJBfFGDowoW/DaCGCwM1Ds
+	gBfGkSYzKV1ejKe3iXgPxhZJcxfmcjjRmdEKWR3gFmwoYf+YTsTqnpdRfVpBRoNu
+	CALxnCkrsuGRq+D/xqxyzsTb/HWQZOLoXCTpxw49lF8tXOYhttA1aeu7jv/npFOw
+	fIAiPFj6btfEHvY/S/e+PiQujnnwJxZPlLA==
+X-ME-Sender: <xms:n05eaX-WLe0CkhaVJ-tn2nXiW4vSGKyhpTva0K5vzaRF-8TYjD1BdQ>
+    <xme:n05eabIlhYJ-TSMGNl336dzxxoifAjohur3JZj7TaOJTX4FrmwD_OVxk65FWUQgDI
+    gfrDjEh3dJSGTpqqrXxevSUVunJKJ6vGGtk9PRhKikRhoE6Rp993TQ>
+X-ME-Received: <xmr:n05eaSYBJYNkpriLNDlnxGX9B7yk-HdgSbIlfnBYuT_ijj7Rn07MAWzdJ7OfkVeIgxRDn8R7RnCHD76or-oXjrEs6rlnD-zZYjqf2fk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdeftdehucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegfrh
-    hlucfvnfffucdlqddutddmnecujfgurhepkffuhffvffgjfhgtfgggsehgtderredtreej
-    necuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvg
-    hvqeenucggtffrrghtthgvrhhnpefhjedvieeileeiheehgeehjeduteffhefhjefhjeej
-    tdeutedulefgudfhuefgjeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorh
-    hgpdhnihhsthdrghhovhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
-    ihhlfhhrohhmpehprghulhesphgsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepfe
-    dpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohephihorghnnhdrtghonhhgrghlsehs
-    mhhilhgvrdhfrhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlih
-    hsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehpvghtvghrrdhm
-    rghrkhhosehsihgvmhgvnhhsrdgtohhm
-X-ME-Proxy: <xmx:GEheaSqlANQ6SHIBg-j1tcbyX6q4gjzsckAws6iKtKM1VFuGEBUM9A>
-    <xmx:GEheaXiKw_HCyhdDuCl7fRZb-MOL26a11ehsMMEzvlklSh95ndCQ-g>
-    <xmx:GEheaUJG218OAN-fofZ7DVsriDALY29sOgF09l2Y7cfyJq9J8ZIqXw>
-    <xmx:GEheafA_J0D4CYm1TzvSuntgiBO3G3pPMmqK6ZpbFjwELWs6HOGXkQ>
-    <xmx:GEheaWzSnctvdIOGsF3gAwDE0QNQDP5DBCQWkpgs0Ny4FgHMw9mJUE0n>
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
+    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
+    ephfefuefhhfejffevfffhudeltdehgfeuveekgfetheekhfejiefgfeekgefgtdetnecu
+    ffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdphihotghtohhprhhojhgvtg
+    htrdhorhhgpdejledrsggspdektddrsggspdduvddrsggspddugedrsggspdduhedrsggs
+    pddvfedrsggspddvgedrsggspdehtddrsggspdehuddrsggspddutddrsggsnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlsehpsggr
+    rhhkvghrrdguvghvpdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhuthdprh
+    gtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgv
+    mhgsvgguuggvugdrohhrghdprhgtphhtthhopehrihgthhgrrhgurdhpuhhrughivgeslh
+    hinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopeihohgrnhhnrdgtohhn
+    ghgrlhesshhmihhlvgdrfhhr
+X-ME-Proxy: <xmx:n05eadIknAHKOKA12vlfeAsEwq13OOKNa8Wnxn1rGS1FzIPqk03fow>
+    <xmx:n05eaQDViXAiywT0QB5vXs9pCRJ6eXKb1erxc4uXM6Wbme3ZEGsN4Q>
+    <xmx:n05eaSoynyYZ1l7tuHJgBA2rGmmoPNv4tR-Oa787LfWypU0_yArZ-g>
+    <xmx:n05eabghZZEMb8UKcT4DM74VZiE3P7HL7Dbysty5p7Dl0MhSYTgmDg>
+    <xmx:oE5eaaS8kGc10iJAQqQSGmyWQ5iAApeliAfYABnpIkZkgnh6hIP-SUlQ>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Jan 2026 06:48:39 -0500 (EST)
-Message-ID: <c19daed92270797942ebbb4b51c6f6b03fec16b3.camel@pbarker.dev>
-Subject: Re: [OE-core][whinlatter 04/11] python3-urllib3: patch
- CVE-2025-66471
+ 7 Jan 2026 07:16:31 -0500 (EST)
+Message-ID: <6810e05e5f0288aeed2046d8bf2e9e460fdeea43.camel@pbarker.dev>
+Subject: Re: [OE-core][whinlatter 00/29] Pull request (cover letter only)
 From: Paul Barker <paul@pbarker.dev>
-To: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org, Peter
- Marko <peter.marko@siemens.com>
-Date: Wed, 07 Jan 2026 11:48:36 +0000
-In-Reply-To: <34083b26ca1e5a52c627e41a1adbeaacf79dfa6d.1767772757.git.yoann.congal@smile.fr>
-References: <cover.1767772757.git.yoann.congal@smile.fr>
-	 <34083b26ca1e5a52c627e41a1adbeaacf79dfa6d.1767772757.git.yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org, Richard Purdie
+	 <richard.purdie@linuxfoundation.org>
+Cc: yoann.congal@smile.fr
+Date: Wed, 07 Jan 2026 12:16:27 +0000
+In-Reply-To: <CAMSfU+7eCcVO-LLf8OarXgjTFShHojqYpoPuYnRUYAU30R8hTg@mail.gmail.com>
+References: <cover.1767710585.git.yoann.congal@smile.fr>
+	 <CAMSfU+7eCcVO-LLf8OarXgjTFShHojqYpoPuYnRUYAU30R8hTg@mail.gmail.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -119,60 +121,218 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  OqpPZn7Ij1ga5IAOHNRi5MbyRFROYOeaOj7sz7S7roHQwdP3Q1qTwTOv30hlOSe6uz4PTBiEIKBQH
  ep0k17xg==
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-5DZpNiz14dTgH430mDgg"
+	protocol="application/pgp-signature"; boundary="=-C+z8jpLifY/ZNWhd+3WD"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 11:48:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228993
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Jan 2026 12:16:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/228994
 
 
---=-5DZpNiz14dTgH430mDgg
+--=-C+z8jpLifY/ZNWhd+3WD
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2026-01-07 at 09:08 +0100, Yoann Congal via
+On Wed, 2026-01-07 at 11:20 +0100, Yoann Congal via
 lists.openembedded.org wrote:
-> From: Peter Marko <peter.marko@siemens.com>
+> Le mar. 6 janv. 2026 =C3=A0 15:58, Yoann Congal <yoann.congal@smile.fr> a=
+ =C3=A9crit :
 >=20
-> Pick patch per [1].
+> > Passed a-full on autobuilder(*):
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2997
 >=20
-> [1] https://nvd.nist.gov/vuln/detail/CVE-2025-66471
 >=20
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->  .../python3-urllib3/CVE-2025-66471.patch      | 930 ++++++++++++++++++
->  .../python/python3-urllib3_2.5.0.bb           |   1 +
->  2 files changed, 931 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2025=
--66471.patch
+> As Paul noticed, this build points to the tip whinlatter-nut and not the
+> tip of this pull request (my mistake).
+>=20
+> The correct build for this pull request is
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2960
+>=20
+>=20
+> > (*): The builds/tests parts passed, only the "Send QA Email" step
+> > failed. This is a known bug on AB side :
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15696.
+> >=20
+> NB: This build (2960) is also touched by this bug (15696) but the
+> tests/builds parts are fine.
 
-This seems like a very large patch for a CVE issue. The changelog entry
-in the patch also says that the API of urllib3.response.ContentDecoder
-is changed.
+Hi Richard,
 
-We should look for a narrower fix, and only take this if there is no
-other option.
+I've reviewed these changes and the a-full build results and all looks
+good.
 
-Thanks,
+
+The following changes since commit 9964fa3da2fa1e7243fba1a826e59f7bb1813706=
+:
+
+  populate_sdk_ext: keep SDK_TARGETS so SPDX/SBOM tasks remain in locked si=
+gs (2025-12-18 13:11:45 -0800)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib pbarker/whinlatter
+
+for you to fetch changes up to 5c6e573ab4f6125df3381c8ae75d74d00df20588:
+
+  cups: upgrade from 2.4.14 to 2.4.15 (2026-01-07 11:58:31 +0000)
+
+----------------------------------------------------------------
+Ankur Tyagi (4):
+      gnutls: patch CVE-2025-9820
+      sqlite3: patch CVE-2025-3277
+      sqlite3: patch CVE-2025-6965
+      libxmlb: upgrade 0.3.23 -> 0.3.24
+
+Chen Qi (1):
+      cups: upgrade from 2.4.14 to 2.4.15
+
+Deepesh Varatharajan (2):
+      llvm/clang: Upgrade to 21.1.6 release
+      llvm/clang: Upgrade to 21.1.7 release
+
+Dmitry Baryshkov (1):
+      mesa: upgrade 25.2.5 -> 25.2.8
+
+Gyorgy Sarvari (1):
+      enchant2: upgrade 2.8.12 -> 2.8.14
+
+J=C3=B6rg Sommer (1):
+      glib-2.0: Upgrade 2.86.0 -> 2.86.1
+
+Peter Marko (1):
+      libarchive: upgrade 3.8.2 -> 3.8.3
+
+Robert Yang (2):
+      e2fsprogs: misc/create_inode.c: Fix for file larger than 2GB
+      ccache: 4.12.1 -> 4.12.2
+
+Wang Mingyu (13):
+      ell: upgrade 0.79 -> 0.80
+      gst-devtools: upgrade 1.26.5 -> 1.26.7
+      gst-examples: upgrade 1.26.5 -> 1.26.7
+      gstreamer1.0-libav: upgrade 1.26.5 -> 1.26.7
+      gstreamer1.0-plugins-bad: upgrade 1.26.5 -> 1.26.7
+      gstreamer1.0-plugins-base: upgrade 1.26.5 -> 1.26.7
+      gstreamer1.0-plugins-good: upgrade 1.26.5 -> 1.26.7
+      gstreamer1.0-plugins-ugly: upgrade 1.26.5 -> 1.26.7
+      gstreamer1.0-python: upgrade 1.26.5 -> 1.26.7
+      gstreamer1.0-rtsp-server: upgrade 1.26.5 -> 1.26.7
+      gstreamer1.0: upgrade 1.26.5 -> 1.26.7
+      gstreamer1.0-vaapi: upgrade 1.26.5 -> 1.26.7
+      ccache: upgrade 4.12 -> 4.12.1
+
+Yash Shinde (2):
+      binutils: fix CVE-2025-11839
+      binutils: fix CVE-2025-11840
+
+Zhang Peng (1):
+      libpng: upgrade 1.6.50 -> 1.6.51
+
+ meta/conf/distro/include/maintainers.inc           |   4 +-
+ meta/recipes-core/ell/{ell_0.79.bb =3D> ell_0.80.bb} |   2 +-
+ ...nitial_2.86.0.bb =3D> glib-2.0-initial_2.86.1.bb} |   0
+ .../{glib-2.0_2.86.0.bb =3D> glib-2.0_2.86.1.bb}     |   0
+ meta/recipes-core/glib-2.0/glib.inc                |   2 +-
+ meta/recipes-devtools/binutils/binutils-2.45.inc   |   2 +
+ .../binutils/binutils/0019-CVE-2025-11839.patch    |  32 +++
+ .../binutils/binutils/0020-CVE-2025-11840.patch    |  37 ++++
+ .../ccache/{ccache_4.12.bb =3D> ccache_4.12.2.bb}    |   2 +-
+ meta/recipes-devtools/clang/common-clang.inc       |   2 +-
+ meta/recipes-devtools/clang/common.inc             |   2 +-
+ ...eate_inode.c-Fix-for-file-larger-than-2GB.patch |  40 ++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.47.3.bb |   1 +
+ .../cups/{cups_2.4.14.bb =3D> cups_2.4.15.bb}        |   2 +-
+ .../{libarchive_3.8.2.bb =3D> libarchive_3.8.3.bb}   |   2 +-
+ .../{libxmlb_0.3.23.bb =3D> libxmlb_0.3.24.bb}       |   2 +-
+ meta/recipes-graphics/mesa/mesa.inc                |   4 +-
+ ...t-devtools_1.26.5.bb =3D> gst-devtools_1.26.7.bb} |   2 +-
+ ...t-examples_1.26.5.bb =3D> gst-examples_1.26.7.bb} |   2 +-
+ ...ibav_1.26.5.bb =3D> gstreamer1.0-libav_1.26.7.bb} |   2 +-
+ ....26.5.bb =3D> gstreamer1.0-plugins-bad_1.26.7.bb} |   2 +-
+ ...26.5.bb =3D> gstreamer1.0-plugins-base_1.26.7.bb} |   2 +-
+ ...26.5.bb =3D> gstreamer1.0-plugins-good_1.26.7.bb} |   2 +-
+ ...26.5.bb =3D> gstreamer1.0-plugins-ugly_1.26.7.bb} |   2 +-
+ ...hon_1.26.5.bb =3D> gstreamer1.0-python_1.26.7.bb} |   2 +-
+ ....26.5.bb =3D> gstreamer1.0-rtsp-server_1.26.7.bb} |   2 +-
+ ...aapi_1.26.5.bb =3D> gstreamer1.0-vaapi_1.26.7.bb} |   2 +-
+ ...treamer1.0_1.26.5.bb =3D> gstreamer1.0_1.26.7.bb} |   2 +-
+ .../libpng/{libpng_1.6.50.bb =3D> libpng_1.6.51.bb}  |   2 +-
+ .../{enchant2_2.8.12.bb =3D> enchant2_2.8.14.bb}     |   2 +-
+ .../gnutls/gnutls/CVE-2025-9820.patch              | 233 +++++++++++++++++=
+++++
+ meta/recipes-support/gnutls/gnutls_3.8.10.bb       |   1 +
+ .../sqlite/files/CVE-2025-3277.patch               |  29 +++
+ .../sqlite/files/CVE-2025-6965.patch               | 117 +++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.48.0.bb      |   5 +-
+ 35 files changed, 521 insertions(+), 26 deletions(-)
+ rename meta/recipes-core/ell/{ell_0.79.bb =3D> ell_0.80.bb} (88%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.86.0.bb =3D> glib-2.=
+0-initial_2.86.1.bb} (100%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.86.0.bb =3D> glib-2.0_2.86.1=
+.bb} (100%)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0019-CVE-2025-1=
+1839.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0020-CVE-2025-1=
+1840.patch
+ rename meta/recipes-devtools/ccache/{ccache_4.12.bb =3D> ccache_4.12.2.bb}=
+ (93%)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-cre=
+ate_inode.c-Fix-for-file-larger-than-2GB.patch
+ rename meta/recipes-extended/cups/{cups_2.4.14.bb =3D> cups_2.4.15.bb} (51=
+%)
+ rename meta/recipes-extended/libarchive/{libarchive_3.8.2.bb =3D> libarchi=
+ve_3.8.3.bb} (96%)
+ rename meta/recipes-gnome/libxmlb/{libxmlb_0.3.23.bb =3D> libxmlb_0.3.24.b=
+b} (93%)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.26.5.bb =3D> gst-=
+devtools_1.26.7.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gst-examples_1.26.5.bb =3D> gst-=
+examples_1.26.7.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.26.5.bb =3D=
+> gstreamer1.0-libav_1.26.7.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.26.5.=
+bb =3D> gstreamer1.0-plugins-bad_1.26.7.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.26.5=
+.bb =3D> gstreamer1.0-plugins-base_1.26.7.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.26.5=
+.bb =3D> gstreamer1.0-plugins-good_1.26.7.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.26.5=
+.bb =3D> gstreamer1.0-plugins-ugly_1.26.7.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.26.5.bb =
+=3D> gstreamer1.0-python_1.26.7.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.26.5.=
+bb =3D> gstreamer1.0-rtsp-server_1.26.7.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.26.5.bb =3D=
+> gstreamer1.0-vaapi_1.26.7.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.26.5.bb =3D> gstr=
+eamer1.0_1.26.7.bb} (97%)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.50.bb =3D> libpng_1.6.51=
+.bb} (97%)
+ rename meta/recipes-support/enchant/{enchant2_2.8.12.bb =3D> enchant2_2.8.=
+14.bb} (91%)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2025-9820.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-3277.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-6965.patch
+
+Best regards,
 
 --=20
 Paul Barker
 
 
---=-5DZpNiz14dTgH430mDgg
+--=-C+z8jpLifY/ZNWhd+3WD
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaV5IFBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0brxNAQDzmMCQ66suuX7CBTDzHNtddCfXN89ZWEpc
-aA1jwzH+NQD/as2F2W2tnZVJVfGTfI1V2/H+0Pm75CaQheoxVt5vmAM=
-=5Tef
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaV5OmxEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0brc+APsH7fMnMswi/iyYK/YuGganvYxGIJL0LjzT
+AfPKxqbyHwEAueVi4L40EidBUADUtfu0ix2svVWGnyrNImsZVajupgQ=
+=0IYY
 -----END PGP SIGNATURE-----
 
---=-5DZpNiz14dTgH430mDgg--
+--=-C+z8jpLifY/ZNWhd+3WD--
 
