@@ -1,191 +1,96 @@
-Return-Path: <stondo@gmail.com>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45A20D185C2
-	for <webhook@archiver.kernel.org>; Thu,  8 Jan 2026 10:34:31 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3771.1767868466287786577
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45014D185C5
+	for <webhook@archiver.kernel.org>; Thu,  8 Jan 2026 10:43:01 +0000 (UTC)
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3861.1767868976616853554
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jan 2026 02:34:26 -0800
+ Thu, 08 Jan 2026 02:42:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TfWoCZks;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: stondo@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4327555464cso1703851f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 02:34:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ETOjfV7I;
+ spf=pass (domain: gmail.com, ip: 74.125.224.44, mailfrom: festevam@gmail.com)
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-640c9c85255so3354405d50.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 02:42:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767868464; x=1768473264; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1767868976; x=1768473776; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OxuhOTYkjeSPY0a0BLlfDGBo525VzsiCdIEoPYD9d/A=;
-        b=TfWoCZkspZcSb4VXkOuWrZ1cD7p80IgX6xgCg3vWQO8I+QwY128GdWtav6B0M4onLK
-         3taTnCm9yIo3xsTQSRXUGMC8eNZSPkWxkqnjvdlfBfbYRME9OAjHsApkhjMR1jIuusOI
-         zmVVeEOvrjPDNDmHc4ipaW4GtsrJeC8dKkP7TwCSy3EYbfaczDdsDWio3U6idJg+C16B
-         ZCjxEcx0sGd+tBkTvQtebZ9Us1kGaDyD4jB8TxlUrhA1+RaLaC42u62VzNjn9EvxLywS
-         HJJ51cT2eDHte/4zvJDi1Qj1fHitbWn2bEpIvzfewbB2nnR28XcXnADBaKCiM6LyxoIo
-         Ow9A==
+        bh=aAf934RNm2zpdSNM+Z7XU1caFur5nQQrrM0OqDPB0Ho=;
+        b=ETOjfV7IF+Zq+dzRLxWo6uA+oIZPHnC+bbvkVDNZ6yOilrk63IxLk/OXtIVqVhFlF0
+         rhkEVO6lp88D9cGDAZZllAVfwgwW2/ohzz2P+Mf4H781hH0b1GalyKnPK+Km8nL1R/mu
+         eL7X0USKppTDotQ87HMHJODj8PWOU10xW5g+1vQC1CXrfdD1X+RQo88BwxFKmTwvL/tW
+         ln74cDfwMxtn/7CrJ9YFJ0qpPfm6El0w6UlXqrKUU2IX5c3Y1Ke1p0V39KzhdXQQ7ygq
+         q2DSAzEVn1y8ZLODbgQP0ynTQR1BOv6H6ykQC9xSWSa5FqAZDZic3xORr4s5I0koeOnF
+         lvyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767868464; x=1768473264;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1767868976; x=1768473776;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=OxuhOTYkjeSPY0a0BLlfDGBo525VzsiCdIEoPYD9d/A=;
-        b=o7A/2JpViitJ5Sf03tlaHJ6+LI4rzrtGnX5e4Z8I7QTUR4RbSTg6KJfAn4d8RD/q8Q
-         n0n/0r2rUyWmjuJFsiFt074E53HFpy5Jmbh61WAiQONjrU3Rx6MxUB2BeKe8lm9NLOT0
-         qrOevRCCtewHVtNwBFnDrCCg61A8A4GO+vPXaP+03dBY/E2OpwwqYHSCt7LPWEafyYl2
-         +b6Nj6N9QkvKyYMwsg8oNTq26ADZfrOmz5f0CGO077PdaTyRENkpJa8bGXmuKdeMy8eZ
-         FcDy9RxUBKp0m35BvTJe294iFBV8X2OJJ6B+0+OLRnWUH8cHbYmxIgVSibvH7I9xQ3yc
-         B2Cg==
-X-Gm-Message-State: AOJu0YyYwVY4XjQJJfuQobgtspytuDM3Duz0xQI5w9TZ+JM8zX5iB/+c
-	7lKp//Rop5V6xW1txgjtSSOHRJ/+5UpJj6zzbK+V78Uekef5XdNaC8iXLTC0vw==
-X-Gm-Gg: AY/fxX6OhgccD/r1B5zBo6Um3qnmQTMFj8LiAlAcfz7a5ht+FF1fFlWMkN3L7uGfQqX
-	w++XlJuxpRhMg9POiJIPNoHu/orikSkdIzT1k5psmWRYauo2nQlDn8GB+lCowgpLNy6lRLjmGHo
-	0F+h6ENM2jfiUwyyjlm5+F3+tAOIZv/9lQpO0Ppor9hnsFzA8H4pUD37tae4mZwUA4mnSbsjcxb
-	L248kzRUaKBeQ7RpRux04S7ShSb9Z/JlFdoI1xmo8GxnN+Qrf8P8urBvRPdN3YoQltrLdty6h0h
-	UVwNJmlqdecjxVhJ1f463+Yo6RpZUAo0YQu89gDmmRTrFx08tpqSlzV/HhcvH9LI9/Wu/wqrxaG
-	aoWvBIrMkPEgN3vdXdLDeunBTjgS0O/y0x0DGZrjd8+BimUbOyI3wAZFPAUi/Hwa83q6Hq7YD1k
-	UTNiAVxTrixjwH33vLHo2piZ4=
-X-Google-Smtp-Source: AGHT+IFzru7cOwChYwXU/ZAmN65QzUQPdyRj1jzpXa1cRmUqfdmJdmy9+rfiww77G4hD+/EJ0ybWtg==
-X-Received: by 2002:a05:6000:26c2:b0:431:8f8:7f24 with SMTP id ffacd0b85a97d-432c379d19emr7346858f8f.39.1767868464078;
-        Thu, 08 Jan 2026 02:34:24 -0800 (PST)
-Received: from fedora ([81.6.40.67])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-432bd0860f5sm15351720f8f.0.2026.01.08.02.34.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 02:34:23 -0800 (PST)
-From: stondo@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: stondo@gmail.com,
-	stefano.tondo.ext@siemens.com,
-	peter.marko@siemens.com,
-	adrian.freihofer@siemens.com,
-	JPEWhacker@gmail.com
-Subject: [PATCH] spdx30: Add supplier support for image and SDK SBOMs
-Date: Thu,  8 Jan 2026 11:34:07 +0100
-Message-ID: <20260108103407.72432-1-stondo@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260107180951.140895-5-stondo@gmail.com>
-References: <20260107180951.140895-5-stondo@gmail.com>
+        bh=aAf934RNm2zpdSNM+Z7XU1caFur5nQQrrM0OqDPB0Ho=;
+        b=k2s7h34Mgdx+8Opt5KyyLypqhTM2nG/ghnE9T2ipEXsN4h9Vn07d8ncb04iUR5N5DH
+         FN7Jo0tpoIzVntrfZ62Ieeipyyf4biUbWc6JJRScPl057tXgR+Qsk1I9peH9tC9S9yFZ
+         nvOvkN+yEWD8DueRSe5DSrGGR7p+/rh8hle3gfY9JhrAhxtQFksYvMds4VO5X73ljohm
+         BkKwAPPNcxHIxgwt4YnNeGZLUTMC4mFKwWKn9LhGn7j8NlQUWOsPml+2mEpGH48yCmys
+         MIRdb2BhcqpMg5iopkVfwlgzDgv6uUVQTOlNPTPbk7vKtAPB2CtSOWaKvpF3QxSC5TDe
+         1tEw==
+X-Forwarded-Encrypted: i=1; AJvYcCUtToTxRgFhyT0k4EhXDt/U4kiIIaAhkqwIK49KYLqT/Axl6YWbxyhYCgdIGA+6LunsqTnz/5Da+43qUcaiF9AMmQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz8oOuKJb8GbMsYkHa8ire67XzkGQWBNbGyW71nmUUEDqlcwNcm
+	lmfyrBOhIZ4sQpkh0qQEwfoLXTvxkhSn0HarJtZMCd+LamdIb1+azV3m3wBNourkCV6qe8iwZ5W
+	gfKG1pf+qCjIrCjP7dYgnCuRQrH7wu90=
+X-Gm-Gg: AY/fxX4jKIHp+e/FrE+PY99SK68ySCNHKD8za/PGkDNDp0R/hEe4Iqrec6EY3JBxjGf
+	UBHENJXAo5PXeKndnWtww93flAQNXtEvFk5HqZvnu7RhO4KtfgGHI4Wod+rRoFDfwh6BBwZLSiy
+	qofi22luA+vTPZe4wO6DhYn9ztkNsw6UKr8vP4aQjSAZnMzlXB7WI1Gw2qR9ix9sOmeG9BYLmwt
+	NnAbOxyPaWnZKR6RvKlINd/4xO4abuEO4ECb22ERxlSzr+p1HJp6F81pf6K4GB/qUMO+dXh3SoJ
+	P/xOzrwFQLb3zexLfp0x+KHCZx/rZqlhQx/Uag==
+X-Google-Smtp-Source: AGHT+IGYnVv/Y6eNJnZ+WDBItQJS/6CTsQgJIxZtZE87BixWGZK8gF8MhrZ4q6Spqo2oc5NuTnwABUCEWOSicL7OElg=
+X-Received: by 2002:a05:690e:15d8:b0:646:85b9:8892 with SMTP id
+ 956f58d0204a3-64716bbbbd2mr3444909d50.9.1767868975701; Thu, 08 Jan 2026
+ 02:42:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260106121413.844461-1-festevam@gmail.com> <DFJ1WJHZ80VB.3C7F25622Y8ZI@bootlin.com>
+In-Reply-To: <DFJ1WJHZ80VB.3C7F25622Y8ZI@bootlin.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Thu, 8 Jan 2026 07:42:42 -0300
+X-Gm-Features: AQt7F2qqOFTzd59__CCZDgSWeiV1gdV1I7W1QUFkxvAlob9Hj3wlv2TFhHoUR9I
+Message-ID: <CAOMZO5AL_0Gxezo1R6pDXWc2Fyzn80VDy72t-d=_yF0yUnBO7g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] u-boot: upgrade 2025.10 -> 2026.01
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: Jon Mason <jon.mason@arm.com>, Ross Burton <ross.burton@arm.com>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 10:34:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229057
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 10:43:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229058
 
-From: Stefano Tondo <stefano.tondo.ext@siemens.com>
+On Thu, Jan 8, 2026 at 5:05=E2=80=AFAM Mathieu Dubois-Briand
+<mathieu.dubois-briand@bootlin.com> wrote:
 
-This commit adds support for setting supplier information on image and SDK
-SBOMs using the suppliedBy property on root elements.
+> Hi Jon, Ross,
+>
+> Just a quick warning, once merged, this update will break meta-arm
+> builds, as some patches are conflicting:
+>
+> ERROR: u-boot-1_2026.01-r0 do_patch: Applying patch '/srv/pokybuild/yocto=
+-worker/meta-arm/build/meta-arm/meta-arm-bsp/recipes-bsp/u-boot/u-boot/fvp-=
+base/0001-vexpress64-Set-the-DM_RNG-property.patch' on target directory '/s=
+rv/pokybuild/yocto-worker/meta-arm/build/build/tmp/work/fvp_base-poky-linux=
+/u-boot/2026.01/sources/u-boot-2026.01'
+> CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/meta-arm/build/buil=
+d/tmp/work/fvp_base-poky-linux/u-boot/2026.01/recipe-sysroot-native/etc/qui=
+ltrc push', 0, 'stdout: Applying patch 0001-vexpress64-Set-the-DM_RNG-prope=
+rty.patch
+> patching file board/armltd/vexpress64/Kconfig
+> Hunk #1 FAILED at 21.
+> 1 out of 1 hunk FAILED -- rejects in file board/armltd/vexpress64/Kconfig
+> Patch 0001-vexpress64-Set-the-DM_RNG-property.patch does not apply (enfor=
+ce with -f)
 
-New configuration variables:
-
-  SPDX_IMAGE_SUPPLIER (optional):
-    - Base variable name to describe the Agent supplying the image SBOM
-    - Follows the same Agent variable pattern as SPDX_PACKAGE_SUPPLIER
-    - Sets suppliedBy on all root elements of the image SBOM
-
-  SPDX_SDK_SUPPLIER (optional):
-    - Base variable name to describe the Agent supplying the SDK SBOM
-    - Follows the same Agent variable pattern as SPDX_PACKAGE_SUPPLIER
-    - Sets suppliedBy on all root elements of the SDK SBOM
-
-Implementation:
-
-  - create_image_sbom_spdx(): After create_sbom() returns, uses
-    objset.new_agent() to create supplier and sets suppliedBy on
-    sbom.rootElement
-
-  - create_sdk_sbom(): After create_sbom() returns, uses objset.new_agent()
-    to create supplier and sets suppliedBy on sbom.rootElement
-
-  - Uses existing agent infrastructure (objset.new_agent()) for proper
-    de-duplication and metadata handling
-
-  - No changes to generic create_sbom() function which is used for recipes,
-    images, and SDKs
-
-Usage example in local.conf:
-
-  SPDX_IMAGE_SUPPLIER = "acme"
-  SPDX_IMAGE_SUPPLIER_acme_name = "Acme Corporation"
-  SPDX_IMAGE_SUPPLIER_acme_type = "organization"
-  SPDX_IMAGE_SUPPLIER_acme_id_email = "sbom@acme.com"
-
-This enables compliance workflows that require supplier metadata on image
-and SDK SBOMs while following existing OpenEmbedded SPDX patterns.
-
-Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
----
- meta/classes/create-spdx-3.0.bbclass | 10 ++++++++++
- meta/lib/oe/spdx30_tasks.py          | 24 ++++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
-
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index 96c0b9722b..9f9066eeb5 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -124,6 +124,16 @@ SPDX_ON_BEHALF_OF[doc] = "The base variable name to describe the Agent on who's
- SPDX_PACKAGE_SUPPLIER[doc] = "The base variable name to describe the Agent who \
-     is supplying artifacts produced by the build"
- 
-+SPDX_IMAGE_SUPPLIER[doc] = "The base variable name to describe the Agent who \
-+    is supplying the image SBOM. The supplier will be set on all root elements \
-+    of the image SBOM using the suppliedBy property. If not set, no supplier \
-+    information will be added to the image SBOM."
-+
-+SPDX_SDK_SUPPLIER[doc] = "The base variable name to describe the Agent who \
-+    is supplying the SDK SBOM. The supplier will be set on all root elements \
-+    of the SDK SBOM using the suppliedBy property. If not set, no supplier \
-+    information will be added to the SDK SBOM."
-+
- SPDX_PACKAGE_VERSION ??= "${PV}"
- SPDX_PACKAGE_VERSION[doc] = "The version of a package, software_packageVersion \
-     in software_Package"
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index c86b088b61..2883e2202a 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -1305,6 +1305,18 @@ def create_image_sbom_spdx(d):
- 
-     objset, sbom = oe.sbom30.create_sbom(d, image_name, root_elements)
- 
-+    # Set supplier on root elements if SPDX_IMAGE_SUPPLIER is defined
-+    supplier = objset.new_agent("SPDX_IMAGE_SUPPLIER", add=False)
-+    if supplier is not None:
-+        supplier_id = supplier if isinstance(supplier, str) else supplier._id
-+        # Add supplier to objset if it's not already there
-+        if not isinstance(supplier, str):
-+            objset.add(supplier)
-+        # Set suppliedBy on all root elements
-+        for elem in sbom.rootElement:
-+            if hasattr(elem, "suppliedBy"):
-+                elem.suppliedBy = supplier_id
-+
-     oe.sbom30.write_jsonld_doc(d, objset, spdx_path)
- 
-     def make_image_link(target_path, suffix):
-@@ -1416,6 +1428,18 @@ def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputname):
-         d, toolchain_outputname, sorted(list(files)), [rootfs_objset]
-     )
- 
-+    # Set supplier on root elements if SPDX_SDK_SUPPLIER is defined
-+    supplier = objset.new_agent("SPDX_SDK_SUPPLIER", add=False)
-+    if supplier is not None:
-+        supplier_id = supplier if isinstance(supplier, str) else supplier._id
-+        # Add supplier to objset if it's not already there
-+        if not isinstance(supplier, str):
-+            objset.add(supplier)
-+        # Set suppliedBy on all root elements
-+        for elem in sbom.rootElement:
-+            if hasattr(elem, "suppliedBy"):
-+                elem.suppliedBy = supplier_id
-+
-     oe.sbom30.write_jsonld_doc(
-         d, objset, sdk_deploydir / (toolchain_outputname + ".spdx.json")
-     )
--- 
-2.52.0
-
+This patch is already present in U-Boot 2026.01, so it must be dropped.
 
