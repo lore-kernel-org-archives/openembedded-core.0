@@ -2,38 +2,38 @@ Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F60FCF6ABE
-	for <webhook@archiver.kernel.org>; Thu,  8 Jan 2026 10:13:01 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3542.1767867177246485231
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AB89CF6ABF
+	for <webhook@archiver.kernel.org>; Thu,  8 Jan 2026 10:16:31 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3568.1767867381831384124
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jan 2026 02:12:58 -0800
+ Thu, 08 Jan 2026 02:16:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=mFTk38l9;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: thomas.perrot@bootlin.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=eq9xi+im;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: thomas.perrot@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 1F7684E41FF1
-	for <openembedded-core@lists.openembedded.org>; Thu,  8 Jan 2026 10:12:55 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 312611A26FF
+	for <openembedded-core@lists.openembedded.org>; Thu,  8 Jan 2026 10:16:20 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id DA5A7606B6
-	for <openembedded-core@lists.openembedded.org>; Thu,  8 Jan 2026 10:12:54 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 15036103C8810;
-	Thu,  8 Jan 2026 11:12:53 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 06F91606B6
+	for <openembedded-core@lists.openembedded.org>; Thu,  8 Jan 2026 10:16:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4870D103C8016;
+	Thu,  8 Jan 2026 11:16:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1767867174; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=T22aU7IDvc+tNe2srzSxZtvch3alGZZ+yNufZQHBAkw=;
-	b=mFTk38l9eLaQ3bZ8TFw7BglsLTZZP4m0a+6pID/1Oewk+M1QaVGll/qTJVB3sdKalRaQRO
-	5h+R/C7Iake1TnwKeg8o4a01tZbnNFi4EDUnQPYlhAurYha7PezXFerLwByYheRSYFvNPV
-	oYj8JFjC/i2+cnjHIvEhHfD7iHOQbjhdyZz0jut9qtHr/ojP2KWg14t7QQDCZb0FmYmYBI
-	p0TiUnrJt4U7GiQTWRqKsQjoIqMzOXaMNswvSUkD/oPIQEl6fJGn5QMSh/UuHTjoFg+V7r
-	PCy5Kyrz7OR/g/9rARH0G6wST8LXVMRHz2tefUC6Wu0hEg/Llxmy7w5HFBMiGw==
+	t=1767867379; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=/FNSWEYCC0qtOTFZWO5M2/INpfbILGz00nfdGMBjxKE=;
+	b=eq9xi+im8SUnQJ7OiuufeZBkLcF+CnqtNdH8QJTZLY9ys/UgCTy0skFKAkQgkXM7vLSB7c
+	RYpz5QovhkV8eLJC+PAWU3i49ImY0CxVLhvENWkmq1MAoIwZx5hx0wZ6pqvelzYn711Cfl
+	BgNbgqwoWyiTKT/V21L82Xia0PSP/AdeFbrbAVhxZ5E2RKmK/YC6JR4DxRSB6vSbb6IlB3
+	9JSLvi0/ttZtUtB/PAvf6Hqk+MosGMcQ4mPPmSgVyuzjuePazqWKW/u7TjtPm8koTYEvUx
+	hs5rYjAXeE+LyuFR1cnKVvEL5ww1H1+lTuNdOrB2+mB8JT+CQcye21iACMVHnQ==
 From: thomas.perrot@bootlin.com
 To: openembedded-core@lists.openembedded.org
 Cc: thomas.petazzoni@bootlin.com,
 	Thomas Perrot <thomas.perrot@bootlin.com>
-Subject: [OE-core][PATCH v3] opensbi: bump to 1.8
-Date: Thu,  8 Jan 2026 11:12:46 +0100
-Message-ID: <20260108101246.58329-1-thomas.perrot@bootlin.com>
+Subject: [OE-core][PATCH v4] opensbi: bump to 1.8
+Date: Thu,  8 Jan 2026 11:16:09 +0100
+Message-ID: <20260108101609.60948-1-thomas.perrot@bootlin.com>
 X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
 X-Last-TLS-Session-Version: TLSv1.3
@@ -41,8 +41,8 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 10:13:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229054
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 10:16:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229055
 
 From: Thomas Perrot <thomas.perrot@bootlin.com>
 
@@ -69,7 +69,7 @@ This release has:
 Overall, this release has various domain related improvements and
 also adds multiple platform support.
 
-Additionally, enable PMP support on QEMU using RV32A, as PMP is
+Additionally, enable PMP support on QEMU using rva23s64, as PMP is
 disabled by default, which causes the hart isolation configuration
 to fail [1].
 
@@ -79,6 +79,8 @@ l
 Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
 
 ---
+    Changes in v4:
+    - Fix commit message (again, sorry)
     Changes in v3:
     - Fix commit message
     Changes in v2:
