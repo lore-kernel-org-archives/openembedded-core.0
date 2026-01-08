@@ -1,145 +1,220 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <t.f.g.geelen@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8783ED1D467
-	for <webhook@archiver.kernel.org>; Thu,  8 Jan 2026 14:46:02 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7897.1767883555188947551
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4A2FD1D468
+	for <webhook@archiver.kernel.org>; Thu,  8 Jan 2026 14:52:42 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8052.1767883953407116286
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jan 2026 06:45:56 -0800
+ Thu, 08 Jan 2026 06:52:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=nNqp8HvV;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id A16AC4E42000
-	for <openembedded-core@lists.openembedded.org>; Thu,  8 Jan 2026 14:45:53 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 77544606B6
-	for <openembedded-core@lists.openembedded.org>; Thu,  8 Jan 2026 14:45:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C83CD103C889C;
-	Thu,  8 Jan 2026 15:45:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1767883553; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=yKvrYZXW45CuR9HQEAxsa6T/6j/9KXxxfAJGLIaZPbI=;
-	b=nNqp8HvV4fUwLmxrtHD2wTsz5K4IqRUnnB1b1tvkHpoXjzk90mGgTtYEIyY9QARTHs4z6u
-	zhdznTn4IVjYM0NG1RJDRzdOCAPlkJ5tcRphs0iweHXRT7Rg1wBZVXJ0eLTNZlAxesnYLV
-	bS5LJYVrnISVJLSXGkUzAx/CEdn2y+WdtXR+TMBL5UjMOOwSdNPU+3V8zqwPpQpcy4oPsq
-	qxEFP64yPMhA8vt4v5vSydgxzCS+J2lpg3vSR9nM0XvDYBtEZUYgoN5MU1hoh3q33ZzXMJ
-	I6OwmygLexRXwoxwxn/gMtwd1g1LutfC54DXar/TQmVNod9Zw+nw4TucyHhFAg==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Thu, 08 Jan 2026 15:45:42 +0100
-Subject: [PATCH v2 1/2] oeqa/gitarchive: Fix git push URL parameter
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ghq3+4so;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: t.f.g.geelen@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-59b6c905a46so2101996e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 06:52:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767883951; x=1768488751; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HNdysQTb5a1y3Ju8V1Kcyv4fT78aoJAluN5L97DcZ2E=;
+        b=ghq3+4soZXf7aO70UeWGDjDnxvZ63/MxEIq89tFaZaaW8CfMdYHI84Q9d784MrLl8k
+         c3zm0s7sABxo+SF+Nag2R8Adl+MiZLhQweXcPJz2R5bbTi1Vx2q3M8Nt5Ver+buyCoIn
+         J8S2hZRpSYyzQZYtM8aNjSfqTE0y86TCYvBR3IiJJOKFYiAHz9J7EochT7q7O/K6M5+x
+         jj6/PDaC+kDYUEFWNNmawWD0udUo0eu2IOJ+rzPS0D9kErrp7KNO+KlOGSZ7PiuW6ZPf
+         5/UteJYjFf4gId86/TUXfnR+v7CkvKc8L+YjH/xuKQVguVoeltLknOEWB0tefqwx03UC
+         6s4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767883951; x=1768488751;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HNdysQTb5a1y3Ju8V1Kcyv4fT78aoJAluN5L97DcZ2E=;
+        b=gDKZXGZMmWpJNje2lNptXO+fElA6xc+e7ho0HN+c3Inv0HvzN7Nqf8aPRncqyZzlaW
+         6ld6UUGOPzJAYvQ2L7ZXiw42EV0dRU0S+LP22E54RUSgKx93qCN+iTBY0/fvLOSw7iv3
+         BV+OPIJZIzw4/Xp8mTPnEK8hdj5s+NmhhpiaKj1sF2JxSyFzXUB4d0F49rfl3ACFvbMT
+         6+A+7gTRrEXLKb/bPwmWWk28uIMj/TS0yNUEF5AJriIP72YVnAlN9mTlR8lxC0MqBrMS
+         mSYDi3ShzrEUfeRbMHsk6fNYOilM/pSpnk90mbo2/2skTRWvq7FXM2ZH20yxOjtbfwhE
+         H7xA==
+X-Gm-Message-State: AOJu0Yx2qZtrL/bT+WYzE9Q5t48OsdUe4oukcdjTfSwmhGJJkyRb6bWA
+	hj9yKNCzGVdbGP0us1XQOJgKq+gEu3/eLJLdY6L3hOnMIxKE0/z4vcycliyM+lydOAvZV0Y3ukT
+	O7vp6ZaMmO2eOwclWV6boS5tu8rv6MQA=
+X-Gm-Gg: AY/fxX4k8cMokhk13WMzu/Tl3GNjYqZdVUoB1mcJmED7RRPSuIqk1JkDEnE0Hc63W6I
+	xB5XD+Imq/vBGbzubRWZ8wcKEMJcwgQIYjSBJG4T8znT2g65YBZhoPLWuJEpiA/L/+WvkPMOQka
+	5lo953vIX6fYF4FMaJxC46VBuL0ms3idy6D2k/nivFIJI1jO8S0qDBfU2AN+z6xLPvJ0urVNz5+
+	kiPQigLigogZKgvWmzSh2cO3khaESoxuIoChf6dgsN6oeTHihppWsNnP5+Cszo7YnRklg==
+X-Google-Smtp-Source: AGHT+IGeGbOK6BJlriiaJgFdvZU42o0s+uKPomIlw9nzjeiCiw4VXK6aVBmbvieEZ96YlfVUSsEAdKATma0/Sb7mEO4=
+X-Received: by 2002:a05:6512:a8a:b0:577:6e42:3718 with SMTP id
+ 2adb3069b0e04-59b6ef0c29cmr2349420e87.7.1767883950956; Thu, 08 Jan 2026
+ 06:52:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260108-mathieu-fix-15696-v2-1-fbb0967fdfed@bootlin.com>
-References: <20260108-mathieu-fix-15696-v2-0-fbb0967fdfed@bootlin.com>
-In-Reply-To: <20260108-mathieu-fix-15696-v2-0-fbb0967fdfed@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767883551; l=5056;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=IoBterGziLtZjEx6nV335LYdMsx6tmwPjLWoM/ERy84=;
- b=ieAP5CaKE42bDakUI6s6vgZuiZ88zoVjWJqWJ3uY14IIX3b79/fjtVttt3lZnxFM3+anzibpH
- Mwrku0mthUVCwbVsBx3xQvC7wrpG0sWYv3mdGeFbH7mzRFH3LbHv4UW
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20260107202553.2965393-3-t.f.g.geelen@gmail.com> <DFJ6AGZNL99N.VPY6DN6VPCWK@bootlin.com>
+In-Reply-To: <DFJ6AGZNL99N.VPY6DN6VPCWK@bootlin.com>
+From: Tom Geelen <t.f.g.geelen@gmail.com>
+Date: Thu, 8 Jan 2026 15:52:19 +0100
+X-Gm-Features: AQt7F2quA97ePAAE6o1-q3iqSgo22UmZS5KUYjYE8ddRZ3_DHxMVaE9CUIQz0fc
+Message-ID: <CAJo0Az4cUtFnVH9H+LKqP39Fnxe5-AECCi=swWz98wjm5dJLGQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V2] qemurunner: Improve qmp module detection
+ PKG_CONFIG_SYSROOT_DIR for qmp module path
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alex Kanavin <alex.kanavin@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000e6a4980647e18ed8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 14:46:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229079
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 14:52:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229080
 
-The gitarchive() function takes a `push` parameter than can be either a
-boolean or a string. But this parameter is then passed to
-expand_tag_strings(), which clearly expect it to be a string if it is
-defined. Split this in two arguments: a `push` boolean value and a
-`push_remote` optional string.
+--000000000000e6a4980647e18ed8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
----
- meta/lib/oeqa/selftest/cases/gitarchivetests.py | 4 ++--
- meta/lib/oeqa/utils/gitarchive.py               | 8 ++++----
- scripts/lib/resulttool/store.py                 | 2 +-
- 3 files changed, 7 insertions(+), 7 deletions(-)
+Hi Mattieu,
 
-diff --git a/meta/lib/oeqa/selftest/cases/gitarchivetests.py b/meta/lib/oeqa/selftest/cases/gitarchivetests.py
-index 71382089c124..dcf0eb3be569 100644
---- a/meta/lib/oeqa/selftest/cases/gitarchivetests.py
-+++ b/meta/lib/oeqa/selftest/cases/gitarchivetests.py
-@@ -74,7 +74,7 @@ class GitArchiveTests(OESelftestTestCase):
-                               "Results of {branch}:{commit}", "branch: {branch}\ncommit: {commit}", "{branch}",
-                               False, "{branch}/{commit_count}-g{commit}/{tag_number}",
-                               'Test run #{tag_number} of {branch}:{commit}', '',
--                              [], [], False, keywords, logger)
-+                              [], [], False, None, keywords, logger)
-         self.assertTrue(tag_exists(git_obj, target_tag), msg=f"Tag {target_tag} has not been created")
-         delete_fake_repository(path)
- 
-@@ -88,7 +88,7 @@ class GitArchiveTests(OESelftestTestCase):
-                               "Results of {branch}:{commit}", "branch: {branch}\ncommit: {commit}", "{branch}",
-                               False, "{branch}/{commit_count}-g{commit}/{tag_number}",
-                               'Test run #{tag_number} of {branch}:{commit}', '',
--                              [], [], False, keywords, logger)
-+                              [], [], False, None, keywords, logger)
-         self.assertTrue(tag_exists(git_obj, second_tag), msg=f"Second tag {second_tag} has not been created")
-         delete_fake_repository(path)
- 
-diff --git a/meta/lib/oeqa/utils/gitarchive.py b/meta/lib/oeqa/utils/gitarchive.py
-index 7e1d5057482f..6ec17d36958c 100644
---- a/meta/lib/oeqa/utils/gitarchive.py
-+++ b/meta/lib/oeqa/utils/gitarchive.py
-@@ -162,7 +162,7 @@ def expand_tag_strings(repo, name_pattern, msg_subj_pattern, msg_body_pattern,
-     msg_body = format_str(msg_body_pattern, keyws)
-     return tag_name, msg_subj + '\n\n' + msg_body
- 
--def gitarchive(data_dir, git_dir, no_create, bare, commit_msg_subject, commit_msg_body, branch_name, no_tag, tagname, tag_msg_subject, tag_msg_body, exclude, notes, push, keywords, log):
-+def gitarchive(data_dir, git_dir, no_create, bare, commit_msg_subject, commit_msg_body, branch_name, no_tag, tagname, tag_msg_subject, tag_msg_body, exclude, notes, push, push_remote, keywords, log):
- 
-     if not os.path.isdir(data_dir):
-         raise ArchiveError("Not a directory: {}".format(data_dir))
-@@ -179,7 +179,7 @@ def gitarchive(data_dir, git_dir, no_create, bare, commit_msg_subject, commit_ms
-         tag_name, tag_msg = expand_tag_strings(data_repo, tagname,
-                                                tag_msg_subject,
-                                                tag_msg_body,
--                                               push, log, keywords)
-+                                               push_remote, log, keywords)
- 
-     # Commit data
-     commit = git_commit_data(data_repo, data_dir, branch_name,
-@@ -195,10 +195,10 @@ def gitarchive(data_dir, git_dir, no_create, bare, commit_msg_subject, commit_ms
-         cmd = ['push', '--tags']
-         # If no remote is given we push with the default settings from
-         # gitconfig
--        if push is not True:
-+        if push_remote is not None:
-             notes_refs = ['refs/notes/' + ref.format(branch_name=branch_name)
-                            for ref, _ in notes]
--            cmd.extend([push, branch_name] + notes_refs)
-+            cmd.extend([push_remote, branch_name] + notes_refs)
-         log.info("Pushing data to remote")
-         data_repo.run_cmd(cmd)
- 
-diff --git a/scripts/lib/resulttool/store.py b/scripts/lib/resulttool/store.py
-index b143334e699d..f3caafaff822 100644
---- a/scripts/lib/resulttool/store.py
-+++ b/scripts/lib/resulttool/store.py
-@@ -82,7 +82,7 @@ def store(args, logger):
-                                   "Results of {branch}:{commit}", "branch: {branch}\ncommit: {commit}", "{branch}",
-                                   False, "{branch}/{commit_count}-g{commit}/{tag_number}",
-                                   'Test run #{tag_number} of {branch}:{commit}', '',
--                                  excludes, [], False, keywords, logger)
-+                                  excludes, [], False, None, keywords, logger)
- 
-             if args.logfile_archive:
-                 logdir = args.logfile_archive + "/" + tagname
+Certainly. Question from my side. What is the exact setup that is used on
+the autobuilder? Or the build commands for that matter.
+I would like to reproduce this particular setup locally as well.
 
--- 
-2.47.3
+Regards,
 
+Tom
+
+On Thu, Jan 8, 2026 at 12:31=E2=80=AFPM Mathieu Dubois-Briand <
+mathieu.dubois-briand@bootlin.com> wrote:
+
+> On Wed Jan 7, 2026 at 9:25 PM CET, Tom Geelen via lists.openembedded.org
+> wrote:
+> > Instead of using logfile to detect where qmp is located we can use
+> PKG_CONFIG_SYSROOT_DIR, passed via ENV to the launch function as this wil=
+l
+> point to the image recipe for which launch is called.
+> >
+> > Signed-off-by: Tom Geelen <t.f.g.geelen@gmail.com>
+> > ---
+>
+> Hi Tom,
+>
+> Thanks for your patch.
+>
+> This is failing on the autobuilder, with the following error:
+>
+> 2026-01-08 10:20:15,532 - oe-selftest - INFO -
+> testtools.testresult.real._StringException: Traceback (most recent call
+> last):
+>   File
+> "/srv/pokybuild/yocto-worker/qemux86-tc/build/layers/openembedded-core/me=
+ta/lib/oeqa/utils/commands.py",
+> line 390, in runqemu
+>     qemu.start(params=3Dqemuparams, ssh=3Dssh, runqemuparams=3Drunqemupar=
+ams,
+> launch_cmd=3Dlaunch_cmd, discard_writes=3Ddiscard_writes)
+>   File
+> "/srv/pokybuild/yocto-worker/qemux86-tc/build/layers/openembedded-core/me=
+ta/lib/oeqa/targetcontrol.py",
+> line 179, in start
+>     raise RuntimeError("%s - FAILED to start qemu - check the task log an=
+d
+> the boot log" % self.pn)
+> RuntimeError: core-image-minimal - FAILED to start qemu - check the task
+> log and the boot log
+> ...
+> DEBUG: Using kvm for runqemu
+> ERROR: qemurunner: qmp module missing, please ensure it's installed in
+> /../recipe-sysroot-native/usr/lib/qemu-python (No module named 'qmp')
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/28/builds/2925
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/builds/2931
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/28/builds/2925
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/66/builds/2975
+>
+> Can you have a look at these issues?
+>
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
+
+--000000000000e6a4980647e18ed8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Mattieu,<div><br></div><div>Certainly. Question from my=
+ side. What is the exact setup that is used on the autobuilder? Or the buil=
+d commands for that matter.</div><div>I would like to reproduce this partic=
+ular setup locally as well.</div><div><br></div><div>Regards,</div><div><br=
+></div><div>Tom</div></div><br><div class=3D"gmail_quote gmail_quote_contai=
+ner"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 8, 2026 at 12:31=E2=
+=80=AFPM Mathieu Dubois-Briand &lt;<a href=3D"mailto:mathieu.dubois-briand@=
+bootlin.com">mathieu.dubois-briand@bootlin.com</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">On Wed Jan 7, 2026 at 9:25 PM=
+ CET, Tom Geelen via <a href=3D"http://lists.openembedded.org" rel=3D"noref=
+errer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt; Instead of using logfile to detect where qmp is located we can use PKG=
+_CONFIG_SYSROOT_DIR, passed via ENV to the launch function as this will poi=
+nt to the image recipe for which launch is called.<br>
+&gt;<br>
+&gt; Signed-off-by: Tom Geelen &lt;<a href=3D"mailto:t.f.g.geelen@gmail.com=
+" target=3D"_blank">t.f.g.geelen@gmail.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+Hi Tom,<br>
+<br>
+Thanks for your patch.<br>
+<br>
+This is failing on the autobuilder, with the following error:<br>
+<br>
+2026-01-08 10:20:15,532 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):<br>
+=C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemux86-tc/build/layers/opene=
+mbedded-core/meta/lib/oeqa/utils/commands.py&quot;, line 390, in runqemu<br=
+>
+=C2=A0 =C2=A0 qemu.start(params=3Dqemuparams, ssh=3Dssh, runqemuparams=3Dru=
+nqemuparams, launch_cmd=3Dlaunch_cmd, discard_writes=3Ddiscard_writes)<br>
+=C2=A0 File &quot;/srv/pokybuild/yocto-worker/qemux86-tc/build/layers/opene=
+mbedded-core/meta/lib/oeqa/targetcontrol.py&quot;, line 179, in start<br>
+=C2=A0 =C2=A0 raise RuntimeError(&quot;%s - FAILED to start qemu - check th=
+e task log and the boot log&quot; % <a href=3D"http://self.pn" rel=3D"noref=
+errer" target=3D"_blank">self.pn</a>)<br>
+RuntimeError: core-image-minimal - FAILED to start qemu - check the task lo=
+g and the boot log<br>
+...<br>
+DEBUG: Using kvm for runqemu<br>
+ERROR: qemurunner: qmp module missing, please ensure it&#39;s installed in =
+/../recipe-sysroot-native/usr/lib/qemu-python (No module named &#39;qmp&#39=
+;)<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/28/buil=
+ds/2925" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/28/builds/2925</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/build=
+s/2931" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/valkyrie/#/builders/5/builds/2931</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/28/buil=
+ds/2925" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/28/builds/2925</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/66/buil=
+ds/2975" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/66/builds/2975</a><br>
+<br>
+Can you have a look at these issues?<br>
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+<br>
+</blockquote></div>
+
+--000000000000e6a4980647e18ed8--
 
