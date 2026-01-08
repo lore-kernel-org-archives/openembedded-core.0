@@ -1,258 +1,267 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <louis.rannou@non.se.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C508ACF6A81
-	for <webhook@archiver.kernel.org>; Thu,  8 Jan 2026 08:28:29 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2312.1767860899533766027
- for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Jan 2026 00:28:20 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ericsson.com header.s=selector1 header.b=xgkE7mLQ;
- spf=pass (domain: ericsson.com, ip: 52.101.72.52, mailfrom: daniel.turull@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k3GX7qbh1FITJVDEBJORyEmvfVB/IMS02SdCtJsFKcGezV0jQoz0acaYx8DqDuq6EJxVOZdTzbXvyi9vV/IAg4ggdRm51NKOQNZcelsYJPVHpYpfKV6RFehicRC7x2mY0PlnddcmgpZVzvqZE4KUmJx+x98BXa4iCZvv4F3aUWlvOZK1lAhWe0JDdV0r1+HeP3mCj9d0kLod9vB7Ydi3GI0s38mEuLjX47mhcypkB5GlEfIS9MJAd+nXzC1RJJF4egAbUDifnXDMDvAqUOqOO2MfM2uR3HT9g78wcpqyzIYLBeWdqFCAOJLl7Pfj2xWAFr9A1imullHC1A61fkKCrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MKwteuivjj6w6HCUQp6+NenW9IaoQ7qp7UEvuezRcNo=;
- b=isrRcd7qXccO9tA9CEAa12ehJysXVx3Ak8Ttjl3SGbkRStjJzixwVX2kgdT3pgA/4OSobso4JKAbG4zk9fQJ+PPkQZ656lnEz4i+jkt7XROHPltA4G8DTSHWEIoJWURtdg+fRpWnsflbUJPkD+29LKQKNwEu1ssQXuYXwv5XaBluGD7z6zl5jZk3pb7GuytJ4h5DPw1WUlsVEypzQ0Bqkw7dcPgMviVUhSzpcAqHWV9ygchi1ROO7bAb/oayRtqwW0LDTpEkyhZ8ayG0cx8SnM7hEguOssM0VYek4yPXolwaMs0B8C4AeZuJeGYgEy/vo2J9HOEvytSp+NXqlR4Y7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
- dkim=pass header.d=ericsson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MKwteuivjj6w6HCUQp6+NenW9IaoQ7qp7UEvuezRcNo=;
- b=xgkE7mLQXWGDIcH6G/yoo5PkS9s5OXafj3Zh8Tb3BJW3dtnk8f7avr0WYE65BVVGZL62X5/qckZkRVj3hc3VwL4vDMkvW+m1/zDnRGC77Sgv8FT2U4p7nSFxKOtaBhFOv09gsdEksQIdWuyONWNctyELecgpz57CnUvZxUVuVqBLoMMTLqhUeelJvu9bOm7Wndwa1S0oaHBPP1S6KBIaOIVjqbXQWQuwy0PGHz9IxSz5/abRiG+w+oWxx0MtPBJ9eGaTSf0TT/hS92+0yaO0AY4931IUz2yPE2eapeFevT9CnHFZznr90qVgZADmRSg63zUay63cAnAlgE4UA6v+dQ==
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
- by PA4PR07MB7215.eurprd07.prod.outlook.com (2603:10a6:102:fc::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.3; Thu, 8 Jan
- 2026 08:28:15 +0000
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7%5]) with mapi id 15.20.9499.003; Thu, 8 Jan 2026
- 08:28:15 +0000
-From: Daniel Turull <daniel.turull@ericsson.com>
-To: "valentin.boudevin@gmail.com" <valentin.boudevin@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH v3 2/4] generate-cve-exclusions: Add a .bbclass
-Thread-Topic: [OE-core] [PATCH v3 2/4] generate-cve-exclusions: Add a .bbclass
-Thread-Index: AQHcf02cgcCyeXDanUGrnmBHRv54YrVH8mmw
-Date: Thu, 8 Jan 2026 08:28:15 +0000
-Message-ID: 
- <PA3PR07MB10721315E5ED0868EFF719F218A85A@PA3PR07MB10721.eurprd07.prod.outlook.com>
-References: <20260106204646.3417382-1-valentin.boudevin@gmail.com>
- <20260106204646.3417382-3-valentin.boudevin@gmail.com>
-In-Reply-To: <20260106204646.3417382-3-valentin.boudevin@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ericsson.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|PA4PR07MB7215:EE_
-x-ms-office365-filtering-correlation-id: c18cd9d1-7d17-461f-000b-08de4e8fde8c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700021;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?dVZxRXhGeXk4MTA2VDN2RDlXVVJPZ1lpR1pIWDg0OGg3N0ZCVDV1dUZoclJl?=
- =?utf-8?B?ZHdVK2d2Y2dIdHNkQ0xvSmpkVmJyaFpDYnQ5cWxXOXZJMFBReGNTM2RjOXpH?=
- =?utf-8?B?WnQ4VlB1U0RlL282K1MxaXNoOGJuMTJoQTNQemMrMlJiN2xWeFBFd0k0TlBC?=
- =?utf-8?B?c3M3ZU1TNUQwV2hocHhMdXNWSGdkZFZyZVYrUGdVSzVhbk9aaTVuYy8xMGFh?=
- =?utf-8?B?RzJOSWVFcklOcjRDREJFeWZYODg0enRrd1AzUjc3UXVKRkU1S2JlR3ovWFd0?=
- =?utf-8?B?bkNta21rTUhxMW5xaGhnM2pkQTR2S2Y1N2RHbnE1SCtHd1ptR014Kzh4ZkFQ?=
- =?utf-8?B?ajZuZFdOZld0bm9uR2RSTGtqMk02WW1RVnhhaThoNnp3eUpGd3NvbVpLQ1JK?=
- =?utf-8?B?TTFzcTFnSnZIcUNRTEowb2JranVnY1lBRWtSSWtIMzhzQyttSlBrSVowcnRY?=
- =?utf-8?B?cXVYUmxsTnkzODcwUDNMUEVqSEJraCtKaVNISDdqZTBPZ054czRnUU5GSkpr?=
- =?utf-8?B?dzk1dkZqTzkvU2w5MTZYdk1kQVdsM0dOUlo0Mmx4dXlueVNPem5XNkZvV1Fa?=
- =?utf-8?B?cWFIOFpRanNIYWYrL0ZmSXp1cC92ZDRxcENnSkxQOWg2cnc2bEFzd3gzeGNX?=
- =?utf-8?B?Y3VqQUVrSzhRTXR1akFFZGEvZzUxbU9LNVNnV2pSTE9qL0UyUkZsUjRpNVQr?=
- =?utf-8?B?L0p6R3krbUNWRzZGQXlnOXNHcllHT1BxQ05TeXhubEI1TlZMVlVUY0xBTWtZ?=
- =?utf-8?B?WmphZjVQeUZxN00valZIU2RPRUh4V2EzdkkyK1RldnNJK29uWExYTXJzMGtz?=
- =?utf-8?B?bk9CbGtHdUlZOFFSUW4zTDhOcExHODZZZVhkYkpwbGVUb3VGanJzTEwydi9o?=
- =?utf-8?B?d2d5bGx6UWtaeXZwTStsWDRHc2ZQcVI1OUVGOEkvQjlJK0lsUnYzWTdyMWg2?=
- =?utf-8?B?WnpGdzBQRjd2aSs0SXZ2S2pwbzJKQThrZTR2ZEZxVEwwUVphU2dLRXNKK3lQ?=
- =?utf-8?B?dlBXa3gwMTY4VEx4cHkzV2dvandwWHNSRWNHS1BGYUpzV2cycnlFNzU1QTE2?=
- =?utf-8?B?UCtpQVp5TmhpcFpPWG1TcDdTaVZvNmFmeVh3YXgvalY1NThiNFQ1eUZzeUNJ?=
- =?utf-8?B?Mjk3aEgyN0g4MFBqRzJ5cGlwaWplbXRSREYzNUZZajN2SlkxeWdDOWw4cVd1?=
- =?utf-8?B?OWI4bUkrZmkyTzNBNGc1dHdaaVY1ZFJuN1RSQU1ZVlU1NlFxcWFqMEMzOTZK?=
- =?utf-8?B?dkxFWWE5UmdQYXNIdU81Skh5TGZFWFF3eWVoZ0RNbmc4Ty9ZYTdDRGk1Uldz?=
- =?utf-8?B?Sm0xandFYk5zOEJBTmxDTDBYWDkvc2FCbkwxVlVqRU5qQ1RKTkgyeVAvUGNC?=
- =?utf-8?B?dkVkV3gyRGsyNTlRaEt1WFVxUFE5YTFQYlgwQ2FQWTFGUlNUMXUxMFROOTNN?=
- =?utf-8?B?YzRFUUhVd0tpTVpWd09nZDNXU3U2cm1kbjNHRTNLN20vbnVQemg0VDkrSndo?=
- =?utf-8?B?YndlQllkYml4K1A0WTI3cklDOTk1YkpLN1dCTmR1NFZXSjIxRkNKN29STDda?=
- =?utf-8?B?cU1qNnFHb09aQXloUEZITi9HeS80WjNhL3k5YXNMUmpyM3c3T2l4Unc2Z1Vp?=
- =?utf-8?B?a0tiVHFYeUl4THE3Um1MQlZVYWFVS2JGU2xMTGo0VVFVcWQrakdnNUsrUU5w?=
- =?utf-8?B?MmtPdVl0YndzUlZLSlh0V3d1YjdjREVtaFdtclZ6TmhPeGJVbTF1aVBSUUdu?=
- =?utf-8?B?OG92OXFTMzI1bTEzNEpOanE5VFQ0b003WUcvc0Q2TU0rVzJwRnNYY1Frb0p3?=
- =?utf-8?B?SXJrdkVmc09nYzN1aG5Ib1UzMzRQalBpZXpQZkxCMTBHYmVPaVJiVnF6aC93?=
- =?utf-8?B?eGtUa2ltemtBU1l6OUJXMG1YendNS3cyQmN0SUk2SXExZ0hGSGJZa0Y3dDVB?=
- =?utf-8?Q?I3ks+ofu9Cf5HBnhSJuiBo0rfGyesOVi?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?cU8rbHV1MnVUeU9LOVlMY3dFcWtHK3FRaSsrbU4vUXY4VjdzaWwxSEx3QUJo?=
- =?utf-8?B?d1RkZnRNMXdYT3c4UmJXQytkTDdSNjRIODA4YWZpaHozMFBRZW5wWU15Tzlw?=
- =?utf-8?B?NjVhTlIzbVhnNkF2aXNPam5kWkRGamI3V1YrNjhZcThoZFlNaGdtaXkvMDBJ?=
- =?utf-8?B?dzRwZE93K0Q2OXdEL3ZTNU5KLzFpaHlQVDJ1SEg1SnZkU1ljM0dCQm1GSjV1?=
- =?utf-8?B?ejNkQjJuR3h1Rk9mMkxNZHJzdTdFeFFaZjc4RkdzbVBSbkE1Yk51dms3TTZY?=
- =?utf-8?B?R3pzcUFMS09FOXczOVpVazRUU1owNUFGVEhYdTFOK25MaTlKeW5yOUNTZ3g1?=
- =?utf-8?B?ZGQvcGtZemVNVlNrQlV2eGVwZndOSVcraGtsNDhEYVBjbnR3b1NmbXRRemdY?=
- =?utf-8?B?WnN0cGNIRklqeFU0Vk42YUJML2t5VWxtV3IvTmFJWDN4QWJDa21zQXhZYzV5?=
- =?utf-8?B?amJTRkd5TEpOelJsQWgyU1V3c3ZSS1NEb1I2WUxNVDJoNld0TnlMZHZyODBE?=
- =?utf-8?B?WEpaSDU5dmdkTWdyV0sramI1NVNEMkJsdDRWcldkTFpmQy9HRktSVWxlWndz?=
- =?utf-8?B?VE44UlRlNmJMdEZhZFBuNG1YSTRMYXBxa2dYa3VoQythaXpvSnlIMkxCT1dt?=
- =?utf-8?B?Z0xOL2FPOEdQM1hzZFQ3S2hvc0VHNU9IU2FDeVhMN1hMV0ZXVTlCY3A2QndI?=
- =?utf-8?B?RElqLytwdVpNRndZblQrbitiQlNDRnpMYWs3V0hqQmI2cW5zNWhHc1FhT0M1?=
- =?utf-8?B?VjRPWnB5SXNOR1c5R1RPVTdlOGt5OXEwN1NTS3hwS1JxbjZqRmNEcGVaVVBX?=
- =?utf-8?B?RlVPckQvYldEVUZIOW9SNG9McUhNQkorUmpoTXdtTzZmMXNCdXB5bUgwM1ZT?=
- =?utf-8?B?czRUalJjQ0lXem9Va0FtajVwbVVuUWRWbjFNdUhDN0Z4VURnMXg4N1ZXSUw4?=
- =?utf-8?B?aGZOWW5sSzFKUzBLSU1kdHZTbzJpd2VqcCtvTWR4ZHhwN3dOTFBwMkc1RUVr?=
- =?utf-8?B?RmxESlVRUHpxeGhuMXB3ZkUrTmwxejNXdVBsNjBQYjZRMWdtKzVQTUdXb3FF?=
- =?utf-8?B?RnE0ajYxYU16SXVkQURGQytlV1ZOUFZ1NUNDalM5a055MzNhQmlSKzR0RFJm?=
- =?utf-8?B?RzVIditMM0hHSnpEaE5ZUlVnSjVHT21CSDA5elNTWGdyUnNTdWRvUk1nTElF?=
- =?utf-8?B?L1U1OE9SblBHWlZEVDM3UmEzNTBwbTBLaks1VGgyREJ3SDVPWVMySFZ1V2hX?=
- =?utf-8?B?MjVZb2RxaFBaNEIwdWE3MUpUalczeWEvb1dZM05uQ3VaTHhLcnl6UENaY1di?=
- =?utf-8?B?amZiMGxYYTRZNmZJTnp5M0g4QkdxWDZjYnZoVHJZby84TmJHUzQ0U3BNWDZ4?=
- =?utf-8?B?SXJPSnNSZ0s4OUlhM3FUODlIZDZuMm5BTldmRTczTk5HK3JxY2JXSUZGVnpY?=
- =?utf-8?B?OE9uVHdjZ1RyMEZxYWw1WFlDNjM4eHovVStjcXdsRnJncExDUVFxcEUvRFFP?=
- =?utf-8?B?NEp3Z3JaRlZEcVdvTzk3YWZPeDZzMFpCd3N1VGlrUUJPMVZhcVJ1MFlxMTV1?=
- =?utf-8?B?am5VOS95bnFpVVNEcHdybjRZVzhXOWpERFd2ckdFVmcyYnl3UW05elU2OHgz?=
- =?utf-8?B?NUVFQ3BUK3hoeHdiNUlEQXFkcE9aM1d4ZW1hS0RjZUg4WU9mQmw0QTBkMnlX?=
- =?utf-8?B?ZVN2Umg4K1pVSzVQaCt4R2VWUDF4bjVEaDhRNTlkbFBYWmN2M1lsNngvNllx?=
- =?utf-8?B?Ri8zMXcxeDZGS0RKRTU5QVZ3RklFUGNMa0ZxRHcybFFyMzJVWDgydk5KUFhw?=
- =?utf-8?B?TDRKZTVWN0RUOFN0UWdOYy9pMC83Rmg4enBwc3hUemEzNFduMTU2YlQ1Wncw?=
- =?utf-8?B?R1VpNkxTeUtyQ2l5Y2EzaUdYell4QTJHOGJLQlNFdVhTV3c4R2dtUy9ORjYw?=
- =?utf-8?B?OXNKRzVMMjEybkd5WDA2V0tVSjlXMDdhUVFvblFOYzNua3RQZUtqQ0NzSkZt?=
- =?utf-8?B?NEowbGNxQzBNYkp3c3A1TlY2RVpYRHlUMlVGWkFEZkRBMjlFcExEeFlMSGFU?=
- =?utf-8?B?TGtteXRqN3A0WWU5SS9mYkh4cHRWZWJBazI3aWtNYWRzVFp5NW9pNEhDalps?=
- =?utf-8?B?eENUSWRTRDRhYmNIMyt3Qm92eUdtSXc4aWl3Z0N0UVRlSzNpSjIwNmRoMlZ1?=
- =?utf-8?B?ZDlHM1NaMDNyN1JCVDhaMTh4a3lsSTVOdEMzcDY5c29kWFE1cksrRTEwRVFY?=
- =?utf-8?B?QnVWMnAwSEZDc0JnZk9oMkNJVUkrWnVxQkhhY1E2Uk1DTWRqR0RqOFhLWjJJ?=
- =?utf-8?B?TGdmUUNCTTR0bFBJSjJqUklRb1J5MGJVMFltVzZLV0JHUFhMRTlRZz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7621CF6A89
+	for <webhook@archiver.kernel.org>; Thu,  8 Jan 2026 09:00:59 +0000 (UTC)
+Subject: Re: [PATCH 2/2] wic: extra-partition: introduce variable matching sourceparams
+To: openembedded-core@lists.openembedded.org
+From: "Louis Rannou" <louis.rannou@non.se.com>
+X-Originating-Location: =?UTF-8?B?TWFyc2VpbGxlLCBQcm92ZW5jZS1BbHBlcy1Dw7R0ZSBkJ0F6dXIsIEZS?= (147.161.180.91)
+X-Originating-Platform: Windows Firefox 146
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c18cd9d1-7d17-461f-000b-08de4e8fde8c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jan 2026 08:28:15.3273
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xo147sGLkswQG0nlRTURqODa8ODtaABgCKIB8dF+O45aIwbFzZTOlVR50YnXZpEIikwZtTIIHgOTtXxNVMD50uTi0ZoaeUZRT61/VxOHJpQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR07MB7215
+Date: Thu, 08 Jan 2026 01:00:55 -0800
+References: <20260107-extrafiles-v1-0-a4ddd07df231@non.se.com> <20260107-extrafiles-v1-2-a4ddd07df231@non.se.com> <CAHT-cZuC6W_kT2Xc-E07q6wkV36B5rFRxKe4Q-S41hBjbL3U4w@mail.gmail.com>
+In-Reply-To: <CAHT-cZuC6W_kT2Xc-E07q6wkV36B5rFRxKe4Q-S41hBjbL3U4w@mail.gmail.com>
+Message-ID: <530964.1767862855686685645@lists.openembedded.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 08:28:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229043
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 09:00:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229044
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBPZiB2Ym91ZGV2aW4gdmlhDQo+IGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmcNCj4gU2VudDogVHVlc2RheSwgNiBKYW51YXJ5IDIwMjYgMjE6NDcNCj4gVG86
-IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gQ2M6IFZhbGVudGlu
-Qm91ZGV2aW4gPHZhbGVudGluLmJvdWRldmluQGdtYWlsLmNvbT4NCj4gU3ViamVjdDogW09FLWNv
-cmVdIFtQQVRDSCB2MyAyLzRdIGdlbmVyYXRlLWN2ZS1leGNsdXNpb25zOiBBZGQgYSAuYmJjbGFz
-cw0KPg0KPiBBZGQgYSAuYmJjbGFzcyB0byBnZW5lcmF0ZS1jdmUtZXhjbHVzaW9ucyB0byB1c2Ug
-dGhpcyBzY3JpcHQgYXQgZXZlcnkgcnVuLg0KPg0KPiBUd28gc3RlcHMgZm9yIHRlc3Rpbmc6DQo+
-IDEpIEluaGVyaXQgdGhpcyBjbGFzcyBpbiB0aGUga2VybmVsIHJlY2lwZSB3aXRoICJpbmhlcml0
-DQo+ICAgIGdlbmVyYXRlLWN2ZS1leGNsdXNpb25zLmJiY2xhc3MiDQo+IDIpIFVzZSB0aGUgZm9s
-bG93aW5nIGNvbW1hbmQgdG8gZ2VuZXJhdGUgYSBjdmVsaXN0VjUgZW50cnkgd2l0aCBhIEpTT04N
-Cj4gICAgZmlsZSBpbiBpbiAke1dPUktESVJ9L2N2ZWxpc3RWNS8gOg0KPiAgICAiYml0YmFrZSBs
-aW51eC15b2N0byAtYyBnZW5lcmF0ZS1jdmUtZXhjbHVzaW9ucyINCj4NCj4gVGhlIEpTT04gZmls
-ZSBjYW4gdGhlbiBiZSBwYXJzZWQgaW4gdGhlIGZvbGxvd2luZyBydW4gYnkgY3ZlLWNoZWNrLg0K
-Pg0KPiBUaGlzIGNsYXNzIGNvbnRhaW5zIHNldmVyYWwgbWV0aG9kczoNCj4NCj4gKmRvX2Nsb25l
-X2N2ZWxpc3RWNTogQ2xvbmUgdGhlIGN2ZWxpc3RWNSByZXBvIGluICR7V09SS0RJUn0vY3ZlbGlz
-dFY1L2dpdA0KPg0KPiAoZS5nLiBiaXRiYWtlLWJ1aWxkcy9wb2t5LW1hc3Rlci9idWlsZC90bXAv
-d29yay9xZW11eDg2XzY0LXBva3ktbGludXgvDQo+IGxpbnV4LXlvY3RvLzYuMTguMStnaXQvY3Zl
-bGlzdFY1L2dpdCkNCj4NCj4gKmRvX2dlbmVyYXRlX2N2ZV9leGNsdXNpb25zOiBVc2UgdGhlIHNj
-cmlwdCBnZW5lcmF0ZS1jdmUtZXhjbHVzaW9ucy5weS4NCj4gSXQgdXNlcyB0aGUgbmV3ICItLW91
-dHB1dC1qc29uIiBhcmd1bWVudCB0byBnZW5lcmF0ZSBhIEpTT04gZmlsZSBhcyBhbiBvdXRwdXQN
-Cj4gc3RvcmVkIGluICR7V09SS0RJUn0vY3ZlbGlzdFY1Ly9jdmUtZXhjbHVzaW9uXyR7TElOVVhf
-VkVSU0lPTn0uanNvbg0KPg0KPiAqZG9fY3ZlX2NoZWNrOnByZXBlbmQ6IFBhcnNlIHRoZSBwcmV2
-aW91c2x5IGdlbmVyYXRlZCBKU09OIGZpbGUgdG8gc2V0IHRoZQ0KPiB2YXJpYWJsZSBDVkVfU1RB
-VFVTIGNvcnJldGx5DQo+DQo+IFNpZ25lZC1vZmYtYnk6IFZhbGVudGluIEJvdWRldmluIDx2YWxl
-bnRpbi5ib3VkZXZpbkBnbWFpbC5jb20+DQo+IC0tLQ0KPiAgbWV0YS9jbGFzc2VzL2dlbmVyYXRl
-LWN2ZS1leGNsdXNpb25zLmJiY2xhc3MgfCA2NyArKysrKysrKysrKysrKysrKysrKw0KPiAgMSBm
-aWxlIGNoYW5nZWQsIDY3IGluc2VydGlvbnMoKykNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRh
-L2NsYXNzZXMvZ2VuZXJhdGUtY3ZlLWV4Y2x1c2lvbnMuYmJjbGFzcw0KPg0KPiBkaWZmIC0tZ2l0
-IGEvbWV0YS9jbGFzc2VzL2dlbmVyYXRlLWN2ZS1leGNsdXNpb25zLmJiY2xhc3MNCj4gYi9tZXRh
-L2NsYXNzZXMvZ2VuZXJhdGUtY3ZlLWV4Y2x1c2lvbnMuYmJjbGFzcw0KPiBuZXcgZmlsZSBtb2Rl
-IDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwLi4yNTRlYTU1MzFkDQo+IC0tLSAvZGV2L251bGwN
-Cj4gKysrIGIvbWV0YS9jbGFzc2VzL2dlbmVyYXRlLWN2ZS1leGNsdXNpb25zLmJiY2xhc3MNCj4g
-QEAgLTAsMCArMSw2NyBAQA0KPiArQ1ZFX0VYQ0xVU0lPTlNfV09SS0RJUiA/PSAiJHtXT1JLRElS
-fS9jdmVsaXN0VjUiDQo+ICtDVkVMSVNUVjVfUEFUSCA/PSAiJHtDVkVfRVhDTFVTSU9OU19XT1JL
-RElSfS9naXQiDQo+ICsNCj4gK3B5dGhvbiBkb19jbG9uZV9jdmVsaXN0VjUoKSB7DQo+ICsgICAg
-aW1wb3J0IHN1YnByb2Nlc3MNCj4gKyAgICBpbXBvcnQgc2h1dGlsLCBvcw0KPiArICAgIHJvb3Rk
-aXIgPSBkLmdldFZhcigiQ1ZFTElTVFY1X1BBVEgiKQ0KPiArICAgIGQuc2V0VmFyKCJTUkNfVVJJ
-IiwNCj4gImdpdDovL2dpdGh1Yi5jb20vQ1ZFUHJvamVjdC9jdmVsaXN0VjUuZ2l0O2JyYW5jaD1t
-YWluO3Byb3RvY29sPWh0dHBzIikNCj4gKyAgICBkLnNldFZhcigiU1JDUkVWIiwgIiR7QVVUT1JF
-Vn0iKQ0KU2FtZSBjb21tZW50IGFzIHRoZSBvdGhlciBlbWFpbCByZWdhcmRpbmcgQVVUT1JFViBh
-bmQgcmVwcm9kdWNpYmxlIGFuZCBvZmZsaW5lIGJ1aWxkcyB1c2luZyBtaXJyb3JzLg0KDQo+ICsg
-ICAgc3JjX3VyaSA9IChkLmdldFZhcignU1JDX1VSSScpIG9yICIiKS5zcGxpdCgpDQo+ICsgICAg
-IyBGZXRjaCB0aGUga2VybmVsIHZ1bG5lcmFiaWxpdGllcyBzb3VyY2VzDQo+ICsgICAgZmV0Y2hl
-ciA9IGJiLmZldGNoMi5GZXRjaChzcmNfdXJpLCBkKQ0KPiArICAgIGZldGNoZXIuZG93bmxvYWQo
-KQ0KPiArICAgICMgVW5wYWNrIGludG8gdGhlIHN0YW5kYXJkIHdvcmsgZGlyZWN0b3J5DQo+ICsg
-ICAgZmV0Y2hlci51bnBhY2socm9vdGRpcikNCj4gKyAgICAjIFJlbW92ZSB0aGUgZm9sZGVyICR7
-UE59IHNldCBieSB1bnBhY2sNCj4gKyAgICBzdWJkaXJzID0gW2QgZm9yIGQgaW4gb3MubGlzdGRp
-cihyb290ZGlyKSBpZiBvcy5wYXRoLmlzZGlyKG9zLnBhdGguam9pbihyb290ZGlyLCBkKSldDQo+
-ICsgICAgaWYgbGVuKHN1YmRpcnMpID09IDE6DQo+ICsgICAgICAgIHNyY2RpciA9IG9zLnBhdGgu
-am9pbihyb290ZGlyLCBzdWJkaXJzWzBdKQ0KPiArICAgICAgICBmb3IgZiBpbiBvcy5saXN0ZGly
-KHNyY2Rpcik6DQo+ICsgICAgICAgICAgICBzaHV0aWwubW92ZShvcy5wYXRoLmpvaW4oc3JjZGly
-LCBmKSwgcm9vdGRpcikNCj4gKyAgICAgICAgc2h1dGlsLnJtdHJlZShzcmNkaXIpDQo+ICsgICAg
-YmIubm90ZSgiVnVsbmVyYWJpbGl0aWVzIHJlcG8gdW5wYWNrZWQgaW50bzogJXMiICUgcm9vdGRp
-cikgfQ0KPiArZG9fY2xvbmVfY3ZlbGlzdFY1W25ldHdvcmtdID0gIjEiDQo+ICtkb19jbG9uZV9j
-dmVsaXN0VjVbbm9zdGFtcF0gPSAiMSINCj4gK2RvX2Nsb25lX2N2ZWxpc3RWNVtkb2NdID0gIkNs
-b25lIENWRSBpbmZvcm1hdGlvbiBmcm9tIHRoZSBDVkUgUHJvamVjdDoNCj4gaHR0cHM6Ly9naXRo
-dWIuY28vDQo+IG0lMkZDVkVQcm9qZWN0JTJGY3ZlbGlzdFY1LmdpdCZkYXRhPTA1JTdDMDIlN0Nk
-YW5pZWwudHVydWxsJTQwZXJpY3Nzb24uYw0KPiBvbSU3QzNiNTZjYTlhMTQ2MTQ5ZDE0MWRkMDhk
-ZTRkNjRiZDZmJTdDOTJlODRjZWJmYmZkNDdhYmJlNTIwODBjNg0KPiBiODc5NTNmJTdDMCU3QzAl
-N0M2MzkwMzMyOTIyMjkxOTE2MTMlN0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4DQo+IGV5SkZiWEIw
-ZVUxaGNHa2lPblJ5ZFdVc0lsWWlPaUl3TGpBdU1EQXdNQ0lzSWxBaU9pSlhhVzR6TWlJc0lrRk9J
-am9pVA0KPiBXRnBiQ0lzSWxkVUlqb3lmUSUzRCUzRCU3QzAlN0MlN0MlN0Mmc2RhdGE9cnZPWVl1
-bGQ3OHR4VkZmbTFqbnU3Zm8NCj4gRVAxMlNOQ2Z4U2RONk1ISHY0bmslM0QmcmVzZXJ2ZWQ9MCIN
-Cj4gK2FkZHRhc2sgY2xvbmVfY3ZlbGlzdFY1IGJlZm9yZSBkb19nZW5lcmF0ZV9jdmVfZXhjbHVz
-aW9ucw0KPiArDQo+ICtkb19nZW5lcmF0ZV9jdmVfZXhjbHVzaW9ucygpIHsNCj4gKyAgICBnZW5l
-cmF0ZV9jdmVfZXhjbHVzaW9uc19zY3JpcHQ9JChmaW5kICR7Q09SRUJBU0V9IC1uYW1lICJnZW5l
-cmF0ZS1jdmUtDQo+IGV4Y2x1c2lvbnMucHkiKQ0KPiArICAgIGlmIFsgLXogIiR7Z2VuZXJhdGVf
-Y3ZlX2V4Y2x1c2lvbnNfc2NyaXB0fSIgXTsgdGhlbg0KPiArICAgICAgICBiYmZhdGFsICJnZW5l
-cmF0ZS1jdmUtZXhjbHVzaW9ucy5weSBub3QgZm91bmQgaW4gJHtDT1JFQkFTRX0uIg0KPiArICAg
-IGZpDQo+ICsgICAgcHl0aG9uMyAiJHtnZW5lcmF0ZV9jdmVfZXhjbHVzaW9uc19zY3JpcHR9IiBc
-DQo+ICsgICAgICAgICR7Q1ZFTElTVFY1X1BBVEh9IFwNCj4gKyAgICAgICAgJHtMSU5VWF9WRVJT
-SU9OfSBcDQo+ICsgICAgICAgIC0tb3V0cHV0LWpzb24gPg0KPiArJHtDVkVfRVhDTFVTSU9OU19X
-T1JLRElSfS9jdmUtZXhjbHVzaW9uXyR7TElOVVhfVkVSU0lPTn0uanNvbg0KPiArfQ0KPiArZG9f
-Z2VuZXJhdGVfY3ZlX2V4Y2x1c2lvbnNbbm9zdGFtcF0gPSAiMSINCj4gK2RvX2dlbmVyYXRlX2N2
-ZV9leGNsdXNpb25zW2RvY10gPSAiR2VuZXJhdGUgQ1ZFIGV4Y2x1c2lvbnMgZm9yIHRoZSBrZXJu
-ZWwNCj4gYnVpbGQuIChlLmcuLCBjdmUtZXhjbHVzaW9uXzYuMTIuaW5jKSINCj4gK2FkZHRhc2sg
-Z2VuZXJhdGVfY3ZlX2V4Y2x1c2lvbnMgYWZ0ZXIgZG9fY2xvbmVfY3ZlbGlzdFY1DQo+ICsNCj4g
-K3B5dGhvbiBkb19jdmVfY2hlY2s6cHJlcGVuZCgpIHsNCj4gKyAgICBpbXBvcnQgb3MNCj4gKyAg
-ICBpbXBvcnQganNvbg0KPiArDQo+ICsgICAgd29ya2RpciA9IGQuZ2V0VmFyKCJDVkVfRVhDTFVT
-SU9OU19XT1JLRElSIikNCj4gKyAgICBrZXJuZWxfdmVyc2lvbiA9IGQuZ2V0VmFyKCJMSU5VWF9W
-RVJTSU9OIikNCj4gKyAgICBqc29uX2lucHV0X2ZpbGUgPSBvcy5wYXRoLmpvaW4od29ya2Rpciwg
-ImN2ZS1leGNsdXNpb25fJXMuanNvbiIgJQ0KPiArIGtlcm5lbF92ZXJzaW9uKQ0KPiArDQo+ICsg
-ICAgaWYgb3MucGF0aC5leGlzdHMoanNvbl9pbnB1dF9maWxlKToNCj4gKyAgICAgICAgd2l0aCBv
-cGVuKGpzb25faW5wdXRfZmlsZSwgJ3InLCBlbmNvZGluZz0ndXRmLTgnKSBhcyBmOg0KPiArICAg
-ICAgICAgICAgY3ZlX2RhdGEgPSBqc29uLmxvYWQoZikNCj4gKyAgICAgICAgY3ZlX3N0YXR1c19k
-aWN0ID0gY3ZlX2RhdGEuZ2V0KCJjdmVfc3RhdHVzIiwge30pDQo+ICsgICAgICAgIGNvdW50ID0g
-MA0KPiArICAgICAgICBmb3IgY3ZlX2lkLCBpbmZvIGluIGN2ZV9zdGF0dXNfZGljdC5pdGVtcygp
-Og0KPiArICAgICAgICAgICAgaWYgaW5mby5nZXQoImFjdGl2ZSIsIFRydWUpOg0KPiArICAgICAg
-ICAgICAgICAgICMgU2tpcCBhY3RpdmUgQ1ZFcw0KPiArICAgICAgICAgICAgICAgIGNvbnRpbnVl
-DQo+ICsgICAgICAgICAgICBkLnNldFZhckZsYWcoIkNWRV9TVEFUVVMiLCBjdmVfaWQsIGluZm8u
-Z2V0KCJtZXNzYWdlIiwgIiIpKQ0KPiArICAgICAgICAgICAgY291bnQgKz0gMQ0KPiArDQo+ICsg
-ICAgICAgIGJiLm5vdGUoIkxvYWRlZCAlZCBDVkVfU1RBVFVTIGVudHJpZXMgZnJvbSBKU09OIG91
-dHB1dCBmb3Iga2VybmVsICVzIg0KPiAlIChjb3VudCwga2VybmVsX3ZlcnNpb24pKQ0KPiArICAg
-IGVsc2U6DQo+ICsgICAgICAgIGJiLndhcm4oIkNWRSBleGNsdXNpb24gSlNPTiBub3QgZm91bmQ6
-ICVzLiBTa2lwcGluZyBDVkVfU1RBVFVTDQo+ICt1cGRhdGVzIiAlIGpzb25faW5wdXRfZmlsZSkg
-fQ0KPiBcIE5vIG5ld2xpbmUgYXQgZW5kIG9mIGZpbGUNCg==
+Hello Pierre-Loup,
+
+Thanks for the review
+
+> I am not sure to understand your first point.
+>=20
+> - an extra partition that has a specific label (or uuid) is doomed with t=
+he
+> >   associated variable. The partition cannot be configured unless the la=
+bel
+> >   (or uuid) is changed.
+>=20
+>=20
+> From my comprehension, an extra partition that has a name (
+> --sourceparams=3D"name=3Dfoo") is also doomed with the associated variabl=
+e (
+> IMAGE_EXTRA_PARTITION_FILES_sourceparams_foo). So, this does not resolve
+> the issue for me.
+> Let me know if I misunderstood your point.
+
+Here the name can be customized without impacting the final image. While mo=
+st of the time you wish the label to keep standard (data, config, home... b=
+ut not my_specific_name). Then if you need your partition to have label dat=
+a, you will not be able to select an other variable than IMAGE_EXTRA_PARTIT=
+ION_FILES_label-data.
+
+>=20
+> - two partitions with same label from distincts .wks cannot have differen=
+t
+> >   content.
+>=20
+>=20
+> I agree. I think this is currently possible if you set the variable based
+> on the WKS file, but this adds unnecessary complexity to the configuratio=
+n.
+>=20
+> For example:
+> >   an image may define:
+> >     IMAGE_EXTRA_PARTITION_FILES_sourceparams_foo =3D "bar.conf"
+> >   and the .wks line have line:
+> >     part --source extra_partition --sourceparams "name=3Dfoo"
+>=20
+>=20
+> Since the source parameter is "name", perhaps the suffix "name" instead o=
+f
+> "sourceparams" would be more intuitive ? For example,
+> IMAGE_EXTRA_PARTITION_FILES_name_foo.
+
+Fine for me !
+
+>=20
+> I think it is great to have another way to select the partition
+> independently of the label, uuid or partname.
+>=20
+> Thanks,
+>=20
+> Pierre-Loup
+>=20
+>=20
+> On Wed, Jan 7, 2026 at 11:41=E2=80=AFAM Louis Rannou via B4 Relay <
+> devnull+louis.rannou.non.se.com@kernel.org> wrote:
+>=20
+> > From: Louis Rannou <louis.rannou@non.se.com>
+> >
+> > The current extra_partition plugin uses predictable variable names (the
+> > configuration must predict the image partition label or uuid). This has=
+ two
+> > inconveniences:
+> >
+> > - an extra partition that has a specific label (or uuid) is doomed with=
+ the
+> >   associated variable. The partition cannot be configured unless the la=
+bel
+> >   (or uuid) is changed.
+> > - two partitions with same label from distincts .wks cannot have differ=
+ent
+> >   content.
+> >
+> > This allows the new suffix _sourceparams_foo to be appended to
+> > IMAGE_EXTRA_PARTITION_FILES. This variable will be preferred whenever t=
+he
+> > .wks specifies a name in the --sourceparams option.
+> >
+> > For example:
+> >   an image may define:
+> >     IMAGE_EXTRA_PARTITION_FILES_sourceparams_foo =3D "bar.conf"
+> >   and the .wks line have line:
+> >     part --source extra_partition --sourceparams "name=3Dfoo"
+> >
+> > Signed-off-by: Louis Rannou <louis.rannou@non.se.com>
+> > ---
+> >  meta/lib/oeqa/selftest/cases/wic.py               | 16 ++++++++++-----
+> >  scripts/lib/wic/plugins/source/extra_partition.py | 24
+> > +++++++++++++++++------
+> >  2 files changed, 29 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/meta/lib/oeqa/selftest/cases/wic.py
+> > b/meta/lib/oeqa/selftest/cases/wic.py
+> > index 55fb8dfd1b..542ce6fb05 100644
+> > --- a/meta/lib/oeqa/selftest/cases/wic.py
+> > +++ b/meta/lib/oeqa/selftest/cases/wic.py
+> > @@ -1657,6 +1657,7 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
+> >      def test_extra_partition_plugin(self):
+> >          """Test extra partition plugin"""
+> >          config =3D dedent("""\
+> > +        IMAGE_EXTRA_PARTITION_FILES_sourceparams-foo =3D "bar.conf"
+> >          IMAGE_EXTRA_PARTITION_FILES_label-foo =3D "bar.conf;foo.conf"
+> >
+> >  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d =
+=3D
+> > "bar.conf;foobar.conf bar2.conf;foobar2.conf bar3.conf bar4.conf"
+> >          IMAGE_EXTRA_PARTITION_FILES =3D "foo/*"
+> > @@ -1688,9 +1689,13 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
+> >
+> >          try:
+> >              with NamedTemporaryFile("w", suffix=3D".wks") as wks:
+> > -                wks.writelines(['part / --source extra_partition --ond=
+isk
+> > sda --label foo --align 4 --size 5M\n',
+> > -                                'part / --source extra_partition --ond=
+isk
+> > sda --fstype=3Dvfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d --align=
+ 4
+> > --size 5M\n',
+> > -                                'part / --source extra_partition --ond=
+isk
+> > sda --fstype=3Dext4 --label bar --align 4 --size 5M\n'])
+> > +                wks.writelines([
+> > +                    'part / --source extra_partition --ondisk sda
+> > --sourceparams "name=3Dfoo" --align 4 --size 5M\n',
+> > +                    'part / --source extra_partition --ondisk sda --la=
+bel
+> > foo --align 4 --size 5M\n',
+> > +                    'part / --source extra_partition --ondisk sda
+> > --fstype=3Dvfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d --align 4 -=
+-size
+> > 5M\n',
+> > +                    'part / --source extra_partition --ondisk sda
+> > --fstype=3Dext4 --label bar --align 4 --size 5M\n',
+> > +                    'bootloader --ptable gpt\n',
+> > +                ])
+> >                  wks.flush()
+> >                  _, wicimg =3D self._get_wic(wks.name)
+> >
+> > @@ -1698,14 +1703,15 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
+> >              partls =3D result.output.split('\n')[1:]
+> >
+> >              # Assert the number of partitions is correct
+> > -            self.assertEqual(3, len(partls), msg=3D"Expect 3 partition=
+s,
+> > not %s" % result.output)
+> > +            self.assertEqual(4, len(partls), msg=3D"Expect 4 partition=
+s,
+> > not %s" % result.output)
+> >
+> >              # Fstype column from 'wic ls' should be fstype as given in
+> > the part command
+> > -            for part_id, part_fs in enumerate(["fat16", "fat16", "ext4=
+"]):
+> > +            for part_id, part_fs in enumerate(["fat16", "fat16", "fat1=
+6",
+> > "ext4"]):
+> >                  self.assertIn(part_fs, partls[part_id])
+> >
+> >              # For each partition, assert expected files exist
+> >              for part, part_glob in enumerate([
+> > +                ["bar.conf"],
+> >                  ["foo.conf"],
+> >                  ["foobar.conf", "foobar2.conf", "bar3.conf", "bar4.con=
+f"],
+> >                  ["bar.conf", "bar2.conf"],
+> > diff --git a/scripts/lib/wic/plugins/source/extra_partition.py
+> > b/scripts/lib/wic/plugins/source/extra_partition.py
+> > index d370b0107e..f9410388fa 100644
+> > --- a/scripts/lib/wic/plugins/source/extra_partition.py
+> > +++ b/scripts/lib/wic/plugins/source/extra_partition.py
+> > @@ -18,15 +18,17 @@ class ExtraPartitionPlugin(SourcePlugin):
+> >      The plugin supports:
+> >      - Glob pattern matching for file selection.
+> >      - File renaming.
+> > -    - Suffixes to specify the target partition (by label, UUID, or
+> > partname),
+> > -      enabling multiple extra partitions to coexist.
+> > +    - Suffixes to specify the target partition (by params-name, label,
+> > UUID,
+> > +      or partname), enabling multiple extra partitions to coexist.
+> >
+> >      For example:
+> >
+> > +        IMAGE_EXTRA_PARTITION_FILES_sourceparams-name =3D
+> > "bar.conf;foo.conf"
+> >          IMAGE_EXTRA_PARTITION_FILES_label-foo =3D "bar.conf;foo.conf"
+> >
+> >  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d =
+=3D
+> > "bar.conf;foobar.conf"
+> >          IMAGE_EXTRA_PARTITION_FILES =3D "foo/*"
+> >          WICVARS:append =3D "\
+> > +            IMAGE_EXTRA_PARTITION_FILES_sourceparams-name \
+> >              IMAGE_EXTRA_PARTITION_FILES_label-foo \
+> >
+> >  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d =
+\
+> >          "
+> > @@ -53,11 +55,21 @@ class ExtraPartitionPlugin(SourcePlugin):
+> >                  raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exitin=
+g")
+> >
+> >          extra_files =3D None
+> > -        for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s",
+> > part.label), ("_part-name-%s", part.part_name), (None, None)):
+> > -            if fmt:
+> > -                var =3D fmt % id
+> > -            else:
+> > +        for (fmt, part_id) in (
+> > +                ("_sourceparams-%s", source_params.get("name")),
+> > +                ("_uuid-%s", part.uuid),
+> > +                ("_label-%s", part.label),
+> > +                ("_part-name-%s", part.part_name),
+> > +                (None, None)
+> > +        ):
+> > +            if fmt is None:
+> >                  var =3D ""
+> > +            elif part_id is not None:
+> > +                var =3D fmt % part_id
+> > +            else:
+> > +                continue
+> > +
+> > +            logger.debug("Looking for extra files in %s" %
+> > cls.image_extra_partition_files_var_name + var)
+> >              extra_files =3D
+> > get_bitbake_var(cls.image_extra_partition_files_var_name + var)
+> >              if extra_files is not None:
+> >                  break
+> >
+> > --
+> > 2.43.0
+> >
+> >
+> >
+>
 
