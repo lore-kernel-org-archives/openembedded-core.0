@@ -1,267 +1,88 @@
-Return-Path: <louis.rannou@non.se.com>
+Return-Path: <gijs.peskens@munisense.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7621CF6A89
-	for <webhook@archiver.kernel.org>; Thu,  8 Jan 2026 09:00:59 +0000 (UTC)
-Subject: Re: [PATCH 2/2] wic: extra-partition: introduce variable matching sourceparams
-To: openembedded-core@lists.openembedded.org
-From: "Louis Rannou" <louis.rannou@non.se.com>
-X-Originating-Location: =?UTF-8?B?TWFyc2VpbGxlLCBQcm92ZW5jZS1BbHBlcy1Dw7R0ZSBkJ0F6dXIsIEZS?= (147.161.180.91)
-X-Originating-Platform: Windows Firefox 146
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05B29CF6A8B
+	for <webhook@archiver.kernel.org>; Thu,  8 Jan 2026 09:17:40 +0000 (UTC)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2870.1767863856931592317
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 08 Jan 2026 01:17:38 -0800
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@munisense.com header.s=c12e0d22-ac12-44f1-aa93-b49ab5265a0e header.b=aykkT4B2;
+ spf=pass (domain: munisense.com, ip: 209.85.208.41, mailfrom: gijs.peskens@munisense.com)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-64b92abe63aso5784022a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 01:17:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=munisense.com; s=c12e0d22-ac12-44f1-aa93-b49ab5265a0e; t=1767863854; x=1768468654; darn=lists.openembedded.org;
+        h=content-transfer-encoding:subject:from:content-language:to
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DBthH/UYohXYN4O/9gkEhPdrT2YBB8XCkOByMyU3dkw=;
+        b=aykkT4B2F4Z9nTpxa/ZX2aE2xWVHt8j2V4WgkUQ1bIpO+HLMC+c0zSvEiWme9qTu5s
+         BXyuTAnDpBWEQfyedKvPw3ep6aMiOq+nrExOtsD9RzHW1FFfTmJtNRq9nNwkpFT9NA8U
+         20tgU+ImXAe41XG7jMCp6xgE7XJfCm8B/dvl6bO3Oxp6x6oa9laYdBk+Up2rX9DGxuSf
+         TY8ayPhEIN8w5mxpva4dFTcihrwaA+1xI922kI0iOPsNVHZeVokKAhWWF5JNs5Ugqtu6
+         ipM0nU/KjtwS7sCzYYiUioxg+9h6tAc/IG+UvvwbilQUcFKobFujp98UQesQAgFi9NDI
+         xZPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767863854; x=1768468654;
+        h=content-transfer-encoding:subject:from:content-language:to
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DBthH/UYohXYN4O/9gkEhPdrT2YBB8XCkOByMyU3dkw=;
+        b=SMQ+U/m23btDwiHRuBa2azZq8Thy5OKpDv70WKIDn3NdusYBf/lA8BC/eN7Xme5xOU
+         89KKUA3WxPiWlund/UUhDCGF9qh8x/olK1+SCCQb0KY7z489DDf/cALmcHVBH4TEFd5T
+         bIItR0ZRhyf3gVG3WU7XkkUvXvXdhKzM+l+TWaB1x8o+V02tTVycsQYN1Fl8Wj0Tabyg
+         KZOCCJeBtid9jDeGIoabZ5PT+tdzHm0laNjL4xr74mKWN9AjACDw6Ty8/ypP5T09MpZ/
+         XRsPTPN0JQfQkJlE7xww2q7SpcshDRu9BkhobOp3i8fblO1xCLn/7sk9/H7QsyKGqV6I
+         KJQg==
+X-Gm-Message-State: AOJu0Yy14xzSJvtvaZ3cnVZyjqx4iOlxfiLLsVTH67pKpOt7piRbT+ck
+	bo7iLY9a8I/IZ3FVfkHoOVIANNU10B4A3Z3LxtBGmBoIBIObVkolf1GpRXZwmKakKyI8c08UOlq
+	aBsSQ
+X-Gm-Gg: AY/fxX7NXVJ76u53j5hI67uA5lSKvY5dDWdxi4ecwvPvPmW3GdATQy03Z7GuGnF0AfE
+	pfKsUuVrh+bsyRAiQIRGK4R3yq7dFd7dbx0pDhhbwnQcjvB1tOtug8kC35mRdHPn2zoinyS9fbg
+	YgQ7n7H8V0aoc6oZ7xEE9oJJfOX1Ad6Nk6YhvCnKZ2tcEsGDyeC+Xchknyl59Gl8EqlJmGqVrAD
+	sunfH2zbsCt79Q6+Zl/604O6dTftSt0Oz9oGM+qZ1q/zogu2ioeGsu6B4uI3J2e1q3fA/rebV8k
+	MdW9Dg9vBEBt4rVsFCSm+VmZzcKQMTbwLBjB6uxHtcX1opZJWrnDWUGjGmHaGq+O6ehJiktfPhf
+	YzRmO/9u8zktbLYDBb1mkFeSCtM3jbsUOxPiZxexnpjBUSZq+yMJD4i8tWtT1VdIEuDvCt0DIlC
+	A7j+VtRbp5NITKb5acC05gzmpyeWFxrGvE60V/IBeWGG0bi0ghDOHU1RQi9yFKwRKq4Uo=
+X-Google-Smtp-Source: AGHT+IGQB7OcUroybq1jLXhqaE9Yima6a/TOQ26ba8yLxXWi2iehG6y8GqmtOomG9TWg2AWf223lmA==
+X-Received: by 2002:a05:6402:5201:b0:64b:608e:cea1 with SMTP id 4fb4d7f45d1cf-65097dd29admr4253442a12.1.1767863854352;
+        Thu, 08 Jan 2026 01:17:34 -0800 (PST)
+Received: from ?IPV6:2a00:1708:3ba6:500:a39b:9f3c:f7ae:9ede? ([2a00:1708:3ba6:500:a39b:9f3c:f7ae:9ede])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507be641e0sm6921235a12.22.2026.01.08.01.17.33
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jan 2026 01:17:34 -0800 (PST)
+Message-ID: <6b3ad1e0-3bf1-4344-9e4a-c5ac206b3f60@munisense.com>
+Date: Thu, 8 Jan 2026 10:17:32 +0100
 MIME-Version: 1.0
-Date: Thu, 08 Jan 2026 01:00:55 -0800
-References: <20260107-extrafiles-v1-0-a4ddd07df231@non.se.com> <20260107-extrafiles-v1-2-a4ddd07df231@non.se.com> <CAHT-cZuC6W_kT2Xc-E07q6wkV36B5rFRxKe4Q-S41hBjbL3U4w@mail.gmail.com>
-In-Reply-To: <CAHT-cZuC6W_kT2Xc-E07q6wkV36B5rFRxKe4Q-S41hBjbL3U4w@mail.gmail.com>
-Message-ID: <530964.1767862855686685645@lists.openembedded.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+To: openembedded-core@lists.openembedded.org
+Content-Language: en-US
+From: Gijs Peskens <gijs.peskens@munisense.com>
+Subject: Arm32, Fortran mfloat-abi flags not set
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 09:00:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229044
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Jan 2026 09:17:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229045
 
-Hello Pierre-Loup,
+I ran into an issue compiling Octave for an arm32 build, it seems that 
+some arch specific flags aren't set into FFLAGS (mfloat-abi for one), 
+which ends up causing link issues due to inconsistent usage of VFP 
+registers.
+I'm not sure where the correct spot it would be to fix it (as a 
+work-around I've hardcoded it into my overridden Octave recipe).
 
-Thanks for the review
+Can anyone point me into the right direction where this should be 
+applied, or send a patch themselves?
 
-> I am not sure to understand your first point.
->=20
-> - an extra partition that has a specific label (or uuid) is doomed with t=
-he
-> >   associated variable. The partition cannot be configured unless the la=
-bel
-> >   (or uuid) is changed.
->=20
->=20
-> From my comprehension, an extra partition that has a name (
-> --sourceparams=3D"name=3Dfoo") is also doomed with the associated variabl=
-e (
-> IMAGE_EXTRA_PARTITION_FILES_sourceparams_foo). So, this does not resolve
-> the issue for me.
-> Let me know if I misunderstood your point.
+Sincerely,
 
-Here the name can be customized without impacting the final image. While mo=
-st of the time you wish the label to keep standard (data, config, home... b=
-ut not my_specific_name). Then if you need your partition to have label dat=
-a, you will not be able to select an other variable than IMAGE_EXTRA_PARTIT=
-ION_FILES_label-data.
+Gijs Peskens
 
->=20
-> - two partitions with same label from distincts .wks cannot have differen=
-t
-> >   content.
->=20
->=20
-> I agree. I think this is currently possible if you set the variable based
-> on the WKS file, but this adds unnecessary complexity to the configuratio=
-n.
->=20
-> For example:
-> >   an image may define:
-> >     IMAGE_EXTRA_PARTITION_FILES_sourceparams_foo =3D "bar.conf"
-> >   and the .wks line have line:
-> >     part --source extra_partition --sourceparams "name=3Dfoo"
->=20
->=20
-> Since the source parameter is "name", perhaps the suffix "name" instead o=
-f
-> "sourceparams" would be more intuitive ? For example,
-> IMAGE_EXTRA_PARTITION_FILES_name_foo.
-
-Fine for me !
-
->=20
-> I think it is great to have another way to select the partition
-> independently of the label, uuid or partname.
->=20
-> Thanks,
->=20
-> Pierre-Loup
->=20
->=20
-> On Wed, Jan 7, 2026 at 11:41=E2=80=AFAM Louis Rannou via B4 Relay <
-> devnull+louis.rannou.non.se.com@kernel.org> wrote:
->=20
-> > From: Louis Rannou <louis.rannou@non.se.com>
-> >
-> > The current extra_partition plugin uses predictable variable names (the
-> > configuration must predict the image partition label or uuid). This has=
- two
-> > inconveniences:
-> >
-> > - an extra partition that has a specific label (or uuid) is doomed with=
- the
-> >   associated variable. The partition cannot be configured unless the la=
-bel
-> >   (or uuid) is changed.
-> > - two partitions with same label from distincts .wks cannot have differ=
-ent
-> >   content.
-> >
-> > This allows the new suffix _sourceparams_foo to be appended to
-> > IMAGE_EXTRA_PARTITION_FILES. This variable will be preferred whenever t=
-he
-> > .wks specifies a name in the --sourceparams option.
-> >
-> > For example:
-> >   an image may define:
-> >     IMAGE_EXTRA_PARTITION_FILES_sourceparams_foo =3D "bar.conf"
-> >   and the .wks line have line:
-> >     part --source extra_partition --sourceparams "name=3Dfoo"
-> >
-> > Signed-off-by: Louis Rannou <louis.rannou@non.se.com>
-> > ---
-> >  meta/lib/oeqa/selftest/cases/wic.py               | 16 ++++++++++-----
-> >  scripts/lib/wic/plugins/source/extra_partition.py | 24
-> > +++++++++++++++++------
-> >  2 files changed, 29 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/meta/lib/oeqa/selftest/cases/wic.py
-> > b/meta/lib/oeqa/selftest/cases/wic.py
-> > index 55fb8dfd1b..542ce6fb05 100644
-> > --- a/meta/lib/oeqa/selftest/cases/wic.py
-> > +++ b/meta/lib/oeqa/selftest/cases/wic.py
-> > @@ -1657,6 +1657,7 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
-> >      def test_extra_partition_plugin(self):
-> >          """Test extra partition plugin"""
-> >          config =3D dedent("""\
-> > +        IMAGE_EXTRA_PARTITION_FILES_sourceparams-foo =3D "bar.conf"
-> >          IMAGE_EXTRA_PARTITION_FILES_label-foo =3D "bar.conf;foo.conf"
-> >
-> >  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d =
-=3D
-> > "bar.conf;foobar.conf bar2.conf;foobar2.conf bar3.conf bar4.conf"
-> >          IMAGE_EXTRA_PARTITION_FILES =3D "foo/*"
-> > @@ -1688,9 +1689,13 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
-> >
-> >          try:
-> >              with NamedTemporaryFile("w", suffix=3D".wks") as wks:
-> > -                wks.writelines(['part / --source extra_partition --ond=
-isk
-> > sda --label foo --align 4 --size 5M\n',
-> > -                                'part / --source extra_partition --ond=
-isk
-> > sda --fstype=3Dvfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d --align=
- 4
-> > --size 5M\n',
-> > -                                'part / --source extra_partition --ond=
-isk
-> > sda --fstype=3Dext4 --label bar --align 4 --size 5M\n'])
-> > +                wks.writelines([
-> > +                    'part / --source extra_partition --ondisk sda
-> > --sourceparams "name=3Dfoo" --align 4 --size 5M\n',
-> > +                    'part / --source extra_partition --ondisk sda --la=
-bel
-> > foo --align 4 --size 5M\n',
-> > +                    'part / --source extra_partition --ondisk sda
-> > --fstype=3Dvfat --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d --align 4 -=
--size
-> > 5M\n',
-> > +                    'part / --source extra_partition --ondisk sda
-> > --fstype=3Dext4 --label bar --align 4 --size 5M\n',
-> > +                    'bootloader --ptable gpt\n',
-> > +                ])
-> >                  wks.flush()
-> >                  _, wicimg =3D self._get_wic(wks.name)
-> >
-> > @@ -1698,14 +1703,15 @@ INITRAMFS_IMAGE =3D "core-image-initramfs-boot"
-> >              partls =3D result.output.split('\n')[1:]
-> >
-> >              # Assert the number of partitions is correct
-> > -            self.assertEqual(3, len(partls), msg=3D"Expect 3 partition=
-s,
-> > not %s" % result.output)
-> > +            self.assertEqual(4, len(partls), msg=3D"Expect 4 partition=
-s,
-> > not %s" % result.output)
-> >
-> >              # Fstype column from 'wic ls' should be fstype as given in
-> > the part command
-> > -            for part_id, part_fs in enumerate(["fat16", "fat16", "ext4=
-"]):
-> > +            for part_id, part_fs in enumerate(["fat16", "fat16", "fat1=
-6",
-> > "ext4"]):
-> >                  self.assertIn(part_fs, partls[part_id])
-> >
-> >              # For each partition, assert expected files exist
-> >              for part, part_glob in enumerate([
-> > +                ["bar.conf"],
-> >                  ["foo.conf"],
-> >                  ["foobar.conf", "foobar2.conf", "bar3.conf", "bar4.con=
-f"],
-> >                  ["bar.conf", "bar2.conf"],
-> > diff --git a/scripts/lib/wic/plugins/source/extra_partition.py
-> > b/scripts/lib/wic/plugins/source/extra_partition.py
-> > index d370b0107e..f9410388fa 100644
-> > --- a/scripts/lib/wic/plugins/source/extra_partition.py
-> > +++ b/scripts/lib/wic/plugins/source/extra_partition.py
-> > @@ -18,15 +18,17 @@ class ExtraPartitionPlugin(SourcePlugin):
-> >      The plugin supports:
-> >      - Glob pattern matching for file selection.
-> >      - File renaming.
-> > -    - Suffixes to specify the target partition (by label, UUID, or
-> > partname),
-> > -      enabling multiple extra partitions to coexist.
-> > +    - Suffixes to specify the target partition (by params-name, label,
-> > UUID,
-> > +      or partname), enabling multiple extra partitions to coexist.
-> >
-> >      For example:
-> >
-> > +        IMAGE_EXTRA_PARTITION_FILES_sourceparams-name =3D
-> > "bar.conf;foo.conf"
-> >          IMAGE_EXTRA_PARTITION_FILES_label-foo =3D "bar.conf;foo.conf"
-> >
-> >  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d =
-=3D
-> > "bar.conf;foobar.conf"
-> >          IMAGE_EXTRA_PARTITION_FILES =3D "foo/*"
-> >          WICVARS:append =3D "\
-> > +            IMAGE_EXTRA_PARTITION_FILES_sourceparams-name \
-> >              IMAGE_EXTRA_PARTITION_FILES_label-foo \
-> >
-> >  IMAGE_EXTRA_PARTITION_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d =
-\
-> >          "
-> > @@ -53,11 +55,21 @@ class ExtraPartitionPlugin(SourcePlugin):
-> >                  raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exitin=
-g")
-> >
-> >          extra_files =3D None
-> > -        for (fmt, id) in (("_uuid-%s", part.uuid), ("_label-%s",
-> > part.label), ("_part-name-%s", part.part_name), (None, None)):
-> > -            if fmt:
-> > -                var =3D fmt % id
-> > -            else:
-> > +        for (fmt, part_id) in (
-> > +                ("_sourceparams-%s", source_params.get("name")),
-> > +                ("_uuid-%s", part.uuid),
-> > +                ("_label-%s", part.label),
-> > +                ("_part-name-%s", part.part_name),
-> > +                (None, None)
-> > +        ):
-> > +            if fmt is None:
-> >                  var =3D ""
-> > +            elif part_id is not None:
-> > +                var =3D fmt % part_id
-> > +            else:
-> > +                continue
-> > +
-> > +            logger.debug("Looking for extra files in %s" %
-> > cls.image_extra_partition_files_var_name + var)
-> >              extra_files =3D
-> > get_bitbake_var(cls.image_extra_partition_files_var_name + var)
-> >              if extra_files is not None:
-> >                  break
-> >
-> > --
-> > 2.43.0
-> >
-> >
-> >
->
 
