@@ -2,260 +2,156 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38682D16809
-	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 10:47:17 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7574.1767955631871397975
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48AF7D16811
+	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 11:05:27 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7884.1767956718900509868
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jan 2026 02:47:12 -0800
+ Fri, 09 Jan 2026 03:05:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=qrYtL+oa;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-430f2ee2f00so2262490f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 02:47:11 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=YOTmiOgF;
+ spf=pass (domain: smile.fr, ip: 209.85.218.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b804646c718so609732566b.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 03:05:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1767955630; x=1768560430; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1767956717; x=1768561517; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vlEmDeIoBuXbSBjT8mdGFbZzzFMH7wttsnbQe1YBets=;
-        b=qrYtL+oalVBkdBAigPOTTYHLaokRfZj0Fejx5UffbxOeacAuhD4Z/TGk35c8jyX7zP
-         9OfQEBfZlXolkB4mVK/CZKFk/HIFwnUXx3gLPFE0agGibswvuciPzQtqyLP0MIW+QuAl
-         THXnCMjthg2PPnFhwIVh5I7P+SK8aWykHJ7gA=
+        bh=DiNHT/qiJN6jEKgoXQs4nh93TMtBNdTigqo/HEGPChQ=;
+        b=YOTmiOgF76IKLr0ljNr/Lef6YU2XuoJYwFXouZ8Jdf+XUGBJgqXGcAhMdR4NN7Lu85
+         ayuHdV2LChji88mEvj55thPepq6vtwygtcrlgwthUrgVf2mgxi0TfSUPHLzYZg4ZXrJL
+         +3r8p89g2FCONqBcCbQ+m6US3/bpGj/QLnb6k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767955630; x=1768560430;
+        d=1e100.net; s=20230601; t=1767956717; x=1768561517;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vlEmDeIoBuXbSBjT8mdGFbZzzFMH7wttsnbQe1YBets=;
-        b=rohhLrcTTR09d5mh9C8H1vKwnvwIw9nV6CpvyfnBqY2IsUcHW7qMy5UoXifwWOB6Wq
-         X+R4W4jR90L8ZGQUGffC/6DaFoir/5QbOLNSJoBrjpcabGTW87GeYUQPm6b4BURzuVuW
-         w5vJ3YbJmsYYN71PNMNSdR9zpFdZhMK/pdWGJDIWKrQZuHTfSSCNKK2RnpIk5nlKF5v7
-         sFyJjTED6sEq4wBSJB/WYXm0XxHk5UStsegne/gHyKq4sUXC2P0Exh9LCqEyKVH7JCL3
-         Vzns/VGI+KtWJEifsQtSpJfzZPGLM+WIZKyyvSPxiO5YPCnVuYZWGA59gDetCMVS+JQ5
-         ESQA==
-X-Gm-Message-State: AOJu0Yw/VSnZnF7J4Xo1QoXFp1JZXAp+y6VvXQ8ssRwjVKmb6B9ZRa+7
-	Psd1vImFZM6ZFxTTpwknpF549TisNEwuU8BCbqUBDlGRAvofe9O020s3Lv6ZZj6Qcv9gtz4JLax
-	TDYsLmWj8P5oVnSVlhv2tLijPJ9lQ28Auez/zCmYcew==
-X-Gm-Gg: AY/fxX7pmdpc7aV8G5dpfJprEA1hhowHu9eQf7q9wu1z4Iy/KJFSihqgj+mLBr4t9hr
-	+Fd2FkVjMMuRK/dnWHUzyAT1U8TCnxYYpo/O0MZJrnxLWphG8mHONp8cijk8nwY/2yXiGwFuh1M
-	ajn0n+d7emAWGIVf2MUuvxV4JRCMNpdfrWfqEPgdSYmbK4XBOWDB8/qUlZNBY0huTWxpTRIOQSQ
-	EdEr8Z+Vv2lu68ZLDzhGFC2dyi0k71WP7K42hzKN+s9j0zDpagmqf3pn0tJdmYR1VmJV8qAmWw9
-	vvkgGafwddv1XlFd0A687P1Up/LfbA==
-X-Google-Smtp-Source: AGHT+IFn3q5/inJ6C1pIqxJ9vaZQXW1UDSiiLbhDvrEv3Hw650ax2i/GavTNx5tz1JKq1AGumBw4lTnxUhVeJuYi4bE=
-X-Received: by 2002:a05:6000:24c6:b0:430:f182:788f with SMTP id
- ffacd0b85a97d-432c377c603mr10384460f8f.21.1767955629909; Fri, 09 Jan 2026
- 02:47:09 -0800 (PST)
+        bh=DiNHT/qiJN6jEKgoXQs4nh93TMtBNdTigqo/HEGPChQ=;
+        b=DQefFKsiHeOFhWfJZESGUiC0CCaAZ4y7MwmTKcXxd4fbLjgZlxVt5dg6t717wFlk2o
+         NGaEoNjF62aAvPMN1usdrVVSbZotyIicWZeDI+Gg4Cv1uXbhjMFqCPG7iYfXoJMf9I8V
+         2XidEOyy/SbJLh9UTsTaoQ77VAo7Elcsh25u4sx1cfw/JcCoONiNr4c/qUVB4gGoiQ34
+         ooSd6uGdufpSNsj3sQedcvGN21RRFicIeaJgoiFvrHUghckak489yDlTdE6IS27C1CPr
+         Qd+zHlzPBcUVqzrKPw/+8RaE4LtqsMwbAkT0EyfaMA5bjAaWFiLH+foTkCxfNOPLcjkU
+         YP4g==
+X-Gm-Message-State: AOJu0YxCk9DNfQFo2MWZKHV2Gcyonztai4H9IVYPh5WIJke/RUnQ/pZO
+	l5xo3KKT1OMZYfgpavB+2ekiXgDBWRGobu2VWP25xjX5SeZ2Lo8JaQFhauGJc1r2ufmePpW8uCm
+	0z8690++i1B8aV3m4U2ffzAmIFIFdcJ/XHnuqaVxJWw==
+X-Gm-Gg: AY/fxX5tHBSOwNq1H79CXDbMhkMP9LlLdhMRXdOI2hL9oqVNCj24wC2sy16rNKfkHuD
+	WDkoEv1g6qjJ0tczC9uYsj9XilhXMCATTHs5U7lerwdA3+Tiz8F9rMBpw7rAZUZvOnp2brqeVZA
+	LbyZh8avUzR7USpT27OF6lmZBEEIMsgBXAoJQqQOV3DfW1ST1BrOzfIfcFjgPIWpPpEMhKeL3Lv
+	+7+oMm7T5wCLN9ZS/6U//bwPzQamdxkHTauw4l0knvWsJhx6H7ccXgVCMCNiU3Ft3M61YL8lqqg
+	CtjAG75rDPcCfqNuDiKiPRIZinUeJb1QfGN+chzx
+X-Google-Smtp-Source: AGHT+IE81g5qwyNkPCf17X1kFU1acrItlT6O+DQjAgulLGQDzOpR6cdVQTXloVcdv9ZAKCjiqteEikBxd9+nGyL/77k=
+X-Received: by 2002:a17:906:7955:b0:b6d:5bc3:e158 with SMTP id
+ a640c23a62f3a-b84451ad77fmr940688466b.17.1767956716974; Fri, 09 Jan 2026
+ 03:05:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20260109045447.1933604-1-alistair.francis@wdc.com>
-In-Reply-To: <20260109045447.1933604-1-alistair.francis@wdc.com>
+References: <20260109020507.2808-1-khai.dang@lge.com>
+In-Reply-To: <20260109020507.2808-1-khai.dang@lge.com>
 From: Yoann Congal <yoann.congal@smile.fr>
-Date: Fri, 9 Jan 2026 11:46:43 +0100
-X-Gm-Features: AZwV_Qh8AY-X3sbPuEk7_2ZEb5DN1TV3BiaC6cTqurXAUiPJ2mruMmgIEKShxzo
-Message-ID: <CAMSfU+4nuN3cEPQroCLO8-2xLCm5nSA7QAdANaeJAX0Ms0qm5A@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 1/2] rust: Install the Rust source
-To: alistair23@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: multipart/alternative; boundary="0000000000004cbbad0647f23f15"
+Date: Fri, 9 Jan 2026 12:04:50 +0100
+X-Gm-Features: AZwV_QioBMk1wZmzXJA90difuFWo-bxSbaVh9QNlhEF8jI59kIX7wcrbeQrS8hE
+Message-ID: <CAMSfU+73RuWjHmnUUXY6d+W-dQpP+wsGZn+yZv7DcJCeG_2iqw@mail.gmail.com>
+Subject: Re: [OE-core] [walnascar][PATCH] docbook-xml-dtd4: fix the fetching failure
+To: khaidangbk1998@gmail.com
+Cc: openembedded-core@lists.openembedded.org, Khai Dang <khai.dang@lge.com>
+Content-Type: multipart/alternative; boundary="0000000000001803650647f2800e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 10:47:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229101
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 11:05:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229102
 
---0000000000004cbbad0647f23f15
+--0000000000001803650647f2800e
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le ven. 9 janv. 2026 =C3=A0 05:55, Alistair Francis via lists.openembedded.=
-org
-<alistair23=3Dgmail.com@lists.openembedded.org> a =C3=A9crit :
+Le ven. 9 janv. 2026 =C3=A0 06:42, Khai Dang via lists.openembedded.org
+<khaidangbk1998=3Dgmail.com@lists.openembedded.org> a =C3=A9crit :
 
-> From: Alistair Francis <alistair.francis@wdc.com>
+> Updating SRC_URI, the old archive url is deprecated.
 >
-> When building the Linux kernel with Rust support enabled the kernel
-> expects to find the Rust source as the kernel build system will cross
-> compile the core library.
->
-> This patch uses the Rust tooling to install the Rust source when we
-> install the compiller as well.
+> Signed-off-by: Khai Dang <khai.dang@lge.com>
 >
 
 Hello,
 
-FYI, there is currently a whole series about enabling rust in the
-linux-yocto kernel :
-https://lore.kernel.org/openembedded-core/20251230141540.1974380-1-Harish.S=
-adineni@windriver.com/
-How does your series interact with it? If both do the same thing, maybe you
-can help reviewing Harish's one?
+I'm sorry but the walnascar support has ended in november 2025.
+(I need to make it more clear in https://wiki.yoctoproject.org/wiki/Release=
+s
+)
 
-Also, the patch you add only mentions adding the *doc* why does that help
-with linux-yocto searching for rust *code*?
+It looks like this patch is needed for the (supported) branches
+scarthgap and whinlatter, can you send the backport request there please?
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Thanks!
+
+
 > ---
->  ...-host-documentation-is-built-before-.patch | 60 +++++++++++++++++++
->  meta/recipes-devtools/rust/rust-source.inc    |  1 +
->  meta/recipes-devtools/rust/rust_1.92.0.bb     |  4 +-
->  3 files changed, 64 insertions(+), 1 deletion(-)
->  create mode 100644
-> meta/recipes-devtools/rust/files/0001-bootstrap-Ensure-host-documentation=
--is-built-before-.patch
+>  .../docbook-xml/docbook-xml-dtd4_4.5.bb                | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 >
-> diff --git
-> a/meta/recipes-devtools/rust/files/0001-bootstrap-Ensure-host-documentati=
-on-is-built-before-.patch
-> b/meta/recipes-devtools/rust/files/0001-bootstrap-Ensure-host-documentati=
-on-is-built-before-.patch
-> new file mode 100644
-> index 0000000000..e561266d70
-> --- /dev/null
-> +++
-> b/meta/recipes-devtools/rust/files/0001-bootstrap-Ensure-host-documentati=
-on-is-built-before-.patch
-> @@ -0,0 +1,60 @@
-> +From 2e89bf7969ac6d77b7c6a38265b1eabc8ec6df7a Mon Sep 17 00:00:00 2001
-> +From: Alistair Francis <alistair.francis@wdc.com>
-> +Date: Fri, 9 Jan 2026 08:35:43 +1000
-> +Subject: [PATCH] bootstrap: Ensure host documentation is built before
-> tarball
-> + is created
-> +
-> +`run_default_doc_steps()` is called to ensure the documentation is built
-> +by `Docs::run()` and it should build the documentation if it isn't
-> +already built.
-> +
-> +When running the `install src` command I'm seeing failures as the
-> +`builder.doc_out(host)` directory does not exist. This is because
-> +`match_paths_to_steps_and_run()` doesn't actually build any
-> +documentation as the `paths.is_empty()` causes an early return. This
-> +results in install failures as the `*/doc` src directory doesn't exist.
-> +
-> +This patch passes the paths to `run_host_step_descriptions()` when
-> building
-> +documentation to ensure it is correctly built.
-> +
-> +This fixes installing the Rust source code in OpenEmbedded.
-> +
-> +Upstream-Status: Submitted [https://github.com/rust-lang/rust/pull/15084=
-5
-> ]
-> +Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> +---
-> + src/bootstrap/src/core/build_steps/dist.rs | 2 +-
-> + src/bootstrap/src/core/builder/mod.rs      | 5 +++++
-> + 2 files changed, 6 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/bootstrap/src/core/build_steps/dist.rs
-> b/src/bootstrap/src/core/build_steps/dist.rs
-> +index f47b0c0b007..2fbb068632e 100644
-> +--- a/src/bootstrap/src/core/build_steps/dist.rs
-> ++++ b/src/bootstrap/src/core/build_steps/dist.rs
-> +@@ -83,7 +83,7 @@ fn run(self, builder: &Builder<'_>) ->
-> Option<GeneratedTarball> {
-> +         // FIXME: explicitly enumerate the steps that should be execute=
-d
-> here, and gather their
-> +         // documentation, rather than running all default steps and the=
-n
-> read their output
-> +         // from a shared directory.
-> +-        builder.run_default_doc_steps();
-> ++        builder.run_host_default_doc_steps();
-> +
-> +         let dest =3D "share/doc/rust/html";
-> +
-> +diff --git a/src/bootstrap/src/core/builder/mod.rs
-> b/src/bootstrap/src/core/builder/mod.rs
-> +index 4a04b97c549..16c1c324be0 100644
-> +--- a/src/bootstrap/src/core/builder/mod.rs
-> ++++ b/src/bootstrap/src/core/builder/mod.rs
-> +@@ -1117,6 +1117,11 @@ pub fn execute_cli(&self) {
-> +
->  self.run_step_descriptions(&Builder::get_step_descriptions(self.kind),
-> &self.paths);
-> +     }
-> +
-> ++    /// Run all default documentation steps to build documentation.
-> ++    pub fn run_host_default_doc_steps(&self) {
-> ++
-> self.run_step_descriptions(&Builder::get_step_descriptions(Kind::Doc),
-> &self.paths);
-> ++    }
-> ++
-> +     /// Run all default documentation steps to build documentation.
-> +     pub fn run_default_doc_steps(&self) {
-> +
->  self.run_step_descriptions(&Builder::get_step_descriptions(Kind::Doc),
-> &[]);
-> +--
-> +2.52.0
-> +
-> diff --git a/meta/recipes-devtools/rust/rust-source.inc
-> b/meta/recipes-devtools/rust/rust-source.inc
-> index d7d44510e4..8a22d484c1 100644
-> --- a/meta/recipes-devtools/rust/rust-source.inc
-> +++ b/meta/recipes-devtools/rust/rust-source.inc
-> @@ -8,6 +8,7 @@ SRC_URI +=3D "
-> https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+> diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+> b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+> index 1148d53694..ea0861823d 100644
+> --- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+> +++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+> @@ -10,11 +10,11 @@ LIC_FILES_CHKSUM =3D
+> "file://docbook-4.5/docbookx.dtd;beginline=3D15;endline=3D30;md5=3D
 >
->  file://0001-src-core-build_steps-tool.rs-switch-off-lto-for-rust.patch;p=
-atchdir=3D${RUSTSRC}
+>  file://LICENSE-OASIS;md5=3Db9ee6208caa6e66c68dfad6f31d73f92"
+>
+>  # Install the latest 4.5 DTDs, and the previous releases for backward
+> compatibility.
+> -SRC_URI =3D "
+> https://docbook.org/xml/4.1.2/docbkx412.zip;name=3Dpayload412;subdir=3Ddo=
+cbook-4.1.2
 > \
->
->  file://revert-link-std-statically-in-rustc_driver-feature.patch;patchdir=
-=3D${RUSTSRC}
+> -
+> https://docbook.org/xml/4.2/docbook-xml-4.2.zip;name=3Dpayload42;subdir=
+=3Ddocbook-4.2
 > \
->
->  file://0001-riscv32-Define-plain-syscalls-as-their-time64-varian.patch;p=
-atchdir=3D${RUSTSRC}
+> -
+> https://docbook.org/xml/4.3/docbook-xml-4.3.zip;name=3Dpayload43;subdir=
+=3Ddocbook-4.3
+> \
+> -
+> https://docbook.org/xml/4.4/docbook-xml-4.4.zip;name=3Dpayload44;subdir=
+=3Ddocbook-4.4
+> \
+> -
+> https://docbook.org/xml/${PV}/docbook-xml-${PV}.zip;name=3DpayloadPV;subd=
+ir=3Ddocbook-${PV}
+> \
+> +SRC_URI =3D "
+> https://archive.docbook.org/xml/4.1.2/docbkx412.zip;name=3Dpayload412;sub=
+dir=3Ddocbook-4.1.2
 > \
 > +
-> file://0001-bootstrap-Ensure-host-documentation-is-built-before-.patch \
->  "
->  SRC_URI[rust.sha256sum] =3D
-> "ebee170bfe4c4dfc59521a101de651e5534f4dae889756a5c97ca9ea40d0c307"
->
-> diff --git a/meta/recipes-devtools/rust/rust_1.92.0.bb
-> b/meta/recipes-devtools/rust/rust_1.92.0.bb
-> index a25f65f674..306661b6e4 100644
-> --- a/meta/recipes-devtools/rust/rust_1.92.0.bb
-> +++ b/meta/recipes-devtools/rust/rust_1.92.0.bb
-> @@ -6,8 +6,9 @@ LIC_FILES_CHKSUM =3D
-> "file://COPYRIGHT;md5=3D11a3899825f4376896e438c8c753f8dc"
->
->  inherit rust
->  inherit cargo_common
-> +inherit pkgconfig
->
-> -DEPENDS +=3D "llvm"
-> +DEPENDS +=3D "llvm openssl"
->
-
-This new dependency should be explained in the commit message.
-
-
->  # native rust uses cargo/rustc from binary snapshots to bootstrap
->  # but everything else should use our native builds
->  DEPENDS:append:class-target =3D " cargo-native rust-native"
-> @@ -282,6 +283,7 @@ do_install () {
->
->  rust_do_install() {
->      rust_runx install
-> +    rust_runx install src
->  }
->
->  rust_do_install:class-nativesdk() {
-> --
-> 2.52.0
+> https://archive.docbook.org/xml/4.2/docbook-xml-4.2.zip;name=3Dpayload42;=
+subdir=3Ddocbook-4.2
+> \
+> +
+> https://archive.docbook.org/xml/4.3/docbook-xml-4.3.zip;name=3Dpayload43;=
+subdir=3Ddocbook-4.3
+> \
+> +
+> https://archive.docbook.org/xml/4.4/docbook-xml-4.4.zip;name=3Dpayload44;=
+subdir=3Ddocbook-4.4
+> \
+> +
+> https://archive.docbook.org/xml/${PV}/docbook-xml-${PV}.zip;name=3Dpayloa=
+dPV;subdir=3Ddocbook-${PV}
+> \
+>             file://docbook-xml-update-catalog.xml.patch \
+>             file://LICENSE-OASIS"
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#229091):
-> https://lists.openembedded.org/g/openembedded-core/message/229091
-> Mute This Topic: https://lists.openembedded.org/mt/117170671/4316185
+> View/Reply Online (#229093):
+> https://lists.openembedded.org/g/openembedded-core/message/229093
+> Mute This Topic: https://lists.openembedded.org/mt/117170940/4316185
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
 > yoann.congal@smile.fr]
@@ -267,214 +163,108 @@ This new dependency should be explained in the commit message.
 Yoann Congal
 Smile ECS
 
---0000000000004cbbad0647f23f15
+--0000000000001803650647f2800e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
-=3D"ltr" class=3D"gmail_attr">Le=C2=A0ven. 9 janv. 2026 =C3=A0=C2=A005:55, =
-Alistair Francis via <a href=3D"http://lists.openembedded.org">lists.openem=
-bedded.org</a> &lt;alistair23=3D<a href=3D"mailto:gmail.com@lists.openembed=
-ded.org">gmail.com@lists.openembedded.org</a>&gt; a =C3=A9crit=C2=A0:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">From: Alistair Franci=
-s &lt;<a href=3D"mailto:alistair.francis@wdc.com" target=3D"_blank">alistai=
-r.francis@wdc.com</a>&gt;<br>
+<div dir=3D"ltr"><div dir=3D"ltr">Le=C2=A0ven. 9 janv. 2026 =C3=A0=C2=A006:=
+42, Khai Dang via <a href=3D"http://lists.openembedded.org">lists.openembed=
+ded.org</a> &lt;khaidangbk1998=3D<a href=3D"mailto:gmail.com@lists.openembe=
+dded.org">gmail.com@lists.openembedded.org</a>&gt; a =C3=A9crit=C2=A0:</div=
+><div class=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">Updating SRC_URI, the old archive url is deprecate=
+d.<br>
 <br>
-When building the Linux kernel with Rust support enabled the kernel<br>
-expects to find the Rust source as the kernel build system will cross<br>
-compile the core library.<br>
-<br>
-This patch uses the Rust tooling to install the Rust source when we<br>
-install the compiller as well.<br></blockquote><div><br></div><div>Hello,</=
-div><div><br></div><div>FYI, there is currently a whole series about enabli=
-ng rust in the linux-yocto kernel :=C2=A0<a href=3D"https://lore.kernel.org=
-/openembedded-core/20251230141540.1974380-1-Harish.Sadineni@windriver.com/"=
->https://lore.kernel.org/openembedded-core/20251230141540.1974380-1-Harish.=
-Sadineni@windriver.com/</a></div><div>How does your series interact with it=
-? If both do the same thing, maybe you can help reviewing Harish&#39;s one?=
-</div><div><br></div><div>Also, the patch you add only mentions adding the =
-*doc* why does that help with linux-yocto searching for rust *code*?</div><=
-div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.=
-com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+Signed-off-by: Khai Dang &lt;<a href=3D"mailto:khai.dang@lge.com" target=3D=
+"_blank">khai.dang@lge.com</a>&gt;<br></blockquote><div><br></div><div>Hell=
+o,</div><div><br></div><div>I&#39;m sorry but the walnascar support has end=
+ed in november 2025.</div><div>(I need to make it more clear in=C2=A0<a hre=
+f=3D"https://wiki.yoctoproject.org/wiki/Releases">https://wiki.yoctoproject=
+.org/wiki/Releases</a>)</div><div><br></div><div>It looks like this patch i=
+s needed for the (supported) branches scarthgap=C2=A0and whinlatter, can yo=
+u send the backport request there please?</div><div><br></div><div>Thanks!<=
+/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0...-host-documentation-is-built-before-.patch | 60 ++++++++++++++++++=
-+<br>
-=C2=A0meta/recipes-devtools/rust/rust-source.inc=C2=A0 =C2=A0 |=C2=A0 1 +<b=
+=C2=A0.../docbook-xml/<a href=3D"http://docbook-xml-dtd4_4.5.bb" rel=3D"nor=
+eferrer" target=3D"_blank">docbook-xml-dtd4_4.5.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 10 +++++-----<br>
+=C2=A01 file changed, 5 insertions(+), 5 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/docbook-xml/<a href=3D"http://docbook-xm=
+l-dtd4_4.5.bb" rel=3D"noreferrer" target=3D"_blank">docbook-xml-dtd4_4.5.bb=
+</a> b/meta/recipes-devtools/docbook-xml/<a href=3D"http://docbook-xml-dtd4=
+_4.5.bb" rel=3D"noreferrer" target=3D"_blank">docbook-xml-dtd4_4.5.bb</a><b=
 r>
-=C2=A0meta/recipes-devtools/rust/<a href=3D"http://rust_1.92.0.bb" rel=3D"n=
-oreferrer" target=3D"_blank">rust_1.92.0.bb</a>=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
-4 +-<br>
-=C2=A03 files changed, 64 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/rust/files/0001-bootstrap-En=
-sure-host-documentation-is-built-before-.patch<br>
+index 1148d53694..ea0861823d 100644<br>
+--- a/meta/recipes-devtools/docbook-xml/<a href=3D"http://docbook-xml-dtd4_=
+4.5.bb" rel=3D"noreferrer" target=3D"_blank">docbook-xml-dtd4_4.5.bb</a><br=
+>
++++ b/meta/recipes-devtools/docbook-xml/<a href=3D"http://docbook-xml-dtd4_=
+4.5.bb" rel=3D"noreferrer" target=3D"_blank">docbook-xml-dtd4_4.5.bb</a><br=
+>
+@@ -10,11 +10,11 @@ LIC_FILES_CHKSUM =3D &quot;file://docbook-4.5/docbookx.=
+dtd;beginline=3D15;endline=3D30;md5=3D<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0file://LICENSE-OASIS;md5=3Db9ee6208caa6e66c68dfad6f31d73f92&quot;<br>
 <br>
-diff --git a/meta/recipes-devtools/rust/files/0001-bootstrap-Ensure-host-do=
-cumentation-is-built-before-.patch b/meta/recipes-devtools/rust/files/0001-=
-bootstrap-Ensure-host-documentation-is-built-before-.patch<br>
-new file mode 100644<br>
-index 0000000000..e561266d70<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/rust/files/0001-bootstrap-Ensure-host-documenta=
-tion-is-built-before-.patch<br>
-@@ -0,0 +1,60 @@<br>
-+From 2e89bf7969ac6d77b7c6a38265b1eabc8ec6df7a Mon Sep 17 00:00:00 2001<br>
-+From: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.com" tar=
-get=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
-+Date: Fri, 9 Jan 2026 08:35:43 +1000<br>
-+Subject: [PATCH] bootstrap: Ensure host documentation is built before tarb=
-all<br>
-+ is created<br>
-+<br>
-+`run_default_doc_steps()` is called to ensure the documentation is built<b=
-r>
-+by `Docs::run()` and it should build the documentation if it isn&#39;t<br>
-+already built.<br>
-+<br>
-+When running the `install src` command I&#39;m seeing failures as the<br>
-+`builder.doc_out(host)` directory does not exist. This is because<br>
-+`match_paths_to_steps_and_run()` doesn&#39;t actually build any<br>
-+documentation as the `paths.is_empty()` causes an early return. This<br>
-+results in install failures as the `*/doc` src directory doesn&#39;t exist=
-.<br>
-+<br>
-+This patch passes the paths to `run_host_step_descriptions()` when buildin=
-g<br>
-+documentation to ensure it is correctly built.<br>
-+<br>
-+This fixes installing the Rust source code in OpenEmbedded.<br>
-+<br>
-+Upstream-Status: Submitted [<a href=3D"https://github.com/rust-lang/rust/p=
-ull/150845" rel=3D"noreferrer" target=3D"_blank">https://github.com/rust-la=
-ng/rust/pull/150845</a>]<br>
-+Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc=
-.com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
-+---<br>
-+ src/bootstrap/src/core/build_steps/<a href=3D"http://dist.rs" rel=3D"nore=
-ferrer" target=3D"_blank">dist.rs</a> | 2 +-<br>
-+ src/bootstrap/src/core/builder/<a href=3D"http://mod.rs" rel=3D"noreferre=
-r" target=3D"_blank">mod.rs</a>=C2=A0 =C2=A0 =C2=A0 | 5 +++++<br>
-+ 2 files changed, 6 insertions(+), 1 deletion(-)<br>
-+<br>
-+diff --git a/src/bootstrap/src/core/build_steps/<a href=3D"http://dist.rs"=
- rel=3D"noreferrer" target=3D"_blank">dist.rs</a> b/src/bootstrap/src/core/=
-build_steps/<a href=3D"http://dist.rs" rel=3D"noreferrer" target=3D"_blank"=
->dist.rs</a><br>
-+index f47b0c0b007..2fbb068632e 100644<br>
-+--- a/src/bootstrap/src/core/build_steps/<a href=3D"http://dist.rs" rel=3D=
-"noreferrer" target=3D"_blank">dist.rs</a><br>
-++++ b/src/bootstrap/src/core/build_steps/<a href=3D"http://dist.rs" rel=3D=
-"noreferrer" target=3D"_blank">dist.rs</a><br>
-+@@ -83,7 +83,7 @@ fn run(self, builder: &amp;Builder&lt;&#39;_&gt;) -&gt; =
-Option&lt;GeneratedTarball&gt; {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// FIXME: explicitly enumerate the steps=
- that should be executed here, and gather their<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// documentation, rather than running al=
-l default steps and then read their output<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// from a shared directory.<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 builder.run_default_doc_steps();<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 builder.run_host_default_doc_steps();<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0let dest =3D &quot;share/doc/rust/html&q=
-uot;;<br>
-+ <br>
-+diff --git a/src/bootstrap/src/core/builder/<a href=3D"http://mod.rs" rel=
-=3D"noreferrer" target=3D"_blank">mod.rs</a> b/src/bootstrap/src/core/build=
-er/<a href=3D"http://mod.rs" rel=3D"noreferrer" target=3D"_blank">mod.rs</a=
-><br>
-+index 4a04b97c549..16c1c324be0 100644<br>
-+--- a/src/bootstrap/src/core/builder/<a href=3D"http://mod.rs" rel=3D"nore=
-ferrer" target=3D"_blank">mod.rs</a><br>
-++++ b/src/bootstrap/src/core/builder/<a href=3D"http://mod.rs" rel=3D"nore=
-ferrer" target=3D"_blank">mod.rs</a><br>
-+@@ -1117,6 +1117,11 @@ pub fn execute_cli(&amp;self) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.run_step_descriptions(&amp;Builder:=
-:get_step_descriptions(self.kind), &amp;self.paths);<br>
-+=C2=A0 =C2=A0 =C2=A0}<br>
-+ <br>
-++=C2=A0 =C2=A0 /// Run all default documentation steps to build documentat=
-ion.<br>
-++=C2=A0 =C2=A0 pub fn run_host_default_doc_steps(&amp;self) {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.run_step_descriptions(&amp;Builder::get_=
-step_descriptions(Kind::Doc), &amp;self.paths);<br>
-++=C2=A0 =C2=A0 }<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0/// Run all default documentation steps to build docum=
-entation.<br>
-+=C2=A0 =C2=A0 =C2=A0pub fn run_default_doc_steps(&amp;self) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.run_step_descriptions(&amp;Builder:=
-:get_step_descriptions(Kind::Doc), &amp;[]);<br>
-+-- <br>
-+2.52.0<br>
-+<br>
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devt=
-ools/rust/rust-source.inc<br>
-index d7d44510e4..8a22d484c1 100644<br>
---- a/meta/recipes-devtools/rust/rust-source.inc<br>
-+++ b/meta/recipes-devtools/rust/rust-source.inc<br>
-@@ -8,6 +8,7 @@ SRC_URI +=3D &quot;<a href=3D"https://static.rust-lang.org/=
-dist/rustc-$%7BRUST_VERSION%7D-src.tar.xz;n" rel=3D"noreferrer" target=3D"_=
-blank">https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n=
-</a><br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-src-core-build_=
-steps-tool.rs-switch-off-lto-for-rust.patch;patchdir=3D${RUSTSRC} \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://revert-link-std-stat=
-ically-in-rustc_driver-feature.patch;patchdir=3D${RUSTSRC} \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-riscv32-Define-=
-plain-syscalls-as-their-time64-varian.patch;patchdir=3D${RUSTSRC} \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-bootstrap-Ensure-hos=
-t-documentation-is-built-before-.patch \<br>
-=C2=A0&quot;<br>
-=C2=A0SRC_URI[rust.sha256sum] =3D &quot;ebee170bfe4c4dfc59521a101de651e5534=
-f4dae889756a5c97ca9ea40d0c307&quot;<br>
-<br>
-diff --git a/meta/recipes-devtools/rust/<a href=3D"http://rust_1.92.0.bb" r=
-el=3D"noreferrer" target=3D"_blank">rust_1.92.0.bb</a> b/meta/recipes-devto=
-ols/rust/<a href=3D"http://rust_1.92.0.bb" rel=3D"noreferrer" target=3D"_bl=
-ank">rust_1.92.0.bb</a><br>
-index a25f65f674..306661b6e4 100644<br>
---- a/meta/recipes-devtools/rust/<a href=3D"http://rust_1.92.0.bb" rel=3D"n=
-oreferrer" target=3D"_blank">rust_1.92.0.bb</a><br>
-+++ b/meta/recipes-devtools/rust/<a href=3D"http://rust_1.92.0.bb" rel=3D"n=
-oreferrer" target=3D"_blank">rust_1.92.0.bb</a><br>
-@@ -6,8 +6,9 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYRIGHT;md5=3D11a389982=
-5f4376896e438c8c753f8dc&quot;<br>
-<br>
-=C2=A0inherit rust<br>
-=C2=A0inherit cargo_common<br>
-+inherit pkgconfig<br>
-<br>
--DEPENDS +=3D &quot;llvm&quot;<br>
-+DEPENDS +=3D &quot;llvm openssl&quot;<br></blockquote><div><br></div><div>=
-This new dependency should be explained in the commit message.=C2=A0</div><=
-div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0# native rust uses cargo/rustc from binary snapshots to bootstrap<br>
-=C2=A0# but everything else should use our native builds<br>
-=C2=A0DEPENDS:append:class-target =3D &quot; cargo-native rust-native&quot;=
-<br>
-@@ -282,6 +283,7 @@ do_install () {<br>
-<br>
-=C2=A0rust_do_install() {<br>
-=C2=A0 =C2=A0 =C2=A0rust_runx install<br>
-+=C2=A0 =C2=A0 rust_runx install src<br>
-=C2=A0}<br>
-<br>
-=C2=A0rust_do_install:class-nativesdk() {<br>
--- <br>
-2.52.0<br>
+=C2=A0# Install the latest 4.5 DTDs, and the previous releases for backward=
+ compatibility.<br>
+-SRC_URI =3D &quot;<a href=3D"https://docbook.org/xml/4.1.2/docbkx412.zip;n=
+ame=3Dpayload412;subdir=3Ddocbook-4.1.2" rel=3D"noreferrer" target=3D"_blan=
+k">https://docbook.org/xml/4.1.2/docbkx412.zip;name=3Dpayload412;subdir=3Dd=
+ocbook-4.1.2</a> \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://docbook.org/xm=
+l/4.2/docbook-xml-4.2.zip;name=3Dpayload42;subdir=3Ddocbook-4.2" rel=3D"nor=
+eferrer" target=3D"_blank">https://docbook.org/xml/4.2/docbook-xml-4.2.zip;=
+name=3Dpayload42;subdir=3Ddocbook-4.2</a> \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://docbook.org/xm=
+l/4.3/docbook-xml-4.3.zip;name=3Dpayload43;subdir=3Ddocbook-4.3" rel=3D"nor=
+eferrer" target=3D"_blank">https://docbook.org/xml/4.3/docbook-xml-4.3.zip;=
+name=3Dpayload43;subdir=3Ddocbook-4.3</a> \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://docbook.org/xm=
+l/4.4/docbook-xml-4.4.zip;name=3Dpayload44;subdir=3Ddocbook-4.4" rel=3D"nor=
+eferrer" target=3D"_blank">https://docbook.org/xml/4.4/docbook-xml-4.4.zip;=
+name=3Dpayload44;subdir=3Ddocbook-4.4</a> \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://docbook.org/xm=
+l/$%7BPV%7D/docbook-xml-$%7BPV%7D.zip;name=3DpayloadPV;subdir=3Ddocbook-$%7=
+BPV%7D" rel=3D"noreferrer" target=3D"_blank">https://docbook.org/xml/${PV}/=
+docbook-xml-${PV}.zip;name=3DpayloadPV;subdir=3Ddocbook-${PV}</a> \<br>
++SRC_URI =3D &quot;<a href=3D"https://archive.docbook.org/xml/4.1.2/docbkx4=
+12.zip;name=3Dpayload412;subdir=3Ddocbook-4.1.2" rel=3D"noreferrer" target=
+=3D"_blank">https://archive.docbook.org/xml/4.1.2/docbkx412.zip;name=3Dpayl=
+oad412;subdir=3Ddocbook-4.1.2</a> \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://archive.docboo=
+k.org/xml/4.2/docbook-xml-4.2.zip;name=3Dpayload42;subdir=3Ddocbook-4.2" re=
+l=3D"noreferrer" target=3D"_blank">https://archive.docbook.org/xml/4.2/docb=
+ook-xml-4.2.zip;name=3Dpayload42;subdir=3Ddocbook-4.2</a> \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://archive.docboo=
+k.org/xml/4.3/docbook-xml-4.3.zip;name=3Dpayload43;subdir=3Ddocbook-4.3" re=
+l=3D"noreferrer" target=3D"_blank">https://archive.docbook.org/xml/4.3/docb=
+ook-xml-4.3.zip;name=3Dpayload43;subdir=3Ddocbook-4.3</a> \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://archive.docboo=
+k.org/xml/4.4/docbook-xml-4.4.zip;name=3Dpayload44;subdir=3Ddocbook-4.4" re=
+l=3D"noreferrer" target=3D"_blank">https://archive.docbook.org/xml/4.4/docb=
+ook-xml-4.4.zip;name=3Dpayload44;subdir=3Ddocbook-4.4</a> \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://archive.docboo=
+k.org/xml/$%7BPV%7D/docbook-xml-$%7BPV%7D.zip;name=3DpayloadPV;subdir=3Ddoc=
+book-$%7BPV%7D" rel=3D"noreferrer" target=3D"_blank">https://archive.docboo=
+k.org/xml/${PV}/docbook-xml-${PV}.zip;name=3DpayloadPV;subdir=3Ddocbook-${P=
+V}</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://docbook-xml-update-catalog=
+.xml.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://LICENSE-OASIS&quot;<br>
 <br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#229091): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/229091" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/229091</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117170671/431=
+View/Reply Online (#229093): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/229093" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/229093</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117170940/431=
 6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/117170671/4316185</a><br>
+t/117170940/4316185</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
@@ -489,5 +279,5 @@ gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
 iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
 t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
 
---0000000000004cbbad0647f23f15--
+--0000000000001803650647f2800e--
 
