@@ -1,149 +1,103 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C10E1D26D6E
-	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 16:01:30 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13329.1767974489296338042
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D94A3D26D72
+	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 16:17:00 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13716.1767975418409911625
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jan 2026 08:01:29 -0800
+ Fri, 09 Jan 2026 08:16:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=SDOPQHbJ;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-432755545fcso2587048f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 08:01:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1767974487; x=1768579287; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lMkd599Hvne5qCxlhKzpMP0apWWQeWYrlYy5NNDpi28=;
-        b=SDOPQHbJXbvt077z2g1O2KhdnPBtANKmGPhrd/xe2MtN99fojINx/UH9PdwLNtuTAB
-         5nvcqjswm4D+unuOxi3Y0wG6Zr0LPXV9pgR2+v6RVQNSGvGYPo26KZtfOp636RSYux4y
-         oLrwf+MdSwC60sb74CDyCsIxbSMlE/IJNc/9Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767974487; x=1768579287;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lMkd599Hvne5qCxlhKzpMP0apWWQeWYrlYy5NNDpi28=;
-        b=hIEOsx30K5vdVBoZaUH8VrZdgHpCYqdrPDYt3tbNCOlSBQbwimG4G1UZN3+lBaHYHf
-         r9gqwtJ7m0f434TcRdblBi+zkcBsNhR8K2mXYuMVJ6a4a35nZczoKyAT0Q5n6XwgxdCT
-         pxtmCjtbRIcE57c78urK7Zf1OvPKp0ktGMVG0RcNn4s+Jvd+3+LMHEYpAMqTzKApb3ih
-         jRdKz5biB8I9aU46QtytYkxidn4rseBEcKduOVVswsue8NP8GyzZ5Q7+PIEECxH25JEp
-         gCuojNVlLR3VjLW7Fce6HMCO6MI2LWHd1S6fvGAibtL76yC2+4fvoAKKz2Y/J1XPJgiQ
-         pibQ==
-X-Gm-Message-State: AOJu0YwdXUavMk20WJov2p+CRVj1VR+32ldZwl697JHOC7AqGUNrAk+f
-	sO2MbIerflzFXb8Nb3Kp6EJNXA02kvCzVddeQmz83EGuQXq4lOHux/lFyPoWneV+rCQjy9koEvL
-	Mmkry
-X-Gm-Gg: AY/fxX7AqTM8WLtHLfs76q790NE3DssTGexbHz3M4FJZEzZCP/goINXMXTMW5Awrz0S
-	mxO58/L3uqR/AX5uYS42JBKRqW1v1ijG0+jdQNNmO4Fz5gbFMgDswCUckwHrcd073XIRkVVmAUQ
-	twvGbcHmRFDT1XUxhYqkGEfNxaG+s4Co8syjTR1hSYvFwOQHRZBjXAcdSPtp7IUbJ8/AdepwiyP
-	+/QAVtHfFK0Gdnr6Wr6huzOdASJZwUUtMcbRhv1vzWKC/awIUgV9ZW+/HVyu8v5+qSkekJSYpcB
-	o3RnrAgZX7fKV7XTTg07qoEqa4DnU///qctXMAPY0MISlV7UUglSBfx4v4PV4fZRRYKeFepbSWT
-	wTKx3fR3eTYk4MNrMzaFaXOB3LFFdtB9fiBxvnHsPFdkgx4GYXsTCmUsZanHARUpqpztmrZp5HD
-	fviSSTWlXqwC18jrtSyV7it8OY3ksGyjm16HgGiMefjmM9Ospu3awpSV7FYIuMbmNoAW7SZlXOf
-	F2hW0WAYMAlLkJS
-X-Google-Smtp-Source: AGHT+IG37B19fxS+bcNtCvYeR8U98O3TZdVmNwfmJAG5d3FiKLW+PacPdQqt2z+g03xP7Hy+gcndnw==
-X-Received: by 2002:a05:6000:1448:b0:430:fa9a:75a with SMTP id ffacd0b85a97d-432c37758a5mr13827546f8f.62.1767974485935;
-        Fri, 09 Jan 2026 08:01:25 -0800 (PST)
-Received: from FRSMI25-LASER.home (2a01cb001331aa00280df0dfad12f819.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:280d:f0df:ad12:f819])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e180csm22545938f8f.10.2026.01.09.08.01.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 08:01:24 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>,
-	Paul Barker <paul@pbarker.dev>
-Subject: [OE-core][whinlatter 00/10] Pull request (cover letter only)
-Date: Fri,  9 Jan 2026 16:58:38 +0100
-Message-ID: <cover.1767973778.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=puFP33Gv;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: antonin.godard@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 329754E42021;
+	Fri,  9 Jan 2026 16:16:56 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id DC608606C6;
+	Fri,  9 Jan 2026 16:16:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 81179103C8962;
+	Fri,  9 Jan 2026 17:16:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1767975415; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=fwWTIfyxzy1jdZVuH21txzQ2EzUO5LmBFADV8NaxKgo=;
+	b=puFP33GvTAEiva3rRskaQy1Aze/HyPVKki1py5s9WsFE81S/0bZmLdLAcBtpn9Vr8OyPBf
+	RnsK3/H5f85xg4YRYxp8TRjNnfeaUOLhjBNOO03q1KS9tMcn1o3Yi1mxnMMlf+Vt3FdnMT
+	xCMdL4eehrovaqaYkQ0UZLwGzMNclN1lP7b7GMjY5aCxGyoSwo/RV0p/VEwipL8NnXboDl
+	0pZi778dWucXUyVZrRWGsbXIH6L0tjrobRR6hYqhRKJfooTCliBxKA2v+nEraCJqjmJzJj
+	VOPPSQKjApGpDhX6qrhKn7oI1LhouJKABwYUAGgIT+xRsHAmxs9XluAW6avB7A==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 09 Jan 2026 17:16:53 +0100
+Message-Id: <DFK6Z8JLFKXM.2TCBCVDL3QD0W@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2 1/6] alsa-utils: build more manpages with
+ rst2man
+From: "Antonin Godard" <antonin.godard@bootlin.com>
+To: <ross.burton@arm.com>, <openembedded-core@lists.openembedded.org>
+References: <20260109135852.3187805-1-ross.burton@arm.com>
+In-Reply-To: <20260109135852.3187805-1-ross.burton@arm.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 16:01:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229133
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 16:17:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229134
 
-Those are the patches (except one) from the last patch review:
-https://lore.kernel.org/openembedded-core/cover.1767772757.git.yoann.congal@smile.fr/
+Hi,
 
-"[OE-core][whinlatter 04/11] python3-urllib3: patch CVE-2025-66471" was
-deemed too big for stable inclusion right now (We need to work on it).
+I think the series triggered warnings on the Autobuilder:
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3006
-no-x11 build was hit by
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=16117 "do_package: Error executing a python function in exec_func_python() autogenerated"
-but successfully rebuilt in https://autobuilder.yoctoproject.org/valkyrie/#/builders/25/builds/2995
+stdio: WARNING: Nothing RPROVIDES 'pulseaudio-module-x11-publish' (but /srv=
+/pokybuild/yocto-worker/a-full/build/layers/openembedded-core/meta/recipes-=
+multimedia/pulseaudio/pulseaudio_17.0.bb RDEPENDS on or otherwise requires =
+it)
+stdio: WARNING: Nothing RPROVIDES 'pulseaudio-module-device-manager' (but /=
+srv/pokybuild/yocto-worker/a-full/build/layers/openembedded-core/meta/recip=
+es-multimedia/pulseaudio/pulseaudio_17.0.bb RDEPENDS on or otherwise requir=
+es it)
+stdio: WARNING: Nothing RPROVIDES 'pulseaudio' (but /srv/pokybuild/yocto-wo=
+rker/a-full/build/layers/openembedded-core/meta/recipes-multimedia/pulseaud=
+io/pulseaudio_17.0.bb RDEPENDS on or otherwise requires it)
+stdio: WARNING: Nothing RPROVIDES 'pulseaudio-module-native-protocol-unix' =
+(but /srv/pokybuild/yocto-worker/a-full/build/layers/openembedded-core/meta=
+/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb RDEPENDS on or otherwise =
+requires it)
+stdio: WARNING: Nothing RPROVIDES 'pulseaudio-module-x11-cork-request' (but=
+ /srv/pokybuild/yocto-worker/a-full/build/layers/openembedded-core/meta/rec=
+ipes-multimedia/pulseaudio/pulseaudio_17.0.bb RDEPENDS on or otherwise requ=
+ires it)
+stdio: WARNING: Nothing RPROVIDES 'alsa-plugins-pulseaudio-conf' (but /srv/=
+pokybuild/yocto-worker/a-full/build/layers/openembedded-core/meta/recipes-m=
+ultimedia/pulseaudio/pulseaudio_17.0.bb RDEPENDS on or otherwise requires i=
+t)
+stdio: WARNING: Nothing RPROVIDES 'pulseaudio-module-switch-on-port-availab=
+le' (but /srv/pokybuild/yocto-worker/a-full/build/layers/openembedded-core/=
+meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb RDEPENDS on or otherw=
+ise requires it)
+stdio: WARNING: Nothing RPROVIDES 'pulseaudio-module-alsa-sink' (but /srv/p=
+okybuild/yocto-worker/a-full/build/layers/openembedded-core/meta/recipes-mu=
+ltimedia/pulseaudio/pulseaudio_17.0.bb RDEPENDS on or otherwise requires it=
+)
+stdio: WARNING: Nothing RPROVIDES 'pulseaudio-module-position-event-sounds'=
+ (but /srv/pokybuild/yocto-worker/a-full/build/layers/openembedded-core/met=
+a/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb RDEPENDS on or otherwise=
+ requires it)
+...
 
-The following changes since commit 7ac6a43dafa85732178933716f6ba7cdf8557990:
+https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/4891681/raw_inlin=
+e
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3023
 
-  cups: upgrade from 2.4.14 to 2.4.15 (2026-01-07 13:52:34 +0000)
+Can you have a look?
 
-are available in the Git repository at:
+Antonin
 
-  https://git.openembedded.org/openembedded-core-contrib stable/whinlatter-next
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/whinlatter-next
-
-for you to fetch changes up to 454bf7bbda0e0c64f97674f3a96e0ef660214254:
-
-  Revert "create-spdx-image-3.0: Image SPDX/SBOM tasks are retained for eSDK installation" (2026-01-07 17:14:43 +0100)
-
-----------------------------------------------------------------
-
-Alexander Kanavin (1):
-  glib-2.0: upgrade 2.86.1 -> 2.86.3
-
-Peter Marko (7):
-  dropbear: patch CVE-2019-6111
-  sqlite3: mark CVE-2025-29087 as patched
-  python3-urllib3: patch CVE-2025-66418
-  python3: upgrade 3.13.9 -> 3.13.11
-  libarchive: upgrade 3.8.3 -> 3.8.4
-  libpng: upgrade 1.6.51 -> 1.6.52
-  libpcap: upgrade 1.10.5 -> 1.10.6
-
-Yoann Congal (2):
-  Revert "populate_sdk_ext: keep SDK_TARGETS so SPDX/SBOM tasks remain
-    in locked sigs"
-  Revert "create-spdx-image-3.0: Image SPDX/SBOM tasks are retained for
-    eSDK installation"
-
- .../create-spdx-image-3.0.bbclass             |   2 +-
- meta/classes-recipe/populate_sdk_ext.bbclass  |   9 -
- .../{libpcap_1.10.5.bb => libpcap_1.10.6.bb}  |   2 +-
- .../dropbear/dropbear/CVE-2019-6111.patch     | 157 ++++++++++++++++++
- .../recipes-core/dropbear/dropbear_2025.88.bb |   1 +
- ...t-write-bindir-into-pkg-config-files.patch |  10 +-
- ...0001-Fix-DATADIRNAME-on-uclibc-Linux.patch |   2 +-
- ...-gio-querymodules-as-libexec_PROGRAM.patch |   6 +-
- ...ng-about-deprecated-paths-in-schemas.patch |   2 +-
- ...ces.c-comment-out-a-build-host-only-.patch |   2 +-
- ...on-Run-atomics-test-on-clang-as-well.patch |   6 +-
- ...ot-enable-pidfd-features-on-native-g.patch |   6 +-
- ...dcode-python-path-into-various-tools.patch |   2 +-
- .../glib-2.0/files/relocate-modules.patch     |   8 +-
- .../glib-2.0/files/skip-timeout.patch         |   2 +-
- ...l_2.86.1.bb => glib-2.0-initial_2.86.3.bb} |   0
- ...{glib-2.0_2.86.1.bb => glib-2.0_2.86.3.bb} |   0
- meta/recipes-core/glib-2.0/glib.inc           |   2 +-
- .../python3-urllib3/CVE-2025-66418.patch      |  74 +++++++++
- .../python/python3-urllib3_2.5.0.bb           |   4 +
- .../{python3_3.13.9.bb => python3_3.13.11.bb} |   2 +-
- ...ibarchive_3.8.3.bb => libarchive_3.8.4.bb} |   2 +-
- .../{libpng_1.6.51.bb => libpng_1.6.52.bb}    |   2 +-
- .../sqlite/files/CVE-2025-3277.patch          |   1 +
- 24 files changed, 266 insertions(+), 38 deletions(-)
- rename meta/recipes-connectivity/libpcap/{libpcap_1.10.5.bb => libpcap_1.10.6.bb} (95%)
- create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111.patch
- rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.86.1.bb => glib-2.0-initial_2.86.3.bb} (100%)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.86.1.bb => glib-2.0_2.86.3.bb} (100%)
- create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2025-66418.patch
- rename meta/recipes-devtools/python/{python3_3.13.9.bb => python3_3.13.11.bb} (99%)
- rename meta/recipes-extended/libarchive/{libarchive_3.8.3.bb => libarchive_3.8.4.bb} (96%)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.51.bb => libpng_1.6.52.bb} (97%)
+--=20
+Antonin Godard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
