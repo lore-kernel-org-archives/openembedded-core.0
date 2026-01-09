@@ -1,231 +1,278 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36F4CD1A638
-	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 13:58:59 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10499.1767967136931880712
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33846D1A631
+	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 13:59:39 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10513.1767967169838825817
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jan 2026 05:58:57 -0800
+ Fri, 09 Jan 2026 05:59:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B6C05FEC
-	for <openembedded-core@lists.openembedded.org>; Fri,  9 Jan 2026 05:58:49 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2BD753F5A1
-	for <openembedded-core@lists.openembedded.org>; Fri,  9 Jan 2026 05:58:56 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 4/6] alsa-utils: dynamically split the packages instead of doing it manually
-Date: Fri,  9 Jan 2026 13:58:50 +0000
-Message-ID: <20260109135852.3187805-4-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260109135852.3187805-1-ross.burton@arm.com>
-References: <20260109135852.3187805-1-ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jYENmoJF;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34ccbf37205so2550082a91.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 05:59:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767967169; x=1768571969; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=l8deXwY6b33y82cFl6uRKO0LuGxttkLNtCIfI9Oj4pI=;
+        b=jYENmoJF9mcTLIVq2pPICloFaiz0MMRnCxW6hehgiiLESwlRJJ+p9V89qhQx/Fcwh/
+         r2r0TMhJJLRSHwm+5wQe3O2KaYBBkzCxn7DJApXdaznYlWrZFd69vF5Fqju8L9auL03N
+         eNDlPfkJH0ExNAHKG5q2AN2kxh1kTgadHFC9yCsG/eBNzk8DkXEdpBRlQahVBqlxMncf
+         LgsUcvg8UIHFxDeeYwcI8R9qJuopnM1u3YKIqmhG9pb51UKJ5ws6zoRpmpzFhGDFfmvl
+         XZgmuUHyXf+3d/7mv1T7f5J+c0xDCZy+ccoZbwNgRbspz+00wKWkDIUgPEMCDMBmGSYg
+         2Gzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767967169; x=1768571969;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l8deXwY6b33y82cFl6uRKO0LuGxttkLNtCIfI9Oj4pI=;
+        b=a/uVlceWPt6Ui6y1kBevVvA7tB/XEgZ4GCPGbO99d567mRXWyVKsO7bxRcGR1HXx+k
+         Gmo4uyzOKpANITiz+2pWhuMV6Wq1UHbStjS04RbumIPktbC2JyVGD9wbAT6YgFULGO59
+         oVcXavSIadiLhvETnvgSyv94yJW9NxzLap1BgeizoXoGOxu7XwvPihigUlWCnkjea8lD
+         R9Q/9otKh9j0D4iPVDhK4yOISIFJqGr5VNyevOIxikDcOd0HedbAkySvjpYifX1dlXUl
+         FUK54Ig0G2Gd+K6Cp1Evnb4TfmLUvuIRvKA4fG9cwdFcyuOVfY4pRmGBWUggTL7BKXFi
+         O/jQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXmvbdSMyfcmeya6GdTckuLCx8gpAZsOX/YbzTzaozDBZISAGYUpk7VVZX3yDFx9N5tNhvY6vGdwCnmsdwCSxYTyQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyjAtG9ux/DYdHaYQ3f/YOnTGnHxMoU14mb1OUbrWI0xJOVl4HN
+	LjMfrYLZTvNO6C1HOmgLs6jf3DxYQwB1OcKHM31KW67Dl2ZAfE7bjE0qraTEPzPmZKZcsTqszpx
+	CGlU5No3jj3OmfZBH5fz+dBfAW72ScL0=
+X-Gm-Gg: AY/fxX776QK6uqV1AuYsKk0a9G6KHM/q+yHtcJCTeH8THz36saWNe/BBHAqC9pIRjES
+	fmKc7zh0rJ7/lBpY0NI2yTYydCcI6oSTk8nFlVecACXEhIfEUYAJPtP+t3RIvTtFHqA3+fa2Kyx
+	Xul8bXFsgC22/EX3XSRwUdU4TEhLzWvlmYTUGI5H0cchuFnpngtPQ9/IcTugw9TPjN7PU9C/KJ+
+	XmyDnj0ny7gdq8TjLHgWgDTaaGKys2mrQ8+R6YxS1j+7wbHtinyvLo93GkIOx871cMRIzMI
+X-Google-Smtp-Source: AGHT+IGdVPTU+hgIoB5PNkaYG8jtY0qCDUabiHC+pBwT4st5lsqEYkqhhHdRx46xVe9l9mLyswKssDZf4Ba4FblHi/c=
+X-Received: by 2002:a17:90b:1643:b0:340:bc27:97b8 with SMTP id
+ 98e67ed59e1d1-34f68c4ffd5mr8932993a91.10.1767967169004; Fri, 09 Jan 2026
+ 05:59:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20260109045447.1933604-1-alistair.francis@wdc.com>
+ <20260109045447.1933604-2-alistair.francis@wdc.com> <188914A07F2508FF.2783356@lists.openembedded.org>
+In-Reply-To: <188914A07F2508FF.2783356@lists.openembedded.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 9 Jan 2026 08:59:17 -0500
+X-Gm-Features: AQt7F2o-0tiMxvYkP3eFsNC5vzsgbZHcRB5tipmi3UbAhoGvws-Y9Gm4MxTMzyw
+Message-ID: <CADkTA4PdDMLu4Jhi01qKQoYTfqGWpi33i0uXEgUWfXRG_-+ssQ@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 2/2] cml1.bbclass: Support the rustavailable task
+To: bruce.ashfield@gmail.com
+Cc: alistair23@gmail.com, openembedded-core@lists.openembedded.org, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: multipart/alternative; boundary="0000000000001548b40647f4ef3b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 13:58:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229121
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 13:59:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229124
 
-Instead of hard-coding a long list of packages and the FILES, we can
-use do_split_packages to do the bulk of the work for us.
+--0000000000001548b40647f4ef3b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Leave the SUMMARY (and add some which were missing) and the FILES that
-are needed to catch extra files for each package.
+On Fri, Jan 9, 2026 at 8:56=E2=80=AFAM Bruce Ashfield via lists.openembedde=
+d.org
+<bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
 
-This removes the alsa-utils-scripts package which only existed to isolate
-the bash depedencies, and instead adds separate -alsaconf and -alsa-info
-packages for each of the scripts.
+>
+>
+> On Thu, Jan 8, 2026 at 11:55=E2=80=AFPM Alistair Francis via
+> lists.openembedded.org <alistair23=3Dgmail.com@lists.openembedded.org>
+> wrote:
+>
+>> From: Alistair Francis <alistair.francis@wdc.com>
+>>
+>> Allow the user to run the rustavailable kernel make command to determine
+>> if Rust is avaliable for kernel builds.
+>>
+>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>> ---
+>>  meta/classes-recipe/cml1.bbclass | 9 +++++++++
+>>  1 file changed, 9 insertions(+)
+>>
+>> diff --git a/meta/classes-recipe/cml1.bbclass
+>> b/meta/classes-recipe/cml1.bbclass
+>> index 3c2b4da4af..efbdd2a795 100644
+>> --- a/meta/classes-recipe/cml1.bbclass
+>> +++ b/meta/classes-recipe/cml1.bbclass
+>> @@ -107,6 +107,15 @@ do_diffconfig[nostamp] =3D "1"
+>>  do_diffconfig[dirs] =3D "${KCONFIG_CONFIG_ROOTDIR}"
+>>  addtask diffconfig
+>>
+>> +python do_rustavailable() {
+>> +    oe_terminal("sh -c 'make rustavailable; if [ $? -ne 0 ]; then echo
+>> \"Command failed.\"; fi; printf \"Press any key to continue... \"; read
+>> r;'",
+>> +                d.getVar('PN') + ' Configuration', d)
+>> +}
+>>
+>
+> This seems a bit heavy to just determine if rust is available. Since the
+> task is already after do_configure .. why not just check the .config ?
+>
+>
+and of course, I remember this right after hitting send.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../alsa/alsa-utils_1.2.15.1.bb               | 107 +++++++-----------
- 1 file changed, 39 insertions(+), 68 deletions(-)
+This class is used for more than just the kernel, so anything
+done needs to be safe for other non-kernel usecases.
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.1.bb b/meta/r=
-ecipes-multimedia/alsa/alsa-utils_1.2.15.1.bb
-index dbad8e9eed..36a05354bd 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.2.15.1.bb
-@@ -9,7 +9,7 @@ SECTION =3D "console/utils"
- LICENSE =3D "GPL-2.0-only"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D59530bdf33659b29e73d4adb9f9f6=
-552 \
-                     file://alsactl/utils.c;beginline=3D3;endline=3D18;md=
-5=3D96cc06a4cebe5eb7975688ffb0e65642"
--DEPENDS =3D "alsa-lib ncurses libsamplerate0"
-+DEPENDS =3D "alsa-lib ncurses libsamplerate0 bash"
-=20
- PACKAGECONFIG ??=3D "udev"
-=20
-@@ -29,83 +29,54 @@ SRC_URI[sha256sum] =3D "5ad79f349e59c30c9a4929ad4995e=
-bee33267473e0e632d7c1a30e2b09
-=20
- inherit autotools gettext pkgconfig manpages
-=20
--# This are all packages that we need to make. Also, the now empty alsa-u=
-tils
--# ipk depends on them.
--
--ALSA_UTILS_PKGS =3D "\
--             ${@bb.utils.contains('PACKAGECONFIG', 'bat', 'alsa-utils-al=
-sabat', '', d)} \
--             alsa-utils-alsamixer \
--             alsa-utils-alsatplg \
--             alsa-utils-midi \
--             alsa-utils-aplay \
--             alsa-utils-amixer \
--             alsa-utils-aconnect \
--             alsa-utils-iecset \
--             alsa-utils-speakertest \
--             alsa-utils-aseqnet \
--             alsa-utils-aseqdump \
--             alsa-utils-aseqsend \
--             alsa-utils-alsactl \
--             alsa-utils-alsaloop \
--             alsa-utils-alsaucm \
--             alsa-utils-scripts \
--             alsa-utils-nhltdmicinfo \
--            "
--
--PACKAGES +=3D "${ALSA_UTILS_PKGS}"
--RDEPENDS:${PN} +=3D "${ALSA_UTILS_PKGS}"
--
-+# alsa-utils is an empty meta-package
- FILES:${PN} =3D ""
--ALLOW_EMPTY:alsa-utils =3D "1"
--FILES:alsa-utils-alsabat     =3D "${bindir}/alsabat"
--FILES:alsa-utils-alsatplg    =3D "${bindir}/alsatplg ${libdir}/alsa-topo=
-logy"
--FILES:alsa-utils-aplay       =3D "${bindir}/aplay ${bindir}/arecord ${bi=
-ndir}/axfer"
--FILES:alsa-utils-amixer      =3D "${bindir}/amixer"
--FILES:alsa-utils-alsamixer   =3D "${bindir}/alsamixer"
--FILES:alsa-utils-speakertest =3D "${bindir}/speaker-test ${datadir}/soun=
-ds/alsa/ ${datadir}/alsa/speaker-test/"
--FILES:alsa-utils-midi        =3D "${bindir}/aplaymidi* ${bindir}/arecord=
-midi* ${bindir}/amidi"
--FILES:alsa-utils-aconnect    =3D "${bindir}/aconnect"
--FILES:alsa-utils-aseqnet     =3D "${bindir}/aseqnet"
--FILES:alsa-utils-aseqsend    =3D "${bindir}/aseqsend"
--FILES:alsa-utils-iecset      =3D "${bindir}/iecset"
--FILES:alsa-utils-alsactl     =3D "${sbindir}/alsactl */udev/rules.d/90-a=
-lsa-restore.rules */*/udev/rules.d/90-alsa-restore.rules ${systemd_unitdi=
-r} ${localstatedir}/lib/alsa ${datadir}/alsa/init/"
--FILES:alsa-utils-aseqdump    =3D "${bindir}/aseqdump"
--FILES:alsa-utils-alsaloop    =3D "${bindir}/alsaloop"
--FILES:alsa-utils-alsaucm     =3D "${bindir}/alsaucm */udev/rules.d/89-al=
-sa-ucm.rules */*/udev/rules.d/89-alsa-ucm.rules"
--FILES:alsa-utils-scripts     =3D "${sbindir}/alsaconf \
--               ${sbindir}/alsa-info.sh \
--               ${sbindir}/alsabat-test.sh \
--              "
--FILES:alsa-utils-nhltdmicinfo =3D "${bindir}/nhlt-dmic-info"
-+ALLOW_EMPTY:${PN} =3D "1"
-=20
--SUMMARY:alsa-utils-alsabat      =3D "Command-line sound tester for ALSA =
-sound card driver"
--SUMMARY:alsa-utils-alsatplg     =3D "Converts topology text files into b=
-inary format for kernel"
--SUMMARY:alsa-utils-aplay        =3D "Play (and record) sound files using=
- ALSA"
--SUMMARY:alsa-utils-amixer       =3D "Command-line control for ALSA mixer=
- and settings"
--SUMMARY:alsa-utils-alsamixer    =3D "ncurses-based control for ALSA mixe=
-r and settings"
--SUMMARY:alsa-utils-speakertest  =3D "ALSA surround speaker test utility"
--SUMMARY:alsa-utils-midi         =3D "Miscellaneous MIDI utilities for AL=
-SA"
--SUMMARY:alsa-utils-aconnect     =3D "ALSA sequencer connection manager"
--SUMMARY:alsa-utils-aseqnet      =3D "Network client/server for ALSA sequ=
-encer"
--SUMMARY:alsa-utils-iecset       =3D "ALSA utility for setting/showing IE=
-C958 (S/PDIF) status bits"
--SUMMARY:alsa-utils-alsactl      =3D "Saves/restores ALSA-settings in /et=
-c/asound.state"
--SUMMARY:alsa-utils-aseqdump     =3D "Shows the events received at an ALS=
-A sequencer port"
--SUMMARY:alsa-utils-alsaloop     =3D "ALSA PCM loopback utility"
--SUMMARY:alsa-utils-alsaucm      =3D "ALSA Use Case Manager"
--SUMMARY:alsa-utils-scripts      =3D "Shell scripts that show help info a=
-nd create ALSA configuration files"
--SUMMARY:alsa-utils-nhltdmicinfo =3D "Dumps microphone array information =
-from ACPI NHLT table"
-+FILES:${PN}-alsabat      =3D "${sbindir}/alsabat-test.sh"
-+FILES:${PN}-alsactl      =3D "*/udev/rules.d/90-alsa-restore.rules */*/u=
-dev/rules.d/90-alsa-restore.rules ${systemd_unitdir} ${localstatedir}/lib=
-/alsa ${datadir}/alsa/init/"
-+FILES:${PN}-alsatplg     =3D "${libdir}/alsa-topology"
-+FILES:${PN}-amidi        =3D "${bindir}/amidi ${bindir}/aplaymidi* ${bin=
-dir}/arecordmidi*"
-+FILES:${PN}-aplay        =3D "${bindir}/aplay ${bindir}/arecord ${bindir=
-}/axfer"
-+FILES:${PN}-speaker-test =3D "${datadir}/sounds/alsa/"
-=20
--RRECOMMENDS:alsa-utils-alsactl =3D "alsa-states"
-+SUMMARY:${PN}-aconnect       =3D "ALSA sequencer connection manager"
-+SUMMARY:${PN}-alsabat        =3D "Command-line sound tester for ALSA sou=
-nd card driver"
-+SUMMARY:${PN}-alsaconf       =3D "ALSA driver configurator script"
-+SUMMARY:${PN}-alsactl        =3D "Saves/restores ALSA-settings in /etc/a=
-sound.state"
-+SUMMARY:${PN}-alsa-info      =3D "Gather information about ALSA subsyste=
-m"
-+SUMMARY:${PN}-alsaloop       =3D "ALSA PCM loopback utility"
-+SUMMARY:${PN}-alsamixer      =3D "ncurses-based control for ALSA mixer a=
-nd settings"
-+SUMMARY:${PN}-alsatplg       =3D "Converts topology text files into bina=
-ry format for kernel"
-+SUMMARY:${PN}-alsaucm        =3D "ALSA Use Case Manager"
-+SUMMARY:${PN}-amidi          =3D "Miscellaneous MIDI utilities for ALSA"
-+SUMMARY:${PN}-amixer         =3D "Command-line control for ALSA mixer an=
-d settings"
-+SUMMARY:${PN}-aplay          =3D "Play (and record) sound files using AL=
-SA"
-+SUMMARY:${PN}-aseqdump       =3D "Shows the events received at an ALSA s=
-equencer port"
-+SUMMARY:${PN}-aseqnet        =3D "Network client/server for ALSA sequenc=
-er"
-+SUMMARY:${PN}-aseqsend       =3D "Send arbitrary messages to ALSA seqenc=
-er port"
-+SUMMARY:${PN}-iecset         =3D "ALSA utility for setting/showing IEC95=
-8 (S/PDIF) status bits"
-+SUMMARY:${PN}-nhlt-dmic-info =3D "Dumps microphone array information fro=
-m ACPI NHLT table"
-+SUMMARY:${PN}-speaker-test   =3D "ALSA surround speaker test utility"
-=20
--do_install() {
--	autotools_do_install
-+RRECOMMENDS:${PN}-alsactl =3D "alsa-states"
-=20
-+do_install:append() {
- 	# If udev is disabled, we told configure to install the rules
- 	# in /unwanted, so we can remove them now. If udev is enabled,
- 	# then /unwanted won't exist and this will have no effect.
- 	rm -rf ${D}/unwanted
- }
-=20
-+python populate_packages:prepend() {
-+    pn =3D d.getVar("PN")
-+    packages =3D do_split_packages(d, d.getVar("bindir"), r"^([^.]+).*$"=
-, pn + "-%s", "alsa-utils tool %s", extra_depends=3D"")
-+    packages +=3D do_split_packages(d, d.getVar("sbindir"), r"^([^.]+).*=
-$", pn + "-%s", "alsa-utils tool %s", extra_depends=3D"")
-+    d.setVar("RDEPENDS:" + pn, " ".join(packages))
-+}
-+
- PROVIDES =3D "alsa-utils-alsaconf alsa-utils-scripts"
-=20
--RDEPENDS:${PN}-scripts +=3D "bash"
-+RDEPENDS:${PN}-alsa-info +=3D "bash"
-+RDEPENDS:${PN}-alsabat +=3D "bash"
-+RDEPENDS:${PN}-alsaconf +=3D "bash"
+Bruce
+
+
+
+> Bruce
+>
+>
+>
+>> +
+>> +do_rustavailable[nostamp] =3D "1"
+>> +do_rustavailable[dirs] =3D "${KCONFIG_CONFIG_ROOTDIR}"
+>> +addtask rustavailable after do_configure
+>> +
+>>  do_showconfig() {
+>>      bbplain "Config file written to ${KCONFIG_CONFIG_ROOTDIR}/.config"
+>>  }
+>> --
+>> 2.52.0
+>>
+>>
+>>
+>>
+>>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e
+> at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#229117):
+> https://lists.openembedded.org/g/openembedded-core/message/229117
+> Mute This Topic: https://lists.openembedded.org/mt/117170673/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> bruce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
 --=20
-2.43.0
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
+--0000000000001548b40647f4ef3b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 9, 2026 at 8:56=
+=E2=80=AFAM Bruce Ashfield via <a href=3D"http://lists.openembedded.org">li=
+sts.openembedded.org</a> &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@l=
+ists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><di=
+v dir=3D"ltr"><div style=3D"font-size:small"><br></div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 8, 2026 =
+at 11:55=E2=80=AFPM Alistair Francis via <a href=3D"http://lists.openembedd=
+ed.org" target=3D"_blank">lists.openembedded.org</a> &lt;alistair23=3D<a hr=
+ef=3D"mailto:gmail.com@lists.openembedded.org" target=3D"_blank">gmail.com@=
+lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">From: Alistair Francis &lt;<a href=3D"mailto:alistair=
+.francis@wdc.com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+<br>
+Allow the user to run the rustavailable kernel make command to determine<br=
+>
+if Rust is avaliable for kernel builds.<br>
+<br>
+Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.=
+com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes-recipe/cml1.bbclass | 9 +++++++++<br>
+=C2=A01 file changed, 9 insertions(+)<br>
+<br>
+diff --git a/meta/classes-recipe/cml1.bbclass b/meta/classes-recipe/cml1.bb=
+class<br>
+index 3c2b4da4af..efbdd2a795 100644<br>
+--- a/meta/classes-recipe/cml1.bbclass<br>
++++ b/meta/classes-recipe/cml1.bbclass<br>
+@@ -107,6 +107,15 @@ do_diffconfig[nostamp] =3D &quot;1&quot;<br>
+=C2=A0do_diffconfig[dirs] =3D &quot;${KCONFIG_CONFIG_ROOTDIR}&quot;<br>
+=C2=A0addtask diffconfig<br>
+<br>
++python do_rustavailable() {<br>
++=C2=A0 =C2=A0 oe_terminal(&quot;sh -c &#39;make rustavailable; if [ $? -ne=
+ 0 ]; then echo \&quot;Command failed.\&quot;; fi; printf \&quot;Press any =
+key to continue... \&quot;; read r;&#39;&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.getVar(&#39;PN&#=
+39;) + &#39; Configuration&#39;, d)<br>
++}<br></blockquote><div><br></div><div><div style=3D"font-size:small">This =
+seems a bit heavy to just determine if rust is available. Since the</div><d=
+iv style=3D"font-size:small">task is already after do_configure .. why not =
+just check the .config ?</div><div style=3D"font-size:small"><br></div></di=
+v></div></div></blockquote><div><br></div><div><div class=3D"gmail_default"=
+ style=3D"font-size:small">and of course, I remember this right after hitti=
+ng send.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></=
+div><div class=3D"gmail_default" style=3D"font-size:small">This class is us=
+ed for more than just the kernel, so anything</div><div class=3D"gmail_defa=
+ult" style=3D"font-size:small">done needs to be safe for other non-kernel u=
+secases.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></=
+div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br><=
+/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
+v dir=3D"ltr"><div class=3D"gmail_quote"><div><div style=3D"font-size:small=
+"></div><div style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">
++<br>
++do_rustavailable[nostamp] =3D &quot;1&quot;<br>
++do_rustavailable[dirs] =3D &quot;${KCONFIG_CONFIG_ROOTDIR}&quot;<br>
++addtask rustavailable after do_configure<br>
++<br>
+=C2=A0do_showconfig() {<br>
+=C2=A0 =C2=A0 =C2=A0bbplain &quot;Config file written to ${KCONFIG_CONFIG_R=
+OOTDIR}/.config&quot;<br>
+=C2=A0}<br>
+-- <br>
+2.52.0<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#229117): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/229117" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/229117</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117170673/105=
+0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/117170673/1050810</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
+target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--0000000000001548b40647f4ef3b--
 
