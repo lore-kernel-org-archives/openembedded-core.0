@@ -2,64 +2,64 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9846ED1D48A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4734D26D60
 	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 15:07:09 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11933.1767971225767995054
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11925.1767971219933520296
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jan 2026 07:07:05 -0800
+ Fri, 09 Jan 2026 07:07:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=BFtWJhsk;
- spf=pass (domain: baylibre.com, ip: 209.85.222.176, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8c0f13e4424so419958985a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 07:07:05 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=xwpmtcgx;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.177, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4ee1939e70bso44168601cf.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 07:06:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1767971224; x=1768576024; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1767971218; x=1768576018; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=igIZhkiGnNT7O/fHSGxpJQS63FwLOpkiBo/d90N4pL8=;
-        b=BFtWJhsk1dv4IC8McVlIrf1C2JzAaHep0gut9R90wH1X7rAsQZpmvr0CGzDwFRRvFq
-         ln46HqV6SKT/LxPHgaHK83fAN0ctaTJqgwcQN06STD9Ai8QyD/zkwT+P9EcEBcpEqzgz
-         4MH5fd5LxpSyjKE4D9VZcCqNU8SX6HHc9kN4ULrVxhVuQgHwtzUO58U64znpFbBgrABo
-         7CobiYLbG4xtxDz68dUiCM245iJLAo/Rp3nfLOO1IJDKy6natAxz4IwKaxZ7T3bbHHHn
-         A1zQRBGOwxtyBK5kYs/GoGV4OorP7lxCEa7AI9va+dQA7ZErk+9R4moC1Ud3OpZZPb01
-         c5mg==
+        bh=fi9/1T8iXpuwCyl0pvF2TeKQ9O1lKka5iMdkD4hw2Jc=;
+        b=xwpmtcgxd5YCM9QNtscJ33zfjWxc4IEzes7KlNYwOv2KtA5XZ+g7drYaWoyv6Q5/cm
+         g0RKDA1yLU0YaZJ/xkW6bf5X6QLePLnptVtVFGJ05Ft9CxKtGz9mK/10430ybkB8HbkT
+         8xKuFn1v6ZVydjDV8hFawVqFyX/zmzSVwNZgkRLOCQv77aNrM0eWoaxl9tTVnodPjHu5
+         I6HFqUsgzBz5bJXldFeVAvcKOvVXm8THsxD9bd+9cHiZSKQLmVE26/WF0thxg2eZVHOY
+         MHm3XihTYP/C5bQlOINylhN8+qi4Dknkdljd88p+VrKIdN7dtAeTsmlUeIdPfBWQ7z0x
+         7TMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767971224; x=1768576024;
+        d=1e100.net; s=20230601; t=1767971218; x=1768576018;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=igIZhkiGnNT7O/fHSGxpJQS63FwLOpkiBo/d90N4pL8=;
-        b=r65Y97MwN/6EX9mY+rcR3C4HxuMSDpAkWKnvxd54Rzhpvbz8+d4uB9o76oRZhtxicL
-         7MGAhc0zrcQvZex9C76e/QTcG7LfipjSfOCP5QsF7meTs2O37Bf2NCnlO4A/ycZcM8EA
-         JXdUrJouFLaDKM0ed45RJYtLgR+hM4uNqcniiIbPqQbQuHQD7kWpKBtzhSz3aVB0JF/N
-         q+htxeWcHS92QIYSM5VhTuXYhY2FOaVQDQyAhnqyCGOQonL/ELgSQak0+Eb0Do0Ows+W
-         tD4PycdjCwJi2a6uRG2IyhX64kdvFhNYNgUdZr2PrIl9pw/y5tRdg7iblP5905T5y3uX
-         8PVg==
-X-Gm-Message-State: AOJu0YwA+efD08OsmfN5QcSU6rOhkiew4EwluzAQUo188mjoaW6qq8Ko
-	n37p+Zy/+nHDA+HoY9soPmBAyK11rfJlg7qHS+OC97zlbAxXc0xd1V1osrj7rIztfxa/ReD9oUr
-	7I46kYEo=
-X-Gm-Gg: AY/fxX52ssq8Nyjkm7LjO+QVGPI/oh8wHZyBh6tR11JKB5QGwe3ur4mFySw+D5p6boB
-	aFit7i4pRXpgulSakygBPWXkrbQUf2rW2q6QEAAk6uZcZxZmnBqGFdLDOGk7MvGLp63D1naUm7v
-	vRs8K98lh54gv+i2woBAqZWowz8Aecus5fr82XkqjoemrvGXbyUUDX2Mi4vru1WsYtkJzZDnl8T
-	GyRgddZkExco856bErDya5Vu5ApmmcXyIg19RUBgOhLqoMVGU3yHPDqHcKWhmErU4uGNcYfw2xP
-	NNKrQsHh1SP68sYB7f17J68G6oboE8mR3mA+dCwJFGPREfhmWV+u3MGXwQHS2V9C1lnxE96NhM3
-	CxzBzm13kWOp2mgYySlcyoWyT5fqCqiks4UzNRHDANCl/CpO++9NcxgBBoZNtG4I1KZeaUi4uCz
-	SbLoSmbE4Jvyn9i6Q=
-X-Google-Smtp-Source: AGHT+IEsC3nuW1kSctcLdR+oG5gPXXdRMr26s+w/3zC19E/3TI3tssraiK9Exh/0S4hUHo+RHRGxjQ==
-X-Received: by 2002:a05:620a:440b:b0:8b2:62f9:9fd8 with SMTP id af79cd13be357-8c38940b8b2mr1211133485a.61.1767971224149;
-        Fri, 09 Jan 2026 07:07:04 -0800 (PST)
+        bh=fi9/1T8iXpuwCyl0pvF2TeKQ9O1lKka5iMdkD4hw2Jc=;
+        b=IaM9VcfG0wl4/bFohFRy5EehC/lumuqtxTEmkOyM59DAZgLOuRvXZ4HLkWfimpCurx
+         IPcCiNUC4nRByWDTII16dBZS0Q4yppZSKgyhmnMFF7fJpnMmvMOmUOWZRWM14pMNk64t
+         HbR2ix9C/rhua3ekDQRZP7o8o9NHOZ2O4NVf4i4oo4S/LVbsolzuuL+7A3WXy/0FCR2R
+         HgRcrH2MoswMeqlK0T3QlQyuF2v8RepSp499IqgZ+0P4HhErFNUVAj8KR5hsXRGPOTXd
+         gf0Qe98s96NeLuLZ+QplfRH4vD59YdDeB5phgGpbCs9YTSsgd00Vm9S+JDUC/shrdzJf
+         zJqQ==
+X-Gm-Message-State: AOJu0Yyor47fQ/lXZKzCL4EY0qLxTaYcyuBsBrPcr4M3WCl+skfnxN3C
+	N2xsz3YV6t/zbILeijqG0EbJU1T0R3jG3jGE6RAd4wQwVAiylgYmlSKECKFEH8K6CxoXVMUO810
+	A/iw9eck=
+X-Gm-Gg: AY/fxX5C9OryvjCClCSDpE9+oZt7d43j/rbT2PTi8UCx9eCUfx58t0Zijic1A9QcYSY
+	0R1Sw4Jx4/P8QsuxwPyOHllfp9E2/T4Yqxp8yDrzEsaLTm3eliX5f/1pYR6cob1aIpHNg3daQUw
+	xVVKwzV20OVMkxXxQbb/LzJo5fLAQTfj1+pitx5Mf7DMQG395AeOxUAOmSRAUMWsbe/+BaxCAuk
+	AJTn7BwQhU8y7D94M8bpOzgNhnNrMXCW/tU9XYzFCpVVllkAC4wz3//QQTYfpa6oHbeM71b/75K
+	jPHaU+3maDWMQq3ffLiwL27SNPWHtltuRXM/YTEA7pZOkTl/Pf8qEPcbzU48oNJw+W5N47bsdqJ
+	uSsBwxfOhCgl2qx6uwSpmKUshALNkJw4fLq5D0DyJvxLMAjI4/p8tIvdea2B16GVwE1V8w2WXgB
+	eFIy5Du7hYtPX0EQY=
+X-Google-Smtp-Source: AGHT+IHNTbVmu+azuzD2a3VWjJESunNjjYKr7oTDdxNIYIUnBc2LLe/WUtlPeYMqTP2+PuMdquVyJA==
+X-Received: by 2002:a05:622a:1186:b0:4ee:87a:4d10 with SMTP id d75a77b69052e-4ffb4a26249mr127150081cf.78.1767971218071;
+        Fri, 09 Jan 2026 07:06:58 -0800 (PST)
 Received: from localhost ([2001:1970:3847:e000:8598:5636:16ad:2a8f])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f53112csm876672885a.37.2026.01.09.07.07.03
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffaac486efsm69193611cf.27.2026.01.09.07.06.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 07:07:03 -0800 (PST)
+        Fri, 09 Jan 2026 07:06:57 -0800 (PST)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 5/6 v3] python3: add _py_warnings, annotationlib to core
-Date: Fri,  9 Jan 2026 10:06:50 -0500
-Message-ID: <20260109150651.469332-6-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 2/6 v3] python3targetconfig: export _PYTHON_PROJECT_BASE
+Date: Fri,  9 Jan 2026 10:06:47 -0500
+Message-ID: <20260109150651.469332-3-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260109150651.469332-1-tgamblin@baylibre.com>
 References: <20260109150651.469332-1-tgamblin@baylibre.com>
@@ -69,55 +69,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 15:07:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229131
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229128
 
-Without adding these, there will be numerous packages that will have to
-add python3-misc to their RDEPENDS just to dispel some warnings, like:
+See: https://github.com/python/cpython/commit/2950bc50af8f
 
-|root@qemux86-64:~# python3
-|Python 3.14.2 (main, Dec  5 2025, 16:49:16) [GCC 15.2.0] on linux
-|Type "help", "copyright", "credits" or "license" for more information.
-|warning: can't use pyrepl: No module named 'annotationlib'
-
-and errors like:
-
-|>>> import logging
-|Traceback (most recent call last):
-|  File "<stdin-1>", line 1, in <module>
-|  File "/usr/lib/python3.14/logging/__init__.py", line 26, in <module>
-|    import sys, os, time, io, re, traceback, warnings, weakref, collections.abc
-|  File "/usr/lib/python3.14/traceback.py", line 8, in <module>
-|    import warnings
-|  File "/usr/lib/python3.14/warnings.py", line 15, in <module>
-|    from _py_warnings import (
-|ModuleNotFoundError: No module named '_py_warnings'
-
-Add them to python3-core rather than requiring another split.
+As of 3.14.0, Python's sysconfig module looks for _PYTHON_PROJECT_BASE
+to be set when cross-compiling, or otherwise it'll find and use the
+native interpreter's paths when calling get_path() and filling out
+_CONFIG_VARS. Set _PYTHON_PROJECT_BASE to "${B}" in
+python3targetconfig's setup_target_config() to help avoid issues with
+incorrect paths in rpm and other recipes that depend on this class.
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/recipes-devtools/python/python3/python3-manifest.json | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes-recipe/python3targetconfig.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-index 3184bbe0c3..691fb22202 100644
---- a/meta/recipes-devtools/python/python3/python3-manifest.json
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -194,12 +194,14 @@
-             "${libdir}/python${PYTHON_MAJMIN}/_compression.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_markupbase.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_opcode_metadata.py",
-+            "${libdir}/python${PYTHON_MAJMIN}/_py_warnings.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_pyrepl",
-             "${libdir}/python${PYTHON_MAJMIN}/_pyrepl/pager.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_weakrefset.py",
-             "${libdir}/python${PYTHON_MAJMIN}/abc.py",
-+            "${libdir}/python${PYTHON_MAJMIN}/annotationlib.py",
-             "${libdir}/python${PYTHON_MAJMIN}/argparse.py",
-             "${libdir}/python${PYTHON_MAJMIN}/ast.py",
-             "${libdir}/python${PYTHON_MAJMIN}/bisect.py",
+diff --git a/meta/classes-recipe/python3targetconfig.bbclass b/meta/classes-recipe/python3targetconfig.bbclass
+index 08bc619398..2877665737 100644
+--- a/meta/classes-recipe/python3targetconfig.bbclass
++++ b/meta/classes-recipe/python3targetconfig.bbclass
+@@ -12,6 +12,7 @@ DEPENDS:append = " ${EXTRA_PYTHON_DEPENDS}"
+ 
+ setup_target_config() {
+         export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
++        export _PYTHON_PROJECT_BASE="${B}"
+         export PYTHONPATH=${STAGING_LIBDIR}/python-sysconfigdata:$PYTHONPATH
+         export PATH=${STAGING_EXECPREFIXDIR}/python-target-config/:$PATH
+ }
 -- 
 2.52.0
 
