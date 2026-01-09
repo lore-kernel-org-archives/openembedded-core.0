@@ -1,278 +1,119 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <robert.joslyn@redrectangle.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33846D1A631
-	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 13:59:39 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10513.1767967169838825817
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 825A4D1A63C
+	for <webhook@archiver.kernel.org>; Fri,  9 Jan 2026 14:33:29 +0000 (UTC)
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11310.1767969204415551190
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Jan 2026 05:59:29 -0800
+ Fri, 09 Jan 2026 06:33:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jYENmoJF;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34ccbf37205so2550082a91.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 05:59:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767967169; x=1768571969; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=l8deXwY6b33y82cFl6uRKO0LuGxttkLNtCIfI9Oj4pI=;
-        b=jYENmoJF9mcTLIVq2pPICloFaiz0MMRnCxW6hehgiiLESwlRJJ+p9V89qhQx/Fcwh/
-         r2r0TMhJJLRSHwm+5wQe3O2KaYBBkzCxn7DJApXdaznYlWrZFd69vF5Fqju8L9auL03N
-         eNDlPfkJH0ExNAHKG5q2AN2kxh1kTgadHFC9yCsG/eBNzk8DkXEdpBRlQahVBqlxMncf
-         LgsUcvg8UIHFxDeeYwcI8R9qJuopnM1u3YKIqmhG9pb51UKJ5ws6zoRpmpzFhGDFfmvl
-         XZgmuUHyXf+3d/7mv1T7f5J+c0xDCZy+ccoZbwNgRbspz+00wKWkDIUgPEMCDMBmGSYg
-         2Gzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767967169; x=1768571969;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l8deXwY6b33y82cFl6uRKO0LuGxttkLNtCIfI9Oj4pI=;
-        b=a/uVlceWPt6Ui6y1kBevVvA7tB/XEgZ4GCPGbO99d567mRXWyVKsO7bxRcGR1HXx+k
-         Gmo4uyzOKpANITiz+2pWhuMV6Wq1UHbStjS04RbumIPktbC2JyVGD9wbAT6YgFULGO59
-         oVcXavSIadiLhvETnvgSyv94yJW9NxzLap1BgeizoXoGOxu7XwvPihigUlWCnkjea8lD
-         R9Q/9otKh9j0D4iPVDhK4yOISIFJqGr5VNyevOIxikDcOd0HedbAkySvjpYifX1dlXUl
-         FUK54Ig0G2Gd+K6Cp1Evnb4TfmLUvuIRvKA4fG9cwdFcyuOVfY4pRmGBWUggTL7BKXFi
-         O/jQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXmvbdSMyfcmeya6GdTckuLCx8gpAZsOX/YbzTzaozDBZISAGYUpk7VVZX3yDFx9N5tNhvY6vGdwCnmsdwCSxYTyQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyjAtG9ux/DYdHaYQ3f/YOnTGnHxMoU14mb1OUbrWI0xJOVl4HN
-	LjMfrYLZTvNO6C1HOmgLs6jf3DxYQwB1OcKHM31KW67Dl2ZAfE7bjE0qraTEPzPmZKZcsTqszpx
-	CGlU5No3jj3OmfZBH5fz+dBfAW72ScL0=
-X-Gm-Gg: AY/fxX776QK6uqV1AuYsKk0a9G6KHM/q+yHtcJCTeH8THz36saWNe/BBHAqC9pIRjES
-	fmKc7zh0rJ7/lBpY0NI2yTYydCcI6oSTk8nFlVecACXEhIfEUYAJPtP+t3RIvTtFHqA3+fa2Kyx
-	Xul8bXFsgC22/EX3XSRwUdU4TEhLzWvlmYTUGI5H0cchuFnpngtPQ9/IcTugw9TPjN7PU9C/KJ+
-	XmyDnj0ny7gdq8TjLHgWgDTaaGKys2mrQ8+R6YxS1j+7wbHtinyvLo93GkIOx871cMRIzMI
-X-Google-Smtp-Source: AGHT+IGdVPTU+hgIoB5PNkaYG8jtY0qCDUabiHC+pBwT4st5lsqEYkqhhHdRx46xVe9l9mLyswKssDZf4Ba4FblHi/c=
-X-Received: by 2002:a17:90b:1643:b0:340:bc27:97b8 with SMTP id
- 98e67ed59e1d1-34f68c4ffd5mr8932993a91.10.1767967169004; Fri, 09 Jan 2026
- 05:59:29 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@redrectangle.org header.s=key1 header.b=c+YGYFa/;
+ spf=pass (domain: redrectangle.org, ip: 91.218.175.182, mailfrom: robert.joslyn@redrectangle.org)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redrectangle.org;
+	s=key1; t=1767969202;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=KUQhLmK19NfcClmkaHaG3qCbAxVrZmYDxldHGeL85bw=;
+	b=c+YGYFa/ZHaCaceoa4E9RlOhaEAxY74GpbcrzkyqCxEs+c1I3Fl5U3/9ogqVo2VEce8HBt
+	WpgikDo1HcnOwhwDDb8Y+jy/c1MtjtQC09QMcTIuukGTFuGLc8XvyBmyaIaMPE55s+pwOY
+	/4cTTkSkn01dZtCGAm7Z24oW2+yg2wG+0WHfr2uXY1v1nnbstGfUQCNI9254lXNWcvXC8y
+	+IpmdY4H0StM4l6LhQhrcCJRCjamgq92luTE6QFnDox4GvB5eWb3xOMaIiX4o+bQ/7W4TG
+	GeMkOKuImK2+gI/59Rmn7eJEc05ka39F500kSzahired68rNFb7I7VhZSytV5w==
+From: robert.joslyn@redrectangle.org
+To: openembedded-core@lists.openembedded.org
+Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
+Subject: [PATCH] curl: Update to 8.18.0
+Date: Fri,  9 Jan 2026 06:33:11 -0800
+Message-ID: <20260109143311.536300-1-robert.joslyn@redrectangle.org>
 MIME-Version: 1.0
-References: <20260109045447.1933604-1-alistair.francis@wdc.com>
- <20260109045447.1933604-2-alistair.francis@wdc.com> <188914A07F2508FF.2783356@lists.openembedded.org>
-In-Reply-To: <188914A07F2508FF.2783356@lists.openembedded.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 9 Jan 2026 08:59:17 -0500
-X-Gm-Features: AQt7F2o-0tiMxvYkP3eFsNC5vzsgbZHcRB5tipmi3UbAhoGvws-Y9Gm4MxTMzyw
-Message-ID: <CADkTA4PdDMLu4Jhi01qKQoYTfqGWpi33i0uXEgUWfXRG_-+ssQ@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 2/2] cml1.bbclass: Support the rustavailable task
-To: bruce.ashfield@gmail.com
-Cc: alistair23@gmail.com, openembedded-core@lists.openembedded.org, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: multipart/alternative; boundary="0000000000001548b40647f4ef3b"
+X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 13:59:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229124
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Jan 2026 14:33:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/229125
 
---0000000000001548b40647f4ef3b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Robert Joslyn <robert.joslyn@redrectangle.org>
 
-On Fri, Jan 9, 2026 at 8:56=E2=80=AFAM Bruce Ashfield via lists.openembedde=
-d.org
-<bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
+Addresses six CVEs from 8.17.0:
+ * CVE-2025-13034
+ * CVE-2025-14017
+ * CVE-2025-14524
+ * CVE-2025-14819
+ * CVE-2025-15079
+ * CVE-2025-15224
 
->
->
-> On Thu, Jan 8, 2026 at 11:55=E2=80=AFPM Alistair Francis via
-> lists.openembedded.org <alistair23=3Dgmail.com@lists.openembedded.org>
-> wrote:
->
->> From: Alistair Francis <alistair.francis@wdc.com>
->>
->> Allow the user to run the rustavailable kernel make command to determine
->> if Rust is avaliable for kernel builds.
->>
->> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->> ---
->>  meta/classes-recipe/cml1.bbclass | 9 +++++++++
->>  1 file changed, 9 insertions(+)
->>
->> diff --git a/meta/classes-recipe/cml1.bbclass
->> b/meta/classes-recipe/cml1.bbclass
->> index 3c2b4da4af..efbdd2a795 100644
->> --- a/meta/classes-recipe/cml1.bbclass
->> +++ b/meta/classes-recipe/cml1.bbclass
->> @@ -107,6 +107,15 @@ do_diffconfig[nostamp] =3D "1"
->>  do_diffconfig[dirs] =3D "${KCONFIG_CONFIG_ROOTDIR}"
->>  addtask diffconfig
->>
->> +python do_rustavailable() {
->> +    oe_terminal("sh -c 'make rustavailable; if [ $? -ne 0 ]; then echo
->> \"Command failed.\"; fi; printf \"Press any key to continue... \"; read
->> r;'",
->> +                d.getVar('PN') + ' Configuration', d)
->> +}
->>
->
-> This seems a bit heavy to just determine if rust is available. Since the
-> task is already after do_configure .. why not just check the .config ?
->
->
-and of course, I remember this right after hitting send.
+https://curl.se/ch/8.18.0.html
 
-This class is used for more than just the kernel, so anything
-done needs to be safe for other non-kernel usecases.
+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
+---
+ meta/recipes-support/curl/curl/no-test-timeout.patch     | 9 +++++----
+ .../curl/{curl_8.17.0.bb =3D> curl_8.18.0.bb}              | 2 +-
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/curl/{curl_8.17.0.bb =3D> curl_8.18.0.bb} (9=
+8%)
 
-Bruce
-
-
-
-> Bruce
->
->
->
->> +
->> +do_rustavailable[nostamp] =3D "1"
->> +do_rustavailable[dirs] =3D "${KCONFIG_CONFIG_ROOTDIR}"
->> +addtask rustavailable after do_configure
->> +
->>  do_showconfig() {
->>      bbplain "Config file written to ${KCONFIG_CONFIG_ROOTDIR}/.config"
->>  }
->> --
->> 2.52.0
->>
->>
->>
->>
->>
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e
-> at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#229117):
-> https://lists.openembedded.org/g/openembedded-core/message/229117
-> Mute This Topic: https://lists.openembedded.org/mt/117170673/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
+diff --git a/meta/recipes-support/curl/curl/no-test-timeout.patch b/meta/=
+recipes-support/curl/curl/no-test-timeout.patch
+index 34e46fed6d..3ece55cab6 100644
+--- a/meta/recipes-support/curl/curl/no-test-timeout.patch
++++ b/meta/recipes-support/curl/curl/no-test-timeout.patch
+@@ -1,7 +1,8 @@
+-From 42cddb52e821cfc2f09f1974742714e5f2f1856e Mon Sep 17 00:00:00 2001
++From 30fb6d1ce4cc721feef5665934f2b7f83fb50efb Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Fri, 15 Mar 2024 14:37:37 +0000
+ Subject: [PATCH] Set the max-time timeout to 600 so the timeout is 10 mi=
+nutes
++
+  instead of 13 seconds.
+=20
+ Upstream-Status: Inappropriate
+@@ -11,12 +12,12 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+=20
+ diff --git a/tests/servers.pm b/tests/servers.pm
+-index d4472d5..9999938 100644
++index 5d5d98b..442cfaf 100644
+ --- a/tests/servers.pm
+ +++ b/tests/servers.pm
+-@@ -125,7 +125,7 @@ my $sshdverstr;  # for socks server, ssh daemon vers=
+ion string
++@@ -124,7 +124,7 @@ my $sshdverstr;  # for socks server, ssh daemon vers=
+ion string
+  my $sshderror;   # for socks server, ssh daemon version error
+- my %doesntrun;    # servers that don't work, identified by pidfile
++ my %doesntrun;    # servers that do not work, identified by pidfile
+  my %PORT =3D (nolisten =3D> 47); # port we use for a local non-listenin=
+g service
+ -my $server_response_maxtime=3D13;
+ +my $server_response_maxtime=3D600;
+diff --git a/meta/recipes-support/curl/curl_8.17.0.bb b/meta/recipes-supp=
+ort/curl/curl_8.18.0.bb
+similarity index 98%
+rename from meta/recipes-support/curl/curl_8.17.0.bb
+rename to meta/recipes-support/curl/curl_8.18.0.bb
+index 315364902e..b94da348b7 100644
+--- a/meta/recipes-support/curl/curl_8.17.0.bb
++++ b/meta/recipes-support/curl/curl_8.18.0.bb
+@@ -20,7 +20,7 @@ SRC_URI:append:class-nativesdk =3D " \
+            file://environment.d-curl.sh \
+ "
+=20
+-SRC_URI[sha256sum] =3D "955f6e729ad6b3566260e8fef68620e76ba3c31acf0a1852=
+4416a185acf77992"
++SRC_URI[sha256sum] =3D "40df79166e74aa20149365e11ee4c798a46ad57c34e4f68f=
+d13100e2c9a91946"
+=20
+ # Curl has used many names over the years...
+ CVE_PRODUCT =3D "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:l=
+ibcurl daniel_stenberg:curl"
 --=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.52.0
 
---0000000000001548b40647f4ef3b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 9, 2026 at 8:56=
-=E2=80=AFAM Bruce Ashfield via <a href=3D"http://lists.openembedded.org">li=
-sts.openembedded.org</a> &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@l=
-ists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><di=
-v dir=3D"ltr"><div style=3D"font-size:small"><br></div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 8, 2026 =
-at 11:55=E2=80=AFPM Alistair Francis via <a href=3D"http://lists.openembedd=
-ed.org" target=3D"_blank">lists.openembedded.org</a> &lt;alistair23=3D<a hr=
-ef=3D"mailto:gmail.com@lists.openembedded.org" target=3D"_blank">gmail.com@=
-lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">From: Alistair Francis &lt;<a href=3D"mailto:alistair=
-.francis@wdc.com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
-<br>
-Allow the user to run the rustavailable kernel make command to determine<br=
->
-if Rust is avaliable for kernel builds.<br>
-<br>
-Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.=
-com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes-recipe/cml1.bbclass | 9 +++++++++<br>
-=C2=A01 file changed, 9 insertions(+)<br>
-<br>
-diff --git a/meta/classes-recipe/cml1.bbclass b/meta/classes-recipe/cml1.bb=
-class<br>
-index 3c2b4da4af..efbdd2a795 100644<br>
---- a/meta/classes-recipe/cml1.bbclass<br>
-+++ b/meta/classes-recipe/cml1.bbclass<br>
-@@ -107,6 +107,15 @@ do_diffconfig[nostamp] =3D &quot;1&quot;<br>
-=C2=A0do_diffconfig[dirs] =3D &quot;${KCONFIG_CONFIG_ROOTDIR}&quot;<br>
-=C2=A0addtask diffconfig<br>
-<br>
-+python do_rustavailable() {<br>
-+=C2=A0 =C2=A0 oe_terminal(&quot;sh -c &#39;make rustavailable; if [ $? -ne=
- 0 ]; then echo \&quot;Command failed.\&quot;; fi; printf \&quot;Press any =
-key to continue... \&quot;; read r;&#39;&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.getVar(&#39;PN&#=
-39;) + &#39; Configuration&#39;, d)<br>
-+}<br></blockquote><div><br></div><div><div style=3D"font-size:small">This =
-seems a bit heavy to just determine if rust is available. Since the</div><d=
-iv style=3D"font-size:small">task is already after do_configure .. why not =
-just check the .config ?</div><div style=3D"font-size:small"><br></div></di=
-v></div></div></blockquote><div><br></div><div><div class=3D"gmail_default"=
- style=3D"font-size:small">and of course, I remember this right after hitti=
-ng send.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></=
-div><div class=3D"gmail_default" style=3D"font-size:small">This class is us=
-ed for more than just the kernel, so anything</div><div class=3D"gmail_defa=
-ult" style=3D"font-size:small">done needs to be safe for other non-kernel u=
-secases.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></=
-div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br><=
-/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
-v dir=3D"ltr"><div class=3D"gmail_quote"><div><div style=3D"font-size:small=
-"></div><div style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
-+<br>
-+do_rustavailable[nostamp] =3D &quot;1&quot;<br>
-+do_rustavailable[dirs] =3D &quot;${KCONFIG_CONFIG_ROOTDIR}&quot;<br>
-+addtask rustavailable after do_configure<br>
-+<br>
-=C2=A0do_showconfig() {<br>
-=C2=A0 =C2=A0 =C2=A0bbplain &quot;Config file written to ${KCONFIG_CONFIG_R=
-OOTDIR}/.config&quot;<br>
-=C2=A0}<br>
--- <br>
-2.52.0<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#229117): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/229117" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/229117</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/117170673/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/117170673/1050810</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---0000000000001548b40647f4ef3b--
 
